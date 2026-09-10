@@ -1,3 +1,11 @@
+import { loadUpsalaArchitecture } from './upsala-architecture.mjs';
+
+// Vite emits an optional hashed mesh chunk; unavailable or invalid assets keep
+// every original building. Authored triangles join the existing scenery batch.
+const architecture = await loadUpsalaArchitecture(() => import('./upsala-authored-meshes.json'));
+export const renderClubhouse = architecture.render;
+export const architectureStatus = architecture.status;
+
 /* Upsala GK's course-specific scenery.
 
    The clubhouse is the odd one out among these six: not a red timber building

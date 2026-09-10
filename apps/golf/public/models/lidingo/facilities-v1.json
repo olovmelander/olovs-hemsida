@@ -1,0 +1,2095 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "courseSlugs": [
+    "lidingo"
+  ],
+  "coordinateFrame": {
+    "kind": "epsg3006-local-rh2000",
+    "originEasting": 677700.5,
+    "originNorthing": 6586399.5,
+    "axes": "east-up-south",
+    "heightDatum": "RH2000"
+  },
+  "asset": {
+    "url": "models/lidingo/facilities-2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a.glb",
+    "sha256": "2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a",
+    "bytes": 6192028
+  },
+  "replacesRangeFacilities": true,
+  "replacesCourtyard": true,
+  "facilities": [
+    {
+      "id": "clubhouse-restaurant",
+      "nodeName": "lidingo_clubhouse-restaurant.001_asset",
+      "sourceBuildingIds": [
+        "way/32262183"
+      ],
+      "footprintLocal": [
+        [
+          -30.91658024757635,
+          -103.14545305352658
+        ],
+        [
+          -55.97187640937045,
+          -97.47295299265534
+        ],
+        [
+          -59.46280943893362,
+          -96.68429082632065
+        ],
+        [
+          -62.31164204410743,
+          -111.52792481239885
+        ],
+        [
+          -65.42552228376735,
+          -111.1919354731217
+        ],
+        [
+          -67.96922476962209,
+          -130.07590731140226
+        ],
+        [
+          -58.41728291218169,
+          -132.29821888450533
+        ],
+        [
+          -57.22065996332094,
+          -127.17980064917356
+        ],
+        [
+          -44.92824555828702,
+          -130.05515625420958
+        ],
+        [
+          -41.878435700549744,
+          -114.20611942280084
+        ],
+        [
+          -37.48125018749852,
+          -115.20469796843827
+        ],
+        [
+          -30.91658024757635,
+          -103.14545305352658
+        ]
+      ],
+      "groundAnchorLocal": [
+        -51.0750091468993,
+        -114.34899255850662
+      ],
+      "groundAnchorRh2000M": 32.592368979792184,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "basis": "retained footprint/roof + reviewed 2024 aerial and close public exterior photographs",
+        "photoIds": [
+          "vikingaskeppet-2024-20240706_171448721_ios",
+          "vikingaskeppet-2024-20240706_171448717_ios",
+          "venuu-134",
+          "venuu-137",
+          "venuu-136"
+        ],
+        "dimensions": "roof planes constrained by 2021 laser; facade and rooftop accessories are visual estimates"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -67.96922302246094,
+          30.42620849609375,
+          -132.2982177734375
+        ],
+        "max": [
+          -30.916580200195312,
+          40.579999923706055,
+          -96.68428802490234
+        ]
+      },
+      "triangles": 10255,
+      "meshCount": 44,
+      "authoredParts": [
+        "authored_00_252e31",
+        "authored_01_344c50",
+        "authored_02_252e31",
+        "authored_03_c4c8c1",
+        "authored_04_252e31",
+        "authored_05_b8c1be",
+        "authored_06_918574",
+        "authored_07_eae9e1",
+        "authored_08_f4f2eb",
+        "authored_09_d2d4cc",
+        "authored_10_252e31",
+        "authored_11_9b9082",
+        "authored_12_928778",
+        "authored_13_a0a498",
+        "authored_14_92988f",
+        "authored_15_174680",
+        "authored_16_123a6b",
+        "authored_17_9baba5",
+        "authored_18_62747a",
+        "authored_19_727f80",
+        "authored_20_717f7e",
+        "authored_21_bcab7b",
+        "authored_22_4a4d49",
+        "authored_23_a7aeab",
+        "authored_24_909a98",
+        "authored_25_495152",
+        "authored_26_abb4ae",
+        "authored_27_717b7a",
+        "authored_28_4a5454",
+        "authored_29_737c7b",
+        "authored_30_374342",
+        "authored_31_889390",
+        "authored_32_8c8678",
+        "authored_33_687170",
+        "authored_34_344c50",
+        "way/32262183 chimney",
+        "way/32262183 chimney-cap",
+        "way/32262183 closed-wall",
+        "way/32262183 entrance-apron",
+        "way/32262183 fascia",
+        "way/32262183 roof-plane",
+        "way/32262183 roof-service-room",
+        "way/32262183 roof-vent",
+        "way/32262183 service-room-roof",
+        "way/32262183 soffit"
+      ]
+    },
+    {
+      "id": "clubhouse-pavilion",
+      "nodeName": "lidingo_clubhouse-pavilion.001_asset",
+      "sourceBuildingIds": [
+        "way/32262176"
+      ],
+      "footprintLocal": [
+        [
+          -42.432612868375145,
+          -40.55238389130682
+        ],
+        [
+          -55.32504981546663,
+          -43.291905073449016
+        ],
+        [
+          -52.377548774005845,
+          -57.09208718314767
+        ],
+        [
+          -51.4547657801304,
+          -61.42912005260587
+        ],
+        [
+          -53.15013513795566,
+          -61.784348853863776
+        ],
+        [
+          -54.9174026385881,
+          -59.916885000653565
+        ],
+        [
+          -58.86121673206799,
+          -61.01397927105427
+        ],
+        [
+          -60.563589547760785,
+          -64.30194368865341
+        ],
+        [
+          -57.672195113729686,
+          -77.84298075269908
+        ],
+        [
+          -35.4852852440672,
+          -73.12043773848563
+        ],
+        [
+          -35.65218398429296,
+          -72.33804090150899
+        ],
+        [
+          -34.42968892651696,
+          -72.07726161990624
+        ],
+        [
+          -35.03469685983536,
+          -69.24107308586592
+        ],
+        [
+          -32.10070872117295,
+          -68.6152028100193
+        ],
+        [
+          -32.89347773724533,
+          -64.89881783438025
+        ],
+        [
+          -35.827465875907734,
+          -65.52468811022688
+        ],
+        [
+          -36.65152840577244,
+          -61.6616037276547
+        ],
+        [
+          -37.87402346354844,
+          -61.92238300925746
+        ],
+        [
+          -42.432612868375145,
+          -40.55238389130682
+        ]
+      ],
+      "groundAnchorLocal": [
+        -44.480852026042875,
+        -61.9567119208445
+      ],
+      "groundAnchorRh2000M": 29.679280406433335,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "basis": "retained footprint/roof; 2024 aerial group and pavilion photo",
+        "photoIds": [
+          "vikingaskeppet-2024-20240706_171448717_ios",
+          "gallery-015_lidingo_gk_16bits-copy"
+        ],
+        "use": "descriptive pavilion/annex association; historic B2/B3/B4 map assignment unresolved",
+        "exclusionOutline": "authored outline: original source ring plus edge-inserted veranda/porch/stair extents; source geometry unchanged",
+        "dimensions": "siding, glazing, porch and stairs are photo-informed visual estimates"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -60.632957458496094,
+          28.341003894805908,
+          -77.91236114501953
+        ],
+        "max": [
+          -32.08564758300781,
+          33.838693618774414,
+          -40.482994079589844
+        ]
+      },
+      "triangles": 13326,
+      "meshCount": 21,
+      "authoredParts": [
+        "authored_00_d9ddd5",
+        "authored_01_f4f2eb",
+        "authored_02_a7afa7",
+        "authored_03_252e31",
+        "authored_04_344c50",
+        "authored_05_f4f2eb",
+        "authored_06_c4c8c1",
+        "authored_07_f4f2eb",
+        "authored_08_252e31",
+        "authored_09_252e31",
+        "authored_10_b8c1be",
+        "authored_11_252e31",
+        "authored_12_918574",
+        "authored_13_a09689",
+        "authored_14_958a7b",
+        "authored_15_96958a",
+        "authored_16_c2c0b3",
+        "way/32262176 closed-wall",
+        "way/32262176 fascia",
+        "way/32262176 roof-plane",
+        "way/32262176 soffit"
+      ]
+    },
+    {
+      "id": "clubhouse-annex",
+      "nodeName": "lidingo_clubhouse-annex.001_asset",
+      "sourceBuildingIds": [
+        "way/32262169"
+      ],
+      "footprintLocal": [
+        [
+          -48.45345190737862,
+          -25.068668857216835
+        ],
+        [
+          -68.19335239753127,
+          -28.9360916884616
+        ],
+        [
+          -67.50078162224963,
+          -32.4816332552582
+        ],
+        [
+          -66.1417882158421,
+          -39.28152735903859
+        ],
+        [
+          -60.72476775140967,
+          -38.19792491104454
+        ],
+        [
+          -46.418448020122014,
+          -35.402187432162464
+        ],
+        [
+          -47.471503473629646,
+          -30.054891460193282
+        ],
+        [
+          -45.75448183125422,
+          -29.716754387966063
+        ],
+        [
+          -45.90905877855809,
+          -28.93183020859444
+        ],
+        [
+          -45.12413459918647,
+          -28.777253261290568
+        ],
+        [
+          -45.49125484903316,
+          -26.91305833528296
+        ],
+        [
+          -46.27617902840478,
+          -27.067635282586835
+        ],
+        [
+          -46.43075597570866,
+          -26.282711103215213
+        ],
+        [
+          -48.147777618084085,
+          -26.620848175442433
+        ],
+        [
+          -48.45345190737862,
+          -25.068668857216835
+        ]
+      ],
+      "groundAnchorLocal": [
+        -51.76607919838473,
+        -29.920112304998057
+      ],
+      "groundAnchorRh2000M": 28.34850046892051,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "basis": "retained footprint/roof; 2024 aerial group and pavilion photo",
+        "photoIds": [
+          "vikingaskeppet-2024-20240706_171448717_ios",
+          "gallery-015_lidingo_gk_16bits-copy"
+        ],
+        "use": "descriptive pavilion/annex association; historic B2/B3/B4 map assignment unresolved",
+        "exclusionOutline": "authored outline: original source ring plus edge-inserted veranda/porch/stair extents; source geometry unchanged",
+        "dimensions": "siding, glazing, porch and stairs are photo-informed visual estimates"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -68.2630615234375,
+          27.732115983963013,
+          -39.35114669799805
+        ],
+        "max": [
+          -45.10479736328125,
+          32.00023031234741,
+          -24.998973846435547
+        ]
+      },
+      "triangles": 5924,
+      "meshCount": 19,
+      "authoredParts": [
+        "authored_00_d9ddd5",
+        "authored_01_f4f2eb",
+        "authored_02_a7afa7",
+        "authored_03_252e31",
+        "authored_04_344c50",
+        "authored_05_f4f2eb",
+        "authored_06_c4c8c1",
+        "authored_07_f4f2eb",
+        "authored_08_252e31",
+        "authored_09_252e31",
+        "authored_10_b8c1be",
+        "authored_11_9d9b90",
+        "authored_12_252e31",
+        "authored_13_aba89a",
+        "authored_14_c2c0b3",
+        "way/32262169 closed-wall",
+        "way/32262169 fascia",
+        "way/32262169 roof-plane",
+        "way/32262169 soffit"
+      ]
+    },
+    {
+      "id": "courtyard",
+      "nodeName": "lidingo_courtyard.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -34.99893959653096,
+          -81.38158820518453
+        ],
+        [
+          -26.24893959653096,
+          -81.38158820518453
+        ],
+        [
+          -26.24893959653096,
+          -104.98158820518452
+        ],
+        [
+          -33.148939596530965,
+          -104.98158820518452
+        ],
+        [
+          -33.148939596530965,
+          -86.68158820518453
+        ],
+        [
+          -34.99893959653096,
+          -86.68158820518453
+        ]
+      ],
+      "groundAnchorLocal": [
+        -31.46560626319763,
+        -91.01492153851785
+      ],
+      "groundAnchorRh2000M": 30.245103596720142,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "basis": "three levels, timber boards, black/glass balustrade and stair relationships observed in July 2024 aerials",
+        "sourceIds": [
+          "courtyard"
+        ],
+        "photoIds": [
+          "vikingaskeppet-2024-20240706_171448721_ios",
+          "vikingaskeppet-2024-20240706_171448717_ios",
+          "venuu-134",
+          "venuu-137",
+          "venuu-136"
+        ],
+        "dimensions": "authored dimensions follow retained appearance anchor/levels; not a stair survey"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -34.7989387512207,
+          27.765222549438477,
+          -104.81359100341797
+        ],
+        "max": [
+          -26.44894027709961,
+          34.62600040435791,
+          -81.64958953857422
+        ]
+      },
+      "triangles": 6980,
+      "meshCount": 17,
+      "authoredParts": [
+        "authored_00_716d61",
+        "authored_01_9b9080",
+        "authored_02_8f8372",
+        "authored_03_a19685",
+        "authored_04_948877",
+        "authored_05_65664f",
+        "authored_06_555c4c",
+        "authored_07_252e31",
+        "authored_08_252e31",
+        "authored_09_bcd4d0",
+        "authored_10_978a71",
+        "authored_11_49544f",
+        "authored_12_887b65",
+        "authored_13_897d68",
+        "authored_14_9f9585",
+        "authored_15_b2a797",
+        "authored_16_9a9080"
+      ]
+    },
+    {
+      "id": "clubhouse-green-kerb-and-rope",
+      "nodeName": "lidingo_clubhouse-green-kerb-and-rope.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -54.53749246359803,
+          -96.00396371539682
+        ],
+        [
+          -52.107648530974984,
+          -97.61505754571408
+        ],
+        [
+          -46.11382448999211,
+          -97.88538840599358
+        ],
+        [
+          -42.05035899858922,
+          -96.56715293042362
+        ],
+        [
+          -40.87116776662879,
+          -92.61632524151355
+        ],
+        [
+          -39.169963682536036,
+          -88.18853970244527
+        ],
+        [
+          -39.98871401138604,
+          -84.14760174322873
+        ],
+        [
+          -42.396030617761426,
+          -82.03702261857688
+        ],
+        [
+          -48.344799696002156,
+          -80.76772146951407
+        ],
+        [
+          -51.38676679076161,
+          -81.63152692187577
+        ],
+        [
+          -53.020388030214235,
+          -84.56085628923029
+        ],
+        [
+          -54.28968928498216,
+          -90.50962512847036
+        ],
+        [
+          -54.53749246359803,
+          -96.00396371539682
+        ]
+      ],
+      "groundAnchorLocal": [
+        -47.60110283284806,
+        -89.88728810982921
+      ],
+      "groundAnchorRh2000M": 30.729322012361926,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "basis": "retained putting outline; curb and light rope boundary observed in exterior photos",
+        "sourceIds": [
+          "lidingo-courtyard-putting-green-2019"
+        ],
+        "photoIds": [
+          "venuu-134"
+        ],
+        "dimensions": "curb section and stake intervals estimated"
+      },
+      "excludeVegetation": false,
+      "boundsLocalRh2000": {
+        "min": [
+          -54.75727081298828,
+          30.33705234527588,
+          -98.10516357421875
+        ],
+        "max": [
+          -38.954345703125,
+          31.553625106811523,
+          -80.55256652832031
+        ]
+      },
+      "triangles": 5732,
+      "meshCount": 4,
+      "authoredParts": [
+        "authored_00_252e31",
+        "authored_01_dddace",
+        "courtyard putting-green-kerb"
+      ]
+    },
+    {
+      "id": "clubhouse-courtyard-entrance",
+      "nodeName": "lidingo_clubhouse-courtyard-entrance.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -61.8,
+          -80.8
+        ],
+        [
+          -60.0,
+          -80.8
+        ],
+        [
+          -59.7,
+          -99.8
+        ],
+        [
+          -61.0,
+          -100.0
+        ]
+      ],
+      "groundAnchorLocal": [
+        -60.625,
+        -90.35
+      ],
+      "groundAnchorRh2000M": 30.40512473582011,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "basis": "entrance pillars and west courtyard wall visible in 2020 exterior and 2024 aerial",
+        "sourceIds": [
+          "lidingo-courtyard-hardstanding-2019"
+        ],
+        "photoIds": [
+          "commons-Liding-Golfklubb-febr-2020-1-jpg",
+          "vikingaskeppet-2024-20240706_171448721_ios"
+        ],
+        "dimensions": "wall centerline follows mapped courtyard boundary approximately; gap/pillar dimensions estimated"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -61.59745407104492,
+          29.98933982849121,
+          -99.72140502929688
+        ],
+        "max": [
+          -60.01127624511719,
+          32.547239780426025,
+          -81.88863372802734
+        ]
+      },
+      "triangles": 1640,
+      "meshCount": 6,
+      "authoredParts": [
+        "authored_00_eae9e1",
+        "authored_01_53635d",
+        "authored_02_252e31",
+        "authored_03_66726e",
+        "authored_04_d4c998",
+        "authored_05_273d43"
+      ]
+    },
+    {
+      "id": "range-west-barn",
+      "nodeName": "lidingo_range-west-barn.001_asset",
+      "sourceBuildingIds": [
+        "way/26408210"
+      ],
+      "footprintLocal": [
+        [
+          -71.03587581089232,
+          118.07360878586769
+        ],
+        [
+          -55.99494335963391,
+          115.90555818751454
+        ],
+        [
+          -51.68350600474514,
+          155.68393558450043
+        ],
+        [
+          -60.20815493003465,
+          156.65347183588892
+        ],
+        [
+          -66.25876800098922,
+          157.35055236704648
+        ]
+      ],
+      "groundAnchorLocal": [
+        -61.036249621259046,
+        140.7334253521636
+      ],
+      "groundAnchorRh2000M": 21.836778571557353,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "photo-informed-display-model",
+        "footprint": "exact retained way/26408210",
+        "roof": "existing roof-derived architectural envelope retained; source TIN remains separately preserved",
+        "references": [
+          "commons-Sticklinge-g-rds-lada-2020a-jpg",
+          "gallery-2026-gfx28464",
+          "range-buildings-detail-lm-2025"
+        ],
+        "sourceDateRange": "2020 photos /2021 laser/2025 ortho/2026 gallery",
+        "estimated": "Facade openings, siding relief, roof seams and fixture dimensions are appearance estimates.",
+        "use": "west range barn; current internal functions not reassigned from historical labels"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -71.08304595947266,
+          21.292763710021973,
+          115.85847473144531
+        ],
+        "max": [
+          -51.636260986328125,
+          35.559139251708984,
+          157.39801025390625
+        ]
+      },
+      "triangles": 3781,
+      "meshCount": 9,
+      "authoredParts": [
+        "corrugated metal roof standing seams",
+        "dark downpipe",
+        "low dark foundation band",
+        "lower horizontal boarding joints",
+        "subtle vertical timber board joints",
+        "way/26408210 closed-wall",
+        "way/26408210 fascia",
+        "way/26408210 roof-plane",
+        "way/26408210 soffit",
+        "white window trim",
+        "window dark reveal",
+        "window inset face"
+      ]
+    },
+    {
+      "id": "range-east-barn",
+      "nodeName": "lidingo_range-east-barn.001_asset",
+      "sourceBuildingIds": [
+        "way/26408211"
+      ],
+      "footprintLocal": [
+        [
+          -27.00856873241719,
+          104.12642200943083
+        ],
+        [
+          -15.12537221587263,
+          100.27770188078284
+        ],
+        [
+          -4.997666955925524,
+          131.4629065087065
+        ],
+        [
+          -16.886634462163784,
+          135.3119239527732
+        ]
+      ],
+      "groundAnchorLocal": [
+        -16.00456059159478,
+        117.79473858792335
+      ],
+      "groundAnchorRh2000M": 21.52012791038254,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "photo-informed-display-model",
+        "footprint": "exact retained way/26408211",
+        "roof": "existing roof-derived architectural envelope retained; source TIN remains separately preserved",
+        "references": [
+          "commons-Sticklinge-g-rds-lada-2020a-jpg",
+          "gallery-2026-gfx28464",
+          "range-buildings-detail-lm-2025"
+        ],
+        "sourceDateRange": "2020 photos /2021 laser/2025 ortho/2026 gallery",
+        "estimated": "Facade openings, siding relief, roof seams and fixture dimensions are appearance estimates.",
+        "use": "east range-road barn; current internal functions not reassigned from historical labels"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -27.05375862121582,
+          20.69350004196167,
+          100.23238372802734
+        ],
+        "max": [
+          -4.952463150024414,
+          33.3300666809082,
+          135.35714721679688
+        ]
+      },
+      "triangles": 3470,
+      "meshCount": 10,
+      "authoredParts": [
+        "corrugated metal roof standing seams",
+        "dark downpipe",
+        "door dark reveal",
+        "door handle",
+        "door inset face",
+        "low dark foundation band",
+        "lower horizontal boarding joints",
+        "south gable pale welcome plaque",
+        "south gable service door",
+        "subtle vertical timber board joints",
+        "way/26408211 closed-wall",
+        "way/26408211 fascia",
+        "way/26408211 roof-plane",
+        "way/26408211 soffit",
+        "white window trim",
+        "window dark reveal",
+        "window inset face"
+      ]
+    },
+    {
+      "id": "range-side-small-shed",
+      "nodeName": "lidingo_range-side-small-shed.001_asset",
+      "sourceBuildingIds": [
+        "way/221846983"
+      ],
+      "footprintLocal": [
+        [
+          -45.14710439485498,
+          159.9936894821003
+        ],
+        [
+          -41.18956709175836,
+          159.56227020081133
+        ],
+        [
+          -40.76699784724042,
+          163.34534477256238
+        ],
+        [
+          -44.72453912103083,
+          163.77676443196833
+        ]
+      ],
+      "groundAnchorLocal": [
+        -42.95705211372115,
+        161.6695172218606
+      ],
+      "groundAnchorRh2000M": 24.601125652105566,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "cautious-aerial-appearance-estimate",
+        "sourceFootprintId": "way/221846983",
+        "note": "No measured roof or confirmed function; keep exact source footprint and cautious appearance estimate",
+        "estimatedHeightsMetres": [
+          2.6,
+          0.4
+        ]
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -45.2237548828125,
+          24.23960417509079,
+          159.48851013183594
+        ],
+        "max": [
+          -40.690345764160156,
+          27.68112564086914,
+          163.85052490234375
+        ]
+      },
+      "triangles": 742,
+      "meshCount": 4,
+      "authoredParts": [
+        "dark doorway",
+        "service hut timber joints",
+        "shallow dark roof",
+        "timber service walls"
+      ]
+    },
+    {
+      "id": "south-practice-small-building",
+      "nodeName": "lidingo_south-practice-small-building.001_asset",
+      "sourceBuildingIds": [
+        "way/40895787"
+      ],
+      "footprintLocal": [
+        [
+          -15.524493570439517,
+          265.6966459173709
+        ],
+        [
+          -25.28048091335222,
+          266.0215483419597
+        ],
+        [
+          -25.549307981389575,
+          258.0045149512589
+        ],
+        [
+          -15.793341331882402,
+          257.6796128805727
+        ]
+      ],
+      "groundAnchorLocal": [
+        -20.53690594926593,
+        261.85058052279055
+      ],
+      "groundAnchorRh2000M": 19.10262542543633,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "cautious-aerial-appearance-estimate",
+        "sourceFootprintId": "way/40895787",
+        "note": "Nearby structure has unverified ownership/use; exact source footprint retained, no toilet/kiosk label",
+        "estimatedHeightsMetres": [
+          2.8,
+          1.0
+        ]
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -25.724742889404297,
+          18.127989768981934,
+          257.53363037109375
+        ],
+        "max": [
+          -15.349059104919434,
+          22.982625484466553,
+          266.16754150390625
+        ]
+      },
+      "triangles": 1726,
+      "meshCount": 4,
+      "authoredParts": [
+        "dark doorway",
+        "service hut timber joints",
+        "shallow dark roof",
+        "timber service walls"
+      ]
+    },
+    {
+      "id": "range-north-covered-bays",
+      "nodeName": "lidingo_range-north-covered-bays.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -116.18000000005122,
+          11.660000000149012
+        ],
+        [
+          -103.85999999998603,
+          12.139999999664724
+        ],
+        [
+          -103.70000000006985,
+          15.820000000298023
+        ],
+        [
+          -116.97999999998137,
+          15.339999999850988
+        ]
+      ],
+      "groundAnchorLocal": [
+        -110.18000000002212,
+        13.739999999990687
+      ],
+      "groundAnchorRh2000M": 22.254952520021007,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "authored-from-traced-2025-roof",
+        "layoutPath": "lidingobuild/facilities/authored-layout.json",
+        "roofPixelVertices": [
+          [
+            121,
+            139
+          ],
+          [
+            198,
+            142
+          ],
+          [
+            199,
+            165
+          ],
+          [
+            116,
+            162
+          ]
+        ],
+        "sourceImage": "range-north-detail-lm-2025",
+        "height": "photo-informed estimate 3.05m",
+        "note": "Exact 2025 image visibly shows the narrow roof; club range photograph shows open steel posts, beams and braces. Height and support spacing are photo-informed estimates."
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -117.03500366210938,
+          21.896774291992188,
+          11.595048904418945
+        ],
+        "max": [
+          -103.6449966430664,
+          25.588596403598785,
+          15.884957313537598
+        ]
+      },
+      "triangles": 770,
+      "meshCount": 7,
+      "authoredParts": [
+        "canopy metal sheet ribs",
+        "canopy posts beams and knee braces",
+        "covered bay 1 artificial turf",
+        "covered bay 1 ball tray",
+        "covered bay 1 divider frame",
+        "covered bay 1 restrained pale divider",
+        "covered bay 1 rubber edge",
+        "covered bay 2 artificial turf",
+        "covered bay 2 ball tray",
+        "covered bay 2 divider frame",
+        "covered bay 2 restrained pale divider",
+        "covered bay 2 rubber edge",
+        "covered bay 3 artificial turf",
+        "covered bay 3 ball tray",
+        "covered bay 3 divider frame",
+        "covered bay 3 restrained pale divider",
+        "covered bay 3 rubber edge",
+        "covered bay 4 artificial turf",
+        "covered bay 4 ball tray",
+        "covered bay 4 divider frame",
+        "covered bay 4 restrained pale divider",
+        "covered bay 4 rubber edge",
+        "thin corrugated canopy roof"
+      ]
+    },
+    {
+      "id": "range-south-covered-bays",
+      "nodeName": "lidingo_range-south-covered-bays.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -143.22000000008848,
+          237.09999999962747
+        ],
+        [
+          -114.73999999999069,
+          242.21999999973923
+        ],
+        [
+          -115.22000000008848,
+          247.5
+        ],
+        [
+          -143.85999999998603,
+          242.21999999973923
+        ]
+      ],
+      "groundAnchorLocal": [
+        -129.26000000003842,
+        242.25999999977648
+      ],
+      "groundAnchorRh2000M": 19.225524431623423,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "authored-from-traced-2025-roof",
+        "layoutPath": "lidingobuild/facilities/authored-layout.json",
+        "roofPixelVertices": [
+          [
+            202,
+            235
+          ],
+          [
+            380,
+            267
+          ],
+          [
+            377,
+            300
+          ],
+          [
+            198,
+            267
+          ]
+        ],
+        "sourceImage": "range-south-detail-lm-2025",
+        "height": "photo-informed estimate 3.1m",
+        "note": "Dark elongated roof traced directly from the May2025 south-range image. Hidden support count and height are authored display estimates, not measured bay count."
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -143.91015625,
+          18.819865703582764,
+          237.03602600097656
+        ],
+        "max": [
+          -114.68499755859375,
+          22.587196111679077,
+          247.5639190673828
+        ]
+      },
+      "triangles": 1706,
+      "meshCount": 7,
+      "authoredParts": [
+        "canopy metal sheet ribs",
+        "canopy posts beams and knee braces",
+        "covered bay 1 artificial turf",
+        "covered bay 1 ball tray",
+        "covered bay 1 divider frame",
+        "covered bay 1 restrained pale divider",
+        "covered bay 1 rubber edge",
+        "covered bay 10 artificial turf",
+        "covered bay 10 ball tray",
+        "covered bay 10 divider frame",
+        "covered bay 10 restrained pale divider",
+        "covered bay 10 rubber edge",
+        "covered bay 2 artificial turf",
+        "covered bay 2 ball tray",
+        "covered bay 2 divider frame",
+        "covered bay 2 restrained pale divider",
+        "covered bay 2 rubber edge",
+        "covered bay 3 artificial turf",
+        "covered bay 3 ball tray",
+        "covered bay 3 divider frame",
+        "covered bay 3 restrained pale divider",
+        "covered bay 3 rubber edge",
+        "covered bay 4 artificial turf",
+        "covered bay 4 ball tray",
+        "covered bay 4 divider frame",
+        "covered bay 4 restrained pale divider",
+        "covered bay 4 rubber edge",
+        "covered bay 5 artificial turf",
+        "covered bay 5 ball tray",
+        "covered bay 5 divider frame",
+        "covered bay 5 restrained pale divider",
+        "covered bay 5 rubber edge",
+        "covered bay 6 artificial turf",
+        "covered bay 6 ball tray",
+        "covered bay 6 divider frame",
+        "covered bay 6 restrained pale divider",
+        "covered bay 6 rubber edge",
+        "covered bay 7 artificial turf",
+        "covered bay 7 ball tray",
+        "covered bay 7 divider frame",
+        "covered bay 7 restrained pale divider",
+        "covered bay 7 rubber edge",
+        "covered bay 8 artificial turf",
+        "covered bay 8 ball tray",
+        "covered bay 8 divider frame",
+        "covered bay 8 restrained pale divider",
+        "covered bay 8 rubber edge",
+        "covered bay 9 artificial turf",
+        "covered bay 9 ball tray",
+        "covered bay 9 divider frame",
+        "covered bay 9 restrained pale divider",
+        "covered bay 9 rubber edge",
+        "thin corrugated canopy roof"
+      ]
+    },
+    {
+      "id": "range-north-ball-hut",
+      "nodeName": "lidingo_range-north-ball-hut.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -88.82000000006519,
+          5.099999999627471
+        ],
+        [
+          -86.10000000009313,
+          5.580000000074506
+        ],
+        [
+          -86.42000000004191,
+          7.979999999515712
+        ],
+        [
+          -88.97999999998137,
+          7.5
+        ]
+      ],
+      "groundAnchorLocal": [
+        -87.5800000000454,
+        6.539999999804422
+      ],
+      "groundAnchorRh2000M": 22.330072522730887,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "2025-roof-trace-with-estimated-facades",
+        "sourceImageId": "range-north-detail-lm-2025",
+        "roofPixelVertices": [
+          [
+            292,
+            98
+          ],
+          [
+            309,
+            101
+          ],
+          [
+            307,
+            116
+          ],
+          [
+            291,
+            113
+          ]
+        ],
+        "note": "Small square roof visible north of north tee apron; matching club range photo shows a separate red hut with dark doorway. Position and roof ring are traced, facade/height are approximate."
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -96.44000244140625,
+          22.17906427383423,
+          5.049600124359131
+        ],
+        "max": [
+          -86.04820251464844,
+          25.21007251739502,
+          10.15999984741211
+        ]
+      },
+      "triangles": 582,
+      "meshCount": 9,
+      "authoredParts": [
+        "ball service dispenser cabinet",
+        "barrel planter photo approximation",
+        "blue waste bin photo approximation",
+        "dark doorway",
+        "dispenser control face",
+        "service hut timber joints",
+        "shallow dark roof",
+        "timber service walls",
+        "waste bin dark lid"
+      ]
+    },
+    {
+      "id": "range-south-shelter-end-hut",
+      "nodeName": "lidingo_range-south-shelter-end-hut.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -114.10000000009313,
+          241.90000000037253
+        ],
+        [
+          -110.90000000002328,
+          242.05999999959022
+        ],
+        [
+          -110.5800000000745,
+          246.86000000033528
+        ],
+        [
+          -114.42000000004191,
+          246.54000000003725
+        ]
+      ],
+      "groundAnchorLocal": [
+        -112.50000000005821,
+        244.34000000008382
+      ],
+      "groundAnchorRh2000M": 19.005800113660097,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "2025-roof-trace-with-estimated-facades",
+        "sourceImageId": "range-south-detail-lm-2025",
+        "roofPixelVertices": [
+          [
+            384,
+            265
+          ],
+          [
+            404,
+            266
+          ],
+          [
+            406,
+            296
+          ],
+          [
+            382,
+            294
+          ]
+        ],
+        "note": "Small projecting roof at east end of south shelter is traced separately. Its function and facade details are unverified; restrained red service enclosure is an appearance approximation."
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -114.48719787597656,
+          18.744500160217285,
+          241.81460571289062
+        ],
+        "max": [
+          -110.51280212402344,
+          22.035800218582153,
+          246.9481964111328
+        ]
+      },
+      "triangles": 790,
+      "meshCount": 4,
+      "authoredParts": [
+        "dark doorway",
+        "service hut timber joints",
+        "shallow dark roof",
+        "timber service walls"
+      ]
+    },
+    {
+      "id": "range-north-open-mats",
+      "nodeName": "lidingo_range-north-open-mats.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -115.3294069680851,
+          9.84109783731401
+        ],
+        [
+          -102.29773649421986,
+          10.254357421770692
+        ],
+        [
+          -102.54553730797488,
+          4.760019827634096
+        ],
+        [
+          -90.08093345467933,
+          3.697350727394223
+        ],
+        [
+          -83.52004290372133,
+          4.90295091830194
+        ],
+        [
+          -79.3214145192178,
+          9.218099637888372
+        ],
+        [
+          -74.10128821304534,
+          13.987679130397737
+        ],
+        [
+          -73.3314749590354,
+          19.958975359797478
+        ],
+        [
+          -79.95994769525714,
+          17.25491885561496
+        ],
+        [
+          -92.06023084907793,
+          15.298148418776691
+        ],
+        [
+          -104.59241664072033,
+          14.862361210398376
+        ],
+        [
+          -115.62614615471102,
+          14.358992056921124
+        ]
+      ],
+      "groundAnchorLocal": [
+        -92.73054801331212,
+        11.532912616850808
+      ],
+      "groundAnchorRh2000M": 22.23712781812072,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "individually-traced-visible-mats",
+        "sourceFacilityId": "lidingo-range-north-platform-2019",
+        "note": "Individually resolved exposed mats traced from2025 image. Additional positions hidden by tree shadow are omitted. Trays and low sponsor dividers use club range photo proportions, no copied advertisements.",
+        "count": 8,
+        "countStatus": "visible exposed positions only; covered/occluded bays separately estimated"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -103.27587890625,
+          22.295212745666504,
+          14.1235990524292
+        ],
+        "max": [
+          -76.57860565185547,
+          23.075899600982666,
+          19.339481353759766
+        ]
+      },
+      "triangles": 480,
+      "meshCount": 5,
+      "authoredParts": [
+        "exposed bay 1 artificial turf",
+        "exposed bay 1 ball tray",
+        "exposed bay 1 divider frame",
+        "exposed bay 1 restrained pale divider",
+        "exposed bay 1 rubber edge",
+        "exposed bay 2 artificial turf",
+        "exposed bay 2 ball tray",
+        "exposed bay 2 divider frame",
+        "exposed bay 2 restrained pale divider",
+        "exposed bay 2 rubber edge",
+        "exposed bay 3 artificial turf",
+        "exposed bay 3 ball tray",
+        "exposed bay 3 divider frame",
+        "exposed bay 3 restrained pale divider",
+        "exposed bay 3 rubber edge",
+        "exposed bay 4 artificial turf",
+        "exposed bay 4 ball tray",
+        "exposed bay 4 divider frame",
+        "exposed bay 4 restrained pale divider",
+        "exposed bay 4 rubber edge",
+        "exposed bay 5 artificial turf",
+        "exposed bay 5 ball tray",
+        "exposed bay 5 divider frame",
+        "exposed bay 5 restrained pale divider",
+        "exposed bay 5 rubber edge",
+        "exposed bay 6 artificial turf",
+        "exposed bay 6 ball tray",
+        "exposed bay 6 divider frame",
+        "exposed bay 6 restrained pale divider",
+        "exposed bay 6 rubber edge",
+        "exposed bay 7 artificial turf",
+        "exposed bay 7 ball tray",
+        "exposed bay 7 divider frame",
+        "exposed bay 7 restrained pale divider",
+        "exposed bay 7 rubber edge",
+        "exposed bay 8 artificial turf",
+        "exposed bay 8 ball tray",
+        "exposed bay 8 divider frame",
+        "exposed bay 8 restrained pale divider",
+        "exposed bay 8 rubber edge"
+      ]
+    },
+    {
+      "id": "range-south-open-mats",
+      "nodeName": "lidingo_range-south-open-mats.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -134.3014073688537,
+          243.9303000839427
+        ],
+        [
+          -124.17654221446719,
+          246.47667434159666
+        ],
+        [
+          -106.1274932930246,
+          247.16416358295828
+        ],
+        [
+          -90.62092314090114,
+          246.96531658712775
+        ],
+        [
+          -74.70497407659423,
+          244.74600144661963
+        ],
+        [
+          -73.89011289854534,
+          251.71626905351877
+        ],
+        [
+          -88.82961834187154,
+          253.39104478433728
+        ],
+        [
+          -107.87763905036263,
+          252.74860869627446
+        ],
+        [
+          -119.43337999493815,
+          251.7682701870799
+        ],
+        [
+          -133.07716852938756,
+          248.8800983345136
+        ]
+      ],
+      "groundAnchorLocal": [
+        -105.3039258908946,
+        248.77867470979692
+      ],
+      "groundAnchorRh2000M": 19.19668194073322,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "individually-traced-visible-mats",
+        "sourceFacilityId": "lidingo-range-south-platform-2019",
+        "note": "Resolved exposed green mats along the curved south apron traced individually from2025 image. Small equipment details and divider proportions are photo-informed display estimates.",
+        "count": 10,
+        "countStatus": "visible exposed positions only; covered/occluded bays separately estimated"
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -109.96102142333984,
+          19.032116413116455,
+          243.4410400390625
+        ],
+        "max": [
+          -75.88742065429688,
+          19.921271800994873,
+          248.50062561035156
+        ]
+      },
+      "triangles": 600,
+      "meshCount": 5,
+      "authoredParts": [
+        "exposed bay 1 artificial turf",
+        "exposed bay 1 ball tray",
+        "exposed bay 1 divider frame",
+        "exposed bay 1 restrained pale divider",
+        "exposed bay 1 rubber edge",
+        "exposed bay 10 artificial turf",
+        "exposed bay 10 ball tray",
+        "exposed bay 10 divider frame",
+        "exposed bay 10 restrained pale divider",
+        "exposed bay 10 rubber edge",
+        "exposed bay 2 artificial turf",
+        "exposed bay 2 ball tray",
+        "exposed bay 2 divider frame",
+        "exposed bay 2 restrained pale divider",
+        "exposed bay 2 rubber edge",
+        "exposed bay 3 artificial turf",
+        "exposed bay 3 ball tray",
+        "exposed bay 3 divider frame",
+        "exposed bay 3 restrained pale divider",
+        "exposed bay 3 rubber edge",
+        "exposed bay 4 artificial turf",
+        "exposed bay 4 ball tray",
+        "exposed bay 4 divider frame",
+        "exposed bay 4 restrained pale divider",
+        "exposed bay 4 rubber edge",
+        "exposed bay 5 artificial turf",
+        "exposed bay 5 ball tray",
+        "exposed bay 5 divider frame",
+        "exposed bay 5 restrained pale divider",
+        "exposed bay 5 rubber edge",
+        "exposed bay 6 artificial turf",
+        "exposed bay 6 ball tray",
+        "exposed bay 6 divider frame",
+        "exposed bay 6 restrained pale divider",
+        "exposed bay 6 rubber edge",
+        "exposed bay 7 artificial turf",
+        "exposed bay 7 ball tray",
+        "exposed bay 7 divider frame",
+        "exposed bay 7 restrained pale divider",
+        "exposed bay 7 rubber edge",
+        "exposed bay 8 artificial turf",
+        "exposed bay 8 ball tray",
+        "exposed bay 8 divider frame",
+        "exposed bay 8 restrained pale divider",
+        "exposed bay 8 rubber edge",
+        "exposed bay 9 artificial turf",
+        "exposed bay 9 ball tray",
+        "exposed bay 9 divider frame",
+        "exposed bay 9 restrained pale divider",
+        "exposed bay 9 rubber edge"
+      ]
+    },
+    {
+      "id": "range-west-safety-net",
+      "nodeName": "lidingo_range-west-safety-net.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -165.71166985975577,
+          244.24887472651898
+        ],
+        [
+          -116.8,
+          244.24887472651898
+        ],
+        [
+          -116.8,
+          9.3
+        ],
+        [
+          -165.71166985975577,
+          9.3
+        ]
+      ],
+      "groundAnchorLocal": [
+        -141.2558349298779,
+        126.7744373632595
+      ],
+      "groundAnchorRh2000M": 19.091759774751345,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "range-safety-net-display-approximation",
+        "alignmentSources": [
+          "way/52583080"
+        ],
+        "note": "Retained OSM barrier=fence alignment except north endpoint moved to visible west edge of the traced canopy (E677583.5,N6586390), avoiding the older source line intersecting its roof. Height and intermediate pole pitch are display estimates; not inferred as surveyed from shadows.",
+        "heightMetres": 11.5,
+        "heightStatus": "estimated; pole spacing and fine net weave not surveyed"
+      },
+      "excludeVegetation": false,
+      "boundsLocalRh2000": {
+        "min": [
+          -165.5916748046875,
+          17.70885705947876,
+          9.420000076293945
+        ],
+        "max": [
+          -116.91999816894531,
+          33.79093074798584,
+          244.12887573242188
+        ]
+      },
+      "triangles": 8820,
+      "meshCount": 2,
+      "authoredParts": [
+        "open geometric safety net strands",
+        "slender net pole 1",
+        "slender net pole 10",
+        "slender net pole 11",
+        "slender net pole 12",
+        "slender net pole 13",
+        "slender net pole 14",
+        "slender net pole 15",
+        "slender net pole 16",
+        "slender net pole 17",
+        "slender net pole 18",
+        "slender net pole 19",
+        "slender net pole 2",
+        "slender net pole 20",
+        "slender net pole 21",
+        "slender net pole 3",
+        "slender net pole 4",
+        "slender net pole 5",
+        "slender net pole 6",
+        "slender net pole 7",
+        "slender net pole 8",
+        "slender net pole 9"
+      ]
+    },
+    {
+      "id": "range-road-safety-net",
+      "nodeName": "lidingo_range-road-safety-net.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -73.2,
+          239.2
+        ],
+        [
+          -54.10000000004656,
+          239.2
+        ],
+        [
+          -54.10000000004656,
+          15.3
+        ],
+        [
+          -73.2,
+          15.3
+        ]
+      ],
+      "groundAnchorLocal": [
+        -63.65000000002328,
+        127.25
+      ],
+      "groundAnchorRh2000M": 21.910500025749673,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "range-safety-net-display-approximation",
+        "alignmentSources": [],
+        "note": "Approximate visible range-side road/net alignment interpreted from2025 orthophoto pole bases/shadows and2020/2026 range-barn photos. Posts around the west barn follow its range-facing side. No solid translucent net panels: model uses sparse wire geometry.",
+        "heightMetres": 15.0,
+        "heightStatus": "estimated; pole spacing and fine net weave not surveyed"
+      },
+      "excludeVegetation": false,
+      "boundsLocalRh2000": {
+        "min": [
+          -73.08000183105469,
+          18.992928981781006,
+          15.420000076293945
+        ],
+        "max": [
+          -53.91749954223633,
+          39.72664833068848,
+          239.0800018310547
+        ]
+      },
+      "triangles": 9988,
+      "meshCount": 3,
+      "authoredParts": [
+        "open geometric safety net strands",
+        "slender net pole 1",
+        "slender net pole 10",
+        "slender net pole 11",
+        "slender net pole 12",
+        "slender net pole 13",
+        "slender net pole 14",
+        "slender net pole 15",
+        "slender net pole 16",
+        "slender net pole 17",
+        "slender net pole 18",
+        "slender net pole 19",
+        "slender net pole 2",
+        "slender net pole 3",
+        "slender net pole 4",
+        "slender net pole 5",
+        "slender net pole 6",
+        "slender net pole 7",
+        "slender net pole 8",
+        "slender net pole 9",
+        "slender silver truss mast ties"
+      ]
+    },
+    {
+      "id": "upper-parking-central-markings",
+      "nodeName": "lidingo_upper-parking-central-markings.001_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -147.54000000003725,
+          -96.33999999985099
+        ],
+        [
+          -115.85999999998603,
+          -81.62000000011176
+        ],
+        [
+          -119.54000000003725,
+          -73.62000000011176
+        ],
+        [
+          -151.54000000003725,
+          -87.21999999973923
+        ]
+      ],
+      "groundAnchorLocal": [
+        -133.62000000002445,
+        -84.69999999995343
+      ],
+      "groundAnchorRh2000M": 32.81904158019933,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "status": "photo-traced-paint-layout",
+        "sourceImageId": "upper-parking-detail-lm-2025",
+        "sourceFacilityIds": [
+          "lidingo-upper-parking-north-2019",
+          "lidingo-upper-parking-south-2019"
+        ],
+        "note": "Visible central double parking bank traced from May 2025 imagery. Repeated divider spacing is regularized between visible endpoints as an appearance estimate; existing paving geometry remains untouched, no parked vehicles inserted."
+      },
+      "excludeVegetation": false,
+      "boundsLocalRh2000": {
+        "min": [
+          -151.58120727539062,
+          32.72481060028076,
+          -96.38080596923828
+        ],
+        "max": [
+          -115.8191146850586,
+          32.868056774139404,
+          -73.57858276367188
+        ]
+      },
+      "triangles": 504,
+      "meshCount": 1,
+      "authoredParts": [
+        "terrain-following worn parking paint"
+      ]
+    },
+    {
+      "id": "cafe-9",
+      "nodeName": "lidingo_cafe-9_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -312.8199999999488,
+          51.33999999985099
+        ],
+        [
+          -311.9893094628751,
+          51.13948849087774
+        ],
+        [
+          -312.1800000000512,
+          49.89999999944121
+        ],
+        [
+          -310.10000000009313,
+          49.580000000074506
+        ],
+        [
+          -309.7311239194445,
+          50.594409221707366
+        ],
+        [
+          -308.1800000000512,
+          50.21999999973923
+        ],
+        [
+          -305.61999999999534,
+          59.66000000014901
+        ],
+        [
+          -310.2600000000093,
+          60.94000000040978
+        ]
+      ],
+      "groundAnchorLocal": [
+        -310.1100541728086,
+        52.921737214031225
+      ],
+      "groundAnchorRh2000M": 25.138433823571898,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "sourceIds": [
+          "observed-cafe9-main-roof-2025",
+          "o65850_6750_25_mr25",
+          "banguide-1777924726_Lidingo_9"
+        ],
+        "sourceDocument": "lidingobuild/facilities/ancillary-location-review.json",
+        "geometryBasis": "Unchanged manually observed 2025 roof polygon; not a surveyed wall footprint.",
+        "roofTraceEpsg3006": [
+          [
+            677387.68,
+            6586348.16
+          ],
+          [
+            677392.32,
+            6586349.28
+          ],
+          [
+            677394.88,
+            6586339.84
+          ],
+          [
+            677390.24,
+            6586338.56
+          ],
+          [
+            677387.68,
+            6586348.16
+          ]
+        ],
+        "roofTracePixels": [
+          [
+            835,
+            601
+          ],
+          [
+            864,
+            594
+          ],
+          [
+            880,
+            653
+          ],
+          [
+            851,
+            661
+          ],
+          [
+            835,
+            601
+          ]
+        ],
+        "sourceImage": "lidingobuild/cache/lm-ortho/hole-10-tees.png",
+        "sourceImageSha256": "e317aa5e042c3dd07039e334cc326b02cb6d90edd360bf36bde0c14562d73b7c",
+        "sourceImageUrl": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+        "captureDate": "2025-05-31",
+        "guideUrl": "https://banguider.se/uploads/product/1777924726_Lidingo_9.webp",
+        "locationConfidence": "high contextual agreement; footprint precision approximate",
+        "traceUncertainty": "Manually read visible roof perimeter only; allow approximately 1-2 m for edge reading, overhang and roof displacement. Northern covered sales projection is visible but not included in this polygon; walls and heights are not measured.",
+        "heightEstimatesMetresAboveFloor": {
+          "eave": 2.55,
+          "ridge": 3.5
+        },
+        "heightBasis": "Authored one-storey proportions. Neither roof/eave height nor pitch is measured.",
+        "facadeBasis": "Neutral pale walls and dark grey roof based on visible tonal areas; actual finish, material, doors and windows remain unverified.",
+        "wallFootprintBasis": "Small estimated inward setback under the source roof, not an independently observed wall trace.",
+        "groundBasis": "Production published 1 m terrain, sampled at wall corners; level floor above highest corner and terrain-following foundation skirt.",
+        "openingsAndSigns": "No unsupported openings, service hatch, logo or signs authored.",
+        "sourceBuildingIdsExplanation": "No matching retained OSM building; this is an additional facility.",
+        "exclusionOutline": "Exact source main roof plus explicitly traced north roof projection, joined by edge insertion. No unrelated hardscape or vegetation included.",
+        "northProjectionTracePixels": [
+          [
+            839,
+            592
+          ],
+          [
+            852,
+            590
+          ],
+          [
+            856,
+            601
+          ],
+          [
+            841,
+            605
+          ]
+        ],
+        "northProjectionTraceEpsg3006": [
+          [
+            677388.32,
+            6586349.600000001
+          ],
+          [
+            677390.3999999999,
+            6586349.92
+          ],
+          [
+            677391.0399999999,
+            6586348.16
+          ],
+          [
+            677388.64,
+            6586347.5200000005
+          ]
+        ],
+        "northProjectionSourceImage": "lidingobuild/cache/lm-ortho/hole-10-tees.png",
+        "northProjectionReview": "Small separate dark roof projection is visible north of main roof. Its pixels are approximate; open canopy interpretation, support count and height are authored estimates, consistent with the 2015 covered-sales-area history.",
+        "northProjectionEstimate": {
+          "roofHeightAboveFloorM": 2.38,
+          "roofThicknessM": 0.075,
+          "postWidthM": 0.105
+        }
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -312.8634948730469,
+          24.677308589220047,
+          49.530582427978516
+        ],
+        "max": [
+          -305.5765686035156,
+          28.74593687057495,
+          60.98826217651367
+        ]
+      },
+      "triangles": 196,
+      "meshCount": 6,
+      "authoredParts": [
+        "cafe9 covered approach slab",
+        "cafe9 east roof plane",
+        "cafe9 estimated canopy support 0",
+        "cafe9 estimated canopy support 1",
+        "cafe9 north canopy fascia",
+        "cafe9 north covered projection",
+        "cafe9 plain walls and gables",
+        "cafe9 ridge cap",
+        "cafe9 roof edge 0",
+        "cafe9 roof edge 1",
+        "cafe9 roof edge 2",
+        "cafe9 roof edge 3",
+        "cafe9 roof edge 4",
+        "cafe9 roof edge 5",
+        "cafe9 terrain foundation",
+        "cafe9 west roof plane"
+      ]
+    },
+    {
+      "id": "toilet-15",
+      "nodeName": "lidingo_toilet-15_asset",
+      "sourceBuildingIds": [],
+      "footprintLocal": [
+        [
+          -84.6600000000326,
+          -245.78000000026077
+        ],
+        [
+          -81.78000000002794,
+          -245.62000000011176
+        ],
+        [
+          -82.09999999997672,
+          -242.74000000022352
+        ],
+        [
+          -84.97999999998137,
+          -243.05999999959022
+        ]
+      ],
+      "groundAnchorLocal": [
+        -83.38000000000466,
+        -244.30000000004657
+      ],
+      "groundAnchorRh2000M": 22.654859577187565,
+      "placement": "absolute-rh2000",
+      "evidence": {
+        "sourceIds": [
+          "observed-toilet15-roof-2025",
+          "o65850_6775_25_mr25",
+          "banguide-1777924727_Lidingo_15"
+        ],
+        "sourceDocument": "lidingobuild/facilities/ancillary-location-review.json",
+        "geometryBasis": "Unchanged manually observed 2025 roof polygon; not a surveyed wall footprint.",
+        "roofTraceEpsg3006": [
+          [
+            677615.84,
+            6586645.28
+          ],
+          [
+            677618.72,
+            6586645.12
+          ],
+          [
+            677618.4,
+            6586642.24
+          ],
+          [
+            677615.52,
+            6586642.56
+          ],
+          [
+            677615.84,
+            6586645.28
+          ]
+        ],
+        "roofTracePixels": [
+          [
+            246,
+            776
+          ],
+          [
+            264,
+            777
+          ],
+          [
+            262,
+            795
+          ],
+          [
+            244,
+            793
+          ],
+          [
+            246,
+            776
+          ]
+        ],
+        "sourceImage": "lidingobuild/cache/lm-ortho/hole-15-tees.png",
+        "sourceImageSha256": "cbfcfa94923cdae1639c8f98a38dcc1aff9ff617cb83e731d26b8b729bb65312",
+        "sourceImageUrl": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25.tif",
+        "captureDate": "2025-05-31",
+        "guideUrl": "https://banguider.se/uploads/product/1777924727_Lidingo_15.webp",
+        "locationConfidence": "high contextual agreement; footprint precision approximate",
+        "traceUncertainty": "Manually read small visible roof only. Approximately 1 m edge/overhang/displacement uncertainty is material at this scale; walls and heights are not measured.",
+        "heightEstimatesMetresAboveFloor": {
+          "eave": 2.25,
+          "ridge": 2.75
+        },
+        "heightBasis": "Authored one-storey proportions. Neither roof/eave height nor pitch is measured.",
+        "facadeBasis": "Neutral pale walls and dark grey roof based on visible tonal areas; actual finish, material, doors and windows remain unverified.",
+        "wallFootprintBasis": "Small estimated inward setback under the source roof, not an independently observed wall trace.",
+        "groundBasis": "Production published 1 m terrain, sampled at wall corners; level floor above highest corner and terrain-following foundation skirt.",
+        "openingsAndSigns": "No unsupported openings, service hatch, logo or signs authored.",
+        "sourceBuildingIdsExplanation": "No matching retained OSM building; this is an additional facility.",
+        "exclusionOutline": "Unchanged manually observed main roof ring only.",
+        "roofFormBasis": "Two modest roof planes express the tonal division in the small orthophoto roof. Exact roof form and pitch are unresolved.",
+        "waterPoint": "Water service at this location is source-confirmed. Fixture geometry and exact fixture placement remain unresolved and are not invented."
+      },
+      "excludeVegetation": true,
+      "boundsLocalRh2000": {
+        "min": [
+          -85.02468872070312,
+          22.526325464248657,
+          -245.82583618164062
+        ],
+        "max": [
+          -81.73527526855469,
+          25.730002760887146,
+          -242.6934814453125
+        ]
+      },
+      "triangles": 136,
+      "meshCount": 4,
+      "authoredParts": [
+        "toilet15 east roof plane",
+        "toilet15 plain walls and gables",
+        "toilet15 ridge cap",
+        "toilet15 roof edge 0",
+        "toilet15 roof edge 1",
+        "toilet15 roof edge 2",
+        "toilet15 roof edge 3",
+        "toilet15 roof edge 4",
+        "toilet15 roof edge 5",
+        "toilet15 terrain foundation",
+        "toilet15 west roof plane"
+      ]
+    }
+  ],
+  "authoring": {
+    "blenderVersion": "4.5.9 LTS",
+    "triangles": 78148,
+    "sourceImageryIncluded": false,
+    "heightNote": "Absolute RH2000 in GLB; Blender modelling height origin25 baked exactly once."
+  }
+}

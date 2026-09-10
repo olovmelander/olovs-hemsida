@@ -10,6 +10,9 @@
    L() converts an sRGB literal into the linear working space, and stats is the
    draw counter the harness reads back.                                       */
 import { hash2 } from '../geom.js';
+export { loadFacilities, facilityFootprints, isFacilityInterior } from './veckefjarden-facilities.mjs';
+export const loadFacilitiesBeforeSurfaces = true;
+export const replacesRangeFacilities = true;
 
 /* The island 14th is armoured in granite riprap -- the collar of pale boulders at
    the waterline is the first thing every photograph of the hole leads with, and

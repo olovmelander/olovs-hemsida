@@ -15,7 +15,7 @@ fs.writeFileSync(cfg, `export default [{
   files: ['**/*.js'],
   languageOptions: { ecmaVersion: 2024, sourceType: 'module', globals: {
     window:'readonly', document:'readonly', navigator:'readonly', console:'readonly',
-    fetch:'readonly', atob:'readonly', btoa:'readonly', performance:'readonly',
+    fetch:'readonly', AbortController:'readonly', atob:'readonly', btoa:'readonly', performance:'readonly',
     requestAnimationFrame:'readonly', TextDecoder:'readonly', TextEncoder:'readonly',
     DecompressionStream:'readonly', Response:'readonly', Blob:'readonly', URL:'readonly',
     URLSearchParams:'readonly', location:'readonly', setTimeout:'readonly',
@@ -25,7 +25,7 @@ fs.writeFileSync(cfg, `export default [{
        the bundler detects and bundles it -- see v2-terrain-runtime.mjs */
     Worker:'readonly',
     ImageData:'readonly', Image:'readonly', history:'readonly', localStorage:'readonly', DataView:'readonly',
-    crypto:'readonly', setInterval:'readonly', clearInterval:'readonly',
+    crypto:'readonly', setInterval:'readonly', clearInterval:'readonly', structuredClone:'readonly',
     IntersectionObserver:'readonly', requestIdleCallback:'readonly', matchMedia:'readonly',
   } },
   rules: { 'no-undef': 'error' },

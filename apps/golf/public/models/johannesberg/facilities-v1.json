@@ -1,0 +1,294 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "courseSlugs": [
+    "johannesberg",
+    "johannesberg-9"
+  ],
+  "coordinateFrame": {
+    "kind": "legacy-local-rh2000",
+    "originWgs84": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "mPerLat": 111320,
+    "mPerLon": 56118.16
+  },
+  "asset": {
+    "url": "models/johannesberg/facilities-ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf.glb",
+    "bytes": 3668672,
+    "sha256": "ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf"
+  },
+  "facilities": [
+    {
+      "id": "johannesberg-building-w296165889",
+      "sourceBuildingId": "w296165889",
+      "nodeName": "johannesberg-building-w296165889",
+      "groundAnchorLocal": [
+        149.917515,
+        -677.823298
+      ],
+      "groundAnchorRh2000M": 17.246,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-manor",
+      "sourceBuildingId": "w296165891",
+      "nodeName": "johannesberg-manor",
+      "groundAnchorLocal": [
+        -99.352883,
+        -986.516287
+      ],
+      "groundAnchorRh2000M": 28.822,
+      "placement": "terrain-anchor",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-old-stable",
+      "sourceBuildingId": "w296165892",
+      "nodeName": "johannesberg-old-stable",
+      "groundAnchorLocal": [
+        -91.918694,
+        -798.198355
+      ],
+      "groundAnchorRh2000M": 20.195,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-east-slottsvilla",
+      "sourceBuildingId": "w296165893",
+      "nodeName": "johannesberg-east-slottsvilla",
+      "groundAnchorLocal": [
+        -26.999503,
+        -898.649627
+      ],
+      "groundAnchorRh2000M": 23.924,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-east-wing",
+      "sourceBuildingId": "w296165894",
+      "nodeName": "johannesberg-east-wing",
+      "groundAnchorLocal": [
+        -66.162218,
+        -975.1353
+      ],
+      "groundAnchorRh2000M": 28.446,
+      "placement": "terrain-anchor",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-clubhouse",
+      "sourceBuildingId": "w296165896",
+      "nodeName": "johannesberg-clubhouse",
+      "groundAnchorLocal": [
+        -216.686163,
+        -814.719846
+      ],
+      "groundAnchorRh2000M": 16.679,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-clubhouse-shed",
+      "sourceBuildingId": "w296165897",
+      "nodeName": "johannesberg-clubhouse-shed",
+      "groundAnchorLocal": [
+        -211.809847,
+        -797.664601
+      ],
+      "groundAnchorRh2000M": 18.157,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-west-slottsvilla",
+      "sourceBuildingId": "w296165898",
+      "nodeName": "johannesberg-west-slottsvilla",
+      "groundAnchorLocal": [
+        -49.299881,
+        -882.699751
+      ],
+      "groundAnchorRh2000M": 22.927,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-karolinerhuset",
+      "sourceBuildingId": "w296165899",
+      "nodeName": "johannesberg-karolinerhuset",
+      "groundAnchorLocal": [
+        -31.949986,
+        -964.249945
+      ],
+      "groundAnchorRh2000M": 26.483,
+      "placement": "terrain-anchor",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-building-w296165900",
+      "sourceBuildingId": "w296165900",
+      "nodeName": "johannesberg-building-w296165900",
+      "groundAnchorLocal": [
+        190.060309,
+        -799.233524
+      ],
+      "groundAnchorRh2000M": 22.041,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-west-wing",
+      "sourceBuildingId": "w296165901",
+      "nodeName": "johannesberg-west-wing",
+      "groundAnchorLocal": [
+        -107.711081,
+        -945.782814
+      ],
+      "groundAnchorRh2000M": 24.664,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-building-w296165903",
+      "sourceBuildingId": "w296165903",
+      "nodeName": "johannesberg-building-w296165903",
+      "groundAnchorLocal": [
+        -16.800378,
+        -819.250038
+      ],
+      "groundAnchorRh2000M": 23.807,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-johannesbergsvillan",
+      "sourceBuildingId": "w296165904",
+      "nodeName": "johannesberg-johannesbergsvillan",
+      "groundAnchorLocal": [
+        -75.197085,
+        -888.732368
+      ],
+      "groundAnchorRh2000M": 23.172,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-johannesbergsflygeln",
+      "sourceBuildingId": "w296165905",
+      "nodeName": "johannesberg-johannesbergsflygeln",
+      "groundAnchorLocal": [
+        -94.250606,
+        -900.900275
+      ],
+      "groundAnchorRh2000M": 22.212,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-building-w296165906",
+      "sourceBuildingId": "w296165906",
+      "nodeName": "johannesberg-building-w296165906",
+      "groundAnchorLocal": [
+        -79.815569,
+        -841.389212
+      ],
+      "groundAnchorRh2000M": 20.046,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-building-w296165907",
+      "sourceBuildingId": "w296165907",
+      "nodeName": "johannesberg-building-w296165907",
+      "groundAnchorLocal": [
+        87.599325,
+        -743.400155
+      ],
+      "groundAnchorRh2000M": 21.247,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-building-w296165908",
+      "sourceBuildingId": "w296165908",
+      "nodeName": "johannesberg-building-w296165908",
+      "groundAnchorLocal": [
+        -28.250164,
+        -937.450502
+      ],
+      "groundAnchorRh2000M": 24.379,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-private-residence",
+      "sourceBuildingId": "w296165909",
+      "nodeName": "johannesberg-private-residence",
+      "groundAnchorLocal": [
+        -21.049499,
+        -922.899863
+      ],
+      "groundAnchorRh2000M": 24.264,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-range-hut",
+      "sourceBuildingId": "w378922988",
+      "nodeName": "johannesberg-range-hut",
+      "groundAnchorLocal": [
+        -224.72059,
+        -947.692535
+      ],
+      "groundAnchorRh2000M": 11.309,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-building-w426174582",
+      "sourceBuildingId": "w426174582",
+      "nodeName": "johannesberg-building-w426174582",
+      "groundAnchorLocal": [
+        68.118499,
+        -837.053241
+      ],
+      "groundAnchorRh2000M": 16.929,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-building-trace-tower",
+      "sourceBuildingId": "trace-tower",
+      "nodeName": "johannesberg-building-trace-tower",
+      "groundAnchorLocal": [
+        -50.499959,
+        -751.999516
+      ],
+      "groundAnchorRh2000M": 23.544,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    },
+    {
+      "id": "johannesberg-range-shelter",
+      "sourceBuildingId": "trace-range-shelter",
+      "nodeName": "johannesberg-range-shelter",
+      "groundAnchorLocal": [
+        -199.389596,
+        -888.715442
+      ],
+      "groundAnchorRh2000M": 12.622,
+      "placement": "absolute-rh2000",
+      "appearance": "evidence-led-model-with-estimated-dimensions"
+    }
+  ],
+  "modelStatus": "Exterior appearance models with explicitly estimated dimensions",
+  "referenceDates": {
+    "orthophoto": "2025-06-14",
+    "laser": "2021-04-17"
+  },
+  "sourceReport": "johannesbergbuild/facilities/model-build-report.json"
+}

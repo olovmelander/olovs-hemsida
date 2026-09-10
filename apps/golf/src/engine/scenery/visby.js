@@ -1,4 +1,20 @@
+/* Authored Blender facilities are the primary Visby architecture. The longer
+   procedural notes and appearance values below describe fallback approximations,
+   including the old generic storey/roof layout. Sources, current model decisions
+   and remaining estimates: [visbybuild/facilities/README.md](../../../../../visbybuild/facilities/README.md). */
 import roofReview from '../../../../../visbybuild/mapping/building-roof-review-2026.json';
+import facilitiesManifest from '../../../public/models/visby/facilities-v1.json';
+import { ringSD } from '../geom.js';
+
+/* Newly traced roof structures are absent from the original OSM exclusion map.
+   Their measured plan interiors suppress display vegetation only. Mat strips
+   and the long net envelope must never create a broad woodland clearing. */
+export const facilityFootprints = facilitiesManifest.facilities
+  .filter(f => f.sourceFeatureId && /(?:building|shelter|service|shed)/.test(f.sourceFeatureId)
+    && !/(?:mats|net)/.test(f.sourceFeatureId) && f.footprintLocal)
+  .map(f => ({ id: f.id, ring: f.footprintLocal }));
+export const isFacilityInterior = (x, z, margin = .2) =>
+  facilityFootprints.some(f => ringSD(x, z, f.ring) <= margin);
 
 /* Visby GK / Kronholmen — the things about this place that are not data.
 
@@ -47,6 +63,13 @@ export const clubhouse = {
   windowRows: [1.5, 4.2],
   terrace: true,
 };
+
+/* Source-linked Blender architecture is installed before the generic building
+   batch. The appearance specifications in this module remain its fallback. */
+export async function loadFacilities(context) {
+  const { loadVisbyFacilities } = await import('./visby-facilities.mjs');
+  return loadVisbyFacilities(context);
+}
 
 /* THE LIGHTHOUSE STATION BY THE FIRST TEE, which the model carried as two
    anonymous houses and a gap where a lighthouse is.
@@ -126,6 +149,8 @@ export function species({ r, h }) {
 
 export function build(ctx) {
   const { quad, tri, demH, L, stats } = ctx;
+  if (stats.facilities?.status === 'loaded'
+      && stats.facilities.replacedLandmarkIds?.includes('skansudde-lighthouse')) return 0;
   const before = stats.draws;
   const WHITE = L(0xf0eeea), SHADE = L(0xd8d6d2), DARK = L(0x33363b);
   const base = demH(TOWER[0], TOWER[1]) - 0.4;

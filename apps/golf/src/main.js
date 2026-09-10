@@ -55,16 +55,21 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
+import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
+import { teePadSurfaceOwners } from './engine/tee-surface-ownership.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
+import { createCameraBreathing } from './engine/camera-breathing.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
 import { createRenderResolution, requestedRenderResolution } from './engine/render-resolution.mjs';
 import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
+import { canopySampler } from './engine/canopy-cover.mjs';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
+import { coastalWorldBounds, seaLevelInWorld, excludeOceanFromFlatWater } from './engine/coastal-runtime.mjs';
 import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
-import { buildGroundSurfaceFeatures, mappedPathSurface } from './engine/surface-features.mjs';
+import { buildGroundSurfaceFeatures, mappedPathSurface, isTurfRangeTarget, mappedLineHalfWidth } from './engine/surface-features.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
 import {
@@ -80,6 +85,7 @@ import { waterShoreDistance } from './engine/water-shore.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
+import { createGroundTintOverview } from './engine/ground-tint-overview.mjs';
 import { createPackedGroundDetailTexture } from './engine/ground-detail-upload.mjs';
 import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
@@ -87,6 +93,9 @@ import { renderActivePipeline as renderPipeline } from './engine/active-render-p
 import { smoothShore } from './engine/ring-smoothing.mjs';
 import { smoothMownEdges } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
+import { reviewedTeeMarkerPositions } from './engine/reviewed-tee-marker-placement.mjs';
+import { canRenderTeeMarker } from './engine/tee-marker-visibility.mjs';
+import { boundaryMarkerSubmerged } from './engine/boundary-marker-placement.mjs';
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
 import {
@@ -102,6 +111,8 @@ import {
   V2_OBJECT_LAYER_GATE,
 } from './engine/v2-terrain-select.mjs';
 import { V2TerrainLiveAdapter } from './engine/v2-terrain-live-adapter.mjs';
+import { clipLegacyTerrainGeometry } from './engine/v2-legacy-clip.mjs';
+import { createLegacyTerrainTransition } from './engine/v2-terrain-transition.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
@@ -222,7 +233,7 @@ const terrainPreviewPromise = selectV2TerrainSource({
     const model = await modelPromise;
     if (model.infra?.terrainPlacement === 'measured-only') return null;
     return {
-      bodies: (model.water || []).filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
+      bodies: (model.water || []).filter(w => !w.stream && !(CMETA.slug === 'norrfallsviken' && w.isSea) && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
       shallows: (model.surround && model.surround.shallows) || [],
     };
   },
@@ -316,6 +327,43 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
   }
 }
 
+/* Build the connected ocean from uncarved world elevations. A source polygon's
+   offshore closing edges cannot define where the sea ends. All heights remain
+   in the same datum as the rendered laser terrain. */
+const CONTINUOUS_OCEAN_ENABLED = CMETA.slug === 'norrfallsviken' && terrainV2.ringsLoaded;
+const OCEAN_SOURCE = CONTINUOUS_OCEAN_ENABLED ? await (async () => {
+  const [mod,{NORRFALLSVIKEN_OCEAN_SOURCE:asset},coastalSurfaces]=await Promise.all([
+    import('./engine/source-ocean.mjs'),import('./engine/norrfallsviken-ocean-source.mjs'),
+    import('./engine/norrfallsviken-coastal-surfaces.mjs'),
+  ]);
+  try {
+    const data=await mod.loadSourceOcean({...asset,baseUrl:new URL(import.meta.env.BASE_URL,location.href).href});
+    return {mod,data,asset,surfaces:coastalSurfaces.createNorrfallsvikenCoastalSurfaces({
+      origin:TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,bridge:TERRAIN_PREVIEW.bridge,
+    })};
+  } catch(error) {
+    if(V2_SELECTION.require)throw error;
+    console.warn('Marine source unavailable; using connected terrain contour',error);
+    return null;
+  }
+})() : null;
+const SEA_WORLD_LEVEL = CONTINUOUS_OCEAN_ENABLED
+  ? seaLevelInWorld(OCEAN_SOURCE?.data.seaLevelRH2000 ?? GEO.seaLevel,TERRAIN_PREVIEW.bridge) : GEO.seaLevel;
+const OCEAN_DISPLAY_LIFT = 0.2;
+const OCEAN_DTM_TOLERANCE = 0.15;
+const CONTINUOUS_OCEAN = CONTINUOUS_OCEAN_ENABLED ? await (async () => {
+  const bounds=coastalWorldBounds(V2_SELECTION.graph.ground.bounds,TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,TERRAIN_PREVIEW.bridge);
+  const started=performance.now();
+  const ocean=OCEAN_SOURCE ? OCEAN_SOURCE.mod.buildSourceOcean({data:OCEAN_SOURCE.data,bounds,
+    origin:TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,bridge:TERRAIN_PREVIEW.bridge,seaLevel:SEA_WORLD_LEVEL,
+    maximumCoveredTerrainHeight:V2_SELECTION.graph.ground.bounds.maxHeightRH2000+TERRAIN_PREVIEW.bridge.verticalDatumOffsetMetres,
+  }) : (await import('./engine/continuous-ocean.mjs')).buildContinuousOcean({ bounds,bodies:M.water,seaLevel:SEA_WORLD_LEVEL,
+    tolerance:OCEAN_DTM_TOLERANCE,spacing:16,refineSpacing:4,heightAt:(x,z)=>terrainV2.worldHeightAt(x,z) });
+  span('continuous ocean: uncarved terrain coverage',started,{cells:ocean.cells});
+  console.info(`continuous ocean: ${ocean.cells} cells, ${ocean.indices.length/3} triangles, world level ${SEA_WORLD_LEVEL}`);
+  return ocean;
+})() : null;
+
 const terrainPreviewBadge = document.getElementById('v2TerrainBadge');
 function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres = null) {
   if (!terrainPreviewBadge || !TERRAIN_PREVIEW.requested) return;
@@ -336,12 +384,13 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
     ].filter(Boolean).join(' · ');
   } else {
     terrainPreviewBadge.dataset.state = 'fallback';
-    title.textContent = 'STANDARDTERRÄNG · FALLBACK';
-    detail.textContent = TERRAIN_PREVIEW.reason === V2_GRAPH_RENDERER_GATE
-      ? 'v2-grafen är verifierad men den generella renderaren är inte aktiverad'
-      : CMETA.slug === 'puttom'
-        ? '1 m-previewn kunde inte verifieras'
-        : '1 m-previewn är ännu bara aktiverad för Puttom';
+    title.textContent = 'FÖRENKLAD TERRÄNG · RESERVLÄGE';
+    detail.textContent = V2_SELECTION.graphError || TERRAIN_PREVIEW.error || renderState === 'failed'
+      ? 'LM-terrängen kunde inte läsas. Ladda om sidan för att försöka igen.'
+      : TERRAIN_PREVIEW.reason === V2_GRAPH_RENDERER_GATE
+        ? 'LM-terrängen kan inte visas i den här versionen.'
+        : 'Ingen verifierad LM-terräng är tillgänglig för den här banan.';
+    terrainPreviewBadge.title = V2_SELECTION.graphError || TERRAIN_PREVIEW.error || '';
   }
 }
 setTerrainPreviewBadge();
@@ -556,6 +605,7 @@ for (const h of HOLES) {
     const remeasured = [];
     for (const w of M.water) {
       if (w.stream || !w.ring?.length) continue;
+      if (CONTINUOUS_OCEAN && w.isSea) { w.level=SEA_WORLD_LEVEL; continue; }
       const heights = [];
       for (const p of w.ring) {
         const probe = groundProbe(p[0], p[1]);
@@ -591,7 +641,11 @@ for (const h of HOLES) {
        the bed under them, and lays a sheet where no ring does. */
     if (typeof terrainV2.detectFlatWater === 'function' && terrainV2.ringsLoaded) {
       const flatStarted = performance.now();
-      const flat = terrainV2.detectFlatWater(M.water.filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })));
+      let flat = terrainV2.detectFlatWater(M.water.filter(w => !w.stream && !(CONTINUOUS_OCEAN && w.isSea) && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })));
+      if (CONTINUOUS_OCEAN) {
+        flat=excludeOceanFromFlatWater(flat,CONTINUOUS_OCEAN,(x,z)=>TERRAIN_PREVIEW.bridge.toLegacy(x,z));
+        terrainV2.flatWater=flat;
+      }
       const uncovered = flat.components.filter(c => c.uncoveredCells > 0);
       console.info(`v2 flat water: ${flat.components.length} flats over 0.48 ha, ${uncovered.length} beyond the model's rings ` +
         `(${uncovered.reduce((s, c) => s + c.uncoveredCells, 0) * flat.spacing * flat.spacing / 10000 | 0} ha), ${Math.round(performance.now() - flatStarted)} ms`);
@@ -656,11 +710,12 @@ for (const h of HOLES) {
   Object.assign(M.scenery, mown.scenery);
 }
 
+const teeSurfaceOwners = teePadSurfaceOwners(HOLES);
 for (const h of HOLES) {
   const g = { ring: h.green.ring, bb: ringBBox(h.green.ring), hole: h.n, c: h.green.c };
   GI.add(g, g.bb, 26);
   h._g = g;
-  for (const t of h.tees.pads) { const r = { ring: t.ring, bb: ringBBox(t.ring), preserveTerrain: t.preserveTerrain }; TI.add(r, r.bb, 12); }
+  for (const t of h.tees.pads) if (teeSurfaceOwners.has(t)) { const r = { ring: t.ring, bb: ringBBox(t.ring), preserveTerrain: t.preserveTerrain }; TI.add(r, r.bb, 12); }
   for (const b of h.bunkers) { const r = { ring: b.ring, bb: ringBBox(b.ring), c: centroidOf(b.ring) }; BI.add(r, r.bb, 9); b._r = r; }
   for (const r of h.fairway.rings) { const q = { ring: r, bb: ringBBox(r) }; FI.add(q, q.bb, 16); }
 }
@@ -668,30 +723,34 @@ for (const r of M.scenery.fairways.concat(M.scenery.greens, M.scenery.tees, M.sc
   const q = { ring: r, bb: ringBBox(r), scen: true }; FI.add(q, q.bb, 12);
 }
 for (const r of M.scenery.bunkers) { const q = { ring: r, bb: ringBBox(r) }; BI.add(q, q.bb, 8); }
-for (const w of M.water) { const q = { ring: w.ring, bb: ringBBox(w.ring), level: w.level, isLake: w.isLake }; WI.add(q, q.bb, 30); }
+for (const w of M.water) { const q = { ring: w.ring, bb: ringBBox(w.ring), level: w.level, isLake: w.isLake, isSea: w.isSea }; WI.add(q, q.bb, 30); }
 for (const [k, rs] of Object.entries(M.veg))
   for (const r of rs) { const q = { ring: r, bb: ringBBox(r), kind: k }; VI.add(q, q.bb, 6); }
 for (const p of M.infra.paths.concat(M.infra.tracks)) {
-  const q = { line: p.line, bb: ringBBox(p.line), w: p.kind === 'track' ? 1.7 : p.kind === 'service' ? 1.9 : 1.5 };
-  PI.add(q, q.bb, 6);
+  const q = { line: p.line, bb: ringBBox(p.line), w: mappedLineHalfWidth(p, p.kind === 'track' ? 1.7 : p.kind === 'service' ? 1.9 : 1.5) };
+  PI.add(q, q.bb, Math.max(6, q.w + 2));
 }
 for (const r of M.infra.roads) {
   /* the class band under a road is its ribbon's width, not double it: a
      wider band showed as a dark margin either side of a pale gravel road */
-  const w = r.kind === 'trunk' ? 8 : /gravel|compacted|ground|unpaved/.test(r.surface || '') ? 2.4 : 3;
+  const w = mappedLineHalfWidth(r, r.kind === 'trunk' ? 8 : /gravel|compacted|ground|unpaved/.test(r.surface || '') ? 2.4 : 3);
   const q = { line: r.line, bb: ringBBox(r.line), w };
-  PI.add(q, q.bb, r.kind === 'trunk' ? 12 : 8);
+  PI.add(q, q.bb, Math.max(r.kind === 'trunk' ? 12 : 8, w + 2));
 }
 for (const rw of (M.infra.railway || [])) {
   const q = { line: rw.line, bb: ringBBox(rw.line), w: 4 };
   PI.add(q, q.bb, 8);
 }
 const II = new Grid();      // building footprints, so nothing grows through a wall
+const authoredFacilityView = new URLSearchParams(location.search).get('buildingGeometry') !== 'source';
+if (authoredFacilityView) for (const f of SCENERY?.facilityFootprints || []) {
+  const q = { ring: f.ring, bb: ringBBox(f.ring) }; II.add(q, q.bb, 3);
+}
 for (const b of M.infra.buildings) { const q = { ring: b.ring, bb: ringBBox(b.ring) }; II.add(q, q.bb, 10); }
 for (const p of (M.infra.parking || [])) { const q = { ring: p.ring, bb: ringBBox(p.ring) }; II.add(q, q.bb, 8); }
 for (const f of M.scenery.mappedFeatures || []) { const ring = f.rings?.[0]; if (ring) { const q = { ring, bb: ringBBox(ring) }; II.add(q, q.bb, 1); } }
 const LI = new Grid();      // landuse: fields, gardens, industry -- ground tint and scatter policy
-for (const l of (M.infra.landuse || [])) { const q = { ring: l.ring, bb: ringBBox(l.ring), kind: l.kind }; LI.add(q, q.bb, 6); }
+for (const l of (M.infra.landuse || [])) { const q = { ring: l.ring, bb: ringBBox(l.ring), kind: l.kind, appearanceSeed: l.appearanceSeed }; LI.add(q, q.bb, 6); }
 const SI = new Grid();      // traced surroundings: clear-fells, the machinery yard, the hayfields
 if (M.surround) {
   for (const ring of (M.surround.clearfells || [])) { const q = { ring, bb: ringBBox(ring), kind: 'cut' }; SI.add(q, q.bb, 6); }
@@ -756,6 +815,7 @@ const CLUB = (() => {
    visible-ground sampler below so camera, water, surfaces and objects cannot
    disagree with the terrain that the renderer actually presents. */
 let visibleGroundHeightAt = null;
+let terrainBoundaryTransition = null;
 /* Tee decks are sampled repeatedly while a terrain is built. Keep separate
    caches for the pure GPK1 and preflight-approved v2 height sources so an
    aborted optimized build cannot leak a v2 centroid into the fallback mesh. */
@@ -766,7 +826,10 @@ function terrainH(x, z) {
 function legacyTerrainH(x, z) {
   // A measured ground opts out of synthetic green shaping, bunker dishes,
   // water bathymetry and noise in the compatibility path as well as in v2.
-  if (M.infra.terrainPlacement === 'measured-only') return demH(x, z);
+  if (M.infra.terrainPlacement === 'measured-only') {
+    const h = demH(x, z);
+    return terrainBoundaryTransition ? terrainBoundaryTransition(x, z, h) : h;
+  }
   let h = demH(x, z);
 
   /* greens: a pad flat enough to putt on, tilted gently back to front, tiered
@@ -889,7 +952,7 @@ function legacyTerrainH(x, z) {
      around the island 14th it lifted patches of bed back above the fjord's level --
      slivers of land coplanar with the water, reading as a torn mesh */
   if (cls.amp > 0.001) h += fbm(x / cls.len, z / cls.len, 3) * cls.amp * seamFade(x, z) * shoreDamp;
-  return h;
+  return terrainBoundaryTransition ? terrainBoundaryTransition(x, z, h) : h;
 }
 
 /* Fade the added relief out over the last 90 m of the fine grid so that where the
@@ -951,14 +1014,8 @@ let coverAt = () => 0;
 let coverEdgeFade = () => 0;
 if (M.cover) {
   const cv = M.cover;
-  const bytes = Uint8Array.from(atob(cv.b64), c => c.charCodeAt(0));
   const cx1 = cv.x0 + cv.nx * cv.cell, cz1 = cv.z0 + cv.nz * cv.cell;
-  coverAt = (x, z) => {
-    const i = Math.floor((x - cv.x0) / cv.cell), j = Math.floor((z - cv.z0) / cv.cell);
-    if (i < 0 || j < 0 || i >= cv.nx || j >= cv.nz) return 0;
-    const k = j * cv.nx + i;
-    return (bytes[k >> 2] >> ((k & 3) * 2)) & 3;
-  };
+  coverAt = canopySampler(cv);
   coverEdgeFade = (x, z) => smooth(0, 240, Math.min(x - cv.x0, cx1 - x, z - cv.z0, cz1 - z));
 }
 
@@ -969,8 +1026,21 @@ let groundAtlas = null;
 /* the indexed queries return what ringSD and distToLine return, without
    walking every edge of a 378-vertex forest ring for every point (ring-index.mjs) */
 const classifyAnalytic = createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distToLine, smooth });
+const approaches = (M.scenery.mappedFeatures || []).filter(f => f.kind === 'mown_approach');
 const classify = (x, z) => {
-  if (!groundAtlas?.contains(x, z)) return classifyAnalytic(x, z);
+  if (!groundAtlas?.contains(x, z)) {
+    const c = classifyAnalytic(x, z);
+    const mownApproach = approaches.some(f => ringSD(x, z, f.rings[0], 0) <= 0 &&
+      !f.rings.slice(1).some(r => ringSD(x, z, r, 0) <= 0));
+    if (mownApproach) {
+      c.fair = Math.max(c.fair, 0.35); // same semi-rough weight as the atlas
+      c.forest = 0;
+    }
+    if (!mownApproach && SCENERY?.canopyFloor && coverAt(x, z) === 3) {
+      c.forest = Math.max(c.forest, 1 - Math.max(c.green, c.fringe, c.tee, c.fair, c.sand, c.path, c.wet));
+    }
+    return c;
+  }
   const c = groundAtlas.classifyAt(x, z);
   /* THE APRON, and it is what keeps things off the mown ground.
      Every scatter loop -- trees, bushes, tufts, stones -- rejects a candidate
@@ -1096,9 +1166,11 @@ function groundAt(x, z, h) {
   for (const q of LI.at(x, z)) {
     if (ringSD(x, z, q.ring, 1) > 0) continue;
     if (q.kind === 'farmland' || q.kind === 'farmyard') {
-      const k = hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13));
+      const k = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
       const crop = k < 0.4 ? C.cropA : k < 0.75 ? C.cropB : C.cropC;
       col = col.map((v, i) => lerp(v, crop[i], 0.72)); sid = S_SEMI;
+    } else if (q.kind === 'meadow' || q.kind === 'grass') {
+      col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI;
     } else if (q.kind === 'residential' || q.kind === 'allotments') {
       col = col.map((v, i) => lerp(v, C.lawn[i], 0.4));
     } else if (q.kind === 'industrial' || q.kind === 'commercial') {
@@ -1225,6 +1297,7 @@ const SURFACE_RELIEF = GRAPHICS_POLISH && new URLSearchParams(location.search).g
 let lowfx = false;
 let autoQualityDone = LOWQ || QUALITY_LOCK;   /* no pending verdict in a fixed-quality visit */
 const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cameraMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 /* skyltar: 0 off, 1 hole numbers, 2 numbers + faciliteter. skyMax is 1 on a course
    whose facilities are not in the data, so the cycle never promises an empty layer. */
 let skyState = 2, skyMax = 2, skyHidden = false;
@@ -1277,9 +1350,9 @@ let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
-const COASTAL_DEPTH_ENABLED = !IS_GPU && M.infra.terrainPlacement === 'measured-only' && M.water.some(w => w.isSea);
+const COASTAL_DEPTH_ENABLED = !IS_GPU && (M.infra.terrainPlacement === 'measured-only' || CONTINUOUS_OCEAN_ENABLED) && M.water.some(w => w.isSea);
 const COASTAL_TERRAIN_CEILING = V2_SELECTION.graph
-  ? V2_SELECTION.graph.ground.bounds.maxHeightRH2000 - V2_SELECTION.graph.ground.frame.origin.heightRH2000
+  ? V2_SELECTION.graph.ground.bounds.maxHeightRH2000 + (TERRAIN_PREVIEW.bridge?.verticalDatumOffsetMetres ?? 0)
   : NaN;
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
@@ -1292,6 +1365,10 @@ controls.dampingFactor = 0.055;
 controls.maxPolarAngle = Math.PI - 0.08;
 controls.minDistance = 6;
 controls.maxDistance = 4200;
+const cameraBreathing = createCameraBreathing();
+let cameraInteracting = false;
+controls.addEventListener('start', () => { cameraInteracting = true; cameraBreathing.pause(); });
+controls.addEventListener('end', () => { cameraInteracting = false; cameraBreathing.pause(); });
 
 /* ------------------------------------------------------------- textures */
 function canvasTex(size, draw, { srgb = true, rep = 1 } = {}) {
@@ -1399,8 +1476,6 @@ const PRESETS = {
 };
 let preset = PRESETS.golden;
 const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
-const uFogC = uniform(new THREE.Color(0xa2bcca));
-const uFogD = uniform(0.00042);
 scene.fog = fog;
 
 /* Sky. The volumetric one only exists on the WebGPU backend; on WebGL2 a gradient
@@ -1411,6 +1486,10 @@ let skyMesh = null, skyDome = null;
 if (IS_GPU) {
   const { SkyMesh } = await import('three/addons/objects/SkyMesh.js');
   skyMesh = new SkyMesh();
+  /* The HDR disc flashes through subpixel gaps in moving foliage, and bloom
+     turns those samples into floating bright specks. Keep the atmospheric
+     scattering and directional sunlight without that tiny glare source. */
+  skyMesh.showSunDisc.value = 0;
   /* three's SkyMesh pins itself to the far plane with z = w, which under a
      reversed depth buffer is the NEAR plane; and three reverses its whole render
      list under reversed depth, renderOrder included, so the sky then draws LAST
@@ -1440,11 +1519,10 @@ if (IS_GPU) {
   const hor = mix(color(0xe6b98a), color(0xbcd3dd), smoothstep(0.10, 0.52, sunUp));
   let c = mix(hor, mid, pow(saturate(up), 0.72));
   c = mix(c, zen, pow(saturate(up), float(0.85).add(sunUp.mul(0.5))));
-  c = mix(color(0x63705f), c, smoothstep(-0.05, 0.03, up));
   /* aureole: tight and white when the sun is high, wide and orange when it is low */
   c = c.add(mix(color(0xffb060), color(0xfff0d0), sunUp)
       .mul(pow(sd, mix(float(5), float(30), sunUp)).mul(mix(float(0.85), float(0.35), sunUp))));
-  c = c.add(color(0xfff6e4).mul(pow(sd, 900).mul(2.2)));
+  /* Keep the broad aureole above, without a sharp disc behind tree gaps. */
   /* cloud: two scrolling octaves of the detail map projected on the dome, kept above
      the horizon so it never appears as a band across the trees */
   const cuv = D.xz.div(up.abs().max(0.10)).mul(0.014);
@@ -1454,6 +1532,10 @@ if (IS_GPU) {
   const puff = smoothstep(cover, cover.add(0.30), cl).mul(smoothstep(0.02, 0.20, up));
   const lit = mix(color(0x9aa6b0), color(0xfff4e6), sd.mul(0.7).add(sunUp.mul(0.3)));
   c = mix(c, lit, puff.mul(0.82));
+  /* Distant land and water converge to the scene fog. The lower hemisphere must
+     meet that same colour when an elevated camera sees below the horizon;
+     a separate ground colour leaves a hard stripe behind the landscape. */
+  c = mix(uniform(fog.color), c, smoothstep(0, 0.18, up));
   m.colorNode = c;
   skyDome = new THREE.Mesh(new THREE.SphereGeometry(11000, 48, 28), m);
   skyDome.renderOrder = -2;
@@ -1485,8 +1567,8 @@ function setPreset(name) {
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
   hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI;
-  fog.color.setHex(p.fog); fog.density = p.dens;
-  uFogC.value.setHex(p.fog, THREE.SRGBColorSpace); uFogD.value = p.dens;
+  fog.color.setHex(p.fog);
+  fog.density = CONTINUOUS_OCEAN_ENABLED && presetName === 'noon' ? 0.00022 : p.dens;
   scene.background = new THREE.Color(p.fog);
   renderer.toneMappingExposure = p.exp;
   if (skyDome?.userData.cover) skyDome.userData.cover.value = 0.62 - p.cloud * 0.55;
@@ -1651,6 +1733,44 @@ const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
                ...((SCENERY && SCENERY.farRing) || {}) };
 
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
+/* Per-building authored GLB replacements, the second of the two display-
+   architecture mechanisms. `loadFacilities` above installs a whole campus from
+   one asset; this one swaps a SINGLE source footprint for its own reviewed
+   model, keyed by that footprint's checksum, so a course may carry either or
+   both. Every attempt records a diagnostic -- loaded or fallback with its
+   reason -- because a silent miss here looks exactly like a course that simply
+   has no authored buildings. */
+const AUTHORED_BUILDING_DIAGNOSTICS = [];
+let facilityArchitecture = null;
+const facilityAbortController = SCENERY?.loadFacilities ? new AbortController() : null;
+if (facilityAbortController) addEventListener('pagehide', event => {
+  if (!event.persisted) {
+    facilityAbortController.abort();
+    facilityArchitecture?.dispose();
+  }
+});
+async function installFacilityArchitecture() {
+  if (facilityArchitecture || !SCENERY?.loadFacilities || !authoredFacilityView) return;
+  try {
+    facilityArchitecture = await SCENERY.loadFacilities({
+      THREE, scene, courseSlug: CMETA.slug, buildings: M.infra.buildings,
+      parking: M.infra.parking || [], terrainH,
+      detailTexture: DETAIL,
+      v2Active: terrainV2.active,
+      verticalDatumOffsetMetres: TERRAIN_PREVIEW?.bridge?.verticalDatumOffsetMetres ?? 0,
+      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+      signal: facilityAbortController.signal,
+      isCurrentCourse: () => !facilityAbortController.signal.aborted
+        && (new URLSearchParams(location.search).get('bana') || CMETA.slug) === CMETA.slug,
+    });
+    stats.facilities = facilityArchitecture.report;
+    if (stats.facilities.status === 'loaded') for (const f of facilityArchitecture.facilityFootprints || []) {
+      const q = { ring: f.ring, bb: ringBBox(f.ring) }; II.add(q, q.bb, 3);
+    }
+  } catch (error) {
+    stats.facilities = { status: 'fallback', reason: error.message, replacedBuildingIds: [] };
+  }
+}
 /* the far cones' positions and the water sheets, kept so a harness can ask
    where they stand and hide them to see what is under them */
 let VISTA_PTS = null;
@@ -1742,10 +1862,10 @@ function buildDetailMask(R) {
    into two small rasters the rough class samples -- 6 m to 1.5 km, 24 m to
    6 km -- allocated before the material exists and filled once the world's
    heights are resident. sRGB bytes, so the darks keep their steps. */
-const GROUND_TINT_NEAR = { half: 1536, dx: 6 };
+const GROUND_TINT_NEAR = { half: 1536, dx: 6, fadeMetres: 300 };
 const GROUND_TINT_FAR = { half: 6144, dx: 24 };
 function createGroundTintTextures() {
-  const make = ({ half, dx }) => {
+  const make = ({ half, dx, fadeMetres }) => {
     const n = Math.round((2 * half) / dx) + 1;
     const data = new Uint8Array(n * n * 4).fill(255);
     const texture = new THREE.DataTexture(data, n, n, THREE.RGBAFormat, THREE.UnsignedByteType);
@@ -1757,7 +1877,7 @@ function createGroundTintTextures() {
     texture.generateMipmaps = false;
     texture.flipY = false;
     texture.needsUpdate = true;
-    return { texture, n, dx, bounds: { x0: -half - dx / 2, z0: -half - dx / 2, x1: half + dx / 2, z1: half + dx / 2 } };
+    return { texture, n, dx, fadeMetres, bounds: { x0: -half - dx / 2, z0: -half - dx / 2, x1: half + dx / 2, z1: half + dx / 2 } };
   };
   return { near: make(GROUND_TINT_NEAR), far: make(GROUND_TINT_FAR) };
 }
@@ -1790,12 +1910,13 @@ const SEA_TINT = [0.055, 0.085, 0.105];
    one keeps the 0.5 m and does not move. */
 const HAS_SEA = M.water.some(w => w.isSea);
 const VISTA_SEA_BAND = Number.isFinite(GEO.seaTintBandMetres) ? GEO.seaTintBandMetres : 0.5;
-const VISTA_SEA_LEVEL = HAS_SEA ? GEO.seaLevel + VISTA_SEA_BAND : -Infinity;
+const VISTA_SEA_LEVEL = HAS_SEA ? SEA_WORLD_LEVEL + VISTA_SEA_BAND : -Infinity;
 /* Visby's source water covers HF1 exactly. A rectangle under that window
    floods low land when depth precision/LOD changes; it also leaves the actual
    16 km ocean without a surface. Extend the mapped sea only outside its source
    coverage, using the unmodified surrounding terrain and sea connectivity. */
 const COASTAL_WATER = (() => {
+  if (CONTINUOUS_OCEAN) return CONTINUOUS_OCEAN;
   if (!HAS_SEA || M.infra.terrainPlacement !== 'measured-only') return null;
   const sourceBounds = { x0: HF1.x0, x1: HF1.x0 + (HF1.nx - 1) * HF1.dx,
     z0: HF1.z0, z1: HF1.z0 + (HF1.nz - 1) * HF1.dx };
@@ -1862,28 +1983,17 @@ function fillGroundTintTextures(tint, heightAt) {
     }
     texture.needsUpdate = true;
   };
-  fill(tint.near, (x, z) => groundAt(x, z, H(x, z)).col);
-  /* Inside the near raster's box the far raster restates the near one, box
-     averaged, so the two agree where the shader fades between them and the
-     hand-over is only a change of resolution; the vista rule paints the rest. */
-  const nearBox = (x, z) => {
-    const { n, dx, bounds, texture } = tint.near;
-    const i0 = Math.floor((x - GROUND_TINT_FAR.dx / 2 - bounds.x0) / dx), j0 = Math.floor((z - GROUND_TINT_FAR.dx / 2 - bounds.z0) / dx);
-    const cells = Math.round(GROUND_TINT_FAR.dx / dx);
-    if (i0 < 0 || j0 < 0 || i0 + cells > n || j0 + cells > n) return null;
-    const sum = [0, 0, 0];
-    for (let j = j0; j < j0 + cells; j++) for (let i = i0; i < i0 + cells; i++) {
-      const o = (j * n + i) * 4;
-      sum[0] += texture.image.data[o]; sum[1] += texture.image.data[o + 1]; sum[2] += texture.image.data[o + 2];
-    }
-    return sum.map(v => v / (cells * cells));
-  };
-  const fromSrgbByte = b => { const v = b / 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
-  fill(tint.far, (x, z) => {
-    const near = nearBox(x, z);
-    if (near) return near.map(fromSrgbByte);
+  fill(tint.near, (x, z) => {
+    if(CONTINUOUS_OCEAN?.isSeaAt(x,z))return SEA_TINT;
+    const h=H(x,z);
+    if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
+    const base=groundAt(x,z,h).col,sand=OCEAN_SOURCE?.surfaces.sandWeight(x,z)??0;
+    return sand>0?base.map((v,k)=>lerp(v,C.sand[k]*(.93+.05*fbm(x*.08,z*.08,2)),sand)):base;
+  });
+  const vistaColourAt = (x, z) => {
     const h = H(x, z);
     if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(x, z) : h < VISTA_SEA_LEVEL) return SEA_TINT;
+    if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
     const sl = Math.hypot(H(x + GROUND_TINT_FAR.dx, z) - h, H(x, z + GROUND_TINT_FAR.dx) - h) / GROUND_TINT_FAR.dx;
     const t = clampf((h - 24) / 150, 0, 1);
     const rocky = smooth(0.22, 0.62, sl);
@@ -1891,15 +2001,22 @@ function fillGroundTintTextures(tint, heightAt) {
     for (const q of LI.at(x, z)) {
       if (ringSD(x, z, q.ring) > 0) continue;
       if (q.kind === 'farmland' || q.kind === 'farmyard') {
-        const k2 = hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13));
+        const k2 = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
         const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
         base = base.map((v, k3) => lerp(v, crop[k3], 0.85));
-      } else if (q.kind === 'residential') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
+      } else if (q.kind === 'meadow' || q.kind === 'grass') base = base.map((v, k3) => lerp(v, C.hay[k3], 0.6));
+      else if (q.kind === 'residential' || q.kind === 'allotments') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
       else if (q.kind === 'industrial' || q.kind === 'commercial') base = base.map((v, k3) => lerp(v, C.hard[k3], 0.5));
       break;
     }
     return base;
-  });
+  };
+  // Fading only the shader's near sample leaves a hard line in the far map:
+  // its copied near colours used to stop at the last full 24 m footprint.
+  // Fade the overview's source too, before that footprint reaches the crop.
+  fill(tint.far, createGroundTintOverview(tint.near, {
+    spacing: GROUND_TINT_FAR.dx, blendMetres: tint.near.fadeMetres,
+  }, vistaColourAt));
   stats.tintMs = Math.round(performance.now() - started);
 }
 
@@ -1958,10 +2075,11 @@ async function buildTerrain(R, hole, withDetail) {
       for (const q of LI.at(x, z)) {
         if (ringSD(x, z, q.ring) > 0) continue;
         if (q.kind === 'farmland' || q.kind === 'farmyard') {
-          const k2 = hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13));
+          const k2 = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
           const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
           base = base.map((v, k3) => lerp(v, crop[k3], 0.85));
-        } else if (q.kind === 'residential') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
+        } else if (q.kind === 'meadow' || q.kind === 'grass') base = base.map((v, k3) => lerp(v, C.hay[k3], 0.6));
+        else if (q.kind === 'residential' || q.kind === 'allotments') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
         else if (q.kind === 'industrial' || q.kind === 'commercial') base = base.map((v, k3) => lerp(v, C.hard[k3], 0.5));
         break;
       }
@@ -2125,7 +2243,8 @@ if (groundMode === 'atlas') {
   const features = buildGroundSurfaceFeatures({ holes: HOLES, model: M });
 
   const atlasStarted = performance.now();
-  groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1 });
+  groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1,
+    canopyFloor: SCENERY?.canopyFloor ? M.cover : null });
   BOOT_PERF.atlasMs = +(performance.now() - atlasStarted).toFixed(1);
   span('ground atlas (1 m, CORE)', atlasStarted);
 }
@@ -2133,6 +2252,7 @@ if (groundMode === 'atlas') {
 const turfMat = groundMode === 'atlas'
   ? makeGround({ atlas: groundAtlas, DETAIL, SANDN, uSun, C, SHADE })
   : makeTurf();
+let frontierSurroundMaterial = null;
 /* Every surface that LIES ON the terrain -- mown overlays, sand, roads, paths,
    parking, ballast, the greengrid -- nudges itself in front of it in DEPTH SPACE,
    in units of whatever precision the device's depth buffer actually has. The
@@ -2291,6 +2411,20 @@ if (TERRAIN_PREVIEW.ready) {
     settle: 'coverage',
   });
   span('v2 prepare (worker, first frontier coverage, preflight)', prepareStarted);
+  if (preparation.ok && terrainV2.kind !== 'graph' && TERRAIN_PREVIEW_CONFIG.legacyBoundaryBlendMetres) {
+    terrainBoundaryTransition = createLegacyTerrainTransition({
+      bounds: TERRAIN_PREVIEW.bounds,
+      bridge: TERRAIN_PREVIEW.bridge,
+      heightAtGrid: TERRAIN_PREVIEW.heightAtGrid,
+      widthMetres: TERRAIN_PREVIEW_CONFIG.legacyBoundaryBlendMetres,
+    });
+    // Both sides must use the same palette, texture detail and colour response.
+    // The older vertex-colour material made the square visible even when its
+    // geometry met the frontier. The shared tint also covers the surroundings.
+    frontierSurroundMaterial = decorateGround(new THREE.MeshStandardNodeMaterial({
+      metalness: 0, vertexColors: false,
+    }));
+  }
   if (preparation.ok && GROUND_TINT) {
     const tintStarted = performance.now();
     fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
@@ -2310,7 +2444,7 @@ if (TERRAIN_PREVIEW.ready) {
 }
 
 const makeCoreMesh = geometry => {
-  const mesh = new THREE.Mesh(geometry, turfMat);
+  const mesh = new THREE.Mesh(geometry, frontierSurroundMaterial || turfMat);
   mesh.userData.tag = 'core';
   mesh.receiveShadow = true; mesh.castShadow = true;
   return mesh;
@@ -2346,7 +2480,8 @@ if (terrainV2.preparation) {
     const cut = cutTerrainPreviewRect(
       coreGeometry, TERRAIN_PREVIEW.bounds, TERRAIN_PREVIEW.bridge,
     );
-    stats.tris -= cut.removedTriangles;
+    stats.tris += cut.triangleDelta;
+    stats.verts += cut.addedVertices;
     coreMesh = makeCoreMesh(coreGeometry);
     applyV2BridgeTransform(terrainV2.group, TERRAIN_PREVIEW.bridge);
     scene.add(coreMesh, terrainV2.group);
@@ -2358,6 +2493,9 @@ if (terrainV2.preparation) {
     }
   } catch (error) {
     terrainV2.fail(error);
+    terrainBoundaryTransition = null;
+    frontierSurroundMaterial?.dispose();
+    frontierSurroundMaterial = null;
     coreMesh?.removeFromParent();
     coreGeometry?.dispose();
     coreMesh = null;
@@ -2400,15 +2538,17 @@ const midHole = terrainV2.active && TERRAIN_PREVIEW.legacyBounds
   : under(CORE, 24);
 const midGeometry = await buildTerrain(MIDR, midHole, true);
 if (terrainV2.active && TERRAIN_PREVIEW.legacyBounds) {
-  stats.tris -= cutTerrainPreviewRect(midGeometry, TERRAIN_PREVIEW.bounds, TERRAIN_PREVIEW.bridge).removedTriangles;
+  const cut = cutTerrainPreviewRect(midGeometry, TERRAIN_PREVIEW.bounds, TERRAIN_PREVIEW.bridge);
+  stats.tris += cut.triangleDelta;
+  stats.verts += cut.addedVertices;
 }
-const midMesh = new THREE.Mesh(midGeometry, turfMat);
+const midMesh = new THREE.Mesh(midGeometry, frontierSurroundMaterial || turfMat);
 midMesh.userData.tag = 'mid';
 midMesh.receiveShadow = true;
 scene.add(midMesh);
 
 await tick('bygger horisonten', 0.34);
-const farMesh = new THREE.Mesh(await buildTerrain(FARR, under(MIDR, 72), false), turfMat);
+const farMesh = new THREE.Mesh(await buildTerrain(FARR, under(MIDR, 72), false), frontierSurroundMaterial || turfMat);
 farMesh.userData.tag = 'far';
 scene.add(farMesh);
 }
@@ -2435,33 +2575,25 @@ function applyV2BridgeTransform(group, bridge) {
   group.updateMatrixWorld(true);
 }
 
-/* Replace only the part of the legacy core for which all 16 verified 1 m tiles
-   exist. Triangles outside that pilot remain the seamless GPK1 fallback;
-   boundary skirts on the BVCH topology seal the sub-grid cut. */
+/* Subtract the exact rotated footprint, retaining every outside portion of a
+   crossing triangle. Whole-triangle centroid rejection left sawtooth holes.
+   Sample new edge vertices at the native spacing to meet the measured mesh. */
 function cutTerrainPreviewRect(geometry, bounds, bridge) {
-  const position = geometry.getAttribute('position');
-  const source = geometry.getIndex()?.array;
-  if (!position || !source || !bounds) return Object.freeze({ removedTriangles: 0 });
-  if (typeof bridge?.toGrid !== 'function') throw new TypeError('the v2 cut needs the legacy grid bridge');
-  const retained = new source.constructor(source.length);
-  let write = 0, removedTriangles = 0;
-  for (let index = 0; index < source.length; index += 3) {
-    const a = source[index], b = source[index + 1], c = source[index + 2];
-    /* `bounds` is the v2 grid rectangle, so the test runs in grid space: the
-       removed region is then exactly the rotated footprint the batch covers,
-       with no corner left doubled and none left bare. */
-    const [x, z] = bridge.toGrid(
-      (position.getX(a) + position.getX(b) + position.getX(c)) / 3,
-      (position.getZ(a) + position.getZ(b) + position.getZ(c)) / 3,
-    );
-    if (x > bounds.x0 && x < bounds.x1 && z > bounds.z0 && z < bounds.z1) {
-      removedTriangles++;
-      continue;
-    }
-    retained[write++] = a; retained[write++] = b; retained[write++] = c;
-  }
-  geometry.setIndex(new THREE.BufferAttribute(retained.slice(0, write), 1));
-  return Object.freeze({ removedTriangles });
+  return clipLegacyTerrainGeometry(geometry, bounds, bridge, {
+    boundarySpacing: terrainV2.preparation?.renderResources?.[0]?.sampleSpacingMetres ?? 1,
+    heightAt: (x, z) => {
+      const [gx, gz] = bridge.toGrid(x, z);
+      // Rectangle subtraction can also split a triangle along an edge's
+      // extension. That exterior partition keeps its interpolated height.
+      if (gx < bounds.x0 - 1e-6 || gx > bounds.x1 + 1e-6 ||
+          gz < bounds.z0 - 1e-6 || gz > bounds.z1 + 1e-6) return Number.NaN;
+      const sample = TERRAIN_PREVIEW.heightAtGrid(
+        Math.max(bounds.x0, Math.min(bounds.x1, gx)),
+        Math.max(bounds.z0, Math.min(bounds.z1, gz)),
+      );
+      return Number.isFinite(sample) ? sample : sample?.height;
+    },
+  });
 }
 
 /* From here onward every surface, water-depth probe, vegetation/object base,
@@ -2698,6 +2830,9 @@ const shadeSand = (x, z) => {
            det: 2.3, bmp: 0.6, gls: 0.13, str: 0, mow: 0, mowK: 0 };
 };
 
+// Sites replacing parking as well as architecture load after terrain, before
+// any replacement surfaces are batched. Failure retains the complete fallback.
+if (SCENERY?.loadFacilitiesBeforeSurfaces) await installFacilityArchitecture();
 const legacySurfaceOverlays = shouldRenderLegacySurfaceOverlays({
   groundMode,
   v2Active: terrainV2.active,
@@ -2733,6 +2868,7 @@ if (legacySurfaceOverlays) {
     green.push({ ring: h.green.ring, shade: shadeGreen(h) });
     const teeShade = shadeTee();
     for (const pad of h.tees.pads) {
+      if (!teeSurfaceOwners.has(pad)) continue;
       collar.push({ ring: offsetRing(pad.ring, 2.2), shade: collarShade });
       tee.push(pad.preserveTerrain ? { rings: [pad.ring], shade: teeShade } : { ring: pad.ring, shade: teeShade });
     }
@@ -2741,6 +2877,9 @@ if (legacySurfaceOverlays) {
     }
   }
   const quietFair = shadeFair(null);
+  for (const feature of approaches) {
+    semi.push({ rings: feature.rings, shade: shadeSemi(HOLES.find(h => h.n === feature.hole)) });
+  }
   const sceneryFairShade = (x, z) => ({ ...quietFair(x, z), str: 0.35, mowK: 0 });
   for (const ring of M.scenery.fairways.concat(M.scenery.range)) {
     fair.push({ ring, shade: sceneryFairShade });
@@ -2764,22 +2903,26 @@ if (legacySurfaceOverlays) {
 {
   const groups = new Map();
   for (const feature of M.scenery.mappedFeatures || []) {
+    if (feature.kind === 'mown_approach') continue; // drawn at the semi-rough tier above
+    if (SCENERY?.customMappedKinds?.includes(feature.kind)) continue;
     if (!feature.rings?.[0]?.length) continue;
     const pathSurface = mappedPathSurface(feature);
-    const inAtlas = pathSurface !== null || feature.kind === 'practice_green' || feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' || (feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface');
+    const inAtlas = pathSurface !== null || feature.kind === 'practice_green' || isTurfRangeTarget(feature) || feature.kind === 'range_bunker' || feature.kind === 'practice_bunker' || (feature.kind === 'range_tee_pad' && feature.material === 'unverified-turf-surface');
     if (inAtlas && !legacySurfaceOverlays) continue;
-    const group = groups.get(feature.kind) || [];
-    group.push({ rings: feature.rings, raisedBoundary: feature.kind === 'range_mat',
+    const key = JSON.stringify([feature.kind, feature.material ?? null]);
+    const group = groups.get(key) || { kind: feature.kind, material: feature.material, polygons: [] };
+    group.polygons.push({ rings: feature.rings, raisedBoundary: feature.kind === 'range_mat',
       shade: pathSurface !== null
         ? () => ({ col: pathSurface === SURFACE.ASPHALT ? L(0x626668) : C.hard.slice(), det: 1.3, bmp: 0.08, gls: 0.1, str: 0 })
         : feature.material === 'mixed-hardstanding-and-mats'
         ? () => ({ col: C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 }) : undefined });
-    groups.set(feature.kind, group);
+    groups.set(key, group);
   }
-  for (const [kind, polygons] of groups) {
+  for (const { kind, material, polygons } of groups.values()) {
     const isSand = kind === 'range_bunker' || kind === 'practice_bunker';
     const isMat = kind === 'range_mat';
-    const shade = kind === 'practice_green' ? shadeGreen(null)
+    const turfTarget = isTurfRangeTarget({ kind, material });
+    const shade = kind === 'practice_green' || turfTarget ? shadeGreen(null)
       : isSand ? shadeSand
         : isMat ? () => ({ col: L(0x43675a), det: 2.4, bmp: 0.04, gls: 0.1, str: 0 })
           : kind === 'range_tee_pad' ? shadeTee()
@@ -2791,7 +2934,7 @@ if (legacySurfaceOverlays) {
     const order = isMat ? 7 : 6;
     const mesh = new THREE.Mesh(g, isSand ? nudged(order, makeSand) : nudged(order));
     mesh.receiveShadow = true; mesh.renderOrder = order;
-    const turfOverlay = kind === 'paved_path' || kind === 'practice_green' || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
+    const turfOverlay = kind === 'paved_path' || kind === 'practice_green' || turfTarget || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
     mesh.userData.tag = turfOverlay ? 'legacy-surface-overlay' : 'mapped-facility-footprint';
     if (turfOverlay) stats.surfaceOverlays++;
     if (isMat) mesh.userData.verticalPlacement = 'estimated rendering offset; mat thickness unmeasured';
@@ -2804,7 +2947,10 @@ if (legacySurfaceOverlays) {
    mapped-only object inventory do not synthesize parked cars or heater posts. */
 const carSpots = [];
 {
-  const lots = (M.infra.parking || []).filter(p => p.ring && p.ring.length >= 3);
+  const lots = (M.infra.parking || []).filter((p, index) => p.ring && p.ring.length >= 3
+    && !facilityArchitecture?.replacedParkingIndices?.has(index));
+  stats.sourceParkingBatchIndices = lots.map(lot => M.infra.parking.indexOf(lot));
+  stats.sourceParkingBatchIds = lots.map(lot => lot.id);
   if (groundMode !== 'atlas' && lots.length) {
     const parkingShade = (x, z) => {
       const n = fbm(x * 0.2, z * 0.2, 2);
@@ -2838,6 +2984,7 @@ const carSpots = [];
       for (let u = -B.hw + 3; u <= B.hw - 3; u += 2.75) {
         const x = B.cx + u * c - v * s, z = B.cz + u * s + v * c;
         if (ringSD(x, z, p.ring) > -1.4) continue;
+        if (facilityArchitecture?.report.status === 'loaded' && SCENERY?.isFacilityInterior?.(x, z, 2.5)) continue;
         const k = hash2(Math.round(x * 3), Math.round(z * 3));
         const hx = x + s * Math.sign(v || 1) * 2.3, hz = z - c * Math.sign(v || 1) * 2.3;
         posts.push(hx, terrainH(hx, hz) + 0.04, hz);
@@ -2908,6 +3055,10 @@ const carSpots = [];
     stats.cars = carSpots.length;
   }
 }
+stats.authoredParkingCars = stats.facilities?.parkingCars?.count || 0;
+stats.cars = (stats.cars || 0) + stats.authoredParkingCars;
+stats.draws += stats.facilities?.parkingCars?.draws || 0;
+stats.tris += stats.facilities?.parkingCars?.triangles || 0;
 
 /* Roads as engineered ribbons, for the same reason the fairways are overlays.
 
@@ -3107,30 +3258,30 @@ function makeGravel() {
     const surf = r.surface || 'asphalt';
     if (r.kind === 'trunk') {
       /* the E4: paired one-way roadbeds of the 2+1, one wide bed east of Ås */
-      const w = r.oneway ? (r.lanes >= 2 ? 3.9 : 2.6) : 5.0;
+      const w = mappedLineHalfWidth(r, r.oneway ? (r.lanes >= 2 ? 3.9 : 2.6) : 5.0);
       asphaltRuns.push({ line: r.line, w, paint: (!r.oneway || r.lanes >= 2) ? 2 : 1, lift: 0.16, tone: C.aspT });
-    } else if (r.kind === 'secondary' || r.kind === 'tertiary') {
-      asphaltRuns.push({ line: r.line, w: 3.2, paint: 2, lift: 0.14, tone: C.aspL });
+    } else if ((r.kind === 'secondary' || r.kind === 'tertiary') && !/gravel|ground|dirt|unpaved|compacted/.test(surf)) {
+      asphaltRuns.push({ line: r.line, w: mappedLineHalfWidth(r, 3.2), paint: 2, lift: 0.14, tone: C.aspL });
     } else if (/gravel|ground|dirt|unpaved|compacted/.test(surf)) {
       /* a gravel road is pale compacted grit, not the brown of a trodden path */
-      for (const line of unpaintedRuns(r.line)) gravelRuns.push({ line, w: 2.2, lift: 0.12, tone: C.hard });
+      for (const line of unpaintedRuns(r.line)) gravelRuns.push({ line, w: mappedLineHalfWidth(r, 2.2), lift: 0.12, tone: C.hard });
     } else {
-      asphaltRuns.push({ line: r.line, w: 2.7, paint: 0, lift: 0.12, tone: C.aspL });
+      asphaltRuns.push({ line: r.line, w: mappedLineHalfWidth(r, 2.7), paint: 0, lift: 0.12, tone: C.aspL });
     }
   }
   if (groundMode !== 'atlas') {
     for (const t of M.infra.tracks) {
-      if (/asphalt|paved/.test(t.surface || '')) asphaltRuns.push({ line: t.line, w: 1.9, paint: 0, lift: 0.10, tone: C.aspL });
-      else gravelRuns.push({ line: t.line, w: t.kind === 'service' ? 1.9 : 1.7, lift: t.kind === 'service' ? 0.10 : 0.08, tone: t.kind === 'service' ? C.hard : undefined });
+      if (/\b(asphalt|paved)\b/.test(t.surface || '')) asphaltRuns.push({ line: t.line, w: mappedLineHalfWidth(t, 1.9), paint: 0, lift: 0.10, tone: C.aspL });
+      else gravelRuns.push({ line: t.line, w: mappedLineHalfWidth(t, t.kind === 'service' ? 1.9 : 1.7), lift: t.kind === 'service' ? 0.10 : 0.08, tone: t.kind === 'service' ? C.hard : undefined });
     }
     for (const p of M.infra.paths) {
-      if (p.kind === 'cycleway' || /asphalt|paved/.test(p.surface || ''))
-        asphaltRuns.push({ line: p.line, w: 1.3, paint: 0, lift: 0.07, tone: C.aspL });
+      if ((p.kind === 'cycleway' && !/gravel|ground|dirt|unpaved|compacted/.test(p.surface || '')) || /\b(asphalt|paved)\b/.test(p.surface || ''))
+        asphaltRuns.push({ line: p.line, w: mappedLineHalfWidth(p, 1.3), paint: 0, lift: 0.07, tone: C.aspL });
       /* a gravel cart path is a metre and a half of compacted gravel, not a
          trodden line: the traced paths say so, and OSM's do where tagged */
       else if (/gravel|compacted|pebble/.test(p.surface || ''))
-        gravelRuns.push({ line: p.line, w: 1.6, lift: 0.08, tone: C.hard.map((v, k) => lerp(v, C.path[k], 0.35)) });
-      else dirtRuns.push({ line: p.line, w: 0.55, lift: 0.06, tone: C.soil });
+        gravelRuns.push({ line: p.line, w: mappedLineHalfWidth(p, 1.6), lift: 0.08, tone: C.hard.map((v, k) => lerp(v, C.path[k], 0.35)) });
+      else dirtRuns.push({ line: p.line, w: mappedLineHalfWidth(p, 0.55), lift: 0.06, tone: C.soil });
     }
   }
   const asphaltMat = nudged(2, makeAsphalt);
@@ -3212,11 +3363,11 @@ await tick('fyller vattnet', 0.52);
    surface runs out into foam -- and writes the answer. */
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
-function makeWater({ mask = null, showBed = true } = {}) {
-  const m = new THREE.MeshBasicNodeMaterial({ transparent: true, side: THREE.DoubleSide });
+function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
+  const m = new THREE.MeshBasicNodeMaterial({ transparent: !ocean, side: THREE.DoubleSide });
   configureWaterRenderPasses(m, { mask });
   configureWaterDepth(m, {
-    measuredOnly: M.infra.terrainPlacement === 'measured-only', depthSign: DEPTH_SIGN,
+    measuredOnly: ocean || M.infra.terrainPlacement === 'measured-only', depthSign: DEPTH_SIGN,
   });
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
@@ -3241,7 +3392,8 @@ function makeWater({ mask = null, showBed = true } = {}) {
   const rippleAmp = mix(float(0.38), float(1), aFoam);
   const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16))).mul(uWaterChop)
                    .add(n2.mul(0.7)).add(n4.mul(0.9)).mul(rippleAmp);
-  const N = normalize(vec3(ripple.x.mul(0.55), float(1), ripple.y.mul(0.55)));
+  const waveSlope = ocean ? 0.4 : 0.55;
+  const N = normalize(vec3(ripple.x.mul(waveSlope), float(1), ripple.y.mul(waveSlope)));
 
   const V = normalize(cameraPosition.sub(positionWorld));
   const fres = pow(oneMinus(saturate(N.dot(V))), 4.2).mul(0.93).add(0.035);
@@ -3257,8 +3409,8 @@ function makeWater({ mask = null, showBed = true } = {}) {
      The ramp is the water's own scale -- 30 m of shallows suits a fjord, but on a
      pond whose whole radius is ten metres it kept every pixel pale */
   /* the deep body is the blue the club's aerials show, not steel grey */
-  const depth = smoothstep(0.0, 1.0, saturate(aSh.div(mix(float(7), float(30), aFoam))));
-  let body = mix(color(0x2b6b78), color(0x0a2b44), depth);
+  const depth = smoothstep(0.0, 1.0, saturate(aSh.div(ocean ? float(14) : mix(float(7), float(30), aFoam))));
+  let body = mix(color(ocean ? 0x225968 : 0x2b6b78), color(0x0a2b44), depth);
   /* the regulated fjärd's bottom reading up through thin water: pale silt in the
      shallowest film, then the dark olive weed the close aerial shows */
   const aDp = attribute('aDepth', 'float');
@@ -3280,13 +3432,13 @@ function makeWater({ mask = null, showBed = true } = {}) {
      lake gets a thin, broken line -- thresholded against noise so it is a scatter of
      wash rather than a rim. */
   const fw = texture(DETAIL, wp.mul(0.55).add(vec2(t.mul(0.035), t.mul(0.02)))).g;
-  const foam = saturate(smoothstep(1.5, 0.15, aSh).mul(smoothstep(0.44, 0.72, fw)))
+  const foam = saturate(smoothstep(ocean ? 0.7 : 1.5, 0.15, aSh).mul(smoothstep(0.44, 0.72, fw)))
                  .mul(aFoam).mul(oneMinus(bed.mul(0.85)));
-  c = mix(c, color(0xdfeeee), foam.mul(0.62));
+  c = mix(c, color(0xdfeeee), foam.mul(ocean ? 0.4 : 0.62));
 
-  /* fog by hand too, since an unlit material gets none */
-  const fogT = oneMinus(exp(cd.mul(cd).mul(uFogD.mul(uFogD)).negate()));
-  m.colorNode = mix(c, uFogC, saturate(fogT));
+  // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
+  // terrain. Applying it here too bleaches the water twice at long range.
+  m.colorNode = c;
   /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
   let opacity = mix(mix(float(0.86), float(0.97), depth),
                     mix(float(0.62), float(0.97), depth), aFoam)
@@ -3306,7 +3458,7 @@ function makeWater({ mask = null, showBed = true } = {}) {
        bed showed through as a brown lake. It writes no depth at all. */
     m.depthWrite = false;
   }
-  m.opacityNode = opacity;
+  m.opacityNode = ocean ? float(1) : opacity;
   return m;
 }
 // Measured coastlines use physical clearance and normal depth testing. The
@@ -3314,6 +3466,7 @@ function makeWater({ mask = null, showBed = true } = {}) {
 const waterMat = makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only' });
 
 for (const w of M.water) {
+  if (CONTINUOUS_OCEAN && w.isSea) continue;
   if (w.ring.length < 3) continue;
   const faces = triangulate(w.ring);
   if (!faces.length) continue;
@@ -3401,7 +3554,7 @@ const FLAT_WATER = terrainV2.flatWater ?? null;
 if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
   const bridge = TERRAIN_PREVIEW.bridge;
   const [ax, cx] = bridge.toGrid(1, 0), [bx, dx] = bridge.toGrid(0, 1); /* gx = ax·x + bx·z, gz = cx·x + dx·z */
-  const maskTexture = new THREE.DataTexture(FLAT_WATER.mask, FLAT_WATER.width, FLAT_WATER.height, THREE.RedFormat, THREE.UnsignedByteType);
+  const maskTexture = new THREE.DataTexture(Uint8Array.from(FLAT_WATER.mask, value => value ? 255 : 0), FLAT_WATER.width, FLAT_WATER.height, THREE.RedFormat, THREE.UnsignedByteType);
   maskTexture.minFilter = THREE.LinearFilter;
   maskTexture.magFilter = THREE.LinearFilter;
   maskTexture.wrapS = THREE.ClampToEdgeWrapping;
@@ -3444,22 +3597,22 @@ if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
   stats.flatWaterSheets = sheets;
 }
 
-/* The open sea to the horizon. The detailed sea ring stops a couple of kilometres
-   offshore; past it the vista heightfield is bare seabed. One coarse sheet at a
-   whisker below 0 finishes the ocean: wherever the vista terrain is land it simply
-   covers the sheet, and the real islands -- Mjältön, the Ulvöar, Högbonden's --
-   stand out of it on their own DEM. */
+/* One connected ocean across the Norrfällsviken world, including both sides
+   of the old source polygon's offshore closures. Other courses retain their
+   measured coastal extension or legacy horizon sheet. */
+const oceanMat = CONTINUOUS_OCEAN ? makeWater({showBed:false,ocean:true}) : waterMat;
 if (COASTAL_WATER?.indices.length) {
   const g = new THREE.BufferGeometry();
   const count = COASTAL_WATER.positions.length / 3;
   g.setAttribute('position', new THREE.Float32BufferAttribute(COASTAL_WATER.positions, 3));
-  g.setAttribute('aShore', new THREE.Float32BufferAttribute(new Float32Array(count).fill(60), 1));
+  g.setAttribute('aShore', new THREE.Float32BufferAttribute(CONTINUOUS_OCEAN?.shorelineDistances ?? new Float32Array(count).fill(60), 1));
   g.setAttribute('aFoam', new THREE.Float32BufferAttribute(new Float32Array(count).fill(1), 1));
   g.setAttribute('aDepth', new THREE.Float32BufferAttribute(new Float32Array(count).fill(3), 1));
   g.setIndex(COASTAL_WATER.indices);
   g.computeVertexNormals();
-  const mesh = new THREE.Mesh(g, waterMat);
-  mesh.position.y = VISTA_SEA_BAND + 0.01;
+  const mesh = new THREE.Mesh(g, oceanMat);
+  mesh.position.y = CONTINUOUS_OCEAN ? OCEAN_DISPLAY_LIFT : VISTA_SEA_BAND + 0.01;
+  mesh.name = CONTINUOUS_OCEAN ? 'norrfallsviken-continuous-ocean' : 'coastal-extension';
   mesh.renderOrder = 5;
   mesh.userData.tag = 'water-coastal-extension';
   scene.add(mesh);
@@ -3850,7 +4003,9 @@ const SHORE = (() => {
    them are one draw call. */
 // A water polygon and a flat DTM do not establish an observed reed bed.
 if (M.infra.vegetationPlacement !== 'measured-only') {
-  const lake = M.water.find(w => w.isLake);
+  // The legacy Norrfallsviken sea is also marked isLake. Applying the inland
+  // reed-fringe rule to it plants rows of spikes across the open sand beach.
+  const lake = M.water.find(w => w.isLake && !(CMETA.slug === 'norrfallsviken' && w.isSea));
   if (lake) {
     const pts = [];
     const G = 1.7;
@@ -4098,6 +4253,12 @@ lap('v2 vegetation: plan individuals + stand trees');
     let s = SPECIES[sp].sc[0] + rnd(i + 61, j + 3) * (SPECIES[sp].sc[1] - SPECIES[sp].sc[0]);
     if (wood < 0.3) s *= 1.2;                    /* a lone tree grows a full crown */
     const sk = s * (kindScrub ? 0.42 : 1);
+    if (authoredFacilityView && SCENERY?.isFacilityLegacyTreeObstruction?.({ x: px, y: h - .25, z: pz,
+      height: SPECIES[sp].templateHeight * sk, radius: SPECIES[sp].templateRadius * sk },
+    h - .25 + SPECIES[sp].crown.boundingBox.min.y * sk)) {
+      stats.facilityExcludedTrees = (stats.facilityExcludedTrees || 0) + 1;
+      continue;
+    }
     trees[sp].push(px, h - 0.25, pz, sk, rnd(i + 3, j + 41) * TAU, sk);
     treeWhy[sp].push(why);
     }
@@ -4110,6 +4271,15 @@ if (V2_VEG_PLAN) {
      stay one material and one look; only their sizes are no longer hashed */
   for (const t of V2_VEG_PLAN.instances) {
     const spec = SPECIES[t.species];
+    // Display exclusion only: measured roof returns must not grow through the
+    // authored buildings. Keep the underlying vegetation source unchanged.
+    const facilityCollision = SCENERY?.isFacilityTreeObstruction
+      ? SCENERY.isFacilityTreeObstruction(t, t.y - .25 + spec.crown.boundingBox.min.y * t.height / spec.templateHeight)
+      : SCENERY?.isFacilityInterior?.(t.x, t.z);
+    if (authoredFacilityView && facilityCollision) {
+      stats.facilityExcludedTrees = (stats.facilityExcludedTrees || 0) + 1;
+      continue;
+    }
     trees[t.species].push(t.x, t.y - 0.25, t.z, t.height / spec.templateHeight, t.rotation, t.radius / spec.templateRadius);
     treeWhy[t.species].push(t.kind === 'individual' ? WHY_V2_INDIVIDUAL : WHY_V2_STAND);
   }
@@ -4861,7 +5031,8 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
-{
+// A measured-only course retains unknown canopy outside its acquired coverage.
+if (M.infra.vegetationPlacement !== 'measured-only') {
   /* THE FAR RING IS NOT THE IMAGERY'S RING, and it used to be gated on it.
      Both loops below sat inside `if (M.cover)`, so a course with no tree-cover
      raster got no distant trees AT ALL -- and the far ring never reads the
@@ -4891,7 +5062,7 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
      under them was measured rather than carved. */
   const inWater = (px, pz, h) => {
     for (const w of WI.at(px, pz)) {
-      if (w.stream) continue;
+      if (w.stream || (CONTINUOUS_OCEAN && w.isSea)) continue;
       if (ringSD(px, pz, w.ring, 3) < 3 || h < w.level + 0.5) return true;
     }
     /* and the water only the ground knows: flat lake surfaces past the rings */
@@ -4922,7 +5093,8 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
       if (openLand(px, pz)) continue;
       if (rnd2(i + 19, j + 13) > 0.8) continue;
       const h = terrainH(px, pz);
-      if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(x, z) : h < GEO.seaLevel + VISTA_SEA_BAND) continue;
+      if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < VISTA_SEA_LEVEL) continue;
+      if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
     }
@@ -4951,7 +5123,8 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
             < cl.r + (cl.wobble ? fbm(px * 0.01, pz * 0.01, 2) * cl.wobble : 0))) continue;
       if (rnd2(i + 9, j + 33) > 0.85) continue;
       const h = terrainH(px, pz);
-      if (h < GEO.seaLevel + 1.5) continue;
+      if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < GEO.seaLevel + 1.5) continue;
+      if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
     }
@@ -5062,6 +5235,10 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const px = x + (rnd(i, j, 1) - 0.5) * GAP * 1.8, pz = z + (rnd(i, j, 2) - 0.5) * GAP * 1.8;
     const c = classify(px, pz);
     if (c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.1) continue;
+    if (authoredFacilityView && SCENERY?.isFacilityGroundInterior?.(px, pz)) {
+      stats.facilityExcludedClutter = (stats.facilityExcludedClutter || 0) + 1;
+      continue;
+    }
     if (c.dLine < 24 || c.dLine > 300) continue;
     if (c.forest > 0.55) continue;                       /* the trees own that ground */
     let yard = false;
@@ -5165,8 +5342,7 @@ lap('ground cover (tufts, bushes, stones, stumps)');
       /* a stake stands on dry ground; the reconciler put it there, but the sculpted
          bank can differ from the model's flat ring, so check against the built ground */
       const h = terrainH(x, z);
-      let drowned = false;
-      for (const w of WI.at(x, z)) if (!w.stream && h < w.level + 0.05) drowned = true;
+      const drowned = boundaryMarkerSubmerged(x, z, h, WI.at(x, z));
       if (!drowned) byColor[m.c].push(x, h, z);
     }
   }
@@ -5179,6 +5355,10 @@ lap('ground cover (tufts, bushes, stones, stumps)');
         emissive: new THREE.Color(COLS[c]), emissiveIntensity: c === 'w' ? 0.05 : 0.12,
       });
       const im = new THREE.InstancedMesh(geo, mat, n);
+      if (geo === stakeGeo) {
+        im.userData.tag = 'boundary-stakes';
+        im.userData.boundaryColour = c;
+      }
       const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3();
       const sc = new THREE.Vector3(1, 1, 1);
       for (let k = 0; k < n; k++) {
@@ -5355,7 +5535,7 @@ function mappedPointObjects(points) {
         if (!LOWQ) for (const off of [-0.75, 0.75])
           wire.push(P[i][0] + nx * off, h, P[i][1] + nz * off,
                     P[i + 1][0] + nx * off, hn, P[i + 1][1] + nz * off);
-        if (S[i] - lastMast > 58) {
+        if (r.inferMasts !== false && S[i] - lastMast > 58) {
           lastMast = S[i];
           masts.push([P[i][0] + nx * 3.1, Math.max(terrainH(P[i][0] + nx * 3.1, P[i][1] + nz * 3.1), minH - 0.4), P[i][1] + nz * 3.1, -Math.atan2(dz, dx)]);
         }
@@ -5537,18 +5717,16 @@ for (const h of HOLES) {
   flagGroup.add(g);
   pins.push({ hole: h.n, cloth, g });
 
-  /* tee markers: a pair per card tee, straddling the line */
-  /* A pair of markers per card tee, set the width of a tee apart rather than the
-     width of a stance, because that is how far apart they really are and at 0.13 m
-     across they are otherwise unreadable from the deck behind them. */
-  // The nominal references still drive the HUD and camera; physical marker
-  // pairs require their own evidence when this ground uses mapped placement.
-  const mk = M.infra.objectPlacement === 'mapped-only' ? [] : h.tees.marks;
+  /* Decorative pairs stay across the direction of play on the same deck.
+     Their span fits its width; an unresolved reference may have no pair. */
+  // Reviewed platforms may explicitly enable representative colour pairs.
+  // Keep the full card order even when an unresolved colour stays hidden.
+  const mk = h.tees.marks;
   for (let k = 0; k < mk.length; k++) {
-    const m = mk[k], b = m.b * Math.PI / 180, R = rightOf(b);
+    const m = mk[k];
+    if (!canRenderTeeMarker(h, m, M.infra.objectPlacement)) continue;
     const colour = new THREE.Color(TEE_COLS[k]);
-    for (const s of [-2.6, 2.6]) {
-      const mx = m.c[0] + R[0] * s, mz = m.c[1] + R[1] * s;
+    for (const [mx, mz] of reviewedTeeMarkerPositions(h, m)) {
       FURN.markers.push({ x: mx, y: terrainH(mx, mz) + 0.11, z: mz, colour });
     }
   }
@@ -5788,12 +5966,69 @@ if (M.infra.objectPlacement === 'mapped-only') {
   stats.sourceRoofTriangles = 0;
   stats.architecturalBuildings = 0;
   stats.architecturalTriangles = 0;
+  stats.authoredBuildingModels = 0;
+  stats.authoredBuildingMeshes = 0;
+  stats.authoredBuildingTriangles = 0;
   stats.genericRoofBuildings = 0;
   stats.clubhouseDetails = [];
+  stats.sourceBuildingBatchIds = [];
+  stats.sourceBuildingBatchIndices = [];
   const sourceBuildingView = new URLSearchParams(location.search).get('buildingGeometry') === 'source';
-  for (const b of M.infra.buildings) {
+  // Authored GLB replacements must be ready before the shared generic batch is
+  // emitted. A failed/cancelled load leaves every source building in that batch.
+  await installFacilityArchitecture();
+  /* Per-building authored models, loaded the same way and for the same reason:
+     the descriptors are data on the course's scenery module, the module is
+     imported only where one exists, and a course without them pays nothing. */
+  const authoredBuildings = SCENERY?.authoredBuildings
+    ? await (await import('./engine/authored-buildings.mjs')).loadAuthoredBuildings({
+      descriptors: SCENERY.authoredBuildings, buildings: M.infra.buildings,
+      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href, sourceMode: sourceBuildingView,
+    }) : { byBuildingId: new Map(), diagnostics: [] };
+  AUTHORED_BUILDING_DIAGNOSTICS.length = 0;
+  AUTHORED_BUILDING_DIAGNOSTICS.push(...authoredBuildings.diagnostics);
+  for (const item of authoredBuildings.diagnostics) if (item.status === 'fallback') {
+    console.warn(`Authored building ${item.buildingId} uses source fallback: ${item.error}`);
+  }
+  stats.authoredFacilityBuildings = M.infra.buildings.filter((b, index) =>
+    facilityArchitecture?.replacedBuildingIndices?.has(index)
+    || (b.id != null && facilityArchitecture?.replacedBuildingIds?.has(b.id))).length;
+  for (const [buildingIndex, b] of M.infra.buildings.entries()) {
     if (b.ring.length < 3) continue;
     if (b.amenity === 'place_of_worship') continue;   /* the chapel is bespoke */
+    if (facilityArchitecture?.replacedBuildingIndices?.has(buildingIndex)
+      || (b.id != null && facilityArchitecture?.replacedBuildingIds?.has(b.id))) continue;
+    /* A reviewed authored model supersedes this footprint's DRAWING, exactly as
+       a facility does -- so it must be taken before the generic batch claims the
+       building. The measured roof is still counted: the source surface is
+       retained, only the rendering of it is replaced. */
+    const authoredModel = authoredBuildings.byBuildingId.get(b.id);
+    if (authoredModel) {
+      if (b.roofSurface) {
+        stats.sourceRoofBuildings++;
+        stats.sourceRoofTriangles += b.roofSurface.triangleIndices.length / 3;
+      }
+      scene.add(authoredModel.object);
+      const details = authoredModel.details;
+      stats.authoredBuildingModels++;
+      stats.authoredBuildingMeshes += details.meshes;
+      stats.authoredBuildingTriangles += details.triangles;
+      stats.architecturalBuildings++;
+      stats.architecturalTriangles += details.triangles;
+      stats.draws += details.meshes; stats.tris += details.triangles; stats.verts += details.vertices;
+      stats.clubhouseDetails.push(details);
+      continue;
+    }
+    stats.sourceBuildingBatchIds.push(b.id);
+    stats.sourceBuildingBatchIndices.push(buildingIndex);
+    const reviewedClubhouse = !sourceBuildingView && SCENERY?.renderClubhouse?.({
+      building:b, buildings:M.infra.buildings, features:M.scenery.mappedFeatures || [], terrainH, tri, L });
+    if (reviewedClubhouse) {
+      stats.architecturalBuildings++;
+      stats.architecturalTriangles += reviewedClubhouse.triangles;
+      stats.clubhouseDetails.push(reviewedClubhouse);
+      continue;
+    }
     if (b.roofSurface) {
       stats.sourceRoofBuildings++;
       stats.sourceRoofTriangles += b.roofSurface.triangleIndices.length / 3;
@@ -6054,6 +6289,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
 
   stats.courtyardDetails = sourceBuildingView ? null : SCENERY?.renderCourtyard?.({
     features:M.scenery.mappedFeatures || [], buildings:M.infra.buildings, terrainH, tri, L });
+  if (SCENERY?.architectureStatus) stats.architectureAssets = {
+    ...SCENERY.architectureStatus(), sourceView: sourceBuildingView };
 
   /* Landuse describes a residential area, not individual house footprints.
      Retain this historical filler only for grounds permitting inferred objects;
@@ -6214,7 +6451,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
      net on its poles along the sides the trace names. The net is its own
      mesh because it is see-through; everything else joins the batch. */
   const RF = M.scenery.rangeFacilities;
-  if (RF && RF.bays && RF.bays.length >= 2) {
+  stats.authoredRangeFacilities = !!(SCENERY?.replacesRangeFacilities && facilityArchitecture?.report.status === 'loaded');
+  if (RF && RF.bays && RF.bays.length >= 2 && !stats.authoredRangeFacilities) {
     const MAT = L(0x2c5a2b), DIV = L(0xe8e6df), DIVCAP = L(0x2f6f3a), KERB = L(0x8d8a82), STEEL = L(0x4a4d50);
     const STRIP = C.hard.map(v => v * 1.18);
     const pitch = RF.bayPitch || 3;
@@ -9113,6 +9351,15 @@ miniBase.width = mini.width; miniBase.height = mini.height;
   for (const r of M.veg.forest.concat(M.veg.wood)) { path2(r, true); g.fill(); }
   g.fillStyle = 'rgba(38,88,116,.95)';
   for (const w of M.water) { if (w.area < 400) continue; path2(w.ring, true); g.fill(); }
+  g.fillStyle = 'rgba(68,111,62,.9)';
+  for (const feature of approaches) {
+    g.beginPath();
+    for (const ring of feature.rings) {
+      ring.forEach((p, i) => i ? g.lineTo(MX(p[0]), MZ(p[1])) : g.moveTo(MX(p[0]), MZ(p[1])));
+      g.closePath();
+    }
+    g.fill('evenodd');
+  }
   g.fillStyle = 'rgba(84,140,78,.9)';
   for (const h of HOLES) { for (const r of h.fairway.rings) { path2(r, true); g.fill(); } }
   for (const r of M.scenery.fairways) { path2(r, true); g.fill(); }
@@ -9120,6 +9367,7 @@ miniBase.width = mini.width; miniBase.height = mini.height;
   for (const h of HOLES) { path2(h.green.ring, true); g.fill(); }
   g.strokeStyle = 'rgba(190,215,196,.30)'; g.lineWidth = 1.2;
   for (const h of HOLES) { path2(h.line, false); g.stroke(); }
+  drawOutOfBoundsOverlay(g, M.outOfBounds, MX, MZ);
   /* the map is north-up, and says so */
   g.strokeStyle = 'rgba(240,240,235,.8)'; g.fillStyle = 'rgba(240,240,235,.8)';
   g.lineWidth = 1.8;
@@ -9573,6 +9821,15 @@ function frame() {
     /* never underground, and never so close to it that the near plane clips through -- eased, see groundClamp */
     groundClamp.step(camera.position, dt);
   } else groundClamp.reset();
+  /* Controls/flight have rebuilt the base orientation. Add the breathing gaze
+     once, before culling and projecting labels, without moving the ground anchor. */
+  const breath = cameraBreathing.step(dt, {
+    enabled: !DET && !cameraMotionPreference.matches && !document.hidden
+      && !captureRenderLocked && camMode !== 'top' && flying === 0,
+    active: !camTween.on && !cameraInteracting,
+  });
+  camera.rotateX(breath.pitch);
+  camera.rotateY(breath.yaw);
   /* Motion, controls and the existing ground clamp all finish before the
      preview selects visible terrain/trees. Frame bookkeeping stays beside
      tree updates so settled() still waits for the same two rendered frames. */
@@ -9783,7 +10040,8 @@ async function pixelDelta(threshold = 24, sinceMark = false, band = null) {
 window.V3D = {
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
-           reeds: stats.reeds | 0, cars: stats.cars | 0, pylons: stats.pylons | 0, stumps: stats.stumps | 0,
+           reeds: stats.reeds | 0, cars: stats.cars | 0, authoredParkingCars: stats.authoredParkingCars | 0,
+           pylons: stats.pylons | 0, stumps: stats.stumps | 0,
            inferredRangeTargets: stats.inferredRangeTargets | 0,
            measuredRoofBuildings: stats.measuredRoofBuildings | 0,
            measuredRoofTriangles: stats.measuredRoofTriangles | 0,
@@ -9791,12 +10049,46 @@ window.V3D = {
            sourceRoofTriangles: stats.sourceRoofTriangles | 0,
            architecturalBuildings: stats.architecturalBuildings | 0,
            architecturalTriangles: stats.architecturalTriangles | 0,
+           authoredBuildingModels: stats.authoredBuildingModels | 0,
+           authoredBuildingMeshes: stats.authoredBuildingMeshes | 0,
+           authoredBuildingTriangles: stats.authoredBuildingTriangles | 0,
+           architectureAssets: stats.architectureAssets || null,
+           authoredFacilityBuildings: stats.authoredFacilityBuildings | 0,
+           facilities: stats.facilities || null,
+           sourceBuildingBatchIds: stats.sourceBuildingBatchIds || [],
+           sourceBuildingBatchIndices: stats.sourceBuildingBatchIndices || [],
+           sourceParkingBatchIds: stats.sourceParkingBatchIds || [],
+           sourceParkingBatchIndices: stats.sourceParkingBatchIndices || [],
+           authoredRangeFacilities: stats.authoredRangeFacilities || false,
+           facilityExcludedTrees: stats.facilityExcludedTrees || 0,
+           facilityExcludedClutter: stats.facilityExcludedClutter || 0,
            genericRoofBuildings: stats.genericRoofBuildings | 0,
            clubhouseDetails: stats.clubhouseDetails || [],
            courtyardDetails: stats.courtyardDetails || null,
            draws: stats.draws | 0, surfaceOverlays: stats.surfaceOverlays | 0,
            backend: IS_GPU ? 'webgpu' : 'webgl2' },
   goHole, setCam, setPreset, terrainH, demH, classify, groundAt, horizonAO, HOLES, M, GEO,
+  /* every authored per-building model attempt, loaded or fallen back with its
+     reason -- the only way to tell "this course has none" from "this course's
+     models failed to load", which look identical on screen */
+  authoredBuildings: () => structuredClone(AUTHORED_BUILDING_DIAGNOSTICS),
+  facilityGeometry: () => {
+    const root = facilityArchitecture?.root;
+    if (!root?.parent) return null;
+    root.updateMatrixWorld(true);
+    return { assetSha256: root.userData.assetSha256, facilities: root.children.map(node => {
+      const bounds = new THREE.Box3().setFromObject(node);
+      let meshes = 0, triangles = 0;
+      node.traverse(mesh => { if (mesh.isMesh) {
+        meshes++;
+        triangles += (mesh.geometry.index?.count ?? mesh.geometry.attributes.position.count) / 3;
+      } });
+      return { id: node.userData.facilityId, sourceBuildingId: node.userData.sourceBuildingId,
+        sourceBuildingIds: node.userData.sourceBuildingIds,
+        sourceBuildingIndices: node.userData.sourceBuildingIndices,
+        nodeName: node.name, meshes, triangles, min: bounds.min.toArray(), max: bounds.max.toArray() };
+    }) };
+  },
   /* the rangefinder numbers for a ball and a target, no DOM: [x, z] each, null = the current tee / no target */
   rangefinder: (origin = null, target = null) => kikCompute(origin, target),
   caddie: () => ({
@@ -9851,6 +10143,42 @@ window.V3D = {
     });
     return n;
   },
+  /* Read the actual instanced transforms used for decorative tee markers.
+     This diagnostic deliberately samples GPU-bound geometry rather than the
+     nominal tee references or the furniture input list. */
+  teeMarkerGeometry: () => {
+    const instances = [], local = new THREE.Matrix4(), world = new THREE.Matrix4();
+    const centre = new THREE.Vector3();
+    scene.updateMatrixWorld(true);
+    scene.traverse(object => {
+      if (!object.isInstancedMesh || object.userData?.tag !== 'markers') return;
+      if (!object.geometry.boundingSphere) object.geometry.computeBoundingSphere();
+      const sphere = object.geometry.boundingSphere;
+      for (let index = 0; index < object.count; index++) {
+        object.getMatrixAt(index, local);
+        world.multiplyMatrices(object.matrixWorld, local);
+        centre.copy(sphere?.center || new THREE.Vector3()).applyMatrix4(world);
+        instances.push({ index, position: centre.toArray(),
+          radius: (sphere?.radius ?? 0) * world.getMaxScaleOnAxis() });
+      }
+    });
+    return instances;
+  },
+  boundaryMarkerGeometry: () => {
+    const instances = [], local = new THREE.Matrix4(), world = new THREE.Matrix4();
+    const position = new THREE.Vector3();
+    scene.updateMatrixWorld(true);
+    scene.traverse(object => {
+      if (!object.isInstancedMesh || object.userData?.tag !== 'boundary-stakes') return;
+      for (let index = 0; index < object.count; index++) {
+        object.getMatrixAt(index, local);
+        world.multiplyMatrices(object.matrixWorld, local);
+        position.setFromMatrixPosition(world);
+        instances.push({ index, colour: object.userData.boundaryColour, position: position.toArray() });
+      }
+    });
+    return instances;
+  },
   /* every mesh in the scene with its footprint, to find what is drawing where */
   sceneInventory: () => {
     const out = [];
@@ -9868,6 +10196,34 @@ window.V3D = {
       });
     });
     return out;
+  },
+  /* Actual legacy triangles beside the metre-terrain boundary, for coverage
+     tests. Sampling the heightfield cannot detect a hole in the mesh index. */
+  terrainSeamGeometry: () => {
+    const bounds = TERRAIN_PREVIEW.bounds, bridge = TERRAIN_PREVIEW.bridge;
+    if (!bounds || !bridge || !terrainV2.active || terrainV2.kind === 'graph') return null;
+    const bandMetres = 24, triangles = [];
+    for (const object of scene.children) {
+      if (!['core', 'mid'].includes(object.userData?.tag)) continue;
+      const p = object.geometry.getAttribute('position'), index = object.geometry.getIndex();
+      for (let k = 0; k < index.count; k += 3) {
+        const t = [];
+        for (let v = 0; v < 3; v++) {
+          const id = index.getX(k + v), [gx, gz] = bridge.toGrid(p.getX(id), p.getZ(id));
+          t.push(gx, p.getY(id), gz);
+        }
+        const x0 = Math.min(t[0], t[3], t[6]), x1 = Math.max(t[0], t[3], t[6]);
+        const z0 = Math.min(t[2], t[5], t[8]), z1 = Math.max(t[2], t[5], t[8]);
+        if (x1 < bounds.x0 - bandMetres || x0 > bounds.x1 + bandMetres ||
+            z1 < bounds.z0 - bandMetres || z0 > bounds.z1 + bandMetres) continue;
+        if (x0 > bounds.x0 + bandMetres && x1 < bounds.x1 - bandMetres &&
+            z0 > bounds.z0 + bandMetres && z1 < bounds.z1 - bandMetres) continue;
+        triangles.push(t);
+      }
+    }
+    return { bounds: { ...bounds }, sharedFrontierMaterial: !!frontierSurroundMaterial, bridge: {
+      rotationRadians: bridge.rotationRadians, scaleX: bridge.scaleX, scaleZ: bridge.scaleZ,
+    }, bandMetres, triangles };
   },
   /* push the tint rasters to the GPU again, or recreate them, to see whether what it holds is what was filled */
   tintRefresh: (mode = 'update') => {
@@ -9942,6 +10298,8 @@ window.V3D = {
       tintNear: tintAt(GROUND_TINT?.near), tintFar: tintAt(GROUND_TINT?.far),
       flat: grid && terrainV2.flatWater ? terrainV2.flatWater.isFlatAt(grid[0], grid[1]) : null,
       water: typeof terrainV2.isFlatWaterAt === 'function' ? terrainV2.isFlatWaterAt(x, z) : null,
+      ocean: CONTINUOUS_OCEAN?.isSeaAt(x, z) ?? null,
+      island: CONTINUOUS_OCEAN?.isIslandAt?.(x,z) ?? null,
       rings: WI.at(x, z).filter(w => !w.stream && ringSD(x, z, w.ring) < 0).map(w => w.level),
       landuse: LI.at(x, z).filter(q => ringSD(x, z, q.ring) < 0).map(q => q.kind),
       cover: typeof coverAt === 'function' ? coverAt(x, z) : null,
@@ -9951,13 +10309,20 @@ window.V3D = {
     ? { spacing: terrainV2.flatWater.spacing, sheets: stats.flatWaterSheets | 0, components: terrainV2.flatWater.components.map(c => ({ hectares: c.hectares, level: +c.level.toFixed(2), surface: +c.surfaceHeight.toFixed(2), known: c.knownCells, uncovered: c.uncoveredCells, bounds: c.bounds })) }
     : null),
   coastalWater: () => COASTAL_WATER ? {
+    kind: CONTINUOUS_OCEAN ? 'continuous-ocean' : 'extension', seaWorldLevel:SEA_WORLD_LEVEL,
+    geometry: CONTINUOUS_OCEAN?.kind, sourceAsset:OCEAN_SOURCE?.asset,
+    sourceIslands:CONTINUOUS_OCEAN?.sourceIslands, sourceGaps:CONTINUOUS_OCEAN?.sourceGaps,
     bounds: COASTAL_WATER.bounds, sourceBounds: COASTAL_WATER.sourceBounds,
     spacingMetres: COASTAL_WATER.spacing, cells: COASTAL_WATER.cells, quads: COASTAL_WATER.quads,
-    sourceSheetDisplayLiftMetres: MEASURED_WATER_CLEARANCE_METRES, extensionDisplayLiftMetres: VISTA_SEA_BAND + 0.01,
-    depthTest: waterMat.depthTest, polygonOffset: waterMat.polygonOffset,
-    depthFunc: waterMat.depthFunc,
-    polygonOffsetFactor: waterMat.polygonOffsetFactor, polygonOffsetUnits: waterMat.polygonOffsetUnits,
+    sourceSheetDisplayLiftMetres: MEASURED_WATER_CLEARANCE_METRES, extensionDisplayLiftMetres: CONTINUOUS_OCEAN ? OCEAN_DISPLAY_LIFT : VISTA_SEA_BAND + 0.01,
+    depthTest: oceanMat.depthTest, polygonOffset: oceanMat.polygonOffset,
+    depthFunc: oceanMat.depthFunc,
+    polygonOffsetFactor: oceanMat.polygonOffsetFactor, polygonOffsetUnits: oceanMat.polygonOffsetUnits,
     terrainMaskBytes: COASTAL_TERRAIN_MASK?.bytes ?? 0,
+    triangles: CONTINUOUS_OCEAN?.triangles, refinedCells: CONTINUOUS_OCEAN?.refinedCells,
+    classificationToleranceMetres: CONTINUOUS_OCEAN ? OCEAN_DTM_TOLERANCE : null,
+    transparent: oceanMat.transparent, terrainCeiling: COASTAL_TERRAIN_CEILING,
+    vistaTreesOnSea: CONTINUOUS_OCEAN ? VISTA_PTS.reduce((sum,value,i)=>sum+(i%4===0&&CONTINUOUS_OCEAN.isSeaAt(value,VISTA_PTS[i+2])?1:0),0) : null,
   } : null,
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */

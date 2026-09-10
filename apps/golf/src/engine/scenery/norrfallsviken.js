@@ -1,3 +1,10 @@
+import { renderReviewedClubhouse, renderReviewedFacilities } from './norrfallsviken-architecture.mjs';
+import { authoredSiteHeights } from './norrfallsviken-facilities.mjs';
+export { loadFacilities, facilityFootprints, isFacilityInterior, isFacilityTreeObstruction, architectureStatus } from './norrfallsviken-facilities.mjs';
+export const renderClubhouse = renderReviewedClubhouse;
+export const renderCourtyard = ctx => renderReviewedFacilities({ ...ctx, siteHeights: authoredSiteHeights() });
+export const customMappedKinds = ['range_mat', 'range_target_surface', 'sports_court', 'terrace', 'ditch', 'clubhouse_roof_section', 'roof_solar'];
+
 /* Norrfällsviken's course-specific scenery.
 
    Its two bespoke landmarks -- the 1649 chapel on its OSM footprint, and the
