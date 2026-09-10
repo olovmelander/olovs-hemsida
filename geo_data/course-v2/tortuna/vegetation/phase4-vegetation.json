@@ -1,0 +1,2953 @@
+{
+  "schemaVersion": 1,
+  "phase": "vegetation-plan-phase-4-published-generation",
+  "courseSlug": "tortuna",
+  "observedOn": "2026-09-10",
+  "baseUrl": "http://127.0.0.1:8620",
+  "renderer": "swiftshader",
+  "note": "SwiftShader captures are rendering evidence, not hardware performance evidence; boot seconds are indicative only. Zoning in the tree export is provisional until the plan approves zone-A geometry.",
+  "inputs": {
+    "pack": {
+      "url": "courses/tortuna/pack.bin",
+      "bytes": 638858,
+      "sha256": "4ca2f560cb24d59086e7c1c1554106d84c6510aac9ab6a14812aa13b4ac58983"
+    },
+    "treeCover": null,
+    "courseModel": {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "tortunabuild/course-model.json",
+      "sha256": "7f8b2c1703a05262a0dfb4dfb25bfd927738fe5511e71a47a93cff7115e1a9b0",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "water-breaks-lm-1m",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09",
+        "tortuna-club-reference",
+        "tortuna-golftraxx-reference",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Canonical migration input: exact projected local-metre compatibility model with RH 2000 heights sampled from native national DTM. Coloured tee starts and flags are provisional UI references. Independent survey and human review gates remain open."
+    },
+    "courseV2Manifest": "course-v2-23e28266ed2359f7f23e96744aa29234350edaadfb53624072b5cb0e2808be83.json",
+    "groundV2Manifest": "ground-v2-18fd432ad5bcff1eadfbd23cb66f85b7b8e0948e933ed715346b52c0d4a2550e.json",
+    "groundPreviewDescriptorSha256": null
+  },
+  "runs": [
+    {
+      "mode": "gpk1",
+      "url": "http://127.0.0.1:8620/?bana=tortuna&det=1&v2=0",
+      "booted": true,
+      "bootSeconds": 39.6,
+      "errors": [],
+      "stats": {
+        "verts": 557063,
+        "tris": 979674,
+        "trees": 0,
+        "vista": 5817,
+        "tufts": 0,
+        "bushes": 0,
+        "stones": 0,
+        "reeds": 0,
+        "cars": 0,
+        "authoredParkingCars": 0,
+        "pylons": 11,
+        "stumps": 0,
+        "inferredRangeTargets": 0,
+        "measuredRoofBuildings": 1,
+        "measuredRoofTriangles": 277,
+        "sourceRoofBuildings": 6,
+        "sourceRoofTriangles": 4737,
+        "architecturalBuildings": 8,
+        "architecturalTriangles": 37419,
+        "authoredBuildingModels": 8,
+        "authoredBuildingMeshes": 65,
+        "authoredBuildingTriangles": 37419,
+        "architectureAssets": null,
+        "authoredFacilityBuildings": 0,
+        "facilities": null,
+        "sourceBuildingBatchIds": [
+          "way/1074514031",
+          "way/1163533116",
+          "way/1163533117",
+          "way/1163533118",
+          "way/1163533119",
+          "way/1163533120",
+          "way/1163533121",
+          "way/1163533122",
+          "way/1163533124",
+          "way/1163533125",
+          "way/1163533126",
+          "way/1163533129",
+          "way/1163533130",
+          "way/1163533131",
+          "way/1163533539",
+          "way/1163533540",
+          "way/1163533541",
+          "way/1163533542",
+          "way/1163533543",
+          "way/1163533544",
+          "way/1163533545",
+          "way/1163533546",
+          "way/1163534594",
+          "way/1163534595",
+          "way/1163534596",
+          "way/1163534597",
+          "way/1163541452",
+          "way/1163541458",
+          "way/1163541460",
+          "way/1163542518",
+          "way/1163553253",
+          "way/1163553254",
+          "way/1163553255",
+          "way/1163553256",
+          "way/1163553257",
+          "way/1163553258",
+          "way/1163553259",
+          "way/1163553260",
+          "way/1163553261",
+          "way/1163553262",
+          "way/1163553263",
+          "way/1163553264",
+          "way/1163553265",
+          "way/1163553266",
+          "way/1163553267",
+          "way/1163553268",
+          "way/1163553269",
+          "way/1163553270",
+          "way/1163553271",
+          "way/1163553272",
+          "way/1163553273",
+          "way/1163553274",
+          "way/1163553275",
+          "way/1163553277",
+          "way/1163553278",
+          "way/1163554898",
+          "way/1163554899",
+          "way/1163554900",
+          "way/1163554901",
+          "way/1163554902",
+          "way/1163554903",
+          "way/1163554904",
+          "way/1163554905",
+          "way/1163554906",
+          "way/1163554907",
+          "way/1163554908",
+          "way/1163554909",
+          "way/1163554910",
+          "way/1163554911",
+          "way/1163554912",
+          "way/1163554913",
+          "way/1163554914",
+          "way/1163554915",
+          "way/1163554916",
+          "way/1163554917",
+          "way/1163554918",
+          "way/1163554919",
+          "way/1163554920",
+          "way/1163554921",
+          "way/1163554922",
+          "way/1163554923",
+          "way/1163554924",
+          "way/1163554925",
+          "way/1163554926",
+          "way/1163554927",
+          "way/1163554928",
+          "way/1163554929",
+          "way/1163554930",
+          "way/1163554931",
+          "way/1163556384",
+          "way/1163556385",
+          "way/1163556386",
+          "way/1163556387",
+          "way/1163556388",
+          "way/1163556389",
+          "way/1163556390",
+          "way/1163556391",
+          "way/1163556392",
+          "way/1163556393",
+          "way/1163563554",
+          "way/1163563555",
+          "way/1163563556",
+          "way/1163563557",
+          "way/1163563558",
+          "way/1163563559",
+          "way/1163780657",
+          "way/1337709817",
+          "way/1337709818",
+          "way/1337709819",
+          "way/1337709820",
+          "way/1337715985",
+          "way/1337715986",
+          "way/1338706238",
+          "way/1338706239",
+          "way/1338706240",
+          "way/1338706241",
+          "way/1338706242",
+          "way/1338706243",
+          "way/1338706244",
+          "way/1349180281",
+          "way/1349180283",
+          "way/1349180284",
+          "way/1349180285",
+          "way/1349180286",
+          "way/1369003283",
+          "way/1369003284",
+          "way/1369003285",
+          "way/1369003290",
+          "way/1384966300",
+          "way/1384988019",
+          "way/1384988126",
+          "way/1384988127",
+          "way/1443645914",
+          "way/1443645915",
+          "way/1443645916",
+          "way/1502766442",
+          "way/1502766443",
+          "way/1502766444",
+          "way/1502766445",
+          "way/1502766446",
+          "way/1004298906",
+          "way/1163538462",
+          "way/1163538463",
+          "way/1163538464",
+          "way/1163538465",
+          "way/1163538466",
+          "way/1163538468",
+          "way/1163538469",
+          "way/1163538471",
+          "way/1163538472",
+          "way/1163538473",
+          "way/1163538478",
+          "way/1163538479",
+          "way/1163538480",
+          "way/1163538481",
+          "way/1163538482",
+          "way/1163538483",
+          "way/1163538484",
+          "way/1163541441",
+          "way/1163541442",
+          "way/1163541443",
+          "way/1163541444",
+          "way/1163541445",
+          "way/1163541446",
+          "way/1163541447",
+          "way/1163541448",
+          "way/1163541449",
+          "way/1163541450",
+          "way/1163541451",
+          "way/1163541453",
+          "way/1163541454",
+          "way/1163541455",
+          "way/1163541456",
+          "way/1163541457",
+          "way/1163541459",
+          "way/1163541461",
+          "way/1163541462",
+          "way/1163541463",
+          "way/1163541464",
+          "way/1163541465",
+          "way/1163541466",
+          "way/1163541467",
+          "way/1163541468",
+          "way/1163541469",
+          "way/1163541470",
+          "way/1163541471",
+          "way/1163541472",
+          "way/1163541473",
+          "way/1163541474",
+          "way/1163541475",
+          "way/1163542512",
+          "way/1163542513",
+          "way/1163542514",
+          "way/1163542515",
+          "way/1163542516",
+          "way/1163542517",
+          "way/1163542519",
+          "way/1163542520",
+          "way/1163542521",
+          "way/1163542522",
+          "way/1163542523",
+          "way/1163542524",
+          "way/1163542525",
+          "way/1163542526",
+          "way/1163542527",
+          "way/1163542528",
+          "way/1163542529",
+          "way/1163542530",
+          "way/1163542531",
+          "way/1163542532",
+          "way/1163542533",
+          "way/1163542534",
+          "way/1163542535",
+          "way/1163542536",
+          "way/1163553276",
+          "way/1163553279",
+          "way/1163553280",
+          "way/1163553281",
+          "way/1163553282",
+          "way/1163553283",
+          "way/1163553284",
+          "way/1163553285",
+          "way/1163568811",
+          "way/1163568812",
+          "way/1163568813",
+          "way/1163568814",
+          "way/1163568815",
+          "way/1163568816",
+          "way/1163568817",
+          "way/1163568818",
+          "way/1163568819",
+          "way/1163568820",
+          "way/1163568821",
+          "way/1163568822",
+          "way/1163568823",
+          "way/1163568824",
+          "way/1163608107",
+          "way/1163608108",
+          "way/1334174318",
+          "way/1334174319",
+          "way/1334174320",
+          "way/1334174321",
+          "way/1334174322",
+          "way/1336491441",
+          "way/1336491442",
+          "way/1338595540",
+          "way/1338706245",
+          "way/1369003286",
+          "way/1369003287",
+          "way/1369003288",
+          "way/1369003289",
+          "way/1443646873",
+          "way/1443646874",
+          "way/1443646875",
+          "way/1443646876",
+          "way/1443646878",
+          "way/1491097732",
+          "way/1491097733",
+          "way/1491097734",
+          "way/1491097735",
+          "way/1491097736",
+          "way/1491097737",
+          "way/1491097738",
+          "way/1491097739",
+          "way/1491097740",
+          "way/1491097741",
+          "way/1502761593",
+          "way/1502761594",
+          "way/1502761595",
+          "way/1502761596",
+          "way/1502761597",
+          "way/1502761598",
+          "way/1502761599",
+          "way/1502766440",
+          "way/1502766441",
+          "way/1502771059",
+          "way/1509967063",
+          "way/1509967064",
+          "way/1510725464",
+          "way/1510725465",
+          "way/1510725466",
+          "way/1510725469",
+          "way/1510725470",
+          "way/1510725471",
+          "way/1510725472",
+          "way/1510725473",
+          "way/1510725474",
+          "way/1510725475",
+          "way/1510725476",
+          "way/1510725477",
+          "way/1510725478",
+          "way/1510725479",
+          "way/1510725480",
+          "way/1510725481",
+          "way/1510725483",
+          "way/1510725484",
+          "way/1510725485",
+          "way/1510725486",
+          "way/1551132130",
+          "way/1551132131",
+          "way/1551132132"
+        ],
+        "sourceBuildingBatchIndices": [
+          0,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291,
+          292,
+          293,
+          294,
+          295,
+          296,
+          297,
+          298,
+          299,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307
+        ],
+        "sourceParkingBatchIds": [
+          "tortuna-main-carpark"
+        ],
+        "sourceParkingBatchIndices": [
+          0
+        ],
+        "authoredRangeFacilities": false,
+        "rangeNets": 1,
+        "rangeFacilities": {
+          "bays": 0,
+          "nets": 1,
+          "netHeight": 9.77,
+          "netPostPitch": 9.01
+        },
+        "facilityExcludedTrees": 0,
+        "facilityExcludedClutter": 0,
+        "genericRoofBuildings": 300,
+        "clubhouseDetails": [
+          {
+            "buildingId": "way/1163533113",
+            "asset": {
+              "url": "courses/tortuna/architecture/a59903a352e36f911958c697e10fc9bf485dc623e30fdb5d0805fcedcd1d4fb7.glb",
+              "sha256": "a59903a352e36f911958c697e10fc9bf485dc623e30fdb5d0805fcedcd1d4fb7",
+              "bytes": 307896
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "69ed0a0196d0057dce63243ffd8d3d4aba0c197c66eb05085406e953c05e5f68",
+            "transform": {
+              "position": [
+                51.43426655919757,
+                26.39,
+                -365.33746849000454
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597451.9342665592,
+              6615264.83746849,
+              26.39
+            ],
+            "sourceRoofTriangles": 1161,
+            "bounds": {
+              "min": [
+                35.5363831439754,
+                25.94000001192093,
+                -379.9999173730612
+              ],
+              "max": [
+                70.20399426610675,
+                35.101501121521,
+                -351.2048858255148
+              ]
+            },
+            "meshes": 8,
+            "vertices": 11080,
+            "triangles": 5540
+          },
+          {
+            "buildingId": "way/1163533114",
+            "asset": {
+              "url": "courses/tortuna/architecture/02f8013b74dbde841ab18bb824054e9faba6e10eba60ab58e398044f63dee46e.glb",
+              "sha256": "02f8013b74dbde841ab18bb824054e9faba6e10eba60ab58e398044f63dee46e",
+              "bytes": 114972
+            },
+            "appearanceStatus": "source-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "954d5de5fb8329f4eedc5d27909a21b6e81700570398acc18cdd1b62252665e0",
+            "transform": {
+              "position": [
+                39.522374924854375,
+                26.54,
+                -375.07654697448015
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597440.0223749249,
+              6615274.5765469745,
+              26.54
+            ],
+            "sourceRoofTriangles": 0,
+            "bounds": {
+              "min": [
+                35.475375470356084,
+                26.090000011920928,
+                -380.69368536025286
+              ],
+              "max": [
+                46.41931706352625,
+                33.6360054397583,
+                -369.7480686381459
+              ]
+            },
+            "meshes": 7,
+            "vertices": 3968,
+            "triangles": 1984
+          },
+          {
+            "buildingId": "way/1163533115",
+            "asset": {
+              "url": "courses/tortuna/architecture/d3017d40697b613327e5f8b05456b86f63610e029b47bcbd72f6549c48a05aec.glb",
+              "sha256": "d3017d40697b613327e5f8b05456b86f63610e029b47bcbd72f6549c48a05aec",
+              "bytes": 184788
+            },
+            "appearanceStatus": "source-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "bfcdbc7c8c2e35104ad2d0fe8c5df15d53c6acf3796ba628f32dd35d7178bfdc",
+            "transform": {
+              "position": [
+                6.984760845312849,
+                24.86,
+                -383.00981090124696
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597407.4847608453,
+              6615282.509810901,
+              24.86
+            ],
+            "sourceRoofTriangles": 423,
+            "bounds": {
+              "min": [
+                -0.31660739122889936,
+                24.41000001192093,
+                -392.1213335758075
+              ],
+              "max": [
+                17.29614886105992,
+                33.60692249298096,
+                -372.8903803592548
+              ]
+            },
+            "meshes": 7,
+            "vertices": 6560,
+            "triangles": 3280
+          },
+          {
+            "buildingId": "way/1163533123",
+            "asset": {
+              "url": "courses/tortuna/architecture/213c5ba6e09e536d058350123f9f6ab6112e5de055e92e50e8b1228bc01b4e7d.glb",
+              "sha256": "213c5ba6e09e536d058350123f9f6ab6112e5de055e92e50e8b1228bc01b4e7d",
+              "bytes": 256200
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "0ef780d25e28c986ae14fb57febad2474aec097110cd95a59deedb715cf2bd56",
+            "transform": {
+              "position": [
+                -98.90710308484267,
+                28.98,
+                -262.47959367837757
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597301.5928969152,
+              6615161.979593678,
+              28.98
+            ],
+            "sourceRoofTriangles": 766,
+            "bounds": {
+              "min": [
+                -112.56451466016006,
+                28.53000001192093,
+                -276.3559631546959
+              ],
+              "max": [
+                -83.01182033948135,
+                38.85344646453858,
+                -250.57051889505237
+              ]
+            },
+            "meshes": 7,
+            "vertices": 9208,
+            "triangles": 4604
+          },
+          {
+            "buildingId": "way/1163533127",
+            "asset": {
+              "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+              "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+              "bytes": 758472
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/clubhouse/reference-review.md",
+              "tortunabuild/clubhouse/geometry-evidence.json",
+              "tortunabuild/clubhouse/model-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+            "transform": {
+              "position": [
+                63.19914342649281,
+                27.1,
+                -175.67312748730183
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597463.6991434265,
+              6615075.173127487,
+              27.1
+            ],
+            "sourceRoofTriangles": 1157,
+            "bounds": {
+              "min": [
+                49.476188676431775,
+                26.699999994039537,
+                -192.06586392223835
+              ],
+              "max": [
+                84.87285901792347,
+                36.38999996185303,
+                -154.91606076061726
+              ]
+            },
+            "meshes": 12,
+            "vertices": 27632,
+            "triangles": 13812
+          },
+          {
+            "buildingId": "way/1163533128",
+            "asset": {
+              "url": "courses/tortuna/architecture/6f19bd344bec3de1ee54e2bb56cb112d4d8a0c525121edeac2a2fd2fe8737eb1.glb",
+              "sha256": "6f19bd344bec3de1ee54e2bb56cb112d4d8a0c525121edeac2a2fd2fe8737eb1",
+              "bytes": 108352
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "5e0420e9b3ea4182cb7bb81134db50a8beefefae4a80896f57c9f71aae7d5fe5",
+            "transform": {
+              "position": [
+                39.0850188882323,
+                27.33,
+                -173.23970138467848
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597439.5850188882,
+              6615072.739701385,
+              27.33
+            ],
+            "sourceRoofTriangles": 0,
+            "bounds": {
+              "min": [
+                32.719548955676146,
+                26.880000011920927,
+                -180.0790120307356
+              ],
+              "max": [
+                45.71852900099475,
+                31.138979034423826,
+                -166.91808664239943
+              ]
+            },
+            "meshes": 10,
+            "vertices": 3620,
+            "triangles": 1810
+          },
+          {
+            "buildingId": "way/1163607303",
+            "asset": {
+              "url": "courses/tortuna/architecture/ac652a8716b3c74055b1a6caf2b11836b69a76296339048dfe22a55c1f43bf8d.glb",
+              "sha256": "ac652a8716b3c74055b1a6caf2b11836b69a76296339048dfe22a55c1f43bf8d",
+              "bytes": 252540
+            },
+            "appearanceStatus": "source-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "853eacf28ce803a921300040f84c5290e2377932e2473ab3c59da4c57b1a0537",
+            "transform": {
+              "position": [
+                218.8719744408736,
+                31.89,
+                -26.55593184288591
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597619.3719744409,
+              6614926.055931843,
+              31.89
+            ],
+            "sourceRoofTriangles": 953,
+            "bounds": {
+              "min": [
+                210.2919897759566,
+                31.44000001192093,
+                -36.44185999687761
+              ],
+              "max": [
+                229.29932162410114,
+                37.87836851119995,
+                -20.037362850271165
+              ]
+            },
+            "meshes": 7,
+            "vertices": 9107,
+            "triangles": 4553
+          },
+          {
+            "buildingId": "tortuna-range-shelter",
+            "asset": {
+              "url": "courses/tortuna/architecture/e5b2a7cd71819c7bae7531779f5c69bb1996fb5dd30f5ad5964f0b2094bb0a87.glb",
+              "sha256": "e5b2a7cd71819c7bae7531779f5c69bb1996fb5dd30f5ad5964f0b2094bb0a87",
+              "bytes": 106664
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "13fc4312752ccb7c3044d8142c3bff8a7efb5ca5a227119c3ff7bb555d636700",
+            "transform": {
+              "position": [
+                72.3008069692878,
+                27.31,
+                -269.0067033460364
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597472.8008069693,
+              6615168.506703346,
+              27.31
+            ],
+            "sourceRoofTriangles": 0,
+            "bounds": {
+              "min": [
+                68.82945677626412,
+                26.860000011920928,
+                -276.00466152932495
+              ],
+              "max": [
+                79.2486943899421,
+                31.646055278778075,
+                -265.61854979302734
+              ]
+            },
+            "meshes": 7,
+            "vertices": 3672,
+            "triangles": 1836
+          }
+        ],
+        "courtyardDetails": {
+          "triangles": 220,
+          "counts": {
+            "range_mat": 22
+          },
+          "earthworks": {
+            "drawn": false,
+            "areaSquareMetres": 9606,
+            "status": "NOT DRAWN. The owner states (2026-09-10) that the driving range is grass; the bare fill this capture shows is a May 2026 reading of a field the club was still grassing, and the owner's word outranks a photograph four months older than it. Kept as the extent that was measured, never as a surface to paint."
+          },
+          "evidence": "orto-n2-2026 2026-05-02T13:09:09Z at 0.32 m",
+          "limitations": "positions measured; corner geometry unresolved at 0.32 m and drawn as a square of the measured median area",
+          "net": {
+            "posts": 10,
+            "heightMetres": 9.77,
+            "heightMadMetres": 1.13,
+            "spanMetres": 79.3
+          }
+        },
+        "draws": 132,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 0,
+        "species": {
+          "spruce": 0,
+          "pine": 0,
+          "birch": 0
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 0,
+          "scrubRing": 0,
+          "satellite": 0,
+          "shore": 0,
+          "v2Individual": 0,
+          "v2Stand": 0
+        },
+        "zones": {
+          "A": 0,
+          "B": 0,
+          "C": 0
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 0
+          },
+          {
+            "n": 2,
+            "count": 0
+          },
+          {
+            "n": 3,
+            "count": 0
+          },
+          {
+            "n": 4,
+            "count": 0
+          },
+          {
+            "n": 5,
+            "count": 0
+          },
+          {
+            "n": 6,
+            "count": 0
+          },
+          {
+            "n": 7,
+            "count": 0
+          },
+          {
+            "n": 8,
+            "count": 0
+          },
+          {
+            "n": 9,
+            "count": 0
+          },
+          {
+            "n": 10,
+            "count": 0
+          },
+          {
+            "n": 11,
+            "count": 0
+          },
+          {
+            "n": 12,
+            "count": 0
+          },
+          {
+            "n": 13,
+            "count": 0
+          },
+          {
+            "n": 14,
+            "count": 0
+          },
+          {
+            "n": 15,
+            "count": 0
+          },
+          {
+            "n": 16,
+            "count": 0
+          },
+          {
+            "n": 17,
+            "count": 0
+          },
+          {
+            "n": 18,
+            "count": 0
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": null,
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": null,
+        "planned": null,
+        "coverageTiles": 0,
+        "error": null,
+        "graphObjectTiles": null,
+        "graphStandTiles": null,
+        "graphEncodedObjectBytes": null,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 153.8
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 300.6
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 5405
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 9282.9
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 12260.3
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 12579.6
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 12817.2
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 12867.1
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 16190
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 16518.2
+          },
+          {
+            "name": "ritar första vyn",
+            "atMs": 16637.2
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 8.7
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 84.1
+          },
+          {
+            "name": "procedural textures (DETAIL, SANDN, WATERN)",
+            "ms": 399.5
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 2336,
+            "preset": "baseline"
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 663.6
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 48.7,
+            "reeds": 0
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 0
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 237.6
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 0
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 2683.5
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 2774.7,
+            "trees": 0,
+            "cells": 0
+          },
+          {
+            "name": "far vista cones",
+            "ms": 142.4,
+            "vista": 5817
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 0
+          }
+        ],
+        "atlasMs": 663.5,
+        "totalMs": 16657.9,
+        "doneAtMs": 39031.2,
+        "firstFrames": [
+          {
+            "atMs": 16662.7,
+            "ms": 21681.7,
+            "tris": 1548676,
+            "draws": 141,
+            "tiers": {
+              "t0": 0,
+              "t1": 0,
+              "t2": 0,
+              "t3": 0
+            }
+          },
+          {
+            "atMs": 38502.3,
+            "ms": 20.9,
+            "tris": 1548676,
+            "draws": 141,
+            "tiers": {
+              "t0": 0,
+              "t1": 0,
+              "t2": 0,
+              "t3": 0
+            }
+          },
+          {
+            "atMs": 38575.2,
+            "ms": 14.9,
+            "tris": 989446,
+            "draws": 71,
+            "tiers": {
+              "t0": 0,
+              "t1": 0,
+              "t2": 0,
+              "t3": 0
+            }
+          },
+          {
+            "atMs": 39024.8,
+            "ms": 6.3,
+            "tris": 989446,
+            "draws": 71,
+            "tiers": {
+              "t0": 0,
+              "t1": 0,
+              "t2": 0,
+              "t3": 0
+            }
+          }
+        ],
+        "firstSceneSubmittedAtMs": 38344.5,
+        "firstSceneGpuReadyAtMs": 38698.6,
+        "tintMs": 0
+      },
+      "v2": {
+        "requested": false,
+        "ready": false,
+        "status": "fallback",
+        "reason": null,
+        "selection": {
+          "mode": "off",
+          "requestMode": "off",
+          "graph": null,
+          "graphError": null
+        },
+        "bounds": null,
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "tortuna",
+        "name": "Tortuna GK",
+        "club": "Tortuna Golfklubb",
+        "title": "Tortuna Golfklubb — Banan i 3D",
+        "tag": "Tortuna · Västerås",
+        "boot": "Tortuna · Västmanland",
+        "build": "tortunabuild",
+        "par": 71,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Gul",
+            "Blå",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 4,
+          "def": 0
+        },
+        "photos": 0,
+        "overviewUrl": "courses/tortuna/overview.svg",
+        "status": "provisional",
+        "packUrl": "courses/tortuna/pack.bin",
+        "bytes": 638858,
+        "sha256": "4ca2f560cb24d59086e7c1c1554106d84c6510aac9ab6a14812aa13b4ac58983",
+        "landcover": {
+          "url": "courses/tortuna/landcover.json",
+          "bytes": 121966,
+          "sha256": "7d49033519f7a052a7cd28df32b14ae08dea97a89955dea24a83dd21514f57ed"
+        }
+      },
+      "shots": []
+    },
+    {
+      "mode": "v2-require",
+      "url": "http://127.0.0.1:8620/?bana=tortuna&det=1&v2=require",
+      "booted": true,
+      "bootSeconds": 74.7,
+      "errors": [],
+      "stats": {
+        "verts": 120922,
+        "tris": 119776,
+        "trees": 21484,
+        "vista": 3847,
+        "tufts": 0,
+        "bushes": 0,
+        "stones": 0,
+        "reeds": 0,
+        "cars": 0,
+        "authoredParkingCars": 0,
+        "pylons": 11,
+        "stumps": 0,
+        "inferredRangeTargets": 0,
+        "measuredRoofBuildings": 1,
+        "measuredRoofTriangles": 277,
+        "sourceRoofBuildings": 6,
+        "sourceRoofTriangles": 4737,
+        "architecturalBuildings": 8,
+        "architecturalTriangles": 37419,
+        "authoredBuildingModels": 8,
+        "authoredBuildingMeshes": 65,
+        "authoredBuildingTriangles": 37419,
+        "architectureAssets": null,
+        "authoredFacilityBuildings": 0,
+        "facilities": null,
+        "sourceBuildingBatchIds": [
+          "way/1074514031",
+          "way/1163533116",
+          "way/1163533117",
+          "way/1163533118",
+          "way/1163533119",
+          "way/1163533120",
+          "way/1163533121",
+          "way/1163533122",
+          "way/1163533124",
+          "way/1163533125",
+          "way/1163533126",
+          "way/1163533129",
+          "way/1163533130",
+          "way/1163533131",
+          "way/1163533539",
+          "way/1163533540",
+          "way/1163533541",
+          "way/1163533542",
+          "way/1163533543",
+          "way/1163533544",
+          "way/1163533545",
+          "way/1163533546",
+          "way/1163534594",
+          "way/1163534595",
+          "way/1163534596",
+          "way/1163534597",
+          "way/1163541452",
+          "way/1163541458",
+          "way/1163541460",
+          "way/1163542518",
+          "way/1163553253",
+          "way/1163553254",
+          "way/1163553255",
+          "way/1163553256",
+          "way/1163553257",
+          "way/1163553258",
+          "way/1163553259",
+          "way/1163553260",
+          "way/1163553261",
+          "way/1163553262",
+          "way/1163553263",
+          "way/1163553264",
+          "way/1163553265",
+          "way/1163553266",
+          "way/1163553267",
+          "way/1163553268",
+          "way/1163553269",
+          "way/1163553270",
+          "way/1163553271",
+          "way/1163553272",
+          "way/1163553273",
+          "way/1163553274",
+          "way/1163553275",
+          "way/1163553277",
+          "way/1163553278",
+          "way/1163554898",
+          "way/1163554899",
+          "way/1163554900",
+          "way/1163554901",
+          "way/1163554902",
+          "way/1163554903",
+          "way/1163554904",
+          "way/1163554905",
+          "way/1163554906",
+          "way/1163554907",
+          "way/1163554908",
+          "way/1163554909",
+          "way/1163554910",
+          "way/1163554911",
+          "way/1163554912",
+          "way/1163554913",
+          "way/1163554914",
+          "way/1163554915",
+          "way/1163554916",
+          "way/1163554917",
+          "way/1163554918",
+          "way/1163554919",
+          "way/1163554920",
+          "way/1163554921",
+          "way/1163554922",
+          "way/1163554923",
+          "way/1163554924",
+          "way/1163554925",
+          "way/1163554926",
+          "way/1163554927",
+          "way/1163554928",
+          "way/1163554929",
+          "way/1163554930",
+          "way/1163554931",
+          "way/1163556384",
+          "way/1163556385",
+          "way/1163556386",
+          "way/1163556387",
+          "way/1163556388",
+          "way/1163556389",
+          "way/1163556390",
+          "way/1163556391",
+          "way/1163556392",
+          "way/1163556393",
+          "way/1163563554",
+          "way/1163563555",
+          "way/1163563556",
+          "way/1163563557",
+          "way/1163563558",
+          "way/1163563559",
+          "way/1163780657",
+          "way/1337709817",
+          "way/1337709818",
+          "way/1337709819",
+          "way/1337709820",
+          "way/1337715985",
+          "way/1337715986",
+          "way/1338706238",
+          "way/1338706239",
+          "way/1338706240",
+          "way/1338706241",
+          "way/1338706242",
+          "way/1338706243",
+          "way/1338706244",
+          "way/1349180281",
+          "way/1349180283",
+          "way/1349180284",
+          "way/1349180285",
+          "way/1349180286",
+          "way/1369003283",
+          "way/1369003284",
+          "way/1369003285",
+          "way/1369003290",
+          "way/1384966300",
+          "way/1384988019",
+          "way/1384988126",
+          "way/1384988127",
+          "way/1443645914",
+          "way/1443645915",
+          "way/1443645916",
+          "way/1502766442",
+          "way/1502766443",
+          "way/1502766444",
+          "way/1502766445",
+          "way/1502766446",
+          "way/1004298906",
+          "way/1163538462",
+          "way/1163538463",
+          "way/1163538464",
+          "way/1163538465",
+          "way/1163538466",
+          "way/1163538468",
+          "way/1163538469",
+          "way/1163538471",
+          "way/1163538472",
+          "way/1163538473",
+          "way/1163538478",
+          "way/1163538479",
+          "way/1163538480",
+          "way/1163538481",
+          "way/1163538482",
+          "way/1163538483",
+          "way/1163538484",
+          "way/1163541441",
+          "way/1163541442",
+          "way/1163541443",
+          "way/1163541444",
+          "way/1163541445",
+          "way/1163541446",
+          "way/1163541447",
+          "way/1163541448",
+          "way/1163541449",
+          "way/1163541450",
+          "way/1163541451",
+          "way/1163541453",
+          "way/1163541454",
+          "way/1163541455",
+          "way/1163541456",
+          "way/1163541457",
+          "way/1163541459",
+          "way/1163541461",
+          "way/1163541462",
+          "way/1163541463",
+          "way/1163541464",
+          "way/1163541465",
+          "way/1163541466",
+          "way/1163541467",
+          "way/1163541468",
+          "way/1163541469",
+          "way/1163541470",
+          "way/1163541471",
+          "way/1163541472",
+          "way/1163541473",
+          "way/1163541474",
+          "way/1163541475",
+          "way/1163542512",
+          "way/1163542513",
+          "way/1163542514",
+          "way/1163542515",
+          "way/1163542516",
+          "way/1163542517",
+          "way/1163542519",
+          "way/1163542520",
+          "way/1163542521",
+          "way/1163542522",
+          "way/1163542523",
+          "way/1163542524",
+          "way/1163542525",
+          "way/1163542526",
+          "way/1163542527",
+          "way/1163542528",
+          "way/1163542529",
+          "way/1163542530",
+          "way/1163542531",
+          "way/1163542532",
+          "way/1163542533",
+          "way/1163542534",
+          "way/1163542535",
+          "way/1163542536",
+          "way/1163553276",
+          "way/1163553279",
+          "way/1163553280",
+          "way/1163553281",
+          "way/1163553282",
+          "way/1163553283",
+          "way/1163553284",
+          "way/1163553285",
+          "way/1163568811",
+          "way/1163568812",
+          "way/1163568813",
+          "way/1163568814",
+          "way/1163568815",
+          "way/1163568816",
+          "way/1163568817",
+          "way/1163568818",
+          "way/1163568819",
+          "way/1163568820",
+          "way/1163568821",
+          "way/1163568822",
+          "way/1163568823",
+          "way/1163568824",
+          "way/1163608107",
+          "way/1163608108",
+          "way/1334174318",
+          "way/1334174319",
+          "way/1334174320",
+          "way/1334174321",
+          "way/1334174322",
+          "way/1336491441",
+          "way/1336491442",
+          "way/1338595540",
+          "way/1338706245",
+          "way/1369003286",
+          "way/1369003287",
+          "way/1369003288",
+          "way/1369003289",
+          "way/1443646873",
+          "way/1443646874",
+          "way/1443646875",
+          "way/1443646876",
+          "way/1443646878",
+          "way/1491097732",
+          "way/1491097733",
+          "way/1491097734",
+          "way/1491097735",
+          "way/1491097736",
+          "way/1491097737",
+          "way/1491097738",
+          "way/1491097739",
+          "way/1491097740",
+          "way/1491097741",
+          "way/1502761593",
+          "way/1502761594",
+          "way/1502761595",
+          "way/1502761596",
+          "way/1502761597",
+          "way/1502761598",
+          "way/1502761599",
+          "way/1502766440",
+          "way/1502766441",
+          "way/1502771059",
+          "way/1509967063",
+          "way/1509967064",
+          "way/1510725464",
+          "way/1510725465",
+          "way/1510725466",
+          "way/1510725469",
+          "way/1510725470",
+          "way/1510725471",
+          "way/1510725472",
+          "way/1510725473",
+          "way/1510725474",
+          "way/1510725475",
+          "way/1510725476",
+          "way/1510725477",
+          "way/1510725478",
+          "way/1510725479",
+          "way/1510725480",
+          "way/1510725481",
+          "way/1510725483",
+          "way/1510725484",
+          "way/1510725485",
+          "way/1510725486",
+          "way/1551132130",
+          "way/1551132131",
+          "way/1551132132"
+        ],
+        "sourceBuildingBatchIndices": [
+          0,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          12,
+          13,
+          14,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291,
+          292,
+          293,
+          294,
+          295,
+          296,
+          297,
+          298,
+          299,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307
+        ],
+        "sourceParkingBatchIds": [
+          "tortuna-main-carpark"
+        ],
+        "sourceParkingBatchIndices": [
+          0
+        ],
+        "authoredRangeFacilities": false,
+        "rangeNets": 1,
+        "rangeFacilities": {
+          "bays": 0,
+          "nets": 1,
+          "netHeight": 9.77,
+          "netPostPitch": 9.01
+        },
+        "facilityExcludedTrees": 0,
+        "facilityExcludedClutter": 0,
+        "genericRoofBuildings": 300,
+        "clubhouseDetails": [
+          {
+            "buildingId": "way/1163533113",
+            "asset": {
+              "url": "courses/tortuna/architecture/a59903a352e36f911958c697e10fc9bf485dc623e30fdb5d0805fcedcd1d4fb7.glb",
+              "sha256": "a59903a352e36f911958c697e10fc9bf485dc623e30fdb5d0805fcedcd1d4fb7",
+              "bytes": 307896
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "69ed0a0196d0057dce63243ffd8d3d4aba0c197c66eb05085406e953c05e5f68",
+            "transform": {
+              "position": [
+                51.43426655919757,
+                26.39,
+                -365.33746849000454
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597451.9342665592,
+              6615264.83746849,
+              26.39
+            ],
+            "sourceRoofTriangles": 1161,
+            "bounds": {
+              "min": [
+                35.5363831439754,
+                25.94000001192093,
+                -379.9999173730612
+              ],
+              "max": [
+                70.20399426610675,
+                35.101501121521,
+                -351.2048858255148
+              ]
+            },
+            "meshes": 8,
+            "vertices": 11080,
+            "triangles": 5540
+          },
+          {
+            "buildingId": "way/1163533114",
+            "asset": {
+              "url": "courses/tortuna/architecture/02f8013b74dbde841ab18bb824054e9faba6e10eba60ab58e398044f63dee46e.glb",
+              "sha256": "02f8013b74dbde841ab18bb824054e9faba6e10eba60ab58e398044f63dee46e",
+              "bytes": 114972
+            },
+            "appearanceStatus": "source-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "954d5de5fb8329f4eedc5d27909a21b6e81700570398acc18cdd1b62252665e0",
+            "transform": {
+              "position": [
+                39.522374924854375,
+                26.54,
+                -375.07654697448015
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597440.0223749249,
+              6615274.5765469745,
+              26.54
+            ],
+            "sourceRoofTriangles": 0,
+            "bounds": {
+              "min": [
+                35.475375470356084,
+                26.090000011920928,
+                -380.69368536025286
+              ],
+              "max": [
+                46.41931706352625,
+                33.6360054397583,
+                -369.7480686381459
+              ]
+            },
+            "meshes": 7,
+            "vertices": 3968,
+            "triangles": 1984
+          },
+          {
+            "buildingId": "way/1163533115",
+            "asset": {
+              "url": "courses/tortuna/architecture/d3017d40697b613327e5f8b05456b86f63610e029b47bcbd72f6549c48a05aec.glb",
+              "sha256": "d3017d40697b613327e5f8b05456b86f63610e029b47bcbd72f6549c48a05aec",
+              "bytes": 184788
+            },
+            "appearanceStatus": "source-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "bfcdbc7c8c2e35104ad2d0fe8c5df15d53c6acf3796ba628f32dd35d7178bfdc",
+            "transform": {
+              "position": [
+                6.984760845312849,
+                24.86,
+                -383.00981090124696
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597407.4847608453,
+              6615282.509810901,
+              24.86
+            ],
+            "sourceRoofTriangles": 423,
+            "bounds": {
+              "min": [
+                -0.31660739122889936,
+                24.41000001192093,
+                -392.1213335758075
+              ],
+              "max": [
+                17.29614886105992,
+                33.60692249298096,
+                -372.8903803592548
+              ]
+            },
+            "meshes": 7,
+            "vertices": 6560,
+            "triangles": 3280
+          },
+          {
+            "buildingId": "way/1163533123",
+            "asset": {
+              "url": "courses/tortuna/architecture/213c5ba6e09e536d058350123f9f6ab6112e5de055e92e50e8b1228bc01b4e7d.glb",
+              "sha256": "213c5ba6e09e536d058350123f9f6ab6112e5de055e92e50e8b1228bc01b4e7d",
+              "bytes": 256200
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "0ef780d25e28c986ae14fb57febad2474aec097110cd95a59deedb715cf2bd56",
+            "transform": {
+              "position": [
+                -98.90710308484267,
+                28.98,
+                -262.47959367837757
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597301.5928969152,
+              6615161.979593678,
+              28.98
+            ],
+            "sourceRoofTriangles": 766,
+            "bounds": {
+              "min": [
+                -112.56451466016006,
+                28.53000001192093,
+                -276.3559631546959
+              ],
+              "max": [
+                -83.01182033948135,
+                38.85344646453858,
+                -250.57051889505237
+              ]
+            },
+            "meshes": 7,
+            "vertices": 9208,
+            "triangles": 4604
+          },
+          {
+            "buildingId": "way/1163533127",
+            "asset": {
+              "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+              "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+              "bytes": 758472
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/clubhouse/reference-review.md",
+              "tortunabuild/clubhouse/geometry-evidence.json",
+              "tortunabuild/clubhouse/model-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+            "transform": {
+              "position": [
+                63.19914342649281,
+                27.1,
+                -175.67312748730183
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597463.6991434265,
+              6615075.173127487,
+              27.1
+            ],
+            "sourceRoofTriangles": 1157,
+            "bounds": {
+              "min": [
+                49.476188676431775,
+                26.699999994039537,
+                -192.06586392223835
+              ],
+              "max": [
+                84.87285901792347,
+                36.38999996185303,
+                -154.91606076061726
+              ]
+            },
+            "meshes": 12,
+            "vertices": 27632,
+            "triangles": 13812
+          },
+          {
+            "buildingId": "way/1163533128",
+            "asset": {
+              "url": "courses/tortuna/architecture/6f19bd344bec3de1ee54e2bb56cb112d4d8a0c525121edeac2a2fd2fe8737eb1.glb",
+              "sha256": "6f19bd344bec3de1ee54e2bb56cb112d4d8a0c525121edeac2a2fd2fe8737eb1",
+              "bytes": 108352
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "5e0420e9b3ea4182cb7bb81134db50a8beefefae4a80896f57c9f71aae7d5fe5",
+            "transform": {
+              "position": [
+                39.0850188882323,
+                27.33,
+                -173.23970138467848
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597439.5850188882,
+              6615072.739701385,
+              27.33
+            ],
+            "sourceRoofTriangles": 0,
+            "bounds": {
+              "min": [
+                32.719548955676146,
+                26.880000011920927,
+                -180.0790120307356
+              ],
+              "max": [
+                45.71852900099475,
+                31.138979034423826,
+                -166.91808664239943
+              ]
+            },
+            "meshes": 10,
+            "vertices": 3620,
+            "triangles": 1810
+          },
+          {
+            "buildingId": "way/1163607303",
+            "asset": {
+              "url": "courses/tortuna/architecture/ac652a8716b3c74055b1a6caf2b11836b69a76296339048dfe22a55c1f43bf8d.glb",
+              "sha256": "ac652a8716b3c74055b1a6caf2b11836b69a76296339048dfe22a55c1f43bf8d",
+              "bytes": 252540
+            },
+            "appearanceStatus": "source-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "853eacf28ce803a921300040f84c5290e2377932e2473ab3c59da4c57b1a0537",
+            "transform": {
+              "position": [
+                218.8719744408736,
+                31.89,
+                -26.55593184288591
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597619.3719744409,
+              6614926.055931843,
+              31.89
+            ],
+            "sourceRoofTriangles": 953,
+            "bounds": {
+              "min": [
+                210.2919897759566,
+                31.44000001192093,
+                -36.44185999687761
+              ],
+              "max": [
+                229.29932162410114,
+                37.87836851119995,
+                -20.037362850271165
+              ]
+            },
+            "meshes": 7,
+            "vertices": 9107,
+            "triangles": 4553
+          },
+          {
+            "buildingId": "tortuna-range-shelter",
+            "asset": {
+              "url": "courses/tortuna/architecture/e5b2a7cd71819c7bae7531779f5c69bb1996fb5dd30f5ad5964f0b2094bb0a87.glb",
+              "sha256": "e5b2a7cd71819c7bae7531779f5c69bb1996fb5dd30f5ad5964f0b2094bb0a87",
+              "bytes": 106664
+            },
+            "appearanceStatus": "photo-informed-display-model",
+            "evidence": [
+              "tortunabuild/facilities/reference-review.md",
+              "tortunabuild/facilities/reference-receipt.json",
+              "tortunabuild/facilities/facility-geometry-evidence.json",
+              "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+              "tortunabuild/facilities/model-parameters.json",
+              "tortunabuild/facilities/appearance-parameters.json"
+            ],
+            "sourceFootprintUnchanged": true,
+            "sourceRoofUnchanged": true,
+            "status": "loaded",
+            "sourceFootprintSha256": "13fc4312752ccb7c3044d8142c3bff8a7efb5ca5a227119c3ff7bb555d636700",
+            "transform": {
+              "position": [
+                72.3008069692878,
+                27.31,
+                -269.0067033460364
+              ],
+              "rotationYRadians": 0,
+              "scale": 1
+            },
+            "anchorEpsg3006RH2000": [
+              597472.8008069693,
+              6615168.506703346,
+              27.31
+            ],
+            "sourceRoofTriangles": 0,
+            "bounds": {
+              "min": [
+                68.82945677626412,
+                26.860000011920928,
+                -276.00466152932495
+              ],
+              "max": [
+                79.2486943899421,
+                31.646055278778075,
+                -265.61854979302734
+              ]
+            },
+            "meshes": 7,
+            "vertices": 3672,
+            "triangles": 1836
+          }
+        ],
+        "courtyardDetails": {
+          "triangles": 220,
+          "counts": {
+            "range_mat": 22
+          },
+          "earthworks": {
+            "drawn": false,
+            "areaSquareMetres": 9606,
+            "status": "NOT DRAWN. The owner states (2026-09-10) that the driving range is grass; the bare fill this capture shows is a May 2026 reading of a field the club was still grassing, and the owner's word outranks a photograph four months older than it. Kept as the extent that was measured, never as a surface to paint."
+          },
+          "evidence": "orto-n2-2026 2026-05-02T13:09:09Z at 0.32 m",
+          "limitations": "positions measured; corner geometry unresolved at 0.32 m and drawn as a square of the measured median area",
+          "net": {
+            "posts": 10,
+            "heightMetres": 9.77,
+            "heightMadMetres": 1.13,
+            "spanMetres": 79.3
+          }
+        },
+        "draws": 153,
+        "surfaceOverlays": 0,
+        "backend": "webgl2"
+      },
+      "trees": {
+        "total": 21484,
+        "species": {
+          "spruce": 7008,
+          "pine": 11996,
+          "birch": 2480
+        },
+        "reasons": {
+          "none": 0,
+          "forestRing": 0,
+          "scrubRing": 0,
+          "satellite": 0,
+          "shore": 0,
+          "v2Individual": 2383,
+          "v2Stand": 19101
+        },
+        "zones": {
+          "A": 3382,
+          "B": 8296,
+          "C": 9806
+        },
+        "holes": [
+          {
+            "n": 1,
+            "count": 131
+          },
+          {
+            "n": 2,
+            "count": 738
+          },
+          {
+            "n": 3,
+            "count": 869
+          },
+          {
+            "n": 4,
+            "count": 1155
+          },
+          {
+            "n": 5,
+            "count": 1942
+          },
+          {
+            "n": 6,
+            "count": 2946
+          },
+          {
+            "n": 7,
+            "count": 1461
+          },
+          {
+            "n": 8,
+            "count": 759
+          },
+          {
+            "n": 9,
+            "count": 191
+          },
+          {
+            "n": 10,
+            "count": 274
+          },
+          {
+            "n": 11,
+            "count": 6
+          },
+          {
+            "n": 12,
+            "count": 196
+          },
+          {
+            "n": 13,
+            "count": 169
+          },
+          {
+            "n": 14,
+            "count": 251
+          },
+          {
+            "n": 15,
+            "count": 66
+          },
+          {
+            "n": 16,
+            "count": 25
+          },
+          {
+            "n": 17,
+            "count": 306
+          },
+          {
+            "n": 18,
+            "count": 193
+          }
+        ],
+        "zoning": "provisional: A within 90 m of a hole line, B within 300 m, else C",
+        "v2": {
+          "individuals": 2383,
+          "standTrees": 19101,
+          "cellsPlanted": 19101,
+          "cellsSkipped": 225365,
+          "speciesSource": "default",
+          "baseMismatch": {
+            "samples": 2383,
+            "meanAbsMetres": 0.007,
+            "p95Metres": 0.038,
+            "maxMetres": 0.319
+          },
+          "coverageTiles": 60
+        },
+        "legacyInsideCoverage": 0,
+        "instances": null
+      },
+      "objects": {
+        "rendererActivated": true,
+        "gate": "object-layer-renderer-not-activated",
+        "loaded": {
+          "referencedObjectTiles": 57,
+          "referencedStandTiles": 60,
+          "loadedTiles": 60,
+          "records": 2383,
+          "bytes": 455740,
+          "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f"
+        },
+        "planned": {
+          "individuals": 2383,
+          "standTrees": 19101,
+          "cellsPlanted": 19101,
+          "cellsSkipped": 225365,
+          "speciesSource": "default",
+          "baseMismatch": {
+            "samples": 2383,
+            "meanAbsMetres": 0.007,
+            "p95Metres": 0.038,
+            "maxMetres": 0.319
+          }
+        },
+        "coverageTiles": 60,
+        "error": null,
+        "graphObjectTiles": 57,
+        "graphStandTiles": 60,
+        "graphEncodedObjectBytes": 130252,
+        "graphError": null
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 126.1
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 1380
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 4737.7
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 13839.8
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 13860.2
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 13880.7
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 14220.4
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 14276.5
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 17266.8
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 17642
+          },
+          {
+            "name": "ritar första vyn",
+            "atMs": 19733
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 510
+          },
+          {
+            "name": "v2 rings: fetch + verify + decode",
+            "ms": 627.1,
+            "tiles": 85
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 723.5
+          },
+          {
+            "name": "procedural textures (DETAIL, SANDN, WATERN)",
+            "ms": 336.9
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 2137.3,
+            "preset": "golden"
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 572.5
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 5250.6
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 2728.2
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 504.7
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 49.6,
+            "reeds": 0
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 116.1
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 165.5
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 9.1
+          },
+          {
+            "name": "tree impostor atlases (3 species, 64 views each)",
+            "ms": 2232.3
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 2360.1,
+            "trees": 21484,
+            "cells": 223
+          },
+          {
+            "name": "far vista cones",
+            "ms": 136,
+            "vista": 3847
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 0
+          },
+          {
+            "name": "v2 stream: first frontier fully resident (after the overlap)",
+            "ms": 1914.7,
+            "tiles": 55
+          }
+        ],
+        "atlasMs": 572.4,
+        "totalMs": 19753.6,
+        "doneAtMs": 73910.4,
+        "firstFrames": [
+          {
+            "atMs": 19799.6,
+            "ms": 34307.9,
+            "tris": 10605600,
+            "draws": 178,
+            "tiers": {
+              "t0": 2268,
+              "t1": 4283,
+              "t2": 3348,
+              "t3": 162
+            }
+          },
+          {
+            "atMs": 54112.3,
+            "ms": 27.9,
+            "tris": 10605600,
+            "draws": 178,
+            "tiers": {
+              "t0": 2268,
+              "t1": 4283,
+              "t2": 3348,
+              "t3": 162
+            }
+          },
+          {
+            "atMs": 54297.2,
+            "ms": 26.7,
+            "tris": 10605600,
+            "draws": 178,
+            "tiers": {
+              "t0": 2268,
+              "t1": 4283,
+              "t2": 3348,
+              "t3": 162
+            }
+          },
+          {
+            "atMs": 54598.6,
+            "ms": 38.1,
+            "tris": 5336516,
+            "draws": 90,
+            "tiers": {
+              "t0": 2268,
+              "t1": 4283,
+              "t2": 3348,
+              "t3": 162
+            }
+          },
+          {
+            "atMs": 73890.9,
+            "ms": 19.3,
+            "tris": 5336516,
+            "draws": 90,
+            "tiers": {
+              "t0": 2268,
+              "t1": 4283,
+              "t2": 3348,
+              "t3": 162
+            }
+          }
+        ],
+        "firstSceneSubmittedAtMs": 54107.5,
+        "firstSceneGpuReadyAtMs": 54638.5,
+        "tintMs": 2728
+      },
+      "v2": {
+        "requested": true,
+        "ready": true,
+        "status": "ready",
+        "reason": null,
+        "selection": {
+          "mode": "fixed-frontier",
+          "requestMode": "require",
+          "graph": {
+            "slug": "tortuna",
+            "groundId": "tortuna",
+            "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+            "tiles": 341,
+            "holes": 18,
+            "shellBytes": 100431,
+            "encodedTerrainBytes": 23367033,
+            "surfaceTiles": 0,
+            "objectTiles": 57,
+            "encodedObjectBytes": 130252,
+            "standTiles": 60,
+            "encodedStandBytes": 325488
+          },
+          "graphError": null
+        },
+        "bounds": {
+          "x0": -512,
+          "z0": -1280,
+          "x1": 512,
+          "z1": 1280
+        },
+        "backend": "webgl2"
+      },
+      "course": {
+        "slug": "tortuna",
+        "name": "Tortuna GK",
+        "club": "Tortuna Golfklubb",
+        "title": "Tortuna Golfklubb — Banan i 3D",
+        "tag": "Tortuna · Västerås",
+        "boot": "Tortuna · Västmanland",
+        "build": "tortunabuild",
+        "par": 71,
+        "holes": 18,
+        "tees": {
+          "names": [
+            "Gul",
+            "Blå",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 4,
+          "def": 0
+        },
+        "photos": 0,
+        "overviewUrl": "courses/tortuna/overview.svg",
+        "status": "provisional",
+        "packUrl": "courses/tortuna/pack.bin",
+        "bytes": 638858,
+        "sha256": "4ca2f560cb24d59086e7c1c1554106d84c6510aac9ab6a14812aa13b4ac58983",
+        "landcover": {
+          "url": "courses/tortuna/landcover.json",
+          "bytes": 121966,
+          "sha256": "7d49033519f7a052a7cd28df32b14ae08dea97a89955dea24a83dd21514f57ed"
+        }
+      },
+      "shots": []
+    }
+  ]
+}

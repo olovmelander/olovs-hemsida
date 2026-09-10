@@ -4517,6 +4517,24 @@ generalises:
   back. **A measured extent is not a licence to paint it** -- and anything
   drawn through `renderCourtyard` is authored in the batch's own convention,
   never copied from the terrain palette or the pixels.
+- **Every tree at Tortuna is a measured crown or a stand cell that says so
+  (2026-09-10).** The ground carried stand fields only, so every tree was a
+  representative placement inside a 4 m cell. `compile-objects.mjs` compiles
+  the individual crowns from the pinned 2021 canopy rasters (the CI artifact
+  of `tortuna-canopy-water` holds them; no credentials needed after that),
+  `tortunabuild/ortho-crowns.mjs` reads every maximum against the 2026
+  orthophoto (WMS PNG, no credentials) and the approvals pass publishes 2,383
+  records with the window's stand fields recompiled round them. Three rules
+  it left: **the imagery may refuse, and may promote only on two records** --
+  a distinct crown that is also GREEN, because the first promotion was a shed
+  roof (roofs read excess green p50 −2, crowns p50 7); **a stand maximum with
+  no radius is never a record**; and **the publisher replaces every
+  vegetation layer it is not handed**, so the 60 expanded-window stand tiles
+  whose rasters are not in the checkout are carried byte for byte from the
+  ground that published them. The ortho-only census (1,480 dark blobs) is
+  recorded as NOT ADOPTED: it finds shade, not stems. Run
+  `update-source-manifest` BEFORE `publish-vegetation`, or the ground
+  manifest pins a ledger hash the ledger no longer has.
 - **The registry chain here**: apply-review → build-course → emit-pack →
   emit-manifest → update-source-manifest → migrate-legacy --write --ground
   tortuna → update-source-manifest → compile-stands → update-source-manifest →
