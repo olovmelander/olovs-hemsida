@@ -4123,6 +4123,23 @@ the CPU field, which is what made the mask look innocent — the difference
 was never mask-versus-unmasked but plate-versus-sky behind a see-through
 sheet. Isolate a layer before reasoning about it.
 
+**And the hairline that survived it was a tile skirt seen edge-on.** A
+one-pixel line of terrain ran along a tile edge across the masked sea from
+any camera high enough. Four experimental builds of one view settled it (the
+skirts off: gone; the geomorph off: stays; the mask's texel test off: stays;
+the mask's 0.28 m height ceiling raised to 5 m: gone), and a skirts-only
+draw with the mask off showed the whole 256 m skirt grid as hairlines. The
+fragments of an edge-on sliver have their varyings interpolated at the pixel
+centre, which lies OUTSIDE the triangle, so the world height the mask read
+was extrapolated metres above the plate and passed the ceiling. The mask now
+reads a centroid-sampled world position (`toVarying(...).setInterpolation(
+'perspective', 'centroid')`, which both backends emit), so a skirt fragment
+reports a height between the plate and the skirt's foot. Two traps on the
+way: the overhead view is rotated 180° (calibrate pixel→world on a marker
+the model places -- the hole-1 disc -- before reading a coordinate off a
+screenshot; a whole tile-centre theory was built on the uncalibrated one),
+and `arguments` does not exist in an arrow function, which cost a debug build.
+
 ### The far vista ring was gated on a raster, and Visby has none
 
 Both vista-cone loops sat inside `if (M.cover)` in main.js, so a course with no
