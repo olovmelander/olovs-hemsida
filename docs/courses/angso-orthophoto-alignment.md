@@ -10,14 +10,13 @@ The reviewed geometry is in
 [`orthophoto-review.json`](../../angsobuild/mapping/orthophoto-review.json).
 [`alignment-report.json`](../../angsobuild/mapping/alignment-report.json) records
 the independent numerical audit, exact input hashes, per-hole changes, source
-checks and comparison-image paths. The audited model SHA-256 is
-`35fdadaed2cb45f0347c277d995f3e71a4af4f1d8f71a5bcf7f8d40e13d69d91`.
+checks and comparison-image paths. The audit records the exact current model SHA-256.
 
 | Feature class | Previous rings | Reviewed rings now | Retained, unreviewed rings |
 |---|---:|---:|---:|
 | Putting surfaces | 18 | 18 | 0 |
 | Fairways | 19 | 16 | 2 |
-| Physical tee platforms | 64 | 50 | 0 |
+| Physical tee platforms | 64 | 52 | 0 |
 | Sand bunkers | 48 | 33 | 0 |
 | Water | 14 | 8 | 6 |
 
@@ -30,7 +29,7 @@ These describe changes from the old model, not errors against survey controls.
 Every accepted pixel vertex was checked independently against the emitted model:
 native pixel edges map through their EPSG:3006 affine, while model points map
 through the frozen local-frame inverse to WGS84 and then through PROJ to
-EPSG:3006. Across **125 polygons and 2,515 vertices including closing vertices**,
+EPSG:3006. Across **127 polygons and 2,537 vertices including closing vertices**,
 the maximum discrepancy is **0.000746 m**, or **0.004663 native pixels**. This
 measures numerical implementation fidelity. Neither that residual nor the
 0.16 m image resolution establishes absolute surveying accuracy or the accuracy
@@ -52,13 +51,13 @@ shows the baseline, green putting surfaces, yellow fairways, cyan tees, pink san
 blue water and white retained fairways. The complete contact sheets were inspected;
 holes 5 and 7 also received an independent native green-overlay check.
 
-Tee colours remain unverified. Of 90 virtual tee references, 14 already lie within
-reviewed platforms, 40 were provisionally moved from within 10 m of a platform
-edge, and 36 distant references retain their original positions with an explicit
-unresolved association. The largest provisional move is 24.384 m, measured to
-the selected platform centroid. All resolved references lie inside reviewed
-platforms, and all 50 physical pads preserve measured terrain. Scorecard lengths
-remain metadata; the source geometry is not stretched to reproduce those lengths.
+Tee references received a separate guide-to-orthophoto review. Read
+[the tee alignment record](angso-tee-alignment.md) for the accepted native-pixel
+anchors, explicitly unresolved colours and complete coordinate/runtime checks.
+All physical pads preserve measured terrain. Orange tees use existing fairway
+turf; that association does not invent a raised platform. Distinct colours sharing
+a platform retain distinct representative positions. Scorecard lengths remain
+metadata; source geometry is not stretched to reproduce those lengths.
 
 Fairways **12 and 15 retain their old outlines** because the spring imagery does
 not establish their cut boundaries confidently. Shadows and dormant turf also
@@ -69,7 +68,7 @@ also compare unchanged against the baseline; this work does not certify their
 alignment. The retained `malaren-1` shoreline has an existing self-intersection
 near E604225.112, N6603678.661, outside the reviewed pond set.
 
-The recorded validation run passed seven Node consumer tests, five Ängsö v2
+The original surface validation run passed seven Node consumer tests, five Ängsö v2
 configuration tests, the 3D checks and exact page/pack agreement, including 126
 scorecard values. A live WebGPU capture booted in 24.711 seconds, recorded zero
 errors and passed eight viewpoints. Its evidence is
@@ -115,6 +114,8 @@ existing overlay ledger.
 
 ```powershell
 upsalabuild/cache/review-venv/Scripts/python.exe angsobuild/mapping/review-alignment.py
+node angsobuild/mapping/update-source-manifest.mjs
+node angsobuild/mapping/tee-coordinate-audit.mjs --write
 node angsobuild/mapping/update-source-manifest.mjs
 node --test angsobuild/mapping/reviewed-orthophoto.node-test.mjs
 node angsobuild/check3d.mjs

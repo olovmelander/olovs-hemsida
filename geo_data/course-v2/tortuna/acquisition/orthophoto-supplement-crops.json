@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "observedOn": "2026-09-09",
+  "state": "native-review-crops",
+  "resolutionMetres": 0.16,
+  "rawImageryRedistributed": false,
+  "windows": [
+    {
+      "id": "hole-09-current-tee",
+      "requestSha256": "ca2f501dd08e6c059c03f7ae0e28a0a24bab7c172df5b56c96cc6da221510865",
+      "sha256": "7af46c5fa7a6d30d21576a3b5bbc0c32ccb9f3fa14d7f08d86bcc16efa610d2b",
+      "bytes": 1853342,
+      "rasterFile": "hole-09-current-tee.tif",
+      "boundsEpsg3006": [
+        597514.08,
+        6614873.12,
+        597642.08,
+        6615001.12
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597514.08,
+        0.16,
+        0.0,
+        6615001.12,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o66125_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:47:23Z"
+        },
+        {
+          "id": "o66125_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:08:46Z"
+        },
+        {
+          "id": "o66150_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:46:59Z"
+        },
+        {
+          "id": "o66150_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:09:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T17:04:22.721046+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 29.0,
+          "maximum": 238.0,
+          "mean": 80.2582953125,
+          "standardDeviation": 23.934821536185318
+        },
+        {
+          "band": 2,
+          "minimum": 40.0,
+          "maximum": 232.0,
+          "mean": 88.3060046875,
+          "standardDeviation": 20.82679336980919
+        },
+        {
+          "band": 3,
+          "minimum": 48.0,
+          "maximum": 237.0,
+          "mean": 84.8661015625,
+          "standardDeviation": 18.281389382947214
+        },
+        {
+          "band": 4,
+          "minimum": 20.0,
+          "maximum": 254.0,
+          "mean": 127.3241234375,
+          "standardDeviation": 38.78924023566024
+        }
+      ]
+    },
+    {
+      "id": "clubhouse",
+      "requestSha256": "39fea58d43898275042af9374c82d7e8af794078444e88a36151b199fc81850b",
+      "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+      "bytes": 1857744,
+      "rasterFile": "clubhouse.tif",
+      "boundsEpsg3006": [
+        597406.72,
+        6615011.5200000005,
+        597534.72,
+        6615139.5200000005
+      ],
+      "width": 800,
+      "height": 800,
+      "geoTransform": [
+        597406.72,
+        0.16,
+        0.0,
+        6615139.5200000005,
+        0.0,
+        -0.16
+      ],
+      "validFraction": 1.0,
+      "sources": [
+        {
+          "id": "o66125_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:47:23Z"
+        },
+        {
+          "id": "o66125_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:08:46Z"
+        },
+        {
+          "id": "o66150_5950_25_mr26",
+          "capturedAt": "2026-05-02T12:46:59Z"
+        },
+        {
+          "id": "o66150_5975_25_mr26",
+          "capturedAt": "2026-05-02T13:09:09Z"
+        }
+      ],
+      "acquiredAt": "2026-09-09T17:04:24.485180+00:00",
+      "bands": [
+        {
+          "band": 1,
+          "minimum": 31.0,
+          "maximum": 255.0,
+          "mean": 96.5500265625,
+          "standardDeviation": 35.497280316145975
+        },
+        {
+          "band": 2,
+          "minimum": 43.0,
+          "maximum": 255.0,
+          "mean": 102.8068984375,
+          "standardDeviation": 31.03361238599303
+        },
+        {
+          "band": 3,
+          "minimum": 49.0,
+          "maximum": 255.0,
+          "mean": 99.3822265625,
+          "standardDeviation": 30.866260170571675
+        },
+        {
+          "band": 4,
+          "minimum": 20.0,
+          "maximum": 255.0,
+          "mean": 126.5121234375,
+          "standardDeviation": 39.07332945753744
+        }
+      ]
+    }
+  ]
+}

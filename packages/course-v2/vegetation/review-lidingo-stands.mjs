@@ -81,7 +81,7 @@ const report = { schemaVersion: 1, groundId: 'lidingo', observedOn: new Date().t
   counts, protectedSourceFeatures: protectedFeatures.length, hits,
   method: 'Every eligible emitted4m cell centre checked independently against source building/road polygons and1m road /0.5m path centre-line corridors. Buffered exclusion implementation uses scanline rasterization; this check uses point-in-ring and point-to-segment evaluation.',
   limitations: ['This checks current staged exclusions against retained source geometry; it cannot prove current real-world building or tree positions.',
-    '2021 laser and2019 municipal orthophoto are different vintages; newer2025 imagery access is pending.',
+    'The 2021 laser, 2019 municipal context and reviewed 2025 Lantmateriet tee outlines are different vintages; this check does not establish current stand edges.',
     'Representative stand placements are not individual observed tree locations; no individual objects are emitted.'],
 };
 fs.writeFileSync(path.join(ROOT, 'geo_data/course-v2/lidingo/vegetation/stand-source-review.json'), `${JSON.stringify(report, null, 2)}\n`);

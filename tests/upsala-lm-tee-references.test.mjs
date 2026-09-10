@@ -103,6 +103,30 @@ describe('reviewed Upsala tee navigation references', () => {
     expect(pointInPoly(...model.holes[0].tees.marks[0].c, ring)).toBe(false);
   });
 
+  it('preserves a separately reviewed coordinate rather than replacing it with a nearest interior candidate', () => {
+    const { model, review } = fixture();
+    Object.assign(review.holes[0].referenceDecisions[0], { reviewedPosition: [8, 1], maxShiftMetres: 13 });
+    applyUpsalaLmTeeReferences(model, review);
+    expect(model.holes[0].tees.marks[0].c).toEqual([8, 1]);
+    expect(model.holes[0].line[0]).toEqual([8, 1]);
+    expect(model.holes[0].tees.marks[0].referencePlacement.explicitReviewedPosition).toBe(true);
+    expect(model.holes[0].tees.pads[0].ring).toEqual(ring);
+  });
+
+  it.each([[Infinity, 0], [8, 4.01], [22, 0], [10, 0, 0]])('rejects unsupported explicit position %j transactionally', position => {
+    const { model, review } = fixture(), before = structuredClone(model);
+    Object.assign(review.holes[0].referenceDecisions[0], { reviewedPosition: position, maxShiftMetres: 50 });
+    expect(() => applyUpsalaLmTeeReferences(model, review)).toThrow(/explicit reviewed position/);
+    expect(model).toEqual(before);
+  });
+
+  it('keeps the explicit position within the independently reviewed movement bound', () => {
+    const { model, review } = fixture(), before = structuredClone(model);
+    Object.assign(review.holes[0].referenceDecisions[0], { reviewedPosition: [8, 1], maxShiftMetres: 10 });
+    expect(() => applyUpsalaLmTeeReferences(model, review)).toThrow(/exceeds reviewed limit/);
+    expect(model).toEqual(before);
+  });
+
   it('applies actual Mellan decisions while preserving all unassociated forward references', () => {
     const read = relative => JSON.parse(fs.readFileSync(new URL(`../${relative}`, import.meta.url)));
     const model = read('upsalamellanbuild/course-model.json');

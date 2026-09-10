@@ -19,6 +19,8 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { canonicalJsonBytes } from '../packages/course-v2/canonical-json.mjs';
+import { updateFileAtomically } from '../packages/course-v2/atomic-file-node.mjs';
+import { assertValid, validateRootIndex } from '../packages/course-v2/schema.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUB = path.join(ROOT, 'apps/golf/public');
@@ -27,27 +29,42 @@ const slugs = (flag('slug') || '').split(',').map(s => s.trim()).filter(Boolean)
 if (!slugs.length) { console.error('usage: node tools/rebind-v2-fallback.mjs --slug a,b'); process.exit(2); }
 const sha = b => createHash('sha256').update(b).digest('hex');
 
-const live = JSON.parse(fs.readFileSync(path.join(PUB, 'courses/index.json'), 'utf8'));
 const rootPath = path.join(PUB, 'courses/v2-index.json');
-const root = JSON.parse(fs.readFileSync(rootPath, 'utf8'));
-for (const slug of slugs) {
-  const entry = live.courses.find(c => c.slug === slug);
-  if (!entry?.sha256 || !Number.isSafeInteger(entry.bytes) || !entry.packUrl) throw new Error(`live GPK1 manifest has no complete ${slug} entry`);
-  const pack = fs.readFileSync(path.join(PUB, entry.packUrl.replace(/^\//, '')));
-  if (sha(pack) !== entry.sha256 || pack.byteLength !== entry.bytes) throw new Error(`${slug}: courses/index.json does not describe the pack on disk -- run emit-manifest first`);
-  const fallbackV1 = { format: 1, packUrl: entry.packUrl.replace(/^\//, ''), bytes: entry.bytes, sha256: entry.sha256 };
-  const r = root.courses.find(c => c.slug === slug);
-  if (!r) throw new Error(`v2 root has no ${slug}`);
-  if (r.fallbackV1.sha256 === fallbackV1.sha256 && r.fallbackV1.bytes === fallbackV1.bytes) { console.log(`${slug}: already bound to ${fallbackV1.sha256.slice(0, 12)}`); continue; }
-  const course = JSON.parse(fs.readFileSync(path.join(PUB, r.manifest.url), 'utf8'));
-  course.fallbackV1 = fallbackV1;
-  const bytes = canonicalJsonBytes(course);
-  const digest = sha(bytes);
-  const url = `courses/${slug}/course-v2-${digest}.json`;
-  fs.writeFileSync(path.join(PUB, url), bytes);
-  console.log(`${slug}: fallback ${r.fallbackV1.sha256.slice(0, 12)} -> ${fallbackV1.sha256.slice(0, 12)}; manifest ${r.manifest.sha256.slice(0, 12)} -> ${digest.slice(0, 12)} (${bytes.byteLength} bytes; the old manifest stays on disk)`);
-  r.fallbackV1 = fallbackV1;
-  r.manifest = { ...r.manifest, bytes: bytes.byteLength, sha256: digest, url };
-}
-fs.writeFileSync(rootPath, canonicalJsonBytes(root));
+await updateFileAtomically(rootPath, currentBytes => {
+  const live = JSON.parse(fs.readFileSync(path.join(PUB, 'courses/index.json'), 'utf8'));
+  if (!currentBytes) throw new Error(`v2 root index is missing: ${rootPath}`);
+  const root = JSON.parse(currentBytes.toString('utf8'));
+  if (!currentBytes.equals(Buffer.from(canonicalJsonBytes(root)))) {
+    throw new Error(`refusing to update a non-canonical v2 root ${rootPath}`);
+  }
+  assertValid('existing v2 root index', validateRootIndex(root));
+  for (const slug of slugs) {
+    const entry = live.courses.find(c => c.slug === slug);
+    if (!entry?.sha256 || !Number.isSafeInteger(entry.bytes) || !entry.packUrl) throw new Error(`live GPK1 manifest has no complete ${slug} entry`);
+    const pack = fs.readFileSync(path.join(PUB, entry.packUrl.replace(/^\//, '')));
+    if (sha(pack) !== entry.sha256 || pack.byteLength !== entry.bytes) throw new Error(`${slug}: courses/index.json does not describe the pack on disk -- run emit-manifest first`);
+    const fallbackV1 = { format: 1, packUrl: entry.packUrl.replace(/^\//, ''), bytes: entry.bytes, sha256: entry.sha256 };
+    const r = root.courses.find(c => c.slug === slug);
+    if (!r) throw new Error(`v2 root has no ${slug}`);
+    if (r.fallbackV1.sha256 === fallbackV1.sha256 && r.fallbackV1.bytes === fallbackV1.bytes) { console.log(`${slug}: already bound to ${fallbackV1.sha256.slice(0, 12)}`); continue; }
+    const course = JSON.parse(fs.readFileSync(path.join(PUB, r.manifest.url), 'utf8'));
+    course.fallbackV1 = fallbackV1;
+    const bytes = canonicalJsonBytes(course);
+    const digest = sha(bytes);
+    const url = `courses/${slug}/course-v2-${digest}.json`;
+    try {
+      fs.writeFileSync(path.join(PUB, url), bytes, { flag: 'wx' });
+    } catch (error) {
+      if (error?.code !== 'EEXIST') throw error;
+      if (!fs.readFileSync(path.join(PUB, url)).equals(Buffer.from(bytes))) {
+        throw new Error(`content collision at ${url}`);
+      }
+    }
+    console.log(`${slug}: fallback ${r.fallbackV1.sha256.slice(0, 12)} -> ${fallbackV1.sha256.slice(0, 12)}; manifest ${r.manifest.sha256.slice(0, 12)} -> ${digest.slice(0, 12)} (${bytes.byteLength} bytes; the old manifest stays on disk)`);
+    r.fallbackV1 = fallbackV1;
+    r.manifest = { ...r.manifest, bytes: bytes.byteLength, sha256: digest, url };
+  }
+  assertValid('v2 root index', validateRootIndex(root));
+  return canonicalJsonBytes(root);
+});
 console.log('wrote courses/v2-index.json');

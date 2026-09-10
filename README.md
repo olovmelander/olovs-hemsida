@@ -2,7 +2,7 @@
 
 **[Banvy — svenska golfbanor i 3D](https://olovmelander.github.io/olovs-hemsida/)**
 
-Seven Swedish golf courses rendered in real time from real ground: AWS Terrarium
+Swedish golf courses rendered in real time from real ground: AWS Terrarium
 elevation, OpenStreetMap survey, club GPS surveys and orthoimagery, reconciled by
 a per-course pipeline and checked against each club's own scorecard. The app is
 installable, and a course you have already opened works with no network at all.
@@ -35,6 +35,27 @@ dependencies — and every one of these URLs keeps working:
 | [Veckefjärdens GC (2023)](https://olovmelander.github.io/olovs-hemsida/veckefjardensgc.html) | the earlier page, in its own local frame |
 
 ## Building and checking
+
+For local development, use the combined `olovs-hemsida` checkout:
+
+```powershell
+cd C:\Users\olov_\repos\olovs-hemsida
+npm --prefix apps/golf install   # first time, or after dependencies change
+npm run dev
+```
+
+Open <http://localhost:5173/>. This checkout includes Tortuna alongside the
+other courses. Development uses port 5173 explicitly and reports an error if
+that port is already occupied, so it cannot silently start a different copy
+on port 5174. If this checkout is already running, use its existing server;
+otherwise stop the old server before starting it here.
+
+`npm --prefix apps/golf run build` packages the combined application in
+`apps/golf/dist`. Source acquisition and course regeneration are separate from
+serving the retained runtime assets.
+
+The [combined local release record](docs/local-integration-2026-09-10.md)
+lists the integrated course updates and verification results.
 
     pnpm install
     pnpm --filter @banvy/golf build          # the app

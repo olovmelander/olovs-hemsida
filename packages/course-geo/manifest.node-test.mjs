@@ -39,7 +39,7 @@ test('all registered physical-ground manifests and committed checksums validate'
 test('all registered course slugs are accounted for exactly once', () => {
   const manifests = Object.keys(EXPECTED_GROUNDS).map(manifest);
   assert.deepEqual(validateGroundCoverage(manifests), []);
-  assert.equal(manifests.flatMap(item => item.courseSlugs).length, 12);
+  assert.equal(manifests.flatMap(item => item.courseSlugs).length, 13);
 });
 
 test('source-only grounds have no invented legacy frame or migratable model', () => {

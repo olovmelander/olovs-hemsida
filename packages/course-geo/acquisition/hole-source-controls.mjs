@@ -6,6 +6,7 @@ export const DEFAULT_HOLE_PADDING_METRES = 48;
 export const DEFAULT_CONTROL_SPAN_METRES = 256;
 
 export const COURSE_MODEL_PATHS = Object.freeze({
+  tortuna: 'geo_data/course-v2/tortuna/migration/course-model.epsg3006.json',
   visby: 'geo_data/course-v2/visby/migration/course-model.epsg3006.json',
   lidingo: 'geo_data/course-v2/lidingo/migration/course-model.epsg3006.json',
   angso: 'geo_data/course-v2/angso/migration/course-model.epsg3006.json',
@@ -23,6 +24,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
+  tortuna: '049a260ccebb7414aed8d540fa3b11d90d7f980fc44d00959682cf9e5b584bcb',
   /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) four times. Hole
      16's fairway ring was re-synced from mapping/geometry.json, which the model
      had never been rebuilt against; the seven rings the national water break
@@ -38,23 +40,23 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      and 311 landuse rings out to 6 km -- which is the first geometry in this
      model that lies OUTSIDE the 2,048 m acquired terrain, by design: it is the
      horizon's dressing, not the property's survey. */
-  visby: '19a4bc139e8074cf102def89f38bd26224e6ddda8cab0b0bfb9c0615a162e706',
-  lidingo: 'bffda03d0ee5cf0056d22e5e4262adc8016ed8f0b4a79fc766d2cf0db536cf74',
-  angso: '6b601e3845e3b944cea002ca801b820382428727a80e345c988baeea2911fe8c',
-  norrfallsviken: '185f0417db1e4d02f7a884abba327790e1696cc291e794eb908269f73733589a',
+  visby: '0f60d43a3221b4ed8843f071343651a20fc9eba3b559fdf5a0f717e67b759c5f',
+  lidingo: 'f13278ae5a44f81f4c09f8d0b009bb67532008e42b7b6ca51e6f786a7668fe09',
+  angso: '1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf',
+  norrfallsviken: 'b6b65607904c8727b8789c85235ebf1278d2185990f558f6fae5099da975d15f',
   /* 2026-09-05: re-migrated by migrate-without-proj.mjs (Krüger series vs the
      committed cs2cs migration: worst 1.4 mm over 3,564 coordinates) after the
      laser pass renamed the lakes, added the ditches and slid four wet tee
      marks ashore; the hole lines are unchanged and the routing chunk is the
      same content-addressed file */
-  puttom: '4b5ee818964e2575fa4b53bfcbeff120fa23e60cec28e7b4563156eb2b3b7008',
+  puttom: '414ce65010b919764223dee31d17eb809cdde79a0924b323fc2008b9bdd5fd5f',
   ribbingsfors: 'b2d9068b06a10b064d247b7e20dd16bded702b867ceb35672ad60415dea819e8',
-  upsala: '14f289d819399f905970f939822c241c488e20efb337c44ff2d777161a6b5c18',
-  'upsala-mellanbanan': 'd215924f2a85bae972b72de800d51542100222a0e8e34ea13e65716d44740148',
-  johannesberg: '960f06c033e37f8ec5e103a20e8482ea0f13c3345b605727407eac85281947a4',
-  'johannesberg-9': '5492a759ae427af24a3458fa350b3aab79df0f0df4a8bb66f84e488db0419ed7',
-  veckefjarden: 'e22363179a351efb8e26123dc0a2c06db675188f5c421911ff2eb8113e0013c1',
-  'veckefjarden-korthalsbanan': '9aacd1e4de93fded1cfd61dbfd073de04309dfff1e4406ba7ca761c781661fbe',
+  upsala: 'f9eea6dd02d04d2e74334c7a06e2fe3192118ba535d656564400682aa54e7ebb',
+  'upsala-mellanbanan': 'fe252ba09bfc33b02a9dfd99f74d2fcadd488970a9143d133616563122af3649',
+  johannesberg: '1fbfc8dac4b330ef5181a2ab72e786ba9a32e8bd7b3683b5d7a42ca1eb7eea7b',
+  'johannesberg-9': '4b1253f96523618a6ac8b0e873f5b5b3445e797213bb6bacffb6e0944f64df6e',
+  veckefjarden: '2cf429476146063c3c6f56e91b6049ee9f0137997c8505ccd9dad85511aceac5',
+  'veckefjarden-korthalsbanan': '8aa9b809a06d8dc0bf9aac31bd2c15660dee2e3518087c4b4613f5668be01572',
 });
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

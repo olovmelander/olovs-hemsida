@@ -1,5 +1,10 @@
 # Lidingö clubhouse architecture and courtyard
 
+The detailed Blender facilities revision of 10 September 2026 supersedes this
+procedural display model in the default environment. See the
+[authored facilities and validation](../../lidingobuild/facilities/README.md).
+The implementation below remains the fallback and structural baseline.
+
 The previous facade pass left the laser roof TIN as the visible roof. It still
 looked like a broken tent: first-return triangles bridged vertical roof steps,
 the chimney and a rooftop service room, while partial support left open walls.

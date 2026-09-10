@@ -56,7 +56,7 @@ const vec = {
     line: h.line, lineLen: h.lineLen, pin: h.pin,
     green: { ring: h.green.ring, c: h.green.c },
     fairway: { rings: h.fairway.rings },
-    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), ...(h.tees.status ? { status: h.tees.status } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.displayC !== undefined ? { displayC: m.displayC } : {}) })) },
+    tees: { ...(h.tees.inferPads === false ? { inferPads: false } : {}), ...(h.tees.status ? { status: h.tees.status } : {}), ...(h.tees.markerLayout ? { markerLayout: h.tees.markerLayout } : {}), ...(h.tees.markerPlacement ? { markerPlacement: h.tees.markerPlacement } : {}), pads: h.tees.pads.map(p => ({ ring: p.ring, ...(p.preserveTerrain ? { preserveTerrain: true } : {}), ...(p.reviewId !== undefined && h.tees.marks.some(m => m.sourcePadId === p.reviewId) ? { reviewId: p.reviewId } : {}), ...(p.id !== undefined && h.tees.marks.some(m => m.sourcePadId === p.id) ? { id: p.id } : {}) })), marks: h.tees.marks.map(m => ({ c: m.c, b: m.b, m: m.m, ...(m.referenceSurfaceKind ? { referenceSurfaceKind: m.referenceSurfaceKind } : {}), ...(m.referenceSurfaceRing ? { referenceSurfaceRing: m.referenceSurfaceRing } : {}), ...(m.orthophotoReference ? { orthophotoReference: m.orthophotoReference } : {}), ...(m.displayC !== undefined ? { displayC: m.displayC } : {}), ...(m.sourcePadId !== undefined ? { sourcePadId: m.sourcePadId } : {}) })) },
     bunkers: h.bunkers.map(b => ({ ring: b.ring })),
     elev: h.elev, tiers: h.tiers,
     name: h.name, note: h.note, shape: h.shape,
@@ -66,8 +66,9 @@ const vec = {
   /* the older schema always carried marking; a newer build carries it once its
      reconcile has a rule set to place it from (Ängsö's Lokala regler, Johannesberg's
      hole plans) */
-  marking: (model.marking || []).map(m => ({ c: m.color, pts: m.pts })),
-  streams: model.streams.map(s => ({ line: s.line, w: s.w, ...(model.infra.bridgePlacement === 'mapped-only' ? Object.fromEntries(['id', 'kind', 'tunnel', 'covered', 'layer', 'width'].filter(k => s[k] !== undefined).map(k => [k, s[k]])) : {}) })),
+  marking: (model.marking || []).map(m => ({ c: m.color, pts: m.pts, ...(m.reviewId ? { id: m.id, reviewId: m.reviewId, hole: m.hole, boundaryStatus: m.boundaryStatus, corridorUncertaintyM: m.corridorUncertaintyM, postPlacementKind: m.postPlacementKind, physicalPostPositionsObserved: m.physicalPostPositionsObserved } : {}) })),
+  ...(model.outOfBounds ? { outOfBounds: model.outOfBounds } : {}),
+  streams: model.streams.map(s => ({ line: s.line, w: s.w, ...(model.infra.bridgePlacement === 'mapped-only' ? Object.fromEntries(['id', 'kind', 'tunnel', 'covered', 'layer', 'width', ...(s.contextOnly ? ['widthMetres', 'widthStatus', 'sourceId', 'waterSurfaceStatus', 'contextOnly'] : [])].filter(k => s[k] !== undefined).map(k => [k, s[k]])) : {}) })),
   veg: model.vegetation,
   cover,
   infra: model.infra,

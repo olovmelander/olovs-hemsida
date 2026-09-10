@@ -12,6 +12,21 @@ The per-hole text and the card were researched on 2026-09-02 and live in
 not restate them; it records identity, the spatial frame, and the terrain
 provenance that the 2026-09-04 v2 publication established.
 
+**2026-09-09 mapping update:** both courses now use dated Lantmäteriet
+orthophotos for the reviewed playing surfaces. The current tee review carries
+50 main-course and 15 nine-hole platforms, with 98 accepted references: 88 on
+platforms, eight on fairway and two within bounded mown-ground areas. Ten
+unresolved references produce no physical marker; the other references support
+196 illustrative marker balls. Accepted `mark.c` coordinates come from the
+placement ledgers, while inherited coordinates remain in
+`orthophotoReference.originalReference.c`. Five main-course OB corridors on
+holes 2, 4, 10, 16 and 18 are reviewed against club plans and imagery, with
+illustrative spacing for 101 posts. Hole 3 and the northern continuation of hole
+18 beyond the reviewed dry bank remain unresolved. Daily tee-marker positions,
+individual OB posts and surveyed boundary vertices are not established. See the
+[current mapping notes](../../johannesbergbuild/mapping/README.md) and source
+ledgers for this update; the dated sections below retain the historical evidence.
+
 ## 1. Identity
 
 | Field | Value | Source |
@@ -233,8 +248,9 @@ not that it is complete.
 | Nine-hole course (`johannesberg-9`) | shares this ground and this terrain window, but is **not yet published as a v2 course**; `emitGroundGraph` takes one course per call |
 | Vegetation | published: 2,417 measured crowns + a 64-tile stand field. Leaf-off, so conservative on deciduous; see §4 |
 | Ortho / Topografi 10 | orthophoto windows acquired, georeferenced, hashed and reviewed on 2026-09-09; raw pixels remain private. Topografi 10 remains unacquired |
-| Hole 12 | the tee end is under spruce in every image; the card slide resolves it to within 26 m of the banguide's own disc. See CLAUDE.md before re-tracing |
-| The nine's shapes | three greens (2, 7, 8) measured off the tiles (`prov:"sat"`), four more (3, 4, 5, 6) and one bunker read off the 1 m laser hillshade (`prov:"laser"`, §7.9–7.10); two greens (1, 9), every fairway and every tee pad remain synthesised. A dated, leafed-on ortho would finish the fairways |
+| Tee references | explicit placement ledgers replace nearest-platform display anchors. Ten remain unresolved: main-course H8 white; H10 white/blue/red; H16 red/orange; H18 blue; nine-hole H1/H2/H6 Yellow. Nine-hole colour ownership remains inferred, and all daily marker locations remain unverified |
+| The nine's shapes | all nine greens, nine fairway/apron envelopes, 15 visible mat/platform footprints and one bunker are now reviewed from 2025-06-14 orthophotos. Exact fairway/semi-rough distinctions and obscured back tees remain uncertain; official lengths do not determine platform geometry |
+| Out-of-bounds display | five reviewed corridors on main-course H2/H4/H10/H16/H18; 101 illustrative posts at 12 m spacing plus corners. H3 remains unpublished despite supplemental native imagery; H18 stops at the reviewed dry bank and its northern continuation through the water junction remains unresolved. No nine-hole-specific OB is inferred, and individual posts or legal-boundary vertices are not surveyed |
 | Hole 1's two bunkers | the trace puts them 12–30 m short and WEST of the green centre; the club's Bana-1 plan draws them at the green's LEFT edge, which for a hole playing south is east. Same count, ~20 m apart; not resolved at 0.3 m/px — see §7.2 |
 | The felled knoll north of the nine | OSM forest; the imagery shows it clear-felled to scattered seed pines; the 2021 leaf-off LiDAR predates the felling, so the v2 vegetation may still stand a full forest on it. Carried as a `surround.clearfells` ring with that caveat |
 

@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "recoveredOn": "2026-09-09",
+  "method": "Authenticated GitHub Actions artifact retrieval; ZIP SHA-256 matched the GitHub artifact digest before extraction; each recovered raster/GeoJSON matched its acquisition receipt.",
+  "artifacts": [
+    {
+      "id": 10110654606,
+      "name": "tortuna-terrain",
+      "runId": 34367929534,
+      "sourceCommit": "147837db62a3eb3802c356c9875233ac063bc887",
+      "createdAt": "2026-09-09T15:05:53Z",
+      "expiresAt": "2026-09-16T15:05:49Z",
+      "bytes": 56510629,
+      "sha256": "b8f0141d669bc177cca7335073b09f032fcee5153abe379bb8a62422f61d2c33",
+      "sha256Verified": true,
+      "zipLocalPath": "tortunabuild/cache/artifacts/10110654606.zip"
+    },
+    {
+      "id": 10097454237,
+      "name": "tortuna-canopy",
+      "runId": 34335088999,
+      "sourceCommit": "a4d4f4b1e863a58113b516ae74aa3ad54f08d33f",
+      "createdAt": "2026-09-09T09:33:01Z",
+      "expiresAt": "2026-09-16T09:32:54Z",
+      "bytes": 19505281,
+      "sha256": "c8d0a8d18eea4f287eeb702d5b9a27022f543d0db501307271e2806df1b10706",
+      "sha256Verified": true,
+      "zipLocalPath": "tortunabuild/cache/artifacts/10097454237.zip"
+    },
+    {
+      "id": 10097370445,
+      "name": "tortuna-water",
+      "runId": 34335088999,
+      "sourceCommit": "a4d4f4b1e863a58113b516ae74aa3ad54f08d33f",
+      "createdAt": "2026-09-09T09:30:48Z",
+      "expiresAt": "2026-09-16T09:30:47Z",
+      "bytes": 9382,
+      "sha256": "3933cec203dd2e6891c64002c39454da67bac93f84b13dccd34973c2eaad915b",
+      "sha256Verified": true,
+      "zipLocalPath": "tortunabuild/cache/artifacts/10097370445.zip"
+    }
+  ],
+  "retainedEvidence": [
+    "terrain-window.json",
+    "water-epsg3006.geojson",
+    "water-evidence.json",
+    "../vegetation/canopy-evidence.json"
+  ],
+  "orthophoto": {
+    "mode": "Reacquired directly through existing authorized Lantmateriet access",
+    "why": "Previous encrypted review private key was not present locally; native provider windows were available using the existing credentials.",
+    "receipt": "orthophoto-review.json",
+    "nativeCrops": "orthophoto-native-crops.json",
+    "rawImageryRedistributed": false
+  },
+  "limitations": [
+    "Artifact verification establishes identity of the retained acquisition outputs, not independent survey accuracy.",
+    "COPC source was read by bounded range requests; the advertised full 930359431-byte source SHA-256 was not recomputed.",
+    "The 2021 laser campaign requires comparison with 2026 imagery before trees can represent current canopy."
+  ]
+}

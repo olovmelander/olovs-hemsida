@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "groundId": "norrfallsviken",
+  "reviewedOn": "2026-09-09",
+  "kind": "dated-orthophoto-marine-gap-review",
+  "provider": "Lantmateriet",
+  "attribution": "Ortofoto Nedladdning, Lantmateriet, bearbetad, CC BY 4.0",
+  "sourceCatalogSha256": "4dc22bccee4529381ae270ec2a321afad7416d4b45177bf8a01e38a1ffe0e635",
+  "windows": [
+    {
+      "id": "north-gap",
+      "sourceId": "o69900_6800_50_fi12",
+      "capturedAt": "2012-05-27T13:40:23Z",
+      "url": "https://dl1.lantmateriet.se/bild/data/orto/se0_5c_sweref/2012_U2/o69900_6800_50_fi12.tif",
+      "boundsEpsg3006": [
+        680000,
+        6990500,
+        681500,
+        6992200
+      ],
+      "resolutionMetres": 1,
+      "sourceResolutionMetres": 0.5,
+      "width": 1500,
+      "height": 1700,
+      "pngSha256": "fd46c3bbd9944521037a8cb51bf7f121ae981520ae234ad028420aa4b5086d02",
+      "file": "nvgkbuild/cache/marine-gap-review/north-gap.png",
+      "observation": "Continuous open sea throughout the inspected window; no visible land or skerries.",
+      "geometryUse": "Fill missing marine breakgeometry inside this reviewed rectangle; preserve all independently mapped island holes."
+    },
+    {
+      "id": "east-gap",
+      "sourceId": "o69850_6800_50_fi12",
+      "capturedAt": "2012-05-27T13:39:38Z",
+      "url": "https://dl1.lantmateriet.se/bild/data/orto/se0_5c_sweref/2012_U2/o69850_6800_50_fi12.tif",
+      "boundsEpsg3006": [
+        680000,
+        6987500,
+        682500,
+        6990000
+      ],
+      "resolutionMetres": 2,
+      "sourceResolutionMetres": 0.5,
+      "width": 1250,
+      "height": 1250,
+      "pngSha256": "4ee1b7c75ede5c413d1858f9d4d4bbd5d7f7bf75eaa21b01819e8b3851854176",
+      "file": "nvgkbuild/cache/marine-gap-review/east-gap.png",
+      "observation": "Continuous open sea throughout the inspected window; no visible land or skerries.",
+      "geometryUse": "Fill missing marine breakgeometry inside this reviewed rectangle; preserve all independently mapped island holes."
+    }
+  ],
+  "limitations": [
+    "Sources are dated 2012-05-27, the available pinned offshore campaign; these are historical land/water controls, not a current surveyed waterline.",
+    "The eastern image contains colour/exposure mosaic seams in open water; those are not land or coastlines.",
+    "Raw orthophoto pixels remain in ignored cache. No image pixels are used as runtime water textures."
+  ]
+}

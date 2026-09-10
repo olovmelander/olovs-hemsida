@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "acquiredAt": "2026-09-09T09:30:47.621102+00:00",
+  "sourceUrl": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_5/m661_59_brytgeometri.gpkg",
+  "sourceSha256": "3bd805153c8c23a8dac3e324563b37559001cc4aca9bf681aaa4bc871dba31f9",
+  "sourceBytes": 159744,
+  "sha256": "71160f84bc842d6e92a7d76f5513f37f70c9bb7f1e902fa7ae1cf8200571501d",
+  "features": 56,
+  "sourceCommit": "a4d4f4b1e863a58113b516ae74aa3ad54f08d33f",
+  "boundsEpsg3006": [
+    595352.5,
+    6612851.5,
+    599448.5,
+    6616947.5
+  ],
+  "attribution": "Markh\u00f6jdmodell Nedladdning \u00a9 Lantm\u00e4teriet, bearbetad information, CC BY 4.0.",
+  "limitations": [
+    "Source surface elevations are not bathymetry.",
+    "Small ponds and ditches may be absent from this national dataset."
+  ]
+}

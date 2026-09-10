@@ -1,9 +1,9 @@
 const GEOMETRY_KEYS = new Set([
-  'ring', 'rings', 'line', 'c', 'displayC', 'pin', 'pts', 'boundary',
+  'ring', 'rings', 'line', 'c', 'displayC', 'referenceSurfaceRing', 'pin', 'pts', 'boundary',
   'forest', 'rock', 'scrub', 'wetland', 'wood', 'sand',
   'range', 'greens', 'fairways', 'tees', 'bunkers', 'grass',
   'poles', 'towers', 'yard', 'hayfields', 'shallows', 'clearfells',
-  'beaches', 'chains', 'pois',
+  'beaches', 'chains', 'pois', 'courseBoundary',
   /* the range tee line (mat centres) and the safety net (a polyline), traced
      off the tiles for Puttom -- world points like every key above */
   'bays', 'nets',

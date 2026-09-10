@@ -345,7 +345,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "upsalabuild/course-model.json",
-      "sha256": "bccb6f3b428ce75651f17eac4f4a182e76d01abe32669cd980ebe329f2d7cb58",
+      "sha256": "3ec429382ac69f986be297c4a1b4c3e7467d558e0e0a8d8f11956818d1c41c2c",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -446,7 +446,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/course-model.epsg3006.json",
-      "sha256": "14f289d819399f905970f939822c241c488e20efb337c44ff2d777161a6b5c18",
+      "sha256": "f9eea6dd02d04d2e74334c7a06e2fe3192118ba535d656564400682aa54e7ebb",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -475,7 +475,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/upsala/migration/residual-report.json",
-      "sha256": "fff5b6519b6eaab057b38b3c9dd983b8b422f19a626e832f254595e815d56a4a",
+      "sha256": "1fa8095bbddfc3b748c3c00151f374696d091977a5eb9d63df76b277a2521416",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -539,7 +539,7 @@
       "id": "shipped-middle-course-model",
       "kind": "composite",
       "path": "upsalamellanbuild/course-model.json",
-      "sha256": "cdbbd39d05116a06dcb1abbb6d9e82025edd32f5c6205df5b843e5186e0f6c9a",
+      "sha256": "61b2e883cefff22ccc8b5f5a6efa7faa2db989f404ab833dda2fd2a59c20ccff",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -555,7 +555,7 @@
       "id": "migration-mellanbanan-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/upsala/migration/mellanbanan-course-model.epsg3006.json",
-      "sha256": "d215924f2a85bae972b72de800d51542100222a0e8e34ea13e65716d44740148",
+      "sha256": "fe252ba09bfc33b02a9dfd99f74d2fcadd488970a9143d133616563122af3649",
       "derivedFrom": [
         "terrain-lm-1m",
         "terrain-lm-1m-east",
@@ -777,6 +777,198 @@
       "use": "discovery-evidence",
       "notes": "Independent source-hash, pad containment, movement-limit and unchanged-geometry validation of the tee reference correction.",
       "sha256": "1f0e1fa7db4f51833f13b32031b1bd7c114c5d66f1c9d118fd8dbfd81506a8a0",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-stora-tee-platform-followup-2026-09-09",
+      "kind": "surface",
+      "use": "migration-only",
+      "path": "upsalabuild/mapping/lm-stora-tee-platform-followup-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "5d0b3664a443f453593edbf4b9109050b6135c61b76bd3c1138e6145276d7fc1",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-followup-stora-2026-09-09",
+      "kind": "surface",
+      "use": "migration-only",
+      "path": "upsalabuild/mapping/lm-tee-followup-stora-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "96f97a92fcd1e4df3411af4bb99b0a00c8cde3bc11f672e7fe161378321b215b",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-followup-mellan-2026-09-09",
+      "kind": "surface",
+      "use": "migration-only",
+      "path": "upsalabuild/mapping/lm-tee-followup-mellan-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "44d995f975a50919718748527d0492f22f952048c85466dd4a67559889c77b9b",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-mellan-published-tee-evidence-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-mellan-published-tee-evidence-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "772b2b24d3167c4080efd95989f6468a614e52d85e96344730fbba309f0093fa",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-mellan-tee-followup-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-mellan-tee-followup-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "18fffe9cc9794d0d6b37dcb6a956875bcff1bdeaa6e4406d725282e31b392ca5",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-followup-validation-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-tee-followup-validation-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "8f98e9639abc6166cac90aeb6afc3396dd70c6cfa26949994945061114a8c567",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "tee-coordinate-contract-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/tee-coordinate-contract-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "c3cbd24765458599a0728fc0ca2310cde8f5715b9ee13069db85e8c97218c3e0",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-followup-runtime-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-tee-followup-runtime-2026-09-09.json",
+      "notes": "Ordered tee followup: two source-reviewed Stora platforms, eleven bounded navigation corrections and source-to-consumer validation. Club-guide and published tee-point source identities, URLs and hashes are recorded inside the ledgers; daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "9e74019f6a0441ee9513eac7a562375239365658a2053a46d6488ff0b7a22a03",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-site-review-stora-2026-09-09",
+      "kind": "surface",
+      "use": "migration-only",
+      "path": "upsalabuild/mapping/lm-tee-site-review-stora-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "97d6b30abd5308ad8405f4736398c48db3dc10f69069900f0d87f058d01dd679",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-site-review-mellan-2026-09-09",
+      "kind": "surface",
+      "use": "migration-only",
+      "path": "upsalabuild/mapping/lm-tee-site-review-mellan-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "fadb355c9c4bf48ec3f52db4afab7167c1e14886d78c68c3535b0134f2107385",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-points-stora-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-tee-points-stora-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "93fa278ed39edc0f231bf9dd5bc35344cd08795498c15433215ec687453e054b",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-tee-visible-interior-stora-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-tee-visible-interior-stora-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "4f705e3270e9da07449db94ec10a4ec4cafd36581b309f8a1fb26d6f6959944e",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-mellan-orange-remaining-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-mellan-orange-remaining-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "8f70053a7fcbeb30debee34df5630959fa505807ba8fa085864f98564a6ce112",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-remaining17-validation-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-remaining17-validation-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "d4d01ecd13aa94e2a9cb42211567b0c539f5e97d3c523f7d3752d8083efad6a6",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "tee-site-coordinate-contract-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/tee-site-coordinate-contract-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "3f2ec4a2a8d822916d9e17516ef450733cbb1e7c12ac7246da2e07feee81231b",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "osm-legacy"
+      ]
+    },
+    {
+      "id": "lm-remaining17-runtime-2026-09-09",
+      "kind": "acquisition",
+      "use": "discovery-evidence",
+      "path": "upsalabuild/mapping/lm-remaining17-runtime-2026-09-09.json",
+      "notes": "Seventeen reviewed navigation sites: sixteen moved and one confirmed. Eight use published coordinates, three use visible tee interiors and six use approximate guide-identified fairway entrances with 12-15 m interpretation allowances. Evidence footprints are not physical platform boundaries. Full H13/H15 outlines, daily markers and absolute survey accuracy remain unverified.",
+      "sha256": "82a2f64482dae536013dc1f0686ec4014c6292dcd7f98625de545e8e78e6e6b9",
       "derivedFrom": [
         "imagery-lm-ortho",
         "osm-legacy"

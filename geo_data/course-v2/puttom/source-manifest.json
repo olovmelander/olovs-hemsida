@@ -354,7 +354,7 @@
       "acquiredAt": null,
       "capturedAt": "2024-06-27",
       "checksum": null,
-      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
@@ -381,7 +381,7 @@
       "acquiredAt": null,
       "capturedAt": "2024-06-27",
       "checksum": null,
-      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
@@ -408,7 +408,7 @@
       "acquiredAt": null,
       "capturedAt": "2024-06-27",
       "checksum": null,
-      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
@@ -435,12 +435,120 @@
       "acquiredAt": null,
       "capturedAt": "2024-06-27",
       "checksum": null,
-      "checksumReason": "Only bounded native image windows were acquired and individually SHA-256 hashed; exact hashes and grids are in acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/orthophoto-review.json. Complete provider TIFFs were not downloaded or hashed.",
       "replacementSourceId": null,
       "accuracyTier": "B",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
       "notes": "o70250_6975_25_mr24: 15625 by 15625 native EPSG:3006 RGBI pixels, 756319665 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
+    },
+    {
+      "id": "imagery-lm-o70225-6950-25-mr22",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70225_6950_25_mr22.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.88856944443991,
+        63.27683489393747,
+        18.941342135982143,
+        63.30058825017895
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2022-07-03",
+      "checksum": null,
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/tee-2022-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70225_6950_25_mr22: 15625 by 15625 native EPSG:3006 RGBI pixels, 691522682 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
+    },
+    {
+      "id": "imagery-lm-o70225-6975-25-mr22",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70225_6975_25_mr22.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.938282698375755,
+        63.27544978912935,
+        18.99108841794243,
+        63.29921914989591
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2022-06-24",
+      "checksum": null,
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/tee-2022-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70225_6975_25_mr22: 15625 by 15625 native EPSG:3006 RGBI pixels, 688551639 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
+    },
+    {
+      "id": "imagery-lm-o70250-6950-25-mr22",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70250_6950_25_mr22.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.891590501805787,
+        63.29921914989591,
+        18.94440692581205,
+        63.32297368064156
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2022-07-03",
+      "checksum": null,
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/tee-2022-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70250_6950_25_mr22: 15625 by 15625 native EPSG:3006 RGBI pixels, 675077408 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
+    },
+    {
+      "id": "imagery-lm-o70250-6975-25-mr22",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "surface"
+      ],
+      "lifecycle": "planned",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2022_U2/o70250_6975_25_mr22.tif",
+      "localPath": null,
+      "bboxWgs84": [
+        18.941342135982143,
+        63.297832702689334,
+        18.99419164120889,
+        63.32160325257587
+      ],
+      "acquiredAt": null,
+      "capturedAt": "2022-06-24",
+      "checksum": null,
+      "checksumReason": "Only bounded native windows were acquired and individually hashed; see geo_data/course-v2/puttom/acquisition/tee-2022-review.json. Complete provider TIFFs were not downloaded or hashed.",
+      "replacementSourceId": null,
+      "accuracyTier": "B",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "o70250_6975_25_mr22: 15625 by 15625 native EPSG:3006 RGBI pixels, 682222150 provider bytes. Authenticated HTTP 206 TIFF header and pinned size verified; only bounded course windows acquired. Pixel spacing is not measured positional accuracy. Attribution: Lantmäteriet, CC BY 4.0; delivery terms remain separate from independent geometry control."
     }
   ],
   "artifacts": [
@@ -448,7 +556,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "puttombuild/course-model.json",
-      "sha256": "8714ffeed308b7459bc992a4efaa4b7087dd090aa60dc0100f86fdc09b3801a3",
+      "sha256": "8f0dad509aba561875dc80da16aa26a768b95b2b008bf198a961e82ceaf7c496",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -459,7 +567,11 @@
         "imagery-lm-o70225-6950-25-mr24",
         "imagery-lm-o70225-6975-25-mr24",
         "imagery-lm-o70250-6950-25-mr24",
-        "imagery-lm-o70250-6975-25-mr24"
+        "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
       ],
       "use": "migration-only",
       "notes": "Compatibility model incorporating retained native orthophoto pixel traces in its unchanged legacy geographic frame. Unreviewed geometry and legacy height sources retain their existing lineage; no survey or canonical-origin approval is implied."
@@ -515,7 +627,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/puttom/migration/course-model.epsg3006.json",
-      "sha256": "8404449d49755cbd5be674f61ec162b44a01e4b25e094e2eceb49400104818e0",
+      "sha256": "414ce65010b919764223dee31d17eb809cdde79a0924b323fc2008b9bdd5fd5f",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -526,7 +638,11 @@
         "imagery-lm-o70225-6950-25-mr24",
         "imagery-lm-o70225-6975-25-mr24",
         "imagery-lm-o70250-6950-25-mr24",
-        "imagery-lm-o70250-6975-25-mr24"
+        "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
       ],
       "use": "migration-only",
       "notes": "Deterministic conversion of the current compatibility model to absolute EPSG:3006 through the declared legacy frame. Coordinate preservation is a software check; scalar heights and canonical origin remain independently unapproved."
@@ -535,7 +651,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/puttom/migration/residual-report.json",
-      "sha256": "b6e7427172a12606454e8abd418c806fffcb5a819e48a395a1ee70a5e0fbd01a",
+      "sha256": "2c49aecdf9a52013496bc5d3060e370952f7e6b1d02f8369ea5dedab9ea38e93",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -546,7 +662,11 @@
         "imagery-lm-o70225-6950-25-mr24",
         "imagery-lm-o70225-6975-25-mr24",
         "imagery-lm-o70250-6950-25-mr24",
-        "imagery-lm-o70250-6975-25-mr24"
+        "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
       ],
       "use": "migration-only",
       "notes": "Current software coordinate migration residuals; fitted legacy-frame comparisons do not establish independent survey registration or approve the canonical origin."
@@ -647,23 +767,27 @@
       "id": "orthophoto-boundary-review-2024",
       "kind": "control",
       "path": "puttombuild/mapping/orthophoto-review.json",
-      "sha256": "b996729bea1fc9035114efbc9a506da96eb47f2fe89f5ab9e778492cde470b52",
+      "sha256": "cb19efa7e652e6570de00aa1cdf9e8ec35de9d3cf756d50630a1181f8ac8ad6c",
       "derivedFrom": [
         "imagery-lm-ortho",
         "imagery-lm-o70225-6950-25-mr24",
         "imagery-lm-o70225-6975-25-mr24",
         "imagery-lm-o70250-6950-25-mr24",
         "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22",
         "club-guide-legacy"
       ],
       "use": "discovery-evidence",
-      "notes": "Machine visual interpretation of 2024-06-27 native image pixels: 16 greens, 21 tee platforms, 28 numbered virtual tee references, 18 fairway polygons, 34 bunkers, 0 water polygons and 0 paths. Per-feature pixel vertices and source hashes are retained; ambiguous boundaries and independent registration remain unresolved. This is not human survey approval."
+      "notes": "Machine visual interpretation of native image pixels from the primary 2024-06-27 campaign and explicitly attributed older tee corroboration: 16 greens, 27 tee platforms, 57 numbered virtual tee references, 18 fairway polygons, 34 bunkers, 0 water polygons and 0 paths. Per-feature pixel vertices, capture dates and source hashes are retained; ambiguous boundaries and independent registration remain unresolved. This is not human survey approval."
     },
     {
       "id": "orthophoto-alignment-audit",
       "kind": "control",
       "path": "puttombuild/mapping/alignment-audit.json",
-      "sha256": "c4b8ce8ec2ce61cd211b4331580fdac1d2db952da481df7430e62bd9819281b9",
+      "sha256": "2a0809327e3bc82f552501b346149fa151861e83ea9b730ee46dcbc464b3933a",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -674,7 +798,11 @@
         "imagery-lm-o70225-6950-25-mr24",
         "imagery-lm-o70225-6975-25-mr24",
         "imagery-lm-o70250-6950-25-mr24",
-        "imagery-lm-o70250-6975-25-mr24"
+        "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
       ],
       "use": "discovery-evidence",
       "notes": "Source-pixel agreement, runtime-frame residuals, geometry topology and all 72 tee reference statuses. Software validation and machine interpretation, not survey approval."
@@ -689,10 +817,104 @@
         "imagery-lm-o70225-6950-25-mr24",
         "imagery-lm-o70225-6975-25-mr24",
         "imagery-lm-o70250-6950-25-mr24",
-        "imagery-lm-o70250-6975-25-mr24"
+        "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
       ],
       "use": "discovery-evidence",
       "notes": "Unadopted spectral open-water candidate excluding reeds and occluded banks. The runtime hydrological outline and water levels retain their previous source; this candidate does not replace them."
+    },
+    {
+      "id": "tee-2022-catalogue",
+      "kind": "acquisition",
+      "path": "puttombuild/mapping/lm-tee-2022-discovery.json",
+      "sha256": "89fb70899875a586fd99b2b59d2ddd8d1d96a98384082b0db2c721af35a49fc1",
+      "derivedFrom": [
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Morning 3 July and midday 24 June 2022 imagery corroborates tee platforms hidden by afternoon shadows in 2024. Each source retains its actual capture timestamp; continuity and numbered identity require explicit review."
+    },
+    {
+      "id": "tee-2022-native-plan",
+      "kind": "acquisition",
+      "path": "puttombuild/mapping/lm-tee-2022-plan.json",
+      "sha256": "2d800048806b27305513cb09e789577487cf5647bb8f20ba22617b9038500f03",
+      "derivedFrom": [
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Morning 3 July and midday 24 June 2022 imagery corroborates tee platforms hidden by afternoon shadows in 2024. Each source retains its actual capture timestamp; continuity and numbered identity require explicit review."
+    },
+    {
+      "id": "tee-2022-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/puttom/acquisition/tee-2022-review.json",
+      "sha256": "d97e653feaf8f71ad2942f9c18e62f74f830f54bb7b70969a87664d4080642e4",
+      "derivedFrom": [
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
+      ],
+      "use": "discovery-evidence",
+      "notes": "18 native windows, all fully valid, with verified TIFF bytes, grids and hashes. Morning 3 July and midday 24 June 2022 imagery corroborates tee platforms hidden by afternoon shadows in 2024. Each source retains its actual capture timestamp; continuity and numbered identity require explicit review."
+    },
+    {
+      "id": "tee-coordinate-report",
+      "kind": "control",
+      "path": "puttombuild/mapping/tee-coordinate-report.json",
+      "sha256": "2692b1fe80642f9e543c0bac4aebe6d4a4799d8ba0325a4d00ce95fab7b9920d",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy",
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 72 tee references with native image, geographic and runtime coordinates, platform containment and decorative marker placement checks. Individual uncertainty and source dates are retained."
+    },
+    {
+      "id": "tee-coordinate-inventory",
+      "kind": "control",
+      "path": "puttombuild/mapping/tee-coordinates.csv",
+      "sha256": "93e24d8ce8d5b0fb7b4c46fa7f4544880e19eb99896682f8768e99b7a06308f9",
+      "derivedFrom": [
+        "terrarium-legacy",
+        "osm-legacy",
+        "esri-imagery-legacy",
+        "club-guide-legacy",
+        "golftraxx-legacy",
+        "imagery-lm-ortho",
+        "imagery-lm-o70225-6950-25-mr24",
+        "imagery-lm-o70225-6975-25-mr24",
+        "imagery-lm-o70250-6950-25-mr24",
+        "imagery-lm-o70250-6975-25-mr24",
+        "imagery-lm-o70225-6950-25-mr22",
+        "imagery-lm-o70225-6975-25-mr22",
+        "imagery-lm-o70250-6950-25-mr22",
+        "imagery-lm-o70250-6975-25-mr22"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Reviewable coordinate inventory for all 72 numbered virtual tee starts, including source dates and placement status; not a current survey of daily movable markers."
     }
   ],
   "blockers": [

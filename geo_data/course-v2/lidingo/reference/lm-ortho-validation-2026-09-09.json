@@ -1,0 +1,895 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "kind": "orthophoto-offline-verification",
+  "observedAt": "2026-09-09T20:41:16.280997+00:00",
+  "state": "passed",
+  "planSha256": "8584c48257c1948850ea74b008caca2452c33449ec4f006c8091ed550a498c20",
+  "acquisitionSha256": "c052c27de7480df3e0dd576125acadce08c3ff418c133bde18ac7499c50f3229",
+  "validatedWindows": 37,
+  "nativeWindows": 36,
+  "pixels": 101472459,
+  "nativeOverlapChecks": [
+    {
+      "left": "lidingo-01-tees",
+      "right": "lidingo-05-tees",
+      "pixels": 71280,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-tees",
+      "right": "lidingo-01-hole",
+      "pixels": 499426,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-tees",
+      "right": "lidingo-04-hole",
+      "pixels": 462108,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-tees",
+      "right": "lidingo-05-hole",
+      "pixels": 177856,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-tees",
+      "right": "lidingo-09-hole",
+      "pixels": 59550,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-tees",
+      "right": "lidingo-18-hole",
+      "pixels": 179676,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-02-tees",
+      "right": "lidingo-04-tees",
+      "pixels": 958848,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-02-tees",
+      "right": "lidingo-01-hole",
+      "pixels": 279850,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-02-tees",
+      "right": "lidingo-02-hole",
+      "pixels": 1280280,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-02-tees",
+      "right": "lidingo-03-hole",
+      "pixels": 2262,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-02-tees",
+      "right": "lidingo-04-hole",
+      "pixels": 1280280,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-03-tees",
+      "right": "lidingo-02-hole",
+      "pixels": 682344,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-03-tees",
+      "right": "lidingo-03-hole",
+      "pixels": 767520,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-tees",
+      "right": "lidingo-01-hole",
+      "pixels": 55350,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-tees",
+      "right": "lidingo-02-hole",
+      "pixels": 1829327,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-tees",
+      "right": "lidingo-03-hole",
+      "pixels": 37980,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-tees",
+      "right": "lidingo-04-hole",
+      "pixels": 1829327,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-tees",
+      "right": "lidingo-09-tees",
+      "pixels": 287140,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-tees",
+      "right": "lidingo-01-hole",
+      "pixels": 161280,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-tees",
+      "right": "lidingo-04-hole",
+      "pixels": 37440,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-tees",
+      "right": "lidingo-05-hole",
+      "pixels": 460080,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-tees",
+      "right": "lidingo-08-hole",
+      "pixels": 334800,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-tees",
+      "right": "lidingo-09-hole",
+      "pixels": 442800,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-tees",
+      "right": "lidingo-05-hole",
+      "pixels": 448632,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-tees",
+      "right": "lidingo-06-hole",
+      "pixels": 608499,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-tees",
+      "right": "lidingo-07-hole",
+      "pixels": 608499,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-tees",
+      "right": "lidingo-08-hole",
+      "pixels": 608499,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-tees",
+      "right": "lidingo-10-hole",
+      "pixels": 133901,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-07-tees",
+      "right": "lidingo-04-hole",
+      "pixels": 65383,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-07-tees",
+      "right": "lidingo-06-hole",
+      "pixels": 531715,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-07-tees",
+      "right": "lidingo-07-hole",
+      "pixels": 881160,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-07-tees",
+      "right": "lidingo-08-hole",
+      "pixels": 1482,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-tees",
+      "right": "lidingo-10-tees",
+      "pixels": 504306,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-tees",
+      "right": "lidingo-05-hole",
+      "pixels": 157206,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-tees",
+      "right": "lidingo-07-hole",
+      "pixels": 513536,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-tees",
+      "right": "lidingo-08-hole",
+      "pixels": 1015744,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-tees",
+      "right": "lidingo-09-hole",
+      "pixels": 11900,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-tees",
+      "right": "lidingo-10-hole",
+      "pixels": 773644,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-tees",
+      "right": "lidingo-01-hole",
+      "pixels": 54150,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-tees",
+      "right": "lidingo-05-hole",
+      "pixels": 641322,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-tees",
+      "right": "lidingo-08-hole",
+      "pixels": 563034,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-tees",
+      "right": "lidingo-09-hole",
+      "pixels": 727012,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-tees",
+      "right": "lidingo-17-hole",
+      "pixels": 12070,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-tees",
+      "right": "lidingo-05-hole",
+      "pixels": 545385,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-tees",
+      "right": "lidingo-06-hole",
+      "pixels": 50270,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-tees",
+      "right": "lidingo-07-hole",
+      "pixels": 449400,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-tees",
+      "right": "lidingo-08-hole",
+      "pixels": 1552725,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-tees",
+      "right": "lidingo-09-hole",
+      "pixels": 332846,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-tees",
+      "right": "lidingo-10-hole",
+      "pixels": 1552725,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-tees",
+      "right": "lidingo-12-tees",
+      "pixels": 53475,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-tees",
+      "right": "lidingo-14-tees",
+      "pixels": 41978,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-tees",
+      "right": "lidingo-11-hole",
+      "pixels": 418600,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-tees",
+      "right": "lidingo-12-hole",
+      "pixels": 418600,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-tees",
+      "right": "lidingo-13-hole",
+      "pixels": 219240,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-tees",
+      "right": "lidingo-14-hole",
+      "pixels": 111228,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-12-tees",
+      "right": "lidingo-11-hole",
+      "pixels": 915084,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-12-tees",
+      "right": "lidingo-12-hole",
+      "pixels": 1104312,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-15-tees",
+      "pixels": 73595,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-17-tees",
+      "pixels": 27072,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-10-hole",
+      "pixels": 75187,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-12-hole",
+      "pixels": 493688,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-13-hole",
+      "pixels": 856622,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-14-hole",
+      "pixels": 856622,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-15-hole",
+      "pixels": 339284,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-tees",
+      "right": "lidingo-17-hole",
+      "pixels": 84322,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-14-tees",
+      "right": "lidingo-10-hole",
+      "pixels": 376956,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-14-tees",
+      "right": "lidingo-11-hole",
+      "pixels": 111228,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-14-tees",
+      "right": "lidingo-12-hole",
+      "pixels": 588640,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-14-tees",
+      "right": "lidingo-13-hole",
+      "pixels": 773156,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-14-tees",
+      "right": "lidingo-14-hole",
+      "pixels": 773156,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-17-tees",
+      "pixels": 548145,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-04-hole",
+      "pixels": 71766,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-13-hole",
+      "pixels": 159720,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-14-hole",
+      "pixels": 252096,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-15-hole",
+      "pixels": 900896,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-16-hole",
+      "pixels": 23205,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-17-hole",
+      "pixels": 850580,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-tees",
+      "right": "lidingo-18-hole",
+      "pixels": 229510,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-16-tees",
+      "right": "lidingo-15-hole",
+      "pixels": 838812,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-16-tees",
+      "right": "lidingo-16-hole",
+      "pixels": 838812,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-17-tees",
+      "right": "lidingo-13-hole",
+      "pixels": 84322,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-17-tees",
+      "right": "lidingo-14-hole",
+      "pixels": 134958,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-17-tees",
+      "right": "lidingo-15-hole",
+      "pixels": 1323044,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-17-tees",
+      "right": "lidingo-16-hole",
+      "pixels": 516338,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-17-tees",
+      "right": "lidingo-17-hole",
+      "pixels": 1323044,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-17-tees",
+      "right": "lidingo-18-hole",
+      "pixels": 651882,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-18-tees",
+      "right": "lidingo-04-hole",
+      "pixels": 141873,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-18-tees",
+      "right": "lidingo-17-hole",
+      "pixels": 1092250,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-18-tees",
+      "right": "lidingo-18-hole",
+      "pixels": 1324232,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-02-hole",
+      "pixels": 452350,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-04-hole",
+      "pixels": 1916894,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-05-hole",
+      "pixels": 653328,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-06-hole",
+      "pixels": 274567,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-07-hole",
+      "pixels": 519760,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-08-hole",
+      "pixels": 90150,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-09-hole",
+      "pixels": 257800,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-01-hole",
+      "right": "lidingo-18-hole",
+      "pixels": 468930,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-02-hole",
+      "right": "lidingo-03-hole",
+      "pixels": 2661120,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-02-hole",
+      "right": "lidingo-04-hole",
+      "pixels": 2867035,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-03-hole",
+      "right": "lidingo-04-hole",
+      "pixels": 140230,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-hole",
+      "right": "lidingo-05-hole",
+      "pixels": 355062,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-hole",
+      "right": "lidingo-06-hole",
+      "pixels": 376920,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-hole",
+      "right": "lidingo-07-hole",
+      "pixels": 705870,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-hole",
+      "right": "lidingo-09-hole",
+      "pixels": 41944,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-hole",
+      "right": "lidingo-15-hole",
+      "pixels": 404383,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-hole",
+      "right": "lidingo-17-hole",
+      "pixels": 842932,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-04-hole",
+      "right": "lidingo-18-hole",
+      "pixels": 2004200,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-hole",
+      "right": "lidingo-06-hole",
+      "pixels": 1061566,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-hole",
+      "right": "lidingo-07-hole",
+      "pixels": 1564254,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-hole",
+      "right": "lidingo-08-hole",
+      "pixels": 3002350,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-hole",
+      "right": "lidingo-09-hole",
+      "pixels": 2138094,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-hole",
+      "right": "lidingo-10-hole",
+      "pixels": 1273747,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-05-hole",
+      "right": "lidingo-18-hole",
+      "pixels": 15312,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-hole",
+      "right": "lidingo-07-hole",
+      "pixels": 2631440,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-hole",
+      "right": "lidingo-08-hole",
+      "pixels": 1218124,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-06-hole",
+      "right": "lidingo-10-hole",
+      "pixels": 243276,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-07-hole",
+      "right": "lidingo-08-hole",
+      "pixels": 2118949,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-07-hole",
+      "right": "lidingo-09-hole",
+      "pixels": 197414,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-07-hole",
+      "right": "lidingo-10-hole",
+      "pixels": 773136,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-hole",
+      "right": "lidingo-09-hole",
+      "pixels": 1841307,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-08-hole",
+      "right": "lidingo-10-hole",
+      "pixels": 3093570,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-hole",
+      "right": "lidingo-10-hole",
+      "pixels": 949732,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-hole",
+      "right": "lidingo-15-hole",
+      "pixels": 57288,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-09-hole",
+      "right": "lidingo-17-hole",
+      "pixels": 57820,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-hole",
+      "right": "lidingo-12-hole",
+      "pixels": 300390,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-hole",
+      "right": "lidingo-13-hole",
+      "pixels": 993376,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-10-hole",
+      "right": "lidingo-14-hole",
+      "pixels": 1478204,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-hole",
+      "right": "lidingo-12-hole",
+      "pixels": 1717900,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-hole",
+      "right": "lidingo-13-hole",
+      "pixels": 354615,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-11-hole",
+      "right": "lidingo-14-hole",
+      "pixels": 211728,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-12-hole",
+      "right": "lidingo-13-hole",
+      "pixels": 2676180,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-12-hole",
+      "right": "lidingo-14-hole",
+      "pixels": 1819545,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-12-hole",
+      "right": "lidingo-15-hole",
+      "pixels": 885920,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-hole",
+      "right": "lidingo-14-hole",
+      "pixels": 2983332,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-hole",
+      "right": "lidingo-15-hole",
+      "pixels": 834939,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-13-hole",
+      "right": "lidingo-17-hole",
+      "pixels": 172822,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-14-hole",
+      "right": "lidingo-15-hole",
+      "pixels": 726563,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-14-hole",
+      "right": "lidingo-17-hole",
+      "pixels": 249458,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-hole",
+      "right": "lidingo-16-hole",
+      "pixels": 2061059,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-hole",
+      "right": "lidingo-17-hole",
+      "pixels": 2319584,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-15-hole",
+      "right": "lidingo-18-hole",
+      "pixels": 1138683,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-16-hole",
+      "right": "lidingo-17-hole",
+      "pixels": 793504,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-16-hole",
+      "right": "lidingo-18-hole",
+      "pixels": 266328,
+      "state": "identical-RGBI"
+    },
+    {
+      "left": "lidingo-17-hole",
+      "right": "lidingo-18-hole",
+      "pixels": 3045900,
+      "state": "identical-RGBI"
+    }
+  ],
+  "checks": [
+    "all expected windows present",
+    "raster and RGB checksums",
+    "EPSG:3006 and exact planned pixel-edge grid",
+    "explicit RGBI band interpretation with independent validity mask",
+    "all pixels valid",
+    "PNG RGB values exactly match GeoTIFF",
+    "worldfile pixel centres",
+    "complete source-image capture-date coverage",
+    "all 18 tee corridors and complete holes at native resolution",
+    "source tile seams coincide with all review pixel grids",
+    "all overlapping native windows have identical RGBI values"
+  ],
+  "limitations": [
+    "Internal coordinate consistency does not measure absolute geolocation accuracy.",
+    "Image verification does not accept any feature geometry."
+  ]
+}

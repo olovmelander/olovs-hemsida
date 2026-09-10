@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { canonicalJson } from './canonical-json.mjs';
+import { updateFileAtomically } from './atomic-file-node.mjs';
 import { verifyChunkAsset } from './chunk-node.mjs';
 import { emitGroundGraph, writeGroundGraphFiles } from './emit-ground-graph-node.mjs';
 import { compileTerrainAssets } from './terrain-compiler-node.mjs';
@@ -192,6 +193,69 @@ test('writeGroundGraphFiles refuses to merge a non-canonical mutable root', asyn
     await writeGroundGraphFiles(directory, graph);
     await writeFile(join(directory, 'courses/v2-index.json'), `${JSON.stringify(graph.root, null, 2)}\n`);
     await assert.rejects(() => writeGroundGraphFiles(directory, graph), /non-canonical v2 root/);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('writeGroundGraphFiles retains every concurrently published course', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'ground-graph-concurrent-'));
+  try {
+    const graphs = ['alpha-course', 'bravo-course', 'charlie-course', 'delta-course'].map(namedFixture);
+    await Promise.all(graphs.map(graph => writeGroundGraphFiles(directory, graph)));
+    const text = await readFile(join(directory, 'courses/v2-index.json'), 'utf8');
+    const root = JSON.parse(text);
+    assert.equal(text, canonicalJson(root));
+    assert.deepEqual(root.courses, graphs.map(graph => graph.root.courses[0]));
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('atomic publication keeps the live root intact during partial staging and a failed write', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'ground-graph-atomic-'));
+  const rootPath = join(directory, 'v2-index.json');
+  try {
+    const oldBytes = Buffer.from(namedFixture('alpha-course').rootBytes);
+    const newBytes = Buffer.from(namedFixture('bravo-course').rootBytes);
+    await writeFile(rootPath, oldBytes);
+    for (const fail of [true, false]) {
+      const publication = updateFileAtomically(rootPath, current => {
+        assert.deepEqual(current, oldBytes);
+        return (async function* () {
+          yield newBytes.subarray(0, 16);
+          const staged = (await readdir(directory)).find(name => name.endsWith('.tmp'));
+          assert.ok(staged, 'replacement must be staged beside the root');
+          assert.deepEqual(await readFile(join(directory, staged)), newBytes.subarray(0, 16));
+          assert.deepEqual(await readFile(rootPath), oldBytes, 'partial replacement must never reach a live reader');
+          if (fail) throw new Error('injected failure after partial staging');
+          yield newBytes.subarray(16);
+        })();
+      });
+      if (fail) await assert.rejects(publication, /injected failure after partial staging/);
+      else assert.equal(await publication, true);
+      assert.deepEqual(await readFile(rootPath), fail ? oldBytes : newBytes);
+      assert.deepEqual(await readdir(directory), ['v2-index.json'], 'failed and successful staging must release their files and lock');
+    }
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+});
+
+test('atomic publication times out without stealing a lock or replacing the live root', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'ground-graph-locked-'));
+  const rootPath = join(directory, 'v2-index.json');
+  try {
+    const oldBytes = Buffer.from(namedFixture('alpha-course').rootBytes);
+    const lockBytes = Buffer.from('another publisher owns this lock');
+    await writeFile(rootPath, oldBytes);
+    await writeFile(`${rootPath}.publish.lock`, lockBytes);
+    await assert.rejects(updateFileAtomically(rootPath, () => {
+      assert.fail('a timed-out publisher must not start its root update');
+    }, { lockTimeoutMs: 25 }), /publication lock is still held/);
+    assert.deepEqual(await readFile(rootPath), oldBytes);
+    assert.deepEqual(await readFile(`${rootPath}.publish.lock`), lockBytes);
+    assert.deepEqual((await readdir(directory)).sort(), ['v2-index.json', 'v2-index.json.publish.lock']);
   } finally {
     await rm(directory, { recursive: true, force: true });
   }

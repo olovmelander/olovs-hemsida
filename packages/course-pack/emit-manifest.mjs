@@ -86,6 +86,10 @@ const COURSES = [
        used to open on 59 because SGF's slope table lists 59 first — a display
        order in a calculator, not a statement about who plays what. */
     tees: { names: ['63', '59', '55', '51', '46', '41'], cols: [0xf4f4ee, 0x1a1a1a, 0xf0c93a, 0x4a8fe0, 0xe08b3a, 0xe0574a], hideFrom: 5 } },
+  { slug: 'tortuna', build: 'tortunabuild', name: 'Tortuna GK', club: 'Tortuna Golfklubb',
+    title: 'Tortuna Golfklubb — Banan i 3D', tag: 'Tortuna · Västerås', boot: 'Tortuna · Västmanland',
+    status: 'provisional', overviewUrl: 'courses/tortuna/overview.svg',
+    tees: { names: ['Gul', 'Blå', 'Röd', 'Orange'], cols: [0xf0c93a, 0x4a8fe0, 0xe0574a, 0xe08b3a], hideFrom: 4 } },
   { slug: 'lidingo', build: 'lidingobuild', name: 'Lidingö GK', club: 'Lidingö Golfklubb',
     title: 'Lidingö Golfklubb — Banan i 3D', tag: 'Preliminär 3D', boot: 'Lidingö · Stockholm',
     status: 'provisional',

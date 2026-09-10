@@ -12,7 +12,25 @@
     16.762,
     59.683
   ],
-  "legacyFrame": null,
+  "legacyFrame": {
+    "buildDirectory": "tortunabuild",
+    "originWgs84": {
+      "latitude": 59.66075504228196,
+      "longitude": 16.728689063923202
+    },
+    "metresPerLatitude": 111320,
+    "metresPerLongitude": 56229.83,
+    "heightReference": "Absolute RH 2000 from retained Lantmäteriet native 1 m DTM; independent local controls pending",
+    "frame": "local metres from EPSG:3006; east +x, north -z; origin E597400.5 N6614899.5; heights RH 2000",
+    "projectedOriginEpsg3006": {
+      "easting": 597400.5,
+      "northing": 6614899.5,
+      "axisMapping": {
+        "worldX": "easting - originEasting",
+        "worldZ": "originNorthing - northing"
+      }
+    }
+  },
   "canonicalFrame": {
     "compoundCrs": "EPSG:5845",
     "horizontalCrs": "EPSG:3006",
@@ -37,9 +55,9 @@
         "terrain",
         "control"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "acquired",
       "use": "candidate",
-      "sourceUri": "https://api.lantmateriet.se/stac-hojd/v1/",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_5/m661_59.tif",
       "localPath": null,
       "bboxWgs84": [
         16.697,
@@ -47,15 +65,15 @@
         16.762,
         59.683
       ],
-      "acquiredAt": null,
-      "capturedAt": null,
-      "checksum": null,
-      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "acquiredAt": "2026-09-09",
+      "capturedAt": "2023-10-16",
+      "checksum": "0cd39d2c60726f499a921e072642105b6f5e599201d5ad18465a6f1e4d70fb1b",
+      "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
-      "horizontalAccuracyMetres": null,
-      "verticalAccuracyMetres": null,
-      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+      "horizontalAccuracyMetres": 0.3,
+      "verticalAccuracyMetres": 0.1,
+      "notes": "Source item 661_59, 303676386-byte COG. Checksum is the provider-advertised whole-source SHA-256, not a recomputation: acquisition used 81 bounded HTTP requests transferring 48280373 bytes. The separate terrain-window artifact records the exact 67141636-byte Float32 window SHA-256 (86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1), 4097 x 4097 native 1 m samples without resampling. Catalogue capture range 2021-04-01T00:00:00Z to 2026-05-02T00:00:00Z; capturedAt is the catalogue representative date, not a site-wide single flight. Declared 0.3 m plan/0.1 m height accuracy is not independent local control approval. CC BY 4.0, Lantmäteriet attribution required."
     },
     {
       "id": "imagery-lm-ortho",
@@ -64,25 +82,25 @@
         "imagery",
         "surface"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "acquired",
       "use": "candidate",
       "sourceUri": "https://api.lantmateriet.se/stac-bild/v1/",
-      "localPath": null,
+      "localPath": "geo_data/course-v2/tortuna/acquisition/orthophoto-review.json",
       "bboxWgs84": [
         16.697,
         59.641,
         16.762,
         59.683
       ],
-      "acquiredAt": null,
-      "capturedAt": null,
-      "checksum": null,
-      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "acquiredAt": "2026-09-09",
+      "capturedAt": "2026-05-02",
+      "checksum": "25dd5fdaac59cd4dde9f6a3961804a9b5a87cbeba7ca1ae7e0dc1be2cff4a6d5",
+      "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+      "notes": "orto-n2-2026, four RGBI COGs captured 2026-05-02, native GSD 0.16 m. This checksum identifies the retained ACQUISITION RECEIPT at localPath, not a whole source COG. The receipt retains exact source URLs and identities plus separate hashes for two private 4000 x 4000, 0.32 m review windows averaged from native pixels. Native 0.16 m supplementary hole crops have a separate receipt. Original imagery remains in ignored private cache and is never a rendered ground texture. Per-feature outlines are provisional visual interpretations; human review and independent accuracy checks remain open. Exact provider terms/attribution are retained in provider-access-review.json."
     },
     {
       "id": "laser-lm-skog",
@@ -92,9 +110,9 @@
         "object",
         "control"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "acquired",
       "use": "candidate",
-      "sourceUri": "https://api.lantmateriet.se/stac-hojd/v1/",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c035/m21c035-661_59.copc.laz",
       "localPath": null,
       "bboxWgs84": [
         16.697,
@@ -102,15 +120,15 @@
         16.762,
         59.683
       ],
-      "acquiredAt": null,
-      "capturedAt": null,
-      "checksum": null,
-      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "acquiredAt": "2026-09-09",
+      "capturedAt": "2021-04-05",
+      "checksum": "4354289e6e6e5c0e42188f62bda0400997e121704dc85a98d88e68b231508b45",
+      "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+      "notes": "21c035-661_59, 930359431-byte COPC, captured 2021-04-01T00:00:00Z to 2021-04-10T00:00:00Z. Checksum is provider-advertised; the full file was not rehashed. Count-checked bounded reads transferred 51817305 bytes in 759 requests. Four retained 1536 x 2560 1 m rasters have independent derived-byte hashes in canopy-evidence.json. Void cells remain unknown. April 2021 canopy and later 2026 exclusions do not prove a complete current tree census or stem/species survey. CC BY 4.0, Lantmäteriet attribution required."
     },
     {
       "id": "tortuna-osm-2026-09-09",
@@ -119,25 +137,25 @@
         "topography",
         "hydrology"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "acquired",
       "use": "candidate",
       "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=16.71,59.651,16.744,59.674",
       "localPath": null,
       "bboxWgs84": [
-        16.697,
-        59.641,
-        16.762,
-        59.683
+        16.71,
+        59.651,
+        16.744,
+        59.674
       ],
-      "acquiredAt": null,
+      "acquiredAt": "2026-09-09",
       "capturedAt": null,
-      "checksum": null,
-      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "checksum": "452faf832c519d3f30a4494a1ea4255b98c8d89bff4377f0ee09de9bc7b8cdb4",
+      "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+      "notes": "Complete bounded 822499-byte OSM XML response hashed before projection. Projected derivative identity is separately retained in osm-context.json; incomplete relations are listed, not repaired by invented closure. No golf hole, green, tee, fairway or bunker outlines exist in this extract. OSM edit timestamps are not capture dates. Buildings/path widths and heights require separate observation. ODbL 1.0; © OpenStreetMap contributors."
     },
     {
       "id": "tortuna-club-reference",
@@ -146,7 +164,7 @@
         "course-guide",
         "routing"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "acquired",
       "use": "reference-only",
       "sourceUri": "https://tortunagk.se/spela-golf/banan/",
       "localPath": null,
@@ -156,15 +174,15 @@
         16.762,
         59.683
       ],
-      "acquiredAt": null,
+      "acquiredAt": "2026-09-09",
       "capturedAt": null,
-      "checksum": null,
-      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "checksum": "fc1fce8891187ef7d8dc46f5ab5ecdbe783007d998fc234e65653d89d3bfe3f3",
+      "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+      "notes": "Checksum identifies the exact official course-page HTML, retained privately. The separate source-assets ledger records all 111 original reference assets (including responsive variants): club pages/photos, 18 full Caddee hole graphics and overview, 18 GolfTraxx HTML pages and three official 2026 rules/slope PDFs. Photos/diagrams are appearance/routing corroboration, not survey input or redistribution grants. Club page embeds Caddee identifier 11454. Unknown image capture dates remain unknown."
     },
     {
       "id": "tortuna-golftraxx-reference",
@@ -173,9 +191,9 @@
         "routing",
         "control"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "acquired",
       "use": "reference-only",
-      "sourceUri": "https://golftraxx.com/playing?coursename=Tortuna+Golfklubb&hole=1&static=true&zipcode=72596SW",
+      "sourceUri": "https://golftraxx.com/hole-layout?coursename=Tortuna+Golfklubb&hole=1&static=true&zipcode=72596SW",
       "localPath": null,
       "bboxWgs84": [
         16.697,
@@ -183,15 +201,96 @@
         16.762,
         59.683
       ],
-      "acquiredAt": null,
+      "acquiredAt": "2026-09-09",
       "capturedAt": null,
-      "checksum": null,
-      "checksumReason": "Source intake in progress; exact retained evidence is recorded before adoption.",
+      "checksum": "c539c77b1ed0aae1843f4c273de5d0eef296071246209a7b6392ddbdf295fc47",
+      "checksumReason": null,
       "replacementSourceId": null,
       "accuracyTier": "unrated",
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
-      "notes": "New Tortuna ground. No source approval, current routing or measured feature accuracy is implied by registration."
+      "notes": "Checksum identifies only the exact hole-1 HTML at sourceUri; all 18 original page hashes and extracted point sets are in separate reference artifacts. TheTipsTee Back is a historical tee reference; teeTarget is a landing target. Three green points do not define green edges. Hole 9 retains an obsolete par-4 start and must not replace the current short par-3 tee. Other reference tee points can be displaced from current observed pads. Public access establishes neither survey accuracy nor a production database/geometry grant."
+    },
+    {
+      "id": "water-breaks-lm-1m",
+      "productId": "lantmateriet-markhojdmodell-1m",
+      "roles": [
+        "hydrology",
+        "topography"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_5/m661_59_brytgeometri.gpkg",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": "2026-09-09",
+      "capturedAt": null,
+      "checksum": "3bd805153c8c23a8dac3e324563b37559001cc4aca9bf681aaa4bc871dba31f9",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "The complete 159744-byte source GeoPackage SHA-256 was verified before clipping. The separately checksummed source clip retains 56 3D Polygon/MultiPolygon features with RH 2000 levels. Acquisition crop edges are not shoreline and the source contains no bathymetry. The runtime-specific water review is a separate derivation retaining area/holes checks; it does not redefine this source. CC BY 4.0, Lantmäteriet attribution required."
+    },
+    {
+      "id": "club-scorecard",
+      "productId": "club-course-guide",
+      "roles": [
+        "course-guide",
+        "routing"
+      ],
+      "lifecycle": "acquired",
+      "use": "reference-only",
+      "sourceUri": "https://www.caddee.se/klubb/tortuna-golfklubb",
+      "localPath": null,
+      "bboxWgs84": [
+        16.697,
+        59.641,
+        16.762,
+        59.683
+      ],
+      "acquiredAt": "2026-09-09",
+      "capturedAt": null,
+      "checksum": "26bbb349b0e2cc78ba6967aac1d66394b07fa7eb03fb22dc0c733652d3b60c36",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Checksum identifies the live Caddee HTML, linked by the official club page, not the derived scorecard JSON. Numeric facts: 18 holes, par 71 (35/36), Gul/Blå/Röd/Orange totals 5410/4890/4425/4060. Official August 2026 slope PDFs independently confirm par 71 and state 2019-08-15 rating date. Hole 9 is par 3, 105/105/95/95 m. Hole 5 is Gul 140 m and Röd 125 m; a competing aggregator reverses these. Coloured tee positions and complete current pad census remain unverified."
+    },
+    {
+      "id": "tortuna-osm-environment-2026-09-09",
+      "productId": "openstreetmap",
+      "roles": [
+        "topography",
+        "hydrology"
+      ],
+      "lifecycle": "acquired",
+      "use": "candidate",
+      "sourceUri": "https://api.openstreetmap.org/api/0.6/map?bbox=16.703,59.645,16.754,59.676",
+      "localPath": null,
+      "bboxWgs84": [
+        16.703,
+        59.645,
+        16.754,
+        59.676
+      ],
+      "acquiredAt": "2026-09-09",
+      "capturedAt": null,
+      "checksum": "0a5c2345215a8cb9b51939b4dff3f538302489e0e052ff19f35f0b0f944ddc78",
+      "checksumReason": null,
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Supplementary bounded 1340456-byte OSM XML acquisition for the wider surroundings. Original source IDs are excluded, complete building footprints retained, land cover clipped only to acquired native terrain, and unresolved relations explicitly omitted. Original contributor/contact metadata remains private. Edit timestamps do not establish capture dates; building dimensions and seasonal appearance remain estimates. ODbL 1.0; © OpenStreetMap contributors."
     }
   ],
   "artifacts": [
@@ -206,15 +305,682 @@
         "laser-lm-skog"
       ],
       "use": "discovery-evidence",
-      "notes": "Public STAC discovery; metadata coverage does not establish authenticated byte access."
+      "notes": "Dated initial public STAC discovery. Its historical missing-credentials state is superseded by the actual acquisition receipts; retained unchanged for provenance."
+    },
+    {
+      "id": "national-source-recovery",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/source-recovery.json",
+      "sha256": "18856e8cfbfe90158885a6b4c444e32ee178b6b6fbd2414c998fed05c55b5752",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Verified GitHub acquisition ZIP digests and individual recovered raster hashes; orthophoto reacquired through existing authorized provider access."
+    },
+    {
+      "id": "national-provider-access-review",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/provider-access-review.json",
+      "sha256": "6c1c3fe47a17e8b00c52835ba5d48f4fdd224899589224a160129edfbba576b3",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Retained exact product and terms documents, hashes, resolved URLs and access outcomes; source-specific rights scope remains explicit."
+    },
+    {
+      "id": "native-terrain-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/terrain-window.json",
+      "sha256": "b7ccf0ac50f315ff98de2f3f0b64f275fa7c7a86a9b77f7f3b3f4bf3e6c522a6",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native 4097 x 4097 1 m Float32 window: all finite, exact source pixels, independent bounded-output SHA and transfer evidence."
+    },
+    {
+      "id": "orthophoto-review-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/orthophoto-review.json",
+      "sha256": "25dd5fdaac59cd4dde9f6a3961804a9b5a87cbeba7ca1ae7e0dc1be2cff4a6d5",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Four May 2026 COG identities and two privately retained 0.32 m RGB review mosaics; output hashes are not full-source hashes."
+    },
+    {
+      "id": "orthophoto-native-crops",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/orthophoto-native-crops.json",
+      "sha256": "e0253a03c004e10f37263ed836792997ce75769c9ba2fcbe40b13e486fe8d4a6",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Private native 0.16 m tee/green crops with exact source windows, transforms and byte identities."
+    },
+    {
+      "id": "orthophoto-supplement-crops",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/orthophoto-supplement-crops.json",
+      "sha256": "5d4c3787779da2d469b13ad5ac23830fc0d1a70e91cfdf8a7b35179654ea5ec5",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Private supplementary native-resolution crops for changed tee and other specific review locations."
+    },
+    {
+      "id": "source-water-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/water-evidence.json",
+      "sha256": "9cf9394642bca55e5a260c406e8bb9b4753ff1cf1d0cf7c92bee581689b62b06",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Complete provider GeoPackage SHA verified, then independently hashed course-window clip retaining source RH 2000 surface heights."
+    },
+    {
+      "id": "source-water-clip",
+      "kind": "topography",
+      "path": "geo_data/course-v2/tortuna/acquisition/water-epsg3006.geojson",
+      "sha256": "71160f84bc842d6e92a7d76f5513f37f70c9bb7f1e902fa7ae1cf8200571501d",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source-clipped 3D geometry before runtime area/holes interpretation."
+    },
+    {
+      "id": "osm-context-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/osm-context.json",
+      "sha256": "3ce58cdc95dd903b109a236755d6978fefd7bd6591efc666a2fdb635d9da273e",
+      "derivedFrom": [
+        "tortuna-osm-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact original OSM XML digest, projected output digest, PROJ version and omitted incomplete source relation inventory."
+    },
+    {
+      "id": "osm-context-projected",
+      "kind": "topography",
+      "path": "geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson",
+      "sha256": "74af51d0af244242cbc628f1508f0314ed97a1de840a1bc93c2216d8c60921a5",
+      "derivedFrom": [
+        "tortuna-osm-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Projected supplementary source infrastructure; no invented closed paths or golf surfaces."
+    },
+    {
+      "id": "reference-asset-ledger",
+      "kind": "acquisition",
+      "path": "tortunabuild/reference/source-assets.json",
+      "sha256": "dfa67dd668f64af97579b803d612d5bc26e8c94001f9bdfff55f14290b5e743f",
+      "derivedFrom": [
+        "tortuna-club-reference",
+        "tortuna-golftraxx-reference",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact private original media/page byte identities and retrieval provenance; does not grant redistribution."
+    },
+    {
+      "id": "reference-source-validation",
+      "kind": "control",
+      "path": "tortunabuild/reference/reference-validation.json",
+      "sha256": "a8da2eb624da2a5e86ba8be955033453ec4b882166eb4ae4a4d00b358778cc6a",
+      "derivedFrom": [
+        "tortuna-club-reference",
+        "tortuna-golftraxx-reference",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All retained original assets rehashed and images decoded; numeric card totals/indexes and coordinate AOI checked."
+    },
+    {
+      "id": "club-current-scorecard",
+      "kind": "routing",
+      "path": "tortunabuild/reference/scorecard.json",
+      "sha256": "f5622fcec97da87c0ecab186993e063a8881764622d3c0dbade74fde9f048bf9",
+      "derivedFrom": [
+        "club-scorecard",
+        "tortuna-club-reference"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Current adopted card, source linkage and explicit conflicts; does not locate tee markers."
+    },
+    {
+      "id": "golftraxx-routing-reference",
+      "kind": "routing",
+      "path": "tortunabuild/reference/routing-golftraxx.json",
+      "sha256": "7e316271242a547d0bbc0cef1a94db8f33f50799c2f6b3bc1d0d60f5a5617411",
+      "derivedFrom": [
+        "tortuna-golftraxx-reference"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 18 historical WGS84 tee, landing, green front/centre/back reference points with explicit status; current hole-9 tee replaced separately."
+    },
+    {
+      "id": "clubhouse-appearance-review",
+      "kind": "control",
+      "path": "tortunabuild/reference/clubhouse-review.json",
+      "sha256": "a3dc23a1f81ed5e709e8558212ba4f7e9d8fcc25acc2a6b29739acd1258d9766",
+      "derivedFrom": [
+        "tortuna-club-reference",
+        "imagery-lm-ortho",
+        "tortuna-osm-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source photos establish appearance and hole-9 relationship; dimensions/footprint need their separate observed evidence."
+    },
+    {
+      "id": "front-nine-observed-surfaces",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/surfaces-front9.geojson",
+      "sha256": "a4af3f3fd98ae90f03b3ee537b385e38f9af91c1c7499c5c55703d7f8e2441fd",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nine greens and visible tees/bunkers digitized from May 2026 imagery; original crop bounds/pixels/hashes and shadow interpretation retained."
+    },
+    {
+      "id": "front-nine-source-pixel-traces",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/traces-front9.json",
+      "sha256": "1ad509a5361e25400130e9a0a48775e40f2caa5a872482d1533b3cf892d6e590",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact source-pixel authoring coordinates; no generated green circles, tee dimensions or hidden physical survey claims."
+    },
+    {
+      "id": "back-nine-observed-surfaces",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/surfaces-back9.geojson",
+      "sha256": "388214fcf1962873969ea2bee9bbafe4b8ad48259a5f5763140e8c3e598fdca6",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nine greens, 11 observed tee platforms, nine fairway/approach strips and 23 bunkers. H11/H16 shadow closures explicit, H12/H15 tees unresolved in this trace set."
+    },
+    {
+      "id": "back-nine-visual-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/back9-review.json",
+      "sha256": "6d53813032aa76d8a01865c1f83c4df57a9b569276f57937b3b689fcd3944b48",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-golftraxx-reference"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Independent polygon validity and source-green reference containment audit, with agent overlay review; not human acceptance."
+    },
+    {
+      "id": "hole-nine-current-tee",
+      "kind": "surface",
+      "path": "geo_data/course-v2/tortuna/mapping/hole-09-tee-review.geojson",
+      "sha256": "93ee5ba50fa8e2fd46d40b1dc97cfef827e3844f9dbff1d182e0e91a119e04c7",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Current short hole-9 tee from national imagery, replacing the old par-4 source reference; coloured markers remain provisional."
+    },
+    {
+      "id": "facility-surface-candidates",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/facilities.geojson",
+      "sha256": "758881a1f915d3816ed9da4251fb7603cbc96e3e9f99f2bc0b9f0fe43f3fd6d1",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-osm-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Observed facilities/practice surfaces and footprint reconciliation, preserving source IDs and unresolved dimensions."
+    },
+    {
+      "id": "facility-source-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/facilities-review.json",
+      "sha256": "f16ff9a6851e1d4ac71db37487ad8b3e44303d333dcad91cfbe8b94c01d37046",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-osm-2026-09-09",
+        "tortuna-club-reference"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Per-feature appearance/source comparison and provisional object-size limitations."
+    },
+    {
+      "id": "runtime-water-source-geometry",
+      "kind": "topography",
+      "path": "geo_data/course-v2/tortuna/mapping/water-runtime-epsg3006.geojson",
+      "sha256": "f1d2c5b0861b2c428b4c18903ec3a6e78ce50a8f076ef18c01c1a46b2fc64076",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Topology-reviewed source-derived water polygons for compatibility publication; no bathymetry or invented shoreline."
+    },
+    {
+      "id": "runtime-water-source-validation",
+      "kind": "control",
+      "path": "geo_data/course-v2/tortuna/mapping/water-runtime-validation.json",
+      "sha256": "bab0d2b17d18385d09bda20c8a6939f5be25276e3266035449967a09cde8e51e",
+      "derivedFrom": [
+        "water-breaks-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Pre-publication source geometry area/holes comparison; independent of graph hash."
+    },
+    {
+      "id": "canopy-raster-acquisition",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/tortuna/vegetation/canopy-evidence.json",
+      "sha256": "c69f37a7cbcf9253f962330cd29be7f1ab55a0fdc2873894042d714d214f34a2",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Count-checked bounded April 2021 COPC measurements and four checksummed retained field rasters with explicit voids."
+    },
+    {
+      "id": "front-nine-independent-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/front9-independent-review.json",
+      "sha256": "5d47175a0b89691e19fe1cd7831599c3739d8a387a5ddcd089133352400d85f1",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Separate agent checked the exact source hash against all nine green and tee crops; no gross misidentification found, shadows and incomplete tee census remain explicit. Not human acceptance."
+    },
+    {
+      "id": "front-nine-fairway-candidates",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/surfaces-front9-fairways.geojson",
+      "sha256": "1655e7b440ed4138421934f072a9567f374e3ce9d6c7e83acda781eefe416180",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Observed maintained fairway/approach candidates; spring cut-transition and obscured-edge uncertainty retained."
+    },
+    {
+      "id": "playing-surface-candidates",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/playing-surfaces.geojson",
+      "sha256": "70fd5e2225c3a19931f67e28b9f9e7029a271f0b9c0ad8c7b3004f74d06d78a0",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Single assembled candidate surface inventory; per-feature IDs, measured source traces and uncertainties retained."
+    },
+    {
+      "id": "playing-surface-assembly-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/assembly-review.json",
+      "sha256": "0918018de63a956ce32db94f6f48d91f763917ebc79f94237e47c35755460089",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "water-breaks-lm-1m",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09",
+        "tortuna-club-reference",
+        "tortuna-golftraxx-reference",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Assembly counts, observed endpoint selection and omitted/uncertain source fields; not independent ground survey."
+    },
+    {
+      "id": "canopy-stand-compilation",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/tortuna/vegetation/stand-evidence.json",
+      "sha256": "fd79cf1c555faf46da7a280f25e4dc804095d628b291ed9e1ffc970195583464",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "water-breaks-lm-1m",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Measured 4 m stand fields and current observed semantic exclusions; representative render positions are not surveyed individual stems/species."
+    },
+    {
+      "id": "projected-course-input",
+      "kind": "composite",
+      "path": "tortunabuild/mapping/course-input.json",
+      "sha256": "e1bd16377a0f79ee6be03a2a1f761fc9e18fd920c269033f0d9b956e372b0c26",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "water-breaks-lm-1m",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09",
+        "tortuna-club-reference",
+        "tortuna-golftraxx-reference",
+        "club-scorecard"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact EPSG:3006 assembled source geometry with input byte hashes and provenance; no tee/card-length geometry fabrication."
+    },
+    {
+      "id": "legacy-course-model",
+      "kind": "composite",
+      "path": "tortunabuild/course-model.json",
+      "sha256": "aba02b65fc4c9e8e5b50fca73c1052a38e02b67b60fa1e8f6a730318ec0599b9",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "water-breaks-lm-1m",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09",
+        "tortuna-club-reference",
+        "tortuna-golftraxx-reference",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Canonical migration input: exact projected local-metre compatibility model with RH 2000 heights sampled from native national DTM. Coloured tee starts and flags are provisional UI references. Independent survey and human review gates remain open."
+    },
+    {
+      "id": "compatibility-scorecard",
+      "kind": "routing",
+      "path": "tortunabuild/card.json",
+      "sha256": "e6b5badb1dae5e951691a6765bf6425800dcc8e8a845d3f0cbdb803a5f79b0ea",
+      "derivedFrom": [
+        "club-scorecard",
+        "tortuna-club-reference"
+      ],
+      "use": "migration-only",
+      "notes": "Compatibility card from the adopted current 18-hole par-71 source facts."
+    },
+    {
+      "id": "compatibility-heightfields",
+      "kind": "terrain",
+      "path": "tortunabuild/heightfields.json",
+      "sha256": "2f276a0ab12b46f934ae75618ff085af92a813ef3c6981d1fd96538fb573010d",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "migration-only",
+      "notes": "4 m and 16 m compatibility levels sample the retained native 1 m source; no terrain deformation or interpolated source substitution."
+    },
+    {
+      "id": "migration-course-model-epsg3006",
+      "kind": "composite",
+      "path": "geo_data/course-v2/tortuna/migration/course-model.epsg3006.json",
+      "sha256": "049a260ccebb7414aed8d540fa3b11d90d7f980fc44d00959682cf9e5b584bcb",
+      "derivedFrom": [
+        "terrain-lm-1m",
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "water-breaks-lm-1m",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09",
+        "tortuna-club-reference",
+        "tortuna-golftraxx-reference",
+        "club-scorecard"
+      ],
+      "use": "migration-only",
+      "notes": "Exact local-to-EPSG:3006 coordinate translation; source RH 2000 heights retained without a geographic approximation."
+    },
+    {
+      "id": "front9-surface-refinements",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/improvements-front9.geojson",
+      "sha256": "fc4e9f72f2041151dd377bcd543a98688d678a2d2b446a1544535172d0aa6faf",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Reviewed source-pixel replacements and additions with explicit replaced IDs. Original traces remain retained; unobserved platforms and tee colours remain unresolved."
+    },
+    {
+      "id": "front9-surface-refinement-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/improvements-front9-review.json",
+      "sha256": "da64dc4224965c8259f4fa320c367da4a657f95dd9fd82933e3874ce0a32c231",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-golftraxx-reference"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact source hashes, replacement/removal decisions, overlay review and unresolved areas. Machine review, not human acceptance or independent survey."
+    },
+    {
+      "id": "back9-surface-refinements",
+      "kind": "surface",
+      "path": "tortunabuild/mapping/improvements-back9.geojson",
+      "sha256": "61e2ad5fbf8dedec9cbb35cdda650fabf56807ba9ba1ddf08acbe6b3da80aa8c",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Reviewed source-pixel replacements and additions with explicit replaced IDs. Original traces remain retained; unobserved platforms and tee colours remain unresolved."
+    },
+    {
+      "id": "back9-surface-refinement-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/improvements-back9-review.json",
+      "sha256": "b9dc8bb12df1871a11102453f0126c351b25c1f063d9ea8fbc918b2420c5c7f5",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-golftraxx-reference"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Exact source hashes, replacement/removal decisions, overlay review and unresolved areas. Machine review, not human acceptance or independent survey."
+    },
+    {
+      "id": "environment-source-observations",
+      "kind": "control",
+      "path": "tortunabuild/mapping/environment-observations.json",
+      "sha256": "a441b7c9c1eb3b077f54932a77fa4979ddd1bb57b4add37d49fd8cb9e185eeb2",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Explicit pixel-grid path/ground-cover interpretations. Widths/materials are interpreted; ground cover does not authorize removal of measured canopy."
+    },
+    {
+      "id": "environment-source-geometry",
+      "kind": "topography",
+      "path": "tortunabuild/mapping/environment.geojson",
+      "sha256": "0eb9d4ccc2bdd24f9ae5c82d053f3aa04ac2e442718a1b490ef01a0d511b44a1",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Mapped fields, routes, open-watercourse centrelines, railway and explicit power supports clipped to native terrain. Polygon holes retained by exact partition; no generated bridge elevations or inferred masts."
+    },
+    {
+      "id": "environment-source-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/environment-review.json",
+      "sha256": "613d4a63320b344265471444f83fa588da4681867f0727c07ef2c744c94041ef",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-osm-2026-09-09",
+        "tortuna-osm-environment-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Source byte identities, counts, omitted covered/deck routes and polygon topology checks. Watercourse widths are context bands, not observed channel banks."
+    },
+    {
+      "id": "building-laser-acquisition",
+      "kind": "acquisition",
+      "path": "tortunabuild/mapping/building-laser-acquisition.json",
+      "sha256": "629da064e2274d7c6004c6b4537a1c1e3f39f735b52c54615b4ff5a633503959",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Count-checked bounded COPC window for building observations; retained point-output identity is distinct from provider whole-source identity."
+    },
+    {
+      "id": "building-ortho-acquisition",
+      "kind": "acquisition",
+      "path": "tortunabuild/mapping/building-orthophoto-acquisition.json",
+      "sha256": "1d82dd55c0f270569be3ee1fdb6e0215485a46f032e06a53ce09554c6735d726",
+      "derivedFrom": [
+        "imagery-lm-ortho"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Native imagery windows for roof interpretation; original rasters stay private."
+    },
+    {
+      "id": "building-roof-observations",
+      "kind": "control",
+      "path": "tortunabuild/mapping/building-observations.json",
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "tortuna-osm-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Observed roof envelopes and component identities kept separate from OSM ground footprints. Roof and facade material observations do not establish dimensions."
+    },
+    {
+      "id": "building-height-evidence",
+      "kind": "control",
+      "path": "tortunabuild/mapping/building-height-evidence.json",
+      "sha256": "145dd1e3b7f424519d6244029ba1380b2801e9573a0510b7c674567b1706a292",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Dated plane support, coverage, height checks and withheld components for measured roof candidates. Unsupported geometry is not filled."
+    },
+    {
+      "id": "building-measured-roofs",
+      "kind": "topography",
+      "path": "tortunabuild/mapping/building-roof-meshes.json",
+      "sha256": "dbcf0bfdd6c71695c84c5f7d403e9999c01b22d26706cac808799f1544d2e34c",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Absolute RH2000 roof TINs and supported perimeter walls from April 2021 laser with May 2026 envelope review. Not a current architectural survey; ground footprints remain separate source hypotheses."
+    },
+    {
+      "id": "building-roof-exclusions",
+      "kind": "topography",
+      "path": "tortunabuild/mapping/building-roof-envelopes.geojson",
+      "sha256": "47779c724c677885304c35a1367fe2f65fcc4e25c4f33c10b0132983a6a2c61f",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Supported observed roof envelopes for canopy exclusion. Distinct from, and not replacements for, ground footprints."
+    },
+    {
+      "id": "building-roof-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/building-roof-review.json",
+      "sha256": "e960ec349f4969aa9be35ea8cd1425417480fe12a2adb30e622990532a6e166b",
+      "derivedFrom": [
+        "imagery-lm-ortho",
+        "laser-lm-skog",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Per-building supported triangles, coverage, source datum and withheld components; no inferred low terraces or small roofs."
+    },
+    {
+      "id": "osm-environment-expansion-acquisition",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/tortuna/acquisition/osm-context-extra.json",
+      "sha256": "a734edf50b52b5437e41e46b71a2f8f378460e23bc2c817edf28eba02109746d",
+      "derivedFrom": [
+        "tortuna-osm-environment-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Separate wider acquisition with retained raw source digest and original-ID exclusion; original intake remains unchanged."
+    },
+    {
+      "id": "osm-environment-expansion-projected",
+      "kind": "topography",
+      "path": "tortunabuild/mapping/environment-context-extra.geojson",
+      "sha256": "c08dc3c0067a8a36683d20155acf9d6f6efbcd6720c827d864dc0f7e4aaf3425",
+      "derivedFrom": [
+        "tortuna-osm-environment-2026-09-09",
+        "tortuna-osm-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Additional mapped surroundings in EPSG:3006; original IDs excluded and holes retained. Buildings truncated by the terrain edge are withheld."
+    },
+    {
+      "id": "osm-environment-expansion-review",
+      "kind": "control",
+      "path": "tortunabuild/mapping/environment-context-extra-review.json",
+      "sha256": "dc9c89e727e88b2c69e0f52959667a6b82ade4879f930d66c112149cba7e6119",
+      "derivedFrom": [
+        "tortuna-osm-environment-2026-09-09",
+        "tortuna-osm-2026-09-09"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Supplementary projection, duplicate-ID, geometry and omission checks; not independent survey approval."
+    },
+    {
+      "id": "canopy-expansion-acquisition",
+      "kind": "canopy",
+      "path": "geo_data/course-v2/tortuna/vegetation/expanded-canopy-evidence.json",
+      "sha256": "c39d21dfd5312f00a798b7dea952c74db18c3bf97ae2df898d878b56f4ae5267",
+      "derivedFrom": [
+        "laser-lm-skog"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Measured surroundings expanded to 2560 x 3072 one-metre cells. The original 60 tiles remain exact bytes inside a separately acquired 120-tile field; missing returns remain unknown."
+    },
+    {
+      "id": "canopy-expansion-review",
+      "kind": "control",
+      "path": "geo_data/course-v2/tortuna/vegetation/expanded-canopy-review.json",
+      "sha256": "b713c76b85603f545f188cf8731e50067f159e6112aa740ebcc16196a7a96900",
+      "derivedFrom": [
+        "laser-lm-skog",
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Independent recomputation of four overlap byte hashes, native tile coverage, source counts, voids and unchanged native terrain identity. Machine validation, not independent positional controls."
     }
   ],
   "blockers": [
     {
       "id": "current-routing-review",
       "severity": "release-blocking",
-      "description": "GolfTraxx has par 72; current sources and the OSM property label have par 71. No complete surveyed current routing has been acquired.",
-      "exitGate": "Resolve the card and changed hole with current club material and imagery before live routing is exposed."
+      "description": "The current card is resolved as par 71 and hole 9 as the short par 3. Current coloured tee locations and the complete physical tee census remain unverified; displaced/occluded reference starts remain provisional.",
+      "exitGate": "Review observed routing and every current tee/green association with club or independent controls; retain current short hole 9."
     },
     {
       "id": "canonical-control-pending",
@@ -225,14 +991,20 @@
     {
       "id": "surface-intake-pending",
       "severity": "release-blocking",
-      "description": "No observed playing-surface outlines acquired yet.",
-      "exitGate": "Review current orthophoto-derived outlines and provenance per hole."
+      "description": "All 18 greens and additional played/facility surfaces are observed candidates from May 2026 national imagery. Shadows, rough transitions, omitted tees and human acceptance remain unresolved.",
+      "exitGate": "Complete per-hole human imagery review and explicit source/accuracy/rights gates before authoritative surface publication."
     },
     {
       "id": "media-rights-review",
       "severity": "quality",
-      "description": "Club/Caddee/GolfTraxx are reference-only; raw orthophoto remains private review input.",
-      "exitGate": "Record applicable source terms and derivative decisions before production authority."
+      "description": "Original club/Caddee/GolfTraxx media remains private reference evidence. National provider terms and attribution are retained; private imagery is measurement input. No implicit production reuse grant is inferred for historical third-party reference geometry.",
+      "exitGate": "Retain source-specific terms, attribution and derivative decisions separately from runtime availability."
+    },
+    {
+      "id": "vegetation-current-review",
+      "severity": "quality",
+      "description": "April 2021 laser canopy is measured area evidence with explicit voids. May 2026 semantic exclusions remove mapped playing/facility areas but do not prove current tree identity, botanical species, clearing completeness or individual stem positions.",
+      "exitGate": "Review current canopy change and significant objects against current imagery/controls; keep representative stands distinct from surveyed individuals."
     }
   ]
 }

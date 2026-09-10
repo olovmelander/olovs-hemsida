@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "state": "provisional-measured-stand-fields",
+  "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+  "campaignId": "21c035-661_59",
+  "observedOn": "2026-09-09",
+  "sourceCapture": "2021-04-05T12:00:00Z",
+  "fullSourceSha256Verified": false,
+  "inputs": [
+    {
+      "path": "tortunabuild/mapping/playing-surfaces.geojson",
+      "sha256": "70fd5e2225c3a19931f67e28b9f9e7029a271f0b9c0ad8c7b3004f74d06d78a0"
+    },
+    {
+      "path": "tortunabuild/mapping/facilities.geojson",
+      "sha256": "bbd584ed3691bc479e075cfc23ada4843322f0795dbbc036781e007f5714b3e5"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson",
+      "sha256": "69e9deeb00686fba8d3b86a9734aa6f2dac5ea4fd7baa08c0c72afafe66a1e6a"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/mapping/water-runtime-epsg3006.geojson",
+      "sha256": "beb7fc057ed858db79578df030aaf9b8c8c0e30299bf60d90106a84533805f06"
+    },
+    {
+      "path": "tortunabuild/mapping/environment.geojson",
+      "sha256": "0eb9d4ccc2bdd24f9ae5c82d053f3aa04ac2e442718a1b490ef01a0d511b44a1"
+    },
+    {
+      "path": "tortunabuild/mapping/building-roof-envelopes.geojson",
+      "sha256": "47779c724c677885304c35a1367fe2f65fcc4e25c4f33c10b0132983a6a2c61f"
+    },
+    {
+      "path": "tortunabuild/mapping/environment-context-extra.geojson",
+      "sha256": "c08dc3c0067a8a36683d20155acf9d6f6efbcd6720c827d864dc0f7e4aaf3425"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "geo_data/course-v2/tortuna/vegetation/canopy-evidence.json",
+      "sha256": "c69f37a7cbcf9253f962330cd29be7f1ab55a0fdc2873894042d714d214f34a2"
+    },
+    {
+      "path": "tortunabuild/cache/canopy/chm.f32",
+      "sha256": "f7648dd78beb6f34afc9a76702c64f6e72c5d444975f1677801bcb61c3d33e76"
+    },
+    {
+      "path": "tortunabuild/cache/canopy/chm.json",
+      "sha256": "841801252df2662ffc2fa88fa3745f3e7bdb0d0f9df6b04583d77900ca0c38ee"
+    },
+    {
+      "path": "tortunabuild/cache/canopy/ground.f32",
+      "sha256": "c2b6e8626b87c12f2d4be314e6739ac82536351fa23c673eea2426eb6687fb05"
+    },
+    {
+      "path": "tortunabuild/cache/canopy/ground.json",
+      "sha256": "7d8b2cc87456f61e1904191253c704218e70183b93c97b50c61506d8ea05215e"
+    },
+    {
+      "path": "geo_data/course-v2/tortuna/vegetation/expanded-canopy-evidence.json",
+      "sha256": "c39d21dfd5312f00a798b7dea952c74db18c3bf97ae2df898d878b56f4ae5267"
+    },
+    {
+      "path": "tortunabuild/cache/expanded-canopy/chm.f32",
+      "sha256": "3384f3b455ae638ceebc76fb492ca113b3d7f364440f1aa0c468dce135a33033"
+    },
+    {
+      "path": "tortunabuild/cache/expanded-canopy/chm.json",
+      "sha256": "2a52db6fab785a6b57dadddcbf82b6f119255b8ace8b8f580cbcb6b959947471"
+    },
+    {
+      "path": "tortunabuild/cache/expanded-canopy/ground.f32",
+      "sha256": "e0b9b263110c370e0014fee3182b3fed1ced9df5bad979c8ad9c5b60ad3b84ff"
+    },
+    {
+      "path": "tortunabuild/cache/expanded-canopy/ground.json",
+      "sha256": "c35d569b4eb29cd5a8ce4fda2013b57ceee26a1e49d5faae4c942d9c76a7ec42"
+    }
+  ],
+  "originalCanopyOverlap": {
+    "chm": {
+      "columnOffset": 512,
+      "rowOffset": 256,
+      "retainedSamples": 3932160,
+      "exactBytes": true
+    },
+    "ground": {
+      "columnOffset": 512,
+      "rowOffset": 256,
+      "retainedSamples": 3932160,
+      "exactBytes": true
+    }
+  },
+  "sourceGrid": {
+    "width": 2560,
+    "height": 3072,
+    "sampleSpacingMetres": 1,
+    "extent": [
+      596120.5,
+      6613363.5,
+      598680.5,
+      6616435.5
+    ],
+    "normalization": "source centres shifted half a cell to compiler edge convention; values unchanged"
+  },
+  "stands": {
+    "tiles": 120,
+    "cellMetres": 4,
+    "encodedBytes": 660520,
+    "individualStemRecords": 0
+  },
+  "exclusions": {
+    "byKind": {
+      "building": {
+        "features": 321,
+        "excludedCells": 109922,
+        "bufferMetres": 6
+      },
+      "water": {
+        "features": 6,
+        "excludedCells": 23879,
+        "bufferMetres": 3
+      },
+      "green": {
+        "features": 18,
+        "excludedCells": 9180,
+        "bufferMetres": 2
+      },
+      "tee": {
+        "features": 22,
+        "excludedCells": 5771,
+        "bufferMetres": 2
+      },
+      "bunker": {
+        "features": 33,
+        "excludedCells": 5279,
+        "bufferMetres": 2
+      },
+      "fairway": {
+        "features": 15,
+        "excludedCells": 72984,
+        "bufferMetres": 1
+      },
+      "practice": {
+        "features": 22,
+        "excludedCells": 6007,
+        "bufferMetres": 1
+      },
+      "road": {
+        "features": 82,
+        "excludedCells": 156827,
+        "bufferMetres": 5
+      },
+      "railway": {
+        "features": 16,
+        "excludedCells": 90865,
+        "bufferMetres": 8
+      },
+      "path": {
+        "features": 149,
+        "excludedCells": 127970,
+        "bufferMetres": 3
+      },
+      "stream": {
+        "features": 20,
+        "excludedCells": 5641,
+        "bufferMetres": 0
+      }
+    },
+    "runtimeJitterGuardMetres": 4,
+    "guardCells": 271669,
+    "validity": {
+      "invalidCanopyCells": 1128397,
+      "unknownGroundCells": 0,
+      "belowVegetationElevationThresholdCells": 0,
+      "minimumVegetationGroundRH2000": 0,
+      "excludedAdditionalCells": 991243
+    }
+  },
+  "layerIndex": {
+    "path": "tortunabuild/cache/vegetation/stands-stage/layer-index.json",
+    "sha256": "9f14dc3b731d5e4816646b13819f3220b478d4c2474c8b1dc7d53cb0bd5b1428"
+  },
+  "limitations": [
+    "April 2021 canopy; present-day clearing and tree changes require further evidence.",
+    "Representative stand positions/species are display choices, not individual stems or botanical observations.",
+    "Unknown canopy cells remain unknown; no procedural forest fills missing source coverage.",
+    "2026 mapped playing/facility footprints and national water exclude old canopy; source completeness remains provisional.",
+    "All rendered stand bases use the same published terrain sampler as the course."
+  ]
+}

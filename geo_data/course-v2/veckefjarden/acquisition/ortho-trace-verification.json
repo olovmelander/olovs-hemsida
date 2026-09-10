@@ -1014,5 +1014,9 @@
       "maxRoundtripPanelPixels": 0.04108368909244355
     }
   ],
-  "issues": []
+  "issues": [],
+  "scope": "historical-first-orthophoto-review",
+  "inputSnapshotCommit": "2ade8719",
+  "supersededBy": "geo_data/course-v2/veckefjarden/acquisition/ortho-alignment-audit.json",
+  "scopeNote": "Input checksums refer to component files at the recorded Git snapshot. The subsequent tee association review supersedes individual tee decisions and corrects the former H6/H16 deck assignment."
 }

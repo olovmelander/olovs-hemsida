@@ -4,7 +4,8 @@ import { describe, it, expect } from 'vitest';
 // The standalone page intentionally carries this dependency-free helper inline.
 // Verify parity, then exercise its selection decisions rather than Three.js meshes.
 const read = file => fs.readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
-const selectors = source => source.split('/*@MAPPED_OBJECT_SELECTORS*/')[1].split('/*@/MAPPED_OBJECT_SELECTORS*/')[0];
+// Git/editor line endings do not change the shared selection contract.
+const selectors = source => source.split('/*@MAPPED_OBJECT_SELECTORS*/')[1].split('/*@/MAPPED_OBJECT_SELECTORS*/')[0].replace(/\r\n/g, '\n');
 const source = selectors(read('apps/golf/src/main.js'));
 const { mappedPowerSupports, mappedPointObjects } = new Function(`${source}; return { mappedPowerSupports, mappedPointObjects };`)();
 const osm = JSON.parse(read('upsalabuild/osm-features.json'));

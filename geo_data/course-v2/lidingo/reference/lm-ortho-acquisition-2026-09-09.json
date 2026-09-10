@@ -1,0 +1,1767 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "state": "acquired-for-review",
+  "observedAt": "2026-09-09T20:32:20.388595+00:00",
+  "horizontalCrs": "EPSG:3006",
+  "collection": "orto-o2-2025",
+  "nativeResolutionMetres": 0.16,
+  "planSha256": "8584c48257c1948850ea74b008caca2452c33449ec4f006c8091ed550a498c20",
+  "access": {
+    "authorized": true,
+    "assets": [
+      {
+        "id": "o65850_6750_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      },
+      {
+        "id": "o65850_6775_25_mr25",
+        "status": 206,
+        "readable": true,
+        "error": null
+      }
+    ]
+  },
+  "windows": [
+    {
+      "id": "lidingo-01-tees",
+      "rasterFile": "lidingo-01-tees.tif",
+      "rgbFile": "lidingo-01-tees.png",
+      "sha256": "36223d27578d778556ee5ed684df0ffd8dce5bbc0907b75d53b0302d0af5c5c1",
+      "rgbSha256": "82faab0f62e33b0200a2836b8851cd0424ff72236b8c574d64de4984b192079f",
+      "requestSha256": "ac44f608666181cc03d15b5a5008206940052f015d3693ae54ed8464515efbca",
+      "bytes": 1299707,
+      "boundsEpsg3006": [
+        677623.36,
+        6586332.32,
+        677724.0,
+        6586459.36
+      ],
+      "geoTransform": [
+        677623.36,
+        0.16,
+        0.0,
+        6586459.36,
+        0.0,
+        -0.16
+      ],
+      "width": 629,
+      "height": 794,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:30.288042+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-02-tees",
+      "rasterFile": "lidingo-02-tees.tif",
+      "rgbFile": "lidingo-02-tees.png",
+      "sha256": "4020cad37f6a9509569c2c69a78cc4dbbee2b6eafaf45fc1a9b344f73b82a5fb",
+      "rgbSha256": "df1eb07ec33b2f4314749f7f29be026c3b03741caafdc8b431b2da76ac7908d5",
+      "requestSha256": "78c3a096d02cf499d6dff93cc8f09abdbed0969f6edc05fdf8036eb2f65b4453",
+      "bytes": 3527367,
+      "boundsEpsg3006": [
+        677747.36,
+        6586114.5600000005,
+        677897.76,
+        6586332.48
+      ],
+      "geoTransform": [
+        677747.36,
+        0.16,
+        0.0,
+        6586332.48,
+        0.0,
+        -0.16
+      ],
+      "width": 940,
+      "height": 1362,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:31.352135+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-03-tees",
+      "rasterFile": "lidingo-03-tees.tif",
+      "rgbFile": "lidingo-03-tees.png",
+      "sha256": "dfe7198ab1b477a0056b9ff057982d8d66e111de82441ce7cd86fa203db93812",
+      "rgbSha256": "f343b4c4788d99c7fdc22fa7258b3f8286f20a8089b80faa3f0e4901eaeb48b7",
+      "requestSha256": "fef9f0cbeac376bcd97ab64f897c8490eb56cf6c16c55935499e0d100aaf0811",
+      "bytes": 2070835,
+      "boundsEpsg3006": [
+        677999.04,
+        6585843.5200000005,
+        678130.24,
+        6585993.28
+      ],
+      "geoTransform": [
+        677999.04,
+        0.16,
+        0.0,
+        6585993.28,
+        0.0,
+        -0.16
+      ],
+      "width": 820,
+      "height": 936,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:32.079939+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-04-tees",
+      "rasterFile": "lidingo-04-tees.tif",
+      "rgbFile": "lidingo-04-tees.png",
+      "sha256": "7fa5acd734d75bcf34630b0e76915d91051ae22208d7c70e77627854b237f41e",
+      "rgbSha256": "3ac5891e9a4b772eb21fa296c8b4765ec3bba2895371290112094af94a6deae6",
+      "requestSha256": "78fa2d09dac2524deea34a338a09c9926c8c74e55128f9a39ed9060b1365deb0",
+      "bytes": 5180517,
+      "boundsEpsg3006": [
+        677785.12,
+        6586109.6,
+        677986.5599999999,
+        6586342.08
+      ],
+      "geoTransform": [
+        677785.12,
+        0.16,
+        0.0,
+        6586342.08,
+        0.0,
+        -0.16
+      ],
+      "width": 1259,
+      "height": 1453,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:33.001668+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-05-tees",
+      "rasterFile": "lidingo-05-tees.tif",
+      "rgbFile": "lidingo-05-tees.png",
+      "sha256": "6439d207033b0a9ae4940d98c269e98358716b448133e4913b44e07c3d846d24",
+      "rgbSha256": "e37759450dc54728608b7c52711eb61324ff4eef291b8f999e860196590c00a3",
+      "requestSha256": "2533022aa51dbcc12ca9da58c770517d971bb87393f2e5cced80c60bc46f68ce",
+      "bytes": 1243647,
+      "boundsEpsg3006": [
+        677536.96,
+        6586342.399999999,
+        677639.2,
+        6586457.6
+      ],
+      "geoTransform": [
+        677536.96,
+        0.16,
+        0.0,
+        6586457.6,
+        0.0,
+        -0.16
+      ],
+      "width": 639,
+      "height": 720,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:33.400941+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-06-tees",
+      "rasterFile": "lidingo-06-tees.tif",
+      "rgbFile": "lidingo-06-tees.png",
+      "sha256": "dd6b70ee124d04f0da5717aec60ac290fe705bfa51c64cc259ae04b3b282d229",
+      "rgbSha256": "02d9119a43ddc0cd696c389d3ef036db255ce40fdb8194096becdf0b63736983",
+      "requestSha256": "b1015b7fbed05fdc042be65fc3462a114033bb753dc39a7fd16cdbdbfcd6cec5",
+      "bytes": 1564029,
+      "boundsEpsg3006": [
+        677422.24,
+        6586126.08,
+        677556.16,
+        6586242.4
+      ],
+      "geoTransform": [
+        677422.24,
+        0.16,
+        0.0,
+        6586242.4,
+        0.0,
+        -0.16
+      ],
+      "width": 837,
+      "height": 727,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:33.970558+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-07-tees",
+      "rasterFile": "lidingo-07-tees.tif",
+      "rgbFile": "lidingo-07-tees.png",
+      "sha256": "2a3953cef6c43d18ac164a94ddf12d8fb1944a11826243c3416dd5d6b3902ee0",
+      "rgbSha256": "a7e43ff7f08e54356f65c3845670628eb9735925e961251d0395c73907256e87",
+      "requestSha256": "eb8d960b695302f2634681861060d88c30ba7832303cb7019a70151ce2ec6372",
+      "bytes": 2414123,
+      "boundsEpsg3006": [
+        677532.32,
+        6585979.359999999,
+        677700.1599999999,
+        6586113.76
+      ],
+      "geoTransform": [
+        677532.32,
+        0.16,
+        0.0,
+        6586113.76,
+        0.0,
+        -0.16
+      ],
+      "width": 1049,
+      "height": 840,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:34.728235+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-08-tees",
+      "rasterFile": "lidingo-08-tees.tif",
+      "rgbFile": "lidingo-08-tees.png",
+      "sha256": "278a2c23fd7acecdc9cce48149a8673d6a2b8a7d137b6c0a2427f179342b4a74",
+      "rgbSha256": "26ea9d7596cf9cd9a68ea9be337b6f1939ed41a090a56c760a6e317489d74919",
+      "requestSha256": "a6fb6a5bc4f27053f73acbadf55b218a9c1a86e8304685f889162ef1e324674a",
+      "bytes": 2900299,
+      "boundsEpsg3006": [
+        677222.72,
+        6586133.28,
+        677394.88,
+        6586284.32
+      ],
+      "geoTransform": [
+        677222.72,
+        0.16,
+        0.0,
+        6586284.32,
+        0.0,
+        -0.16
+      ],
+      "width": 1076,
+      "height": 944,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:35.406667+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-09-tees",
+      "rasterFile": "lidingo-09-tees.tif",
+      "rgbFile": "lidingo-09-tees.png",
+      "sha256": "e0c197059275589b371ce9621f3b33d686e39c1c7b7c6bdcb3d091f78d2660d5",
+      "rgbSha256": "ae70166d4cae8f3d8074dd281fce1e2cc03b0741100b00801703032f393df31c",
+      "requestSha256": "cdc1e40df2a49d6c82d5220fb772c553692811f38930462704612a60efaf1e8b",
+      "bytes": 1966269,
+      "boundsEpsg3006": [
+        677471.04,
+        6586363.84,
+        677615.36,
+        6586492.8
+      ],
+      "geoTransform": [
+        677471.04,
+        0.16,
+        0.0,
+        6586492.8,
+        0.0,
+        -0.16
+      ],
+      "width": 902,
+      "height": 806,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:35.892737+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-10-tees",
+      "rasterFile": "lidingo-10-tees.tif",
+      "rgbFile": "lidingo-10-tees.png",
+      "sha256": "9f833fdf04304eef41fbd6ab1d0d18c17fa88e429b803a2585354116e82d6588",
+      "rgbSha256": "733b30e6b7bbbe08f61a2cc0f1446754977bf78d621b2cc2bc9b1c8cf97cfb1e",
+      "requestSha256": "b17a7f89843f8db7314ee59af425de7ffd0385d7928750cce78f13e99982d5c0",
+      "bytes": 4291449,
+      "boundsEpsg3006": [
+        677259.04,
+        6586189.28,
+        677419.8400000001,
+        6586436.48
+      ],
+      "geoTransform": [
+        677259.04,
+        0.16,
+        0.0,
+        6586436.48,
+        0.0,
+        -0.16
+      ],
+      "width": 1005,
+      "height": 1545,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:36.873807+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-11-tees",
+      "rasterFile": "lidingo-11-tees.tif",
+      "rgbFile": "lidingo-11-tees.png",
+      "sha256": "741049da128408ee2b75910d6eff4428e09877c4fdac8c4b5682311249e969be",
+      "rgbSha256": "8d47b6e3277735ff896bf209c5e96129b533e8700ca4eb6256222d8dae5ee4c0",
+      "requestSha256": "a4abb8eb9558e53b5de9c27332f93acf8a09f8d75d5fac58405ecc8185013ded",
+      "bytes": 1184447,
+      "boundsEpsg3006": [
+        677169.12,
+        6586778.399999999,
+        677261.12,
+        6586894.88
+      ],
+      "geoTransform": [
+        677169.12,
+        0.16,
+        0.0,
+        6586894.88,
+        0.0,
+        -0.16
+      ],
+      "width": 575,
+      "height": 728,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:37.282733+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-12-tees",
+      "rasterFile": "lidingo-12-tees.tif",
+      "rgbFile": "lidingo-12-tees.png",
+      "sha256": "d2bb89eb679e3ebb662782f8c17b48dad4faa6f85f95e2e1ae4061dc04ae9c18",
+      "rgbSha256": "e5842f88c34c624e5f055f0255cbd0ef9b6c3fa8a909ad35dc9b10feadcfa0fa",
+      "requestSha256": "ba63fa72247475d28887cad8e1a1e31e26eb36ed35f4834727164aa6260c676c",
+      "bytes": 3051413,
+      "boundsEpsg3006": [
+        677121.28,
+        6586880.0,
+        677301.76,
+        6587036.64
+      ],
+      "geoTransform": [
+        677121.28,
+        0.16,
+        0.0,
+        6587036.64,
+        0.0,
+        -0.16
+      ],
+      "width": 1128,
+      "height": 979,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:38.371927+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-13-tees",
+      "rasterFile": "lidingo-13-tees.tif",
+      "rgbFile": "lidingo-13-tees.png",
+      "sha256": "90c888d2391ca01e59a85f27ef95cd9470131bd82e7440820f3f4c9cf2b507d7",
+      "rgbSha256": "d313c965f81e0b77bcc3a4463d454d59e144f4064c685b2b0957f2621317c086",
+      "requestSha256": "d4efc9ae7f9bfca1478b07b0308ddd12ec08eb17efea87a8dc361138df510b12",
+      "bytes": 2215351,
+      "boundsEpsg3006": [
+        677443.36,
+        6586671.84,
+        677638.88,
+        6586784.0
+      ],
+      "geoTransform": [
+        677443.36,
+        0.16,
+        0.0,
+        6586784.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1222,
+      "height": 701,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:39.225174+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-14-tees",
+      "rasterFile": "lidingo-14-tees.tif",
+      "rgbFile": "lidingo-14-tees.png",
+      "sha256": "4fb05cf81c1f265e56e2f03d6b4a5577d4a127a226ef802d7173cafb002d12fe",
+      "rgbSha256": "84c60491f96d396b5892c4bec52e36fe6a79ffa513a5e80f62183e293090c77e",
+      "requestSha256": "2530610560ebe12b7170f579a81de9c981d64a35b300753097401c8601f2f87f",
+      "bytes": 2079139,
+      "boundsEpsg3006": [
+        677216.64,
+        6586693.279999999,
+        677397.76,
+        6586802.56
+      ],
+      "geoTransform": [
+        677216.64,
+        0.16,
+        0.0,
+        6586802.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1132,
+      "height": 683,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:39.852090+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-15-tees",
+      "rasterFile": "lidingo-15-tees.tif",
+      "rgbFile": "lidingo-15-tees.png",
+      "sha256": "86f78bf01f655e29bdfeb69805475632befa685c44e4aa19650cfc8e41d751e6",
+      "rgbSha256": "9010cafb4eb08177c3c72838ecd2265f4529f7c906ed391a5e3b0eb1bf539d66",
+      "requestSha256": "d42d52598e65eddc2b0699ebd56ac1bec3065b4288a8bcbfe204443ae56a82f6",
+      "bytes": 2440085,
+      "boundsEpsg3006": [
+        677581.44,
+        6586512.96,
+        677701.7599999999,
+        6586704.64
+      ],
+      "geoTransform": [
+        677581.44,
+        0.16,
+        0.0,
+        6586704.64,
+        0.0,
+        -0.16
+      ],
+      "width": 752,
+      "height": 1198,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:40.557663+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-16-tees",
+      "rasterFile": "lidingo-16-tees.tif",
+      "rgbFile": "lidingo-16-tees.png",
+      "sha256": "830c266c51525777d901c30ba48f91951bc98035e87720d0916b6899795cf307",
+      "rgbSha256": "bfd4894deddef7ed390f9978e2bc42f78322c44c164309af7881d96b981a757e",
+      "requestSha256": "41893c799898a1f50079362506c17fc3fe557b93810b4f1ee062c69af6c49f54",
+      "bytes": 2225705,
+      "boundsEpsg3006": [
+        677732.96,
+        6586726.88,
+        677851.52,
+        6586908.0
+      ],
+      "geoTransform": [
+        677732.96,
+        0.16,
+        0.0,
+        6586908.0,
+        0.0,
+        -0.16
+      ],
+      "width": 741,
+      "height": 1132,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:41.220056+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-17-tees",
+      "rasterFile": "lidingo-17-tees.tif",
+      "rgbFile": "lidingo-17-tees.png",
+      "sha256": "eb7105e99e4a2ce79eee87f504fdc1900d86a3fe30d8bd70f6b53ee8bec4d68e",
+      "rgbSha256": "b7c76be703897378b130e2895f3dcd4a28f3a36220fdf80ae19d0cc2cd700cde",
+      "requestSha256": "c1ff57e9f91e777a9af1a55f83d975db94bfee11bb3af8073a9e4bf4ae8e89d5",
+      "bytes": 3466697,
+      "boundsEpsg3006": [
+        677608.16,
+        6586544.48,
+        677834.0800000001,
+        6586694.4
+      ],
+      "geoTransform": [
+        677608.16,
+        0.16,
+        0.0,
+        6586694.4,
+        0.0,
+        -0.16
+      ],
+      "width": 1412,
+      "height": 937,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:42.021258+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-18-tees",
+      "rasterFile": "lidingo-18-tees.tif",
+      "rgbFile": "lidingo-18-tees.png",
+      "sha256": "c624cd03dfcb0ffc254839e66abb3466090fcd08acc6234c88d8a4038048cc1f",
+      "rgbSha256": "01d44f0b10fd7a3ac3be2fbf4ddbcf718fc49266a2e47b9560da3a141eb1583b",
+      "requestSha256": "942fd7f89314d1d6bfbb25e7cd6fb278d02394330464f9084f3e8c341b2f4de6",
+      "bytes": 3664817,
+      "boundsEpsg3006": [
+        677948.8,
+        6586476.0,
+        678188.4800000001,
+        6586617.44
+      ],
+      "geoTransform": [
+        677948.8,
+        0.16,
+        0.0,
+        6586617.44,
+        0.0,
+        -0.16
+      ],
+      "width": 1498,
+      "height": 884,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:43.117061+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-ground-overview",
+      "rasterFile": "lidingo-ground-overview.tif",
+      "rgbFile": "lidingo-ground-overview.png",
+      "sha256": "6baa3c1a028a91100816913d51f3ab208670f82fa9283caf8804aedce3c6eb4d",
+      "rgbSha256": "5bc0eb608332976d2a1c524f17b7d304ed638af736e63d41e275add233a82937",
+      "requestSha256": "d5c12bb663701b46ad9b65b687502d9554599db52a3466f62fe5e7bfea298aab",
+      "bytes": 7888265,
+      "boundsEpsg3006": [
+        677060.8,
+        6585732.8,
+        678248.8,
+        6587096.8
+      ],
+      "geoTransform": [
+        677060.8,
+        0.8,
+        0.0,
+        6587096.8,
+        0.0,
+        -0.8
+      ],
+      "width": 1485,
+      "height": 1705,
+      "resolutionMetres": 0.8,
+      "resampling": "average",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:32:09.461686+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-01-hole",
+      "rasterFile": "lidingo-01-hole.tif",
+      "rgbFile": "lidingo-01-hole.png",
+      "sha256": "47b8296f77626d741d2cf8d944f042f437dbff782a1847e09094b069f40e373c",
+      "rgbSha256": "9195a394a20a3ec8450539bf0bf8f5d5d1f8a6bce3cfb1b4f6503ef171471a5e",
+      "requestSha256": "7bfb569927bcef2f2d027fdbb52f34722cb89216982657e625912d6b4cc6298b",
+      "bytes": 5804235,
+      "boundsEpsg3006": [
+        677603.36,
+        6586178.08,
+        677793.76,
+        6586479.36
+      ],
+      "geoTransform": [
+        677603.36,
+        0.16,
+        0.0,
+        6586479.36,
+        0.0,
+        -0.16
+      ],
+      "width": 1190,
+      "height": 1883,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:46.923108+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-02-hole",
+      "rasterFile": "lidingo-02-hole.tif",
+      "rgbFile": "lidingo-02-hole.png",
+      "sha256": "5169a282f3d75b5aec21b0b11458c8b3092c7b5c3448c68ef01effca5dc7b541",
+      "rgbSha256": "226e96268e08d27be89625695a3e526b510abe59ebf2b28b377e82ecbd5cb494",
+      "requestSha256": "217169b93fb5061b3bd578de6c6070120fd38659c254c9e5eb7f1fc1164714fd",
+      "bytes": 25096489,
+      "boundsEpsg3006": [
+        677727.36,
+        6585773.28,
+        678115.6799999999,
+        6586352.48
+      ],
+      "geoTransform": [
+        677727.36,
+        0.16,
+        0.0,
+        6586352.48,
+        0.0,
+        -0.16
+      ],
+      "width": 2427,
+      "height": 3620,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:52.587912+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-03-hole",
+      "rasterFile": "lidingo-03-hole.tif",
+      "rgbFile": "lidingo-03-hole.png",
+      "sha256": "bb7fe8023116ff659bcd3778d9cb0ae2c69d56cd9d62954588f29c779f3eb4b0",
+      "rgbSha256": "8751cb04411b8947891380b58fb9ff77da2f5d249607c582ddfcf11059713a09",
+      "requestSha256": "837aa43b9c20a6cc2f55d2097755ed3786e36836579d085c7e3ad89bba8b960d",
+      "bytes": 8483821,
+      "boundsEpsg3006": [
+        677885.28,
+        6585823.5200000005,
+        678150.24,
+        6586119.2
+      ],
+      "geoTransform": [
+        677885.28,
+        0.16,
+        0.0,
+        6586119.2,
+        0.0,
+        -0.16
+      ],
+      "width": 1656,
+      "height": 1848,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:54.239532+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-04-hole",
+      "rasterFile": "lidingo-04-hole.tif",
+      "rgbFile": "lidingo-04-hole.png",
+      "sha256": "61603c5b198dcc5b948df0808536e7e10dc775848e182ddc4230556e015826a6",
+      "rgbSha256": "8423ba2313c376d2af36ce33d41963d1d73f1ec6d05ccee056eba33127cbeb33",
+      "requestSha256": "e9990e11dea39f083c3ffc49bd503bd5543dffdf157fa11ecd34943c6aeecb5d",
+      "bytes": 17794083,
+      "boundsEpsg3006": [
+        677630.88,
+        6586089.6,
+        678006.56,
+        6586538.88
+      ],
+      "geoTransform": [
+        677630.88,
+        0.16,
+        0.0,
+        6586538.88,
+        0.0,
+        -0.16
+      ],
+      "width": 2348,
+      "height": 2808,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:57.743031+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-05-hole",
+      "rasterFile": "lidingo-05-hole.tif",
+      "rgbFile": "lidingo-05-hole.png",
+      "sha256": "a2576e02bd0a0206425ef3804924d04f5b5a1bf07dbedf520d4366c1b03f3d84",
+      "rgbSha256": "d83d4e52e1ba1db26419653aa3166be85f662f56a24d3b21bdd8521b42341140",
+      "requestSha256": "9b7ebc1e99abcdddf7036a0e77baf93f9f8a2999d57a1786471cafdaa0f11dde",
+      "bytes": 9345125,
+      "boundsEpsg3006": [
+        677363.36,
+        6586156.64,
+        677659.2,
+        6586477.6
+      ],
+      "geoTransform": [
+        677363.36,
+        0.16,
+        0.0,
+        6586477.6,
+        0.0,
+        -0.16
+      ],
+      "width": 1849,
+      "height": 2006,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:29:59.954571+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-06-hole",
+      "rasterFile": "lidingo-06-hole.tif",
+      "rgbFile": "lidingo-06-hole.png",
+      "sha256": "9e666d9f9743d01a4a031dfd346599808a12f9d23d643fd08bd59858752cee62",
+      "rgbSha256": "0c4c91f792d12ee7f22bcddb73bb41127e5db8d2afa8972e6b89694e9fb8aa94",
+      "requestSha256": "8bc424063a5d28d1a0a6e7068fc5eea6d662328562adf0dc7a23ce957cc592bc",
+      "bytes": 6690999,
+      "boundsEpsg3006": [
+        677402.24,
+        6586025.600000001,
+        677686.72,
+        6586262.4
+      ],
+      "geoTransform": [
+        677402.24,
+        0.16,
+        0.0,
+        6586262.4,
+        0.0,
+        -0.16
+      ],
+      "width": 1778,
+      "height": 1480,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:01.519109+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-07-hole",
+      "rasterFile": "lidingo-07-hole.tif",
+      "rgbFile": "lidingo-07-hole.png",
+      "sha256": "aa434889ee513c7cb9094c1103229d9a7ab05717a9e46d45efa3f0c56013a116",
+      "rgbSha256": "2c96682ffc454122da24cbfb482ad03eb964f0d37c4da8e70f49d67dc09faa38",
+      "requestSha256": "d0afe62b078279227c6d4b2cc735b0a6c5f90cfacc35a7c909610f951fd656f1",
+      "bytes": 14474947,
+      "boundsEpsg3006": [
+        677307.84,
+        6585959.36,
+        677720.1599999999,
+        6586292.0
+      ],
+      "geoTransform": [
+        677307.84,
+        0.16,
+        0.0,
+        6586292.0,
+        0.0,
+        -0.16
+      ],
+      "width": 2577,
+      "height": 2079,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:04.403709+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-08-hole",
+      "rasterFile": "lidingo-08-hole.tif",
+      "rgbFile": "lidingo-08-hole.png",
+      "sha256": "660fdc3d7a7cddfcddbf5c62b09aad87d930e6b5f08b06525adc52c511c02395",
+      "rgbSha256": "0abb38520f3cf906bd8b7f56437de9d2092327877c37d769d5edc1ab5012a771",
+      "requestSha256": "4a688e257d8bfdf6471576f845c3e98f9e164c26686b32772af21914d9763f1b",
+      "bytes": 14939149,
+      "boundsEpsg3006": [
+        677202.72,
+        6586113.279999999,
+        677611.36,
+        6586466.56
+      ],
+      "geoTransform": [
+        677202.72,
+        0.16,
+        0.0,
+        6586466.56,
+        0.0,
+        -0.16
+      ],
+      "width": 2554,
+      "height": 2208,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:07.353106+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-09-hole",
+      "rasterFile": "lidingo-09-hole.tif",
+      "rgbFile": "lidingo-09-hole.png",
+      "sha256": "78e040ad77636eb216e5775c2e3654e934d93151d3edfebcd1fbc2172099bd54",
+      "rgbSha256": "00e90d6ab1cae7f7ab55329c636ac3d2f8ac6cab4a00f68beafd7efc55846cf8",
+      "requestSha256": "8f0f699c61340f01c9e59fff5d9bf8bcf22436cbf66e763980fbe87b037cae88",
+      "bytes": 6419017,
+      "boundsEpsg3006": [
+        677367.68,
+        6586273.12,
+        677635.3600000001,
+        6586512.8
+      ],
+      "geoTransform": [
+        677367.68,
+        0.16,
+        0.0,
+        6586512.8,
+        0.0,
+        -0.16
+      ],
+      "width": 1673,
+      "height": 1498,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:08.608805+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-10-hole",
+      "rasterFile": "lidingo-10-hole.tif",
+      "rgbFile": "lidingo-10-hole.png",
+      "sha256": "8485413c4dfdc041f7cc73683de0b6ee5cdae3e173b67fdb630c61a8e5d539a8",
+      "rgbSha256": "61e3b5427da76efde95bfd6627862906f03f0267b547b74723f1da0f17b55128",
+      "requestSha256": "b1cceacaa47b50287ee348da87e53ab840b7bebfcd6632c89483ef5ec4238f14",
+      "bytes": 17677353,
+      "boundsEpsg3006": [
+        677186.4,
+        6586169.279999999,
+        677469.12,
+        6586746.56
+      ],
+      "geoTransform": [
+        677186.4,
+        0.16,
+        0.0,
+        6586746.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1767,
+      "height": 3608,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:11.704229+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-11-hole",
+      "rasterFile": "lidingo-11-hole.tif",
+      "rgbFile": "lidingo-11-hole.png",
+      "sha256": "561234f992a62816a050f6e2df5081bd503eb9f6f0ebcf56825c4f00d5489d59",
+      "rgbSha256": "6498fddc0cb1128475e34bbf55aa8308838187db7c9ffc16e141d30ea9c6794e",
+      "requestSha256": "2beed6a7f78eeb614f040cf06eb866d998a836f3f2ba3701086e312d3cb85d83",
+      "bytes": 4778607,
+      "boundsEpsg3006": [
+        677117.12,
+        6586758.399999999,
+        677281.12,
+        6587026.56
+      ],
+      "geoTransform": [
+        677117.12,
+        0.16,
+        0.0,
+        6587026.56,
+        0.0,
+        -0.16
+      ],
+      "width": 1025,
+      "height": 1676,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:12.511685+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-12-hole",
+      "rasterFile": "lidingo-12-hole.tif",
+      "rgbFile": "lidingo-12-hole.png",
+      "sha256": "9b98c71cc82a9573a956107e88293af4ae8148a114462e18125866bfcafc2845",
+      "rgbSha256": "76086a9f2141699cdee4d6fa0bf24715159c351f6ed6755800ac66571cf9dd10",
+      "requestSha256": "f00ff10ac5619b48420c479c9fced6942bd20fe1dcc2f8a6a3186354050b0585",
+      "bytes": 19934441,
+      "boundsEpsg3006": [
+        677101.28,
+        6586719.359999999,
+        677651.8400000001,
+        6587056.64
+      ],
+      "geoTransform": [
+        677101.28,
+        0.16,
+        0.0,
+        6587056.64,
+        0.0,
+        -0.16
+      ],
+      "width": 3441,
+      "height": 2108,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:16.219845+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-13-hole",
+      "rasterFile": "lidingo-13-hole.tif",
+      "rgbFile": "lidingo-13-hole.png",
+      "sha256": "367c14f6fa43b4d534fa7ff4feedecd1a0c26aa9f35ae202ef329b5db9153f2c",
+      "rgbSha256": "67ce89d125e9da3326e92560c90326bea5ff91a51bdb025d5b291b530d0992b3",
+      "requestSha256": "d2dd58f9fc677c7f0bed2f3f0ea29e74ccc4499d7b34443e7a1ab69026502c27",
+      "bytes": 10313417,
+      "boundsEpsg3006": [
+        677200.64,
+        6586651.84,
+        677658.88,
+        6586871.2
+      ],
+      "geoTransform": [
+        677200.64,
+        0.16,
+        0.0,
+        6586871.2,
+        0.0,
+        -0.16
+      ],
+      "width": 2864,
+      "height": 1371,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:18.030364+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-14-hole",
+      "rasterFile": "lidingo-14-hole.tif",
+      "rgbFile": "lidingo-14-hole.png",
+      "sha256": "fedc60809a5df7808b45faab866ff67b5079c3a12e52dd72a6bae9c1d5175939",
+      "rgbSha256": "64ae1da73ccf7fc31a420ad17f2172bf2fd05564adcbbb256ae08b5f7a142d25",
+      "requestSha256": "44f61cfd231cf687e74f4a1f00b59421d10c445d128c2bf6e9b950302e6c3059",
+      "bytes": 10046937,
+      "boundsEpsg3006": [
+        677196.64,
+        6586607.68,
+        677648.0,
+        6586822.56
+      ],
+      "geoTransform": [
+        677196.64,
+        0.16,
+        0.0,
+        6586822.56,
+        0.0,
+        -0.16
+      ],
+      "width": 2821,
+      "height": 1343,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:19.787901+00:00",
+      "sources": [
+        {
+          "id": "o65850_6750_25_mr25",
+          "capturedAt": "2025-05-31T08:18:43Z",
+          "captureStart": "2025-05-31T08:01:24Z",
+          "captureEnd": "2025-05-31T08:27:23Z"
+        },
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-15-hole",
+      "rasterFile": "lidingo-15-hole.tif",
+      "rgbFile": "lidingo-15-hole.png",
+      "sha256": "50fa837ad1fe859653544ab99a49ebf85fa96af45bde3d3cdf6f7224d186b1e8",
+      "rgbSha256": "3b11fac955e8ef5f9ca9fa9017f034cb90bd526baaa626adcf3528bba35a9823",
+      "requestSha256": "ca35122c790d5fa46991c26e0b3cc074ccc5af4ce071989b0612078166aa621f",
+      "bytes": 14753567,
+      "boundsEpsg3006": [
+        677561.44,
+        6586492.96,
+        677856.32,
+        6586970.24
+      ],
+      "geoTransform": [
+        677561.44,
+        0.16,
+        0.0,
+        6586970.24,
+        0.0,
+        -0.16
+      ],
+      "width": 1843,
+      "height": 2983,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:22.803799+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-16-hole",
+      "rasterFile": "lidingo-16-hole.tif",
+      "rgbFile": "lidingo-16-hole.png",
+      "sha256": "89023d2d31571185c3978a1e5362fa49a86ea63d64483d808ac3e9a113d0c569",
+      "rgbSha256": "8db416a4c9ff9d6c603cd4c4d2cff29279f75cbaf28af71f4e5a89c9c1c44470",
+      "requestSha256": "021519da787326faea56e722093cb965f713b2966950e2637efcee07b4c88a27",
+      "bytes": 6055165,
+      "boundsEpsg3006": [
+        677696.16,
+        6586598.56,
+        677871.52,
+        6586928.0
+      ],
+      "geoTransform": [
+        677696.16,
+        0.16,
+        0.0,
+        6586928.0,
+        0.0,
+        -0.16
+      ],
+      "width": 1096,
+      "height": 2059,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:23.840958+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-17-hole",
+      "rasterFile": "lidingo-17-hole.tif",
+      "rgbFile": "lidingo-17-hole.png",
+      "sha256": "d0c4489c23e6199f08cf4b4fca273c600d89afff6e4d3b0339263df13c2bac8f",
+      "rgbSha256": "756ace88eaf6911326944112bf1899f137bdca165f1708c5c1b47405152f8571",
+      "requestSha256": "2d65972c483c20f1f4e9403b1d11fe246c1e47c8f459a1ad868c1c3bd60c201b",
+      "bytes": 13798995,
+      "boundsEpsg3006": [
+        677588.16,
+        6586481.44,
+        678154.4,
+        6586714.4
+      ],
+      "geoTransform": [
+        677588.16,
+        0.16,
+        0.0,
+        6586714.4,
+        0.0,
+        -0.16
+      ],
+      "width": 3539,
+      "height": 1456,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:26.314235+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    },
+    {
+      "id": "lidingo-18-hole",
+      "rasterFile": "lidingo-18-hole.tif",
+      "rgbFile": "lidingo-18-hole.png",
+      "sha256": "141029c293e29c0c513544ed08698960aebf6c34d8e35e10652f7b6fe8dac7b0",
+      "rgbSha256": "97c26add690e633485dfdfc85f78229bcae629e7e620bf1bfe787f7ea7732da1",
+      "requestSha256": "c2bf0eeeef82042d74c1033e3521d97e0f5e535c1ef6b38d2332882a1b32061c",
+      "bytes": 13998207,
+      "boundsEpsg3006": [
+        677654.56,
+        6586393.12,
+        678208.4800000001,
+        6586637.44
+      ],
+      "geoTransform": [
+        677654.56,
+        0.16,
+        0.0,
+        6586637.44,
+        0.0,
+        -0.16
+      ],
+      "width": 3462,
+      "height": 1527,
+      "resolutionMetres": 0.16,
+      "resampling": "nearest",
+      "validFraction": 1.0,
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near infrared"
+      ],
+      "mask": "explicit dataset validity; NIR is not alpha",
+      "acquiredAt": "2026-09-09T20:30:29.175126+00:00",
+      "sources": [
+        {
+          "id": "o65850_6775_25_mr25",
+          "capturedAt": "2025-05-31T08:45:47Z",
+          "captureStart": "2025-05-31T08:27:03Z",
+          "captureEnd": "2025-05-31T08:46:03Z"
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "o65850_6750_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6750_25_mr25.tif",
+      "bytes": 631294152,
+      "boundsEpsg3006": [
+        675000,
+        6585000,
+        677500,
+        6587500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-05-31T08:18:43Z",
+      "captureStart": "2025-05-31T08:01:24Z",
+      "captureEnd": "2025-05-31T08:27:23Z"
+    },
+    {
+      "id": "o65850_6775_25_mr25",
+      "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2025_O2/o65850_6775_25_mr25.tif",
+      "bytes": 680391390,
+      "boundsEpsg3006": [
+        677500,
+        6585000,
+        680000,
+        6587500
+      ],
+      "width": 15625,
+      "height": 15625,
+      "capturedAt": "2025-05-31T08:45:47Z",
+      "captureStart": "2025-05-31T08:27:03Z",
+      "captureEnd": "2025-05-31T08:46:03Z"
+    }
+  ],
+  "rawImageryRedistributed": false,
+  "geometryChanged": false,
+  "attribution": "Ortofoto Nedladdning \u00a9 Lantm\u00e4teriet, bearbetad information, CC BY 4.0.",
+  "terms": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor_for_vardefulla_datamangder_pu.pdf"
+}
