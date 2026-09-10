@@ -299,6 +299,18 @@ async function checkCourse(c) {
         : `land-cover record declared but not loaded: ${land?.error ?? 'unknown'}`);
   } else console.log(`  no land-cover record declared for ${c.slug}; the horizon keeps the rule colouring`);
 
+  /* The surroundings record (geobuild/parse-osm-wide.mjs) under the same rule:
+     declared means loaded and DRAWN -- water rings merged, boxes and ribbons
+     beyond the extract standing, the skyline's towers and lifts built -- since
+     a refused hash degrades to the pack's own horizon with no error anywhere. */
+  const surr = await page.evaluate(() => window.V3D.surroundings());
+  if (c.surroundings) {
+    gate(surr && surr.loaded && !surr.error && surr.water > 0 && surr.buildings > 0 && surr.roads > 0 && surr.railway > 0 && surr.towers > 0,
+      surr && surr.loaded
+        ? `surroundings record loaded and drawn: ${surr.buildings} boxes + ${surr.landmarks} footprints, ${surr.roads} road runs (${surr.roadKm} km), ${surr.railway} rail runs (${surr.railKm} km), ${surr.water} water rings, ${surr.towers} towers, ${surr.lifts} lifts, ${surr.skiJumps} ski-jump inruns, ${surr.tracks} tracks, ${surr.pistes} pistes, ${surr.sports} sports grounds`
+        : `surroundings record declared but not loaded: ${surr?.error ?? 'unknown'}`);
+  } else console.log(`  no surroundings record declared for ${c.slug}`);
+
   /* Nothing may be under water. This is the gate the 14th exists for: an island
      green that once sat five metres under the fjärd, and a course whose water
      level is 21.59 m rather than zero -- so the probe is LOCAL, asking the

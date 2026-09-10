@@ -1,0 +1,12 @@
+{
+  "source": "Read off Lantmäteriet Ortofoto_0.16 through geobuild/ortho-crop.mjs (varvsbacken: centre 811,-925, 600 m at 0.25 m/px), 2026-09-10. Local metres about ORIGIN; the crop is exact per point, the reading is by eye at a 50 m grid, so ±10 m.",
+  "pistes": [
+    {
+      "id": "trace-varvsbacken",
+      "kind": "downhill",
+      "name": "Varvsbacken",
+      "basis": "OSM maps only the drag lift (w260941457, 386 m, x 811 from z -1118 to -732) and no piste. The orthophoto shows one mown alpine corridor around it: 120 m wide at the base station by the E4, narrowing to 30 m at the lift's top, bare rock on its east side at z -1060..-1020. Traced as that corridor; the clearings west of it are felled ground, not piste.",
+      "ring": [[760,-1125],[880,-1125],[895,-1050],[882,-1000],[876,-900],[861,-850],[847,-800],[837,-770],[830,-740],[800,-740],[789,-770],[780,-800],[770,-850],[760,-900],[745,-1000],[740,-1050]]
+    }
+  ]
+}

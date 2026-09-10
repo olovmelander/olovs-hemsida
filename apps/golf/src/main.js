@@ -285,6 +285,45 @@ let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = MODEL;
+/* The SURROUNDINGS RECORD (geobuild/parse-osm-wide.mjs): the town, the harbour,
+   the roads and railway beyond the core extract, the ski jumps, the trotting
+   track, the towers on the skyline -- read off OpenStreetMap out to 6.4 km and
+   served beside the pack like the land-cover record, so that the scenery three
+   kilometres away can change without re-binding a v2 ground. The record
+   carries the pack's own kinds only OUTSIDE the pack's extract (its `inner`
+   box) and the kinds the pack never had wherever they stand, so merging is a
+   concatenation and never a de-duplication. A course without one keeps the
+   horizon its pack alone gives it. */
+const SURR = (() => {
+  const r = COURSE.surroundings;
+  return r && r.version === 1 && Array.isArray(r.buildings) && r.box && r.inner ? r : null;
+})();
+const SURR_STATS = { declared: !!CMETA.surroundings, error: COURSE.surroundingsError ?? null, loaded: !!SURR,
+  water: 0, buildings: 0, landmarks: 0, roads: 0, roadKm: 0, railway: 0, railKm: 0, landuse: 0, piers: 0,
+  powerLines: 0, pistes: 0, sports: 0, tracks: 0, lifts: 0, towers: 0, skiJumps: 0 };
+if (SURR) {
+  /* water the extract never reached: the harbour bay as the coastline's
+     right-hand side closed along the record's box, and the lakes beyond the
+     extract, each at the level the vista heightfield measured inside it (and
+     re-measured against the laser ground under ?v2, like every other ring).
+     Not a lake and not a sea to the engine: a lake takes the fjärd's shore
+     bench and shallows, a sea lays a plane across the whole world. */
+  for (const w of SURR.water) {
+    if (!Number.isFinite(w.level) || !Array.isArray(w.ring) || w.ring.length < 3) continue;
+    M.water.push({ id: w.id, name: w.name || null, ring: w.ring, level: w.level, isLake: false, isSea: false, kind: w.kind, surr: true });
+    SURR_STATS.water++;
+  }
+  M.infra.landuse = (M.infra.landuse || []).concat(SURR.landuse.map(l => ({ ...l, surr: true })));
+  SURR_STATS.landuse = SURR.landuse.length;
+  M.infra.piers = (M.infra.piers || []).concat(SURR.piers.map(p => ({ ...p, surr: true })));
+  SURR_STATS.piers = SURR.piers.length;
+  if (M.infra.objectPlacement !== 'mapped-only') {
+    M.infra.power = M.infra.power || { lines: [], towers: [], poles: [] };
+    M.infra.power.lines = (M.infra.power.lines || []).concat(SURR.power.lines.map(l => ({ ...l, surr: true })));
+    M.infra.power.towers = (M.infra.power.towers || []).concat(SURR.power.towers);
+    SURR_STATS.powerLines = SURR.power.lines.length;
+  }
+}
 /* Display-only surface appearance, and the same source-inspection switch the
    authored buildings answer to: ?buildingGeometry=source shows the pack as it
    was measured, with no display override and no traced additions. */
@@ -771,6 +810,14 @@ if (M.surround) {
   if (M.surround.yard) { const q = { ring: M.surround.yard, bb: ringBBox(M.surround.yard), kind: 'yard' }; SI.add(q, q.bb, 6); }
   if (M.surround.hayfields) { const q = { ring: M.surround.hayfields, bb: ringBBox(M.surround.hayfields), kind: 'hay' }; SI.add(q, q.bb, 6); }
 }
+/* the record's open ground: a ski slope and a jump's landing hill are mown or
+   grazed, a pitch is mown, a track's ring encloses its mown infield. Each
+   keeps the planter, the far cones and the scatter off it and takes its own
+   tint in groundAt and vistaGround. */
+if (SURR) {
+  for (const p of SURR.pistes) { const q = { ring: p.ring, bb: ringBBox(p.ring), kind: 'piste', sub: p.kind }; SI.add(q, q.bb, 6); SURR_STATS.pistes++; }
+  for (const sp of SURR.sports) { const q = { ring: sp.ring, bb: ringBBox(sp.ring), kind: sp.kind === 'pitch' ? 'pitch' : 'track', sub: sp.sport }; SI.add(q, q.bb, 6); SURR_STATS.sports++; }
+}
 const RES = (M.infra.reserves || []).map(r => ({ ring: r.ring, bb: ringBBox(r.ring) }));
 const SHAL = ((M.surround && M.surround.shallows) || []).map(r => ({ ring: r, bb: ringBBox(r) }));
 /* A course may declare that one of its holes stands behind an ARMOURED shore --
@@ -1134,6 +1181,8 @@ const C = {
   slash:  L(0x8a7a55), hard:  L(0x8a857b), hay:   L(0x9aa159), lawn: L(0x5f8a3f),
   aspT:   L(0x55565a), aspL:  L(0x5d5e60), soil:  L(0x6e6046), ballast: L(0x7a7570),
   riprap: L(0xa39e94),
+  /* the record's tracks: a trotting oval is rolled stone dust, an athletics track is red tartan */
+  trackClay: L(0x9c8a72), trackRed: L(0x9a4f3f),
 };
 
 /* how each surface is shaded: detail scale, bump strength, gloss, mow anisotropy */
@@ -1221,6 +1270,8 @@ function groundAt(x, z, h) {
     if (q.kind === 'cut') { col = col.map((v, i) => lerp(v, C.slash[i], 0.7)); sid = S_HEATH; }
     else if (q.kind === 'yard') { col = col.map((v, i) => lerp(v, C.hard[i], 0.85)); sid = S_PATH; }
     else if (q.kind === 'hay') { col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI; }
+    else if (q.kind === 'piste') { col = col.map((v, i) => lerp(v, C.fescue[i], 0.75)); sid = S_SEMI; }
+    else if (q.kind === 'pitch' || q.kind === 'track') { col = col.map((v, i) => lerp(v, C.fair[i], 0.8)); sid = S_SEMI; }
   }
   /* the clubhouse lawn: every ground photograph shows fresh mown green running
      right up to the terrace -- the apron overrides the scrub-and-till colouring
@@ -1778,6 +1829,18 @@ const MIDR = { dx: 12, x0: snap(HF0.x0 + 8, 36), x1: snap(HF0.x0 + (HF0.nx - 1) 
 const midrEdgeFade = (x, z) => smooth(0, 350, Math.min(x - MIDR.x0, MIDR.x1 - x, z - MIDR.z0, MIDR.z1 - z));
 const FARR = { dx: 36, x0: -5400, x1: 5400, z0: -5400, z1: 5400,
                ...((SCENERY && SCENERY.farRing) || {}) };
+/* The surroundings record reaches 6.4 km; the far mesh does not, and a ribbon
+   or a box over no terrain hangs in the sky. Everything from the record is
+   drawn only where the far ring stands, and a line is cut into the runs that
+   do (a ribbon that crosses the edge simply ends there, on ground). */
+const inFarRing = (x, z) => x > FARR.x0 + 18 && x < FARR.x1 - 18 && z > FARR.z0 + 18 && z < FARR.z1 - 18;
+const farRingRuns = line => {
+  const runs = [];
+  let run = [];
+  for (const p of line) { if (inFarRing(p[0], p[1])) run.push(p); else if (run.length) { if (run.length >= 2) runs.push(run); run = []; } }
+  if (run.length >= 2) runs.push(run);
+  return runs;
+};
 
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
 /* Per-building authored GLB replacements, the second of the two display-
@@ -2015,6 +2078,11 @@ function vistaGround(x, z, h, dx, Hf) {
     } else {   /* HARD: built ground is grey with gardens in it; bare rock is rock */
       base = C.hard.map((v, k) => lerp(lerp(v, C.lawn[k], 0.35), C.rock[k], rocky * 0.6));
     }
+  }
+  for (const q of SI.at(x, z)) {
+    if (q.kind !== 'piste' && q.kind !== 'pitch' && q.kind !== 'track') continue;
+    if (ringSD(x, z, q.ring) > 0) continue;
+    return q.kind === 'piste' ? base.map((v, k) => lerp(v, C.fescue[k], 0.8)) : base.map((v, k) => lerp(v, C.fair[k], 0.8));
   }
   for (const q of LI.at(x, z)) {
     if (ringSD(x, z, q.ring) > 0) continue;
@@ -3161,7 +3229,8 @@ function buildRoad(runs, asphalt) {
   let ri = 0;
   for (const run of runs) {
     if (run.line.length < 2) continue;
-    const { P, S } = resamp(run.line, 3);
+    /* a run three kilometres out is sampled coarser than one under the player */
+    const { P, S } = resamp(run.line, run.step || 3);
     if (P.length < 2) continue;
     const lift = run.lift + (ri++ % 8) * 0.004;
     /* Legacy grading is a rendering estimate. A measured source ground must
@@ -3334,6 +3403,39 @@ function makeGravel() {
     } else {
       asphaltRuns.push({ line: r.line, w: mappedLineHalfWidth(r, 2.7), paint: 0, lift: 0.12, tone: C.aspL });
     }
+  }
+  /* the roads beyond the core extract -- the town's streets, the E4 through
+     it, the connectors out to the villages -- as the same ribbons at a coarser
+     step; a phone skips the streets. And the two tracks the record names: the
+     trotting oval as a band of its own width inside its outer edge, the
+     athletics track likewise, each ring offset toward its own centroid (both
+     are convex ovals, which is all that offset is good for). */
+  if (SURR) {
+    for (const r of SURR.roads) {
+      if (r.tunnel) continue;
+      const minor = /^(residential|unclassified|living_street|pedestrian)$/.test(r.kind);
+      if (LOWQ && minor) continue;
+      const gravel = /gravel|ground|dirt|unpaved|compacted/.test(r.surface || '');
+      for (const line of farRingRuns(r.line)) {
+        const step = minor ? 9 : 6;
+        if (gravel) gravelRuns.push({ line, w: minor ? 2.2 : 3.0, lift: 0.12, tone: C.hard, step });
+        else if (r.kind === 'trunk') asphaltRuns.push({ line, w: r.oneway ? (r.lanes >= 2 ? 3.9 : 2.6) : 5.0, paint: (!r.oneway || r.lanes >= 2) ? 2 : 1, lift: 0.16, tone: C.aspT, step });
+        else asphaltRuns.push({ line, w: minor ? 2.7 : 3.2, paint: minor ? 0 : 2, lift: 0.14, tone: C.aspL, step });
+        SURR_STATS.roads++; SURR_STATS.roadKm += polyLen(line) / 1000;
+      }
+    }
+    for (const sp of SURR.sports) {
+      if (sp.kind !== 'track' || !(sp.sport === 'horse_racing' || sp.sport === 'athletics')) continue;
+      const horse = sp.sport === 'horse_racing';
+      const half = horse ? 9 : 4.5;
+      const c = centroidOf(sp.ring);
+      const inner = sp.ring.map(([x, z]) => { const d = Math.hypot(c[0] - x, c[1] - z) || 1; return [x + (c[0] - x) / d * half, z + (c[1] - z) / d * half]; });
+      const line = [...inner, inner[0]];
+      if (!line.every(p => inFarRing(p[0], p[1]))) continue;
+      gravelRuns.push({ line, w: half, lift: 0.10, tone: horse ? C.trackClay : C.trackRed, step: 4 });
+      SURR_STATS.tracks++;
+    }
+    SURR_STATS.roadKm = Math.round(SURR_STATS.roadKm * 10) / 10;
   }
   if (groundMode !== 'atlas') {
     for (const t of M.infra.tracks) {
@@ -3541,7 +3643,7 @@ for (const w of M.water) {
   /* big water needs interior vertices for the wave normal to vary across; ponds
      need them for aShore -- at 26 m nearly every pond vertex sat ON the outline
      where aShore is zero, so the depth ramp never left the shallows */
-  const { V, F } = subdivide(w.ring, faces, w.isLake ? 34 : 9);
+  const { V, F } = subdivide(w.ring, faces, w.isLake ? 34 : w.surr ? 30 : 9);
   const pos = [], sh = [], fm = [], dp = [], idx = [];
   const foamy = w.isLake ? 1 : 0;
   for (const [x, z] of V) {
@@ -3768,12 +3870,23 @@ if (COASTAL_WATER?.indices.length) {
 /* the five wooden jetties OSM maps on the fjärd's shore: plank decks over water */
 {
   const lake = M.water.find(w => w.isLake);
-  const deckY = (lake ? lake.level : 21.6) + 0.42;
+  const lakeDeckY = (lake ? lake.level : 21.6) + 0.42;
+  /* the record's piers stand in the harbour, a metre and a half below the
+     regulated lake: each takes the level of the water ring nearest its first
+     point, the pack's own keep the fjärd's */
+  const deckAt = p => {
+    if (!p.surr) return lakeDeckY;
+    const q = (p.ring || p.line)[0];
+    let best = null, bd = Infinity;
+    for (const w of M.water) { if (w.stream || !w.ring) continue; const d = Math.abs(ringSD(q[0], q[1], w.ring)); if (d < bd) { bd = d; best = w; } }
+    return (best && bd < 120 ? best.level : demH(q[0], q[1])) + 0.42;
+  };
   const V = [], K = [];
   const wood = L(0x8a7d6a), side = L(0x6d6154);
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
   for (const p of (M.infra.piers || [])) {
+    const deckY = deckAt(p);
     if (p.ring) {
       const faces = triangulate(p.ring);
       for (const [a, b, c] of faces)
@@ -5217,6 +5330,8 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
          was punching that clearing into five other courses' horizons. */
       if (CLEARINGS.some(cl => Math.hypot(px - cl.c[0], pz - cl.c[1])
             < cl.r + (cl.wobble ? fbm(px * 0.01, pz * 0.01, 2) * cl.wobble : 0))) continue;
+      /* a ski slope, a jump's landing hill or a pitch is open whatever a 12 m cell says */
+      if (SURR && SI.at(px, pz).some(q => (q.kind === 'piste' || q.kind === 'pitch' || q.kind === 'track') && ringSD(px, pz, q.ring, 1) < 0)) continue;
       /* the 15% thinning was the dressing rule's own texture; a cell the record
          calls closed canopy is closed, and from 500 m up the far forest read as
          meadow with trees on it at one cone per 1,060 m2 */
@@ -5558,7 +5673,7 @@ function mappedPointObjects(points) {
     const L = mappedOnly ? ln.line.filter(p => supportByPoint.has(p.join(','))) : ln.line;
     if (!mappedOnly) for (let i = 0; i < L.length; i++) {
       const [x, z] = L[i];
-      if (!IN(x, z)) continue;
+      if (ln.surr ? !inFarRing(x, z) : !IN(x, z)) continue;
       const key = Math.round(x / 4) + ',' + Math.round(z / 4);
       if (seen.has(key)) continue;
       seen.add(key);
@@ -5569,7 +5684,7 @@ function mappedPointObjects(points) {
     /* the wires: sagging catenaries between consecutive surveyed supports */
     if (!LOWQ) for (let i = 0; i < L.length - 1; i++) {
       const [x0, z0] = L[i], [x1, z1] = L[i + 1];
-      if (!mappedOnly && !IN(x0, z0) && !IN(x1, z1)) continue;
+      if (!mappedOnly && (ln.surr ? !(inFarRing(x0, z0) && inFarRing(x1, z1)) : !IN(x0, z0) && !IN(x1, z1))) continue;
       const span = Math.hypot(x1 - x0, z1 - z0);
       if (span < 4 || span > 480) continue;
       const h0 = terrainH(x0, z0) + attach, h1 = terrainH(x1, z1) + attach;
@@ -5610,7 +5725,10 @@ function mappedPointObjects(points) {
 
   /* the railway: ballast ribbon, two rails, masts -- and the Botniabanan bridge
      deck held above the water it crosses */
-  const RW = (M.infra.railway || []).filter(r => r.line.length >= 2);
+  const RW = (M.infra.railway || []).concat(SURR
+    ? SURR.railway.flatMap(r => farRingRuns(r.line).map(line => ({ ...r, line, bridge: false, surr: true })))
+    : []).filter(r => r.line.length >= 2);
+  if (SURR) { SURR_STATS.railway = RW.filter(r => r.surr).length; SURR_STATS.railKm = Math.round(RW.filter(r => r.surr).reduce((a, r) => a + polyLen(r.line), 0) / 100) / 10; }
   if (RW.length) {
     const runs = RW.map(r => ({ line: r.line, w: 2.6, lift: 0.14, tone: C.ballast,
                                 minH: r.bridge ? ((M.water.find(w => w.isLake) || { level: 22 }).level + 8) : -1e9 }));
@@ -6454,24 +6572,55 @@ if (M.infra.objectPlacement === 'mapped-only') {
 
   /* the distant town: each far building is its oriented box, roof-grey on top,
      read through a kilometre of haze */
-  const FB = M.infra.farB || [];
+  /* ... and the record's town beyond the extract: kind 0 a house, 1 industrial,
+     2 a block (apartments, commercial, public), a seventh number where OSM
+     tagged a height or a storey count, and the big or named footprints kept
+     as footprints -- the arena, the churches, the hospital, the halls -- since
+     a town is recognised by exactly those. */
+  const FB = (M.infra.farB || []).concat(SURR ? SURR.buildings.filter(b => inFarRing(b[0], b[1])) : []);
+  if (SURR) SURR_STATS.buildings = FB.length - (M.infra.farB || []).length;
   if (FB.length) {
     const V2 = [], K2 = [];
     const tri2 = (a, b, c, col) => { V2.push(...a, ...b, ...c); K2.push(...col, ...col, ...col); };
     const q2 = (a, b, c, d, col) => { tri2(a, b, c, col); tri2(a, c, d, col); };
-    for (const [cx, cz, hw, hd, ang, ind] of FB) {
-      const h = ind ? 6.2 : 4.4;
+    const BLOCKA = L(0xc9c2b4), BLOCKB = L(0xb8a58e), BLOCKC = L(0xd8d3c6), CHURCH = L(0xe6e4dc), SPIRE = L(0x3a3d40);
+    for (const [cx, cz, hw, hd, ang, ind, hTag] of FB) {
+      const h = hTag > 0 ? hTag : ind === 1 ? 6.2 : ind === 2 ? 9.5 : 4.4;
       const base = demH(cx, cz) - 1.2;
       const c = Math.cos(ang), s = Math.sin(ang);
       const P = (u, v, y) => [cx + u * c - v * s, y, cz + u * s + v * c];
       const k = hash2(Math.round(cx / 3), Math.round(cz / 3));
-      const wall = ind ? IND : k < 0.5 ? L(0x86463c) : k < 0.8 ? L(0xb5ac93) : L(0x8f8c82);
+      const wall = ind === 1 ? IND : ind === 2 ? (k < 0.4 ? BLOCKA : k < 0.7 ? BLOCKB : BLOCKC)
+        : k < 0.5 ? L(0x86463c) : k < 0.8 ? L(0xb5ac93) : L(0x8f8c82);
       const corners = [[-hw, -hd], [hw, -hd], [hw, hd], [-hw, hd]];
       for (let i = 0; i < 4; i++) {
         const [u0, v0] = corners[i], [u1, v1] = corners[(i + 1) % 4];
         q2(P(u0, v0, base), P(u1, v1, base), P(u1, v1, base + h), P(u0, v0, base + h), wall);
       }
       q2(P(-hw, -hd, base + h), P(hw, -hd, base + h), P(hw, hd, base + h), P(-hw, hd, base + h), ROOFA);
+    }
+    if (SURR) for (const b of SURR.landmarks) {
+      const cc = centroidOf(b.ring);
+      if (!inFarRing(cc[0], cc[1]) || b.ring.length < 3) continue;
+      const faces = triangulate(b.ring);
+      if (!faces.length) continue;
+      const base = demH(cc[0], cc[1]) - 1.0, top = base + b.h;
+      const church = b.kind === 'church';
+      const wall = church ? CHURCH : b.kind === 'stadium' || b.sport ? L(0xb9bdc0) : b.kind === 'industrial' || b.kind === 'warehouse' ? IND : L(0xc4bdae);
+      for (let i = 0; i < b.ring.length; i++) {
+        const a = b.ring[i], d = b.ring[(i + 1) % b.ring.length];
+        q2([a[0], base, a[1]], [d[0], base, d[1]], [d[0], top, d[1]], [a[0], top, a[1]], wall);
+      }
+      for (const [i, j, k2] of faces) tri2([b.ring[i][0], top, b.ring[i][1]], [b.ring[k2][0], top, b.ring[k2][1]], [b.ring[j][0], top, b.ring[j][1]], church ? SPIRE : ROOFA);
+      /* a church carries its tower and spire: the one silhouette a townscape is read by */
+      if (church) {
+        const sh = b.h * 1.4, sp = b.h * 1.2, r0 = 3.2;
+        for (const [ox, oz] of [[r0, 0], [0, r0]]) {
+          q2([cc[0] - ox, top, cc[1] - oz], [cc[0] + ox, top, cc[1] + oz], [cc[0] + ox, top + sh, cc[1] + oz], [cc[0] - ox, top + sh, cc[1] - oz], CHURCH);
+          tri2([cc[0] - ox, top + sh, cc[1] - oz], [cc[0] + ox, top + sh, cc[1] + oz], [cc[0], top + sh + sp, cc[1]], SPIRE);
+        }
+      }
+      SURR_STATS.landmarks++;
     }
     const g2 = new THREE.BufferGeometry();
     g2.setAttribute('position', new THREE.Float32BufferAttribute(V2, 3));
@@ -6901,6 +7050,131 @@ if (M.infra.objectPlacement === 'mapped-only') {
      and a course without a module pays nothing at all. */
   await buildScenery(CMETA.slug, { THREE, scene, tri, quad, pole, demH, terrainH, L,
                                    WHITE, GREY, YEL, DARKR, vec3, stats, TAU, avLights });
+  /* The surroundings record's skyline, in the same batch: what OpenStreetMap
+     surveyed as a point or a ring and the scenery module does not draw from
+     its own node. Everything is a rendering estimate on a surveyed position:
+     a chimney's height is its tag, a communication tower's is not, an inrun's
+     tower height is read from its length. Nothing here stands on the course. */
+  const cables = [];
+  if (SURR) {
+    const CONC = L(0xb3aca1), STEEL = L(0x8f959a), HUT = L(0x5a4a3a), INRUN = L(0xe2e4e6);
+    /* aerial lifts: a pylon at every surveyed one, or every 45 m where OSM has
+       none, a cable between them at the pylon's height, a hut at each end */
+    for (const l of SURR.lifts) {
+      if (!l.line.every(p => inFarRing(p[0], p[1])) || l.line.length < 2) continue;
+      const chair = l.kind === 'chair_lift';
+      const ph = chair ? 9 : 6.5;
+      let pyl = l.pylons;
+      if (!pyl.length) {
+        pyl = [];
+        const total = polyLen(l.line);
+        for (let d = 0; d <= total; d += 45) { const a = alongLine(l.line, d / total); pyl.push([a.x, a.z]); }
+      }
+      pyl = [l.line[0], ...pyl.filter(q => hyp(q, l.line[0]) > 8 && hyp(q, l.line[l.line.length - 1]) > 8), l.line[l.line.length - 1]];
+      let prev = null;
+      for (const [x, z] of pyl) {
+        const y0 = demH(x, z) - 0.3;
+        pole(x, y0, z, ph, 0.28, STEEL);
+        const top = [x, y0 + ph, z];
+        if (prev) {
+          const dx = top[0] - prev[0], dz = top[2] - prev[2], dl = Math.hypot(dx, dz) || 1;
+          const nx = -dz / dl, nz = dx / dl;
+          for (const off of chair ? [-1.4, 1.4] : [0]) cables.push(prev[0] + nx * off, prev[1], prev[2] + nz * off, top[0] + nx * off, top[1], top[2] + nz * off);
+        }
+        prev = top;
+      }
+      for (const [x, z] of [l.line[0], l.line[l.line.length - 1]]) {
+        const y0 = demH(x, z) - 0.4, hw = 2.6, hd = 2.0, hh = 2.8;
+        for (const [a, b] of [[[-hw, -hd], [hw, -hd]], [[hw, -hd], [hw, hd]], [[hw, hd], [-hw, hd]], [[-hw, hd], [-hw, -hd]]])
+          quad([x + a[0], y0, z + a[1]], [x + b[0], y0, z + b[1]], [x + b[0], y0 + hh, z + b[1]], [x + a[0], y0 + hh, z + a[1]], HUT);
+        quad([x - hw - 0.3, y0 + hh, z - hd - 0.3], [x + hw + 0.3, y0 + hh, z - hd - 0.3], [x + hw + 0.3, y0 + hh, z + hd + 0.3], [x - hw - 0.3, y0 + hh, z + hd + 0.3], DARKR);
+      }
+      SURR_STATS.lifts++;
+    }
+    /* masts, towers, chimneys, the water tower */
+    for (const t of SURR.towers) {
+      const [x, z] = t.c;
+      if (!inFarRing(x, z)) continue;
+      const y0 = demH(x, z) - 0.5;
+      if (t.kind === 'chimney') {
+        const h = t.h || 40, r0 = Math.max(1.6, h * 0.045), r1 = r0 * 0.7;
+        for (const [ox, oz] of [[1, 0], [0, 1]])
+          quad([x - ox * r0, y0, z - oz * r0], [x + ox * r0, y0, z + oz * r0], [x + ox * r1, y0 + h, z + oz * r1], [x - ox * r1, y0 + h, z - oz * r1], CONC);
+        if (h >= 45) avLights.push([x, y0 + h + 1, z]);
+      } else if (t.kind === 'water_tower') {
+        /* a shaft under a broad tank: the shape every Swedish town's reads as from afar */
+        const h = t.h || 28;
+        pole(x, y0, z, h * 0.72, 3.4, CONC);
+        const rt = 9.5, yA = y0 + h * 0.62, yB = y0 + h;
+        for (let k = 0; k < 8; k++) {
+          const a0 = k * TAU / 8, a1 = (k + 1) * TAU / 8;
+          quad([x + Math.cos(a0) * 3.6, yA, z + Math.sin(a0) * 3.6], [x + Math.cos(a1) * 3.6, yA, z + Math.sin(a1) * 3.6],
+               [x + Math.cos(a1) * rt, yA + 4, z + Math.sin(a1) * rt], [x + Math.cos(a0) * rt, yA + 4, z + Math.sin(a0) * rt], CONC);
+          quad([x + Math.cos(a0) * rt, yA + 4, z + Math.sin(a0) * rt], [x + Math.cos(a1) * rt, yA + 4, z + Math.sin(a1) * rt],
+               [x + Math.cos(a1) * rt, yB, z + Math.sin(a1) * rt], [x + Math.cos(a0) * rt, yB, z + Math.sin(a0) * rt], CONC);
+          tri([x + Math.cos(a0) * rt, yB, z + Math.sin(a0) * rt], [x + Math.cos(a1) * rt, yB, z + Math.sin(a1) * rt], [x, yB + 2.5, z], DARKR);
+        }
+      } else if (t.kind === 'mast') {
+        /* a guyed mast: a thin body and three guy fans */
+        const h = t.h || 60;
+        pole(x, y0, z, h, Math.max(0.5, h * 0.006), GREY);
+        for (let a = 0; a < 3; a++) {
+          const ca = Math.cos(a * TAU / 3 + 0.7), sa = Math.sin(a * TAU / 3 + 0.7);
+          for (const f of [0.45, 0.9]) {
+            const gx = x + ca * h * 0.6 * f, gz = z + sa * h * 0.6 * f, gy = demH(gx, gz);
+            const wx = -sa * 0.12, wz = ca * 0.12;
+            quad([x - wx, y0 + h * f, z - wz], [x + wx, y0 + h * f, z + wz], [gx + wx, gy, gz + wz], [gx - wx, gy, gz - wz], GREY);
+          }
+        }
+        if (h >= 45) avLights.push([x, y0 + h + 1, z]);
+      } else {
+        /* a lattice tower reads as two crossed tapering planes */
+        const h = t.h || 36;
+        for (const [ox, oz] of [[1, 0], [0, 1]])
+          quad([x - ox * 2.2, y0, z - oz * 2.2], [x + ox * 2.2, y0, z + oz * 2.2], [x + ox * 0.5, y0 + h, z + oz * 0.5], [x - ox * 0.5, y0 + h, z - oz * 0.5], STEEL);
+        if (h >= 45) avLights.push([x, y0 + h + 1, z]);
+      }
+      SURR_STATS.towers++;
+    }
+    /* a ski jump's inrun: the elongated ring OSM draws for the structure (the
+       small hills' single pitch polygon is the whole hill and is left as tint).
+       Its long axis is the inrun, its higher end the top; the deck climbs from
+       three metres over the takeoff to a tower whose height is read from the
+       inrun's length, on paired posts every eight metres. */
+    for (const p of SURR.pistes) {
+      if (p.kind !== 'ski_jump') continue;
+      const cc = centroidOf(p.ring);
+      if (!inFarRing(cc[0], cc[1])) continue;
+      /* principal axis by the farthest vertex pair */
+      let e0 = null, e1 = null, best = 0;
+      for (const a of p.ring) for (const b of p.ring) { const d = hyp(a, b); if (d > best) { best = d; e0 = a; e1 = b; } }
+      let width = 0;
+      const ax = (e1[0] - e0[0]) / best, az = (e1[1] - e0[1]) / best;
+      for (const q of p.ring) width = Math.max(width, Math.abs((q[0] - e0[0]) * -az + (q[1] - e0[1]) * ax));
+      if (best < 30 || best > 200 || width > best / 3) continue;   /* an inrun is long and narrow */
+      if (demH(e0[0], e0[1]) < demH(e1[0], e1[1])) { const t = e0; e0 = e1; e1 = t; }
+      const dx = (e1[0] - e0[0]) / best, dz = (e1[1] - e0[1]) / best, nx = -dz, nz = dx;
+      const towerH = clampf(best * 0.3, 8, 24), hw = 1.9;
+      const n = Math.max(4, Math.round(best / 8));
+      let prev = null;
+      for (let k = 0; k <= n; k++) {
+        const f = k / n, x = e0[0] + dx * best * f, z = e0[1] + dz * best * f;
+        const y = demH(x, z) + lerp(towerH, 3, f);
+        const cur = [[x - nx * hw, y, z - nz * hw], [x + nx * hw, y, z + nz * hw]];
+        if (prev) {
+          quad(prev[0], prev[1], cur[1], cur[0], INRUN);
+          quad(prev[0], cur[0], [cur[0][0], cur[0][1] - 0.8, cur[0][2]], [prev[0][0], prev[0][1] - 0.8, prev[0][2]], STEEL);
+          quad(prev[1], [prev[1][0], prev[1][1] - 0.8, prev[1][2]], [cur[1][0], cur[1][1] - 0.8, cur[1][2]], cur[1], STEEL);
+        }
+        if (k < n) for (const sgn of [-1, 1]) {
+          const px = x + nx * hw * 0.8 * sgn, pz = z + nz * hw * 0.8 * sgn, gy = demH(px, pz) - 0.3;
+          pole(px, gy, pz, y - 0.8 - gy, 0.32, STEEL);
+        }
+        prev = cur;
+      }
+      SURR_STATS.skiJumps++;
+    }
+  }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(V, 3));
   g.setAttribute('color', new THREE.Float32BufferAttribute(K, 3));
@@ -6910,6 +7184,13 @@ if (M.infra.objectPlacement === 'mapped-only') {
   m.castShadow = true;
   scene.add(m);
   stats.draws++;
+  if (cables.length) {
+    const cg = new THREE.BufferGeometry();
+    cg.setAttribute('position', new THREE.Float32BufferAttribute(cables, 3));
+    const cm = new THREE.LineSegments(cg, new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }));
+    scene.add(cm);
+    stats.draws++;
+  }
   /* the aviation lamps on the mast and the chimney: unlit and pushed past white
      so the bloom picks them out at dusk the way the real lamps read */
   if (avLights.length) {
@@ -10244,6 +10525,8 @@ window.V3D = {
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
+  surroundings: () => ({ ...SURR_STATS, box: SURR ? SURR.box : null, inner: SURR ? SURR.inner : null, source: SURR ? SURR.source : null,
+    recorded: SURR ? SURR.stats : null }),
   landcover: () => LANDCOVER_REC ? { cell: LANDCOVER_REC.cell, nx: LANDCOVER_REC.nx, nz: LANDCOVER_REC.nz, bounds: landAt.bounds,
     shares: LANDCOVER_REC.shares ?? null, calibration: LANDCOVER_REC.calibration ?? null, source: LANDCOVER_REC.source ?? null }
     : { error: COURSE.landcoverError ?? null, declared: !!CMETA.landcover },

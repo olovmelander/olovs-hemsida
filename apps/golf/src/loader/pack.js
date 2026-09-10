@@ -77,15 +77,29 @@ export async function loadCourse(slug) {
         (meta.landcover.sha256 ? `?v=${meta.landcover.sha256.slice(0, 16)}` : ''), meta.landcover.sha256);
     } catch (e) { landcoverError = e.message; console.warn('landcover:', e.message); }
   }
-  return { meta, pack, landcover, landcoverError, all: manifest.courses };
+  /* The surroundings record -- the town, the harbour, the roads and railway
+     beyond the core extract, the ski jumps and towers on the skyline -- rides
+     beside the pack under the same rule and degrades the same way: without it
+     the course opens with the horizon the pack alone gives it. */
+  let surroundings = null, surroundingsError = null;
+  if (meta.surroundings?.url) {
+    try {
+      surroundings = await fetchSidecar(BASE + String(meta.surroundings.url).replace(/^\//, '') +
+        (meta.surroundings.sha256 ? `?v=${meta.surroundings.sha256.slice(0, 16)}` : ''), meta.surroundings.sha256, 'surroundings');
+    } catch (e) { surroundingsError = e.message; console.warn('surroundings:', e.message); }
+  }
+  return { meta, pack, landcover, landcoverError, surroundings, surroundingsError, all: manifest.courses };
 }
 
-export async function fetchLandcover(url, wantSha) {
+export async function fetchLandcover(url, wantSha) { return fetchSidecar(url, wantSha, 'landcover'); }
+
+/* a JSON record beside the pack, fetched by content and refused on a mismatch */
+export async function fetchSidecar(url, wantSha, what) {
   const buf = await (await get(url, 'markdata saknas')).arrayBuffer();
   if (wantSha && crypto.subtle) {
     const got = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buf))]
       .map(b => b.toString(16).padStart(2, '0')).join('');
-    if (got !== wantSha) throw new Error(`landcover integrity: ${url} hashes ${got.slice(0, 12)}…, manifest says ${wantSha.slice(0, 12)}…`);
+    if (got !== wantSha) throw new Error(`${what} integrity: ${url} hashes ${got.slice(0, 12)}…, manifest says ${wantSha.slice(0, 12)}…`);
   }
   return JSON.parse(new TextDecoder().decode(buf));
 }
