@@ -2477,13 +2477,27 @@ if (TERRAIN_PREVIEW.ready) {
     settle: 'coverage',
   });
   span('v2 prepare (worker, first frontier coverage, preflight)', prepareStarted);
-  if (preparation.ok && terrainV2.kind !== 'graph' && TERRAIN_PREVIEW_CONFIG.legacyBoundaryBlendMetres) {
-    terrainBoundaryTransition = createLegacyTerrainTransition({
-      bounds: TERRAIN_PREVIEW.bounds,
-      bridge: TERRAIN_PREVIEW.bridge,
-      heightAtGrid: TERRAIN_PREVIEW.heightAtGrid,
-      widthMetres: TERRAIN_PREVIEW_CONFIG.legacyBoundaryBlendMetres,
-    });
+  if (preparation.ok && terrainV2.kind !== 'graph') {
+    /* A fixed frontier is a square of one material inside a world of another,
+       and the seam is two separate things. The HEIGHT step is a property of
+       the ground: a config that has measured one declares a blend width and
+       the legacy mesh eases onto the frontier's edge over that band. The
+       COLOUR step is a property of the engine and applies to every fixed
+       frontier: the legacy rings paint groundAt's vertex colour, squared,
+       under horizon AO, grass sheen and back-scatter, while the tiles paint
+       the same groundAt colour through the tint rasters with a linear share
+       and a different detail amplitude -- so the same forest floor reads
+       brown-olive outside the window and green inside it. Both were first
+       gated on Johannesberg's blend width, so Ribbingsfors, whose pack is cut
+       from the same laser DTM and never declared one, kept the square. */
+    if (TERRAIN_PREVIEW_CONFIG.legacyBoundaryBlendMetres) {
+      terrainBoundaryTransition = createLegacyTerrainTransition({
+        bounds: TERRAIN_PREVIEW.bounds,
+        bridge: TERRAIN_PREVIEW.bridge,
+        heightAtGrid: TERRAIN_PREVIEW.heightAtGrid,
+        widthMetres: TERRAIN_PREVIEW_CONFIG.legacyBoundaryBlendMetres,
+      });
+    }
     // Both sides must use the same palette, texture detail and colour response.
     // The older vertex-colour material made the square visible even when its
     // geometry met the frontier. The shared tint also covers the surroundings.
@@ -10469,6 +10483,11 @@ window.V3D = {
     status: terrainV2.rendererState.status,
     /* 'graph' when the whole world is the ring graph and no legacy ground is built */
     kind: terrainV2.kind || 'fixed-frontier',
+    /* the fixed-frontier seam contract: the legacy CORE rim, MID and FAR draw
+       with the frontier's own decorated material, and the legacy heights ease
+       onto the frontier's edge over the config's blend width (0 = none) */
+    sharedFrontierMaterial: !!frontierSurroundMaterial,
+    boundaryBlendMetres: terrainBoundaryTransition ? (TERRAIN_PREVIEW_CONFIG.legacyBoundaryBlendMetres || 0) : 0,
     courseSurfaceOverlayMeshes: stats.surfaceOverlays | 0,
     surfaceDebugMode,
     surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation ||

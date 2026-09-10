@@ -131,6 +131,16 @@ for (const slug of slugs) {
       `${config.expectedTileCount} one-metre tiles render in one draw`);
     gate(terrain?.surfacePolicy === config.surfacePolicy,
       `the reviewed surface policy (${config.surfacePolicy}) is in force`);
+    /* The seam: a fixed frontier is a square of 1 m tiles inside a legacy
+       world, and the owner's phone showed the square (Ribbingsfors,
+       2026-09-10) because the surroundings drew with the vertex-colour
+       material while the tiles drew with the tinted one. Every fixed
+       frontier must share the material, and a ground that has measured a
+       height step at its edge must be blending it. */
+    gate(terrain?.sharedFrontierMaterial === true,
+      'the legacy surroundings draw with the frontier\'s own ground material');
+    gate(terrain?.boundaryBlendMetres === (config.legacyBoundaryBlendMetres || 0),
+      `the legacy heights blend onto the frontier edge over the reviewed ${config.legacyBoundaryBlendMetres || 0} m`);
   }
 
   /* The bridge is the part that puts the terrain in the right PLACE, so it is

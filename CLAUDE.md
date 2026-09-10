@@ -3761,6 +3761,19 @@ the same commit (`pnpm test` fails loudly on both, and
   belt and braces.** The engine draws a sheet per ring; overlapping sheets a
   centimetre apart fight at any distance on a 24-bit depth buffer. One body,
   one ring — unite in the data, never rely on draw order.
+- **A fixed frontier is a square of one material inside a world of another,
+  and the two seams are separate.** The owner's phone showed the 2048 m window
+  as a square of a different colour (2026-09-10). Colour: the tiles paint
+  `groundAt` through the tint rasters, the legacy rim/MID/FAR painted the same
+  `groundAt` per vertex under AO, squared, with sheen — brown-olive against
+  green. Johannesberg's cure (the surroundings draw with the frontier's own
+  `frontierSurroundMaterial`) was gated on ITS `legacyBoundaryBlendMetres`, so
+  this ground, which never declared one, kept the square; every fixed frontier
+  shares the material now. Height: HF0 spans exactly the window, so the first
+  legacy vertex outside it stands on the 32 m HF1 — up to 3.1 m off the 1 m
+  tiles at the edge (`ribbingsforsbuild/frontier-edge-step.mjs`, dossier §22)
+  — and the config declares a 72 m blend. `check-course-v2` gates both on every
+  fixed frontier.
 
 ## Visby GK / Kronholmen — `visbybuild/` (app-only), the first course that is mostly sea
 

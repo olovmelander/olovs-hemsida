@@ -48,6 +48,17 @@ export const RIBBINGSFORS_V2_CONFIG = Object.freeze({
   expectedTileCount: 64,
   expectedSurfaceTileCount: 0,
   surfacePolicy: 'legacy-ground-atlas',
+  /* MEASURED (ribbingsforsbuild/frontier-edge-step.mjs, 2026-09-10): the pack's
+     4 m HF0 is cut from the same laser item as the tiles and agrees with them
+     to 0.05 m everywhere inside the window -- but HF0 ends exactly at the
+     window's edge, so the legacy MID mesh outside it reads the 32 m HF1
+     alone: median 0.02 m off the 1 m tiles along the edge, MAD 0.25 m, p05/p95
+     -0.81/+0.97 m, worst 3.10 m. Presentation only, Johannesberg's six MID
+     cells: the legacy heights ease onto the frontier's own edge over 72 m and
+     no measured sample inside the window is altered. Declaring it also gives
+     the surroundings the frontier's decorated material, which is the half the
+     owner's phone saw -- a square whose colour did not match the world. */
+  legacyBoundaryBlendMetres: 72,
   legacyCoreCutout: Object.freeze({
     guardCells: 2,
     guardMetres: 8,

@@ -1446,3 +1446,50 @@ outlines are the roof AS SEEN and overstate the footprint; the provenance says
 so. The greenkeeping yard is still refused for the reason §20.3 gives — its
 sheet roofs read excess green 16 against gravel at 14–17 — and its three sheds
 keep their by-eye trace.
+
+## 22. The square: the frontier's edge against the legacy world (2026-09-10)
+
+The owner's phone showed the 2048 m frontier as a SQUARE — its ground a
+different colour from the ground around it, with a hard edge along all four
+sides — from every camera high enough to see the edge. Two things were wrong at
+that edge, and they are separate.
+
+**The colour.** Inside the window the tiles draw with the v2 ground material:
+rough is the near/far tint rasters (main.js's own `groundAt`, no ambient term),
+applied as a linear share of the squared colour with the v2 detail amplitude.
+Outside it the legacy CORE rim, MID and FAR drew with `makeGround`: the same
+`groundAt` colour per vertex, multiplied by horizon AO, squared, under grass
+sheen and back-scatter. Same classification, two shading pipelines, and the
+same forest floor read brown-olive outside the window and green inside it.
+Johannesberg's fixed frontier had already been given the cure — the
+surroundings draw with the frontier's own decorated material
+(`frontierSurroundMaterial`) — but it was gated on that config's
+`legacyBoundaryBlendMetres`, which this ground never declared. The engine now
+shares the material on EVERY fixed frontier; only the height blend stays a
+per-ground declaration.
+
+**The height.** `ribbingsforsbuild/frontier-edge-step.mjs` compares the pack's
+own heightfields with the published tiles along the four edges:
+
+| comparison, on the edge | median | MAD | p05 / p95 | worst |
+|---|---|---|---|---|
+| HF0 (4 m) − published (1 m) | −0.02 m | 0.02 | −0.04 / +0.04 | 0.05 m |
+| HF1 (32 m) − published (1 m) | +0.02 m | 0.25 | −0.81 / +0.97 | 3.10 m |
+| HF1 (32 m) − HF0 (4 m) | +0.05 m | 0.11 | −0.40 / +0.48 | 1.23 m |
+
+The pack is the tiles (one DTM, item 653_44, §4) — but HF0 spans exactly the
+window, so `demH`'s 130 m HF0→HF1 cross-fade lies INSIDE the frontier where
+the legacy mesh is never drawn, and the first legacy vertex outside the window
+stands on the 32 m field alone, up to 3.1 m off the 1 m tile it meets. The
+config declares `legacyBoundaryBlendMetres: 72` now (Johannesberg's six MID
+cells): the legacy heights ease onto the frontier's own edge height over that
+band, presentation only, no sample inside the window altered.
+
+Both halves are gated. `V3D.v2Terrain()` reports `sharedFrontierMaterial` and
+`boundaryBlendMetres`; `tools/check-course-v2.mjs` asserts them for every fixed
+frontier against its config, and `tools/check-ribbingsfors-v2.mjs` pins this
+ground's 72 m. Not changed here: the trees. Inside the window the LiDAR stand
+field plants small crowns on a 4 m lattice and outside it the legacy planter
+stands up the tree-cover raster's population, and from altitude the two read as
+different densities across the same edge. That is a vegetation seam, not a
+terrain one, and is recorded rather than fixed.

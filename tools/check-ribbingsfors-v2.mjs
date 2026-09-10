@@ -47,6 +47,8 @@ async function boot(search) {
         surfacePolicy: terrain.surfacePolicy,
         renderer: terrain.renderer,
         bridge: terrain.bridge,
+        sharedFrontierMaterial: terrain.sharedFrontierMaterial,
+        boundaryBlendMetres: terrain.boundaryBlendMetres,
       },
       objects,
       legacyInsideCoverage: window.V3D.legacyTrees().legacyInsideCoverage,
@@ -98,6 +100,15 @@ gate(required.report?.tint?.near?.n === 513 && required.report?.tint?.far?.n ===
   required.report?.tint?.near?.sampleSum > 0 && required.report?.tint?.far?.sampleSum > 0 &&
   required.report?.groundProbe?.tintNear?.length === 3 && required.report?.groundProbe?.tintFar?.length === 3,
   'fixed-frontier ground receives the same populated near/far tint contract as Puttom v2');
+/* The seam (owner's phone, 2026-09-10): the square of tiles read as a different
+   colour from the world around it, because the legacy CORE rim, MID and FAR
+   drew with the vertex-colour material. They draw with the frontier's own
+   decorated material now, and the 32 m legacy field outside the window (up to
+   3.1 m off the 1 m tiles at the edge, measured) eases onto the edge over 72 m. */
+gate(terrain?.sharedFrontierMaterial === true,
+  'the legacy surroundings draw with the frontier\'s own ground material (no colour seam)');
+gate(terrain?.boundaryBlendMetres === 72,
+  'the legacy heights ease onto the frontier edge over the reviewed 72 m');
 gate(terrain?.bridge?.translateX === 0 && terrain?.bridge?.translateZ === 0 &&
   terrain?.bridge?.translateY === 69.14 && terrain?.bridge?.rotationRadians === 0 &&
   terrain?.bridge?.scaleX === 1 && terrain?.bridge?.scaleZ === 1,
