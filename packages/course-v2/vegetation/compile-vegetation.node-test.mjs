@@ -246,3 +246,47 @@ test('raw Float32 rasters with a sidecar read back with nodata as NaN', () => {
   assert.throws(() => readRawRaster(path.join(dir, 'chm.f32'), path.join(dir, 'chm.json')), /sidecar declares/);
   fs.rmSync(dir, { recursive: true, force: true });
 });
+
+test('extra exclusion features a ground carries beyond its model exclude a maximum, and an approvals entry may promote a stand crown', async () => {
+  /* an override ring over the 22 m tree: the ground's own record (a dated
+     roof envelope, a clear-fell) that the migration model does not carry */
+  const raster = canopy();
+  const override = { kind: 'override', rings: [[[650172, 6640068], [650189, 6640068], [650189, 6640053], [650172, 6640053]]] };
+  const withOverride = await compileVegetation({ groundId: 'synthetic-ground', observedOn: '2026-09-02', campaigns: CAMPAIGNS, rasters: [{ campaignId: '24f001-650_66', raster }], geometry: GEOMETRY, ground, readAsset, approveAllIndividuals: true, extraExclusionFeatures: [override] });
+  const tall = withOverride.candidates.find(candidate => Math.abs(candidate.centroid.easting - 650180.5) < 2 && Math.abs(candidate.centroid.northing - 6640060.5) < 2);
+  assert.equal(tall.representation, 'excluded');
+  assert.equal(tall.exclusionReason, 'override');
+  assert.equal(withOverride.records.length, 3);
+
+  /* two crowns 6 m apart touch and go to the stand representation, each with
+     a radius of its own; an independent record may promote one of them */
+  const pairRaster = (gap, height2) => {
+    const pair = createRaster({ width: 256, height: 256, sampleSpacingMetres: 1, originEasting: 650000, originNorthing: 6640256, fill: 0 });
+    const PAIR = [{ easting: 650178.5, northing: 6640060.5, height: 12, radius: 3 }, { easting: 650178.5 + gap, northing: 6640060.5, height: height2, radius: 3 }];
+    for (let row = 0; row < 256; row++) for (let column = 0; column < 256; column++) {
+      const e = 650000 + column + 0.5, n = 6640256 - row - 0.5;
+      let best = 0;
+      for (const tree of PAIR) best = Math.max(best, tree.height * Math.exp(-((e - tree.easting) ** 2 + (n - tree.northing) ** 2) / (2 * (tree.radius ** 2) / (2 * Math.log(5)))));
+      pair.values[row * 256 + column] = best;
+    }
+    return pair;
+  };
+  const compilePair = (raster, extra = {}) => compileVegetation({ groundId: 'synthetic-ground', observedOn: '2026-09-02', campaigns: CAMPAIGNS, rasters: [{ campaignId: '24f001-650_66', raster }], geometry: GEOMETRY, ground, readAsset, ...extra });
+  const touching = pairRaster(6, 7);
+  const unreviewed = await compilePair(touching);
+  const stand = unreviewed.candidates.filter(candidate => candidate.representation === 'stand' && candidate.radiusMetres >= 1);
+  assert.equal(stand.length, 2, `the touching pair is stand-represented: ${JSON.stringify(unreviewed.candidates.map(c => [c.representation, c.standReasons]))}`);
+  assert.equal(unreviewed.records.length, 0);
+  const promoted = await compilePair(touching, { approvals: [{ key: stand[0].key, promote: true }] });
+  assert.equal(promoted.records.length, 1);
+  assert.equal(promoted.records[0].objectHeightMetres, stand[0].heightMetres, 'a promoted record keeps the laser height');
+  assert.equal(promoted.records[0].easting, Math.round(stand[0].centroid.easting * 1000) / 1000);
+  const plain = await compilePair(touching, { approvals: [stand[0].key] });
+  assert.equal(plain.records.length, 0, 'without promote a stand crown is never a record');
+  /* a stand maximum whose cells all went to its neighbour has no radius, and no imagery can make it a record */
+  const swallowed = await compilePair(pairRaster(5, 11));
+  const noRadius = swallowed.candidates.find(candidate => candidate.representation === 'stand');
+  assert.equal(noRadius.radiusMetres, 0);
+  const refused = await compilePair(pairRaster(5, 11), { approvals: [{ key: noRadius.key, promote: true }] });
+  assert.equal(refused.records.length, 0);
+});

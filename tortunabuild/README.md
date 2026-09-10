@@ -259,3 +259,67 @@ refreshing its checksum ledger.
   on the 0.16 m capture and refuses all 18 (no compact dark blob, or a runner-up
   within 10 brightness of the darkest); the pin stays the green centre and the
   record says so.
+
+## Every tree is a measured crown now, or a stand cell that says so (2026-09-10)
+
+The published ground carried stand fields only: every tree on the course was a
+representative placement inside a 4 m canopy cell, never a measured stem. It
+carries an object layer now -- **2,383 individual crowns** on 57 finest tiles,
+positions and heights from the April 2021 laser canopy, each one checked
+against the 2026-05-02 orthophoto -- and the stand fields under the canopy
+window are recompiled with those crowns' cells taken out, so nothing is
+planted twice. The chain, all in Node and all without credentials once the
+pinned canopy rasters are in `tortunabuild/cache/canopy/` (the CI artifact of
+the `tortuna-canopy-water` workflow):
+
+    node geo_data/course-v2/tortuna/vegetation/compile-objects.mjs --machine-review   # crowns, the versioned rules
+    node tortunabuild/ortho-crowns.mjs                                                 # every maximum against the 2026 imagery
+    node geo_data/course-v2/tortuna/vegetation/compile-objects.mjs --approvals tortunabuild/cache/vegetation/ortho-approvals.json
+    node tortunabuild/update-source-manifest.mjs
+    node packages/course-v2/vegetation/publish-vegetation.mjs --ground tortuna --compile tortunabuild/cache/vegetation/objects-stage
+    npm run check:tortuna && node tools/check-course-v2.mjs http://127.0.0.1:8620 --course tortuna
+
+- **The laser is the record; the imagery arbitrates.** 20,337 crown maxima in
+  the 60-tile window; 2,973 separate as individuals, 2,507 pass the machine
+  rules. The orthophoto (0.32 m, PNG through the Min karta WMS, the same cuts
+  `trace-canopy-changes.mjs` calibrated on this frame) reads 88% of all maxima
+  as canopy still standing, 6% as open ground -- the traced clear-fells, cell
+  for cell, plus 426 single crowns outside them that are gone -- and 6% as
+  unclear (a May capture: birch half in leaf). **109 machine-approved crowns
+  were refused** because the ground under them is open in 2026, and every one
+  of the 426 imagery-absent crowns is an override disc for the stand compile,
+  so a felled tree is planted neither as a record nor as a stand tree.
+- **A promotion needs two records.** 12 maxima the rules held back (touching
+  a neighbour, not prominent in a leaf-off scan) stand as distinct crowns on
+  open ground in the imagery -- the annulus round them 25 brighter than the
+  disc -- AND read green. The green cut exists because the first promoted
+  crown was a shed roof by the railway: measured on this frame, 2,207 confirmed
+  crowns read excess green p10 1 / p50 7 and 73 maxima on roof envelopes read
+  p50 -2 / p75 0. `compile-vegetation` accepts `{ key, promote: true }` in an
+  approvals file for exactly this; a promoted record keeps the laser's height
+  and radius, and a stand maximum with no radius (its cells all went to its
+  neighbour) can never be promoted, whatever the picture shows.
+- **Trees the laser never measured stay unmodelled, and the census says why.**
+  Dark green compact blobs on played ground outside every crown and its shadow
+  capsule (bearing 45.06°, 1.3 x height) number 1,480 -- and drawn over the
+  imagery they are the gaps between shadows inside closed forest and dark
+  rough beside greens, not stems. Recorded in `ortho-crown-review.json` as
+  NOT ADOPTED so the same rule is not tried again; a tree only the imagery
+  shows needs its crown AND its own shadow on open turf, with a height from
+  the shadow against the solar position.
+- **The expanded-window stand tiles are carried, not recompiled.** The 60
+  tiles beyond the canopy window come from rasters this checkout does not
+  hold, so `compile-objects` copies their published chunks byte for byte into
+  the stage from the ground manifest that published them
+  (`STAND_SOURCE_GROUND`); the publisher replaces every vegetation layer it is
+  not handed, which is how the first publish silently dropped them. The node
+  test counts 120.
+- **Order matters twice.** `update-source-manifest` before `publish`, or the
+  ground manifest pins a ledger hash the ledger no longer has; and a publish
+  that re-emits with a new ledger hash leaves the superseded manifests on
+  disk, untracked -- remove the ones the root no longer references before
+  committing, and never a tracked one.
+
+What is still not measured: species (the runtime's default mix), the stems
+inside closed canopy (stand cells, by design), and any tree planted since
+April 2021.

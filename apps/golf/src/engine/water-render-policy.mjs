@@ -11,6 +11,21 @@ export function configureWaterRenderPasses(material, { mask = null } = {}) {
 
 export const MEASURED_WATER_CLEARANCE_METRES = 0.06;
 
+/* A sheet is see-through only where there is a bed to see through it to. The
+   shader's opacity ramp (0.62 at the shore to 0.97 over deep water) exists so
+   a carved lake bed reads through the shallows. On a measured-only ground the
+   bed is never drawn -- `showBed` is false, the laser plate under the sea is a
+   surface with no bathymetry -- so the same ramp paints the sea as WHATEVER
+   HAPPENS TO BE BEHIND IT: the khaki-tinted plate where the coastal mask keeps
+   it (a 32 m cell staircase along every shore, its own margin) and the pale
+   sky where the mask has removed it. Measured on Visby from 1,000 m up, that
+   was a band of dark rectangles hugging the coast against lighter open sea --
+   the mask's cells, drawn by the water. The connected ocean already draws
+   opaque for the same reason; a measured sea takes the same rule. */
+export function waterSheetIsOpaque({ ocean = false, showBed = true } = {}) {
+  return ocean === true || showBed === false;
+}
+
 /* Measured sheets already have a world-space clearance above the DTM. An
    additional depth-space nudge can pull the ocean through foreground land.
    Even constant units are not a distance in metres: fixed depth loses

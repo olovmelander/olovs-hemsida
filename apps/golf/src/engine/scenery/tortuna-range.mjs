@@ -16,15 +16,24 @@
  * mesh casts, with heights from their own shadow lengths against the solar
  * position at the source item's own capture instant.
  *
- * WHAT IS NOT MODELLED. The club's own 2025 report calls the range an
- * unfinished project -- "slutföra arbetet på rangen med jordmassorna och göra
- * klart målområdena", with "ytan på rangen inte gräsbetäckt" -- and the capture
- * shows exactly that: a largely bare landing field with three constructed
- * target areas. Nothing here grasses it over, and no distance sign, flag or
- * bay divider is invented: none is resolved in the imagery, and the two club
- * photographs that show range furniture are from 2022 or earlier, before the
- * rebuild. The targets keep the pack's own outlines and the generic surface
- * pass draws them.
+ * WHAT IS NOT MODELLED. No distance sign, flag or bay divider is invented:
+ * none is resolved in the imagery, and the two club photographs that show
+ * range furniture are from 2022 or earlier, before the rebuild. The three
+ * target areas keep the pack's own outlines and the generic surface pass
+ * draws them.
+ *
+ * THE LANDING FIELD IS GRASS. The May 2026 capture shows most of it as bare
+ * scraped fill, the club's 2025 report called the range an unfinished
+ * project ("ytan på rangen inte gräsbetäckt"), and the first version of this
+ * module drew that: a terrain-following skin in the field's own photographed
+ * colour, which on screen was a pink-white sheet as bright as the bunker sand
+ * beside it -- a noon orthophoto pixel is an exposure, not an albedo, and the
+ * buildings batch this draws in renders its colour unsquared. The owner's
+ * word (2026-09-10) is that the range is grass, and by the repo's own rule the
+ * owner's word beats a photograph that is four months older than it. Nothing
+ * is drawn over the field: the ground it stands on is turf, mown range where
+ * the pack's range ring runs and rough beyond it. The traced extent stays in
+ * the site file as the reading it is, with the decision recorded beside it.
  */
 import { ShapeUtils, Vector2 } from 'three/webgpu';
 import site from './tortuna-range-site.json' with { type: 'json' };
@@ -78,41 +87,9 @@ export function renderRangeDetails({ terrainH, tri, L }) {
   const colours = new Map();
   const colour = hex => { if (!colours.has(hex)) colours.set(hex, L(hex)); return colours.get(hex); };
   let triangles = 0;
-  const emit = (a, b, c, hex) => { tri(a, b, c, colour(hex)); triangles++; };
-  const quad = (a, b, c, d, hex) => { emit(a, b, c, hex); emit(a, c, d, hex); };
-  const TOP = 0x3d7a49, EDGE = 0x24422b;          /* artificial turf, and its shaded edge */
-  const EARTH = 0xa29c93;                          /* measured: the scraped field's own median colour */
-  const LIFT = 0.09;                               /* clears the heightfield's own bilinear bulge */
-
-  /* The unfinished landing field, drawn as the capture shows it rather than
-     grassed over. It is not a bunker and not sand: the engine has no surface
-     class for a working earthworks, so this module draws its own terrain-
-     following skin instead of borrowing a class that would say something
-     untrue about the ground. Subdivision targets 12 m: the surface is scraped
-     flat, so it needs enough triangles to follow the fall of the field and no
-     more -- a hectare at 4 m is tens of thousands of triangles for a plane. */
-  let earthworks = 0;
-  {
-    /* 4 m, the spacing of the compatibility heightfield this ground ships, so
-       the skin samples the terrain where the terrain is actually defined. */
-    for (const piece of gridSkin(site.earthworks.ringLocal, 4)) {
-      /* Fan from the cell's OWN centre, sampled like every other vertex, not
-         from a corner. terrainH is bilinear across a cell, so a quad split into
-         two planar triangles sits under the ground in the middle of a saddle
-         cell and the terrain came through as a grid of small square holes. */
-      const points = piece.map(([x, z]) => [x, terrainH(x, z) + LIFT, z]);
-      const cx = piece.reduce((t, q) => t + q[0], 0) / piece.length;
-      const cz = piece.reduce((t, q) => t + q[1], 0) / piece.length;
-      const centre = [cx, terrainH(cx, cz) + LIFT, cz];
-      for (let i = 0; i < points.length; i++) {
-        const b = points[i], c = points[(i + 1) % points.length];
-        const up = (b[2] - centre[2]) * (c[0] - centre[0]) - (b[0] - centre[0]) * (c[2] - centre[2]);
-        if (up < 0) emit(centre, c, b, EARTH); else emit(centre, b, c, EARTH);
-        earthworks++;
-      }
-    }
-  }
-
+  const emit = (a, b, c, col) => { tri(a, b, c, col); triangles++; };
+  const quad = (a, b, c, d, col) => { emit(a, b, c, col); emit(a, c, d, col); };
+  const TOP = colour(0x3d7a49), EDGE = colour(0x24422b);   /* artificial turf, and its shaded edge */
   let mats = 0;
   for (const mat of site.mats.items) {
     const ring = mat.ringLocal;
@@ -135,7 +112,9 @@ export function renderRangeDetails({ terrainH, tri, L }) {
   }
   return {
     triangles,
-    counts: { range_mat: mats, range_earthworks: earthworks },
+    counts: { range_mat: mats },
+    /* the traced scraped extent is a reading, not a surface: see the header */
+    earthworks: { drawn: false, areaSquareMetres: site.earthworks.areaSquareMetres, status: site.earthworks.renderStatus },
     evidence: `${site.source.collection} ${site.source.capturedAt} at ${site.source.readAtResolutionMetres} m`,
     limitations: site.mats.geometryStatus,
     net: { posts: site.net.postCount, heightMetres: site.net.heightMetres,
@@ -143,68 +122,3 @@ export function renderRangeDetails({ terrainH, tri, L }) {
   };
 }
 
-/* A terrain-following skin for one ring, built on a grid aligned to the world
-   rather than by subdividing a triangulation.
-
-   Two earlier attempts are worth recording because both failed for the same
-   reason. Adaptive subdivision -- split long edges, fan the face round a new
-   centroid -- is right for a 1.75 m mat and wrong for a hectare: the fan makes
-   skinny triangles that themselves need splitting, and it threw past 60,000
-   faces. Uniform subdivision is bounded but wasteful, because it splits the
-   tiny boundary triangles as hard as the huge interior ones; at 30,464 faces
-   the interior triangles were still ~9 m across, and a FLAT triangle spanning
-   9 m of falling ground dips under the terrain in its middle, so the ground
-   poked through the skin in dozens of holes.
-
-   A grid fixes both. Cell corners land on the ground at a fixed spacing, so
-   the skin follows the terrain by construction wherever it is sampled, and
-   only the cells the boundary crosses are clipped -- which keeps the traced
-   outline exact instead of stair-stepping it. */
-function polygonClip(subject, clip) {
-  let output = subject;
-  for (let i = 0; i < clip.length && output.length; i++) {
-    const a = clip[i], b = clip[(i + 1) % clip.length];
-    const side = p => (b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0]);
-    const input = output; output = [];
-    for (let k = 0; k < input.length; k++) {
-      const cur = input[k], prev = input[(k + input.length - 1) % input.length];
-      const dc = side(cur), dp = side(prev);
-      if (dc >= 0) {
-        if (dp < 0) output.push(intersect(prev, cur, a, b));
-        output.push(cur);
-      } else if (dp >= 0) output.push(intersect(prev, cur, a, b));
-    }
-  }
-  return output;
-}
-function intersect(p, q, a, b) {
-  const r = [q[0] - p[0], q[1] - p[1]], sdir = [b[0] - a[0], b[1] - a[1]];
-  const denom = r[0] * sdir[1] - r[1] * sdir[0];
-  if (!denom) return [...q];
-  const t = ((a[0] - p[0]) * sdir[1] - (a[1] - p[1]) * sdir[0]) / denom;
-  return [p[0] + r[0] * t, p[1] + r[1] * t];
-}
-const ringArea = ring => Math.abs(ring.reduce((sum, p, i) => {
-  const q = ring[(i + 1) % ring.length]; return sum + p[0] * q[1] - q[0] * p[1];
-}, 0)) / 2;
-function gridSkin(ring, cell) {
-  /* the clip needs a counter-clockwise window, and the traced ring may be either way */
-  const signed = ring.reduce((sum, p, i) => {
-    const q = ring[(i + 1) % ring.length]; return sum + p[0] * q[1] - q[0] * p[1];
-  }, 0);
-  const poly = signed < 0 ? [...ring].reverse() : ring;
-  const xs = poly.map(p => p[0]), zs = poly.map(p => p[1]);
-  const x0 = Math.floor(Math.min(...xs) / cell) * cell, x1 = Math.ceil(Math.max(...xs) / cell) * cell;
-  const z0 = Math.floor(Math.min(...zs) / cell) * cell, z1 = Math.ceil(Math.max(...zs) / cell) * cell;
-  const pieces = [];
-  for (let z = z0; z < z1; z += cell) for (let x = x0; x < x1; x += cell) {
-    const square = [[x, z], [x + cell, z], [x + cell, z + cell], [x, z + cell]];
-    /* Sutherland-Hodgman clips a subject against a CONVEX window, so the cell
-       is the window and the traced ring is the subject -- the ring is concave
-       where it wraps the target area and the works yard, and using it as the
-       window silently returned nothing at all. */
-    const clipped = polygonClip(poly, square);
-    if (clipped.length >= 3 && ringArea(clipped) > 0.05) pieces.push(clipped);
-  }
-  return pieces;
-}

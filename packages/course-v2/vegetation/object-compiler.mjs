@@ -51,6 +51,11 @@ export function treeRecord({
   reviewStatus = 'approved',
   horizontalAccuracyMetres = CROWN_PARAMETERS.horizontalAccuracyFloorMetres,
   verticalAccuracyMetres = CROWN_PARAMETERS.verticalAccuracyFloorMetres,
+  /* where the record stands: the crown centroid by default, the apex for a
+     promoted stand crown that has no extent of its own (compile-vegetation
+     resolves which and hands it over) */
+  easting = candidate.centroid?.easting,
+  northing = candidate.centroid?.northing,
 }) {
   if (!Number.isFinite(baseHeightRH2000)) throw new TypeError(`${id}: baseHeightRH2000 must be sampled from the published DTM`);
   const record = {
@@ -58,8 +63,8 @@ export function treeRecord({
     groundId,
     class: 'tree',
     subtype,
-    easting: round(candidate.centroid.easting),
-    northing: round(candidate.centroid.northing),
+    easting: round(easting),
+    northing: round(northing),
     heightRH2000: round(baseHeightRH2000),
     objectHeightMetres: round(candidate.heightMetres),
     radiusMetres: round(candidate.radiusMetres ?? candidate.equivalentRadiusMetres),
