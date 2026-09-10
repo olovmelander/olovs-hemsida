@@ -1,5 +1,321 @@
 {
-  "checkedAt": "2026-09-10T08:36:56.737Z",
+  "checkedAt": "2026-09-10T14:18:35.236Z",
   "assetSha256": "08a9e648a4b7cb09d16754cd6347b5034161a314ce3117ab111b7e1e991c3186",
-  "modes": []
+  "modes": [
+    {
+      "mode": "default",
+      "backend": "webgpu",
+      "terrainReady": true,
+      "facilities": 25,
+      "sourceCoverage": 17,
+      "meshes": 150,
+      "triangles": 34445,
+      "replacesRangeFacilities": true,
+      "sourceBuildingDuplicates": 0,
+      "errors": [],
+      "failedAssets": [],
+      "captures": [
+        "app-default-clubhouse.png",
+        "app-default-range.png",
+        "app-default-maintenance.png",
+        "app-default-campus.png"
+      ],
+      "siteGroundContact": {
+        "apron": {
+          "rigidVertices": 432,
+          "drapedVertices": 4206,
+          "maximumAdjustmentMetres": 0.11050822495151635,
+          "boundsAfterGroundContact": {
+            "min": [
+              -85.83202362060547,
+              67.6410590637207,
+              -296.1044921875
+            ],
+            "max": [
+              -40.426795959472656,
+              69.13049616699219,
+              -263.3459777832031
+            ]
+          }
+        },
+        "mats": {
+          "rigidVertices": 816,
+          "drapedVertices": 0,
+          "maximumAdjustmentMetres": 0.07567107184073052,
+          "boundsAfterGroundContact": {
+            "min": [
+              -83.87118530273438,
+              67.99873270874023,
+              -295.865966796875
+            ],
+            "max": [
+              -40.37389373779297,
+              68.265704296875,
+              -265.8260498046875
+            ]
+          }
+        }
+      },
+      "anchorResiduals": [
+        {
+          "id": "clubhouse",
+          "metres": -0.9071102059214553
+        },
+        {
+          "id": "harbre",
+          "metres": -0.6677189195000466
+        },
+        {
+          "id": "maintenance-hall",
+          "metres": -0.35314303668573643
+        },
+        {
+          "id": "maintenance-long",
+          "metres": -0.4268510597292874
+        },
+        {
+          "id": "maintenance-small",
+          "metres": -0.2520327282638277
+        },
+        {
+          "id": "north-courtyard-building",
+          "metres": -0.7016444202092202
+        },
+        {
+          "id": "range-east-hut",
+          "metres": -0.105647846415863
+        },
+        {
+          "id": "range-l-building",
+          "metres": -0.07235891112013348
+        },
+        {
+          "id": "range-west-hut",
+          "metres": -0.08249645722474952
+        },
+        {
+          "id": "site-camper-fence",
+          "metres": -0.05616201424466283
+        },
+        {
+          "id": "site-courtyard-fence",
+          "metres": -0.09110316030678689
+        },
+        {
+          "id": "site-courtyard-flags",
+          "metres": -0.014615966510817202
+        },
+        {
+          "id": "site-range-apron",
+          "metres": 0.055482269563071895
+        },
+        {
+          "id": "site-range-ball-dispenser",
+          "metres": 0.017737059214198325
+        },
+        {
+          "id": "site-range-east-net",
+          "metres": -0.1365356705099714
+        },
+        {
+          "id": "site-range-mats",
+          "metres": -0.015173956892311935
+        },
+        {
+          "id": "site-range-west-near-net",
+          "metres": -0.15033804244282578
+        },
+        {
+          "id": "trace-shed-c",
+          "metres": 0.055415614630831556
+        },
+        {
+          "id": "trace-shed-d",
+          "metres": -0.05606314222501396
+        },
+        {
+          "id": "west-cabin-a",
+          "metres": -0.08138872670824071
+        },
+        {
+          "id": "west-cabin-b",
+          "metres": -0.3419629503189441
+        },
+        {
+          "id": "west-lakeshore-pavilion",
+          "metres": -0.04430187549272091
+        },
+        {
+          "id": "west-red-house",
+          "metres": -0.8990065436680652
+        },
+        {
+          "id": "west-south-dark-shed",
+          "metres": -0.04687315226229316
+        },
+        {
+          "id": "west-south-rust-shed",
+          "metres": -0.2790055488245855
+        }
+      ]
+    },
+    {
+      "mode": "legacy",
+      "backend": "webgpu",
+      "terrainReady": false,
+      "facilities": 25,
+      "sourceCoverage": 17,
+      "meshes": 150,
+      "triangles": 34445,
+      "replacesRangeFacilities": true,
+      "sourceBuildingDuplicates": 0,
+      "errors": [],
+      "failedAssets": [],
+      "captures": [
+        "app-legacy-clubhouse.png",
+        "app-legacy-range.png",
+        "app-legacy-maintenance.png",
+        "app-legacy-campus.png"
+      ],
+      "siteGroundContact": {
+        "apron": {
+          "rigidVertices": 432,
+          "drapedVertices": 4206,
+          "maximumAdjustmentMetres": 1.5217547547102868,
+          "boundsAfterGroundContact": {
+            "min": [
+              -85.83202362060547,
+              67.23088927846709,
+              -296.1044921875
+            ],
+            "max": [
+              -40.426795959472656,
+              69.66853805166045,
+              -263.3459777832031
+            ]
+          }
+        },
+        "mats": {
+          "rigidVertices": 816,
+          "drapedVertices": 0,
+          "maximumAdjustmentMetres": 0.933432435658915,
+          "boundsAfterGroundContact": {
+            "min": [
+              -83.87118530273438,
+              67.20557126666085,
+              -295.865966796875
+            ],
+            "max": [
+              -40.37389373779297,
+              68.09357938433664,
+              -265.8260498046875
+            ]
+          }
+        }
+      },
+      "anchorResiduals": [
+        {
+          "id": "clubhouse",
+          "metres": 0
+        },
+        {
+          "id": "harbre",
+          "metres": 0
+        },
+        {
+          "id": "maintenance-hall",
+          "metres": 0
+        },
+        {
+          "id": "maintenance-long",
+          "metres": 0
+        },
+        {
+          "id": "maintenance-small",
+          "metres": 0
+        },
+        {
+          "id": "north-courtyard-building",
+          "metres": 0
+        },
+        {
+          "id": "range-east-hut",
+          "metres": 0
+        },
+        {
+          "id": "range-l-building",
+          "metres": 0
+        },
+        {
+          "id": "range-west-hut",
+          "metres": 0
+        },
+        {
+          "id": "site-camper-fence",
+          "metres": 0
+        },
+        {
+          "id": "site-courtyard-fence",
+          "metres": 0
+        },
+        {
+          "id": "site-courtyard-flags",
+          "metres": 0
+        },
+        {
+          "id": "site-range-apron",
+          "metres": 0
+        },
+        {
+          "id": "site-range-ball-dispenser",
+          "metres": 0
+        },
+        {
+          "id": "site-range-east-net",
+          "metres": 0
+        },
+        {
+          "id": "site-range-mats",
+          "metres": 0
+        },
+        {
+          "id": "site-range-west-near-net",
+          "metres": 0
+        },
+        {
+          "id": "trace-shed-c",
+          "metres": 0
+        },
+        {
+          "id": "trace-shed-d",
+          "metres": 0
+        },
+        {
+          "id": "west-cabin-a",
+          "metres": 0
+        },
+        {
+          "id": "west-cabin-b",
+          "metres": 0
+        },
+        {
+          "id": "west-lakeshore-pavilion",
+          "metres": 0
+        },
+        {
+          "id": "west-red-house",
+          "metres": 0
+        },
+        {
+          "id": "west-south-dark-shed",
+          "metres": 0
+        },
+        {
+          "id": "west-south-rust-shed",
+          "metres": 0
+        }
+      ]
+    }
+  ],
+  "passed": true
 }
