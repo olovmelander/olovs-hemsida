@@ -47,3 +47,10 @@ $upsalaPython = 'upsalabuild/cache/review-venv/Scripts/python.exe'
 ```
 
 The MCP step creates a separate scene and writes only its asset library. The independent background process converts that library to a directly openable `.blend`, exports GLB and renders the review views. It does not save over the file currently open in the user's Blender window.
+
+## Driving range status
+
+The owner's follow-up request to model and align the driving range was cut off
+before it started; [range-alignment-2026-09-10.md](../range-alignment-2026-09-10.md)
+records what is already measured, the one real misalignment (the OSM field
+polygon cuts through the tee line) and the model-rebuild order that fixes it.
