@@ -17,8 +17,13 @@
    is a million quads. The orthophoto record still says WHERE the forest is;
    the LiDAR says how tall and how dense. Nothing here changes a course whose
    far ring meets a legacy planted band: the calibration is null there and
-   the old rule stands, cone for cone.                                        */
-import { STAND_PLANTING, crownRadiusForHeight } from './v2-vegetation.mjs';
+   the old rule stands, cone for cone.
+
+   NO STATIC IMPORT OF THE V2 RUNTIME. main.js imports this module statically,
+   and a static import of v2-vegetation.mjs from here made that chunk
+   reachable from the flagless entry -- check-app-build refused the build on
+   main (2026-09-10). The stand planter's allometry and overlap factor arrive
+   as parameters from the dynamically loaded module instead.                 */
 
 export const FAR_RING_BANDS = Object.freeze({
   /* metres outside the measured coverage: the measured stem spacing, then
@@ -40,18 +45,22 @@ export const FAR_RING_BANDS = Object.freeze({
  * at their median height, or null where there are too few stand trees to
  * calibrate on.
  */
-export function calibrateFarRing({ standHeights, bands = FAR_RING_BANDS, planting = STAND_PLANTING }) {
+export function calibrateFarRing({ standHeights, planting, crownRadiusAt, bands = FAR_RING_BANDS }) {
   if (!standHeights || standHeights.length < bands.minimumSamples) return null;
+  if (typeof crownRadiusAt !== 'function' || !(planting?.overlapFactor > 0)) {
+    throw new TypeError('calibrateFarRing needs the stand planter\'s crownRadiusAt(height) and planting.overlapFactor');
+  }
   const sorted = Float32Array.from(standHeights).sort();
   const steps = bands.quantileSteps;
   const quantiles = new Float32Array(steps + 1);
   for (let i = 0; i <= steps; i++) quantiles[i] = sorted[Math.min(sorted.length - 1, Math.floor((i / steps) * (sorted.length - 1)))];
   const medianHeight = quantiles[steps >> 1];
-  const radius = crownRadiusForHeight(medianHeight, planting.allometry);
+  const radius = crownRadiusAt(medianHeight);
   return Object.freeze({
     samples: sorted.length,
     quantiles,
     medianHeight,
+    crownRadiusAt,
     /* THE STAND PLANTER'S OWN RULE: a cell stands up fraction x area / (pi r^2)
        x overlap stems, so a CLOSED stand at the median height has one stem per
        pi r^2 / overlap square metres, and the record's local tree fraction
@@ -79,6 +88,6 @@ export function farRingTree(calibration, r1, r2, lightCanopy = false, bands = FA
   const i = Math.floor(t), f = t - i;
   let height = q[i] + (q[Math.min(steps, i + 1)] - q[i]) * f;
   if (lightCanopy) height *= bands.lightHeightFactor;
-  const radius = crownRadiusForHeight(height) * (0.85 + 0.3 * r2);
+  const radius = calibration.crownRadiusAt(height) * (0.85 + 0.3 * r2);
   return { height, radius };
 }
