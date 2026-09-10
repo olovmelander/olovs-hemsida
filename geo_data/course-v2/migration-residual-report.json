@@ -6,8 +6,8 @@
     "horizontal": "EPSG:3006",
     "compoundTargetAfterHeightApproval": "EPSG:5845"
   },
-  "groundCount": 9,
-  "courseSlugCount": 12,
+  "groundCount": 10,
+  "courseSlugCount": 13,
   "grounds": [
     {
       "groundId": "angso",
@@ -809,6 +809,139 @@
         {
           "path": "geo_data/course-v2/ribbingsfors/migration/course-model.epsg3006.json",
           "sha256": "b2d9068b06a10b064d247b7e20dd16bded702b867ceb35672ad60415dea819e8"
+        }
+      ]
+    },
+    {
+      "groundId": "tortuna",
+      "courseSlugs": [
+        "tortuna"
+      ],
+      "status": "blocked-pending-independent-control-and-rh2000-height",
+      "candidateOrigin": {
+        "easting": 597400.5,
+        "northing": 6614899.5,
+        "heightRH2000": null,
+        "status": "projected-source-frame-pending-independent-control",
+        "source": "legacyFrame.projectedOriginEpsg3006"
+      },
+      "coordinatePairCount": 15821,
+      "outsideCourseVicinity5km": 0,
+      "scopes": {
+        "playingGeometry": {
+          "coordinatePairCount": 1720,
+          "directFrameDelta": {
+            "count": 1720,
+            "biasMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "rmseMetres": 0,
+            "p50Metres": 0,
+            "p95Metres": 0,
+            "p99Metres": 0,
+            "maxMetres": 0
+          },
+          "bestFitSimilarity": {
+            "scale": 1,
+            "rotationDegrees": 0,
+            "translationMetres": {
+              "x": 0,
+              "z": 0
+            },
+            "residuals": {
+              "count": 1720,
+              "biasMetres": {
+                "x": 0,
+                "z": 0
+              },
+              "rmseMetres": 0,
+              "p50Metres": 0,
+              "p95Metres": 0,
+              "p99Metres": 0,
+              "maxMetres": 0
+            }
+          }
+        },
+        "courseVicinity5km": {
+          "coordinatePairCount": 15821,
+          "directFrameDelta": {
+            "count": 15821,
+            "biasMetres": {
+              "x": 0.000004,
+              "z": -0.000004
+            },
+            "rmseMetres": 0.000325,
+            "p50Metres": 0.000268,
+            "p95Metres": 0.000562,
+            "p99Metres": 0.000637,
+            "maxMetres": 0.000705
+          },
+          "bestFitSimilarity": {
+            "scale": 1.000000003,
+            "rotationDegrees": 1.55e-7,
+            "translationMetres": {
+              "x": 0.000003,
+              "z": -0.000003
+            },
+            "residuals": {
+              "count": 15821,
+              "biasMetres": {
+                "x": 0,
+                "z": 0
+              },
+              "rmseMetres": 0.000325,
+              "p50Metres": 0.000268,
+              "p95Metres": 0.000562,
+              "p99Metres": 0.000639,
+              "maxMetres": 0.000702
+            }
+          }
+        },
+        "allInventoriedGeometry": {
+          "coordinatePairCount": 15821,
+          "directFrameDelta": {
+            "count": 15821,
+            "biasMetres": {
+              "x": 0.000004,
+              "z": -0.000004
+            },
+            "rmseMetres": 0.000325,
+            "p50Metres": 0.000268,
+            "p95Metres": 0.000562,
+            "p99Metres": 0.000637,
+            "maxMetres": 0.000705
+          },
+          "bestFitSimilarity": {
+            "scale": 1.000000003,
+            "rotationDegrees": 1.55e-7,
+            "translationMetres": {
+              "x": 0.000003,
+              "z": -0.000003
+            },
+            "residuals": {
+              "count": 15821,
+              "biasMetres": {
+                "x": 0,
+                "z": 0
+              },
+              "rmseMetres": 0.000325,
+              "p50Metres": 0.000268,
+              "p95Metres": 0.000562,
+              "p99Metres": 0.000639,
+              "maxMetres": 0.000702
+            }
+          }
+        }
+      },
+      "report": {
+        "path": "geo_data/course-v2/tortuna/migration/residual-report.json",
+        "sha256": "76c1a240e76180423023ce741d08f3ee6f898065b94aeaab807d9c589e453e84"
+      },
+      "outputs": [
+        {
+          "path": "geo_data/course-v2/tortuna/migration/course-model.epsg3006.json",
+          "sha256": "d45995178b5f550db1c8be4613457904dd81343c799d86ac44ee2fa8b353d0fe"
         }
       ]
     },

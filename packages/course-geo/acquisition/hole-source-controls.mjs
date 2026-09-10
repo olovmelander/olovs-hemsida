@@ -24,7 +24,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  tortuna: '049a260ccebb7414aed8d540fa3b11d90d7f980fc44d00959682cf9e5b584bcb',
+  tortuna: 'd45995178b5f550db1c8be4613457904dd81343c799d86ac44ee2fa8b353d0fe',
   /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) four times. Hole
      16's fairway ring was re-synced from mapping/geometry.json, which the model
      had never been rebuilt against; the seven rings the national water break
@@ -39,7 +39,17 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      wide OSM land cover -- 24 forest, 6 wood, 3 scrub, 4 wetland, 5 sand rings
      and 311 landuse rings out to 6 km -- which is the first geometry in this
      model that lies OUTSIDE the 2,048 m acquired terrain, by design: it is the
-     horizon's dressing, not the property's survey. */
+     horizon's dressing, not the property's survey.
+     2026-09-10: re-emitted through the CANONICAL migrator. The committed
+     artifact carried generator "tortuna/source-authoring@1" and 3,846 numbers;
+     migrate-legacy --check regenerates it and had been calling it stale, which
+     is the one thing CI could see and this machine could too -- a grid-authored
+     ground needs no PROJ, so the check runs anywhere. The canonical file writes
+     15,821 coordinate pairs, and it moves nothing: Tortuna is local metres about
+     an EPSG:3006 origin, so the transform is an exact translation and the
+     residual report reads 0 m over all 1,720 playing-geometry pairs, 0.0007 m
+     worst inside 5 km, and ZERO pairs outside it -- the check that would have
+     caught an Upsala-style source-frame coordinate being migrated as local. */
   visby: '0f60d43a3221b4ed8843f071343651a20fc9eba3b559fdf5a0f717e67b759c5f',
   lidingo: 'f13278ae5a44f81f4c09f8d0b009bb67532008e42b7b6ca51e6f786a7668fe09',
   angso: '1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf',
