@@ -81,7 +81,7 @@ import { createV2GroundMaterialDecorator, makeGround } from './engine/material.j
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
-import { configureWaterRenderPasses, configureWaterDepth, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
+import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
 import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
@@ -400,12 +400,17 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
   } else {
     terrainPreviewBadge.dataset.state = 'fallback';
     title.textContent = 'FÖRENKLAD TERRÄNG · RESERVLÄGE';
+    /* the cause is printed, not only hovered: a phone has no tooltip, and a
+       screenshot of the badge is the only report of a fallback most visits
+       will ever send back */
+    const cause = String(V2_SELECTION.graphError || TERRAIN_PREVIEW.error || terrainPreviewBadge.dataset.error || '')
+      .replace(/\s+/g, ' ').trim().slice(0, 90);
     detail.textContent = V2_SELECTION.graphError || TERRAIN_PREVIEW.error || renderState === 'failed'
-      ? 'LM-terrängen kunde inte läsas. Ladda om sidan för att försöka igen.'
+      ? `LM-terrängen kunde inte läsas. Ladda om sidan för att försöka igen.${cause ? ` (${cause})` : ''}`
       : TERRAIN_PREVIEW.reason === V2_GRAPH_RENDERER_GATE
         ? 'LM-terrängen kan inte visas i den här versionen.'
         : 'Ingen verifierad LM-terräng är tillgänglig för den här banan.';
-    terrainPreviewBadge.title = V2_SELECTION.graphError || TERRAIN_PREVIEW.error || '';
+    terrainPreviewBadge.title = V2_SELECTION.graphError || TERRAIN_PREVIEW.error || terrainPreviewBadge.dataset.error || '';
   }
 }
 setTerrainPreviewBadge();
@@ -1911,7 +1916,19 @@ function buildDetailMask(R) {
    6 km -- allocated before the material exists and filled once the world's
    heights are resident. sRGB bytes, so the darks keep their steps. */
 const GROUND_TINT_NEAR = { half: 1536, dx: 6, fadeMetres: 300 };
-const GROUND_TINT_FAR = { half: 6144, dx: 24 };
+/* ... and the far raster reaches the ring world's own edge where there is one.
+   It stopped at 6144 m while the outer LOD3 ring runs to 8192 m, and past the
+   raster the material paints its flat rough fallback: each outermost 2048 m
+   tile rendered as a hard-edged tan square beside its tinted neighbour, on
+   every ring ground and plainest at Lidingö, where those tiles are the far
+   shore of Askrikefjärden. Measured from the graph's own bounds about the
+   legacy origin, never typed; a fixed frontier keeps the 6144 m. */
+const GROUND_TINT_WORLD_HALF = (() => {
+  const b = V2_SELECTION.graph?.ground?.bounds, o = TERRAIN_PREVIEW_CONFIG?.legacyOriginEpsg3006;
+  if (!b || !o || !terrainV2.ringsLoaded) return 0;
+  return Math.max(b.maxEasting - o.easting, o.easting - b.minEasting, o.northing - b.minNorthing, b.maxNorthing - o.northing);
+})();
+const GROUND_TINT_FAR = { half: Math.max(6144, Math.ceil(GROUND_TINT_WORLD_HALF / 24) * 24), dx: 24 };
 function createGroundTintTextures() {
   const make = ({ half, dx, fadeMetres }) => {
     const n = Math.round((2 * half) / dx) + 1;
@@ -2450,7 +2467,35 @@ if (V2_WORLD) {
    fillGroundTintTextures falls back to the compatibility DEM outside the
    frontier's own sampler. */
 const GROUND_TINT = TERRAIN_PREVIEW.ready ? createGroundTintTextures() : null;
-const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER) : null;
+/* THE SEA LIDINGÖ MEASURED IS A MASK TOO. Its polygons are drawn as sheets a
+   hand's width over the laser's flat sea plate (0.10 m at every ring level,
+   measured), and a measured-only course takes no polygon offset and lets the
+   terrain win a depth tie -- so at a kilometre, where the phone's 24-bit
+   buffer quantises the two to one value, the plate won in bands and the fjärd
+   read as horizontal stripes of land and water that flickered with the
+   camera. Same fault as the Norrfällsviken ocean, same answer: where a
+   measured polygon says water, the terrain fragment under it is not drawn.
+   Nothing is carved and no level moves; the coverage is the polygons
+   themselves, eroded a cell from every shore, and the material still keeps
+   every fragment above the sea band. */
+const SOURCE_WATER_COVERAGE = await (async () => {
+  if (!V2_WORLD || !LIDINGO_WATER_LOADING || COASTAL_WATER) return null;
+  const context = await LIDINGO_WATER_LOADING;
+  if (context.error) return null;
+  const world = V2_SELECTION.graph?.ground.bounds, origin = TERRAIN_PREVIEW_CONFIG?.legacyOriginEpsg3006;
+  if (!world || !origin) return null;
+  const started = performance.now();
+  const field = context.mod.buildSourceWaterCoverage(context.data, {
+    bounds: { x0: world.minEasting - origin.easting, x1: world.maxEasting - origin.easting,
+      z0: origin.northing - world.maxNorthing, z1: origin.northing - world.minNorthing },
+    bodies: M.water.filter(w => !w.stream && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
+    spacing: 16,
+  });
+  span('source water coverage: terrain mask under the measured sea', started, { cells: field.cells });
+  console.info(`source water coverage: ${field.polygons} polygons at or under ${field.seaLevel} m, ${field.hectares} ha of terrain masked at ${field.spacing} m`);
+  return field;
+})();
+const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER ?? SOURCE_WATER_COVERAGE) : null;
 if (TERRAIN_PREVIEW.ready) {
   /* Low WebGL2 requests reduced terrain. Ring grounds retain every native
      course vertex and simplify surrounding levels with rebuilt morphs.
@@ -3445,7 +3490,9 @@ await tick('fyller vattnet', 0.52);
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
-  const m = new THREE.MeshBasicNodeMaterial({ transparent: !ocean, side: THREE.DoubleSide });
+  /* no bed to see through to -> nothing to be see-through for (see the policy) */
+  const opaque = waterSheetIsOpaque({ ocean, showBed });
+  const m = new THREE.MeshBasicNodeMaterial({ transparent: !opaque, side: THREE.DoubleSide });
   configureWaterRenderPasses(m, { mask });
   configureWaterDepth(m, {
     measuredOnly: ocean || M.infra.terrainPlacement === 'measured-only', depthSign: DEPTH_SIGN,
@@ -3539,12 +3586,52 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
        bed showed through as a brown lake. It writes no depth at all. */
     m.depthWrite = false;
   }
-  m.opacityNode = ocean ? float(1) : opacity;
+  m.opacityNode = opaque ? float(1) : opacity;
   return m;
 }
 // Measured coastlines use physical clearance and normal depth testing. The
 // same material is used by mapped water and the connected ocean extension.
 const waterMat = makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only' });
+/* The sea a source-water coverage masks the terrain under is drawn OPAQUE, the
+   way the Norrfällsviken ocean is: with the plate gone there is sky behind a
+   transparent sheet, and a 14% window on the sky paled the whole fjärd. */
+const seaSheetMat = SOURCE_WATER_COVERAGE ? makeWater({ showBed: false, ocean: true }) : null;
+const seaSheetFor = level => seaSheetMat && Number.isFinite(level) && level <= SOURCE_WATER_COVERAGE.seaLevel + 1e-6 ? seaSheetMat : waterMat;
+/* THE COURSE WINDOW'S EDGE IS NOT A SHORE. The pack's sea rings are the fjärd
+   clipped to the 2048 m course window, and the measured polygons outside are
+   clipped to the same lines, so along each edge two sheets meet. A ring's
+   straight cut read as a shoreline -- aShore ran to zero there, and the 7 m
+   pale shallows band drew a bright line across open water, exactly along the
+   window (the "cyan rectangle" NE of the course). The cut edges are left out
+   of the shore distance, and every vertex the subdivision puts on them is
+   collected so the outside polygons can take them up and the two
+   triangulations meet vertex for vertex (no T-junction, no hairline). */
+const SEA_WINDOW = (() => {
+  const b = TERRAIN_PREVIEW_CONFIG?.expectedFrontierBoundsEpsg5845, o = TERRAIN_PREVIEW_CONFIG?.legacyOriginEpsg3006;
+  if (!seaSheetMat || !b || !o) return null;
+  return { x: [b.minEasting - o.easting, b.maxEasting - o.easting], z: [o.northing - b.maxNorthing, o.northing - b.minNorthing],
+    origin: o, toE: x => x + o.easting, toN: z => o.northing - z };
+})();
+const onWindowLine = (p, eps = 1e-6) => SEA_WINDOW && (SEA_WINDOW.x.some(v => Math.abs(p[0] - v) < eps) || SEA_WINDOW.z.some(v => Math.abs(p[1] - v) < eps));
+const SEA_SEAM_POINTS = new Map();   /* 'E:<value>' | 'N:<value>' -> [[along, height], ...] */
+if (SEA_WINDOW) for (const w of M.water) {
+  if (w.stream || w.shoreline || !w.ring || seaSheetFor(w.level) !== seaSheetMat) continue;
+  if (!w.ring.some(p => onWindowLine(p))) continue;
+  /* the ring's shore is its outline minus every edge that lies along the window */
+  const lines = [];
+  let chain = null;
+  const n = w.ring.length;
+  for (let i = 0; i < n; i++) {
+    const p = w.ring[i], q = w.ring[(i + 1) % n];
+    const cut = SEA_WINDOW.x.some(v => Math.abs(p[0] - v) < 1e-6 && Math.abs(q[0] - v) < 1e-6)
+      || SEA_WINDOW.z.some(v => Math.abs(p[1] - v) < 1e-6 && Math.abs(q[1] - v) < 1e-6);
+    if (cut) { if (chain && chain.length > 1) lines.push({ line: chain }); chain = null; continue; }
+    if (!chain) chain = [p];
+    chain.push(q);
+  }
+  if (chain && chain.length > 1) lines.push({ line: chain });
+  w.shoreline = { rings: [], lines, windowCutsOmitted: true };
+}
 
 for (const w of M.water) {
   if (CONTINUOUS_OCEAN && w.isSea) continue;
@@ -3555,6 +3642,19 @@ for (const w of M.water) {
      need them for aShore -- at 26 m nearly every pond vertex sat ON the outline
      where aShore is zero, so the depth ramp never left the shallows */
   const { V, F } = subdivide(w.ring, faces, w.isLake ? 34 : 9);
+  if (SEA_WINDOW && w.shoreline?.windowCutsOmitted) {
+    /* every vertex this sheet puts on the window's edge, for the weld outside */
+    for (const [x, z] of V) {
+      for (const v of SEA_WINDOW.x) if (Math.abs(x - v) < 1e-6) {
+        const key = `E:${SEA_WINDOW.toE(v)}`;
+        (SEA_SEAM_POINTS.get(key) ?? SEA_SEAM_POINTS.set(key, []).get(key)).push([SEA_WINDOW.toN(z), w.level]);
+      }
+      for (const v of SEA_WINDOW.z) if (Math.abs(z - v) < 1e-6) {
+        const key = `N:${SEA_WINDOW.toN(v)}`;
+        (SEA_SEAM_POINTS.get(key) ?? SEA_SEAM_POINTS.set(key, []).get(key)).push([SEA_WINDOW.toE(x), w.level]);
+      }
+    }
+  }
   const pos = [], sh = [], fm = [], dp = [], idx = [];
   const foamy = w.isLake ? 1 : 0;
   for (const [x, z] of V) {
@@ -3574,7 +3674,7 @@ for (const w of M.water) {
   g.setAttribute('aDepth', new THREE.Float32BufferAttribute(dp, 1));
   g.setIndex(idx);
   g.computeVertexNormals();
-  const m = new THREE.Mesh(g, waterMat);
+  const m = new THREE.Mesh(g, seaSheetFor(w.level));
   // Display clearance above laser-flattened water. Source levels/DTM stay
   // unchanged; this 6 cm lift is confined to the exact water polygon.
   if (M.infra.terrainPlacement === 'measured-only') m.position.y = MEASURED_WATER_CLEARANCE_METRES;
@@ -3593,9 +3693,10 @@ if (LIDINGO_WATER_LOADING) {
     if (new URLSearchParams(location.search).get('v2') === 'require') throw context.error;
     console.warn('Lidingö surrounding water unavailable', context.error);
   } else {
+    const extraSeams = [...SEA_SEAM_POINTS].map(([key, points]) => ({ axis: key[0], value: Number(key.slice(2)), points }));
     const batches = await context.mod.buildLidingoWaterBatches(context.data, async () => {
       if (shouldYieldWork()) await yieldWork();
-    });
+    }, { extraSeams });
     let vertices = 0, triangles = 0;
     for (const batch of batches) {
       const count = batch.positions.length / 3, g = new THREE.BufferGeometry();
@@ -3607,7 +3708,10 @@ if (LIDINGO_WATER_LOADING) {
       g.setAttribute('aDepth', new THREE.Float32BufferAttribute(new Float32Array(count), 1));
       g.setIndex(batch.indices);
       g.computeBoundingSphere();
-      const mesh = new THREE.Mesh(g, waterMat);
+      /* the measured sea is one plane in the world and nine polygons in the
+         file; the item seams were welded vertex for vertex in the batches, and
+         the sheet is opaque where the terrain under it is masked away */
+      const mesh = new THREE.Mesh(g, seaSheetMat ?? waterMat);
       mesh.name = `lidingo-source-water-${batch.sourceItemId}`;
       mesh.position.y = 0.06;
       mesh.renderOrder = 6;
@@ -3621,7 +3725,12 @@ if (LIDINGO_WATER_LOADING) {
     stats.verts += vertices; stats.tris += triangles;
     stats.environmentWater = { state: 'source-geometry-loaded', features: context.data.features.length,
       interiorRings: batches.reduce((n, b) => n + b.interiorRings, 0), batches: batches.length,
-      vertices, triangles, sourceHeightsPreserved: true, displayLiftMetres: 0.06 };
+      vertices, triangles, sourceHeightsPreserved: true, displayLiftMetres: 0.06,
+      seamsWelded: true, opaqueSea: Boolean(seaSheetMat),
+      windowSeamPoints: Object.fromEntries([...SEA_SEAM_POINTS].map(([key, points]) => [key, points.length])),
+      terrainMask: SOURCE_WATER_COVERAGE ? { cells: SOURCE_WATER_COVERAGE.cells, hectares: SOURCE_WATER_COVERAGE.hectares,
+        spacing: SOURCE_WATER_COVERAGE.spacing, polygons: SOURCE_WATER_COVERAGE.polygons,
+        maximumCoveredTerrainHeight: SOURCE_WATER_COVERAGE.maximumCoveredTerrainHeight } : null };
   }
 }
 
@@ -10232,6 +10341,7 @@ async function pixelDelta(threshold = 24, sinceMark = false, band = null) {
    the instant it appears, and an interface that is not there yet fails silently */
 window.V3D = {
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
+           environmentWater: stats.environmentWater ?? null,
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, authoredParkingCars: stats.authoredParkingCars | 0,
            pylons: stats.pylons | 0, stumps: stats.stumps | 0,
@@ -10489,6 +10599,13 @@ window.V3D = {
       bounds: [bb.min.x, bb.min.z, bb.max.x, bb.max.z].map(v => Math.round(v)) };
   }),
   carvedGpuTiles: () => terrainV2.carvedGpuTiles ?? null,
+  /* the measured-sea terrain mask (Lidingö): its raster and a point test, for the harness */
+  sourceWaterCoverage: (x, z) => SOURCE_WATER_COVERAGE ? {
+    cells: SOURCE_WATER_COVERAGE.cells, hectares: SOURCE_WATER_COVERAGE.hectares, spacing: SOURCE_WATER_COVERAGE.spacing,
+    polygons: SOURCE_WATER_COVERAGE.polygons, seaLevel: SOURCE_WATER_COVERAGE.seaLevel,
+    maximumCoveredTerrainHeight: SOURCE_WATER_COVERAGE.maximumCoveredTerrainHeight,
+    ...(Number.isFinite(x) && Number.isFinite(z) ? { sea: SOURCE_WATER_COVERAGE.isSeaAt(x, z), covered: SOURCE_WATER_COVERAGE.isCoveredAt(x, z) } : {}),
+  } : null,
   probeGround: (x, z) => {
     const h = terrainH(x, z);
     const tintAt = layer => {

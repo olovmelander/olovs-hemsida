@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { LessDepth, LessEqualDepth, Matrix4, MeshBasicNodeMaterial, Vector3, WebGPUCoordinateSystem } from 'three/webgpu';
-import { configureWaterDepth, configureWaterRenderPasses, MEASURED_WATER_CLEARANCE_METRES } from './water-render-policy.mjs';
+import { configureWaterDepth, configureWaterRenderPasses, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './water-render-policy.mjs';
 import { coastalCameraNear } from './coastal-camera-depth.mjs';
 
 const projection = (reversed, near = 1) => {
@@ -85,4 +85,18 @@ it.each([false, true])('separates coastal sea and dry land with fixed 24-bit dep
     if (fixed24(projectedDepth(old, distance)) === fixed24(projectedDepth(old, bedDistance))) oldSeaTies++;
   }
   expect(oldSeaTies).toBeGreaterThan(0);
+});
+
+describe('a sheet is see-through only where a bed is drawn under it', () => {
+  it('draws a measured sea (no bed) and the connected ocean opaque, a carved lake through its ramp', () => {
+    /* Visby: measured-only ground, showBed false -- the sheet must not paint
+       the coastal mask's 32 m cells (plate behind it) against the sky (nothing
+       behind it) as two tones of sea */
+    expect(waterSheetIsOpaque({ ocean: false, showBed: false })).toBe(true);
+    expect(waterSheetIsOpaque({ ocean: true, showBed: false })).toBe(true);
+    expect(waterSheetIsOpaque({ ocean: true, showBed: true })).toBe(true);
+    /* the carved inland lakes and the flat-water sheets keep their bed read-through */
+    expect(waterSheetIsOpaque({ ocean: false, showBed: true })).toBe(false);
+    expect(waterSheetIsOpaque()).toBe(false);
+  });
 });
