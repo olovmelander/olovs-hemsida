@@ -183,6 +183,27 @@ export default defineConfig({
             },
           },
           {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/ribbingsfors\/facilities-v1\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'banvy-ribbingsfors-facilities-manifest',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/ribbingsfors\/facilities-[a-f0-9]{64}\.glb$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-ribbingsfors-facilities',
+              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+          {
             // The live Ängsö receipt selects a new geometry URL after each
             // Blender publication; the last successful visit also works offline.
             urlPattern: ({ url, sameOrigin }) => sameOrigin &&
