@@ -1,25 +1,25 @@
 import architecture from './norrfallsviken-facilities-meshes.json' with { type: 'json' };
 import site from './norrfallsviken-facilities-site.json' with { type: 'json' };
 import { legacyGridBridge } from '../geodetic-frame.mjs';
-import { NORRFALLSVIKEN_V2_CONFIG as config } from '../v2-norrfallsviken-config.mjs';
+import { NORRFALLSVIKEN_FACILITY_FRAME, NORRFALLSVIKEN_FACILITY_ORIGIN_EPSG3006 } from './norrfallsviken-facility-frame.mjs';
 
 // Architecture-only export of the measured Blender workspace. The ortho boards,
 // point cloud and reference ground are deliberately absent from this asset.
-const bridge = legacyGridBridge(config.legacyFrame);
-const origin = config.legacyOriginEpsg3006;
+const bridge = legacyGridBridge(NORRFALLSVIKEN_FACILITY_FRAME);
+const origin = NORRFALLSVIKEN_FACILITY_ORIGIN_EPSG3006;
 const assert = (ok, message) => { if (!ok) throw new Error(message); };
 export const replacementIds = Object.freeze(['w1205924894', 'lm-range-shelter']);
 let activeLayout = null;
 
-export function projectFacilityPoint([east, north, height], offset = config.legacyFrame.verticalDatumOffsetMetres) {
+export function projectFacilityPoint([east, north, height], offset = NORRFALLSVIKEN_FACILITY_FRAME.verticalDatumOffsetMetres) {
   const [x, z] = bridge.toLegacy(east - origin.easting, origin.northing - north);
   return [x, height + offset, z];
 }
 
 export const facilityFootprints = architecture.facilities.map(f => ({
   id: f.id,
-  floorWorld: f.floorRH2000Estimate + config.legacyFrame.verticalDatumOffsetMetres,
-  roofTopWorld: Math.max(...f.roofHeightRH2000) + config.legacyFrame.verticalDatumOffsetMetres,
+  floorWorld: f.floorRH2000Estimate + NORRFALLSVIKEN_FACILITY_FRAME.verticalDatumOffsetMetres,
+  roofTopWorld: Math.max(...f.roofHeightRH2000) + NORRFALLSVIKEN_FACILITY_FRAME.verticalDatumOffsetMetres,
   ring: f.wallFootprintEpsg3006.map(([e, n]) => {
     const [x, , z] = projectFacilityPoint([e, n, 0]); return [x, z];
   }),
@@ -61,7 +61,7 @@ const centre = ring => ring.reduce((c, p) => [c[0] + p[0] / ring.length, c[1] + 
  * rigid ground anchor. Foundations reach down to the actual 1 m surface. */
 export function compileFacilityGeometry({ terrainH, v2Active, verticalDatumOffsetMetres }) {
   assert(architecture.schemaVersion === 1 && site.schemaVersion === 1, 'Invalid Norrfallsviken architecture');
-  const datum = config.legacyFrame.verticalDatumOffsetMetres;
+  const datum = NORRFALLSVIKEN_FACILITY_FRAME.verticalDatumOffsetMetres;
   if (v2Active) assert(Math.abs(verticalDatumOffsetMetres - datum) < .001, 'Facility height bridge mismatch');
   const batches = new Map(), placements = [], byId = new Map();
   function emit(points, colour, roughness = .75) {

@@ -2,13 +2,13 @@
    There is deliberately no DOM or THREE here: club advice and coordinate
    conversion must be testable without starting the renderer. */
 import { latLonToSweref99Tm } from '../../../../packages/course-geo/chmv2/projection.mjs';
-import { V2_GRAPH_FRONTIER_CONFIGS } from './v2-frontier-configs.mjs';
-
-/* These registry entries contain only frame constants. Reuse the same exact
-   pack/frame identity as the terrain bridge, including when terrain falls back
-   to GPK1. A GPS fix is WGS84; a grid-authored pack's x/z axes are SWEREF99 TM. */
-const PROJECTED_GPS_FRAMES = Object.freeze(Object.values(V2_GRAPH_FRONTIER_CONFIGS)
-  .filter(config => config.bridgeMode === 'epsg3006-local-rh2000'));
+/* The same exact pack/frame identity as the terrain bridge -- asserted
+   field-for-field against the v2 registry by gps-projected-frames.test.mjs
+   rather than imported from it, because this is player code and that import
+   pulled every v2 config module into the flagless bundle. Applies whether or
+   not terrain falls back to GPK1: a GPS fix is WGS84, and a grid-authored
+   pack's x/z axes are SWEREF99 TM. */
+import { PROJECTED_GPS_FRAMES } from './gps-projected-frames.mjs';
 
 const DEFAULT_CLUBS = [
   ['driver', 'Driver', 210],
