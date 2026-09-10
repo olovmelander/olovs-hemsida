@@ -58,7 +58,14 @@ describe('Lidingö complete display architecture',()=>{
     expect(now.rings).toHaveLength(2);
     expect(now.sourceMaterial).toBe(old.material);
     expect(mappedPathSurface(now)).toBe(SURFACE.ASPHALT);
-    for(const f of result.mappedFeatures.filter(f=>f.id!==old.id))expect(f).toBe(model.scenery.mappedFeatures.find(old=>old.id===f.id));
+    /* The reviewed practice surfaces are display-only ADDITIONS, so the check
+       here is what it always was -- every SOURCE feature passes through by
+       identity -- plus the additions being exactly that: new ids, marked
+       displayOnly, and nothing else appearing. */
+    const added=result.mappedFeatures.filter(f=>f.displayOnly);
+    for(const f of result.mappedFeatures.filter(f=>f.id!==old.id&&!f.displayOnly))expect(f).toBe(model.scenery.mappedFeatures.find(old=>old.id===f.id));
+    expect(result.mappedFeatures).toHaveLength(model.scenery.mappedFeatures.length+added.length);
+    for(const f of added)expect(model.scenery.mappedFeatures.some(s=>s.id===f.id)).toBe(false);
     const compiled=buildGroundSurfaceFeatures({model:{...model,scenery:result},holes:model.holes});
     const paved=compiled.find(f=>f.sourceId===now.id);
     expect(paved.surface).toBe(SURFACE.ASPHALT);

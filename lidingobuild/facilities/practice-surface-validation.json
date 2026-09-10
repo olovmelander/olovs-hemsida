@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "groundId": "lidingo",
+  "status": "passed",
+  "input": {
+    "path": "lidingobuild/facilities/practice-surface-layout.json",
+    "sha256": "6d7c3c70f1aa084f01b3a803c700654ed3d3413d309d470b959f96d3c583a683"
+  },
+  "output": {
+    "path": "apps/golf/src/engine/scenery/lidingo-practice-surfaces.json",
+    "sha256": "bc86c5ac87bb044e05c9a90bd0f06e1f72a212d6ae8a2d8655ed79a2dc4ce714",
+    "bytes": 22561
+  },
+  "sourcePackSha256": "d25dfe74f48cb6584221c727735d0604d21729524b6d1d2b6e52796910f527c9",
+  "sourcePackModified": false,
+  "featureCount": 7,
+  "counts": {
+    "practice_green": 3,
+    "practice_bunker": 4
+  },
+  "features": [
+    {
+      "id": "lidingo-practice-restaurant-ne-2025",
+      "kind": "practice_green",
+      "areaM2": 421.83680000419463,
+      "rings": 1,
+      "vertices": 26,
+      "maximumPixelRoundTripMetres": 0,
+      "sourceImageId": "clubhouse-detail-lm-2025",
+      "sourceSha256": "f385e390cccfe24be8e4f08b53a8ce63dcae22930e6d6db1f2b024d5e398c9e1",
+      "interiorProbeLocal": [
+        -10.5,
+        -102.5
+      ],
+      "clearanceMetres": 9.416094895342974,
+      "expectedSurfaceId": 4
+    },
+    {
+      "id": "lidingo-practice-upper-parking-green-2025",
+      "kind": "practice_green",
+      "areaM2": 462.5919999970049,
+      "rings": 1,
+      "vertices": 24,
+      "maximumPixelRoundTripMetres": 0,
+      "sourceImageId": "practice-upper-parking-lm-2025",
+      "sourceSha256": "a57a861e3c6a539e66518e7bc96573ee0ca6f1146fee7836a42553b05de81df7",
+      "interiorProbeLocal": [
+        -141.5,
+        -141.5
+      ],
+      "clearanceMetres": 9.559999999590218,
+      "expectedSurfaceId": 4
+    },
+    {
+      "id": "lidingo-practice-range-south-target-2025",
+      "kind": "practice_green",
+      "areaM2": 129.3056000004016,
+      "rings": 1,
+      "vertices": 20,
+      "maximumPixelRoundTripMetres": 0,
+      "sourceImageId": "practice-south-range-target-lm-2025",
+      "sourceSha256": "e0e556e8ed0fd4bfc40981b64f91ee7da447b217fa78bb06aaffe7269a4599f1",
+      "interiorProbeLocal": [
+        -110.5,
+        205.5
+      ],
+      "clearanceMetres": 5.312626469023975,
+      "expectedSurfaceId": 4
+    },
+    {
+      "id": "lidingo-practice-upper-parking-bunker-west-2025",
+      "kind": "practice_bunker",
+      "areaM2": 77.3760000015387,
+      "rings": 1,
+      "vertices": 23,
+      "maximumPixelRoundTripMetres": 0,
+      "sourceImageId": "practice-upper-parking-lm-2025",
+      "sourceSha256": "a57a861e3c6a539e66518e7bc96573ee0ca6f1146fee7836a42553b05de81df7",
+      "interiorProbeLocal": [
+        -139.5,
+        -125.5
+      ],
+      "clearanceMetres": 3.086477599033852,
+      "expectedSurfaceId": 6
+    },
+    {
+      "id": "lidingo-practice-upper-parking-bunker-east-2025",
+      "kind": "practice_bunker",
+      "areaM2": 75.1872000004048,
+      "rings": 1,
+      "vertices": 21,
+      "maximumPixelRoundTripMetres": 0,
+      "sourceImageId": "practice-upper-parking-lm-2025",
+      "sourceSha256": "a57a861e3c6a539e66518e7bc96573ee0ca6f1146fee7836a42553b05de81df7",
+      "interiorProbeLocal": [
+        -126.5,
+        -128.5
+      ],
+      "clearanceMetres": 3.7077724405230206,
+      "expectedSurfaceId": 6
+    },
+    {
+      "id": "lidingo-practice-south-bunker-north-2025",
+      "kind": "practice_bunker",
+      "areaM2": 93.24515555470953,
+      "rings": 1,
+      "vertices": 41,
+      "maximumPixelRoundTripMetres": 0,
+      "sourceImageId": "range-south-detail-lm-2025",
+      "sourceSha256": "f60e63ca68d8b4c137c9b40095556f785efc35a8c7801f387af9b6051b374022",
+      "interiorProbeLocal": [
+        -17.5,
+        292.5
+      ],
+      "clearanceMetres": 3.6046883052549004,
+      "expectedSurfaceId": 6
+    },
+    {
+      "id": "lidingo-practice-south-bunker-south-2025",
+      "kind": "practice_bunker",
+      "areaM2": 132.51440000054117,
+      "rings": 1,
+      "vertices": 80,
+      "maximumPixelRoundTripMetres": 0,
+      "sourceImageId": "range-south-detail-lm-2025",
+      "sourceSha256": "f60e63ca68d8b4c137c9b40095556f785efc35a8c7801f387af9b6051b374022",
+      "interiorProbeLocal": [
+        -14.5,
+        318.5
+      ],
+      "clearanceMetres": 3.318794961956114,
+      "expectedSurfaceId": 6
+    }
+  ],
+  "limitations": [
+    "Appearance-only surface traces at the orthophoto epoch, with the recorded interpretation uncertainty.",
+    "No inferred terrain shaping, bunker depth, current mowing line or source-pack geometry replacement."
+  ]
+}

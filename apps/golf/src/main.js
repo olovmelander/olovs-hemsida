@@ -275,7 +275,11 @@ let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = MODEL;
-if (SCENERY?.applySurfaceAppearance) M.scenery = SCENERY.applySurfaceAppearance(M.scenery);
+/* Display-only surface appearance, and the same source-inspection switch the
+   authored buildings answer to: ?buildingGeometry=source shows the pack as it
+   was measured, with no display override and no traced additions. */
+if (SCENERY?.applySurfaceAppearance) M.scenery = SCENERY.applySurfaceAppearance(M.scenery,
+  { sourceView: new URLSearchParams(location.search).get('buildingGeometry') === 'source' });
 const HOLES = M.holes;
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
