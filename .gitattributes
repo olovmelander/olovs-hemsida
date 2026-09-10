@@ -52,3 +52,10 @@ johannesbergbuild/facilities/*.json -text whitespace=blank-at-eol,blank-at-eof,s
 johannesbergbuild/facilities/*.py text eol=lf
 johannesbergbuild/facilities/*.mjs text eol=lf
 apps/golf/public/models/johannesberg/*.json text eol=lf
+# These two directories hold evidence whose sha256 is RECORDED in other
+# committed files, exactly like the mapping ledgers pinned above -- and both
+# were missing a rule, so a Windows checkout hashed CRLF bytes that no Linux
+# checkout can reproduce. That is how upsala-tee-coordinate-contract and the
+# Lidingo practice-surface pin came to fail in CI while passing locally.
+upsalabuild/mapping/*.json text eol=lf
+lidingobuild/facilities/*.json text eol=lf
