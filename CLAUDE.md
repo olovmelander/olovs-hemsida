@@ -4407,3 +4407,50 @@ migration and its residual reports, the source manifest's artifact checksums,
 and `COURSE_MODEL_SHA256` in
 `packages/course-geo/acquisition/hole-source-controls.mjs`. Re-pin that last one
 by looping over `COURSE_MODEL_PATHS` and comparing, never by hand.
+
+## The Codex sessions' cut-off work, finished (2026-09-10)
+
+Every Codex session running that morning died at 10:40 local with "You've hit
+your usage limit", mid-turn, and the consolidation that put the morning on
+main at 11:55 committed whatever was on disk at the moment of the cut. The
+session logs (`~/.codex/sessions/2026/09/*.jsonl`) are the only record of
+which request was in flight; a turn with `task_started` and no
+`task_complete`, or a `task_complete` with an empty message, is a cut-off one.
+Read them with a streaming script -- they run to 265 MB each.
+
+What the cut left, and what closed it:
+
+- **Norrfällsviken** had a range module nothing imported, refined shelter parts
+  nothing installed, and a self-check that exited 1. The check was right: the
+  shared-edge subdivision inserted a centroid per face, so the 161 m² gravel
+  hardstanding ran past its own face budget before its edges shortened. It
+  splits two, three or four ways at shared midpoints now. Wired through the
+  three hooks the engine already had (`applySurfaceAppearance`,
+  `renderCourtyard`, `customMappedKinds`); 88 parts in 14 batches.
+- **Ribbingsfors** had complete Blender scripts and no Blender run. They ran
+  unchanged headless; the exporter they lacked groups the flat meshes under one
+  node per facility and decides ownership by geometry -- an authored roof
+  REPLACES the retained building whose centroid it contains, and a retained
+  satellite rectangle it merely overlaps is SUPPRESSED with the review's reason
+  in the manifest (the "annex" that is the clubhouse's shadow, the yard boxes
+  over an open arena). Only roofs enter the vegetation exclusion.
+- **Visby** had `model_range.py` with builders but no `build()`, and no data
+  file for the mat and pole positions it reads -- the session was still cutting
+  crops to trace them. `trace-range-layout.py` detects the mats instead, as
+  periodic darkness minima along the traced strip lines (7 + 19 + 6). Two bugs
+  in the unfinished code: `tessellate_polygon` returns index triples, not
+  vectors. The western road-side net was never written down and is not modelled.
+- **Upsala** and **Tortuna** ranges had not started. Upsala's is a model
+  rebuild (the OSM field polygon cuts the tee line; play bounds and both v2
+  cutouts move) and is recorded, not done:
+  `upsalabuild/facilities/range-alignment-2026-09-10.md`. Tortuna's is owned by
+  a parallel session, which also carried its stranded Blender sources into main.
+
+Three mechanics worth keeping. **Several Claude sessions share this checkout
+at once**: a `git switch -c` here moved HEAD under two peers; list them
+(`ListAgents`), tell them which paths you own, stage by path, never `-A`. The
+**Blender MCP on 9876 is one shared instance** -- every build in this pass ran
+`blender.exe --background --python`, which the scripts already supported. And
+**a fixed count in a test or a browser gate is a measurement**: the refined
+shelter turned 7 batches into 14 and 1,192 triangles into 4,182, and the right
+move was to re-measure and pin, not to loosen.
