@@ -4499,6 +4499,24 @@ generalises:
   two whole and had been failing since the CI fix that re-emitted Tortuna's
   migration through the canonical migrator (af1d7d4e); it compares the holes
   now, which is the routing the graph carries.
+- **THE DRIVING RANGE IS GRASS, and the photograph said otherwise.** The
+  range module drew the landing field as a scraped-earth skin because the
+  2026-05-02 orthophoto shows bare fill and the club's 2025 report called the
+  range unfinished -- and on the owner's phone it was a pink-white sheet as
+  bright as the bunker sand (measured in the golden preset: luminance 160
+  against 70 for the rough, 167 for the sand). Two engine facts made it white:
+  a noon ortho pixel is an exposure, not an albedo, so a colour copied out of
+  the imagery is brighter than everything the palette paints beside it; and
+  `renderCourtyard` draws into the BUILDINGS batch, which renders its vertex
+  colour once where the ground squares its own. Neither was the decision. The
+  owner's word (2026-09-10) is that the range is grass, and the owner's word
+  beats a photograph four months older than it: the skin is gone, the field is
+  the turf the ground carries, and the traced extent stays in
+  `tortuna-range-site.json` as a reading with `rendered: false` and the reason
+  beside it, written by `build-site.mjs` too so a re-trace cannot bring it
+  back. **A measured extent is not a licence to paint it** -- and anything
+  drawn through `renderCourtyard` is authored in the batch's own convention,
+  never copied from the terrain palette or the pixels.
 - **The registry chain here**: apply-review → build-course → emit-pack →
   emit-manifest → update-source-manifest → migrate-legacy --write --ground
   tortuna → update-source-manifest → compile-stands → update-source-manifest →
