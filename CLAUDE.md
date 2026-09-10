@@ -4658,3 +4658,52 @@ the brown of the day it was flown.
   brown plate with scattered cones to forest; a 2.2 km top-down of
   Johannesberg was unchanged before the floor recolour, because everything in
   that frame is inside the planted ring — which is how the floor was found.
+
+## Lidingö — the sea, the horizon and the fallback badge (2026-09-10)
+
+The owner's phone (WebGL2) showed the fjärd as horizontal bands of land and
+water that flickered, a thin bright rectangle on the water north-east of the
+course, tan squares among the far tiles, and once the RESERVLÄGE badge. Each
+was measured before it was touched; the record is in the code comments at
+`SOURCE_WATER_COVERAGE`, `SEA_WINDOW` and `GROUND_TINT_FAR` in main.js.
+
+- **The laser sea is a plate at 0.10 m at every ring level** (98–99% of the
+  samples under the measured polygons, LOD 0–3; the rest is shore averaging
+  to 1 m), and the measured sheets stand 6 cm above it. A measured-only
+  course takes no polygon offset and lets terrain win a depth tie
+  (`water-render-policy.mjs`), so at a kilometre on a 24-bit buffer the two
+  quantise to one value and the plate wins in bands. Same fault as the
+  Norrfällsviken ocean, same answer: `buildSourceWaterCoverage` in
+  `lidingo-environment-water.mjs` rasters the polygons at or under the sea
+  level (29 of them, with the pack's own three sea parts) at 16 m, erodes a
+  cell from every shore and island, and `createCoastalTerrainMask` discards
+  the terrain fragments under them (5,212 ha) below the sea band. Nothing is
+  carved, no level moves, and `check-runtime`'s "no inferred flat water or
+  carved bed" gate still holds. With the plate gone the sea is drawn with the
+  OPAQUE ocean material (`seaSheetMat`): a transparent sheet over nothing
+  is a 14% window on the sky.
+- **The bright rectangle was the course window's edge read as a shore.** The
+  pack's sea rings are clipped to the 2048 m window; `aShore` ran to zero
+  along the straight cut and the 7 m shallows band drew a pale line across
+  open water exactly along it. Those rings now carry a `shoreline` whose
+  lines omit every edge on the window (`SEA_WINDOW`), and every vertex the
+  subdivision puts on the window is handed to the outside polygons as an
+  extra seam so both triangulations meet vertex for vertex. The item seams
+  (E 680000, N 6580000/6590000) turned out to share vertices already; the
+  weld is general and is what the test proves.
+- **The tan squares were the outer LOD3 ring past the far tint.** The far
+  tint raster stopped at 6144 m, the ring world runs to 8192, and outside
+  the raster the class-SDF material paints flat `C.rough`. `GROUND_TINT_FAR`
+  now reaches the graph's own bounds on a ring ground (measured, 8192 here),
+  the land-cover record was rebuilt to `--half 8192` (`build-landcover.mjs`
+  retries a 5xx from the WMS now — one piece answered 502), and the Lidingö
+  scenery module exports `farRing` to the record's box, so the far cones
+  went 61,149 → 88,091 and Bogesundslandet is forest to the horizon.
+- **The fallback badge prints its cause** in brackets after "Ladda om
+  sidan" — a phone has no tooltip, and a screenshot of that badge is the only
+  report a fallback sends. `loadRings` also re-asks once for a transfer that
+  drops: 213 fetches (12 MB) go out at once on a phone's radio.
+
+Not done: the boundary between the 46,121 stand representatives (the 2 km
+window) and the far cones beyond it is still a density step; nothing was
+measured on it here.

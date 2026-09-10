@@ -4,6 +4,13 @@ import { createPracticeSurfaceFeatures, isPracticeSurfaceInterior } from './lidi
 // Use the retained canopy raster for floor appearance; maintained surfaces win.
 export const canopyFloor = true;
 
+/* The far cone ring reaches the edge of the land-cover record (±6400 m), not
+   the engine's default ±5400: the ring world runs to 8192 m and the horizon
+   the course looks at -- Bogesundslandet across Askrikefjärden, Täby beyond
+   -- lies between those two lines. Past the record this measured-only course
+   plants nothing, so the record's own box is the honest limit. */
+export const farRing = { x0: -6400, x1: 6400, z0: -6400, z1: 6400 };
+
 export const buildingLooks = {
   'way/32262183': { wall: 0xe6e5dd, roof: 0x343b3e },
   'way/32262176': { wall: 0xe6e5dd, roof: 0x343b3e },
