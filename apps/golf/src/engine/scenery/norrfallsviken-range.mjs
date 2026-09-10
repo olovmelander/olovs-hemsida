@@ -35,12 +35,17 @@ export function prepareRangeScenery(scenery) {
   return { ...scenery, mappedFeatures };
 }
 
-/** Shared edge subdivision prevents cracks between terrain-following triangles. */
+/** Shared edge subdivision prevents cracks between terrain-following triangles.
+ * Every edge longer than maxEdge is halved at a midpoint shared by both faces
+ * on it, and a face is split into two, three or four well-shaped triangles by
+ * which of its edges were halved. No centroid is ever inserted: a centroid split
+ * makes slivers whose edges barely shorten, and on the gravel hardstanding that
+ * ran the face count past the budget before it converged. */
 export function tessellateRangeSurface(ring, maxEdge = .65) {
   const vertices = ring.map(p => [...p]);
-  let faces = ShapeUtils.triangulateShape(ring.map(p => new Vector2(...p)), []);
+  let faces = ShapeUtils.triangulateShape(ring.map(p => new Vector2(...p)), []).map(f => [...f]);
   const edgeKey = (a, b) => a < b ? `${a}:${b}` : `${b}:${a}`;
-  for (let pass = 0; pass < 16; pass++) {
+  for (let pass = 0; pass < 24; pass++) {
     const split = new Map();
     for (const face of faces) for (let i = 0; i < 3; i++) {
       const a = face[i], b = face[(i + 1) % 3], key = edgeKey(a, b);
@@ -51,16 +56,19 @@ export function tessellateRangeSurface(ring, maxEdge = .65) {
     if (!split.size) return { vertices, faces };
     const next = [];
     for (const face of faces) {
-      const boundary = [];
-      for (let i = 0; i < 3; i++) {
-        boundary.push(face[i]);
-        const mid = split.get(edgeKey(face[i], face[(i + 1) % 3]));
-        if (mid !== undefined) boundary.push(mid);
-      }
-      if (boundary.length === 3) { next.push(face); continue; }
-      const centre = vertices.length;
-      vertices.push(face.reduce((p, index) => p.map((v, axis) => v + vertices[index][axis] / 3), [0, 0]));
-      for (let i = 0; i < boundary.length; i++) next.push([centre, boundary[i], boundary[(i + 1) % boundary.length]]);
+      // Rotate so the split pattern is canonical: one split on edge 0-1, two
+      // splits on edges 0-1 and 1-2, three on all of them.
+      const mids = [0, 1, 2].map(i => split.get(edgeKey(face[i], face[(i + 1) % 3])));
+      const count = mids.filter(m => m !== undefined).length;
+      if (count === 0) { next.push(face); continue; }
+      let r = 0;
+      if (count === 1) r = mids.findIndex(m => m !== undefined);
+      else if (count === 2) r = (mids.findIndex(m => m === undefined) + 1) % 3;
+      const [p0, p1, p2] = [0, 1, 2].map(i => face[(r + i) % 3]);
+      const [m01, m12, m20] = [0, 1, 2].map(i => mids[(r + i) % 3]);
+      if (count === 1) next.push([p0, m01, p2], [m01, p1, p2]);
+      else if (count === 2) next.push([p0, m01, p2], [m01, p1, m12], [m01, m12, p2]);
+      else next.push([p0, m01, m20], [m01, p1, m12], [m20, m12, p2], [m01, m12, m20]);
     }
     faces = next;
     assert(faces.length < 100000, 'Range surface exceeds geometry budget');

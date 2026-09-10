@@ -1,9 +1,35 @@
 import { renderReviewedClubhouse, renderReviewedFacilities } from './norrfallsviken-architecture.mjs';
 import { authoredSiteHeights } from './norrfallsviken-facilities.mjs';
+import { isReviewedRangeFeature, prepareRangeScenery, renderRangeDetails } from './norrfallsviken-range.mjs';
 export { loadFacilities, facilityFootprints, isFacilityInterior, isFacilityTreeObstruction, architectureStatus } from './norrfallsviken-facilities.mjs';
 export const renderClubhouse = renderReviewedClubhouse;
-export const renderCourtyard = ctx => renderReviewedFacilities({ ...ctx, siteHeights: authoredSiteHeights() });
-export const customMappedKinds = ['range_mat', 'range_target_surface', 'sports_court', 'terrace', 'ditch', 'clubhouse_roof_section', 'roof_solar'];
+
+/* THE DRIVING RANGE, read off the 2024 orthophoto and the club's 2025 range
+   photograph (nvgkbuild/facilities/driving-range-review.json): twelve
+   rectangular mats in three-mat groups on four separate concrete platforms,
+   the gravel hardstanding behind them and the three turf target patches. The
+   pack still carries the intake's round mat markers; this is a DISPLAY revision
+   of those outlines by id, and source inspection (?buildingGeometry=source)
+   returns the scenery itself, untouched and by identity. Applying it twice
+   re-derives rather than accumulates. */
+export function applySurfaceAppearance(scenery, { sourceView = false } = {}) {
+  return sourceView ? scenery : prepareRangeScenery(scenery);
+}
+
+/* The measured surfaces the retained review draws (terrace, padel court, the
+   ditch) and the reviewed range details are one courtyard pass: the range
+   module owns its mats and targets, so the generic surface renderer must not
+   draw them a second time from the same features. */
+export const renderCourtyard = ctx => {
+  const facilities = renderReviewedFacilities({ ...ctx,
+    features: (ctx.features || []).filter(feature => !isReviewedRangeFeature(feature)),
+    siteHeights: authoredSiteHeights() });
+  const range = renderRangeDetails(ctx);
+  return { triangles: facilities.triangles + range.triangles, counts: { ...facilities.counts, ...range.counts },
+    evidence: `${facilities.evidence}; ${range.evidence}`,
+    range: { platforms: range.platforms, limitations: range.limitations } };
+};
+export const customMappedKinds = ['range_mat', 'range_platform', 'range_target_surface', 'sports_court', 'terrace', 'ditch', 'clubhouse_roof_section', 'roof_solar'];
 
 /* Norrfällsviken's course-specific scenery.
 
