@@ -2,11 +2,11 @@
   "passed": true,
   "asset": {
     "url": "models/visby/facilities-v1.glb",
-    "sha256": "11cbf1773e7dac024b7bc8aae9ce24bc518fe40dc3c5802f3f2e6744272383ae",
-    "bytes": 1780476
+    "sha256": "c8b571e49e6d18f59c21604655fc0f50c9f2d9d8dcccb654074aa11d2361cf20",
+    "bytes": 3304832
   },
   "facilityGroups": 18,
-  "triangles": 29749,
+  "triangles": 56897,
   "renderers": [
     {
       "renderer": "authored-webgpu",
@@ -14,12 +14,18 @@
       "passed": true
     },
     {
-      "renderer": "authored-webgl",
-      "checks": 13,
+      "renderer": "fallback-webgpu",
+      "checks": 7,
+      "passed": true
+    },
+    {
+      "renderer": "range-after-webgpu",
+      "checks": 7,
       "passed": true
     }
   ],
   "productionAssetMatches": true,
   "blenderWorkspace": "visbybuild/facilities/output/visby-facilities-workspace.blend",
-  "modelLimitations": "Reference-based visual reconstruction; hidden architectural details and some heights remain estimates."
+  "rangeLayout": "visbybuild/facilities/range-layout.json",
+  "modelLimitations": "Reference-based visual reconstruction; hidden architectural details and some heights remain estimates. Mat centres are detected on the 2026 panel; mat size, trays, terminals, the 9 m net height and the six open fixed-screen places are interpretations of photographs and club notices. The western road-side net is not modelled."
 }

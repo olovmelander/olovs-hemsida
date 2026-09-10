@@ -1,0 +1,832 @@
+{
+  "schemaVersion": 1,
+  "groundId": "visby",
+  "captureDate": "2026-04-10",
+  "method": "perpendicular darkness minima along the traced strip lines, refined to dark-pixel centroids",
+  "matSizeMetres": [
+    1.5,
+    1.5
+  ],
+  "matRows": [
+    {
+      "id": "range-firing-mats-west-2026",
+      "source": "range-firing-line",
+      "linePixels": [
+        [
+          89,
+          163
+        ],
+        [
+          165,
+          239
+        ]
+      ],
+      "mats": [
+        {
+          "id": "range-firing-mats-west-2026-mat-01",
+          "pixel": [
+            89.02,
+            161.2
+          ],
+          "centerBlenderXY": [
+            -344.337,
+            -62.252
+          ],
+          "angleRadians": -0.7854,
+          "shotDirectionBlender": [
+            0.7071,
+            0.7071
+          ],
+          "darkness": 43.9
+        },
+        {
+          "id": "range-firing-mats-west-2026-mat-02",
+          "pixel": [
+            101.57,
+            170.73
+          ],
+          "centerBlenderXY": [
+            -342.329,
+            -63.777
+          ],
+          "angleRadians": -0.7854,
+          "shotDirectionBlender": [
+            0.7071,
+            0.7071
+          ],
+          "darkness": 52.9
+        },
+        {
+          "id": "range-firing-mats-west-2026-mat-03",
+          "pixel": [
+            115.2,
+            184.49
+          ],
+          "centerBlenderXY": [
+            -340.148,
+            -65.978
+          ],
+          "angleRadians": -0.7854,
+          "shotDirectionBlender": [
+            0.7071,
+            0.7071
+          ],
+          "darkness": 54.5
+        },
+        {
+          "id": "range-firing-mats-west-2026-mat-04",
+          "pixel": [
+            129.12,
+            198.24
+          ],
+          "centerBlenderXY": [
+            -337.921,
+            -68.178
+          ],
+          "angleRadians": -0.7854,
+          "shotDirectionBlender": [
+            0.7071,
+            0.7071
+          ],
+          "darkness": 55.6
+        },
+        {
+          "id": "range-firing-mats-west-2026-mat-05",
+          "pixel": [
+            142.18,
+            212.29
+          ],
+          "centerBlenderXY": [
+            -335.831,
+            -70.426
+          ],
+          "angleRadians": -0.7854,
+          "shotDirectionBlender": [
+            0.7071,
+            0.7071
+          ],
+          "darkness": 56.1
+        },
+        {
+          "id": "range-firing-mats-west-2026-mat-06",
+          "pixel": [
+            155.92,
+            226.06
+          ],
+          "centerBlenderXY": [
+            -333.633,
+            -72.63
+          ],
+          "angleRadians": -0.7854,
+          "shotDirectionBlender": [
+            0.7071,
+            0.7071
+          ],
+          "darkness": 57.4
+        },
+        {
+          "id": "range-firing-mats-west-2026-mat-07",
+          "pixel": [
+            166.37,
+            238.45
+          ],
+          "centerBlenderXY": [
+            -331.961,
+            -74.612
+          ],
+          "angleRadians": -0.7854,
+          "shotDirectionBlender": [
+            0.7071,
+            0.7071
+          ],
+          "darkness": 77.7
+        }
+      ]
+    },
+    {
+      "id": "range-firing-mats-central-2026",
+      "source": "range-firing-line",
+      "linePixels": [
+        [
+          242,
+          351
+        ],
+        [
+          308,
+          385
+        ],
+        [
+          397,
+          420
+        ],
+        [
+          480,
+          443
+        ],
+        [
+          556,
+          458
+        ]
+      ],
+      "mats": [
+        {
+          "id": "range-firing-mats-central-2026-mat-01",
+          "pixel": [
+            244.94,
+            350.49
+          ],
+          "centerBlenderXY": [
+            -319.39,
+            -92.538
+          ],
+          "angleRadians": -0.4757,
+          "shotDirectionBlender": [
+            0.458,
+            0.889
+          ],
+          "darkness": 51.9
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-02",
+          "pixel": [
+            265.63,
+            359.82
+          ],
+          "centerBlenderXY": [
+            -316.079,
+            -94.031
+          ],
+          "angleRadians": -0.4757,
+          "shotDirectionBlender": [
+            0.458,
+            0.889
+          ],
+          "darkness": 54.1
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-03",
+          "pixel": [
+            281.04,
+            369.61
+          ],
+          "centerBlenderXY": [
+            -313.614,
+            -95.598
+          ],
+          "angleRadians": -0.4757,
+          "shotDirectionBlender": [
+            0.458,
+            0.889
+          ],
+          "darkness": 55.4
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-04",
+          "pixel": [
+            297.61,
+            378.25
+          ],
+          "centerBlenderXY": [
+            -310.962,
+            -96.98
+          ],
+          "angleRadians": -0.4757,
+          "shotDirectionBlender": [
+            0.458,
+            0.889
+          ],
+          "darkness": 54.7
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-05",
+          "pixel": [
+            313.67,
+            387.18
+          ],
+          "centerBlenderXY": [
+            -308.393,
+            -98.409
+          ],
+          "angleRadians": -0.37468,
+          "shotDirectionBlender": [
+            0.366,
+            0.9306
+          ],
+          "darkness": 57.3
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-06",
+          "pixel": [
+            330.51,
+            394.96
+          ],
+          "centerBlenderXY": [
+            -305.698,
+            -99.654
+          ],
+          "angleRadians": -0.37468,
+          "shotDirectionBlender": [
+            0.366,
+            0.9306
+          ],
+          "darkness": 54.1
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-07",
+          "pixel": [
+            347.47,
+            402.12
+          ],
+          "centerBlenderXY": [
+            -302.985,
+            -100.799
+          ],
+          "angleRadians": -0.37468,
+          "shotDirectionBlender": [
+            0.366,
+            0.9306
+          ],
+          "darkness": 54.1
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-08",
+          "pixel": [
+            364.71,
+            409.16
+          ],
+          "centerBlenderXY": [
+            -300.226,
+            -101.926
+          ],
+          "angleRadians": -0.37468,
+          "shotDirectionBlender": [
+            0.366,
+            0.9306
+          ],
+          "darkness": 54.1
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-09",
+          "pixel": [
+            381.78,
+            416.16
+          ],
+          "centerBlenderXY": [
+            -297.495,
+            -103.046
+          ],
+          "angleRadians": -0.37468,
+          "shotDirectionBlender": [
+            0.366,
+            0.9306
+          ],
+          "darkness": 53.5
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-10",
+          "pixel": [
+            399.0,
+            423.31
+          ],
+          "centerBlenderXY": [
+            -294.74,
+            -104.19
+          ],
+          "angleRadians": -0.27033,
+          "shotDirectionBlender": [
+            0.267,
+            0.9637
+          ],
+          "darkness": 54.2
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-11",
+          "pixel": [
+            417.16,
+            427.96
+          ],
+          "centerBlenderXY": [
+            -291.834,
+            -104.934
+          ],
+          "angleRadians": -0.27033,
+          "shotDirectionBlender": [
+            0.267,
+            0.9637
+          ],
+          "darkness": 52.7
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-12",
+          "pixel": [
+            434.57,
+            432.96
+          ],
+          "centerBlenderXY": [
+            -289.049,
+            -105.734
+          ],
+          "angleRadians": -0.27033,
+          "shotDirectionBlender": [
+            0.267,
+            0.9637
+          ],
+          "darkness": 51.8
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-13",
+          "pixel": [
+            451.63,
+            437.98
+          ],
+          "centerBlenderXY": [
+            -286.319,
+            -106.537
+          ],
+          "angleRadians": -0.27033,
+          "shotDirectionBlender": [
+            0.267,
+            0.9637
+          ],
+          "darkness": 52.6
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-14",
+          "pixel": [
+            469.63,
+            442.94
+          ],
+          "centerBlenderXY": [
+            -283.439,
+            -107.33
+          ],
+          "angleRadians": -0.27033,
+          "shotDirectionBlender": [
+            0.267,
+            0.9637
+          ],
+          "darkness": 51.5
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-15",
+          "pixel": [
+            489.71,
+            447.78
+          ],
+          "centerBlenderXY": [
+            -280.226,
+            -108.105
+          ],
+          "angleRadians": -0.19486,
+          "shotDirectionBlender": [
+            0.1936,
+            0.9811
+          ],
+          "darkness": 47.3
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-16",
+          "pixel": [
+            504.8,
+            451.69
+          ],
+          "centerBlenderXY": [
+            -277.812,
+            -108.73
+          ],
+          "angleRadians": -0.19486,
+          "shotDirectionBlender": [
+            0.1936,
+            0.9811
+          ],
+          "darkness": 48.0
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-17",
+          "pixel": [
+            524.08,
+            454.84
+          ],
+          "centerBlenderXY": [
+            -274.727,
+            -109.234
+          ],
+          "angleRadians": -0.19486,
+          "shotDirectionBlender": [
+            0.1936,
+            0.9811
+          ],
+          "darkness": 50.5
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-18",
+          "pixel": [
+            542.29,
+            456.45
+          ],
+          "centerBlenderXY": [
+            -271.814,
+            -109.492
+          ],
+          "angleRadians": -0.19486,
+          "shotDirectionBlender": [
+            0.1936,
+            0.9811
+          ],
+          "darkness": 50.4
+        },
+        {
+          "id": "range-firing-mats-central-2026-mat-19",
+          "pixel": [
+            558.51,
+            456.9
+          ],
+          "centerBlenderXY": [
+            -269.218,
+            -109.564
+          ],
+          "angleRadians": -0.19486,
+          "shotDirectionBlender": [
+            0.1936,
+            0.9811
+          ],
+          "darkness": 50.2
+        }
+      ]
+    },
+    {
+      "id": "range-firing-mats-east-2026",
+      "source": "range-firing-line",
+      "linePixels": [
+        [
+          687,
+          477
+        ],
+        [
+          735,
+          467
+        ],
+        [
+          787,
+          459
+        ]
+      ],
+      "mats": [
+        {
+          "id": "range-firing-mats-east-2026-mat-01",
+          "pixel": [
+            682.53,
+            476.37
+          ],
+          "centerBlenderXY": [
+            -249.375,
+            -112.679
+          ],
+          "angleRadians": 0.2054,
+          "shotDirectionBlender": [
+            -0.204,
+            0.979
+          ],
+          "darkness": 42.9
+        },
+        {
+          "id": "range-firing-mats-east-2026-mat-02",
+          "pixel": [
+            701.92,
+            473.49
+          ],
+          "centerBlenderXY": [
+            -246.273,
+            -112.218
+          ],
+          "angleRadians": 0.2054,
+          "shotDirectionBlender": [
+            -0.204,
+            0.979
+          ],
+          "darkness": 58.7
+        },
+        {
+          "id": "range-firing-mats-east-2026-mat-03",
+          "pixel": [
+            722.55,
+            470.12
+          ],
+          "centerBlenderXY": [
+            -242.972,
+            -111.679
+          ],
+          "angleRadians": 0.2054,
+          "shotDirectionBlender": [
+            -0.204,
+            0.979
+          ],
+          "darkness": 61.1
+        },
+        {
+          "id": "range-firing-mats-east-2026-mat-04",
+          "pixel": [
+            742.4,
+            465.85
+          ],
+          "centerBlenderXY": [
+            -239.796,
+            -110.996
+          ],
+          "angleRadians": 0.15265,
+          "shotDirectionBlender": [
+            -0.1521,
+            0.9884
+          ],
+          "darkness": 61.3
+        },
+        {
+          "id": "range-firing-mats-east-2026-mat-05",
+          "pixel": [
+            762.88,
+            462.51
+          ],
+          "centerBlenderXY": [
+            -236.519,
+            -110.462
+          ],
+          "angleRadians": 0.15265,
+          "shotDirectionBlender": [
+            -0.1521,
+            0.9884
+          ],
+          "darkness": 62.2
+        },
+        {
+          "id": "range-firing-mats-east-2026-mat-06",
+          "pixel": [
+            782.14,
+            459.27
+          ],
+          "centerBlenderXY": [
+            -233.438,
+            -109.943
+          ],
+          "angleRadians": 0.15265,
+          "shotDirectionBlender": [
+            -0.1521,
+            0.9884
+          ],
+          "darkness": 61.2
+        }
+      ]
+    }
+  ],
+  "nets": [
+    {
+      "id": "range-east-net-base-2026",
+      "source": "range-net-north",
+      "polePixels": [
+        [
+          523,
+          328
+        ],
+        [
+          517,
+          351
+        ],
+        [
+          499,
+          411
+        ],
+        [
+          478,
+          473
+        ],
+        [
+          458,
+          534
+        ],
+        [
+          415,
+          578
+        ],
+        [
+          375,
+          618
+        ],
+        [
+          329,
+          663
+        ],
+        [
+          284,
+          709
+        ],
+        [
+          240,
+          753
+        ],
+        [
+          198,
+          800
+        ],
+        [
+          151,
+          840
+        ],
+        [
+          145,
+          900
+        ],
+        [
+          138,
+          966
+        ],
+        [
+          136,
+          1000
+        ],
+        [
+          129,
+          1100
+        ],
+        [
+          123,
+          1149
+        ]
+      ],
+      "polesBlenderXY": [
+        [
+          -164.82,
+          26.1
+        ],
+        [
+          -165.78,
+          22.42
+        ],
+        [
+          -168.66,
+          12.82
+        ],
+        [
+          -172.02,
+          2.9
+        ],
+        [
+          -175.22,
+          -6.86
+        ],
+        [
+          -182.1,
+          -13.9
+        ],
+        [
+          -188.5,
+          -20.3
+        ],
+        [
+          -195.86,
+          -27.5
+        ],
+        [
+          -203.06,
+          -34.86
+        ],
+        [
+          -210.1,
+          -41.9
+        ],
+        [
+          -216.82,
+          -49.42
+        ],
+        [
+          -224.34,
+          -55.82
+        ],
+        [
+          -225.3,
+          -65.42
+        ],
+        [
+          -226.42,
+          -75.98
+        ],
+        [
+          -226.74,
+          -81.42
+        ],
+        [
+          -227.86,
+          -97.42
+        ],
+        [
+          -228.82,
+          -105.26
+        ]
+      ],
+      "heightEstimateMetres": 9.0,
+      "heightEvidence": "visual estimate from the 2024 construction photograph (01-bygga-range.jpg); tall timber poles with net on the field side; not measured"
+    }
+  ],
+  "structures": {
+    "studio": {
+      "id": "way/530655627",
+      "roofCornersBlenderXY": [
+        [
+          -332.234,
+          -77.379
+        ],
+        [
+          -323.203,
+          -83.943
+        ],
+        [
+          -328.819,
+          -91.638
+        ],
+        [
+          -337.849,
+          -85.085
+        ]
+      ],
+      "eaveEstimateMetres": 2.9,
+      "ridgeEstimateMetres": 4.25,
+      "evidence": "OSM footprint on the silver ribbed roof in the 2026 panel; interior photographs studio3.jpg and svingstudio1.jpg show two broad sectional door openings and white walls"
+    },
+    "shelter": {
+      "id": "range-east-shelter-2026",
+      "roofCornersBlenderXY": [
+        [
+          -263.7,
+          -109.74
+        ],
+        [
+          -248.82,
+          -111.34
+        ],
+        [
+          -249.94,
+          -120.78
+        ],
+        [
+          -265.14,
+          -119.18
+        ]
+      ],
+      "rearEaveEstimateMetres": 2.55,
+      "frontEaveEstimateMetres": 3.5,
+      "coveredBays": 4,
+      "countSource": "https://www.visbygk.com/nyheter/trana-med-trackman-range/",
+      "evidence": "roof outline traced on the 2026 panel; the 2024 construction photograph shows one slope, high toward the field, over white posts"
+    }
+  },
+  "claims": {
+    "source": "club news 2024-02-21 (id 12661) and 2024-03-27 (id 13047)",
+    "teeLineMovedForwardMetres": 4,
+    "newPlaces": 6,
+    "fixedScreens": 10,
+    "coveredScreens": 4
+  },
+  "detected": {
+    "range-firing-mats-west-2026": 7,
+    "range-firing-mats-central-2026": 19,
+    "range-firing-mats-east-2026": 6
+  }
+}

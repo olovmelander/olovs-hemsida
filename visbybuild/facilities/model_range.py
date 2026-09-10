@@ -18,9 +18,12 @@ def open_ring(ring):
 def terrain_surface(ctx, key, part, ring, ground, material, lift=.035):
     """Triangulate the actual outline and sample its interior onto the DTM."""
     ring = open_ring(ring)
-    triangles = tessellate_polygon([[Vector((x, y, 0)) for x, y in ring]])
+    points = [Vector((x, y, 0)) for x, y in ring]
+    # tessellate_polygon returns index triples into the flattened polyline.
+    triangles = tessellate_polygon([points])
     verts, faces = [], []
-    for a, b, c in triangles:
+    for tri in triangles:
+        a, b, c = (points[i] for i in tri)
         steps = max(1, math.ceil(max((a-b).length, (b-c).length, (c-a).length) / 1.8))
         indices = {}
         for i in range(steps+1):
@@ -165,3 +168,92 @@ def shelter(ctx,key,item,ground):
             'roofForm':'monopitch, front high','rearEaveEstimateMetres':eave,'frontEaveEstimateMetres':ridge,
             'countSource':'https://www.visbygk.com/nyheter/trana-med-trackman-range/',
             'interiorDetailStatus':'supports, partitions, screen mounts and benches visually estimated; roof footprint traced'}
+
+
+def strip_ring(centres, half_width=1.25):
+    """A closed ring around a run of mat centres: the artificial-turf strip."""
+    if len(centres) < 2:
+        x, y = centres[0]
+        return [(x - half_width, y - half_width), (x + half_width, y - half_width),
+                (x + half_width, y + half_width), (x - half_width, y + half_width)]
+    left, right = [], []
+    for i, (x, y) in enumerate(centres):
+        a = centres[max(0, i - 1)]; b = centres[min(len(centres) - 1, i + 1)]
+        dx, dy = b[0] - a[0], b[1] - a[1]; length = math.hypot(dx, dy) or 1
+        nx, ny = -dy / length * half_width, dx / length * half_width
+        ex, ey = dx / length * (half_width if i in (0, len(centres) - 1) else 0), dy / length * (half_width if i in (0, len(centres) - 1) else 0)
+        sign = -1 if i == 0 else 1
+        left.append((x + nx + sign * ex, y + ny + sign * ey)); right.append((x - nx + sign * ex, y - ny + sign * ey))
+    return left + right[::-1]
+
+
+def build(ctx, layout, ground, facilities, reports, group):
+    """Author the range from range-layout.json: the studio and the covered bays
+    keep their existing facility ids so the manifest's replacement set is
+    unchanged; each strip row is one facility carrying its turf strip, its
+    individually detected mats and, on the open fixed-screen places, a Trackman
+    terminal; the east net is its own facility. Returns nothing: it appends the
+    manifest entries and the evidence reports like the other builders."""
+    fixed_open = layout['claims']['fixedScreens'] - layout['claims']['coveredScreens']
+    for row in layout['matRows']:
+        key = row['id']
+        centres = [tuple(m['centerBlenderXY']) for m in row['mats']]
+        if not centres:
+            continue
+        cx = sum(x for x, y in centres) / len(centres); cy = sum(y for x, y in centres) / len(centres)
+        base = ground(cx, cy)
+        group(key, 'Visby ' + key, {'sourceFeatureId': key, 'facilityId': key,
+              'geometryEvidence': '2026 orthophoto: mats detected as darkness minima along the traced strip',
+              'detailStatus': 'mat centres measured; tray, tee and terminal details are visual estimates'})
+        ring = strip_ring(centres)
+        terrain_surface(ctx, key, 'Artificial turf tee strip', ring, ground, 'rangegrass')
+        placed = 0
+        for index, m in enumerate(row['mats']):
+            item = {'centerBlenderXY': m['centerBlenderXY'], 'angleRadians': m['angleRadians'],
+                    'widthMetres': layout['matSizeMetres'][0], 'depthMetres': layout['matSizeMetres'][1]}
+            mat(ctx, key, item, ground)
+            # The club's ten fixed screens: four under the covered bays, and the
+            # six uncovered new places between the road and the studio, which
+            # are the west row counted from the road end.
+            if row['id'].endswith('-west-2026') and placed < fixed_open:
+                x, y = m['centerBlenderXY']; angle = m['angleRadians']
+                sx, sy = m['shotDirectionBlender']
+                f = Frame(ctx, key, x, y, angle, ground(x, y) + .045)
+                # Behind and beside the mat: -shot direction, in the mat's own frame.
+                lx = -(sx * math.cos(angle) + sy * math.sin(angle)) * 1.1 - .6
+                ly = -(-sx * math.sin(angle) + sy * math.cos(angle)) * 1.1
+                terminal(f, lx, ly)
+                placed += 1
+        minx, maxx = min(x for x, y in ring) - 2, max(x for x, y in ring) + 2
+        miny, maxy = min(y for x, y in ring) - 2, max(y for x, y in ring) + 2
+        facilities.append({'id': key, 'nodeName': 'Visby ' + key, 'sourceFeatureId': key,
+                           'footprintLocal': [[minx, -miny], [maxx, -miny], [maxx, -maxy], [minx, -maxy]],
+                           'groundAnchorLocal': [cx, -cy], 'groundAnchorRh2000M': base, 'placement': 'absolute-rh2000'})
+        reports.append({'id': key, 'mats': len(centres), 'fixedScreenTerminals': placed,
+                        'matEvidence': layout['method'], 'matSizeMetres': layout['matSizeMetres']})
+    for item in layout['nets']:
+        key = item['id']
+        points = [tuple(p) for p in item['polesBlenderXY']]
+        cx = sum(x for x, y in points) / len(points); cy = sum(y for x, y in points) / len(points)
+        base = ground(cx, cy)
+        group(key, 'Visby ' + key, {'sourceFeatureId': key, 'facilityId': key,
+              'geometryEvidence': '2026 traced net base; poles at the traced vertices',
+              'detailStatus': item['heightEvidence']})
+        minx, maxx = min(x for x, y in points) - 2, max(x for x, y in points) + 2
+        miny, maxy = min(y for x, y in points) - 2, max(y for x, y in points) + 2
+        facilities.append({'id': key, 'nodeName': 'Visby ' + key, 'sourceFeatureId': key,
+                           'footprintLocal': [[minx, -miny], [maxx, -miny], [maxx, -maxy], [minx, -maxy]],
+                           'groundAnchorLocal': [cx, -cy], 'groundAnchorRh2000M': base, 'placement': 'absolute-rh2000'})
+        reports.append(net(ctx, key, item, ground))
+    shelter_item = layout['structures']['shelter']
+    key = shelter_item['id']
+    corners = [tuple(p) for p in shelter_item['roofCornersBlenderXY']]
+    cx = sum(x for x, y in corners) / len(corners); cy = sum(y for x, y in corners) / len(corners)
+    base = ground(cx, cy)
+    group(key, 'Visby ' + key, {'sourceFeatureId': key, 'facilityId': key,
+          'geometryEvidence': '2026 orthophoto roof envelope; one slope from the 2024 construction photograph',
+          'architecturalHeights': 'explicit model estimates'})
+    facilities.append({'id': key, 'nodeName': 'Visby ' + key, 'sourceFeatureId': key,
+                       'footprintLocal': [[x, -y] for x, y in corners],
+                       'groundAnchorLocal': [cx, -cy], 'groundAnchorRh2000M': base, 'placement': 'absolute-rh2000'})
+    reports.append(shelter(ctx, key, shelter_item, ground))
