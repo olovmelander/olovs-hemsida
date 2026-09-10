@@ -5281,7 +5281,14 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
      condition is MEASURED at boot, not declared: the lattice's own count. */
   const legacyLatticeCount = treeWhy.reduce((sum, W) => sum + W.filter(w => w < WHY_V2_INDIVIDUAL).length, 0);
   const FAR_CAL = V2_VEG_PLAN && V2_VEG_COVER?.bounds && legacyLatticeCount === 0
-    ? calibrateFarRing({ standHeights: V2_VEG_PLAN.instances.filter(t => t.kind === 'stand').map(t => t.height) })
+    ? calibrateFarRing({
+      standHeights: V2_VEG_PLAN.instances.filter(t => t.kind === 'stand').map(t => t.height),
+      /* the stand planter's own allometry and overlap, from the DYNAMICALLY
+         loaded runtime: the calibration module must not import it, or the
+         v2 chunk becomes reachable from the flagless entry (check-app-build) */
+      planting: V2_VEGETATION.mod.STAND_PLANTING,
+      crownRadiusAt: h => V2_VEGETATION.mod.crownRadiusForHeight(h, V2_VEGETATION.mod.STAND_PLANTING.allometry),
+    })
     : null;
   const farBandCounts = [0, 0, 0];
   let vistaSkippedInsideCoverage = 0;

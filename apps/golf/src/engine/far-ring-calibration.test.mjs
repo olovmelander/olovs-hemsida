@@ -3,13 +3,15 @@ import { FAR_RING_BANDS, calibrateFarRing, farRingSpacing, farRingTree } from '.
 import { STAND_PLANTING, crownRadiusForHeight } from './v2-vegetation.mjs';
 
 const heights = Array.from({ length: 2000 }, (_, i) => 3 + (i % 100) * 0.15);   /* 3 .. 17.85 m */
-const cal = calibrateFarRing({ standHeights: heights });
+const cal = calibrateFarRing({ standHeights: heights, planting: STAND_PLANTING, crownRadiusAt: crownRadiusForHeight });
 const closedStemArea = h => (Math.PI * crownRadiusForHeight(h) ** 2) / STAND_PLANTING.overlapFactor;
 
 describe('the far ring calibrated on the measured stands', () => {
   it('is null where there are too few stand trees, so the old rule stands', () => {
-    expect(calibrateFarRing({ standHeights: heights.slice(0, 100) })).toBeNull();
+    expect(calibrateFarRing({ standHeights: heights.slice(0, 100), planting: STAND_PLANTING, crownRadiusAt: crownRadiusForHeight })).toBeNull();
     expect(calibrateFarRing({ standHeights: null })).toBeNull();
+    /* the allometry is a parameter, never an import: see the module's header */
+    expect(() => calibrateFarRing({ standHeights: heights })).toThrow(/crownRadiusAt/);
   });
   it('carries monotone height quantiles, the median and the planter\'s closed-stand stem area', () => {
     expect(cal.samples).toBe(2000);
@@ -34,7 +36,7 @@ describe('the far ring calibrated on the measured stands', () => {
     expect(farRingSpacing(100, null, true)).toBe(42);
   });
   it('never spaces stems tighter than 4 m however small the stands', () => {
-    const scrub = calibrateFarRing({ standHeights: heights.map(() => 0.5) });
+    const scrub = calibrateFarRing({ standHeights: heights.map(() => 0.5), planting: STAND_PLANTING, crownRadiusAt: crownRadiusForHeight });
     expect(farRingSpacing(0, scrub)).toBeGreaterThanOrEqual(4);
   });
   it('draws a tree inside the measured height range with the stand allometry\'s crown', () => {
