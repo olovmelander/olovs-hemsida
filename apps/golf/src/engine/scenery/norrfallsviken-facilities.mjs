@@ -1,5 +1,6 @@
 import architecture from './norrfallsviken-facilities-meshes.json' with { type: 'json' };
 import site from './norrfallsviken-facilities-site.json' with { type: 'json' };
+import refinedShelter from './norrfallsviken-range-shelter-meshes.json' with { type: 'json' };
 import { legacyGridBridge } from '../geodetic-frame.mjs';
 import { NORRFALLSVIKEN_FACILITY_FRAME, NORRFALLSVIKEN_FACILITY_ORIGIN_EPSG3006 } from './norrfallsviken-facility-frame.mjs';
 
@@ -10,6 +11,28 @@ const origin = NORRFALLSVIKEN_FACILITY_ORIGIN_EPSG3006;
 const assert = (ok, message) => { if (!ok) throw new Error(message); };
 export const replacementIds = Object.freeze(['w1205924894', 'lm-range-shelter']);
 let activeLayout = null;
+const RANGE_SHELTER = 'lm-range-shelter';
+
+/** The range building was refined from the club's 2025 photograph in a separate
+ * Blender document (nvgkbuild/facilities/refine-range-shelter.py): its measured
+ * roof, wall footprint and estimated floor stay exactly the base workspace's, so
+ * the refined parts replace the base shelter parts under the same facility
+ * record and the same runtime contract. Everything else keeps the base parts. */
+export function installedArchitectureParts() {
+  assert(refinedShelter.schemaVersion === 1 && refinedShelter.facilities.length === 1
+    && refinedShelter.facilities[0].id === RANGE_SHELTER, 'Invalid refined range shelter asset');
+  assert(refinedShelter.originEpsg3006RH2000.length === 3
+    && refinedShelter.originEpsg3006RH2000.every((v, axis) => v === architecture.originEpsg3006RH2000[axis]),
+  'Refined range shelter uses another origin');
+  const base = architecture.facilities.find(f => f.id === RANGE_SHELTER), refined = refinedShelter.facilities[0];
+  assert(base && refined.floorRH2000Estimate === base.floorRH2000Estimate
+    && JSON.stringify(refined.wallFootprintEpsg3006) === JSON.stringify(base.wallFootprintEpsg3006)
+    && JSON.stringify(refined.roofHeightRH2000) === JSON.stringify(base.roofHeightRH2000),
+  'Refined range shelter moved its measured contract');
+  assert(refinedShelter.parts.length > 0 && refinedShelter.parts.every(p => p.facilityId === RANGE_SHELTER),
+    'Refined parts must all belong to the range shelter');
+  return [...architecture.parts.filter(p => p.facilityId !== RANGE_SHELTER), ...refinedShelter.parts];
+}
 
 export function projectFacilityPoint([east, north, height], offset = NORRFALLSVIKEN_FACILITY_FRAME.verticalDatumOffsetMetres) {
   const [x, z] = bridge.toLegacy(east - origin.easting, origin.northing - north);
@@ -104,7 +127,8 @@ export function compileFacilityGeometry({ terrainH, v2Active, verticalDatumOffse
       }
     }
   }
-  for (const part of architecture.parts) {
+  const parts = installedArchitectureParts();
+  for (const part of parts) {
     const placement = byId.get(part.facilityId);
     assert(placement && part.indices.length % 3 === 0, 'Unowned architecture part');
     const points = part.indices.map(index => {
@@ -121,7 +145,8 @@ export function compileFacilityGeometry({ terrainH, v2Active, verticalDatumOffse
     emit(array.faces.flatMap(face => face.slice(2).flatMap((index, i) =>
       [vertices[face[0]], vertices[face[i + 1]], vertices[index]])), [.018, .034, .047], .34);
   }
-  return { batches: [...batches.values()], placements,
+  return { batches: [...batches.values()], placements, parts: parts.length,
+    refinedRangeShelterParts: refinedShelter.parts.length,
     siteHeights: {
       terrace: site.terrace.verticesEpsg3006RH2000[0][2] + clubhouseShift,
       padelCourt: v2Active ? site.padelCourt.verticesEpsg3006RH2000[0][2] + datum : null,
@@ -130,7 +155,8 @@ export function compileFacilityGeometry({ terrainH, v2Active, verticalDatumOffse
 
 export function architectureStatus() {
   return { status: activeLayout ? 'loaded' : 'fallback', source: 'measured-blender-workspace',
-    sourceBlendSha256: architecture.sourceBlendSha256, roofAssemblies: activeLayout ? architecture.facilities.length : 0 };
+    sourceBlendSha256: architecture.sourceBlendSha256, refinedRangeShelterBlendSha256: refinedShelter.sourceBlendSha256,
+    roofAssemblies: activeLayout ? architecture.facilities.length : 0 };
 }
 export const authoredSiteHeights = () => activeLayout?.siteHeights ?? null;
 
@@ -172,8 +198,10 @@ export async function loadFacilities({ THREE, scene, courseSlug, buildings, terr
     activeLayout = layout;
     for (const id of replacementIds) replacedBuildingIds.add(id);
     Object.assign(report, { status: 'loaded', replacedBuildingIds: [...replacedBuildingIds], facilities: layout.placements,
-      meshes: root.children.length, sourceParts: architecture.parts.length, solarArrays: site.solarArrays.length,
+      meshes: root.children.length, sourceParts: layout.parts, refinedRangeShelterParts: layout.refinedRangeShelterParts,
+      solarArrays: site.solarArrays.length,
       siteHeights: layout.siteHeights, sourceBlendSha256: architecture.sourceBlendSha256,
+      refinedRangeShelterBlendSha256: refinedShelter.sourceBlendSha256,
       limitations: 'Wall offsets, floor levels and facade divisions are interpretations; practice shed retains its existing model.' });
     signal?.addEventListener('abort', dispose, { once: true });
     return { root, report, replacedBuildingIds, dispose };

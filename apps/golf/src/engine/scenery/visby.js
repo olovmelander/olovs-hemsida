@@ -70,6 +70,12 @@ export async function loadFacilities(context) {
   const { loadVisbyFacilities } = await import('./visby-facilities.mjs');
   return loadVisbyFacilities(context);
 }
+/* The authored asset carries the whole range -- the detected mats on their
+   strips, the covered bays, the studio and the east net -- so the engine's
+   generic tee line and net pass must stand down when it has loaded. The pack's
+   rangeFacilities is null here anyway; this keeps stats.authoredRangeFacilities
+   truthful rather than changing what is drawn. */
+export const replacesRangeFacilities = true;
 
 /* THE LIGHTHOUSE STATION BY THE FIRST TEE, which the model carried as two
    anonymous houses and a gap where a lighthouse is.

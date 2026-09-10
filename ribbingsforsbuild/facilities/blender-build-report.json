@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "passed": true,
+  "blendPath": "ribbingsforsbuild/cache/facilities-model-2026-09-10/ribbingsfors-facilities.blend",
+  "blendSha256": "b11569ba8a5151c03663ef476a4747d812c1a11ff2d4abd3443abf128bcaec42",
+  "scenes": [
+    "Ribbingsfors | Source references 2026-09-10",
+    "Ribbingsfors | Facilities 2026-09-10"
+  ],
+  "sourceSceneCount": 1,
+  "existingScenesPreserved": true,
+  "previousActiveScene": "Scene",
+  "currentFilePreserved": true,
+  "referenceImagesPacked": 23,
+  "reviewedFeatures": 45,
+  "modelMeshCount": 1064,
+  "cameras": {
+    "reference-campus": "RIBB | Reference campus",
+    "reference-clubhouse": "RIBB | Reference clubhouse",
+    "reference-range": "RIBB | Reference range",
+    "reference-photos": "RIBB | Exterior photo boards",
+    "reference-yard": "RIBB | Reference maintenance",
+    "clubhouse": "RIBB | Clubhouse terrace",
+    "clubhouse-west": "RIBB | Clubhouse west",
+    "range-bays": "RIBB | Range open bays",
+    "range-overview": "RIBB | Driving range",
+    "campus": "RIBB | Whole campus",
+    "manor": "RIBB | Manor precinct",
+    "maintenance": "RIBB | Maintenance context"
+  },
+  "modeling": {
+    "clubhouse": {
+      "id": "clubhouse-main",
+      "type": "photo-informed-clubhouse",
+      "centerBlenderXY": [
+        482.2600000000001,
+        457.9
+      ],
+      "angleRadians": -0.24035975832980785,
+      "roofPlanMetres": [
+        16.807617942182674,
+        9.391058465882338
+      ],
+      "wallPlanMetres": [
+        16.087617942182675,
+        8.671058465882338
+      ],
+      "baseRh2000": 77.153152,
+      "foundationBottomRh2000": 76.45006,
+      "groundSampleRangeRh2000": [
+        76.63006,
+        77.3862
+      ],
+      "eaveHeightAboveBaseM": 4.55,
+      "ridgeHeightAboveBaseM": 6.95,
+      "heightEvidence": "Photographic architectural estimates, not surveyed heights.",
+      "planEvidence": "Supplied traced orthophoto roof outline; wall inset .36 m is estimated.",
+      "photoReferences": [
+        "club-127",
+        "club-136",
+        "club-128"
+      ],
+      "terraceEvidence": "South deck and west return visible in club-136; dimensions and furniture layout estimated.",
+      "unresolved": [
+        "North facade openings unseen and left plain.",
+        "Exact measured eave/ridge and terrace dimensions unavailable.",
+        "Some central facade openings partially occluded by umbrellas.",
+        "Roof service fittings simplified; no people, logos or source textures reproduced."
+      ]
+    },
+    "facilities": {
+      "buildings": [
+        {
+          "id": "range-shelter",
+          "roofLengthMetres": 17.2,
+          "roofWidthMetres": 5.2,
+          "baseRH2000": 78.03,
+          "eaveEstimateMetres": 2.55,
+          "ridgeEstimateMetres": 4.27,
+          "detail": "photo-informed"
+        },
+        {
+          "id": "manor-main",
+          "roofLengthMetres": 30.63,
+          "roofWidthMetres": 15.38,
+          "baseRH2000": 79.413,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 8.65,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-west-conservatory",
+          "roofLengthMetres": 10.99,
+          "roofWidthMetres": 6.06,
+          "baseRH2000": 79.747,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 6.65,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-wing-north",
+          "roofLengthMetres": 20.3,
+          "roofWidthMetres": 8.69,
+          "baseRH2000": 78.767,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 7.52,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-wing-north-west-porch",
+          "roofLengthMetres": 4.9,
+          "roofWidthMetres": 3.45,
+          "baseRH2000": 78.833,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 5.79,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-wing-south",
+          "roofLengthMetres": 20.46,
+          "roofWidthMetres": 10.61,
+          "baseRH2000": 79.198,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 8.15,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-wing-south-porch",
+          "roofLengthMetres": 5.08,
+          "roofWidthMetres": 3.14,
+          "baseRH2000": 79.224,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 5.69,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-garden-hut-west",
+          "roofLengthMetres": 8.16,
+          "roofWidthMetres": 4.61,
+          "baseRH2000": 78.205,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 6.17,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-small-shed-north",
+          "roofLengthMetres": 6.23,
+          "roofWidthMetres": 5.73,
+          "baseRH2000": 78.947,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 6.54,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-outbuilding-east-south",
+          "roofLengthMetres": 13.54,
+          "roofWidthMetres": 8.15,
+          "baseRH2000": 78.22,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 7.34,
+          "detail": "massing"
+        },
+        {
+          "id": "manor-outbuilding-east-north",
+          "roofLengthMetres": 7.78,
+          "roofWidthMetres": 4.6,
+          "baseRH2000": 77.428,
+          "eaveEstimateMetres": 4.65,
+          "ridgeEstimateMetres": 6.17,
+          "detail": "massing"
+        },
+        {
+          "id": "lakeside-boathouse",
+          "roofLengthMetres": 14.49,
+          "roofWidthMetres": 10.26,
+          "baseRH2000": 70.146,
+          "eaveEstimateMetres": 3.1,
+          "ridgeEstimateMetres": 6.49,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-barn-north",
+          "roofLengthMetres": 36.13,
+          "roofWidthMetres": 17.33,
+          "baseRH2000": 80.516,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 9.11,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-barn-east",
+          "roofLengthMetres": 38.24,
+          "roofWidthMetres": 14.89,
+          "baseRH2000": 79.71,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 9.51,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-barn-south",
+          "roofLengthMetres": 34.62,
+          "roofWidthMetres": 17.46,
+          "baseRH2000": 80.287,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 9.14,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-shed-east",
+          "roofLengthMetres": 34.51,
+          "roofWidthMetres": 9.23,
+          "baseRH2000": 78.379,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 7.65,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-outbuilding-northwest",
+          "roofLengthMetres": 26.78,
+          "roofWidthMetres": 10.37,
+          "baseRH2000": 82.15,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 8.02,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-outbuilding-northeast",
+          "roofLengthMetres": 19.88,
+          "roofWidthMetres": 12.53,
+          "baseRH2000": 78.473,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 8.73,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-small-l-wing-west",
+          "roofLengthMetres": 7.44,
+          "roofWidthMetres": 6.33,
+          "baseRH2000": 81.102,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 6.69,
+          "detail": "massing"
+        },
+        {
+          "id": "estate-small-l-wing-east",
+          "roofLengthMetres": 9.0,
+          "roofWidthMetres": 5.06,
+          "baseRH2000": 81.194,
+          "eaveEstimateMetres": 4.6,
+          "ridgeEstimateMetres": 6.27,
+          "detail": "massing"
+        },
+        {
+          "id": "maintenance-north-shelter",
+          "roofLengthMetres": 19.71,
+          "roofWidthMetres": 5.27,
+          "baseRH2000": 81.818,
+          "eaveEstimateMetres": 3.1,
+          "ridgeEstimateMetres": 4.84,
+          "detail": "massing"
+        },
+        {
+          "id": "maintenance-east-shed",
+          "roofLengthMetres": 27.08,
+          "roofWidthMetres": 10.25,
+          "baseRH2000": 81.571,
+          "eaveEstimateMetres": 3.1,
+          "ridgeEstimateMetres": 6.48,
+          "detail": "massing"
+        },
+        {
+          "id": "maintenance-south-shed",
+          "roofLengthMetres": 11.42,
+          "roofWidthMetres": 5.84,
+          "baseRH2000": 81.452,
+          "eaveEstimateMetres": 3.1,
+          "ridgeEstimateMetres": 5.03,
+          "detail": "massing"
+        },
+        {
+          "id": "maintenance-small-green-shed",
+          "roofLengthMetres": 6.07,
+          "roofWidthMetres": 5.48,
+          "baseRH2000": 80.917,
+          "eaveEstimateMetres": 3.1,
+          "ridgeEstimateMetres": 4.91,
+          "detail": "massing"
+        },
+        {
+          "id": "maintenance-southern-hut",
+          "roofLengthMetres": 4.77,
+          "roofWidthMetres": 2.99,
+          "baseRH2000": 79.11,
+          "eaveEstimateMetres": 3.1,
+          "ridgeEstimateMetres": 4.09,
+          "detail": "massing"
+        }
+      ],
+      "matCount": 9,
+      "limitations": [
+        "Building heights and hidden elevations estimated; nearby estate/yard buildings remain massing.",
+        "Range canopy support layout and fixture dimensions inferred from exterior photos.",
+        "No interiors; no assumed ownership or use for unnamed neighbouring buildings."
+      ]
+    }
+  },
+  "sourceInputs": [
+    {
+      "path": "ribbingsforsbuild/facilities/reference/orthophoto-manifest.json",
+      "sha256": "ffaf161190b9d62a73425d78665dd498954193af464f7cfc199a687423f0d389"
+    },
+    {
+      "path": "ribbingsforsbuild/facilities/reference/reviewed-ortho-traces.json",
+      "sha256": "5f18a12f1f2da6a6cf4df4cb1089cc1e72269669f9f81b74fd8d338920f01c83"
+    },
+    {
+      "path": "ribbingsforsbuild/facilities/reference/facility-ground.json",
+      "sha256": "26f0aae84413f07cdb54e4943f2864cce705f8f97e94e89783e2b8aeec26e47f"
+    },
+    {
+      "path": "ribbingsforsbuild/facilities/photo-reference-manifest.json",
+      "sha256": "07a57dea1fde2f8912d225e93d4ce4dab93c5cf4b6a94d4036fd0dd6065cebd0"
+    }
+  ]
+}

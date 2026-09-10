@@ -1,4 +1,7 @@
-/* Measured 2021 canopy fields, with explicit 2026 playing/facility exclusions.
+/* Measured 2021 canopy fields, with explicit 2026 playing/facility exclusions
+ * and the 2026 clear-fells taken out (mapping/canopy-changes-2026.geojson: the
+ * orthophoto is five years newer than the laser, and removal needs only the
+ * newer picture; nothing is added from it).
  * A stand cell is a representative canopy field, never a surveyed tree stem. */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -31,7 +34,9 @@ const STAND_TILES = 120;
 const INPUTS = ['tortunabuild/mapping/playing-surfaces.geojson', 'tortunabuild/mapping/facilities.geojson',
   'geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson', 'geo_data/course-v2/tortuna/mapping/water-runtime-epsg3006.geojson',
   'tortunabuild/mapping/environment.geojson', 'tortunabuild/mapping/building-roof-envelopes.geojson',
-  'tortunabuild/mapping/environment-context-extra.geojson'];
+  'tortunabuild/mapping/environment-context-extra.geojson',
+  /* 2026: canopy the 2021 laser measured and the 2026-05-02 orthophoto shows felled (trace-canopy-changes.mjs) */
+  'tortunabuild/mapping/canopy-changes-2026.geojson'];
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const bytes = p => fs.readFileSync(path.join(ROOT, p));
 const json = p => JSON.parse(bytes(p));

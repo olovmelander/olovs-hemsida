@@ -1,0 +1,784 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "checkedOn": "2026-09-10",
+  "terrain": "tortunabuild/cache/terrain/terrain-1m.f32 (Lantmäteriet Markhöjdmodell 1 m, RH 2000)",
+  "method": "bunker interior median minus 2-5 m collar median (dish depth), best +-5 m shift; green interior spread and height over collar; tee pad height spread",
+  "registration": {
+    "medianBestShiftMetres": [
+      0,
+      0
+    ],
+    "confirmedBunkers": 27,
+    "applied": false,
+    "note": "recorded, not applied; a whole-trace shift is a survey decision"
+  },
+  "bunkers": [
+    {
+      "hole": 1,
+      "id": "tortuna-h01-bunker-native-detail",
+      "areaM2": 110,
+      "depthAtTrace": 0.13,
+      "bestShift": [
+        -1,
+        0
+      ],
+      "depthAtBest": 0.15,
+      "dish": true
+    },
+    {
+      "hole": 2,
+      "id": "tortuna-h02-bunker-north-native-detail",
+      "areaM2": 60,
+      "depthAtTrace": 0.24,
+      "bestShift": [
+        1,
+        1
+      ],
+      "depthAtBest": 0.28,
+      "dish": true
+    },
+    {
+      "hole": 2,
+      "id": "tortuna-h02-bunker-south-native-detail",
+      "areaM2": 54,
+      "depthAtTrace": 0.1,
+      "bestShift": [
+        -1,
+        -1
+      ],
+      "depthAtBest": 0.12,
+      "dish": false
+    },
+    {
+      "hole": 3,
+      "id": "tortuna-h03-bunker-native-detail",
+      "areaM2": 126,
+      "depthAtTrace": 0.07,
+      "bestShift": [
+        -1,
+        2
+      ],
+      "depthAtBest": 0.09,
+      "dish": false
+    },
+    {
+      "hole": 4,
+      "id": "tortuna-h04-bunker-native-detail",
+      "areaM2": 156,
+      "depthAtTrace": 0.23,
+      "bestShift": [
+        -3,
+        1
+      ],
+      "depthAtBest": 0.26,
+      "dish": true
+    },
+    {
+      "hole": 5,
+      "id": "tortuna-h05-bunker-1",
+      "areaM2": 47,
+      "depthAtTrace": 0.41,
+      "bestShift": [
+        0,
+        -1
+      ],
+      "depthAtBest": 0.42,
+      "dish": true
+    },
+    {
+      "hole": 7,
+      "id": "tortuna-h07-bunker-native-detail",
+      "areaM2": 51,
+      "depthAtTrace": 0.33,
+      "bestShift": [
+        0,
+        -1
+      ],
+      "depthAtBest": 0.34,
+      "dish": true
+    },
+    {
+      "hole": 9,
+      "id": "tortuna-h09-bunker-north-native-detail",
+      "areaM2": 76,
+      "depthAtTrace": 0.95,
+      "bestShift": [
+        -1,
+        1
+      ],
+      "depthAtBest": 1.09,
+      "dish": true
+    },
+    {
+      "hole": 9,
+      "id": "tortuna-h09-bunker-east-native-detail",
+      "areaM2": 99,
+      "depthAtTrace": 0.7,
+      "bestShift": [
+        -2,
+        -2
+      ],
+      "depthAtBest": 0.88,
+      "dish": true
+    },
+    {
+      "hole": 10,
+      "id": "tortuna-h10-bunker-03",
+      "areaM2": 82,
+      "depthAtTrace": 0.03,
+      "bestShift": [
+        -5,
+        0
+      ],
+      "depthAtBest": 0.12,
+      "dish": false
+    },
+    {
+      "hole": 10,
+      "id": "tortuna-h10-bunker-review2-01",
+      "areaM2": 64,
+      "depthAtTrace": 0.37,
+      "bestShift": [
+        1,
+        0
+      ],
+      "depthAtBest": 0.4,
+      "dish": true
+    },
+    {
+      "hole": 10,
+      "id": "tortuna-h10-bunker-review2-02",
+      "areaM2": 68,
+      "depthAtTrace": 0.41,
+      "bestShift": [
+        1,
+        -1
+      ],
+      "depthAtBest": 0.43,
+      "dish": true
+    },
+    {
+      "hole": 11,
+      "id": "tortuna-h11-bunker-01",
+      "areaM2": 81,
+      "depthAtTrace": 0.48,
+      "bestShift": [
+        -4,
+        1
+      ],
+      "depthAtBest": 0.73,
+      "dish": true
+    },
+    {
+      "hole": 12,
+      "id": "tortuna-h12-bunker-03",
+      "areaM2": 141,
+      "depthAtTrace": 0.17,
+      "bestShift": [
+        0,
+        -1
+      ],
+      "depthAtBest": 0.21,
+      "dish": true
+    },
+    {
+      "hole": 12,
+      "id": "tortuna-h12-bunker-04",
+      "areaM2": 96,
+      "depthAtTrace": 0.13,
+      "bestShift": [
+        1,
+        4
+      ],
+      "depthAtBest": 0.21,
+      "dish": true
+    },
+    {
+      "hole": 12,
+      "id": "tortuna-h12-bunker-review2-01",
+      "areaM2": 90,
+      "depthAtTrace": 0.42,
+      "bestShift": [
+        -1,
+        -5
+      ],
+      "depthAtBest": 0.53,
+      "dish": true
+    },
+    {
+      "hole": 12,
+      "id": "tortuna-h12-bunker-review2-02",
+      "areaM2": 54,
+      "depthAtTrace": 0.37,
+      "bestShift": [
+        -1,
+        0
+      ],
+      "depthAtBest": 0.38,
+      "dish": true
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-bunker-02",
+      "areaM2": 48,
+      "depthAtTrace": 0.37,
+      "bestShift": [
+        0,
+        -1
+      ],
+      "depthAtBest": 0.42,
+      "dish": true
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-bunker-03",
+      "areaM2": 61,
+      "depthAtTrace": 0,
+      "bestShift": [
+        -4,
+        5
+      ],
+      "depthAtBest": 0.08,
+      "dish": false
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-bunker-04",
+      "areaM2": 87,
+      "depthAtTrace": 0.22,
+      "bestShift": [
+        0,
+        0
+      ],
+      "depthAtBest": 0.22,
+      "dish": true
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-bunker-05",
+      "areaM2": 137,
+      "depthAtTrace": 0.02,
+      "bestShift": [
+        4,
+        3
+      ],
+      "depthAtBest": 0.33,
+      "dish": false
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-bunker-review2-01",
+      "areaM2": 52,
+      "depthAtTrace": 0.49,
+      "bestShift": [
+        -1,
+        0
+      ],
+      "depthAtBest": 0.5,
+      "dish": true
+    },
+    {
+      "hole": 14,
+      "id": "tortuna-h14-bunker-review2-01",
+      "areaM2": 50,
+      "depthAtTrace": 0.31,
+      "bestShift": [
+        -1,
+        0
+      ],
+      "depthAtBest": 0.32,
+      "dish": true
+    },
+    {
+      "hole": 14,
+      "id": "tortuna-h14-bunker-review2-02",
+      "areaM2": 56,
+      "depthAtTrace": 0.31,
+      "bestShift": [
+        0,
+        1
+      ],
+      "depthAtBest": 0.31,
+      "dish": true
+    },
+    {
+      "hole": 15,
+      "id": "tortuna-h15-bunker-03",
+      "areaM2": 87,
+      "depthAtTrace": 0.36,
+      "bestShift": [
+        0,
+        -2
+      ],
+      "depthAtBest": 0.5,
+      "dish": true
+    },
+    {
+      "hole": 15,
+      "id": "tortuna-h15-bunker-review2-01",
+      "areaM2": 47,
+      "depthAtTrace": 0.48,
+      "bestShift": [
+        0,
+        1
+      ],
+      "depthAtBest": 0.48,
+      "dish": true
+    },
+    {
+      "hole": 15,
+      "id": "tortuna-h15-bunker-review2-02",
+      "areaM2": 136,
+      "depthAtTrace": 0.53,
+      "bestShift": [
+        -2,
+        -1
+      ],
+      "depthAtBest": 0.65,
+      "dish": true
+    },
+    {
+      "hole": 16,
+      "id": "tortuna-h16-bunker-review2-01",
+      "areaM2": 34,
+      "depthAtTrace": 0.2,
+      "bestShift": [
+        -1,
+        1
+      ],
+      "depthAtBest": 0.26,
+      "dish": true
+    },
+    {
+      "hole": 16,
+      "id": "tortuna-h16-bunker-review2-02",
+      "areaM2": 43,
+      "depthAtTrace": 0.33,
+      "bestShift": [
+        -2,
+        -1
+      ],
+      "depthAtBest": 0.42,
+      "dish": true
+    },
+    {
+      "hole": 17,
+      "id": "tortuna-h17-bunker-02",
+      "areaM2": 83,
+      "depthAtTrace": 0.24,
+      "bestShift": [
+        1,
+        -2
+      ],
+      "depthAtBest": 0.33,
+      "dish": true
+    },
+    {
+      "hole": 17,
+      "id": "tortuna-h17-bunker-review2-01",
+      "areaM2": 73,
+      "depthAtTrace": 0.5,
+      "bestShift": [
+        0,
+        -2
+      ],
+      "depthAtBest": 0.57,
+      "dish": true
+    },
+    {
+      "hole": 18,
+      "id": "tortuna-h18-bunker-review2-01",
+      "areaM2": 93,
+      "depthAtTrace": 0.4,
+      "bestShift": [
+        -1,
+        0
+      ],
+      "depthAtBest": 0.41,
+      "dish": true
+    }
+  ],
+  "greens": [
+    {
+      "hole": 1,
+      "areaM2": 359,
+      "interiorSpreadP90P10": 0.69,
+      "interiorMinusCollar": 0.07,
+      "collarSpread": 1.11
+    },
+    {
+      "hole": 2,
+      "areaM2": 329,
+      "interiorSpreadP90P10": 0.3,
+      "interiorMinusCollar": 0.32,
+      "collarSpread": 0.91
+    },
+    {
+      "hole": 3,
+      "areaM2": 300,
+      "interiorSpreadP90P10": 0.25,
+      "interiorMinusCollar": 0.2,
+      "collarSpread": 1.07
+    },
+    {
+      "hole": 4,
+      "areaM2": 232,
+      "interiorSpreadP90P10": 0.78,
+      "interiorMinusCollar": 0.07,
+      "collarSpread": 1.45
+    },
+    {
+      "hole": 5,
+      "areaM2": 281,
+      "interiorSpreadP90P10": 0.5,
+      "interiorMinusCollar": 0.27,
+      "collarSpread": 1.05
+    },
+    {
+      "hole": 6,
+      "areaM2": 386,
+      "interiorSpreadP90P10": 0.58,
+      "interiorMinusCollar": 0.41,
+      "collarSpread": 1
+    },
+    {
+      "hole": 7,
+      "areaM2": 347,
+      "interiorSpreadP90P10": 0.37,
+      "interiorMinusCollar": -0.1,
+      "collarSpread": 0.95
+    },
+    {
+      "hole": 8,
+      "areaM2": 331,
+      "interiorSpreadP90P10": 0.31,
+      "interiorMinusCollar": 0.34,
+      "collarSpread": 0.42
+    },
+    {
+      "hole": 9,
+      "areaM2": 349,
+      "interiorSpreadP90P10": 0.36,
+      "interiorMinusCollar": 0.16,
+      "collarSpread": 0.6
+    },
+    {
+      "hole": 10,
+      "areaM2": 435,
+      "interiorSpreadP90P10": 0.27,
+      "interiorMinusCollar": 0,
+      "collarSpread": 0.6
+    },
+    {
+      "hole": 11,
+      "areaM2": 334,
+      "interiorSpreadP90P10": 0.84,
+      "interiorMinusCollar": 0.5,
+      "collarSpread": 1.95
+    },
+    {
+      "hole": 12,
+      "areaM2": 416,
+      "interiorSpreadP90P10": 0.27,
+      "interiorMinusCollar": 0.25,
+      "collarSpread": 0.78
+    },
+    {
+      "hole": 13,
+      "areaM2": 480,
+      "interiorSpreadP90P10": 0.39,
+      "interiorMinusCollar": 0.26,
+      "collarSpread": 0.8
+    },
+    {
+      "hole": 14,
+      "areaM2": 410,
+      "interiorSpreadP90P10": 0.5,
+      "interiorMinusCollar": 0.26,
+      "collarSpread": 0.7
+    },
+    {
+      "hole": 15,
+      "areaM2": 539,
+      "interiorSpreadP90P10": 0.22,
+      "interiorMinusCollar": 0.26,
+      "collarSpread": 0.79
+    },
+    {
+      "hole": 16,
+      "areaM2": 442,
+      "interiorSpreadP90P10": 0.43,
+      "interiorMinusCollar": -0.07,
+      "collarSpread": 0.84
+    },
+    {
+      "hole": 17,
+      "areaM2": 581,
+      "interiorSpreadP90P10": 0.4,
+      "interiorMinusCollar": 0.04,
+      "collarSpread": 0.86
+    },
+    {
+      "hole": 18,
+      "areaM2": 224,
+      "interiorSpreadP90P10": 0.57,
+      "interiorMinusCollar": 0.47,
+      "collarSpread": 1.71
+    }
+  ],
+  "teePads": [
+    {
+      "hole": 1,
+      "id": "tortuna-h01-tee-1",
+      "kind": "observed",
+      "spread": 0.47
+    },
+    {
+      "hole": 1,
+      "id": "tortuna-h01-tee-forward-laser-2026",
+      "kind": "laser-deck",
+      "spread": 0.32
+    },
+    {
+      "hole": 2,
+      "id": "tortuna-h02-tee-1",
+      "kind": "observed",
+      "spread": 0.14
+    },
+    {
+      "hole": 2,
+      "id": "tortuna-h02-tee-forward-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.36
+    },
+    {
+      "hole": 3,
+      "id": "tortuna-h03-tee-1",
+      "kind": "observed",
+      "spread": 0.33
+    },
+    {
+      "hole": 3,
+      "id": "tortuna-h03-tee-forward-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.07
+    },
+    {
+      "hole": 4,
+      "id": "tortuna-h04-tee-back-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.4
+    },
+    {
+      "hole": 4,
+      "id": "tortuna-h04-tee-forward-observed-2026",
+      "kind": "observed",
+      "spread": 0.65
+    },
+    {
+      "hole": 4,
+      "id": "tortuna-h04-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.36
+    },
+    {
+      "hole": 5,
+      "id": "tortuna-h05-tee-1",
+      "kind": "observed",
+      "spread": 0.22
+    },
+    {
+      "hole": 6,
+      "id": "tortuna-h06-tee-back-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.22
+    },
+    {
+      "hole": 6,
+      "id": "tortuna-h06-tee-mid-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.31
+    },
+    {
+      "hole": 6,
+      "id": "tortuna-h06-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.29
+    },
+    {
+      "hole": 7,
+      "id": "tortuna-h07-tee-1",
+      "kind": "observed",
+      "spread": 0.5
+    },
+    {
+      "hole": 7,
+      "id": "tortuna-h07-tee-forward-observed-2026",
+      "kind": "observed",
+      "spread": 0.43
+    },
+    {
+      "hole": 8,
+      "id": "tortuna-h08-tee-1",
+      "kind": "observed",
+      "spread": 0.71
+    },
+    {
+      "hole": 8,
+      "id": "tortuna-h08-tee-forward-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.59
+    },
+    {
+      "hole": 9,
+      "id": "tortuna-hole-09-current-tee-2026",
+      "kind": "observed",
+      "spread": 0.32
+    },
+    {
+      "hole": 10,
+      "id": "tortuna-h10-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.81
+    },
+    {
+      "hole": 10,
+      "id": "tortuna-h10-tee-review2-02",
+      "kind": "observed",
+      "spread": 0.59
+    },
+    {
+      "hole": 11,
+      "id": "tortuna-h11-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.1
+    },
+    {
+      "hole": 11,
+      "id": "tortuna-h11-tee-review2-02",
+      "kind": "observed",
+      "spread": 0.31
+    },
+    {
+      "hole": 12,
+      "id": "tortuna-h12-tee-back-derived-2026",
+      "kind": "card-derived",
+      "spread": 1.08
+    },
+    {
+      "hole": 12,
+      "id": "tortuna-h12-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.3
+    },
+    {
+      "hole": 12,
+      "id": "tortuna-h12-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.2
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.17
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-tee-review2-02",
+      "kind": "observed",
+      "spread": 0.63
+    },
+    {
+      "hole": 13,
+      "id": "tortuna-h13-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.17
+    },
+    {
+      "hole": 14,
+      "id": "tortuna-h14-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.12
+    },
+    {
+      "hole": 14,
+      "id": "tortuna-h14-tee-review2-02",
+      "kind": "observed",
+      "spread": 0.4
+    },
+    {
+      "hole": 15,
+      "id": "tortuna-h15-tee-back-laser-2026",
+      "kind": "laser-deck",
+      "spread": 0.09
+    },
+    {
+      "hole": 15,
+      "id": "tortuna-h15-tee-mid-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.11
+    },
+    {
+      "hole": 15,
+      "id": "tortuna-h15-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.09
+    },
+    {
+      "hole": 16,
+      "id": "tortuna-h16-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.26
+    },
+    {
+      "hole": 16,
+      "id": "tortuna-h16-tee-mid-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.2
+    },
+    {
+      "hole": 16,
+      "id": "tortuna-h16-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.33
+    },
+    {
+      "hole": 17,
+      "id": "tortuna-h17-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.89
+    },
+    {
+      "hole": 17,
+      "id": "tortuna-h17-tee-review2-02",
+      "kind": "observed",
+      "spread": 0.56
+    },
+    {
+      "hole": 17,
+      "id": "tortuna-h17-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.23
+    },
+    {
+      "hole": 18,
+      "id": "tortuna-h18-tee-review2-01",
+      "kind": "observed",
+      "spread": 0.19
+    },
+    {
+      "hole": 18,
+      "id": "tortuna-h18-tee-mid-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.26
+    },
+    {
+      "hole": 18,
+      "id": "tortuna-h18-tee-front-derived-2026",
+      "kind": "card-derived",
+      "spread": 0.4
+    }
+  ]
+}

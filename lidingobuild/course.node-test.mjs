@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import fs from 'node:fs';
 import { createHash } from 'node:crypto';
-import { FRAME, local } from './build-course.mjs';
+import { FRAME, local, holeNotes } from './build-course.mjs';
 import { decodeHF } from '../geobuild/lib.mjs';
 import { readPack, inflateStream } from '../packages/course-pack/lib.mjs';
 import { LIDINGO_V2_CONFIG } from '../apps/golf/src/engine/v2-lidingo-config.mjs';
@@ -134,4 +134,21 @@ test('the live frame and cutout are pinned to the acquired extent, not a WGS84 a
   assert.equal(ground.tiles.filter(t => t.lod === 0 && t.layers.terrain).length, 64);
   assert.equal(ground.tiles.filter(t => t.layers.stands).length, 64);
   assert.equal(ground.tiles.filter(t => t.layers.objects).length, 0);
+});
+
+test('the committed hålguide is applied through the generator\'s own rule: every hole carries its note and tagline', () => {
+  /* The HUD showed one provenance sentence on all eighteen holes. The notes
+     are written from records that exist (the model's geometry, the club's
+     guide sheets, its Lokala regler 2026, its course plans and jubilee book)
+     and each hole says which in `basis`; re-derived here through holeNotes()
+     so the committed model, the generator and mapping/apply-guide-notes.mjs
+     cannot drift apart. */
+  const notes = holeNotes(json('./guide-notes.json'));
+  const m = json('./course-model.json');
+  for (const hole of m.holes) {
+    assert.equal(hole.note, notes.get(hole.n).note);
+    assert.equal(hole.name, notes.get(hole.n).name);
+  }
+  assert.equal(new Set(m.holes.map(hole => hole.note)).size, 18);
+  assert.equal(new Set(m.holes.map(hole => hole.name)).size, 18);
 });

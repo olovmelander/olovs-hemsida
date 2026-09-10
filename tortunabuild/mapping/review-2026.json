@@ -1,0 +1,1513 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "reviewedOn": "2026-09-10",
+  "captureDate": "2026-05-02",
+  "script": "tortunabuild/mapping/apply-review-2026.mjs",
+  "sources": {
+    "fairways": {
+      "path": "tortunabuild/mapping/fairways-2026.geojson",
+      "sha256": "fcff654dbc2d09b6b8c315421d9042717183d73e12c0bb6a12994dc64ce060be"
+    },
+    "decisions": {
+      "path": "tortunabuild/mapping/tee-decisions-2026.json",
+      "sha256": "eb994b0d3350ac62de9b65502ff38eaa2f1a21a9730657867cd9cfa9a6c1b402"
+    },
+    "candidates": {
+      "path": "tortunabuild/mapping/tee-candidates-2026.geojson",
+      "sha256": "7738c19e1d64a77449724f64e6751dd9ed2db9de6e1c9328aa7a982b0ebd6316"
+    }
+  },
+  "method": "Every hole carried its four card tees on ONE point. A derived platform never stands in water: a station inside a water ring walks forward along the route to the first dry station 6 m clear of the water. A laser deck is drawn as the rectangle of its own principal axes, since a built deck is one and the 1 m flat cells give it a ragged outline. A colour stands on the OBSERVED platform where one exists (22 pads from the 2026 review), on a laser-flat mown deck where the terrain and the imagery show one at the card's own distance (holes 1 and 15), and otherwise at a CARD-DERIVED position: the card's metres to the green centre walked back along the route, moved sideways onto the middle of the mown corridor at that station, with a 14 x 7 m platform drawn there and flagged as derived. Where two colours share a platform (Gul=Blå, Röd=Orange on the card) they share the mark; where a long observed deck carries two card lengths (5, 9) the shorter stands at its front.",
+  "removedFeatureIds": [
+    "tortuna-h01-fairway-candidate-1",
+    "tortuna-h02-fairway-candidate-1",
+    "tortuna-h04-fairway-candidate-1",
+    "tortuna-h06-fairway-green-apron-observed-2026",
+    "tortuna-h07-fairway-candidate-1",
+    "tortuna-h08-fairway-candidate-1",
+    "tortuna-h10-fairway-01",
+    "tortuna-h11-fairway-01",
+    "tortuna-h12-fairway-01",
+    "tortuna-h13-fairway-01",
+    "tortuna-h14-fairway-01",
+    "tortuna-h15-fairway-01",
+    "tortuna-h16-fairway-01",
+    "tortuna-h17-fairway-01",
+    "tortuna-h18-fairway-01"
+  ],
+  "addedFeatureIds": [
+    "tortuna-h01-tee-forward-laser-2026",
+    "tortuna-h01-fairway-rule-2026-1",
+    "tortuna-h02-tee-forward-derived-2026",
+    "tortuna-h02-fairway-rule-2026-1",
+    "tortuna-h03-tee-forward-derived-2026",
+    "tortuna-h03-fairway-rule-2026-1",
+    "tortuna-h04-tee-back-derived-2026",
+    "tortuna-h04-tee-front-derived-2026",
+    "tortuna-h04-fairway-rule-2026-1",
+    "tortuna-h05-fairway-rule-2026-1",
+    "tortuna-h06-tee-back-derived-2026",
+    "tortuna-h06-tee-mid-derived-2026",
+    "tortuna-h06-tee-front-derived-2026",
+    "tortuna-h06-fairway-rule-2026-1",
+    "tortuna-h07-fairway-rule-2026-1",
+    "tortuna-h08-tee-forward-derived-2026",
+    "tortuna-h08-fairway-rule-2026-1",
+    "tortuna-h09-fairway-rule-2026-1",
+    "tortuna-h10-fairway-rule-2026-1",
+    "tortuna-h10-fairway-rule-2026-2",
+    "tortuna-h11-fairway-rule-2026-1",
+    "tortuna-h11-fairway-rule-2026-2",
+    "tortuna-h12-tee-back-derived-2026",
+    "tortuna-h12-tee-front-derived-2026",
+    "tortuna-h12-fairway-rule-2026-1",
+    "tortuna-h12-fairway-rule-2026-2",
+    "tortuna-h12-fairway-rule-2026-3",
+    "tortuna-h13-tee-front-derived-2026",
+    "tortuna-h13-fairway-rule-2026-1",
+    "tortuna-h14-fairway-rule-2026-1",
+    "tortuna-h14-fairway-rule-2026-2",
+    "tortuna-h15-tee-back-laser-2026",
+    "tortuna-h15-tee-mid-derived-2026",
+    "tortuna-h15-tee-front-derived-2026",
+    "tortuna-h15-fairway-rule-2026-1",
+    "tortuna-h16-tee-mid-derived-2026",
+    "tortuna-h16-tee-front-derived-2026",
+    "tortuna-h16-fairway-rule-2026-1",
+    "tortuna-h17-tee-front-derived-2026",
+    "tortuna-h17-fairway-rule-2026-1",
+    "tortuna-h18-tee-mid-derived-2026",
+    "tortuna-h18-tee-front-derived-2026",
+    "tortuna-h18-fairway-rule-2026-1"
+  ],
+  "surfaceCounts": {
+    "green": 18,
+    "bunker": 32,
+    "tee": 42,
+    "fairway": 23
+  },
+  "holes": [
+    {
+      "hole": 1,
+      "platforms": [
+        {
+          "id": "tortuna-h01-tee-1",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 138,
+          "centreLocal": [
+            34.3,
+            -137.3
+          ]
+        },
+        {
+          "id": "tortuna-h01-tee-forward-laser-2026",
+          "source": "deck",
+          "role": "forward",
+          "colours": [
+            2,
+            3
+          ],
+          "areaSquareMetres": 130,
+          "centreLocal": [
+            82.2,
+            -77.5
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 305,
+          "platform": "tortuna-h01-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 305,
+          "platform": "tortuna-h01-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 205,
+          "platform": "tortuna-h01-tee-forward-laser-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 205,
+          "platform": "tortuna-h01-tee-forward-laser-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.3,
+      "fairways": {
+        "replaced": [
+          "tortuna-h01-fairway-candidate-1"
+        ],
+        "adopted": [
+          "tortuna-h01-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 8520
+      }
+    },
+    {
+      "hole": 2,
+      "platforms": [
+        {
+          "id": "tortuna-h02-tee-1",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 141,
+          "centreLocal": [
+            152.9,
+            155
+          ]
+        },
+        {
+          "id": "tortuna-h02-tee-forward-derived-2026",
+          "source": "derived",
+          "role": "forward",
+          "colours": [
+            2,
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            116,
+            183.6
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 315,
+          "platform": "tortuna-h02-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 315,
+          "platform": "tortuna-h02-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 265,
+          "platform": "tortuna-h02-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 265,
+          "platform": "tortuna-h02-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.1,
+      "fairways": {
+        "replaced": [
+          "tortuna-h02-fairway-candidate-1"
+        ],
+        "adopted": [
+          "tortuna-h02-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 11293
+      }
+    },
+    {
+      "hole": 3,
+      "platforms": [
+        {
+          "id": "tortuna-h03-tee-1",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 112,
+          "centreLocal": [
+            -75.3,
+            374.1
+          ]
+        },
+        {
+          "id": "tortuna-h03-tee-forward-derived-2026",
+          "source": "derived",
+          "role": "forward",
+          "colours": [
+            1,
+            2,
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            -49.3,
+            401.3
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 155,
+          "platform": "tortuna-h03-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 115,
+          "platform": "tortuna-h03-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 115,
+          "platform": "tortuna-h03-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 115,
+          "platform": "tortuna-h03-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.1,
+      "fairways": {
+        "replaced": [],
+        "adopted": [
+          "tortuna-h03-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 2411
+      }
+    },
+    {
+      "hole": 4,
+      "platforms": [
+        {
+          "id": "tortuna-h04-tee-back-derived-2026",
+          "source": "derived",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            59.5,
+            438.1
+          ]
+        },
+        {
+          "id": "tortuna-h04-tee-forward-observed-2026",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            1,
+            2
+          ],
+          "areaSquareMetres": 284,
+          "centreLocal": [
+            74.8,
+            510
+          ]
+        },
+        {
+          "id": "tortuna-h04-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            54.9,
+            541.3
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 455,
+          "platform": "tortuna-h04-tee-back-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 375,
+          "platform": "tortuna-h04-tee-forward-observed-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 375,
+          "platform": "tortuna-h04-tee-forward-observed-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 340,
+          "platform": "tortuna-h04-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 7.8,
+      "fairways": {
+        "replaced": [
+          "tortuna-h04-fairway-candidate-1"
+        ],
+        "adopted": [
+          "tortuna-h04-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 13243
+      }
+    },
+    {
+      "hole": 5,
+      "platforms": [
+        {
+          "id": "tortuna-h05-tee-1",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 166,
+          "centreLocal": [
+            -142.3,
+            879.1
+          ]
+        },
+        {
+          "id": "tortuna-h05-tee-1",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            2,
+            3
+          ],
+          "areaSquareMetres": 166,
+          "centreLocal": [
+            -142.3,
+            879.1
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 140,
+          "platform": "tortuna-h05-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "rear"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 140,
+          "platform": "tortuna-h05-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "rear"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 125,
+          "platform": "tortuna-h05-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "front"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 125,
+          "platform": "tortuna-h05-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "front"
+        }
+      ],
+      "lineStartMovedMetres": 7.7,
+      "fairways": {
+        "replaced": [],
+        "adopted": [
+          "tortuna-h05-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 1692
+      }
+    },
+    {
+      "hole": 6,
+      "platforms": [
+        {
+          "id": "tortuna-h06-tee-back-derived-2026",
+          "source": "derived",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            -101.5,
+            1027.2
+          ]
+        },
+        {
+          "id": "tortuna-h06-tee-mid-derived-2026",
+          "source": "derived",
+          "role": "forward",
+          "colours": [
+            1,
+            2
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            -75.6,
+            960
+          ]
+        },
+        {
+          "id": "tortuna-h06-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            -57.6,
+            919.8
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 465,
+          "platform": "tortuna-h06-tee-back-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 395,
+          "platform": "tortuna-h06-tee-mid-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 395,
+          "platform": "tortuna-h06-tee-mid-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 340,
+          "platform": "tortuna-h06-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 4,
+      "fairways": {
+        "replaced": [
+          "tortuna-h06-fairway-green-apron-observed-2026"
+        ],
+        "adopted": [
+          "tortuna-h06-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 13321
+      }
+    },
+    {
+      "hole": 7,
+      "platforms": [
+        {
+          "id": "tortuna-h07-tee-1",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 118,
+          "centreLocal": [
+            203.1,
+            608.7
+          ]
+        },
+        {
+          "id": "tortuna-h07-tee-forward-observed-2026",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            2,
+            3
+          ],
+          "areaSquareMetres": 173,
+          "centreLocal": [
+            211.9,
+            569.3
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 265,
+          "platform": "tortuna-h07-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 265,
+          "platform": "tortuna-h07-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 220,
+          "platform": "tortuna-h07-tee-forward-observed-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 220,
+          "platform": "tortuna-h07-tee-forward-observed-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.3,
+      "fairways": {
+        "replaced": [
+          "tortuna-h07-fairway-candidate-1"
+        ],
+        "adopted": [
+          "tortuna-h07-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 4981
+      }
+    },
+    {
+      "hole": 8,
+      "platforms": [
+        {
+          "id": "tortuna-h08-tee-1",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 120,
+          "centreLocal": [
+            110.4,
+            333.3
+          ]
+        },
+        {
+          "id": "tortuna-h08-tee-forward-derived-2026",
+          "source": "derived",
+          "role": "forward",
+          "colours": [
+            1,
+            2,
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            155.9,
+            286.7
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 305,
+          "platform": "tortuna-h08-tee-1",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 235,
+          "platform": "tortuna-h08-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 235,
+          "platform": "tortuna-h08-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 235,
+          "platform": "tortuna-h08-tee-forward-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.5,
+      "fairways": {
+        "replaced": [
+          "tortuna-h08-fairway-candidate-1"
+        ],
+        "adopted": [
+          "tortuna-h08-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 7106
+      }
+    },
+    {
+      "hole": 9,
+      "platforms": [
+        {
+          "id": "tortuna-hole-09-current-tee-2026",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 170,
+          "centreLocal": [
+            174.1,
+            -39.4
+          ]
+        },
+        {
+          "id": "tortuna-hole-09-current-tee-2026",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            2,
+            3
+          ],
+          "areaSquareMetres": 170,
+          "centreLocal": [
+            174.1,
+            -39.4
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 105,
+          "platform": "tortuna-hole-09-current-tee-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "rear"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 105,
+          "platform": "tortuna-hole-09-current-tee-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "rear"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 95,
+          "platform": "tortuna-hole-09-current-tee-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "front"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 95,
+          "platform": "tortuna-hole-09-current-tee-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "front"
+        }
+      ],
+      "lineStartMovedMetres": 5,
+      "fairways": {
+        "replaced": [],
+        "adopted": [
+          "tortuna-h09-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 1612
+      }
+    },
+    {
+      "hole": 10,
+      "platforms": [
+        {
+          "id": "tortuna-h10-tee-review2-01",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 139,
+          "centreLocal": [
+            120.2,
+            -438.8
+          ]
+        },
+        {
+          "id": "tortuna-h10-tee-review2-02",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            1,
+            2,
+            3
+          ],
+          "areaSquareMetres": 135,
+          "centreLocal": [
+            152.9,
+            -439.2
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 280,
+          "platform": "tortuna-h10-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 240,
+          "platform": "tortuna-h10-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 240,
+          "platform": "tortuna-h10-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 240,
+          "platform": "tortuna-h10-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 1.8,
+      "fairways": {
+        "replaced": [
+          "tortuna-h10-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h10-fairway-rule-2026-1",
+          "tortuna-h10-fairway-rule-2026-2"
+        ],
+        "areaSquareMetres": 7510
+      }
+    },
+    {
+      "hole": 11,
+      "platforms": [
+        {
+          "id": "tortuna-h11-tee-review2-01",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 170,
+          "centreLocal": [
+            331.9,
+            -522.9
+          ]
+        },
+        {
+          "id": "tortuna-h11-tee-review2-02",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            1,
+            2,
+            3
+          ],
+          "areaSquareMetres": 60,
+          "centreLocal": [
+            286.6,
+            -522.9
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 155,
+          "platform": "tortuna-h11-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 110,
+          "platform": "tortuna-h11-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 110,
+          "platform": "tortuna-h11-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 110,
+          "platform": "tortuna-h11-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 1.2,
+      "fairways": {
+        "replaced": [
+          "tortuna-h11-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h11-fairway-rule-2026-1",
+          "tortuna-h11-fairway-rule-2026-2"
+        ],
+        "areaSquareMetres": 2898
+      }
+    },
+    {
+      "hole": 12,
+      "platforms": [
+        {
+          "id": "tortuna-h12-tee-back-derived-2026",
+          "source": "derived",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            132.4,
+            -497.5
+          ]
+        },
+        {
+          "id": "tortuna-h12-tee-review2-01",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            2
+          ],
+          "areaSquareMetres": 96,
+          "centreLocal": [
+            173.5,
+            -517.2
+          ]
+        },
+        {
+          "id": "tortuna-h12-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            211.8,
+            -559.9
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 465,
+          "platform": "tortuna-h12-tee-back-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 465,
+          "platform": "tortuna-h12-tee-back-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 400,
+          "platform": "tortuna-h12-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 340,
+          "platform": "tortuna-h12-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 7.2,
+      "fairways": {
+        "replaced": [
+          "tortuna-h12-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h12-fairway-rule-2026-1",
+          "tortuna-h12-fairway-rule-2026-2",
+          "tortuna-h12-fairway-rule-2026-3"
+        ],
+        "areaSquareMetres": 15495
+      }
+    },
+    {
+      "hole": 13,
+      "platforms": [
+        {
+          "id": "tortuna-h13-tee-review2-01",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 144,
+          "centreLocal": [
+            147.4,
+            -829.7
+          ]
+        },
+        {
+          "id": "tortuna-h13-tee-review2-02",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            2
+          ],
+          "areaSquareMetres": 115,
+          "centreLocal": [
+            79,
+            -879.2
+          ]
+        },
+        {
+          "id": "tortuna-h13-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            45.5,
+            -910.5
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 465,
+          "platform": "tortuna-h13-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 465,
+          "platform": "tortuna-h13-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 400,
+          "platform": "tortuna-h13-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 340,
+          "platform": "tortuna-h13-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 1,
+      "fairways": {
+        "replaced": [
+          "tortuna-h13-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h13-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 14733
+      }
+    },
+    {
+      "hole": 14,
+      "platforms": [
+        {
+          "id": "tortuna-h14-tee-review2-01",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 130,
+          "centreLocal": [
+            -314.5,
+            -917.9
+          ]
+        },
+        {
+          "id": "tortuna-h14-tee-review2-02",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            1,
+            2,
+            3
+          ],
+          "areaSquareMetres": 94,
+          "centreLocal": [
+            -291.6,
+            -882.2
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 150,
+          "platform": "tortuna-h14-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 100,
+          "platform": "tortuna-h14-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 100,
+          "platform": "tortuna-h14-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 100,
+          "platform": "tortuna-h14-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.2,
+      "fairways": {
+        "replaced": [
+          "tortuna-h14-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h14-fairway-rule-2026-1",
+          "tortuna-h14-fairway-rule-2026-2"
+        ],
+        "areaSquareMetres": 2847
+      }
+    },
+    {
+      "hole": 15,
+      "platforms": [
+        {
+          "id": "tortuna-h15-tee-back-laser-2026",
+          "source": "deck",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 181,
+          "centreLocal": [
+            -263.8,
+            -727.7
+          ]
+        },
+        {
+          "id": "tortuna-h15-tee-mid-derived-2026",
+          "source": "derived",
+          "role": "forward",
+          "colours": [
+            1,
+            2
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            -225,
+            -754.7
+          ]
+        },
+        {
+          "id": "tortuna-h15-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            -205.7,
+            -773.6
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 355,
+          "platform": "tortuna-h15-tee-back-laser-2026",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 300,
+          "platform": "tortuna-h15-tee-mid-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 300,
+          "platform": "tortuna-h15-tee-mid-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 270,
+          "platform": "tortuna-h15-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 8.6,
+      "fairways": {
+        "replaced": [
+          "tortuna-h15-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h15-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 9943
+      }
+    },
+    {
+      "hole": 16,
+      "platforms": [
+        {
+          "id": "tortuna-h16-tee-review2-01",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 191,
+          "centreLocal": [
+            109.3,
+            -831.2
+          ]
+        },
+        {
+          "id": "tortuna-h16-tee-mid-derived-2026",
+          "source": "derived",
+          "role": "forward",
+          "colours": [
+            2
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            63.7,
+            -822.1
+          ]
+        },
+        {
+          "id": "tortuna-h16-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            38.3,
+            -772.2
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 345,
+          "platform": "tortuna-h16-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 345,
+          "platform": "tortuna-h16-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 290,
+          "platform": "tortuna-h16-tee-mid-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 250,
+          "platform": "tortuna-h16-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.7,
+      "fairways": {
+        "replaced": [
+          "tortuna-h16-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h16-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 12325
+      }
+    },
+    {
+      "hole": 17,
+      "platforms": [
+        {
+          "id": "tortuna-h17-tee-review2-01",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0,
+            1
+          ],
+          "areaSquareMetres": 280,
+          "centreLocal": [
+            -95,
+            -575.6
+          ]
+        },
+        {
+          "id": "tortuna-h17-tee-review2-02",
+          "source": "observed",
+          "role": "forward",
+          "colours": [
+            2
+          ],
+          "areaSquareMetres": 193,
+          "centreLocal": [
+            -47.6,
+            -609.6
+          ]
+        },
+        {
+          "id": "tortuna-h17-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            -28.1,
+            -625.2
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 325,
+          "platform": "tortuna-h17-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 325,
+          "platform": "tortuna-h17-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 265,
+          "platform": "tortuna-h17-tee-review2-02",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 240,
+          "platform": "tortuna-h17-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.2,
+      "fairways": {
+        "replaced": [
+          "tortuna-h17-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h17-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 10591
+      }
+    },
+    {
+      "hole": 18,
+      "platforms": [
+        {
+          "id": "tortuna-h18-tee-review2-01",
+          "source": "observed",
+          "role": "back",
+          "colours": [
+            0
+          ],
+          "areaSquareMetres": 160,
+          "centreLocal": [
+            261.6,
+            -708.5
+          ]
+        },
+        {
+          "id": "tortuna-h18-tee-mid-derived-2026",
+          "source": "derived",
+          "role": "forward",
+          "colours": [
+            1,
+            2
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            207.9,
+            -637.3
+          ]
+        },
+        {
+          "id": "tortuna-h18-tee-front-derived-2026",
+          "source": "derived",
+          "role": "front",
+          "colours": [
+            3
+          ],
+          "areaSquareMetres": 98,
+          "centreLocal": [
+            164.3,
+            -613
+          ]
+        }
+      ],
+      "marks": [
+        {
+          "colour": "Gul",
+          "cardMetres": 360,
+          "platform": "tortuna-h18-tee-review2-01",
+          "kind": "orthophoto-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Blå",
+          "cardMetres": 290,
+          "platform": "tortuna-h18-tee-mid-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Röd",
+          "cardMetres": 290,
+          "platform": "tortuna-h18-tee-mid-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        },
+        {
+          "colour": "Orange",
+          "cardMetres": 230,
+          "platform": "tortuna-h18-tee-front-derived-2026",
+          "kind": "card-derived-platform-reference",
+          "at": "centre"
+        }
+      ],
+      "lineStartMovedMetres": 0.3,
+      "fairways": {
+        "replaced": [
+          "tortuna-h18-fairway-01"
+        ],
+        "adopted": [
+          "tortuna-h18-fairway-rule-2026-1"
+        ],
+        "areaSquareMetres": 11441
+      }
+    }
+  ],
+  "clearfells": {
+    "path": "tortunabuild/mapping/canopy-changes-2026.geojson",
+    "sha256": "31b18b09d746349ffa8fbfa2ddfa4da043854361e60df5553efeb3465a1599d9",
+    "polygons": 6,
+    "areaSquareMetres": 52864,
+    "runtime": "surround.clearfells (slash-coloured ground, no trees); the stand compiler excludes the 2021 canopy inside them"
+  },
+  "limits": [
+    "Card-derived platforms are positions, not observations: 14 x 7 m rectangles on the mown corridor at the card distance, flagged in every record they touch.",
+    "Fairways are a rule-based classification of the 2026-05-02 orthophoto clipped to a design half-width; the mown estate beyond them is not fairway in the model.",
+    "Daily flag and marker positions remain unverified; nothing here is surveyed."
+  ]
+}

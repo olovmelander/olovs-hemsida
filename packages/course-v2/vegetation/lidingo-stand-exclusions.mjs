@@ -44,6 +44,9 @@ export function lidingoExclusionFeatures(collections) {
       if (!kind && properties.kind === 'path') kind = 'path';
       if (!kind && properties.kind === 'parking') kind = 'road';
       if (!kind && properties.kind === 'flattened-water-surface') kind = 'water';
+      /* an explicit exclusion polygon with no class of its own: a clear-fell read off newer imagery
+         than the laser (Tortuna's mapping/canopy-changes-2026.geojson); reason code 14, no buffer */
+      if (!kind && properties.kind === 'override') kind = 'override';
       if (!kind && tags.building && tags.building !== 'no') kind = 'building';
       if (!kind && tags.natural === 'water') kind = 'water';
       if (!kind && SURFACE_KINDS.has(tags.golf)) kind = tags.golf;

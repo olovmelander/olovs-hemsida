@@ -5,7 +5,9 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { deflateRawSync } from 'node:zlib';
-import { createCourseModel, projectedCourseModel, localRing, verifyInputSources, adoptMeasuredRoof } from './build-course.mjs';
+import { readFileSync } from 'node:fs';
+import { createCourseModel, projectedCourseModel, localRing, verifyInputSources, adoptMeasuredRoof, holeNotes, teeStatus } from './build-course.mjs';
+import { pointInPoly } from '../geobuild/lib.mjs';
 import { TORTUNA_FRAME as FRAME, projected } from './frame.mjs';
 import { assertTortunaCanonicalRouting } from '../packages/course-v2/compile-tortuna-ground-graph.mjs';
 
@@ -184,4 +186,61 @@ test('measured roofs preserve absolute RH2000, unsupported gaps and independent 
   }
   input.buildingRoofs.push(source);
   assert.throws(() => createCourseModel(input, () => 30), /Duplicate measured roof/);
+});
+
+test('the committed hålguide is applied through the generator\'s own rule: every hole carries its note and tagline', () => {
+  /* The HUD showed one provenance sentence on all eighteen holes. The notes
+     are written from records that exist (the model's geometry, the club's
+     Caddee maps, its Lokala regler 2026, its history) and each hole says which
+     in `basis`; re-derived here through holeNotes() so the committed model,
+     the generator and mapping/apply-guide-notes.mjs cannot drift apart. */
+  const notes = holeNotes(JSON.parse(readFileSync(new URL('./guide-notes.json', import.meta.url), 'utf8')));
+  const model = JSON.parse(readFileSync(new URL('./course-model.json', import.meta.url), 'utf8'));
+  for (const hole of model.holes) {
+    assert.equal(hole.note, notes.get(hole.n).note);
+    assert.equal(hole.name, notes.get(hole.n).name);
+  }
+  assert.equal(new Set(model.holes.map(hole => hole.note)).size, 18);
+  assert.equal(new Set(model.holes.map(hole => hole.name)).size, 18);
+});
+
+test('every hole without an observed tee platform declares it, and no hole with a pad does', () => {
+  /* tools/check-app.mjs fails closed on a mapped-only ground for an undeclared
+     missing platform AND for a declaration on a hole that has a pad; the
+     committed model must carry exactly what teeStatus() derives from the input. */
+  const model = JSON.parse(readFileSync(new URL('./course-model.json', import.meta.url), 'utf8'));
+  const input = JSON.parse(readFileSync(new URL('./mapping/course-input.json', import.meta.url), 'utf8'));
+  for (const hole of model.holes) {
+    const want = teeStatus(hole.tees.pads, input.holes.find(h => h.number === hole.n)).status;
+    assert.equal(hole.tees.status, want, `hole ${hole.n}`);
+    if (want) assert.equal(hole.tees.pads.length, 0);
+  }
+  /* the 2026 review (mapping/tee-decisions-2026.json) gave the 6th and 15th platforms --
+     card-derived and a laser-flat deck -- so no hole declares a gap any more */
+  assert.deepEqual(model.holes.filter(h => h.tees.status).map(h => h.n), []);
+});
+
+test('every card colour stands on a named platform of its own hole, and the model says which kind', () => {
+  /* mapping/apply-review-2026.mjs + reviewedTeeMarks(): the engine draws a colour's markers only
+     for a mark that carries a platform identity and a reference kind it knows, and the
+     tee camera stands on that mark. Re-derived here from the committed model. */
+  const model = JSON.parse(readFileSync(new URL('./course-model.json', import.meta.url), 'utf8'));
+  const kinds = new Set(['orthophoto-platform-reference', 'card-derived-platform-reference']);
+  let derived = 0, observed = 0;
+  for (const hole of model.holes) {
+    assert.equal(hole.tees.markerLayout, 'separate-reviewed-colours', `hole ${hole.n}`);
+    assert.equal(hole.tees.markerPlacement, 'reviewed', `hole ${hole.n}`);
+    assert.equal(hole.tees.marks.length, hole.t.length, `hole ${hole.n}`);
+    for (const [i, mark] of hole.tees.marks.entries()) {
+      const pad = hole.tees.pads.find(p => p.id === mark.sourcePadId);
+      assert.ok(pad, `hole ${hole.n} colour ${i} names a platform the hole carries`);
+      assert.ok(kinds.has(mark.orthophotoReference?.kind), `hole ${hole.n} colour ${i} reference kind`);
+      assert.ok(pointInPoly(...mark.c, pad.ring), `hole ${hole.n} colour ${i} stands inside ${pad.id}`);
+      if (mark.orthophotoReference.kind === 'card-derived-platform-reference') derived++; else observed++;
+    }
+    /* the route starts on the back tee */
+    assert.ok(Math.hypot(hole.line[0][0] - hole.tees.marks[0].c[0], hole.line[0][1] - hole.tees.marks[0].c[1]) < 0.01, `hole ${hole.n} line starts on the Gul mark`);
+  }
+  assert.equal(observed + derived, 72);
+  assert.ok(observed >= 40, `${observed} colours stand on observed or laser platforms`);
 });

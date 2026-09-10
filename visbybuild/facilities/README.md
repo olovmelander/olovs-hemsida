@@ -26,12 +26,34 @@ are ignored by Git; the modeling scripts, manifests and runtime asset are retain
 
 ## Coverage and evidence
 
-The runtime contains 18 groups: fourteen structures, three open firing strips
-and the range safety net. These include all seven inherited club-area buildings,
-five additional roofs found in the April 2026 aerials, the concrete lighthouse,
-and the small red shoreline shed. The clubhouse group includes both terraces
-and their furniture. Twenty-five surrounding buildings remain source context
-rather than being labeled as club-owned facilities.
+The runtime contains 18 groups: fourteen structures, three mat rows on their
+artificial-turf strips and the eastern safety net. These include all seven
+inherited club-area buildings, five additional roofs found in the April 2026
+aerials, the concrete lighthouse, and the small red shoreline shed. The
+clubhouse group includes both terraces and their furniture. Twenty-five
+surrounding buildings remain source context rather than being labeled as
+club-owned facilities.
+
+The driving range is read in detail. [trace-range-layout.py](trace-range-layout.py)
+detects the individual hitting mats on the `range-firing-line` panel as the
+periodic darkness minima along the three traced strip lines, refined to the
+centroid of the dark pixels in a 2 m window, and writes
+[range-layout.json](range-layout.json): 7 mats on the west row between the
+road and the studio, 19 along the curved central strip and 6 east of the
+covered bays, each with its centre, its row tangent and its shot direction
+toward the field; the eastern net as 17 poles at the traced base vertices;
+and the two range roofs with their photo-informed heights. The club's own
+notices settle the two things the aerial cannot: the 2024 rebuild moved every
+hitting place four metres forward and built six new uncovered places between
+the road and the studio (2024-02-21), and there are ten fixed Trackman screens,
+four of them under cover (2024-03-27). The 2024 construction photograph shows
+the covered bays under ONE slope, high toward the field, and the studio
+photographs show two broad sectional-door openings with white inner walls --
+so `model_range.py` draws the eastern shelter as a monopitch over four bays
+with their terminals, the studio (`way/530655627`) as an enclosed building
+with two raised doors toward the field, every detected mat on its tray with
+rubber tees, six terminals on the west row counted from the road end, and the
+net on 9 m timber poles.
 
 The kit contains fifteen native orthophoto panels at 0.16 m per pixel from
 Lantmäteriet's flight on **10 April 2026**. Exact affine transforms, parent windows,
@@ -61,10 +83,14 @@ lantern proportioned from the ground photographs.
 
 Roof outlines and visible architectural character are source-based. Eaves,
 some roof heights, hidden doors/windows, furniture details, net height and
-unconfirmed facility uses remain estimates. The net is modeled at an estimated
-6 m; the three firing strips do not assert an individual mat count. Tree crowns
-contaminate some laser cells, so their maxima are not used as roof heights.
-This is an exterior visual reconstruction, not a measured architectural survey.
+unconfirmed facility uses remain estimates. Mat centres are measured on the
+2026 panel; mat size (1.5 m), tray, tee and terminal details, the 9 m net
+height and which six open places carry the fixed screens are interpretations
+of the photographs and notices. The western net along the road, which the
+Codex session had begun reading as eleven pole marks on the `range-practice`
+panel, was never written down and is not modelled. Tree crowns contaminate
+some laser cells, so their maxima are not used as roof heights. This is an
+exterior visual reconstruction, not a measured architectural survey.
 
 ## Coordinate and runtime contract
 
@@ -93,6 +119,7 @@ the reference kit. With Blender MCP running, from the repository root:
 ```powershell
 & upsalabuild/cache/review-venv/Scripts/python.exe visbybuild/facilities/acquire-reference.py
 & upsalabuild/cache/review-venv/Scripts/python.exe visbybuild/facilities/prepare-reference.py
+& upsalabuild/cache/review-venv/Scripts/python.exe visbybuild/facilities/trace-range-layout.py
 & upsalabuild/cache/review-venv/Scripts/python.exe geobuild/facilities/blender_mcp.py --script visbybuild/facilities/build_blender_scene.py --timeout 180
 & 'C:/Program Files/Blender Foundation/Blender 4.5/blender.exe' --background visbybuild/facilities/output/visby-facilities.blend --python-exit-code 1 --python visbybuild/facilities/export_and_render.py
 node visbybuild/facilities/check-facility-asset.mjs
@@ -100,7 +127,10 @@ npm --prefix apps/golf run build
 ```
 
 The builder only refreshes its own named generated scene; select another scene
-before rebuilding if Visby is currently active. Background export reopens the
+before rebuilding if Visby is currently active. It also runs unchanged in
+background Blender (`blender.exe --background --python .../build_blender_scene.py`),
+which is how the 2026-09-10 range pass was built while the live bridge was
+busy with another course. Background export reopens the
 saved project and checks finite geometry, source groups and exclusion of photo
 textures, then renders the review cameras. See
 [build receipt](blender-build-report.json), [Blender validation](blender-validation.json)

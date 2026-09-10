@@ -66,6 +66,7 @@ import { teeView } from './engine/tee-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { canopySampler } from './engine/canopy-cover.mjs';
+import { LANDCOVER, decodeLandcover, landcoverSampler, isTreeClass } from './engine/landcover.mjs';
 import { buildCoastalWater } from './engine/coastal-water.mjs';
 import { coastalWorldBounds, seaLevelInWorld, excludeOceanFromFlatWater } from './engine/coastal-runtime.mjs';
 import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
@@ -171,6 +172,15 @@ const isBareVisit = !rawBana;
 const COURSE = await loadCourse(rawBana);
 const CMETA = COURSE.meta;
 const PACK = COURSE.pack;
+/* The land-cover record: what the ground IS out to +-6.4 km, read off
+   Lantmäteriet's orthophoto per 12 m cell (tools/build-landcover.mjs). It is
+   the authority for everything the survey and the 3 m canopy raster do not
+   reach -- the far tint, the far cones, the planted ring beyond the raster's
+   box -- and a course without one keeps the rule-coloured horizon it had. */
+const LANDCOVER_REC = COURSE.landcover
+  ? await decodeLandcover(COURSE.landcover, inflate).catch(e => { console.warn('landcover:', e.message); return null; })
+  : null;
+const landAt = landcoverSampler(LANDCOVER_REC);
 
 if (isBareVisit) {
   document.title = 'Banvy 3D — Svenska golfbanor i realtid';
@@ -1022,6 +1032,17 @@ if (M.cover) {
   coverAt = canopySampler(cv);
   coverEdgeFade = (x, z) => smooth(0, 240, Math.min(x - cv.x0, cx1 - x, z - cv.z0, cz1 - z));
 }
+/* ... and beyond that raster's box the orthophoto record continues the same
+   verdict at 12 m -- trees or open -- so the planter and the floor no longer
+   change rule along the raster's straight edge; the imagery's authority now
+   fades only at the RECORD's edge, 6 km out. Inside the fine box the fine
+   raster keeps the last word (it answers 0 only where it has no answer). */
+if (LANDCOVER_REC) {
+  const fine = coverAt, lb = landAt.bounds;
+  const coarse = (x, z) => { const c = landAt(x, z); return isTreeClass(c) ? 3 : c === LANDCOVER.UNKNOWN ? 0 : 2; };
+  coverAt = (x, z) => fine(x, z) || coarse(x, z);
+  coverEdgeFade = (x, z) => smooth(0, 240, Math.min(x - lb.x0, lb.x1 - x, z - lb.z0, lb.z1 - z));
+}
 
 /* The analytic classifier remains the oracle. Once the runtime atlas exists,
    high-volume consumers use its O(1) lookup inside CORE and fall back to the
@@ -1095,7 +1116,17 @@ const C = {
      dark burnt olive: the floor reads dark in life because it stands in the
      crowns' shade, not because it is painted dark. Moss and bilberry, so the
      shadows do the darkening and the edge against mown turf stops shouting. */
-  heath:  L(0x6d8142), forest: L(0x5c6b3c), shore: L(0xb2a37e),
+  /* ... and 0x5c6b3c, at the same luminance, was OLIVE: red at 86% of green,
+     which under the golden preset's warm sun and beige fog read as brown
+     ground between every crown from any camera above the trees -- and the
+     ground between the crowns is most of what a top-down view sees. Moss and
+     bilberry are green; this keeps the measured luminance (98 against 100)
+     and moves red down to 77% of green, where the rough's own ratio sits. */
+  heath:  L(0x6d8142), forest: L(0x526b3b), shore: L(0xb2a37e),
+  /* what a stand reads as from a kilometre off, where the cones stand one to a
+     30 m cell and the ground between them is most of what the eye sees: the
+     crowns' green, not the floor's brown -- spruce/pine dark, birch lighter */
+  canopy: L(0x3f6236), canopyLight: L(0x628a44),
   wet:    L(0x6a7046), rock:   L(0x736e63),
   /* the surroundings: crop tones for the west-shore fields, slash for the
      clear-fells, hard gravel for the machinery yard, hay for the Ås meadows */
@@ -1171,7 +1202,11 @@ function groundAt(x, z, h) {
     if (ringSD(x, z, q.ring, 1) > 0) continue;
     if (q.kind === 'farmland' || q.kind === 'farmyard') {
       const k = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
-      const crop = k < 0.4 ? C.cropA : k < 0.75 ? C.cropB : C.cropC;
+      /* the orthophoto says whether this field stood green or pale; the hash
+         only decides where the record is silent, so near and far agree */
+      const lc = landAt(x, z);
+      const crop = lc === LANDCOVER.OPEN_GREEN ? C.cropB : lc === LANDCOVER.OPEN_PALE ? (k < 0.5 ? C.cropA : C.hay)
+        : k < 0.4 ? C.cropA : k < 0.75 ? C.cropB : C.cropC;
       col = col.map((v, i) => lerp(v, crop[i], 0.72)); sid = S_SEMI;
     } else if (q.kind === 'meadow' || q.kind === 'grass') {
       col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI;
@@ -1369,6 +1404,14 @@ controls.dampingFactor = 0.055;
 controls.maxPolarAngle = Math.PI - 0.08;
 controls.minDistance = 6;
 controls.maxDistance = 4200;
+/* The breathing gaze is OPT-IN (?breath=1). Measured with tools/glitter-meter.mjs
+   on Puttom's 12th tee: a gaze drift at the breath's own peak rate (0.16 px a
+   frame, no travel) flips 465 isolated pixels a frame, 461 of them in the
+   treeline, against 83 with the trees hidden and about 10 with the camera
+   truly still -- every sub-pixel gap in a crown against the sky twinkles as
+   long as the frame drifts, and 4x MSAA cannot hold it. That was the "glitter"
+   the owner saw standing still (2026-09-10). */
+const BREATH = new URLSearchParams(location.search).get('breath') === '1';
 const cameraBreathing = createCameraBreathing();
 let cameraInteracting = false;
 controls.addEventListener('start', () => { cameraInteracting = true; cameraBreathing.pause(); });
@@ -1940,6 +1983,54 @@ const COASTAL_WATER = (() => {
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
 const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
+/* THE GROUND TO THE HORIZON, by what it is. One rule for the far tint raster
+   and the legacy FAR mesh's vertex colours, so the two ground paths cannot
+   drift apart again. Where the land-cover record speaks, the class decides
+   the base colour and the OSM landuse ring only refines it (a field the
+   imagery saw green stands in crop, one it saw pale stands in stubble, and a
+   ring the imagery shows as forest IS forest); where it is silent the old
+   rule stands: forest floor everywhere, rock on the steep, height toward
+   rough. Hf is whichever height field the caller reads. */
+function vistaGround(x, z, h, dx, Hf) {
+  const sl = Math.hypot(Hf(x + dx, z) - h, Hf(x, z + dx) - h) / dx;
+  const rocky = smooth(0.22, 0.62, sl);
+  const lc = landAt(x, z);
+  const trees = isTreeClass(lc);
+  let base;
+  if (lc === LANDCOVER.UNKNOWN) {
+    const t = clampf((h - 24) / 150, 0, 1);
+    base = C.forest.map((v, k) => lerp(lerp(v, C.rough[k], t * 0.5), C.rock[k], rocky * 0.8));
+  } else if (lc === LANDCOVER.WATER) {
+    base = FLAT_WATER_TINT.slice();
+  } else {
+    /* stand-to-stand variation, so a class is never one flat paint */
+    const n = clampf(fbm(x * 0.0017 + 13, z * 0.0017 - 7, 2), -1, 1);
+    if (trees) {
+      const light = lc === LANDCOVER.LIGHT_TREES ? 0.75 : clampf(0.28 + 0.22 * n, 0, 1);
+      base = C.canopy.map((v, k) => lerp(lerp(v, C.canopyLight[k], light), C.rock[k], rocky * 0.3));
+    } else if (lc === LANDCOVER.OPEN_GREEN) {
+      base = C.rough.map((v, k) => lerp(lerp(v, C.fescue[k], clampf(0.45 + 0.3 * n, 0, 1)), C.rock[k], rocky * 0.8));
+    } else if (lc === LANDCOVER.OPEN_PALE) {
+      base = C.hay.map((v, k) => lerp(lerp(v, C.cropA[k], clampf(0.5 + 0.3 * n, 0, 1)), C.rock[k], rocky * 0.5));
+    } else {   /* HARD: built ground is grey with gardens in it; bare rock is rock */
+      base = C.hard.map((v, k) => lerp(lerp(v, C.lawn[k], 0.35), C.rock[k], rocky * 0.6));
+    }
+  }
+  for (const q of LI.at(x, z)) {
+    if (ringSD(x, z, q.ring) > 0) continue;
+    if (trees || lc === LANDCOVER.WATER) break;
+    if (q.kind === 'farmland' || q.kind === 'farmyard') {
+      const k2 = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
+      const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
+      base = lc === LANDCOVER.OPEN_GREEN ? base.map((v, k3) => lerp(v, C.cropB[k3], 0.6))
+        : base.map((v, k3) => lerp(v, crop[k3], lc === LANDCOVER.UNKNOWN ? 0.85 : 0.7));
+    } else if (q.kind === 'meadow' || q.kind === 'grass') base = base.map((v, k3) => lerp(v, C.hay[k3], 0.6));
+    else if (q.kind === 'residential' || q.kind === 'allotments') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
+    else if (q.kind === 'industrial' || q.kind === 'commercial') base = base.map((v, k3) => lerp(v, C.hard[k3], 0.5));
+    break;
+  }
+  return base;
+}
 function fillGroundTintTextures(tint, heightAt) {
   const H = (x, z) => { const h = heightAt(x, z); return Number.isFinite(h) ? h : demH(x, z); };
   const flatWaterAt = typeof terrainV2.isFlatWaterAt === 'function' ? (x, z) => terrainV2.isFlatWaterAt(x, z) : () => false;
@@ -1998,22 +2089,7 @@ function fillGroundTintTextures(tint, heightAt) {
     const h = H(x, z);
     if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(x, z) : h < VISTA_SEA_LEVEL) return SEA_TINT;
     if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
-    const sl = Math.hypot(H(x + GROUND_TINT_FAR.dx, z) - h, H(x, z + GROUND_TINT_FAR.dx) - h) / GROUND_TINT_FAR.dx;
-    const t = clampf((h - 24) / 150, 0, 1);
-    const rocky = smooth(0.22, 0.62, sl);
-    let base = C.forest.map((v, k) => lerp(lerp(v, C.rough[k], t * 0.5), C.rock[k], rocky * 0.8));
-    for (const q of LI.at(x, z)) {
-      if (ringSD(x, z, q.ring) > 0) continue;
-      if (q.kind === 'farmland' || q.kind === 'farmyard') {
-        const k2 = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
-        const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
-        base = base.map((v, k3) => lerp(v, crop[k3], 0.85));
-      } else if (q.kind === 'meadow' || q.kind === 'grass') base = base.map((v, k3) => lerp(v, C.hay[k3], 0.6));
-      else if (q.kind === 'residential' || q.kind === 'allotments') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
-      else if (q.kind === 'industrial' || q.kind === 'commercial') base = base.map((v, k3) => lerp(v, C.hard[k3], 0.5));
-      break;
-    }
-    return base;
+    return vistaGround(x, z, h, GROUND_TINT_FAR.dx, H);
   };
   // Fading only the shader's near sample leaves a hard line in the far map:
   // its copied near colours used to stop at the last full 24 m footprint.
@@ -2072,21 +2148,7 @@ async function buildTerrain(R, hole, withDetail) {
     } else {
       /* the vista is read at a distance through fog: slope and height, then what
          the map says the ground is used for -- fields, gardens, industry */
-      const sl = Math.hypot(demH(x + R.dx, z) - h, demH(x, z + R.dx) - h) / R.dx;
-      const t = clampf((h - 24) / 150, 0, 1);
-      const rocky = smooth(0.22, 0.62, sl);
-      let base = C.forest.map((v, k) => lerp(lerp(v, C.rough[k], t * 0.5), C.rock[k], rocky * 0.8));
-      for (const q of LI.at(x, z)) {
-        if (ringSD(x, z, q.ring) > 0) continue;
-        if (q.kind === 'farmland' || q.kind === 'farmyard') {
-          const k2 = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
-          const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
-          base = base.map((v, k3) => lerp(v, crop[k3], 0.85));
-        } else if (q.kind === 'meadow' || q.kind === 'grass') base = base.map((v, k3) => lerp(v, C.hay[k3], 0.6));
-        else if (q.kind === 'residential' || q.kind === 'allotments') base = base.map((v, k3) => lerp(v, C.lawn[k3], 0.4));
-        else if (q.kind === 'industrial' || q.kind === 'commercial') base = base.map((v, k3) => lerp(v, C.hard[k3], 0.5));
-        break;
-      }
+      const base = vistaGround(x, z, h, R.dx, demH);
       col.push(base[0], base[1], base[2]);
       aoArr.push(1.0);
       det.push(0.4); bmp.push(0.9); gls.push(0.04); str.push(0);
@@ -4567,12 +4629,12 @@ const TREE_LOD = {
     const cbase = s === 2 ? uLeaf : color(hex);
     mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
       pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
-    if (sway) mat.positionNode = windSway(true);
+    if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
   const trunkMaterial = (hex, sway) => {
     const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: true });
-    if (sway) mat.positionNode = windSway(false);
+    if (sway) { mat.positionNode = windSway(false); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
   /* GPU-only harmonic wind sway with zero CPU matrix updates: trunk roots at
@@ -4581,7 +4643,13 @@ const TREE_LOD = {
   function windSway(isCrown) {
     const wp = positionWorld.xz;
     const hNorm = saturate(positionLocal.y.div(13.0));
-    const weight = isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10);
+    /* Sway fades out between 50 and 140 m from the camera: past that a crown's
+       0.3 m of travel is under a pixel and only flips the sub-pixel gaps in its
+       silhouette -- at rest on the 12th tee, 86 isolated flips a frame with it and
+       45 without (tools/glitter-meter.mjs --live). The shadow pass draws the tree
+       unswayed (castShadowPositionNode) so a re-rendered map never moves a shadow. */
+    const swayFade = oneMinus(smoothstep(50, 140, cameraPosition.sub(positionWorld).length()));
+    const weight = (isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10)).mul(swayFade);
     const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
     const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
     const swayX = sin(windPhase.add(positionLocal.y.mul(0.08))).mul(0.24)
@@ -5035,8 +5103,14 @@ lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
-// A measured-only course retains unknown canopy outside its acquired coverage.
-if (M.infra.vegetationPlacement !== 'measured-only') {
+/* A measured-only course used to retain UNKNOWN canopy outside its acquired
+   coverage and so planted nothing there -- Lidingö's Bogesundslandet and
+   Visby's inland were green plates to the horizon. The land-cover record is a
+   measurement of that canopy (the orthophoto, calibrated on this ground's own
+   LiDAR stand fields), so where it speaks the far ring stands on it; where it
+   is silent such a course still plants nothing. */
+const MEASURED_ONLY = M.infra.vegetationPlacement === 'measured-only';
+if (!MEASURED_ONLY || LANDCOVER_REC) {
   /* THE FAR RING IS NOT THE IMAGERY'S RING, and it used to be gated on it.
      Both loops below sat inside `if (M.cover)`, so a course with no tree-cover
      raster got no distant trees AT ALL -- and the far ring never reads the
@@ -5075,7 +5149,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   const cvx1 = cv ? cv.x0 + cv.nx * cv.cell : 0, cvz1 = cv ? cv.z0 + cv.nz * cv.cell : 0;
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
-  if (cv) for (let z = cv.z0; z < cvz1; z += GAP2) {
+  if (cv && !MEASURED_ONLY) for (let z = cv.z0; z < cvz1; z += GAP2) {
     if (shouldYieldWork()) await yieldWork();
     for (let x = cv.x0; x < cvx1; x += GAP2) {
       const i = Math.floor(x / GAP2), j = Math.floor(z / GAP2);
@@ -5106,6 +5180,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   /* beyond every record we have, the hills get the forest they carry in life --
      this ring is dressing, not data, and it stays far outside the property */
   const GAP3 = LOWQ ? 42 : 30;
+  const ptsKind = [];   /* the record's class per far cone, so birch stands where the imagery read light canopy */
   for (let z = FARR.z0; z < FARR.z1; z += GAP3) {
     if (shouldYieldWork()) await yieldWork();
     for (let x = FARR.x0; x < FARR.x1; x += GAP3) {
@@ -5116,8 +5191,23 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       /* where a course has no raster, the measured generation is the box this
          ring must not close over -- its trees are already standing there */
       if (!cv && V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
-      if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
-      if (openLand(px, pz)) continue;
+      /* THE RECORD SAYS WHERE THE FOREST IS. Where the orthophoto was read, a
+         cone stands on closed canopy and nowhere else -- not on the pasture,
+         the field, the town or the clear-fell the noise gap used to miss; only
+         where the record is silent does the old dressing rule (forest
+         everywhere but the noise gaps and the declared open land) still hold. */
+      const lc = landAt(px, pz);
+      if (lc === LANDCOVER.UNKNOWN && MEASURED_ONLY) continue;
+      if (lc !== LANDCOVER.UNKNOWN) {
+        if (!isTreeClass(lc)) continue;
+        /* inside the planted ring the planter now reads the same record, so
+           a cone stands only where it has thinned out -- as the data ring does */
+        if (px > MIDR.x0 + inset && px < MIDR.x1 - inset && pz > MIDR.z0 + inset && pz < MIDR.z1 - inset &&
+            M.infra.vegetationPlacement !== 'measured-only' && rnd2(i + 61, j + 47) < midrEdgeFade(px, pz)) continue;
+      } else {
+        if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
+        if (openLand(px, pz)) continue;
+      }
       /* a course may declare places this ring must not close over -- a churchyard
          it looks across at, a cleared works yard. They are facts about one place,
          so they come from the course's own module, never from the engine: the
@@ -5125,12 +5215,16 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
          was punching that clearing into five other courses' horizons. */
       if (CLEARINGS.some(cl => Math.hypot(px - cl.c[0], pz - cl.c[1])
             < cl.r + (cl.wobble ? fbm(px * 0.01, pz * 0.01, 2) * cl.wobble : 0))) continue;
-      if (rnd2(i + 9, j + 33) > 0.85) continue;
+      /* the 15% thinning was the dressing rule's own texture; a cell the record
+         calls closed canopy is closed, and from 500 m up the far forest read as
+         meadow with trees on it at one cone per 1,060 m2 */
+      if (lc === LANDCOVER.UNKNOWN && rnd2(i + 9, j + 33) > 0.85) continue;
       const h = terrainH(px, pz);
       if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < GEO.seaLevel + 1.5) continue;
       if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
+      ptsKind[pts.length / 4 - 1] = lc;
     }
   }
   const n = pts.length / 4;
@@ -5142,7 +5236,8 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const perSpecies = [[], [], []];
     for (let k = 0; k < n; k++) {
       const r = hash2(k * 7919 + 3, k * 104729 + 11);
-      perSpecies[r < 0.58 ? 1 : r < 0.9 ? 0 : 2].push(k);
+      /* light canopy in the record is birch four times in five; the rest keep the pine-led mix */
+      perSpecies[ptsKind[k] === LANDCOVER.LIGHT_TREES && r < 0.8 ? 2 : r < 0.58 ? 1 : r < 0.9 ? 0 : 2].push(k);
     }
     for (let s = 0; s < 3; s++) {
       const list = perSpecies[s];
@@ -6455,6 +6550,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
      net on its poles along the sides the trace names. The net is its own
      mesh because it is see-through; everything else joins the batch. */
   const RF = M.scenery.rangeFacilities;
+  stats.rangeFacilities = RF ? { bays: (RF.bays || []).length, nets: (RF.nets || []).length,
+    netHeight: RF.netHeight ?? null, netPostPitch: RF.netPostPitch ?? null } : null;
   stats.authoredRangeFacilities = !!(SCENERY?.replacesRangeFacilities && facilityArchitecture?.report.status === 'loaded');
   if (RF && RF.bays && RF.bays.length >= 2 && !stats.authoredRangeFacilities) {
     const MAT = L(0x2c5a2b), DIV = L(0xe8e6df), DIVCAP = L(0x2f6f3a), KERB = L(0x8d8a82), STEEL = L(0x4a4d50);
@@ -6500,9 +6597,21 @@ if (M.infra.objectPlacement === 'mapped-only') {
         quad(D(1.3, y + 1.05), D(-0.4, y + 1.05), D(-0.4, y + 1.15), D(1.3, y + 1.15), DIVCAP);
       }
     }
+  }
+  /* The ball-stop net is drawn whether or not the course also has a mapped BAY
+     LINE, because a range can have one without the other. Tortuna's tee line is
+     a row of separate mats on grass with no continuous strip to trace, while
+     its net stands at the field's far boundary regardless. Measured: only
+     Puttom carries nets at all, and it has bays too, so this is inert there;
+     a course with no nets draws nothing here. */
+  if (RF && !stats.authoredRangeFacilities) {
+    const STEEL = L(0x4a4d50);
     for (const net of (RF.nets || [])) {
       const H = RF.netHeight || 10;
-      const { P: NP } = resamp(net, 12);
+      /* Post pitch is a measurement where a course has one -- Tortuna's ten
+         posts were read off their own shadows -- and 12 m is the inherited
+         default for a net that is traced only as a line. */
+      const { P: NP } = resamp(net, RF.netPostPitch || 12);
       const pos = [], idx = [];
       for (let i = 0; i < NP.length; i++) {
         const p = NP[i], y0 = terrainH(p[0], p[1]);
@@ -8785,13 +8894,12 @@ kikOut.addEventListener('keydown', e => {
     e.preventDefault(); kikSheet(!kikOut.classList.contains('open'));
   }
 });
-/* ------------------------------------------------- greengrid (yardage book & slope visualization)
-   Professional golf simulation green reading:
-   - High-density terrain-conforming grid lines closely masked to the green boundary
-   - Continuous slope gradient coloring (cyan -> lime green -> amber -> fiery red)
-   - Real-time animated moving dots (beads) gliding downhill along the fall-line
-   - Directional slope break arrows (stem + barb chevrons) showing exact break
-   - Concentric 1m, 2m, and 3m pin proximity target rings with compass crosshairs */
+/* ------------------------------------------------- greengrid (minimalist broadcast & slope visualization)
+   Tour-grade green reading inspired by Trackman and PGA Tour 2K:
+   - High-density terrain-conforming grid lines with translucent pearl-white wireframe and smooth edge-feathering
+   - Contour-synchronized luminous directional slope pulses gliding downhill along the fall line
+   - Adaptive elongation and velocity scaling proportional to slope break
+   - Refined concentric pin proximity target rings with compass crosshairs */
 let gridOn = false;
 let gridGroup = null;
 let beadsMesh = null;
@@ -8812,27 +8920,32 @@ function getSlopeAt(x, z) {
   return { gx, gz, s, dirX, dirZ };
 }
 
+// Tour-grade continuous slope heatmap palette:
+// Azure/Cyan (0-1.5%) -> Emerald Green (1.5-3.5%) -> Golden Amber (3.5-5.5%) -> Tangerine (5.5-8.0%) -> Vivid Crimson (>8.0%)
 function slopeColor(s) {
   if (s < 0.015) {
-    // 0 - 1.5%: Calm Electric Cyan (Flat / Minimal break)
-    return [0.06, 0.85, 0.95];
+    // 0 - 1.5%: Calm Azure Cyan (Flat / Minimal break)
+    const t = clampf(s / 0.015, 0, 1);
+    return [0.08 + t * 0.04, 0.68 + t * 0.18, 0.96 - t * 0.12];
   } else if (s < 0.035) {
-    // 1.5% - 3.5%: Vibrant Lime Green (Gentle break)
+    // 1.5% - 3.5%: Lush Tour Emerald / Mint (Gentle break)
     const t = (s - 0.015) / 0.02;
-    return [0.06 + t * 0.16, 0.85 + t * 0.12, 0.95 - t * 0.72];
+    return [0.12 + t * 0.10, 0.86 + t * 0.06, 0.84 - t * 0.52];
   } else if (s < 0.055) {
-    // 3.5% - 5.5%: Golden Amber / Yellow (Moderate break)
+    // 3.5% - 5.5%: Golden Amber / Warm Yellow (Moderate break)
     const t = (s - 0.035) / 0.02;
-    return [0.22 + t * 0.76, 0.97 - t * 0.15, 0.23 - t * 0.13];
-  } else if (s < 0.085) {
-    // 5.5% - 8.5%: Bright Orange (Heavy break)
-    const t = (s - 0.055) / 0.03;
-    return [0.98 + t * 0.02, 0.82 - t * 0.38, 0.10 - t * 0.02];
+    return [0.22 + t * 0.74, 0.92 - t * 0.10, 0.32 - t * 0.18];
+  } else if (s < 0.080) {
+    // 5.5% - 8.0%: Bright Tangerine / Orange (Heavy break)
+    const t = (s - 0.055) / 0.025;
+    return [0.96 + t * 0.02, 0.82 - t * 0.34, 0.14 - t * 0.04];
   } else {
-    // > 8.5%: Fiery Crimson Red (Severe slope)
-    return [1.0, 0.18, 0.14];
+    // > 8.0%: Rich Vivid Crimson (Severe slope)
+    const t = clampf((s - 0.080) / 0.03, 0, 1);
+    return [0.98, 0.48 - t * 0.30, 0.10 + t * 0.08];
   }
 }
+const slopePulseColor = slopeColor;
 
 function gridClear() {
   if (gridGroup) {
@@ -8859,17 +8972,19 @@ function updateGreenGrid(dt, now) {
     // Smooth progress along downhill cycle
     const u = ((timeSec * b.speed + b.phase) % 1.0 + 1.0) % 1.0;
     const sinU = Math.sin(u * Math.PI);
-    const envelope = sinU * sinU;
+    // Smooth cosine/power envelope so pulses fade in from uphill and fade out downhill seamlessly
+    const envelope = Math.pow(sinU, 1.6);
 
     const travel = (u - 0.5) * b.travelDist;
     const curX = b.cx + b.vx * travel;
     const curZ = b.cz + b.vz * travel;
-    const curY = meshH(curX, curZ) + 0.046;
+    const curY = meshH(curX, curZ) + 0.036;
 
     const s = envelope * b.baseScale;
     beadDummy.position.set(curX, curY, curZ);
     beadDummy.rotation.y = b.angle;
-    beadDummy.scale.set(s, s * 0.75, s * (1.1 + b.slope * 6.0));
+    // Directional aerodynamic pulse: low profile against grass, stretched along fall-line (Z)
+    beadDummy.scale.set(s * 0.72, s * 0.38, s * (1.8 + b.slope * 14.0));
     beadDummy.updateMatrix();
     beadsMesh.setMatrixAt(i, beadDummy.matrix);
   }
@@ -8906,7 +9021,7 @@ function buildGreenGrid() {
   let maxSlope = 0;
   let slopeCount = 0;
 
-  // 1. Grid Lines (LineSegments closely hugging terrain and clipped to green)
+  // 1. Grid Lines: Heatmap-colored wireframe conforming to terrain with perimeter feathering
   const SUB = 2; // Subdivide each 1m cell into 2 segments for smooth terrain conformance
   const stepX = dx / SUB;
   const stepZ = dz / SUB;
@@ -8929,8 +9044,8 @@ function buildGreenGrid() {
       const colA = slopeColor(slopeA.s).map(c => c * edgeFade);
       const colB = slopeColor(slopeB.s).map(c => c * edgeFade);
 
-      const ay = meshH(ax, z) + 0.032;
-      const by = meshH(bx, z) + 0.032;
+      const ay = meshH(ax, z) + 0.030;
+      const by = meshH(bx, z) + 0.030;
 
       linePositions.push(ax, ay, z, bx, by, z);
       lineColors.push(...colA, ...colB);
@@ -8955,47 +9070,54 @@ function buildGreenGrid() {
       const colA = slopeColor(slopeA.s).map(c => c * edgeFade);
       const colB = slopeColor(slopeB.s).map(c => c * edgeFade);
 
-      const ay = meshH(x, az) + 0.032;
-      const by = meshH(x, bz) + 0.032;
+      const ay = meshH(x, az) + 0.030;
+      const by = meshH(x, bz) + 0.030;
 
       linePositions.push(x, ay, az, x, by, bz);
       lineColors.push(...colA, ...colB);
     }
   }
 
-  // 2. Cell Analysis: Animated Moving Slope Beads
+  // 2. Cell Analysis: Contour-Synchronized Directional Slope Pulses
   for (let i = 0; i < nx; i++) {
     for (let j = 0; j < nz; j++) {
       const cx = x0 + (i + 0.5) * dx;
       const cz = z0 + (j + 0.5) * dz;
       const sd = ringSD(cx, cz, ring);
-      if (sd > -0.05) continue; // Inside the green putting surface
+      if (sd > -0.05) continue; // Inside putting surface
 
       const { s, dirX, dirZ } = getSlopeAt(cx, cz);
       totalSlope += s;
       slopeCount++;
       if (s > maxSlope) maxSlope = s;
 
-      const col = slopeColor(s);
-
-      // Animated Moving Bead along the fall line
+      // Emit directional pulses where there is a readable break
       if (s >= 0.003) {
+        const col = slopeColor(s);
+        const curY = meshH(cx, cz);
+
+        // Global wave synchronization: derive phase from elevation and fall-line projection
+        // This causes pulses along the same contour tier to ripple downhill in unison!
+        const elevCycle = (curY * 1.35) % 1.0;
+        const fallLineCoord = ((cx * dirX + cz * dirZ) * 0.22) % 1.0;
+        const wavePhase = ((elevCycle + fallLineCoord) % 1.0 + 1.0) % 1.0;
+
         beadsList.push({
           cx, cz,
           vx: dirX, vz: dirZ,
           angle: Math.atan2(dirX, dirZ),
           slope: s,
-          speed: clampf(s * 15 + 0.28, 0.38, 1.8),
-          phase: (hash2(Math.round(cx * 10), Math.round(cz * 10)) % 1000) / 1000,
-          travelDist: Math.min(dx, dz) * 0.88,
-          baseScale: clampf(0.85 + s * 6.0, 0.75, 1.25),
+          speed: clampf(s * 14.0 + 0.35, 0.38, 1.6),
+          phase: wavePhase,
+          travelDist: Math.min(dx, dz) * 1.15,
+          baseScale: clampf(0.85 + s * 5.0, 0.80, 1.30),
           color: col,
         });
       }
     }
   }
 
-  // Create Grid Lines Mesh
+  // Create Grid Lines Mesh (Heatmap wireframe)
   if (linePositions.length > 0) {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
@@ -9003,7 +9125,7 @@ function buildGreenGrid() {
     const mat = new THREE.LineBasicNodeMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.58,
+      opacity: 0.52,
       depthWrite: false,
     });
     mat.polygonOffset = true;
@@ -9013,13 +9135,13 @@ function buildGreenGrid() {
     gridGroup.add(linesMesh);
   }
 
-  // Create Animated Beads InstancedMesh (The Moving Dots)
+  // Create Animated Pulses InstancedMesh (Directional Luminous Streaks)
   if (beadsList.length > 0) {
     beadsData = beadsList;
-    const bGeo = new THREE.SphereGeometry(0.082, 10, 8);
+    const bGeo = new THREE.SphereGeometry(0.062, 12, 8);
     const bMat = new THREE.MeshBasicNodeMaterial({
       transparent: true,
-      opacity: 0.95,
+      opacity: 0.94,
       depthWrite: false,
     });
     bMat.polygonOffset = true;
@@ -9035,13 +9157,13 @@ function buildGreenGrid() {
     gridGroup.add(beadsMesh);
   }
 
-  // 3. Pin Proximity Target Rings (1m, 2m, 3m around cup)
+  // 3. Pin Proximity Target Rings (Broadcast silver/pearl rings around cup)
   if (h.pin) {
     const [px, pz] = h.pin;
     const ringConfigs = [
-      { radius: 1.0, col: [1.0, 1.0, 1.0], opacity: 0.65, crosshairs: true },
-      { radius: 2.0, col: [0.18, 0.95, 0.45], opacity: 0.45, crosshairs: false },
-      { radius: 3.0, col: [0.10, 0.80, 0.95], opacity: 0.32, crosshairs: false },
+      { radius: 1.0, col: [0.96, 0.98, 1.0], opacity: 0.58, crosshairs: true },
+      { radius: 2.0, col: [0.88, 0.94, 1.0], opacity: 0.30, crosshairs: false },
+      { radius: 3.0, col: [0.80, 0.88, 1.0], opacity: 0.16, crosshairs: false },
     ];
     const SEGS = 48;
 
@@ -9052,7 +9174,7 @@ function buildGreenGrid() {
         const a2 = ((s + 1) / SEGS) * Math.PI * 2;
         const x1 = px + Math.cos(a1) * rc.radius, z1 = pz + Math.sin(a1) * rc.radius;
         const x2 = px + Math.cos(a2) * rc.radius, z2 = pz + Math.sin(a2) * rc.radius;
-        pos.push(x1, meshH(x1, z1) + 0.040, z1, x2, meshH(x2, z2) + 0.040, z2);
+        pos.push(x1, meshH(x1, z1) + 0.036, z1, x2, meshH(x2, z2) + 0.036, z2);
       }
 
       if (rc.crosshairs) {
@@ -9061,7 +9183,7 @@ function buildGreenGrid() {
           const cosA = Math.cos(ang), sinA = Math.sin(ang);
           const t1x = px + cosA * (rc.radius - 0.15), t1z = pz + sinA * (rc.radius - 0.15);
           const t2x = px + cosA * (rc.radius + 0.15), t2z = pz + sinA * (rc.radius + 0.15);
-          pos.push(t1x, meshH(t1x, t1z) + 0.040, t1z, t2x, meshH(t2x, t2z) + 0.040, t2z);
+          pos.push(t1x, meshH(t1x, t1z) + 0.036, t1z, t2x, meshH(t2x, t2z) + 0.036, t2z);
         }
       }
 
@@ -9106,7 +9228,7 @@ gridBtn.onclick = () => {
     const F = [Math.sin(p.b), Math.cos(p.b)];
     const gy = terrainH(c[0], c[1]);
     flyTo(V3(c[0] - F[0] * 26, gy + 21, c[1] - F[1] * 26), V3(c[0], gy + 1, c[1]), RMOTION ? 0 : 1.4);
-    toast('Greengrid aktiv · Rörliga punkter visar fallinjen');
+    toast('Greengrid aktiv · Broadcast fallinjer & lutning');
   } else {
     gridClear();
   }
@@ -9828,7 +9950,7 @@ function frame() {
   /* Controls/flight have rebuilt the base orientation. Add the breathing gaze
      once, before culling and projecting labels, without moving the ground anchor. */
   const breath = cameraBreathing.step(dt, {
-    enabled: !DET && !cameraMotionPreference.matches && !document.hidden
+    enabled: BREATH && !DET && !cameraMotionPreference.matches && !document.hidden
       && !captureRenderLocked && camMode !== 'top' && flying === 0,
     active: !camTween.on && !cameraInteracting,
   });
@@ -10064,6 +10186,8 @@ window.V3D = {
            sourceParkingBatchIds: stats.sourceParkingBatchIds || [],
            sourceParkingBatchIndices: stats.sourceParkingBatchIndices || [],
            authoredRangeFacilities: stats.authoredRangeFacilities || false,
+           rangeNets: stats.rangeNets | 0,
+           rangeFacilities: stats.rangeFacilities || null,
            facilityExcludedTrees: stats.facilityExcludedTrees || 0,
            facilityExcludedClutter: stats.facilityExcludedClutter || 0,
            genericRoofBuildings: stats.genericRoofBuildings | 0,
@@ -10118,6 +10242,9 @@ window.V3D = {
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
+  landcover: () => LANDCOVER_REC ? { cell: LANDCOVER_REC.cell, nx: LANDCOVER_REC.nx, nz: LANDCOVER_REC.nz, bounds: landAt.bounds,
+    shares: LANDCOVER_REC.shares ?? null, calibration: LANDCOVER_REC.calibration ?? null, source: LANDCOVER_REC.source ?? null }
+    : { error: COURSE.landcoverError ?? null, declared: !!CMETA.landcover },
   groundTint: () => GROUND_TINT ? { near: GROUND_TINT.near.texture.image.data, far: GROUND_TINT.far.texture.image.data } : null,
   groundInfo: () => ({
     mode: groundMode,
@@ -10298,6 +10425,7 @@ window.V3D = {
     const grid = TERRAIN_PREVIEW.bridge?.toGrid?.(x, z) ?? null;
     return {
       h: +h.toFixed(2),
+      land: landAt(x, z),
       slope: +(Math.hypot(terrainH(x + 8, z) - h, terrainH(x, z + 8) - h) / 8).toFixed(3),
       tintNear: tintAt(GROUND_TINT?.near), tintFar: tintAt(GROUND_TINT?.far),
       flat: grid && terrainV2.flatWater ? terrainV2.flatWater.isFlatAt(grid[0], grid[1]) : null,
@@ -10560,6 +10688,8 @@ window.V3D = {
   /* the water shader's probe gains: {glint, chop}, each 1 by default */
   water: (o = {}) => { if (o.glint != null) uWaterGlint.value = +o.glint; if (o.chop != null) uWaterChop.value = +o.chop; return { glint: uWaterGlint.value, chop: uWaterChop.value }; },
   /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
+  /* the meter's handle on the scene: hide by name, zero a light, read a pose (tools/glitter-meter.mjs) */
+  harness: () => ({ scene, renderer, camera, sun, controls, terrainV2 }),
   setShadowUpdate: on => { sun.shadow.autoUpdate = !!on; if (on) sun.shadow.needsUpdate = true; return sun.shadow.autoUpdate; },
   /* Cache refresh requests; forced auto-update/capture locking can make the
      actual shadow draw count differ. The terrain revision is diagnostic only. */

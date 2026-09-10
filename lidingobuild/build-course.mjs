@@ -57,6 +57,36 @@ function centreInside(ring) {
   return c;
 }
 
+/* THE HUD SHOWED ONE DISCLAIMER ON ALL EIGHTEEN HOLES.
+
+   `note` is the line a player reads under the hole number and `name` the
+   tagline above it; every other course fills them with a description of that
+   hole, and Lidingö filled all eighteen with the same provenance sentence
+   because no club-authored per-hole text exists (Caddee's description field
+   is present and empty on all 18). guide-notes.json fills the gap from records
+   that do exist -- the model's own geometry as tools/hole-geometry.mjs reports
+   it, the club's guide drawings, its Lokala regler and its published history
+   -- and each hole says which in `basis`. `name` is an editorial tagline,
+   as on every other course here, and the file says so.
+
+   Applied through this ONE rule by the generator, by
+   mapping/apply-guide-notes.mjs (the committed model is updated without the
+   private terrain raster this generator pins) and by course.node-test.mjs,
+   which re-derives it a third time and demands equality. No second
+   implementation. */
+export function holeNotes(guide) {
+  if (guide?.schemaVersion !== 1 || !Array.isArray(guide.holes) || guide.holes.length !== 18) throw new Error('Lidingö guide notes need schemaVersion 1 and all 18 holes');
+  const byHole = new Map();
+  for (const [index, hole] of guide.holes.entries()) {
+    if (hole.n !== index + 1) throw new Error(`Lidingö guide notes are out of order at ${hole.n}`);
+    if (typeof hole.name !== 'string' || !hole.name.trim()) throw new Error(`Hole ${hole.n} guide note needs an editorial tagline`);
+    if (typeof hole.note !== 'string' || hole.note.trim().length < 20) throw new Error(`Hole ${hole.n} guide note is missing or too short to be a description`);
+    if (typeof hole.basis !== 'string' || !hole.basis.trim()) throw new Error(`Hole ${hole.n} guide note must say what it was written from`);
+    byHole.set(hole.n, hole);
+  }
+  return byHole;
+}
+
 export async function buildCourse() {
   const { review: teeReview, plan: teePlan } = loadTeeReview();
   const bytes = await readFile(path.join(ROOT, 'lidingobuild/cache/terrain-review/terrain-1m.f32'));
@@ -71,6 +101,7 @@ export async function buildCourse() {
       (fine[k + 2049] * (1 - u) + fine[k + 2050] * u) * v;
   };
   const card = await json('lidingobuild/reference/club-scorecard.json');
+  const notes = holeNotes(await json('lidingobuild/guide-notes.json'));
   const golf = requireProjected(await json('geo_data/course-v2/lidingo/reference/osm-golf-epsg3006.geojson'), 'OSM golf');
   const surfaces = requireProjected(await json('lidingobuild/mapping/playing-surfaces.geojson'), 'Playing surfaces');
   const facilities = requireProjected(await json('lidingobuild/mapping/facilities.geojson'), 'Facilities');
@@ -110,15 +141,14 @@ export async function buildCourse() {
       tees: { inferPads: false, pads, marks },
       bunkers: sourceRings('bunker', row.number).map(f => ({ ring: polygonRing(f), sourceFeatureId: f.id })),
       elev: { tee: r1(teeHeight), green: r1(greenHeight), rise: r1(greenHeight - teeHeight) },
-      tiers: 1, name: null,
-      note: 'Preliminär kartläggning. Terräng: Lantmäteriet 1 m. Spelytor från ortofoto 2019 och kartreferenser; senare ändringar återstår att kontrollera. Flaggposition och tee-färger är visningsreferenser.',
+      tiers: 1, name: notes.get(row.number).name,
+      note: notes.get(row.number).note,
       confidence: 'source-derived-candidate-not-surveyed',
       pinStatus: 'virtual-green-target; daily flag location unknown',
     };
     applyReviewedReferences(hole, teeReview, teePlan, local);
     const reviewedTeeHeight = heightAt(...hole.tees.marks[1].c);
     hole.elev = { tee: r1(reviewedTeeHeight), green: r1(greenHeight), rise: r1(greenHeight - reviewedTeeHeight) };
-    hole.note = 'Preliminär kartläggning. Teeytor granskade mot Lantmäteriets ortofoto 2025-05-31. Teefärger visar representativa spelstarter; dagens flyttbara markeringar är inte inmätta.';
     return hole;
   });
   for (let i = 0; i < 5; i++) if (holes.reduce((s, h) => s + h.t[i], 0) !== card.tees[i].total) throw new Error('Scorecard total differs');

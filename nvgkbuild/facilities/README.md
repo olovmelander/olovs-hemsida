@@ -220,3 +220,40 @@ retained 12 mats, three targets, court, ditch and practice shed are checked.
 - [WebGL2 browser report](../cache/facilities-reference/runtime-review/webgl2/report.json)
 - [Clubhouse in the application](../cache/facilities-reference/runtime-review/webgpu/clubhouse-east-noon.png)
 - [Range in the application](../cache/facilities-reference/runtime-review/webgpu/range-noon.png)
+
+## The driving range
+
+The 2024 native orthophoto and the club's 2025 range photograph give the
+range its real layout: twelve rectangular hitting mats in three-mat groups on
+four separate concrete platforms, the gravel hardstanding behind them, and the
+three mown target patches down the field. The pack still carries the intake's
+round mat markers; the review in [driving-range-review.json](driving-range-review.json)
+retains the source pixels, the EPSG:3006 corners, the areas and the shot
+directions, and its compact runtime export is
+[norrfallsviken-range-site.json](../../apps/golf/src/engine/scenery/norrfallsviken-range-site.json).
+
+`norrfallsviken-range.mjs` turns that into display geometry: each platform is
+fitted as a least-squares support plane over the sampled 1 m DTM and lifted so
+it clears every sample by 7.5 cm; the mats stand 2.8 cm above their platform
+with a ball tray behind each; the hardstanding and the targets are draped over
+the terrain with shared-edge subdivision so nothing cracks along a slope. The
+revision is display-only and keyed by id: `applySurfaceAppearance` replaces the
+intake's mat outlines, adds the four platforms, and passes every other feature
+through by identity, while `?buildingGeometry=source` returns the scenery
+untouched. Mat corners, support planes and tray placement remain image and
+display estimates, not survey.
+
+The range building itself was refined from the photograph in a separate
+Blender document (`refine-range-shelter.py`, receipt in
+[range-refinement-validation.json](range-refinement-validation.json)): the
+measured roof planes, wall footprint and estimated floor are the base
+workspace's exactly, so the 23 refined parts replace the base shelter parts
+under the same runtime contract. The application installs 88 parts in 14
+material batches, 4,182 triangles.
+
+Verified on the workstation GPU against the dev server:
+`check-runtime-browser.mjs --gpu` (14 batches, 88 parts, twelve mats on four
+platforms, one gravel hardstanding, three target patches, no browser errors)
+and `check-range-browser.mjs --after` (twelve range views in noon and golden
+light, no errors). The `range-before` capture the review compares against was
+frozen before this pass.

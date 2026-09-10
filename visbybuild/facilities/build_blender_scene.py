@@ -16,13 +16,17 @@ from mathutils import Vector
 ROOT=Path(__file__).resolve().parents[2]
 HERE=ROOT/'visbybuild/facilities';OUT=HERE/'output';OUT.mkdir(parents=True,exist_ok=True)
 sys.path.insert(0,str(HERE))
-import model_primitives,model_clubhouse,model_facilities
-for module in (model_primitives,model_clubhouse,model_facilities):importlib.reload(module)
+import model_primitives,model_clubhouse,model_facilities,model_range
+for module in (model_primitives,model_clubhouse,model_facilities,model_range):importlib.reload(module)
 from model_primitives import Builder,Frame
 
 SCENE='Visby | Kronholmen facilities'
 model=json.loads((ROOT/'visbybuild/course-model.json').read_text(encoding='utf-8'))
 inventory=json.loads((HERE/'facility-inventory.json').read_text(encoding='utf-8'))
+# The range layout: mats detected on the 2026 panel, the traced east net, and
+# the studio and covered-bay roofs with their photo-informed heights
+# (trace-range-layout.py writes it; nothing in it is typed by hand).
+range_layout=json.loads((HERE/'range-layout.json').read_text(encoding='utf-8'))
 observations={f['id']:f for f in inventory['facilities']}
 station={c['id']:c for c in json.loads((HERE/'reference/station-roof-components.json').read_text(encoding='utf-8'))['components']}
 ground_file=ROOT/'visbybuild/cache/terrain-review/terrain-1m.f32'
@@ -96,9 +100,9 @@ def build():
         facilities.append({'id':key,'nodeName':name,'sourceBuildingId':record['id'],'groundAnchorLocal':[x,z],
                            'groundAnchorRh2000M':ground_height,'placement':'absolute-rh2000'})
         if key=='clubhouse':reports.append(model_clubhouse.build(ctx,ground_height))
+        elif short=='530655627':reports.append(model_range.studio(ctx,key,range_layout['structures']['studio'],ground))
         else:reports.append(model_facilities.building(ctx,record,ground_height))
     new_roofs={
-        'range-east-shelter-2026':{'eaveEstimate':2.6,'ridgeEstimate':3.5,'openShelter':True},
         'range-parking-building-2026':{'eaveEstimate':2.8,'ridgeEstimate':4.6},
         'service-west-north-2026':{'eaveEstimate':3.25,'ridgeEstimate':4.55,'wallMaterial':'redwood'},
         'service-west-south-2026':{'eaveEstimate':4.1,'ridgeEstimate':6.5,'wallMaterial':'redwood'},
@@ -113,36 +117,10 @@ def build():
         reports.append(model_facilities.building(ctx,record,base))
         facilities.append({'id':key,'nodeName':ctx.groups[key].name,'sourceFeatureId':key,'footprintLocal':ring,
                            'groundAnchorLocal':[cx,-cy],'groundAnchorRh2000M':base,'placement':'absolute-rh2000'})
-    # Source-observed firing strips and safety-net alignment. Individual mat
-    # counts and net height are not resolved; those limits remain in the file.
-    for item in inventory['nonBuildingFacilities']:
-        if item['kind'] not in ('range-firing-mats','range-safety-net-base'):continue
-        key=item['id'];points=item['coordinatesBlenderXY'];cx=sum(x for x,y in points)/len(points);cy=sum(y for x,y in points)/len(points)
-        base=ground(cx,cy);is_net=item['kind']=='range-safety-net-base'
-        ctx.group(key,'Visby '+key,{'sourceFeatureId':key,'facilityId':key,'geometryEvidence':'2026 traced alignment',
-                                  'detailStatus':'net height estimated 6m; mat strip represented without asserting individual mat count'})
-        minx,maxx=min(x for x,y in points)-2,max(x for x,y in points)+2;miny,maxy=min(y for x,y in points)-2,max(y for x,y in points)+2
-        ring=[[minx,-miny],[maxx,-miny],[maxx,-maxy],[minx,-maxy]]
-        facilities.append({'id':key,'nodeName':ctx.groups[key].name,'sourceFeatureId':key,'footprintLocal':ring,
-                           'groundAnchorLocal':[cx,-cy],'groundAnchorRh2000M':base,'placement':'absolute-rh2000'})
-        for a,b in zip(points,points[1:]):
-            dx,dy=b[0]-a[0],b[1]-a[1];length=math.hypot(dx,dy);ha,hb=ground(*a),ground(*b)
-            if is_net:
-                ctx.beam(key,'Net posts',(*a,ha),(*a,ha+6),.12,'steel')
-                for level in range(9):ctx.beam(key,'Net horizontal wires',(*a,ha+.75*level),(*b,hb+.75*level),.014,'steel')
-                steps=max(1,int(length/.75))
-                for step in range(steps+1):
-                    t=step/steps;x=a[0]+dx*t;y=a[1]+dy*t;z=ground(x,y)
-                    ctx.beam(key,'Net vertical wires',(x,y,z),(x,y,z+6),.014,'steel')
-            else:
-                steps=max(1,int(length/1.5));nx,ny=-dy/length*1.25,dx/length*1.25
-                for step in range(steps):
-                    aa=(a[0]+dx*step/steps,a[1]+dy*step/steps);bb=(a[0]+dx*(step+1)/steps,a[1]+dy*(step+1)/steps)
-                    ringxy=[(aa[0]+nx,aa[1]+ny),(aa[0]-nx,aa[1]-ny),(bb[0]-nx,bb[1]-ny),(bb[0]+nx,bb[1]+ny)]
-                    z=sum(ground(x,y) for x,y in ringxy)/4
-                    ctx.prism(key,'Firing strip',ringxy,z+.03,z+.11,'mat')
-        if is_net:
-            x,y=points[-1];z=ground(x,y);ctx.beam(key,'Net posts',(x,y,z),(x,y,z+6),.12,'steel')
+    # The range: individually detected mats on their turf strips, the east net
+    # on its traced poles, the covered bays as one monopitch roof, and the
+    # studio under its OSM footprint (handled in the building loop above).
+    model_range.build(ctx,range_layout,ground,facilities,reports,ctx.group)
     key='skansudde-lighthouse';x,z=-603.3,190.4;base=ground(x,-z)
     ctx.group(key,'Visby Skansudde lighthouse',{'sourceLandmarkId':key,'facilityId':key,'publishedTotalHeightMetres':10.4})
     facilities.append({'id':key,'nodeName':ctx.groups[key].name,'sourceLandmarkId':key,'groundAnchorLocal':[x,z],

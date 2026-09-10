@@ -26,7 +26,11 @@ const cases=process.argv.includes('--quick')?['webgpu']:['webgpu','webgl','sourc
 try {
   for(const mode of cases){
     console.log(JSON.stringify({stage:'opening',mode}));
-    const page=await browser.newPage({viewport:{width:1600,height:1000},deviceScaleFactor:1});
+    // A production build registers the PWA service worker, which fetches the
+    // manifest itself and never sees a page route: the deliberate 404 below
+    // would be answered from the network and the fallback case could not fail.
+    const context=await browser.newContext({viewport:{width:1600,height:1000},deviceScaleFactor:1,serviceWorkers:'block'});
+    const page=await context.newPage();
     const errors=[];
     page.on('pageerror',error=>errors.push(String(error)));
     if(mode==='fallback')await page.route('**/models/lidingo/facilities-v1.json',route=>route.fulfill({status:404,body:'deliberate fallback check'}));

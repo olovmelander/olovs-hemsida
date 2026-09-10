@@ -20,6 +20,8 @@ describe('reviewed tee marker opt-in for mapped-only grounds', () => {
       const copy = structuredClone(hole); delete copy.tees[key];
       expect(canRenderTeeMarker(copy, copy.tees.marks[0], 'mapped-only')).toBe(false);
     }
+    const derived = structuredClone(hole); derived.tees.marks[0].orthophotoReference = { kind: 'card-derived-platform-reference' };
+    expect(canRenderTeeMarker(derived, derived.tees.marks[0], 'mapped-only')).toBe(true);
     const old = structuredClone(hole); delete old.tees.marks[0].orthophotoReference;
     expect(canRenderTeeMarker(old, old.tees.marks[0], 'mapped-only')).toBe(false);
     expect(canRenderTeeMarker(old, old.tees.marks[0], undefined)).toBe(true);

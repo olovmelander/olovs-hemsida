@@ -1,0 +1,400 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "sourceId": "tortuna-facilities-photos-2026-09-10",
+  "reviewedOn": "2026-09-10",
+  "scope": "Exterior appearance evidence for seven existing mapped building targets, with two explicitly separate backlog observations",
+  "acquisitionStatus": "reused nine previously acquired exterior photos; no new external originals downloaded",
+  "originalMediaPolicy": "Ignored private cache only; no original photos or pixel derivatives redistributed",
+  "priorPhotoReceipt": {
+    "path": "tortunabuild/clubhouse/reference-receipt.json",
+    "sha256LfNormalized": "330da5dd74d1c3819c5f537ae8ada5f818c96d024d0466d7d6cf8830a2572698"
+  },
+  "assets": [
+    {
+      "id": "official-oblique-original",
+      "sourceUrl": "https://tortunagk.se/wp-content/uploads/2023/02/Klubben.jpeg",
+      "parentUrl": "https://tortunagk.se/anlaggningen/",
+      "resolvedUrl": "https://tortunagk.se/wp-content/uploads/2023/02/Klubben.jpeg",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/official-oblique-original.jpeg",
+      "retrievedAt": "2026-09-10T06:28:27.272816+00:00",
+      "bytes": 3221681,
+      "sha256": "cbda18ab2df6e0e9ea59d0af0afbcdc5c2b8c0c5a324d05583f33273396d29bb",
+      "contentType": "image/jpeg",
+      "lastModified": "Fri, 08 Aug 2025 10:19:44 GMT",
+      "captureDate": null,
+      "redistribution": "not-approved; private ignored reference only",
+      "width": 5207,
+      "height": 3469,
+      "format": "JPEG",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "wordpressMediaId": 2455,
+      "wordpressUploadedAt": "2023-02-27T15:19:52",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "official-pond-original",
+      "sourceUrl": "https://tortunagk.se/wp-content/uploads/2025/09/DJI_0063.jpg",
+      "parentUrl": "https://tortunagk.se/hosterbjudande-2025/",
+      "resolvedUrl": "https://tortunagk.se/wp-content/uploads/2025/09/DJI_0063.jpg",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/official-pond-original.jpg",
+      "retrievedAt": "2026-09-10T06:28:27.230295+00:00",
+      "bytes": 994280,
+      "sha256": "ce856cf4ef52ad3dcfe3a977d7944e9ab06411a87b8b63cacc9a3fc10bc823ba",
+      "contentType": "image/jpeg",
+      "lastModified": "Fri, 12 Sep 2025 10:13:49 GMT",
+      "captureDate": null,
+      "redistribution": "not-approved; private ignored reference only",
+      "width": 4032,
+      "height": 3024,
+      "format": "JPEG",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "wordpressMediaId": 8213,
+      "wordpressUploadedAt": "2025-09-12T12:13:37",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "visit-vastmanland-original",
+      "sourceUrl": "https://visitvastmanland.com/assets/bilder/Tortuna-Golfklubb/visit-vastmanland_TortunaGK_Henrik-Mill_toppbild.jpg",
+      "parentUrl": "https://visitvastmanland.com/tortuna-golfklubb",
+      "resolvedUrl": "https://visitvastmanland.com/assets/bilder/Tortuna-Golfklubb/visit-vastmanland_TortunaGK_Henrik-Mill_toppbild.jpg",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/visit-vastmanland-original.jpg",
+      "retrievedAt": "2026-09-10T06:28:27.467609+00:00",
+      "bytes": 1111885,
+      "sha256": "e4b0e2da3050405191893a49d07c3e69bc030d53cb179cc491502b9d1adee072",
+      "contentType": "image/jpeg",
+      "lastModified": "Thu, 30 Nov 2023 13:36:40 GMT",
+      "captureDate": null,
+      "redistribution": "not-approved; private ignored reference only",
+      "width": 1920,
+      "height": 1280,
+      "format": "JPEG",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "entrance-boneo",
+      "sourceUrl": "https://files.boneo.se/target_styles/properties/sizex2/1650x1100/3539774-img-MED8523A5307B5C4CA7A15E0DB6B0C27672.jpeg",
+      "parentUrl": "https://www.boneo.se/bostad/id-3539774-tomt-tortuna-vasteras-kommun-en-naturnara-tomt-dar-framtidsdrommar-kan-ta-form",
+      "resolvedUrl": "https://files.boneo.se/target_styles/properties/sizex2/1650x1100/3539774-img-MED8523A5307B5C4CA7A15E0DB6B0C27672.jpeg",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/entrance-boneo.jpeg",
+      "retrievedAt": "2026-09-10T06:28:27.381036+00:00",
+      "bytes": 507303,
+      "sha256": "ac1847868f14caaa729af02f891924ff0b226774d14c49313f0d73a5b4ff4a9b",
+      "contentType": "image/jpeg",
+      "lastModified": "Fri, 16 May 2025 11:25:44 GMT",
+      "captureDate": null,
+      "redistribution": "not-approved; private ignored reference only",
+      "width": 1650,
+      "height": 1100,
+      "format": "JPEG",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "official-bistro-original",
+      "sourceUrl": "https://tortunagk.se/wp-content/uploads/2023/02/Bistro.jpg",
+      "parentUrl": "https://tortunagk.se/anlaggningen/golfbistron/",
+      "resolvedUrl": "https://tortunagk.se/wp-content/uploads/2023/02/Bistro.jpg",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/official-bistro-original.jpg",
+      "retrievedAt": "2026-09-10T06:32:57.396159+00:00",
+      "bytes": 599533,
+      "sha256": "a3261dfd6a44fc3c69011d44dd1dc363176e43cbc716c403fa2b9876142b3f7b",
+      "contentType": "image/jpeg",
+      "lastModified": "Fri, 08 Aug 2025 10:11:24 GMT",
+      "captureDate": null,
+      "redistribution": "not-approved; private ignored reference only",
+      "width": 3840,
+      "height": 1689,
+      "format": "JPEG",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "wordpressMediaId": 2281,
+      "wordpressUploadedAt": "2023-02-15T14:09:28",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "official-wp-3873",
+      "sourceUrl": "https://tortunagk.se/wp-content/uploads/2023/04/DJI_0064.png",
+      "parentUrl": "https://tortunagk.se/klubben/dji_0064/",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/official-wp-3873.png",
+      "retrievedAt": "2026-09-10T06:34:38.386477+00:00",
+      "bytes": 4159458,
+      "sha256": "72016717bcc91507a070fa37639eb0be2ffdb09818a1d29c3828c7e5466ebce3",
+      "width": 3840,
+      "height": 2880,
+      "contentType": "image/png",
+      "lastModified": "Fri, 08 Aug 2025 10:42:48 GMT",
+      "captureDate": null,
+      "wordpressUploadedAt": "2023-04-27T07:46:08",
+      "wordpressMediaId": 3873,
+      "redistribution": "not-approved; private ignored reference only",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "official-wp-3171",
+      "sourceUrl": "https://tortunagk.se/wp-content/uploads/2023/04/DJI_0078.png",
+      "parentUrl": "https://tortunagk.se/spela-golf/banan/dji_0078/",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/official-wp-3171.png",
+      "retrievedAt": "2026-09-10T06:34:37.730399+00:00",
+      "bytes": 5343355,
+      "sha256": "f464880f949768d8e719a9bc6d9850e3890e3530aeb82add8ce5dab1f5e6b1ca",
+      "width": 3840,
+      "height": 2880,
+      "contentType": "image/png",
+      "lastModified": "Fri, 08 Aug 2025 10:35:10 GMT",
+      "captureDate": null,
+      "wordpressUploadedAt": "2023-04-05T10:42:37",
+      "wordpressMediaId": 3171,
+      "redistribution": "not-approved; private ignored reference only",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "official-wp-2827",
+      "sourceUrl": "https://tortunagk.se/wp-content/uploads/2023/03/DJI_0070.png",
+      "parentUrl": "https://tortunagk.se/besok/boka-stallplats/dji_0070/",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/official-wp-2827.png",
+      "retrievedAt": "2026-09-10T06:34:37.730399+00:00",
+      "bytes": 6394124,
+      "sha256": "f99a0c91b9fc9880b316996f732a288717583004e19f1172e7e4208dfb853ce0",
+      "width": 3840,
+      "height": 2880,
+      "contentType": "image/png",
+      "lastModified": "Fri, 08 Aug 2025 10:30:08 GMT",
+      "captureDate": null,
+      "wordpressUploadedAt": "2023-03-31T08:19:01",
+      "wordpressMediaId": 2827,
+      "redistribution": "not-approved; private ignored reference only",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    },
+    {
+      "id": "official-wp-2657",
+      "sourceUrl": "https://tortunagk.se/wp-content/uploads/2023/03/DJI_0081.png",
+      "parentUrl": "https://tortunagk.se/klubben/dji_0081/",
+      "localPath": "tortunabuild/cache/clubhouse-model/references/official-wp-2657.png",
+      "retrievedAt": "2026-09-10T06:34:37.730399+00:00",
+      "bytes": 5366279,
+      "sha256": "1d18195bafad1c25a360f7fa700fb0e31a5395a7237d02b859d98106cb866b3e",
+      "width": 3840,
+      "height": 2880,
+      "contentType": "image/png",
+      "lastModified": "Fri, 08 Aug 2025 10:25:29 GMT",
+      "captureDate": null,
+      "wordpressUploadedAt": "2023-03-28T09:21:01",
+      "wordpressMediaId": 2657,
+      "redistribution": "not-approved; private ignored reference only",
+      "reviewStatus": "assistant-visually-inspected; architectural-reference-not-survey",
+      "captureDateStatus": "unknown; URL/upload/server modification dates are not capture dates",
+      "reuseStatus": "reused-existing-private-original; no new acquisition in facilities pass"
+    }
+  ],
+  "detailCrops": [
+    {
+      "source": "tortunabuild/cache/clubhouse-model/references/official-wp-2827.png",
+      "sourceSha256": "f99a0c91b9fc9880b316996f732a288717583004e19f1172e7e4208dfb853ce0",
+      "crop": "tortunabuild/cache/facilities/references/yellow-entry-hut-detail.png",
+      "cropSha256": "62e7cf5f79976b3359a3bbe68720ba957a613dc5773bd431362e8d39ed25ed65",
+      "pixelBounds": [
+        880,
+        880,
+        1390,
+        1360
+      ],
+      "resampling": "none; exact original pixel copy",
+      "width": 510,
+      "height": 480,
+      "pixelBoundsConvention": "Pillow left,top,right,bottom; right and bottom exclusive",
+      "reviewStatus": "visually inspected; appearance only"
+    },
+    {
+      "source": "tortunabuild/cache/clubhouse-model/references/official-wp-2657.png",
+      "sourceSha256": "1d18195bafad1c25a360f7fa700fb0e31a5395a7237d02b859d98106cb866b3e",
+      "crop": "tortunabuild/cache/facilities/references/yellow-entry-side-detail.png",
+      "cropSha256": "099e53cd911e68d11cd15d72c928d97ee81f68471a91cfe6a42fef3855b82857",
+      "pixelBounds": [
+        2620,
+        1210,
+        3330,
+        1660
+      ],
+      "resampling": "none; exact original pixel copy",
+      "width": 710,
+      "height": 450,
+      "pixelBoundsConvention": "Pillow left,top,right,bottom; right and bottom exclusive",
+      "reviewStatus": "visually inspected; appearance only"
+    },
+    {
+      "source": "tortunabuild/cache/clubhouse-model/references/official-wp-2827.png",
+      "sourceSha256": "f99a0c91b9fc9880b316996f732a288717583004e19f1172e7e4208dfb853ce0",
+      "crop": "tortunabuild/cache/facilities/references/range-shelter-detail.png",
+      "cropSha256": "b61222fe2710a2694e9f32fe0404a46588220ada24ea5b7bae6335a89ebf2b6d",
+      "pixelBounds": [
+        2900,
+        110,
+        3220,
+        400
+      ],
+      "resampling": "none; exact original pixel copy",
+      "width": 320,
+      "height": 290,
+      "pixelBoundsConvention": "Pillow left,top,right,bottom; right and bottom exclusive",
+      "reviewStatus": "visually inspected; appearance only"
+    },
+    {
+      "source": "tortunabuild/cache/clubhouse-model/references/official-wp-3171.png",
+      "sourceSha256": "f464880f949768d8e719a9bc6d9850e3890e3530aeb82add8ce5dab1f5e6b1ca",
+      "crop": "tortunabuild/cache/facilities/references/service-yard-facade-detail.png",
+      "cropSha256": "7c8c4a419d501bd2a704e739bf5d3ddd7239764dd8f7bdb25f1e7e56f30c22cd",
+      "pixelBounds": [
+        2300,
+        735,
+        3340,
+        1020
+      ],
+      "resampling": "none; exact original pixel copy",
+      "width": 1040,
+      "height": 285,
+      "pixelBoundsConvention": "Pillow left,top,right,bottom; right and bottom exclusive",
+      "reviewStatus": "visually inspected; appearance only"
+    },
+    {
+      "source": "tortunabuild/cache/clubhouse-model/references/official-wp-3171.png",
+      "sourceSha256": "f464880f949768d8e719a9bc6d9850e3890e3530aeb82add8ce5dab1f5e6b1ca",
+      "crop": "tortunabuild/cache/facilities/references/west-barns-facade-detail.png",
+      "cropSha256": "18a6e71dc3cca07d8acf483abf1ed877d4c1a220a23217805f143fd6f2e00804",
+      "pixelBounds": [
+        1030,
+        730,
+        1680,
+        1100
+      ],
+      "resampling": "none; exact original pixel copy",
+      "width": 650,
+      "height": 370,
+      "pixelBoundsConvention": "Pillow left,top,right,bottom; right and bottom exclusive",
+      "reviewStatus": "visually inspected; appearance only"
+    },
+    {
+      "source": "tortunabuild/cache/clubhouse-model/references/official-wp-2657.png",
+      "crop": "tortunabuild/cache/facilities/references/near-house-partial-facade.png",
+      "pixelBounds": [
+        1270,
+        430,
+        1460,
+        630
+      ],
+      "resampling": "none; exact original pixel copy",
+      "sourceSha256": "1d18195bafad1c25a360f7fa700fb0e31a5395a7237d02b859d98106cb866b3e",
+      "cropSha256": "4397349f687deabfba60471d30372556a46d1ecc59131eec48018926b4cb7933",
+      "width": 190,
+      "height": 200,
+      "pixelBoundsConvention": "Pillow left,top,right,bottom; right and bottom exclusive",
+      "reviewStatus": "visually inspected; appearance only"
+    }
+  ],
+  "nativeOrientationRasters": [
+    {
+      "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+      "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+      "bytes": 1857744,
+      "width": 800,
+      "height": 800,
+      "boundsEpsg3006": [
+        597406.72,
+        6615011.5200000005,
+        597534.72,
+        6615139.5200000005
+      ],
+      "resolutionMetres": [
+        0.16,
+        0.16
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceReceipt": "geo_data/course-v2/tortuna/acquisition/orthophoto-supplement-crops.json",
+      "sourceReceiptSha256LfNormalized": "5d4c3787779da2d469b13ad5ac23830fc0d1a70e91cfdf8a7b35179654ea5ec5",
+      "use": "private orientation and footprint identification; photograph is separate appearance evidence"
+    },
+    {
+      "path": "tortunabuild/cache/buildings/service-yard.tif",
+      "sha256": "de0b7ca75c823f79f147bfbd01b9426089696cdbc04c9b4fdc3687ddfc59ea63",
+      "bytes": 7227885,
+      "width": 1600,
+      "height": 1600,
+      "boundsEpsg3006": [
+        597280.0,
+        6615104.0,
+        597536.0,
+        6615360.0
+      ],
+      "resolutionMetres": [
+        0.16,
+        0.16
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceReceipt": "tortunabuild/mapping/building-orthophoto-acquisition.json",
+      "sourceReceiptSha256LfNormalized": "1d82dd55c0f270569be3ee1fdb6e0215485a46f032e06a53ce09554c6735d726",
+      "use": "private orientation and footprint identification; photograph is separate appearance evidence"
+    },
+    {
+      "path": "tortunabuild/cache/buildings/nearby-houses.tif",
+      "sha256": "b7c920d4ef1b8c3997e61dab38fa758d4a77deb69681ef03b332ee2c5b3f28d4",
+      "bytes": 1776376,
+      "width": 800,
+      "height": 800,
+      "boundsEpsg3006": [
+        597584.0,
+        6614896.0,
+        597712.0,
+        6615024.0
+      ],
+      "resolutionMetres": [
+        0.16,
+        0.16
+      ],
+      "horizontalCrs": "EPSG:3006",
+      "sourceReceipt": "tortunabuild/mapping/building-orthophoto-acquisition.json",
+      "sourceReceiptSha256LfNormalized": "1d82dd55c0f270569be3ee1fdb6e0215485a46f032e06a53ce09554c6735d726",
+      "use": "private orientation and footprint identification; photograph is separate appearance evidence"
+    }
+  ],
+  "reviewedBuildingIds": [
+    "way/1163533128",
+    "tortuna-range-shelter",
+    "way/1163533113",
+    "way/1163533114",
+    "way/1163533115",
+    "way/1163533123",
+    "way/1163607303"
+  ],
+  "backlog": [
+    {
+      "observationId": "tortuna-clubhouse-southwest-shed-roof",
+      "status": "separate observed yellow hut; no existing runtime ID adopted this pass"
+    },
+    {
+      "buildingId": "way/1163780657",
+      "status": "photo-matched grey roof/red facade; do not misattribute to way/1163533115"
+    }
+  ],
+  "limitations": [
+    "Photograph capture dates are unknown; upload dates are not capture dates.",
+    "Facade interpretation does not establish exact dimensions or an internal building function.",
+    "White range-side facade rectangles are observed panels; open hitting bays are unsupported.",
+    "Nearest-house photograph identity and facade colours remain provisional.",
+    "2026 native orthophoto and older photographs can show different conditions."
+  ],
+  "review": {
+    "path": "tortunabuild/facilities/reference-review.md",
+    "sha256LfNormalized": "e925206944a1f59f5fd600a18ee3ef4fc194d4743fbbb68c505e961a33788c85"
+  }
+}

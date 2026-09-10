@@ -1,0 +1,481 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "captureDate": "2026-05-02",
+  "source": "Lantmäteriet orto-n2-2026 at 0.16 m via the Min karta proxy",
+  "script": "tortunabuild/trace-pins.mjs",
+  "rule": {
+    "insetMetres": 1.5,
+    "darkMarginBelowGreenMedian": 28,
+    "blobSamples": [
+      3,
+      40
+    ],
+    "maxBoxMetres": 1.6,
+    "runnerUpMargin": 10
+  },
+  "adopted": 0,
+  "holes": [
+    {
+      "hole": 1,
+      "greenMedianBrightness": 91.33333333333333,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        187.02,
+        113.91
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 2,
+      "greenMedianBrightness": 86,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        -76.09,
+        336.24
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 3,
+      "greenMedianBrightness": 89.33333333333333,
+      "blobs": [
+        {
+          "n": 9,
+          "box": 0.64,
+          "mean": 55.5,
+          "min": 51.333333333333336,
+          "centre": [
+            -7.233777777825275,
+            522.8402222220061
+          ]
+        },
+        {
+          "n": 6,
+          "box": 0.64,
+          "mean": 56.5,
+          "min": 54,
+          "centre": [
+            -2.602666666714162,
+            522.8046666664505
+          ]
+        }
+      ],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        -5.38,
+        514.62
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "runner-up within 10 of the darkest (55.5 vs 56.5)"
+    },
+    {
+      "hole": 4,
+      "greenMedianBrightness": 81,
+      "blobs": [
+        {
+          "n": 18,
+          "box": 0.8,
+          "mean": 50.4,
+          "min": 47,
+          "centre": [
+            -122.10288888888333,
+            829.5744444442955
+          ]
+        },
+        {
+          "n": 20,
+          "box": 1.12,
+          "mean": 50.4,
+          "min": 46,
+          "centre": [
+            -123.23799999999441,
+            832.177999999851
+          ]
+        },
+        {
+          "n": 11,
+          "box": 0.96,
+          "mean": 50.5,
+          "min": 48.666666666666664,
+          "centre": [
+            -121.16309090908531,
+            830.1918181816691
+          ]
+        },
+        {
+          "n": 21,
+          "box": 1.28,
+          "mean": 50.9,
+          "min": 48.333333333333336,
+          "centre": [
+            -121.27876190475631,
+            827.5757142855655
+          ]
+        }
+      ],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        -119.29,
+        824.09
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "runner-up within 10 of the darkest (50.4 vs 50.4)"
+    },
+    {
+      "hole": 5,
+      "greenMedianBrightness": 94,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        -140.06,
+        1016.07
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 6,
+      "greenMedianBrightness": 90.66666666666667,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        135.33,
+        637.69
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 7,
+      "greenMedianBrightness": 94,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        185.05,
+        345.05
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 8,
+      "greenMedianBrightness": 86.33333333333333,
+      "blobs": [
+        {
+          "n": 4,
+          "box": 0.32,
+          "mean": 57.4,
+          "min": 56.333333333333336,
+          "centre": [
+            339.35199999997394,
+            194.60299999982118
+          ]
+        },
+        {
+          "n": 4,
+          "box": 0.48,
+          "mean": 57.7,
+          "min": 57.666666666666664,
+          "centre": [
+            339.67199999997393,
+            195.00299999982118
+          ]
+        }
+      ],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        346.87,
+        190.28
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "runner-up within 10 of the darkest (57.4 vs 57.7)"
+    },
+    {
+      "hole": 9,
+      "greenMedianBrightness": 93.66666666666667,
+      "blobs": [
+        {
+          "n": 20,
+          "box": 1.12,
+          "mean": 57.1,
+          "min": 45.666666666666664,
+          "centre": [
+            116.27100000004471,
+            -128.53300000039488
+          ]
+        },
+        {
+          "n": 16,
+          "box": 0.96,
+          "mean": 58.7,
+          "min": 52,
+          "centre": [
+            115.10300000004469,
+            -130.00900000039488
+          ]
+        }
+      ],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        114.02,
+        -125.35
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "runner-up within 10 of the darkest (57.1 vs 58.7)"
+    },
+    {
+      "hole": 10,
+      "greenMedianBrightness": 96.66666666666667,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        374.08,
+        -497.06
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 11,
+      "greenMedianBrightness": 79.66666666666667,
+      "blobs": [
+        {
+          "n": 14,
+          "box": 1.12,
+          "mean": 49.2,
+          "min": 43.333333333333336,
+          "centre": [
+            186.56985714281245,
+            -486.43614285705354
+          ]
+        },
+        {
+          "n": 19,
+          "box": 1.6,
+          "mean": 50.5,
+          "min": 48,
+          "centre": [
+            197.76805263153423,
+            -476.8758421051737
+          ]
+        },
+        {
+          "n": 4,
+          "box": 0.48,
+          "mean": 50.8,
+          "min": 50,
+          "centre": [
+            196.86699999995528,
+            -478.6589999999106
+          ]
+        },
+        {
+          "n": 4,
+          "box": 0.48,
+          "mean": 50.9,
+          "min": 50.666666666666664,
+          "centre": [
+            197.7869999999553,
+            -479.6989999999106
+          ]
+        }
+      ],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        194.23,
+        -481.58
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "runner-up within 10 of the darkest (49.2 vs 50.5)"
+    },
+    {
+      "hole": 12,
+      "greenMedianBrightness": 88.33333333333333,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        255.63,
+        -834.32
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 13,
+      "greenMedianBrightness": 92.66666666666667,
+      "blobs": [
+        {
+          "n": 24,
+          "box": 1.28,
+          "mean": 55.7,
+          "min": 45,
+          "centre": [
+            -269.79333333338457,
+            -969.6903333335863
+          ]
+        },
+        {
+          "n": 6,
+          "box": 0.48,
+          "mean": 56.6,
+          "min": 48.333333333333336,
+          "centre": [
+            -271.0933333333846,
+            -968.6636666669201
+          ]
+        },
+        {
+          "n": 15,
+          "box": 0.96,
+          "mean": 57.1,
+          "min": 46.333333333333336,
+          "centre": [
+            -268.34666666671797,
+            -976.3170000002535
+          ]
+        },
+        {
+          "n": 6,
+          "box": 0.48,
+          "mean": 57.2,
+          "min": 50,
+          "centre": [
+            -271.38666666671793,
+            -973.0903333335867
+          ]
+        }
+      ],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        -271.68,
+        -970.8
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "runner-up within 10 of the darkest (55.7 vs 56.6)"
+    },
+    {
+      "hole": 14,
+      "greenMedianBrightness": 94.33333333333333,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        -273.27,
+        -770.98
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 15,
+      "greenMedianBrightness": 94.66666666666667,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        20.15,
+        -844.08
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 16,
+      "greenMedianBrightness": 89,
+      "blobs": [
+        {
+          "n": 14,
+          "box": 0.96,
+          "mean": 57.5,
+          "min": 53,
+          "centre": [
+            -195.06271428566956,
+            -685.6567142855803
+          ]
+        },
+        {
+          "n": 18,
+          "box": 0.96,
+          "mean": 57.6,
+          "min": 53.333333333333336,
+          "centre": [
+            -192.84811111106643,
+            -674.2687777776435
+          ]
+        },
+        {
+          "n": 12,
+          "box": 0.64,
+          "mean": 58.4,
+          "min": 55,
+          "centre": [
+            -197.3369999999553,
+            -679.2376666665325
+          ]
+        },
+        {
+          "n": 29,
+          "box": 1.6,
+          "mean": 58.8,
+          "min": 55.666666666666664,
+          "centre": [
+            -194.4266551723691,
+            -675.4399655171076
+          ]
+        }
+      ],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        -185.98,
+        -681.93
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "runner-up within 10 of the darkest (57.5 vs 57.6)"
+    },
+    {
+      "hole": 17,
+      "greenMedianBrightness": 97,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        182.92,
+        -732.36
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    },
+    {
+      "hole": 18,
+      "greenMedianBrightness": 86,
+      "blobs": [],
+      "adopted": false,
+      "pin": null,
+      "centroid": [
+        34.77,
+        -428.38
+      ],
+      "offsetFromCentroidMetres": null,
+      "reason": "no compact dark blob inside the eroded green"
+    }
+  ]
+}

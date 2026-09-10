@@ -1,0 +1,1290 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "buildingId": "way/1163533127",
+  "state": "source-derived-architectural-parameters-with-explicit-wall-estimates",
+  "sourceEpoch": "2021-04-05T12:00:00Z",
+  "imageEpoch": "2026-05-02",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "localFrame": {
+    "originEpsg3006": [
+      597463.6991434265,
+      6615075.173127487
+    ],
+    "uSoutheast": [
+      0.7304403538581326,
+      -0.6829764926083519
+    ],
+    "vNortheast": [
+      0.6829764926083519,
+      0.7304403538581326
+    ],
+    "uBearingDegrees": 133.07667681792472,
+    "transform": "E,N=origin+u*uSoutheast+v*vNortheast; height remains absolute RH2000"
+  },
+  "inputs": [
+    {
+      "path": "tortunabuild/cache/buildings/laser-2021-points.json",
+      "sha256": "ff07c4e622e8c5ddfb26472d0407f67e7c6c14687e9af93c916df51f9c79ea00",
+      "bytes": 31151685
+    },
+    {
+      "path": "tortunabuild/cache/terrain/terrain-1m.f32",
+      "sha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1",
+      "bytes": 67141636
+    },
+    {
+      "path": "tortunabuild/cache/orthophoto/crops/clubhouse.tif",
+      "sha256": "1ce087d73b92e7c31f4bbf47bcc1ec2f4667055d7adb798d154ccdba29448c98",
+      "bytes": 1857744
+    },
+    {
+      "path": "tortunabuild/clubhouse/roof-parameters-working.json",
+      "sha256": "4c87da52ccc8d2ae5fbae82e75759b9cd7e7ea088c1e8f4d41d19410b02dcdb6",
+      "bytes": 14418
+    },
+    {
+      "path": "tortunabuild/mapping/building-observations.json",
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6",
+      "bytes": 42302
+    }
+  ],
+  "method": {
+    "roofPlanes": "Deterministic robust fits of spatially isolated original class 1 first returns. Threshold 0.12m; coefficient sign/orientation checks reject adjacent faces. No point coordinate is smoothed or moved.",
+    "faceSelection": "Upper side wings exclude the central crossroof. Crossroof candidates stand above the ordinary upper side faces. Short-end hips lie below those faces. Steep lower faces use isolated edge zones.",
+    "reproducibleCommands": [
+      "python tortunabuild/clubhouse/derive-clean-roof.py",
+      "python tortunabuild/clubhouse/finalize-geometry-evidence.py"
+    ],
+    "scripts": [
+      {
+        "path": "tortunabuild/clubhouse/derive-clean-roof.py",
+        "sha256LfNormalized": "7ec1a30c2107ddb51b2b5e9b3d3c3529629b7b3d541be91749048708486bc55e"
+      },
+      {
+        "path": "tortunabuild/clubhouse/finalize-geometry-evidence.py",
+        "sha256LfNormalized": "963152aab5cc5e03470dd0d4131a351a71eed64dd6cce8bd4d56755f5be33923"
+      }
+    ]
+  },
+  "measuredPlanes": {
+    "upper_southwest": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        -0.0008525931189190524,
+        0.2656791373559102,
+        34.8392036261577
+      ],
+      "selectedReturns": 131,
+      "inlierReturns": 115,
+      "sourceResidualMetres": {
+        "count": 115,
+        "minimum": 0.0001,
+        "p05": 0.0015,
+        "median": 0.0131,
+        "p95": 0.0499,
+        "maximum": 0.1164
+      },
+      "slopeDegrees": 14.878652587532656,
+      "supportingBoundsUV": {
+        "uMin": -12.29596406445294,
+        "uMax": 12.947736279733137,
+        "vMin": -4.314108135990825,
+        "vMax": 1.8858606092809984
+      },
+      "sourceHeightRH2000": {
+        "count": 115,
+        "minimum": 33.63,
+        "p05": 33.764,
+        "median": 34.5,
+        "p95": 35.249,
+        "maximum": 35.33
+      },
+      "supportIndices": [
+        0,
+        1,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126
+      ]
+    },
+    "upper_northeast": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        4.593855050586038e-05,
+        -0.2692548697318786,
+        36.04431303256183
+      ],
+      "selectedReturns": 117,
+      "inlierReturns": 103,
+      "sourceResidualMetres": {
+        "count": 103,
+        "minimum": 0.0002,
+        "p05": 0.0024,
+        "median": 0.026,
+        "p95": 0.0678,
+        "maximum": 0.1154
+      },
+      "slopeDegrees": 15.06977589117019,
+      "supportingBoundsUV": {
+        "uMin": -12.258900678016385,
+        "uMax": 12.994531942198522,
+        "vMin": 2.848857463881037,
+        "vMax": 8.79506295669643
+      },
+      "sourceHeightRH2000": {
+        "count": 103,
+        "minimum": 33.65,
+        "p05": 33.881,
+        "median": 34.46,
+        "p95": 35.236,
+        "maximum": 35.29
+      },
+      "supportIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        53,
+        54,
+        55,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        89,
+        90,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        114
+      ]
+    },
+    "crossgable_northwest": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        0.32938102185067897,
+        0.0009396093198184019,
+        35.12946010097978
+      ],
+      "selectedReturns": 50,
+      "inlierReturns": 50,
+      "sourceResidualMetres": {
+        "count": 50,
+        "minimum": 0.0001,
+        "p05": 0.0006,
+        "median": 0.0159,
+        "p95": 0.0529,
+        "maximum": 0.0942
+      },
+      "slopeDegrees": 18.230971328653713,
+      "supportingBoundsUV": {
+        "uMin": -3.746241214858042,
+        "uMax": 0.27719573295001826,
+        "vMin": -5.627917604339167,
+        "vMax": 10.099114994062228
+      },
+      "sourceHeightRH2000": {
+        "count": 50,
+        "minimum": 33.87,
+        "p05": 33.9145,
+        "median": 34.68,
+        "p95": 35.1855,
+        "maximum": 35.25
+      },
+      "supportIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49
+      ]
+    },
+    "crossgable_southeast": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        -0.33965714591985635,
+        0.0011740230731778212,
+        35.736027173118316
+      ],
+      "selectedReturns": 48,
+      "inlierReturns": 48,
+      "sourceResidualMetres": {
+        "count": 48,
+        "minimum": 0.0021,
+        "p05": 0.0061,
+        "median": 0.03,
+        "p95": 0.0982,
+        "maximum": 0.1174
+      },
+      "slopeDegrees": 18.760527067119394,
+      "supportingBoundsUV": {
+        "uMin": 1.4381879873624313,
+        "uMax": 5.670832257174823,
+        "vMin": -5.663166638924546,
+        "vMax": 10.171134285731727
+      },
+      "sourceHeightRH2000": {
+        "count": 48,
+        "minimum": 33.87,
+        "p05": 34.0035,
+        "median": 34.745,
+        "p95": 35.199,
+        "maximum": 35.33
+      },
+      "supportIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ]
+    },
+    "lower_southwest": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        -0.004566856851996588,
+        1.310408030809243,
+        39.00386679866047
+      ],
+      "selectedReturns": 46,
+      "inlierReturns": 27,
+      "sourceResidualMetres": {
+        "count": 27,
+        "minimum": 0.0057,
+        "p05": 0.0122,
+        "median": 0.0362,
+        "p95": 0.0913,
+        "maximum": 0.1102
+      },
+      "slopeDegrees": 52.652151538768315,
+      "supportingBoundsUV": {
+        "uMin": -12.173712914472535,
+        "uMax": 12.71326043709277,
+        "vMin": -5.585578513730477,
+        "vMax": -4.025573802647213
+      },
+      "sourceHeightRH2000": {
+        "count": 27,
+        "minimum": 31.7,
+        "p05": 31.719,
+        "median": 32.73,
+        "p95": 33.644,
+        "maximum": 33.75
+      },
+      "supportIndices": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14,
+        16,
+        17,
+        19,
+        20,
+        24,
+        25,
+        33,
+        34,
+        35,
+        36,
+        38,
+        39,
+        41,
+        44,
+        45
+      ]
+    },
+    "lower_northeast": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        7.349424248859752e-05,
+        -1.475069168324047,
+        46.39860410076433
+      ],
+      "selectedReturns": 20,
+      "inlierReturns": 9,
+      "sourceResidualMetres": {
+        "count": 9,
+        "minimum": 0.0013,
+        "p05": 0.0022,
+        "median": 0.0407,
+        "p95": 0.1101,
+        "maximum": 0.1147
+      },
+      "slopeDegrees": 55.86530787504892,
+      "supportingBoundsUV": {
+        "uMin": -12.484127619538086,
+        "uMax": 12.51354588662613,
+        "vMin": 9.194831130852402,
+        "vMax": 9.94613374322724
+      },
+      "sourceHeightRH2000": {
+        "count": 9,
+        "minimum": 31.79,
+        "p05": 31.806,
+        "median": 31.95,
+        "p95": 32.776,
+        "maximum": 32.84
+      },
+      "supportIndices": [
+        0,
+        1,
+        4,
+        5,
+        13,
+        14,
+        15,
+        18,
+        19
+      ]
+    },
+    "northwest_end_upper": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        0.5574836059996283,
+        -0.0011836372259139694,
+        41.038146829269735
+      ],
+      "selectedReturns": 25,
+      "inlierReturns": 25,
+      "sourceResidualMetres": {
+        "count": 25,
+        "minimum": 0.0004,
+        "p05": 0.0046,
+        "median": 0.0251,
+        "p95": 0.0954,
+        "maximum": 0.1157
+      },
+      "slopeDegrees": 29.139005031771244,
+      "supportingBoundsUV": {
+        "uMin": -13.128124699066746,
+        "uMax": -10.835432217839054,
+        "vMin": -2.5940156990913095,
+        "vMax": 7.175067903097344
+      },
+      "sourceHeightRH2000": {
+        "count": 25,
+        "minimum": 33.78,
+        "p05": 33.804,
+        "median": 34.08,
+        "p95": 34.818,
+        "maximum": 35.11
+      },
+      "supportIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]
+    },
+    "southeast_end_upper": {
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        -0.5493921825281903,
+        -0.0012223354007012688,
+        41.92600890769346
+      ],
+      "selectedReturns": 21,
+      "inlierReturns": 21,
+      "sourceResidualMetres": {
+        "count": 21,
+        "minimum": 0.0015,
+        "p05": 0.0022,
+        "median": 0.0306,
+        "p95": 0.0694,
+        "maximum": 0.0849
+      },
+      "slopeDegrees": 28.78410939406713,
+      "supportingBoundsUV": {
+        "uMin": 12.541717969820676,
+        "uMax": 14.793696520108991,
+        "vMin": -2.4086573481356424,
+        "vMax": 6.546445136331245
+      },
+      "sourceHeightRH2000": {
+        "count": 21,
+        "minimum": 33.87,
+        "p05": 33.88,
+        "median": 34.14,
+        "p95": 34.97,
+        "maximum": 35.07
+      },
+      "supportIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ]
+    }
+  },
+  "measuredIntersections": {
+    "mainRidgeNorthwest": {
+      "uvRH2000": [
+        -10.03382441985046,
+        2.2359649630597542,
+        35.441807638358256
+      ],
+      "epsg3006RH2000": [
+        597457.8971446748,
+        6615083.659232736,
+        35.441807638358256
+      ],
+      "planes": [
+        "upper_southwest",
+        "upper_northeast",
+        "northwest_end_upper"
+      ]
+    },
+    "mainRidgeSoutheast": {
+      "uvRH2000": [
+        11.813602000899179,
+        2.2726622084664236,
+        35.43293036542882
+      ],
+      "epsg3006RH2000": [
+        597473.8804499164,
+        6615068.7647592155,
+        35.43293036542882
+      ],
+      "planes": [
+        "upper_southwest",
+        "upper_northeast",
+        "southeast_end_upper"
+      ]
+    },
+    "crossRidgeAtSouthwestEave": {
+      "uvRH2000": [
+        0.9046458985276343,
+        -5.65,
+        35.42212449879286
+      ]
+    },
+    "crossRidgeAtNortheastEave": {
+      "uvRH2000": [
+        0.9101642931324054,
+        10.1,
+        35.43874100003389
+      ]
+    }
+  },
+  "mainRoof": {
+    "topology": "Broken-pitch long side slopes, approximately 29-degree short-end hips, central crossgable spanning both long facades.",
+    "surfaceConstruction": "Ordinary roof is the lower envelope of the four side faces and two short-end hip planes, clipped to the eave bounds. Central crossroof replaces the ordinary roof where it rises above it; vertical gable/cheek walls close the raised perimeter.",
+    "crossGableRidgeAtV0": [
+      0.9066255131001395,
+      0.0,
+      35.428085338920596
+    ],
+    "breakLinesAtU0": {
+      "southwest": [
+        0.0,
+        -3.986357799233972,
+        33.78011152486521
+      ],
+      "northeast": [
+        0.0,
+        8.586969884410482,
+        33.732229574943325
+      ]
+    },
+    "breakLinesAtWingU": [
+      {
+        "u": -10,
+        "southwest": [
+          -10.0,
+          -4.021910216290229,
+          33.77919192055998
+        ],
+        "northeast": [
+          -10.0,
+          8.586741360897243,
+          33.73183172050705
+        ]
+      },
+      {
+        "u": 10,
+        "southwest": [
+          10.0,
+          -3.9508053821777147,
+          33.781031129170444
+        ],
+        "northeast": [
+          10.0,
+          8.58719840792372,
+          33.73262742937959
+        ]
+      }
+    ],
+    "eaveBoundsUV": {
+      "uMin": -13.2,
+      "uMax": 15.2,
+      "vMin": -5.65,
+      "vMax": 10.1
+    },
+    "eaveBoundsStatus": "Source-section edge estimate; not an exact surveyed outline",
+    "eaveHorizontalUncertaintyMetres": 0.4,
+    "ordinaryLowEaveRH2000": {
+      "southwest": 31.74,
+      "northeast": 31.87,
+      "uncertaintyMetres": 0.2
+    },
+    "shortEndUpperEaveRH2000": {
+      "northwest": 33.676700046316334,
+      "southeast": 33.572497478613386,
+      "uncertaintyMetres": 0.3
+    },
+    "crossGableWidthEstimate": {
+      "uMin": -4.2,
+      "uMax": 5.8,
+      "status": "Display estimate from measured slopes at RH 33.75 plus visible three-window facade; not a surveyed wall width",
+      "uncertaintyMetres": 0.6
+    },
+    "crossRoofProjectionEvidence": {
+      "southwestSupportCount": 7,
+      "southwestMinimumV": -5.663166638924546,
+      "northeastSupportCount": 8,
+      "northeastMaximumV": 10.171134285731727,
+      "conclusion": "The 2021 high crossroof returns stop near the ordinary long-side eaves. A 2m additional full-height southwest extension is not supported by this laser sample; later photo-only interpretations must remain separate."
+    }
+  },
+  "wallBodyEstimate": {
+    "boundsUV": {
+      "uMin": -12.5,
+      "uMax": 14.9,
+      "vMin": -5.1,
+      "vMax": 9.65
+    },
+    "lengthMetres": 27.4,
+    "widthMetres": 14.75,
+    "areaSquareMetres": 404.15,
+    "status": "Measured NW facade and SW lower returns support these bounds; other wall edges are conservative display estimates inside roof overhang.",
+    "horizontalUncertaintyMetres": {
+      "northwest": 0.35,
+      "southeast": 0.7,
+      "southwest": 0.4,
+      "northeast": 0.6
+    },
+    "ordinaryWallTopRH2000": {
+      "southwest": 31.65,
+      "northeast": 31.75,
+      "uncertaintyMetres": 0.3
+    },
+    "groundReferenceRH2000": 27.1,
+    "groundReferenceStatus": "Display datum from surrounding classified ground; foundation floor elevation is not measured",
+    "courtyardGroundSample": {
+      "count": 243,
+      "heightRH2000": {
+        "minimum": 26.950000762939453,
+        "p05": 27.0,
+        "median": 27.190000534057617,
+        "p95": 27.31999969482422,
+        "maximum": 27.450000762939453
+      }
+    },
+    "note": "Raised crossgable facades and short end upper walls extend above the ordinary long-side wall top. The immutable OSM quad is retained separately and is not overwritten."
+  },
+  "edgeEvidence": {
+    "northwestWall": {
+      "count": 12,
+      "u": {
+        "minimum": -12.790303416330477,
+        "p05": -12.765314077479383,
+        "median": -12.449537521231763,
+        "p95": -12.291181850162108,
+        "maximum": -12.230313003060676
+      },
+      "v": {
+        "minimum": -2.006655915378159,
+        "p05": -1.6958058625336792,
+        "median": 2.795124336556573,
+        "p95": 7.05391350584091,
+        "maximum": 7.120904422760937
+      },
+      "heightRH2000": {
+        "minimum": 28.059999465942383,
+        "p05": 28.059999465942383,
+        "median": 29.75,
+        "p95": 30.023500537872316,
+        "maximum": 30.040000915527344
+      },
+      "returnsUVRH2000": [
+        [
+          -12.533056971202052,
+          -1.4414740011154685,
+          29.700000762939453
+        ],
+        [
+          -12.499945994758956,
+          6.70787589138427,
+          30.010000228881836
+        ],
+        [
+          -12.43351737606284,
+          3.8402484327882753,
+          29.959999084472656
+        ],
+        [
+          -12.346859753632632,
+          -2.006655915378159,
+          30.040000915527344
+        ],
+        [
+          -12.340983634154188,
+          1.7500002403248716,
+          29.65999984741211
+        ],
+        [
+          -12.365240514423625,
+          -1.0792066455027278,
+          29.899999618530273
+        ],
+        [
+          -12.790303416330477,
+          7.120904422760937,
+          28.059999465942383
+        ],
+        [
+          -12.343276992914884,
+          1.0496469435812024,
+          30.0
+        ],
+        [
+          -12.699004397755223,
+          0.9908420666745751,
+          29.799999237060547
+        ],
+        [
+          -12.230313003060676,
+          4.4135790380929825,
+          28.290000915527344
+        ],
+        [
+          -12.465557666400686,
+          4.782306509414336,
+          28.479999542236328
+        ],
+        [
+          -12.744868254783032,
+          6.999102755633616,
+          28.059999465942383
+        ]
+      ]
+    },
+    "southwestLowEave": {
+      "count": 18,
+      "u": {
+        "minimum": -11.077628055785969,
+        "p05": -10.929582209882398,
+        "median": 0.5842201848200421,
+        "p95": 14.026541882773609,
+        "maximum": 14.21715280217514
+      },
+      "v": {
+        "minimum": -5.979696966909485,
+        "p05": -5.934400747469309,
+        "median": -5.579498440081707,
+        "p95": -5.351126095179272,
+        "maximum": -5.324127052073462
+      },
+      "heightRH2000": {
+        "minimum": 31.610000610351562,
+        "p05": 31.626999378204346,
+        "median": 31.734999656677246,
+        "p95": 31.96449918746948,
+        "maximum": 31.989999771118164
+      },
+      "returnsUVRH2000": [
+        [
+          14.21715280217514,
+          -5.67212135722435,
+          31.610000610351562
+        ],
+        [
+          11.938519023911482,
+          -5.475326789840098,
+          31.799999237060547
+        ],
+        [
+          8.70292854695376,
+          -5.543548972606078,
+          31.75
+        ],
+        [
+          13.99290466170275,
+          -5.6079904661067665,
+          31.6299991607666
+        ],
+        [
+          8.278718668511678,
+          -5.324127052073462,
+          31.920000076293945
+        ],
+        [
+          5.4649648768573575,
+          -5.682441997511622,
+          31.700000762939453
+        ],
+        [
+          11.520374457294247,
+          -5.496660371623856,
+          31.709999084472656
+        ],
+        [
+          8.419295900023348,
+          -5.562324536803782,
+          31.700000762939453
+        ],
+        [
+          5.427783396399212,
+          -5.525542228836337,
+          31.770000457763672
+        ],
+        [
+          -4.259343026759129,
+          -5.355890632197944,
+          31.989999771118164
+        ],
+        [
+          -7.205525359053171,
+          -5.865409683636386,
+          31.729999542236328
+        ],
+        [
+          -8.015919348152629,
+          -5.979696966909485,
+          31.709999084472656
+        ],
+        [
+          -10.086522533394843,
+          -5.697912563865226,
+          31.760000228881836
+        ],
+        [
+          -4.301850521932912,
+          -5.7789664091478965,
+          31.68000030517578
+        ],
+        [
+          -11.077628055785969,
+          -5.926407296979866,
+          31.670000076293945
+        ],
+        [
+          -7.683898718182851,
+          -5.5734183664329375,
+          31.75
+        ],
+        [
+          -10.090689290767934,
+          -5.400620387637538,
+          31.959999084472656
+        ],
+        [
+          -10.903456472370003,
+          -5.585578513730477,
+          31.739999771118164
+        ]
+      ]
+    },
+    "northeastLowEave": {
+      "count": 8,
+      "u": {
+        "minimum": -10.431350721936921,
+        "p05": -10.18489807981933,
+        "median": 9.065665646212581,
+        "p95": 14.037080088449677,
+        "maximum": 14.857444658662358
+      },
+      "v": {
+        "minimum": 9.602643005391291,
+        "p05": 9.649767359749738,
+        "median": 9.84310598331048,
+        "p95": 10.059717036819706,
+        "maximum": 10.120877271831034
+      },
+      "heightRH2000": {
+        "minimum": 31.790000915527344,
+        "p05": 31.797000408172607,
+        "median": 31.875,
+        "p95": 31.96949996948242,
+        "maximum": 31.979999542236328
+      },
+      "returnsUVRH2000": [
+        [
+          14.857444658662358,
+          9.602643005391291,
+          31.8799991607666
+        ],
+        [
+          12.51354588662613,
+          9.75210385737158,
+          31.979999542236328
+        ],
+        [
+          12.26880845056132,
+          9.838147959975661,
+          31.950000762939453
+        ],
+        [
+          11.753623259613136,
+          9.876673521963097,
+          31.790000915527344
+        ],
+        [
+          6.377708032812028,
+          10.120877271831034,
+          31.809999465942383
+        ],
+        [
+          -9.065927054115832,
+          9.94613374322724,
+          31.829999923706055
+        ],
+        [
+          -9.727200315886662,
+          9.8480640066453,
+          31.8700008392334
+        ],
+        [
+          -10.431350721936921,
+          9.737284017843997,
+          31.920000076293945
+        ]
+      ]
+    },
+    "southwestWallLowerReturns": {
+      "count": 9,
+      "u": {
+        "minimum": -10.50010553752391,
+        "p05": -10.427704998248153,
+        "median": 6.026744486525465,
+        "p95": 9.211810669653078,
+        "maximum": 9.33110725126155
+      },
+      "v": {
+        "minimum": -5.40552207469786,
+        "p05": -5.392401924644946,
+        "median": -5.027037172393961,
+        "p95": -4.820153394627678,
+        "maximum": -4.729462865064505
+      },
+      "heightRH2000": {
+        "minimum": 28.030000686645508,
+        "p05": 28.038000106811523,
+        "median": 28.1200008392334,
+        "p95": 28.22199935913086,
+        "maximum": 28.229999542236328
+      },
+      "returnsUVRH2000": [
+        [
+          -10.50010553752391,
+          -5.372721699565575,
+          28.1200008392334
+        ],
+        [
+          8.90006760804604,
+          -4.729462865064505,
+          28.200000762939453
+        ],
+        [
+          6.071230370528995,
+          -5.115571508675313,
+          28.110000610351562
+        ],
+        [
+          9.33110725126155,
+          -4.956189188972436,
+          28.030000686645508
+        ],
+        [
+          9.032865797240369,
+          -4.988624283035029,
+          28.049999237060547
+        ],
+        [
+          6.026744486525465,
+          -4.965501504932472,
+          28.209999084472656
+        ],
+        [
+          -7.416483619254419,
+          -5.40552207469786,
+          28.059999465942383
+        ],
+        [
+          -7.099546435147366,
+          -5.027037172393961,
+          28.229999542236328
+        ],
+        [
+          -10.319104189334517,
+          -5.0391973196915005,
+          28.209999084472656
+        ]
+      ]
+    }
+  },
+  "orthoLaserAlignment": {
+    "nativePixelCrossRidge": [
+      354,
+      398
+    ],
+    "nativePixelEdgeTransform": "E=597406.72+0.16x;N=6615139.52-0.16y",
+    "imageCrossRidgeEpsg3006": [
+      597463.36,
+      6615075.84
+    ],
+    "imageTraceUncertaintyMetres": 0.32,
+    "measuredCrossRidgeEpsg3006": [
+      597465.9013156435,
+      6615076.200330416
+    ],
+    "imageToLaserDisplacementMetresEN": [
+      2.5413156434660777,
+      0.3603304158896208
+    ],
+    "displacementMagnitudeMetres": 2.56673395745266,
+    "interpretation": "Approximately 2.6m source-to-source roof displacement is visible at the central ridge. Relief displacement in the ground-orthorectified photo is plausible; camera geometry was not independently recovered, so its cause is not asserted. Neither the earlier image outline nor OSM quad is a surveyed wall boundary.",
+    "consequence": "Use laser EPSG coordinates for the clean roof. Use ortho and photographs for topology/appearance; do not translate immutable original source geometry.",
+    "oldImageRoofAreaSquareMetres": 398.554,
+    "proposedMainEaveEnvelopeAreaSquareMetres": 447.29999999999995,
+    "areaExplanation": "The earlier polygon contains an irregular image silhouette. Its area, an architectural wall rectangle, and a laser-aligned eave envelope describe different surfaces; they are not interchangeable."
+  },
+  "limitations": [
+    "2021 laser sampling cannot establish later structural changes. Photos uploaded in 2023 and 2026 ortho show the same broad broken roof/crossgable topology.",
+    "Nine returns support the NE steep face; its exact slope and breakline carry more uncertainty than the densely supported upper planes.",
+    "Dormers, chimneys, gutter profiles, eave thicknesses, wall setbacks and terrace details require image-based estimates. Their sparse outlying laser returns are not main roof faces.",
+    "Planar fit residuals quantify agreement within selected returns, not absolute roof accuracy or current structure certification."
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-10T07:46:03.115Z",
+  "passed": true,
+  "newBuildings": 7,
+  "totalAuthoredBuildings": 8,
+  "assetBytes": 1331412,
+  "triangles": 23607,
+  "checks": {
+    "blenderScenesAndAnchors": true,
+    "sourceGeometryPreserved": true,
+    "allFinalAssetsInProductionBuild": true,
+    "authoredLoaderUnitTests": 7,
+    "browserModes": [
+      {
+        "mode": "authored",
+        "passed": true
+      },
+      {
+        "mode": "source",
+        "passed": true
+      },
+      {
+        "mode": "failed-load",
+        "passed": true
+      }
+    ],
+    "appBuild": true,
+    "appBundleCheck": true,
+    "rendererBundleCheck": true
+  },
+  "browserReview": "Five initial cluster views; final front views and all eight identities/fallbacks rechecked after entry bay refinement. Six other facility assets unchanged.",
+  "limitations": [
+    "Three facades use unverified neutral display defaults",
+    "Opening dimensions and material colours are architectural estimates",
+    "Software WebGL2 checks are not native-device performance evidence"
+  ],
+  "finalRuntimeStats": {
+    "backend": "webgl2",
+    "authoredBuildingModels": 8,
+    "authoredBuildingMeshes": 65,
+    "authoredBuildingTriangles": 37419,
+    "sourceRoofBuildings": 6,
+    "sourceRoofTriangles": 4737,
+    "measuredRoofBuildings": 1,
+    "measuredRoofTriangles": 277,
+    "genericRoofBuildings": 300
+  },
+  "evidence": [
+    {
+      "file": "tortunabuild/facilities/model-export.json",
+      "bytes": 5186,
+      "sha256": "b6eb9fe81f4214f5e08490c9dc2006869ddfa56f67fe0cf18352f25f37ace765"
+    },
+    {
+      "file": "tortunabuild/facilities/published-models.json",
+      "bytes": 8235,
+      "sha256": "49f9ec33a9aabc4b8685213c9b96f0756f34c7a1f8a636308e7145093c25b74d"
+    },
+    {
+      "file": "tortunabuild/facilities/source-preservation-check.json",
+      "bytes": 974,
+      "sha256": "92a2e5900c7fad8440f315ea4e5e5f623fe29c15807454eca33d86d88f936d1d"
+    },
+    {
+      "file": "tortunabuild/facilities/blend-inspection.json",
+      "bytes": 848,
+      "sha256": "5331dd189d23748087918ed1522d07d283bcf2bea5dde25eed90afcdcaacfc94"
+    },
+    {
+      "file": "tortunabuild/facilities/tortuna-facilities.blend",
+      "bytes": 414167,
+      "sha256": "77272ea9b3bc964dadb84060a5d2653ff5d2d13c190cb03c5e6b66144ee8ffa2"
+    },
+    {
+      "file": "tortunabuild/facilities/browser/report.json",
+      "bytes": 463254,
+      "sha256": "fd438ff7a5c881675ba66712b005e52984ce18f7f424d815a3487aca50bb5fb0"
+    },
+    {
+      "file": "tortunabuild/facilities/browser-final/report.json",
+      "bytes": 266693,
+      "sha256": "4d0ab9adcd3bb87552a08c8353520e3c7b12b793e79bfb8ad9125febb14ca87d"
+    },
+    {
+      "file": "tortunabuild/facilities/entry-outbuilding.png",
+      "bytes": 1039610,
+      "sha256": "3670372bf1406478bca76469507260e0c14e0075c58c34bcbde1084cbc126e26"
+    },
+    {
+      "file": "tortunabuild/facilities/service-yard-long-barn.png",
+      "bytes": 980108,
+      "sha256": "c41cd6c81569272f9828b66943fb886449ea5ec4e97f0f36d1b1524b1fedfe99"
+    },
+    {
+      "file": "tortunabuild/facilities/service-yard-small-outbuilding.png",
+      "bytes": 937668,
+      "sha256": "78373d921295199bd8653f48aa63c1373fac7b731e02876ac960cf7a315e8cbf"
+    },
+    {
+      "file": "tortunabuild/facilities/service-yard-west-barn.png",
+      "bytes": 958477,
+      "sha256": "e0759064d6f020ccb4280bb7e761cf1b0e9bbb0305f28ea80fe19ca34726f612"
+    },
+    {
+      "file": "tortunabuild/facilities/carpark-west-barn.png",
+      "bytes": 953513,
+      "sha256": "40878743b7aba3e55f2668dec4216a0d408c0760ba968dee120d97cad42253a9"
+    },
+    {
+      "file": "tortunabuild/facilities/nearby-house.png",
+      "bytes": 1006967,
+      "sha256": "0a030b11df729fe1f6f8fc932a55aa9dfa84a0647f710300eb2bbe01862d0558"
+    },
+    {
+      "file": "tortunabuild/facilities/range-shelter.png",
+      "bytes": 926735,
+      "sha256": "8f78cc1544632d7ed5fa7f13e3583b1d3e9750543dcd032a56a267b07b8698ca"
+    },
+    {
+      "file": "tortunabuild/facilities/browser/entry-building.png",
+      "bytes": 582302,
+      "sha256": "5b7d0d6a039efbc53a77add2051c68c7bc0e9fa5b8978ad01c2c3b634f84c1e4"
+    },
+    {
+      "file": "tortunabuild/facilities/browser/range-shelter.png",
+      "bytes": 565522,
+      "sha256": "1b843dc02db8d14a8abeff035d826e3d3bb78c563bbed8b35e74028fc762765e"
+    },
+    {
+      "file": "tortunabuild/facilities/browser/northern-buildings.png",
+      "bytes": 451225,
+      "sha256": "2f06d38788854e66f01b8770d7e7d4a14bb5c2f867816eab0a0e9f12ef711ac6"
+    },
+    {
+      "file": "tortunabuild/facilities/browser/western-workshop.png",
+      "bytes": 407640,
+      "sha256": "098e5d944edb57d007c4f58e56119e04f88a006916a92786cfdcfcff4c2754a2"
+    },
+    {
+      "file": "tortunabuild/facilities/browser/eastern-house.png",
+      "bytes": 509221,
+      "sha256": "c45b2fd72a2ed98f2063eaaf81179e3913f2136af06393470493c101f2735ffb"
+    },
+    {
+      "file": "tortunabuild/facilities/browser-final/entry-building.png",
+      "bytes": 586099,
+      "sha256": "097026f47d29ba885cf0ad19ddb276e0bea19fa9509567629942946520adf028"
+    },
+    {
+      "file": "tortunabuild/facilities/browser-final/range-shelter.png",
+      "bytes": 529358,
+      "sha256": "6ac598a189aee5c121af5f9feaafa6f262ad93ff42d79ca280fc0b534b9ade8e"
+    }
+  ]
+}

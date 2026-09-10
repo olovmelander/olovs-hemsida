@@ -336,7 +336,12 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        added up: the two moves share the window they reached. */
     // Visby's frozen 18-hole inventory adds 30 distinct ground windows.
     // Tortuna's 18 observed routes add 29 distinct source-control windows.
-    uniqueGroundWindowCount: 279,
+    /* 279 -> 280 on 2026-09-10: Tortuna's 8th grew 24 m north when its 2026
+       rule-traced fairway took in the mown apron beyond the old candidate strip,
+       reaching w256-597760-6614784, a window no neighbour had. Attributed with
+       tortunabuild/cache/attribute-windows.mjs against the preceding committed
+       migration; nothing else moved a window. */
+    uniqueGroundWindowCount: 280,
     /* 702 until 2026-09-05, when the Johannesberg nine's 2nd, 7th and 8th greens
        became measured rings (trace-nine.mjs) and two of them reach a second
        256 m control window, and 709 when the Ribbingsfors pass measured its
@@ -359,8 +364,13 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        7th is the only hole on any course whose windows move, its new tee marks
        change nothing on their own, and uniqueGroundWindowCount stays 250
        because both windows were already reached by a neighbour. */
-    // The frozen Tortuna geometry contributes 87 requested window references.
-    requestedWindowReferences: 980,
+    /* Tortuna contributed 87 requested window references until the 2026 review
+       (tee-decisions-2026.json, fairways-2026.geojson): the 6th's card-derived
+       platforms carry its box 3 m west across the 597248 edge (+3, one per
+       window row) and the 8th's fairway 24 m north across 6614784 (+3), so
+       87 -> 93 and the repository 980 -> 986. Measured hole by hole, never
+       summed. */
+    requestedWindowReferences: 986,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,
@@ -375,8 +385,8 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
   assert.ok(visby.windows.length > 0);
   const tortuna = plan.grounds.find(ground => ground.groundId === 'tortuna');
   assert.equal(tortuna.summary.holeCount, 18);
-  assert.equal(tortuna.summary.uniqueWindowCount, 29);
-  assert.equal(tortuna.summary.requestedWindowReferences, 87);
+  assert.equal(tortuna.summary.uniqueWindowCount, 30);
+  assert.equal(tortuna.summary.requestedWindowReferences, 93);
   for (const ground of plan.grounds) {
     for (const course of ground.courses) {
       assert.equal(course.holes.length, course.holeCount);

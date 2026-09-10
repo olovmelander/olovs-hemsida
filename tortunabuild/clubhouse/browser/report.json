@@ -1,0 +1,1774 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-10T06:42:44.055Z",
+  "base": "http://localhost:5174/",
+  "passed": true,
+  "executionAdapter": "swiftshader-software-webgl2",
+  "performanceEvidence": false,
+  "request": {
+    "width": 960,
+    "height": 600,
+    "dpr": 1,
+    "views": [
+      {
+        "id": "northeast-facade",
+        "position": [
+          88.77256000002235,
+          42,
+          -214.73708000041722
+        ],
+        "target": [
+          66.02584000002236,
+          31,
+          -175.76792000041723
+        ],
+        "fov": 48
+      },
+      {
+        "id": "pondside-extension",
+        "position": [
+          110.45884000002235,
+          42,
+          -158.86472000041724
+        ],
+        "target": [
+          66.02584000002236,
+          31,
+          -175.76792000041723
+        ],
+        "fov": 48
+      }
+    ]
+  },
+  "modes": [
+    {
+      "mode": "authored",
+      "passed": true,
+      "views": [
+        {
+          "id": "northeast-facade",
+          "state": {
+            "course": "tortuna",
+            "authored": [
+              {
+                "buildingId": "way/1163533127",
+                "asset": {
+                  "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+                  "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+                  "bytes": 758472
+                },
+                "appearanceStatus": "photo-informed-display-model",
+                "evidence": [
+                  "tortunabuild/clubhouse/reference-review.md",
+                  "tortunabuild/clubhouse/geometry-evidence.json",
+                  "tortunabuild/clubhouse/model-parameters.json"
+                ],
+                "sourceFootprintUnchanged": true,
+                "sourceRoofUnchanged": true,
+                "status": "loaded",
+                "sourceFootprintSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+                "transform": {
+                  "position": [
+                    63.19914342649281,
+                    27.1,
+                    -175.67312748730183
+                  ],
+                  "rotationYRadians": 0,
+                  "scale": 1
+                },
+                "anchorEpsg3006RH2000": [
+                  597463.6991434265,
+                  6615075.173127487,
+                  27.1
+                ],
+                "sourceRoofTriangles": 1157,
+                "bounds": {
+                  "min": [
+                    49.476188676431775,
+                    26.699999994039537,
+                    -192.06586392223835
+                  ],
+                  "max": [
+                    84.87285901792347,
+                    36.38999996185303,
+                    -154.91606076061726
+                  ]
+                },
+                "meshes": 12,
+                "vertices": 27632,
+                "triangles": 13812
+              }
+            ],
+            "stats": {
+              "backend": "webgl2",
+              "authoredBuildingModels": 1,
+              "authoredBuildingMeshes": 12,
+              "authoredBuildingTriangles": 13812,
+              "sourceRoofBuildings": 6,
+              "sourceRoofTriangles": 4737,
+              "measuredRoofBuildings": 5,
+              "measuredRoofTriangles": 3580,
+              "genericRoofBuildings": 303,
+              "architecturalBuildings": 1,
+              "architecturalTriangles": 13812
+            },
+            "source": {
+              "ringSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+              "roofSha256": "c0f9d0f0a34954b91967cafe38877bfd8a86b7e0a473b9060d58fb947272e0bf",
+              "buildingCount": 309
+            },
+            "meshes": [
+              {
+                "name": "Clubhouse_|_Foundation",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 24,
+                "bbox": [
+                  51,
+                  27,
+                  -191,
+                  81,
+                  27,
+                  -162
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Ochre_timber",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 182,
+                "bbox": [
+                  51,
+                  27,
+                  -191,
+                  84,
+                  35,
+                  -159
+                ]
+              },
+              {
+                "name": "Clubhouse_|_White_trim",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 10512,
+                "bbox": [
+                  49,
+                  27,
+                  -191,
+                  84,
+                  36,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Roof_tile",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 74,
+                "bbox": [
+                  50,
+                  30,
+                  -192,
+                  81,
+                  35,
+                  -157
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Tile_course",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 4992,
+                "bbox": [
+                  50,
+                  30,
+                  -192,
+                  81,
+                  35,
+                  -158
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Roof_flashing",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 324,
+                "bbox": [
+                  51,
+                  32,
+                  -191,
+                  80,
+                  36,
+                  -162
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Glass",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 960,
+                "bbox": [
+                  51,
+                  27,
+                  -191,
+                  83,
+                  35,
+                  -159
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Deck_timber",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 168,
+                "bbox": [
+                  50,
+                  27,
+                  -180,
+                  84,
+                  31,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Timber_battens",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 6480,
+                "bbox": [
+                  61,
+                  28,
+                  -191,
+                  81,
+                  34,
+                  -162
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Metal_rail",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 3864,
+                "bbox": [
+                  74,
+                  27,
+                  -173,
+                  85,
+                  32,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Awning",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 4,
+                "bbox": [
+                  72,
+                  30,
+                  -163,
+                  79,
+                  30,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Brick",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 48,
+                "bbox": [
+                  57,
+                  35,
+                  -185,
+                  66,
+                  36,
+                  -177
+                ]
+              }
+            ],
+            "camera": {
+              "pos": [
+                88.77256000002235,
+                41.99999999999999,
+                -214.73708000041722
+              ],
+              "look": [
+                66.02584000002236,
+                30.999999999999996,
+                -175.76792000041723
+              ],
+              "ground": 26.21545712624353
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                88.77256000002235,
+                41.99999999999999,
+                -214.73708000041722
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  960,
+                  600
+                ],
+                "extraPixelBudget": 1000000,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 478,
+              "frameCalls": 2,
+              "drawCalls": 56,
+              "triangles": 2889814,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 380,
+                "attributesSize": 82223650,
+                "geometries": 79,
+                "indexAttributes": 60,
+                "indexAttributesSize": 2389500,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 93,
+                "programsSize": 958726,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 33,
+                "texturesSize": 134328454,
+                "uniformBuffers": 168,
+                "uniformBuffersSize": 39552,
+                "total": 219939882
+              },
+              "drawingBuffer": [
+                960,
+                600
+              ],
+              "pixelRatio": 1
+            },
+            "terrain": {
+              "kind": "graph",
+              "phase": "ready",
+              "requested": true,
+              "sourceReady": true,
+              "preflightReady": true,
+              "active": true,
+              "renderer": {
+                "status": "ready",
+                "kind": "graph",
+                "meshResolutionMetres": 1,
+                "levels": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "tiles": 341,
+                "ringTiles": 4,
+                "fallbackRebuilt": false,
+                "batches": [
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 8,
+                    "renderedTiles": 1,
+                    "residentLayers": 1,
+                    "textureUploads": 1,
+                    "renderRevision": 4,
+                    "morphing": true,
+                    "frameAttributeVersion": 1,
+                    "paramsAttributeVersion": 3,
+                    "textureCapacityBytes": 1065024,
+                    "topologyBytes": 460047,
+                    "triangles": 33792,
+                    "drawCalls": 1
+                  }
+                ],
+                "renderRevision": 3,
+                "morphing": true,
+                "renderedTiles": 55,
+                "residentLayers": 1,
+                "drawCalls": 2,
+                "triangles": 33792,
+                "textureCapacityBytes": 1065024,
+                "textureUploads": 1,
+                "readyTiles": 74
+              },
+              "ringLevels": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "stream": {
+                "renderStride": 2,
+                "readyTiles": 66,
+                "loadingTiles": 0,
+                "failedTiles": 0,
+                "renderedTiles": 27,
+                "drawCalls": 2,
+                "triangles": 2302976,
+                "textureCapacityBytes": 22233664,
+                "batches": [
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 40,
+                    "renderedTiles": 13,
+                    "residentLayers": 13,
+                    "textureUploads": 52,
+                    "renderRevision": 42,
+                    "morphing": false,
+                    "frameAttributeVersion": 16,
+                    "paramsAttributeVersion": 35,
+                    "textureCapacityBytes": 5325120,
+                    "topologyBytes": 460047,
+                    "triangles": 439296,
+                    "drawCalls": 1
+                  },
+                  {
+                    "width": 257,
+                    "height": 257,
+                    "capacity": 32,
+                    "renderedTiles": 14,
+                    "residentLayers": 14,
+                    "textureUploads": 39,
+                    "renderRevision": 26,
+                    "morphing": false,
+                    "frameAttributeVersion": 6,
+                    "paramsAttributeVersion": 21,
+                    "textureCapacityBytes": 16908544,
+                    "topologyBytes": 2603535,
+                    "triangles": 1863680,
+                    "drawCalls": 1
+                  }
+                ],
+                "selectedTiles": 27,
+                "requests": {
+                  "queued": 0,
+                  "running": 0,
+                  "jobs": 0
+                }
+              }
+            }
+          },
+          "targetProjection": {
+            "x": 479.99999999999994,
+            "y": 299.9999999999999,
+            "depth": 0.9570768144768937,
+            "visible": true
+          },
+          "image": "authored-northeast-facade.png",
+          "imageSha256": "87f80cd821581b25273d84679d9a1d7f9e16d3a48310e5cec4967fcaa0b038e5",
+          "imageBytes": 482281
+        },
+        {
+          "id": "pondside-extension",
+          "state": {
+            "course": "tortuna",
+            "authored": [
+              {
+                "buildingId": "way/1163533127",
+                "asset": {
+                  "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+                  "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+                  "bytes": 758472
+                },
+                "appearanceStatus": "photo-informed-display-model",
+                "evidence": [
+                  "tortunabuild/clubhouse/reference-review.md",
+                  "tortunabuild/clubhouse/geometry-evidence.json",
+                  "tortunabuild/clubhouse/model-parameters.json"
+                ],
+                "sourceFootprintUnchanged": true,
+                "sourceRoofUnchanged": true,
+                "status": "loaded",
+                "sourceFootprintSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+                "transform": {
+                  "position": [
+                    63.19914342649281,
+                    27.1,
+                    -175.67312748730183
+                  ],
+                  "rotationYRadians": 0,
+                  "scale": 1
+                },
+                "anchorEpsg3006RH2000": [
+                  597463.6991434265,
+                  6615075.173127487,
+                  27.1
+                ],
+                "sourceRoofTriangles": 1157,
+                "bounds": {
+                  "min": [
+                    49.476188676431775,
+                    26.699999994039537,
+                    -192.06586392223835
+                  ],
+                  "max": [
+                    84.87285901792347,
+                    36.38999996185303,
+                    -154.91606076061726
+                  ]
+                },
+                "meshes": 12,
+                "vertices": 27632,
+                "triangles": 13812
+              }
+            ],
+            "stats": {
+              "backend": "webgl2",
+              "authoredBuildingModels": 1,
+              "authoredBuildingMeshes": 12,
+              "authoredBuildingTriangles": 13812,
+              "sourceRoofBuildings": 6,
+              "sourceRoofTriangles": 4737,
+              "measuredRoofBuildings": 5,
+              "measuredRoofTriangles": 3580,
+              "genericRoofBuildings": 303,
+              "architecturalBuildings": 1,
+              "architecturalTriangles": 13812
+            },
+            "source": {
+              "ringSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+              "roofSha256": "c0f9d0f0a34954b91967cafe38877bfd8a86b7e0a473b9060d58fb947272e0bf",
+              "buildingCount": 309
+            },
+            "meshes": [
+              {
+                "name": "Clubhouse_|_Foundation",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 24,
+                "bbox": [
+                  51,
+                  27,
+                  -191,
+                  81,
+                  27,
+                  -162
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Ochre_timber",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 182,
+                "bbox": [
+                  51,
+                  27,
+                  -191,
+                  84,
+                  35,
+                  -159
+                ]
+              },
+              {
+                "name": "Clubhouse_|_White_trim",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 10512,
+                "bbox": [
+                  49,
+                  27,
+                  -191,
+                  84,
+                  36,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Roof_tile",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 74,
+                "bbox": [
+                  50,
+                  30,
+                  -192,
+                  81,
+                  35,
+                  -157
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Tile_course",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 4992,
+                "bbox": [
+                  50,
+                  30,
+                  -192,
+                  81,
+                  35,
+                  -158
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Roof_flashing",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 324,
+                "bbox": [
+                  51,
+                  32,
+                  -191,
+                  80,
+                  36,
+                  -162
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Glass",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 960,
+                "bbox": [
+                  51,
+                  27,
+                  -191,
+                  83,
+                  35,
+                  -159
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Deck_timber",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 168,
+                "bbox": [
+                  50,
+                  27,
+                  -180,
+                  84,
+                  31,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Timber_battens",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 6480,
+                "bbox": [
+                  61,
+                  28,
+                  -191,
+                  81,
+                  34,
+                  -162
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Metal_rail",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 3864,
+                "bbox": [
+                  74,
+                  27,
+                  -173,
+                  85,
+                  32,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Awning",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 4,
+                "bbox": [
+                  72,
+                  30,
+                  -163,
+                  79,
+                  30,
+                  -155
+                ]
+              },
+              {
+                "name": "Clubhouse_|_Brick",
+                "tag": null,
+                "parentTag": "Tortuna_|_Clubhouse_architecture",
+                "material": "MeshStandardMaterial",
+                "transparent": false,
+                "order": 0,
+                "visible": true,
+                "instances": 1,
+                "vertices": 48,
+                "bbox": [
+                  57,
+                  35,
+                  -185,
+                  66,
+                  36,
+                  -177
+                ]
+              }
+            ],
+            "camera": {
+              "pos": [
+                110.45884000002235,
+                41.99999999999999,
+                -158.86472000041724
+              ],
+              "look": [
+                66.02584000002236,
+                30.999999999999996,
+                -175.76792000041723
+              ],
+              "ground": 27.652174399929518
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                110.45884000002235,
+                41.99999999999999,
+                -158.86472000041724
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  960,
+                  600
+                ],
+                "extraPixelBudget": 1000000,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 503,
+              "frameCalls": 2,
+              "drawCalls": 66,
+              "triangles": 2998034,
+              "points": 0,
+              "lines": 0,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 500,
+                "attributesSize": 82239706,
+                "geometries": 103,
+                "indexAttributes": 84,
+                "indexAttributesSize": 2392026,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 93,
+                "programsSize": 958726,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 33,
+                "texturesSize": 134328454,
+                "uniformBuffers": 192,
+                "uniformBuffersSize": 44928,
+                "total": 219963840
+              },
+              "drawingBuffer": [
+                960,
+                600
+              ],
+              "pixelRatio": 1
+            },
+            "terrain": {
+              "kind": "graph",
+              "phase": "ready",
+              "requested": true,
+              "sourceReady": true,
+              "preflightReady": true,
+              "active": true,
+              "renderer": {
+                "status": "ready",
+                "kind": "graph",
+                "meshResolutionMetres": 1,
+                "levels": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "tiles": 341,
+                "ringTiles": 4,
+                "fallbackRebuilt": false,
+                "batches": [
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 8,
+                    "renderedTiles": 1,
+                    "residentLayers": 1,
+                    "textureUploads": 1,
+                    "renderRevision": 4,
+                    "morphing": true,
+                    "frameAttributeVersion": 1,
+                    "paramsAttributeVersion": 3,
+                    "textureCapacityBytes": 1065024,
+                    "topologyBytes": 460047,
+                    "triangles": 33792,
+                    "drawCalls": 1
+                  }
+                ],
+                "renderRevision": 3,
+                "morphing": true,
+                "renderedTiles": 55,
+                "residentLayers": 1,
+                "drawCalls": 2,
+                "triangles": 33792,
+                "textureCapacityBytes": 1065024,
+                "textureUploads": 1,
+                "readyTiles": 74
+              },
+              "ringLevels": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "stream": {
+                "renderStride": 2,
+                "readyTiles": 78,
+                "loadingTiles": 0,
+                "failedTiles": 0,
+                "renderedTiles": 31,
+                "drawCalls": 2,
+                "triangles": 2835456,
+                "textureCapacityBytes": 22233664,
+                "batches": [
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 40,
+                    "renderedTiles": 13,
+                    "residentLayers": 13,
+                    "textureUploads": 69,
+                    "renderRevision": 63,
+                    "morphing": false,
+                    "frameAttributeVersion": 22,
+                    "paramsAttributeVersion": 52,
+                    "textureCapacityBytes": 5325120,
+                    "topologyBytes": 460047,
+                    "triangles": 439296,
+                    "drawCalls": 1
+                  },
+                  {
+                    "width": 257,
+                    "height": 257,
+                    "capacity": 32,
+                    "renderedTiles": 18,
+                    "residentLayers": 18,
+                    "textureUploads": 49,
+                    "renderRevision": 41,
+                    "morphing": false,
+                    "frameAttributeVersion": 9,
+                    "paramsAttributeVersion": 33,
+                    "textureCapacityBytes": 16908544,
+                    "topologyBytes": 2603535,
+                    "triangles": 2396160,
+                    "drawCalls": 1
+                  }
+                ],
+                "selectedTiles": 31,
+                "requests": {
+                  "queued": 0,
+                  "running": 0,
+                  "jobs": 0
+                }
+              }
+            }
+          },
+          "targetProjection": {
+            "x": 479.9999999999996,
+            "y": 299.9999999999999,
+            "depth": 0.9591526294201428,
+            "visible": true
+          },
+          "image": "authored-pondside-extension.png",
+          "imageSha256": "96c2a6ef1e507a6b0506f6cc18d61c8ceab95cc95d61f236a1bb799c55a58545",
+          "imageBytes": 476327
+        }
+      ],
+      "requests": [
+        "http://localhost:5174/courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb"
+      ],
+      "deliberatelyAborted": [],
+      "expectedFailures": [],
+      "warnings": [],
+      "errors": [],
+      "url": "http://localhost:5174/?bana=tortuna&v2=require&det=1&q=lo&qualitylock=1&ren=1&gl=1&lodmode=zone"
+    },
+    {
+      "mode": "source",
+      "passed": true,
+      "views": [
+        {
+          "id": "northeast-facade",
+          "state": {
+            "course": "tortuna",
+            "authored": [
+              {
+                "buildingId": "way/1163533127",
+                "asset": {
+                  "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+                  "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+                  "bytes": 758472
+                },
+                "appearanceStatus": "photo-informed-display-model",
+                "evidence": [
+                  "tortunabuild/clubhouse/reference-review.md",
+                  "tortunabuild/clubhouse/geometry-evidence.json",
+                  "tortunabuild/clubhouse/model-parameters.json"
+                ],
+                "sourceFootprintUnchanged": true,
+                "sourceRoofUnchanged": true,
+                "status": "source-view"
+              }
+            ],
+            "stats": {
+              "backend": "webgl2",
+              "authoredBuildingModels": 0,
+              "authoredBuildingMeshes": 0,
+              "authoredBuildingTriangles": 0,
+              "sourceRoofBuildings": 6,
+              "sourceRoofTriangles": 4737,
+              "measuredRoofBuildings": 6,
+              "measuredRoofTriangles": 4737,
+              "genericRoofBuildings": 303,
+              "architecturalBuildings": 0,
+              "architecturalTriangles": 0
+            },
+            "source": {
+              "ringSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+              "roofSha256": "c0f9d0f0a34954b91967cafe38877bfd8a86b7e0a473b9060d58fb947272e0bf",
+              "buildingCount": 309
+            },
+            "meshes": [],
+            "camera": {
+              "pos": [
+                88.77256000002235,
+                41.99999999999999,
+                -214.73708000041722
+              ],
+              "look": [
+                66.02584000002236,
+                30.999999999999996,
+                -175.76792000041723
+              ],
+              "ground": 26.21545712624353
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                88.77256000002235,
+                41.99999999999999,
+                -214.73708000041722
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  960,
+                  600
+                ],
+                "extraPixelBudget": 1000000,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 472,
+              "frameCalls": 3,
+              "drawCalls": 61,
+              "triangles": 5655884,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 356,
+                "attributesSize": 81656890,
+                "geometries": 67,
+                "indexAttributes": 48,
+                "indexAttributesSize": 2306628,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 91,
+                "programsSize": 929109,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 33,
+                "texturesSize": 134328454,
+                "uniformBuffers": 142,
+                "uniformBuffersSize": 34144,
+                "total": 219255225
+              },
+              "drawingBuffer": [
+                960,
+                600
+              ],
+              "pixelRatio": 1
+            },
+            "terrain": {
+              "kind": "graph",
+              "phase": "ready",
+              "requested": true,
+              "sourceReady": true,
+              "preflightReady": true,
+              "active": true,
+              "renderer": {
+                "status": "ready",
+                "kind": "graph",
+                "meshResolutionMetres": 1,
+                "levels": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "tiles": 341,
+                "ringTiles": 4,
+                "fallbackRebuilt": false,
+                "batches": [
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 8,
+                    "renderedTiles": 1,
+                    "residentLayers": 1,
+                    "textureUploads": 1,
+                    "renderRevision": 3,
+                    "morphing": false,
+                    "frameAttributeVersion": 1,
+                    "paramsAttributeVersion": 2,
+                    "textureCapacityBytes": 1065024,
+                    "topologyBytes": 460047,
+                    "triangles": 33792,
+                    "drawCalls": 1
+                  }
+                ],
+                "renderRevision": 2,
+                "morphing": false,
+                "renderedTiles": 55,
+                "residentLayers": 1,
+                "drawCalls": 2,
+                "triangles": 33792,
+                "textureCapacityBytes": 1065024,
+                "textureUploads": 1,
+                "readyTiles": 74
+              },
+              "ringLevels": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "stream": {
+                "renderStride": 2,
+                "readyTiles": 66,
+                "loadingTiles": 0,
+                "failedTiles": 0,
+                "renderedTiles": 27,
+                "drawCalls": 2,
+                "triangles": 2302976,
+                "textureCapacityBytes": 22233664,
+                "batches": [
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 40,
+                    "renderedTiles": 13,
+                    "residentLayers": 13,
+                    "textureUploads": 55,
+                    "renderRevision": 42,
+                    "morphing": false,
+                    "frameAttributeVersion": 16,
+                    "paramsAttributeVersion": 34,
+                    "textureCapacityBytes": 5325120,
+                    "topologyBytes": 460047,
+                    "triangles": 439296,
+                    "drawCalls": 1
+                  },
+                  {
+                    "width": 257,
+                    "height": 257,
+                    "capacity": 32,
+                    "renderedTiles": 14,
+                    "residentLayers": 14,
+                    "textureUploads": 35,
+                    "renderRevision": 19,
+                    "morphing": false,
+                    "frameAttributeVersion": 5,
+                    "paramsAttributeVersion": 15,
+                    "textureCapacityBytes": 16908544,
+                    "topologyBytes": 2603535,
+                    "triangles": 1863680,
+                    "drawCalls": 1
+                  }
+                ],
+                "selectedTiles": 27,
+                "requests": {
+                  "queued": 0,
+                  "running": 0,
+                  "jobs": 0
+                }
+              }
+            }
+          },
+          "targetProjection": {
+            "x": 479.99999999999994,
+            "y": 299.9999999999999,
+            "depth": 0.9570768144768937,
+            "visible": true
+          },
+          "image": "source-northeast-facade.png",
+          "imageSha256": "2c1a3c671b71767834c9534bb51bae9a34d602f9a0c0343ae2a08c91dd121ec8",
+          "imageBytes": 459025
+        }
+      ],
+      "requests": [],
+      "deliberatelyAborted": [],
+      "expectedFailures": [],
+      "warnings": [],
+      "errors": [],
+      "url": "http://localhost:5174/?bana=tortuna&v2=require&det=1&q=lo&qualitylock=1&ren=1&gl=1&lodmode=zone&buildingGeometry=source"
+    },
+    {
+      "mode": "failed-load",
+      "passed": true,
+      "views": [
+        {
+          "id": "northeast-facade",
+          "state": {
+            "course": "tortuna",
+            "authored": [
+              {
+                "buildingId": "way/1163533127",
+                "asset": {
+                  "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+                  "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+                  "bytes": 758472
+                },
+                "appearanceStatus": "photo-informed-display-model",
+                "evidence": [
+                  "tortunabuild/clubhouse/reference-review.md",
+                  "tortunabuild/clubhouse/geometry-evidence.json",
+                  "tortunabuild/clubhouse/model-parameters.json"
+                ],
+                "sourceFootprintUnchanged": true,
+                "sourceRoofUnchanged": true,
+                "status": "fallback",
+                "error": "Failed to fetch"
+              }
+            ],
+            "stats": {
+              "backend": "webgl2",
+              "authoredBuildingModels": 0,
+              "authoredBuildingMeshes": 0,
+              "authoredBuildingTriangles": 0,
+              "sourceRoofBuildings": 6,
+              "sourceRoofTriangles": 4737,
+              "measuredRoofBuildings": 6,
+              "measuredRoofTriangles": 4737,
+              "genericRoofBuildings": 303,
+              "architecturalBuildings": 0,
+              "architecturalTriangles": 0
+            },
+            "source": {
+              "ringSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+              "roofSha256": "c0f9d0f0a34954b91967cafe38877bfd8a86b7e0a473b9060d58fb947272e0bf",
+              "buildingCount": 309
+            },
+            "meshes": [],
+            "camera": {
+              "pos": [
+                88.77256000002235,
+                41.99999999999999,
+                -214.73708000041722
+              ],
+              "look": [
+                66.02584000002236,
+                30.999999999999996,
+                -175.76792000041723
+              ],
+              "ground": 26.21545712624353
+            },
+            "lens": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.6,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                88.77256000002235,
+                41.99999999999999,
+                -214.73708000041722
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  960,
+                  600
+                ],
+                "extraPixelBudget": 1000000,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": null
+            },
+            "renderer": {
+              "calls": 477,
+              "frameCalls": 2,
+              "drawCalls": 44,
+              "triangles": 2877341,
+              "points": 0,
+              "lines": 48,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 356,
+                "attributesSize": 81656890,
+                "geometries": 67,
+                "indexAttributes": 48,
+                "indexAttributesSize": 2306628,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 91,
+                "programsSize": 929109,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 11,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 33,
+                "texturesSize": 134328454,
+                "uniformBuffers": 142,
+                "uniformBuffersSize": 34144,
+                "total": 219255225
+              },
+              "drawingBuffer": [
+                960,
+                600
+              ],
+              "pixelRatio": 1
+            },
+            "terrain": {
+              "kind": "graph",
+              "phase": "ready",
+              "requested": true,
+              "sourceReady": true,
+              "preflightReady": true,
+              "active": true,
+              "renderer": {
+                "status": "ready",
+                "kind": "graph",
+                "meshResolutionMetres": 1,
+                "levels": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "tiles": 341,
+                "ringTiles": 4,
+                "fallbackRebuilt": false,
+                "batches": [
+                  {
+                    "width": 257,
+                    "height": 257,
+                    "capacity": 1,
+                    "renderedTiles": 0,
+                    "residentLayers": 0,
+                    "textureUploads": 1,
+                    "renderRevision": 3,
+                    "morphing": false,
+                    "frameAttributeVersion": 1,
+                    "paramsAttributeVersion": 1,
+                    "textureCapacityBytes": 528392,
+                    "topologyBytes": 2603535,
+                    "triangles": 0,
+                    "drawCalls": 0
+                  },
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 8,
+                    "renderedTiles": 4,
+                    "residentLayers": 4,
+                    "textureUploads": 5,
+                    "renderRevision": 8,
+                    "morphing": true,
+                    "frameAttributeVersion": 2,
+                    "paramsAttributeVersion": 6,
+                    "textureCapacityBytes": 1065024,
+                    "topologyBytes": 460047,
+                    "triangles": 135168,
+                    "drawCalls": 1
+                  }
+                ],
+                "renderRevision": 7,
+                "morphing": true,
+                "renderedTiles": 55,
+                "residentLayers": 4,
+                "drawCalls": 2,
+                "triangles": 135168,
+                "textureCapacityBytes": 1593416,
+                "textureUploads": 6,
+                "readyTiles": 74
+              },
+              "ringLevels": [
+                1,
+                2,
+                3,
+                4
+              ],
+              "stream": {
+                "renderStride": 2,
+                "readyTiles": 66,
+                "loadingTiles": 0,
+                "failedTiles": 0,
+                "renderedTiles": 27,
+                "drawCalls": 2,
+                "triangles": 2302976,
+                "textureCapacityBytes": 22762056,
+                "batches": [
+                  {
+                    "width": 257,
+                    "height": 257,
+                    "capacity": 1,
+                    "renderedTiles": 0,
+                    "residentLayers": 0,
+                    "textureUploads": 1,
+                    "renderRevision": 3,
+                    "morphing": false,
+                    "frameAttributeVersion": 1,
+                    "paramsAttributeVersion": 1,
+                    "textureCapacityBytes": 528392,
+                    "topologyBytes": 2603535,
+                    "triangles": 0,
+                    "drawCalls": 0
+                  },
+                  {
+                    "width": 129,
+                    "height": 129,
+                    "capacity": 40,
+                    "renderedTiles": 13,
+                    "residentLayers": 13,
+                    "textureUploads": 52,
+                    "renderRevision": 43,
+                    "morphing": false,
+                    "frameAttributeVersion": 15,
+                    "paramsAttributeVersion": 36,
+                    "textureCapacityBytes": 5325120,
+                    "topologyBytes": 460047,
+                    "triangles": 439296,
+                    "drawCalls": 1
+                  },
+                  {
+                    "width": 257,
+                    "height": 257,
+                    "capacity": 32,
+                    "renderedTiles": 14,
+                    "residentLayers": 14,
+                    "textureUploads": 35,
+                    "renderRevision": 23,
+                    "morphing": false,
+                    "frameAttributeVersion": 5,
+                    "paramsAttributeVersion": 19,
+                    "textureCapacityBytes": 16908544,
+                    "topologyBytes": 2603535,
+                    "triangles": 1863680,
+                    "drawCalls": 1
+                  }
+                ],
+                "selectedTiles": 27,
+                "requests": {
+                  "queued": 0,
+                  "running": 0,
+                  "jobs": 0
+                }
+              }
+            }
+          },
+          "targetProjection": {
+            "x": 479.99999999999994,
+            "y": 299.9999999999999,
+            "depth": 0.9570768144768937,
+            "visible": true
+          }
+        }
+      ],
+      "requests": [
+        "http://localhost:5174/courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb"
+      ],
+      "deliberatelyAborted": [
+        "http://localhost:5174/courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb"
+      ],
+      "expectedFailures": [
+        {
+          "type": "requestfailed",
+          "url": "http://localhost:5174/courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+          "text": "net::ERR_FAILED"
+        },
+        {
+          "type": "console",
+          "text": "Failed to load resource: net::ERR_FAILED"
+        }
+      ],
+      "warnings": [
+        "Authored building way/1163533127 uses source fallback: Failed to fetch"
+      ],
+      "errors": [],
+      "url": "http://localhost:5174/?bana=tortuna&v2=require&det=1&q=lo&qualitylock=1&ren=1&gl=1&lodmode=zone"
+    }
+  ],
+  "errors": [],
+  "expected": {
+    "descriptor": {
+      "buildingId": "way/1163533127",
+      "asset": {
+        "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+        "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+        "bytes": 758472
+      },
+      "sourceFootprintSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+      "anchorEpsg3006RH2000": [
+        597463.6991434265,
+        6615075.173127487,
+        27.1
+      ],
+      "courseOriginEpsg3006": [
+        597400.5,
+        6614899.5
+      ],
+      "rotationYRadians": 0,
+      "scale": 1,
+      "appearanceStatus": "photo-informed-display-model",
+      "evidence": [
+        "tortunabuild/clubhouse/reference-review.md",
+        "tortunabuild/clubhouse/geometry-evidence.json",
+        "tortunabuild/clubhouse/model-parameters.json"
+      ]
+    },
+    "pack": {
+      "sha256": "746d8475e7aff2be389963331d5a9cef80cb7b056a7c6b8ca5d775b11b6c9931",
+      "bytes": 628463,
+      "url": "courses/tortuna/pack.bin"
+    },
+    "source": {
+      "buildingId": "way/1163533127",
+      "ringSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+      "roofSha256": "c0f9d0f0a34954b91967cafe38877bfd8a86b7e0a473b9060d58fb947272e0bf",
+      "roofTriangles": 1157,
+      "buildingCount": 309,
+      "measuredRoofBuildings": 6,
+      "measuredRoofTriangles": 4737
+    },
+    "decoded": {
+      "buildingId": "way/1163533127",
+      "asset": {
+        "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+        "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+        "bytes": 758472
+      },
+      "appearanceStatus": "photo-informed-display-model",
+      "evidence": [
+        "tortunabuild/clubhouse/reference-review.md",
+        "tortunabuild/clubhouse/geometry-evidence.json",
+        "tortunabuild/clubhouse/model-parameters.json"
+      ],
+      "sourceFootprintUnchanged": true,
+      "sourceRoofUnchanged": true,
+      "status": "loaded",
+      "sourceFootprintSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+      "transform": {
+        "position": [
+          63.19914342649281,
+          27.1,
+          -175.67312748730183
+        ],
+        "rotationYRadians": 0,
+        "scale": 1
+      },
+      "anchorEpsg3006RH2000": [
+        597463.6991434265,
+        6615075.173127487,
+        27.1
+      ],
+      "sourceRoofTriangles": 1157,
+      "bounds": {
+        "min": [
+          49.476188676431775,
+          26.699999994039537,
+          -192.06586392223835
+        ],
+        "max": [
+          84.87285901792347,
+          36.38999996185303,
+          -154.91606076061726
+        ]
+      },
+      "meshes": 12,
+      "vertices": 27632,
+      "triangles": 13812
+    },
+    "meshes": [
+      {
+        "name": "Clubhouse_|_Foundation",
+        "vertices": 24
+      },
+      {
+        "name": "Clubhouse_|_Ochre_timber",
+        "vertices": 182
+      },
+      {
+        "name": "Clubhouse_|_White_trim",
+        "vertices": 10512
+      },
+      {
+        "name": "Clubhouse_|_Roof_tile",
+        "vertices": 74
+      },
+      {
+        "name": "Clubhouse_|_Tile_course",
+        "vertices": 4992
+      },
+      {
+        "name": "Clubhouse_|_Roof_flashing",
+        "vertices": 324
+      },
+      {
+        "name": "Clubhouse_|_Glass",
+        "vertices": 960
+      },
+      {
+        "name": "Clubhouse_|_Deck_timber",
+        "vertices": 168
+      },
+      {
+        "name": "Clubhouse_|_Timber_battens",
+        "vertices": 6480
+      },
+      {
+        "name": "Clubhouse_|_Metal_rail",
+        "vertices": 3864
+      },
+      {
+        "name": "Clubhouse_|_Awning",
+        "vertices": 4
+      },
+      {
+        "name": "Clubhouse_|_Brick",
+        "vertices": 48
+      }
+    ]
+  }
+}

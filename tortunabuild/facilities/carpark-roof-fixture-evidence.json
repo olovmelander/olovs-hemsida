@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 1,
+  "buildingId": "way/1163533123",
+  "observationId": "tortuna-carpark-barn-raised-roof-vent",
+  "state": "source-supported-display-fixture-with-explicit-dimension-uncertainty",
+  "horizontalCrs": "EPSG:3006",
+  "verticalCrs": "EPSG:5613",
+  "sourceEpoch": "2021-04-05T12:00:00Z",
+  "source": {
+    "path": "tortunabuild/cache/buildings/laser-2021-points.json",
+    "sha256": "ff07c4e622e8c5ddfb26472d0407f67e7c6c14687e9af93c916df51f9c79ea00",
+    "bytes": 31151685
+  },
+  "photo": {
+    "id": "official-wp-3171",
+    "path": "tortunabuild/cache/clubhouse-model/references/official-wp-3171.png",
+    "sha256": "f464880f949768d8e719a9bc6d9850e3890e3530aeb82add8ce5dab1f5e6b1ca",
+    "bytes": 5343355,
+    "sourceUrl": "https://tortunagk.se/wp-content/uploads/2023/04/DJI_0078.png",
+    "captureDate": null,
+    "interpretation": "Large pale raised vent-like roof structure visible on southwest end of the matched long carpark barn; function and exact cladding are not verified."
+  },
+  "localFrame": {
+    "originEpsg3006": [
+      597301.5928969152,
+      6615161.979593678
+    ],
+    "uAxis": [
+      0.8017136310736825,
+      0.5977083350185534
+    ],
+    "vAxis": [
+      -0.5977083350185534,
+      0.8017136310736825
+    ],
+    "anchorEpsg3006RH2000": [
+      597301.5928969152,
+      6615161.979593678,
+      28.98
+    ],
+    "uBearingDegrees": 53.29405505999848
+  },
+  "selection": {
+    "uMinExclusive": -13,
+    "uMaxExclusive": -8.5,
+    "vMinExclusive": -2.5,
+    "vMaxExclusive": 2.5,
+    "minimumRH2000Exclusive": 37.5,
+    "classification": 1,
+    "returnNumber": 1,
+    "count": 26
+  },
+  "selectedReturnCoordinatesUVRH2000": [
+    [
+      -12.265737550059574,
+      -0.13503588478927522,
+      38.689998626708984
+    ],
+    [
+      -11.185464201137053,
+      -0.9279479176326965,
+      38.29999923706055
+    ],
+    [
+      -10.127202208160858,
+      -1.7169229198265707,
+      37.86000061035156
+    ],
+    [
+      -8.997321294971378,
+      -1.6736895766132325,
+      37.90999984741211
+    ],
+    [
+      -10.141731734346195,
+      -0.8329608769933771,
+      38.380001068115234
+    ],
+    [
+      -11.240079408913406,
+      -0.014100458020741944,
+      38.70000076293945
+    ],
+    [
+      -12.288284212469781,
+      0.754903241330088,
+      38.45000076293945
+    ],
+    [
+      -11.517955837838256,
+      2.0391128020757714,
+      37.83000183105469
+    ],
+    [
+      -10.555899480587172,
+      1.3218628000813402,
+      38.18000030517578
+    ],
+    [
+      -9.587866040026165,
+      0.6126299341488672,
+      38.59000015258789
+    ],
+    [
+      -11.892513938412561,
+      -1.9599753731839782,
+      37.77000045776367
+    ],
+    [
+      -9.010881381262855,
+      0.9682824378810497,
+      38.36000061035156
+    ],
+    [
+      -10.005006283786756,
+      1.7094407732984898,
+      37.90999984741211
+    ],
+    [
+      -12.337139403882869,
+      0.3547618030304287,
+      38.68000030517578
+    ],
+    [
+      -11.310945956086154,
+      -0.41030486581001924,
+      38.61000061035156
+    ],
+    [
+      -10.222655470382103,
+      -1.2091939811929553,
+      38.09000015258789
+    ],
+    [
+      -9.1483592047695,
+      -2.0101231500983343,
+      37.7599983215332
+    ],
+    [
+      -9.04832261898516,
+      -1.3238340850901733,
+      37.9900016784668
+    ],
+    [
+      -10.242875929277481,
+      -0.4332486659180957,
+      38.529998779296875
+    ],
+    [
+      -11.387286368652298,
+      0.4074800337017597,
+      38.70000076293945
+    ],
+    [
+      -12.43753122531029,
+      1.1904779525398825,
+      38.22999954223633
+    ],
+    [
+      -11.102209354287819,
+      2.1283028296897304,
+      37.709999084472656
+    ],
+    [
+      -10.118141641183737,
+      1.4071157971153347,
+      38.0
+    ],
+    [
+      -9.164102420250854,
+      0.6958428784766557,
+      38.459999084472656
+    ],
+    [
+      -9.115962606402446,
+      1.345983293407082,
+      38.13999938964844
+    ],
+    [
+      -10.180201683151887,
+      2.126941158722762,
+      37.7400016784668
+    ]
+  ],
+  "sourceReturnBoundsUV": {
+    "uMin": -12.43753122531029,
+    "uMax": -8.997321294971378,
+    "vMin": -2.0101231500983343,
+    "vMax": 2.1283028296897304
+  },
+  "sourceHeightRH2000": {
+    "minimum": 37.709999084472656,
+    "median": 38.204999923706055,
+    "maximum": 38.70000076293945
+  },
+  "topPlanes": [
+    {
+      "name": "south-slope",
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        -0.017747836205811652,
+        0.5188240520138656,
+        38.58684559384865
+      ],
+      "selectedReturns": 10,
+      "selection": "v < -0.15",
+      "absoluteResidualMetres": {
+        "median": 0.03355395513158044,
+        "p95": 0.06298752755348253,
+        "maximum": 0.0705950989403874
+      },
+      "slopeDegrees": 27.43506824580242
+    },
+    {
+      "name": "north-slope",
+      "equation": "RH2000=a*u+b*v+c",
+      "coefficients": [
+        -0.007904817603068479,
+        -0.5487844569654285,
+        38.79927070034712
+      ],
+      "selectedReturns": 13,
+      "selection": "v > 0.4",
+      "absoluteResidualMetres": {
+        "median": 0.029844417804312684,
+        "p95": 0.0780501158147046,
+        "maximum": 0.10704948589527419
+      },
+      "slopeDegrees": 28.759802417304495
+    }
+  ],
+  "fittedRidgeAtUMinus10Point8": {
+    "uvRH2000": [
+      -10.8,
+      0.09940020587724989,
+      38.83009344245566
+    ],
+    "epsg3006RH2000": [
+      597292.874977368,
+      6615155.60403416,
+      38.83009344245566
+    ],
+    "interpretation": "Plane intersection extrapolates to approximately RH38.83, while retained return maximum is RH38.70; the exact ridge cap remains uncertain."
+  },
+  "displayEstimate": {
+    "boundsUV": {
+      "uMin": -12.6,
+      "uMax": -8.8,
+      "vMin": -2.2,
+      "vMax": 2.3
+    },
+    "planUncertaintyMetres": 0.4,
+    "topRH2000Range": [
+      38.7,
+      38.85
+    ],
+    "upperEaveRH2000Approximate": 37.7,
+    "ordinaryRoofAtCentreRH2000": 35.952560583399304,
+    "wallBaseMethod": "Intersect each wall edge with the ordinary roof and extend 0.15m into that roof. Do not start all walls at the centre roof height, which would leave the outer edges floating.",
+    "colourInterpretation": "Pale/off-white from official photo; exact material is unverified."
+  },
+  "limitations": [
+    "Twenty-six first returns support the elevated top envelope; dimensions include sampling allowance and are not surveyed wall edges.",
+    "The apparent ortho/photo fixture location differs from independent laserXY. Use this laser-derived frame for the authored fixture.",
+    "Top slopes and ridge are a bounded approximation; a narrow flat cap cannot be resolved by this sampling.",
+    "Existing facility geometry evidence, ground footprints, raw source data and pack remain unchanged."
+  ]
+}

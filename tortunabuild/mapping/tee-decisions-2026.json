@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "reviewedOn": "2026-09-10",
+  "captureDate": "2026-05-02",
+  "source": "Lantmäteriet orto-n2-2026 at 0.16 m (Min karta proxy, the same flight as the retained review windows) + the 1 m laser terrain (trace-tees.mjs deck candidates) + the club's Caddee hole plans (yellow and red tee discs; blue and orange are never drawn)",
+  "method": "Every hole carried its four card tees on ONE point. A derived platform never stands in water: a station inside a water ring walks forward along the route to the first dry station 6 m clear of the water. A laser deck is drawn as the rectangle of its own principal axes, since a built deck is one and the 1 m flat cells give it a ragged outline. A colour stands on the OBSERVED platform where one exists (22 pads from the 2026 review), on a laser-flat mown deck where the terrain and the imagery show one at the card's own distance (holes 1 and 15), and otherwise at a CARD-DERIVED position: the card's metres to the green centre walked back along the route, moved sideways onto the middle of the mown corridor at that station, with a 14 x 7 m platform drawn there and flagged as derived. Where two colours share a platform (Gul=Blå, Röd=Orange on the card) they share the mark; where a long observed deck carries two card lengths (5, 9) the shorter stands at its front.",
+  "derivedPlatform": { "lengthMetres": 14, "widthMetres": 7, "status": "card-derived-position; no platform resolved in the 2026 orthophoto; not surveyed" },
+  "colours": ["Gul", "Blå", "Röd", "Orange"],
+  "holes": [
+    { "hole": 1, "platforms": [
+      { "id": "tortuna-h01-tee-1", "source": "observed", "colours": [0, 1], "role": "back" },
+      { "id": "tortuna-h01-tee-forward-laser-2026", "source": "deck", "deck": "deck-241", "colours": [2, 3], "role": "forward",
+        "evidence": "laser-flat mown deck 17 x 8 m, 75 m down the line and 16 m left of it; the club's plan draws the red tee left of the fairway at 27% of the hole (81 m); card 205 against 221 by route" } ] },
+    { "hole": 2, "platforms": [
+      { "id": "tortuna-h02-tee-1", "source": "observed", "colours": [0, 1], "role": "back" },
+      { "id": "tortuna-h02-tee-forward-derived-2026", "source": "derived", "cardMetres": 265, "colours": [2, 3], "role": "forward",
+        "evidence": "the plan draws the red tee 12% down the hole (38 m); the 0.16 m image shows mown ground there and no distinct deck" } ] },
+    { "hole": 3, "platforms": [
+      { "id": "tortuna-h03-tee-1", "source": "observed", "colours": [0], "role": "back" },
+      { "id": "tortuna-h03-tee-forward-derived-2026", "source": "derived", "cardMetres": 115, "colours": [1, 2, 3], "role": "forward",
+        "evidence": "the plan draws the red tee 27% down the corridor (42 m); the corridor is a mown strip in forest with no distinct deck in the image" } ] },
+    { "hole": 4, "platforms": [
+      { "id": "tortuna-h04-tee-back-derived-2026", "source": "derived", "cardMetres": 455, "colours": [0], "role": "back",
+        "evidence": "the plan puts the yellow tee at the far end of the long thin mown strip along the path (laser-flat deck-336, 77 m long); the strip's far end is where 455 m to the green lands" },
+      { "id": "tortuna-h04-tee-forward-observed-2026", "source": "observed", "colours": [1, 2], "role": "forward" },
+      { "id": "tortuna-h04-tee-front-derived-2026", "source": "derived", "cardMetres": 340, "colours": [3], "role": "front",
+        "evidence": "Orange 340 is 35 m ahead of the observed forward platform; the plan draws no orange disc" } ] },
+    { "hole": 5, "platforms": [
+      { "id": "tortuna-h05-tee-1", "source": "observed", "colours": [0, 1], "role": "back", "at": "rear" },
+      { "id": "tortuna-h05-tee-1", "source": "observed", "colours": [2, 3], "role": "forward", "at": "front",
+        "evidence": "one 20 m deck (laser-flat deck-348 confirms); the plan draws the red disc on the same deck ahead of the yellow; the card differs by 15 m" } ] },
+    { "hole": 6, "platforms": [
+      { "id": "tortuna-h06-tee-back-derived-2026", "source": "derived", "atLineStart": true, "colours": [0], "role": "back",
+        "evidence": "no platform resolved in any source image; the line start is GolfTraxx's surveyed back-tee point, on the mown strip north of the road bend where the plan draws the yellow tee" },
+      { "id": "tortuna-h06-tee-mid-derived-2026", "source": "derived", "cardMetres": 395, "colours": [1, 2], "role": "forward",
+        "evidence": "the plan draws the red disc 13% down the hole (60 m); card 395" },
+      { "id": "tortuna-h06-tee-front-derived-2026", "source": "derived", "cardMetres": 340, "colours": [3], "role": "front" } ] },
+    { "hole": 7, "platforms": [
+      { "id": "tortuna-h07-tee-1", "source": "observed", "colours": [0, 1], "role": "back" },
+      { "id": "tortuna-h07-tee-forward-observed-2026", "source": "observed", "colours": [2, 3], "role": "forward" } ] },
+    { "hole": 8, "platforms": [
+      { "id": "tortuna-h08-tee-1", "source": "observed", "colours": [0], "role": "back" },
+      { "id": "tortuna-h08-tee-forward-derived-2026", "source": "derived", "cardMetres": 235, "colours": [1, 2, 3], "role": "forward",
+        "evidence": "the plan draws the red disc 19% down the hole (58 m); the 0.16 m image shows mown fairway and no distinct deck at 235" } ] },
+    { "hole": 9, "platforms": [
+      { "id": "tortuna-hole-09-current-tee-2026", "source": "observed", "colours": [0, 1], "role": "back", "at": "rear" },
+      { "id": "tortuna-hole-09-current-tee-2026", "source": "observed", "colours": [2, 3], "role": "forward", "at": "front",
+        "evidence": "one 30 m deck; the plan draws both discs on it; the card differs by 10 m" } ] },
+    { "hole": 10, "platforms": [
+      { "id": "tortuna-h10-tee-review2-01", "source": "observed", "colours": [0], "role": "back" },
+      { "id": "tortuna-h10-tee-review2-02", "source": "observed", "colours": [1, 2, 3], "role": "forward" } ] },
+    { "hole": 11, "platforms": [
+      { "id": "tortuna-h11-tee-review2-01", "source": "observed", "colours": [0], "role": "back" },
+      { "id": "tortuna-h11-tee-review2-02", "source": "observed", "colours": [1, 2, 3], "role": "forward" } ] },
+    { "hole": 12, "platforms": [
+      { "id": "tortuna-h12-tee-back-derived-2026", "source": "derived", "atLineStart": true, "colours": [0, 1], "role": "back",
+        "evidence": "GolfTraxx's surveyed back-tee point stands in the small clearing at the pine grove's south-west edge, beside the service track, where the plan draws the yellow tee; the 0.16 m image shows the clearing and no distinct deck. The card's 465 m would land 13 m behind the surveyed point and a sideways slide onto the mown corridor there lands on the 18th's fairway, so the surveyed point stands." },
+      { "id": "tortuna-h12-tee-review2-01", "source": "observed", "colours": [2], "role": "forward" },
+      { "id": "tortuna-h12-tee-front-derived-2026", "source": "derived", "cardMetres": 340, "colours": [3], "role": "front" } ] },
+    { "hole": 13, "platforms": [
+      { "id": "tortuna-h13-tee-review2-01", "source": "observed", "colours": [0, 1], "role": "back" },
+      { "id": "tortuna-h13-tee-review2-02", "source": "observed", "colours": [2], "role": "forward" },
+      { "id": "tortuna-h13-tee-front-derived-2026", "source": "derived", "cardMetres": 340, "colours": [3], "role": "front" } ] },
+    { "hole": 14, "platforms": [
+      { "id": "tortuna-h14-tee-review2-01", "source": "observed", "colours": [0], "role": "back" },
+      { "id": "tortuna-h14-tee-review2-02", "source": "observed", "colours": [1, 2, 3], "role": "forward" } ] },
+    { "hole": 15, "platforms": [
+      { "id": "tortuna-h15-tee-back-laser-2026", "source": "deck", "deck": "deck-74", "colours": [0], "role": "back",
+        "evidence": "laser-flat (0.12 m over 122 m²) mown deck 26 x 7 m on the line at 346 m to the green, beside the road where the plan draws the yellow tee; card 355" },
+      { "id": "tortuna-h15-tee-mid-derived-2026", "source": "derived", "cardMetres": 300, "colours": [1, 2], "role": "forward",
+        "evidence": "the plan draws the red disc 17% down the hole (60 m) at the pond's south-west end" },
+      { "id": "tortuna-h15-tee-front-derived-2026", "source": "derived", "cardMetres": 270, "colours": [3], "role": "front" } ] },
+    { "hole": 16, "platforms": [
+      { "id": "tortuna-h16-tee-review2-01", "source": "observed", "colours": [0, 1], "role": "back" },
+      { "id": "tortuna-h16-tee-mid-derived-2026", "source": "derived", "cardMetres": 290, "colours": [2], "role": "forward" },
+      { "id": "tortuna-h16-tee-front-derived-2026", "source": "derived", "cardMetres": 250, "colours": [3], "role": "front" } ] },
+    { "hole": 17, "platforms": [
+      { "id": "tortuna-h17-tee-review2-01", "source": "observed", "colours": [0, 1], "role": "back" },
+      { "id": "tortuna-h17-tee-review2-02", "source": "observed", "colours": [2], "role": "forward" },
+      { "id": "tortuna-h17-tee-front-derived-2026", "source": "derived", "cardMetres": 240, "colours": [3], "role": "front" } ] },
+    { "hole": 18, "platforms": [
+      { "id": "tortuna-h18-tee-review2-01", "source": "observed", "colours": [0], "role": "back" },
+      { "id": "tortuna-h18-tee-mid-derived-2026", "source": "derived", "cardMetres": 290, "colours": [1, 2], "role": "forward",
+        "evidence": "the plan draws the red disc 19% down the hole (69 m), past the pond on the left of the path; 290 m along the route lands IN the pond the drive carries, so the platform stands at the first dry mown station beyond it (the water rule in apply-review-2026.mjs)" },
+      { "id": "tortuna-h18-tee-front-derived-2026", "source": "derived", "cardMetres": 230, "colours": [3], "role": "front" } ] }
+  ]
+}

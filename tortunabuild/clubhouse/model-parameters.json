@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "buildingId": "way/1163533127",
+  "status": "photo-informed-display-model",
+  "frame": {
+    "anchorEpsg3006RH2000": [597463.6991434265, 6615075.173127487, 27.1],
+    "originEpsg3006": [597463.6991434265, 6615075.173127487],
+    "uSoutheast": [0.7304403538581326, -0.6829764926083519],
+    "vNortheast": [0.6829764926083519, 0.7304403538581326]
+  },
+  "body": {
+    "uMin": -12.5, "uMax": 14.9, "vMin": -5.1, "vMax": 9.65,
+    "baseRH2000": 27.1, "eaveRH2000": 31.8,
+    "roofBreakRH2000": 33.75, "ridgeRH2000": 35.44
+  },
+  "roof": {
+    "breakVMin": -3.99, "breakVMax": 8.59, "ridgeV": 2.253,
+    "eaveUMin": -13.2, "eaveUMax": 15.2, "eaveVMin": -5.65, "eaveVMax": 10.1,
+    "ridgeUMin": -10.05, "ridgeUMax": 11.8,
+    "crossGableU": 0.91, "crossGableHalfWidth": 5.1, "dormerU": [-9.1, 10.6]
+  },
+  "southwestWing": {
+    "vEnd": -5.4
+  },
+  "openings": {
+    "northeastGroundU": [-11.2, -7.9, -2.7, 0.9, 4.5, 9.3, 13.0],
+    "centralUpperU": [-2.7, 0.9, 4.5],
+    "pondUpperV": [-2.4, 0.8, 4.5, 7.9], "pondDoorV": [0.8, 7.9],
+    "entranceGroundV": [-3.2, 0.3, 3.8, 7.5],
+    "entranceUpperV": [-2.3, 1.0, 4.3, 7.5]
+  },
+  "terrace": {
+    "uEnd": 19.1, "vMin": 0.2, "vMax": 9.8, "deckRH2000": 30.65
+  },
+  "awning": {
+    "uEnd": 21.8, "vMin": -7.8, "vMax": 0.15, "topRH2000": 30.2
+  },
+  "roofObjects": [
+    {"center": [0.4, 2.3, 35.35], "size": [0.7, 0.65, 0.94], "material": "Brick"},
+    {"center": [-10, 2.3, 35.35], "size": [0.65, 0.6, 0.85], "material": "Brick"},
+    {"center": [6.6, 6.0, 34.55], "size": [0.9, 0.9, 0.35], "material": "Roof flashing"},
+    {"center": [8.6, 6.0, 34.55], "size": [1.0, 0.85, 0.16], "material": "Glass"}
+  ],
+  "evidence": [
+    "tortunabuild/clubhouse/geometry-evidence.json",
+    "tortunabuild/clubhouse/reference-review.md",
+    "tortunabuild/mapping/building-observations.json"
+  ],
+  "interpretation": {
+    "upperRoof": "Planar reconstruction constrained by laser roof sections and official oblique photograph; simplified intersecting roof network.",
+    "body": "Wall envelope inferred from laser eave/facade sections and photos, approximately 0.5-0.7 m plan uncertainty; original OSM footprint is retained separately.",
+    "openings": "Visible counts on northeast and pond facades reviewed in photographs; dimensions and other facade openings are display estimates.",
+    "extensions": "Terrace, awning, stair and courtyard gallery are photo/orthophoto-informed estimates; no surveyed construction dimensions. The southwest upper gable stays inside the laser-supported roof limit; projecting gallery below is separate.",
+    "materials": "Photo-interpreted colours and procedural geometry; source images are not embedded or redistributed."
+  }
+}

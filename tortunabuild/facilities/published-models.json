@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "blenderVersion": "4.5.9 LTS",
+  "connection": "Blender MCP localhost:9876",
+  "sourceGeometryChanged": false,
+  "photosEmbedded": false,
+  "buildings": [
+    {
+      "buildingId": "way/1163533128",
+      "label": "entry-outbuilding",
+      "appearanceStatus": "photo-informed-display-model",
+      "asset": {
+        "url": "courses/tortuna/architecture/6f19bd344bec3de1ee54e2bb56cb112d4d8a0c525121edeac2a2fd2fe8737eb1.glb",
+        "sha256": "6f19bd344bec3de1ee54e2bb56cb112d4d8a0c525121edeac2a2fd2fe8737eb1",
+        "bytes": 108352
+      },
+      "anchorEpsg3006RH2000": [
+        597439.5850188882,
+        6615072.739701385,
+        27.33
+      ],
+      "meshes": 10,
+      "vertices": 3620,
+      "triangles": 1810,
+      "features": {
+        "doors": 2,
+        "recessedBays": 1
+      },
+      "roofPatchCount": 2,
+      "roofProjectedAreaSquareMetres": 79.88759999999999
+    },
+    {
+      "buildingId": "way/1163533113",
+      "label": "service-yard-long-barn",
+      "appearanceStatus": "photo-informed-display-model",
+      "asset": {
+        "url": "courses/tortuna/architecture/a59903a352e36f911958c697e10fc9bf485dc623e30fdb5d0805fcedcd1d4fb7.glb",
+        "sha256": "a59903a352e36f911958c697e10fc9bf485dc623e30fdb5d0805fcedcd1d4fb7",
+        "bytes": 307896
+      },
+      "anchorEpsg3006RH2000": [
+        597451.9342665592,
+        6615264.83746849,
+        26.39
+      ],
+      "meshes": 8,
+      "vertices": 11080,
+      "triangles": 5540,
+      "features": {
+        "windows": 2
+      },
+      "roofPatchCount": 2,
+      "roofProjectedAreaSquareMetres": 405.1632
+    },
+    {
+      "buildingId": "way/1163533114",
+      "label": "service-yard-small-outbuilding",
+      "appearanceStatus": "source-informed-display-model",
+      "asset": {
+        "url": "courses/tortuna/architecture/02f8013b74dbde841ab18bb824054e9faba6e10eba60ab58e398044f63dee46e.glb",
+        "sha256": "02f8013b74dbde841ab18bb824054e9faba6e10eba60ab58e398044f63dee46e",
+        "bytes": 114972
+      },
+      "anchorEpsg3006RH2000": [
+        597440.0223749249,
+        6615274.5765469745,
+        26.54
+      ],
+      "meshes": 7,
+      "vertices": 3968,
+      "triangles": 1984,
+      "features": {},
+      "roofPatchCount": 2,
+      "roofProjectedAreaSquareMetres": 60.8396
+    },
+    {
+      "buildingId": "way/1163533115",
+      "label": "service-yard-west-barn",
+      "appearanceStatus": "source-informed-display-model",
+      "asset": {
+        "url": "courses/tortuna/architecture/d3017d40697b613327e5f8b05456b86f63610e029b47bcbd72f6549c48a05aec.glb",
+        "sha256": "d3017d40697b613327e5f8b05456b86f63610e029b47bcbd72f6549c48a05aec",
+        "bytes": 184788
+      },
+      "anchorEpsg3006RH2000": [
+        597407.4847608453,
+        6615282.509810901,
+        24.86
+      ],
+      "meshes": 7,
+      "vertices": 6560,
+      "triangles": 3280,
+      "features": {},
+      "roofPatchCount": 2,
+      "roofProjectedAreaSquareMetres": 171.43
+    },
+    {
+      "buildingId": "way/1163533123",
+      "label": "carpark-west-barn",
+      "appearanceStatus": "photo-informed-display-model",
+      "asset": {
+        "url": "courses/tortuna/architecture/213c5ba6e09e536d058350123f9f6ab6112e5de055e92e50e8b1228bc01b4e7d.glb",
+        "sha256": "213c5ba6e09e536d058350123f9f6ab6112e5de055e92e50e8b1228bc01b4e7d",
+        "bytes": 256200
+      },
+      "anchorEpsg3006RH2000": [
+        597301.5928969152,
+        6615161.979593678,
+        28.98
+      ],
+      "meshes": 7,
+      "vertices": 9208,
+      "triangles": 4604,
+      "features": {
+        "raisedRoofStructures": 1
+      },
+      "roofPatchCount": 2,
+      "roofProjectedAreaSquareMetres": 303.765
+    },
+    {
+      "buildingId": "way/1163607303",
+      "label": "nearby-house",
+      "appearanceStatus": "source-informed-display-model",
+      "asset": {
+        "url": "courses/tortuna/architecture/ac652a8716b3c74055b1a6caf2b11836b69a76296339048dfe22a55c1f43bf8d.glb",
+        "sha256": "ac652a8716b3c74055b1a6caf2b11836b69a76296339048dfe22a55c1f43bf8d",
+        "bytes": 252540
+      },
+      "anchorEpsg3006RH2000": [
+        597619.3719744409,
+        6614926.055931843,
+        31.89
+      ],
+      "meshes": 7,
+      "vertices": 9107,
+      "triangles": 4553,
+      "features": {},
+      "roofPatchCount": 15,
+      "roofProjectedAreaSquareMetres": 153.23349999999994
+    },
+    {
+      "buildingId": "tortuna-range-shelter",
+      "label": "range-shelter",
+      "appearanceStatus": "photo-informed-display-model",
+      "asset": {
+        "url": "courses/tortuna/architecture/e5b2a7cd71819c7bae7531779f5c69bb1996fb5dd30f5ad5964f0b2094bb0a87.glb",
+        "sha256": "e5b2a7cd71819c7bae7531779f5c69bb1996fb5dd30f5ad5964f0b2094bb0a87",
+        "bytes": 106664
+      },
+      "anchorEpsg3006RH2000": [
+        597472.8008069693,
+        6615168.506703346,
+        27.31
+      ],
+      "meshes": 7,
+      "vertices": 3672,
+      "triangles": 1836,
+      "features": {
+        "panels": 3
+      },
+      "roofPatchCount": 1,
+      "roofProjectedAreaSquareMetres": 53.5295
+    }
+  ],
+  "totals": {
+    "meshes": 53,
+    "vertices": 47215,
+    "triangles": 23607
+  },
+  "totalAssetBytes": 1331412,
+  "sourcePackSha256": "746d8475e7aff2be389963331d5a9cef80cb7b056a7c6b8ca5d775b11b6c9931",
+  "retainedClubhouseSha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+  "evidence": [
+    {
+      "file": "tortunabuild/facilities/reference-review.md",
+      "sha256": "e925206944a1f59f5fd600a18ee3ef4fc194d4743fbbb68c505e961a33788c85"
+    },
+    {
+      "file": "tortunabuild/facilities/reference-receipt.json",
+      "sha256": "c83f47fc4f444d3f4c2ed225b155de8ad1611716b3917af5944abfce6ca70abb"
+    },
+    {
+      "file": "tortunabuild/facilities/facility-geometry-evidence.json",
+      "sha256": "8a427470846a2ac62fa48d1e700030f901f8b7e72348e112d069f5ab2381a725"
+    },
+    {
+      "file": "tortunabuild/facilities/carpark-roof-fixture-evidence.json",
+      "sha256": "a6189cd55dd97be1e20f4e3a5b8b8ba54a5375b7128ee993f006432831add6ed"
+    },
+    {
+      "file": "tortunabuild/facilities/model-parameters.json",
+      "sha256": "7a88b0155053f3ffe4ff5c172237adf8237b8ecad0c99cdbe9980dc1ca2ab1fb"
+    },
+    {
+      "file": "tortunabuild/facilities/appearance-parameters.json",
+      "sha256": "eadc2aabc363aadf04a8e33061cf384adb07f0f6eeb55a71af31c2652d041832"
+    }
+  ],
+  "sourceBuildings": [
+    {
+      "buildingId": "way/1163533128",
+      "sourceFootprintSha256": "5e0420e9b3ea4182cb7bb81134db50a8beefefae4a80896f57c9f71aae7d5fe5",
+      "sourceRoofSha256": null,
+      "sourceRoofTriangles": 0
+    },
+    {
+      "buildingId": "way/1163533113",
+      "sourceFootprintSha256": "69ed0a0196d0057dce63243ffd8d3d4aba0c197c66eb05085406e953c05e5f68",
+      "sourceRoofSha256": "ce168243a11c226df1f80bff0c02c5506ac9eb40a174de4c6e02676134cd2229",
+      "sourceRoofTriangles": 1161
+    },
+    {
+      "buildingId": "way/1163533114",
+      "sourceFootprintSha256": "954d5de5fb8329f4eedc5d27909a21b6e81700570398acc18cdd1b62252665e0",
+      "sourceRoofSha256": null,
+      "sourceRoofTriangles": 0
+    },
+    {
+      "buildingId": "way/1163533115",
+      "sourceFootprintSha256": "bfcdbc7c8c2e35104ad2d0fe8c5df15d53c6acf3796ba628f32dd35d7178bfdc",
+      "sourceRoofSha256": "4bf9b8cf47aa5528a03c9c5b7b30677e9c7bf5e79190ebd9595c7622c126777d",
+      "sourceRoofTriangles": 423
+    },
+    {
+      "buildingId": "way/1163533123",
+      "sourceFootprintSha256": "0ef780d25e28c986ae14fb57febad2474aec097110cd95a59deedb715cf2bd56",
+      "sourceRoofSha256": "a1c35a8cd66a819edb0216ea36b33aaa1d6f0fc94845e6ed2a7cf8bf29609ab0",
+      "sourceRoofTriangles": 766
+    },
+    {
+      "buildingId": "way/1163607303",
+      "sourceFootprintSha256": "853eacf28ce803a921300040f84c5290e2377932e2473ab3c59da4c57b1a0537",
+      "sourceRoofSha256": "ec4a8fad88bcbc96320e8ccc85b1ae364d07231ee9708d91620cd6e4cc40020b",
+      "sourceRoofTriangles": 953
+    },
+    {
+      "buildingId": "tortuna-range-shelter",
+      "sourceFootprintSha256": "13fc4312752ccb7c3044d8142c3bff8a7efb5ca5a227119c3ff7bb555d636700",
+      "sourceRoofSha256": null,
+      "sourceRoofTriangles": 0
+    }
+  ],
+  "generatedDescriptor": "apps/golf/src/engine/scenery/tortuna-facilities.js"
+}

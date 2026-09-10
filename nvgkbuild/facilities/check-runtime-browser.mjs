@@ -41,10 +41,13 @@ try {
   assert.equal(facilities?.status, 'loaded');
   assert.deepEqual([...facilities.replacedBuildingIds].sort(), ['lm-range-shelter', 'w1205924894']);
   assert.equal(facilities.facilities.length, 4, 'Four measured roof assemblies must be installed');
-  assert.equal(facilities.meshes, 7);
-  assert.equal(facilities.sourceParts, 87);
+  // 14 material batches: the base workspace's seven plus the refined range
+  // shelter's own materials; 88 parts = 87 base - 22 base shelter + 23 refined.
+  assert.equal(facilities.meshes, 14);
+  assert.equal(facilities.sourceParts, 88);
+  assert.equal(facilities.refinedRangeShelterParts, 23);
   assert.equal(facilities.solarArrays, 2);
-  assert.ok(facilities.triangles >= 1192, 'Architecture triangles and foundation skirts must exist');
+  assert.ok(facilities.triangles >= 4182, 'Architecture triangles and foundation skirts must exist');
   assert.ok(facilities.facilities.every(f => f.mode === 'absolute-rh2000' && Math.abs(f.shift - 20.3432) < 1e-6));
   const ids = report.boot.stats.sourceBuildingBatchIds;
   assert.ok(Array.isArray(ids));
@@ -54,6 +57,8 @@ try {
   report.checks.retainedCourtyardCounts = counts ?? null;
   if (counts) {
     assert.equal(counts.range_mat, 12, 'The twelve outdoor range mats must remain');
+    assert.equal(counts.range_platform, 4, 'The four reviewed range platforms must be drawn');
+    assert.equal(counts.range_target_surface, 3, 'The three target patches must remain');
     assert.equal(counts.sports_court, 1, 'The padel court must remain');
   }
   report.checks.defaultGraph = true;

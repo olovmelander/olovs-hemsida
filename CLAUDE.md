@@ -856,6 +856,39 @@ is on the page you would look at first:
 | Ängsö | angsogolf.org 2001–2003 (LiveCaddie 649 today has empty text) | Wayback |
 | Upsala | none — sheets on banguider.se carry numbers and labels only | written from sheets, rules, the Kains interview, club news |
 | the three nines | none anywhere | written from the routing geometry and the club's course-level prose, and say so |
+| Tortuna | none — tortunagk.se has one course paragraph, Caddee's per-hole field is empty on all 18 | written from the model's geometry, the club's Caddee maps (URLs pinned in `reference/source-assets.json`), its Lokala regler 2026 (game fence, infinite red area right of 6, internal OB 12/18, drop zones on 1 and 9, the sinkhole no-play zone right of 15/16, blind tees on 4/8/10/15) and its history (Bengt Husell, opened 1991; the 9th was a par 4) |
+| Visby | none — Caddee's field empty on all 18; Svensk Golf nr 6/2021 has prose for holes 2, 6 and 11 | the model's geometry, the club's Lokala regler and the magazine's three holes, quoted as the magazine's; history from visbygk.com/historia |
+| Lidingö | none — the banguider.se sheets (Greenbird Golf) carry numbers only, Caddee's field is empty, the flyovers are titled 'Hål N' | the sheets (green depths, hazard sides, read from the cached webps), Lokala regler 2026-03-16 (the four OB roads), Banutvecklingsplan 2025-03-26 and the 2024-09-17 council report (dated bunkers, 'udden'), the 80-year jubilee book (the 1974 pond, the 1978 short hole, 2004's 15th, Chamberlain's 2006–2009 stages) |
+
+**Every course's hålguide goes through ONE exported rule.** Where a
+generator cannot run in a fresh checkout (Tortuna, Lidingö and Visby pin a
+private 1 m raster by sha256), `<build>/mapping/apply-guide-notes.mjs`
+updates the committed model through the generator's own `holeNotes()`, and
+`course.node-test.mjs` re-derives it a third time and demands equality --
+so the model, the generator and the apply script cannot drift. A model
+change on those grounds then travels the whole chain: emit-pack,
+emit-manifest, `migrate-legacy.mjs --write --ground <g>` (exact
+translation, no PROJ needed on grid-authored grounds), the build's
+`update-source-manifest.mjs` (before AND after the migration -- the migrator
+refuses a model whose ledger hash is stale), `rebind-course-fallback.mjs
+--ground <g> --slug <g>` (the compile-*-ground-graph scripts refuse here: the
+ring world is published and the raster is not in the checkout), and the
+hash pins in `hole-source-controls.mjs` and `hole-source-inventory.mjs`,
+computed from the files. Two things bit on the way: Lidingö's
+`apply-reviewed-surfaces.mjs` used to overwrite `hole.note` with a
+provenance sentence on every reviewed hole (it no longer touches the note,
+and its receipt `alignment-integration-2026-09-10.json` had to be
+re-recorded -- delete it, rerun `refresh-reviewed-geometry.mjs`, put the
+original `baselineGroundManifest` back); and Tortuna's holes 6 and 15 had
+no observed tee platform and no declaration, which `check-app` fails
+closed on a mapped-only ground -- `teeStatus()` in its build-course stamps
+`unresolved-physical-platform` on any hole with no observed pad, the way
+Visby's 12th is stamped, and `mapping/apply-tee-status.mjs` applies it to the
+committed model; the same day's geometry review then observed platforms on
+both holes, so the rule currently stamps nothing and the test expects []. **Check a superlative
+against every tee column before writing it**: 'banans kortaste hål' was true
+of Visby's 14th from four tees and false from two, and the same shape of
+error sat in the first drafts of Tortuna's 9th and Lidingö's 2nd and 3rd.
 
 `tools/hole-geometry.mjs <build>` prints what the model says about every
 hole — bend and where, tee/green heights and the DEM profile, bunkers and
@@ -4407,3 +4440,221 @@ migration and its residual reports, the source manifest's artifact checksums,
 and `COURSE_MODEL_SHA256` in
 `packages/course-geo/acquisition/hole-source-controls.mjs`. Re-pin that last one
 by looping over `COURSE_MODEL_PATHS` and comparing, never by hand.
+
+## Tortuna GK — the 2026 geometry pass (2026-09-10)
+
+Tortuna (`tortunabuild/`, app-only, grid-authored about E597400.5 N6614899.5,
+mapped-only / measured-only like Visby) got its tees, fairways and forest read
+off the 2026-05-02 national orthophoto and the 1 m laser in one pass, in plain
+Node -- this Windows box has NO Python (only the Store alias; WSL's python3 has
+no numpy), so `tortunabuild/lib/{png,imagery,rasters,tiff4}.mjs` are a PNG
+codec, a mosaic accessor with raster morphology, and Float32/RGBI-TIFF readers
+written for the job. The README's "2026 review" section is the chain; what
+generalises:
+
+- **The private caches live in the sibling checkout**
+  `C:/Users/olov_/repos/olovs-hemsida-tortuna/tortunabuild/cache` (the 1 m
+  terrain f32 the generator pins by sha256, the 2021 CHM rasters, the 0.32 m
+  RGBI review windows, the 0.16 m crops, the Caddee plans). Copy them into
+  `tortunabuild/cache/` (gitignored) before building. The Min karta WMS serves
+  the same 2026-05-02 flight at 0.16 m with no credentials
+  (`tortunabuild/ortho-crop.mjs`, Visby's tool carried to this frame; it
+  retries the proxy's occasional 504).
+- **Every hole's four card tees stood on ONE point** (the Visby defect, met
+  again). Fixed by `mapping/tee-decisions-2026.json` + `mapping/apply-review-2026.mjs`:
+  observed platforms where the 2026 review has them (22), laser-flat mown
+  decks at the card distance where the terrain and image show one (2), and
+  card-derived 14 x 7 m platforms on the mown corridor otherwise (18), walked
+  forward out of water and placed on the levellest laser rectangle within
+  6 x 4 m. Every mark names its platform; the engine's `canRenderTeeMarker`
+  now accepts `card-derived-platform-reference` beside the orthophoto kind,
+  so the derived pads draw their colour pairs too. Two traps: a sideways slide
+  onto "the mown corridor" landed the 12th's back tee on the 18th's fairway --
+  a surveyed point in a clearing stays where it is; and 290 m along the 18th's
+  route is IN the pond the drive carries (a station in water walks forward).
+- **A laser deck is a rectangle.** The 1 m flat cells give a ragged outline;
+  the pad is the rectangle of its principal axes.
+- **One mown threshold is not a fairway, and NIR does not help in May.** The
+  mown score passes 81% of fairway and 12.5% of rough at one level, but that
+  level's mask is the whole mown estate (13,800 m² on the 1st where a par-4
+  fairway is 8-10,000); NDVI reads 0.24 on fairway against 0.23 on mown rough
+  because both are living turf cut in the same fortnight. So the fairway is
+  grown per hole from its own corridor level and CLIPPED to a design
+  half-width, and the provenance says so.
+- **The 2021 laser canopy is five years stale on a forestry estate**: 3.2 ha
+  clear-felled east of the 6th/7th, plus five smaller cuts, all in plain view
+  on the 2026 image. `trace-canopy-changes.mjs` is one-sided by design (the
+  newer picture may only REMOVE canopy: median brightness >= 88 and under 10%
+  dark samples per 4 m cell, calibrated on the known fell against intact
+  forest), the polygons enter the stand compiler as `override` exclusions
+  (`lidingo-stand-exclusions.mjs` maps that kind now) and the runtime as
+  `surround.clearfells`. The stand field measured against the 2026 image
+  before the fix: 17% of planted cells on open ground.
+- **The traces sit on the laser**: 27 of 32 bunkers over a dish at the traced
+  position, median best shift (0, 0) m (`terrain-check.mjs`); the flag cannot
+  be found on any green at 0.16 m (`trace-pins.mjs`, refused on all 18, the
+  record kept). Greens and bunkers were therefore not retraced.
+- **The canonical migration's geometry is the WHOLE model, the generator's
+  projection is the holes.** `compile-tortuna-ground-graph.mjs` compared the
+  two whole and had been failing since the CI fix that re-emitted Tortuna's
+  migration through the canonical migrator (af1d7d4e); it compares the holes
+  now, which is the routing the graph carries.
+- **The registry chain here**: apply-review → build-course → emit-pack →
+  emit-manifest → update-source-manifest → migrate-legacy --write --ground
+  tortuna → update-source-manifest → compile-stands → update-source-manifest →
+  compile-tortuna-ground-graph --out apps/golf/public → build-overview → the
+  two hash pins (loop, never by hand) → check:tortuna, check-course-v2,
+  check-app --only=tortuna. Peers' uncommitted `BREATH`/`LANDCOVER_REC` work
+  in main.js is what fails `camera-frame-order` and
+  `vegetation-render-policy` in vitest; nothing of this pass touches them.
+
+## The Codex sessions' cut-off work, finished (2026-09-10)
+
+Every Codex session running that morning died at 10:40 local with "You've hit
+your usage limit", mid-turn, and the consolidation that put the morning on
+main at 11:55 committed whatever was on disk at the moment of the cut. The
+session logs (`~/.codex/sessions/2026/09/*.jsonl`) are the only record of
+which request was in flight; a turn with `task_started` and no
+`task_complete`, or a `task_complete` with an empty message, is a cut-off one.
+Read them with a streaming script -- they run to 265 MB each.
+
+What the cut left, and what closed it:
+
+- **Norrfällsviken** had a range module nothing imported, refined shelter parts
+  nothing installed, and a self-check that exited 1. The check was right: the
+  shared-edge subdivision inserted a centroid per face, so the 161 m² gravel
+  hardstanding ran past its own face budget before its edges shortened. It
+  splits two, three or four ways at shared midpoints now. Wired through the
+  three hooks the engine already had (`applySurfaceAppearance`,
+  `renderCourtyard`, `customMappedKinds`); 88 parts in 14 batches.
+- **Ribbingsfors** had complete Blender scripts and no Blender run. They ran
+  unchanged headless; the exporter they lacked groups the flat meshes under one
+  node per facility and decides ownership by geometry -- an authored roof
+  REPLACES the retained building whose centroid it contains, and a retained
+  satellite rectangle it merely overlaps is SUPPRESSED with the review's reason
+  in the manifest (the "annex" that is the clubhouse's shadow, the yard boxes
+  over an open arena). Only roofs enter the vegetation exclusion.
+- **Visby** had `model_range.py` with builders but no `build()`, and no data
+  file for the mat and pole positions it reads -- the session was still cutting
+  crops to trace them. `trace-range-layout.py` detects the mats instead, as
+  periodic darkness minima along the traced strip lines (7 + 19 + 6). Two bugs
+  in the unfinished code: `tessellate_polygon` returns index triples, not
+  vectors. The western road-side net was never written down and is not modelled.
+- **Upsala** and **Tortuna** ranges had not started. Upsala's is a model
+  rebuild (the OSM field polygon cuts the tee line; play bounds and both v2
+  cutouts move) and is recorded, not done:
+  `upsalabuild/facilities/range-alignment-2026-09-10.md`. Tortuna's is owned by
+  a parallel session, which also carried its stranded Blender sources into main.
+
+Three mechanics worth keeping. **Several Claude sessions share this checkout
+at once**: a `git switch -c` here moved HEAD under two peers; list them
+(`ListAgents`), tell them which paths you own, stage by path, never `-A`. The
+**Blender MCP on 9876 is one shared instance** -- every build in this pass ran
+`blender.exe --background --python`, which the scripts already supported. And
+**a fixed count in a test or a browser gate is a measurement**: the refined
+shelter turned 7 batches into 14 and 1,192 triangles into 4,182, and the right
+move was to re-measure and pin, not to loosen.
+
+## The land beyond the course is a record now — `landcover.json` (2026-09-10)
+
+Every course carried its far ground by RULE: forest floor everywhere, rock on
+the steep, height toward rough, a crop tone inside whichever OSM landuse rings
+the extract happened to hold, and the far ring planting cones on all of it
+minus a noise gap. Beyond the 1.2–1.5 km tree-cover raster nothing measured
+said what the land was, so from any camera above the trees the world past the
+course read as one brown-olive plate with cones on it — fields, pasture,
+towns, clear-fells and closed forest alike, on all ten courses.
+
+`tools/build-landcover.mjs <build>` replaces the rule with a record.
+Lantmäteriet's national 0.5 m orthophoto is servable at any scale through the
+Min karta WMS the Visby build already uses (`Ortofoto_0.5`, WMS 1.1.1, SRS=
+and easting first, PNG so Node decodes it with `geobuild/png.mjs` and no
+browser is needed); one 12.8 km window at 4 m/px is four requests and about
+25 MB, cached under `<build>/cache/landcover/`. Each 12 m cell out to ±6.4 km
+becomes one of seven classes — water · open green · trees · open pale · light
+trees · hard · unknown — packed a nibble each, raw-deflated and base64'd
+(`apps/golf/src/engine/landcover.mjs`; the pack codec's own inflate reads it),
+committed as `<build>/landcover.json` (50–190 kB) and served beside the pack
+by `emit-manifest` (`courses/<slug>/landcover.json`, sha256 in the manifest,
+fetched by content, `immutable`). The three nines take a copy of their
+parent's, like tree-cover. **The imagery is a classification source and never
+a runtime texture** — the same policy every ortho-crop tool here states — so
+the palette and the light decide the colour, and a field does not have to be
+the brown of the day it was flown.
+
+- **A fixed cut cannot survive a change of capture.** Veckefjärden's summer
+  flight reads closed spruce as DARK BLUE-GREEN (Y 62, blue over red by 18)
+  and open ground bright green (Y 94); the first rule, "trees are the textured
+  green", called the whole forest water. The classifier is Fisher's linear
+  discriminant on (luminance, excess green, blue−red, saturation, texture),
+  fitted PER COURSE on labels somebody else made: the 3 m tree-cover raster
+  where a build has one, the published LiDAR stand fields (closed canopy ≥ 0.6,
+  open ≤ 0.05, read through the ground manifest) on Visby and Tortuna, and the
+  model's own water rings for water. The other classes are read RELATIVE to
+  the fitted open class. The agreement is printed, written into the record's
+  `calibration`, and gated at 75% balanced — Puttom sits at 78% because the
+  Esri-derived "open" labels include thinned stands the LM flight shows
+  closed; every other course is 83–94%. `landcover.test.mjs` re-asserts it on
+  the committed files.
+- **Trust a water class by how many cells fitted it.** Ploughed clay on
+  Tortuna's bare-spring frame is dark and smooth, and a water class fitted on
+  222 pond cells claimed every such field; a strict rule (darker AND bluer
+  than the forest) fixed that and then threw away 98% of Mälaren, which is
+  browner and brighter than Ängsö's spruce. `WATER_TRUSTED` (≥ 2,000 labelled
+  cells) keeps the discriminant's word; below it the strict rule applies. Hard
+  ground must be TEXTURED (roofs and roads inside a 12 m cell) or it is a bare
+  field, which is what smooth grey soil is.
+- **The orthophoto is itself a patchwork.** Tortuna's window is a bare-spring
+  capture on the west beside a summer one on the east, so its fields read
+  pale on one side of a straight line and green on the other; Veckefjärden's
+  and Puttom's show a milder seam. The record is honest about the day; the
+  seam is in the source and is written here rather than smoothed over.
+- **Runtime, three consumers, one rule.** `vistaGround()` in main.js colours
+  BOTH the far tint raster (ring-graph grounds) and the legacy FAR mesh's
+  vertices (fixed frontiers and GPK1) from the class — `C.canopy`/
+  `C.canopyLight` under trees (what a stand reads as from a kilometre off,
+  where the cones stand one to a 30 m cell), rough/fescue on open green,
+  hay/crop on open pale, hard with gardens on built ground, the water tint on
+  water — and the OSM landuse ring only REFINES it (a field the imagery saw
+  green stands in growing crop, one it saw pale in stubble; a ring the imagery
+  shows as forest is forest). The far cone ring plants only where the record
+  says trees, with birch four times in five where it says light canopy, and
+  thins inside the planted ring as the data ring always did. `coverAt` is
+  two-level: the 3 m raster keeps the last word inside its box and the 12 m
+  record continues the same verdict beyond it, so the planter's satellite
+  authority (and `coverEdgeFade`) now ends at the record's edge 6 km out, not
+  at the raster's — which is why Puttom plants ~81k legacy trees now against
+  ~68k, all of them in the middle ring the raster never reached. Where the
+  record is silent (a course without one, the sea outside the imagery) every
+  old rule stands unchanged.
+- **A measured-only course had NO far trees at all.** The far ring was gated
+  on `vegetationPlacement !== 'measured-only'` ("retains unknown canopy
+  outside its acquired coverage"), so Lidingö's Bogesundslandet and Visby's
+  inland were green plates to the horizon. The record IS a measurement of
+  that canopy — calibrated on those grounds' own LiDAR stand fields — so the
+  far ring now stands on it where it speaks (Lidingö: 0 → 51,954 cones) and
+  still plants nothing where it is silent; the 3 m data ring stays off on
+  those courses. And the old 15% thinning of the far cones is kept only where
+  the record is silent: a cell it calls closed canopy is closed.
+- **The forest floor was OLIVE, and that was the "brown" up close.** With the
+  far ground fixed the mid band still read brown from above under the golden
+  preset, and it was `C.forest` 0x5c6b3c: red at 86% of green, which a warm
+  sun and beige fog turn to brown between every crown — and the ground
+  between the crowns is most of what a top-down view sees. It is 0x526b3b now:
+  the measured luminance kept (98 against 100, so the floor-versus-rough
+  ratios in the notes above still hold) and red brought down to the rough's
+  own 77%. Farmland in `groundAt` also picks its crop tone from the record's
+  class first and the hash second, so near and far fields agree.
+- **Gates.** `check-app` asserts the record loaded, decoded and reaches the
+  far tint's 6,144 m wherever the manifest declares one (a refused hash or a
+  failed fetch degrades SILENTLY to the rule horizon, by design — the course
+  must open — so a gate is the only thing that can see it); `V3D.landcover()`
+  and `probeGround(...).land` expose it. The `banvy-packs` SW cache holds the
+  record beside the pack (28 entries, not 12).
+- **Judge it on the real GPU.** The scratch harness that measured this boots
+  the built app with `BANVY_GPU=1`, places the camera with `V3D.placeCamera`
+  500 m up looking at the horizon and 2.2 km straight down, and shoots before
+  and after builds served on two ports. The far side of Skagern went from a
+  brown plate with scattered cones to forest; a 2.2 km top-down of
+  Johannesberg was unchanged before the floor recolour, because everything in
+  that frame is inside the planted ring — which is how the floor was found.

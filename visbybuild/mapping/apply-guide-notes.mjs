@@ -20,15 +20,15 @@ const notes = holeNotes(JSON.parse(fs.readFileSync(path.join(HERE, '..', 'guide-
 
 let changed = 0;
 for (const hole of model.holes) {
-  const note = notes.get(hole.n)?.note;
-  if (!note) throw new Error(`no guide note for hole ${hole.n}`);
-  if (hole.note !== note) changed++;
-  hole.note = note;
-  if (hole.name !== null) throw new Error(`hole ${hole.n} carries a name; this ground does not invent them`);
+  const entry = notes.get(hole.n);
+  if (!entry) throw new Error(`no guide note for hole ${hole.n}`);
+  if (hole.note !== entry.note || hole.name !== entry.name) changed++;
+  hole.note = entry.note;
+  hole.name = entry.name;
 }
 const distinct = new Set(model.holes.map(hole => hole.note)).size;
 console.log(`${changed} of 18 notes change; ${distinct} distinct notes, was ${new Set(JSON.parse(fs.readFileSync(MODEL, 'utf8')).holes.map(h => h.note)).size}`);
-for (const hole of model.holes) console.log(`  h${String(hole.n).padStart(2)} ${hole.note.slice(0, 78)}…`);
+for (const hole of model.holes) console.log(`  h${String(hole.n).padStart(2)} ${hole.name} — ${hole.note.slice(0, 70)}…`);
 
 if (process.argv.includes('--write')) {
   fs.writeFileSync(MODEL, `${JSON.stringify(model, null, 2)}\n`);

@@ -2,12 +2,12 @@
   "passed": true,
   "sceneName": "Visby | Kronholmen facilities",
   "blendPath": "visbybuild/facilities/output/visby-facilities.blend",
-  "blendSha256": "2fcd51153ab3fba1ff0ae30e38a27c78a2f24d135a7ebe87479d7b7721ef6a80",
-  "preservedActiveScene": "Tortuna facility | entry-outbuilding",
+  "blendSha256": "fa6ee6b06f78330b477f2fa6e1c404b310c96daa3447040cec0b3ed35ff74708",
+  "preservedActiveScene": "Scene",
   "preservedExistingScenes": true,
   "facilityCount": 18,
-  "meshObjects": 241,
-  "vertices": 19966,
+  "meshObjects": 283,
+  "vertices": 37943,
   "facilities": [
     {
       "id": "way/530655627",
@@ -84,39 +84,6 @@
         196.78
       ],
       "groundAnchorRh2000M": 4.848186826702089,
-      "placement": "absolute-rh2000"
-    },
-    {
-      "id": "range-east-shelter-2026",
-      "nodeName": "Visby range-east-shelter-2026",
-      "sourceFeatureId": "range-east-shelter-2026",
-      "footprintLocal": [
-        [
-          -263.7,
-          109.74
-        ],
-        [
-          -248.82,
-          111.34
-        ],
-        [
-          -249.94,
-          120.78
-        ],
-        [
-          -265.14,
-          119.18
-        ],
-        [
-          -263.7,
-          109.74
-        ]
-      ],
-      "groundAnchorLocal": [
-        -256.9,
-        115.26
-      ],
-      "groundAnchorRh2000M": 2.888020194531074,
       "placement": "absolute-rh2000"
     },
     {
@@ -257,27 +224,27 @@
       "sourceFeatureId": "range-firing-mats-west-2026",
       "footprintLocal": [
         [
-          -346.34,
-          76.7
+          -348.08847527383955,
+          78.37343927141511
         ],
         [
-          -330.18,
-          76.7
+          -328.19956072858486,
+          78.37343927141511
         ],
         [
-          -330.18,
-          60.54
+          -328.19956072858486,
+          58.50052472616042
         ],
         [
-          -346.34,
-          60.54
+          -348.08847527383955,
+          58.50052472616042
         ]
       ],
       "groundAnchorLocal": [
-        -338.26,
-        68.62
+        -338.0228571428571,
+        68.26471428571428
       ],
-      "groundAnchorRh2000M": 4.111653300664954,
+      "groundAnchorRh2000M": 4.113977500964771,
       "placement": "absolute-rh2000"
     },
     {
@@ -286,27 +253,27 @@
       "sourceFeatureId": "range-firing-mats-central-2026",
       "footprintLocal": [
         [
-          -321.86,
-          111.74
+          -323.0433373481524,
+          112.84817490380385
         ],
         [
-          -267.62,
-          111.74
+          -265.93382509619613,
+          112.84817490380385
         ],
         [
-          -267.62,
-          90.62
+          -265.93382509619613,
+          88.88466265184756
         ],
         [
-          -321.86,
-          90.62
+          -323.0433373481524,
+          88.88466265184756
         ]
       ],
       "groundAnchorLocal": [
-        -295.12399999999997,
-        102.28400000000002
+        -294.42210526315785,
+        102.99110526315789
       ],
-      "groundAnchorRh2000M": 2.9467020437101343,
+      "groundAnchorRh2000M": 2.9880153545238035,
       "placement": "absolute-rh2000"
     },
     {
@@ -315,27 +282,27 @@
       "sourceFeatureId": "range-firing-mats-east-2026",
       "footprintLocal": [
         [
-          -250.66,
-          114.78
+          -252.79516991789663,
+          116.09916991789662
         ],
         [
-          -230.66,
-          114.78
+          -229.99772690754867,
+          116.09916991789662
         ],
         [
-          -230.66,
-          107.9
+          -229.99772690754867,
+          106.50272690754866
         ],
         [
-          -250.66,
-          107.9
+          -252.79516991789663,
+          106.50272690754866
         ]
       ],
       "groundAnchorLocal": [
-        -240.76666666666665,
-        111.28666666666668
+        -241.3955,
+        111.3295
       ],
-      "groundAnchorRh2000M": 2.8827633752058865,
+      "groundAnchorRh2000M": 2.8784748093928734,
       "placement": "absolute-rh2000"
     },
     {
@@ -365,6 +332,35 @@
         35.989411764705885
       ],
       "groundAnchorRh2000M": 2.668909885550002,
+      "placement": "absolute-rh2000"
+    },
+    {
+      "id": "range-east-shelter-2026",
+      "nodeName": "Visby range-east-shelter-2026",
+      "sourceFeatureId": "range-east-shelter-2026",
+      "footprintLocal": [
+        [
+          -263.7,
+          109.74
+        ],
+        [
+          -248.82,
+          111.34
+        ],
+        [
+          -249.94,
+          120.78
+        ],
+        [
+          -265.14,
+          119.18
+        ]
+      ],
+      "groundAnchorLocal": [
+        -256.9,
+        115.26
+      ],
+      "groundAnchorRh2000M": 2.888020194531074,
       "placement": "absolute-rh2000"
     },
     {
@@ -409,13 +405,13 @@
     }
   ],
   "cameras": {
-    "clubhouse-seaward": "Visby / Clubhouse seaward.003",
-    "clubhouse-entry": "Visby / Clubhouse entry.003",
-    "lighthouse": "Visby / Lighthouse.003",
-    "campus": "Visby / Campus.003",
-    "roof-plan": "Visby / Roof plan.003",
-    "range": "Visby / Range.001",
-    "service-yard": "Visby / Service yard.001"
+    "clubhouse-seaward": "Visby / Clubhouse seaward",
+    "clubhouse-entry": "Visby / Clubhouse entry",
+    "lighthouse": "Visby / Lighthouse",
+    "campus": "Visby / Campus",
+    "roof-plan": "Visby / Roof plan",
+    "range": "Visby / Range",
+    "service-yard": "Visby / Service yard"
   },
   "packedPhotoReferences": [
     "semester--DSC4580.jpg",
@@ -427,14 +423,14 @@
   "modeling": [
     {
       "id": "way/530655627",
+      "use": "teaching swing studio, west of the public covered bays",
       "dimensionsMetres": [
-        11.18,
-        9.53
+        11.175819797985923,
+        9.534701455365393
       ],
       "eaveEstimateMetres": 2.9,
       "ridgeEstimateMetres": 4.25,
-      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
-      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+      "interiorEvidence": "two broad sectional-door openings and white inner walls in official studio photographs"
     },
     {
       "id": "way/530655628",
@@ -511,17 +507,6 @@
       "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
     },
     {
-      "id": "range-east-shelter-2026",
-      "dimensionsMetres": [
-        15.39,
-        9.54
-      ],
-      "eaveEstimateMetres": 2.6,
-      "ridgeEstimateMetres": 3.5,
-      "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
-      "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
-    },
-    {
       "id": "range-parking-building-2026",
       "dimensionsMetres": [
         15.25,
@@ -564,6 +549,77 @@
       "ridgeEstimateMetres": 3.1,
       "footprintEvidence": "OSM geometry cross-checked with April 2026 orthophoto",
       "facadeEvidence": "photos for lighthouse station and east auxiliary; conservative estimates for service and range buildings"
+    },
+    {
+      "id": "range-firing-mats-west-2026",
+      "mats": 7,
+      "fixedScreenTerminals": 6,
+      "matEvidence": "perpendicular darkness minima along the traced strip lines, refined to dark-pixel centroids",
+      "matSizeMetres": [
+        1.5,
+        1.5
+      ]
+    },
+    {
+      "id": "range-firing-mats-central-2026",
+      "mats": 19,
+      "fixedScreenTerminals": 0,
+      "matEvidence": "perpendicular darkness minima along the traced strip lines, refined to dark-pixel centroids",
+      "matSizeMetres": [
+        1.5,
+        1.5
+      ]
+    },
+    {
+      "id": "range-firing-mats-east-2026",
+      "mats": 6,
+      "fixedScreenTerminals": 0,
+      "matEvidence": "perpendicular darkness minima along the traced strip lines, refined to dark-pixel centroids",
+      "matSizeMetres": [
+        1.5,
+        1.5
+      ]
+    },
+    {
+      "id": "range-east-net-base-2026",
+      "observedPoles": 17,
+      "spanMetres": 153.63,
+      "poleHeightsMetres": [
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0,
+        9.0
+      ],
+      "heightEvidence": "visual estimate from the 2024 construction photograph (01-bygga-range.jpg); tall timber poles with net on the field side; not measured",
+      "netConstruction": "0.40m visual mesh spacing, 6mm strands; simplified open geometry, not a measured mesh specification",
+      "strandSegments": 1944
+    },
+    {
+      "id": "range-east-shelter-2026",
+      "coveredBays": 4,
+      "fixedScreens": 4,
+      "dimensionsMetres": [
+        15.388285002059405,
+        9.539847205033936
+      ],
+      "roofForm": "monopitch, front high",
+      "rearEaveEstimateMetres": 2.55,
+      "frontEaveEstimateMetres": 3.5,
+      "countSource": "https://www.visbygk.com/nyheter/trana-med-trackman-range/",
+      "interiorDetailStatus": "supports, partitions, screen mounts and benches visually estimated; roof footprint traced"
     },
     {
       "id": "skansudde-lighthouse",

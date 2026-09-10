@@ -22,7 +22,7 @@ test('stand attachment rejects changed exclusion sources instead of silently ado
   const paths=['tortunabuild/mapping/playing-surfaces.geojson','tortunabuild/mapping/facilities.geojson',
     'geo_data/course-v2/tortuna/reference/osm-context-epsg3006.geojson','geo_data/course-v2/tortuna/mapping/water-runtime-epsg3006.geojson',
     'tortunabuild/mapping/environment.geojson','tortunabuild/mapping/building-roof-envelopes.geojson',
-    'tortunabuild/mapping/environment-context-extra.geojson'];
+    'tortunabuild/mapping/environment-context-extra.geojson','tortunabuild/mapping/canopy-changes-2026.geojson'];
   const sources=['geo_data/course-v2/tortuna/vegetation/canopy-evidence.json',
     'tortunabuild/cache/canopy/chm.f32','tortunabuild/cache/canopy/chm.json',
     'tortunabuild/cache/canopy/ground.f32','tortunabuild/cache/canopy/ground.json',

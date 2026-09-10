@@ -95,7 +95,9 @@ export function applyReviewedSurfaces(model, collection, review, approaches, bun
     assert.ok(Number.isFinite(greenHeight) && Number.isFinite(teeHeight));
     hole.elev.green = Math.round(greenHeight * 10) / 10;
     hole.elev.rise = Math.round((greenHeight - teeHeight) * 10) / 10;
-    hole.note = 'Putting- och teeytor granskade mot flygbild från maj 2025. Färgmarkörer och flagga är visningsreferenser; dagens placeringar är inte inmätta.';
+    /* `note` is the hålguide line the HUD shows and belongs to guide-notes.json
+       (applied through build-course.mjs's holeNotes); the review's provenance
+       lives in evidence.puttingCutReview, not in the line a player reads. */
   }
   for (const source of bunkers.features) {
     const hole = result.holes.find(h => h.n === source.properties.hole);
@@ -124,7 +126,7 @@ export function preservedModel(model, review) {
   const result = structuredClone(model), holes = new Set(review.features.map(f => f.hole));
   for (const hole of result.holes) {
     if (holes.has(hole.n)) {
-      delete hole.green.ring; delete hole.green.c; delete hole.pin; delete hole.note;
+      delete hole.green.ring; delete hole.green.c; delete hole.pin;
       delete hole.elev.green; delete hole.elev.rise;
     }
     hole.bunkers = hole.bunkers.filter(b => b.sourceFeatureId !== BUNKER_ID);

@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "buildingId": "way/1163533127",
+  "reviewedOn": "2026-09-10T06:52:27.295Z",
+  "state": "local-model-build-and-browser-verified",
+  "humanAccepted": false,
+  "sourceGeometryChanged": false,
+  "terrainChanged": false,
+  "sourceManifestChanged": false,
+  "appearanceStatus": "photo-informed-display-model; details include explicit estimates",
+  "toolchain": {
+    "blender": "4.5.9 LTS",
+    "node": "v24.14.0",
+    "connection": "Existing local Blender MCP add-on TCP 9876"
+  },
+  "asset": {
+    "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+    "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+    "bytes": 758472
+  },
+  "privateReferenceCount": 9,
+  "deliveredBlend": {
+    "meshes": 12,
+    "triangles": 13812,
+    "fileBackedImages": 0
+  },
+  "tests": {
+    "vitest": {
+      "command": "npx vitest run --maxWorkers=2",
+      "files": 88,
+      "passed": 598,
+      "exitCode": 0,
+      "note": "First unbounded concurrent test/build/browser run hit six timeouts. Bounded-worker rerun passed all tests; one worker-shutdown warning remained, exit 0."
+    },
+    "node": {
+      "command": "node --test --test-concurrency=2 <the complete package.json Node test list>",
+      "total": 426,
+      "passed": 423,
+      "skipped": 3,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "applicationBuild": {
+      "command": "npm --prefix apps/golf run build",
+      "exitCode": 0,
+      "finalGlbBytesVerified": true
+    },
+    "appBuildCheck": {
+      "command": "node packages/course-v2/check-app-build.mjs",
+      "exitCode": 0
+    },
+    "rendererBuildCheck": {
+      "command": "node packages/course-v2/check-renderer-build.mjs",
+      "exitCode": 0
+    },
+    "browser": {
+      "command": "node tortunabuild/check-clubhouse.mjs --base http://localhost:5174/",
+      "passed": true,
+      "modes": [
+        "authored",
+        "source-view",
+        "failed-download-fallback"
+      ],
+      "executionAdapter": "swiftshader-software-webgl2",
+      "performanceEvidence": false
+    },
+    "portableBlend": {
+      "command": "blender --background tortuna-clubhouse.blend --python inspect_clubhouse.py",
+      "passed": true
+    }
+  },
+  "sourcePins": [
+    {
+      "path": "geo_data/course-v2/tortuna/source-manifest.json",
+      "bytes": 43987,
+      "sha256": "4dd9b72848052797276786928187ccedcfc5190a6a8c6f87fe63e03caf8d24db"
+    },
+    {
+      "path": "apps/golf/public/courses/tortuna/pack.bin",
+      "bytes": 628463,
+      "sha256": "746d8475e7aff2be389963331d5a9cef80cb7b056a7c6b8ca5d775b11b6c9931"
+    },
+    {
+      "path": "tortunabuild/cache/terrain/terrain-1m.f32",
+      "bytes": 67141636,
+      "sha256": "86f30a75f398cfa2da8c32b833b859c575a9056910b237ac2539fdbba3c02ef1"
+    },
+    {
+      "path": "tortunabuild/mapping/building-observations.json",
+      "bytes": 42302,
+      "sha256": "09476c14e7bc95deb3d7276f20cf6938776b153094fdc9c9f2e4f03ab81108a6"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tortunabuild/clubhouse/reference-review.md",
+      "bytes": 7401,
+      "sha256": "4b9454bf54495da5d9bded3f44213aff1ff3cb1249f39e87aaab5251501209ae"
+    },
+    {
+      "path": "tortunabuild/clubhouse/reference-receipt.json",
+      "bytes": 15955,
+      "sha256": "330da5dd74d1c3819c5f537ae8ada5f818c96d024d0466d7d6cf8830a2572698"
+    },
+    {
+      "path": "tortunabuild/clubhouse/geometry-evidence.json",
+      "bytes": 29141,
+      "sha256": "f85275d3411c61efcfc65229b9af0fa0965bfeff7c2305f8f424e1bbe9225440"
+    },
+    {
+      "path": "tortunabuild/clubhouse/roof-parameters-working.json",
+      "bytes": 14418,
+      "sha256": "4c87da52ccc8d2ae5fbae82e75759b9cd7e7ea088c1e8f4d41d19410b02dcdb6"
+    },
+    {
+      "path": "tortunabuild/clubhouse/model-parameters.json",
+      "bytes": 2725,
+      "sha256": "35e8a377c908c1871f9cc0f4c8db9ec6abe577993b7e33882929f2c823cc805e"
+    },
+    {
+      "path": "tortunabuild/clubhouse/model-export.json",
+      "bytes": 713,
+      "sha256": "4151d629d7b5a204879846454f507cb804b6904069534bfa7c2bced8e36fe1e6"
+    },
+    {
+      "path": "tortunabuild/clubhouse/published-model.json",
+      "bytes": 1100,
+      "sha256": "388ecb227abe88f41cb78a0f5790d694eec972dcd0b6f14e078906b43aa858ce"
+    },
+    {
+      "path": "tortunabuild/clubhouse/tortuna-clubhouse.blend",
+      "bytes": 295006,
+      "sha256": "4b61a4f7da9c0897a1178d1b056f81054c54e92be3acfb207397f19e625c0b46"
+    },
+    {
+      "path": "tortunabuild/clubhouse/blend-inspection.json",
+      "bytes": 283,
+      "sha256": "1e718ac48a845039ad2088c39162edec81a85c4907a91b55321c96427209c201"
+    },
+    {
+      "path": "tortunabuild/clubhouse/clubhouse-blender.png",
+      "bytes": 1484210,
+      "sha256": "1d19226b0b856e81426d64f2d807adec156036a5a3b7dd79950f4c562514a4fb"
+    },
+    {
+      "path": "tortunabuild/clubhouse/browser/report.json",
+      "bytes": 57514,
+      "sha256": "2c03fb8e1420420d9a45348e9997ae73a04cc63ccd7432f3474f26487a1f9d6b"
+    },
+    {
+      "path": "tortunabuild/clubhouse/browser/authored-northeast-facade.png",
+      "bytes": 482281,
+      "sha256": "87f80cd821581b25273d84679d9a1d7f9e16d3a48310e5cec4967fcaa0b038e5"
+    },
+    {
+      "path": "tortunabuild/clubhouse/browser/authored-pondside-extension.png",
+      "bytes": 476327,
+      "sha256": "96c2a6ef1e507a6b0506f6cc18d61c8ceab95cc95d61f236a1bb799c55a58545"
+    },
+    {
+      "path": "tortunabuild/clubhouse/browser/source-northeast-facade.png",
+      "bytes": 459025,
+      "sha256": "2c1a3c671b71767834c9534bb51bae9a34d602f9a0c0343ae2a08c91dd121ec8"
+    }
+  ],
+  "processingFiles": [
+    {
+      "path": "tortunabuild/blender/architecture.py",
+      "bytes": 6311,
+      "sha256": "2bc1fd38ed4c4703848f78b382cd5643f1c94041e9a3b37438fbdced57c8b9d6"
+    },
+    {
+      "path": "tortunabuild/blender/build_clubhouse.py",
+      "bytes": 14864,
+      "sha256": "88639ba38d4b9f6a069aeb472080234db1bc28403fac91c37319b1835eb0ba08"
+    },
+    {
+      "path": "tortunabuild/blender/mcp_client.py",
+      "bytes": 1652,
+      "sha256": "6f62b15c1904a0e8146f112e81b8092b76cc735b6b9fb954ad0c209c2102de92"
+    },
+    {
+      "path": "tortunabuild/blender/render_clubhouse.py",
+      "bytes": 1148,
+      "sha256": "cd3ea858a69e4cc4c4c2278c7d139d80077db87e620fde0fb9bb7f7e814ec613"
+    },
+    {
+      "path": "tortunabuild/blender/inspect_clubhouse.py",
+      "bytes": 1225,
+      "sha256": "941ff603aef6c7e4e65e4b5cf20f434f9b9b0ac6e205101497a6797ea9daf2a4"
+    },
+    {
+      "path": "tortunabuild/clubhouse/publish-model.mjs",
+      "bytes": 3076,
+      "sha256": "4333cfe67251ef963adb01ee07187671622d8b8939cc82be7de5e74ba5082dd4"
+    },
+    {
+      "path": "apps/golf/src/engine/scenery/tortuna-architecture.js",
+      "bytes": 950,
+      "sha256": "482cf737d594f5e1c67b1dfad238c6095a9cc183ad739126e527f83b104dc62e"
+    }
+  ],
+  "limitations": [
+    "Photographic capture dates are unknown unless separately documented; upload dates are not capture dates.",
+    "Hidden facade openings, exact wall setbacks, roof fittings and terrace dimensions remain interpretations.",
+    "Other course buildings retain the existing pipeline; this is the first detailed Blender building.",
+    "Browser checks prove rendering/placement/fallback under software WebGL2, not mobile performance or hardware WebGPU performance."
+  ]
+}

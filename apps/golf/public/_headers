@@ -18,6 +18,12 @@
 /courses/*/pack.bin
   Cache-Control: public, max-age=31536000, immutable
 
+# The land-cover record beside the pack is fetched the same way -- by content,
+# with its sha256 in the query and checked at runtime -- so it takes the same
+# rule for the same reason.
+/courses/*/landcover.json
+  Cache-Control: public, max-age=31536000, immutable
+
 # Posters are not content-addressed and they are only decoration, so they get a
 # day: long enough that a returning visitor pays nothing, short enough that a
 # re-render reaches people without a deploy trick. The glob covers hero-1 and
@@ -92,6 +98,13 @@
 /models/puttom/facilities-v1.glb
   Cache-Control: no-cache
 
+# Visby's receipt and geometry both keep one name and revalidate together.
+/models/visby/facilities-v1.json
+  Cache-Control: no-cache
+
+/models/visby/facilities-v1.glb
+  Cache-Control: no-cache
+
 # Ängsö uses the same mutable receipt and immutable, verified geometry contract.
 /models/angso/facilities-v1.json
   Cache-Control: no-cache
@@ -104,6 +117,13 @@
   Cache-Control: no-cache
 
 /models/lidingo/facilities-*.glb
+  Cache-Control: public, max-age=31536000, immutable
+
+# Ribbingsfors' mutable receipt selects immutable Blender geometry by SHA-256.
+/models/ribbingsfors/facilities-v1.json
+  Cache-Control: no-cache
+
+/models/ribbingsfors/facilities-*.glb
   Cache-Control: public, max-age=31536000, immutable
 
 # Vite content-hashes everything in /assets, so those names already change when

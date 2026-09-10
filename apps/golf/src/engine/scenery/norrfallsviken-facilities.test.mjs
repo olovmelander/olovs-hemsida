@@ -225,8 +225,11 @@ describe('Norrfällsviken facility installation and cleanup', () => {
     const ctx = context(), originalBuildings = structuredClone(ctx.buildings);
     const result = await install(ctx), compiled = compile();
     expect(result.report.status, result.report.reason).toBe('loaded');
-    expect(result.report.sourceParts).toBe(87);
-    expect(result.report.triangles).toBe(1192);
+    // 87 base parts less the 22 base range-shelter parts, plus the 23 refined
+    // shelter parts (nvgkbuild/facilities/range-refinement-validation.json).
+    expect(result.report.sourceParts).toBe(88);
+    expect(result.report.refinedRangeShelterParts).toBe(23);
+    expect(result.report.triangles).toBe(4182);
     expect([...result.replacedBuildingIds]).toEqual(['w1205924894', 'lm-range-shelter']);
     expect(result.replacedBuildingIds.has('lm-practice-shed')).toBe(false);
     expect(ctx.buildings).toEqual(originalBuildings);
@@ -248,9 +251,10 @@ describe('Norrfällsviken facility installation and cleanup', () => {
       expect(mesh.material.map).toBeNull();
     });
     // The source workspace includes 190,926 points and 22,082 ground triangles;
-    // neither reference dataset may enter this optional architecture group.
-    expect(result.report.triangles).toBeLessThan(2000);
-    expect(result.root.children.every(mesh => mesh.geometry.getAttribute('position').count < 3000)).toBe(true);
+    // neither reference dataset may enter this optional architecture group. The
+    // refined shelter alone is 3,188 triangles by its own receipt.
+    expect(result.report.triangles).toBeLessThan(6000);
+    expect(result.root.children.every(mesh => mesh.geometry.getAttribute('position').count < 6000)).toBe(true);
     expect(architecture.parts.some(p => /reference|ground|unresolved/i.test(p.name))).toBe(false);
   });
 
@@ -289,10 +293,10 @@ describe('Norrfällsviken facility installation and cleanup', () => {
     expect(result.report.reason).toMatch(/cancelled/);
     expect(result.replacedBuildingIds.size).toBe(0);
     expect(ctx.scene.children).toHaveLength(1);
-    expect(geometryDisposal).toHaveBeenCalledTimes(7);
-    expect(materialDisposal).toHaveBeenCalledTimes(7);
+    expect(geometryDisposal).toHaveBeenCalledTimes(14);
+    expect(materialDisposal).toHaveBeenCalledTimes(14);
     result.dispose();
-    expect(geometryDisposal).toHaveBeenCalledTimes(7);
+    expect(geometryDisposal).toHaveBeenCalledTimes(14);
   });
 
   it('cleans up atomically when an abort arrives during foundation sampling', async () => {
@@ -306,7 +310,7 @@ describe('Norrfällsviken facility installation and cleanup', () => {
     expect(result.report.reason).toMatch(/cancelled/);
     expect(result.replacedBuildingIds.size).toBe(0);
     expect(ctx.scene.children).toHaveLength(1);
-    expect(geometryDisposal).toHaveBeenCalledTimes(7);
+    expect(geometryDisposal).toHaveBeenCalledTimes(14);
   });
 
   it('releases each installed GPU resource once on abort and clears site-height ownership', async () => {

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "asset": {
+    "url": "courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb",
+    "sha256": "1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0",
+    "bytes": 758472
+  },
+  "anchorEpsg3006RH2000": [
+    597463.6991434265,
+    6615075.173127487,
+    27.1
+  ],
+  "blenderVersion": "4.5.9 LTS",
+  "meshes": 12,
+  "vertices": 27632,
+  "triangles": 13812,
+  "features": {
+    "windows": 34,
+    "dormers": 2,
+    "doors": 5
+  },
+  "coordinateConvention": "Blender X=east,Y=north,Z=up; glTF X=east,Y=up,Z=south; metres relative to anchor",
+  "sourceFootprintUnchanged": true,
+  "sourceTinUnchanged": true,
+  "photosEmbedded": false,
+  "sourcePackSha256": "746d8475e7aff2be389963331d5a9cef80cb7b056a7c6b8ca5d775b11b6c9931",
+  "sourceFootprintSha256": "12566507bd14acc1fd93c25fcea5691cac70fd483a6aef8783e13d861ce33e16",
+  "sourceRoofSha256": "c0f9d0f0a34954b91967cafe38877bfd8a86b7e0a473b9060d58fb947272e0bf",
+  "sourceRoofTriangles": 1157,
+  "generatedDescriptor": "apps/golf/src/engine/scenery/tortuna-architecture.js"
+}
