@@ -269,7 +269,13 @@ export function compileTerrainRings({
           if (Number.isNaN(a) !== Number.isNaN(b)) throw new Error(`published ${tile.id} differs in coverage at sample ${index}`);
           if (Number.isNaN(a)) continue;
           const difference = Math.abs(a - b);
-          if (difference > level.heightScaleMetres + 1e-9) {
+          /* A tie is ONE quantum, and the decoder hands back float32, so two
+             adjacent quanta at 45 m read 0.0100021 apart, not 0.01: the first
+             widened level (Puttom, 2026-09-11) refused its own published tile
+             on exactly that noise once the level's height offset moved and
+             more samples rounded the other way. Anything past a quantum and a
+             half is real drift; a quantum plus float noise is a tie. */
+          if (difference > level.heightScaleMetres * 1.5) {
             throw new Error(`published ${tile.id} differs from the compiled heights at sample ${index}: ${a} vs ${b}`);
           }
           if (difference > 1e-9) reuseTies++;

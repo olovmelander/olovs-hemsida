@@ -175,3 +175,22 @@ test('a published tile is carried to a wider lattice under its new id with its p
     },
   }), /carries no payload to re-address/);
 });
+
+/* the decoder hands back float32, so a one-quantum rounding tie at 45 m reads
+   0.0100021 m, not 0.01: it must be counted as a tie, and two quanta refused */
+test('a one-quantum tie survives float32 noise; two quanta are drift', () => {
+  const first = compileTerrainRings({ groundId: 'g', courseSlugs: ['c'], levels: rings(), tileSegments: 8 });
+  const entry = tile => {
+    const chunkBytes = first.resources.get(tile.layers.terrain.url);
+    const chunk = readChunk(chunkBytes);
+    return { chunk: chunkBytes, reference: tile.layers.terrain, grid: chunk.header.grid, heights: decodeTerrainGrid(chunk.payload, chunk.header.grid) };
+  };
+  const published = new Map(first.tiles.filter(tile => tile.lod === 0).map(tile => [tile.id, entry(tile)]));
+  const noisy = published.get('l0/0/0');
+  noisy.heights[10] = Math.fround(noisy.heights[10] + 0.01) + 2.2e-6;
+  const reused = compileTerrainRings({ groundId: 'g', courseSlugs: ['c'], levels: rings(), tileSegments: 8, reuse: (lod, c, r) => published.get(`l${lod}/${c}/${r}`) ?? null });
+  assert.equal(reused.stats.reusedTiles, 16);
+  assert.ok(reused.stats.reuseTies >= 1);
+  noisy.heights[10] += 0.01;
+  assert.throws(() => compileTerrainRings({ groundId: 'g', courseSlugs: ['c'], levels: rings(), tileSegments: 8, reuse: (lod, c, r) => published.get(`l${lod}/${c}/${r}`) ?? null }), /differs from the compiled heights/);
+});
