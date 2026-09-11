@@ -53,9 +53,28 @@ export const JOHANNESBERG_V2_CONFIG = Object.freeze({
   /* DERIVED — printed by compile-johannesberg-ground-graph.mjs and carried by
      the published ground manifest. */
   frameFingerprint: '3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4',
-  /* DERIVED — the reviewed 2048 m window, which is the whole published graph's
-     level-zero extent. */
+  /* DERIVED from the ring spec (johannesberg-ground-rings.mjs): the 16 km root of the
+     standard ring graph, which the ground manifest's bounds must reproduce. */
   expectedBoundsEpsg5845: Object.freeze({
+    minEasting: 671235.5,
+    minNorthing: 6617108.5,
+    maxEasting: 687619.5,
+    maxNorthing: 6633492.5,
+  }),
+  /* DERIVED from the published ground manifest: seven levels, 469 tiles on the
+     STANDARD topology, a parent link on every one but the root, reaching
+     16,384 m. Declaring ringGraph is what makes check-course-v2 assert that the
+     graph ACTUALLY SERVES rather than the fixed frontier. */
+  ringGraph: Object.freeze({
+    levels: 7,
+    tiles: 469,
+    rootSpanMetres: 16384,
+    tilesByLod: Object.freeze({ 0: 256, 1: 64, 2: 64, 3: 64, 4: 16, 5: 4, 6: 1 }),
+  }),
+  /* REVIEWED — the 8 x 8 frontier the app PRELOADS: the reviewed 2,048 m
+     window, now the middle of the standard's sixteen-wide level zero, not the
+     whole 256-tile level. */
+  expectedFrontierBoundsEpsg5845: Object.freeze({
     minEasting: 678403.5,
     minNorthing: 6624276.5,
     maxEasting: 680451.5,
