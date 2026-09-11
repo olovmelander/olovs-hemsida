@@ -1,0 +1,13 @@
+# First RUN file for this ground. Johannesberg's 2026-09-04 generation was compiled with the generic
+# tools run locally (build-canopy -> compile-vegetation -> publish-vegetation) over the reviewed
+# 2,048 m window, and it was never on a RUN file only because nobody pushed one; the workflow already
+# names this ground in its census re-pin step. The standard ring graph now carries 1 m tiles over
+# 4,096 m and the widening carried the published vegetation onto the wider lattice, so measured trees
+# stand on 64 of the 256 finest tiles and the surrounding 192 carry none.
+#
+# Both items of the one April 2021 campaign are pinned active and both are needed: the widened level
+# zero spans E 677380-681476, either side of the E 680000 item seam that measured smaller than the
+# terrain's own roughness. LEAF-OFF, so the deciduous under-detection caveat applies -- this ground is
+# the one where audit-canopy-sources settled that the thinning was a correction and not a loss.
+publish=true
+observed_on=2026-09-11

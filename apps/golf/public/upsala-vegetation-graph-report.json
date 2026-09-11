@@ -7,7 +7,7 @@
     "upsala",
     "upsala-mellanbanan"
   ],
-  "groundManifestSha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53",
+  "groundManifestSha256": "a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434",
   "courses": [
     {
       "schemaVersion": 1,
@@ -15,99 +15,99 @@
       "state": "published",
       "groundId": "upsala",
       "slug": "upsala",
-      "observedOn": "2026-09-04",
+      "observedOn": "2026-09-11",
       "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
       "activeRoot": {
         "url": "courses/v2-index.json",
-        "bytes": 4916,
-        "sha256": "cd2469b4b43b6a5f037909f0c93abb2c28e00b89db145b5793422334a3a4fb68"
+        "bytes": 6993,
+        "sha256": "353b024d8077131c7309d27b3e07cf5c029c69593effa9dbeff73046b707fa2c"
       },
       "graph": {
         "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
         "courseManifest": {
-          "url": "courses/upsala/course-v2-de2e117d2822fa1c4f2f25be874b62375b61d0e61b53f2e3a8fa85bc84ced704.json",
+          "url": "courses/upsala/course-v2-2c15740e941b3afe29f414068523f1d41ae88d6eaed874ac2c131df2676624da.json",
           "mediaType": "application/vnd.banvy.course-manifest-v2+json",
-          "bytes": 3997,
-          "sha256": "de2e117d2822fa1c4f2f25be874b62375b61d0e61b53f2e3a8fa85bc84ced704"
+          "bytes": 4025,
+          "sha256": "2c15740e941b3afe29f414068523f1d41ae88d6eaed874ac2c131df2676624da"
         },
         "groundManifest": {
-          "url": "grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json",
+          "url": "grounds/upsala/ground-v2-a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434.json",
           "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
-          "bytes": 263314,
-          "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53"
+          "bytes": 562639,
+          "sha256": "a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434"
         },
         "routing": {
           "kind": "routing",
-          "url": "courses/upsala/routing/add8fb9612c8d6652fabf88cf76825360a5aaf73fd928170d185ed7f79a91ffa.bvch",
+          "url": "courses/upsala/routing/3adce7cdd04e886d5aeda559d4bddc72e736cd24d2e632e4fc4662c7a68dcb25.bvch",
           "mediaType": "application/vnd.banvy.chunk-v2",
-          "bytes": 2233,
-          "sha256": "add8fb9612c8d6652fabf88cf76825360a5aaf73fd928170d185ed7f79a91ffa",
+          "bytes": 2240,
+          "sha256": "3adce7cdd04e886d5aeda559d4bddc72e736cd24d2e632e4fc4662c7a68dcb25",
           "decodedBytes": 4057,
-          "decodedSha256": "17b4565c8603b5339e02658674e6774e18425aebf4a98514fc9204fcdf2d0850",
+          "decodedSha256": "b1e450086bdaf9f199ad1a2c5fdccae0b7b819ec53cdf752f591de6f349367fb",
           "requiredFeatures": [
             "chunk-envelope-v2",
             "course-routing-json-v1"
           ]
         },
-        "sourceManifestSha256": "4821828a4c65e3621801071a2d368fc104f202c312416625ae47fc65dcb935dc",
+        "sourceManifestSha256": "2b9b12d92307b42d4ade73864a6e2ad3872f49440606e6962dfcf7b96d207d44",
         "fallbackV1": {
-          "bytes": 680890,
+          "bytes": 747374,
           "format": 1,
           "packUrl": "courses/upsala/pack.bin",
-          "sha256": "742580874154a9fcbcb40135668dfeb6300b8468450ef297826091ab176a08fa"
+          "sha256": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd"
         },
         "holes": 18,
-        "tiles": 277,
-        "finestTiles": 64,
-        "shellBytes": 71292,
-        "chunks": 401,
-        "encodedChunkBytes": 18658555,
-        "decodedChunkBytes": 39687935
+        "tiles": 469,
+        "finestTiles": 256,
+        "shellBytes": 71293,
+        "chunks": 961,
+        "encodedChunkBytes": 34896138,
+        "decodedChunkBytes": 73010972
       },
       "vegetation": {
-        "objectTiles": 58,
-        "standTiles": 64,
+        "objectTiles": 234,
+        "standTiles": 256,
         "candidates": {
-          "total": 24496,
+          "total": 114508,
           "byRepresentation": {
-            "excluded": 1177,
-            "individual": 4928,
-            "stand": 18391
+            "excluded": 5451,
+            "individual": 16640,
+            "stand": 92417
           },
           "byZone": {
-            "A": 4751,
-            "B": 5837,
-            "C": 13908
+            "A": 4630,
+            "B": 6319,
+            "C": 103559
           },
           "byCampaign": {
-            "21c037-663_63": 10360,
-            "21c037-663_64": 14136
+            "21c037-663_63": 53857,
+            "21c037-663_64": 60651
           },
-          "eligible": 4181
+          "eligible": 14703
         },
         "records": {
-          "tiles": 58,
-          "records": 4181,
-          "encodedBytes": 191365,
+          "tiles": 234,
+          "records": 14703,
+          "encodedBytes": 697927,
           "baseHeightMisses": []
         },
         "stands": {
           "cellMetres": 4,
-          "tiles": 64,
-          "encodedBytes": 370838,
-          "measuredCells": 260657,
-          "closedCanopyCells": 56565,
-          "excludedCells": 87082
+          "tiles": 256,
+          "encodedBytes": 1630558,
+          "measuredCells": 1046482,
+          "closedCanopyCells": 309248,
+          "excludedCells": 334489
         },
         "identity": {
           "matched": 0,
           "moved": 0,
-          "added": 4181,
+          "added": 14703,
           "missing": 0,
-          "nextSequence": 4182
+          "nextSequence": 14704
         }
       },
-      "filesWritten": 404
+      "filesWritten": 964
     },
     {
       "schemaVersion": 1,
@@ -115,99 +115,99 @@
       "state": "published",
       "groundId": "upsala",
       "slug": "upsala-mellanbanan",
-      "observedOn": "2026-09-04",
+      "observedOn": "2026-09-11",
       "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
       "activeRoot": {
         "url": "courses/v2-index.json",
-        "bytes": 4916,
-        "sha256": "b51735156631ae0c1fe52b352551439fa55472d5e66b2c075148152196e72333"
+        "bytes": 6993,
+        "sha256": "253d192e48c495517e21fd1242f29184e5b9eb926a313e2b08be812dbcbadc57"
       },
       "graph": {
         "frameFingerprint": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
         "courseManifest": {
-          "url": "courses/upsala-mellanbanan/course-v2-104cbc8e26381d5248c846bdbf75149828f7e47768d087f0f1c10835b66c2fea.json",
+          "url": "courses/upsala-mellanbanan/course-v2-e9af95daca1aa1fd93a4fe6b6e440323e4e994f4a567a8ded160d394dffc148c.json",
           "mediaType": "application/vnd.banvy.course-manifest-v2+json",
-          "bytes": 2534,
-          "sha256": "104cbc8e26381d5248c846bdbf75149828f7e47768d087f0f1c10835b66c2fea"
+          "bytes": 2545,
+          "sha256": "e9af95daca1aa1fd93a4fe6b6e440323e4e994f4a567a8ded160d394dffc148c"
         },
         "groundManifest": {
-          "url": "grounds/upsala/ground-v2-df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53.json",
+          "url": "grounds/upsala/ground-v2-a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434.json",
           "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
-          "bytes": 263314,
-          "sha256": "df80f059000c7e103c7de33da75195169a28fbaee306dd7ccfa1f8de029b6c53"
+          "bytes": 562639,
+          "sha256": "a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434"
         },
         "routing": {
           "kind": "routing",
-          "url": "courses/upsala-mellanbanan/routing/2e48811092e4413ff7de286bd3d187228ac92f0bbba5bc8f01e4e48cc644a37a.bvch",
+          "url": "courses/upsala-mellanbanan/routing/9948fa5a86c4a17fe200fa2f58dc9efdde0e01c88f9afd25f647e7c38c3c24f5.bvch",
           "mediaType": "application/vnd.banvy.chunk-v2",
-          "bytes": 1534,
-          "sha256": "2e48811092e4413ff7de286bd3d187228ac92f0bbba5bc8f01e4e48cc644a37a",
-          "decodedBytes": 2210,
-          "decodedSha256": "8b5a789a8d69d22de8ae453ab672e4c2ada35e186e294e7ce2ec8fe1fcbd02be",
+          "bytes": 1530,
+          "sha256": "9948fa5a86c4a17fe200fa2f58dc9efdde0e01c88f9afd25f647e7c38c3c24f5",
+          "decodedBytes": 2213,
+          "decodedSha256": "fd1df861ff92e544302d29b1ea0b446dc8278b5a1f470bdca8130b5298d7f832",
           "requiredFeatures": [
             "chunk-envelope-v2",
             "course-routing-json-v1"
           ]
         },
-        "sourceManifestSha256": "4821828a4c65e3621801071a2d368fc104f202c312416625ae47fc65dcb935dc",
+        "sourceManifestSha256": "2b9b12d92307b42d4ade73864a6e2ad3872f49440606e6962dfcf7b96d207d44",
         "fallbackV1": {
-          "bytes": 681373,
+          "bytes": 743791,
           "format": 1,
           "packUrl": "courses/upsala-mellanbanan/pack.bin",
-          "sha256": "48d09b9c96cf836921d014106aa1f3bbc4452d3f5a8b4202651b2c5887e7e478"
+          "sha256": "d76a1c1a76ce9c6758fdb6a3e853fcccaf565441d0ac12f9d9e107a2377f4675"
         },
         "holes": 9,
-        "tiles": 277,
-        "finestTiles": 64,
-        "shellBytes": 71292,
-        "chunks": 401,
-        "encodedChunkBytes": 18657856,
-        "decodedChunkBytes": 39686088
+        "tiles": 469,
+        "finestTiles": 256,
+        "shellBytes": 71293,
+        "chunks": 961,
+        "encodedChunkBytes": 34895428,
+        "decodedChunkBytes": 73009128
       },
       "vegetation": {
-        "objectTiles": 58,
-        "standTiles": 64,
+        "objectTiles": 234,
+        "standTiles": 256,
         "candidates": {
-          "total": 24496,
+          "total": 114508,
           "byRepresentation": {
-            "excluded": 1177,
-            "individual": 4928,
-            "stand": 18391
+            "excluded": 5451,
+            "individual": 16640,
+            "stand": 92417
           },
           "byZone": {
-            "A": 4751,
-            "B": 5837,
-            "C": 13908
+            "A": 4630,
+            "B": 6319,
+            "C": 103559
           },
           "byCampaign": {
-            "21c037-663_63": 10360,
-            "21c037-663_64": 14136
+            "21c037-663_63": 53857,
+            "21c037-663_64": 60651
           },
-          "eligible": 4181
+          "eligible": 14703
         },
         "records": {
-          "tiles": 58,
-          "records": 4181,
-          "encodedBytes": 191365,
+          "tiles": 234,
+          "records": 14703,
+          "encodedBytes": 697927,
           "baseHeightMisses": []
         },
         "stands": {
           "cellMetres": 4,
-          "tiles": 64,
-          "encodedBytes": 370838,
-          "measuredCells": 260657,
-          "closedCanopyCells": 56565,
-          "excludedCells": 87082
+          "tiles": 256,
+          "encodedBytes": 1630558,
+          "measuredCells": 1046482,
+          "closedCanopyCells": 309248,
+          "excludedCells": 334489
         },
         "identity": {
           "matched": 0,
           "moved": 0,
-          "added": 4181,
+          "added": 14703,
           "missing": 0,
-          "nextSequence": 4182
+          "nextSequence": 14704
         }
       },
-      "filesWritten": 404
+      "filesWritten": 964
     }
   ]
 }

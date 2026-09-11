@@ -1,0 +1,280 @@
+{
+  "canopy": "grey: canopy height, black 0 m to white 30 m; dark blue: no return",
+  "seam": "magenta: campaign seam",
+  "course": "white: hole centre lines; grey: fairway rings; pale blue: tee pads; light green: green rings; pale yellow: bunker rings; blue: water rings",
+  "candidates": "green circle at crown radius: individual; amber dot: stand crown; red dot: excluded (reason in candidates.json)",
+  "overview": "overview-2m.png at 2 m per pixel over the published ground",
+  "holes": [
+    {
+      "hole": 1,
+      "file": "hole-01.png",
+      "bboxEpsg3006": [
+        679229,
+        6625743.6,
+        679452.6,
+        6626204.2
+      ]
+    },
+    {
+      "hole": 2,
+      "file": "hole-02.png",
+      "bboxEpsg3006": [
+        679254.5,
+        6625436.9,
+        679507,
+        6625956.2
+      ]
+    },
+    {
+      "hole": 3,
+      "file": "hole-03.png",
+      "bboxEpsg3006": [
+        679300.1,
+        6625403.2,
+        679953.2,
+        6625677.3
+      ]
+    },
+    {
+      "hole": 4,
+      "file": "hole-04.png",
+      "bboxEpsg3006": [
+        679697.8,
+        6625285,
+        680314.5,
+        6625569
+      ]
+    },
+    {
+      "hole": 5,
+      "file": "hole-05.png",
+      "bboxEpsg3006": [
+        679774.6,
+        6625061,
+        680300.3,
+        6625430.9
+      ]
+    },
+    {
+      "hole": 6,
+      "file": "hole-06.png",
+      "bboxEpsg3006": [
+        679611,
+        6625011.2,
+        679947.4,
+        6625294.2
+      ]
+    },
+    {
+      "hole": 7,
+      "file": "hole-07.png",
+      "bboxEpsg3006": [
+        679607.4,
+        6624670.5,
+        679999.5,
+        6625241.6
+      ]
+    },
+    {
+      "hole": 8,
+      "file": "hole-08.png",
+      "bboxEpsg3006": [
+        679462,
+        6624295.9,
+        679824.9,
+        6624758.4
+      ]
+    },
+    {
+      "hole": 9,
+      "file": "hole-09.png",
+      "bboxEpsg3006": [
+        679414,
+        6624319.2,
+        679618,
+        6624679.4
+      ]
+    },
+    {
+      "hole": 10,
+      "file": "hole-10.png",
+      "bboxEpsg3006": [
+        679008.2,
+        6624466.3,
+        679524.3,
+        6624906.6
+      ]
+    },
+    {
+      "hole": 11,
+      "file": "hole-11.png",
+      "bboxEpsg3006": [
+        679094.4,
+        6624752.7,
+        679617.5,
+        6625029.8
+      ]
+    },
+    {
+      "hole": 12,
+      "file": "hole-12.png",
+      "bboxEpsg3006": [
+        679403.7,
+        6624783.3,
+        679931.2,
+        6625042.8
+      ]
+    },
+    {
+      "hole": 13,
+      "file": "hole-13.png",
+      "bboxEpsg3006": [
+        679582.6,
+        6624871.2,
+        679834.7,
+        6625186.3
+      ]
+    },
+    {
+      "hole": 14,
+      "file": "hole-14.png",
+      "bboxEpsg3006": [
+        679241.4,
+        6624908.3,
+        679760.9,
+        6625218
+      ]
+    },
+    {
+      "hole": 15,
+      "file": "hole-15.png",
+      "bboxEpsg3006": [
+        679213.8,
+        6624941.2,
+        679763.5,
+        6625277
+      ]
+    },
+    {
+      "hole": 16,
+      "file": "hole-16.png",
+      "bboxEpsg3006": [
+        679190.4,
+        6625128.5,
+        679747.3,
+        6625518
+      ]
+    },
+    {
+      "hole": 17,
+      "file": "hole-17.png",
+      "bboxEpsg3006": [
+        679165.2,
+        6625441.9,
+        679453.1,
+        6625750.9
+      ]
+    },
+    {
+      "hole": 18,
+      "file": "hole-18.png",
+      "bboxEpsg3006": [
+        679144,
+        6625563.7,
+        679369.5,
+        6626228.1
+      ]
+    },
+    {
+      "hole": 1,
+      "file": "hole-01.png",
+      "bboxEpsg3006": [
+        678760.9,
+        6626070.6,
+        679242.4,
+        6626270.8
+      ]
+    },
+    {
+      "hole": 2,
+      "file": "hole-02.png",
+      "bboxEpsg3006": [
+        678571.1,
+        6625838.3,
+        678915.3,
+        6626251.9
+      ]
+    },
+    {
+      "hole": 3,
+      "file": "hole-03.png",
+      "bboxEpsg3006": [
+        678558.2,
+        6625849.4,
+        678769.4,
+        6626284.1
+      ]
+    },
+    {
+      "hole": 4,
+      "file": "hole-04.png",
+      "bboxEpsg3006": [
+        678573.8,
+        6626072.6,
+        678881,
+        6626311.3
+      ]
+    },
+    {
+      "hole": 5,
+      "file": "hole-05.png",
+      "bboxEpsg3006": [
+        678745.8,
+        6625981.7,
+        679189.4,
+        6626217.9
+      ]
+    },
+    {
+      "hole": 6,
+      "file": "hole-06.png",
+      "bboxEpsg3006": [
+        678777.4,
+        6625886.6,
+        679221.6,
+        6626193.9
+      ]
+    },
+    {
+      "hole": 7,
+      "file": "hole-07.png",
+      "bboxEpsg3006": [
+        678630.6,
+        6625837.2,
+        678915.4,
+        6626156.7
+      ]
+    },
+    {
+      "hole": 8,
+      "file": "hole-08.png",
+      "bboxEpsg3006": [
+        678690.8,
+        6625775.3,
+        679275.6,
+        6626018.1
+      ]
+    },
+    {
+      "hole": 9,
+      "file": "hole-09.png",
+      "bboxEpsg3006": [
+        679071.6,
+        6625871,
+        679264.7,
+        6626225.4
+      ]
+    }
+  ],
+  "candidatesFile": "../../_temp/veg/compile/candidates.json"
+}

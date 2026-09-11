@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "groundId": "veckefjarden",
   "groundName": "Veckefjärdens Golfklubb",
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-11",
   "state": "census-complete",
   "campaignsSha256": "0086fc723396af85899743326f979aaef34f8e6f1fd8dc9891cc0259614b9ebc",
   "method": "LAS header + COPC info VLR + hierarchy pages over authenticated HTTP range requests; point counts are area-weighted sums of octree nodes; no point bytes were read",
@@ -1147,7 +1147,7 @@
       "transfer": {
         "requests": 77,
         "bytes": 300589,
-        "elapsedMilliseconds": 15604.3
+        "elapsedMilliseconds": 13503.6
       }
     },
     {
@@ -1992,7 +1992,7 @@
       "transfer": {
         "requests": 43,
         "bytes": 202573,
-        "elapsedMilliseconds": 7885.4
+        "elapsedMilliseconds": 6847.7
       }
     }
   ]

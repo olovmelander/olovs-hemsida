@@ -1,2 +1,9 @@
+# Re-run the LiDAR vegetation over the whole 4,096 m level zero of the standard ring graph.
+# The generation of 2026-09-04 was compiled on the 2,048 m window; the standard rings carry 1 m
+# tiles over 4,096 m and the widening carried those 64 tiles onto the wider lattice, so the ground
+# now has measured trees on 64 of its 256 finest tiles and none on the other 192. build-canopy reads
+# every finest tile the campaign items intersect, so the same credentialed chain re-measures crowns
+# and stand fields over the whole core and replaces the carried layers, for BOTH courses of this
+# ground (veckefjarden and veckefjarden-korthalsbanan) against one ground manifest.
 publish=true
-observed_on=2026-09-04
+observed_on=2026-09-11

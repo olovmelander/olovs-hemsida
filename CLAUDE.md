@@ -4884,3 +4884,98 @@ was measured before it was touched; the record is in the code comments at
 Not done: the boundary between the 46,121 stand representatives (the 2 km
 window) and the far cones beyond it is still a density step; nothing was
 measured on it here.
+
+## One ring standard, and the vegetation that has to follow it (2026-09-11)
+
+Every ground is now the same shape and the same size: a 16,384 m root in
+seven nested levels with the 1 m level over the whole central 4,096 m --
+Ängsö's topology, made every ground's by `packages/course-v2/standard-ground-rings.mjs`.
+A ground supplies its frame centre, its courses and migrations, its measured
+coverage band and, on a coast, its sea-fill rule; the registry refuses at
+import any spec that drifts. Ten grounds are registered on it and seven were
+republished from CI one at a time.
+
+- **A widened level zero moves the published tiles, and a moved tile cannot
+  be carried verbatim.** `l0/0/0` becomes `l0/4/4`, and every consumer holds
+  a chunk's own header id to the manifest id it is served under. So
+  `publish-ground-rings` finds the published tiles by BOUNDS, the compiler
+  re-addresses a moved tile from its published payload (the same quantised
+  heights, never re-read from the DTM), and `readdress-chunk.mjs` carries the
+  surface, object-registry and stand-field layers the same way with a
+  registry's own tileId re-pointed. Three things Puttom's five attempts
+  taught: a one-quantum rounding tie under float32 noise is a TIE (the
+  tolerance is a quantum and a half, because two adjacent quanta at 45 m never
+  read exactly 0.01 apart); a carried or re-addressed tile publishes its
+  CHUNK's own bounds and grid, which is what every verifier holds the manifest
+  to, not the fresh DTM encode's; and the manifest entry has never carried a
+  grid field, so a test asserting one is the test being wrong.
+- **Widening the terrain strands the trees.** The vegetation layers are
+  carried onto the wider lattice, so a ground that had a 2 km generation ends
+  up with measured trees on 64 of its 256 finest tiles and terrain-only on the
+  other 192. `publish-ground-rings.mjs` says so in place: *"a new tile of the
+  widened level: terrain only, until the vegetation is re-run over it"*.
+  `build-canopy` reads every finest tile the campaign items intersect, so the
+  same credentialed chain re-measures the whole core with nothing but a RUN
+  file. Puttom 3,502 individuals on 64 tiles -> 15,161 on 251; Veckefjärden
+  1,821 on 64 -> 14,084 on 236, both courses of the ground against one ground
+  manifest.
+- **Count the stand tiles before assuming a ground needs it.** Measured over
+  the live manifests, stand layers sit on 256/256 at Ängsö, Puttom, Visby and
+  Veckefjärden, 229 at Norrfällsviken, 120 at Tortuna, and exactly 64 at
+  Johannesberg, Lidingö, Ribbingsfors and (before its re-run) Upsala. The 64
+  is the carried-window signature. **Norrfällsviken's 229 is complete**: its
+  27 empty tiles are a contiguous block in the three easternmost columns with
+  minimum and maximum height both exactly 0.00 m -- the Gulf of Bothnia. A
+  gap on a coast is the sea before it is a defect.
+- **Two grounds are not on the generic chain and a RUN file will not move
+  them.** Lidingö's `copc-reader/lidingo-canopy.mjs` pins one campaign to a
+  hardcoded 2048 m lattice and `compile-lidingo-stands.mjs` asserts the tile
+  count literally against 64, twice; Tortuna hardcodes its window in
+  `tortunabuild/acquire-canopy.mjs` and again in its own `compile-stands.mjs`
+  (`STAND_TILES = 120`), keeps its rasters in an ignored cache filled by a
+  different workflow, and pins its committed canopy evidence in two of its own
+  tests that the generic chain would rewrite. Neither has a
+  `laser-campaigns.json` at all, which is fatal at the workflow's second step.
+  Johannesberg and Ribbingsfors ARE on the chain and were only ever missing a
+  RUN file -- and Ribbingsfors gains a source item by widening, because its
+  4 km level zero crosses E 450000 where the 2 km one did not.
+- **Run them ONE AT A TIME on a branch.** Every publish rewrites
+  `courses/v2-index.json`, and a queued run checks out its own commit, not the
+  branch tip -- so two in flight means the second is built on a tree that
+  predates the first and its rebase either conflicts there or reverts it.
+- **Upload the compile BEFORE the gates.** Puttom's first re-run read the
+  laser for 73 minutes, published, and then failed the unit suite on a
+  Ribbingsfors contract the branch had moved under it two minutes before its
+  checkout. The artifact step sat after the gates, so the hour was lost. A
+  gate is a judgement about the branch; the compile is a measurement of the
+  laser and keeps regardless. `ground-terrain-rings` already had this order.
+
+### An allow-list path filter fails CLOSED on a large diff
+
+The pull request that merged all of the above changed 3,732 files across
+`packages/course-v2/**`, `geo_data/course-v2/**` and `apps/golf/src/engine/**`
+-- three of the paths `course-geo.yml` watches -- and **the workflow never
+ran**: not on the pull request, and not on the push to main that merged it.
+Zero check runs, no error, nothing to notice. GitHub evaluates only a bounded
+prefix of a changed-file list against a path filter, and the first 300 files
+of that diff are all published chunks under `apps/golf/public/**`, which the
+allow-list does not name. The gate that exists to protect the course data was
+skipped, in silence, by exactly the kind of branch it exists for.
+
+An allow-list looks for files it never sees and concludes there is nothing to
+do. A **deny-list fails open**: the chunks are not ignored, so the gate runs.
+`course-geo.yml` carries `paths-ignore` now (`docs/**` and `**.md` -- written
+`**.md`, not `**/*.md`, because the latter needs a directory and would let a
+root `CLAUDE.md` count as code). Measured on that same diff: allow-list 0 of
+the first 300 matched, deny-list 300 not ignored. The same shape of bug is
+worth looking for anywhere a filter decides whether a check runs.
+
+Two smaller things from the same day. **Resetting a branch onto main
+re-triggers path-filtered workflows** for every file that changed in main
+meanwhile -- a force-push reset started a spurious credentialed vegetation
+run, which the workflow's own guard refused in under a second because it
+compares `HEAD^..HEAD` for a RUN file and found none. A trigger filter is not
+a guard; write the guard. And **a multi-course ground's vegetation report is a
+different schema** from a single course's: `slugs` + `groundManifestSha256` +
+`courses[]`, not `slug` + `vegetation` at the top level. Read the shape before
+indexing it.

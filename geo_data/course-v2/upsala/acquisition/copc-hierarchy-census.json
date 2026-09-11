@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "groundId": "upsala",
   "groundName": "Upsala Golfklubb",
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-11",
   "state": "census-complete",
   "campaignsSha256": "5867763521c3c3eb3e3776ac5e610575d87165e08c803280ceec4f7f35c1e53b",
   "method": "LAS header + COPC info VLR + hierarchy pages over authenticated HTTP range requests; point counts are area-weighted sums of octree nodes; no point bytes were read",
@@ -1128,7 +1128,7 @@
       "transfer": {
         "requests": 143,
         "bytes": 459405,
-        "elapsedMilliseconds": 22583.1
+        "elapsedMilliseconds": 28342
       }
     },
     {
@@ -1869,7 +1869,7 @@
       "transfer": {
         "requests": 131,
         "bytes": 400301,
-        "elapsedMilliseconds": 19749.6
+        "elapsedMilliseconds": 24521.1
       }
     }
   ]
