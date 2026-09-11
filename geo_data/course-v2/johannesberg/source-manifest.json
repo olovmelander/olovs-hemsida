@@ -765,6 +765,17 @@
       ],
       "use": "discovery-evidence",
       "notes": "Authenticated supplemental native 0.16 m RGBI window for the hole-3 OB review, with source identities, byte/image hashes, grid, mask and 2025-06-14 capture evidence. Acquisition did not resolve the corridor, which remains unpublished."
+    },
+    {
+      "id": "ground-rings",
+      "kind": "acquisition",
+      "path": "geo_data/course-v2/johannesberg/acquisition/ground-rings.json",
+      "sha256": "7a560244e133146d995802f98e3385b54d83a60df5a8d16056f4e79a17142636",
+      "derivedFrom": [
+        "terrain-lm-1m"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Nested resolution rings read from the Markhöjdmodell dtm-cog items over authenticated range requests: 1 m over the course (asserted against the published tiles), 2 m subsampled to 1.5 km, and the averaged overviews at 4, 8, 16 and 32 m to a 16 km root. Item identities (ETag, size, date) and the transfer are recorded; no credential material is."
     }
   ],
   "blockers": [
