@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "groundId": "puttom",
   "groundName": "Puttom Golfklubb",
-  "observedOn": "2026-09-02",
+  "observedOn": "2026-09-11",
   "state": "census-complete",
-  "campaignsSha256": "6d52e602cc32ae637f2671f3eded80ee9ad3424e4b5716b6c1c762eedf3adfa6",
+  "campaignsSha256": "4b5225999da05b04ae44f99be06884d4c185861cc0595b56a660d83874eeb89e",
   "method": "LAS header + COPC info VLR + hierarchy pages over authenticated HTTP range requests; point counts are area-weighted sums of octree nodes; no point bytes were read",
-  "full": false,
+  "full": true,
   "windows": [
     {
       "id": "aoi",
@@ -199,16 +199,6 @@
       ]
     },
     {
-      "id": "w256-697088-7024896",
-      "role": "hole 10 control window",
-      "bboxEpsg3006": [
-        697088,
-        7024896,
-        697344,
-        7025152
-      ]
-    },
-    {
       "id": "w256-697600-7024384",
       "role": "hole 12 control window",
       "bboxEpsg3006": [
@@ -256,6 +246,16 @@
         7024640,
         697344,
         7024896
+      ]
+    },
+    {
+      "id": "w256-697088-7024896",
+      "role": "hole 14 control window",
+      "bboxEpsg3006": [
+        697088,
+        7024896,
+        697344,
+        7025152
       ]
     },
     {
@@ -324,30 +324,30 @@
         "gpsTimeMaximum": 464336753.211
       },
       "hierarchy": {
-        "pagesRead": 4,
-        "pagesSkipped": 10,
-        "complete": false,
-        "nodes": 6153,
+        "pagesRead": 14,
+        "pagesSkipped": 0,
+        "complete": true,
+        "nodes": 6826,
         "nodesByDepth": {
           "0": 1,
           "1": 8,
           "2": 51,
           "3": 294,
-          "4": 1603,
-          "5": 4029,
-          "6": 167
+          "4": 1613,
+          "5": 4108,
+          "6": 751
         },
         "pointsByDepth": {
           "0": 25250,
           "1": 39829,
           "2": 260404,
           "3": 1356323,
-          "4": 41868123,
-          "5": 92854020,
-          "6": 1070480
+          "4": 42016313,
+          "5": 93498396,
+          "6": 5234699
         },
-        "sumOfNodePoints": 137474429,
-        "matchesHeader": null
+        "sumOfNodePoints": 142431214,
+        "matchesHeader": true
       },
       "dataBounds": [
         690000,
@@ -775,32 +775,6 @@
           "deepestNodesEmpty": 0
         },
         {
-          "id": "w256-697088-7024896",
-          "bboxEpsg3006": [
-            697088,
-            7024896,
-            697344,
-            7025152
-          ],
-          "squareMetres": 65536,
-          "estimatedPoints": 70638,
-          "estimatedAllReturnDensityPerSquareMetre": 1.078,
-          "pointsByDepth": {
-            "0": 13,
-            "1": 26,
-            "2": 149,
-            "3": 906,
-            "4": 14091,
-            "5": 55454
-          },
-          "nodesTouched": 27,
-          "nodesWhollyInside": 0,
-          "deepestDepth": 5,
-          "deepestNodeSizeMetres": 312.5,
-          "deepestNodesTouched": 11,
-          "deepestNodesEmpty": 0
-        },
-        {
           "id": "w256-697600-7024384",
           "bboxEpsg3006": [
             697600,
@@ -931,6 +905,32 @@
           "deepestNodesEmpty": 0
         },
         {
+          "id": "w256-697088-7024896",
+          "bboxEpsg3006": [
+            697088,
+            7024896,
+            697344,
+            7025152
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 70638,
+          "estimatedAllReturnDensityPerSquareMetre": 1.078,
+          "pointsByDepth": {
+            "0": 13,
+            "1": 26,
+            "2": 149,
+            "3": 906,
+            "4": 14091,
+            "5": 55454
+          },
+          "nodesTouched": 27,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 312.5,
+          "deepestNodesTouched": 11,
+          "deepestNodesEmpty": 0
+        },
+        {
           "id": "w256-697088-7024128",
           "bboxEpsg3006": [
             697088,
@@ -984,9 +984,9 @@
         }
       ],
       "transfer": {
-        "requests": 6,
-        "bytes": 197901,
-        "elapsedMilliseconds": 356.4
+        "requests": 16,
+        "bytes": 219437,
+        "elapsedMilliseconds": 3184.8
       }
     },
     {
@@ -1033,30 +1033,30 @@
         "gpsTimeMaximum": 370143420.435
       },
       "hierarchy": {
-        "pagesRead": 19,
-        "pagesSkipped": 31,
-        "complete": false,
-        "nodes": 7327,
+        "pagesRead": 50,
+        "pagesSkipped": 0,
+        "complete": true,
+        "nodes": 9391,
         "nodesByDepth": {
           "0": 1,
           "1": 8,
           "2": 49,
           "3": 285,
-          "4": 1494,
-          "5": 4458,
-          "6": 1032
+          "4": 1525,
+          "5": 4706,
+          "6": 2817
         },
         "pointsByDepth": {
           "0": 26295,
           "1": 39982,
           "2": 254537,
           "3": 1392272,
-          "4": 36269881,
-          "5": 112665515,
-          "6": 7339202
+          "4": 36754308,
+          "5": 115090402,
+          "6": 19277625
         },
-        "sumOfNodePoints": 157987684,
-        "matchesHeader": null
+        "sumOfNodePoints": 172835421,
+        "matchesHeader": true
       },
       "dataBounds": [
         690000,
@@ -1551,32 +1551,6 @@
           "deepestNodesEmpty": 0
         },
         {
-          "id": "w256-697088-7024896",
-          "bboxEpsg3006": [
-            697088,
-            7024896,
-            697344,
-            7025152
-          ],
-          "squareMetres": 65536,
-          "estimatedPoints": 133552,
-          "estimatedAllReturnDensityPerSquareMetre": 2.038,
-          "pointsByDepth": {
-            "0": 20,
-            "1": 32,
-            "2": 183,
-            "3": 827,
-            "4": 5152,
-            "5": 127337
-          },
-          "nodesTouched": 24,
-          "nodesWhollyInside": 0,
-          "deepestDepth": 5,
-          "deepestNodeSizeMetres": 312.5,
-          "deepestNodesTouched": 10,
-          "deepestNodesEmpty": 0
-        },
-        {
           "id": "w256-697600-7024384",
           "bboxEpsg3006": [
             697600,
@@ -1672,6 +1646,32 @@
           "deepestNodesEmpty": 0
         },
         {
+          "id": "w256-697088-7024896",
+          "bboxEpsg3006": [
+            697088,
+            7024896,
+            697344,
+            7025152
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 133552,
+          "estimatedAllReturnDensityPerSquareMetre": 2.038,
+          "pointsByDepth": {
+            "0": 20,
+            "1": 32,
+            "2": 183,
+            "3": 827,
+            "4": 5152,
+            "5": 127337
+          },
+          "nodesTouched": 24,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 312.5,
+          "deepestNodesTouched": 10,
+          "deepestNodesEmpty": 0
+        },
+        {
           "id": "w256-697088-7024128",
           "bboxEpsg3006": [
             697088,
@@ -1711,9 +1711,9 @@
         }
       ],
       "transfer": {
-        "requests": 21,
-        "bytes": 236621,
-        "elapsedMilliseconds": 653
+        "requests": 52,
+        "bytes": 302669,
+        "elapsedMilliseconds": 6774.1
       }
     },
     {
@@ -1760,30 +1760,30 @@
         "gpsTimeMaximum": 276540726.169
       },
       "hierarchy": {
-        "pagesRead": 20,
-        "pagesSkipped": 44,
-        "complete": false,
-        "nodes": 5611,
+        "pagesRead": 64,
+        "pagesSkipped": 0,
+        "complete": true,
+        "nodes": 8285,
         "nodesByDepth": {
           "0": 1,
           "1": 4,
           "2": 29,
           "3": 138,
-          "4": 680,
-          "5": 2278,
-          "6": 2481
+          "4": 724,
+          "5": 2628,
+          "6": 4761
         },
         "pointsByDepth": {
           "0": 26292,
           "1": 33338,
           "2": 216946,
           "3": 1121286,
-          "4": 14641138,
-          "5": 70939702,
-          "6": 30383657
+          "4": 15610084,
+          "5": 74969268,
+          "6": 53328560
         },
-        "sumOfNodePoints": 117362359,
-        "matchesHeader": null
+        "sumOfNodePoints": 145305774,
+        "matchesHeader": true
       },
       "dataBounds": [
         690000,
@@ -2211,32 +2211,6 @@
           "deepestNodesEmpty": 0
         },
         {
-          "id": "w256-697088-7024896",
-          "bboxEpsg3006": [
-            697088,
-            7024896,
-            697344,
-            7025152
-          ],
-          "squareMetres": 65536,
-          "estimatedPoints": 55007,
-          "estimatedAllReturnDensityPerSquareMetre": 0.839,
-          "pointsByDepth": {
-            "0": 14,
-            "1": 17,
-            "2": 125,
-            "3": 722,
-            "4": 11472,
-            "5": 42657
-          },
-          "nodesTouched": 13,
-          "nodesWhollyInside": 0,
-          "deepestDepth": 5,
-          "deepestNodeSizeMetres": 312.5,
-          "deepestNodesTouched": 4,
-          "deepestNodesEmpty": 0
-        },
-        {
           "id": "w256-697600-7024384",
           "bboxEpsg3006": [
             697600,
@@ -2367,6 +2341,32 @@
           "deepestNodesEmpty": 0
         },
         {
+          "id": "w256-697088-7024896",
+          "bboxEpsg3006": [
+            697088,
+            7024896,
+            697344,
+            7025152
+          ],
+          "squareMetres": 65536,
+          "estimatedPoints": 55007,
+          "estimatedAllReturnDensityPerSquareMetre": 0.839,
+          "pointsByDepth": {
+            "0": 14,
+            "1": 17,
+            "2": 125,
+            "3": 722,
+            "4": 11472,
+            "5": 42657
+          },
+          "nodesTouched": 13,
+          "nodesWhollyInside": 0,
+          "deepestDepth": 5,
+          "deepestNodeSizeMetres": 312.5,
+          "deepestNodesTouched": 4,
+          "deepestNodesEmpty": 0
+        },
+        {
           "id": "w256-697088-7024128",
           "bboxEpsg3006": [
             697088,
@@ -2420,9 +2420,9 @@
         }
       ],
       "transfer": {
-        "requests": 22,
-        "bytes": 182157,
-        "elapsedMilliseconds": 648.5
+        "requests": 66,
+        "bytes": 267725,
+        "elapsedMilliseconds": 8259
       }
     }
   ]
