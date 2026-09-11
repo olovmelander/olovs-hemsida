@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-/* Browser acceptance for Ribbingsfors' reviewed fixed frontier.
+/* Browser acceptance for Ribbingsfors' reviewed v2 ground: the standard ring
+   graph since 2026-09-11 (469 tiles, 1 m over the central 4 km, 16 km root),
+   which replaced the 64-tile fixed frontier and its edge blend.
 
    usage:
      node tools/serve.mjs apps/golf/dist 8620
@@ -14,6 +16,7 @@
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
 import { browserArgs } from './browser-args.mjs';
+import { RIBBINGSFORS_V2_CONFIG } from '../apps/golf/src/engine/v2-ribbingsfors-config.mjs';
 
 const BASE = (process.argv.find(argument => /^https?:/.test(argument)) ||
   'http://127.0.0.1:8620').replace(/\/$/, '');
@@ -41,6 +44,7 @@ async function boot(search) {
         requested: terrain.requested,
         ready: terrain.ready,
         status: terrain.status,
+        kind: terrain.kind,
         mode: terrain.selection.mode,
         requestMode: terrain.selection.requestMode,
         surfaceRepresentation: terrain.surfaceRepresentation,
@@ -97,28 +101,26 @@ const terrain = required.report?.terrain;
 const renderer = terrain?.renderer;
 gate(required.booted && required.errors.length === 0, 'required v2 path boots without page errors');
 gate(terrain?.requested === true && terrain?.ready === true && terrain?.status === 'ready' &&
-  terrain?.mode === 'fixed-frontier' && terrain?.requestMode === 'require',
-  'required fixed frontier is active');
-gate(renderer?.meshResolutionMetres === 1 && renderer?.renderedTiles === 64 &&
-  renderer?.drawCalls === 1 && renderer?.skippedBasePoints === 92_824 &&
-  renderer?.removedTriangles > 0,
-  '64 one-metre tiles replace the reviewed legacy CORE in one draw');
+  terrain?.requestMode === 'require',
+  'required v2 terrain is active');
+/* The standard ring graph serves the whole world -- no legacy CORE, MID or
+   FAR beneath it, so no cutout and no edge blend -- and the count is the
+   contract's, never a literal. */
+gate(terrain?.kind === 'graph', 'the published ring graph serves the world, not the fixed frontier');
+gate(renderer?.kind === 'graph' && renderer?.tiles === RIBBINGSFORS_V2_CONFIG.ringGraph.tiles &&
+  Array.isArray(renderer?.levels) && renderer.levels.length === RIBBINGSFORS_V2_CONFIG.ringGraph.levels &&
+  renderer?.meshResolutionMetres === 1 && renderer?.drawCalls === 1 && renderer?.triangles > 0,
+  `${RIBBINGSFORS_V2_CONFIG.ringGraph.tiles} tiles in ${RIBBINGSFORS_V2_CONFIG.ringGraph.levels} levels are the only terrain, drawn once at 1 m`);
 gate(terrain?.surfaceRepresentation === 'legacy-ground-atlas' &&
   terrain?.surfacePolicy === 'legacy-ground-atlas',
   'the complete GPK ground atlas remains the sole surface authority');
 gate(required.report?.tint?.near?.n === 513 && required.report?.tint?.far?.n === 513 &&
   required.report?.tint?.near?.sampleSum > 0 && required.report?.tint?.far?.sampleSum > 0 &&
   required.report?.groundProbe?.tintNear?.length === 3 && required.report?.groundProbe?.tintFar?.length === 3,
-  'fixed-frontier ground receives the same populated near/far tint contract as Puttom v2');
-/* The seam (owner's phone, 2026-09-10): the square of tiles read as a different
-   colour from the world around it, because the legacy CORE rim, MID and FAR
-   drew with the vertex-colour material. They draw with the frontier's own
-   decorated material now, and the 32 m legacy field outside the window (up to
-   3.1 m off the 1 m tiles at the edge, measured) eases onto the edge over 72 m. */
-gate(terrain?.sharedFrontierMaterial === true,
-  'the legacy surroundings draw with the frontier\'s own ground material (no colour seam)');
-gate(terrain?.boundaryBlendMetres === 72,
-  'the legacy heights ease onto the frontier edge over the reviewed 72 m');
+  'the ring ground receives the same populated near/far tint contract as Puttom v2');
+/* The seam (owner's phone, 2026-09-10) was a square of 1 m tiles inside a
+   legacy world drawn with another material; the ring graph has no legacy
+   world to meet, so there is nothing left to blend and nothing to share. */
 gate(terrain?.bridge?.translateX === 0 && terrain?.bridge?.translateZ === 0 &&
   terrain?.bridge?.translateY === 69.14 && terrain?.bridge?.rotationRadians === 0 &&
   terrain?.bridge?.scaleX === 1 && terrain?.bridge?.scaleZ === 1,
