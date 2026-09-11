@@ -22,6 +22,7 @@
 import { chromium } from 'playwright-core';
 import fs from 'node:fs';
 import { browserArgs } from './browser-args.mjs';
+import { UPSALA_V2_CONFIG } from '../apps/golf/src/engine/v2-upsala-config.mjs';
 
 const BASE = (process.argv.find(argument => /^https?:/.test(argument)) ||
   'http://127.0.0.1:8620').replace(/\/$/, '');
@@ -90,10 +91,11 @@ for (const course of courses) {
   gate(terrain?.requested === true && terrain?.ready === true && terrain?.status === 'ready' &&
     terrain?.requestMode === 'require',
     'required v2 terrain is active');
-  /* Seven levels and 277 tiles is the whole published ring graph: 64 at one
-     metre over both courses, then 2, 4 and 8 m rings and the 16, 32 and 64 m
-     shell out to a 16 km root. One draw for all of it. */
-  gate(renderer?.kind === 'graph' && renderer?.tiles === 277 &&
+  /* Seven levels and 469 tiles is the whole published ring graph on the
+     standard topology: 256 at one metre over the central 4 km, then 2, 4 and
+     8 m rings and the 16, 32 and 64 m shell out to a 16 km root. One draw for
+     all of it; the count is the contract's, not a literal. */
+  gate(renderer?.kind === 'graph' && renderer?.tiles === UPSALA_V2_CONFIG.ringGraph.tiles &&
     Array.isArray(renderer?.levels) && renderer.levels.length === 7 &&
     renderer?.meshResolutionMetres === 1 && renderer?.drawCalls === 1 &&
     renderer?.triangles > 0,
