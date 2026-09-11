@@ -2116,7 +2116,7 @@ function createGroundTintTextures() {
   return { near: make(GROUND_TINT_NEAR), far: make(GROUND_TINT_FAR) };
 }
 const toSrgbByte = v => Math.max(0, Math.min(255, Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055))));
-const SEA_TINT = [0.055, 0.085, 0.105];
+const SEA_TINT = GHIBLI_LOOK ? [0.10, 0.22, 0.42] : [0.055, 0.085, 0.105];
 /* "Below the water line is water" is true of a SEA and of nothing else. The sea
    surface is 0 by definition and the ground under it is seabed, so on a coastal
    course a height test IS a water test out to the horizon. Inland it is not: a
@@ -2169,7 +2169,7 @@ const COASTAL_WATER = (() => {
 })();
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
-const FLAT_WATER_TINT = [0.05, 0.075, 0.09];
+const FLAT_WATER_TINT = GHIBLI_LOOK ? [0.09, 0.20, 0.38] : [0.05, 0.075, 0.09];
 /* THE GROUND TO THE HORIZON, by what it is. One rule for the far tint raster
    and the legacy FAR mesh's vertex colours, so the two ground paths cannot
    drift apart again. Where the land-cover record speaks, the class decides
@@ -4368,9 +4368,12 @@ const SPECIES = (() => {
     { crown: pine, trunk: trunk(0.22, 0.46, 9.0), cc: 0x3a6134, tc: 0x6b4326, sc: [0.72, 1.34] },
     { crown: birch, trunk: trunk(0.16, 0.30, 7.4), cc: 0x5f8944, tc: 0xc9c6b2, sc: [0.60, 1.06] },
   ];
-  if (GHIBLI) for (let s = 0; s < table.length; s++) {
+  if (GHIBLI) for (let s = 0; s < GHIBLI.species.length; s++) {
     const g = GHIBLI.species[s];
     if (!g) continue;
+    /* species 3 and 4 (alder, oak) exist only with the authored set: the
+       course rules ask for them by index when `extended` is on */
+    if (!table[s]) table[s] = { cc: 0, tc: 0, sc: GHIBLI.colours[s].sc || [0.7, 1.2] };
     table[s].crown = g.full.crown; table[s].trunk = g.full.trunk;
     table[s].cc = GHIBLI.colours[s].cc; table[s].tc = GHIBLI.colours[s].tc;
   }
@@ -4536,14 +4539,16 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
 }
 
 lap('reeds (lattice + SHORE field)', { reeds: stats.reeds | 0 });
-const trees = [[], [], []];
+const trees = SPECIES.map(() => []);
 /* Phase 0 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
    every planted tree remembers WHY it stands there -- the OSM forest polygon,
    a scrub ring, the satellite canopy raster or the shore belt -- so the
    baseline export can measure the legacy population source by source, which
    is how the v2 cutover will be measured population by population instead of
    eyeballed. The reason changes nothing about where a tree lands. */
-const treeWhy = [[], [], []];
+const treeWhy = SPECIES.map(() => []);
+/* every species name the tiers, exports and impostors use; 3 and 4 exist only with the authored set */
+const SPECIES_NAMES = ['spruce', 'pine', 'birch', 'alder', 'oak'].slice(0, SPECIES.length);
 const WHY_FOREST_RING = 1, WHY_SCRUB_RING = 2, WHY_SATELLITE = 3, WHY_SHORE = 4, WHY_V2_INDIVIDUAL = 5, WHY_V2_STAND = 6;
 /* The v2 populations are planned BEFORE the lattice runs, so the lattice can
    stay out of every tile they own: inside verified coverage only the registry
@@ -4552,9 +4557,17 @@ const WHY_FOREST_RING = 1, WHY_SCRUB_RING = 2, WHY_SATELLITE = 3, WHY_SHORE = 4,
 /* A 10 m woodland class informs the mesh mix only. It never adds/moves trees
    or identifies a species: the existing verified canopy still owns placement. */
 let woodlandAt = () => null;
-const mappedTreeSpecies = ({ r, x, z, h }) =>
-  woodlandSpeciesPrior({ r, context: woodlandAt(x, z) }) ??
-  SCENERY?.species?.({ r, x, z, h, ringSD, RES });
+/* `extended` tells a course rule that alder (3) and oak (4) exist to be asked
+   for; without it every rule keeps answering in the three-species table */
+const SPECIES_EXTENDED = SPECIES.length > 3;
+const mappedTreeSpecies = ({ r, x, z, h }) => {
+  const prior = woodlandSpeciesPrior({ r, context: woodlandAt(x, z) });
+  const own = SCENERY?.species?.({ r, x, z, h, ringSD, RES, extended: SPECIES_EXTENDED });
+  /* a prior says conifer or broadleaf; the course's own rule says WHICH broadleaf */
+  if (prior === 2 && SPECIES_EXTENDED && own >= 2) return own;
+  const sp = prior ?? own;
+  return Number.isInteger(sp) && sp < SPECIES.length ? sp : (Number.isInteger(sp) ? 2 : sp);
+};
 let V2_VEG_PLAN = null, V2_VEG_COVER = null;
 if (V2_VEGETATION) {
   if (TERRAIN_PREVIEW.ready && TERRAIN_PREVIEW.bridge) {
@@ -4736,7 +4749,7 @@ const LEGACY_ZONE_A_METRES = 90, LEGACY_ZONE_B_METRES = 300;
 /* the third band, for the tier-by-zone rule: decimated crowns out to here, impostors beyond */
 const ZONE_C_METRES = 700;
 function legacyTreeExport(withInstances = false) {
-  const names = ['spruce', 'pine', 'birch'];
+  const names = SPECIES_NAMES;
   const out = {
     total: 0, species: {}, reasons: {}, zones: { A: 0, B: 0, C: 0 },
     holes: HOLES.map(h => ({ n: h.n, count: 0 })),
@@ -4746,7 +4759,7 @@ function legacyTreeExport(withInstances = false) {
     instances: withInstances ? [] : null,
   };
   for (const reason of LEGACY_TREE_REASONS) out.reasons[reason] = 0;
-  for (let sp = 0; sp < 3; sp++) {
+  for (let sp = 0; sp < SPECIES.length; sp++) {
     const T = trees[sp], W = treeWhy[sp], n = T.length / 6;
     out.species[names[sp]] = n;
     out.total += n;
@@ -4913,7 +4926,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(loc
       { crown: pine, trunk: trunk(0.22, 0.46, 9.0) },
       { crown: birch, trunk: trunk(0.16, 0.30, 7.4) },
     ];
-    return proc.map((p, s) => authored(s) ? { crown: GHIBLI.species[s].decimated.crown, trunk: GHIBLI.species[s].decimated.trunk } : p);
+    return SPECIES.map((_, s) => authored(s) ? { crown: GHIBLI.species[s].decimated.crown, trunk: GHIBLI.species[s].decimated.trunk } : proc[s]);
   })();
   /* --- the hero tier: what a tree a golfer stands beside is made of ---
      The plan's alpha-tested needle and leaf cards were built and taken out
@@ -4980,11 +4993,12 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(loc
     })()), 3, 0.22, 0.17);
     return [spruce, pine, birch];
   })();
-  const hero = [
+  const heroProc = [
     { crown: fineCrowns[0], trunk: heroTrunk(0.18, 0.42, 3.2) },
     { crown: fineCrowns[1], trunk: heroTrunk(0.22, 0.46, 9.0) },
     { crown: fineCrowns[2], trunk: heroTrunk(0.16, 0.30, 7.4) },
-  ].map((p, s) => authored(s) ? { crown: GHIBLI.species[s].hero.crown, trunk: GHIBLI.species[s].hero.trunk } : p);
+  ];
+  const hero = SPECIES.map((_, s) => authored(s) ? { crown: GHIBLI.species[s].hero.crown, trunk: GHIBLI.species[s].hero.trunk } : heroProc[s]);
   if (GRAPHICS_POLISH) {
     /* Bake once into existing colours, before impostor capture. A shared full
        crown envelope keeps the tint consistent across geographic detail tiers.
@@ -5026,16 +5040,19 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(loc
       const tone = mix(vec3(0.70, 0.86, 1.06), vec3(1.34, 1.20, 0.78), band);
       const tintA = attribute('aTint', 'vec4');
       let base = cbase;
-      if (s === 2) {
+      if (s === 2 || s === 4) {
         /* autumn per tree: the hash in aTint.w says how far this birch has
-           turned -- a fifth still green, most gold, the last fifth orange */
+           turned -- a fifth still green, most gold, the last fifth orange; an
+           oak (4) goes bronze to rust instead, and an alder (3) drops green */
         const h = tintA.w;
         /* deep amber and rust, not lemon: these are pre-lift values (the
            material raises the base a third and warms the lit side), chosen so
            a sunlit amber crown lands near the preset's own leaf colour and
            the shade side goes to a dark honey rather than a washed yellow */
-        const stage = mix(mix(color(0x6a8a2c), color(0x9a6614), smoothstep(0.15, 0.4, h)), color(0x8a3a16), smoothstep(0.7, 0.95, h));
-        base = mix(uLeaf, stage, uAutumn);
+        const stage = s === 4
+          ? mix(mix(color(0x4a7a34), color(0x7a5a1c), smoothstep(0.2, 0.5, h)), color(0x6a3a18), smoothstep(0.7, 0.95, h))
+          : mix(mix(color(0x6a8a2c), color(0x9a6614), smoothstep(0.15, 0.4, h)), color(0x8a3a16), smoothstep(0.7, 0.95, h));
+        base = mix(s === 4 ? cbase : uLeaf, stage, uAutumn);
       }
       /* the birch's leaf colour is already the pale one; the full lift turned it lime under a low sun */
       mat.colorNode = base.mul(s === 2 ? 1.08 : 1.3).mul(attribute('color', 'vec3')).mul(tintA.xyz).mul(tone).mul(backlit);
@@ -5081,11 +5098,11 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(loc
      other, lit at draw time (engine/tree-impostor.mjs) */
   {
     const bakeStarted = performance.now();
-    for (let s = 0; s < 3; s++) {
+    for (let s = 0; s < SPECIES.length; s++) {
       TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: SPECIES[s].tc }));
     }
     TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
-    span('tree impostor atlases (3 species, 64 views each)', bakeStarted);
+    span(`tree impostor atlases (${SPECIES.length} species, 64 views each)`, bakeStarted);
   }
   const impostorBatch = (s, capacity, label) => {
     const geo = createImpostorGeometry(capacity);
@@ -5098,7 +5115,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(loc
     mesh.receiveShadow = true;
     mesh.frustumCulled = false;
     mesh.userData.tag = 'trees';
-    mesh.name = `trees-${['spruce', 'pine', 'birch'][s]}-impostor-${label}`;
+    mesh.name = `trees-${SPECIES_NAMES[s]}-impostor-${label}`;
     scene.add(mesh);
     stats.draws++;
     return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'), fade: [geo.getAttribute('aFade')],
@@ -5110,9 +5127,8 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(loc
      measured tree keeps the laser height the species template gave it. The
      tier machinery below works per template; placement (trees[], treeWhy[])
      and the impostor atlases (per species) are untouched. */
-  const SPECIES_NAMES = ['spruce', 'pine', 'birch'];
   const TEMPLATES = [];
-  for (let s = 0; s < 3; s++) {
+  for (let s = 0; s < SPECIES.length; s++) {
     const vars = authored(s) ? GHIBLI.species[s].variants : null;
     if (!vars) { TEMPLATES.push({ s, v: 0, nv: 1, name: SPECIES_NAMES[s], spec: SPECIES[s], hr: hero[s], de: decimated[s], ky: 1, kxz: 1 }); continue; }
     for (let v = 0; v < vars.length; v++) {
@@ -5753,13 +5769,13 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
     /* the same pictures the planted forest fades into, so the far ring and
        the middle ring are one forest: a cone that stood 12 m x s becomes a
        tree of the same height, species by hash, yaw by hash */
-    const perSpecies = [[], [], []];
+    const perSpecies = SPECIES.map(() => []);
     for (let k = 0; k < n; k++) {
       const r = hash2(k * 7919 + 3, k * 104729 + 11);
       /* light canopy in the record is birch four times in five; the rest keep the pine-led mix */
       perSpecies[ptsKind[k] === LANDCOVER.LIGHT_TREES && r < 0.8 ? 2 : r < 0.58 ? 1 : r < 0.9 ? 0 : 2].push(k);
     }
-    for (let s = 0; s < 3; s++) {
+    for (let s = 0; s < SPECIES.length; s++) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
@@ -5783,7 +5799,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const mesh = new THREE.Mesh(geo, mat);
       mesh.castShadow = false; mesh.receiveShadow = false; mesh.frustumCulled = false;
       mesh.userData.tag = 'vista';
-      mesh.name = `vista-${['spruce', 'pine', 'birch'][s]}-impostor`;
+      mesh.name = `vista-${SPECIES_NAMES[s]}-impostor`;
       scene.add(mesh);
       stats.draws++;
     }
@@ -7949,6 +7965,20 @@ function toast(msg, ms = 2600) {
 
 document.querySelectorAll('[data-cam]').forEach(b => b.onclick = () => setCam(b.dataset.cam));
 document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPreset(b.dataset.preset));
+/* the painted look is decided at boot (materials, sky, templates), so the
+   button rewrites the URL and reloads; syncURL keeps the flag because it
+   starts from the live search params */
+{
+  const lookBtn = document.getElementById('lookBtn');
+  if (lookBtn) {
+    lookBtn.classList.toggle('on', GHIBLI_LOOK);
+    lookBtn.onclick = () => {
+      const sp = new URLSearchParams(location.search);
+      if (GHIBLI_LOOK) { sp.delete('ghibli'); sp.delete('hero'); } else { sp.set('ghibli', '1'); sp.set('hero', '1'); }
+      location.search = sp.toString();
+    };
+  }
+}
 /* on a phone the rail is a sheet behind the Vy · Ljus button; choosing anything
    closes it so the scene comes straight back */
 {

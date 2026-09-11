@@ -221,11 +221,14 @@ export function build(ctx) {
    below is the closest honest approximation rather than the measured mix. Do
    not "fix" the ratio without adding the species.
 
-   Species ids match the engine's SPECIES table: 0 spruce, 1 pine, 2 birch.   */
-export function species({ r, x, z, h, ringSD, RES }) {
+   Species ids match the engine's SPECIES table: 0 spruce, 1 pine, 2 birch --
+   and, when the caller says the table is `extended` (the authored tree set),
+   3 alder: then the reserve rings plant what Länsstyrelsen names, grey alder
+   first, then birch, and the rule above stops being an approximation.        */
+export function species({ r, x, z, h, ringSD, RES, extended = false }) {
   for (const rr of RES) {
     if (x < rr.bb.x0 || x > rr.bb.x1 || z < rr.bb.z0 || z > rr.bb.z1) continue;
-    if (ringSD(x, z, rr.ring) < 0) return r < 0.78 ? 2 : 0;
+    if (ringSD(x, z, rr.ring) < 0) return extended ? (r < 0.5 ? 3 : r < 0.78 ? 2 : 0) : (r < 0.78 ? 2 : 0);
   }
   return h > 46 ? (r < 0.66 ? 0 : 1) : r < 0.44 ? 0 : r < 0.80 ? 1 : 2;
 }

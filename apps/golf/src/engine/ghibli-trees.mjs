@@ -24,7 +24,7 @@ const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA
    own procedural template for that species. The spruce is authored in the
    original's fashion (flat-shaded stacked cones with grown skirts), because
    the owner prefers that silhouette and wants every tree to come from Blender. */
-export const GHIBLI_SPECIES = ['gran', 'tall', 'björk'];
+export const GHIBLI_SPECIES = ['gran', 'tall', 'björk', 'al', 'ek'];
 
 /* The crown colours are the engine's own (main.js SPECIES: spruce, pine,
    birch) -- the owner preferred them to the study's toon mid-tones, which
@@ -34,13 +34,16 @@ export const GHIBLI_COLOURS = [
   { cc: 0x2c5230, tc: 0xffffff },
   { cc: 0x3a6134, tc: 0xffffff },
   { cc: 0x5f8944, tc: 0xffffff },
+  /* grey alder: a darker, bluer green than birch; pasture oak: a deep warm green */
+  { cc: 0x3e6a3a, tc: 0xffffff, sc: [0.7, 1.15] },
+  { cc: 0x4a7a34, tc: 0xffffff, sc: [0.8, 1.3] },
 ];
 
 /* the same per-vertex brightness and hue noise grownCrown() bakes into the
    procedural crowns (seed, colVar per species), applied over the study's
    depth tint: a flat green over a whole tree is most of what made the first
    in-app boot read as cut paper */
-const CROWN_NOISE = [[1, 0.13], [2, 0.15], [3, 0.17]];
+const CROWN_NOISE = [[1, 0.13], [2, 0.15], [3, 0.17], [4, 0.15], [5, 0.14]];
 function crownVariation(colour, position, count, species) {
   const [seed, colVar] = CROWN_NOISE[species] ?? [1, 0.14];
   for (let i = 0; i < count; i++) {

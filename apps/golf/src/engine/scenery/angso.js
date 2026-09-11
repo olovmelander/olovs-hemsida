@@ -67,9 +67,10 @@ export const buildingLooks = {
    alder or oak, so birch stands in for both, as it does at Veckefjärden.
    Ids: 0 spruce, 1 pine, 2 birch. h is the ground height in RH 2000 now that
    the pack is re-grounded; the shore plain lies under 3 m. */
-export function species({ r, h }) {
-  if (h < 3) return r < 0.72 ? 2 : 0;
-  return r < 0.36 ? 0 : r < 0.68 ? 1 : 2;
+export function species({ r, h, extended = false }) {
+  /* with the authored set: alder on the shore plain, oak among the dry-ground broadleaves */
+  if (h < 3) return r < 0.72 ? (extended && r < 0.4 ? 3 : 2) : 0;
+  return r < 0.36 ? 0 : r < 0.68 ? 1 : (extended && r > 0.86 ? 4 : 2);
 }
 
 /* Ängsö slott and its church stand on the island 4.5 km south, and the
