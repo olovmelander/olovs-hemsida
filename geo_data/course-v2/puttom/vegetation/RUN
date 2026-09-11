@@ -2,3 +2,6 @@
 # generation of 2026-09-02 covered the 2,048 m window only).
 publish=true
 observed_on=2026-09-11
+# attempt 2 (2026-09-11): run 34609652942 compiled and published, then failed the unit suite on the Ribbingsfors
+# frontier contract -- its checkout predated the Ribbingsfors ring publish by two minutes. Nothing about Puttom
+# was wrong; the gates pass on the branch head. The workflow now uploads the compile before the gates.
