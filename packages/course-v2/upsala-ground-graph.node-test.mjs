@@ -56,15 +56,21 @@ test('the window spans both 10 km Markhojdmodell items it declares', () => {
 });
 
 /* The ring spec and the course window are two files and must address one
-   lattice; publish-ground-rings reuses the published 1 m tiles byte for byte
-   and would fail loudly, but this fails in a second rather than after a
-   hundred megabytes of reads. */
+   lattice: the standard's sixteen-wide 1 m level holds the reviewed eight-wide
+   window in its middle, on the same sample lattice, so publish-ground-rings
+   carries the published 1 m tiles across intact. It would fail loudly, but
+   this fails in a second rather than after a hundred megabytes of reads. */
 test('the ring spec is centred on the reviewed window', () => {
   const level0 = rings.levels.find(level => level.lod === 0);
-  assert.equal(level0.originEasting, config.originEasting);
-  assert.equal(level0.originNorthing, config.originNorthing);
   assert.equal(level0.sampleSpacingMetres, config.sampleSpacingMetres);
-  assert.equal(level0.tilesPerSide * rings.tileSegments + 1, config.width);
+  const tileSpan = rings.tileSegments * level0.sampleSpacingMetres;
+  const offsetE = (config.originEasting - level0.originEasting) / tileSpan;
+  const offsetN = (level0.originNorthing - config.originNorthing) / tileSpan;
+  assert.ok(Number.isInteger(offsetE) && Number.isInteger(offsetN) && offsetE >= 0 && offsetN >= 0, 'the reviewed window starts on a level-zero tile corner');
+  const windowTiles = (config.width - 1) / rings.tileSegments;
+  assert.ok(Number.isInteger(windowTiles) && offsetE + windowTiles <= level0.tilesPerSide && offsetN + windowTiles <= level0.tilesPerSide, 'the reviewed window lies inside level zero');
+  assert.equal(offsetE * 2 + windowTiles, level0.tilesPerSide, 'level zero is centred on the reviewed window');
+  assert.equal(offsetN * 2 + windowTiles, level0.tilesPerSide, 'level zero is centred on the reviewed window');
   assert.deepEqual([...rings.courseSlugs], [...config.courseSlugs]);
   /* Every ring is centred on the same point, and each finer one is the middle
      four tiles of the next coarser: a coarse tile is then wholly covered or

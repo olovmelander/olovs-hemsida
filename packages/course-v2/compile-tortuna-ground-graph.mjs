@@ -15,6 +15,7 @@ import { planV2LegacyCutout } from '../../apps/golf/src/engine/v2-legacy-cutout.
 import { TORTUNA_FRAME as FRAME, projected } from '../../tortunabuild/frame.mjs';
 import { projectedCourseModel } from '../../tortunabuild/build-course.mjs';
 import { canonicalJson } from './canonical-json.mjs';
+import { refusePublishedRingOverwrite } from './ground-ring-publication-guard.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -106,6 +107,13 @@ async function defaultStandAttacher(root) {
 }
 
 export async function compileTortunaGroundGraph({ root = ROOT, outputDirectory = 'tortunabuild/cache/graph-stage', attachStands = undefined } = {}) {
+  /* Once the standard rings are published (publish-ground-rings.mjs, seven
+     levels to 16 km with explicit parent links) this 4 km pyramid must never
+     replace them: the runtime would fall back to the fixed frontier and the
+     horizon would end at the window's edge. The guard reads the LIVE graph,
+     so a staging output is still allowed to compile. */
+  const output = path.resolve(root, outputDirectory);
+  if (output === path.join(root, 'apps/golf/public')) await refusePublishedRingOverwrite(output, 'tortuna');
   let { compilation, frame } = await compileTortunaTerrain({ root });
   const modelBytes = await readFile(path.join(root, 'tortunabuild/course-model.json'));
   const model = JSON.parse(modelBytes);
@@ -123,7 +131,6 @@ export async function compileTortunaGroundGraph({ root = ROOT, outputDirectory =
   const graph = emitGroundGraph({ compilation, frame, sourceManifestSha256: hash(sourceBytes.toString('utf8').replace(/\r\n/g, '\n')),
     course: { slug: 'tortuna', name: 'Tortuna GK', holes }, fallbackV1: { format: 1, packUrl: 'courses/tortuna/pack.bin', bytes: packBytes.length, sha256: hash(packBytes) },
     heightAt: (e, n) => sampler.sample(e, n)?.heightRH2000 ?? NaN, holeTileBufferMetres: 90 });
-  const output = path.resolve(root, outputDirectory);
   const ground = JSON.parse(Buffer.from(graph.resources.get(graph.references.ground.url)).toString('utf8'));
   assertTortunaTerrainRetention(await liveGround(output), ground);
   await writeGroundGraphFiles(output, graph);

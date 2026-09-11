@@ -1,16 +1,8 @@
-/* The nested resolution rings that make Norrfällsviken's v2 ground the ONLY
-   ground: 1 m over the course, the chapel and the harbour, 2 m to the same
-   4 km square, 4 m to 8 km, and 8 m and coarser to a 16 km root, every level
-   cut from Lantmäteriet's Markhöjdmodell so nothing is ever stitched to the
-   Terrarium field.
-
-   The topology is Ängsö's, because the finest window is the same sixteen
-   tiles per side: lod 0 is 16 tiles of 1 m and lod 1 is 8 tiles of 2 m over
-   the SAME 4,096 m square, after which each finer ring is exactly the middle
-   four tiles of the next coarser one. That is the rule Puttom's first cut
-   broke -- six-wide rings left coarse tiles half covered, and the uncovered
-   halves showed sky through the ground in tile-shaped plates -- so a coarse
-   tile here is either wholly covered by finer tiles or not at all.
+/* Norrfällsviken's rings on the standard topology (standard-ground-rings.mjs):
+   1 m over the central 4,096 m -- the course, the chapel and the harbour --
+   2 m over the same square, 4 m to 8 km, and 8 m and coarser to a 16 km
+   root, every level cut from Lantmäteriet's Markhöjdmodell so nothing is
+   ever stitched to the Terrarium field.
 
    FRAME_ORIGIN is the centre of the reviewed LOD0 window in
    norrfallsviken-ground-graph.mjs, so lod 0 here and the published course
@@ -21,49 +13,28 @@
    items this 16 km square needs are COASTAL and are not full squares:
    698_68 is 7,500 x 7,500 m and its overview chain stops at 16x where every
    other item reaches 32x. Levels 5 and 6 ask for factor 32, so over that item
-   they fall back to the finest coarser overview available and resample -- the
-   fallback build-ground-rings already carries, and the reason it carries it.
-   The evidence file records which overview each item actually served per
+   they fall back to the finest coarser overview available and resample --
+   the fallback build-ground-rings already carries, and the reason it carries
+   it. The evidence file records which overview each item actually served per
    level, so the substitution is visible rather than assumed. */
 import { NORRFALLSVIKEN_GROUND_GRAPH_CONFIG } from './norrfallsviken-ground-graph.mjs';
+import { standardGroundRings } from './standard-ground-rings.mjs';
 
 const FRAME_ORIGIN = Object.freeze({
   easting: NORRFALLSVIKEN_GROUND_GRAPH_CONFIG.originEasting + 2048,
   northing: NORRFALLSVIKEN_GROUND_GRAPH_CONFIG.originNorthing - 2048,
 });
 
-function centred(halfSpan) {
-  return { originEasting: FRAME_ORIGIN.easting - halfSpan, originNorthing: FRAME_ORIGIN.northing + halfSpan };
-}
-
-export const NORRFALLSVIKEN_GROUND_RINGS = Object.freeze({
+export const NORRFALLSVIKEN_GROUND_RINGS = standardGroundRings({
   groundId: 'norrfallsviken',
-  courseSlugs: Object.freeze(['norrfallsviken']),
-  courseModels: Object.freeze({
-    norrfallsviken: Object.freeze({
-      migration: 'course-model.epsg3006.json',
-      /* The 144 card cells are gated exactly by nvgkbuild/check3d.mjs against
-         the club's own 2025 scorecard, and the numbering is the card's rather
-         than the GPS survey's. */
-      strokeIndexStatus: 'verified',
-    }),
-  }),
-  tileSegments: 256,
-  /* Lantmäteriet dtm-cog items are 10 km squares named <northing/10 km>_<easting/10 km> */
-  dtm: Object.freeze({
-    collection: 'dtm-cog',
-    hrefTemplate: 'https://dl1.lantmateriet.se/hojd/data/grid/mhm/{dir}/m{item}.tif',
-    itemMetres: 10000,
-  }),
-  levels: Object.freeze([
-    Object.freeze({ lod: 0, sampleSpacingMetres: 1, tilesPerSide: 16, heightScaleMetres: 0.01, ...centred(2048), source: Object.freeze({ kind: 'published-and-dtm', factor: 1, subsample: 1 }) }),
-    Object.freeze({ lod: 1, sampleSpacingMetres: 2, tilesPerSide: 8, heightScaleMetres: 0.02, ...centred(2048), source: Object.freeze({ kind: 'dtm', factor: 1, subsample: 2 }) }),
-    Object.freeze({ lod: 2, sampleSpacingMetres: 4, tilesPerSide: 8, heightScaleMetres: 0.04, ...centred(4096), source: Object.freeze({ kind: 'dtm', factor: 4, subsample: 1 }) }),
-    Object.freeze({ lod: 3, sampleSpacingMetres: 8, tilesPerSide: 8, heightScaleMetres: 0.08, ...centred(8192), source: Object.freeze({ kind: 'dtm', factor: 8, subsample: 1 }) }),
-    Object.freeze({ lod: 4, sampleSpacingMetres: 16, tilesPerSide: 4, heightScaleMetres: 0.16, ...centred(8192), source: Object.freeze({ kind: 'dtm', factor: 16, subsample: 1 }) }),
-    Object.freeze({ lod: 5, sampleSpacingMetres: 32, tilesPerSide: 2, heightScaleMetres: 0.16, ...centred(8192), source: Object.freeze({ kind: 'dtm', factor: 32, subsample: 1 }) }),
-    Object.freeze({ lod: 6, sampleSpacingMetres: 64, tilesPerSide: 1, heightScaleMetres: 0.16, ...centred(8192), source: Object.freeze({ kind: 'dtm', factor: 32, subsample: 2 }) }),
-  ]),
+  courseSlugs: ['norrfallsviken'],
+  courseModels: {
+    /* The 144 card cells are gated exactly by nvgkbuild/check3d.mjs against
+       the club's own 2025 scorecard, and the numbering is the card's rather
+       than the GPS survey's. */
+    norrfallsviken: { migration: 'course-model.epsg3006.json', strokeIndexStatus: 'verified' },
+  },
+  centre: FRAME_ORIGIN,
   /* The 16 km square is mostly the Gulf of Bothnia and the High Coast behind
      it. The retained 4 km course window alone measures -0.841 to 90.589 m
      RH 2000; the wider square reaches the Mjällom cape's hills and, at its
@@ -71,8 +42,8 @@ export const NORRFALLSVIKEN_GROUND_RINGS = Object.freeze({
      by definition, and the DTM carries it as a flattened surface rather than
      as nodata, so requireEverySampleFinite is a real gate here and not a
      formality -- roughly half of this square is water. */
-  coverageGate: Object.freeze({ minimumHeightRH2000: -10, maximumHeightRH2000: 400, requireEverySampleFinite: true }),
-  /* THE FIRST GROUND HERE THAT NEEDS THIS, and it needs it because it is the
+  coverageGate: { minimumHeightRH2000: -10, maximumHeightRH2000: 400, requireEverySampleFinite: true },
+  /* THE FIRST GROUND HERE THAT NEEDED THIS, and it needs it because it is the
      first that reaches open sea.
 
      Markhöjdmodell tiles Sweden's land and the water the laser reached. It
@@ -104,7 +75,7 @@ export const NORRFALLSVIKEN_GROUND_RINGS = Object.freeze({
      all three at once, because this coast rises to 90 m inside the course
      window alone. The 15% cap is roughly twice the largest level's measured
      6.3%, so a delivery that silently lost a whole land item cannot pass. */
-  seaFill: Object.freeze({
+  seaFill: {
     reason: 'Markhöjdmodell does not tile the open Gulf of Bothnia; RH 2000 is referenced to mean sea level',
     /* what counts as a water sample: measured p50 -0.03 m, p90 <= 0.19 m */
     boundaryWaterHeightRH2000: 0.25,
@@ -115,5 +86,5 @@ export const NORRFALLSVIKEN_GROUND_RINGS = Object.freeze({
     /* the hard ceiling: measured maxima 0.673 and 0.796 m */
     boundaryMaximumHeightRH2000: 3,
     maximumFilledFraction: 0.15,
-  }),
+  },
 });

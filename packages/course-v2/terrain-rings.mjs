@@ -279,7 +279,27 @@ export function compileTerrainRings({
             Math.abs(published.grid.geometricErrorMetres - geometricErrorMetres) > 1e-9) {
           throw new Error(`published ${tile.id} carries geometric error ${published.grid.geometricErrorMetres}; compiled ${geometricErrorMetres}`);
         }
-        asset = Object.freeze({ chunk: published.chunk, reference: published.reference });
+        if (published.id === undefined || published.id === tile.id) {
+          /* the same tile at the same lattice position: byte for byte */
+          asset = Object.freeze({ chunk: published.chunk, reference: published.reference });
+        } else {
+          /* THE SAME GROUND UNDER A NEW ID. A published tile is addressed by
+             its lattice position, `l0/<column>/<row>`, and every consumer --
+             the graph verifier, the frontier loader, the vegetation sampler --
+             holds a chunk's own header id to the manifest id it is served
+             under. So when a level's lattice grows around the published tiles
+             (a 2,048 m level zero becoming the 4,096 m standard keeps its 64
+             tiles in the middle, at columns 4-11), the bytes cannot be
+             carried verbatim: the PAYLOAD is -- the very same quantised
+             heights, never re-read or re-encoded from the DTM -- inside a
+             header that names the new position. A tie the DTM would round the
+             other way is therefore kept exactly as it was published. */
+          if (!(published.payload instanceof Uint8Array)) throw new Error(`published ${published.id} moves to ${tile.id} but carries no payload to re-address`);
+          asset = terrainChunk({
+            groundId, tile: { grid: published.grid, payload: published.payload }, chunkId: tile.id,
+            bounds: published.bounds ?? bounds, assetDirectory: directory, codec,
+          });
+        }
         reusedTiles++;
       }
       resources.set(asset.reference.url, asset.chunk);

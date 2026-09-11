@@ -117,3 +117,61 @@ test('the ring sampler reads the finest level under a point', () => {
   assert.ok(Math.abs(sample(940, 2060) - field(940, 2060)) < 0.5, 'far out the 8 m data still answers');
   assert.ok(Number.isNaN(sample(0, 0)));
 });
+
+/* THE STANDARD'S WIDENING: a level zero that grows around the published
+   tiles keeps them -- same bounds, same heights to the byte -- under the ids
+   of their new lattice positions. The reuse entry says which tile it was
+   (`id`) and carries its payload; the compiler re-addresses it rather than
+   re-encoding the DTM read, so a rounding tie stays as published. */
+test('a published tile is carried to a wider lattice under its new id with its payload intact', () => {
+  const seg = 8;
+  const narrow = compileTerrainRings({ groundId: 'g', courseSlugs: ['c'], levels: rings(), tileSegments: seg });
+  const boundsKey = b => `${b.minEasting}|${b.maxNorthing}`;
+  const published = new Map(narrow.tiles.filter(tile => tile.lod === 0).map(tile => {
+    const chunkBytes = narrow.resources.get(tile.layers.terrain.url);
+    const chunk = readChunk(chunkBytes);
+    return [boundsKey(tile.bounds), {
+      id: tile.id, chunk: chunkBytes, reference: tile.layers.terrain, grid: chunk.header.grid, payload: chunk.payload,
+      bounds: chunk.header.bounds, heights: decodeTerrainGrid(chunk.payload, chunk.header.grid),
+    }];
+  }));
+  /* level zero eight tiles wide over the same 64 m square as level 1, the old
+     four-wide window in its middle at columns and rows 2-5 */
+  const wide = rings();
+  wide[0] = level({ lod: 0, spacing: 1, originEasting: 968, originNorthing: 2032, tilesPerSide: 8, tileSegments: seg, heightScaleMetres: 0.01 });
+  const compiled = compileTerrainRings({
+    groundId: 'g', courseSlugs: ['c'], levels: wide, tileSegments: seg,
+    reuse: (lod, column, row) => (lod === 0 ? published.get(boundsKey({ minEasting: 968 + column * seg, maxNorthing: 2032 - row * seg })) ?? null : null),
+  });
+  assert.equal(compiled.stats.reusedTiles, 16);
+  assert.equal(compiled.tiles.filter(tile => tile.lod === 0).length, 64);
+  for (const [key, was] of published) {
+    const now = compiled.tiles.find(tile => tile.lod === 0 && boundsKey(tile.bounds) === key);
+    assert.ok(now, `${was.id} has no tile at its position`);
+    const [, c, r] = was.id.match(/^l0\/(\d+)\/(\d+)$/).map(Number);
+    assert.equal(now.id, `l0/${c + 2}/${r + 2}`, 'the id is the new lattice position');
+    assert.equal(now.parentId, narrow.tiles.find(tile => tile.id === was.id).parentId, 'level one did not move, so the parent is the same tile');
+    const chunk = readChunk(compiled.resources.get(now.layers.terrain.url));
+    assert.equal(chunk.header.id, now.id, 'the chunk names the tile it is served as');
+    assert.equal(Buffer.compare(chunk.payload, was.payload), 0, 'the payload is the published one, byte for byte');
+    assert.deepEqual(chunk.header.bounds, was.bounds);
+    assert.deepEqual(chunk.header.grid, was.grid);
+    assert.notEqual(now.layers.terrain.sha256, was.reference.sha256, 'a new header is a new content address');
+  }
+  /* a tile that did not move is still carried verbatim */
+  const same = compileTerrainRings({
+    groundId: 'g', courseSlugs: ['c'], levels: rings(), tileSegments: seg,
+    reuse: (lod, column, row) => (lod === 0 ? published.get(boundsKey({ minEasting: 984 + column * seg, maxNorthing: 2016 - row * seg })) ?? null : null),
+  });
+  for (const tile of same.tiles.filter(tile => tile.lod === 0)) {
+    assert.deepEqual(tile.layers.terrain, narrow.tiles.find(candidate => candidate.id === tile.id).layers.terrain);
+  }
+  /* an entry that moves but brings no payload cannot be re-addressed */
+  assert.throws(() => compileTerrainRings({
+    groundId: 'g', courseSlugs: ['c'], levels: wide, tileSegments: seg,
+    reuse: (lod, column, row) => {
+      const entry = lod === 0 ? published.get(boundsKey({ minEasting: 968 + column * seg, maxNorthing: 2032 - row * seg })) : null;
+      return entry ? { ...entry, payload: undefined } : null;
+    },
+  }), /carries no payload to re-address/);
+});
