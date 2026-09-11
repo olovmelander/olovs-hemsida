@@ -91,7 +91,9 @@ export const VECKEFJARDEN_V2_CONFIG = Object.freeze({
   packOriginWgs84: Object.freeze({ latitude: 63.28450, longitude: 18.67350 }),
   packMetresPerLongitude: 50045.09,
   packFrame: 'north=-z, east=+x, bearing=atan2(dx,-dz), right=(-cos b, sin b)',
-  /* REVIEWED — the 8 x 8 level-zero set. */
+  /* REVIEWED — the 8 x 8 frontier the app PRELOADS: the middle of the
+     standard's sixteen-wide level zero (expectedFrontierBoundsEpsg5845), not
+     the whole 256-tile level. */
   expectedTileCount: 64,
   expectedSurfaceTileCount: 0,
   /* REVIEWED — Veckefjärden's played surfaces are still the legacy traces
@@ -99,15 +101,17 @@ export const VECKEFJARDEN_V2_CONFIG = Object.freeze({
      authoritative surveyed intake, so the ground atlas keeps painting them and
      no v2 surface layer is claimed. */
   surfacePolicy: 'legacy-ground-atlas',
-  /* DERIVED from the published ground manifest: seven levels, 277 tiles, a
-     parent link on every one, reaching 16,384 m. That is what lets the
+  /* DERIVED from the published ground manifest: seven levels, 469 tiles on the
+     STANDARD topology (1 m over the central 4,096 m, sixteen tiles per side,
+     level one over the same square), a parent link on every one, reaching
+     16,384 m. That is what lets the
      streaming ring renderer take over from the frontier and draw ONE terrain
      to the horizon, with no legacy CORE, MID or FAR beneath it. */
   ringGraph: Object.freeze({
     levels: 7,
-    tiles: 277,
+    tiles: 469,
     rootSpanMetres: 16384,
-    tilesByLod: Object.freeze({ 0: 64, 1: 64, 2: 64, 3: 64, 4: 16, 5: 4, 6: 1 }),
+    tilesByLod: Object.freeze({ 0: 256, 1: 64, 2: 64, 3: 64, 4: 16, 5: 4, 6: 1 }),
   }),
   /* REVIEWED, from a plan the app recomputes and checks at every boot.
 

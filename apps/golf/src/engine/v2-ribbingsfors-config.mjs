@@ -11,7 +11,28 @@ export const RIBBINGSFORS_V2_CONFIG = Object.freeze({
   groundId: 'ribbingsfors',
   label: 'Ribbingsfors Golf & Kultur · Lantmäteriet 1 m terräng',
   frameFingerprint: '5d616311e246c109899b52223af5ed4a68f372f9b923787d6c0354b33b2c968f',
+  /* DERIVED from the ring spec (ribbingsfors-ground-rings.mjs): the 16 km root of the
+     standard ring graph, which the ground manifest's bounds must reproduce. */
   expectedBoundsEpsg5845: Object.freeze({
+    minEasting: 440783.5,
+    minNorthing: 6527832.5,
+    maxEasting: 457167.5,
+    maxNorthing: 6544216.5,
+  }),
+  /* DERIVED from the published ground manifest: seven levels, 469 tiles on the
+     STANDARD topology, a parent link on every one but the root, reaching
+     16,384 m. Declaring ringGraph is what makes check-course-v2 assert that the
+     graph ACTUALLY SERVES rather than the fixed frontier. */
+  ringGraph: Object.freeze({
+    levels: 7,
+    tiles: 469,
+    rootSpanMetres: 16384,
+    tilesByLod: Object.freeze({ 0: 256, 1: 64, 2: 64, 3: 64, 4: 16, 5: 4, 6: 1 }),
+  }),
+  /* REVIEWED — the 8 x 8 frontier the app PRELOADS: the reviewed 2,048 m
+     window, now the middle of the standard's sixteen-wide level zero, not the
+     whole 256-tile level. */
+  expectedFrontierBoundsEpsg5845: Object.freeze({
     minEasting: 447951.5,
     minNorthing: 6535000.5,
     maxEasting: 449999.5,

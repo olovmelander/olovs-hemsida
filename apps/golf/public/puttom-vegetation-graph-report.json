@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "vegetation-graph-publication",
+  "state": "published",
+  "groundId": "puttom",
+  "slug": "puttom",
+  "observedOn": "2026-09-11",
+  "review": "machine review v1, no human review (owner decision 2026-09-02): an individual crown is approved when it is not excluded, its composite confidence is at least 0.6, it stands at least 3 m tall with a crown radius of at least 1 m, and in zone A its prominence is at least 3 m and its compactness at least 0.5; stand crowns are never records",
+  "activeRoot": {
+    "url": "courses/v2-index.json",
+    "bytes": 6993,
+    "sha256": "9c89e73db6f5e0f12d2dcd100fb192771efe998ca805e3b7c59ad8486c8e41ac"
+  },
+  "graph": {
+    "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+    "courseManifest": {
+      "url": "courses/puttom/course-v2-2d3f73f6ffba9295f6a1ce2d5cbd1d356b1c579fc9060c2412d4287b2685d796.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3837,
+      "sha256": "2d3f73f6ffba9295f6a1ce2d5cbd1d356b1c579fc9060c2412d4287b2685d796"
+    },
+    "groundManifest": {
+      "url": "grounds/puttom/ground-v2-fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 560727,
+      "sha256": "fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/puttom/routing/920fd1718546fc1be3cb561f7d0192ce725451e04c3d58a5cd4c6cf8acf3a6b2.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 1661,
+      "sha256": "920fd1718546fc1be3cb561f7d0192ce725451e04c3d58a5cd4c6cf8acf3a6b2",
+      "decodedBytes": 2711,
+      "decodedSha256": "c3eeff1862bbb81b460542f2748abb3aedc1c620ac71c00f8c05c188bfe4fbaf",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    },
+    "sourceManifestSha256": "fa198cc11784bc0747bde866caa94fc777ede8a5f2ca19d7b9da676e1a5aa01a",
+    "fallbackV1": {
+      "bytes": 496840,
+      "format": 1,
+      "packUrl": "courses/puttom/pack.bin",
+      "sha256": "2e07d11db74efe05ad92959bd6b7acae97cb8f55e8b526ca8058315ee6077475"
+    },
+    "holes": 18,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 78786,
+    "chunks": 978,
+    "encodedChunkBytes": 39015268,
+    "decodedChunkBytes": 73223764
+  },
+  "vegetation": {
+    "objectTiles": 251,
+    "standTiles": 256,
+    "candidates": {
+      "total": 162807,
+      "byRepresentation": {
+        "excluded": 3484,
+        "individual": 15822,
+        "stand": 143501
+      },
+      "byZone": {
+        "A": 2055,
+        "B": 5442,
+        "C": 155310
+      },
+      "byCampaign": {
+        "23f028-702_69": 62436,
+        "26f015-702_69": 100371
+      },
+      "eligible": 15161
+    },
+    "records": {
+      "tiles": 251,
+      "records": 15161,
+      "encodedBytes": 739355,
+      "baseHeightMisses": []
+    },
+    "stands": {
+      "cellMetres": 4,
+      "tiles": 256,
+      "encodedBytes": 2062808,
+      "measuredCells": 997813,
+      "closedCanopyCells": 489318,
+      "excludedCells": 130122
+    },
+    "identity": {
+      "matched": 0,
+      "moved": 0,
+      "added": 15161,
+      "missing": 0,
+      "nextSequence": 15162
+    }
+  },
+  "filesWritten": 981
+}

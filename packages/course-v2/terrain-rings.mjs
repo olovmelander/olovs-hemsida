@@ -256,6 +256,11 @@ export function compileTerrainRings({
       });
       const grid = Object.freeze({ ...encoded.grid, sampleSpacingMetres: level.sampleSpacingMetres, geometricErrorMetres });
       let asset = terrainChunk({ groundId, tile: { grid, payload: encoded.payload }, chunkId: tile.id, bounds, assetDirectory: directory, codec });
+      /* what the manifest states for this tile: the fresh encode, unless a
+         published tile is carried, in which case the CHUNK's own bounds and grid
+         -- a rounding tie at the tile's extreme sample moves its min or max by a
+         quantum, and the graph verifier holds the manifest to the chunk header */
+      let tileBounds = bounds, tileGrid = grid;
       const published = reuse?.(level.lod, column, row) ?? null;
       if (published) {
         const mine = decodeTerrainGrid(encoded.payload, grid);
@@ -269,7 +274,13 @@ export function compileTerrainRings({
           if (Number.isNaN(a) !== Number.isNaN(b)) throw new Error(`published ${tile.id} differs in coverage at sample ${index}`);
           if (Number.isNaN(a)) continue;
           const difference = Math.abs(a - b);
-          if (difference > level.heightScaleMetres + 1e-9) {
+          /* A tie is ONE quantum, and the decoder hands back float32, so two
+             adjacent quanta at 45 m read 0.0100021 apart, not 0.01: the first
+             widened level (Puttom, 2026-09-11) refused its own published tile
+             on exactly that noise once the level's height offset moved and
+             more samples rounded the other way. Anything past a quantum and a
+             half is real drift; a quantum plus float noise is a tie. */
+          if (difference > level.heightScaleMetres * 1.5) {
             throw new Error(`published ${tile.id} differs from the compiled heights at sample ${index}: ${a} vs ${b}`);
           }
           if (difference > 1e-9) reuseTies++;
@@ -279,14 +290,38 @@ export function compileTerrainRings({
             Math.abs(published.grid.geometricErrorMetres - geometricErrorMetres) > 1e-9) {
           throw new Error(`published ${tile.id} carries geometric error ${published.grid.geometricErrorMetres}; compiled ${geometricErrorMetres}`);
         }
-        asset = Object.freeze({ chunk: published.chunk, reference: published.reference });
+        if (published.id === undefined || published.id === tile.id) {
+          /* the same tile at the same lattice position: byte for byte */
+          asset = Object.freeze({ chunk: published.chunk, reference: published.reference });
+          if (published.bounds) tileBounds = published.bounds;
+          if (published.grid) tileGrid = published.grid;
+        } else {
+          /* THE SAME GROUND UNDER A NEW ID. A published tile is addressed by
+             its lattice position, `l0/<column>/<row>`, and every consumer --
+             the graph verifier, the frontier loader, the vegetation sampler --
+             holds a chunk's own header id to the manifest id it is served
+             under. So when a level's lattice grows around the published tiles
+             (a 2,048 m level zero becoming the 4,096 m standard keeps its 64
+             tiles in the middle, at columns 4-11), the bytes cannot be
+             carried verbatim: the PAYLOAD is -- the very same quantised
+             heights, never re-read or re-encoded from the DTM -- inside a
+             header that names the new position. A tie the DTM would round the
+             other way is therefore kept exactly as it was published. */
+          if (!(published.payload instanceof Uint8Array)) throw new Error(`published ${published.id} moves to ${tile.id} but carries no payload to re-address`);
+          tileBounds = published.bounds ?? bounds;
+          tileGrid = published.grid;
+          asset = terrainChunk({
+            groundId, tile: { grid: tileGrid, payload: published.payload }, chunkId: tile.id,
+            bounds: tileBounds, assetDirectory: directory, codec,
+          });
+        }
         reusedTiles++;
       }
       resources.set(asset.reference.url, asset.chunk);
       encodedBytes += asset.reference.bytes;
       decodedBytes += asset.reference.decodedBytes;
       maximumError = Math.max(maximumError, geometricErrorMetres);
-      compiled.push(Object.freeze({ ...tile, bounds, grid, payload: encoded.payload, reference: asset.reference, geometricErrorMetres }));
+      compiled.push(Object.freeze({ ...tile, bounds: tileBounds, grid: tileGrid, payload: encoded.payload, reference: asset.reference, geometricErrorMetres }));
     }
     compiledByLevel.push(compiled);
     levelStats.push(Object.freeze({

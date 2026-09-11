@@ -1,21 +1,27 @@
-/* Generated from retained Tortuna terrain and source geometry by compile-tortuna-ground-graph.mjs. Independent survey approval remains pending. */
+/* Generated from retained Tortuna terrain and source geometry by compile-tortuna-ground-graph.mjs, then
+   moved to the STANDARD ring graph by hand on 2026-09-11 (publish-ground-rings.mjs; the pyramid compiler
+   refuses to overwrite it): expectedBoundsEpsg5845 is the 16 km root and ringGraph the standard's
+   469 tiles in seven levels, both derived from packages/course-v2/tortuna-ground-rings.mjs. The
+   frontier, the frame and the legacy cutout are unchanged. Independent survey approval remains pending. */
 export const TORTUNA_V2_CONFIG = Object.freeze({
   "slug": "tortuna",
   "groundId": "tortuna",
   "label": "Tortuna GK · Lantmäteriet 1 m · Preliminär källkarta",
   "frameFingerprint": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
   "expectedBoundsEpsg5845": {
-    "minEasting": 595352.5,
-    "minNorthing": 6612851.5,
-    "maxEasting": 599448.5,
-    "maxNorthing": 6616947.5
+    "minEasting": 589208.5,
+    "minNorthing": 6606707.5,
+    "maxEasting": 605592.5,
+    "maxNorthing": 6623091.5
   },
   "ringGraph": {
-    "levels": 5,
-    "tiles": 341,
-    "rootSpanMetres": 4096,
+    "levels": 7,
+    "tiles": 469,
+    "rootSpanMetres": 16384,
     "tilesByLod": [
       256,
+      64,
+      64,
       64,
       16,
       4,

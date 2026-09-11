@@ -131,7 +131,7 @@ test('the live frame and cutout are pinned to the acquired extent, not a WGS84 a
   const course = json(`../apps/golf/public/${entry.manifest.url}`);
   const ground = json(`../apps/golf/public/${course.groundManifest.url}`);
   assert.equal(ground.frame.fingerprint, LIDINGO_V2_CONFIG.frameFingerprint);
-  assert.equal(ground.tiles.filter(t => t.lod === 0 && t.layers.terrain).length, 64);
+  assert.equal(ground.tiles.filter(t => t.lod === 0 && t.layers.terrain).length, 256); /* the standard's sixteen-wide 1 m level */
   assert.equal(ground.tiles.filter(t => t.layers.stands).length, 64);
   assert.equal(ground.tiles.filter(t => t.layers.objects).length, 0);
 });

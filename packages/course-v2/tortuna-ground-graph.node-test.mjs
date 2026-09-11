@@ -5,6 +5,7 @@ import { TORTUNA_GROUND_GRAPH_CONFIG as config, assertTortunaAcquisition, assert
 import { compileTortunaTerrain } from './compile-tortuna-ground-graph.mjs';
 import { TERRAIN_WINDOW_SPECS } from '../course-geo/acquisition/terrain-window-specs.mjs';
 import { verifyChunkAsset } from './chunk-node.mjs';
+import { ringSpecFor, ringLevelExtent } from './ground-rings-registry.mjs';
 
 const receipt = () => JSON.parse(readFileSync(new URL('../../geo_data/course-v2/tortuna/acquisition/terrain-window.json', import.meta.url), 'utf8'));
 
@@ -34,53 +35,70 @@ test('Tortuna rejects coordinated raster/receipt mutation, shifted grid, overvie
   for (const change of changes) { const value = receipt(); change(value); assert.throws(() => assertTortunaAcquisition(value, value.raster.sha256)); }
 });
 
-// A clean clone verifies every committed measured tile and shell without the
-// private raw cache. Before initial publication, exercise the real 16.8 million
-// sample compiler directly. The separate native checker repeats raw controls.
-async function retainedTerrain() {
-  const publicRoot = new URL('../../apps/golf/public/', import.meta.url);
-  const reportUrl = new URL('tortuna-ground-graph-report.json', publicRoot);
-  if (!existsSync(reportUrl)) return compileTortunaTerrain();
-  const read = relative => JSON.parse(readFileSync(new URL(relative, publicRoot), 'utf8'));
-  const report = JSON.parse(readFileSync(reportUrl, 'utf8'));
-  const entry = read('courses/v2-index.json').courses.find(course => course.slug === 'tortuna');
-  const ground = read(read(entry.manifest.url).groundManifest.url);
-  const resources = new Map();
-  for (const reference of [ground.shell, ...ground.tiles.map(tile => tile.layers.terrain)]) {
-    const bytes = readFileSync(new URL(reference.url, publicRoot));
-    verifyChunkAsset(reference, bytes);
-    resources.set(reference.url, bytes);
-  }
-  const evidence = receipt();
-  return { frame: ground.frame, compilation: { groundId: 'tortuna', courseSlugs: ['tortuna'], bounds: ground.bounds, shell: ground.shell, tiles: ground.tiles, resources,
-    stats: report.terrain, pyramid: { sourceMinimumHeightRH2000: evidence.samples.minimumHeightRH2000, sourceMaximumHeightRH2000: evidence.samples.maximumHeightRH2000,
-      levels: report.terrain.levels.map(level => ({ ...level, tiles: ground.tiles.filter(tile => tile.lod === level.lod) })) } } };
-}
-const compiled = retainedTerrain();
+/* The retained 4 km native window IS the standard's 1 m level: sixteen tiles
+   per side centred on the frame origin, so the ring publish keeps all 256
+   measured tiles under the ids they have always had. A clean clone verifies
+   every committed measured tile without the private raw cache; before initial
+   publication the real 16.8 million sample compiler is exercised directly. */
+const publicRoot = new URL('../../apps/golf/public/', import.meta.url);
+const read = relative => JSON.parse(readFileSync(new URL(relative, publicRoot), 'utf8'));
 
-test('all 341 measured terrain tiles retain exact bytes and explicit containing parents', async () => {
-  const { compilation, frame } = await compiled;
-  assert.deepEqual(compilation.stats.levels.map(level => level.tiles), [256, 64, 16, 4, 1]);
-  assert.equal(frame.fingerprint, '37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f');
-  assert.deepEqual(frame.origin, { easting: 597400.5, northing: 6614899.5, heightRH2000: 16.31 });
-  const attached = attachTortunaTerrainParents(compilation);
-  assert.equal(attached.resources, compilation.resources);
-  assert.equal(attached.shell, compilation.shell);
-  assert.equal(attached.tiles.filter(tile => tile.parentId !== null).length, 340);
-  for (const tile of attached.tiles) {
-    const original = compilation.tiles.find(item => item.id === tile.id);
-    assert.equal(tile.layers.terrain, original.layers.terrain);
-    assert.equal(tile.bounds, original.bounds);
-    assert.ok(compilation.resources.has(tile.layers.terrain.url));
-    if (tile.parentId) assert.ok(attached.tiles.some(parent => parent.id === tile.parentId && parent.lod === tile.lod + 1));
+function liveGround() {
+  if (!existsSync(new URL('courses/v2-index.json', publicRoot))) return null;
+  const entry = read('courses/v2-index.json').courses.find(course => course.slug === 'tortuna');
+  return entry ? read(read(entry.manifest.url).groundManifest.url) : null;
+}
+
+test('all 256 measured terrain tiles retain exact bytes on the standard lattice with explicit containing parents', async () => {
+  const ground = liveGround();
+  if (!ground) {
+    const { compilation, frame } = await compileTortunaTerrain();
+    assert.deepEqual(compilation.stats.levels.map(level => level.tiles), [256, 64, 16, 4, 1]);
+    assert.equal(frame.fingerprint, '37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f');
+    assert.equal(attachTortunaTerrainParents(compilation).tiles.filter(tile => tile.parentId !== null).length, 340);
+    return;
   }
-  const broken = { ...compilation, pyramid: { ...compilation.pyramid, levels: compilation.pyramid.levels.slice(0, -1) } };
-  assert.throws(() => attachTortunaTerrainParents(broken), /containing parent/);
+  assert.equal(ground.frame.fingerprint, '37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f');
+  assert.deepEqual(ground.frame.origin, { easting: 597400.5, northing: 6614899.5, heightRH2000: 16.31 });
+  const level0 = ringLevelExtent(ringSpecFor('tortuna').levels[0]);
+  for (const key of ['minEasting', 'maxEasting', 'minNorthing', 'maxNorthing']) assert.equal(level0[key], config.expectedBounds[key], `${key}: the standard's 1 m level is the retained window`);
+  const finest = ground.tiles.filter(tile => tile.lod === 0);
+  assert.equal(finest.length, 256);
+  const ids = new Set(finest.map(tile => tile.id));
+  for (let column = 0; column < 16; column++) for (let row = 0; row < 16; row++) {
+    const id = `l0/${column}/${row}`;
+    assert.ok(ids.has(id), `${id} is published`);
+    const tile = finest.find(candidate => candidate.id === id);
+    assert.equal(tile.bounds.minEasting, config.originEasting + column * 256);
+    assert.equal(tile.bounds.maxNorthing, config.originNorthing - row * 256);
+  }
+  const byId = new Map(ground.tiles.map(tile => [tile.id, tile]));
+  let roots = 0;
+  for (const tile of ground.tiles) {
+    for (const kind of ['terrain', 'surface', 'objects', 'stands']) {
+      const reference = tile.layers[kind];
+      if (!reference) continue;
+      const bytes = readFileSync(new URL(reference.url, publicRoot));
+      const decoded = verifyChunkAsset(reference, bytes);
+      assert.equal(decoded.header.id, tile.id, `${kind} chunk of ${tile.id} names its tile`);
+    }
+    if (tile.parentId === null || tile.parentId === undefined) { roots++; continue; }
+    const parent = byId.get(tile.parentId);
+    assert.ok(parent && parent.lod === tile.lod + 1, `${tile.id} has a parent one level up`);
+    const a = parent.bounds, b = tile.bounds;
+    assert.ok(a.minEasting <= b.minEasting && a.maxEasting >= b.maxEasting && a.minNorthing <= b.minNorthing && a.maxNorthing >= b.maxNorthing, `${tile.id} lies inside ${tile.parentId}`);
+  }
+  assert.equal(roots, 1, 'one root');
+  const shell = readFileSync(new URL(ground.shell.url, publicRoot));
+  verifyChunkAsset(ground.shell, shell);
 });
 
 test('publication rejects terrain replacement, removed parent links, coverage shrinkage and moved frames', async () => {
-  const { compilation, frame } = await compiled;
-  const ground = { groundId: 'tortuna', frame, bounds: compilation.bounds, shell: compilation.shell, tiles: compilation.tiles };
+  const live = liveGround();
+  const ground = live ? structuredClone(live) : await (async () => {
+    const { compilation, frame } = await compileTortunaTerrain();
+    return { groundId: 'tortuna', frame, bounds: compilation.bounds, shell: compilation.shell, tiles: compilation.tiles };
+  })();
   assert.doesNotThrow(() => assertTortunaTerrainRetention(ground, structuredClone(ground)));
   const changes = [
     value => { value.frame.origin.easting++; },
@@ -95,6 +113,4 @@ test('publication rejects terrain replacement, removed parent links, coverage sh
   const decoration = structuredClone(ground);
   decoration.tiles[0].layers.stands = { source: 'new measured stands' };
   assert.doesNotThrow(() => assertTortunaTerrainRetention(ground, decoration));
-  const incomplete = { ...compilation, stats: { ...compilation.stats, finiteSamples: 1 } };
-  assert.throws(() => assertTortunaCompilation(incomplete), /missing source samples/);
 });

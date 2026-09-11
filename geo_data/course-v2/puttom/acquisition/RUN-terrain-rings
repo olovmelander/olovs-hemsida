@@ -1,0 +1,11 @@
+# Publish the standard rings: the 1 m level widens from the 2,048 m course window to the
+# 4,096 m standard (the 64 published tiles are re-addressed to columns and rows 4-11, their
+# heights, surfaces, object registries and stand fields carried byte for byte), lods 1-6 are
+# re-read from Markhöjdmodell in this run.
+publish=true
+levels=
+
+# attempt 2 (2026-09-11): the first run refused a one-quantum rounding tie by float32 noise; the compiler counts it as a tie now.
+# attempt 3: the carried tiles now publish their chunk's own bounds and grid, so the graph verifier holds.
+# attempt 4: attempt 3 shipped a wrong assertion in the compiler's own unit test (the manifest never carried a grid field); test fixed, compiler unchanged.
+# attempt 5: attempt 4 still carried the wrong assertion (a CRLF anchor miss); the compiler suite passes 6/6 locally now.

@@ -12,6 +12,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { readChunk } from './chunk-node.mjs';
+import { readdressChunk } from './readdress-chunk.mjs';
 import { emitGroundGraph, writeGroundGraphFiles } from './emit-ground-graph-node.mjs';
 import { decodeTerrainGrid } from './terrain-grid.mjs';
 import { compileTerrainRings, createRingSampler } from './terrain-rings.mjs';
@@ -32,6 +33,10 @@ function migratedCourse(groundId, slug = groundId, spec = null) {
   const declared = spec?.courseModels?.[slug] || null;
   const file = declared?.migration || 'course-model.epsg3006.json';
   const strokeIndexStatus = declared?.strokeIndexStatus || 'verified';
+  /* the tier the course's own compiler published (Johannesberg's and
+     Ribbingsfors' fixed frontiers said D); a spec that declares none is
+     'unrated', which is what every ring ground before them published */
+  const accuracyTier = declared?.accuracyTier || 'unrated';
   const model = JSON.parse(fs.readFileSync(path.join(ROOT, `geo_data/course-v2/${groundId}/migration/${file}`), 'utf8'));
   if (model.groundId !== groundId || !Array.isArray(model.geometry?.holes)) throw new Error(`migration model ${file} is missing its hole geometry`);
   const holes = [...model.geometry.holes].sort((left, right) => left.n - right.n).map((hole, index) => {
@@ -39,7 +44,7 @@ function migratedCourse(groundId, slug = groundId, spec = null) {
     return {
       number: hole.n, par: hole.par,
       strokeIndex: strokeIndexStatus === 'not-applicable' ? null : hole.idx,
-      strokeIndexStatus, accuracyTier: 'unrated',
+      strokeIndexStatus, accuracyTier,
       line: hole.line.map(([easting, northing]) => [easting, northing]),
     };
   });
@@ -84,11 +89,28 @@ async function main() {
   const courseManifest = JSON.parse(read(rootEntry.manifest.url).toString('utf8'));
   const groundManifest = JSON.parse(read(courseManifest.groundManifest.url).toString('utf8'));
   if (groundManifest.groundId !== groundId) throw new Error(`course ${slug} is on ground ${groundManifest.groundId}`);
+  /* KEYED BY WHERE A TILE IS, NOT BY WHAT IT WAS CALLED. A tile's id is its
+     lattice position, and the lattice moves when a ground joins the standard
+     topology: a 2,048 m level zero widening to the 4,096 m standard keeps its
+     64 published tiles in the middle, so the tile that was l0/0/0 is l0/4/4
+     now. Its bounds never move, and the bounds are what the compiler's
+     heights are compared against. */
+  const boundsKey = bounds => `${bounds.minEasting}|${bounds.maxNorthing}`;
   const publishedFinest = new Map(groundManifest.tiles.filter(tile => tile.lod === 0).map(tile => {
     const bytes = read(tile.layers.terrain.url);
     const chunk = readChunk(bytes);
-    return [tile.id, { tile, chunk: bytes, reference: tile.layers.terrain, grid: chunk.header.grid, heights: decodeTerrainGrid(chunk.payload, chunk.header.grid) }];
+    if (chunk.header.id !== tile.id) throw new Error(`published ${tile.id} is served from a chunk headed ${chunk.header.id}`);
+    return [boundsKey(tile.bounds), {
+      id: tile.id, tile, chunk: bytes, reference: tile.layers.terrain, grid: chunk.header.grid, payload: chunk.payload,
+      bounds: chunk.header.bounds, heights: decodeTerrainGrid(chunk.payload, chunk.header.grid),
+    }];
   }));
+  const level0 = spec.levels[0];
+  const tileSpan = spec.tileSegments * level0.sampleSpacingMetres;
+  const publishedAt = (lod, column, row) => (lod !== 0 ? null : publishedFinest.get(boundsKey({
+    minEasting: level0.originEasting + column * tileSpan,
+    maxNorthing: level0.originNorthing - row * tileSpan,
+  })) ?? null);
 
   /* the rings */
   const levels = spec.levels.map(level => {
@@ -108,24 +130,52 @@ async function main() {
   });
   const compiled = compileTerrainRings({
     groundId, courseSlugs: spec.courseSlugs, levels, tileSegments: spec.tileSegments,
-    reuse: (lod, column, row) => (lod === 0 ? publishedFinest.get(`l0/${column}/${row}`) ?? null : null),
+    reuse: publishedAt,
   });
   if (compiled.stats.reusedTiles !== publishedFinest.size) {
     throw new Error(`reused ${compiled.stats.reusedTiles} course tiles; the published graph has ${publishedFinest.size}`);
   }
 
-  /* carry every layer on the course tiles, and their bytes, into the graph */
+  /* Carry every layer on the course tiles, and their bytes, into the graph.
+     A level zero that grew around the published tiles has them under new
+     ids; their terrain was re-addressed by the compiler (same payload, new
+     header) and every other layer is re-addressed the same way here, so a
+     surface, an object registry or a stand field keeps its content to the
+     byte and only its header -- and, for a registry, the tileId the payload
+     repeats -- names the new position. A tile that did not move is carried
+     verbatim, as it always was. */
   const resources = new Map(compiled.resources);
+  let readdressed = 0;
   const tiles = compiled.tiles.map(tile => {
     if (tile.lod !== 0) return tile;
-    const published = publishedFinest.get(tile.id)?.tile;
-    if (!published) throw new Error(`course tile ${tile.id} has no published counterpart`);
-    if (published.layers.terrain.sha256 !== tile.layers.terrain.sha256) throw new Error(`course tile ${tile.id} terrain changed`);
-    const layers = { terrain: tile.layers.terrain, surface: published.layers.surface ?? null, objects: published.layers.objects ?? null };
-    if (published.layers.stands !== undefined) layers.stands = published.layers.stands;
-    for (const kind of ['surface', 'objects', 'stands']) if (layers[kind]) resources.set(layers[kind].url, read(layers[kind].url));
+    const entry = publishedFinest.get(boundsKey(tile.bounds));
+    if (!entry) return tile; /* a new tile of the widened level: terrain only, until the vegetation is re-run over it */
+    const published = entry.tile;
+    const moved = published.id !== tile.id;
+    if (!moved && published.layers.terrain.sha256 !== tile.layers.terrain.sha256) throw new Error(`course tile ${tile.id} terrain changed`);
+    if (moved) {
+      const carried = readChunk(resources.get(tile.layers.terrain.url));
+      if (carried.header.id !== tile.id || Buffer.compare(carried.payload, entry.payload) !== 0) throw new Error(`course tile ${published.id} was not carried intact to ${tile.id}`);
+      readdressed++;
+    }
+    const layers = { terrain: tile.layers.terrain, surface: null, objects: null };
+    if (published.layers.stands !== undefined) layers.stands = null;
+    for (const kind of ['surface', 'objects', 'stands']) {
+      const reference = published.layers[kind];
+      if (!reference) continue;
+      const bytes = read(reference.url);
+      if (!moved) {
+        layers[kind] = reference;
+        resources.set(reference.url, bytes);
+        continue;
+      }
+      const carried = readdressChunk(bytes, reference, tile.id);
+      layers[kind] = carried.reference;
+      resources.set(carried.reference.url, carried.chunk);
+    }
     return { ...tile, layers: Object.freeze(layers) };
   });
+  if (readdressed) console.error(`${readdressed} published course tiles re-addressed onto the standard lattice (payloads carried byte for byte)`);
 
   const manifestPath = path.join(ROOT, 'geo_data/course-v2', groundId, 'source-manifest.json');
   const sourceManifestSha256 = registerArtifact(manifestPath, {
@@ -166,12 +216,14 @@ async function main() {
          runtime refuses a graph whose fallback is not the pack it can fetch */
       fallbackV1: liveFallback(read, courseSlug, entry.fallbackV1),
       heightAt: createRingSampler(levels),
+      ...(spec.holeTileBufferMetres !== undefined ? { holeTileBufferMetres: spec.holeTileBufferMetres } : {}),
     });
     const written = await writeGroundGraphFiles(publicDir, graph);
     reports.push({
       ...graph.report,
       levels: compiled.stats.levels,
       reusedCourseTiles: compiled.stats.reusedTiles,
+      readdressedCourseTiles: readdressed,
       reuseTies: compiled.stats.reuseTies,
       encodedBytes: compiled.stats.encodedBytes,
       previousGroundManifest: previousCourseManifest.groundManifest.url,

@@ -208,14 +208,13 @@ jobs:
             --compile "$RUNNER_TEMP/veg/compile" \
             --public apps/golf/public
 
-      - name: Gates (manifests, unit tests, build, app-build graph verify)
-        if: env.PUBLISH == 'true'
-        run: |
-          node packages/course-geo/check-manifests.mjs
-          pnpm test
-          pnpm --filter @banvy/golf build
-          node packages/course-v2/check-app-build.mjs
-
+      # Upload BEFORE the gates, as ground-terrain-rings does. Puttom's 4 km
+      # vegetation re-run (2026-09-11, run 34609652942) compiled for 73 minutes,
+      # published, and then failed the unit suite on a Ribbingsfors contract the
+      # branch had moved under it -- and because this step came after the gates,
+      # the compile directory was never uploaded and the hour was lost. A
+      # gate is a judgement about the branch; the compile is a measurement of
+      # the laser and keeps regardless.
       - name: Upload the compile directory and overlays
         uses: actions/upload-artifact@v4
         with:
@@ -225,6 +224,14 @@ jobs:
             ${{ runner.temp }}/veg/review
           if-no-files-found: error
           retention-days: 7
+
+      - name: Gates (manifests, unit tests, build, app-build graph verify)
+        if: env.PUBLISH == 'true'
+        run: |
+          node packages/course-geo/check-manifests.mjs
+          pnpm test
+          pnpm --filter @banvy/golf build
+          node packages/course-v2/check-app-build.mjs
 
       - name: Commit the evidence (and, when publishing, the graph) to the branch
         run: |

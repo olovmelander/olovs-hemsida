@@ -1,0 +1,751 @@
+{
+  "kind": "ground-rings",
+  "groundId": "johannesberg",
+  "observedOn": "2026-09-11",
+  "provider": {
+    "name": "Lantmäteriet",
+    "collection": "dtm-cog",
+    "authenticated": true,
+    "credentialsSerialized": false,
+    "licence": "CC BY 4.0",
+    "attribution": "Markhöjdmodell Nedladdning, © Lantmäteriet, bearbetad, CC BY 4.0"
+  },
+  "tileSegments": 256,
+  "levels": [
+    {
+      "lod": 0,
+      "sampleSpacingMetres": 1,
+      "tilesPerSide": 16,
+      "extent": {
+        "minEasting": 677379.5,
+        "maxEasting": 681475.5,
+        "maxNorthing": 6627348.5,
+        "minNorthing": 6623252.5,
+        "spanMetres": 4096,
+        "size": 4097
+      },
+      "source": {
+        "kind": "published-and-dtm",
+        "factor": 1,
+        "subsample": 1
+      },
+      "items": [
+        "662_67",
+        "662_68"
+      ],
+      "samples": 16785409,
+      "finite": 16785409,
+      "minimumHeightRH2000": 9.528240203857422,
+      "maximumHeightRH2000": 48.69599914550781,
+      "requests": 81,
+      "bytes": 46085697,
+      "elapsedSeconds": 11.317,
+      "rasterSha256": "4bf584bd290cad896d86999ab581172eeb0d1b65f1f4781ba4b9080574a73c02",
+      "publishedAgreement": {
+        "tiles": 64,
+        "samples": 4227136,
+        "withinQuantum": 4226959,
+        "maximumDifferenceMetres": 0.005001068115234375
+      }
+    },
+    {
+      "lod": 1,
+      "sampleSpacingMetres": 2,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 677379.5,
+        "maxEasting": 681475.5,
+        "maxNorthing": 6627348.5,
+        "minNorthing": 6623252.5,
+        "spanMetres": 4096,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 1,
+        "subsample": 2
+      },
+      "items": [
+        "662_67",
+        "662_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 9.528240203857422,
+      "maximumHeightRH2000": 48.69599914550781,
+      "requests": 81,
+      "bytes": 46085697,
+      "elapsedSeconds": 6.62,
+      "rasterSha256": "9162c6c48ae5079386a54ddf538402701d2222e06a64b475ae0b1bb9739fdd01"
+    },
+    {
+      "lod": 2,
+      "sampleSpacingMetres": 4,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 675331.5,
+        "maxEasting": 683523.5,
+        "maxNorthing": 6629396.5,
+        "minNorthing": 6621204.5,
+        "spanMetres": 8192,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 4,
+        "subsample": 1
+      },
+      "items": [
+        "662_67",
+        "662_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 5.2994065284729,
+      "maximumHeightRH2000": 53.378746032714844,
+      "requests": 25,
+      "bytes": 15258177,
+      "elapsedSeconds": 2.754,
+      "rasterSha256": "a968e8bb93931164c7ef2d734544aae29ab4dda05c501cb89d56b71f63c2cffd"
+    },
+    {
+      "lod": 3,
+      "sampleSpacingMetres": 8,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 8,
+        "subsample": 1
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 4.665797710418701,
+      "maximumHeightRH2000": 64.14753723144531,
+      "requests": 30,
+      "bytes": 14502465,
+      "elapsedSeconds": 7.223,
+      "rasterSha256": "afc5e100ffe723ae36a8a6aefebf417f0aecd5e07e6338ab935c8e093bc32620"
+    },
+    {
+      "lod": 4,
+      "sampleSpacingMetres": 16,
+      "tilesPerSide": 4,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 1025
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 16,
+        "subsample": 1
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 1050625,
+      "finite": 1050625,
+      "minimumHeightRH2000": 4.883655548095703,
+      "maximumHeightRH2000": 63.31707763671875,
+      "requests": 15,
+      "bytes": 5488077,
+      "elapsedSeconds": 2.668,
+      "rasterSha256": "57fe578bea3b87f062b8f52ac123228beb1c3f5a73d68c00a8318c0924771720"
+    },
+    {
+      "lod": 5,
+      "sampleSpacingMetres": 32,
+      "tilesPerSide": 2,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 513
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 1
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 263169,
+      "finite": 263169,
+      "minimumHeightRH2000": 4.908384323120117,
+      "maximumHeightRH2000": 61.9971923828125,
+      "requests": 6,
+      "bytes": 1736210,
+      "elapsedSeconds": 1.753,
+      "rasterSha256": "7734c2395f9c68f73e934d1a0414eb3415f56c08d91528d9a1b98ee861df0a6a"
+    },
+    {
+      "lod": 6,
+      "sampleSpacingMetres": 64,
+      "tilesPerSide": 1,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 257
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 2
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 66049,
+      "finite": 66049,
+      "minimumHeightRH2000": 4.935780048370361,
+      "maximumHeightRH2000": 61.87405014038086,
+      "requests": 6,
+      "bytes": 1736210,
+      "elapsedSeconds": 1.725,
+      "rasterSha256": "8237f71a8f8c379ee448cdb7b3a559dd292de2db09c19d7bb7a7ea2a125d2004"
+    }
+  ],
+  "items": [
+    {
+      "id": "662_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_67.tif",
+      "etag": "\"e7a55a0ee70780c3afd7441d74530eb7\"",
+      "contentLength": 316420657,
+      "lastModified": "Thu, 14 May 2026 04:00:33 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 6630000,
+        "maxEasting": 680000,
+        "minNorthing": 6620000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "662_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_68.tif",
+      "etag": "\"861c702609afbabd98416601d4953668\"",
+      "contentLength": 287007740,
+      "lastModified": "Wed, 13 May 2026 13:32:27 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 6630000,
+        "maxEasting": 690000,
+        "minNorthing": 6620000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "661_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m661_67.tif",
+      "etag": "\"801f6cffd673ea24aadcaef70282efd4\"",
+      "contentLength": 319431402,
+      "lastModified": "Wed, 13 May 2026 13:50:30 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 6620000,
+        "maxEasting": 680000,
+        "minNorthing": 6610000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "661_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m661_68.tif",
+      "etag": "\"3d7e09aad459342d7010203b58ba95a2\"",
+      "contentLength": 315970535,
+      "lastModified": "Wed, 13 May 2026 13:54:15 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 6620000,
+        "maxEasting": 690000,
+        "minNorthing": 6610000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "663_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_67.tif",
+      "etag": "\"a75db82912ebaa85647e5f62a886ca63\"",
+      "contentLength": 315995121,
+      "lastModified": "Wed, 13 May 2026 15:59:34 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 6640000,
+        "maxEasting": 680000,
+        "minNorthing": 6630000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "663_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_68.tif",
+      "etag": "\"dc33d88daf077640057d51bf4209d9af\"",
+      "contentLength": 282640297,
+      "lastModified": "Wed, 13 May 2026 17:22:33 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 6640000,
+        "maxEasting": 690000,
+        "minNorthing": 6630000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    }
+  ],
+  "seaFillRule": "not declared for this ground; every sample comes from the height model",
+  "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
+  "elapsedSeconds": 34.221,
+  "publish": {
+    "johannesberg": {
+      "observedOn": "2026-09-11",
+      "slug": "johannesberg",
+      "groundId": "johannesberg",
+      "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
+      "rootBytes": 626,
+      "rootSha256": "08021d8ee74157296bc6921fa1b9af88024af6c4262ecb8496b50e088b253965",
+      "courseManifestSha256": "4442dbe6fbb65285a00d9626f7326598f2a18eafcfcd931b28d8fdc50d8b702f",
+      "groundManifestSha256": "1f0f72bbbac45925e255ee312e9632628f355048110c744be7a04750136709aa",
+      "routingSha256": "de7abb241dd51ad10c5eb10f924191b117184dd4fe550d8ea7cfc70135523e08",
+      "holes": 18,
+      "tiles": 469,
+      "finestTiles": 256,
+      "shellBytes": 70428,
+      "chunks": 585,
+      "encodedChunkBytes": 31760416,
+      "decodedChunkBytes": 64275346,
+      "holeTileBufferMetres": 80,
+      "levels": [
+        {
+          "lod": 0,
+          "sampleSpacingMetres": 1,
+          "tiles": 256,
+          "spanMetres": 4096,
+          "heightScaleMetres": 0.01,
+          "encodedBytes": 18170022,
+          "decodedBytes": 33817088,
+          "maximumGeometricErrorMetres": 0.005
+        },
+        {
+          "lod": 1,
+          "sampleSpacingMetres": 2,
+          "tiles": 64,
+          "spanMetres": 4096,
+          "heightScaleMetres": 0.02,
+          "encodedBytes": 4325155,
+          "decodedBytes": 8454272,
+          "maximumGeometricErrorMetres": 1.7911791896820068
+        },
+        {
+          "lod": 2,
+          "sampleSpacingMetres": 4,
+          "tiles": 64,
+          "spanMetres": 8192,
+          "heightScaleMetres": 0.04,
+          "encodedBytes": 3918265,
+          "decodedBytes": 8454272,
+          "maximumGeometricErrorMetres": 2.671916742324829
+        },
+        {
+          "lod": 3,
+          "sampleSpacingMetres": 8,
+          "tiles": 64,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.08,
+          "encodedBytes": 3675325,
+          "decodedBytes": 8454272,
+          "maximumGeometricErrorMetres": 3.749433823823929
+        },
+        {
+          "lod": 4,
+          "sampleSpacingMetres": 16,
+          "tiles": 16,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.16,
+          "encodedBytes": 849672,
+          "decodedBytes": 2113568,
+          "maximumGeometricErrorMetres": 6.147608237266541
+        },
+        {
+          "lod": 5,
+          "sampleSpacingMetres": 32,
+          "tiles": 4,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.16,
+          "encodedBytes": 251662,
+          "decodedBytes": 528392,
+          "maximumGeometricErrorMetres": 12.733989359736443
+        },
+        {
+          "lod": 6,
+          "sampleSpacingMetres": 64,
+          "tiles": 1,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.16,
+          "encodedBytes": 70404,
+          "decodedBytes": 132098,
+          "maximumGeometricErrorMetres": 12.7673899102211
+        }
+      ],
+      "reusedCourseTiles": 64,
+      "readdressedCourseTiles": 64,
+      "reuseTies": 58,
+      "encodedBytes": 31330933,
+      "previousGroundManifest": "grounds/johannesberg/ground-v2-c9176d45dd753eba4b0bfbba581d5b4724732967492c53ff2601ba417b0c869a.json",
+      "previousCourseManifest": "courses/johannesberg/course-v2-9bb3aeabd009f41c9ae5af88df975e17ec59e9cbdf1c93c265e50ae0fb888736.json",
+      "filesWritten": 588
+    },
+    "johannesberg-9": {
+      "observedOn": "2026-09-11",
+      "slug": "johannesberg-9",
+      "groundId": "johannesberg",
+      "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
+      "rootBytes": 634,
+      "rootSha256": "db1cf7caf9fc6af7ffe0911704cdc3ffaebb7580c95d48c735019415230162ee",
+      "courseManifestSha256": "12d31ad97edd6badbba44de95831fa5f8bb5bd80c0838fd2ee1d62975636709d",
+      "groundManifestSha256": "1f0f72bbbac45925e255ee312e9632628f355048110c744be7a04750136709aa",
+      "routingSha256": "dcc02175954ea8a442720410ee1250afb75b1be6cbc1fff3016cc04abec300d2",
+      "holes": 9,
+      "tiles": 469,
+      "finestTiles": 256,
+      "shellBytes": 70428,
+      "chunks": 585,
+      "encodedChunkBytes": 31759577,
+      "decodedChunkBytes": 64273311,
+      "holeTileBufferMetres": 80,
+      "levels": [
+        {
+          "lod": 0,
+          "sampleSpacingMetres": 1,
+          "tiles": 256,
+          "spanMetres": 4096,
+          "heightScaleMetres": 0.01,
+          "encodedBytes": 18170022,
+          "decodedBytes": 33817088,
+          "maximumGeometricErrorMetres": 0.005
+        },
+        {
+          "lod": 1,
+          "sampleSpacingMetres": 2,
+          "tiles": 64,
+          "spanMetres": 4096,
+          "heightScaleMetres": 0.02,
+          "encodedBytes": 4325155,
+          "decodedBytes": 8454272,
+          "maximumGeometricErrorMetres": 1.7911791896820068
+        },
+        {
+          "lod": 2,
+          "sampleSpacingMetres": 4,
+          "tiles": 64,
+          "spanMetres": 8192,
+          "heightScaleMetres": 0.04,
+          "encodedBytes": 3918265,
+          "decodedBytes": 8454272,
+          "maximumGeometricErrorMetres": 2.671916742324829
+        },
+        {
+          "lod": 3,
+          "sampleSpacingMetres": 8,
+          "tiles": 64,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.08,
+          "encodedBytes": 3675325,
+          "decodedBytes": 8454272,
+          "maximumGeometricErrorMetres": 3.749433823823929
+        },
+        {
+          "lod": 4,
+          "sampleSpacingMetres": 16,
+          "tiles": 16,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.16,
+          "encodedBytes": 849672,
+          "decodedBytes": 2113568,
+          "maximumGeometricErrorMetres": 6.147608237266541
+        },
+        {
+          "lod": 5,
+          "sampleSpacingMetres": 32,
+          "tiles": 4,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.16,
+          "encodedBytes": 251662,
+          "decodedBytes": 528392,
+          "maximumGeometricErrorMetres": 12.733989359736443
+        },
+        {
+          "lod": 6,
+          "sampleSpacingMetres": 64,
+          "tiles": 1,
+          "spanMetres": 16384,
+          "heightScaleMetres": 0.16,
+          "encodedBytes": 70404,
+          "decodedBytes": 132098,
+          "maximumGeometricErrorMetres": 12.7673899102211
+        }
+      ],
+      "reusedCourseTiles": 64,
+      "readdressedCourseTiles": 64,
+      "reuseTies": 58,
+      "encodedBytes": 31330933,
+      "previousGroundManifest": "grounds/johannesberg/ground-v2-c9176d45dd753eba4b0bfbba581d5b4724732967492c53ff2601ba417b0c869a.json",
+      "previousCourseManifest": "courses/johannesberg-9/course-v2-03e7cbae230c55ac1fb0927be7d40bc06ea28b4a7153401d693b03338ba98274.json",
+      "filesWritten": 588
+    }
+  }
+}

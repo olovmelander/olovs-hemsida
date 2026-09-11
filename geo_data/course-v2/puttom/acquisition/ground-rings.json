@@ -1,7 +1,7 @@
 {
   "kind": "ground-rings",
   "groundId": "puttom",
-  "observedOn": "2026-09-02",
+  "observedOn": "2026-09-11",
   "provider": {
     "name": "Lantmäteriet",
     "collection": "dtm-cog",
@@ -15,14 +15,14 @@
     {
       "lod": 0,
       "sampleSpacingMetres": 1,
-      "tilesPerSide": 8,
+      "tilesPerSide": 16,
       "extent": {
-        "minEasting": 696404.5,
-        "maxEasting": 698452.5,
-        "maxNorthing": 7025850.5,
-        "minNorthing": 7023802.5,
-        "spanMetres": 2048,
-        "size": 2049
+        "minEasting": 695380.5,
+        "maxEasting": 699476.5,
+        "maxNorthing": 7026874.5,
+        "minNorthing": 7022778.5,
+        "spanMetres": 4096,
+        "size": 4097
       },
       "source": {
         "kind": "published-and-dtm",
@@ -32,14 +32,14 @@
       "items": [
         "702_69"
       ],
-      "samples": 4198401,
-      "finite": 4198401,
-      "minimumHeightRH2000": 26.12063217163086,
-      "maximumHeightRH2000": 103.21914672851562,
-      "requests": 25,
-      "bytes": 13906260,
-      "elapsedSeconds": 2.909,
-      "rasterSha256": "9cd6a665633e74e626a370f40f19c911a2146667adc373e64f17dc1663d8202e",
+      "samples": 16785409,
+      "finite": 16785409,
+      "minimumHeightRH2000": 19.820741653442383,
+      "maximumHeightRH2000": 119.65482330322266,
+      "requests": 81,
+      "bytes": 46119970,
+      "elapsedSeconds": 12.123,
+      "rasterSha256": "007c401eaabbd282eb130b08119b56af593b0bfc8aae311b48b30046ccceae68",
       "publishedAgreement": {
         "tiles": 64,
         "samples": 4227136,
@@ -73,7 +73,7 @@
       "maximumHeightRH2000": 119.62480163574219,
       "requests": 81,
       "bytes": 46119970,
-      "elapsedSeconds": 3.855,
+      "elapsedSeconds": 7.899,
       "rasterSha256": "343cc7301750fb8f4d62fe3f1b85b601e7728a90a7e49eeeff1bdbd2fbd04b1a"
     },
     {
@@ -100,11 +100,11 @@
       "samples": 4198401,
       "finite": 4198401,
       "minimumHeightRH2000": -1.0767945051193237,
-      "maximumHeightRH2000": 150.35507202148438,
+      "maximumHeightRH2000": 150.3379669189453,
       "requests": 25,
-      "bytes": 14006787,
-      "elapsedSeconds": 1.962,
-      "rasterSha256": "342140a963cdde43ceaf3c08542d4d06c14c58e81b756f9cd4d1145389f81b01"
+      "bytes": 14004923,
+      "elapsedSeconds": 4.476,
+      "rasterSha256": "f0bfda7a6805d4740fe85e5c52ab6909e772bb0cf0a8c0fd32883cdc078623ee"
     },
     {
       "lod": 3,
@@ -139,9 +139,9 @@
       "minimumHeightRH2000": -1.003950834274292,
       "maximumHeightRH2000": 196.87379455566406,
       "requests": 36,
-      "bytes": 13955627,
-      "elapsedSeconds": 3.947,
-      "rasterSha256": "c53b06793a73f117ab42c72e4d83d30b32bbcefeafccfa137abc2b6e8396667a"
+      "bytes": 13958780,
+      "elapsedSeconds": 13.172,
+      "rasterSha256": "b3d6063a56861927240751e77e753881c90e3812ceeeaf92b356e2b88016fd77"
     },
     {
       "lod": 4,
@@ -176,9 +176,9 @@
       "minimumHeightRH2000": -0.6407341361045837,
       "maximumHeightRH2000": 196.35296630859375,
       "requests": 20,
-      "bytes": 5013765,
-      "elapsedSeconds": 1.714,
-      "rasterSha256": "085a637fe3b3c52912b3d7c423bfe2a5d4aa2370ee99be37eb3eed661cf3edd2"
+      "bytes": 5014849,
+      "elapsedSeconds": 3.636,
+      "rasterSha256": "6cbe69d8bb3c592b1bac0056e21e657d9a732eaac4b171b2abc7395f95b9b50d"
     },
     {
       "lod": 5,
@@ -213,9 +213,9 @@
       "minimumHeightRH2000": -0.22172434628009796,
       "maximumHeightRH2000": 194.3105926513672,
       "requests": 9,
-      "bytes": 2379916,
-      "elapsedSeconds": 1.325,
-      "rasterSha256": "fd3384fe75dbebc751a66dc8e18d61bf62c3629470682324af9829acb31df7b9"
+      "bytes": 2379911,
+      "elapsedSeconds": 2.732,
+      "rasterSha256": "71bc171a729c7c224062b2783e7dbba4a805c787f2bf8bbc6a4ba07412610dc1"
     },
     {
       "lod": 6,
@@ -250,9 +250,9 @@
       "minimumHeightRH2000": -0.22172434628009796,
       "maximumHeightRH2000": 194.3105926513672,
       "requests": 9,
-      "bytes": 2379916,
-      "elapsedSeconds": 1.365,
-      "rasterSha256": "656a8e9555bf21c3149733356dd85b521981a900e6a9e09d4922caaee47690af"
+      "bytes": 2379911,
+      "elapsedSeconds": 2.702,
+      "rasterSha256": "e29712039b33dd7f3e59e8cd1483db248ac5c4f4cc065773930f8bf9bb76a9e7"
     }
   ],
   "items": [
@@ -271,6 +271,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 7030000,
+        "maxEasting": 700000,
+        "minNorthing": 7020000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 0,
@@ -305,9 +317,9 @@
     {
       "id": "702_70",
       "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_7/m702_70.tif",
-      "etag": "\"a91c35f4b1a4bc072b6fc437bb27bf22\"",
-      "contentLength": 233894442,
-      "lastModified": "Wed, 13 May 2026 13:53:05 GMT",
+      "etag": "\"3c8ab2b010820d851d08a4bac798caec\"",
+      "contentLength": 234091702,
+      "lastModified": "Fri, 04 Sep 2026 11:59:13 GMT",
       "overviews": [
         1,
         2,
@@ -317,6 +329,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 700000,
+        "maxNorthing": 7030000,
+        "maxEasting": 710000,
+        "minNorthing": 7020000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 2,
@@ -355,6 +379,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 7020000,
+        "maxEasting": 690000,
+        "minNorthing": 7010000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -389,6 +425,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 7020000,
+        "maxEasting": 700000,
+        "minNorthing": 7010000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -422,6 +470,18 @@
         16
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 700000,
+        "maxNorthing": 7020000,
+        "maxEasting": 707500,
+        "minNorthing": 7010000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 2500,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -456,6 +516,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 7030000,
+        "maxEasting": 690000,
+        "minNorthing": 7020000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -490,6 +562,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 7040000,
+        "maxEasting": 690000,
+        "minNorthing": 7030000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -524,6 +608,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 7040000,
+        "maxEasting": 700000,
+        "minNorthing": 7030000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -546,9 +642,9 @@
     {
       "id": "703_70",
       "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/70_7/m703_70.tif",
-      "etag": "\"cc4f8e3e06e3d8a54ebc9904dbafdaf2\"",
-      "contentLength": 296270319,
-      "lastModified": "Wed, 13 May 2026 15:00:12 GMT",
+      "etag": "\"dca3331da26285d68753fd0338e94f96\"",
+      "contentLength": 296028529,
+      "lastModified": "Thu, 10 Sep 2026 21:04:35 GMT",
       "overviews": [
         1,
         2,
@@ -558,6 +654,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 700000,
+        "maxNorthing": 7040000,
+        "maxEasting": 710000,
+        "minNorthing": 7030000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -578,35 +686,36 @@
       ]
     }
   ],
+  "seaFillRule": "not declared for this ground; every sample comes from the height model",
   "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
-  "elapsedSeconds": 17.223,
+  "elapsedSeconds": 46.899,
   "publish": {
-    "observedOn": "2026-09-02",
+    "observedOn": "2026-09-11",
     "slug": "puttom",
     "groundId": "puttom",
     "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
     "rootBytes": 596,
-    "rootSha256": "2d20708a46221c4724e8d11f36cf047baed5df25beb8dbe89b0cf28ff4df483e",
-    "courseManifestSha256": "0d6eef4e2f5fd2a2ce0220d9e780a592ded9e4d9ea533a14b63b27672d378866",
-    "groundManifestSha256": "03ede20edcaf0c5a861d8cf81341802d7fc2d675e26d2d0ab5355b045f6a46ef",
-    "routingSha256": "6c9ad237373bbd874eaab1a6d21645d0a7909b531c0b65ed064fd335376c0647",
+    "rootSha256": "b1c16369b69a2606fe413d73e2c2f4880546a5bdbd83ff9e4f28a98d34a8f95d",
+    "courseManifestSha256": "e49af946fd2fd54adbf5821d866f49281b1eca0b130009898b649f0a0e94d485",
+    "groundManifestSha256": "2fe7fdb917785e4482f816a2d03ae44562d95d957794f15b1473f6ec37d9d3ef",
+    "routingSha256": "920fd1718546fc1be3cb561f7d0192ce725451e04c3d58a5cd4c6cf8acf3a6b2",
     "holes": 18,
-    "tiles": 277,
-    "finestTiles": 64,
-    "shellBytes": 78801,
-    "chunks": 407,
-    "encodedChunkBytes": 21017724,
-    "decodedChunkBytes": 39378076,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 78786,
+    "chunks": 599,
+    "encodedChunkBytes": 36938260,
+    "decodedChunkBytes": 64740907,
     "holeTileBufferMetres": 80,
     "levels": [
       {
         "lod": 0,
         "sampleSpacingMetres": 1,
-        "tiles": 64,
-        "spanMetres": 2048,
+        "tiles": 256,
+        "spanMetres": 4096,
         "heightScaleMetres": 0.01,
-        "encodedBytes": 5247466,
-        "decodedBytes": 8454272,
+        "encodedBytes": 21171885,
+        "decodedBytes": 33817088,
         "maximumGeometricErrorMetres": 0.005
       },
       {
@@ -615,7 +724,7 @@
         "tiles": 64,
         "spanMetres": 4096,
         "heightScaleMetres": 0.02,
-        "encodedBytes": 5160567,
+        "encodedBytes": 5161227,
         "decodedBytes": 8454272,
         "maximumGeometricErrorMetres": 5.8212716674804685
       },
@@ -625,7 +734,7 @@
         "tiles": 64,
         "spanMetres": 8192,
         "heightScaleMetres": 0.04,
-        "encodedBytes": 4374152,
+        "encodedBytes": 4372407,
         "decodedBytes": 8454272,
         "maximumGeometricErrorMetres": 6.00557424545288
       },
@@ -635,9 +744,9 @@
         "tiles": 64,
         "spanMetres": 16384,
         "heightScaleMetres": 0.08,
-        "encodedBytes": 4080296,
+        "encodedBytes": 4077516,
         "decodedBytes": 8454272,
-        "maximumGeometricErrorMetres": 7.43448356628418
+        "maximumGeometricErrorMetres": 7.924753227233887
       },
       {
         "lod": 4,
@@ -645,9 +754,9 @@
         "tiles": 16,
         "spanMetres": 16384,
         "heightScaleMetres": 0.16,
-        "encodedBytes": 982493,
+        "encodedBytes": 982609,
         "decodedBytes": 2113568,
-        "maximumGeometricErrorMetres": 9.32755334854126
+        "maximumGeometricErrorMetres": 9.457267599105835
       },
       {
         "lod": 5,
@@ -655,7 +764,7 @@
         "tiles": 4,
         "spanMetres": 16384,
         "heightScaleMetres": 0.16,
-        "encodedBytes": 288415,
+        "encodedBytes": 288253,
         "decodedBytes": 528392,
         "maximumGeometricErrorMetres": 17.17709358215332
       },
@@ -665,16 +774,17 @@
         "tiles": 1,
         "spanMetres": 16384,
         "heightScaleMetres": 0.16,
-        "encodedBytes": 78776,
+        "encodedBytes": 78761,
         "decodedBytes": 132098,
         "maximumGeometricErrorMetres": 20.954600648880003
       }
     ],
     "reusedCourseTiles": 64,
-    "reuseTies": 0,
-    "encodedBytes": 20290966,
-    "previousGroundManifest": "grounds/puttom/ground-v2-a25ff2b3d8175d2d32dc5fbefcb605429c7ca50c2b89c506dc3862b6384aecb6.json",
-    "previousCourseManifest": "courses/puttom/course-v2-fde48642fd05edafb143507884d244c5d067a2249c35182234860874496d1fc4.json",
-    "filesWritten": 410
+    "readdressedCourseTiles": 64,
+    "reuseTies": 85,
+    "encodedBytes": 36211444,
+    "previousGroundManifest": "grounds/puttom/ground-v2-03ede20edcaf0c5a861d8cf81341802d7fc2d675e26d2d0ab5355b045f6a46ef.json",
+    "previousCourseManifest": "courses/puttom/course-v2-370ee8ef57c5d2e74f8bcd5b02db0854f8e0da67a9164ede626f9fec5fc5f0d2.json",
+    "filesWritten": 602
   }
 }

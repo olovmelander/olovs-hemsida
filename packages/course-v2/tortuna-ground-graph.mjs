@@ -62,7 +62,8 @@ export function assertTortunaTerrainRetention(previous, next) {
   if (previous.groundId !== 'tortuna' || next.groundId !== 'tortuna' || JSON.stringify(previous.frame) !== JSON.stringify(next.frame)) throw new Error('Tortuna published frame cannot change');
   if (JSON.stringify(previous.bounds) !== JSON.stringify(next.bounds) || JSON.stringify(previous.shell) !== JSON.stringify(next.shell)) throw new Error('Tortuna published terrain bounds and shell cannot change');
   const before = new Map(previous.tiles.map(tile => [tile.id, tile]));
-  if (before.size !== 341 || next.tiles.length !== before.size || new Set(next.tiles.map(tile => tile.id)).size !== before.size) throw new Error('Tortuna published terrain coverage cannot shrink');
+  /* the live set is compared as a whole: the 341-tile pyramid before the ring publish, the 469-tile standard graph after it */
+  if (before.size < 341 || next.tiles.length !== before.size || new Set(next.tiles.map(tile => tile.id)).size !== before.size) throw new Error('Tortuna published terrain coverage cannot shrink');
   for (const tile of next.tiles) {
     const old = before.get(tile.id);
     if (!old || old.lod !== tile.lod || old.parentId !== tile.parentId || old.geometricErrorMetres !== tile.geometricErrorMetres || JSON.stringify(old.bounds) !== JSON.stringify(tile.bounds) || JSON.stringify(old.layers.terrain) !== JSON.stringify(tile.layers.terrain)) throw new Error(`Tortuna published terrain tile ${tile.id} cannot change`);

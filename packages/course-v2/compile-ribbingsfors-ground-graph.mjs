@@ -8,6 +8,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { emitGroundGraph, writeGroundGraphFiles } from './emit-ground-graph-node.mjs';
+import { refusePublishedRingOverwrite } from './ground-ring-publication-guard.mjs';
 import {
   RIBBINGSFORS_GROUND_GRAPH_CONFIG as CONFIG,
   assertRibbingsforsCompilation,
@@ -78,6 +79,11 @@ async function liveCourseEntry() {
 
 async function main() {
   const options = argumentsFrom(process.argv.slice(2));
+  /* Once the standard rings are published (publish-ground-rings.mjs, seven
+     levels to 16 km with explicit parent links) this fixed 2 km pyramid must
+     never replace them: the runtime would fall back to the fixed frontier and
+     the horizon would end at the window's edge. */
+  await refusePublishedRingOverwrite(options.out, 'ribbingsfors');
   const sourceBytes = await readFile(options.terrain);
   const sourceSha256 = sha256(sourceBytes);
   if (sourceSha256 !== CONFIG.sourceFloat32Sha256) {
