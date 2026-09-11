@@ -8,8 +8,8 @@ export const LIDINGO_V2_CONFIG = Object.freeze({
     minEasting: 669508.5, minNorthing: 6578207.5, maxEasting: 685892.5, maxNorthing: 6594591.5,
   }),
   ringGraph: Object.freeze({
-    levels: 7, tiles: 277, rootSpanMetres: 16384,
-    tilesByLod: Object.freeze([64, 64, 64, 64, 16, 4, 1]),
+    levels: 7, tiles: 469, rootSpanMetres: 16384,
+    tilesByLod: Object.freeze([256, 64, 64, 64, 16, 4, 1]),
   }),
   expectedFrontierBoundsEpsg5845: Object.freeze({
     minEasting: 676676.5, minNorthing: 6585375.5, maxEasting: 678724.5, maxNorthing: 6587423.5,

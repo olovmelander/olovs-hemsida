@@ -7,6 +7,7 @@ import { createHash } from 'node:crypto';
 import { REVIEW_PATH, APPROACH_PATH, BUNKER_PATH, validateReviewSources, adoptReviewedSource,
   applyReviewedSurfaces, preservedModel, preservedSource, preservedGround } from './apply-reviewed-surfaces.mjs';
 import { openPublishedGround, createPublishedGroundLookup } from '../packages/course-v2/published-ground-lookup.mjs';
+import { parseChunkEnvelope } from '../packages/course-v2/chunk.mjs';
 import { readPack, inflateStream } from '../packages/course-pack/lib.mjs';
 import { runtimeScenery } from '../packages/course-pack/runtime-scenery.mjs';
 import { buildGroundSurfaceFeatures } from '../apps/golf/src/engine/surface-features.mjs';
@@ -44,14 +45,36 @@ test('latest tees, OB, source routes, buildings, water and terrain survive the b
   const opened = openPublishedGround(fs, path, path.join(ROOT, 'apps/golf/public'), 'lidingo');
   const before = json(`apps/golf/public/${receipt.baselineGroundManifest.url}`);
   assert.equal(sha(bytes(`apps/golf/public/${receipt.baselineGroundManifest.url}`)), receipt.baselineGroundManifest.sha256);
-  assert.deepEqual(preservedGround(opened.ground), preservedGround(before));
+  /* The baseline was the 277-tile ring graph with an eight-wide 1 m level; the
+     standard ring publish (2026-09-11) widened level zero to sixteen tiles and
+     re-addressed the baseline's 64 course tiles onto its lattice, so the two
+     manifests are compared where the integration is claimed to have preserved
+     the ground: the frame, and every baseline level-zero tile matched by
+     POSITION -- same bounds, same decoded terrain payload (the chunk header's
+     digest, which a re-address keeps), the same surface and object layers'
+     presence. Stands are the layer the integration replaces, as before. */
+  const current = preservedGround(opened.ground), baseline = preservedGround(before);
+  assert.deepEqual(current.frame, baseline.frame);
+  const key = t => `${t.bounds.minEasting}|${t.bounds.maxNorthing}`;
+  const nowAt = new Map(current.tiles.filter(t => t.lod === 0).map(t => [key(t), t]));
+  const headerOf = ref => parseChunkEnvelope(bytes(`apps/golf/public/${ref.url}`)).header;
+  for (const tile of baseline.tiles.filter(t => t.lod === 0)) {
+    const now = nowAt.get(key(tile));
+    assert.ok(now, `baseline tile ${tile.id} has a tile at its position`);
+    assert.deepEqual(now.bounds, tile.bounds);
+    assert.equal(now.geometricErrorMetres, tile.geometricErrorMetres);
+    for (const kind of ['terrain', 'surface', 'objects']) {
+      assert.equal((now.layers[kind] ?? null) === null, (tile.layers[kind] ?? null) === null, `${kind} presence at ${now.id}`);
+      if (now.layers[kind]) assert.equal(headerOf(now.layers[kind]).decodedSha256, headerOf(tile.layers[kind]).decodedSha256, `${kind} payload at ${now.id}`);
+    }
+  }
   for (const ref of [opened.courseManifest.groundManifest, opened.ground.shell,
     ...opened.ground.tiles.flatMap(t => Object.values(t.layers).filter(Boolean))]) {
     const data = bytes(`apps/golf/public/${ref.url}`);
     assert.equal(data.length, ref.bytes);
     assert.equal(sha(data), ref.sha256);
   }
-  assert.equal(opened.ground.tiles.length, 277);
+  assert.equal(opened.ground.tiles.length, 469); /* the standard ring graph */
   assert.equal(opened.ground.tiles.filter(t => t.layers.stands).length, 64);
   assert.equal(opened.ground.tiles.filter(t => t.layers.objects).length, 0);
 });
