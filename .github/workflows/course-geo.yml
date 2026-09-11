@@ -2,38 +2,36 @@ name: course geo
 
 on:
   pull_request:
-    paths:
-      - ".github/workflows/course-geo.yml"
-      - ".github/workflows/course-geo-hole-controls.yml"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "packages/course-geo/**"
-      - "packages/course-v2/**"
-      - "apps/golf/src/engine/**"
-      - "apps/golf/src/main.js"
-      - "apps/golf/src/loader/**"
-      - "apps/golf/v2-terrain-proof.html"
-      - "apps/golf/vite.config.js"
-      - "geo_data/course-v2/**"
-      - "**build/course-model.json"
-      - "upsalabuild/mellanbanan-model.json"
+    # A paths-ignore list, NOT a paths list, and the difference is the whole
+    # point: GitHub evaluates only a bounded prefix of a changed-file list
+    # against a path filter, so an allow-list fails CLOSED on a large diff --
+    # it sees none of the files it was looking for and skips the gate in
+    # silence. PR #44 (3,732 files: the standard ring graph for ten grounds)
+    # changed packages/course-v2, geo_data/course-v2 and apps/golf/src, and
+    # this workflow never ran, on the pull request OR on the push to main,
+    # because the first 300 files of that diff are all published chunks under
+    # apps/golf/public. A deny-list fails OPEN on the same diff: the chunks are
+    # not ignored, so the gate runs. Keep this list to things that genuinely
+    # cannot affect the course data -- prose and pictures.
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
   push:
     branches: [main, codex/terrain-v2-runtime-integration]
-    paths:
-      - ".github/workflows/course-geo.yml"
-      - ".github/workflows/course-geo-hole-controls.yml"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "packages/course-geo/**"
-      - "packages/course-v2/**"
-      - "apps/golf/src/engine/**"
-      - "apps/golf/src/main.js"
-      - "apps/golf/src/loader/**"
-      - "apps/golf/v2-terrain-proof.html"
-      - "apps/golf/vite.config.js"
-      - "geo_data/course-v2/**"
-      - "**build/course-model.json"
-      - "upsalabuild/mellanbanan-model.json"
+    # A paths-ignore list, NOT a paths list, and the difference is the whole
+    # point: GitHub evaluates only a bounded prefix of a changed-file list
+    # against a path filter, so an allow-list fails CLOSED on a large diff --
+    # it sees none of the files it was looking for and skips the gate in
+    # silence. PR #44 (3,732 files: the standard ring graph for ten grounds)
+    # changed packages/course-v2, geo_data/course-v2 and apps/golf/src, and
+    # this workflow never ran, on the pull request OR on the push to main,
+    # because the first 300 files of that diff are all published chunks under
+    # apps/golf/public. A deny-list fails OPEN on the same diff: the chunks are
+    # not ignored, so the gate runs. Keep this list to things that genuinely
+    # cannot affect the course data -- prose and pictures.
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
   workflow_dispatch:
 
 permissions:
