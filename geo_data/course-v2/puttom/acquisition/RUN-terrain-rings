@@ -6,3 +6,4 @@ publish=true
 levels=
 
 # attempt 2 (2026-09-11): the first run refused a one-quantum rounding tie by float32 noise; the compiler counts it as a tie now.
+# attempt 3: the carried tiles now publish their chunk's own bounds and grid, so the graph verifier holds.

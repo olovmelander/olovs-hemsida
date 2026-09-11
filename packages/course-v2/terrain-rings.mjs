@@ -256,6 +256,11 @@ export function compileTerrainRings({
       });
       const grid = Object.freeze({ ...encoded.grid, sampleSpacingMetres: level.sampleSpacingMetres, geometricErrorMetres });
       let asset = terrainChunk({ groundId, tile: { grid, payload: encoded.payload }, chunkId: tile.id, bounds, assetDirectory: directory, codec });
+      /* what the manifest states for this tile: the fresh encode, unless a
+         published tile is carried, in which case the CHUNK's own bounds and grid
+         -- a rounding tie at the tile's extreme sample moves its min or max by a
+         quantum, and the graph verifier holds the manifest to the chunk header */
+      let tileBounds = bounds, tileGrid = grid;
       const published = reuse?.(level.lod, column, row) ?? null;
       if (published) {
         const mine = decodeTerrainGrid(encoded.payload, grid);
@@ -288,6 +293,8 @@ export function compileTerrainRings({
         if (published.id === undefined || published.id === tile.id) {
           /* the same tile at the same lattice position: byte for byte */
           asset = Object.freeze({ chunk: published.chunk, reference: published.reference });
+          if (published.bounds) tileBounds = published.bounds;
+          if (published.grid) tileGrid = published.grid;
         } else {
           /* THE SAME GROUND UNDER A NEW ID. A published tile is addressed by
              its lattice position, `l0/<column>/<row>`, and every consumer --
@@ -301,9 +308,11 @@ export function compileTerrainRings({
              header that names the new position. A tie the DTM would round the
              other way is therefore kept exactly as it was published. */
           if (!(published.payload instanceof Uint8Array)) throw new Error(`published ${published.id} moves to ${tile.id} but carries no payload to re-address`);
+          tileBounds = published.bounds ?? bounds;
+          tileGrid = published.grid;
           asset = terrainChunk({
-            groundId, tile: { grid: published.grid, payload: published.payload }, chunkId: tile.id,
-            bounds: published.bounds ?? bounds, assetDirectory: directory, codec,
+            groundId, tile: { grid: tileGrid, payload: published.payload }, chunkId: tile.id,
+            bounds: tileBounds, assetDirectory: directory, codec,
           });
         }
         reusedTiles++;
@@ -312,7 +321,7 @@ export function compileTerrainRings({
       encodedBytes += asset.reference.bytes;
       decodedBytes += asset.reference.decodedBytes;
       maximumError = Math.max(maximumError, geometricErrorMetres);
-      compiled.push(Object.freeze({ ...tile, bounds, grid, payload: encoded.payload, reference: asset.reference, geometricErrorMetres }));
+      compiled.push(Object.freeze({ ...tile, bounds: tileBounds, grid: tileGrid, payload: encoded.payload, reference: asset.reference, geometricErrorMetres }));
     }
     compiledByLevel.push(compiled);
     levelStats.push(Object.freeze({

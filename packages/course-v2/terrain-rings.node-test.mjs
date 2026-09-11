@@ -157,6 +157,8 @@ test('a published tile is carried to a wider lattice under its new id with its p
     assert.deepEqual(chunk.header.bounds, was.bounds);
     assert.deepEqual(chunk.header.grid, was.grid);
     assert.notEqual(now.layers.terrain.sha256, was.reference.sha256, 'a new header is a new content address');
+    assert.deepEqual(now.bounds, chunk.header.bounds, 'the manifest states the carried chunk\'s own bounds');
+    assert.deepEqual(now.grid, chunk.header.grid, 'and its grid');
   }
   /* a tile that did not move is still carried verbatim */
   const same = compileTerrainRings({
