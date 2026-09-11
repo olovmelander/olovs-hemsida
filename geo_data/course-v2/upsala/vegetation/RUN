@@ -1,3 +1,12 @@
+# Re-run the LiDAR vegetation over the whole 4,096 m level zero of the standard ring graph.
+# The generation of 2026-09-04 was compiled on the 2,048 m window; the standard rings widened this
+# ground's 1 m level to 4,096 m and carried those 64 tiles onto the wider lattice, so measured trees
+# stand on 64 of the 256 finest tiles and the surrounding 192 carry none. build-canopy reads every
+# finest tile the campaign items intersect, so the credentialed chain re-measures crowns and stand
+# fields over the whole core and replaces the carried layers, for BOTH courses of this ground
+# (upsala and upsala-mellanbanan) against one ground manifest.
+#
+# One March 2021 leaf-off campaign across the two items either side of easting 640000; the
+# Johannesberg caveat about deciduous under-detection applies to this parkland.
 publish=true
-observed_on=2026-09-04
-# retry 1: the first publish run died on a transient ENETUNREACH toward Lantmateriet 30 s in
+observed_on=2026-09-11
