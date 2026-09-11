@@ -4883,7 +4883,12 @@ const TREE_LOD = {
 /* with the authored templates (tools/blender-tree-study/PLAN.md) the budget
    is: zone A the full template, zone B the far mesh, zone C impostors -- the
    hero tier only if &hero=1 asks for it, to be looked at, not to be paid for */
-if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(location.search).get('hero') === '1' ? 1 : 2), 3, 4, 4];
+/* A phone takes the same mapping as the desktop's flagless one: the authored
+   full tier beside the corridors, lite to 300 m, impostors beyond. One tier
+   coarser put the lite meshes at the tee and billboards from 90 m, and the
+   owner's phone showed it; measured on the phone profile the full/lite
+   mapping draws a quarter of the realistic desktop's triangles. */
+if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [(new URLSearchParams(location.search).get('hero') === '1' ? 1 : 2), 3, 4, 4];
 {
   /* the decimated templates: the same silhouettes and the same crown noise
      (so the colour variance matches across the switch) at a quarter of the
