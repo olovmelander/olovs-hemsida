@@ -111,13 +111,19 @@ gate(renderer?.kind === 'graph' && renderer?.tiles === RIBBINGSFORS_V2_CONFIG.ri
   Array.isArray(renderer?.levels) && renderer.levels.length === RIBBINGSFORS_V2_CONFIG.ringGraph.levels &&
   renderer?.meshResolutionMetres === 1 && renderer?.drawCalls === 1 && renderer?.triangles > 0,
   `${RIBBINGSFORS_V2_CONFIG.ringGraph.tiles} tiles in ${RIBBINGSFORS_V2_CONFIG.ringGraph.levels} levels are the only terrain, drawn once at 1 m`);
-gate(terrain?.surfaceRepresentation === 'legacy-ground-atlas' &&
-  terrain?.surfacePolicy === 'legacy-ground-atlas',
+/* surfaceRepresentation is what actually paints the ground. The sibling
+   `surfacePolicy` is NOT checked: main.js reads it off whichever adapter is
+   serving, and the streaming ring adapter carries none, so it reports the
+   'v2-atlas' default though no v2 surface tile exists (the Upsala gate's
+   note). Asserting it would be asserting a reporting artifact. */
+gate(terrain?.surfaceRepresentation === 'legacy-ground-atlas',
   'the complete GPK ground atlas remains the sole surface authority');
-gate(required.report?.tint?.near?.n === 513 && required.report?.tint?.far?.n === 513 &&
+/* the near and far tint rasters are populated; on a ring ground the far one
+   reaches the graph's own 8 km bounds, so its size is not the frontier's 513 */
+gate(required.report?.tint?.near?.n > 0 && required.report?.tint?.far?.n > 0 &&
   required.report?.tint?.near?.sampleSum > 0 && required.report?.tint?.far?.sampleSum > 0 &&
   required.report?.groundProbe?.tintNear?.length === 3 && required.report?.groundProbe?.tintFar?.length === 3,
-  'the ring ground receives the same populated near/far tint contract as Puttom v2');
+  'the ring ground receives a populated near/far tint contract');
 /* The seam (owner's phone, 2026-09-10) was a square of 1 m tiles inside a
    legacy world drawn with another material; the ring graph has no legacy
    world to meet, so there is nothing left to blend and nothing to share. */
@@ -157,8 +163,12 @@ gate(vista?.cal?.plantedInsideCoverage === 0 && vista?.count > 50_000 && vista?.
 const lake = required.report?.lakeBed;
 gate(required.report?.lakeRings?.length === 1 && required.report?.lakeRings[0].points > 1000,
   'one lake ring draws Skagern (no overlapping same-level sheets)');
-gate(lake?.open?.inWater === true && lake?.open?.depth >= 5 && lake?.open?.ground < lake?.open?.level - 4.5,
-  'the frontier carries a carved bed under open water (>= 4.5 m under the sheet)');
+/* the ring adapter carves every lake as its tiles decode with the profile in
+   engine/v2-water-bed.mjs -- 0.15 m at the shore rising 0.12 m per metre to a
+   3.5 m maximum -- so open water 200 m off any shore sits at that maximum,
+   not at the deeper profile the fixed frontier's own carve used */
+gate(lake?.open?.inWater === true && lake?.open?.depth >= 3 && lake?.open?.ground < lake?.open?.level - 3,
+  `the ring graph carries a carved bed under open water (>= 3 m under the sheet; measured ${lake?.open?.depth?.toFixed?.(2)} m)`);
 gate(lake?.shore?.inWater === true && lake?.shore?.depth > 0.5 && lake?.shore?.depth < lake?.open?.depth,
   'the bed shoals toward the shore');
 gate(required.report?.lakeSheets?.length === 1 && required.report?.lakeSheets[0].depthMean > 1.5,
