@@ -1,0 +1,15 @@
+# First RUN file for this ground. Ribbingsfors' 2026-09-04 generation was compiled with the generic
+# tools run locally -- the runbook prints the exact commands -- over the reviewed 2,048 m window, and
+# it was never on a RUN file only because nobody pushed one. The standard ring graph now carries 1 m
+# tiles over 4,096 m and the widening carried the published vegetation onto the wider lattice, so
+# measured trees stand on 64 of the 256 finest tiles and the surrounding 192 carry none.
+#
+# The widened window EARNS A SOURCE ITEM: level zero spans E 446928-451024, crossing E 450000, so
+# 23b028-653_45 owns published finest tiles for the first time. The 2026-09-04 compile passed one
+# --raster because 653_45 owned none in the 2,048 m window; this run derives its raster arguments
+# from what build-canopy actually wrote, so it will pass two.
+#
+# This ground registers no copc-hierarchy-census artifact, so the census step writes a new
+# unregistered evidence file that the run commits and the re-pin step is a documented no-op.
+publish=true
+observed_on=2026-09-11
