@@ -94,6 +94,8 @@ export default defineConfig({
              only from a v2 visit whose graph publishes trees */
           'assets/v2-vegetation-*.js',
           'assets/stand-field-*.js',
+          /* the authored tree templates load only behind ?trees=ghibli */
+          'assets/ghibli-trees-*.js',
         ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */
 

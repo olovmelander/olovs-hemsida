@@ -1156,6 +1156,11 @@ const L = hex => [s2l(((hex >> 16) & 255) / 255), s2l(((hex >> 8) & 255) / 255),
    dry fescue variation; and a green is bluer and
    deeper than the fairway around it. Those three relationships are most of what makes
    mown ground read as mown ground from 200 m away. */
+/* ?ghibli=1: the painted look -- authored trees, a painted palette and
+   ground, a cumulus dome, blue distance, flatter water and a little more
+   chroma. One switch, off by default; the realistic render is untouched
+   without it. Declared here because the palette below is the first reader. */
+const GHIBLI_LOOK = new URLSearchParams(location.search).get('ghibli') === '1';
 /* nudged against the club's July aerial: the mown surfaces run brighter and
    greener than the first authoring -- a fresh-cut vividness, not a repaint */
 const C = {
@@ -1190,6 +1195,30 @@ const C = {
   /* the record's tracks: a trotting oval is rolled stone dust, an athletics track is red tartan */
   trackClay: L(0x9c8a72), trackRed: L(0x9a4f3f),
 };
+/* The painted palette (?ghibli=1). Every ground material squares its base
+   colour and the painted finish warms the lit side, so these are a little
+   lighter than the colour they read as. The cuts are separated by HUE as
+   much as by brightness, the way a painter tells a green from a fairway: the
+   putting green cool and blue-green, the fairway a clean spring green, the
+   semi a step yellower, the rough a soft meadow green with straw in the
+   fescue; sand warm cream; paths and gravel pale warm stone; mud a warm
+   brown; rock a blue-grey; the forest floor a deep moss green; water's edge
+   a wet olive. Applied in place so the tint rasters, the far ring and the
+   vertex classifier all paint from the same set. */
+if (GHIBLI_LOOK) Object.assign(C, {
+  rough:  L(0x648c44), fescue: L(0x92a050), semi:  L(0x5e9a42),
+  fair:   L(0x5aa644), green:  L(0x48a466), fringe: L(0x549c4a),
+  /* gravel and asphalt stay GREY: a road under a warm stone colour read as a
+     dirt track from above, and the hub's gravel hardstanding as sand */
+  tee:    L(0x56a446), sand:   L(0xe4d09e), path:  L(0x848480),
+  heath:  L(0x8a9a4a), forest: L(0x4a7444), shore: L(0xc8b48c),
+  canopy: L(0x3e7440), canopyLight: L(0x62a04a),
+  wet:    L(0x6c8e54), rock:   L(0x8e949c),
+  cropA:  L(0xc6aa58), cropB: L(0x86a44c), cropC: L(0xb2986c),
+  slash:  L(0x9c8c60), hard:  L(0x929290), hay:   L(0xbcb05e), lawn: L(0x5aa63e),
+  aspT:   L(0x55575c), aspL:  L(0x5f6166), soil:  L(0x8e6e4c), ballast: L(0x868480),
+  riprap: L(0xaeaba2), mud: L(0x7a6046),
+});
 
 /* how each surface is shaded: detail scale, bump strength, gloss, mow anisotropy */
 const SHADE = {
@@ -1528,6 +1557,9 @@ const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
 /* seasonal foliage: the birch crowns and reed heads take their colour from the
    preset, which is what lets Höst turn the shore gold without a rebuild */
 const uLeaf = uniform(new THREE.Color(0x5f8944));
+/* 1 in the autumn preset: the authored birches then turn per tree, some
+   still green, most gold, a few orange, instead of every crown one gold */
+const uAutumn = uniform(0);
 const uReedC = uniform(new THREE.Color(0x8d8a52));
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
@@ -1587,7 +1619,9 @@ scene.fog = fog;
    hidden. Both are lit by the same sun vector so the horizon never disagrees with
    the shadows. */
 let skyMesh = null, skyDome = null;
-if (IS_GPU) {
+/* the painted look takes the hand-built dome on every backend: a scattering
+   model gives a pale physical blue, and a painted sky is a deep one */
+if (IS_GPU && !GHIBLI_LOOK) {
   const { SkyMesh } = await import('three/addons/objects/SkyMesh.js');
   skyMesh = new SkyMesh();
   /* The HDR disc flashes through subpixel gaps in moving foliage, and bloom
@@ -1616,8 +1650,8 @@ if (IS_GPU) {
   const up = D.y;
   const sd = saturate(D.dot(uSun));
   const sunUp = uSun.y.max(0.02);
-  const zen = mix(color(0x123a72), color(0x1f5f9e), sunUp);
-  const mid = mix(color(0x4d7fa8), color(0x66a0c8), sunUp);
+  const zen = GHIBLI_LOOK ? mix(color(0x1c4a9a), color(0x2a72c8), sunUp) : mix(color(0x123a72), color(0x1f5f9e), sunUp);
+  const mid = GHIBLI_LOOK ? mix(color(0x5a92cc), color(0x72b4e8), sunUp) : mix(color(0x4d7fa8), color(0x66a0c8), sunUp);
   /* the warm-horizon ramp reaches 0.52 so a 0.2-0.3 sun (golden, dawn, host) still
      lands well inside it -- at the old 0.42 ceiling those presets rendered noon-blue */
   const hor = mix(color(0xe6b98a), color(0xbcd3dd), smoothstep(0.10, 0.52, sunUp));
@@ -1645,6 +1679,65 @@ if (IS_GPU) {
   skyDome.renderOrder = -2;
   skyDome.userData.cover = cover;
   scene.add(skyDome);
+}
+
+/* The painted cumulus (?ghibli=1): a second dome inside the sky, drawn only
+   where two octaves of the detail map exceed the preset's cover, with firm
+   edges, a warm top toward the sun and a cool flat underside. The clouds are
+   what a Ghibli sky is made of; a scattering model never draws one you could
+   point at. Cover follows the preset in setPreset. */
+const uCloudCover = uniform(0.34);
+if (GHIBLI_LOOK) {
+  /* the cloud field is its own texture: a broad fbm in red, a finer one in
+     green, both centred on 0.5, so the threshold below means what it says */
+  const CLOUDS = canvasTex(512, (g, S) => {
+    const im = g.createImageData(S, S), d = im.data;
+    /* tileable: the four wrapped copies blended by their distance to the edges, so the dome never shows a seam */
+    const tile = (f, x, y) => {
+      const u = x / S, v = y / S;
+      return f(x, y) * (1 - u) * (1 - v) + f(x - S, y) * u * (1 - v) + f(x, y - S) * (1 - u) * v + f(x - S, y - S) * u * v;
+    };
+    const fa = (x, y) => fbm(x * 0.017, y * 0.017, 5), fb = (x, y) => fbm(x * 0.06 + 31, y * 0.06 + 7, 3);
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
+      const i = (y * S + x) * 4;
+      const a = tile(fa, x, y) * 0.5 + 0.5, b = tile(fb, x, y) * 0.5 + 0.5;
+      d[i] = Math.max(0, Math.min(255, a * 255)); d[i + 1] = Math.max(0, Math.min(255, b * 255)); d[i + 2] = 128; d[i + 3] = 255;
+    }
+    g.putImageData(im, 0, 0);
+  }, { srgb: false });
+  const m = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide, fog: false, depthWrite: false, transparent: true });
+  const D = normalize(positionLocal);
+  const up = D.y;
+  /* a flat cloud layer seen from below: the dome direction projected onto a
+     plane at fixed height. Clamping the divisor keeps the projection finite at
+     the horizon and the fade below hides the stretch that clamp leaves. */
+  const cuv = D.xz.div(up.max(0.06));
+  const drift = vec2(time.mul(0.0009), time.mul(0.0005));
+  const p = cuv.mul(0.09).add(drift);
+  const field = uvv => texture(CLOUDS, uvv).r.mul(0.66).add(texture(CLOUDS, uvv.mul(2.3).add(vec2(0.31, 0.17))).g.mul(0.24))
+    .add(texture(CLOUDS, uvv.mul(5.1).add(vec2(0.62, 0.44))).g.mul(0.10));
+  const n = field(p);
+  const thr = float(0.57).sub(uCloudCover.mul(0.22));
+  /* the layer fades out well above the clamp, so the stretched band at the horizon is never seen */
+  const mass = smoothstep(thr, thr.add(0.045), n).mul(smoothstep(0.11, 0.26, up));
+  /* the lit side: the field sampled a little toward the sun is brighter where a cloud faces it */
+  const sdir = vec2(uSun.x, uSun.z).mul(0.02);
+  const n2 = field(p.add(sdir));
+  const lit = saturate(n2.sub(n).mul(14).add(0.55));
+  const sunUp = uSun.y.max(0.02);
+  const warm = mix(color(0xffd8b0), color(0xffffff), sunUp);
+  const cool = mix(color(0x8ea6cc), color(0xa9c0e2), sunUp);
+  /* a cloud's belly is flatter and cooler: the mass near its own threshold reads as the underside;
+     the top, deep inside the mass, is the brightest white */
+  const belly = oneMinus(smoothstep(thr.add(0.045), thr.add(0.16), n));
+  const c = mix(warm, cool, belly.mul(0.9)).mul(mix(float(0.74), float(1.08), lit));
+  m.colorNode = c;
+  m.opacityNode = mass.mul(0.97);
+  const cloudDome = new THREE.Mesh(new THREE.SphereGeometry(10600, 48, 28), m);
+  cloudDome.name = 'cloud-dome';
+  cloudDome.renderOrder = -1;
+  cloudDome.frustumCulled = false;
+  scene.add(cloudDome);
 }
 
 /* The selected sky and the indirect light share a palette. Reuse the baker,
@@ -1675,7 +1768,8 @@ function setPreset(name) {
   fog.density = CONTINUOUS_OCEAN_ENABLED && presetName === 'noon' ? 0.00022 : p.dens;
   scene.background = new THREE.Color(p.fog);
   renderer.toneMappingExposure = p.exp;
-  if (skyDome?.userData.cover) skyDome.userData.cover.value = 0.62 - p.cloud * 0.55;
+  /* the painted look draws its clouds on the cumulus dome, so the sky dome's own band stays off (cover 1 = no puff) */
+  if (skyDome?.userData.cover) skyDome.userData.cover.value = GHIBLI_LOOK ? 1.0 : 0.62 - p.cloud * 0.55;
   if (skyMesh) {
     skyMesh.turbidity.value = p.turb;
     skyMesh.rayleigh.value = p.ray;
@@ -1686,6 +1780,18 @@ function setPreset(name) {
     skyMesh.sunPosition.value.copy(d).multiplyScalar(450000);
   }
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
+  uAutumn.value = presetName === 'host' ? 1 : 0;
+  if (GHIBLI_LOOK) {
+    /* painted distance: hills go blue, not grey, and further -- the fog keeps
+       its chroma and thins; the sky's blue deepens; the cumulus takes the cover */
+    fog.color.lerp(new THREE.Color(0x9cc2e6), 0.55);
+    fog.density = fog.density * 0.7;
+    scene.background = new THREE.Color(p.fog).lerp(new THREE.Color(0x9cc2e6), 0.55);
+    /* the far hills under a low sun read too dark against a painted sky: more fill from the hemisphere */
+    hemi.intensity = p.hemiI * 1.25;
+    /* the painted cover per preset, chosen by eye: a few big cumulus at noon, more at dusk, a lid in mist */
+    uCloudCover.value = ({ noon: 0.56, golden: 0.50, dawn: 0.46, mist: 0.62, host: 0.56 })[presetName] ?? 0.5;
+  }
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
@@ -2402,7 +2508,7 @@ if (groundMode === 'atlas') {
 }
 
 const turfMat = groundMode === 'atlas'
-  ? makeGround({ atlas: groundAtlas, DETAIL, SANDN, uSun, C, SHADE })
+  ? makeGround({ atlas: groundAtlas, DETAIL, SANDN, uSun, C, SHADE, look: GHIBLI_LOOK ? 'ghibli' : 'real' })
   : makeTurf();
 let frontierSurroundMaterial = null;
 /* Every surface that LIES ON the terrain -- mown overlays, sand, roads, paths,
@@ -2576,6 +2682,7 @@ if (TERRAIN_PREVIEW.ready) {
     atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
     graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
     debugMode: surfaceDebugMode, tint: GROUND_TINT,
+    look: GHIBLI_LOOK ? 'ghibli' : 'real', uSun,
   });
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -3650,11 +3757,21 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
   const bedCol = mix(color(0x8a7a5c), color(0x2e4a35), smoothstep(0.18, 0.6, aDp));
   body = mix(body, bedCol, bed.mul(0.85));
 
-  let c = mix(body, skyC, fres.mul(0.88));
+  if (GHIBLI_LOOK) {
+    /* painted water: a saturated blue body, a flat bright sky band instead of a physical mirror */
+    body = mix(color(ocean ? 0x2a7fb0 : 0x2f86b6), color(0x144a86), depth);
+    body = mix(body, bedCol, bed.mul(0.6));
+  }
+  let c = mix(body, skyC, fres.mul(GHIBLI_LOOK ? 0.55 : 0.88));
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
-  c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)).mul(uWaterGlint));
-  c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)).mul(uWaterGlint));
+  if (GHIBLI_LOOK) {
+    /* painted sparkle: dabs of white where the ripple faces the sun, not a pinpoint glint */
+    c = c.add(color(0xffffff).mul(smoothstep(0.985, 0.996, saturate(N.dot(H))).mul(0.9)).mul(uWaterGlint));
+  } else {
+    c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)).mul(uWaterGlint));
+    c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)).mul(uWaterGlint));
+  }
   /* foam, broken up by noise so a shoreline is a shoreline and not a stripe */
   /* Foam only where there is enough water behind it to make a wave. A metre-deep
      pond in a field has none at all, and drawing a three-metre white band round every
@@ -4197,6 +4314,21 @@ function grownCrown(geo, seed, amp, colVar) {
   geo.computeVertexNormals();
   return geo;
 }
+/* ?trees=ghibli swaps the three procedural templates for the authored ones
+   (tools/blender-tree-study, engine/ghibli-trees.mjs): full tier, far tier and
+   -- with &hero=1 -- the hero tier. Placement, species and sizes are untouched;
+   a load failure logs and keeps the procedural trees. */
+const TREES_PARAM = new URLSearchParams(location.search).get('trees') ?? (GHIBLI_LOOK ? 'ghibli' : null);
+const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
+  try {
+    const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: new URLSearchParams(location.search).get('hero') === '1' });
+    console.info(`ghibli trees: ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
+    return loaded;
+  } catch (err) { console.warn('ghibli trees unavailable, procedural templates kept:', err); return null; }
+})() : null;
+/* which species draw an authored template; the others keep every procedural rule (spruce, by the owner's choice) */
+const authored = s => !!(GHIBLI && GHIBLI.species[s]);
 const SPECIES = (() => {
   const spruce = grownCrown(mergeGeos((() => {
     const p = [];
@@ -4231,11 +4363,18 @@ const SPECIES = (() => {
     return p;
   })()), 3, 0.22, 0.17);
   const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 9); g.translate(0, h / 2, 0); return g; };
-  return [
+  const table = [
     { crown: spruce, trunk: trunk(0.18, 0.42, 3.2), cc: 0x2c5230, tc: 0x3f3122, sc: [0.85, 1.5] },
     { crown: pine, trunk: trunk(0.22, 0.46, 9.0), cc: 0x3a6134, tc: 0x6b4326, sc: [0.72, 1.34] },
     { crown: birch, trunk: trunk(0.16, 0.30, 7.4), cc: 0x5f8944, tc: 0xc9c6b2, sc: [0.60, 1.06] },
   ];
+  if (GHIBLI) for (let s = 0; s < table.length; s++) {
+    const g = GHIBLI.species[s];
+    if (!g) continue;
+    table[s].crown = g.full.crown; table[s].trunk = g.full.trunk;
+    table[s].cc = GHIBLI.colours[s].cc; table[s].tc = GHIBLI.colours[s].tc;
+  }
+  return table;
 })();
 /* What a template stands for at scale 1, so a measured tree can be drawn at
    its measured height and crown radius rather than at a hashed size. */
@@ -4668,7 +4807,7 @@ const LODPX = (() => {
   return v && v.length === 3 && v.every(x => x > 0) ? { hero: v[0], full: v[1], impostor: v[2] } : null;
 })();
 const TREE_LOD = {
-  cell: 128, cells: [], tiers: [], mats: [], imp: [], atlases: [], ready: false,
+  cell: 128, cells: [], tiers: [], mats: [], imp: [], tint: [], atlases: [], ready: false,
   /* Phase 4 (docs/tree-lod-plan.md): the tier is decided PER TREE from the
      pixels its own drawn height projects to -- hero above heroPx, the full
      template above switchPx, decimated above impostorPx, an impostor below --
@@ -4728,6 +4867,10 @@ const TREE_LOD = {
   /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
+/* with the authored templates (tools/blender-tree-study/PLAN.md) the budget
+   is: zone A the full template, zone B the far mesh, zone C impostors -- the
+   hero tier only if &hero=1 asks for it, to be looked at, not to be paid for */
+if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [3, 4, 4, 4] : [(new URLSearchParams(location.search).get('hero') === '1' ? 1 : 2), 3, 4, 4];
 {
   /* the decimated templates: the same silhouettes and the same crown noise
      (so the colour variance matches across the switch) at a quarter of the
@@ -4765,11 +4908,12 @@ const TREE_LOD = {
       return p;
     })()), 3, 0.22, 0.17);
     const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 5); g.translate(0, h / 2, 0); return g; };
-    return [
+    const proc = [
       { crown: spruce, trunk: trunk(0.18, 0.42, 3.2) },
       { crown: pine, trunk: trunk(0.22, 0.46, 9.0) },
       { crown: birch, trunk: trunk(0.16, 0.30, 7.4) },
     ];
+    return proc.map((p, s) => authored(s) ? { crown: GHIBLI.species[s].decimated.crown, trunk: GHIBLI.species[s].decimated.trunk } : p);
   })();
   /* --- the hero tier: what a tree a golfer stands beside is made of ---
      The plan's alpha-tested needle and leaf cards were built and taken out
@@ -4840,11 +4984,13 @@ const TREE_LOD = {
     { crown: fineCrowns[0], trunk: heroTrunk(0.18, 0.42, 3.2) },
     { crown: fineCrowns[1], trunk: heroTrunk(0.22, 0.46, 9.0) },
     { crown: fineCrowns[2], trunk: heroTrunk(0.16, 0.30, 7.4) },
-  ];
+  ].map((p, s) => authored(s) ? { crown: GHIBLI.species[s].hero.crown, trunk: GHIBLI.species[s].hero.trunk } : p);
   if (GRAPHICS_POLISH) {
     /* Bake once into existing colours, before impostor capture. A shared full
-       crown envelope keeps the tint consistent across geographic detail tiers. */
+       crown envelope keeps the tint consistent across geographic detail tiers.
+       The authored crowns carry their depth tint already; the bake would darken them twice. */
     for (let s = 0; s < SPECIES.length; s++) {
+      if (authored(s)) continue;
       const bounds = SPECIES[s].crown.boundingBox;
       const envelope = { minY: bounds.min.y, maxY: bounds.max.y };
       for (const crown of [hero[s].crown, SPECIES[s].crown, decimated[s].crown]) {
@@ -4859,18 +5005,50 @@ const TREE_LOD = {
     return attachTreeFade(mat);
   };
   const crownMaterial = (s, hex, sway) => {
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.92, metalness: 0, flatShading: true });
+    /* the authored crowns are smooth-shaded on their own bent normals: flat facets would undo the study's whole look */
+    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.92, metalness: 0, flatShading: !authored(s) });
     /* the same back-lit term the turf uses, so a treeline glows against a low sun
        instead of reading as a black cutout; birch crowns take the season's colour */
     const V = normalize(cameraPosition.sub(positionWorld));
     const cbase = s === 2 ? uLeaf : color(hex);
-    mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(float(1).add(
-      pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55)));
+    const backlit = float(1).add(pow(saturate(V.dot(uSun.negate())), 2.6).mul(0.55));
+    if (authored(s)) {
+      /* the painted crown: a wrapped lambert on the authored (bent) normals
+         splits the crown into a warm sunlit side and a cool blue-green shade
+         with a soft band between -- colour temperature, not only brightness,
+         which is what the study's toon ramp did and the lit material alone
+         does not; the standard lighting, shadows and fog still apply on top */
+      const wrap = saturate(normalWorld.dot(uSun).mul(0.5).add(0.5));
+      const band = smoothstep(0.25, 0.85, wrap);
+      /* the lit material darkens the shade side on its own, so the tone is
+         a lift on the lit side and a hue turn on the shade side, not a second
+         darkening: the base is raised a third and the warm end goes past one */
+      const tone = mix(vec3(0.70, 0.86, 1.06), vec3(1.34, 1.20, 0.78), band);
+      const tintA = attribute('aTint', 'vec4');
+      let base = cbase;
+      if (s === 2) {
+        /* autumn per tree: the hash in aTint.w says how far this birch has
+           turned -- a fifth still green, most gold, the last fifth orange */
+        const h = tintA.w;
+        /* deep amber and rust, not lemon: these are pre-lift values (the
+           material raises the base a third and warms the lit side), chosen so
+           a sunlit amber crown lands near the preset's own leaf colour and
+           the shade side goes to a dark honey rather than a washed yellow */
+        const stage = mix(mix(color(0x6a8a2c), color(0x9a6614), smoothstep(0.15, 0.4, h)), color(0x8a3a16), smoothstep(0.7, 0.95, h));
+        base = mix(uLeaf, stage, uAutumn);
+      }
+      /* the birch's leaf colour is already the pale one; the full lift turned it lime under a low sun */
+      mat.colorNode = base.mul(s === 2 ? 1.08 : 1.3).mul(attribute('color', 'vec3')).mul(tintA.xyz).mul(tone).mul(backlit);
+    } else {
+      mat.colorNode = cbase.mul(attribute('color', 'vec3')).mul(backlit);
+    }
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
-  const trunkMaterial = (hex, sway) => {
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: true });
+  const trunkMaterial = (hex, sway, vc = false) => {
+    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: !vc });
+    /* an authored trunk carries its bark colour per vertex (a pine is grey below and orange above) */
+    if (vc) mat.colorNode = color(hex).mul(attribute('color', 'vec3'));
     if (sway) { mat.positionNode = windSway(false); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -4912,7 +5090,8 @@ const TREE_LOD = {
   const impostorBatch = (s, capacity, label) => {
     const geo = createImpostorGeometry(capacity);
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
-      crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug, fade: true,
+      /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
+      crownBase: s === 2 ? (GHIBLI ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : uLeaf) : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug, fade: true,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = false;
@@ -4925,6 +5104,26 @@ const TREE_LOD = {
     return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'), fade: [geo.getAttribute('aFade')],
              slots: new Int32Array(capacity), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
   };
+  /* The drawable TEMPLATES: one per species, or -- with the authored trees --
+     one per (species, variant). Each draws the subset of its species' trees
+     hashed to its variant, and every variant is rescaled (ky, kxz) so a
+     measured tree keeps the laser height the species template gave it. The
+     tier machinery below works per template; placement (trees[], treeWhy[])
+     and the impostor atlases (per species) are untouched. */
+  const SPECIES_NAMES = ['spruce', 'pine', 'birch'];
+  const TEMPLATES = [];
+  for (let s = 0; s < 3; s++) {
+    const vars = authored(s) ? GHIBLI.species[s].variants : null;
+    if (!vars) { TEMPLATES.push({ s, v: 0, nv: 1, name: SPECIES_NAMES[s], spec: SPECIES[s], hr: hero[s], de: decimated[s], ky: 1, kxz: 1 }); continue; }
+    for (let v = 0; v < vars.length; v++) {
+      const g = vars[v];
+      TEMPLATES.push({ s, v, nv: vars.length, name: `${SPECIES_NAMES[s]}${v}`,
+        spec: { ...SPECIES[s], crown: g.full.crown, trunk: g.full.trunk },
+        hr: { crown: g.hero.crown, trunk: g.hero.trunk }, de: { crown: g.decimated.crown, trunk: g.decimated.trunk },
+        ky: SPECIES[s].templateHeight / g.templateHeight, kxz: SPECIES[s].templateRadius / g.templateRadius });
+    }
+  }
+  const variantOf = (x, z, nv) => nv > 1 ? Math.min(nv - 1, Math.floor(hash2(x * 0.13 + 3.3, z * 0.17 + 7.7) * nv)) : 0;
   const cellOf = new Map();
   const cell = (x, z) => {
     const i = Math.floor((x - MIDR.x0) / TREE_LOD.cell), j = Math.floor((z - MIDR.z0) / TREE_LOD.cell);
@@ -4933,7 +5132,7 @@ const TREE_LOD = {
     if (!c) {
       const x0 = MIDR.x0 + i * TREE_LOD.cell, z0 = MIDR.z0 + j * TREE_LOD.cell;
       c = { x0, z0, x1: x0 + TREE_LOD.cell, z1: z0 + TREE_LOD.cell, y0: Infinity, y1: -Infinity,
-            lists: [[], [], []], visible: false, box: new THREE.Box3() };
+            lists: Array.from({ length: TEMPLATES.length }, () => []), visible: false, box: new THREE.Box3() };
       cellOf.set(key, c);
       TREE_LOD.cells.push(c);
     }
@@ -4964,41 +5163,65 @@ const TREE_LOD = {
   })();
   const mtx = new THREE.Matrix4(), q = new THREE.Quaternion(), pos = new THREE.Vector3(), scl = new THREE.Vector3();
   const boundsScratch = new THREE.Box3(), boundsCentre = new THREE.Vector3();
-  for (let s = 0; s < 3; s++) {
+  for (let ti = 0; ti < TEMPLATES.length; ti++) {
+    const tpl = TEMPLATES[ti], s = tpl.s;
     const T = trees[s], W = treeWhy[s];
-    const n = T.length / 6;
+    const nAll = T.length / 6;
+    /* the trees this template draws: all of the species, or its variant's share */
+    const ks = [];
+    for (let k = 0; k < nAll; k++) if (tpl.nv === 1 || variantOf(T[k * 6], T[k * 6 + 2], tpl.nv) === tpl.v) ks.push(k);
+    const n = ks.length;
     const mats = new Float32Array(n * 16);
     const imp = new Float32Array(n * 6);   /* x, y, z, yaw, scaleXZ, scaleY */
+    /* a per-tree tint (r, g, b multipliers, and a hash in w for the autumn
+       stage) from where it stands: no two neighbours the same green, the way
+       no two trees in a real stand are; read by the authored crown material
+       through aTint */
+    const tint = new Float32Array(n * 4);
     TREE_LOD.mats.push(mats);
     TREE_LOD.imp.push(imp);
+    TREE_LOD.tint.push(tint);
     /* each tree's drawn height and the height of its crown centre: the tier
        is decided from the pixels THIS tree projects to, not a nominal one */
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
     /* which course zone each tree stands in (0 beyond, 1 A, 2 B, 3 C): in zone mode it IS the tier, in screen mode the floor */
     const zone = new Uint8Array(n);
-    const templateBox = treeTemplateBounds([hero[s].crown, hero[s].trunk,
-      SPECIES[s].crown, SPECIES[s].trunk, decimated[s].crown, decimated[s].trunk]);
-    for (let k = 0; k < n; k++) {
+    const templateBox = treeTemplateBounds([tpl.hr.crown, tpl.hr.trunk,
+      tpl.spec.crown, tpl.spec.trunk, tpl.de.crown, tpl.de.trunk]);
+    for (let j = 0; j < n; j++) {
+      const k = ks[j];
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
-      const sy = T[k * 6 + 3], sxz = T[k * 6 + 5];
+      const sy = T[k * 6 + 3];
+      /* An authored template is a whole tree with its own proportions; a
+         measured crown radius over its template radius squeezed the study's
+         wide pine into a bottle brush. Keep the laser height, and let the
+         width follow the measured radius only within 0.75-1.3 of the height
+         scale, so the species keeps its shape. Placement is untouched. */
+      const sxz = authored(s) ? Math.min(sy * 1.3, Math.max(sy * 0.75, T[k * 6 + 5])) : T[k * 6 + 5];
       /* the lattice keeps its hashed height variation; a measured tree is
          drawn at its measured height and crown, with nothing added */
       const varied = W[k] >= WHY_V2_INDIVIDUAL ? 1 : (0.86 + (k % 7) * 0.045);
-      treeH[k] = SPECIES[s].templateHeight * sy * varied;
-      treeCY[k] = pos.y + treeH[k] * 0.5;
-      zone[k] = courseZone(pos.x, pos.z);
-      if (zone[k] === 1) TREE_LOD.stats.zoneA++; else if (zone[k] === 2) TREE_LOD.stats.zoneB++;
-      scl.set(sxz, sy * varied, sxz);
+      treeH[j] = SPECIES[s].templateHeight * sy * varied;
+      treeCY[j] = pos.y + treeH[j] * 0.5;
+      zone[j] = courseZone(pos.x, pos.z);
+      if (zone[j] === 1) TREE_LOD.stats.zoneA++; else if (zone[j] === 2) TREE_LOD.stats.zoneB++;
+      /* ky/kxz: this variant's own proportions brought to the species template's, so the drawn height stays the measured one */
+      scl.set(sxz * tpl.kxz, sy * varied * tpl.ky, sxz * tpl.kxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
-      mtx.compose(pos, q, scl).toArray(mats, k * 16);
-      imp.set([pos.x, pos.y, pos.z, T[k * 6 + 4], sxz, sy * varied], k * 6);
+      mtx.compose(pos, q, scl).toArray(mats, j * 16);
+      imp.set([pos.x, pos.y, pos.z, T[k * 6 + 4], sxz, sy * varied], j * 6);
+      {
+        const a = hash2(pos.x * 0.37 + 11.3, pos.z * 0.91 + 5.7) - 0.5, b = hash2(pos.z * 0.53 + 2.1, pos.x * 0.29 + 9.9) - 0.5;
+        tint[j * 4] = 1 + a * 0.24 + b * 0.06; tint[j * 4 + 1] = 1 + b * 0.16; tint[j * 4 + 2] = 1 - a * 0.24 + b * 0.04;
+        tint[j * 4 + 3] = hash2(pos.x * 0.71 + 4.4, pos.z * 0.43 + 1.9);
+      }
       const c = cell(pos.x, pos.z);
-      c.lists[s].push(k);
+      c.lists[ti].push(j);
       includeTreeBounds(c.box, templateBox, TREE_LOD.atlases[s], mtx, pos, sxz, sy * varied,
         boundsScratch, boundsCentre);
     }
     if (!n) { TREE_LOD.tiers.push(null); continue; }
-    const spec = SPECIES[s], deci = decimated[s];
+    const spec = tpl.spec, deci = tpl.de;
     /* a mesh tier is one InstancedMesh per part (crown, trunk, and for the
        hero its cards), every part sharing the tier's slot list */
     const tier = (parts, label) => {
@@ -5006,6 +5229,8 @@ const TREE_LOD = {
         /* the crossfade's per-instance (start time, mask code); a fifth
            vertex buffer at most, against WebGPU's eight */
         geo.setAttribute('aFade', createFadeAttribute(n));
+        /* the authored crowns take a per-tree tint: a sixth vertex buffer, not dynamic, dirty ranges like the rest */
+        if (authored(s) && name === 'crown') geo.setAttribute('aTint', new THREE.InstancedBufferAttribute(new Float32Array(n * 4), 4));
         const im = new THREE.InstancedMesh(geo, mat, n);
         im.count = 0;
         im.castShadow = true;
@@ -5014,17 +5239,18 @@ const TREE_LOD = {
         im.frustumCulled = false;
         /* NOT DynamicDrawUsage: three's WebGPU path re-uploads such an attribute whole every frame; the tiers upload their dirty ranges through needsUpdate (flushRanges) */
         im.userData.tag = 'trees';
-        im.name = `trees-${['spruce', 'pine', 'birch'][s]}-${name}-${label}`;
+        im.name = `trees-${tpl.name}-${name}-${label}`;
         scene.add(im);
         stats.draws++;
         return im;
       });
-      return { parts: meshes, fade: meshes.map(im => im.geometry.getAttribute('aFade')), slots: new Int32Array(n), count: 0,
-               dirtyM: [], dirtyF: [], idx: 0 };
+      return { parts: meshes, fade: meshes.map(im => im.geometry.getAttribute('aFade')),
+               tint: meshes.map(im => im.geometry.getAttribute('aTint')).filter(Boolean),
+               slots: new Int32Array(n), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
     };
-    const hr = hero[s];
+    const hr = tpl.hr;
     const rec = {
-      n, treeH, treeCY, zone,
+      n, treeH, treeCY, zone, species: s, variant: tpl.v,
       where: new Int32Array(n).fill(-1),
       tierOf: new Uint8Array(n),
       pend: new Uint8Array(n), pendN: new Uint8Array(n),
@@ -5032,9 +5258,10 @@ const TREE_LOD = {
       outTier: new Uint8Array(n), whereOut: new Int32Array(n).fill(-1),
       fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
       t: [null,
-        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['trunk', hr.trunk, barkMaterial(spec.tc)]], 't0'),
-        tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true)]], 't1'),
-        tier([['crown', deci.crown, crownMaterial(s, spec.cc, false)], ['trunk', deci.trunk, trunkMaterial(spec.tc, false)]], 't2'),
+        /* the bark texture needs the procedural trunk's UVs; an authored trunk has none and carries its colour instead */
+        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['trunk', hr.trunk, authored(s) ? trunkMaterial(spec.tc, true, true) : barkMaterial(spec.tc)]], 't0'),
+        tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true, authored(s))]], 't1'),
+        tier([['crown', deci.crown, crownMaterial(s, spec.cc, false)], ['trunk', deci.trunk, trunkMaterial(spec.tc, false, authored(s))]], 't2'),
         impostorBatch(s, n, 't3')],
     };
     for (let i = 1; i <= 4; i++) rec.t[i].idx = i;
@@ -5071,6 +5298,7 @@ function treeTierWrite(s, tier, slot, k, t0, code) {
   } else {
     const mats = TREE_LOD.mats[s];
     for (const im of tier.parts) im.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
+    if (tier.tint?.length) { const T = TREE_LOD.tint[s]; for (const a of tier.tint) a.array.set(T.subarray(k * 4, k * 4 + 4), slot * 4); }
   }
   tier.dirtyM.push(slot);
   treeFadeWrite(tier, slot, t0, code);
@@ -5198,7 +5426,7 @@ function rebaseFadeClock() {
    tree as its IN or OUT entry, and no tree holds both in one tier */
 function treeTierAudit() {
   const out = { ok: true, species: [] };
-  for (let s = 0; s < 3; s++) {
+  for (let s = 0; s < TREE_LOD.tiers.length; s++) {
     const sp = TREE_LOD.tiers[s];
     if (!sp) continue;
     let sumCount = 0, inCount = 0, outCount = 0, roundTrip = true, noSelfPair = true;
@@ -5246,7 +5474,7 @@ function updateTreeTiers() {
     const c = cells[ci];
     if (!TREE_FRUSTUM.intersectsBox(c.box)) {
       if (c.visible) {
-        for (let s = 0; s < 3; s++) {
+        for (let s = 0; s < TREE_LOD.tiers.length; s++) {
           const sp = TREE_LOD.tiers[s];
           if (!sp) continue;
           const L = c.lists[s];
@@ -5262,7 +5490,7 @@ function updateTreeTiers() {
       const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dy = Math.max(c.y0 - cy, 0, cy - c.y1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
       pxCell = TREE_LOD.nominalHeight * Kpx / Math.max(1, Math.hypot(dx, dy, dz));
     }
-    for (let s = 0; s < 3; s++) {
+    for (let s = 0; s < TREE_LOD.tiers.length; s++) {
       const sp = TREE_LOD.tiers[s];
       if (!sp) continue;
       const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone, PD = sp.pend, PN = sp.pendN, dwell = TREE_LOD.dwell;
@@ -5327,6 +5555,7 @@ function updateTreeTiers() {
         tier.dirtyM.length = 0;
       } else {
         for (const im of tier.parts) im.count = tier.count;
+        if (tier.tint?.length) flushRanges(tier.tint, tier.dirtyM.slice(), 4);
         flushRanges(tier.parts.map(im => im.instanceMatrix), tier.dirtyM, 16);
       }
       flushRanges(tier.fade, tier.dirtyF, 2);
@@ -5534,7 +5763,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? uLeaf : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? (GHIBLI ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : uLeaf) : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
@@ -7399,7 +7628,11 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const scenePass = pass(scene, camera);
   const sceneColor = scenePass.getTextureNode('output');
   const bloomNode = bloom(sceneColor, 0.14, 0.3, 0.86);
-  post.outputNode = sceneColor.add(bloomNode);
+  const out = sceneColor.add(bloomNode);
+  /* the painted look: a little more chroma and a gentle S on the mids, the grade a background painter applies */
+  post.outputNode = GHIBLI_LOOK
+    ? (() => { const c = mix(vec3(luminance(out.rgb)), out.rgb, 1.16); return vec4(mix(c, smoothstep(0, 1, c), 0.25), out.a); })()
+    : out;
   renderer.__post = post;
   renderer.__bloomNode = bloomNode;   /* strength is per-preset; setPreset sets it */
 }
@@ -10942,6 +11175,8 @@ window.V3D = {
   cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */
   placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
+  /* the hole lines as drawn, for a harness framing a whole hole */
+  holeLines: () => HOLES.map(h => ({ n: h.n, line: h.line.map(p => [p[0], p[1]]) })),
   waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
     id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, points: w.ring?.length ?? 0,
     bb: w.ring?.length ? ringBBox(w.ring) : null,

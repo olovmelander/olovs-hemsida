@@ -6,8 +6,32 @@ import * as THREE from 'three/webgpu';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
   mix, smoothstep, clamp, pow, abs, sin, normalize, oneMinus, fwidth,
-  bumpMap, saturate, step, max, vec4, select, floor,
+  bumpMap, saturate, step, max, vec4, select, floor, normalWorld,
 } from 'three/tsl';
+
+/* The painted ground (?ghibli=1). A Ghibli field is a flat saturated colour
+   with low-frequency hand-painted blotches, a warm sunlit side and a cool
+   blue-green shade side, and no photographic grain, sheen or relief. This
+   takes a material's base colour and returns what to draw instead of the
+   photoreal finish; the callers keep their class blending and mow bands. */
+export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1) }) {
+  const blotchA = texture(DETAIL, wp.mul(0.012)).b.sub(0.5);
+  const blotchB = texture(DETAIL, wp.mul(0.038)).g.sub(0.5);
+  const blotchC = texture(DETAIL, wp.mul(0.11)).r.sub(0.5);
+  /* turf is blotched like a meadow; gravel and sand keep a quieter grain */
+  const blotch = blotchA.mul(0.28).add(blotchB.mul(0.13)).add(blotchC.mul(0.07)).mul(mix(float(0.35), float(1), turf));
+  const wrap = saturate(normalWorld.dot(uSun).mul(0.5).add(0.5));
+  const band = smoothstep(0.30, 0.80, wrap);
+  /* the sunlit band goes yellow-green, the way a painter warms a lit meadow;
+     the shade stays blue-green. Only TURF takes the hue swing: a grey road
+     under the warm band turned brown, and sand went orange */
+  const turfTone = mix(vec3(0.78, 0.90, 1.06), vec3(1.14, 1.08, 0.84), band);
+  const flatTone = mix(vec3(0.90, 0.91, 0.95), vec3(1.03, 1.03, 1.02), band);
+  const tone = mix(flatTone, turfTone, turf);
+  /* the palette carries the chroma now; the finish only shapes it */
+  const c = base.mul(float(1).add(blotch).add(mow.mul(0.7))).mul(tone);
+  return { colorNode: c, roughnessNode: float(0.96) };
+}
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
 import { createGroundReliefNormal, groundReliefTier } from './ground-surface-relief.mjs';
 
@@ -71,7 +95,7 @@ function classColours(C) {
        overlay wider than the road it belonged to */
     [SURFACE.PATH]: C.hard, [SURFACE.ASPHALT]: C.aspL,
     [SURFACE.GRAVEL]: C.hard, [SURFACE.DIRT]: C.soil,
-    [SURFACE.MUD]: C.wet.map(v => v * 0.72), [SURFACE.ROCK]: C.rock,
+    [SURFACE.MUD]: C.mud || C.wet.map(v => v * 0.72), [SURFACE.ROCK]: C.rock,
     [SURFACE.WETLAND]: C.wet, [SURFACE.SHORE]: C.shore,
   };
 }
@@ -291,7 +315,7 @@ function guardedPairWeight({ fieldTexture, uvAtlas, texel, filtered, halfWidth, 
   };
 }
 
-export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
+export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE, look = 'real' }) {
   /* vertexColors is OFF, and the square below is why.
      NodeMaterial does `colorNode = colorNode.mul(vertexColor())` whenever
      vertexColors is true and the geometry has a color attribute. Every material
@@ -318,6 +342,12 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }) {
   const near = oneMinus(smoothstep(60, 420, cd));
 
   function finish(col, det, bmp, gls, strength, band, sandWeight = float(0), hardWeight = float(0)) {
+    if (look === 'ghibli') {
+      const painted = paintedGround({ base: col, wp, DETAIL, uSun, mow: band.mul(strength.min(1.8)).mul(0.05), turf: oneMinus(sandWeight.max(hardWeight)) });
+      m.colorNode = painted.colorNode;
+      m.roughnessNode = painted.roughnessNode;
+      return m;
+    }
     const sc = det.max(0.45);
     const dtF = texture(DETAIL, wp.mul(sc.mul(0.33)));
     const dt = texture(DETAIL, wp.mul(sc.mul(0.055)));
@@ -522,7 +552,7 @@ function v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish }) {
   return { surfaceDetail, roughness: clamp(roughness, 0.42, 0.99), clumpSample: hardSample.g, grainSample: sandSample.r };
 }
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief }) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, look = 'real', uSun = null }) {
   const channels = atlas.data.channels;
   const classes = [...channels, SURFACE.ROUGH];
   const roughIndex = classes.length - 1;
@@ -660,6 +690,17 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     const mowNode = (mow || float(0)).mul(0.045);
     /* the same linear share the pair material restores -- see its note */
     const litBase = mix(base.mul(base), base, 0.18);
+    if (look === 'ghibli') {
+      const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow: mowNode, turf: oneMinus(meta.g.max(meta.b)) });
+      material.colorNode = painted.colorNode;
+      material.roughnessNode = painted.roughnessNode;
+      material.metalness = 0;
+      material.userData.terrainPreviewTextures = [];
+      material.userData.surfaceDebugMode = debugMode;
+      material.userData.surfaceRepresentation = 'class-sdf-v1';
+      material.userData.surfaceChannels = [...channels];
+      return material;
+    }
     material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mowNode));
     material.roughnessNode = surfaceRelief === 'off' ? roughness
       : roughness.sub(mowNode.mul(surfaceRelief === 'high' ? 0.18 : 0.10)).clamp(0.42, 0.99);
@@ -677,17 +718,18 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off' }) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', look = 'real', uSun = null }) {
   if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
   if (typeof graphicsPolish !== 'boolean') throw new TypeError('graphicsPolish must be a boolean');
   groundReliefTier(surfaceRelief);
   if (!graphicsPolish) surfaceRelief = 'off';
+  if (look === 'ghibli' && !uSun) throw new TypeError('the painted ground needs the sun uniform');
   if (atlas?.data?.representation === 'class-sdf-v1') {
     if (!atlas.texSdf?.length || !atlas.texF || !atlas.data.channels?.length) {
       throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
     }
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief }),
+      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, look, uSun }),
       atlas,
     );
   }
@@ -794,12 +836,18 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
        no procedural vertex colour beneath the atlas, so a small linear share
        restores the missing ambient body without flattening class contrast. */
     const litBase = mix(base.mul(base), base, 0.18);
-    material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mow));
-    material.roughnessNode = surfaceRelief === 'off' ? roughness
-      : roughness.sub(mow.mul(surfaceRelief === 'high' ? 0.18 : 0.10)).clamp(0.42, 0.99);
-    if (surfaceRelief !== 'off') {
-      material.normalNode = createGroundReliefNormal({ baseNormal: material.normalNode,
-        clumpSample, grainSample, wp, shade, meta, tier: surfaceRelief, textureSize: DETAIL.image.width });
+    if (look === 'ghibli') {
+      const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow, turf: oneMinus(meta.g.max(meta.b)) });
+      material.colorNode = painted.colorNode;
+      material.roughnessNode = painted.roughnessNode;
+    } else {
+      material.colorNode = litBase.mul(float(1).add(surfaceDetail).add(mow));
+      material.roughnessNode = surfaceRelief === 'off' ? roughness
+        : roughness.sub(mow.mul(surfaceRelief === 'high' ? 0.18 : 0.10)).clamp(0.42, 0.99);
+      if (surfaceRelief !== 'off') {
+        material.normalNode = createGroundReliefNormal({ baseNormal: material.normalNode,
+          clumpSample, grainSample, wp, shade, meta, tier: surfaceRelief, textureSize: DETAIL.image.width });
+      }
     }
     material.metalness = 0;
     material.userData.terrainPreviewTextures = [styleTexture];
