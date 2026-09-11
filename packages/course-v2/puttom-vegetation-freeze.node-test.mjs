@@ -37,7 +37,10 @@ test('the published Puttom ground carries stand fields and object registries on 
   const { ground } = publishedGraph();
   assert.equal(ground.groundId, 'puttom');
   const finest = ground.tiles.filter(tile => tile.lod === 0);
-  assert.equal(finest.length, 64);
+  /* the standard's sixteen-wide 1 m level: the 64 tiles the generation was
+     compiled on sit in its middle, re-addressed, and the 192 around them carry
+     terrain only until the vegetation is re-run over the whole 4 km */
+  assert.equal(finest.length, 256);
   const withStands = finest.filter(tile => tile.layers.stands);
   const withObjects = finest.filter(tile => tile.layers.objects);
   assert.ok(withStands.length >= 60, `${withStands.length} of 64 finest tiles carry a stand field`);
