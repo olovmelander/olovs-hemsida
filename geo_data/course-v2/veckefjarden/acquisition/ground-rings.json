@@ -1,7 +1,7 @@
 {
   "kind": "ground-rings",
   "groundId": "veckefjarden",
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-11",
   "provider": {
     "name": "Lantmäteriet",
     "collection": "dtm-cog",
@@ -15,14 +15,14 @@
     {
       "lod": 0,
       "sampleSpacingMetres": 1,
-      "tilesPerSide": 8,
+      "tilesPerSide": 16,
       "extent": {
-        "minEasting": 682885.5,
-        "maxEasting": 684933.5,
-        "maxNorthing": 7024026.5,
-        "minNorthing": 7021978.5,
-        "spanMetres": 2048,
-        "size": 2049
+        "minEasting": 681861.5,
+        "maxEasting": 685957.5,
+        "maxNorthing": 7025050.5,
+        "minNorthing": 7020954.5,
+        "spanMetres": 4096,
+        "size": 4097
       },
       "source": {
         "kind": "published-and-dtm",
@@ -32,14 +32,14 @@
       "items": [
         "702_68"
       ],
-      "samples": 4198401,
-      "finite": 4198401,
-      "minimumHeightRH2000": 0.1639557033777237,
-      "maximumHeightRH2000": 151.46051025390625,
-      "requests": 25,
-      "bytes": 11834248,
-      "elapsedSeconds": 1.729,
-      "rasterSha256": "c740caa00ec7f87559c383bbd6f59b40abe59272899d6fc1e816eaf3f9a19f81",
+      "samples": 16785409,
+      "finite": 16785409,
+      "minimumHeightRH2000": -0.32525405287742615,
+      "maximumHeightRH2000": 219.1504364013672,
+      "requests": 81,
+      "bytes": 45868610,
+      "elapsedSeconds": 11.468,
+      "rasterSha256": "476088b2001926bf1155525e03834919fb06064b1ecf3c221db7d99bfc7a3e33",
       "publishedAgreement": {
         "tiles": 64,
         "samples": 4227136,
@@ -73,7 +73,7 @@
       "maximumHeightRH2000": 219.1504364013672,
       "requests": 81,
       "bytes": 45868610,
-      "elapsedSeconds": 4.685,
+      "elapsedSeconds": 7.464,
       "rasterSha256": "b215d2e9537840b743f2724382f35499b68a1cfb94f425937a8ecbf22d13bb7b"
     },
     {
@@ -105,7 +105,7 @@
       "maximumHeightRH2000": 270.3783264160156,
       "requests": 25,
       "bytes": 13863481,
-      "elapsedSeconds": 3.206,
+      "elapsedSeconds": 7.086,
       "rasterSha256": "94e1b48ab95b8f41f9288521aaf1cfa150a9a31760671d31d2892752b70da020"
     },
     {
@@ -142,7 +142,7 @@
       "maximumHeightRH2000": 286.30035400390625,
       "requests": 36,
       "bytes": 14350281,
-      "elapsedSeconds": 3.852,
+      "elapsedSeconds": 10.275,
       "rasterSha256": "d81b79ca1b5897999f0dcb389acdb49daf89f199817a2c959e1d24acacc03231"
     },
     {
@@ -179,7 +179,7 @@
       "maximumHeightRH2000": 285.9995422363281,
       "requests": 20,
       "bytes": 5365279,
-      "elapsedSeconds": 1.779,
+      "elapsedSeconds": 4.008,
       "rasterSha256": "5086928ae5b48492548ea83490a12cacdf2c55e2637d2fd402a433cc9fced26e"
     },
     {
@@ -216,7 +216,7 @@
       "maximumHeightRH2000": 284.84490966796875,
       "requests": 9,
       "bytes": 2325306,
-      "elapsedSeconds": 1.459,
+      "elapsedSeconds": 2.754,
       "rasterSha256": "898042c89291f9b29fc23f1ca5b3ff56145be029c5c3f7414442e3d1b834f5e6"
     },
     {
@@ -253,7 +253,7 @@
       "maximumHeightRH2000": 284.1932067871094,
       "requests": 9,
       "bytes": 2325306,
-      "elapsedSeconds": 1.377,
+      "elapsedSeconds": 2.741,
       "rasterSha256": "663ee189692d96f5c6eff13e0484e8823743ccf140a381e75117ec78ad71b140"
     }
   ],
@@ -273,6 +273,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 7030000,
+        "maxEasting": 690000,
+        "minNorthing": 7020000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 0,
@@ -319,6 +331,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 7020000,
+        "maxEasting": 680000,
+        "minNorthing": 7010000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 2,
@@ -357,6 +381,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 7020000,
+        "maxEasting": 690000,
+        "minNorthing": 7010000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 2,
@@ -395,6 +431,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 7030000,
+        "maxEasting": 680000,
+        "minNorthing": 7020000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 2,
@@ -433,6 +481,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 7020000,
+        "maxEasting": 700000,
+        "minNorthing": 7010000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -467,6 +527,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 7030000,
+        "maxEasting": 700000,
+        "minNorthing": 7020000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -501,6 +573,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 7040000,
+        "maxEasting": 680000,
+        "minNorthing": 7030000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -535,6 +619,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 7040000,
+        "maxEasting": 690000,
+        "minNorthing": 7030000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -569,6 +665,18 @@
         32
       ],
       "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 690000,
+        "maxNorthing": 7040000,
+        "maxEasting": 700000,
+        "minNorthing": 7030000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
       "levelsUsed": [
         {
           "lod": 3,
@@ -589,36 +697,37 @@
       ]
     }
   ],
+  "seaFillRule": "not declared for this ground; every sample comes from the height model",
   "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
-  "elapsedSeconds": 18.228,
+  "elapsedSeconds": 45.945,
   "publish": {
     "veckefjarden": {
-      "observedOn": "2026-09-04",
+      "observedOn": "2026-09-11",
       "slug": "veckefjarden",
       "groundId": "veckefjarden",
       "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
       "rootBytes": 631,
-      "rootSha256": "65713a2221b88d5b928ca531f26e06403e3788ff3d2a3b88867e910ea9b61833",
-      "courseManifestSha256": "535bc6f6b400d0d9eb1085494d140640e0dd1e81e4dedf0dd97675a154b5b9f6",
-      "groundManifestSha256": "8e9a0e7db6031b215be289bf6314997188e8c39309e5760568fde8ad7e3de605",
-      "routingSha256": "cbb1c37874f1d8ab04b0e8291ff9a76c132ff1986340c8828a6a2823cbb5c82f",
+      "rootSha256": "8dfaf3925faae947a5a960abee079ca30846b0dde98b50d565f24b7a6fc7cf63",
+      "courseManifestSha256": "ff9e3a11a8e149e0e14e79943b8a00074f66719bbba32d7f90d62e4299f28867",
+      "groundManifestSha256": "196aef5835ebeb1a8a246749b94a787113605bcf782316cd336428237892b604",
+      "routingSha256": "b36b064b450d323acf663a5ec4978532dd65b5e83d33b3b7e0ffd50de1ccefcb",
       "holes": 18,
-      "tiles": 277,
-      "finestTiles": 64,
+      "tiles": 469,
+      "finestTiles": 256,
       "shellBytes": 85346,
-      "chunks": 279,
-      "encodedChunkBytes": 19688256,
-      "decodedChunkBytes": 36725812,
+      "chunks": 586,
+      "encodedChunkBytes": 35705540,
+      "decodedChunkBytes": 63994190,
       "holeTileBufferMetres": 80,
       "levels": [
         {
           "lod": 0,
           "sampleSpacingMetres": 1,
-          "tiles": 64,
-          "spanMetres": 2048,
+          "tiles": 256,
+          "spanMetres": 4096,
           "heightScaleMetres": 0.01,
-          "encodedBytes": 4118167,
-          "decodedBytes": 8454272,
+          "encodedBytes": 19690571,
+          "decodedBytes": 33817088,
           "maximumGeometricErrorMetres": 0.005
         },
         {
@@ -627,7 +736,7 @@
           "tiles": 64,
           "spanMetres": 4096,
           "heightScaleMetres": 0.02,
-          "encodedBytes": 4876982,
+          "encodedBytes": 4877641,
           "decodedBytes": 8454272,
           "maximumGeometricErrorMetres": 5.352859268188476
         },
@@ -657,7 +766,7 @@
           "tiles": 16,
           "spanMetres": 16384,
           "heightScaleMetres": 0.16,
-          "encodedBytes": 1106468,
+          "encodedBytes": 1106469,
           "decodedBytes": 2113568,
           "maximumGeometricErrorMetres": 13.358035640716553
         },
@@ -667,7 +776,7 @@
           "tiles": 4,
           "spanMetres": 16384,
           "heightScaleMetres": 0.16,
-          "encodedBytes": 314736,
+          "encodedBytes": 314737,
           "decodedBytes": 528392,
           "maximumGeometricErrorMetres": 22.89762337684631
         },
@@ -683,39 +792,40 @@
         }
       ],
       "reusedCourseTiles": 64,
-      "reuseTies": 0,
-      "encodedBytes": 19686608,
-      "previousGroundManifest": "grounds/veckefjarden/ground-v2-b60bfa4066c2b74e3ce843b469501359a3e84621b85202092e8ede229022075b.json",
-      "previousCourseManifest": "courses/veckefjarden/course-v2-888a99a9087ef7dc8ee84b65aa264d69aa9d5049d462093d576003475c90dabb.json",
-      "filesWritten": 282
+      "readdressedCourseTiles": 64,
+      "reuseTies": 9,
+      "encodedBytes": 35259673,
+      "previousGroundManifest": "grounds/veckefjarden/ground-v2-2f0782ee9731e00f985799bf209585339771ae1ff0caa26ca0c44e18398b18b4.json",
+      "previousCourseManifest": "courses/veckefjarden/course-v2-60dc3b35de46f0669a13fe76ebc2f01e0fba20e47f9cb10418cfa283e45975b6.json",
+      "filesWritten": 589
     },
     "veckefjarden-korthalsbanan": {
-      "observedOn": "2026-09-04",
+      "observedOn": "2026-09-11",
       "slug": "veckefjarden-korthalsbanan",
       "groundId": "veckefjarden",
       "frameFingerprint": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
       "rootBytes": 670,
-      "rootSha256": "28899efb1da05a5ca9221ba545bab02126c0000a997e503e88e7a9cfe279c153",
-      "courseManifestSha256": "671f6894f7c4d3e83bd2e6358824f07d9b1f06db894a9d76462b80ef305901c7",
-      "groundManifestSha256": "8e9a0e7db6031b215be289bf6314997188e8c39309e5760568fde8ad7e3de605",
-      "routingSha256": "9b8d2ca476dfb582a1c70ae7de7639cdc5726cf36f5e750c83d0a7cbdd370ad4",
+      "rootSha256": "d5b474917235909f5eb891868e922c5e42df50ffe3e43b3682588e08ba0bdf9c",
+      "courseManifestSha256": "87b539b722ad6252b624110bad513455c27692c2bbed4262bb86f737ddc650d4",
+      "groundManifestSha256": "196aef5835ebeb1a8a246749b94a787113605bcf782316cd336428237892b604",
+      "routingSha256": "5a5bb20f451d0383f6ed9ab63c64db849eaba9a4b6275553885121298af1ed0f",
       "holes": 9,
-      "tiles": 277,
-      "finestTiles": 64,
+      "tiles": 469,
+      "finestTiles": 256,
       "shellBytes": 85346,
-      "chunks": 279,
-      "encodedChunkBytes": 19688152,
-      "decodedChunkBytes": 36725459,
+      "chunks": 586,
+      "encodedChunkBytes": 35705439,
+      "decodedChunkBytes": 63993838,
       "holeTileBufferMetres": 80,
       "levels": [
         {
           "lod": 0,
           "sampleSpacingMetres": 1,
-          "tiles": 64,
-          "spanMetres": 2048,
+          "tiles": 256,
+          "spanMetres": 4096,
           "heightScaleMetres": 0.01,
-          "encodedBytes": 4118167,
-          "decodedBytes": 8454272,
+          "encodedBytes": 19690571,
+          "decodedBytes": 33817088,
           "maximumGeometricErrorMetres": 0.005
         },
         {
@@ -724,7 +834,7 @@
           "tiles": 64,
           "spanMetres": 4096,
           "heightScaleMetres": 0.02,
-          "encodedBytes": 4876982,
+          "encodedBytes": 4877641,
           "decodedBytes": 8454272,
           "maximumGeometricErrorMetres": 5.352859268188476
         },
@@ -754,7 +864,7 @@
           "tiles": 16,
           "spanMetres": 16384,
           "heightScaleMetres": 0.16,
-          "encodedBytes": 1106468,
+          "encodedBytes": 1106469,
           "decodedBytes": 2113568,
           "maximumGeometricErrorMetres": 13.358035640716553
         },
@@ -764,7 +874,7 @@
           "tiles": 4,
           "spanMetres": 16384,
           "heightScaleMetres": 0.16,
-          "encodedBytes": 314736,
+          "encodedBytes": 314737,
           "decodedBytes": 528392,
           "maximumGeometricErrorMetres": 22.89762337684631
         },
@@ -780,11 +890,12 @@
         }
       ],
       "reusedCourseTiles": 64,
-      "reuseTies": 0,
-      "encodedBytes": 19686608,
-      "previousGroundManifest": "grounds/veckefjarden/ground-v2-a37933160960e8cd1db19c645ceb61309a2165073bec275a16dd6775119e9936.json",
-      "previousCourseManifest": "courses/veckefjarden-korthalsbanan/course-v2-53f5a87a626632abd9b15d79570fb93ed86147237a25438d7e8da4812ac28696.json",
-      "filesWritten": 282
+      "readdressedCourseTiles": 64,
+      "reuseTies": 9,
+      "encodedBytes": 35259673,
+      "previousGroundManifest": "grounds/veckefjarden/ground-v2-2f0782ee9731e00f985799bf209585339771ae1ff0caa26ca0c44e18398b18b4.json",
+      "previousCourseManifest": "courses/veckefjarden-korthalsbanan/course-v2-bd788a5a0de1a39ecdf0143f3ab5cb97dfed0e277e83ea22fdf262bd7dae4367.json",
+      "filesWritten": 589
     }
   }
 }
