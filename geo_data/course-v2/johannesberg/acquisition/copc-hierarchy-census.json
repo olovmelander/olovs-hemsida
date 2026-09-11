@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "groundId": "johannesberg",
   "groundName": "Johannesbergs Golf",
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-11",
   "state": "census-complete",
   "campaignsSha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65",
   "method": "LAS header + COPC info VLR + hierarchy pages over authenticated HTTP range requests; point counts are area-weighted sums of octree nodes; no point bytes were read",
@@ -1318,7 +1318,7 @@
       "transfer": {
         "requests": 27,
         "bytes": 208173,
-        "elapsedMilliseconds": 1180.7
+        "elapsedMilliseconds": 6630.5
       }
     },
     {
@@ -2114,7 +2114,7 @@
       "transfer": {
         "requests": 143,
         "bytes": 611789,
-        "elapsedMilliseconds": 4391.4
+        "elapsedMilliseconds": 26011.5
       }
     }
   ]
