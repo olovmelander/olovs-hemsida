@@ -145,6 +145,19 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
     if (!fs.existsSync(lcOut) || !fs.readFileSync(lcOut).equals(lcBuf)) fs.writeFileSync(lcOut, lcBuf);
     landcover = { url: `courses/${c.slug}/landcover.json`, bytes: lcBuf.length, sha256: sha256(lcBuf) };
   }
+  /* The mown surface (<build>/trace-mown.mjs) rides beside the pack under the
+     same rule, and for the same reason the land-cover record does: it is a
+     measurement of where the mowing IS, read off Lantmäteriet's orthophoto and
+     colour-infrared, and the engine keeps a measured tree off it. A course
+     without one is unaffected -- no entry, no fetch, no behaviour. */
+  let mownSurface = null;
+  const mwSrc = path.join(ROOT, c.build, 'mown-surface.json');
+  if (fs.existsSync(mwSrc)) {
+    const mwBuf = fs.readFileSync(mwSrc);
+    const mwOut = path.join(dir, 'mown-surface.json');
+    if (!fs.existsSync(mwOut) || !fs.readFileSync(mwOut).equals(mwBuf)) fs.writeFileSync(mwOut, mwBuf);
+    mownSurface = { url: `courses/${c.slug}/mown-surface.json`, bytes: mwBuf.length, sha256: sha256(mwBuf) };
+  }
   /* The surroundings record (geobuild/parse-osm-wide.mjs) rides beside the pack
      under the same rule: the town, the harbour and the skyline three kilometres
      out are scenery, and a change to them must not re-bind a v2 ground. */
@@ -175,6 +188,7 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
        a GitHub Pages subpath without being regenerated per host. */
     packUrl: `courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
     ...(landcover ? { landcover } : {}),
+    ...(mownSurface ? { mownSurface } : {}),
     ...(surroundings ? { surroundings } : {}),
   };
 });

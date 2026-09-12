@@ -184,6 +184,18 @@ const LANDCOVER_REC = COURSE.landcover
   ? await decodeLandcover(COURSE.landcover, inflate).catch(e => { console.warn('landcover:', e.message); return null; })
   : null;
 const landAt = landcoverSampler(LANDCOVER_REC);
+/* WHERE THE MOWING ACTUALLY IS (<build>/trace-mown.mjs, served beside the pack).
+   Norrfällsviken's model carries 5.73 ha of traced fairway over eighteen holes
+   and the orthophoto measures 17.44 ha of mown ground, so the played surfaces
+   the vegetation exclusions were compiled from cover a third of the mowing --
+   which is how a LiDAR crown comes to stand in what a player calls the fairway.
+   The record is the same shape and codec as the land-cover one: one class per
+   metre, 0 unknown / 1 mown / 2 not mown. A course without one gets nothing. */
+const MOWN_REC = COURSE.mownSurface
+  ? await decodeLandcover(COURSE.mownSurface, inflate).catch(e => { console.warn('mown surface:', e.message); return null; })
+  : null;
+const mownAt = MOWN_REC ? landcoverSampler(MOWN_REC) : null;
+const isMownGround = mownAt ? (x, z) => mownAt(x, z) === 1 : null;
 
 if (isBareVisit) {
   document.title = 'Banvy 3D — Svenska golfbanor i realtid';
@@ -4813,6 +4825,8 @@ if (V2_VEGETATION) {
          course with no rule of its own cannot change forest at the edge of
          the measured coverage */
       defaultSpecies: defaultTreeSpecies,
+      /* and no measured tree stands on ground the orthophoto says is mown */
+      excludeAt: isMownGround,
     });
   } else {
     /* the registry is placed through the v2 terrain's own bridge; without
@@ -5960,16 +5974,19 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
          the field, the town or the clear-fell the noise gap used to miss; only
          where the record is silent does the old dressing rule (forest
          everywhere but the noise gaps and the declared open land) still hold. */
-      /* A REFUSED VERDICT IS REFUSED EVERYWHERE. vistaGround no longer lets the
-         record's WATER class paint water on its own (see farSurveyedWater), and
-         a cell refused for the colour must be refused for the planting too, or
-         the ground it repaints green stands bare where its neighbours carry
-         forest -- the mis-paint's own second symptom. Unknown is the honest
-         state for it, and the guards that actually measure water are already
-         below: the sea test, the island test and inWater, which is where a
-         genuinely wet cell is still dropped. */
-      const lcRead = landAt(px, pz);
-      const lc = lcRead === LANDCOVER.WATER ? LANDCOVER.UNKNOWN : lcRead;
+      /* A CONE NEVER STANDS ON A PLAYED SURFACE, whatever any classifier says.
+         This branch had no defence of its own: openLand knows landuse and
+         surroundings rings and nothing about the course, because UNKNOWN had
+         never occurred INSIDE one -- within the record's box every cell carries
+         a class. Refusing the record's WATER verdict for the colour and ALSO
+         handing those cells here would have created exactly that case on the
+         one course whose record calls half its cells water, so the
+         reclassification is not made (the colour refusal in vistaGround
+         stands). Measured, it had not in fact put a cone on any played surface
+         -- but it removed the reason the omission was safe, and a misread
+         fairway would reach a green by the same route. The guard is cheap and
+         explicit; the assumption was neither. */
+      const lc = landAt(px, pz);
       if (lc === LANDCOVER.UNKNOWN && MEASURED_ONLY) continue;
       if (lc !== LANDCOVER.UNKNOWN) {
         if (!isTreeClass(lc)) continue;
@@ -5980,6 +5997,14 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       } else {
         if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
         if (openLand(px, pz)) continue;
+      }
+      /* the played ground, by the same test the middle planter makes, and only
+         where the course actually is -- classify() is the course's own rule and
+         says nothing a kilometre out, so the far ring pays for it over playB
+         alone */
+      if (px > playB.x0 - 60 && px < playB.x1 + 60 && pz > playB.z0 - 60 && pz < playB.z1 + 60) {
+        const pc = classify(px, pz);
+        if (pc.fair > 0.05 || pc.green > 0.02 || pc.tee > 0.02 || pc.sand > 0.05 || pc.path > 0.15) continue;
       }
       /* a course may declare places this ring must not close over -- a churchyard
          it looks across at, a cleared works yard. They are facts about one place,
@@ -11287,6 +11312,12 @@ window.V3D = {
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
   surroundings: () => ({ ...SURR_STATS, box: SURR ? SURR.box : null, inner: SURR ? SURR.inner : null, source: SURR ? SURR.source : null,
     recorded: SURR ? SURR.stats : null }),
+  /* where the mowing actually is, and what it cost the measured population */
+  mownSurface: () => (MOWN_REC ? {
+    cell: MOWN_REC.cell, nx: MOWN_REC.nx, nz: MOWN_REC.nz, bounds: mownAt.bounds,
+    mownHectares: MOWN_REC.mownHectares ?? null, calibration: MOWN_REC.calibration ?? null,
+    excludedTrees: V2_VEG_PLAN?.stats?.excludedByGround ?? null,
+  } : { error: COURSE.mownSurfaceError ?? null, declared: !!CMETA.mownSurface }),
   landcover: () => LANDCOVER_REC ? { cell: LANDCOVER_REC.cell, nx: LANDCOVER_REC.nx, nz: LANDCOVER_REC.nz, bounds: landAt.bounds,
     shares: LANDCOVER_REC.shares ?? null, calibration: LANDCOVER_REC.calibration ?? null, source: LANDCOVER_REC.source ?? null }
     : { error: COURSE.landcoverError ?? null, declared: !!CMETA.landcover },

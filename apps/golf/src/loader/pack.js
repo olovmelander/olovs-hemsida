@@ -77,6 +77,16 @@ export async function loadCourse(slug) {
         (meta.landcover.sha256 ? `?v=${meta.landcover.sha256.slice(0, 16)}` : ''), meta.landcover.sha256);
     } catch (e) { landcoverError = e.message; console.warn('landcover:', e.message); }
   }
+  /* The mown surface rides beside the pack under the same rule and degrades the
+     same way: without it every measured tree stands exactly where the laser put
+     it, which is what every course did before this record existed. */
+  let mownSurface = null, mownSurfaceError = null;
+  if (meta.mownSurface?.url) {
+    try {
+      mownSurface = await fetchSidecar(BASE + String(meta.mownSurface.url).replace(/^\//, '') +
+        (meta.mownSurface.sha256 ? `?v=${meta.mownSurface.sha256.slice(0, 16)}` : ''), meta.mownSurface.sha256, 'mown surface');
+    } catch (e) { mownSurfaceError = e.message; console.warn('mown surface:', e.message); }
+  }
   /* The surroundings record -- the town, the harbour, the roads and railway
      beyond the core extract, the ski jumps and towers on the skyline -- rides
      beside the pack under the same rule and degrades the same way: without it
@@ -88,7 +98,7 @@ export async function loadCourse(slug) {
         (meta.surroundings.sha256 ? `?v=${meta.surroundings.sha256.slice(0, 16)}` : ''), meta.surroundings.sha256, 'surroundings');
     } catch (e) { surroundingsError = e.message; console.warn('surroundings:', e.message); }
   }
-  return { meta, pack, landcover, landcoverError, surroundings, surroundingsError, all: manifest.courses };
+  return { meta, pack, landcover, landcoverError, mownSurface, mownSurfaceError, surroundings, surroundingsError, all: manifest.courses };
 }
 
 export async function fetchLandcover(url, wantSha) { return fetchSidecar(url, wantSha, 'landcover'); }
