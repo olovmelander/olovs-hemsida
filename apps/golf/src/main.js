@@ -2329,16 +2329,61 @@ const FLAT_WATER_TINT = GHIBLI_LOOK ? [0.09, 0.20, 0.38] : [0.05, 0.075, 0.09];
    ring the imagery shows as forest IS forest); where it is silent the old
    rule stands: forest floor everywhere, rock on the steep, height toward
    rough. Hf is whichever height field the caller reads. */
+/* WATER IS SURVEYED OR MEASURED, NEVER CLASSIFIED FROM APPEARANCE. The record's
+   own header calls it "an APPEARANCE mask ... never a statement about a played
+   surface", and its WATER class is a colour-and-texture verdict on a 12 m cell:
+   dark, smooth and blue-ish. Closed conifer on a shaded slope is all three, and
+   so is a ploughed field. Measured over the committed records, the share of
+   cells called WATER that stand more than 2 m ABOVE the ground's own water line
+   is 22.4% at Norrfällsviken, 43.9% at Lidingö, 41.9% at Ribbingsfors.
+
+   This was the one water decision in the engine with no corroboration behind it.
+   The sea is a surveyed polygon or a level (vistaColourAt, below); a lake is a
+   ring at its own measured level; the flat-water pass is the laser's own reading
+   of the ground -- and every one of those is tested somewhere on this path. The
+   bare class was not, so a forested hillside the classifier misread was painted
+   water-blue out to 6 km, on the FAR path only: groundAt has no WATER branch at
+   all, so the same ground was green inside the near raster and blue beyond it.
+   That ring of mismatch around the course is what this looked like, and the
+   painted look made it shout -- FLAT_WATER_TINT is a saturated blue there and a
+   dark grey in the realistic one, so a fault that read as shade became a hue.
+
+   The rule is the one CLAUDE.md already states for Ängsö: wet is INSIDE a ring
+   AND at that ring's own level. A cell the record calls water that no surveyed
+   ring and no measured flat-water reading corroborates falls through to the land
+   rule below -- which is what the near path paints for the same ground, so the
+   two agree instead of meeting at a colour step. Terrain alone cannot rescue the
+   class: a sweep of flatness and basin-floor tests over five coastal grounds
+   found no setting that keeps the real water while dropping the false. */
+const farSurveyedWater = (x, z, h) => {
+  for (const w of WI.at(x, z)) {
+    if (w.stream) continue;
+    if (ringSD(x, z, w.ring) < 0 && h < w.level + 0.5) return true;
+  }
+  return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(x, z);
+};
 function vistaGround(x, z, h, dx, Hf) {
   const sl = Math.hypot(Hf(x + dx, z) - h, Hf(x, z + dx) - h) / dx;
-  const rocky = smooth(0.22, 0.62, sl);
+  /* THE SAME SLOPE MUST BE THE SAME COLOUR ON BOTH SIDES OF THE HAND-OVER.
+     This was smooth(0.22, 0.62, sl), saturating at a 32 degree slope, where
+     groundAt lets rock arrive only over 0.45-0.85 and then weights it by its
+     own steep term -- so at a 27 degree slope the far ground took 62.7% rock
+     and the near ground 1.2%, a hillside that changed colour at the ring and
+     nowhere on the ground. Rock is also the ONE palette entry the painted look
+     rotates from warm to cold (0x736e63, R>G>B, to 0x8e949c, B>G>R), so the
+     far world's extra rock is the far world's extra BLUE, which is why the
+     mismatch reads as a hue and only in that look. Both of groundAt's terms,
+     so the two now agree to a percent at every slope. */
+  const rocky = smooth(0.30, 0.78, sl) * smooth(0.45, 0.85, sl);
   const lc = landAt(x, z);
   const trees = isTreeClass(lc);
+  /* the class alone never paints water; something that measured the ground must agree */
+  const wet = lc === LANDCOVER.WATER && farSurveyedWater(x, z, h);
   let base;
-  if (lc === LANDCOVER.UNKNOWN) {
+  if (lc === LANDCOVER.UNKNOWN || (lc === LANDCOVER.WATER && !wet)) {
     const t = clampf((h - 24) / 150, 0, 1);
     base = C.forest.map((v, k) => lerp(lerp(v, C.rough[k], t * 0.5), C.rock[k], rocky * 0.8));
-  } else if (lc === LANDCOVER.WATER) {
+  } else if (wet) {
     base = FLAT_WATER_TINT.slice();
   } else {
     /* stand-to-stand variation, so a class is never one flat paint */
@@ -2361,7 +2406,7 @@ function vistaGround(x, z, h, dx, Hf) {
   }
   for (const q of LI.at(x, z)) {
     if (ringSD(x, z, q.ring) > 0) continue;
-    if (trees || lc === LANDCOVER.WATER) break;
+    if (trees || wet) break;   /* landuse never tints water; a refused cell is land */
     if (q.kind === 'farmland' || q.kind === 'farmyard') {
       const k2 = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
       const crop = k2 < 0.4 ? C.cropA : k2 < 0.75 ? C.cropB : C.cropC;
@@ -5915,7 +5960,16 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
          the field, the town or the clear-fell the noise gap used to miss; only
          where the record is silent does the old dressing rule (forest
          everywhere but the noise gaps and the declared open land) still hold. */
-      const lc = landAt(px, pz);
+      /* A REFUSED VERDICT IS REFUSED EVERYWHERE. vistaGround no longer lets the
+         record's WATER class paint water on its own (see farSurveyedWater), and
+         a cell refused for the colour must be refused for the planting too, or
+         the ground it repaints green stands bare where its neighbours carry
+         forest -- the mis-paint's own second symptom. Unknown is the honest
+         state for it, and the guards that actually measure water are already
+         below: the sea test, the island test and inWater, which is where a
+         genuinely wet cell is still dropped. */
+      const lcRead = landAt(px, pz);
+      const lc = lcRead === LANDCOVER.WATER ? LANDCOVER.UNKNOWN : lcRead;
       if (lc === LANDCOVER.UNKNOWN && MEASURED_ONLY) continue;
       if (lc !== LANDCOVER.UNKNOWN) {
         if (!isTreeClass(lc)) continue;
