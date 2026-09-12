@@ -1209,6 +1209,26 @@
   margin-top: 1px;
 }
 
+/* The developer switch reads its own state in the drawer, because a toggle that
+   does not say whether it is on sends you out to the course to find out. */
+.dt-state {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  font: 700 9px/1.35 'JetBrains Mono', monospace;
+  letter-spacing: .06em;
+  color: var(--faint);
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .09);
+  vertical-align: 1px;
+}
+.d-tool-btn.active .dt-state {
+  color: #9af0aa;
+  background: rgba(128, 217, 145, .14);
+  border-color: rgba(128, 217, 145, .38);
+}
+
 /* Shortcuts legend */
 .drawer-shortcuts {
   padding: 10px 12px;

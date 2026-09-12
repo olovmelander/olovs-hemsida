@@ -56,6 +56,7 @@ import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engi
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
+import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
 import { teePadSurfaceOwners } from './engine/tee-surface-ownership.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
@@ -419,9 +420,18 @@ const CONTINUOUS_OCEAN = CONTINUOUS_OCEAN_ENABLED ? await (async () => {
 })() : null;
 
 const terrainPreviewBadge = document.getElementById('v2TerrainBadge');
+/* The terrain badge is developer information and is off by default; the
+   developer switch lives in the nav drawer and in `?dev=1`. See
+   engine/dev-overlay.mjs for why the FALLBACK state is never hidden and why the
+   badge's content is written either way. */
+let devOverlay = readDevOverlay({
+  search: location.search,
+  storage: (() => { try { return localStorage; } catch { return null; } })(),
+}).on;
+let lastBadgeArgs = [null, null, null];
 function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres = null) {
+  lastBadgeArgs = [backend, renderState, meshMetres];
   if (!terrainPreviewBadge || !TERRAIN_PREVIEW.requested) return;
-  terrainPreviewBadge.hidden = false;
   const title = terrainPreviewBadge.querySelector('b');
   const detail = terrainPreviewBadge.querySelector('span');
   if (TERRAIN_PREVIEW.ready && renderState !== 'failed') {
@@ -451,8 +461,26 @@ function setTerrainPreviewBadge(backend = null, renderState = null, meshMetres =
         : 'Ingen verifierad LM-terräng är tillgänglig för den här banan.';
     terrainPreviewBadge.title = V2_SELECTION.graphError || TERRAIN_PREVIEW.error || terrainPreviewBadge.dataset.error || '';
   }
+  terrainPreviewBadge.hidden = !terrainBadgeVisible({
+    requested: TERRAIN_PREVIEW.requested,
+    state: terrainPreviewBadge.dataset.state,
+    devOverlay,
+  });
 }
 setTerrainPreviewBadge();
+
+/* Turning the switch re-applies the badge with the arguments it last had, so a
+   toggle mid-visit shows the live backend and mesh figures rather than a blank
+   panel waiting for the next terrain event. */
+function setDevOverlay(on) {
+  devOverlay = on === true;
+  persistDevOverlay(devOverlay, (() => { try { return localStorage; } catch { return null; } })());
+  setTerrainPreviewBadge(...lastBadgeArgs);
+  document.body.classList.toggle('dev-overlay', devOverlay);
+  window.__navDrawer?.setDevOverlay?.(devOverlay);
+  return devOverlay;
+}
+document.body.classList.toggle('dev-overlay', devOverlay);
 /* How many holes this course HAS, rather than the eighteen every course here has
    happened to have. Upsala's Mellanbanan and Johannesberg's nine are nines, and
    they share their parent's environment as separate courses rather than becoming
@@ -10519,13 +10547,16 @@ const navDrawer = buildNavDrawer({
   current: CMETA.slug,
   onBackToStart: () => openRail(),
   onSwitchCourse: (slug) => goToCourse(slug),
+  devOverlay,
   onAction: (type, val) => {
     if (type === 'cam') setCam(val);
     if (type === 'preset') setPreset(val);
     if (type === 'clean') setClean(true);
+    if (type === 'devOverlay') setDevOverlay(val === undefined ? !devOverlay : val === true);
   }
 });
 window.__navDrawer = navDrawer;
+navDrawer.setDevOverlay?.(devOverlay);
 document.body.append(navDrawer.el);
 
 const menuToggleBtn = document.getElementById('menuToggle');
@@ -10896,6 +10927,9 @@ async function pixelDelta(threshold = 24, sinceMark = false, band = null) {
 /* published before the boot marker, not after: anything waiting on the marker acts
    the instant it appears, and an interface that is not there yet fails silently */
 window.V3D = {
+  /* Read and drive the developer overlay from a harness or the console:
+     V3D.devOverlay() reports, V3D.devOverlay(true) turns it on. */
+  devOverlay: (on) => (on === undefined ? devOverlay : setDevOverlay(on)),
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            environmentWater: stats.environmentWater ?? null,
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,

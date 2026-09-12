@@ -6,7 +6,7 @@
 
 import { ICONS } from './icons.js';
 
-export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse, onAction }) {
+export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse, onAction, devOverlay = false }) {
   const drawer = document.createElement('div');
   drawer.id = 'navDrawer';
   drawer.className = 'nav-drawer';
@@ -176,6 +176,13 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
                 <div class="dt-desc">Dölj menyer för fri panoramavy</div>
               </div>
             </button>
+            <button class="d-tool-btn" id="dDevBtn" aria-pressed="false">
+              <span class="dt-icon">${ICONS.layers(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">Utvecklarläge <span class="dt-state" id="dDevState">AV</span></div>
+                <div class="dt-desc">Visa terrängpanelen: marknivå, antal tiles och backend</div>
+              </div>
+            </button>
           </div>
         </div>
 
@@ -294,6 +301,12 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     onAction('clean');
   });
 
+  /* The developer switch does NOT close the drawer: it is flicked while looking
+     at the terrain panel it governs, so closing would hide the thing under
+     inspection and cost a second trip through the menu. */
+  const devBtn = drawer.querySelector('#dDevBtn');
+  devBtn?.addEventListener('click', () => onAction('devOverlay'));
+
   // Touch swipe to dismiss drawer on mobile
   let touchStartX = 0;
   let touchStartY = 0;
@@ -313,8 +326,17 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     }, { passive: true });
   }
 
+  const setDevOverlay = (on) => {
+    const state = drawer.querySelector('#dDevState');
+    if (state) state.textContent = on ? 'PÅ' : 'AV';
+    devBtn?.setAttribute('aria-pressed', on ? 'true' : 'false');
+    devBtn?.classList.toggle('active', on === true);
+  };
+  setDevOverlay(devOverlay);
+
   return {
     el: drawer,
+    setDevOverlay,
     open: () => {
       drawer.classList.add('open');
       const toggleBtn = document.getElementById('menuToggle');
