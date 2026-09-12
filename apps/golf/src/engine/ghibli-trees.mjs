@@ -129,7 +129,24 @@ async function fetchGlb(url, expect, species) {
   for (let i = 0; i < cn; i++) mean += cc[i * 3 + 1];
   const gain = cn ? 1 / (mean / cn) : 1;
   for (let i = 0; i < cn * 3; i++) cc[i] = Math.min(1.35, cc[i] * gain);
-  return { crown, trunk: mergeParts(trunks) };
+  const trunk = mergeParts(trunks);
+  /* THE IMPOSTOR BAKE PAINTS A TRUNK ONE FLAT COLOUR (tree-impostor.mjs:
+     `new MeshBasicNodeMaterial({ color: trunkColor })`), and the runtime then
+     recovers the crown's own contribution by subtracting exactly that colour.
+     An authored trunk carries its bark PER VERTEX and takes white as its
+     material colour, so the bake painted every one of them pure white: at
+     impostor range the spruce hid it in its skirt and the birch is pale
+     anyway, but the pine -- a long bare trunk -- became a white pole, and a
+     hillside of them read as a birch forest where the model says 31% pine
+     and 1% birch. So the atlas is handed the trunk's own MEAN bark colour,
+     which keeps the bake and its flat-colour recovery exactly as they are.
+     A per-vertex mean, not an area-weighted one: the trunks are near-uniform
+     cylinders and the difference is under a quantum of what this decides. */
+  const bark = trunk.attributes.color.array, bn = trunk.attributes.position.count;
+  const barkSum = [0, 0, 0];
+  for (let i = 0; i < bn; i++) for (let c = 0; c < 3; c++) barkSum[c] += bark[i * 3 + c];
+  const trunkMean = bn ? barkSum.map(v => v / bn) : [1, 1, 1];
+  return { crown, trunk, trunkMean };
 }
 
 /** Load the templates the engine's three tiers draw: hero (optional, the
@@ -164,6 +181,7 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = fals
         tiers[slot] = slot === tier ? tiers[tier] : { crown: tiers[tier].crown.clone(), trunk: tiers[tier].trunk.clone() };
       }
       list.push({ key, variant: v, seed: var_.seed, templateHeight: var_.templateHeight, templateRadius: var_.templateRadius,
+        trunkMean: tiers.full.trunkMean,
         hero: tiers.hero, full: tiers.full, decimated: tiers.decimated, tris: Object.fromEntries(Object.entries(var_.tiers).map(([t, r]) => [t, r.tris])) });
     }
     if (!list.length) throw new Error(`Ghibli tree manifest: ${key} has no variants`);

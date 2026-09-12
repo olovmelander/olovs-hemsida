@@ -1443,12 +1443,25 @@ const phoneDevice = !DET
   && Math.min(window.screen?.width ?? Infinity, window.screen?.height ?? Infinity) <= 768;
 const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
+/* LOWQ for NO reason but a remembered verdict. That verdict is written after
+   ten slow seconds, and a machine is slow for reasons that are not the
+   machine: another tab on the GPU, a capture harness, a driver waking up.
+   It was also PERMANENT -- the measurement that could overturn it is gated
+   on !LOWQ, so it never ran again, nothing in the UI said why the picture
+   was soft, and the only cure was clearing localStorage by hand. (Reported
+   as the colours being flat until ?q=hi was typed: same verdict, since LOWQ
+   drops the pixel ratio and coarsens every instance count.) Such a visit
+   re-measures below and clears the flag when the frame rate is fine. A
+   phone, a genuinely small device and an explicit ?q=lo are NOT this case:
+   they are facts about the visit, not a guess left behind by an old one. */
+const REMEMBERED_LOWQ_ONLY = LOWQ && qualityParam !== 'lo' && rememberedQuality === 'lo'
+  && !constrainedDevice && !phoneDevice;
 /* Opt-in v2 material pilot. Low quality builds only the coarse relief band. */
 const SURFACE_RELIEF = GRAPHICS_POLISH && new URLSearchParams(location.search).get('surfaceRelief') === '1'
   ? (LOWQ ? 'low' : 'high') : 'off';
 /* runtime quality drop (auto-detected weak GPU) and motion preference */
 let lowfx = false;
-let autoQualityDone = LOWQ || QUALITY_LOCK;   /* no pending verdict in a fixed-quality visit */
+let autoQualityDone = (LOWQ && !REMEMBERED_LOWQ_ONLY) || QUALITY_LOCK;   /* no pending verdict in a fixed-quality visit */
 const RMOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const cameraMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
 /* skyltar: 0 off, 1 hole numbers, 2 numbers + faciliteter. skyMax is 1 on a course
@@ -1634,9 +1647,21 @@ const PRESETS = {
             hemiI: 1.30, fog: 0x9d93a4, dens: 0.00055, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34,
             bloom: 0.22 },
   /* the club's own October aerial: low gold sun, storm-grey sky, birches turned */
-  host:   { sun: 0xffbe72, int: 2.7, dir: [-0.64, 0.28, 0.58], hemiS: 0xd9cfc2, hemiG: 0x5c5340,
-            hemiI: 1.25, fog: 0xa8a89e, dens: 0.00052, exp: 1.2, turb: 5.2, ray: 2.5, cloud: 0.55,
-            leaf: 0xc8842e, reed: 0xa88a3e, bloom: 0.16 },
+  host:     { sun: 0xffbe72, int: 2.7, dir: [-0.64, 0.28, 0.58], hemiS: 0xd9cfc2, hemiG: 0x5c5340,
+              hemiI: 1.25, fog: 0xa8a89e, dens: 0.00052, exp: 1.2, turb: 5.2, ray: 2.5, cloud: 0.55,
+              leaf: 0xc8842e, reed: 0xa88a3e, bloom: 0.16 },
+  /* northern summer solstice: sun skimming the northern horizon with warm apricot amber */
+  midnight: { sun: 0xff9e52, int: 2.4, dir: [-0.20, 0.08, -0.97], hemiS: 0x4e5884, hemiG: 0x323a2a,
+              hemiI: 1.45, fog: 0x8c6d7a, dens: 0.00030, exp: 1.18, turb: 5.8, ray: 3.2, cloud: 0.30,
+              bloom: 0.26 },
+  /* the deep cobalt dusk right after sunset: rich indigo skylight, silhouette trees */
+  bluehour: { sun: 0x7a9ec8, int: 0.9, dir: [-0.72, 0.04, 0.68], hemiS: 0x2e4875, hemiG: 0x243224,
+              hemiI: 1.65, fog: 0x4a6282, dens: 0.00045, exp: 1.28, turb: 3.6, ray: 1.8, cloud: 0.20,
+              bloom: 0.22 },
+  /* dramatic incoming front: slate clouds, heavy atmosphere with piercing gold sunlight */
+  storm:    { sun: 0xffe8a0, int: 3.5, dir: [-0.48, 0.45, 0.75], hemiS: 0x465060, hemiG: 0x283826,
+              hemiI: 1.20, fog: 0x525c6a, dens: 0.00065, exp: 1.08, turb: 8.2, ray: 0.5, cloud: 0.78,
+              bloom: 0.14 },
 };
 let preset = PRESETS.golden;
 const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
@@ -1649,6 +1674,13 @@ scene.fog = fog;
 let skyMesh = null, skyDome = null;
 /* the painted look takes the hand-built dome on every backend: a scattering
    model gives a pale physical blue, and a painted sky is a deep one */
+const uSkyZenith = uniform(new THREE.Color(0x2a72c8));
+const uSkyMid = uniform(new THREE.Color(0x72b4e8));
+const uSkyHor = uniform(new THREE.Color(0xbcd3dd));
+const uAureoleColor = uniform(new THREE.Color(0xfff0d0));
+const uCloudLit = uniform(new THREE.Color(0xffffff));
+const uCloudShade = uniform(new THREE.Color(0x8ea6cc));
+
 if (IS_GPU && !GHIBLI_LOOK) {
   const { SkyMesh } = await import('three/addons/objects/SkyMesh.js');
   skyMesh = new SkyMesh();
@@ -1678,16 +1710,10 @@ if (IS_GPU && !GHIBLI_LOOK) {
   const up = D.y;
   const sd = saturate(D.dot(uSun));
   const sunUp = uSun.y.max(0.02);
-  const zen = GHIBLI_LOOK ? mix(color(0x1c4a9a), color(0x2a72c8), sunUp) : mix(color(0x123a72), color(0x1f5f9e), sunUp);
-  const mid = GHIBLI_LOOK ? mix(color(0x5a92cc), color(0x72b4e8), sunUp) : mix(color(0x4d7fa8), color(0x66a0c8), sunUp);
-  /* the warm-horizon ramp reaches 0.52 so a 0.2-0.3 sun (golden, dawn, host) still
-     lands well inside it -- at the old 0.42 ceiling those presets rendered noon-blue */
-  const hor = mix(color(0xe6b98a), color(0xbcd3dd), smoothstep(0.10, 0.52, sunUp));
-  let c = mix(hor, mid, pow(saturate(up), 0.72));
-  c = mix(c, zen, pow(saturate(up), float(0.85).add(sunUp.mul(0.5))));
+  let c = mix(uSkyHor, uSkyMid, pow(saturate(up), 0.72));
+  c = mix(c, uSkyZenith, pow(saturate(up), float(0.85).add(sunUp.mul(0.5))));
   /* aureole: tight and white when the sun is high, wide and orange when it is low */
-  c = c.add(mix(color(0xffb060), color(0xfff0d0), sunUp)
-      .mul(pow(sd, mix(float(5), float(30), sunUp)).mul(mix(float(0.85), float(0.35), sunUp))));
+  c = c.add(uAureoleColor.mul(pow(sd, mix(float(5), float(30), sunUp)).mul(mix(float(0.85), float(0.35), sunUp))));
   /* Keep the broad aureole above, without a sharp disc behind tree gaps. */
   /* cloud: two scrolling octaves of the detail map projected on the dome, kept above
      the horizon so it never appears as a band across the trees */
@@ -1696,7 +1722,7 @@ if (IS_GPU && !GHIBLI_LOOK) {
     .mul(texture(DETAIL, cuv.mul(2.3).sub(vec2(time.mul(0.0026), 0))).g.add(0.35));
   const cover = uniform(0.34);
   const puff = smoothstep(cover, cover.add(0.30), cl).mul(smoothstep(0.02, 0.20, up));
-  const lit = mix(color(0x9aa6b0), color(0xfff4e6), sd.mul(0.7).add(sunUp.mul(0.3)));
+  const lit = mix(uCloudShade, uCloudLit, sd.mul(0.7).add(sunUp.mul(0.3)));
   c = mix(c, lit, puff.mul(0.82));
   /* Distant land and water converge to the scene fog. The lower hemisphere must
      meet that same colour when an elevated camera sees below the horizon;
@@ -1752,13 +1778,10 @@ if (GHIBLI_LOOK) {
   const sdir = vec2(uSun.x, uSun.z).mul(0.02);
   const n2 = field(p.add(sdir));
   const lit = saturate(n2.sub(n).mul(14).add(0.55));
-  const sunUp = uSun.y.max(0.02);
-  const warm = mix(color(0xffd8b0), color(0xffffff), sunUp);
-  const cool = mix(color(0x8ea6cc), color(0xa9c0e2), sunUp);
   /* a cloud's belly is flatter and cooler: the mass near its own threshold reads as the underside;
      the top, deep inside the mass, is the brightest white */
   const belly = oneMinus(smoothstep(thr.add(0.045), thr.add(0.16), n));
-  const c = mix(warm, cool, belly.mul(0.9)).mul(mix(float(0.74), float(1.08), lit));
+  const c = mix(uCloudLit, uCloudShade, belly.mul(0.9)).mul(mix(float(0.74), float(1.08), lit));
   m.colorNode = c;
   m.opacityNode = mass.mul(0.97);
   const cloudDome = new THREE.Mesh(new THREE.SphereGeometry(10600, 48, 28), m);
@@ -1771,7 +1794,12 @@ if (GHIBLI_LOOK) {
 /* The selected sky and the indirect light share a palette. Reuse the baker,
    shader connection and two reflection maps across preset changes. Resolve
    the URL here so boot does not bake golden before the requested daylight. */
-const LJUS2P = { kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host' };
+const LJUS2P = {
+  kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host',
+  midnattssol: 'midnight', midnatt: 'midnight', midnight: 'midnight',
+  blatimmen: 'bluehour', bla: 'bluehour', bluehour: 'bluehour',
+  ovader: 'storm', storm: 'storm',
+};
 const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
 const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
 waterLighting.setPreset(PRESETS[INITIAL_PRESET]);
@@ -1780,6 +1808,73 @@ const lightingEnvironment = createLightingEnvironment(renderer, scene, {
   onBake: ({ preset: name, started }) => span('PMREM environment', started, { preset: name }),
 });
 lightingEnvironment.setPreset(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
+
+const SKY_PALETTES = {
+  golden: {
+    zen: GHIBLI_LOOK ? 0x1c4a9a : 0x123a72,
+    mid: GHIBLI_LOOK ? 0x5a92cc : 0x4d7fa8,
+    hor: 0xe6b98a,
+    aureole: 0xffb060,
+    cloudLit: 0xffeed8,
+    cloudShade: 0x8294b4,
+  },
+  noon: {
+    zen: GHIBLI_LOOK ? 0x2a72c8 : 0x1f5f9e,
+    mid: GHIBLI_LOOK ? 0x72b4e8 : 0x66a0c8,
+    hor: 0xbcd3dd,
+    aureole: 0xfff0d0,
+    cloudLit: 0xffffff,
+    cloudShade: 0x94b8e2,
+  },
+  mist: {
+    zen: 0x6c8296,
+    mid: 0x9cb0c0,
+    hor: 0xc3d4d8,
+    aureole: 0xdde6ed,
+    cloudLit: 0xdbe4ea,
+    cloudShade: 0x8a9aa6,
+  },
+  dawn: {
+    zen: 0x2c3b6c,
+    mid: 0x5e6e9e,
+    hor: 0xd8b0be,
+    aureole: 0xffc8aa,
+    cloudLit: 0xffeae0,
+    cloudShade: 0x7e708e,
+  },
+  host: {
+    zen: 0x2e4e78,
+    mid: 0x6486a4,
+    hor: 0xb2b4aa,
+    aureole: 0xffbe72,
+    cloudLit: 0xf2ece4,
+    cloudShade: 0x7c8692,
+  },
+  midnight: {
+    zen: 0x1e2240,
+    mid: 0x543c5c,
+    hor: 0xb86654,
+    aureole: 0xff9852,
+    cloudLit: 0xffa868,
+    cloudShade: 0x3e2c48,
+  },
+  bluehour: {
+    zen: 0x121e36,
+    mid: 0x1e3258,
+    hor: 0x3e5272,
+    aureole: 0x6884aa,
+    cloudLit: 0x485876,
+    cloudShade: 0x1a2436,
+  },
+  storm: {
+    zen: 0x1e242e,
+    mid: 0x323a46,
+    hor: 0x485260,
+    aureole: 0xffe298,
+    cloudLit: 0x647080,
+    cloudShade: 0x222832,
+  },
+};
 
 let presetName = 'golden';
 function setPreset(name) {
@@ -1807,18 +1902,41 @@ function setPreset(name) {
     if (skyMesh.cloudDensity) skyMesh.cloudDensity.value = 0.36;
     skyMesh.sunPosition.value.copy(d).multiplyScalar(450000);
   }
+  const skyPal = SKY_PALETTES[presetName] || SKY_PALETTES.golden;
+  uSkyZenith.value.setHex(skyPal.zen);
+  uSkyMid.value.setHex(skyPal.mid);
+  uSkyHor.value.setHex(skyPal.hor);
+  uAureoleColor.value.setHex(skyPal.aureole);
+  uCloudLit.value.setHex(skyPal.cloudLit);
+  uCloudShade.value.setHex(skyPal.cloudShade);
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
   uAutumn.value = presetName === 'host' ? 1 : 0;
   if (GHIBLI_LOOK) {
     /* painted distance: hills go blue, not grey, and further -- the fog keeps
        its chroma and thins; the sky's blue deepens; the cumulus takes the cover */
-    fog.color.lerp(new THREE.Color(0x9cc2e6), 0.55);
+    const ghibliFogTint = presetName === 'storm'
+      ? new THREE.Color(0x38414e)
+      : presetName === 'bluehour'
+        ? new THREE.Color(0x223654)
+        : presetName === 'midnight'
+          ? new THREE.Color(0x725268)
+          : new THREE.Color(0x9cc2e6);
+    fog.color.lerp(ghibliFogTint, 0.55);
     fog.density = fog.density * 0.7;
-    scene.background = new THREE.Color(p.fog).lerp(new THREE.Color(0x9cc2e6), 0.55);
+    scene.background = new THREE.Color(p.fog).lerp(ghibliFogTint, 0.55);
     /* the far hills under a low sun read too dark against a painted sky: more fill from the hemisphere */
     hemi.intensity = p.hemiI * 1.25;
     /* the painted cover per preset, chosen by eye: a few big cumulus at noon, more at dusk, a lid in mist */
-    uCloudCover.value = ({ noon: 0.56, golden: 0.50, dawn: 0.46, mist: 0.62, host: 0.56 })[presetName] ?? 0.5;
+    uCloudCover.value = ({
+      noon: 0.56,
+      golden: 0.50,
+      dawn: 0.46,
+      mist: 0.62,
+      host: 0.56,
+      midnight: 0.48,
+      bluehour: 0.42,
+      storm: 0.78,
+    })[presetName] ?? 0.5;
   }
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -4350,7 +4468,12 @@ const TREES_PARAM = new URLSearchParams(location.search).get('trees') ?? (GHIBLI
 const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
   try {
     const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
-    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: new URLSearchParams(location.search).get('hero') === '1' });
+    /* The hero tier is fetched by DEFAULT in the painted look: the owner asked
+       for the trees on and around the course to be the detailed ones, and a
+       tier that is not downloaded cannot be drawn -- with hero off, the hero
+       SLOT is a clone of the full template, so raising zone A alone changed
+       nothing. It costs 1.3 MB of GLB on a first visit; ?hero=0 is the before. */
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: new URLSearchParams(location.search).get('hero') !== '0' });
     console.info(`ghibli trees: ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { console.warn('ghibli trees unavailable, procedural templates kept:', err); return null; }
@@ -4916,7 +5039,14 @@ const TREE_LOD = {
    coarser put the lite meshes at the tee and billboards from 90 m, and the
    owner's phone showed it; measured on the phone profile the full/lite
    mapping draws a quarter of the realistic desktop's triangles. */
-if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [(new URLSearchParams(location.search).get('hero') === '1' ? 1 : 2), 3, 4, 4];
+/* ...and the desktop now runs the SAME mapping as the procedural set does:
+   hero beside the corridors, the full template out to 300 m, impostors past
+   it. The painted look used to sit one tier coarser everywhere ([2, 3, 4, 4]),
+   which is what put flat-shaded cones on and beside the fairways. Zone C
+   stays on impostors rather than the lite mesh: the authored templates are
+   four to five times the procedural ones, so [1, 2, 3, 4] is a different
+   budget again and 300 m is already past anything a player is reading. */
+if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
 {
   /* the decimated templates: the same silhouettes and the same crown noise
      (so the colour variance matches across the switch) at a quarter of the
@@ -5132,7 +5262,14 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [(new URLSearchParams(loc
   {
     const bakeStarted = performance.now();
     for (let s = 0; s < SPECIES.length; s++) {
-      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: SPECIES[s].tc }));
+      /* an authored trunk's material colour is white -- its bark is per-vertex,
+         and the bake cannot read that -- so the atlas takes the measured mean
+         instead (engine/ghibli-trees.mjs). Without it every impostor pine drew
+         a white pole. */
+      const bakeTrunk = authored(s) && GHIBLI.species[s].trunkMean
+        ? new THREE.Color(...GHIBLI.species[s].trunkMean).multiply(new THREE.Color(SPECIES[s].tc))
+        : SPECIES[s].tc;
+      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: bakeTrunk }));
     }
     TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
     span(`tree impostor atlases (${SPECIES.length} species, 64 views each)`, bakeStarted);
@@ -5734,10 +5871,11 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
          where a course had no raster, so on a coverage wider than the raster
          (Ängsö, Norrfällsviken) cones stood among the measured stands. */
       if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) { vistaSkippedInsideCoverage++; continue; }
-      let band = 2;
+      let band = 2, bandSpacing = farStep;
       if (FAR_CAL) {
         const dCover = V2_VEG_COVER.distanceOutside(px, pz);
         const spacing = farRingSpacing(dCover, FAR_CAL, LOWQ);
+        bandSpacing = spacing;
         band = spacing === farStep ? 0 : dCover < 1800 ? 1 : 2;
         const keep = (farStep * farStep) / (spacing * spacing);
         if (keep < 1 && rnd2(i + 23, j + 91) > keep) continue;
@@ -5786,7 +5924,9 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
       ptsKind[pts.length / 4 - 1] = lc;
       if (FAR_CAL) {
-        const tree = farRingTree(FAR_CAL, rnd2(i + 3, j + 71), rnd2(i + 13, j + 57), lc === LANDCOVER.LIGHT_TREES);
+        /* the band's own spacing, so a thinned band's quad is grown to cover
+           the stems it stands in for instead of drawing one of them */
+        const tree = farRingTree(FAR_CAL, rnd2(i + 3, j + 71), rnd2(i + 13, j + 57), lc === LANDCOVER.LIGHT_TREES, undefined, bandSpacing);
         ptsSize[pts.length / 4 - 1] = [tree.height, tree.radius];
         farBandCounts[band]++;
       }
@@ -5798,16 +5938,40 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
   } : { calibrated: false, legacyLatticeCount, skippedInsideCoverage: vistaSkippedInsideCoverage };
   const n = pts.length / 4;
   VISTA_PTS = pts;
-  if (n && TREE_LOD.atlases.length === 3) {
+  /* One atlas per species, and the authored set (?ghibli=1) adds alder and
+     oak: a test for exactly three sent every far tree of the painted look
+     down the flat-cone fallback below, so the whole horizon outside the
+     measured coverage was dark cones meeting the painted forest along the
+     coverage box. The ring draws the pine-led three and needs no more. */
+  if (n && TREE_LOD.atlases.length >= 3) {
     /* the same pictures the planted forest fades into, so the far ring and
        the middle ring are one forest: a cone that stood 12 m x s becomes a
        tree of the same height, species by hash, yaw by hash */
     const perSpecies = SPECIES.map(() => []);
+    /* THE HORIZON IS THE SAME FOREST AS THE COURSE. This used to be the
+       engine's own pine-led hash on every ground, so a course whose planter
+       follows its own species rule changed species at the coverage box:
+       Veckefjarden plants 59% spruce / 30% pine inside it and the ring drew
+       58% pine / 32% spruce outside. The far ring asks the same rule the
+       planter does -- the course's scenery hook, or a measured leaf-type
+       context where one exists -- and keeps the hash only where neither
+       speaks. The record's own LIGHT_TREES still wins over both: that one
+       is measured off the orthophoto, and a rule is not. */
+    const farSpeciesRule = (M.scenery?.woodlandContext || SCENERY?.species) ? mappedTreeSpecies : null;
     for (let k = 0; k < n; k++) {
       const r = hash2(k * 7919 + 3, k * 104729 + 11);
-      /* light canopy in the record is birch four times in five; the rest keep the pine-led mix */
-      perSpecies[ptsKind[k] === LANDCOVER.LIGHT_TREES && r < 0.8 ? 2 : r < 0.58 ? 1 : r < 0.9 ? 0 : 2].push(k);
+      /* light canopy in the record is birch four times in five */
+      let sp = ptsKind[k] === LANDCOVER.LIGHT_TREES && r < 0.8 ? 2 : null;
+      if (sp === null && farSpeciesRule) {
+        const got = farSpeciesRule({ r, x: pts[k * 4], z: pts[k * 4 + 2], h: pts[k * 4 + 1] });
+        if (Number.isInteger(got) && got >= 0 && got < SPECIES.length) sp = got;
+      }
+      if (sp === null) sp = r < 0.58 ? 1 : r < 0.9 ? 0 : 2;
+      perSpecies[sp].push(k);
     }
+    /* what the horizon is made of, so the mix is a number a harness can read
+       rather than something argued over screenshots of two different holes */
+    stats.vistaSpecies = Object.fromEntries(perSpecies.map((l, s) => [SPECIES_NAMES[s], l.length]));
     for (let s = 0; s < SPECIES.length; s++) {
       const list = perSpecies[s];
       if (!list.length) continue;
@@ -7973,7 +8137,10 @@ function goHole(n, recam, instant) {
    plain copy-paste always reproduces what is on screen. */
 const VY2CAM = { tee: 'tee', green: 'green', fritt: 'orbit', ovan: 'top' };
 const CAM2VY = { tee: 'tee', green: 'green', orbit: 'fritt', top: 'ovan' };
-const P2LJUS = { golden: 'kvall', noon: 'dag', mist: 'dis', dawn: 'gryning', host: 'host' };
+const P2LJUS = {
+  golden: 'kvall', noon: 'dag', mist: 'dis', dawn: 'gryning', host: 'host',
+  midnight: 'midnattssol', bluehour: 'blatimmen', storm: 'ovader',
+};
 function syncURL() {
   try {
     const sp = new URLSearchParams(location.search);
@@ -10931,6 +11098,7 @@ window.V3D = {
      V3D.devOverlay() reports, V3D.devOverlay(true) turns it on. */
   devOverlay: (on) => (on === undefined ? devOverlay : setDevOverlay(on)),
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
+           vistaSpecies: stats.vistaSpecies ?? null,
            environmentWater: stats.environmentWater ?? null,
            tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, authoredParkingCars: stats.authoredParkingCars | 0,
@@ -11591,6 +11759,33 @@ if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
         const sp = new URLSearchParams(location.search);
         sp.set('q', 'lo');
         toast(`Låg bildfrekvens — förenklade grafiken. <a href="${location.pathname}?${sp.toString()}">Starta i lättviktsläge</a>`, 10000);
+      }
+    }
+  }, 1000);
+}, 4000);
+
+/* The same ten seconds, the other way round: a visit that is only in LOWQ
+   because an earlier one was slow measures itself, and a frame rate that is
+   plainly fine clears the verdict so the NEXT visit boots at full quality.
+   It does not upgrade in place -- instance counts, tree tiers and the canvas
+   resolution are all chosen before the first frame -- so the honest thing is
+   to say so and let the player reload. The bar is deliberately not the
+   downgrade's: it takes 8 clean seconds of 10 to overturn a verdict, where
+   6 slow ones of 10 are enough to make one. */
+if (REMEMBERED_LOWQ_ONLY && !DET) setTimeout(() => {
+  let checked = 0, good = 0;
+  const qt = window.setInterval(() => {
+    if (!fps) return;
+    checked++;
+    if (fps >= 45) good++;
+    if (checked >= 10) {
+      window.clearInterval(qt);
+      autoQualityDone = true;
+      if (good >= 8) {
+        try { localStorage.removeItem('banvy-quality'); } catch {}
+        const sp = new URLSearchParams(location.search);
+        sp.set('q', 'hi');
+        toast(`Datorn klarar full grafik. <a href="${location.pathname}?${sp.toString()}">Ladda om i full kvalitet</a>`, 10000);
       }
     }
   }, 1000);

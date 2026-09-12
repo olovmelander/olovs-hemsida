@@ -59,3 +59,10 @@ apps/golf/public/models/johannesberg/*.json text eol=lf
 # Lidingo practice-surface pin came to fail in CI while passing locally.
 upsalabuild/mapping/*.json text eol=lf
 lidingobuild/facilities/*.json text eol=lf
+# courses/index.json hashes these and the runtime refuses a mismatch SILENTLY --
+# the course still opens, it just loses the record -- so nothing but a gate can
+# see it. Without a rule here, core.autocrlf turned every land-cover record's
+# trailing newline into CRLF and all thirteen were one byte long: every Windows
+# checkout has been rendering its horizon from the rule, not from the record.
+apps/golf/public/courses/*/landcover.json text eol=lf
+apps/golf/public/courses/*/surroundings.json text eol=lf
