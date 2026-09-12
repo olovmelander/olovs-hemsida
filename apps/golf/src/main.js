@@ -4794,6 +4794,24 @@ const SPECIES_EXTENDED = SPECIES.length > 3;
    -- a scrub ring (all birch), the shore belt (70%), and a course's own
    measured rule, which wins over this outright. */
 const defaultTreeSpecies = r => (r < 0.58 ? 1 : r < 0.94 ? 0 : 2);
+
+/* NO TREE STANDS ON A PLAYED SURFACE, whoever planted it.
+   The legacy lattice has refused a candidate over a fairway, green, tee,
+   bunker or path since the scatter was written; the v2 vegetation runtime
+   never learned the rule, so a LiDAR-measured crown could stand on a green
+   that every other scatter kept clear -- and on a mapped course the measured
+   trees are now the only trees, so nothing else was left to refuse it.
+   The orthophoto cannot close that gap on its own: an ortho sees the CANOPY,
+   so a tree's own cell reads as canopy by construction and the mown mask is
+   blind underneath exactly the trees in question (measured at Norrfällsviken:
+   of 5,646 crowns inside the mask's box, not one reads mown, while one stood
+   inside hole 4's own fairway ring). The course's own survey is the record
+   that has to win there, and it is the same test, at the same thresholds, as
+   the lattice's -- shared so the two cannot drift. */
+const onPlayedSurface = (x, z) => {
+  const c = classify(x, z);
+  return c.fair > 0.05 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.15;
+};
 const mappedTreeSpecies = ({ r, x, z, h }) => {
   const prior = woodlandSpeciesPrior({ r, context: woodlandAt(x, z) });
   const own = SCENERY?.species?.({ r, x, z, h, ringSD, RES, extended: SPECIES_EXTENDED });
@@ -4825,8 +4843,10 @@ if (V2_VEGETATION) {
          course with no rule of its own cannot change forest at the edge of
          the measured coverage */
       defaultSpecies: defaultTreeSpecies,
-      /* and no measured tree stands on ground the orthophoto says is mown */
-      excludeAt: isMownGround,
+      /* and no measured tree stands on a played surface -- the course's own
+         greens, fairways, tees, bunkers and paths, plus (where a course has
+         one) the ground the orthophoto measures as mown */
+      excludeAt: (x, z) => onPlayedSurface(x, z) || (isMownGround ? isMownGround(x, z) : false),
     });
   } else {
     /* the registry is placed through the v2 terrain's own bridge; without
@@ -4919,7 +4939,7 @@ lap('v2 vegetation: plan individuals + stand trees');
     wood *= midrEdgeFade(px, pz);
     if (wood < 0.05) continue;
     const c = classify(px, pz);
-    if (c.fair > 0.05 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.15) continue;
+    if (onPlayedSurface(px, pz)) continue;
     if (c.dLine < 15) continue;
     const h = terrainH(px, pz);
     let wet = false;

@@ -5238,3 +5238,54 @@ and the SURFACE is wrong. Widening the model's fairway and semi rings to the
 measured 17.44 ha is the fix, and it is a model change: pack, manifest,
 `refresh-fallback-v1` for the published v2 ground, the EPSG:3006 migration and
 the checksum registries. Not attempted in the same pass as the measurement.
+
+### And the v2 planter had never learned the rule every other scatter had (2026-09-12)
+
+The mown mask above removed 339 trees and the owner still saw one standing in
+the fairway on the 4th. Measured on the built app -- every planted instance
+exported through `V3D.legacyTrees({instances:true})`, which carries the v2
+population too, and scored against three records that never entered each other:
+
+| | before | after |
+|---|---|---|
+| inside a model GREEN ring | 0 | 0 |
+| inside a model FAIRWAY ring | **1** (hole 4) | **0** |
+| inside a tee pad | 0 | 0 |
+| on orthophoto-mown ground | 0 | 0 |
+| refused (`stats.excludedByGround`) | 344 | 430 |
+
+**An orthophoto sees the canopy, so the mown mask is blind underneath exactly
+the trees in question.** Of 5,646 crowns inside the mask's own box, not ONE
+reads mown -- a tree's own cell is canopy by construction -- and scoring the
+neighbourhood instead (the mown fraction of a 10-16 m annulus) finds 14 trees
+at >= 50% and none at >= 70%. Flood-filling the mask's enclosed non-mown holes
+recovers 15. So the mask can police the EDGES of the mowing and can never, on
+its own, take a tree off a green.
+
+The record that can is the course's own survey, and the rule already existed:
+every legacy scatter loop -- trees, bushes, tufts, stones, reeds -- has refused
+a candidate whose `classify()` reads `fair > 0.05 || green > 0.02 || tee > 0.02
+|| sand > 0.05 || path > 0.15` since the scatter was written. **`planV2Vegetation`
+never learned it.** Invisible while the legacy lattice was the population that
+mattered; decisive now, because on a ground with a published generation the
+measured trees are the ONLY trees and nothing else was left to refuse them.
+`onPlayedSurface` in main.js is that one test, shared by the lattice and by the
+v2 plan's `excludeAt` so the two cannot drift, and it applies on every course
+with a generation, not only the one with an orthophoto mask.
+
+**What it does NOT fix, and the number that says so.** Holes 4 and 5 still carry
+a tree 3.0 m and 0.1 m from their own centre line, and at both of those points
+the LINE reads canopy on the orthophoto. Every line here is
+`lineSrc: "orthophoto-reviewed-endpoints"` -- the ENDS are reviewed and the run
+between them is a chord -- and measured against the mown mask a centre line runs
+on mown ground only **26.6%-66.7% of its length** (median 56%). So a tree "on the
+line" there is the routing leaving the corridor, not a crown in the wrong place,
+and the fix is the same deferred model work as widening the rings: the model's
+fairways total **5.73 ha** where the orthophoto measures **17.44 ha** of mowing.
+Trace the corridor, then route in it.
+
+One diagnosis note worth keeping: the owner's two screenshots straddled the
+deploy (one predated the merge outright, the other came 12 minutes after it while
+their phone was still failing to boot on a stale service-worker precache), so the
+pictures could not settle whether the fix had landed. The instance export could,
+and did -- **measure the build, never the screenshot's timestamp.**
