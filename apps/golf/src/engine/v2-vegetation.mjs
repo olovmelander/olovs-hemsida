@@ -251,10 +251,13 @@ export function planV2Vegetation(loaded, {
   species = null,
   defaultSpecies = null,
   /* A MEASURED CROWN IS NOT A LICENCE TO STAND ON A FAIRWAY. The registry is
-     the laser's reading of a canopy; where the course's own orthophoto says the
-     ground under it is MOWN, the mowing is the later and more specific record
-     and no tree is planted. The caller supplies the predicate (main.js, from
-     the served mown-surface record) so this runtime never reads a course file.
+     the laser's reading of a canopy; where the course's own survey says the
+     ground under it is a played surface -- a green, fairway, tee, bunker or
+     path -- or its orthophoto measures that ground as mown, that record is the
+     later and more specific one and no tree is planted. The caller supplies the
+     predicate (main.js, from the same classifier every other scatter loop has
+     always used, plus the served mown-surface record where a course has one) so
+     this runtime never reads a course file.
      Counted, never silent: stats.excludedByGround says how many it refused. */
   excludeAt = null,
 } = {}) {
