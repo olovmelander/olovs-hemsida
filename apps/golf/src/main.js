@@ -5960,16 +5960,19 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
          the field, the town or the clear-fell the noise gap used to miss; only
          where the record is silent does the old dressing rule (forest
          everywhere but the noise gaps and the declared open land) still hold. */
-      /* A REFUSED VERDICT IS REFUSED EVERYWHERE. vistaGround no longer lets the
-         record's WATER class paint water on its own (see farSurveyedWater), and
-         a cell refused for the colour must be refused for the planting too, or
-         the ground it repaints green stands bare where its neighbours carry
-         forest -- the mis-paint's own second symptom. Unknown is the honest
-         state for it, and the guards that actually measure water are already
-         below: the sea test, the island test and inWater, which is where a
-         genuinely wet cell is still dropped. */
-      const lcRead = landAt(px, pz);
-      const lc = lcRead === LANDCOVER.WATER ? LANDCOVER.UNKNOWN : lcRead;
+      /* A CONE NEVER STANDS ON A PLAYED SURFACE, whatever any classifier says.
+         This branch had no defence of its own: openLand knows landuse and
+         surroundings rings and nothing about the course, because UNKNOWN had
+         never occurred INSIDE one -- within the record's box every cell carries
+         a class. Refusing the record's WATER verdict for the colour and ALSO
+         handing those cells here would have created exactly that case on the
+         one course whose record calls half its cells water, so the
+         reclassification is not made (the colour refusal in vistaGround
+         stands). Measured, it had not in fact put a cone on any played surface
+         -- but it removed the reason the omission was safe, and a misread
+         fairway would reach a green by the same route. The guard is cheap and
+         explicit; the assumption was neither. */
+      const lc = landAt(px, pz);
       if (lc === LANDCOVER.UNKNOWN && MEASURED_ONLY) continue;
       if (lc !== LANDCOVER.UNKNOWN) {
         if (!isTreeClass(lc)) continue;
@@ -5980,6 +5983,14 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       } else {
         if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
         if (openLand(px, pz)) continue;
+      }
+      /* the played ground, by the same test the middle planter makes, and only
+         where the course actually is -- classify() is the course's own rule and
+         says nothing a kilometre out, so the far ring pays for it over playB
+         alone */
+      if (px > playB.x0 - 60 && px < playB.x1 + 60 && pz > playB.z0 - 60 && pz < playB.z1 + 60) {
+        const pc = classify(px, pz);
+        if (pc.fair > 0.05 || pc.green > 0.02 || pc.tee > 0.02 || pc.sand > 0.05 || pc.path > 0.15) continue;
       }
       /* a course may declare places this ring must not close over -- a churchyard
          it looks across at, a cleared works yard. They are facts about one place,
