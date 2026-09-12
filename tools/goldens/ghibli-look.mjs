@@ -15,7 +15,7 @@ const PRESET = argv.find(a => a.startsWith('--preset='))?.slice(9) || 'noon';
 const OUT = argv.find(a => a.startsWith('--out='))?.slice(6) || 'tools/goldens/flicker';
 mkdirSync(OUT, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
-const modes = [['procedural', ''], ['ghibli', '&trees=ghibli'], ['ghibli-hero', '&trees=ghibli&hero=1'], ['look', '&ghibli=1&hero=1']];
+const modes = [['procedural', '&ghibli=0'], ['ghibli', '&trees=ghibli'], ['ghibli-hero', '&trees=ghibli&hero=1'], ['look', '&ghibli=1&hero=1']];
 for (const [name, flag] of modes.filter(([n]) => MODES.includes(n))) {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
   page.setDefaultTimeout(600000);

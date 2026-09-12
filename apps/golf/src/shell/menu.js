@@ -6,7 +6,7 @@
 
 import { ICONS } from './icons.js';
 
-export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse, onAction, devOverlay = false }) {
+export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse, onAction, devOverlay = false, ghibliLook = true }) {
   const drawer = document.createElement('div');
   drawer.id = 'navDrawer';
   drawer.className = 'nav-drawer';
@@ -172,6 +172,15 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
                 <div class="dt-desc">Visualisera greenens lutningar</div>
               </div>
             </button>
+            <button class="d-tool-btn" id="dLookBtn" aria-pressed="${ghibliLook ? 'true' : 'false'}">
+              <span class="dt-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.563-2.512 5.563-5.563C22 6.5 17.5 2 12 2z"></path><circle cx="8" cy="8" r="1" fill="currentColor"></circle><circle cx="12" cy="6" r="1" fill="currentColor"></circle><circle cx="16" cy="8" r="1" fill="currentColor"></circle></svg>
+              </span>
+              <div class="dt-text">
+                <div class="dt-name">Målad stil (Ghibli) <span class="dt-state" id="dLookState">${ghibliLook ? 'PÅ' : 'AV'}</span></div>
+                <div class="dt-desc">Ritade träd, målad mark och mjukare himmel (laddar om)</div>
+              </div>
+            </button>
             <button class="d-tool-btn" id="dCleanBtn">
               <span class="dt-icon">${ICONS.cleanView(18)}</span>
               <div class="dt-text">
@@ -304,6 +313,12 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     onAction('clean');
   });
 
+  const lookToolBtn = drawer.querySelector('#dLookBtn');
+  lookToolBtn?.addEventListener('click', () => {
+    close();
+    document.getElementById('lookBtn')?.click();
+  });
+
   /* The developer switch does NOT close the drawer: it is flicked while looking
      at the terrain panel it governs, so closing would hide the thing under
      inspection and cost a second trip through the menu. */
@@ -337,9 +352,18 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   };
   setDevOverlay(devOverlay);
 
+  const setGhibliLook = (on) => {
+    const state = drawer.querySelector('#dLookState');
+    if (state) state.textContent = on ? 'PÅ' : 'AV';
+    lookToolBtn?.setAttribute('aria-pressed', on ? 'true' : 'false');
+    lookToolBtn?.classList.toggle('active', on === true);
+  };
+  setGhibliLook(ghibliLook);
+
   return {
     el: drawer,
     setDevOverlay,
+    setGhibliLook,
     open: () => {
       drawer.classList.add('open');
       const toggleBtn = document.getElementById('menuToggle');

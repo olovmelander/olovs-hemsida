@@ -2,7 +2,7 @@
    key, and the shapes that must NOT be treated as legacy links. These are the
    links this project was shared with, so the mapping is a contract. */
 import { describe, it, expect } from 'vitest';
-import { legacyTarget, LEGACY_PAGES, VIEW_KEYS } from './router.js';
+import { legacyTarget, LEGACY_PAGES, VIEW_KEYS, courseUrl } from './router.js';
 
 const q = url => Object.fromEntries(new URLSearchParams(url.split('?')[1]));
 
@@ -42,3 +42,21 @@ describe('legacyTarget', () => {
     expect(legacyTarget('/veckefjardensgc.html', '')).toBeNull();
   });
 });
+
+describe('courseUrl', () => {
+  it('switches course slug while preserving ghibli and hero parameters', () => {
+    expect(courseUrl('puttom', '?bana=angso&ghibli=1&hero=1')).toBe('?bana=puttom&ghibli=1&hero=1');
+    expect(courseUrl('puttom', '?bana=angso&ghibli=0')).toBe('?bana=puttom&ghibli=0');
+  });
+
+  it('preserves other persistent engine flags while dropping stale course views', () => {
+    const initial = '?bana=angso&hal=14&vy=tee&ljus=dag&q=lo&gl=1&ghibli=1';
+    const target = courseUrl('visby', initial);
+    expect(target).toBe('?bana=visby&ghibli=1&gl=1&q=lo');
+  });
+
+  it('generates a clean course url when no search string is provided', () => {
+    expect(courseUrl('puttom', '')).toBe('?bana=puttom');
+  });
+});
+

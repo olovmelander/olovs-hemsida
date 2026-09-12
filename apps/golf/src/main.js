@@ -57,6 +57,7 @@ import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impo
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
 import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
+import { readLookMode, persistLookMode } from './engine/look-mode.mjs';
 import { teePadSurfaceOwners } from './engine/tee-surface-ownership.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
@@ -1184,11 +1185,15 @@ const L = hex => [s2l(((hex >> 16) & 255) / 255), s2l(((hex >> 8) & 255) / 255),
    dry fescue variation; and a green is bluer and
    deeper than the fairway around it. Those three relationships are most of what makes
    mown ground read as mown ground from 200 m away. */
-/* ?ghibli=1: the painted look -- authored trees, a painted palette and
-   ground, a cumulus dome, blue distance, flatter water and a little more
-   chroma. One switch, off by default; the realistic render is untouched
-   without it. Declared here because the palette below is the first reader. */
-const GHIBLI_LOOK = new URLSearchParams(location.search).get('ghibli') === '1';
+/* The painted look -- authored trees, a painted palette and ground, a cumulus
+   dome, blue distance, flatter water and a little more chroma. Standard mode
+   by default on desktop and phone; explicit ?ghibli=0 (or the Målad button)
+   chooses the realistic look. Declared here because the palette below is the
+   first reader. */
+const GHIBLI_LOOK = readLookMode({
+  search: location.search,
+  storage: (() => { try { return localStorage; } catch { return null; } })(),
+}).ghibli;
 /* nudged against the club's July aerial: the mown surfaces run brighter and
    greener than the first authoring -- a fresh-cut vividness, not a repaint */
 const C = {
@@ -8166,15 +8171,25 @@ function toast(msg, ms = 2600) {
 document.querySelectorAll('[data-cam]').forEach(b => b.onclick = () => setCam(b.dataset.cam));
 document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPreset(b.dataset.preset));
 /* the painted look is decided at boot (materials, sky, templates), so the
-   button rewrites the URL and reloads; syncURL keeps the flag because it
-   starts from the live search params */
+   button rewrites the URL, persists the preference, and reloads; syncURL keeps
+   the flag because it starts from the live search params */
 {
   const lookBtn = document.getElementById('lookBtn');
   if (lookBtn) {
     lookBtn.classList.toggle('on', GHIBLI_LOOK);
+    lookBtn.setAttribute('aria-pressed', GHIBLI_LOOK ? 'true' : 'false');
     lookBtn.onclick = () => {
       const sp = new URLSearchParams(location.search);
-      if (GHIBLI_LOOK) { sp.delete('ghibli'); sp.delete('hero'); } else { sp.set('ghibli', '1'); sp.set('hero', '1'); }
+      const store = (() => { try { return localStorage; } catch { return null; } })();
+      if (GHIBLI_LOOK) {
+        sp.set('ghibli', '0');
+        sp.delete('hero');
+        persistLookMode(false, store);
+      } else {
+        sp.set('ghibli', '1');
+        sp.set('hero', '1');
+        persistLookMode(true, store);
+      }
       location.search = sp.toString();
     };
   }
@@ -10715,6 +10730,7 @@ const navDrawer = buildNavDrawer({
   onBackToStart: () => openRail(),
   onSwitchCourse: (slug) => goToCourse(slug),
   devOverlay,
+  ghibliLook: GHIBLI_LOOK,
   onAction: (type, val) => {
     if (type === 'cam') setCam(val);
     if (type === 'preset') setPreset(val);

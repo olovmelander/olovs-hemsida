@@ -30,7 +30,7 @@ export const LEGACY_PAGES = {
 };
 
 /* the whole grammar, and nothing invented: these are the keys the pages read */
-export const VIEW_KEYS = ['hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'kiosk', 'q', 'gl', 'ground'];
+export const VIEW_KEYS = ['hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'kiosk', 'q', 'gl', 'ground', 'ghibli', 'hero'];
 
 /* Given a legacy location, the app URL that shows the same thing. Returns null
    when the path is not one of the six pages, so a caller can tell "not a legacy
@@ -58,7 +58,20 @@ export function currentSlug(search = location.search) {
    tearing it down in place is the persistent-renderer phase's work, not this
    one. The view keys are dropped on purpose: hole 14 of one course means
    nothing on another, and carrying a stale hole number across would open the
-   new course on a hole the visitor never asked for. */
-export function goToCourse(slug) {
-  location.search = '?bana=' + encodeURIComponent(slug);
+   new course on a hole the visitor never asked for.
+   Engine configuration and visual style (ghibli, hero, trees, look, gl, q, det)
+   are intentionally preserved so chosen modes persist across courses. */
+export function courseUrl(slug, search = (typeof location !== 'undefined' ? location.search : '')) {
+  const from = new URLSearchParams(search);
+  const to = new URLSearchParams();
+  to.set('bana', slug);
+  for (const k of ['ghibli', 'hero', 'trees', 'look', 'gl', 'q', 'det']) {
+    if (from.has(k)) to.set(k, from.get(k));
+  }
+  return '?' + to.toString();
 }
+
+export function goToCourse(slug) {
+  location.search = courseUrl(slug, location.search);
+}
+
