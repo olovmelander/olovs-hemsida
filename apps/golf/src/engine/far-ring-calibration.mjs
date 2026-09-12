@@ -30,14 +30,26 @@ export const FAR_RING_BANDS = Object.freeze({
      the data ring's spacing, then the dressing ring's */
   nearMetres: 600,
   middleMetres: 1800,
-  middleSpacing: 16,
-  farSpacing: 30,
+  /* Measured on the built app at Veckefjarden (a top-down frame with the trees
+     shown and hidden, over ground the land-cover record calls closed forest):
+     the old 16 m and 30 m bands drew 5.3% and 1.9% canopy against band 0's
+     10.0%, so the horizon read as scattered trees on open ground -- which is
+     what the flat-cone fallback had been hiding. A quad is two triangles and
+     the cone it replaced was ten, so the budget was already there. */
+  middleSpacing: 10,
+  farSpacing: 15,
   /* a phone plants the stand field at 0.55 of its stems (STAND_PLANTING.lowQualityKeep) */
   lowQualitySpacingFactor: 1.35,
   /* the record's light canopy is birch four in five, and shorter */
   lightHeightFactor: 0.75,
   minimumSamples: 500,
   quantileSteps: 20,
+  /* A thinned band draws one quad where the stand has several stems, so the
+     quad is grown to cover them. Past this the quad stops reading as a tree
+     and starts reading as a hill, and the skyline it draws is not one the
+     LiDAR measured -- so the growth is capped here AND, separately, at the
+     tallest tree the population actually carries. */
+  maximumClumpScale: 2.2,
 });
 
 /**
@@ -62,13 +74,25 @@ export function calibrateFarRing({ standHeights, planting, crownRadiusAt, bands 
     medianHeight,
     crownRadiusAt,
     /* THE STAND PLANTER'S OWN RULE: a cell stands up fraction x area / (pi r^2)
-       x overlap stems, so a CLOSED stand at the median height has one stem per
-       pi r^2 / overlap square metres, and the record's local tree fraction
+       x overlap stems, so a CLOSED stand of trees of one height has one stem
+       per pi r^2 / overlap square metres, and the record's local tree fraction
        scales it exactly as the stand field's fraction does. (The planner's
        planted-cell ratio is NOT a density: it rolls at most one stem per 4 m
        cell, so that ratio is 16 m2 by construction -- measured, and wrong
-       by a factor of two and a half here.) */
-    m2PerStem: (Math.PI * radius * radius) / planting.overlapFactor,
+       by a factor of two and a half here.)
+
+       A STAND IS NOT ONE HEIGHT, AND THE MEDIAN TREE IS NOT THE MEDIAN
+       DENSITY. Crown area grows with height, so the small trees -- which are
+       many -- each stand for far less ground than the median one does: the
+       density of a mixed stand is the MEAN of its trees' densities, which is
+       the harmonic mean of their stem areas and never the median tree's.
+       Measured at Veckefjarden the median-tree rule asked for 288 stems a
+       hectare where the stand planter itself had planted 488. */
+    m2PerStem: 1 / (quantiles.reduce((sum, h) => sum + planting.overlapFactor / (Math.PI * crownRadiusAt(h) ** 2), 0) / quantiles.length),
+    /* what one stem stands for at the median height: kept because the old
+       rule is worth being able to quote, and because a caller may want the
+       typical tree rather than the typical density */
+    m2PerMedianStem: (Math.PI * radius * radius) / planting.overlapFactor,
   });
 }
 
@@ -81,13 +105,26 @@ export function farRingSpacing(dCover, calibration, lowQuality = false, bands = 
   return bands.farSpacing * factor;
 }
 
-/** A far-ring tree's height and crown radius from two hashes in [0, 1). */
-export function farRingTree(calibration, r1, r2, lightCanopy = false, bands = FAR_RING_BANDS) {
+/** A far-ring tree's height and crown radius from two hashes in [0, 1).
+ *
+ * `spacing` is the band's own cell spacing: where it is wider than the measured
+ * stem spacing the quad stands for a CLUMP, and is grown in proportion -- its
+ * own allometric shape kept -- so the band draws the canopy it replaces rather
+ * than a fraction of it. Omit it and nothing grows. */
+export function farRingTree(calibration, r1, r2, lightCanopy = false, bands = FAR_RING_BANDS, spacing = null) {
   const q = calibration.quantiles, steps = q.length - 1;
   const t = Math.min(0.999999, Math.max(0, r1)) * steps;
   const i = Math.floor(t), f = t - i;
   let height = q[i] + (q[Math.min(steps, i + 1)] - q[i]) * f;
   if (lightCanopy) height *= bands.lightHeightFactor;
-  const radius = calibration.crownRadiusAt(height) * (0.85 + 0.3 * r2);
+  let radius = calibration.crownRadiusAt(height) * (0.85 + 0.3 * r2);
+  const stems = spacing > 0 ? (spacing * spacing) / calibration.m2PerStem : 1;
+  if (stems > 1) {
+    /* cover n crowns with one: the linear scale is sqrt(n), capped, and then
+       capped again at the tallest tree this population actually carries --
+       a measured ceiling, so the skyline never claims a tree nobody found */
+    const scale = Math.min(bands.maximumClumpScale, Math.sqrt(stems), q[steps] / height);
+    if (scale > 1) { height *= scale; radius *= scale; }
+  }
   return { height, radius };
 }
