@@ -5289,3 +5289,78 @@ deploy (one predated the merge outright, the other came 12 minutes after it whil
 their phone was still failing to boot on a stale service-worker precache), so the
 pictures could not settle whether the fix had landed. The instance export could,
 and did -- **measure the build, never the screenshot's timestamp.**
+
+## The tee view aims at the landing area, and the phone's own frame is most of it (2026-09-12)
+
+The owner, with a picture of Upsala's 16th: *"when we are having the tee setting
+we always [look] in the direction of the green and flag, i want the direction to
+be in the tee fairways direction so that we do not look into the Woods if we for
+example have a dog leg."*
+
+`teeView` aimed at the route point 72% along what REMAINS of the hole -- right on
+a straight hole, and on a dogleg a point that lies ACROSS the corner, which is the
+trees the corner is made of. Measured over all ten builds' back tees, 35 of 171
+holes aimed more than 10 deg off the tee's own heading and 8 more than 20, worst
+58.6 (Ribbingsfors' 3rd); the reported hole was 26.7 deg off.
+
+**WHICH SCREEN IS LOOKING DECIDES WHETHER THAT MATTERS, and the owner is the one
+who said so** (*"I guess it is different when we are on portrait mode on the phone
+compared to a desktop screen"*). three's `fov` is the VERTICAL angle and main.js
+holds it at 48 deg for every shape, so the horizontal window belongs to the aspect:
+
+| | aspect | horizontal |
+|---|---|---|
+| desktop 16:9 | 1.78 | ±38.4° |
+| phone, sideways | 2.18 | ±44.1° |
+| **phone, upright** | ~0.58 | **±14.5°** |
+
+So a 27 deg error is a framing quibble on a desktop and puts the fairway entirely
+off-screen on a portrait phone. That is the report, and the picture.
+
+The fix is one line -- cap the aim at a drive -- and the instructive part is the
+two rules that were tried first and are worse, both of which LEAVE THE ROUTE:
+
+| rule | portrait: fairway the drive plays to | frame centred on TREES | desktop |
+|---|---|---|---|
+| route at 72% of remaining (old) | 81.7% | 6.2% | 95.8% |
+| corridor: within 10 deg of the tee's heading | -- | -- | 91.9% |
+| the landing's DIRECTION, old range | 86.2% | **10.7%** | 95.9% |
+| **ON ROUTE at the landing (shipped)** | **84.3%** | 6.3% | 95.8% |
+
+Holding the aim inside a tolerance of the tee's heading is the obvious fix and the
+worst one: it points hard down the first leg and throws the rest of the hole out of
+frame, and where a route leaves the tee at an angle its first segment is a stub and
+not a corridor at all (Ribbingsfors' 3rd bends 50 deg within 34 m). Keeping that
+direction but the old range is worse still **on the very symptom being fixed** --
+extended past the corner the aim lands IN the wood, 10.7% of frames against 6.2%.
+Fairway-in-frame is the hole's own rings within 320 m inside the 48 deg frame and
+TREES is the land-cover record's class at the aim point; neither entered any rule.
+
+**The cap is set by the narrowest screen, not by golf.** Shorter caps frame more of
+the drive (86.7% at 180 m) and cost fairway a portrait phone used to hold: below
+260 m, Veckefjärden's 5th loses its own fairway from frame on every tee, because
+that hole's routed line runs straight down while its OSM fairway lies 45-110 m east
+-- a disagreement in the model that no aim along the line can frame, recorded here
+rather than tuned around. 260 m is the longest cap that still gains and the
+shortest that regresses nothing: 609 of 819 tee marks do not move at all, the
+median range change is 0 m so pitch and orbit radius stand, and the 8 marks that
+see no fairway see none either way.
+
+**The fov is the bigger term and is NOT changed here**, because it alters every
+view on every phone and the owner should see it first. Measured on the same
+instrument, portrait, fairway the drive plays to: 48 deg vertical 81.7% (old aim)
+/ 84.3% (new); 58 deg 86.7% / **88.6%**; 70 deg 90.8% / 91.5%; desktop is 95.5%.
+The two compose -- the aim fix is worth 2.6 points and the fov about 5.
+
+Two mechanics this cost:
+
+- **A helper copied into a page must be self-contained.**
+  `tools/check-upsala-tee-coordinates.mjs` gates the standalone page by slicing
+  `teeView`'s own text out of the HTML and `new Function`-ing it, so the module-scope
+  constants the first version declared were simply undefined there and five tests
+  failed with `AIM_FRACTION is not defined`. They live inside the function now.
+- **`veckefjardensgc.html` has a `teeView()` of its own that shares only the NAME**
+  -- a zero-argument view setter calling `lookFrom`, on a page with no `polyLen` and
+  no `clampf`. A sync script matching the bare name clobbered it and would have
+  broken the legacy page; match the SIGNATURE (`function teeView(hole, mark)`).
+  Only `angso3d.html` and `upsala3d.html` carry the shared helper.
