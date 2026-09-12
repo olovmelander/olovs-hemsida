@@ -3959,7 +3959,9 @@ function teeView(hole, mark) {
     if (distance < nearestDistance) { nearestDistance = distance; start = walked + t * length; }
     walked += length;
   }
-  const aim = total > 0 ? alongLine(line, (start + 0.72 * (total - start)) / total)
+  const AIM_FRACTION = 0.72, DRIVE_METRES = 260;
+  const aimMetres = Math.min(start + AIM_FRACTION * (total - start), start + DRIVE_METRES);
+  const aim = total > 0 ? alongLine(line, aimMetres / total)
     : { x: hole.pin[0], z: hole.pin[1] };
   return { position: [...mark.c], aim, startMetres: start };
 }
