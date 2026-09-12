@@ -5077,3 +5077,99 @@ committed record (only the `source` line's fetch date differed, which
 incidentally proves the classifier is deterministic, but the file still had to
 be restored). And the `_meta` layers cannot be queried: GetFeatureInfo is
 disabled on that service, so a capture date has to come from somewhere else.
+
+## The far ground painted water it had only guessed at (2026-09-12)
+
+The owner, on a phone: *"the distant ring terrain ... looks blue and dont match
+the colors closer to the golf course. Think this is the case on all golf courses
+on ghibli mode."* It was, and the cause was one line with no corroboration
+behind it.
+
+`vistaGround` painted every cell the land-cover record calls `WATER` with
+`FLAT_WATER_TINT` and asked nothing else — no height, no ring, no mask, no
+ocean field. **It was the only water decision in the engine with nothing behind
+it.** Everywhere else water is surveyed (a ring at its own measured level),
+measured (the laser flat-water pass) or defined (the sea surface), and each of
+those is tested on this very code path. And `groundAt`, the NEAR rule, has no
+`WATER` branch at all — so the same hillside was forest green inside the near
+raster and water blue beyond it, a ring of mismatch around the course at the
+1236–1536 m hand-over. That ring is what the owner was looking at.
+
+**The class is an appearance verdict and the record's own header says so** —
+"an APPEARANCE mask ... never a statement about a played surface". It is
+colour, texture and brightness over a 12 m cell, and closed conifer on a shaded
+slope is dark, smooth and blue-ish, as is ploughed clay. Measured over the
+committed records and heightfields, the share of cells called `WATER` standing
+more than 2 m ABOVE the ground's own water line:
+
+| course | cells called WATER | of those, on dry ground |
+|---|---|---|
+| norrfallsviken | 50.8% | **22.4%** |
+| lidingo | 23.7% | **43.9%** |
+| ribbingsfors | 15.3% | **41.9%** |
+| visby | 21.7% | 13.1% |
+| veckefjarden | 15.8% | 12.8% |
+
+The fix is the rule CLAUDE.md already states for Ängsö — wet is INSIDE a ring
+AND at that ring's own level — plus the flat-water reading, as
+`farSurveyedWater`. A cell the record calls water that nothing measured
+corroborates falls through to the land rule, which is what the near path paints
+for the same ground, so the two agree instead of meeting at a colour step. **A
+refused verdict is refused everywhere**: the far tree loop treats such a cell as
+UNKNOWN too, or the ground it repaints green would stand bare among forest — the
+mis-paint's own second symptom. The surveyed water guards already in that loop
+(the sea test, the island test, `inWater`) still drop a genuinely wet one.
+
+**Terrain cannot rescue the class, and that was measured before settling for
+this.** A sweep of flatness and basin-floor tests over the five coastal grounds
+found no setting that keeps the real water while dropping the false: at
+±72 m/0.6 m Norrfällsviken drops 93% of the false water but keeps only 38% of
+the true, and Ängsö's real water is no flatter than its misclassified fields.
+Flatness is not the discriminator here; provenance is.
+
+Measured on the built app, like with like, the same meter on both builds —
+the far tint raster the shader actually samples, over ±5.8 km at 50 m, with
+LAND meaning *not claimed by any surveyed or measured water source*:
+
+| Norrfällsviken | blue-dominant land | mean B−G on land | far trees |
+|---|---|---|---|
+| before, painted | **13.62%** | −50.9 | 90,148 |
+| after, painted | **0.71%** | −63.9 | 101,097 |
+| before → after, realistic | 13.04% → 0.58% | −48.5 → −56.6 | — |
+
+Real water is untouched: 40,712 water samples, 91.3% blue before and after. The
+guard refused 1,844 of 13,577 land samples at Norrfällsviken, 14,932 of 54,289
+at Lidingö, 13,406 at Visby, 7,636 at Ängsö, 4,528 at Veckefjärden, 4,021 at
+Ribbingsfors — every one of them painted blue before.
+
+**Why only the painted look.** `FLAT_WATER_TINT` is `[0.09,0.20,0.38]` there
+against `[0.05,0.075,0.09]` realistic, so the identical fault read as a
+darkening one could take for shade, and as a hue one cannot. The defect was
+always on both; the paint is what made it shout.
+
+### And the same slope was two colours
+
+A second, smaller asymmetry of the same shape, fixed with it. `vistaGround` took
+`rocky = smooth(0.22, 0.62, sl)` and mixed up to 0.8 of `C.rock`, while
+`groundAt` lets rock arrive only over 0.45–0.85 and then weights it by its own
+steep term. At a 27° slope that is **62.7% rock far against 1.2% near** — a
+hillside that changed colour at the ring and nowhere on the ground. And **rock
+is the one palette entry the painted look rotates from warm to cold**
+(`0x736e63`, R>G>B, to `0x8e949c`, B>G>R), so the far world's extra rock was the
+far world's extra blue. The far ramp is now both of `groundAt`'s terms and the
+two agree to a percent at every slope.
+
+**What was NOT touched, because it is the design.** The painted look lerps the
+fog 55% toward `0x9cc2e6` and thins it to 0.7 density under a comment that says
+"painted distance: hills go blue, not grey". Measured in the rendered frame
+after the fix, the ground bands read B−G −20 to −32 in both looks and the blue
+is confined to the sky and that deliberate haze. A gradual ramp into the
+distance is aerial perspective; a step at a fixed radius was the bug.
+
+Two method notes. **Define "land" without using the thing under test**: an
+arm of this investigation measured "blue on land" while counting every
+record-`WATER` cell as water, which excludes the defect by construction and
+reported 1.85% where the non-circular count reported 13.62%. And **a WebGL
+canvas cannot be read back through `drawImage`** without `preserveDrawingBuffer`
+— it returns the same dark image every time, which looks like two builds
+agreeing. Screenshot to PNG and decode it.
