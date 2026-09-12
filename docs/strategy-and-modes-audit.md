@@ -447,6 +447,113 @@ app yet claiming to know better than they do.
 
 ---
 
+## 13. Min Golf, GIT and pushing a round (researched 2026-09-12)
+
+**Asked:** could Banvy talk to Min Golf — read a handicap, push a round?
+**Answer:** yes, officially, and there is precedent in *exactly* this repo's
+category. But it is a commercial licence, an approval process and a backend, not
+an integration you bolt onto a static site.
+
+### What the surface actually is
+
+Min Golf is the front end; **GIT (Golfens IT-system) is the system**, and the
+**GIT API** is its integration surface. SGF's own description is that the licence
+covers *"i stort sett samtliga delar av GIT, inklusive tidbokning och
+handicap"*. Two licence types:
+
+| | Who | Cost | Covers |
+|---|---|---|---|
+| **Club licence** | SGF-affiliated clubs and golf companies only | 5,000 SEK start + 1,500 SEK/yr ex VAT | Golf-ID login check, member data, course info — and explicitly **may not be passed to a commercial actor** |
+| **Commercial licence** | Companies selling apps, booking, statistics, scorecards, course guides | Start fee + annual fee per a standard price list; **amount not published** — depends on application, scope, volume, developer support and central test/approval | Read *and write*, effectively all of GIT including handicap |
+
+So a friendly club's licence cannot be borrowed; a third-party app needs its own
+commercial agreement.
+
+**The process** is: dialogue about needs → contract → credentials and
+documentation for *stage* (the test environment) → build → **SGF tests and
+approves the technical solution** → production credentials. GIT Partner-API and
+GIT Tävling API are separate credential sets.
+
+**There is no public technical documentation** — no open spec, no Swagger. The
+documentation arrives with the credentials, which means the work cannot be
+scoped precisely before talking to SGF. Budget for that unknown.
+
+### The precedent is exact, and it cuts both ways
+
+SGF's supplier directory carries a category called **"Scorekort, banguider och
+banvärdering"** — literally scorecards, course guides and course rating, which
+is Banvy's category word for word. In it: **Caddee**, **OnTag**, **Golfscore**.
+Caddee pulls handicap, slope, course data and booked rounds from GIT/Min Golf and
+pushes handicap-qualifying rounds back; it claims over 156,000 Golf-ID logins.
+
+Encouraging, because the path is trodden and the category is recognised.
+Sobering, because entering it means competing with incumbents who have held
+those licences for years — on scoring, which is not what makes Banvy different.
+
+### Two rules that constrain the design
+
+- **No pre-registration.** A handicapgrundande sällskapsrond is registered
+  *after* play. A round can be captured and submitted later, which suits an app
+  used on the course.
+- **Rounds must be registered in chronological order.** That is a real
+  constraint on an offline-first PWA: a queue that flushes out of order breaks
+  the handicap calculation. Any submission queue must be ordered and idempotent.
+
+### What it would cost Banvy architecturally — the part worth weighing first
+
+1. **There is no backend.** `apps/golf` is a static Vite build deployed from
+   `main` to GitHub Pages; there is no server and no functions directory. The
+   only runtime third-party calls are Open-Meteo (keyless, CORS-open) and the
+   minimap's OSM tiles.
+2. **A commercial credential cannot live in a static bundle.** Server-to-server
+   auth means a real backend — even a small worker — plus secret management, an
+   uptime obligation, and a deploy story that is no longer "push to main".
+3. **It introduces identity and personal data.** Golf-ID login would be the
+   first account in the product; name, Golf-ID, handicap and scores are personal
+   data, SGF has its own rules for personuppgifter in GIT and Min Golf, and a
+   licensee handling member data takes on processor obligations. Today the app
+   knows nothing about anyone and stores everything device-local.
+4. **It introduces an availability dependency** on someone else's system, in an
+   app whose distinguishing claim is that it works offline with no install.
+
+### The ladder — four rungs, cheapest first
+
+1. **Link out.** A "Registrera ronden i Min Golf" button. No backend, no
+   licence, no personal data. This is what the blueprint already decided and it
+   is still right.
+2. **Export the round** — a scorecard to read off while typing it in, or a share
+   sheet. Still no backend. Covers most of the value of stage 4's Runda mode.
+3. **Read-only GIT** — Golf-ID login, pull the player's own handicap and booked
+   rounds. This is what makes §5's *profile* authoritative instead of typed.
+   Needs the licence and a backend, but no write path and a far smaller
+   approval surface.
+4. **Read-write** — push the handicap-qualifying round. Full commercial licence,
+   SGF approval of the technical solution, an ordered offline queue, processor
+   obligations.
+
+**Recommendation.** Rungs 1 and 2 carry everything in this audit. A dispersion
+ellipse does not need an authoritative handicap — a number the golfer types once
+shapes it exactly as well, and §12's tee recommendation needs no handicap source
+at all. Rung 3 becomes interesting only once Runda mode exists and people are
+really scoring rounds here. Rung 4 only makes sense if Banvy intends to compete
+with Caddee as a scoring app, which is a different product from a 3D course
+guide.
+
+One strategic note: the **club portal** in the blueprint's Tier 4 is the natural
+reason to hold a GIT licence, because there the licence serves a paying customer
+rather than a free feature. If a licence is ever bought, buy it for that.
+
+### Sources
+
+- [Licenser för GIT API för golfklubbar och företag](https://klubb.golf.se/administration/git-och-it/licensmodeller-for-git-api) — the two licence types, the club fees, the eligibility restriction
+- [GIT-hjälpen — API och widgets](https://git.golf.se/git/api-och-widgets/git-widgets) — the docs hub (JS-rendered; the supplier list and package pages do not serve to a plain fetch)
+- [Allt om GIT för dig på golfklubb](https://klubb.golf.se/administration/git-och-it) — scope, stage vs production, the separate Partner/Tävling credentials
+- [Caddee, in SGF's supplier directory](https://help.golf.se/widget---api/tjanster-och-leverantorer-med-koppling-mot-git/scorekort--banguider-och-banvardering/caddee/) and [caddee.se](https://www.caddee.se/) — the category and the precedent; the user figure is Caddee's own claim
+- [Vanliga handicapfrågor](https://golf.se/regler-handicap/handicapregler/vanliga-handicapfragor) — registration after play, chronological order
+- [Så funkar Min Golf](https://golf.se/spela-golf/sa-funkar-min-golf) and [Min Golf Bokning](https://golf.se/spela-golf/min-golf-bokningsapp) — the official registration routes
+
+---
+
 ## Appendix — the tool
 
 `tools/strategy-feasibility.mjs` exports `HANDICAP_TABLE` (the infographic,
