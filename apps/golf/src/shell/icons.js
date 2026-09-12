@@ -84,6 +84,16 @@ export const ICONS = {
     </svg>
   `,
 
+  /* Stacked plates: the terrain's nested levels, which is what the developer
+     panel this icon opens is about. */
+  layers: (s = 18, sw = 2) => `
+    <svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3 2 8l10 5 10-5-10-5Z"></path>
+      <path d="M2 16l10 5 10-5"></path>
+      <path d="M2 12l10 5 10-5"></path>
+    </svg>
+  `,
+
   cleanView: (s = 18, sw = 2) => `
     <svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">
       <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
