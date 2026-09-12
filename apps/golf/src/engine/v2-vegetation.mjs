@@ -219,9 +219,22 @@ export function createCoverage(loaded, mapper) {
   });
 }
 
-function chooseSpecies(r, shoreDistance) {
+/* The background mix where no course rule and no caller default speaks.
+   main.js ALWAYS passes `defaultSpecies` now, so this literal is the fallback
+   for a caller that passes none -- the unit tests, and any future embedder --
+   and it is kept equal to the engine's own so the two can never draw two
+   different forests over one ground. Birch leads only where something local
+   says so: the shore belt here, a scrub ring or a course's measured rule in
+   main.js. See defaultTreeSpecies in main.js for why the background is
+   conifer-led and why this is a rendering choice rather than a measurement. */
+export const DEFAULT_SPECIES_MIX = Object.freeze({ pine: 0.58, spruceThrough: 0.94 });
+export const defaultSpeciesForHash = r =>
+  (r < DEFAULT_SPECIES_MIX.pine ? SPECIES_INDEX.pine
+    : r < DEFAULT_SPECIES_MIX.spruceThrough ? SPECIES_INDEX.spruce : SPECIES_INDEX.birch);
+
+function chooseSpecies(r, shoreDistance, background = defaultSpeciesForHash) {
   if (shoreDistance !== null && shoreDistance < 28 && r < 0.7) return SPECIES_INDEX.birch;
-  return r < 0.56 ? SPECIES_INDEX.pine : r < 0.83 ? SPECIES_INDEX.spruce : SPECIES_INDEX.birch;
+  return background(r);
 }
 
 /**
@@ -236,6 +249,7 @@ export function planV2Vegetation(loaded, {
   verticalDatumOffsetMetres = 0,
   planting = STAND_PLANTING,
   species = null,
+  defaultSpecies = null,
 } = {}) {
   if (typeof groundHeightAt !== 'function') throw new TypeError('groundHeightAt is required');
   /* The course rule wins where one exists; the pine-led hash is only the
@@ -249,7 +263,7 @@ export function planV2Vegetation(loaded, {
       const index = species({ r, x, z, h: y });
       if (Number.isInteger(index)) return index;
     }
-    return chooseSpecies(r, shoreDistanceAt(x, z));
+    return chooseSpecies(r, shoreDistanceAt(x, z), defaultSpecies || defaultSpeciesForHash);
   };
   const instances = [];
   const mismatches = [];

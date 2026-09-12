@@ -4,10 +4,13 @@ import { assetReferenceForChunk, writeChunk } from '../../../../packages/course-
 import { STAND_FIELD_FEATURE, STAND_FIELD_FORMAT, encodeStandField } from '../../../../packages/course-v2/stand-field.mjs';
 import { legacyGridBridge } from './geodetic-frame.mjs';
 import {
+  DEFAULT_SPECIES_MIX,
   STAND_PLANTING,
+  SPECIES_INDEX,
   createCoverage,
   createFrameMapper,
   crownRadiusForHeight,
+  defaultSpeciesForHash,
   hash01,
   loadV2Vegetation,
   planV2Vegetation,
@@ -175,6 +178,46 @@ describe('planning', () => {
     expect(coverage.covers(...inside)).toBe(true);
     expect(coverage.covers(...outside)).toBe(false);
     expect(coverage.ownerAt(...inside).id).toBe('l0/0/0');
+  });
+
+  /* The one background mix. It exists so the far ring, the legacy lattice and
+     this planner cannot draw two different forests over one ground on a course
+     with no species rule of its own -- which is what 58/32/10 against 56/27/17
+     did at the edge of the measured coverage. Birch is a scattered minority of
+     CLOSED forest here and nothing else changed: the places something local
+     says birch leads still say it. */
+  it('the background mix is conifer-led, with birch scattered rather than a sixth of the stems', () => {
+    const n = 20000, seen = [0, 0, 0];
+    for (let i = 0; i < n; i++) seen[defaultSpeciesForHash((i + 0.5) / n)]++;
+    const share = seen.map(c => c / n);
+    expect(share[SPECIES_INDEX.pine]).toBeCloseTo(DEFAULT_SPECIES_MIX.pine, 3);
+    expect(share[SPECIES_INDEX.spruce]).toBeCloseTo(DEFAULT_SPECIES_MIX.spruceThrough - DEFAULT_SPECIES_MIX.pine, 3);
+    expect(share[SPECIES_INDEX.birch]).toBeCloseTo(1 - DEFAULT_SPECIES_MIX.spruceThrough, 3);
+    /* the property the owner asked for, stated as a property and not a literal:
+       the conifers lead, and birch is a scattered minority */
+    expect(share[SPECIES_INDEX.pine] + share[SPECIES_INDEX.spruce]).toBeGreaterThan(0.9);
+    expect(share[SPECIES_INDEX.birch]).toBeLessThan(0.1);
+    expect(share[SPECIES_INDEX.birch]).toBeGreaterThan(0);
+  });
+
+  it('a caller may hand down its own background, and it is used where no course rule speaks', async () => {
+    const { graph, fetchImpl } = fakeGraph();
+    const loaded = await loadV2Vegetation({ graph, baseUrl: BASE, fetchImpl });
+    const mapper = createFrameMapper({ bridge: identityBridge, frameOrigin: loaded.frameOrigin });
+    /* main.js passes its own defaultTreeSpecies so the app has ONE default;
+       a background that answers spruce everywhere must reach every tree the
+       shore belt does not claim, and must not be mistaken for a course rule */
+    const planned = planV2Vegetation(loaded, {
+      mapper, groundHeightAt: () => 21.4, defaultSpecies: () => SPECIES_INDEX.spruce,
+    });
+    expect(planned.stats.speciesSource).toBe('default');
+    expect(planned.instances.every(instance => instance.species === SPECIES_INDEX.spruce)).toBe(true);
+    /* and a course rule still outranks it */
+    const ruled = planV2Vegetation(loaded, {
+      mapper, groundHeightAt: () => 21.4, defaultSpecies: () => SPECIES_INDEX.spruce, species: () => SPECIES_INDEX.birch,
+    });
+    expect(ruled.stats.speciesSource).toBe('course');
+    expect(ruled.instances.every(instance => instance.species === SPECIES_INDEX.birch)).toBe(true);
   });
 
   it('allometry and hashes are bounded and stable', () => {

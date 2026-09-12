@@ -4795,7 +4795,8 @@ the brown of the day it was flown.
   water — and the OSM landuse ring only REFINES it (a field the imagery saw
   green stands in growing crop, one it saw pale in stubble; a ring the imagery
   shows as forest is forest). The far cone ring plants only where the record
-  says trees, with birch four times in five where it says light canopy, and
+  says trees (it used to plant birch four times in five where the record says
+  LIGHT canopy; that claim is gone — see "One species mix" below), and
   thins inside the planted ring as the data ring always did. `coverAt` is
   two-level: the 3 m raster keeps the last word inside its box and the 12 m
   record continues the same verdict beyond it, so the planter's satellite
@@ -4979,3 +4980,100 @@ a guard; write the guard. And **a multi-course ground's vegetation report is a
 different schema** from a single course's: `slugs` + `groundManifestSha256` +
 `courses[]`, not `slug` + `vegetation` at the top level. Read the shape before
 indexing it.
+
+## One species mix for the whole forest, and a birch share nobody had measured (2026-09-12)
+
+The painted forest made the horizon the same forest as the course **for the
+courses that have a species rule of their own**. Veckefjärden, Ängsö and Visby
+have one; the other six do not, and for them the engine carried TWO defaults —
+the far ring drew 58% pine / 32% spruce / **10% birch** and the planted world
+(the legacy lattice and `planV2Vegetation`'s own `chooseSpecies`) 56 / 27 /
+**17** — so a course with no rule still changed forest at the edge of the
+measured coverage, which is the fault the painted forest set out to remove.
+On top of that the far ring planted **birch on four of every five** trees the
+land-cover record called LIGHT_TREES, and that rule outranked everything,
+a course's own measured rule included.
+
+Measured on the built app before the change, Norrfällsviken — a High Coast
+pine cape whose own reserve text reads *"på hällmarkerna växer knotiga
+tallar"* — drew **13.1% birch in the far ring and 17.9% in the planted world**.
+Against dark narrow conifers a pale broad crown reads as far more of the frame
+than its share of the stems, which is what "birches everywhere" was.
+
+There is now **one default**, `defaultTreeSpecies` in main.js, read by the far
+ring, by the legacy lattice and — through the new `defaultSpecies` option —
+by `planV2Vegetation`, so the app has one background and the two populations
+cannot disagree. It is **58% pine / 36% spruce / 6% birch**, and birch is
+removed only from CLOSED forest: every local rule that says birch leads still
+fires, and they are the ones with a reason behind them — a scrub ring (all
+birch), the shore belt (70% within 28 m of water), and a course's own measured
+rule, which outranks the default outright. Measured after, on every course:
+
+| course | far ring birch | planted birch | rule |
+|---|---|---|---|
+| norrfallsviken | 13.1% → **5.9%** | 17.9% → **7.3%** | default |
+| puttom | → 6.0% | → 5.8% | default |
+| johannesberg | → 6.0% | → 5.4% | default |
+| ribbingsfors | → 6.0% | → 5.8% | default |
+| tortuna | → 5.9% | → 7.1% | default |
+| lidingo | → 5.9% | → 6.5% | default |
+| veckefjarden | 4.3% → **2.6%** | 6.7% (untouched) | course |
+
+The two columns agreeing on the six default courses is the point: they used to
+read 10 against 17. Ängsö (18.5% birch, 13.5% oak) and Visby (21.7% birch) are
+unchanged — those are their own rules, argued from their own evidence, and a
+rule beats a default by design.
+
+**THE MIX IS A RENDERING CHOICE AND THE CODE SAYS SO.** The LiDAR registry
+carries no species; this is the same "rendering choice made by hash" the
+vegetation runtime has always declared. What is new is that the choice is made
+once, conifer-led, instead of twice and differently.
+
+### Lantmäteriet's colour-infrared was asked, and could not settle it
+
+`Ortofoto_IR` is a layer of the same Min karta WMS `build-landcover.mjs`
+already fetches — **free, no credentials, 1 m, and nothing here had read it**.
+Colour-infrared is the textbook conifer/broadleaf discriminator, so it was
+tried before settling for a chosen number. It does not work with the labels
+this repo has, and the numbers are here so nobody repeats it blind:
+
+- **Veckefjärden's reserve** (documented grey-alder and birch swamp forest)
+  reads NIR 87.0 against 111.2 for canopy elsewhere — broadleaf **darker**,
+  the opposite of what leaf-on imagery should show. It is a SWAMP: wet ground
+  absorbs NIR (open water here reads 13.7), so the label is confounded by the
+  very thing that makes it broadleaf.
+- **Ribbingsfors' 72 protected trees** (Länsstyrelsen, CC0 — oak, elm, ash,
+  lime, aspen, beech, chestnut, each surveyed with a circumference) are dry
+  ground and looked decisive: NIR median **128 against 107** for canopy more
+  than 60 m away, with 79.9% of the canopy reference below the median oak
+  where 50% would be no separation at all.
+- **And that separation is the pasture, not the leaves.** An *ekhage* is oak
+  PASTURE, so a 1 m pixel at a surveyed oak mixes crown with sunlit grass.
+  Divide brightness out and it reverses: the oaks' NIR share of all three
+  bands is **43.83%**, essentially the grass's **43.44%** and BELOW the closed
+  canopy's **46.79%**; on raw NIR the oak sample sits 62% of the way from
+  closed canopy toward open grass. Both label sets are confounded, in opposite
+  directions, and the brightness-normalised index reverses the raw verdict in
+  both. **Not adopted.**
+- The same confound voids the test of the rule that was removed: LIGHT_TREES
+  cells read 105% of the way toward "broadleaf" on raw NIR, but LIGHT_TREES is
+  defined by luminance in the RGB image and NIR tracks brightness, so a
+  brightness-correlated band cannot arbitrate a brightness-derived class. That
+  is why the rule is gone rather than retuned: nothing available shows bright
+  canopy is broadleaf canopy, and an unsettled measurement must not outrank a
+  course's measured rule. What the record DOES measure is untouched —
+  `farRingTree` still draws a light cell's canopy lower than a closed one's.
+- **OSM's `leaf_type` is not the way round either**: 3 of 41 forest ways carry
+  it in a Swedish extract, and the tagged ones are the exceptional ones, so it
+  is biased as well as sparse. Visby's needleleaved tag was luck, not a method.
+- No open species raster is reachable from a session container:
+  Skogsstyrelsen's ArcGIS answers 403, SLU's endpoint is an app shell, and
+  NMD's species layers are ~2 GB each. A real per-course broadleaf fraction
+  needs one of those, or field labels on ground that is not wet and not open.
+
+Two mechanics worth keeping. **`tools/build-landcover.mjs` is a script, not a
+module** — `import()`ing it to borrow a helper RE-RAN it and rewrote a
+committed record (only the `source` line's fetch date differed, which
+incidentally proves the classifier is deterministic, but the file still had to
+be restored). And the `_meta` layers cannot be queried: GetFeatureInfo is
+disabled on that service, so a capture date has to come from somewhere else.

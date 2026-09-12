@@ -4716,6 +4716,27 @@ let woodlandAt = () => null;
 /* `extended` tells a course rule that alder (3) and oak (4) exist to be asked
    for; without it every rule keeps answering in the three-species table */
 const SPECIES_EXTENDED = SPECIES.length > 3;
+/* ONE DEFAULT MIX, READ BY ALL THREE POPULATIONS. The engine used to carry
+   two: the far ring drew 58% pine / 32% spruce / 10% birch and the planted
+   world 56% / 27% / 17%, so a course with no species rule of its own changed
+   forest at the coverage box -- the same fault the painted forest removed for
+   the courses that HAVE one, still standing for the six that do not.
+
+   The mix is a RENDERING CHOICE and says so: the LiDAR registry carries no
+   species, OSM's leaf_type is tagged on 3 of 41 forest ways in a Swedish
+   extract (and then on the exceptional ones, so it is biased as well as
+   sparse), and no ground here has a measured species record. What it is not
+   is a licence to plant a birch forest: birch was a sixth of every stem on a
+   High Coast pine cape whose own reserve text reads "på hällmarkerna växer
+   knotiga tallar", and against dark conifers a pale broadleaf crown reads as
+   far more of the frame than its share of the stems.
+
+   So the background is conifer-led and birch is scattered through it. That
+   removes birch only from CLOSED FOREST, where nothing measured put it:
+   the places it genuinely leads are separate local rules and all still fire
+   -- a scrub ring (all birch), the shore belt (70%), and a course's own
+   measured rule, which wins over this outright. */
+const defaultTreeSpecies = r => (r < 0.58 ? 1 : r < 0.94 ? 0 : 2);
 const mappedTreeSpecies = ({ r, x, z, h }) => {
   const prior = woodlandSpeciesPrior({ r, context: woodlandAt(x, z) });
   const own = SCENERY?.species?.({ r, x, z, h, ringSD, RES, extended: SPECIES_EXTENDED });
@@ -4742,6 +4763,11 @@ if (V2_VEGETATION) {
          legacy lattice consumes below, closed over ringSD/RES here so the
          vegetation runtime never imports a scenery module */
       species: M.scenery?.woodlandContext || SCENERY?.species ? mappedTreeSpecies : null,
+      /* and where neither speaks, the SAME background the far ring and the
+         legacy lattice fall back to -- one default in the running app, so a
+         course with no rule of its own cannot change forest at the edge of
+         the measured coverage */
+      defaultSpecies: defaultTreeSpecies,
     });
   } else {
     /* the registry is placed through the v2 terrain's own bridge; without
@@ -4860,7 +4886,7 @@ lap('v2 vegetation: plan individuals + stand trees');
        as pine would be a statement about the place that is simply untrue. */
     const sp = kindScrub ? 2
              : (belt && r < 0.7) ? 2
-             : (mappedTreeSpecies({ r, x: px, z: pz, h }) ?? (r < 0.56 ? 1 : r < 0.83 ? 0 : 2));
+             : (mappedTreeSpecies({ r, x: px, z: pz, h }) ?? defaultTreeSpecies(r));
     let s = SPECIES[sp].sc[0] + rnd(i + 61, j + 3) * (SPECIES[sp].sc[1] - SPECIES[sp].sc[0]);
     if (wood < 0.3) s *= 1.2;                    /* a lone tree grows a full crown */
     const sk = s * (kindScrub ? 0.42 : 1);
@@ -5858,7 +5884,6 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
   /* beyond every record we have, the hills get the forest they carry in life --
      this ring is dressing, not data, and it stays far outside the property */
   const GAP3 = LOWQ ? 42 : 30;
-  const ptsKind = [];   /* the record's class per far cone, so birch stands where the imagery read light canopy */
   const ptsSize = [];   /* calibrated only: [height, crown radius] per far tree, else undefined */
   /* Calibrated, the lattice is walked at the NEAR band's spacing everywhere
      and a coarser band keeps one candidate in (spacing / near)^2 of its
@@ -5927,7 +5952,6 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
       if (inWater(px, pz, h)) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
-      ptsKind[pts.length / 4 - 1] = lc;
       if (FAR_CAL) {
         /* the band's own spacing, so a thinned band's quad is grown to cover
            the stems it stands in for instead of drawing one of them */
@@ -5959,19 +5983,33 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
        Veckefjarden plants 59% spruce / 30% pine inside it and the ring drew
        58% pine / 32% spruce outside. The far ring asks the same rule the
        planter does -- the course's scenery hook, or a measured leaf-type
-       context where one exists -- and keeps the hash only where neither
-       speaks. The record's own LIGHT_TREES still wins over both: that one
-       is measured off the orthophoto, and a rule is not. */
+       context where one exists -- and falls back to the one default mix the
+       planted world uses, so the two agree on a course with no rule too.
+
+       LIGHT_TREES USED TO WIN OVER BOTH, as birch four times in five, on the
+       grounds that the record is measured and a rule is not. What the record
+       measures is that the canopy is BRIGHT -- classifyCell calls a tree cell
+       light when its luminance sits above the midpoint between open ground
+       and forest -- and it was never shown that bright means broadleaf.
+       Lantmäteriet's colour-infrared orthophoto was asked and could not
+       settle it either (the numbers are in CLAUDE.md): its only independent
+       broadleaf labels, Ribbingsfors' 72 surveyed protected trees, stand in
+       oak PASTURE, and once brightness is divided out their infrared share is
+       the grass's (43.8% against 43.4%) and BELOW the closed canopy's 46.8%
+       -- so the apparent separation is the ground under the crowns.
+       An unsettled measurement is not a licence to name a species, least of
+       all one that outranks a course's own measured rule, so the claim is
+       gone. What the record does measure is untouched: farRingTree still
+       draws a light cell's canopy lower than a closed one's. */
     const farSpeciesRule = (M.scenery?.woodlandContext || SCENERY?.species) ? mappedTreeSpecies : null;
     for (let k = 0; k < n; k++) {
       const r = hash2(k * 7919 + 3, k * 104729 + 11);
-      /* light canopy in the record is birch four times in five */
-      let sp = ptsKind[k] === LANDCOVER.LIGHT_TREES && r < 0.8 ? 2 : null;
-      if (sp === null && farSpeciesRule) {
+      let sp = null;
+      if (farSpeciesRule) {
         const got = farSpeciesRule({ r, x: pts[k * 4], z: pts[k * 4 + 2], h: pts[k * 4 + 1] });
         if (Number.isInteger(got) && got >= 0 && got < SPECIES.length) sp = got;
       }
-      if (sp === null) sp = r < 0.58 ? 1 : r < 0.9 ? 0 : 2;
+      if (sp === null) sp = defaultTreeSpecies(r);
       perSpecies[sp].push(k);
     }
     /* what the horizon is made of, so the mix is a number a harness can read
