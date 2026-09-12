@@ -5173,3 +5173,68 @@ reported 1.85% where the non-circular count reported 13.62%. And **a WebGL
 canvas cannot be read back through `drawImage`** without `preserveDrawingBuffer`
 — it returns the same dark image every time, which looks like two builds
 agreeing. Screenshot to PNG and decode it.
+
+## Where the mowing actually is — Norrfällsviken (2026-09-12)
+
+The owner: *"quite many trees in the middle of the fairways and greens and on
+tees … place all trees perfectly according to lantmäteriet data, ortophotos and
+IR ortophotos."* Measuring it moved the diagnosis twice, and both moves are
+worth keeping because each looked settled.
+
+**It is not the far ring and it is not the legacy scatter.** Every tree on this
+course is already Lantmäteriet LiDAR — 13,050 measured individuals and 46,926
+stand-field trees, zero legacy. The far ring's nearest cone is **1,338 m** from
+any hole line. Against the model's own polygons: 0 on greens, 0 on tees, 6 of
+59,976 on fairway.
+
+**`nvgkbuild/trace-mown.mjs` measures the mowing** off Ortofoto_0.5 and
+Ortofoto_IR through the Min karta WMS (no credentials, the route
+`build-landcover.mjs` already uses), calibrated on this course's own ground:
+greens and tee pads as certainly mown, the tree-cover raster's closed cells more
+than 60 m from a hole line as canopy. **Near infrared is the discriminator**,
+cut 181.3, **balanced accuracy 95.7%** (mown kept 95.2%, canopy refused 96.3%);
+excess green scores 94.3% and luminance only 80.4%. The traced fairway rings are
+**held back from the fit** and read 75.6% mown — a check the cut never saw.
+Output is `nvgkbuild/mown-surface.json`, one class per metre over the played box,
+the land-cover record's own nibble/deflate codec, served beside the pack by
+`emit-manifest` and fetched by content like every other sidecar.
+
+**THE CUT IS SWEPT, NOT ARITHMETIC.** The first version set two cuts from
+percentile pairs — it looked principled and threw away **42% of the greens**,
+and the script's own self-check refused to write the mask. Sweeping the
+threshold for the balanced optimum is what two references can actually support.
+
+Measured, the numbers that matter:
+
+| | hectares |
+|---|---|
+| orthophoto says mown | **17.44** |
+| engine paints as the mown family (semi/fairway/fringe/green/tee) | **12.57** |
+| model's traced fairway + green + tee polygons | **6.65** |
+| the played box, of which rough | 170.1, **145.4 (85.5%)** |
+
+So the engine paints LESS mown ground than there is, not more — the opposite of
+the first guess — and the model's polygons cover barely a third of the mowing.
+That is how a LiDAR crown comes to stand in what a player calls the fairway:
+**the exclusion mask the vegetation was compiled against is built from those
+narrow polygons.**
+
+`planV2Vegetation` takes an `excludeAt` predicate now and main.js supplies it
+from the record: a measured crown is not a licence to stand on a fairway, and
+where the orthophoto says the ground is mown, the mowing is the later and more
+specific record. It refused **339 trees** (140 individuals, 199 stand),
+reported as `stats.excludedByGround` and through `V3D.mownSurface()`.
+
+**An orthophoto sees the canopy, not the ground under it**, so a tree's own
+position reads as canopy by construction — which is why only 339 fell and why
+the earlier "535 of 548 corridor trees read as canopy" is weaker evidence than
+it looks. It still says the trees are real; it cannot say the ground under them
+is not mown.
+
+**What is left, and it is the half that will change the picture.** The remaining
+corridor trees stand on ground the engine calls ROUGH and paints green, and at
+Norrfällsviken that rough is hällmark with pines on it — so the trees are right
+and the SURFACE is wrong. Widening the model's fairway and semi rings to the
+measured 17.44 ha is the fix, and it is a model change: pack, manifest,
+`refresh-fallback-v1` for the published v2 ground, the EPSG:3006 migration and
+the checksum registries. Not attempted in the same pass as the measurement.

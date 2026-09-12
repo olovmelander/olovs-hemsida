@@ -184,6 +184,18 @@ const LANDCOVER_REC = COURSE.landcover
   ? await decodeLandcover(COURSE.landcover, inflate).catch(e => { console.warn('landcover:', e.message); return null; })
   : null;
 const landAt = landcoverSampler(LANDCOVER_REC);
+/* WHERE THE MOWING ACTUALLY IS (<build>/trace-mown.mjs, served beside the pack).
+   Norrfällsviken's model carries 5.73 ha of traced fairway over eighteen holes
+   and the orthophoto measures 17.44 ha of mown ground, so the played surfaces
+   the vegetation exclusions were compiled from cover a third of the mowing --
+   which is how a LiDAR crown comes to stand in what a player calls the fairway.
+   The record is the same shape and codec as the land-cover one: one class per
+   metre, 0 unknown / 1 mown / 2 not mown. A course without one gets nothing. */
+const MOWN_REC = COURSE.mownSurface
+  ? await decodeLandcover(COURSE.mownSurface, inflate).catch(e => { console.warn('mown surface:', e.message); return null; })
+  : null;
+const mownAt = MOWN_REC ? landcoverSampler(MOWN_REC) : null;
+const isMownGround = mownAt ? (x, z) => mownAt(x, z) === 1 : null;
 
 if (isBareVisit) {
   document.title = 'Banvy 3D — Svenska golfbanor i realtid';
@@ -4813,6 +4825,8 @@ if (V2_VEGETATION) {
          course with no rule of its own cannot change forest at the edge of
          the measured coverage */
       defaultSpecies: defaultTreeSpecies,
+      /* and no measured tree stands on ground the orthophoto says is mown */
+      excludeAt: isMownGround,
     });
   } else {
     /* the registry is placed through the v2 terrain's own bridge; without
@@ -11298,6 +11312,12 @@ window.V3D = {
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
   surroundings: () => ({ ...SURR_STATS, box: SURR ? SURR.box : null, inner: SURR ? SURR.inner : null, source: SURR ? SURR.source : null,
     recorded: SURR ? SURR.stats : null }),
+  /* where the mowing actually is, and what it cost the measured population */
+  mownSurface: () => (MOWN_REC ? {
+    cell: MOWN_REC.cell, nx: MOWN_REC.nx, nz: MOWN_REC.nz, bounds: mownAt.bounds,
+    mownHectares: MOWN_REC.mownHectares ?? null, calibration: MOWN_REC.calibration ?? null,
+    excludedTrees: V2_VEG_PLAN?.stats?.excludedByGround ?? null,
+  } : { error: COURSE.mownSurfaceError ?? null, declared: !!CMETA.mownSurface }),
   landcover: () => LANDCOVER_REC ? { cell: LANDCOVER_REC.cell, nx: LANDCOVER_REC.nx, nz: LANDCOVER_REC.nz, bounds: landAt.bounds,
     shares: LANDCOVER_REC.shares ?? null, calibration: LANDCOVER_REC.calibration ?? null, source: LANDCOVER_REC.source ?? null }
     : { error: COURSE.landcoverError ?? null, declared: !!CMETA.landcover },

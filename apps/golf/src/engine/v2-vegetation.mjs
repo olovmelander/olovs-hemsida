@@ -250,6 +250,13 @@ export function planV2Vegetation(loaded, {
   planting = STAND_PLANTING,
   species = null,
   defaultSpecies = null,
+  /* A MEASURED CROWN IS NOT A LICENCE TO STAND ON A FAIRWAY. The registry is
+     the laser's reading of a canopy; where the course's own orthophoto says the
+     ground under it is MOWN, the mowing is the later and more specific record
+     and no tree is planted. The caller supplies the predicate (main.js, from
+     the served mown-surface record) so this runtime never reads a course file.
+     Counted, never silent: stats.excludedByGround says how many it refused. */
+  excludeAt = null,
 } = {}) {
   if (typeof groundHeightAt !== 'function') throw new TypeError('groundHeightAt is required');
   /* The course rule wins where one exists; the pine-led hash is only the
@@ -271,12 +278,14 @@ export function planV2Vegetation(loaded, {
   let standTrees = 0;
   let cellsPlanted = 0;
   let cellsSkipped = 0;
+  let excludedByGround = 0;
   for (const tile of loaded.tiles) {
     for (const record of tile.objects || []) {
       if (record.class !== 'tree') continue;
       const [x, z] = mapper.toWorld(record.easting, record.northing);
       const y = groundHeightAt(x, z);
       if (!Number.isFinite(y)) continue;
+      if (excludeAt && excludeAt(x, z)) { excludedByGround++; continue; }
       mismatches.push(Math.abs(y - (record.heightRH2000 + verticalDatumOffsetMetres)));
       const r = stringHash(record.id) / 4294967296;
       instances.push({
@@ -318,6 +327,7 @@ export function planV2Vegetation(loaded, {
           const [x, z] = mapper.toWorld(easting, northing);
           const y = groundHeightAt(x, z);
           if (!Number.isFinite(y)) continue;
+          if (excludeAt && excludeAt(x, z)) { excludedByGround++; continue; }
           const height = Math.min(p95 * 1.05, Math.max(planting.minimumHeightMetres, mean * (0.8 + 0.4 * hash01(ce, cn, 13 + k * 5))));
           instances.push({
             x, y, z,
@@ -347,6 +357,8 @@ export function planV2Vegetation(loaded, {
          catch the hook being dropped -- the failure mode that kept this
          ground's vegetation unpublished. */
       speciesSource: species ? 'course' : 'default',
+      /* refused because the course's own orthophoto says that ground is mown */
+      excludedByGround,
       baseMismatch: Object.freeze({
         samples: mismatches.length,
         meanAbsMetres: mean === null ? null : Math.round(mean * 1000) / 1000,
