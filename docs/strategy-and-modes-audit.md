@@ -4,6 +4,10 @@
 app offer different strategies and modes while playing a course, and what would
 that look like?
 
+Published as a page at
+<https://claude.ai/code/artifact/953f9d3d-2364-4ff1-8b4a-8d5fdf71c505>; this file
+is the same content in Markdown so it lives with the code.
+
 **Answer:** yes, and most of the plumbing is already built — the bag, the routed
 line, the landing zones, the surface classifier, the hazard walk and the
 per-shot HUD all exist and are already gated. What is missing is not rendering
