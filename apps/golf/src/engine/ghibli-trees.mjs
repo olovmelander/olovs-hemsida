@@ -1,10 +1,10 @@
 /* Authored tree templates (the Blender study in tools/blender-tree-study),
- * loaded behind ?trees=ghibli. The manifest models/trees/ghibli-v1.json names
+ * loaded by Ghibli mode. The manifest models/trees/ghibli-fluffy.json names
  * one GLB per (species, variant, tier); each GLB holds a "crown" node and one
  * or more "trunk*" nodes with POSITION, the authored (bent) NORMAL and
  * COLOR_0 -- on a crown a grey depth multiplier for the species colour, on a
- * trunk the bark colour itself -- and nothing else: no textures, no URIs, so
- * the buildings' GLB inspector accepts it unchanged.
+ * trunk the bark colour itself. Foliage UVs address a shared, hash-verified
+ * atlas per species. GLBs remain static geometry with no embedded resources.
  *
  * What this module does NOT do: it never touches placement. trees[] and
  * treeWhy[] are the planter's; only the SPECIES templates the tiers draw are
@@ -20,16 +20,12 @@ const SHA256 = /^[a-f0-9]{64}$/;
 const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(v => v.toString(16).padStart(2, '0')).join('');
 
-/* engine species index -> catalogue key; a null here would keep the engine's
-   own procedural template for that species. The spruce is authored in the
-   original's fashion (flat-shaded stacked cones with grown skirts), because
-   the owner prefers that silhouette and wants every tree to come from Blender. */
+/* Engine species index -> catalogue key. All five painted species use the
+   approved Blender models; a null entry would retain a procedural species. */
 export const GHIBLI_SPECIES = ['gran', 'tall', 'björk', 'al', 'ek'];
 
-/* The crown colours are the engine's own (main.js SPECIES: spruce, pine,
-   birch) -- the owner preferred them to the study's toon mid-tones, which
-   read as one flat lime under the app's sun. Trunks carry their bark colour
-   per vertex (a pine is grey below, orange above) and take white here. */
+/* Base colours for the original catalogue. Painted foliage uses the palette
+   in ghibli-foliage-material.mjs. Trunks carry bark colour per vertex. */
 export const GHIBLI_COLOURS = [
   { cc: 0x2c5230, tc: 0xffffff },
   { cc: 0x3a6134, tc: 0xffffff },
@@ -76,6 +72,8 @@ function toGeometry(mesh, label) {
   geo.setAttribute('position', new THREE.BufferAttribute(p, 3));
   geo.setAttribute('normal', new THREE.BufferAttribute(q, 3));
   geo.setAttribute('color', new THREE.BufferAttribute(c, 3));
+  const uv = src.getAttribute('uv');
+  if (uv) geo.setAttribute('uv', new THREE.Float32BufferAttribute(Array.from({ length: n * 2 }, (_, i) => i % 2 ? uv.getY(i >> 1) : uv.getX(i >> 1)), 2));
   if (src.index) geo.setIndex(new THREE.BufferAttribute(Uint32Array.from(src.index.array), 1));
   return geo;
 }
@@ -101,8 +99,8 @@ function mergeParts(list) {
   return out;
 }
 
-async function fetchGlb(url, expect, species) {
-  const res = await fetch(url);
+async function fetchGlb(url, expect, species, fetchImpl = fetch, painted = false) {
+  const res = await fetchImpl(url);
   if (!res.ok) throw new Error(`Ghibli tree asset ${url}: HTTP ${res.status}`);
   const bytes = await res.arrayBuffer();
   if (bytes.byteLength !== expect.bytes) throw new Error(`Ghibli tree asset ${url}: ${bytes.byteLength} bytes, manifest says ${expect.bytes}`);
@@ -120,14 +118,14 @@ async function fetchGlb(url, expect, species) {
   });
   if (!crown || !trunks.length) throw new Error(`Ghibli tree asset ${url}: needs a crown and a trunk`);
   const cc = crown.attributes.color.array, cn = crown.attributes.position.count;
-  crownVariation(cc, crown.attributes.position.array, cn, species);
+  if (!painted) crownVariation(cc, crown.attributes.position.array, cn, species);
   /* the study's depth tint averages ~0.75, which read as a crown three
      quarters as bright as the old one under the same species colour; keep the
      relative shading (inner and underside darker) but centre it on 1 like
      grownCrown's noise, so the species colour is the crown's mean colour */
   let mean = 0;
   for (let i = 0; i < cn; i++) mean += cc[i * 3 + 1];
-  const gain = cn ? 1 / (mean / cn) : 1;
+  const gain = !painted && cn ? 1 / (mean / cn) : 1;
   for (let i = 0; i < cn * 3; i++) cc[i] = Math.min(1.35, cc[i] * gain);
   const trunk = mergeParts(trunks);
   /* THE IMPOSTOR BAKE PAINTS A TRUNK ONE FLAT COLOUR (tree-impostor.mjs:
@@ -149,27 +147,63 @@ async function fetchGlb(url, expect, species) {
   return { crown, trunk, trunkMean };
 }
 
+function validateAsset(rec, extension) {
+  if (!rec || !SHA256.test(rec.sha256 || '') || !Number.isSafeInteger(rec.bytes) || rec.bytes <= 0
+    || typeof rec.file !== 'string' || rec.file.startsWith('/') || rec.file.split('/').includes('..')
+    || !new RegExp(`^[a-zA-Z0-9_/-]+\\.${extension}$`).test(rec.file)) throw new Error('Invalid Ghibli asset record');
+}
+
+async function loadFoliageAtlas(base, rec, fetchImpl) {
+  validateAsset(rec, 'png');
+  const response = await fetchImpl(base + rec.file);
+  if (!response.ok) throw new Error(`Ghibli foliage atlas: HTTP ${response.status}`);
+  const bytes = await response.arrayBuffer();
+  if (bytes.byteLength !== rec.bytes || await digest(bytes) !== rec.sha256) throw new Error('Ghibli foliage atlas checksum mismatch');
+  const url = URL.createObjectURL(new Blob([bytes], { type: 'image/png' }));
+  try {
+    const map = await new THREE.TextureLoader().loadAsync(url);
+    map.colorSpace = THREE.SRGBColorSpace;map.name = `ghibli-foliage-${rec.sha256}`;
+    map.flipY = false; // Preserve the exported glTF UV convention.
+    map.wrapS = map.wrapT = THREE.ClampToEdgeWrapping;map.needsUpdate = true;
+    return map;
+  } finally { URL.revokeObjectURL(url); }
+}
+
+// The study's reduced models have different extents (larger spray cards in
+// full, recessed solid interiors in lite). Fit every production tier to the
+// approved close silhouette's height/radius, anchored at the same ground point.
+// This also makes the full mesh and its impostor use exactly the same scale.
+function fitFoliageTier(parts, height, radius) {
+  const box = new THREE.Box3();
+  for (const g of [parts.crown, parts.trunk]) { g.computeBoundingBox(); box.union(g.boundingBox); }
+  const r = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
+  if (!(height > 0 && radius > 0 && r > 0 && box.max.y > 0)) throw new Error('Invalid foliage tier extent');
+  for (const g of [parts.crown, parts.trunk]) g.scale(radius / r, height / box.max.y, radius / r);
+}
+
 /** Load the templates the engine's three tiers draw: hero (optional, the
  * study's hero tier, else the full one), full, and the far mesh tier (the
- * study's "lite"). One variant per species for now; variants per instance
- * are the next step and need their own instanced meshes. */
+ * study's "lite"). The approved fluffy set has one model per species; older
+ * catalogues can supply several variants, each with its own instanced batch. */
 export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = false, fetchImpl = fetch,
-  design = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('treeart') ?? 'original' : 'original',
+  design = 'fluffy',
 } = {}) {
-  // A separate catalogue makes the modelling study directly comparable on the
-  // same course, without changing tree placement or the normal painted look.
-  const catalogue = design === 'refined' ? ['refined/', 'ghibli-v3.json'] : ['', 'ghibli-v1.json'];
+  // The approved fluffy set is the default. Study pages explicitly request
+  // the original/refined catalogues for comparison.
+  const catalogue = design === 'fluffy' ? ['', 'ghibli-fluffy.json'] : design === 'refined' ? ['refined/', 'ghibli-v3.json'] : ['', 'ghibli-v1.json'];
   const base = `${baseUrl}models/trees/${catalogue[0]}`;
   const res = await fetchImpl(`${base}${catalogue[1]}`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Ghibli tree manifest: HTTP ${res.status}`);
   const manifest = await res.json();
   if (manifest?.schemaVersion !== 1 || manifest.kind !== 'ghibli-trees') throw new Error('Ghibli tree manifest: unknown schema');
   const byKey = Object.fromEntries(manifest.species.map(s => [s.key, s]));
-  const out = { manifest, species: [], colours: GHIBLI_COLOURS, summary: { variants, hero, files: 0, bytes: 0 } };
+  const out = { manifest, species: [], colours: GHIBLI_COLOURS, foliage: manifest.design === 'fluffy-2026-09', summary: { design: manifest.design || design, variants, hero, files: 0, bytes: 0 } };
   for (const [s, key] of GHIBLI_SPECIES.entries()) {
     if (!key) { out.species.push(null); continue; }
     const entry = byKey[key];
     if (!entry) throw new Error(`Ghibli tree manifest lacks ${key}`);
+    const foliage = entry.foliage ? { key: entry.foliage.key, map: await loadFoliageAtlas(base, entry.foliage.atlas, fetchImpl) } : null;
+    if (foliage) { out.summary.files++; out.summary.bytes += entry.foliage.atlas.bytes; }
     const list = [];
     for (let v = 0; v < Math.min(variants, entry.variants.length); v++) {
       const var_ = entry.variants[v];
@@ -177,15 +211,20 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = fals
       const tiers = {};
       for (const [slot, tier] of Object.entries(need)) {
         const rec = var_.tiers[tier];
-        if (!rec || !SHA256.test(rec.sha256 || '')) throw new Error(`Ghibli tree manifest: ${key} v${v} lacks tier ${tier}`);
-        if (!tiers[tier]) { tiers[tier] = await fetchGlb(`${base}${rec.file}`, rec, s); out.summary.files++; out.summary.bytes += rec.bytes; }
+        validateAsset(rec, 'glb');
+        if (!tiers[tier]) {
+          tiers[tier] = await fetchGlb(`${base}${rec.file}`, rec, s, fetchImpl, !!foliage);
+          if (foliage) fitFoliageTier(tiers[tier], var_.templateHeight, var_.templateRadius);
+          out.summary.files++; out.summary.bytes += rec.bytes;
+        }
+        if (foliage && tier !== 'lite' && !tiers[tier].crown.attributes.uv) throw new Error(`Ghibli foliage ${key}/${tier} lacks UVs`);
         /* a slot that reuses another tier's file gets its OWN geometry: each
            tier's InstancedMesh hangs per-instance attributes (aFade, aTint)
            on its geometry, and two tiers sharing one object overwrote each
            other's -- every such crown drew black */
         tiers[slot] = slot === tier ? tiers[tier] : { crown: tiers[tier].crown.clone(), trunk: tiers[tier].trunk.clone() };
       }
-      list.push({ key, variant: v, seed: var_.seed, templateHeight: var_.templateHeight, templateRadius: var_.templateRadius,
+      list.push({ key, variant: v, seed: var_.seed, foliage, templateHeight: var_.templateHeight, templateRadius: var_.templateRadius,
         trunkMean: tiers.full.trunkMean,
         hero: tiers.hero, full: tiers.full, decimated: tiers.decimated, tris: Object.fromEntries(Object.entries(var_.tiers).map(([t, r]) => [t, r.tris])) });
     }

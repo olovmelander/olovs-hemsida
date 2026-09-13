@@ -1,0 +1,742 @@
+{
+  "production": true,
+  "errors": [],
+  "scenarios": [
+    {
+      "scenario": "angso",
+      "url": "http://localhost:5173/?bana=angso&ghibli=1&hal=2&vy=tee&ljus=kvall&det=1&q=hi&qualitylock=1",
+      "requests": [
+        "/models/trees/ghibli-fluffy.json",
+        "/models/trees/ghibli-fluffy/93ab21f11e79384035c25997183cdcfd3d9fc3954a7692701e79d1fae69582ed.png",
+        "/models/trees/ghibli-fluffy/1b3bdfa2d9b5d34ddc117c7e6ed9522342a08cd53e7682e772f42286c05d9dbd.glb",
+        "/models/trees/ghibli-fluffy/88eb89d498fc58d382ab0194d7f1be689c9b11f4095364b387e628eb4d0b3089.glb",
+        "/models/trees/ghibli-fluffy/19fbecea7535a0e4d24280029881ad9f73fd79038e1bf975c3d2db05471e9f4a.glb",
+        "/models/trees/ghibli-fluffy/bff7de51560873baf2c803c010ef73ca7346e0dddd25427426d6c5a3b050f592.png",
+        "/models/trees/ghibli-fluffy/a1219b45584f7b3180bd7e2a2877eae8e401252598ee3511d86019d7b5704943.glb",
+        "/models/trees/ghibli-fluffy/56af3a7edcc7adadf2c8e682181e7379ad9a91a661fec8d5eec86495c2109bba.glb",
+        "/models/trees/ghibli-fluffy/8b7035f23ca1b345da735d363699035eb39ed9e8e8018feef61ddef1594e743f.glb",
+        "/models/trees/ghibli-fluffy/ab9d076207e58acc57002f6311aace49f51bd74d03efed6ba90284edbcef3f86.png",
+        "/models/trees/ghibli-fluffy/23db842f3575e94f2c289413bd641f93697e093ba02d3da2cb24e6b893eb91b3.glb",
+        "/models/trees/ghibli-fluffy/e70b6f81e323e2fe1ed5699e918c5401d5f82009fccbf22891ddb5a9baf4ff53.glb",
+        "/models/trees/ghibli-fluffy/f439b2ca3c2c6aca23c33c936624c3b77215512ae393fd425f71551e4872f3df.glb",
+        "/models/trees/ghibli-fluffy/8b156749e5c5941a3958fc8e1e798c18ac401528472adfe9895e77ba415a62af.png",
+        "/models/trees/ghibli-fluffy/9484774870712f221773348a6bbfe70774e4b466f93f971f2319815bcd6012fa.glb",
+        "/models/trees/ghibli-fluffy/ce1874281c05cd11e59aa6d3b770daead2d97273805811b67175ae2a6c05a2fe.glb",
+        "/models/trees/ghibli-fluffy/901fb1bc5c73b8cd7434f609afb85c6dfaf2016e8925c97ab772fbcfc64e8527.glb",
+        "/models/trees/ghibli-fluffy/c438ef7817287ab64f5f0937131dcffe739c63a732584dde5993d73046a96905.png",
+        "/models/trees/ghibli-fluffy/4789d618cb638cb34740069984660048a14f67c071b147b24cd8a959e8658f46.glb",
+        "/models/trees/ghibli-fluffy/86627d81e6fb60efb0627c5cbe49df536384c5e5dfe30f8208e29dd2430729c4.glb",
+        "/models/trees/ghibli-fluffy/4879664927a70fc574220167cbae7dc3c8516a4717b81ccdb3ada438b47f9efa.glb"
+      ],
+      "backend": "webgpu",
+      "inventory": [
+        {
+          "name": "trees-spruce0-crown-t0",
+          "key": "gran",
+          "instances": 271,
+          "triangles": 3500,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-spruce0-trunk-t0",
+          "key": null,
+          "instances": 271,
+          "triangles": 1000,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-spruce0-crown-t1",
+          "key": "gran",
+          "instances": 617,
+          "triangles": 1632,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-spruce0-trunk-t1",
+          "key": null,
+          "instances": 617,
+          "triangles": 68,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-spruce0-crown-t2",
+          "key": "gran",
+          "instances": 0,
+          "triangles": 288,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-spruce0-trunk-t2",
+          "key": null,
+          "instances": 0,
+          "triangles": 20,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-spruce-impostor-t3",
+          "key": "gran",
+          "instances": 4143,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-pine0-crown-t0",
+          "key": "tall",
+          "instances": 184,
+          "triangles": 3752,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-pine0-trunk-t0",
+          "key": null,
+          "instances": 184,
+          "triangles": 696,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-pine0-crown-t1",
+          "key": "tall",
+          "instances": 128,
+          "triangles": 1474,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-pine0-trunk-t1",
+          "key": null,
+          "instances": 128,
+          "triangles": 146,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-pine0-crown-t2",
+          "key": "tall",
+          "instances": 0,
+          "triangles": 220,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-pine0-trunk-t2",
+          "key": null,
+          "instances": 0,
+          "triangles": 60,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-pine-impostor-t3",
+          "key": "tall",
+          "instances": 2874,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-birch0-crown-t0",
+          "key": "bjork",
+          "instances": 206,
+          "triangles": 3644,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-birch0-trunk-t0",
+          "key": null,
+          "instances": 206,
+          "triangles": 856,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-birch0-crown-t1",
+          "key": "bjork",
+          "instances": 560,
+          "triangles": 1572,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-birch0-trunk-t1",
+          "key": null,
+          "instances": 560,
+          "triangles": 128,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-birch0-crown-t2",
+          "key": "bjork",
+          "instances": 0,
+          "triangles": 288,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-birch0-trunk-t2",
+          "key": null,
+          "instances": 0,
+          "triangles": 20,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-birch-impostor-t3",
+          "key": "bjork",
+          "instances": 2695,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-alder0-crown-t0",
+          "key": "al",
+          "instances": 86,
+          "triangles": 2940,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-alder0-trunk-t0",
+          "key": null,
+          "instances": 86,
+          "triangles": 1092,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-alder0-crown-t1",
+          "key": "al",
+          "instances": 624,
+          "triangles": 1496,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-alder0-trunk-t1",
+          "key": null,
+          "instances": 624,
+          "triangles": 204,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-alder0-crown-t2",
+          "key": "al",
+          "instances": 0,
+          "triangles": 48,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-alder0-trunk-t2",
+          "key": null,
+          "instances": 0,
+          "triangles": 60,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-alder-impostor-t3",
+          "key": "al",
+          "instances": 1152,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-oak0-crown-t0",
+          "key": "ek",
+          "instances": 83,
+          "triangles": 3596,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-oak0-trunk-t0",
+          "key": null,
+          "instances": 83,
+          "triangles": 904,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-oak0-crown-t1",
+          "key": "ek",
+          "instances": 50,
+          "triangles": 1388,
+          "map": true,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-oak0-trunk-t1",
+          "key": null,
+          "instances": 50,
+          "triangles": 312,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "trees-oak0-crown-t2",
+          "key": "ek",
+          "instances": 0,
+          "triangles": 48,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-oak0-trunk-t2",
+          "key": null,
+          "instances": 0,
+          "triangles": 152,
+          "map": false,
+          "uv": false,
+          "tint": false,
+          "wind": false,
+          "fade": true
+        },
+        {
+          "name": "trees-oak-impostor-t3",
+          "key": "ek",
+          "instances": 1408,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "vista-spruce-impostor",
+          "key": "gran",
+          "instances": 101140,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "vista-pine-impostor",
+          "key": "tall",
+          "instances": 88173,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "vista-birch-impostor",
+          "key": "bjork",
+          "instances": 52066,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "vista-alder-impostor",
+          "key": "al",
+          "instances": 3249,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        },
+        {
+          "name": "vista-oak-impostor",
+          "key": "ek",
+          "instances": 38364,
+          "triangles": 2,
+          "map": false,
+          "uv": true,
+          "tint": true,
+          "wind": true,
+          "fade": true
+        }
+      ],
+      "triangles": [
+        [
+          [
+            3500,
+            1000
+          ],
+          [
+            1632,
+            68
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        [
+          [
+            3752,
+            696
+          ],
+          [
+            1474,
+            146
+          ],
+          [
+            220,
+            60
+          ]
+        ],
+        [
+          [
+            3644,
+            856
+          ],
+          [
+            1572,
+            128
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        [
+          [
+            2940,
+            1092
+          ],
+          [
+            1496,
+            204
+          ],
+          [
+            48,
+            60
+          ]
+        ],
+        [
+          [
+            3596,
+            904
+          ],
+          [
+            1388,
+            312
+          ],
+          [
+            48,
+            152
+          ]
+        ]
+      ],
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1920,
+            1080
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.09
+      },
+      "vistaSpecies": {
+        "spruce": 101140,
+        "pine": 88173,
+        "birch": 52066,
+        "alder": 3249,
+        "oak": 38364
+      },
+      "atlases": [
+        {
+          "species": 0,
+          "covered": 1629,
+          "leaves": 1612,
+          "finite": true,
+          "frameSize": 96,
+          "height": 19.44514274597168,
+          "radius": 12.188576447117725
+        },
+        {
+          "species": 1,
+          "covered": 735,
+          "leaves": 628,
+          "finite": true,
+          "frameSize": 96,
+          "height": 18.9271240234375,
+          "radius": 14.73161475567101
+        },
+        {
+          "species": 2,
+          "covered": 1840,
+          "leaves": 1748,
+          "finite": true,
+          "frameSize": 96,
+          "height": 15.031545639038086,
+          "radius": 9.098597601585295
+        },
+        {
+          "species": 3,
+          "covered": 1555,
+          "leaves": 1462,
+          "finite": true,
+          "frameSize": 96,
+          "height": 12.249150276184082,
+          "radius": 7.900023296327586
+        },
+        {
+          "species": 4,
+          "covered": 1931,
+          "leaves": 1806,
+          "finite": true,
+          "frameSize": 96,
+          "height": 16.5468807220459,
+          "radius": 12.92167131460768
+        }
+      ],
+      "automatic": {
+        "tiers": {
+          "tier0": 830,
+          "tier1": 1979,
+          "tier2": 0,
+          "tier3": 12272,
+          "cells": 892,
+          "cellsVisible": 190,
+          "moves": 15081,
+          "switches": 0,
+          "reversals": 0,
+          "updates": 1,
+          "bakeMs": 109,
+          "fading": 0,
+          "updateMs": 0.5,
+          "zoneA": 5624,
+          "zoneB": 7814,
+          "heroPx": 64,
+          "switchPx": 24,
+          "impostorPx": 8,
+          "hysteresis": 0.1,
+          "nominalHeight": 12,
+          "cell": 128,
+          "force": 0,
+          "fadeS": 0,
+          "frozen": false,
+          "clockDriven": false,
+          "cellMode": false,
+          "floors": [
+            1,
+            2
+          ]
+        },
+        "audit": {
+          "ok": true,
+          "species": [
+            {
+              "sumCount": 5031,
+              "inCount": 5031,
+              "outCount": 0,
+              "roundTrip": true,
+              "noSelfPair": true,
+              "ok": true
+            },
+            {
+              "sumCount": 3186,
+              "inCount": 3186,
+              "outCount": 0,
+              "roundTrip": true,
+              "noSelfPair": true,
+              "ok": true
+            },
+            {
+              "sumCount": 3461,
+              "inCount": 3461,
+              "outCount": 0,
+              "roundTrip": true,
+              "noSelfPair": true,
+              "ok": true
+            },
+            {
+              "sumCount": 1862,
+              "inCount": 1862,
+              "outCount": 0,
+              "roundTrip": true,
+              "noSelfPair": true,
+              "ok": true
+            },
+            {
+              "sumCount": 1541,
+              "inCount": 1541,
+              "outCount": 0,
+              "roundTrip": true,
+              "noSelfPair": true,
+              "ok": true
+            }
+          ]
+        },
+        "renderer": {
+          "calls": 1383,
+          "frameCalls": 14,
+          "drawCalls": 104,
+          "triangles": 13556258,
+          "points": 0,
+          "lines": 96,
+          "timestamp": 0,
+          "memory": {
+            "attributes": 596,
+            "attributesSize": 347704039,
+            "geometries": 102,
+            "indexAttributes": 77,
+            "indexAttributesSize": 5178444,
+            "indirectStorageAttributes": 0,
+            "indirectStorageAttributesSize": 0,
+            "programs": 162,
+            "programsSize": 1439039,
+            "readbackBuffers": 0,
+            "readbackBuffersSize": 0,
+            "renderTargets": 26,
+            "storageAttributes": 0,
+            "storageAttributesSize": 0,
+            "textures": 58,
+            "texturesSize": 302235773,
+            "uniformBuffers": 243,
+            "uniformBuffersSize": 290048,
+            "total": 656847343
+          },
+          "drawingBuffer": [
+            1920,
+            1080
+          ],
+          "pixelRatio": 1
+        }
+      }
+    }
+  ]
+}

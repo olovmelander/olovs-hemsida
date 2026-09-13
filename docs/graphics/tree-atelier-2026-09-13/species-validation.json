@@ -1,0 +1,369 @@
+{
+  "errors": [],
+  "assets": [
+    {
+      "species": "tall",
+      "tier": "hero",
+      "triangles": 4448,
+      "bytes": 472956
+    },
+    {
+      "species": "tall",
+      "tier": "full",
+      "triangles": 1620,
+      "bytes": 264620
+    },
+    {
+      "species": "tall",
+      "tier": "lite",
+      "triangles": 280,
+      "bytes": 10472
+    },
+    {
+      "species": "gran",
+      "tier": "hero",
+      "triangles": 4500,
+      "bytes": 459040
+    },
+    {
+      "species": "gran",
+      "tier": "full",
+      "triangles": 1700,
+      "bytes": 317528
+    },
+    {
+      "species": "gran",
+      "tier": "lite",
+      "triangles": 308,
+      "bytes": 11928
+    },
+    {
+      "species": "bjork",
+      "tier": "hero",
+      "triangles": 4500,
+      "bytes": 417732
+    },
+    {
+      "species": "bjork",
+      "tier": "full",
+      "triangles": 1700,
+      "bytes": 249940
+    },
+    {
+      "species": "bjork",
+      "tier": "lite",
+      "triangles": 308,
+      "bytes": 11924
+    },
+    {
+      "species": "al",
+      "tier": "hero",
+      "triangles": 4032,
+      "bytes": 371404
+    },
+    {
+      "species": "al",
+      "tier": "full",
+      "triangles": 1700,
+      "bytes": 236656
+    },
+    {
+      "species": "al",
+      "tier": "lite",
+      "triangles": 108,
+      "bytes": 5324
+    },
+    {
+      "species": "ek",
+      "tier": "hero",
+      "triangles": 4500,
+      "bytes": 408132
+    },
+    {
+      "species": "ek",
+      "tier": "full",
+      "triangles": 1700,
+      "bytes": 215984
+    },
+    {
+      "species": "ek",
+      "tier": "lite",
+      "triangles": 200,
+      "bytes": 7536
+    }
+  ],
+  "views": [
+    {
+      "species": "tall",
+      "tier": "hero",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 6808,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 4448,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "tall",
+      "tier": "full",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 1788,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 1620,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "tall",
+      "tier": "lite",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 572,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 280,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "gran",
+      "tier": "hero",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 1524,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 4500,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "gran",
+      "tier": "full",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 836,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 1700,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "gran",
+      "tier": "lite",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 132,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 308,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "bjork",
+      "tier": "hero",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 8444,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 4500,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "bjork",
+      "tier": "full",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 2168,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 1700,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "bjork",
+      "tier": "lite",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 632,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 308,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "al",
+      "tier": "hero",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 3812,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 4032,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "al",
+      "tier": "full",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 1296,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 1700,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "al",
+      "tier": "lite",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 324,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 108,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "ek",
+      "tier": "hero",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 4704,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 4500,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "ek",
+      "tier": "full",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 1440,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 1700,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    },
+    {
+      "species": "ek",
+      "tier": "lite",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 664,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 200,
+          "webgpu": true,
+          "drawCalls": 6
+        }
+      ]
+    }
+  ],
+  "meshIssues": [],
+  "mobileOverflow": false
+}

@@ -1,0 +1,189 @@
+{
+  "design": "five-species-painted-study",
+  "studyOnly": true,
+  "budgets": {
+    "hero": 4500,
+    "full": 1700,
+    "lite": 420
+  },
+  "species": [
+    {
+      "name": "Scots pine",
+      "swedish": "Tall",
+      "colour": 4356131,
+      "atlas": "needle-sprays.png",
+      "key": "tall",
+      "height": 17.439622248402358,
+      "tiers": {
+        "hero": {
+          "file": "tall-hero.glb",
+          "triangles": 4448,
+          "crown": 3752,
+          "trunk": 696,
+          "bytes": 472956,
+          "sha256": "362b9540738ca746f0ca4aa3dec31839904c9af85cf71bd2bdfbb09d131f9352"
+        },
+        "full": {
+          "file": "tall-full.glb",
+          "triangles": 1620,
+          "crown": 1474,
+          "trunk": 146,
+          "bytes": 264620,
+          "sha256": "1322f278922459465593dc068ced9b370b773b6ba31dc2a6a968cff3d2055b46"
+        },
+        "lite": {
+          "file": "tall-lite.glb",
+          "triangles": 280,
+          "crown": 220,
+          "trunk": 60,
+          "bytes": 10472,
+          "sha256": "f459e95dacc5925b74d48d05fcf0dd11d523e9c8422daa86b443d8edd5d3db62"
+        }
+      }
+    },
+    {
+      "name": "Norway spruce",
+      "swedish": "Gran",
+      "colour": 3106098,
+      "atlas": "gran-leaves.png",
+      "seed": 10000,
+      "height": 18.93498980142011,
+      "key": "gran",
+      "tiers": {
+        "hero": {
+          "file": "gran-hero.glb",
+          "triangles": 4500,
+          "crown": 3500,
+          "trunk": 1000,
+          "bytes": 459040,
+          "sha256": "8888483dcc5ad030cbe64f2edf3602f5c7df95663e4ed679c023585940ed9087"
+        },
+        "full": {
+          "file": "gran-full.glb",
+          "triangles": 1700,
+          "crown": 1632,
+          "trunk": 68,
+          "bytes": 317528,
+          "sha256": "a3864c1b6c8384fee2bb66b3f36f369273fd5fc5a2bbb5fa7104124f4fbf5d9d"
+        },
+        "lite": {
+          "file": "gran-lite.glb",
+          "triangles": 308,
+          "crown": 288,
+          "trunk": 20,
+          "bytes": 11928,
+          "sha256": "a189e79c559bd1ad572dc876238eb6bd7e0e85262920c3281e3148e441deb8e1"
+        }
+      }
+    },
+    {
+      "name": "Silver birch",
+      "swedish": "Björk",
+      "colour": 7248170,
+      "atlas": "bjork-leaves.png",
+      "seed": 5000,
+      "height": 13.86452379023802,
+      "fn": "birch2",
+      "key": "bjork",
+      "tiers": {
+        "hero": {
+          "file": "bjork-hero.glb",
+          "triangles": 4500,
+          "crown": 3644,
+          "trunk": 856,
+          "bytes": 417732,
+          "sha256": "42e3496358351b781aebb91b1a56dab8f0befbe005362ea5e1849e540313afe3"
+        },
+        "full": {
+          "file": "bjork-full.glb",
+          "triangles": 1700,
+          "crown": 1572,
+          "trunk": 128,
+          "bytes": 249940,
+          "sha256": "52bd8f64e85fbacb2299c76507e3cebceba6d13e37bbc4d94a05655bce345701"
+        },
+        "lite": {
+          "file": "bjork-lite.glb",
+          "triangles": 308,
+          "crown": 288,
+          "trunk": 20,
+          "bytes": 11924,
+          "sha256": "e4e6399cd21b35b247e88560f7ac14c10936474dcb83d68926abac91180c95b3"
+        }
+      }
+    },
+    {
+      "name": "Grey alder",
+      "swedish": "Al",
+      "colour": 3766582,
+      "atlas": "al-leaves.png",
+      "seed": 7000,
+      "height": 11.934720413896192,
+      "fn": "alder2",
+      "key": "al",
+      "tiers": {
+        "hero": {
+          "file": "al-hero.glb",
+          "triangles": 4032,
+          "crown": 2940,
+          "trunk": 1092,
+          "bytes": 371404,
+          "sha256": "3dc64dfdb7433b82d56ebc423538136ef0b9d293f9a1be6ab759ba6c39e0d43a"
+        },
+        "full": {
+          "file": "al-full.glb",
+          "triangles": 1700,
+          "crown": 1496,
+          "trunk": 204,
+          "bytes": 236656,
+          "sha256": "69e0f0a146b2c2a03b156ffbdb0ca55eb7924197ae6e926a7f2de3121e5a678d"
+        },
+        "lite": {
+          "file": "al-lite.glb",
+          "triangles": 108,
+          "crown": 48,
+          "trunk": 60,
+          "bytes": 5324,
+          "sha256": "dd42443dd419d439af98d1f98485db49f8d33cc42a94673550327d3081375b7f"
+        }
+      }
+    },
+    {
+      "name": "Pasture oak",
+      "swedish": "Ek",
+      "colour": 5471776,
+      "atlas": "ek-leaves.png",
+      "seed": 1000,
+      "height": 20.218853141604512,
+      "fn": "oak2",
+      "key": "ek",
+      "tiers": {
+        "hero": {
+          "file": "ek-hero.glb",
+          "triangles": 4500,
+          "crown": 3596,
+          "trunk": 904,
+          "bytes": 408132,
+          "sha256": "3e47a73e988b6554130b5fb6808e01e6e06c5570ae70de213ef29b209f51c920"
+        },
+        "full": {
+          "file": "ek-full.glb",
+          "triangles": 1700,
+          "crown": 1388,
+          "trunk": 312,
+          "bytes": 215984,
+          "sha256": "9106e49d6ec1678da63386f1f19cf2550283528d9a74723ba6e1ca7c9d51a5d9"
+        },
+        "lite": {
+          "file": "ek-lite.glb",
+          "triangles": 200,
+          "crown": 48,
+          "trunk": 152,
+          "bytes": 7536,
+          "sha256": "e078546de751bd1de8fe41039ff2efa0701de4be104f83f17cd412f961c976db"
+        }
+      }
+    }
+  ],
+  "buildSeconds": 3.09
+}
