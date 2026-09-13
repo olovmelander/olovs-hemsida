@@ -357,6 +357,9 @@ let V2_VEGETATION = null;
 let V2_VEGETATION_ERROR = null;
 const H0 = decodeHF(HF0, b0), H1 = decodeHF(HF1, b1);
 const M = MODEL;
+// Source corrections precede every consumer of the inherited pack, including
+// the atlas, tint, natural-ground classifier and measured-tree exclusions.
+SCENERY?.applyGroundSurfaceReview?.(M, GEO);
 /* The SURROUNDINGS RECORD (geobuild/parse-osm-wide.mjs): the town, the harbour,
    the roads and railway beyond the core extract, the ski jumps, the trotting
    track, the towers on the skyline -- read off OpenStreetMap out to 6.4 km and
@@ -1351,6 +1354,11 @@ const C = {
 // ground ring. The painted material uses it once, without squaring the RGB.
 if (GHIBLI_LOOK) Object.assign(C, Object.fromEntries(
   Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, L(hex)])));
+// A reviewed ground's mineral pigments apply in both looks. The shared art
+// palette must not turn photographed grey stone into pale blue patches.
+if (SCENERY?.groundAppearance?.palette) Object.assign(C, Object.fromEntries(
+  Object.entries(SCENERY.groundAppearance.palette).map(([key, hex]) => [key, L(hex)])));
+const ROCK_FROM_SLOPE = SCENERY?.groundAppearance?.rockFromSlope !== false;
 
 /* how each surface is shaded: detail scale, bump strength, gloss, mow anisotropy */
 const SHADE = {
@@ -1398,7 +1406,7 @@ function groundAt(x, z, h) {
   col = col.map((v, i) => lerp(v, C.semi[i], damp * 0.38));
   /* Åsberget shows its granite: the club's aerials have bare grey crag faces on the
      steep ground, so rock breaks through harder and paler than the first guess */
-  col = col.map((v, i) => lerp(v, lerp(C.forest[i], C.rock[i], smooth(0.45, 0.85, sl)), steep * 0.75));
+  col = col.map((v, i) => lerp(v, lerp(C.forest[i], C.rock[i], ROCK_FROM_SLOPE ? smooth(0.45, 0.85, sl) : 0), steep * 0.75));
   sid = heath > 0.55 ? S_HEATH : S_ROUGH;
   if (c.forest > 0.02) {
     /* the satellite has the last word: where it reads open inside an OSM forest
@@ -2224,7 +2232,7 @@ function vistaGround(x, z, h, dx, Hf) {
      far world's extra rock is the far world's extra BLUE, which is why the
      mismatch reads as a hue and only in that look. Both of groundAt's terms,
      so the two now agree to a percent at every slope. */
-  const rocky = smooth(0.30, 0.78, sl) * smooth(0.45, 0.85, sl);
+  const rocky = ROCK_FROM_SLOPE ? smooth(0.30, 0.78, sl) * smooth(0.45, 0.85, sl) : 0;
   const lc = landAt(x, z);
   const trees = isTreeClass(lc);
   /* the class alone never paints water; something that measured the ground must agree */
@@ -3308,7 +3316,7 @@ if (legacySurfaceOverlays) {
       || (kind === 'range_tee_pad' && material !== 'mixed-hardstanding-and-mats');
     const mesh = new THREE.Mesh(g, nudged(order, isSand ? makeSand : naturalSurface ? makeTurf : makeGravel));
     mesh.receiveShadow = true; mesh.renderOrder = order;
-    const turfOverlay = kind === 'paved_path' || kind === 'practice_green' || turfTarget || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
+    const turfOverlay = mappedPathSurface({ kind, material }) !== null || kind === 'practice_green' || turfTarget || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
     mesh.userData.tag = turfOverlay ? 'legacy-surface-overlay' : 'mapped-facility-footprint';
     if (turfOverlay) stats.surfaceOverlays++;
     if (isMat) mesh.userData.verticalPlacement = 'estimated rendering offset; mat thickness unmeasured';

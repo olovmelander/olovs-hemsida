@@ -23,7 +23,7 @@ export function mappedLineHalfWidth(item, fallback) {
 // The generic hard-surface display is gravel-coloured. Only an explicit source
 // material of asphalt selects asphalt; a surveyed outline does not prove paving.
 export function mappedPathSurface(feature) {
-  if (feature?.kind !== 'paved_path') return null;
+  if (feature?.kind !== 'paved_path' && feature?.kind !== 'hardstanding') return null;
   return feature.material === 'asphalt' ? SURFACE.ASPHALT : SURFACE.GRAVEL;
 }
 
