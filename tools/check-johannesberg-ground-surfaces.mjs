@@ -16,14 +16,17 @@ const base = process.argv.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:864
 const out = 'johannesbergbuild/cache/ground-surface-browser';
 fs.mkdirSync(out, { recursive: true });
 const report = { reviewId: review.id, capturedAt: new Date().toISOString(), backend: 'webgl2-swiftshader', courses: [], passed: false };
+const saveReport = () => fs.writeFileSync(`${out}/report.json`, JSON.stringify(report, null, 2) + '\n');
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
 try {
   for (const slug of review.courseSlugs) {
     const page = await browser.newPage({ viewport: { width: 709, height: 1200 }, isMobile: true, hasTouch: true });
     const errors = [];
     page.on('pageerror', e => errors.push(String(e)));
+    console.log(`${slug}: loading`);
     await page.goto(`${base}/?bana=${slug}&v2=require&ghibli=1&gl=1&q=performance&qualitylock=1&det=1`, { timeout: 120000 });
     await page.waitForSelector('#boot.done', { timeout: 600000 });
+    console.log(`${slug}: boot complete`);
     const actual = await page.evaluate(controls => {
       const v = window.V3D;
       return { review: v.M.groundSurfaceReview, terrain: v.v2Terrain(),
@@ -42,6 +45,24 @@ try {
       assert.ok(Math.abs(got.heightResidualMetres) < .12, `${c.id}: terrain registration ${got.heightResidualMetres}`);
     }
     const captures = [];
+    report.courses.push({ slug, ...actual, errors, captures });
+    saveReport();
+    console.log(`${slug}: all source controls and terrain heights passed`);
+    const cdp = await page.context().newCDPSession(page);
+    const capture = async file => {
+      console.log(`${slug}: capturing ${file}`);
+      // Read the browser view directly. The software compositor can stall
+      // Playwright's surface-copy screenshot path after a large WebGL frame.
+      const { data } = await cdp.send('Page.captureScreenshot', {
+        format: 'png', fromSurface: false, captureBeyondViewport: false,
+      });
+      const bytes = Buffer.from(data, 'base64');
+      assert.ok(bytes.length > 10000, `${file}: empty browser capture`);
+      fs.writeFileSync(`${out}/${file}`, bytes);
+      captures.push(file);
+      saveReport();
+      console.log(`${slug}: saved ${file} (${bytes.length} bytes)`);
+    };
     for (const view of [
       { id: 'hole18', x: -182, z: -454, rise: 110, offset: 65 },
       { id: 'hole17', x: -98, z: -235, rise: 85, offset: 125 },
@@ -55,23 +76,23 @@ try {
       await page.waitForFunction(() => window.V3D.settled(), null, { timeout: 120000 });
       await page.evaluate(() => window.V3D.prepareCapture());
       const file = `${slug}-${view.id}-mobile.png`;
-      await page.screenshot({ path: `${out}/${file}`, animations: 'disabled', timeout: 120000 });
-      captures.push(file);
+      await capture(file);
     }
     await page.setViewportSize({ width: 1440, height: 960 });
     await page.evaluate(() => window.V3D.setPreset('noon'));
     await page.waitForFunction(() => window.V3D.settled(), null, { timeout: 120000 });
     await page.evaluate(() => window.V3D.prepareCapture());
-    const file = `${slug}-works-yard-desktop.png`;
-    await page.screenshot({ path: `${out}/${file}`, animations: 'disabled', timeout: 120000 });
-    captures.push(file);
+    const file = `${slug}-works-yard-wide.png`;
+    await capture(file);
     assert.deepEqual(errors, []);
-    report.courses.push({ slug, ...actual, errors, captures });
     console.log(JSON.stringify({ slug, controls: actual.controls, captures }));
     await page.close();
   }
   report.passed = true;
+} catch (error) {
+  report.error = String(error.stack || error);
+  throw error;
 } finally {
+  saveReport();
   await browser.close();
-  fs.writeFileSync(`${out}/report.json`, JSON.stringify(report, null, 2) + '\n');
 }
