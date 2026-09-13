@@ -14,6 +14,15 @@ const make = (terrainPlacement, terrainH) => new Function('THREE', 'M', 'hyp', '
 const road = { line: [[-24, 0], [24, 0]], w: 3, lift: .16, tone: [.3, .3, .3] };
 
 describe('measured road ribbon placement', () => {
+  it('drapes ordinary road fallbacks on legacy courses instead of grading a floating slab', () => {
+    const terrain = (x, z) => 30 + Math.sin(x * .15) * 8 + z * .7;
+    const builder = make(undefined, terrain);
+    const geometry = builder.buildRoad([{ ...road, drape: true }], true);
+    const p = geometry.getAttribute('position');
+    for (let i = 0; i < p.count; i++) expect(p.getY(i)).toBeCloseTo(terrain(p.getX(i), p.getZ(i)) + .03, 4);
+    expect(builder.proofs[0].syntheticGrading).toBe(false);
+    geometry.dispose();
+  });
   it('drapes every submitted vertex through a sharp valley and across a side slope', () => {
     const terrain = (x, z) => 100 - 20 * Math.exp(-((x / 2) ** 2)) + z * 1.75;
     const builder = make('measured-only', terrain);

@@ -43,7 +43,7 @@ describe('Upsala source-to-consumer tee coordinate contract', () => {
     }, /longitude\/latitude mismatch/],
     ['stale published route start', s => { s.courses[0].routing.holes[0].line[0][0] += 3; }, /stale published routing/],
     ['wrong projected runtime origin', s => { s.courses[0].config.legacyOriginEpsg3006.northing += 5; }, /runtime world bridge mismatch/],
-    ['camera setback in the actual app branch', s => {
+    ['incorrect camera origin in the actual app branch', s => {
       s.appSource = s.appSource.replace('const { position: [x, z], aim } = teeView(h, mk);',
         'const x = mk.c[0] - 7, z = mk.c[1]; const aim = alongLine(h.line, 0.72);');
     }, /actual app camera branch/],

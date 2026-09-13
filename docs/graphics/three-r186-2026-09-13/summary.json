@@ -1,0 +1,2464 @@
+{
+  "date": "2026-09-13",
+  "applicationCommit": "5ecc199c1cffe309ab9f55b50e5c6388ea7c96a2",
+  "target": "three@0.186.0",
+  "reference": "three@0.185.1",
+  "platform": "Windows; NVIDIA RTX 3070 Laptop / Ampere; driver 32.0.15.7247",
+  "scope": "Isolated original upgrade branch; concurrent shot-planner and road rendering changes excluded. Mobile viewport/touch emulation uses desktop Chromium.",
+  "unitTests": {
+    "vitest": {
+      "passed": 963,
+      "files": 127
+    },
+    "node": {
+      "passed": 454,
+      "skipped": 3,
+      "failed": 0
+    },
+    "setup": "Frozen pnpm install plus separate COPC reader dependencies; exact Git bytes restored for two Lidingo source GeoJSON files affected by Windows newline conversion."
+  },
+  "expectedDifferences": [
+    "Realistic sky parity fails because r186 disables fog on SkyMesh and improves clouds. The owner asked to retain visual improvements.",
+    "The old r185 realistic sky fails the sky-only shading gate (flat fog colour); r186 passes."
+  ],
+  "existingFailure": "check-app --only=puttom: 17 of 72 tee markers not on tee grass, also reported on r185/main.",
+  "software": {
+    "renderer": "ANGLE SwiftShader WebGL2, Chrome 152, Windows",
+    "capture": "V3D.prepareCapture() then canvas.toDataURL() in the same browser task; ordinary compositor screenshot timed out.",
+    "scope": "Puttom hole 1 tee, high quality, default golden light, 960 x 540. This does not reproduce the earlier Linux/browser combination.",
+    "runs": [
+      {
+        "id": "swift-canvas",
+        "url": "http://127.0.0.1:8622/?bana=puttom&det=1&v2=require&hal=1&vy=tee&q=hi&gl=1&qualitylock=1",
+        "browser": "152.0.7977.83",
+        "backend": "webgl2",
+        "trees": 209962,
+        "tiers": [
+          772,
+          3689,
+          0,
+          31568
+        ],
+        "auditPassed": true,
+        "triangles": 13848292,
+        "draws": 165,
+        "errors": []
+      },
+      {
+        "id": "r185-swift-canvas",
+        "url": "http://127.0.0.1:8621/?bana=puttom&det=1&v2=require&hal=1&vy=tee&q=hi&gl=1&qualitylock=1",
+        "browser": "152.0.7977.83",
+        "backend": "webgl2",
+        "trees": 209962,
+        "tiers": [
+          772,
+          3689,
+          0,
+          31568
+        ],
+        "auditPassed": true,
+        "triangles": 13848292,
+        "draws": 165,
+        "errors": []
+      }
+    ],
+    "difference": {
+      "mean": 1.4206423611111112,
+      "percentOver8": 0,
+      "worst": 8
+    },
+    "parityPassed": true
+  },
+  "results": [
+    {
+      "id": "stable-all",
+      "browser": "152.0.7977.83",
+      "backend": "webgpu",
+      "look": "ghibli",
+      "reversedDepthRequested": "1",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/angso: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/angso: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/angso: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/angso/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/angso/tier0: visible forest (13.78% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/angso: terrain visible beneath sky (47.46% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/angso: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/angso: forest remains visible after camera change (13.50% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/angso: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken/tier0: visible forest (11.87% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken: terrain visible beneath sky (48.38% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken: forest remains visible after camera change (12.45% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/norrfallsviken: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (18.26% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (39.81% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (13.50% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala/tier0: visible forest (18.79% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala: terrain visible beneath sky (46.31% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala: forest remains visible after camera change (15.47% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan/tier0: visible forest (27.23% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan: terrain visible beneath sky (45.76% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan: forest remains visible after camera change (11.80% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/upsala-mellanbanan: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg/tier0: visible forest (5.61% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg: terrain visible beneath sky (51.48% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg: forest remains visible after camera change (1.54% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9/tier0: visible forest (8.51% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9: terrain visible beneath sky (49.76% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9: forest remains visible after camera change (2.50% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/johannesberg-9: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden/tier0: visible forest (4.17% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden: terrain visible beneath sky (49.31% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden: forest remains visible after camera change (32.28% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan/tier0: visible forest (7.98% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan: terrain visible beneath sky (46.59% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan: forest remains visible after camera change (9.31% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/veckefjarden-korthalsbanan: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors/tier0: visible forest (6.81% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors: terrain visible beneath sky (50.63% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors: forest remains visible after camera change (16.86% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/ribbingsfors: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/visby: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/visby: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/visby: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/visby/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/visby/tier0: visible forest (5.38% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/visby: terrain visible beneath sky (47.47% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/visby: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/visby: forest remains visible after camera change (6.06% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/visby: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna/tier0: visible forest (13.36% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna: terrain visible beneath sky (47.10% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna: forest remains visible after camera change (7.73% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/tortuna: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo/tier0: visible forest (5.76% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo: terrain visible beneath sky (49.05% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo: forest remains visible after camera change (8.10% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/lidingo: no browser or renderer errors"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "angso",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=angso&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -59.999999999999964,
+              7.987333865820677,
+              374.9
+            ]
+          },
+          "trees": 98506,
+          "tiers": [
+            417,
+            1144,
+            0,
+            8572
+          ],
+          "render": {
+            "triangles": 7221523,
+            "draws": 176
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 16.792386188271603,
+                "percentOver8": 13.777777777777779,
+                "worst": 214
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 85.5703800154321,
+            "percentOver8": 47.45910493827161,
+            "worst": 197
+          },
+          "overheadTreeVisibility": {
+            "mean": 7.984400077160494,
+            "percentOver8": 13.499035493827162,
+            "worst": 217
+          },
+          "errors": []
+        },
+        {
+          "slug": "norrfallsviken",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=norrfallsviken&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -316.292,
+              52.62751895112996,
+              144.778
+            ]
+          },
+          "trees": 105044,
+          "tiers": [
+            1886,
+            615,
+            0,
+            0
+          ],
+          "render": {
+            "triangles": 11579381,
+            "draws": 153
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 15.966358024691358,
+                "percentOver8": 11.873842592592593,
+                "worst": 214
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 90.25387924382716,
+            "percentOver8": 48.38425925925926,
+            "worst": 208
+          },
+          "overheadTreeVisibility": {
+            "mean": 5.3543923611111115,
+            "percentOver8": 12.452739197530864,
+            "worst": 180
+          },
+          "errors": []
+        },
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            0,
+            31568
+          ],
+          "render": {
+            "triangles": 13981412,
+            "draws": 165
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 29.54016589506173,
+                "percentOver8": 18.263695987654323,
+                "worst": 216
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 72.88139660493827,
+            "percentOver8": 39.80922067901235,
+            "worst": 205
+          },
+          "overheadTreeVisibility": {
+            "mean": 8.504662422839505,
+            "percentOver8": 13.499035493827162,
+            "worst": 202
+          },
+          "errors": []
+        },
+        {
+          "slug": "upsala",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=upsala&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              14.443999999999988,
+              35.18190191064779,
+              -171.961
+            ]
+          },
+          "trees": 143092,
+          "tiers": [
+            960,
+            2317,
+            0,
+            54982
+          ],
+          "render": {
+            "triangles": 15645797,
+            "draws": 117
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 21.72687885802469,
+                "percentOver8": 18.794367283950617,
+                "worst": 227
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 85.14213927469136,
+            "percentOver8": 46.31211419753086,
+            "worst": 206
+          },
+          "overheadTreeVisibility": {
+            "mean": 9.403234953703704,
+            "percentOver8": 15.46797839506173,
+            "worst": 218
+          },
+          "errors": []
+        },
+        {
+          "slug": "upsala-mellanbanan",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=upsala-mellanbanan&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              164.09999999999988,
+              38.45403486694398,
+              -297.3
+            ]
+          },
+          "trees": 143139,
+          "tiers": [
+            2518,
+            4819,
+            0,
+            28644
+          ],
+          "render": {
+            "triangles": 23698138,
+            "draws": 121
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 38.62358024691358,
+                "percentOver8": 27.23090277777778,
+                "worst": 215
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 84.0997048611111,
+            "percentOver8": 45.757908950617285,
+            "worst": 216
+          },
+          "overheadTreeVisibility": {
+            "mean": 7.338948688271605,
+            "percentOver8": 11.800347222222223,
+            "worst": 225
+          },
+          "errors": []
+        },
+        {
+          "slug": "johannesberg",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=johannesberg&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -95.20699999999998,
+              29.36153584822434,
+              -744.306
+            ]
+          },
+          "trees": 112705,
+          "tiers": [
+            3701,
+            5686,
+            0,
+            38115
+          ],
+          "render": {
+            "triangles": 26886726,
+            "draws": 239
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 3.8302970679012347,
+                "percentOver8": 5.606288580246913,
+                "worst": 216
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 91.7782137345679,
+            "percentOver8": 51.479938271604944,
+            "worst": 209
+          },
+          "overheadTreeVisibility": {
+            "mean": 0.6785513117283951,
+            "percentOver8": 1.543016975308642,
+            "worst": 169
+          },
+          "errors": []
+        },
+        {
+          "slug": "johannesberg-9",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=johannesberg-9&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -269.09999999999997,
+              22.218126415894492,
+              -809.6999999999999
+            ]
+          },
+          "trees": 112739,
+          "tiers": [
+            134,
+            74,
+            0,
+            5547
+          ],
+          "render": {
+            "triangles": 6095297,
+            "draws": 148
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 12.633813657407407,
+                "percentOver8": 8.514853395061728,
+                "worst": 220
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 87.91627314814815,
+            "percentOver8": 49.76369598765432,
+            "worst": 198
+          },
+          "overheadTreeVisibility": {
+            "mean": 1.2988831018518519,
+            "percentOver8": 2.50366512345679,
+            "worst": 172
+          },
+          "errors": []
+        },
+        {
+          "slug": "veckefjarden",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=veckefjarden&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              51.3975028858669,
+              53.090382690094714,
+              -254.04379637747292
+            ]
+          },
+          "trees": 155487,
+          "tiers": [
+            1889,
+            4287,
+            0,
+            22686
+          ],
+          "render": {
+            "triangles": 17801187,
+            "draws": 158
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 5.968786651234568,
+                "percentOver8": 4.172646604938271,
+                "worst": 212
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 76.24775655864198,
+            "percentOver8": 49.31481481481482,
+            "worst": 206
+          },
+          "overheadTreeVisibility": {
+            "mean": 12.025927854938272,
+            "percentOver8": 32.27912808641975,
+            "worst": 176
+          },
+          "errors": []
+        },
+        {
+          "slug": "veckefjarden-korthalsbanan",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=veckefjarden-korthalsbanan&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              15.70000000000001,
+              50.052153388696844,
+              -271.5
+            ]
+          },
+          "trees": 155521,
+          "tiers": [
+            362,
+            1622,
+            0,
+            23238
+          ],
+          "render": {
+            "triangles": 11857524,
+            "draws": 179
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 10.201086033950617,
+                "percentOver8": 7.9780092592592595,
+                "worst": 214
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 77.57402970679013,
+            "percentOver8": 46.5943287037037,
+            "worst": 211
+          },
+          "overheadTreeVisibility": {
+            "mean": 3.756971450617284,
+            "percentOver8": 9.314621913580247,
+            "worst": 224
+          },
+          "errors": []
+        },
+        {
+          "slug": "ribbingsfors",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=ribbingsfors&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              480.29999999999995,
+              78.52120000000001,
+              -430.4
+            ]
+          },
+          "trees": 167675,
+          "tiers": [
+            1505,
+            5472,
+            0,
+            68412
+          ],
+          "render": {
+            "triangles": 18514331,
+            "draws": 167
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 9.563840663580248,
+                "percentOver8": 6.813657407407407,
+                "worst": 219
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 92.06144868827161,
+            "percentOver8": 50.63368055555556,
+            "worst": 201
+          },
+          "overheadTreeVisibility": {
+            "mean": 6.844164737654321,
+            "percentOver8": 16.86400462962963,
+            "worst": 183
+          },
+          "errors": []
+        },
+        {
+          "slug": "visby",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=visby&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -577,
+              7.019999999999995,
+              138.25
+            ]
+          },
+          "trees": 51127,
+          "tiers": [
+            1432,
+            204,
+            0,
+            5241
+          ],
+          "render": {
+            "triangles": 11115668,
+            "draws": 118
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 6.765717592592592,
+                "percentOver8": 5.381751543209877,
+                "worst": 245
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 89.01114390432099,
+            "percentOver8": 47.47434413580247,
+            "worst": 218
+          },
+          "overheadTreeVisibility": {
+            "mean": 2.8016628086419755,
+            "percentOver8": 6.055362654320988,
+            "worst": 169
+          },
+          "errors": []
+        },
+        {
+          "slug": "tortuna",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=tortuna&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              34.312000000034416,
+              31.90463216000063,
+              -137.31799999997023
+            ]
+          },
+          "trees": 38546,
+          "tiers": [
+            2698,
+            5676,
+            0,
+            9756
+          ],
+          "render": {
+            "triangles": 21576164,
+            "draws": 117
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 18.161304012345678,
+                "percentOver8": 13.357445987654321,
+                "worst": 216
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 86.93458333333334,
+            "percentOver8": 47.09992283950618,
+            "worst": 211
+          },
+          "overheadTreeVisibility": {
+            "mean": 3.452282021604938,
+            "percentOver8": 7.725887345679013,
+            "worst": 182
+          },
+          "errors": []
+        },
+        {
+          "slug": "lidingo",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=lidingo&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -32.49999999999998,
+              26.561099999998696,
+              -9.780000000260799
+            ]
+          },
+          "trees": 45979,
+          "tiers": [
+            1317,
+            3107,
+            0,
+            4197
+          ],
+          "render": {
+            "triangles": 17896169,
+            "draws": 152
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 4.551624228395061,
+                "percentOver8": 5.755594135802469,
+                "worst": 212
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 88.6184799382716,
+            "percentOver8": 49.05497685185185,
+            "worst": 206
+          },
+          "overheadTreeVisibility": {
+            "mean": 3.7822222222222224,
+            "percentOver8": 8.095293209876543,
+            "worst": 163
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "stable-painted-parity",
+      "browser": "152.0.7977.83",
+      "backend": "webgpu",
+      "look": "ghibli",
+      "reversedDepthRequested": "1",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (18.26% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier1: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier1: visible forest (20.64% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier2: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier2: visible forest (18.28% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier3: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier3: visible forest (22.25% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier4: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier4: visible forest (19.30% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (39.81% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (17.18% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "puttom: r185/r186 perceptual parity (1.8664/255; 0.060% over 8)"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            0,
+            31568
+          ],
+          "render": {
+            "triangles": 13981412,
+            "draws": 165
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 29.54016589506173,
+                "percentOver8": 18.263695987654323,
+                "worst": 216
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 1,
+              "pixels": {
+                "mean": 30.740592206790122,
+                "percentOver8": 20.643711419753085,
+                "worst": 216
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 2,
+              "pixels": {
+                "mean": 29.60643904320988,
+                "percentOver8": 18.282793209876544,
+                "worst": 216
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 3,
+              "pixels": {
+                "mean": 33.34685570987654,
+                "percentOver8": 22.246913580246915,
+                "worst": 215
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 4,
+              "pixels": {
+                "mean": 27.232413194444444,
+                "percentOver8": 19.295910493827158,
+                "worst": 214
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 73.23097415123456,
+            "percentOver8": 39.811149691358025,
+            "worst": 214
+          },
+          "overheadTreeVisibility": {
+            "mean": 7.288055555555555,
+            "percentOver8": 17.17997685185185,
+            "worst": 182
+          },
+          "errors": []
+        },
+        {
+          "slug": "puttom",
+          "label": "reference",
+          "url": "http://127.0.0.1:8621/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            0,
+            31568
+          ],
+          "render": {
+            "triangles": 13981412,
+            "draws": 165
+          },
+          "treeVisibility": [],
+          "referenceDifference": {
+            "mean": 1.8664236111111112,
+            "percentOver8": 0.059799382716049385,
+            "worst": 68
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "stable-sky-reversed",
+      "browser": "152.0.7977.83",
+      "backend": "webgpu",
+      "look": "real",
+      "reversedDepthRequested": "1",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (53.08% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier1: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier1: visible forest (52.84% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier2: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier2: visible forest (52.49% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier3: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier3: visible forest (49.24% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier4: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier4: visible forest (54.10% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (69.55% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (17.73% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: SkyMesh shades the sky (250.0/255, range 22.0)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=real&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            8054,
+            23514
+          ],
+          "render": {
+            "triangles": 7611612,
+            "draws": 125
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 31.38444637345679,
+                "percentOver8": 53.07581018518519,
+                "worst": 217
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 1,
+              "pixels": {
+                "mean": 30.278844521604938,
+                "percentOver8": 52.84085648148148,
+                "worst": 217
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 2,
+              "pixels": {
+                "mean": 30.656194058641976,
+                "percentOver8": 52.485725308641975,
+                "worst": 215
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 3,
+              "pixels": {
+                "mean": 26.893132716049383,
+                "percentOver8": 49.24305555555556,
+                "worst": 212
+              },
+              "auditPassed": true
+            },
+            {
+              "forcedTier": 4,
+              "pixels": {
+                "mean": 29.81824074074074,
+                "percentOver8": 54.10320216049382,
+                "worst": 220
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 84.59349344135802,
+            "percentOver8": 69.55131172839506,
+            "worst": 225
+          },
+          "overheadTreeVisibility": {
+            "mean": 5.210192901234568,
+            "percentOver8": 17.73456790123457,
+            "worst": 141
+          },
+          "sky": {
+            "mean": 250.02380521807177,
+            "range": 22
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "stable-sky-normal",
+      "browser": "152.0.7977.83",
+      "backend": "webgpu",
+      "look": "real",
+      "reversedDepthRequested": "0",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (52.80% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (69.41% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (17.73% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: SkyMesh shades the sky (251.1/255, range 13.0)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": false,
+          "label": "puttom: r185/r186 perceptual parity (43.9670/255; 95.563% over 8)"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=real&gl=0&rdepth=0",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": false,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            8054,
+            23514
+          ],
+          "render": {
+            "triangles": 7611612,
+            "draws": 125
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 30.24120949074074,
+                "percentOver8": 52.80034722222222,
+                "worst": 216
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 83.25206404320987,
+            "percentOver8": 69.41010802469135,
+            "worst": 205
+          },
+          "overheadTreeVisibility": {
+            "mean": 5.209847608024691,
+            "percentOver8": 17.73148148148148,
+            "worst": 141
+          },
+          "sky": {
+            "mean": 251.09740005322269,
+            "range": 13
+          },
+          "errors": []
+        },
+        {
+          "slug": "puttom",
+          "label": "reference",
+          "url": "http://127.0.0.1:8621/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=real&gl=0&rdepth=0",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": false,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            8054,
+            23514
+          ],
+          "render": {
+            "triangles": 7611612,
+            "draws": 125
+          },
+          "treeVisibility": [],
+          "referenceDifference": {
+            "mean": 43.967013888888886,
+            "percentOver8": 95.56269290123457,
+            "worst": 201
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "stable-mobile-gl",
+      "browser": "152.0.7977.83",
+      "backend": "webgl2",
+      "look": "ghibli",
+      "reversedDepthRequested": "1",
+      "quality": "lo",
+      "mobile": true,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgl2 is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (7.02% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (47.99% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (8.89% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested webgl2 is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "puttom: r185/r186 perceptual parity (1.3319/255; 0.000% over 8)"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=lo&qualitylock=1&ren=1&look=ghibli&gl=1&rdepth=1",
+          "backend": "webgl2",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 0.46208530805687204,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 145076,
+          "tiers": [
+            0,
+            443,
+            1206,
+            6641
+          ],
+          "render": {
+            "triangles": 7925949,
+            "draws": 342
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 8.208175355450237,
+                "percentOver8": 7.0225726090655,
+                "worst": 201
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 71.52564938024061,
+            "percentOver8": 47.99390873739215,
+            "worst": 187
+          },
+          "overheadTreeVisibility": {
+            "mean": 4.05124331632033,
+            "percentOver8": 8.887698991371977,
+            "worst": 158
+          },
+          "errors": []
+        },
+        {
+          "slug": "puttom",
+          "label": "reference",
+          "url": "http://127.0.0.1:8621/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=lo&qualitylock=1&ren=1&look=ghibli&gl=1&rdepth=1",
+          "backend": "webgl2",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 0.46208530805687204,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 145076,
+          "tiers": [
+            0,
+            443,
+            1206,
+            6641
+          ],
+          "render": {
+            "triangles": 6928573,
+            "draws": 342
+          },
+          "treeVisibility": [],
+          "referenceDifference": {
+            "mean": 1.3318796330052254,
+            "percentOver8": 0,
+            "worst": 5
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "stable-gl-canvas",
+      "browser": "152.0.7977.83",
+      "backend": "webgl2",
+      "look": "ghibli",
+      "reversedDepthRequested": "1",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "canvas",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgl2 is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (18.26% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (39.81% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (13.51% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested webgl2 is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "reference/puttom: no browser or renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "puttom: r185/r186 perceptual parity (1.8512/255; 0.000% over 8)"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=1&rdepth=1",
+          "backend": "webgl2",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            0,
+            31568
+          ],
+          "render": {
+            "triangles": 13848292,
+            "draws": 165
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 29.545273919753086,
+                "percentOver8": 18.256944444444446,
+                "worst": 233
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 73.22914737654321,
+            "percentOver8": 39.81481481481482,
+            "worst": 214
+          },
+          "overheadTreeVisibility": {
+            "mean": 8.513668981481482,
+            "percentOver8": 13.510030864197532,
+            "worst": 212
+          },
+          "errors": []
+        },
+        {
+          "slug": "puttom",
+          "label": "reference",
+          "url": "http://127.0.0.1:8621/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=1&rdepth=1",
+          "backend": "webgl2",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2000,
+            "reversedDepth": false,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            0,
+            31568
+          ],
+          "render": {
+            "triangles": 13848292,
+            "draws": 165
+          },
+          "treeVisibility": [],
+          "referenceDifference": {
+            "mean": 1.8512037037037037,
+            "percentOver8": 0,
+            "worst": 7
+          },
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "stable-presets",
+      "browser": "152.0.7977.83",
+      "backend": "webgpu",
+      "look": "real",
+      "reversedDepthRequested": "1",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (52.81% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (69.73% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (17.73% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: SkyMesh shades the sky (250.9/255, range 13.7)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/golden: world and sky shade after lighting change (sky 234.8/255, range 42.7)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/noon: world and sky shade after lighting change (sky 250.0/255, range 15.0)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/mist: world and sky shade after lighting change (sky 248.2/255, range 53.3)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/dawn: world and sky shade after lighting change (sky 221.7/255, range 49.0)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/host: world and sky shade after lighting change (sky 246.0/255, range 31.0)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/midnight: world and sky shade after lighting change (sky 117.6/255, range 38.3)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/bluehour: world and sky shade after lighting change (sky 102.1/255, range 153.0)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/storm: world and sky shade after lighting change (sky 247.3/255, range 37.7)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8622/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=real&gl=0&rdepth=1",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": true,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            8054,
+            23514
+          ],
+          "render": {
+            "triangles": 7611612,
+            "draws": 125
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 30.249990354938273,
+                "percentOver8": 52.81172839506173,
+                "worst": 216
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 84.67848572530865,
+            "percentOver8": 69.73090277777779,
+            "worst": 224
+          },
+          "overheadTreeVisibility": {
+            "mean": 5.210246913580247,
+            "percentOver8": 17.73456790123457,
+            "worst": 141
+          },
+          "sky": {
+            "mean": 250.87176990910362,
+            "range": 13.666666666666657
+          },
+          "presets": [
+            {
+              "preset": "golden",
+              "world": {
+                "mean": 114.57487481514096,
+                "range": 227
+              },
+              "sky": {
+                "mean": 234.78849484794725,
+                "range": 42.66666666666666
+              }
+            },
+            {
+              "preset": "noon",
+              "world": {
+                "mean": 152.8483545122605,
+                "range": 210.66666666666666
+              },
+              "sky": {
+                "mean": 249.9893743570214,
+                "range": 15
+              }
+            },
+            {
+              "preset": "mist",
+              "world": {
+                "mean": 113.69030510544768,
+                "range": 205.33333333333331
+              },
+              "sky": {
+                "mean": 248.1991886089707,
+                "range": 53.33333333333334
+              }
+            },
+            {
+              "preset": "dawn",
+              "world": {
+                "mean": 150.422940980268,
+                "range": 204
+              },
+              "sky": {
+                "mean": 221.67887570730673,
+                "range": 49
+              }
+            },
+            {
+              "preset": "host",
+              "world": {
+                "mean": 136.547744060268,
+                "range": 215
+              },
+              "sky": {
+                "mean": 245.97502431373093,
+                "range": 31
+              }
+            },
+            {
+              "preset": "midnight",
+              "world": {
+                "mean": 156.02956814234832,
+                "range": 214.33333333333331
+              },
+              "sky": {
+                "mean": 117.5934516059078,
+                "range": 38.33333333333333
+              }
+            },
+            {
+              "preset": "bluehour",
+              "world": {
+                "mean": 50.39203860434894,
+                "range": 213.66666666666669
+              },
+              "sky": {
+                "mean": 102.07349537037098,
+                "range": 153
+              }
+            },
+            {
+              "preset": "storm",
+              "world": {
+                "mean": 106.4756050266669,
+                "range": 218.33333333333331
+              },
+              "sky": {
+                "mean": 247.31290589643936,
+                "range": 37.66666666666666
+              }
+            }
+          ],
+          "errors": []
+        }
+      ]
+    },
+    {
+      "id": "reference-sky-check",
+      "browser": "152.0.7977.83",
+      "backend": "webgpu",
+      "look": "real",
+      "reversedDepthRequested": "0",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (17.14% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (39.85% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (14.93% pixels)"
+        },
+        {
+          "ok": false,
+          "label": "current/puttom: SkyMesh shades the sky (206.7/255, range 0.0)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8621/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=real&gl=0&rdepth=0",
+          "backend": "webgpu",
+          "camera": {
+            "fov": 48,
+            "near": 1,
+            "far": 14000,
+            "aspect": 1.7777777777777777,
+            "coordinateSystem": 2001,
+            "reversedDepth": false,
+            "position": [
+              -80.53396627989221,
+              69.71655133524631,
+              -259.82908206196805
+            ]
+          },
+          "trees": 209962,
+          "tiers": [
+            772,
+            3689,
+            8054,
+            23514
+          ],
+          "render": {
+            "triangles": 7611612,
+            "draws": 125
+          },
+          "treeVisibility": [
+            {
+              "forcedTier": 0,
+              "pixels": {
+                "mean": 26.667671682098767,
+                "percentOver8": 17.136381172839506,
+                "worst": 205
+              },
+              "auditPassed": true
+            }
+          ],
+          "terrainVisibility": {
+            "mean": 59.36632523148148,
+            "percentOver8": 39.845293209876544,
+            "worst": 187
+          },
+          "overheadTreeVisibility": {
+            "mean": 6.963738425925926,
+            "percentOver8": 14.933256172839506,
+            "worst": 155
+          },
+          "sky": {
+            "mean": 206.66666666580002,
+            "range": 0
+          },
+          "errors": []
+        }
+      ]
+    }
+  ]
+}

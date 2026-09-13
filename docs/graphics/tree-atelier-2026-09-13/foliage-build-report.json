@@ -1,0 +1,25 @@
+{
+  "design": "textured-pine-experiment",
+  "source": "Original seeded pine layout and original vector needle atlas",
+  "tiers": {
+    "hero": {
+      "file": "hero.glb",
+      "triangles": 4448,
+      "bytes": 472964,
+      "sha256": "bd3e52f6435e45cf4e452aa0b3e20d05aea41af3387dc92bb6d591b119fe909b"
+    },
+    "full": {
+      "file": "full.glb",
+      "triangles": 1620,
+      "bytes": 264628,
+      "sha256": "7237b4b993c4b5a1613a082ed54bbaea7e2fb263de5f74cdce44df8e6d079521"
+    },
+    "lite": {
+      "file": "lite.glb",
+      "triangles": 280,
+      "bytes": 9276,
+      "sha256": "b0c5daa246e9aa190c7325f0caaf0096091113ac6f52b5519eb6615a54c08d23"
+    }
+  },
+  "height": 17.439622248402358
+}

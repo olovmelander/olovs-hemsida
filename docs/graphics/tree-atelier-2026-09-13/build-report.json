@@ -1,0 +1,174 @@
+{
+  "blender": "4.5.9 LTS",
+  "transport": "Blender MCP localhost:9876",
+  "originalScene": "Veckefjarden | Photo landmarks 2026-09-13",
+  "scene": "Ghibli | Tree atelier.002",
+  "manifest": "C:\\Users\\olov_\\repos\\olovs-hemsida\\apps\\golf\\public\\models\\trees\\atelier\\ghibli-v2.json",
+  "species": [
+    {
+      "key": "gran",
+      "variants": 4,
+      "triangles": {
+        "hero": {
+          "file": "7e84372158a47294c284753846cb84b4efa4c34500c65e771b4eb0257d4c8114.glb",
+          "sha256": "7e84372158a47294c284753846cb84b4efa4c34500c65e771b4eb0257d4c8114",
+          "bytes": 5801848,
+          "tris": {
+            "crown": 11000,
+            "trunk": 1800
+          }
+        },
+        "full": {
+          "file": "de4fe31823724da98d7d2c039b3119cef9cf23db9f74a17f37c14c3c27f32a9f.glb",
+          "sha256": "de4fe31823724da98d7d2c039b3119cef9cf23db9f74a17f37c14c3c27f32a9f",
+          "bytes": 5584944,
+          "tris": {
+            "crown": 2500,
+            "trunk": 418
+          }
+        },
+        "lite": {
+          "file": "9d2e081754e9c54ac009203e2e2526ca7bd1e0755ac79c3841d2ecaec5c5befa.glb",
+          "sha256": "9d2e081754e9c54ac009203e2e2526ca7bd1e0755ac79c3841d2ecaec5c5befa",
+          "bytes": 5535492,
+          "tris": {
+            "crown": 629,
+            "trunk": 64
+          }
+        }
+      }
+    },
+    {
+      "key": "tall",
+      "variants": 4,
+      "triangles": {
+        "hero": {
+          "file": "48d6e0c61d40580edf3b7f94af9b3ec692ce7bfc4947766c21e6dac0ed67056a.glb",
+          "sha256": "48d6e0c61d40580edf3b7f94af9b3ec692ce7bfc4947766c21e6dac0ed67056a",
+          "bytes": 5700308,
+          "tris": {
+            "crown": 8880,
+            "trunk": 1800
+          }
+        },
+        "full": {
+          "file": "0dd9026d40c041ef3a719547a564991424093cf045b2c3f7004fce3108367db4.glb",
+          "sha256": "0dd9026d40c041ef3a719547a564991424093cf045b2c3f7004fce3108367db4",
+          "bytes": 5583432,
+          "tris": {
+            "crown": 2500,
+            "trunk": 411
+          }
+        },
+        "lite": {
+          "file": "ca8fc44dbaab960fef4e0a40322ac1e3a7577f7e974cf06186fba29fd35b86ab.glb",
+          "sha256": "ca8fc44dbaab960fef4e0a40322ac1e3a7577f7e974cf06186fba29fd35b86ab",
+          "bytes": 5536284,
+          "tris": {
+            "crown": 650,
+            "trunk": 85
+          }
+        }
+      }
+    },
+    {
+      "key": "bj\u00f6rk",
+      "variants": 4,
+      "triangles": {
+        "hero": {
+          "file": "90ca5e768855d34d5837f4886eb540682e08b54e685a1c84d944edecde4c3db9.glb",
+          "sha256": "90ca5e768855d34d5837f4886eb540682e08b54e685a1c84d944edecde4c3db9",
+          "bytes": 5810228,
+          "tris": {
+            "crown": 11000,
+            "trunk": 1800
+          }
+        },
+        "full": {
+          "file": "54a840a670163fceceffc4d561e58586bc0047a7c079fc377ec2f9c2a0a1fc59.glb",
+          "sha256": "54a840a670163fceceffc4d561e58586bc0047a7c079fc377ec2f9c2a0a1fc59",
+          "bytes": 5588912,
+          "tris": {
+            "crown": 2500,
+            "trunk": 450
+          }
+        },
+        "lite": {
+          "file": "18d0058be7d9fddd5f3c2fb5ead150ff65cbbb364426e6f9d86c6a37ea663796.glb",
+          "sha256": "18d0058be7d9fddd5f3c2fb5ead150ff65cbbb364426e6f9d86c6a37ea663796",
+          "bytes": 5540184,
+          "tris": {
+            "crown": 529,
+            "trunk": 114
+          }
+        }
+      }
+    },
+    {
+      "key": "al",
+      "variants": 4,
+      "triangles": {
+        "hero": {
+          "file": "261d23794826b9310f3278fccdad0c6862040e043fee5becd4d71c5038cb382a.glb",
+          "sha256": "261d23794826b9310f3278fccdad0c6862040e043fee5becd4d71c5038cb382a",
+          "bytes": 5698644,
+          "tris": {
+            "crown": 9000,
+            "trunk": 1800
+          }
+        },
+        "full": {
+          "file": "f986a3ac8f48e5dbc7d9c4978f9007d8d6225c4a259f3cad72ca74ef6967ceb0.glb",
+          "sha256": "f986a3ac8f48e5dbc7d9c4978f9007d8d6225c4a259f3cad72ca74ef6967ceb0",
+          "bytes": 5580084,
+          "tris": {
+            "crown": 2500,
+            "trunk": 450
+          }
+        },
+        "lite": {
+          "file": "df19e93f95b96dc49e7ecd2054b6c37755ec6b0dc9365da3f2603a596d99b5a8.glb",
+          "sha256": "df19e93f95b96dc49e7ecd2054b6c37755ec6b0dc9365da3f2603a596d99b5a8",
+          "bytes": 5532016,
+          "tris": {
+            "crown": 650,
+            "trunk": 105
+          }
+        }
+      }
+    },
+    {
+      "key": "ek",
+      "variants": 4,
+      "triangles": {
+        "hero": {
+          "file": "22ff67dfc4ff014131860a40dce606ddbfb0f83f5ccd57726a648069922e584e.glb",
+          "sha256": "22ff67dfc4ff014131860a40dce606ddbfb0f83f5ccd57726a648069922e584e",
+          "bytes": 5800876,
+          "tris": {
+            "crown": 11000,
+            "trunk": 1800
+          }
+        },
+        "full": {
+          "file": "9a751cc65d38d507747ced3984b178eaa64d7e075b0fc77a0bd1e75ed2140b16.glb",
+          "sha256": "9a751cc65d38d507747ced3984b178eaa64d7e075b0fc77a0bd1e75ed2140b16",
+          "bytes": 5584172,
+          "tris": {
+            "crown": 2500,
+            "trunk": 450
+          }
+        },
+        "lite": {
+          "file": "03ac78536ab04d4982bcbb75f3d7b8a9f01e7cab8fd7bc957cf75349a000f1c8.glb",
+          "sha256": "03ac78536ab04d4982bcbb75f3d7b8a9f01e7cab8fd7bc957cf75349a000f1c8",
+          "bytes": 5535988,
+          "tris": {
+            "crown": 649,
+            "trunk": 84
+          }
+        }
+      }
+    }
+  ]
+}

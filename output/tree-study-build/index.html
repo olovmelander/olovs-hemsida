@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Banvy 3D — Svenska golfbanor i realtid</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0b1a13">
+<meta name="description" content="Svenska golfbanor i 3D, mätta mot klubbarnas egna kort och byggda ur verklig terräng.">
+<link href="/fonts/fonts.css" rel="stylesheet">
+<style>
+:root{
+  --ink:#eaf3ec; --dim:#9db3a5; --faint:#6d8579;
+  --glass:rgba(9,18,14,.78); --edge:rgba(150,220,175,.18);
+  --turf:#5fd07a; --amber:#f0a23a; --sand:#e2cf9a; --water:#4bb4d8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#070d10;color:var(--ink);
+  font-family:Outfit,ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+canvas{display:block;position:fixed;inset:0}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+/* ---- boot screen ---- */
+#boot{position:fixed;inset:0;z-index:90;display:grid;place-items:center;
+  background:radial-gradient(130% 100% at 50% 15%,#122822 0%,#07100c 55%,#030705 100%);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)}
+#boot.done{opacity:0;transform:scale(1.03);pointer-events:none}
+#boot .inner{width:min(440px,85vw);text-align:center;display:flex;flex-direction:column;align-items:center}
+.boot-logo{position:relative;margin-bottom:18px;display:flex;align-items:center;justify-content:center;width:76px;height:76px}
+.boot-ring{position:absolute;inset:0;margin:auto;width:68px;height:68px;border-radius:50%;
+  border:1.5px solid rgba(95,208,122,.65);box-shadow:0 0 20px rgba(95,208,122,.3), inset 0 0 12px rgba(95,208,122,.15);
+  transform:translateZ(0);will-change:transform,opacity;
+  animation:bootRingPulse 2.4s infinite cubic-bezier(0.4, 0, 0.2, 1)}
+.boot-ring::after{content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:1px solid rgba(95,208,122,.45);
+  transform:translateZ(0);will-change:transform,opacity;
+  animation:bootRingWave 2.4s infinite cubic-bezier(0.1, 0.5, 0.4, 1);
+  animation-delay:0.5s;pointer-events:none}
+.boot-ring::before{content:'';position:absolute;inset:2px;border-radius:50%;
+  border-top:2px solid var(--turf);border-right:2px solid transparent;
+  border-bottom:2px solid rgba(95,208,122,.2);border-left:2px solid transparent;
+  transform:translateZ(0);will-change:transform;
+  animation:bootSpin 3.5s infinite linear;pointer-events:none}
+@keyframes bootRingPulse{
+  0%{transform:scale(0.88) translateZ(0);opacity:0.4}
+  50%{transform:scale(1.16) translateZ(0);opacity:1}
+  100%{transform:scale(0.88) translateZ(0);opacity:0.4}
+}
+@keyframes bootRingWave{
+  0%{transform:scale(0.85) translateZ(0);opacity:0.75}
+  100%{transform:scale(1.6) translateZ(0);opacity:0}
+}
+@keyframes bootSpin{
+  0%{transform:rotate(0deg) translateZ(0)}
+  100%{transform:rotate(360deg) translateZ(0)}
+}
+#boot .mark{font:800 24px/1 Outfit,sans-serif;letter-spacing:-.02em;color:var(--ink);z-index:1}
+#boot .mark i{font-style:normal;color:var(--turf);text-shadow:0 0 16px var(--turf)}
+#boot h1{font-size:22px;font-weight:700;letter-spacing:-.01em;color:#ffffff;margin-top:4px}
+#boot .sub{font-size:12px;color:var(--dim);margin-top:6px;letter-spacing:.08em;text-transform:uppercase}
+#bar{width:100%;height:3px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:26px;overflow:hidden;
+  position:relative;box-shadow:inset 0 1px 2px rgba(0,0,0,.5)}
+#bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#248b52,var(--turf),#a8f2ba);
+  box-shadow:0 0 12px var(--turf);transition:width .35s ease-out;border-radius:3px}
+.boot-status{display:flex;align-items:center;gap:7px;margin-top:12px;min-height:16px}
+.status-pulse{width:6px;height:6px;border-radius:50%;background:var(--turf);box-shadow:0 0 8px var(--turf);
+  transform:translateZ(0);will-change:opacity;animation:pulseDot 1.4s infinite}
+@keyframes pulseDot{0%,100%{opacity:.4}50%{opacity:1}}
+#bmsg{font-size:11.5px;color:var(--dim);letter-spacing:.02em}
+
+/* ---- panels ---- */
+.panel{position:fixed;z-index:20;background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);
+  -webkit-backdrop-filter:blur(22px) saturate(1.25);border:1px solid var(--edge);border-radius:15px;
+  box-shadow:0 18px 46px rgba(0,0,0,.45)}
+
+/* card */
+#card{top:14px;left:50%;transform:translateX(-50%);padding:9px 12px;display:flex;gap:13px;align-items:center}
+#card .no{font-size:26px;font-weight:800;line-height:1;min-width:34px;text-align:center}
+#card .mid{display:flex;flex-direction:column;gap:2px}
+#card .nm{font-size:12.5px;font-weight:600;white-space:nowrap;max-width:min(38vw,340px);overflow:hidden;text-overflow:ellipsis}
+#card .pi{font-size:10px;color:var(--dim);letter-spacing:.05em}
+#tees{display:flex;gap:5px}
+.tee{padding:4px 7px;border-radius:8px;text-align:center;min-width:44px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);cursor:pointer;transition:all .15s}
+.tee b{display:block;font-size:12.5px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.tee i{display:block;font-size:8px;font-style:normal;letter-spacing:.06em;opacity:.62;margin-top:1px}
+.tee.on{background:rgba(95,208,122,.16);border-color:rgba(95,208,122,.45)}
+
+/* right rail */
+#rail{top:14px;right:14px;padding:9px;display:flex;flex-direction:column;gap:7px;width:216px}
+.grp{display:flex;gap:5px}
+.btn{flex:1;min-width:0;padding:6px 4px;border-radius:9px;border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.04);color:var(--dim);font:600 10px/1.2 Outfit,sans-serif;
+  cursor:pointer;text-align:center;letter-spacing:.04em;transition:.15s}
+.btn:hover{background:rgba(255,255,255,.09);color:var(--ink)}
+.btn.on{background:rgba(95,208,122,.17);border-color:rgba(95,208,122,.42);color:var(--turf)}
+.lbl{font-size:8.5px;color:var(--faint);letter-spacing:.15em;text-transform:uppercase;margin:2px 0 -1px}
+#facts{font-size:10px;color:var(--dim);line-height:1.55;padding-top:4px;border-top:1px solid rgba(255,255,255,.06)}
+#facts b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
+#facts .data-status{color:#e9bb6a;font-weight:600}
+
+/* note */
+#note{bottom:76px;left:14px;max-width:330px;padding:10px 13px;font-size:11px;line-height:1.55;color:var(--dim)}
+#note b{color:var(--ink);display:block;font-size:11.5px;margin-bottom:3px;letter-spacing:.02em}
+#leftStack{position:fixed;z-index:20;left:14px;bottom:76px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  max-height:calc(100dvh - 160px)}
+#leftStack #note,#leftStack #kikOut,#leftStack #kikGreen{position:relative;left:auto;top:auto;bottom:auto;flex:0 0 auto}
+
+/* panel head bar & close buttons */
+.panel-head-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.panel-close-btn{display:none;width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.07);color:var(--dim);font:600 13px/1 Outfit,sans-serif;align-items:center;
+  justify-content:center;cursor:pointer;transition:all .15s}
+.panel-close-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+.mini-head{display:none;align-items:center;justify-content:space-between;padding:0 2px 6px}
+.mini-title{font:700 10.5px/1 Outfit,sans-serif;color:var(--turf);letter-spacing:.08em;text-transform:uppercase}
+.sheet-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);z-index:43;opacity:0;transition:opacity .25s ease;pointer-events:none}
+.sheet-backdrop.open{display:block;opacity:1;pointer-events:auto}
+
+/* Hole Header in Rail (Always Visible) */
+.rail-hole-summary{position:relative;padding:2px 30px 10px 2px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.08)}
+.rhs-main{display:flex;align-items:center;flex-wrap:wrap;gap:5px;font:700 13px/1.2 Outfit,sans-serif;color:var(--ink);letter-spacing:.02em}
+.rhs-hole{color:var(--turf);font-weight:800;letter-spacing:.04em}
+.rhs-dot{color:var(--faint);font-size:11px}
+.rhs-par,.rhs-dist{color:var(--ink)}
+.rhs-index{color:var(--dim);font-size:11.5px;font-weight:600}
+.rhs-sub{font-size:11px;line-height:1.4;color:var(--dim);margin-top:4px}
+.rhs-sub b{color:var(--ink);font-weight:600}
+#rail .panel-close-btn{position:absolute;top:0;right:0;display:flex;width:24px;height:24px;font-size:14px;border-radius:50%}
+@media(min-width:769px){#rail .panel-close-btn{display:none}}
+@media(max-width:768px){#rail.open .panel-close-btn{display:flex;width:28px;height:28px;font-size:16px}}
+
+/* Action, Toggle, and Nav buttons */
+.btn-action{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:600}
+.btn-action-icon{flex:0 0 auto;color:var(--turf);transition:transform .15s}
+.btn-action:hover .btn-action-icon{transform:scale(1.15)}
+.btn-toggle{display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn-toggle-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex:0 0 auto;transition:all .18s ease}
+.btn-toggle.on .btn-toggle-dot{background:#5fd07a;box-shadow:0 0 6px rgba(95,208,122,.8)}
+.btn-nav{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-color:rgba(255,255,255,.14)}
+.btn-nav svg{color:var(--turf)}
+.tool-hint{font-size:10px;line-height:1.35;color:var(--faint);padding:0 3px;margin:-2px 0 6px;letter-spacing:.01em}
+.debug-pipeline{opacity:.45;font-size:9.5px}
+
+/* holes container & chevrons */
+.holes-wrap{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:6px}
+#holes{position:static;transform:none;padding:6px;display:flex;gap:3px}
+.hb{width:29px;height:29px;border-radius:8px;border:1px solid transparent;background:transparent;
+  color:var(--faint);font:600 11px/1 Outfit,sans-serif;cursor:pointer;transition:.13s}
+.hb:hover{background:rgba(255,255,255,.07);color:var(--ink)}
+.hb.on{background:var(--turf);color:#04140a;font-weight:800}
+.hole-step-btn{width:29px;height:29px;border-radius:8px;background:var(--glass);backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);border:1px solid var(--edge);color:var(--dim);font:700 16px/1 Outfit,sans-serif;
+  display:grid;place-items:center;cursor:pointer;transition:all .15s}
+.hole-step-btn:hover{background:rgba(95,208,122,.2);color:var(--turf);border-color:rgba(95,208,122,.4)}
+
+/* minimap */
+#mini{bottom:14px;right:14px;width:186px;height:186px;padding:7px}
+@media(min-width:1200px){#mini{width:232px;height:232px}}
+#mini canvas{position:static;width:100%;height:100%;border-radius:9px}
+
+#hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:10px;
+  color:var(--faint);letter-spacing:.08em;pointer-events:none;transition:opacity .6s}
+
+/* Mobile HUD Quick Actions */
+.mobile-hud-cluster{display:none;position:fixed;z-index:21;right:calc(8px + env(safe-area-inset-right));
+  bottom:calc(56px + env(safe-area-inset-bottom));padding:4px;border-radius:22px;background:var(--glass);
+  backdrop-filter:blur(22px) saturate(1.25);-webkit-backdrop-filter:blur(22px) saturate(1.25);
+  border:1px solid var(--edge);box-shadow:0 12px 32px rgba(0,0,0,.45);gap:3px;align-items:center;transition:opacity .35s}
+.m-hud-btn{display:flex;align-items:center;gap:5px;padding:7px 11px;border-radius:18px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);color:var(--dim);
+  font:600 11px/1 Outfit,sans-serif;cursor:pointer;transition:all .18s}
+.m-hud-btn svg{color:inherit}
+.m-hud-btn:hover,.m-hud-btn.on{background:rgba(95,208,122,.18);border-color:rgba(95,208,122,.45);color:var(--turf)}
+.m-hud-btn.primary{background:rgba(95,208,122,.14);border-color:rgba(95,208,122,.35);color:var(--turf);font-weight:700}
+.m-hud-btn:active{transform:scale(.95)}
+
+/* ren vy: everything fades, the landscape stays. The ghost button brings it back. */
+.panel,#hint,#uiToggle,#courseNav,.holes-wrap,.mobile-hud-cluster,#gpsStatus{transition:opacity .35s}
+body.clean .panel,body.clean #hint,body.clean #uiToggle,body.clean #courseNav,body.clean .holes-wrap,body.clean .mobile-hud-cluster,body.clean #gpsStatus,body.clean #kikTag{opacity:0!important;pointer-events:none}
+#cleanExit{display:none;position:fixed;top:calc(10px + env(safe-area-inset-top));
+  right:calc(10px + env(safe-area-inset-right));z-index:41;width:34px;height:34px;
+  border-radius:17px;background:rgba(9,18,14,.5);border:1px solid var(--edge);
+  color:var(--dim);font:600 15px/1 Outfit,sans-serif;cursor:pointer;opacity:.55}
+body.clean #cleanExit{display:block}
+
+/* the bansafari's letterbox and PGA Tour broadcast card */
+body.tour::before,body.tour::after{content:"";position:fixed;left:0;right:0;height:6.5vh;
+  background:#000;z-index:15;pointer-events:none}
+body.tour::before{top:0}body.tour::after{bottom:0}
+
+#tourCard {
+  position: fixed;
+  left: max(24px, env(safe-area-inset-left));
+  bottom: max(20px, calc(6.5vh + 16px));
+  z-index: 20;
+  max-width: min(480px, calc(100vw - 40px));
+  background: linear-gradient(135deg, rgba(8, 20, 14, 0.92) 0%, rgba(14, 28, 20, 0.84) 100%);
+  backdrop-filter: blur(28px) saturate(1.3);
+  -webkit-backdrop-filter: blur(28px) saturate(1.3);
+  border: 1px solid rgba(95, 208, 122, 0.28);
+  border-left: 4px solid var(--turf);
+  border-radius: 16px;
+  padding: 16px 20px 14px;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  color: var(--ink);
+}
+#tourCard.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.tour-elev-pill {
+  font: 600 11px/1 Outfit, sans-serif;
+  color: var(--dim);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.tour-hole-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+#tourCard .tno {
+  font: 900 24px/1 Outfit, sans-serif;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.tour-pills {
+  display: flex;
+  gap: 6px;
+}
+.tour-pill {
+  font: 700 11px/1 Outfit, sans-serif;
+  background: rgba(95, 208, 122, 0.16);
+  border: 1px solid rgba(95, 208, 122, 0.35);
+  color: var(--turf);
+  padding: 4px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+#tourCard .tnm {
+  font: 700 16px/1.2 Outfit, sans-serif;
+  color: rgba(255, 255, 255, 0.95);
+  margin-top: 4px;
+  letter-spacing: -0.01em;
+}
+#tourCard .ttx {
+  font: 400 13px/1.55 Outfit, sans-serif;
+  color: rgba(255, 255, 255, 0.82);
+  margin-top: 8px;
+  max-height: 120px;
+  overflow-y: auto;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+.tour-progress-bar {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.tour-progress-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.tour-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #5fd07a);
+  box-shadow: 0 0 10px rgba(95, 208, 122, 0.8);
+  border-radius: 2px;
+  transition: width 0.1s linear;
+}
+.tour-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font: 700 9.5px/1 Outfit, sans-serif;
+  color: var(--faint);
+  letter-spacing: 0.1em;
+}
+@media (max-width: 620px) {
+  #tourCard {
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, calc(6.5vh + 8px));
+    max-width: none;
+    padding: 12px 14px 10px;
+  }
+  #tourCard .tno { font-size: 20px; }
+  #tourCard .tnm { font-size: 14px; }
+  #tourCard .ttx { font-size: 12px; line-height: 1.45; max-height: 80px; }
+}
+
+/* kikaren: the numbers live where a golfer looks. The green distances stand
+   in a stack at the edge of the screen (back over centre over front, the way
+   the green lies ahead of the player), the tapped distance floats at the point
+   itself, and everything else -- club, hazards, layups, weather -- is a sheet
+   that opens on demand. On a phone the sheet rests as one row at the bottom so
+   the course stays in view; on a desktop it is the panel it always was. */
+#kikGreen{display:none;padding:7px 12px 6px;font-variant-numeric:tabular-nums}
+#kikGreen.show{display:flex;flex-direction:row-reverse;align-items:flex-end;gap:14px}
+.kg-row{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:44px}
+.kg-row i{font:600 8px/1 Outfit,sans-serif;font-style:normal;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.kg-row b{font:600 17px/1.05 'JetBrains Mono',monospace;color:var(--ink)}
+.kg-row.mid i{color:var(--turf)}
+.kg-row.mid b{font-size:26px;color:#fff}
+.kg-row b em{font:600 9px/1 Outfit,sans-serif;font-style:normal;color:var(--dim);margin-left:2px}
+#kikTag{position:fixed;left:0;top:0;z-index:22;pointer-events:none;opacity:0;transition:opacity .15s;will-change:transform}
+#kikTag[hidden]{display:none}
+.kt-box{position:relative;transform:translate(-50%,calc(-100% - 20px));padding:6px 12px 6px;border-radius:13px;
+  background:var(--glass);backdrop-filter:blur(18px) saturate(1.25);-webkit-backdrop-filter:blur(18px) saturate(1.25);
+  border:1px solid rgba(255,223,138,.32);box-shadow:0 10px 26px rgba(0,0,0,.45);text-align:center;white-space:nowrap}
+.kt-box::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:20px;
+  background:linear-gradient(rgba(255,223,138,.95),rgba(255,223,138,0))}
+.kt-box b{display:block;font:700 23px/1 'JetBrains Mono',monospace;color:#fff;font-variant-numeric:tabular-nums}
+.kt-box b em{font:600 10px/1 Outfit,sans-serif;font-style:normal;color:var(--dim);margin-left:2px}
+.kt-box span{display:block;margin-top:4px;font:500 9.5px/1.2 Outfit,sans-serif;color:var(--dim)}
+.kt-box span i{font-style:normal;font-family:'JetBrains Mono',monospace;color:var(--ink)}
+.kt-box span u{text-decoration:none;color:#ffdf8a}
+#kikOut{display:none;width:min(336px,calc(100vw - 28px));padding:0;
+  overflow:hidden;font-size:11px;line-height:1.55;color:var(--dim)}
+#kikOut.show{display:block}
+#kikOut b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600;font-variant-numeric:tabular-nums}
+.kik-grab{display:none}
+.kik-head{display:flex;align-items:center;gap:7px;padding:9px 11px 7px;border-bottom:1px solid rgba(255,255,255,.07)}
+.kik-head>b{font:750 12px/1 Outfit,sans-serif!important;letter-spacing:.02em}
+.kik-head>span{font-size:9.5px;color:var(--faint);margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kik-chev{display:none;width:22px;height:22px;flex:0 0 auto;color:var(--faint);transition:transform .2s}
+.kik-live{display:inline-flex;align-items:center;gap:5px;color:#9af0aa!important}
+.kik-live::before{content:"";width:6px;height:6px;border-radius:50%;background:#66e58a;box-shadow:0 0 7px #66e58a;flex:0 0 auto}
+.kik-peek{padding:6px 11px 2px}
+.kik-body{padding:2px 11px 9px}
+.kik-row{padding:3px 0}
+.kik-line{display:flex;align-items:center;gap:8px;padding:3px 0 5px;color:var(--dim)}
+.kik-line>span{flex:1;min-width:0}
+.kik-line b{font-size:12px}
+.kik-recommend{display:flex;align-items:center;gap:10px;margin:3px 0 5px;padding:8px 9px;border-radius:10px;
+  background:linear-gradient(120deg,rgba(95,208,122,.17),rgba(95,208,122,.07));border:1px solid rgba(95,208,122,.28)}
+.kik-club{min-width:58px;font:800 17px/1 Outfit,sans-serif;color:#fff}
+.kik-club-copy{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;color:var(--dim);line-height:1.25}
+.kik-club-copy b{font:700 11px/1.2 Outfit,sans-serif!important}
+.kik-btn{border:1px solid rgba(255,255,255,.13);border-radius:8px;padding:5px 8px;background:rgba(255,255,255,.06);
+  color:var(--ink);font:650 9.5px/1 Outfit,sans-serif;cursor:pointer;white-space:nowrap;flex:0 0 auto}
+.kik-btn:hover{border-color:rgba(95,208,122,.45);background:rgba(95,208,122,.12)}
+.kik-haz.water{color:#80d8f1}.kik-haz.sand{color:#f0dcaa}
+.kik-wx{margin-top:5px;padding-top:6px;border-top:1px solid rgba(255,255,255,.06);font-size:9.5px;color:var(--faint)}
+
+/* GPS: permission is requested only from a deliberate button press. Live, the
+   state is a small pill (pulse, hole, accuracy, a way out) and a round locate
+   button that re-centres the camera and says whether it is following -- the
+   shape every map app uses, so nobody has to learn it. Neither covers the
+   course. */
+#gpsStatus{position:fixed;z-index:24;top:72px;left:14px;display:flex;align-items:center;gap:8px;
+  max-width:min(430px,calc(100vw - 28px))}
+#gpsStatus[hidden]{display:none}
+.gps-pill{display:flex;align-items:center;gap:7px;min-width:0;min-height:32px;padding:0 5px 0 11px;border-radius:16px;
+  background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);-webkit-backdrop-filter:blur(22px) saturate(1.25);
+  border:1px solid var(--edge);box-shadow:0 12px 32px rgba(0,0,0,.4);font-size:10.5px;color:var(--dim)}
+.gps-pulse{width:8px;height:8px;border-radius:50%;background:#66e58a;box-shadow:0 0 0 0 rgba(102,229,138,.65);
+  flex:0 0 auto;animation:gpsPulse 1.8s ease-out infinite}
+#gpsStatus[data-state="waiting"] .gps-pulse{background:var(--amber);animation:gpsPulseWait 1.3s ease-in-out infinite}
+#gpsStatus[data-state="error"] .gps-pulse{background:#ef7c67;animation:none}
+#gpsStatus[data-state="error"] .gps-pill{border-color:rgba(239,124,103,.4)}
+.gps-copy{min-width:0;display:flex;align-items:baseline;gap:6px}
+.gps-copy b{color:var(--ink);font-size:10.5px;letter-spacing:.04em}
+.gps-copy span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
+.gps-action{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);color:var(--dim);font:500 15px/1 Outfit,sans-serif;cursor:pointer;flex:0 0 auto}
+.gps-action:hover{background:rgba(239,124,103,.16);color:#ffb3a5;border-color:rgba(239,124,103,.4)}
+.gps-locate{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;flex:0 0 auto;
+  background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);-webkit-backdrop-filter:blur(22px) saturate(1.25);
+  border:1px solid var(--edge);box-shadow:0 12px 32px rgba(0,0,0,.4);color:var(--dim);cursor:pointer;transition:all .18s}
+.gps-locate svg{width:18px;height:18px}
+.gps-locate:hover{color:var(--ink)}
+.gps-locate.on{color:#04140a;background:var(--turf);border-color:#89e9a0;box-shadow:0 8px 22px rgba(95,208,122,.4)}
+.gps-locate:active{transform:scale(.94)}
+@keyframes gpsPulse{70%{box-shadow:0 0 0 8px rgba(102,229,138,0)}100%{box-shadow:0 0 0 0 rgba(102,229,138,0)}}
+@keyframes gpsPulseWait{50%{opacity:.35}}
+body.gps-on #v2TerrainBadge{top:118px}
+
+/* My bag is a focused editor, not another permanent panel over the course. */
+#bagDialog{width:min(480px,calc(100vw - 24px));max-height:min(760px,calc(100dvh - 24px));margin:auto;padding:0;
+  color:var(--ink);background:linear-gradient(160deg,rgba(15,31,23,.99),rgba(5,12,9,.995));border:1px solid var(--edge);
+  border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.72);overflow:hidden}
+#bagDialog::backdrop{background:rgba(2,7,4,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.bag-form{display:flex;flex-direction:column;max-height:min(760px,calc(100dvh - 24px))}
+.bag-head{display:flex;align-items:flex-start;gap:12px;padding:18px 18px 13px;border-bottom:1px solid rgba(255,255,255,.07)}
+.bag-title{flex:1}.bag-kicker{font:750 9px/1 Outfit,sans-serif;color:var(--turf);letter-spacing:.15em;text-transform:uppercase}
+.bag-title h2{font:800 22px/1.15 Outfit,sans-serif;margin-top:5px}.bag-title p{font-size:11px;line-height:1.45;color:var(--dim);margin-top:4px}
+.bag-close{display:grid;width:34px;height:34px;border-radius:50%;font-size:18px;flex:0 0 auto}
+.bag-toolbar{display:flex;align-items:center;gap:10px;padding:10px 18px 0}
+.bag-count{margin-right:auto;font:650 10px/1 'JetBrains Mono',monospace;color:var(--dim);font-variant-numeric:tabular-nums}
+.bag-count b{color:var(--ink);font-weight:700}.bag-count.limit b{color:var(--amber)}
+.bag-add{min-height:34px;padding:0 11px;border:1px solid rgba(95,208,122,.25);border-radius:9px;background:rgba(95,208,122,.08);
+  color:var(--turf);font:700 10px/1 Outfit,sans-serif;cursor:pointer;transition:background .18s ease,border-color .18s ease,opacity .18s ease}
+.bag-add:hover:not(:disabled){background:rgba(95,208,122,.15);border-color:rgba(95,208,122,.45)}
+.bag-add:disabled{opacity:.38;cursor:default}
+.bag-list{overflow:auto;padding:10px 18px 4px;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin}
+.bag-row{display:grid;grid-template-columns:30px minmax(0,1fr) 86px 30px;align-items:center;gap:8px;min-height:46px;
+  padding:5px 7px;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055)}
+.bag-rank{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:rgba(95,208,122,.12);color:var(--turf);
+  font:750 9px/1 'JetBrains Mono',monospace}
+.bag-row input{width:100%;min-width:0;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.09);background:rgba(0,0,0,.2);
+  color:var(--ink);padding:0 9px;font:600 12px/1 Outfit,sans-serif;outline:none}
+.bag-row input:focus{border-color:var(--turf);box-shadow:0 0 0 3px rgba(95,208,122,.12)}
+.bag-carry{position:relative}.bag-carry input{padding-right:26px;text-align:right;font-family:'JetBrains Mono',monospace}
+.bag-carry span{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--faint);pointer-events:none}
+.bag-remove{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--faint);
+  font:500 18px/1 Outfit,sans-serif;cursor:pointer;transition:color .18s ease,background .18s ease}
+.bag-remove:hover:not(:disabled){color:#f2a090;background:rgba(239,124,103,.1)}.bag-remove:disabled{opacity:.2;cursor:default}
+.bag-actions{display:flex;gap:8px;padding:13px 18px calc(15px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.07)}
+.bag-actions button{min-height:42px;border-radius:11px;padding:0 14px;font:700 11px/1 Outfit,sans-serif;cursor:pointer}
+.bag-reset{color:var(--dim);background:transparent;border:1px solid rgba(255,255,255,.1)}
+.bag-save{flex:1;color:#04140a;background:var(--turf);border:1px solid #89e9a0}
+
+@media(max-width:980px){
+  #leftStack{position:static;max-height:none}
+  /* the sheet: one row at rest above the quick actions, the rest on a tap */
+  #leftStack #kikOut{position:fixed;z-index:23;top:auto;left:calc(8px + env(safe-area-inset-left));
+    right:calc(8px + env(safe-area-inset-right));bottom:calc(100px + env(safe-area-inset-bottom));width:auto;
+    border-radius:18px;box-shadow:0 18px 46px rgba(0,0,0,.55)}
+  .kik-grab{display:block;width:34px;height:4px;border-radius:2px;background:rgba(255,255,255,.18);margin:7px auto 0}
+  .kik-head{padding:5px 8px 5px 13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .kik-chev{display:grid;place-items:center}
+  #kikOut.open .kik-chev{transform:rotate(180deg)}
+  .kik-body{display:none}
+  #kikOut.open .kik-body{display:block;max-height:38vh;overflow-y:auto;overscroll-behavior:contain}
+  /* the green stack at the right edge, under the card; under the locate button when GPS is on */
+  #leftStack #kikGreen.show{position:fixed;z-index:22;right:calc(8px + env(safe-area-inset-right));
+    top:calc(56px + env(safe-area-inset-top));flex-direction:column;align-items:stretch;gap:3px;padding:7px 11px 7px;min-width:88px}
+  body.gps-on #leftStack #kikGreen.show{top:calc(104px + env(safe-area-inset-top))}
+  #kikGreen .kg-row{flex-direction:row;justify-content:space-between;align-items:baseline;gap:9px;min-width:0}
+  #kikGreen .kg-row.mid b{font-size:24px}
+  #gpsStatus{top:calc(56px + env(safe-area-inset-top));left:calc(8px + env(safe-area-inset-left));
+    right:calc(8px + env(safe-area-inset-right));max-width:none;justify-content:space-between;pointer-events:none}
+  #gpsStatus>*{pointer-events:auto}
+  .gps-pill{max-width:calc(100vw - 70px);min-height:36px;border-radius:18px}
+  .gps-locate{width:40px;height:40px}
+  body.gps-on #v2TerrainBadge{top:calc(104px + env(safe-area-inset-top))}
+}
+
+#toast{position:fixed;left:50%;bottom:calc(64px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);z-index:40;padding:9px 14px;border-radius:11px;
+  background:var(--glass);backdrop-filter:blur(22px) saturate(1.25);
+  -webkit-backdrop-filter:blur(22px) saturate(1.25);border:1px solid var(--edge);
+  font-size:11.5px;color:var(--ink);opacity:0;pointer-events:none;transition:opacity .4s;
+  max-width:86vw;text-align:center}
+#toast.show{opacity:1;pointer-events:auto}
+#toast a{color:var(--turf)}
+
+#v2TerrainBadge{position:fixed;left:14px;top:72px;z-index:18;display:flex;
+  flex-direction:column;gap:2px;padding:8px 11px;border-radius:10px;
+  background:rgba(8,20,13,.78);border:1px solid rgba(128,217,145,.28);
+  box-shadow:0 8px 28px rgba(0,0,0,.28);backdrop-filter:blur(16px) saturate(1.2);
+  -webkit-backdrop-filter:blur(16px) saturate(1.2);pointer-events:none}
+#v2TerrainBadge[hidden],body.clean #v2TerrainBadge{display:none}
+#v2TerrainBadge b{font:700 10px/1.2 'JetBrains Mono',monospace;letter-spacing:.08em;color:#9af0aa}
+#v2TerrainBadge span{font-size:10px;line-height:1.25;color:var(--dim)}
+#v2TerrainBadge[data-state="fallback"]{border-color:rgba(226,178,89,.35)}
+#v2TerrainBadge[data-state="fallback"] b{color:#efc676}
+@media(max-width:700px){#v2TerrainBadge{left:8px;top:calc(64px + env(safe-area-inset-top));
+  max-width:calc(100vw - 16px);padding:7px 9px}}
+
+/* Responsive Breakpoints & Mobile Intelligence */
+@media(max-width:980px){
+  #mini,#note{display:none}
+  .mobile-hud-cluster{display:flex}
+  #mini.mobile-open{display:flex;flex-direction:column;position:fixed;z-index:44;
+    bottom:calc(100px + env(safe-area-inset-bottom));right:calc(8px + env(safe-area-inset-right));
+    width:min(280px,calc(100vw - 16px));height:min(280px,calc(100vw - 16px));padding:8px;
+    border-radius:18px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
+  #mini.mobile-open .mini-head{display:flex}
+  #mini.mobile-open canvas{flex:1;min-height:0;width:100%;height:100%;object-fit:contain}
+  #mini.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
+  #leftStack #note.mobile-open{display:block;position:fixed;z-index:44;top:auto;bottom:calc(100px + env(safe-area-inset-bottom));
+    left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right));
+    max-width:min(360px,calc(100vw - 16px));max-height:45vh;overflow-y:auto;padding:12px 14px;
+    border-radius:16px;box-shadow:0 22px 50px rgba(0,0,0,.7)}
+  #leftStack #note.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
+}
+
+@media(max-width:768px){
+  /* Top HUD: Never collide #courseNav and #card */
+  #card{top:calc(8px + env(safe-area-inset-top));left:auto;right:calc(8px + env(safe-area-inset-right));
+    transform:none;gap:8px;padding:6px 10px;max-width:calc(100vw - 156px);height:40px}
+  #card .no{font-size:19px;min-width:22px}
+  #card .mid{min-width:0;flex:0 1 auto}
+  #card .nm{font-size:11px;max-width:72px;overflow:hidden;text-overflow:ellipsis}
+  #card .pi{font-size:9px}
+  #tees{overflow-x:auto;flex:1;margin-left:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;display:flex;gap:4px}
+  #tees::-webkit-scrollbar{display:none}
+  #tees .tee{flex:0 0 auto;padding:2px 6px;min-width:38px;border-radius:6px}
+  #tees .tee b{font-size:11px}
+  #tees .tee i{font-size:7.5px}
+
+  /* Mobile Sheet for Rail */
+  #rail{display:none}
+  #rail.open{display:flex;position:fixed;top:auto;left:0;right:0;bottom:0;width:100%;
+    max-height:76vh;overflow-y:auto;border-radius:22px 22px 0 0;border:1px solid var(--edge);border-bottom:none;
+    background:radial-gradient(130% 100% at 50% 0%,rgba(14,30,22,.97),rgba(5,12,9,.99) 70%,#020504);
+    padding:14px 18px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -14px 44px rgba(0,0,0,.75);
+    z-index:45;gap:9px}
+  #rail.open .btn{padding:9px 6px;font-size:11.5px;border-radius:10px}
+  #rail.open #facts{display:block;font-size:11px;line-height:1.6;padding-top:8px;margin-top:4px}
+  #facts{display:none}
+  #hint{display:none}
+
+  /* Bottom Hole Selector on Mobile: Smooth Carousel */
+  .holes-wrap{bottom:calc(8px + env(safe-area-inset-bottom));left:8px;right:8px;transform:none;
+    justify-content:center;max-width:none}
+  #holes{max-width:calc(100vw - 84px);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;gap:4px;padding:4px 6px;border-radius:12px}
+  #holes::-webkit-scrollbar{display:none}
+  .hb{width:34px;height:34px;min-width:34px;border-radius:9px;font-size:12px;scroll-snap-align:center}
+  .hole-step-btn{width:34px;height:34px;min-width:34px;border-radius:9px;font-size:18px}
+}
+
+@media(max-width:480px){
+  #card .nm{display:none}
+  .mobile-hud-cluster{left:8px;right:8px;justify-content:space-between;border-radius:16px}
+  .m-hud-btn{padding:8px 9px;flex:1;justify-content:center}
+  .bag-list{padding-left:10px;padding-right:10px}.bag-head,.bag-actions{padding-left:12px;padding-right:12px}
+  .bag-toolbar{padding-left:12px;padding-right:12px}.bag-row{grid-template-columns:26px minmax(0,1fr) 78px 28px;gap:6px;padding-left:5px;padding-right:5px}
+}
+</style>
+  <script type="module" crossorigin src="/assets/app-Dg-y2ML7.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-P2Xu9kJm.js">
+  <link rel="modulepreload" crossorigin href="/assets/router-CvxtqfP8.js">
+  <link rel="modulepreload" crossorigin href="/assets/course-previews-z2p367Gd.js">
+  <link rel="modulepreload" crossorigin href="/assets/preload-helper-Czpn1I53.js">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+
+<div id="boot"><div class="inner">
+  <div class="boot-logo">
+    <div class="boot-ring"></div>
+    <div class="mark">Ban<i>v</i>y</div>
+  </div>
+  <h1 id="bootTitle">Banvy 3D</h1>
+  <p class="sub" id="bootSub">Svenska golfbanor i realtid</p>
+  <div id="bar"><i></i></div>
+  <div class="boot-status">
+    <span class="status-pulse"></span>
+    <span id="bmsg">startar</span>
+  </div>
+</div></div>
+
+<script>
+(function () {
+  var booting = function () {
+    var b = document.getElementById('boot');
+    return b && !b.classList.contains('done');
+  };
+  var say = function (msg, onlyIdle) {
+    var m = document.getElementById('bmsg');
+    if (!m || !booting()) return;
+    if (onlyIdle && m.textContent !== 'startar') return;
+    m.textContent = msg;
+  };
+  if (!(window.HTMLScriptElement && HTMLScriptElement.supports &&
+        HTMLScriptElement.supports('importmap')) ||
+      typeof DecompressionStream === 'undefined') {
+    say('webbläsaren är för gammal för den här sidan — uppdatera till iOS 16.4 / en nyare webbläsare');
+    return;
+  }
+  var t = setTimeout(function () {
+    say('tar ovanligt länge — sidan hämtar ~1,5 MB grafik första gången; kontrollera anslutningen', true);
+  }, 12000);
+  /* Banvy is installable, so being offline is a normal state rather than an
+     error state -- a course already opened runs with no network at all. What a
+     person cannot do offline is open a course they have never opened, because
+     its 400 KB pack was never fetched to be cached. That is a sentence, not a
+     TypeError: "Failed to fetch" tells someone standing on a tee with no signal
+     nothing they can act on. */
+  /* The loader already phrases its own failures in words a person can act on
+     (see src/loader/pack.js), because it is the only thing that knows which
+     fetch died. Anything already written for a reader is shown as-is; only the
+     genuinely internal errors get the "fel vid start" prefix. Do NOT reach for
+     navigator.onLine here -- it says whether a network interface exists, not
+     whether anything answers, and it stays true on a dead cell. */
+  var explain = function (msg) {
+    msg = String(msg || 'okänt fel')
+      .replace(/^Uncaught(?: \(in promise\))?(?: [A-Za-z]*Error)?:\s*/, '');
+    /* a message the loader wrote for a reader starts lower-case and has spaces
+       in it; anything else is an internal fault and says so */
+    return /^[a-zåäö]/.test(msg) && msg.indexOf(' ') > 0 ? msg : 'fel vid start: ' + msg;
+  };
+  window.addEventListener('error', function (e) {
+    if (e && e.target && e.target.tagName === 'SCRIPT') {
+      clearTimeout(t);
+      say('kunde inte hämta moduler — kontrollera anslutningen och ladda om');
+    } else if (e && e.message) {
+      clearTimeout(t);
+      say(explain(e.message));
+    }
+  }, true);
+  window.addEventListener('unhandledrejection', function (e) {
+    clearTimeout(t);
+    var r = e && e.reason;
+    say(explain(r && r.message ? r.message : String(r)));
+  });
+}());
+</script>
+
+<!-- In-Game Top-Left Navigation Trigger -->
+<div id="courseNav">
+  <button id="menuToggle" aria-label="Öppna meny och verktyg" title="Öppna meny (Esc)">
+    <div class="hamburger-box">
+      <span class="hb-line"></span>
+      <span class="hb-line"></span>
+      <span class="hb-line"></span>
+    </div>
+    <div class="course-info-pill">
+      <span class="cip-name" id="hdName">Banvy</span>
+      <span class="cip-sub" id="hdsub">18 hål · 3D</span>
+    </div>
+    <svg class="cip-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+</div>
+
+<div class="panel" id="card">
+  <div class="no" id="cno">1</div>
+  <div class="mid">
+    <div class="nm" id="cnm">—</div>
+    <div class="pi" id="cpi">—</div>
+  </div>
+  <div id="tees"></div>
+</div>
+
+<div id="railBackdrop" class="sheet-backdrop"></div>
+<div class="panel" id="rail">
+  <div class="rail-hole-summary" id="railHoleSummary">
+    <div class="rhs-main">
+      <span class="rhs-hole" id="railHoleNum">HÅL 1</span>
+      <span class="rhs-dot">·</span>
+      <span class="rhs-par" id="railHolePar">PAR 4</span>
+      <span class="rhs-dot">·</span>
+      <span class="rhs-dist" id="railHoleDist">386 M</span>
+      <span class="rhs-dot" id="railHoleIndexDot">·</span>
+      <span class="rhs-index" id="railHoleIndex">INDEX 10</span>
+    </div>
+    <div class="rhs-sub" id="railHoleSub">Spelas 6 m nedför</div>
+    <button class="panel-close-btn" id="railCloseBtn" aria-label="Stäng meny" title="Stäng">×</button>
+  </div>
+  <div class="lbl">Kameravy</div>
+  <div class="grp">
+    <button class="btn" data-cam="tee">Tee</button>
+    <button class="btn" data-cam="green">Green</button>
+    <button class="btn on" data-cam="orbit">Fritt</button>
+    <button class="btn" data-cam="top">Ovan</button>
+  </div>
+  <div class="lbl">Ljus & Atmosfär</div>
+  <div class="grp">
+    <button class="btn on" data-preset="golden">Kväll</button>
+    <button class="btn" data-preset="noon">Dag</button>
+    <button class="btn" data-preset="dawn">Gryning</button>
+  </div>
+  <div class="grp">
+    <button class="btn" data-preset="midnight" title="Midnattssol: låg arktisk sol och gyllene rodnad">Midnattssol</button>
+    <button class="btn" data-preset="bluehour" title="Blå timmen: djupblå skymningstur">Blå timmen</button>
+  </div>
+  <div class="grp">
+    <button class="btn" data-preset="storm" title="Oväder: tunga skiffermoln, kallt regndis och dämpat ljus">Oväder</button>
+    <button class="btn" data-preset="mist" title="Dis: morgonfukt och sval dimma">Dis</button>
+    <button class="btn" data-preset="host" title="Höst: gyllene löv och skarp luft">Höst</button>
+  </div>
+  <div class="grp">
+    <button class="btn" id="lookBtn" title="Målad stil: ritade träd och målad mark (laddar om banan)">Målad</button>
+  </div>
+  <div class="lbl">Guidade turer</div>
+  <div class="grp">
+    <button class="btn btn-action" id="flyBtn"><svg class="btn-action-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Flygtur</button>
+    <button class="btn btn-action" id="tourBtn"><svg class="btn-action-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Bansafari</button>
+  </div>
+  <div class="lbl">Verktyg</div>
+  <div class="grp">
+    <button class="btn btn-toggle" id="rangeBtn"><span class="btn-toggle-dot"></span> Kikaren</button>
+    <button class="btn btn-toggle" id="gpsBtn"><span class="btn-toggle-dot"></span> GPS-läge</button>
+  </div>
+  <div class="grp">
+    <button class="btn btn-toggle on" id="strategyBtn" aria-pressed="true" aria-describedby="strategyStatus" title="Visa taktiskt sikte och landningsyta"><span class="btn-toggle-dot"></span> Spellinje</button>
+    <button class="btn btn-toggle" id="gridBtn"><span class="btn-toggle-dot"></span> Greengrid</button>
+  </div>
+  <div class="grp">
+    <button class="btn btn-nav" id="bagBtn">Min bag · klubbavstånd</button>
+  </div>
+  <div class="tool-hint" id="strategyStatus" role="status" hidden></div>
+  <div class="tool-hint" id="toolHint">Tryck på banan för att mäta med Kikaren</div>
+  <div class="lbl">Visning & Bana</div>
+  <div class="grp">
+    <button class="btn btn-toggle on" id="skyltBtn"><span class="btn-toggle-dot"></span> Skyltar</button>
+    <button class="btn btn-nav" id="bytBtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg> Välj bana</button>
+  </div>
+  <div id="facts"></div>
+</div>
+
+<div id="leftStack">
+  <div class="panel" id="kikGreen" aria-label="Avstånd till green"></div>
+  <div class="panel" id="kikOut"></div>
+  <div class="panel" id="note">
+    <div class="panel-head-bar">
+      <b id="nnm">—</b>
+      <button class="panel-close-btn" id="noteCloseBtn" aria-label="Stäng hålguide" title="Stäng">×</button>
+    </div>
+    <span id="ntx"></span>
+  </div>
+</div>
+
+<div id="holesContainer" class="holes-wrap">
+  <button class="hole-step-btn" id="holePrevBtn" aria-label="Föregående hål" title="Föregående hål (P)">‹</button>
+  <div class="panel" id="holes"></div>
+  <button class="hole-step-btn" id="holeNextBtn" aria-label="Nästa hål" title="Nästa hål (N)">›</button>
+</div>
+
+<div class="panel" id="mini">
+  <div class="panel-head-bar mini-head">
+    <span class="mini-title">Banguide 2D</span>
+    <button class="panel-close-btn" id="miniCloseBtn" aria-label="Stäng karta" title="Stäng">×</button>
+  </div>
+  <canvas id="minic" width="360" height="360"></canvas>
+</div>
+
+<div id="hint">dra för att se dig omkring · rulla för att zooma</div>
+
+<!-- Mobile HUD Quick Actions -->
+<div id="mobileHudBar" class="mobile-hud-cluster">
+  <button id="mobileNoteToggle" class="m-hud-btn" aria-label="Visa banguide">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+    <span>Guide</span>
+  </button>
+  <button id="mobileMiniToggle" class="m-hud-btn" aria-label="Visa 2D-karta">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+    <span>Karta</span>
+  </button>
+  <button id="mobileGpsToggle" class="m-hud-btn" aria-label="Starta GPS-läge">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path></svg>
+    <span>GPS</span>
+  </button>
+  <button id="uiToggle" class="m-hud-btn primary" aria-label="Vy och Ljus">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"></circle><path d="M12 3a9 9 0 0 1 9 9"></path></svg>
+    <span>Vy · Ljus</span>
+  </button>
+</div>
+
+<button id="cleanExit" title="visa panelerna">×</button>
+<div id="tourCard">
+  <div class="tour-hole-header">
+    <span class="tno">HÅL 1</span>
+    <div class="tour-pills">
+      <span class="tour-pill" id="tourPar">PAR 4</span>
+      <span class="tour-pill" id="tourDist">385 M</span>
+      <span class="tour-elev-pill" id="tourElev"></span>
+    </div>
+  </div>
+  <div class="tnm">—</div>
+  <div class="ttx"></div>
+  <div class="tour-progress-bar">
+    <div class="tour-progress-track">
+      <div class="tour-progress-fill" id="tourProgressFill"></div>
+    </div>
+    <div class="tour-progress-labels">
+      <span>TEE</span>
+      <span id="tourProgressDist">FLYGNING</span>
+      <span>GREEN</span>
+    </div>
+  </div>
+</div>
+<div id="kikTag" hidden><div class="kt-box"></div></div>
+<div id="gpsStatus" data-state="waiting" hidden>
+  <div class="gps-pill" role="status" aria-live="polite">
+    <span class="gps-pulse"></span>
+    <span class="gps-copy"><b>GPS</b><span id="gpsStatusText">Söker din position…</span></span>
+    <button class="gps-action" id="gpsStopBtn" type="button" aria-label="Avsluta GPS-läge" title="Avsluta GPS-läge">×</button>
+  </div>
+  <button class="gps-locate on" id="gpsFollowBtn" type="button" aria-pressed="true" aria-label="Kameran följer dig" title="Följ min position">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"></path></svg>
+  </button>
+</div>
+<dialog id="bagDialog" aria-labelledby="bagTitle">
+  <form class="bag-form" id="bagForm" method="dialog">
+    <div class="bag-head">
+      <div class="bag-title">
+        <div class="bag-kicker">Personlig caddie</div>
+        <h2 id="bagTitle">Min bag</h2>
+        <p>Ange din normala carry i meter. Lägg till upp till 14 slagklubbor; puttern behövs inte. Sparas bara på den här enheten.</p>
+      </div>
+      <button class="panel-close-btn bag-close" value="cancel" aria-label="Stäng">×</button>
+    </div>
+    <div class="bag-toolbar">
+      <span class="bag-count" id="bagCount" aria-live="polite"></span>
+      <button class="bag-add" id="bagAddBtn" type="button">+ Lägg till klubba</button>
+    </div>
+    <div class="bag-list" id="bagList"></div>
+    <div class="bag-actions">
+      <button class="bag-reset" id="bagResetBtn" type="button">Återställ</button>
+      <button class="bag-save" value="save">Spara avstånd</button>
+    </div>
+  </form>
+</dialog>
+<div id="v2TerrainBadge" role="status" aria-live="polite" hidden><b></b><span></span></div>
+<div id="toast"></div>
+
+</body>
+</html>

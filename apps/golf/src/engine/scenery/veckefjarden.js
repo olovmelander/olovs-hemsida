@@ -1,8 +1,7 @@
-/* Veckefjärden's landmarks -- the things the basin is identified by, moved here
-   verbatim from the page that first drew them. Nothing was retuned in the move:
-   every coordinate is the surveyed one and every proportion came off a
-   photograph, and the notes that explain WHY each is shaped as it is travelled
-   with the code, because they are the reason it looks right.
+/* Veckefjärden's landmarks and local scenery. The church and Paradiskullen
+   now load as photo-referenced Blender models; the other skyline features
+   remain in the engine's shared vertex batches. Plans follow the mapped
+   course frame; architectural proportions are photograph-based estimates.
 
    ctx carries the engine's own helpers, so these are the same calls they were:
    quad/pole draw into the far-scenery batches, demH is the elevation model
@@ -11,6 +10,7 @@
    draw counter the harness reads back.                                       */
 import { hash2 } from '../geom.js';
 export { loadFacilities, facilityFootprints, isFacilityInterior } from './veckefjarden-facilities.mjs';
+export { loadLandmarks, isReplacedLandmarkBox, isReplacedLandmarkRail, isLandmarkTreeObstruction } from './veckefjarden-landmarks.mjs';
 export const loadFacilitiesBeforeSurfaces = true;
 export const replacesRangeFacilities = true;
 
@@ -38,7 +38,7 @@ export const armour = { hole: 14, rise: 115, paint: 110, colour: 0xa0a2a8 };
    yard at Åsmasten's foot, which is gravel and guy anchors. `wobble` is how much
    fbm ripples the edge so a clearing does not read as a stamped circle. */
 export const clearings = [
-  { c: [-3310, -928], r: 150, wobble: 70 },
+  { c: [-3278.4, -905.3], r: 150, wobble: 70 },
   { c: [-632, -2007], r: 40, wobble: 0 },
 ];
 
@@ -100,92 +100,9 @@ export function build(ctx) {
     }
     avLights.push([cx, y0 + 69, cz]);
   }
-  /* Själevads kyrka at its real coordinates, drawn from photographs of the church
-     itself: the tall white octagon of 1880 with arched windows and a columned
-     temple portico; a shallow copper roof carrying the broad white bell-storey
-     drum; then the copper bell roof, the clock lantern and the copper spire with
-     the gilt ball and cross -- the 1923 crown that makes the silhouette. ~35 m to
-     the cross, white and verdigris, which is what reads across 3 km of water. */
-  {
-    const kx = -3310, kz = -928, y0 = demH(-3310, -928) - 0.6;
-    const GREENC = L(0x5c7a66), GLK = L(0x2b3138), GOLD = L(0xd8b93c);
-    const oct = a => [Math.cos(a * TAU / 8 + TAU / 16), Math.sin(a * TAU / 8 + TAU / 16)];
-    const ring8 = (r0, ya, r1, yb, col) => {
-      for (let k = 0; k < 8; k++) {
-        const [c0, s0] = oct(k), [c1, s1] = oct(k + 1);
-        quad([kx + c0 * r0, ya, kz + s0 * r0], [kx + c1 * r0, ya, kz + s1 * r0],
-             [kx + c1 * r1, yb, kz + s1 * r1], [kx + c0 * r1, yb, kz + s0 * r1], col);
-      }
-    };
-    const facet = (k, r, w, ya, yb, col) => {   /* a panel on facet k's face plane */
-      const fm = k * TAU / 8 + TAU / 8;         /* facet k faces angle k*45+45 deg */
-      const fx = Math.cos(fm), fz = Math.sin(fm), tx = -fz, tz = fx;
-      const px = kx + fx * r, pz = kz + fz * r;
-      quad([px - tx * w, ya, pz - tz * w], [px + tx * w, ya, pz + tz * w],
-           [px + tx * w, yb, pz + tz * w], [px - tx * w, yb, pz - tz * w], col);
-    };
-    ring8(11.5, y0, 11.5, y0 + 11, WHITE);                  /* the body */
-    const RF = 11.5 * Math.cos(TAU / 16) + 0.08;
-    for (let k = 0; k < 8; k++) if (k !== 7) facet(k, RF, 1.15, y0 + 3.6, y0 + 8.6, GLK);
-    ring8(12.4, y0 + 11, 6.6, y0 + 14.8, GREENC);           /* shallow copper roof */
-    ring8(6.3, y0 + 14.8, 6.3, y0 + 20.3, WHITE);           /* the bell-storey drum */
-    const RD = 6.3 * Math.cos(TAU / 16) + 0.08;
-    for (let k = 0; k < 8; k++) facet(k, RD, 0.85, y0 + 15.6, y0 + 19.4, GLK);
-    ring8(6.9, y0 + 20.3, 4.4, y0 + 22.4, GREENC);          /* bell roof in two springs */
-    ring8(4.4, y0 + 22.4, 1.95, y0 + 24.3, GREENC);
-    ring8(1.85, y0 + 24.3, 1.85, y0 + 27.2, WHITE);         /* the clock lantern */
-    const RL = 1.85 * Math.cos(TAU / 16) + 0.05;
-    for (let k = 0; k < 8; k++) facet(k, RL, 0.5, y0 + 25.0, y0 + 26.6, GLK);
-    for (let k = 0; k < 8; k++) {                           /* the copper spire */
-      const [c0, s0] = oct(k), [c1, s1] = oct(k + 1);
-      tri([kx + c0 * 2.05, y0 + 27.2, kz + s0 * 2.05], [kx + c1 * 2.05, y0 + 27.2, kz + s1 * 2.05],
-          [kx, y0 + 33.8, kz], GREENC);
-    }
-    quad([kx - 0.35, y0 + 33.7, kz - 0.35], [kx + 0.35, y0 + 33.7, kz + 0.35],
-         [kx + 0.35, y0 + 34.35, kz + 0.35], [kx - 0.35, y0 + 34.35, kz - 0.35], GOLD);
-    pole(kx, y0 + 34.3, kz, 1.1, 0.09, GOLD);
-    for (const [ox, oz] of [[0.45, 0], [0, 0.45]])
-      quad([kx - ox, y0 + 34.95, kz - oz], [kx + ox, y0 + 34.95, kz + oz],
-           [kx + ox, y0 + 35.15, kz + oz], [kx - ox, y0 + 35.15, kz - oz], GOLD);
-    /* the temple portico on the east facet (k=7 faces +x, toward the fjärd) */
-    {
-      const bx = kx + 11.5 * Math.cos(TAU / 16), px2 = bx + 4.6;
-      for (const zz of [-4.65, -1.55, 1.55, 4.65]) pole(px2, y0, kz + zz, 8.6, 0.34, WHITE);
-      for (const zz of [-5.2, 5.2])
-        quad([bx, y0 + 8.3, kz + zz], [px2 + 0.4, y0 + 8.3, kz + zz],
-             [px2 + 0.4, y0 + 9.1, kz + zz], [bx, y0 + 9.1, kz + zz], WHITE);
-      quad([px2 + 0.4, y0 + 8.3, kz - 5.2], [px2 + 0.4, y0 + 8.3, kz + 5.2],
-           [px2 + 0.4, y0 + 9.1, kz + 5.2], [px2 + 0.4, y0 + 9.1, kz - 5.2], WHITE);
-      tri([px2 + 0.4, y0 + 9.1, kz - 5.2], [px2 + 0.4, y0 + 9.1, kz + 5.2],
-          [px2 + 0.4, y0 + 11.5, kz], WHITE);
-      quad([px2 + 0.5, y0 + 9.1, kz - 5.4], [px2 + 0.5, y0 + 11.5, kz],
-           [bx, y0 + 11.5, kz], [bx, y0 + 9.1, kz - 5.4], GREENC);
-      quad([px2 + 0.5, y0 + 11.5, kz], [px2 + 0.5, y0 + 9.1, kz + 5.4],
-           [bx, y0 + 9.1, kz + 5.4], [bx, y0 + 11.5, kz], GREENC);
-      quad([bx + 0.06, y0, kz - 1.1], [bx + 0.06, y0, kz + 1.1],
-           [bx + 0.06, y0 + 3.4, kz + 1.1], [bx + 0.06, y0 + 3.4, kz - 1.1], GLK);
-    }
-    /* churchyard wall and the north-east sacristy, as the aerial shows them */
-    for (let k = 0; k < 8; k++) {
-      const [c0, s0] = oct(k), [c1, s1] = oct(k + 1);
-      const wx0 = kx + c0 * 40, wz0 = kz + s0 * 40, wx1 = kx + c1 * 40, wz1 = kz + s1 * 40;
-      const wy0 = demH(wx0, wz0), wy1 = demH(wx1, wz1);
-      quad([wx0, wy0 - 0.4, wz0], [wx1, wy1 - 0.4, wz1], [wx1, wy1 + 1.1, wz1], [wx0, wy0 + 1.1, wz0], L(0xb9b4a8));
-    }
-    {
-      const sx = kx + 9.5, sz = kz - 9.5;
-      const box = [[-4, -3], [4, -3], [4, 3], [-4, 3]];
-      for (let k = 0; k < 4; k++) {
-        const [a0, b0] = box[k], [a1, b1] = box[(k + 1) % 4];
-        quad([sx + a0, y0, sz + b0], [sx + a1, y0, sz + b1],
-             [sx + a1, y0 + 4.5, sz + b1], [sx + a0, y0 + 4.5, sz + b0], WHITE);
-      }
-      quad([sx - 4.3, y0 + 4.5, sz - 3.3], [sx + 4.3, y0 + 4.5, sz - 3.3],
-           [sx + 4.3, y0 + 5.8, sz], [sx - 4.3, y0 + 5.8, sz], DARKR);
-      quad([sx + 4.3, y0 + 4.5, sz + 3.3], [sx - 4.3, y0 + 4.5, sz + 3.3],
-           [sx - 4.3, y0 + 5.8, sz], [sx + 4.3, y0 + 5.8, sz], DARKR);
-    }
-  }
+  /* The church is now loaded from its photo-referenced Blender asset.
+     The mapped church is the sole fallback when that asset cannot load; the
+     former custom octagon 40 m away duplicated the same real building. */
   /* the wind turbines on the western ridge (dressing: placed where the dusk
      photograph shows them, on the high ground beyond the fjärd) */
   for (let k = 0; k < 7; k++) {

@@ -1,0 +1,207 @@
+[
+  {
+    "course": "upsala",
+    "errors": [],
+    "views": {
+      "asphalt": {
+        "id": "upsala-parking-south",
+        "surface": "asphalt",
+        "point": [
+          86.41845454545457,
+          -203.9471818181818
+        ]
+      },
+      "generic": {
+        "id": "w438967911",
+        "surface": null,
+        "point": [
+          57.040000000000006,
+          -236.42000000000002
+        ]
+      },
+      "apron": {
+        "id": "range-platform-east",
+        "point": [
+          -70.54272727272728,
+          -180.02090909090907
+        ]
+      }
+    },
+    "backend": "webgpu",
+    "parking": [
+      {
+        "id": "w34145616",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "w438967911",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "w438967919",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "w438967920",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "w438967921",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "upsala-parking-south",
+        "surface": 13,
+        "renderer": "terrain"
+      },
+      {
+        "id": "upsala-parking-north-bays",
+        "surface": 13,
+        "renderer": "terrain"
+      }
+    ],
+    "materials": [
+      {
+        "name": null,
+        "tag": "mapped-facility-footprint",
+        "parentTag": "",
+        "material": "MeshStandardNodeMaterial",
+        "transparent": false,
+        "order": 6,
+        "visible": true,
+        "instances": 1,
+        "vertices": 203,
+        "bbox": [
+          1,
+          34,
+          -236,
+          7,
+          35,
+          -231
+        ]
+      },
+      {
+        "name": null,
+        "tag": "mapped-facility-footprint",
+        "parentTag": "",
+        "material": "MeshStandardNodeMaterial",
+        "transparent": false,
+        "order": 6,
+        "visible": true,
+        "instances": 1,
+        "vertices": 6523,
+        "bbox": [
+          -146,
+          25,
+          -189,
+          -54,
+          29,
+          -171
+        ]
+      },
+      {
+        "name": null,
+        "tag": "mapped-facility-footprint",
+        "parentTag": "",
+        "material": "MeshStandardNodeMaterial",
+        "transparent": false,
+        "order": 6,
+        "visible": true,
+        "instances": 1,
+        "vertices": 558,
+        "bbox": [
+          -153,
+          24,
+          -157,
+          -82,
+          27,
+          -132
+        ]
+      },
+      {
+        "name": null,
+        "tag": "mapped-facility-footprint",
+        "parentTag": "",
+        "material": "MeshStandardNodeMaterial",
+        "transparent": false,
+        "order": 7,
+        "visible": true,
+        "instances": 1,
+        "vertices": 2430,
+        "bbox": [
+          -145,
+          25,
+          -187,
+          -56,
+          29,
+          -172
+        ]
+      }
+    ]
+  },
+  {
+    "course": "tortuna",
+    "errors": [],
+    "views": {
+      "asphalt": {
+        "id": "tortuna-main-carpark",
+        "surface": "asphalt",
+        "point": [
+          26.746808510645234,
+          -247.44042553189905
+        ]
+      }
+    },
+    "backend": "webgpu",
+    "parking": [
+      {
+        "id": "tortuna-main-carpark",
+        "surface": 13,
+        "renderer": "terrain"
+      }
+    ],
+    "materials": []
+  },
+  {
+    "course": "veckefjarden",
+    "errors": [],
+    "views": {
+      "generic": {
+        "surface": null,
+        "point": [
+          219.75000000000003,
+          -412.26666666666665
+        ]
+      }
+    },
+    "backend": "webgpu",
+    "parking": [
+      {
+        "id": null,
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": null,
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": null,
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": null,
+        "surface": 14,
+        "renderer": "terrain"
+      }
+    ],
+    "materials": []
+  }
+]

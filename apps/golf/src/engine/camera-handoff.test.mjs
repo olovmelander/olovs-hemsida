@@ -63,33 +63,34 @@ function fixture({ tour = false, reducedMotion = false, flying = true, courseHol
 }
 
 describe('application camera handoff', () => {
-  it('places all 108 Visby tee views at their selected references, including narrow platforms', () => {
+  it('frames all 108 Visby tees from six metres behind their selected references', () => {
     const model = JSON.parse(readFileSync(new URL('../../../../visbybuild/course-model.json', import.meta.url)));
-    let covered = 0, previouslyOutside = 0;
+    let covered = 0;
     for (const courseHole of model.holes) {
       for (let teeIdx = 0; teeIdx < courseHole.tees.marks.length; teeIdx++) {
         const mark = courseHole.tees.marks[teeIdx], f = fixture({ courseHole, teeIdx });
+        const reference = [...mark.c];
         f.state.setCam('tee', true);
-        expect(f.camera.position.toArray()).toEqual([mark.c[0], GROUND_CLAMP.eye, mark.c[1]]);
+        const behind = [f.camera.position.x - mark.c[0], f.camera.position.z - mark.c[1]];
+        const forward = [f.controls.target.x - mark.c[0], f.controls.target.z - mark.c[1]];
+        expect(Math.hypot(...behind)).toBeCloseTo(6, 8);
+        expect(behind[0] * forward[0] + behind[1] * forward[1]).toBeLessThan(0);
+        expect(behind[0] * forward[1] - behind[1] * forward[0]).toBeCloseTo(0, 8);
+        expect(f.camera.position.y).toBe(GROUND_CLAMP.eye);
+        expect(mark.c).toEqual(reference);
         const pad = courseHole.tees.pads.find(p => inRing(...mark.c, p.ring));
-        if (pad) {
-          covered++;
-          expect(inRing(f.camera.position.x, f.camera.position.z, pad.ring)).toBe(true);
-          const b = alongLine(courseHole.line, 0.02).b;
-          if (!inRing(mark.c[0] - 7 * Math.sin(b), mark.c[1] - 7 * Math.cos(b), pad.ring)) previouslyOutside++;
-        }
+        if (pad) covered++;
         f.unbind();
       }
     }
     expect(covered).toBeGreaterThanOrEqual(67);
-    expect(previouslyOutside).toBeGreaterThan(0); // Exercises the reported regression with actual course geometry.
   });
 
   it('looks forward from an advanced tee after a dogleg instead of back toward the old 72% target', () => {
     const courseHole = { line: [[0, 0], [0, 100], [100, 100]], pin: [100, 100], tees: { marks: [{ c: [80, 100] }] } };
     const f = fixture({ courseHole });
     f.state.setCam('tee', true);
-    expect(f.camera.position.toArray()).toEqual([80, 1.7, 100]);
+    expect(f.camera.position.toArray()).toEqual([74, 1.7, 100]);
     expect(f.controls.target.x).toBeGreaterThan(80);
     expect(f.controls.target.z).toBe(100);
     f.unbind();
@@ -129,7 +130,7 @@ describe('application camera handoff', () => {
     expect(f.camera.updateProjectionMatrix).toHaveBeenCalledTimes(1);
     expect(f.state.heldFlightLens).toBe(false);
     expect(f.camTween.on).toBe(true);
-    expect(f.camTween.to.toArray()).toEqual([0, 1.7, 0]);
+    expect(f.camTween.to.toArray()).toEqual([0, 1.7, -6]);
     expect(f.camTween.lookTo.toArray()).toEqual([0, 3, 72]);
     // Once the held lens is released, explicitly selected/custom lens values
     // keep the pre-existing setCam behaviour (including V3D.setFov callers).
@@ -158,7 +159,7 @@ describe('application camera handoff', () => {
     expect(f.state.flying).toBe(0);
     expect(f.camera.fov).toBe(48);
     expect(f.camTween.on).toBe(true);
-    expect(f.camTween.to.toArray()).toEqual([0, 1.7, 0]);
+    expect(f.camTween.to.toArray()).toEqual([0, 1.7, -6]);
     expect(f.body.classList.contains('tour')).toBe(false);
     expect(f.body.classList.contains('clean')).toBe(false);
     f.unbind();
@@ -172,12 +173,12 @@ describe('application camera handoff', () => {
     f.gesture();
     f.state.setCam('tee', options.instant);
     expect(f.camera.fov).toBe(48);
-    expect(f.camera.position.toArray()).toEqual([0, 1.7, 0]);
+    expect(f.camera.position.toArray()).toEqual([0, 1.7, -6]);
     expect(f.controls.target.toArray()).toEqual([0, 3, 72]);
     expect(f.camTween.on).toBe(false);
     f.gesture();
     expect(f.camTween.on).toBe(false);
-    expect(f.camera.position.toArray()).toEqual([0, 1.7, 0]);
+    expect(f.camera.position.toArray()).toEqual([0, 1.7, -6]);
     f.unbind();
   });
 });

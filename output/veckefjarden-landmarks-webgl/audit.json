@@ -1,0 +1,85 @@
+[
+  {
+    "course": "veckefjarden",
+    "models": {
+      "status": "loaded",
+      "courseSlug": "veckefjarden",
+      "landmarks": [
+        {
+          "id": "w104048726",
+          "status": "loaded",
+          "name": "landmark-sjalevads-kyrka",
+          "anchor": [
+            -3278.4,
+            -905.3
+          ],
+          "ground": 46.0338115622083,
+          "meshes": 12,
+          "triangles": 47221,
+          "min": [
+            -3300.857854143976,
+            44.733811609892015,
+            -927.7578541439758
+          ],
+          "max": [
+            -3255.861661171006,
+            88.48381613984502,
+            -882.8421458560241
+          ],
+          "assetSha256": "f45e5ed56a0638e44a2e4a57d04e105fca1ec86099aa678a294bbe226ea0ee30"
+        },
+        {
+          "id": "w70606159",
+          "status": "loaded",
+          "name": "landmark-paradiskullen-k90",
+          "anchor": [
+            1303.65,
+            -493.1
+          ],
+          "ground": 112.68158028135218,
+          "meshes": 15,
+          "triangles": 48336,
+          "min": [
+            1287.9997709952129,
+            30.124039387797495,
+            -618.3599423733206
+          ],
+          "max": [
+            1611.6311341534852,
+            158.75423500547328,
+            -462.76012430903666
+          ],
+          "assetSha256": "4be2fa3d0f9b199d0d79ed693f7eef778917c3acaec43a929d5a04e53cec3f64"
+        }
+      ],
+      "replacedLandmarkIds": [
+        "w104048726",
+        "w70606159"
+      ],
+      "meshes": 27,
+      "triangles": 95557
+    },
+    "found": [
+      {
+        "name": "landmark-sjalevads-kyrka",
+        "id": "w104048726",
+        "position": [
+          -3278.4,
+          46.0338115622083,
+          -905.3
+        ]
+      },
+      {
+        "name": "landmark-paradiskullen-k90",
+        "id": "w70606159",
+        "position": [
+          1303.65,
+          112.68158028135218,
+          -493.1
+        ]
+      }
+    ],
+    "backend": "webgl2",
+    "errors": []
+  }
+]

@@ -1,0 +1,68 @@
+{
+  "tees": [
+    {
+      "docked": "false",
+      "tee": 0,
+      "text": "VALD TEE 65\n334\nm\nHål 1 · Par 4",
+      "expected": 334,
+      "error": 0.004445880285845507,
+      "selected": 1,
+      "url": "?bana=veckefjarden&hal=1&vy=ovan&ljus=kvall&ghibli=1&hero=1&det=1&tee=1"
+    },
+    {
+      "docked": "false",
+      "tee": 1,
+      "text": "VALD TEE 61\n325\nm\nHål 1 · Par 4",
+      "expected": 325,
+      "error": 0.0017187088320104317,
+      "selected": 1,
+      "url": "?bana=veckefjarden&hal=1&vy=ovan&ljus=kvall&ghibli=1&hero=1&det=1&tee=2"
+    },
+    {
+      "docked": "false",
+      "tee": 2,
+      "text": "VALD TEE 58\n312\nm\nHål 1 · Par 4",
+      "expected": 312,
+      "error": 0.0031849889125018386,
+      "selected": 1,
+      "url": "?bana=veckefjarden&hal=1&vy=ovan&ljus=kvall&ghibli=1&hero=1&det=1"
+    },
+    {
+      "docked": "false",
+      "tee": 3,
+      "text": "VALD TEE 55\n302\nm\nHål 1 · Par 4",
+      "expected": 302,
+      "error": 0.0008242001192846453,
+      "selected": 1,
+      "url": "?bana=veckefjarden&hal=1&vy=ovan&ljus=kvall&ghibli=1&hero=1&det=1&tee=4"
+    },
+    {
+      "docked": "false",
+      "tee": 4,
+      "text": "VALD TEE 48\n254\nm\nHål 1 · Par 4",
+      "expected": 254,
+      "error": 0.004235043013198413,
+      "selected": 1,
+      "url": "?bana=veckefjarden&hal=1&vy=ovan&ljus=kvall&ghibli=1&hero=1&det=1&tee=5"
+    },
+    {
+      "docked": "false",
+      "tee": 5,
+      "text": "VALD TEE 40\n210\nm\nHål 1 · Par 4",
+      "expected": 210,
+      "error": 0.0011873606378458973,
+      "selected": 1,
+      "url": "?bana=veckefjarden&hal=1&vy=ovan&ljus=kvall&ghibli=1&hero=1&det=1&tee=6"
+    }
+  ],
+  "mobile": {
+    "docked": "false",
+    "tee": 2,
+    "text": "VALD TEE 58\n312\nm\nHål 1 · Par 4",
+    "expected": 312,
+    "error": 0.0005047609222320713,
+    "selected": 1,
+    "url": "?bana=veckefjarden&hal=1&vy=ovan&ljus=kvall&ghibli=1&hero=1&det=1"
+  },
+  "errors": []
+}

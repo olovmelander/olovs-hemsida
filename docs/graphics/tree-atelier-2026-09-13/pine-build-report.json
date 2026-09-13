@@ -1,0 +1,140 @@
+{
+  "blender": "4.5.9 LTS",
+  "method": "fixed topology; no subdivision/remesh/decimation",
+  "budgets": {
+    "hero": 4500,
+    "full": 1700,
+    "lite": 420
+  },
+  "variants": [
+    {
+      "seed": 9000,
+      "tiers": {
+        "hero": {
+          "file": "bb69a496826f08d491d7b8bab3e340e04ba3b7627d1a229c6bc9c3548e579a07.glb",
+          "sha256": "bb69a496826f08d491d7b8bab3e340e04ba3b7627d1a229c6bc9c3548e579a07",
+          "bytes": 92900,
+          "tris": {
+            "crown": 3216,
+            "trunk": 696
+          }
+        },
+        "full": {
+          "file": "e15e44fec8db3a020dbc5547295ef4a349cf875bee19d68aeeb77cf10e426d1e.glb",
+          "sha256": "e15e44fec8db3a020dbc5547295ef4a349cf875bee19d68aeeb77cf10e426d1e",
+          "bytes": 34164,
+          "tris": {
+            "crown": 1140,
+            "trunk": 146
+          }
+        },
+        "lite": {
+          "file": "58335200dd6eda80c1dc366efac09a862b3f462c3edccdd5783e407e7880bcb3.glb",
+          "sha256": "58335200dd6eda80c1dc366efac09a862b3f462c3edccdd5783e407e7880bcb3",
+          "bytes": 8760,
+          "tris": {
+            "crown": 220,
+            "trunk": 60
+          }
+        }
+      }
+    },
+    {
+      "seed": 9017,
+      "tiers": {
+        "hero": {
+          "file": "adc7f8e7e6d4a4f896444adee46f20c54be2347c1813948f54a078692145a0d8.glb",
+          "sha256": "adc7f8e7e6d4a4f896444adee46f20c54be2347c1813948f54a078692145a0d8",
+          "bytes": 98788,
+          "tris": {
+            "crown": 3168,
+            "trunk": 982
+          }
+        },
+        "full": {
+          "file": "29b973084a84e582984e00aea2932c28bd4f7954a989c871841ee14faf39d6ca.glb",
+          "sha256": "29b973084a84e582984e00aea2932c28bd4f7954a989c871841ee14faf39d6ca",
+          "bytes": 35148,
+          "tris": {
+            "crown": 1120,
+            "trunk": 202
+          }
+        },
+        "lite": {
+          "file": "05900d5583a127a97a3e5c274072474ab4a24dfedac1a7cc3c0633ae80b681f5.glb",
+          "sha256": "05900d5583a127a97a3e5c274072474ab4a24dfedac1a7cc3c0633ae80b681f5",
+          "bytes": 10244,
+          "tris": {
+            "crown": 220,
+            "trunk": 116
+          }
+        }
+      }
+    },
+    {
+      "seed": 9034,
+      "tiers": {
+        "hero": {
+          "file": "b859875df4b7f12f346f73cc2ada12ac3a90a5d9467ffdff7a165065123292f1.glb",
+          "sha256": "b859875df4b7f12f346f73cc2ada12ac3a90a5d9467ffdff7a165065123292f1",
+          "bytes": 86184,
+          "tris": {
+            "crown": 2928,
+            "trunk": 696
+          }
+        },
+        "full": {
+          "file": "7e7357d7e5504bee3ebf21d4700b171f5b0ebd6a9c3a16d45d35c4e33401d873.glb",
+          "sha256": "7e7357d7e5504bee3ebf21d4700b171f5b0ebd6a9c3a16d45d35c4e33401d873",
+          "bytes": 30392,
+          "tris": {
+            "crown": 1020,
+            "trunk": 118
+          }
+        },
+        "lite": {
+          "file": "23f14e228b897a31b4f440276c5c84f0b09d59f68a07c42746aeb86fb98c2a11.glb",
+          "sha256": "23f14e228b897a31b4f440276c5c84f0b09d59f68a07c42746aeb86fb98c2a11",
+          "bytes": 8760,
+          "tris": {
+            "crown": 220,
+            "trunk": 60
+          }
+        }
+      }
+    },
+    {
+      "seed": 9051,
+      "tiers": {
+        "hero": {
+          "file": "824924ba565a9c086ba308b6c9f988060ba0bf00b678a8dab1ba464fd05e9d79.glb",
+          "sha256": "824924ba565a9c086ba308b6c9f988060ba0bf00b678a8dab1ba464fd05e9d79",
+          "bytes": 91788,
+          "tris": {
+            "crown": 3168,
+            "trunk": 696
+          }
+        },
+        "full": {
+          "file": "c8b31e57392116b0da6f05eb5f7dc35b2d160711b5b5450168df03bfb730d272.glb",
+          "sha256": "c8b31e57392116b0da6f05eb5f7dc35b2d160711b5b5450168df03bfb730d272",
+          "bytes": 33288,
+          "tris": {
+            "crown": 1120,
+            "trunk": 132
+          }
+        },
+        "lite": {
+          "file": "4f899b14e525f78d6996d90d926601d4cbc7ed93591e03ac12d4f077f887d77e.glb",
+          "sha256": "4f899b14e525f78d6996d90d926601d4cbc7ed93591e03ac12d4f077f887d77e",
+          "bytes": 8760,
+          "tris": {
+            "crown": 220,
+            "trunk": 60
+          }
+        }
+      }
+    }
+  ],
+  "buildSeconds": 1.8
+}

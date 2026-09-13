@@ -75,6 +75,17 @@ const SHADE_OVERRIDE = {
 };
 
 const HARD_SURFACES = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ROCK]);
+const PAVED_SURFACES = [SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL];
+
+const pavedClassWeight = id => PAVED_SURFACES.reduce(
+  (weight, sid) => weight.add(oneMinus(step(0.5, abs(id.sub(sid))))), float(0));
+
+// Paving uses the palette's linear albedo once, like the road and authored
+// facility materials. Retain the established colour response of turf and sand.
+export function groundSurfaceAlbedo(base, pavingWeight, naturalLinearShare = 0) {
+  const natural = mix(base.mul(base), base, naturalLinearShare);
+  return mix(natural, base, pavingWeight);
+}
 /* These classes take their colour from the same procedural near/far ground
    tint instead of a flat palette row. Rough is included explicitly here so
    both the class-SDF and compatibility pair-SDF materials follow one rule. */
@@ -93,8 +104,8 @@ function classColours(C) {
     /* compacted gravel, pale: the path class lies under every road and cart
        path ribbon, and the trodden-earth brown it used to be read as a dark
        overlay wider than the road it belonged to */
-    [SURFACE.PATH]: C.hard, [SURFACE.ASPHALT]: C.aspL,
-    [SURFACE.GRAVEL]: C.hard, [SURFACE.DIRT]: C.soil,
+    [SURFACE.PATH]: C.gravel || C.hard, [SURFACE.ASPHALT]: C.aspL,
+    [SURFACE.GRAVEL]: C.gravel || C.hard, [SURFACE.DIRT]: C.soil,
     [SURFACE.MUD]: C.mud || C.wet.map(v => v * 0.72), [SURFACE.ROCK]: C.rock,
     [SURFACE.WETLAND]: C.wet, [SURFACE.SHORE]: C.shore,
   };
@@ -316,19 +327,9 @@ function guardedPairWeight({ fieldTexture, uvAtlas, texel, filtered, halfWidth, 
 }
 
 export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE, look = 'real' }) {
-  /* vertexColors is OFF, and the square below is why.
-     NodeMaterial does `colorNode = colorNode.mul(vertexColor())` whenever
-     vertexColors is true and the geometry has a color attribute. Every material
-     here -- makeTurf, makeSand, every overlay tier -- ALSO reads
-     attribute('color') itself, so this engine has always rendered the vertex
-     colour SQUARED, and the whole palette is tuned to that. It is not a bug to
-     fix; it is the convention to match.
-     What broke was the atlas: its colour comes from the style texture, so the
-     implicit multiply was multiplying SAND by the green terrain vertex under it.
-     C.sand x turf is olive, which is exactly what the bunkers had gone. Taking
-     the multiply into our own hands lets each region square its OWN colour --
-     turf outside the atlas, the class colour inside it, which is what the sand
-     overlay did when it was still geometry. */
+  /* The atlas supplies its own colour, so implicit vertex multiplication must
+     stay off. Natural ground retains its established colour response; paving
+     uses linear albedo once, avoiding near-black asphalt and parking areas. */
   const m = new THREE.MeshStandardNodeMaterial({ metalness: 0, vertexColors: false });
   const aDet = attribute('aDet', 'float');
   const aBmp = attribute('aBmp', 'float');
@@ -433,9 +434,9 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE, look = 'real'
      vertex colour. Migrated class colours receive the separate horizon AO once. */
   const atlasColor = mix(secColor.rgb, primColor.rgb, primaryWeight).mul(aAO);
   const atlasActive = mix(secMeta.r, primMeta.r, primaryWeight).mul(inBounds);
-  /* pick the source colour first, THEN square it -- see the note on the material */
   const base = mix(vertCol, atlasColor, atlasActive);
-  const col = base.mul(base);
+  const pavingWeight = mix(pavedClassWeight(secId), pavedClassWeight(primId), primaryWeight).mul(inBounds);
+  const col = groundSurfaceAlbedo(base, pavingWeight);
   const shade = mix(secShade, primShade, primaryWeight);
   const det = mix(aDet, shade.r, atlasActive);
   const bmp = mix(aBmp, shade.g, atlasActive);
@@ -688,8 +689,9 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       mow = mow ? mow.add(term) : term;
     });
     const mowNode = (mow || float(0)).mul(0.045);
-    /* the same linear share the pair material restores -- see its note */
-    const litBase = mix(base.mul(base), base, 0.18);
+    const pavingWeight = weights.reduce((sum, weight, index) =>
+      PAVED_SURFACES.includes(classes[index]) ? sum.add(weight) : sum, float(0));
+    const litBase = groundSurfaceAlbedo(base, pavingWeight, 0.18);
     if (look === 'ghibli') {
       const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow: mowNode, turf: oneMinus(meta.g.max(meta.b)) });
       material.colorNode = painted.colorNode;
@@ -832,10 +834,8 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       .add(diagonal.mul(k.b)))(texture(styleTexture, styleUv(id, 3))));
     const mow = mix(classBand(primaryId), classBand(secondaryId), pair.deepSecondary)
       .mul(strength).mul(0.045);
-    /* The legacy mesh deliberately squares its authored vertex colour. BVCH has
-       no procedural vertex colour beneath the atlas, so a small linear share
-       restores the missing ambient body without flattening class contrast. */
-    const litBase = mix(base.mul(base), base, 0.18);
+    const pavingWeight = mix(pavedClassWeight(secondaryId), pavedClassWeight(primaryId), primaryWeight).mul(inBounds);
+    const litBase = groundSurfaceAlbedo(base, pavingWeight, 0.18);
     if (look === 'ghibli') {
       const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow, turf: oneMinus(meta.g.max(meta.b)) });
       material.colorNode = painted.colorNode;

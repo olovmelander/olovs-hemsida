@@ -1,0 +1,46 @@
+[
+  {
+    "course": "puttom",
+    "look": "real",
+    "errors": [],
+    "views": {
+      "generic": {
+        "id": "trace-plaza",
+        "surface": "gravel",
+        "point": [
+          -98.6,
+          -218.60000000000002
+        ]
+      }
+    },
+    "backend": "webgl2",
+    "parking": [
+      {
+        "id": "trace-parking-main",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "trace-parking-main-apron",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "trace-parking-west",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "trace-cart-strip",
+        "surface": 14,
+        "renderer": "terrain"
+      },
+      {
+        "id": "trace-plaza",
+        "surface": 14,
+        "renderer": "terrain"
+      }
+    ],
+    "materials": []
+  }
+]

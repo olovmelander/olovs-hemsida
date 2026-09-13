@@ -101,6 +101,8 @@ describe('strategy', () => {
   const hole = {
     n: 4, par: 4, note: 'Sikta höger och slå max 200 meter.',
     line: [[0, 0], [0, -200], [100, -300]],
+    fairway: { rings: [[[-20, -40], [20, -40], [20, -190], [105, -275], [75, -305], [-20, -210]]] },
+    green: { c: [100, -300], ring: [[85, -315], [115, -315], [115, -285], [85, -285]] },
     tees: { marks: [{ c: [0, 0] }, { c: [0, -30] }] },
   };
 
@@ -111,20 +113,24 @@ describe('strategy', () => {
   it('respects a stated maximum and starts at the selected tee', () => {
     const strategy = strategyForHole(hole, 1, DEFAULT_BAG);
     expect(strategy.origin).toEqual([0, -30]);
-    expect(strategy.primaryDistance).toBe(200);
+    expect(strategy.status).toBe('playable');
+    expect(strategy.primaryDistance).toBeLessThanOrEqual(200);
     expect(strategy.maxCarry).toBe(200);
     expect(strategy.arcs).toContain(150);
   });
 
   it('targets the green on a par three', () => {
-    const par3 = { ...hole, par: 3, note: '', line: [[0, 0], [0, -145]], tees: { marks: [{ c: [0, 0] }] } };
+    const par3 = { ...hole, par: 3, note: '', line: [[0, 0], [0, -145]],
+      green: { c: [0, -145], ring: [[-15, -160], [15, -160], [15, -130], [-15, -130]] },
+      tees: { marks: [{ c: [0, 0] }] } };
     const strategy = strategyForHole(par3);
     expect(strategy.zones[0].kind).toBe('green');
     expect(strategy.zones[0].distance).toBe(145);
   });
 
   it('measures a lateral par-three tee directly to the green for both distance and club advice', () => {
-    const par3 = { par: 3, line: [[0, 0], [0, -145]], green: { c: [0, -145] },
+    const par3 = { par: 3, line: [[0, 0], [0, -145]],
+      green: { c: [0, -145], ring: [[-15, -160], [15, -160], [15, -130], [-15, -130]] },
       tees: { marks: [{ c: [0, 0] }, { c: [60, -65] }] } };
     const strategy = strategyForHole(par3, 1);
     // 60/80/100 triangle: joining the old centreline would incorrectly say 140 m.

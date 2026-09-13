@@ -25,6 +25,7 @@ import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layu
 import { alongLine, clampf, polyLen } from '../apps/golf/src/engine/geom.js';
 import { centroid, pointInPoly, ptSegD } from '../upsalabuild/lib.mjs';
 import { withInferredTeePads } from '../apps/golf/src/engine/tee-pads.mjs';
+import { deriveTeePlayingPositions } from '../apps/golf/src/engine/tee-playing-position.mjs';
 import { buildGroundSurfaceFeatures } from '../apps/golf/src/engine/surface-features.mjs';
 import { SURFACE } from '../apps/golf/src/engine/surface.js';
 
@@ -137,9 +138,8 @@ export function checkUpsalaSiteEvidence({ model, review, record, decision, publi
     maximumPixelRoundtripErrorMetres, sourcePath: native.path, sourceSha256: native.sha256, publishedPointVerifiedAgainstCachedSource };
 }
 
-/** Parse the actual standalone camera implementation and execute it with only
- * rendering/DOM effects stubbed. A reintroduced camera setback fails the same
- * gate as an incorrect coordinate in a pack. Repository source is trusted. */
+/** Execute the actual app or standalone camera with rendering/DOM effects
+ * stubbed. Validate each view's framing separately from the shot reference. */
 export function standaloneTeeCamera(source, holes, holeNumber, markIndex) {
   const helperStart = source.indexOf('function teeView(hole, mark) {');
   const start = source.indexOf('function setCam(mode, instant) {');
@@ -358,6 +358,7 @@ export function checkUpsalaTeeSnapshot(snapshot) {
     assert.equal(course.packGeo.frame, config.packFrame, `${slug}: packed axis declaration`);
     assert.deepEqual(packed.holes.map(teeShape), model.holes.map(teeShape), `${slug}: stale packed tee geometry`);
     assert.deepEqual(withInferredTeePads(packed.holes).map(h => h.tees.pads), packed.holes.map(h => h.tees.pads), `${slug}: synthetic pads were introduced`);
+    const playingHoles = withInferredTeePads(packed.holes).map(h => deriveTeePlayingPositions(h));
     const renderedRings = buildGroundSurfaceFeatures({ holes: packed.holes, model: packed })
       .filter(f => f.surface === SURFACE.TEE).flatMap(f => f.rings || []).map(r => JSON.stringify(r));
     for (const [ring, label] of sharedPads) {
@@ -404,10 +405,19 @@ export function checkUpsalaTeeSnapshot(snapshot) {
       for (const decision of record.referenceDecisions) {
         const mi = decision.markIndex, mark = hole.tees.marks[mi]; references++;
         const label = `H${hole.n} reference ${mi}`;
-        assert.deepEqual(teeView(hole, mark).position, mark.c, `${slug}: app camera offset`);
-        const appCamera = standaloneTeeCamera(snapshot.appSource, packed.holes, hole.n, mi);
-        assert.deepEqual([appCamera.position.x, appCamera.position.z], mark.c, `${slug}: actual app camera branch offsets the selected reference`);
-        assert.deepEqual(rangefinderOrigin(snapshot.appSource, packed.holes, hole.n, mi, false), mark.c, `${slug}: app rangefinder origin differs from selected tee`);
+        assert.deepEqual(teeView(hole, mark).position, mark.c, `${slug}: shot origin offset`);
+        const playingHole = playingHoles[hi], playingMark = playingHole.tees.marks[mi];
+        assert.deepEqual(playingMark.referenceC, mark.c, `${slug}: app lost the original mapped reference`);
+        const appCamera = standaloneTeeCamera(snapshot.appSource, playingHoles, hole.n, mi);
+        const aim = teeView(playingHole, playingMark).aim;
+        const backward = [appCamera.position.x - playingMark.c[0], appCamera.position.z - playingMark.c[1]];
+        const forward = [aim.x - playingMark.c[0], aim.z - playingMark.c[1]];
+        assert(Math.abs(Math.hypot(...backward) - 6) < 1e-8
+          && backward[0] * forward[0] + backward[1] * forward[1] < 0
+          && Math.abs(backward[0] * forward[1] - backward[1] * forward[0]) < 1e-7,
+        `${slug}: actual app camera branch must frame the selected playing position from six metres behind`);
+        assert.deepEqual([appCamera.aim.x, appCamera.aim.z], [aim.x, aim.z], `${slug}: actual app camera branch changes the forward aim`);
+        assert.deepEqual(rangefinderOrigin(snapshot.appSource, playingHoles, hole.n, mi, false), playingMark.c, `${slug}: app rangefinder origin differs from selected tee`);
         const [longitude, latitude] = toWgs(model, mark.c);
         const gpsError = distance(gpsToLocal({ longitude, latitude }, course.packGeo), mark.c);
         assert(gpsError < 0.000001, `${slug}: GPS conversion does not recover local tee coordinates`);

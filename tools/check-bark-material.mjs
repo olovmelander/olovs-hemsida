@@ -10,6 +10,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
+import { ATMOSPHERE_PRESETS } from '../apps/golf/src/engine/atmosphere-presets.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const engine = path.join(root, 'apps/golf/src/engine');
@@ -17,8 +18,8 @@ const threeRoot = fs.realpathSync(path.join(root, 'apps/golf/node_modules/three'
 const mainSource = fs.readFileSync(path.join(root, 'apps/golf/src/main.js'), 'utf8');
 const barkSource = mainSource.match(/const BARK = canvasTex\(256,[\s\S]*?\n  \}, \{ srgb: false, rep: 1 \}\);/)?.[0];
 const canvasSource = mainSource.match(/function canvasTex\([\s\S]*?\n\}/)?.[0];
-const presetSource = mainSource.match(/const PRESETS = (\{[\s\S]*?\n\});/)?.[1];
-if (!barkSource || !canvasSource || !presetSource) throw new Error('Could not locate the live BARK generator, canvasTex or presets.');
+const presetSource = JSON.stringify(ATMOSPHERE_PRESETS);
+if (!barkSource || !canvasSource) throw new Error('Could not locate the live BARK generator or canvasTex.');
 const sha256 = data => createHash('sha256').update(data).digest('hex');
 const sourceMainBaseline = '5d9c4f27514d97fa608f8fef6713717de2c46ea7';
 const fixtureModule = `

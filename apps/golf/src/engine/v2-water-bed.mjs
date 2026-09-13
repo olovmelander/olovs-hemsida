@@ -6,8 +6,8 @@
  * water sheet lies a hand's depth over the bed everywhere: the shader reads
  * silt through the whole lake and the two surfaces fight at any distance.
  * This module carves a plausible bed at boot, from the water the model and
- * the ground already know -- the model's rings and the flat water the 4 m
- * ring shows -- so that depth rises with distance from the shore, the way a
+ * the ground already know -- the model's rings and the flat water across
+ * the outer terrain -- so that depth rises with distance from the shore, the way a
  * lake's does, up to a stated maximum. It is a rendering choice and the
  * published tiles are untouched: the same field carves the CPU sampler and
  * every tile the GPU decodes, so what is measured is what is drawn.

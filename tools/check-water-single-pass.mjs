@@ -10,6 +10,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
+import { ATMOSPHERE_PRESETS } from '../apps/golf/src/engine/atmosphere-presets.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const helper = path.join(root, 'apps/golf/src/engine/water-render-policy.mjs');
@@ -18,8 +19,7 @@ const sourceMainBaseline = '241a3eeb4999442604d6e5ec41bfa020db822b30';
 const mainSource = fs.readFileSync(path.join(root, 'apps/golf/src/main.js'), 'utf8');
 const waterSource = mainSource.match(/function makeWater\(\{ mask = null \} = \{\}\) \{[\s\S]*?\n\}/)?.[0];
 if (!waterSource) throw new Error('Could not locate the live makeWater function; update this fixture explicitly.');
-const presetSource = mainSource.match(/const PRESETS = (\{[\s\S]*?\n\});/)?.[1];
-if (!presetSource) throw new Error('Could not locate the live lighting presets.');
+const presetSource = JSON.stringify(ATMOSPHERE_PRESETS);
 const sha256 = value => createHash('sha256').update(value).digest('hex');
 
 // The production shader is unchanged. Only its inputs are replaced by small,

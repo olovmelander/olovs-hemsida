@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "courseSlugs": [
+    "veckefjarden",
+    "veckefjarden-korthalsbanan"
+  ],
+  "coordinateFrame": "legacy-local-ground-relative",
+  "landmarks": [
+    {
+      "id": "w104048726",
+      "nodeName": "sjalevads-kyrka",
+      "anchor": [
+        -3278.4,
+        -905.3
+      ],
+      "asset": {
+        "url": "models/veckefjarden/sjalevads-kyrka-v1.glb",
+        "bytes": 2492508,
+        "sha256": "f45e5ed56a0638e44a2e4a57d04e105fca1ec86099aa678a294bbe226ea0ee30",
+        "meshes": 12,
+        "triangles": 47221,
+        "bounds": {
+          "min": [
+            -22.457853317260742,
+            -1.2999999523162842,
+            -22.457853317260742
+          ],
+          "max": [
+            22.53833770751953,
+            42.45000457763672,
+            22.457853317260742
+          ]
+        }
+      },
+      "heightStatus": "photo-estimated",
+      "profile": {}
+    },
+    {
+      "id": "w70606159",
+      "nodeName": "paradiskullen-k90",
+      "anchor": [
+        1303.65,
+        -493.1
+      ],
+      "asset": {
+        "url": "models/veckefjarden/paradiskullen-k90-v1.glb",
+        "bytes": 2624880,
+        "sha256": "4be2fa3d0f9b199d0d79ed693f7eef778917c3acaec43a929d5a04e53cec3f64",
+        "meshes": 15,
+        "triangles": 48336,
+        "bounds": {
+          "min": [
+            -15.650230407714844,
+            -82.55754089355469,
+            -125.25994873046875
+          ],
+          "max": [
+            307.98114013671875,
+            46.072654724121094,
+            30.339876174926758
+          ]
+        }
+      },
+      "heightStatus": "photo-estimated",
+      "profile": {
+        "startDeckMetresAboveAnchor": 40.17765490701703,
+        "takeoffMetresAboveAnchor": -11.57946484871455,
+        "profile": "35 degree straight; continuous quadratic transition to 11 degree takeoff",
+        "supportStations": [
+          0,
+          10,
+          20,
+          30,
+          40,
+          50,
+          60,
+          70,
+          80,
+          85.30926949059406
+        ],
+        "landingSourceId": "w370784603",
+        "landingRing": [
+          [
+            1385.1,
+            -521.9
+          ],
+          [
+            1431.4,
+            -542
+          ],
+          [
+            1467.2,
+            -554.6
+          ],
+          [
+            1493.6,
+            -563.9
+          ],
+          [
+            1589.4,
+            -593.8
+          ],
+          [
+            1595.5,
+            -594.1
+          ],
+          [
+            1599.6,
+            -592.7
+          ],
+          [
+            1602.3,
+            -588.9
+          ],
+          [
+            1602.9,
+            -583.7
+          ],
+          [
+            1602,
+            -579.9
+          ],
+          [
+            1596.7,
+            -574.6
+          ],
+          [
+            1466.9,
+            -535.3
+          ],
+          [
+            1386.8,
+            -516.3
+          ]
+        ],
+        "landingStations": [
+          86.33630663484522,
+          313.6160110538303
+        ],
+        "judgesTowerPlacement": "photo-estimated",
+        "bridgeSourceIds": [
+          "w75298818",
+          "w75298820"
+        ]
+      }
+    }
+  ]
+}

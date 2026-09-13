@@ -62,6 +62,26 @@ describe('flat water from the ground', () => {
     expect(water.isWaterAt(field.x0 + 60 * 4, field.z0 + 45 * 4)).toBe(true);
     expect(water.isFlatAt(field.x0 + 30 * 4, field.z0 + 45 * 4)).toBe(true);
   });
+
+  it.each([4, 8, 16])('keeps the lake area threshold in metres on a %i m ring', spacing => {
+    const n = 512 / spacing + 1;
+    const ground = raster(n, n, spacing, (c, r) => {
+      const x = c * spacing, z = r * spacing;
+      if (x >= 64 && x <= 208 && z >= 64 && z <= 208) return 12;
+      if (x >= 320 && x <= 368 && z >= 320 && z <= 368) return 18;
+      return 20 + x * 0.1 + z * 0.03;
+    });
+    const water = detectFlatWater({ raster: ground });
+    expect(water.components).toHaveLength(1);
+    expect(water.isWaterAt(ground.x0 + 128, ground.z0 + 128)).toBe(true);
+    expect(water.isWaterAt(ground.x0 + 344, ground.z0 + 344)).toBe(false);
+  });
+
+  it('does not infer a water corridor along missing terrain samples', () => {
+    const ground = raster(20, 20, 8, (c, r) => c === 10 && r > 1 && r < 18 ? 12 : NaN);
+    const water = detectFlatWater({ raster: ground, minimumCells: 4 });
+    expect(water.components).toHaveLength(0);
+  });
 });
 
 describe('a level raster from ring tiles', () => {
