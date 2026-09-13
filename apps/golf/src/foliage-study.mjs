@@ -27,13 +27,17 @@ try {
         m.normalNode = normalViewGeometry;
         if (tier !== 'lite') { m.alphaTest = .45; m.alphaToCoverage = true; }
       }
-      mesh.material = m; mesh.castShadow = true; mesh.receiveShadow = true;
+      mesh.material = m; mesh.castShadow = true;
+      // Radial normals provide the broad light/shade form. Self-shadowing
+      // hundreds of overlapping sprays adds harsh speckles to that form.
+      mesh.receiveShadow = !mesh.name.startsWith('crown');
     });
   }
   for (const design of ['original', 'textured']) {
     const host = document.getElementById(design);
     const renderer = new THREE.WebGPURenderer({ antialias: true });
     await renderer.init();
+    renderer.info.autoReset = false;
     renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5)); renderer.setClearColor(0xdfe4d5);
     renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1;
@@ -59,7 +63,10 @@ try {
   function update(){
     const tier=tierSelect.value;
     for(const v of views){
-      for(const child of [...v.group.children]) v.group.remove(child);
+      for(const child of [...v.group.children]) {
+        if(v.design==='original') child.material.dispose();
+        v.group.remove(child);
+      }
       if(v.design==='original'){
         const tree=original.species[1].variants[0], lod=tier==='lite'?'decimated':tier;
         for(const part of ['crown','trunk']){
@@ -86,6 +93,6 @@ try {
   let last=performance.now();
   views[0].renderer.setAnimationLoop(now=>{
     const dt=Math.min(.05,(now-last)/1000);last=now;
-    for(const v of views){if(rotating)v.group.rotation.y+=dt*.22;v.renderer.render(v.scene,v.camera);}
+    for(const v of views){if(rotating)v.group.rotation.y+=dt*.22;v.renderer.info.reset();v.renderer.render(v.scene,v.camera);}
   });
 }catch(error){status.textContent=`Study failed: ${error.message}`;console.error(error);}

@@ -24,7 +24,7 @@ links.new(tex.outputs['Alpha'], bs.inputs['Alpha'])
 mats = {'leaf': leaf, 'bark': material('Pine | Copper and grey bark', (1, 1, 1))}
 report = {'design': 'textured-pine-experiment', 'source': 'Original seeded pine layout and original vector needle atlas', 'tiers': {}}
 height, branches, clumps, pads = layout(9000)
-for tier, per_clump, budget in [('hero', 20, 4500), ('full', 8, 1700), ('lite', 0, 420)]:
+for tier, per_clump, budget in [('hero', 24, 4500), ('full', 7, 1700), ('lite', 0, 420)]:
     old, trunk = build(9000, tier, scene.collection, mats)
     if tier == 'lite':
         crown = old
@@ -35,6 +35,14 @@ for tier, per_clump, budget in [('hero', 20, 4500), ('full', 8, 1700), ('lite', 
         rng = random.Random(9000)
         for c, radii, phase, undercut in clumps:
             r = Vector(radii)
+            # A small solid interior prevents see-through, noisy crowns. Its
+            # UVs sample the atlas's opaque centre, sharing the foliage draw.
+            core=[]
+            for axis in [(1,0,0),(-1,0,0),(0,1,0),(0,-1,0),(0,0,1),(0,0,-1)]:
+                n=Vector(axis); p=c+Vector((n[k]*r[k]*.73 for k in range(3)))
+                core.append(mesh.vert(p,n,(.95,.95,.95))); uv.append((.25,.25))
+            for a,b in [(0,2),(2,1),(1,3),(3,0)]:
+                mesh.faces.extend([(core[4],core[a],core[b]),(core[5],core[b],core[a])])
             for j in range(per_clump):
                 z = 1 - 2 * (j + .5) / per_clump
                 a = j * 2.39996323 + phase
@@ -42,7 +50,7 @@ for tier, per_clump, budget in [('hero', 20, 4500), ('full', 8, 1700), ('lite', 
                 centre = c + Vector((direction[k]*r[k] for k in range(3))) * (.42 + .30*rng.random())
                 face = Vector((rng.uniform(-1, 1), rng.uniform(-1, 1), rng.uniform(-1, 1))).normalized()
                 u = face.cross(Vector((0, 0, 1))).normalized(); v = face.cross(u).normalized()
-                size = max(r.x, r.y) * (.45 if tier == 'hero' else .62) * rng.uniform(.85, 1.15)
+                size = max(r.x, r.y) * (.52 if tier == 'hero' else .66) * rng.uniform(.85, 1.15)
                 tile = rng.randrange(4); tx = tile % 2; ty = tile // 2
                 ids = []
                 pigment = rng.uniform(.88, 1.08)

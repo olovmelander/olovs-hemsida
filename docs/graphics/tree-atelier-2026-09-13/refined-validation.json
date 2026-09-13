@@ -377,7 +377,388 @@
       ]
     }
   ],
-  "course": [],
+  "course": [
+    {
+      "design": "original",
+      "backend": "webgpu",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 1600,
+            "inCount": 1600,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1559,
+            "inCount": 1559,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1584,
+            "inCount": 1584,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1535,
+            "inCount": 1535,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2840,
+            "inCount": 2840,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2637,
+            "inCount": 2637,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2647,
+            "inCount": 2647,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2732,
+            "inCount": 2732,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 674,
+            "inCount": 674,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 679,
+            "inCount": 679,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 706,
+            "inCount": 706,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 663,
+            "inCount": 663,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "renderer": {
+        "calls": 1721,
+        "frameCalls": 14,
+        "drawCalls": 127,
+        "triangles": 10856510,
+        "points": 0,
+        "lines": 328,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 1163,
+          "attributesSize": 474653899,
+          "geometries": 154,
+          "indexAttributes": 129,
+          "indexAttributesSize": 4385544,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 110,
+          "programsSize": 1209385,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 26,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 51,
+          "texturesSize": 281039573,
+          "uniformBuffers": 331,
+          "uniformBuffersSize": 135040,
+          "total": 761423441
+        },
+        "drawingBuffer": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1
+      },
+      "tiers": {
+        "tier0": 864,
+        "tier1": 622,
+        "tier2": 0,
+        "tier3": 18370,
+        "cells": 1037,
+        "cellsVisible": 179,
+        "moves": 19856,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 109,
+        "fading": 0,
+        "updateMs": 0.5999999940395355,
+        "zoneA": 3245,
+        "zoneB": 7120,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "camera": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.6,
+        "coordinateSystem": 2001,
+        "reversedDepth": true,
+        "position": [
+          324.84186567949166,
+          25.190356258100426,
+          13.880260787950618
+        ],
+        "target": [
+          283.1271639642262,
+          29.434786468275092,
+          -75.68774177232515
+        ]
+      }
+    },
+    {
+      "design": "refined",
+      "backend": "webgpu",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 1600,
+            "inCount": 1600,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1559,
+            "inCount": 1559,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1584,
+            "inCount": 1584,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1535,
+            "inCount": 1535,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2840,
+            "inCount": 2840,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2637,
+            "inCount": 2637,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2647,
+            "inCount": 2647,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2732,
+            "inCount": 2732,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 674,
+            "inCount": 674,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 679,
+            "inCount": 679,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 706,
+            "inCount": 706,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 663,
+            "inCount": 663,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "renderer": {
+        "calls": 2197,
+        "frameCalls": 14,
+        "drawCalls": 127,
+        "triangles": 10489900,
+        "points": 0,
+        "lines": 328,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 1163,
+          "attributesSize": 474549859,
+          "geometries": 154,
+          "indexAttributes": 129,
+          "indexAttributesSize": 4331688,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 110,
+          "programsSize": 1209381,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 26,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 51,
+          "texturesSize": 281039573,
+          "uniformBuffers": 331,
+          "uniformBuffersSize": 135040,
+          "total": 761265541
+        },
+        "drawingBuffer": [
+          1600,
+          1000
+        ],
+        "pixelRatio": 1
+      },
+      "tiers": {
+        "tier0": 864,
+        "tier1": 622,
+        "tier2": 0,
+        "tier3": 18370,
+        "cells": 1037,
+        "cellsVisible": 179,
+        "moves": 19856,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 75,
+        "fading": 0,
+        "updateMs": 0.30000001192092896,
+        "zoneA": 3245,
+        "zoneB": 7120,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "camera": {
+        "fov": 48,
+        "near": 1,
+        "far": 14000,
+        "aspect": 1.6,
+        "coordinateSystem": 2001,
+        "reversedDepth": true,
+        "position": [
+          324.84186567949166,
+          25.190356258100426,
+          13.880260787950618
+        ],
+        "target": [
+          283.1271639642262,
+          29.434786468275092,
+          -75.68774177232515
+        ]
+      }
+    }
+  ],
   "meshChecks": [],
   "mobileOverflow": false
 }
