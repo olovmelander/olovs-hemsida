@@ -1521,7 +1521,12 @@ const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+/* PCFShadowMap, not PCFSoftShadowMap: r186 removed PCFSoftShadowMap from the
+   WebGPU renderer and made PCFShadowMap the soft one on both backends, so this
+   is the same picture under the name that survives. The WebGL2 fallback takes
+   it too -- keeping the two backends on one shadow type is what makes a
+   page-vs-app or backend-vs-backend capture comparable at all. */
+renderer.shadowMap.type = THREE.PCFShadowMap;
 document.body.appendChild(renderer.domElement);
 const IS_GPU = renderer.backend?.isWebGPUBackend === true;
 /* the sign every depth nudge takes: toward the camera is negative in the classic
