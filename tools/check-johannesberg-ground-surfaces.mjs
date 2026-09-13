@@ -51,11 +51,33 @@ try {
     const cdp = await page.context().newCDPSession(page);
     const capture = async file => {
       console.log(`${slug}: capturing ${file}`);
+      // Stop submitting new frames while the software GPU drains this one.
+      // Restore the real application loop afterwards; do not change the scene,
+      // materials, shadows or terrain resolution for capture.
+      const loop = await page.evaluateHandle(async () => {
+        const renderer = window.V3D.harness().renderer;
+        const callback = renderer.getAnimationLoop();
+        await renderer.setAnimationLoop(null);
+        await window.V3D.prepareCapture();
+        return callback;
+      });
       // Read the browser view directly. The software compositor can stall
       // Playwright's surface-copy screenshot path after a large WebGL frame.
-      const { data } = await cdp.send('Page.captureScreenshot', {
-        format: 'png', fromSurface: false, captureBeyondViewport: false,
-      });
+      let timer, data;
+      try {
+        ({ data } = await Promise.race([
+          cdp.send('Page.captureScreenshot', {
+            format: 'png', fromSurface: false, captureBeyondViewport: false,
+          }),
+          new Promise((_, reject) => {
+            timer = setTimeout(() => reject(new Error(`${file}: capture timed out`)), 120000);
+          }),
+        ]));
+      } finally {
+        clearTimeout(timer);
+        await page.evaluate(callback => window.V3D.harness().renderer.setAnimationLoop(callback), loop);
+        await loop.dispose();
+      }
       const bytes = Buffer.from(data, 'base64');
       assert.ok(bytes.length > 10000, `${file}: empty browser capture`);
       fs.writeFileSync(`${out}/${file}`, bytes);
@@ -74,14 +96,12 @@ try {
         v.placeCamera([view.x, y + view.rise, view.z + view.offset], [view.x, y, view.z]);
       }, view);
       await page.waitForFunction(() => window.V3D.settled(), null, { timeout: 120000 });
-      await page.evaluate(() => window.V3D.prepareCapture());
       const file = `${slug}-${view.id}-mobile.png`;
       await capture(file);
     }
     await page.setViewportSize({ width: 1440, height: 960 });
     await page.evaluate(() => window.V3D.setPreset('noon'));
     await page.waitForFunction(() => window.V3D.settled(), null, { timeout: 120000 });
-    await page.evaluate(() => window.V3D.prepareCapture());
     const file = `${slug}-works-yard-wide.png`;
     await capture(file);
     assert.deepEqual(errors, []);
