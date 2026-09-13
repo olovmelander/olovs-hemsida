@@ -65,6 +65,7 @@ import { createCameraBreathing } from './engine/camera-breathing.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
 import { createRenderResolution, requestedRenderResolution } from './engine/render-resolution.mjs';
 import { teeView } from './engine/tee-view.mjs';
+import { topView } from './engine/top-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
 import { canopySampler } from './engine/canopy-cover.mjs';
@@ -8244,8 +8245,14 @@ function setCam(mode, instant) {
     flyTo(V3(x, terrainH(x, z) + 15, z),
           V3(h.pin[0], terrainH(h.pin[0], h.pin[1]) + 1.5, h.pin[1]), DUR);
   } else if (mode === 'top') {
-    const m = alongLine(h.line, 0.5);
-    flyTo(V3(m.x, terrainH(m.x, m.z) + 330, m.z + 0.1), V3(m.x, terrainH(m.x, m.z), m.z), DUR);
+    /* The tee low in the frame and the whole hole on screen, in the hole's own
+       axes rather than north-up -- engine/top-view.mjs says why, and why the
+       camera is nudged BACKWARD ALONG THE HOLE instead of being given a
+       horizontal camera.up (OrbitControls takes its pole from that). The frame
+       depends on the viewport's shape, so the resize handler re-asks. */
+    const t = topView(h, { aspect: camera.aspect, fovDegrees: camera.fov });
+    const g = terrainH(t.aim.x, t.aim.z);
+    flyTo(V3(t.position.x, g + t.height, t.position.z), V3(t.aim.x, g, t.aim.z), DUR);
   } else {
     /* Behind and above the tee, looking down the hole. High enough to read the shape,
        low enough that the horizon and the sky are in frame -- a plan view from 400 m
@@ -10934,6 +10941,9 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => {
 addEventListener('resize', () => {
   camera.aspect = innerWidth / innerHeight;
   camera.updateProjectionMatrix();
+  /* Ovan is fitted to the frame it is drawn in: a phone turned sideways is a
+     different frame, not the same one wider, so re-ask rather than stretch. */
+  if (camMode === 'top' && !flying) setCam('top', true);
   renderResolution.resize(innerWidth, innerHeight, devicePixelRatio, performance.now());
   captureReadbackTarget?.setSize(innerWidth, innerHeight);
 });
