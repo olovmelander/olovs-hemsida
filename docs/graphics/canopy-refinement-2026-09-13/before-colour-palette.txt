@@ -1,0 +1,106 @@
+// Original art direction informed by The Witness's warm/cool colour grouping.
+// These are authored sRGB pigments, not sampled game assets or an official palette.
+export const PAINTED_GROUND = {
+  rough:0x527e26, fescue:0xa78f32, semi:0x487d25,
+  fair:0x367f20, green:0x28713c, fringe:0x3a7029, tee:0x458328,
+  sand:0xe3c887, path:0x8a8981, heath:0x979039, forest:0x3f663c,
+  shore:0xc0a46b, canopy:0x315c3d, canopyLight:0x6c922f,
+  wet:0x527d59, rock:0x889aaf, cropA:0xc9a849, cropB:0x849c3b,
+  cropC:0xbc9254, slash:0x9c7a4b, hard:0x96958d, gravel:0x81847e,
+  hay:0xc7ac50, lawn:0x438021, aspT:0x565e64, aspL:0x62696d,
+  soil:0x95775d, ballast:0x8c8b83, riprap:0xadb1aa, mud:0x74614f,
+  trackClay:0xa68c70, trackRed:0xaa6250,
+};
+export const PAINTED_SCENERY = {
+  wallRed:0xb44830, wallOchre:0xe0bb66, wallCream:0xded4ac,
+  wallGrey:0x9ca399, wallWood:0x92795c, roofSlate:0x505e69,
+  roofClay:0x995e48, trim:0xf0ead7, industrial:0x9faeb0, clubhouse:0xe7dfc5,
+  stone:0x8899a5, wood:0x804b2c, cutWood:0xd0aa65,
+  tuft:[0x557331,0xb4a343], bush:[0x3f733d,0x91973c],
+};
+export const FOLIAGE_PALETTES = {
+  tall:[0x213d2f,0x456f32,0x91ad46], gran:[0x1b3b32,0x335e3b,0x719a53],
+  bjork:[0x304b27,0x6d952e,0xadc64a], al:[0x234632,0x4d8038,0x9aba50],
+  ek:[0x3a4824,0x7b902b,0xc1c34a],
+};
+// One hue family per crown; narrow crossovers avoid muddy green/orange blends.
+// Birch is predominantly gold, oak carries the strongest copper and crimson.
+export const AUTUMN_FOLIAGE = {
+  bjork:{ breaks:[.63,.90], ramps:[
+    [0x80521a,0xdda01e,0xffd54b], [0x87351c,0xdd701b,0xffab34], [0x77252b,0xc14727,0xf27b38],
+  ] },
+  ek:{ breaks:[.30,.68], ramps:[
+    [0x785019,0xcb901f,0xf4be40], [0x822c17,0xdb591c,0xfa912e], [0x691f34,0xb92f2d,0xee6537],
+  ] },
+  al:{ breaks:[.74,.94], ramps:[
+    [0x30462b,0x698532,0xacb548], [0x63511e,0xb49a2c,0xe7bf42], [0x754220,0xbb792b,0xe7a342],
+  ] },
+};
+
+// The same eight atmosphere identities, with lighting and pigments composed
+// together. Kept separate so the natural rendering mode retains its palette.
+export const PAINTED_ATMOSPHERES = {
+  noon:{ sun:0xfff0d7, int:2.35, hemiS:0xadc9df, hemiG:0x879c76, hemiI:1.28,
+    fog:0x8dbdd0, paintedFog:0x8dbdd0, exp:1.00, paintedFill:1.0, groundStrength:.85,
+    skyPalette:.10, skyZenith:0x146ab6, skyHorizon:0x91cadc, skyRadiance:.05, paintedSkyExposure:1, cloud:.28,
+    environment:{ground:0xa8ad91,horizon:0xc5dde2,zenith:0x579bc4},
+    foliage:{strength:1.04,direct:.95}, water:[0x228b9d,0x164c88], waterLight:1, sparkle:.18,
+  },
+  // Low honey-coloured sunlight, cool open shade and a sunward amber glow.
+  golden:{ sun:0xffcc8c, int:3.80, hemiS:0x95aed0, hemiG:0xb0a783, hemiI:1.40,
+    fog:0xd3b597, paintedFog:0xcab4a2, exp:1.12, paintedFill:1.0,
+    skyPalette:.24, skyZenith:0x397cba, skyHorizon:0xa9bfd2, skyRadiance:.46, paintedSkyExposure:.95, cloud:.24,
+    skyCloudLit:0xffd49b, skyCloudShade:0x8f9ebb,
+    skySunGlow:0xffb65e, skySunGlowStrength:.92,
+    environment:{ground:0xab956e,horizon:0xe8bb85,zenith:0x648bb8}, environmentIntensity:.48,
+    foliage:{strength:1.20,direct:.96,sunWhite:.18,shadowWhite:.38},
+    water:[0x438b87,0x24577f], waterLight:.94, sparkle:.36,
+  },
+  dawn:{ sun:0xffd8c4, int:1.65, hemiS:0xbccbe0, hemiG:0xaca595, hemiI:1.75,
+    fog:0xbcbacb, paintedFog:0xbfc9dc, exp:1.10, paintedFill:1.06,
+    skyZenith:0x527dbd, skyHorizon:0xf4acb6, skyRadiance:.65, paintedSkyExposure:.62,
+    skyCloudLit:0xedd0d7, skyCloudShade:0x818eac,
+    environment:{ground:0xaaa697,horizon:0xdcc3d0,zenith:0x809bc4},
+    foliage:{strength:.91,direct:.57}, water:[0x789ea8,0x446789], waterLight:.83, sparkle:.32,
+  },
+  midnight:{ sun:0xffb76c, int:1.90, hemiS:0xb4bed8, hemiG:0xb09d89, hemiI:2.05,
+    fog:0xaba0ae, paintedFog:0xa3a7c1, exp:1.13, paintedFill:1.04,
+    skyPalette:.35, skyZenith:0x596baa, skyHorizon:0xedaf77, skyRadiance:.40, paintedSkyExposure:.64,
+    skyCloudLit:0xecc6a4, skyCloudShade:0x7f859e,
+    environment:{ground:0xaaa08d,horizon:0xddb496,zenith:0x798db5},
+    foliage:{strength:.90,direct:.70}, water:[0x7b9c9e,0x4a6285], waterLight:.84, sparkle:.45,
+  },
+  bluehour:{ hemiS:0xa7bddf, hemiG:0x8896a5, hemiI:1.85,
+    fog:0x879cba, paintedFog:0x879cba, paintedFill:1.04,
+    skyZenith:0x284b95, skyHorizon:0xa894c7, paintedSkyExposure:.20,
+    skyCloudLit:0x9399b8, skyCloudShade:0x4e5d7e,
+    environment:{ground:0x8896a5,horizon:0x9aacc9,zenith:0x5474a9},
+    foliage:{strength:.64,direct:.03}, water:[0x6c92aa,0x405d83], waterLight:.64, sparkle:.015,
+  },
+  storm:{ hemiS:0xb6c8d3, hemiG:0x8b9b98, hemiI:1.70,
+    fog:0x879da9, paintedFog:0x879da9, paintedFill:1.03,
+    skyZenith:0x456179, skyHorizon:0x96afbc, paintedSkyExposure:.46,
+    skyCloudLit:0x9aaeba, skyCloudShade:0x5d7186,
+    environment:{ground:0x8b9b98,horizon:0x9aafb8,zenith:0x607a91},
+    foliage:{strength:.71,direct:.12}, water:[0x729595,0x3f6576], waterLight:.70, sparkle:.06,
+  },
+  mist:{ hemiS:0xd7e2e3, hemiG:0xadb6a3, hemiI:1.85,
+    fog:0xb3c6c6, paintedFog:0xc3d4d3, paintedFill:1.03,
+    skyZenith:0xa6bdc6, skyHorizon:0xdbe3df, paintedSkyExposure:.86,
+    skyCloudLit:0xd8e2df, skyCloudShade:0x9baeb4,
+    environment:{ground:0xadb6a3,horizon:0xd2dfdd,zenith:0xa9c1ca},
+    foliage:{strength:.85,direct:.08}, water:[0x91b1a9,0x658e98], waterLight:.88, sparkle:.025,
+  },
+  host:{ sun:0xffdda9, int:2.25, hemiS:0xbfcfdf, hemiG:0xb4a285, hemiI:1.65,
+    fog:0xa8c4d1, paintedFog:0xaccbdb, dens:.00035, exp:1.10, paintedFill:1.06,
+    skyPalette:.30, skyZenith:0x226db1, skyHorizon:0xaed2dd, skyRadiance:.46, paintedSkyExposure:.97, cloud:.34,
+    skyCloudLit:0xffedcf, skyCloudShade:0x9aaec4,
+    environment:{ground:0xb4a285,horizon:0xddd0b8,zenith:0x769fc1},
+    foliage:{strength:1.14,direct:.92}, water:[0x2f858e,0x1b5084], waterLight:.96, sparkle:.46,
+    leaf:0xd6a442, reed:0xbe9855,
+  },
+};
+
+export function paintedAtmosphere(name, base) {
+  return {...base,grassSheen:.36,...PAINTED_ATMOSPHERES[name]};
+}

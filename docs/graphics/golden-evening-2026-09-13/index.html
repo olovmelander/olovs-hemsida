@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Golden evening and grass reflections</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#152a27;color:#eee7d4;font:16px/1.5 system-ui,sans-serif}main{max-width:1660px;margin:auto;padding:32px 24px}h1{font:clamp(32px,4vw,54px)/1.1 Georgia,serif;margin:12px 0}p{max-width:860px;color:#c7cdba}a{color:#f0ce8b}nav,.controls{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}button,select{font:inherit;padding:10px 14px;border:1px solid #688072;border-radius:6px;background:#233f37;color:#eee7d4}button{cursor:pointer}button[aria-pressed=true]{background:#ebc17c;color:#20352c}label{display:flex;align-items:center;gap:10px}button:focus-visible,select:focus-visible{outline:3px solid #ffd888;outline-offset:3px}.pictures{display:grid;grid-template-columns:1fr 1fr;gap:16px}.pictures.single{grid-template-columns:1fr}.single figure:first-child{display:none}figure{margin:0;background:#203a31;border:1px solid #536b57;border-radius:8px;overflow:hidden}figcaption{padding:12px 16px}img{width:100%;display:block}img.phone{width:auto;max-width:100%;max-height:844px;margin:auto}small{color:#aebba6}footer{margin:24px 0} [hidden]{display:none!important}@media(max-width:800px){main{padding:24px 12px}.pictures{grid-template-columns:1fr}}
+</style>
+<main>
+<small>SWEDISH GOLF · 13 SEPTEMBER 2026</small>
+<h1>Golden light over the course.</h1>
+<p>Warmer evening sunlight and an amber glow toward the sun. Grass catches a soft reflection in every atmosphere, following the light and the shadows. These are screenshots from the application.</p>
+<nav aria-label="Comparison">
+<button data-tab="evening" aria-pressed="true">Golden evening</button>
+<button data-tab="sheen" aria-pressed="false">Grass reflection</button>
+<button data-tab="modes" aria-pressed="false">All atmospheres</button>
+</nav>
+<div class="controls">
+<label id="courseControl">Course <select id="course"><option value="upsala">Upsala</option><option value="puttom">Puttom</option></select></label>
+<label id="modeControl" hidden>Atmosphere <select id="mode"><option value="golden">Kväll</option><option value="noon">Dag</option><option value="dawn">Gryning</option><option value="midnight">Midnattssol</option><option value="bluehour">Blå timmen</option><option value="storm">Oväder</option><option value="mist">Dis</option><option value="host">Höst</option></select></label>
+<label id="qualityControl" hidden>Quality <select id="quality"><option value="final">High</option><option value="low">Low · phone viewport</option></select></label>
+</div>
+<div class="pictures" id="pictures">
+<figure><figcaption id="beforeLabel">Earlier Kväll</figcaption><a id="beforeLink"><img id="before" alt="Earlier appearance"></a></figure>
+<figure><figcaption id="afterLabel">Updated Kväll</figcaption><a id="afterLink"><img id="after" alt="Updated appearance"></a></figure>
+</div>
+<p id="note">Matching cameras show the warmer tree highlights, cooler shade and clearer sky.</p>
+<footer><small><a href="upsala-sunward-golden.png">Open the sun-facing evening screenshot</a> · <a href="README.md">Changes and validation</a></small></footer>
+</main>
+<script>
+const get=id=>document.getElementById(id);let tab='evening';
+function picture(id,src){get(id).src=src;get(id+'Link').href=src}
+function update(){
+ const modes=tab==='modes',sheen=tab==='sheen',course=get('course').value;
+ get('courseControl').hidden=modes||sheen;get('modeControl').hidden=!modes;get('qualityControl').hidden=!modes;
+ get('pictures').classList.toggle('single',modes);get('after').classList.toggle('phone',modes&&get('quality').value==='low');
+ for(const b of document.querySelectorAll('[data-tab]'))b.setAttribute('aria-pressed',String(b.dataset.tab===tab));
+ if(modes){picture('after','upsala-'+get('quality').value+'-'+get('mode').value+'.png');get('afterLabel').textContent=get('mode').selectedOptions[0].textContent;get('note').textContent='The same grass material follows each atmosphere’s light. Low quality was captured in a desktop browser at a phone-sized viewport.'}
+ else if(sheen){picture('before','upsala-sunward-matte.png');picture('after','upsala-sunward-golden.png');get('beforeLabel').textContent='Evening · sheen disabled';get('afterLabel').textContent='Evening · soft grass reflection';get('note').textContent='The lighting and camera are identical. Only the grass sheen changes; tree shadows still break up the reflection.'}
+ else{picture('before',course+'-evening-before-golden.png');picture('after',course+'-final-golden.png');get('beforeLabel').textContent='Earlier Kväll';get('afterLabel').textContent='Updated Kväll';get('note').textContent='Matching cameras show the warmer tree highlights, cooler shade and clearer sky.'}
+}
+for(const b of document.querySelectorAll('[data-tab]'))b.onclick=()=>{tab=b.dataset.tab;update()};
+for(const s of document.querySelectorAll('select'))s.onchange=update;update();
+</script>
+</html>

@@ -1,0 +1,327 @@
+{
+  "revision": "continuous-canopy-2026-09-13",
+  "errors": [],
+  "visits": [
+    {
+      "visit": "slow-network",
+      "networkModels": 20,
+      "catalogue": {
+        "look": "painted",
+        "loaded": true,
+        "design": "fluffy-2026-09",
+        "revision": "continuous-canopy-2026-09-13",
+        "variants": 4,
+        "hero": true,
+        "files": 20,
+        "bytes": 2753641
+      },
+      "backend": "webgpu",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 854,
+            "inCount": 854,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1310,
+            "inCount": 1310,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 164,
+            "inCount": 164,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "triangles": [
+        [
+          [
+            3500,
+            1000
+          ],
+          [
+            1632,
+            68
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        [
+          [
+            3752,
+            696
+          ],
+          [
+            1474,
+            146
+          ],
+          [
+            220,
+            60
+          ]
+        ],
+        [
+          [
+            3644,
+            856
+          ],
+          [
+            1572,
+            128
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        null,
+        null
+      ],
+      "tiers": {
+        "tier0": 1786,
+        "tier1": 542,
+        "tier2": 0,
+        "tier3": 0,
+        "cells": 628,
+        "cellsVisible": 44,
+        "moves": 2328,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 99,
+        "fading": 0,
+        "updateMs": 0.09999999403953552,
+        "zoneA": 3481,
+        "zoneB": 6243,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0.3,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": false,
+        "qualityLocked": false,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            1000
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.09
+      },
+      "sw": true,
+      "manifestCacheKeys": [
+        "http://127.0.0.1:58248/models/trees/ghibli-fluffy.json?v=continuous-canopy-2026-09-13"
+      ]
+    },
+    {
+      "visit": "cached-manifest-fallback",
+      "networkModels": 0,
+      "catalogue": {
+        "look": "painted",
+        "loaded": true,
+        "design": "fluffy-2026-09",
+        "revision": "continuous-canopy-2026-09-13",
+        "variants": 4,
+        "hero": true,
+        "files": 20,
+        "bytes": 2753641
+      },
+      "backend": "webgpu",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 854,
+            "inCount": 854,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1310,
+            "inCount": 1310,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 164,
+            "inCount": 164,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "triangles": [
+        [
+          [
+            3500,
+            1000
+          ],
+          [
+            1632,
+            68
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        [
+          [
+            3752,
+            696
+          ],
+          [
+            1474,
+            146
+          ],
+          [
+            220,
+            60
+          ]
+        ],
+        [
+          [
+            3644,
+            856
+          ],
+          [
+            1572,
+            128
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        null,
+        null
+      ],
+      "tiers": {
+        "tier0": 1786,
+        "tier1": 542,
+        "tier2": 0,
+        "tier3": 0,
+        "cells": 628,
+        "cellsVisible": 44,
+        "moves": 2328,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 0,
+        "zoneA": 3481,
+        "zoneB": 6243,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0.3,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "quality": {
+        "lowfx": false,
+        "lowq": false,
+        "phone": false,
+        "autoQualityDone": false,
+        "qualityLocked": false,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            1600,
+            1000
+          ],
+          "extraPixelBudget": null,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": 0.09
+      },
+      "sw": true,
+      "manifestCacheKeys": [
+        "http://127.0.0.1:58248/models/trees/ghibli-fluffy.json?v=continuous-canopy-2026-09-13"
+      ]
+    }
+  ],
+  "manifestRequests": [
+    {
+      "query": "",
+      "mode": "slow"
+    },
+    {
+      "query": "?v=continuous-canopy-2026-09-13",
+      "mode": "slow"
+    },
+    {
+      "query": "?v=continuous-canopy-2026-09-13",
+      "mode": "fail"
+    }
+  ],
+  "modelRequests": 20,
+  "missingResources": [],
+  "reproducedUnversionedStaleFallback": true
+}

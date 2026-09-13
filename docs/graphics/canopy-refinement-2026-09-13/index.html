@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Painted tree canopy comparison</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#182b27;color:#eee8d9;font:16px/1.5 system-ui,sans-serif}main{max-width:1600px;margin:auto;padding:30px 24px}h1{font:clamp(32px,4vw,52px)/1.1 Georgia,serif;margin:12px 0}p{max-width:870px;color:#c1ccb9}small{color:#a6b7a1}a{color:#efcc85}nav{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0}button{font:inherit;color:inherit;background:#28463b;border:1px solid #63765c;border-radius:6px;padding:10px 16px;cursor:pointer}button[aria-pressed=true]{color:#20362b;background:#e9c889}button:focus-visible,input:focus-visible{outline:3px solid #f6d695;outline-offset:4px}.frame{position:relative;aspect-ratio:1.6;overflow:hidden;border:1px solid #738065;border-radius:8px}.frame img{position:absolute;width:100%;height:100%;inset:0;object-fit:contain}.frame #after{clip-path:inset(0 0 0 50%)}.label{position:absolute;top:14px;background:#152b24db;border-radius:4px;padding:5px 12px;font-size:13px}.left{left:14px}.right{right:14px}#divider{position:absolute;top:0;bottom:0;left:50%;border-left:2px solid #f7dfaa;pointer-events:none}label{display:flex;align-items:center;gap:16px;margin:18px 0}input{flex:1;accent-color:#e9c889}.links{display:flex;gap:24px;flex-wrap:wrap;margin-top:24px}@media(max-width:650px){main{padding:20px 12px}label{font-size:13px}.label{font-size:11px;top:6px}}
+</style>
+<main>
+<small>CANOPY REFINEMENT · BLENDER AND IN-APP REVIEW</small>
+<h1>Soft foliage with more depth.</h1>
+<p>Deeper shaded foliage and more focused sunlit highlights restore contrast to the soft canopies. Spruce keeps its uneven boughs; birch keeps its asymmetric, flowing crown. These trees are the default in Målad mode.</p>
+<nav aria-label="Atmosphere"><button data-mode="noon" aria-pressed="true">Dag</button><button data-mode="golden" aria-pressed="false">Kväll</button><button data-mode="host" aria-pressed="false">Höst</button></nav>
+<nav aria-label="Comparison"><button data-baseline="colour" aria-pressed="true">Contrast adjustment</button><button data-baseline="before" aria-pressed="false">Full canopy improvement</button></nav>
+<div class="frame"><img id="before" src="angso-colour-noon.png" alt="Soft canopies before the contrast adjustment"><img id="after" src="angso-contrast-noon.png" alt="Refined tree canopies with deeper shade and focused highlights"><div id="divider"></div><span id="baseline-label" class="label left">Previous shading</span><span class="label right">Current</span></div>
+<label>Reveal the comparison<input id="split" type="range" min="0" max="100" value="50" aria-label="Before and refined comparison position"></label>
+<p>The cameras and atmosphere match. Drag the divider to compare the same trees. The models keep exactly the same triangles at every detail level, with the same five foliage textures.</p>
+<div class="links"><a id="full" href="angso-contrast-noon.png">Open full screenshot</a><a href="norrfallsviken-release-slow-network.png">Norrfällsviken in the app</a><a href="continuous-canopy.blend">Open the Blender study</a><a href="README.md">Changes and checks</a></div>
+</main>
+<script>
+const get=id=>document.getElementById(id);
+get('split').oninput=()=>{get('after').style.clipPath='inset(0 0 0 '+get('split').value+'%)';get('divider').style.left=get('split').value+'%'};
+let mode='noon',baseline='colour';
+function update(){
+  get('before').src='angso-'+baseline+'-'+mode+'.png';get('after').src='angso-contrast-'+mode+'.png';get('full').href=get('after').getAttribute('src');
+  get('before').alt=baseline==='colour'?'Soft canopies before the contrast adjustment':'Tree canopies before refinement';
+  get('baseline-label').textContent=baseline==='colour'?'Previous shading':'Previous canopies';
+  for(const b of document.querySelectorAll('[data-mode]'))b.setAttribute('aria-pressed',String(b.dataset.mode===mode));
+  for(const b of document.querySelectorAll('[data-baseline]'))b.setAttribute('aria-pressed',String(b.dataset.baseline===baseline));
+}
+for(const button of document.querySelectorAll('[data-mode]'))button.onclick=()=>{mode=button.dataset.mode;update();};
+for(const button of document.querySelectorAll('[data-baseline]'))button.onclick=()=>{baseline=button.dataset.baseline;update();};
+</script>
+</html>

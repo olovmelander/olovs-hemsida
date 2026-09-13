@@ -13,20 +13,23 @@ const args = process.argv.slice(2);
 const flag = (name, fallback) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
 const dist = path.resolve(flag('dist', 'tools/reference/startup-release-build'));
 const course = flag('course', 'veckefjarden');
+const startup = flag('startup', '1');
+assert.ok(['1', 'unprepared-gpu'].includes(startup), 'unsupported offline startup comparison');
 const port = +flag('port', '8630');
 const base = `http://127.0.0.1:${port}`;
 const out = path.resolve(flag('out', 'tools/reference/startup-offline'));
 await fs.mkdir(out, { recursive: true });
 const profile = await fs.mkdtemp(path.join(out, 'profile-'));
 await fs.access(path.join(dist, 'sw.js'));
-const report = { course, physicalPhone: false, profile, visits: [], errors: [] };
+const revision = JSON.parse(await fs.readFile(path.join(dist, 'course-startup-build.json'), 'utf8'));
+const report = { revision, course, startup, physicalPhone: false, profile, visits: [], errors: [] };
 const server = spawn(process.execPath, ['tools/serve.mjs', dist, String(port)], { windowsHide: true, stdio: ['ignore', 'pipe', 'pipe'] });
 const stopped = once(server, 'exit');
 let context;
 const launch = () => chromium.launchPersistentContext(profile, { channel: 'chrome', args: browserArgs(),
   viewport: { width: 1000, height: 700 }, deviceScaleFactor: 1 });
-const query = new URLSearchParams({ bana: course, v2: 'require', det: '1', qualitylock: '1', startup: '1',
-  q: flag('q', 'lo'), ghibli: flag('look', '1'), vy: 'tee', hal: '1' });
+const query = new URLSearchParams({ bana: course, v2: 'require', det: '1', qualitylock: '1', startup,
+  q: flag('q', 'lo'), ghibli: flag('look', '1'), gl: flag('gl', '0'), vy: 'tee', hal: '1' });
 
 async function record(page, visit) {
   await page.waitForSelector('#boot.done', { timeout: 180000 });
@@ -36,6 +39,7 @@ async function record(page, visit) {
     return { slug: V.course().slug, holes: V.HOLES.length, perf: V.perf(), world: {
       instances: await hash(new TextEncoder().encode(JSON.stringify(V.legacyTrees({ instances: true }).instances))),
       exactTables: V.startupWorldFingerprint ? await V.startupWorldFingerprint() : null,
+      water: V.startupWaterFingerprint ? await V.startupWaterFingerprint() : null,
       landmarks: V.landmarkModels?.()?.status ?? null,
       facilities: V.facilityGeometry?.()?.assetSha256 ?? null,
       near: await hash(tint.near), far: await hash(tint.far), trees: V.stats.trees, vista: V.stats.vista },
@@ -45,6 +49,9 @@ async function record(page, visit) {
   assert.equal(data.perf.courseData.complete, true);
   assert.deepEqual(data.perf.courseData.fallbackReasons, []);
   assert.equal(data.perf.preparedTint, true);
+  assert.equal(Boolean(data.perf.gpuPreparation), startup === '1');
+  if (startup === '1') assert.equal(data.perf.gpuPreparation.completed, data.perf.gpuPreparation.branches);
+  if (args.includes('--expect-water')) assert.equal(data.perf.preparedWater, true);
   report.visits.push({ visit, ...data });
   console.log(`${visit}: ${Math.round(data.perf.courseReadyAtNavigationMs)} ms, complete ${data.perf.courseData.verified} chunks`);
 }
@@ -78,6 +85,7 @@ try {
   assert.deepEqual(offline.world, report.visits[1].world, 'offline world changed');
   assert.equal(offline.perf.courseData.networkRequests, 0);
   assert.ok(offline.perf.courseData.cacheHits > 0);
+  assert.deepEqual(JSON.parse(await fs.readFile(path.join(dist, 'course-startup-build.json'), 'utf8')), revision, 'served build changed');
   assert.deepEqual(report.errors, []);
 } catch (error) { report.errors.push(error.stack); process.exitCode = 1; }
 finally {

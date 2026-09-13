@@ -1,0 +1,948 @@
+{
+  "date": "2026-09-13",
+  "sourceRevision": "c2aa90b36bae20ee210a3954ad467955dea29dfe4c6c0ca10f1702d647c3cac3",
+  "scope": "GPU startup implementation",
+  "environment": {
+    "platform": "win32",
+    "node": "v24.14.0",
+    "installedChromeAtValidation": "152.0.7977.83",
+    "gpu": "NVIDIA GeForce RTX 3070 Laptop GPU"
+  },
+  "three": "0.186.0",
+  "physicalPhoneTested": false,
+  "fullStartupTargetsMet": false,
+  "validation": {
+    "unitTests": 1112,
+    "testFiles": 146,
+    "appearance": [
+      {
+        "backend": "webgpu",
+        "quality": "hi",
+        "course": "veckefjarden",
+        "comparisons": [
+          {
+            "look": "0",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 0,
+            "offlineHoles": 18
+          },
+          {
+            "look": "1",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 0,
+            "offlineHoles": 18
+          }
+        ]
+      },
+      {
+        "backend": "webgl2",
+        "quality": "lo",
+        "course": "veckefjarden",
+        "comparisons": [
+          {
+            "look": "0",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 0,
+            "offlineHoles": 18
+          },
+          {
+            "look": "1",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 0,
+            "offlineHoles": 18
+          }
+        ]
+      },
+      {
+        "backend": "webgpu",
+        "quality": "lo",
+        "course": "veckefjarden",
+        "comparisons": [
+          {
+            "look": "0",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 0,
+            "offlineHoles": 18
+          },
+          {
+            "look": "1",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 0,
+            "offlineHoles": 18
+          }
+        ]
+      },
+      {
+        "backend": "webgl2",
+        "quality": "hi",
+        "course": "veckefjarden",
+        "comparisons": [
+          {
+            "look": "0",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 0,
+            "offlineHoles": 18
+          },
+          {
+            "look": "1",
+            "exactWorldAndWater": true,
+            "modes": 8,
+            "maxChannelDelta": 1,
+            "offlineHoles": 18
+          }
+        ]
+      }
+    ],
+    "appearanceTotals": {
+      "comparisons": 64,
+      "pixelIdentical": 62,
+      "maxChannelDelta": 1
+    },
+    "courseOpenings": {
+      "courseCount": 13,
+      "cases": 52,
+      "configurations": [
+        "webgpu/hi/natural",
+        "webgpu/hi/painted",
+        "webgl2/lo/natural",
+        "webgl2/lo/painted"
+      ],
+      "allPreparedDataApplied": true,
+      "completeCourse": true,
+      "allTreeTierAuditsPassed": true,
+      "casesByCourse": {
+        "angso": 4,
+        "norrfallsviken": 4,
+        "puttom": 4,
+        "upsala": 4,
+        "upsala-mellanbanan": 4,
+        "johannesberg": 4,
+        "johannesberg-9": 4,
+        "veckefjarden": 4,
+        "veckefjarden-korthalsbanan": 4,
+        "ribbingsfors": 4,
+        "visby": 4,
+        "tortuna": 4,
+        "lidingo": 4
+      }
+    },
+    "paintedTrees": {
+      "revision": "continuous-canopy-2026-09-13",
+      "species": 5,
+      "models": 15,
+      "foliageAtlases": 5,
+      "exactSourceAndBuildAssets": true,
+      "manifestSha256": "8babf7daa21ac244d5a1b9f101bb4c0c3a5b61e1e4086bdf5840c901f462dcc8"
+    },
+    "injectedPipelineFailure": {
+      "passed": true,
+      "keepsCoverClosed": true,
+      "localizedRetryMessage": true
+    },
+    "offline": [
+      {
+        "kind": "baseline",
+        "completeCourse": true,
+        "chunks": 962,
+        "courseDataNetworkRequests": 0,
+        "exactWorldAndWater": true,
+        "reopenedOfflineMs": 19066.1,
+        "sampleCount": 1,
+        "physicalPhone": false
+      },
+      {
+        "kind": "candidate",
+        "completeCourse": true,
+        "chunks": 962,
+        "courseDataNetworkRequests": 0,
+        "exactWorldAndWater": true,
+        "reopenedOfflineMs": 19445.9,
+        "sampleCount": 1,
+        "physicalPhone": false
+      },
+      {
+        "kind": "webgl",
+        "completeCourse": true,
+        "chunks": 962,
+        "courseDataNetworkRequests": 0,
+        "exactWorldAndWater": true,
+        "reopenedOfflineMs": 25310.6,
+        "sampleCount": 1,
+        "physicalPhone": false
+      }
+    ],
+    "preparedPublication": {
+      "revision": "c2aa90b36bae20ee210a3954ad467955dea29dfe4c6c0ca10f1702d647c3cac3",
+      "waterRecords": 10,
+      "tintRecords": 52,
+      "uniqueFiles": 36,
+      "bytes": 16519091
+    }
+  },
+  "measurements": {
+    "painted": {
+      "conditions": {
+        "course": "veckefjarden",
+        "q": "hi",
+        "ghibli": "1",
+        "gl": "0",
+        "cpu": "1",
+        "mbps": "50",
+        "latency": "40"
+      },
+      "mobileEmulation": false,
+      "baseline": {
+        "count": 10,
+        "meanReadyMs": 27506.1,
+        "p75ReadyMs": 27612.8,
+        "meanGpuStartupMs": 9108.5,
+        "meanPreparationMs": 0,
+        "meanFirstFrameCpuMs": 1089.4,
+        "meanFenceWaitMs": 8019.1
+      },
+      "candidate": {
+        "count": 10,
+        "meanReadyMs": 23470,
+        "p75ReadyMs": 23513.2,
+        "meanGpuStartupMs": 5112.9,
+        "meanPreparationMs": 2555.3,
+        "meanFirstFrameCpuMs": 891.2,
+        "meanFenceWaitMs": 1666.4
+      },
+      "runs": [
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-01",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 62 %, 694 MiB",
+          "readyMs": 27907.9,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1095.4,
+          "fenceWaitMs": 7985.8,
+          "gpuStartupMs": 9081.2,
+          "adapters": [
+            {
+              "atMs": 795.2000000178814,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-02",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 15 %, 694 MiB",
+          "readyMs": 23489.3,
+          "preparationMs": 2527.9,
+          "firstFrameCpuMs": 867.4,
+          "fenceWaitMs": 1686.9,
+          "gpuStartupMs": 5082.2,
+          "adapters": [
+            {
+              "atMs": 781,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-03",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 20 %, 694 MiB",
+          "readyMs": 23491.3,
+          "preparationMs": 2516.9,
+          "firstFrameCpuMs": 874.3,
+          "fenceWaitMs": 1691,
+          "gpuStartupMs": 5082.2,
+          "adapters": [
+            {
+              "atMs": 804.7999999821186,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-04",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 18 %, 694 MiB",
+          "readyMs": 27472.7,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1115.6,
+          "fenceWaitMs": 7937.2,
+          "gpuStartupMs": 9052.8,
+          "adapters": [
+            {
+              "atMs": 804.1000000238419,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-05",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 14 %, 694 MiB",
+          "readyMs": 27492.5,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1085.3,
+          "fenceWaitMs": 8101.7,
+          "gpuStartupMs": 9187,
+          "adapters": [
+            {
+              "atMs": 785.0999999940395,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-06",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 17 %, 694 MiB",
+          "readyMs": 23553.8,
+          "preparationMs": 2716.6,
+          "firstFrameCpuMs": 914.6,
+          "fenceWaitMs": 1674.7,
+          "gpuStartupMs": 5305.9,
+          "adapters": [
+            {
+              "atMs": 794.1999999880791,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-07",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 62 %, 694 MiB",
+          "readyMs": 23252.6,
+          "preparationMs": 2533,
+          "firstFrameCpuMs": 870.4,
+          "fenceWaitMs": 1666.9,
+          "gpuStartupMs": 5070.3,
+          "adapters": [
+            {
+              "atMs": 751.7999999821186,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-08",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 22 %, 694 MiB",
+          "readyMs": 27314.3,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1104.9,
+          "fenceWaitMs": 7948.3,
+          "gpuStartupMs": 9053.2,
+          "adapters": [
+            {
+              "atMs": 789.6999999880791,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-09",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 21 %, 694 MiB",
+          "readyMs": 27612.8,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1082.9,
+          "fenceWaitMs": 8159.2,
+          "gpuStartupMs": 9242.1,
+          "adapters": [
+            {
+              "atMs": 783.0999999940395,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-10",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 8 %, 694 MiB",
+          "readyMs": 23447.2,
+          "preparationMs": 2572,
+          "firstFrameCpuMs": 871,
+          "fenceWaitMs": 1679.1,
+          "gpuStartupMs": 5122.1,
+          "adapters": [
+            {
+              "atMs": 814.7999999821186,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-11",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 4 %, 694 MiB",
+          "readyMs": 23514.9,
+          "preparationMs": 2487.9,
+          "firstFrameCpuMs": 873.3,
+          "fenceWaitMs": 1667.8,
+          "gpuStartupMs": 5029,
+          "adapters": [
+            {
+              "atMs": 789.2000000178814,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-12",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 17 %, 694 MiB",
+          "readyMs": 27419.6,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1083.1,
+          "fenceWaitMs": 8014.3,
+          "gpuStartupMs": 9097.4,
+          "adapters": [
+            {
+              "atMs": 798,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-13",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 15 %, 694 MiB",
+          "readyMs": 27437.3,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1081.9,
+          "fenceWaitMs": 8010.4,
+          "gpuStartupMs": 9092.3,
+          "adapters": [
+            {
+              "atMs": 833.4000000059605,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-14",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 13 %, 694 MiB",
+          "readyMs": 23513,
+          "preparationMs": 2551.5,
+          "firstFrameCpuMs": 905.1,
+          "fenceWaitMs": 1634.4,
+          "gpuStartupMs": 5091,
+          "adapters": [
+            {
+              "atMs": 808.2000000178814,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-15",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 9 %, 694 MiB",
+          "readyMs": 23457.7,
+          "preparationMs": 2532.4,
+          "firstFrameCpuMs": 912.2,
+          "fenceWaitMs": 1637.9,
+          "gpuStartupMs": 5082.5,
+          "adapters": [
+            {
+              "atMs": 783.5,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-16",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 24 %, 694 MiB",
+          "readyMs": 27446,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1084.9,
+          "fenceWaitMs": 7996.8,
+          "gpuStartupMs": 9081.7,
+          "adapters": [
+            {
+              "atMs": 797.4000000059605,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-17",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 14 %, 694 MiB",
+          "readyMs": 27337,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1081.8,
+          "fenceWaitMs": 7993.5,
+          "gpuStartupMs": 9075.3,
+          "adapters": [
+            {
+              "atMs": 802,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-18",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 67 %, 694 MiB",
+          "readyMs": 23513.2,
+          "preparationMs": 2563.9,
+          "firstFrameCpuMs": 882.5,
+          "fenceWaitMs": 1688,
+          "gpuStartupMs": 5134.4,
+          "adapters": [
+            {
+              "atMs": 853,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-19",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 15 %, 694 MiB",
+          "readyMs": 23466.7,
+          "preparationMs": 2550.8,
+          "firstFrameCpuMs": 941.2,
+          "fenceWaitMs": 1637.4,
+          "gpuStartupMs": 5129.4,
+          "adapters": [
+            {
+              "atMs": 811.0999999940395,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-20",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 12 %, 694 MiB",
+          "readyMs": 27621.3,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 1077.8,
+          "fenceWaitMs": 8044,
+          "gpuStartupMs": 9121.8,
+          "adapters": [
+            {
+              "atMs": 815.5,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        }
+      ],
+      "worldFingerprint": {
+        "exactTables": {
+          "trees": [
+            "495bb45cd028058b422cf32e20b3fb1388e3d8b527193d071c474af64b14161a",
+            "f942f993ea71c647f8917f92abcd27a5c765dc2e16780ee221e8b5898b62504b",
+            "2e3f63759ff6db384070f68d02ab1663fa19e7fc69b3cc8043eb0c4c5f80e209",
+            "f96c8832e594e2fcc49a42f07bdffe7aebb014d01f7cde6ffe594246976addbf",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "reasons": [
+            "a672b1d65835ffc565f8ab16366b0ee0c94a369758dc76fe7a19257d64ffd53a",
+            "e2904ef16d221a333017ee8dd60fe722a18633bf5e3fed3de4a139cb29e2a8d0",
+            "6d64801ee57f863a920f05b83fd4768daf94f5220a655ecb74e9cecee1101a20",
+            "f0cb166df5443c5926c1292888fe2dab72022ae3ac300c1add8f22a4c5114b56",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "vista": "f1d1ce38a6bb91103bd1e63411c26cab63cbe3fbe72a45b728f91b0453dd0632",
+          "matrices": [
+            "a5c1a5d1d89a4efa8958f78cbb27504f679de5e168377d9ba8ac285ba7b95d3a",
+            "e79889e86ff059f19e0a9964d4f2ceecbe8bde7e84cab31ff6ba13f4b6c62cf5",
+            "28859fa51687a349815f4d38006e032a3be07fabca6bbc68b003db7fab21a4f3",
+            "8a732339e57564a6e9504136ea93003cf701165d5784e6fa05492b09eae9fc98",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "impostors": [
+            "42e554b5ffd1efc8ad3a1b9867510bd9b0a6874c627e62abceb0d45d198ca906",
+            "9511f80fdda969ba47ad60b5a3dae8ecb6a266fe1e02e9442105336bef23d3b9",
+            "d115cf2073835e9d727c147a6f24b93354434a24ab009fa7e1ea93e87016730b",
+            "b4cc487b8761126bd39a247ad3d1336a232d99df56316333b727a8f78d1b37d3",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "tints": [
+            "d31f0d411a6abf4e4fed6381a6e1c51da8c35876c42498a37a03d9257b17e51d",
+            "7457596390f7d63522010ed86aa4a7293d53abbf05af95bbd85b2a04db546060",
+            "984623200db5e8edff00c3d54f53568450b5aeb671467984a30d055c456aa275",
+            "2db5659bc1f0613104b6423a1e7b98d754b0e95aa05bd9455a4462ba7e1603f7",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ]
+        },
+        "treeInstances": "028f2c00eb51f0f70ff187b69ad39e4fec039ffb611bcbfff424dee6ad16d49b",
+        "tintNear": "602702b91bfb80ed62fe98f4451c9560e4342a57ac537b30126d889da85126fa",
+        "tintFar": "c4bab27439c9d5cd6509d904a8d7a8c5eaa8652837384283d2b2e5d3242a34e6"
+      },
+      "exactWorldAndTint": true,
+      "rawReport": "tools/reference/gpu-startup-painted-timing/report.json"
+    },
+    "webgl": {
+      "conditions": {
+        "course": "veckefjarden",
+        "q": "lo",
+        "ghibli": "1",
+        "gl": "1",
+        "cpu": "1",
+        "mbps": "50",
+        "latency": "40"
+      },
+      "mobileEmulation": false,
+      "baseline": {
+        "count": 2,
+        "meanReadyMs": 29721.2,
+        "p75ReadyMs": 29764.5,
+        "meanGpuStartupMs": 10528.6,
+        "meanPreparationMs": 0,
+        "meanFirstFrameCpuMs": 10507.9,
+        "meanFenceWaitMs": 20.7
+      },
+      "candidate": {
+        "count": 2,
+        "meanReadyMs": 24039.5,
+        "p75ReadyMs": 24067.9,
+        "meanGpuStartupMs": 4881.8,
+        "meanPreparationMs": 2924.4,
+        "meanFirstFrameCpuMs": 1937.1,
+        "meanFenceWaitMs": 20.4
+      },
+      "runs": [
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-01",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 28 %, 694 MiB",
+          "readyMs": 29677.9,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 10474.1,
+          "fenceWaitMs": 17.6,
+          "gpuStartupMs": 10491.7,
+          "adapters": []
+        },
+        {
+          "startup": "1",
+          "name": "run-02",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 74 %, 694 MiB",
+          "readyMs": 24067.9,
+          "preparationMs": 2919.5,
+          "firstFrameCpuMs": 1911.7,
+          "fenceWaitMs": 24.3,
+          "gpuStartupMs": 4855.5,
+          "adapters": []
+        },
+        {
+          "startup": "1",
+          "name": "run-03",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 98 %, 694 MiB",
+          "readyMs": 24011,
+          "preparationMs": 2929.2,
+          "firstFrameCpuMs": 1962.4,
+          "fenceWaitMs": 16.4,
+          "gpuStartupMs": 4908,
+          "adapters": []
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-04",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 30 %, 694 MiB",
+          "readyMs": 29764.5,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 10541.7,
+          "fenceWaitMs": 23.7,
+          "gpuStartupMs": 10565.4,
+          "adapters": []
+        }
+      ],
+      "worldFingerprint": {
+        "exactTables": {
+          "trees": [
+            "1f1dbb4b9f036dbe28b5c6d81ab2fc83893c1fdc508fc347dd768c5b96333cb3",
+            "0677204e37ed99aba9ee821f020a06cfd83bc6bd48dfdd6953dc32acc75bcf10",
+            "5bbe2c34ead4a4369b1a2bda90d8a29f0261b99ba3912871a28e23d31884b697",
+            "093d5c8097ac786502fdd185eef7cfb0ade7be98d700237682a8e96ae41650e2",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "reasons": [
+            "766cd812e9f92e2a2fddad03699e094b0515217a9de90cb9052ce7b2b991ebc3",
+            "ba763b15558e8f1aad5ee6ebfc8a11920ac0a0709a61a9f8a9747b0ecfd77d99",
+            "eaadc0e9fe55fbcb46729b558aab1dd554f8e06d7d793b26d13dc985f2ec15e6",
+            "51628bf56bbca514b9482738f96646e30392d8ae7c9c90554ecb7daae5b13376",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "vista": "84c3f7e935f1f2b77b82f9609f6e30f515bf0a1b227ee6c18e0a67fa431f5e20",
+          "matrices": [
+            "ba66a0657462dcfb5e81796e5ff3b2ccf7e4f65f68bedd62dc915048185f55ee",
+            "9d61884e8f2cfa04e1460eda21a71bb34440aa10a45e0563e510b1fd3bfa08dc",
+            "dbb0c49a5c28db30f4d7807fd51c0c3e9f6cd1906d45e7f42da18f3c05c462d3",
+            "6069615317cb0c3fa7368a51ec756792290e863a5902ddc84866175a2d1f2973",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "impostors": [
+            "a4c0728fb5b748a9b4e54c2e773175356c0eed89bc688829e4220dc7e280c6e5",
+            "51c1d81869eeed742e356dcab4a92f1ffda6ece7e106818993d4f8f9db0020cb",
+            "f54b4eb7bec093c60b2049e5d4988b95a00df90eb337aa6adaebc0b6424a7272",
+            "19780e3a8a85d222c40e3da51fcb9c7c78c6baad454e7c3a39a21e9f28440787",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "tints": [
+            "10be7c6fe7037182230a9591a710243c2b3b1091f336c2f84c1deb2d659d6256",
+            "3e94d1de61f680f1d195333c0a96b3742a485e7b51434ff6cb6dd4c4c0433708",
+            "c6ae4a815de01b0af89e575235f4a8dbb35447efe7b1ae29054d35ce207f82b2",
+            "4eb61664748904184a69ef935f8dbb052ee7cf2a9698eccd2e91a7f969856afe",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ]
+        },
+        "treeInstances": "cdfb3e5f330e9761056e84063e4d3d624965baeee0e80f9154fae84ecc65bf5c",
+        "tintNear": "602702b91bfb80ed62fe98f4451c9560e4342a57ac537b30126d889da85126fa",
+        "tintFar": "c4bab27439c9d5cd6509d904a8d7a8c5eaa8652837384283d2b2e5d3242a34e6"
+      },
+      "exactWorldAndTint": true,
+      "rawReport": "tools/reference/gpu-startup-webgl-timing/report.json"
+    },
+    "mobile": {
+      "conditions": {
+        "course": "veckefjarden",
+        "q": "lo",
+        "ghibli": "1",
+        "gl": "0",
+        "cpu": "4",
+        "mbps": "20",
+        "latency": "80"
+      },
+      "mobileEmulation": true,
+      "baseline": {
+        "count": 2,
+        "meanReadyMs": 66485.3,
+        "p75ReadyMs": 67062.7,
+        "meanGpuStartupMs": 10264.8,
+        "meanPreparationMs": 0,
+        "meanFirstFrameCpuMs": 5925.9,
+        "meanFenceWaitMs": 4339
+      },
+      "candidate": {
+        "count": 2,
+        "meanReadyMs": 64945.3,
+        "p75ReadyMs": 65274.1,
+        "meanGpuStartupMs": 8826.4,
+        "meanPreparationMs": 6401.2,
+        "meanFirstFrameCpuMs": 836.4,
+        "meanFenceWaitMs": 1588.9
+      },
+      "runs": [
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-01",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 39 %, 694 MiB",
+          "readyMs": 65907.9,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 5896.9,
+          "fenceWaitMs": 4055.4,
+          "gpuStartupMs": 9952.3,
+          "adapters": [
+            {
+              "atMs": 1247.7999999821186,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-02",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 0 %, 694 MiB",
+          "readyMs": 65274.1,
+          "preparationMs": 6430.5,
+          "firstFrameCpuMs": 838.8,
+          "fenceWaitMs": 1711.1,
+          "gpuStartupMs": 8980.4,
+          "adapters": [
+            {
+              "atMs": 1233.7999999821186,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "1",
+          "name": "run-03",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 0 %, 694 MiB",
+          "readyMs": 64616.5,
+          "preparationMs": 6371.9,
+          "firstFrameCpuMs": 833.9,
+          "fenceWaitMs": 1466.6,
+          "gpuStartupMs": 8672.4,
+          "adapters": [
+            {
+              "atMs": 1236.5,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        },
+        {
+          "startup": "unprepared-gpu",
+          "name": "run-04",
+          "gpuBefore": "NVIDIA GeForce RTX 3070 Laptop GPU, 5 %, 694 MiB",
+          "readyMs": 67062.7,
+          "preparationMs": 0,
+          "firstFrameCpuMs": 5954.8,
+          "fenceWaitMs": 4622.6,
+          "gpuStartupMs": 10577.4,
+          "adapters": [
+            {
+              "atMs": 1237.5999999940395,
+              "vendor": "nvidia",
+              "architecture": "ampere",
+              "device": "",
+              "description": "",
+              "isFallbackAdapter": false
+            }
+          ]
+        }
+      ],
+      "worldFingerprint": {
+        "exactTables": {
+          "trees": [
+            "1f1dbb4b9f036dbe28b5c6d81ab2fc83893c1fdc508fc347dd768c5b96333cb3",
+            "0677204e37ed99aba9ee821f020a06cfd83bc6bd48dfdd6953dc32acc75bcf10",
+            "5bbe2c34ead4a4369b1a2bda90d8a29f0261b99ba3912871a28e23d31884b697",
+            "093d5c8097ac786502fdd185eef7cfb0ade7be98d700237682a8e96ae41650e2",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "reasons": [
+            "766cd812e9f92e2a2fddad03699e094b0515217a9de90cb9052ce7b2b991ebc3",
+            "ba763b15558e8f1aad5ee6ebfc8a11920ac0a0709a61a9f8a9747b0ecfd77d99",
+            "eaadc0e9fe55fbcb46729b558aab1dd554f8e06d7d793b26d13dc985f2ec15e6",
+            "51628bf56bbca514b9482738f96646e30392d8ae7c9c90554ecb7daae5b13376",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "vista": "84c3f7e935f1f2b77b82f9609f6e30f515bf0a1b227ee6c18e0a67fa431f5e20",
+          "matrices": [
+            "ba66a0657462dcfb5e81796e5ff3b2ccf7e4f65f68bedd62dc915048185f55ee",
+            "9d61884e8f2cfa04e1460eda21a71bb34440aa10a45e0563e510b1fd3bfa08dc",
+            "dbb0c49a5c28db30f4d7807fd51c0c3e9f6cd1906d45e7f42da18f3c05c462d3",
+            "6069615317cb0c3fa7368a51ec756792290e863a5902ddc84866175a2d1f2973",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "impostors": [
+            "a4c0728fb5b748a9b4e54c2e773175356c0eed89bc688829e4220dc7e280c6e5",
+            "51c1d81869eeed742e356dcab4a92f1ffda6ece7e106818993d4f8f9db0020cb",
+            "f54b4eb7bec093c60b2049e5d4988b95a00df90eb337aa6adaebc0b6424a7272",
+            "19780e3a8a85d222c40e3da51fcb9c7c78c6baad454e7c3a39a21e9f28440787",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ],
+          "tints": [
+            "10be7c6fe7037182230a9591a710243c2b3b1091f336c2f84c1deb2d659d6256",
+            "3e94d1de61f680f1d195333c0a96b3742a485e7b51434ff6cb6dd4c4c0433708",
+            "c6ae4a815de01b0af89e575235f4a8dbb35447efe7b1ae29054d35ce207f82b2",
+            "4eb61664748904184a69ef935f8dbb052ee7cf2a9698eccd2e91a7f969856afe",
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          ]
+        },
+        "treeInstances": "cdfb3e5f330e9761056e84063e4d3d624965baeee0e80f9154fae84ecc65bf5c",
+        "tintNear": "602702b91bfb80ed62fe98f4451c9560e4342a57ac537b30126d889da85126fa",
+        "tintFar": "c4bab27439c9d5cd6509d904a8d7a8c5eaa8652837384283d2b2e5d3242a34e6"
+      },
+      "exactWorldAndTint": true,
+      "rawReport": "tools/reference/gpu-startup-mobile-timing/report.json"
+    },
+    "method": "Uninstrumented ABBA, fresh Chrome process for each visit, blocked service workers; page caches cold, driver/shader caches not reset. No concurrent bake or browser validation jobs.",
+    "limitations": "Only painted desktop has ten visits per path. WebGL and mobile emulation have two visits per path. Offline reopening has one visit per path. Desktop emulation is not a physical phone."
+  }
+}

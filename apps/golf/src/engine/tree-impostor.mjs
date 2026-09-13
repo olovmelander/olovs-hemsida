@@ -22,7 +22,7 @@ import {
   transformNormalToView, positionWorld, normalWorldGeometry,
 } from 'three/tsl';
 import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
-import { paintedFoliageColour, foliageLight } from './ghibli-foliage-material.mjs';
+import { paintedFoliageColour, foliageLight, foliageSurfacePigment } from './ghibli-foliage-material.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
  *  0 view-space normal, 1 dot(normal, view) in world, 2 the same in the
@@ -188,7 +188,7 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
   crownNormal.opacityNode = float(1);
   if (foliage) {
     if (!crown.getAttribute('uv') || !foliage.map) throw new Error('Foliage impostor bake needs UVs and its shared atlas');
-    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(texture(foliage.map).rgb);
+    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(foliageSurfacePigment(texture(foliage.map)));
     for (const mat of [crownAlbedo, crownNormal]) {
       mat.side = THREE.DoubleSide;
       mat.maskNode = texture(foliage.map).a.greaterThan(.5);

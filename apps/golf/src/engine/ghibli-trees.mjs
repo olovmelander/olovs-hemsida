@@ -23,6 +23,9 @@ const digest = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA
 /* Engine species index -> catalogue key. All five painted species use the
    approved Blender models; a null entry would retain a procedural species. */
 export const GHIBLI_SPECIES = ['gran', 'tall', 'björk', 'al', 'ek'];
+// A new app revision must not select a previous catalogue when NetworkFirst
+// falls back to its cache during a slow connection. Assets remain SHA-addressed.
+export const GHIBLI_FOLIAGE_REVISION = 'continuous-canopy-2026-09-13';
 
 /* Base colours for the original catalogue. Painted foliage uses the palette
    in ghibli-foliage-material.mjs. Trunks carry bark colour per vertex. */
@@ -192,12 +195,13 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = fals
   // the original/refined catalogues for comparison.
   const catalogue = design === 'fluffy' ? ['', 'ghibli-fluffy.json'] : design === 'refined' ? ['refined/', 'ghibli-v3.json'] : ['', 'ghibli-v1.json'];
   const base = `${baseUrl}models/trees/${catalogue[0]}`;
-  const res = await fetchImpl(`${base}${catalogue[1]}`, { cache: 'no-cache' });
+  const revisionQuery = design === 'fluffy' ? `?v=${GHIBLI_FOLIAGE_REVISION}` : '';
+  const res = await fetchImpl(`${base}${catalogue[1]}${revisionQuery}`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Ghibli tree manifest: HTTP ${res.status}`);
   const manifest = await res.json();
   if (manifest?.schemaVersion !== 1 || manifest.kind !== 'ghibli-trees') throw new Error('Ghibli tree manifest: unknown schema');
   const byKey = Object.fromEntries(manifest.species.map(s => [s.key, s]));
-  const out = { manifest, species: [], colours: GHIBLI_COLOURS, foliage: manifest.design === 'fluffy-2026-09', summary: { design: manifest.design || design, variants, hero, files: 0, bytes: 0 } };
+  const out = { manifest, species: [], colours: GHIBLI_COLOURS, foliage: manifest.design === 'fluffy-2026-09', summary: { design: manifest.design || design, revision: manifest.revision || null, variants, hero, files: 0, bytes: 0 } };
   for (const [s, key] of GHIBLI_SPECIES.entries()) {
     if (!key) { out.species.push(null); continue; }
     const entry = byKey[key];

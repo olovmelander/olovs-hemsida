@@ -414,11 +414,11 @@ export class V2GraphTerrainAdapter {
    * rewritten in place now, and every tile the GPU decodes from here on is
    * carved by the same field, so the sampler and the picture agree.
    */
-  carveWaterBeds(options = {}) {
+  carveWaterBeds(options = {}, preparedField = null) {
     if (!this.flatWater) throw new Error('flat water must be detected before the beds are carved');
     if (this.waterBed) return this.waterBedSummary;
     const started = this.clock();
-    const field = buildWaterBedField({
+    const field = preparedField ?? buildWaterBedField({
       flatWater: this.flatWater,
       knownBodies: this.knownBodies,
       toLegacy: (x, z) => this.bridge.toLegacy(x, z),

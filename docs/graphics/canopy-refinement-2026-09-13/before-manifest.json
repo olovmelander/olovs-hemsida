@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "kind": "ghibli-trees",
+  "design": "fluffy-2026-09",
+  "budgets": {
+    "hero": 4500,
+    "full": 1700,
+    "lite": 420
+  },
+  "species": [
+    {
+      "key": "tall",
+      "name": "Scots pine",
+      "foliage": {
+        "key": "tall",
+        "atlas": {
+          "file": "ghibli-fluffy/bff7de51560873baf2c803c010ef73ca7346e0dddd25427426d6c5a3b050f592.png",
+          "bytes": 158289,
+          "sha256": "bff7de51560873baf2c803c010ef73ca7346e0dddd25427426d6c5a3b050f592"
+        }
+      },
+      "variants": [
+        {
+          "seed": 9000,
+          "templateHeight": 18.9271240234375,
+          "templateRadius": 10.910284042358398,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/8b7035f23ca1b345da735d363699035eb39ed9e8e8018feef61ddef1594e743f.glb",
+              "bytes": 313944,
+              "sha256": "8b7035f23ca1b345da735d363699035eb39ed9e8e8018feef61ddef1594e743f",
+              "tris": 4448
+            },
+            "full": {
+              "file": "ghibli-fluffy/a1219b45584f7b3180bd7e2a2877eae8e401252598ee3511d86019d7b5704943.glb",
+              "bytes": 105604,
+              "sha256": "a1219b45584f7b3180bd7e2a2877eae8e401252598ee3511d86019d7b5704943",
+              "tris": 1620
+            },
+            "lite": {
+              "file": "ghibli-fluffy/56af3a7edcc7adadf2c8e682181e7379ad9a91a661fec8d5eec86495c2109bba.glb",
+              "bytes": 10004,
+              "sha256": "56af3a7edcc7adadf2c8e682181e7379ad9a91a661fec8d5eec86495c2109bba",
+              "tris": 280
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "gran",
+      "name": "Norway spruce",
+      "foliage": {
+        "key": "gran",
+        "atlas": {
+          "file": "ghibli-fluffy/93ab21f11e79384035c25997183cdcfd3d9fc3954a7692701e79d1fae69582ed.png",
+          "bytes": 205483,
+          "sha256": "93ab21f11e79384035c25997183cdcfd3d9fc3954a7692701e79d1fae69582ed"
+        }
+      },
+      "variants": [
+        {
+          "seed": 10000,
+          "templateHeight": 19.44514274597168,
+          "templateRadius": 6.947242736816406,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/19fbecea7535a0e4d24280029881ad9f73fd79038e1bf975c3d2db05471e9f4a.glb",
+              "bytes": 252828,
+              "sha256": "19fbecea7535a0e4d24280029881ad9f73fd79038e1bf975c3d2db05471e9f4a",
+              "tris": 4500
+            },
+            "full": {
+              "file": "ghibli-fluffy/1b3bdfa2d9b5d34ddc117c7e6ed9522342a08cd53e7682e772f42286c05d9dbd.glb",
+              "bytes": 111320,
+              "sha256": "1b3bdfa2d9b5d34ddc117c7e6ed9522342a08cd53e7682e772f42286c05d9dbd",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/88eb89d498fc58d382ab0194d7f1be689c9b11f4095364b387e628eb4d0b3089.glb",
+              "bytes": 11456,
+              "sha256": "88eb89d498fc58d382ab0194d7f1be689c9b11f4095364b387e628eb4d0b3089",
+              "tris": 308
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "björk",
+      "name": "Silver birch",
+      "foliage": {
+        "key": "bjork",
+        "atlas": {
+          "file": "ghibli-fluffy/ab9d076207e58acc57002f6311aace49f51bd74d03efed6ba90284edbcef3f86.png",
+          "bytes": 134748,
+          "sha256": "ab9d076207e58acc57002f6311aace49f51bd74d03efed6ba90284edbcef3f86"
+        }
+      },
+      "variants": [
+        {
+          "seed": 5000,
+          "templateHeight": 15.031545639038086,
+          "templateRadius": 4.804478645324707,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/f439b2ca3c2c6aca23c33c936624c3b77215512ae393fd425f71551e4872f3df.glb",
+              "bytes": 282260,
+              "sha256": "f439b2ca3c2c6aca23c33c936624c3b77215512ae393fd425f71551e4872f3df",
+              "tris": 4500
+            },
+            "full": {
+              "file": "ghibli-fluffy/23db842f3575e94f2c289413bd641f93697e093ba02d3da2cb24e6b893eb91b3.glb",
+              "bytes": 114468,
+              "sha256": "23db842f3575e94f2c289413bd641f93697e093ba02d3da2cb24e6b893eb91b3",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/e70b6f81e323e2fe1ed5699e918c5401d5f82009fccbf22891ddb5a9baf4ff53.glb",
+              "bytes": 11452,
+              "sha256": "e70b6f81e323e2fe1ed5699e918c5401d5f82009fccbf22891ddb5a9baf4ff53",
+              "tris": 308
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "al",
+      "name": "Grey alder",
+      "foliage": {
+        "key": "al",
+        "atlas": {
+          "file": "ghibli-fluffy/8b156749e5c5941a3958fc8e1e798c18ac401528472adfe9895e77ba415a62af.png",
+          "bytes": 106461,
+          "sha256": "8b156749e5c5941a3958fc8e1e798c18ac401528472adfe9895e77ba415a62af"
+        }
+      },
+      "variants": [
+        {
+          "seed": 7000,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/901fb1bc5c73b8cd7434f609afb85c6dfaf2016e8925c97ab772fbcfc64e8527.glb",
+              "bytes": 264220,
+              "sha256": "901fb1bc5c73b8cd7434f609afb85c6dfaf2016e8925c97ab772fbcfc64e8527",
+              "tris": 4032
+            },
+            "full": {
+              "file": "ghibli-fluffy/9484774870712f221773348a6bbfe70774e4b466f93f971f2319815bcd6012fa.glb",
+              "bytes": 129472,
+              "sha256": "9484774870712f221773348a6bbfe70774e4b466f93f971f2319815bcd6012fa",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/ce1874281c05cd11e59aa6d3b770daead2d97273805811b67175ae2a6c05a2fe.glb",
+              "bytes": 4856,
+              "sha256": "ce1874281c05cd11e59aa6d3b770daead2d97273805811b67175ae2a6c05a2fe",
+              "tris": 108
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "ek",
+      "name": "Pasture oak",
+      "foliage": {
+        "key": "ek",
+        "atlas": {
+          "file": "ghibli-fluffy/c438ef7817287ab64f5f0937131dcffe739c63a732584dde5993d73046a96905.png",
+          "bytes": 92516,
+          "sha256": "c438ef7817287ab64f5f0937131dcffe739c63a732584dde5993d73046a96905"
+        }
+      },
+      "variants": [
+        {
+          "seed": 1000,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/4879664927a70fc574220167cbae7dc3c8516a4717b81ccdb3ada438b47f9efa.glb",
+              "bytes": 314896,
+              "sha256": "4879664927a70fc574220167cbae7dc3c8516a4717b81ccdb3ada438b47f9efa",
+              "tris": 4500
+            },
+            "full": {
+              "file": "ghibli-fluffy/4789d618cb638cb34740069984660048a14f67c071b147b24cd8a959e8658f46.glb",
+              "bytes": 122748,
+              "sha256": "4789d618cb638cb34740069984660048a14f67c071b147b24cd8a959e8658f46",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/86627d81e6fb60efb0627c5cbe49df536384c5e5dfe30f8208e29dd2430729c4.glb",
+              "bytes": 7068,
+              "sha256": "86627d81e6fb60efb0627c5cbe49df536384c5e5dfe30f8208e29dd2430729c4",
+              "tris": 200
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

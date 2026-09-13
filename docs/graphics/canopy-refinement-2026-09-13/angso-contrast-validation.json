@@ -1,0 +1,551 @@
+{
+  "phase": "contrast",
+  "course": "angso",
+  "low": false,
+  "natural": false,
+  "errors": [],
+  "modes": [
+    {
+      "mode": "noon",
+      "screenshot": "angso-contrast-noon.png",
+      "visibleColour": 0.997190625,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 4406,
+            "inCount": 4406,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2713,
+            "inCount": 2713,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 3065,
+            "inCount": 3065,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1720,
+            "inCount": 1720,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1294,
+            "inCount": 1294,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 803,
+        "tier1": 1886,
+        "tier2": 0,
+        "tier3": 10509,
+        "cells": 892,
+        "cellsVisible": 175,
+        "moves": 13198,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 147,
+        "fading": 0,
+        "updateMs": 0.30000001192092896,
+        "zoneA": 5624,
+        "zoneB": 7814,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "noon"
+    },
+    {
+      "mode": "golden",
+      "screenshot": "angso-contrast-golden.png",
+      "visibleColour": 0.99775,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 4406,
+            "inCount": 4406,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2713,
+            "inCount": 2713,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 3065,
+            "inCount": 3065,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1720,
+            "inCount": 1720,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1294,
+            "inCount": 1294,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 803,
+        "tier1": 1886,
+        "tier2": 0,
+        "tier3": 10509,
+        "cells": 892,
+        "cellsVisible": 175,
+        "moves": 13198,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 147,
+        "fading": 0,
+        "updateMs": 0.30000001192092896,
+        "zoneA": 5624,
+        "zoneB": 7814,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "golden"
+    },
+    {
+      "mode": "host",
+      "screenshot": "angso-contrast-host.png",
+      "visibleColour": 0.999365625,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 4406,
+            "inCount": 4406,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2713,
+            "inCount": 2713,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 3065,
+            "inCount": 3065,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1720,
+            "inCount": 1720,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1294,
+            "inCount": 1294,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 803,
+        "tier1": 1886,
+        "tier2": 0,
+        "tier3": 10509,
+        "cells": 892,
+        "cellsVisible": 175,
+        "moves": 13198,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 147,
+        "fading": 0,
+        "updateMs": 0.4000000059604645,
+        "zoneA": 5624,
+        "zoneB": 7814,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "host"
+    }
+  ],
+  "backend": "webgpu",
+  "camera": {
+    "fov": 48,
+    "near": 1,
+    "far": 14000,
+    "aspect": 1.6,
+    "coordinateSystem": 2001,
+    "reversedDepth": true,
+    "position": [
+      -146.91636749675783,
+      4.812358976881412,
+      785.1522975582491
+    ],
+    "target": [
+      97.73681533790699,
+      4.668900250072236,
+      777.0754394887364
+    ]
+  },
+  "triangles": [
+    [
+      [
+        3500,
+        1000
+      ],
+      [
+        1632,
+        68
+      ],
+      [
+        288,
+        20
+      ]
+    ],
+    [
+      [
+        3752,
+        696
+      ],
+      [
+        1474,
+        146
+      ],
+      [
+        220,
+        60
+      ]
+    ],
+    [
+      [
+        3644,
+        856
+      ],
+      [
+        1572,
+        128
+      ],
+      [
+        288,
+        20
+      ]
+    ],
+    [
+      [
+        2940,
+        1092
+      ],
+      [
+        1496,
+        204
+      ],
+      [
+        48,
+        60
+      ]
+    ],
+    [
+      [
+        3596,
+        904
+      ],
+      [
+        1388,
+        312
+      ],
+      [
+        48,
+        152
+      ]
+    ]
+  ],
+  "inventory": [
+    {
+      "name": "trees-spruce0-crown-t0",
+      "key": "gran",
+      "triangles": 3500
+    },
+    {
+      "name": "trees-spruce0-trunk-t0",
+      "key": null,
+      "triangles": 1000
+    },
+    {
+      "name": "trees-spruce0-crown-t1",
+      "key": "gran",
+      "triangles": 1632
+    },
+    {
+      "name": "trees-spruce0-trunk-t1",
+      "key": null,
+      "triangles": 68
+    },
+    {
+      "name": "trees-spruce0-crown-t2",
+      "key": "gran",
+      "triangles": 288
+    },
+    {
+      "name": "trees-spruce0-trunk-t2",
+      "key": null,
+      "triangles": 20
+    },
+    {
+      "name": "trees-spruce-impostor-t3",
+      "key": "gran",
+      "triangles": 2
+    },
+    {
+      "name": "trees-pine0-crown-t0",
+      "key": "tall",
+      "triangles": 3752
+    },
+    {
+      "name": "trees-pine0-trunk-t0",
+      "key": null,
+      "triangles": 696
+    },
+    {
+      "name": "trees-pine0-crown-t1",
+      "key": "tall",
+      "triangles": 1474
+    },
+    {
+      "name": "trees-pine0-trunk-t1",
+      "key": null,
+      "triangles": 146
+    },
+    {
+      "name": "trees-pine0-crown-t2",
+      "key": "tall",
+      "triangles": 220
+    },
+    {
+      "name": "trees-pine0-trunk-t2",
+      "key": null,
+      "triangles": 60
+    },
+    {
+      "name": "trees-pine-impostor-t3",
+      "key": "tall",
+      "triangles": 2
+    },
+    {
+      "name": "trees-birch0-crown-t0",
+      "key": "bjork",
+      "triangles": 3644
+    },
+    {
+      "name": "trees-birch0-trunk-t0",
+      "key": null,
+      "triangles": 856
+    },
+    {
+      "name": "trees-birch0-crown-t1",
+      "key": "bjork",
+      "triangles": 1572
+    },
+    {
+      "name": "trees-birch0-trunk-t1",
+      "key": null,
+      "triangles": 128
+    },
+    {
+      "name": "trees-birch0-crown-t2",
+      "key": "bjork",
+      "triangles": 288
+    },
+    {
+      "name": "trees-birch0-trunk-t2",
+      "key": null,
+      "triangles": 20
+    },
+    {
+      "name": "trees-birch-impostor-t3",
+      "key": "bjork",
+      "triangles": 2
+    },
+    {
+      "name": "trees-alder0-crown-t0",
+      "key": "al",
+      "triangles": 2940
+    },
+    {
+      "name": "trees-alder0-trunk-t0",
+      "key": null,
+      "triangles": 1092
+    },
+    {
+      "name": "trees-alder0-crown-t1",
+      "key": "al",
+      "triangles": 1496
+    },
+    {
+      "name": "trees-alder0-trunk-t1",
+      "key": null,
+      "triangles": 204
+    },
+    {
+      "name": "trees-alder0-crown-t2",
+      "key": "al",
+      "triangles": 48
+    },
+    {
+      "name": "trees-alder0-trunk-t2",
+      "key": null,
+      "triangles": 60
+    },
+    {
+      "name": "trees-alder-impostor-t3",
+      "key": "al",
+      "triangles": 2
+    },
+    {
+      "name": "trees-oak0-crown-t0",
+      "key": "ek",
+      "triangles": 3596
+    },
+    {
+      "name": "trees-oak0-trunk-t0",
+      "key": null,
+      "triangles": 904
+    },
+    {
+      "name": "trees-oak0-crown-t1",
+      "key": "ek",
+      "triangles": 1388
+    },
+    {
+      "name": "trees-oak0-trunk-t1",
+      "key": null,
+      "triangles": 312
+    },
+    {
+      "name": "trees-oak0-crown-t2",
+      "key": "ek",
+      "triangles": 48
+    },
+    {
+      "name": "trees-oak0-trunk-t2",
+      "key": null,
+      "triangles": 152
+    },
+    {
+      "name": "trees-oak-impostor-t3",
+      "key": "ek",
+      "triangles": 2
+    },
+    {
+      "name": "vista-spruce-impostor",
+      "key": "gran",
+      "triangles": 2
+    },
+    {
+      "name": "vista-pine-impostor",
+      "key": "tall",
+      "triangles": 2
+    },
+    {
+      "name": "vista-birch-impostor",
+      "key": "bjork",
+      "triangles": 2
+    },
+    {
+      "name": "vista-alder-impostor",
+      "key": "al",
+      "triangles": 2
+    },
+    {
+      "name": "vista-oak-impostor",
+      "key": "ek",
+      "triangles": 2
+    }
+  ]
+}

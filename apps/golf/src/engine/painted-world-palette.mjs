@@ -19,9 +19,10 @@ export const PAINTED_SCENERY = {
   tuft:[0x557331,0xb4a343], bush:[0x3f733d,0x91973c],
 };
 export const FOLIAGE_PALETTES = {
-  tall:[0x213d2f,0x456f32,0x91ad46], gran:[0x1b3b32,0x335e3b,0x719a53],
-  bjork:[0x304b27,0x6d952e,0xadc64a], al:[0x234632,0x4d8038,0x9aba50],
-  ek:[0x3a4824,0x7b902b,0xc1c34a],
+  // Stronger green midtones and less chalky yellow in sunlit crowns.
+  tall:[0x193c2b,0x3c7328,0x7ba638], gran:[0x183b2e,0x2e6334,0x60963f],
+  bjork:[0x284b20,0x5b9425,0x99bd36], al:[0x1d472b,0x40822d,0x83b33c],
+  ek:[0x304a1d,0x689023,0xafb933],
 };
 // One hue family per crown; narrow crossovers avoid muddy green/orange blends.
 // Birch is predominantly gold, oak carries the strongest copper and crimson.
@@ -46,12 +47,15 @@ export const PAINTED_ATMOSPHERES = {
     environment:{ground:0xa8ad91,horizon:0xc5dde2,zenith:0x579bc4},
     foliage:{strength:1.04,direct:.95}, water:[0x228b9d,0x164c88], waterLight:1, sparkle:.18,
   },
-  golden:{ sun:0xffd6a4, int:2.30, hemiS:0xb8cddd, hemiG:0xb4a584, hemiI:1.65,
-    fog:0xaabac5, paintedFog:0xaac6d4, exp:1.10, paintedFill:1.06,
-    skyPalette:.24, skyZenith:0x257bb7, skyHorizon:0xedc180, skyRadiance:.46, paintedSkyExposure:.95, cloud:.30,
-    skyCloudLit:0xffe6be, skyCloudShade:0x9aaac5,
-    environment:{ground:0xb4a584,horizon:0xddc6a5,zenith:0x659ac2},
-    foliage:{strength:1.08,direct:.92}, water:[0x338f92,0x1c5886], waterLight:.94, sparkle:.60,
+  // Low honey-coloured sunlight, cool open shade and a sunward amber glow.
+  golden:{ sun:0xffcc8c, int:3.80, hemiS:0x95aed0, hemiG:0xb0a783, hemiI:1.40,
+    fog:0xd3b597, paintedFog:0xcab4a2, exp:1.12, paintedFill:1.0,
+    skyPalette:.24, skyZenith:0x397cba, skyHorizon:0xa9bfd2, skyRadiance:.46, paintedSkyExposure:.95, cloud:.24,
+    skyCloudLit:0xffd49b, skyCloudShade:0x8f9ebb,
+    skySunGlow:0xffb65e, skySunGlowStrength:.92,
+    environment:{ground:0xab956e,horizon:0xe8bb85,zenith:0x648bb8}, environmentIntensity:.48,
+    foliage:{strength:1.20,direct:.96,sunWhite:.18,shadowWhite:.38},
+    water:[0x438b87,0x24577f], waterLight:.94, sparkle:.36,
   },
   dawn:{ sun:0xffd8c4, int:1.65, hemiS:0xbccbe0, hemiG:0xaca595, hemiI:1.75,
     fog:0xbcbacb, paintedFog:0xbfc9dc, exp:1.10, paintedFill:1.06,
@@ -99,5 +103,5 @@ export const PAINTED_ATMOSPHERES = {
 };
 
 export function paintedAtmosphere(name, base) {
-  return {...base,...PAINTED_ATMOSPHERES[name]};
+  return {...base,grassSheen:.36,...PAINTED_ATMOSPHERES[name]};
 }

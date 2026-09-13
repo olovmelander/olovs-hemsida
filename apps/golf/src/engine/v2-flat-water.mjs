@@ -153,7 +153,7 @@ export function detectFlatWater({
       }),
     });
   });
-  return Object.freeze({
+  return flatWaterFromArrays({
     width, height, spacing, x0, z0,
     mask,
     label,
@@ -166,6 +166,15 @@ export function detectFlatWater({
       medianHeight: component.medianHeight,
       levelFraction: +component.levelFraction.toFixed(3),
     }))),
+  });
+}
+
+/** Reattach identical spatial queries to a calculated or verified flat mask. */
+export function flatWaterFromArrays(data) {
+  const { width, height, spacing, x0, z0, mask, label } = data;
+  const kept = new Set(data.components.map(component => component.id));
+  return Object.freeze({
+    ...data,
     isWaterAt(gridX, gridZ) {
       const column = Math.floor((gridX - x0) / spacing), row = Math.floor((gridZ - z0) / spacing);
       if (column < 0 || row < 0 || column >= width || row >= height) return false;

@@ -36,8 +36,12 @@ export async function sha256Hex(value, cryptoImpl = globalThis.crypto) {
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-export async function inflateBounded(encoded, expectedBytes, { signal, DecompressionStreamImpl = globalThis.DecompressionStream } = {}) {
+export async function inflateBounded(encoded, expectedBytes, { signal, DecompressionStreamImpl = globalThis.DecompressionStream, preallocate = false } = {}) {
   if (typeof DecompressionStreamImpl !== 'function') throw new Error('DecompressionStream is unavailable');
+  // Large prepared fields have a verified, bounded exact size. Fill their one
+  // destination directly instead of retaining all chunks plus a second copy.
+  if (preallocate && (!Number.isSafeInteger(expectedBytes) || expectedBytes < 0)) throw new Error('invalid decoded byte count');
+  const destination = preallocate ? new Uint8Array(expectedBytes) : null;
   const source = new Blob([encoded]);
   const reader = source.stream().pipeThrough(new DecompressionStreamImpl('deflate-raw')).getReader();
   const chunks = [];
@@ -52,10 +56,15 @@ export async function inflateBounded(encoded, expectedBytes, { signal, Decompres
         await reader.cancel('decoded payload exceeds declared size');
         throw new Error('decoded payload exceeds its declared byte count');
       }
-      chunks.push(value);
+      if (destination) destination.set(value, total - value.byteLength);
+      else chunks.push(value);
     }
   } finally {
     reader.releaseLock();
+  }
+  if (destination) {
+    if (total !== expectedBytes) throw new Error('decoded payload does not match its declared byte count');
+    return destination;
   }
   const result = new Uint8Array(total);
   let offset = 0;

@@ -49,12 +49,241 @@ Current implementation status:
 | Stage | Complete so far | Remaining |
 | --- | --- | --- |
 | 1 | Shared loading, lossless packages, whole-course verification and measured readiness | Release-scale timing confirmation |
-| 2 | Exact prepared ground colors for all courses/looks/qualities; indexed ring-height lookup | Prepared water, forest and other spatial construction |
-| 3 | Opening-camera residency and growing drawable tree buffers | Shader preparation and further GPU startup scheduling; evaluate opt-in terrain worker |
+| 2 | Exact prepared ground colors; indexed ring-height lookup; prepared lake masks and bed fields | Prepared forest and other spatial construction |
+| 3 | Opening-camera residency, growing drawable tree buffers and bounded opening-scene shader preparation | Further GPU/CPU overlap; evaluate opt-in terrain worker |
 | 4 | Byte-bounded generation cache, selected-course PWA loading and offline scenery | Renderer/shared-asset reuse across course sessions and disposal |
-| 5 | Unit/build/data gates, representative visual/offline checks and tier lifetime tests | Full course/backend/device matrix, long tours and physical-phone p75 measurements |
+| 5 | Unit/build/data gates; all-course opening checks in both looks/backends; representative atmosphere/offline comparisons and tier lifetime tests | All-course atmosphere/device matrix, long tours and physical-phone p75 measurements |
 
 This is an implementation checkpoint, not acceptance of the timing targets.
+
+## Opening-scene GPU preparation
+
+`prepare-opening-gpu.mjs` prepares the requested view before starting the render
+loop. It uses the public `renderer.compileAsync(object, camera, scene)` API on
+the original scene branches, with at most four calls in flight. The target scene
+supplies the actual lights, environment and fog. Branches keep their original
+parents, materials, geometry and instance buffers.
+
+The high-quality path compiles against the actual scene-pass target, matching
+its HDR format, MSAA, working color space and reversed float depth. The direct
+path keeps the renderer's canvas configuration. Render target, MRT, tone mapping,
+color space and error hooks are restored before rendering. The first-frame GPU
+completion and whole-course data gates remain mandatory. The optimization
+applies to both looks and both rendering backends.
+
+Three r186 can log a failed asynchronous pipeline or TSL build and still resolve
+its compile promise. Preparation captures that error channel and checks the
+backend validation scope. A failure stops new jobs, drains in-flight jobs,
+restores state and keeps the cover closed with the existing retry message.
+
+`?startup=unprepared-gpu` retains compilation during the opening draw while
+keeping prepared water, tints and the other startup improvements. It is the
+comparison path, not `startup=0`, which disables several optimizations together.
+`V3D.perf().gpuPreparation` records preparation time, branch completion, concurrency
+and target settings. The corresponding span includes opening tree-buffer setup.
+
+The initial native-API trace found 117 pipelines created during the opening
+WebGPU frame and about 76 MB of buffer allocation. That frame took 1.4 seconds
+on the CPU, followed by a 9.6-second queue-completion wait. Actual draw timestamps
+in the later trial totaled about 0.18 seconds. These are distinct measurements:
+API call durations are CPU time, GPU pass timestamps measure execution, and
+the fence includes outstanding driver compilation, uploads and queued work.
+Texture trace records deliberately call the supplied array size
+`sourceViewBytes`: an array view can cover an entire atlas even when one layer
+is copied, so its size is not transferred GPU bytes.
+
+Pausing subsequent frames did not improve that initial wait. Compiling the whole
+scene in a single call merely moved 9.6 seconds before the draw. Four concurrent
+branch jobs reduced that preparation to 3.2 seconds in the trial; the subsequent
+wait was 2.0 seconds. Full navigation-to-ready comparisons, rather than a smaller
+fence number alone, decide whether the optimization helps.
+
+Reproduce the diagnostics and uninstrumented alternating timings against the
+same frozen production build:
+
+```sh
+BANVY_GPU=1 node tools/profile-gpu-startup.mjs http://127.0.0.1:8645 --startup unprepared-gpu --timestamps --out tools/reference/gpu-startup-profile.json
+BANVY_GPU=1 node tools/benchmark-gpu-startup.mjs http://127.0.0.1:8645 --runs 10
+BANVY_GPU=1 node tools/check-course-startup.mjs http://127.0.0.1:8645 --baseline unprepared-gpu --courses veckefjarden --q hi
+BANVY_GPU=1 node tools/check-startup-gpu-failure.mjs http://127.0.0.1:8645
+```
+
+On PowerShell, set `$env:BANVY_GPU='1'` before the Node command. Timing runs use
+fresh browser processes, alternate AB/BA order, verify identical world/tint
+fingerprints and record the adapter and GPU utilization before each visit.
+Do not run bakes or browser visual gates alongside the timing batch. Desktop
+CPU/network throttling remains a stress test, not physical-phone evidence.
+
+The implementation was checked against the installed Three 0.186.0 sources and
+the public [Renderer compilation API](https://threejs.org/docs/pages/Renderer.html#compileAsync)
+and [PassNode configuration](https://threejs.org/docs/pages/PassNode.html).
+
+The final GPU build includes the parallel canopy contrast work and the default
+`continuous-canopy-2026-09-13` catalogue. All 15 authored models, the five species,
+their distance levels and the richer green palettes are retained. Its runtime
+revision is `c2aa90b36bae20ee210a3954ad467955dea29dfe4c6c0ca10f1702d647c3cac3`.
+All 10 water records and 52 tint variants have been refreshed for that revision;
+the 36 unique referenced files total 16,519,091 bytes. Publication rechecks source,
+course identities and file hashes before updating the catalogue.
+
+This build passes 1,112 Vitest tests in 146 files, lint, the production build and
+the 13-course graph/isolation proof. All 13 courses also pass four opening checks:
+natural and painted at WebGPU/high quality and WebGL2/low quality. Each of the
+52 checks requires the entire course, prepared data, valid tree slots and a drawn
+opening frame. Painted checks verify the loaded canopy revision and all model
+and foliage-atlas files. These are opening checks, not an all-course comparison
+of every atmosphere or a physical-phone qualification.
+
+The final painted desktop comparison uses ten visits per path in ABBA order,
+Chrome on the RTX 3070 Laptop, `q=hi`, 50 Mbps / 40 ms, fresh browser processes
+and blocked service workers. Driver/shader caches are not reset. Mean
+navigation-to-ready improves from **27.51 s to 23.47 s (14.7%)**; nearest-rank p75
+improves from **27.61 s to 23.51 s**. Mean GPU startup, including preparation,
+first-frame CPU submission and the completion wait, falls from **9.11 s to
+5.11 s (43.9%)**. The preparation itself costs 2.56 s; the subsequent completion
+wait falls from 8.02 s to 1.67 s. The end-to-end measurement includes the cost of
+preparing the shaders.
+
+These measurements use the same frozen build and exact world/tint tables.
+Other automated browser tests and bakes were stopped during the timing batch;
+background workstation GPU activity is recorded before every visit in
+`tools/reference/gpu-startup-painted-timing/report.json`. This is one workstation
+measurement, and the full startup targets remain unmet.
+
+Two visits per path provide additional, smaller comparisons:
+
+| Configuration | Mean ready, baseline | Mean ready, prepared GPU | Mean GPU startup, baseline / prepared |
+| --- | ---: | ---: | ---: |
+| WebGL2, painted, `q=lo`, 50 Mbps / 40 ms | 29.72 s | 24.04 s | 10.53 / 4.88 s |
+| Phone viewport on the desktop GPU, painted, `q=lo`, 4x CPU slowdown, 20 Mbps / 80 ms | 66.49 s | 64.95 s | 10.26 / 8.83 s |
+
+The latter is a modest 2.3% readiness improvement in desktop emulation, not a
+physical-phone result or release-scale p75 evidence. First-frame CPU blocking
+falls from 5.93 s to 0.84 s; the earlier asynchronous preparation takes 6.40 s.
+CPU course construction still dominates, including model preparation, the far
+vista and reeds/shore fields. Preparing those deterministic fields and forest
+data remains necessary for substantially faster phone loading.
+
+The persistent-profile WebGPU gate passes with Chrome restarted and the HTTP
+server stopped: all 962 chunks, water fields and exact world/tint fingerprints
+are preserved. A single offline reopen took 19.07 s on the comparison path and
+19.45 s with GPU preparation. The controlled online reloads were 11.05/11.07 s.
+These establish offline correctness; no cached-reopen speedup is established.
+
+The final appearance gate covers both looks, all eight modes and all four
+backend/quality combinations on Veckefjarden: **64 comparisons**, with a maximum
+difference of 1/255 in a WebGL color channel. Each configuration also passes all
+18 offline hole changes and flight startup. Persistent offline reopening passes
+on WebGL2 as well. The injected native shader failure keeps the cover closed
+and preserves the Swedish retry message.
+
+[The checked-in validation summary](gpu-startup-validation-2026-09-13.json)
+records the build identity, configurations, every timing run, world fingerprints,
+course coverage, exact tree assets, image differences and offline results.
+The GPU preparation implementation is complete; the wider startup plan still
+requires prepared CPU construction, session reuse and physical-device acceptance.
+
+## Prepared water fields
+
+The ten courses using detected lake flats now have a publication path for their
+exact flat-water labels, masks, component metadata, bed levels, depths and
+shoreline-neighbor masks. A single file serves both looks, both quality profiles
+and all eight atmospheres. Visby, Tortuna and Lidingo retain their existing
+measured-water path; they do not run this lake detection/bed construction.
+
+Lake levels are still measured against the resident uncarved terrain, using the
+same original shoreline points and percentile. That inexpensive measurement is
+also an input check. A prepared field only applies when the current source
+revision, pack, ground and surroundings identities match, along with the actual
+water rings/levels, coordinate bridge and ocean source. Stale, missing, damaged,
+unsupported or degraded data keeps the live calculation. Development/HMR and
+unknown construction switches keep that calculation too.
+
+The prepared file is fetched and verified while the uncarved terrain rings
+load. Float32 and Int32 values retain their exact bits, including no-data NaNs;
+there is no reduced-resolution or lossy representation. Decompression fills one
+bounded destination instead of holding another approximately 60 MB copy of the
+field. The same query functions serve calculated and loaded arrays. The same
+carving code updates the CPU ring payloads and subsequently loaded GPU tiles.
+Water sheets, terrain colors, tree exclusions and the readiness gate therefore
+continue to use the same ground and water.
+
+Compressed files use the existing byte-bounded course-generation cache and
+remain available on an offline reopen. Only the selected course fetches its
+file. Water modules stay behind the terrain's dynamic import boundary and out
+of service-worker shell precache.
+
+Publication and verification (use an isolated build during parallel design):
+
+```sh
+node tools/bake-water.mjs http://127.0.0.1:8642 --public tools/reference/startup-water-final-build --snapshot tools/reference/startup-water-final-build/course-startup-build.json
+node tools/check-prepared-water.mjs http://127.0.0.1:8642
+node tools/check-prepared-water.mjs http://127.0.0.1:8642 --only veckefjarden,puttom,norrfallsviken --rounds 4 --cpu 4
+node tools/check-course-startup.mjs http://127.0.0.1:8642 --baseline live-water --courses veckefjarden
+node tools/check-startup-offline.mjs --dist tools/reference/startup-water-final-build --port 8643 --expect-water
+```
+
+The publisher verifies a lossless round trip and writes catalog references last.
+`?startup=live-water` disables only prepared water, preserving the other startup
+optimizations for comparisons. `V3D.perf()` reports application and load timings
+separately: fetching/inflation overlaps other work and is not part of the final
+water-application span. `V3D.startupWaterFingerprint()` hashes every field and
+every carved ring payload on demand. The all-course gate compares those bytes,
+component metadata and measured levels, before spending GPU time on rendering.
+
+Prepared tints must also be regenerated after a water/runtime revision. Both
+publications deliberately share the conservative runtime revision check;
+parallel tree/color edits cannot silently reuse outdated derived data.
+
+The earlier prepared-water checkpoint used revision
+`139e19b5a94e8b9f3e13a87404ee10d623d281f54bf85efd241f18c62a123711`.
+All 13 course paths pass the byte comparison (10 prepared, three unchanged),
+including every flat/bed field, measured level and carved CPU ring tile.
+Blocking the prepared file also passes exact comparisons for Veckefjarden and
+Norrfallsviken. Unit tests cover damaged/stale/oversized payloads, bounded stream
+sizes, cached corruption, offline cache reuse, shoreline queries, no-data samples
+and ocean exclusion. Validation includes 1,104 Vitest tests, 21 selected Node
+water/terrain tests, lint, the production build and the 13-course graph/isolation
+proof. Reports: `tools/reference/prepared-water-final-review.json`,
+`prepared-water-missing-review.json` and `prepared-water-final-publication.json`.
+
+That checkpoint published matching files in `apps/golf/public`: 10 water records and
+52 refreshed tint variants, using 36 unique files totaling 16,519,064 bytes.
+The publication checks the current runtime and course identities again before
+updating the catalog. The water files range from 78,469 to 660,540 bytes.
+
+Veckefjarden passes all eight atmospheres in both looks on WebGPU (`q=hi`, 16
+pixel-identical comparisons) and WebGL2 (`q=lo`, maximum difference 1/255).
+Both backends also pass all 18 offline hole changes and flight startup for each
+look. Reports: `tools/reference/prepared-water-visual-gpu/report.json` and
+`tools/reference/prepared-water-visual-gl/report.json`.
+
+The persistent-browser test closes Chrome, stops the HTTP server, and reopens
+the course from its profile. All 962 chunks remain available, prepared water
+and tint apply, the water file is a verified cache hit, and exact water/world
+fingerprints match. `tools/reference/prepared-water-offline/report.json` records
+the result. Its 20.04 s offline reopen is a correctness result, not acceptance
+of the cached-load target.
+
+All three representative courses also pass four alternating pairs under 4x CPU
+slowdown, varying look and quality between pairs. Later runs overlapped rendered
+validation, so `tools/reference/prepared-water-cpu4-review.json` is a CPU-stress
+correctness check, not an isolated mobile timing or physical-phone result.
+
+Four sequential desktop runs on the RTX 3070 Laptop, Veckefjarden painted at
+`q=hi`, used 50 Mbps / 40 ms and the same build in ABBA order. Water preparation
+averaged **827 ms live versus 282 ms prepared (66% less)**. Its earlier overlapping
+fetch/verify/inflate averaged 304 ms. Exact tree tables, placements and tint
+bytes match across all four runs. These are two runs per path, not p75 evidence.
+
+**No additional end-to-end boot improvement is established by that batch.**
+Course-ready means were 31.43 s live and 33.02 s prepared; GPU completion after
+first submission varied from 8.5 to 11.8 s. GPU utilization before the runs was
+0%, 13%, 0% and 63%. Forest construction still took about six seconds. These
+measurements motivated the opening-scene GPU preparation described above.
+Prepared forest/scenery remains future work, and the full startup targets remain
+unmet. The complete runs, including the slower
+overall result, are in `tools/reference/prepared-water-performance-summary.json`.
 
 ## Indexed ring-height lookup
 
@@ -276,8 +505,8 @@ comparisons, with identical warmed resource accounting over repeated cycles
 The preceding opening-view change also passed both looks, all eight modes and
 all 18 holes offline at high quality (`startup-review-view`). The first combined
 capacity smoke test passed exact tables, its captured image and all offline hole
-changes. The full suite now has 1,088 passing tests in 143 files. Broader combined
-backend/course validation and new timing results are still being collected.
+changes. The suite at that checkpoint had 1,088 passing tests in 143 files;
+the subsequent validation and measurements are recorded below and in the GPU section.
 
 Two exploratory desktop runs with the combined view/capacity changes took
 28.53 and 28.40 seconds at the same configured 50 Mbps / 40 ms. They were run
@@ -287,13 +516,13 @@ contemporary comparison is required. Their exact world tables still match;
 reports are in `startup-profile-desktop-capacity.json`. The memory improvement
 is established separately by same-build comparisons, not inferred from timings.
 
-All 52 ground-color records have now been republished for revision
+At the capacity checkpoint, all 52 ground-color records were republished for revision
 `33944f8044ff5bcaa4eab24f719d1e63b0b8ab2146b1547507ace4745ff5c211`.
 The 26 unique compressed payloads remain exactly the same 12,233,043 bytes;
 only their source-bound identities changed. `startup-tint-publication.json`
 records the publication. This build includes the parallel tree implementation
-that was subsequently committed separately as `4b2da271`; the startup work
-remains separate working-tree changes.
+that was subsequently committed separately as `4b2da271`; later checkpoints
+include both the startup and visual work.
 
 The combined final build passes all 16 high-quality Veckefjarden atmosphere
 comparisons with identical pixels (`startup-review-capacity-high`) and a
