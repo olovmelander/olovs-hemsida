@@ -95,6 +95,7 @@ import { createV2GroundMaterialDecorator, makeGround } from './engine/material.j
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { createSunShadowFilter } from './engine/sun-shadow.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
+import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
@@ -401,6 +402,16 @@ if (SURR) {
 if (SCENERY?.applySurfaceAppearance) M.scenery = SCENERY.applySurfaceAppearance(M.scenery,
   { sourceView: new URLSearchParams(location.search).get('buildingGeometry') === 'source' });
 const HOLES = M.holes;
+const WATER_PREPARATION = TERRAIN_PREVIEW.ready && V2_SELECTION.graph ? await import('./engine/prepared-water.mjs') : null;
+const WATER_IDENTITY = WATER_PREPARATION ? WATER_PREPARATION.preparedWaterIdentity({ meta: CMETA,
+  groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, revision: __COURSE_SOURCE_REVISION__ }) : Promise.resolve(null);
+// Fetch/inflate while the uncarved terrain rings load. Development and unknown
+// construction switches retain live preparation; a stale publication is a miss.
+const PREPARED_WATER_LOADING = WATER_PREPARATION && (!CMETA.surroundings?.url || !!SURR) && !import.meta.env.DEV
+  && WATER_PREPARATION.preparedWaterAllowed(location.search) && CMETA.preparedWater
+  ? WATER_IDENTITY.then(identity => WATER_PREPARATION.loadPreparedWater({ reference: CMETA.preparedWater, identity,
+    cache: V2_SELECTION.chunkSource?.cache, baseUrl: new URL(import.meta.env.BASE_URL, location.href).href }))
+  : Promise.resolve(null);
 /* A verified descriptor alone may not alter either construction or visible
    ground. The adapter opens those gates separately after backend preflight and
    after successful scene installation/legacy cut respectively. */
@@ -806,27 +817,51 @@ for (const h of HOLES) {
        each as a flat at its own level. The mask keeps trees off them, tints
        the bed under them, and lays a sheet where no ring does. */
     if (typeof terrainV2.detectFlatWater === 'function' && terrainV2.ringsLoaded) {
+      const waterStarted = performance.now();
+      const knownBodies = M.water.filter(w => !w.stream && !(CONTINUOUS_OCEAN && w.isSea) && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level }));
+      const waterInputs = WATER_PREPARATION.preparedWaterInputs({ knownBodies, bridge: TERRAIN_PREVIEW.bridge,
+        origin: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006, ocean: CONTINUOUS_OCEAN ? OCEAN_SOURCE?.asset ?? 'fallback' : null });
+      const preparedWater = await PREPARED_WATER_LOADING;
+      const restoreWater = !!preparedWater && preparedWater.inputs === waterInputs;
+      BOOT_PERF.preparedWater = restoreWater;
+      BOOT_PERF.preparedWaterLoad = preparedWater?.diagnostics ?? null;
       const flatStarted = performance.now();
-      let flat = terrainV2.detectFlatWater(M.water.filter(w => !w.stream && !(CONTINUOUS_OCEAN && w.isSea) && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })));
-      if (CONTINUOUS_OCEAN) {
+      let flat;
+      if (restoreWater) {
+        flat = terrainV2.flatWater = preparedWater.flatWater;
+        terrainV2.knownBodies = knownBodies;
+      } else flat = terrainV2.detectFlatWater(knownBodies);
+      if (CONTINUOUS_OCEAN && !restoreWater) {
         flat=excludeOceanFromFlatWater(flat,CONTINUOUS_OCEAN,(x,z)=>TERRAIN_PREVIEW.bridge.toLegacy(x,z));
         terrainV2.flatWater=flat;
       }
       const uncovered = flat.components.filter(c => c.uncoveredCells > 0);
       console.info(`v2 flat water: ${flat.components.length} flats over 0.48 ha, ${uncovered.length} beyond the model's rings ` +
         `(${uncovered.reduce((s, c) => s + c.uncoveredCells, 0) * flat.spacing * flat.spacing / 10000 | 0} ha), ${Math.round(performance.now() - flatStarted)} ms`);
-      span('v2 flat water: detect', flatStarted);
+      span(restoreWater ? 'v2 flat water: restore' : 'v2 flat water: detect', flatStarted);
       /* The laser's ground inside a lake is the lake's surface. Carve a bed
          under all of it now -- before the water sheets measure their depth
          and before the GPU decodes a single tile -- so the water has depth
          where a lake has it, and the sheet has metres of clearance instead
          of a hand's width. */
       if (typeof terrainV2.carveWaterBeds === 'function') {
-        const bed = terrainV2.carveWaterBeds();
+        const bed = terrainV2.carveWaterBeds({}, restoreWater ? preparedWater.waterBed : null);
         console.info(`v2 water beds: ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
           `${bed.carvedSamples} samples in ${bed.carvedTiles} ring tiles, ${bed.milliseconds} ms ` +
           `(field ${bed.fieldMilliseconds} ms: ${Object.entries(bed.fieldTimings || {}).map(([k, v]) => `${k} ${v}`).join(', ')})`);
         BOOT_PERF.spans.push({ name: 'v2 water beds: carve rings', ms: bed.milliseconds, tiles: bed.carvedTiles });
+      }
+      span('v2 water: prepare', waterStarted, { prepared: restoreWater });
+      if (new URLSearchParams(location.search).has('bakeWater') || new URLSearchParams(location.search).has('waterAudit')) {
+        if (CMETA.surroundings?.url && !SURR || CONTINUOUS_OCEAN_ENABLED && !OCEAN_SOURCE) throw new Error('Cannot publish water from degraded course inputs');
+        // Stop before renderer/forest work. This also gives the all-course gate
+        // a deterministic comparison without competing for the design GPU.
+        window.__WATER_BAKE__ = { revision: __COURSE_SOURCE_REVISION__, identity: await WATER_IDENTITY,
+          prepared: restoreWater, load: BOOT_PERF.preparedWaterLoad, spans: BOOT_PERF.spans, levels: M.water.map(w => w.level),
+          fingerprint: () => WATER_PREPARATION.waterFingerprint(terrainV2),
+          bytes: () => WATER_PREPARATION.encodePreparedWater({ identity: window.__WATER_BAKE__.identity, inputs: waterInputs,
+            flatWater: terrainV2.flatWater, waterBed: terrainV2.waterBed }) };
+        await new Promise(() => {});
       }
     } else if (TERRAIN_PREVIEW.waterBedSummary) {
       /* A FIXED FRONTIER has no ring to find flat water in, and until 2026-09
@@ -845,6 +880,10 @@ for (const h of HOLES) {
     }
   }
 
+  if (new URLSearchParams(location.search).has('bakeWater') || new URLSearchParams(location.search).has('waterAudit')) {
+    window.__WATER_BAKE__ = { revision: __COURSE_SOURCE_REVISION__, supported: false };
+    await new Promise(() => {});
+  }
   const preserveMappedBoundaries = M.infra.preserveMappedBoundaries === true;
   for (const w of M.water) {
     if (w.stream || !w.ring) continue;
@@ -4299,7 +4338,7 @@ const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
     /* Load the close tier by default. ?hero=0 reuses an independent copy of
        the middle mesh in that slot; automatic quality/zone selection remains. */
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: new URLSearchParams(location.search).get('hero') !== '0' });
-    console.info(`ghibli trees: ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
+    console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { console.warn('ghibli trees unavailable, procedural templates kept:', err); return null; }
 })() : null;
@@ -7776,11 +7815,13 @@ if (M.infra.objectPlacement === 'mapped-only') {
 
 /* ------------------------------------------------------------ post-process */
 await tick('ställer ljuset', 0.86);
+let openingScenePass = null;
 /* ?post=0 renders the scene straight to the canvas, no bloom: the harness's way to tell a scene fault from a pipeline fault */
 if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
   const post = new THREE.RenderPipeline(renderer);
   const scenePass = pass(scene, camera);
+  openingScenePass = scenePass;
   const sceneColor = scenePass.getTextureNode('output');
   const bloomNode = bloom(sceneColor, 0.14, 0.3, 0.86);
   const out = sceneColor.add(bloomNode);
@@ -10979,6 +11020,26 @@ if (terrainV2.kind === 'graph' && terrainV2.active && typeof terrainV2.settle ==
   }
 }
 await tick('ritar första vyn', 0.98);
+if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
+  const started = performance.now();
+  // Populate the opening view's actual tree buffers and position the sun/sky
+  // without advancing animation, fades or frame counters before the first draw.
+  camera.updateMatrixWorld(true);
+  updateTreeTiers();
+  placeSun();
+  skyMesh.position.copy(camera.position);
+  updateSky();
+  try {
+    BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass });
+  } catch (error) {
+    const retryMessage = 'kunde inte visa banan — ladda om och försök igen';
+    msgEl.textContent = retryMessage;
+    console.error('Opening scene preparation:', error);
+    // The shell's global boot-error handler also displays the thrown message.
+    throw new Error(retryMessage, { cause: error });
+  }
+  span('GPU startup: compile opening scene', started);
+}
 let resolveFirstSceneFrame, rejectFirstSceneFrame;
 const firstSceneFrameReady = new Promise((resolve, reject) => {
   resolveFirstSceneFrame = resolve; rejectFirstSceneFrame = reject;
@@ -11149,6 +11210,7 @@ window.V3D = {
   /* Read and drive the developer overlay from a harness or the console:
      V3D.devOverlay() reports, V3D.devOverlay(true) turns it on. */
   devOverlay: (on) => (on === undefined ? devOverlay : setDevOverlay(on)),
+  treeCatalogue: () => ({ look: GHIBLI_LOOK ? 'painted' : 'natural', loaded: !!GHIBLI, ...GHIBLI?.summary }),
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            vistaSpecies: stats.vistaSpecies ?? null,
            environmentWater: stats.environmentWater ?? null,
@@ -11238,6 +11300,7 @@ window.V3D = {
       segmentsClear: plan.zones.every(zone => environment.clearSegment(zone.from, zone.point)),
       landingsAllowed: plan.zones.every(zone => environment.landingAllowed(...zone.point)) };
   },
+  startupWaterFingerprint: async () => WATER_PREPARATION && terrainV2.waterBed ? { levels: M.water.map(w => w.level), ...await WATER_PREPARATION.waterFingerprint(terrainV2) } : null,
   perf: () => ({ ...BOOT_PERF, courseData: V2_SELECTION.chunkSource?.stats() ?? null,
                  marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),

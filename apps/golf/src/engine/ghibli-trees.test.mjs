@@ -2,7 +2,7 @@ import {beforeEach,afterEach,describe,it,expect,vi} from 'vitest';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three';
-import {loadGhibliTrees} from './ghibli-trees.mjs';
+import {loadGhibliTrees,GHIBLI_FOLIAGE_REVISION} from './ghibli-trees.mjs';
 import {inspectBuildingGlb} from './authored-buildings.mjs';
 const root=new URL('../../public/models/trees/',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('ghibli-fluffy.json',root)));
@@ -48,10 +48,25 @@ describe('production foliage loader',()=>{
       for(const level of ['hero','full','decimated']){
         const box=new THREE.Box3();
         for(const part of ['crown','trunk']){const g=s[level][part];g.computeBoundingBox();box.union(g.boundingBox);}
+        const normals=s[level].crown.attributes.normal;
+        for(let i=0;i<normals.count;i++){
+          expect(Math.hypot(normals.getX(i),normals.getY(i),normals.getZ(i))).toBeCloseTo(1,4);
+        }
         expect(box.max.y).toBeCloseTo(s.templateHeight,4);
         expect(Math.max(Math.abs(box.min.x),box.max.x,Math.abs(box.min.z),box.max.z)).toBeCloseTo(s.templateRadius,4);
       }
     }
+  });
+  it('uses a new manifest cache key for the approved revision and reports what loaded',async()=>{
+    const fetchImpl=vi.fn(assetFetch);
+    const loaded=await loadGhibliTrees({fetchImpl});
+    const [request,options]=fetchImpl.mock.calls[0];
+    const url=new URL(request,'https://banvy.test');
+    expect(url.pathname).toBe('/models/trees/ghibli-fluffy.json');
+    expect(url.searchParams.get('v')).toBe(GHIBLI_FOLIAGE_REVISION);
+    expect(options.cache).toBe('no-cache');
+    expect(manifest.revision).toBe(GHIBLI_FOLIAGE_REVISION);
+    expect(loaded.summary.revision).toBe(manifest.revision);
   });
   it('loads no close meshes with hero disabled and never shares mutable tier geometry',async()=>{
     const loaded=await loadGhibliTrees({hero:false,fetchImpl:assetFetch});

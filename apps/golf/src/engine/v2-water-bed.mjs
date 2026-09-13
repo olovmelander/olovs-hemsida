@@ -132,11 +132,6 @@ export function buildWaterBedField({
     depth[i] = Math.min(maximumDepthMetres, shoreDepthMetres + depthPerMetre * metres);
   }
   phase('depth');
-  const cellOf = (gridX, gridZ) => {
-    const column = Math.floor((gridX - x0) / spacing), row = Math.floor((gridZ - z0) / spacing);
-    if (column < 0 || row < 0 || column >= width || row >= height) return -1;
-    return row * width + column;
-  };
   /* Every cell within one cell of water. The bilinear depth below reads the
      four cell centres around a sample, all inside the 3 x 3 block around
      the sample's own cell, so a sample whose block holds no water has depth
@@ -152,11 +147,24 @@ export function buildWaterBedField({
     const c0 = Math.max(0, column - 1), c1 = Math.min(width - 1, column + 1);
     for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) near[r * width + c] = 1;
   }
+  phase('nearMask');
+  return waterBedFromArrays({ width, height, spacing, x0, z0, mask, level, depth, near, cells,
+    shoreDepthMetres, depthPerMetre, maximumDepthMetres, timings });
+}
+
+// Both live calculation and verified prepared data use these exact queries.
+// Keep the typed arrays by reference: frontier shallows adjust depth in place.
+export function waterBedFromArrays({ width, height, spacing, x0, z0, mask, level, depth, near, cells,
+  shoreDepthMetres, depthPerMetre, maximumDepthMetres, timings = {} }) {
+  const cellOf = (gridX, gridZ) => {
+    const column = Math.floor((gridX - x0) / spacing), row = Math.floor((gridZ - z0) / spacing);
+    if (column < 0 || row < 0 || column >= width || row >= height) return -1;
+    return row * width + column;
+  };
   const nearWater = (gridX, gridZ) => {
     const i = cellOf(gridX, gridZ);
     return i < 0 || near[i] === 1;
   };
-  phase('nearMask');
   const depthAt = (gridX, gridZ) => {
     /* bilinear over cell centres; land cells hold zero, so the bed rises to
        the shore over one cell instead of stepping */
@@ -186,7 +194,7 @@ export function buildWaterBedField({
   };
   return Object.freeze({
     width, height, spacing, x0, z0,
-    mask, level, depth,
+    mask, level, depth, near,
     cells,
     hectares: +(cells * spacing * spacing / 10000).toFixed(1),
     shoreDepthMetres, depthPerMetre, maximumDepthMetres,

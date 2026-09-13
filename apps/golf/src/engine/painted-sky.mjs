@@ -1,9 +1,11 @@
+import {Color} from 'three/webgpu';
 import {float,mix,mx_noise_float,normalize,positionWorld,cameraPosition,pow,saturate,smoothstep,time,uniform,vec3,vec4} from 'three/tsl';
 
 // A separate cloud coverage field lets blue sky and cream clouds keep their
 // own pigments. Four broad noise octaves; one sky draw and no cloud textures.
 export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic}){
   const exposure=uniform(1);
+  const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0);
   const direction=normalize(positionWorld.sub(cameraPosition));
   const up=saturate(direction.y);
   const t=deterministic?float(0):time.mul(sky.cloudSpeed).mul(35);
@@ -19,8 +21,12 @@ export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundH
   const coverage=smoothstep(threshold,threshold.add(.105),field)
     .mul(sky.cloudDensity.mul(1.5).min(1)).mul(smoothstep(.012,.09,up));
   const light=smoothstep(-.28,.28,medium.add(large.mul(.35)));
-  const cloud=mix(cloudShade,cloudLit,light.mul(.65).add(.35));
-  const clear=mix(horizon,zenith,pow(up,.38));
+  // A broad glow follows the actual light direction. Keeping it directional
+  // preserves blue sky away from the sun instead of greying the whole dome.
+  const sunward=pow(saturate(direction.dot(normalize(sky.sunPosition)).mul(.5).add(.5)),6);
+  const glow=sunward.mul(smoothstep(.10,.68,up).oneMinus()).mul(sunGlowStrength);
+  const cloud=mix(mix(cloudShade,cloudLit,light.mul(.65).add(.35)),cloudLit,glow.mul(.6));
+  const clear=mix(mix(horizon,zenith,pow(up,.38)),sunGlow,glow);
   const painted=mix(clear,cloud,coverage).mul(exposure);
-  return{node:vec4(mix(groundHaze,painted,smoothstep(-.06,.07,direction.y)),1),exposure};
+  return{node:vec4(mix(groundHaze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength};
 }

@@ -2,7 +2,7 @@ import {describe,it,expect} from 'vitest';
 import {Color} from 'three/webgpu';
 import {ATMOSPHERE_PRESETS} from './atmosphere-presets.mjs';
 import {PAINTED_ATMOSPHERES,PAINTED_GROUND,AUTUMN_FOLIAGE,paintedAtmosphere} from './painted-world-palette.mjs';
-import {setPaintedWorldLighting,paintedSeason,paintedDirect,paintedWaterShallow,paintedWaterDeep,paintedWaterLight,paintedWaterSparkle,paintedTurfStrength} from './painted-world-lighting.mjs';
+import {setPaintedWorldLighting,paintedSeason,paintedDirect,paintedWaterShallow,paintedWaterDeep,paintedWaterLight,paintedWaterSparkle,paintedTurfStrength,paintedGrassSheen} from './painted-world-lighting.mjs';
 import {setFoliageLighting,foliageLight} from './ghibli-foliage-material.mjs';
 import {createAtmosphericSky,setAtmospherePreset,atmosphereState} from './atmospheric-sky.mjs';
 
@@ -26,11 +26,13 @@ describe('painted world palette',()=>{
     const node=sky.material.colorNode,geometry=sky.geometry;
     const shallow=paintedWaterShallow.value,deep=paintedWaterDeep.value,foliage=foliageLight.value;
     try{
-      for(const name of [...Object.keys(ATMOSPHERE_PRESETS),'host','noon']){
+      for(const name of [...Object.keys(ATMOSPHERE_PRESETS),'golden','host','golden','noon']){
         const p=paintedAtmosphere(name,ATMOSPHERE_PRESETS[name]);
         setPaintedWorldLighting(p,name);setFoliageLighting(p);setAtmospherePreset(sky,p);
         expect(paintedSeason.value).toBe(name==='host'?1:0);
         expect(paintedTurfStrength.value).toBe(name==='noon'?.85:1);
+        expect(paintedGrassSheen.value).toBeGreaterThan(0);
+        expect(atmosphereState(sky).sunGlowStrength>0).toBe(name==='golden');
         expect(paintedWaterShallow.value).toBe(shallow);expect(paintedWaterDeep.value).toBe(deep);
         expect(foliageLight.value).toBe(foliage);
         expect(shallow.getHex()).toBe(p.water[0]);expect(deep.getHex()).toBe(p.water[1]);

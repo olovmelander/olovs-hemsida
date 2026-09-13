@@ -11,8 +11,8 @@ export function setFoliageLighting(p){
   const direct=p.foliage?.direct??Math.min(.9,p.int/2.5);
   foliageDirect.value=direct;
   foliageLight.value.setRGB(strength,strength,strength);
-  foliageShadow.value.setHex(p.hemiS).lerp(new Color(0xffffff),.62);
-  foliageSun.value.setHex(p.sun).lerp(new Color(0xffffff),.70);
+  foliageShadow.value.setHex(p.hemiS).lerp(new Color(0xffffff),p.foliage?.shadowWhite??.62);
+  foliageSun.value.setHex(p.sun).lerp(new Color(0xffffff),p.foliage?.sunWhite??.70);
   foliageSun.value.lerp(foliageShadow.value,1-direct);
 }
 
@@ -32,20 +32,32 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
     return mix(color(hex),warm,turned);
   });
   const alignment=normal.dot(sunDirection);
-  const dabs=position?mx_noise_float(position.mul(.48)).mul(.12):float(0);
-  const diffuse=normal.y.mul(.22).add(.58);
-  const lit=mix(diffuse,smoothstep(-.5,.85,alignment.add(dabs)),foliageDirect);
-  const highlight=mix(normal.y.max(0).mul(.12),smoothstep(.25,.98,alignment.add(dabs.mul(.65))).mul(.72),foliageDirect);
-  const pigment=position?mx_noise_float(position.mul(1.25)).mul(.025).add(1):float(1);
+  const dabs=position?mx_noise_float(position.mul(.30)).mul(.07):float(0);
+  // Broad canopy normals need a deeper light-to-shade transition: wrapping
+  // sunlight too far around them lifts the whole crown into pale midtones.
+  const diffuse=normal.y.mul(.28).add(.50);
+  const lit=mix(diffuse,smoothstep(-.18,.85,alignment.add(dabs)),foliageDirect);
+  // Concentrate the bright pigment on the sun-facing tops, with a smooth
+  // transition into the stronger green body rather than a pale overall wash.
+  const highlight=mix(normal.y.max(0).mul(.10),smoothstep(.48,.98,alignment.add(dabs.mul(.65))).mul(.74),foliageDirect);
+  const pigment=position?mx_noise_float(position.mul(.70)).mul(.0125).add(1):float(1);
   const lightTint=mix(foliageShadow,foliageSun,lit);
   return mix(mix(shades[0],shades[1],lit),shades[2],highlight).mul(pigment).mul(tint).mul(lighting).mul(lightTint);
+}
+
+// Transparent atlas texels contain black RGB. Undo that dark fringe after
+// filtering, then keep just a little leaf pigment within the broad crown light.
+// The impostor bake uses the same correction; alpha still defines the silhouette.
+export function foliageSurfacePigment(texel){
+  return mix(vec3(1),texel.rgb.div(texel.a.max(.01)).min(1),.30);
 }
 
 export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
   m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting});
   if(map){
-    m.map=map;m.colorNode=m.colorNode.mul(texture(map).rgb);m.opacityNode=texture(map).a;
+    const texel=texture(map);
+    m.map=map;m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;
     m.alphaTest=.5;m.alphaToCoverage=false;
   }
   m.userData.foliageKey=key;

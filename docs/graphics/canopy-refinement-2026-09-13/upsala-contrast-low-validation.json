@@ -1,0 +1,860 @@
+{
+  "phase": "contrast-low",
+  "course": "upsala",
+  "low": true,
+  "natural": false,
+  "errors": [],
+  "modes": [
+    {
+      "mode": "noon",
+      "screenshot": "upsala-contrast-low-noon.png",
+      "visibleColour": 0.9718785665373203,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 0,
+        "tier1": 372,
+        "tier2": 143,
+        "tier3": 6892,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 7407,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.19999998807907104,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "atmosphere": "noon"
+    },
+    {
+      "mode": "dawn",
+      "screenshot": "upsala-contrast-low-dawn.png",
+      "visibleColour": 0.9664764513429202,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 0,
+        "tier1": 372,
+        "tier2": 143,
+        "tier3": 6892,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 7407,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.09999999403953552,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "atmosphere": "dawn"
+    },
+    {
+      "mode": "midnight",
+      "screenshot": "upsala-contrast-low-midnight.png",
+      "visibleColour": 0.9525831240964772,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 0,
+        "tier1": 372,
+        "tier2": 143,
+        "tier3": 6892,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 7407,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.30000001192092896,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "atmosphere": "midnight"
+    },
+    {
+      "mode": "bluehour",
+      "screenshot": "upsala-contrast-low-bluehour.png",
+      "visibleColour": 0.9435288746861448,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 0,
+        "tier1": 372,
+        "tier2": 143,
+        "tier3": 6892,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 7407,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.19999998807907104,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "atmosphere": "bluehour"
+    },
+    {
+      "mode": "storm",
+      "screenshot": "upsala-contrast-low-storm.png",
+      "visibleColour": 0.9620786730579015,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 0,
+        "tier1": 372,
+        "tier2": 143,
+        "tier3": 6892,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 7407,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.30000001192092896,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "atmosphere": "storm"
+    },
+    {
+      "mode": "mist",
+      "screenshot": "upsala-contrast-low-mist.png",
+      "visibleColour": 1,
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 0,
+        "tier1": 372,
+        "tier2": 143,
+        "tier3": 6892,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 7407,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.09999999403953552,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      },
+      "atmosphere": "mist"
+    }
+  ],
+  "backend": "webgpu",
+  "camera": {
+    "fov": 48,
+    "near": 1,
+    "far": 14000,
+    "aspect": 0.46208530805687204,
+    "coordinateSystem": 2001,
+    "reversedDepth": true,
+    "position": [
+      324.84186567949166,
+      25.190356258100426,
+      13.880260787950618
+    ],
+    "target": [
+      283.1271639642262,
+      29.434786468275092,
+      -75.68774177232515
+    ]
+  },
+  "triangles": [
+    [
+      [
+        3500,
+        1000
+      ],
+      [
+        1632,
+        68
+      ],
+      [
+        288,
+        20
+      ]
+    ],
+    [
+      [
+        3752,
+        696
+      ],
+      [
+        1474,
+        146
+      ],
+      [
+        220,
+        60
+      ]
+    ],
+    [
+      [
+        3644,
+        856
+      ],
+      [
+        1572,
+        128
+      ],
+      [
+        288,
+        20
+      ]
+    ],
+    null,
+    null
+  ],
+  "inventory": [
+    {
+      "name": "trees-spruce0-crown-t0",
+      "key": "gran",
+      "triangles": 3500
+    },
+    {
+      "name": "trees-spruce0-trunk-t0",
+      "key": null,
+      "triangles": 1000
+    },
+    {
+      "name": "trees-spruce0-crown-t1",
+      "key": "gran",
+      "triangles": 1632
+    },
+    {
+      "name": "trees-spruce0-trunk-t1",
+      "key": null,
+      "triangles": 68
+    },
+    {
+      "name": "trees-spruce0-crown-t2",
+      "key": "gran",
+      "triangles": 288
+    },
+    {
+      "name": "trees-spruce0-trunk-t2",
+      "key": null,
+      "triangles": 20
+    },
+    {
+      "name": "trees-spruce-impostor-t3",
+      "key": "gran",
+      "triangles": 2
+    },
+    {
+      "name": "trees-pine0-crown-t0",
+      "key": "tall",
+      "triangles": 3752
+    },
+    {
+      "name": "trees-pine0-trunk-t0",
+      "key": null,
+      "triangles": 696
+    },
+    {
+      "name": "trees-pine0-crown-t1",
+      "key": "tall",
+      "triangles": 1474
+    },
+    {
+      "name": "trees-pine0-trunk-t1",
+      "key": null,
+      "triangles": 146
+    },
+    {
+      "name": "trees-pine0-crown-t2",
+      "key": "tall",
+      "triangles": 220
+    },
+    {
+      "name": "trees-pine0-trunk-t2",
+      "key": null,
+      "triangles": 60
+    },
+    {
+      "name": "trees-pine-impostor-t3",
+      "key": "tall",
+      "triangles": 2
+    },
+    {
+      "name": "trees-birch0-crown-t0",
+      "key": "bjork",
+      "triangles": 3644
+    },
+    {
+      "name": "trees-birch0-trunk-t0",
+      "key": null,
+      "triangles": 856
+    },
+    {
+      "name": "trees-birch0-crown-t1",
+      "key": "bjork",
+      "triangles": 1572
+    },
+    {
+      "name": "trees-birch0-trunk-t1",
+      "key": null,
+      "triangles": 128
+    },
+    {
+      "name": "trees-birch0-crown-t2",
+      "key": "bjork",
+      "triangles": 288
+    },
+    {
+      "name": "trees-birch0-trunk-t2",
+      "key": null,
+      "triangles": 20
+    },
+    {
+      "name": "trees-birch-impostor-t3",
+      "key": "bjork",
+      "triangles": 2
+    },
+    {
+      "name": "vista-spruce-impostor",
+      "key": "gran",
+      "triangles": 2
+    },
+    {
+      "name": "vista-pine-impostor",
+      "key": "tall",
+      "triangles": 2
+    },
+    {
+      "name": "vista-birch-impostor",
+      "key": "bjork",
+      "triangles": 2
+    }
+  ],
+  "tiers": [
+    {
+      "tier": 1,
+      "screenshot": "upsala-contrast-low-autumn-tier-1.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "counts": {
+        "tier0": 7407,
+        "tier1": 0,
+        "tier2": 0,
+        "tier3": 0,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 14814,
+        "switches": 7407,
+        "reversals": 0,
+        "updates": 2,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.19999998807907104,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 1,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "tier": 2,
+      "screenshot": "upsala-contrast-low-autumn-tier-2.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "counts": {
+        "tier0": 0,
+        "tier1": 7407,
+        "tier2": 0,
+        "tier3": 0,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 22221,
+        "switches": 14814,
+        "reversals": 0,
+        "updates": 3,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.09999999403953552,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 2,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "tier": 3,
+      "screenshot": "upsala-contrast-low-autumn-tier-3.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "counts": {
+        "tier0": 0,
+        "tier1": 0,
+        "tier2": 7407,
+        "tier3": 0,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 29628,
+        "switches": 22221,
+        "reversals": 0,
+        "updates": 4,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.19999998807907104,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 3,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "tier": 4,
+      "screenshot": "upsala-contrast-low-autumn-tier-4.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 2415,
+            "inCount": 2415,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 4242,
+            "inCount": 4242,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 750,
+            "inCount": 750,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "counts": {
+        "tier0": 0,
+        "tier1": 0,
+        "tier2": 0,
+        "tier3": 7407,
+        "cells": 1032,
+        "cellsVisible": 75,
+        "moves": 37035,
+        "switches": 29628,
+        "reversals": 0,
+        "updates": 5,
+        "bakeMs": 113,
+        "fading": 0,
+        "updateMs": 0.09999999403953552,
+        "zoneA": 2421,
+        "zoneB": 5071,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 4,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          2,
+          4
+        ]
+      }
+    }
+  ]
+}

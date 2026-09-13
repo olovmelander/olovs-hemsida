@@ -3,7 +3,7 @@
    colour until that procedural shading is moved to TSL. */
 
 import * as THREE from 'three/webgpu';
-import { paintedDirect, paintedSeason, paintedTurfStrength } from './painted-world-lighting.mjs';
+import { paintedDirect, paintedSeason, paintedTurfStrength, paintedGrassSheen } from './painted-world-lighting.mjs';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
   mix, smoothstep, clamp, pow, abs, sin, normalize, oneMinus, fwidth,
@@ -12,7 +12,7 @@ import {
 
 /* The painted ground (?ghibli=1). A Ghibli field is a flat saturated colour
    with low-frequency hand-painted blotches, a warm sunlit side and a cool
-   blue-green shade side, and no photographic grain, sheen or relief. This
+   blue-green shade side, and no photographic grain or relief. This
    takes a material's base colour and returns what to draw instead of the
    photoreal finish; the callers keep their class blending and mow bands. */
 export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0) }) {
@@ -35,7 +35,11 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
   const seasonTone = mix(vec3(1), vec3(1.14,.93,.75), paintedSeason.mul(seasonal).mul(turf));
   const c = base.mul(float(1).add(blotch).add(mow.mul(0.55))).mul(tone).mul(seasonTone)
     .mul(mix(float(1), paintedTurfStrength, turf));
-  return { colorNode: c, roughnessNode: float(0.96) };
+  // Broad grass reflections use the standard light/shadow response, so the
+  // sun catches the turf at grazing angles and tree shadows still occlude it.
+  // Reuse the existing blotch/mowing samples; no glints, normal map or pass.
+  const sheenRoughness = float(.59).add(blotchA.mul(.12)).sub(mow.mul(.35)).clamp(.52,.68);
+  return { colorNode: c, roughnessNode: mix(float(.96),sheenRoughness,paintedGrassSheen.mul(turf)) };
 }
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
 import { createGroundReliefNormal, groundReliefTier } from './ground-surface-relief.mjs';

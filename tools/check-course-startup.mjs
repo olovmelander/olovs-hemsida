@@ -13,19 +13,20 @@ const flag = (name, fallback) => { const i = args.indexOf(`--${name}`); return i
 const base = args.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8628';
 const requested = flag('courses', 'veckefjarden,puttom,norrfallsviken');
 const catalog = await (await fetch(`${base}/courses/index.json`)).json();
+const revision = await (await fetch(`${base}/course-startup-build.json`)).json();
 const courses = requested === 'all' ? catalog.courses.map(c => c.slug) : requested.split(',');
 const looks = flag('looks', '0,1').split(',');
 const backend = flag('backend', 'webgpu');
 const quality = flag('q', 'lo');
 const baseline = flag('baseline', '0');
 const candidate = flag('candidate', '1');
-assert.ok(['0', '1', 'main-thread', 'unindexed'].includes(baseline), 'invalid baseline');
+assert.ok(['0', '1', 'main-thread', 'unindexed', 'live-water', 'unprepared-gpu'].includes(baseline), 'invalid baseline');
 assert.ok(['1', 'terrain-worker'].includes(candidate) && baseline !== candidate, 'invalid candidate');
 const out = path.resolve(flag('out', 'tools/reference/startup-review'));
 await fs.mkdir(out, { recursive: true });
 const modes = args.includes('--single-mode') ? ['golden'] : ['golden', 'noon', 'dawn', 'midnight', 'bluehour', 'storm', 'mist', 'host'];
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
-const report = { backend, quality, baseline, candidate, courses, comparisons: [], errors: [], physicalPhone: false };
+const report = { revision, backend, quality, baseline, candidate, courses, comparisons: [], errors: [], physicalPhone: false };
 
 async function settle(page) {
   await page.evaluate(() => { window.__startupStable = null; });
@@ -45,6 +46,7 @@ async function fingerprint(page) {
     const V = window.V3D, trees = V.legacyTrees({ instances: true }), tint = V.groundTint();
     const hash = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2, '0')).join('');
     return { exactTables: V.startupWorldFingerprint ? await V.startupWorldFingerprint() : null,
+      water: V.startupWaterFingerprint ? await V.startupWaterFingerprint() : null,
       instances: await hash(new TextEncoder().encode(JSON.stringify(trees.instances))),
       tintNear: await hash(tint.near), tintFar: await hash(tint.far), trees: V.stats.trees, vista: V.stats.vista,
       reeds: V.stats.reeds, tufts: V.stats.tufts, bushes: V.stats.bushes, stones: V.stats.stones, stumps: V.stats.stumps };
@@ -77,6 +79,7 @@ try {
       page.on('request', request => { if (offline && /\/(?:grounds|courses)\//.test(request.url())) offlineRequests.push(request.url()); });
       try {
         if (args.includes('--missing-landcover')) await page.route('**/landcover.json*', route => route.abort());
+        if (args.includes('--missing-water')) await page.route('**/prepared/water-*.bin', route => route.abort());
         const query = new URLSearchParams({ bana: course, v2: 'require', det: '1', qualitylock: '1', startup,
           q: quality, ghibli: look, gl: backend === 'webgl2' ? '1' : '0', vy: 'tee', hal: '1', ren: '1' });
         await page.goto(`${base}/?${query}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
@@ -87,6 +90,12 @@ try {
           assert.equal(perf.courseData.complete, true);
           assert.deepEqual(perf.courseData.fallbackReasons, []);
           assert.equal(perf.preparedTint, !args.includes('--missing-landcover'), 'prepared tint eligibility');
+          if (baseline === 'live-water') assert.equal(perf.preparedWater, !args.includes('--missing-water'), 'prepared water eligibility');
+          if (baseline === 'unprepared-gpu') {
+            assert.ok(perf.gpuPreparation?.completed > 0, 'opening GPU preparation ran');
+            assert.equal(perf.gpuPreparation.completed, perf.gpuPreparation.branches);
+            assert.ok(perf.gpuPreparation.concurrency <= 4, 'bounded compilation');
+          }
           // Disable the network immediately after readiness, before any views
           // beyond the opening hole have been requested.
           await page.context().setOffline(true); offline = true;
@@ -123,13 +132,15 @@ try {
         assert.deepEqual(errors, [], 'browser errors');
         pair.runs.push({ startup, world, readyMs: perf.courseReadyAtNavigationMs, courseData: perf.courseData,
           allocation: await page.evaluate(() => V3D.treeTierAllocation?.() ?? null),
-          preparedTint: perf.preparedTint, offlineHoles: startup === candidate ? holes.length : 0 });
+          preparedTint: perf.preparedTint, gpuPreparation: perf.gpuPreparation,
+          offlineHoles: startup === candidate ? holes.length : 0 });
         console.log(`${course} look=${look} startup=${startup}: world/visual/offline checks completed`);
       } finally { await page.close(); }
     }
     report.comparisons.push(pair);
     await fs.writeFile(path.join(out, 'report.json'), JSON.stringify(report, null, 2));
   }
+  assert.deepEqual(await (await fetch(`${base}/course-startup-build.json`)).json(), revision, 'served build changed');
 } catch (error) { report.errors.push(error.stack); }
 finally {
   await browser.close();

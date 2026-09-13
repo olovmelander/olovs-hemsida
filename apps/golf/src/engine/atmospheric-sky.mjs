@@ -47,6 +47,8 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic});
     sky.material.colorNode=layer.node;
     settings.paintedExposure=layer.exposure;
+    settings.sunGlow=layer.sunGlow;
+    settings.sunGlowStrength=layer.sunGlowStrength;
   }
   // SkyMesh pins z=w, which is the near plane with reversed depth. r186 fixes
   // renderOrder sorting, but the sky's far clip depth must still be zero.
@@ -84,6 +86,10 @@ export function setAtmospherePreset(sky, preset) {
   c.horizon.value.setHex(preset.skyHorizon ?? 0xccddee);
   c.groundHaze.value.setHex(preset.fog);
   if(c.paintedExposure)c.paintedExposure.value=preset.paintedSkyExposure??1;
+  if(c.sunGlow){
+    c.sunGlow.value.setHex(preset.skySunGlow??0xffffff);
+    c.sunGlowStrength.value=preset.skySunGlowStrength??0;
+  }
   c.cloudLit.value.setHex(preset.skyCloudLit ?? 0xfff5df);
   c.cloudShade.value.setHex(preset.skyCloudShade ?? 0xa5b5c6);
 }
@@ -93,5 +99,6 @@ export function atmosphereState(sky) {
   return { kind: sky.isSkyMesh ? 'SkyMesh' : null, radiance: c.radiance.value,
     cloudCoverage: sky.cloudCoverage.value, cloudDensity: sky.cloudDensity.value,
     cloudScale: sky.cloudScale.value, cloudElevation: sky.cloudElevation.value, cloudSpeed: sky.cloudSpeed.value,
-    paletteBlend: c.paletteBlend.value, sun: sky.sunPosition.value.toArray() };
+    paletteBlend: c.paletteBlend.value, sun: sky.sunPosition.value.toArray(),
+    sunGlowStrength: c.sunGlowStrength?.value??0 };
 }

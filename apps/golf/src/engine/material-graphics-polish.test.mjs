@@ -39,6 +39,28 @@ function textureSamples(roots, texture) {
 }
 
 describe.each(['class-sdf-v1', 'pair-sdf-v1'])('%s graphics polish', representation => {
+  it('shares painted grass detail samples with sheen and retains terrain normals', () => {
+    const { atlas, DETAIL } = resources(representation);
+    const material = new THREE.MeshStandardNodeMaterial();
+    const normal = vec3(0, 1, 0), position = vec3(0, 0, 0);
+    material.normalNode = normal; material.positionNode = position;
+    const decorate = createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE,
+      look: 'ghibli', uSun: vec3(-.56, .15, .71) });
+    try {
+      decorate(material);
+      const samples = textureSamples([material.colorNode], DETAIL);
+      expect(samples.size).toBe(3);
+      expect(textureSamples([material.colorNode, material.roughnessNode], DETAIL)).toEqual(samples);
+      expect(textureSamples([material.roughnessNode], DETAIL).size).toBeGreaterThan(0);
+      expect(material.normalNode).toBe(normal); expect(material.positionNode).toBe(position);
+      expect(decorate.v2SurfaceAuthority).toBe(atlas);
+    } finally {
+      for (const tex of new Set([DETAIL, atlas.texF, atlas.texID, ...atlas.texSdf,
+        ...(material.userData.terrainPreviewTextures || [])])) tex.dispose();
+      material.dispose();
+    }
+  });
+
   it('reuses the colour samples and preserves terrain normals and atlas authority', () => {
     const { atlas, DETAIL } = resources(representation);
     const owned = new Set([DETAIL, atlas.texF, atlas.texID, ...atlas.texSdf]);

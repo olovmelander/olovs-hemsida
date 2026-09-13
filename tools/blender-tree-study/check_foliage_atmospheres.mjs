@@ -3,19 +3,25 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright-core';
-const out=path.resolve('docs/graphics/tree-palette-2026-09-13');
-fs.mkdirSync(out,{recursive:true});
+import {ATMOSPHERE_PRESETS} from '../../apps/golf/src/engine/atmosphere-presets.mjs';
 const phase=process.argv[2]||'after',course=process.argv[3]||'upsala';
 const low=process.argv.includes('--low'),natural=process.argv.includes('--natural');
 const option=name=>process.argv.find(a=>a.startsWith(`--${name}=`))?.split('=').slice(1).join('=');
+const out=path.resolve(option('out')||'docs/graphics/tree-palette-2026-09-13');
+fs.mkdirSync(out,{recursive:true});
 const modes=option('modes')?.split(',')||['noon','golden','dawn','midnight','bluehour','storm','mist','host'];
-const samples=process.argv.includes('--sky-sweep')
+const samples=option('samples')?JSON.parse(fs.readFileSync(option('samples'),'utf8')):process.argv.includes('--sky-sweep')
   ? [.025,.05,.10,.20].map(skyRadiance=>({mode:'noon',suffix:`sky-${skyRadiance}`,overrides:{skyRadiance,skyPalette:.1,cloud:.35}}))
   : modes.map(mode=>({mode,suffix:mode}));
 const report={phase,course,low,natural,errors:[],modes:[]};
 const browser=await chromium.launch({channel:'chrome',args:['--no-sandbox','--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist']});
 try{
  const page=await browser.newPage({viewport:low?{width:390,height:844}:{width:1600,height:1000},deviceScaleFactor:1,serviceWorkers:'block'});
+ if(option('manifest')){
+   const body=fs.readFileSync(option('manifest'),'utf8');
+   await page.route('**/models/trees/ghibli-fluffy.json*',route=>route.fulfill({status:200,contentType:'application/json',body}));
+   report.manifest=option('manifest');
+ }
  await page.addInitScript(()=>{const Socket=window.WebSocket;window.WebSocket=class extends Socket{constructor(url,protocols){super(url,protocols);if(protocols==='vite-hmr')this.addEventListener('message',e=>{try{if(['update','full-reload'].includes(JSON.parse(e.data).type))e.stopImmediatePropagation();}catch{}},true);}};});
  page.on('pageerror',e=>report.errors.push(String(e)));
  page.on('console',m=>{if(m.type()==='error'||/ghibli trees unavailable/i.test(m.text()))report.errors.push(m.text());});
@@ -27,6 +33,14 @@ try{
  if(process.argv.includes('--oblique')){
    await page.evaluate(()=>{const c=V3D.cameraInfo(),t=c.target,h=c.position[1]-t[1];
      V3D.placeCamera([t[0],t[1]+h*.82,t[2]+h*.9],t);});
+   await page.waitForFunction(()=>V3D.settled(),undefined,{timeout:90000});
+ }
+ if(process.argv.includes('--sunward')){
+   await page.evaluate(direction=>{
+     const c=V3D.cameraInfo(),t=c.target,d=[direction[0],direction[2]],n=Math.hypot(...d),distance=90;
+     const x=t[0]-d[0]/n*distance,z=t[2]-d[1]/n*distance,y=V3D.terrainH(x,z)+3;
+     V3D.placeCamera([x,y,z],[t[0],y+4,t[2]]);
+   },ATMOSPHERE_PRESETS.golden.dir);
    await page.waitForFunction(()=>V3D.settled(),undefined,{timeout:90000});
  }
  report.backend=await page.evaluate(()=>V3D.stats.backend);

@@ -1,0 +1,33 @@
+{
+  "revision": "continuous-canopy-2026-09-13",
+  "shadingUpdate": "deeper-shade-focused-highlights",
+  "backend": "webgpu",
+  "atmosphereCaptures": 9,
+  "atmospheres": [
+    "noon",
+    "golden",
+    "host",
+    "dawn",
+    "midnight",
+    "bluehour",
+    "storm",
+    "mist"
+  ],
+  "forcedTiers": 4,
+  "courses": [
+    "angso",
+    "upsala"
+  ],
+  "quality": [
+    "high",
+    "low"
+  ],
+  "matchingComparisonCamera": true,
+  "unchangedTriangleCounts": true,
+  "unchangedTreeBatches": true,
+  "galleryCombinations": 6,
+  "unitTests": 40,
+  "testFiles": 6,
+  "build": "passed (compile only)",
+  "runtimeErrors": []
+}
