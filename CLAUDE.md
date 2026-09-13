@@ -5364,3 +5364,55 @@ Two mechanics this cost:
   no `clampf`. A sync script matching the bare name clobbered it and would have
   broken the legacy page; match the SIGNATURE (`function teeView(hole, mark)`).
   Only `angso3d.html` and `upsala3d.html` carry the shared helper.
+
+## Ovan turns with the hole, and fitting it is half the fix (2026-09-13)
+
+The owner: *"När man väljer läget 'ovan', då vill jag alltid ha tee i nedre delen
+av bilden."*
+
+The top view stood 330 m over the hole's MIDPOINT at `(mid.x, +330, mid.z + 0.1)`.
+That 0.1 m is what oriented the picture: with the camera a hair SOUTH of what it
+looks at and `camera.up` left at +Y, screen-up is north on every hole of every
+course. A hole playing south was drawn upside down, one playing east lay across
+the frame, and which end you stood on was anybody's guess.
+
+**Orienting alone makes it worse, which is the part worth remembering.** Offset the
+camera backward along the hole instead of southward and screen-up becomes the
+hole's own forward -- but the frame at 330 m is only **294 m tall** and the median
+hole here is **345 m**, so standing over the midpoint with the hole now running
+vertically pushes the tee off the bottom edge. Measured through a real three.js
+camera, tee on screen went 118/171 → **53/171** on a desktop. So the height is
+derived from the hole as well, and `engine/top-view.mjs` does both.
+
+Projected through a `PerspectiveCamera` placed exactly as `setCam` places it
+(NDC y = −1 is the bottom of the screen), over all 171 holes of the ten builds:
+
+| | | hole fits | tee on screen | tee below centre | tee in lowest third | green above tee |
+|---|---|---|---|---|---|---|
+| old | desktop | 107 | 118 | 86 | 72 | 86 |
+| old | portrait | 45 | 47 | 86 | 72 | 86 |
+| **new** | desktop | **171** | **171** | **171** | **171** | **171** |
+| **new** | portrait | **171** | **171** | **171** | 170 | **171** |
+
+Heights become 212–721 m (median 466) on a desktop and 225–775 m in portrait,
+against a flat 330 before. **The old numbers are the finding**: on a phone held
+upright the tee was off screen on 124 of 171 holes, and nobody had measured it.
+
+Three things this pinned down:
+
+- **`camera.up` is not the way to roll a top-down view here.** Handing it a
+  horizontal up would orient the picture in one line -- and OrbitControls takes
+  its POLE from `object.up`, so the first drag would orbit the world about the
+  hole's axis. The backward nudge along the hole (0.1 m at 200-800 m, under
+  0.02° off vertical) sets the same basis through `lookAt` and leaves the
+  controls alone.
+- **The frame is an argument, not a constant.** `aspect` is passed in, so a phone
+  held upright is fitted as the 0.58-wide frame it is rather than a desktop one
+  cropped; for a dogleg in portrait it is the hole's WIDTH that sets the height,
+  not its length. The resize handler re-asks (`camMode === 'top' && !flying`),
+  because turning a phone sideways is a different frame and not the same one wider.
+- **Verify a claim about a PICTURE by projecting through the real camera.** The
+  screen-right axis for a straight-down view is `(F.z, −F.x)`; deriving that by
+  hand and then asserting it with the same derivation proves nothing.
+  `top-view.test.mjs` builds an actual `PerspectiveCamera`, calls `lookAt`, and
+  reads NDC -- and it is what caught that orientation alone was a regression.
