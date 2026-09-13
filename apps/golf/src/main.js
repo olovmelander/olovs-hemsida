@@ -830,7 +830,9 @@ for (const h of HOLES) {
       if (restoreWater) {
         flat = terrainV2.flatWater = preparedWater.flatWater;
         terrainV2.knownBodies = knownBodies;
-      } else flat = terrainV2.detectFlatWater(knownBodies);
+      } else flat = terrainV2.detectFlatWater(knownBodies, {
+        quantizationAware: TERRAIN_PREVIEW_CONFIG.flatWaterQuantizationAware === true,
+      });
       if (CONTINUOUS_OCEAN && !restoreWater) {
         flat=excludeOceanFromFlatWater(flat,CONTINUOUS_OCEAN,(x,z)=>TERRAIN_PREVIEW.bridge.toLegacy(x,z));
         terrainV2.flatWater=flat;
@@ -1433,7 +1435,7 @@ function groundAt(x, z, h) {
   for (const q of SI.at(x, z)) {
     if (ringSD(x, z, q.ring, 1) > 0) continue;
     if (q.kind === 'cut') { col = col.map((v, i) => lerp(v, C.slash[i], 0.7)); sid = S_HEATH; }
-    else if (q.kind === 'yard') { col = col.map((v, i) => lerp(v, C.hard[i], 0.85)); sid = S_PATH; }
+    else if (q.kind === 'yard') { col = col.map((v, i) => lerp(v, C.gravel[i], 0.85)); sid = SURFACE.GRAVEL; }
     else if (q.kind === 'hay') { col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI; }
     else if (q.kind === 'piste') { col = col.map((v, i) => lerp(v, C.fescue[i], 0.75)); sid = S_SEMI; }
     else if (q.kind === 'pitch' || q.kind === 'track') { col = col.map((v, i) => lerp(v, C.fair[i], 0.8)); sid = S_SEMI; }

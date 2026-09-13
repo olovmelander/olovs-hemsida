@@ -392,7 +392,7 @@ export class V2GraphTerrainAdapter {
    * are the model's water rings in legacy world coordinates with their
    * levels; the result is in grid space and is also kept on the adapter.
    */
-  detectFlatWater(knownBodies = [], { lod } = {}) {
+  detectFlatWater(knownBodies = [], { lod, quantizationAware = false } = {}) {
     if (lod !== undefined && !this.ringTiles?.has(lod)) throw new Error(`ring level ${lod} is not loaded`);
     const tiles = lod === undefined ? waterRingTiles(this.ringTiles) : this.ringTiles.get(lod);
     const raster = rasterFromRingTiles(tiles, {
@@ -402,6 +402,7 @@ export class V2GraphTerrainAdapter {
     this.flatWater = detectFlatWater({
       raster,
       knownBodies,
+      quantizationAware,
       toLegacy: (x, z) => this.bridge.toLegacy(x, z),
     });
     this.knownBodies = knownBodies;

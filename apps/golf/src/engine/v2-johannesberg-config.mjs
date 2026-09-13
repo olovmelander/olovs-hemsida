@@ -109,6 +109,11 @@ export const JOHANNESBERG_V2_CONFIG = Object.freeze({
      the club's 2026 banguide, not an authoritative surveyed intake, so the
      ground atlas keeps painting them and no v2 surface layer is claimed. */
   surfacePolicy: 'legacy-ground-atlas',
+  /* The 8 m detection ring stores heights in 8 cm steps. A 3 cm neighbour
+     test splits the level fields into false lakes at every height bin. Join
+     those bins before the component-level test. Verified on the published
+     field tiles and Uttran, Hävsjön and Rotsjön; inherited by the nine. */
+  flatWaterQuantizationAware: true,
   /* Presentation only: ease the legacy surroundings into the measured edge
      over six MID cells. No measured sample inside the window is altered. */
   legacyBoundaryBlendMetres: 72,
