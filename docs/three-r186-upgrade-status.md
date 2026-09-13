@@ -1,4 +1,177 @@
-# three.js r186 upgrade — in flight, DO NOT MERGE YET
+# three.js r186 upgrade — validation record
+
+**Follow-up:** the owner requested the same atmospheric sky in Målad and
+realistic, with reduced brightness. See [shared atmospheric sky](shared-atmospheric-sky.md)
+and the subsequent [eight-mode atmosphere review](eight-atmospheres.md).
+The comparison below
+records the upgrade before that intentional sky change.
+
+## Validation, 2026-09-13
+
+**The missing forest is not reproduced on hardware WebGL2 or WebGPU.**
+The original `5ecc199c` application, without any new culling or tree changes,
+renders the forest on this machine's NVIDIA Ampere adapter (RTX 3070 Laptop,
+driver 32.0.15.7247) in Chrome 152.0.7977.83. Nothing has been merged to main.
+The forest is also visible with this browser's SwiftShader WebGL2 renderer.
+
+Validation uses an isolated checkout of `5ecc199c`: other work was editing
+the shared application and rebuilding its `dist` directory during this session.
+The r185 comparison uses the same application with `three@0.185.1` resolved
+through isolated Vite aliases. Both sides use the same browser, adapter,
+viewport, explicit quality and URL state. The shadow setting is `PCFShadowMap`
+on both sides. This report does not validate concurrent shot-planner or road
+rendering changes in the shared checkout.
+
+### Results
+
+| Check | Result |
+|---|---|
+| Frozen lockfile install / production build | Pass, `three@0.186.0` |
+| Vitest in the isolated checkout | **963/963**, 127 files |
+| Node test suite | **454 passed, 3 skipped**, 0 failed (457 tests) |
+| `tools/lint-app.mjs` | Pass |
+| Puttom hardware WebGL2, default painted look | Forest visible; r185/r186 perceptual parity passes |
+| All 13 courses, hardware WebGPU, painted look | **117/117 rendering checks pass**, including forest and terrain visibility, camera changes, and browser errors |
+| Puttom hardware WebGPU, painted look | Automatic LOD and all four forced tiers pass; r185/r186 perceptual parity passes |
+| Puttom hardware WebGPU, realistic look | All four tree tiers visible; camera change preserves forest |
+| WebGPU realistic sky, reversed depth on and off | Sky shades correctly; terrain remains visible beneath it |
+| All eight lighting presets, realistic WebGPU | World and sky render after every switch; no browser/renderer errors |
+| Mobile viewport, WebGL2, low quality | Forest/terrain/camera checks and r185/r186 perceptual parity pass |
+| Windows SwiftShader WebGL2, high quality | Forest visible in both versions; r185/r186 perceptual parity passes |
+| `check-app --only=puttom` | Same known **17/72 tee-marker** failure from the handoff |
+
+The course sweep covers Ängsö, Norrfällsviken, Puttom, Upsala, Upsala
+Mellanbanan, Johannesberg, Johannesberg 9, Veckefjärden, Veckefjärden
+Korthålsbanan, Ribbingsfors, Visby, Tortuna and Lidingö. Each course is checked
+from the first tee and overhead after a camera change.
+
+Retained evidence: [machine-readable results](graphics/three-r186-2026-09-13/summary.json),
+[painted tee](graphics/three-r186-2026-09-13/painted-webgpu-tee.png),
+[overhead forest](graphics/three-r186-2026-09-13/painted-webgpu-overhead.png),
+[realistic tee](graphics/three-r186-2026-09-13/realistic-webgpu-tee.png),
+[r186 atmospheric sky](graphics/three-r186-2026-09-13/realistic-webgpu-sky.png),
+[r185 fogged sky](graphics/three-r186-2026-09-13/r185-fogged-sky.png),
+[storm lighting](graphics/three-r186-2026-09-13/realistic-storm-tee.png),
+[blue-hour lighting](graphics/three-r186-2026-09-13/realistic-bluehour-tee.png),
+[SwiftShader r186 forest](graphics/three-r186-2026-09-13/painted-software-tee.png),
+[SwiftShader r185 reference](graphics/three-r186-2026-09-13/r185-software-tee.png).
+
+The Node suite needs the separate `packages/course-geo/copc-reader` dependencies.
+Two pre-existing Windows checkout issues also needed attention in the isolated
+checkout: `lidingobuild/mapping/approaches-2025.geojson` and
+`bunker-additions-2025.geojson` had newline-converted bytes. Restoring the exact
+Git blob bytes made their pinned source hashes pass. No source coordinates or
+hash expectations were changed. An initial Vitest run under heavy concurrent
+browser load hit timeouts; the complete isolated run above passed unchanged.
+
+### The forest diagnosis
+
+Puttom hole 1, tee view, high quality, 1600 × 900:
+
+| Renderer | Trees in tiers 0 / 1 / 2 / 3 | Rendered triangles | Draw calls |
+|---|---|---:|---:|
+| r185 hardware WebGL2 | 772 / 3689 / 0 / 31568 | 14,780,132 | 165 |
+| r186 hardware WebGL2 | 772 / 3689 / 0 / 31568 | 14,780,132 | 165 |
+| r186 hardware WebGPU, reversed depth | 772 / 3689 / 0 / 31568 | 15,711,972 | 165 |
+
+WebGL2 comparison: **mean 1.1768/255; 0.011% of pixels over 8; worst 20**.
+The large foreground birch and forest wall are present. The mobile low-quality
+comparison is **mean 1.3319/255; 0.000% over 8**.
+The 960 × 540 painted WebGPU comparison also passes: **mean 1.8664/255;
+0.060% over 8**.
+
+The proposed frustum workaround was already in place: every tree tier mesh
+and impostor batch has `frustumCulled = false`. Recomputing those meshes'
+spheres would not change their submission. Also, `lodpin=0,0` does **not**
+force the near tier: the URL parser rejects zero and keeps the default floors. Use
+`V3D.setTreeLod(1)` through `(4)` to force actual tiers.
+
+No speculative changes have been made to planting, bounds, instance uploads,
+LOD, or three's internals. The original Linux/SwiftShader environment and images
+were not retained in this checkout, so its exact failure remains unexplained.
+On Windows/Chrome 152, software WebGL2 renders the foreground birch and forest
+wall. A normal Playwright screenshot timed out; rendering and reading the
+canvas in the same browser task succeeded. This is a capture-tool distinction,
+not evidence that the earlier missing forest had that same cause.
+The matched software comparison (960 × 540, high quality, default golden
+lighting) passes: **mean 1.4206/255; 0.000% over 8; worst 8**. Both versions
+have the same tier populations, 13,848,292 rendered triangles and 165 draw
+calls, with no browser or renderer errors.
+
+### The sky has an intentional visual change
+
+The default painted look never constructs `SkyMesh`, including on WebGPU.
+Testing the actual sky patch requires **`look=real`** as well as WebGPU.
+
+r186's `SkyMesh` now sets `material.fog = false` and has substantially revised
+cloud shading. In r185, this app's 12 km sky was fogged to the background colour.
+The new sky-only check correctly fails r185: luminance range **0.0/255**. It
+passes r186 with both depth conventions (ranges **22.0** and **13.0/255**).
+The brighter atmospheric sky also contributes to bloom, so a full-frame r185
+versus r186 comparison of realistic daytime mode fails perceptual parity
+(**43.9670/255; 95.563% over 8**). This is a documented appearance change;
+restoring the old flat fog colour would hide the sky again. The owner explicitly
+asked to retain r186's visual improvements. We therefore keep the improved sky
+and use rendering/visibility checks for acceptance, rather than matching that
+old fogged image.
+
+The existing reversed-depth vertex patch remains valid: the far clip depth
+is zero on that path. r186 additionally fixes `renderOrder` under reversed
+depth, so the old comment about three reversing the entire render list is
+historical. The tests check the rendered sky and the world together.
+Switching through golden, noon, mist, dawn, autumn, midnight, blue hour and
+storm also passes, preserving their different lighting and the new cloud shading.
+
+Sources: [r186 migration guide](https://github.com/mrdoob/three.js/wiki/Migration-Guide#185--186),
+[Sky/SkyMesh cloud changes](https://github.com/mrdoob/three.js/pull/33942),
+[r186 SkyMesh source](https://github.com/mrdoob/three.js/blob/r186/examples/jsm/objects/SkyMesh.js),
+[reversed-depth render ordering](https://github.com/mrdoob/three.js/pull/33945).
+
+### Repeatable browser acceptance
+
+`tools/check-three-rendering.mjs` measures pixels, not just planted counts:
+
+- Requires the requested renderer and depth convention to actually be active.
+- Checks the live tree-slot audit, then freezes LOD and hides trees. More than
+  0.1% of pixels must change by over 8/255; a submitted-but-invisible forest fails.
+- Hides graph terrain separately; over 1% of pixels must change, catching a sky
+  that covers the world.
+- Moves to the overhead camera and checks visible forest again, exercising
+  cell culling and updated instance slots.
+- In realistic WebGPU mode, aims above the world and requires a shaded sky.
+- Records browser/renderer errors, captures PNGs, and writes a JSON report.
+- `--presets` switches among all eight lighting presets and checks the world
+  and atmospheric sky after each change.
+- `--capture canvas` uses a WebGL2 drawing-buffer readback, useful when
+  SwiftShader's compositor screenshot takes too long. Keep the capture method
+  identical on both sides of a comparison.
+- `--reference` retains the existing perceptual limits (mean ≤ 2.5/255,
+  at most 5% over 8). Use it for the painted look; realistic skies intentionally differ.
+
+PowerShell, against a stable production build:
+
+```powershell
+node tools/serve.mjs apps/golf/dist 8620
+# In another terminal:
+$env:BANVY_GPU = '1'
+node tools/check-three-rendering.mjs --backend webgpu --all
+node tools/check-three-rendering.mjs --backend webgpu --tiers
+node tools/check-three-rendering.mjs --backend webgpu --look real --tiers
+node tools/check-three-rendering.mjs --backend webgpu --look real --rdepth 0
+node tools/check-three-rendering.mjs --backend webgpu --look real --presets
+node tools/check-three-rendering.mjs --backend webgl2 --mobile --quality lo
+# An independently built r185 copy served at 8621:
+node tools/check-three-rendering.mjs --backend webgl2 --reference http://127.0.0.1:8621
+# Software WebGL2 (never label this as hardware evidence):
+Remove-Item Env:BANVY_GPU
+node tools/check-three-rendering.mjs --backend webgl2 --capture canvas
+```
+
+`--base` selects the current build's URL; `--out` selects the evidence directory.
+`BANVY_CHROME` can select a specific Chromium executable. Mobile checks emulate
+viewport, DPR and touch in Chromium; they are not physical Android/iOS tests.
+
+## Original handoff (retained as historical evidence)
 
 Started 2026-09-13 on `claude/golf-strategies-modes-audit-ciaejw`, rebased onto
 `main` at `c0746b34`. **`three` is bumped to 0.186.0 in this branch and there is

@@ -50,9 +50,9 @@ import { alongLine, clampf, polyLen } from './geom.js';
  * simply undefined there. A helper that is copied into a page has to be
  * self-contained, and the gate is what says so. */
 
-/** The selected reference is where the player stands. A fixed setback can
- * leave a narrow tee, or even cross a path into trees. Do not move an unresolved
- * reference onto another platform: its source uncertainty belongs to the data.
+/** Resolve the selected shot origin and the view's forward aim. The app adds
+ * a small camera setback when framing this origin; markers and measurements
+ * continue to use the selected reference itself.
  * Aim along the REMAINING route, so a forward tee cannot look behind itself, and
  * no further than a drive, so a dogleg does not point the camera into its corner. */
 export function teeView(hole, mark) {

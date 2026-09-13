@@ -178,7 +178,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
               </span>
               <div class="dt-text">
                 <div class="dt-name">Målad stil (Ghibli) <span class="dt-state" id="dLookState">${ghibliLook ? 'PÅ' : 'AV'}</span></div>
-                <div class="dt-desc">Ritade träd, målad mark och mjukare himmel (laddar om)</div>
+                <div class="dt-desc">Ritade träd och målad mark (laddar om)</div>
               </div>
             </button>
             <button class="d-tool-btn" id="dCleanBtn">

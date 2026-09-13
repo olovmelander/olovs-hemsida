@@ -666,12 +666,12 @@ body.gps-on #v2TerrainBadge{top:118px}
     <button class="btn" data-preset="bluehour" title="Blå timmen: djupblå skymningstur">Blå timmen</button>
   </div>
   <div class="grp">
-    <button class="btn" data-preset="storm" title="Oväder: dramatiska mörka skyar och dramatisk solkontrast">Oväder</button>
+    <button class="btn" data-preset="storm" title="Oväder: tunga skiffermoln, kallt regndis och dämpat ljus">Oväder</button>
     <button class="btn" data-preset="mist" title="Dis: morgonfukt och sval dimma">Dis</button>
     <button class="btn" data-preset="host" title="Höst: gyllene löv och skarp luft">Höst</button>
   </div>
   <div class="grp">
-    <button class="btn" id="lookBtn" title="Målad stil: ritade träd, målad mark och himmel (laddar om banan)">Målad</button>
+    <button class="btn" id="lookBtn" title="Målad stil: ritade träd och målad mark (laddar om banan)">Målad</button>
   </div>
   <div class="lbl">Guidade turer</div>
   <div class="grp">
@@ -684,12 +684,13 @@ body.gps-on #v2TerrainBadge{top:118px}
     <button class="btn btn-toggle" id="gpsBtn"><span class="btn-toggle-dot"></span> GPS-läge</button>
   </div>
   <div class="grp">
-    <button class="btn btn-toggle on" id="strategyBtn" aria-pressed="true" title="Visa taktiskt sikte och landningsyta"><span class="btn-toggle-dot"></span> Spellinje</button>
+    <button class="btn btn-toggle on" id="strategyBtn" aria-pressed="true" aria-describedby="strategyStatus" title="Visa taktiskt sikte och landningsyta"><span class="btn-toggle-dot"></span> Spellinje</button>
     <button class="btn btn-toggle" id="gridBtn"><span class="btn-toggle-dot"></span> Greengrid</button>
   </div>
   <div class="grp">
     <button class="btn btn-nav" id="bagBtn">Min bag · klubbavstånd</button>
   </div>
+  <div class="tool-hint" id="strategyStatus" role="status" hidden></div>
   <div class="tool-hint" id="toolHint">Tryck på banan för att mäta med Kikaren</div>
   <div class="lbl">Visning & Bana</div>
   <div class="grp">

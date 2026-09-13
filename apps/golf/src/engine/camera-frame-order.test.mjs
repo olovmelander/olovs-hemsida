@@ -69,7 +69,9 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     GRAPHICS_POLISH: polish, camera, controls, innerHeight: 900, hole: 1,
     coastalCameraNear, COASTAL_DEPTH_ENABLED: false, COASTAL_TERRAIN_CEILING: 58.06,
     performance: { now: () => now }, last: 0, acc: 0, frames: 0, fps: 0,
-    BOOT_PERF: { doneAtMs: 1 }, document: { hidden: false },
+    BOOT_PERF: { doneAtMs: 1 }, document: { hidden: false, body: { classList: { contains: () => false } } },
+    selectedTee: { update() {} },
+    selectedGreen: { update() {} },
     renderResolution: { detailHeight: () => 240, sample() {} },
     FRAME_NO: 0, TIER_FRAME: 0, FRAME_MS: new Float32Array(120), DET: false,
     /* Breathing is opt-in behind ?breath=1 in the player, so the frame loop
@@ -107,7 +109,7 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
       observed.trees.push(reading);
     },
     placeSun: () => { calls.push('sun'); }, shadowRest: () => { calls.push('shadow'); },
-    skyMesh: null, skyDome: null, updateSky() {}, updateStrategy() {}, kikTagUpdate() {}, drawMini() {}, gridOn: false,
+    skyMesh: { position: new THREE.Vector3() }, updateSky() {}, updateStrategy() {}, kikTagUpdate() {}, drawMini() {}, gridOn: false,
     captureRenderLocked: false,
     renderActivePipeline() {
       calls.push('render');

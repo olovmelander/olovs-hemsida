@@ -35,7 +35,8 @@ export function detectFlatWater({
   knownBodies = [],
   toLegacy = (x, z) => [x, z],
   flatToleranceMetres = 0.03,
-  minimumCells = 300,
+  minimumAreaSquareMetres = 4800,
+  minimumCells = Math.ceil(minimumAreaSquareMetres / raster.spacing ** 2),
   ringMarginMetres = 6,
   /* Water is LEVEL, and the neighbour test above only says it is SMOOTH.
      A field falling 0.75% is flat to 3 cm between 4 m neighbours everywhere
@@ -63,8 +64,9 @@ export function detectFlatWater({
       const i = row * width + column;
       const h = heights[i];
       if (!Number.isFinite(h)) continue;
-      if (Math.abs(heights[i - 1] - h) > flatToleranceMetres || Math.abs(heights[i + 1] - h) > flatToleranceMetres ||
-          Math.abs(heights[i - width] - h) > flatToleranceMetres || Math.abs(heights[i + width] - h) > flatToleranceMetres) continue;
+      // Missing terrain is not evidence of a level surface at a tile edge.
+      if (!(Math.abs(heights[i - 1] - h) <= flatToleranceMetres && Math.abs(heights[i + 1] - h) <= flatToleranceMetres &&
+            Math.abs(heights[i - width] - h) <= flatToleranceMetres && Math.abs(heights[i + width] - h) <= flatToleranceMetres)) continue;
       flat[i] = 1;
     }
   }
@@ -175,6 +177,31 @@ export function detectFlatWater({
       return kept.has(label[row * width + column]);
     },
   });
+}
+
+/**
+ * Use the finest resident ring that covers the entire terrain footprint.
+ * LOD numbers describe resolution, not coverage: the old fixed LOD 2 ended
+ * halfway to the horizon and turned the rest of a crossing lake into land.
+ * Selecting by bounds also works for grounds with a different ring layout,
+ * without upsampling the whole horizon into a much larger 4 m raster.
+ */
+export function waterRingTiles(ringTiles) {
+  const levels = [...(ringTiles?.values() ?? [])].filter(tiles => tiles.length).map(tiles => ({
+    tiles,
+    spacing: tiles[0].grid.sampleSpacingMetres,
+    minE: Math.min(...tiles.map(t => t.bounds.minEasting)),
+    maxE: Math.max(...tiles.map(t => t.bounds.maxEasting)),
+    minN: Math.min(...tiles.map(t => t.bounds.minNorthing)),
+    maxN: Math.max(...tiles.map(t => t.bounds.maxNorthing)),
+  }));
+  if (!levels.length) throw new Error('terrain rings must be loaded before detecting water');
+  const minE = Math.min(...levels.map(l => l.minE)), maxE = Math.max(...levels.map(l => l.maxE));
+  const minN = Math.min(...levels.map(l => l.minN)), maxN = Math.max(...levels.map(l => l.maxN));
+  const covering = levels.filter(l => l.minE <= minE && l.maxE >= maxE && l.minN <= minN && l.maxN >= maxN)
+    .sort((a, b) => a.spacing - b.spacing);
+  if (!covering.length) throw new Error('no terrain ring covers the complete water footprint');
+  return covering[0].tiles;
 }
 
 /** Assemble one level of ring tiles (decoded payloads) into a raster in grid space. */

@@ -1,0 +1,217 @@
+{
+  "errors": [],
+  "reports": [
+    {
+      "label": "312 overhead",
+      "width": 1920,
+      "tee": 2,
+      "mode": "top",
+      "playingC": [
+        48.65818751727791,
+        -253.82370451632494
+      ],
+      "referenceC": [
+        51.397502885866906,
+        -254.04379637747292
+      ],
+      "placement": {
+        "method": "lateral-pad-centre",
+        "reason": "centred-on-associated-pad",
+        "inputC": [
+          51.397502885866906,
+          -254.04379637747292
+        ],
+        "shiftM": 2.7481428485308865,
+        "padIndex": 0,
+        "padId": "lm-h01-rear-long",
+        "beforeEdgeClearanceM": 0.6639182929919621,
+        "afterEdgeClearanceM": 3.398093677467996
+      },
+      "rangefinderOrigin": [
+        48.65818751727791,
+        -253.82370451632494
+      ],
+      "target": [
+        68.89999733028813,
+        -44.09998972118784
+      ],
+      "ground": 51.395680454599734,
+      "endGround": 64.72717167562783,
+      "arcStart": [
+        48.65818786621094,
+        51.39567947387695,
+        -253.82369995117188
+      ],
+      "arcEnd": [
+        68.89999389648438,
+        64.7271728515625,
+        -44.09999084472656
+      ],
+      "setback": 141.61080316478134,
+      "behind": false,
+      "teeAnchorError": 0.003396299316760381,
+      "greenVisible": true,
+      "overlaps": false,
+      "renderer": true
+    },
+    {
+      "label": "312 tee view",
+      "width": 1920,
+      "tee": 2,
+      "mode": "tee",
+      "playingC": [
+        48.65818751727791,
+        -253.82370451632494
+      ],
+      "referenceC": [
+        51.397502885866906,
+        -254.04379637747292
+      ],
+      "placement": {
+        "method": "lateral-pad-centre",
+        "reason": "centred-on-associated-pad",
+        "inputC": [
+          51.397502885866906,
+          -254.04379637747292
+        ],
+        "shiftM": 2.7481428485308865,
+        "padIndex": 0,
+        "padId": "lm-h01-rear-long",
+        "beforeEdgeClearanceM": 0.6639182929919621,
+        "afterEdgeClearanceM": 3.398093677467996
+      },
+      "rangefinderOrigin": [
+        48.65818751727791,
+        -253.82370451632494
+      ],
+      "target": [
+        68.89999733028813,
+        -44.09998972118784
+      ],
+      "ground": 51.395680454599734,
+      "endGround": 64.72717167562783,
+      "arcStart": [
+        48.65818786621094,
+        51.39567947387695,
+        -253.82369995117188
+      ],
+      "arcEnd": [
+        68.89999389648438,
+        64.7271728515625,
+        -44.09999084472656
+      ],
+      "setback": 6.000000000000023,
+      "behind": true,
+      "teeAnchorError": 0.00022233062657051056,
+      "greenVisible": true,
+      "overlaps": false,
+      "renderer": true
+    },
+    {
+      "label": "254 tee view",
+      "width": 1920,
+      "tee": 4,
+      "mode": "tee",
+      "playingC": [
+        33.224859227204476,
+        -191.04660105854535
+      ],
+      "referenceC": [
+        36.86380601051966,
+        -191.33897432061733
+      ],
+      "placement": {
+        "method": "lateral-pad-centre",
+        "reason": "centred-on-associated-pad",
+        "inputC": [
+          36.86380601051966,
+          -191.33897432061733
+        ],
+        "shiftM": 3.6506733373686724,
+        "padIndex": 2,
+        "padId": "lm-h01-forward",
+        "beforeEdgeClearanceM": 0.749744725833771,
+        "afterEdgeClearanceM": 4.361155330391376
+      },
+      "rangefinderOrigin": [
+        33.224859227204476,
+        -191.04660105854535
+      ],
+      "target": [
+        68.90001612619952,
+        -44.0999342377342
+      ],
+      "ground": 54.76931821147825,
+      "endGround": 64.72717568543017,
+      "arcStart": [
+        33.224857330322266,
+        54.769317626953125,
+        -191.04660034179688
+      ],
+      "arcEnd": [
+        68.90001678466797,
+        64.7271728515625,
+        -44.09993362426758
+      ],
+      "setback": 6.000000000000027,
+      "behind": true,
+      "teeAnchorError": 0.00030469787475340127,
+      "greenVisible": true,
+      "overlaps": false,
+      "renderer": true
+    },
+    {
+      "label": "312 mobile tee view",
+      "width": 390,
+      "tee": 2,
+      "mode": "tee",
+      "playingC": [
+        48.65818751727791,
+        -253.82370451632494
+      ],
+      "referenceC": [
+        51.397502885866906,
+        -254.04379637747292
+      ],
+      "placement": {
+        "method": "lateral-pad-centre",
+        "reason": "centred-on-associated-pad",
+        "inputC": [
+          51.397502885866906,
+          -254.04379637747292
+        ],
+        "shiftM": 2.7481428485308865,
+        "padIndex": 0,
+        "padId": "lm-h01-rear-long",
+        "beforeEdgeClearanceM": 0.6639182929919621,
+        "afterEdgeClearanceM": 3.398093677467996
+      },
+      "rangefinderOrigin": [
+        48.65818751727791,
+        -253.82370451632494
+      ],
+      "target": [
+        60.469156859825965,
+        -130.68819209753354
+      ],
+      "ground": 51.395680454599734,
+      "endGround": 60.057427839525495,
+      "arcStart": [
+        48.65818786621094,
+        51.39567947387695,
+        -253.82369995117188
+      ],
+      "arcEnd": [
+        60.46915817260742,
+        60.05742645263672,
+        -130.6881866455078
+      ],
+      "setback": 6.000000000000023,
+      "behind": true,
+      "teeAnchorError": 0.00032120099092480814,
+      "greenVisible": true,
+      "overlaps": false,
+      "renderer": true
+    }
+  ]
+}

@@ -1,12 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { ATMOSPHERE_PRESETS as PRESETS } from './atmosphere-presets.mjs';
 import { createLightingEnvironment, deriveEnvironmentPalette, LIGHTING_ENVIRONMENT_INTENSITY } from './lighting-environment.mjs';
 
 // Exercise the live presets: a second hand-maintained table could miss a change
 // that makes the sky/reflection combination disagree again.
-const main = readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-const presetBlock = main.match(/const PRESETS = (\{[\s\S]*?\n\});/);
-const PRESETS = Function(`return (${presetBlock[1]});`)();
 
 function fixture(options = {}) {
   const scene = { environment: null };

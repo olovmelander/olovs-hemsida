@@ -17,7 +17,7 @@
 import * as THREE from 'three/webgpu';
 import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/decode-web.mjs';
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
-import { detectFlatWater, rasterFromRingTiles } from './v2-flat-water.mjs';
+import { detectFlatWater, rasterFromRingTiles, waterRingTiles } from './v2-flat-water.mjs';
 import { buildWaterBedField, carveTerrainTile } from './v2-water-bed.mjs';
 
 const EPSILON = 1e-6;
@@ -364,14 +364,15 @@ export class V2GraphTerrainAdapter {
   }
 
   /**
-   * Flat water in the 4 m ring: the lakes the DTM shows that the model's
+   * Flat water across the whole terrain: the lakes the DTM shows that the model's
    * rings do not, or only up to the extract's bounding box. `knownBodies`
    * are the model's water rings in legacy world coordinates with their
    * levels; the result is in grid space and is also kept on the adapter.
    */
-  detectFlatWater(knownBodies = [], { lod = 2 } = {}) {
-    if (!this.ringTiles?.has(lod)) throw new Error(`ring level ${lod} is not loaded`);
-    const raster = rasterFromRingTiles(this.ringTiles.get(lod), {
+  detectFlatWater(knownBodies = [], { lod } = {}) {
+    if (lod !== undefined && !this.ringTiles?.has(lod)) throw new Error(`ring level ${lod} is not loaded`);
+    const tiles = lod === undefined ? waterRingTiles(this.ringTiles) : this.ringTiles.get(lod);
+    const raster = rasterFromRingTiles(tiles, {
       legacyOrigin: this.legacyOrigin,
       verticalDatumOffsetMetres: this.bridge.verticalDatumOffsetMetres,
     });

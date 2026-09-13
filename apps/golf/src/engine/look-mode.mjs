@@ -2,8 +2,8 @@
    Visual Look Mode (Ghibli painted style vs. Realistic)
 
    Ghibli painted style is the standard default mode across desktop and mobile:
-   authored trees, painted palette and ground, cumulus dome, warm lighting,
-   and painterly grade.
+   authored trees, painted palette and ground, warm lighting,
+   and painterly world grade. Both looks share the atmosphere and clouds.
 
    Priority:
    1. Explicit URL parameter (?ghibli=1 / ?ghibli=0 / ?look=real / ?look=ghibli)

@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tree atelier · Ghibli mode</title><link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#eeeee3;color:#263b30;font:15px/1.5 system-ui,sans-serif}
+    header{padding:25px 38px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #263b3026}
+    .eyebrow{font-size:10px;font-weight:650;letter-spacing:.22em;text-transform:uppercase;color:#65715b}h1{font-family:Georgia,serif;font-size:34px;font-weight:400;line-height:1.1;margin:6px 0 0}
+    a{color:inherit;text-underline-offset:4px}header a{font-size:13px}main{max-width:1600px;margin:auto;padding:20px 38px}
+    .toolbar{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:16px}label{display:flex;gap:8px;align-items:center;font-size:12px;color:#53634e}
+    select,button{font:inherit;color:#263b30;background:#fafaf3;border:1px solid #263b3033;border-radius:5px;padding:7px 10px}button{cursor:pointer}
+    .intro{margin:0 0 18px;font-size:14px;color:#53634e}.views{display:grid;grid-template-columns:1fr 1fr;gap:18px}.view{position:relative;min-width:0;background:#e2e5d5;border:1px solid #263b3026;border-radius:9px;overflow:hidden}
+    .view canvas{display:block;width:100%;height:540px;touch-action:none}.caption{position:absolute;left:20px;top:17px;pointer-events:none}.caption strong{display:block;font-size:16px;font-weight:500}.caption span{font-size:11px;color:#62715b;letter-spacing:.1em;text-transform:uppercase}
+    .stats{position:absolute;bottom:17px;left:20px;font-size:11px;color:#57654e}.notes{display:grid;grid-template-columns:1fr 1fr;gap:32px;padding:20px 2px}.notes p{margin:5px 0;color:#53634e;font-size:13px}.notes h2{font-size:13px;margin:0;font-weight:600}.foot{font-size:11px;color:#6f7865;border-top:1px solid #263b3026;padding-top:14px;display:flex;justify-content:space-between;gap:20px}
+    #status{margin-left:auto;color:#64715b;font-size:12px}button[aria-pressed=true]{background:#314c3b;color:#fff}
+    @media(max-width:760px){header{padding:22px}.views{grid-template-columns:1fr}main{padding:18px}.view canvas{height:440px}.notes{grid-template-columns:1fr}header a{max-width:110px}.foot{display:block}h1{font-size:28px}}
+  </style>
+  <script type="module" crossorigin src="/assets/study-CfcbhII5.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-P2Xu9kJm.js">
+  <link rel="modulepreload" crossorigin href="/assets/three.core-DJ_dmd1X.js">
+  <link rel="modulepreload" crossorigin href="/assets/OrbitControls-ooX-_r9Z.js">
+  <link rel="modulepreload" crossorigin href="/assets/preload-helper-Czpn1I53.js">
+  <link rel="modulepreload" crossorigin href="/assets/authored-buildings-BSWel7gY.js">
+  <link rel="modulepreload" crossorigin href="/assets/geom-BrwqqLR-.js">
+  <link rel="modulepreload" crossorigin href="/assets/ghibli-trees-C1rDFPIo.js">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+  <header><div><div class="eyebrow">Ghibli mode / A Scots pine study</div><h1>Refining the original</h1></div><a id="course-link" href="./?bana=upsala&ghibli=1&hero=1&hal=2&vy=tee&ljus=kvall&treeart=refined">Explore on the course ↗</a></header>
+  <main>
+    <p class="intro">The original pine silhouette, with finer crown edges and a more continuous bark treatment. A restrained alternative to the first prototype.</p>
+    <div class="toolbar">
+      <label>Species <select id="species"><option value="tall">Scots pine</option></select></label>
+      <label>Variation <select id="variant"><option value="0">01</option><option value="1">02</option><option value="2">03</option><option value="3">04</option></select></label>
+      <label>Detail <select id="tier"><option value="hero">Close</option><option value="full">Middle</option><option value="decimated">Distant</option></select></label>
+      <button id="rotate" aria-pressed="false">Rotate</button><button id="reset">Reset view</button><span id="status" role="status">Preparing the trees…</span>
+    </div>
+    <div class="views">
+      <div class="view" id="original"><div class="caption"><span>01 / Current design</span><strong>The existing tree</strong></div><div class="stats"></div></div>
+      <div class="view" id="atelier"><div class="caption"><span>02 / Restrained revision</span><strong>The original character, refined</strong></div><div class="stats"></div></div>
+    </div>
+    <div class="notes"><div><h2 id="species-title">Norway spruce</h2><p id="species-note"></p></div><div><h2>Inspect the actual models</h2><p>Drag either view to orbit both trees. Scroll to zoom. Both use the same light, species colour and displayed height. These are the exported Blender meshes.</p></div></div>
+    <div class="foot"><span>Four pine variations · Three detail levels · Same branching layout</span><span>Art references: <a href="https://www.ghibli.jp/works/totoro/">My Neighbor Totoro</a> / <a href="https://www.ghibli.jp/works/mononoke/">Princess Mononoke</a></span></div>
+  </main>
+</body>
+</html>

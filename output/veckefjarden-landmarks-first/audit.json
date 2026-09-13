@@ -1,0 +1,85 @@
+[
+  {
+    "course": "veckefjarden",
+    "models": {
+      "status": "loaded",
+      "courseSlug": "veckefjarden",
+      "landmarks": [
+        {
+          "id": "w104048726",
+          "status": "loaded",
+          "name": "landmark-sjalevads-kyrka",
+          "anchor": [
+            -3278.4,
+            -905.3
+          ],
+          "ground": 46.0338115622083,
+          "meshes": 12,
+          "triangles": 47221,
+          "min": [
+            -3300.857854143976,
+            44.733811609892015,
+            -927.7578541439758
+          ],
+          "max": [
+            -3255.861661171006,
+            88.48381613984502,
+            -882.8421458560241
+          ],
+          "assetSha256": "c689a6dabfe01fb09d437b5d2f8db3719ea799239107a0e3d6e73d2f2f6f0f34"
+        },
+        {
+          "id": "w70606159",
+          "status": "loaded",
+          "name": "landmark-paradiskullen-k90",
+          "anchor": [
+            1303.65,
+            -493.1
+          ],
+          "ground": 112.68158028135218,
+          "meshes": 14,
+          "triangles": 45500,
+          "min": [
+            1292.794097951341,
+            30.124039387797495,
+            -597.4496795252344
+          ],
+          "max": [
+            1611.6311341534852,
+            158.75423500547328,
+            -462.76012430903666
+          ],
+          "assetSha256": "5ac0bb864565b26a5b2b695a62481cd1cefd60031ecd487b8aa296801cf103ce"
+        }
+      ],
+      "replacedLandmarkIds": [
+        "w104048726",
+        "w70606159"
+      ],
+      "meshes": 26,
+      "triangles": 92721
+    },
+    "found": [
+      {
+        "name": "landmark-sjalevads-kyrka",
+        "id": "w104048726",
+        "position": [
+          -3278.4,
+          46.0338115622083,
+          -905.3
+        ]
+      },
+      {
+        "name": "landmark-paradiskullen-k90",
+        "id": "w70606159",
+        "position": [
+          1303.65,
+          112.68158028135218,
+          -493.1
+        ]
+      }
+    ],
+    "backend": "webgpu",
+    "errors": []
+  }
+]

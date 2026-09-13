@@ -1,11 +1,9 @@
-import { readFileSync } from 'node:fs';
+import { ATMOSPHERE_PRESETS as PRESETS } from './atmosphere-presets.mjs';
 import { describe, expect, it } from 'vitest';
 import { float } from 'three/tsl';
 import { createWaterReflectionLighting } from './water-lighting.mjs';
 import { deriveEnvironmentPalette } from './lighting-environment.mjs';
 
-const main = readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-const PRESETS = Function(`return (${main.match(/const PRESETS = (\{[\s\S]*?\n\});/)[1]});`)();
 function nodes(root) {
   const found = new Set();
   const visit = node => {

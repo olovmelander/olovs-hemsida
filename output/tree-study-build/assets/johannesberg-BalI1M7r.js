@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/johannesberg-facilities-3U5v0R85.js","assets/preload-helper-Czpn1I53.js"])))=>i.map(i=>d[i]);
+import{t as e}from"./preload-helper-Czpn1I53.js";var t={wall:9124396,roof:11817004,height:4.6,windowRows:[1.5],terrace:!0};async function n(t){let{loadJohannesbergFacilities:n}=await e(async()=>{let{loadJohannesbergFacilities:e}=await import(`./johannesberg-facilities-3U5v0R85.js`);return{loadJohannesbergFacilities:e}},__vite__mapDeps([0,1]));return n(t)}export{t as clubhouse,n as loadFacilities};

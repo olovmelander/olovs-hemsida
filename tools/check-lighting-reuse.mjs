@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { chromium } from 'playwright-core';
+import { ATMOSPHERE_PRESETS as presets } from '../apps/golf/src/engine/atmosphere-presets.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const args = process.argv.slice(2), flag = name => args[args.indexOf(`--${name}`) + 1];
@@ -18,8 +19,6 @@ const git = (...a) => execFileSync('git', a, { cwd: root, encoding: 'utf8' });
 const hash = a => createHash('sha256').update(a).digest('hex');
 const helper = 'apps/golf/src/engine/lighting-environment.mjs';
 const sources = { before: git('show', `${baseline}:${helper}`), after: fs.readFileSync(path.join(root, helper), 'utf8') };
-const main = fs.readFileSync(path.join(root, 'apps/golf/src/main.js'), 'utf8');
-const presets = Function(`return (${main.match(/const PRESETS = (\{[\s\S]*?\n\});/)[1]});`)();
 const threeRoot = fs.realpathSync(path.join(root, 'apps/golf/node_modules/three'));
 
 async function checkInPage() {

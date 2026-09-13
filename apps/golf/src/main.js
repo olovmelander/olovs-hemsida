@@ -38,6 +38,9 @@ import {
   normalMap, bumpMap, transformedNormalView,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { createAtmosphericSky, setAtmospherePreset, atmosphereState } from './engine/atmospheric-sky.mjs';
+import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
+import { createAerialPerspective } from './engine/aerial-perspective.mjs';
 
 import { loadCourse } from './loader/pack.js';
 import { buildScenery, loadSceneryModule } from './engine/scenery/index.js';
@@ -65,6 +68,8 @@ import { createCameraBreathing } from './engine/camera-breathing.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
 import { createRenderResolution, requestedRenderResolution } from './engine/render-resolution.mjs';
 import { teeView } from './engine/tee-view.mjs';
+import { createSelectedTee } from './engine/selected-tee.mjs';
+import { createSelectedGreen } from './engine/selected-green.mjs';
 import { topView } from './engine/top-view.mjs';
 import { createClassifier, SURFACE } from './engine/surface.js';
 import { createGroundAtlas } from './engine/atlas.js';
@@ -74,6 +79,8 @@ import { buildCoastalWater } from './engine/coastal-water.mjs';
 import { coastalWorldBounds, seaLevelInWorld, excludeOceanFromFlatWater } from './engine/coastal-runtime.mjs';
 import { createCoastalTerrainMask } from './engine/coastal-terrain-mask.mjs';
 import { buildGroundSurfaceFeatures, mappedPathSurface, isTurfRangeTarget, mappedLineHalfWidth } from './engine/surface-features.mjs';
+import { roadSurface, parkingSurface, splitRoadCoverage } from './engine/road-surface.mjs';
+import { createRoadAsphalt, createRoadGravel } from './engine/road-material.mjs';
 import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
 import {
@@ -82,6 +89,7 @@ import {
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
+import { createSunShadowFilter } from './engine/sun-shadow.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
@@ -97,6 +105,7 @@ import { renderActivePipeline as renderPipeline } from './engine/active-render-p
 import { smoothShore } from './engine/ring-smoothing.mjs';
 import { smoothMownEdges } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
+import { deriveTeePlayingPositions } from './engine/tee-playing-position.mjs';
 import { reviewedTeeMarkerPositions } from './engine/reviewed-tee-marker-placement.mjs';
 import { canRenderTeeMarker } from './engine/tee-marker-visibility.mjs';
 import { boundaryMarkerSubmerged } from './engine/boundary-marker-placement.mjs';
@@ -106,6 +115,7 @@ import {
   DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, nearestHole, normalizeBag, parseBag,
   pointAlongLine, recommendClub, strategyForHole,
 } from './engine/caddie.js';
+import { createShotEnvironment } from './engine/shot-planner.mjs';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
@@ -625,6 +635,9 @@ for (const h of HOLES) deriveTeeBearings(h);
    8.8 m along it, the shape of a real teeing ground rather than a square. */
 for (const h of HOLES) {
   inferSynthTeePads(h);
+  // All tee consumers share this playing origin; the original reference is
+  // retained on the mark and physical pad geometry stays as published.
+  deriveTeePlayingPositions(h);
   const pads = h.tees.pads;
   /* A pad's centre, derived from its own ring rather than carried beside it.
      The builds store `cx`/`cz` and emit-pack drops them -- correctly, they are
@@ -1235,7 +1248,7 @@ const C = {
   /* the surroundings: crop tones for the west-shore fields, slash for the
      clear-fells, hard gravel for the machinery yard, hay for the Ås meadows */
   cropA:  L(0xb59a4e), cropB: L(0x7a8f4a), cropC: L(0xa08b62),
-  slash:  L(0x8a7a55), hard:  L(0x8a857b), hay:   L(0x9aa159), lawn: L(0x5f8a3f),
+  slash:  L(0x8a7a55), hard:  L(0x8a857b), gravel: L(0x77746e), hay:   L(0x9aa159), lawn: L(0x5f8a3f),
   aspT:   L(0x55565a), aspL:  L(0x5d5e60), soil:  L(0x6e6046), ballast: L(0x7a7570),
   riprap: L(0xa39e94),
   /* the record's tracks: a trotting oval is rolled stone dust, an athletics track is red tartan */
@@ -1261,7 +1274,7 @@ if (GHIBLI_LOOK) Object.assign(C, {
   canopy: L(0x3e7440), canopyLight: L(0x62a04a),
   wet:    L(0x6c8e54), rock:   L(0x8e949c),
   cropA:  L(0xc6aa58), cropB: L(0x86a44c), cropC: L(0xb2986c),
-  slash:  L(0x9c8c60), hard:  L(0x929290), hay:   L(0xbcb05e), lawn: L(0x5aa63e),
+  slash:  L(0x9c8c60), hard:  L(0x929290), gravel: L(0x70716d), hay:   L(0xbcb05e), lawn: L(0x5aa63e),
   aspT:   L(0x55575c), aspL:  L(0x5f6166), soil:  L(0x8e6e4c), ballast: L(0x868480),
   riprap: L(0xaeaba2), mud: L(0x7a6046),
 });
@@ -1628,6 +1641,8 @@ const uReedC = uniform(new THREE.Color(0x8d8a52));
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
+const sunShadowFilter = createSunShadowFilter();
+sun.shadow.filterNode = sunShadowFilter.filterNode;
 /* The shadow map is re-rendered when something that casts has moved, and not
    otherwise (shadowRest, in the frame loop): three's default is every frame,
    and at rest that pass over ten million triangles was a third of the frame's
@@ -1646,173 +1661,17 @@ scene.add(sun, sun.target);
 const hemi = new THREE.HemisphereLight(0xdff0ff, 0x4c5842, 1.15);
 scene.add(hemi);
 
-const PRESETS = {
-  /* hemiI 1.20 left the long evening tree shadows dead black -- the low sun casts
-     30-80 m of shade and the only light inside it is this hemisphere term */
-  /* sun y 0.42 was a 25-degree afternoon wearing golden colours: every warm ramp in
-     the dome and the water tops out at 0.42, so the flagship dusk rendered noon-blue.
-     y 0.18 (11 degrees after normalising) is a real 63N golden hour, and the ramps
-     below were rewidened around it */
-  golden: { sun: 0xffc384, int: 3.1, dir: [-0.56, 0.18, 0.71], hemiS: 0xffdcbb, hemiG: 0x716c52,
-            /* Keep evening warmth without bleaching the forest in course-wide views. */
-            hemiI: 1.60, fog: 0xc4b49c, dens: 0.00020, exp: 1.22, turb: 4.2, ray: 2.1, cloud: 0.40,
-            bloom: 0.20 },
-  noon:   { sun: 0xfffaf0, int: 3.0, dir: [-0.22, 0.88, 0.42], hemiS: 0xdff0ff, hemiG: 0x56634a,
-            hemiI: 1.35, fog: 0xb4cfdc, dens: 0.00033, exp: 1.02, turb: 2.6, ray: 1.1, cloud: 0.26,
-            bloom: 0.08 },
-  mist:   { sun: 0xe7f4f2, int: 1.5, dir: [-0.36, 0.52, 0.78], hemiS: 0xd8edf2, hemiG: 0x4e5a4c,
-            hemiI: 1.55, fog: 0xc3d4d8, dens: 0.00115, exp: 1.04, turb: 6.5, ray: 0.6, cloud: 0.62,
-            bloom: 0.10 },
-  /* hemiI 0.95 sat below the 1.20 the golden note above records as dead-black
-     shadows, and the steel-blue fog said overcast, not daybreak: lifted, and shifted
-     to the cold rose a clear northern dawn actually has */
-  dawn:   { sun: 0xffc9a0, int: 2.2, dir: [0.70, 0.26, -0.62], hemiS: 0xc2bed2, hemiG: 0x4c4c42,
-            hemiI: 1.30, fog: 0x9d93a4, dens: 0.00055, exp: 1.18, turb: 5.4, ray: 2.6, cloud: 0.34,
-            bloom: 0.22 },
-  /* the club's own October aerial: low gold sun, storm-grey sky, birches turned */
-  host:     { sun: 0xffbe72, int: 2.7, dir: [-0.64, 0.28, 0.58], hemiS: 0xd9cfc2, hemiG: 0x5c5340,
-              hemiI: 1.25, fog: 0xa8a89e, dens: 0.00052, exp: 1.2, turb: 5.2, ray: 2.5, cloud: 0.55,
-              leaf: 0xc8842e, reed: 0xa88a3e, bloom: 0.16 },
-  /* northern summer solstice: sun skimming the northern horizon with warm apricot amber */
-  midnight: { sun: 0xff9e52, int: 2.4, dir: [-0.20, 0.08, -0.97], hemiS: 0x4e5884, hemiG: 0x323a2a,
-              hemiI: 1.45, fog: 0x8c6d7a, dens: 0.00030, exp: 1.18, turb: 5.8, ray: 3.2, cloud: 0.30,
-              bloom: 0.26 },
-  /* the deep cobalt dusk right after sunset: rich indigo skylight, silhouette trees */
-  bluehour: { sun: 0x7a9ec8, int: 0.9, dir: [-0.72, 0.04, 0.68], hemiS: 0x2e4875, hemiG: 0x243224,
-              hemiI: 1.65, fog: 0x4a6282, dens: 0.00045, exp: 1.28, turb: 3.6, ray: 1.8, cloud: 0.20,
-              bloom: 0.22 },
-  /* dramatic incoming front: slate clouds, heavy atmosphere with piercing gold sunlight */
-  storm:    { sun: 0xffe8a0, int: 3.5, dir: [-0.48, 0.45, 0.75], hemiS: 0x465060, hemiG: 0x283826,
-              hemiI: 1.20, fog: 0x525c6a, dens: 0.00065, exp: 1.08, turb: 8.2, ray: 0.5, cloud: 0.78,
-              bloom: 0.14 },
-};
+const uPaintedGrade = uniform(1);
 let preset = PRESETS.golden;
 const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
 scene.fog = fog;
+const aerialPerspective = createAerialPerspective(fog);
+scene.fogNode = aerialPerspective.node;
 
-/* Sky. The volumetric one only exists on the WebGPU backend; on WebGL2 a gradient
-   dome stands in, which is a real difference and is stated in the UI rather than
-   hidden. Both are lit by the same sun vector so the horizon never disagrees with
-   the shadows. */
-let skyMesh = null, skyDome = null;
-/* the painted look takes the hand-built dome on every backend: a scattering
-   model gives a pale physical blue, and a painted sky is a deep one */
-const uSkyZenith = uniform(new THREE.Color(0x2a72c8));
-const uSkyMid = uniform(new THREE.Color(0x72b4e8));
-const uSkyHor = uniform(new THREE.Color(0xbcd3dd));
-const uAureoleColor = uniform(new THREE.Color(0xfff0d0));
-const uCloudLit = uniform(new THREE.Color(0xffffff));
-const uCloudShade = uniform(new THREE.Color(0x8ea6cc));
-
-if (IS_GPU && !GHIBLI_LOOK) {
-  const { SkyMesh } = await import('three/addons/objects/SkyMesh.js');
-  skyMesh = new SkyMesh();
-  /* The HDR disc flashes through subpixel gaps in moving foliage, and bloom
-     turns those samples into floating bright specks. Keep the atmospheric
-     scattering and directional sunlight without that tiny glare source. */
-  skyMesh.showSunDisc.value = 0;
-  /* three's SkyMesh pins itself to the far plane with z = w, which under a
-     reversed depth buffer is the NEAR plane; and three reverses its whole render
-     list under reversed depth, renderOrder included, so the sky then draws LAST
-     and over the world (the sky-only frames of 2026-09-04). In the reversed
-     convention the far plane is z = 0. */
-  if (renderer.reversedDepthBuffer) {
-    const base = skyMesh.material.vertexNode;
-    skyMesh.material.vertexNode = Fn(() => { const p = vec4(base); return vec4(p.x, p.y, float(0), p.w); })();
-  }
-  skyMesh.scale.setScalar(12000);
-  skyMesh.renderOrder = -2;
-  scene.add(skyMesh);
-} else {
-  /* A hand-built stand-in for the scattering model. It is not physical, but it gets
-     the four things that actually read: the zenith is deep and slightly violet, the
-     horizon is pale and warm, the sun has a bright aureole that widens as it drops,
-     and there is a band of cloud whose lit edges face the sun. */
-  const m = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide, fog: false, depthWrite: false });
-  const D = normalize(positionLocal);
-  const up = D.y;
-  const sd = saturate(D.dot(uSun));
-  const sunUp = uSun.y.max(0.02);
-  let c = mix(uSkyHor, uSkyMid, pow(saturate(up), 0.72));
-  c = mix(c, uSkyZenith, pow(saturate(up), float(0.85).add(sunUp.mul(0.5))));
-  /* aureole: tight and white when the sun is high, wide and orange when it is low */
-  c = c.add(uAureoleColor.mul(pow(sd, mix(float(5), float(30), sunUp)).mul(mix(float(0.85), float(0.35), sunUp))));
-  /* Keep the broad aureole above, without a sharp disc behind tree gaps. */
-  /* cloud: two scrolling octaves of the detail map projected on the dome, kept above
-     the horizon so it never appears as a band across the trees */
-  const cuv = D.xz.div(up.abs().max(0.10)).mul(0.014);
-  const cl = texture(DETAIL, cuv.add(vec2(time.mul(0.0018), time.mul(0.0009)))).b
-    .mul(texture(DETAIL, cuv.mul(2.3).sub(vec2(time.mul(0.0026), 0))).g.add(0.35));
-  const cover = uniform(0.34);
-  const puff = smoothstep(cover, cover.add(0.30), cl).mul(smoothstep(0.02, 0.20, up));
-  const lit = mix(uCloudShade, uCloudLit, sd.mul(0.7).add(sunUp.mul(0.3)));
-  c = mix(c, lit, puff.mul(0.82));
-  /* Distant land and water converge to the scene fog. The lower hemisphere must
-     meet that same colour when an elevated camera sees below the horizon;
-     a separate ground colour leaves a hard stripe behind the landscape. */
-  c = mix(uniform(fog.color), c, smoothstep(0, 0.18, up));
-  m.colorNode = c;
-  skyDome = new THREE.Mesh(new THREE.SphereGeometry(11000, 48, 28), m);
-  skyDome.renderOrder = -2;
-  skyDome.userData.cover = cover;
-  scene.add(skyDome);
-}
-
-/* The painted cumulus (?ghibli=1): a second dome inside the sky, drawn only
-   where two octaves of the detail map exceed the preset's cover, with firm
-   edges, a warm top toward the sun and a cool flat underside. The clouds are
-   what a Ghibli sky is made of; a scattering model never draws one you could
-   point at. Cover follows the preset in setPreset. */
-const uCloudCover = uniform(0.34);
-if (GHIBLI_LOOK) {
-  /* the cloud field is its own texture: a broad fbm in red, a finer one in
-     green, both centred on 0.5, so the threshold below means what it says */
-  const CLOUDS = canvasTex(512, (g, S) => {
-    const im = g.createImageData(S, S), d = im.data;
-    /* tileable: the four wrapped copies blended by their distance to the edges, so the dome never shows a seam */
-    const tile = (f, x, y) => {
-      const u = x / S, v = y / S;
-      return f(x, y) * (1 - u) * (1 - v) + f(x - S, y) * u * (1 - v) + f(x, y - S) * (1 - u) * v + f(x - S, y - S) * u * v;
-    };
-    const fa = (x, y) => fbm(x * 0.017, y * 0.017, 5), fb = (x, y) => fbm(x * 0.06 + 31, y * 0.06 + 7, 3);
-    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-      const i = (y * S + x) * 4;
-      const a = tile(fa, x, y) * 0.5 + 0.5, b = tile(fb, x, y) * 0.5 + 0.5;
-      d[i] = Math.max(0, Math.min(255, a * 255)); d[i + 1] = Math.max(0, Math.min(255, b * 255)); d[i + 2] = 128; d[i + 3] = 255;
-    }
-    g.putImageData(im, 0, 0);
-  }, { srgb: false });
-  const m = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide, fog: false, depthWrite: false, transparent: true });
-  const D = normalize(positionLocal);
-  const up = D.y;
-  /* a flat cloud layer seen from below: the dome direction projected onto a
-     plane at fixed height. Clamping the divisor keeps the projection finite at
-     the horizon and the fade below hides the stretch that clamp leaves. */
-  const cuv = D.xz.div(up.max(0.06));
-  const drift = vec2(time.mul(0.0009), time.mul(0.0005));
-  const p = cuv.mul(0.09).add(drift);
-  const field = uvv => texture(CLOUDS, uvv).r.mul(0.66).add(texture(CLOUDS, uvv.mul(2.3).add(vec2(0.31, 0.17))).g.mul(0.24))
-    .add(texture(CLOUDS, uvv.mul(5.1).add(vec2(0.62, 0.44))).g.mul(0.10));
-  const n = field(p);
-  const thr = float(0.57).sub(uCloudCover.mul(0.22));
-  /* the layer fades out well above the clamp, so the stretched band at the horizon is never seen */
-  const mass = smoothstep(thr, thr.add(0.045), n).mul(smoothstep(0.11, 0.26, up));
-  /* the lit side: the field sampled a little toward the sun is brighter where a cloud faces it */
-  const sdir = vec2(uSun.x, uSun.z).mul(0.02);
-  const n2 = field(p.add(sdir));
-  const lit = saturate(n2.sub(n).mul(14).add(0.55));
-  /* a cloud's belly is flatter and cooler: the mass near its own threshold reads as the underside;
-     the top, deep inside the mass, is the brightest white */
-  const belly = oneMinus(smoothstep(thr.add(0.045), thr.add(0.16), n));
-  const c = mix(uCloudLit, uCloudShade, belly.mul(0.9)).mul(mix(float(0.74), float(1.08), lit));
-  m.colorNode = c;
-  m.opacityNode = mass.mul(0.97);
-  const cloudDome = new THREE.Mesh(new THREE.SphereGeometry(10600, 48, 28), m);
-  cloudDome.name = 'cloud-dome';
-  cloudDome.renderOrder = -1;
-  cloudDome.frustumCulled = false;
-  scene.add(cloudDome);
-}
+/* Målad and realistic share the atmosphere and clouds. WebGPURenderer's TSL
+   sky also runs on its WebGL2 fallback; the style toggle changes the world. */
+const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET });
+scene.add(skyMesh);
 
 /* The selected sky and the indirect light share a palette. Reuse the baker,
    shader connection and two reflection maps across preset changes. Resolve
@@ -1824,6 +1683,7 @@ const LJUS2P = {
   ovader: 'storm', storm: 'storm',
 };
 const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
+setAtmospherePreset(skyMesh, PRESETS[INITIAL_PRESET]);
 const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
 waterLighting.setPreset(PRESETS[INITIAL_PRESET]);
 const lightingEnvironment = createLightingEnvironment(renderer, scene, {
@@ -1832,79 +1692,14 @@ const lightingEnvironment = createLightingEnvironment(renderer, scene, {
 });
 lightingEnvironment.setPreset(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
 
-const SKY_PALETTES = {
-  golden: {
-    zen: GHIBLI_LOOK ? 0x1c4a9a : 0x123a72,
-    mid: GHIBLI_LOOK ? 0x5a92cc : 0x4d7fa8,
-    hor: 0xe6b98a,
-    aureole: 0xffb060,
-    cloudLit: 0xffeed8,
-    cloudShade: 0x8294b4,
-  },
-  noon: {
-    zen: GHIBLI_LOOK ? 0x2a72c8 : 0x1f5f9e,
-    mid: GHIBLI_LOOK ? 0x72b4e8 : 0x66a0c8,
-    hor: 0xbcd3dd,
-    aureole: 0xfff0d0,
-    cloudLit: 0xffffff,
-    cloudShade: 0x94b8e2,
-  },
-  mist: {
-    zen: 0x6c8296,
-    mid: 0x9cb0c0,
-    hor: 0xc3d4d8,
-    aureole: 0xdde6ed,
-    cloudLit: 0xdbe4ea,
-    cloudShade: 0x8a9aa6,
-  },
-  dawn: {
-    zen: 0x2c3b6c,
-    mid: 0x5e6e9e,
-    hor: 0xd8b0be,
-    aureole: 0xffc8aa,
-    cloudLit: 0xffeae0,
-    cloudShade: 0x7e708e,
-  },
-  host: {
-    zen: 0x2e4e78,
-    mid: 0x6486a4,
-    hor: 0xb2b4aa,
-    aureole: 0xffbe72,
-    cloudLit: 0xf2ece4,
-    cloudShade: 0x7c8692,
-  },
-  midnight: {
-    zen: 0x1e2240,
-    mid: 0x543c5c,
-    hor: 0xb86654,
-    aureole: 0xff9852,
-    cloudLit: 0xffa868,
-    cloudShade: 0x3e2c48,
-  },
-  bluehour: {
-    zen: 0x121e36,
-    mid: 0x1e3258,
-    hor: 0x3e5272,
-    aureole: 0x6884aa,
-    cloudLit: 0x485876,
-    cloudShade: 0x1a2436,
-  },
-  storm: {
-    zen: 0x1e242e,
-    mid: 0x323a46,
-    hor: 0x485260,
-    aureole: 0xffe298,
-    cloudLit: 0x647080,
-    cloudShade: 0x222832,
-  },
-};
-
 let presetName = 'golden';
-function setPreset(name) {
-  const p = PRESETS[name] || PRESETS.golden;
+function setPreset(name, overrides = null) {
+  // Optional overrides let the visual review harness tune the live uniforms.
+  // Normal UI/URL selection always uses the authored preset unchanged.
+  const p = { ...(PRESETS[name] || PRESETS.golden), ...overrides };
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
-  lightingEnvironment.setPreset(presetName, p);
+  lightingEnvironment.setPreset(overrides ? `${presetName}:${JSON.stringify(overrides)}` : presetName, p);
   waterLighting.setPreset(p);
   sun.color.setHex(p.sun); sun.intensity = p.int;
   const d = new THREE.Vector3(...p.dir).normalize();
@@ -1914,53 +1709,19 @@ function setPreset(name) {
   fog.density = CONTINUOUS_OCEAN_ENABLED && presetName === 'noon' ? 0.00022 : p.dens;
   scene.background = new THREE.Color(p.fog);
   renderer.toneMappingExposure = p.exp;
-  /* the painted look draws its clouds on the cumulus dome, so the sky dome's own band stays off (cover 1 = no puff) */
-  if (skyDome?.userData.cover) skyDome.userData.cover.value = GHIBLI_LOOK ? 1.0 : 0.62 - p.cloud * 0.55;
-  if (skyMesh) {
-    skyMesh.turbidity.value = p.turb;
-    skyMesh.rayleigh.value = p.ray;
-    skyMesh.mieCoefficient.value = 0.005;
-    skyMesh.mieDirectionalG.value = 0.79;
-    if (skyMesh.cloudCoverage) skyMesh.cloudCoverage.value = p.cloud;
-    if (skyMesh.cloudDensity) skyMesh.cloudDensity.value = 0.36;
-    skyMesh.sunPosition.value.copy(d).multiplyScalar(450000);
-  }
-  const skyPal = SKY_PALETTES[presetName] || SKY_PALETTES.golden;
-  uSkyZenith.value.setHex(skyPal.zen);
-  uSkyMid.value.setHex(skyPal.mid);
-  uSkyHor.value.setHex(skyPal.hor);
-  uAureoleColor.value.setHex(skyPal.aureole);
-  uCloudLit.value.setHex(skyPal.cloudLit);
-  uCloudShade.value.setHex(skyPal.cloudShade);
+  setAtmospherePreset(skyMesh, p);
+  uPaintedGrade.value = p.grade;
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
   uAutumn.value = presetName === 'host' ? 1 : 0;
   if (GHIBLI_LOOK) {
-    /* painted distance: hills go blue, not grey, and further -- the fog keeps
-       its chroma and thins; the sky's blue deepens; the cumulus takes the cover */
-    const ghibliFogTint = presetName === 'storm'
-      ? new THREE.Color(0x38414e)
-      : presetName === 'bluehour'
-        ? new THREE.Color(0x223654)
-        : presetName === 'midnight'
-          ? new THREE.Color(0x725268)
-          : new THREE.Color(0x9cc2e6);
-    fog.color.lerp(ghibliFogTint, 0.55);
-    fog.density = fog.density * 0.7;
-    scene.background = new THREE.Color(p.fog).lerp(ghibliFogTint, 0.55);
-    /* the far hills under a low sun read too dark against a painted sky: more fill from the hemisphere */
-    hemi.intensity = p.hemiI * 1.25;
-    /* the painted cover per preset, chosen by eye: a few big cumulus at noon, more at dusk, a lid in mist */
-    uCloudCover.value = ({
-      noon: 0.56,
-      golden: 0.50,
-      dawn: 0.46,
-      mist: 0.62,
-      host: 0.56,
-      midnight: 0.48,
-      bluehour: 0.42,
-      storm: 0.78,
-    })[presetName] ?? 0.5;
+    /* Painted distance keeps its cooler fog and softer tree shadows. The
+       fog-free atmosphere above is shared with the realistic look. */
+    fog.color.lerp(new THREE.Color(p.paintedFog), 0.22);
+    fog.density *= 0.9;
+    scene.background = fog.color.clone();
+    hemi.intensity = p.hemiI * p.paintedFill;
   }
+  aerialPerspective.setPreset(p);
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
@@ -2133,6 +1894,14 @@ const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
    has no authored buildings. */
 const AUTHORED_BUILDING_DIAGNOSTICS = [];
 let facilityArchitecture = null;
+let landmarkArchitecture = null;
+const landmarkAbortController = SCENERY?.loadLandmarks ? new AbortController() : null;
+if (landmarkAbortController) addEventListener('pagehide', event => {
+  if (!event.persisted) {
+    landmarkAbortController.abort();
+    landmarkArchitecture?.dispose();
+  }
+});
 const facilityAbortController = SCENERY?.loadFacilities ? new AbortController() : null;
 if (facilityAbortController) addEventListener('pagehide', event => {
   if (!event.persisted) {
@@ -3114,6 +2883,18 @@ function cutTerrainPreviewRect(geometry, bounds, bridge) {
 /* From here onward every surface, water-depth probe, vegetation/object base,
    camera constraint and interaction ray follows the visible ground contract. */
 visibleGroundHeightAt = groundHeightSampler.heightAt;
+// Install before vegetation, railway and distant-building batches so each
+// successfully loaded landmark can replace all of its legacy representations.
+if (SCENERY?.loadLandmarks) {
+  landmarkArchitecture = await SCENERY.loadLandmarks({
+    THREE, scene, courseSlug: CMETA.slug, demH,
+    baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
+    signal: landmarkAbortController.signal,
+  });
+  stats.landmarkModels = landmarkArchitecture.report;
+  stats.draws += landmarkArchitecture.report.meshes;
+  stats.tris += landmarkArchitecture.report.triangles;
+}
 
 /* ------------------------------------------------- conforming course surfaces
    A 4 m grid cannot hold the edge of a green: it would be a staircase. So every
@@ -3428,9 +3209,9 @@ if (legacySurfaceOverlays) {
     const group = groups.get(key) || { kind: feature.kind, material: feature.material, polygons: [] };
     group.polygons.push({ rings: feature.rings, raisedBoundary: feature.kind === 'range_mat',
       shade: pathSurface !== null
-        ? () => ({ col: pathSurface === SURFACE.ASPHALT ? L(0x626668) : C.hard.slice(), det: 1.3, bmp: 0.08, gls: 0.1, str: 0 })
+        ? () => ({ col: (pathSurface === SURFACE.ASPHALT ? C.aspL : C.gravel).slice(), det: 1.3, bmp: 0.08, gls: 0.1, str: 0 })
         : feature.material === 'mixed-hardstanding-and-mats'
-        ? () => ({ col: C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 }) : undefined });
+        ? () => ({ col: C.gravel.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 }) : undefined });
     groups.set(key, group);
   }
   for (const { kind, material, polygons } of groups.values()) {
@@ -3441,13 +3222,15 @@ if (legacySurfaceOverlays) {
       : isSand ? shadeSand
         : isMat ? () => ({ col: L(0x43675a), det: 2.4, bmp: 0.04, gls: 0.1, str: 0 })
           : kind === 'range_tee_pad' ? shadeTee()
-            : () => ({ col: kind === 'range_target_surface' ? [0.62, 0.62, 0.58] : C.hard.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 });
+            : () => ({ col: kind === 'range_target_surface' ? [0.62, 0.62, 0.58] : C.gravel.slice(), det: 1, bmp: 0.1, gls: 0.12, str: 0 });
     // The 3.5 cm separation from the platform is a rendering estimate, not a
     // surveyed mat thickness. Keep the exact quad; never sink its boundary.
     const g = surfaceMesh(polygons, isMat ? 0.12 : 0.085, isMat ? 0.5 : 1.0, shade, false);
     if (!g) continue;
     const order = isMat ? 7 : 6;
-    const mesh = new THREE.Mesh(g, isSand ? nudged(order, makeSand) : nudged(order));
+    const naturalSurface = kind === 'practice_green' || turfTarget
+      || (kind === 'range_tee_pad' && material !== 'mixed-hardstanding-and-mats');
+    const mesh = new THREE.Mesh(g, nudged(order, isSand ? makeSand : naturalSurface ? makeTurf : makeGravel));
     mesh.receiveShadow = true; mesh.renderOrder = order;
     const turfOverlay = kind === 'paved_path' || kind === 'practice_green' || turfTarget || isSand || (kind === 'range_tee_pad' && polygons.some(p => !p.shade));
     mesh.userData.tag = turfOverlay ? 'legacy-surface-overlay' : 'mapped-facility-footprint';
@@ -3461,26 +3244,30 @@ if (legacySurfaceOverlays) {
 /* Parking keeps observed paving and polygon boundaries. Grounds with a
    mapped-only object inventory do not synthesize parked cars or heater posts. */
 const carSpots = [];
+const PARKING_RENDER_PROOFS = [];
 {
   const lots = (M.infra.parking || []).filter((p, index) => p.ring && p.ring.length >= 3
     && !facilityArchitecture?.replacedParkingIndices?.has(index));
   stats.sourceParkingBatchIndices = lots.map(lot => M.infra.parking.indexOf(lot));
   stats.sourceParkingBatchIds = lots.map(lot => lot.id);
-  if (groundMode !== 'atlas' && lots.length) {
+  PARKING_RENDER_PROOFS.push(...lots.map(lot => ({ id: lot.id || null, surface: parkingSurface(lot),
+    renderer: legacySurfaceOverlays ? 'fallback' : 'terrain' })));
+  if (legacySurfaceOverlays && lots.length) {
     const parkingShade = (x, z) => {
       const n = fbm(x * 0.2, z * 0.2, 2);
-      return { col: C.hard.map(v => v * (0.95 + n * 0.09)), det: 2.6, bmp: 0.4, gls: 0.12, str: 0 };
+      return { col: C.gravel.map(v => v * (0.95 + n * 0.09)), det: 2.6, bmp: 0.4, gls: 0.12, str: 0 };
     };
     const asphaltShade = (x, z) => {
       const n = fbm(x * 0.2, z * 0.2, 2);
-      return { col: L(0x626668).map(v => v * (0.96 + n * 0.06)), det: 1.3, bmp: 0.08, gls: 0.1, str: 0 };
+      return { col: C.aspL.map(v => v * (0.96 + n * 0.06)), det: 1.3, bmp: 0.08, gls: 0.1, str: 0 };
     };
     const g = surfaceMesh(lots.map(p => ({
       ...(p.prov === 'dated-orthophoto-trace' ? { rings: [p.ring] } : { ring: p.ring }),
-      shade: /\b(asphalt|paved)\b/i.test(p.surface || '') ? asphaltShade : parkingShade,
+      shade: parkingSurface(p) === SURFACE.ASPHALT ? asphaltShade : parkingShade,
     })), 0.045, 4.0, parkingShade);
     if (g) {
-      const m = new THREE.Mesh(g, nudged(3));
+      const m = new THREE.Mesh(g, nudged(3, makeGravel));
+      m.name = 'parking-surfaces'; m.userData.tag = 'parking-surfaces';
       m.receiveShadow = true; m.renderOrder = 3;
       scene.add(m);
       stats.draws++;
@@ -3575,18 +3362,12 @@ stats.cars = (stats.cars || 0) + stats.authoredParkingCars;
 stats.draws += stats.facilities?.parkingCars?.draws || 0;
 stats.tris += stats.facilities?.parkingCars?.triangles || 0;
 
-/* Roads as engineered ribbons, for the same reason the fairways are overlays.
-
-   Painted into a 4 m terrain grid a two-metre cart path cannot be narrower than the
-   cell it lands in, so the whole network bled out to twenty metres of warm brown and
-   read as dry riverbeds. A strip laid along the polyline is the right width by
-   construction -- and a road is GRADED: its centreline height is a 24 m box filter
-   of the ground, so it cuts and fills gently through the terrain's micro-relief the
-   way a real roadbed does, while its verge vertices glue back to the ground and
-   become the embankment shoulder. Each cross-section is five vertices:
-   verge - edge - crown - edge - verge. aMow carries (metres along, across/halfW)
-   and aStr the paint mode, which is how one merged mesh draws Swedish edge lines
-   and 3/9 m lane dashes only where its roads actually have them. */
+/* The surface atlas owns near-course road surfaces. Outside its coverage,
+   narrow roads use terrain-draped ribbons; major roads also use these meshes
+   for transparent lane paint. Only legacy special infrastructure opts into
+   the old smoothed roadbed. Each cross-section has five vertices:
+   verge - edge - centre - edge - verge. aMow carries (metres along, across/halfW)
+   and aStr the paint mode for edge lines and 3/9 m lane dashes. */
 function resamp(L, step) {
   const P = [], S = [];
   let s = 0;
@@ -3603,6 +3384,7 @@ function resamp(L, step) {
   return { P, S };
 }
 const ROAD_DRAPE_PROOFS = [];
+const ROAD_RENDER_PROOFS = [];
 function buildRoad(runs, asphalt) {
   const pos = [], col = [], det = [], bmp = [], gls = [], str = [], mow = [], idx = [];
   const measuredOnly = M.infra.terrainPlacement === 'measured-only';
@@ -3614,9 +3396,10 @@ function buildRoad(runs, asphalt) {
     const { P, S } = resamp(run.line, run.step || 3);
     if (P.length < 2) continue;
     const lift = run.lift + (ri++ % 8) * 0.004;
-    /* Legacy grading is a rendering estimate. A measured source ground must
-       not acquire a box-filtered roadbed, crown or guessed bridge minimum. */
-    const hraw = measuredOnly ? [] : P.map(p => terrainH(p[0], p[1]));
+    const draped = measuredOnly || run.drape === true;
+    /* Ordinary roads follow the ground. Legacy special infrastructure can
+       retain grading, except on measured-only courses. */
+    const hraw = draped ? [] : P.map(p => terrainH(p[0], p[1]));
     const hs = hraw.map((_, i) => {
       let a = 0, n = 0;
       for (let k = -8; k <= 8; k++) { const j = i + k; if (j >= 0 && j < hraw.length) { a += hraw[j]; n++; } }
@@ -3639,7 +3422,7 @@ function buildRoad(runs, asphalt) {
         const x = P[i][0] + nx * u, z = P[i][1] + nz * u;
         const verge = Math.abs(u) > run.w + 0.01;
         const crown = 0.05 * (1 - (u / run.w) ** 2);
-        const h = measuredOnly ? terrainH(x, z) + measuredLift
+        const h = draped ? terrainH(x, z) + measuredLift
                     : verge ? terrainH(x, z) + 0.03
                             : hs[i] + Math.max(0, crown) + lift;
         const ao = horizonAO(x, z, h);
@@ -3690,7 +3473,7 @@ function buildRoad(runs, asphalt) {
   g.setAttribute('aMow', new THREE.Float32BufferAttribute(mow, 2));
   g.setIndex(idx);
   g.computeVertexNormals();
-  if (measuredOnly) {
+  if (measuredOnly || runs.every(run => run.drape === true)) {
     // Inspect the Float32 vertices actually submitted to the renderer, including
     // both road edges and shoulders, against their own sampled ground positions.
     const p = g.getAttribute('position');
@@ -3711,80 +3494,37 @@ function buildRoad(runs, asphalt) {
 
 /* asphalt with its paint in the shader: aMow.y is across-the-road in half-widths,
    so the edge line sits at 0.90 on every road regardless of its width */
-function makeAsphalt() {
-  const m = new THREE.MeshStandardNodeMaterial({ vertexColors: true, roughness: 0.74, metalness: 0 });
-  const am = attribute('aMow', 'vec2');
-  const paint = attribute('aStr', 'float');
-  const dt = texture(DETAIL, positionWorld.xz.mul(0.13)).g.sub(0.5);
-  const base = attribute('color', 'vec3').mul(dt.mul(0.22).add(1));
-  const uN = am.y.abs();
-  const edge = oneMinus(smoothstep(0.025, 0.06, uN.sub(0.90).abs())).mul(step(0.5, paint));
-  const dash = oneMinus(smoothstep(0.02, 0.05, uN))
-                 .mul(step(1.5, paint))
-                 .mul(oneMinus(smoothstep(0.22, 0.27, fract(am.x.div(12)))));
-  m.colorNode = mix(base, color(0xcfd2d4), edge.add(dash).min(1).mul(0.8));
-  /* asphalt shines at grazing light, which is most of how it reads as asphalt */
-  const V = normalize(cameraPosition.sub(positionWorld));
-  m.roughnessNode = float(0.76).sub(pow(oneMinus(saturate(V.y.abs())), 3).mul(0.22));
-  return m;
-}
-
-/* Compacted gravel: matte, its vertex colour with a faint grain, nothing
-   else. The gravel ribbons used to borrow the turf shader -- grass detail,
-   bump and stripes over a grey vertex colour -- and came out a dark brown
-   that never matched the lots, which the ground material paints flat. */
-function makeGravel() {
-  const m = new THREE.MeshStandardNodeMaterial({ vertexColors: true, roughness: 0.95, metalness: 0 });
-  const dt = texture(DETAIL, positionWorld.xz.mul(0.31)).g.sub(0.5);
-  m.colorNode = attribute('color', 'vec3').mul(dt.mul(0.16).add(1));
-  return m;
-}
+function makeAsphalt() { return createRoadAsphalt(DETAIL); }
+function makeGravel() { return createRoadGravel(DETAIL); }
 
 {
-  const asphaltRuns = [], gravelRuns = [], dirtRuns = [];
-  /* Near the course the ground material paints every road's band itself, in
-     the same flat gravel as the lots, so a gravel road there gets NO ribbon:
-     a ribbon over a painted band is a second road in a second shade. The
-     ribbon remains for the stretch beyond the ground's coverage -- the v2
-     surface layer where it is loaded, the boot atlas otherwise -- and a road
-     that crosses the edge keeps one point inside so the two meet. */
+  const asphaltRuns = [], gravelRuns = [], dirtRuns = [], paintRuns = [];
+  // The terrain owns the road's base surface wherever a surface atlas is
+  // available. Only lane paint is overlaid there; opaque ribbons fill the
+  // uncovered surroundings and the explicit legacy mesh fallback.
   const painted = (x, z) => TERRAIN_PREVIEW.surfaceAtlas
-    ? TERRAIN_PREVIEW.surfaceAtlas.probeAt(x, z)?.inBounds === true
+    ? TERRAIN_PREVIEW.surfaceAtlas.contains(x, z)
     : (groundMode === 'atlas' && !!groundAtlas?.contains(x, z));
-  const unpaintedRuns = line => {
-    const flags = line.map(([x, z]) => painted(x, z));
-    if (flags.every(Boolean)) return [];
-    if (!flags.some(Boolean)) return [line];
-    const runs = [];
-    let run = [];
-    for (let i = 0; i < line.length; i++) {
-      if (!flags[i]) {
-        if (!run.length && i > 0) run.push(line[i - 1]);   /* one painted point, so the ribbon reaches the band */
-        run.push(line[i]);
-      } else if (run.length) {
-        run.push(line[i]);
-        if (run.length >= 2) runs.push(run);
-        run = [];
-      }
-    }
-    if (run.length >= 2) runs.push(run);
-    return runs;
-  };
-  for (const r of M.infra.roads) {
-    const surf = r.surface || 'asphalt';
-    if (r.kind === 'trunk') {
-      /* the E4: paired one-way roadbeds of the 2+1, one wide bed east of Ås */
-      const w = mappedLineHalfWidth(r, r.oneway ? (r.lanes >= 2 ? 3.9 : 2.6) : 5.0);
-      asphaltRuns.push({ line: r.line, w, paint: (!r.oneway || r.lanes >= 2) ? 2 : 1, lift: 0.16, tone: C.aspT });
-    } else if ((r.kind === 'secondary' || r.kind === 'tertiary') && !/gravel|ground|dirt|unpaved|compacted/.test(surf)) {
-      asphaltRuns.push({ line: r.line, w: mappedLineHalfWidth(r, 3.2), paint: 2, lift: 0.14, tone: C.aspL });
-    } else if (/gravel|ground|dirt|unpaved|compacted/.test(surf)) {
-      /* a gravel road is pale compacted grit, not the brown of a trodden path */
-      for (const line of unpaintedRuns(r.line)) gravelRuns.push({ line, w: mappedLineHalfWidth(r, 2.2), lift: 0.12, tone: C.hard });
-    } else {
-      asphaltRuns.push({ line: r.line, w: mappedLineHalfWidth(r, 2.7), paint: 0, lift: 0.12, tone: C.aspL });
-    }
+  function addRoad(item, group = 'roads', step = 3) {
+    if (item.tunnel || item.line.length < 2) return;
+    const surface = roadSurface(item), asphalt = surface === SURFACE.ASPHALT;
+    const trunk = item.kind === 'trunk', major = trunk || /^(secondary|tertiary)$/.test(item.kind);
+    const halfWidth = group === 'paths' ? (item.kind === 'cycleway' ? 1.3 : 0.65)
+      : group === 'tracks' ? (item.kind === 'service' ? 1.9 : 1.7)
+        : trunk ? (item.oneway ? (item.lanes >= 2 ? 3.9 : 2.6) : 5) : major ? 3.2 : 2.7;
+    const paint = asphalt && major ? (trunk && item.oneway && !(item.lanes >= 2) ? 1 : 2) : 0;
+    const tone = asphalt ? (trunk ? C.aspT : C.aspL)
+      : surface === SURFACE.DIRT || surface === SURFACE.MUD ? C.soil : C.gravel;
+    const run = { w: mappedLineHalfWidth(item, halfWidth), paint, tone, lift: 0.03, drape: true, step };
+    const parts = splitRoadCoverage(item.line, painted);
+    const target = asphalt ? asphaltRuns : surface === SURFACE.DIRT || surface === SURFACE.MUD ? dirtRuns : gravelRuns;
+    for (const line of parts.uncovered) target.push({ ...run, line });
+    if (paint) for (const line of parts.covered) paintRuns.push({ ...run, line, step: 1 });
+    ROAD_RENDER_PROOFS.push({ group, kind: item.kind, sourceSurface: item.surface || null,
+      surface, paint, name: item.name || null, coveredSegments: parts.covered.length,
+      opaqueSegments: parts.uncovered.length, draped: true });
   }
+  for (const road of M.infra.roads) addRoad(road);
   /* the roads beyond the core extract -- the town's streets, the E4 through
      it, the connectors out to the villages -- as the same ribbons at a coarser
      step; a phone skips the streets. And the two tracks the record names: the
@@ -3796,12 +3536,8 @@ function makeGravel() {
       if (r.tunnel) continue;
       const minor = /^(residential|unclassified|living_street|pedestrian)$/.test(r.kind);
       if (LOWQ && minor) continue;
-      const gravel = /gravel|ground|dirt|unpaved|compacted/.test(r.surface || '');
       for (const line of farRingRuns(r.line)) {
-        const step = minor ? 9 : 6;
-        if (gravel) gravelRuns.push({ line, w: minor ? 2.2 : 3.0, lift: 0.12, tone: C.hard, step });
-        else if (r.kind === 'trunk') asphaltRuns.push({ line, w: r.oneway ? (r.lanes >= 2 ? 3.9 : 2.6) : 5.0, paint: (!r.oneway || r.lanes >= 2) ? 2 : 1, lift: 0.16, tone: C.aspT, step });
-        else asphaltRuns.push({ line, w: minor ? 2.7 : 3.2, paint: minor ? 0 : 2, lift: 0.14, tone: C.aspL, step });
+        addRoad({ ...r, line }, 'roads', minor ? 9 : 6);
         SURR_STATS.roads++; SURR_STATS.roadKm += polyLen(line) / 1000;
       }
     }
@@ -3818,34 +3554,24 @@ function makeGravel() {
     }
     SURR_STATS.roadKm = Math.round(SURR_STATS.roadKm * 10) / 10;
   }
-  if (groundMode !== 'atlas') {
-    for (const t of M.infra.tracks) {
-      if (/\b(asphalt|paved)\b/.test(t.surface || '')) asphaltRuns.push({ line: t.line, w: mappedLineHalfWidth(t, 1.9), paint: 0, lift: 0.10, tone: C.aspL });
-      else gravelRuns.push({ line: t.line, w: mappedLineHalfWidth(t, t.kind === 'service' ? 1.9 : 1.7), lift: t.kind === 'service' ? 0.10 : 0.08, tone: t.kind === 'service' ? C.hard : undefined });
-    }
-    for (const p of M.infra.paths) {
-      if ((p.kind === 'cycleway' && !/gravel|ground|dirt|unpaved|compacted/.test(p.surface || '')) || /\b(asphalt|paved)\b/.test(p.surface || ''))
-        asphaltRuns.push({ line: p.line, w: mappedLineHalfWidth(p, 1.3), paint: 0, lift: 0.07, tone: C.aspL });
-      /* a gravel cart path is a metre and a half of compacted gravel, not a
-         trodden line: the traced paths say so, and OSM's do where tagged */
-      else if (/gravel|compacted|pebble/.test(p.surface || ''))
-        gravelRuns.push({ line: p.line, w: mappedLineHalfWidth(p, 1.6), lift: 0.08, tone: C.hard.map((v, k) => lerp(v, C.path[k], 0.35)) });
-      else dirtRuns.push({ line: p.line, w: mappedLineHalfWidth(p, 0.55), lift: 0.06, tone: C.soil });
-    }
-  }
+  for (const track of M.infra.tracks) addRoad(track, 'tracks');
+  for (const path of M.infra.paths) addRoad(path, 'paths');
   const asphaltMat = nudged(2, makeAsphalt);
   const gravelMat = nudged(2, makeGravel);
-  /* the dirt ribbons share the terrain's own material, nudged so on a
-     shallow depth buffer the ground does not fight straight through them */
-  const ribbonTurf = nudged(2);
-  for (const [runs, asphalt, mat] of [[asphaltRuns, true, asphaltMat],
-                                      [gravelRuns, false, gravelMat],
-                                      [dirtRuns, false, ribbonTurf]]) {
-    const g = buildRoad(runs, asphalt);
-    if (!g) continue;
-    const m = new THREE.Mesh(g, mat);
-    m.receiveShadow = true; m.renderOrder = 1;
-    scene.add(m);
+  // Dirt uses the same matte finish, with its own soil vertex colour. The
+  // turf shader would add grass detail and multiply the colour again.
+  const dirtMat = nudged(2, makeGravel);
+  const paintMat = nudged(2, () => createRoadAsphalt(DETAIL, { paintOnly: true }));
+  for (const [runs, asphalt, mat, name] of [[asphaltRuns, true, asphaltMat, 'asphalt'],
+      [gravelRuns, false, gravelMat, 'gravel'], [dirtRuns, false, dirtMat, 'dirt'],
+      [paintRuns, true, paintMat, 'markings']]) {
+    const geometry = buildRoad(runs, asphalt);
+    if (!geometry) { mat.dispose(); continue; }
+    const mesh = new THREE.Mesh(geometry, mat);
+    mesh.name = 'roads-' + name;
+    mesh.userData.tag = 'roads';
+    mesh.receiveShadow = true; mesh.renderOrder = name === 'markings' ? 2 : 1;
+    scene.add(mesh);
     stats.draws++;
   }
 
@@ -4168,7 +3894,7 @@ if (LIDINGO_WATER_LOADING) {
 }
 
 /* THE WATER THE GROUND FOUND. The extract's rings stop at its bounding box
-   and miss the lakes beyond it; the flats the 4 m ring detected carry on
+   and miss the lakes beyond it; flats detected across the full terrain carry on
    from there. One sheet per flat, a quad over its footprint at its level,
    drawn only where the mask says water and no ring already draws -- so a
    lake cut straight by the box continues at the ring's own level, and a
@@ -4981,6 +4707,8 @@ lap('v2 vegetation: plan individuals + stand trees');
       stats.facilityExcludedTrees = (stats.facilityExcludedTrees || 0) + 1;
       continue;
     }
+    if (SCENERY?.isLandmarkTreeObstruction?.(px, pz, SPECIES[sp].templateRadius * sk,
+      landmarkArchitecture?.replacedLandmarkIds)) continue;
     trees[sp].push(px, h - 0.25, pz, sk, rnd(i + 3, j + 41) * TAU, sk);
     treeWhy[sp].push(why);
     }
@@ -4992,6 +4720,8 @@ if (V2_VEG_PLAN) {
      field, drawn with the same three templates as the lattice so the woods
      stay one material and one look; only their sizes are no longer hashed */
   for (const t of V2_VEG_PLAN.instances) {
+    if (SCENERY?.isLandmarkTreeObstruction?.(t.x, t.z, t.radius,
+      landmarkArchitecture?.replacedLandmarkIds)) continue;
     const spec = SPECIES[t.species];
     // Display exclusion only: measured roof returns must not grow through the
     // authored buildings. Keep the underlying vegetation source unchanged.
@@ -5896,6 +5626,8 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
   const rnd2 = (i, j) => hash2(i * 4241 + 5, j * 7573 + 11);
   /* no impostor conifer stands in a field, a garden block, a clear-fell or the yard */
   const openLand = (px, pz) => {
+    if (SCENERY?.isLandmarkTreeObstruction?.(px, pz, 5,
+      landmarkArchitecture?.replacedLandmarkIds)) return true;
     for (const q of LI.at(px, pz))
       if (q.kind !== 'industrial' && q.kind !== 'commercial' && ringSD(px, pz, q.ring, 1) < 0) return true;
     for (const q of SI.at(px, pz)) if (ringSD(px, pz, q.ring, 1) < 0) return true;
@@ -6056,6 +5788,10 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < GEO.seaLevel + 1.5) continue;
       if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
       if (inWater(px, pz, h)) continue;
+      // Calibrated landcover can call this closed canopy even beside an open
+      // jump. Apply the crown clearance to that branch as well as openLand.
+      if (SCENERY?.isLandmarkTreeObstruction?.(px, pz, 10,
+        landmarkArchitecture?.replacedLandmarkIds)) continue;
       pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
       if (FAR_CAL) {
         /* the band's own spacing, so a thinned band's quad is grown to cover
@@ -6498,7 +6234,8 @@ function mappedPointObjects(points) {
      deck held above the water it crosses */
   const RW = (M.infra.railway || []).concat(SURR
     ? SURR.railway.flatMap(r => farRingRuns(r.line).map(line => ({ ...r, line, bridge: false, surr: true })))
-    : []).filter(r => r.line.length >= 2);
+    : []).filter(r => r.line.length >= 2
+      && !SCENERY?.isReplacedLandmarkRail?.(r, landmarkArchitecture?.replacedLandmarkIds));
   if (SURR) { SURR_STATS.railway = RW.filter(r => r.surr).length; SURR_STATS.railKm = Math.round(RW.filter(r => r.surr).reduce((a, r) => a + polyLen(r.line), 0) / 100) / 10; }
   if (RW.length) {
     const runs = RW.map(r => ({ line: r.line, w: 2.6, lift: 0.14, tone: C.ballast,
@@ -7355,7 +7092,9 @@ if (M.infra.objectPlacement === 'mapped-only') {
     const tri2 = (a, b, c, col) => { V2.push(...a, ...b, ...c); K2.push(...col, ...col, ...col); };
     const q2 = (a, b, c, d, col) => { tri2(a, b, c, col); tri2(a, c, d, col); };
     const BLOCKA = L(0xc9c2b4), BLOCKB = L(0xb8a58e), BLOCKC = L(0xd8d3c6), CHURCH = L(0xe6e4dc), SPIRE = L(0x3a3d40);
-    for (const [cx, cz, hw, hd, ang, ind, hTag] of FB) {
+    for (const box of FB) {
+      if (SCENERY?.isReplacedLandmarkBox?.(box, landmarkArchitecture?.replacedLandmarkIds)) continue;
+      const [cx, cz, hw, hd, ang, ind, hTag] = box;
       const h = hTag > 0 ? hTag : ind === 1 ? 6.2 : ind === 2 ? 9.5 : 4.4;
       const base = demH(cx, cz) - 1.2;
       const c = Math.cos(ang), s = Math.sin(ang);
@@ -7371,6 +7110,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
       q2(P(-hw, -hd, base + h), P(hw, -hd, base + h), P(hw, hd, base + h), P(-hw, hd, base + h), ROOFA);
     }
     if (SURR) for (const b of SURR.landmarks) {
+      if (landmarkArchitecture?.replacedLandmarkIds.has(b.id)) continue;
       const cc = centroidOf(b.ring);
       if (!inFarRing(cc[0], cc[1]) || b.ring.length < 3) continue;
       const faces = triangulate(b.ring);
@@ -7815,7 +7555,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
       }
     }
   }
-  /* the course's own landmarks, if it has any -- Åsmasten and Själevads kyrka at
+  /* the course's batched landmarks, if it has any -- Åsmasten at
      Veckefjärden, the 1649 chapel at Norrfällsviken. Loaded by slug and handed
      THIS batch, so a horizon full of bespoke buildings is still one draw call,
      and a course without a module pays nothing at all. */
@@ -7914,6 +7654,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
        inrun's length, on paired posts every eight metres. */
     for (const p of SURR.pistes) {
       if (p.kind !== 'ski_jump') continue;
+      if (landmarkArchitecture?.replacedLandmarkIds.has(p.id)) continue;
       const cc = centroidOf(p.ring);
       if (!inFarRing(cc[0], cc[1])) continue;
       /* principal axis by the farthest vertex pair */
@@ -7990,10 +7731,16 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const sceneColor = scenePass.getTextureNode('output');
   const bloomNode = bloom(sceneColor, 0.14, 0.3, 0.86);
   const out = sceneColor.add(bloomNode);
-  /* the painted look: a little more chroma and a gentle S on the mids, the grade a background painter applies */
-  post.outputNode = GHIBLI_LOOK
-    ? (() => { const c = mix(vec3(luminance(out.rgb)), out.rgb, 1.16); return vec4(mix(c, smoothstep(0, 1, c), 0.25), out.a); })()
-    : out;
+  /* Keep the painted world's grade off the sky. The sky does not write depth,
+     so the untouched far value identifies background on both depth conventions. */
+  if (GHIBLI_LOOK) {
+    const depth = scenePass.getTextureNode('depth').r;
+    const skyPixel = renderer.reversedDepthBuffer ? step(depth, 0) : step(1, depth);
+    const c = mix(vec3(luminance(out.rgb)), out.rgb, 1.16);
+    const painted = vec4(mix(c, smoothstep(0, 1, c), 0.25), out.a);
+    // Blend arithmetically so shared scene/bloom nodes stay outside branches.
+    post.outputNode = mix(out, painted, oneMinus(skyPixel).mul(uPaintedGrade));
+  } else post.outputNode = out;
   renderer.__post = post;
   renderer.__bloomNode = bloomNode;   /* strength is per-preset; setPreset sets it */
 }
@@ -8113,6 +7860,10 @@ function placeSun() {
 const DEF_TEE = CMETA.tees.def ?? 0;
 let hole = 1, teeIdx = DEF_TEE, camMode = 'orbit', flying = 0;
 const TEE_NAMES = CMETA.tees.names;
+const selectedTee = createSelectedTee({ camera, heightAt: terrainH,
+  onLocate: docked => setCam(docked ? 'top' : 'tee') });
+const selectedGreen = createSelectedGreen({ camera, heightAt: terrainH,
+  onLocate: () => setCam('green') });
 
 const holesBar = document.getElementById('holes');
 for (let n = 1; n <= NHOLES; n++) {
@@ -8139,6 +7890,9 @@ const teesEl = document.getElementById('tees');
 
 function drawCard() {
   const h = HOLES[hole - 1];
+  if (!h.tees.marks[teeIdx] || h.t[teeIdx] == null) teeIdx = h.tees.marks[DEF_TEE] ? DEF_TEE : 0;
+  selectedTee.select(h, teeIdx, TEE_NAMES);
+  selectedGreen.select(h);
   document.getElementById('cno').textContent = h.n;
   document.getElementById('cnm').textContent = h.name || `Hål ${h.n}`;
   /* A korthalsbana is not rated, so it has no stroke index and none is invented:
@@ -8149,14 +7903,18 @@ function drawCard() {
     CMETA.cardStatus ? `${cardLine} · Preliminärt kort` : cardLine;
   teesEl.innerHTML = '';
   h.t.forEach((m, k) => {
-    const d = document.createElement('div');
+    const d = document.createElement('button');
+    d.type = 'button';
     d.className = 'tee' + (k === teeIdx ? ' on' : '');
+    d.setAttribute('aria-pressed', String(k === teeIdx));
+    d.setAttribute('aria-label', `Tee ${TEE_NAMES[k]}, ${m} meter`);
     d.innerHTML = `<b>${m}</b><i>${TEE_NAMES[k]}</i>`;
     d.onclick = () => {
       teeIdx = k;
       drawCard();
       buildStrategy();
       if (camMode === 'tee') setCam('tee');
+      syncURL();
       if (kik) kikRender();
     };
     teesEl.appendChild(d);
@@ -8238,9 +7996,14 @@ function setCam(mode, instant) {
   const b = alongLine(h.line, 0.02).b;
   const F = [Math.sin(b), Math.cos(b)];
   if (mode === 'tee') {
-    // Stand at the selected tee reference, at the same eye height as walking.
+    // Frame the selected tee from six metres behind it along the viewing axis.
+    // Keep the reference as the shot origin, and clear both the tee and nearby ground.
     const { position: [x, z], aim } = teeView(h, mk);
-    flyTo(V3(x, terrainH(x, z) + GROUND_CLAMP.eye, z), V3(aim.x, terrainH(aim.x, aim.z) + 3, aim.z), DUR);
+    const setback = 6, dx = aim.x - x, dz = aim.z - z, aimDistance = Math.hypot(dx, dz);
+    const cameraX = x - (aimDistance > 0 ? dx / aimDistance : F[0]) * setback;
+    const cameraZ = z - (aimDistance > 0 ? dz / aimDistance : F[1]) * setback;
+    const eyeY = Math.max(terrainH(cameraX, cameraZ), terrainH(x, z)) + GROUND_CLAMP.eye;
+    flyTo(V3(cameraX, eyeY, cameraZ), V3(aim.x, terrainH(aim.x, aim.z) + 3, aim.z), DUR);
   } else if (mode === 'green') {
     /* the approach, not a plan of the green: back down the fairway at the height a
        ball is at when it lands, so the complex is seen the way it is played */
@@ -9128,9 +8891,9 @@ if (GRAPHICS_POLISH) bindCameraGestureInterrupt({
 /* ------------------------------------------------------- personal caddie
    One local bag drives both the labels painted on the hole and Kikaren's club
    recommendation. It never leaves the device. The 3D strategy is derived from
-   the selected tee, the routed centreline and explicit distances in the club's
-   note (for example "max 200 meter"), so it works for every current pack while
-   leaving room for authored per-hole strategy data later. */
+   the selected tee, fairway/green interiors, placed obstacles and the player's
+   carry distances. Explicit limits in the club's note ("max 200 meter") cap
+   the first stroke. Each segment is a checked shot to a playable landing. */
 const BAG_KEY = 'banvy-caddie-bag-v1';
 const htmlEsc = value => String(value ?? '').replace(/[&<>"']/g, ch =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -9329,8 +9092,8 @@ function strategyLabel(title, subtitle, point, colour = '#b7dfc0', scale = 1, qu
 }
 
 function strategyEllipse(strategy, zone, colour) {
-  const before = pointAlongLine(strategy.line, Math.max(0, zone.distance - 5));
-  const after = pointAlongLine(strategy.line, Math.min(strategy.total, zone.distance + 5));
+  const before = zone.from;
+  const after = zone.point;
   const dx = after[0] - before[0], dz = after[1] - before[1], length = Math.hypot(dx, dz) || 1;
   const fx = dx / length, fz = dz / length, rx = -fz, rz = fx;
   const ring = [];
@@ -9414,10 +9177,62 @@ strategyMotionPreference.addEventListener?.('change', event => {
   else if (strategyOn) startStrategyAnimation();
 });
 
+let strategyEnvironment = null;
+const strategyCache = new Map();
+function getStrategyEnvironment() {
+  if (strategyEnvironment) return strategyEnvironment;
+  const obstacles = [];
+  for (let ti = 0; ti < TREE_LOD.tiers.length; ti++) {
+    const tier = TREE_LOD.tiers[ti], matrices = TREE_LOD.mats[ti];
+    if (!tier) continue;
+    let radius = 0;
+    for (const level of [1, 2, 3]) for (const part of tier.t[level].parts) {
+      const vertices = part.geometry.getAttribute('position');
+      for (let i = 0; i < vertices.count; i++) radius = Math.max(radius,
+        Math.hypot(vertices.getX(i), vertices.getZ(i)));
+    }
+    // Rendered transforms include authored width clamps, variant proportions
+    // and height variation. X/Z scales are equal; yaw preserves this radius.
+    // Include the same crown wind envelope as treeTemplateBounds, without the
+    // extra diagonal inflation of a rotated bounding box.
+    for (let i = 0; i < matrices.length; i += 16) {
+      const scale = Math.max(Math.hypot(matrices[i], matrices[i + 2]),
+        Math.hypot(matrices[i + 8], matrices[i + 10]));
+      obstacles.push({ x: matrices[i + 12], z: matrices[i + 14], radius: (radius + 0.16 * Math.SQRT2) * scale });
+    }
+  }
+  strategyEnvironment = createShotEnvironment({ trees: obstacles, buildings: M.infra.buildings,
+    terrainHeight: terrainH,
+    landingAllowed: (x, z) => {
+      if (kikKindAt(x, z)) return false;
+      const ground = classify(x, z);
+      return (ground.fair > 0.5 || ground.green > 0.5) && ground.path < 0.2;
+    },
+  });
+  return strategyEnvironment;
+}
+
+function syncStrategyStatus() {
+  const status = document.getElementById('strategyStatus');
+  status.hidden = !strategyOn || currentStrategy?.status === 'playable';
+  status.textContent = currentStrategy?.status === 'unavailable'
+    ? 'Spellinjen saknar ett verifierbart målområde.'
+    : 'Ingen fri spellinje hittades med dina klubblängder.';
+}
+
 function buildStrategy() {
   strategyClear();
-  currentStrategy = strategyForHole(HOLES[hole - 1], teeIdx, playerBag);
-  if (!currentStrategy || !strategyOn) { drawMini(); return; }
+  const cacheKey = JSON.stringify([hole, teeIdx, playerBag]);
+  if (!strategyCache.has(cacheKey)) {
+    if (strategyCache.size >= 128) strategyCache.clear();
+    strategyCache.set(cacheKey, strategyForHole(HOLES[hole - 1], teeIdx, playerBag, getStrategyEnvironment()));
+  }
+  currentStrategy = strategyCache.get(cacheKey);
+  syncStrategyStatus();
+  strategyBtn.title = currentStrategy?.status === 'playable'
+    ? 'Spellinje till fairway och green med fri väg förbi träd och byggnader'
+    : 'Ingen fri spellinje hittades med dina klubblängder';
+  if (!currentStrategy?.primary || !strategyOn) { drawMini(); return; }
   strategyGroup = new THREE.Group();
   strategyGroup.name = 'tactical-guide';
   strategyGroup.visible = strategyOn;
@@ -9440,14 +9255,12 @@ function buildStrategy() {
     if (index === 0) {
       const title = zone.kind === 'green'
         ? `Green · ${Math.round(zone.distance)} m`
-        : currentStrategy.maxCarry
-          ? `Sikta här · max ${Math.round(currentStrategy.maxCarry)} m`
-          : `Sikta här · ${Math.round(zone.distance)} m`;
+        : `Sikta här · ${Math.round(zone.distance)} m`;
       const subtitle = zone.kind === 'green'
         ? `${zone.club?.name || 'Klubbval'} · till mitten`
         : `${zone.club?.name || 'Klubbval'} · ${Math.round(zone.remain)} m kvar`;
       labels.push(strategyLabel(title, subtitle, zone.point, '#acdcb5'));
-    } else {
+    } else if (zone.surface !== 'green') {
       labels.push(strategyLabel(`${Math.round(zone.remain)} m kvar`, '', zone.point, '#dcc895', 0.76, true));
     }
   });
@@ -9521,8 +9334,11 @@ strategyBtn.onclick = () => {
     if (strategyGroup) startStrategyAnimation();
     else buildStrategy();
   }
+  syncStrategyStatus();
   drawMini();
-  toast(strategyOn ? 'Spellinje på · följ den ljusa linjen till målområdet' : 'Spellinje av');
+  toast(strategyOn ? currentStrategy?.primary
+    ? 'Spellinje på · följ den ljusa linjen till målområdet'
+    : 'Ingen fri spellinje hittades med dina klubblängder' : 'Spellinje av');
 };
 
 /* ------------------------------------------------------------ live GPS
@@ -9923,6 +9739,7 @@ function kikWxLine(r) {
 function kikDraw(r) {
   kikErase();
   kikGroup = new THREE.Group();
+  kikGroup.name = 'kikaren';
   const [ox, oz] = r.origin, oy = terrainH(ox, oz);
   if (!r.fromTee && !r.fromGps) {
     const ball = new THREE.Mesh(new THREE.SphereGeometry(0.7, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffffff) }));
@@ -9936,10 +9753,12 @@ function kikDraw(r) {
     for (let i = 0; i <= 30; i++) {
       const f = i / 30;
       const x = ox + (tx - ox) * f, z = oz + (tz - oz) * f;
-      P.push(new THREE.Vector3(x, oy + 1.4 + (ty + 0.4 - oy - 1.4) * f + Math.sin(f * Math.PI) * rise, z));
+      P.push(new THREE.Vector3(x, oy + (ty - oy) * f + Math.sin(f * Math.PI) * rise, z));
     }
-    kikGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(P),
-      new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0xffdf8a), transparent: true, opacity: 0.95 })));
+    const arc = new THREE.Line(new THREE.BufferGeometry().setFromPoints(P),
+      new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0xffdf8a), transparent: true, opacity: 0.95 }));
+    arc.name = 'kikaren-shot';
+    kikGroup.add(arc);
     const mark = new THREE.Mesh(new THREE.SphereGeometry(0.9, 10, 8), new THREE.MeshBasicNodeMaterial({ color: new THREE.Color(0xffdf8a) }));
     mark.position.set(tx, ty + 0.9, tz);
     kikGroup.add(mark);
@@ -10602,9 +10421,10 @@ function drawMini() {
   mctx.strokeStyle = strategyOn ? 'rgba(205,231,211,.34)' : '#8cf0a8';
   mctx.lineWidth = strategyOn ? 1.5 : 3.2; mctx.lineJoin = 'round';
   mctx.beginPath();
-  h.line.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
+  const miniRoute = strategyOn ? currentStrategy?.line || [] : h.line;
+  miniRoute.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
   mctx.stroke();
-  if (strategyOn && currentStrategy) {
+  if (strategyOn && currentStrategy?.primary) {
     mctx.save();
     const primary = sampledRoute(currentStrategy.line, 0, currentStrategy.primaryDistance, 5);
     mctx.strokeStyle = 'rgba(178,225,188,.82)'; mctx.lineWidth = 2.6; mctx.lineCap = 'round'; mctx.lineJoin = 'round';
@@ -10612,8 +10432,8 @@ function drawMini() {
     primary.forEach((p, i) => i ? mctx.lineTo(MX(p[0]), MZ(p[1])) : mctx.moveTo(MX(p[0]), MZ(p[1])));
     mctx.stroke();
     for (const zone of currentStrategy.zones) {
-      const before = pointAlongLine(currentStrategy.line, Math.max(0, zone.distance - 5));
-      const after = pointAlongLine(currentStrategy.line, Math.min(currentStrategy.total, zone.distance + 5));
+      const before = zone.from;
+      const after = zone.point;
       const angle = Math.atan2(after[1] - before[1], after[0] - before[0]);
       mctx.translate(MX(zone.point[0]), MZ(zone.point[1]));
       mctx.rotate(angle);
@@ -10626,23 +10446,13 @@ function drawMini() {
     }
     mctx.restore();
   }
-  mctx.fillStyle = '#f0a23a';
-  mctx.beginPath(); mctx.arc(MX(h.line[0][0]), MZ(h.line[0][1]), 4.5, 0, TAU); mctx.fill();
-  /* a flag, not a dot. Red on green is the one pair a deuteranope cannot split, so
-     the pin is told apart by its shape as much as by its vermillion. */
-  {
-    const px = MX(h.pin[0]), py = MZ(h.pin[1]);
-    mctx.strokeStyle = 'rgba(244,240,232,.9)'; mctx.lineWidth = 1.5;
-    mctx.beginPath(); mctx.moveTo(px, py + 1.5); mctx.lineTo(px, py - 11); mctx.stroke();
-    mctx.fillStyle = '#d55e00';
-    mctx.beginPath(); mctx.moveTo(px, py - 11); mctx.lineTo(px + 8.5, py - 7.6);
-    mctx.lineTo(px, py - 4.2); mctx.closePath(); mctx.fill();
-  }
   if (skyState >= 1) {
     const p = skyXY(SKY.holes[hole - 1]);
     drawPuck(mctx, p[0], p[1], SKY_R + 1.5, h.n,
              { fill: '#8cf0a8', stroke: 'rgba(6,18,10,.5)', ink: '#06210f' });
   }
+  selectedTee.drawMini(mctx, MX, MZ);
+  selectedGreen.drawMini(mctx, MX, MZ);
   if (kikPt) {
     mctx.strokeStyle = '#ffdf8a'; mctx.lineWidth = 2;
     mctx.beginPath(); mctx.arc(MX(kikPt[0]), MZ(kikPt[1]), 5, 0, TAU); mctx.stroke();
@@ -11060,11 +10870,13 @@ function frame() {
   if (GRAPHICS_POLISH) updateFrameVisibility(now, dt);
   placeSun();
   shadowRest(now);
-  if (skyMesh) skyMesh.position.copy(camera.position);
-  if (skyDome) skyDome.position.copy(camera.position);
+  skyMesh.position.copy(camera.position);
   updateSky();
   updateStrategy(now);
   kikTagUpdate();
+  const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
+  const teeCardRect = selectedTee.update(markerOptions);
+  selectedGreen.update({ ...markerOptions, reserved: teeCardRect ? [teeCardRect] : [] });
   drawMini();
   if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
@@ -11303,6 +11115,7 @@ window.V3D = {
      reason -- the only way to tell "this course has none" from "this course's
      models failed to load", which look identical on screen */
   authoredBuildings: () => structuredClone(AUTHORED_BUILDING_DIAGNOSTICS),
+  landmarkModels: () => structuredClone(landmarkArchitecture?.report || null),
   facilityGeometry: () => {
     const root = facilityArchitecture?.root;
     if (!root?.parent) return null;
@@ -11333,7 +11146,8 @@ window.V3D = {
       settled: strategyAnimation.settled,
     } : null,
     strategy: currentStrategy ? {
-      origin: [...currentStrategy.origin], primary: [...currentStrategy.primary],
+      status: currentStrategy.status, line: currentStrategy.line.map(point => [...point]),
+      origin: [...currentStrategy.origin], primary: currentStrategy.primary ? [...currentStrategy.primary] : null,
       primaryDistance: currentStrategy.primaryDistance, arcs: [...currentStrategy.arcs],
       zones: currentStrategy.zones.map(zone => ({ ...zone, point: [...zone.point], club: zone.club ? { ...zone.club } : null })),
     } : null,
@@ -11342,6 +11156,16 @@ window.V3D = {
     kik: { on: kik, point: kikPt ? [...kikPt] : null, ball: kikBall ? [...kikBall] : null,
            sheetOpen: kikOut.classList.contains('open'), tag: kikTagXY.visible ? { x: kikTagXY.x, y: kikTagXY.y } : null },
   }),
+  strategyCheck: (number = hole, tee = teeIdx) => {
+    const environment = getStrategyEnvironment();
+    const started = performance.now();
+    const plan = strategyForHole(HOLES[number - 1], tee, playerBag, environment);
+    return { ...plan, elapsedMs: performance.now() - started,
+      obstacles: environment.treeCount,
+      originClear: environment.clearSegment(plan.origin, plan.origin),
+      segmentsClear: plan.zones.every(zone => environment.clearSegment(zone.from, zone.point)),
+      landingsAllowed: plan.zones.every(zone => environment.landingAllowed(...zone.point)) };
+  },
   perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
@@ -11381,6 +11205,8 @@ window.V3D = {
   },
   setWaterVisible: on => { for (const m of WATER_MESHES) m.visible = on !== false; return WATER_MESHES.length; },
   roadDraping: () => ROAD_DRAPE_PROOFS.map(proof => ({ ...proof })),
+  roadRendering: () => ROAD_RENDER_PROOFS.map(proof => ({ ...proof })),
+  parkingRendering: () => PARKING_RENDER_PROOFS.map(proof => ({ ...proof })),
   /* hide or show meshes by tag, instance count or material type, to find what draws what */
   setMeshesVisible: ({ tag, minInstances, material, world } = {}, on = true) => {
     let n = 0;
@@ -11565,7 +11391,11 @@ window.V3D = {
     };
   },
   flatWater: () => (terrainV2.flatWater
-    ? { spacing: terrainV2.flatWater.spacing, sheets: stats.flatWaterSheets | 0, components: terrainV2.flatWater.components.map(c => ({ hectares: c.hectares, level: +c.level.toFixed(2), surface: +c.surfaceHeight.toFixed(2), known: c.knownCells, uncovered: c.uncoveredCells, bounds: c.bounds })) }
+    ? { spacing: terrainV2.flatWater.spacing, width: terrainV2.flatWater.width, height: terrainV2.flatWater.height,
+        bounds: { x0: terrainV2.flatWater.x0, z0: terrainV2.flatWater.z0,
+          x1: terrainV2.flatWater.x0 + (terrainV2.flatWater.width - 1) * terrainV2.flatWater.spacing,
+          z1: terrainV2.flatWater.z0 + (terrainV2.flatWater.height - 1) * terrainV2.flatWater.spacing },
+        sheets: stats.flatWaterSheets | 0, components: terrainV2.flatWater.components.map(c => ({ hectares: c.hectares, level: +c.level.toFixed(2), surface: +c.surfaceHeight.toFixed(2), known: c.knownCells, uncovered: c.uncoveredCells, bounds: c.bounds })) }
     : null),
   coastalWater: () => COASTAL_WATER ? {
     kind: CONTINUOUS_OCEAN ? 'continuous-ocean' : 'extension', seaWorldLevel:SEA_WORLD_LEVEL,
@@ -11583,7 +11413,7 @@ window.V3D = {
     transparent: oceanMat.transparent, terrainCeiling: COASTAL_TERRAIN_CEILING,
     vistaTreesOnSea: CONTINUOUS_OCEAN ? VISTA_PTS.reduce((sum,value,i)=>sum+(i%4===0&&CONTINUOUS_OCEAN.isSeaAt(value,VISTA_PTS[i+2])?1:0),0) : null,
   } : null,
-  cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray() }),
+  cameraInfo: () => ({ fov: camera.fov, near: camera.near, far: camera.far, aspect: camera.aspect, coordinateSystem: camera.coordinateSystem, reversedDepth: camera.reversedDepth ?? null, position: camera.position.toArray(), target: controls.target.toArray() }),
   /* put the camera anywhere, at once: the harness stands where a person stood */
   placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
   /* the hole lines as drawn, for a harness framing a whole hole */
@@ -11706,6 +11536,7 @@ window.V3D = {
   shadowFit: () => ({ R: SUN_BASIS.R, texel: +SUN_BASIS.texel.toFixed(4), snap: shadowSnap, remainderTexels: +SUN_BASIS.remainder.toFixed(3),
                       normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true }),
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
+  setShadowBoundaryFade: on => { sunShadowFilter.enabled.value = on ? 1 : 0; return !!on; },
   /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
   v2WorldMorph: ms => { const batches = terrainV2.runtime?.layer?.batches; if (!batches) return null; for (const b of batches.values()) b.morphDurationMilliseconds = Math.max(0, +ms || 0); return Math.max(0, +ms || 0); },
   /* Live buffer/morph revisions for validation; the adapter's renderer metadata
@@ -11718,6 +11549,8 @@ window.V3D = {
                     resolution: renderResolution.snapshot(),
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
+  atmosphere: () => ({ ...atmosphereState(skyMesh),
+    preset: presetName, aerialPerspective: aerialPerspective.snapshot() }),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */
   gpuTimingEnabled: () => renderer.backend?.trackTimestamp === true,

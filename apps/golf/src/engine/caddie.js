@@ -1,6 +1,7 @@
 /* Pure caddie logic shared by the bag, GPS mode and the 3D strategy layer.
    There is deliberately no DOM or THREE here: club advice and coordinate
    conversion must be testable without starting the renderer. */
+import { planGolfShots } from './shot-planner.mjs';
 import { latLonToSweref99Tm } from '../../../../packages/course-geo/chmv2/projection.mjs';
 /* The same exact pack/frame identity as the terrain bridge -- asserted
    field-for-field against the v2 registry by gps-projected-frames.test.mjs
@@ -144,73 +145,34 @@ export function pointAlongLine(line, distance) {
   return [...line[line.length - 1]];
 }
 
-function playableLine(hole, teeIndex) {
-  const line = hole?.line || [];
-  const origin = hole?.tees?.marks?.[teeIndex]?.c || hole?.tees?.marks?.[0]?.c || line[0];
-  if (!origin || line.length < 2) return { origin, line: origin ? [origin] : [], total: 0 };
-  // A par-three shot goes directly from its selected tee to the green. A
-  // lateral tee must not acquire a fictitious leg back to the rear centreline.
-  if (hole.par <= 3) {
-    const target = hole.green?.c || hole.pin || line.at(-1);
-    return { origin: [...origin], line: [[...origin], [...target]],
-      total: Math.hypot(target[0] - origin[0], target[1] - origin[1]) };
-  }
-  const hit = nearestPointOnLine(origin, line);
-  const out = [[...origin]];
-  if (hit.point && Math.hypot(origin[0] - hit.point[0], origin[1] - hit.point[1]) > 0.5) out.push(hit.point);
-  for (let i = (hit.segment ?? 0) + 1; i < line.length; i++) out.push([...line[i]]);
-  const total = out.slice(1).reduce((sum, p, i) => sum + Math.hypot(p[0] - out[i][0], p[1] - out[i][1]), 0);
-  return { origin: [...origin], line: out, total };
-}
-
 const statedMaxCarry = note => {
   const match = String(note || '').match(/max(?:imalt)?\s+(\d{2,3})\s*(?:m|meter)/i);
   return match ? Number(match[1]) : null;
 };
 
-const statedApproach = note => {
-  const match = String(note || '').match(/(\d{2,3})\s*[–—-]\s*(\d{2,3})\s*(?:m|meter)\s+kvar/i);
-  return match ? [Number(match[1]), Number(match[2])] : null;
-};
-
-export function strategyForHole(hole, teeIndex = 0, value = DEFAULT_BAG) {
-  const route = playableLine(hole, teeIndex);
-  if (!route.origin || route.total <= 0) return null;
+export function strategyForHole(hole, teeIndex = 0, value = DEFAULT_BAG, environment) {
+  const origin = hole?.tees?.marks?.[teeIndex]?.c || hole?.tees?.marks?.[0]?.c || hole?.line?.[0];
+  if (!origin) return null;
   const clubs = normalizeBag(value).sort((a, b) => b.carry - a.carry);
-  const maxCarry = statedMaxCarry(hole.note) || clubs[0].carry;
-  const wanted = hole.par <= 3
-    ? route.total
-    : hole.par >= 5
-      ? Math.min(maxCarry, Math.max(90, route.total - 190))
-      : Math.min(maxCarry, Math.max(75, route.total - 105));
-  const primaryAdvice = recommendClub(wanted, clubs);
-  const primaryDistance = hole.par <= 3
-    ? route.total
-    : Math.min(route.total, statedMaxCarry(hole.note) || primaryAdvice.club.carry);
-  const primary = pointAlongLine(route.line, primaryDistance);
-  const zones = [{
-    kind: hole.par <= 3 || primaryDistance >= route.total - 18 ? 'green' : 'landing',
-    point: primary,
-    distance: primaryDistance,
-    remain: Math.max(0, route.total - primaryDistance),
-    club: primaryAdvice.club,
-    radiusAcross: hole.par <= 3 ? 10 : 16,
-    radiusAlong: hole.par <= 3 ? 13 : 24,
-  }];
-
-  const approachRange = statedApproach(hole.note);
-  const approachRemain = approachRange ? (approachRange[0] + approachRange[1]) / 2 : (hole.par >= 5 ? 110 : null);
-  if (approachRemain && route.total - approachRemain > primaryDistance + 35) {
-    const distance = route.total - approachRemain;
-    zones.push({
-      kind: 'approach', point: pointAlongLine(route.line, distance), distance,
-      remain: approachRemain, club: null, radiusAcross: 13, radiusAlong: approachRange ? Math.max(18, Math.abs(approachRange[1] - approachRange[0])) : 20,
-    });
-  }
-
-  const arcCandidates = [100, 150, 200, Math.round(primaryDistance / 10) * 10];
-  const arcs = [...new Set(arcCandidates)].filter(distance => distance >= 60 && distance < route.total - 12).sort((a, b) => a - b);
-  return { ...route, primary, primaryDistance, primaryAdvice, zones, arcs, maxCarry: statedMaxCarry(hole.note) };
+  const maxCarry = statedMaxCarry(hole.note);
+  const plan = planGolfShots({ hole, origin, clubs, maxCarry, environment });
+  const line = [[...origin], ...plan.shots.map(shot => [...shot.point])];
+  const total = plan.shots.reduce((sum, shot) => sum + shot.distance, 0);
+  let walked = 0;
+  const zones = plan.shots.map((shot, index) => {
+    walked += shot.distance;
+    return { kind: index === 0 ? shot.kind : 'approach', surface: shot.kind === 'green' ? 'green' : 'fairway',
+      point: shot.point, from: shot.from, distance: walked, shotDistance: shot.distance,
+      remain: Math.max(0, total - walked), club: shot.club,
+      radiusAcross: shot.radiusAcross, radiusAlong: shot.radiusAlong, inset: shot.inset };
+  });
+  const first = plan.shots[0];
+  const primaryDistance = first?.distance || 0;
+  const arcs = [100, 150, 200].filter(distance => distance < primaryDistance - 12);
+  return { status: plan.status, origin: [...origin], line, total, zones, arcs, maxCarry,
+    primary: first?.point || null, primaryDistance,
+    primaryAdvice: first ? { club: first.club, distance: first.distance,
+      delta: first.distance - first.club.carry, beyondBag: false } : null };
 }
 
 export function nearestHole(point, holes, currentHoleNumber = null, hysteresis = 28) {

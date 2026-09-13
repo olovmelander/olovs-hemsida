@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createGroundStyleData } from './material.js';
+import { createGroundStyleData, classStyle } from './material.js';
 import { SURFACE } from './surface.js';
 
 const rgb = value => [value, value + 0.01, value + 0.02];
@@ -12,6 +12,16 @@ const C = Object.freeze({
 const SHADE = Array.from({ length: 256 }, (_, id) => [id + 0.1, 0.2, 0.3, 0.4]);
 
 describe('ground style data', () => {
+  it('uses the shared gravel albedo for paths and parking without retinting natural ground', () => {
+    const palette = { ...C, gravel: [.14, .15, .13] };
+    for (const id of [SURFACE.PATH, SURFACE.GRAVEL]) {
+      expect(classStyle(palette, SHADE, id).colour).toEqual(palette.gravel);
+    }
+    expect(classStyle(palette, SHADE, SURFACE.ASPHALT).colour).toEqual(C.aspL);
+    for (const id of [SURFACE.ROUGH, SURFACE.FAIRWAY, SURFACE.GREEN, SURFACE.SAND, SURFACE.ROCK]) {
+      expect(classStyle(palette, SHADE, id)).toEqual(classStyle(C, SHADE, id));
+    }
+  });
   it('keeps the fourth mowing component spare for every class', () => {
     const { data, width, height } = createGroundStyleData(C, SHADE, { includeNatural: true });
     expect([width, height]).toEqual([32, 4]);

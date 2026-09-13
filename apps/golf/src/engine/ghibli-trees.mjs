@@ -153,9 +153,14 @@ async function fetchGlb(url, expect, species) {
  * study's hero tier, else the full one), full, and the far mesh tier (the
  * study's "lite"). One variant per species for now; variants per instance
  * are the next step and need their own instanced meshes. */
-export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = false, fetchImpl = fetch } = {}) {
-  const base = `${baseUrl}models/trees/`;
-  const res = await fetchImpl(`${base}ghibli-v1.json`, { cache: 'no-cache' });
+export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = false, fetchImpl = fetch,
+  design = typeof location !== 'undefined' ? new URLSearchParams(location.search).get('treeart') ?? 'original' : 'original',
+} = {}) {
+  // A separate catalogue makes the modelling study directly comparable on the
+  // same course, without changing tree placement or the normal painted look.
+  const catalogue = design === 'refined' ? ['refined/', 'ghibli-v3.json'] : ['', 'ghibli-v1.json'];
+  const base = `${baseUrl}models/trees/${catalogue[0]}`;
+  const res = await fetchImpl(`${base}${catalogue[1]}`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Ghibli tree manifest: HTTP ${res.status}`);
   const manifest = await res.json();
   if (manifest?.schemaVersion !== 1 || manifest.kind !== 'ghibli-trees') throw new Error('Ghibli tree manifest: unknown schema');

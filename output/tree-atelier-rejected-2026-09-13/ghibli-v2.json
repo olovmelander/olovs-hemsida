@@ -1,0 +1,720 @@
+{
+  "schemaVersion": 1,
+  "kind": "ghibli-trees",
+  "design": "atelier-v2",
+  "units": "metres, y up, base at 0",
+  "colour": "Crown COLOR_0 is a warm/cool pigment multiplier; trunk COLOR_0 is linear bark colour.",
+  "generatorSha256": "85d427e90c3e2dbde606adec1de89a0a1d48e306c313d8f777616142e238f65f",
+  "species": [
+    {
+      "key": "gran",
+      "name": "Norway spruce",
+      "variants": [
+        {
+          "seed": 21000,
+          "tiers": {
+            "hero": {
+              "file": "7e84372158a47294c284753846cb84b4efa4c34500c65e771b4eb0257d4c8114.glb",
+              "sha256": "7e84372158a47294c284753846cb84b4efa4c34500c65e771b4eb0257d4c8114",
+              "bytes": 5801848,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "de4fe31823724da98d7d2c039b3119cef9cf23db9f74a17f37c14c3c27f32a9f.glb",
+              "sha256": "de4fe31823724da98d7d2c039b3119cef9cf23db9f74a17f37c14c3c27f32a9f",
+              "bytes": 5584944,
+              "tris": {
+                "crown": 2500,
+                "trunk": 418
+              }
+            },
+            "lite": {
+              "file": "9d2e081754e9c54ac009203e2e2526ca7bd1e0755ac79c3841d2ecaec5c5befa.glb",
+              "sha256": "9d2e081754e9c54ac009203e2e2526ca7bd1e0755ac79c3841d2ecaec5c5befa",
+              "bytes": 5535492,
+              "tris": {
+                "crown": 629,
+                "trunk": 64
+              }
+            }
+          },
+          "templateHeight": 14.6497,
+          "templateRadius": 3.7956
+        },
+        {
+          "seed": 21037,
+          "tiers": {
+            "hero": {
+              "file": "953d672dd4b3de018047b69694332a489852be3e7c8772e80d4a37e1000cd617.glb",
+              "sha256": "953d672dd4b3de018047b69694332a489852be3e7c8772e80d4a37e1000cd617",
+              "bytes": 5801848,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "dcb9f7737a9db69ecbaa3b512c9cf588d44c2a27d04c445d296060ef7e0337d4.glb",
+              "sha256": "dcb9f7737a9db69ecbaa3b512c9cf588d44c2a27d04c445d296060ef7e0337d4",
+              "bytes": 5584960,
+              "tris": {
+                "crown": 2500,
+                "trunk": 420
+              }
+            },
+            "lite": {
+              "file": "55bc0869c8632d67852b34688103adae90aab84c935fe80fe31651a9c7147be2.glb",
+              "sha256": "55bc0869c8632d67852b34688103adae90aab84c935fe80fe31651a9c7147be2",
+              "bytes": 5535484,
+              "tris": {
+                "crown": 628,
+                "trunk": 64
+              }
+            }
+          },
+          "templateHeight": 14.4527,
+          "templateRadius": 3.8514
+        },
+        {
+          "seed": 21074,
+          "tiers": {
+            "hero": {
+              "file": "4d7bd8367047c8eac2a3d4ee169b9338f6b4a36932827242fd7ba5610d1138a0.glb",
+              "sha256": "4d7bd8367047c8eac2a3d4ee169b9338f6b4a36932827242fd7ba5610d1138a0",
+              "bytes": 5801844,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "1d6384fbf8b232f64bf80e68906df6d3f6ef78a635534e242ec8bcda36ff5b44.glb",
+              "sha256": "1d6384fbf8b232f64bf80e68906df6d3f6ef78a635534e242ec8bcda36ff5b44",
+              "bytes": 5584964,
+              "tris": {
+                "crown": 2500,
+                "trunk": 421
+              }
+            },
+            "lite": {
+              "file": "ced099e4d43ef4aa0ef0488a97f8089ffbf039ff6f1e6337ac5060469c7218f6.glb",
+              "sha256": "ced099e4d43ef4aa0ef0488a97f8089ffbf039ff6f1e6337ac5060469c7218f6",
+              "bytes": 5535496,
+              "tris": {
+                "crown": 629,
+                "trunk": 64
+              }
+            }
+          },
+          "templateHeight": 15.6935,
+          "templateRadius": 4.1858
+        },
+        {
+          "seed": 21111,
+          "tiers": {
+            "hero": {
+              "file": "94dfff453ea437b8c99935666a6af7ba8059ba903d60475c3e62cff4c07afb77.glb",
+              "sha256": "94dfff453ea437b8c99935666a6af7ba8059ba903d60475c3e62cff4c07afb77",
+              "bytes": 5801844,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "8cb06f492997153d8275aec6b094195b91e57322839863d26beba509bc6a1868.glb",
+              "sha256": "8cb06f492997153d8275aec6b094195b91e57322839863d26beba509bc6a1868",
+              "bytes": 5584948,
+              "tris": {
+                "crown": 2500,
+                "trunk": 418
+              }
+            },
+            "lite": {
+              "file": "710ac003e9949321a271c3a0f30c11c5e51923972ee80e43a00a70605d7541ea.glb",
+              "sha256": "710ac003e9949321a271c3a0f30c11c5e51923972ee80e43a00a70605d7541ea",
+              "bytes": 5535484,
+              "tris": {
+                "crown": 628,
+                "trunk": 64
+              }
+            }
+          },
+          "templateHeight": 15.997,
+          "templateRadius": 4.4056
+        }
+      ]
+    },
+    {
+      "key": "tall",
+      "name": "Scots pine",
+      "variants": [
+        {
+          "seed": 22000,
+          "tiers": {
+            "hero": {
+              "file": "48d6e0c61d40580edf3b7f94af9b3ec692ce7bfc4947766c21e6dac0ed67056a.glb",
+              "sha256": "48d6e0c61d40580edf3b7f94af9b3ec692ce7bfc4947766c21e6dac0ed67056a",
+              "bytes": 5700308,
+              "tris": {
+                "crown": 8880,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "0dd9026d40c041ef3a719547a564991424093cf045b2c3f7004fce3108367db4.glb",
+              "sha256": "0dd9026d40c041ef3a719547a564991424093cf045b2c3f7004fce3108367db4",
+              "bytes": 5583432,
+              "tris": {
+                "crown": 2500,
+                "trunk": 411
+              }
+            },
+            "lite": {
+              "file": "ca8fc44dbaab960fef4e0a40322ac1e3a7577f7e974cf06186fba29fd35b86ab.glb",
+              "sha256": "ca8fc44dbaab960fef4e0a40322ac1e3a7577f7e974cf06186fba29fd35b86ab",
+              "bytes": 5536284,
+              "tris": {
+                "crown": 650,
+                "trunk": 85
+              }
+            }
+          },
+          "templateHeight": 16.5366,
+          "templateRadius": 5.7027
+        },
+        {
+          "seed": 22037,
+          "tiers": {
+            "hero": {
+              "file": "abce367290bee8143f6500df473c3d2334768aba87eb4aa0a1bda4a84e799b31.glb",
+              "sha256": "abce367290bee8143f6500df473c3d2334768aba87eb4aa0a1bda4a84e799b31",
+              "bytes": 5700312,
+              "tris": {
+                "crown": 8880,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "94c4ed326cd2e95f98ac43dda0dd43f4760942b1675a4f3b100672acd45c0757.glb",
+              "sha256": "94c4ed326cd2e95f98ac43dda0dd43f4760942b1675a4f3b100672acd45c0757",
+              "bytes": 5583432,
+              "tris": {
+                "crown": 2500,
+                "trunk": 411
+              }
+            },
+            "lite": {
+              "file": "ed895f60563359d592c4ac7d79127e7403e1f3b3614070c22e6d825d1f80f640.glb",
+              "sha256": "ed895f60563359d592c4ac7d79127e7403e1f3b3614070c22e6d825d1f80f640",
+              "bytes": 5536284,
+              "tris": {
+                "crown": 650,
+                "trunk": 85
+              }
+            }
+          },
+          "templateHeight": 17.442,
+          "templateRadius": 7.0344
+        },
+        {
+          "seed": 22074,
+          "tiers": {
+            "hero": {
+              "file": "9918e94885a67951dc4f508421fb19bbaf1f82b66842dda9761bde3a917d540f.glb",
+              "sha256": "9918e94885a67951dc4f508421fb19bbaf1f82b66842dda9761bde3a917d540f",
+              "bytes": 5700312,
+              "tris": {
+                "crown": 8880,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "399c85886c85ed12510ff22d78b1b00ed5921cb4058e5f19a746331ef5dfbef0.glb",
+              "sha256": "399c85886c85ed12510ff22d78b1b00ed5921cb4058e5f19a746331ef5dfbef0",
+              "bytes": 5583428,
+              "tris": {
+                "crown": 2500,
+                "trunk": 411
+              }
+            },
+            "lite": {
+              "file": "c235f0f2ce0419b88cce56c7b90f180553b7a44457bd98ef9f38ffed2ed4fe57.glb",
+              "sha256": "c235f0f2ce0419b88cce56c7b90f180553b7a44457bd98ef9f38ffed2ed4fe57",
+              "bytes": 5536280,
+              "tris": {
+                "crown": 650,
+                "trunk": 85
+              }
+            }
+          },
+          "templateHeight": 17.4206,
+          "templateRadius": 5.6656
+        },
+        {
+          "seed": 22111,
+          "tiers": {
+            "hero": {
+              "file": "71719e0fadaa17207f387faba3e306caf10e3bf205d34a0145ee7575f3e6fc73.glb",
+              "sha256": "71719e0fadaa17207f387faba3e306caf10e3bf205d34a0145ee7575f3e6fc73",
+              "bytes": 5700312,
+              "tris": {
+                "crown": 8880,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "f65aa5ccc34e3d170ca70aa1ea2fdf1ab4e1ab94ba27975c89bb0263824428cd.glb",
+              "sha256": "f65aa5ccc34e3d170ca70aa1ea2fdf1ab4e1ab94ba27975c89bb0263824428cd",
+              "bytes": 5583432,
+              "tris": {
+                "crown": 2500,
+                "trunk": 411
+              }
+            },
+            "lite": {
+              "file": "5215bcbb15f36eac740b4729065e6bfb52e888f2bbd05502c8364cb339589a0a.glb",
+              "sha256": "5215bcbb15f36eac740b4729065e6bfb52e888f2bbd05502c8364cb339589a0a",
+              "bytes": 5536288,
+              "tris": {
+                "crown": 650,
+                "trunk": 85
+              }
+            }
+          },
+          "templateHeight": 16.5581,
+          "templateRadius": 5.2332
+        }
+      ]
+    },
+    {
+      "key": "björk",
+      "name": "Silver birch",
+      "variants": [
+        {
+          "seed": 23000,
+          "tiers": {
+            "hero": {
+              "file": "90ca5e768855d34d5837f4886eb540682e08b54e685a1c84d944edecde4c3db9.glb",
+              "sha256": "90ca5e768855d34d5837f4886eb540682e08b54e685a1c84d944edecde4c3db9",
+              "bytes": 5810228,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "54a840a670163fceceffc4d561e58586bc0047a7c079fc377ec2f9c2a0a1fc59.glb",
+              "sha256": "54a840a670163fceceffc4d561e58586bc0047a7c079fc377ec2f9c2a0a1fc59",
+              "bytes": 5588912,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "18d0058be7d9fddd5f3c2fb5ead150ff65cbbb364426e6f9d86c6a37ea663796.glb",
+              "sha256": "18d0058be7d9fddd5f3c2fb5ead150ff65cbbb364426e6f9d86c6a37ea663796",
+              "bytes": 5540184,
+              "tris": {
+                "crown": 529,
+                "trunk": 114
+              }
+            }
+          },
+          "templateHeight": 14.2559,
+          "templateRadius": 3.9214
+        },
+        {
+          "seed": 23037,
+          "tiers": {
+            "hero": {
+              "file": "c16c646cb7ad44bdcee7fef0444aa282d635f84b7da429d6a7d193de6ee0a02e.glb",
+              "sha256": "c16c646cb7ad44bdcee7fef0444aa282d635f84b7da429d6a7d193de6ee0a02e",
+              "bytes": 5810224,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "01d9dd856b68fd4d9083317969a8eacbc94462b069be0f244c38192ad3d14b3c.glb",
+              "sha256": "01d9dd856b68fd4d9083317969a8eacbc94462b069be0f244c38192ad3d14b3c",
+              "bytes": 5588912,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "b8ed0cd317b250153abcda2d676703696ea2b2b535c4cda8d1ff6400855052cb.glb",
+              "sha256": "b8ed0cd317b250153abcda2d676703696ea2b2b535c4cda8d1ff6400855052cb",
+              "bytes": 5540160,
+              "tris": {
+                "crown": 524,
+                "trunk": 115
+              }
+            }
+          },
+          "templateHeight": 15.2698,
+          "templateRadius": 4.3182
+        },
+        {
+          "seed": 23074,
+          "tiers": {
+            "hero": {
+              "file": "e6fd7a3e4dbf809a3bd5cfdfef8bb371fdc6260f070a6000f1a6b1ace5ed42c4.glb",
+              "sha256": "e6fd7a3e4dbf809a3bd5cfdfef8bb371fdc6260f070a6000f1a6b1ace5ed42c4",
+              "bytes": 5810224,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "2b9df4250b0c35c14c484d256cf746f2f54852202eccbd084c5210fdfd4b42b1.glb",
+              "sha256": "2b9df4250b0c35c14c484d256cf746f2f54852202eccbd084c5210fdfd4b42b1",
+              "bytes": 5588912,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "76b60a135bdeea2bd6846308dc59961969e8b94f86216a920074e7379759decd.glb",
+              "sha256": "76b60a135bdeea2bd6846308dc59961969e8b94f86216a920074e7379759decd",
+              "bytes": 5540188,
+              "tris": {
+                "crown": 526,
+                "trunk": 117
+              }
+            }
+          },
+          "templateHeight": 14.6848,
+          "templateRadius": 3.8435
+        },
+        {
+          "seed": 23111,
+          "tiers": {
+            "hero": {
+              "file": "32c11a5520dd3c19b29fe68f85b40e40e9024add8a90fdd40df7d827d7f64e8b.glb",
+              "sha256": "32c11a5520dd3c19b29fe68f85b40e40e9024add8a90fdd40df7d827d7f64e8b",
+              "bytes": 5810224,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "cdee3ce0eaa3b408555052cf45f9e007dcbc311fadb10dd92611cb5251afcb1d.glb",
+              "sha256": "cdee3ce0eaa3b408555052cf45f9e007dcbc311fadb10dd92611cb5251afcb1d",
+              "bytes": 5588916,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "719112914f68e9801cea8e573f72708c9e8df8660a09650f97e5616a8ab34420.glb",
+              "sha256": "719112914f68e9801cea8e573f72708c9e8df8660a09650f97e5616a8ab34420",
+              "bytes": 5540164,
+              "tris": {
+                "crown": 524,
+                "trunk": 117
+              }
+            }
+          },
+          "templateHeight": 15.1203,
+          "templateRadius": 4.4345
+        }
+      ]
+    },
+    {
+      "key": "al",
+      "name": "Grey alder",
+      "variants": [
+        {
+          "seed": 24000,
+          "tiers": {
+            "hero": {
+              "file": "261d23794826b9310f3278fccdad0c6862040e043fee5becd4d71c5038cb382a.glb",
+              "sha256": "261d23794826b9310f3278fccdad0c6862040e043fee5becd4d71c5038cb382a",
+              "bytes": 5698644,
+              "tris": {
+                "crown": 9000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "f986a3ac8f48e5dbc7d9c4978f9007d8d6225c4a259f3cad72ca74ef6967ceb0.glb",
+              "sha256": "f986a3ac8f48e5dbc7d9c4978f9007d8d6225c4a259f3cad72ca74ef6967ceb0",
+              "bytes": 5580084,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "df19e93f95b96dc49e7ecd2054b6c37755ec6b0dc9365da3f2603a596d99b5a8.glb",
+              "sha256": "df19e93f95b96dc49e7ecd2054b6c37755ec6b0dc9365da3f2603a596d99b5a8",
+              "bytes": 5532016,
+              "tris": {
+                "crown": 650,
+                "trunk": 105
+              }
+            }
+          },
+          "templateHeight": 12.1843,
+          "templateRadius": 3.3599
+        },
+        {
+          "seed": 24037,
+          "tiers": {
+            "hero": {
+              "file": "e50e26e5b24ed913a2dc77b9bf11bd60335d22addc7bb5ae4784688f556c1d84.glb",
+              "sha256": "e50e26e5b24ed913a2dc77b9bf11bd60335d22addc7bb5ae4784688f556c1d84",
+              "bytes": 5698644,
+              "tris": {
+                "crown": 9000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "92e580f984e579e7d24fcdac8eb9fd7ae28cce59f0357185eaad5de4046ec0b5.glb",
+              "sha256": "92e580f984e579e7d24fcdac8eb9fd7ae28cce59f0357185eaad5de4046ec0b5",
+              "bytes": 5580080,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "d62ef56eb3ba0f0729db774883bf564eb7a5045d82939db90cced0f633345f6c.glb",
+              "sha256": "d62ef56eb3ba0f0729db774883bf564eb7a5045d82939db90cced0f633345f6c",
+              "bytes": 5532016,
+              "tris": {
+                "crown": 650,
+                "trunk": 104
+              }
+            }
+          },
+          "templateHeight": 13.2243,
+          "templateRadius": 3.4704
+        },
+        {
+          "seed": 24074,
+          "tiers": {
+            "hero": {
+              "file": "b853b28794cb78bddb19ebf3cacba81d0a8c338498fd07c8a0d9f11eaae8d45e.glb",
+              "sha256": "b853b28794cb78bddb19ebf3cacba81d0a8c338498fd07c8a0d9f11eaae8d45e",
+              "bytes": 5698644,
+              "tris": {
+                "crown": 9000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "2e85af0b822493bb4db18bf24300a2169692aff7a83bc937c4f299899654d0b3.glb",
+              "sha256": "2e85af0b822493bb4db18bf24300a2169692aff7a83bc937c4f299899654d0b3",
+              "bytes": 5580076,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "fb7eb0926bbf34b2717702b1b365684ab3bb6c8af99cbfe9b9587b53399d34be.glb",
+              "sha256": "fb7eb0926bbf34b2717702b1b365684ab3bb6c8af99cbfe9b9587b53399d34be",
+              "bytes": 5532024,
+              "tris": {
+                "crown": 650,
+                "trunk": 105
+              }
+            }
+          },
+          "templateHeight": 13.3265,
+          "templateRadius": 3.5544
+        },
+        {
+          "seed": 24111,
+          "tiers": {
+            "hero": {
+              "file": "e0bbc4c0cba4dfe9e0ba4cde2e9da7565eadefeaf398159b95ee7c602450eb76.glb",
+              "sha256": "e0bbc4c0cba4dfe9e0ba4cde2e9da7565eadefeaf398159b95ee7c602450eb76",
+              "bytes": 5698644,
+              "tris": {
+                "crown": 9000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "11f6eca0fa594e72859f21acb305752b1573fabcb73fdf60fd35cd267a175f74.glb",
+              "sha256": "11f6eca0fa594e72859f21acb305752b1573fabcb73fdf60fd35cd267a175f74",
+              "bytes": 5580080,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "0c6c0c3f3a3e673b6010a3ea86f768bfbf9d927208e9ba9bcc143d6319296e1d.glb",
+              "sha256": "0c6c0c3f3a3e673b6010a3ea86f768bfbf9d927208e9ba9bcc143d6319296e1d",
+              "bytes": 5532028,
+              "tris": {
+                "crown": 650,
+                "trunk": 106
+              }
+            }
+          },
+          "templateHeight": 12.0713,
+          "templateRadius": 3.2104
+        }
+      ]
+    },
+    {
+      "key": "ek",
+      "name": "Pasture oak",
+      "variants": [
+        {
+          "seed": 25000,
+          "tiers": {
+            "hero": {
+              "file": "22ff67dfc4ff014131860a40dce606ddbfb0f83f5ccd57726a648069922e584e.glb",
+              "sha256": "22ff67dfc4ff014131860a40dce606ddbfb0f83f5ccd57726a648069922e584e",
+              "bytes": 5800876,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "9a751cc65d38d507747ced3984b178eaa64d7e075b0fc77a0bd1e75ed2140b16.glb",
+              "sha256": "9a751cc65d38d507747ced3984b178eaa64d7e075b0fc77a0bd1e75ed2140b16",
+              "bytes": 5584172,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "03ac78536ab04d4982bcbb75f3d7b8a9f01e7cab8fd7bc957cf75349a000f1c8.glb",
+              "sha256": "03ac78536ab04d4982bcbb75f3d7b8a9f01e7cab8fd7bc957cf75349a000f1c8",
+              "bytes": 5535988,
+              "tris": {
+                "crown": 649,
+                "trunk": 84
+              }
+            }
+          },
+          "templateHeight": 13.3484,
+          "templateRadius": 5.9328
+        },
+        {
+          "seed": 25037,
+          "tiers": {
+            "hero": {
+              "file": "cd466ca228ab009854f3bff92eda9ee84712a0319830a29ee1ad3d0cfd8a836a.glb",
+              "sha256": "cd466ca228ab009854f3bff92eda9ee84712a0319830a29ee1ad3d0cfd8a836a",
+              "bytes": 5800876,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "ce4f2e64aa5e6b2a599537ebdb776c5c125e5dd4aaf03cd926f5ed6de879059c.glb",
+              "sha256": "ce4f2e64aa5e6b2a599537ebdb776c5c125e5dd4aaf03cd926f5ed6de879059c",
+              "bytes": 5584172,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "eb035ffde2b18514a0529ad3fa46fdb9e16afe3a7210dc088bd7d533077da160.glb",
+              "sha256": "eb035ffde2b18514a0529ad3fa46fdb9e16afe3a7210dc088bd7d533077da160",
+              "bytes": 5535984,
+              "tris": {
+                "crown": 650,
+                "trunk": 84
+              }
+            }
+          },
+          "templateHeight": 13.4879,
+          "templateRadius": 5.8125
+        },
+        {
+          "seed": 25074,
+          "tiers": {
+            "hero": {
+              "file": "522ba4c4bafb3969ff61a89ebfdfad90f468d4f55eb738062a2f10ec6223be2d.glb",
+              "sha256": "522ba4c4bafb3969ff61a89ebfdfad90f468d4f55eb738062a2f10ec6223be2d",
+              "bytes": 5800876,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "9e2aec5640d36862e2fba27b83523ccf4f07d17fce292ed28debd33c562a0c12.glb",
+              "sha256": "9e2aec5640d36862e2fba27b83523ccf4f07d17fce292ed28debd33c562a0c12",
+              "bytes": 5584176,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "b5357b6ce153f54f603766e7981ed02747d8909d36f790a2d91d420f78d771a2.glb",
+              "sha256": "b5357b6ce153f54f603766e7981ed02747d8909d36f790a2d91d420f78d771a2",
+              "bytes": 5536000,
+              "tris": {
+                "crown": 649,
+                "trunk": 87
+              }
+            }
+          },
+          "templateHeight": 14.0405,
+          "templateRadius": 6.165
+        },
+        {
+          "seed": 25111,
+          "tiers": {
+            "hero": {
+              "file": "66059fc65bbe6f1bc37e1a013601ab0cd6582142e93e38f818e6372f3235e555.glb",
+              "sha256": "66059fc65bbe6f1bc37e1a013601ab0cd6582142e93e38f818e6372f3235e555",
+              "bytes": 5800880,
+              "tris": {
+                "crown": 11000,
+                "trunk": 1800
+              }
+            },
+            "full": {
+              "file": "673d610b920ed20b85647ab85cfa0c1b41b62bdb4b6dcde27c9dad9ab290e6cd.glb",
+              "sha256": "673d610b920ed20b85647ab85cfa0c1b41b62bdb4b6dcde27c9dad9ab290e6cd",
+              "bytes": 5584172,
+              "tris": {
+                "crown": 2500,
+                "trunk": 450
+              }
+            },
+            "lite": {
+              "file": "a73f2053ccab3545575c598a4c00909627952ebf0d6e580e4fc02cb664b38bd3.glb",
+              "sha256": "a73f2053ccab3545575c598a4c00909627952ebf0d6e580e4fc02cb664b38bd3",
+              "bytes": 5535984,
+              "tris": {
+                "crown": 649,
+                "trunk": 84
+              }
+            }
+          },
+          "templateHeight": 13.9809,
+          "templateRadius": 5.9713
+        }
+      ]
+    }
+  ]
+}

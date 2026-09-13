@@ -15,6 +15,9 @@ const clamp01 = value => Math.max(0, Math.min(1, value));
 export function deriveEnvironmentPalette(preset, enabled = true) {
   const palette = Object.fromEntries(Object.entries(BASE).map(([key, hex]) => [key, new THREE.Color(hex)]));
   if (!enabled) return palette;
+  // Authored sky/ground palettes keep twilight reflection fill independent of
+  // direct sunlight. Older callers without one retain the derived palette.
+  if (preset.environment) return Object.fromEntries(Object.entries(preset.environment).map(([key, hex]) => [key, new THREE.Color(hex)]));
   const sun = new THREE.Color(preset.sun);
   const sky = new THREE.Color(preset.hemiS);
   const fog = new THREE.Color(preset.fog);
@@ -95,7 +98,7 @@ export function createLightingEnvironment(renderer, scene, {
         onBake?.({ preset: key, started, ms: performance.now() - started });
       }
       scene.environment = current.texture;
-      scene.environmentIntensity = LIGHTING_ENVIRONMENT_INTENSITY;
+      scene.environmentIntensity = enabled ? (preset.environmentIntensity ?? LIGHTING_ENVIRONMENT_INTENSITY) : LIGHTING_ENVIRONMENT_INTENSITY;
       presetName = name;
       return current.texture;
     },

@@ -1,0 +1,3658 @@
+{
+  "date": "2026-09-13",
+  "three": "0.186.0",
+  "oldApplicationCommit": "5ecc199c",
+  "scope": "Shared-sky change built from the current working tree, which also contains independent road and shot-planner changes.",
+  "platform": "Windows, Chrome 152, NVIDIA RTX 3070 Laptop",
+  "build": {
+    "entry": "/assets/index-DqkLxTn3.js",
+    "sha256": "2307813050998657abbb4f19d7fd2c733257656d9946c14f660e756494565059",
+    "passed": true
+  },
+  "unitTests": {
+    "passed": 41,
+    "files": [
+      "camera-frame-order",
+      "look-mode",
+      "lighting-environment",
+      "water-lighting"
+    ]
+  },
+  "radiance": 0.35,
+  "comparison": "The new deterministic path freezes cloud drift, producing identical sky pixels across styles. The older r186 baseline still animates its clouds under det=1; before/after brightness measures are captures, not a guarantee of exact cloud-phase alignment.",
+  "reports": [
+    {
+      "id": "shared-sky-gpu",
+      "browser": "152.0.7977.83",
+      "hardwareRequested": true,
+      "backend": "webgpu",
+      "rdepth": "1",
+      "quality": "hi",
+      "mobile": false,
+      "course": "veckefjarden",
+      "checks": [
+        {
+          "ok": true,
+          "label": "painted: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "painted: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "painted: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: sky shaded (185.8/255, 7.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: sky shaded (217.9/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/mist: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/mist: sky shaded (205.5/255, 29.8% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/dawn: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/dawn: sky shaded (141.7/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/host: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/host: sky shaded (209.3/255, 7.6% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/midnight: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/midnight: sky shaded (58.3/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/bluehour: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/bluehour: sky shaded (64.4/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/storm: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/storm: sky shaded (202.6/255, 24.9% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "real: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "real: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "real: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: sky shaded (185.8/255, 7.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: sky shaded (217.9/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/mist: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/mist: sky shaded (205.5/255, 29.8% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/dawn: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/dawn: sky shaded (141.7/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/host: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/host: sky shaded (209.3/255, 7.6% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/midnight: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/midnight: sky shaded (58.3/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/bluehour: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/bluehour: sky shaded (64.4/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/storm: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/storm: sky shaded (202.6/255, 24.9% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "before: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "before: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "before/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/golden: sky shaded (234.6/255, 25.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/noon: sky shaded (246.5/255, 40.8% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before/mist: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/mist: sky shaded (249.8/255, 65.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before/dawn: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/dawn: sky shaded (214.6/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before/host: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/host: sky shaded (248.2/255, 51.6% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before/midnight: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/midnight: sky shaded (125.9/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before/bluehour: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/bluehour: sky shaded (127.7/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before/storm: course renders"
+        },
+        {
+          "ok": true,
+          "label": "before/storm: sky shaded (248.3/255, 50.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "before: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "golden: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "golden: sky highlights reduced (234.6 → 185.8/255; 25.0 → 7.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "noon: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "noon: sky highlights reduced (246.5 → 217.9/255; 40.8 → 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "mist: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "dawn: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "host: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "midnight: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "bluehour: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "storm: skies match across styles (0.0000/255, 0.000% over 2)"
+        }
+      ],
+      "runs": [
+        {
+          "label": "painted",
+          "look": "painted",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=1&det=1&q=hi&qualitylock=1&ren=1&gl=0&rdepth=1",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 185.79286363386458,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.179090711805555
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 185.79286363386458,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.179090711805555,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.92189251949446,
+                "range": 65,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 217.92189251949446,
+                "range": 65,
+                "percentNearWhite": 0,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "mist",
+              "sky": {
+                "mean": 205.52924601244294,
+                "range": 187.33333333333331,
+                "percentNearWhite": 29.75124782986111
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 205.52924601244294,
+                "range": 187.33333333333331,
+                "percentNearWhite": 29.75124782986111,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "dawn",
+              "sky": {
+                "mean": 141.67762473778876,
+                "range": 83.99999999999999,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 141.67762473778876,
+                "range": 83.99999999999999,
+                "percentNearWhite": 0,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "host",
+              "sky": {
+                "mean": 209.2950778537409,
+                "range": 101,
+                "percentNearWhite": 7.576497395833333
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 209.2950778537409,
+                "range": 101,
+                "percentNearWhite": 7.576497395833333,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "midnight",
+              "sky": {
+                "mean": 58.26496096008412,
+                "range": 25,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 58.26496096008412,
+                "range": 25,
+                "percentNearWhite": 0,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "bluehour",
+              "sky": {
+                "mean": 64.3667212592265,
+                "range": 171,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 64.3667212592265,
+                "range": 171,
+                "percentNearWhite": 0,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "storm",
+              "sky": {
+                "mean": 202.627191614245,
+                "range": 212.66666666666666,
+                "percentNearWhite": 24.941847059461807
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 202.627191614245,
+                "range": 212.66666666666666,
+                "percentNearWhite": 24.941847059461807,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            }
+          ],
+          "state": {
+            "backend": "webgpu",
+            "painted": true,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2001,
+              "reversedDepth": true,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  1280,
+                  720
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.2
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 3866,
+                  "inCount": 3866,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3955,
+                  "inCount": 3955,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3813,
+                  "inCount": 3813,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3907,
+                  "inCount": 3907,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2599,
+                  "inCount": 2599,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2437,
+                  "inCount": 2437,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2513,
+                  "inCount": 2513,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2544,
+                  "inCount": 2544,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 681,
+                  "inCount": 681,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 646,
+                  "inCount": 646,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 647,
+                  "inCount": 647,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 699,
+                  "inCount": 699,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 140,
+                  "inCount": 140,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 138,
+                  "inCount": 138,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 139,
+                  "inCount": 139,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 138,
+                  "inCount": 138,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "real",
+          "look": "real",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=0&det=1&q=hi&qualitylock=1&ren=1&gl=0&rdepth=1",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 185.79286363386458,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.179090711805555
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.92189251949446,
+                "range": 65,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "mist",
+              "sky": {
+                "mean": 205.52924601244294,
+                "range": 187.33333333333331,
+                "percentNearWhite": 29.75124782986111
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "dawn",
+              "sky": {
+                "mean": 141.67762473778876,
+                "range": 83.99999999999999,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "host",
+              "sky": {
+                "mean": 209.2950778537409,
+                "range": 101,
+                "percentNearWhite": 7.576497395833333
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "midnight",
+              "sky": {
+                "mean": 58.26496096008412,
+                "range": 25,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "bluehour",
+              "sky": {
+                "mean": 64.3667212592265,
+                "range": 171,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "storm",
+              "sky": {
+                "mean": 202.627191614245,
+                "range": 212.66666666666666,
+                "percentNearWhite": 24.941847059461807
+              },
+              "treeAudit": true
+            }
+          ],
+          "state": {
+            "backend": "webgpu",
+            "painted": false,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2001,
+              "reversedDepth": true,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  1280,
+                  720
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.2
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 15541,
+                  "inCount": 15541,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 10093,
+                  "inCount": 10093,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3228,
+                  "inCount": 3228,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "before",
+          "look": "real",
+          "url": "http://127.0.0.1:8622/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=0&det=1&q=hi&qualitylock=1&ren=1&gl=0&rdepth=1",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 234.59353524685386,
+                "range": 68,
+                "percentNearWhite": 24.99237060546875
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 246.49713643347397,
+                "range": 19,
+                "percentNearWhite": 40.826924641927086
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "mist",
+              "sky": {
+                "mean": 249.83802738884242,
+                "range": 41,
+                "percentNearWhite": 64.96480305989583
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "dawn",
+              "sky": {
+                "mean": 214.60351392957304,
+                "range": 60.33333333333334,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "host",
+              "sky": {
+                "mean": 248.15281338184175,
+                "range": 23.666666666666657,
+                "percentNearWhite": 51.55792236328125
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "midnight",
+              "sky": {
+                "mean": 125.87612519443775,
+                "range": 39.33333333333333,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "bluehour",
+              "sky": {
+                "mean": 127.67846905743937,
+                "range": 177.33333333333331,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "storm",
+              "sky": {
+                "mean": 248.29072457770533,
+                "range": 14.666666666666657,
+                "percentNearWhite": 50.22566053602431
+              },
+              "treeAudit": true
+            }
+          ],
+          "state": {
+            "backend": "webgpu",
+            "painted": false,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2001,
+              "reversedDepth": true,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  1280,
+                  720
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.2
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 15541,
+                  "inCount": 15541,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 10093,
+                  "inCount": 10093,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3228,
+                  "inCount": 3228,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "shared-sky-gl",
+      "browser": "152.0.7977.83",
+      "hardwareRequested": true,
+      "backend": "webgl2",
+      "rdepth": "1",
+      "quality": "hi",
+      "mobile": false,
+      "course": "veckefjarden",
+      "checks": [
+        {
+          "ok": true,
+          "label": "painted: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "painted: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "painted: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: sky shaded (185.8/255, 7.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: sky shaded (217.9/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "real: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "real: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "real: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: sky shaded (185.8/255, 7.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: sky shaded (217.9/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "golden: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "noon: skies match across styles (0.0000/255, 0.000% over 2)"
+        }
+      ],
+      "runs": [
+        {
+          "label": "painted",
+          "look": "painted",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=1&det=1&q=hi&qualitylock=1&ren=1&gl=1&rdepth=1",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 185.77453330707633,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.177056206597222
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 185.77453330707633,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.177056206597222,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.9189707439591,
+                "range": 65,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 217.9189707439591,
+                "range": 65,
+                "percentNearWhite": 0,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            }
+          ],
+          "state": {
+            "backend": "webgl2",
+            "painted": true,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  1280,
+                  720
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.2
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 3866,
+                  "inCount": 3866,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3955,
+                  "inCount": 3955,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3813,
+                  "inCount": 3813,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3907,
+                  "inCount": 3907,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2599,
+                  "inCount": 2599,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2437,
+                  "inCount": 2437,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2513,
+                  "inCount": 2513,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2544,
+                  "inCount": 2544,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 681,
+                  "inCount": 681,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 646,
+                  "inCount": 646,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 647,
+                  "inCount": 647,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 699,
+                  "inCount": 699,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 140,
+                  "inCount": 140,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 138,
+                  "inCount": 138,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 139,
+                  "inCount": 139,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 138,
+                  "inCount": 138,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "real",
+          "look": "real",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=0&det=1&q=hi&qualitylock=1&ren=1&gl=1&rdepth=1",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 185.77453330707633,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.177056206597222
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.9189707439591,
+                "range": 65,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            }
+          ],
+          "state": {
+            "backend": "webgl2",
+            "painted": false,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  1280,
+                  720
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.2
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 15541,
+                  "inCount": 15541,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 10093,
+                  "inCount": 10093,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3228,
+                  "inCount": 3228,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "shared-sky-normal",
+      "browser": "152.0.7977.83",
+      "hardwareRequested": true,
+      "backend": "webgpu",
+      "rdepth": "0",
+      "quality": "hi",
+      "mobile": false,
+      "course": "veckefjarden",
+      "checks": [
+        {
+          "ok": true,
+          "label": "painted: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "painted: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "painted: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: sky shaded (185.8/255, 7.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: sky shaded (217.9/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "painted: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "real: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "real: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "real: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: sky shaded (185.8/255, 7.2% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: sky shaded (217.9/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "real: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "golden: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "noon: skies match across styles (0.0000/255, 0.000% over 2)"
+        }
+      ],
+      "runs": [
+        {
+          "label": "painted",
+          "look": "painted",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=1&det=1&q=hi&qualitylock=1&ren=1&gl=0&rdepth=0",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 185.79286363386458,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.179090711805555
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 185.79286363386458,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.179090711805555,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.92189251949446,
+                "range": 65,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 217.92189251949446,
+                "range": 65,
+                "percentNearWhite": 0,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            }
+          ],
+          "state": {
+            "backend": "webgpu",
+            "painted": true,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2001,
+              "reversedDepth": false,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  1280,
+                  720
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.2
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 3866,
+                  "inCount": 3866,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3955,
+                  "inCount": 3955,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3813,
+                  "inCount": 3813,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3907,
+                  "inCount": 3907,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2599,
+                  "inCount": 2599,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2437,
+                  "inCount": 2437,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2513,
+                  "inCount": 2513,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2544,
+                  "inCount": 2544,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 681,
+                  "inCount": 681,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 646,
+                  "inCount": 646,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 647,
+                  "inCount": 647,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 699,
+                  "inCount": 699,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 140,
+                  "inCount": 140,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 138,
+                  "inCount": 138,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 139,
+                  "inCount": 139,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 138,
+                  "inCount": 138,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "real",
+          "look": "real",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=0&det=1&q=hi&qualitylock=1&ren=1&gl=0&rdepth=0",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 185.79286363386458,
+                "range": 140.66666666666669,
+                "percentNearWhite": 7.179090711805555
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.92189251949446,
+                "range": 65,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            }
+          ],
+          "state": {
+            "backend": "webgpu",
+            "painted": false,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2001,
+              "reversedDepth": false,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  1280,
+                  720
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.2
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 15541,
+                  "inCount": 15541,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 10093,
+                  "inCount": 10093,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3228,
+                  "inCount": 3228,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "shared-sky-mobile",
+      "browser": "152.0.7977.83",
+      "hardwareRequested": true,
+      "backend": "webgl2",
+      "rdepth": "1",
+      "quality": "lo",
+      "mobile": true,
+      "course": "veckefjarden",
+      "checks": [
+        {
+          "ok": true,
+          "label": "painted: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "painted: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "painted: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: sky shaded (175.4/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/golden: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: sky shaded (217.7/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "painted/noon: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "painted: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "real: renderer and depth active"
+        },
+        {
+          "ok": true,
+          "label": "real: requested visual style active"
+        },
+        {
+          "ok": true,
+          "label": "real: shared atmospheric sky active"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: sky shaded (175.4/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/golden: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: course renders"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: sky shaded (217.7/255, 0.0% near white)"
+        },
+        {
+          "ok": true,
+          "label": "real/noon: daylight atmosphere retains colour and brightness"
+        },
+        {
+          "ok": true,
+          "label": "real: no browser/renderer errors"
+        },
+        {
+          "ok": true,
+          "label": "golden: skies match across styles (0.0000/255, 0.000% over 2)"
+        },
+        {
+          "ok": true,
+          "label": "noon: skies match across styles (0.0000/255, 0.000% over 2)"
+        }
+      ],
+      "runs": [
+        {
+          "label": "painted",
+          "look": "painted",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=1&det=1&q=lo&qualitylock=1&ren=1&gl=1&rdepth=1",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 175.43964544453536,
+                "range": 102.66666666666667,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 175.43964544453536,
+                "range": 102.66666666666667,
+                "percentNearWhite": 0,
+                "meanDifference": 0,
+                "percentOver2": 0
+              }
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.73323155316842,
+                "range": 38,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true,
+              "comparison": {
+                "mean": 217.73323155316842,
+                "range": 38,
+                "percentNearWhite": 0,
+                "meanDifference": 0.000028447883477469277,
+                "percentOver2": 0
+              }
+            }
+          ],
+          "state": {
+            "backend": "webgl2",
+            "painted": true,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 0.46208530805687204,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1.5,
+                "drawingBuffer": [
+                  390,
+                  844
+                ],
+                "extraPixelBudget": 1000000,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": null
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 726,
+                  "inCount": 726,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 698,
+                  "inCount": 698,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 747,
+                  "inCount": 747,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 718,
+                  "inCount": 718,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 495,
+                  "inCount": 495,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 491,
+                  "inCount": 491,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 513,
+                  "inCount": 513,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 504,
+                  "inCount": 504,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 116,
+                  "inCount": 116,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 120,
+                  "inCount": 120,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 110,
+                  "inCount": 110,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 136,
+                  "inCount": 136,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 0,
+                  "inCount": 0,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 0,
+                  "inCount": 0,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 0,
+                  "inCount": 0,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 0,
+                  "inCount": 0,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        },
+        {
+          "label": "real",
+          "look": "real",
+          "url": "http://127.0.0.1:8623/?bana=veckefjarden&hal=1&vy=tee&ljus=kvall&ghibli=0&det=1&q=lo&qualitylock=1&ren=1&gl=1&rdepth=1",
+          "errors": [],
+          "presets": [
+            {
+              "preset": "golden",
+              "sky": {
+                "mean": 175.43964544453536,
+                "range": 102.66666666666667,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            },
+            {
+              "preset": "noon",
+              "sky": {
+                "mean": 217.7332410357963,
+                "range": 38,
+                "percentNearWhite": 0
+              },
+              "treeAudit": true
+            }
+          ],
+          "state": {
+            "backend": "webgl2",
+            "painted": false,
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 0.46208530805687204,
+              "coordinateSystem": 2000,
+              "reversedDepth": false,
+              "position": [
+                51.3975028858669,
+                53.090382690094714,
+                -254.04379637747292
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": true,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1.5,
+                "drawingBuffer": [
+                  390,
+                  844
+                ],
+                "extraPixelBudget": 1000000,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": null
+            },
+            "atmosphere": {
+              "kind": "SkyMesh",
+              "radiance": 0.35,
+              "preset": "golden",
+              "cloudCoverage": 0.4,
+              "cloudDensity": 0.36,
+              "cloudSpeed": 0,
+              "sun": [
+                -273316.29989493894,
+                87851.66782337322,
+                346526.02308108326
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 2889,
+                  "inCount": 2889,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 2003,
+                  "inCount": 2003,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 482,
+                  "inCount": 482,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "shared-sky-forest",
+      "browser": "152.0.7977.83",
+      "hardwareRequested": true,
+      "backend": "webgpu",
+      "look": "ghibli",
+      "rdepth": "1",
+      "quality": "hi",
+      "mobile": false,
+      "captureMode": "screenshot",
+      "checks": [
+        {
+          "ok": true,
+          "label": "current/puttom: requested webgpu is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: requested depth convention is active"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: tree slots are consistent"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier0: visible forest (36.44% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier1: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier1: visible forest (35.93% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier2: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier2: visible forest (36.04% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier3: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier3: visible forest (39.38% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier4: tree meshes found"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom/tier4: visible forest (36.42% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: terrain visible beneath sky (68.88% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: overhead view renders after camera change"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: forest remains visible after camera change (13.50% pixels)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: SkyMesh shades the sky (215.9/255, range 78.3)"
+        },
+        {
+          "ok": true,
+          "label": "current/puttom: no browser or renderer errors"
+        }
+      ],
+      "runs": [
+        {
+          "slug": "puttom",
+          "label": "current",
+          "url": "http://127.0.0.1:8623/?bana=puttom&det=1&hal=1&vy=tee&ljus=dag&q=hi&qualitylock=1&ren=1&look=ghibli&gl=0&rdepth=1",
+          "errors": [],
+          "warnings": [
+            "The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127"
+          ],
+          "views": [
+            {
+              "tier": 0,
+              "tiers": {
+                "tier0": 772,
+                "tier1": 3689,
+                "tier2": 0,
+                "tier3": 31568,
+                "cells": 1031,
+                "cellsVisible": 184,
+                "moves": 36029,
+                "switches": 0,
+                "reversals": 0,
+                "updates": 1,
+                "bakeMs": 150,
+                "fading": 0,
+                "updateMs": 0.8999999761581421,
+                "zoneA": 4671,
+                "zoneB": 18039,
+                "heroPx": 64,
+                "switchPx": 24,
+                "impostorPx": 8,
+                "hysteresis": 0.1,
+                "nominalHeight": 12,
+                "cell": 128,
+                "force": 0,
+                "fadeS": 0,
+                "frozen": true,
+                "clockDriven": false,
+                "cellMode": false,
+                "floors": [
+                  1,
+                  2
+                ]
+              },
+              "renderer": {
+                "calls": 1496,
+                "frameCalls": 14,
+                "drawCalls": 169,
+                "triangles": 13992136,
+                "points": 0,
+                "lines": 938,
+                "timestamp": 0,
+                "memory": {
+                  "attributes": 1307,
+                  "attributesSize": 698640411,
+                  "geometries": 295,
+                  "indexAttributes": 269,
+                  "indexAttributesSize": 4779936,
+                  "indirectStorageAttributes": 0,
+                  "indirectStorageAttributesSize": 0,
+                  "programs": 134,
+                  "programsSize": 2012523,
+                  "readbackBuffers": 0,
+                  "readbackBuffersSize": 0,
+                  "renderTargets": 26,
+                  "storageAttributes": 0,
+                  "storageAttributesSize": 0,
+                  "textures": 54,
+                  "texturesSize": 269456310,
+                  "uniformBuffers": 532,
+                  "uniformBuffersSize": 303952,
+                  "total": 975193132
+                },
+                "drawingBuffer": [
+                  960,
+                  540
+                ],
+                "pixelRatio": 1
+              },
+              "audit": {
+                "ok": true,
+                "species": [
+                  {
+                    "sumCount": 3143,
+                    "inCount": 3143,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3167,
+                    "inCount": 3167,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3222,
+                    "inCount": 3222,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3278,
+                    "inCount": 3278,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5236,
+                    "inCount": 5236,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5129,
+                    "inCount": 5129,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5281,
+                    "inCount": 5281,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5295,
+                    "inCount": 5295,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 533,
+                    "inCount": 533,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 613,
+                    "inCount": 613,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 582,
+                    "inCount": 582,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 550,
+                    "inCount": 550,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  }
+                ]
+              },
+              "treePixels": {
+                "mean": 34.60469328703704,
+                "percentOver8": 36.436149691358025,
+                "worst": 236
+              }
+            },
+            {
+              "tier": 1,
+              "tiers": {
+                "tier0": 36029,
+                "tier1": 0,
+                "tier2": 0,
+                "tier3": 0,
+                "cells": 1031,
+                "cellsVisible": 184,
+                "moves": 71286,
+                "switches": 35257,
+                "reversals": 0,
+                "updates": 2,
+                "bakeMs": 150,
+                "fading": 0,
+                "updateMs": 0.5999999940395355,
+                "zoneA": 4671,
+                "zoneB": 18039,
+                "heroPx": 64,
+                "switchPx": 24,
+                "impostorPx": 8,
+                "hysteresis": 0.1,
+                "nominalHeight": 12,
+                "cell": 128,
+                "force": 1,
+                "fadeS": 0,
+                "frozen": true,
+                "clockDriven": false,
+                "cellMode": false,
+                "floors": [
+                  1,
+                  2
+                ]
+              },
+              "renderer": {
+                "calls": 2299,
+                "frameCalls": 14,
+                "drawCalls": 133,
+                "triangles": 120804484,
+                "points": 0,
+                "lines": 938,
+                "timestamp": 0,
+                "memory": {
+                  "attributes": 1307,
+                  "attributesSize": 698640411,
+                  "geometries": 295,
+                  "indexAttributes": 269,
+                  "indexAttributesSize": 4779936,
+                  "indirectStorageAttributes": 0,
+                  "indirectStorageAttributesSize": 0,
+                  "programs": 134,
+                  "programsSize": 2012523,
+                  "readbackBuffers": 0,
+                  "readbackBuffersSize": 0,
+                  "renderTargets": 26,
+                  "storageAttributes": 0,
+                  "storageAttributesSize": 0,
+                  "textures": 54,
+                  "texturesSize": 269456310,
+                  "uniformBuffers": 532,
+                  "uniformBuffersSize": 303952,
+                  "total": 975193132
+                },
+                "drawingBuffer": [
+                  960,
+                  540
+                ],
+                "pixelRatio": 1
+              },
+              "audit": {
+                "ok": true,
+                "species": [
+                  {
+                    "sumCount": 3143,
+                    "inCount": 3143,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3167,
+                    "inCount": 3167,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3222,
+                    "inCount": 3222,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3278,
+                    "inCount": 3278,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5236,
+                    "inCount": 5236,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5129,
+                    "inCount": 5129,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5281,
+                    "inCount": 5281,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5295,
+                    "inCount": 5295,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 533,
+                    "inCount": 533,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 613,
+                    "inCount": 613,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 582,
+                    "inCount": 582,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 550,
+                    "inCount": 550,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  }
+                ]
+              },
+              "treePixels": {
+                "mean": 33.63306134259259,
+                "percentOver8": 35.92746913580247,
+                "worst": 236
+              }
+            },
+            {
+              "tier": 2,
+              "tiers": {
+                "tier0": 0,
+                "tier1": 36029,
+                "tier2": 0,
+                "tier3": 0,
+                "cells": 1031,
+                "cellsVisible": 184,
+                "moves": 107315,
+                "switches": 71286,
+                "reversals": 0,
+                "updates": 3,
+                "bakeMs": 150,
+                "fading": 0,
+                "updateMs": 0.4000000059604645,
+                "zoneA": 4671,
+                "zoneB": 18039,
+                "heroPx": 64,
+                "switchPx": 24,
+                "impostorPx": 8,
+                "hysteresis": 0.1,
+                "nominalHeight": 12,
+                "cell": 128,
+                "force": 2,
+                "fadeS": 0,
+                "frozen": true,
+                "clockDriven": false,
+                "cellMode": false,
+                "floors": [
+                  1,
+                  2
+                ]
+              },
+              "renderer": {
+                "calls": 3060,
+                "frameCalls": 14,
+                "drawCalls": 133,
+                "triangles": 58658688,
+                "points": 0,
+                "lines": 938,
+                "timestamp": 0,
+                "memory": {
+                  "attributes": 1307,
+                  "attributesSize": 698640411,
+                  "geometries": 295,
+                  "indexAttributes": 269,
+                  "indexAttributesSize": 4779936,
+                  "indirectStorageAttributes": 0,
+                  "indirectStorageAttributesSize": 0,
+                  "programs": 134,
+                  "programsSize": 2012523,
+                  "readbackBuffers": 0,
+                  "readbackBuffersSize": 0,
+                  "renderTargets": 26,
+                  "storageAttributes": 0,
+                  "storageAttributesSize": 0,
+                  "textures": 54,
+                  "texturesSize": 269456310,
+                  "uniformBuffers": 532,
+                  "uniformBuffersSize": 303952,
+                  "total": 975193132
+                },
+                "drawingBuffer": [
+                  960,
+                  540
+                ],
+                "pixelRatio": 1
+              },
+              "audit": {
+                "ok": true,
+                "species": [
+                  {
+                    "sumCount": 3143,
+                    "inCount": 3143,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3167,
+                    "inCount": 3167,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3222,
+                    "inCount": 3222,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3278,
+                    "inCount": 3278,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5236,
+                    "inCount": 5236,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5129,
+                    "inCount": 5129,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5281,
+                    "inCount": 5281,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5295,
+                    "inCount": 5295,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 533,
+                    "inCount": 533,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 613,
+                    "inCount": 613,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 582,
+                    "inCount": 582,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 550,
+                    "inCount": 550,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  }
+                ]
+              },
+              "treePixels": {
+                "mean": 33.72550540123457,
+                "percentOver8": 36.041473765432094,
+                "worst": 236
+              }
+            },
+            {
+              "tier": 3,
+              "tiers": {
+                "tier0": 0,
+                "tier1": 0,
+                "tier2": 36029,
+                "tier3": 0,
+                "cells": 1031,
+                "cellsVisible": 184,
+                "moves": 143344,
+                "switches": 107315,
+                "reversals": 0,
+                "updates": 4,
+                "bakeMs": 150,
+                "fading": 0,
+                "updateMs": 0.7000000178813934,
+                "zoneA": 4671,
+                "zoneB": 18039,
+                "heroPx": 64,
+                "switchPx": 24,
+                "impostorPx": 8,
+                "hysteresis": 0.1,
+                "nominalHeight": 12,
+                "cell": 128,
+                "force": 3,
+                "fadeS": 0,
+                "frozen": true,
+                "clockDriven": false,
+                "cellMode": false,
+                "floors": [
+                  1,
+                  2
+                ]
+              },
+              "renderer": {
+                "calls": 4045,
+                "frameCalls": 14,
+                "drawCalls": 133,
+                "triangles": 20593120,
+                "points": 0,
+                "lines": 938,
+                "timestamp": 0,
+                "memory": {
+                  "attributes": 1307,
+                  "attributesSize": 698640411,
+                  "geometries": 295,
+                  "indexAttributes": 269,
+                  "indexAttributesSize": 4779936,
+                  "indirectStorageAttributes": 0,
+                  "indirectStorageAttributesSize": 0,
+                  "programs": 134,
+                  "programsSize": 2012523,
+                  "readbackBuffers": 0,
+                  "readbackBuffersSize": 0,
+                  "renderTargets": 26,
+                  "storageAttributes": 0,
+                  "storageAttributesSize": 0,
+                  "textures": 54,
+                  "texturesSize": 269456310,
+                  "uniformBuffers": 532,
+                  "uniformBuffersSize": 303952,
+                  "total": 975193132
+                },
+                "drawingBuffer": [
+                  960,
+                  540
+                ],
+                "pixelRatio": 1
+              },
+              "audit": {
+                "ok": true,
+                "species": [
+                  {
+                    "sumCount": 3143,
+                    "inCount": 3143,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3167,
+                    "inCount": 3167,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3222,
+                    "inCount": 3222,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3278,
+                    "inCount": 3278,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5236,
+                    "inCount": 5236,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5129,
+                    "inCount": 5129,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5281,
+                    "inCount": 5281,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5295,
+                    "inCount": 5295,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 533,
+                    "inCount": 533,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 613,
+                    "inCount": 613,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 582,
+                    "inCount": 582,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 550,
+                    "inCount": 550,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  }
+                ]
+              },
+              "treePixels": {
+                "mean": 36.66512345679013,
+                "percentOver8": 39.37538580246914,
+                "worst": 237
+              }
+            },
+            {
+              "tier": 4,
+              "tiers": {
+                "tier0": 0,
+                "tier1": 0,
+                "tier2": 0,
+                "tier3": 36029,
+                "cells": 1031,
+                "cellsVisible": 184,
+                "moves": 179373,
+                "switches": 143344,
+                "reversals": 0,
+                "updates": 5,
+                "bakeMs": 150,
+                "fading": 0,
+                "updateMs": 0.699999988079071,
+                "zoneA": 4671,
+                "zoneB": 18039,
+                "heroPx": 64,
+                "switchPx": 24,
+                "impostorPx": 8,
+                "hysteresis": 0.1,
+                "nominalHeight": 12,
+                "cell": 128,
+                "force": 4,
+                "fadeS": 0,
+                "frozen": true,
+                "clockDriven": false,
+                "cellMode": false,
+                "floors": [
+                  1,
+                  2
+                ]
+              },
+              "renderer": {
+                "calls": 5338,
+                "frameCalls": 14,
+                "drawCalls": 121,
+                "triangles": 5885874,
+                "points": 0,
+                "lines": 938,
+                "timestamp": 0,
+                "memory": {
+                  "attributes": 1307,
+                  "attributesSize": 698640411,
+                  "geometries": 295,
+                  "indexAttributes": 269,
+                  "indexAttributesSize": 4779936,
+                  "indirectStorageAttributes": 0,
+                  "indirectStorageAttributesSize": 0,
+                  "programs": 134,
+                  "programsSize": 2012523,
+                  "readbackBuffers": 0,
+                  "readbackBuffersSize": 0,
+                  "renderTargets": 26,
+                  "storageAttributes": 0,
+                  "storageAttributesSize": 0,
+                  "textures": 54,
+                  "texturesSize": 269456310,
+                  "uniformBuffers": 532,
+                  "uniformBuffersSize": 303952,
+                  "total": 975193132
+                },
+                "drawingBuffer": [
+                  960,
+                  540
+                ],
+                "pixelRatio": 1
+              },
+              "audit": {
+                "ok": true,
+                "species": [
+                  {
+                    "sumCount": 3143,
+                    "inCount": 3143,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3167,
+                    "inCount": 3167,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3222,
+                    "inCount": 3222,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 3278,
+                    "inCount": 3278,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5236,
+                    "inCount": 5236,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5129,
+                    "inCount": 5129,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5281,
+                    "inCount": 5281,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 5295,
+                    "inCount": 5295,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 533,
+                    "inCount": 533,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 613,
+                    "inCount": 613,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 582,
+                    "inCount": 582,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  },
+                  {
+                    "sumCount": 550,
+                    "inCount": 550,
+                    "outCount": 0,
+                    "roundTrip": true,
+                    "noSelfPair": true,
+                    "ok": true
+                  }
+                ]
+              },
+              "treePixels": {
+                "mean": 31.80636574074074,
+                "percentOver8": 36.423032407407405,
+                "worst": 233
+              }
+            }
+          ],
+          "bootSeconds": 44.542,
+          "state": {
+            "backend": "webgpu",
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2001,
+              "reversedDepth": true,
+              "position": [
+                -80.53396627989221,
+                69.71655133524631,
+                -259.82908206196805
+              ]
+            },
+            "quality": {
+              "lowfx": false,
+              "lowq": false,
+              "phone": false,
+              "autoQualityDone": true,
+              "qualityLocked": true,
+              "graphicsPolish": true,
+              "surfaceRelief": "off",
+              "pixelRatio": 1,
+              "resolution": {
+                "mode": "quality",
+                "requested": null,
+                "pixelRatio": 1,
+                "detailPixelRatio": 1,
+                "maximumPixelRatio": 1,
+                "drawingBuffer": [
+                  960,
+                  540
+                ],
+                "extraPixelBudget": null,
+                "changes": 0,
+                "reason": "initial",
+                "frameP90Ms": null
+              },
+              "bloom": 0.08
+            },
+            "tiers": {
+              "tier0": 772,
+              "tier1": 3689,
+              "tier2": 0,
+              "tier3": 31568,
+              "cells": 1031,
+              "cellsVisible": 184,
+              "moves": 36029,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 1,
+              "bakeMs": 150,
+              "fading": 0,
+              "updateMs": 0.5,
+              "zoneA": 4671,
+              "zoneB": 18039,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                2
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 3143,
+                  "inCount": 3143,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3167,
+                  "inCount": 3167,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3222,
+                  "inCount": 3222,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 3278,
+                  "inCount": 3278,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 5236,
+                  "inCount": 5236,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 5129,
+                  "inCount": 5129,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 5281,
+                  "inCount": 5281,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 5295,
+                  "inCount": 5295,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 533,
+                  "inCount": 533,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 613,
+                  "inCount": 613,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 582,
+                  "inCount": 582,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 550,
+                  "inCount": 550,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            },
+            "renderer": {
+              "calls": 1173,
+              "frameCalls": 14,
+              "drawCalls": 169,
+              "triangles": 13992136,
+              "points": 0,
+              "lines": 938,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 1307,
+                "attributesSize": 698640411,
+                "geometries": 295,
+                "indexAttributes": 269,
+                "indexAttributesSize": 4779936,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 134,
+                "programsSize": 2012523,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 26,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 54,
+                "texturesSize": 269456310,
+                "uniformBuffers": 532,
+                "uniformBuffersSize": 303952,
+                "total": 975193132
+              },
+              "drawingBuffer": [
+                960,
+                540
+              ],
+              "pixelRatio": 1
+            },
+            "terrain": {
+              "kind": "graph",
+              "status": "ready"
+            },
+            "trees": 209962
+          },
+          "terrainPixels": {
+            "mean": 91.980831404321,
+            "percentOver8": 68.87750771604938,
+            "worst": 245
+          },
+          "top": {
+            "camera": {
+              "fov": 48,
+              "near": 1,
+              "far": 14000,
+              "aspect": 1.7777777777777777,
+              "coordinateSystem": 2001,
+              "reversedDepth": true,
+              "position": [
+                -134.1547247593793,
+                523.2419376572199,
+                -399.86537724152055
+              ]
+            },
+            "tiers": {
+              "tier0": 1452,
+              "tier1": 2692,
+              "tier2": 0,
+              "tier3": 208,
+              "cells": 1031,
+              "cellsVisible": 28,
+              "moves": 219295,
+              "switches": 147805,
+              "reversals": 0,
+              "updates": 7,
+              "bakeMs": 150,
+              "fading": 0,
+              "updateMs": 0.19999998807907104,
+              "zoneA": 4671,
+              "zoneB": 18039,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                2
+              ]
+            },
+            "audit": {
+              "ok": true,
+              "species": [
+                {
+                  "sumCount": 369,
+                  "inCount": 369,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 416,
+                  "inCount": 416,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 390,
+                  "inCount": 390,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 336,
+                  "inCount": 336,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 584,
+                  "inCount": 584,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 605,
+                  "inCount": 605,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 587,
+                  "inCount": 587,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 567,
+                  "inCount": 567,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 105,
+                  "inCount": 105,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 133,
+                  "inCount": 133,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 138,
+                  "inCount": 138,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                },
+                {
+                  "sumCount": 122,
+                  "inCount": 122,
+                  "outCount": 0,
+                  "roundTrip": true,
+                  "noSelfPair": true,
+                  "ok": true
+                }
+              ]
+            },
+            "renderer": {
+              "calls": 6831,
+              "frameCalls": 15,
+              "drawCalls": 515,
+              "triangles": 22717016,
+              "points": 0,
+              "lines": 938,
+              "timestamp": 0,
+              "memory": {
+                "attributes": 1437,
+                "attributesSize": 699204351,
+                "geometries": 299,
+                "indexAttributes": 273,
+                "indexAttributesSize": 4781760,
+                "indirectStorageAttributes": 0,
+                "indirectStorageAttributesSize": 0,
+                "programs": 135,
+                "programsSize": 2015971,
+                "readbackBuffers": 0,
+                "readbackBuffersSize": 0,
+                "renderTargets": 26,
+                "storageAttributes": 0,
+                "storageAttributesSize": 0,
+                "textures": 63,
+                "texturesSize": 270144264,
+                "uniformBuffers": 674,
+                "uniformBuffersSize": 340448,
+                "total": 976486794
+              },
+              "drawingBuffer": [
+                960,
+                540
+              ],
+              "pixelRatio": 1
+            },
+            "treePixels": {
+              "mean": 8.51166087962963,
+              "percentOver8": 13.500385802469136,
+              "worst": 179
+            }
+          },
+          "sky": {
+            "mean": 215.8670920541734,
+            "range": 78.33333333333334
+          }
+        }
+      ]
+    }
+  ]
+}

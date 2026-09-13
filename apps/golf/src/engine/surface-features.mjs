@@ -7,21 +7,10 @@ import { smoothMownEdges } from './ring-smoothing.mjs';
 import { SURFACE } from './surface.js';
 import { withInferredTeePads } from './tee-pads.mjs';
 import { teePadSurfaceOwners } from './tee-surface-ownership.mjs';
+import { roadSurface as hardSurface, parkingSurface } from './road-surface.mjs';
 
 function validRings(value) {
   return (value || []).filter(ring => Array.isArray(ring) && ring.length >= 3);
-}
-
-function hardSurface(item) {
-  const value = (item?.surface || '').toLowerCase();
-  // An explicit material takes precedence over road class. In particular,
-  // neither an unpaved tertiary road nor a gravel cycleway is asphalt.
-  if (/\b(asphalt|paved|concrete)\b/.test(value)) return SURFACE.ASPHALT;
-  if (/mud/.test(value)) return SURFACE.MUD;
-  if (/dirt|ground|earth|soil/.test(value)) return SURFACE.DIRT;
-  if (/gravel|unpaved|compacted|pebble|sand/.test(value)) return SURFACE.GRAVEL;
-  if (/^(trunk|secondary|tertiary|cycleway)$/.test(item?.kind || '')) return SURFACE.ASPHALT;
-  return SURFACE.GRAVEL;
 }
 
 // Source widths are full metres. Older packs have no explicit unit contract
@@ -136,7 +125,6 @@ export function buildGroundSurfaceFeatures({
   // A source asphalt tag overrides the historical gravel default; 'unpaved'
   // must not accidentally match 'paved'. Other grounds retain their default.
   const parking = infrastructure.parking || [];
-  const parkingSurface = item => /\b(asphalt|paved)\b/i.test(item?.surface || '') ? SURFACE.ASPHALT : SURFACE.GRAVEL;
   for (const surface of new Set(parking.map(parkingSurface))) {
     rings(surface, parking.filter(item => parkingSurface(item) === surface).map(item => item?.ring));
   }
@@ -146,8 +134,8 @@ export function buildGroundSurfaceFeatures({
   for (const track of infrastructure.tracks || []) line(
     hardSurface(track), track, track?.kind === 'service' ? 1.9 : 1.7,
   );
-  /* Roads and railway render as raised ribbons too, but keeping their class in
-     the atlas prevents vegetation/scatter placement beneath those ribbons. */
+  /* The atlas owns near-course road surfaces and excludes vegetation/scatter
+     there. Railways retain a separate mesh above their classified ground. */
   for (const road of infrastructure.roads || []) line(
     hardSurface(road), road,
     road?.kind === 'trunk' ? 8 : road?.kind === 'secondary' || road?.kind === 'tertiary' ? 3.2 : 2.7,
