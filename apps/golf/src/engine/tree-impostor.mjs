@@ -19,9 +19,10 @@ import * as THREE from 'three/webgpu';
 import {
   Fn, float, vec2, vec3, color, uv, attribute, varying, texture, cameraPosition, uniform,
   normalize, abs, floor, fract, select, dot, pow, saturate, sin, cos,
-  transformNormalToView, positionWorld,
+  transformNormalToView, positionWorld, normalWorldGeometry,
 } from 'three/tsl';
 import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
+import { paintedFoliageColour, foliageLight } from './ghibli-foliage-material.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
  *  0 view-space normal, 1 dot(normal, view) in world, 2 the same in the
@@ -138,7 +139,7 @@ function viewBasisNode(view) {
  * framed with: a square of half-size `radius` centred `centreY` above the
  * base, which is exactly the quad the impostor draws.
  */
-export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPerSide = 8, frameSize = 96 } = {}) {
+export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = 96 } = {}) {
   if (!renderer || !crown || !trunk) throw new TypeError('bakeImpostorAtlas needs the renderer and both template geometries');
   crown.computeBoundingBox(); trunk.computeBoundingBox();
   const box = new THREE.Box3().union(crown.boundingBox).union(trunk.boundingBox);
@@ -185,6 +186,15 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
   const crownNormal = new THREE.MeshBasicNodeMaterial();
   crownNormal.colorNode = faceNormal;
   crownNormal.opacityNode = float(1);
+  if (foliage) {
+    if (!crown.getAttribute('uv') || !foliage.map) throw new Error('Foliage impostor bake needs UVs and its shared atlas');
+    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(texture(foliage.map).rgb);
+    for (const mat of [crownAlbedo, crownNormal]) {
+      mat.side = THREE.DoubleSide;
+      mat.maskNode = texture(foliage.map).a.greaterThan(.5);
+    }
+    crownNormal.colorNode = normalWorldGeometry.mul(.5).add(.5);
+  }
   const trunkNormal = new THREE.MeshBasicNodeMaterial();
   trunkNormal.colorNode = faceNormal;
   trunkNormal.opacityNode = float(0);
@@ -260,6 +270,7 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, framesPe
     albedo: albedoTarget.texture, normal: normalTarget.texture,
     targets: [albedoTarget, normalTarget],
     framesPerSide, frameSize, size, radius, centreY, height, trunkColor: trunkBase,
+    foliage: foliage ? { key: foliage.key } : null,
   });
 }
 
@@ -286,8 +297,8 @@ function enableImpostorCoverage(material) {
  * crossfades (`fade`), `aFade` (engine/tree-fade.mjs). The quad's own `uv`
  * runs 0..1.
  */
-export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughness = 0.92, debug = null, fade = false } = {}) {
-  const material = new THREE.MeshStandardNodeMaterial({ roughness, metalness: 0, flatShading: false });
+export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn = float(0), roughness = 0.92, debug = null, fade = false } = {}) {
+  const material = atlas.foliage ? new THREE.MeshBasicNodeMaterial() : new THREE.MeshStandardNodeMaterial({ roughness, metalness: 0, flatShading: false });
   const n = atlas.framesPerSide;
   const cell = 1 / n;
   /* inset the sample by a texel so a frame never bleeds into its neighbour */
@@ -419,6 +430,15 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, roughne
   if (debug) material.aoNode = select(m.greaterThan(14.5).and(m.lessThan(15.5)), nLen, float(1));
   material.colorNode = crownPremultiplied.mul(crownBase).mul(back).add(trunkPremultiplied)
     .div(coverage.max(1e-4)).mul(lenScale);
+  if (atlas.foliage) {
+    const tint = attribute('aTint', 'vec4');
+    const crownColour = paintedFoliageColour({key:atlas.foliage.key,normal:nWorld,sunDirection,
+      tint:tint.xyz,seed:tint.w,autumn});
+    const barkLight = nWorld.dot(sunDirection).max(0).mul(.65).add(.55);
+    material.colorNode = crownPremultiplied.mul(crownColour)
+      .add(trunkPremultiplied.mul(barkLight).mul(foliageLight)).div(coverage.max(1e-4));
+    material.userData.foliageKey = atlas.foliage.key;
+  }
   if (debug && debug !== 'lit') {
     /* the harness's view of one term at a time (impostorDebugMode), on
        the same billboard with the same cut, and nothing between the value
@@ -457,6 +477,9 @@ export function createImpostorGeometry(capacity) {
   geometry.setAttribute('aImpostorParam', par);
   /* zero = steady; a batch that never fades (the far ring) never writes it */
   geometry.setAttribute('aFade', createFadeAttribute(capacity));
+  const tint = new Float32Array(capacity * 4);
+  for (let i = 0; i < capacity; i++) tint.set([1, 1, 1, .5], i * 4);
+  geometry.setAttribute('aTint', new THREE.InstancedBufferAttribute(tint, 4));
   geometry.instanceCount = 0;
   /* the instances are placed in world space by the material; the geometry's
      own box is meaningless, so it is never used for culling */

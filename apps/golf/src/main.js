@@ -57,6 +57,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
+import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting } from './engine/ghibli-foliage-material.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
 import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
@@ -1713,6 +1714,7 @@ function setPreset(name, overrides = null) {
   uPaintedGrade.value = p.grade;
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
   uAutumn.value = presetName === 'host' ? 1 : 0;
+  setFoliageLighting(p);
   if (GHIBLI_LOOK) {
     /* Painted distance keeps its cooler fog and softer tree shadows. The
        fog-free atmosphere above is shared with the realistic look. */
@@ -4254,25 +4256,21 @@ function grownCrown(geo, seed, amp, colVar) {
   geo.computeVertexNormals();
   return geo;
 }
-/* ?trees=ghibli swaps the three procedural templates for the authored ones
-   (tools/blender-tree-study, engine/ghibli-trees.mjs): full tier, far tier and
-   -- with &hero=1 -- the hero tier. Placement, species and sizes are untouched;
-   a load failure logs and keeps the procedural trees. */
+/* Ghibli mode loads the approved five-species Blender catalogue for all
+   detail tiers and the distant atlas bake. Placement and measured sizes
+   retain their existing rules; a load failure logs and uses procedural trees. */
 const TREES_PARAM = new URLSearchParams(location.search).get('trees') ?? (GHIBLI_LOOK ? 'ghibli' : null);
 const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
   try {
     const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
-    /* The hero tier is fetched by DEFAULT in the painted look: the owner asked
-       for the trees on and around the course to be the detailed ones, and a
-       tier that is not downloaded cannot be drawn -- with hero off, the hero
-       SLOT is a clone of the full template, so raising zone A alone changed
-       nothing. It costs 1.3 MB of GLB on a first visit; ?hero=0 is the before. */
+    /* Load the close tier by default. ?hero=0 reuses an independent copy of
+       the middle mesh in that slot; automatic quality/zone selection remains. */
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: new URLSearchParams(location.search).get('hero') !== '0' });
     console.info(`ghibli trees: ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { console.warn('ghibli trees unavailable, procedural templates kept:', err); return null; }
 })() : null;
-/* which species draw an authored template; the others keep every procedural rule (spruce, by the owner's choice) */
+/* Which species have a successfully loaded authored template. */
 const authored = s => !!(GHIBLI && GHIBLI.species[s]);
 const SPECIES = (() => {
   const spruce = grownCrown(mergeGeos((() => {
@@ -5027,7 +5025,15 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
     mat.positionNode = windSway(false);
     return attachTreeFade(mat);
   };
-  const crownMaterial = (s, hex, sway) => {
+  const crownMaterial = (s, hex, sway, tier = 'full') => {
+    const foliage = GHIBLI?.species[s]?.foliage;
+    if (foliage) {
+      const tint = attribute('aTint', 'vec4');
+      const mat = makeGhibliFoliageMaterial({ key: foliage.key, map: tier === 'lite' ? null : foliage.map,
+        sunDirection: uSun, tint: tint.xyz, seed: tint.w, autumn: uAutumn });
+      if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
+      return attachTreeFade(mat);
+    }
     /* the authored crowns are smooth-shaded on their own bent normals: flat facets would undo the study's whole look */
     const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.92, metalness: 0, flatShading: !authored(s) });
     /* the same back-lit term the turf uses, so a treeline glows against a low sun
@@ -5071,10 +5077,11 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
-  const trunkMaterial = (hex, sway, vc = false) => {
-    const mat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: !vc });
+  const trunkMaterial = (hex, sway, vc = false, s = -1) => {
+    const birch = GHIBLI?.species[s]?.foliage?.key === 'bjork';
+    const mat = birch ? makeGhibliBirchBarkMaterial() : new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: !vc });
     /* an authored trunk carries its bark colour per vertex (a pine is grey below and orange above) */
-    if (vc) mat.colorNode = color(hex).mul(attribute('color', 'vec3'));
+    if (vc && !birch) mat.colorNode = color(hex).mul(attribute('color', 'vec3'));
     if (sway) { mat.positionNode = windSway(false); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -5115,7 +5122,8 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
       const bakeTrunk = authored(s) && GHIBLI.species[s].trunkMean
         ? new THREE.Color(...GHIBLI.species[s].trunkMean).multiply(new THREE.Color(SPECIES[s].tc))
         : SPECIES[s].tc;
-      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: bakeTrunk }));
+      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: bakeTrunk,
+        foliage: GHIBLI?.species[s]?.foliage }));
     }
     TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
     span(`tree impostor atlases (${SPECIES.length} species, 64 views each)`, bakeStarted);
@@ -5124,7 +5132,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
     const geo = createImpostorGeometry(capacity);
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
-      crownBase: s === 2 ? (GHIBLI ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : uLeaf) : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug, fade: true,
+      crownBase: s === 2 ? (GHIBLI ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : uLeaf) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = false;
@@ -5134,7 +5142,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
     mesh.name = `trees-${SPECIES_NAMES[s]}-impostor-${label}`;
     scene.add(mesh);
     stats.draws++;
-    return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'), fade: [geo.getAttribute('aFade')],
+    return { mesh, geo, pos: geo.getAttribute('aImpostorPos'), par: geo.getAttribute('aImpostorParam'), fade: [geo.getAttribute('aFade')], tint: [geo.getAttribute('aTint')],
              slots: new Int32Array(capacity), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
   };
   /* The drawable TEMPLATES: one per species, or -- with the authored trees --
@@ -5291,9 +5299,9 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
       fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
       t: [null,
         /* the bark texture needs the procedural trunk's UVs; an authored trunk has none and carries its colour instead */
-        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['trunk', hr.trunk, authored(s) ? trunkMaterial(spec.tc, true, true) : barkMaterial(spec.tc)]], 't0'),
-        tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true, authored(s))]], 't1'),
-        tier([['crown', deci.crown, crownMaterial(s, spec.cc, false)], ['trunk', deci.trunk, trunkMaterial(spec.tc, false, authored(s))]], 't2'),
+        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true, 'hero')], ['trunk', hr.trunk, authored(s) ? trunkMaterial(spec.tc, true, true, s) : barkMaterial(spec.tc)]], 't0'),
+        tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true, authored(s), s)]], 't1'),
+        tier([['crown', deci.crown, crownMaterial(s, spec.cc, false, 'lite')], ['trunk', deci.trunk, trunkMaterial(spec.tc, false, authored(s), s)]], 't2'),
         impostorBatch(s, n, 't3')],
     };
     for (let i = 1; i <= 4; i++) rec.t[i].idx = i;
@@ -5330,8 +5338,8 @@ function treeTierWrite(s, tier, slot, k, t0, code) {
   } else {
     const mats = TREE_LOD.mats[s];
     for (const im of tier.parts) im.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
-    if (tier.tint?.length) { const T = TREE_LOD.tint[s]; for (const a of tier.tint) a.array.set(T.subarray(k * 4, k * 4 + 4), slot * 4); }
   }
+  if (tier.tint?.length) { const T = TREE_LOD.tint[s]; for (const a of tier.tint) a.array.set(T.subarray(k * 4, k * 4 + 4), slot * 4); }
   tier.dirtyM.push(slot);
   treeFadeWrite(tier, slot, t0, code);
 }
@@ -5584,6 +5592,7 @@ function updateTreeTiers() {
         const dirty = tier.dirtyM.slice();
         flushRanges([tier.pos], dirty.slice(), 3);
         flushRanges([tier.par], dirty, 4);
+        if (tier.tint?.length) flushRanges(tier.tint, tier.dirtyM.slice(), 4);
         tier.dirtyM.length = 0;
       } else {
         for (const im of tier.parts) im.count = tier.count;
@@ -5860,7 +5869,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? (GHIBLI ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : uLeaf) : color(SPECIES[s].cc), sunDirection: uSun, debug: TREE_LOD.debug });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? (GHIBLI ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : uLeaf) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
@@ -5874,6 +5883,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
         const sxz = size ? size[1] / tr : s0 * 0.9;
         posA.array.set([pts[k * 4], pts[k * 4 + 1], pts[k * 4 + 2]], i * 3);
         parA.array.set([hash2(k * 31 + 7, k * 17 + 5) * TAU, sxz, sy, 0], i * 4);
+        geo.getAttribute('aTint').array.set([1, 1, 1, hash2(pts[k * 4] * .71 + 4.4, pts[k * 4 + 2] * .43 + 1.9)], i * 4);
       });
       posA.needsUpdate = parA.needsUpdate = true;
       geo.instanceCount = list.length;

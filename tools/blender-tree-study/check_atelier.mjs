@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { inspectBuildingGlb } from '../../apps/golf/src/engine/authored-buildings.mjs';
 
 const refined = process.argv.includes('--refined');
+if (process.argv.includes('--course')) throw new Error('The legacy course study hook is retired. Use check_foliage_runtime.mjs for the integrated trees.');
 const root = path.resolve(`apps/golf/public/models/trees/${refined ? 'refined' : 'atelier'}`);
 const out = path.resolve('docs/graphics/tree-atelier-2026-09-13');
 const manifest = JSON.parse(fs.readFileSync(path.join(root, refined ? 'ghibli-v3.json' : 'ghibli-v2.json'), 'utf8'));

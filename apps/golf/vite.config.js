@@ -138,6 +138,18 @@ export default defineConfig({
 
         runtimeCaching: [
           {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/ghibli-fluffy\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: { cacheName: 'banvy-ghibli-foliage-manifest', networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/ghibli-fluffy\/[a-f0-9]{64}\.(glb|png)$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'banvy-ghibli-foliage-assets',
+              expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
             // The current Puttom receipt selects a checksum-specific query on
             // its stable GLB filename, just as pack.bin is versioned below.
             urlPattern: ({ url, sameOrigin }) => sameOrigin &&
