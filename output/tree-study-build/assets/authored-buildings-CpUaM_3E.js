@@ -1,1 +1,0 @@
-import{n as e}from"./authored-buildings-BSWel7gY.js";export{e as loadAuthoredBuildings};
