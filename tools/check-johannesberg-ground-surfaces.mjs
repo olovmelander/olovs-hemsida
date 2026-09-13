@@ -15,7 +15,8 @@ const terrain = loadTerrain('johannesberg');
 const base = process.argv.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8647';
 const out = 'johannesbergbuild/cache/ground-surface-browser';
 fs.mkdirSync(out, { recursive: true });
-const report = { reviewId: review.id, capturedAt: new Date().toISOString(), backend: 'webgl2-swiftshader', courses: [], passed: false };
+const report = { reviewId: review.id, capturedAt: new Date().toISOString(), backend: 'webgl2-swiftshader',
+  captureMethod: 'active-pipeline-webgl-pixels', performanceEvidence: false, courses: [], passed: false };
 const saveReport = () => fs.writeFileSync(`${out}/report.json`, JSON.stringify(report, null, 2) + '\n');
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
 try {
@@ -48,40 +49,50 @@ try {
     report.courses.push({ slug, ...actual, errors, captures });
     saveReport();
     console.log(`${slug}: all source controls and terrain heights passed`);
-    const cdp = await page.context().newCDPSession(page);
     const capture = async file => {
       console.log(`${slug}: capturing ${file}`);
-      // Stop submitting new frames while the software GPU drains this one.
-      // Restore the real application loop afterwards; do not change the scene,
-      // materials, shadows or terrain resolution for capture.
-      const loop = await page.evaluateHandle(async () => {
-        const renderer = window.V3D.harness().renderer;
+      // Capture the actual app's final default framebuffer in the same task as
+      // rendering it. Chrome's screenshot compositor stalls on this CI adapter.
+      // Preserve all scene/material/quality settings and restore its frame loop.
+      const result = await page.evaluate(async () => {
+        const v = window.V3D, renderer = v.harness().renderer;
         const callback = renderer.getAnimationLoop();
         await renderer.setAnimationLoop(null);
-        await window.V3D.prepareCapture();
-        return callback;
+        try {
+          await v.prepareCapture();
+          const gl = renderer.backend.gl;
+          if (!gl || gl.isContextLost()) throw new Error('WebGL2 context unavailable');
+          const width = gl.drawingBufferWidth, height = gl.drawingBufferHeight;
+          const pixels = new Uint8Array(width * height * 4);
+          const previousRead = gl.getParameter(gl.READ_FRAMEBUFFER_BINDING);
+          try {
+            gl.bindFramebuffer(gl.READ_FRAMEBUFFER, null);
+            gl.readPixels(0, 0, width, height, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+          } finally { gl.bindFramebuffer(gl.READ_FRAMEBUFFER, previousRead); }
+          if (gl.getError() !== gl.NO_ERROR) throw new Error('WebGL pixel readback failed');
+          const canvas = document.createElement('canvas');
+          canvas.width = width; canvas.height = height;
+          const context = canvas.getContext('2d'), image = context.createImageData(width, height);
+          const stride = width * 4, colours = new Set();
+          let opaque = 0;
+          for (let y = 0; y < height; y++) {
+            image.data.set(pixels.subarray(y * stride, (y + 1) * stride), (height - 1 - y) * stride);
+          }
+          for (let i = 0; i < pixels.length; i += 4) {
+            if (pixels[i + 3] > 250) opaque++;
+            if (i % 64 === 0) colours.add((pixels[i] << 16) | (pixels[i + 1] << 8) | pixels[i + 2]);
+          }
+          if (opaque < width * height * .95 || colours.size < 128) throw new Error('Empty or uniform app frame');
+          context.putImageData(image, 0, 0);
+          return { data: canvas.toDataURL('image/png').split(',')[1], width, height,
+            opaquePixels: opaque, sampledColours: colours.size, quality: v.quality(), camera: v.camExact() };
+        } finally { await renderer.setAnimationLoop(callback); }
       });
-      // Read the browser view directly. The software compositor can stall
-      // Playwright's surface-copy screenshot path after a large WebGL frame.
-      let timer, data;
-      try {
-        ({ data } = await Promise.race([
-          cdp.send('Page.captureScreenshot', {
-            format: 'png', fromSurface: false, captureBeyondViewport: false,
-          }),
-          new Promise((_, reject) => {
-            timer = setTimeout(() => reject(new Error(`${file}: capture timed out`)), 120000);
-          }),
-        ]));
-      } finally {
-        clearTimeout(timer);
-        await page.evaluate(callback => window.V3D.harness().renderer.setAnimationLoop(callback), loop);
-        await loop.dispose();
-      }
-      const bytes = Buffer.from(data, 'base64');
+      const bytes = Buffer.from(result.data, 'base64');
       assert.ok(bytes.length > 10000, `${file}: empty browser capture`);
       fs.writeFileSync(`${out}/${file}`, bytes);
-      captures.push(file);
+      const { data, ...evidence } = result;
+      captures.push({ file, ...evidence });
       saveReport();
       console.log(`${slug}: saved ${file} (${bytes.length} bytes)`);
     };
