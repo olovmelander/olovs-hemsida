@@ -1,0 +1,39 @@
+name: Johannesberg ground surfaces
+
+on:
+  pull_request:
+    paths:
+      - 'johannesbergbuild/mapping/ground-surface-review.json'
+      - 'apps/golf/src/engine/scenery/johannesberg-ground-surfaces*'
+      - 'tools/check-johannesberg-ground-surfaces.mjs'
+      - '.github/workflows/johannesberg-ground-surfaces.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @banvy/golf build
+      - name: Start the built application
+        run: pnpm --dir apps/golf exec vite preview --host 127.0.0.1 --port 8647 > "$RUNNER_TEMP/johannesberg-preview.log" 2>&1 &
+      - name: Check both course packs on WebGL2 and capture the reported locations
+        run: node tools/check-johannesberg-ground-surfaces.mjs http://127.0.0.1:8647
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: johannesberg-ground-surface-browser
+          path: johannesbergbuild/cache/ground-surface-browser/
+          if-no-files-found: warn

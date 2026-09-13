@@ -16,6 +16,9 @@ export function courseSourceRevision(root) {
   // Standalone study/editor pages do not produce course ground colors and
   // may be edited independently while a publication is running.
   files.push('apps/golf/src/main.js');
+  // This source review changes runtime surface ownership without repacking the
+  // historical migration baseline; changing its geometry must expire tint too.
+  files.push('johannesbergbuild/mapping/ground-surface-review.json');
   walk('apps/golf/src/engine'); walk('apps/golf/src/loader'); walk('packages/course-v2');
   const hash = createHash('sha256');
   for (const file of files.sort()) hash.update(file).update('\0').update(fs.readFileSync(path.join(root, file), 'utf8').replaceAll('\r\n', '\n')).update('\0');

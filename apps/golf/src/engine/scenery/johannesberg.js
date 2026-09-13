@@ -12,6 +12,8 @@
    and estate buildings together. This appearance spec remains the fallback
    when that asset is unavailable; the name match still distinguishes the golf
    clubhouse from the manor. */
+export { applyGroundSurfaceReview, groundAppearance } from './johannesberg-ground-surfaces.mjs';
+
 export const clubhouse = {
   wall: 0x8b3a2c,          /* falurött */
   roof: 0xb4502c,          /* orange-red tile */

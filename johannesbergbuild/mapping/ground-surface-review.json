@@ -1,0 +1,1764 @@
+{
+  "schemaVersion": 1,
+  "id": "johannesberg-ground-surfaces-2026-09-13",
+  "groundId": "johannesberg",
+  "courseSlugs": [
+    "johannesberg",
+    "johannesberg-9"
+  ],
+  "frame": {
+    "origin": {
+      "lat": 59.72733,
+      "lon": 18.19202
+    },
+    "metresPerLatitude": 111320,
+    "metresPerLongitude": 56118.162848134096
+  },
+  "attribution": "Ortofoto © Lantmäteriet, bearbetad information.",
+  "sources": [
+    {
+      "id": "h18-rock",
+      "url": "https://minkarta.lantmateriet.se/map/ortofoto?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Ortofoto_0.16&STYLES=&SRS=EPSG:3006&BBOX=679201.7995349687,6625754.244045422,679311.7995349687,6625864.244045422&WIDTH=688&HEIGHT=688&FORMAT=image/png",
+      "boundsEpsg3006": [
+        679201.7995349687,
+        6625754.244045422,
+        679311.7995349687,
+        6625864.244045422
+      ],
+      "width": 688,
+      "height": 688,
+      "sha256": "834ef69a17c3ee851dffc2c63829dacbdc4954c5d5494d5727a94252eb72d9ee",
+      "observedAt": "2026-09-13",
+      "captureDate": null,
+      "horizontalCrs": "EPSG:3006",
+      "layer": "Ortofoto_0.16",
+      "pixelConvention": "continuous pixel edges; north at row zero"
+    },
+    {
+      "id": "works-yard",
+      "url": "https://minkarta.lantmateriet.se/map/ortofoto?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Ortofoto_0.16&STYLES=&SRS=EPSG:3006&BBOX=679418.2280950837,6625997.117296894,679648.2280950837,6626227.117296894&WIDTH=1438&HEIGHT=1438&FORMAT=image/png",
+      "boundsEpsg3006": [
+        679418.2280950837,
+        6625997.117296894,
+        679648.2280950837,
+        6626227.117296894
+      ],
+      "width": 1438,
+      "height": 1438,
+      "sha256": "cc77f1747ad54b15d7945bd5f18ec1c7ab66842130fb00c04cf08c8a409fd00b",
+      "observedAt": "2026-09-13",
+      "captureDate": null,
+      "horizontalCrs": "EPSG:3006",
+      "layer": "Ortofoto_0.16",
+      "pixelConvention": "continuous pixel edges; north at row zero"
+    },
+    {
+      "id": "h17-native",
+      "url": "https://minkarta.lantmateriet.se/map/ortofoto?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Ortofoto_0.16&STYLES=&SRS=EPSG:3006&BBOX=679214.4,6625472.64,679406.08,6625705.28&WIDTH=1198&HEIGHT=1454&FORMAT=image/png",
+      "boundsEpsg3006": [
+        679214.4,
+        6625472.64,
+        679406.08,
+        6625705.28
+      ],
+      "width": 1198,
+      "height": 1454,
+      "sha256": "a1a1b7c5b33cf455be0dc45b039de85bdec71240ff817c553a218ad35bfe0b02",
+      "observedAt": "2026-09-13",
+      "captureDate": null,
+      "horizontalCrs": "EPSG:3006",
+      "layer": "Ortofoto_0.16",
+      "pixelConvention": "continuous pixel edges; north at row zero"
+    }
+  ],
+  "baseline": {
+    "yard": [
+      [
+        38,
+        -812
+      ],
+      [
+        180,
+        -815
+      ],
+      [
+        182,
+        -660
+      ],
+      [
+        125,
+        -660
+      ],
+      [
+        122,
+        -714
+      ],
+      [
+        58,
+        -714
+      ],
+      [
+        42,
+        -745
+      ]
+    ],
+    "rock": [
+      [
+        [
+          -193,
+          -483
+        ],
+        [
+          -172,
+          -478
+        ],
+        [
+          -166,
+          -450
+        ],
+        [
+          -175,
+          -428
+        ],
+        [
+          -190,
+          -430
+        ],
+        [
+          -196,
+          -455
+        ]
+      ]
+    ]
+  },
+  "features": [
+    {
+      "id": "h18-exposed-rock-west",
+      "sourceId": "h18-rock",
+      "material": "rock",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Visible rock face at the turf edge. The surrounding shaded tree island is not an exposed-rock surface.",
+      "pixelRings": [
+        [
+          [
+            270,
+            268
+          ],
+          [
+            287,
+            256
+          ],
+          [
+            307,
+            264
+          ],
+          [
+            319,
+            280
+          ],
+          [
+            307,
+            298
+          ],
+          [
+            288,
+            304
+          ],
+          [
+            272,
+            286
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            -193.207,
+            -466.696
+          ],
+          [
+            -190.407,
+            -468.48
+          ],
+          [
+            -187.282,
+            -467.05
+          ],
+          [
+            -185.492,
+            -464.405
+          ],
+          [
+            -187.542,
+            -461.625
+          ],
+          [
+            -190.615,
+            -460.813
+          ],
+          [
+            -193.026,
+            -463.808
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "h18-exposed-rock-north",
+      "sourceId": "h18-rock",
+      "material": "rock",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Small exposed slabs between crowns; no extrapolation beneath canopy.",
+      "pixelRings": [
+        [
+          [
+            353,
+            210
+          ],
+          [
+            370,
+            202
+          ],
+          [
+            388,
+            207
+          ],
+          [
+            403,
+            218
+          ],
+          [
+            410,
+            227
+          ],
+          [
+            393,
+            232
+          ],
+          [
+            373,
+            225
+          ],
+          [
+            360,
+            223
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            -179.539,
+            -475.314
+          ],
+          [
+            -176.769,
+            -476.46
+          ],
+          [
+            -173.94,
+            -475.524
+          ],
+          [
+            -171.634,
+            -473.653
+          ],
+          [
+            -170.588,
+            -472.163
+          ],
+          [
+            -173.335,
+            -471.496
+          ],
+          [
+            -176.467,
+            -472.767
+          ],
+          [
+            -178.523,
+            -473.186
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "h18-exposed-rock-small",
+      "sourceId": "h18-rock",
+      "material": "rock",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Small visible outcrop, bounded to the photographed exposure.",
+      "pixelRings": [
+        [
+          [
+            300,
+            198
+          ],
+          [
+            312,
+            191
+          ],
+          [
+            324,
+            195
+          ],
+          [
+            329,
+            209
+          ],
+          [
+            316,
+            220
+          ],
+          [
+            304,
+            213
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            -187.891,
+            -477.636
+          ],
+          [
+            -185.925,
+            -478.661
+          ],
+          [
+            -184.044,
+            -477.93
+          ],
+          [
+            -183.355,
+            -475.658
+          ],
+          [
+            -185.51,
+            -474.002
+          ],
+          [
+            -187.369,
+            -475.211
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "h17-west-outcrop",
+      "sourceId": "h17-native",
+      "material": "rock",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Visible mineral face within the west tree island; surrounding crowns and rough are excluded.",
+      "pixelRings": [
+        [
+          [
+            365,
+            519
+          ],
+          [
+            386,
+            503
+          ],
+          [
+            410,
+            498
+          ],
+          [
+            428,
+            510
+          ],
+          [
+            447,
+            535
+          ],
+          [
+            445,
+            559
+          ],
+          [
+            426,
+            582
+          ],
+          [
+            405,
+            580
+          ],
+          [
+            383,
+            558
+          ],
+          [
+            369,
+            556
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            -175.023,
+            -266.59
+          ],
+          [
+            -171.552,
+            -268.983
+          ],
+          [
+            -167.687,
+            -269.597
+          ],
+          [
+            -164.91,
+            -267.543
+          ],
+          [
+            -162.072,
+            -263.404
+          ],
+          [
+            -162.575,
+            -259.587
+          ],
+          [
+            -165.781,
+            -256.06
+          ],
+          [
+            -169.113,
+            -256.541
+          ],
+          [
+            -172.452,
+            -260.223
+          ],
+          [
+            -174.669,
+            -260.65
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "h17-east-outcrop",
+      "sourceId": "h17-native",
+      "material": "rock",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Exposed eastern face of the tree island behind hole 17, following the visible turf edge.",
+      "pixelRings": [
+        [
+          [
+            858,
+            706
+          ],
+          [
+            884,
+            699
+          ],
+          [
+            912,
+            717
+          ],
+          [
+            932,
+            742
+          ],
+          [
+            943,
+            773
+          ],
+          [
+            931,
+            792
+          ],
+          [
+            914,
+            798
+          ],
+          [
+            895,
+            780
+          ],
+          [
+            883,
+            756
+          ],
+          [
+            865,
+            742
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            -97.859,
+            -232.938
+          ],
+          [
+            -93.661,
+            -233.856
+          ],
+          [
+            -89.335,
+            -230.767
+          ],
+          [
+            -86.338,
+            -226.621
+          ],
+          [
+            -84.822,
+            -221.586
+          ],
+          [
+            -86.881,
+            -218.644
+          ],
+          [
+            -89.638,
+            -217.816
+          ],
+          [
+            -92.529,
+            -220.837
+          ],
+          [
+            -94.258,
+            -224.762
+          ],
+          [
+            -97.02,
+            -227.136
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "h17-north-slab",
+      "sourceId": "h17-native",
+      "material": "rock",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Small exposed slab among trees; canopy-covered ground remains unclassified as rock.",
+      "pixelRings": [
+        [
+          [
+            766,
+            626
+          ],
+          [
+            792,
+            624
+          ],
+          [
+            809,
+            634
+          ],
+          [
+            823,
+            656
+          ],
+          [
+            821,
+            672
+          ],
+          [
+            803,
+            668
+          ],
+          [
+            786,
+            653
+          ],
+          [
+            769,
+            647
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            -111.913,
+            -246.421
+          ],
+          [
+            -107.752,
+            -246.54
+          ],
+          [
+            -105.119,
+            -244.813
+          ],
+          [
+            -103.056,
+            -241.192
+          ],
+          [
+            -103.497,
+            -238.652
+          ],
+          [
+            -106.336,
+            -239.429
+          ],
+          [
+            -108.931,
+            -241.955
+          ],
+          [
+            -111.596,
+            -243.044
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "h17-south-slab",
+      "sourceId": "h17-native",
+      "material": "rock",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Visible slab on the southern side of the tree island.",
+      "pixelRings": [
+        [
+          [
+            743,
+            813
+          ],
+          [
+            762,
+            816
+          ],
+          [
+            780,
+            831
+          ],
+          [
+            794,
+            854
+          ],
+          [
+            782,
+            866
+          ],
+          [
+            760,
+            850
+          ],
+          [
+            743,
+            841
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            -117.015,
+            -216.736
+          ],
+          [
+            -114.009,
+            -216.11
+          ],
+          [
+            -111.254,
+            -213.577
+          ],
+          [
+            -109.199,
+            -209.796
+          ],
+          [
+            -111.204,
+            -207.972
+          ],
+          [
+            -114.588,
+            -210.696
+          ],
+          [
+            -117.23,
+            -212.264
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "works-north-access",
+      "sourceId": "works-yard",
+      "material": "gravel",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Gravel access, barn frontage and north hall apron. The vegetated island between the three branches remains unpaved.",
+      "pixelRings": [
+        [
+          [
+            622,
+            338
+          ],
+          [
+            660,
+            357
+          ],
+          [
+            699,
+            370
+          ],
+          [
+            779,
+            372
+          ],
+          [
+            856,
+            379
+          ],
+          [
+            937,
+            388
+          ],
+          [
+            1030,
+            405
+          ],
+          [
+            1100,
+            426
+          ],
+          [
+            1113,
+            447
+          ],
+          [
+            1080,
+            468
+          ],
+          [
+            1065,
+            497
+          ],
+          [
+            1005,
+            547
+          ],
+          [
+            960,
+            580
+          ],
+          [
+            946,
+            599
+          ],
+          [
+            968,
+            624
+          ],
+          [
+            956,
+            642
+          ],
+          [
+            929,
+            619
+          ],
+          [
+            880,
+            619
+          ],
+          [
+            823,
+            612
+          ],
+          [
+            767,
+            609
+          ],
+          [
+            714,
+            608
+          ],
+          [
+            679,
+            624
+          ],
+          [
+            628,
+            637
+          ],
+          [
+            569,
+            656
+          ],
+          [
+            508,
+            674
+          ],
+          [
+            479,
+            675
+          ],
+          [
+            459,
+            653
+          ],
+          [
+            488,
+            628
+          ],
+          [
+            549,
+            614
+          ],
+          [
+            601,
+            594
+          ],
+          [
+            625,
+            575
+          ],
+          [
+            644,
+            548
+          ],
+          [
+            649,
+            515
+          ],
+          [
+            645,
+            471
+          ],
+          [
+            645,
+            431
+          ],
+          [
+            639,
+            394
+          ]
+        ],
+        [
+          [
+            687,
+            413
+          ],
+          [
+            741,
+            416
+          ],
+          [
+            803,
+            433
+          ],
+          [
+            866,
+            462
+          ],
+          [
+            910,
+            486
+          ],
+          [
+            947,
+            488
+          ],
+          [
+            966,
+            482
+          ],
+          [
+            940,
+            514
+          ],
+          [
+            912,
+            542
+          ],
+          [
+            883,
+            565
+          ],
+          [
+            850,
+            586
+          ],
+          [
+            811,
+            588
+          ],
+          [
+            763,
+            584
+          ],
+          [
+            716,
+            575
+          ],
+          [
+            687,
+            554
+          ],
+          [
+            678,
+            518
+          ],
+          [
+            675,
+            476
+          ],
+          [
+            675,
+            441
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            95.466,
+            -804.567
+          ],
+          [
+            101.377,
+            -801.241
+          ],
+          [
+            107.493,
+            -798.866
+          ],
+          [
+            120.229,
+            -797.931
+          ],
+          [
+            132.449,
+            -796.221
+          ],
+          [
+            145.291,
+            -794.161
+          ],
+          [
+            159.984,
+            -790.732
+          ],
+          [
+            170.98,
+            -786.841
+          ],
+          [
+            172.891,
+            -783.388
+          ],
+          [
+            167.47,
+            -780.29
+          ],
+          [
+            164.856,
+            -775.776
+          ],
+          [
+            154.908,
+            -768.256
+          ],
+          [
+            147.482,
+            -763.335
+          ],
+          [
+            145.104,
+            -760.409
+          ],
+          [
+            148.419,
+            -756.249
+          ],
+          [
+            146.368,
+            -753.468
+          ],
+          [
+            142.241,
+            -757.348
+          ],
+          [
+            134.431,
+            -757.725
+          ],
+          [
+            125.399,
+            -759.281
+          ],
+          [
+            116.496,
+            -760.19
+          ],
+          [
+            108.056,
+            -760.758
+          ],
+          [
+            102.354,
+            -758.473
+          ],
+          [
+            94.125,
+            -756.79
+          ],
+          [
+            84.575,
+            -754.211
+          ],
+          [
+            74.714,
+            -751.807
+          ],
+          [
+            70.084,
+            -751.87
+          ],
+          [
+            67.065,
+            -755.536
+          ],
+          [
+            71.879,
+            -759.304
+          ],
+          [
+            81.71,
+            -761.069
+          ],
+          [
+            90.152,
+            -763.862
+          ],
+          [
+            94.123,
+            -766.71
+          ],
+          [
+            97.359,
+            -770.874
+          ],
+          [
+            98.41,
+            -776.104
+          ],
+          [
+            98.11,
+            -783.159
+          ],
+          [
+            98.417,
+            -789.544
+          ],
+          [
+            97.745,
+            -795.496
+          ]
+        ],
+        [
+          [
+            105.25,
+            -792.094
+          ],
+          [
+            113.834,
+            -791.2
+          ],
+          [
+            123.586,
+            -788.009
+          ],
+          [
+            133.405,
+            -782.895
+          ],
+          [
+            140.234,
+            -778.725
+          ],
+          [
+            146.117,
+            -778.121
+          ],
+          [
+            149.191,
+            -778.933
+          ],
+          [
+            144.801,
+            -774.024
+          ],
+          [
+            140.123,
+            -769.77
+          ],
+          [
+            135.324,
+            -766.322
+          ],
+          [
+            129.902,
+            -763.223
+          ],
+          [
+            123.671,
+            -763.204
+          ],
+          [
+            116.05,
+            -764.212
+          ],
+          [
+            108.628,
+            -766.01
+          ],
+          [
+            104.167,
+            -769.586
+          ],
+          [
+            103.009,
+            -775.402
+          ],
+          [
+            102.853,
+            -782.13
+          ],
+          [
+            103.122,
+            -787.717
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "works-east-access",
+      "sourceId": "works-yard",
+      "material": "gravel",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Visible eastern service lane and small south workshop apron; excludes grass around the buildings and crop field.",
+      "pixelRings": [
+        [
+          [
+            957,
+            610
+          ],
+          [
+            986,
+            628
+          ],
+          [
+            1032,
+            664
+          ],
+          [
+            1083,
+            706
+          ],
+          [
+            1144,
+            744
+          ],
+          [
+            1187,
+            774
+          ],
+          [
+            1226,
+            782
+          ],
+          [
+            1268,
+            777
+          ],
+          [
+            1321,
+            766
+          ],
+          [
+            1376,
+            737
+          ],
+          [
+            1422,
+            715
+          ],
+          [
+            1437,
+            738
+          ],
+          [
+            1386,
+            763
+          ],
+          [
+            1322,
+            790
+          ],
+          [
+            1267,
+            805
+          ],
+          [
+            1228,
+            811
+          ],
+          [
+            1217,
+            828
+          ],
+          [
+            1216,
+            860
+          ],
+          [
+            1226,
+            907
+          ],
+          [
+            1229,
+            943
+          ],
+          [
+            1225,
+            971
+          ],
+          [
+            1210,
+            997
+          ],
+          [
+            1182,
+            1013
+          ],
+          [
+            1146,
+            1024
+          ],
+          [
+            1100,
+            1035
+          ],
+          [
+            1050,
+            1048
+          ],
+          [
+            1003,
+            1051
+          ],
+          [
+            958,
+            1050
+          ],
+          [
+            955,
+            997
+          ],
+          [
+            1009,
+            985
+          ],
+          [
+            1065,
+            987
+          ],
+          [
+            1118,
+            983
+          ],
+          [
+            1162,
+            972
+          ],
+          [
+            1190,
+            952
+          ],
+          [
+            1196,
+            925
+          ],
+          [
+            1188,
+            882
+          ],
+          [
+            1175,
+            835
+          ],
+          [
+            1171,
+            814
+          ],
+          [
+            1151,
+            800
+          ],
+          [
+            1108,
+            775
+          ],
+          [
+            1067,
+            746
+          ],
+          [
+            1024,
+            711
+          ],
+          [
+            977,
+            674
+          ],
+          [
+            929,
+            630
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            146.773,
+            -758.569
+          ],
+          [
+            151.257,
+            -755.472
+          ],
+          [
+            158.313,
+            -749.371
+          ],
+          [
+            166.119,
+            -742.274
+          ],
+          [
+            175.55,
+            -735.739
+          ],
+          [
+            182.173,
+            -730.619
+          ],
+          [
+            188.328,
+            -729.041
+          ],
+          [
+            195.061,
+            -729.516
+          ],
+          [
+            203.593,
+            -730.864
+          ],
+          [
+            212.583,
+            -735.07
+          ],
+          [
+            220.084,
+            -738.228
+          ],
+          [
+            222.298,
+            -734.441
+          ],
+          [
+            213.977,
+            -730.843
+          ],
+          [
+            203.568,
+            -727.025
+          ],
+          [
+            194.686,
+            -725.054
+          ],
+          [
+            188.424,
+            -724.397
+          ],
+          [
+            186.54,
+            -721.768
+          ],
+          [
+            186.134,
+            -716.667
+          ],
+          [
+            187.367,
+            -709.087
+          ],
+          [
+            187.569,
+            -703.317
+          ],
+          [
+            186.716,
+            -698.878
+          ],
+          [
+            184.125,
+            -694.843
+          ],
+          [
+            179.539,
+            -692.505
+          ],
+          [
+            173.717,
+            -691.026
+          ],
+          [
+            166.3,
+            -689.624
+          ],
+          [
+            158.231,
+            -687.933
+          ],
+          [
+            150.716,
+            -687.816
+          ],
+          [
+            143.552,
+            -688.322
+          ],
+          [
+            143.481,
+            -696.806
+          ],
+          [
+            152.18,
+            -698.306
+          ],
+          [
+            161.09,
+            -697.556
+          ],
+          [
+            169.569,
+            -697.786
+          ],
+          [
+            176.667,
+            -699.204
+          ],
+          [
+            181.283,
+            -702.181
+          ],
+          [
+            182.447,
+            -706.445
+          ],
+          [
+            181.502,
+            -713.371
+          ],
+          [
+            179.792,
+            -720.973
+          ],
+          [
+            179.315,
+            -724.357
+          ],
+          [
+            176.235,
+            -726.745
+          ],
+          [
+            169.573,
+            -731.067
+          ],
+          [
+            163.261,
+            -736.012
+          ],
+          [
+            156.676,
+            -741.93
+          ],
+          [
+            149.469,
+            -748.198
+          ],
+          [
+            142.156,
+            -755.592
+          ]
+        ]
+      ]
+    },
+    {
+      "id": "works-hall-east-apron",
+      "sourceId": "works-yard",
+      "material": "gravel",
+      "boundaryUncertaintyMetres": 1.5,
+      "note": "Small surfaced apron beside the eastern hall wing. Building footprint is retained independently.",
+      "pixelRings": [
+        [
+          [
+            1256,
+            581
+          ],
+          [
+            1301,
+            571
+          ],
+          [
+            1363,
+            555
+          ],
+          [
+            1396,
+            563
+          ],
+          [
+            1390,
+            602
+          ],
+          [
+            1376,
+            642
+          ],
+          [
+            1352,
+            675
+          ],
+          [
+            1311,
+            685
+          ],
+          [
+            1267,
+            671
+          ],
+          [
+            1234,
+            646
+          ],
+          [
+            1222,
+            616
+          ]
+        ]
+      ],
+      "rings": [
+        [
+          [
+            194.655,
+            -760.897
+          ],
+          [
+            201.904,
+            -762.147
+          ],
+          [
+            211.909,
+            -764.224
+          ],
+          [
+            217.108,
+            -762.693
+          ],
+          [
+            215.852,
+            -756.513
+          ],
+          [
+            213.313,
+            -750.235
+          ],
+          [
+            209.234,
+            -745.152
+          ],
+          [
+            202.622,
+            -743.872
+          ],
+          [
+            195.716,
+            -746.445
+          ],
+          [
+            190.648,
+            -750.69
+          ],
+          [
+            188.966,
+            -755.571
+          ]
+        ]
+      ]
+    }
+  ],
+  "appearance": {
+    "rock": 7829355,
+    "gravel": 8486770,
+    "rockFromSlope": false,
+    "note": "Source-supported neutral mineral hues, with display luminance kept in the existing terrain palette range; image exposure is not treated as albedo.",
+    "rockSampleMedianRgb": [
+      75.0,
+      83.0,
+      80.0
+    ],
+    "gravelSampleMedianRgb": [
+      158.0,
+      157.0,
+      150.0
+    ]
+  },
+  "limitations": [
+    "The viewing mosaic does not expose a verified capture date; this review does not assume the date of the separate September 9 RGBI acquisition.",
+    "Image pixel spacing is not positional accuracy. Manual boundary uncertainty is approximately 1.5 m, larger at occluded edges.",
+    "Bare-earth terrain corroborates relief, not ground material. Slopes do not prove exposed rock; unobserved surfaces under canopy retain natural ground.",
+    "Raw imagery remains in the ignored review cache. Only derived geometry and provenance are bundled."
+  ],
+  "controls": [
+    {
+      "id": "yard-west-grass",
+      "sourceId": "works-yard",
+      "pixel": [
+        395,
+        390
+      ],
+      "point": [
+        58.883,
+        -798.012
+      ],
+      "expectedMaterial": "natural"
+    },
+    {
+      "id": "yard-south-grass",
+      "sourceId": "works-yard",
+      "pixel": [
+        848,
+        740
+      ],
+      "point": [
+        128.4,
+        -738.655
+      ],
+      "expectedMaterial": "natural"
+    },
+    {
+      "id": "yard-central-island",
+      "sourceId": "works-yard",
+      "pixel": [
+        811,
+        498
+      ],
+      "point": [
+        124.362,
+        -777.571
+      ],
+      "expectedMaterial": "natural"
+    },
+    {
+      "id": "hall-gravel",
+      "sourceId": "works-yard",
+      "pixel": [
+        985,
+        437
+      ],
+      "point": [
+        152.565,
+        -785.97
+      ],
+      "expectedMaterial": "gravel"
+    },
+    {
+      "id": "east-lane-gravel",
+      "sourceId": "works-yard",
+      "pixel": [
+        1135,
+        761
+      ],
+      "point": [
+        173.985,
+        -733.094
+      ],
+      "expectedMaterial": "gravel"
+    },
+    {
+      "id": "workshop-gravel",
+      "sourceId": "works-yard",
+      "pixel": [
+        1100,
+        1010
+      ],
+      "point": [
+        166.492,
+        -693.615
+      ],
+      "expectedMaterial": "gravel"
+    },
+    {
+      "id": "h18-canopy",
+      "sourceId": "h18-rock",
+      "pixel": [
+        353,
+        395
+      ],
+      "point": [
+        -180.957,
+        -445.793
+      ],
+      "expectedMaterial": "natural"
+    },
+    {
+      "id": "h18-visible-slab",
+      "sourceId": "h18-rock",
+      "pixel": [
+        291,
+        277
+      ],
+      "point": [
+        -189.93,
+        -465.098
+      ],
+      "expectedMaterial": "rock"
+    },
+    {
+      "id": "h17-rough-between-rocks",
+      "sourceId": "h17-native",
+      "pixel": [
+        841,
+        848
+      ],
+      "point": [
+        -101.66,
+        -210.393
+      ],
+      "expectedMaterial": "natural"
+    },
+    {
+      "id": "h17-east-visible-rock",
+      "sourceId": "h17-native",
+      "pixel": [
+        915,
+        755
+      ],
+      "point": [
+        -89.148,
+        -224.675
+      ],
+      "expectedMaterial": "rock"
+    }
+  ]
+}
