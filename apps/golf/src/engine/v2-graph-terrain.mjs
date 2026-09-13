@@ -116,7 +116,7 @@ export function applyBridgeTransform(group, bridge) {
  * (x = easting - legacy origin easting, z = legacy origin northing - northing,
  * heights on the legacy datum). Finest level first.
  */
-export function createRingHeightSampler({ levels, legacyOrigin, verticalDatumOffsetMetres }) {
+export function createRingHeightSampler({ levels, legacyOrigin, verticalDatumOffsetMetres, indexed = true }) {
   finite(legacyOrigin?.easting, 'legacyOrigin.easting');
   finite(legacyOrigin?.northing, 'legacyOrigin.northing');
   finite(verticalDatumOffsetMetres, 'verticalDatumOffsetMetres');
@@ -129,15 +129,17 @@ export function createRingHeightSampler({ levels, legacyOrigin, verticalDatumOff
       minX = Math.min(minX, tile.bounds.minEasting - legacyOrigin.easting);
       minZ = Math.min(minZ, legacyOrigin.northing - tile.bounds.maxNorthing);
     }
-    const byCell = new Map();
+    let byCell = new Map();
+    let columns = 0, rows = 0;
     for (const tile of level.tiles) {
       const { grid, payload } = tile;
       if (payload.byteLength !== grid.width * grid.height * 2) throw new Error(`tile ${tile.id} payload does not match its grid`);
       const x0 = tile.bounds.minEasting - legacyOrigin.easting;
       const z0 = legacyOrigin.northing - tile.bounds.maxNorthing;
       const column = Math.round((x0 - minX) / span), row = Math.round((z0 - minZ) / span);
+      columns = Math.max(columns, column + 1); rows = Math.max(rows, row + 1);
       byCell.set(`${column},${row}`, {
-        id: tile.id, x0, z0, span,
+        id: tile.id, x0, z0, span, column, row,
         width: grid.width, height: grid.height,
         spacing: grid.sampleSpacingMetres,
         offset: grid.heightOffsetMetres + verticalDatumOffsetMetres,
@@ -146,8 +148,27 @@ export function createRingHeightSampler({ levels, legacyOrigin, verticalDatumOff
         payload,
       });
     }
-    return { lod: level.lod, minX, minZ, span, byCell };
+    // Published rings are compact grids. Numeric indexing avoids allocating
+    // and hashing millions of coordinate strings during world construction.
+    // Keep sparse/nonstandard grids on the original map, with bounded memory.
+    const count = columns * rows;
+    let cells = null;
+    if (indexed && Number.isSafeInteger(count) && count > 0 && count <= 65536 &&
+        count <= Math.max(256, byCell.size * 4)) {
+      cells = new Array(count);
+      for (const tile of byCell.values()) cells[tile.row * columns + tile.column] = tile;
+      byCell = null;
+    }
+    return { lod: level.lod, minX, minZ, span, columns, rows, cells, byCell };
   });
+  const tileAt = (level, x, z) => {
+    const column = Math.floor((x - level.minX) / level.span), row = Math.floor((z - level.minZ) / level.span);
+    if (!level.cells) return level.byCell.get(`${column},${row}`);
+    // Bounds are checked on both axes: the next row must never alias the
+    // eastern edge, and an empty cell must still fall through to a coarser LOD.
+    return column >= 0 && column < level.columns && row >= 0 && row < level.rows
+      ? level.cells[row * level.columns + column] : undefined;
+  };
   const quantized = (tile, column, row) => {
     const offset = (row * tile.width + column) * 2;
     return tile.payload[offset] | tile.payload[offset + 1] << 8;
@@ -170,8 +191,7 @@ export function createRingHeightSampler({ levels, legacyOrigin, verticalDatumOff
     sample(x, z) {
       if (!Number.isFinite(x) || !Number.isFinite(z)) return Number.NaN;
       for (const level of prepared) {
-        const column = Math.floor((x - level.minX) / level.span), row = Math.floor((z - level.minZ) / level.span);
-        const tile = level.byCell.get(`${column},${row}`);
+        const tile = tileAt(level, x, z);
         if (!tile) continue;
         const height = sampleTile(tile, x, z);
         if (Number.isFinite(height)) return height;
@@ -180,8 +200,7 @@ export function createRingHeightSampler({ levels, legacyOrigin, verticalDatumOff
     },
     inspect(x, z) {
       for (const level of prepared) {
-        const column = Math.floor((x - level.minX) / level.span), row = Math.floor((z - level.minZ) / level.span);
-        const tile = level.byCell.get(`${column},${row}`);
+        const tile = tileAt(level, x, z);
         if (!tile) continue;
         const height = sampleTile(tile, x, z);
         if (Number.isFinite(height)) return Object.freeze({ height, tileId: tile.id, sampleSpacingMetres: tile.spacing });
@@ -209,6 +228,7 @@ export class V2GraphTerrainAdapter {
     profile,
     maximumCachedResources,
     fetchImpl,
+    chunkSource = null,
     cacheStorage,
     clock = () => globalThis.performance?.now?.() ?? Date.now(),
   } = {}) {
@@ -236,6 +256,7 @@ export class V2GraphTerrainAdapter {
     this.releaseGraceMilliseconds = undefined;
     this.maximumRetainedTiles = undefined;
     this.fetchImpl = fetchImpl;
+    this.chunkSource = chunkSource;
     this.cacheStorage = cacheStorage;
     this.clock = clock;
     this.group = new THREE.Group();
@@ -320,7 +341,7 @@ export class V2GraphTerrainAdapter {
    * from the browser cache for the GPU.
    */
   async loadRings({ signal } = {}) {
-    if (this.rings) return this.rings.levels.length;
+    if (this.rings) return this.ringTileCount;
     const tiles = this.graph.ground.tiles.filter(tile => tile.lod >= 1 && tile.courses?.includes(this.courseSlug));
     const fetchImpl = this.fetchImpl ?? globalThis.fetch;
     /* two hundred fetches in flight at once on a phone's radio: one of them
@@ -342,18 +363,20 @@ export class V2GraphTerrainAdapter {
     };
     const decoded = await Promise.all(tiles.map(async tile => {
       const url = resolveV2AssetUrl(tile.layers.terrain.url, this.baseUrl);
-      const response = await fetchTile(tile, url);
-      const chunk = await verifyChunkAssetWeb(tile.layers.terrain, new Uint8Array(await response.arrayBuffer()));
+      const chunk = this.chunkSource ? await this.chunkSource.load(tile.layers.terrain, { signal }) :
+        await verifyChunkAssetWeb(tile.layers.terrain, new Uint8Array(await (await fetchTile(tile, url)).arrayBuffer()));
       if (chunk?.header?.kind !== 'terrain' || !chunk.payload) throw new Error(`ring tile ${tile.id} did not decode as terrain`);
       const payload = chunk.payload instanceof Uint8Array ? chunk.payload : new Uint8Array(chunk.payload);
       return { id: tile.id, lod: tile.lod, bounds: tile.bounds, grid: chunk.header.grid, payload };
     }));
     const byLod = new Map();
+    this.ringTileCount = decoded.length;
     for (const tile of decoded) {
       if (!byLod.has(tile.lod)) byLod.set(tile.lod, []);
       byLod.get(tile.lod).push(tile);
     }
     this.rings = createRingHeightSampler({
+      indexed: !!this.chunkSource && new URLSearchParams(globalThis.location?.search ?? '').get('startup') !== 'unindexed',
       levels: [...byLod].map(([lod, levelTiles]) => ({ lod, tiles: levelTiles })),
       legacyOrigin: this.legacyOrigin,
       verticalDatumOffsetMetres: this.bridge.verticalDatumOffsetMetres,
@@ -528,6 +551,9 @@ export class V2GraphTerrainAdapter {
         },
       };
       this.runtime = new CourseV2TerrainRuntime({
+        // Opt-in experiment until isolated device timings show a startup win.
+        // All other startup optimizations and prepared colors remain enabled.
+        prepareInWorker: new URLSearchParams(globalThis.location?.search ?? '').get('startup') === 'terrain-worker',
         ground: { ...this.graph.ground, frame },
         course: this.graph.course,
         scene: this.group,
@@ -535,6 +561,7 @@ export class V2GraphTerrainAdapter {
         mobile: this.mobile,
         baseUrl: this.baseUrl,
         fetchImpl: this.fetchImpl,
+        chunkSource: this.chunkSource,
         cacheStorage: this.cacheStorage,
         clock: this.clock,
         decorateMaterial,

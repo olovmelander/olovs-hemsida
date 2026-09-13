@@ -1,5 +1,6 @@
 import { abortError, verifyChunkAssetWeb } from './decode-web.mjs';
 import { prepareTerrainRenderData } from './terrain-render-data.mjs';
+import { decodeStartupTerrain } from './startup-decode.mjs';
 
 function messageError(error) {
   return {
@@ -17,7 +18,7 @@ export function installChunkWorker(scope = globalThis) {
       tasks.get(message.id)?.abort(abortError());
       return;
     }
-    if (message.type !== 'decode' || !Number.isSafeInteger(message.id) || message.id < 1 ||
+    if (!['decode', 'prepare-terrain'].includes(message.type) || !Number.isSafeInteger(message.id) || message.id < 1 ||
         !(message.buffer instanceof ArrayBuffer)) {
       scope.postMessage({ type: 'protocol-error', id: message?.id ?? null, error: { name: 'Error', message: 'invalid worker request' } });
       return;
@@ -29,13 +30,25 @@ export function installChunkWorker(scope = globalThis) {
     const controller = new AbortController();
     tasks.set(message.id, controller);
     try {
-      const result = await verifyChunkAssetWeb(message.reference, message.buffer, {
+      if (message.type === 'prepare-terrain') {
+        // Application-owned, verified heights after water-bed transforms.
+        // This does not replace transport integrity checks in the decode path.
+        const prepared = prepareTerrainRenderData({ header: message.header, payload: message.buffer });
+        scope.postMessage({ type: 'terrain-prepared', id: message.id,
+          terrainRenderData: { ...prepared, textureData: prepared.textureData.buffer },
+        }, [prepared.textureData.buffer]);
+        return;
+      }
+      const options = {
         signal: controller.signal,
         supportedFeatures: message.supportedFeatures,
-      });
+      };
+      const result = message.startupEntry
+        ? await decodeStartupTerrain(message.reference, new Uint8Array(message.buffer), message.startupEntry, options)
+        : await verifyChunkAssetWeb(message.reference, message.buffer, options);
       if (controller.signal.aborted) throw abortError();
       const payload = result.payload.buffer;
-      const prepared = result.header.payloadFormat === 'terrain-grid-u16-le-v1'
+      const prepared = message.prepareTerrain !== false && result.header.payloadFormat === 'terrain-grid-u16-le-v1'
         ? prepareTerrainRenderData(result)
         : null;
       const terrainRenderData = prepared ? {

@@ -1,0 +1,724 @@
+{
+  "phase": "final",
+  "course": "puttom",
+  "low": false,
+  "natural": false,
+  "errors": [],
+  "modes": [
+    {
+      "mode": "noon",
+      "screenshot": "puttom-final-noon.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 0.800000011920929,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "noon"
+    },
+    {
+      "mode": "golden",
+      "screenshot": "puttom-final-golden.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 0.5999999940395355,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "golden"
+    },
+    {
+      "mode": "dawn",
+      "screenshot": "puttom-final-dawn.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 0.5999999940395355,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "dawn"
+    },
+    {
+      "mode": "midnight",
+      "screenshot": "puttom-final-midnight.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 0.5999999940395355,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "midnight"
+    },
+    {
+      "mode": "bluehour",
+      "screenshot": "puttom-final-bluehour.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 3.300000011920929,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "bluehour"
+    },
+    {
+      "mode": "storm",
+      "screenshot": "puttom-final-storm.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 2.699999988079071,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "storm"
+    },
+    {
+      "mode": "mist",
+      "screenshot": "puttom-final-mist.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 0.7999999821186066,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "mist"
+    },
+    {
+      "mode": "host",
+      "screenshot": "puttom-final-host.png",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 13074,
+            "inCount": 13074,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 21210,
+            "inCount": 21210,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 2347,
+            "inCount": 2347,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "tiers": {
+        "tier0": 886,
+        "tier1": 3851,
+        "tier2": 0,
+        "tier3": 31894,
+        "cells": 1031,
+        "cellsVisible": 187,
+        "moves": 36631,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 130,
+        "fading": 0,
+        "updateMs": 0.6000000238418579,
+        "zoneA": 4671,
+        "zoneB": 18039,
+        "heroPx": 64,
+        "switchPx": 24,
+        "impostorPx": 8,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          2
+        ]
+      },
+      "atmosphere": "host"
+    }
+  ],
+  "backend": "webgpu",
+  "camera": {
+    "fov": 48,
+    "near": 1,
+    "far": 14000,
+    "aspect": 1.6,
+    "coordinateSystem": 2001,
+    "reversedDepth": true,
+    "position": [
+      -34.13555151486116,
+      103.50632672610503,
+      -204.9158968266478
+    ],
+    "target": [
+      -123.0807539821641,
+      70.50991995646987,
+      -370.27695222912325
+    ]
+  },
+  "triangles": [
+    [
+      [
+        3500,
+        1000
+      ],
+      [
+        1632,
+        68
+      ],
+      [
+        288,
+        20
+      ]
+    ],
+    [
+      [
+        3752,
+        696
+      ],
+      [
+        1474,
+        146
+      ],
+      [
+        220,
+        60
+      ]
+    ],
+    [
+      [
+        3644,
+        856
+      ],
+      [
+        1572,
+        128
+      ],
+      [
+        288,
+        20
+      ]
+    ],
+    null,
+    null
+  ],
+  "inventory": [
+    {
+      "name": "trees-spruce0-crown-t0",
+      "key": "gran",
+      "triangles": 3500
+    },
+    {
+      "name": "trees-spruce0-trunk-t0",
+      "key": null,
+      "triangles": 1000
+    },
+    {
+      "name": "trees-spruce0-crown-t1",
+      "key": "gran",
+      "triangles": 1632
+    },
+    {
+      "name": "trees-spruce0-trunk-t1",
+      "key": null,
+      "triangles": 68
+    },
+    {
+      "name": "trees-spruce0-crown-t2",
+      "key": "gran",
+      "triangles": 288
+    },
+    {
+      "name": "trees-spruce0-trunk-t2",
+      "key": null,
+      "triangles": 20
+    },
+    {
+      "name": "trees-spruce-impostor-t3",
+      "key": "gran",
+      "triangles": 2
+    },
+    {
+      "name": "trees-pine0-crown-t0",
+      "key": "tall",
+      "triangles": 3752
+    },
+    {
+      "name": "trees-pine0-trunk-t0",
+      "key": null,
+      "triangles": 696
+    },
+    {
+      "name": "trees-pine0-crown-t1",
+      "key": "tall",
+      "triangles": 1474
+    },
+    {
+      "name": "trees-pine0-trunk-t1",
+      "key": null,
+      "triangles": 146
+    },
+    {
+      "name": "trees-pine0-crown-t2",
+      "key": "tall",
+      "triangles": 220
+    },
+    {
+      "name": "trees-pine0-trunk-t2",
+      "key": null,
+      "triangles": 60
+    },
+    {
+      "name": "trees-pine-impostor-t3",
+      "key": "tall",
+      "triangles": 2
+    },
+    {
+      "name": "trees-birch0-crown-t0",
+      "key": "bjork",
+      "triangles": 3644
+    },
+    {
+      "name": "trees-birch0-trunk-t0",
+      "key": null,
+      "triangles": 856
+    },
+    {
+      "name": "trees-birch0-crown-t1",
+      "key": "bjork",
+      "triangles": 1572
+    },
+    {
+      "name": "trees-birch0-trunk-t1",
+      "key": null,
+      "triangles": 128
+    },
+    {
+      "name": "trees-birch0-crown-t2",
+      "key": "bjork",
+      "triangles": 288
+    },
+    {
+      "name": "trees-birch0-trunk-t2",
+      "key": null,
+      "triangles": 20
+    },
+    {
+      "name": "trees-birch-impostor-t3",
+      "key": "bjork",
+      "triangles": 2
+    },
+    {
+      "name": "vista-spruce-impostor",
+      "key": "gran",
+      "triangles": 2
+    },
+    {
+      "name": "vista-pine-impostor",
+      "key": "tall",
+      "triangles": 2
+    },
+    {
+      "name": "vista-birch-impostor",
+      "key": "bjork",
+      "triangles": 2
+    }
+  ]
+}

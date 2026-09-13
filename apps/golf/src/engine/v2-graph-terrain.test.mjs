@@ -114,6 +114,44 @@ describe('the ring height sampler', () => {
     return payload;
   };
   const legacyOrigin = { easting: 1000, northing: 2000 };
+  it('indexed lookup preserves holes, shared edges, duplicate precedence and in-place water carving', () => {
+    const makeTile = (x, z, value, id = `${x}/${z}`) => ({ id,
+      bounds: { minEasting: 1000 + x, maxEasting: 1008 + x, minNorthing: 1992 - z, maxNorthing: 2000 - z },
+      grid: grid(2, 5, 40), payload: payloadOf(5, value) });
+    const tiles = [makeTile(0, 0, 100), makeTile(8, 0, 200), makeTile(0, 8, 300),
+      makeTile(16, 8, 400), makeTile(8, 0, 250, 'last-duplicate')];
+    const coarse = { id: 'coarse', bounds: { minEasting: 984, maxEasting: 1048, minNorthing: 1952, maxNorthing: 2016 },
+      grid: grid(8, 9, 20), payload: payloadOf(9, 123) };
+    const options = { levels: [{ lod: 1, tiles }, { lod: 2, tiles: [coarse] }], legacyOrigin, verticalDatumOffsetMetres: -30 };
+    const indexed = createRingHeightSampler(options);
+    const reference = createRingHeightSampler({ ...options, indexed: false });
+    expect(indexed.inspect(9, 1).tileId).toBe('last-duplicate');
+    expect(indexed.inspect(9, 9).tileId).toBe('coarse');
+    expect(indexed.inspect(24, 0).tileId).toBe('coarse'); // No row alias at the eastern boundary.
+    const compare = () => {
+      for (let z = -17; z <= 49; z += 0.375) for (let x = -17; x <= 49; x += 0.625) {
+        expect(indexed.sample(x, z)).toBe(reference.sample(x, z));
+        expect(indexed.inspect(x, z)).toEqual(reference.inspect(x, z));
+      }
+      for (const x of [NaN, Infinity, -Infinity]) expect(indexed.sample(x, 0)).toBeNaN();
+    };
+    compare();
+    new DataView(tiles[0].payload.buffer).setUint16(12 * 2, 65535, true);
+    expect(indexed.inspect(4, 4).tileId).toBe('coarse');
+    new DataView(tiles[2].payload.buffer).setUint16(12 * 2, 17, true);
+    expect(indexed.sample(4, 12)).toBe(10.17);
+    compare();
+  });
+  it('keeps huge sparse levels bounded and preserves their samples', () => {
+    const tiles = [0, 1e9].map(x => ({ id: String(x),
+      bounds: { minEasting: x, maxEasting: x + 8, minNorthing: 0, maxNorthing: 8 },
+      grid: grid(2, 5, 40), payload: payloadOf(5, 100) }));
+    const sampler = createRingHeightSampler({ levels: [{ lod: 1, tiles }],
+      legacyOrigin: { easting: 0, northing: 8 }, verticalDatumOffsetMetres: 0 });
+    expect(sampler.sample(4, 4)).toBe(41);
+    expect(sampler.sample(1e9 + 4, 4)).toBe(41);
+    expect(sampler.sample(1e8, 4)).toBeNaN();
+  });
   const sampler = createRingHeightSampler({
     levels: [
       { lod: 1, tiles: [{ id: 'l1/0/0', bounds: { minEasting: 1000, maxEasting: 1008, minNorthing: 1992, maxNorthing: 2000 }, grid: grid(2, 5, 40), payload: payloadOf(5, 100) }] },

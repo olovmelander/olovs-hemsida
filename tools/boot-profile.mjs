@@ -23,6 +23,7 @@ import path from 'node:path';
 import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
 import { browserArgs, GPU } from './browser-args.mjs';
+import { recordRequestedAdapters } from './startup-adapter-probe.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback = null) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -30,6 +31,15 @@ const BASE = args.find(a => !a.startsWith('--') && /^https?:/.test(a)) || 'http:
 const SLUG = flag('course', 'puttom');
 const V2 = flag('v2', 'require');
 const Q = flag('q', null);
+const STARTUP = flag('startup', '1');
+const LIGHT = flag('light', 'kvall');
+const PAINTED = flag('ghibli', '1');
+const GL = flag('gl', '0');
+const HOLE = flag('hole', '1');
+const MOBILE = args.includes('--mobile');
+const CPU_RATE = +flag('cpu', '1');
+const MBPS = +flag('mbps', '0');
+const LATENCY = +flag('latency', '0');
 const RUNS = +flag('runs', 1);
 const OUT = flag('out', null);
 /* --fingerprint hashes what the boot BUILT -- every tree's position, the tint
@@ -44,12 +54,25 @@ const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 
 /* 'off' emits an explicit v2=0: with v2 the flagless default on reviewed
    grounds, an unflagged URL would profile the v2 boot, not the GPK1 one. */
-const search = `?bana=${SLUG}&det=1${V2 === 'off' ? '&v2=0' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}`;
+const search = `?bana=${SLUG}&det=1&qualitylock=1&startup=${STARTUP}&ljus=${LIGHT}&ghibli=${PAINTED}&gl=${GL}&hal=${HOLE}&vy=tee${V2 === 'off' ? '&v2=0' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}`;
 const url = `${BASE}/${search}`;
 const browser = await chromium.launch({ ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }), args: browserArgs() });
 const runs = [];
 for (let run = 0; run < RUNS; run++) {
-  const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({ viewport: MOBILE ? { width: 390, height: 844 } : { width: 1600, height: 900 },
+    deviceScaleFactor: MOBILE ? 2 : 1, isMobile: MOBILE, hasTouch: MOBILE,
+    // Isolate application traffic for reproducible cold-network comparisons.
+    // SW-enabled/offline behavior is checked separately; this is not a phone GPU.
+    serviceWorkers: args.includes('--sw') ? 'allow' : 'block' });
+  const cdp = await page.context().newCDPSession(page);
+  await page.addInitScript(recordRequestedAdapters);
+  await cdp.send('Network.enable');
+  if (CPU_RATE > 1) await cdp.send('Emulation.setCPUThrottlingRate', { rate: CPU_RATE });
+  if (MBPS > 0) await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: LATENCY,
+    downloadThroughput: MBPS * 1e6 / 8, uploadThroughput: MBPS * 1e6 / 8 });
+  let transferredBytes = 0, requests = 0;
+  cdp.on('Network.requestWillBeSent', () => requests++);
+  cdp.on('Network.loadingFinished', event => { transferredBytes += event.encodedDataLength; });
   page.setDefaultTimeout(BOOT_TIMEOUT);
   const errors = [], logs = [];
   page.on('pageerror', e => errors.push(String(e).split('\n')[0].slice(0, 200)));
@@ -63,7 +86,9 @@ for (let run = 0; run < RUNS; run++) {
   /* --frames waits for the first frames to run: under SwiftShader the first one
      compiles every shader in the scene and takes most of a minute */
   if (FRAMES) await page.waitForFunction(() => (window.V3D?.perf?.().firstFrames?.length ?? 12) >= 6, null, { timeout: 300000 }).catch(() => {});
-  const report = await page.evaluate(() => ({ perf: window.V3D.perf(), stats: { ...window.V3D.stats }, v2: (() => { const v = window.V3D.v2Terrain(); return { status: v.status, mode: v.selection?.mode, backend: v.backend }; })() }));
+  const report = await page.evaluate(() => ({ perf: window.V3D.perf(), stats: { ...window.V3D.stats }, adapters: window.__startupAdapters,
+    treeAllocation: window.V3D.treeTierAllocation?.() ?? null, rendererInfo: window.V3D.rendererInfo?.() ?? null,
+    v2: (() => { const v = window.V3D.v2Terrain(); return { status: v.status, mode: v.selection?.mode, backend: v.backend }; })() }));
   if (FINGERPRINT) {
     report.fingerprint = await page.evaluate(async () => {
       const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2, '0')).join('');
@@ -72,6 +97,7 @@ for (let run = 0; run < RUNS; run++) {
       const encoder = new TextEncoder();
       const tint = V.groundTint?.();
       return {
+        exactTables: V.startupWorldFingerprint ? await V.startupWorldFingerprint() : null,
         trees: await hex(encoder.encode(JSON.stringify(trees.holes ?? trees.total) + JSON.stringify(trees.species) + JSON.stringify(trees.reasons) + JSON.stringify(trees.zones))),
         treeInstances: await hex(encoder.encode(JSON.stringify(trees.instances))),
         tintNear: tint ? await hex(tint.near) : null,
@@ -81,7 +107,8 @@ for (let run = 0; run < RUNS; run++) {
     });
   }
   await page.close();
-  runs.push({ booted: true, wallMs, errors, logs, ...report });
+  runs.push({ booted: true, wallMs, errors, logs, network: { requests, transferredBytes,
+    scope: 'page CDP; service-worker requests excluded', serviceWorkers: args.includes('--sw'), mbps: MBPS, latencyMs: LATENCY }, ...report });
 }
 await browser.close();
 
@@ -107,5 +134,6 @@ for (const [i, r] of runs.entries()) {
   if (r.logs.length) { console.log('\n  runtime log'); for (const l of r.logs) console.log(`  ${fmt(l.atMs)}  ${l.text}`); }
   if (r.fingerprint) { console.log('\n  fingerprint'); for (const [k, v] of Object.entries(r.fingerprint)) console.log(`  ${k.padEnd(14)} ${typeof v === 'string' ? v : JSON.stringify(v)}`); }
 }
-if (OUT) { fs.writeFileSync(path.resolve(ROOT, OUT), JSON.stringify({ url, gpu: GPU, runs }, null, 2) + '\n'); console.log(`\nwrote ${OUT}`); }
+if (OUT) { fs.writeFileSync(path.resolve(ROOT, OUT), JSON.stringify({ url, gpu: GPU, mobileEmulation: MOBILE,
+  cpuRate: CPU_RATE, physicalPhone: false, runs }, null, 2) + '\n'); console.log(`\nwrote ${OUT}`); }
 if (runs.some(r => !r.booted)) process.exit(1);

@@ -63,41 +63,41 @@ export async function loadCourse(slug) {
      tolerated so an older manifest still loads. */
   const rel = String(meta.packUrl).replace(/^\//, '');
   const url = BASE + rel + (meta.sha256 ? `?v=${meta.sha256.slice(0, 16)}` : '');
-  const pack = await fetchPack(url, meta.sha256);
+  const optional = async (record, label) => {
+    if (!record?.url) return { value: null, error: null };
+    try {
+      const sidecarUrl = BASE + String(record.url).replace(/^\//, '') +
+        (record.sha256 ? `?v=${record.sha256.slice(0, 16)}` : '');
+      return { value: await fetchSidecar(sidecarUrl, record.sha256, label), error: null };
+    } catch (error) {
+      console.warn(`${label}:`, error.message);
+      return { value: null, error: error.message };
+    }
+  };
+  // All URLs and identities are known now. A slow pack must not postpone
+  // independent sidecars; each optional failure retains its original fallback.
+  const [pack, land, mown, surround] = await Promise.all([
+    fetchPack(url, meta.sha256),
+    optional(meta.landcover, 'landcover'),
+    optional(meta.mownSurface, 'mown surface'),
+    optional(meta.surroundings, 'surroundings'),
+  ]);
   if (pack.H.slug !== meta.slug) throw new Error(`pack says ${pack.H.slug}, manifest says ${meta.slug}`);
   /* The land-cover record rides beside the pack under the same rule -- asked
      for by content, hashed against the manifest -- but its absence is a
      DEGRADATION, not a failure: the far ground falls back to the rule it was
      always coloured by, and the course still opens. `landcoverError` says
      which, so a gate can tell "no record" from "record refused". */
-  let landcover = null, landcoverError = null;
-  if (meta.landcover?.url) {
-    try {
-      landcover = await fetchLandcover(BASE + String(meta.landcover.url).replace(/^\//, '') +
-        (meta.landcover.sha256 ? `?v=${meta.landcover.sha256.slice(0, 16)}` : ''), meta.landcover.sha256);
-    } catch (e) { landcoverError = e.message; console.warn('landcover:', e.message); }
-  }
+  const { value: landcover, error: landcoverError } = land;
   /* The mown surface rides beside the pack under the same rule and degrades the
      same way: without it every measured tree stands exactly where the laser put
      it, which is what every course did before this record existed. */
-  let mownSurface = null, mownSurfaceError = null;
-  if (meta.mownSurface?.url) {
-    try {
-      mownSurface = await fetchSidecar(BASE + String(meta.mownSurface.url).replace(/^\//, '') +
-        (meta.mownSurface.sha256 ? `?v=${meta.mownSurface.sha256.slice(0, 16)}` : ''), meta.mownSurface.sha256, 'mown surface');
-    } catch (e) { mownSurfaceError = e.message; console.warn('mown surface:', e.message); }
-  }
+  const { value: mownSurface, error: mownSurfaceError } = mown;
   /* The surroundings record -- the town, the harbour, the roads and railway
      beyond the core extract, the ski jumps and towers on the skyline -- rides
      beside the pack under the same rule and degrades the same way: without it
      the course opens with the horizon the pack alone gives it. */
-  let surroundings = null, surroundingsError = null;
-  if (meta.surroundings?.url) {
-    try {
-      surroundings = await fetchSidecar(BASE + String(meta.surroundings.url).replace(/^\//, '') +
-        (meta.surroundings.sha256 ? `?v=${meta.surroundings.sha256.slice(0, 16)}` : ''), meta.surroundings.sha256, 'surroundings');
-    } catch (e) { surroundingsError = e.message; console.warn('surroundings:', e.message); }
-  }
+  const { value: surroundings, error: surroundingsError } = surround;
   return { meta, pack, landcover, landcoverError, mownSurface, mownSurfaceError, surroundings, surroundingsError, all: manifest.courses };
 }
 

@@ -40,31 +40,36 @@ export class CacheStorageByteCache {
     cacheName = 'banvy-v2-immutable',
     contentType = 'application/octet-stream',
   } = {}) {
-    if (!cacheStorage?.open) throw new Error('Cache Storage is unavailable');
     this.cacheStorage = cacheStorage;
     this.cacheName = cacheName;
     this.contentType = contentType;
   }
 
   async #cache() {
-    return this.cacheStorage.open(this.cacheName);
+    return this.cacheStorage?.open?.(this.cacheName) ?? null;
   }
 
   async match(key) {
-    const response = await (await this.#cache()).match(key);
-    return response ? new Uint8Array(await response.arrayBuffer()) : null;
+    // Private browsing and storage pressure may deny Cache Storage. It is an
+    // acceleration layer: valid network data must still open the course.
+    try {
+      const response = await (await this.#cache())?.match(key);
+      return response ? new Uint8Array(await response.arrayBuffer()) : null;
+    } catch { return null; }
   }
 
   async put(key, value) {
     const data = bytes(value, 'cache value');
-    await (await this.#cache()).put(key, new Response(data, {
+    try { await (await this.#cache())?.put(key, new Response(data, {
       status: 200,
-      headers: { 'Content-Type': this.contentType, 'Cache-Control': 'public, max-age=31536000, immutable' },
-    }));
+      headers: { 'Content-Type': this.contentType, 'Cache-Control': 'public, max-age=31536000, immutable',
+        'X-Banvy-Bytes': String(data.byteLength) },
+    })); } catch { /* Quota/permission failure must not reject verified data. */ }
   }
 
   async delete(key) {
-    return (await this.#cache()).delete(key);
+    try { return await (await this.#cache())?.delete(key) ?? false; }
+    catch { return false; }
   }
 }
 

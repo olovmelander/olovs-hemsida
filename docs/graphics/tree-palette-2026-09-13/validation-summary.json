@@ -1,0 +1,157 @@
+{
+  "browser": [
+    {
+      "name": "puttom-final",
+      "backend": "webgpu",
+      "modes": [
+        "noon",
+        "golden",
+        "dawn",
+        "midnight",
+        "bluehour",
+        "storm",
+        "mist",
+        "host"
+      ],
+      "errors": 0
+    },
+    {
+      "name": "upsala-final",
+      "backend": "webgpu",
+      "modes": [
+        "noon",
+        "golden",
+        "dawn",
+        "midnight",
+        "bluehour",
+        "storm",
+        "mist",
+        "host"
+      ],
+      "errors": 0
+    },
+    {
+      "name": "angso-final",
+      "backend": "webgpu",
+      "modes": [
+        "noon",
+        "golden",
+        "dawn",
+        "midnight",
+        "bluehour",
+        "storm",
+        "mist",
+        "host"
+      ],
+      "errors": 0
+    },
+    {
+      "name": "upsala-low",
+      "backend": "webgpu",
+      "modes": [
+        "noon",
+        "golden",
+        "dawn",
+        "midnight",
+        "bluehour",
+        "storm",
+        "mist",
+        "host"
+      ],
+      "errors": 0
+    },
+    {
+      "name": "upsala-natural",
+      "backend": "webgpu",
+      "modes": [
+        "noon",
+        "golden",
+        "dawn",
+        "midnight",
+        "bluehour",
+        "storm",
+        "mist",
+        "host"
+      ],
+      "errors": 0
+    },
+    {
+      "name": "puttom-day-review",
+      "backend": "webgpu",
+      "modes": [
+        "noon",
+        "host"
+      ],
+      "errors": 0
+    },
+    {
+      "name": "puttom-direct-day",
+      "backend": "webgpu",
+      "modes": [
+        "noon"
+      ],
+      "errors": 0
+    }
+  ],
+  "comparisons": [
+    {
+      "course": "puttom",
+      "identicalCamera": true,
+      "identicalTreeTriangles": true
+    },
+    {
+      "course": "upsala",
+      "identicalCamera": true,
+      "identicalTreeTriangles": true
+    }
+  ],
+  "autumnTiers": [
+    {
+      "tier": 1,
+      "ok": true
+    },
+    {
+      "tier": 2,
+      "ok": true
+    },
+    {
+      "tier": 3,
+      "ok": true
+    },
+    {
+      "tier": 4,
+      "ok": true
+    }
+  ],
+  "species": [
+    "al",
+    "bjork",
+    "ek",
+    "gran",
+    "tall"
+  ],
+  "checks": {
+    "relevantUnitTests": {
+      "files": 11,
+      "passed": 72
+    },
+    "afterDayTurfAdjustment": {
+      "files": 3,
+      "passed": 17
+    },
+    "productionBuild": {
+      "exitCode": 0,
+      "publicDataCopied": false,
+      "log": "output/witness-palette-build.log"
+    },
+    "mainAndGroundLint": "passed",
+    "interactiveReview": {
+      "selections": 24,
+      "errors": 0
+    }
+  },
+  "limits": [
+    "Desktop Chrome WebGPU; low quality is a 390x844 desktop viewport, not a physical-phone benchmark.",
+    "Three representative courses were visually reviewed; the shared palette is used by every course in painted mode."
+  ]
+}

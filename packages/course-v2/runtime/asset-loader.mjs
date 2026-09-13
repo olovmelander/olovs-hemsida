@@ -13,14 +13,17 @@ export class CourseV2AssetLoader {
   constructor({
     baseUrl,
     workerClient,
+    chunkSource = null,
     fetchImpl = globalThis.fetch,
     immutableCache,
     rootCache,
     cacheStorage = globalThis.caches,
     maxConcurrent = 3,
+    prepareDecoded = null,
   } = {}) {
     if (!baseUrl) throw new Error('baseUrl is required');
-    if (!workerClient?.decode) throw new TypeError('workerClient must implement decode');
+    if (!workerClient?.decode && !chunkSource?.load) throw new TypeError('workerClient must implement decode');
+    if (prepareDecoded !== null && typeof prepareDecoded !== 'function') throw new TypeError('prepareDecoded must be a function');
     this.baseUrl = new URL(baseUrl).href;
     this.workerClient = workerClient;
     const fetchBytes = createHttpByteFetcher(fetchImpl);
@@ -43,11 +46,18 @@ export class CourseV2AssetLoader {
     this.scheduler = new AssetRequestScheduler({
       maxConcurrent,
       load: async (reference, { signal }) => {
-        const loaded = await this.immutableStore.load(reference, {
-          signal,
-          verify: (ref, data, context) => this.workerClient.decode(ref, data, context),
-        });
-        return loaded.value;
+        let decoded;
+        if (chunkSource) decoded = await chunkSource.load(reference, { signal });
+        else {
+          const loaded = await this.immutableStore.load(reference, {
+            signal,
+            verify: (ref, data, context) => this.workerClient.decode(ref, data, context),
+          });
+          decoded = loaded.value;
+        }
+        // Preparation stays inside the scheduler's concurrency bound. It must
+        // finish before the controller publishes this resource as ready.
+        return prepareDecoded ? prepareDecoded(decoded, { signal }) : decoded;
       },
     });
   }
@@ -78,6 +88,6 @@ export class CourseV2AssetLoader {
 
   dispose({ disposeWorker = false } = {}) {
     this.scheduler.dispose();
-    if (disposeWorker) this.workerClient.dispose?.();
+    if (disposeWorker) this.workerClient?.dispose?.();
   }
 }

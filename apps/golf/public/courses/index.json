@@ -37,6 +37,149 @@
     "url": "courses/angso/landcover.json",
     "bytes": 138815,
     "sha256": "4880286142f66befa3bbb344564f5441f65e9f057e472d15108b06c2919ef360"
+   },
+   "startup": {
+    "url": "grounds/angso/startup/manifest-b16d53c9c4de48017a1b9fe8201d842c59e65f7058a22158d0e2520ab7db0c46.json",
+    "bytes": 172789,
+    "sha256": "b16d53c9c4de48017a1b9fe8201d842c59e65f7058a22158d0e2520ab7db0c46"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "5283be225c0e03cdcf0caf66c018b8ad46cf20a77ba9ce3c6079b62e1652beec",
+     "url": "courses/angso/prepared/tint-ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac.bin",
+     "bytes": 404742,
+     "decodedBytes": 3052072,
+     "sha256": "ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac",
+     "decodedSha256": "bf6859ee5ecf2b6a301c52983b73819fea949b302bdf6035d0d3cb9a5b63a75e",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 707,
+       "dx": 24,
+       "bounds": {
+        "x0": -8484,
+        "z0": -8484,
+        "x1": 8484,
+        "z1": 8484
+       },
+       "offset": 1052676,
+       "bytes": 1999396
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "c59e6b167adc1ac2709e8c3afb3bf0c0aceb470dee3594b0183ac23b4f496b63",
+     "url": "courses/angso/prepared/tint-ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac.bin",
+     "bytes": 404742,
+     "decodedBytes": 3052072,
+     "sha256": "ff79ee8665c49faf8a53d95898b1b149aab97de30b9d3f0cad5f20d79fb1b8ac",
+     "decodedSha256": "bf6859ee5ecf2b6a301c52983b73819fea949b302bdf6035d0d3cb9a5b63a75e",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 707,
+       "dx": 24,
+       "bounds": {
+        "x0": -8484,
+        "z0": -8484,
+        "x1": 8484,
+        "z1": 8484
+       },
+       "offset": 1052676,
+       "bytes": 1999396
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "3dccdee6b99be11dfb80ca63a6c3b87bcd460024974d30116eacb6dfc565ad6e",
+     "url": "courses/angso/prepared/tint-fec4f1fd8e36f75ca80b6067d63e5fa68f717be21fd26b953460c6e30dd8dbea.bin",
+     "bytes": 484872,
+     "decodedBytes": 3052072,
+     "sha256": "fec4f1fd8e36f75ca80b6067d63e5fa68f717be21fd26b953460c6e30dd8dbea",
+     "decodedSha256": "70c0c8d4e65fe59647f480c475837a5de82bb04e907c5d1c38520b9a5f152372",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 707,
+       "dx": 24,
+       "bounds": {
+        "x0": -8484,
+        "z0": -8484,
+        "x1": 8484,
+        "z1": 8484
+       },
+       "offset": 1052676,
+       "bytes": 1999396
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "ba0b9222976790ece97122dc1617bfa1531d6eda255dd068414b029f0570be46",
+     "url": "courses/angso/prepared/tint-fec4f1fd8e36f75ca80b6067d63e5fa68f717be21fd26b953460c6e30dd8dbea.bin",
+     "bytes": 484872,
+     "decodedBytes": 3052072,
+     "sha256": "fec4f1fd8e36f75ca80b6067d63e5fa68f717be21fd26b953460c6e30dd8dbea",
+     "decodedSha256": "70c0c8d4e65fe59647f480c475837a5de82bb04e907c5d1c38520b9a5f152372",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 707,
+       "dx": 24,
+       "bounds": {
+        "x0": -8484,
+        "z0": -8484,
+        "x1": 8484,
+        "z1": 8484
+       },
+       "offset": 1052676,
+       "bytes": 1999396
+      }
+     ]
+    }
    }
   },
   {
@@ -76,6 +219,149 @@
     "url": "courses/norrfallsviken/mown-surface.json",
     "bytes": 81518,
     "sha256": "6f56dba4dadc203ed95f3cd79f7a9a146c1e49272cdee2f2576505e7280180cb"
+   },
+   "startup": {
+    "url": "grounds/norrfallsviken/startup/manifest-d3499efc59cb303ec42979ed7526527a7dc2b57cc58176ac3126d8ba5192360f.json",
+    "bytes": 160417,
+    "sha256": "d3499efc59cb303ec42979ed7526527a7dc2b57cc58176ac3126d8ba5192360f"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "807fcab2ab703c160a9a4ec3aedbd153f834b33920ff2f11e6c74c17d24b63c3",
+     "url": "courses/norrfallsviken/prepared/tint-ad22acfbf88e5ae5a8a478594590681fdecff0be7bc2a733e3b85297741eaec0.bin",
+     "bytes": 328593,
+     "decodedBytes": 3213576,
+     "sha256": "ad22acfbf88e5ae5a8a478594590681fdecff0be7bc2a733e3b85297741eaec0",
+     "decodedSha256": "b44c51eeb973b40be9bfb6a295434649e68ad87d1649f004fd9902bc4b8e1202",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 735,
+       "dx": 24,
+       "bounds": {
+        "x0": -8820,
+        "z0": -8820,
+        "x1": 8820,
+        "z1": 8820
+       },
+       "offset": 1052676,
+       "bytes": 2160900
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "7941384f4aeaf8d9f8e4cd46eb819bcff2b7bffcf0f9423c50284855e458c2cc",
+     "url": "courses/norrfallsviken/prepared/tint-ad22acfbf88e5ae5a8a478594590681fdecff0be7bc2a733e3b85297741eaec0.bin",
+     "bytes": 328593,
+     "decodedBytes": 3213576,
+     "sha256": "ad22acfbf88e5ae5a8a478594590681fdecff0be7bc2a733e3b85297741eaec0",
+     "decodedSha256": "b44c51eeb973b40be9bfb6a295434649e68ad87d1649f004fd9902bc4b8e1202",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 735,
+       "dx": 24,
+       "bounds": {
+        "x0": -8820,
+        "z0": -8820,
+        "x1": 8820,
+        "z1": 8820
+       },
+       "offset": 1052676,
+       "bytes": 2160900
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "064f48878f2fbe663d7151e0eeb796fbb5ccbc6b6faf8906a19863a3abf8cb80",
+     "url": "courses/norrfallsviken/prepared/tint-7918cc8f5e1353e523acc5ef55796e04b51239c32e7951b68608551ee0a7fe09.bin",
+     "bytes": 362424,
+     "decodedBytes": 3213576,
+     "sha256": "7918cc8f5e1353e523acc5ef55796e04b51239c32e7951b68608551ee0a7fe09",
+     "decodedSha256": "29ea23165750d3e9055eb052b194d4fc098338880704bc6b8bac420c0c2fdcb8",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 735,
+       "dx": 24,
+       "bounds": {
+        "x0": -8820,
+        "z0": -8820,
+        "x1": 8820,
+        "z1": 8820
+       },
+       "offset": 1052676,
+       "bytes": 2160900
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "79151a11c48fb9a09ecdea214ddc3083e361ea74f59638d84d6ee23480c17c07",
+     "url": "courses/norrfallsviken/prepared/tint-7918cc8f5e1353e523acc5ef55796e04b51239c32e7951b68608551ee0a7fe09.bin",
+     "bytes": 362424,
+     "decodedBytes": 3213576,
+     "sha256": "7918cc8f5e1353e523acc5ef55796e04b51239c32e7951b68608551ee0a7fe09",
+     "decodedSha256": "29ea23165750d3e9055eb052b194d4fc098338880704bc6b8bac420c0c2fdcb8",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 735,
+       "dx": 24,
+       "bounds": {
+        "x0": -8820,
+        "z0": -8820,
+        "x1": 8820,
+        "z1": 8820
+       },
+       "offset": 1052676,
+       "bytes": 2160900
+      }
+     ]
+    }
    }
   },
   {
@@ -112,6 +398,149 @@
     "url": "courses/puttom/landcover.json",
     "bytes": 146837,
     "sha256": "bd70bd4a431e65a1eaee338f53560c445def35154a218d3467dff765160f4204"
+   },
+   "startup": {
+    "url": "grounds/puttom/startup/manifest-ab11949745dd33cab1ac4d8ef8760cb37aca7c80274549556fbb153a2817e408.json",
+    "bytes": 175323,
+    "sha256": "ab11949745dd33cab1ac4d8ef8760cb37aca7c80274549556fbb153a2817e408"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "7bc67fec4f2f5cfa1df484b5019b8beacdd03da7fdc1f0dfde2865120ab1ff76",
+     "url": "courses/puttom/prepared/tint-fc6ec5c8f63f213a045064ad3ab20a5e4102a73c144477fc063575537e450e6a.bin",
+     "bytes": 461723,
+     "decodedBytes": 3007080,
+     "sha256": "fc6ec5c8f63f213a045064ad3ab20a5e4102a73c144477fc063575537e450e6a",
+     "decodedSha256": "9ef10ba5564be9f2c777097cdec0900e7e2806384f25d552949124bb965900f7",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 699,
+       "dx": 24,
+       "bounds": {
+        "x0": -8388,
+        "z0": -8388,
+        "x1": 8388,
+        "z1": 8388
+       },
+       "offset": 1052676,
+       "bytes": 1954404
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "4d1f8b7e8c13471cf94a9d6693673caf3235ade355ab34f1bb13970a050aacd2",
+     "url": "courses/puttom/prepared/tint-fc6ec5c8f63f213a045064ad3ab20a5e4102a73c144477fc063575537e450e6a.bin",
+     "bytes": 461723,
+     "decodedBytes": 3007080,
+     "sha256": "fc6ec5c8f63f213a045064ad3ab20a5e4102a73c144477fc063575537e450e6a",
+     "decodedSha256": "9ef10ba5564be9f2c777097cdec0900e7e2806384f25d552949124bb965900f7",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 699,
+       "dx": 24,
+       "bounds": {
+        "x0": -8388,
+        "z0": -8388,
+        "x1": 8388,
+        "z1": 8388
+       },
+       "offset": 1052676,
+       "bytes": 1954404
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "fdae24b8c5752b2d6299dbe7427227ebacc53d57cf44e8e216866a41e7e826f4",
+     "url": "courses/puttom/prepared/tint-c4683e06c02ddadf54edd284b8938ab0e34d087768601613aa280872944f7a9b.bin",
+     "bytes": 527883,
+     "decodedBytes": 3007080,
+     "sha256": "c4683e06c02ddadf54edd284b8938ab0e34d087768601613aa280872944f7a9b",
+     "decodedSha256": "36800ea1b5ca9febbdd73aaddde67a042c87edc005b159998b22970e47af63a7",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 699,
+       "dx": 24,
+       "bounds": {
+        "x0": -8388,
+        "z0": -8388,
+        "x1": 8388,
+        "z1": 8388
+       },
+       "offset": 1052676,
+       "bytes": 1954404
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "c9b3e008717d965e2a8f13b7b6e7cf38f74d24ad98837e2b429fad2110f848fe",
+     "url": "courses/puttom/prepared/tint-c4683e06c02ddadf54edd284b8938ab0e34d087768601613aa280872944f7a9b.bin",
+     "bytes": 527883,
+     "decodedBytes": 3007080,
+     "sha256": "c4683e06c02ddadf54edd284b8938ab0e34d087768601613aa280872944f7a9b",
+     "decodedSha256": "36800ea1b5ca9febbdd73aaddde67a042c87edc005b159998b22970e47af63a7",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 699,
+       "dx": 24,
+       "bounds": {
+        "x0": -8388,
+        "z0": -8388,
+        "x1": 8388,
+        "z1": 8388
+       },
+       "offset": 1052676,
+       "bytes": 1954404
+      }
+     ]
+    }
    }
   },
   {
@@ -152,6 +581,149 @@
     "url": "courses/upsala/landcover.json",
     "bytes": 181696,
     "sha256": "12bdda5fe56393126a76061f8e6535e8731bca166f42f19eaa6ebceac4c32e17"
+   },
+   "startup": {
+    "url": "grounds/upsala/startup/manifest-7af84c621f52a1e1be8c4e21daa17aa877e6a651f9784ab851b31922d4d647cd.json",
+    "bytes": 173235,
+    "sha256": "7af84c621f52a1e1be8c4e21daa17aa877e6a651f9784ab851b31922d4d647cd"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "e787eb9fc2a2ff5f7a9bfc8732045b791f4184d548490c7d62088fb627b173bf",
+     "url": "courses/upsala/prepared/tint-9bdb214b96ed160667bda6c6b09b6f1023cea3dfeda710a0778d90a70912e398.bin",
+     "bytes": 444753,
+     "decodedBytes": 3074760,
+     "sha256": "9bdb214b96ed160667bda6c6b09b6f1023cea3dfeda710a0778d90a70912e398",
+     "decodedSha256": "bf8188ba691dd4d856145f566e78977fd5ee8b8106530293cb4b8589a5ea6167",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "194af1d3a04a385e206f1acf8c174f0466cc78c758c3d8d7e0dcbce2b7b49e10",
+     "url": "courses/upsala/prepared/tint-9bdb214b96ed160667bda6c6b09b6f1023cea3dfeda710a0778d90a70912e398.bin",
+     "bytes": 444753,
+     "decodedBytes": 3074760,
+     "sha256": "9bdb214b96ed160667bda6c6b09b6f1023cea3dfeda710a0778d90a70912e398",
+     "decodedSha256": "bf8188ba691dd4d856145f566e78977fd5ee8b8106530293cb4b8589a5ea6167",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "2724fc9ff9f805063dae883e1588cf7c4e5cd3b701857f9528d0e2485d6c066d",
+     "url": "courses/upsala/prepared/tint-9d90bdfce17f5fc5a190280af107c8b034d887e1462db4aa93a392abe754e280.bin",
+     "bytes": 515256,
+     "decodedBytes": 3074760,
+     "sha256": "9d90bdfce17f5fc5a190280af107c8b034d887e1462db4aa93a392abe754e280",
+     "decodedSha256": "b33bfcfc8235ef104dad9488361ce62da9dbe60107cb78a7abdfa39fcf83aff8",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "94c7de14451a53160f68f471da9e42937b72f5af67d91abd43ecb8cddd5b951b",
+     "url": "courses/upsala/prepared/tint-9d90bdfce17f5fc5a190280af107c8b034d887e1462db4aa93a392abe754e280.bin",
+     "bytes": 515256,
+     "decodedBytes": 3074760,
+     "sha256": "9d90bdfce17f5fc5a190280af107c8b034d887e1462db4aa93a392abe754e280",
+     "decodedSha256": "b33bfcfc8235ef104dad9488361ce62da9dbe60107cb78a7abdfa39fcf83aff8",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    }
    }
   },
   {
@@ -190,6 +762,149 @@
     "url": "courses/upsala-mellanbanan/landcover.json",
     "bytes": 181696,
     "sha256": "12bdda5fe56393126a76061f8e6535e8731bca166f42f19eaa6ebceac4c32e17"
+   },
+   "startup": {
+    "url": "grounds/upsala/startup/manifest-7af84c621f52a1e1be8c4e21daa17aa877e6a651f9784ab851b31922d4d647cd.json",
+    "bytes": 173235,
+    "sha256": "7af84c621f52a1e1be8c4e21daa17aa877e6a651f9784ab851b31922d4d647cd"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "a519337c0aa44a81f992a4a93b4cf3dc2e008da25013f36fac9501eacafb1315",
+     "url": "courses/upsala-mellanbanan/prepared/tint-a55e0f483ccfab3f493ad3e1448ebc51e0a2f502ff4252083bd5b466cc1a75ed.bin",
+     "bytes": 444576,
+     "decodedBytes": 3074760,
+     "sha256": "a55e0f483ccfab3f493ad3e1448ebc51e0a2f502ff4252083bd5b466cc1a75ed",
+     "decodedSha256": "80c00bb9800014c7c0f4e9bb7b7b892899bfcb010625b7a38f67e39933ca607a",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "25d604001efbef2edf6f95e71f232f5b731302b77c89d64a043d46ebe191623a",
+     "url": "courses/upsala-mellanbanan/prepared/tint-a55e0f483ccfab3f493ad3e1448ebc51e0a2f502ff4252083bd5b466cc1a75ed.bin",
+     "bytes": 444576,
+     "decodedBytes": 3074760,
+     "sha256": "a55e0f483ccfab3f493ad3e1448ebc51e0a2f502ff4252083bd5b466cc1a75ed",
+     "decodedSha256": "80c00bb9800014c7c0f4e9bb7b7b892899bfcb010625b7a38f67e39933ca607a",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "d6efa5af8053c0de27817d92a23714da2dbdede53d008de9065aa08ffce6c12a",
+     "url": "courses/upsala-mellanbanan/prepared/tint-599b690ce7fdbd0ab14a134ce3683397235215e323e0b66450ccd4e982bc733d.bin",
+     "bytes": 515005,
+     "decodedBytes": 3074760,
+     "sha256": "599b690ce7fdbd0ab14a134ce3683397235215e323e0b66450ccd4e982bc733d",
+     "decodedSha256": "eaab0990289bcb1120953e3ebd64d2582a2934456796123d0e1a3007b6d70968",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "03ba33dd97b457d281b076d69ff59f7ab8075b1b1fb3e0cfb63b2a8789a7ec63",
+     "url": "courses/upsala-mellanbanan/prepared/tint-599b690ce7fdbd0ab14a134ce3683397235215e323e0b66450ccd4e982bc733d.bin",
+     "bytes": 515005,
+     "decodedBytes": 3074760,
+     "sha256": "599b690ce7fdbd0ab14a134ce3683397235215e323e0b66450ccd4e982bc733d",
+     "decodedSha256": "eaab0990289bcb1120953e3ebd64d2582a2934456796123d0e1a3007b6d70968",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 711,
+       "dx": 24,
+       "bounds": {
+        "x0": -8532,
+        "z0": -8532,
+        "x1": 8532,
+        "z1": 8532
+       },
+       "offset": 1052676,
+       "bytes": 2022084
+      }
+     ]
+    }
    }
   },
   {
@@ -228,6 +943,149 @@
     "url": "courses/johannesberg/landcover.json",
     "bytes": 159788,
     "sha256": "7b245169bcf2f8dbd7a630446e41dbf8f88f31dc62ffbeeabcde7837133c0ff0"
+   },
+   "startup": {
+    "url": "grounds/johannesberg/startup/manifest-59d74a82064ddaad45d54b4e7d148dc0a12d92f712111582d930feb63c411cef.json",
+    "bytes": 171736,
+    "sha256": "59d74a82064ddaad45d54b4e7d148dc0a12d92f712111582d930feb63c411cef"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "9372a588f2096e0aefb08b6269900ac8d4ee269fa425b9462fbf78ee16499d34",
+     "url": "courses/johannesberg/prepared/tint-6571a8db0b32bd4ffa6a877d1b92f945001b5a1f8b9ca394bf91a159ba9fc732.bin",
+     "bytes": 445724,
+     "decodedBytes": 2951560,
+     "sha256": "6571a8db0b32bd4ffa6a877d1b92f945001b5a1f8b9ca394bf91a159ba9fc732",
+     "decodedSha256": "d84d61192085e9b75215786e3999e203cdf6ade460db8a3e660edf02616115b7",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "d0d04782708eee502f74616e932c9569675ee4727b0af03bd54f1face6cf7177",
+     "url": "courses/johannesberg/prepared/tint-6571a8db0b32bd4ffa6a877d1b92f945001b5a1f8b9ca394bf91a159ba9fc732.bin",
+     "bytes": 445724,
+     "decodedBytes": 2951560,
+     "sha256": "6571a8db0b32bd4ffa6a877d1b92f945001b5a1f8b9ca394bf91a159ba9fc732",
+     "decodedSha256": "d84d61192085e9b75215786e3999e203cdf6ade460db8a3e660edf02616115b7",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "9352b5ba589b279a956e35ecd847f2415de119bd774a4f2ef19bf21c0e2e231b",
+     "url": "courses/johannesberg/prepared/tint-8b6780048e097c7a23a8d3bb2ae356057d03dec5a75cde0225e373f1aaa64441.bin",
+     "bytes": 515162,
+     "decodedBytes": 2951560,
+     "sha256": "8b6780048e097c7a23a8d3bb2ae356057d03dec5a75cde0225e373f1aaa64441",
+     "decodedSha256": "6c849345499102dd34a5676fc524d43d7133a12bd88f80696a9dcfc4e1dd84e8",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "d28fad2debe485a36e1066c4870f67402e401c16c87f26da977ea8c4de1e36cf",
+     "url": "courses/johannesberg/prepared/tint-8b6780048e097c7a23a8d3bb2ae356057d03dec5a75cde0225e373f1aaa64441.bin",
+     "bytes": 515162,
+     "decodedBytes": 2951560,
+     "sha256": "8b6780048e097c7a23a8d3bb2ae356057d03dec5a75cde0225e373f1aaa64441",
+     "decodedSha256": "6c849345499102dd34a5676fc524d43d7133a12bd88f80696a9dcfc4e1dd84e8",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    }
    }
   },
   {
@@ -260,6 +1118,149 @@
     "url": "courses/johannesberg-9/landcover.json",
     "bytes": 159788,
     "sha256": "7b245169bcf2f8dbd7a630446e41dbf8f88f31dc62ffbeeabcde7837133c0ff0"
+   },
+   "startup": {
+    "url": "grounds/johannesberg/startup/manifest-59d74a82064ddaad45d54b4e7d148dc0a12d92f712111582d930feb63c411cef.json",
+    "bytes": 171736,
+    "sha256": "59d74a82064ddaad45d54b4e7d148dc0a12d92f712111582d930feb63c411cef"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "ea9ed1c907980e5045125f7d3b02d444430159e377a50a1310e844c589aafe1b",
+     "url": "courses/johannesberg-9/prepared/tint-cc4f860dbb72d6cad76e21631eb4468f744d1dc927e7dd3426c84dab7d3735d5.bin",
+     "bytes": 444069,
+     "decodedBytes": 2951560,
+     "sha256": "cc4f860dbb72d6cad76e21631eb4468f744d1dc927e7dd3426c84dab7d3735d5",
+     "decodedSha256": "a85c6ebfeaa6ab9916ff7ede9e0f20b8eac849a14c033a89aef8c2de5324ae5f",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "fea2ce811dcfc39d78b564eba71f8937c4ef1b0a5239252ef120b43c3d00abe2",
+     "url": "courses/johannesberg-9/prepared/tint-cc4f860dbb72d6cad76e21631eb4468f744d1dc927e7dd3426c84dab7d3735d5.bin",
+     "bytes": 444069,
+     "decodedBytes": 2951560,
+     "sha256": "cc4f860dbb72d6cad76e21631eb4468f744d1dc927e7dd3426c84dab7d3735d5",
+     "decodedSha256": "a85c6ebfeaa6ab9916ff7ede9e0f20b8eac849a14c033a89aef8c2de5324ae5f",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "cd73b9279af217ab344a60443ac35ecc112df191514135d1cbdd5bb7d8244b09",
+     "url": "courses/johannesberg-9/prepared/tint-c09962e7d68a2c655aa9ad3816d88ecb5d61011533b1d98940a677d61343667b.bin",
+     "bytes": 513101,
+     "decodedBytes": 2951560,
+     "sha256": "c09962e7d68a2c655aa9ad3816d88ecb5d61011533b1d98940a677d61343667b",
+     "decodedSha256": "b7acbda3c9c7627770d92a6165e20577110f1fdce5dde9475244d3139a05013a",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "833d1450ba2b8af4cf711331f0463c053583fd9f6a9bb33ee8e4ff26c376c98b",
+     "url": "courses/johannesberg-9/prepared/tint-c09962e7d68a2c655aa9ad3816d88ecb5d61011533b1d98940a677d61343667b.bin",
+     "bytes": 513101,
+     "decodedBytes": 2951560,
+     "sha256": "c09962e7d68a2c655aa9ad3816d88ecb5d61011533b1d98940a677d61343667b",
+     "decodedSha256": "b7acbda3c9c7627770d92a6165e20577110f1fdce5dde9475244d3139a05013a",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 689,
+       "dx": 24,
+       "bounds": {
+        "x0": -8268,
+        "z0": -8268,
+        "x1": 8268,
+        "z1": 8268
+       },
+       "offset": 1052676,
+       "bytes": 1898884
+      }
+     ]
+    }
    }
   },
   {
@@ -305,6 +1306,149 @@
     "url": "courses/veckefjarden/surroundings.json",
     "bytes": 864169,
     "sha256": "6999be8e7f131c688e3e4ea18140fd7c228c96b1f15b87be33525262d53e83c0"
+   },
+   "startup": {
+    "url": "grounds/veckefjarden/startup/manifest-8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2.json",
+    "bytes": 173276,
+    "sha256": "8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "0a0fefdb2c0fba36c9443a4da8b3bca0057877faa463615f1dfd67342b516c1c",
+     "url": "courses/veckefjarden/prepared/tint-81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae.bin",
+     "bytes": 506713,
+     "decodedBytes": 3132040,
+     "sha256": "81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae",
+     "decodedSha256": "3aaa7597cc7bf0e21577afb22db79bdbbf36ef5a705fd3dfde5099451a1ee978",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "786dfa7814f3c39e04164b5b65543282b24a50507f84f386e3b78cc5b7723c3c",
+     "url": "courses/veckefjarden/prepared/tint-81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae.bin",
+     "bytes": 506713,
+     "decodedBytes": 3132040,
+     "sha256": "81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae",
+     "decodedSha256": "3aaa7597cc7bf0e21577afb22db79bdbbf36ef5a705fd3dfde5099451a1ee978",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "1e14b1ebc028c40fe4b6254e2b42ef76b1517019e323038f91768c2ea714f9ff",
+     "url": "courses/veckefjarden/prepared/tint-f3d60de74ccb636e421843ab08560807d204475ee49ed6194a6d1e35a7a86cc1.bin",
+     "bytes": 576394,
+     "decodedBytes": 3132040,
+     "sha256": "f3d60de74ccb636e421843ab08560807d204475ee49ed6194a6d1e35a7a86cc1",
+     "decodedSha256": "e48d1e1aefb2913f2b4e0a2ed45225c77973e910fdc27cea664982d65f929143",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "ba7045f52f6dfe28ee56595361e388e8c53c8bce2a028d419acc2ed2744a7177",
+     "url": "courses/veckefjarden/prepared/tint-f3d60de74ccb636e421843ab08560807d204475ee49ed6194a6d1e35a7a86cc1.bin",
+     "bytes": 576394,
+     "decodedBytes": 3132040,
+     "sha256": "f3d60de74ccb636e421843ab08560807d204475ee49ed6194a6d1e35a7a86cc1",
+     "decodedSha256": "e48d1e1aefb2913f2b4e0a2ed45225c77973e910fdc27cea664982d65f929143",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    }
    }
   },
   {
@@ -342,6 +1486,149 @@
     "url": "courses/veckefjarden-korthalsbanan/surroundings.json",
     "bytes": 864169,
     "sha256": "6999be8e7f131c688e3e4ea18140fd7c228c96b1f15b87be33525262d53e83c0"
+   },
+   "startup": {
+    "url": "grounds/veckefjarden/startup/manifest-8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2.json",
+    "bytes": 173276,
+    "sha256": "8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "843581ff6645ec93cd1f75a9e637fd139584c8f96bee5fb531f869a9e38db982",
+     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909.bin",
+     "bytes": 504620,
+     "decodedBytes": 3132040,
+     "sha256": "cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909",
+     "decodedSha256": "9782eeac9d1bb40c725b94afd8ca98cd169cb748128893a068690a3ca77c0a61",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "e9b3aeeb9608b8503c27085c9b6c839a6ab0880336953b3d84d6c6cc77cc1df9",
+     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909.bin",
+     "bytes": 504620,
+     "decodedBytes": 3132040,
+     "sha256": "cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909",
+     "decodedSha256": "9782eeac9d1bb40c725b94afd8ca98cd169cb748128893a068690a3ca77c0a61",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "5d0e5a80edf7f44731c48529cf73c385c36a3488da83d5d3e3ef7724dd23131b",
+     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-9442459b49122e75c0e6eba9124ea4c325d96e2cee4f9133f80e76a071a78250.bin",
+     "bytes": 574249,
+     "decodedBytes": 3132040,
+     "sha256": "9442459b49122e75c0e6eba9124ea4c325d96e2cee4f9133f80e76a071a78250",
+     "decodedSha256": "44b8e6543016a0aab06e6b4cc5914b5964cfbb908a7016e1e4bcd8dd7e9f4b11",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "e9c304800cff4b387beda7fb0b5b7e065ee0b05e2566dcbf3e29288acc77c907",
+     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-9442459b49122e75c0e6eba9124ea4c325d96e2cee4f9133f80e76a071a78250.bin",
+     "bytes": 574249,
+     "decodedBytes": 3132040,
+     "sha256": "9442459b49122e75c0e6eba9124ea4c325d96e2cee4f9133f80e76a071a78250",
+     "decodedSha256": "44b8e6543016a0aab06e6b4cc5914b5964cfbb908a7016e1e4bcd8dd7e9f4b11",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 721,
+       "dx": 24,
+       "bounds": {
+        "x0": -8652,
+        "z0": -8652,
+        "x1": 8652,
+        "z1": 8652
+       },
+       "offset": 1052676,
+       "bytes": 2079364
+      }
+     ]
+    }
    }
   },
   {
@@ -377,6 +1664,149 @@
     "url": "courses/ribbingsfors/landcover.json",
     "bytes": 145366,
     "sha256": "bad0d5aac769a6441d24f1240087c0d35ea2eda972ac3139dbd5ebb3d10cb46b"
+   },
+   "startup": {
+    "url": "grounds/ribbingsfors/startup/manifest-c98ca9a78fc98823812dbedd1d3d82fe5f4d2b2de66ede178d6e5aac43a602d3.json",
+    "bytes": 174182,
+    "sha256": "c98ca9a78fc98823812dbedd1d3d82fe5f4d2b2de66ede178d6e5aac43a602d3"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "164add855a92d78f4617cb21356b85c2e1e84e4fc7a4c6ea5ad48c3da70eca75",
+     "url": "courses/ribbingsfors/prepared/tint-146420258e4b9fe7a85bceeea69a32e13a6ed3cfe086c7fa9f163d6ad367d96c.bin",
+     "bytes": 460325,
+     "decodedBytes": 2929576,
+     "sha256": "146420258e4b9fe7a85bceeea69a32e13a6ed3cfe086c7fa9f163d6ad367d96c",
+     "decodedSha256": "0a29b0a8a4698861551a5e513ca93046ca657b0a58d91587d1e62ac2cf19d3e9",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "983a83c744db638313cbab7d24926e24ff33cc07d0c22d17955ab826e08c5a89",
+     "url": "courses/ribbingsfors/prepared/tint-146420258e4b9fe7a85bceeea69a32e13a6ed3cfe086c7fa9f163d6ad367d96c.bin",
+     "bytes": 460325,
+     "decodedBytes": 2929576,
+     "sha256": "146420258e4b9fe7a85bceeea69a32e13a6ed3cfe086c7fa9f163d6ad367d96c",
+     "decodedSha256": "0a29b0a8a4698861551a5e513ca93046ca657b0a58d91587d1e62ac2cf19d3e9",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "9f016a396e7dfd7c671d03488b633af6aa7168f3647655b6ab81c1d9195651a6",
+     "url": "courses/ribbingsfors/prepared/tint-eadc10b294b9792f2b7707b7c1e466c8b0ec16ea7d3ff7dd15e53d10b04294d8.bin",
+     "bytes": 527628,
+     "decodedBytes": 2929576,
+     "sha256": "eadc10b294b9792f2b7707b7c1e466c8b0ec16ea7d3ff7dd15e53d10b04294d8",
+     "decodedSha256": "1e3437ebf2b9f68c2cd48445c1f640c3ebbb89f02d3d4efb093868f79a183d05",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "965b57efadfac51543752bda5c645a931e271ba670960a3f57d21f3e42f4b691",
+     "url": "courses/ribbingsfors/prepared/tint-eadc10b294b9792f2b7707b7c1e466c8b0ec16ea7d3ff7dd15e53d10b04294d8.bin",
+     "bytes": 527628,
+     "decodedBytes": 2929576,
+     "sha256": "eadc10b294b9792f2b7707b7c1e466c8b0ec16ea7d3ff7dd15e53d10b04294d8",
+     "decodedSha256": "1e3437ebf2b9f68c2cd48445c1f640c3ebbb89f02d3d4efb093868f79a183d05",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    }
    }
   },
   {
@@ -419,6 +1849,149 @@
     "url": "courses/visby/landcover.json",
     "bytes": 86685,
     "sha256": "0fa53559b1132bb3cd36f1e62944cd0c128731645cb05a08e6abe669fc70546d"
+   },
+   "startup": {
+    "url": "grounds/visby/startup/manifest-8c622c010dbe723e0f4e1761f992bc0bdcaa60f465eafe7f6c31700350415131.json",
+    "bytes": 157080,
+    "sha256": "8c622c010dbe723e0f4e1761f992bc0bdcaa60f465eafe7f6c31700350415131"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "0c467c8acccfe20923e9cc56ce42e439207755a2e3a7eba2ef4c8f58096bb1be",
+     "url": "courses/visby/prepared/tint-46a67f72ba5e129c3e0a26e9e9f4741c483c977cd663554878a420699e9ddc7b.bin",
+     "bytes": 303978,
+     "decodedBytes": 2929576,
+     "sha256": "46a67f72ba5e129c3e0a26e9e9f4741c483c977cd663554878a420699e9ddc7b",
+     "decodedSha256": "6bb758a7d8176e237d2e63a4dad99a85d65db5c55e4ef792ea791b260a0f16b5",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "5a70c5c12fb34cef329dd19faa0fbe0b3bce19f8b546def091e5a8cc77f67dd0",
+     "url": "courses/visby/prepared/tint-46a67f72ba5e129c3e0a26e9e9f4741c483c977cd663554878a420699e9ddc7b.bin",
+     "bytes": 303978,
+     "decodedBytes": 2929576,
+     "sha256": "46a67f72ba5e129c3e0a26e9e9f4741c483c977cd663554878a420699e9ddc7b",
+     "decodedSha256": "6bb758a7d8176e237d2e63a4dad99a85d65db5c55e4ef792ea791b260a0f16b5",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "73c2a617a9390ccfb3eddaa5e47b3bebbc84534c5941485c7d2e46ad1ab94ce3",
+     "url": "courses/visby/prepared/tint-d7fa014dc7591e7fd485a950cbb570647d8e1d77363d8bd766a6d7737d9c52aa.bin",
+     "bytes": 376085,
+     "decodedBytes": 2929576,
+     "sha256": "d7fa014dc7591e7fd485a950cbb570647d8e1d77363d8bd766a6d7737d9c52aa",
+     "decodedSha256": "ab416b500c55f81cd8ac5684ffedaa897e127ef7bebda1193c50e99f2578430d",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "cdbd29bc5578275cad6118fc13da4d750313bcca0c8eaba3716a9cc12b5a2829",
+     "url": "courses/visby/prepared/tint-d7fa014dc7591e7fd485a950cbb570647d8e1d77363d8bd766a6d7737d9c52aa.bin",
+     "bytes": 376085,
+     "decodedBytes": 2929576,
+     "sha256": "d7fa014dc7591e7fd485a950cbb570647d8e1d77363d8bd766a6d7737d9c52aa",
+     "decodedSha256": "ab416b500c55f81cd8ac5684ffedaa897e127ef7bebda1193c50e99f2578430d",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    }
    }
   },
   {
@@ -457,6 +2030,149 @@
     "url": "courses/tortuna/landcover.json",
     "bytes": 121966,
     "sha256": "7d49033519f7a052a7cd28df32b14ae08dea97a89955dea24a83dd21514f57ed"
+   },
+   "startup": {
+    "url": "grounds/tortuna/startup/manifest-859eab32a87c4358972ff6010b83f495539bd52a8ed553b44053ad8bd4efe322.json",
+    "bytes": 134501,
+    "sha256": "859eab32a87c4358972ff6010b83f495539bd52a8ed553b44053ad8bd4efe322"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "f0b95560788608d9394dbdbb09d6cfb493e9d2697a0b4640c960d656587b18df",
+     "url": "courses/tortuna/prepared/tint-8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7.bin",
+     "bytes": 411140,
+     "decodedBytes": 2929576,
+     "sha256": "8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7",
+     "decodedSha256": "729699af7b2a0ce6e626caf69765dba3cf91fc94be23605897fe705f39fb2bd0",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "46cd46f243963a787ffc4f22d3c97f6e2bd8230b341b4ceb1265d0d28de60ae5",
+     "url": "courses/tortuna/prepared/tint-8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7.bin",
+     "bytes": 411140,
+     "decodedBytes": 2929576,
+     "sha256": "8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7",
+     "decodedSha256": "729699af7b2a0ce6e626caf69765dba3cf91fc94be23605897fe705f39fb2bd0",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "38d15a73c81e1e8bfdee35906da35b4bb83d5f0ab9644b3652f2f7c4398fc390",
+     "url": "courses/tortuna/prepared/tint-bd047656b2e7d7dcc796433e68a7d79bb7a2ba298b6e49aed44954140771d3bb.bin",
+     "bytes": 486704,
+     "decodedBytes": 2929576,
+     "sha256": "bd047656b2e7d7dcc796433e68a7d79bb7a2ba298b6e49aed44954140771d3bb",
+     "decodedSha256": "a82979c22b2843a571e36f1219fe9750d6d96a5b6cb2b4e8ef07ae5a66c1babf",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "3c6dda165edf4bdedea7dd6019e03d802ef5571dc9cf80d9dee593b4c7dd3acd",
+     "url": "courses/tortuna/prepared/tint-bd047656b2e7d7dcc796433e68a7d79bb7a2ba298b6e49aed44954140771d3bb.bin",
+     "bytes": 486704,
+     "decodedBytes": 2929576,
+     "sha256": "bd047656b2e7d7dcc796433e68a7d79bb7a2ba298b6e49aed44954140771d3bb",
+     "decodedSha256": "a82979c22b2843a571e36f1219fe9750d6d96a5b6cb2b4e8ef07ae5a66c1babf",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    }
    }
   },
   {
@@ -497,6 +2213,149 @@
     "url": "courses/lidingo/landcover.json",
     "bytes": 307722,
     "sha256": "07a0bb5a4dfad488af22894545350c4540c84ae4580ef86d1d0a1b2d7a5a1233"
+   },
+   "startup": {
+    "url": "grounds/lidingo/startup/manifest-ec88877137c55ffb14d29268caa7942e4c33ed993508adb223ecf9d092b8f6b9.json",
+    "bytes": 120338,
+    "sha256": "ec88877137c55ffb14d29268caa7942e4c33ed993508adb223ecf9d092b8f6b9"
+   },
+   "preparedTint": {
+    "natural-hi": {
+     "identity": "a7e723cb00e821a52ee896b66e262d83e67419e4f6693fd3dbd62099d40c5ff5",
+     "url": "courses/lidingo/prepared/tint-19cfe7396a9db179d137357d3019f15ff039cc84b5e41c1a1d42b543e74f254d.bin",
+     "bytes": 512753,
+     "decodedBytes": 2929576,
+     "sha256": "19cfe7396a9db179d137357d3019f15ff039cc84b5e41c1a1d42b543e74f254d",
+     "decodedSha256": "dae94717ef3f5bd78498248814a1e8db0579ddb7f6f9590170cecb250da8c1a6",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "natural-lo": {
+     "identity": "49ccfb8d27b3759544509d6ccd013e90b360d21f6c99bd2ef1b2d405cfc5d22e",
+     "url": "courses/lidingo/prepared/tint-19cfe7396a9db179d137357d3019f15ff039cc84b5e41c1a1d42b543e74f254d.bin",
+     "bytes": 512753,
+     "decodedBytes": 2929576,
+     "sha256": "19cfe7396a9db179d137357d3019f15ff039cc84b5e41c1a1d42b543e74f254d",
+     "decodedSha256": "dae94717ef3f5bd78498248814a1e8db0579ddb7f6f9590170cecb250da8c1a6",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-hi": {
+     "identity": "2c67a952138155d2225717fc4d36ac4f71107484b34e9abb336bb31086128426",
+     "url": "courses/lidingo/prepared/tint-c97e4ceac91bb11b13f4ffbda4939442ebd0c2b1b1a35000d24bb60c9b985543.bin",
+     "bytes": 584571,
+     "decodedBytes": 2929576,
+     "sha256": "c97e4ceac91bb11b13f4ffbda4939442ebd0c2b1b1a35000d24bb60c9b985543",
+     "decodedSha256": "a2ec25922926c5a0068f11bab420cd513e81dc7314021997e4ae25d18e4d5de9",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    },
+    "painted-lo": {
+     "identity": "9f76f3e8ca08b0cf9bd1475aa219964ffbc7f38f7fba5300674514a36c0d9313",
+     "url": "courses/lidingo/prepared/tint-c97e4ceac91bb11b13f4ffbda4939442ebd0c2b1b1a35000d24bb60c9b985543.bin",
+     "bytes": 584571,
+     "decodedBytes": 2929576,
+     "sha256": "c97e4ceac91bb11b13f4ffbda4939442ebd0c2b1b1a35000d24bb60c9b985543",
+     "decodedSha256": "a2ec25922926c5a0068f11bab420cd513e81dc7314021997e4ae25d18e4d5de9",
+     "layers": [
+      {
+       "n": 513,
+       "dx": 6,
+       "bounds": {
+        "x0": -1539,
+        "z0": -1539,
+        "x1": 1539,
+        "z1": 1539
+       },
+       "offset": 0,
+       "bytes": 1052676
+      },
+      {
+       "n": 685,
+       "dx": 24,
+       "bounds": {
+        "x0": -8220,
+        "z0": -8220,
+        "x1": 8220,
+        "z1": 8220
+       },
+       "offset": 1052676,
+       "bytes": 1876900
+      }
+     ]
+    }
    }
   }
  ]

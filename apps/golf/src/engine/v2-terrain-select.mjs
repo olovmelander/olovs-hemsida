@@ -118,6 +118,7 @@ export async function selectV2TerrainSource({
   /* async () => ({ bodies, shallows }) -- the model's water, for the fixed
      frontier to carve lake beds into its tiles as they decode */
   waterBeds = null,
+  createChunkSource = null,
 } = {}) {
   if (typeof slug !== 'string' || !slug) throw new TypeError('course slug is required');
   const urlMode = v2RequestMode(search);
@@ -142,6 +143,7 @@ export async function selectV2TerrainSource({
   }
 
   let graph = null;
+  let chunkSource = null;
   let graphError = null;
   if (publishedGraphSlugs.includes(slug)) {
     try {
@@ -164,6 +166,7 @@ export async function selectV2TerrainSource({
       }
     }
     if (graph && !graphError) {
+      if (createChunkSource) chunkSource = await createChunkSource(graph);
       const frontierConfig = graphFrontierConfigs[slug] || null;
       if (frontierConfig) {
         try {
@@ -175,6 +178,7 @@ export async function selectV2TerrainSource({
             locationHref,
             fetchImpl,
             waterBeds,
+            chunkSource,
           });
           return finish({
             requestMode,
@@ -183,6 +187,7 @@ export async function selectV2TerrainSource({
             graph,
             source,
             frontierConfig,
+            chunkSource,
           });
         } catch (error) {
           const detail = errorText(error);
@@ -243,5 +248,6 @@ export async function selectV2TerrainSource({
     frontierConfig: source.ready && slug === PUTTOM_PREVIEW_CONFIG.slug
       ? PUTTOM_PREVIEW_CONFIG
       : null,
+    chunkSource,
   });
 }

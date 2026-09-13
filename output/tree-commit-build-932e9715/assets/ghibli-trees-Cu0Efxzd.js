@@ -1,0 +1,1 @@
+import{r as e}from"./ghibli-trees-M6mbkoDD.js";export{e as loadGhibliTrees};

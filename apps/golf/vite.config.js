@@ -15,6 +15,9 @@
    which is the worst possible place to find it. Read the two together. */
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { courseSourceRevision } from '../../tools/course-source-revision.mjs';
 
 /* Cloudflare would serve this at a domain root; GitHub Pages serves it under the
    repository name. Vite rewrites the tags in index.html and every asset URL it
@@ -22,8 +25,12 @@ import { VitePWA } from 'vite-plugin-pwa';
    app manifest's own fields, the service worker's route patterns, and any URL
    the app builds at runtime (those read import.meta.env.BASE_URL instead). */
 const BASE = process.env.BANVY_BASE || '/';
+const COURSE_SLUGS = JSON.parse(readFileSync(new URL('./public/courses/index.json', import.meta.url), 'utf8')).courses.map(course => course.slug);
+const SOURCE_ROOT = fileURLToPath(new URL('../..', import.meta.url));
+const SOURCE_REVISION = courseSourceRevision(SOURCE_ROOT);
 
 export default defineConfig({
+  define: { __COURSE_SOURCE_REVISION__: JSON.stringify(SOURCE_REVISION) },
   server: { host: '0.0.0.0', port: 5173, strictPort: true, allowedHosts: ['terminal.local'] },
   /* The v2 decode Worker is a module worker, so its bundle must be ESM: an
      IIFE build cannot carry the entry's own imports. */
@@ -37,6 +44,13 @@ export default defineConfig({
   base: BASE,
 
   plugins: [
+    {
+      name: 'course-source-revision',
+      generateBundle() {
+        if (courseSourceRevision(SOURCE_ROOT) !== SOURCE_REVISION) this.error('Course runtime changed during build; rebuild to get a coherent startup revision');
+        this.emitFile({ type: 'asset', fileName: 'course-startup-build.json', source: JSON.stringify({ revision: SOURCE_REVISION }) + '\n' });
+      },
+    },
     VitePWA({
       /* The whole view lives in the URL -- bana, hal, vy, ljus, tee, skylt, ren,
          q, gl -- so a reload restores exactly the view that was on screen. That
@@ -74,12 +88,15 @@ export default defineConfig({
            packs are deliberately absent -- six of them is 2.4 MB, and nobody
            should pay for five courses they did not open. They arrive below, on
            demand, and then stay. */
-        globPatterns: ['**/*.{js,css,html,svg}', 'icons/*.png', 'fonts/**'],
+        globPatterns: ['index.html', 'assets/*.{js,css}', 'favicon.svg', 'icons/*.png', 'fonts/**'],
         /* These chunks are reachable only through the explicit Puttom v2
            preview. Keeping terrain AND its matching surface decoder/material
            out of install-time precache preserves the normal mobile player's
            critical path; content-addressed BVCH data is cached on demand below. */
         globIgnores: [
+          // A selected course loads its own scenery through the runtime-code
+          // cache below. Installing the shell must not download other courses.
+          ...COURSE_SLUGS.map(slug => `assets/${slug}-*.js`),
           'assets/v2-terrain-*.js',
           'assets/v2-graph-terrain-*.js',
           'assets/v2-surface-preview-*.js',
@@ -137,6 +154,42 @@ export default defineConfig({
         ],
 
         runtimeCaching: [
+          {
+            // These publications use stable filenames and verify each model
+            // against its manifest. Revalidate online; preserve both offline.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/(veckefjarden|visby)\/facilities-v1\.(json|glb)$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            // Do not race a large model against a short cache timeout: an old
+            // model cannot satisfy a freshly fetched manifest's checksum.
+            options: { cacheName: 'banvy-stable-facilities',
+              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/veckefjarden\/landmarks-v1\.json$/.test(url.pathname),
+            handler: 'NetworkFirst',
+            options: { cacheName: 'banvy-veckefjarden-landmarks-manifest', networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin &&
+              /\/models\/veckefjarden\/(sjalevads-kyrka|paradiskullen-k90)-v1\.glb$/.test(url.pathname) &&
+              /^[a-f0-9]{16}$/.test(url.searchParams.get('v') || ''),
+            handler: 'CacheFirst',
+            options: { cacheName: 'banvy-veckefjarden-landmarks',
+              expiration: { maxEntries: 6, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
+            // Module workers and on-demand scenery must survive an offline
+            // reopen too. They are deliberately absent from shell precache.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/assets\/[^/]+\.js$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'banvy-runtime-code',
+              expiration: { maxEntries: 160, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
           {
             urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/ghibli-fluffy\.json$/.test(url.pathname),
             handler: 'NetworkFirst',
@@ -367,12 +420,12 @@ export default defineConfig({
                its URL, and cache-first is both safe and the whole point. This is
                the rule that makes a course open offline. */
             /* ... and the land-cover record beside it, versioned the same way */
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/(pack\.bin|landcover\.json|surroundings\.json)$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/(pack\.bin|landcover\.json|mown-surface\.json|surroundings\.json)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: {
               cacheName: 'banvy-packs',
-              /* three entries a course now (pack + land cover + surroundings), thirteen courses */
-              expiration: { maxEntries: 42, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              /* pack, land cover, mowing and surroundings, for thirteen courses */
+              expiration: { maxEntries: 52, maxAgeSeconds: 60 * 60 * 24 * 365 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },

@@ -96,6 +96,7 @@ export async function loadV2Vegetation({
   fetchImpl = globalThis.fetch,
   signal,
   maxConcurrent = 6,
+  chunkSource = null,
   supportedFeatures = V2_SUPPORTED_FEATURES,
 }) {
   if (!graph?.ground?.tiles) throw new TypeError('a resolved v2 graph is required');
@@ -114,9 +115,9 @@ export async function loadV2Vegetation({
     while (next < jobs.length) {
       const job = jobs[next++];
       const url = resolveV2AssetUrl(job.reference.url, base);
-      const data = await fetchBytes(url, { signal, expectedBytes: job.reference.bytes });
-      bytes += data.byteLength;
-      const verified = await verifyChunkAssetWeb(job.reference, data, { signal, supportedFeatures });
+      const verified = chunkSource ? await chunkSource.load(job.reference, { signal }) :
+        await verifyChunkAssetWeb(job.reference, await fetchBytes(url, { signal, expectedBytes: job.reference.bytes }), { signal, supportedFeatures });
+      bytes += job.reference.bytes;
       if (verified.header.id !== job.tile.id || verified.header.owner?.id !== graph.ground.groundId) {
         throw new Error(`${job.kind} chunk ${job.reference.url} does not belong to tile ${job.tile.id}`);
       }

@@ -1,15 +1,16 @@
 import { SkyMesh } from 'three/addons/objects/SkyMesh.js';
 import { Color } from 'three/webgpu';
+import { paintedSkyColour } from './painted-sky.mjs';
 import { Fn, cameraPosition, float, luminance, mix, normalize, positionWorld, pow, saturate, smoothstep, uniform, vec4 } from 'three/tsl';
 
-/* Both visual styles share the r186 atmosphere. Attenuate its HDR radiance
- * before bloom/tone mapping so cloud detail survives the course's exposure.
- * World lighting and the sun direction still come from the selected preset.
+/* The natural look attenuates r186's HDR atmosphere before tone mapping.
+ * The painted look uses a cloud coverage field with separate sky pigments.
+ * Both use the same preset controls, sun direction and sky geometry.
  */
 export const SKY_RADIANCE = 0.35;
 const controls = new WeakMap();
 
-export function createAtmosphericSky({ reversedDepth = false, deterministic = false } = {}) {
+export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false } = {}) {
   const sky = new SkyMesh();
   sky.name = 'atmospheric-sky';
   // A tiny HDR sun disc sparkling through foliage creates distracting bloom.
@@ -19,8 +20,10 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
   const tint = uniform(new Color(0xffffff));
   const paletteBlend = uniform(0), minimumLight = uniform(0), twilightLift = uniform(0);
   const zenith = uniform(new Color(0x6688bb)), horizon = uniform(new Color(0xccddee));
+  const cloudLit = uniform(new Color(0xfff5df)), cloudShade = uniform(new Color(0xa5b5c6));
   const groundHaze = uniform(new Color(0xc1b8a9));
-  controls.set(sky, { deterministic, radiance, tint, paletteBlend, minimumLight, twilightLift, zenith, horizon, groundHaze });
+  const settings={ deterministic, radiance, tint, paletteBlend, minimumLight, twilightLift, zenith, horizon, groundHaze, cloudLit, cloudShade };
+  controls.set(sky, settings);
   const atmosphere = sky.material.colorNode;
   sky.material.colorNode = Fn(() => {
     const c = vec4(atmosphere).toVar();
@@ -40,6 +43,11 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     // as distant hills instead of exposing SkyMesh's dark lower hemisphere.
     return vec4(mix(groundHaze, skyColour, smoothstep(-0.06, 0.10, elevation)), c.a);
   })();
+  if(painted){
+    const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic});
+    sky.material.colorNode=layer.node;
+    settings.paintedExposure=layer.exposure;
+  }
   // SkyMesh pins z=w, which is the near plane with reversed depth. r186 fixes
   // renderOrder sorting, but the sky's far clip depth must still be zero.
   if (reversedDepth) {
@@ -75,6 +83,9 @@ export function setAtmospherePreset(sky, preset) {
   c.zenith.value.setHex(preset.skyZenith ?? 0x6688bb);
   c.horizon.value.setHex(preset.skyHorizon ?? 0xccddee);
   c.groundHaze.value.setHex(preset.fog);
+  if(c.paintedExposure)c.paintedExposure.value=preset.paintedSkyExposure??1;
+  c.cloudLit.value.setHex(preset.skyCloudLit ?? 0xfff5df);
+  c.cloudShade.value.setHex(preset.skyCloudShade ?? 0xa5b5c6);
 }
 
 export function atmosphereState(sky) {

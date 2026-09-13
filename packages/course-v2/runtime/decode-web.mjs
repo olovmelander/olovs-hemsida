@@ -30,13 +30,13 @@ function checkAbort(signal) {
   if (signal?.aborted) throw signal.reason?.name === 'AbortError' ? signal.reason : abortError();
 }
 
-async function sha256Hex(value, cryptoImpl) {
+export async function sha256Hex(value, cryptoImpl = globalThis.crypto) {
   if (!cryptoImpl?.subtle) throw new Error('Web Crypto SHA-256 is unavailable');
   const digest = await cryptoImpl.subtle.digest('SHA-256', bytes(value, 'value'));
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, '0')).join('');
 }
 
-async function inflateBounded(encoded, expectedBytes, { signal, DecompressionStreamImpl }) {
+export async function inflateBounded(encoded, expectedBytes, { signal, DecompressionStreamImpl = globalThis.DecompressionStream } = {}) {
   if (typeof DecompressionStreamImpl !== 'function') throw new Error('DecompressionStream is unavailable');
   const source = new Blob([encoded]);
   const reader = source.stream().pipeThrough(new DecompressionStreamImpl('deflate-raw')).getReader();

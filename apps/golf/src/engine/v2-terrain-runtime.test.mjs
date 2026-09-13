@@ -3,6 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import { verifyChunkAsset } from '../../../../packages/course-v2/chunk-node.mjs';
 import { createSyntheticAssetGraph } from '../../../../packages/course-v2/synthetic-fixture.mjs';
 import { prepareTerrainRenderData } from '../../../../packages/course-v2/runtime/terrain-render-data.mjs';
+import { installChunkWorker } from '../../../../packages/course-v2/runtime/chunk-worker.mjs';
 import { compileTerrainAssets } from '../../../../packages/course-v2/terrain-compiler-node.mjs';
 import {
   CourseV2TerrainRuntime,
@@ -40,6 +41,53 @@ async function settle(predicate) {
 }
 
 describe('isolated v2 terrain runtime', () => {
+  it('prepares shared-source heights after carving exactly once, with real transferable ownership', async () => {
+    const { ground, course, loader } = fixture();
+    const messages = new Set();
+    let workerListener, terminated = false;
+    const scope = {
+      addEventListener: (_, listener) => { workerListener = listener; },
+      removeEventListener: () => {},
+      postMessage: (message, transfer) => {
+        const reply = structuredClone(message, { transfer });
+        queueMicrotask(() => { for (const listener of messages) listener({ data: reply }); });
+      },
+    };
+    const uninstall = installChunkWorker(scope);
+    const worker = {
+      addEventListener: (type, listener) => { if (type === 'message') messages.add(listener); },
+      removeEventListener: (type, listener) => { if (type === 'message') messages.delete(listener); },
+      postMessage: (message, transfer = []) => {
+        const request = structuredClone(message, { transfer });
+        queueMicrotask(() => workerListener({ data: request }));
+      },
+      terminate: () => { terminated = true; uninstall(); },
+    };
+    const carved = new Map();
+    const transformDecoded = vi.fn(({ tileId, decoded }) => {
+      new DataView(decoded.payload.buffer, decoded.payload.byteOffset).setUint16(8, 0, true);
+      carved.set(tileId, { payload: decoded.payload, expected: prepareTerrainRenderData(decoded) });
+      return { ...decoded, terrainRenderData: null };
+    });
+    const chunkSource = { load: async reference => {
+      const decoded = await loader.request(reference);
+      return { ...decoded, payload: Uint8Array.from(decoded.payload), terrainRenderData: null };
+    } };
+    const runtime = new CourseV2TerrainRuntime({ ground, course, scene: new THREE.Scene(), backend: 'webgl2',
+      baseUrl: 'https://example.test/', chunkSource, workerFactory: () => worker, transformDecoded, prepareInWorker: true });
+    runtime.update({ camera: { position: { x: 64, y: 50, z: 192 }, fov: 48 },
+      viewportHeightPixels: 720, activeHoleNumber: 1, visible: () => true });
+    await settle(() => runtime.snapshot().stream.readyTileIds.length === 3);
+    expect(transformDecoded).toHaveBeenCalledTimes(3);
+    for (const [id, { payload, expected }] of carved) {
+      expect(payload.byteLength).toBeGreaterThan(0);
+      expect(runtime.resources.get(id).payload).toBe(payload);
+      expect(runtime.resources.get(id).textureData).toEqual(expected.textureData);
+      expect(runtime.resources.get(id).maximumNormalEncodingErrorDegrees).toBe(expected.maximumNormalEncodingErrorDegrees);
+    }
+    runtime.dispose();
+    expect(terminated).toBe(true);
+  });
   it.each(['webgpu', 'webgl2'])('reduces refinable parents and preserves native meshes/sampling on %s', async backend => {
     const base = fixture();
     const heights = Float64Array.from({ length: 17 * 17 }, (_, i) =>

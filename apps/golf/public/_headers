@@ -35,6 +35,17 @@
 /courses/*/surroundings.json
   Cache-Control: public, max-age=31536000, immutable
 
+/courses/*/mown-surface.json
+  Cache-Control: public, max-age=31536000, immutable
+
+# Lossless startup packages and prepared colors carry full SHA-256 filenames.
+# The mutable catalog above selects a generation; these bytes never change.
+/grounds/*/startup/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/courses/*/prepared/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # Posters are not content-addressed and they are only decoration, so they get a
 # day: long enough that a returning visitor pays nothing, short enough that a
 # re-render reaches people without a deploy trick. The glob covers hero-1 and
@@ -114,6 +125,11 @@
   Cache-Control: no-cache
 
 /models/visby/facilities-v1.glb
+  Cache-Control: no-cache
+
+# Veckefjarden also keeps stable publication filenames. The service worker
+# caches hash-versioned landmark requests and revalidates facility pairs.
+/models/veckefjarden/*
   Cache-Control: no-cache
 
 # Ängsö uses the same mutable receipt and immutable, verified geometry contract.
