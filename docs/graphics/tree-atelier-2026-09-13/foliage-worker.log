@@ -1,0 +1,29 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.5\4.5\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+12:41:48 | INFO: Starting glTF 2.0 export
+12:41:48 | INFO: Extracting primitive: trunk
+12:41:48 | INFO: Primitives created: 1
+12:41:48 | INFO: Extracting primitive: crown.001
+12:41:48 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+12:41:48 | INFO: Primitives created: 1
+12:41:48 | INFO: Finished glTF 2.0 export in 0.03077554702758789 s
+
+12:41:48 | INFO: Starting glTF 2.0 export
+12:41:48 | INFO: Extracting primitive: trunk.001
+12:41:48 | INFO: Primitives created: 1
+12:41:48 | INFO: Extracting primitive: crown.003
+12:41:48 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+12:41:48 | INFO: Primitives created: 1
+12:41:48 | INFO: Finished glTF 2.0 export in 0.011094808578491211 s
+
+12:41:48 | INFO: Starting glTF 2.0 export
+12:41:48 | INFO: Extracting primitive: crown.004
+12:41:48 | INFO: Primitives created: 1
+12:41:48 | INFO: Extracting primitive: trunk.002
+12:41:48 | INFO: Primitives created: 1
+12:41:48 | INFO: Finished glTF 2.0 export in 0.008380889892578125 s
+
+Info: Saved as "textured-pine.blend"
+FOLIAGE_BUILD_COMPLETE {"design": "textured-pine-experiment", "source": "Original seeded pine layout and original vector needle atlas", "tiers": {"hero": {"file": "hero.glb", "triangles": 3376, "bytes": 339920, "sha256": "c53e46f234eef37430c82eac40e4587e593d209c6cc52062d29d86b6cd36e3f0"}, "full": {"file": "full.glb", "triangles": 1218, "bytes": 189208, "sha256": "dc7b523521ae4f8a95aef3975bdeabca19b8f5c85a28dbd3a475422aa0e544c1"}, "lite": {"file": "lite.glb", "triangles": 280, "bytes": 9276, "sha256": "b0c5daa246e9aa190c7325f0caaf0096091113ac6f52b5519eb6615a54c08d23"}}, "height": 17.439622248402358}
+Blender 4.5.9 LTS (hash 8bf95cbd38d1 built 2026-04-21 01:33:45)
+
+Blender quit

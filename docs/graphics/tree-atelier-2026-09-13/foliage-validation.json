@@ -1,0 +1,153 @@
+{
+  "errors": [],
+  "views": [
+    {
+      "tier": "hero",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 6808,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 3376,
+          "webgpu": true,
+          "drawCalls": 0
+        }
+      ],
+      "materials": [
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "crown",
+          "map": true,
+          "alphaTest": 0.45
+        },
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "crown",
+          "map": true,
+          "alphaTest": 0.45
+        },
+        {
+          "name": "crown",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        }
+      ]
+    },
+    {
+      "tier": "full",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 1788,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 1218,
+          "webgpu": true,
+          "drawCalls": 0
+        }
+      ],
+      "materials": [
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "crown",
+          "map": true,
+          "alphaTest": 0.45
+        },
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "crown",
+          "map": true,
+          "alphaTest": 0.45
+        },
+        {
+          "name": "crown",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        }
+      ]
+    },
+    {
+      "tier": "lite",
+      "views": [
+        {
+          "design": "original",
+          "triangles": 572,
+          "webgpu": true,
+          "drawCalls": 6
+        },
+        {
+          "design": "textured",
+          "triangles": 280,
+          "webgpu": true,
+          "drawCalls": 0
+        }
+      ],
+      "materials": [
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "crown",
+          "map": true,
+          "alphaTest": 0.45
+        },
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "crown",
+          "map": true,
+          "alphaTest": 0.45
+        },
+        {
+          "name": "crown",
+          "map": false,
+          "alphaTest": 0
+        },
+        {
+          "name": "trunk",
+          "map": false,
+          "alphaTest": 0
+        }
+      ]
+    }
+  ],
+  "mobileOverflow": false
+}

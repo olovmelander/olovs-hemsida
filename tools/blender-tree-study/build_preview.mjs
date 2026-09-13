@@ -13,6 +13,7 @@ await build({
     rollupOptions: { input: {
       app: path.resolve('apps/golf/index.html'),
       study: path.resolve('apps/golf/tree-study.html'),
+      foliage: path.resolve('apps/golf/foliage-study.html'),
     } },
   },
 });

@@ -4,7 +4,7 @@ import { loadGhibliTrees, GHIBLI_SPECIES, GHIBLI_COLOURS } from './engine/ghibli
 
 const notes = {
   gran: ['Norway spruce', 'Individual sweeping boughs replace the stacked skirts. Smaller drooping sprays break up the edges, with darker old growth beneath the fresh tips.'],
-  tall: ['Scots pine', 'The broad, connected crown and bent trunk retain their original arrangement. Extra geometry refines the crown edges; a continuous grey-to-copper bark colour reduces the old segment bands.'],
+  tall: ['Scots pine', 'The broad crown and bent trunk retain their original arrangement. Clean topology refines the crown edges within a fixed triangle budget; continuous grey-to-copper bark reduces the old segment bands.'],
   'björk': ['Silver birch', 'Slender ivory leaders fork into hanging twigs and smaller leaf clusters. Openings between the branches let the sky through; bark carries broken dark lenticels.'],
   al: ['Grey alder', 'Several ascending stems carry an irregular, upright crown. Smaller foliage masses and subdued bark give the tree a softer woodland character.'],
   ek: ['Pasture oak', 'A substantial root flare and spreading limbs support a generous crown. Overlapping clusters, warm leaf tops and shaded undersides give the oak its weight.'],
