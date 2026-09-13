@@ -19,7 +19,7 @@ function sourceFunction(name) {
   if (start < 0) throw new Error(`Missing application function: ${name}`);
   return main.slice(start, main.indexOf('\n}', start) + 2);
 }
-const frameSource = ['updateFrameVisibility', 'applyFlightCamera', 'frame'].map(sourceFunction).join('\n');
+const frameSource = ['updateTerrainView', 'updateFrameVisibility', 'applyFlightCamera', 'frame'].map(sourceFunction).join('\n');
 const settledSource = main.match(/settled: \(\) => ([^\n]+),/)[1];
 const boxes = [
   new THREE.Box3(new THREE.Vector3(-1, 9, -1), new THREE.Vector3(1, 11, 1)),

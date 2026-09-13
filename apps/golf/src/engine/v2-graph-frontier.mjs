@@ -333,6 +333,7 @@ export async function loadPublishedGraphTerrainFrontier({
   DecompressionStreamImpl = globalThis.DecompressionStream,
   signal,
   waterBeds = null,
+  chunkSource = null,
 } = {}) {
   if (typeof fetchImpl !== 'function') throw new TypeError('fetchImpl must be a function');
   if (waterBeds !== null && typeof waterBeds !== 'function') throw new TypeError('waterBeds must be a function or null');
@@ -391,6 +392,7 @@ export async function loadPublishedGraphTerrainFrontier({
   const resources = await mapConcurrent(reviewed.tiles, async tile => {
     const reference = tile.layers.terrain;
     const url = resolveV2AssetUrl(reference.url, applicationBase.href);
+    const decoded = chunkSource ? await chunkSource.load(reference, { signal }) : await (async () => {
     const response = await fetchImpl(url, {
       signal,
       cache: 'no-store',
@@ -398,11 +400,12 @@ export async function loadPublishedGraphTerrainFrontier({
       redirect: 'error',
     });
     const encoded = await responseBytes(response, reference.bytes);
-    const decoded = await verifyChunkAssetWeb(reference, encoded, {
+    return verifyChunkAssetWeb(reference, encoded, {
       signal,
       cryptoImpl,
       DecompressionStreamImpl,
     });
+    })();
     if (decoded.header.id !== tile.id || !sameBounds(decoded.header.bounds, tile.bounds)) {
       throw new Error(`terrain frontier tile ${tile.id} decoded with a different identity or footprint`);
     }

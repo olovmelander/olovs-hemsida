@@ -32,8 +32,24 @@ export class ChunkWorkerClient {
   }
 
   decode(reference, input, options = {}) {
+    return this.#request({ type: 'decode', reference, supportedFeatures: this.supportedFeatures,
+      startupEntry: options.startupEntry, prepareTerrain: options.prepareTerrain }, input, options);
+  }
+
+  // Heights have already been verified, then possibly carved by the course.
+  // Transfer a private copy: construction samplers keep owning their payload.
+  prepareTerrain(decoded, options = {}) {
     if (this.disposed) return Promise.reject(new Error('chunk worker client is disposed'));
     if (options.signal?.aborted) return Promise.reject(abortError());
+    if (this.failure) return Promise.reject(this.failure);
+    return this.#request({ type: 'prepare-terrain', header: decoded.header },
+      exactBuffer(decoded.payload).slice(0), options);
+  }
+
+  #request(message, input, options) {
+    if (this.disposed) return Promise.reject(new Error('chunk worker client is disposed'));
+    if (options.signal?.aborted) return Promise.reject(abortError());
+    if (this.failure) return Promise.reject(this.failure);
     const id = this.nextId++;
     const buffer = exactBuffer(input);
     return new Promise((resolve, reject) => {
@@ -47,9 +63,7 @@ export class ChunkWorkerClient {
       this.pending.set(id, { resolve, reject, signal: options.signal, abort });
       options.signal?.addEventListener('abort', abort, { once: true });
       try {
-        this.worker.postMessage({
-          type: 'decode', id, reference, buffer, supportedFeatures: this.supportedFeatures,
-        }, [buffer]);
+        this.worker.postMessage({ ...message, id, buffer }, [buffer]);
       } catch (error) {
         this.pending.delete(id);
         options.signal?.removeEventListener('abort', abort);
@@ -64,13 +78,12 @@ export class ChunkWorkerClient {
     if (!pending) return;
     this.pending.delete(message.id);
     pending.signal?.removeEventListener('abort', pending.abort);
-    if (message.type === 'decoded' && message.payload instanceof ArrayBuffer) {
-      const terrainRenderData = message.terrainRenderData?.textureData instanceof ArrayBuffer
-        ? {
-            ...message.terrainRenderData,
-            textureData: new Uint8Array(message.terrainRenderData.textureData),
-          }
-        : null;
+    const terrainRenderData = message.terrainRenderData?.textureData instanceof ArrayBuffer
+      ? { ...message.terrainRenderData, textureData: new Uint8Array(message.terrainRenderData.textureData) }
+      : null;
+    if (message.type === 'terrain-prepared' && terrainRenderData) {
+      pending.resolve(terrainRenderData);
+    } else if (message.type === 'decoded' && message.payload instanceof ArrayBuffer) {
       pending.resolve({
         header: message.header,
         payload: new Uint8Array(message.payload),
@@ -86,6 +99,7 @@ export class ChunkWorkerClient {
   }
 
   #fatal(error) {
+    this.failure = error;
     for (const pending of this.pending.values()) {
       pending.signal?.removeEventListener('abort', pending.abort);
       pending.reject(error);

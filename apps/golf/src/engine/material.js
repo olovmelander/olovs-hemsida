@@ -3,6 +3,7 @@
    colour until that procedural shading is moved to TSL. */
 
 import * as THREE from 'three/webgpu';
+import { paintedDirect, paintedSeason, paintedTurfStrength } from './painted-world-lighting.mjs';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
   mix, smoothstep, clamp, pow, abs, sin, normalize, oneMinus, fwidth,
@@ -14,22 +15,26 @@ import {
    blue-green shade side, and no photographic grain, sheen or relief. This
    takes a material's base colour and returns what to draw instead of the
    photoreal finish; the callers keep their class blending and mow bands. */
-export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1) }) {
+export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0) }) {
   const blotchA = texture(DETAIL, wp.mul(0.012)).b.sub(0.5);
   const blotchB = texture(DETAIL, wp.mul(0.038)).g.sub(0.5);
   const blotchC = texture(DETAIL, wp.mul(0.11)).r.sub(0.5);
   /* turf is blotched like a meadow; gravel and sand keep a quieter grain */
-  const blotch = blotchA.mul(0.28).add(blotchB.mul(0.13)).add(blotchC.mul(0.07)).mul(mix(float(0.35), float(1), turf));
+  const blotch = blotchA.mul(0.18).add(blotchB.mul(0.08)).add(blotchC.mul(0.035)).mul(mix(float(0.35), float(1), turf));
   const wrap = saturate(normalWorld.dot(uSun).mul(0.5).add(0.5));
-  const band = smoothstep(0.30, 0.80, wrap);
+  const band = mix(float(.55), smoothstep(0.30, 0.80, wrap), paintedDirect);
   /* the sunlit band goes yellow-green, the way a painter warms a lit meadow;
      the shade stays blue-green. Only TURF takes the hue swing: a grey road
      under the warm band turned brown, and sand went orange */
-  const turfTone = mix(vec3(0.78, 0.90, 1.06), vec3(1.14, 1.08, 0.84), band);
+  const turfTone = mix(vec3(0.91, 0.97, 1.06), vec3(1.04, 1.02, 0.94), band);
   const flatTone = mix(vec3(0.90, 0.91, 0.95), vec3(1.03, 1.03, 1.02), band);
   const tone = mix(flatTone, turfTone, turf);
   /* the palette carries the chroma now; the finish only shapes it */
-  const c = base.mul(float(1).add(blotch).add(mow.mul(0.7))).mul(tone);
+  // Uncut surroundings acquire an ochre undertone in autumn; mown playing
+  // surfaces keep their distinct sage/moss hues and readable mowing pattern.
+  const seasonTone = mix(vec3(1), vec3(1.14,.93,.75), paintedSeason.mul(seasonal).mul(turf));
+  const c = base.mul(float(1).add(blotch).add(mow.mul(0.55))).mul(tone).mul(seasonTone)
+    .mul(mix(float(1), paintedTurfStrength, turf));
   return { colorNode: c, roughnessNode: float(0.96) };
 }
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
@@ -393,7 +398,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE, look = 'real'
     return m;
   }
 
-  if (!atlas) return finish(vertCol.mul(vertCol), aDet, aBmp, aGls, aStr, mowBand(aMow.x.mul(aMow.y)));
+  if (!atlas) return finish(look === 'ghibli' ? vertCol : vertCol.mul(vertCol), aDet, aBmp, aGls, aStr, mowBand(aMow.x.mul(aMow.y)));
 
   const styleTexture = makeStyleTexture(C, SHADE);
   m.userData.groundStyleTexture = styleTexture;
@@ -436,7 +441,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE, look = 'real'
   const atlasActive = mix(secMeta.r, primMeta.r, primaryWeight).mul(inBounds);
   const base = mix(vertCol, atlasColor, atlasActive);
   const pavingWeight = mix(pavedClassWeight(secId), pavedClassWeight(primId), primaryWeight).mul(inBounds);
-  const col = groundSurfaceAlbedo(base, pavingWeight);
+  const col = groundSurfaceAlbedo(base, pavingWeight, look === 'ghibli' ? 1 : 0);
   const shade = mix(secShade, primShade, primaryWeight);
   const det = mix(aDet, shade.r, atlasActive);
   const bmp = mix(aBmp, shade.g, atlasActive);
@@ -691,9 +696,9 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     const mowNode = (mow || float(0)).mul(0.045);
     const pavingWeight = weights.reduce((sum, weight, index) =>
       PAVED_SURFACES.includes(classes[index]) ? sum.add(weight) : sum, float(0));
-    const litBase = groundSurfaceAlbedo(base, pavingWeight, 0.18);
+    const litBase = groundSurfaceAlbedo(base, pavingWeight, look === 'ghibli' ? 1 : 0.18);
     if (look === 'ghibli') {
-      const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow: mowNode, turf: oneMinus(meta.g.max(meta.b)) });
+      const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow: mowNode, turf: oneMinus(meta.g.max(meta.b)), seasonal: meta.a });
       material.colorNode = painted.colorNode;
       material.roughnessNode = painted.roughnessNode;
       material.metalness = 0;
@@ -835,9 +840,9 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     const mow = mix(classBand(primaryId), classBand(secondaryId), pair.deepSecondary)
       .mul(strength).mul(0.045);
     const pavingWeight = mix(pavedClassWeight(secondaryId), pavedClassWeight(primaryId), primaryWeight).mul(inBounds);
-    const litBase = groundSurfaceAlbedo(base, pavingWeight, 0.18);
+    const litBase = groundSurfaceAlbedo(base, pavingWeight, look === 'ghibli' ? 1 : 0.18);
     if (look === 'ghibli') {
-      const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow, turf: oneMinus(meta.g.max(meta.b)) });
+      const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow, turf: oneMinus(meta.g.max(meta.b)), seasonal: meta.a.add(oneMinus(inBounds)) });
       material.colorNode = painted.colorNode;
       material.roughnessNode = painted.roughnessNode;
     } else {

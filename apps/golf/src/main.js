@@ -40,6 +40,8 @@ import {
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, atmosphereState } from './engine/atmospheric-sky.mjs';
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
+import { PAINTED_GROUND, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
+import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
 import { createAerialPerspective } from './engine/aerial-perspective.mjs';
 
 import { loadCourse } from './loader/pack.js';
@@ -64,6 +66,7 @@ import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine
 import { readLookMode, persistLookMode } from './engine/look-mode.mjs';
 import { teePadSurfaceOwners } from './engine/tee-surface-ownership.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
+import { initialTreeTierCapacity, reserveTreeTier, treeTierAllocation } from './engine/tree-tier-capacity.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createCameraBreathing } from './engine/camera-breathing.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
@@ -99,6 +102,7 @@ import { createHeroTrunkGeometry } from './engine/tree-trunk-geometry.mjs';
 import { averageBarkSample, createBarkMaterial } from './engine/bark-material.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
 import { createGroundTintOverview } from './engine/ground-tint-overview.mjs';
+import { groundTintIdentity, preparedTintAllowed, loadPreparedGroundTint, applyPreparedGroundTint } from './engine/prepared-ground-tint.mjs';
 import { createPackedGroundDetailTexture } from './engine/ground-detail-upload.mjs';
 import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
@@ -147,7 +151,8 @@ const bootEl = document.getElementById('boot');
 const barEl = document.querySelector('#bar i');
 const msgEl = document.getElementById('bmsg');
 const bootStarted = performance.now();
-const BOOT_PERF = { marks: [], spans: [], atlasMs: 0, totalMs: 0, doneAtMs: 0, firstFrames: [] };
+const BOOT_PERF = { marks: [], spans: [], atlasMs: 0, totalMs: 0, doneAtMs: 0, firstFrames: [],
+  engineStartedAtNavigationMs: +bootStarted.toFixed(1), courseReadyAtNavigationMs: 0 };
 /* Spans name the heavy blocks the stage marks hide: one entry per block with
    its wall time. `lap` records the time since the previous lap, for runs of
    blocks that follow one another. Read them with V3D.perf(). */
@@ -184,6 +189,38 @@ const yieldWork = () => new Promise(resolve => setTimeout(() => {
 }
 const rawBana = new URLSearchParams(location.search).get('bana');
 const isBareVisit = !rawBana;
+/* WebGPU can exist and still fail to start (an OS beta, a driver, a flag): an
+   init that threw left the splash on "startar" forever, blamed on the network.
+   Fall back to the WebGL2 backend instead; ?gl=1 forces it for testing. */
+const FORCE_GL = new URLSearchParams(location.search).get('gl') === '1';
+/* ?gputime=1 asks the WebGPU backend for timestamp queries, so a harness can
+   read GPU milliseconds per frame (V3D.gpuTime); off by default, since the
+   query pool is a cost of its own and a vsync-locked frame time is not one */
+const GPU_TIME = new URLSearchParams(location.search).get('gputime') === '1';
+/* A reversed, float depth buffer, the default on WebGPU (?rdepth=0 switches it
+   off). The camera runs from 1 m to 14 km
+   and a 24-bit fixed-point depth buffer keeps about half a metre at 3 km, so
+   everything lying on the terrain -- roads, marking, water sheets, the surface
+   bands -- flickers against it as the camera moves. three's WebGPU backend
+   takes depth32float under reversedDepthBuffer and flips the compare, but it
+   passes polygonOffset through unchanged, and in reversed depth "toward the
+   camera" is the other sign: DEPTH_SIGN carries that to every nudge below. */
+const RDEPTH = new URLSearchParams(location.search).get('rdepth') !== '0';
+const mkRenderer = forceWebGL => new THREE.WebGPURenderer({ antialias: true, samples: 4,
+  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL, trackTimestamp: GPU_TIME,
+  /* the WebGL2 fallback keeps the classic buffer: its reversed path needs EXT_clip_control and has not been measured here */
+  reversedDepthBuffer: RDEPTH && !forceWebGL });
+async function beginRenderer() {
+  let candidate;
+  try {
+    try { candidate = mkRenderer(FORCE_GL); await candidate.init(); }
+    catch { try { candidate?.dispose(); } catch {} candidate = mkRenderer(true); await candidate.init(); }
+    return { renderer: candidate };
+  } catch (error) { try { candidate?.dispose(); } catch {} return { error }; }
+}
+// Device initialization overlaps course IO and deterministic CPU preparation.
+const RENDERER_LOADING = new URLSearchParams(location.search).get('startup') === '0' ? null : beginRenderer();
+
 const COURSE = await loadCourse(rawBana);
 const CMETA = COURSE.meta;
 const PACK = COURSE.pack;
@@ -266,6 +303,12 @@ const terrainPreviewPromise = selectV2TerrainSource({
   geo: GEO,
   packMeta: CMETA,
   search: location.search,
+  createChunkSource: new URLSearchParams(location.search).get('startup') === '0' ? null : async graph => {
+    const { createCourseChunkSource } = await import('./engine/course-startup.mjs');
+    return createCourseChunkSource({ graph,
+      startup: new URLSearchParams(location.search).get('startup') === 'raw' ? null : CMETA.startup,
+      baseUrl: new URL(import.meta.env.BASE_URL, location.href).href });
+  },
   waterBeds: async () => {
     const model = await modelPromise;
     if (model.infra?.terrainPlacement === 'measured-only') return null;
@@ -304,6 +347,7 @@ const V2_VEGETATION_LOADING = V2_SELECTION.graph &&
     mod,
     loaded: await mod.loadV2Vegetation({
       graph: V2_SELECTION.graph,
+      chunkSource: V2_SELECTION.chunkSource,
       baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
     }),
   }))
@@ -387,6 +431,7 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
   if (mod.graphCoversHorizon(V2_SELECTION.graph.ground, TERRAIN_PREVIEW.descriptor?.bounds)) {
     const world = new mod.V2GraphTerrainAdapter({
       graph: V2_SELECTION.graph,
+      chunkSource: V2_SELECTION.chunkSource,
       source: TERRAIN_PREVIEW,
       courseSlug: CMETA.slug,
       baseUrl: new URL(import.meta.env.BASE_URL, location.href).href,
@@ -406,6 +451,12 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
     }
   }
 }
+
+// Finish all course transport/verification while scene construction proceeds.
+// The cover cannot disappear until this resolves; hole changes need no network.
+const COURSE_DATA_READY = V2_SELECTION.chunkSource
+  ? Promise.resolve(V2_VEGETATION_LOADING).then(() => V2_SELECTION.chunkSource.ensureComplete())
+    .then(value => ({ value, atMs: +performance.now().toFixed(1) }), error => ({ error })) : null;
 
 /* Build the connected ocean from uncarved world elevations. A source polygon's
    offshore closing edges cannot define where the sea ends. All heights remain
@@ -1255,30 +1306,10 @@ const C = {
   /* the record's tracks: a trotting oval is rolled stone dust, an athletics track is red tartan */
   trackClay: L(0x9c8a72), trackRed: L(0x9a4f3f),
 };
-/* The painted palette (?ghibli=1). Every ground material squares its base
-   colour and the painted finish warms the lit side, so these are a little
-   lighter than the colour they read as. The cuts are separated by HUE as
-   much as by brightness, the way a painter tells a green from a fairway: the
-   putting green cool and blue-green, the fairway a clean spring green, the
-   semi a step yellower, the rough a soft meadow green with straw in the
-   fescue; sand warm cream; paths and gravel pale warm stone; mud a warm
-   brown; rock a blue-grey; the forest floor a deep moss green; water's edge
-   a wet olive. Applied in place so the tint rasters, the far ring and the
-   vertex classifier all paint from the same set. */
-if (GHIBLI_LOOK) Object.assign(C, {
-  rough:  L(0x648c44), fescue: L(0x92a050), semi:  L(0x5e9a42),
-  fair:   L(0x5aa644), green:  L(0x48a466), fringe: L(0x549c4a),
-  /* gravel and asphalt stay GREY: a road under a warm stone colour read as a
-     dirt track from above, and the hub's gravel hardstanding as sand */
-  tee:    L(0x56a446), sand:   L(0xe4d09e), path:  L(0x848480),
-  heath:  L(0x8a9a4a), forest: L(0x4a7444), shore: L(0xc8b48c),
-  canopy: L(0x3e7440), canopyLight: L(0x62a04a),
-  wet:    L(0x6c8e54), rock:   L(0x8e949c),
-  cropA:  L(0xc6aa58), cropB: L(0x86a44c), cropC: L(0xb2986c),
-  slash:  L(0x9c8c60), hard:  L(0x929290), gravel: L(0x70716d), hay:   L(0xbcb05e), lawn: L(0x5aa63e),
-  aspT:   L(0x55575c), aspL:  L(0x5f6166), soil:  L(0x8e6e4c), ballast: L(0x868480),
-  riprap: L(0xaeaba2), mud: L(0x7a6046),
-});
+// One linear pigment palette feeds the classifier, tint rasters and every
+// ground ring. The painted material uses it once, without squaring the RGB.
+if (GHIBLI_LOOK) Object.assign(C, Object.fromEntries(
+  Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, L(hex)])));
 
 /* how each surface is shaded: detail scale, bump strength, gloss, mow anisotropy */
 const SHADE = {
@@ -1475,6 +1506,21 @@ const phoneDevice = !DET
   && Math.min(window.screen?.width ?? Infinity, window.screen?.height ?? Infinity) <= 768;
 const LOWQ = qualityParam === 'lo'
   || (qualityParam !== 'hi' && (rememberedQuality === 'lo' || constrainedDevice || phoneDevice));
+const TINT_VARIANT = `${GHIBLI_LOOK ? 'painted' : 'natural'}-${LOWQ ? 'lo' : 'hi'}`;
+const TINT_IDENTITY = V2_SELECTION.graph ? groundTintIdentity({ meta: CMETA,
+  groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, painted: GHIBLI_LOOK, lowQuality: LOWQ,
+  revision: __COURSE_SOURCE_REVISION__ }) : Promise.resolve(null);
+// A declared sidecar identity does not prove that its runtime decoder succeeded.
+// Degraded inputs must retain their normal fallback color calculation too.
+const TINT_INPUTS_READY = (!CMETA.landcover?.url || !!LANDCOVER_REC)
+  && (!CMETA.mownSurface?.url || !!MOWN_REC) && (!CMETA.surroundings?.url || !!SURR)
+  && (!CONTINUOUS_OCEAN_ENABLED || !!OCEAN_SOURCE);
+// Vite's define is a build revision. HMR can change runtime code without
+// re-evaluating the config, so development keeps the live calculation.
+const PREPARED_TINT_LOADING = TINT_INPUTS_READY && !import.meta.env.DEV && preparedTintAllowed(location.search) && CMETA.preparedTint?.[TINT_VARIANT]
+  ? TINT_IDENTITY.then(identity => loadPreparedGroundTint({ reference: CMETA.preparedTint[TINT_VARIANT], identity,
+    cache: V2_SELECTION.chunkSource?.cache,
+    baseUrl: new URL(import.meta.env.BASE_URL, location.href).href })) : Promise.resolve(null);
 /* LOWQ for NO reason but a remembered verdict. That verdict is written after
    ten slow seconds, and a machine is slow for reasons that are not the
    machine: another tab on the GPU, a capture harness, a driver waking up.
@@ -1499,35 +1545,9 @@ const cameraMotionPreference = window.matchMedia('(prefers-reduced-motion: reduc
 /* skyltar: 0 off, 1 hole numbers, 2 numbers + faciliteter. skyMax is 1 on a course
    whose facilities are not in the data, so the cycle never promises an empty layer. */
 let skyState = 2, skyMax = 2, skyHidden = false;
-/* WebGPU can exist and still fail to start (an OS beta, a driver, a flag): an
-   init that threw left the splash on "startar" forever, blamed on the network.
-   Fall back to the WebGL2 backend instead; ?gl=1 forces it for testing. */
-const FORCE_GL = new URLSearchParams(location.search).get('gl') === '1';
-/* ?gputime=1 asks the WebGPU backend for timestamp queries, so a harness can
-   read GPU milliseconds per frame (V3D.gpuTime); off by default, since the
-   query pool is a cost of its own and a vsync-locked frame time is not one */
-const GPU_TIME = new URLSearchParams(location.search).get('gputime') === '1';
-/* A reversed, float depth buffer, the default on WebGPU (?rdepth=0 switches it
-   off). The camera runs from 1 m to 14 km
-   and a 24-bit fixed-point depth buffer keeps about half a metre at 3 km, so
-   everything lying on the terrain -- roads, marking, water sheets, the surface
-   bands -- flickers against it as the camera moves. three's WebGPU backend
-   takes depth32float under reversedDepthBuffer and flips the compare, but it
-   passes polygonOffset through unchanged, and in reversed depth "toward the
-   camera" is the other sign: DEPTH_SIGN carries that to every nudge below. */
-const RDEPTH = new URLSearchParams(location.search).get('rdepth') !== '0';
-const mkRenderer = forceWebGL => new THREE.WebGPURenderer({ antialias: true, samples: 4,
-  outputBufferType: THREE.HalfFloatType, powerPreference: 'high-performance', forceWebGL, trackTimestamp: GPU_TIME,
-  /* the WebGL2 fallback keeps the classic buffer: its reversed path needs EXT_clip_control and has not been measured here */
-  reversedDepthBuffer: RDEPTH && !forceWebGL });
-let renderer;
-try {
-  renderer = mkRenderer(FORCE_GL);
-  await renderer.init();
-} catch (e) {
-  renderer = mkRenderer(true);
-  await renderer.init();
-}
+const rendererResult = await (RENDERER_LOADING || beginRenderer());
+if (rendererResult.error) throw rendererResult.error;
+const renderer = rendererResult.renderer;
 const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
   adaptive: GRAPHICS_POLISH && !DET && !QUALITY_LOCK,
   requested: requestedRenderResolution(location.search),
@@ -1662,7 +1682,6 @@ scene.add(sun, sun.target);
 const hemi = new THREE.HemisphereLight(0xdff0ff, 0x4c5842, 1.15);
 scene.add(hemi);
 
-const uPaintedGrade = uniform(1);
 let preset = PRESETS.golden;
 const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
 scene.fog = fog;
@@ -1671,7 +1690,7 @@ scene.fogNode = aerialPerspective.node;
 
 /* Målad and realistic share the atmosphere and clouds. WebGPURenderer's TSL
    sky also runs on its WebGL2 fallback; the style toggle changes the world. */
-const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET });
+const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: GHIBLI_LOOK });
 scene.add(skyMesh);
 
 /* The selected sky and the indirect light share a palette. Reuse the baker,
@@ -1684,20 +1703,22 @@ const LJUS2P = {
   ovader: 'storm', storm: 'storm',
 };
 const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
-setAtmospherePreset(skyMesh, PRESETS[INITIAL_PRESET]);
+const INITIAL_ATMOSPHERE = GHIBLI_LOOK ? paintedAtmosphere(INITIAL_PRESET, PRESETS[INITIAL_PRESET]) : PRESETS[INITIAL_PRESET];
+setAtmospherePreset(skyMesh, INITIAL_ATMOSPHERE);
 const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
-waterLighting.setPreset(PRESETS[INITIAL_PRESET]);
+waterLighting.setPreset(INITIAL_ATMOSPHERE);
 const lightingEnvironment = createLightingEnvironment(renderer, scene, {
   enabled: GRAPHICS_POLISH,
   onBake: ({ preset: name, started }) => span('PMREM environment', started, { preset: name }),
 });
-lightingEnvironment.setPreset(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
+lightingEnvironment.setPreset(INITIAL_PRESET, INITIAL_ATMOSPHERE);
 
 let presetName = 'golden';
 function setPreset(name, overrides = null) {
   // Optional overrides let the visual review harness tune the live uniforms.
   // Normal UI/URL selection always uses the authored preset unchanged.
-  const p = { ...(PRESETS[name] || PRESETS.golden), ...overrides };
+  const base = PRESETS[name] || PRESETS.golden;
+  const p = { ...(GHIBLI_LOOK ? paintedAtmosphere(PRESETS[name] ? name : 'golden', base) : base), ...overrides };
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
   lightingEnvironment.setPreset(overrides ? `${presetName}:${JSON.stringify(overrides)}` : presetName, p);
@@ -1711,13 +1732,12 @@ function setPreset(name, overrides = null) {
   scene.background = new THREE.Color(p.fog);
   renderer.toneMappingExposure = p.exp;
   setAtmospherePreset(skyMesh, p);
-  uPaintedGrade.value = p.grade;
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
   uAutumn.value = presetName === 'host' ? 1 : 0;
   setFoliageLighting(p);
+  setPaintedWorldLighting(p, presetName);
   if (GHIBLI_LOOK) {
-    /* Painted distance keeps its cooler fog and softer tree shadows. The
-       fog-free atmosphere above is shared with the realistic look. */
+    /* Cooler distance and soft reflected fill support the painted pigments. */
     fog.color.lerp(new THREE.Color(p.paintedFog), 0.22);
     fog.density *= 0.9;
     scene.background = fog.color.clone();
@@ -2056,7 +2076,7 @@ function createGroundTintTextures() {
   return { near: make(GROUND_TINT_NEAR), far: make(GROUND_TINT_FAR) };
 }
 const toSrgbByte = v => Math.max(0, Math.min(255, Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055))));
-const SEA_TINT = GHIBLI_LOOK ? [0.10, 0.22, 0.42] : [0.055, 0.085, 0.105];
+const SEA_TINT = GHIBLI_LOOK ? L(0x376b80) : [0.055, 0.085, 0.105];
 /* "Below the water line is water" is true of a SEA and of nothing else. The sea
    surface is 0 by definition and the ground under it is seabed, so on a coastal
    course a height test IS a water test out to the horizon. Inland it is not: a
@@ -2109,7 +2129,7 @@ const COASTAL_WATER = (() => {
 })();
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
-const FLAT_WATER_TINT = GHIBLI_LOOK ? [0.09, 0.20, 0.38] : [0.05, 0.075, 0.09];
+const FLAT_WATER_TINT = GHIBLI_LOOK ? L(0x396f80) : [0.05, 0.075, 0.09];
 /* THE GROUND TO THE HORIZON, by what it is. One rule for the far tint raster
    and the legacy FAR mesh's vertex colours, so the two ground paths cannot
    drift apart again. Where the land-cover record speaks, the class decides
@@ -2713,8 +2733,21 @@ if (TERRAIN_PREVIEW.ready) {
   }
   if (preparation.ok && GROUND_TINT) {
     const tintStarted = performance.now();
-    fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
+    const restored = applyPreparedGroundTint(GROUND_TINT, await PREPARED_TINT_LOADING);
+    if (!restored) fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
+    BOOT_PERF.preparedTint = restored;
     span('ground tint rasters (near 6 m + far 24 m)', tintStarted);
+    if (new URLSearchParams(location.search).get('bakeTint') === '1') {
+      if (!TINT_INPUTS_READY) throw new Error('Cannot publish ground tint from degraded course inputs');
+      // The publisher runs this exact production calculation, after the same
+      // terrain preflight. No second implementation of palette/water rules.
+      window.__GROUND_TINT_BAKE__ = { identity: await TINT_IDENTITY, variant: TINT_VARIANT,
+        revision: __COURSE_SOURCE_REVISION__, layers: ['near', 'far'].map(name => {
+          const layer = GROUND_TINT[name];
+          return { n: layer.n, dx: layer.dx, bounds: layer.bounds, bytes: layer.texture.image.data };
+        }) };
+      await new Promise(() => {}); // Dedicated publishing page closes here.
+    }
   }
   if (!preparation.ok) {
     const failure = terrainV2.rendererState;
@@ -3700,16 +3733,16 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
   body = mix(body, bedCol, bed.mul(0.85));
 
   if (GHIBLI_LOOK) {
-    /* painted water: a saturated blue body, a flat bright sky band instead of a physical mirror */
-    body = mix(color(ocean ? 0x2a7fb0 : 0x2f86b6), color(0x144a86), depth);
+    // Teal shallows, blue depths and the active atmosphere's reflected sky.
+    body = mix(paintedWaterShallow, paintedWaterDeep, depth);
     body = mix(body, bedCol, bed.mul(0.6));
   }
-  let c = mix(body, skyC, fres.mul(GHIBLI_LOOK ? 0.55 : 0.88));
+  let c = mix(body, skyC, fres.mul(GHIBLI_LOOK ? 0.42 : 0.88));
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
   if (GHIBLI_LOOK) {
     /* painted sparkle: dabs of white where the ripple faces the sun, not a pinpoint glint */
-    c = c.add(color(0xffffff).mul(smoothstep(0.985, 0.996, saturate(N.dot(H))).mul(0.9)).mul(uWaterGlint));
+    c = c.add(color(0xfff4d9).mul(smoothstep(0.985, 0.996, saturate(N.dot(H)))).mul(paintedWaterSparkle).mul(uWaterGlint));
   } else {
     c = c.add(color(0xfff2da).mul(pow(saturate(N.dot(H)), 260).mul(3.6)).mul(uWaterGlint));
     c = c.add(color(0xdff0f6).mul(pow(saturate(N.dot(H)), 22).mul(0.34)).mul(uWaterGlint));
@@ -3721,13 +3754,13 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
      lake gets a thin, broken line -- thresholded against noise so it is a scatter of
      wash rather than a rim. */
   const fw = texture(DETAIL, wp.mul(0.55).add(vec2(t.mul(0.035), t.mul(0.02)))).g;
-  const foam = saturate(smoothstep(ocean ? 0.7 : 1.5, 0.15, aSh).mul(smoothstep(0.44, 0.72, fw)))
+  const foam = saturate(oneMinus(smoothstep(0.15, ocean ? 0.7 : 1.5, aSh)).mul(smoothstep(0.44, 0.72, fw)))
                  .mul(aFoam).mul(oneMinus(bed.mul(0.85)));
-  c = mix(c, color(0xdfeeee), foam.mul(ocean ? 0.4 : 0.62));
+  c = mix(c, color(0xdfeeee), foam.mul(ocean ? 0.4 : GHIBLI_LOOK ? 0.24 : 0.62));
 
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
-  m.colorNode = c;
+  m.colorNode = GHIBLI_LOOK ? c.mul(paintedWaterLight) : c;
   /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
   let opacity = mix(mix(float(0.86), float(0.97), depth),
                     mix(float(0.62), float(0.97), depth), aFoam)
@@ -5261,17 +5294,21 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
         boundsScratch, boundsCentre);
     }
     if (!n) { TREE_LOD.tiers.push(null); continue; }
+    const initialCapacity = initialTreeTierCapacity(n, !!RENDERER_LOADING);
     const spec = tpl.spec, deci = tpl.de;
     /* a mesh tier is one InstancedMesh per part (crown, trunk, and for the
        hero its cards), every part sharing the tier's slot list */
     const tier = (parts, label) => {
       const meshes = parts.map(([name, geo, mat]) => {
+        // Each drawable owns its instance attributes and their disposal,
+        // even when authored detail levels reuse a template geometry.
+        geo = geo.clone();
         /* the crossfade's per-instance (start time, mask code); a fifth
            vertex buffer at most, against WebGPU's eight */
-        geo.setAttribute('aFade', createFadeAttribute(n));
+        geo.setAttribute('aFade', createFadeAttribute(initialCapacity));
         /* the authored crowns take a per-tree tint: a sixth vertex buffer, not dynamic, dirty ranges like the rest */
-        if (authored(s) && name === 'crown') geo.setAttribute('aTint', new THREE.InstancedBufferAttribute(new Float32Array(n * 4), 4));
-        const im = new THREE.InstancedMesh(geo, mat, n);
+        if (authored(s) && name === 'crown') geo.setAttribute('aTint', new THREE.InstancedBufferAttribute(new Float32Array(initialCapacity * 4), 4));
+        const im = new THREE.InstancedMesh(geo, mat, initialCapacity);
         im.count = 0;
         im.castShadow = true;
         im.receiveShadow = name === 'trunk';
@@ -5286,7 +5323,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
       });
       return { parts: meshes, fade: meshes.map(im => im.geometry.getAttribute('aFade')),
                tint: meshes.map(im => im.geometry.getAttribute('aTint')).filter(Boolean),
-               slots: new Int32Array(n), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
+               slots: new Int32Array(initialCapacity), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
     };
     const hr = tpl.hr;
     const rec = {
@@ -5302,7 +5339,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
         tier([['crown', hr.crown, crownMaterial(s, spec.cc, true, 'hero')], ['trunk', hr.trunk, authored(s) ? trunkMaterial(spec.tc, true, true, s) : barkMaterial(spec.tc)]], 't0'),
         tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true, authored(s), s)]], 't1'),
         tier([['crown', deci.crown, crownMaterial(s, spec.cc, false, 'lite')], ['trunk', deci.trunk, trunkMaterial(spec.tc, false, authored(s), s)]], 't2'),
-        impostorBatch(s, n, 't3')],
+        impostorBatch(s, initialCapacity, 't3')],
     };
     for (let i = 1; i <= 4; i++) rec.t[i].idx = i;
     TREE_LOD.tiers.push(rec);
@@ -5378,6 +5415,7 @@ function tierRemove(s, tier, slot) {
   }
 }
 function tierAppend(s, tier, k, t0, code) {
+  reserveTreeTier(tier, tier.count + 1, TREE_LOD.tiers[s].n);
   const slot = tier.count++;
   tier.slots[slot] = k;
   treeTierWrite(s, tier, slot, k, t0, code);
@@ -6038,13 +6076,15 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const V = normalize(cameraPosition.sub(positionWorld));
     const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55);
     const tint = texture(DETAIL, positionWorld.xz.mul(0.03)).b;
-    tuftMat.colorNode = mix(color(0x4e5730), color(0x6b6a3c), tint).mul(float(1).add(lit.mul(0.45)));
+    tuftMat.colorNode = mix(color(GHIBLI_LOOK ? PAINTED_SCENERY.tuft[0] : 0x4e5730),
+      GHIBLI_LOOK ? mix(color(PAINTED_SCENERY.tuft[1]), uReedC, uAutumn) : color(0x6b6a3c), tint).mul(float(1).add(lit.mul(0.45)));
   }
   const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
-  bushMat.colorNode = mix(color(0x4a5b32), color(0x6d5f4b),
+  bushMat.colorNode = mix(color(GHIBLI_LOOK ? PAINTED_SCENERY.bush[0] : 0x4a5b32),
+    GHIBLI_LOOK ? mix(color(PAINTED_SCENERY.bush[1]), color(0xb8894c), uAutumn) : color(0x6d5f4b),
     texture(DETAIL, positionWorld.xz.mul(0.017)).g);
   const stoneMat = new THREE.MeshStandardNodeMaterial({
-    color: new THREE.Color(0x7c766c), roughness: 0.86, metalness: 0, flatShading: true });
+    color: new THREE.Color(GHIBLI_LOOK ? PAINTED_SCENERY.stone : 0x7c766c), roughness: 0.86, metalness: 0, flatShading: true });
 
   stats.tufts = place(tuft, tuftMat, T, false);
   stats.bushes = place(bush, bushMat, B, true);
@@ -6052,7 +6092,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   const stump = new THREE.CylinderGeometry(0.16, 0.2, 0.38, 6);
   stump.translate(0, 0.19, 0);
   const stumpMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
-  stumpMat.colorNode = mix(color(0x5a4a38), color(0xb8a27c),
+  stumpMat.colorNode = mix(color(GHIBLI_LOOK ? PAINTED_SCENERY.wood : 0x5a4a38), color(GHIBLI_LOOK ? PAINTED_SCENERY.cutWood : 0xb8a27c),
     smoothstep(0.3, 0.37, positionLocal.y));           /* pale cut face on top */
   stats.stumps = place(stump, stumpMat, STU, false);
 }
@@ -6552,10 +6592,13 @@ if (M.infra.objectPlacement === 'mapped-only') {
   };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
   const areaOf = r => { let a = 0; for (let i = 0, j = r.length - 1; i < r.length; j = i++) a += (r[j][0] + r[i][0]) * (r[j][1] - r[i][1]); return Math.abs(a / 2); };
-  const WALLS = [[0.55, L(0x7d2f24)], [0.70, L(0xd9c58a)], [0.82, L(0xc9c7bd)], [0.92, L(0x8f8c82)], [1.01, L(0x6f5b41)]];
-  const ROOFA = L(0x3c3f42), ROOFB = L(0x6e3a28), TRIM = L(0xf0efe8), IND = L(0x9aa0a0);
+  const pigment = (key, natural) => L(GHIBLI_LOOK ? PAINTED_SCENERY[key] : natural);
+  const WALLS = [[0.55, pigment('wallRed', 0x7d2f24)], [0.70, pigment('wallOchre', 0xd9c58a)],
+    [0.82, pigment('wallCream', 0xc9c7bd)], [0.92, pigment('wallGrey', 0x8f8c82)], [1.01, pigment('wallWood', 0x6f5b41)]];
+  const ROOFA = pigment('roofSlate', 0x3c3f42), ROOFB = pigment('roofClay', 0x6e3a28),
+    TRIM = pigment('trim', 0xf0efe8), IND = pigment('industrial', 0x9aa0a0);
   const wallOf = (cx, cz, kind, name) => {
-    if (name && /golfklubb/i.test(name)) return L(0xe7e2d4);         /* the clubhouse */
+    if (name && /golfklubb/i.test(name)) return pigment('clubhouse', 0xe7e2d4);
     if (kind === 'industrial' || kind === 'commercial') return IND;
     const k = hash2(Math.round(cx / 2), Math.round(cz / 2));
     for (const [t, c] of WALLS) if (k < t) return c;
@@ -7741,16 +7784,9 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const sceneColor = scenePass.getTextureNode('output');
   const bloomNode = bloom(sceneColor, 0.14, 0.3, 0.86);
   const out = sceneColor.add(bloomNode);
-  /* Keep the painted world's grade off the sky. The sky does not write depth,
-     so the untouched far value identifies background on both depth conventions. */
-  if (GHIBLI_LOOK) {
-    const depth = scenePass.getTextureNode('depth').r;
-    const skyPixel = renderer.reversedDepthBuffer ? step(depth, 0) : step(1, depth);
-    const c = mix(vec3(luminance(out.rgb)), out.rgb, 1.16);
-    const painted = vec4(mix(c, smoothstep(0, 1, c), 0.25), out.a);
-    // Blend arithmetically so shared scene/bloom nodes stay outside branches.
-    post.outputNode = mix(out, painted, oneMinus(skyPixel).mul(uPaintedGrade));
-  } else post.outputNode = out;
+  // Pigments and lighting now carry the colour. A global saturation/contrast
+  // boost clipped the grass greens and made high/low quality disagree.
+  post.outputNode = out;
   renderer.__post = post;
   renderer.__bloomNode = bloomNode;   /* strength is per-preset; setPreset sets it */
 }
@@ -10779,7 +10815,7 @@ let last = performance.now(), acc = 0, frames = 0, fps = 0;
    longer than any fixed wait and a screenshot shows the LAST frame drawn */
 let FRAME_NO = 0, TIER_FRAME = 0;   /* the frame the tree tiers last changed on */
 const FRAME_MS = new Float32Array(120);   /* the last frames' intervals, for the harness (V3D.frameTimes) */
-function updateFrameVisibility(now, dt) {
+function updateTerrainView() {
   const near = coastalCameraNear({ enabled: COASTAL_DEPTH_ENABLED && terrainV2.kind === 'graph' && terrainV2.active,
     cameraHeight: camera.position.y, terrainCeiling: COASTAL_TERRAIN_CEILING,
     focusDistance: camera.position.distanceTo(controls.target) });
@@ -10790,6 +10826,9 @@ function updateFrameVisibility(now, dt) {
        tree visibility below consumes that same pose, without a second sync. */
     terrainV2.update({ camera, viewportHeightPixels: renderResolution.detailHeight(), activeHoleNumber: hole });
   } else if (GRAPHICS_POLISH) camera.updateMatrixWorld(true);
+}
+function updateFrameVisibility(now, dt) {
+  updateTerrainView();
   /* the crossfade clock: real time, a fixed 1/60 under det, or whatever the harness set */
   if (!TREE_LOD.clockDriven) TREE_LOD.fadeClock += DET ? 1 / 60 : dt;
   treeFadeClock.value = TREE_LOD.fadeClock;
@@ -10911,10 +10950,33 @@ const BOOTQ = new URLSearchParams(location.search);
   if (BOOTQ.get('ren') === '1') setClean(true);
 }
 
+if (COURSE_DATA_READY) {
+  const completion = await COURSE_DATA_READY;
+  if (completion.error) throw completion.error;
+  BOOT_PERF.courseData = completion.value;
+  BOOT_PERF.courseDataReadyAtNavigationMs = completion.atMs;
+  // Include the completed tint download in the ground generation's byte budget.
+  V2_SELECTION.chunkSource.cache.complete?.().catch(() => {});
+}
 if (terrainV2.kind === 'graph' && terrainV2.active && typeof terrainV2.settle === 'function') {
   const settleStarted = performance.now();
+  if (RENDERER_LOADING) {
+    // setCam places the eye/target; OrbitControls establishes the orientation.
+    // Settle this URL's view, not the construction camera's earlier frontier.
+    controls.update();
+    camera.coordinateSystem = renderer.coordinateSystem;
+    camera.updateProjectionMatrix();
+    updateTerrainView();
+  }
   const settled = await terrainV2.settle(60_000);
   span('v2 stream: first frontier fully resident (after the overlap)', settleStarted, settled ? { tiles: settled.renderedTiles } : {});
+  if (RENDERER_LOADING) {
+    // Upload the resident terrain before scene drawing can put those textures
+    // in flight. Later hole changes retain the normal local residency policy.
+    const uploadStarted = performance.now();
+    for (const batch of terrainV2.runtime.layer.batches.values()) renderer.initTexture(batch.texture);
+    span('v2 stream: opening terrain texture upload', uploadStarted);
+  }
 }
 await tick('ritar första vyn', 0.98);
 let resolveFirstSceneFrame, rejectFirstSceneFrame;
@@ -11176,7 +11238,8 @@ window.V3D = {
       segmentsClear: plan.zones.every(zone => environment.clearSegment(zone.from, zone.point)),
       landingsAllowed: plan.zones.every(zone => environment.landingAllowed(...zone.point)) };
   },
-  perf: () => ({ ...BOOT_PERF, marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
+  perf: () => ({ ...BOOT_PERF, courseData: V2_SELECTION.chunkSource?.stats() ?? null,
+                 marks: BOOT_PERF.marks.map(mark => ({ ...mark })),
                  spans: BOOT_PERF.spans.map(s => ({ ...s })), firstFrames: BOOT_PERF.firstFrames.map(f => ({ ...f })), tintMs: stats.tintMs | 0 }),
   /* the tint rasters' bytes, so a boot can be fingerprinted against another */
   surroundings: () => ({ ...SURR_STATS, box: SURR ? SURR.box : null, inner: SURR ? SURR.inner : null, source: SURR ? SURR.source : null,
@@ -11498,6 +11561,20 @@ window.V3D = {
   /* the vegetation plan's Phase 0 instruments: the legacy population, and the
      object-layer state the v2 selection saw (today: no renderer, no tiles) */
   legacyTrees: ({ instances = false } = {}) => legacyTreeExport(instances),
+  // Exact startup parity: the presentation export above rounds coordinates.
+  // Hash the actual CPU placement and GPU-input tables only when requested.
+  startupWorldFingerprint: async () => {
+    const hash = async data => [...new Uint8Array(await crypto.subtle.digest('SHA-256', data))]
+      .map(value => value.toString(16).padStart(2, '0')).join('');
+    return {
+      trees: await Promise.all(trees.map(values => hash(new Float64Array(values)))),
+      reasons: await Promise.all(treeWhy.map(values => hash(new Uint8Array(values)))),
+      vista: await hash(new Float64Array(VISTA_PTS || [])),
+      matrices: await Promise.all(TREE_LOD.mats.map(hash)),
+      impostors: await Promise.all(TREE_LOD.imp.map(hash)),
+      tints: await Promise.all(TREE_LOD.tint.map(hash)),
+    };
+  },
   /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
   treeTiers: () => ({ ...TREE_LOD.stats, heroPx: TREE_LOD.heroPx, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx,
     hysteresis: TREE_LOD.hysteresis, nominalHeight: TREE_LOD.nominalHeight, cell: TREE_LOD.cell, force: TREE_LOD.force,
@@ -11530,6 +11607,7 @@ window.V3D = {
   freezeTreeTiers: on => { TREE_LOD.frozen = !!on; },
   setTreeLodCellMode: on => { TREE_LOD.cellMode = !!on; TREE_LOD.resetPending = true; },
   treeTierAudit,
+  treeTierAllocation: () => treeTierAllocation(TREE_LOD.tiers),
   /* triangles per instance of every (species, tier, part), from the built geometries */
   treeTriangles: () => TREE_LOD.tiers.map(sp => sp ? [1, 2, 3].map(i => sp.t[i].parts.map(im =>
     (im.geometry.index ? im.geometry.index.count : im.geometry.attributes.position.count) / 3)) : null),
@@ -11726,6 +11804,7 @@ addEventListener('pagehide', event => {
   captureReadbackTarget?.dispose();
   captureReadbackTarget = null;
   if (!event.persisted) lightingEnvironment.dispose();
+  if (!event.persisted) V2_SELECTION.chunkSource?.dispose();
 }, { once: true });
 
 try {
@@ -11738,6 +11817,7 @@ try {
 barEl.style.width = '100%';
 msgEl.textContent = 'klar';
 BOOT_PERF.doneAtMs = +(performance.now() - bootStarted).toFixed(1);
+BOOT_PERF.courseReadyAtNavigationMs = +performance.now().toFixed(1);
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);
 if (BOOTQ.get('kiosk') === '1') setTimeout(startTour, 1200);

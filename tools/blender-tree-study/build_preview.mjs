@@ -8,7 +8,7 @@ await build({
   root: path.resolve('apps/golf'),
   publicDir: false,
   build: {
-    outDir: path.resolve('output/tree-study-build'),
+    outDir: path.resolve(process.argv[2] || 'output/tree-study-build'),
     emptyOutDir: true,
     rollupOptions: { input: {
       app: path.resolve('apps/golf/index.html'),

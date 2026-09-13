@@ -27,6 +27,7 @@ fs.writeFileSync(cfg, `export default [{
     ImageData:'readonly', Image:'readonly', history:'readonly', localStorage:'readonly', DataView:'readonly',
     crypto:'readonly', setInterval:'readonly', clearInterval:'readonly', structuredClone:'readonly',
     IntersectionObserver:'readonly', requestIdleCallback:'readonly', matchMedia:'readonly',
+    __COURSE_SOURCE_REVISION__:'readonly',
   } },
   rules: { 'no-undef': 'error' },
 }];\n`);

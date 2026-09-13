@@ -1,5 +1,14 @@
 # Why a course takes half a minute to open, and what to do about it
 
+> Historical audit. The current complete-course plan and implementation are in
+> [course-startup-implementation.md](course-startup-implementation.md). The owner
+> requires the whole course to be locally ready before opening. This older
+> document's suggestions to open an incomplete world are superseded. Its claims
+> that each HTTP request costs a separate round trip, and that the retained ring
+> terrain exists only to produce 13 water levels, are incorrect: multiplexing and
+> connection reuse matter, and the ring sampler supports construction throughout
+> the world. Use the newer measurements and contracts when continuing this work.
+
 Measured 2026-09-12 on the SwiftShader harness in this container, on the built
 app served by `tools/serve.mjs`. Two tools print every number here — quote them,
 not this file:

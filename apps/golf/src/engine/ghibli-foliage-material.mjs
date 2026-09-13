@@ -1,17 +1,19 @@
 import {Color,MeshBasicNodeMaterial,MeshStandardNodeMaterial,DoubleSide} from 'three/webgpu';
-import {color,float,mix,mx_noise_float,normalWorldGeometry,positionLocal,smoothstep,texture,uniform,vec3} from 'three/tsl';
+import {color,float,fract,mix,mx_noise_float,normalWorldGeometry,positionLocal,smoothstep,texture,uniform,vec3} from 'three/tsl';
+import {FOLIAGE_PALETTES,AUTUMN_FOLIAGE} from './painted-world-palette.mjs';
+export {FOLIAGE_PALETTES} from './painted-world-palette.mjs';
 
-export const FOLIAGE_PALETTES={
-  // Muted forest greens: lifted shadows and restrained sunlit tips keep a
-  // whole stand soft under the app's exposure, without fluorescent yellow.
-  tall:[0x293e30,0x4c6640,0x7a8b5c],gran:[0x293c33,0x435c45,0x718568],
-  bjork:[0x354a32,0x5e784b,0x8a9d6b],al:[0x304737,0x526f51,0x7e966d],ek:[0x37482f,0x60754a,0x8c9b69],
-};
-const autumnPalettes={bjork:[0x5f4b32,0x8b7140,0xb19a60],ek:[0x514431,0x79563b,0xa17e50]};
 export const foliageLight=uniform(new Color(0xffffff));
+const foliageShadow=uniform(new Color(0xffffff)),foliageSun=uniform(new Color(0xffffff));
+const foliageDirect=uniform(.9);
 export function setFoliageLighting(p){
-  const strength=Math.max(.20,Math.min(1,.18+p.int*.30+p.hemiI*.10));
-  foliageLight.value.setHex(p.hemiS).lerp(new Color(0xffffff),Math.min(1,p.int/2)).multiplyScalar(strength);
+  const strength=p.foliage?.strength??Math.max(.35,Math.min(1,.18+p.int*.30+p.hemiI*.10));
+  const direct=p.foliage?.direct??Math.min(.9,p.int/2.5);
+  foliageDirect.value=direct;
+  foliageLight.value.setRGB(strength,strength,strength);
+  foliageShadow.value.setHex(p.hemiS).lerp(new Color(0xffffff),.62);
+  foliageSun.value.setHex(p.sun).lerp(new Color(0xffffff),.70);
+  foliageSun.value.lerp(foliageShadow.value,1-direct);
 }
 
 // Meshes and all impostor rings share this light/season response. Impostors
@@ -19,15 +21,24 @@ export function setFoliageLighting(p){
 export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight}){
   const palette=FOLIAGE_PALETTES[key];
   if(!palette)throw new Error(`Unknown foliage palette: ${key}`);
-  const autumnPalette=autumnPalettes[key];
-  const turned=autumn.mul(smoothstep(.12,.70,seed));
-  const shades=palette.map((hex,i)=>autumnPalette?mix(color(hex),color(autumnPalette[i]),turned):color(hex));
+  const seasonal=AUTUMN_FOLIAGE[key];
+  const family=fract(seed.mul(7.13).add(.17));
+  const turned=autumn.mul(smoothstep(.03,.14,seed));
+  const shades=palette.map((hex,i)=>{
+    if(!seasonal)return color(hex);
+    const warm=mix(mix(color(seasonal.ramps[0][i]),color(seasonal.ramps[1][i]),
+      smoothstep(seasonal.breaks[0]-.025,seasonal.breaks[0]+.025,family)),
+      color(seasonal.ramps[2][i]),smoothstep(seasonal.breaks[1]-.025,seasonal.breaks[1]+.025,family));
+    return mix(color(hex),warm,turned);
+  });
   const alignment=normal.dot(sunDirection);
   const dabs=position?mx_noise_float(position.mul(.48)).mul(.12):float(0);
-  const lit=smoothstep(-.5,.85,alignment.add(dabs));
-  const highlight=smoothstep(.25,.98,alignment.add(dabs.mul(.65))).mul(.72);
+  const diffuse=normal.y.mul(.22).add(.58);
+  const lit=mix(diffuse,smoothstep(-.5,.85,alignment.add(dabs)),foliageDirect);
+  const highlight=mix(normal.y.max(0).mul(.12),smoothstep(.25,.98,alignment.add(dabs.mul(.65))).mul(.72),foliageDirect);
   const pigment=position?mx_noise_float(position.mul(1.25)).mul(.025).add(1):float(1);
-  return mix(mix(shades[0],shades[1],lit),shades[2],highlight).mul(pigment).mul(tint).mul(lighting);
+  const lightTint=mix(foliageShadow,foliageSun,lit);
+  return mix(mix(shades[0],shades[1],lit),shades[2],highlight).mul(pigment).mul(tint).mul(lighting).mul(lightTint);
 }
 
 export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight}){

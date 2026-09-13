@@ -15,6 +15,7 @@ import { verifyCourseManifestWeb } from './manifest-web.mjs';
 import { AssetRequestScheduler } from './request-scheduler.mjs';
 import { ResourceLeasePool } from './resource-pool.mjs';
 import { ChunkWorkerClient } from './worker-client.mjs';
+import { prepareTerrainRenderData } from './terrain-render-data.mjs';
 
 const tick = () => new Promise(resolve => setTimeout(resolve, 0));
 
@@ -148,6 +149,75 @@ test('worker client aborts one request, ignores its late reply and disposes all 
   client.dispose();
   await assert.rejects(pending, /disposed/);
   assert.equal(worker.terminated, true);
+});
+
+test('worker prepares the final carved heights exactly and rejects malformed preparation inputs', async () => {
+  const scope = new WorkerScope();
+  const uninstall = installChunkWorker(scope);
+  const { data, reference } = fixtureChunk('terrain');
+  const decoded = verifyChunkAsset(reference, data);
+  const payload = Uint8Array.from(decoded.payload);
+  new DataView(payload.buffer).setUint16(8, 0, true); // A carved centre sample.
+  const expected = prepareTerrainRenderData({ ...decoded, payload });
+  assert.notDeepEqual(expected.textureData, prepareTerrainRenderData(decoded).textureData);
+  await scope.dispatch({ type: 'prepare-terrain', id: 9, header: decoded.header, buffer: payload.buffer });
+  const reply = scope.messages[0];
+  assert.equal(reply.type, 'terrain-prepared');
+  assert.deepEqual({ ...reply.terrainRenderData, textureData: new Uint8Array(reply.terrainRenderData.textureData) }, expected);
+  await scope.dispatch({ type: 'prepare-terrain', id: 10, header: decoded.header, buffer: new ArrayBuffer(2) });
+  assert.equal(scope.messages[1].type, 'decode-error');
+  assert.match(scope.messages[1].error.message, /terrain payload/);
+  uninstall();
+});
+
+test('terrain preparation owns its transfer, cancels late replies and rejects work after worker failure', async () => {
+  const worker = new ManualWorker();
+  const client = new ChunkWorkerClient(worker);
+  const { data, reference } = fixtureChunk('terrain');
+  const decoded = verifyChunkAsset(reference, data);
+  const before = Uint8Array.from(decoded.payload);
+  const controller = new AbortController();
+  const pending = client.prepareTerrain(decoded, { signal: controller.signal });
+  const sent = worker.sent[0];
+  assert.equal(sent.type, 'prepare-terrain');
+  assert.notEqual(sent.buffer, decoded.payload.buffer);
+  structuredClone(sent, { transfer: [sent.buffer] }); // Really detach the copy.
+  assert.deepEqual(Uint8Array.from(decoded.payload), before);
+  controller.abort();
+  await assert.rejects(pending, error => error.name === 'AbortError');
+  worker.emit('message', { type: 'terrain-prepared', id: sent.id, terrainRenderData: { textureData: new ArrayBuffer(72) } });
+  const failed = client.prepareTerrain(decoded);
+  worker.emit('error', null);
+  await assert.rejects(failed, /Worker failed/);
+  const sentCount = worker.sent.length;
+  await assert.rejects(client.prepareTerrain(decoded), /Worker failed/);
+  assert.equal(worker.sent.length, sentCount);
+  client.dispose();
+});
+
+test('shared-source preparation stays within the load bound and disposal cancels its in-flight work', async () => {
+  const started = [], signals = [], gates = [];
+  const source = { load: async reference => ({ id: reference.url }) };
+  const loader = new CourseV2AssetLoader({ baseUrl: 'https://example.test/', chunkSource: source,
+    maxConcurrent: 2, prepareDecoded: (decoded, { signal }) => {
+      started.push(decoded.id); signals.push(signal);
+      const gate = deferred(); gates.push(gate);
+      return gate.promise;
+    } });
+  const jobs = ['a', 'b', 'c'].map(url => loader.request({ url, kind: 'terrain', bytes: 1,
+    sha256: url, decodedBytes: 1, decodedSha256: url }));
+  const results = Promise.allSettled(jobs);
+  await tick();
+  assert.deepEqual(started, ['a', 'b']);
+  assert.equal(loader.stats().running, 2);
+  gates[0].resolve({ ready: 'a' });
+  assert.deepEqual(await jobs[0], { ready: 'a' });
+  await tick();
+  assert.deepEqual(started, ['a', 'b', 'c']);
+  loader.dispose();
+  assert.ok(signals.slice(1).every(signal => signal.aborted));
+  gates.slice(1).forEach(gate => gate.resolve({ tooLate: true }));
+  assert.deepEqual((await results).map(result => result.status), ['fulfilled', 'rejected', 'rejected']);
 });
 
 test('scheduler honors stable priority after the active request and suppresses cancelled scope work', async () => {

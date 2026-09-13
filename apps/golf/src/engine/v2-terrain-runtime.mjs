@@ -101,6 +101,8 @@ export class CourseV2TerrainRuntime {
     baseUrl,
     assetLoader = null,
     workerFactory,
+    chunkSource = null,
+    prepareInWorker = false,
     fetchImpl = globalThis.fetch,
     cacheStorage = globalThis.caches,
     clock = () => globalThis.performance?.now?.() ?? Date.now(),
@@ -125,6 +127,7 @@ export class CourseV2TerrainRuntime {
     if (!scene?.add) throw new TypeError('Three.js scene is required');
     if (!['webgpu', 'webgl2'].includes(backend)) throw new Error('backend must be webgpu or webgl2');
     if (typeof mobile !== 'boolean') throw new TypeError('mobile must be boolean');
+    if (typeof prepareInWorker !== 'boolean') throw new TypeError('prepareInWorker must be boolean');
     this.ground = ground;
     this.course = course;
     this.scene = scene;
@@ -149,19 +152,29 @@ export class CourseV2TerrainRuntime {
     scene.add(this.layer.group);
     this.resources = new Map();
     this.ownsAssetLoader = !assetLoader;
+    this.preparesDecodedInWorker = !!chunkSource && prepareInWorker && this.ownsAssetLoader;
     this.workerClient = null;
     if (assetLoader) {
       if (!assetLoader.request) throw new TypeError('assetLoader must implement request');
       this.assetLoader = assetLoader;
     } else {
       if (!baseUrl) throw new Error('baseUrl is required when constructing the v2 asset loader');
-      this.workerClient = createWorkerClient(workerFactory);
+      // Shared transport verifies bytes in its own worker. A separate worker
+      // prepares the final carved heights while the main thread builds scenery.
+      this.workerClient = chunkSource && !this.preparesDecodedInWorker ? null : createWorkerClient(workerFactory);
       this.assetLoader = new CourseV2AssetLoader({
         baseUrl,
         workerClient: this.workerClient,
+        chunkSource,
         fetchImpl,
         cacheStorage,
         maxConcurrent: mobile ? 2 : 3,
+        prepareDecoded: this.preparesDecodedInWorker ? async (decoded, { signal }) => {
+          const input = transformDecoded
+            ? (transformDecoded({ tileId: decoded.header.id, decoded }) ?? decoded) : decoded;
+          if (input.terrainRenderData) return input;
+          return { ...input, terrainRenderData: await this.workerClient.prepareTerrain(input, { signal }) };
+        } : null,
       });
     }
     const cachedResources = maximumCachedResources ?? (mobile ? 20 : 40);
@@ -177,7 +190,8 @@ export class CourseV2TerrainRuntime {
            render resource (the lake beds are carved here); a rewritten
            tile drops the worker's prepared render data, which described
            the samples it no longer has */
-        const input = transformDecoded ? (transformDecoded({ tileId, decoded }) ?? decoded) : decoded;
+        const input = transformDecoded && !this.preparesDecodedInWorker
+          ? (transformDecoded({ tileId, decoded }) ?? decoded) : decoded;
         const source = createTerrainRenderResource({
           tileId,
           decoded: input,
