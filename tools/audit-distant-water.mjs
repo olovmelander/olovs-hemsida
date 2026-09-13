@@ -3,6 +3,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { readChunk } from '../packages/course-v2/chunk-node.mjs';
 import { waterRingTiles, rasterFromRingTiles, detectFlatWater } from '../apps/golf/src/engine/v2-flat-water.mjs';
+import { V2_GRAPH_FRONTIER_CONFIGS } from '../apps/golf/src/engine/v2-frontier-configs.mjs';
 
 const base = path.resolve('apps/golf/public');
 const read = url => JSON.parse(fs.readFileSync(path.join(base, url), 'utf8'));
@@ -34,7 +35,8 @@ for (const course of root.courses) {
   assert.equal(ground.frame.origin.northing - raster.z0 - (raster.height - 1) * raster.spacing, b.minNorthing);
   assert(raster.width <= 2049 && raster.height <= 2049, 'Detection must stay within the existing raster allocation budget');
   assert(raster.heights.every(Number.isFinite), 'Published water coverage must have no missing tiles');
-  const water = detectFlatWater({ raster });
+  const quantizationAware = V2_GRAPH_FRONTIER_CONFIGS[course.slug]?.flatWaterQuantizationAware === true;
+  const water = detectFlatWater({ raster, quantizationAware });
   if (course.slug === 'veckefjarden') {
     // Sjalevadsfjarden, on both sides of the former LOD 2 western edge.
     for (const x of [-4500, -4200, -4100, -4096, -4092, -4000, -3500]) {
@@ -45,7 +47,7 @@ for (const course of root.courses) {
     assert(!water.isWaterAt(-5000, 1500), 'Dry land south of the lake must remain dry');
   }
   const report = { ground: ground.groundId, courses: [course.slug], lod: selected[0].lod,
-    spacing: raster.spacing, dimensions: [raster.width, raster.height],
+    spacing: raster.spacing, quantizationAware, dimensions: [raster.width, raster.height],
     extent: [(raster.width - 1) * raster.spacing, (raster.height - 1) * raster.spacing],
     lakes: water.components.length, hectares: Math.round(water.components.reduce((sum, c) => sum + c.hectares, 0)) };
   byGround.set(manifest.groundManifest.url, report);

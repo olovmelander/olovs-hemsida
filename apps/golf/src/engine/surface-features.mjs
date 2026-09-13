@@ -128,6 +128,12 @@ export function buildGroundSurfaceFeatures({
   for (const surface of new Set(parking.map(parkingSurface))) {
     rings(surface, parking.filter(item => parkingSurface(item) === surface).map(item => item?.ring));
   }
+  // The traced service yard is hardstanding, not grey-tinted rough. Giving
+  // its existing outline a surface owner keeps its edge and gravel detail at
+  // atlas resolution instead of smearing it through the 6 m terrain tint.
+  // This is the same inherited generic gravel display as untagged parking;
+  // it does not assert a newly surveyed physical material or change the ring.
+  rings(SURFACE.GRAVEL, [model.surround?.yard]);
   for (const path of infrastructure.paths || []) line(
     hardSurface(path), path, path?.kind === 'cycleway' ? 1.3 : 0.65,
   );

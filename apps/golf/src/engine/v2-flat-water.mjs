@@ -38,6 +38,9 @@ export function detectFlatWater({
   minimumAreaSquareMetres = 4800,
   minimumCells = Math.ceil(minimumAreaSquareMetres / raster.spacing ** 2),
   ringMarginMetres = 6,
+  // Opt in only on grounds verified against quantized fields and real lakes.
+  // Broader neighbour joins can connect a lake to a low floodplain elsewhere.
+  quantizationAware = false,
   /* Water is LEVEL, and the neighbour test above only says it is SMOOTH.
      A field falling 0.75% is flat to 3 cm between 4 m neighbours everywhere
      and still drops two metres across itself, so it passed as a lake -- at
@@ -58,15 +61,26 @@ export function detectFlatWater({
   const { width, height, spacing, x0, z0, heights } = raster;
   finite(spacing, 'raster.spacing'); finite(x0, 'raster.x0'); finite(z0, 'raster.z0');
   if (!heights || heights.length !== width * height) throw new RangeError('raster heights must match its dimensions');
+  /* Coarse rings quantize heights more coarsely too (8 cm on the 8 m ring).
+     A 3 cm neighbour test split Johannesberg's gently sloping fields at each
+     quantization step, making every terrace a perfectly level "lake". Join
+     adjacent height bins before testing the whole component's level fraction.
+     Flatness alone still never suffices: the 5 cm / 70% level test below stays
+     unchanged. Unquantized callers retain the original neighbour tolerance. */
+  const heightScale = finite(quantizationAware ? raster.heightScaleMetres ?? 0 : 0, 'raster.heightScaleMetres');
+  if (heightScale < 0) throw new RangeError('raster.heightScaleMetres must not be negative');
+  const neighbourTolerance = Math.max(flatToleranceMetres, heightScale);
   const flat = new Uint8Array(width * height);
   for (let row = 1; row < height - 1; row++) {
     for (let column = 1; column < width - 1; column++) {
       const i = row * width + column;
       const h = heights[i];
       if (!Number.isFinite(h)) continue;
+      // Decoding into Float32 can round a single bin slightly above its scale.
+      const tolerance = neighbourTolerance + (heightScale ? Math.max(1e-6, Math.abs(h) * 2 ** -22) : 0);
       // Missing terrain is not evidence of a level surface at a tile edge.
-      if (!(Math.abs(heights[i - 1] - h) <= flatToleranceMetres && Math.abs(heights[i + 1] - h) <= flatToleranceMetres &&
-            Math.abs(heights[i - width] - h) <= flatToleranceMetres && Math.abs(heights[i + width] - h) <= flatToleranceMetres)) continue;
+      if (!(Math.abs(heights[i - 1] - h) <= tolerance && Math.abs(heights[i + 1] - h) <= tolerance &&
+            Math.abs(heights[i - width] - h) <= tolerance && Math.abs(heights[i + width] - h) <= tolerance)) continue;
       flat[i] = 1;
     }
   }
@@ -240,6 +254,7 @@ export function rasterFromRingTiles(tiles, { legacyOrigin, verticalDatumOffsetMe
   }
   return Object.freeze({
     width, height, spacing,
+    heightScaleMetres: Math.max(...tiles.map(tile => tile.grid.heightScaleMetres)),
     x0: minE - legacyOrigin.easting,
     z0: legacyOrigin.northing - maxN,
     heights,

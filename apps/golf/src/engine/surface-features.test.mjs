@@ -6,6 +6,19 @@ import { buildGroundSurfaceFeatures, isTurfRangeTarget, mappedLineHalfWidth } fr
 const ring = [[0, 0], [4, 0], [4, 4], [0, 4]];
 
 describe('shared ground surface features', () => {
+  it('gives a traced yard crisp gravel ownership while retaining its concave grass edge', () => {
+    const yard = [[0, 0], [12, 0], [12, 12], [8, 12], [8, 6], [0, 6]];
+    const features = buildGroundSurfaceFeatures({ model: { surround: { yard } } });
+    const raster = rasterizeGroundAtlas({ CORE: { x0: -2, z0: -2, x1: 14, z1: 14 },
+      features, res: 1, classesOnly: true });
+    const at = (x, z) => raster.classes[(z + 2) * 16 + x + 2];
+    expect(at(2, 2)).toBe(SURFACE.GRAVEL);
+    expect(at(10, 10)).toBe(SURFACE.GRAVEL);
+    expect(at(4, 10)).toBe(SURFACE.ROUGH);
+    expect(at(-1, 2)).toBe(SURFACE.ROUGH);
+    expect(features[0].rings[0]).toEqual(yard);
+  });
+
   it('keeps reviewed approaches below maintained surfaces and preserves their unmown islands', () => {
     const rect = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
     const approach = { id: 'reviewed-approach', kind: 'mown_approach', hole: 3,

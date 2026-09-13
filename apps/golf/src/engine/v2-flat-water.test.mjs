@@ -40,6 +40,33 @@ describe('flat water from the ground', () => {
     expect(water.isWaterAt(slope.x0 + 45 * 4, slope.z0 + 45 * 4)).toBe(false);
   });
 
+  it.each([0.04, 0.08])('does not mistake %f m height bins on a field for separate lakes', heightScaleMetres => {
+    const slope = raster(180, 100, 8, (c, r) =>
+      heightScaleMetres * Math.round((16.1 + c * 0.004) / heightScaleMetres));
+    slope.heightScaleMetres = heightScaleMetres;
+    // Reproduce the old terraces; changing the physical-level criterion is
+    // not necessary once neighbouring bins belong to the same component.
+    expect(detectFlatWater({ raster: slope }).components.length).toBeGreaterThan(3);
+    const water = detectFlatWater({ raster: slope, quantizationAware: true });
+    expect(water.components).toHaveLength(0);
+    expect(water.refusedNotLevel).toHaveLength(1);
+    expect(water.mask.some(Boolean)).toBe(false);
+  });
+
+  it('keeps a real level lake beside a quantized sloping field', () => {
+    const heightScaleMetres = 0.08;
+    const ground = raster(180, 100, 8, (c, r) =>
+      c >= 110 && c < 160 && r >= 20 && r < 80 ? 204
+        : c < 90 ? heightScaleMetres * Math.round((208 + c * 0.004) / heightScaleMetres)
+          : 210 + c * 0.4 + r * 0.5);
+    ground.heightScaleMetres = heightScaleMetres;
+    const water = detectFlatWater({ raster: ground, quantizationAware: true });
+    expect(water.components).toHaveLength(1);
+    expect(water.isWaterAt(ground.x0 + 130 * 8, ground.z0 + 50 * 8)).toBe(true);
+    expect(water.isWaterAt(ground.x0 + 40 * 8, ground.z0 + 50 * 8)).toBe(false);
+    expect(water.components[0].level).toBe(204);
+  });
+
   it('keeps a lake that is level even where its own noise straddles the tolerance', () => {
     /* the discriminator is the FRACTION at one height, not the extreme: a real
        surface with a few disturbed cells is still a surface */
@@ -94,6 +121,7 @@ describe('a level raster from ring tiles', () => {
     ];
     const out = rasterFromRingTiles(tiles, { legacyOrigin: { easting: 1000, northing: 2000 }, verticalDatumOffsetMetres: 10 });
     expect([out.width, out.height, out.spacing, out.x0, out.z0]).toEqual([5, 3, 4, 0, 0]);
+    expect(out.heightScaleMetres).toBe(0.04);
     expect(out.heights[0]).toBeCloseTo(30 + 4 + 10, 6);
     expect(out.heights[4]).toBeCloseTo(30 + 8 + 10, 6);
   });
