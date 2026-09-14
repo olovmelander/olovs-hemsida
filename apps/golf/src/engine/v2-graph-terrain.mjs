@@ -19,6 +19,7 @@ import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/deco
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
 import { detectFlatWater, rasterFromRingTiles, waterRingTiles } from './v2-flat-water.mjs';
 import { buildWaterBedField, carveTerrainTile } from './v2-water-bed.mjs';
+import { refineMappedWaterBeds } from './mapped-water-bed.mjs';
 
 const EPSILON = 1e-6;
 const UINT16_NO_DATA_DEFAULT = 65535;
@@ -419,13 +420,14 @@ export class V2GraphTerrainAdapter {
     if (!this.flatWater) throw new Error('flat water must be detected before the beds are carved');
     if (this.waterBed) return this.waterBedSummary;
     const started = this.clock();
-    const field = preparedField ?? buildWaterBedField({
+    const coarseField = preparedField ?? buildWaterBedField({
       flatWater: this.flatWater,
       knownBodies: this.knownBodies,
       toLegacy: (x, z) => this.bridge.toLegacy(x, z),
       toGrid: (x, z) => this.bridge.toGrid(x, z),
       ...options,
     });
+    const field = refineMappedWaterBeds(coarseField, this.knownBodies, (x, z) => this.bridge.toGrid(x, z));
     const fieldMilliseconds = Math.round(this.clock() - started);
     let carvedSamples = 0, carvedTiles = 0;
     for (const tiles of this.ringTiles.values()) {
@@ -446,6 +448,7 @@ export class V2GraphTerrainAdapter {
       milliseconds: Math.round(this.clock() - started),
       fieldMilliseconds,
       fieldTimings: field.timings,
+      refinedBodies: field.refinedBodies ?? 0,
     });
     this.waterBed = field;
     this.waterBedSummary = summary;

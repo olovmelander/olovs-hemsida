@@ -312,6 +312,7 @@ const terrainPreviewPromise = selectV2TerrainSource({
   },
   waterBeds: async () => {
     const model = await modelPromise;
+    if (SCENERY?.deferWaterBedToWorld) return null;
     if (model.infra?.terrainPlacement === 'measured-only') return null;
     return {
       bodies: (model.water || []).filter(w => !w.stream && !(CMETA.slug === 'norrfallsviken' && w.isSea) && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level })),
@@ -360,6 +361,7 @@ const M = MODEL;
 // Source corrections precede every consumer of the inherited pack, including
 // the atlas, tint, natural-ground classifier and measured-tree exclusions.
 SCENERY?.applyGroundSurfaceReview?.(M, GEO);
+SCENERY?.applyWaterSourceReview?.(M, GEO);
 /* The SURROUNDINGS RECORD (geobuild/parse-osm-wide.mjs): the town, the harbour,
    the roads and railway beyond the core extract, the ski jumps, the trotting
    track, the towers on the skyline -- read off OpenStreetMap out to 6.4 km and
@@ -786,6 +788,13 @@ for (const h of HOLES) {
     for (const w of M.water) {
       if (w.stream || !w.ring?.length) continue;
       if (CONTINUOUS_OCEAN && w.isSea) { w.level=SEA_WORLD_LEVEL; continue; }
+      const reviewed = SCENERY?.reviewedWaterLevel?.(w, groundProbe, TERRAIN_PREVIEW.bridge.verticalDatumOffsetMetres);
+      if (reviewed) {
+        w.level = reviewed.level;
+        w.levelEvidence = reviewed;
+        w.exactShore = true;
+        continue;
+      }
       const heights = [];
       for (const p of w.ring) {
         const probe = groundProbe(p[0], p[1]);
@@ -821,7 +830,8 @@ for (const h of HOLES) {
        the bed under them, and lays a sheet where no ring does. */
     if (typeof terrainV2.detectFlatWater === 'function' && terrainV2.ringsLoaded) {
       const waterStarted = performance.now();
-      const knownBodies = M.water.filter(w => !w.stream && !(CONTINUOUS_OCEAN && w.isSea) && w.ring?.length >= 3).map(w => ({ ring: w.ring, level: w.level }));
+      const knownBodies = M.water.filter(w => !w.stream && !(CONTINUOUS_OCEAN && w.isSea) && w.ring?.length >= 3)
+        .map(w => ({ ring: w.ring, level: w.level, ...(w.exactShore ? { exactShore: true } : {}) }));
       const waterInputs = WATER_PREPARATION.preparedWaterInputs({ knownBodies, bridge: TERRAIN_PREVIEW.bridge,
         origin: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006, ocean: CONTINUOUS_OCEAN ? OCEAN_SOURCE?.asset ?? 'fallback' : null });
       const preparedWater = await PREPARED_WATER_LOADING;
@@ -933,7 +943,7 @@ for (const r of M.scenery.fairways.concat(M.scenery.greens, M.scenery.tees, M.sc
   const q = { ring: r, bb: ringBBox(r), scen: true }; FI.add(q, q.bb, 12);
 }
 for (const r of M.scenery.bunkers) { const q = { ring: r, bb: ringBBox(r) }; BI.add(q, q.bb, 8); }
-for (const w of M.water) { const q = { ring: w.ring, bb: ringBBox(w.ring), level: w.level, isLake: w.isLake, isSea: w.isSea }; WI.add(q, q.bb, 30); }
+for (const w of M.water) { const q = { ring: w.ring, bb: ringBBox(w.ring), level: w.level, isLake: w.isLake, isSea: w.isSea, vegetatedBank: w.vegetatedBank }; WI.add(q, q.bb, 30); }
 for (const [k, rs] of Object.entries(M.veg))
   for (const r of rs) { const q = { ring: r, bb: ringBBox(r), kind: k }; VI.add(q, q.bb, 6); }
 for (const p of M.infra.paths.concat(M.infra.tracks)) {
@@ -1487,7 +1497,9 @@ function groundAt(x, z, h) {
      the whole island 14th as a mud beach. */
   let lvl = null, sdW = 1e9;
   for (const w of WI.at(x, z)) {
-    if (w.stream) continue;
+    // The reviewed Johannesberg margins are turf/reeds. Low elevation alone
+    // is not evidence of an exposed sand beach around every pond.
+    if (w.stream || w.vegetatedBank) continue;
     /* exact to 30 m: the level test reads 30 and the band below saturates by 11 */
     const sd = ringSD(x, z, w.ring, 30);
     if (sd < 30 && (lvl === null || w.level > lvl)) lvl = w.level;
