@@ -13,6 +13,7 @@
    when that asset is unavailable; the name match still distinguishes the golf
    clubhouse from the manor. */
 export { applyGroundSurfaceReview, groundAppearance } from './johannesberg-ground-surfaces.mjs';
+export { applyWaterSourceReview, reviewedWaterLevel, deferWaterBedToWorld } from './johannesberg-water.mjs';
 
 export const clubhouse = {
   wall: 0x8b3a2c,          /* falurött */
