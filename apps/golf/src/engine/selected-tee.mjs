@@ -2,7 +2,9 @@ import { createHoleMarker } from './hole-marker.mjs';
 
 /** The selected tee uses the same runtime reference as the tee camera. */
 export function createSelectedTee({ camera, heightAt, onLocate }) {
-  const marker = createHoleMarker({ id: 'selectedTee', kind: 'tee', camera, heightAt, onLocate,
+  /* The tee badge paints its length -- the number a tee marker carries on a
+     real course. The green's stays a bare flag. */
+  const marker = createHoleMarker({ id: 'selectedTee', kind: 'tee', camera, heightAt, onLocate, metric: true,
     icon: `<svg viewBox="0 0 24 28" fill="none"><circle cx="12" cy="8" r="5" fill="currentColor"/>
       <path d="M7 16h10m-5 0v8m-3 0h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
     describe: ({ docked }) => ({ action: docked ? 'Visa vald tee på kartan' : 'Visa från denna tee' }),

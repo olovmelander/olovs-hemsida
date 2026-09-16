@@ -29,28 +29,49 @@
 }
 .hole-marker-point.just-selected i { animation: holeMarkerPulse .9s ease-out; }
 @keyframes holeMarkerPulse { from { transform: scale(.5); opacity: .55; } to { transform: scale(1.6); opacity: 0; } }
+/* The badge is the icon and nothing else: a 34 px disc, round because it must
+   read the same whichever way the arrow beside it is pointing. */
 .hole-marker-card {
-  position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: 6px;
-  box-sizing: border-box; height: 30px; min-width: 44px; padding: 0 9px; text-align: left;
-  background: #13251ee6; border: 1px solid var(--marker-edge); border-radius: 9px;
+  position: absolute; top: 0; left: 0; display: grid; place-items: center;
+  box-sizing: border-box; width: 34px; height: 34px; padding: 0;
+  background: #13251ee6; border: 1px solid var(--marker-edge); border-radius: 50%;
   box-shadow: 0 2px 8px #0003; color: var(--marker-ink); font-family: Outfit, sans-serif;
   pointer-events: auto; cursor: pointer;
   transition: background .15s, border-color .15s, box-shadow .15s;
 }
 /* A 44 px tap target without a larger painted badge. The layout reserves an
    eight-pixel gap around each badge so neighbouring controls stay separate. */
-.hole-marker-card::after { content: ''; position: absolute; inset: -7px 0; }
+.hole-marker-card::after { content: ''; position: absolute; inset: -5px; border-radius: 50%; }
 .hole-marker-card:hover { background: #20372ff5; border-color: var(--marker-ink); }
 .hole-marker-card:focus-visible { outline: 2px solid var(--marker-ink); outline-offset: 3px; }
-.hole-marker-emblem { display: grid; place-items: center; flex: 0 0 14px; height: 17px; }
-.hole-marker-emblem svg { width: 14px; height: 17px; }
-.hole-marker-copy { display: flex; align-items: baseline; gap: 7px; white-space: nowrap; line-height: 1; }
-.hole-marker-label { font-size: 12px; font-weight: 550; letter-spacing: .01em; }
-.hole-marker-value { display: flex; align-items: baseline; gap: 7px; font-size: 11px; color: #d3dbd1; font-variant-numeric: tabular-nums; }
-.hole-marker-value::before { content: ''; width: 2px; height: 2px; border-radius: 50%; background: #b4c2b47a; align-self: center; }
-.hole-marker-value:empty { display: none; }
-.hole-marker-open { display: none; flex: 0 0 10px; width: 10px; height: 10px; opacity: .65; }
-.hole-marker[data-docked="true"] .hole-marker-open { display: block; }
+.hole-marker-emblem { display: grid; place-items: center; width: 15px; height: 18px; }
+.hole-marker-emblem svg { width: 15px; height: 18px; }
+/* The tee keeps its length: the number a player reads off a tee marker. It is
+   the only text the badge paints, so the disc becomes a short pill and nothing
+   else changes -- the green's badge stays the bare disc. */
+.hole-marker-metric { display: none; font-size: 12px; font-weight: 550; font-variant-numeric: tabular-nums; letter-spacing: .01em; }
+.hole-marker[data-metric="true"] .hole-marker-card {
+  width: auto; min-width: 34px; padding: 0 10px; border-radius: 17px;
+  grid-auto-flow: column; gap: 6px;
+}
+.hole-marker[data-metric="true"] .hole-marker-metric { display: block; }
+/* The name is spoken, never painted -- see the note in hole-marker.mjs. The
+   live region has to stay in the accessibility tree, so it is offset rather
+   than displayed none, which would take it out. */
+.hole-marker-copy {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+/* Only the arrow turns. Rotating the whole badge would stand the flag on its
+   head at the bottom of the screen. */
+.hole-marker-arrow {
+  display: none; position: absolute; left: 50%; top: 50%; width: 12px; height: 12px;
+  margin: -6px 0 0 -6px; color: var(--marker-ink); transform-origin: 6px 6px;
+  filter: drop-shadow(0 1px 2px #0b1a1299);
+}
+.hole-marker-arrow svg { width: 12px; height: 12px; display: block; }
+.hole-marker[data-mode="edge"] .hole-marker-arrow { display: block; }
+.hole-marker[data-mode="edge"] .hole-marker-card { background: #13251ef2; border-color: var(--marker-ink); }
 #tees .tee { color: inherit; font-family: inherit; }
 #tees .tee.on { border-color: #fff1c99c; background: #fff1c91a; box-shadow: inset 0 -2px 0 #fff1c9; }
 #tees .tee.on b { color: #fff1c9; }
