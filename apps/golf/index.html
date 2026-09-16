@@ -88,6 +88,20 @@ canvas{display:block;position:fixed;inset:0}
 
 /* right rail */
 #rail{top:14px;right:14px;padding:9px;display:flex;flex-direction:column;gap:7px;width:216px}
+/* The rail grows DOWN from the top-right and the minimap is pinned UP from the
+   bottom-right, both sized by their own content, so nothing in the markup keeps
+   them apart: on a window a little shorter than the two of them stacked, the
+   minimap lands on the rail's last controls. Measured on the built app before
+   this rule -- rail/mini overlapping by 13777 px2 at 1366x768, 12235 at
+   1152x720, 6865 at 1280x800, 3307 at 1024x768 -- while 1440x900 and larger
+   were clear, which is why it reads as "works full screen, not when smaller".
+
+   Two rules, and the order matters. The minimap gives ground first, because it
+   is a locator and the rail is the controls; then the rail is capped to
+   whatever is left above it and scrolls inside that, which is what makes the
+   separation a guarantee rather than a size that happens to fit. --mini-reserve
+   is the minimap's own height plus its 14 px margin and a 14 px gap. */
+:root{--mini-reserve:214px}
 .grp{display:flex;gap:5px}
 .btn{flex:1;min-width:0;padding:6px 4px;border-radius:9px;border:1px solid rgba(255,255,255,.07);
   background:rgba(255,255,255,.04);color:var(--dim);font:600 10px/1.2 Outfit,sans-serif;
@@ -156,7 +170,20 @@ canvas{display:block;position:fixed;inset:0}
 
 /* minimap */
 #mini{bottom:14px;right:14px;width:186px;height:186px;padding:7px}
-@media(min-width:1200px){#mini{width:232px;height:232px}}
+/* The reserve is declared on :root, never on #mini: a custom property reaches
+   the rail by INHERITANCE, and the two panels are siblings. */
+@media(min-width:1200px){#mini{width:232px;height:232px}:root{--mini-reserve:260px}}
+/* Short windows, in order of severity. These come AFTER the width rule on
+   purpose: a wide but short window (a maximised 1080p laptop with a bookmarks
+   bar) is exactly the case that broke, and it must lose the big minimap. */
+@media(max-height:900px){#mini{width:186px;height:186px}:root{--mini-reserve:214px}}
+@media(max-height:820px){#mini{width:150px;height:150px}:root{--mini-reserve:178px}}
+@media(max-height:760px){#mini{width:128px;height:128px}:root{--mini-reserve:156px}}
+@media(min-width:769px){
+  #rail{max-height:calc(100vh - 14px - var(--mini-reserve));overflow-y:auto;overscroll-behavior:contain}
+  /* A scrollbar inside glass is louder than the panel it sits in. */
+  #rail{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+}
 #mini canvas{position:static;width:100%;height:100%;border-radius:9px}
 
 #hint{position:fixed;bottom:64px;left:50%;transform:translateX(-50%);z-index:19;font-size:10px;
@@ -491,9 +518,12 @@ body.gps-on #v2TerrainBadge{top:118px}
 }
 
 @media(max-width:768px){
-  /* Top HUD: Never collide #courseNav and #card */
+  /* Top HUD: Never collide #courseNav and #card. The reserve is the nav's own
+     width plus both margins and a gap: #menuToggle is capped at 144 px, it sits
+     8 px from the left and the card 8 px from the right, so 164 -- it read 156,
+     which is why the two overlapped by exactly 4 px at 390 wide. */
   #card{top:calc(8px + env(safe-area-inset-top));left:auto;right:calc(8px + env(safe-area-inset-right));
-    transform:none;gap:8px;padding:6px 10px;max-width:calc(100vw - 156px);height:40px}
+    transform:none;gap:8px;padding:6px 10px;max-width:calc(100vw - 164px);height:40px}
   #card .no{font-size:19px;min-width:22px}
   #card .mid{min-width:0;flex:0 1 auto}
   #card .nm{font-size:11px;max-width:72px;overflow:hidden;text-overflow:ellipsis}

@@ -887,6 +887,17 @@
   margin-top: 2px;
 }
 
+/* The brand is anchored to the left edge and the hole card to the MIDDLE, so
+   on a narrow desktop window they meet -- measured at 900x900, nav right 268
+   against card left 265. The nav gives way, because the card carries the hole.
+   The reserve allows a card up to 440 px, which is the widest this HUD draws
+   (six tee columns and a long hole name), and above ~1200 px the cap is wider
+   than the brand's own width and so does nothing at all. */
+@media (min-width: 769px) {
+  .course-info-pill { max-width: calc(50vw - 310px); }
+  .cip-name, .cip-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}
+
 .cip-chevron {
   color: var(--faint);
   margin-left: 2px;
