@@ -67,5 +67,9 @@ test('retained source preview verifies exact bytes and stays separate from provi
   for (const source of published.sources) assert.equal(source.sha256, sha256File(fileURLToPath(new URL(`../${source.path}`, import.meta.url))));
   assert.equal(meta.status, 'mapping');
   assert.equal(meta.packUrl, undefined);
-  assert.equal(read('../apps/golf/public/courses/index.json').courses.find(c => c.slug === 'visby').status, 'provisional');
+  /* the playable course carries no 'mapping' status: that badge belongs to the
+     source preview, and the 3D course is no longer labelled preliminary at all */
+  const playable = read('../apps/golf/public/courses/index.json').courses.find(c => c.slug === 'visby');
+  assert.ok(playable.packUrl);
+  assert.notEqual(playable.status, 'mapping');
 });

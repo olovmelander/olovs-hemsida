@@ -66,6 +66,12 @@ const BASE = flag('base', 'http://127.0.0.1:8643');
 const ONLY = flag('course', null);
 const DO_CANDIDATES = args.includes('--candidates');
 const DO_WRITE = args.includes('--write');
+/* --picks 5 shoots only those card positions (1-based) and leaves the others on
+   disk: adding a poster should not re-shoot four that were already approved. */
+const PICKS = (flag('picks', '') || '').split(',').filter(Boolean).map(Number);
+/* --clubhouse-candidates shoots the clubhouse from three sides per course and
+   writes a sheet, the same judge-at-card-size pass as --candidates. */
+const DO_CLUB_CANDIDATES = args.includes('--clubhouse-candidates');
 /* --extra "6:orbit:golden,17:green:golden" shoots named framings alongside the
    standard eight, numbered from 9 up, and keeps the ones already captured. A
    course whose identity is not on its signature hole needs this: Norrfällsviken
@@ -132,6 +138,11 @@ const RECIPES = [
    every poster is a picture of, and re-shooting it a year from now gives the
    same four pictures. hero-1 is the resting card, so it carries the identity. */
 const POSTERS = {
+  /* THE FIFTH POSTER IS THE CLUBHOUSE on every course (2026-09-16), framed by
+     frameClubhouse() from the course side; `turn` is the side picked off the
+     --clubhouse-candidates sheet at card size. Norrfällsviken's sits among
+     pines, so its camera rises further to clear them. The nines had three
+     posters and take one more hole each so the clubhouse is fifth everywhere. */
   /* the island green in the fjord; the 18th in autumn; the island from above;
      the home green through mist */
   veckefjarden: [
@@ -139,6 +150,7 @@ const POSTERS = {
     { hole: 18, cam: 'orbit', preset: 'host' },
     { hole: 14, cam: 'top', preset: 'noon' },
     { hole: 18, cam: 'green', preset: 'mist' },
+    { clubhouse: true, turn: 55, preset: 'golden' },
   ],
   /* hål 6 leads, NOT the signature 12th: this club is seaside and its 12th
      shows no sea at all, so the resting card said "another forest course".
@@ -149,6 +161,7 @@ const POSTERS = {
     { hole: 12, cam: 'green', preset: 'golden' },
     { hole: 12, cam: 'top', preset: 'noon' },
     { hole: 5, cam: 'orbit', preset: 'host' },
+    { clubhouse: true, turn: 0, rise: 1.8, preset: 'golden' },
   ],
   /* Stor-Rössjön curving past the 12th, then the carry over the bay itself */
   puttom: [
@@ -156,6 +169,7 @@ const POSTERS = {
     { hole: 12, cam: 'tee', preset: 'golden' },
     { hole: 18, cam: 'orbit', preset: 'host' },
     { hole: 12, cam: 'top', preset: 'noon' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
   ],
   /* the 3rd's lake, autumn parkland, the lake from above, Håmö gård's clubhouse */
   upsala: [
@@ -163,6 +177,7 @@ const POSTERS = {
     { hole: 12, cam: 'orbit', preset: 'host' },
     { hole: 3, cam: 'top', preset: 'noon' },
     { hole: 9, cam: 'orbit', preset: 'golden' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
   ],
   /* the manor standing behind the 18th -- the herrgård is the course's character */
   johannesberg: [
@@ -170,6 +185,7 @@ const POSTERS = {
     { hole: 4, cam: 'orbit', preset: 'host' },
     { hole: 18, cam: 'top', preset: 'noon' },
     { hole: 11, cam: 'orbit', preset: 'golden' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
   ],
   /* THE THREE SECOND COURSES. All golden: these are nines in forest, and the
      top+noon recipe that works on the eighteens blows their ponds to flat white
@@ -183,6 +199,8 @@ const POSTERS = {
     { hole: 8, cam: 'orbit', preset: 'golden' },
     { hole: 4, cam: 'orbit', preset: 'golden' },
     { hole: 1, cam: 'orbit', preset: 'golden' },
+    { hole: 6, cam: 'orbit', preset: 'host' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
   ],
   /* the 8th leads, not the signature 2nd: it is the frame that carries the
      estate -- corridors, a bunker, the pond curving through and the buildings
@@ -191,6 +209,8 @@ const POSTERS = {
     { hole: 8, cam: 'orbit', preset: 'golden' },
     { hole: 2, cam: 'green', preset: 'golden' },
     { hole: 2, cam: 'orbit', preset: 'golden' },
+    { hole: 7, cam: 'orbit', preset: 'host' },
+    { clubhouse: true, turn: -55, preset: 'golden' },
   ],
   /* the 3rd leads because it is the ONLY framing on this nine that shows the
      fjärd, and a Veckefjärden course whose card does not show the fjärd is
@@ -200,6 +220,8 @@ const POSTERS = {
     { hole: 3, cam: 'orbit', preset: 'golden' },
     { hole: 9, cam: 'orbit', preset: 'golden' },
     { hole: 1, cam: 'green', preset: 'golden' },
+    { hole: 5, cam: 'orbit', preset: 'host' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
   ],
 
   /* Ribbingsfors has no club-designated signature hole. The resting frame uses
@@ -210,6 +232,8 @@ const POSTERS = {
     { hole: 9, cam: 'orbit', preset: 'golden' },
     { hole: 2, cam: 'orbit', preset: 'host' },
     { hole: 5, cam: 'orbit', preset: 'golden' },
+    { hole: 1, cam: 'orbit', preset: 'host' },
+    { clubhouse: true, turn: 55, preset: 'golden' },
   ],
 
   /* the water hole and its drop zone, then the 17th, the wettest on the card */
@@ -218,6 +242,7 @@ const POSTERS = {
     { hole: 17, cam: 'green', preset: 'mist' },
     { hole: 17, cam: 'orbit', preset: 'host' },
     { hole: 15, cam: 'top', preset: 'noon' },
+    { clubhouse: true, turn: 55, preset: 'golden' },
   ],
 
   /* the Baltic along the home hole, the coastline par 5, Fyrhålet by the light */
@@ -226,6 +251,7 @@ const POSTERS = {
     { hole: 6, cam: 'orbit', preset: 'golden' },
     { hole: 1, cam: 'green', preset: 'golden' },
     { hole: 18, cam: 'top', preset: 'noon' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
   ],
   /* the 18th leads: the water it plays over winding up to the clubhouse is the
      one frame that says which course this is. Then 14 over its pond, Stora
@@ -236,6 +262,7 @@ const POSTERS = {
     { hole: 14, cam: 'orbit', preset: 'host' },
     { hole: 4, cam: 'orbit', preset: 'golden' },
     { hole: 11, cam: 'orbit', preset: 'golden' },
+    { clubhouse: true, turn: 0, preset: 'golden' },
   ],
   /* the par 3 by the pond leads, then home on 18, the drop on the 2nd */
   lidingo: [
@@ -243,6 +270,7 @@ const POSTERS = {
     { hole: 2, cam: 'orbit', preset: 'golden' },
     { hole: 18, cam: 'orbit', preset: 'host' },
     { hole: 2, cam: 'top', preset: 'noon' },
+    { clubhouse: true, turn: -55, preset: 'golden' },
   ],
 };
 
@@ -289,6 +317,52 @@ async function encodeWebp(page, pngBuffer, width = WIDTH, quality = QUALITY) {
   }, ['data:image/png;base64,' + pngBuffer.toString('base64'), width, quality]);
   return Buffer.from(b64, 'base64');
 }
+
+/* THE CLUBHOUSE FRAMING. The building is found by the engine's own rule (CLUB
+   in main.js: amenity=clubhouse or a name matching golfklubb|klubbhus), taking
+   the LARGEST match, because Ängsö names three footprints of one courtyard and
+   Puttom names its annex too. The camera stands on the COURSE side of it -- the
+   side the terrace and the glazing face at every club here -- on the bearing
+   from the clubhouse to the mean of the green centres, turned by `turn`
+   degrees, at a distance and height scaled by the footprint, and looks at the
+   building a few metres above its base. Nothing is placed by coordinate. */
+async function frameClubhouse(page, { turn = 0, dist = 1, rise = 1 } = {}) {
+  return page.evaluate(([turn, dist, rise]) => {
+    const V = window.V3D;
+    const area = r => { let a = 0; for (let i = 0; i < r.length; i++) { const p = r[i], q = r[(i + 1) % r.length]; a += p[0] * q[1] - q[0] * p[1]; } return Math.abs(a / 2); };
+    const hits = (V.M.infra.buildings || []).filter(q => q.amenity === 'clubhouse' || (q.name && /golfklubb|klubbhus/i.test(q.name)));
+    if (!hits.length) return null;
+    const b = hits.reduce((x, y) => area(y.ring) > area(x.ring) ? y : x);
+    let cx = 0, cz = 0; for (const p of b.ring) { cx += p[0]; cz += p[1]; } cx /= b.ring.length; cz /= b.ring.length;
+    const greens = V.HOLES.map(h => h.green?.c || h.pin).filter(Boolean);
+    let gx = 0, gz = 0; for (const g of greens) { gx += g[0]; gz += g[1]; } gx /= greens.length; gz /= greens.length;
+    const a = Math.atan2(gx - cx, gz - cz) + turn * Math.PI / 180;
+    const size = Math.sqrt(area(b.ring));
+    const d = (30 + 1.5 * size) * dist, up = (10 + 0.45 * size) * rise;
+    const px = cx + Math.sin(a) * d, pz = cz + Math.cos(a) * d;
+    const base = V.terrainH(cx, cz);
+    const py = Math.max(V.terrainH(px, pz), base) + up;
+    V.placeCamera([px, py, pz], [cx, base + 4, cz]);
+    return { name: b.name, size: Math.round(size) };
+  }, [turn, dist, rise]);
+}
+
+/* One framing, either a hole camera or the clubhouse. */
+async function frame(page, r) {
+  if (r.clubhouse) {
+    await page.evaluate(p => window.V3D?.setPreset?.(p), r.preset);
+    const got = await frameClubhouse(page, r);
+    if (!got) throw new Error('no clubhouse in the model');
+  } else {
+    await page.evaluate(([h, c, p]) => {
+      if (p) window.V3D?.setPreset?.(p);
+      if (h) window.V3D?.goHole?.(+h, false, true);
+      if (c) window.V3D?.setCam?.(c, true);
+    }, [r.hole, r.cam, r.preset]);
+  }
+  await settle(page);
+}
+const describe = r => r.clubhouse ? `klubbhus · vrid ${r.turn || 0}° · ${r.preset}` : `hål ${r.hole} · ${r.cam} · ${r.preset}`;
 
 async function prepareCleanFrame(page) {
   await page.addStyleTag({ content: '#cleanExit{display:none!important}' });
@@ -380,19 +454,15 @@ async function writeChosen(slug) {
   process.stdout.write(' up\n');
   let total = 0;
   for (let i = 0; i < picks.length; i++) {
+    if (PICKS.length && !PICKS.includes(i + 1)) continue;
     const r = picks[i];
-    await page.evaluate(([h, c, p]) => {
-      if (p) window.V3D?.setPreset?.(p);
-      if (h) window.V3D?.goHole?.(+h, false, true);
-      if (c) window.V3D?.setCam?.(c, true);
-    }, [r.hole, r.cam, r.preset]);
-    await settle(page);
+    await frame(page, r);
     const png = await page.screenshot({ timeout: 300000, animations: 'disabled' });
     const webp = await encodeWebp(page, png);
     const to = path.join(dest, `hero-${i + 1}.webp`);
     fs.writeFileSync(to, webp);
     total += webp.length;
-    console.log(`    hero-${i + 1}  hål ${r.hole} · ${r.cam} · ${r.preset}  ${(webp.length / 1024).toFixed(0)} kB`);
+    console.log(`    hero-${i + 1}  ${describe(r)}  ${(webp.length / 1024).toFixed(0)} kB`);
   }
   await page.close();
   /* stale posters from a shorter set would keep being fetched by a card that no
@@ -427,6 +497,38 @@ async function heroSheet() {
 if (DO_CANDIDATES) {
   for (const s of slugs) { await shootCourse(s); await contactSheet(s); }
 }
+if (DO_CLUB_CANDIDATES) {
+  const turns = [-55, 0, 55];
+  const cells = [];
+  for (const slug of slugs) {
+    const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
+    process.stdout.write(`\n${slug}  booting…`);
+    await page.goto(shotUrl(slug), { waitUntil: 'domcontentloaded', timeout: 120000 });
+    await page.waitForSelector('#boot.done', { timeout: 420000 });
+    await prepareCleanFrame(page);
+    await page.waitForTimeout(1200);
+    process.stdout.write(' up\n');
+    const row = [];
+    for (const turn of turns) {
+      await frame(page, { clubhouse: true, turn, preset: 'golden' });
+      const webp = await encodeWebp(page, await page.screenshot({ timeout: 300000, animations: 'disabled' }));
+      row.push({ turn, b64: webp.toString('base64') });
+      console.log(`  vrid ${turn}°  ${(webp.length / 1024).toFixed(0)} kB`);
+    }
+    cells.push({ slug, row });
+    await page.close();
+  }
+  const page = await browser.newPage({ viewport: { width: 1320, height: 1000 } });
+  await page.setContent(`<style>body{margin:0;background:#0b120e;color:#eaf3ec;font:13px system-ui;padding:18px}
+    h2{font-size:14px;margin:14px 0 8px}.g{display:grid;grid-template-columns:repeat(3,400px);gap:12px}
+    img{width:400px;height:225px;object-fit:cover;border-radius:10px}</style>${cells.map(c =>
+    `<h2>${c.slug} (${c.row.map(x => x.turn).join(' / ')})</h2><div class="g">${c.row.map(x => `<img src="data:image/webp;base64,${x.b64}">`).join('')}</div>`).join('')}`);
+  await page.waitForTimeout(400);
+  fs.mkdirSync(CACHE, { recursive: true });
+  await page.screenshot({ path: path.join(CACHE, 'clubhouses.png'), fullPage: true });
+  await page.close();
+  console.log('  clubhouse sheet -> geobuild/cache/posters/clubhouses.png');
+}
 if (DO_WRITE) {
   console.log('\nwriting chosen posters');
   let grand = 0;
@@ -439,5 +541,5 @@ if (DO_WRITE) {
   console.log(`\n  all posters on the front door: ${(grand / 1024).toFixed(0)} kB`);
   await heroSheet();
 }
-if (!DO_CANDIDATES && !DO_WRITE) console.log('nothing to do: pass --candidates and/or --write');
+if (!DO_CANDIDATES && !DO_WRITE && !DO_CLUB_CANDIDATES) console.log('nothing to do: pass --candidates and/or --write');
 await browser.close();
