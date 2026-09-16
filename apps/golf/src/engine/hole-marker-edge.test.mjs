@@ -78,6 +78,40 @@ describe('off-screen hole marker', () => {
     expect(moved.right).toBeLessThanOrEqual(phone.width - phone.side + 1e-6);
   });
 
+  it('goes round the corner when a panel owns the whole side', () => {
+    /* Measured on the built app at 1440x900: the control panel stands at
+       x 1210..1426, y 14..586 -- 572 px of the right-hand side -- and both
+       badges landed inside it, painted behind it (z-index 18 against 20), so
+       all that showed was the arrow poking past its edge. Sliding one or two
+       badge-widths along that same side cannot reach past a panel that tall. */
+    const desk = inset(1440, 900);
+    const rail = { left: 1210, top: 14, right: 1426, bottom: 586 };
+    const edge = edgePlacement({ x: 9000, y: 400, inFront: true }, desk);
+    const before = { left: edge.x - half, top: edge.y - half, right: edge.x + half, bottom: edge.y + half };
+    const overlapBefore = Math.max(0, Math.min(before.right, rail.right) - Math.max(before.left, rail.left))
+      * Math.max(0, Math.min(before.bottom, rail.bottom) - Math.max(before.top, rail.top));
+    expect(overlapBefore).toBeGreaterThan(0); // the case really is the broken one
+
+    const moved = clearEdge(edge, [rail]);
+    const overlapAfter = Math.max(0, Math.min(moved.right, rail.right) - Math.max(moved.left, rail.left))
+      * Math.max(0, Math.min(moved.bottom, rail.bottom) - Math.max(moved.top, rail.top));
+    expect(overlapAfter).toBe(0);
+    /* and it is still on the safe box, not parked somewhere arbitrary */
+    expect(moved.left).toBeGreaterThanOrEqual(desk.side - 1e-6);
+    expect(moved.right).toBeLessThanOrEqual(desk.width - desk.side + 1e-6);
+    expect(moved.top).toBeGreaterThanOrEqual(desk.top - 1e-6);
+    expect(moved.bottom).toBeLessThanOrEqual(desk.height - desk.bottom + 1e-6);
+  });
+
+  it('accepts the least bad place when the HUD leaves nowhere clear', () => {
+    /* A menu covering everything must not spin or throw; it returns a place. */
+    const box = inset(390, 844);
+    const everything = [{ left: -100, top: -100, right: 500, bottom: 1000 }];
+    const edge = edgePlacement({ x: 4000, y: 400, inFront: true }, box);
+    const moved = clearEdge(edge, everything);
+    expect(Number.isFinite(moved.left) && Number.isFinite(moved.top)).toBe(true);
+  });
+
   it('keeps its place when nothing is in the way', () => {
     const edge = edgePlacement({ x: 4000, y: 300, inFront: true }, desktop);
     const free = clearEdge(edge, []);

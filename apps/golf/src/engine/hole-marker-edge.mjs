@@ -48,23 +48,63 @@ export function edgePlacement(p, box, size = sizeOf()) {
 /** Both badges are off screen together whenever the player faces away from the
  * hole, and a ray from one centre reaches the same corner as the other's, so
  * the green would sit on top of the tee. It slides along its own edge. */
+/* The safe box's outline, as the path the badge's CENTRE may travel. */
+const spans = bounds => ({
+  w: Math.max(0, bounds.maxX - bounds.minX),
+  h: Math.max(0, bounds.maxY - bounds.minY),
+});
+
+/** A distance clockwise around that outline, starting from its top-left. */
+export function perimeterPoint(bounds, distance) {
+  const { w, h } = spans(bounds), total = 2 * (w + h);
+  if (total <= 0) return { x: bounds.minX, y: bounds.minY };
+  let s = ((distance % total) + total) % total;
+  if (s < w) return { x: bounds.minX + s, y: bounds.minY };
+  s -= w;
+  if (s < h) return { x: bounds.maxX, y: bounds.minY + s };
+  s -= h;
+  if (s < w) return { x: bounds.maxX - s, y: bounds.maxY };
+  return { x: bounds.minX, y: bounds.maxY - (s - w) };
+}
+
+/** Where a point on that outline lies along it. Corners belong to whichever
+ * side it is nearest, which is enough: the walk starts here and moves on. */
+export function perimeterDistance(bounds, x, y) {
+  const { w, h } = spans(bounds);
+  const sides = [
+    { d: Math.abs(y - bounds.minY), at: clamp(x, bounds.minX, bounds.maxX) - bounds.minX },
+    { d: Math.abs(x - bounds.maxX), at: w + clamp(y, bounds.minY, bounds.maxY) - bounds.minY },
+    { d: Math.abs(y - bounds.maxY), at: w + h + bounds.maxX - clamp(x, bounds.minX, bounds.maxX) },
+    { d: Math.abs(x - bounds.minX), at: 2 * w + h + bounds.maxY - clamp(y, bounds.minY, bounds.maxY) },
+  ];
+  return sides.reduce((best, side) => side.d < best.d ? side : best).at;
+}
+
+/** Walk the outline outward from the badge's ideal place until it is clear of
+ * the HUD, in both directions, nearest first.
+ *
+ * Sliding a fixed step or two along ONE side is not enough and shipped broken:
+ * the control panel stands 572 px tall down the right-hand side, so a badge
+ * whose direction points right lands inside it and two 42 px steps do not
+ * reach past it -- the badge then renders BEHIND the panel (z-index 18 against
+ * the panel's 20) and all a player sees is the arrow poking out. Going round
+ * the corner is what actually clears a panel that owns a whole side. */
 export function clearEdge(edge, reserved, size = sizeOf()) {
   const halfW = size.width / 2, half = size.height / 2, { bounds } = edge;
-  const at = offsetPixels => {
-    const x = edge.vertical ? edge.x : clamp(edge.x + offsetPixels, bounds.minX, bounds.maxX);
-    const y = edge.vertical ? clamp(edge.y + offsetPixels, bounds.minY, bounds.maxY) : edge.y;
-    return { left: x - halfW, top: y - half, right: x + halfW, bottom: y + half };
-  };
+  const rectAt = ({ x, y }) => ({ left: x - halfW, top: y - half, right: x + halfW, bottom: y + half });
   const blocked = rect => reserved.reduce((sum, r) => sum + areaOver(rect, r), 0);
-  /* Step by the extent of whichever axis it slides along, so a wide tee pill
-     clears sideways by its own width and not by a disc's. */
-  const step = (edge.vertical ? size.height : size.width) + 8;
-  let best = at(0), bestScore = blocked(best);
+  let best = rectAt({ x: edge.x, y: edge.y }), bestScore = blocked(best);
   if (!bestScore) return best;
-  for (const offset of [step, -step, 2 * step, -2 * step]) {
-    const candidate = at(offset), score = blocked(candidate);
-    if (!score) return candidate;
-    if (score < bestScore) { best = candidate; bestScore = score; }
+  const { w, h } = spans(bounds), total = 2 * (w + h);
+  const from = perimeterDistance(bounds, edge.x, edge.y);
+  const step = 10;
+  for (let travelled = step; travelled <= total / 2; travelled += step) {
+    for (const direction of [1, -1]) {
+      const candidate = rectAt(perimeterPoint(bounds, from + direction * travelled));
+      const score = blocked(candidate);
+      if (!score) return candidate;
+      if (score < bestScore) { best = candidate; bestScore = score; }
+    }
   }
   return best;
 }

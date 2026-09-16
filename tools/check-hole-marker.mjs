@@ -159,5 +159,26 @@ gate(ahead.green.mode === 'edge' && past.green.mode === 'edge',
 gate(sideOf(ahead.green) === sideOf(past.green),
   `the arrow keeps the flag on its real side past 90 degrees (${sideOf(ahead.green)} then ${sideOf(past.green)})`);
 
+/* The desktop HUD is the case the phone never shows: the control panel stands
+   down the whole right-hand side (measured 1210..1426 x 14..586 at 1440x900)
+   and the minimap under it. A badge whose direction points right lands inside
+   the panel and renders BEHIND it, z-index 18 against 20 -- which is what the
+   owner saw: the arrows poking out and no badges. Every width the app lays out
+   differently is worth a look, because the obstacle only exists at some. */
+for (const [width, height] of [[900, 900], [1440, 900]]) {
+  await page.setViewportSize({ width, height });
+  await aim(-60);
+  await page.waitForTimeout(900);
+  const desk = await read();
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/marker-desktop-${width}.png` });
+  const panelled = [desk.tee, desk.green].filter(m => !m.hidden);
+  const worst = Math.max(...panelled.map(hudOverlap(desk)));
+  gate(panelled.length === 2 && worst === 0,
+    `at ${width}x${height} no badge hides behind the HUD panels (worst overlap ${worst.toFixed(0)} px2)`);
+  gate(panelled.every(m => m.rect.left >= 0 && m.rect.top >= 0
+    && m.rect.right <= width && m.rect.bottom <= height),
+    `at ${width}x${height} every badge is fully on screen`);
+}
+
 gate(errors.length === 0, `no page errors${errors.length ? `: ${errors[0]}` : ''}`);
 await browser.close();
