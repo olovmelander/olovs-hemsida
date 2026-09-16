@@ -129,14 +129,22 @@ export class NetworkFirstJsonStore {
     this.cache = cache;
   }
 
-  async load(url, { signal, validate, label = 'root manifest' } = {}) {
+  /* `refresh` is for a caller that has READ the stored copy and found it stale:
+     it bypasses the HTTP cache and refuses the cached fallback, so the answer is
+     the network's or an error -- never the copy we already know is wrong. The
+     put below still writes the canonical url, so a successful refresh replaces
+     that stale entry rather than leaving it to be served again. It cannot defeat
+     a service worker's own NetworkFirst fallback, which serves its copy when the
+     network does not answer in time; that layer is addressed by its own rule. */
+  async load(url, { signal, validate, label = 'root manifest', refresh = false } = {}) {
     if (typeof validate !== 'function') throw new TypeError('validate must be a function');
     checkAbort(signal);
     let network;
     try {
-      network = await this.fetchBytes(url, { signal });
+      network = await this.fetchBytes(url, refresh ? { signal, cache: 'reload' } : { signal });
     } catch (error) {
       if (isAbort(error) || signal?.aborted) throw abortError();
+      if (refresh) throw error;
       if (error?.allowCachedFallback === false) throw error;
       const cached = await this.cache.match(url);
       if (!cached) throw error;

@@ -110,6 +110,7 @@ export class CourseV2ManifestLoader {
       signal: options.signal,
       validate: validateRootIndex,
       label: 'v2 root manifest',
+      refresh: options.refresh === true,
     });
   }
 
@@ -141,7 +142,23 @@ export class CourseV2ManifestLoader {
       rethrowAbort(error);
       throw new CourseV2ManifestError('root-unavailable', 'v2 root manifest could not be loaded', error);
     }
-    const entry = rootResult.value.courses.find(course => course.slug === slug);
+    let entry = rootResult.value.courses.find(course => course.slug === slug);
+    if (!entry) {
+      /* The root is the only mutable file in the graph, and a root that does not
+         name the course we were sent to open is far more likely to be a stale
+         copy than a course that does not exist -- the caller only asks for a
+         slug it has been told has a graph. A cached root can be a month old, so
+         a published course silently degrades to the GPK1 fallback for as long as
+         that copy survives. Refetch once past the caches and believe THAT. */
+      try {
+        rootResult = await this.loadRoot(options.rootRelative, { ...options, refresh: true });
+        entry = rootResult.value.courses.find(course => course.slug === slug);
+      } catch (error) {
+        rethrowAbort(error);
+        /* The refetch is a repair attempt, not the answer: if it cannot be made
+           the original verdict stands, and it is reported below as it always was. */
+      }
+    }
     if (!entry) {
       throw new CourseV2ManifestError('course-not-found', `v2 root has no course ${slug}`);
     }

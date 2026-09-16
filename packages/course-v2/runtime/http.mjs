@@ -41,9 +41,11 @@ export function resolveV2AssetUrl(relative, baseUrl) {
 
 export function createHttpByteFetcher(fetchImpl = globalThis.fetch) {
   if (typeof fetchImpl !== 'function') throw new Error('fetch is unavailable');
-  return async (url, { signal, expectedBytes } = {}) => {
+  /* `cache` is forwarded only when a caller asks for it, so every existing call
+     site still hands fetchImpl exactly { signal } and cannot change behaviour. */
+  return async (url, { signal, expectedBytes, cache } = {}) => {
     let response;
-    try { response = await fetchImpl(url, { signal }); }
+    try { response = await fetchImpl(url, cache ? { signal, cache } : { signal }); }
     catch (error) {
       if (signal?.aborted) throw signal.reason;
       throw new Error(`v2 asset fetch failed for ${url}: ${error?.message || error}`, { cause: error });

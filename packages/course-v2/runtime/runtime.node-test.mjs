@@ -460,6 +460,61 @@ test('manifest loader verifies root, course and parent ground without fetching c
   assert.equal(cached.groundCacheHit, true);
 });
 
+test('a cached root that predates a published course is refetched, not believed', async () => {
+  /* A course published after a visitor last loaded the root degrades to the GPK1
+     fallback for as long as that copy survives -- 30 days on the service worker.
+     Veckefjarden did exactly this: the root carried one course until 2026-09-02
+     and thirteen afterwards, so a device that called in before the cut reported
+     "v2 root has no course veckefjarden" against a live root that named it. */
+  const graph = createSyntheticAssetGraph();
+  const base = 'https://banvy.test/app/';
+  const rootUrl = new URL('courses/v2-index.json', base).href;
+  const stale = structuredClone(graph.root);
+  stale.courses = stale.courses.filter(course => course.slug !== 'synthetic-main');
+  assert.equal(stale.courses.length, graph.root.courses.length - 1, 'the stale root must omit the course');
+
+  const rootCache = new MemoryByteCache();
+  await rootCache.put(rootUrl, canonicalJsonBytes(stale));
+  const modes = [];
+  const fetchImpl = async (url, init) => {
+    if (url === rootUrl) {
+      modes.push(init?.cache ?? 'default');
+      /* The first read is what a slow phone gets: the network does not answer,
+         so the store falls back to the month-old copy it already holds. */
+      if (modes.length === 1) throw new Error('offline');
+      return new Response(canonicalJsonBytes(graph.root));
+    }
+    const relative = new URL(url).pathname.replace('/app/', '');
+    const resource = graph.resources.get(relative);
+    return resource ? new Response(resource) : new Response('missing', { status: 404 });
+  };
+  const loader = new CourseV2ManifestLoader({
+    baseUrl: base, fetchImpl, rootCache, manifestCache: new MemoryByteCache(),
+  });
+
+  const resolved = await loader.resolve('synthetic-main');
+  assert.equal(resolved.entry.slug, 'synthetic-main', 'the refetched root opens the course');
+  assert.deepEqual(modes, ['default', 'reload'], 'the repair bypasses the HTTP cache exactly once');
+  assert.equal(sha256Bytes(await rootCache.match(rootUrl)), sha256Bytes(canonicalJsonBytes(graph.root)),
+    'the stale entry is replaced, so the next boot does not repeat the repair');
+
+  /* A course that genuinely has no graph still fails, and still fails once. */
+  const absent = [];
+  const missing = new CourseV2ManifestLoader({
+    baseUrl: base,
+    fetchImpl: async (url, init) => {
+      if (url === rootUrl) { absent.push(init?.cache ?? 'default'); return new Response(canonicalJsonBytes(stale)); }
+      return new Response('missing', { status: 404 });
+    },
+    rootCache: new MemoryByteCache(), manifestCache: new MemoryByteCache(),
+  });
+  await assert.rejects(missing.resolve('synthetic-main'), error => {
+    assert.equal(error.code, 'course-not-found');
+    return true;
+  });
+  assert.deepEqual(absent, ['default', 'reload']);
+});
+
 test('manifest graph rejects undeclared course tiles and asset features before streaming', () => {
   const graph = createSyntheticAssetGraph();
   const entry = graph.root.courses[0];
