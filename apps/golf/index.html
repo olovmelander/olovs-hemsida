@@ -96,12 +96,30 @@ canvas{display:block;position:fixed;inset:0}
    1152x720, 6865 at 1280x800, 3307 at 1024x768 -- while 1440x900 and larger
    were clear, which is why it reads as "works full screen, not when smaller".
 
-   Two rules, and the order matters. The minimap gives ground first, because it
-   is a locator and the rail is the controls; then the rail is capped to
-   whatever is left above it and scrolls inside that, which is what makes the
-   separation a guarantee rather than a size that happens to fit. --mini-reserve
-   is the minimap's own height plus its 14 px margin and a 14 px gap. */
-:root{--mini-reserve:214px}
+   The minimap takes the column the rail does not need, and the rail is capped
+   to what is left and scrolls inside it -- that cap is what makes the
+   separation a guarantee rather than a size that happens to fit, because the
+   rail's own height depends on the course and the hole.
+
+   The size is DERIVED, never stepped at a breakpoint. Steps got it wrong in
+   both directions: they left 114 px of empty column at 1440x900 while cutting
+   the map from 232 to 186, and they cannot tell a window that is short because
+   the screen is small from one that is short because the browser has a
+   bookmarks bar. --rail-natural is the rail's measured content height, and it
+   only has to be close -- the cap holds either way.
+
+   Two things bound it. Above, the rail; below-left, the CENTRED hole strip,
+   which is a constant 657 px wide and reaches under the map's corner once the
+   window is narrow enough -- growing the map is what found that, at 1024x768.
+   50vw - 351px is where the map's left edge meets the strip's right edge plus a
+   gap, and the floor is set so that even at 981 px, the narrowest window that
+   shows a minimap at all, the two still do not touch. */
+:root{
+  --mini-floor:140px; --mini-cap:232px; --rail-natural:572px;
+  --mini-size:clamp(var(--mini-floor),
+    min(calc(100vh - 42px - var(--rail-natural)), calc(50vw - 351px)),
+    var(--mini-cap));
+}
 .grp{display:flex;gap:5px}
 .btn{flex:1;min-width:0;padding:6px 4px;border-radius:9px;border:1px solid rgba(255,255,255,.07);
   background:rgba(255,255,255,.04);color:var(--dim);font:600 10px/1.2 Outfit,sans-serif;
@@ -169,20 +187,27 @@ canvas{display:block;position:fixed;inset:0}
 .hole-step-btn:hover{background:rgba(95,208,122,.2);color:var(--turf);border-color:rgba(95,208,122,.4)}
 
 /* minimap */
-#mini{bottom:14px;right:14px;width:186px;height:186px;padding:7px}
-/* The reserve is declared on :root, never on #mini: a custom property reaches
-   the rail by INHERITANCE, and the two panels are siblings. */
-@media(min-width:1200px){#mini{width:232px;height:232px}:root{--mini-reserve:260px}}
-/* Short windows, in order of severity. These come AFTER the width rule on
-   purpose: a wide but short window (a maximised 1080p laptop with a bookmarks
-   bar) is exactly the case that broke, and it must lose the big minimap. */
-@media(max-height:900px){#mini{width:186px;height:186px}:root{--mini-reserve:214px}}
-@media(max-height:820px){#mini{width:150px;height:150px}:root{--mini-reserve:178px}}
-@media(max-height:760px){#mini{width:128px;height:128px}:root{--mini-reserve:156px}}
+/* The size comes from :root, never from a rule on #mini: the rail reads the
+   same value and a custom property reaches it by INHERITANCE, the two panels
+   being siblings. */
+#mini{bottom:14px;right:14px;width:var(--mini-size);height:var(--mini-size);padding:7px}
 @media(min-width:769px){
-  #rail{max-height:calc(100vh - 14px - var(--mini-reserve));overflow-y:auto;overscroll-behavior:contain}
-  /* A scrollbar inside glass is louder than the panel it sits in. */
-  #rail{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+  #rail{max-height:calc(100vh - 42px - var(--mini-size));overflow-y:auto;overscroll-behavior:contain;
+    /* A scrollbar inside glass is louder than the panel it sits in. */
+    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent}
+}
+/* A short window buys the map its room out of the rail's SPACING before it buys
+   it out of the map's size -- the rail is airy at 570 px and reads the same at
+   468. Each tier restates what the rail then measures. */
+@media(min-width:769px) and (max-height:880px){
+  :root{--rail-natural:516px}
+  #rail{gap:5px;padding:8px}
+  #rail .btn{padding:5px 4px}
+}
+@media(min-width:769px) and (max-height:790px){
+  :root{--rail-natural:479px}
+  #rail{gap:4px}
+  #rail .btn{padding:4px 4px}
 }
 #mini canvas{position:static;width:100%;height:100%;border-radius:9px}
 

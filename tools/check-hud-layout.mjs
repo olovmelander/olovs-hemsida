@@ -22,8 +22,8 @@ const CHROME = process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_
 /* Real window shapes, not round numbers: a 1080p laptop with browser chrome and
    a bookmarks bar leaves about 1920x870, and 1366x768 is still the second most
    common desktop screen there is. The owner's report came from 1600x843. */
-const SIZES = [[1920, 1080], [1920, 870], [1600, 843], [1440, 900], [1366, 768],
-  [1280, 800], [1152, 720], [1024, 768], [900, 900], [390, 844]];
+const SIZES = [[1920, 1080], [1920, 870], [1600, 843], [1600, 717], [1440, 900], [1366, 768],
+  [1280, 800], [1152, 720], [1024, 768], [1000, 700], [981, 760], [900, 900], [390, 844]];
 
 const browser = await chromium.launch({
   ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
@@ -60,11 +60,16 @@ for (const [width, height] of SIZES) {
       panels.push({ id, left: r.left, top: r.top, right: r.right, bottom: r.bottom });
     }
     /* A panel that has to scroll to reach its own last control is a different
-       complaint from one that is covered, so it is reported separately. */
+       complaint from one that is covered, so it is measured separately -- as is
+       a minimap shrunk until it stops being a map. */
     const rail = document.getElementById('rail');
-    const clipped = rail && rail.getClientRects().length
-      ? rail.scrollHeight - rail.clientHeight > 1 : false;
-    return { panels, clipped, screen: { w: innerWidth, h: innerHeight } };
+    const shown = el => el && el.getClientRects().length && getComputedStyle(el).display !== 'none';
+    const mini = document.getElementById('mini');
+    return {
+      panels, screen: { w: innerWidth, h: innerHeight },
+      railHidden: shown(rail) ? rail.scrollHeight - rail.clientHeight : 0,
+      miniSize: shown(mini) ? Math.round(mini.getBoundingClientRect().width) : 0,
+    };
   });
 
   const over = (a, b) => Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left))
@@ -83,6 +88,17 @@ for (const [width, height] of SIZES) {
     || p.right > state.screen.w + 1 || p.bottom > state.screen.h + 1);
   gate(offscreen.length === 0,
     `${width}x${height}: every HUD panel is fully on screen${offscreen.length ? ` -- ${offscreen.map(p => p.id).join(', ')}` : ''}`);
+  /* Keeping the panels apart is worth nothing if the way it is done makes the
+     map too small to read or the rail too long to use. Both were true of the
+     first fix for this: 128 px of minimap and 25 px of hidden rail at 1600x717.
+     The rail compacts its own spacing on a short window instead, so at every
+     shape here the map is at or near its full size and nothing scrolls. */
+  if (state.miniSize > 0) {
+    gate(state.miniSize >= 140,
+      `${width}x${height}: the minimap stays readable (${state.miniSize} px, floor 140)`);
+  }
+  gate(state.railHidden <= 1,
+    `${width}x${height}: the rail shows every control without scrolling (${state.railHidden} px hidden)`);
 }
 
 gate(errors.length === 0, `no page errors${errors.length ? `: ${errors[0]}` : ''}`);

@@ -894,7 +894,13 @@
    (six tee columns and a long hole name), and above ~1200 px the cap is wider
    than the brand's own width and so does nothing at all. */
 @media (min-width: 769px) {
-  .course-info-pill { max-width: calc(50vw - 310px); }
+  /* The pill plus the hamburger, chevron and padding is the nav's width, and
+     the nav has to end before the centred card begins. Measured: 88 px of
+     furniture around the pill, a card up to 468 px wide, 14 px margin and an
+     8 px gap -- so the pill may have half the window less 350. Calibrated at
+     900 px alone it read 310, which is 40 px too generous once the card widens
+     at 981-1000, where the name column is bounded by 38vw rather than 340. */
+  .course-info-pill { max-width: calc(50vw - 350px); }
   .cip-name, .cip-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 
