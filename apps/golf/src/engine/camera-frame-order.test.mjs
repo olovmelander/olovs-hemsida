@@ -80,6 +80,12 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
        rest -- so the switch itself is held on here. Without it every one of
        these tests throws ReferenceError before it reaches its assertion. */
     BREATH: true,
+    /* `__GOLFER_LAB__` is a Vite `define`, not a runtime global: the bundler
+       substitutes it, so in this vm there is nothing to substitute and `frame`
+       throws ReferenceError before its first assertion. The shipped player is
+       built with mode !== 'golfer', so false is what production runs -- which
+       also means `courseGolfer` is never reached and needs no stub here. */
+    __GOLFER_LAB__: false,
     cameraBreathing: createCameraBreathing(), cameraMotionPreference: { matches: true },
     cameraInteracting: false, camMode: 'orbit',
     TREE_LOD: { clockDriven: false, fadeClock: 0, fadeS: 0.3, queue: [], qHead: 0 },

@@ -27,7 +27,11 @@ fs.writeFileSync(cfg, `export default [{
     ImageData:'readonly', Image:'readonly', history:'readonly', localStorage:'readonly', DataView:'readonly',
     crypto:'readonly', setInterval:'readonly', clearInterval:'readonly', structuredClone:'readonly',
     IntersectionObserver:'readonly', requestIdleCallback:'readonly', matchMedia:'readonly',
-    __COURSE_SOURCE_REVISION__:'readonly',
+    /* Vite define substitutions, not runtime globals: they exist only after the
+       bundler has replaced them, so eslint has to be told they are there. Every
+       key added to define in apps/golf/vite.config.js belongs here. Note this
+       block is inside a template literal -- no backticks, no dollar-brace. */
+    __COURSE_SOURCE_REVISION__:'readonly', __GOLFER_LAB__:'readonly',
   } },
   rules: { 'no-undef': 'error' },
 }];\n`);
