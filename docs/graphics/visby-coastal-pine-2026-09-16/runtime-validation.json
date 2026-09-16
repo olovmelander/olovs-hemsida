@@ -1,0 +1,302 @@
+{
+  "revision": "visby-coastal-pine-2026-09-16",
+  "errors": [],
+  "checks": [
+    {
+      "check": "all root positions, yaw and species unchanged",
+      "trees": 51127,
+      "sha256": "67891acec060a7d868909c4e84d600c39dcc80a7698cfda7e9c1725e868daebd"
+    },
+    {
+      "check": "close, middle and distant camera views retain valid tree tiers"
+    },
+    {
+      "check": "both versioned manifests and all 26 Visby meshes/atlases reopen offline with identical bytes"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "desktop-webgpu",
+      "catalogue": {
+        "look": "painted",
+        "loaded": true,
+        "design": "fluffy-2026-09",
+        "revision": "visby-coastal-pine-2026-09-16",
+        "variants": 4,
+        "hero": true,
+        "files": 26,
+        "bytes": 3508685
+      },
+      "backend": "webgpu",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 304,
+            "inCount": 304,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1221,
+            "inCount": 1221,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1305,
+            "inCount": 1305,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1288,
+            "inCount": 1288,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1819,
+            "inCount": 1819,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "species": {
+        "spruce": 2514,
+        "pine": 37978,
+        "birch": 10635,
+        "alder": 0,
+        "oak": 0
+      },
+      "total": 51127,
+      "triangles": [
+        [
+          [
+            3500,
+            1000
+          ],
+          [
+            1632,
+            68
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        [
+          [
+            3024,
+            1476
+          ],
+          [
+            1260,
+            440
+          ],
+          [
+            160,
+            140
+          ]
+        ],
+        [
+          [
+            2868,
+            1632
+          ],
+          [
+            1180,
+            520
+          ],
+          [
+            160,
+            140
+          ]
+        ],
+        [
+          [
+            3024,
+            1476
+          ],
+          [
+            1260,
+            440
+          ],
+          [
+            160,
+            140
+          ]
+        ],
+        [
+          [
+            3644,
+            856
+          ],
+          [
+            1572,
+            128
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        null,
+        null
+      ]
+    },
+    {
+      "name": "mobile-webgl",
+      "catalogue": {
+        "look": "painted",
+        "loaded": true,
+        "design": "fluffy-2026-09",
+        "revision": "visby-coastal-pine-2026-09-16",
+        "variants": 4,
+        "hero": true,
+        "files": 26,
+        "bytes": 3508685
+      },
+      "backend": "webgl2",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 80,
+            "inCount": 80,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 249,
+            "inCount": 249,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 252,
+            "inCount": 252,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 293,
+            "inCount": 293,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 500,
+            "inCount": 500,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "species": {
+        "spruce": 2514,
+        "pine": 37978,
+        "birch": 10635,
+        "alder": 0,
+        "oak": 0
+      },
+      "total": 51127,
+      "triangles": [
+        [
+          [
+            3500,
+            1000
+          ],
+          [
+            1632,
+            68
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        [
+          [
+            3024,
+            1476
+          ],
+          [
+            1260,
+            440
+          ],
+          [
+            160,
+            140
+          ]
+        ],
+        [
+          [
+            2868,
+            1632
+          ],
+          [
+            1180,
+            520
+          ],
+          [
+            160,
+            140
+          ]
+        ],
+        [
+          [
+            3024,
+            1476
+          ],
+          [
+            1260,
+            440
+          ],
+          [
+            160,
+            140
+          ]
+        ],
+        [
+          [
+            3644,
+            856
+          ],
+          [
+            1572,
+            128
+          ],
+          [
+            288,
+            20
+          ]
+        ],
+        null,
+        null
+      ]
+    }
+  ],
+  "passed": true
+}

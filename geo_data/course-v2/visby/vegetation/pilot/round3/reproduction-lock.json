@@ -1,0 +1,25 @@
+{
+  "sha256": {
+    "tools/visby-tree-pilot/round3-decisions.json": "c6b730e6bda52bf76f5e3a9e569d87ee3015548c35a7d9def29817d4a0424453",
+    "tools/visby-tree-pilot/round3-placement.R": "1d243b828cd8f00fd01463e56233bee7b65ce1846452d7e33e39501a6595707a",
+    "tools/visby-tree-pilot/round3-probe.mjs": "99586f2bf668fc639aadf1e03253d53621668c45b1d348e5a4456381d7dee443",
+    "tools/visby-tree-pilot/round3-review-check.mjs": "f4c101b87487c8f1fdd31dfff98f7183180202ae915d0d5a6feb97639ab7814f",
+    "tools/visby-tree-pilot/round3-review.html": "4062317a0007ad6b57c58a4503295f4d45338a274dfbe275df4e4d1be6c9781a",
+    "tools/visby-tree-pilot/round3.py": "f9b6d11004dc9135dc0537ecd8dbf52b02d01b9e5894f68b1d79412ec26ff5ca",
+    "tools/visby-tree-pilot/round3_author.py": "65689dd9cd2e59ac128af145ce3c60064ce5c2c9bac5f9dae397b3cef7b23d9b",
+    "tools/visby-tree-pilot/round3_evidence.py": "e20ef2491eb4cc7dc83c841d03f9625ed8ac2d97b2d4b8eb10c4e564d1919544",
+    "tools/visby-tree-pilot/round3_finalize.py": "724e62e87081a47177470526ae0bd705ec0e39a5853b00ad9ee024ee689e0283",
+    "tools/visby-tree-pilot/round3_rebuild_check.py": "b9548fed41bddbfb59f5b572feef9ed13dcb28ed82eb6eb34e985b0e126c2705",
+    "tools/visby-tree-pilot/round3_review.py": "9cd83ebb0a7ae068c371afd2f7eb8dfdb15149c7b91f1cfde5e4f9d14ee4f427",
+    "tools/visby-tree-pilot/round3_validate.py": "9d3a538ee1453b57012dc0385c79a99c493fc5603ca077c6d4c44bc5ba35145f",
+    "tools/visby-tree-pilot/compile-preview.mjs": "ec925ac7b7fa79deca984873b2a6bee69139e06dffa0bd67df0944ca64b141b5",
+    "tools/visby-tree-pilot/preview.mjs": "9c3dd058f96da2cc7285d020dac00e0341fa5e6ca7e53401518042788ce0a7d3",
+    "tools/visby-tree-pilot/performance.mjs": "b9221aa58fb6a4fe083dbc9c563f0de6f10930972d27be7ac010157522f25b23",
+    "tools/visby-tree-pilot/test_round3.py": "a28d7f6b717d1e29477575f4d14eb51d402ad20d63258aee7d82dc300fbdb501",
+    "output/visby-tree-pilot/round3/tool-run.json": "87214316781456423502995a92452da81b486a92dbfdd08050425ca5a9aedcba",
+    "output/visby-tree-pilot/round3/runtime-probes.json": "186a2cd910fa7d1506e110ca62ddaf044b1d937f494e5b8835cfded003a9631a",
+    "output/visby-tree-pilot/round3/facility-evidence.json": "e7b32fe5e71c31386fb36445876293bb51a71758153f9581405e8b89cd479a91",
+    "output/visby-tree-pilot/round3/captures/report.json": "e688af376682f5a04378da97ba2f096d6cebb58039a6ffdcc964108db2d66d36"
+  },
+  "explanation": "Final tool and output identities. Earlier inputs remain protected by input-lock.json. Re-running captures/probes changes their diagnostic identities and requires a new evidence checkpoint."
+}

@@ -1,0 +1,67 @@
+{
+  "status": "local-pilot-closed-with-exceptions",
+  "localPilotClosed": true,
+  "completedDate": "2026-09-16",
+  "acceptedLocalCheckpoint": "round6",
+  "rootSha256": "70e22f94d875123830352aaf7f991f5fc31d6c279efd5341f32e67ae7e28d65d",
+  "closeoutChange": "Ground-feature audit, six detailed source reinspections, prioritized exceptions and explicit stopping criteria. Rendered placement is unchanged from round six.",
+  "newTreesThisCloseout": 0,
+  "movedBasesThisCloseout": 0,
+  "productionChanged": false,
+  "fullTreeRepresentationEstablished": false,
+  "surveyedStemAccuracyEstablished": false,
+  "independentDetectorTargetMet": false,
+  "releaseReady": false,
+  "records": 3524,
+  "renderedIndividuals": 3516,
+  "renderedStandRepresentatives": 43861,
+  "coverage": {
+    "scopeAreaMetres2": 1237266.2303725102,
+    "gridCells": 156,
+    "inspectedCells": 156,
+    "inspectedAreaMetres2": 1177453.4610265095,
+    "inspectedFraction": 0.9516573168508831,
+    "cellStatusCounts": {
+      "reviewed": 29,
+      "ambiguous": 127
+    },
+    "areaByStatusMetres2": {
+      "reviewed": 105236.88813744149,
+      "ambiguous": 1072216.5728890684,
+      "unreviewed": 0.0,
+      "protected-evaluation": 59812.76934597632
+    }
+  },
+  "residualAccounting": {
+    "areaMetres2": 12512.818273522338,
+    "protectedMetres2": 806.5,
+    "reviewedNonTreeOverlapMetres2": 1181.0,
+    "unresolvedMetres2": 10525.318273522338,
+    "allGapAreaAccountedFor": true,
+    "completeTreeRepresentation": false,
+    "unresolvedCellCases": 102
+  },
+  "smallerComponentsNotIndividuallyReviewedInFocusedPass": 1546,
+  "groundConflictPatches": 27,
+  "detailedReinspections": 6,
+  "retainedUnresolvedCaseIdentities": 472,
+  "inheritedEvidence": {
+    "validation": "../round6/validation.json",
+    "sourceTests": "../round6/source-tests.json",
+    "screenshots": "../round6/screenshots.json",
+    "closeups": "../round6/closeups.json",
+    "performance": "../round6/performance.json",
+    "deterministicRebuild": "../round6/rebuild-check.json",
+    "evaluation": "../round2/evaluation.json",
+    "issueIndex": "../round6/issue-index.json",
+    "coverage": "../round5/coverage.json"
+  },
+  "validationReuse": "Frozen graph, application build, assets, records, stands and prior evidence are hash-checked unchanged. No new placement or performance claim; retained runtime checks apply to the same bytes.",
+  "automaticNextPass": false,
+  "reopenTriggers": [
+    "Confirmed tree planting/removal or new source campaign.",
+    "An explicitly scoped ground-boundary/exclusion-policy correction affecting the retained conflicts.",
+    "A reproducible visual/runtime defect in the accepted checkpoint.",
+    "A separately requested production release, with its outstanding gates."
+  ]
+}

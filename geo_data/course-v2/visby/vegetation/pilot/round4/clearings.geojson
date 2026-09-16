@@ -1,0 +1,253 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687387.0,
+              6370945.0
+            ],
+            [
+              687387.0,
+              6370923.0
+            ],
+            [
+              687360.0,
+              6370923.0
+            ],
+            [
+              687360.0,
+              6370945.0
+            ],
+            [
+              687387.0,
+              6370945.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "gap-r4-06-1",
+        "role": "clearing",
+        "scene": "r4-06",
+        "reviewed": "agent source interpretation",
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "meaning": "Reviewed open ground; not an independent surveyed boundary",
+        "sourceWindows": [
+          {
+            "id": "context-2-1",
+            "sha256": "d125d538734ca3e526b3359ee30215ca704956a9e92c48ea6850421ae152acf9",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "context-2-2",
+            "sha256": "aa0f5c2e09b0c46ba8ff8071f2aa18b6565fb4b35514beb7cafaf625f617b0f6",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "range-practice",
+            "sha256": "b96dad8de008250566cb4aa094835c514c49a725393696e6189388ea8bbd21fd",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "clubhouse-finish",
+            "sha256": "27bdf32eb5688464d91c7cb4021579b0ea24be52578b5be91567e8c35f53b4cf",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-09-tees",
+            "sha256": "9732070b99ed7950edbac390d541fa300786ef0e220c41489f9cff81867f7e9f",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-09-green",
+            "sha256": "d6453e93808abb6489ec8ba578413ffb7d4e0ae9e9584ed0d3d67c83b6a49098",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-02-tees",
+            "sha256": "1d1b0ef0970184bad4bd8412b7b4e7dca8f2f3bd44a50db49474d33b37a76534",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-08-green",
+            "sha256": "d1d3774b479d6b2ee052d8a2c33d7c39031a2be7adf9ca96ba8f999c264732d8",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687497.0,
+              6370993.0
+            ],
+            [
+              687497.0,
+              6370903.0
+            ],
+            [
+              687403.0,
+              6370903.0
+            ],
+            [
+              687403.0,
+              6370993.0
+            ],
+            [
+              687497.0,
+              6370993.0
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "gap-r4-15-1",
+        "role": "clearing",
+        "scene": "r4-15",
+        "reviewed": "agent source interpretation",
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "meaning": "Reviewed open ground; not an independent surveyed boundary",
+        "sourceWindows": [
+          {
+            "id": "context-2-2",
+            "sha256": "aa0f5c2e09b0c46ba8ff8071f2aa18b6565fb4b35514beb7cafaf625f617b0f6",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "range-practice",
+            "sha256": "b96dad8de008250566cb4aa094835c514c49a725393696e6189388ea8bbd21fd",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "clubhouse-finish",
+            "sha256": "27bdf32eb5688464d91c7cb4021579b0ea24be52578b5be91567e8c35f53b4cf",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-09-tees",
+            "sha256": "9732070b99ed7950edbac390d541fa300786ef0e220c41489f9cff81867f7e9f",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-08-green",
+            "sha256": "d1d3774b479d6b2ee052d8a2c33d7c39031a2be7adf9ca96ba8f999c264732d8",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,563 @@
+{
+  "pairs": [
+    {
+      "scenario": "webgpu-high",
+      "scene": "gap-039",
+      "id": "tree-visby-000033",
+      "requestedCamera": [
+        -353.2859999999637,
+        4.07350427998941,
+        188.50200000032783,
+        -365.2859999999637,
+        11.422392840003202,
+        158.50200000032783
+      ],
+      "camera": {
+        "pos": [
+          -353.3,
+          4.1,
+          188.5
+        ],
+        "look": [
+          -365.3,
+          11.4,
+          158.5
+        ],
+        "mode": "tee"
+      },
+      "before": "webgpu-high-gap-039-before.png",
+      "beforeSha256": "8b69ffd6862ee536ef22ad6fc14eeb0d2f1e579b6f2d5a67c83db856e29f9677",
+      "after": "webgpu-high-gap-039-after.png",
+      "afterSha256": "8b69ffd6862ee536ef22ad6fc14eeb0d2f1e579b6f2d5a67c83db856e29f9677",
+      "backend": "webgpu"
+    },
+    {
+      "scenario": "webgpu-high",
+      "scene": "gap-047",
+      "id": "tree-visby-000115",
+      "requestedCamera": [
+        -40.351000000024214,
+        3.61288952000273,
+        -500.18800000008196,
+        -52.351000000024214,
+        8.11307119999542,
+        -530.188000000082
+      ],
+      "camera": {
+        "pos": [
+          -40.4,
+          3.6,
+          -500.2
+        ],
+        "look": [
+          -52.4,
+          8.1,
+          -530.2
+        ],
+        "mode": "tee"
+      },
+      "before": "webgpu-high-gap-047-before.png",
+      "beforeSha256": "e1a428eee0bab7f5dcaf0960bf95d3049b93fae4ec35e79eb539a599de576796",
+      "after": "webgpu-high-gap-047-after.png",
+      "afterSha256": "89ee04cb70cae9e6805f2f598ea13f78e2c36229adb97cdcb251ecf97d7ca477",
+      "backend": "webgpu"
+    },
+    {
+      "scenario": "webgpu-high",
+      "scene": "gap-059",
+      "id": "tree-visby-000008",
+      "requestedCamera": [
+        -427.35999999998603,
+        4.253989999996265,
+        193.87899999972433,
+        -439.35999999998603,
+        8.450525600003733,
+        163.87899999972433
+      ],
+      "camera": {
+        "pos": [
+          -427.4,
+          4.3,
+          193.9
+        ],
+        "look": [
+          -439.4,
+          8.5,
+          163.9
+        ],
+        "mode": "tee"
+      },
+      "before": "webgpu-high-gap-059-before.png",
+      "beforeSha256": "a9d92160b044a3f4c32dad382c954e43656dfcb3d19d7752a41eb1de918e21ab",
+      "after": "webgpu-high-gap-059-after.png",
+      "afterSha256": "a9d92160b044a3f4c32dad382c954e43656dfcb3d19d7752a41eb1de918e21ab",
+      "backend": "webgpu"
+    },
+    {
+      "scenario": "webgpu-high",
+      "scene": "gap-073",
+      "id": "tree-visby-000017",
+      "requestedCamera": [
+        -400.23400000005495,
+        4.174175000000687,
+        147.375,
+        -412.23400000005495,
+        10.49619249999842,
+        117.375
+      ],
+      "camera": {
+        "pos": [
+          -400.2,
+          4.2,
+          147.4
+        ],
+        "look": [
+          -412.2,
+          10.5,
+          117.4
+        ],
+        "mode": "tee"
+      },
+      "before": "webgpu-high-gap-073-before.png",
+      "beforeSha256": "cb76526ab592d51e99050192b499534d62fd51ff95e06664c28c1a5b25198c3b",
+      "after": "webgpu-high-gap-073-after.png",
+      "afterSha256": "cb76526ab592d51e99050192b499534d62fd51ff95e06664c28c1a5b25198c3b",
+      "backend": "webgpu"
+    },
+    {
+      "scenario": "webgpu-high",
+      "scene": "gap-078",
+      "id": "tree-visby-000357",
+      "requestedCamera": [
+        351.6380000000354,
+        2.7101599999913013,
+        -412.32699999958277,
+        379.6380000000354,
+        6.725868780002401,
+        -420.32699999958277
+      ],
+      "camera": {
+        "pos": [
+          351.6,
+          2.7,
+          -412.3
+        ],
+        "look": [
+          379.6,
+          6.7,
+          -420.3
+        ],
+        "mode": "tee"
+      },
+      "before": "webgpu-high-gap-078-before.png",
+      "beforeSha256": "8f983182670a380c39c3b9f95f87f5d6fbf73e8387bc2d142c9601f955515317",
+      "after": "webgpu-high-gap-078-after.png",
+      "afterSha256": "8f983182670a380c39c3b9f95f87f5d6fbf73e8387bc2d142c9601f955515317",
+      "backend": "webgpu"
+    },
+    {
+      "scenario": "webgl-high",
+      "scene": "gap-039",
+      "id": "tree-visby-000033",
+      "requestedCamera": [
+        -353.2859999999637,
+        4.07350427998941,
+        188.50200000032783,
+        -365.2859999999637,
+        11.422392840003202,
+        158.50200000032783
+      ],
+      "camera": {
+        "pos": [
+          -353.3,
+          4.1,
+          188.5
+        ],
+        "look": [
+          -365.3,
+          11.4,
+          158.5
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-high-gap-039-before.png",
+      "beforeSha256": "ed9ea8b3ed878eb94ba5cd72299247b19bb09b5a520b7fe5544515639fcdfd5d",
+      "after": "webgl-high-gap-039-after.png",
+      "afterSha256": "ed9ea8b3ed878eb94ba5cd72299247b19bb09b5a520b7fe5544515639fcdfd5d",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-high",
+      "scene": "gap-047",
+      "id": "tree-visby-000115",
+      "requestedCamera": [
+        -40.351000000024214,
+        3.61288952000273,
+        -500.18800000008196,
+        -52.351000000024214,
+        8.11307119999542,
+        -530.188000000082
+      ],
+      "camera": {
+        "pos": [
+          -40.4,
+          3.6,
+          -500.2
+        ],
+        "look": [
+          -52.4,
+          8.1,
+          -530.2
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-high-gap-047-before.png",
+      "beforeSha256": "33098fbbbeab6cfe1b068840df85a46f37dd5bc5736013590274d0b56fb39840",
+      "after": "webgl-high-gap-047-after.png",
+      "afterSha256": "b3439e10b3ff347ce7162deca7e3e8e49483ead96bb08843ff67f9212a016b7c",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-high",
+      "scene": "gap-059",
+      "id": "tree-visby-000008",
+      "requestedCamera": [
+        -427.35999999998603,
+        4.253989999996265,
+        193.87899999972433,
+        -439.35999999998603,
+        8.450525600003733,
+        163.87899999972433
+      ],
+      "camera": {
+        "pos": [
+          -427.4,
+          4.3,
+          193.9
+        ],
+        "look": [
+          -439.4,
+          8.5,
+          163.9
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-high-gap-059-before.png",
+      "beforeSha256": "90396657a5802903769bbfcc5d0259cd3004137ce267f1bb77dc9720e75487ac",
+      "after": "webgl-high-gap-059-after.png",
+      "afterSha256": "90396657a5802903769bbfcc5d0259cd3004137ce267f1bb77dc9720e75487ac",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-high",
+      "scene": "gap-073",
+      "id": "tree-visby-000017",
+      "requestedCamera": [
+        -400.23400000005495,
+        4.174175000000687,
+        147.375,
+        -412.23400000005495,
+        10.49619249999842,
+        117.375
+      ],
+      "camera": {
+        "pos": [
+          -400.2,
+          4.2,
+          147.4
+        ],
+        "look": [
+          -412.2,
+          10.5,
+          117.4
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-high-gap-073-before.png",
+      "beforeSha256": "8fbab5bf445db66310cef098f02b9f3f1fac1f1ef645c21fc280717b4d7b70f4",
+      "after": "webgl-high-gap-073-after.png",
+      "afterSha256": "8fbab5bf445db66310cef098f02b9f3f1fac1f1ef645c21fc280717b4d7b70f4",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-high",
+      "scene": "gap-078",
+      "id": "tree-visby-000357",
+      "requestedCamera": [
+        351.6380000000354,
+        2.7101599999913013,
+        -412.32699999958277,
+        379.6380000000354,
+        6.725868780002401,
+        -420.32699999958277
+      ],
+      "camera": {
+        "pos": [
+          351.6,
+          2.7,
+          -412.3
+        ],
+        "look": [
+          379.6,
+          6.7,
+          -420.3
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-high-gap-078-before.png",
+      "beforeSha256": "f8e86fed00751070614e67cfd84aea0b69c852677ab48181f5d81b72ae7cb937",
+      "after": "webgl-high-gap-078-after.png",
+      "afterSha256": "f8e86fed00751070614e67cfd84aea0b69c852677ab48181f5d81b72ae7cb937",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-low",
+      "scene": "gap-039",
+      "id": "tree-visby-000033",
+      "requestedCamera": [
+        -353.2859999999637,
+        4.07350427998941,
+        188.50200000032783,
+        -365.2859999999637,
+        11.422392840003202,
+        158.50200000032783
+      ],
+      "camera": {
+        "pos": [
+          -353.3,
+          4.1,
+          188.5
+        ],
+        "look": [
+          -365.3,
+          11.4,
+          158.5
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-low-gap-039-before.png",
+      "beforeSha256": "732c0e30bb22a8e96b5a4755dd8eda0968a3db4005728f065cc157552181017b",
+      "after": "webgl-low-gap-039-after.png",
+      "afterSha256": "732c0e30bb22a8e96b5a4755dd8eda0968a3db4005728f065cc157552181017b",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-low",
+      "scene": "gap-047",
+      "id": "tree-visby-000115",
+      "requestedCamera": [
+        -40.351000000024214,
+        3.61288952000273,
+        -500.18800000008196,
+        -52.351000000024214,
+        8.11307119999542,
+        -530.188000000082
+      ],
+      "camera": {
+        "pos": [
+          -40.4,
+          3.6,
+          -500.2
+        ],
+        "look": [
+          -52.4,
+          8.1,
+          -530.2
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-low-gap-047-before.png",
+      "beforeSha256": "c503ca2b34cdd4364f9f83f9e3e0d5101c5071ab6ca7a60364b8c1971e414389",
+      "after": "webgl-low-gap-047-after.png",
+      "afterSha256": "05a6c7cfcd1328880cf6630b3b02ba11bcd147cf23a855b71987a1c4e391fe3a",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-low",
+      "scene": "gap-059",
+      "id": "tree-visby-000008",
+      "requestedCamera": [
+        -427.35999999998603,
+        4.253989999996265,
+        193.87899999972433,
+        -439.35999999998603,
+        8.450525600003733,
+        163.87899999972433
+      ],
+      "camera": {
+        "pos": [
+          -427.4,
+          4.3,
+          193.9
+        ],
+        "look": [
+          -439.4,
+          8.5,
+          163.9
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-low-gap-059-before.png",
+      "beforeSha256": "d0b8c63a9e3bd636ded6fcaa3a5a38b691980e8b83df38050edfbfe0329ca3ab",
+      "after": "webgl-low-gap-059-after.png",
+      "afterSha256": "d0b8c63a9e3bd636ded6fcaa3a5a38b691980e8b83df38050edfbfe0329ca3ab",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-low",
+      "scene": "gap-073",
+      "id": "tree-visby-000017",
+      "requestedCamera": [
+        -400.23400000005495,
+        4.174175000000687,
+        147.375,
+        -412.23400000005495,
+        10.49619249999842,
+        117.375
+      ],
+      "camera": {
+        "pos": [
+          -400.2,
+          4.2,
+          147.4
+        ],
+        "look": [
+          -412.2,
+          10.5,
+          117.4
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-low-gap-073-before.png",
+      "beforeSha256": "f5be796ea0b21bfb4434ec754edeeeecab6c35643dd37d881cc73ad027d7dab4",
+      "after": "webgl-low-gap-073-after.png",
+      "afterSha256": "f5be796ea0b21bfb4434ec754edeeeecab6c35643dd37d881cc73ad027d7dab4",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-low",
+      "scene": "gap-078",
+      "id": "tree-visby-000357",
+      "requestedCamera": [
+        351.6380000000354,
+        2.7101599999913013,
+        -412.32699999958277,
+        379.6380000000354,
+        6.725868780002401,
+        -420.32699999958277
+      ],
+      "camera": {
+        "pos": [
+          351.6,
+          2.7,
+          -412.3
+        ],
+        "look": [
+          379.6,
+          6.7,
+          -420.3
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-low-gap-078-before.png",
+      "beforeSha256": "68c8d1e75a2187895ee303cd16bd5ace86d671cd29b06e43bba261f971e391c6",
+      "after": "webgl-low-gap-078-after.png",
+      "afterSha256": "ff64c753fccf8fb87973293f3fa01e73d5acc684d7b189714f0dbb2403b4f713",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgpu-high",
+      "scene": "gap-074",
+      "id": "tree-visby-000259",
+      "requestedCamera": [
+        158.25,
+        3.88,
+        42.5,
+        186.25,
+        8.191690000000001,
+        42.5
+      ],
+      "camera": {
+        "pos": [
+          158.3,
+          3.9,
+          42.5
+        ],
+        "look": [
+          186.3,
+          8.2,
+          42.5
+        ],
+        "mode": "tee"
+      },
+      "before": "webgpu-high-gap-074-before.png",
+      "beforeSha256": "0d0d1b6b5aa5ca8f1ac19327e1f9fce08357b91bf98428a1b3ca724fb2679ec2",
+      "after": "webgpu-high-gap-074-after.png",
+      "afterSha256": "fa92c6bf1a3dc048b405f9116636187787453e147bacfa3dba8b27df4e5aac24",
+      "backend": "webgpu"
+    },
+    {
+      "scenario": "webgl-high",
+      "scene": "gap-074",
+      "id": "tree-visby-000259",
+      "requestedCamera": [
+        158.25,
+        3.88,
+        42.5,
+        186.25,
+        8.191690000000001,
+        42.5
+      ],
+      "camera": {
+        "pos": [
+          158.3,
+          3.9,
+          42.5
+        ],
+        "look": [
+          186.3,
+          8.2,
+          42.5
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-high-gap-074-before.png",
+      "beforeSha256": "7b3a558c46062a594804312d49d3313199464c793a076ce684bf6b71d9bd95ab",
+      "after": "webgl-high-gap-074-after.png",
+      "afterSha256": "2f5b9077d78aa74e933abe4c22f49b709defb28c058378bb219d4fcdff08890e",
+      "backend": "webgl2"
+    },
+    {
+      "scenario": "webgl-low",
+      "scene": "gap-074",
+      "id": "tree-visby-000259",
+      "requestedCamera": [
+        158.25,
+        3.88,
+        42.5,
+        186.25,
+        8.191690000000001,
+        42.5
+      ],
+      "camera": {
+        "pos": [
+          158.3,
+          3.9,
+          42.5
+        ],
+        "look": [
+          186.3,
+          8.2,
+          42.5
+        ],
+        "mode": "tee"
+      },
+      "before": "webgl-low-gap-074-before.png",
+      "beforeSha256": "1df5dcb64a54a20634acd4ae3af54edd27cbdd0c55e1db1fdd511a64fa98d1e5",
+      "after": "webgl-low-gap-074-after.png",
+      "afterSha256": "86ea5fdd07f9a44bb13a328ad0af97fd83926b0a1d30bdd35e0e3e9c8527850d",
+      "backend": "webgl2"
+    }
+  ],
+  "meaning": "Low-angle matched views; bases, terrain, lighting and assets retained. Crown radius changes only."
+}

@@ -1,0 +1,90 @@
+{
+  "reference": "https://www.visbygk.com/om-banorna/",
+  "blender": "4.5.9 LTS",
+  "budgets": {
+    "hero": 4500,
+    "full": 1700,
+    "lite": 420
+  },
+  "variants": [
+    {
+      "seed": 16000,
+      "name": "Wind leaning",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/69851c636fbbddca7f964326a2bc79689e454038cd08ca3c12da743e92c92e91.glb",
+          "bytes": 282256,
+          "sha256": "69851c636fbbddca7f964326a2bc79689e454038cd08ca3c12da743e92c92e91",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/ebee79800f071e5ad8e4667e79abe11b66c1b3a7bd31375dd7bfdb77ae61cdbf.glb",
+          "bytes": 107128,
+          "sha256": "ebee79800f071e5ad8e4667e79abe11b66c1b3a7bd31375dd7bfdb77ae61cdbf",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/4eeb27d517edd99b4cd23f79762113cbae114f473f5b7379a2298e8ebcb0f954.glb",
+          "bytes": 10440,
+          "sha256": "4eeb27d517edd99b4cd23f79762113cbae114f473f5b7379a2298e8ebcb0f954",
+          "tris": 300
+        }
+      },
+      "templateHeight": 9.6318359375,
+      "templateRadius": 9.531126976013184
+    },
+    {
+      "seed": 16100,
+      "name": "Forked coastal",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/928526032c6452a8f1a2f25d9e487e8ca24d66ffcdf54e2c79d3d0d84942d5e5.glb",
+          "bytes": 272348,
+          "sha256": "928526032c6452a8f1a2f25d9e487e8ca24d66ffcdf54e2c79d3d0d84942d5e5",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/c3654c5a0114dd29cf4a17191f82e586ae9e0b1e205a78aecfd69bb8cb345f23.glb",
+          "bytes": 102064,
+          "sha256": "c3654c5a0114dd29cf4a17191f82e586ae9e0b1e205a78aecfd69bb8cb345f23",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/19a0c57dbd1d44bb9e48c57bf8c0c12b6fea8aa51bbac9f7a401833a1a994459.glb",
+          "bytes": 10440,
+          "sha256": "19a0c57dbd1d44bb9e48c57bf8c0c12b6fea8aa51bbac9f7a401833a1a994459",
+          "tris": 300
+        }
+      },
+      "templateHeight": 10.169546127319336,
+      "templateRadius": 8.627859115600586
+    },
+    {
+      "seed": 16200,
+      "name": "Sheltered upright",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/b3925b7c49dcb8a5e74ab358c0867c9dccbbb002906e2f2afad496cb73854f0f.glb",
+          "bytes": 282268,
+          "sha256": "b3925b7c49dcb8a5e74ab358c0867c9dccbbb002906e2f2afad496cb73854f0f",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/50811396d8f5cfc321cc0667f0a2b16e8825ad55b2e56c1e7aca72a089d4e0de.glb",
+          "bytes": 107124,
+          "sha256": "50811396d8f5cfc321cc0667f0a2b16e8825ad55b2e56c1e7aca72a089d4e0de",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/08daafce80e112a90e49bffac4ad3431839ed3c9ac8452d6da13d2c3772e4ecd.glb",
+          "bytes": 10440,
+          "sha256": "08daafce80e112a90e49bffac4ad3431839ed3c9ac8452d6da13d2c3772e4ecd",
+          "tris": 300
+        }
+      },
+      "templateHeight": 11.06047534942627,
+      "templateRadius": 8.00507926940918
+    }
+  ],
+  "placement": "Existing Visby pine roots and measured dimensions"
+}

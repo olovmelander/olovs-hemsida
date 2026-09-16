@@ -1,0 +1,20 @@
+{
+  "scope": "Every previously uninspected editable cell in the frozen playing/practice corridor plus 30 m",
+  "gridCells": 119,
+  "newReviewCells": 91,
+  "previouslyInspectedCells": 26,
+  "entirelyProtectedCells": 2,
+  "method": "Frozen round-two Dalponte plus measured canopy islands, followed by explicit source review; no detector retuning or new accuracy claim.",
+  "ownership": "Half-open 100 m centre ownership, clipped to corridor; full crown geometry; 15 m image context and 20 m detection halo.",
+  "sourceDates": {
+    "lidar": [
+      "2024-02-03",
+      "2024-04-28"
+    ],
+    "rgbi": "2026-04-10",
+    "seasonal": "2022; exact date unknown"
+  },
+  "uncertainty": "Crown centres, not surveyed stems; 2 m horizontal and 1.5 m vertical are judgements, not measured accuracy.",
+  "release": "Isolated local preview only; unchanged production and earlier previews.",
+  "completion": "Every cell accounted for, with inspected/resolved/ambiguous/no-data/protected states kept separate. No forced acceptance of uncertain trees."
+}

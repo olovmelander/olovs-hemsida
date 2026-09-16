@@ -1,0 +1,234 @@
+{
+  "browser": "152.0.7977.83",
+  "repeats": 3,
+  "hole": 16,
+  "camera": "tee",
+  "viewport": [
+    1440,
+    900
+  ],
+  "comparison": [
+    {
+      "scenario": "webgpu-high",
+      "before": {
+        "bootMs": 16890,
+        "frameMedianMs": 12,
+        "frameP95Ms": 12.200000000000728,
+        "vegetationPlanMs": 198.5,
+        "networkBytes": 7043199,
+        "networkRequests": 5,
+        "vegetationBytes": 1305748,
+        "drawn": 47837,
+        "groundResidual": {
+          "sampleCount": 47837,
+          "median": 0.002352499999997981,
+          "p95": 0.0047709999999989705,
+          "max": 0.006974999999965981
+        }
+      },
+      "after": {
+        "bootMs": 16028,
+        "frameMedianMs": 24.099999999998545,
+        "frameP95Ms": 24.30000000000291,
+        "vegetationPlanMs": 183.4,
+        "networkBytes": 7033991,
+        "networkRequests": 5,
+        "vegetationBytes": 1296541,
+        "drawn": 47633,
+        "groundResidual": {
+          "sampleCount": 47633,
+          "median": 0.002352000000006793,
+          "p95": 0.004770999999999859,
+          "max": 0.006995999999997338
+        }
+      },
+      "percentChange": {
+        "bootMs": -5.103611604499703,
+        "frameMedianMs": 100.8333333333212,
+        "frameP95Ms": 99.18032786886444,
+        "vegetationPlanMs": -7.607052896725442,
+        "networkBytes": -0.13073604763971236,
+        "vegetationBytes": -0.7051130846074449
+      }
+    },
+    {
+      "scenario": "webgl-high",
+      "before": {
+        "bootMs": 14879,
+        "frameMedianMs": 54.5,
+        "frameP95Ms": 60.599999999998545,
+        "vegetationPlanMs": 197.2,
+        "networkBytes": 7043199,
+        "networkRequests": 5,
+        "vegetationBytes": 1305748,
+        "drawn": 47837,
+        "groundResidual": {
+          "sampleCount": 47837,
+          "median": 0.002352499999997981,
+          "p95": 0.0047709999999989705,
+          "max": 0.006974999999965981
+        }
+      },
+      "after": {
+        "bootMs": 14908,
+        "frameMedianMs": 54.5,
+        "frameP95Ms": 54.60000000000218,
+        "vegetationPlanMs": 203.3,
+        "networkBytes": 7033991,
+        "networkRequests": 5,
+        "vegetationBytes": 1296541,
+        "drawn": 47633,
+        "groundResidual": {
+          "sampleCount": 47633,
+          "median": 0.002352000000006793,
+          "p95": 0.004770999999999859,
+          "max": 0.006995999999997338
+        }
+      },
+      "percentChange": {
+        "bootMs": 0.19490557161099265,
+        "frameMedianMs": 0,
+        "frameP95Ms": -9.900990099004137,
+        "vegetationPlanMs": 3.09330628803246,
+        "networkBytes": -0.13073604763971236,
+        "vegetationBytes": -0.7051130846074449
+      }
+    },
+    {
+      "scenario": "webgl-low",
+      "before": {
+        "bootMs": 12907,
+        "frameMedianMs": 18.099999999998545,
+        "frameP95Ms": 18.30000000000109,
+        "vegetationPlanMs": 127.2,
+        "networkBytes": 7043199,
+        "networkRequests": 5,
+        "vegetationBytes": 1305748,
+        "drawn": 32334,
+        "groundResidual": {
+          "sampleCount": 32334,
+          "median": 0.0023519999999996877,
+          "p95": 0.004774000000000278,
+          "max": 0.006719999999998727
+        }
+      },
+      "after": {
+        "bootMs": 13095,
+        "frameMedianMs": 18.099999999998545,
+        "frameP95Ms": 18.30000000000291,
+        "vegetationPlanMs": 136,
+        "networkBytes": 7033991,
+        "networkRequests": 5,
+        "vegetationBytes": 1296541,
+        "drawn": 32289,
+        "groundResidual": {
+          "sampleCount": 32289,
+          "median": 0.0023520000000001318,
+          "p95": 0.004775499999999155,
+          "max": 0.006995999999997338
+        }
+      },
+      "percentChange": {
+        "bootMs": 1.4565739521190002,
+        "frameMedianMs": 0,
+        "frameP95Ms": 9.947598300641403e-12,
+        "vegetationPlanMs": 6.91823899371069,
+        "networkBytes": -0.13073604763971236,
+        "vegetationBytes": -0.7051130846074449
+      }
+    }
+  ],
+  "comparisonModes": {
+    "before": "round three",
+    "after": "round four"
+  },
+  "limitation": "Local machine, serial cold contexts, interleaved order. RAF intervals include browser scheduling and are not isolated GPU timings.",
+  "regressionsAbove10Percent": [
+    {
+      "scenario": "webgpu-high",
+      "metric": "frameMedianMs",
+      "percent": 100.8333333333212,
+      "before": 12,
+      "after": 24.099999999998545
+    },
+    {
+      "scenario": "webgpu-high",
+      "metric": "frameP95Ms",
+      "percent": 99.18032786886444,
+      "before": 12.200000000000728,
+      "after": 24.30000000000291
+    }
+  ],
+  "sourceRunsSha256": "b0ec96350c2a6c9076e4c9cc899e8f428754c27cdaa15492a926e43397181270",
+  "investigation": {
+    "initialSha256": "b0ec96350c2a6c9076e4c9cc899e8f428754c27cdaa15492a926e43397181270",
+    "additionalRunHashes": {
+      "performance-webgpu-followup-runs.json": "b1b1592179274f57303ac78ba6e9f3d234303c29a45ee7ba4c957bf66b0b5ad7",
+      "performance-webgpu-followup-summary.json": "6264e2c0ce14903b59b88ac273c23ab825d1822601947d5c15917f2627d43c26"
+    },
+    "followup": {
+      "browser": "152.0.7977.83",
+      "repeats": 3,
+      "hole": 16,
+      "camera": "tee",
+      "viewport": [
+        1440,
+        900
+      ],
+      "comparison": [
+        {
+          "scenario": "webgpu-high",
+          "before": {
+            "bootMs": 13817,
+            "frameMedianMs": 12,
+            "frameP95Ms": 12.299999999999272,
+            "vegetationPlanMs": 139.5,
+            "networkBytes": 7043199,
+            "networkRequests": 5,
+            "vegetationBytes": 1305748,
+            "drawn": 47837,
+            "groundResidual": {
+              "sampleCount": 47837,
+              "median": 0.002352499999997981,
+              "p95": 0.0047709999999989705,
+              "max": 0.006974999999965981
+            }
+          },
+          "after": {
+            "bootMs": 13818,
+            "frameMedianMs": 6.5,
+            "frameP95Ms": 12.200000000000728,
+            "vegetationPlanMs": 140,
+            "networkBytes": 7033991,
+            "networkRequests": 5,
+            "vegetationBytes": 1296541,
+            "drawn": 47633,
+            "groundResidual": {
+              "sampleCount": 47633,
+              "median": 0.002352000000006793,
+              "p95": 0.004770999999999859,
+              "max": 0.006995999999997338
+            }
+          },
+          "percentChange": {
+            "bootMs": 0.007237461098652531,
+            "frameMedianMs": -45.833333333333336,
+            "frameP95Ms": -0.8130081300695147,
+            "vegetationPlanMs": 0.35842293906809264,
+            "networkBytes": -0.13073604763971236,
+            "vegetationBytes": -0.7051130846074449
+          }
+        }
+      ],
+      "comparisonModes": {
+        "before": "round three",
+        "after": "round four"
+      },
+      "limitation": "Local machine, serial cold contexts, interleaved order. RAF intervals include browser scheduling and are not isolated GPU timings."
+    },
+    "finding": "Initial WebGPU frame median doubled (12 to 24.1 ms), while per-repeat frame intervals ranged broadly and the retained population decreased. Three additional interleaved WebGPU pairs on the same immutable generations did not reproduce the slowdown. WebGL high/low initial median frame changes were zero. Load, transfer and planning stayed within the 10% gate in the original comparison.",
+    "decision": "Keep both raw series. The initial WebGPU scheduling-sensitive regression was investigated, not discarded; no stable vegetation-induced slowdown established by these local RAF measurements. Local preview only; no production release.",
+    "limitation": "One shared workstation; RAF includes browser scheduling and is not GPU-only timing. First original before sample overlapped completion of offline evidence work, so load/performance claims rely on repeated medians and the serial follow-up."
+  },
+  "groundCheckPolicy": "All-instance terrain check on first repeat for each mode/backend/quality; later repeats reuse it after population, catalogue and loaded-record equality checks. Timing comparisons use only this run."
+}

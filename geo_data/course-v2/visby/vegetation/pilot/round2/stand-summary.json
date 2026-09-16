@@ -1,0 +1,32 @@
+{
+  "changedTiles": 4,
+  "tiles": [
+    {
+      "tileId": "l0/6/6",
+      "cellMetres": 1,
+      "changedCells": 202,
+      "removedStandCanopyMetres2": 185.0
+    },
+    {
+      "tileId": "l0/8/6",
+      "cellMetres": 1,
+      "changedCells": 408,
+      "removedStandCanopyMetres2": 386.0
+    },
+    {
+      "tileId": "l0/8/7",
+      "cellMetres": 1,
+      "changedCells": 1178,
+      "removedStandCanopyMetres2": 997.0
+    },
+    {
+      "tileId": "l0/9/8",
+      "cellMetres": 1,
+      "changedCells": 53,
+      "removedStandCanopyMetres2": 39.0
+    }
+  ],
+  "newFootprints": 18,
+  "fineTiles": 24,
+  "policy": "Subtract new reviewed individual footprints; retain all other previous-pilot stand cells byte-for-byte."
+}

@@ -1,0 +1,46 @@
+{
+  "status": "passed",
+  "previousPilotRecords": 3151,
+  "records": 3169,
+  "acceptedAdditionalCrowns": 18,
+  "retainedExistingDecisions": 8,
+  "heldCandidates": 11,
+  "previousRecordsUnchanged": true,
+  "productionRootUnchanged": true,
+  "previousPilotRootUnchanged": true,
+  "freshEvaluationUnedited": true,
+  "freshStandCellsVerified": 61206,
+  "changedStandCells": 1841,
+  "matchedScreenshotPairs": 40,
+  "rendered": {
+    "webgpu-high": {
+      "drawn": 47881,
+      "individuals": 3161,
+      "standRepresentatives": 44720,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInReviewedClearings": 0
+    },
+    "webgl-high": {
+      "drawn": 47881,
+      "individuals": 3161,
+      "standRepresentatives": 44720,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInReviewedClearings": 0
+    },
+    "webgl-low": {
+      "drawn": 32322,
+      "individuals": 3161,
+      "standRepresentatives": 29161,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInReviewedClearings": 0
+    }
+  },
+  "detectorTargetMet": false,
+  "tests": {
+    "python": 16,
+    "node": 35
+  }
+}

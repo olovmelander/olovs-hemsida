@@ -1,0 +1,778 @@
+{
+  "groundId": "visby",
+  "scope": "Existing two local pilots; no new placement decisions",
+  "metricsDefinition": "Review-window area is an upper bound on potential detailed review, not a reviewed percentage. Source annotation covers selected crowns. Acquisition, sampling, visual screenshots and comprehensive audit are different kinds of coverage.",
+  "perHoleAreaDefinition": "Each hole line buffered 90 m, intersected with the union of playing/practice surfaces plus 30 m. Rows can overlap; do not sum them. This is a reproducible diagnostic scope, not approved hole ownership or a survey boundary.",
+  "corridorAreaMetres2": 658651.7684630805,
+  "allReviewWindowIntersectionFraction": 0.2635786910785232,
+  "placementWindowIntersectionFraction": 0.19500510820544753,
+  "recordedValidImageCoverageFraction": 1.0,
+  "acquisitionWindows": 68,
+  "fullyValidAcquisitionWindows": 68,
+  "imageCoverageMethod": "Union of acquisition footprints recorded as 100% valid; source hashes are retained in the acquisition report. This audit hashes the report and does not redownload or reverify every image byte.",
+  "dedicatedSampleHoles": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "holesWithoutDedicatedSample": [
+    1
+  ],
+  "referenceCrowns": 208,
+  "scorableReferenceCrowns": 197,
+  "unresolvedCatalogueCases": 34,
+  "unresolvedFreshReferenceCrowns": 1,
+  "unresolvedCases": [
+    {
+      "hole": 3,
+      "id": "ref-cal03-001",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 3,
+      "id": "ref-cal03-006",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 3,
+      "id": "ref-cal03-007",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 3,
+      "id": "ref-cal03-010",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 13,
+      "id": "ref-cal13-034",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 6,
+      "id": "ref-cal06-005",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 9,
+      "id": "ref-hold09b-004",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-002",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-004",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-005",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-006",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-009",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-011",
+      "reason": "Crown-centre candidate suppressed by existing ground exclusions in the rendered pilot. Canopy evidence is retained; base position and crown overhang remain unresolved. Do not move into adjacent open space.",
+      "round": 1
+    },
+    {
+      "hole": 2,
+      "id": "ref-cal02-010",
+      "reason": "interpreted",
+      "round": 1
+    },
+    {
+      "hole": 2,
+      "id": "ref-cal02-011",
+      "reason": "interpreted",
+      "round": 1
+    },
+    {
+      "hole": 3,
+      "id": "ref-cal03-002",
+      "reason": "unresolved-low-height",
+      "round": 1
+    },
+    {
+      "hole": 3,
+      "id": "ref-cal03-012",
+      "reason": "unresolved-low-height",
+      "round": 1
+    },
+    {
+      "hole": 13,
+      "id": "ref-cal13-020",
+      "reason": "interpreted",
+      "round": 1
+    },
+    {
+      "hole": 14,
+      "id": "ref-cal14-005",
+      "reason": "interpreted",
+      "round": 1
+    },
+    {
+      "hole": 14,
+      "id": "ref-cal14-006",
+      "reason": "unresolved-low-height",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16a-011",
+      "reason": "interpreted",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-015",
+      "reason": "interpreted",
+      "round": 1
+    },
+    {
+      "hole": 16,
+      "id": "ref-hold16b-016",
+      "reason": "interpreted",
+      "round": 1
+    },
+    {
+      "hole": 6,
+      "id": "review06/island/11",
+      "reason": "Low sparse vegetation: tree versus shrub identity and base are ambiguous.",
+      "round": 2
+    },
+    {
+      "hole": 6,
+      "id": "review06/island/12",
+      "reason": "Fragmented low canopy: crown and stem cannot be distinguished reliably.",
+      "round": 2
+    },
+    {
+      "hole": 13,
+      "id": "review13/dalponte-d9-m5/26",
+      "reason": "Segmentation divides connected canopy around an existing individual; correspondence and split remain ambiguous.",
+      "round": 2
+    },
+    {
+      "hole": 13,
+      "id": "review13/dalponte-d9-m5/29",
+      "reason": "Same connected group as candidate 2 and an existing individual; do not add a potentially duplicate tree.",
+      "round": 2
+    },
+    {
+      "hole": 15,
+      "id": "review15west/dalponte-d9-m5/8",
+      "reason": "Crown crosses the source-review boundary; complete outline was not reviewed.",
+      "round": 2
+    },
+    {
+      "hole": 15,
+      "id": "review15west/dalponte-d9-m5/14",
+      "reason": "Small attached segment may belong to the broad neighbouring crown 4.",
+      "round": 2
+    },
+    {
+      "hole": 15,
+      "id": "review15west/dalponte-d9-m5/26",
+      "reason": "Crown crosses the source-review boundary.",
+      "round": 2
+    },
+    {
+      "hole": 15,
+      "id": "review15west/dalponte-d9-m5/32",
+      "reason": "Crown crosses the source-review boundary.",
+      "round": 2
+    },
+    {
+      "hole": 15,
+      "id": "review15west/dalponte-d9-m5/41",
+      "reason": "Crown crosses the source-review boundary.",
+      "round": 2
+    },
+    {
+      "hole": 15,
+      "id": "review15west/dalponte-d9-m5/44",
+      "reason": "Connected crown group contains an existing tree; uncertain correspondence.",
+      "round": 2
+    },
+    {
+      "hole": 15,
+      "id": "review15west/dalponte-d9-m5/48",
+      "reason": "Crown crosses the source-review boundary.",
+      "round": 2
+    }
+  ],
+  "suppressedRegistryRecords": [
+    {
+      "id": "tree-visby-000067",
+      "easting": 687472.777,
+      "northing": 6371643.01,
+      "nearestHole": 3,
+      "distanceToHoleLineMetres": 45.15349595781604,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    },
+    {
+      "id": "tree-visby-000284",
+      "easting": 687965.433,
+      "northing": 6370988.528,
+      "nearestHole": 16,
+      "distanceToHoleLineMetres": 63.753377176279606,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    },
+    {
+      "id": "tree-visby-000009",
+      "easting": 687309.176,
+      "northing": 6370700.845,
+      "nearestHole": 18,
+      "distanceToHoleLineMetres": 20.70497044168942,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    },
+    {
+      "id": "tree-visby-000038",
+      "easting": 687401.839,
+      "northing": 6370798.639,
+      "nearestHole": 10,
+      "distanceToHoleLineMetres": 24.365397646225357,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    },
+    {
+      "id": "tree-visby-000042",
+      "easting": 687412.708,
+      "northing": 6370713.662,
+      "nearestHole": 18,
+      "distanceToHoleLineMetres": 23.554202608912934,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    },
+    {
+      "id": "tree-visby-000051",
+      "easting": 687436.173,
+      "northing": 6370721.373,
+      "nearestHole": 18,
+      "distanceToHoleLineMetres": 29.304625039177967,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    },
+    {
+      "id": "tree-visby-000258",
+      "easting": 687934.654,
+      "northing": 6370826.319,
+      "nearestHole": 16,
+      "distanceToHoleLineMetres": 19.351080563741334,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    },
+    {
+      "id": "tree-visby-000296",
+      "easting": 687980.255,
+      "northing": 6370870.794,
+      "nearestHole": 12,
+      "distanceToHoleLineMetres": 8.292058151465731,
+      "reason": "Retained registry record absent from exported individual instances; inspect runtime exclusion before inferring missing real tree."
+    }
+  ],
+  "rows": [
+    {
+      "hole": 1,
+      "diagnosticAreaMetres2": 30773.044618452703,
+      "reviewWindowIntersectionMetres2": 0.0,
+      "reviewWindowIntersectionFraction": 0.0,
+      "placementReviewWindowIntersectionFraction": 0.0,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.0925931930541992,
+      "cellsWithFirstReturnFraction": 0.768338262536969,
+      "finiteCanopyHeightCellsFraction": 0.7949234619259644,
+      "dedicatedScenes": [],
+      "annotatedCrowns": 0,
+      "scorableCrowns": 0,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 2,
+      "diagnosticAreaMetres2": 75340.0256182122,
+      "reviewWindowIntersectionMetres2": 13565.01962114357,
+      "reviewWindowIntersectionFraction": 0.18005063722548634,
+      "placementReviewWindowIntersectionFraction": 0.16560604947379362,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.4010406732559204,
+      "cellsWithFirstReturnFraction": 0.7883035346898685,
+      "finiteCanopyHeightCellsFraction": 0.8233451466040165,
+      "dedicatedScenes": [
+        "cal02"
+      ],
+      "annotatedCrowns": 11,
+      "scorableCrowns": 9,
+      "acceptedEditsByRound": {
+        "1": 9,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 2,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 3,
+      "diagnosticAreaMetres2": 90232.72286721536,
+      "reviewWindowIntersectionMetres2": 26734.291024154878,
+      "reviewWindowIntersectionFraction": 0.2962815503583608,
+      "placementReviewWindowIntersectionFraction": 0.2555158832699633,
+      "recordedValidImageCoverageFraction": 0.9999999999999996,
+      "firstReturnsPerSquareMetre": 2.0357961654663086,
+      "cellsWithFirstReturnFraction": 0.9013110502809394,
+      "finiteCanopyHeightCellsFraction": 0.9193975596511255,
+      "dedicatedScenes": [
+        "cal03"
+      ],
+      "annotatedCrowns": 12,
+      "scorableCrowns": 10,
+      "acceptedEditsByRound": {
+        "1": 6,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 6,
+      "suppressedRegistryRecordsNearestHole": 1,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 4,
+      "diagnosticAreaMetres2": 37588.14993526502,
+      "reviewWindowIntersectionMetres2": 8033.820254748599,
+      "reviewWindowIntersectionFraction": 0.21373279261109118,
+      "placementReviewWindowIntersectionFraction": 0.21373279261109118,
+      "recordedValidImageCoverageFraction": 0.9999999999999998,
+      "firstReturnsPerSquareMetre": 1.518986701965332,
+      "cellsWithFirstReturnFraction": 0.8769791638947284,
+      "finiteCanopyHeightCellsFraction": 0.8922536523058091,
+      "dedicatedScenes": [
+        "cal04"
+      ],
+      "annotatedCrowns": 0,
+      "scorableCrowns": 0,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 5,
+      "diagnosticAreaMetres2": 28742.502670505473,
+      "reviewWindowIntersectionMetres2": 7423.930706777934,
+      "reviewWindowIntersectionFraction": 0.2582910330350636,
+      "placementReviewWindowIntersectionFraction": 0.0,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.5001914501190186,
+      "cellsWithFirstReturnFraction": 0.8552040922852072,
+      "finiteCanopyHeightCellsFraction": 0.8959877509830532,
+      "dedicatedScenes": [
+        "fresh05"
+      ],
+      "annotatedCrowns": 13,
+      "scorableCrowns": 13,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 6,
+      "diagnosticAreaMetres2": 74407.32075579389,
+      "reviewWindowIntersectionMetres2": 22141.936808278937,
+      "reviewWindowIntersectionFraction": 0.2975773967315549,
+      "placementReviewWindowIntersectionFraction": 0.2083431729138749,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 2.0747597217559814,
+      "cellsWithFirstReturnFraction": 0.8934363453140746,
+      "finiteCanopyHeightCellsFraction": 0.9189788377561303,
+      "dedicatedScenes": [
+        "cal06",
+        "review06"
+      ],
+      "annotatedCrowns": 5,
+      "scorableCrowns": 5,
+      "acceptedEditsByRound": {
+        "1": 4,
+        "2": 3
+      },
+      "unresolvedCatalogueCases": 3,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 7,
+      "diagnosticAreaMetres2": 39763.18442403733,
+      "reviewWindowIntersectionMetres2": 8474.881187756326,
+      "reviewWindowIntersectionFraction": 0.21313386516984179,
+      "placementReviewWindowIntersectionFraction": 0.08247405230141817,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 2.5813872814178467,
+      "cellsWithFirstReturnFraction": 0.9339852686090651,
+      "finiteCanopyHeightCellsFraction": 0.9579174941552075,
+      "dedicatedScenes": [
+        "fresh07"
+      ],
+      "annotatedCrowns": 22,
+      "scorableCrowns": 22,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 8,
+      "diagnosticAreaMetres2": 73160.28351943135,
+      "reviewWindowIntersectionMetres2": 21276.13139290807,
+      "reviewWindowIntersectionFraction": 0.29081532177574376,
+      "placementReviewWindowIntersectionFraction": 0.2636866454955968,
+      "recordedValidImageCoverageFraction": 0.9999999999999992,
+      "firstReturnsPerSquareMetre": 1.5414968729019165,
+      "cellsWithFirstReturnFraction": 0.8073231425524351,
+      "finiteCanopyHeightCellsFraction": 0.8328092099866007,
+      "dedicatedScenes": [
+        "cal08"
+      ],
+      "annotatedCrowns": 0,
+      "scorableCrowns": 0,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 9,
+      "diagnosticAreaMetres2": 75582.49503372943,
+      "reviewWindowIntersectionMetres2": 18937.450882600766,
+      "reviewWindowIntersectionFraction": 0.25055339697571166,
+      "placementReviewWindowIntersectionFraction": 0.25055339697571166,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.1009595394134521,
+      "cellsWithFirstReturnFraction": 0.7720997948514328,
+      "finiteCanopyHeightCellsFraction": 0.7851498908080207,
+      "dedicatedScenes": [
+        "hold09a",
+        "hold09b"
+      ],
+      "annotatedCrowns": 6,
+      "scorableCrowns": 6,
+      "acceptedEditsByRound": {
+        "1": 5,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 1,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 10,
+      "diagnosticAreaMetres2": 84833.01867828048,
+      "reviewWindowIntersectionMetres2": 12338.436900145649,
+      "reviewWindowIntersectionFraction": 0.14544380351402747,
+      "placementReviewWindowIntersectionFraction": 0.10826387921210173,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.0846480131149292,
+      "cellsWithFirstReturnFraction": 0.7580238179459969,
+      "finiteCanopyHeightCellsFraction": 0.7985968635774083,
+      "dedicatedScenes": [
+        "cal10"
+      ],
+      "annotatedCrowns": 0,
+      "scorableCrowns": 0,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 1,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 11,
+      "diagnosticAreaMetres2": 50665.9858377047,
+      "reviewWindowIntersectionMetres2": 19539.542130778416,
+      "reviewWindowIntersectionFraction": 0.3856540400372008,
+      "placementReviewWindowIntersectionFraction": 0.0,
+      "recordedValidImageCoverageFraction": 0.9999999999999991,
+      "firstReturnsPerSquareMetre": 0.9886101484298706,
+      "cellsWithFirstReturnFraction": 0.7106141060818413,
+      "finiteCanopyHeightCellsFraction": 0.7237016127440337,
+      "dedicatedScenes": [
+        "fresh11"
+      ],
+      "annotatedCrowns": 3,
+      "scorableCrowns": 2,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 12,
+      "diagnosticAreaMetres2": 47190.126967633005,
+      "reviewWindowIntersectionMetres2": 24948.268722482157,
+      "reviewWindowIntersectionFraction": 0.5286756007160947,
+      "placementReviewWindowIntersectionFraction": 0.24011992755015307,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.1112288236618042,
+      "cellsWithFirstReturnFraction": 0.7623852627562376,
+      "finiteCanopyHeightCellsFraction": 0.8314925911008416,
+      "dedicatedScenes": [
+        "fresh12"
+      ],
+      "annotatedCrowns": 18,
+      "scorableCrowns": 18,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 1,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 13,
+      "diagnosticAreaMetres2": 45416.573846304855,
+      "reviewWindowIntersectionMetres2": 14029.279798386486,
+      "reviewWindowIntersectionFraction": 0.3089022048616713,
+      "placementReviewWindowIntersectionFraction": 0.30307352495342155,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.2369458675384521,
+      "cellsWithFirstReturnFraction": 0.7823903803378334,
+      "finiteCanopyHeightCellsFraction": 0.8415883013632259,
+      "dedicatedScenes": [
+        "cal13",
+        "review13"
+      ],
+      "annotatedCrowns": 35,
+      "scorableCrowns": 34,
+      "acceptedEditsByRound": {
+        "1": 33,
+        "2": 1
+      },
+      "unresolvedCatalogueCases": 4,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 14,
+      "diagnosticAreaMetres2": 25295.924127137292,
+      "reviewWindowIntersectionMetres2": 9500.763673780168,
+      "reviewWindowIntersectionFraction": 0.37558476322230167,
+      "placementReviewWindowIntersectionFraction": 0.37558476322230167,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 1.129509449005127,
+      "cellsWithFirstReturnFraction": 0.7625395569620254,
+      "finiteCanopyHeightCellsFraction": 0.8094541139240506,
+      "dedicatedScenes": [
+        "cal14"
+      ],
+      "annotatedCrowns": 6,
+      "scorableCrowns": 4,
+      "acceptedEditsByRound": {
+        "1": 4,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 2,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 15,
+      "diagnosticAreaMetres2": 42752.8232194374,
+      "reviewWindowIntersectionMetres2": 18867.993270059298,
+      "reviewWindowIntersectionFraction": 0.44132742236028616,
+      "placementReviewWindowIntersectionFraction": 0.44132742236028616,
+      "recordedValidImageCoverageFraction": 0.9999999999999997,
+      "firstReturnsPerSquareMetre": 2.1951675415039062,
+      "cellsWithFirstReturnFraction": 0.8819965850349684,
+      "finiteCanopyHeightCellsFraction": 0.9013168666526326,
+      "dedicatedScenes": [
+        "cal15",
+        "review15",
+        "review15west"
+      ],
+      "annotatedCrowns": 18,
+      "scorableCrowns": 18,
+      "acceptedEditsByRound": {
+        "1": 18,
+        "2": 14
+      },
+      "unresolvedCatalogueCases": 7,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 16,
+      "diagnosticAreaMetres2": 67550.65086722498,
+      "reviewWindowIntersectionMetres2": 22527.36183650561,
+      "reviewWindowIntersectionFraction": 0.33348844973802766,
+      "placementReviewWindowIntersectionFraction": 0.27360060541960085,
+      "recordedValidImageCoverageFraction": 0.9999999999999991,
+      "firstReturnsPerSquareMetre": 1.2843478918075562,
+      "cellsWithFirstReturnFraction": 0.7637295112308808,
+      "finiteCanopyHeightCellsFraction": 0.8324029791077483,
+      "dedicatedScenes": [
+        "hold16a",
+        "hold16b"
+      ],
+      "annotatedCrowns": 50,
+      "scorableCrowns": 47,
+      "acceptedEditsByRound": {
+        "1": 41,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 9,
+      "suppressedRegistryRecordsNearestHole": 2,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 17,
+      "diagnosticAreaMetres2": 41474.4315494754,
+      "reviewWindowIntersectionMetres2": 13161.239000409985,
+      "reviewWindowIntersectionFraction": 0.31733380081918106,
+      "placementReviewWindowIntersectionFraction": 0.040623619936290226,
+      "recordedValidImageCoverageFraction": 1.0,
+      "firstReturnsPerSquareMetre": 0.9825237989425659,
+      "cellsWithFirstReturnFraction": 0.7043268651319754,
+      "finiteCanopyHeightCellsFraction": 0.7197541279980716,
+      "dedicatedScenes": [
+        "fresh17"
+      ],
+      "annotatedCrowns": 2,
+      "scorableCrowns": 2,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 0,
+      "comprehensiveReviewStatus": "not-established"
+    },
+    {
+      "hole": 18,
+      "diagnosticAreaMetres2": 81126.47766849074,
+      "reviewWindowIntersectionMetres2": 19433.144282175246,
+      "reviewWindowIntersectionFraction": 0.23954132905394235,
+      "placementReviewWindowIntersectionFraction": 0.12309597814914192,
+      "recordedValidImageCoverageFraction": 0.9999999999999998,
+      "firstReturnsPerSquareMetre": 1.0056084394454956,
+      "cellsWithFirstReturnFraction": 0.710124741149788,
+      "finiteCanopyHeightCellsFraction": 0.7400157775367321,
+      "dedicatedScenes": [
+        "fresh18"
+      ],
+      "annotatedCrowns": 7,
+      "scorableCrowns": 7,
+      "acceptedEditsByRound": {
+        "1": 0,
+        "2": 0
+      },
+      "unresolvedCatalogueCases": 0,
+      "suppressedRegistryRecordsNearestHole": 3,
+      "comprehensiveReviewStatus": "not-established"
+    }
+  ],
+  "sourceHashes": {
+    "output/visby-tree-pilot/scenes.json": "a2c091a95e5c5fefa2745d1a87a8b18240bb4b53f94aff771e6e6879f4598bdd",
+    "output/visby-tree-pilot/round2/scenes.json": "11b38a6f40df26df72209bfad17a90f60279527f4d5de56fec19d2750d34830f",
+    "output/visby-tree-pilot/round2/review-scenes.json": "7031741d08e1c87f76e853e472cf4c151bf85b59159e3bedb1709d68f321f847",
+    "output/visby-tree-pilot/exclusions.json": "c30214946c899c23b805d29de41eb69e25ad6bedb9b522328aaf929de531cfe6",
+    "geo_data/course-v2/visby/vegetation/pilot/reference.geojson": "c81300ead3d3c0b4bcafbe4ebb9a2516fffe879aad88ce88f6fd8053cbb37eca",
+    "geo_data/course-v2/visby/vegetation/pilot/round2/reference.geojson": "deed5efb3c501c3321ab53af3771927067ef3611025ccd5eddb3575f6329b961",
+    "geo_data/course-v2/visby/vegetation/pilot/corrections.json": "ec7aa2f6882a0cd347c7da727635f49fae92241640b298e3328a644e2df2ce9b",
+    "geo_data/course-v2/visby/vegetation/pilot/round2/corrections.json": "e4d1a22c4bba213f7c804f88e6c9436b76d89ae6ba3156c30e17b7810e94e2c8",
+    "output/visby-tree-pilot/round2/evaluation-details.json": "e2bee7ee737120f189b97ea62d8ab2dee22a5422eec6946f8342219abe8164b0",
+    "geo_data/course-v2/visby/vegetation/pilot/round2/evaluation.json": "5ff176def862165bd0be7842984f9730ef5a721dbc8b8414820e05ba1c05c65f",
+    "output/visby-tree-pilot/round2/pilot-records.json": "01e40361114068ef0ad6ce152dad90365c388bd285ece1e3268a52226b36740d",
+    "output/visby-tree-pilot/round2/captures/webgpu-high-instances.json": "a6455a54874399a124f633b4c4e13e1f45dadc425f06089df29ec615258be267",
+    "output/visby-tree-pilot/first-returns.tif": "2218b80a9c7ab3fbbc19fe5109972bf21929a9d54fede6ef1406a0dc984895d4",
+    "output/visby-tree-pilot/chm.tif": "faf4edbe630f3a9cd477e84ddc134c8f5ae16bcf0ca38d6af6c2c0c8b79cb117",
+    "visbybuild/cache/lm-ortho/acquisition.json": "c2851d0205ca42795e78e465933a187e336c237a3eb193dd42cddfe5475e3353",
+    "output/visby-tree-pilot/baseline.json": "a8125ad386ded72dae082f22eac4a13379a3b7bca959ca7ac14d5ce78abda8d7",
+    "tools/visby-tree-pilot/coverage_audit.py": "364644a60d862a3261b8cca34f14bdd69e67b79c66597b7032c339174c4e4a91",
+    "apps/golf/public/courses/v2-index.json": "5883880e5e94853a97c845627b8e540c075e5f9f19c07d38abe5838f95bc1247",
+    "output/visby-tree-pilot/after/courses/v2-index.json": "41901280348a5a045180fa5e554b8ca8845fa3a40d7f9a5d1511c3673cafcff9",
+    "output/visby-tree-pilot/round2/after/courses/v2-index.json": "bf22db7d32724218818f1670cf5a53ac9c8f7c4e32276f3020eb9815cc04b371",
+    "output/visby-tree-pilot/review/cal02.json": "29a877b8c6dc4ec3d77ce0bed78f78b106f9ad47ac725a15ff184de284a8bbdf",
+    "output/visby-tree-pilot/review/cal03.json": "c7c56f87162def4f9fca5f9ded24a25c9060a808d19de8ffb8c457602aa90ac3",
+    "output/visby-tree-pilot/review/cal04.json": "7358f266287720556acc01aca1d6087ada4debf440ef2151273e88725a80e4ba",
+    "output/visby-tree-pilot/review/cal08.json": "56c484277c34245bd0b38fbb6a217cb93e770cd095b030486499990dcef680ab",
+    "output/visby-tree-pilot/review/cal15.json": "518b57c79390398dd6d3130ba1389ac149e35113f4f1eb6e7916675ef4ed42c1",
+    "output/visby-tree-pilot/review/cal13.json": "d095337412af050b347dc9164aa8a17a5017532048c46e6d837072d8195a548b",
+    "output/visby-tree-pilot/review/cal14.json": "722e26efc3fcb814fbe589e3ee0ab60384fdad2aed05dbdd42eeb7c72b951219",
+    "output/visby-tree-pilot/review/cal10.json": "8c3f4b8f6fa30ae1ffc2db2683122037523a2395b1b5d1bb2d8f3842c901f166",
+    "output/visby-tree-pilot/review/cal06.json": "e8362e3ffe2a2629cbb5d42fa2602fb25199dcb611753a1973c75c6238249817",
+    "output/visby-tree-pilot/review/hold09a.json": "277de640514e553a0c0f635b246f567743557dbfd407c74c335adcb855d19f56",
+    "output/visby-tree-pilot/review/hold09b.json": "3b5443b866b40e14d6759962b47d2f7adeda35fad669d60d26ace7634007e64b",
+    "output/visby-tree-pilot/review/hold16a.json": "23ad55c07cf1ba1230b5f3f6644926e9e5c33f9fce7f9bf8aff91639185a62bf",
+    "output/visby-tree-pilot/review/hold16b.json": "76bbef6dd4bd7e88bbbd411a8c2df12c687941008feb163d5130426246642720",
+    "output/visby-tree-pilot/round2/review/fresh05.json": "ff45380f0fd5e57f2030d762461d1659e9d1255c1915431f69672a7c4a7e13db",
+    "output/visby-tree-pilot/round2/review/fresh07.json": "3b81a00deab291f35a40ad5ed195b59755a49728a6d59e2e95cb4321a02bbf13",
+    "output/visby-tree-pilot/round2/review/fresh11.json": "96e4259c40632eb27ac63e1ed465875a59328dc910682c1c1f23789cee90d12e",
+    "output/visby-tree-pilot/round2/review/fresh12.json": "ee7f8e350d8a30a72992a6ecd814f5f7f8f61a43688c979a8b1d46935c3b5744",
+    "output/visby-tree-pilot/round2/review/fresh17.json": "3128410a968c088394c1415aac0bcc2cbe52d4642e44a3b0f858e05644297c15",
+    "output/visby-tree-pilot/round2/review/fresh18.json": "fdd9364d42114a10edd72ad67418ef2e72a36ff0eced78f482e39e557aa3ff0d",
+    "output/visby-tree-pilot/round2/review/review06.json": "4b4f0b0f121d25786ebf8d5825378c60a21707f5f67351885fe76530f3b09887",
+    "output/visby-tree-pilot/round2/review/review13.json": "79f75a635ba389a7cee1613f3ee77ed80d609e5e7aa515fe0bc62b2e449667ae",
+    "output/visby-tree-pilot/round2/review/review15.json": "f97e3fe0a71eff637c59465a790b340858269a751c486e9d72ffad73f2ca77df",
+    "output/visby-tree-pilot/round2/review/review15west.json": "df078eac6f51f79a41cb7518fb0cc34b05eea87bc36e5af404fcefef16d96082"
+  },
+  "frozenFreshEvaluationRemainsUntouched": true,
+  "productionAndPilotGraphsChanged": false
+}

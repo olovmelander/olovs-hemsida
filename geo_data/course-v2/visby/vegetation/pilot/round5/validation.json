@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "previousRecords": 3368,
+  "records": 3524,
+  "acceptedAdditionalCrowns": 156,
+  "actionCounts": {
+    "accept": 156,
+    "hold": 119,
+    "hold-base": 1,
+    "reject-not-tree": 11,
+    "reserved-evaluation": 54,
+    "retain-nearby-representation": 126,
+    "retain-stand": 326
+  },
+  "previousRecordsUnchanged": true,
+  "productionAndPreviousRootsUnchanged": true,
+  "freshEvaluationUnedited": true,
+  "freshStandCellsVerified": 61206,
+  "changedStandCells": 16886,
+  "matchedScreenshotPairs": 40,
+  "rendered": {
+    "webgpu-high": {
+      "drawn": 47377,
+      "individuals": 3516,
+      "standRepresentatives": 43861,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    },
+    "webgl-high": {
+      "drawn": 47377,
+      "individuals": 3516,
+      "standRepresentatives": 43861,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    },
+    "webgl-low": {
+      "drawn": 32223,
+      "individuals": 3516,
+      "standRepresentatives": 28707,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    }
+  },
+  "newClearingHeightChecks": [],
+  "detectorTargetMet": false,
+  "newDetectorEvaluation": false
+}

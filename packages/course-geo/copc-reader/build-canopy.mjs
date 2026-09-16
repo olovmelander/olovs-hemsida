@@ -8,6 +8,7 @@
    usage: node packages/course-geo/copc-reader/build-canopy.mjs --ground puttom
             --out <dir> [--halo 32] [--tiles l0/0/0,l0/1/0] [--campaigns id,id]
             [--evidence geo_data/course-v2/<ground>/vegetation/canopy-evidence.json]
+            [--tight-grid] (bound output to selected finest tiles, not scenery rings)
 
    Rasters (raw Float32 + JSON sidecar, NaN = void) go to --out, which must be
    outside the repository's committed tree; the evidence file is small and is
@@ -75,11 +76,18 @@ if (path.resolve(outDir).startsWith(path.join(ROOT, 'geo_data')) || path.resolve
 }
 
 const finest = ground.tiles.filter(tile => tile.lod === 0 && (!onlyTiles.length || onlyTiles.includes(tile.id)));
+if (!finest.length) throw new Error('No finest terrain tiles selected');
+const rasterBounds = args.includes('--tight-grid') ? {
+  minEasting: Math.min(...finest.map(t => t.bounds.minEasting)),
+  maxEasting: Math.max(...finest.map(t => t.bounds.maxEasting)),
+  minNorthing: Math.min(...finest.map(t => t.bounds.minNorthing)),
+  maxNorthing: Math.max(...finest.map(t => t.bounds.maxNorthing)),
+} : ground.bounds;
 const target = gridSpec({
-  minEasting: ground.bounds.minEasting,
-  maxNorthing: ground.bounds.maxNorthing,
-  width: Math.round(ground.bounds.maxEasting - ground.bounds.minEasting),
-  height: Math.round(ground.bounds.maxNorthing - ground.bounds.minNorthing),
+  minEasting: rasterBounds.minEasting,
+  maxNorthing: rasterBounds.maxNorthing,
+  width: Math.round(rasterBounds.maxEasting - rasterBounds.minEasting),
+  height: Math.round(rasterBounds.maxNorthing - rasterBounds.minNorthing),
 });
 const round = (value, decimals = 3) => (Number.isFinite(value) ? Math.round(value * 10 ** decimals) / 10 ** decimals : null);
 const quantile = (sorted, q) => (sorted.length ? sorted[Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * q))] : null);

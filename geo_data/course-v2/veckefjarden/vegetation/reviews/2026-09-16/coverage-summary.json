@@ -1,0 +1,31 @@
+{
+  "cells": 131,
+  "sourceInspected": 131,
+  "areaMetres2": 1003870.863744763,
+  "extraBeltMetres": 30,
+  "counts": {
+    "before": {
+      "individualCentresInFacility": 319,
+      "heightArea3m": 273917,
+      "representedHeightAreaMetres2": 242790,
+      "unrepresentedHeightAreaMetres2": 31127,
+      "representedFraction": 0.8863633874494828,
+      "extraRepresentationBelow3mMetres2": 53466
+    },
+    "after": {
+      "individualCentresInFacility": 378,
+      "heightArea3m": 273917,
+      "representedHeightAreaMetres2": 240513,
+      "unrepresentedHeightAreaMetres2": 33404,
+      "representedFraction": 0.8780506503794945,
+      "extraRepresentationBelow3mMetres2": 28016
+    }
+  },
+  "physicalHeightAreaGainMetres2": -2277,
+  "definition": "Native 1 m height>=3 m pixels inside facility intersect published circular individual footprints or runtime-eligible measured stand fields (fraction>=0.15, mean height>=2.5 m). Stand occupancy does not prove a drawn crown at each pixel.",
+  "limits": [
+    "Includes elevated non-vegetation such as roofs and utility wires; gaps remain explicit, not automatically planted.",
+    "Full cell inspection is not exhaustive individual-crown verification.",
+    "Source area coverage is separate from detection precision/recall and surveyed accuracy."
+  ]
+}

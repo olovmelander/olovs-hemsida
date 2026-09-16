@@ -1,0 +1,526 @@
+{
+  "directory": "output/visby-tree-pilot/captures",
+  "note": "All screenshot cameras match. Capture boot timings precede the startup-pack fix; use performance.json for the final transport comparison.",
+  "captures": {
+    "before": [
+      {
+        "scenario": "webgpu-high",
+        "backend": "webgpu",
+        "views": [
+          {
+            "hole": 1,
+            "cam": "tee",
+            "file": "webgpu-high-h01-tee.png",
+            "sha256": "8c042e8bf02a33f0eadf39616fbd10049062716a208529b2298a3f56e09a6436"
+          },
+          {
+            "hole": 1,
+            "cam": "top",
+            "file": "webgpu-high-h01-top.png",
+            "sha256": "8a31903889ea146ee4a158be5df014a62efa68a5354daf0891a8ad7ec431f599"
+          },
+          {
+            "hole": 2,
+            "cam": "tee",
+            "file": "webgpu-high-h02-tee.png",
+            "sha256": "1c824a18e92cf2b4158c1c2ef4b9b5aa464982fa5bcf0963409f1818f264831f"
+          },
+          {
+            "hole": 2,
+            "cam": "top",
+            "file": "webgpu-high-h02-top.png",
+            "sha256": "ff9463bb3794afb37032982f9575e67f639740e28021f106397dac0ee7150ce0"
+          },
+          {
+            "hole": 3,
+            "cam": "tee",
+            "file": "webgpu-high-h03-tee.png",
+            "sha256": "5730c3cd4e3afde4c053c649f3426a262c5202b3eeeddb9bb51b5ede448cbf48"
+          },
+          {
+            "hole": 3,
+            "cam": "top",
+            "file": "webgpu-high-h03-top.png",
+            "sha256": "caf64d39e0c848d482be51019c52f142e53508b38558bc2758941fd3ff05bc6d"
+          },
+          {
+            "hole": 4,
+            "cam": "tee",
+            "file": "webgpu-high-h04-tee.png",
+            "sha256": "dcd8b5ab42c78da4c89050165aa19dcedb75f5df0430bd9a6322b66ab27c3cb3"
+          },
+          {
+            "hole": 4,
+            "cam": "top",
+            "file": "webgpu-high-h04-top.png",
+            "sha256": "cda7d804fa43d97cd9990dcf4fabfd3e86b52affa96706c21908fecdec12a7cd"
+          },
+          {
+            "hole": 5,
+            "cam": "tee",
+            "file": "webgpu-high-h05-tee.png",
+            "sha256": "d707a7976855ef258d642e22c5e23fa713c3ef2d6cd861d461c0e12567688e9c"
+          },
+          {
+            "hole": 5,
+            "cam": "top",
+            "file": "webgpu-high-h05-top.png",
+            "sha256": "c78fc192b689ba5ed3ab90c5faaf06dd2c950e6cd2440c96c65748843407d4d3"
+          },
+          {
+            "hole": 6,
+            "cam": "tee",
+            "file": "webgpu-high-h06-tee.png",
+            "sha256": "00091c6e2261f50d684b751a464bc9221d4581ac32618f66efab775b3ef8dc6a"
+          },
+          {
+            "hole": 6,
+            "cam": "top",
+            "file": "webgpu-high-h06-top.png",
+            "sha256": "244d0e734b8ff21aef4fea3bafe32f065416f7db74b24d09330a518b5c45db98"
+          },
+          {
+            "hole": 7,
+            "cam": "tee",
+            "file": "webgpu-high-h07-tee.png",
+            "sha256": "c3a99c59d6e4bf18e8c2cb4c90dc5a21c2ef125f8dfd14f4bcb3d3be8b6ddb89"
+          },
+          {
+            "hole": 7,
+            "cam": "top",
+            "file": "webgpu-high-h07-top.png",
+            "sha256": "ee9395fc009e513cc98dad6b965503a25a5dcaf23ac193dfd399a859cdf96134"
+          },
+          {
+            "hole": 8,
+            "cam": "tee",
+            "file": "webgpu-high-h08-tee.png",
+            "sha256": "0f1f266e731904556c1b997b8d7432ed52b668972f70cf9ca7baa20757080175"
+          },
+          {
+            "hole": 8,
+            "cam": "top",
+            "file": "webgpu-high-h08-top.png",
+            "sha256": "e77cdb12844c6b1b1ecded5da4123ded6f3bf31803ef5fe1211c0a0a00bc3680"
+          },
+          {
+            "hole": 9,
+            "cam": "tee",
+            "file": "webgpu-high-h09-tee.png",
+            "sha256": "3b8ea3759c98363c0a3bb586feb2926683ea129edbe0c44813cabe71d792de2f"
+          },
+          {
+            "hole": 9,
+            "cam": "top",
+            "file": "webgpu-high-h09-top.png",
+            "sha256": "9c878cb81bb212531614900398c85d2936ae179d0244694e5a7a620cdebb4987"
+          },
+          {
+            "hole": 10,
+            "cam": "tee",
+            "file": "webgpu-high-h10-tee.png",
+            "sha256": "e681305a69b34fcef8513122dd48526f3570599f78c227187baeef3cb46b17c3"
+          },
+          {
+            "hole": 10,
+            "cam": "top",
+            "file": "webgpu-high-h10-top.png",
+            "sha256": "8688e40764285fcf94670cb7164a6c34109bb680bb7971a342c8c10e1caec325"
+          },
+          {
+            "hole": 11,
+            "cam": "tee",
+            "file": "webgpu-high-h11-tee.png",
+            "sha256": "64430967547fe1bd3706eb670861b1cbd4d404e65b5f77e46c5232105bb0e2db"
+          },
+          {
+            "hole": 11,
+            "cam": "top",
+            "file": "webgpu-high-h11-top.png",
+            "sha256": "850bfc03b521dd36933f63293ee69fbcb9e36ed457998860ee2052e8be665628"
+          },
+          {
+            "hole": 12,
+            "cam": "tee",
+            "file": "webgpu-high-h12-tee.png",
+            "sha256": "50f30fc4256539e724b84aa88294491084fe2b5f4398ddad640f163fcb91cbd1"
+          },
+          {
+            "hole": 12,
+            "cam": "top",
+            "file": "webgpu-high-h12-top.png",
+            "sha256": "aeb9287bb69236bbdcf69fb7124015ecea5824723382a443307cc552c66f21ab"
+          },
+          {
+            "hole": 13,
+            "cam": "tee",
+            "file": "webgpu-high-h13-tee.png",
+            "sha256": "2f67fbb9bd308530e4c5d23b1b951016e52a03ad4b1230191b9ef7e186c2e909"
+          },
+          {
+            "hole": 13,
+            "cam": "top",
+            "file": "webgpu-high-h13-top.png",
+            "sha256": "37dcbdbffbd6b2416f62e66e880a9206869dd1e24e9810de5e4576e5dd50deb1"
+          },
+          {
+            "hole": 14,
+            "cam": "tee",
+            "file": "webgpu-high-h14-tee.png",
+            "sha256": "e6af0641277eec7c8df2d0b2451aec5eb1de5a4b60431c1f7482f97c777eaf54"
+          },
+          {
+            "hole": 14,
+            "cam": "top",
+            "file": "webgpu-high-h14-top.png",
+            "sha256": "6f00d17ace9e78340a6542027891a02d2c29e821abd62c44d27b6b1127150048"
+          },
+          {
+            "hole": 15,
+            "cam": "tee",
+            "file": "webgpu-high-h15-tee.png",
+            "sha256": "9468155e30dae468ee95bd91e222d918e2121add3a3e5bb4fd36ffb92c1c6c63"
+          },
+          {
+            "hole": 15,
+            "cam": "top",
+            "file": "webgpu-high-h15-top.png",
+            "sha256": "33f9c85d1bff2780d77fdcd9d0629698c1aa461ec1b0d179c51180aba5d1d464"
+          },
+          {
+            "hole": 16,
+            "cam": "tee",
+            "file": "webgpu-high-h16-tee.png",
+            "sha256": "e2d1799c0817bcfb46701ff81ec483e995a40c7755d7ae66581a59cc4dbd9de1"
+          },
+          {
+            "hole": 16,
+            "cam": "top",
+            "file": "webgpu-high-h16-top.png",
+            "sha256": "7bc46a39322693ff07705bc027e22c532e6db28e3548ab3f3719f9b938e01ef9"
+          },
+          {
+            "hole": 17,
+            "cam": "tee",
+            "file": "webgpu-high-h17-tee.png",
+            "sha256": "863b11f2d508bbbb42b80c7c3f0b314775f48dffb71c36e4959cc91db307479f"
+          },
+          {
+            "hole": 17,
+            "cam": "top",
+            "file": "webgpu-high-h17-top.png",
+            "sha256": "ff503b0749bc7a6a5c57fed6b89c372dd0b5cfc016f294818b61f98c52e85b4e"
+          },
+          {
+            "hole": 18,
+            "cam": "tee",
+            "file": "webgpu-high-h18-tee.png",
+            "sha256": "1324011b8f6d90e7192f5934989298c3bf1d02f2e5d436d75fc7b83682056bd5"
+          },
+          {
+            "hole": 18,
+            "cam": "top",
+            "file": "webgpu-high-h18-top.png",
+            "sha256": "d68188cc12877ecc7c9ce1da4549eab1d1fb7fb953de313fd771a7425d87098b"
+          }
+        ]
+      },
+      {
+        "scenario": "webgl-high",
+        "backend": "webgl2",
+        "views": [
+          {
+            "hole": 9,
+            "cam": "tee",
+            "file": "webgl-high-h09-tee.png",
+            "sha256": "a2348e2786ebab27087e4430e8401d06159971cf978fdf0eb8f6cec8b97126f6"
+          },
+          {
+            "hole": 16,
+            "cam": "tee",
+            "file": "webgl-high-h16-tee.png",
+            "sha256": "95e4e847b554f1ff270891a7c0b6f594be540cc4e8ae773318a6f43790ac4a08"
+          }
+        ]
+      },
+      {
+        "scenario": "webgl-low",
+        "backend": "webgl2",
+        "views": [
+          {
+            "hole": 9,
+            "cam": "tee",
+            "file": "webgl-low-h09-tee.png",
+            "sha256": "95b0c35c7f9718b049e169a3c95b3649952d0c808fc09ff3944cc83b60050073"
+          },
+          {
+            "hole": 16,
+            "cam": "tee",
+            "file": "webgl-low-h16-tee.png",
+            "sha256": "70650df6b5a68d6d2c747779cd5829820f88fc4bad4b9ade11b8499e4f9f6350"
+          }
+        ]
+      }
+    ],
+    "after": [
+      {
+        "scenario": "webgpu-high",
+        "backend": "webgpu",
+        "views": [
+          {
+            "hole": 1,
+            "cam": "tee",
+            "file": "webgpu-high-h01-tee.png",
+            "sha256": "08416951b0a5a352700b401c8f906d9c0c8175b78820cbac555eca28dfdf8c89"
+          },
+          {
+            "hole": 1,
+            "cam": "top",
+            "file": "webgpu-high-h01-top.png",
+            "sha256": "eb976c738ac46afbe07bd7d54a7b462fb3b5828cd4971d035a2ffbb978c1be70"
+          },
+          {
+            "hole": 2,
+            "cam": "tee",
+            "file": "webgpu-high-h02-tee.png",
+            "sha256": "847bcd5233409a1fd04869f20e976591887c9420ba81732919cdbf023f32be13"
+          },
+          {
+            "hole": 2,
+            "cam": "top",
+            "file": "webgpu-high-h02-top.png",
+            "sha256": "929352289205dbea6ac66cf673388c8e2cd910d7eabd947d2525d11a40dcfe2b"
+          },
+          {
+            "hole": 3,
+            "cam": "tee",
+            "file": "webgpu-high-h03-tee.png",
+            "sha256": "bbbc84871cdecd0c140ac6008111bef429a9ceb6285c775cba8ecee1c9cd87c2"
+          },
+          {
+            "hole": 3,
+            "cam": "top",
+            "file": "webgpu-high-h03-top.png",
+            "sha256": "988521a931b3f62cf33eb3e1e1d65745cc6081b5457b7e32d810da52435d6386"
+          },
+          {
+            "hole": 4,
+            "cam": "tee",
+            "file": "webgpu-high-h04-tee.png",
+            "sha256": "5e320cfd4848f9e4e2e5895508101578176af5a218e568e5d6056db53383c5ae"
+          },
+          {
+            "hole": 4,
+            "cam": "top",
+            "file": "webgpu-high-h04-top.png",
+            "sha256": "6577313fb7a9a6f467ee35319f891f0b230d1d579c9fa3eed43620e73ff9a78a"
+          },
+          {
+            "hole": 5,
+            "cam": "tee",
+            "file": "webgpu-high-h05-tee.png",
+            "sha256": "d5ac3de4b3dd5a90e4ff5d3d26a887e70c1d5900c79969ab5b79b539da7dd9bf"
+          },
+          {
+            "hole": 5,
+            "cam": "top",
+            "file": "webgpu-high-h05-top.png",
+            "sha256": "5e56228408deb9856623588b92a7e627e4e749f5432084238481405afdfdcd55"
+          },
+          {
+            "hole": 6,
+            "cam": "tee",
+            "file": "webgpu-high-h06-tee.png",
+            "sha256": "0e130f85026a234952e347aae8dbdbb3d5a594962e1e3585b6d6080d80fc561e"
+          },
+          {
+            "hole": 6,
+            "cam": "top",
+            "file": "webgpu-high-h06-top.png",
+            "sha256": "a30844fdd74c5ab506b3d06db429e2b89f7eca0f9bf64b29138b1490b7cde1d8"
+          },
+          {
+            "hole": 7,
+            "cam": "tee",
+            "file": "webgpu-high-h07-tee.png",
+            "sha256": "cbfe6f7453b7a359a040c9d64e05d5770bca81ea1a9826e6a228682cb6a75ce9"
+          },
+          {
+            "hole": 7,
+            "cam": "top",
+            "file": "webgpu-high-h07-top.png",
+            "sha256": "25da769aea3ff0fb180947a6f545d726a87c73f654bdbd541ef9d06dd181dc8f"
+          },
+          {
+            "hole": 8,
+            "cam": "tee",
+            "file": "webgpu-high-h08-tee.png",
+            "sha256": "eb609c1efc99b3657f3ae189bd6a7105d479c3b8bcc119d4de92ffc92bd02ca3"
+          },
+          {
+            "hole": 8,
+            "cam": "top",
+            "file": "webgpu-high-h08-top.png",
+            "sha256": "abcc5b3ac8d2eda0897e3835e5d48e183ea584459c56371fcc1bc698bf459f5b"
+          },
+          {
+            "hole": 9,
+            "cam": "tee",
+            "file": "webgpu-high-h09-tee.png",
+            "sha256": "a9cee397c41f8d5b939e8c5293278b73eececdabfdfceb7fb218008b5f7464d1"
+          },
+          {
+            "hole": 9,
+            "cam": "top",
+            "file": "webgpu-high-h09-top.png",
+            "sha256": "956bf8a3c763be5792dfc2c5f08887e388d3d51253e6684c13bcb4444977b590"
+          },
+          {
+            "hole": 10,
+            "cam": "tee",
+            "file": "webgpu-high-h10-tee.png",
+            "sha256": "44a6bf12dc85e2583048aa8e461323448996df5358791eefb8c1725a514a7b78"
+          },
+          {
+            "hole": 10,
+            "cam": "top",
+            "file": "webgpu-high-h10-top.png",
+            "sha256": "818449c0893252d44ccfe73665ffe68693f7ad9007ea02057c05dc5194da37f0"
+          },
+          {
+            "hole": 11,
+            "cam": "tee",
+            "file": "webgpu-high-h11-tee.png",
+            "sha256": "c41dab6ff2a8dca3d208078ebe1902bc7f851dfbcb045442cb98e9dae43c72fb"
+          },
+          {
+            "hole": 11,
+            "cam": "top",
+            "file": "webgpu-high-h11-top.png",
+            "sha256": "f490ccce40577caca58314ab06e7b1e8fc0e99c36b9b98a551b46ed12048a25e"
+          },
+          {
+            "hole": 12,
+            "cam": "tee",
+            "file": "webgpu-high-h12-tee.png",
+            "sha256": "141132db2a6746125d2ad0779c21147d977b98e47cc48c43bce91d5b9a9bfe58"
+          },
+          {
+            "hole": 12,
+            "cam": "top",
+            "file": "webgpu-high-h12-top.png",
+            "sha256": "7bb595ec43fd372c038e596f8717df98ea129d87908b59fdef33463cb72ceaa2"
+          },
+          {
+            "hole": 13,
+            "cam": "tee",
+            "file": "webgpu-high-h13-tee.png",
+            "sha256": "8b91317a5cb9d6dbb432970e0ed37fa835f7fda322457e99750f289c00d0eff1"
+          },
+          {
+            "hole": 13,
+            "cam": "top",
+            "file": "webgpu-high-h13-top.png",
+            "sha256": "cddd0adc3c5e807db31b26de2659f91a4856c238015437ef39eae1f0b052ac64"
+          },
+          {
+            "hole": 14,
+            "cam": "tee",
+            "file": "webgpu-high-h14-tee.png",
+            "sha256": "dae227e8621dc4904f046f82036ab9f1eab5c76b018734cff0085510d788ea01"
+          },
+          {
+            "hole": 14,
+            "cam": "top",
+            "file": "webgpu-high-h14-top.png",
+            "sha256": "8248dfea619e47933ab40084974ed80f8e3320cc572dec02e36c463053ca5b31"
+          },
+          {
+            "hole": 15,
+            "cam": "tee",
+            "file": "webgpu-high-h15-tee.png",
+            "sha256": "16b62f0ec26f06c627dd11ae31a755b7ca8c14b6a355ea9c696b9e7deaa0499b"
+          },
+          {
+            "hole": 15,
+            "cam": "top",
+            "file": "webgpu-high-h15-top.png",
+            "sha256": "e656bfe40a3e6ab8618a18bfebfc36a7a831391f79b40e20f42c60fb9e5643cc"
+          },
+          {
+            "hole": 16,
+            "cam": "tee",
+            "file": "webgpu-high-h16-tee.png",
+            "sha256": "562c3f7b33b2f832983e1d43a2c8160c093fa04fe2a1a7f4e5abf353381897f3"
+          },
+          {
+            "hole": 16,
+            "cam": "top",
+            "file": "webgpu-high-h16-top.png",
+            "sha256": "ed9f69a8edd0fe1748e0459b3c7000f716c5545dc61e76d2e2d7728e22526290"
+          },
+          {
+            "hole": 17,
+            "cam": "tee",
+            "file": "webgpu-high-h17-tee.png",
+            "sha256": "d535d0965eaf744a3f7aa2560491d2591b5808f38963aa21a37f5be9c749f1e4"
+          },
+          {
+            "hole": 17,
+            "cam": "top",
+            "file": "webgpu-high-h17-top.png",
+            "sha256": "62cb29d6fe1655defe1c90a2bf7feaa1a90efc826d7a3ceae8a72c14f0c1139c"
+          },
+          {
+            "hole": 18,
+            "cam": "tee",
+            "file": "webgpu-high-h18-tee.png",
+            "sha256": "fd68a9d783ee448da1d86a78b64a9b39ceba4dff39ba581e16e518f5fad0233a"
+          },
+          {
+            "hole": 18,
+            "cam": "top",
+            "file": "webgpu-high-h18-top.png",
+            "sha256": "2bf7a04adbb80c700482132492d975bae5f644ad0688a1baba9736515518b83e"
+          }
+        ]
+      },
+      {
+        "scenario": "webgl-high",
+        "backend": "webgl2",
+        "views": [
+          {
+            "hole": 9,
+            "cam": "tee",
+            "file": "webgl-high-h09-tee.png",
+            "sha256": "6d2025b0869b23730438e609a090fb470c517d81cb55045369a07b34e27248f8"
+          },
+          {
+            "hole": 16,
+            "cam": "tee",
+            "file": "webgl-high-h16-tee.png",
+            "sha256": "c85906d481b32fa556951c09e371190411d658ac94505324200c9af52ff817bf"
+          }
+        ]
+      },
+      {
+        "scenario": "webgl-low",
+        "backend": "webgl2",
+        "views": [
+          {
+            "hole": 9,
+            "cam": "tee",
+            "file": "webgl-low-h09-tee.png",
+            "sha256": "4878355c863ad48d294bbbaf7edfa751df9294684440a728205098eb97c87d86"
+          },
+          {
+            "hole": 16,
+            "cam": "tee",
+            "file": "webgl-low-h16-tee.png",
+            "sha256": "d85e6d5f4b5f8895c1f01d89e7b33f5110c672b0d9f9d1efea94b7d07a386a89"
+          }
+        ]
+      }
+    ]
+  }
+}

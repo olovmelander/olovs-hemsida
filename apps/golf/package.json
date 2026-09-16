@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:golfer": "vite --mode golfer --host 127.0.0.1",
     "build": "vite build",
+    "build:golfer": "vite build --mode golfer --outDir ../../output/golfer-lab-build --emptyOutDir",
+    "preview:golfer": "vite preview --mode golfer --outDir ../../output/golfer-lab-build --host 127.0.0.1 --port 5180 --strictPort",
     "preview": "vite preview"
   },
   "dependencies": {

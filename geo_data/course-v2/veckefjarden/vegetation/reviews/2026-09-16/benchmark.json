@@ -1,0 +1,227 @@
+{
+  "version": 1,
+  "selection": {
+    "selected": "dalponte-d9-m3",
+    "selectionUses": "Calibration only; all four evaluation windows excluded from selection",
+    "referenceSha256": "8d34c2ef4438e31e71f607ee77442a65620d4bbbd31f4d1f6f97bb8a94085518",
+    "matchingToleranceMetres": 4.0,
+    "methods": [
+      "published",
+      "node-current",
+      "dalponte-d5-m3",
+      "dalponte-d7-m3",
+      "dalponte-d9-m3",
+      "silva-d5-m3",
+      "silva-d7-m3",
+      "silva-d9-m3"
+    ]
+  },
+  "metrics": {
+    "published": {
+      "calibration": {
+        "tp": 16,
+        "fp": 1,
+        "fn": 78,
+        "precision": 0.9411764705882353,
+        "recall": 0.1702127659574468,
+        "f1": 0.2882882882882883,
+        "crownIoU": 0.4710357085885457,
+        "centreMedianMetres": 1.7102155057484325,
+        "centreP95Metres": 3.612322733645893
+      },
+      "evaluation": {
+        "tp": 3,
+        "fp": 0,
+        "fn": 29,
+        "precision": 1.0,
+        "recall": 0.09375,
+        "f1": 0.17142857142857143,
+        "crownIoU": 0.7097839113540321,
+        "centreMedianMetres": 0.5645679761789708,
+        "centreP95Metres": 0.8121915724974518
+      }
+    },
+    "node-current": {
+      "calibration": {
+        "tp": 59,
+        "fp": 17,
+        "fn": 35,
+        "precision": 0.7763157894736842,
+        "recall": 0.6276595744680851,
+        "f1": 0.6941176470588235,
+        "crownIoU": 0.4622605921704237,
+        "centreMedianMetres": 1.6810466940586333,
+        "centreP95Metres": 3.607648808564216
+      },
+      "evaluation": {
+        "tp": 23,
+        "fp": 4,
+        "fn": 9,
+        "precision": 0.8518518518518519,
+        "recall": 0.71875,
+        "f1": 0.7796610169491525,
+        "crownIoU": 0.5339541198873428,
+        "centreMedianMetres": 1.0447491146588495,
+        "centreP95Metres": 3.433797703228372
+      }
+    },
+    "dalponte-d5-m3": {
+      "calibration": {
+        "tp": 85,
+        "fp": 57,
+        "fn": 9,
+        "precision": 0.5985915492957746,
+        "recall": 0.9042553191489362,
+        "f1": 0.7203389830508474,
+        "crownIoU": 0.5052464103561051,
+        "centreMedianMetres": 1.194918183528433,
+        "centreP95Metres": 3.6786241364085113
+      },
+      "evaluation": {
+        "tp": 27,
+        "fp": 15,
+        "fn": 5,
+        "precision": 0.6428571428571429,
+        "recall": 0.84375,
+        "f1": 0.7297297297297298,
+        "crownIoU": 0.5718382029053574,
+        "centreMedianMetres": 0.835050802704125,
+        "centreP95Metres": 3.8270014876451595
+      }
+    },
+    "dalponte-d7-m3": {
+      "calibration": {
+        "tp": 82,
+        "fp": 31,
+        "fn": 12,
+        "precision": 0.7256637168141593,
+        "recall": 0.8723404255319149,
+        "f1": 0.7922705314009661,
+        "crownIoU": 0.530424378805502,
+        "centreMedianMetres": 1.1963709566662362,
+        "centreP95Metres": 3.28589536981652
+      },
+      "evaluation": {
+        "tp": 23,
+        "fp": 11,
+        "fn": 9,
+        "precision": 0.6764705882352942,
+        "recall": 0.71875,
+        "f1": 0.696969696969697,
+        "crownIoU": 0.5872474768943975,
+        "centreMedianMetres": 1.0447491146588495,
+        "centreP95Metres": 3.3253241656695853
+      }
+    },
+    "dalponte-d9-m3": {
+      "calibration": {
+        "tp": 74,
+        "fp": 15,
+        "fn": 20,
+        "precision": 0.8314606741573034,
+        "recall": 0.7872340425531915,
+        "f1": 0.808743169398907,
+        "crownIoU": 0.5170888857831681,
+        "centreMedianMetres": 1.5267640217023657,
+        "centreP95Metres": 3.5191470766970467
+      },
+      "evaluation": {
+        "tp": 19,
+        "fp": 6,
+        "fn": 13,
+        "precision": 0.76,
+        "recall": 0.59375,
+        "f1": 0.6666666666666666,
+        "crownIoU": 0.5631514217923665,
+        "centreMedianMetres": 1.0959993963749508,
+        "centreP95Metres": 3.3822635151893774
+      }
+    },
+    "silva-d5-m3": {
+      "calibration": {
+        "tp": 83,
+        "fp": 59,
+        "fn": 11,
+        "precision": 0.5845070422535211,
+        "recall": 0.8829787234042553,
+        "f1": 0.7033898305084745,
+        "crownIoU": 0.5071215801939788,
+        "centreMedianMetres": 1.148867446366734,
+        "centreP95Metres": 3.532224707395093
+      },
+      "evaluation": {
+        "tp": 24,
+        "fp": 16,
+        "fn": 8,
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1": 0.6666666666666665,
+        "crownIoU": 0.6087749436409433,
+        "centreMedianMetres": 0.8175119377173734,
+        "centreP95Metres": 3.285864840357799
+      }
+    },
+    "silva-d7-m3": {
+      "calibration": {
+        "tp": 83,
+        "fp": 33,
+        "fn": 11,
+        "precision": 0.7155172413793104,
+        "recall": 0.8829787234042553,
+        "f1": 0.7904761904761906,
+        "crownIoU": 0.5258805143200743,
+        "centreMedianMetres": 1.260449601034555,
+        "centreP95Metres": 3.373051064085
+      },
+      "evaluation": {
+        "tp": 22,
+        "fp": 12,
+        "fn": 10,
+        "precision": 0.6470588235294118,
+        "recall": 0.6875,
+        "f1": 0.6666666666666667,
+        "crownIoU": 0.5925635990632157,
+        "centreMedianMetres": 0.8653851004142428,
+        "centreP95Metres": 3.782994122964175
+      }
+    },
+    "silva-d9-m3": {
+      "calibration": {
+        "tp": 74,
+        "fp": 18,
+        "fn": 20,
+        "precision": 0.8043478260869565,
+        "recall": 0.7872340425531915,
+        "f1": 0.795698924731183,
+        "crownIoU": 0.5227965763340297,
+        "centreMedianMetres": 1.3212509948935345,
+        "centreP95Metres": 3.567451490301024
+      },
+      "evaluation": {
+        "tp": 20,
+        "fp": 5,
+        "fn": 12,
+        "precision": 0.8,
+        "recall": 0.625,
+        "f1": 0.7017543859649122,
+        "crownIoU": 0.5040765075768856,
+        "centreMedianMetres": 1.3029430715481465,
+        "centreP95Metres": 3.8066566731751275
+      }
+    }
+  },
+  "target": {
+    "precision": 0.9,
+    "recall": 0.9
+  },
+  "passed": false,
+  "limitations": [
+    "One agent reference interpretation; no independent human or stem survey.",
+    "Purposive sample: clearly distinguishable crowns and open ground, not a random facility-wide accuracy estimate.",
+    "Closed/ambiguous canopy is masked before detection; crown footprint plus 1 m is retained where an individual can be interpreted.",
+    "2024 imagery predates 2026 LiDAR by two years. Low/changed vegetation remains uncertain.",
+    "Approximate ellipses and 2 m interpretation uncertainty are judgments, not measured accuracy.",
+    "Reported centre differences are against interpreted crown centres, not measured trunk error.",
+    "Crown IoU uses approximate visual ellipses and raster labels; baseline published geometry uses its rendered circular radius."
+  ]
+}

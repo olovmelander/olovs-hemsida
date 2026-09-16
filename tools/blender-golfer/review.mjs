@@ -1,0 +1,28 @@
+import { chromium } from 'playwright-core';
+import { mkdir, writeFile } from 'node:fs/promises';
+const out = 'docs/graphics/golfer-2026-09-16';
+const character = process.argv[2] === 'male' ? 'male' : 'female';
+const prefix = character === 'male' ? 'golfer-male' : 'golfer';
+await mkdir(out, { recursive: true });
+const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist'] });
+const page = await browser.newPage({ viewport: { width: 1440, height: 1080 }, deviceScaleFactor: 1 });
+const errors = [];
+page.on('pageerror', e => errors.push(e.message));
+await page.goto(`http://127.0.0.1:5180/golfer-study.html?character=${character}`);
+await page.waitForFunction(() => window.GOLFER_STUDY || document.querySelector('.error'), undefined, { timeout: 60000 });
+const error = await page.locator('.error').count() ? await page.locator('.error').textContent() : null;
+if (error) throw new Error(error);
+await page.evaluate(() => { const { golfer } = window.GOLFER_STUDY; golfer.paused = true; golfer.seek(.5); });
+await page.screenshot({ path: `${out}/${prefix}-browser.png` });
+const report = await page.evaluate(() => {
+  const { golfer, renderer } = window.GOLFER_STUDY;
+  const bones = []; golfer.root.traverse(o => { if (o.isBone) bones.push(o.name); });
+  return { animations: [...golfer.actions.keys()], bones, current: golfer.current, club: golfer.club, triangles: renderer.info.render.triangles };
+});
+await page.evaluate(() => { const { golfer } = window.GOLFER_STUDY; golfer.play('SwingIron', { fade: 0 }); golfer.seek(golfer.duration * .44); });
+await page.screenshot({ path: `${out}/${prefix}-backswing.png` });
+await page.evaluate(() => { const { golfer } = window.GOLFER_STUDY; golfer.seek(golfer.clips.get(golfer.current).impact); });
+await page.screenshot({ path: `${out}/${prefix}-impact.png` });
+await writeFile(`${out}/browser-report-${character}.json`, JSON.stringify({ ...report, errors }, null, 2));
+console.log(JSON.stringify({ ...report, errors }, null, 2));
+await browser.close();

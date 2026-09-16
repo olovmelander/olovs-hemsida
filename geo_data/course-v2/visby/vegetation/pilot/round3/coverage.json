@@ -1,0 +1,999 @@
+{
+  "groundId": "visby",
+  "review": "round3",
+  "scopeAreaMetres2": 658651.7684630805,
+  "gridCells": 119,
+  "inspectedCells": 26,
+  "cellStatusCounts": {
+    "reviewed": 7,
+    "ambiguous": 19,
+    "unreviewed": 93
+  },
+  "inspectedAreaMetres2": 166321.04732057767,
+  "inspectedFraction": 0.2525174231425456,
+  "areaByStatusMetres2": {
+    "reviewed": 28670.570989585678,
+    "ambiguous": 137650.47633099204,
+    "unreviewed": 447164.6095133032,
+    "protected-evaluation": 45166.11162920088
+  },
+  "rows": [
+    {
+      "hole": 1,
+      "diagnosticAreaMetres2": 30773.044618452703,
+      "inspectedAreaMetres2": 30773.04461845248,
+      "inspectedFraction": 0.9999999999999928,
+      "cellIds": [
+        "cell-687100-6370600",
+        "cell-687100-6370700",
+        "cell-687100-6370800",
+        "cell-687100-6370900",
+        "cell-687200-6370600",
+        "cell-687200-6370700",
+        "cell-687200-6370800",
+        "cell-687200-6370900"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 22.733921695797484,
+        "ambiguous": 30750.31069675661,
+        "unreviewed": 0.0,
+        "protected-evaluation": 0.0
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r3-r3-02/island/3",
+        "r3-r3-03/island/12",
+        "r3-r3-03/island/13",
+        "r3-r3-03/island/14",
+        "r3-r3-04/dalponte-d9-m5/10",
+        "r3-r3-04/dalponte-d9-m5/12",
+        "r3-r3-04/dalponte-d9-m5/16",
+        "r3-r3-04/dalponte-d9-m5/8",
+        "r3-r3-04/dalponte-d9-m5/9",
+        "r3-r3-04/island/6",
+        "r3-r3-06/dalponte-d9-m5/23",
+        "r3-r3-07/dalponte-d9-m5/12",
+        "r3-r3-07/dalponte-d9-m5/15",
+        "r3-r3-07/dalponte-d9-m5/20",
+        "r3-r3-07/dalponte-d9-m5/4",
+        "r3-r3-07/dalponte-d9-m5/8",
+        "r3-r3-08/island/6"
+      ]
+    },
+    {
+      "hole": 2,
+      "diagnosticAreaMetres2": 75340.0256182122,
+      "inspectedAreaMetres2": 57411.795573639545,
+      "inspectedFraction": 0.7620357851293483,
+      "cellIds": [
+        "cell-687100-6370700",
+        "cell-687100-6370800",
+        "cell-687100-6370900",
+        "cell-687200-6370700",
+        "cell-687200-6370800",
+        "cell-687200-6370900",
+        "cell-687200-6371000",
+        "cell-687200-6371200",
+        "cell-687300-6370800",
+        "cell-687300-6370900",
+        "cell-687300-6371000",
+        "cell-687300-6371100",
+        "cell-687300-6371200",
+        "cell-687300-6371300",
+        "cell-687400-6370900",
+        "cell-687400-6371000",
+        "cell-687400-6371100",
+        "cell-687400-6371200",
+        "cell-687400-6371300"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 1536.2623099003604,
+        "ambiguous": 55875.533263743964,
+        "unreviewed": 16839.974433312218,
+        "protected-evaluation": 1088.2556112570442
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal02-010",
+        "r1-ref-cal02-011",
+        "r1-ref-hold09b-004",
+        "r3-r3-02/island/3",
+        "r3-r3-03/island/12",
+        "r3-r3-03/island/13",
+        "r3-r3-03/island/14",
+        "r3-r3-04/dalponte-d9-m5/10",
+        "r3-r3-04/dalponte-d9-m5/12",
+        "r3-r3-04/dalponte-d9-m5/16",
+        "r3-r3-04/dalponte-d9-m5/8",
+        "r3-r3-04/dalponte-d9-m5/9",
+        "r3-r3-04/island/6",
+        "r3-r3-06/dalponte-d9-m5/23",
+        "r3-r3-07/dalponte-d9-m5/12",
+        "r3-r3-07/dalponte-d9-m5/15",
+        "r3-r3-07/dalponte-d9-m5/20",
+        "r3-r3-07/dalponte-d9-m5/4",
+        "r3-r3-07/dalponte-d9-m5/8",
+        "r3-r3-08/island/6",
+        "r3-r3-10/dalponte-d9-m5/14",
+        "r3-r3-19/dalponte-d9-m5/11",
+        "r3-r3-19/dalponte-d9-m5/14",
+        "r3-r3-19/dalponte-d9-m5/16",
+        "r3-r3-19/dalponte-d9-m5/8",
+        "r3-r3-19/island/11",
+        "r3-r3-19/island/9",
+        "r3-r3-20/dalponte-d9-m5/25",
+        "r3-r3-20/dalponte-d9-m5/27",
+        "r3-r3-21/dalponte-d9-m5/11",
+        "r3-r3-21/dalponte-d9-m5/25",
+        "r3-r3-21/dalponte-d9-m5/31",
+        "r3-r3-21/dalponte-d9-m5/8",
+        "r3-r3-21/dalponte-d9-m5/9",
+        "r3-r3-21/island/10",
+        "r3-r3-21/island/12",
+        "r3-r3-21/island/17",
+        "r3-r3-21/island/6",
+        "runtime-tree-visby-000038"
+      ]
+    },
+    {
+      "hole": 3,
+      "diagnosticAreaMetres2": 90232.72286721536,
+      "inspectedAreaMetres2": 20442.11983008711,
+      "inspectedFraction": 0.22654885257280022,
+      "cellIds": [
+        "cell-687200-6371200",
+        "cell-687200-6371300",
+        "cell-687300-6371200",
+        "cell-687300-6371300",
+        "cell-687300-6371400",
+        "cell-687300-6371500",
+        "cell-687300-6371600",
+        "cell-687400-6371200",
+        "cell-687400-6371300",
+        "cell-687400-6371400",
+        "cell-687400-6371500",
+        "cell-687400-6371600",
+        "cell-687500-6371400",
+        "cell-687500-6371500",
+        "cell-687500-6371600",
+        "cell-687500-6371700",
+        "cell-687500-6371800",
+        "cell-687600-6371700",
+        "cell-687600-6371800"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 902.1240107186682,
+        "ambiguous": 19539.99581936841,
+        "unreviewed": 66112.20589625568,
+        "protected-evaluation": 3678.3971408845346
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal03-001",
+        "r1-ref-cal03-002",
+        "r1-ref-cal03-006",
+        "r1-ref-cal03-007",
+        "r1-ref-cal03-010",
+        "r1-ref-cal03-012",
+        "r1-ref-cal06-005",
+        "r2-review06/island/11",
+        "r2-review06/island/12",
+        "r3-r3-21/dalponte-d9-m5/11",
+        "r3-r3-21/dalponte-d9-m5/25",
+        "r3-r3-21/dalponte-d9-m5/31",
+        "r3-r3-21/dalponte-d9-m5/8",
+        "r3-r3-21/dalponte-d9-m5/9",
+        "r3-r3-21/island/10",
+        "r3-r3-21/island/12",
+        "r3-r3-21/island/17",
+        "r3-r3-21/island/6",
+        "r3-r3-25/dalponte-d9-m5/11",
+        "r3-r3-25/dalponte-d9-m5/14",
+        "r3-r3-25/dalponte-d9-m5/24",
+        "r3-r3-26/island/4",
+        "runtime-tree-visby-000067"
+      ]
+    },
+    {
+      "hole": 4,
+      "diagnosticAreaMetres2": 37588.14993526502,
+      "inspectedAreaMetres2": 29951.204400980183,
+      "inspectedFraction": 0.7968257137571996,
+      "cellIds": [
+        "cell-687300-6371800",
+        "cell-687300-6371900",
+        "cell-687400-6371700",
+        "cell-687400-6371800",
+        "cell-687400-6371900",
+        "cell-687500-6371600",
+        "cell-687500-6371700",
+        "cell-687500-6371800",
+        "cell-687600-6371700",
+        "cell-687600-6371800",
+        "cell-687700-6371700"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 5442.34768463811,
+        "ambiguous": 24508.856716342067,
+        "unreviewed": 7636.9455342851925,
+        "protected-evaluation": 0.0
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r3-r3-22/dalponte-d9-m5/5",
+        "r3-r3-25/dalponte-d9-m5/11",
+        "r3-r3-25/dalponte-d9-m5/14",
+        "r3-r3-25/dalponte-d9-m5/24",
+        "r3-r3-26/island/4",
+        "r3-visible-low-23"
+      ]
+    },
+    {
+      "hole": 5,
+      "diagnosticAreaMetres2": 28742.502670505473,
+      "inspectedAreaMetres2": 2596.8812319782387,
+      "inspectedFraction": 0.09034986485860416,
+      "cellIds": [
+        "cell-687200-6371600",
+        "cell-687200-6371700",
+        "cell-687300-6371600",
+        "cell-687300-6371700",
+        "cell-687300-6371800",
+        "cell-687300-6371900",
+        "cell-687400-6371600",
+        "cell-687400-6371700",
+        "cell-687400-6371800",
+        "cell-687400-6371900"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 2596.881231978049,
+        "unreviewed": 18721.69073174993,
+        "protected-evaluation": 7423.930706777934
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r3-r3-22/dalponte-d9-m5/5",
+        "r3-visible-low-23",
+        "runtime-tree-visby-000067"
+      ]
+    },
+    {
+      "hole": 6,
+      "diagnosticAreaMetres2": 74407.32075579389,
+      "inspectedAreaMetres2": 9280.911270117604,
+      "inspectedFraction": 0.12473115784638604,
+      "cellIds": [
+        "cell-687200-6371200",
+        "cell-687200-6371300",
+        "cell-687200-6371400",
+        "cell-687200-6371500",
+        "cell-687300-6371100",
+        "cell-687300-6371200",
+        "cell-687300-6371300",
+        "cell-687300-6371400",
+        "cell-687300-6371500",
+        "cell-687300-6371600",
+        "cell-687300-6371700",
+        "cell-687400-6371200",
+        "cell-687400-6371300",
+        "cell-687400-6371400",
+        "cell-687400-6371500",
+        "cell-687400-6371600",
+        "cell-687400-6371700"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 9280.911270117684,
+        "unreviewed": 58486.72997168046,
+        "protected-evaluation": 6639.679513996418
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal02-010",
+        "r1-ref-cal02-011",
+        "r1-ref-cal03-010",
+        "r1-ref-cal03-012",
+        "r1-ref-cal06-005",
+        "r2-review06/island/11",
+        "r2-review06/island/12",
+        "r3-r3-20/dalponte-d9-m5/25",
+        "r3-r3-20/dalponte-d9-m5/27",
+        "r3-r3-21/dalponte-d9-m5/11",
+        "r3-r3-21/dalponte-d9-m5/25",
+        "r3-r3-21/dalponte-d9-m5/31",
+        "r3-r3-21/dalponte-d9-m5/8",
+        "r3-r3-21/dalponte-d9-m5/9",
+        "r3-r3-21/island/10",
+        "r3-r3-21/island/12",
+        "r3-r3-21/island/17",
+        "r3-r3-21/island/6",
+        "runtime-tree-visby-000067"
+      ]
+    },
+    {
+      "hole": 7,
+      "diagnosticAreaMetres2": 39763.18442403733,
+      "inspectedAreaMetres2": 9054.703657038612,
+      "inspectedFraction": 0.22771575738196995,
+      "cellIds": [
+        "cell-687300-6371100",
+        "cell-687300-6371200",
+        "cell-687300-6371300",
+        "cell-687400-6371100",
+        "cell-687400-6371200",
+        "cell-687400-6371300",
+        "cell-687400-6371400",
+        "cell-687500-6371200",
+        "cell-687500-6371300",
+        "cell-687600-6371200",
+        "cell-687600-6371300"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 9054.703657038726,
+        "unreviewed": 25513.030531107004,
+        "protected-evaluation": 5195.450235897334
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal02-010",
+        "r1-ref-cal02-011",
+        "r3-r3-20/dalponte-d9-m5/25",
+        "r3-r3-20/dalponte-d9-m5/27",
+        "r3-r3-21/dalponte-d9-m5/11",
+        "r3-r3-21/dalponte-d9-m5/25",
+        "r3-r3-21/dalponte-d9-m5/31",
+        "r3-r3-21/dalponte-d9-m5/8",
+        "r3-r3-21/dalponte-d9-m5/9",
+        "r3-r3-21/island/10",
+        "r3-r3-21/island/12",
+        "r3-r3-21/island/17",
+        "r3-r3-21/island/6"
+      ]
+    },
+    {
+      "hole": 8,
+      "diagnosticAreaMetres2": 73160.28351943135,
+      "inspectedAreaMetres2": 14340.697289341839,
+      "inspectedFraction": 0.19601751933524086,
+      "cellIds": [
+        "cell-687200-6370900",
+        "cell-687200-6371000",
+        "cell-687300-6370900",
+        "cell-687300-6371000",
+        "cell-687300-6371100",
+        "cell-687400-6370900",
+        "cell-687400-6371000",
+        "cell-687400-6371100",
+        "cell-687400-6371200",
+        "cell-687400-6371300",
+        "cell-687500-6371000",
+        "cell-687500-6371100",
+        "cell-687500-6371200",
+        "cell-687500-6371300",
+        "cell-687600-6371200",
+        "cell-687600-6371300"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 1296.5608586138462,
+        "ambiguous": 13044.136430728962,
+        "unreviewed": 56834.844581921076,
+        "protected-evaluation": 1984.7416481624289
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal02-010",
+        "r1-ref-cal02-011",
+        "r1-ref-hold09b-004",
+        "r3-r3-04/dalponte-d9-m5/12",
+        "r3-r3-04/dalponte-d9-m5/9",
+        "r3-r3-08/island/6",
+        "r3-r3-19/dalponte-d9-m5/11",
+        "r3-r3-19/dalponte-d9-m5/14",
+        "r3-r3-19/dalponte-d9-m5/16",
+        "r3-r3-19/dalponte-d9-m5/8",
+        "r3-r3-19/island/11",
+        "r3-r3-19/island/9",
+        "r3-r3-20/dalponte-d9-m5/25",
+        "r3-r3-20/dalponte-d9-m5/27",
+        "r3-r3-21/dalponte-d9-m5/31"
+      ]
+    },
+    {
+      "hole": 9,
+      "diagnosticAreaMetres2": 75582.49503372943,
+      "inspectedAreaMetres2": 36245.531312136074,
+      "inspectedFraction": 0.4795492831503002,
+      "cellIds": [
+        "cell-687100-6370700",
+        "cell-687100-6370800",
+        "cell-687100-6370900",
+        "cell-687200-6370700",
+        "cell-687200-6370800",
+        "cell-687200-6370900",
+        "cell-687200-6371000",
+        "cell-687300-6370700",
+        "cell-687300-6370800",
+        "cell-687300-6370900",
+        "cell-687300-6371000",
+        "cell-687400-6370800",
+        "cell-687400-6370900",
+        "cell-687400-6371000",
+        "cell-687400-6371100",
+        "cell-687500-6370900",
+        "cell-687500-6371000",
+        "cell-687500-6371100"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 227.6617850284658,
+        "ambiguous": 36017.86952712998,
+        "unreviewed": 39336.963721562504,
+        "protected-evaluation": 0.0
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-hold09b-004",
+        "r3-r3-02/island/3",
+        "r3-r3-03/island/12",
+        "r3-r3-03/island/13",
+        "r3-r3-03/island/14",
+        "r3-r3-04/dalponte-d9-m5/10",
+        "r3-r3-04/dalponte-d9-m5/12",
+        "r3-r3-04/dalponte-d9-m5/16",
+        "r3-r3-04/dalponte-d9-m5/8",
+        "r3-r3-04/dalponte-d9-m5/9",
+        "r3-r3-04/island/6",
+        "r3-r3-06/dalponte-d9-m5/23",
+        "r3-r3-07/dalponte-d9-m5/12",
+        "r3-r3-07/dalponte-d9-m5/15",
+        "r3-r3-07/dalponte-d9-m5/20",
+        "r3-r3-07/dalponte-d9-m5/4",
+        "r3-r3-07/dalponte-d9-m5/8",
+        "r3-r3-08/island/6",
+        "r3-r3-10/dalponte-d9-m5/14",
+        "r3-r3-10/dalponte-d9-m5/16",
+        "r3-r3-10/dalponte-d9-m5/26",
+        "r3-r3-10/dalponte-d9-m5/28",
+        "r3-r3-12/dalponte-d9-m5/17",
+        "r3-r3-19/dalponte-d9-m5/11",
+        "r3-r3-19/dalponte-d9-m5/14",
+        "r3-r3-19/dalponte-d9-m5/16",
+        "r3-r3-19/dalponte-d9-m5/8",
+        "r3-r3-19/island/11",
+        "r3-r3-19/island/9",
+        "runtime-tree-visby-000009",
+        "runtime-tree-visby-000038"
+      ]
+    },
+    {
+      "hole": 10,
+      "diagnosticAreaMetres2": 84833.01867828048,
+      "inspectedAreaMetres2": 61882.45884214322,
+      "inspectedFraction": 0.7294619454345408,
+      "cellIds": [
+        "cell-687200-6370600",
+        "cell-687200-6370700",
+        "cell-687200-6370800",
+        "cell-687300-6370600",
+        "cell-687300-6370700",
+        "cell-687300-6370800",
+        "cell-687400-6370600",
+        "cell-687400-6370700",
+        "cell-687400-6370800",
+        "cell-687500-6370600",
+        "cell-687500-6370700",
+        "cell-687500-6370800",
+        "cell-687600-6370600",
+        "cell-687600-6370700",
+        "cell-687600-6370800",
+        "cell-687700-6370500",
+        "cell-687700-6370600",
+        "cell-687700-6370700",
+        "cell-687800-6370600"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 19594.22144652893,
+        "ambiguous": 42288.237395609154,
+        "unreviewed": 19796.474623387916,
+        "protected-evaluation": 3154.085212762321
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r3-r3-06/dalponte-d9-m5/23",
+        "r3-r3-07/dalponte-d9-m5/12",
+        "r3-r3-07/dalponte-d9-m5/15",
+        "r3-r3-07/dalponte-d9-m5/20",
+        "r3-r3-07/dalponte-d9-m5/4",
+        "r3-r3-07/dalponte-d9-m5/8",
+        "r3-r3-10/dalponte-d9-m5/14",
+        "r3-r3-10/dalponte-d9-m5/16",
+        "r3-r3-10/dalponte-d9-m5/26",
+        "r3-r3-10/dalponte-d9-m5/28",
+        "r3-r3-12/dalponte-d9-m5/17",
+        "r3-r3-12/dalponte-d9-m5/25",
+        "r3-r3-12/dalponte-d9-m5/29",
+        "r3-r3-12/dalponte-d9-m5/32",
+        "r3-r3-12/dalponte-d9-m5/33",
+        "r3-r3-12/dalponte-d9-m5/47",
+        "r3-r3-15/island/8",
+        "r3-r3-18/dalponte-d9-m5/8",
+        "runtime-tree-visby-000009",
+        "runtime-tree-visby-000038",
+        "runtime-tree-visby-000042",
+        "runtime-tree-visby-000051"
+      ]
+    },
+    {
+      "hole": 11,
+      "diagnosticAreaMetres2": 50665.9858377047,
+      "inspectedAreaMetres2": 0.0,
+      "inspectedFraction": 0.0,
+      "cellIds": [
+        "cell-687700-6370500",
+        "cell-687700-6370600",
+        "cell-687800-6370500",
+        "cell-687800-6370600",
+        "cell-687800-6370700",
+        "cell-687900-6370500",
+        "cell-687900-6370600",
+        "cell-687900-6370700",
+        "cell-688000-6370600",
+        "cell-688000-6370700",
+        "cell-688100-6370600",
+        "cell-688100-6370700"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 0.0,
+        "unreviewed": 31126.443706932943,
+        "protected-evaluation": 19539.542130778413
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": []
+    },
+    {
+      "hole": 12,
+      "diagnosticAreaMetres2": 47190.126967633005,
+      "inspectedAreaMetres2": 0.0,
+      "inspectedFraction": 0.0,
+      "cellIds": [
+        "cell-687800-6370700",
+        "cell-687800-6370800",
+        "cell-687800-6370900",
+        "cell-687900-6370600",
+        "cell-687900-6370700",
+        "cell-687900-6370800",
+        "cell-687900-6370900",
+        "cell-687900-6371000",
+        "cell-688000-6370600",
+        "cell-688000-6370700",
+        "cell-688000-6370800",
+        "cell-688000-6370900",
+        "cell-688100-6370600",
+        "cell-688100-6370700"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 0.0,
+        "unreviewed": 33573.1481137004,
+        "protected-evaluation": 13616.978853931596
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-hold16b-002",
+        "r1-ref-hold16b-004",
+        "r1-ref-hold16b-005",
+        "r1-ref-hold16b-006",
+        "r1-ref-hold16b-009",
+        "r1-ref-hold16b-011",
+        "r1-ref-hold16b-015",
+        "r1-ref-hold16b-016",
+        "r2-review13/dalponte-d9-m5/26",
+        "r2-review13/dalponte-d9-m5/29",
+        "runtime-tree-visby-000258",
+        "runtime-tree-visby-000296"
+      ]
+    },
+    {
+      "hole": 13,
+      "diagnosticAreaMetres2": 45416.573846304855,
+      "inspectedAreaMetres2": 0.0,
+      "inspectedFraction": 0.0,
+      "cellIds": [
+        "cell-687900-6370800",
+        "cell-687900-6370900",
+        "cell-688000-6370800",
+        "cell-688000-6370900",
+        "cell-688100-6370800",
+        "cell-688100-6370900",
+        "cell-688200-6370800",
+        "cell-688200-6370900",
+        "cell-688300-6370800",
+        "cell-688300-6370900"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 0.0,
+        "unreviewed": 45151.85517482685,
+        "protected-evaluation": 264.7186714794995
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal13-020",
+        "r1-ref-cal13-034",
+        "r1-ref-hold16b-009",
+        "r1-ref-hold16b-011",
+        "r1-ref-hold16b-015",
+        "r1-ref-hold16b-016",
+        "r2-review13/dalponte-d9-m5/26",
+        "r2-review13/dalponte-d9-m5/29",
+        "runtime-tree-visby-000258",
+        "runtime-tree-visby-000296"
+      ]
+    },
+    {
+      "hole": 14,
+      "diagnosticAreaMetres2": 25295.924127137292,
+      "inspectedAreaMetres2": 0.0,
+      "inspectedFraction": 0.0,
+      "cellIds": [
+        "cell-688000-6371000",
+        "cell-688000-6371100",
+        "cell-688100-6370900",
+        "cell-688100-6371000",
+        "cell-688100-6371100",
+        "cell-688200-6370900",
+        "cell-688200-6371000"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 0.0,
+        "unreviewed": 25295.92412713647,
+        "protected-evaluation": 0.0
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal13-020",
+        "r1-ref-cal14-005",
+        "r1-ref-cal14-006"
+      ]
+    },
+    {
+      "hole": 15,
+      "diagnosticAreaMetres2": 42752.8232194374,
+      "inspectedAreaMetres2": 0.0,
+      "inspectedFraction": 0.0,
+      "cellIds": [
+        "cell-687700-6371200",
+        "cell-687700-6371300",
+        "cell-687700-6371400",
+        "cell-687800-6371100",
+        "cell-687800-6371200",
+        "cell-687800-6371300",
+        "cell-687900-6371100",
+        "cell-687900-6371200",
+        "cell-687900-6371300",
+        "cell-688000-6371000",
+        "cell-688000-6371100",
+        "cell-688000-6371200",
+        "cell-688100-6371100",
+        "cell-688100-6371200"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 0.0,
+        "unreviewed": 42752.82321942442,
+        "protected-evaluation": 0.0
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-cal14-005",
+        "r1-ref-cal14-006",
+        "r2-review15west/dalponte-d9-m5/44",
+        "r2-review15west/dalponte-d9-m5/48"
+      ]
+    },
+    {
+      "hole": 16,
+      "diagnosticAreaMetres2": 67550.65086722498,
+      "inspectedAreaMetres2": 0.0,
+      "inspectedFraction": 0.0,
+      "cellIds": [
+        "cell-687600-6371100",
+        "cell-687700-6371000",
+        "cell-687700-6371100",
+        "cell-687700-6371200",
+        "cell-687700-6371300",
+        "cell-687800-6370700",
+        "cell-687800-6370800",
+        "cell-687800-6370900",
+        "cell-687800-6371000",
+        "cell-687800-6371100",
+        "cell-687800-6371200",
+        "cell-687800-6371300",
+        "cell-687900-6370700",
+        "cell-687900-6370800",
+        "cell-687900-6370900",
+        "cell-687900-6371000",
+        "cell-687900-6371100",
+        "cell-688000-6370700",
+        "cell-688000-6370800"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 0.0,
+        "unreviewed": 63505.18800447508,
+        "protected-evaluation": 4045.4628627447773
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-hold16a-011",
+        "r1-ref-hold16b-002",
+        "r1-ref-hold16b-004",
+        "r1-ref-hold16b-005",
+        "r1-ref-hold16b-006",
+        "r1-ref-hold16b-009",
+        "r1-ref-hold16b-011",
+        "r1-ref-hold16b-015",
+        "r1-ref-hold16b-016",
+        "r2-review13/dalponte-d9-m5/26",
+        "r2-review13/dalponte-d9-m5/29",
+        "r2-review15west/dalponte-d9-m5/44",
+        "r2-review15west/dalponte-d9-m5/48",
+        "runtime-tree-visby-000258",
+        "runtime-tree-visby-000296"
+      ]
+    },
+    {
+      "hole": 17,
+      "diagnosticAreaMetres2": 41474.4315494754,
+      "inspectedAreaMetres2": 40.9893565824194,
+      "inspectedFraction": 0.000988304240734985,
+      "cellIds": [
+        "cell-687700-6370500",
+        "cell-687700-6370600",
+        "cell-687700-6370700",
+        "cell-687800-6370500",
+        "cell-687800-6370600",
+        "cell-687800-6370700",
+        "cell-687800-6370800",
+        "cell-687900-6370500",
+        "cell-687900-6370600",
+        "cell-687900-6370700",
+        "cell-687900-6370800"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 0.0,
+        "ambiguous": 40.9893565824194,
+        "unreviewed": 29957.044736829506,
+        "protected-evaluation": 11476.397456070416
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r1-ref-hold16b-005",
+        "r1-ref-hold16b-006",
+        "r1-ref-hold16b-011",
+        "r1-ref-hold16b-015",
+        "r1-ref-hold16b-016",
+        "r3-r3-18/dalponte-d9-m5/8",
+        "runtime-tree-visby-000258",
+        "runtime-tree-visby-000296"
+      ]
+    },
+    {
+      "hole": 18,
+      "diagnosticAreaMetres2": 81126.47766849074,
+      "inspectedAreaMetres2": 35557.44314081221,
+      "inspectedFraction": 0.43829640041949713,
+      "cellIds": [
+        "cell-687200-6370600",
+        "cell-687200-6370700",
+        "cell-687300-6370600",
+        "cell-687300-6370700",
+        "cell-687400-6370600",
+        "cell-687400-6370700",
+        "cell-687500-6370600",
+        "cell-687500-6370700",
+        "cell-687600-6370600",
+        "cell-687600-6370700",
+        "cell-687700-6370500",
+        "cell-687700-6370600",
+        "cell-687700-6370700",
+        "cell-687800-6370500",
+        "cell-687800-6370600"
+      ],
+      "statusAreasMetres2": {
+        "reviewed": 16841.974289136953,
+        "ambiguous": 18715.468851673617,
+        "unreviewed": 36122.23336788239,
+        "protected-evaluation": 9446.801159777859
+      },
+      "sourceDates": {
+        "lidar": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "rgbi": "2026-04-10",
+        "seasonal": "2022; exact date unknown"
+      },
+      "renderedViews": "Matched WebGPU tee and overhead captured; WebGL/high and low tee also captured for holes 9 and 16.",
+      "treatment": "Retain measured woodland; accepted individuals only in linked inspected cells. No whole-hole stem census.",
+      "unresolvedIssueIds": [
+        "r3-r3-06/dalponte-d9-m5/23",
+        "r3-r3-07/dalponte-d9-m5/20",
+        "r3-r3-10/dalponte-d9-m5/14",
+        "r3-r3-10/dalponte-d9-m5/16",
+        "r3-r3-10/dalponte-d9-m5/26",
+        "r3-r3-10/dalponte-d9-m5/28",
+        "r3-r3-12/dalponte-d9-m5/17",
+        "r3-r3-12/dalponte-d9-m5/25",
+        "r3-r3-12/dalponte-d9-m5/29",
+        "r3-r3-12/dalponte-d9-m5/32",
+        "r3-r3-12/dalponte-d9-m5/33",
+        "r3-r3-12/dalponte-d9-m5/47",
+        "r3-r3-18/dalponte-d9-m5/8",
+        "runtime-tree-visby-000009",
+        "runtime-tree-visby-000038",
+        "runtime-tree-visby-000042",
+        "runtime-tree-visby-000051"
+      ]
+    }
+  ],
+  "sourceCoverageFraction": 1.0,
+  "definition": "New systematic source/candidate and rendered-base review, clipped to the frozen corridor and excluding six protected evaluation windows. Ambiguous cells were inspected but did not pass. Woodland interiors remain density-based, not a stem census.",
+  "limitations": "Older sample-window coverage is a different measure and is not added to inspected area. Per-hole 90 m line buffers overlap and must not be summed. No independent new accuracy or boundary measurement."
+}

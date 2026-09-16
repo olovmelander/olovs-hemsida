@@ -1,0 +1,150 @@
+{
+  "browser": "152.0.7977.83",
+  "repeats": 3,
+  "hole": 16,
+  "camera": "tee",
+  "viewport": [
+    1440,
+    900
+  ],
+  "comparison": [
+    {
+      "scenario": "webgpu-high",
+      "before": {
+        "bootMs": 13572,
+        "frameMedianMs": 6.199999999998909,
+        "frameP95Ms": 12.200000000000728,
+        "vegetationPlanMs": 141.6,
+        "networkBytes": 7024895,
+        "networkRequests": 5,
+        "vegetationBytes": 1287080,
+        "drawn": 47377,
+        "groundResidual": {
+          "sampleCount": 47377,
+          "median": 0.002349999999999852,
+          "p95": 0.004769999999999719,
+          "max": 0.006995999999997338
+        }
+      },
+      "after": {
+        "bootMs": 13573,
+        "frameMedianMs": 6.200000000000728,
+        "frameP95Ms": 12.200000000000728,
+        "vegetationPlanMs": 136.1,
+        "networkBytes": 7024955,
+        "networkRequests": 5,
+        "vegetationBytes": 1287140,
+        "drawn": 47377,
+        "groundResidual": {
+          "sampleCount": 47377,
+          "median": 0.002349999999999852,
+          "p95": 0.004769999999999719,
+          "max": 0.006995999999997338
+        }
+      },
+      "percentChange": {
+        "bootMs": 0.007368110816385887,
+        "frameMedianMs": 2.9332092310596636e-11,
+        "frameP95Ms": 0,
+        "vegetationPlanMs": -3.8841807909604564,
+        "networkBytes": 0.0008541052926691606,
+        "vegetationBytes": 0.00466171488950895
+      }
+    },
+    {
+      "scenario": "webgl-high",
+      "before": {
+        "bootMs": 12243,
+        "frameMedianMs": 18.19999999999891,
+        "frameP95Ms": 18.299999999999272,
+        "vegetationPlanMs": 138.3,
+        "networkBytes": 7024895,
+        "networkRequests": 5,
+        "vegetationBytes": 1287080,
+        "drawn": 47377,
+        "groundResidual": {
+          "sampleCount": 47377,
+          "median": 0.002349999999999852,
+          "p95": 0.004769999999999719,
+          "max": 0.006995999999997338
+        }
+      },
+      "after": {
+        "bootMs": 12172,
+        "frameMedianMs": 18.19999999999891,
+        "frameP95Ms": 18.299999999999272,
+        "vegetationPlanMs": 138.2,
+        "networkBytes": 7024955,
+        "networkRequests": 5,
+        "vegetationBytes": 1287140,
+        "drawn": 47377,
+        "groundResidual": {
+          "sampleCount": 47377,
+          "median": 0.002349999999999852,
+          "p95": 0.004769999999999719,
+          "max": 0.006995999999997338
+        }
+      },
+      "percentChange": {
+        "bootMs": -0.5799232214326544,
+        "frameMedianMs": 0,
+        "frameP95Ms": 0,
+        "vegetationPlanMs": -0.0723065798987843,
+        "networkBytes": 0.0008541052926691606,
+        "vegetationBytes": 0.00466171488950895
+      }
+    },
+    {
+      "scenario": "webgl-low",
+      "before": {
+        "bootMs": 11677,
+        "frameMedianMs": 6.100000000000364,
+        "frameP95Ms": 12.099999999998545,
+        "vegetationPlanMs": 120.3,
+        "networkBytes": 7024895,
+        "networkRequests": 5,
+        "vegetationBytes": 1287080,
+        "drawn": 32223,
+        "groundResidual": {
+          "sampleCount": 32223,
+          "median": 0.0023510000000017683,
+          "p95": 0.004774999999999974,
+          "max": 0.006995999999997338
+        }
+      },
+      "after": {
+        "bootMs": 11559,
+        "frameMedianMs": 6.100000000000364,
+        "frameP95Ms": 6.200000000000728,
+        "vegetationPlanMs": 120.8,
+        "networkBytes": 7024955,
+        "networkRequests": 5,
+        "vegetationBytes": 1287140,
+        "drawn": 32223,
+        "groundResidual": {
+          "sampleCount": 32223,
+          "median": 0.0023510000000017683,
+          "p95": 0.004774999999999974,
+          "max": 0.006995999999997338
+        }
+      },
+      "percentChange": {
+        "bootMs": -1.0105335274471217,
+        "frameMedianMs": 0,
+        "frameP95Ms": -48.76033057850022,
+        "vegetationPlanMs": 0.41562759767248547,
+        "networkBytes": 0.0008541052926691606,
+        "vegetationBytes": 0.00466171488950895
+      }
+    }
+  ],
+  "comparisonModes": {
+    "before": "round five",
+    "after": "round six"
+  },
+  "limitation": "Local machine, serial cold contexts, interleaved order. RAF intervals include browser scheduling and are not isolated GPU timings.",
+  "regressionsAbove10Percent": [],
+  "sourceRunsSha256": "d03106ade462018d9b42130106424d5a2a14ab5fd8a4c4a22349ba07cd36eca6",
+  "investigation": "No measured median load, frame, planning, transfer or vegetation-byte regression above 10% in this comparison.",
+  "groundCheckPolicy": "All-instance terrain check on first repeat for each mode/backend/quality; later repeats reuse it after population, catalogue and loaded-record equality checks. Timing comparisons use only this run."
+}

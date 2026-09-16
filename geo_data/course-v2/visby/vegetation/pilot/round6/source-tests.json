@@ -1,0 +1,9 @@
+{
+  "command": "upsalabuild/cache/review-venv/Scripts/python.exe -W ignore::DeprecationWarning -m unittest discover -s tools/visby-tree-pilot -p 'test_*.py'",
+  "tests": 18,
+  "status": "passed",
+  "diagnosticCentresReproduce": true,
+  "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+  "rasterio": "1.4.3",
+  "numpy": "2.5.2"
+}

@@ -4,18 +4,26 @@ Updated 2026-09-07. Start here when creating a course or improving an existing
 one. The current guide combines the v2 architecture with the mapping techniques
 tested during the Upsala work.
 
+The reusable tree-placement workflow and its review template were added on
+2026-09-16 following the Visby pilots.
+
 | Document | Use it for |
 |---|---|
 | [Course v2 production guide](v2-course-runbook.md) | Ground/course identity, source hierarchy, coordinates, terrain/surface/object compilation, current tool support, publication and release gates. |
 | [Course mapping workflow](v2-course-mapping-workflow.md) | Complete object inventory, new-course and existing-course review, source acquisition, QGIS/imagery/survey techniques, guarded adoption, Windows recipes and next-session handoff. |
+| [Tree placement workflow](tree-placement-workflow.md) | Reusable LiDAR/RGB/IR method for existing and new grounds: reference samples, detection benchmarking, reviewed individuals, woodland fields, assets, acceptance gates and current tooling limits. Start with its [review template](templates/tree-placement-review.md). |
 | [Course model vocabulary](course-model-vocabulary.md) | What model fields actually mean, polygon ownership, tee platforms and markers, evidence-only observations, trees and runtime estimates. |
 | [V2 performance recovery](v2-performance-recovery.md) | Current default graphics, first-frame loading behavior, terrain resource reuse and valid performance comparisons. |
+| [Golfer development lab](../experiments/golfer/README.md) | Preserved female/male character work, Blender sources, animation audits, local checkpoints and the separate development mode. App integration is deferred. |
 | [Upsala mapping handoff](../upsalabuild/mapping/NEXT-SESSION.md) | Latest accepted Upsala checkpoint, exact rebuild/validation commands, local inputs and remaining work. |
 | [Upsala mapping inventory](../upsalabuild/mapping/README.md) | Current mapping coverage, review artifacts and category gaps. |
 | [Lidingö 3D mapping handoff](../lidingobuild/mapping/NEXT-SESSION.md) | Provisional 18-hole course on Lantmäteriet 1 m terrain, measured canopy, orthophoto traces, reproducible checks and remaining survey/current-condition gates. |
 | [Lidingö source research](courses/lidingo-source-research.md) | Official card, banguide, dated planning documents, photographs, flyovers, source checksums and rights limitations. |
 | [Visby source-intake handoff](../visbybuild/mapping/NEXT-SESSION.md) | Kronholmen's main 18-hole course, app preview, source acquisition, verification and remaining 3D authoring work. |
 | [Visby source research](courses/visby-source-research.md) | Official course resources, Caddee guides, scorecard, photography and source limitations. |
+| [Visby full-facility tree review](../geo_data/course-v2/visby/vegetation/pilot/round5/README.md) | Local 156-cell individual/woodland comparison, canopy gap accounting, unresolved cases and reproducible source/runtime checks. |
+| [Visby tree pilot closeout](../geo_data/course-v2/visby/vegetation/pilot/closeout/README.md) | Final local delivery, closed with exceptions: full facility review, retained round-six placement, prioritized ground conflicts and explicit accuracy/release limits. |
+| [Visby focused crown and gap review](../geo_data/course-v2/visby/vegetation/pilot/round6/README.md) | Retained placement comparison: 79 residual patches inspected, six crown-size corrections, structure accounting and explicit ground-mask conflicts. |
 | [Visby tee alignment review](../visbybuild/mapping/tee-alignment-review-2026-09-09.md) | Corrected tee platforms and numbered starts, GPS projection fix, source evidence and remaining ambiguities. |
 
 For a new physical ground, read the production guide and create a source and

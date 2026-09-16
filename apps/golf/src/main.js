@@ -4359,7 +4359,7 @@ const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
     const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
     /* Load the close tier by default. ?hero=0 reuses an independent copy of
        the middle mesh in that slot; automatic quality/zone selection remains. */
-    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: new URLSearchParams(location.search).get('hero') !== '0' });
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug, hero: new URLSearchParams(location.search).get('hero') !== '0' });
     console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { console.warn('ghibli trees unavailable, procedural templates kept:', err); return null; }
@@ -10903,12 +10903,14 @@ function updateFrameVisibility(now, dt) {
   if (acc > 0.5) { fps = frames / acc; frames = 0; acc = 0; }
 }
 
+let courseGolfer = null;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
   renderResolution.sample(now - last, now,
     BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked);
   /* Morph state remains current before the ground clamp samples terrain. */
   terrainV2.tick(now);
+  if (__GOLFER_LAB__) courseGolfer?.update(dt);
   if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
 
   if (camTween.on) {
@@ -11945,6 +11947,17 @@ if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
     }
   }, 1000);
 }, 4000);
+
+// Development lab only. Normal builds compile out this integration entirely.
+if (__GOLFER_LAB__ && new URLSearchParams(location.search).get('golfer') === '1') {
+  import('./engine/golfer-course.mjs').then(async ({ mountCourseGolfer }) => {
+    setCam('orbit', true);
+    courseGolfer = await mountCourseGolfer({ scene, camera, controls, heightAt: renderedGroundH,
+      getTee: () => (HOLES[hole - 1].tees.marks[teeIdx] || HOLES[hole - 1].tees.marks[0]).c,
+      getGreen: () => HOLES[hole - 1].green.c, getHole: () => hole, kindAt: kikKindAt });
+    window.BANVY_GOLFER = courseGolfer;
+  }).catch(error => { console.error('Golfer preview:', error); toast('Golfaren kunde inte laddas.', 6000); });
+}
 
 /* The same ten seconds, the other way round: a visit that is only in LOWQ
    because an earlier one was slow measures itself, and a frame rate that is

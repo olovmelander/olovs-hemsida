@@ -1,0 +1,294 @@
+{
+  "browser": "152.0.7977.83",
+  "repeats": 3,
+  "hole": 16,
+  "camera": "tee",
+  "viewport": [
+    1440,
+    900
+  ],
+  "comparison": [
+    {
+      "scenario": "webgpu-high",
+      "before": {
+        "bootMs": 15342,
+        "frameMedianMs": 24.200000000000728,
+        "frameP95Ms": 24.69999999999709,
+        "vegetationPlanMs": 158,
+        "networkBytes": 7046929,
+        "networkRequests": 5,
+        "vegetationBytes": 1309480,
+        "drawn": 47905,
+        "groundResidual": {
+          "sampleCount": 47905,
+          "median": 0.0023534999999998973,
+          "p95": 0.0047700000000023834,
+          "max": 0.006974999999965981
+        }
+      },
+      "after": {
+        "bootMs": 18801,
+        "frameMedianMs": 24.200000000000728,
+        "frameP95Ms": 24.700000000000728,
+        "vegetationPlanMs": 166.5,
+        "networkBytes": 7045895,
+        "networkRequests": 5,
+        "vegetationBytes": 1308446,
+        "drawn": 47881,
+        "groundResidual": {
+          "sampleCount": 47881,
+          "median": 0.0023534999999998973,
+          "p95": 0.0047700000000023834,
+          "max": 0.006974999999965981
+        }
+      },
+      "percentChange": {
+        "bootMs": 22.545952287837313,
+        "frameMedianMs": 0,
+        "frameP95Ms": 1.4721557306529576e-11,
+        "vegetationPlanMs": 5.379746835443044,
+        "networkBytes": -0.014673058292480334,
+        "vegetationBytes": -0.0789626416592859
+      }
+    },
+    {
+      "scenario": "webgl-high",
+      "before": {
+        "bootMs": 14436,
+        "frameMedianMs": 54.5,
+        "frameP95Ms": 54.70000000000073,
+        "vegetationPlanMs": 150.5,
+        "networkBytes": 7046929,
+        "networkRequests": 5,
+        "vegetationBytes": 1309480,
+        "drawn": 47905,
+        "groundResidual": {
+          "sampleCount": 47905,
+          "median": 0.0023534999999998973,
+          "p95": 0.0047700000000023834,
+          "max": 0.006974999999965981
+        }
+      },
+      "after": {
+        "bootMs": 13308,
+        "frameMedianMs": 54.400000000001455,
+        "frameP95Ms": 54.69999999999709,
+        "vegetationPlanMs": 156.6,
+        "networkBytes": 7045895,
+        "networkRequests": 5,
+        "vegetationBytes": 1308446,
+        "drawn": 47881,
+        "groundResidual": {
+          "sampleCount": 47881,
+          "median": 0.0023534999999998973,
+          "p95": 0.0047700000000023834,
+          "max": 0.006974999999965981
+        }
+      },
+      "percentChange": {
+        "bootMs": -7.813798836242725,
+        "frameMedianMs": -0.18348623852944002,
+        "frameP95Ms": -6.650235917504688e-12,
+        "vegetationPlanMs": 4.053156146179404,
+        "networkBytes": -0.014673058292480334,
+        "vegetationBytes": -0.0789626416592859
+      }
+    },
+    {
+      "scenario": "webgl-low",
+      "before": {
+        "bootMs": 12651,
+        "frameMedianMs": 12.200000000000728,
+        "frameP95Ms": 18.30000000000109,
+        "vegetationPlanMs": 131.7,
+        "networkBytes": 7046929,
+        "networkRequests": 5,
+        "vegetationBytes": 1309480,
+        "drawn": 32318,
+        "groundResidual": {
+          "sampleCount": 32318,
+          "median": 0.0023510000000017683,
+          "p95": 0.004774999999996865,
+          "max": 0.006719999999998727
+        }
+      },
+      "after": {
+        "bootMs": 12827,
+        "frameMedianMs": 12.200000000000728,
+        "frameP95Ms": 18.30000000000109,
+        "vegetationPlanMs": 141.1,
+        "networkBytes": 7045895,
+        "networkRequests": 5,
+        "vegetationBytes": 1308446,
+        "drawn": 32322,
+        "groundResidual": {
+          "sampleCount": 32322,
+          "median": 0.0023519999999992436,
+          "p95": 0.004774000000000278,
+          "max": 0.006719999999998727
+        }
+      },
+      "percentChange": {
+        "bootMs": 1.391194371986404,
+        "frameMedianMs": 0,
+        "frameP95Ms": 0,
+        "vegetationPlanMs": 7.137433561123774,
+        "networkBytes": -0.014673058292480334,
+        "vegetationBytes": -0.0789626416592859
+      }
+    }
+  ],
+  "comparisonModes": {
+    "before": "first pilot",
+    "after": "round two"
+  },
+  "limitation": "Local machine, serial cold contexts, interleaved order. RAF intervals include browser scheduling and are not isolated GPU timings.",
+  "regressionsAbove10Percent": [
+    {
+      "scenario": "webgpu-high",
+      "metric": "bootMs",
+      "percent": 22.545952287837313,
+      "before": 15342,
+      "after": 18801
+    }
+  ],
+  "investigation": {
+    "trigger": "Initial WebGPU median startup increased 22.55%, from 15,342 to 18,801 ms; frames and transfer did not regress.",
+    "method": "Inspect named boot spans, then run three additional serial interleaved cold-context pairs for WebGPU at the same hole, viewport, assets and quality. No graph or runtime changes between runs.",
+    "observations": [
+      "Initial timings varied across unchanged terrain preparation, ground tint generation, far vista and GPU compilation. The first baseline startup also overlapped offline CPU validation; no GPU capture ran concurrently.",
+      "Packaged transfer is 1,034 bytes smaller, remains five requests and has no startup fallback. Encoded vegetation is also 1,034 bytes smaller.",
+      "Follow-up startup medians were 17,728 ms for the first pilot and 15,058 ms for round two (-15.06%). Median frame intervals remained 24.2 ms in both.",
+      "The initial startup regression did not reproduce. Variability is consistent with warm-up and local scheduling; this does not establish a loading-speed improvement. Both original and follow-up measurements are retained."
+    ],
+    "initialBootSamples": [
+      {
+        "mode": "before",
+        "repeat": 0,
+        "bootMs": 27077
+      },
+      {
+        "mode": "after",
+        "repeat": 0,
+        "bootMs": 18801
+      },
+      {
+        "mode": "after",
+        "repeat": 1,
+        "bootMs": 19777
+      },
+      {
+        "mode": "before",
+        "repeat": 1,
+        "bootMs": 15233
+      },
+      {
+        "mode": "before",
+        "repeat": 2,
+        "bootMs": 15342
+      },
+      {
+        "mode": "after",
+        "repeat": 2,
+        "bootMs": 15277
+      }
+    ],
+    "followupBootSamples": [
+      {
+        "mode": "before",
+        "repeat": 0,
+        "bootMs": 17728
+      },
+      {
+        "mode": "after",
+        "repeat": 0,
+        "bootMs": 15380
+      },
+      {
+        "mode": "after",
+        "repeat": 1,
+        "bootMs": 14946
+      },
+      {
+        "mode": "before",
+        "repeat": 1,
+        "bootMs": 16196
+      },
+      {
+        "mode": "before",
+        "repeat": 2,
+        "bootMs": 18635
+      },
+      {
+        "mode": "after",
+        "repeat": 2,
+        "bootMs": 15058
+      }
+    ],
+    "followup": {
+      "browser": "152.0.7977.83",
+      "repeats": 3,
+      "hole": 16,
+      "camera": "tee",
+      "viewport": [
+        1440,
+        900
+      ],
+      "comparison": [
+        {
+          "scenario": "webgpu-high",
+          "before": {
+            "bootMs": 17728,
+            "frameMedianMs": 24.200000000000728,
+            "frameP95Ms": 24.5,
+            "vegetationPlanMs": 195.9,
+            "networkBytes": 7046929,
+            "networkRequests": 5,
+            "vegetationBytes": 1309480,
+            "drawn": 47905,
+            "groundResidual": {
+              "sampleCount": 47905,
+              "median": 0.0023534999999998973,
+              "p95": 0.0047700000000023834,
+              "max": 0.006974999999965981
+            }
+          },
+          "after": {
+            "bootMs": 15058,
+            "frameMedianMs": 24.200000000000728,
+            "frameP95Ms": 24.400000000001455,
+            "vegetationPlanMs": 156,
+            "networkBytes": 7045895,
+            "networkRequests": 5,
+            "vegetationBytes": 1308446,
+            "drawn": 47881,
+            "groundResidual": {
+              "sampleCount": 47881,
+              "median": 0.0023534999999998973,
+              "p95": 0.0047700000000023834,
+              "max": 0.006974999999965981
+            }
+          },
+          "percentChange": {
+            "bootMs": -15.060920577617331,
+            "frameMedianMs": 0,
+            "frameP95Ms": -0.40816326530018765,
+            "vegetationPlanMs": -20.367534456355287,
+            "networkBytes": -0.014673058292480334,
+            "vegetationBytes": -0.0789626416592859
+          }
+        }
+      ],
+      "comparisonModes": {
+        "before": "first pilot",
+        "after": "round two"
+      },
+      "limitation": "Local machine, serial cold contexts, interleaved order. RAF intervals include browser scheduling and are not isolated GPU timings."
+    },
+    "sourceRuns": {
+      "initialSha256": "ff5418e53350ae9615061b88c2863a8ccc47ef4c45895f2f941fbfeae34991de",
+      "followupSha256": "5b6e6ee45046c10482f205dcc54c2845c818e8eb60b5c1d709ab449b7eed6467"
+    },
+    "conclusion": "No reproducible >10% runtime regression established. Initial >10% startup observation remains visible; follow-up finds no regression. Local experiment, not a general performance guarantee."
+  }
+}

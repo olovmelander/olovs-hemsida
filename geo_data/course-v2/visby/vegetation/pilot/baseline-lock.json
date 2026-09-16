@@ -1,0 +1,42 @@
+{
+  "capturedAt": "2026-09-16T06:52:10.305Z",
+  "root": {
+    "url": "courses/v2-index.json",
+    "bytes": 6993,
+    "sha256": "5883880e5e94853a97c845627b8e540c075e5f9f19c07d38abe5838f95bc1247"
+  },
+  "course": {
+    "bytes": 3877,
+    "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+    "sha256": "b7939483d5ddd9e53e838ce09d12311d65d1876394e4747ec3a6218b45480374",
+    "url": "courses/visby/course-v2-b7939483d5ddd9e53e838ce09d12311d65d1876394e4747ec3a6218b45480374.json"
+  },
+  "ground": {
+    "bytes": 500364,
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "sha256": "90834565deaa503404ea1ab86278218af70284a8f8e967fc7b70c3cfe8cc6a5e",
+    "url": "grounds/visby/ground-v2-90834565deaa503404ea1ab86278218af70284a8f8e967fc7b70c3cfe8cc6a5e.json"
+  },
+  "routing": {
+    "bytes": 1786,
+    "decodedBytes": 3167,
+    "decodedSha256": "f94ce9b6b5a3f4f1f5d5d9aef9cfa12cc4d1dea0b84b571150d6800b117d8677",
+    "kind": "routing",
+    "mediaType": "application/vnd.banvy.chunk-v2",
+    "requiredFeatures": [
+      "chunk-envelope-v2",
+      "course-routing-json-v1"
+    ],
+    "sha256": "f4ca7bc2cf7bf0c1772952a6bbca63fe00d494b9200a368a058392ab21259ae9",
+    "url": "courses/visby/routing/f4ca7bc2cf7bf0c1772952a6bbca63fe00d494b9200a368a058392ab21259ae9.bvch"
+  },
+  "baselineRecordsSha256": "071c6a2a21549b8ab0da735c42554f157227ed92e1eaa4581d868c8b4990cf80",
+  "sourceEvidenceSha256": "cec45a8377521b74f53d960a8ccb8056c5db79e5e3da4a9cc63fecadebace17b",
+  "pilotGround": {
+    "url": "grounds/visby/ground-v2-47b4c0d8ba19629bee60f03f4fe111a51ff4d6420d56bc03ccef7d40c5a3f93e.json",
+    "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+    "bytes": 500410,
+    "sha256": "47b4c0d8ba19629bee60f03f4fe111a51ff4d6420d56bc03ccef7d40c5a3f93e"
+  },
+  "pilotSourceManifestSha256": "c601ed9c51eedd4151d5da66e7aa19efff0efb9436badb30263178de779085ac"
+}

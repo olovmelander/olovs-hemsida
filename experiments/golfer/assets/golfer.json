@@ -1,0 +1,293 @@
+{
+  "schema": 1,
+  "name": "Banvy Female Golfer",
+  "file": "banvy-golfer.glb",
+  "height": 2.019,
+  "forward": "+Z",
+  "bones": 39,
+  "clips": [
+    {
+      "name": "Idle",
+      "duration": 3.2,
+      "loop": true,
+      "club": "Iron"
+    },
+    {
+      "name": "Walk",
+      "duration": 1.1,
+      "loop": true,
+      "club": "Iron",
+      "speed": 0.7038123167155425,
+      "stance": 0.62,
+      "travelDirection": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "WalkBackward",
+      "duration": 1.2,
+      "loop": true,
+      "club": "Iron",
+      "speed": 0.6451612903225806,
+      "stance": 0.62,
+      "travelDirection": [
+        0,
+        0,
+        -1
+      ]
+    },
+    {
+      "name": "StrafeLeft",
+      "duration": 1.2,
+      "loop": true,
+      "club": "Iron",
+      "speed": 0.43010752688172044,
+      "stance": 0.62,
+      "travelDirection": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "StrafeRight",
+      "duration": 1.2,
+      "loop": true,
+      "club": "Iron",
+      "speed": 0.43010752688172044,
+      "stance": 0.62,
+      "travelDirection": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Jog",
+      "duration": 0.8,
+      "loop": true,
+      "club": "Iron",
+      "speed": 1.4999999999999998,
+      "stance": 0.5,
+      "travelDirection": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "TurnLeft",
+      "duration": 0.9,
+      "loop": false,
+      "club": "Iron",
+      "turnAngle": 1.5707963267948966
+    },
+    {
+      "name": "TurnRight",
+      "duration": 0.9,
+      "loop": false,
+      "club": "Iron",
+      "turnAngle": -1.5707963267948966
+    },
+    {
+      "name": "AddressDriver",
+      "duration": 2,
+      "loop": true,
+      "club": "Driver"
+    },
+    {
+      "name": "AddressWood",
+      "duration": 2,
+      "loop": true,
+      "club": "Wood"
+    },
+    {
+      "name": "AddressIron",
+      "duration": 2,
+      "loop": true,
+      "club": "Iron"
+    },
+    {
+      "name": "AddressWedge",
+      "duration": 2,
+      "loop": true,
+      "club": "Wedge"
+    },
+    {
+      "name": "AddressPutter",
+      "duration": 2,
+      "loop": true,
+      "club": "Putter"
+    },
+    {
+      "name": "SwingDriver",
+      "duration": 2.5,
+      "loop": false,
+      "club": "Driver",
+      "impact": 1.5,
+      "contact": [
+        0.10000000149011612,
+        0.02135002613067627,
+        0.7200000286102295
+      ],
+      "shotDirection": [
+        1,
+        0,
+        0
+      ],
+      "faceDirection": [
+        0.9998764991760254,
+        0.015721328556537628,
+        0
+      ]
+    },
+    {
+      "name": "SwingWood",
+      "duration": 2.3333333333333335,
+      "loop": false,
+      "club": "Wood",
+      "impact": 1.4000000000000001,
+      "contact": [
+        0.04500000178813934,
+        0.021349966526031494,
+        0.6899999976158142
+      ],
+      "shotDirection": [
+        1,
+        0,
+        0
+      ],
+      "faceDirection": [
+        0.99965900182724,
+        -0.026114394888281822,
+        4.656612873077393e-10
+      ]
+    },
+    {
+      "name": "SwingIron",
+      "duration": 2.1666666666666665,
+      "loop": false,
+      "club": "Iron",
+      "impact": 1.2999999999999998,
+      "contact": [
+        0,
+        0.02135002613067627,
+        0.6399999856948853
+      ],
+      "shotDirection": [
+        1,
+        0,
+        0
+      ],
+      "faceDirection": [
+        0.9983763694763184,
+        -0.0569613054394722,
+        9.313224635931761e-10
+      ]
+    },
+    {
+      "name": "ChipWedge",
+      "duration": 1.6666666666666667,
+      "loop": false,
+      "club": "Wedge",
+      "impact": 1,
+      "contact": [
+        -0.017999999225139618,
+        0.02135002613067627,
+        0.6000000238418579
+      ],
+      "shotDirection": [
+        1,
+        0,
+        0
+      ],
+      "faceDirection": [
+        0.9974116086959839,
+        -0.0719040259718895,
+        0
+      ]
+    },
+    {
+      "name": "Putt",
+      "duration": 1.6666666666666667,
+      "loop": false,
+      "club": "Putter",
+      "impact": 1,
+      "contact": [
+        0,
+        0.02135002613067627,
+        0.5799999833106995
+      ],
+      "shotDirection": [
+        1,
+        0,
+        0
+      ],
+      "faceDirection": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ClubChange",
+      "duration": 1.2,
+      "loop": false,
+      "club": "Iron"
+    },
+    {
+      "name": "Celebrate",
+      "duration": 2,
+      "loop": false,
+      "club": "Iron"
+    }
+  ],
+  "clubs": [
+    {
+      "id": "Driver",
+      "length": 1.08
+    },
+    {
+      "id": "Wood",
+      "length": 1.015
+    },
+    {
+      "id": "Iron",
+      "length": 0.94
+    },
+    {
+      "id": "Wedge",
+      "length": 0.88
+    },
+    {
+      "id": "Putter",
+      "length": 0.84
+    }
+  ],
+  "bytes": 3392696,
+  "vertices": 54236,
+  "triangles": 73332,
+  "max_unreachable_grip_m": 0,
+  "status": "Animation revision 2: all 20 clips verified at 120 Hz",
+  "design": "Birdie-inspired raspberry golfer",
+  "source": {
+    "asset": "Blender Studio Human Base Meshes v1.4.1 — stylized female",
+    "license": "CC0",
+    "url": "https://download.blender.org/demo/asset-bundles/human-base-meshes/"
+  },
+  "sha256": "534c2f12cc823871e69d6d5e432603af83758df03e821972ae98860315121390",
+  "id": "female",
+  "verification": "docs/graphics/golfer-2026-09-16/verification-female.json",
+  "animation": {
+    "max_posture_reach_adjustment_m": 0.08819787574095966,
+    "fps": 60,
+    "revision": 2,
+    "validation": {
+      "sampleHz": 120,
+      "clips": 20,
+      "verifiedAt": "2026-09-16T09:21:43.296Z"
+    }
+  }
+}

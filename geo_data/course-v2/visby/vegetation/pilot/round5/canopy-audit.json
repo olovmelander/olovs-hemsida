@@ -1,0 +1,28 @@
+{
+  "mode": "round5",
+  "scopeAreaMetres2": 1237266.2303725102,
+  "sourcePixelMetres": 1,
+  "scopePixelCount": 1237240,
+  "finiteHeightPixelCount": 1006585,
+  "unknownHeightPixelCount": 230655,
+  "heightSupportedPixels": 177627,
+  "representedHeightPixels": 164931,
+  "individualSupportedPixels": 57796,
+  "standSupportedPixels": 107135,
+  "unrepresentedHeightPixels": 12696,
+  "protectedGapPixels": 807,
+  "unresolvedCaseGapPixels": 3245,
+  "components": 1704,
+  "componentsAtLeast25Metres2": 83,
+  "limitations": "Not a stem census or measured accuracy. Includes all height returns, including possible structures and crown overhang. Raster-centre accounting uses the native 1 m grid. Unknown height is not absence. Coarse stand cells indicate retained density treatment, not precise stem positions.",
+  "gapAccounting": {
+    "areaMetres2": 12695.818273522338,
+    "protectedMetres2": 806.5,
+    "reviewedNonTreeOverlapMetres2": 461.0,
+    "unresolvedMetres2": 11428.318273522338,
+    "unresolvedCellCases": 102,
+    "allGapAreaAccountedFor": true,
+    "completeTreeRepresentation": false,
+    "meaning": "Spatial accounting, not resolved coverage. Every remaining editable gap is an explicit unresolved case. Small gaps are retained, not silently filtered by a size threshold."
+  }
+}

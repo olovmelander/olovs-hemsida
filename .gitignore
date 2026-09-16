@@ -41,3 +41,11 @@ lidingobuild/cache/
 
 # Playwright MCP browser scratch (console logs, page dumps)
 .playwright-mcp/
+
+# Downloaded character reference/source bundle and local verification build.
+output/golfer-source/
+output/golfer-build/
+output/golfer-lab-build/
+
+# Local Veckefjarden tree-placement comparison and raw geodata cache.
+output/veckefjarden-tree-pilot/

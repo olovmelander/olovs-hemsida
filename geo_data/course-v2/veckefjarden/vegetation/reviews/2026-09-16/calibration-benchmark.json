@@ -1,0 +1,194 @@
+{
+  "published": {
+    "calibration": {
+      "tp": 16,
+      "fp": 1,
+      "fn": 78,
+      "precision": 0.9411764705882353,
+      "recall": 0.1702127659574468,
+      "f1": 0.2882882882882883,
+      "crownIoU": 0.4710357085885457,
+      "centreMedianMetres": 1.7102155057484325,
+      "centreP95Metres": 3.612322733645893
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  },
+  "node-current": {
+    "calibration": {
+      "tp": 59,
+      "fp": 17,
+      "fn": 35,
+      "precision": 0.7763157894736842,
+      "recall": 0.6276595744680851,
+      "f1": 0.6941176470588235,
+      "crownIoU": 0.4622605921704237,
+      "centreMedianMetres": 1.6810466940586333,
+      "centreP95Metres": 3.607648808564216
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  },
+  "dalponte-d5-m3": {
+    "calibration": {
+      "tp": 85,
+      "fp": 57,
+      "fn": 9,
+      "precision": 0.5985915492957746,
+      "recall": 0.9042553191489362,
+      "f1": 0.7203389830508474,
+      "crownIoU": 0.5052464103561051,
+      "centreMedianMetres": 1.194918183528433,
+      "centreP95Metres": 3.6786241364085113
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  },
+  "dalponte-d7-m3": {
+    "calibration": {
+      "tp": 82,
+      "fp": 31,
+      "fn": 12,
+      "precision": 0.7256637168141593,
+      "recall": 0.8723404255319149,
+      "f1": 0.7922705314009661,
+      "crownIoU": 0.530424378805502,
+      "centreMedianMetres": 1.1963709566662362,
+      "centreP95Metres": 3.28589536981652
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  },
+  "dalponte-d9-m3": {
+    "calibration": {
+      "tp": 74,
+      "fp": 15,
+      "fn": 20,
+      "precision": 0.8314606741573034,
+      "recall": 0.7872340425531915,
+      "f1": 0.808743169398907,
+      "crownIoU": 0.5170888857831681,
+      "centreMedianMetres": 1.5267640217023657,
+      "centreP95Metres": 3.5191470766970467
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  },
+  "silva-d5-m3": {
+    "calibration": {
+      "tp": 83,
+      "fp": 59,
+      "fn": 11,
+      "precision": 0.5845070422535211,
+      "recall": 0.8829787234042553,
+      "f1": 0.7033898305084745,
+      "crownIoU": 0.5071215801939788,
+      "centreMedianMetres": 1.148867446366734,
+      "centreP95Metres": 3.532224707395093
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  },
+  "silva-d7-m3": {
+    "calibration": {
+      "tp": 83,
+      "fp": 33,
+      "fn": 11,
+      "precision": 0.7155172413793104,
+      "recall": 0.8829787234042553,
+      "f1": 0.7904761904761906,
+      "crownIoU": 0.5258805143200743,
+      "centreMedianMetres": 1.260449601034555,
+      "centreP95Metres": 3.373051064085
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  },
+  "silva-d9-m3": {
+    "calibration": {
+      "tp": 74,
+      "fp": 18,
+      "fn": 20,
+      "precision": 0.8043478260869565,
+      "recall": 0.7872340425531915,
+      "f1": 0.795698924731183,
+      "crownIoU": 0.5227965763340297,
+      "centreMedianMetres": 1.3212509948935345,
+      "centreP95Metres": 3.567451490301024
+    },
+    "evaluation": {
+      "tp": 0,
+      "fp": 0,
+      "fn": 0,
+      "precision": 0,
+      "recall": 0,
+      "f1": 0,
+      "crownIoU": 0,
+      "centreMedianMetres": null,
+      "centreP95Metres": null
+    }
+  }
+}

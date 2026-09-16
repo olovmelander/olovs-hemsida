@@ -1,0 +1,269 @@
+{
+  "movement": [
+    {
+      "view": "front",
+      "key": "w",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "front",
+      "key": "a",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "front",
+      "key": "s",
+      "travelAlignment": 0.9999999999999999,
+      "facingAlignment": 0.9999999999999999
+    },
+    {
+      "view": "front",
+      "key": "d",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "side",
+      "key": "w",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "side",
+      "key": "a",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "side",
+      "key": "s",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "side",
+      "key": "d",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "back",
+      "key": "w",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "back",
+      "key": "a",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "back",
+      "key": "s",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    },
+    {
+      "view": "back",
+      "key": "d",
+      "travelAlignment": 1,
+      "facingAlignment": 1
+    }
+  ],
+  "turns": [
+    {
+      "character": "female",
+      "clip": "TurnLeft",
+      "turnAlignment": 1,
+      "retainedAlignment": 1
+    },
+    {
+      "character": "female",
+      "clip": "TurnRight",
+      "turnAlignment": 1,
+      "retainedAlignment": 1
+    },
+    {
+      "character": "male",
+      "clip": "TurnLeft",
+      "turnAlignment": 1,
+      "retainedAlignment": 1
+    },
+    {
+      "character": "male",
+      "clip": "TurnRight",
+      "turnAlignment": 1,
+      "retainedAlignment": 1
+    }
+  ],
+  "aim": [
+    {
+      "character": "female",
+      "heading": 0,
+      "alignment": 1
+    },
+    {
+      "character": "female",
+      "heading": 45,
+      "alignment": 1
+    },
+    {
+      "character": "female",
+      "heading": 90,
+      "alignment": 1
+    },
+    {
+      "character": "female",
+      "heading": 135,
+      "alignment": 1
+    },
+    {
+      "character": "female",
+      "heading": 180,
+      "alignment": 1
+    },
+    {
+      "character": "female",
+      "heading": 225,
+      "alignment": 1
+    },
+    {
+      "character": "female",
+      "heading": 270,
+      "alignment": 1
+    },
+    {
+      "character": "female",
+      "heading": 315,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 0,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 45,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 90,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 135,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 180,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 225,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 270,
+      "alignment": 1
+    },
+    {
+      "character": "male",
+      "heading": 315,
+      "alignment": 1
+    }
+  ],
+  "course": [
+    {
+      "character": "female",
+      "club": "Driver",
+      "contactError": 3.1055322305923834e-7,
+      "faceAlignment": 0.9998764120811706,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "female",
+      "club": "Wood",
+      "contactError": 2.806362910930556e-7,
+      "faceAlignment": 0.9996590256364308,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "female",
+      "club": "Iron",
+      "contactError": 4.328735098331665e-7,
+      "faceAlignment": 0.9983764026965188,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "female",
+      "club": "Wedge",
+      "contactError": 1.1304918885266312e-7,
+      "faceAlignment": 0.9974115546932861,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "female",
+      "club": "Putter",
+      "contactError": 9.136169425639375e-8,
+      "faceAlignment": 0.999999999999286,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "male",
+      "club": "Driver",
+      "contactError": 2.4821229066733794e-7,
+      "faceAlignment": 0.9998764478349166,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "male",
+      "club": "Wood",
+      "contactError": 1.404797894935138e-7,
+      "faceAlignment": 0.9996589671801043,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "male",
+      "club": "Iron",
+      "contactError": 3.86449947751362e-7,
+      "faceAlignment": 0.9983764037999966,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "male",
+      "club": "Wedge",
+      "contactError": 1.6167003661672711e-7,
+      "faceAlignment": 0.9974116381122753,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    },
+    {
+      "character": "male",
+      "club": "Putter",
+      "contactError": 9.516724000119701e-8,
+      "faceAlignment": 0.9999999999999839,
+      "flightAlignment": 0.9999999999999999,
+      "events": 1
+    }
+  ],
+  "errors": [],
+  "passed": true,
+  "verifiedAt": "2026-09-16T09:35:23.888Z"
+}

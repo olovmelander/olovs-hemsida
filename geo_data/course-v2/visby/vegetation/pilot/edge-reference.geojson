@@ -1,0 +1,162 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "method": "Agent visual tracing of the canopy/open-ground boundary in RGB and unlabelled LiDAR panels. Pixel positions at four pixels per metre. Added after detector settings were frozen; never used for tuning.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            687845.0,
+            6371084.5
+          ],
+          [
+            687845.0,
+            6371077.5
+          ],
+          [
+            687849.75,
+            6371075.25
+          ],
+          [
+            687855.25,
+            6371076.5
+          ],
+          [
+            687859.5,
+            6371070.75
+          ],
+          [
+            687856.0,
+            6371065.25
+          ],
+          [
+            687860.0,
+            6371065.0
+          ],
+          [
+            687867.5,
+            6371071.5
+          ],
+          [
+            687873.25,
+            6371068.0
+          ],
+          [
+            687877.5,
+            6371060.25
+          ],
+          [
+            687882.25,
+            6371056.25
+          ],
+          [
+            687880.5,
+            6371049.5
+          ],
+          [
+            687886.75,
+            6371044.75
+          ],
+          [
+            687890.25,
+            6371040.75
+          ]
+        ]
+      },
+      "properties": {
+        "scene": "hold16a",
+        "role": "interpreted-canopy-edge",
+        "uncertaintyMetres": 1.5
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            687797.5,
+            6371346.5
+          ],
+          [
+            687799.5,
+            6371339.5
+          ],
+          [
+            687806.5,
+            6371338.0
+          ],
+          [
+            687812.5,
+            6371333.5
+          ],
+          [
+            687823.75,
+            6371335.5
+          ],
+          [
+            687831.5,
+            6371332.5
+          ],
+          [
+            687834.25,
+            6371329.75
+          ],
+          [
+            687842.5,
+            6371327.5
+          ],
+          [
+            687846.0,
+            6371321.25
+          ],
+          [
+            687851.5,
+            6371319.5
+          ],
+          [
+            687857.5,
+            6371315.5
+          ],
+          [
+            687862.75,
+            6371319.0
+          ],
+          [
+            687866.25,
+            6371324.75
+          ],
+          [
+            687869.25,
+            6371318.75
+          ],
+          [
+            687876.0,
+            6371312.25
+          ],
+          [
+            687883.75,
+            6371307.75
+          ],
+          [
+            687892.0,
+            6371304.5
+          ]
+        ]
+      },
+      "properties": {
+        "scene": "cal15",
+        "role": "interpreted-canopy-edge",
+        "uncertaintyMetres": 1.5
+      }
+    }
+  ]
+}

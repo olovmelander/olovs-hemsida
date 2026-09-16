@@ -1,0 +1,1 @@
+import{n as e}from"./authored-buildings-CBPATSkI.js";export{e as loadAuthoredBuildings};

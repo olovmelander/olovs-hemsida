@@ -1,0 +1,12 @@
+{
+  "accepted": 59,
+  "baselineRecords": 14084,
+  "afterRecords": 14143,
+  "decisions": {
+    "accepted-source-reviewed-individual": 59,
+    "held-runtime-ground-exclusion": 9,
+    "held-runtime-not-drawn": 1,
+    "retain-nearby-existing-individual": 25
+  },
+  "policy": "One bounded pass on source-reviewed calibration crowns; no evaluation labels applied, no baseline removals or image-centre moves; other individual identities remain unresolved until separately reviewed."
+}

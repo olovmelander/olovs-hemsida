@@ -1,0 +1,169 @@
+{
+  "browser": "152.0.7977.83",
+  "repeats": 3,
+  "hole": 16,
+  "camera": "tee",
+  "viewport": [
+    1440,
+    900
+  ],
+  "comparison": [
+    {
+      "scenario": "webgpu-high",
+      "before": {
+        "bootMs": 15000,
+        "frameMedianMs": 24.299999999999272,
+        "frameP95Ms": 30.30000000000291,
+        "vegetationPlanMs": 137.4,
+        "networkBytes": 6670810,
+        "networkRequests": 5,
+        "vegetationBytes": 933322,
+        "drawn": 51127,
+        "groundResidual": {
+          "sampleCount": 51127,
+          "median": 0.002349999999999852,
+          "p95": 0.004773999999995837,
+          "max": 0.006974999999965981
+        }
+      },
+      "after": {
+        "bootMs": 15180,
+        "frameMedianMs": 24.200000000000728,
+        "frameP95Ms": 25,
+        "vegetationPlanMs": 156.7,
+        "networkBytes": 7046929,
+        "networkRequests": 5,
+        "vegetationBytes": 1309480,
+        "drawn": 47905,
+        "groundResidual": {
+          "sampleCount": 47905,
+          "median": 0.0023534999999998973,
+          "p95": 0.0047700000000023834,
+          "max": 0.006974999999965981
+        }
+      },
+      "percentChange": {
+        "bootMs": 1.200000000000001,
+        "frameMedianMs": -0.4115226337388811,
+        "frameP95Ms": -17.49174917492542,
+        "vegetationPlanMs": 14.046579330422105,
+        "networkBytes": 5.638280808477525,
+        "vegetationBytes": 40.303132252320204
+      }
+    },
+    {
+      "scenario": "webgl-high",
+      "before": {
+        "bootMs": 13245,
+        "frameMedianMs": 54.599999999998545,
+        "frameP95Ms": 60.70000000000073,
+        "vegetationPlanMs": 136.8,
+        "networkBytes": 6670810,
+        "networkRequests": 5,
+        "vegetationBytes": 933322,
+        "drawn": 51127,
+        "groundResidual": {
+          "sampleCount": 51127,
+          "median": 0.002349999999999852,
+          "p95": 0.004773999999995837,
+          "max": 0.006974999999965981
+        }
+      },
+      "after": {
+        "bootMs": 13211,
+        "frameMedianMs": 54.5,
+        "frameP95Ms": 54.70000000000073,
+        "vegetationPlanMs": 150.7,
+        "networkBytes": 7046929,
+        "networkRequests": 5,
+        "vegetationBytes": 1309480,
+        "drawn": 47905,
+        "groundResidual": {
+          "sampleCount": 47905,
+          "median": 0.0023534999999998973,
+          "p95": 0.0047700000000023834,
+          "max": 0.006974999999965981
+        }
+      },
+      "percentChange": {
+        "bootMs": -0.256700641751606,
+        "frameMedianMs": -0.18315018314751796,
+        "frameP95Ms": -9.884678747940578,
+        "vegetationPlanMs": 10.16081871345027,
+        "networkBytes": 5.638280808477525,
+        "vegetationBytes": 40.303132252320204
+      }
+    },
+    {
+      "scenario": "webgl-low",
+      "before": {
+        "bootMs": 13063,
+        "frameMedianMs": 18.100000000000364,
+        "frameP95Ms": 18.30000000000109,
+        "vegetationPlanMs": 105.1,
+        "networkBytes": 6670810,
+        "networkRequests": 5,
+        "vegetationBytes": 933322,
+        "drawn": 34952,
+        "groundResidual": {
+          "sampleCount": 34952,
+          "median": 0.0023500000000025167,
+          "p95": 0.00477999999999934,
+          "max": 0.006497000000060815
+        }
+      },
+      "after": {
+        "bootMs": 12818,
+        "frameMedianMs": 12.200000000000728,
+        "frameP95Ms": 18.30000000000109,
+        "vegetationPlanMs": 137.4,
+        "networkBytes": 7046929,
+        "networkRequests": 5,
+        "vegetationBytes": 1309480,
+        "drawn": 32318,
+        "groundResidual": {
+          "sampleCount": 32318,
+          "median": 0.0023510000000017683,
+          "p95": 0.004774999999996865,
+          "max": 0.006719999999998727
+        }
+      },
+      "percentChange": {
+        "bootMs": -1.875526295644181,
+        "frameMedianMs": -32.59668508287026,
+        "frameP95Ms": 0,
+        "vegetationPlanMs": 30.732635585157,
+        "networkBytes": 5.638280808477525,
+        "vegetationBytes": 40.303132252320204
+      }
+    }
+  ],
+  "limitation": "Local machine, serial cold contexts, interleaved order. RAF intervals include browser scheduling and are not isolated GPU timings.",
+  "investigation": [
+    {
+      "metric": "startup transport",
+      "finding": "Initial inherited manifest was incompatible: 843 requests / 11.49 MB. Rebuilt local lossless packages restore five requests with the pilot graph.",
+      "status": "fixed"
+    },
+    {
+      "metric": "encoded vegetation bytes",
+      "before": 933322,
+      "after": 1309480,
+      "percentChange": 40.303132252320204,
+      "finding": "24 tiles expand from 64x64 to 256x256 cells. Encoded vegetation grows by 376,158 bytes; total packaged ground transfer grows 5.64%, from 6.67 to 7.05 MB.",
+      "status": "investigated; retained for local accuracy experiment"
+    },
+    {
+      "metric": "vegetation planning CPU",
+      "finding": "The finer tiles add 1,474,560 cells to the existing compatible field decoder/planner. Median planting cost grows 13.9\u201332.3 ms (10.2\u201330.7% depending on mode). Total boot regressions remain below 10%; maximum observed median boot increase is 1.2%.",
+      "status": "investigated; no runtime format or quality reduction"
+    },
+    {
+      "metric": "frame intervals",
+      "finding": "No greater-than-10% median or p95 frame regression in the repeated hole-16 runs. High-quality intervals are effectively unchanged; low-quality median falls from 18.1 to 12.2 ms. Do not generalize this local result to other hardware.",
+      "status": "checked"
+    }
+  ],
+  "terrainGrounding": "Rendered exports include the existing 0.25 m trunk burial. After adding it back, maximum discrepancy from runtime terrain is below 0.007 m, including 1 cm export rounding; this is rendering conformance, not terrain survey accuracy.",
+  "rawRunsSha256": "fff9f0fc904769f01966323ac186073dbaa97981c4a9cea65f02da502306a67a"
+}

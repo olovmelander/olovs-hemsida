@@ -2,7 +2,7 @@ import {beforeEach,afterEach,describe,it,expect,vi} from 'vitest';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three';
-import {loadGhibliTrees,GHIBLI_FOLIAGE_REVISION} from './ghibli-trees.mjs';
+import {loadGhibliTrees,GHIBLI_FOLIAGE_REVISION,VISBY_PINE_REVISION} from './ghibli-trees.mjs';
 import {inspectBuildingGlb} from './authored-buildings.mjs';
 const root=new URL('../../public/models/trees/',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('ghibli-fluffy.json',root)));
@@ -34,6 +34,38 @@ describe('approved Ghibli foliage assets',()=>{
 describe('production foliage loader',()=>{
   beforeEach(()=>vi.spyOn(THREE.TextureLoader.prototype,'loadAsync').mockImplementation(async()=>new THREE.Texture()));
   afterEach(()=>vi.restoreAllMocks());
+  it('uses the coastal pine only at Visby, preserving the other species and every detail budget',async()=>{
+    const coastal=JSON.parse(fs.readFileSync(new URL('ghibli-visby.json',root)));
+    for(const s of coastal.species){
+      if(s.key!=='tall')expect(s).toEqual(manifest.species.find(original=>original.key===s.key));
+    }
+    const fetchImpl=vi.fn(assetFetch);
+    const loaded=await loadGhibliTrees({courseSlug:'visby',hero:true,fetchImpl});
+    expect(fetchImpl.mock.calls[0][0]).toBe(`/models/trees/ghibli-visby.json?v=${VISBY_PINE_REVISION}`);
+    expect(loaded.summary.revision).toBe(VISBY_PINE_REVISION);
+    expect(loaded.summary.files).toBe(26);
+    expect(loaded.species[1].variants).toHaveLength(3);
+    for(const v of loaded.species[1].variants){
+      for(const [tier,slot] of [['hero','hero'],['full','full'],['lite','decimated']]){
+        const parts=v[slot],box=new THREE.Box3();
+        let triangles=0;
+        for(const g of [parts.crown,parts.trunk]){
+          g.computeBoundingBox();box.union(g.boundingBox);
+          triangles+=(g.index?.count??g.attributes.position.count)/3;
+          expect(Array.from(g.attributes.position.array).every(Number.isFinite)).toBe(true);
+        }
+        expect(triangles).toBe(v.tris[tier]);
+        expect(triangles).toBeLessThanOrEqual(coastal.budgets[tier]);
+        expect(box.min.y).toBeCloseTo(0,4);
+        expect(box.max.y).toBeCloseTo(v.templateHeight,4);
+        expect(Math.max(Math.abs(box.min.x),box.max.x,Math.abs(box.min.z),box.max.z)).toBeCloseTo(v.templateRadius,4);
+        expect(parts.crown.attributes.uv.count).toBe(parts.crown.attributes.position.count);
+      }
+    }
+    const elsewhere=await loadGhibliTrees({courseSlug:'upsala',fetchImpl:assetFetch});
+    expect(elsewhere.summary.revision).toBe(GHIBLI_FOLIAGE_REVISION);
+    expect(elsewhere.species[1].variants).toHaveLength(1);
+  });
   it('defaults to approved foliage, retaining UVs, custom normals and independent LOD buffers',async()=>{
     const loaded=await loadGhibliTrees({hero:true,fetchImpl:assetFetch});
     expect(loaded.foliage).toBe(true);expect(loaded.summary.files).toBe(20);

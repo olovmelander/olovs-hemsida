@@ -1,0 +1,564 @@
+{
+  "version": 1,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.14",
+  "pythonPackages": {
+    "numpy": "2.5.2",
+    "rasterio": "1.4.3",
+    "scipy": "1.18.1",
+    "shapely": "2.1.2",
+    "Pillow": "12.3.0",
+    "matplotlib": "3.11.1"
+  },
+  "r": {
+    "R": "R version 4.5.3 (2026-03-11 ucrt)",
+    "platform": "x86_64-w64-mingw32",
+    "packages": [
+      {
+        "Package": "BH",
+        "Version": "1.90.0-1",
+        "Built": "4.5.2",
+        "_row": "BH"
+      },
+      {
+        "Package": "DBI",
+        "Version": "1.3.0",
+        "Built": "4.5.3",
+        "_row": "DBI"
+      },
+      {
+        "Package": "R6",
+        "Version": "2.6.1",
+        "Built": "4.5.3",
+        "_row": "R6"
+      },
+      {
+        "Package": "Rcpp",
+        "Version": "1.1.2",
+        "Built": "4.5.3",
+        "_row": "Rcpp"
+      },
+      {
+        "Package": "RcppArmadillo",
+        "Version": "15.6.0-1",
+        "Built": "4.5.3",
+        "_row": "RcppArmadillo"
+      },
+      {
+        "Package": "abind",
+        "Version": "1.4-8",
+        "Built": "4.5.2",
+        "_row": "abind"
+      },
+      {
+        "Package": "base64enc",
+        "Version": "0.1-6",
+        "Built": "4.5.2",
+        "_row": "base64enc"
+      },
+      {
+        "Package": "bslib",
+        "Version": "0.12.0",
+        "Built": "4.5.3",
+        "_row": "bslib"
+      },
+      {
+        "Package": "cachem",
+        "Version": "1.1.0",
+        "Built": "4.5.3",
+        "_row": "cachem"
+      },
+      {
+        "Package": "classInt",
+        "Version": "0.4-11",
+        "Built": "4.5.3",
+        "_row": "classInt"
+      },
+      {
+        "Package": "cli",
+        "Version": "3.6.6",
+        "Built": "4.5.3",
+        "_row": "cli"
+      },
+      {
+        "Package": "data.table",
+        "Version": "1.18.6.1",
+        "Built": "4.5.3",
+        "_row": "data.table"
+      },
+      {
+        "Package": "digest",
+        "Version": "0.6.39",
+        "Built": "4.5.3",
+        "_row": "digest"
+      },
+      {
+        "Package": "e1071",
+        "Version": "1.7-17",
+        "Built": "4.5.3",
+        "_row": "e1071"
+      },
+      {
+        "Package": "evaluate",
+        "Version": "1.0.5",
+        "Built": "4.5.3",
+        "_row": "evaluate"
+      },
+      {
+        "Package": "fastmap",
+        "Version": "1.2.0",
+        "Built": "4.5.3",
+        "_row": "fastmap"
+      },
+      {
+        "Package": "fontawesome",
+        "Version": "0.5.3",
+        "Built": "4.5.3",
+        "_row": "fontawesome"
+      },
+      {
+        "Package": "fs",
+        "Version": "2.1.0",
+        "Built": "4.5.3",
+        "_row": "fs"
+      },
+      {
+        "Package": "glue",
+        "Version": "1.8.1",
+        "Built": "4.5.3",
+        "_row": "glue"
+      },
+      {
+        "Package": "highr",
+        "Version": "0.12",
+        "Built": "4.5.3",
+        "_row": "highr"
+      },
+      {
+        "Package": "htmltools",
+        "Version": "0.5.9",
+        "Built": "4.5.3",
+        "_row": "htmltools"
+      },
+      {
+        "Package": "htmlwidgets",
+        "Version": "1.6.4",
+        "Built": "4.5.3",
+        "_row": "htmlwidgets"
+      },
+      {
+        "Package": "jquerylib",
+        "Version": "0.1.4",
+        "Built": "4.5.3",
+        "_row": "jquerylib"
+      },
+      {
+        "Package": "jsonlite",
+        "Version": "2.0.0",
+        "Built": "4.5.3",
+        "_row": "jsonlite"
+      },
+      {
+        "Package": "knitr",
+        "Version": "1.52",
+        "Built": "4.5.3",
+        "_row": "knitr"
+      },
+      {
+        "Package": "lazyeval",
+        "Version": "0.2.3",
+        "Built": "4.5.3",
+        "_row": "lazyeval"
+      },
+      {
+        "Package": "lidR",
+        "Version": "4.3.3",
+        "Built": "4.5.3",
+        "_row": "lidR"
+      },
+      {
+        "Package": "lifecycle",
+        "Version": "1.0.5",
+        "Built": "4.5.3",
+        "_row": "lifecycle"
+      },
+      {
+        "Package": "magrittr",
+        "Version": "2.0.5",
+        "Built": "4.5.3",
+        "_row": "magrittr"
+      },
+      {
+        "Package": "memoise",
+        "Version": "2.0.1",
+        "Built": "4.5.3",
+        "_row": "memoise"
+      },
+      {
+        "Package": "mime",
+        "Version": "0.13",
+        "Built": "4.5.2",
+        "_row": "mime"
+      },
+      {
+        "Package": "parallelly",
+        "Version": "1.48.0",
+        "Built": "4.5.3",
+        "_row": "parallelly"
+      },
+      {
+        "Package": "proxy",
+        "Version": "0.4-29",
+        "Built": "4.5.3",
+        "_row": "proxy"
+      },
+      {
+        "Package": "rappdirs",
+        "Version": "0.3.4",
+        "Built": "4.5.3",
+        "_row": "rappdirs"
+      },
+      {
+        "Package": "rgl",
+        "Version": "1.3.36",
+        "Built": "4.5.3",
+        "_row": "rgl"
+      },
+      {
+        "Package": "rlang",
+        "Version": "1.3.0",
+        "Built": "4.5.3",
+        "_row": "rlang"
+      },
+      {
+        "Package": "rlas",
+        "Version": "1.9.5",
+        "Built": "4.5.3",
+        "_row": "rlas"
+      },
+      {
+        "Package": "rmarkdown",
+        "Version": "2.32",
+        "Built": "4.5.3",
+        "_row": "rmarkdown"
+      },
+      {
+        "Package": "s2",
+        "Version": "1.1.12",
+        "Built": "4.5.3",
+        "_row": "s2"
+      },
+      {
+        "Package": "sass",
+        "Version": "0.4.10",
+        "Built": "4.5.3",
+        "_row": "sass"
+      },
+      {
+        "Package": "sf",
+        "Version": "1.1-3",
+        "Built": "4.5.3",
+        "_row": "sf"
+      },
+      {
+        "Package": "stars",
+        "Version": "0.7-3",
+        "Built": "4.5.3",
+        "_row": "stars"
+      },
+      {
+        "Package": "terra",
+        "Version": "1.9-50",
+        "Built": "4.5.3",
+        "_row": "terra"
+      },
+      {
+        "Package": "tinytex",
+        "Version": "0.60",
+        "Built": "4.5.3",
+        "_row": "tinytex"
+      },
+      {
+        "Package": "units",
+        "Version": "1.0-1",
+        "Built": "4.5.3",
+        "_row": "units"
+      },
+      {
+        "Package": "wk",
+        "Version": "0.9.5",
+        "Built": "4.5.3",
+        "_row": "wk"
+      },
+      {
+        "Package": "xfun",
+        "Version": "0.60",
+        "Built": "4.5.3",
+        "_row": "xfun"
+      },
+      {
+        "Package": "yaml",
+        "Version": "2.3.12",
+        "Built": "4.5.3",
+        "_row": "yaml"
+      }
+    ],
+    "sources": [
+      "https://r-lidar.r-universe.dev/bin/windows/contrib/4.5/",
+      "https://cloud.r-project.org/bin/windows/contrib/4.5/"
+    ],
+    "note": "Resolved binary packages and their downloaded archives are pinned by toolchain-lock.json SHA-256 entries."
+  },
+  "archives": [
+    {
+      "file": "abind_1.4-8.zip",
+      "bytes": 67502,
+      "sha256": "e795fac87918c9af5c7e829e4784a1d3a263f83c2ea46cc68f066c7ad2b2233d"
+    },
+    {
+      "file": "base64enc_0.1-6.zip",
+      "bytes": 35355,
+      "sha256": "905e457667e95c2550f644475b6ab770ff0e1e43b4eab8b2efe533bad8049a3e"
+    },
+    {
+      "file": "BH_1.90.0-1.zip",
+      "bytes": 21715043,
+      "sha256": "348a3bc4b9d62cbacf260cef2351b0d858fa5cd32d9d0106403ba170787513c6"
+    },
+    {
+      "file": "bslib_0.12.0.zip",
+      "bytes": 6491614,
+      "sha256": "559f7c3f00805f7b43f6dece6f47bf8f541dc4da3c58fc76f20fde83170576cd"
+    },
+    {
+      "file": "cachem_1.1.0.zip",
+      "bytes": 74108,
+      "sha256": "f71e72fb47619e0749d81403a5976d85518bcbeafe37f2a7e06aaf797db0974b"
+    },
+    {
+      "file": "classInt_0.4-11.zip",
+      "bytes": 503744,
+      "sha256": "7d57ad6c3c704bfd1d54f15accd52af5e51c4deef05cd65baf656e355bd3971d"
+    },
+    {
+      "file": "cli_3.6.6.zip",
+      "bytes": 1406925,
+      "sha256": "1ac5785e09f615d1d2e3f1bbfae04c68665ff6b06aa391628c84fce1acb48196"
+    },
+    {
+      "file": "data.table_1.18.6.1.zip",
+      "bytes": 3210304,
+      "sha256": "a62d6fc68141a3caf0d57d0c35057edb97401b149e1719e32a328669a7930627"
+    },
+    {
+      "file": "DBI_1.3.0.zip",
+      "bytes": 966044,
+      "sha256": "0890295343fbd9774af9da1b7414027622ad1ca5ef221198a7cbf3399f6623e0"
+    },
+    {
+      "file": "digest_0.6.39.zip",
+      "bytes": 226493,
+      "sha256": "8509564d2f6fdaaf1458201817e83dac59a792a82347f66225ae41e6b1ff69c4"
+    },
+    {
+      "file": "e1071_1.7-17.zip",
+      "bytes": 669219,
+      "sha256": "1750906256928f61b412595748c8eedad6530d4edb085aad34e64540a6f1e46d"
+    },
+    {
+      "file": "evaluate_1.0.5.zip",
+      "bytes": 105286,
+      "sha256": "3992dce2daec93deeec832a1628eae187ce2e5b0be8005ec17af81a3b7369705"
+    },
+    {
+      "file": "fastmap_1.2.0.zip",
+      "bytes": 137996,
+      "sha256": "0f5707c2454109823cbb1d2acda918855242d772f698434a93cff0cf78acb81b"
+    },
+    {
+      "file": "fontawesome_0.5.3.zip",
+      "bytes": 1391242,
+      "sha256": "defc87ef1c17865a9aa06d336f69f39a3818dac0dffcf1d5e3f2513ffb8e77ea"
+    },
+    {
+      "file": "fs_2.1.0.zip",
+      "bytes": 423792,
+      "sha256": "c2ec7b88e5061076ae90154552a011180668f5b5d36658402ba753a4b368aea6"
+    },
+    {
+      "file": "glue_1.8.1.zip",
+      "bytes": 189708,
+      "sha256": "56e9e4328b6fcf9045185fc8b50187790b7b2a7d61a150bc9481d70637116a68"
+    },
+    {
+      "file": "highr_0.12.zip",
+      "bytes": 44587,
+      "sha256": "768a64fc25df9a9885463a415ad693b38f833664061948ddd8a17d5b6f292fc7"
+    },
+    {
+      "file": "htmltools_0.5.9.zip",
+      "bytes": 364754,
+      "sha256": "903c7f01c1d2ed797a7d4a4e67bc7430f9ad0bb3a8f014738e3b965d1a2c4d64"
+    },
+    {
+      "file": "htmlwidgets_1.6.4.zip",
+      "bytes": 813775,
+      "sha256": "a5ca3bd8e7503280f9c0a1f4cfca11cce7390d11f9f07bd995a3fe09553cb976"
+    },
+    {
+      "file": "jquerylib_0.1.4.zip",
+      "bytes": 526158,
+      "sha256": "ef05e74f7d18aa6d8bdf23b31a193d5cbcd96d11d6b0175d0a742aa0a84be3f1"
+    },
+    {
+      "file": "jsonlite_2.0.0.zip",
+      "bytes": 1110679,
+      "sha256": "50157a9d94c0fa39932f00b2cb2a60aafc7df7ef75f1212173839ea379cb5f81"
+    },
+    {
+      "file": "knitr_1.52.zip",
+      "bytes": 1123650,
+      "sha256": "c2f695b879ce5eabc2ed14dba98eebb5ad54d802b117762911df5ffff52dd21b"
+    },
+    {
+      "file": "lazyeval_0.2.3.zip",
+      "bytes": 208341,
+      "sha256": "ed05774f735ee65b922072ee07aec26fe91b1daa0261cf65587b286abb16a773"
+    },
+    {
+      "file": "lidR_4.3.3.zip",
+      "bytes": 7546787,
+      "sha256": "a3662d47c839e8bda3ae5202042b828aa1675d6c14e92f999764794a3490c49d"
+    },
+    {
+      "file": "lifecycle_1.0.5.zip",
+      "bytes": 149701,
+      "sha256": "e676caf7305dcf72d6b773584b74432b22583641a155c89e03c0badf86f1dadd"
+    },
+    {
+      "file": "magrittr_2.0.5.zip",
+      "bytes": 229099,
+      "sha256": "b7c3e8fcd46429a268d539c5a3fe27cebda213040153ec6a74282909a40905b7"
+    },
+    {
+      "file": "memoise_2.0.1.zip",
+      "bytes": 51451,
+      "sha256": "ed2c6aba344756308f7e02c78d8fd192ac8e874dff92d7350c9554382be76781"
+    },
+    {
+      "file": "mime_0.13.zip",
+      "bytes": 52416,
+      "sha256": "be4b24390fe9238ff2c68b397269c637bf1b127f7de5d1e0474aec5ff10a4a1b"
+    },
+    {
+      "file": "parallelly_1.48.0.zip",
+      "bytes": 682253,
+      "sha256": "1fb78739da5ad62b5b06643b4d9e12163f9ccf5910136498cc55c4772d8b3e14"
+    },
+    {
+      "file": "proxy_0.4-29.zip",
+      "bytes": 178317,
+      "sha256": "d5c84761b2a8b4ef73abb5aeaabec737810b227097a932c36f57955cfd6ded19"
+    },
+    {
+      "file": "R6_2.6.1.zip",
+      "bytes": 88699,
+      "sha256": "42b903ad935b9d3578e755192debfa58a0f0df697b01953d082269161f5d1c0c"
+    },
+    {
+      "file": "rappdirs_0.3.4.zip",
+      "bytes": 53099,
+      "sha256": "ef22d2fc719e2384d71d9198e7e34190e8edbe9bdeaf435cf9a3027e9c3ad129"
+    },
+    {
+      "file": "Rcpp_1.1.2.zip",
+      "bytes": 2953431,
+      "sha256": "32c367fa7ec706152ebc652209a9d6ccc4ec1939eb2f6a758736251ca64055d2"
+    },
+    {
+      "file": "RcppArmadillo_15.6.0-1.zip",
+      "bytes": 2068819,
+      "sha256": "6002ff290128dbce8dc080710624fefaa79640792db3d1fcd42c69d718569f8d"
+    },
+    {
+      "file": "rgl_1.3.36.zip",
+      "bytes": 6408073,
+      "sha256": "1bc6c43edaaba9b20dd1480a778248994f848ab9db842a0a6d2e68321011064d"
+    },
+    {
+      "file": "rlang_1.3.0.zip",
+      "bytes": 1650920,
+      "sha256": "daf7131ff770fcec79dd3a2dd5b25a3f24bfda0033c5af6ecbb95057298ba0f0"
+    },
+    {
+      "file": "rlas_1.9.5.zip",
+      "bytes": 42411252,
+      "sha256": "c29d29b63a30d5752a2ded45babd419e926439bbdf24b651227a4ae7257fa0f8"
+    },
+    {
+      "file": "rmarkdown_2.32.zip",
+      "bytes": 2684914,
+      "sha256": "22bc03e1c5d219b4a4d613a7dc45bcdcb8bc031f888b4c5e3ea2a62d8626e4d8"
+    },
+    {
+      "file": "s2_1.1.12.zip",
+      "bytes": 4631919,
+      "sha256": "25014fe9ed8d99df5d4f850648196ccd814d2b09967c20a80a90bf5fd17cb3b4"
+    },
+    {
+      "file": "sass_0.4.10.zip",
+      "bytes": 2592396,
+      "sha256": "0af68fa98a45ec8bb4923f0ec32090d6dc944a486410d9c550cabc55e626d37d"
+    },
+    {
+      "file": "sf_1.1-3.zip",
+      "bytes": 51336791,
+      "sha256": "a59a1803585aa228f7a9425ae81462ce2ecf4b2481a928064dc5dbd82eb1e00f"
+    },
+    {
+      "file": "stars_0.7-3.zip",
+      "bytes": 4586205,
+      "sha256": "21e082959f670d8fd6a9f5f537945375affdf61ab08513d8653a64df11cc4409"
+    },
+    {
+      "file": "terra_1.9-50.zip",
+      "bytes": 47555632,
+      "sha256": "4dbba939f878795aa9de1b645b3c505c20baef04e71a8bc15c78fbc6ca748e32"
+    },
+    {
+      "file": "tinytex_0.60.zip",
+      "bytes": 151177,
+      "sha256": "d76663ba34339e344492ad3479e3168c04d9ebd3e9b37abbac35674c9ec89cd7"
+    },
+    {
+      "file": "units_1.0-1.zip",
+      "bytes": 929444,
+      "sha256": "e20c1e1dc9d1c9d1e0e21a65a8f4299f519e3a7ad37c8c4a2b8838d79c559880"
+    },
+    {
+      "file": "wk_0.9.5.zip",
+      "bytes": 2059794,
+      "sha256": "be8ecf1c972a6e45f0139bafd1f9e7dc6c3461da3ea31cbf01a7da5db5541e12"
+    },
+    {
+      "file": "xfun_0.60.zip",
+      "bytes": 667894,
+      "sha256": "e85169d24c5567e8e589b04f899a0289475d37c381033824c6a8b46e81f7756f"
+    },
+    {
+      "file": "yaml_2.3.12.zip",
+      "bytes": 124873,
+      "sha256": "007cb408d053f5cff5e923b4a26e2182c5694e8a6cec2cacd93420ec172cc310"
+    },
+    {
+      "file": "R-4.5.3-win.exe",
+      "bytes": 90616928,
+      "sha256": "768ae31bb0b6056def5b1a9789a7dc49306bd037d69b0a99cdd90183aa0c1a31"
+    },
+    {
+      "file": "R-4.5.3/bin/Rscript.exe",
+      "bytes": 154624,
+      "sha256": "d9134a5beec18cd74a55af84d9099993594d4063208f14be050e78ebbf85c759"
+    }
+  ]
+}

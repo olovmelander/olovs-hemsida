@@ -1,0 +1,1419 @@
+{
+  "reviewer": "Agent visual inspection of RGB/CIR 2026-04-10, LiDAR 2024 and seasonal RGB 2022 for every owned cell",
+  "scenes": {
+    "r4-01": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Intertidal shoreline sliver and water; no supported woody crown within the owned corridor."
+    },
+    "r4-02": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Rocky shoreline sliver; low shore cover and no supported tree crown in the owned footprint."
+    },
+    "r4-03": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Coastal shrub/tree chain; the two recovered low crowns are sparse or joined. Additional visible northern vegetation has insufficient individual height support."
+    },
+    "r4-04": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Coastal low vegetation beside the bunker is visible but has negligible crown-height support; no image-only individuals invented."
+    },
+    "r4-05": {
+      "inspected": true,
+      "accept": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stand": [
+        8,
+        10
+      ],
+      "hold": {
+        "7": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "9": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "11": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Promote distinguishable raised crowns beside the eighteenth green; preserve connected eastern woodland and hold joined/low coastal components. Keep the open green approach clear."
+    },
+    "r4-06": {
+      "inspected": true,
+      "accept": [
+        1,
+        2,
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "8": "Previously unresolved case overlaps this crown; this inspection does not establish a safe base or independent identity."
+      },
+      "reject": {},
+      "note": "Three distinct northern crowns have corroborating height and seasonal evidence. The southern isolated crown repeats an earlier unresolved ground/base case; preserve its hold and the open fairway."
+    },
+    "r4-07": {
+      "inspected": true,
+      "accept": [
+        2,
+        4,
+        7
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "5": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "6": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "8": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "9": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Small separated edge crowns are distinguishable; elongated southern and bunker-side groups remain ambiguous. A visible northern small plant lacks reliable height support."
+    },
+    "r4-08": {
+      "inspected": true,
+      "accept": [
+        1,
+        4,
+        5,
+        7
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "6": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "8": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "12": "Previously unresolved case overlaps this crown; this inspection does not establish a safe base or independent identity.",
+        "13": "Previously unresolved case overlaps this crown; this inspection does not establish a safe base or independent identity."
+      },
+      "reject": {},
+      "note": "Distinct taller crowns at the small woodland edge can become individuals; joined central components and sparse low plants remain held, including the two prior source cases."
+    },
+    "r4-09": {
+      "inspected": true,
+      "accept": [
+        3,
+        5,
+        6
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "7": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "8": "Previously unresolved case overlaps this crown; this inspection does not establish a safe base or independent identity."
+      },
+      "reject": {},
+      "note": "Separated small crowns along the eastern edge have corresponding isolated height support. Joined elongated patches and the prior isolated-tree base conflict remain held."
+    },
+    "r4-10": {
+      "inspected": true,
+      "accept": [
+        10,
+        13,
+        14
+      ],
+      "stand": [
+        12,
+        15
+      ],
+      "hold": {
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Distinct rounded woodland-edge crowns 10, 13 and 14 are corroborated by seasonal imagery and height. Connected woodland remains a stand; low sparse candidate 3 is unresolved. Protected green crowns are unchanged."
+    },
+    "r4-11": {
+      "inspected": true,
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [
+        10,
+        14,
+        15
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Two northern woodland-edge crowns are individually interpretable. Southern connected woodland retains stand coverage and all protected central crowns remain unchanged."
+    },
+    "r4-12": {
+      "inspected": true,
+      "accept": [
+        1,
+        4,
+        5
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Isolated crown 1 and distinct woodland-edge crowns 4 and 5 have defensible height and shape. Tiny coastal plants 2 and 3 and other low coastal vegetation remain unresolved."
+    },
+    "r4-13": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Coastal owned wedge inspected in all four layers. Visible low woody plants lack adequate individual height evidence and are recorded as an additional unresolved observation."
+    },
+    "r4-14": {
+      "inspected": true,
+      "accept": [],
+      "stand": [
+        7
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "One large joined woodland fragment is retained as stand coverage. Protected neighbouring crowns remain unchanged; the open coastal fairway has no new supported individuals."
+    },
+    "r4-15": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Open practice ground, road and net structures inspected across all layers. No supported individual tree crown occurs in the owned cell. Open ground is recorded for clearing review."
+    },
+    "r4-16": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Sparse candidate 3 occurs at the edge of a partial low crown/group and cannot establish a distinct individual identity. Existing crowns and open fairway are retained."
+    },
+    "r4-17": {
+      "inspected": true,
+      "accept": [
+        10,
+        12
+      ],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        13,
+        14
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Connected northern woodland and the interior of the southern group remain stands. Two distinct rounded southern-group edge crowns, 10 and 12, are corroborated by height and both image dates."
+    },
+    "r4-18": {
+      "inspected": true,
+      "accept": [
+        12,
+        15
+      ],
+      "stand": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        13,
+        14,
+        16
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Tall connected woodland remains stand coverage. Two smaller distinct western-edge crowns 12 and 15 have coherent height support and visible source crowns. Protected northern trees remain unchanged."
+    },
+    "r4-19": {
+      "inspected": true,
+      "accept": [
+        1,
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Isolated roadside crowns 1 and 3 have coherent LiDAR and seasonal image support. Tiny low candidate 2 remains ambiguous; the protected southern woodland is untouched."
+    },
+    "r4-20": {
+      "inspected": true,
+      "accept": [
+        1,
+        2,
+        4,
+        5,
+        7,
+        8
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "6": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "9": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "10": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "11": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "12": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Distinct small open-grown crowns 1, 2, 4, 5, 7 and 8 align with height evidence. Elongated joined groups 3, 9, 10, 11 and 12 and sparse candidate 6 remain unresolved rather than assigning invented stems."
+    },
+    "r4-21": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "2": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {
+        "1": "Practice net/mast structure: height return follows net enclosure; no corresponding vegetation crown in RGB/CIR or seasonal imagery."
+      },
+      "note": "Northern candidate 1 coincides with the practice net structure rather than a tree. Candidate 2 overlaps an older unresolved case and low candidate 3 remains ambiguous. Other visible low plants have insufficient height evidence."
+    },
+    "r4-22": {
+      "inspected": true,
+      "accept": [
+        2,
+        6,
+        10,
+        17,
+        18
+      ],
+      "stand": [
+        1,
+        7,
+        8,
+        11
+      ],
+      "hold": {
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "4": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "5": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "9": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "12": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "14": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "16": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "19": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Five distinct pond-side and northern crowns have coherent height and image support. Connected woodland retains stands; elongated joined crowns and sparse fragments remain unresolved."
+    },
+    "r4-23": {
+      "inspected": true,
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Two tall western-edge crowns are separable in seasonal imagery and the height surface. Small low candidate 3 remains ambiguous; the rest of the visible woodland lies outside this owned cell."
+    },
+    "r4-24": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned coastal strip contains open grass, rock shore and water. No supported tree crowns or tree-height vegetation appear in the owned area."
+    },
+    "r4-25": {
+      "inspected": true,
+      "accept": [
+        2
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small isolated crown 2 beside the practice fence has compact height support and a vegetation crown in both image dates, distinguishable from the net poles. Existing eastern crown is retained."
+    },
+    "r4-26": {
+      "inspected": true,
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Two isolated open-grown crowns are clearly visible in both image dates and the LiDAR height surface. Their LiDAR positions are retained without moving to image centres."
+    },
+    "r4-27": {
+      "inspected": true,
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Two separated roadside and pond-side crowns are corroborated by compact height support, RGB/CIR and seasonal imagery. Surrounding grass and pond remain open."
+    },
+    "r4-28": {
+      "inspected": true,
+      "accept": [],
+      "stand": [
+        3,
+        4
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Two large connected woodland segments cross the western cell edge and do not support confidently separate individual crowns. Retain stand treatment and the existing nearby individuals."
+    },
+    "r4-29": {
+      "inspected": true,
+      "accept": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "stand": [],
+      "hold": {
+        "6": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "7": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "10": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Four distinct taller green-side crowns agree across source images and height evidence. Three sparse low plants east of the bunker remain unresolved; protected western crowns are unchanged."
+    },
+    "r4-30": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned area is open ground and pond, with southern shoreline woody vegetation outside the owned boundary. No supported new tree crown occurs inside the cell."
+    },
+    "r4-31": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "5": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "10": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "12": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "13": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "14": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Low sparse plants and joined young-tree groups are difficult to separate into reliable individuals. Prior unresolved cases remain explicit; existing nearby representations are retained."
+    },
+    "r4-32": {
+      "inspected": true,
+      "accept": [
+        2,
+        4,
+        6,
+        7,
+        10
+      ],
+      "stand": [
+        1,
+        3,
+        5
+      ],
+      "hold": {
+        "8": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "9": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Isolated eastern crown 2, small western edge crown 4, distinguishable eastern group crowns 6 and 7, and southern isolated crown 10 have source support. Connected western woodland remains stand coverage; joined lower group fragments remain unresolved."
+    },
+    "r4-33": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Open fairway, bunker margin, rock shore and water inspected. No supported individual tree crown occurs in the owned coastal cell."
+    },
+    "r4-34": {
+      "inspected": true,
+      "accept": [
+        3,
+        5
+      ],
+      "stand": [
+        1,
+        2
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Isolated pond-side crowns 3 and 5 are clearly distinguishable across source layers. Connected northern woodland retains stand coverage and nearby existing crown treatment."
+    },
+    "r4-35": {
+      "inspected": true,
+      "accept": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "stand": [
+        1
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Five distinguishable edge and isolated crowns have coherent height maxima and seasonal outlines. Joined northern edge segment 1 retains stand treatment."
+    },
+    "r4-36": {
+      "inspected": true,
+      "accept": [
+        1,
+        2,
+        4,
+        6,
+        7,
+        9,
+        11
+      ],
+      "stand": [
+        8,
+        10
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Seven distinct pond-side and fairway-edge crowns are supported by source imagery and height. Joined western segment 8 and elongated eastern strip 10 remain woodland stands; nearby existing records are retained."
+    },
+    "r4-37": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Only a narrow pond-edge sliver belongs to this cell; it contains open ground with no supported tree crown. Woodland in the surrounding image is outside the owned area."
+    },
+    "r4-38": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small roadside plants are visible in the owned western portion but have no defensible height support for individual tree placement. Record this uncertainty; other trees in the source window are context outside the cell."
+    },
+    "r4-39": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Several low plants north of the road occur in the owned area, with sparse low height returns insufficient for individual placement. Record as an unresolved source observation."
+    },
+    "r4-40": {
+      "inspected": true,
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Two isolated green-side crowns have coherent height footprints and matching vegetation outlines in both dates. LiDAR-weighted positions are retained."
+    },
+    "r4-41": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "The owned lower grass sliver is open; scattered vegetation in the wider image lies outside it. No new supported crown occurs within the reviewed boundary."
+    },
+    "r4-42": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned coastal strip contains open grass, tee margins, rock shore and water without supported tree-height crowns."
+    },
+    "r4-43": {
+      "inspected": true,
+      "accept": [],
+      "stand": [
+        1
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Joined canopy along the path and woodland edge is retained as stand coverage. It is not confidently separable into a single individual from the available sources."
+    },
+    "r4-44": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small owned upper-left woodland wedge is part of connected canopy with nearby existing representation. Retain stand coverage; the rest of the image is context outside ownership."
+    },
+    "r4-45": {
+      "inspected": true,
+      "accept": [
+        4,
+        6,
+        7,
+        9
+      ],
+      "stand": [
+        2,
+        5,
+        8,
+        10,
+        11
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Four distinguishable western playing-edge crowns are corroborated in the source layers. Interior and joined woodland segments retain density-based stand coverage rather than invented individual stems."
+    },
+    "r4-46": {
+      "inspected": true,
+      "accept": [
+        1,
+        3,
+        4,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "stand": [
+        2,
+        7
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Distinct western isolated crowns and green-side crowns are supported by LiDAR and both image dates, including two small isolated plants with coherent height. Joined woodland-edge segments 2 and 7 remain stands."
+    },
+    "r4-47": {
+      "inspected": true,
+      "accept": [
+        1,
+        2,
+        4,
+        8,
+        12,
+        14
+      ],
+      "stand": [
+        11
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Six clearly distinguishable bunker-side, woodland-edge and western strip crowns have source support. Joined eastern segment 11 retains stand coverage; existing nearby crowns remain unchanged."
+    },
+    "r4-48": {
+      "inspected": true,
+      "accept": [
+        1,
+        5,
+        6,
+        8,
+        12,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21
+      ],
+      "stand": [
+        4,
+        9
+      ],
+      "hold": {
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "7": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "10": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "19": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Twelve distinguishable height-supported crowns around the path and playing edges are promoted. Connected woodland segments 4 and 9 remain stands. Large low or elongated joined fragments remain unresolved."
+    },
+    "r4-49": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Open pond and green surroundings inspected; the height-supported owned crown already has an individual representation. Retain current placement and surrounding open ground."
+    },
+    "r4-50": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Elongated candidate 1 joins low bare crowns along the path and does not establish a defensible single stem. Keep its previous representation and uncertainty."
+    },
+    "r4-51": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Sparse low candidate 1 is a visible plant but tree/shrub identity and individual height remain uncertain. No supported addition is made."
+    },
+    "r4-52": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned coastal tee area, path, rough and shoreline are open in imagery and height evidence, without supported individual tree crowns."
+    },
+    "r4-53": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Green, ponds and paths are open in the editable portion. Small pond-side plants lie inside the protected evaluation window and are retained without a new review decision."
+    },
+    "r4-54": {
+      "inspected": true,
+      "accept": [
+        2
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Southern of the two eastern pond-side crowns is distinct with coherent height support. Northern candidate 1 includes an elongated joined fragment and remains unresolved. Protected southern source is unchanged."
+    },
+    "r4-55": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "The main pond-side group already has nearby individual representation. A small visible shoreline plant lacks individual height support and remains an explicit unresolved observation."
+    },
+    "r4-56": {
+      "inspected": true,
+      "accept": [
+        1,
+        3,
+        4,
+        7,
+        8,
+        9,
+        11
+      ],
+      "stand": [
+        2,
+        6
+      ],
+      "hold": {
+        "13": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "15": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "17": "Previously unresolved case overlaps; retain without silently resolving an earlier review."
+      },
+      "reject": {},
+      "note": "Seven distinct fairway-edge crowns have matching height and seasonal source support. Connected interior segments retain stands. Sparse candidate 13 and previously unresolved southern cases remain held."
+    },
+    "r4-57": {
+      "inspected": true,
+      "accept": [
+        10
+      ],
+      "stand": [],
+      "hold": {
+        "4": "Previously unresolved case overlaps; retain without silently resolving an earlier review."
+      },
+      "reject": {},
+      "note": "Eastern-edge crown 10 is distinct in the height surface and seasonal imagery. Western candidate 4 overlaps a previous unresolved case and is retained as unresolved."
+    },
+    "r4-58": {
+      "inspected": true,
+      "accept": [
+        2,
+        4,
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        15
+      ],
+      "stand": [
+        1,
+        3,
+        14
+      ],
+      "hold": {
+        "7": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "8": "Previously unresolved case overlaps; retain without silently resolving an earlier review."
+      },
+      "reject": {},
+      "note": "Nine distinct edge crowns are supported by the height surface and imagery. Joined woodland segments retain stands and previously unresolved cases 7 and 8 are preserved without implicit resolution."
+    },
+    "r4-59": {
+      "inspected": true,
+      "accept": [
+        1,
+        3
+      ],
+      "stand": [
+        2,
+        6,
+        7
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Two distinguishable low northern crowns have coherent height and seasonal outlines. Joined middle canopy and southern connected woodland retain stand treatment."
+    },
+    "r4-60": {
+      "inspected": true,
+      "accept": [],
+      "stand": [
+        4,
+        7
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Large rectangular connected woodland regions sit beside existing individual representation. Retain their measured stand treatment; separate stems cannot be reliably inferred from these segments."
+    },
+    "r4-61": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Only a tiny eastern pond-edge sliver belongs to this cell. It contains no supported tree crown; surrounding trees are outside the owned area."
+    },
+    "r4-62": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned northwestern rough and pond margin are open in imagery and height evidence. Scattered plants in the wider source window fall outside the owned boundary."
+    },
+    "r4-63": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned fairway, water and rough are open, with northern canopy overhang from trees outside the cell. Preserve existing edge/stand representation without inventing an in-cell base."
+    },
+    "r4-64": {
+      "inspected": true,
+      "accept": [
+        6,
+        7,
+        10
+      ],
+      "stand": [],
+      "hold": {
+        "9": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Two distinguishable crowns west of the protected group and the southern edge crown have coherent height support. Tiny sparse candidate 9 remains unresolved; protected crowns and overhang are unchanged."
+    },
+    "r4-65": {
+      "inspected": true,
+      "accept": [
+        2
+      ],
+      "stand": [
+        6,
+        9,
+        11,
+        14
+      ],
+      "hold": {
+        "3": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "4": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "7": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "13": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Isolated northern crown 2 is supported in all source layers. Eastern connected woodland stays as stands. Previously unresolved cases and a fragment beside a protected crown remain held."
+    },
+    "r4-66": {
+      "inspected": true,
+      "accept": [
+        3,
+        6,
+        7,
+        8,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "stand": [
+        9,
+        19
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Nine distinguishable crowns around the green and small row have matching height and image evidence. Connected eastern woodland remains stand coverage; facility and playing-surface base compatibility still requires runtime validation."
+    },
+    "r4-67": {
+      "inspected": true,
+      "accept": [
+        3,
+        4,
+        6,
+        7,
+        11,
+        12
+      ],
+      "stand": [
+        2,
+        5,
+        8
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Six distinct crowns around the bunker and service building are supported by the sources. Joined northern and building-side segments retain stands, with no movement to avoid exclusions."
+    },
+    "r4-68": {
+      "inspected": true,
+      "accept": [
+        2
+      ],
+      "stand": [
+        1
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Small southern crown 2 has coherent height and seasonal evidence. Elongated joined northern woodland fragment 1 retains stand treatment; open northeastern grass stays unchanged."
+    },
+    "r4-69": {
+      "inspected": true,
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "The northern edge is connected dense woodland with broad joined segmentation regions. Retain measured stand coverage rather than assigning individual stems to these regions."
+    },
+    "r4-70": {
+      "inspected": true,
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [
+        3,
+        4,
+        5,
+        6
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Two northern edge crowns have distinguishable outlines and height support. Southern connected woodland segments remain stand coverage."
+    },
+    "r4-71": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned bunker and fairway area is open in the image and height layers. No supported tree crown occurs inside the boundary."
+    },
+    "r4-72": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Protected southern crowns remain unchanged. A visible small crown beside the eastern bunker lacks defensible height evidence; record it explicitly instead of treating a zero-focus cell as fully resolved."
+    },
+    "r4-73": {
+      "inspected": true,
+      "accept": [],
+      "stand": [
+        6,
+        8,
+        10,
+        12
+      ],
+      "hold": {
+        "16": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Connected eastern woodland remains measured stand coverage. Small joined fragment 16 near the protected southwestern group remains unresolved. All protected geometry is unchanged."
+    },
+    "r4-74": {
+      "inspected": true,
+      "accept": [
+        3,
+        7,
+        9,
+        10
+      ],
+      "stand": [
+        1,
+        11,
+        12,
+        13,
+        15
+      ],
+      "hold": {
+        "6": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "8": "Previously unresolved case overlaps; retain without silently resolving an earlier review."
+      },
+      "reject": {},
+      "note": "Four distinguishable tall playing-edge crowns are supported by the source layers. Joined and interior woodland retains stands; earlier unresolved candidates 6 and 8 remain held."
+    },
+    "r4-75": {
+      "inspected": true,
+      "accept": [
+        4,
+        5
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Two tall lower-edge crowns have coherent image and height support. Tiny sparse northern candidate 1 remains unresolved; existing main crown is retained."
+    },
+    "r4-76": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "5": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Low joined green-side crowns have sparse partial height support and cannot be reliably separated into individual bases. Preserve earlier coverage and record all four focus candidates as unresolved."
+    },
+    "r4-77": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Northern joined low crowns and sparse southern vegetation do not support reliable individual bases. Keep all three focus candidates unresolved rather than infer positions from imagery alone."
+    },
+    "r4-78": {
+      "inspected": true,
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "4": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Small western edge crown 1 has a coherent height footprint and distinct seasonal outline. Larger joined low crown 3 and fragment 4 beside existing representation remain unresolved."
+    },
+    "r4-79": {
+      "inspected": true,
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Isolated fairway-side crown 1 is visible in both image dates with compact matching LiDAR support. Retain the LiDAR-weighted position and open surroundings."
+    },
+    "r4-80": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned area is an extremely small southwestern woodland-edge sliver. Retain existing stand/edge coverage; the many surrounding visible plants are source context outside the owned area."
+    },
+    "r4-81": {
+      "inspected": true,
+      "accept": [
+        2,
+        9
+      ],
+      "stand": [
+        5,
+        11
+      ],
+      "hold": {
+        "6": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "7": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "8": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "10": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Two distinguishable tall playing-edge crowns have source support. Joined woodland segments retain stands; sparse low eastern plants remain unresolved."
+    },
+    "r4-82": {
+      "inspected": true,
+      "accept": [],
+      "stand": [
+        10
+      ],
+      "hold": {
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Southern connected tall woodland fragment retains stand treatment beside existing individuals. Northern low joined canopy cannot be assigned a defensible individual base and remains unresolved."
+    },
+    "r4-83": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Low scrub, joined crowns and sparse plants surround the tees. All three focus regions and the southern low-vegetation patch remain unresolved, with no invented individual heights."
+    },
+    "r4-84": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "3": "Previously unresolved case overlaps; retain without silently resolving an earlier review.",
+        "4": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Joined candidate 3 overlaps older unresolved source cases. Sparse candidate 4 remains ambiguous; nearby existing individuals and the open upper green margin are retained."
+    },
+    "r4-85": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned southwestern green and bunker margin are open in the image and height layers. Visible surrounding vegetation is outside ownership."
+    },
+    "r4-86": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "2": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "3": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "4": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Three low sparse plant detections beside the fairway cannot establish defensible individual tree dimensions. Retain prior coverage and their uncertainty."
+    },
+    "r4-87": {
+      "inspected": true,
+      "accept": [
+        1,
+        3,
+        4,
+        5,
+        7,
+        8
+      ],
+      "stand": [],
+      "hold": {
+        "6": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "9": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage.",
+        "10": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "Six distinguishable taller western crowns have coherent LiDAR and image outlines. Low joined eastern groups and sparse bunker-side candidate 10 remain unresolved."
+    },
+    "r4-88": {
+      "inspected": true,
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small western edge crown 1 is distinguishable in both image dates with compact coherent height support. No new tree is placed in the open bunker/fairway area."
+    },
+    "r4-89": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse/low or joined vegetation does not establish one defensible individual crown/base; retain previous coverage."
+      },
+      "reject": {},
+      "note": "The only focus candidate is an elongated joined low canopy fragment on the green edge. Individual identity and base cannot be resolved reliably, so it remains held."
+    },
+    "r4-90": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Fairway and bunker areas are open. Low woodland-edge vegetation overlaps the owned southern margin with insufficient height/base evidence and is explicitly recorded as unresolved."
+    },
+    "r4-91": {
+      "inspected": true,
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned woodland-edge crowns have nearby existing representation. Retain measured stand/edge coverage and the open bunker margin; no additional distinct supported individual is established."
+    }
+  },
+  "baseHolds": {
+    "r4-05/dalponte-d9-m5/10": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-05/dalponte-d9-m5/11": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-07/island/5": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-17/dalponte-d9-m5/32": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-19/island/4": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-19/island/7": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-20/island/7": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-20/dalponte-d9-m5/5": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-20/dalponte-d9-m5/7": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-20/dalponte-d9-m5/8": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-20/dalponte-d9-m5/9": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-20/dalponte-d9-m5/10": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-22/dalponte-d9-m5/50": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-22/dalponte-d9-m5/52": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-27/island/5": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-32/dalponte-d9-m5/19": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-35/dalponte-d9-m5/14": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-35/dalponte-d9-m5/21": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-48/dalponte-d9-m5/51": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-56/dalponte-d9-m5/29": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-56/dalponte-d9-m5/36": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-65/dalponte-d9-m5/10": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-66/dalponte-d9-m5/26": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-66/dalponte-d9-m5/39": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-66/dalponte-d9-m5/41": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-67/dalponte-d9-m5/15": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions.",
+    "r4-79/island/13": "Source crown supported, but inferred base is absent in all three renderer modes with current terrain/exclusion rules. Retain previous stand coverage and unresolved base; do not move the crown or override exclusions."
+  },
+  "clearingsPixels": {
+    "r4-06": [
+      [
+        [
+          375,
+          350
+        ],
+        [
+          510,
+          350
+        ],
+        [
+          510,
+          460
+        ],
+        [
+          375,
+          460
+        ]
+      ]
+    ],
+    "r4-15": [
+      [
+        [
+          90,
+          110
+        ],
+        [
+          560,
+          110
+        ],
+        [
+          560,
+          560
+        ],
+        [
+          90,
+          560
+        ]
+      ]
+    ]
+  },
+  "additionalObservations": [
+    {
+      "id": "r4-low-coast-03",
+      "scene": "r4-03",
+      "pixels": [
+        495,
+        225,
+        85
+      ],
+      "reason": "Visible coastal plants north of numbered candidates have no defensible individual height/identity."
+    },
+    {
+      "id": "r4-low-coast-04",
+      "scene": "r4-04",
+      "pixels": [
+        490,
+        430,
+        85
+      ],
+      "reason": "Coastal vegetation is visible in both dates and infrared; sparse low LiDAR support prevents individual tree records."
+    },
+    {
+      "id": "r4-low-north-07",
+      "scene": "r4-07",
+      "pixels": [
+        373,
+        177,
+        16
+      ],
+      "reason": "Small visible plant has insufficient height support for an individual record."
+    },
+    {
+      "id": "r4-low-coast-12",
+      "scene": "r4-12",
+      "pixels": [
+        210,
+        370,
+        90
+      ],
+      "reason": "Visible coastal vegetation includes low plants with insufficient LiDAR support for individual height and identity."
+    },
+    {
+      "id": "r4-low-coast-13",
+      "scene": "r4-13",
+      "pixels": [
+        480,
+        410,
+        85
+      ],
+      "reason": "Low coastal woody plants in the owned wedge cannot be resolved as individual trees from sparse height returns."
+    },
+    {
+      "id": "r4-low-plants-21",
+      "scene": "r4-21",
+      "pixels": [
+        470,
+        447,
+        72
+      ],
+      "reason": "Several small plants beside the bunker lack defensible individual height support; retain uncertainty."
+    },
+    {
+      "id": "r4-low-plants-38",
+      "scene": "r4-38",
+      "pixels": [
+        130,
+        270,
+        80
+      ],
+      "reason": "Visible small roadside plants have no sufficient individual height evidence; tree/shrub identity remains unresolved."
+    },
+    {
+      "id": "r4-low-plants-39",
+      "scene": "r4-39",
+      "pixels": [
+        225,
+        220,
+        85
+      ],
+      "reason": "Small plants with sparse low returns cannot be assigned defensible individual heights or identities."
+    },
+    {
+      "id": "r4-low-pond-55",
+      "scene": "r4-55",
+      "pixels": [
+        408,
+        305,
+        20
+      ],
+      "reason": "Small shoreline plant is visible but lacks defensible individual height evidence."
+    },
+    {
+      "id": "r4-low-bunker-72",
+      "scene": "r4-72",
+      "pixels": [
+        520,
+        200,
+        35
+      ],
+      "reason": "Visible bunker-side plant/crown has insufficient individual height support despite clear vegetation in imagery."
+    },
+    {
+      "id": "r4-low-scrub-83",
+      "scene": "r4-83",
+      "pixels": [
+        335,
+        465,
+        110
+      ],
+      "reason": "Joined low scrub/crowns in the southern owned area lack defensible individual heights and bases."
+    },
+    {
+      "id": "r4-low-edge-90",
+      "scene": "r4-90",
+      "pixels": [
+        260,
+        520,
+        75
+      ],
+      "reason": "Low joined edge vegetation overlaps the owned margin; sparse returns do not locate separate individual bases."
+    }
+  ],
+  "protectedObservations": [
+    {
+      "id": "r4-low-pond-53",
+      "scene": "r4-53",
+      "pixels": [
+        445,
+        275,
+        85
+      ],
+      "reason": "Small plants around the pond have sparse insufficient height evidence for reliable individual records."
+    }
+  ]
+}

@@ -28,6 +28,13 @@ into the model, and [performance recovery](v2-performance-recovery.md) for the
 current runtime and graphics rules. The [docs index](README.md) identifies
 current instructions versus historical plans.
 
+For tree-placement accuracy, follow the [cross-course tree workflow](tree-placement-workflow.md)
+and [per-ground review template](templates/tree-placement-review.md). They add the
+RGB/IR source review, frozen detector comparison, near-play stand refinement and
+honest acceptance criteria tested in the Visby pilots. The existing generic
+vegetation commands remain building blocks; the Visby scripts need a reviewed
+adapter before another ground uses them.
+
 For an existing course, first identify the specific deficient layer and preserve
 accepted geometry and terrain. A new tee outline does not require a fresh terrain
 publication. For a new ground, follow all stages and implement the missing
@@ -992,6 +999,12 @@ Before publishing:
 
 ### Stage 9 — derive and publish vegetation
 
+First complete the source, reference, detector-selection and review stages in
+the [tree placement workflow](tree-placement-workflow.md). The commands below
+are acquisition/compilation/publication primitives; they do not by themselves
+perform RGB/IR review, held-out accuracy evaluation or near-play 1 m stand
+refinement. Build a staged comparison before replacing an accepted generation.
+
 The canopy/compiler/publisher path resolves registered, published grounds. Some
 review and optical cross-check adapters still have Puttom-specific defaults;
 check the stated limits below before using them elsewhere.
@@ -1314,6 +1327,11 @@ application errors before retrying with `--timeout 600`.
 - Named close, grazing-angle and long views pass on both backends.
 
 ### 8.4 Object and vegetation acceptance
+
+Apply the [tree workflow's evaluation and verification gates](tree-placement-workflow.md)
+in addition to these runtime checks. Machine approval or a visually improved
+local pilot does not establish held-out detection accuracy, surveyed stems or
+completion of the independent release gates.
 
 - No zone-A large object is tier E or a procedural registry record.
 - Every published object is approved and has a source/date/uncertainty.

@@ -1,0 +1,58 @@
+{
+  "version": 2,
+  "previousPilotSha256": "3edae28c2ac74763f421f533bcd26d4c7ed245ffd2576b6cc87ce587f06fb3b9",
+  "calibration": "Previous calibration areas only. No previous evaluation or fresh-sample scores may select parameters.",
+  "freshEvaluationScenes": [
+    {
+      "id": "fresh05",
+      "hole": 5,
+      "easting": 687325,
+      "northing": 6371710,
+      "size": 100,
+      "split": "fresh-evaluation"
+    },
+    {
+      "id": "fresh07",
+      "hole": 7,
+      "easting": 687465,
+      "northing": 6371320,
+      "size": 100,
+      "split": "fresh-evaluation"
+    },
+    {
+      "id": "fresh11",
+      "hole": 11,
+      "easting": 688045,
+      "northing": 6370655,
+      "size": 100,
+      "split": "fresh-evaluation"
+    },
+    {
+      "id": "fresh12",
+      "hole": 12,
+      "easting": 688000,
+      "northing": 6370780,
+      "size": 100,
+      "split": "fresh-evaluation"
+    },
+    {
+      "id": "fresh17",
+      "hole": 17,
+      "easting": 687855,
+      "northing": 6370655,
+      "size": 100,
+      "split": "fresh-evaluation"
+    },
+    {
+      "id": "fresh18",
+      "hole": 18,
+      "easting": 687470,
+      "northing": 6370670,
+      "size": 100,
+      "split": "fresh-evaluation"
+    }
+  ],
+  "matchingToleranceMetres": 4,
+  "annotationMethod": "Visual RGB/CIR/CHM interpretation before viewing new detector outputs; approximate crown centre and extent.",
+  "deployment": "isolated local preview; production baseline remains unchanged"
+}

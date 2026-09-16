@@ -1,0 +1,118 @@
+{
+  "status": "passed-source-conformance-checks",
+  "productionRootUnchanged": true,
+  "baselineFilesVerified": 848,
+  "baselineRecords": 3040,
+  "pilotRecords": 3151,
+  "retainedBaselineIds": 3040,
+  "unchangedBaselineRecords": 3031,
+  "acceptedEdits": 120,
+  "heldBases": 13,
+  "unresolvedCases": 23,
+  "matchedScreenshotPairs": 40,
+  "rendered": {
+    "before": {
+      "webgpu-high": {
+        "drawn": 51127,
+        "individuals": 3031,
+        "standRepresentatives": 48096,
+        "standBasesInsideIndividualFootprints": 1331,
+        "basesInReviewedClearings": 0,
+        "missingAccepted": []
+      },
+      "webgl-high": {
+        "drawn": 51127,
+        "individuals": 3031,
+        "standRepresentatives": 48096,
+        "standBasesInsideIndividualFootprints": 1331,
+        "basesInReviewedClearings": 0,
+        "missingAccepted": []
+      },
+      "webgl-low": {
+        "drawn": 34952,
+        "individuals": 3031,
+        "standRepresentatives": 31921,
+        "standBasesInsideIndividualFootprints": 840,
+        "basesInReviewedClearings": 0,
+        "missingAccepted": []
+      }
+    },
+    "after": {
+      "webgpu-high": {
+        "drawn": 47905,
+        "individuals": 3143,
+        "standRepresentatives": 44762,
+        "standBasesInsideIndividualFootprints": 0,
+        "basesInReviewedClearings": 0,
+        "missingAccepted": []
+      },
+      "webgl-high": {
+        "drawn": 47905,
+        "individuals": 3143,
+        "standRepresentatives": 44762,
+        "standBasesInsideIndividualFootprints": 0,
+        "basesInReviewedClearings": 0,
+        "missingAccepted": []
+      },
+      "webgl-low": {
+        "drawn": 32318,
+        "individuals": 3143,
+        "standRepresentatives": 29175,
+        "standBasesInsideIndividualFootprints": 0,
+        "basesInReviewedClearings": 0,
+        "missingAccepted": []
+      }
+    }
+  },
+  "density": {
+    "region": "Playing surfaces and 30 m surroundings",
+    "areaMetres2": 658636,
+    "firstReturns": 945294,
+    "firstReturnsPerSquareMetre": 1.4352297779046392,
+    "cellsWithFirstReturnFraction": 0.799730048160137
+  },
+  "edgeDisagreement": [
+    {
+      "scene": "hold16a",
+      "lengthMetres": 87.41666175994541,
+      "before": {
+        "meanMetres": 2.4611876367600143,
+        "p95Metres": 4.066211794771102,
+        "samples": 88
+      },
+      "after": {
+        "meanMetres": 0.6368137445664809,
+        "p95Metres": 1.8087577889813913,
+        "samples": 88
+      }
+    },
+    {
+      "scene": "cal15",
+      "lengthMetres": 121.2112836596215,
+      "before": {
+        "meanMetres": 1.537143647763641,
+        "p95Metres": 3.72522959099151,
+        "samples": 122
+      },
+      "after": {
+        "meanMetres": 0.94624525907981,
+        "p95Metres": 2.605866701405373,
+        "samples": 122
+      }
+    }
+  ],
+  "edgeMetric": "One-way distance from 1 m samples along two manually interpreted canopy-edge segments to occupancy boundaries (stand eligibility plus individual footprints). This is local source conformance, not held-out forest-edge accuracy.",
+  "tests": {
+    "python": 10,
+    "node": 35
+  },
+  "detectorTargetsMet": false,
+  "default": "baseline",
+  "offlineReplayRootUnchanged": true,
+  "reviewUi": {
+    "errors": [],
+    "detailWorks": true,
+    "loaded": true
+  },
+  "performanceRuns": 18
+}

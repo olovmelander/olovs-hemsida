@@ -1,0 +1,33 @@
+{
+  "counts": {
+    "calibration": 94,
+    "evaluation": 32
+  },
+  "sha256": "8d34c2ef4438e31e71f607ee77442a65620d4bbbd31f4d1f6f97bb8a94085518",
+  "windowLockSha256": "5c0ea23659d541026e179522876781a0ef35126f37730c7ac794d4978396d16f",
+  "phase": "Frozen before any Node/lidR candidate generation",
+  "methods": [
+    "published",
+    "node-current",
+    "dalponte-d5-m3",
+    "dalponte-d7-m3",
+    "dalponte-d9-m3",
+    "silva-d5-m3",
+    "silva-d7-m3",
+    "silva-d9-m3"
+  ],
+  "matchingToleranceMetres": 4,
+  "rank": [
+    "F1",
+    "crown IoU",
+    "median centre disagreement"
+  ],
+  "maximumDetectorRounds": 1,
+  "limits": [
+    "One agent reference interpretation; no independent human or stem survey.",
+    "Purposive sample: clearly distinguishable crowns and open ground, not a random facility-wide accuracy estimate.",
+    "Closed/ambiguous canopy is masked before detection; crown footprint plus 1 m is retained where an individual can be interpreted.",
+    "2024 imagery predates 2026 LiDAR by two years. Low/changed vegetation remains uncertain.",
+    "Approximate ellipses and 2 m interpretation uncertainty are judgments, not measured accuracy."
+  ]
+}

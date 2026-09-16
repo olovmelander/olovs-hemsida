@@ -1,0 +1,111 @@
+{
+  "status": "passed",
+  "previousRecords": 3169,
+  "records": 3230,
+  "acceptedAdditionalCrowns": 61,
+  "actionCounts": {
+    "accept": 61,
+    "hold": 40,
+    "hold-base": 11,
+    "merged-into": 1,
+    "reject-not-tree": 12,
+    "reserved-evaluation": 3,
+    "retain-existing": 43,
+    "retain-stand": 49
+  },
+  "previousRecordsUnchanged": true,
+  "productionAndPreviousRootsUnchanged": true,
+  "freshEvaluationUnedited": true,
+  "freshStandCellsVerified": 61206,
+  "changedStandCells": 7955,
+  "matchedScreenshotPairs": 40,
+  "rendered": {
+    "webgpu-high": {
+      "drawn": 47837,
+      "individuals": 3222,
+      "standRepresentatives": 44615,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    },
+    "webgl-high": {
+      "drawn": 47837,
+      "individuals": 3222,
+      "standRepresentatives": 44615,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    },
+    "webgl-low": {
+      "drawn": 32334,
+      "individuals": 3222,
+      "standRepresentatives": 29112,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    }
+  },
+  "newClearingHeightChecks": [
+    {
+      "id": "gap-r3-04-1",
+      "areaMetres2": 285.0,
+      "finiteCellFraction": 0.7781954887218046,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.0
+    },
+    {
+      "id": "gap-r3-10-1",
+      "areaMetres2": 518.0,
+      "finiteCellFraction": 0.8115079365079365,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.0
+    },
+    {
+      "id": "gap-r3-14-1",
+      "areaMetres2": 598.0,
+      "finiteCellFraction": 0.8006993006993007,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.20452161133289337
+    },
+    {
+      "id": "gap-r3-15-1",
+      "areaMetres2": 972.0,
+      "finiteCellFraction": 0.7894179894179895,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.0
+    },
+    {
+      "id": "gap-r3-16-1",
+      "areaMetres2": 650.0,
+      "finiteCellFraction": 0.7943485086342229,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.0
+    },
+    {
+      "id": "gap-r3-19-1",
+      "areaMetres2": 441.0,
+      "finiteCellFraction": 0.7761904761904762,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.009630572982132435
+    },
+    {
+      "id": "gap-r3-22-1",
+      "areaMetres2": 896.0,
+      "finiteCellFraction": 0.8732718894009217,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.0
+    },
+    {
+      "id": "gap-r3-24-1",
+      "areaMetres2": 1056.5393900217869,
+      "finiteCellFraction": 0.8761061946902655,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.0
+    }
+  ],
+  "detectorTargetMet": false,
+  "newDetectorEvaluation": false
+}

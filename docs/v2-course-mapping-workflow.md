@@ -5,6 +5,11 @@ Verified against repository tools on 2026-09-07, including mapping checkpoint
 The [v2 course runbook](v2-course-runbook.md) owns the architecture, ground/course
 vocabulary, coordinate contract, compilation, runtime and release gates.
 
+For individual trees and woodland, use the [tree placement workflow](tree-placement-workflow.md)
+and its [review template](templates/tree-placement-review.md). This is the reusable
+entrypoint for LiDAR + RGB/IR source review on both current courses and new grounds;
+the Visby pilots are worked examples, not universal detector settings.
+
 The goal is complete, accurate geography with a defensible source for every
 claim. “Perfect” describes the ambition; it is not an accuracy certificate.
 Passing tests, filling a map, or accepting one object's outline does not prove

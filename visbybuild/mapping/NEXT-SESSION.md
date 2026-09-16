@@ -1,5 +1,47 @@
 # Visby GK / Kronholmen — provisional 3D handoff
 
+**2026-09-16 tree pilot closed with exceptions:** read the [final closeout](../../geo_data/course-v2/visby/vegetation/pilot/closeout/README.md).
+The retained placement is round six: 3,524 records / 3,516 rendered individuals,
+full editable-facility source inspection and measured woodland. The final audit
+links all 27 distinct-crown conflicts to ground features and reinspects six clear
+examples; it changes no tree positions or runtime rules. Some conflicts are
+runtime margins or trees on valid grass, so a crown does not automatically justify
+editing a fairway polygon. All exceptions remain explicit. The 90% detector gate,
+complete representation and production release are not established.
+No automatic next pass: reopen only for new evidence, a demonstrated defect or
+an explicitly scoped ground/exclusion correction. Serve
+`node tools/visby-tree-pilot/round6-preview.mjs serve round6 8650`; final review:
+`http://127.0.0.1:8650/pilot-review/closeout/index.html`.
+Preserve the frozen build, rounds one through six, and closeout locks.
+
+**2026-09-16 retained placement checkpoint:** [round six](../../geo_data/course-v2/visby/vegetation/pilot/round6/README.md)
+reviews all 79 residual height components at least 25 m². Six existing crowns
+are wider; IDs, bases, heights and tree counts are unchanged. Added crown
+representation accounts for 183 m²; six structural patches explain another
+720 m². The remaining 10,525 m² is explicit uncertainty, not a missing-tree count.
+Its proposed review of the 27 distinct-crown conflicts is now recorded in the
+closeout above; these remain exceptions, with no automatic gap filling.
+Serve `node tools/visby-tree-pilot/round6-preview.mjs serve round6 8650` and open
+`http://127.0.0.1:8650/pilot-review/round6/review.html` for the focused decisions,
+full-facility source map and matched views. Preserve all earlier checkpoints and
+the frozen application build; production remains unchanged.
+
+**2026-09-16 preceding local tree checkpoint:** the [full-facility tree review](../../geo_data/course-v2/visby/vegetation/pilot/round5/README.md)
+adds 156 rendered individuals over the completed corridor review, for 3,524 records
+/ 3,516 rendered individuals. The isolated graph and viewer are under
+`output/visby-tree-pilot/round5/`; serve with
+`node tools/visby-tree-pilot/round5-preview.mjs serve round5 8649` and open
+`http://127.0.0.1:8649/pilot-review/round5/review.html`.
+All editable area of the 1.237 km² facility polygon has been source-inspected in
+156 cells; protected evaluation leaves full-area inspection at 95.17%.
+This does not establish every tree: 11,428 m² of unrepresented height support
+remains explicitly unresolved, alongside young trees without sufficient height.
+Individual crowns and measured woodland have separate review layers; the pink
+line denotes added review area only. Production, terrain and tree assets remain
+unchanged. Preserve the round-five input/reproduction locks, decisions, source
+caches and frozen application build. Follow the [general tree workflow](../../docs/tree-placement-workflow.md)
+for further work or another ground. No commit or deployment was made for this pilot.
+
 **2026-09-09 current checkpoint:** read the
 [tee alignment review](tee-alignment-review-2026-09-09.md) and
 [2026 orthophoto pass](ORTHOPHOTO-2026.md) first. Native imagery now drives

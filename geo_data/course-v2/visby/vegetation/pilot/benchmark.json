@@ -1,0 +1,376 @@
+{
+  "version": 1,
+  "selection": {
+    "selected": "silva-d5-s1",
+    "selectionUses": "calibration scenes only; holes 9 and 16 never select settings",
+    "referenceSha256": "c81300ead3d3c0b4bcafbe4ebb9a2516fffe879aad88ce88f6fd8053cbb37eca",
+    "matchingToleranceMetres": 4.0,
+    "methods": [
+      "published",
+      "node-current",
+      "dalponte-d3-s0",
+      "dalponte-d3-s1",
+      "dalponte-d4-s0",
+      "dalponte-d4-s1",
+      "dalponte-d5-s0",
+      "dalponte-d5-s1",
+      "silva-d3-s0",
+      "silva-d3-s1",
+      "silva-d4-s0",
+      "silva-d4-s1",
+      "silva-d5-s0",
+      "silva-d5-s1"
+    ]
+  },
+  "metrics": {
+    "published": {
+      "calibration": {
+        "tp": 1,
+        "fp": 1,
+        "fn": 79,
+        "precision": 0.5,
+        "recall": 0.0125,
+        "f1": 0.02439024390243903,
+        "crownIoU": 0.5391303960351623,
+        "centreMedianMetres": 2.2842018300977367,
+        "centreP95Metres": 2.2842018300977367
+      },
+      "evaluation": {
+        "tp": 6,
+        "fp": 4,
+        "fn": 47,
+        "precision": 0.6,
+        "recall": 0.11320754716981132,
+        "f1": 0.1904761904761905,
+        "crownIoU": 0.6544410209382453,
+        "centreMedianMetres": 0.9280338221210165,
+        "centreP95Metres": 3.1924207806571983
+      }
+    },
+    "node-current": {
+      "calibration": {
+        "tp": 33,
+        "fp": 46,
+        "fn": 47,
+        "precision": 0.4177215189873418,
+        "recall": 0.4125,
+        "f1": 0.41509433962264153,
+        "crownIoU": 0.4287892902161049,
+        "centreMedianMetres": 2.3327182629869214,
+        "centreP95Metres": 3.801179673893349
+      },
+      "evaluation": {
+        "tp": 29,
+        "fp": 12,
+        "fn": 24,
+        "precision": 0.7073170731707317,
+        "recall": 0.5471698113207547,
+        "f1": 0.6170212765957447,
+        "crownIoU": 0.514567506478639,
+        "centreMedianMetres": 1.5129061888916442,
+        "centreP95Metres": 3.576837381836792
+      }
+    },
+    "dalponte-d3-s0": {
+      "calibration": {
+        "tp": 78,
+        "fp": 434,
+        "fn": 2,
+        "precision": 0.15234375,
+        "recall": 0.975,
+        "f1": 0.2635135135135135,
+        "crownIoU": 0.25872106824101215,
+        "centreMedianMetres": 1.9635869377885353,
+        "centreP95Metres": 3.56136764366913
+      },
+      "evaluation": {
+        "tp": 53,
+        "fp": 177,
+        "fn": 0,
+        "precision": 0.23043478260869565,
+        "recall": 1.0,
+        "f1": 0.3745583038869258,
+        "crownIoU": 0.2769043864166403,
+        "centreMedianMetres": 1.77434486571471,
+        "centreP95Metres": 3.426898044087215
+      }
+    },
+    "dalponte-d3-s1": {
+      "calibration": {
+        "tp": 65,
+        "fp": 200,
+        "fn": 15,
+        "precision": 0.24528301886792453,
+        "recall": 0.8125,
+        "f1": 0.37681159420289856,
+        "crownIoU": 0.3939859470910443,
+        "centreMedianMetres": 2.265689134782614,
+        "centreP95Metres": 3.7969052750613668
+      },
+      "evaluation": {
+        "tp": 46,
+        "fp": 67,
+        "fn": 7,
+        "precision": 0.40707964601769914,
+        "recall": 0.8679245283018868,
+        "f1": 0.5542168674698795,
+        "crownIoU": 0.4911104909348965,
+        "centreMedianMetres": 1.9271596594343847,
+        "centreP95Metres": 3.4764101862007086
+      }
+    },
+    "dalponte-d4-s0": {
+      "calibration": {
+        "tp": 74,
+        "fp": 265,
+        "fn": 6,
+        "precision": 0.2182890855457227,
+        "recall": 0.925,
+        "f1": 0.3532219570405728,
+        "crownIoU": 0.31975117683767595,
+        "centreMedianMetres": 2.175728362902371,
+        "centreP95Metres": 3.433452213521446
+      },
+      "evaluation": {
+        "tp": 48,
+        "fp": 72,
+        "fn": 5,
+        "precision": 0.4,
+        "recall": 0.9056603773584906,
+        "f1": 0.5549132947976878,
+        "crownIoU": 0.38757721105473,
+        "centreMedianMetres": 2.008864855684185,
+        "centreP95Metres": 3.2432327588097487
+      }
+    },
+    "dalponte-d4-s1": {
+      "calibration": {
+        "tp": 62,
+        "fp": 152,
+        "fn": 18,
+        "precision": 0.2897196261682243,
+        "recall": 0.775,
+        "f1": 0.42176870748299317,
+        "crownIoU": 0.4307478269471067,
+        "centreMedianMetres": 2.2472342348093024,
+        "centreP95Metres": 3.8345285183668225
+      },
+      "evaluation": {
+        "tp": 45,
+        "fp": 48,
+        "fn": 8,
+        "precision": 0.4838709677419355,
+        "recall": 0.8490566037735849,
+        "f1": 0.6164383561643836,
+        "crownIoU": 0.5157365306240759,
+        "centreMedianMetres": 1.8617648528451798,
+        "centreP95Metres": 3.450656921027822
+      }
+    },
+    "dalponte-d5-s0": {
+      "calibration": {
+        "tp": 64,
+        "fp": 180,
+        "fn": 16,
+        "precision": 0.26229508196721313,
+        "recall": 0.8,
+        "f1": 0.39506172839506176,
+        "crownIoU": 0.364838519426145,
+        "centreMedianMetres": 2.213412239649438,
+        "centreP95Metres": 3.7323481398518994
+      },
+      "evaluation": {
+        "tp": 46,
+        "fp": 48,
+        "fn": 7,
+        "precision": 0.48936170212765956,
+        "recall": 0.8679245283018868,
+        "f1": 0.6258503401360545,
+        "crownIoU": 0.4245660042997706,
+        "centreMedianMetres": 1.8669027383252046,
+        "centreP95Metres": 3.248333377317903
+      }
+    },
+    "dalponte-d5-s1": {
+      "calibration": {
+        "tp": 56,
+        "fp": 123,
+        "fn": 24,
+        "precision": 0.3128491620111732,
+        "recall": 0.7,
+        "f1": 0.43243243243243246,
+        "crownIoU": 0.45681579670649025,
+        "centreMedianMetres": 1.9540029661338543,
+        "centreP95Metres": 3.9114107697044824
+      },
+      "evaluation": {
+        "tp": 46,
+        "fp": 41,
+        "fn": 7,
+        "precision": 0.5287356321839081,
+        "recall": 0.8679245283018868,
+        "f1": 0.6571428571428571,
+        "crownIoU": 0.5196030936320092,
+        "centreMedianMetres": 1.91260597956994,
+        "centreP95Metres": 3.3878157277386283
+      }
+    },
+    "silva-d3-s0": {
+      "calibration": {
+        "tp": 76,
+        "fp": 439,
+        "fn": 4,
+        "precision": 0.14757281553398058,
+        "recall": 0.95,
+        "f1": 0.25546218487394956,
+        "crownIoU": 0.2528045846690334,
+        "centreMedianMetres": 2.0103252695218417,
+        "centreP95Metres": 3.4591576963417565
+      },
+      "evaluation": {
+        "tp": 52,
+        "fp": 179,
+        "fn": 1,
+        "precision": 0.22510822510822512,
+        "recall": 0.9811320754716981,
+        "f1": 0.3661971830985916,
+        "crownIoU": 0.28383647159787695,
+        "centreMedianMetres": 1.9584103940523114,
+        "centreP95Metres": 3.105487141245428
+      }
+    },
+    "silva-d3-s1": {
+      "calibration": {
+        "tp": 64,
+        "fp": 203,
+        "fn": 16,
+        "precision": 0.2397003745318352,
+        "recall": 0.8,
+        "f1": 0.3688760806916427,
+        "crownIoU": 0.37759953291207815,
+        "centreMedianMetres": 2.3148269650188498,
+        "centreP95Metres": 3.843604021235709
+      },
+      "evaluation": {
+        "tp": 45,
+        "fp": 66,
+        "fn": 8,
+        "precision": 0.40540540540540543,
+        "recall": 0.8490566037735849,
+        "f1": 0.548780487804878,
+        "crownIoU": 0.4843447573941501,
+        "centreMedianMetres": 1.99295046091525,
+        "centreP95Metres": 3.4582470322273484
+      }
+    },
+    "silva-d4-s0": {
+      "calibration": {
+        "tp": 74,
+        "fp": 261,
+        "fn": 6,
+        "precision": 0.2208955223880597,
+        "recall": 0.925,
+        "f1": 0.35662650602409635,
+        "crownIoU": 0.3136841585598809,
+        "centreMedianMetres": 2.4142164314629753,
+        "centreP95Metres": 3.6074063357829766
+      },
+      "evaluation": {
+        "tp": 48,
+        "fp": 70,
+        "fn": 5,
+        "precision": 0.4067796610169492,
+        "recall": 0.9056603773584906,
+        "f1": 0.5614035087719299,
+        "crownIoU": 0.38983247605657967,
+        "centreMedianMetres": 1.862811671425943,
+        "centreP95Metres": 3.358129424291285
+      }
+    },
+    "silva-d4-s1": {
+      "calibration": {
+        "tp": 62,
+        "fp": 152,
+        "fn": 18,
+        "precision": 0.2897196261682243,
+        "recall": 0.775,
+        "f1": 0.42176870748299317,
+        "crownIoU": 0.40298464730547257,
+        "centreMedianMetres": 2.361405154930457,
+        "centreP95Metres": 3.871371076739889
+      },
+      "evaluation": {
+        "tp": 44,
+        "fp": 48,
+        "fn": 9,
+        "precision": 0.4782608695652174,
+        "recall": 0.8301886792452831,
+        "f1": 0.6068965517241379,
+        "crownIoU": 0.5046167530170828,
+        "centreMedianMetres": 1.8908079703183585,
+        "centreP95Metres": 3.751690681483402
+      }
+    },
+    "silva-d5-s0": {
+      "calibration": {
+        "tp": 64,
+        "fp": 181,
+        "fn": 16,
+        "precision": 0.2612244897959184,
+        "recall": 0.8,
+        "f1": 0.3938461538461539,
+        "crownIoU": 0.37210672021855995,
+        "centreMedianMetres": 2.3593719349416267,
+        "centreP95Metres": 3.81175117987916
+      },
+      "evaluation": {
+        "tp": 46,
+        "fp": 46,
+        "fn": 7,
+        "precision": 0.5,
+        "recall": 0.8679245283018868,
+        "f1": 0.6344827586206897,
+        "crownIoU": 0.4165668319836481,
+        "centreMedianMetres": 1.88564652202431,
+        "centreP95Metres": 3.2491524969147414
+      }
+    },
+    "silva-d5-s1": {
+      "calibration": {
+        "tp": 57,
+        "fp": 124,
+        "fn": 23,
+        "precision": 0.3149171270718232,
+        "recall": 0.7125,
+        "f1": 0.4367816091954023,
+        "crownIoU": 0.4309356227424041,
+        "centreMedianMetres": 2.329261759078641,
+        "centreP95Metres": 3.744327799743045
+      },
+      "evaluation": {
+        "tp": 45,
+        "fp": 41,
+        "fn": 8,
+        "precision": 0.5232558139534884,
+        "recall": 0.8490566037735849,
+        "f1": 0.6474820143884893,
+        "crownIoU": 0.5111019922712293,
+        "centreMedianMetres": 1.9339391545409943,
+        "centreP95Metres": 3.537687393167317
+      }
+    }
+  },
+  "target": {
+    "precision": 0.9,
+    "recall": 0.9
+  },
+  "passed": false,
+  "limitations": [
+    "Ellipse outlines are approximate visual crown extents.",
+    "Different acquisition years and orthophoto relief displacement prevent surveyed-stem accuracy claims.",
+    "Unresolved woodland interiors, edge-clipped crowns and small vegetation are excluded from scoring.",
+    "Reference sample is purposive, not a statistically representative inventory of the whole course.",
+    "Reported centre differences are against interpreted crown centres, not measured trunk error.",
+    "Crown IoU uses approximate visual ellipses and raster labels; baseline published geometry uses its rendered circular radius."
+  ]
+}

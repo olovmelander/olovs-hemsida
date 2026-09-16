@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "Switch preserves pose, playback, club, position and heading; disposes prior geometry, materials and textures",
+    "A failed load retains the current golfer and presents a retryable message",
+    "Rapid selection keeps only the most recently requested character",
+    "Both character buttons work at a 390px viewport",
+    "Course selector swaps both designs without moving the actor or losing the selected club",
+    "Closing during a pending switch does not resurrect the actor"
+  ],
+  "errors": [],
+  "verifiedAt": "2026-09-16T09:19:35.372Z"
+}

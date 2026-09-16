@@ -1,0 +1,18 @@
+{
+  "lidarCampaign": "26f015-702_68",
+  "lidarDates": [
+    "2026-06-01T00:00:00Z",
+    "2026-06-21T00:00:00Z"
+  ],
+  "rgbiCapture": "2024-06-27",
+  "sourceEvidenceSha256": "807167eb09826a0b64820f12a5ae60e5ea542fb2a257312a563a0574e789e388",
+  "crs": "EPSG:3006 / RH2000",
+  "pixelConvention": "edges; centres +0.5 E/-0.5 N",
+  "firstReturnsPerScopeSquareMetre": 2.3711977527194485,
+  "heightValidFraction": 0.9797425987169781,
+  "heightMissingPixels": 20336,
+  "canopyPixelsAbove3m": 273917,
+  "rgbiBands": 4,
+  "nativeImagerySpacingMetres": 0.16,
+  "uncertainty": "Source-relative interpretation, not measured absolute or stem accuracy."
+}

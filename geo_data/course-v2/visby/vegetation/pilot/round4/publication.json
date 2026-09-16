@@ -1,0 +1,1731 @@
+{
+  "mode": "isolated-local-preview",
+  "records": 3368,
+  "graph": {
+    "slug": "visby",
+    "groundId": "visby",
+    "frameFingerprint": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+    "rootBytes": 594,
+    "rootSha256": "d2e423d3288ff1dcbdfea2eda44e8512e6397e3ccca3d776fab05dff8b84bf31",
+    "courseManifestSha256": "8cf95254f8818423089d1daa84092eb6f0dda08c4c57aeb202f627850a8e92c9",
+    "groundManifestSha256": "2dfe9a9a1565f5a359adfbb43fe345b9e9d5c8fa61b36f57873414c6071f330b",
+    "routingSha256": "f4ca7bc2cf7bf0c1772952a6bbca63fe00d494b9200a368a058392ab21259ae9",
+    "holes": 18,
+    "tiles": 469,
+    "finestTiles": 256,
+    "shellBytes": 30223,
+    "chunks": 843,
+    "encodedChunkBytes": 11317824,
+    "decodedChunkBytes": 73718164,
+    "holeTileBufferMetres": 80
+  },
+  "references": {
+    "course": {
+      "url": "courses/visby/course-v2-8cf95254f8818423089d1daa84092eb6f0dda08c4c57aeb202f627850a8e92c9.json",
+      "mediaType": "application/vnd.banvy.course-manifest-v2+json",
+      "bytes": 3877,
+      "sha256": "8cf95254f8818423089d1daa84092eb6f0dda08c4c57aeb202f627850a8e92c9"
+    },
+    "ground": {
+      "url": "grounds/visby/ground-v2-2dfe9a9a1565f5a359adfbb43fe345b9e9d5c8fa61b36f57873414c6071f330b.json",
+      "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
+      "bytes": 500417,
+      "sha256": "2dfe9a9a1565f5a359adfbb43fe345b9e9d5c8fa61b36f57873414c6071f330b"
+    },
+    "routing": {
+      "kind": "routing",
+      "url": "courses/visby/routing/f4ca7bc2cf7bf0c1772952a6bbca63fe00d494b9200a368a058392ab21259ae9.bvch",
+      "mediaType": "application/vnd.banvy.chunk-v2",
+      "bytes": 1786,
+      "sha256": "f4ca7bc2cf7bf0c1772952a6bbca63fe00d494b9200a368a058392ab21259ae9",
+      "decodedBytes": 3167,
+      "decodedSha256": "f94ce9b6b5a3f4f1f5d5d9aef9cfa12cc4d1dea0b84b571150d6800b117d8677",
+      "requiredFeatures": [
+        "chunk-envelope-v2",
+        "course-routing-json-v1"
+      ]
+    }
+  },
+  "standEvidence": [
+    {
+      "tileId": "l0/7/0",
+      "cellMetres": 4,
+      "bytes": 4801,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 867,
+        "excludedCells": 501,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 5.298
+      }
+    },
+    {
+      "tileId": "l0/8/0",
+      "cellMetres": 4,
+      "bytes": 5589,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1245,
+        "excludedCells": 303,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 10.995
+      }
+    },
+    {
+      "tileId": "l0/9/0",
+      "cellMetres": 4,
+      "bytes": 1443,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3718,
+        "closedCanopyCells": 53,
+        "excludedCells": 18,
+        "northCampaignCells": 3718,
+        "meanClosedCanopyHeightMetres": 7.873
+      }
+    },
+    {
+      "tileId": "l0/10/0",
+      "cellMetres": 4,
+      "bytes": 3426,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4093,
+        "closedCanopyCells": 517,
+        "excludedCells": 144,
+        "northCampaignCells": 4093,
+        "meanClosedCanopyHeightMetres": 5.232
+      }
+    },
+    {
+      "tileId": "l0/11/0",
+      "cellMetres": 4,
+      "bytes": 7852,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3989,
+        "closedCanopyCells": 2166,
+        "excludedCells": 495,
+        "northCampaignCells": 3989,
+        "meanClosedCanopyHeightMetres": 8.496
+      }
+    },
+    {
+      "tileId": "l0/12/0",
+      "cellMetres": 4,
+      "bytes": 9078,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4087,
+        "closedCanopyCells": 3236,
+        "excludedCells": 144,
+        "northCampaignCells": 4087,
+        "meanClosedCanopyHeightMetres": 9.932
+      }
+    },
+    {
+      "tileId": "l0/13/0",
+      "cellMetres": 4,
+      "bytes": 4626,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1179,
+        "excludedCells": 195,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 8.574
+      }
+    },
+    {
+      "tileId": "l0/14/0",
+      "cellMetres": 4,
+      "bytes": 9080,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 3611,
+        "excludedCells": 241,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 8.159
+      }
+    },
+    {
+      "tileId": "l0/15/0",
+      "cellMetres": 4,
+      "bytes": 2151,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3583,
+        "closedCanopyCells": 244,
+        "excludedCells": 162,
+        "northCampaignCells": 3583,
+        "meanClosedCanopyHeightMetres": 9.536
+      }
+    },
+    {
+      "tileId": "l0/7/1",
+      "cellMetres": 4,
+      "bytes": 2053,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4045,
+        "closedCanopyCells": 163,
+        "excludedCells": 279,
+        "northCampaignCells": 4045,
+        "meanClosedCanopyHeightMetres": 3.687
+      }
+    },
+    {
+      "tileId": "l0/8/1",
+      "cellMetres": 4,
+      "bytes": 3044,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 410,
+        "excludedCells": 329,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 8.952
+      }
+    },
+    {
+      "tileId": "l0/9/1",
+      "cellMetres": 4,
+      "bytes": 1149,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 1943,
+        "closedCanopyCells": 13,
+        "excludedCells": 15,
+        "northCampaignCells": 1943,
+        "meanClosedCanopyHeightMetres": 2.75
+      }
+    },
+    {
+      "tileId": "l0/10/1",
+      "cellMetres": 4,
+      "bytes": 2571,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 2493,
+        "closedCanopyCells": 365,
+        "excludedCells": 127,
+        "northCampaignCells": 2493,
+        "meanClosedCanopyHeightMetres": 4.987
+      }
+    },
+    {
+      "tileId": "l0/11/1",
+      "cellMetres": 4,
+      "bytes": 3641,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 2429,
+        "closedCanopyCells": 529,
+        "excludedCells": 382,
+        "northCampaignCells": 2429,
+        "meanClosedCanopyHeightMetres": 6.707
+      }
+    },
+    {
+      "tileId": "l0/12/1",
+      "cellMetres": 4,
+      "bytes": 4059,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4068,
+        "closedCanopyCells": 808,
+        "excludedCells": 488,
+        "northCampaignCells": 4068,
+        "meanClosedCanopyHeightMetres": 9.035
+      }
+    },
+    {
+      "tileId": "l0/13/1",
+      "cellMetres": 4,
+      "bytes": 8496,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4072,
+        "closedCanopyCells": 2770,
+        "excludedCells": 232,
+        "northCampaignCells": 4072,
+        "meanClosedCanopyHeightMetres": 10.988
+      }
+    },
+    {
+      "tileId": "l0/14/1",
+      "cellMetres": 4,
+      "bytes": 6468,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1745,
+        "excludedCells": 257,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 10.052
+      }
+    },
+    {
+      "tileId": "l0/15/1",
+      "cellMetres": 4,
+      "bytes": 7336,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4053,
+        "closedCanopyCells": 1821,
+        "excludedCells": 324,
+        "northCampaignCells": 4053,
+        "meanClosedCanopyHeightMetres": 12.222
+      }
+    },
+    {
+      "tileId": "l0/7/2",
+      "cellMetres": 4,
+      "bytes": 2191,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3611,
+        "closedCanopyCells": 120,
+        "excludedCells": 566,
+        "northCampaignCells": 3611,
+        "meanClosedCanopyHeightMetres": 4.338
+      }
+    },
+    {
+      "tileId": "l0/8/2",
+      "cellMetres": 4,
+      "bytes": 2486,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3784,
+        "closedCanopyCells": 181,
+        "excludedCells": 599,
+        "northCampaignCells": 3784,
+        "meanClosedCanopyHeightMetres": 4.333
+      }
+    },
+    {
+      "tileId": "l0/9/2",
+      "cellMetres": 4,
+      "bytes": 2213,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3054,
+        "closedCanopyCells": 175,
+        "excludedCells": 205,
+        "northCampaignCells": 3054,
+        "meanClosedCanopyHeightMetres": 4.211
+      }
+    },
+    {
+      "tileId": "l0/11/2",
+      "cellMetres": 4,
+      "bytes": 2139,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 1980,
+        "closedCanopyCells": 98,
+        "excludedCells": 457,
+        "northCampaignCells": 1980,
+        "meanClosedCanopyHeightMetres": 7.556
+      }
+    },
+    {
+      "tileId": "l0/12/2",
+      "cellMetres": 4,
+      "bytes": 3312,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4095,
+        "closedCanopyCells": 330,
+        "excludedCells": 789,
+        "northCampaignCells": 4095,
+        "meanClosedCanopyHeightMetres": 8.167
+      }
+    },
+    {
+      "tileId": "l0/13/2",
+      "cellMetres": 4,
+      "bytes": 1938,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4088,
+        "closedCanopyCells": 187,
+        "excludedCells": 206,
+        "northCampaignCells": 4088,
+        "meanClosedCanopyHeightMetres": 11.247
+      }
+    },
+    {
+      "tileId": "l0/14/2",
+      "cellMetres": 4,
+      "bytes": 5487,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4053,
+        "closedCanopyCells": 1201,
+        "excludedCells": 298,
+        "northCampaignCells": 4053,
+        "meanClosedCanopyHeightMetres": 10.582
+      }
+    },
+    {
+      "tileId": "l0/15/2",
+      "cellMetres": 4,
+      "bytes": 6820,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4081,
+        "closedCanopyCells": 1541,
+        "excludedCells": 517,
+        "northCampaignCells": 4081,
+        "meanClosedCanopyHeightMetres": 9.414
+      }
+    },
+    {
+      "tileId": "l0/7/3",
+      "cellMetres": 4,
+      "bytes": 2784,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 2848,
+        "closedCanopyCells": 276,
+        "excludedCells": 901,
+        "northCampaignCells": 2848,
+        "meanClosedCanopyHeightMetres": 8.561
+      }
+    },
+    {
+      "tileId": "l0/8/3",
+      "cellMetres": 4,
+      "bytes": 3513,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3882,
+        "closedCanopyCells": 380,
+        "excludedCells": 800,
+        "northCampaignCells": 3882,
+        "meanClosedCanopyHeightMetres": 7.728
+      }
+    },
+    {
+      "tileId": "l0/9/3",
+      "cellMetres": 4,
+      "bytes": 1822,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4028,
+        "closedCanopyCells": 136,
+        "excludedCells": 227,
+        "northCampaignCells": 4028,
+        "meanClosedCanopyHeightMetres": 6.165
+      }
+    },
+    {
+      "tileId": "l0/10/3",
+      "cellMetres": 4,
+      "bytes": 1548,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 980,
+        "closedCanopyCells": 96,
+        "excludedCells": 140,
+        "northCampaignCells": 980,
+        "meanClosedCanopyHeightMetres": 5.195
+      }
+    },
+    {
+      "tileId": "l0/11/3",
+      "cellMetres": 4,
+      "bytes": 2306,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 1913,
+        "closedCanopyCells": 106,
+        "excludedCells": 459,
+        "northCampaignCells": 1913,
+        "meanClosedCanopyHeightMetres": 7.896
+      }
+    },
+    {
+      "tileId": "l0/12/3",
+      "cellMetres": 4,
+      "bytes": 2188,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 177,
+        "excludedCells": 316,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 8.597
+      }
+    },
+    {
+      "tileId": "l0/13/3",
+      "cellMetres": 4,
+      "bytes": 1014,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 11,
+        "excludedCells": 94,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 5.591
+      }
+    },
+    {
+      "tileId": "l0/14/3",
+      "cellMetres": 4,
+      "bytes": 2848,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 366,
+        "excludedCells": 229,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 7.309
+      }
+    },
+    {
+      "tileId": "l0/15/3",
+      "cellMetres": 4,
+      "bytes": 1931,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4095,
+        "closedCanopyCells": 176,
+        "excludedCells": 178,
+        "northCampaignCells": 4095,
+        "meanClosedCanopyHeightMetres": 6.408
+      }
+    },
+    {
+      "tileId": "l0/6/4",
+      "cellMetres": 1,
+      "bytes": 24241,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 46966,
+        "closedCanopyCells": 9835,
+        "excludedCells": 11871,
+        "northCampaignCells": 54304,
+        "meanClosedCanopyHeightMetres": 8.495
+      }
+    },
+    {
+      "tileId": "l0/7/4",
+      "cellMetres": 1,
+      "bytes": 14474,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 46093,
+        "closedCanopyCells": 2426,
+        "excludedCells": 10235,
+        "northCampaignCells": 54400,
+        "meanClosedCanopyHeightMetres": 11.085
+      }
+    },
+    {
+      "tileId": "l0/8/4",
+      "cellMetres": 4,
+      "bytes": 1643,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3454,
+        "closedCanopyCells": 67,
+        "excludedCells": 252,
+        "northCampaignCells": 3454,
+        "meanClosedCanopyHeightMetres": 5.414
+      }
+    },
+    {
+      "tileId": "l0/10/4",
+      "cellMetres": 4,
+      "bytes": 2103,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3450,
+        "closedCanopyCells": 236,
+        "excludedCells": 195,
+        "northCampaignCells": 3450,
+        "meanClosedCanopyHeightMetres": 5.415
+      }
+    },
+    {
+      "tileId": "l0/11/4",
+      "cellMetres": 4,
+      "bytes": 4993,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3703,
+        "closedCanopyCells": 861,
+        "excludedCells": 491,
+        "northCampaignCells": 3703,
+        "meanClosedCanopyHeightMetres": 8.099
+      }
+    },
+    {
+      "tileId": "l0/12/4",
+      "cellMetres": 4,
+      "bytes": 4903,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 918,
+        "excludedCells": 206,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 9.632
+      }
+    },
+    {
+      "tileId": "l0/13/4",
+      "cellMetres": 4,
+      "bytes": 1295,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 86,
+        "excludedCells": 65,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 5.808
+      }
+    },
+    {
+      "tileId": "l0/14/4",
+      "cellMetres": 4,
+      "bytes": 4337,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1166,
+        "excludedCells": 208,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 5.42
+      }
+    },
+    {
+      "tileId": "l0/15/4",
+      "cellMetres": 4,
+      "bytes": 4566,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1062,
+        "excludedCells": 317,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 7.483
+      }
+    },
+    {
+      "tileId": "l0/6/5",
+      "cellMetres": 1,
+      "bytes": 23416,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 54740,
+        "closedCanopyCells": 7895,
+        "excludedCells": 23659,
+        "northCampaignCells": 62752,
+        "meanClosedCanopyHeightMetres": 7.15
+      }
+    },
+    {
+      "tileId": "l0/7/5",
+      "cellMetres": 1,
+      "bytes": 14796,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 54128,
+        "closedCanopyCells": 2152,
+        "excludedCells": 26239,
+        "northCampaignCells": 61840,
+        "meanClosedCanopyHeightMetres": 7.235
+      }
+    },
+    {
+      "tileId": "l0/9/5",
+      "cellMetres": 4,
+      "bytes": 5771,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4083,
+        "closedCanopyCells": 1168,
+        "excludedCells": 684,
+        "northCampaignCells": 4083,
+        "meanClosedCanopyHeightMetres": 9.02
+      }
+    },
+    {
+      "tileId": "l0/10/5",
+      "cellMetres": 4,
+      "bytes": 4113,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4093,
+        "closedCanopyCells": 539,
+        "excludedCells": 1029,
+        "northCampaignCells": 4093,
+        "meanClosedCanopyHeightMetres": 7.36
+      }
+    },
+    {
+      "tileId": "l0/11/5",
+      "cellMetres": 4,
+      "bytes": 6093,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4067,
+        "closedCanopyCells": 1061,
+        "excludedCells": 1041,
+        "northCampaignCells": 4067,
+        "meanClosedCanopyHeightMetres": 9.531
+      }
+    },
+    {
+      "tileId": "l0/12/5",
+      "cellMetres": 4,
+      "bytes": 5619,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4095,
+        "closedCanopyCells": 895,
+        "excludedCells": 586,
+        "northCampaignCells": 4095,
+        "meanClosedCanopyHeightMetres": 6.831
+      }
+    },
+    {
+      "tileId": "l0/13/5",
+      "cellMetres": 4,
+      "bytes": 3469,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 446,
+        "excludedCells": 444,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 11.01
+      }
+    },
+    {
+      "tileId": "l0/14/5",
+      "cellMetres": 4,
+      "bytes": 2973,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 438,
+        "excludedCells": 271,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 10.693
+      }
+    },
+    {
+      "tileId": "l0/15/5",
+      "cellMetres": 4,
+      "bytes": 9921,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 3292,
+        "excludedCells": 257,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 10.028
+      }
+    },
+    {
+      "tileId": "l0/6/6",
+      "cellMetres": 1,
+      "bytes": 22267,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 54030,
+        "closedCanopyCells": 9257,
+        "excludedCells": 25620,
+        "northCampaignCells": 59024,
+        "meanClosedCanopyHeightMetres": 10.929
+      }
+    },
+    {
+      "tileId": "l0/7/6",
+      "cellMetres": 1,
+      "bytes": 18551,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 57119,
+        "closedCanopyCells": 6363,
+        "excludedCells": 17616,
+        "northCampaignCells": 61248,
+        "meanClosedCanopyHeightMetres": 8.577
+      }
+    },
+    {
+      "tileId": "l0/8/6",
+      "cellMetres": 1,
+      "bytes": 29173,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 61899,
+        "closedCanopyCells": 16699,
+        "excludedCells": 17214,
+        "northCampaignCells": 64816,
+        "meanClosedCanopyHeightMetres": 11.726
+      }
+    },
+    {
+      "tileId": "l0/9/6",
+      "cellMetres": 1,
+      "bytes": 21377,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 62617,
+        "closedCanopyCells": 10597,
+        "excludedCells": 10093,
+        "northCampaignCells": 65088,
+        "meanClosedCanopyHeightMetres": 7.411
+      }
+    },
+    {
+      "tileId": "l0/10/6",
+      "cellMetres": 4,
+      "bytes": 7508,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1527,
+        "excludedCells": 876,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 8.499
+      }
+    },
+    {
+      "tileId": "l0/11/6",
+      "cellMetres": 4,
+      "bytes": 5433,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4039,
+        "closedCanopyCells": 965,
+        "excludedCells": 1248,
+        "northCampaignCells": 4039,
+        "meanClosedCanopyHeightMetres": 9.989
+      }
+    },
+    {
+      "tileId": "l0/12/6",
+      "cellMetres": 4,
+      "bytes": 4543,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 545,
+        "excludedCells": 487,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 6.608
+      }
+    },
+    {
+      "tileId": "l0/13/6",
+      "cellMetres": 4,
+      "bytes": 5393,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1096,
+        "excludedCells": 330,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 12.384
+      }
+    },
+    {
+      "tileId": "l0/14/6",
+      "cellMetres": 4,
+      "bytes": 3788,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4085,
+        "closedCanopyCells": 498,
+        "excludedCells": 561,
+        "northCampaignCells": 4085,
+        "meanClosedCanopyHeightMetres": 11.109
+      }
+    },
+    {
+      "tileId": "l0/15/6",
+      "cellMetres": 4,
+      "bytes": 5754,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 935,
+        "excludedCells": 718,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 9.438
+      }
+    },
+    {
+      "tileId": "l0/5/7",
+      "cellMetres": 1,
+      "bytes": 5874,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 6689,
+        "closedCanopyCells": 205,
+        "excludedCells": 7116,
+        "northCampaignCells": 11520,
+        "meanClosedCanopyHeightMetres": 5.726
+      }
+    },
+    {
+      "tileId": "l0/6/7",
+      "cellMetres": 1,
+      "bytes": 23621,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 44979,
+        "closedCanopyCells": 6419,
+        "excludedCells": 26801,
+        "northCampaignCells": 57136,
+        "meanClosedCanopyHeightMetres": 11.449
+      }
+    },
+    {
+      "tileId": "l0/7/7",
+      "cellMetres": 1,
+      "bytes": 25539,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 50195,
+        "closedCanopyCells": 6654,
+        "excludedCells": 24442,
+        "northCampaignCells": 62656,
+        "meanClosedCanopyHeightMetres": 10.978
+      }
+    },
+    {
+      "tileId": "l0/8/7",
+      "cellMetres": 1,
+      "bytes": 33356,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 54706,
+        "closedCanopyCells": 12383,
+        "excludedCells": 23372,
+        "northCampaignCells": 65408,
+        "meanClosedCanopyHeightMetres": 9.887
+      }
+    },
+    {
+      "tileId": "l0/9/7",
+      "cellMetres": 1,
+      "bytes": 24252,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 54044,
+        "closedCanopyCells": 8200,
+        "excludedCells": 5149,
+        "northCampaignCells": 65536,
+        "meanClosedCanopyHeightMetres": 6.877
+      }
+    },
+    {
+      "tileId": "l0/10/7",
+      "cellMetres": 1,
+      "bytes": 20595,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 61918,
+        "closedCanopyCells": 8067,
+        "excludedCells": 3726,
+        "northCampaignCells": 65536,
+        "meanClosedCanopyHeightMetres": 9.063
+      }
+    },
+    {
+      "tileId": "l0/11/7",
+      "cellMetres": 4,
+      "bytes": 2016,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3751,
+        "closedCanopyCells": 71,
+        "excludedCells": 630,
+        "northCampaignCells": 3751,
+        "meanClosedCanopyHeightMetres": 8.327
+      }
+    },
+    {
+      "tileId": "l0/12/7",
+      "cellMetres": 4,
+      "bytes": 3498,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4095,
+        "closedCanopyCells": 498,
+        "excludedCells": 410,
+        "northCampaignCells": 4095,
+        "meanClosedCanopyHeightMetres": 5.504
+      }
+    },
+    {
+      "tileId": "l0/13/7",
+      "cellMetres": 4,
+      "bytes": 2069,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4081,
+        "closedCanopyCells": 149,
+        "excludedCells": 237,
+        "northCampaignCells": 4081,
+        "meanClosedCanopyHeightMetres": 6.768
+      }
+    },
+    {
+      "tileId": "l0/14/7",
+      "cellMetres": 4,
+      "bytes": 2514,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4090,
+        "closedCanopyCells": 256,
+        "excludedCells": 286,
+        "northCampaignCells": 4090,
+        "meanClosedCanopyHeightMetres": 7.997
+      }
+    },
+    {
+      "tileId": "l0/15/7",
+      "cellMetres": 4,
+      "bytes": 1467,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 92,
+        "excludedCells": 127,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 8.859
+      }
+    },
+    {
+      "tileId": "l0/5/8",
+      "cellMetres": 1,
+      "bytes": 15740,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 30244,
+        "closedCanopyCells": 2046,
+        "excludedCells": 19658,
+        "northCampaignCells": 42304,
+        "meanClosedCanopyHeightMetres": 5.727
+      }
+    },
+    {
+      "tileId": "l0/6/8",
+      "cellMetres": 1,
+      "bytes": 22945,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 52397,
+        "closedCanopyCells": 5108,
+        "excludedCells": 32518,
+        "northCampaignCells": 64432,
+        "meanClosedCanopyHeightMetres": 9.996
+      }
+    },
+    {
+      "tileId": "l0/7/8",
+      "cellMetres": 1,
+      "bytes": 21018,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 51168,
+        "closedCanopyCells": 4132,
+        "excludedCells": 21167,
+        "northCampaignCells": 63808,
+        "meanClosedCanopyHeightMetres": 10.2
+      }
+    },
+    {
+      "tileId": "l0/8/8",
+      "cellMetres": 1,
+      "bytes": 25480,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 46424,
+        "closedCanopyCells": 6905,
+        "excludedCells": 21763,
+        "northCampaignCells": 58464,
+        "meanClosedCanopyHeightMetres": 10.832
+      }
+    },
+    {
+      "tileId": "l0/9/8",
+      "cellMetres": 1,
+      "bytes": 36757,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 55456,
+        "closedCanopyCells": 16704,
+        "excludedCells": 12737,
+        "northCampaignCells": 65536,
+        "meanClosedCanopyHeightMetres": 11.746
+      }
+    },
+    {
+      "tileId": "l0/10/8",
+      "cellMetres": 1,
+      "bytes": 11827,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 52371,
+        "closedCanopyCells": 1871,
+        "excludedCells": 2541,
+        "northCampaignCells": 60240,
+        "meanClosedCanopyHeightMetres": 3.419
+      }
+    },
+    {
+      "tileId": "l0/11/8",
+      "cellMetres": 4,
+      "bytes": 1527,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3700,
+        "closedCanopyCells": 38,
+        "excludedCells": 326,
+        "northCampaignCells": 3700,
+        "meanClosedCanopyHeightMetres": 3.757
+      }
+    },
+    {
+      "tileId": "l0/12/8",
+      "cellMetres": 4,
+      "bytes": 4840,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4091,
+        "closedCanopyCells": 665,
+        "excludedCells": 718,
+        "northCampaignCells": 4091,
+        "meanClosedCanopyHeightMetres": 10.153
+      }
+    },
+    {
+      "tileId": "l0/13/8",
+      "cellMetres": 4,
+      "bytes": 5173,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3932,
+        "closedCanopyCells": 815,
+        "excludedCells": 582,
+        "northCampaignCells": 3932,
+        "meanClosedCanopyHeightMetres": 8.168
+      }
+    },
+    {
+      "tileId": "l0/14/8",
+      "cellMetres": 4,
+      "bytes": 8562,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 2338,
+        "excludedCells": 497,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 10.074
+      }
+    },
+    {
+      "tileId": "l0/15/8",
+      "cellMetres": 4,
+      "bytes": 1257,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 121,
+        "excludedCells": 13,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 11.519
+      }
+    },
+    {
+      "tileId": "l0/6/9",
+      "cellMetres": 1,
+      "bytes": 9785,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 14535,
+        "closedCanopyCells": 950,
+        "excludedCells": 15149,
+        "northCampaignCells": 22352,
+        "meanClosedCanopyHeightMetres": 6.922
+      }
+    },
+    {
+      "tileId": "l0/7/9",
+      "cellMetres": 1,
+      "bytes": 6238,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 11387,
+        "closedCanopyCells": 0,
+        "excludedCells": 11900,
+        "northCampaignCells": 17040,
+        "meanClosedCanopyHeightMetres": null
+      }
+    },
+    {
+      "tileId": "l0/8/9",
+      "cellMetres": 1,
+      "bytes": 13880,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 39694,
+        "closedCanopyCells": 687,
+        "excludedCells": 14940,
+        "northCampaignCells": 52848,
+        "meanClosedCanopyHeightMetres": 6.888
+      }
+    },
+    {
+      "tileId": "l0/9/9",
+      "cellMetres": 1,
+      "bytes": 11410,
+      "decodedBytes": 262144,
+      "inspected": {
+        "cells": 65536,
+        "measuredCells": 33991,
+        "closedCanopyCells": 376,
+        "excludedCells": 12369,
+        "northCampaignCells": 44400,
+        "meanClosedCanopyHeightMetres": 4.329
+      }
+    },
+    {
+      "tileId": "l0/11/9",
+      "cellMetres": 4,
+      "bytes": 4116,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3628,
+        "closedCanopyCells": 519,
+        "excludedCells": 1056,
+        "northCampaignCells": 3628,
+        "meanClosedCanopyHeightMetres": 9.465
+      }
+    },
+    {
+      "tileId": "l0/12/9",
+      "cellMetres": 4,
+      "bytes": 4599,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4095,
+        "closedCanopyCells": 650,
+        "excludedCells": 651,
+        "northCampaignCells": 4095,
+        "meanClosedCanopyHeightMetres": 7.688
+      }
+    },
+    {
+      "tileId": "l0/13/9",
+      "cellMetres": 4,
+      "bytes": 7624,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4088,
+        "closedCanopyCells": 1874,
+        "excludedCells": 337,
+        "northCampaignCells": 4088,
+        "meanClosedCanopyHeightMetres": 10.153
+      }
+    },
+    {
+      "tileId": "l0/14/9",
+      "cellMetres": 4,
+      "bytes": 9933,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 3310,
+        "excludedCells": 188,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 12.626
+      }
+    },
+    {
+      "tileId": "l0/15/9",
+      "cellMetres": 4,
+      "bytes": 7383,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4094,
+        "closedCanopyCells": 2298,
+        "excludedCells": 168,
+        "northCampaignCells": 4094,
+        "meanClosedCanopyHeightMetres": 11.722
+      }
+    },
+    {
+      "tileId": "l0/11/10",
+      "cellMetres": 4,
+      "bytes": 2952,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 2784,
+        "closedCanopyCells": 233,
+        "excludedCells": 1057,
+        "northCampaignCells": 2784,
+        "meanClosedCanopyHeightMetres": 7.776
+      }
+    },
+    {
+      "tileId": "l0/12/10",
+      "cellMetres": 4,
+      "bytes": 4967,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4094,
+        "closedCanopyCells": 731,
+        "excludedCells": 371,
+        "northCampaignCells": 4094,
+        "meanClosedCanopyHeightMetres": 6.821
+      }
+    },
+    {
+      "tileId": "l0/13/10",
+      "cellMetres": 4,
+      "bytes": 8428,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4095,
+        "closedCanopyCells": 2415,
+        "excludedCells": 331,
+        "northCampaignCells": 4095,
+        "meanClosedCanopyHeightMetres": 12.27
+      }
+    },
+    {
+      "tileId": "l0/14/10",
+      "cellMetres": 4,
+      "bytes": 9989,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 3701,
+        "excludedCells": 144,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 13.215
+      }
+    },
+    {
+      "tileId": "l0/15/10",
+      "cellMetres": 4,
+      "bytes": 6466,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1952,
+        "excludedCells": 75,
+        "northCampaignCells": 4096,
+        "meanClosedCanopyHeightMetres": 11.697
+      }
+    },
+    {
+      "tileId": "l0/11/11",
+      "cellMetres": 4,
+      "bytes": 1494,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 886,
+        "closedCanopyCells": 10,
+        "excludedCells": 740,
+        "northCampaignCells": 668,
+        "meanClosedCanopyHeightMetres": 12.7
+      }
+    },
+    {
+      "tileId": "l0/12/11",
+      "cellMetres": 4,
+      "bytes": 4952,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4088,
+        "closedCanopyCells": 741,
+        "excludedCells": 663,
+        "northCampaignCells": 2936,
+        "meanClosedCanopyHeightMetres": 6.178
+      }
+    },
+    {
+      "tileId": "l0/13/11",
+      "cellMetres": 4,
+      "bytes": 8153,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 2116,
+        "excludedCells": 305,
+        "northCampaignCells": 2944,
+        "meanClosedCanopyHeightMetres": 8.981
+      }
+    },
+    {
+      "tileId": "l0/14/11",
+      "cellMetres": 4,
+      "bytes": 7842,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4094,
+        "closedCanopyCells": 2004,
+        "excludedCells": 154,
+        "northCampaignCells": 2942,
+        "meanClosedCanopyHeightMetres": 9.861
+      }
+    },
+    {
+      "tileId": "l0/15/11",
+      "cellMetres": 4,
+      "bytes": 9408,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 3229,
+        "excludedCells": 92,
+        "northCampaignCells": 2944,
+        "meanClosedCanopyHeightMetres": 9.694
+      }
+    },
+    {
+      "tileId": "l0/12/12",
+      "cellMetres": 4,
+      "bytes": 3070,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3034,
+        "closedCanopyCells": 213,
+        "excludedCells": 681,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 4.005
+      }
+    },
+    {
+      "tileId": "l0/13/12",
+      "cellMetres": 4,
+      "bytes": 4102,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 666,
+        "excludedCells": 299,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 6.464
+      }
+    },
+    {
+      "tileId": "l0/14/12",
+      "cellMetres": 4,
+      "bytes": 8626,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4095,
+        "closedCanopyCells": 2544,
+        "excludedCells": 443,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 7.415
+      }
+    },
+    {
+      "tileId": "l0/15/12",
+      "cellMetres": 4,
+      "bytes": 8538,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4091,
+        "closedCanopyCells": 2186,
+        "excludedCells": 759,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 7.427
+      }
+    },
+    {
+      "tileId": "l0/12/13",
+      "cellMetres": 4,
+      "bytes": 2094,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 2055,
+        "closedCanopyCells": 128,
+        "excludedCells": 717,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 3.598
+      }
+    },
+    {
+      "tileId": "l0/13/13",
+      "cellMetres": 4,
+      "bytes": 5133,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1194,
+        "excludedCells": 314,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 6.395
+      }
+    },
+    {
+      "tileId": "l0/14/13",
+      "cellMetres": 4,
+      "bytes": 7780,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 1825,
+        "excludedCells": 796,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 6.306
+      }
+    },
+    {
+      "tileId": "l0/15/13",
+      "cellMetres": 4,
+      "bytes": 7551,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4089,
+        "closedCanopyCells": 1900,
+        "excludedCells": 592,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 6.46
+      }
+    },
+    {
+      "tileId": "l0/13/14",
+      "cellMetres": 4,
+      "bytes": 1761,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 3997,
+        "closedCanopyCells": 111,
+        "excludedCells": 187,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 4.218
+      }
+    },
+    {
+      "tileId": "l0/14/14",
+      "cellMetres": 4,
+      "bytes": 5903,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 958,
+        "excludedCells": 735,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 6.244
+      }
+    },
+    {
+      "tileId": "l0/15/14",
+      "cellMetres": 4,
+      "bytes": 7459,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4085,
+        "closedCanopyCells": 1726,
+        "excludedCells": 962,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 7.79
+      }
+    },
+    {
+      "tileId": "l0/12/15",
+      "cellMetres": 4,
+      "bytes": 1398,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 1107,
+        "closedCanopyCells": 12,
+        "excludedCells": 465,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 3.667
+      }
+    },
+    {
+      "tileId": "l0/13/15",
+      "cellMetres": 4,
+      "bytes": 3872,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4093,
+        "closedCanopyCells": 835,
+        "excludedCells": 207,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 7.525
+      }
+    },
+    {
+      "tileId": "l0/14/15",
+      "cellMetres": 4,
+      "bytes": 8655,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 2745,
+        "excludedCells": 222,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 7.337
+      }
+    },
+    {
+      "tileId": "l0/15/15",
+      "cellMetres": 4,
+      "bytes": 9837,
+      "decodedBytes": 16384,
+      "inspected": {
+        "cells": 4096,
+        "measuredCells": 4096,
+        "closedCanopyCells": 3721,
+        "excludedCells": 203,
+        "northCampaignCells": 0,
+        "meanClosedCanopyHeightMetres": 10.428
+      }
+    }
+  ],
+  "startup": [
+    {
+      "ground": "visby",
+      "chunks": 842,
+      "packages": 4,
+      "originalBytes": 11316038,
+      "packagedBytes": 6876949,
+      "manifestBytes": 157042,
+      "decodedBytes": 73714997,
+      "exactTerrainSamples": 31043030
+    }
+  ],
+  "filesWritten": 846,
+  "productionRootSha256": "5883880e5e94853a97c845627b8e540c075e5f9f19c07d38abe5838f95bc1247"
+}

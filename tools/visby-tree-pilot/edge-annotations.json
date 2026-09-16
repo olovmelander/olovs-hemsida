@@ -1,0 +1,8 @@
+{
+  "method": "Agent visual tracing of the canopy/open-ground boundary in RGB and unlabelled LiDAR panels. Pixel positions at four pixels per metre. Added after detector settings were frozen; never used for tuning.",
+  "uncertaintyMetres": 1.5,
+  "lines": {
+    "hold16a": [[160,142],[160,170],[179,179],[201,174],[218,197],[204,219],[220,220],[250,194],[273,208],[290,239],[309,255],[302,282],[327,301],[341,317]],
+    "cal15": [[90,114],[98,142],[126,148],[150,166],[195,158],[226,170],[237,181],[270,190],[284,215],[306,222],[330,238],[351,224],[365,201],[377,225],[404,251],[435,269],[468,282]]
+  }
+}

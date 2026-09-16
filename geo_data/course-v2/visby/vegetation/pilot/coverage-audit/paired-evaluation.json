@@ -1,0 +1,474 @@
+{
+  "methods": [
+    "node-current+islands0",
+    "dalponte-d9-m5+islands80"
+  ],
+  "commonMatchedReferences": [
+    "ref-fresh05-001",
+    "ref-fresh05-003",
+    "ref-fresh05-006",
+    "ref-fresh05-007",
+    "ref-fresh05-008",
+    "ref-fresh05-010",
+    "ref-fresh07-002",
+    "ref-fresh07-007",
+    "ref-fresh07-008",
+    "ref-fresh07-011",
+    "ref-fresh07-013",
+    "ref-fresh07-018",
+    "ref-fresh07-019",
+    "ref-fresh07-020",
+    "ref-fresh07-022",
+    "ref-fresh11-001",
+    "ref-fresh12-006",
+    "ref-fresh12-007",
+    "ref-fresh12-009",
+    "ref-fresh12-011",
+    "ref-fresh12-012",
+    "ref-fresh12-014",
+    "ref-fresh12-015",
+    "ref-fresh12-018",
+    "ref-fresh17-002",
+    "ref-fresh18-001",
+    "ref-fresh18-002",
+    "ref-fresh18-003",
+    "ref-fresh18-004",
+    "ref-fresh18-005",
+    "ref-fresh18-007"
+  ],
+  "counts": [
+    {
+      "scene": "fresh05",
+      "common": 6,
+      "nodeOnly": 2,
+      "candidateOnly": 2
+    },
+    {
+      "scene": "fresh07",
+      "common": 9,
+      "nodeOnly": 4,
+      "candidateOnly": 3
+    },
+    {
+      "scene": "fresh11",
+      "common": 1,
+      "nodeOnly": 0,
+      "candidateOnly": 1
+    },
+    {
+      "scene": "fresh12",
+      "common": 8,
+      "nodeOnly": 1,
+      "candidateOnly": 2
+    },
+    {
+      "scene": "fresh17",
+      "common": 1,
+      "nodeOnly": 0,
+      "candidateOnly": 1
+    },
+    {
+      "scene": "fresh18",
+      "common": 6,
+      "nodeOnly": 1,
+      "candidateOnly": 0
+    }
+  ],
+  "pairedMetrics": {
+    "node-current+islands0": {
+      "n": 31,
+      "crownIoU": 0.5175953281884,
+      "centreMedianMetres": 1.708544782949779,
+      "centreP95Metres": 3.2975497990907208
+    },
+    "dalponte-d9-m5+islands80": {
+      "n": 31,
+      "crownIoU": 0.5926190487954027,
+      "centreMedianMetres": 1.3214599417870545,
+      "centreP95Metres": 3.3216021014039563
+    }
+  },
+  "pairedRows": [
+    {
+      "referenceId": "ref-fresh05-001",
+      "node": {
+        "centreMetres": 1.139865406344455,
+        "crownIoU": 0.7452449975967418
+      },
+      "candidate": {
+        "centreMetres": 1.3214599417870545,
+        "crownIoU": 0.72058706623454
+      }
+    },
+    {
+      "referenceId": "ref-fresh05-003",
+      "node": {
+        "centreMetres": 1.938965865877535,
+        "crownIoU": 0.6242719281083028
+      },
+      "candidate": {
+        "centreMetres": 2.315836901249814,
+        "crownIoU": 0.6050231898713838
+      }
+    },
+    {
+      "referenceId": "ref-fresh05-006",
+      "node": {
+        "centreMetres": 0.7757400014409123,
+        "crownIoU": 0.741649843658078
+      },
+      "candidate": {
+        "centreMetres": 0.6279070530282089,
+        "crownIoU": 0.7110979767768147
+      }
+    },
+    {
+      "referenceId": "ref-fresh05-007",
+      "node": {
+        "centreMetres": 0.7727379623026065,
+        "crownIoU": 0.6619303009015538
+      },
+      "candidate": {
+        "centreMetres": 0.9927564626500276,
+        "crownIoU": 0.6041324588962208
+      }
+    },
+    {
+      "referenceId": "ref-fresh05-008",
+      "node": {
+        "centreMetres": 3.0671693320730893,
+        "crownIoU": 0.4555869560908849
+      },
+      "candidate": {
+        "centreMetres": 0.9147505431986263,
+        "crownIoU": 0.6360740395007668
+      }
+    },
+    {
+      "referenceId": "ref-fresh05-010",
+      "node": {
+        "centreMetres": 0.5238903266138578,
+        "crownIoU": 0.6719253855152958
+      },
+      "candidate": {
+        "centreMetres": 0.4356907354614225,
+        "crownIoU": 0.6914376168596837
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-002",
+      "node": {
+        "centreMetres": 2.0152751906731687,
+        "crownIoU": 0.5010673648765124
+      },
+      "candidate": {
+        "centreMetres": 1.8402101247450555,
+        "crownIoU": 0.5638150970977185
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-007",
+      "node": {
+        "centreMetres": 3.314160556076457,
+        "crownIoU": 0.4904446675766702
+      },
+      "candidate": {
+        "centreMetres": 2.8297012795399525,
+        "crownIoU": 0.5389627666084023
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-008",
+      "node": {
+        "centreMetres": 1.5696131398794213,
+        "crownIoU": 0.4905045688520562
+      },
+      "candidate": {
+        "centreMetres": 2.8892135453029946,
+        "crownIoU": 0.4520105321598849
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-011",
+      "node": {
+        "centreMetres": 1.3839011971434954,
+        "crownIoU": 0.7008596109987439
+      },
+      "candidate": {
+        "centreMetres": 0.8298807387407862,
+        "crownIoU": 0.7872050055976105
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-013",
+      "node": {
+        "centreMetres": 3.08046131694821,
+        "crownIoU": 0.34689506789034574
+      },
+      "candidate": {
+        "centreMetres": 2.9860034339835524,
+        "crownIoU": 0.5019674549989415
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-018",
+      "node": {
+        "centreMetres": 2.2222112941971437,
+        "crownIoU": 0.4188567892971141
+      },
+      "candidate": {
+        "centreMetres": 3.91538245814921,
+        "crownIoU": 0.3276153463451301
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-019",
+      "node": {
+        "centreMetres": 0.7037806816150722,
+        "crownIoU": 0.36413618155566696
+      },
+      "candidate": {
+        "centreMetres": 1.2584797324873698,
+        "crownIoU": 0.6595405704900228
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-020",
+      "node": {
+        "centreMetres": 1.606291723890242,
+        "crownIoU": 0.294444377742903
+      },
+      "candidate": {
+        "centreMetres": 0.09035035042120343,
+        "crownIoU": 0.5683513148830718
+      }
+    },
+    {
+      "referenceId": "ref-fresh07-022",
+      "node": {
+        "centreMetres": 1.9103988750949634,
+        "crownIoU": 0.5044089393289184
+      },
+      "candidate": {
+        "centreMetres": 0.906927964071512,
+        "crownIoU": 0.6632850117309509
+      }
+    },
+    {
+      "referenceId": "ref-fresh11-001",
+      "node": {
+        "centreMetres": 0.726824561997142,
+        "crownIoU": 0.36787129461117285
+      },
+      "candidate": {
+        "centreMetres": 0.6178833553290294,
+        "crownIoU": 0.5595430392905926
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-006",
+      "node": {
+        "centreMetres": 2.6172215640470746,
+        "crownIoU": 0.5627522250659388
+      },
+      "candidate": {
+        "centreMetres": 3.4093134964772016,
+        "crownIoU": 0.4747433906215684
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-007",
+      "node": {
+        "centreMetres": 1.708544782949779,
+        "crownIoU": 0.5202385780860386
+      },
+      "candidate": {
+        "centreMetres": 2.6752518262173712,
+        "crownIoU": 0.501052469301028
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-009",
+      "node": {
+        "centreMetres": 1.5380066618651553,
+        "crownIoU": 0.6168834824015451
+      },
+      "candidate": {
+        "centreMetres": 2.9815151301760627,
+        "crownIoU": 0.5479390989491464
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-011",
+      "node": {
+        "centreMetres": 3.280939042104985,
+        "crownIoU": 0.5374083568315073
+      },
+      "candidate": {
+        "centreMetres": 3.0900583894223557,
+        "crownIoU": 0.5353954277922102
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-012",
+      "node": {
+        "centreMetres": 2.3427827901885183,
+        "crownIoU": 0.27327581886646096
+      },
+      "candidate": {
+        "centreMetres": 2.755977327454194,
+        "crownIoU": 0.47520109735067356
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-014",
+      "node": {
+        "centreMetres": 3.1531083881877433,
+        "crownIoU": 0.2761371227945072
+      },
+      "candidate": {
+        "centreMetres": 1.2381707644958446,
+        "crownIoU": 0.6346178924285047
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-015",
+      "node": {
+        "centreMetres": 2.8472411895560152,
+        "crownIoU": 0.4890436968241041
+      },
+      "candidate": {
+        "centreMetres": 2.4525758289612605,
+        "crownIoU": 0.576396208904231
+      }
+    },
+    {
+      "referenceId": "ref-fresh12-018",
+      "node": {
+        "centreMetres": 1.735641593684566,
+        "crownIoU": 0.5354934766042205
+      },
+      "candidate": {
+        "centreMetres": 1.7907321581550908,
+        "crownIoU": 0.5221972858006554
+      }
+    },
+    {
+      "referenceId": "ref-fresh17-002",
+      "node": {
+        "centreMetres": 3.661711760618825,
+        "crownIoU": 0.2395701422933145
+      },
+      "candidate": {
+        "centreMetres": 3.233890706330711,
+        "crownIoU": 0.25299169984393627
+      }
+    },
+    {
+      "referenceId": "ref-fresh18-001",
+      "node": {
+        "centreMetres": 2.062835469898692,
+        "crownIoU": 0.6079252050155314
+      },
+      "candidate": {
+        "centreMetres": 2.0590792849673707,
+        "crownIoU": 0.6527273454729865
+      }
+    },
+    {
+      "referenceId": "ref-fresh18-002",
+      "node": {
+        "centreMetres": 1.216806949312217,
+        "crownIoU": 0.5103138162143305
+      },
+      "candidate": {
+        "centreMetres": 1.0478149853286458,
+        "crownIoU": 0.6318261265561627
+      }
+    },
+    {
+      "referenceId": "ref-fresh18-003",
+      "node": {
+        "centreMetres": 0.43284048394703234,
+        "crownIoU": 0.6777584805437719
+      },
+      "candidate": {
+        "centreMetres": 0.4636771657145303,
+        "crownIoU": 0.762507400642457
+      }
+    },
+    {
+      "referenceId": "ref-fresh18-004",
+      "node": {
+        "centreMetres": 0.09923419208801569,
+        "crownIoU": 0.7060536405108175
+      },
+      "candidate": {
+        "centreMetres": 0.06826939261863595,
+        "crownIoU": 0.773631541695396
+      }
+    },
+    {
+      "referenceId": "ref-fresh18-005",
+      "node": {
+        "centreMetres": 0.8209366781803294,
+        "crownIoU": 0.655477015963683
+      },
+      "candidate": {
+        "centreMetres": 0.6178683992595553,
+        "crownIoU": 0.706165661239679
+      }
+    },
+    {
+      "referenceId": "ref-fresh18-007",
+      "node": {
+        "centreMetres": 0.648177928068752,
+        "crownIoU": 0.45702584122367246
+      },
+      "candidate": {
+        "centreMetres": 0.3521258166285067,
+        "crownIoU": 0.7331493787171165
+      }
+    }
+  ],
+  "wilsonIntervals": {
+    "node-current+islands0": {
+      "precision95": [
+        0.6041933558938148,
+        0.8356264608153632
+      ],
+      "recall95": [
+        0.4869191788027247,
+        0.7194443081175993
+      ]
+    },
+    "silva-d5-m3+islands0": {
+      "precision95": [
+        0.4038315303659956,
+        0.5961684696340044
+      ],
+      "recall95": [
+        0.6656721604337418,
+        0.8649768059328052
+      ]
+    },
+    "dalponte-d9-m5+islands80": {
+      "precision95": [
+        0.5852474928448334,
+        0.8158122485614109
+      ],
+      "recall95": [
+        0.502503786840045,
+        0.7333401982117536
+      ]
+    }
+  },
+  "limits": [
+    "Post-evaluation diagnostic only; no detector selection, retuning or reference edits.",
+    "Paired geometry metrics omit misses; read together with full precision/recall and method-specific misses.",
+    "Wilson intervals assume independent binomial observations. Crowns are spatially clustered and purposively sampled, so these are descriptive and not course-wide confidence bounds."
+  ],
+  "referenceSha256": "deed5efb3c501c3321ab53af3771927067ef3611025ccd5eddb3575f6329b961",
+  "evaluationSha256": "5ff176def862165bd0be7842984f9730ef5a721dbc8b8414820e05ba1c05c65f",
+  "detailsSha256": "e2bee7ee737120f189b97ea62d8ab2dee22a5422eec6946f8342219abe8164b0"
+}

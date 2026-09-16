@@ -13,7 +13,13 @@
 /models/trees/ghibli-fluffy.json
   Cache-Control: no-cache
 
+/models/trees/ghibli-visby.json
+  Cache-Control: no-cache
+
 /models/trees/ghibli-fluffy/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/models/trees/visby-pine/*
   Cache-Control: public, max-age=31536000, immutable
 
 # Packs are immutable because the loader asks for them BY CONTENT: the URL

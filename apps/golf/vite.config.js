@@ -18,6 +18,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { courseSourceRevision } from '../../tools/course-source-revision.mjs';
+import { golferLabPlugin } from '../../experiments/golfer/vite-plugin.mjs';
 
 /* Cloudflare would serve this at a domain root; GitHub Pages serves it under the
    repository name. Vite rewrites the tags in index.html and every asset URL it
@@ -29,9 +30,12 @@ const COURSE_SLUGS = JSON.parse(readFileSync(new URL('./public/courses/index.jso
 const SOURCE_ROOT = fileURLToPath(new URL('../..', import.meta.url));
 const SOURCE_REVISION = courseSourceRevision(SOURCE_ROOT);
 
-export default defineConfig({
-  define: { __COURSE_SOURCE_REVISION__: JSON.stringify(SOURCE_REVISION) },
-  server: { host: '0.0.0.0', port: 5173, strictPort: true, allowedHosts: ['terminal.local'] },
+export default defineConfig(({ mode }) => {
+  const golferLab = mode === 'golfer';
+  return {
+  cacheDir: golferLab ? 'node_modules/.vite-golfer' : 'node_modules/.vite',
+  define: { __COURSE_SOURCE_REVISION__: JSON.stringify(SOURCE_REVISION), __GOLFER_LAB__: JSON.stringify(golferLab) },
+  server: { host: '0.0.0.0', port: golferLab ? 5180 : 5173, strictPort: true, allowedHosts: ['terminal.local'] },
   /* The v2 decode Worker is a module worker, so its bundle must be ESM: an
      IIFE build cannot carry the entry's own imports. */
   worker: { format: 'es' },
@@ -43,7 +47,13 @@ export default defineConfig({
      instead of writing a leading slash. Vite guarantees that value ends in '/'. */
   base: BASE,
 
+  build: { rollupOptions: { input: {
+    main: fileURLToPath(new URL('./index.html', import.meta.url)),
+    ...(golferLab ? { golfer: fileURLToPath(new URL('./golfer-study.html', import.meta.url)) } : {}),
+  } } },
+
   plugins: [
+    golferLabPlugin(golferLab),
     {
       name: 'course-source-revision',
       generateBundle() {
@@ -51,7 +61,7 @@ export default defineConfig({
         this.emitFile({ type: 'asset', fileName: 'course-startup-build.json', source: JSON.stringify({ revision: SOURCE_REVISION }) + '\n' });
       },
     },
-    VitePWA({
+    !golferLab && VitePWA({
       /* The whole view lives in the URL -- bana, hal, vy, ljus, tee, skylt, ren,
          q, gl -- so a reload restores exactly the view that was on screen. That
          is what makes autoUpdate safe here: the update costs a scene rebuild,
@@ -194,13 +204,13 @@ export default defineConfig({
             },
           },
           {
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/ghibli-fluffy\.json$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/ghibli-(fluffy|visby)\.json$/.test(url.pathname),
             handler: 'NetworkFirst',
             options: { cacheName: 'banvy-ghibli-foliage-manifest', networkTimeoutSeconds: 4,
-              expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },
+              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },
           },
           {
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/ghibli-fluffy\/[a-f0-9]{64}\.(glb|png)$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|visby-pine)\/[a-f0-9]{64}\.(glb|png)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'banvy-ghibli-foliage-assets',
               expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
@@ -451,4 +461,5 @@ export default defineConfig({
       },
     }),
   ],
+};
 });

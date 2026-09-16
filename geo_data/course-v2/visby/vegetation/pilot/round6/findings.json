@@ -1,0 +1,40 @@
+{
+  "selectedComponents": 79,
+  "inspectedComponents": 79,
+  "selectedAreaMetres2": 6915.5,
+  "classificationCounts": {
+    "edge-base-conflict": 4,
+    "structure": 6,
+    "overhang": 27,
+    "distinct-base-conflict": 27,
+    "protected-edge": 2,
+    "retained-suppressed-record": 3,
+    "resize": 6,
+    "mask-fringe": 4
+  },
+  "resizedTrees": 6,
+  "addedTrees": 0,
+  "removedTrees": 0,
+  "treeBasePositionsChanged": 0,
+  "structureComponents": 6,
+  "smallerUnreviewedComponents": 1546,
+  "smallerComponentAreaMetres2": 4512.818273522321,
+  "accounting": {
+    "areaMetres2": 12512.818273522338,
+    "protectedMetres2": 806.5,
+    "reviewedNonTreeOverlapMetres2": 1181.0,
+    "unresolvedMetres2": 10525.318273522338,
+    "allGapAreaAccountedFor": true,
+    "completeTreeRepresentation": false,
+    "unresolvedCellCases": 102
+  },
+  "comparison": {
+    "previous": "round5",
+    "previousUnresolvedMetres2": 11428.318273522322,
+    "newlyRepresentedHeightPixels": 183,
+    "newlyRepresentedGapMetres2": 183.00000000000347,
+    "newlyExplainedStructureMetres2": 720.0,
+    "meaning": "Geometric crown representation increased; roof classification is an accounting correction. Neither is a new tree count or independent accuracy score."
+  },
+  "recommendation": "Review exact fairway/practice boundaries at distinct-base-conflict cases against source evidence before any further planting; preserve hard surfaces, frozen evaluation and uncertainty."
+}

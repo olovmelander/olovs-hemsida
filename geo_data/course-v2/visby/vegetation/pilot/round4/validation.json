@@ -1,0 +1,68 @@
+{
+  "status": "passed",
+  "previousRecords": 3230,
+  "records": 3368,
+  "acceptedAdditionalCrowns": 138,
+  "actionCounts": {
+    "accept": 138,
+    "hold": 103,
+    "hold-base": 27,
+    "reject-not-tree": 1,
+    "reserved-evaluation": 69,
+    "retain-nearby-representation": 126,
+    "retain-stand": 96
+  },
+  "previousRecordsUnchanged": true,
+  "productionAndPreviousRootsUnchanged": true,
+  "freshEvaluationUnedited": true,
+  "freshStandCellsVerified": 61206,
+  "changedStandCells": 18429,
+  "matchedScreenshotPairs": 40,
+  "rendered": {
+    "webgpu-high": {
+      "drawn": 47633,
+      "individuals": 3360,
+      "standRepresentatives": 44273,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    },
+    "webgl-high": {
+      "drawn": 47633,
+      "individuals": 3360,
+      "standRepresentatives": 44273,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    },
+    "webgl-low": {
+      "drawn": 32289,
+      "individuals": 3360,
+      "standRepresentatives": 28929,
+      "missingAccepted": [],
+      "standBasesInsideIndividualFootprints": 0,
+      "basesInPreviousClearings": 0,
+      "basesInNewClearings": 0
+    }
+  },
+  "newClearingHeightChecks": [
+    {
+      "id": "gap-r4-06-1",
+      "areaMetres2": 594.0,
+      "finiteCellFraction": 0.7727272727272727,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 0.0
+    },
+    {
+      "id": "gap-r4-15-1",
+      "areaMetres2": 8460.0,
+      "finiteCellFraction": 0.7813620071684588,
+      "cellsAboveThreeMetres": 0,
+      "maximumHeightMetres": 1.7906256914138794
+    }
+  ],
+  "detectorTargetMet": false,
+  "newDetectorEvaluation": false
+}

@@ -1,0 +1,16 @@
+{
+  "fineTiles": 16,
+  "changedTiles": 25,
+  "protectedCoarseTiles": 8,
+  "coarseTiles": 240,
+  "baselineEligibleCanopyAreaMetres2": 5440255.874509804,
+  "afterEligibleCanopyAreaMetres2": 5428361.7137254905,
+  "individualFootprints": 405,
+  "method": "Native 1 m height cells within reviewed facility on near-play tiles. Preserve baseline exclusions, individual footprint exclusions and unknown pixels; 4 m elsewhere.",
+  "evaluation": "Tiles intersecting evaluation stay 4 m; held-out cells unchanged. A protected tile can have corrections in its non-evaluation portion.",
+  "outsideScope": "Source values unchanged (4x repeated in fine tiles). Representative procedural positions can change with cell size at the processing tile fringe; individual records remain stable.",
+  "limitations": [
+    "Baseline eligibility is conservative and is not expanded automatically.",
+    "Fine-grid definition improves source sampling but is not surveyed trunk accuracy."
+  ]
+}

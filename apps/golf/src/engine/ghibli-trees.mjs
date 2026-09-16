@@ -1,5 +1,6 @@
 /* Authored tree templates (the Blender study in tools/blender-tree-study),
- * loaded by Ghibli mode. The manifest models/trees/ghibli-fluffy.json names
+ * loaded by Ghibli mode. The manifest models/trees/ghibli-fluffy.json (or
+ * ghibli-visby.json for Kronholmen's coastal pines) names
  * one GLB per (species, variant, tier); each GLB holds a "crown" node and one
  * or more "trunk*" nodes with POSITION, the authored (bent) NORMAL and
  * COLOR_0 -- on a crown a grey depth multiplier for the species colour, on a
@@ -26,6 +27,7 @@ export const GHIBLI_SPECIES = ['gran', 'tall', 'björk', 'al', 'ek'];
 // A new app revision must not select a previous catalogue when NetworkFirst
 // falls back to its cache during a slow connection. Assets remain SHA-addressed.
 export const GHIBLI_FOLIAGE_REVISION = 'continuous-canopy-2026-09-13';
+export const VISBY_PINE_REVISION = 'visby-coastal-pine-2026-09-16';
 
 /* Base colours for the original catalogue. Painted foliage uses the palette
    in ghibli-foliage-material.mjs. Trunks carry bark colour per vertex. */
@@ -186,16 +188,17 @@ function fitFoliageTier(parts, height, radius) {
 
 /** Load the templates the engine's three tiers draw: hero (optional, the
  * study's hero tier, else the full one), full, and the far mesh tier (the
- * study's "lite"). The approved fluffy set has one model per species; older
- * catalogues can supply several variants, each with its own instanced batch. */
+ * study's "lite"). The standard fluffy set has one model per species; the
+ * Visby pines have three variants, each with its own instanced batch. */
 export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = false, fetchImpl = fetch,
-  design = 'fluffy',
+  design = 'fluffy', courseSlug = null,
 } = {}) {
   // The approved fluffy set is the default. Study pages explicitly request
   // the original/refined catalogues for comparison.
-  const catalogue = design === 'fluffy' ? ['', 'ghibli-fluffy.json'] : design === 'refined' ? ['refined/', 'ghibli-v3.json'] : ['', 'ghibli-v1.json'];
+  const coastalPine = design === 'fluffy' && courseSlug === 'visby';
+  const catalogue = design === 'fluffy' ? ['', coastalPine ? 'ghibli-visby.json' : 'ghibli-fluffy.json'] : design === 'refined' ? ['refined/', 'ghibli-v3.json'] : ['', 'ghibli-v1.json'];
   const base = `${baseUrl}models/trees/${catalogue[0]}`;
-  const revisionQuery = design === 'fluffy' ? `?v=${GHIBLI_FOLIAGE_REVISION}` : '';
+  const revisionQuery = design === 'fluffy' ? `?v=${coastalPine ? VISBY_PINE_REVISION : GHIBLI_FOLIAGE_REVISION}` : '';
   const res = await fetchImpl(`${base}${catalogue[1]}${revisionQuery}`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Ghibli tree manifest: HTTP ${res.status}`);
   const manifest = await res.json();

@@ -1,0 +1,2289 @@
+{
+  "reviewer": "Agent visual inspection of colour/CIR 2026-04-10, LiDAR 2024 and seasonal RGB 2022; explicit full-facility cell review",
+  "scenes": {
+    "r5-001": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow coastal/water margin inside the facility extent. Colour, infrared and seasonal imagery show shoreline/water and no supported tree crown; no individual or woodland addition."
+    },
+    "r5-002": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow coastal/water margin inside the facility extent. Colour, infrared and seasonal imagery show shoreline/water and no supported tree crown; no individual or woodland addition."
+    },
+    "r5-003": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow coastal/water margin inside the facility extent. Colour, infrared and seasonal imagery show shoreline/water and no supported tree crown; no individual or woodland addition."
+    },
+    "r5-004": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow coastal/water margin inside the facility extent. Colour, infrared and seasonal imagery show shoreline/water and no supported tree crown; no individual or woodland addition."
+    },
+    "r5-005": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Low sparse coastal return without a coherent individual crown; no image-only stem inferred."
+      },
+      "reject": {},
+      "note": "Coastal fringe outside the clubhouse approach. The low jagged return does not define a defensible single tree; shoreline stays open and woody fringe uncertainty is retained."
+    },
+    "r5-006": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Low/sparse or joined coastal crown support; candidate 1 also overlaps an earlier unresolved case.",
+        "2": "Low/sparse or joined coastal crown support; candidate 1 also overlaps an earlier unresolved case."
+      },
+      "reject": {},
+      "note": "Retain coastal low vegetation and the prior unresolved joined crown. Isolated tiny return in the shore scrub is insufficient for an individual tree."
+    },
+    "r5-007": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "One distinct coastal crown has a separate raised LiDAR component and matching seasonal crown. Retain the inner group and open shoreline; low northern scrub is not promoted."
+    },
+    "r5-008": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow northern shoreline/water triangle with no raised canopy. All four layers support open coastal treatment."
+    },
+    "r5-009": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Shallow coastal water outside the former corridor; no elevated woody canopy in the new review area."
+    },
+    "r5-010": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        4,
+        5,
+        6,
+        9
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Overlaps an earlier unresolved parking-edge case; no implicit resolution.",
+        "7": "Crown segmentation includes clubhouse/terrace roof-edge returns; a defensible individual base is not established.",
+        "8": "Small crown/structure overlap beside the clubhouse; retain for a closer base and height review."
+      },
+      "reject": {},
+      "note": "Clubhouse and parking trees need individual treatment. Accept the separate parking and garden crowns; retain the prior parking-edge case and hold ambiguous crown/roof overlap beside the building."
+    },
+    "r5-011": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        3,
+        4,
+        5
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Parking-edge detection overlaps an earlier unresolved crown/base case; keep it unresolved.",
+        "6": "Parking-edge detection overlaps an earlier unresolved crown/base case; keep it unresolved."
+      },
+      "reject": {},
+      "note": "Review the parking-edge row as individual crowns, preserving the parking surface. Four coherent raised crowns are distinct; two overlap earlier unresolved cases."
+    },
+    "r5-012": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added portions are open pond and coastal inlet margins. Existing land-side trees remain; no supported new crown in the added water/shore area."
+    },
+    "r5-013": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "New coastal/water strip has no supported elevated crown. Shoreline and shallow water remain open; retained land-side vegetation is outside this added portion."
+    },
+    "r5-014": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "New coastal/water strip has no supported elevated crown. Shoreline and shallow water remain open; retained land-side vegetation is outside this added portion."
+    },
+    "r5-015": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "New coastal/water strip has no supported elevated crown. Shoreline and shallow water remain open; retained land-side vegetation is outside this added portion."
+    },
+    "r5-016": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "New coastal/water strip has no supported elevated crown. Shoreline and shallow water remain open; retained land-side vegetation is outside this added portion."
+    },
+    "r5-017": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "New coastal/water strip has no supported elevated crown. Shoreline and shallow water remain open; retained land-side vegetation is outside this added portion."
+    },
+    "r5-018": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Open shore with a strip of low woody scrub at the landward edge. RGB/CIR show small crowns but the height layer does not support new individual tree positions."
+    },
+    "r5-019": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        5,
+        6,
+        7
+      ],
+      "stand": [],
+      "hold": {
+        "8": "Tiny low coastal component gives insufficient crown/base support despite visible vegetation."
+      },
+      "reject": {},
+      "note": "Coastal group south of the protected window: two separated raised crowns and a smaller isolated tree are interpretable. Keep the tiny southern return unresolved."
+    },
+    "r5-020": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "New editable area is water and shore; land-side crowns intersect the protected evaluation window and remain unchanged."
+    },
+    "r5-021": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "The added shoreline includes a broad low woody patch visible in both image dates, with no coherent tree-height LiDAR support. Water stays open."
+    },
+    "r5-022": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small landward shore triangle has low woody/rough cover and no tree-height component. Record low-vegetation ambiguity rather than add individual trees."
+    },
+    "r5-023": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Small low coastal component is insufficient to define one defensible tree crown/base."
+      },
+      "reject": {},
+      "note": "Coastal fringe outside the existing pine group has one small sparse return. Visible low vegetation does not establish an individual tree base."
+    },
+    "r5-024": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small added wedges cross existing facility-side individual crowns. Existing measured crowns cover the visible groups; no separate additional crown is supported."
+    },
+    "r5-025": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        3,
+        5,
+        7,
+        8
+      ],
+      "stand": [],
+      "hold": {
+        "6": "Small attached segment of the western parking crown; separate stem/crown identity remains uncertain."
+      },
+      "reject": {},
+      "note": "Parking perimeter: retain open hardstanding and place distinguishable raised crowns individually. The small southern fragment of the western joined crown is held to avoid over-splitting."
+    },
+    "r5-026": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added pond/rough wedge and tiny eastern sliver are mostly open; existing nearby crowns remain represented without additional supported centres."
+    },
+    "r5-027": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Only a very small shoreline triangle is newly included; no additional crown centre or dense woodland inside it."
+    },
+    "r5-028": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse elongated coastal component does not establish a single defensible crown/base.",
+        "2": "Overlaps two prior unresolved reference cases; no implicit resolution."
+      },
+      "reject": {},
+      "note": "Coastal shelter belt stays measured vegetation. One sparse jagged component and one prior unresolved joined crown cannot be promoted confidently."
+    },
+    "r5-029": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow seaward fringe adjoins the connected crown group. Preserve measured stand coverage and existing individuals; no additional distinct centre in the new fringe."
+    },
+    "r5-030": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Candidate overlaps an earlier unresolved crown component; retain its existing uncertainty."
+      },
+      "reject": {},
+      "note": "Small added tip intersects a previously held crown. Existing tree-island treatment remains; the old unresolved identity is preserved."
+    },
+    "r5-031": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        2,
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Tiny low component lacks coherent crown-height support."
+      },
+      "reject": {},
+      "note": "Two raised crowns in the rough strip between playing areas are individually distinguishable. The tiny northern low return is unresolved."
+    },
+    "r5-032": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        3,
+        5
+      ],
+      "stand": [
+        1,
+        6
+      ],
+      "hold": {
+        "2": "Small sparse components on the seaward edge do not establish confident individual crown/base positions.",
+        "4": "Small sparse components on the seaward edge do not establish confident individual crown/base positions."
+      },
+      "reject": {},
+      "note": "Connected coastal woodland south of the protected green: distinguishable seaward edge crowns are individual, while the joined inner canopy remains a stand. Hold the small sparse shore components."
+    },
+    "r5-033": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        8
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Added eastern strip lies in connected dense woodland behind existing edge trees. Retain measured canopy and gaps as a stand; protected crowns remain untouched."
+    },
+    "r5-034": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [],
+      "stand": [
+        2,
+        3
+      ],
+      "hold": {
+        "1": "Low coastal shrub component lacks defensible tree-height crown evidence."
+      },
+      "reject": {},
+      "note": "Dense eastern canopy stays woodland; sparse coastal scrub at the western tip remains uncertain. Existing tee/path edges remain clear."
+    },
+    "r5-035": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        5
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established.",
+        "2": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established.",
+        "3": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established.",
+        "6": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established.",
+        "7": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established.",
+        "8": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established.",
+        "9": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established.",
+        "10": "Low, sparse or joined coastal vegetation; individual tree height/identity is insufficiently established."
+      },
+      "reject": {},
+      "note": "Low coastal scrub island with one coherent taller edge crown adjoining the existing tree. Retain sparse and joined low components as unresolved vegetation."
+    },
+    "r5-036": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Tiny coastal water sliver in the expanded extent. No elevated woody canopy in any source layer."
+    },
+    "r5-037": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Editable added coastal wedge is mostly open shore/water. Raised crowns are inside the protected evaluation area and remain untouched."
+    },
+    "r5-038": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "2": "Overlaps an earlier unresolved crown/base case; this pass does not resolve its identity."
+      },
+      "reject": {},
+      "note": "Narrow added strip crosses the existing tree group. One crown remains linked to a prior unresolved case; nearby represented crowns stay unchanged."
+    },
+    "r5-039": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "One raised, distinguishable tree beside the parking/range entrance has source support. Keep the range and entrance road open."
+    },
+    "r5-040": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "The tiny added corner at the road/range boundary is open. Net poles and their shadows are not treated as trees."
+    },
+    "r5-041": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Added interior wedge is dense connected pine woodland. Preserve measured canopy and natural openings without converting interior maxima into individual records."
+    },
+    "r5-042": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        6
+      ],
+      "stand": [
+        3,
+        4,
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "hold": {
+        "13": "Small low edge component under neighbouring canopy/shadow does not establish a separate individual tree."
+      },
+      "reject": {},
+      "note": "Dense connected woodland remains a measured stand. A distinguishable western edge crown is treated individually; the low shadowed edge fragment remains unresolved."
+    },
+    "r5-043": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "One small isolated crown north of the protected grove has a coherent raised LiDAR component and matching seasonal vegetation. Protected woodland is unchanged."
+    },
+    "r5-044": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small distinct edge crown at the southeast tip is supported in all sources. The new portion is separate from the existing low tree row."
+    },
+    "r5-045": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added rough triangle beside the creek is open and has no supported raised crown. The creek and crossings stay clear."
+    },
+    "r5-046": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1
+      ],
+      "stand": [
+        3,
+        6,
+        7,
+        8,
+        9,
+        12
+      ],
+      "hold": {
+        "2": "Low or joined pond-side vegetation does not yield a confident separate crown/base; retain existing coverage.",
+        "4": "Low or joined pond-side vegetation does not yield a confident separate crown/base; retain existing coverage.",
+        "5": "Low or joined pond-side vegetation does not yield a confident separate crown/base; retain existing coverage.",
+        "10": "Low or joined pond-side vegetation does not yield a confident separate crown/base; retain existing coverage."
+      },
+      "reject": {},
+      "note": "Pond-side grove: retain connected interior canopy as a stand and distinguishable tall outer crown as an individual. Low joined components along the western edge remain ambiguous."
+    },
+    "r5-047": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        13,
+        23,
+        25,
+        27,
+        30
+      ],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20,
+        21,
+        24,
+        28,
+        29,
+        32,
+        34,
+        36,
+        37,
+        38
+      ],
+      "hold": {
+        "11": "Small or sparse low component inside/along the grove does not establish a defensible separate individual.",
+        "31": "Small or sparse low component inside/along the grove does not establish a defensible separate individual.",
+        "33": "Small or sparse low component inside/along the grove does not establish a defensible separate individual."
+      },
+      "reject": {},
+      "note": "Woodland surrounding a visible diagonal clearing/path: retain connected interior canopy and preserve the opening. Distinguishable clearing-side crowns receive individual records; tiny low fragments stay unresolved."
+    },
+    "r5-048": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Added area is connected woodland behind the visible diagonal opening. Retain measured stand canopy and preserve the opening; no interior stem census."
+    },
+    "r5-049": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Tiny 3.1 m component in low coastal vegetation; individual crown/base remains uncertain."
+      },
+      "reject": {},
+      "note": "Mostly open coastal rough with sparse low scrub. The single tiny near-threshold return does not support a confident individual tree."
+    },
+    "r5-050": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added water slivers beside a protected evaluation window contain no raised woody canopy. No tree placement change."
+    },
+    "r5-051": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "2": "Small sparse/attached component at a crown edge; independent crown/base is not defensible from these sources."
+      },
+      "reject": {},
+      "note": "Small added group-edge wedge includes one sparse component beside an existing crown. Retain its ambiguity rather than force an extra tree."
+    },
+    "r5-052": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "One distinguishable raised crown beside the path at the edge of the added rough wedge. Preserve pond, path and range-net exclusions."
+    },
+    "r5-053": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small added corner of the range-side rough is open. Net supports/shadows are not vegetation."
+    },
+    "r5-054": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added eastern strip is open rough. The two visible trees lie in retained previously reviewed coverage."
+    },
+    "r5-055": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added area covers the pond, open bank and small road-side slivers. No supported new crown centre; retained edge trees stay unchanged."
+    },
+    "r5-056": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added pond-bank area is open; western wedge only touches retained crowns beside protected coverage. No extra crown supported."
+    },
+    "r5-057": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        2,
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "4": "Narrow attached crown segment between neighbouring crowns; independent base/identity remains unclear."
+      },
+      "reject": {},
+      "note": "Small group between the green and service/path area has three interpretable raised crowns. Hold the narrow attached fragment rather than over-split the group."
+    },
+    "r5-058": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        4,
+        5,
+        6
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Low elongated waterside vegetation does not establish a defensible single tree crown/base.",
+        "2": "Low elongated waterside vegetation does not establish a defensible single tree crown/base."
+      },
+      "reject": {},
+      "note": "Pond and path stay open. Three distinct raised crowns on the southern bank become individuals; the two low elongated waterside components remain unresolved."
+    },
+    "r5-059": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added rough wedge beside the creek is largely open. Tree crowns along its edge are already retained; no additional supported centre."
+    },
+    "r5-060": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Low attached/joined crown component next to existing records; separate crown/base remains uncertain."
+      },
+      "reject": {},
+      "note": "Added eastern strip clips a low attached component in a leafless group. Preserve the existing group and retain this candidate as unresolved."
+    },
+    "r5-061": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow added strip is dense connected woodland behind the existing green-side edge. Retain measured canopy, including the leafless/pale crown; infrared alone does not remove it."
+    },
+    "r5-062": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Boundary-side rough and track contain low ground vegetation, without a coherent tree-height crown. Keep open treatment and preserve the track."
+    },
+    "r5-063": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Coastal rough triangle contains grass/low ground cover; no elevated woody component or distinct tree crown is supported."
+    },
+    "r5-064": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Small added triangle is shallow coastal water. No tree placement or stand coverage is justified."
+    },
+    "r5-065": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added area is the shallow-water shoreline band. Keep open treatment; no raised woody canopy."
+    },
+    "r5-066": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse elongated near-threshold component; single crown/base identity is uncertain."
+      },
+      "reject": {},
+      "note": "Added rough triangle contains a jagged low return at its northern edge. It does not support one defensible tree crown/base."
+    },
+    "r5-067": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        2,
+        3,
+        6,
+        7,
+        8
+      ],
+      "stand": [],
+      "hold": {
+        "4": "Low/sparse component lacks enough coherent support for a separate individual tree.",
+        "5": "Low/sparse component lacks enough coherent support for a separate individual tree.",
+        "9": "Low/sparse component lacks enough coherent support for a separate individual tree."
+      },
+      "reject": {},
+      "note": "Open junction and pond-side rough contains several distinct crowns. Place the raised isolated and path-side crowns; retain tiny low components as unresolved, preserving all paths and water."
+    },
+    "r5-068": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        2,
+        3
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Three distinguishable crowns at the northern pond end have separate raised components and matching seasonal crowns. Keep the water and bank exclusions."
+    },
+    "r5-069": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        3,
+        7,
+        8,
+        10,
+        12,
+        13,
+        15
+      ],
+      "stand": [
+        2,
+        4,
+        5,
+        6,
+        9,
+        14
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Linear shelter belt: promote distinguishable outer crowns while retaining joined interior components close to existing individuals as measured canopy. Keep the open strips on both sides."
+    },
+    "r5-070": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1,
+        2,
+        5,
+        7
+      ],
+      "stand": [
+        3,
+        4,
+        9
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Waterside row: distinguishable end and bank crowns are individuals; attached inner fragments near retained trees stay measured canopy. No movement toward apparent ortho centres."
+    },
+    "r5-071": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Distinct raised crowns line the pond-side footpath and road junction. Place all four supported crowns while preserving the road, path and water exclusions."
+    },
+    "r5-072": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        4
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Tiny near-threshold garden/low-vegetation return is insufficient for a defensible individual tree.",
+        "3": "Tiny near-threshold garden/low-vegetation return is insufficient for a defensible individual tree."
+      },
+      "reject": {},
+      "note": "Two raised eastern tree-row crowns are interpretable. The two tiny low garden returns remain uncertain; preserve the tee, track and landscaped island."
+    },
+    "r5-073": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        3,
+        4,
+        6,
+        7,
+        8
+      ],
+      "stand": [],
+      "hold": {
+        "5": "Low sparse or broad joined vegetation lacks defensible individual crown/base support.",
+        "10": "Low sparse or broad joined vegetation lacks defensible individual crown/base support."
+      },
+      "reject": {},
+      "note": "Road junction and pond-side rough: distinct raised crowns are individual. Keep low isolated/joined scrub unresolved and preserve road/water surfaces."
+    },
+    "r5-074": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added area is pond, road and open rough. Adjacent tree shadows extend into it, but supported crown centres remain in retained coverage."
+    },
+    "r5-075": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Low waterside vegetation has sparse near-threshold height support; retain uncertainty.",
+        "2": "Low waterside vegetation has sparse near-threshold height support; retain uncertainty."
+      },
+      "reject": {},
+      "note": "Pond-side scrub contains two low components. Seasonal imagery confirms vegetation but does not establish reliable tree-height individual crowns."
+    },
+    "r5-076": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added pond-bank and northern rough wedges are open/low ground cover, without a supported new tree-height crown."
+    },
+    "r5-077": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Tiny near-threshold shrub/low-vegetation component cannot establish a confident individual tree.",
+        "2": "Tiny near-threshold shrub/low-vegetation component cannot establish a confident individual tree."
+      },
+      "reject": {},
+      "note": "Boundary rough contains scattered low shrubs. Two tiny near-threshold returns remain unresolved rather than being promoted to trees."
+    },
+    "r5-078": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Added coastal water band has no raised canopy. Keep the shoreline and water open."
+    },
+    "r5-079": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        2
+      ],
+      "stand": [
+        1
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Pond/path-side group: retain the broad joined northern canopy as measured vegetation and place the distinguishable southern end crown individually. Preserve the path and pond bank."
+    },
+    "r5-080": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        2,
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Tiny threshold-height return lacks enough coherent crown support."
+      },
+      "reject": {},
+      "note": "Two distinct raised bank crowns become individuals. Tiny western low return stays unresolved; pond and open bank remain clear."
+    },
+    "r5-081": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        4,
+        7,
+        9
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Small low/sparse component does not establish a confident independent tree crown/base.",
+        "6": "Small low/sparse component does not establish a confident independent tree crown/base.",
+        "8": "Small low/sparse component does not establish a confident independent tree crown/base.",
+        "10": "Small low/sparse component does not establish a confident independent tree crown/base.",
+        "11": "Small low/sparse component does not establish a confident independent tree crown/base."
+      },
+      "reject": {},
+      "note": "Facility-side clearing and track: tall woodland-edge crowns and one distinct eastern crown have support. Small low components are kept as unresolved rather than promoted."
+    },
+    "r5-082": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        30,
+        33,
+        36,
+        37
+      ],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        32,
+        34,
+        35
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Broad connected woodland is retained as a stand. Distinguishable crowns at the pond/path and southern clearing edges become individuals; natural canopy openings remain measured."
+    },
+    "r5-083": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1,
+        2,
+        3
+      ],
+      "stand": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Three distinguishable northern/track-side crowns are individual. Connected southern woodland and attached interior components retain stand treatment behind existing edge trees."
+    },
+    "r5-084": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        2,
+        3
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Three distinct raised crowns north of the green and beside the track are interpretable in LiDAR and seasonal imagery. Preserve the path and existing nearby tree records."
+    },
+    "r5-085": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        2,
+        4,
+        5,
+        6,
+        13
+      ],
+      "stand": [
+        9,
+        11,
+        12,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "hold": {
+        "7": "Overlaps a previously held crown case; no implicit resolution."
+      },
+      "reject": {},
+      "note": "Path junction: distinguishable northern and small isolated western crowns become individuals; dense southern grove and joined eastern canopy remain stands. Preserve the earlier unresolved eastern crown."
+    },
+    "r5-086": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Tiny threshold-height component lacks defensible crown support."
+      },
+      "reject": {},
+      "note": "Distinct raised western bank crown is individual; tiny low return farther north stays uncertain. Preserve the pond and open bank."
+    },
+    "r5-087": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        2,
+        5
+      ],
+      "stand": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "hold": {
+        "1": "Sparse low elongated component near the road lacks coherent independent crown support.",
+        "7": "Overlaps an earlier unresolved case; no implicit resolution."
+      },
+      "reject": {},
+      "note": "Road/pond junction: two distinguishable crowns near the path become individuals. Connected southern grove stays measured woodland; prior held crown and sparse northern component remain unresolved."
+    },
+    "r5-088": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Tiny near-threshold roadside return; tree dimensions and crown centre remain uncertain."
+      },
+      "reject": {},
+      "note": "Young roadside tree row and low bank vegetation are visible in imagery, but sparse LiDAR returns do not support individual height/position records."
+    },
+    "r5-089": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Tiny near-threshold component in a young roadside row; insufficient individual height support."
+      },
+      "reject": {},
+      "note": "Young roadside row is visible across the cell, with only sparse near-threshold height support. Record the row as unresolved rather than invent heights or plant a woodland."
+    },
+    "r5-090": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Small attached low hedgerow component does not establish an independent crown/base."
+      },
+      "reject": {},
+      "note": "Boundary hedgerow has one coherent raised small crown suitable for an individual. Hold the tiny attached southern return and preserve the open rough."
+    },
+    "r5-091": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Tiny added boundary triangle is open rough. Tall shadows originate outside the facility extent; no supported crown centre inside the added portion."
+    },
+    "r5-092": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Open coastal rough and water sliver, with no raised woody canopy. Preserve shoreline treatment."
+    },
+    "r5-093": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Tiny editable bank strip adjoins protected crowns. Retain measured edge canopy; all detected crowns overlap frozen evaluation and are unchanged."
+    },
+    "r5-094": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Sparse small waterside/track-side component does not establish a defensible individual crown/base.",
+        "4": "Sparse small waterside/track-side component does not establish a defensible individual crown/base."
+      },
+      "reject": {},
+      "note": "Distinct raised western pond-bank crown is individually supported. Two small low components beside the track remain unresolved."
+    },
+    "r5-095": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {
+        "2": "Tiny near-threshold component in a landscaped island does not establish an individual tree."
+      },
+      "reject": {},
+      "note": "One small raised crown at the northwest pond corner has coherent height support. Tiny landscaped-island return remains unresolved."
+    },
+    "r5-096": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        8
+      ],
+      "stand": [
+        2,
+        4,
+        5,
+        7
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Added western edge of the group includes a distinct isolated outer crown. Joined fragments close to existing trees remain measured canopy; open grass/pond remain clear."
+    },
+    "r5-097": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        2,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Continuous woodland strip with retained individual crowns along its edge. New numbered peaks are joined in summer canopy and retained as measured woodland."
+    },
+    "r5-098": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        4,
+        5,
+        11,
+        13,
+        14,
+        15,
+        16
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Connected woodland beside the clearing. Retain stand treatment and earlier unresolved overlapping crown cases; the present segmentation does not establish separate stems."
+    },
+    "r5-099": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [],
+      "stand": [
+        4,
+        5,
+        7,
+        8,
+        11,
+        12,
+        13,
+        14,
+        16,
+        17,
+        20
+      ],
+      "hold": {
+        "1": "Northern edge segmentation is joined or irregular across source dates; distinct crown/base identity is uncertain.",
+        "3": "Northern edge segmentation is joined or irregular across source dates; distinct crown/base identity is uncertain."
+      },
+      "reject": {},
+      "note": "Joined woodland beside the diagonal path; retain its density field. Two northern small/attached crown segments have uncertain separation from adjacent canopy."
+    },
+    "r5-100": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        4,
+        7
+      ],
+      "stand": [
+        5,
+        6,
+        10,
+        16
+      ],
+      "hold": {
+        "2": "Narrow bank crown segmentation abuts rock and neighboring canopy; extent/base interpretation is uncertain."
+      },
+      "reject": {},
+      "note": "Pond and rocky bank beside woodland. Two large pond-facing crowns are distinguishable in height and summer imagery; joined interior peaks remain woodland."
+    },
+    "r5-101": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1,
+        2,
+        3
+      ],
+      "stand": [
+        5,
+        6
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Three distinguishable crowns on the pond-facing grove edge have corroborating height and seasonal structure. Joined southern interior remains woodland."
+    },
+    "r5-102": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Pond water and open bank/rough with a low grassy island. No defensible individual crown in the extension in the four source layers."
+    },
+    "r5-103": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Very small low pond-bank crown has insufficient shape/base separation for confident placement."
+      },
+      "reject": {},
+      "note": "Two small isolated crowns beside the road and bunkers are visible across both imagery dates with coherent height islands. The very small pond-edge object remains uncertain."
+    },
+    "r5-104": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Tiny height island in a young-tree row; source dates and sampling leave crown/base dimensions uncertain."
+      },
+      "reject": {},
+      "note": "Roadside young-tree row is visible, but the sparse low-height returns do not support a complete set of individual positions and dimensions."
+    },
+    "r5-105": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "The facility portion is a small roadside grass triangle. Tree-like returns elsewhere in the source panel lie outside this facility cell portion."
+    },
+    "r5-106": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Open rough and pond bank dominate. A small woody clump in the extension is visible in imagery without defensible height support; retain as unresolved."
+    },
+    "r5-107": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "New strips are mainly open pond bank and rough; tiny bank vegetation lacks coherent height support. The protected evaluation strips remain unchanged."
+    },
+    "r5-108": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        7,
+        8
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Connected crowns at the southern end of a tree belt remain stand coverage. Adjacent purple crowns intersect frozen evaluation and are not edited."
+    },
+    "r5-109": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        4,
+        5
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Overlaps retained runtime suppression case tree-visby-000284; this review does not establish a safe distinct base."
+      },
+      "reject": {
+        "1": "Segment includes the clearly visible service-building roof beside an existing tree; not a defensible separate tree crown."
+      },
+      "note": "Service-yard edge has two distinguishable tree crowns. A roof-derived segment is rejected and the existing suppressed-tree case remains unresolved."
+    },
+    "r5-110": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {
+        "5": "Small sparse return on the scrub boundary lacks sufficient crown/base evidence."
+      },
+      "reject": {
+        "3": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "4": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "6": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "7": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "8": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "9": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "11": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "12": "Clearly delineated maintenance-building roof in colour, infrared and seasonal imagery; height is structure support, not tree evidence.",
+        "2": "Small yard equipment/material stack has no corroborating tree crown across imagery dates."
+      },
+      "note": "Maintenance yard: long roof segments and stored equipment are not trees. Retain the isolated northern tree and flag sparse eastern boundary vegetation."
+    },
+    "r5-111": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        15,
+        18,
+        19,
+        20,
+        21,
+        23,
+        26
+      ],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9,
+        11,
+        16,
+        17
+      ],
+      "hold": {
+        "22": "Low sparse scrub/irregular height islands do not establish a distinct tree crown and defensible base.",
+        "24": "Low sparse scrub/irregular height islands do not establish a distinct tree crown and defensible base.",
+        "27": "Low sparse scrub/irregular height islands do not establish a distinct tree crown and defensible base.",
+        "28": "Low sparse scrub/irregular height islands do not establish a distinct tree crown and defensible base."
+      },
+      "reject": {},
+      "note": "Road and path through a wooded edge. Retain connected northern canopy as woodland and publish distinguishable path-facing/southern crowns. Small low scrub remains uncertain."
+    },
+    "r5-112": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Northeastern strip is connected tall woodland; preserve measured stand coverage. Southern crown overlaps an earlier unresolved case, retained without implicit resolution."
+    },
+    "r5-113": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        3,
+        4,
+        5
+      ],
+      "stand": [
+        1,
+        2,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35
+      ],
+      "hold": {
+        "18": "Thin low edge fragment is not securely separable from taller adjoining woodland."
+      },
+      "reject": {},
+      "note": "Three distinct crowns along the northern path/open edge are supported across imagery and height. Dense joined woodland interior remains stand-based; narrow eastern fragment is uncertain."
+    },
+    "r5-114": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Open rough, golf surface and pond banks. Tiny isolated height speckles do not form a defensible tree crown in either imagery date."
+    },
+    "r5-115": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Low pond-bank clump may contain shrubs or several young stems; individual crown interpretation is ambiguous."
+      },
+      "reject": {},
+      "note": "Pond bank has one low irregular woody clump; its sparse height extent does not establish a single distinct tree/base."
+    },
+    "r5-116": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse small low height island provides inadequate crown dimensions/base evidence in this young-tree group.",
+        "2": "Sparse small low height island provides inadequate crown dimensions/base evidence in this young-tree group."
+      },
+      "reject": {},
+      "note": "Small trees line the pond bends, but only sparse low islands are sampled. Keep the visible bank vegetation unresolved rather than invent positions for unmeasured crowns."
+    },
+    "r5-117": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Golf surface and rough are open except a small southern woody clump visible in imagery without coherent height evidence."
+    },
+    "r5-118": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Tiny low height return and indistinct crown next to roadside features; retain uncertainty."
+      },
+      "reject": {},
+      "note": "Road junction and grass triangle contain one sparse low candidate; source evidence is insufficient for a precise individual."
+    },
+    "r5-119": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned northern strip is grass/low rough and exposed pale ground; no corroborated tree crown. Larger dark patches are surface vegetation, not coherent canopy height."
+    },
+    "r5-120": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Editable portion is the narrow southern rough strip. Visible pond-bank crowns within the purple evaluation window remain protected and unchanged."
+    },
+    "r5-121": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Tall continuous woodland in the eastern facility extension. Preserve density treatment and frozen evaluation crown overlaps without claiming individual stems."
+    },
+    "r5-122": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        3,
+        6,
+        8,
+        9
+      ],
+      "stand": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        16,
+        17,
+        18,
+        19
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Distinguishable crowns face the northern clearing; dense southern woodland stays area-based. Older unresolved and protected segments remain untouched."
+    },
+    "r5-123": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1,
+        13,
+        15
+      ],
+      "stand": [
+        2,
+        3,
+        4,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        14,
+        16
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "One yard-edge tree and two path-facing crowns are distinct across height and seasonal imagery. The connected eastern woodland interior retains stand coverage."
+    },
+    "r5-124": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        8,
+        9,
+        10
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Sparse or elongated low segment in scrub/yard edge does not establish a distinct tree base and crown.",
+        "2": "Sparse or elongated low segment in scrub/yard edge does not establish a distinct tree base and crown.",
+        "3": "Sparse or elongated low segment in scrub/yard edge does not establish a distinct tree base and crown.",
+        "4": "Sparse or elongated low segment in scrub/yard edge does not establish a distinct tree base and crown.",
+        "5": "Sparse or elongated low segment in scrub/yard edge does not establish a distinct tree base and crown.",
+        "6": "Sparse or elongated low segment in scrub/yard edge does not establish a distinct tree base and crown."
+      },
+      "reject": {
+        "7": "Candidate follows small yard structures/stored equipment; no coherent separate tree crown in source imagery."
+      },
+      "note": "Three supported southern crowns are distinguishable beside the service yard. Low scrub fragments remain uncertain, and the rectangular equipment/shed segment is rejected."
+    },
+    "r5-125": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Sparse low woody-edge fragment is insufficient for a distinct crown/base; other low scrub remains unmeasured."
+      },
+      "reject": {},
+      "note": "Mostly rough and paths; low woody vegetation beside the southwestern green produces only a tiny fragmented height candidate."
+    },
+    "r5-126": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        9
+      ],
+      "stand": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        15
+      ],
+      "hold": {
+        "2": "Small detached low island does not define the full visible crown or defensible base."
+      },
+      "reject": {},
+      "note": "Connected low deciduous grove remains measured woodland. Its taller right-facing crown is distinct; tiny isolated eastern low return remains uncertain."
+    },
+    "r5-127": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        3
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Two additional small pond-end crowns are spatially distinct in height and seasonal imagery beside two retained crowns."
+    },
+    "r5-128": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        4
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Narrow leafless/dead-looking crown has height but insufficient crown geometry/base evidence; low IR alone does not prove removal.",
+        "6": "Broad low segment joins boundary vegetation; single-crown interpretation is uncertain."
+      },
+      "reject": {},
+      "note": "One small discrete eastern crown is supported. A narrow leafless/dead-looking stem and a broad low boundary segment remain uncertain; infrared absence is not used to remove either."
+    },
+    "r5-129": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Retain the existing individual beside the bunker and existing boundary vegetation. Most tall eastern trees are outside the reviewed facility polygon; no distinct unrepresented focus crown here."
+    },
+    "r5-130": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Facility portion is the western grass strip. Tall garden trees and buildings lie east of the full facility boundary, not merely outside the new-review polygon."
+    },
+    "r5-131": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Narrow facility corner is open grass along the field boundary; no coherent canopy in colour, seasonal or height sources."
+    },
+    "r5-132": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Young low coastal vegetation has insufficient crown/base support for confident individual geometry.",
+        "2": "Young low coastal vegetation has insufficient crown/base support for confident individual geometry.",
+        "3": "Young low coastal vegetation has insufficient crown/base support for confident individual geometry."
+      },
+      "reject": {},
+      "note": "Three young/low coastal woody crowns lie within the northern facility strip, with sparse or irregular height islands; exact individual placement remains unresolved."
+    },
+    "r5-133": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        3,
+        5
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Narrow/fragmented boundary or young-tree height support leaves distinct crown geometry and base uncertain.",
+        "2": "Narrow/fragmented boundary or young-tree height support leaves distinct crown geometry and base uncertain.",
+        "4": "Narrow/fragmented boundary or young-tree height support leaves distinct crown geometry and base uncertain."
+      },
+      "reject": {},
+      "note": "Distinct isolated crown beside the golf surface and small pond-corner crown are supported across source dates. Northern fragment and tiny coastal young trees remain uncertain."
+    },
+    "r5-134": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        7,
+        16,
+        21
+      ],
+      "stand": [
+        2,
+        5,
+        8,
+        9,
+        12,
+        13,
+        15,
+        17,
+        19
+      ],
+      "hold": {
+        "3": "Sparse or elongated young-tree segmentation does not define reliable separate crown/base geometry.",
+        "4": "Sparse or elongated young-tree segmentation does not define reliable separate crown/base geometry.",
+        "6": "Sparse or elongated young-tree segmentation does not define reliable separate crown/base geometry.",
+        "10": "Sparse or elongated young-tree segmentation does not define reliable separate crown/base geometry.",
+        "11": "Sparse or elongated young-tree segmentation does not define reliable separate crown/base geometry."
+      },
+      "reject": {},
+      "note": "Distinct path-facing woodland-edge crowns are retained as individuals; joined woodland stays density-based. Small young trees along the track remain unresolved."
+    },
+    "r5-135": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Three tall woodland-edge crowns and two small isolated track-side crowns are distinguishable across imagery and coherent height islands."
+    },
+    "r5-136": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        4,
+        6,
+        7,
+        8,
+        15,
+        16,
+        17,
+        19,
+        22,
+        23,
+        26,
+        27
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Dense connected grove already contains many retained individual records. New peaks remain measured woodland; earlier unresolved overlapping crown cases stay open."
+    },
+    "r5-137": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1
+      ],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Single southwestern canopy projection beside open practice/tee surroundings is distinguishable in LiDAR and both imagery dates."
+    },
+    "r5-138": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Connected low deciduous grove beside the path retains measured woodland treatment. Keep the earlier ambiguous crown case unresolved and flag an isolated low clump without height."
+    },
+    "r5-139": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Fragmented/low or merged canopy leaves distinct crown separation and base uncertain.",
+        "4": "Fragmented/low or merged canopy leaves distinct crown separation and base uncertain.",
+        "5": "Fragmented/low or merged canopy leaves distinct crown separation and base uncertain."
+      },
+      "reject": {},
+      "note": "One compact crown beside the path has coherent height and imagery. Joined western and broad low eastern segments do not establish separate stems."
+    },
+    "r5-140": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        3
+      ],
+      "stand": [],
+      "hold": {
+        "1": "Low small boundary vegetation has incomplete crown/base support.",
+        "4": "Low small boundary vegetation has incomplete crown/base support."
+      },
+      "reject": {},
+      "note": "Eastern member of the isolated two-crown group is distinct in height and summer imagery; two small boundary fragments remain uncertain."
+    },
+    "r5-141": {
+      "inspected": true,
+      "treatment": "individuals",
+      "accept": [
+        1,
+        2
+      ],
+      "stand": [],
+      "hold": {
+        "3": "Southern irregular segment abuts retained crown and may be one crown or multiple low stems."
+      },
+      "reject": {},
+      "note": "Two distinguishable crowns on the facility side of the residential boundary are supported by separate height peaks. Southern irregular segment joins an existing crown."
+    },
+    "r5-142": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Only a tiny northwestern boundary sliver belongs to the facility. Visible coastal trees elsewhere in this source panel are outside this facility cell portion."
+    },
+    "r5-143": {
+      "inspected": true,
+      "treatment": "uncertain",
+      "accept": [],
+      "stand": [],
+      "hold": {
+        "1": "Elongated fragmented height island crosses a woody group; separation into individual stems is uncertain."
+      },
+      "reject": {},
+      "note": "Narrow facility extension is mainly rough; the elongated northwestern canopy fragment does not define one individual crown."
+    },
+    "r5-144": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        3,
+        4
+      ],
+      "stand": [
+        2
+      ],
+      "hold": {
+        "1": "Small low edge island does not define a reliable distinct crown/base.",
+        "5": "Overlaps prior unresolved crown case; no defensible resolution from this segmentation."
+      },
+      "reject": {},
+      "note": "Two path-facing taller crowns are distinguishable. Broad low connected canopy remains stand treatment, while tiny and prior unresolved fragments stay open."
+    },
+    "r5-145": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1,
+        3
+      ],
+      "stand": [
+        2
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Two distinguishable leafless edge crowns face the open golf surface. Tall connected canopy behind them remains woodland; infrared colour alone is not a tree-removal signal."
+    },
+    "r5-146": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10
+      ],
+      "hold": {
+        "8": "Tiny low fragment does not establish an independent crown/base in the connected belt."
+      },
+      "reject": {},
+      "note": "Continuous deciduous boundary belt has joined low canopy and a taller southern end. Preserve measured woodland and hold the tiny uncertain western fragment."
+    },
+    "r5-147": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1
+      ],
+      "stand": [
+        3
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "One distinguishable western crown faces the open rough. The broad southern low canopy segment remains connected woodland treatment."
+    },
+    "r5-148": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Only the small southwestern grass triangle lies within the facility; residential trees and houses in the rest of the source panel remain outside this review scope."
+    },
+    "r5-149": {
+      "inspected": true,
+      "treatment": "woodland",
+      "accept": [],
+      "stand": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "hold": {},
+      "reject": {},
+      "note": "Connected low deciduous grove is represented as measured woodland, retaining prior unresolved crown cases. No individual stem count is inferred from four segments."
+    },
+    "r5-150": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        5,
+        14
+      ],
+      "stand": [
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        12,
+        13,
+        15,
+        16,
+        17
+      ],
+      "hold": {
+        "10": "Tiny sparse height islands among low joined vegetation lack reliable crown/base geometry.",
+        "11": "Tiny sparse height islands among low joined vegetation lack reliable crown/base geometry."
+      },
+      "reject": {},
+      "note": "Two compact western-facing crowns are distinguishable on grove edges. Joined deciduous interiors retain woodland treatment; tiny fragmented candidates remain uncertain."
+    },
+    "r5-151": {
+      "inspected": true,
+      "treatment": "mixed",
+      "accept": [
+        1,
+        3
+      ],
+      "stand": [
+        2
+      ],
+      "hold": {
+        "5": "Tiny height fragment does not delimit the visible boundary crown or establish an independent base."
+      },
+      "reject": {},
+      "note": "Two large distinguishable boundary crowns face open golf/field land. Joined tall canopy at the western edge retains woodland; the tiny southern return is uncertain."
+    },
+    "r5-152": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Facility portion is a tiny northwestern grass triangle. Wet hollows and their low vegetation elsewhere in the panel lie outside the facility boundary."
+    },
+    "r5-153": {
+      "inspected": true,
+      "treatment": "open",
+      "accept": [],
+      "stand": [],
+      "hold": {},
+      "reject": {},
+      "note": "Owned southwestern triangle contains track and low rough, with no coherent supported tree crown in the four source layers."
+    }
+  },
+  "additionalObservations": [
+    {
+      "id": "r5-low-007",
+      "scene": "r5-007",
+      "pixels": [
+        421,
+        163,
+        40
+      ],
+      "reason": "Northern coastal woody clump visible in colour/seasonal imagery lacks a coherent elevated LiDAR crown."
+    },
+    {
+      "id": "r5-low-018",
+      "scene": "r5-018",
+      "pixels": [
+        510,
+        210,
+        110
+      ],
+      "reason": "Coastal low woody belt visible in imagery; LiDAR does not establish separate tree-height crowns. Preserve uncertainty rather than invent trees."
+    },
+    {
+      "id": "r5-low-021",
+      "scene": "r5-021",
+      "pixels": [
+        500,
+        160,
+        65
+      ],
+      "reason": "Low woody coastal patch in both image dates lacks coherent tree-height evidence."
+    },
+    {
+      "id": "r5-low-022",
+      "scene": "r5-022",
+      "pixels": [
+        521,
+        509,
+        60
+      ],
+      "reason": "Low vegetation on the small shore triangle has no reliable individual tree height."
+    },
+    {
+      "id": "r5-roadside-088",
+      "scene": "r5-088",
+      "pixels": [
+        415,
+        170,
+        100
+      ],
+      "reason": "Visible young roadside trees have sparse or absent defensible LiDAR height support; no image-only individual positions/heights are published."
+    },
+    {
+      "id": "r5-roadside-089",
+      "scene": "r5-089",
+      "pixels": [
+        500,
+        270,
+        170
+      ],
+      "reason": "Visible young roadside trees have sparse or absent defensible LiDAR height support; no image-only individual positions/heights are published."
+    },
+    {
+      "id": "r5-low-104",
+      "scene": "r5-104",
+      "pixels": [
+        242,
+        302,
+        170
+      ],
+      "reason": "Roadside young trees visible in imagery but incompletely sampled in 2024 height; no invented image-centre stems."
+    },
+    {
+      "id": "r5-low-106",
+      "scene": "r5-106",
+      "pixels": [
+        175,
+        332,
+        20
+      ],
+      "reason": "Small woody clump visible in 2026/2022 imagery without defensible canopy height."
+    },
+    {
+      "id": "r5-low-107",
+      "scene": "r5-107",
+      "pixels": [
+        501,
+        543,
+        45
+      ],
+      "reason": "Small pond-bank vegetation has insufficient LiDAR support for individual dimensions."
+    },
+    {
+      "id": "r5-low-116",
+      "scene": "r5-116",
+      "pixels": [
+        185,
+        470,
+        95
+      ],
+      "reason": "Visible small trees along pond bend lack complete coherent height evidence; two detector holds do not cover every visible crown."
+    },
+    {
+      "id": "r5-low-117",
+      "scene": "r5-117",
+      "pixels": [
+        430,
+        537,
+        30
+      ],
+      "reason": "Small woody clump in southern rough visible in both imagery dates without defensible height."
+    },
+    {
+      "id": "r5-low-138",
+      "scene": "r5-138",
+      "pixels": [
+        451,
+        373,
+        23
+      ],
+      "reason": "Small isolated woody clump east of the path visible in imagery without defensible LiDAR height."
+    }
+  ],
+  "baseHolds": {
+    "r5-111/dalponte-d9-m5/35": "Source crown accepted, but the unchanged runtime excludes its LiDAR-derived base in all three modes. Retain prior stand cells and reserve the ID; do not relocate the base to force rendering. See runtime-probes.json."
+  }
+}

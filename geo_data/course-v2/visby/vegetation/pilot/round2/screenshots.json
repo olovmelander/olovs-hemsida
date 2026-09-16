@@ -1,0 +1,405 @@
+{
+  "root": "output/visby-tree-pilot",
+  "pairs": [
+    {
+      "scenario": "webgpu-high",
+      "hole": 1,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h01-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h01-tee.png",
+      "beforeSha256": "08416951b0a5a352700b401c8f906d9c0c8175b78820cbac555eca28dfdf8c89",
+      "afterSha256": "b709041a3f68f0a97a46e9b461b3ceab43e872576a37b394786c8ce2bce6f494",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 1,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h01-top.png",
+      "afterFile": "round2/captures/webgpu-high-h01-top.png",
+      "beforeSha256": "eb976c738ac46afbe07bd7d54a7b462fb3b5828cd4971d035a2ffbb978c1be70",
+      "afterSha256": "b66926a0125a09e898a141f90cd114c548a00d72edb01d5a3425722f7f52d66b",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 2,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h02-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h02-tee.png",
+      "beforeSha256": "847bcd5233409a1fd04869f20e976591887c9420ba81732919cdbf023f32be13",
+      "afterSha256": "9c21316b4da14bf3cb222606306aa84aef1cd5acbadd7c8211a73358da9ad3a9",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 2,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h02-top.png",
+      "afterFile": "round2/captures/webgpu-high-h02-top.png",
+      "beforeSha256": "929352289205dbea6ac66cf673388c8e2cd910d7eabd947d2525d11a40dcfe2b",
+      "afterSha256": "929352289205dbea6ac66cf673388c8e2cd910d7eabd947d2525d11a40dcfe2b",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 3,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h03-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h03-tee.png",
+      "beforeSha256": "bbbc84871cdecd0c140ac6008111bef429a9ceb6285c775cba8ecee1c9cd87c2",
+      "afterSha256": "4d7226192e4526214257104bafd347e85f52e7e901e724e3aa4335d2e5866f4e",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 3,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h03-top.png",
+      "afterFile": "round2/captures/webgpu-high-h03-top.png",
+      "beforeSha256": "988521a931b3f62cf33eb3e1e1d65745cc6081b5457b7e32d810da52435d6386",
+      "afterSha256": "36b9fdca32d716845092b75628a301c0c529aaaf542720c0bee56d7bf43e2d15",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 4,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h04-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h04-tee.png",
+      "beforeSha256": "5e320cfd4848f9e4e2e5895508101578176af5a218e568e5d6056db53383c5ae",
+      "afterSha256": "a5383c68a93dd93f6fb64d00206482aea56515a28a0ae95afbf0937d6aba8125",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 4,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h04-top.png",
+      "afterFile": "round2/captures/webgpu-high-h04-top.png",
+      "beforeSha256": "6577313fb7a9a6f467ee35319f891f0b230d1d579c9fa3eed43620e73ff9a78a",
+      "afterSha256": "89f0618dc1fff2a6c2165cc663d5cfb465a2070a0e3b8fc631ed50c46334acad",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 5,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h05-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h05-tee.png",
+      "beforeSha256": "d5ac3de4b3dd5a90e4ff5d3d26a887e70c1d5900c79969ab5b79b539da7dd9bf",
+      "afterSha256": "67466105a25631e8367b7e17d5d93be503c265d70735c25c00589be76cfe03fa",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 5,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h05-top.png",
+      "afterFile": "round2/captures/webgpu-high-h05-top.png",
+      "beforeSha256": "5e56228408deb9856623588b92a7e627e4e749f5432084238481405afdfdcd55",
+      "afterSha256": "236fd85d79feeaafbceda96d3808db00481272528f222fb7786d575e72ce321d",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 6,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h06-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h06-tee.png",
+      "beforeSha256": "0e130f85026a234952e347aae8dbdbb3d5a594962e1e3585b6d6080d80fc561e",
+      "afterSha256": "4f9fea663ac4e1938f3360c1fdd719ece7791796bea195263f4e1c303f861a18",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 6,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h06-top.png",
+      "afterFile": "round2/captures/webgpu-high-h06-top.png",
+      "beforeSha256": "a30844fdd74c5ab506b3d06db429e2b89f7eca0f9bf64b29138b1490b7cde1d8",
+      "afterSha256": "f3688cd276cd3d4b0b82617077ce538d569c4213d831715b7c7934361e352dd9",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 7,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h07-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h07-tee.png",
+      "beforeSha256": "cbfe6f7453b7a359a040c9d64e05d5770bca81ea1a9826e6a228682cb6a75ce9",
+      "afterSha256": "a082a342daec7b932e96a9787d22b090938ba957637ff3fbfc6d6dee80bd9b15",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 7,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h07-top.png",
+      "afterFile": "round2/captures/webgpu-high-h07-top.png",
+      "beforeSha256": "25da769aea3ff0fb180947a6f545d726a87c73f654bdbd541ef9d06dd181dc8f",
+      "afterSha256": "af7641ebe749e62e95b35df721151b76cbb085ca068016061b0f1ec0308fd55b",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 8,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h08-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h08-tee.png",
+      "beforeSha256": "eb609c1efc99b3657f3ae189bd6a7105d479c3b8bcc119d4de92ffc92bd02ca3",
+      "afterSha256": "c4460ef83d6c5091e155a0234ea4b427be1af0a368c27cbf400d10f969774e47",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 8,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h08-top.png",
+      "afterFile": "round2/captures/webgpu-high-h08-top.png",
+      "beforeSha256": "abcc5b3ac8d2eda0897e3835e5d48e183ea584459c56371fcc1bc698bf459f5b",
+      "afterSha256": "805dbcef7c854e6134649fd467366fe8aee458a033eb917f9bf12bd24a64920d",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 9,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h09-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h09-tee.png",
+      "beforeSha256": "a9cee397c41f8d5b939e8c5293278b73eececdabfdfceb7fb218008b5f7464d1",
+      "afterSha256": "002b5f9f8d545f9e74e1b9d9932e335b25084b86b9070349506ffcfc6bec7f75",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 9,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h09-top.png",
+      "afterFile": "round2/captures/webgpu-high-h09-top.png",
+      "beforeSha256": "956bf8a3c763be5792dfc2c5f08887e388d3d51253e6684c13bcb4444977b590",
+      "afterSha256": "d1eae595d32bd983b2caba9158934f8b9c06f20125e3be251a5fb8dc7a97c722",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 10,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h10-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h10-tee.png",
+      "beforeSha256": "44a6bf12dc85e2583048aa8e461323448996df5358791eefb8c1725a514a7b78",
+      "afterSha256": "a47a161e4a299eeed2e265dac348f79df9dbefb6843cd8f29fd8e450f8ee7649",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 10,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h10-top.png",
+      "afterFile": "round2/captures/webgpu-high-h10-top.png",
+      "beforeSha256": "818449c0893252d44ccfe73665ffe68693f7ad9007ea02057c05dc5194da37f0",
+      "afterSha256": "818449c0893252d44ccfe73665ffe68693f7ad9007ea02057c05dc5194da37f0",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 11,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h11-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h11-tee.png",
+      "beforeSha256": "c41dab6ff2a8dca3d208078ebe1902bc7f851dfbcb045442cb98e9dae43c72fb",
+      "afterSha256": "56093d17f962bdd0ffac79af4fb9e3608a2043d287b20c81ced19e5d0992ee96",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 11,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h11-top.png",
+      "afterFile": "round2/captures/webgpu-high-h11-top.png",
+      "beforeSha256": "f490ccce40577caca58314ab06e7b1e8fc0e99c36b9b98a551b46ed12048a25e",
+      "afterSha256": "f490ccce40577caca58314ab06e7b1e8fc0e99c36b9b98a551b46ed12048a25e",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 12,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h12-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h12-tee.png",
+      "beforeSha256": "141132db2a6746125d2ad0779c21147d977b98e47cc48c43bce91d5b9a9bfe58",
+      "afterSha256": "3b51e1b6c88856091e5ac9a498e0cb1555fb32de1be79fbbd0299bfd21829291",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 12,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h12-top.png",
+      "afterFile": "round2/captures/webgpu-high-h12-top.png",
+      "beforeSha256": "7bb595ec43fd372c038e596f8717df98ea129d87908b59fdef33463cb72ceaa2",
+      "afterSha256": "fb9efbfba637391e7f9f1b5e86c49447c89decc7727cc0a352c9b9fa8b86366f",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 13,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h13-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h13-tee.png",
+      "beforeSha256": "8b91317a5cb9d6dbb432970e0ed37fa835f7fda322457e99750f289c00d0eff1",
+      "afterSha256": "b58c6ee1efac4631579492c5fcea4cf53880bf9e21d9064d172430fd2d1067bb",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 13,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h13-top.png",
+      "afterFile": "round2/captures/webgpu-high-h13-top.png",
+      "beforeSha256": "cddd0adc3c5e807db31b26de2659f91a4856c238015437ef39eae1f0b052ac64",
+      "afterSha256": "90d44420c3492e2f6506b605f5e42016d125c309b2fcddc00dac4e9014ca8a9d",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 14,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h14-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h14-tee.png",
+      "beforeSha256": "dae227e8621dc4904f046f82036ab9f1eab5c76b018734cff0085510d788ea01",
+      "afterSha256": "2827d6fa3a0f79400b240c174e82869d8c953a72a2eb574f8ebd125269a8975b",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 14,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h14-top.png",
+      "afterFile": "round2/captures/webgpu-high-h14-top.png",
+      "beforeSha256": "8248dfea619e47933ab40084974ed80f8e3320cc572dec02e36c463053ca5b31",
+      "afterSha256": "8248dfea619e47933ab40084974ed80f8e3320cc572dec02e36c463053ca5b31",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 15,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h15-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h15-tee.png",
+      "beforeSha256": "16b62f0ec26f06c627dd11ae31a755b7ca8c14b6a355ea9c696b9e7deaa0499b",
+      "afterSha256": "185e8d89e8b0a4f784bf47aeb3fadfe6bff088fa7925c7edd98c6500b323c349",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 15,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h15-top.png",
+      "afterFile": "round2/captures/webgpu-high-h15-top.png",
+      "beforeSha256": "e656bfe40a3e6ab8618a18bfebfc36a7a831391f79b40e20f42c60fb9e5643cc",
+      "afterSha256": "1f5a66cd1c814f6bbcc4d65a914d6bd4690003f730147da90b286e021c95c306",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 16,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h16-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h16-tee.png",
+      "beforeSha256": "562c3f7b33b2f832983e1d43a2c8160c093fa04fe2a1a7f4e5abf353381897f3",
+      "afterSha256": "7280948392c821d67a25cca0a2a29c9eeb627dd54f3c29cf9985d170b54430e1",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 16,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h16-top.png",
+      "afterFile": "round2/captures/webgpu-high-h16-top.png",
+      "beforeSha256": "ed9f69a8edd0fe1748e0459b3c7000f716c5545dc61e76d2e2d7728e22526290",
+      "afterSha256": "cc11ed1b7d82fb16081cd2909a44d97bb8c93fd0866d9ad518047ac622292bb6",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 17,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h17-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h17-tee.png",
+      "beforeSha256": "d535d0965eaf744a3f7aa2560491d2591b5808f38963aa21a37f5be9c749f1e4",
+      "afterSha256": "d54f454adb720e40196eccc01a481ebd162a04938574960956a5532cdf0a8594",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 17,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h17-top.png",
+      "afterFile": "round2/captures/webgpu-high-h17-top.png",
+      "beforeSha256": "62cb29d6fe1655defe1c90a2bf7feaa1a90efc826d7a3ceae8a72c14f0c1139c",
+      "afterSha256": "63bd6b6beb324f4fb0def0d42d9b6cb0ab615a5ecb7e6ccdf3023d97c5bec404",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 18,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgpu-high-h18-tee.png",
+      "afterFile": "round2/captures/webgpu-high-h18-tee.png",
+      "beforeSha256": "fd68a9d783ee448da1d86a78b64a9b39ceba4dff39ba581e16e518f5fad0233a",
+      "afterSha256": "62abe260af828795099226a7f4f9580d1b82bb839428a3942f1825c04c4230b8",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgpu-high",
+      "hole": 18,
+      "camera": "top",
+      "beforeFile": "captures/after/webgpu-high-h18-top.png",
+      "afterFile": "round2/captures/webgpu-high-h18-top.png",
+      "beforeSha256": "2bf7a04adbb80c700482132492d975bae5f644ad0688a1baba9736515518b83e",
+      "afterSha256": "2bf7a04adbb80c700482132492d975bae5f644ad0688a1baba9736515518b83e",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgl-high",
+      "hole": 9,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgl-high-h09-tee.png",
+      "afterFile": "round2/captures/webgl-high-h09-tee.png",
+      "beforeSha256": "6d2025b0869b23730438e609a090fb470c517d81cb55045369a07b34e27248f8",
+      "afterSha256": "14503e64be4035e061e90d9d06cf4802560316b21b61fe5c6e8d2aaac0538dd2",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgl-high",
+      "hole": 16,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgl-high-h16-tee.png",
+      "afterFile": "round2/captures/webgl-high-h16-tee.png",
+      "beforeSha256": "c85906d481b32fa556951c09e371190411d658ac94505324200c9af52ff817bf",
+      "afterSha256": "ae0c8c9f2dbaa752f4daedf15ef65f0339a480dfea623d21320707cafe8d4f4c",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgl-low",
+      "hole": 9,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgl-low-h09-tee.png",
+      "afterFile": "round2/captures/webgl-low-h09-tee.png",
+      "beforeSha256": "4878355c863ad48d294bbbaf7edfa751df9294684440a728205098eb97c87d86",
+      "afterSha256": "9b7cfd42c534a6deae63638eb512b58beee610f289af3fb44f3edd7e4acf172f",
+      "cameraIdentical": true
+    },
+    {
+      "scenario": "webgl-low",
+      "hole": 16,
+      "camera": "tee",
+      "beforeFile": "captures/after/webgl-low-h16-tee.png",
+      "afterFile": "round2/captures/webgl-low-h16-tee.png",
+      "beforeSha256": "d85e6d5f4b5f8895c1f01d89e7b33f5110c672b0d9f9d1efea94b7d07a386a89",
+      "afterSha256": "192b1c7f732e498cb35d4ad6ba4496f8c5ac226c94a1b7317651f33719912240",
+      "cameraIdentical": true
+    }
+  ]
+}

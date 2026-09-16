@@ -1,0 +1,35 @@
+{
+  "groundId": "veckefjarden",
+  "slugs": [
+    "veckefjarden",
+    "veckefjarden-korthalsbanan"
+  ],
+  "holeCounts": [
+    18,
+    9
+  ],
+  "scopeAreaMetres2": 856868.2573761677,
+  "cells": 113,
+  "scopeBounds": [
+    683330.8405800251,
+    7022252.533626683,
+    684488.061,
+    7023770.545
+  ],
+  "sourceDates": {
+    "lidar": [
+      "2026-06-01",
+      "2026-06-21"
+    ],
+    "rgbi": "2024-06-27"
+  },
+  "sourceLimit": "Imagery predates LiDAR by two years. NIR supports vegetation interpretation; image absence is not proof of removal. No surveyed trunks.",
+  "stop": "One full editable-facility inspection, bounded detector benchmark and one accepted-correction pass. Deliver local comparison with explicit exceptions even if targets are missed.",
+  "sampling": "Freeze at least 100 source-interpreted crowns and 30 spatially separate evaluation crowns before candidate outputs. Reference windows will be locked separately before detection.",
+  "target": {
+    "precision": 0.9,
+    "recall": 0.9
+  },
+  "centreConvention": "LiDAR-derived source crown centre; no survey accuracy claim.",
+  "deployment": "Isolated local preview of both shared routings; baseline remains production default."
+}

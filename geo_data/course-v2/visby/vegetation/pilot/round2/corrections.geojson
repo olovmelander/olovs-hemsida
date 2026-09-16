@@ -1,0 +1,7938 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:3006"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687341.5,
+              6371461.5
+            ],
+            [
+              687341.5,
+              6371460.5
+            ],
+            [
+              687342.5,
+              6371460.5
+            ],
+            [
+              687342.5,
+              6371457.5
+            ],
+            [
+              687341.5,
+              6371457.5
+            ],
+            [
+              687341.5,
+              6371456.5
+            ],
+            [
+              687338.5,
+              6371456.5
+            ],
+            [
+              687338.5,
+              6371457.5
+            ],
+            [
+              687335.5,
+              6371457.5
+            ],
+            [
+              687335.5,
+              6371456.5
+            ],
+            [
+              687333.5,
+              6371456.5
+            ],
+            [
+              687333.5,
+              6371450.5
+            ],
+            [
+              687334.5,
+              6371450.5
+            ],
+            [
+              687334.5,
+              6371448.5
+            ],
+            [
+              687335.5,
+              6371448.5
+            ],
+            [
+              687335.5,
+              6371447.5
+            ],
+            [
+              687338.5,
+              6371447.5
+            ],
+            [
+              687338.5,
+              6371449.5
+            ],
+            [
+              687339.5,
+              6371449.5
+            ],
+            [
+              687339.5,
+              6371451.5
+            ],
+            [
+              687343.5,
+              6371451.5
+            ],
+            [
+              687343.5,
+              6371450.5
+            ],
+            [
+              687344.5,
+              6371450.5
+            ],
+            [
+              687344.5,
+              6371454.5
+            ],
+            [
+              687343.5,
+              6371454.5
+            ],
+            [
+              687343.5,
+              6371461.5
+            ],
+            [
+              687341.5,
+              6371461.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review06/dalponte-d9-m5/7",
+        "scene": "review06",
+        "reviewNumber": 1,
+        "action": "accept",
+        "easting": 687338.2408748547,
+        "northing": 6371453.429681347,
+        "heightMetres": 6.784740924835205,
+        "sourceWindows": [
+          {
+            "id": "context-1-2",
+            "sha256": "9e4b4f6a6f7e8e6d0b0aaebd2ddd821a860a2e3d03ccf48833e65cc5e319e24a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-06-green",
+            "sha256": "9e73c47afb8bffb77eb827cbfc635511470c66ba06c01fe4bdd4aaf262806be9",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-03-tees",
+            "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000019",
+        "nearestExistingMetres": 23.973404939477984,
+        "id": "tree-visby-003165",
+        "record": {
+          "id": "tree-visby-003165",
+          "easting": 687338.2408748547,
+          "northing": 6371453.429681347,
+          "objectHeightMetres": 6.784740924835205,
+          "radiusMetres": 5.108953969950291,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687333.5,
+              6371434.5
+            ],
+            [
+              687333.5,
+              6371426.5
+            ],
+            [
+              687335.5,
+              6371426.5
+            ],
+            [
+              687335.5,
+              6371425.5
+            ],
+            [
+              687338.5,
+              6371425.5
+            ],
+            [
+              687338.5,
+              6371424.5
+            ],
+            [
+              687343.5,
+              6371424.5
+            ],
+            [
+              687343.5,
+              6371425.5
+            ],
+            [
+              687345.5,
+              6371425.5
+            ],
+            [
+              687345.5,
+              6371426.5
+            ],
+            [
+              687346.5,
+              6371426.5
+            ],
+            [
+              687346.5,
+              6371427.5
+            ],
+            [
+              687347.5,
+              6371427.5
+            ],
+            [
+              687347.5,
+              6371431.5
+            ],
+            [
+              687346.5,
+              6371431.5
+            ],
+            [
+              687346.5,
+              6371432.5
+            ],
+            [
+              687345.5,
+              6371432.5
+            ],
+            [
+              687345.5,
+              6371433.5
+            ],
+            [
+              687342.5,
+              6371433.5
+            ],
+            [
+              687342.5,
+              6371434.5
+            ],
+            [
+              687340.5,
+              6371434.5
+            ],
+            [
+              687340.5,
+              6371433.5
+            ],
+            [
+              687336.5,
+              6371433.5
+            ],
+            [
+              687336.5,
+              6371434.5
+            ],
+            [
+              687333.5,
+              6371434.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review06/dalponte-d9-m5/9",
+        "scene": "review06",
+        "reviewNumber": 2,
+        "action": "retain-existing",
+        "easting": 687340.607528689,
+        "northing": 6371429.687321104,
+        "heightMetres": 9.023208618164062,
+        "sourceWindows": [
+          {
+            "id": "context-1-2",
+            "sha256": "9e4b4f6a6f7e8e6d0b0aaebd2ddd821a860a2e3d03ccf48833e65cc5e319e24a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-06-green",
+            "sha256": "9e73c47afb8bffb77eb827cbfc635511470c66ba06c01fe4bdd4aaf262806be9",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-03-tees",
+            "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000019",
+        "nearestExistingMetres": 0.6913741474071523,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687355.5,
+              6371431.5
+            ],
+            [
+              687355.5,
+              6371430.5
+            ],
+            [
+              687354.5,
+              6371430.5
+            ],
+            [
+              687354.5,
+              6371428.5
+            ],
+            [
+              687353.5,
+              6371428.5
+            ],
+            [
+              687353.5,
+              6371423.5
+            ],
+            [
+              687354.5,
+              6371423.5
+            ],
+            [
+              687354.5,
+              6371422.5
+            ],
+            [
+              687359.5,
+              6371422.5
+            ],
+            [
+              687359.5,
+              6371423.5
+            ],
+            [
+              687360.5,
+              6371423.5
+            ],
+            [
+              687360.5,
+              6371424.5
+            ],
+            [
+              687361.5,
+              6371424.5
+            ],
+            [
+              687361.5,
+              6371426.5
+            ],
+            [
+              687362.5,
+              6371426.5
+            ],
+            [
+              687362.5,
+              6371430.5
+            ],
+            [
+              687361.5,
+              6371430.5
+            ],
+            [
+              687361.5,
+              6371431.5
+            ],
+            [
+              687355.5,
+              6371431.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review06/dalponte-d9-m5/10",
+        "scene": "review06",
+        "reviewNumber": 3,
+        "action": "accept",
+        "easting": 687358.0863655771,
+        "northing": 6371427.236146647,
+        "heightMetres": 6.36629581451416,
+        "sourceWindows": [
+          {
+            "id": "context-1-2",
+            "sha256": "9e4b4f6a6f7e8e6d0b0aaebd2ddd821a860a2e3d03ccf48833e65cc5e319e24a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-06-green",
+            "sha256": "9e73c47afb8bffb77eb827cbfc635511470c66ba06c01fe4bdd4aaf262806be9",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-03-tees",
+            "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000019",
+        "nearestExistingMetres": 16.96129612308866,
+        "id": "tree-visby-003166",
+        "record": {
+          "id": "tree-visby-003166",
+          "easting": 687358.0863655771,
+          "northing": 6371427.236146647,
+          "objectHeightMetres": 6.36629581451416,
+          "radiusMetres": 4.652426491681278,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687367.5,
+              6371424.5
+            ],
+            [
+              687367.5,
+              6371423.5
+            ],
+            [
+              687366.5,
+              6371423.5
+            ],
+            [
+              687366.5,
+              6371421.5
+            ],
+            [
+              687367.5,
+              6371421.5
+            ],
+            [
+              687367.5,
+              6371420.5
+            ],
+            [
+              687368.5,
+              6371420.5
+            ],
+            [
+              687368.5,
+              6371419.5
+            ],
+            [
+              687370.5,
+              6371419.5
+            ],
+            [
+              687370.5,
+              6371421.5
+            ],
+            [
+              687372.5,
+              6371421.5
+            ],
+            [
+              687372.5,
+              6371422.5
+            ],
+            [
+              687370.5,
+              6371422.5
+            ],
+            [
+              687370.5,
+              6371423.5
+            ],
+            [
+              687369.5,
+              6371423.5
+            ],
+            [
+              687369.5,
+              6371424.5
+            ],
+            [
+              687367.5,
+              6371424.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review06/island/11",
+        "scene": "review06",
+        "reviewNumber": 4,
+        "action": "hold",
+        "easting": 687369.0139367563,
+        "northing": 6371422.064107687,
+        "heightMetres": 3.8046631813049316,
+        "sourceWindows": [
+          {
+            "id": "context-1-2",
+            "sha256": "9e4b4f6a6f7e8e6d0b0aaebd2ddd821a860a2e3d03ccf48833e65cc5e319e24a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-06-green",
+            "sha256": "9e73c47afb8bffb77eb827cbfc635511470c66ba06c01fe4bdd4aaf262806be9",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-03-tees",
+            "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000019",
+        "nearestExistingMetres": 28.735853215601434,
+        "reason": "Low sparse vegetation: tree versus shrub identity and base are ambiguous."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687362.5,
+              6371418.5
+            ],
+            [
+              687362.5,
+              6371416.5
+            ],
+            [
+              687364.5,
+              6371416.5
+            ],
+            [
+              687364.5,
+              6371415.5
+            ],
+            [
+              687365.5,
+              6371415.5
+            ],
+            [
+              687365.5,
+              6371413.5
+            ],
+            [
+              687367.5,
+              6371413.5
+            ],
+            [
+              687367.5,
+              6371412.5
+            ],
+            [
+              687368.5,
+              6371412.5
+            ],
+            [
+              687368.5,
+              6371414.5
+            ],
+            [
+              687366.5,
+              6371414.5
+            ],
+            [
+              687366.5,
+              6371417.5
+            ],
+            [
+              687365.5,
+              6371417.5
+            ],
+            [
+              687365.5,
+              6371418.5
+            ],
+            [
+              687362.5,
+              6371418.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review06/island/12",
+        "scene": "review06",
+        "reviewNumber": 5,
+        "action": "hold",
+        "easting": 687365.469431606,
+        "northing": 6371416.032299748,
+        "heightMetres": 3.2308335304260254,
+        "sourceWindows": [
+          {
+            "id": "context-1-2",
+            "sha256": "9e4b4f6a6f7e8e6d0b0aaebd2ddd821a860a2e3d03ccf48833e65cc5e319e24a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-06-green",
+            "sha256": "9e73c47afb8bffb77eb827cbfc635511470c66ba06c01fe4bdd4aaf262806be9",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-03-tees",
+            "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000019",
+        "nearestExistingMetres": 27.744447027154504,
+        "reason": "Fragmented low canopy: crown and stem cannot be distinguished reliably."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687341.5,
+              6371400.5
+            ],
+            [
+              687341.5,
+              6371399.5
+            ],
+            [
+              687340.5,
+              6371399.5
+            ],
+            [
+              687340.5,
+              6371398.5
+            ],
+            [
+              687339.5,
+              6371398.5
+            ],
+            [
+              687339.5,
+              6371397.5
+            ],
+            [
+              687338.5,
+              6371397.5
+            ],
+            [
+              687338.5,
+              6371395.5
+            ],
+            [
+              687339.5,
+              6371395.5
+            ],
+            [
+              687339.5,
+              6371393.5
+            ],
+            [
+              687340.5,
+              6371393.5
+            ],
+            [
+              687340.5,
+              6371391.5
+            ],
+            [
+              687345.5,
+              6371391.5
+            ],
+            [
+              687345.5,
+              6371392.5
+            ],
+            [
+              687346.5,
+              6371392.5
+            ],
+            [
+              687346.5,
+              6371396.5
+            ],
+            [
+              687345.5,
+              6371396.5
+            ],
+            [
+              687345.5,
+              6371398.5
+            ],
+            [
+              687344.5,
+              6371398.5
+            ],
+            [
+              687344.5,
+              6371399.5
+            ],
+            [
+              687343.5,
+              6371399.5
+            ],
+            [
+              687343.5,
+              6371400.5
+            ],
+            [
+              687341.5,
+              6371400.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review06/island/13",
+        "scene": "review06",
+        "reviewNumber": 6,
+        "action": "accept",
+        "easting": 687342.6004083942,
+        "northing": 6371395.897372257,
+        "heightMetres": 4.297974109649658,
+        "sourceWindows": [
+          {
+            "id": "context-1-2",
+            "sha256": "9e4b4f6a6f7e8e6d0b0aaebd2ddd821a860a2e3d03ccf48833e65cc5e319e24a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              },
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-06-green",
+            "sha256": "9e73c47afb8bffb77eb827cbfc635511470c66ba06c01fe4bdd4aaf262806be9",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-03-tees",
+            "sha256": "177f7f4c4301b98935e41425ce4bb465b18541d4645e9e2234ed87079a21794a",
+            "sources": [
+              {
+                "id": "o63700_6850_25_mr26",
+                "capturedAt": "2026-04-10T08:17:31Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000019",
+        "nearestExistingMetres": 33.77974484333508,
+        "id": "tree-visby-003167",
+        "record": {
+          "id": "tree-visby-003167",
+          "easting": 687342.6004083942,
+          "northing": 6371395.897372257,
+          "objectHeightMetres": 4.297974109649658,
+          "radiusMetres": 4.068428945128219,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              688026.5,
+              6370894.5
+            ],
+            [
+              688026.5,
+              6370893.5
+            ],
+            [
+              688024.5,
+              6370893.5
+            ],
+            [
+              688024.5,
+              6370892.5
+            ],
+            [
+              688021.5,
+              6370892.5
+            ],
+            [
+              688021.5,
+              6370893.5
+            ],
+            [
+              688020.5,
+              6370893.5
+            ],
+            [
+              688020.5,
+              6370892.5
+            ],
+            [
+              688018.5,
+              6370892.5
+            ],
+            [
+              688018.5,
+              6370891.5
+            ],
+            [
+              688017.5,
+              6370891.5
+            ],
+            [
+              688017.5,
+              6370890.5
+            ],
+            [
+              688016.5,
+              6370890.5
+            ],
+            [
+              688016.5,
+              6370889.5
+            ],
+            [
+              688013.5,
+              6370889.5
+            ],
+            [
+              688013.5,
+              6370887.5
+            ],
+            [
+              688015.5,
+              6370887.5
+            ],
+            [
+              688015.5,
+              6370885.5
+            ],
+            [
+              688016.5,
+              6370885.5
+            ],
+            [
+              688016.5,
+              6370881.5
+            ],
+            [
+              688018.5,
+              6370881.5
+            ],
+            [
+              688018.5,
+              6370880.5
+            ],
+            [
+              688020.5,
+              6370880.5
+            ],
+            [
+              688020.5,
+              6370879.5
+            ],
+            [
+              688021.5,
+              6370879.5
+            ],
+            [
+              688021.5,
+              6370878.5
+            ],
+            [
+              688022.5,
+              6370878.5
+            ],
+            [
+              688022.5,
+              6370881.5
+            ],
+            [
+              688023.5,
+              6370881.5
+            ],
+            [
+              688023.5,
+              6370882.5
+            ],
+            [
+              688024.5,
+              6370882.5
+            ],
+            [
+              688024.5,
+              6370883.5
+            ],
+            [
+              688025.5,
+              6370883.5
+            ],
+            [
+              688025.5,
+              6370884.5
+            ],
+            [
+              688026.5,
+              6370884.5
+            ],
+            [
+              688026.5,
+              6370885.5
+            ],
+            [
+              688027.5,
+              6370885.5
+            ],
+            [
+              688027.5,
+              6370886.5
+            ],
+            [
+              688028.5,
+              6370886.5
+            ],
+            [
+              688028.5,
+              6370887.5
+            ],
+            [
+              688029.5,
+              6370887.5
+            ],
+            [
+              688029.5,
+              6370890.5
+            ],
+            [
+              688031.5,
+              6370890.5
+            ],
+            [
+              688031.5,
+              6370894.5
+            ],
+            [
+              688026.5,
+              6370894.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review13/dalponte-d9-m5/23",
+        "scene": "review13",
+        "reviewNumber": 1,
+        "action": "retain-existing",
+        "easting": 688022.6131588394,
+        "northing": 6370887.670586323,
+        "heightMetres": 21.74099349975586,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "context-3-3",
+            "sha256": "b522cc653a9ff91480dc7e889bf14a27c1bf7acf1592f5a89f1d8818b167db45",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-tees",
+            "sha256": "e34c8be7f91f57c7cb4e8578adcf4a76f8159a95c14a82c9fcd74ffde6254034",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-13-tees",
+            "sha256": "51b080e875a94b2a2ed70a6f71b7f790ab811475e41a98ba7fdbabf2971ce9f5",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-green",
+            "sha256": "8860a98207c67a34761cbc5568c60cc8f136827a440dbf5962811bd485ef4157",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000312",
+        "nearestExistingMetres": 1.7285124951089097,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              688031.5,
+              6370893.5
+            ],
+            [
+              688031.5,
+              6370890.5
+            ],
+            [
+              688032.5,
+              6370890.5
+            ],
+            [
+              688032.5,
+              6370883.5
+            ],
+            [
+              688033.5,
+              6370883.5
+            ],
+            [
+              688033.5,
+              6370882.5
+            ],
+            [
+              688034.5,
+              6370882.5
+            ],
+            [
+              688034.5,
+              6370881.5
+            ],
+            [
+              688035.5,
+              6370881.5
+            ],
+            [
+              688035.5,
+              6370880.5
+            ],
+            [
+              688037.5,
+              6370880.5
+            ],
+            [
+              688037.5,
+              6370879.5
+            ],
+            [
+              688038.5,
+              6370879.5
+            ],
+            [
+              688038.5,
+              6370878.5
+            ],
+            [
+              688046.5,
+              6370878.5
+            ],
+            [
+              688046.5,
+              6370874.5
+            ],
+            [
+              688047.5,
+              6370874.5
+            ],
+            [
+              688047.5,
+              6370875.5
+            ],
+            [
+              688048.5,
+              6370875.5
+            ],
+            [
+              688048.5,
+              6370885.5
+            ],
+            [
+              688044.5,
+              6370885.5
+            ],
+            [
+              688044.5,
+              6370886.5
+            ],
+            [
+              688043.5,
+              6370886.5
+            ],
+            [
+              688043.5,
+              6370888.5
+            ],
+            [
+              688042.5,
+              6370888.5
+            ],
+            [
+              688042.5,
+              6370890.5
+            ],
+            [
+              688041.5,
+              6370890.5
+            ],
+            [
+              688041.5,
+              6370891.5
+            ],
+            [
+              688040.5,
+              6370891.5
+            ],
+            [
+              688040.5,
+              6370892.5
+            ],
+            [
+              688038.5,
+              6370892.5
+            ],
+            [
+              688038.5,
+              6370893.5
+            ],
+            [
+              688035.5,
+              6370893.5
+            ],
+            [
+              688035.5,
+              6370892.5
+            ],
+            [
+              688034.5,
+              6370892.5
+            ],
+            [
+              688034.5,
+              6370893.5
+            ],
+            [
+              688031.5,
+              6370893.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review13/dalponte-d9-m5/26",
+        "scene": "review13",
+        "reviewNumber": 2,
+        "action": "hold",
+        "easting": 688040.0530133231,
+        "northing": 6370884.677440771,
+        "heightMetres": 19.962270736694336,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "context-3-3",
+            "sha256": "b522cc653a9ff91480dc7e889bf14a27c1bf7acf1592f5a89f1d8818b167db45",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-tees",
+            "sha256": "e34c8be7f91f57c7cb4e8578adcf4a76f8159a95c14a82c9fcd74ffde6254034",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-13-tees",
+            "sha256": "51b080e875a94b2a2ed70a6f71b7f790ab811475e41a98ba7fdbabf2971ce9f5",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-green",
+            "sha256": "8860a98207c67a34761cbc5568c60cc8f136827a440dbf5962811bd485ef4157",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000317",
+        "nearestExistingMetres": 4.984846014146745,
+        "reason": "Segmentation divides connected canopy around an existing individual; correspondence and split remain ambiguous."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              688029.5,
+              6370890.5
+            ],
+            [
+              688029.5,
+              6370887.5
+            ],
+            [
+              688028.5,
+              6370887.5
+            ],
+            [
+              688028.5,
+              6370886.5
+            ],
+            [
+              688027.5,
+              6370886.5
+            ],
+            [
+              688027.5,
+              6370885.5
+            ],
+            [
+              688026.5,
+              6370885.5
+            ],
+            [
+              688026.5,
+              6370884.5
+            ],
+            [
+              688025.5,
+              6370884.5
+            ],
+            [
+              688025.5,
+              6370883.5
+            ],
+            [
+              688024.5,
+              6370883.5
+            ],
+            [
+              688024.5,
+              6370882.5
+            ],
+            [
+              688023.5,
+              6370882.5
+            ],
+            [
+              688023.5,
+              6370881.5
+            ],
+            [
+              688022.5,
+              6370881.5
+            ],
+            [
+              688022.5,
+              6370872.5
+            ],
+            [
+              688024.5,
+              6370872.5
+            ],
+            [
+              688024.5,
+              6370871.5
+            ],
+            [
+              688026.5,
+              6370871.5
+            ],
+            [
+              688026.5,
+              6370874.5
+            ],
+            [
+              688027.5,
+              6370874.5
+            ],
+            [
+              688027.5,
+              6370875.5
+            ],
+            [
+              688029.5,
+              6370875.5
+            ],
+            [
+              688029.5,
+              6370877.5
+            ],
+            [
+              688030.5,
+              6370877.5
+            ],
+            [
+              688030.5,
+              6370878.5
+            ],
+            [
+              688034.5,
+              6370878.5
+            ],
+            [
+              688034.5,
+              6370879.5
+            ],
+            [
+              688035.5,
+              6370879.5
+            ],
+            [
+              688035.5,
+              6370881.5
+            ],
+            [
+              688034.5,
+              6370881.5
+            ],
+            [
+              688034.5,
+              6370882.5
+            ],
+            [
+              688033.5,
+              6370882.5
+            ],
+            [
+              688033.5,
+              6370883.5
+            ],
+            [
+              688032.5,
+              6370883.5
+            ],
+            [
+              688032.5,
+              6370890.5
+            ],
+            [
+              688029.5,
+              6370890.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review13/dalponte-d9-m5/27",
+        "scene": "review13",
+        "reviewNumber": 3,
+        "action": "accept",
+        "easting": 688028.3410006186,
+        "northing": 6370881.155235478,
+        "heightMetres": 19.33793067932129,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "context-3-3",
+            "sha256": "b522cc653a9ff91480dc7e889bf14a27c1bf7acf1592f5a89f1d8818b167db45",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-tees",
+            "sha256": "e34c8be7f91f57c7cb4e8578adcf4a76f8159a95c14a82c9fcd74ffde6254034",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-13-tees",
+            "sha256": "51b080e875a94b2a2ed70a6f71b7f790ab811475e41a98ba7fdbabf2971ce9f5",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-green",
+            "sha256": "8860a98207c67a34761cbc5568c60cc8f136827a440dbf5962811bd485ef4157",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000312",
+        "nearestExistingMetres": 7.125003748220361,
+        "id": "tree-visby-003168",
+        "record": {
+          "id": "tree-visby-003168",
+          "easting": 688028.3410006186,
+          "northing": 6370881.155235478,
+          "objectHeightMetres": 19.33793067932129,
+          "radiusMetres": 6.333012368467128,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              688035.5,
+              6370880.5
+            ],
+            [
+              688035.5,
+              6370879.5
+            ],
+            [
+              688034.5,
+              6370879.5
+            ],
+            [
+              688034.5,
+              6370878.5
+            ],
+            [
+              688033.5,
+              6370878.5
+            ],
+            [
+              688033.5,
+              6370876.5
+            ],
+            [
+              688032.5,
+              6370876.5
+            ],
+            [
+              688032.5,
+              6370873.5
+            ],
+            [
+              688031.5,
+              6370873.5
+            ],
+            [
+              688031.5,
+              6370870.5
+            ],
+            [
+              688029.5,
+              6370870.5
+            ],
+            [
+              688029.5,
+              6370869.5
+            ],
+            [
+              688027.5,
+              6370869.5
+            ],
+            [
+              688027.5,
+              6370868.5
+            ],
+            [
+              688030.5,
+              6370868.5
+            ],
+            [
+              688030.5,
+              6370867.5
+            ],
+            [
+              688031.5,
+              6370867.5
+            ],
+            [
+              688031.5,
+              6370866.5
+            ],
+            [
+              688032.5,
+              6370866.5
+            ],
+            [
+              688032.5,
+              6370865.5
+            ],
+            [
+              688038.5,
+              6370865.5
+            ],
+            [
+              688038.5,
+              6370867.5
+            ],
+            [
+              688039.5,
+              6370867.5
+            ],
+            [
+              688039.5,
+              6370868.5
+            ],
+            [
+              688041.5,
+              6370868.5
+            ],
+            [
+              688041.5,
+              6370869.5
+            ],
+            [
+              688044.5,
+              6370869.5
+            ],
+            [
+              688044.5,
+              6370870.5
+            ],
+            [
+              688045.5,
+              6370870.5
+            ],
+            [
+              688045.5,
+              6370871.5
+            ],
+            [
+              688046.5,
+              6370871.5
+            ],
+            [
+              688046.5,
+              6370878.5
+            ],
+            [
+              688038.5,
+              6370878.5
+            ],
+            [
+              688038.5,
+              6370879.5
+            ],
+            [
+              688037.5,
+              6370879.5
+            ],
+            [
+              688037.5,
+              6370880.5
+            ],
+            [
+              688035.5,
+              6370880.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review13/dalponte-d9-m5/29",
+        "scene": "review13",
+        "reviewNumber": 4,
+        "action": "hold",
+        "easting": 688038.3850001338,
+        "northing": 6370873.328464396,
+        "heightMetres": 19.51914405822754,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "context-3-3",
+            "sha256": "b522cc653a9ff91480dc7e889bf14a27c1bf7acf1592f5a89f1d8818b167db45",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-tees",
+            "sha256": "e34c8be7f91f57c7cb4e8578adcf4a76f8159a95c14a82c9fcd74ffde6254034",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-13-tees",
+            "sha256": "51b080e875a94b2a2ed70a6f71b7f790ab811475e41a98ba7fdbabf2971ce9f5",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-12-green",
+            "sha256": "8860a98207c67a34761cbc5568c60cc8f136827a440dbf5962811bd485ef4157",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000317",
+        "nearestExistingMetres": 6.614467034401567,
+        "reason": "Same connected group as candidate 2 and an existing individual; do not add a potentially duplicate tree."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687938.5,
+              6371185.5
+            ],
+            [
+              687938.5,
+              6371181.5
+            ],
+            [
+              687939.5,
+              6371181.5
+            ],
+            [
+              687939.5,
+              6371176.5
+            ],
+            [
+              687937.5,
+              6371176.5
+            ],
+            [
+              687937.5,
+              6371175.5
+            ],
+            [
+              687940.5,
+              6371175.5
+            ],
+            [
+              687940.5,
+              6371174.5
+            ],
+            [
+              687946.5,
+              6371174.5
+            ],
+            [
+              687946.5,
+              6371173.5
+            ],
+            [
+              687947.5,
+              6371173.5
+            ],
+            [
+              687947.5,
+              6371175.5
+            ],
+            [
+              687948.5,
+              6371175.5
+            ],
+            [
+              687948.5,
+              6371178.5
+            ],
+            [
+              687949.5,
+              6371178.5
+            ],
+            [
+              687949.5,
+              6371179.5
+            ],
+            [
+              687948.5,
+              6371179.5
+            ],
+            [
+              687948.5,
+              6371180.5
+            ],
+            [
+              687947.5,
+              6371180.5
+            ],
+            [
+              687947.5,
+              6371181.5
+            ],
+            [
+              687946.5,
+              6371181.5
+            ],
+            [
+              687946.5,
+              6371182.5
+            ],
+            [
+              687944.5,
+              6371182.5
+            ],
+            [
+              687944.5,
+              6371183.5
+            ],
+            [
+              687942.5,
+              6371183.5
+            ],
+            [
+              687942.5,
+              6371184.5
+            ],
+            [
+              687939.5,
+              6371184.5
+            ],
+            [
+              687939.5,
+              6371185.5
+            ],
+            [
+              687938.5,
+              6371185.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15/dalponte-d9-m5/9",
+        "scene": "review15",
+        "reviewNumber": 1,
+        "action": "retain-existing",
+        "easting": 687943.3752406434,
+        "northing": 6371178.989347759,
+        "heightMetres": 11.317347526550293,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-14-green",
+            "sha256": "2af5588eb25590a908f44c5f18218e5b605cfe404e0388e2f3b79e7098bd1f53",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000269",
+        "nearestExistingMetres": 1.076174057580908,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687946.5,
+              6371173.5
+            ],
+            [
+              687946.5,
+              6371171.5
+            ],
+            [
+              687947.5,
+              6371171.5
+            ],
+            [
+              687947.5,
+              6371168.5
+            ],
+            [
+              687948.5,
+              6371168.5
+            ],
+            [
+              687948.5,
+              6371165.5
+            ],
+            [
+              687949.5,
+              6371165.5
+            ],
+            [
+              687949.5,
+              6371163.5
+            ],
+            [
+              687953.5,
+              6371163.5
+            ],
+            [
+              687953.5,
+              6371164.5
+            ],
+            [
+              687954.5,
+              6371164.5
+            ],
+            [
+              687954.5,
+              6371165.5
+            ],
+            [
+              687955.5,
+              6371165.5
+            ],
+            [
+              687955.5,
+              6371168.5
+            ],
+            [
+              687956.5,
+              6371168.5
+            ],
+            [
+              687956.5,
+              6371170.5
+            ],
+            [
+              687955.5,
+              6371170.5
+            ],
+            [
+              687955.5,
+              6371172.5
+            ],
+            [
+              687954.5,
+              6371172.5
+            ],
+            [
+              687954.5,
+              6371173.5
+            ],
+            [
+              687946.5,
+              6371173.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15/dalponte-d9-m5/11",
+        "scene": "review15",
+        "reviewNumber": 2,
+        "action": "retain-existing",
+        "easting": 687951.8252884169,
+        "northing": 6371169.10122578,
+        "heightMetres": 16.972124099731445,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-14-green",
+            "sha256": "2af5588eb25590a908f44c5f18218e5b605cfe404e0388e2f3b79e7098bd1f53",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000274",
+        "nearestExistingMetres": 0.15045718323128873,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687959.5,
+              6371169.5
+            ],
+            [
+              687959.5,
+              6371168.5
+            ],
+            [
+              687958.5,
+              6371168.5
+            ],
+            [
+              687958.5,
+              6371167.5
+            ],
+            [
+              687957.5,
+              6371167.5
+            ],
+            [
+              687957.5,
+              6371166.5
+            ],
+            [
+              687958.5,
+              6371166.5
+            ],
+            [
+              687958.5,
+              6371165.5
+            ],
+            [
+              687959.5,
+              6371165.5
+            ],
+            [
+              687959.5,
+              6371164.5
+            ],
+            [
+              687962.5,
+              6371164.5
+            ],
+            [
+              687962.5,
+              6371165.5
+            ],
+            [
+              687963.5,
+              6371165.5
+            ],
+            [
+              687963.5,
+              6371168.5
+            ],
+            [
+              687962.5,
+              6371168.5
+            ],
+            [
+              687962.5,
+              6371169.5
+            ],
+            [
+              687959.5,
+              6371169.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15/dalponte-d9-m5/12",
+        "scene": "review15",
+        "reviewNumber": 3,
+        "action": "retain-existing",
+        "easting": 687960.8714784036,
+        "northing": 6371167.1950262105,
+        "heightMetres": 10.829157829284668,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-14-green",
+            "sha256": "2af5588eb25590a908f44c5f18218e5b605cfe404e0388e2f3b79e7098bd1f53",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000280",
+        "nearestExistingMetres": 0.5155261188308707,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687948.5,
+              6371165.5
+            ],
+            [
+              687948.5,
+              6371164.5
+            ],
+            [
+              687947.5,
+              6371164.5
+            ],
+            [
+              687947.5,
+              6371163.5
+            ],
+            [
+              687946.5,
+              6371163.5
+            ],
+            [
+              687946.5,
+              6371164.5
+            ],
+            [
+              687945.5,
+              6371164.5
+            ],
+            [
+              687945.5,
+              6371163.5
+            ],
+            [
+              687943.5,
+              6371163.5
+            ],
+            [
+              687943.5,
+              6371162.5
+            ],
+            [
+              687940.5,
+              6371162.5
+            ],
+            [
+              687940.5,
+              6371161.5
+            ],
+            [
+              687939.5,
+              6371161.5
+            ],
+            [
+              687939.5,
+              6371157.5
+            ],
+            [
+              687940.5,
+              6371157.5
+            ],
+            [
+              687940.5,
+              6371155.5
+            ],
+            [
+              687941.5,
+              6371155.5
+            ],
+            [
+              687941.5,
+              6371154.5
+            ],
+            [
+              687946.5,
+              6371154.5
+            ],
+            [
+              687946.5,
+              6371155.5
+            ],
+            [
+              687947.5,
+              6371155.5
+            ],
+            [
+              687947.5,
+              6371156.5
+            ],
+            [
+              687946.5,
+              6371156.5
+            ],
+            [
+              687946.5,
+              6371157.5
+            ],
+            [
+              687947.5,
+              6371157.5
+            ],
+            [
+              687947.5,
+              6371158.5
+            ],
+            [
+              687948.5,
+              6371158.5
+            ],
+            [
+              687948.5,
+              6371161.5
+            ],
+            [
+              687949.5,
+              6371161.5
+            ],
+            [
+              687949.5,
+              6371162.5
+            ],
+            [
+              687950.5,
+              6371162.5
+            ],
+            [
+              687950.5,
+              6371163.5
+            ],
+            [
+              687949.5,
+              6371163.5
+            ],
+            [
+              687949.5,
+              6371165.5
+            ],
+            [
+              687948.5,
+              6371165.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15/dalponte-d9-m5/15",
+        "scene": "review15",
+        "reviewNumber": 4,
+        "action": "accept",
+        "easting": 687944.5446212162,
+        "northing": 6371159.571073968,
+        "heightMetres": 12.708669662475586,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-14-green",
+            "sha256": "2af5588eb25590a908f44c5f18218e5b605cfe404e0388e2f3b79e7098bd1f53",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000276",
+        "nearestExistingMetres": 9.886412118767257,
+        "id": "tree-visby-003169",
+        "record": {
+          "id": "tree-visby-003169",
+          "easting": 687944.5446212162,
+          "northing": 6371159.571073968,
+          "objectHeightMetres": 12.708669662475586,
+          "radiusMetres": 4.820437914901168,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687951.5,
+              6371158.5
+            ],
+            [
+              687951.5,
+              6371157.5
+            ],
+            [
+              687950.5,
+              6371157.5
+            ],
+            [
+              687950.5,
+              6371156.5
+            ],
+            [
+              687949.5,
+              6371156.5
+            ],
+            [
+              687949.5,
+              6371154.5
+            ],
+            [
+              687950.5,
+              6371154.5
+            ],
+            [
+              687950.5,
+              6371153.5
+            ],
+            [
+              687951.5,
+              6371153.5
+            ],
+            [
+              687951.5,
+              6371151.5
+            ],
+            [
+              687954.5,
+              6371151.5
+            ],
+            [
+              687954.5,
+              6371152.5
+            ],
+            [
+              687956.5,
+              6371152.5
+            ],
+            [
+              687956.5,
+              6371156.5
+            ],
+            [
+              687955.5,
+              6371156.5
+            ],
+            [
+              687955.5,
+              6371157.5
+            ],
+            [
+              687954.5,
+              6371157.5
+            ],
+            [
+              687954.5,
+              6371158.5
+            ],
+            [
+              687951.5,
+              6371158.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15/dalponte-d9-m5/16",
+        "scene": "review15",
+        "reviewNumber": 5,
+        "action": "retain-existing",
+        "easting": 687953.2674678294,
+        "northing": 6371155.126888145,
+        "heightMetres": 12.469898223876953,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-14-green",
+            "sha256": "2af5588eb25590a908f44c5f18218e5b605cfe404e0388e2f3b79e7098bd1f53",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000276",
+        "nearestExistingMetres": 0.09745839609963247,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687835.5,
+              6371243.5
+            ],
+            [
+              687835.5,
+              6371234.5
+            ],
+            [
+              687836.5,
+              6371234.5
+            ],
+            [
+              687836.5,
+              6371226.5
+            ],
+            [
+              687838.5,
+              6371226.5
+            ],
+            [
+              687838.5,
+              6371227.5
+            ],
+            [
+              687840.5,
+              6371227.5
+            ],
+            [
+              687840.5,
+              6371229.5
+            ],
+            [
+              687841.5,
+              6371229.5
+            ],
+            [
+              687841.5,
+              6371230.5
+            ],
+            [
+              687842.5,
+              6371230.5
+            ],
+            [
+              687842.5,
+              6371231.5
+            ],
+            [
+              687843.5,
+              6371231.5
+            ],
+            [
+              687843.5,
+              6371232.5
+            ],
+            [
+              687844.5,
+              6371232.5
+            ],
+            [
+              687844.5,
+              6371233.5
+            ],
+            [
+              687845.5,
+              6371233.5
+            ],
+            [
+              687845.5,
+              6371234.5
+            ],
+            [
+              687846.5,
+              6371234.5
+            ],
+            [
+              687846.5,
+              6371238.5
+            ],
+            [
+              687849.5,
+              6371238.5
+            ],
+            [
+              687849.5,
+              6371239.5
+            ],
+            [
+              687848.5,
+              6371239.5
+            ],
+            [
+              687848.5,
+              6371240.5
+            ],
+            [
+              687847.5,
+              6371240.5
+            ],
+            [
+              687847.5,
+              6371241.5
+            ],
+            [
+              687844.5,
+              6371241.5
+            ],
+            [
+              687844.5,
+              6371240.5
+            ],
+            [
+              687840.5,
+              6371240.5
+            ],
+            [
+              687840.5,
+              6371241.5
+            ],
+            [
+              687839.5,
+              6371241.5
+            ],
+            [
+              687839.5,
+              6371242.5
+            ],
+            [
+              687837.5,
+              6371242.5
+            ],
+            [
+              687837.5,
+              6371243.5
+            ],
+            [
+              687835.5,
+              6371243.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/8",
+        "scene": "review15west",
+        "reviewNumber": 1,
+        "action": "hold",
+        "easting": 687840.5780419369,
+        "northing": 6371235.629940121,
+        "heightMetres": 13.55834674835205,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000194",
+        "nearestExistingMetres": 7.079497476468698,
+        "reason": "Crown crosses the source-review boundary; complete outline was not reviewed."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687875.5,
+              6371240.5
+            ],
+            [
+              687875.5,
+              6371239.5
+            ],
+            [
+              687874.5,
+              6371239.5
+            ],
+            [
+              687874.5,
+              6371238.5
+            ],
+            [
+              687873.5,
+              6371238.5
+            ],
+            [
+              687873.5,
+              6371237.5
+            ],
+            [
+              687872.5,
+              6371237.5
+            ],
+            [
+              687872.5,
+              6371233.5
+            ],
+            [
+              687873.5,
+              6371233.5
+            ],
+            [
+              687873.5,
+              6371232.5
+            ],
+            [
+              687874.5,
+              6371232.5
+            ],
+            [
+              687874.5,
+              6371231.5
+            ],
+            [
+              687878.5,
+              6371231.5
+            ],
+            [
+              687878.5,
+              6371232.5
+            ],
+            [
+              687882.5,
+              6371232.5
+            ],
+            [
+              687882.5,
+              6371231.5
+            ],
+            [
+              687884.5,
+              6371231.5
+            ],
+            [
+              687884.5,
+              6371232.5
+            ],
+            [
+              687885.5,
+              6371232.5
+            ],
+            [
+              687885.5,
+              6371233.5
+            ],
+            [
+              687886.5,
+              6371233.5
+            ],
+            [
+              687886.5,
+              6371237.5
+            ],
+            [
+              687885.5,
+              6371237.5
+            ],
+            [
+              687885.5,
+              6371238.5
+            ],
+            [
+              687879.5,
+              6371238.5
+            ],
+            [
+              687879.5,
+              6371239.5
+            ],
+            [
+              687876.5,
+              6371239.5
+            ],
+            [
+              687876.5,
+              6371240.5
+            ],
+            [
+              687875.5,
+              6371240.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/7",
+        "scene": "review15west",
+        "reviewNumber": 2,
+        "action": "accept",
+        "easting": 687879.2167733499,
+        "northing": 6371235.376572866,
+        "heightMetres": 7.201229095458984,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000213",
+        "nearestExistingMetres": 18.949196173567284,
+        "id": "tree-visby-003170",
+        "record": {
+          "id": "tree-visby-003170",
+          "easting": 687879.2167733499,
+          "northing": 6371235.376572866,
+          "objectHeightMetres": 7.201229095458984,
+          "radiusMetres": 5.4115163798060095,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687846.5,
+              6371238.5
+            ],
+            [
+              687846.5,
+              6371234.5
+            ],
+            [
+              687845.5,
+              6371234.5
+            ],
+            [
+              687845.5,
+              6371233.5
+            ],
+            [
+              687844.5,
+              6371233.5
+            ],
+            [
+              687844.5,
+              6371232.5
+            ],
+            [
+              687843.5,
+              6371232.5
+            ],
+            [
+              687843.5,
+              6371231.5
+            ],
+            [
+              687842.5,
+              6371231.5
+            ],
+            [
+              687842.5,
+              6371230.5
+            ],
+            [
+              687841.5,
+              6371230.5
+            ],
+            [
+              687841.5,
+              6371229.5
+            ],
+            [
+              687840.5,
+              6371229.5
+            ],
+            [
+              687840.5,
+              6371227.5
+            ],
+            [
+              687841.5,
+              6371227.5
+            ],
+            [
+              687841.5,
+              6371225.5
+            ],
+            [
+              687842.5,
+              6371225.5
+            ],
+            [
+              687842.5,
+              6371224.5
+            ],
+            [
+              687843.5,
+              6371224.5
+            ],
+            [
+              687843.5,
+              6371223.5
+            ],
+            [
+              687844.5,
+              6371223.5
+            ],
+            [
+              687844.5,
+              6371222.5
+            ],
+            [
+              687845.5,
+              6371222.5
+            ],
+            [
+              687845.5,
+              6371219.5
+            ],
+            [
+              687849.5,
+              6371219.5
+            ],
+            [
+              687849.5,
+              6371226.5
+            ],
+            [
+              687850.5,
+              6371226.5
+            ],
+            [
+              687850.5,
+              6371227.5
+            ],
+            [
+              687851.5,
+              6371227.5
+            ],
+            [
+              687851.5,
+              6371228.5
+            ],
+            [
+              687852.5,
+              6371228.5
+            ],
+            [
+              687852.5,
+              6371234.5
+            ],
+            [
+              687851.5,
+              6371234.5
+            ],
+            [
+              687851.5,
+              6371235.5
+            ],
+            [
+              687850.5,
+              6371235.5
+            ],
+            [
+              687850.5,
+              6371238.5
+            ],
+            [
+              687846.5,
+              6371238.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/11",
+        "scene": "review15west",
+        "reviewNumber": 3,
+        "action": "accept",
+        "easting": 687847.2566067411,
+        "northing": 6371229.241075825,
+        "heightMetres": 13.527154922485352,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000194",
+        "nearestExistingMetres": 15.848994551849392,
+        "id": "tree-visby-003171",
+        "record": {
+          "id": "tree-visby-003171",
+          "easting": 687847.2566067411,
+          "northing": 6371229.241075825,
+          "objectHeightMetres": 13.527154922485352,
+          "radiusMetres": 6.4820448144285745,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687854.5,
+              6371235.5
+            ],
+            [
+              687854.5,
+              6371234.5
+            ],
+            [
+              687852.5,
+              6371234.5
+            ],
+            [
+              687852.5,
+              6371228.5
+            ],
+            [
+              687851.5,
+              6371228.5
+            ],
+            [
+              687851.5,
+              6371227.5
+            ],
+            [
+              687850.5,
+              6371227.5
+            ],
+            [
+              687850.5,
+              6371226.5
+            ],
+            [
+              687849.5,
+              6371226.5
+            ],
+            [
+              687849.5,
+              6371219.5
+            ],
+            [
+              687848.5,
+              6371219.5
+            ],
+            [
+              687848.5,
+              6371218.5
+            ],
+            [
+              687849.5,
+              6371218.5
+            ],
+            [
+              687849.5,
+              6371217.5
+            ],
+            [
+              687850.5,
+              6371217.5
+            ],
+            [
+              687850.5,
+              6371216.5
+            ],
+            [
+              687856.5,
+              6371216.5
+            ],
+            [
+              687856.5,
+              6371217.5
+            ],
+            [
+              687858.5,
+              6371217.5
+            ],
+            [
+              687858.5,
+              6371218.5
+            ],
+            [
+              687860.5,
+              6371218.5
+            ],
+            [
+              687860.5,
+              6371219.5
+            ],
+            [
+              687861.5,
+              6371219.5
+            ],
+            [
+              687861.5,
+              6371223.5
+            ],
+            [
+              687863.5,
+              6371223.5
+            ],
+            [
+              687863.5,
+              6371225.5
+            ],
+            [
+              687864.5,
+              6371225.5
+            ],
+            [
+              687864.5,
+              6371226.5
+            ],
+            [
+              687863.5,
+              6371226.5
+            ],
+            [
+              687863.5,
+              6371227.5
+            ],
+            [
+              687861.5,
+              6371227.5
+            ],
+            [
+              687861.5,
+              6371230.5
+            ],
+            [
+              687860.5,
+              6371230.5
+            ],
+            [
+              687860.5,
+              6371231.5
+            ],
+            [
+              687861.5,
+              6371231.5
+            ],
+            [
+              687861.5,
+              6371233.5
+            ],
+            [
+              687860.5,
+              6371233.5
+            ],
+            [
+              687860.5,
+              6371235.5
+            ],
+            [
+              687854.5,
+              6371235.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/13",
+        "scene": "review15west",
+        "reviewNumber": 4,
+        "action": "accept",
+        "easting": 687856.1228749447,
+        "northing": 6371225.7773505105,
+        "heightMetres": 13.499821662902832,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000194",
+        "nearestExistingMetres": 25.271318521791745,
+        "id": "tree-visby-003172",
+        "record": {
+          "id": "tree-visby-003172",
+          "easting": 687856.1228749447,
+          "northing": 6371225.7773505105,
+          "objectHeightMetres": 13.499821662902832,
+          "radiusMetres": 7.958873497585845,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687861.5,
+              6371229.5
+            ],
+            [
+              687861.5,
+              6371227.5
+            ],
+            [
+              687863.5,
+              6371227.5
+            ],
+            [
+              687863.5,
+              6371226.5
+            ],
+            [
+              687864.5,
+              6371226.5
+            ],
+            [
+              687864.5,
+              6371225.5
+            ],
+            [
+              687863.5,
+              6371225.5
+            ],
+            [
+              687863.5,
+              6371223.5
+            ],
+            [
+              687861.5,
+              6371223.5
+            ],
+            [
+              687861.5,
+              6371219.5
+            ],
+            [
+              687862.5,
+              6371219.5
+            ],
+            [
+              687862.5,
+              6371220.5
+            ],
+            [
+              687863.5,
+              6371220.5
+            ],
+            [
+              687863.5,
+              6371221.5
+            ],
+            [
+              687864.5,
+              6371221.5
+            ],
+            [
+              687864.5,
+              6371222.5
+            ],
+            [
+              687867.5,
+              6371222.5
+            ],
+            [
+              687867.5,
+              6371221.5
+            ],
+            [
+              687871.5,
+              6371221.5
+            ],
+            [
+              687871.5,
+              6371223.5
+            ],
+            [
+              687872.5,
+              6371223.5
+            ],
+            [
+              687872.5,
+              6371227.5
+            ],
+            [
+              687871.5,
+              6371227.5
+            ],
+            [
+              687871.5,
+              6371228.5
+            ],
+            [
+              687870.5,
+              6371228.5
+            ],
+            [
+              687870.5,
+              6371229.5
+            ],
+            [
+              687867.5,
+              6371229.5
+            ],
+            [
+              687867.5,
+              6371228.5
+            ],
+            [
+              687862.5,
+              6371228.5
+            ],
+            [
+              687862.5,
+              6371229.5
+            ],
+            [
+              687861.5,
+              6371229.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/14",
+        "scene": "review15west",
+        "reviewNumber": 5,
+        "action": "hold",
+        "easting": 687867.5044329389,
+        "northing": 6371225.098594703,
+        "heightMetres": 11.415867805480957,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000221",
+        "nearestExistingMetres": 19.568296342289308,
+        "reason": "Small attached segment may belong to the broad neighbouring crown 4."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687846.5,
+              6371219.5
+            ],
+            [
+              687846.5,
+              6371218.5
+            ],
+            [
+              687847.5,
+              6371218.5
+            ],
+            [
+              687847.5,
+              6371216.5
+            ],
+            [
+              687846.5,
+              6371216.5
+            ],
+            [
+              687846.5,
+              6371215.5
+            ],
+            [
+              687845.5,
+              6371215.5
+            ],
+            [
+              687845.5,
+              6371214.5
+            ],
+            [
+              687841.5,
+              6371214.5
+            ],
+            [
+              687841.5,
+              6371213.5
+            ],
+            [
+              687840.5,
+              6371213.5
+            ],
+            [
+              687840.5,
+              6371212.5
+            ],
+            [
+              687838.5,
+              6371212.5
+            ],
+            [
+              687838.5,
+              6371209.5
+            ],
+            [
+              687839.5,
+              6371209.5
+            ],
+            [
+              687839.5,
+              6371208.5
+            ],
+            [
+              687840.5,
+              6371208.5
+            ],
+            [
+              687840.5,
+              6371207.5
+            ],
+            [
+              687841.5,
+              6371207.5
+            ],
+            [
+              687841.5,
+              6371206.5
+            ],
+            [
+              687842.5,
+              6371206.5
+            ],
+            [
+              687842.5,
+              6371205.5
+            ],
+            [
+              687843.5,
+              6371205.5
+            ],
+            [
+              687843.5,
+              6371203.5
+            ],
+            [
+              687845.5,
+              6371203.5
+            ],
+            [
+              687845.5,
+              6371205.5
+            ],
+            [
+              687847.5,
+              6371205.5
+            ],
+            [
+              687847.5,
+              6371206.5
+            ],
+            [
+              687848.5,
+              6371206.5
+            ],
+            [
+              687848.5,
+              6371207.5
+            ],
+            [
+              687849.5,
+              6371207.5
+            ],
+            [
+              687849.5,
+              6371208.5
+            ],
+            [
+              687854.5,
+              6371208.5
+            ],
+            [
+              687854.5,
+              6371216.5
+            ],
+            [
+              687850.5,
+              6371216.5
+            ],
+            [
+              687850.5,
+              6371217.5
+            ],
+            [
+              687849.5,
+              6371217.5
+            ],
+            [
+              687849.5,
+              6371218.5
+            ],
+            [
+              687848.5,
+              6371218.5
+            ],
+            [
+              687848.5,
+              6371219.5
+            ],
+            [
+              687846.5,
+              6371219.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/17",
+        "scene": "review15west",
+        "reviewNumber": 6,
+        "action": "accept",
+        "easting": 687847.1957403693,
+        "northing": 6371211.226813375,
+        "heightMetres": 15.82777214050293,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000199",
+        "nearestExistingMetres": 26.161241310501442,
+        "id": "tree-visby-003173",
+        "record": {
+          "id": "tree-visby-003173",
+          "easting": 687847.1957403693,
+          "northing": 6371211.226813375,
+          "objectHeightMetres": 15.82777214050293,
+          "radiusMetres": 6.651697090182843,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687873.5,
+              6371212.5
+            ],
+            [
+              687873.5,
+              6371211.5
+            ],
+            [
+              687872.5,
+              6371211.5
+            ],
+            [
+              687872.5,
+              6371208.5
+            ],
+            [
+              687871.5,
+              6371208.5
+            ],
+            [
+              687871.5,
+              6371205.5
+            ],
+            [
+              687873.5,
+              6371205.5
+            ],
+            [
+              687873.5,
+              6371203.5
+            ],
+            [
+              687876.5,
+              6371203.5
+            ],
+            [
+              687876.5,
+              6371202.5
+            ],
+            [
+              687877.5,
+              6371202.5
+            ],
+            [
+              687877.5,
+              6371203.5
+            ],
+            [
+              687879.5,
+              6371203.5
+            ],
+            [
+              687879.5,
+              6371204.5
+            ],
+            [
+              687880.5,
+              6371204.5
+            ],
+            [
+              687880.5,
+              6371205.5
+            ],
+            [
+              687881.5,
+              6371205.5
+            ],
+            [
+              687881.5,
+              6371207.5
+            ],
+            [
+              687882.5,
+              6371207.5
+            ],
+            [
+              687882.5,
+              6371208.5
+            ],
+            [
+              687881.5,
+              6371208.5
+            ],
+            [
+              687881.5,
+              6371209.5
+            ],
+            [
+              687880.5,
+              6371209.5
+            ],
+            [
+              687880.5,
+              6371211.5
+            ],
+            [
+              687879.5,
+              6371211.5
+            ],
+            [
+              687879.5,
+              6371212.5
+            ],
+            [
+              687873.5,
+              6371212.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/island/4",
+        "scene": "review15west",
+        "reviewNumber": 7,
+        "action": "retain-existing",
+        "easting": 687876.738440311,
+        "northing": 6371207.846956543,
+        "heightMetres": 10.371363639831543,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000221",
+        "nearestExistingMetres": 0.6849756532634292,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687854.5,
+              6371213.5
+            ],
+            [
+              687854.5,
+              6371210.5
+            ],
+            [
+              687855.5,
+              6371210.5
+            ],
+            [
+              687855.5,
+              6371205.5
+            ],
+            [
+              687856.5,
+              6371205.5
+            ],
+            [
+              687856.5,
+              6371204.5
+            ],
+            [
+              687857.5,
+              6371204.5
+            ],
+            [
+              687857.5,
+              6371203.5
+            ],
+            [
+              687858.5,
+              6371203.5
+            ],
+            [
+              687858.5,
+              6371202.5
+            ],
+            [
+              687860.5,
+              6371202.5
+            ],
+            [
+              687860.5,
+              6371201.5
+            ],
+            [
+              687861.5,
+              6371201.5
+            ],
+            [
+              687861.5,
+              6371200.5
+            ],
+            [
+              687862.5,
+              6371200.5
+            ],
+            [
+              687862.5,
+              6371198.5
+            ],
+            [
+              687865.5,
+              6371198.5
+            ],
+            [
+              687865.5,
+              6371200.5
+            ],
+            [
+              687864.5,
+              6371200.5
+            ],
+            [
+              687864.5,
+              6371201.5
+            ],
+            [
+              687863.5,
+              6371201.5
+            ],
+            [
+              687863.5,
+              6371203.5
+            ],
+            [
+              687862.5,
+              6371203.5
+            ],
+            [
+              687862.5,
+              6371205.5
+            ],
+            [
+              687863.5,
+              6371205.5
+            ],
+            [
+              687863.5,
+              6371208.5
+            ],
+            [
+              687862.5,
+              6371208.5
+            ],
+            [
+              687862.5,
+              6371209.5
+            ],
+            [
+              687860.5,
+              6371209.5
+            ],
+            [
+              687860.5,
+              6371210.5
+            ],
+            [
+              687857.5,
+              6371210.5
+            ],
+            [
+              687857.5,
+              6371211.5
+            ],
+            [
+              687856.5,
+              6371211.5
+            ],
+            [
+              687856.5,
+              6371212.5
+            ],
+            [
+              687855.5,
+              6371212.5
+            ],
+            [
+              687855.5,
+              6371213.5
+            ],
+            [
+              687854.5,
+              6371213.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/19",
+        "scene": "review15west",
+        "reviewNumber": 8,
+        "action": "accept",
+        "easting": 687859.9438727577,
+        "northing": 6371206.06638336,
+        "heightMetres": 11.86963176727295,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000221",
+        "nearestExistingMetres": 17.52108017697291,
+        "id": "tree-visby-003174",
+        "record": {
+          "id": "tree-visby-003174",
+          "easting": 687859.9438727577,
+          "northing": 6371206.06638336,
+          "objectHeightMetres": 11.86963176727295,
+          "radiusMetres": 4.720348719413148,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687854.5,
+              6371210.5
+            ],
+            [
+              687854.5,
+              6371208.5
+            ],
+            [
+              687849.5,
+              6371208.5
+            ],
+            [
+              687849.5,
+              6371207.5
+            ],
+            [
+              687848.5,
+              6371207.5
+            ],
+            [
+              687848.5,
+              6371206.5
+            ],
+            [
+              687847.5,
+              6371206.5
+            ],
+            [
+              687847.5,
+              6371205.5
+            ],
+            [
+              687848.5,
+              6371205.5
+            ],
+            [
+              687848.5,
+              6371203.5
+            ],
+            [
+              687846.5,
+              6371203.5
+            ],
+            [
+              687846.5,
+              6371204.5
+            ],
+            [
+              687845.5,
+              6371204.5
+            ],
+            [
+              687845.5,
+              6371203.5
+            ],
+            [
+              687843.5,
+              6371203.5
+            ],
+            [
+              687843.5,
+              6371202.5
+            ],
+            [
+              687842.5,
+              6371202.5
+            ],
+            [
+              687842.5,
+              6371200.5
+            ],
+            [
+              687843.5,
+              6371200.5
+            ],
+            [
+              687843.5,
+              6371199.5
+            ],
+            [
+              687844.5,
+              6371199.5
+            ],
+            [
+              687844.5,
+              6371198.5
+            ],
+            [
+              687845.5,
+              6371198.5
+            ],
+            [
+              687845.5,
+              6371195.5
+            ],
+            [
+              687846.5,
+              6371195.5
+            ],
+            [
+              687846.5,
+              6371194.5
+            ],
+            [
+              687847.5,
+              6371194.5
+            ],
+            [
+              687847.5,
+              6371192.5
+            ],
+            [
+              687851.5,
+              6371192.5
+            ],
+            [
+              687851.5,
+              6371193.5
+            ],
+            [
+              687852.5,
+              6371193.5
+            ],
+            [
+              687852.5,
+              6371194.5
+            ],
+            [
+              687853.5,
+              6371194.5
+            ],
+            [
+              687853.5,
+              6371195.5
+            ],
+            [
+              687854.5,
+              6371195.5
+            ],
+            [
+              687854.5,
+              6371196.5
+            ],
+            [
+              687855.5,
+              6371196.5
+            ],
+            [
+              687855.5,
+              6371197.5
+            ],
+            [
+              687860.5,
+              6371197.5
+            ],
+            [
+              687860.5,
+              6371202.5
+            ],
+            [
+              687858.5,
+              6371202.5
+            ],
+            [
+              687858.5,
+              6371203.5
+            ],
+            [
+              687857.5,
+              6371203.5
+            ],
+            [
+              687857.5,
+              6371204.5
+            ],
+            [
+              687856.5,
+              6371204.5
+            ],
+            [
+              687856.5,
+              6371205.5
+            ],
+            [
+              687855.5,
+              6371205.5
+            ],
+            [
+              687855.5,
+              6371210.5
+            ],
+            [
+              687854.5,
+              6371210.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/23",
+        "scene": "review15west",
+        "reviewNumber": 9,
+        "action": "accept",
+        "easting": 687851.5783453122,
+        "northing": 6371200.902649447,
+        "heightMetres": 15.847115516662598,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000199",
+        "nearestExistingMetres": 17.591345875487654,
+        "id": "tree-visby-003175",
+        "record": {
+          "id": "tree-visby-003175",
+          "easting": 687851.5783453122,
+          "northing": 6371200.902649447,
+          "objectHeightMetres": 15.847115516662598,
+          "radiusMetres": 7.463526651802308,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687838.5,
+              6371201.5
+            ],
+            [
+              687838.5,
+              6371200.5
+            ],
+            [
+              687837.5,
+              6371200.5
+            ],
+            [
+              687837.5,
+              6371199.5
+            ],
+            [
+              687833.5,
+              6371199.5
+            ],
+            [
+              687833.5,
+              6371195.5
+            ],
+            [
+              687834.5,
+              6371195.5
+            ],
+            [
+              687834.5,
+              6371194.5
+            ],
+            [
+              687835.5,
+              6371194.5
+            ],
+            [
+              687835.5,
+              6371193.5
+            ],
+            [
+              687836.5,
+              6371193.5
+            ],
+            [
+              687836.5,
+              6371192.5
+            ],
+            [
+              687837.5,
+              6371192.5
+            ],
+            [
+              687837.5,
+              6371189.5
+            ],
+            [
+              687839.5,
+              6371189.5
+            ],
+            [
+              687839.5,
+              6371190.5
+            ],
+            [
+              687841.5,
+              6371190.5
+            ],
+            [
+              687841.5,
+              6371191.5
+            ],
+            [
+              687842.5,
+              6371191.5
+            ],
+            [
+              687842.5,
+              6371195.5
+            ],
+            [
+              687843.5,
+              6371195.5
+            ],
+            [
+              687843.5,
+              6371197.5
+            ],
+            [
+              687845.5,
+              6371197.5
+            ],
+            [
+              687845.5,
+              6371198.5
+            ],
+            [
+              687844.5,
+              6371198.5
+            ],
+            [
+              687844.5,
+              6371199.5
+            ],
+            [
+              687843.5,
+              6371199.5
+            ],
+            [
+              687843.5,
+              6371200.5
+            ],
+            [
+              687842.5,
+              6371200.5
+            ],
+            [
+              687842.5,
+              6371201.5
+            ],
+            [
+              687838.5,
+              6371201.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/26",
+        "scene": "review15west",
+        "reviewNumber": 10,
+        "action": "hold",
+        "easting": 687839.0021842015,
+        "northing": 6371196.090660494,
+        "heightMetres": 17.570289611816406,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000199",
+        "nearestExistingMetres": 11.593651205599583,
+        "reason": "Crown crosses the source-review boundary."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687876.5,
+              6371196.5
+            ],
+            [
+              687876.5,
+              6371195.5
+            ],
+            [
+              687873.5,
+              6371195.5
+            ],
+            [
+              687873.5,
+              6371194.5
+            ],
+            [
+              687871.5,
+              6371194.5
+            ],
+            [
+              687871.5,
+              6371193.5
+            ],
+            [
+              687873.5,
+              6371193.5
+            ],
+            [
+              687873.5,
+              6371192.5
+            ],
+            [
+              687874.5,
+              6371192.5
+            ],
+            [
+              687874.5,
+              6371191.5
+            ],
+            [
+              687875.5,
+              6371191.5
+            ],
+            [
+              687875.5,
+              6371190.5
+            ],
+            [
+              687873.5,
+              6371190.5
+            ],
+            [
+              687873.5,
+              6371188.5
+            ],
+            [
+              687874.5,
+              6371188.5
+            ],
+            [
+              687874.5,
+              6371189.5
+            ],
+            [
+              687880.5,
+              6371189.5
+            ],
+            [
+              687880.5,
+              6371190.5
+            ],
+            [
+              687881.5,
+              6371190.5
+            ],
+            [
+              687881.5,
+              6371191.5
+            ],
+            [
+              687882.5,
+              6371191.5
+            ],
+            [
+              687882.5,
+              6371194.5
+            ],
+            [
+              687881.5,
+              6371194.5
+            ],
+            [
+              687881.5,
+              6371195.5
+            ],
+            [
+              687880.5,
+              6371195.5
+            ],
+            [
+              687880.5,
+              6371196.5
+            ],
+            [
+              687876.5,
+              6371196.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/27",
+        "scene": "review15west",
+        "reviewNumber": 11,
+        "action": "accept",
+        "easting": 687877.886438283,
+        "northing": 6371192.939131025,
+        "heightMetres": 15.280196189880371,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000221",
+        "nearestExistingMetres": 15.250769473176211,
+        "id": "tree-visby-003176",
+        "record": {
+          "id": "tree-visby-003176",
+          "easting": 687877.886438283,
+          "northing": 6371192.939131025,
+          "objectHeightMetres": 15.280196189880371,
+          "radiusMetres": 4.145929793656026,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687904.5,
+              6371200.5
+            ],
+            [
+              687904.5,
+              6371198.5
+            ],
+            [
+              687905.5,
+              6371198.5
+            ],
+            [
+              687905.5,
+              6371197.5
+            ],
+            [
+              687904.5,
+              6371197.5
+            ],
+            [
+              687904.5,
+              6371195.5
+            ],
+            [
+              687903.5,
+              6371195.5
+            ],
+            [
+              687903.5,
+              6371194.5
+            ],
+            [
+              687902.5,
+              6371194.5
+            ],
+            [
+              687902.5,
+              6371193.5
+            ],
+            [
+              687901.5,
+              6371193.5
+            ],
+            [
+              687901.5,
+              6371185.5
+            ],
+            [
+              687907.5,
+              6371185.5
+            ],
+            [
+              687907.5,
+              6371184.5
+            ],
+            [
+              687908.5,
+              6371184.5
+            ],
+            [
+              687908.5,
+              6371183.5
+            ],
+            [
+              687909.5,
+              6371183.5
+            ],
+            [
+              687909.5,
+              6371182.5
+            ],
+            [
+              687912.5,
+              6371182.5
+            ],
+            [
+              687912.5,
+              6371186.5
+            ],
+            [
+              687913.5,
+              6371186.5
+            ],
+            [
+              687913.5,
+              6371187.5
+            ],
+            [
+              687914.5,
+              6371187.5
+            ],
+            [
+              687914.5,
+              6371188.5
+            ],
+            [
+              687915.5,
+              6371188.5
+            ],
+            [
+              687915.5,
+              6371189.5
+            ],
+            [
+              687916.5,
+              6371189.5
+            ],
+            [
+              687916.5,
+              6371190.5
+            ],
+            [
+              687917.5,
+              6371190.5
+            ],
+            [
+              687917.5,
+              6371198.5
+            ],
+            [
+              687916.5,
+              6371198.5
+            ],
+            [
+              687916.5,
+              6371200.5
+            ],
+            [
+              687904.5,
+              6371200.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/32",
+        "scene": "review15west",
+        "reviewNumber": 12,
+        "action": "hold",
+        "easting": 687910.0805371382,
+        "northing": 6371192.597847555,
+        "heightMetres": 15.965822219848633,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000269",
+        "nearestExistingMetres": 34.936186062890464,
+        "reason": "Crown crosses the source-review boundary."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687860.5,
+              6371200.5
+            ],
+            [
+              687860.5,
+              6371197.5
+            ],
+            [
+              687861.5,
+              6371197.5
+            ],
+            [
+              687861.5,
+              6371190.5
+            ],
+            [
+              687862.5,
+              6371190.5
+            ],
+            [
+              687862.5,
+              6371189.5
+            ],
+            [
+              687863.5,
+              6371189.5
+            ],
+            [
+              687863.5,
+              6371188.5
+            ],
+            [
+              687864.5,
+              6371188.5
+            ],
+            [
+              687864.5,
+              6371181.5
+            ],
+            [
+              687873.5,
+              6371181.5
+            ],
+            [
+              687873.5,
+              6371184.5
+            ],
+            [
+              687874.5,
+              6371184.5
+            ],
+            [
+              687874.5,
+              6371187.5
+            ],
+            [
+              687873.5,
+              6371187.5
+            ],
+            [
+              687873.5,
+              6371190.5
+            ],
+            [
+              687875.5,
+              6371190.5
+            ],
+            [
+              687875.5,
+              6371191.5
+            ],
+            [
+              687874.5,
+              6371191.5
+            ],
+            [
+              687874.5,
+              6371192.5
+            ],
+            [
+              687873.5,
+              6371192.5
+            ],
+            [
+              687873.5,
+              6371193.5
+            ],
+            [
+              687871.5,
+              6371193.5
+            ],
+            [
+              687871.5,
+              6371194.5
+            ],
+            [
+              687870.5,
+              6371194.5
+            ],
+            [
+              687870.5,
+              6371195.5
+            ],
+            [
+              687866.5,
+              6371195.5
+            ],
+            [
+              687866.5,
+              6371194.5
+            ],
+            [
+              687864.5,
+              6371194.5
+            ],
+            [
+              687864.5,
+              6371196.5
+            ],
+            [
+              687863.5,
+              6371196.5
+            ],
+            [
+              687863.5,
+              6371198.5
+            ],
+            [
+              687862.5,
+              6371198.5
+            ],
+            [
+              687862.5,
+              6371200.5
+            ],
+            [
+              687860.5,
+              6371200.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/31",
+        "scene": "review15west",
+        "reviewNumber": 13,
+        "action": "accept",
+        "easting": 687867.8065132133,
+        "northing": 6371189.527283086,
+        "heightMetres": 18.009618759155273,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000217",
+        "nearestExistingMetres": 13.103639832291089,
+        "id": "tree-visby-003177",
+        "record": {
+          "id": "tree-visby-003177",
+          "easting": 687867.8065132133,
+          "northing": 6371189.527283086,
+          "objectHeightMetres": 18.009618759155273,
+          "radiusMetres": 7.024103669400641,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687855.5,
+              6371197.5
+            ],
+            [
+              687855.5,
+              6371196.5
+            ],
+            [
+              687854.5,
+              6371196.5
+            ],
+            [
+              687854.5,
+              6371195.5
+            ],
+            [
+              687853.5,
+              6371195.5
+            ],
+            [
+              687853.5,
+              6371194.5
+            ],
+            [
+              687852.5,
+              6371194.5
+            ],
+            [
+              687852.5,
+              6371193.5
+            ],
+            [
+              687851.5,
+              6371193.5
+            ],
+            [
+              687851.5,
+              6371192.5
+            ],
+            [
+              687847.5,
+              6371192.5
+            ],
+            [
+              687847.5,
+              6371187.5
+            ],
+            [
+              687848.5,
+              6371187.5
+            ],
+            [
+              687848.5,
+              6371184.5
+            ],
+            [
+              687849.5,
+              6371184.5
+            ],
+            [
+              687849.5,
+              6371183.5
+            ],
+            [
+              687850.5,
+              6371183.5
+            ],
+            [
+              687850.5,
+              6371182.5
+            ],
+            [
+              687851.5,
+              6371182.5
+            ],
+            [
+              687851.5,
+              6371181.5
+            ],
+            [
+              687853.5,
+              6371181.5
+            ],
+            [
+              687853.5,
+              6371180.5
+            ],
+            [
+              687857.5,
+              6371180.5
+            ],
+            [
+              687857.5,
+              6371181.5
+            ],
+            [
+              687858.5,
+              6371181.5
+            ],
+            [
+              687858.5,
+              6371182.5
+            ],
+            [
+              687859.5,
+              6371182.5
+            ],
+            [
+              687859.5,
+              6371183.5
+            ],
+            [
+              687862.5,
+              6371183.5
+            ],
+            [
+              687862.5,
+              6371184.5
+            ],
+            [
+              687864.5,
+              6371184.5
+            ],
+            [
+              687864.5,
+              6371188.5
+            ],
+            [
+              687863.5,
+              6371188.5
+            ],
+            [
+              687863.5,
+              6371189.5
+            ],
+            [
+              687862.5,
+              6371189.5
+            ],
+            [
+              687862.5,
+              6371190.5
+            ],
+            [
+              687861.5,
+              6371190.5
+            ],
+            [
+              687861.5,
+              6371197.5
+            ],
+            [
+              687855.5,
+              6371197.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/33",
+        "scene": "review15west",
+        "reviewNumber": 14,
+        "action": "accept",
+        "easting": 687856.2676538519,
+        "northing": 6371188.987157162,
+        "heightMetres": 18.027971267700195,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000199",
+        "nearestExistingMetres": 13.408928599843662,
+        "id": "tree-visby-003178",
+        "record": {
+          "id": "tree-visby-003178",
+          "easting": 687856.2676538519,
+          "northing": 6371188.987157162,
+          "objectHeightMetres": 18.027971267700195,
+          "radiusMetres": 7.918778161951929,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687839.5,
+              6371190.5
+            ],
+            [
+              687839.5,
+              6371189.5
+            ],
+            [
+              687837.5,
+              6371189.5
+            ],
+            [
+              687837.5,
+              6371188.5
+            ],
+            [
+              687836.5,
+              6371188.5
+            ],
+            [
+              687836.5,
+              6371187.5
+            ],
+            [
+              687835.5,
+              6371187.5
+            ],
+            [
+              687835.5,
+              6371184.5
+            ],
+            [
+              687836.5,
+              6371184.5
+            ],
+            [
+              687836.5,
+              6371183.5
+            ],
+            [
+              687837.5,
+              6371183.5
+            ],
+            [
+              687837.5,
+              6371182.5
+            ],
+            [
+              687838.5,
+              6371182.5
+            ],
+            [
+              687838.5,
+              6371181.5
+            ],
+            [
+              687839.5,
+              6371181.5
+            ],
+            [
+              687839.5,
+              6371178.5
+            ],
+            [
+              687842.5,
+              6371178.5
+            ],
+            [
+              687842.5,
+              6371177.5
+            ],
+            [
+              687847.5,
+              6371177.5
+            ],
+            [
+              687847.5,
+              6371176.5
+            ],
+            [
+              687849.5,
+              6371176.5
+            ],
+            [
+              687849.5,
+              6371177.5
+            ],
+            [
+              687850.5,
+              6371177.5
+            ],
+            [
+              687850.5,
+              6371179.5
+            ],
+            [
+              687851.5,
+              6371179.5
+            ],
+            [
+              687851.5,
+              6371180.5
+            ],
+            [
+              687850.5,
+              6371180.5
+            ],
+            [
+              687850.5,
+              6371181.5
+            ],
+            [
+              687849.5,
+              6371181.5
+            ],
+            [
+              687849.5,
+              6371180.5
+            ],
+            [
+              687848.5,
+              6371180.5
+            ],
+            [
+              687848.5,
+              6371179.5
+            ],
+            [
+              687847.5,
+              6371179.5
+            ],
+            [
+              687847.5,
+              6371180.5
+            ],
+            [
+              687846.5,
+              6371180.5
+            ],
+            [
+              687846.5,
+              6371179.5
+            ],
+            [
+              687844.5,
+              6371179.5
+            ],
+            [
+              687844.5,
+              6371181.5
+            ],
+            [
+              687845.5,
+              6371181.5
+            ],
+            [
+              687845.5,
+              6371182.5
+            ],
+            [
+              687846.5,
+              6371182.5
+            ],
+            [
+              687846.5,
+              6371186.5
+            ],
+            [
+              687845.5,
+              6371186.5
+            ],
+            [
+              687845.5,
+              6371187.5
+            ],
+            [
+              687844.5,
+              6371187.5
+            ],
+            [
+              687844.5,
+              6371188.5
+            ],
+            [
+              687842.5,
+              6371188.5
+            ],
+            [
+              687842.5,
+              6371190.5
+            ],
+            [
+              687839.5,
+              6371190.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/34",
+        "scene": "review15west",
+        "reviewNumber": 15,
+        "action": "retain-existing",
+        "easting": 687842.2690924776,
+        "northing": 6371183.944764286,
+        "heightMetres": 15.745049476623535,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000199",
+        "nearestExistingMetres": 1.7786279322259544,
+        "reason": "Existing individual already represents this crown; preserve its record."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687900.5,
+              6371186.5
+            ],
+            [
+              687900.5,
+              6371184.5
+            ],
+            [
+              687901.5,
+              6371184.5
+            ],
+            [
+              687901.5,
+              6371183.5
+            ],
+            [
+              687902.5,
+              6371183.5
+            ],
+            [
+              687902.5,
+              6371182.5
+            ],
+            [
+              687904.5,
+              6371182.5
+            ],
+            [
+              687904.5,
+              6371178.5
+            ],
+            [
+              687903.5,
+              6371178.5
+            ],
+            [
+              687903.5,
+              6371177.5
+            ],
+            [
+              687902.5,
+              6371177.5
+            ],
+            [
+              687902.5,
+              6371175.5
+            ],
+            [
+              687900.5,
+              6371175.5
+            ],
+            [
+              687900.5,
+              6371174.5
+            ],
+            [
+              687901.5,
+              6371174.5
+            ],
+            [
+              687901.5,
+              6371173.5
+            ],
+            [
+              687902.5,
+              6371173.5
+            ],
+            [
+              687902.5,
+              6371172.5
+            ],
+            [
+              687903.5,
+              6371172.5
+            ],
+            [
+              687903.5,
+              6371171.5
+            ],
+            [
+              687904.5,
+              6371171.5
+            ],
+            [
+              687904.5,
+              6371170.5
+            ],
+            [
+              687908.5,
+              6371170.5
+            ],
+            [
+              687908.5,
+              6371171.5
+            ],
+            [
+              687909.5,
+              6371171.5
+            ],
+            [
+              687909.5,
+              6371172.5
+            ],
+            [
+              687910.5,
+              6371172.5
+            ],
+            [
+              687910.5,
+              6371173.5
+            ],
+            [
+              687911.5,
+              6371173.5
+            ],
+            [
+              687911.5,
+              6371174.5
+            ],
+            [
+              687912.5,
+              6371174.5
+            ],
+            [
+              687912.5,
+              6371178.5
+            ],
+            [
+              687913.5,
+              6371178.5
+            ],
+            [
+              687913.5,
+              6371180.5
+            ],
+            [
+              687916.5,
+              6371180.5
+            ],
+            [
+              687916.5,
+              6371179.5
+            ],
+            [
+              687917.5,
+              6371179.5
+            ],
+            [
+              687917.5,
+              6371181.5
+            ],
+            [
+              687916.5,
+              6371181.5
+            ],
+            [
+              687916.5,
+              6371182.5
+            ],
+            [
+              687915.5,
+              6371182.5
+            ],
+            [
+              687915.5,
+              6371181.5
+            ],
+            [
+              687913.5,
+              6371181.5
+            ],
+            [
+              687913.5,
+              6371182.5
+            ],
+            [
+              687909.5,
+              6371182.5
+            ],
+            [
+              687909.5,
+              6371183.5
+            ],
+            [
+              687908.5,
+              6371183.5
+            ],
+            [
+              687908.5,
+              6371184.5
+            ],
+            [
+              687907.5,
+              6371184.5
+            ],
+            [
+              687907.5,
+              6371185.5
+            ],
+            [
+              687901.5,
+              6371185.5
+            ],
+            [
+              687901.5,
+              6371186.5
+            ],
+            [
+              687900.5,
+              6371186.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/41",
+        "scene": "review15west",
+        "reviewNumber": 16,
+        "action": "hold",
+        "easting": 687907.7008805122,
+        "northing": 6371178.082999833,
+        "heightMetres": 12.356297492980957,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000243",
+        "nearestExistingMetres": 24.38598987612157,
+        "reason": "Crown crosses the source-review boundary."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687881.5,
+              6371183.5
+            ],
+            [
+              687881.5,
+              6371182.5
+            ],
+            [
+              687880.5,
+              6371182.5
+            ],
+            [
+              687880.5,
+              6371181.5
+            ],
+            [
+              687879.5,
+              6371181.5
+            ],
+            [
+              687879.5,
+              6371172.5
+            ],
+            [
+              687880.5,
+              6371172.5
+            ],
+            [
+              687880.5,
+              6371171.5
+            ],
+            [
+              687881.5,
+              6371171.5
+            ],
+            [
+              687881.5,
+              6371170.5
+            ],
+            [
+              687882.5,
+              6371170.5
+            ],
+            [
+              687882.5,
+              6371169.5
+            ],
+            [
+              687883.5,
+              6371169.5
+            ],
+            [
+              687883.5,
+              6371168.5
+            ],
+            [
+              687886.5,
+              6371168.5
+            ],
+            [
+              687886.5,
+              6371170.5
+            ],
+            [
+              687889.5,
+              6371170.5
+            ],
+            [
+              687889.5,
+              6371171.5
+            ],
+            [
+              687890.5,
+              6371171.5
+            ],
+            [
+              687890.5,
+              6371172.5
+            ],
+            [
+              687891.5,
+              6371172.5
+            ],
+            [
+              687891.5,
+              6371173.5
+            ],
+            [
+              687892.5,
+              6371173.5
+            ],
+            [
+              687892.5,
+              6371174.5
+            ],
+            [
+              687893.5,
+              6371174.5
+            ],
+            [
+              687893.5,
+              6371175.5
+            ],
+            [
+              687894.5,
+              6371175.5
+            ],
+            [
+              687894.5,
+              6371177.5
+            ],
+            [
+              687893.5,
+              6371177.5
+            ],
+            [
+              687893.5,
+              6371180.5
+            ],
+            [
+              687892.5,
+              6371180.5
+            ],
+            [
+              687892.5,
+              6371181.5
+            ],
+            [
+              687889.5,
+              6371181.5
+            ],
+            [
+              687889.5,
+              6371180.5
+            ],
+            [
+              687887.5,
+              6371180.5
+            ],
+            [
+              687887.5,
+              6371181.5
+            ],
+            [
+              687885.5,
+              6371181.5
+            ],
+            [
+              687885.5,
+              6371183.5
+            ],
+            [
+              687881.5,
+              6371183.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/40",
+        "scene": "review15west",
+        "reviewNumber": 17,
+        "action": "accept",
+        "easting": 687886.131353164,
+        "northing": 6371176.252546799,
+        "heightMetres": 18.595420837402344,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000217",
+        "nearestExistingMetres": 14.215220170704644,
+        "id": "tree-visby-003179",
+        "record": {
+          "id": "tree-visby-003179",
+          "easting": 687886.131353164,
+          "northing": 6371176.252546799,
+          "objectHeightMetres": 18.595420837402344,
+          "radiusMetres": 7.046725639945928,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687859.5,
+              6371183.5
+            ],
+            [
+              687859.5,
+              6371182.5
+            ],
+            [
+              687858.5,
+              6371182.5
+            ],
+            [
+              687858.5,
+              6371181.5
+            ],
+            [
+              687857.5,
+              6371181.5
+            ],
+            [
+              687857.5,
+              6371180.5
+            ],
+            [
+              687854.5,
+              6371180.5
+            ],
+            [
+              687854.5,
+              6371176.5
+            ],
+            [
+              687853.5,
+              6371176.5
+            ],
+            [
+              687853.5,
+              6371175.5
+            ],
+            [
+              687852.5,
+              6371175.5
+            ],
+            [
+              687852.5,
+              6371174.5
+            ],
+            [
+              687850.5,
+              6371174.5
+            ],
+            [
+              687850.5,
+              6371173.5
+            ],
+            [
+              687851.5,
+              6371173.5
+            ],
+            [
+              687851.5,
+              6371169.5
+            ],
+            [
+              687852.5,
+              6371169.5
+            ],
+            [
+              687852.5,
+              6371168.5
+            ],
+            [
+              687853.5,
+              6371168.5
+            ],
+            [
+              687853.5,
+              6371167.5
+            ],
+            [
+              687854.5,
+              6371167.5
+            ],
+            [
+              687854.5,
+              6371166.5
+            ],
+            [
+              687860.5,
+              6371166.5
+            ],
+            [
+              687860.5,
+              6371172.5
+            ],
+            [
+              687861.5,
+              6371172.5
+            ],
+            [
+              687861.5,
+              6371173.5
+            ],
+            [
+              687862.5,
+              6371173.5
+            ],
+            [
+              687862.5,
+              6371174.5
+            ],
+            [
+              687863.5,
+              6371174.5
+            ],
+            [
+              687863.5,
+              6371175.5
+            ],
+            [
+              687864.5,
+              6371175.5
+            ],
+            [
+              687864.5,
+              6371181.5
+            ],
+            [
+              687861.5,
+              6371181.5
+            ],
+            [
+              687861.5,
+              6371183.5
+            ],
+            [
+              687859.5,
+              6371183.5
+            ]
+          ],
+          [
+            [
+              687853.5,
+              6371170.5
+            ],
+            [
+              687855.5,
+              6371170.5
+            ],
+            [
+              687855.5,
+              6371168.5
+            ],
+            [
+              687853.5,
+              6371168.5
+            ],
+            [
+              687853.5,
+              6371170.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/42",
+        "scene": "review15west",
+        "reviewNumber": 18,
+        "action": "accept",
+        "easting": 687858.4742023641,
+        "northing": 6371175.180415721,
+        "heightMetres": 16.865739822387695,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000217",
+        "nearestExistingMetres": 13.601934318060959,
+        "id": "tree-visby-003180",
+        "record": {
+          "id": "tree-visby-003180",
+          "easting": 687858.4742023641,
+          "northing": 6371175.180415721,
+          "objectHeightMetres": 16.865739822387695,
+          "radiusMetres": 6.6755811781245455,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687864.5,
+              6371181.5
+            ],
+            [
+              687864.5,
+              6371175.5
+            ],
+            [
+              687863.5,
+              6371175.5
+            ],
+            [
+              687863.5,
+              6371174.5
+            ],
+            [
+              687862.5,
+              6371174.5
+            ],
+            [
+              687862.5,
+              6371173.5
+            ],
+            [
+              687861.5,
+              6371173.5
+            ],
+            [
+              687861.5,
+              6371172.5
+            ],
+            [
+              687860.5,
+              6371172.5
+            ],
+            [
+              687860.5,
+              6371166.5
+            ],
+            [
+              687856.5,
+              6371166.5
+            ],
+            [
+              687856.5,
+              6371165.5
+            ],
+            [
+              687857.5,
+              6371165.5
+            ],
+            [
+              687857.5,
+              6371162.5
+            ],
+            [
+              687865.5,
+              6371162.5
+            ],
+            [
+              687865.5,
+              6371163.5
+            ],
+            [
+              687866.5,
+              6371163.5
+            ],
+            [
+              687866.5,
+              6371164.5
+            ],
+            [
+              687867.5,
+              6371164.5
+            ],
+            [
+              687867.5,
+              6371165.5
+            ],
+            [
+              687868.5,
+              6371165.5
+            ],
+            [
+              687868.5,
+              6371166.5
+            ],
+            [
+              687869.5,
+              6371166.5
+            ],
+            [
+              687869.5,
+              6371168.5
+            ],
+            [
+              687870.5,
+              6371168.5
+            ],
+            [
+              687870.5,
+              6371169.5
+            ],
+            [
+              687872.5,
+              6371169.5
+            ],
+            [
+              687872.5,
+              6371170.5
+            ],
+            [
+              687873.5,
+              6371170.5
+            ],
+            [
+              687873.5,
+              6371171.5
+            ],
+            [
+              687874.5,
+              6371171.5
+            ],
+            [
+              687874.5,
+              6371180.5
+            ],
+            [
+              687873.5,
+              6371180.5
+            ],
+            [
+              687873.5,
+              6371181.5
+            ],
+            [
+              687864.5,
+              6371181.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/44",
+        "scene": "review15west",
+        "reviewNumber": 19,
+        "action": "hold",
+        "easting": 687866.5973570251,
+        "northing": 6371171.626445877,
+        "heightMetres": 16.73168182373047,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000217",
+        "nearestExistingMetres": 7.6444577454615885,
+        "reason": "Connected crown group contains an existing tree; uncertain correspondence."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687838.5,
+              6371178.5
+            ],
+            [
+              687838.5,
+              6371177.5
+            ],
+            [
+              687837.5,
+              6371177.5
+            ],
+            [
+              687837.5,
+              6371176.5
+            ],
+            [
+              687836.5,
+              6371176.5
+            ],
+            [
+              687836.5,
+              6371171.5
+            ],
+            [
+              687835.5,
+              6371171.5
+            ],
+            [
+              687835.5,
+              6371165.5
+            ],
+            [
+              687836.5,
+              6371165.5
+            ],
+            [
+              687836.5,
+              6371163.5
+            ],
+            [
+              687837.5,
+              6371163.5
+            ],
+            [
+              687837.5,
+              6371161.5
+            ],
+            [
+              687838.5,
+              6371161.5
+            ],
+            [
+              687838.5,
+              6371162.5
+            ],
+            [
+              687842.5,
+              6371162.5
+            ],
+            [
+              687842.5,
+              6371163.5
+            ],
+            [
+              687843.5,
+              6371163.5
+            ],
+            [
+              687843.5,
+              6371164.5
+            ],
+            [
+              687844.5,
+              6371164.5
+            ],
+            [
+              687844.5,
+              6371165.5
+            ],
+            [
+              687845.5,
+              6371165.5
+            ],
+            [
+              687845.5,
+              6371166.5
+            ],
+            [
+              687846.5,
+              6371166.5
+            ],
+            [
+              687846.5,
+              6371167.5
+            ],
+            [
+              687847.5,
+              6371167.5
+            ],
+            [
+              687847.5,
+              6371168.5
+            ],
+            [
+              687851.5,
+              6371168.5
+            ],
+            [
+              687851.5,
+              6371173.5
+            ],
+            [
+              687850.5,
+              6371173.5
+            ],
+            [
+              687850.5,
+              6371174.5
+            ],
+            [
+              687848.5,
+              6371174.5
+            ],
+            [
+              687848.5,
+              6371176.5
+            ],
+            [
+              687847.5,
+              6371176.5
+            ],
+            [
+              687847.5,
+              6371177.5
+            ],
+            [
+              687842.5,
+              6371177.5
+            ],
+            [
+              687842.5,
+              6371178.5
+            ],
+            [
+              687838.5,
+              6371178.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/45",
+        "scene": "review15west",
+        "reviewNumber": 20,
+        "action": "accept",
+        "easting": 687842.3356975985,
+        "northing": 6371170.369116488,
+        "heightMetres": 17.181299209594727,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000199",
+        "nearestExistingMetres": 15.014001728213628,
+        "id": "tree-visby-003181",
+        "record": {
+          "id": "tree-visby-003181",
+          "easting": 687842.3356975985,
+          "northing": 6371170.369116488,
+          "objectHeightMetres": 17.181299209594727,
+          "radiusMetres": 7.653039857325812,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687893.5,
+              6371175.5
+            ],
+            [
+              687893.5,
+              6371174.5
+            ],
+            [
+              687892.5,
+              6371174.5
+            ],
+            [
+              687892.5,
+              6371173.5
+            ],
+            [
+              687891.5,
+              6371173.5
+            ],
+            [
+              687891.5,
+              6371172.5
+            ],
+            [
+              687890.5,
+              6371172.5
+            ],
+            [
+              687890.5,
+              6371171.5
+            ],
+            [
+              687889.5,
+              6371171.5
+            ],
+            [
+              687889.5,
+              6371170.5
+            ],
+            [
+              687886.5,
+              6371170.5
+            ],
+            [
+              687886.5,
+              6371164.5
+            ],
+            [
+              687896.5,
+              6371164.5
+            ],
+            [
+              687896.5,
+              6371165.5
+            ],
+            [
+              687897.5,
+              6371165.5
+            ],
+            [
+              687897.5,
+              6371166.5
+            ],
+            [
+              687898.5,
+              6371166.5
+            ],
+            [
+              687898.5,
+              6371167.5
+            ],
+            [
+              687901.5,
+              6371167.5
+            ],
+            [
+              687901.5,
+              6371168.5
+            ],
+            [
+              687902.5,
+              6371168.5
+            ],
+            [
+              687902.5,
+              6371169.5
+            ],
+            [
+              687903.5,
+              6371169.5
+            ],
+            [
+              687903.5,
+              6371170.5
+            ],
+            [
+              687904.5,
+              6371170.5
+            ],
+            [
+              687904.5,
+              6371171.5
+            ],
+            [
+              687903.5,
+              6371171.5
+            ],
+            [
+              687903.5,
+              6371172.5
+            ],
+            [
+              687902.5,
+              6371172.5
+            ],
+            [
+              687902.5,
+              6371173.5
+            ],
+            [
+              687901.5,
+              6371173.5
+            ],
+            [
+              687901.5,
+              6371174.5
+            ],
+            [
+              687899.5,
+              6371174.5
+            ],
+            [
+              687899.5,
+              6371175.5
+            ],
+            [
+              687893.5,
+              6371175.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/46",
+        "scene": "review15west",
+        "reviewNumber": 21,
+        "action": "accept",
+        "easting": 687894.8322896905,
+        "northing": 6371169.543667227,
+        "heightMetres": 14.957770347595215,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000243",
+        "nearestExistingMetres": 20.691507759897362,
+        "id": "tree-visby-003182",
+        "record": {
+          "id": "tree-visby-003182",
+          "easting": 687894.8322896905,
+          "northing": 6371169.543667227,
+          "objectHeightMetres": 14.957770347595215,
+          "radiusMetres": 6.555290583552474,
+          "sourceId": "visby-tree-pilot-round2-source-review",
+          "placementMethod": "derived-lidar",
+          "horizontalAccuracyMetres": 2,
+          "verticalAccuracyMetres": 1.5,
+          "confidence": 0.65,
+          "truthZone": "A",
+          "capturedAt": "2024-04-28"
+        },
+        "reason": "Distinguishable LiDAR crown corroborated by RGB/CIR; source-reviewed addition replaces stand representation."
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              687874.5,
+              6371173.5
+            ],
+            [
+              687874.5,
+              6371171.5
+            ],
+            [
+              687873.5,
+              6371171.5
+            ],
+            [
+              687873.5,
+              6371170.5
+            ],
+            [
+              687872.5,
+              6371170.5
+            ],
+            [
+              687872.5,
+              6371169.5
+            ],
+            [
+              687874.5,
+              6371169.5
+            ],
+            [
+              687874.5,
+              6371168.5
+            ],
+            [
+              687875.5,
+              6371168.5
+            ],
+            [
+              687875.5,
+              6371167.5
+            ],
+            [
+              687874.5,
+              6371167.5
+            ],
+            [
+              687874.5,
+              6371166.5
+            ],
+            [
+              687873.5,
+              6371166.5
+            ],
+            [
+              687873.5,
+              6371165.5
+            ],
+            [
+              687872.5,
+              6371165.5
+            ],
+            [
+              687872.5,
+              6371164.5
+            ],
+            [
+              687870.5,
+              6371164.5
+            ],
+            [
+              687870.5,
+              6371165.5
+            ],
+            [
+              687869.5,
+              6371165.5
+            ],
+            [
+              687869.5,
+              6371166.5
+            ],
+            [
+              687868.5,
+              6371166.5
+            ],
+            [
+              687868.5,
+              6371165.5
+            ],
+            [
+              687867.5,
+              6371165.5
+            ],
+            [
+              687867.5,
+              6371164.5
+            ],
+            [
+              687866.5,
+              6371164.5
+            ],
+            [
+              687866.5,
+              6371163.5
+            ],
+            [
+              687865.5,
+              6371163.5
+            ],
+            [
+              687865.5,
+              6371161.5
+            ],
+            [
+              687866.5,
+              6371161.5
+            ],
+            [
+              687866.5,
+              6371162.5
+            ],
+            [
+              687869.5,
+              6371162.5
+            ],
+            [
+              687869.5,
+              6371161.5
+            ],
+            [
+              687870.5,
+              6371161.5
+            ],
+            [
+              687870.5,
+              6371159.5
+            ],
+            [
+              687872.5,
+              6371159.5
+            ],
+            [
+              687872.5,
+              6371158.5
+            ],
+            [
+              687873.5,
+              6371158.5
+            ],
+            [
+              687873.5,
+              6371157.5
+            ],
+            [
+              687874.5,
+              6371157.5
+            ],
+            [
+              687874.5,
+              6371156.5
+            ],
+            [
+              687875.5,
+              6371156.5
+            ],
+            [
+              687875.5,
+              6371157.5
+            ],
+            [
+              687878.5,
+              6371157.5
+            ],
+            [
+              687878.5,
+              6371158.5
+            ],
+            [
+              687879.5,
+              6371158.5
+            ],
+            [
+              687879.5,
+              6371159.5
+            ],
+            [
+              687880.5,
+              6371159.5
+            ],
+            [
+              687880.5,
+              6371160.5
+            ],
+            [
+              687881.5,
+              6371160.5
+            ],
+            [
+              687881.5,
+              6371161.5
+            ],
+            [
+              687882.5,
+              6371161.5
+            ],
+            [
+              687882.5,
+              6371162.5
+            ],
+            [
+              687879.5,
+              6371162.5
+            ],
+            [
+              687879.5,
+              6371163.5
+            ],
+            [
+              687878.5,
+              6371163.5
+            ],
+            [
+              687878.5,
+              6371164.5
+            ],
+            [
+              687879.5,
+              6371164.5
+            ],
+            [
+              687879.5,
+              6371166.5
+            ],
+            [
+              687882.5,
+              6371166.5
+            ],
+            [
+              687882.5,
+              6371165.5
+            ],
+            [
+              687883.5,
+              6371165.5
+            ],
+            [
+              687883.5,
+              6371166.5
+            ],
+            [
+              687884.5,
+              6371166.5
+            ],
+            [
+              687884.5,
+              6371168.5
+            ],
+            [
+              687883.5,
+              6371168.5
+            ],
+            [
+              687883.5,
+              6371169.5
+            ],
+            [
+              687882.5,
+              6371169.5
+            ],
+            [
+              687882.5,
+              6371170.5
+            ],
+            [
+              687881.5,
+              6371170.5
+            ],
+            [
+              687881.5,
+              6371171.5
+            ],
+            [
+              687880.5,
+              6371171.5
+            ],
+            [
+              687880.5,
+              6371172.5
+            ],
+            [
+              687879.5,
+              6371172.5
+            ],
+            [
+              687879.5,
+              6371173.5
+            ],
+            [
+              687874.5,
+              6371173.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "candidateId": "review15west/dalponte-d9-m5/48",
+        "scene": "review15west",
+        "reviewNumber": 22,
+        "action": "hold",
+        "easting": 687875.9514971994,
+        "northing": 6371164.528761981,
+        "heightMetres": 15.778894424438477,
+        "sourceWindows": [
+          {
+            "id": "context-2-3",
+            "sha256": "061f6b5a2a5a59bd7208e3759157737de59f43645df9e25144d0ee2a2eefcc60",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-green",
+            "sha256": "6a8357c3d5e532cf2e87ec906325e858ac4a9282053b69550693da28763b82a1",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-15-tees",
+            "sha256": "e0718212d4758d32b9cc074c51a36803861693353771ec8bdba7e852d755f2e9",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          },
+          {
+            "id": "hole-16-tees",
+            "sha256": "37cfc802224f569906eb41ededffb5c503c2e056b2c12456eaecebf270b6ab2e",
+            "sources": [
+              {
+                "id": "o63700_6875_25_mr26",
+                "capturedAt": "2026-04-10T08:27:42Z"
+              }
+            ]
+          }
+        ],
+        "imageCapture": "2026-04-10",
+        "lidarCaptureRange": [
+          "2024-02-03",
+          "2024-04-28"
+        ],
+        "uncertaintyMetres": 2,
+        "positionKind": "LiDAR height-weighted crown centre, not measured trunk",
+        "nearestExistingId": "tree-visby-000217",
+        "nearestExistingMetres": 13.188789360342287,
+        "reason": "Crown crosses the source-review boundary."
+      }
+    }
+  ]
+}

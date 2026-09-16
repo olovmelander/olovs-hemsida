@@ -1,0 +1,29 @@
+{
+  "reviewer": "Agent visual review of co-registered 2024 LiDAR height and 2026-04-10 RGB/CIR, with existing individual locations shown",
+  "positionPolicy": "Use the source-height-weighted LiDAR crown centre. Do not snap to image centres or invent stem locations. Horizontal uncertainty 2 m is a judgement, not measured accuracy.",
+  "scenes": {
+    "review06": {
+      "accept": [1, 3, 6], "retainExisting": [2],
+      "hold": {"4": "Low sparse vegetation: tree versus shrub identity and base are ambiguous.", "5": "Fragmented low canopy: crown and stem cannot be distinguished reliably."}
+    },
+    "review13": {
+      "accept": [3], "retainExisting": [1],
+      "hold": {"2": "Segmentation divides connected canopy around an existing individual; correspondence and split remain ambiguous.", "4": "Same connected group as candidate 2 and an existing individual; do not add a potentially duplicate tree."}
+    },
+    "review15": {"accept": [4], "retainExisting": [1, 2, 3, 5], "hold": {}},
+    "review15west": {
+      "accept": [2, 3, 4, 6, 8, 9, 11, 13, 14, 17, 18, 20, 21], "retainExisting": [7, 15],
+      "hold": {
+        "1": "Crown crosses the source-review boundary; complete outline was not reviewed.",
+        "5": "Small attached segment may belong to the broad neighbouring crown 4.",
+        "10": "Crown crosses the source-review boundary.",
+        "12": "Crown crosses the source-review boundary.",
+        "16": "Crown crosses the source-review boundary.",
+        "19": "Connected crown group contains an existing tree; uncertain correspondence.",
+        "22": "Crown crosses the source-review boundary."
+      }
+    }
+  },
+  "baseHolds": {},
+  "limits": "Purposive review, not a completeness annotation. Fresh evaluation scenes remain unedited. Retained existing trees receive no inferred position update. No infrared-only removal or species inference."
+}

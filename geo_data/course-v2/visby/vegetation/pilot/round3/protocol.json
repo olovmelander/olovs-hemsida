@@ -1,0 +1,20 @@
+{
+  "scope": "26 systematic source-review cells around holes 1, 2, 4 and 10, plus investigation of eight retained suppressed records",
+  "reviewer": "agent visual source review",
+  "sourceDates": {
+    "lidar": [
+      "2024-02-03",
+      "2024-04-28"
+    ],
+    "rgbi": "2026-04-10",
+    "seasonal": "2022; exact date unknown"
+  },
+  "method": "Frozen round-two Dalponte + small measured canopy islands; candidate generation only, no new detector tuning or accuracy claim",
+  "previousDetectorLockSha256": "76c45abb4151ee609a174c6c32b4d56274ab4059399920bacffafdd6779a9a84",
+  "coverageDefinition": "100 m grid clipped to playing/practice surfaces + 30 m. Six fresh evaluation windows reserved and not edited.",
+  "centreOwnership": "west/south inclusive, east/north exclusive; full crown footprint retained across cell/tile seams",
+  "minimumHeightMetres": 3,
+  "sourcePanelBorderMetres": 15,
+  "detectorHaloMetres": 20,
+  "deployment": "isolated local preview; production/default unchanged"
+}
