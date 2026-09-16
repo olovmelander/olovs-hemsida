@@ -40,11 +40,21 @@
 
    Posters are shot with ?ren=1&skylt=0, and the tactical guide is switched off,
    so no HUD or marker sprite is baked into a picture. ?det=1 makes a re-shoot
-   of the same recipe the same picture. */
+   of the same recipe the same picture.
+
+   THE LOOK IS PINNED IN THE URL (2026-09-16): ?ghibli=1 (the painted look),
+   ?q=hi&qualitylock=1 (full quality, never the phone or slow-visit tier) and
+   ?v2=require (the 1 m ring ground, failing closed -- a v2 source that failed
+   would otherwise fall back to GPK1 silently and the poster would be a picture
+   of a ground no visitor sees). Every shot also waits for the terrain stream
+   to go idle, because a tile landing between two frames is a different
+   picture. Run with BANVY_GPU=1: SwiftShader takes minutes a course and a
+   poster wants the real renderer anyway. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
+import { GPU, browserArgs } from './browser-args.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'apps/golf/public/courses');
@@ -65,6 +75,8 @@ const EXTRA = (flag('extra', '') || '').split(',').filter(Boolean).map((spec, i)
   return { id: 9 + i, hole: +hole, cam, preset, literal: true,
            what: `extra · hål ${hole} · ${cam} · ${preset}` };
 });
+const LOOK = '&ghibli=1&q=hi&qualitylock=1&v2=require';
+const shotUrl = slug => `${BASE}/?bana=${slug}&det=1&ren=1&skylt=0${LOOK}`;
 const WIDTH = 800;      /* 2x the ~400 px card; the card is never shown larger */
 const QUALITY = 0.90;   /* the knee of the curve above */
 
@@ -91,6 +103,13 @@ const PLAN = {
      large pond and reaches the clubhouse, the 5th follows several ponds, and
      the 2nd is the nine's diagonal water-carry par three. */
   ribbingsfors:                    { sig: 9, s2: 5, s3: 2 },
+  /* No club names a signature hole on these three; the picks follow the
+     hålguide's own identities. Visby is the sea (6 and 18 run along it, 1 is
+     Fyrhålet under Skansudde), Tortuna the ponds (4 Stora dammen, 11 and 14 over
+     water), Lidingö the drop to its ponds (2, 16) and the walk home on 18. */
+  visby:                           { sig: 18, s2: 6, s3: 1 },
+  tortuna:                         { sig: 4, s2: 11, s3: 18 },
+  lidingo:                         { sig: 2, s2: 16, s3: 18 },
 };
 
 /* Eight framings per course: the signature hole from all four cameras, then the
@@ -200,9 +219,34 @@ const POSTERS = {
     { hole: 17, cam: 'orbit', preset: 'host' },
     { hole: 15, cam: 'top', preset: 'noon' },
   ],
+
+  /* the Baltic along the home hole, the coastline par 5, Fyrhålet by the light */
+  visby: [
+    { hole: 18, cam: 'orbit', preset: 'golden' },
+    { hole: 6, cam: 'orbit', preset: 'golden' },
+    { hole: 1, cam: 'green', preset: 'golden' },
+    { hole: 18, cam: 'top', preset: 'noon' },
+  ],
+  /* the 18th leads: the water it plays over winding up to the clubhouse is the
+     one frame that says which course this is. Then 14 over its pond, Stora
+     dammen down the 4th, and 11's carry from above the tee (the tee camera
+     itself saw only an empty fairway at card size). */
+  tortuna: [
+    { hole: 18, cam: 'orbit', preset: 'golden' },
+    { hole: 14, cam: 'orbit', preset: 'host' },
+    { hole: 4, cam: 'orbit', preset: 'golden' },
+    { hole: 11, cam: 'orbit', preset: 'golden' },
+  ],
+  /* the par 3 by the pond leads, then home on 18, the drop on the 2nd */
+  lidingo: [
+    { hole: 16, cam: 'orbit', preset: 'golden' },
+    { hole: 2, cam: 'orbit', preset: 'golden' },
+    { hole: 18, cam: 'orbit', preset: 'host' },
+    { hole: 2, cam: 'top', preset: 'noon' },
+  ],
 };
 
-const slugs = ONLY ? [ONLY] : Object.keys(PLAN);
+const slugs = ONLY ? ONLY.split(',') : Object.keys(PLAN);
 
 /* Prefer a system Chrome for its real GPU -- a poster wants the good renderer --
    but fall back to the bundled Chromium on swiftshader where there is none, the
@@ -213,9 +257,22 @@ const HAVE_BUNDLED = fs.existsSync(LINUX_CHROME);
 const browser = await chromium.launch({
   ...(HAVE_BUNDLED ? { executablePath: LINUX_CHROME } : { channel: 'chrome' }),
   headless: true,
-  args: ['--no-sandbox', '--force-device-scale-factor=1',
-         ...(HAVE_BUNDLED ? ['--enable-unsafe-swiftshader', '--use-angle=swiftshader'] : [])],
+  args: HAVE_BUNDLED && !GPU
+    ? ['--no-sandbox', '--force-device-scale-factor=1', '--enable-unsafe-swiftshader', '--use-angle=swiftshader']
+    : browserArgs(),
 });
+
+/* A camera move is settled when the engine says so AND no terrain tile is still
+   streaming in; two more frames and a pause let the last tile's morph finish. */
+async function settle(page) {
+  await page.waitForFunction(() => {
+    const V = window.V3D;
+    return V?.settled?.() !== false && (V?.v2Terrain?.().adapter?.stream?.loadingTiles ?? 0) === 0;
+  }, null, { timeout: 120000, polling: 100 }).catch(() => console.warn('    (did not settle in 120 s)'));
+  const f0 = await page.evaluate(() => window.V3D?.frame?.() ?? 0);
+  await page.waitForFunction(f => (window.V3D?.frame?.() ?? f + 2) >= f + 2, f0, { timeout: 30000 }).catch(() => {});
+  await page.waitForTimeout(1500);
+}
 
 /* Downscale + encode inside the browser that already has the pixels: no image
    dependency enters the repo, and the codec is the one the posters ship to. */
@@ -246,7 +303,7 @@ async function shootCourse(slug) {
   const dir = path.join(CACHE, slug);
   fs.mkdirSync(dir, { recursive: true });
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
-  const url = `${BASE}/?bana=${slug}&det=1&ren=1&skylt=0`;
+  const url = shotUrl(slug);
   process.stdout.write(`\n${slug}  booting…`);
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
   await page.waitForSelector('#boot.done', { timeout: 420000 });
@@ -267,8 +324,7 @@ async function shootCourse(slug) {
       if (h) window.V3D?.goHole?.(+h, false, true);
       if (c) window.V3D?.setCam?.(c, true);
     }, [hole, r.cam, r.preset]);
-    await page.waitForFunction(() => window.V3D?.settled?.() !== false, null, { timeout: 60000 }).catch(() => {});
-    await page.waitForTimeout(1100);
+    await settle(page);
     const png = await page.screenshot({ timeout: 300000, animations: 'disabled' });
     const webp = await encodeWebp(page, png);
     fs.writeFileSync(path.join(dir, `cand-${r.id}.webp`), webp);
@@ -317,7 +373,7 @@ async function writeChosen(slug) {
   const dest = path.join(OUT, slug);
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
   process.stdout.write(`\n  ${slug}  booting…`);
-  await page.goto(`${BASE}/?bana=${slug}&det=1&ren=1&skylt=0`, { waitUntil: 'domcontentloaded', timeout: 120000 });
+  await page.goto(shotUrl(slug), { waitUntil: 'domcontentloaded', timeout: 120000 });
   await page.waitForSelector('#boot.done', { timeout: 420000 });
   await prepareCleanFrame(page);
   await page.waitForTimeout(1200);
@@ -330,8 +386,7 @@ async function writeChosen(slug) {
       if (h) window.V3D?.goHole?.(+h, false, true);
       if (c) window.V3D?.setCam?.(c, true);
     }, [r.hole, r.cam, r.preset]);
-    await page.waitForFunction(() => window.V3D?.settled?.() !== false, null, { timeout: 60000 }).catch(() => {});
-    await page.waitForTimeout(1100);
+    await settle(page);
     const png = await page.screenshot({ timeout: 300000, animations: 'disabled' });
     const webp = await encodeWebp(page, png);
     const to = path.join(dest, `hero-${i + 1}.webp`);
@@ -349,6 +404,26 @@ async function writeChosen(slug) {
   console.log(`  ${slug}: ${picks.length} posters, ${(total / 1024).toFixed(0)} kB`);
 }
 
+/* The shipped set at card size, so a --write can be looked at before it lands. */
+async function heroSheet() {
+  const rows = slugs.map(slug => {
+    const dir = path.join(OUT, slug);
+    const imgs = fs.readdirSync(dir).filter(f => /^hero-\d+\.webp$/.test(f)).sort()
+      .map(f => `<img src="data:image/webp;base64,${fs.readFileSync(path.join(dir, f)).toString('base64')}">`).join('');
+    return `<h2>${slug}</h2><div class="g">${imgs}</div>`;
+  }).join('');
+  const page = await browser.newPage({ viewport: { width: 1720, height: 1000 } });
+  await page.setContent(`<style>body{margin:0;background:#0b120e;color:#eaf3ec;font:13px system-ui;padding:18px}
+    h2{font-size:14px;margin:14px 0 8px}.g{display:grid;grid-template-columns:repeat(4,400px);gap:12px}
+    img{width:400px;height:225px;object-fit:cover;border-radius:10px}</style>${rows}`);
+  await page.waitForTimeout(400);
+  fs.mkdirSync(CACHE, { recursive: true });
+  const out = path.join(CACHE, 'heroes.png');
+  await page.screenshot({ path: out, fullPage: true });
+  await page.close();
+  console.log(`  hero sheet -> ${path.relative(ROOT, out)}`);
+}
+
 if (DO_CANDIDATES) {
   for (const s of slugs) { await shootCourse(s); await contactSheet(s); }
 }
@@ -362,6 +437,7 @@ if (DO_WRITE) {
     }
   }
   console.log(`\n  all posters on the front door: ${(grand / 1024).toFixed(0)} kB`);
+  await heroSheet();
 }
 if (!DO_CANDIDATES && !DO_WRITE) console.log('nothing to do: pass --candidates and/or --write');
 await browser.close();
