@@ -172,7 +172,7 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
     previewPanel.innerHTML = `
       <div class="mpp-card">
         <button class="mpp-close-btn" id="mppCloseBtn">${ICONS.close(14)}</button>
-        <div class="mpp-shot" ${course.overviewUrl || course.photos ? `style="background-image: url('${import.meta.env.BASE_URL}${course.overviewUrl || `courses/${course.slug}/hero-1.webp`}')"` : ''}>
+        <div class="mpp-shot" ${course.photos || course.overviewUrl ? `style="background-image: url('${import.meta.env.BASE_URL}${course.photos ? `courses/${course.slug}/hero-1.webp` : course.overviewUrl}')"` : ''}>
           <div class="mpp-badges">
             <span class="cat-badge">${iconSvg} <span>${esc(loc.regionTag)}</span></span>
             ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}

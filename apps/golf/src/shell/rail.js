@@ -119,7 +119,7 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
               <li class="card-item" data-slug="${c.slug}" data-category="${cat.id}" data-search="${esc(c.name + ' ' + c.club + ' ' + c.tag + ' ' + (LINES[c.slug] || '')).toLowerCase()}">
                 <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}">
                   <div class="shot" data-slug="${c.slug}" data-photos="${c.photos || 0}"
-                       ${c.overviewUrl || c.photos ? `style="background-image: url('${import.meta.env.BASE_URL}${c.overviewUrl || `courses/${c.slug}/hero-1.webp`}')"` : ''}>
+                       ${c.photos || c.overviewUrl ? `style="background-image: url('${import.meta.env.BASE_URL}${c.photos ? `courses/${c.slug}/hero-1.webp` : c.overviewUrl}')"` : ''}>
                     <span class="shot-frames" aria-hidden="true"></span>
                     <div class="shot-badges">
                       <span class="cat-badge">${iconSvg} <span>${esc(cat.label)}</span></span>
