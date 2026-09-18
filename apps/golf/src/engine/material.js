@@ -562,13 +562,27 @@ function v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish }) {
   return { surfaceDetail, roughness: clamp(roughness, 0.42, 0.99), clumpSample: hardSample.g, grainSample: sandSample.r };
 }
 
+/* Natural ground grades into its neighbour over metres and keeps its physical
+   ramp. Every other class is a CUT or a laid surface, and a cut is a line. */
+const SOFT_EDGE_SURFACES = new Set([SURFACE.FOREST, SURFACE.HEATH, SURFACE.SHORE, SURFACE.WETLAND,
+  SURFACE.ROCK, SURFACE.DIRT, SURFACE.MUD]);
+/* a mower leaves a line a few centimetres wide; never thinner than this however
+   close the camera comes, and never thinner than the pixel that has to draw it */
+const CUT_EDGE_FLOOR_METRES = 0.03;
+
 function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, look = 'real', uSun = null }) {
   const channels = atlas.data.channels;
+  /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
+     centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
+     widths in surface.js were chosen for fields compiled from a binary mask,
+     whose 25 cm waver a narrow ramp would show; on an exact field they are
+     0.3-0.6 m of blur with nothing left to hide (measured on the GPU: 10-90%
+     blend 0.41-0.53 m stock, 0.05-0.09 m one pixel, same contour). */
+  const exactEdges = atlas.data.exactEdges === true;
   const classes = [...channels, SURFACE.ROUGH];
   const roughIndex = classes.length - 1;
   const styles = classes.map(sid => classStyle(C, SHADE, sid));
   const widths = classes.map(sid => surfaceTransitionWidthMetres(sid));
-  const roughWidth = surfaceTransitionWidthMetres(SURFACE.ROUGH);
   const debugColours = classes.map(sid => surfaceDebugColour(sid));
   const swizzle = ['r', 'g', 'b', 'a'];
   return material => {
@@ -587,6 +601,13 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       .mul(step(0, uvAtlas.y)).mul(step(uvAtlas.y, 1));
     const samples = atlas.texSdf.map(tex => texture(tex, uvAtlas));
     const sdfs = channels.map((_, index) => samples[index >> 2][swizzle[index & 3]].mul(8).sub(4));
+    /* One pixel's footprint on the ground, from the WORLD POSITION and not from
+       the distance: fwidth of a bilinearly filtered field is piecewise constant
+       per texel and jumps at every texel border. */
+    const pixelHalf = exactEdges ? fwidth(wp).length().mul(0.7).max(CUT_EDGE_FLOOR_METRES) : null;
+    const widthOf = index => (exactEdges && !SOFT_EDGE_SURFACES.has(classes[index])
+      ? pixelHalf : float(widths[index]));
+    const roughWidthNode = widthOf(roughIndex);
     /* A pair blends over the WIDER of its two widths, on both sides: with
        asymmetric widths one class fades before the other has risen and the
        sliver between reads as rough. Which class each one meets is found per
@@ -595,12 +616,12 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        when the runner-up is far (nothing else within a metre) the leader is
        meeting rough and takes rough's width. */
     let best = sdfs[0];
-    let bestWidth = float(widths[0]);
+    let bestWidth = widthOf(0);
     let second = float(-8);
-    let secondWidth = float(roughWidth);
+    let secondWidth = roughWidthNode;
     for (let index = 1; index < sdfs.length; index++) {
       const sdf = sdfs[index];
-      const width = float(widths[index]);
+      const width = widthOf(index);
       const leads = sdf.greaterThan(best);
       const runsUp = sdf.greaterThan(second).and(leads.not());
       const nextSecond = select(leads, best, select(runsUp, sdf, second));
@@ -610,11 +631,15 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       second = nextSecond;
       secondWidth = nextSecondWidth;
     }
-    const leaderMeets = select(second.greaterThan(float(-1)), secondWidth, float(roughWidth));
-    /* physical half-width per class, widened only when the screen needs it */
+    const leaderMeets = select(second.greaterThan(float(-1)), secondWidth, roughWidthNode);
+    /* physical half-width per class, widened only when the screen needs it --
+       on an exact field the cut widths already ARE the screen's, and fwidth of
+       the distance would only put the texel lattice back into the edge */
     const classRaws = sdfs.map((sdf, index) => {
       const meets = select(sdf.greaterThanEqual(best), leaderMeets, bestWidth);
-      const width = fwidth(sdf).mul(0.75).max(max(float(widths[index]), meets));
+      const width = exactEdges
+        ? max(widthOf(index), meets)
+        : fwidth(sdf).mul(0.75).max(max(float(widths[index]), meets));
       return smoothstep(width.negate(), width, sdf);
     });
     let classSum = classRaws[0];
@@ -744,6 +769,21 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       atlas,
     );
   }
+  if (atlas?.exactEdges) {
+    /* The boot atlas carries exact per-class fields beside its class raster.
+       They are drawn by the class-SDF material; the AUTHORITY stays the atlas
+       the live adapter inspected, because it is that atlas's own outline. */
+    const exact = atlas.exactEdges;
+    const view = {
+      bounds: atlas.bounds, texSdf: exact.texSdf, texF: exact.texF,
+      data: { channels: exact.channels, routeStepMetres: exact.routeStepMetres,
+        ringStepMetres: exact.ringStepMetres, exactEdges: true },
+    };
+    return bindV2SurfaceAuthority(
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, look, uSun }),
+      atlas,
+    );
+  }
   if (!atlas?.texID || !atlas?.texF) throw new TypeError('the v2 terrain material requires a ground atlas');
   const styleTexture = makeStyleTexture(C, SHADE, { includeNatural: true });
   const debugPaletteTexture = debugMode === 'weights' ? makeSurfaceDebugPaletteTexture() : null;
@@ -773,9 +813,12 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     const fields = texture(atlas.texF, uvAtlas);
     const primaryId = ids.r.mul(255);
     const secondaryId = ids.g.mul(255);
-    /* This distance was compiled from the source vectors on a 25 cm grid, then
-       sampled onto the 1 m payload. Keep the close transition narrow; fwidth
-       expands it only when required for screen-space antialiasing. */
+    /* The PAIR field: one distance per texel, to the edge between that texel's
+       two classes. Fed the boot atlas (`?edges=pair`) it is a chamfer grown from
+       the 1 m class raster, NOT from the vectors -- this comment used to say "a
+       25 cm grid", which was true of the first published tiles and of nothing
+       since -- so its contour follows the raster, and no pair field can hold a
+       collar narrower than ~5 m. The default is the per-class exact field above. */
     const sdf = decodeSurfaceDistance(fields);
     const edgeWidth = fwidth(sdf).mul(0.75).max(0.22);
     const pair = guardedPairWeight({

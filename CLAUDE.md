@@ -2282,6 +2282,88 @@ pack, which then fails on its GPK1 magic instead of on an honest 404.
 `tools/serve.mjs` makes the same two choices, so the local server and the host
 agree and `check-links.mjs` is testing the real rule.
 
+### The cut lines were squares, and the resolution was never the reason (2026-09-18)
+
+The owner, with four screenshots of Ängsö's 2nd: greens, collars, fairways, semi
+bands and tees all drawn with square sawtooth edges, and *"I don't want to blur
+it out"* — he wants Trackman's curves. Twelve of thirteen courses were affected
+(every v2 config but Puttom's declares `surfacePolicy: 'legacy-ground-atlas'`, so
+the boot atlas feeds the v2 pair material), identically on WebGPU and on the
+WebGL2 phone path. Three causes stacked, and only the third was a representation:
+
+- **A seeding bug, and a test that agreed with it.** `buildBoundaryField` started
+  `other` as the texel's OWN class and gave only the west neighbour an
+  unconditional test, so a lower-priority neighbour to the east, north or south
+  never outranked it: the higher side of an edge was seeded on west-facing texels
+  alone. At Ängsö not one green, tee or bunker texel was seeded on its other three
+  sides; those stored up to +8 m beside −0.5 m, and 28% of mown edges had NO zero
+  crossing at all — what was drawn there was the nearest-filtered id grid itself,
+  in perfect 1 m squares. It also turned the green mow rings into stripes (14 m
+  of error across one green). `tests/atlas-probe.test.js` probed a west edge and
+  nothing else. **A test that looks at one side of a square agrees with any bug
+  that spares that side** — it looks at all four now.
+- **The distance was grown from the binary 1 m raster.** Every boundary texel
+  stored ±0.5 m whatever its true distance, so the contour has 1 m risers and
+  treads of `1/sin(angle to the lattice)` — 2–6 m on a fairway lying 10–25° off
+  axis, which is the "3–6 m steps" in Ovan. Live green edge against its own ring:
+  mean 0.32 m, max 0.93 m. **The control is the finding**: the EXACT distance to
+  the vectors, in the same 1 m byte, same single bilinear tap, same shader, reads
+  0.02 m rms with no risers. The bound is h²/(8R): 1.25 cm at R = 10 m. A field
+  grown from a binary mask never becomes smooth, only smaller-stepped — Puttom's
+  25 cm-mask chunks still waver by 6°. Valve's 2007 paper builds its field from a
+  4096² source or from vectors and never from a mask at output resolution; every
+  production golf title derives the cut line from the vector spline, and its
+  collars as parametric OFFSETS of that spline, never as a dilated raster.
+- **One distance per texel cannot hold two edges closer than ~5 m**, which is
+  every collar (3.2 m), tee surround (2.2 m) and semi band (4.5 m): even a PERFECT
+  pair field threads a stair-stepped sliver of the wrong class down the middle of
+  each. Proven on the GPU — exact distances in the pair format fixed every simple
+  edge and made the slivers WORSE (green collar 2.6% → 6.7% wrong-class area),
+  because everything round them was now clean.
+
+`engine/exact-class-sdf.mjs` is the fix, built at boot from the pack's own
+vectors: a corner-aware centripetal Catmull-Rom THROUGH every supplied vertex
+(turns ≥ 60° stay corners, rings of four vertices or fewer — rectangular tee
+decks — stay straight, flattened to 1 cm), then per class the exact
+point-to-segment distance splatted along each segment (cost follows boundary
+length, never window area), bands as *parent distance + pad*, one ±4 m byte per
+class, and the priority CSG `R_c = min(U_c, −max over higher U)` — exactly what
+`createClassSdfDecorator` already consumed for Puttom. `createGroundAtlas` hangs
+the result on the atlas as `exactEdges` and fills its class raster from the SAME
+fitted rings, so a CPU probe and a pixel share one outline; the v2 decorator
+binds its authority to the atlas the live adapter inspected. `?edges=pair` is the
+atlas as it was — the A/B control and the way back. Measured on the RTX 3070,
+flagless (v2 + painted are the defaults): 10–90% blend **0.21–0.65 m → 0.05–0.09 m**,
+wrong-class area in the green collar **6.6% → 0.0%** and the tee collar
+**16% → 0.03%**, identical under `gl=1&q=lo`.
+
+- **The curve fit does not fight `preserveMappedBoundaries`.** That flag (true on
+  12 of 13 packs) exists because the shipped smoother is a shrinking Laplacian —
+  greens −3…−10% area, supplied vertices moved ~1 m. An INTERPOLATING spline moves
+  no surveyed vertex at all (green departure from the chords: mean 0.07 m, max
+  0.21 m), and without it a crisp renderer draws 25-gon greens.
+- **Crispness belongs to the field, not the class.** A cut class on an exact field
+  blends over one pixel's footprint, never under 3 cm, taken from
+  `fwidth(positionWorld.xz)` — `fwidth` of a filtered distance is piecewise
+  constant per texel and puts the lattice back into the edge. Natural classes
+  keep their metre-wide ramps; Puttom's mask-compiled chunks keep their physical
+  widths, which hide a waver an exact field does not have.
+- **Costs, measured:** atlas build 309 → 611 ms at Ängsö; GPU textures +41 MB with
+  the SDF mip chain, which LOWQ drops. The exact fields are built only where the
+  v2 material will read them.
+- **Not done, and visible:** the tan and grey-green BLOCKS in Ovan are the 6 m
+  tint raster baking mown tones into the rough colour plus the 12 m land-cover
+  cells; `makeGround` (`?v2=0`, johannesberg-9) still draws the pair field and
+  carries a `+ b.res*0.5` uv offset that shifts every surface ~0.5 m; true
+  RASTER-derived rings (Ribbingsfors, Tortuna fairways, Veckefjärden's DTM
+  bunkers) keep their stairs under any spline and need re-vectorising; a 90°
+  corner rounds by ~0.3 m at 1 m; a ribbon under 2 texels wide (0.65 m paths)
+  cannot be held. The look-dev that makes a cut read as REAL — the taller cut at
+  ~0.7× the luma of the shorter, a thin contact line on its side, stripes to the
+  edge — is untouched: this palette separates rough, semi, fairway, fringe and
+  green by only 2–6% luma, so the contour is still carrying the whole edge.
+- The app runs three **0.186.0**; this file says 0.185.1 in several places.
+
 ### What the island 14th taught about the atlas
 
 Four things went wrong on one hole, and three of them were the atlas quietly
