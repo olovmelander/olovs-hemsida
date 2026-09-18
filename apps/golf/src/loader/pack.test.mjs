@@ -1,7 +1,31 @@
 import { afterEach, expect, it, vi } from 'vitest';
-import { loadCourse } from './pack.js';
+import { loadCourse, packRequestUrl } from './pack.js';
 
 afterEach(() => vi.unstubAllGlobals());
+
+/* One rule, two callers. The chooser's hover warm-up once restated this and got
+   it wrong -- no ?v= -- so it fetched a whole pack the player never reused. */
+it('asks for a pack by content, from wherever the app is mounted', () => {
+  const sha256 = '778f8b2933599fbf' + '0'.repeat(48);
+  const base = import.meta.env.BASE_URL;
+  expect(packRequestUrl({ packUrl: 'courses/angso/pack.bin', sha256 })).toBe(`${base}courses/angso/pack.bin?v=778f8b2933599fbf`);
+  /* an older manifest wrote a leading slash; on a subpath host that would be somebody else's site */
+  expect(packRequestUrl({ packUrl: '/courses/angso/pack.bin', sha256 })).toBe(`${base}courses/angso/pack.bin?v=778f8b2933599fbf`);
+  expect(packRequestUrl({ packUrl: 'courses/angso/pack.bin' })).toBe(`${base}courses/angso/pack.bin`);
+});
+
+it('the player fetches exactly the url the chooser warms', async () => {
+  const sha256 = 'ab'.repeat(32);
+  const meta = { slug: 'fixture', packUrl: 'courses/fixture/pack.bin', sha256 };
+  const calls = [];
+  vi.stubGlobal('fetch', vi.fn(async url => {
+    calls.push(url);
+    if (url.endsWith('index.json')) return Response.json({ courses: [meta] });
+    return new Response('not a pack', { status: 404 });
+  }));
+  await expect(loadCourse('fixture')).rejects.toThrow();
+  expect(calls).toContain(packRequestUrl(meta));
+});
 it('starts every independent sidecar before the pack completes and isolates optional failure', async () => {
   let resolvePack;
   const packPromise = new Promise(resolve => { resolvePack = resolve; });

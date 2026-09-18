@@ -104,7 +104,7 @@ const MAP_REGIONS = [
   { id: 'vastragotaland', label: 'Västra Götaland', regions: ['Västra Götaland'] },
 ];
 
-export function createSwedenMap({ container, courses, current, onPickCourse }) {
+export function createSwedenMap({ container, courses, current, lead = null, onPickCourse }) {
   const mapEl = document.createElement('div');
   mapEl.id = 'swedenMap';
   mapEl.className = 'sweden-map-container';
@@ -171,16 +171,16 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
 
     previewPanel.innerHTML = `
       <div class="mpp-card">
-        <button class="mpp-close-btn" id="mppCloseBtn">${ICONS.close(14)}</button>
+        <button class="mpp-close-btn" id="mppCloseBtn" type="button" aria-label="Stäng förhandsvisningen">${ICONS.close(14)}</button>
         <div class="mpp-shot" ${course.photos || course.overviewUrl ? `style="background-image: url('${import.meta.env.BASE_URL}${course.photos ? `courses/${course.slug}/hero-1.webp` : course.overviewUrl}')"` : ''}>
           <div class="mpp-badges">
-            <span class="cat-badge">${iconSvg} <span>${esc(loc.regionTag)}</span></span>
+            <span class="cat-badge">${iconSvg}<span class="cat-text">${esc(loc.regionTag)}</span></span>
             ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : ''}
           </div>
-          <div class="mpp-shot-title">
-            <div class="mpp-city">${esc(loc.city)}</div>
-            <h3>${esc(course.name)}</h3>
-          </div>
+        </div>
+        <div class="mpp-titles">
+          <div class="mpp-city">${esc(loc.city)}</div>
+          <h3>${esc(course.name)}</h3>
         </div>
         <div class="mpp-body">
           <p class="mpp-line">${esc(course.description || LINES[course.slug] || course.club)}</p>
@@ -246,14 +246,53 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
       showPreview(c);
     });
 
+    /* `hovered` belongs on the pin, which is what the stylesheet selects -- it
+       was set on Leaflet's wrapper, where nothing looked for it. Lifted above
+       its neighbours too, so a plate that comes back on hover is not drawn
+       under the pins it was hidden to make room for. */
+    const pinEl = () => marker.getElement()?.querySelector('.golf-map-pin');
     marker.on('mouseover', () => {
-      marker.getElement()?.classList.add('hovered');
+      pinEl()?.classList.add('hovered');
+      marker.setZIndexOffset(1000);
     });
 
     marker.on('mouseout', () => {
-      marker.getElement()?.classList.remove('hovered');
+      pinEl()?.classList.remove('hovered');
+      marker.setZIndexOffset(0);
     });
   });
+
+  /* Labels that would land on each other are not drawn. At the zoom that shows
+     all of Sweden five clubs stand inside eighty pixels of Mälardalen and three
+     at Örnsköldsvik, and their name plates used to pile into an unreadable
+     stack -- over each other and over their neighbours' pins. A plate is kept
+     only if it clears every pin head and every plate already kept; the running
+     or last-opened course goes first so it is the one that survives a tie. The
+     pins themselves always stay, and a hidden plate comes back on hover and as
+     soon as the map is zoomed far enough for it to fit. */
+  const labelOrder = [...new Set([current, lead, ...Object.keys(markers)])].filter(slug => markers[slug]);
+  const overlaps = (a, b) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+  function declutter() {
+    const pins = labelOrder.map(slug => markers[slug].getElement()?.querySelector('.golf-map-pin')).filter(Boolean);
+    for (const pin of pins) pin.classList.remove('label-off');
+    const heads = pins.map(pin => pin.querySelector('.pin-head').getBoundingClientRect());
+    const kept = [];
+    pins.forEach((pin, i) => {
+      const plate = pin.querySelector('.pin-label').getBoundingClientRect();
+      const blocked = kept.some(k => overlaps(plate, k)) || heads.some((h, j) => j !== i && overlaps(plate, h));
+      if (blocked) pin.classList.add('label-off'); else kept.push(plate);
+    });
+  }
+  map.on('zoomend moveend', declutter);
+
+  /* What a fit has to stay clear of. The region bar lies across the top of the
+     map and, on a phone, the preview row across the bottom of it -- a fit to the
+     bare bounds put Gotland under the preview and cut Puttom's name plate off
+     at the right edge, where there is no room for a plate to the right of its
+     pin. Read at the moment of the fit, so a rotation is a different answer. */
+  const fitPadding = () => (window.matchMedia('(max-width: 600px)').matches
+    ? { paddingTopLeft: [16, 96], paddingBottomRight: [112, 164] }
+    : { paddingTopLeft: [24, 90], paddingBottomRight: [140, 30] });
 
   // Region filtering and zoom buttons
   const regionBtns = controls.querySelectorAll('.mrb-btn');
@@ -264,8 +303,7 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
       const reg = btn.dataset.region;
 
       if (reg === 'sweden') {
-        const bounds = L.latLngBounds(latLngs).pad(0.2);
-        map.flyToBounds(bounds, { duration: 1 });
+        map.flyToBounds(L.latLngBounds(latLngs), { duration: 1, ...fitPadding() });
       } else {
         const region = MAP_REGIONS.find(item => item.id === reg);
         const points = region ? regionCourses(region).map(course => {
@@ -273,19 +311,21 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
           return [loc.lat, loc.lng];
         }) : [];
         if (points.length === 1) map.flyTo(points[0], 9, { duration: 1 });
-        else if (points.length > 1) map.flyToBounds(L.latLngBounds(points).pad(0.2), { duration: 1 });
+        else if (points.length > 1) map.flyToBounds(L.latLngBounds(points), { duration: 1, ...fitPadding() });
       }
     });
   });
 
   // Fit initially to show all courses cleanly
-  if (latLngs.length) {
-    const bounds = L.latLngBounds(latLngs).pad(0.18);
-    map.fitBounds(bounds);
-  }
+  if (latLngs.length) map.fitBounds(L.latLngBounds(latLngs), fitPadding());
 
-  // Show current or first course preview initially
-  const initialCourse = courses.find(c => c.slug === current) || courses[0];
+  /* Open on the course the visitor has a reason to see: the running one, or the
+     last one they opened. Without either, a wide screen shows the first course
+     as a hint that pins open something; a phone shows the MAP, because there a
+     preview nobody asked for is a panel over the pins they came to look at. */
+  const narrow = window.matchMedia('(max-width: 600px)').matches;
+  const bySlug = slug => (slug ? courses.find(c => c.slug === slug) : null);
+  const initialCourse = bySlug(current) || bySlug(lead) || (narrow ? null : courses[0]);
   if (initialCourse) {
     showPreview(initialCourse);
   }
@@ -296,10 +336,8 @@ export function createSwedenMap({ container, courses, current, onPickCourse }) {
     invalidateSize: () => {
       setTimeout(() => {
         map.invalidateSize();
-        if (latLngs.length) {
-          const bounds = L.latLngBounds(latLngs).pad(0.18);
-          map.fitBounds(bounds);
-        }
+        if (latLngs.length) map.fitBounds(L.latLngBounds(latLngs), fitPadding());
+        declutter();
       }, 100);
     },
     focusCourse: (slug) => {
