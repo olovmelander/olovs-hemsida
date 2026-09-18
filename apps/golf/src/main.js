@@ -10303,6 +10303,16 @@ gridBtn.onclick = () => {
 
 addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
+  /* Typing is not steering. A letter meant for a text field -- the chooser's
+     search, a club's name in the bag -- used to reach these shortcuts too.
+     Measured key by key in the chooser's search: "n" took the course behind it
+     from hole 3 to 4, "p" back again, "m" cycled its markers from 2 to 0 and
+     "h" put it into clean view. And while the chooser owns the screen nothing
+     behind it should move at all. The body
+     class is read, not `railOpen`: that is declared further down the module,
+     and a key can arrive during one of the awaits in between. */
+  if (e.target?.closest?.('input, textarea, select, [contenteditable]')) return;
+  if (document.body.classList.contains('choosing')) return;
   if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole >= NHOLES ? 1 : hole + 1, true);
   if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole <= 1 ? NHOLES : hole - 1, true);
   if (e.key === 'h') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
