@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildExactClassSdf, fitFeatures, fitRing } from './exact-class-sdf.mjs';
+import { buildExactClassSdf, fitFeatures, fitLine, fitRing } from './exact-class-sdf.mjs';
 import { createGroundAtlas } from './atlas.js';
 import { SURFACE, SURFACE_PRIORITY } from './surface.js';
 
@@ -61,6 +61,35 @@ describe('the curve fit', () => {
     const ring = circle(0, 0, 10, 12);
     const closed = [...ring, [...ring[0]]];
     expect(fitRing(closed)).toEqual(fitRing(ring));
+  });
+
+  it('curves an open path between its own two ends, which stay where they were surveyed', () => {
+    /* a quarter circle of radius 40 surveyed as seven points */
+    const path = Array.from({ length: 7 }, (_, i) => [Math.cos(i / 6 * Math.PI / 2) * 40, Math.sin(i / 6 * Math.PI / 2) * 40]);
+    const fitted = fitLine(path);
+    expect(fitted[0]).toEqual(path[0]);
+    expect(fitted[fitted.length - 1]).toEqual(path[6]);
+    for (const p of path) expect(Math.min(...fitted.map(q => Math.hypot(q[0] - p[0], q[1] - p[1])))).toBeLessThan(1e-9);
+    /* the chords cut 34 cm inside the arc. Between interior vertices the fitted
+       line IS the arc; the two end spans are curvature-free at the end on
+       purpose, so they sit between chord and arc -- and nothing runs past an end */
+    const off = q => Math.abs(Math.hypot(q[0], q[1]) - 40);
+    const angle = q => Math.atan2(q[1], q[0]) * 180 / Math.PI;
+    expect(Math.max(...fitted.filter(q => angle(q) > 15 && angle(q) < 75).map(off))).toBeLessThan(0.05);
+    expect(Math.max(...fitted.map(off))).toBeLessThan(0.25);
+    expect(Math.min(...fitted.map(q => Math.min(q[0], q[1])))).toBeGreaterThan(-1e-9);
+    expect(fitLine([[0, 0], [10, 3]])).toEqual([[0, 0], [10, 3]]);
+  });
+
+  it('fits only the lines it is told to: a painted road stays on its surveyed chords', () => {
+    const line = [[0, 0], [20, 4], [40, 14], [60, 30]];
+    const { features } = fitFeatures([
+      { surface: SURFACE.PATH, line, width: 0.65 },
+      { surface: SURFACE.ASPHALT, line, width: 3.2 },
+    ], { crisp: new Set([SURFACE.PATH, SURFACE.ASPHALT]), lines: new Set([SURFACE.PATH]) });
+    expect(features[0].line.length).toBeGreaterThan(line.length);
+    expect(features[0].width).toBe(0.65);
+    expect(features[1].line).toBe(line);
   });
 
   it('fits one ring once, so a band stays an exact offset of its parent', () => {

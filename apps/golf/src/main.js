@@ -2571,11 +2571,14 @@ if (groundMode === 'atlas') {
   /* The v2 ground draws its cut lines from exact per-class distance fields built
      here from the curve-fitted vectors; the class raster beside them is filled
      from those same curves, so a probe and a pixel share one outline. They are
-     built only where the v2 material will read them -- a ground with published
-     surface chunks (Puttom) brings its own, and the GPK1 material cannot use
-     them. `?edges=pair` is the atlas as it was: the A/B control and the way back. */
-  const exactEdges = requestedSurfaceEdges(location.search) === 'exact'
-    && TERRAIN_PREVIEW.ready && !TERRAIN_PREVIEW.surfaceAtlas;
+     built only where the v2 material will read them -- the GPK1 material cannot.
+     Puttom too: its published surface chunks were compiled from a 25 cm binary
+     mask, which removes the staircase and leaves a 6 degree waver under a
+     0.3-0.7 m blend, so every other course was crisp and Puttom alone was soft.
+     The chunks still load (coverage, the CPU probe, the pilot's own gates); the
+     DRAW comes from here. `?edges=pair` is every course as it was: the A/B
+     control and the way back. */
+  const exactEdges = requestedSurfaceEdges(location.search) === 'exact' && TERRAIN_PREVIEW.ready;
   groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1,
     canopyFloor: SCENERY?.canopyFloor ? M.cover : null,
     edges: exactEdges ? 'exact' : 'pair',
@@ -2759,7 +2762,8 @@ if (TERRAIN_PREVIEW.ready) {
     ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
   const prepareStarted = performance.now();
   const decorateGround = createV2GroundMaterialDecorator({
-    atlas: TERRAIN_PREVIEW.surfaceAtlas || groundAtlas, DETAIL, C, SHADE,
+    /* exact fields from the vectors outrank anything compiled from a mask */
+    atlas: groundAtlas?.exactEdges ? groundAtlas : (TERRAIN_PREVIEW.surfaceAtlas || groundAtlas), DETAIL, C, SHADE,
     graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
     debugMode: surfaceDebugMode, tint: GROUND_TINT,
     look: GHIBLI_LOOK ? 'ghibli' : 'real', uSun,
@@ -3521,7 +3525,18 @@ function buildRoad(runs, asphalt) {
        ground-coloured verge darkened by the terrain's ambient term was the
        "dark road" seen either side of the pale one */
     const vw = run.tone && !asphalt ? 0.7 : 2.2;
-    const OFF = [-run.w - vw, -run.w, 0, run.w, run.w + vw];
+    /* A lane-paint run lies on the 1 m ground the atlas paints the road on, and
+       is already sampled every metre ALONG it. Across, three vertices 3.2 m
+       apart are a straight plank over a surface that changes facet every metre:
+       wherever the ground bulges between two of them it rises through a 3 cm
+       lift, and the edge line on the low side of a cambered road came out
+       chopped into teeth one facet long (seen from above at Angso). The same
+       metre, across. */
+    const spans = (run.step || 3) <= 1 ? Math.max(2, Math.ceil(2 * run.w)) : 2;
+    const OFF = [-run.w - vw,
+      ...Array.from({ length: spans + 1 }, (_, k) => -run.w + 2 * run.w * k / spans),
+      run.w + vw];
+    const cols = OFF.length;
     for (let i = 0; i < P.length; i++) {
       const a = P[Math.max(0, i - 1)], b = P[Math.min(P.length - 1, i + 1)];
       let tx = b[0] - a[0], tz = b[1] - a[1];
@@ -3567,9 +3582,9 @@ function buildRoad(runs, asphalt) {
       }
     }
     for (let i = 0; i < P.length - 1; i++)
-      for (let k = 0; k < 4; k++) {
-        const a = base + i * 5 + k;
-        idx.push(a, a + 1, a + 5, a + 5, a + 1, a + 6);
+      for (let k = 0; k < cols - 1; k++) {
+        const a = base + i * cols + k;
+        idx.push(a, a + 1, a + cols, a + cols, a + 1, a + cols + 1);
       }
   }
   if (!pos.length) return null;
@@ -3612,9 +3627,14 @@ function makeGravel() { return createRoadGravel(DETAIL); }
   // The terrain owns the road's base surface wherever a surface atlas is
   // available. Only lane paint is overlaid there; opaque ribbons fill the
   // uncovered surroundings and the explicit legacy mesh fallback.
-  const painted = (x, z) => TERRAIN_PREVIEW.surfaceAtlas
-    ? TERRAIN_PREVIEW.surfaceAtlas.contains(x, z)
-    : (groundMode === 'atlas' && !!groundAtlas?.contains(x, z));
+  /* ... and "available" means the atlas that is DRAWN. With exact edges that is
+     the boot atlas even on a ground with published chunks, whose tiles reach
+     further than CORE at their corners: asked of the chunks, a road out there
+     would be called covered, get no ribbon, and be painted by nothing. */
+  const painted = (x, z) => groundAtlas?.exactEdges ? groundAtlas.contains(x, z)
+    : TERRAIN_PREVIEW.surfaceAtlas
+      ? TERRAIN_PREVIEW.surfaceAtlas.contains(x, z)
+      : (groundMode === 'atlas' && !!groundAtlas?.contains(x, z));
   function addRoad(item, group = 'roads', step = 3) {
     if (item.tunnel || item.line.length < 2) return;
     const surface = roadSurface(item), asphalt = surface === SURFACE.ASPHALT;
@@ -11625,8 +11645,8 @@ window.V3D = {
     /* which field draws the cut lines, beside WHERE the surfaces come from: a
        'legacy-ground-atlas' course is still the pack's own vectors, drawn from
        exact per-class distances ('exact') or from the 1 m raster's ('pair') */
-    surfaceEdges: TERRAIN_PREVIEW.surfaceAtlas ? 'published'
-      : groundAtlas?.exactEdges ? 'exact' : 'pair',
+    surfaceEdges: groundAtlas?.exactEdges ? 'exact'
+      : TERRAIN_PREVIEW.surfaceAtlas ? 'published' : 'pair',
     exactEdges: groundAtlas?.exactEdges
       ? { channels: [...groundAtlas.exactEdges.channels], ...groundAtlas.exactEdges.stats } : null,
     reason: TERRAIN_PREVIEW.reason,

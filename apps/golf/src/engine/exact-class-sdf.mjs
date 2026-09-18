@@ -70,20 +70,37 @@ function pointChordDistance(p, a, b) {
 }
 
 /** Corner-aware centripetal Catmull-Rom through every vertex of a closed ring. */
-export function fitRing(source, { cornerDeg = 60, chordError = 0.01, alpha = 0.5, stats = null } = {}) {
+export function fitRing(source, options = {}) {
   const ring = cleanRing(source);
+  if (ring.length <= 4) { if (options.stats) options.stats.keptStraight++; return ring; }
+  return fitCurve(ring, true, options);
+}
+
+/** The same curve through an OPEN polyline -- a path, a gravel track. Its two
+ *  ends are corners by definition, so the curve neither overshoots nor turns
+ *  back at them, and a two-point line is returned as it came. */
+export function fitLine(source, options = {}) {
+  const line = [];
+  for (const p of source) {
+    const q = line[line.length - 1];
+    if (!q || Math.abs(q[0] - p[0]) > 1e-6 || Math.abs(q[1] - p[1]) > 1e-6) line.push([p[0], p[1]]);
+  }
+  return line.length < 3 ? line : fitCurve(line, false, options);
+}
+
+function fitCurve(ring, closed, { cornerDeg = 60, chordError = 0.01, alpha = 0.5, stats = null } = {}) {
   const n = ring.length;
-  if (n <= 4) { if (stats) stats.keptStraight++; return ring; }
   const corner = new Uint8Array(n);
   let corners = 0;
   for (let i = 0; i < n; i++) {
+    if (!closed && (i === 0 || i === n - 1)) { corner[i] = 1; continue; }
     const turn = turnDegrees(ring[(i - 1 + n) % n], ring[i], ring[(i + 1) % n]);
     if (turn >= cornerDeg) { corner[i] = 1; corners++; if (stats && turn > 120) stats.spikes++; }
   }
   if (stats) { stats.fitted++; stats.corners += corners; }
   const knot = (a, b) => Math.max(1e-6, Math.hypot(b[0] - a[0], b[1] - a[1]) ** alpha);
   const out = [];
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < (closed ? n : n - 1); i++) {
     const i2 = (i + 1) % n;
     const p1 = ring[i], p2 = ring[i2];
     if (corner[i] && corner[i2]) { out.push(p1); continue; }
@@ -114,6 +131,7 @@ export function fitRing(source, { cornerDeg = 60, chordError = 0.01, alpha = 0.5
     out.push(p1);
     subdivide(t1, p1, t2, p2, 0);
   }
+  if (!closed) out.push(ring[n - 1]);
   if (stats) stats.pointsIn += n, stats.pointsOut += out.length;
   return out;
 }
@@ -121,7 +139,7 @@ export function fitRing(source, { cornerDeg = 60, chordError = 0.01, alpha = 0.5
 /** Replace the rings of the played (crisp) classes by their fitted curves. One
  *  fit per source ring, shared by every feature that uses it (fairway + semi,
  *  green + fringe), so the band stays an exact offset of its parent. */
-export function fitFeatures(features, { crisp, cornerDeg, chordError } = {}) {
+export function fitFeatures(features, { crisp, lines = new Set(), cornerDeg, chordError } = {}) {
   const cache = new Map();
   const stats = { fitted: 0, keptStraight: 0, corners: 0, spikes: 0, pointsIn: 0, pointsOut: 0 };
   const fit = ring => {
@@ -131,7 +149,11 @@ export function fitFeatures(features, { crisp, cornerDeg, chordError } = {}) {
     return fitted;
   };
   const out = features.map(feature => {
-    if (!crisp.has(feature.surface) || feature.line) return feature;
+    if (feature.line) {
+      return lines.has(feature.surface) && feature.line.length > 2
+        ? { ...feature, line: fitLine(feature.line, { cornerDeg, chordError, stats }) } : feature;
+    }
+    if (!crisp.has(feature.surface)) return feature;
     const next = { ...feature };
     if (feature.rings) next.rings = feature.rings.map(fit);
     if (feature.polygons) next.polygons = feature.polygons.map(polygon => ({ ...polygon, rings: (polygon?.rings || []).map(fit) }));

@@ -353,7 +353,15 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1,
 /* The classes whose outline a golfer reads as a CUT: they take the curve fit and,
    in the material, a one-pixel edge. Everything else (forest floor, wetland,
    heath, shore, rock) is a soft natural ramp and keeps its surveyed chords. */
-const CUT_SURFACES = new Set([SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN, SURFACE.TEE, SURFACE.SAND]);
+const CUT_SURFACES = new Set([SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN, SURFACE.TEE, SURFACE.SAND,
+  /* laid ground too: a car park's real corners turn 90 degrees and stay corners
+     under the 60 degree rule, its bowed edges become the curves they were traced from */
+  SURFACE.PATH, SURFACE.GRAVEL, SURFACE.ASPHALT]);
+/* A walked path or a gravel track is a curve somebody surveyed as a polyline.
+   ASPHALT lines are left on their chords on purpose: a major road's lane paint
+   is a ribbon laid along the SURVEYED polyline, and a band fitted away from it
+   would show beside its own paint on the outside of every bend. */
+const CURVED_LINES = new Set([SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT]);
 const EXACT_LIMIT_METRES = 4;
 
 /* A class that reaches the raster from a RASTER (the canopy floor's 3 m cover
@@ -380,7 +388,7 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
   if (edges !== 'exact' && edges !== 'pair') throw new TypeError(`unknown ground atlas edges: ${edges}`);
   const exactStarted = performance.now();
   const fitted = edges === 'exact'
-    ? fitFeatures(options.features || [], { crisp: CUT_SURFACES, cornerDeg: 60, chordError: 0.01 })
+    ? fitFeatures(options.features || [], { crisp: CUT_SURFACES, lines: CURVED_LINES, cornerDeg: 60, chordError: 0.01 })
     : null;
   if (fitted) options = { ...options, features: fitted.features };
   const fitMs = performance.now() - exactStarted;

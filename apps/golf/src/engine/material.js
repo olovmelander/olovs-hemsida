@@ -605,8 +605,15 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        the distance: fwidth of a bilinearly filtered field is piecewise constant
        per texel and jumps at every texel border. */
     const pixelHalf = exactEdges ? fwidth(wp).length().mul(0.7).max(CUT_EDGE_FLOOR_METRES) : null;
-    const widthOf = index => (exactEdges && !SOFT_EDGE_SURFACES.has(classes[index])
-      ? pixelHalf : float(widths[index]));
+    /* A CUT class is a mown or a laid surface. Its edge is a line WHATEVER lies
+       beside it: the first version of this kept "the wider of the pair" for
+       every pair, so a road running along forest floor took the forest's 0.45 m
+       ramp and came out crisp on its rough side and a metre of smear on the
+       other (Lidingo, from above). Only natural against natural -- or against
+       rough -- is a soft ramp. Rough is neither: it is what is left over. */
+    const isCut = index => exactEdges && index !== roughIndex && !SOFT_EDGE_SURFACES.has(classes[index]);
+    const widthOf = index => float(widths[index]);
+    const cutOf = index => float(isCut(index) ? 1 : 0);
     const roughWidthNode = widthOf(roughIndex);
     /* A pair blends over the WIDER of its two widths, on both sides: with
        asymmetric widths one class fades before the other has risen and the
@@ -619,27 +626,42 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     let bestWidth = widthOf(0);
     let second = float(-8);
     let secondWidth = roughWidthNode;
+    let bestCut = cutOf(0);
+    let secondCut = float(0);
     for (let index = 1; index < sdfs.length; index++) {
       const sdf = sdfs[index];
       const width = widthOf(index);
+      const cut = cutOf(index);
       const leads = sdf.greaterThan(best);
       const runsUp = sdf.greaterThan(second).and(leads.not());
       const nextSecond = select(leads, best, select(runsUp, sdf, second));
       const nextSecondWidth = select(leads, bestWidth, select(runsUp, width, secondWidth));
+      const nextSecondCut = select(leads, bestCut, select(runsUp, cut, secondCut));
       best = select(leads, sdf, best);
       bestWidth = select(leads, width, bestWidth);
+      bestCut = select(leads, cut, bestCut);
       second = nextSecond;
       secondWidth = nextSecondWidth;
+      secondCut = nextSecondCut;
     }
-    const leaderMeets = select(second.greaterThan(float(-1)), secondWidth, roughWidthNode);
+    const meetsSomething = second.greaterThan(float(-1));
+    const leaderMeets = select(meetsSomething, secondWidth, roughWidthNode);
+    const leaderMeetsCut = select(meetsSomething, secondCut, float(0));
     /* physical half-width per class, widened only when the screen needs it --
-       on an exact field the cut widths already ARE the screen's, and fwidth of
+       on an exact field a cut's width already IS the screen's, and fwidth of
        the distance would only put the texel lattice back into the edge */
     const classRaws = sdfs.map((sdf, index) => {
-      const meets = select(sdf.greaterThanEqual(best), leaderMeets, bestWidth);
-      const width = exactEdges
-        ? max(widthOf(index), meets)
-        : fwidth(sdf).mul(0.75).max(max(float(widths[index]), meets));
+      const leading = sdf.greaterThanEqual(best);
+      const meets = select(leading, leaderMeets, bestWidth);
+      let width;
+      if (!exactEdges) width = fwidth(sdf).mul(0.75).max(max(float(widths[index]), meets));
+      else if (isCut(index)) width = pixelHalf;
+      else {
+        /* a natural class: one pixel where it meets a cut, its own ramp (never
+           thinner than a pixel) where it meets another natural class or rough */
+        const meetsCut = select(leading, leaderMeetsCut, bestCut);
+        width = mix(max(float(widths[index]), meets).max(pixelHalf), pixelHalf, meetsCut);
+      }
       return smoothstep(width.negate(), width, sdf);
     });
     let classSum = classRaws[0];

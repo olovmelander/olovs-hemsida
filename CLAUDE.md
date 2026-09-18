@@ -2348,12 +2348,45 @@ wrong-class area in the green collar **6.6% → 0.0%** and the tee collar
   constant per texel and puts the lattice back into the edge. Natural classes
   keep their metre-wide ramps; Puttom's mask-compiled chunks keep their physical
   widths, which hide a waver an exact field does not have.
-- **Costs, measured:** atlas build 309 → 611 ms at Ängsö; GPU textures +41 MB with
-  the SDF mip chain, which LOWQ drops. The exact fields are built only where the
-  v2 material will read them.
+- **A cut is a line whatever lies beside it.** The first version kept the old
+  "a pair blends over the WIDER of its two widths" for every pair, so a road
+  running along forest floor took the forest's 0.45 m ramp: crisp on its rough
+  side, a metre of smear on the other (Lidingö, from above). A CUT class — mown
+  or laid — is one pixel against anything; only natural against natural, or
+  against rough, keeps a ramp. Rough is neither: it is what is left over.
+- **All thirteen courses, Puttom included** (every one boots `surfaceEdges:
+  'exact'`, flagless, no page error — `johannesberg-9` too, which has a v2
+  graph). Puttom's published chunks were compiled from a 25 cm binary mask,
+  which removes the staircase and leaves a waver under a 0.3–0.7 m blend, so
+  with every other course crisp Puttom alone was soft and its path a smear. The
+  chunks still load (coverage, the CPU probe, the pilot's gates, and
+  `surfaceRepresentation` still reads `class-sdf-v1`); the DRAW comes from the
+  boot atlas. One consequence had to move with it: the road-ribbon rule asked
+  the PUBLISHED chunks whether a point is "covered", and their tiles reach past
+  CORE at the corners — a road out there would have been given no ribbon and
+  painted by nothing. `painted()` asks the atlas that is drawn.
+- **Paths and gravel tracks take the same curve, open-ended** (`fitLine`: the two
+  ends are corners by definition, so nothing overshoots). ASPHALT lines stay on
+  their surveyed chords ON PURPOSE: a major road's lane paint is a ribbon laid
+  along the raw polyline, and a band fitted away from it would show beside its
+  own paint on the outside of every bend. Car parks and yards join the ring fit;
+  their real 90° corners stay corners under the 60° rule.
+- **The chopped road edge line was the paint ribbon, not the atlas.** A lane-paint
+  run is sampled every metre along the road and had three vertices 3.2 m apart
+  ACROSS it — a plank over ground that changes facet every metre, lifted 3 cm —
+  so the line on the low side of a cambered road sank into the terrain in teeth
+  one facet long. Paint runs are sampled every metre across now.
+- **Costs, measured on all thirteen:** the exact build is 170–460 ms (atlas total
+  430–1,070 ms, Visby the slowest), and the fields are 29–79 MB of GPU texture
+  with the SDF mip chain (Johannesberg's 4.2 M-texel CORE the largest), a third
+  less under LOWQ, which drops the chain. They are built only under v2.
 - **Not done, and visible:** the tan and grey-green BLOCKS in Ovan are the 6 m
   tint raster baking mown tones into the rough colour plus the 12 m land-cover
-  cells; `makeGround` (`?v2=0`, johannesberg-9) still draws the pair field and
+  cells; WATER shorelines are raw polygons with hard vertices (and 1–4 m lattice
+  steps where a ring was traced off the laser) — they are a different system,
+  carved into `terrainH` and drawn as sheets, and `preserveMappedBoundaries`
+  switches their smoother off exactly as it did the greens'; `makeGround`
+  (`?v2=0`, out of scope by the owner's word) still draws the pair field and
   carries a `+ b.res*0.5` uv offset that shifts every surface ~0.5 m; true
   RASTER-derived rings (Ribbingsfors, Tortuna fairways, Veckefjärden's DTM
   bunkers) keep their stairs under any spline and need re-vectorising; a 90°
