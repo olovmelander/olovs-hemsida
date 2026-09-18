@@ -5416,3 +5416,107 @@ Three things this pinned down:
   hand and then asserting it with the same derivation proves nothing.
   `top-view.test.mjs` builds an actual `PerspectiveCamera`, calls `lookAt`, and
   reads NDC -- and it is what caught that orientation alone was a regression.
+
+## The front door, measured — the chooser on a phone (2026-09-18)
+
+The owner, with a screenshot: *"the cards are a bit too big on the phone … it
+looks better on a desktop than on the phone."* The chooser was the one screen no
+gate had ever measured, and measuring it found more than card size. At 390×844,
+before:
+
+| | before | after |
+|---|---|---|
+| whole cards on screen at rest | **1** | **6** |
+| a card | 358×310 px | 176×172 px |
+| chrome that never scrolls away | **233 px (28%)** | **56 px**, and only once the list moves |
+| the list, 13 courses | 4434 px (5.3 screens) | 1516 px (1.8) |
+| filter chips reachable | **3 of 4** | 4 of 4 |
+| controls under 40 px tall | 7 | 0 |
+| portrait tablet 820×1180 | ONE card, 754×531 | two columns |
+| phone on its side 844×390 | header 61%, no whole card | 3 whole cards |
+| phone map | 60% of the screen, preview over 64% of THAT | 90%, preview a 16% row |
+
+`tools/check-chooser-ui.mjs` holds all of it (72 checks; `--player` adds the
+in-course half and wants `BANVY_GPU=1`). **It was proved to fail first**: pointed
+at the live site, which still served the old chooser, 49 checks fail, each naming
+its number. Run it against a `/olovs-hemsida/` build as well — that is where the
+site is mounted.
+
+The shape: `#chooser` is ONE scroll container (it was a fixed header over a
+scrolling list), the brand and title leave with the first swipe, and the controls
+are `position: sticky` with a **negative `top`** on narrow screens —
+`top: -(pad + search height)` — so the search row slides out and only the chip row
+stays pinned. The heights that arithmetic reads are custom properties stated once
+on `#chooser`; restate one in a media block and the bar pins wrong. On a phone the
+cards are a two-up gallery (4:3 poster, name, place, par/holes); the running
+course — or the last one opened, `localStorage['banvy-last-course']`, written by
+the player and read by the hub — leads the list at full width with a call to
+action that needs no hover. One DOM, every difference in CSS.
+
+What it found that was not about size:
+
+- **The fourth filter chip could not be reached at all.** The chip row had
+  `overflow-x: auto` and still ran off the screen, because its PARENT was a
+  column flex container with `flex-wrap: wrap` left over from the desktop rule. A
+  wrapping column container sizes its one line by the widest item's max-content,
+  so the row was 512 px wide in a 358 px column: its own overflow had nothing to
+  scroll, and `body { overflow: hidden }` meant nothing else could either. "Slott
+  & Herrgård" was simply not available on a phone.
+- **`[hidden]` loses to any author `display`.** `.card-item { display: block }`
+  outranks the UA's `[hidden] { display: none }`, so switching the filter from
+  `style.display` to the `hidden` attribute filtered nothing until
+  `#chooser [hidden] { display: none !important }` was added.
+- **Typing in the chooser's search steered the course behind it.** main.js's
+  shortcut handler had no guard. Measured key by key on the old build: "n" took
+  the course from hole 3 to 4, "p" back, "m" cycled its markers from 2 to 0 and
+  "h" put it into clean view — and the handler is global, so the bag editor's
+  club names had the same fault. It now returns for any
+  text field and while `body.choosing`. It reads the body class and not
+  `railOpen`, which is declared a thousand lines later: a key can arrive during
+  an await in between, inside the temporal dead zone.
+- **The hover warm-up fetched a url the player never asks for** (found by the
+  performance-audit session): `fetch(course.packUrl)` without the `?v=<sha16>`
+  the loader appends, so a whole pack (214–730 kB) was downloaded and never
+  reused, and under the
+  service worker the stray copy could evict a real offline file from
+  `banvy-packs`. `packRequestUrl()` in `loader/pack.js` is now the one rule both
+  use. And on a touch screen `pointerenter` fires for every swipe that happens to
+  START on a card, so scrolling the list was fetching course packs at random; the
+  warm-up is for a mouse or the keyboard only.
+- **The gallery made decoration the heaviest thing on the page.** With six to
+  eight cards on a phone's screen instead of one, the per-card poster slideshow
+  pulled **54 posters, 3.5 MB, inside two seconds** (the old single column: 21,
+  1.35 MB). Now: a phone tile narrower than 260 px stays still (only the
+  full-width lead card cycles), the extras go through ONE queue for the whole
+  list with 650 ms between fetches and lowest frame first, and hero-1 is lazy
+  past the first six cards. Measured on the build, everything the bare route
+  downloads: phone **1587 kB** old → 3786 first cut → **1089 kB** now; desktop
+  **2702 kB** old → 3556 first cut → **977 kB** at rest, 1911 kB ten seconds in.
+  **Count the bytes after changing a layout** — every layout check passed while
+  the first cut was true.
+- **`:hover` sticks on a touch screen**, so a tapped card stayed lifted and
+  zoomed when the visitor came back, and the "Starta bana" it reveals could never
+  be seen. Hover effects sit under `@media (hover: hover) and (pointer: fine)`;
+  touch gets a standing arrow in the facts row instead.
+- **Under 16 px, iOS Safari zooms the page into a focused field.** The search was
+  13 px. It is 16 on a phone.
+- **A card's facts row is sized by the CARD** (`container-type: inline-size` on
+  `.card-item`), not by the window: the same 250 px card appears on a phone on its
+  side and in a narrow desktop window.
+- On the map: name plates that would land on each other or on another pin are not
+  drawn (five clubs stand inside 80 px of Mälardalen at country zoom), fits are
+  padded clear of the region bar and the preview, and the `hovered` class is now
+  set on `.golf-map-pin`, which is what the stylesheet had always selected — it
+  was being set on Leaflet's wrapper, where nothing looked for it.
+- The subtitle promised *"nya banor under kartläggning"* on a list that has none;
+  it is counted like everything else on the front door now. And the search keeps
+  its placeholder's promise: "Västerås" finds Ängsö and Tortuna, "par 27" finds
+  the korthålsbana — it used to search name, club and blurb only.
+
+**One Windows trap cost twenty minutes here:** Git Bash rewrites an environment
+value that looks like a path, so `BANVY_BASE=/olovs-hemsida/ npx vite build`
+bakes `C:/Program Files/Git/olovs-hemsida/` into every url and the built page
+cannot fetch its own modules. Set it from PowerShell or prefix
+`MSYS_NO_PATHCONV=1`. (`tools/check-basepath.mjs` is Linux-container-shaped —
+hardcoded Chromium path, `pnpm` without a shell — and does not run on this
+machine at all; the chooser gate against a subpath build is the substitute.)

@@ -1,5 +1,6 @@
-import { buildRail } from './shell/rail.js';
+import { buildRail, lastCourse } from './shell/rail.js';
 import { goToCourse } from './shell/router.js';
+import { packRequestUrl } from './loader/pack.js';
 
 const boot = document.getElementById('boot');
 const message = document.getElementById('bmsg');
@@ -17,13 +18,18 @@ try {
   const chooser = buildRail({
     courses,
     current: null,
+    last: lastCourse(),
     isInitialBoot: true,
     onPick: goToCourse,
+    /* Warm the cache for the course under the pointer -- by the SAME url the
+       player will ask for, or the warm-up is a whole pack (214-730 kB) nobody
+       ever reads (see packRequestUrl). Low priority: it must never compete
+       with the posters. */
     onIntent: slug => {
       if (prefetched.has(slug)) return;
       prefetched.add(slug);
       const course = courses.find(c => c.slug === slug);
-      if (course?.packUrl) fetch(course.packUrl).catch(() => {});
+      if (course?.packUrl) fetch(packRequestUrl(course), { priority: 'low' }).catch(() => {});
     },
   });
   document.body.append(chooser);

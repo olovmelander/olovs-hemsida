@@ -47,6 +47,19 @@ export async function fetchPack(url, wantSha) {
    points at somebody else's site, not at us. */
 const BASE = import.meta.env.BASE_URL;
 
+/* The one URL a course's pack is ever asked for by. Exported because the
+   chooser warms the cache for a course the visitor is about to open, and a
+   warm-up that restates this rule fetches a DIFFERENT url: it did, without the
+   ?v=, so the player never reused a byte of it and the service worker filed the
+   stray copy in banvy-packs, where it could push a real offline file out. */
+export function packRequestUrl(meta) {
+  /* packUrl is stored RELATIVE in the manifest, because the manifest is data
+     and data does not get to know where the site is mounted. A leading slash is
+     tolerated so an older manifest still loads. */
+  const rel = String(meta.packUrl).replace(/^\//, '');
+  return BASE + rel + (meta.sha256 ? `?v=${meta.sha256.slice(0, 16)}` : '');
+}
+
 export async function loadCourse(slug) {
   const manifest = await (await get(`${BASE}courses/index.json`,
     'kunde inte nå servern — kontrollera anslutningen och ladda om')).json();
@@ -58,11 +71,7 @@ export async function loadCourse(slug) {
      in the URL means a changed pack is a different URL, so the cached copy is
      never the wrong one and every copy can be cached as hard as the CDN likes.
      The manifest itself is the one thing that must stay fresh (see _headers). */
-  /* packUrl is stored RELATIVE in the manifest, because the manifest is data
-     and data does not get to know where the site is mounted. A leading slash is
-     tolerated so an older manifest still loads. */
-  const rel = String(meta.packUrl).replace(/^\//, '');
-  const url = BASE + rel + (meta.sha256 ? `?v=${meta.sha256.slice(0, 16)}` : '');
+  const url = packRequestUrl(meta);
   const optional = async (record, label) => {
     if (!record?.url) return { value: null, error: null };
     try {

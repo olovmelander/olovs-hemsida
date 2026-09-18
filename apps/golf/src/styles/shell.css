@@ -7,40 +7,89 @@
    - In-Game Top-Left Navigation Drawer
    =========================================================================== */
 
-/* ---- Chooser / Main Menu Showcase ---- */
+/* ---- Chooser / Main Menu Showcase ----
+   ONE scroll container, and that is the whole idea. The chooser used to be a
+   fixed header over a scrolling list, which on a 390x844 phone kept 233 px --
+   28% of the screen -- for a title nobody needs twice, and showed one card.
+   Now everything scrolls, the brand and the title leave with the first swipe,
+   and only the bar that is still useful half way down the list stays pinned.
+
+   The numbers the pinned bar is built from are stated ONCE, here, because its
+   negative `top` is arithmetic on them: on a narrow screen the bar is a search
+   row over a chip row, and `top: -(search + gap)` lets the search slide out so
+   only the chips stay. Change a height here and the bar still pins correctly;
+   restate one further down and it will not. */
 #chooser {
+  /* The gutter doubles as the cap on an ultrawide screen: past 2000 px the
+     content stops growing and the gutters take the rest. It is a PADDING and
+     not a max-width so that the pinned bar's glass can run to the screen's edge
+     by bleeding exactly one gutter -- no element wider than the screen, so
+     nothing for the chooser to scroll sideways to. */
+  --pad-x: max(clamp(20px, 4vw, 56px), calc((100vw - 1888px) / 2));
+  --pad-l: max(var(--pad-x), env(safe-area-inset-left, 0px));
+  --pad-r: max(var(--pad-x), env(safe-area-inset-right, 0px));
+  --inset-top: env(safe-area-inset-top, 0px);
+  --search-h: 40px;
+  --chip-h: 36px;
+  --ctl-gap: 10px;
+  --ctl-pad: 10px;
+  --card-min: 340px;
   position: fixed;
   inset: 0;
   z-index: 60;
-  display: flex;
-  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
   background: radial-gradient(130% 100% at 50% 0%, rgba(12, 28, 20, 0.95), rgba(4, 9, 7, 0.98) 75%, #020504);
   backdrop-filter: blur(28px) saturate(1.2);
   -webkit-backdrop-filter: blur(28px) saturate(1.2);
   opacity: 1;
   transition: opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1), transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
   transform: scale(1);
+  -webkit-tap-highlight-color: transparent;
 }
 #chooser[hidden] { display: none; }
+/* The author rules below give these elements a display of their own, which
+   outranks the UA's [hidden]; without this a filtered-out card stays put. */
+#chooser [hidden] { display: none !important; }
 #chooser.leaving {
   opacity: 0;
   transform: scale(0.98);
   pointer-events: none;
 }
 
+/* The status bar's backdrop in an installed app, where the page runs under it.
+   Sticky and first, so it takes the inset's height in the flow (the brand row
+   needs no padding of its own for it) and stays over everything that scrolls
+   beneath. Zero height in a browser tab, where the inset is zero. */
+.chooser-scrim {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  height: var(--inset-top);
+  background: #0a1711;
+}
+
+.chooser-inner {
+  padding: 0 var(--pad-r) calc(clamp(28px, 4vh, 56px) + env(safe-area-inset-bottom, 0px)) var(--pad-l);
+}
+
 .chooser-top-bar {
-  flex: 0 0 auto;
-  padding: 20px clamp(20px, 4vw, 56px) 0;
+  padding-top: 18px;
+  min-height: 58px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 }
 
 .chooser-brand {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
 }
 
 .brand-crest {
@@ -76,12 +125,14 @@
   font: 700 10.5px/1 Outfit, sans-serif;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .chooser-top-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex: 0 0 auto;
 }
 
 /* View Switcher: Kortvy vs Sverigekarta */
@@ -98,58 +149,57 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  min-height: 32px;
+  padding: 0 12px;
   border-radius: 9px;
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   color: var(--dim);
-  font: 600 11.5px/1 Outfit, sans-serif;
+  font: 600 12px/1 Outfit, sans-serif;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
 .c-view-btn svg {
   color: inherit;
-}
-.c-view-btn:hover {
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.05);
+  flex: 0 0 auto;
 }
 .c-view-btn.active {
   background: rgba(95, 208, 122, 0.2);
-  border: 1px solid rgba(95, 208, 122, 0.45);
+  border-color: rgba(95, 208, 122, 0.45);
   color: var(--turf);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
+/* A long label where there is room for one, a short one where there is not --
+   both in the markup, so the choice is the stylesheet's and costs no script. */
+.cv-short, .cf-short { display: none; }
 
 .chooser-resume-btn {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 13px;
-  border-radius: 10px;
+  min-height: 38px;
+  padding: 0 13px;
+  border-radius: 11px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: var(--dim);
-  font: 600 11.5px/1 Outfit, sans-serif;
+  font: 600 12px/1 Outfit, sans-serif;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
-.chooser-resume-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--ink);
-  border-color: rgba(95, 208, 122, 0.4);
+.chooser-resume-btn span {
+  max-width: 24ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .chooser-head {
-  flex: 0 0 auto;
-  padding: clamp(14px, 2.5vh, 26px) clamp(20px, 4vw, 56px) clamp(8px, 1.5vh, 16px);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  padding: clamp(12px, 2.2vh, 24px) 0 clamp(4px, 1vh, 10px);
 }
 
 .chooser-main-title {
-  font: 800 clamp(26px, 3.6vw, 38px)/1.1 Outfit, sans-serif;
+  font: 800 clamp(26px, 3.4vw, 38px)/1.1 Outfit, sans-serif;
   letter-spacing: -0.03em;
   color: #ffffff;
   margin-bottom: 4px;
@@ -161,22 +211,44 @@
   max-width: 68ch;
 }
 
+/* The pinned bar. Its glass lives on a pseudo-element that bleeds one gutter
+   each way, so it runs edge to edge, and it is painted only once the bar is
+   actually pinned (rail.js sets .is-stuck) -- at rest the controls sit on the
+   page like any other row. */
 .chooser-controls {
+  position: sticky;
+  top: var(--inset-top);
+  z-index: 6;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  padding-top: 2px;
+  gap: var(--ctl-gap) 14px;
+  padding: var(--ctl-pad) 0;
+  transition: top 0.22s ease;
 }
+.chooser-controls::before {
+  content: '';
+  position: absolute;
+  inset: 0 calc(-1 * var(--pad-r)) 0 calc(-1 * var(--pad-l));
+  z-index: -1;
+  background: rgba(6, 13, 9, 0.9);
+  backdrop-filter: blur(18px) saturate(1.2);
+  -webkit-backdrop-filter: blur(18px) saturate(1.2);
+  border-bottom: 1px solid rgba(150, 220, 175, 0.14);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+.chooser-controls.is-stuck::before { opacity: 1; }
 
 .chooser-search-box {
   position: relative;
   display: flex;
   align-items: center;
-  width: min(340px, 100%);
+  flex: 0 1 340px;
+  min-width: 200px;
 }
-.chooser-search-box svg {
+.chooser-search-box > svg {
   position: absolute;
   left: 14px;
   color: var(--faint);
@@ -184,15 +256,20 @@
 }
 .chooser-search-box input {
   width: 100%;
-  padding: 10px 14px 10px 38px;
+  height: var(--search-h);
+  padding: 0 40px 0 38px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--ink);
   font: 500 13px/1 Outfit, sans-serif;
   outline: none;
-  transition: all 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
+.chooser-search-box input::-webkit-search-cancel-button,
+.chooser-search-box input::-webkit-search-decoration { -webkit-appearance: none; display: none; }
 .chooser-search-box input:focus {
   background: rgba(255, 255, 255, 0.09);
   border-color: var(--turf);
@@ -201,52 +278,99 @@
 .chooser-search-box input::placeholder {
   color: var(--faint);
 }
+.search-key {
+  position: absolute;
+  right: 10px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--faint);
+  font: 600 10.5px/1 'JetBrains Mono', monospace;
+  pointer-events: none;
+}
+.chooser-search-box input:focus ~ .search-key,
+.chooser-controls.has-query .search-key { display: none; }
+.search-clear {
+  position: absolute;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--dim);
+  cursor: pointer;
+}
 
+.chooser-count {
+  margin-right: auto;
+  font: 500 12px/1 Outfit, sans-serif;
+  color: var(--faint);
+  white-space: nowrap;
+  order: 1;
+}
 .chooser-filters {
+  order: 2;
   display: flex;
   gap: 8px;
-  flex-wrap: wrap;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.chooser-filters::-webkit-scrollbar { display: none; }
+/* Only when there IS more: a fade on a row that fits reads as a rendering fault */
+.chooser-filters.is-scrollable:not(.at-end) {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
 }
 .c-filter-btn {
-  padding: 8px 14px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--chip-h);
+  padding: 0 13px;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--dim);
   font: 600 12px/1 Outfit, sans-serif;
+  white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
 }
-.c-filter-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--ink);
+.c-filter-btn svg { flex: 0 0 auto; }
+.cf-n {
+  font: 600 10.5px/1 'JetBrains Mono', monospace;
+  color: var(--faint);
 }
 .c-filter-btn.active {
   background: rgba(95, 208, 122, 0.16);
   border-color: rgba(95, 208, 122, 0.5);
   color: var(--turf);
 }
+.c-filter-btn.active .cf-n { color: inherit; opacity: 0.8; }
 
 .chooser-scroll {
-  flex: 1 1 auto;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 8px clamp(20px, 4vw, 56px) clamp(28px, 4vh, 56px);
-  scrollbar-width: thin;
+  padding-top: 6px;
   position: relative;
 }
 
 .cards {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: clamp(16px, 2vw, 26px);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--card-min)), 1fr));
+  gap: clamp(14px, 1.7vw, 24px);
   margin: 0;
   padding: 0;
 }
 
 .card-item {
   display: block;
+  min-width: 0;
 }
 
 .card {
@@ -254,6 +378,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   text-align: left;
   border: 1px solid rgba(150, 220, 175, 0.14);
   border-radius: 18px;
@@ -266,12 +391,13 @@
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s, box-shadow 0.28s;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
-.card:hover, .card:focus-visible {
+.card:focus-visible {
   transform: translateY(-5px);
   border-color: rgba(95, 208, 122, 0.65);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(95, 208, 122, 0.18);
+  box-shadow: 0 0 0 2px var(--turf), 0 20px 48px rgba(0, 0, 0, 0.6);
   outline: none;
 }
+.card:active { transform: scale(0.985); }
 .card.is-current {
   border-color: rgba(95, 208, 122, 0.8);
   box-shadow: 0 0 0 1px var(--turf), 0 16px 40px rgba(0, 0, 0, 0.5);
@@ -286,8 +412,33 @@
   transition: transform 0.4s ease;
   overflow: hidden;
 }
-.card:hover .shot {
-  transform: scale(1.03);
+
+/* Hover belongs to things that can hover. On a touch screen :hover sticks to
+   the last thing tapped, so a card would stay lifted and zoomed after the
+   visitor came back to the list -- and the call to action it reveals could
+   never be seen at all, which is what .fact-go is for. */
+@media (hover: hover) and (pointer: fine) {
+  .c-view-btn:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
+  .c-view-btn.active:hover { color: var(--turf); background: rgba(95, 208, 122, 0.26); }
+  .chooser-resume-btn:hover { background: rgba(255, 255, 255, 0.12); color: var(--ink); border-color: rgba(95, 208, 122, 0.4); }
+  .c-filter-btn:hover { background: rgba(255, 255, 255, 0.08); color: var(--ink); }
+  .c-filter-btn.active:hover { background: rgba(95, 208, 122, 0.22); color: var(--turf); }
+  .search-clear:hover { background: rgba(255, 255, 255, 0.08); color: var(--ink); }
+  .card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(95, 208, 122, 0.65);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.6), 0 0 24px rgba(95, 208, 122, 0.18);
+  }
+  .card:hover .shot { transform: scale(1.03); }
+  .card:hover .shot-hover-action { opacity: 1; transform: translateX(0); }
+}
+.c-view-btn:focus-visible,
+.c-filter-btn:focus-visible,
+.chooser-resume-btn:focus-visible,
+.search-clear:focus-visible,
+.no-courses-msg button:focus-visible {
+  outline: 2px solid var(--turf);
+  outline-offset: 2px;
 }
 
 /* The extra posters live above the .shot background and below its gradient --
@@ -327,20 +478,34 @@
   right: 12px;
   z-index: 2;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px 8px;
 }
 
 .cat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  max-width: 100%;
   padding: 5px 9px;
   border-radius: 8px;
   background: rgba(7, 13, 10, 0.75);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  font: 600 10.5px/1 Outfit, sans-serif;
+  font: 600 10.5px/1.15 Outfit, sans-serif;
   color: var(--ink);
   letter-spacing: 0.04em;
+}
+.cat-badge svg { flex: 0 0 auto; }
+.cat-text {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .current-badge {
@@ -351,6 +516,15 @@
   font: 800 10.5px/1 Outfit, sans-serif;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  white-space: nowrap;
+}
+/* "Senast spelad" is a memory, not a state: quieter than "Aktiv bana". */
+.current-badge.is-last {
+  background: rgba(7, 13, 10, 0.78);
+  border: 1px solid rgba(95, 208, 122, 0.55);
+  color: var(--turf);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .card .shot .on-shot {
@@ -365,14 +539,18 @@
   font: 700 21px/1.2 Outfit, sans-serif;
   letter-spacing: -0.02em;
   color: #ffffff;
+  text-wrap: balance;
 }
 
 .card .where {
-  font: 600 11px/1 Outfit, sans-serif;
+  font: 600 11px/1.15 Outfit, sans-serif;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--turf);
   margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .shot-hover-action {
@@ -392,7 +570,7 @@
   transform: translateX(10px);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.card:hover .shot-hover-action {
+.card:focus-visible .shot-hover-action {
   opacity: 1;
   transform: translateX(0);
 }
@@ -413,6 +591,13 @@
   font: 400 13px/1.5 Outfit, sans-serif;
   color: var(--dim);
   min-height: 2.8em;
+  /* Two blurbs here run to four lines and made their whole grid row taller;
+     the card is a teaser, the course is one click away. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 
 .card .facts {
@@ -429,6 +614,7 @@
   display: flex;
   align-items: baseline;
   gap: 4px;
+  white-space: nowrap;
 }
 .f-lbl {
   font-size: 9.5px;
@@ -447,6 +633,45 @@
   color: var(--turf);
   font-size: 10px;
 }
+/* What a touch screen gets instead of the hover call to action: a standing
+   sign that the card goes somewhere. */
+.fact-go {
+  display: none;
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  border-radius: 50%;
+  place-items: center;
+  background: rgba(95, 208, 122, 0.14);
+  color: var(--turf);
+}
+@media (hover: none) {
+  .fact-go { display: grid; margin-left: auto; }
+  /* every course here is 3D; the arrow says more in the same corner */
+  .fact-tag { display: none; }
+}
+/* A finger is not a cursor: wherever the pointer is coarse the controls take
+   touch sizes, whatever the width -- a tablet is wide AND touched. */
+@media (pointer: coarse) {
+  #chooser { --search-h: 44px; --chip-h: 40px; }
+  .c-view-btn { min-height: 40px; }
+  .chooser-resume-btn { min-height: 42px; }
+}
+/* The card's own width decides what its facts row can hold, not the window's:
+   the same 250 px card appears on a phone on its side and in a narrow desktop
+   window, and "UTSLAG 5 tees" is the first thing that does not fit. */
+.card-item { container-type: inline-size; }
+@container (max-width: 300px) {
+  .fact-tees { display: none; }
+}
+/* The lead card -- the running course, or the last one opened -- shows its call
+   to action without waiting for a hover, wherever the card is wide enough to
+   hold it beside the name; the name gives it the room. */
+@container (min-width: 320px) {
+  .card-item.is-lead .shot-hover-action { opacity: 1; transform: translateX(0); }
+  .card-item.is-lead .on-shot { right: 132px; }
+}
 
 .no-courses-msg {
   text-align: center;
@@ -458,14 +683,44 @@
   margin-bottom: 14px;
 }
 .no-courses-msg button {
-  padding: 8px 18px;
-  border-radius: 8px;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 10px;
   background: var(--turf);
   color: #04140a;
-  font: 700 12px/1 Outfit, sans-serif;
+  font: 700 12.5px/1 Outfit, sans-serif;
   border: none;
   cursor: pointer;
 }
+
+/* ---- Map mode: the map takes the screen ----
+   It used to be a fixed slice (clamp(380px, 60vh, 520px) on a phone) under a
+   title it did not need, with 200 px of nothing beneath it at 390x844. In map
+   mode the chooser stops scrolling and becomes a column the map fills. */
+#chooser.map-mode {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+#chooser.map-mode .chooser-scrim { flex: 0 0 auto; }
+#chooser.map-mode .chooser-inner {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(clamp(12px, 2.4vh, 28px) + env(safe-area-inset-bottom, 0px));
+}
+#chooser.map-mode .chooser-controls { display: none; }
+#chooser.map-mode .chooser-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+}
+#chooser.map-mode .map-view-wrap { flex: 1 1 auto; min-height: 0; }
+#chooser.map-mode .sweden-map-container { height: 100%; min-height: 260px; }
 
 /* ===========================================================================
    Sweden Interactive OEM/OSM Map Styling
@@ -648,6 +903,11 @@
   background: rgba(14, 28, 20, 0.95);
   transform: translateX(2px);
 }
+/* a plate map.js found no room for: gone until hovered or zoomed into room */
+.golf-map-pin.label-off:not(.hovered):not(:hover) .pin-label {
+  opacity: 0;
+  pointer-events: none;
+}
 .pin-name {
   font: 700 11.5px/1.2 Outfit, sans-serif;
   color: #ffffff;
@@ -677,6 +937,8 @@
 
 .mpp-card {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   border-radius: 16px;
   overflow: hidden;
   background: rgba(9, 18, 14, 0.94);
@@ -708,6 +970,7 @@
 }
 
 .mpp-shot {
+  grid-area: 1 / 1;
   position: relative;
   aspect-ratio: 16 / 9;
   background-size: cover;
@@ -729,12 +992,14 @@
   gap: 6px;
 }
 
-.mpp-shot-title {
-  position: absolute;
-  left: 14px;
-  bottom: 8px;
-  right: 14px;
+/* Over the poster's foot on a desktop, beside the poster on a phone: a grid
+   cell of its own rather than a child of the shot, so it can be either. */
+.mpp-titles {
+  grid-area: 1 / 1;
+  align-self: end;
   z-index: 2;
+  min-width: 0;
+  padding: 0 14px 8px;
 }
 .mpp-city {
   font: 600 10px/1 Outfit, sans-serif;
@@ -743,13 +1008,15 @@
   text-transform: uppercase;
   margin-bottom: 3px;
 }
-.mpp-shot-title h3 {
+.mpp-titles h3 {
   font: 700 18px/1.15 Outfit, sans-serif;
   color: #ffffff;
   letter-spacing: -0.01em;
 }
 
 .mpp-body {
+  grid-area: 2 / 1;
+  min-width: 0;
   padding: 10px 14px 14px;
   display: flex;
   flex-direction: column;
@@ -1284,25 +1551,42 @@
   color: var(--faint);
 }
 
-/* ---- Responsive Polish ---- */
-@media (max-width: 820px) {
-  .chooser-head { padding: 14px 20px 8px; }
-  .chooser-main-title { font-size: 26px; }
-  .chooser-controls { flex-direction: column; align-items: stretch; gap: 12px; }
-  .chooser-search-box { width: 100%; }
-  .chooser-filters {
-    display: flex;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    flex-wrap: nowrap;
-    gap: 8px;
-    padding-bottom: 2px;
+/* ---- Responsive Polish ----
+   The grid is sized by what fits (auto-fill against --card-min), never by a
+   breakpoint that forces a column count: the rule that used to say "one column
+   under 820 px" gave a portrait tablet a single card 754 px wide and 531 tall.
+   Only the phone's two-up gallery names its columns, because there the count
+   IS the design. */
+@media (max-width: 1099px) {
+  #chooser { --card-min: 280px; }
+}
+
+/* Narrow: search over chips. The bar pins with the search row slid out above
+   the screen, so what stays is the chip row alone -- unless words are narrowing
+   the list, in which case the words stay in sight. */
+@media (max-width: 900px) {
+  .chooser-controls {
+    flex-direction: column;
+    align-items: stretch;
+    top: calc(var(--inset-top) - var(--ctl-pad) - var(--search-h));
   }
-  .chooser-filters::-webkit-scrollbar { display: none; }
-  .c-filter-btn { flex: 0 0 auto; white-space: nowrap; padding: 8px 12px; }
-  .cards { grid-template-columns: 1fr; }
-  .sweden-map-container { height: clamp(380px, 60vh, 520px); border-radius: 16px; }
+  .chooser-controls.has-query { top: var(--inset-top); }
+  .chooser-search-box { flex: 0 0 auto; width: 100%; min-width: 0; }
+  .search-key { display: none; }
+  .chooser-filters { order: 1; }
+  /* still announced, no longer drawn: the grid itself shows what matched */
+  .chooser-count {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}
+
+@media (max-width: 820px) {
+  .sweden-map-container { border-radius: 16px; }
   .map-region-bar {
     top: 10px; left: 10px; right: 10px;
     max-width: calc(100vw - 20px);
@@ -1346,22 +1630,128 @@
   .cip-sub { display: none; }
   .cip-chevron { width: 12px; height: 12px; margin-left: 0; }
   .drawer-course-grid { grid-template-columns: 1fr; }
-  .chooser-top-bar {
-    padding: calc(14px + env(safe-area-inset-top)) 16px 0;
-    gap: 12px;
+  /* In the player the chooser is glass over a LIVE course, and at 95-98%
+     opacity a 28 px blur of a running 3D canvas is a full-screen filter paid
+     every frame for a difference nobody can see. A phone keeps the look and
+     drops the filter. */
+  #chooser {
+    background: radial-gradient(130% 100% at 50% 0%, #0c1c14, #050b08 75%, #020504);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
-  .card:active { transform: scale(0.985); }
 }
 
-@media (max-width: 620px) {
-  .chooser-main-title { font-size: 24px; }
-  .chooser-subtitle { font-size: 12px; }
-  .wordmark { font-size: 24px; }
+/* ---- The phone: a two-up gallery ----
+   Measured at 390x844 against the single column it replaces: six cards on
+   screen where there was one, and 13 courses in under two screens where there
+   were more than five. The poster keeps a 4:3 frame so it still reads as a
+   place; the blurb, the club line and the tee count leave, because the name,
+   the place and par/holes are what a golfer picks a course by. */
+@media (max-width: 600px) {
+  #chooser {
+    --pad-x: 14px;
+    --search-h: 44px;
+    --chip-h: 40px;
+    --ctl-gap: 8px;
+    --ctl-pad: 8px;
+  }
+  .chooser-top-bar { padding-top: 10px; min-height: 52px; }
+  .wordmark { font-size: 23px; }
   .hub-pill { display: none; }
-  .c-view-btn { padding: 5px 8px; font-size: 11px; }
-  .chooser-head { padding: 10px 16px 6px; }
-  .chooser-scroll { padding: 8px 16px clamp(20px, 3vh, 36px); }
-  .card .facts { flex-wrap: wrap; gap: 6px 10px; }
+  .cv-long, .cf-long { display: none; }
+  .cv-short, .cf-short { display: inline; }
+  .c-view-btn { min-height: 40px; padding: 0 12px; font-size: 12.5px; }
+  /* the course's name is on the card under it; here the button is its cross */
+  .chooser-resume-btn { width: 42px; min-height: 42px; padding: 0; justify-content: center; border-radius: 50%; }
+  .chooser-resume-btn span { display: none; }
+  .chooser-head { padding: 10px 0 2px; }
+  .chooser-main-title { font-size: 24px; margin-bottom: 2px; }
+  .chooser-subtitle { font-size: 12.5px; line-height: 1.4; }
+  /* 16 px, not 13: below it iOS Safari zooms the whole page into the field on
+     focus and leaves the visitor to pinch their way back out */
+  .chooser-search-box input { font-size: 16px; padding-left: 40px; }
+  .search-clear { width: 40px; height: 40px; right: 2px; }
+  .chooser-filters { gap: 6px; }
+  /* four chips share the row, so none of them is ever off the edge */
+  .c-filter-btn { flex: 1 0 auto; justify-content: center; padding: 0 9px; font-size: 12.5px; }
+
+  .chooser-scroll { padding-top: 2px; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .card { border-radius: 14px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); }
+  .card .shot { aspect-ratio: 4 / 3; }
+  .card .where, .card .line, .cat-kind, .fact-tees, .fact-tag, .shot-hover-action { display: none; }
+  .shot-badges { top: 8px; left: 8px; right: 8px; gap: 4px; }
+  .cat-badge { padding: 4px 7px; font-size: 9.5px; border-radius: 7px; }
+  .current-badge { padding: 4px 6px; font-size: 8.5px; border-radius: 6px; }
+  .card .shot .on-shot { left: 10px; right: 10px; bottom: 8px; }
+  .card h2 { font-size: 14.5px; line-height: 1.18; }
+  .card .body { padding: 8px 10px 9px; gap: 0; }
+  .card .facts { border-top: 0; padding-top: 0; gap: 9px; font-size: 11px; }
+  .fact-go { width: 22px; height: 22px; margin-left: auto; }
+
+  /* The lead card -- the running course, or the last one opened -- is the one a
+     returning golfer is here for, so it alone keeps the full width, its club
+     line and a call to action that does not wait for a hover. */
+  .card-item.is-lead { grid-column: 1 / -1; }
+  .card-item.is-lead .shot { aspect-ratio: 5 / 2; }
+  .card-item.is-lead .where { display: block; font-size: 10px; }
+  .card-item.is-lead .cat-kind { display: inline; }
+  .card-item.is-lead .fact-tees { display: flex; }
+  .card-item.is-lead h2 { font-size: 19px; }
+  .card-item.is-lead .on-shot { left: 12px; right: 118px; bottom: 10px; }
+  .card-item.is-lead .shot-hover-action { display: flex; opacity: 1; transform: none; right: 10px; bottom: 10px; padding: 8px 11px; }
+  .card-item.is-lead .fact-go { display: none; }
+
+  .no-courses-msg { padding: 44px 16px; }
+}
+
+/* The smallest phones still in use (320 px): the chips give up their icons so
+   that all four stay on the row. */
+@media (max-width: 350px) {
+  .c-filter-btn svg { display: none; }
+  .c-filter-btn { padding: 0 6px; }
+}
+
+@media (max-width: 600px) {
+
+  /* Map mode: the title gives its room to the map, and the preview is a row,
+     not a poster -- at full size it covered 60% of the map and every pin under
+     it the moment the map opened. */
+  #chooser.map-mode .chooser-head { display: none; }
+  .mrb-label { display: none; }
+  .mrb-btn { min-height: 32px; padding: 0 10px; font-size: 11.5px; }
+  .mpp-card { grid-template-columns: 112px minmax(0, 1fr); grid-template-rows: auto 1fr; }
+  .mpp-shot { grid-area: 1 / 1 / 3 / 2; aspect-ratio: auto; min-height: 100%; }
+  .mpp-shot::after { background: linear-gradient(to right, transparent 55%, rgba(9, 18, 14, 0.9) 100%); }
+  .mpp-badges, .mpp-line, .mpp-tag { display: none; }
+  .mpp-titles { grid-area: 1 / 2; align-self: start; padding: 10px 40px 0 12px; }
+  .mpp-titles h3 { font-size: 16px; }
+  .mpp-body { grid-area: 2 / 2; padding: 6px 12px 10px; gap: 8px; }
+  .mpp-facts { border-top: 0; padding-top: 0; }
+  .mpp-play-btn { min-height: 40px; padding: 0 10px; }
+  .mpp-close-btn { top: 6px; right: 6px; width: 32px; height: 32px; }
+}
+
+/* A phone on its side, or a very short window: height is what is scarce, so
+   the card gives up its blurb and the grid takes a third column. */
+@media (max-height: 520px) and (min-width: 601px) {
+  #chooser { --card-min: 220px; }
+  /* one row again, with the short chip labels: there is width to spare here and
+     no height at all */
+  .chooser-controls { flex-direction: row; align-items: center; top: var(--inset-top); }
+  .chooser-search-box { flex: 1 1 200px; width: auto; }
+  .chooser-filters { flex: 0 0 auto; }
+  .cf-long { display: none; }
+  .cf-short { display: inline; }
+  .chooser-top-bar { padding-top: 10px; min-height: 48px; }
+  .chooser-head { padding: 6px 0 0; }
+  .chooser-main-title { font-size: 20px; margin-bottom: 0; }
+  .chooser-subtitle { display: none; }
+  .card .line { display: none; }
+  .card .body { padding: 9px 12px 10px; gap: 0; }
+  .card .facts { border-top: 0; padding-top: 0; }
+  .card h2 { font-size: 17px; }
+  #chooser.map-mode .chooser-head { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

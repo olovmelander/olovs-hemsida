@@ -26,7 +26,13 @@ try {
   await page.goto(BASE);
   await page.locator('#courseSearchInput').fill('Lidingö');
   const listing = page.locator('.card[data-slug="lidingo"]');
-  assert.match(await listing.innerText(), /Preliminär 3D/i);
+  /* fb1d1d5f took "Preliminär 3D" off the manifest and with it off the chooser;
+     this still asserted the badge, so the gate had failed since. What it is here
+     to protect is that the chooser lists the playable 3D course and not the
+     source intake -- so: the card is there, and neither label is on it. */
+  const listed = await listing.innerText();
+  assert.match(listed, /Lidingö GK/);
+  assert.doesNotMatch(listed, /Preliminär 3D|Under kartläggning/i);
   await page.goto(new URL('?bana=lidingo&view=sources', BASE).href);
   await page.locator('#intakeMap').waitFor();
   assert.equal(new URL(page.url()).searchParams.get('bana'), 'lidingo');
@@ -35,7 +41,7 @@ try {
     const values = await page.locator(`tr[data-card-hole="${h.number}"]`).locator('th,td').allTextContents();
     assert.deepEqual(values.map(n => Number(n.trim())), [h.number, h.par, h.index, ...card.tees.map(t => h.lengths[t.id])]);
   }
-  passed('chooser lists provisional 3D; explicit source view retains all 144 official scorecard cells');
+  passed('chooser lists the playable 3D course, unlabelled; explicit source view retains all 144 official scorecard cells');
   const overview = await page.locator('#intakeMap').getAttribute('viewBox');
   await page.locator('.intake-hole-buttons button[data-hole="18"]').click();
   assert.match(await page.locator('#intakeHole h2').innerText(), /Hål 18/);
