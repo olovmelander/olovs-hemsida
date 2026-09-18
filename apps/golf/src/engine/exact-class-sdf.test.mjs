@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildExactClassSdf, fitFeatures, fitLine, fitRing } from './exact-class-sdf.mjs';
+import { buildExactClassSdf, despikeRing, fitFeatures, fitLine, fitRing } from './exact-class-sdf.mjs';
 import { createGroundAtlas } from './atlas.js';
 import { SURFACE, SURFACE_PRIORITY } from './surface.js';
 
@@ -81,7 +81,7 @@ describe('the curve fit', () => {
     expect(fitLine([[0, 0], [10, 3]])).toEqual([[0, 0], [10, 3]]);
   });
 
-  it('fits only the lines it is told to: a painted road stays on its surveyed chords', () => {
+  it('fits only the lines of the surfaces it is told to', () => {
     const line = [[0, 0], [20, 4], [40, 14], [60, 30]];
     const { features } = fitFeatures([
       { surface: SURFACE.PATH, line, width: 0.65 },
@@ -101,6 +101,51 @@ describe('the curve fit', () => {
     ], { crisp: new Set([SURFACE.FRINGE, SURFACE.GREEN]) });
     expect(features[0].rings[0]).toBe(features[1].rings[0]);
     expect(features[2].rings[0]).toBe(ring);
+  });
+});
+
+describe('the digitiser\'s slips', () => {
+  const has = (ring, p) => ring.some(q => Math.hypot(q[0] - p[0], q[1] - p[1]) < 1e-9);
+  /* a 60 x 30 m fairway with a needle out of its north side: out 5 m and straight back */
+  const needle = [31, -5];
+  const spiked = [[0, 0], [30, 0], needle, [32, 0], [60, 0], [60, 30], [0, 30]];
+
+  it('removes a spike: out and straight back, on any surface', () => {
+    const stats = { spikesRemoved: 0, teethRemoved: 0 };
+    const out = despikeRing(spiked, { stats });
+    expect(has(out, needle)).toBe(false);
+    expect(stats).toEqual({ spikesRemoved: 1, teethRemoved: 0 });
+    /* and nothing else moved: the four real corners are all still there */
+    for (const corner of [[0, 0], [60, 0], [60, 30], [0, 30]]) expect(has(out, corner)).toBe(true);
+  });
+
+  it('spares a real neck: the same turn on twenty-metre legs is the fairway', () => {
+    const neck = [[0, 0], [30, 0], [31, -22], [32, 0], [60, 0], [60, 30], [0, 30]];
+    expect(despikeRing(neck)).toHaveLength(neck.length);
+  });
+
+  it('removes teeth only where it is told to, and only ones that enclose next to nothing', () => {
+    /* a jog of 0.4 m on a fairway edge: two sharp vertices enclosing a fraction of a square metre */
+    const jogged = [[0, 0], [20, 0], [20.2, 0.4], [20.4, 0], [60, 0], [60, 30], [0, 30]];
+    expect(despikeRing(jogged, { teeth: true }).length).toBeLessThan(jogged.length);
+    expect(despikeRing(jogged, { teeth: true }).some(p => p[1] === 0.4)).toBe(false);
+    /* a bunker's lobe is a sharp vertex of about a square metre and a half: never asked */
+    const lobed = circle(0, 0, 4, 9).map((p, i) => (i === 3 ? [p[0] * 1.35, p[1] * 1.35] : p));
+    expect(despikeRing(lobed)).toHaveLength(lobed.length);
+    /* and a tee deck's corners enclose twenty square metres: safe even when asked */
+    expect(despikeRing([[0, 0], [12, 0], [12, 8], [6, 8.5], [0, 8]], { teeth: true })).toHaveLength(5);
+  });
+
+  it('takes the stairs out BEFORE the teeth, so a raster trace is straightened, not eaten', () => {
+    const stair = [];
+    const leg = (x, z, dx, dz) => { for (let k = 0; k < 28; k++) { stair.push([x, z]); x += dx; stair.push([x, z]); z += dz; } return [x, z]; };
+    let p = [0, 28];
+    p = leg(p[0], p[1], 1, -1); p = leg(p[0], p[1], 1, 1); p = leg(p[0], p[1], -1, 1); leg(p[0], p[1], -1, -1);
+    const { features, stats } = fitFeatures([{ surface: SURFACE.FAIRWAY, rings: [stair] }],
+      { crisp: new Set([SURFACE.FAIRWAY]), toothed: new Set([SURFACE.FAIRWAY]) });
+    expect(stats.unstaired).toBe(1);
+    const area = r => { let a = 0; for (let i = 0; i < r.length; i++) { const u = r[i], v = r[(i + 1) % r.length]; a += u[0] * v[1] - v[0] * u[1]; } return Math.abs(a / 2); };
+    expect(Math.abs(area(features[0].rings[0]) - area(stair)) / area(stair)).toBeLessThan(0.03);
   });
 });
 

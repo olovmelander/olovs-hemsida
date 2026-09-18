@@ -148,16 +148,117 @@ function fitCurve(ring, closed, { cornerDeg = 60, chordError = 0.01, alpha = 0.5
   return out;
 }
 
+/** A ring traced off a RASTER is the one case a vertex is not a surveyed point: a
+ *  lattice corner is where a cell boundary fell, not where the edge is, and a
+ *  spline through a staircase keeps every stair (its 90 degree turns are all
+ *  "corners"). The edge crossed each of those cell sides somewhere, and the
+ *  unbiased estimate is the side's midpoint -- the midpoints of a staircase's
+ *  edges lie ON the diagonal the raster approximated, so the steps go with no
+ *  averaging, by at most half a lattice step, with no net area change. A ring is
+ *  taken for a raster trace when 30% of its edges are exactly axis-aligned; a
+ *  surveyed ring measures 0-2%. Long edges are real straights and are kept. */
+export function unstairRing(ring, { near = null, longest = 12 } = {}) {
+  if (!Array.isArray(ring) || ring.length < 8) return ring;
+  let axis = 0;
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length];
+    if (Math.abs(a[0] - b[0]) < 1e-6 || Math.abs(a[1] - b[1]) < 1e-6) axis++;
+  }
+  if (axis < ring.length * 0.3) return ring;
+  const out = [];
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length];
+    const stair = Math.hypot(b[0] - a[0], b[1] - a[1]) <= longest && (!near || near(a) || near(b));
+    out.push(stair ? [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2] : a);
+  }
+  return out;
+}
+
+/* A CRISP EDGE DRAWS EVERY SLIP OF THE DIGITISER. While the mown edges were a
+   metre of staircase nobody could see them; the day they became exact curves
+   they came out as needles and comb teeth. Two kinds, measured over every ring of
+   every course:
+
+   - a SPIKE: the outline runs out and straight back -- a turn past 120 degrees,
+     the two neighbours under three metres apart, a leg under eight. 39 of them,
+     32 on Tortuna's fairways. Removed on every surface. The leg test is what
+     spares a real neck: Veckefjarden's 3rd narrows between 22 and 32 m legs, and
+     that is the fairway, not a slip.
+   - a TOOTH: a sharp vertex (60 degrees or more) that encloses almost nothing --
+     under three square metres. Fairways and their first cut ONLY: there it is a
+     pixel trace's jitter (a quarter of Tortuna's fairway vertices), but a bunker
+     is digitised with two-metre legs and its LOBES are sharp vertices of about a
+     square metre and a half, which this rule would shave off. A tee deck's corner
+     encloses twenty, a real fairway corner four or more, and both stay.
+
+   Dropping a vertex is the one thing here that does not pass through it, and it
+   is meant to: a slip is not a surveyed point. */
+export function despikeRing(ring, { teeth = false, stats = null } = {}) {
+  /* a duplicated closing vertex hides a spike at the seam of the ring */
+  let out = cleanRing(ring);
+  for (let pass = 0; pass < 4 && out.length > 4; pass++) {
+    const n = out.length, keep = [];
+    let dropped = 0, droppedPrevious = false;
+    for (let i = 0; i < n; i++) {
+      const a = out[(i - 1 + n) % n], b = out[i], c = out[(i + 1) % n];
+      const turn = turnDegrees(a, b, c);
+      const la = Math.hypot(b[0] - a[0], b[1] - a[1]), lb = Math.hypot(c[0] - b[0], c[1] - b[1]);
+      const spike = turn > 120 && Math.min(la, lb) < 8 && Math.hypot(c[0] - a[0], c[1] - a[1]) < 3;
+      const area = Math.abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])) / 2;
+      const tooth = teeth && turn >= 60 && area < 3;
+      /* never two neighbours in one pass: the second is judged against a vertex
+         that is already gone */
+      if ((spike || tooth) && !droppedPrevious && n - dropped > 4) {
+        dropped++; droppedPrevious = true;
+        if (stats) stats[spike ? 'spikesRemoved' : 'teethRemoved']++;
+        continue;
+      }
+      droppedPrevious = false;
+      keep.push(b);
+    }
+    if (!dropped) break;
+    out = keep;
+  }
+  return out;
+}
+
 /** Replace the rings of the played (crisp) classes by their fitted curves. One
  *  fit per source ring, shared by every feature that uses it (fairway + semi,
  *  green + fringe), so the band stays an exact offset of its parent. */
-export function fitFeatures(features, { crisp, lines = new Set(), cornerDeg, chordError } = {}) {
-  const cache = new Map();
-  const stats = { fitted: 0, keptStraight: 0, corners: 0, spikes: 0, pointsIn: 0, pointsOut: 0 };
-  const fit = ring => {
+export function fitFeatures(features, { crisp, lines = new Set(), toothed = new Set(), cornerDeg, chordError } = {}) {
+  /* one fit per source ring AND per cleaning rule: a fairway and its first cut
+     share a ring and a rule, so the band stays an exact offset of its parent */
+  const caches = [new Map(), new Map()];
+  const stats = { fitted: 0, keptStraight: 0, corners: 0, spikes: 0, unstaired: 0, spikesRemoved: 0, teethRemoved: 0, pointsIn: 0, pointsOut: 0 };
+  const fit = (ring, teeth) => {
     if (!Array.isArray(ring) || ring.length < 3) return ring;
+    const cache = caches[teeth ? 1 : 0];
     let fitted = cache.get(ring);
-    if (!fitted) { fitted = fitRing(ring, { cornerDeg, chordError, stats }); cache.set(ring, fitted); }
+    if (!fitted) {
+      /* the stairs first: a raster trace is ALL tiny sharp vertices, and the
+         tooth rule would eat it at random instead of straightening it */
+      const source = unstairRing(ring);
+      if (source !== ring) stats.unstaired++;
+      fitted = fitRing(despikeRing(source, { teeth, stats }), { cornerDeg, chordError, stats });
+      cache.set(ring, fitted);
+    }
+    return fitted;
+  };
+  /* A NATURAL ring surveyed as a polygon stays the polygon it was surveyed as:
+     its edge is a ramp metres wide and nobody reads its chords. One traced off a
+     raster is different -- a reed belt read off the laser on a 4 m lattice draws
+     a 4 m staircase through any ramp (Angso, from above) -- so those, and only
+     those, lose their stairs and take a coarse curve. */
+  const softCache = new Map();
+  const softFit = ring => {
+    if (!Array.isArray(ring) || ring.length < 3) return ring;
+    let fitted = softCache.get(ring);
+    if (!fitted) {
+      const source = unstairRing(ring);
+      fitted = source === ring ? ring : fitRing(source, { cornerDeg, chordError: 0.1, stats });
+      if (source !== ring) stats.unstaired++;
+      softCache.set(ring, fitted);
+    }
     return fitted;
   };
   const out = features.map(feature => {
@@ -165,13 +266,19 @@ export function fitFeatures(features, { crisp, lines = new Set(), cornerDeg, cho
       return lines.has(feature.surface) && feature.line.length > 2
         ? { ...feature, line: fitLine(feature.line, { cornerDeg, chordError, stats }) } : feature;
     }
-    if (!crisp.has(feature.surface)) return feature;
+    if (!crisp.has(feature.surface)) {
+      const next = { ...feature };
+      if (feature.rings) next.rings = feature.rings.map(softFit);
+      if (feature.polygons) next.polygons = feature.polygons.map(polygon => ({ ...polygon, rings: (polygon?.rings || []).map(softFit) }));
+      return next;
+    }
     const next = { ...feature };
-    if (feature.rings) next.rings = feature.rings.map(fit);
-    if (feature.polygons) next.polygons = feature.polygons.map(polygon => ({ ...polygon, rings: (polygon?.rings || []).map(fit) }));
+    const teeth = toothed.has(feature.surface);
+    if (feature.rings) next.rings = feature.rings.map(ring => fit(ring, teeth));
+    if (feature.polygons) next.polygons = feature.polygons.map(polygon => ({ ...polygon, rings: (polygon?.rings || []).map(ring => fit(ring, teeth)) }));
     return next;
   });
-  return { features: out, cache, stats };
+  return { features: out, stats };
 }
 
 /* ------------------------------------------------------ exact distances */

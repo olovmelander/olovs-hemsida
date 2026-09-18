@@ -2365,12 +2365,35 @@ wrong-class area in the green collar **6.6% → 0.0%** and the tee collar
   the PUBLISHED chunks whether a point is "covered", and their tiles reach past
   CORE at the corners — a road out there would have been given no ribbon and
   painted by nothing. `painted()` asks the atlas that is drawn.
-- **Paths and gravel tracks take the same curve, open-ended** (`fitLine`: the two
-  ends are corners by definition, so nothing overshoots). ASPHALT lines stay on
-  their surveyed chords ON PURPOSE: a major road's lane paint is a ribbon laid
-  along the raw polyline, and a band fitted away from it would show beside its
-  own paint on the outside of every bend. Car parks and yards join the ring fit;
-  their real 90° corners stay corners under the 60° rule.
+- **Paths, tracks, roads and the railway take the same curve, open-ended**
+  (`fitLine`: the two ends are corners by definition, so nothing overshoots) —
+  and **a line with several readers is curved ONCE, at its source**. Asphalt was
+  first left on its chords on purpose: a major road's lane paint is a ribbon
+  laid along the polyline, and with only the ATLAS's copy curved the paint would
+  have run beside its own surface on the outside of every bend. That same
+  half-measure had already put the railway's gravel bed, which WAS curved, out
+  from under its rails. main.js now fits `M.infra.roads|tracks|paths|railway`
+  in place, right after the shorelines and before the first index is built, so
+  the atlas band, the paint ribbon, the rails, the bridge finder and the path
+  index all read one line; every surveyed vertex is still on it, so ways that
+  meet at a shared node still meet. The surroundings' 443 km of distant road
+  stay on their chords. Car parks and yards join the ring fit; their real 90°
+  corners stay corners under the 60° rule.
+- **A crisp edge draws every slip of the digitiser.** While the mown edges were
+  a metre of staircase nobody could see them; as exact curves they came out as
+  needles and comb teeth. `despikeRing`, measured over every ring of every
+  course: a SPIKE is a turn past 120° with its two neighbours under 3 m apart
+  and a leg under 8 m — 39 of them, 35 on Tortuna's fairways — removed on every
+  surface, the leg test being what spares a real neck (Veckefjärden's 3rd
+  narrows between 22 and 32 m legs, and that is the fairway). A TOOTH is a sharp
+  vertex (≥ 60°) enclosing under 3 m², removed on FAIRWAY and SEMI **only**: a
+  bunker is digitised with 2 m legs and its LOBES are sharp vertices of about
+  1.5 m², which the same rule would shave off; a tee deck's corner encloses
+  twenty. Tortuna's fairways lose 35 spikes and 91 teeth for at most 0.64% of
+  their area. **Order matters**: `unstairRing` runs FIRST — a raster trace is
+  ALL tiny sharp vertices, and the tooth rule would eat it at random instead of
+  straightening it. Dropping a vertex is the one thing in this work that does
+  not pass through it, and it is meant to: a slip is not a surveyed point.
 - **The chopped road edge line was the paint ribbon, not the atlas.** A lane-paint
   run is sampled every metre along the road and had three vertices 3.2 m apart
   ACROSS it — a plank over ground that changes facet every metre, lifted 3 cm —
@@ -2420,9 +2443,121 @@ wrong-class area in the green collar **6.6% → 0.0%** and the tee collar
   430–1,070 ms, Visby the slowest), and the fields are 29–79 MB of GPU texture
   with the SDF mip chain (Johannesberg's 4.2 M-texel CORE the largest), a third
   less under LOWQ, which drops the chain. They are built only under v2.
-- **Not done, and visible:** the tan and grey-green BLOCKS in Ovan are the 6 m
-  tint raster baking mown tones into the rough colour plus the 12 m land-cover
-  cells; a lake ring surveyed with 50–100 m chords stays a polygon (the cut-edge
+- **The blocks in Ovan were four rules, and the one that looked like the cause
+  was not.** `groundAt` is sampled every 6 m by the tint raster that colours
+  rough, forest floor, heath, wetland and shore, so any HARD rule in it is a
+  staircase with 6–12 m steps. (1) It painted fairway, collar, tee and green
+  tone from the class ids — classes the ground material now draws per fragment —
+  so a cell centred on a fairway carried its green into the rough beside it
+  (15% of rough fragments within 12 m over 5%, neighbouring cells 21 luma apart
+  at p90). `groundAt(…, {surfacesOwned})` leaves those out for the tint and
+  keeps the APRON, which `classify` now returns apart as `c.apron`. (2) A
+  field's crop tone came from the NEAREST 12 m land-cover cell: hard ochre
+  squares on a green field, and Ängsö has a farmland ring across its 2nd and
+  3rd — the squares in the owner's photograph. `cropToneAt` blends the four
+  verdicts and refuses crop under record-trees, as `vistaGround` already did.
+  (3) Forest-floor closure was one 3 m cell's verdict, point-sampled at twice
+  its pitch; it is the open FRACTION over 15 m now. (4) **The grey-green block
+  with the stair border was none of those: it was the farmland ring's EDGE**, an
+  inside-or-outside test. Landuse and surround rings are 6 m ramps now — two
+  tint cells, which is also the spatial index's own margin.
+  **The wrong turn is worth keeping:** the block looked like the wetland class,
+  so the wet tone was moved into the shader, per fragment, off the wetland's own
+  channel. It drew the WHOLE raw wetland polygon, larger and straight-edged,
+  because `groundAt` lays wet FIRST and the crop, the semi band and the apron
+  are painted over it — the order is the design, and a shader term on top of
+  everything cannot honour it. Reverted. A rule's edge must be a ramp the
+  raster can carry; do not move a layered rule out of the layers.
+  Natural rings traced off a raster (Ängsö's reed belt, 4 m lattice) lose their
+  stairs through `unstairRing`, which the shorelines now share.
+- **Height of cut is TONE now, and the palette had none.** Painted display luma
+  was rough 110, semi 107, fairway 105, fringe 95, green 94: five turf classes
+  separated by hue alone, so even an exact contour had almost nothing to be the
+  edge OF — in the realistic look the fairway was barely distinguishable from
+  the rough. Nine reference renders put the taller cut at 0.70–0.73× the
+  shorter at fairway→rough and 0.82–0.92× at green→collar. `CUT_TONE`
+  (material.js) LIFTS the mown cuts instead of sinking the rough, because rough
+  is the class that runs to the horizon and darkening it darkens the world:
+  green 1.32, fringe 1.21, fairway 1.23, tee 1.15, semi 1.08 as DISPLAY ratios
+  — r^2.2 of linear colour in the painted look, ~r^1.1 in the realistic one,
+  whose finish squares the base — giving rough/fairway 0.85, semi/fairway 0.90,
+  fringe/green 0.92, deliberately short of the references. With it, a contact
+  line: the taller cut shades its own side of the edge (`exp(d/0.11 m)`, scaled
+  by the height difference from `CUT_HEIGHT_MM`, faded out as a pixel outgrows
+  it); sand sits 25 mm under its surround, so the same rule draws a bunker's
+  lip. `?cuts=0…2` scales both (0 = the palette as it was) — **this is an
+  owner's-eye number, not a measurement**; the first table lifted the bluish
+  green 1.40 and it went minty.
+- **The mint was a HUE, and so was most of what was wrong with the turf.** Put
+  in HSV beside the references (Trackman fairway 71°, sat 0.53), the painted
+  mown surfaces sat at 96–136° — the green at 136° is TEAL — with the fairway
+  the most saturated thing on screen at 0.75, and the uncut grass MUSTARD
+  (fescue and heath 0.62–0.70, and brighter than every mown surface), so under
+  the autumn light a course read as emerald cuts in an ochre field. Bunker sand
+  was golder (0.41) than Swedish sand. `PAINTED_GROUND` is re-hued with every
+  colour at the brightness it had: rough 88°, semi 90°, tee 92°, fairway 94°,
+  fringe 98°, green 118°, saturation 0.58–0.68 (still above the references'
+  0.53–0.62 — that is what a painted look is for), fescue/heath to straw at
+  0.46–0.48, sand to 0.30. **The palette test pinned the intent, and it
+  corrected the proposal**: "cool putting greens" holds the green's
+  blue-to-green ratio 1.5× the fairway's, which a green at 114° fails (1.38);
+  118° at 0.58 is the warmest that passes (1.62), 24° cooler than the fairway
+  where it was 30. `?palette=classic` is the nine colours as they were.
+- **The mowing was in the code and absent from the picture — and the first
+  repair was rejected on sight.** Stripes were a soft SINE wave at ±2–4% in the
+  realistic look, and `paintedGround` takes 0.55 of what it is handed, so ±1–2%
+  in the default look: invisible in every capture of this work, against
+  Trackman's ±3–4% and EA's ±8–10%. And the green was cut in RINGS from its edge
+  to its middle, which is how nobody mows a green — only the clean-up lap is a
+  ring.
+  **Version one** made each pass one flat tone with a one-pixel edge, drew the
+  fairway off the UNSIGNED distance to the hole's line, cross-cut the greens into
+  a checkerboard and gave a third of the courses a diamond fairway. The owner:
+  *"I do not like the checkerboard diamond pattern … and the stripes do not look
+  good either."* He was right on every count, and each has a reason worth keeping:
+  - **An unsigned distance is a contour map.** Stripes drawn off it MIRROR about
+    the middle of the fairway and WRAP ROUND the ends of the line in rings — from
+    the tee, stripes fanning out of a point by the green. `mowLateralBytes`
+    (atlas.js) stores the SIGNED distance to the texel's OWN hole line, left of
+    play negative, with the first and last legs CARRIED STRAIGHT ON 60 m past
+    their ends, so the passes alternate across the whole width and run out
+    through the tee and past the green. Only the owner hole is measured — a
+    neighbour's carried-on leg crossing this fairway would tear it. One byte,
+    0.25 m over ±31.75 m, in the class field's R channel; at the inside of a
+    dogleg two legs' passes meet in a mitre, as on the ground.
+  - **A flat tone with a razor edge is vector art: lanes on a running track.** A
+    pass's edge is where two passes overlap, 0.22 m of mixed lay (never under a
+    pixel — and that pixel width comes from the FOOTPRINT, `k ×
+    fwidth(positionWorld.xz)`, because `fwidth` of a coordinate read out of a
+    filtered texture is piecewise constant per texel); its tone WANDERS along
+    its length (one low tap of the detail texture); and how much shows depends
+    on where you stand — full looking down the passes, 0.7 across them or from
+    straight above. 3.2 m passes, not 4.5.
+  - **No checkerboard, no diamond.** A green is 1.1 m passes ONE way, 35° off the
+    hole so they never line up with its fairway's, plus a 1.2 m clean-up lap;
+    the collar keeps its perimeter laps (which take no view falloff — they run
+    every way round); a tee is cut along its OWN axis. Display amplitudes
+    fairway 5%, green 4, tee 4, collar 3, semi 2.5.
+  The green's and the tee's direction rides in the class field's B/A channels as
+  a unit vector (`mowDirectionBytes`): the owner hole's tee-to-green bearing,
+  with each tee pad (and 3 m round it, which is collar and carries no stripes)
+  stamped with that hole's FIRST leg — a tee faces its landing area, and on a
+  dogleg that is not where the green is. Inside one hole every texel holds the
+  same vector, so linear filtering is exact; across an ownership line it blends,
+  its length leaves 1, and the material draws plain turf over that texel — store
+  something that interpolates, AND know when it has not. The second pass
+  overshot once: the view falloff was applied to the collar's RINGS too and at
+  0.55, and from above the green went blank. `?mow=classic` is the waves and
+  rings as they were; a number scales the strength.
+- **The rough you play from is not the rough on the hill.** The references get
+  their 0.72 from a DARKER rough, which cannot be done globally here; but on a
+  real course the primary rough beside the mown ground is fed, watered and
+  dense, and the outfield thin and pale. `groundAt` shades the base 12% (display)
+  within 45 m of a hole's line, gone by 80, never under trees — a 35 m ramp no
+  raster can step. With it the realistic look takes only HALF the cut lift: its
+  palette is already at the references' fairway brightness (139 against 141),
+  and the full lift took it to 171. Net, both looks: rough/fairway ≈ 0.75.
+- **Not done, and visible:** a lake ring surveyed with 50–100 m chords stays a polygon (the cut-edge
   guard cannot tell it from a cut); `makeGround`
   (`?v2=0`, out of scope by the owner's word) still draws the pair field and
   carries a `+ b.res*0.5` uv offset that shifts every surface ~0.5 m; true

@@ -570,7 +570,49 @@ const SOFT_EDGE_SURFACES = new Set([SURFACE.FOREST, SURFACE.HEATH, SURFACE.SHORE
    close the camera comes, and never thinner than the pixel that has to draw it */
 const CUT_EDGE_FLOOR_METRES = 0.03;
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, look = 'real', uSun = null }) {
+/* HEIGHT OF CUT, AS TONE. A mown line reads as real because the two sides are
+   different HEIGHTS of grass, and taller grass shades itself: measured on nine
+   reference renders (Trackman, EA PGA Tour) the taller cut sits at 0.70-0.73x
+   the luminance of the shorter one at fairway->rough and 0.82-0.92x at
+   green->collar. This palette separated its five turf classes by HUE alone --
+   painted display luma rough 110, semi 107, fairway 105, fringe 95, green 94 --
+   so even an exact contour had almost nothing to be the edge OF.
+
+   The ratios are DISPLAY luminance against today's colour, and they lift the
+   mown cuts rather than sink the rough, because rough is the class that runs
+   to the horizon: darkening it 28% would darken the world. Rough stays 1.
+   Resulting steps at strength 1: rough/fairway 0.85, semi/fairway 0.90,
+   fringe/green 0.92 -- deliberately short of the references, an owner's-eye
+   starting point; ?cuts= scales the whole table (0 = the palette as it was). */
+const CUT_TONE = Object.freeze({
+  [SURFACE.GREEN]: 1.32, [SURFACE.FRINGE]: 1.21, [SURFACE.TEE]: 1.15,
+  [SURFACE.FAIRWAY]: 1.23, [SURFACE.SEMI]: 1.08,
+});
+/* millimetres of grass standing over the ground; sand sits BELOW its surround */
+const CUT_HEIGHT_MM = Object.freeze({
+  [SURFACE.GREEN]: 4, [SURFACE.TEE]: 9, [SURFACE.FRINGE]: 10, [SURFACE.FAIRWAY]: 13, [SURFACE.SEMI]: 28,
+  [SURFACE.ROUGH]: 50, [SURFACE.SAND]: -25, [SURFACE.FOREST]: 50, [SURFACE.HEATH]: 50, [SURFACE.WETLAND]: 50,
+  [SURFACE.SHORE]: 20,
+});
+/* Width of one mown pass, metres: a fairway unit cuts ~2.5 m and tournament
+   pass here is a little over one; a green is walked at 0.55 m and drawn at a metre so it
+   survives a camera further off than the fringe of the green; a collar lap and a
+   tee pass are one mower wide. */
+const MOW_BAND_METRES = Object.freeze({ fairway: 3.2, semi: 3.2, green: 1.1, fringe: 1.1, tee: 1.1 });
+/* where two passes overlap the lay is mixed: the edge of a stripe is this wide */
+const MOW_OVERLAP_METRES = 0.22;
+/* how much of a stripe is left seen square across it, or from straight above */
+const MOW_SEEN_ACROSS = 0.7;
+/* the clean-up lap round a green: one pass, laid one way, so it reads as a band */
+const MOW_CLEAN_UP_METRES = 1.2;
+/* light-to-dark as DISPLAY luminance either side of the class's own tone */
+const MOW_AMPLITUDE = Object.freeze({
+  [SURFACE.FAIRWAY]: 0.05, [SURFACE.SEMI]: 0.025, [SURFACE.GREEN]: 0.04,
+  [SURFACE.FRINGE]: 0.03, [SURFACE.TEE]: 0.04,
+});
+const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
+
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, look = 'real', uSun = null, cutTone = 0, mowStrength = 0 }) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -720,8 +762,19 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        the same imagery. Inside it they must be painted the same way, or the
        window's edge is a square where a flat class colour meets a tinted one:
        measured, a near-black forest floor against a mottled green one. */
+    /* The palette is linear and the two looks take it to the screen differently
+       -- painted shows it as it is, the realistic finish squares most of it --
+       so a DISPLAY ratio r is r^2.2 of linear colour in one and about r^1.1 in
+       the other. */
+    const toneExponent = look === 'ghibli' ? 2.2 : 1.1;
+    /* The realistic palette is already at the references' fairway brightness
+       (139 against Trackman's 141), so the full lift took it to 171. There the
+       step comes from the primary rough standing darker (main.js groundAt) and
+       only half of it from the cuts standing lighter. */
+    const lift = (exactEdges ? cutTone : 0) * (look === 'ghibli' ? 1 : 0.5);
+    const toneOf = sid => Math.pow(1 + ((CUT_TONE[sid] ?? 1) - 1) * lift, toneExponent);
     const colourNodes = styles.map((style, index) => (GROUND_TINT_CLASSES.has(classes[index])
-      ? roughColour : vec3(...style.colour)));
+      ? roughColour : vec3(...style.colour.map(v => v * toneOf(classes[index])))));
     const base = weights.reduce((acc, weight, index) => {
       const term = colourNodes[index].mul(weight);
       return acc ? acc.add(term) : term;
@@ -732,25 +785,122 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     const { surfaceDetail, roughness, clumpSample, grainSample } = v2SurfaceDetail({ DETAIL, wp, shade, meta, graphicsPolish });
 
     const fields = texture(atlas.texF, uvAtlas);
-    const routeDistance = fields.r.mul(255 * atlas.data.routeStepMetres);
+    /* an exact boot atlas stores the SIGNED distance across the hole in R (128 on
+       the line); published chunks store the unsigned one, 255 = no route */
+    const lateral = atlas.data.mowDirections
+      ? fields.r.mul(255).sub(128).mul(atlas.data.lateralStepMetres) : null;
+    const routeDistance = lateral ? lateral.abs() : fields.r.mul(255 * atlas.data.routeStepMetres);
     const ringDistance = fields.g.mul(255 * atlas.data.ringStepMetres);
-    const routeValid = oneMinus(step(0.999, fields.r));
+    const routeValid = lateral ? float(1) : oneMinus(step(0.999, fields.r));
     const diagonal = wp.x.sub(wp.y).mul(0.70710678);
-    let mow = null;
-    classes.forEach((sid, index) => {
-      const k = styles[index].mow;
-      if (!k[0] && !k[1] && !k[2]) return;
-      const phase = ringDistance.mul(k[0])
-        .add(routeDistance.mul(k[1]).mul(routeValid))
-        .add(diagonal.mul(k[2]));
-      const bandAA = oneMinus(smoothstep(0.55, 1.7, fwidth(phase)));
-      const term = sin(phase).mul(bandAA).mul(styles[index].shade[3]).mul(weights[index]);
-      mow = mow ? mow.add(term) : term;
-    });
-    const mowNode = (mow || float(0)).mul(0.045);
+    let mowNode;
+    if (exactEdges && mowStrength > 0 && atlas.data.mowDirections) {
+      /* THE MOWING, AS IT IS DONE. A stripe is grass laid toward you or away from
+         you, and this engine drew it as a soft sine wave at +/-2-4% in the
+         realistic look and half that in the painted one -- present in the code,
+         absent from the picture -- with the green cut in RINGS from its edge to
+         its middle, which is how nobody mows a green.
+           fairway  passes ALONG the hole, alternating straight across its whole
+                    width off the SIGNED lateral coordinate, so they neither
+                    mirror about the middle nor wrap round the ends of the line
+           semi     one quieter pass beside the fairway, on the same coordinate
+           green    straight passes one way, 35 degrees off the hole so they
+                    never line up with the fairway's, and a clean-up lap round
+                    the edge -- the only ring a green has
+           collar   its perimeter laps
+           tee      straight passes along the tee's own axis
+         The first version of this drew each pass as ONE flat tone with a
+         one-pixel edge, and it read as vector art: lanes on a running track. A
+         mown pass is none of those things. Its edge is where two passes overlap,
+         a hand's width of mixed lay (MOW_OVERLAP_METRES, never under a pixel); its
+         tone wanders along its length with the grass (one low tap of the detail
+         texture); and how much of it shows depends on where you stand -- strongest
+         looking down the passes, where the laid blades face or turn from you,
+         weakest across them and from straight above. A pattern finer than the
+         pixel fades out before it can moire. */
+      const footprint = fwidth(wp).length();
+      const pass = (coordinate, k) => {
+        const pixel = footprint.mul(k);
+        const edge = max(pixel.mul(0.9), float(MOW_OVERLAP_METRES * k));
+        return clamp(sin(coordinate.mul(k)).div(edge), -1, 1).mul(oneMinus(smoothstep(0.55, 1.7, pixel)));
+      };
+      const raw = vec2(fields.b, fields.a).mul(255).sub(127.5).div(127);
+      const length = raw.length().max(0.001);
+      const dir = raw.div(length);
+      /* a vector whose length has left 1 is two holes' bearings blended across an
+         ownership line: plain turf over that texel, not the blend */
+      const settled = oneMinus(abs(length.sub(1)).mul(10)).clamp(0, 1);
+      const along = wp.dot(dir);
+      const across = wp.y.mul(dir.x).sub(wp.x.mul(dir.y));
+      const greenCoordinate = across.mul(0.8192).sub(along.mul(0.5736));
+      const cleanUp = oneMinus(smoothstep(MOW_CLEAN_UP_METRES - 0.2, MOW_CLEAN_UP_METRES + 0.2, ringDistance));
+      const patterns = {
+        [SURFACE.FAIRWAY]: pass(lateral, Math.PI / MOW_BAND_METRES.fairway),
+        [SURFACE.SEMI]: pass(lateral, Math.PI / MOW_BAND_METRES.semi),
+        [SURFACE.GREEN]: mix(pass(greenCoordinate, Math.PI / MOW_BAND_METRES.green), float(0.5), cleanUp),
+        [SURFACE.FRINGE]: pass(ringDistance, Math.PI / MOW_BAND_METRES.fringe),
+        [SURFACE.TEE]: pass(across, Math.PI / MOW_BAND_METRES.tee),
+      };
+      /* where you stand: the horizontal part of the view direction against the
+         hole's bearing -- 0 from straight above or square across, 1 down the hole */
+      const toCamera = cameraPosition.sub(positionWorld).normalize();
+      const downThePasses = abs(toCamera.x.mul(dir.x).add(toCamera.z.mul(dir.y)));
+      const seen = mix(float(MOW_SEEN_ACROSS), float(1), smoothstep(0.1, 0.8, downThePasses));
+      /* the grass is not uniform along a pass */
+      const wander = texture(DETAIL, wp.mul(0.017)).g.mul(0.7).add(0.65);
+      /* a DISPLAY amplitude: x2.2 of linear colour painted, x1.1 realistic */
+      const toLinear = (look === 'ghibli' ? 2.2 : 1.1) * mowStrength;
+      let mow = null;
+      classes.forEach((sid, index) => {
+        if (!patterns[sid]) return;
+        /* a collar's laps run every way round, so where you stand takes nothing
+           from them; a straight pass has a direction and does depend on it */
+        const directional = sid === SURFACE.FRINGE ? float(1) : seen.mul(settled);
+        const term = patterns[sid].mul(MOW_AMPLITUDE[sid] * toLinear).mul(weights[index]).mul(directional);
+        mow = mow ? mow.add(term) : term;
+      });
+      /* paintedGround applies 0.55 of what it is handed; hand it the whole */
+      mowNode = (mow || float(0)).mul(wander).div(look === 'ghibli' ? 0.55 : 1);
+    } else {
+      let mow = null;
+      classes.forEach((sid, index) => {
+        const k = styles[index].mow;
+        if (!k[0] && !k[1] && !k[2]) return;
+        const phase = ringDistance.mul(k[0])
+          .add(routeDistance.mul(k[1]).mul(routeValid))
+          .add(diagonal.mul(k[2]));
+        const bandAA = oneMinus(smoothstep(0.55, 1.7, fwidth(phase)));
+        const term = sin(phase).mul(bandAA).mul(styles[index].shade[3]).mul(weights[index]);
+        mow = mow ? mow.add(term) : term;
+      });
+      mowNode = (mow || float(0)).mul(0.045);
+    }
     const pavingWeight = weights.reduce((sum, weight, index) =>
       PAVED_SURFACES.includes(classes[index]) ? sum.add(weight) : sum, float(0));
-    const litBase = groundSurfaceAlbedo(base, pavingWeight, look === 'ghibli' ? 1 : 0.18);
+    let litBase = groundSurfaceAlbedo(base, pavingWeight, look === 'ghibli' ? 1 : 0.18);
+    if (exactEdges && cutTone > 0) {
+      /* THE CONTACT LINE. The taller cut stands over the shorter one and throws a
+         thin shade onto ITS OWN side of the edge: for a caster class the line
+         lives where that class's distance is just negative, decays as
+         exp(d / L), is scaled by how much taller the ground there stands, and
+         fades out as one pixel outgrows it -- a line thinner than a pixel is
+         shimmer, not shade. A bunker sits 25 mm under its surround, so the same
+         rule draws the lip's shadow on the grass round the sand. */
+      const footprint = fwidth(wp).length();
+      const standing = weights.reduce((acc, weight, index) => {
+        const term = weight.mul(CUT_HEIGHT_MM[classes[index]] ?? 30);
+        return acc ? acc.add(term) : term;
+      }, null);
+      const falloff = float(0.11).max(footprint.mul(1.2));
+      let contact = float(0);
+      channels.forEach((sid, index) => {
+        if (!CONTACT_CASTERS.has(sid)) return;
+        const rise = standing.sub(CUT_HEIGHT_MM[sid]);
+        const amount = smoothstep(1, 5, rise).mul(float(0.07).add(saturate(rise.div(35)).mul(0.08))).mul(cutTone);
+        contact = contact.max(sdfs[index].min(0).div(falloff).exp().mul(oneMinus(weights[index])).mul(amount));
+      });
+      litBase = litBase.mul(oneMinus(contact.mul(oneMinus(smoothstep(0.12, 0.5, footprint)))));
+    }
     if (look === 'ghibli') {
       const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow: mowNode, turf: oneMinus(meta.g.max(meta.b)), seasonal: meta.a });
       material.colorNode = painted.colorNode;
@@ -779,7 +929,9 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', look = 'real', uSun = null }) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', look = 'real', uSun = null, cutTone = 0, mowStrength = 0 }) {
+  if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
+  if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
   if (typeof graphicsPolish !== 'boolean') throw new TypeError('graphicsPolish must be a boolean');
   groundReliefTier(surfaceRelief);
@@ -802,10 +954,11 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     const view = {
       bounds: atlas.bounds, texSdf: exact.texSdf, texF: exact.texF,
       data: { channels: exact.channels, routeStepMetres: exact.routeStepMetres,
-        ringStepMetres: exact.ringStepMetres, exactEdges: true },
+        ringStepMetres: exact.ringStepMetres, lateralStepMetres: exact.lateralStepMetres,
+        exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, look, uSun }),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, look, uSun, cutTone, mowStrength }),
       atlas,
     );
   }

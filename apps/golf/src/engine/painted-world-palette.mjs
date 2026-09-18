@@ -1,9 +1,23 @@
 // Original art direction informed by The Witness's warm/cool colour grouping.
 // These are authored sRGB pigments, not sampled game assets or an official palette.
+/* THE TURF, RE-HUED (2026-09-18), every colour at the brightness it had.
+   Measured in HSV the mown surfaces sat at 96-136 degrees -- the green at 136 is
+   TEAL, which is why it went minty the day height of cut lifted it -- where the
+   turf in nine Trackman and EA reference renders sits near 71. The fairway was
+   the most saturated thing on screen at 0.75. And the uncut grass was MUSTARD:
+   fescue and heath at 0.62-0.70, so under the autumn light the course read as
+   emerald cuts in an ochre field, two worlds with nothing between them; fescue
+   gone to straw is nearer 0.45. Bunker sand was golder (0.41) than Swedish
+   sand is.
+   Kept on purpose: a green is COOLER than the fairway round it (the test below
+   holds its blue-to-green ratio 1.5x the fairway's) -- 24 degrees now, not 30,
+   and 118 is the warmest green that still passes. Saturation 0.58-0.68 is still
+   above the references' 0.53-0.62, which is what a painted look is for.
+   The BRIGHTNESS steps between the cuts are not here: material.js CUT_TONE. */
 export const PAINTED_GROUND = {
-  rough:0x527e26, fescue:0xa78f32, semi:0x487d25,
-  fair:0x367f20, green:0x28713c, fringe:0x3a7029, tee:0x458328,
-  sand:0xe3c887, path:0x8a8981, heath:0x979039, forest:0x3f663c,
+  rough:0x567c2a, fescue:0x999050, semi:0x517929,
+  fair:0x4a7827, green:0x31702f, fringe:0x426d2a, tee:0x537d2d,
+  sand:0xdcc89a, path:0x8a8981, heath:0x90904d, forest:0x3f663c,
   shore:0xc0a46b, canopy:0x315c3d, canopyLight:0x6c922f,
   wet:0x527d59, rock:0x889aaf, cropA:0xc9a849, cropB:0x849c3b,
   cropC:0xbc9254, slash:0x9c7a4b, hard:0x96958d, gravel:0x81847e,
@@ -11,6 +25,17 @@ export const PAINTED_GROUND = {
   soil:0x95775d, ballast:0x8c8b83, riprap:0xadb1aa, mud:0x74614f,
   trackClay:0xa68c70, trackRed:0xaa6250,
 };
+/* the nine colours as they were, for ?palette=classic: the A/B and the way back */
+export const PAINTED_GROUND_CLASSIC = {
+  ...PAINTED_GROUND,
+  rough:0x527e26, fescue:0xa78f32, semi:0x487d25,
+  fair:0x367f20, green:0x28713c, fringe:0x3a7029, tee:0x458328,
+  sand:0xe3c887, heath:0x979039,
+};
+/** Anything but the one known name is the current palette: a shared link must open. */
+export function paintedGroundPalette(search = globalThis.location?.search || '') {
+  return new URLSearchParams(search).get('palette') === 'classic' ? PAINTED_GROUND_CLASSIC : PAINTED_GROUND;
+}
 export const PAINTED_SCENERY = {
   wallRed:0xb44830, wallOchre:0xe0bb66, wallCream:0xded4ac,
   wallGrey:0x9ca399, wallWood:0x92795c, roofSlate:0x505e69,

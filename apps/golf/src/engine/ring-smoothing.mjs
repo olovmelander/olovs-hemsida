@@ -19,7 +19,7 @@
    to 0.8 m at every green vertex -- an error the transect audit measured and
    nothing else could see. */
 
-import { fitRing } from './exact-class-sdf.mjs';
+import { fitRing, unstairRing } from './exact-class-sdf.mjs';
 
 export function smoothShore(ring, near, step = 3, passes = 3, minPts = 8, { preserveMappedBoundaries = false } = {}) {
   // An adopted source boundary is geometry, not a sketch to beautify. Pixel
@@ -71,20 +71,7 @@ export function smoothShore(ring, near, step = 3, passes = 3, minPts = 8, { pres
    averaging, by at most half a lattice step, with no net area change. */
 export function curveShore(ring, near, { chordError = 0.05, straightOver = 80 } = {}) {
   if (!ring || ring.length < 5) return ring;
-  let axis = 0;
-  for (let i = 0; i < ring.length; i++) {
-    const a = ring[i], b = ring[(i + 1) % ring.length];
-    if (Math.abs(a[0] - b[0]) < 1e-6 || Math.abs(a[1] - b[1]) < 1e-6) axis++;
-  }
-  let source = ring;
-  if (axis >= ring.length * 0.3) {
-    source = [];
-    for (let i = 0; i < ring.length; i++) {
-      const a = ring[i], b = ring[(i + 1) % ring.length];
-      const stair = Math.hypot(b[0] - a[0], b[1] - a[1]) <= 12 && (near(a) || near(b));
-      source.push(stair ? [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2] : a);
-    }
-  }
+  const source = unstairRing(ring, { near });
   return fitRing(source, { cornerDeg: 60, chordError, near, straightOver });
 }
 

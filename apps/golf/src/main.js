@@ -40,7 +40,7 @@ import {
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, atmosphereState } from './engine/atmospheric-sky.mjs';
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
-import { PAINTED_GROUND, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
+import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
 import { createAerialPerspective } from './engine/aerial-perspective.mjs';
 
@@ -90,6 +90,8 @@ import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woo
 import {
   requestedSurfaceDebugMode,
   requestedSurfaceEdges,
+  requestedCutTone,
+  requestedMowing,
   shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
@@ -110,6 +112,7 @@ import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mj
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
 import { smoothShore, curveShore } from './engine/ring-smoothing.mjs';
+import { fitLine } from './engine/exact-class-sdf.mjs';
 import { smoothMownEdges } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { deriveTeePlayingPositions } from './engine/tee-playing-position.mjs';
@@ -949,6 +952,30 @@ for (const h of HOLES) {
   const mown = smoothMownEdges({ holes: HOLES, scenery: M.scenery, preserveMappedBoundaries });
   for (let i = 0; i < HOLES.length; i++) Object.assign(HOLES[i], mown.holes[i]);
   Object.assign(M.scenery, mown.scenery);
+
+  /* A ROAD IS A CURVE SURVEYED AS A POLYLINE, AND IT HAS TO BE ONE CURVE. The
+     ground paints a road's surface from the atlas, the lane paint is a ribbon
+     laid along the line, the rails stand on the railway's bed, a footbridge is
+     found where a path meets water -- four readers of one line. Curving the
+     atlas's copy alone is why asphalt was first left on its chords (its paint
+     would have run beside its own surface on the outside of every bend) and why
+     the railway's gravel bed, which WAS curved, no longer sat under its rails.
+     So the line itself is curved, once, here, before any of them reads it: the
+     same interpolating fit as the mown edges, every surveyed vertex still on it,
+     so ways that meet at a shared node still meet, and the two ends fixed. Only
+     the core extract -- the surroundings' 443 km of distant road are drawn as
+     coarse ribbons and nobody reads their chords. */
+  if (curveShores) {
+    let linesCurved = 0;
+    for (const group of ['roads', 'tracks', 'paths', 'railway']) {
+      for (const item of M.infra[group] || []) {
+        if (!(item?.line?.length > 2)) continue;
+        item.line = fitLine(item.line, { cornerDeg: 60, chordError: 0.05 });
+        linesCurved++;
+      }
+    }
+    BOOT_PERF.linesCurved = linesCurved;
+  }
 }
 
 const teeSurfaceOwners = teePadSurfaceOwners(HOLES);
@@ -1314,14 +1341,19 @@ const classify = (x, z) => {
      Read from the rings themselves, which is exact. Only greens and tees walk
      rings here; fairways, bunkers, paths and forest all still come from the
      atlas, so this is a small fraction of the work the old classifier did. */
+  /* ... and kept apart as `apron` too, because the tint raster wants the apron
+     WITHOUT the class it surrounds -- see groundAt's `surfacesOwned`. */
+  let apron = 0;
   for (const g of GI.at(x, z)) {
     const sd = ringSD(x, z, g.ring);
-    if (sd < 13) c.fair = Math.max(c.fair, (1 - smooth(3, 13, sd)) * 0.85);
+    if (sd < 13) apron = Math.max(apron, (1 - smooth(3, 13, sd)) * 0.85);
   }
   for (const t of TI.at(x, z)) {
     const sd = ringSD(x, z, t.ring);
-    if (sd < 7) c.fair = Math.max(c.fair, (1 - smooth(1, 7, sd)) * 0.7);
+    if (sd < 7) apron = Math.max(apron, (1 - smooth(1, 7, sd)) * 0.7);
   }
+  c.apron = apron;
+  c.fair = Math.max(c.fair, apron);
   return c;
 };
 
@@ -1384,7 +1416,7 @@ const C = {
 // One linear pigment palette feeds the classifier, tint rasters and every
 // ground ring. The painted material uses it once, without squaring the RGB.
 if (GHIBLI_LOOK) Object.assign(C, Object.fromEntries(
-  Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, L(hex)])));
+  Object.entries(paintedGroundPalette(location.search)).map(([key, hex]) => [key, L(hex)])));
 // A reviewed ground's mineral pigments apply in both looks. The shared art
 // palette must not turn photographed grey stone into pale blue patches.
 if (SCENERY?.groundAppearance?.palette) Object.assign(C, Object.fromEntries(
@@ -1408,8 +1440,71 @@ const SHADE = {
 };
 
 /* the colour and the four shading channels at a point */
-function groundAt(x, z, h) {
+/* How OPEN the canopy is round a point: the share of the cover raster's cells in a
+   15 m box that read open ground. The floor tint used to take ONE 3 m cell's
+   verdict, and the tint raster samples this function every 6 m, so a binary mask
+   point-sampled at twice its own pitch came out as salt-and-pepper blocks 6-18 m
+   across inside every forest ring (neighbouring tint cells 12.5 luma apart at
+   the 90th percentile; 6.9 read as a fraction). A forest floor is as closed as
+   the stand over it, not as the one cell the sample fell in. */
+/* how much darker the primary rough stands than the outfield, as display luminance */
+const PRIMARY_ROUGH_SHADE = 0.12;
+const CUT_TONE_STRENGTH = requestedCutTone(location.search);
+const MOWING = requestedMowing(location.search);
+
+function canopyOpenFraction(x, z) {
+  let open = 0, known = 0;
+  for (let dz = -6; dz <= 6; dz += 3) for (let dx = -6; dx <= 6; dx += 3) {
+    const v = coverAt(x + dx, z + dz);
+    if (!v) continue;
+    known++; if (v === 2) open++;
+  }
+  return known ? open / known : 0;
+}
+
+/* The crop tone of a field, read off the orthophoto record as a BLEND of the four
+   12 m verdicts round the point. Read from the nearest cell alone it drew hard
+   12 m squares across any field the record saw as a patchwork -- ochre beside
+   green, 12.7 luma apart at the median, up to 84 in one channel -- and at Angso a
+   farmland ring lies across the 2nd and 3rd holes, which is the squares the
+   owner photographed from above. `share` is how much of the point the record
+   calls FIELD at all: where it sees trees the crop is refused, as vistaGround
+   already refuses it for the far ground, so near and far agree. */
+function cropToneAt(x, z, k) {
+  const toneOf = lc => (lc === LANDCOVER.OPEN_GREEN ? C.cropB
+    : lc === LANDCOVER.OPEN_PALE ? (k < 0.5 ? C.cropA : C.hay)
+      : k < 0.4 ? C.cropA : k < 0.75 ? C.cropB : C.cropC);
+  const cell = landAt.cell, lb = landAt.bounds;
+  if (!cell || !lb) return { tone: toneOf(landAt(x, z)), share: 1 };
+  const u = (x - lb.x0) / cell - 0.5, v = (z - lb.z0) / cell - 0.5;
+  const i = Math.floor(u), j = Math.floor(v), fu = u - i, fv = v - j;
+  const tone = [0, 0, 0];
+  let share = 0;
+  for (const [di, dj, w] of [[0, 0, (1 - fu) * (1 - fv)], [1, 0, fu * (1 - fv)], [0, 1, (1 - fu) * fv], [1, 1, fu * fv]]) {
+    const lc = landAt(lb.x0 + (i + di + 0.5) * cell, lb.z0 + (j + dj + 0.5) * cell);
+    if (isTreeClass(lc)) continue;
+    const t = toneOf(lc);
+    tone[0] += t[0] * w; tone[1] += t[1] * w; tone[2] += t[2] * w; share += w;
+  }
+  return share > 1e-6 ? { tone: tone.map(v2 => v2 / share), share } : { tone: C.cropB, share: 0 };
+}
+
+/* `surfacesOwned`: the caller's colour will only ever be SHOWN under the classes
+   the ground material does not own -- rough, forest floor, heath, wetland, shore
+   -- because greens, collars, fairways, semi and tees are drawn per fragment from
+   the atlas's exact fields. The tint raster is that caller, and it samples this
+   function every 6 m: a cell whose centre fell on a fairway carried fairway
+   green into the rough beside it (15% of rough fragments within 12 m of a mown
+   class carried over 5% of its tone, reaching six metres; neighbouring cells 21
+   luma apart at the 90th percentile and up to 95 in one channel), as a blocky
+   halo at the raster's pitch round every mown shape. So an owned sample leaves
+   the class-derived mown tones out and keeps the APRON -- the soft fairway-toned
+   ground that runs 13 m out from a green and 7 m from a tee, which is continuous
+   through the shape and belongs to the rough it fades into. Outside the atlas
+   nothing else paints mown tone, and the whole function stands. */
+function groundAt(x, z, h, { surfacesOwned = false } = {}) {
   const c = classify(x, z);
+  const owned = surfacesOwned && c.apron !== undefined;
   let col, sid;
   const n1 = fbm(x * 0.021, z * 0.021, 2), n2 = fbm(x * 0.11, z * 0.11, 2);
 
@@ -1439,11 +1534,26 @@ function groundAt(x, z, h) {
      steep ground, so rock breaks through harder and paler than the first guess */
   col = col.map((v, i) => lerp(v, lerp(C.forest[i], C.rock[i], ROCK_FROM_SLOPE ? smooth(0.45, 0.85, sl) : 0), steep * 0.75));
   sid = heath > 0.55 ? S_HEATH : S_ROUGH;
+  /* THE ROUGH YOU PLAY FROM IS NOT THE ROUGH ON THE HILL. The reference renders
+     get their fairway-to-rough step (0.70-0.73) from a DARKER rough, not from a
+     brighter fairway -- but rough is the class that runs to the horizon, and
+     darkening it darkens the world. On a real course they are two different
+     things anyway: the primary rough beside the mown ground is fed, watered and
+     dense, and stands darker than the thin pale grass of the outfield. So the
+     band is drawn where it is: full within 45 m of a hole's line, gone by 80,
+     never under trees, a 35 m ramp that no raster can turn into a step. It is a
+     DISPLAY ratio, taken to the linear palette by the look's own exponent (see
+     material.js CUT_TONE), and ?cuts= scales it with the rest. */
+  const primaryRough = (1 - smooth(45, 80, c.dLine)) * (1 - c.forest) * (1 - steep);
+  if (primaryRough > 0.01 && CUT_TONE_STRENGTH > 0) {
+    const k = Math.pow(1 - PRIMARY_ROUGH_SHADE * CUT_TONE_STRENGTH * primaryRough, GHIBLI_LOOK ? 2.2 : 1.1);
+    col = col.map(v => v * k);
+  }
   if (c.forest > 0.02) {
     /* the satellite has the last word: where it reads open inside an OSM forest
        ring the ground is litter and heath under scattered singles, not the
        closed-canopy floor -- this is what un-scorches the thinned hillsides */
-    const closed = coverAt(x, z) === 2 ? 1 - 0.58 * coverEdgeFade(x, z) : 1;
+    const closed = 1 - 0.58 * coverEdgeFade(x, z) * canopyOpenFraction(x, z);
     /* three quarters of the way to the floor colour, so the ground under the
        trees keeps a quarter of the rough it grows out of */
     col = col.map((v, i) => lerp(v, C.forest[i], c.forest * 0.75 * closed));
@@ -1453,31 +1563,43 @@ function groundAt(x, z, h) {
 
   /* the surroundings' own ground: fields hashed to a crop tone each, garden lawns,
      industry hardstanding, the traced clear-fells and yard, the Ås hay meadows */
+  /* A RULE'S EDGE MUST BE A RAMP THE RASTER CAN CARRY. These rings were an
+     inside-or-outside test, and this function is sampled every 6 m by the tint
+     raster: a hard edge sampled at 6 m is a staircase with 6-12 m steps, which
+     is what a field boundary drew across the ground from above (Angso, where a
+     farmland ring lies over the 2nd and 3rd holes: worst-phase weight error
+     0.69 at the edge, against 0.01 for the ramps this function already has).
+     Two cells wide -- six metres either side of the line, which is also the
+     spatial index's own margin, and about what a field margin is on the ground. */
+  const EDGE = 6;
+  const coverOf = ring => 1 - smooth(-EDGE, EDGE, ringSD(x, z, ring, EDGE + 2));
   for (const q of LI.at(x, z)) {
-    if (ringSD(x, z, q.ring, 1) > 0) continue;
+    const cover = coverOf(q.ring);
+    if (cover <= 0) continue;
     if (q.kind === 'farmland' || q.kind === 'farmyard') {
       const k = (q.appearanceSeed ?? hash2(Math.round(q.bb.x0 * 0.13), Math.round(q.bb.z0 * 0.13)));
       /* the orthophoto says whether this field stood green or pale; the hash
          only decides where the record is silent, so near and far agree */
-      const lc = landAt(x, z);
-      const crop = lc === LANDCOVER.OPEN_GREEN ? C.cropB : lc === LANDCOVER.OPEN_PALE ? (k < 0.5 ? C.cropA : C.hay)
-        : k < 0.4 ? C.cropA : k < 0.75 ? C.cropB : C.cropC;
-      col = col.map((v, i) => lerp(v, crop[i], 0.72)); sid = S_SEMI;
+      const crop = cropToneAt(x, z, k);
+      col = col.map((v, i) => lerp(v, crop.tone[i], 0.72 * crop.share * cover));
+      if (crop.share * cover > 0.5) sid = S_SEMI;
     } else if (q.kind === 'meadow' || q.kind === 'grass') {
-      col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI;
+      col = col.map((v, i) => lerp(v, C.hay[i], 0.6 * cover)); if (cover > 0.5) sid = S_SEMI;
     } else if (q.kind === 'residential' || q.kind === 'allotments') {
-      col = col.map((v, i) => lerp(v, C.lawn[i], 0.4));
+      col = col.map((v, i) => lerp(v, C.lawn[i], 0.4 * cover));
     } else if (q.kind === 'industrial' || q.kind === 'commercial') {
-      col = col.map((v, i) => lerp(v, C.hard[i], 0.35));
+      col = col.map((v, i) => lerp(v, C.hard[i], 0.35 * cover));
     }
   }
   for (const q of SI.at(x, z)) {
-    if (ringSD(x, z, q.ring, 1) > 0) continue;
-    if (q.kind === 'cut') { col = col.map((v, i) => lerp(v, C.slash[i], 0.7)); sid = S_HEATH; }
-    else if (q.kind === 'yard') { col = col.map((v, i) => lerp(v, C.gravel[i], 0.85)); sid = SURFACE.GRAVEL; }
-    else if (q.kind === 'hay') { col = col.map((v, i) => lerp(v, C.hay[i], 0.6)); sid = S_SEMI; }
-    else if (q.kind === 'piste') { col = col.map((v, i) => lerp(v, C.fescue[i], 0.75)); sid = S_SEMI; }
-    else if (q.kind === 'pitch' || q.kind === 'track') { col = col.map((v, i) => lerp(v, C.fair[i], 0.8)); sid = S_SEMI; }
+    const cover = coverOf(q.ring);
+    if (cover <= 0) continue;
+    const solid = cover > 0.5;
+    if (q.kind === 'cut') { col = col.map((v, i) => lerp(v, C.slash[i], 0.7 * cover)); if (solid) sid = S_HEATH; }
+    else if (q.kind === 'yard') { col = col.map((v, i) => lerp(v, C.gravel[i], 0.85 * cover)); if (solid) sid = SURFACE.GRAVEL; }
+    else if (q.kind === 'hay') { col = col.map((v, i) => lerp(v, C.hay[i], 0.6 * cover)); if (solid) sid = S_SEMI; }
+    else if (q.kind === 'piste') { col = col.map((v, i) => lerp(v, C.fescue[i], 0.75 * cover)); if (solid) sid = S_SEMI; }
+    else if (q.kind === 'pitch' || q.kind === 'track') { col = col.map((v, i) => lerp(v, C.fair[i], 0.8 * cover)); if (solid) sid = S_SEMI; }
   }
   /* the clubhouse lawn: every ground photograph shows fresh mown green running
      right up to the terrace -- the apron overrides the scrub-and-till colouring
@@ -1495,15 +1617,19 @@ function groundAt(x, z, h) {
   const semi = clampf((1 - smooth(4, 16, c.dLine - 22)) * 0.6, 0, 0.6) * (1 - c.forest);
   if (semi > 0.02) { col = col.map((v, i) => lerp(v, C.semi[i], semi)); if (semi > 0.35) sid = S_SEMI; }
 
-  if (c.fair > 0.02) {
-    col = col.map((v, i) => lerp(v, C.fair[i], c.fair));
-    if (c.fair > 0.5) sid = S_FAIR;
+  /* an owned sample: the apron only, and none of the classes the material draws */
+  const fair = owned ? c.apron : c.fair;
+  if (fair > 0.02) {
+    col = col.map((v, i) => lerp(v, C.fair[i], fair));
+    if (!owned && fair > 0.5) sid = S_FAIR;
   }
-  if (c.fringe > 0.02) { col = col.map((v, i) => lerp(v, C.fringe[i], c.fringe)); if (c.fringe > 0.5) sid = S_FRINGE; }
-  if (c.tee > 0.02) { col = col.map((v, i) => lerp(v, C.tee[i], c.tee)); if (c.tee > 0.5) sid = S_TEE; }
-  if (c.green > 0.02) {
-    col = col.map((v, i) => lerp(v, C.green[i], c.green));
-    if (c.green > 0.5) sid = S_GREEN;
+  if (!owned) {
+    if (c.fringe > 0.02) { col = col.map((v, i) => lerp(v, C.fringe[i], c.fringe)); if (c.fringe > 0.5) sid = S_FRINGE; }
+    if (c.tee > 0.02) { col = col.map((v, i) => lerp(v, C.tee[i], c.tee)); if (c.tee > 0.5) sid = S_TEE; }
+    if (c.green > 0.02) {
+      col = col.map((v, i) => lerp(v, C.green[i], c.green));
+      if (c.green > 0.5) sid = S_GREEN;
+    }
   }
   /* NO sand paint on the terrain mesh: a sand-coloured vertex bleeds a 4 m halo
      into the surrounding grass however tight the classify window is, and every
@@ -2361,7 +2487,8 @@ function fillGroundTintTextures(tint, heightAt) {
     if(CONTINUOUS_OCEAN?.isSeaAt(x,z))return SEA_TINT;
     const h=H(x,z);
     if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
-    const base=groundAt(x,z,h).col,sand=OCEAN_SOURCE?.surfaces.sandWeight(x,z)??0;
+    /* this raster colours only the classes the ground material does not own */
+    const base=groundAt(x,z,h,{surfacesOwned:true}).col,sand=OCEAN_SOURCE?.surfaces.sandWeight(x,z)??0;
     return sand>0?base.map((v,k)=>lerp(v,C.sand[k]*(.93+.05*fbm(x*.08,z*.08,2)),sand)):base;
   });
   const vistaColourAt = (x, z) => {
@@ -2787,6 +2914,8 @@ if (TERRAIN_PREVIEW.ready) {
     graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
     debugMode: surfaceDebugMode, tint: GROUND_TINT,
     look: GHIBLI_LOOK ? 'ghibli' : 'real', uSun,
+    cutTone: CUT_TONE_STRENGTH,
+    mowStrength: MOWING.strength,
   });
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
