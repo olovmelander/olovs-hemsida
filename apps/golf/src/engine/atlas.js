@@ -10,6 +10,7 @@ import * as THREE from 'three/webgpu';
 import { ringBBox } from './geom.js';
 import { SURFACE, SURFACE_PRIORITY } from './surface.js';
 import { canopySampler } from './canopy-cover.mjs';
+import { fitFeatures, buildExactClassSdf, packClassPlanes, encodeDistance } from './exact-class-sdf.mjs';
 
 const MAX_EDGE_DISTANCE = 8;
 /* Route distance is stored in a byte at 0.25 m so the shader can rebuild mow
@@ -127,13 +128,26 @@ function buildBoundaryField(bounds, classes) {
   distance.fill(INF);
   neighbour.set(classes);
 
+  /* The highest-priority DIFFERING 4-neighbour, from all four sides alike.
+     `other` used to start as the texel's own class with only the west test
+     unconditional, so a lower-priority neighbour to the east, north or south
+     never outranked it and the higher side of an edge was seeded on west-facing
+     texels alone: at Angso not one green, tee or bunker texel was seeded on its
+     other three sides, the unseeded ones stored up to +8 m beside -0.5 m, and a
+     quarter of all mown edges had no zero crossing left -- the edge drawn there
+     was the nearest-filtered id grid itself, in perfect 1 m squares. The probe
+     test only ever looked at a west edge, which is how it agreed with this. */
   for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
     const k = j * w + i, c = classes[k];
     let other = c;
-    if (i && classes[k - 1] !== c) other = classes[k - 1];
-    if (i + 1 < w && classes[k + 1] !== c && PRIORITY[classes[k + 1]] > PRIORITY[other]) other = classes[k + 1];
-    if (j && classes[k - w] !== c && PRIORITY[classes[k - w]] > PRIORITY[other]) other = classes[k - w];
-    if (j + 1 < h && classes[k + w] !== c && PRIORITY[classes[k + w]] > PRIORITY[other]) other = classes[k + w];
+    const consider = nk => {
+      const n = classes[nk];
+      if (n !== c && (other === c || PRIORITY[n] > PRIORITY[other])) other = n;
+    };
+    if (i) consider(k - 1);
+    if (i + 1 < w) consider(k + 1);
+    if (j) consider(k - w);
+    if (j + 1 < h) consider(k + w);
     if (other !== c) { distance[k] = res * 0.5; neighbour[k] = other; }
   }
 
@@ -336,7 +350,40 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1,
   return { bounds, classes, classCounts, idData, fieldData, signedDistance, routeDistance: route.distance, owner: route.owner };
 }
 
-export function createGroundAtlas(options) {
+/* The classes whose outline a golfer reads as a CUT: they take the curve fit and,
+   in the material, a one-pixel edge. Everything else (forest floor, wetland,
+   heath, shore, rock) is a soft natural ramp and keeps its surveyed chords. */
+const CUT_SURFACES = new Set([SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN, SURFACE.TEE, SURFACE.SAND]);
+const EXACT_LIMIT_METRES = 4;
+
+/* A class that reaches the raster from a RASTER (the canopy floor's 3 m cover
+   cells) has no vectors to measure, so its plane is read back out of the pair
+   field: inside the class, or across an edge whose other side is the class, the
+   chamfer distance is a distance to that class's own boundary. It is a soft
+   class, blended over metres, so the chamfer's stairs never show. */
+function rasterClassPlane(surface, { classes, idData, signedDistance }) {
+  const bytes = new Uint8Array(classes.length);
+  for (let k = 0; k < classes.length; k++) {
+    const d = Math.abs(signedDistance[k]);
+    if (classes[k] === surface) bytes[k] = encodeDistance(d, EXACT_LIMIT_METRES);
+    else if (idData[k * 2] === surface || idData[k * 2 + 1] === surface) bytes[k] = encodeDistance(-d, EXACT_LIMIT_METRES);
+  }
+  return { surface, bytes };
+}
+
+/** `edges: 'exact'` (the default) also builds one exact signed-distance channel
+ *  per class from the curve-fitted vectors -- see exact-class-sdf.mjs -- and the
+ *  class raster every CPU consumer reads is filled from those same fitted rings,
+ *  so what is probed and what is drawn are one outline. `edges: 'pair'` is the
+ *  atlas as it was, kept as the A/B control and the way back. */
+export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...options }) {
+  if (edges !== 'exact' && edges !== 'pair') throw new TypeError(`unknown ground atlas edges: ${edges}`);
+  const exactStarted = performance.now();
+  const fitted = edges === 'exact'
+    ? fitFeatures(options.features || [], { crisp: CUT_SURFACES, cornerDeg: 60, chordError: 0.01 })
+    : null;
+  if (fitted) options = { ...options, features: fitted.features };
+  const fitMs = performance.now() - exactStarted;
   const raster = rasterizeGroundAtlas(options);
   const { bounds, classes, classCounts, idData, fieldData, signedDistance, routeDistance, owner } = raster;
   const texID = new THREE.DataTexture(idData, bounds.w, bounds.h, THREE.RGFormat, THREE.UnsignedByteType);
@@ -402,7 +449,7 @@ export function createGroundAtlas(options) {
     return c;
   };
 
-  return {
+  const atlas = {
     texID,
     texF,
     bounds,
@@ -413,4 +460,56 @@ export function createGroundAtlas(options) {
     /* Exposed only for deterministic probes/tests and boot telemetry. */
     data: { bounds, classes, classCounts, idData, fieldData },
   };
+  if (!fitted) return atlas;
+
+  const buildStarted = performance.now();
+  const exact = buildExactClassSdf({
+    CORE: options.CORE, features: options.features, res: bounds.res, limit: EXACT_LIMIT_METRES,
+    /* rough is the complement of the channels in the material, never one of them */
+    priority: SURFACE_PRIORITY.filter(id => id !== SURFACE.ROUGH),
+    ringSurfaces: [SURFACE.GREEN, SURFACE.TEE],
+    rasterPlanes: options.canopyFloor ? [rasterClassPlane(SURFACE.FOREST, raster)] : [],
+  });
+  const packed = packClassPlanes(exact);
+  /* the class-SDF material's field layout: R route distance (0.25 m, 255 = no
+     route), G distance to the nearest green or tee edge (0.16 m) -- EXACT, where
+     the pair field's fourth channel is a chamfer from the raster */
+  const texels = bounds.w * bounds.h;
+  const classField = new Uint8Array(texels * 4);
+  for (let k = 0; k < texels; k++) {
+    classField[k * 4] = fieldData[k * 4 + 1];
+    classField[k * 4 + 1] = exact.ringBytes[k];
+  }
+  const linearTexture = (data, mipmaps) => {
+    const tex = new THREE.DataTexture(data, bounds.w, bounds.h, THREE.RGBAFormat, THREE.UnsignedByteType);
+    tex.minFilter = mipmaps ? THREE.LinearMipmapLinearFilter : THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = mipmaps;
+    tex.flipY = false;
+    tex.needsUpdate = true;
+    return tex;
+  };
+  const texSdf = packed.map(data => linearTexture(data, sdfMipmaps));
+  const texFClass = linearTexture(classField, false);
+  const sdfBytes = packed.length * texels * 4;
+  atlas.exactEdges = {
+    texSdf,
+    texF: texFClass,
+    channels: exact.channels,
+    limitMetres: exact.limit,
+    routeStepMetres: 1 / ROUTE_SCALE,
+    ringStepMetres: exact.ringStep,
+    /* Exposed only for deterministic probes/tests and boot telemetry. */
+    data: { planes: exact.planes, ringBytes: exact.ringBytes },
+    stats: {
+      fitMs: +fitMs.toFixed(1),
+      buildMs: +(performance.now() - buildStarted).toFixed(1),
+      fit: fitted.stats,
+      build: exact.stats,
+      textures: packed.length,
+      textureBytes: (sdfMipmaps ? Math.round(sdfBytes * 4 / 3) : sdfBytes) + texels * 4,
+    },
+  };
+  atlas.dispose = () => { texID.dispose(); texF.dispose(); for (const tex of texSdf) tex.dispose(); texFClass.dispose(); };
+  return atlas;
 }

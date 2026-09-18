@@ -67,6 +67,24 @@ describe('runtime ground atlas', () => {
     /* The two texel centres are x=9.5 and x=10.5, so their linear SDF zero is x=10. */
     const zero = 9.5 + (0 - outside.sdf) / (inside.sdf - outside.sdf);
     expect(zero).toBeCloseTo(10, 5);
+
+    /* ... and on the other three sides, which is the half this test used to
+       leave out. The higher-priority side of an edge was seeded only where the
+       lower class lay to its WEST: the east, north and south inside texels read
+       +8 beside -0.5, the zero sat on the outside texel centre, and a quarter of
+       all mown edges on a real course had no crossing at all. A test that probes
+       one side of a square agrees with any bug that spares that side. */
+    for (const [name, out, inn] of [
+      ['east', at(30, 20), at(29, 20)],
+      ['north', at(20, 9), at(20, 10)],
+      ['south', at(20, 30), at(20, 29)],
+    ]) {
+      expect(out.surface, name).toBe(SURFACE.ROUGH);
+      expect(inn.surface, name).toBe(SURFACE.FAIRWAY);
+      expect([inn.primary, inn.secondary], name).toEqual([SURFACE.FAIRWAY, SURFACE.ROUGH]);
+      expect(out.sdf, name).toBeCloseTo(-0.5, 5);
+      expect(inn.sdf, name).toBeCloseTo(0.5, 5);
+    }
   });
 
   it('carries an UNCLAMPED ring distance, so a wide green keeps its mow rings', () => {

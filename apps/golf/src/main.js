@@ -89,6 +89,7 @@ import { measuredRoofGeometry } from './engine/measured-roof.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from './engine/woodland-context.mjs';
 import {
   requestedSurfaceDebugMode,
+  requestedSurfaceEdges,
   shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
@@ -2567,9 +2568,22 @@ if (groundMode === 'atlas') {
   const features = buildGroundSurfaceFeatures({ holes: HOLES, model: M });
 
   const atlasStarted = performance.now();
+  /* The v2 ground draws its cut lines from exact per-class distance fields built
+     here from the curve-fitted vectors; the class raster beside them is filled
+     from those same curves, so a probe and a pixel share one outline. They are
+     built only where the v2 material will read them -- a ground with published
+     surface chunks (Puttom) brings its own, and the GPK1 material cannot use
+     them. `?edges=pair` is the atlas as it was: the A/B control and the way back. */
+  const exactEdges = requestedSurfaceEdges(location.search) === 'exact'
+    && TERRAIN_PREVIEW.ready && !TERRAIN_PREVIEW.surfaceAtlas;
   groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1,
-    canopyFloor: SCENERY?.canopyFloor ? M.cover : null });
+    canopyFloor: SCENERY?.canopyFloor ? M.cover : null,
+    edges: exactEdges ? 'exact' : 'pair',
+    /* a distance field minifies cleanly, but only past ~1 m a pixel; a phone
+       does without the third of the memory the chain costs */
+    sdfMipmaps: !LOWQ });
   BOOT_PERF.atlasMs = +(performance.now() - atlasStarted).toFixed(1);
+  if (groundAtlas.exactEdges) BOOT_PERF.exactEdges = groundAtlas.exactEdges.stats;
   span('ground atlas (1 m, CORE)', atlasStarted);
 }
 
@@ -11608,6 +11622,13 @@ window.V3D = {
     surfaceRepresentation: TERRAIN_PREVIEW.surfaceAtlas?.data?.representation ||
       (TERRAIN_PREVIEW.surfacePolicy === 'legacy-ground-atlas' ? 'legacy-ground-atlas' : null),
     surfacePolicy: terrainV2.surfacePolicy || 'v2-atlas',
+    /* which field draws the cut lines, beside WHERE the surfaces come from: a
+       'legacy-ground-atlas' course is still the pack's own vectors, drawn from
+       exact per-class distances ('exact') or from the 1 m raster's ('pair') */
+    surfaceEdges: TERRAIN_PREVIEW.surfaceAtlas ? 'published'
+      : groundAtlas?.exactEdges ? 'exact' : 'pair',
+    exactEdges: groundAtlas?.exactEdges
+      ? { channels: [...groundAtlas.exactEdges.channels], ...groundAtlas.exactEdges.stats } : null,
     reason: TERRAIN_PREVIEW.reason,
     selection: {
       mode: V2_SELECTION.mode,
