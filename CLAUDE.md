@@ -2571,6 +2571,63 @@ wrong-class area in the green collar **6.6% → 0.0%** and the tee collar
   rake lines 0.32 m a pass following the bunker's edge in, faded long before
   they could moiré, and 7% damper a few metres in from the lip — both off the
   sand's own distance channel. (The rake was not looked at up close on a GPU.)
+- **The long grass starts where the mower stops.** The ground-cover lattice
+  keeps 24 m off every hole line, so between the semi's edge and the first
+  tussock lay twenty metres of rough with nothing standing on it, and the exact
+  cut line ended against a flat wash. main.js now plants a fringe from the SAME
+  field the material draws that edge from (`exactEdges.data.planes`, the SEMI
+  plane): a texel 0.15-3 m OUTSIDE the cut where every other class but heath
+  reads absent (so nothing on a path, a collar, a bunker's lip or forest floor),
+  thickest at the cut and thinning to nothing, ragged by the lattice's own clump
+  noise. **The first cut planted the outfield's tussock at the lattice's density
+  and it was two dead caltrops in forty metres** -- three splayed 0.3 m blades,
+  olive to straw, against a fed green rough. It has its own clump (five narrow
+  blades, 0.1-0.3 m) in the rough's greens, up to three a square metre (one
+  under LOWQ). Angso: 24,090 clumps, one more draw (74 -> 75); 7,951 on forced
+  WebGL2 q=lo. Invisible from the air by design -- it is an eye-level thing, so
+  judge it standing on the semi (`V3D.placeCamera` 1.7 m up, looking along the
+  edge), never in Ovan. Gated like all ground cover on
+  `vegetationPlacement !== 'measured-only'`, so Visby, Lidingo and Tortuna have
+  none -- the owner's call whether a grass clump is "inferred vegetation".
+  Density and height are owner's-eye numbers.
+- **The fine tint raster sat over the ORIGIN, not over the course.** The 6 m
+  raster was a 3 km box about (0, 0) and starts handing over to the 24 m one
+  1,236 m out -- and a frame's origin is wherever its build froze it. Measured
+  from the models: Angso's played ground runs z -1516...959, so its northern
+  holes stood up to **280 m** past the hand-over (rough, forest floor and shore
+  in 24 m blocks INSIDE the course, on one side only); Upsala overran 85 m east,
+  Veckefjarden 98 m north. `GROUND_TINT_NEAR_CENTRE` puts the box on CORE's
+  centre, moved in whole 24 m cells so the two grids still share sample centres
+  (the overview's box-average depends on it, and the constructor throws if the
+  far spacing ever stops being 24). Every reader already took the box from the
+  layer, and a baked tint sidecar states its bounds and is refused on a
+  mismatch. Before/after over Angso's 13th from 260 m: the frame's north third
+  changes by 4.98/255 (37% of pixels over 4), the middle 1.09, the south third
+  0.06 -- only the ground past the old hand-over moves. Puttom and
+  Norrfallsviken snap to (0, 0) and are bit-identical.
+- **The driving range is mown too, and not by a hole.** `surface-features.mjs`
+  rasters `scenery.range` as FAIRWAY, so the range took the across-the-hole
+  coordinate of whichever hole line lay nearest: at Angso a flat wash with a
+  BULLSEYE and a hard rectangle in one corner, which is that hole's carried-on
+  leg wrapping round its end. A range is cut lengthwise, away from the tee
+  line, with a gang mower, and nobody stripes it carefully. main.js works out
+  each range's axis (`scenery.rangeTee` where measured, else the ring vertex
+  nearest the clubhouse -- the target flags' own rule -- to the centroid, else
+  the ring's long axis; the sign does not matter to a pass) and
+  `mowDirectionBytes({ranges, classes})` stamps it over the field and its 6 m
+  semi band **at HALF LENGTH, and the length is the flag**: the material already
+  read a settled unit vector as "a hole's bearing"; one of length 0.5 is "the
+  range". No channel is spent on a mask (the class field's four are full and a
+  13th SDF slot is a fourth texture) and nothing is stored that cannot be
+  filtered: across the border the length passes through neither value and that
+  one texel draws plain turf. Another hole's FAIRWAY inside the margin is left
+  alone (the class raster says so). In the shader `ranged` is exactly 0
+  everywhere else, so `mix(holePasses, rangePass, ranged)` leaves every
+  fairway as it was. The range's passes: 5.5 m, 0.6 of the fairway's tone, the
+  line bent +/-2.2 m by one low tap of the detail texture. An opposed-bearing
+  ownership line can cross length 0.5 inside one texel -- a 0.2 m sliver at
+  2.5% amplitude, accepted. Target greens inside a range draw plain. Owner's-eye
+  numbers again.
 - **The rough you play from is not the rough on the hill.** The references get
   their 0.72 from a DARKER rough, which cannot be done globally here; but on a
   real course the primary rough beside the mown ground is fed, watered and

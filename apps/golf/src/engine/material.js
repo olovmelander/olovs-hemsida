@@ -600,6 +600,9 @@ const CUT_HEIGHT_MM = Object.freeze({
    tee pass are one mower wide. */
 const MOW_BAND_METRES = Object.freeze({ fairway: 3.2, semi: 3.2, green: 1.1, fringe: 1.1, tee: 1.1 });
 /* where two passes overlap the lay is mixed: the edge of a stripe is this wide */
+/* the range: a gang mower's width, a little over half the fairway's tone, and a
+   line that wanders a couple of metres over a hundred -- nobody stripes a range */
+const RANGE_PASS_METRES = 5.5, RANGE_TONE = 0.6, RANGE_WOBBLE_METRES = 2.2;
 const MOW_OVERLAP_METRES = 0.22;
 /* how much of a stripe is left seen square across it, or from straight above */
 const MOW_SEEN_ACROSS = 0.7;
@@ -840,9 +843,16 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       const across = wp.y.mul(dir.x).sub(wp.x.mul(dir.y));
       const greenCoordinate = across.mul(0.8192).sub(along.mul(0.5736));
       const cleanUp = oneMinus(smoothstep(MOW_CLEAN_UP_METRES - 0.2, MOW_CLEAN_UP_METRES + 0.2, ringDistance));
+      /* THE RANGE: its texels carry their axis at half length (atlas.js,
+         RANGE_DIRECTION_LENGTH). Passes ALONG that axis off the world coordinate,
+         bent by one low tap of the detail texture. Everywhere else 'ranged' is
+         exactly 0 and the mix returns the hole's own passes untouched. */
+      const ranged = oneMinus(abs(length.sub(0.5)).mul(10)).clamp(0, 1);
+      const wobble = texture(DETAIL, wp.mul(0.006)).r.sub(0.5).mul(2 * RANGE_WOBBLE_METRES);
+      const rangePass = pass(across.add(wobble), Math.PI / RANGE_PASS_METRES).mul(RANGE_TONE);
       const patterns = {
-        [SURFACE.FAIRWAY]: pass(lateral, Math.PI / MOW_BAND_METRES.fairway),
-        [SURFACE.SEMI]: pass(lateral, Math.PI / MOW_BAND_METRES.semi),
+        [SURFACE.FAIRWAY]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.fairway), rangePass, ranged),
+        [SURFACE.SEMI]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.semi), rangePass, ranged),
         [SURFACE.GREEN]: mix(pass(greenCoordinate, Math.PI / MOW_BAND_METRES.green), float(0.5), cleanUp),
         [SURFACE.FRINGE]: pass(ringDistance, Math.PI / MOW_BAND_METRES.fringe),
         [SURFACE.TEE]: pass(across, Math.PI / MOW_BAND_METRES.tee),
@@ -861,7 +871,8 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         if (!patterns[sid]) return;
         /* a collar's laps run every way round, so where you stand takes nothing
            from them; a straight pass has a direction and does depend on it */
-        const directional = sid === SURFACE.FRINGE ? float(1) : seen.mul(settled);
+        const directional = sid === SURFACE.FRINGE ? float(1)
+          : seen.mul(sid === SURFACE.FAIRWAY || sid === SURFACE.SEMI ? max(settled, ranged) : settled);
         const term = patterns[sid].mul(MOW_AMPLITUDE[sid] * toLinear).mul(weights[index]).mul(directional);
         mow = mow ? mow.add(term) : term;
       });

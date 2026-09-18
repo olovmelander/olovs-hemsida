@@ -2266,8 +2266,20 @@ const GROUND_TINT_WORLD_HALF = (() => {
   return Math.max(b.maxEasting - o.easting, o.easting - b.minEasting, o.northing - b.minNorthing, b.maxNorthing - o.northing);
 })();
 const GROUND_TINT_FAR = { half: Math.max(6144, Math.ceil(GROUND_TINT_WORLD_HALF / 24) * 24), dx: 24 };
+/* THE FINE RASTER BELONGS OVER THE COURSE, NOT OVER THE ORIGIN. It was centred
+   on (0, 0), and a frame's origin is wherever its build froze it: Angso's played
+   ground runs z -1516...959, so its northern holes stood up to 280 m past the
+   point (1236 m out) where the 6 m raster starts handing over to the 24 m one
+   -- rough, forest floor and shore drawn in 24 m blocks INSIDE the course, on
+   one side only. Upsala overran by 85 m to the east and Veckefjarden by 98 m to
+   the north. The box sits on CORE's centre now, moved in whole cells of the far
+   raster so the two grids still share sample centres (the overview's
+   box-average depends on that). Every reader takes the box from the layer --
+   the shader, the fill, the overview, the probe -- and a baked sidecar states
+   its bounds and is refused on a mismatch, so nothing else has to know. */
+const GROUND_TINT_NEAR_CENTRE = [snap((CORE.x0 + CORE.x1) / 2, 24), snap((CORE.z0 + CORE.z1) / 2, 24)];
 function createGroundTintTextures() {
-  const make = ({ half, dx, fadeMetres }) => {
+  const make = ({ half, dx, fadeMetres }, [cx, cz] = [0, 0]) => {
     const n = Math.round((2 * half) / dx) + 1;
     const data = new Uint8Array(n * n * 4).fill(255);
     const texture = new THREE.DataTexture(data, n, n, THREE.RGBAFormat, THREE.UnsignedByteType);
@@ -2279,9 +2291,10 @@ function createGroundTintTextures() {
     texture.generateMipmaps = false;
     texture.flipY = false;
     texture.needsUpdate = true;
-    return { texture, n, dx, fadeMetres, bounds: { x0: -half - dx / 2, z0: -half - dx / 2, x1: half + dx / 2, z1: half + dx / 2 } };
+    return { texture, n, dx, fadeMetres, bounds: { x0: cx - half - dx / 2, z0: cz - half - dx / 2, x1: cx + half + dx / 2, z1: cz + half + dx / 2 } };
   };
-  return { near: make(GROUND_TINT_NEAR), far: make(GROUND_TINT_FAR) };
+  if (GROUND_TINT_FAR.dx !== 24) throw new Error('the near tint is centred in whole far-raster cells: keep the two in step');
+  return { near: make(GROUND_TINT_NEAR, GROUND_TINT_NEAR_CENTRE), far: make(GROUND_TINT_FAR) };
 }
 const toSrgbByte = v => Math.max(0, Math.min(255, Math.round(255 * (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055))));
 const SEA_TINT = GHIBLI_LOOK ? L(0x376b80) : [0.055, 0.085, 0.105];
@@ -2726,7 +2739,34 @@ if (groundMode === 'atlas') {
      DRAW comes from here. `?edges=pair` is every course as it was: the A/B
      control and the way back. */
   const exactEdges = requestedSurfaceEdges(location.search) === 'exact' && TERRAIN_PREVIEW.ready;
-  groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1,
+  /* WHICH WAY A RANGE IS MOWN: away from its tee line. The tee end is measured
+     where a course has one (scenery.rangeTee), else it is the end you walk to from
+     the clubhouse -- the rule the target flags already use -- and with neither,
+     the field's own long axis. The sign does not matter to a mowing pass. */
+  const rangeMowing = (M.scenery.range || []).map(entry => {
+    const ring = entry?.ring || entry;
+    if (!(ring?.length >= 3)) return null;
+    const cen = centroidOf(ring);
+    let from = M.scenery.rangeTee || null;
+    if (!from) {
+      const B = M.infra.buildings || [];
+      const cb = B.find(q => q.amenity === 'clubhouse') || B.find(q => q.name && /golfklubb|klubbhus/i.test(q.name));
+      if (cb?.ring?.length) {
+        const ref = centroidOf(cb.ring);
+        let bd = Infinity;
+        for (const p of ring) { const d = hyp(p, ref); if (d < bd) { bd = d; from = p; } }
+      }
+    }
+    let axis = from ? [cen[0] - from[0], cen[1] - from[1]] : null;
+    if (!axis || Math.hypot(axis[0], axis[1]) < 20) {
+      let sxx = 0, szz = 0, sxz = 0;
+      for (const p of ring) { const dx = p[0] - cen[0], dz = p[1] - cen[1]; sxx += dx * dx; szz += dz * dz; sxz += dx * dz; }
+      const angle = 0.5 * Math.atan2(2 * sxz, sxx - szz);
+      axis = [Math.cos(angle), Math.sin(angle)];
+    }
+    return { ring, axis };
+  }).filter(Boolean);
+  groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1, ranges: rangeMowing,
     canopyFloor: SCENERY?.canopyFloor ? M.cover : null,
     edges: exactEdges ? 'exact' : 'pair',
     /* the shorelines AS DRAWN (curved above), for the damp bank beside them */
@@ -6298,6 +6338,66 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     }
   }
 
+  /* THE LONG GRASS STARTS WHERE THE MOWER STOPS. The lattice above keeps 24 m off
+     every hole line, so between the semi's edge and the first tussock lay twenty
+     metres of rough with nothing standing on it, and the cut line -- exact now,
+     and striped on its mown side -- ended against a flat wash. On the ground the
+     first thing past the last pass is a ragged fringe of uncut grass. This plants
+     it from the SAME distance field the material draws that edge from: a texel
+     whose semi distance reads 0.25-1.6 m OUTSIDE the cut, and where every other
+     class is absent, so nothing stands on a path, a collar, a bunker's lip or
+     under the trees. Thickest at the cut and thinning over three metres, so it
+     ends in nothing and not in a second line; ragged along its length by the
+     clump noise the lattice uses, so it never reads as a hedge.
+     ITS OWN TUFT, AND ITS OWN GREEN. The first cut of this planted the outfield's
+     tussock -- three splayed blades, 0.3 m, olive to straw -- at the lattice's
+     density, and from the semi it was two dead caltrops in forty metres. The
+     rough beside the mowing is fed and dense (PRIMARY_ROUGH_SHADE says the same
+     thing about its colour), so this is a small clump of five narrow blades in
+     the rough's own greens, a handful to the square metre. One more draw. */
+  const ET = [];
+  let edgeTufts = 0;
+  const EDGE = groundAtlas?.exactEdges;
+  const semiPlane = EDGE?.data?.planes?.get(SURFACE.SEMI);
+  if (semiPlane) {
+    const eb = groundAtlas.bounds, lim = EDGE.limitMetres;
+    const toByte = m => Math.round((m + lim) / (2 * lim) * 255);
+    const NEAR = toByte(-0.15), FAR = toByte(-3.0), ABSENT = toByte(-0.6);
+    const step = 2 * lim / 255, ATTEMPTS = LOWQ ? 1 : 3;
+    const others = EDGE.channels.filter(id => id !== SURFACE.SEMI && id !== SURFACE.HEATH)
+      .map(id => EDGE.data.planes.get(id));
+    for (let j = 0; j < eb.h; j++) {
+      if (shouldYieldWork()) await yieldWork();
+      const row = j * eb.w;
+      for (let i = 0; i < eb.w; i++) {
+        const k = row + i, s = semiPlane[k];
+        if (s > NEAR || s < FAR) continue;
+        let rough = true;
+        for (const o of others) if (o[k] > ABSENT) { rough = false; break; }
+        if (!rough) continue;
+        const cx = eb.x0 + (i + 0.5) * eb.res, cz = eb.z0 + (j + 0.5) * eb.res;
+        if (CLUB && Math.hypot(cx - CLUB.cx, cz - CLUB.cz) < 52) continue;
+        let wet = false;
+        const h0 = terrainH(cx, cz);
+        for (const w of WI.at(cx, cz)) {
+          if (w.stream) { if (distToLine(cx, cz, w.line, w.w * 3) < w.w * 3) wet = true; }
+          else if (ringSD(cx, cz, w.ring, 3) < 3 || h0 < w.level + 0.4) wet = true;
+        }
+        if (wet) continue;
+        const out = lim - s * step;                       /* metres outside the cut */
+        const clump = fbm(cx * 0.045, cz * 0.045, 2) * 0.5 + 0.5;
+        const chance = (0.30 + 0.60 * smooth(0.25, 0.70, clump)) * (1 - smooth(0.8, 3.0, out));
+        for (let a = 0; a < ATTEMPTS; a++) {
+          if (rnd(i, j, 13 + a * 5) > chance) continue;
+          const px = eb.x0 + (i + rnd(i, j, 11 + a * 5)) * eb.res, pz = eb.z0 + (j + rnd(i, j, 12 + a * 5)) * eb.res;
+          ET.push(px, terrainH(px, pz), pz, 0.55 + rnd(i, j, 14 + a * 5) * 0.6, rnd(i, j, 15 + a * 5) * TAU);
+          edgeTufts++;
+        }
+      }
+    }
+  }
+  stats.edgeTufts = edgeTufts;
+
   const place = (geo, mat, arr, shadow) => {
     const n = arr.length / 5;
     if (!n) return 0;
@@ -6333,6 +6433,29 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     color: new THREE.Color(GHIBLI_LOOK ? PAINTED_SCENERY.stone : 0x7c766c), roughness: 0.86, metalness: 0, flatShading: true });
 
   stats.tufts = place(tuft, tuftMat, T, false);
+  if (ET.length) {
+    const clumpGeo = (() => {
+      const g = new THREE.BufferGeometry();
+      const p = [], n = [];
+      for (let b = 0; b < 5; b++) {
+        const a = b / 5 * TAU + 0.3, c = Math.cos(a), sn = Math.sin(a);
+        const r = 0.04, half = 0.03, lean = 0.07 + (b % 3) * 0.035, tall = 0.17 + ((b * 7) % 5) * 0.025;
+        p.push(c * r - sn * half, 0, sn * r + c * half, c * r + sn * half, 0, sn * r - c * half, c * (r + lean), tall, sn * (r + lean));
+        for (let k = 0; k < 3; k++) n.push(c * 0.45, 0.8, sn * 0.45);
+      }
+      g.setAttribute('position', new THREE.Float32BufferAttribute(p, 3));
+      g.setAttribute('normal', new THREE.Float32BufferAttribute(n, 3));
+      return g;
+    })();
+    const clumpMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
+    const V = normalize(cameraPosition.sub(positionWorld));
+    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55);
+    const tone = texture(DETAIL, positionWorld.xz.mul(0.05)).b;
+    /* dark at the root, the rough's own light green at the tip */
+    clumpMat.colorNode = mix(color(GHIBLI_LOOK ? 0x3f6a24 : 0x46532c), color(GHIBLI_LOOK ? 0x7aa23e : 0x62703a),
+      saturate(positionLocal.y.mul(3.2)).mul(0.7).add(tone.mul(0.3))).mul(float(1).add(lit.mul(0.45)));
+    place(clumpGeo, clumpMat, ET, false);
+  }
   stats.bushes = place(bush, bushMat, B, true);
   stats.stones = place(stone, stoneMat, S, true);
   const stump = new THREE.CylinderGeometry(0.16, 0.2, 0.38, 6);
@@ -11433,7 +11556,7 @@ window.V3D = {
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            vistaSpecies: stats.vistaSpecies ?? null,
            environmentWater: stats.environmentWater ?? null,
-           tufts: stats.tufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
+           tufts: stats.tufts | 0, edgeTufts: stats.edgeTufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, authoredParkingCars: stats.authoredParkingCars | 0,
            pylons: stats.pylons | 0, stumps: stats.stumps | 0,
            inferredRangeTargets: stats.inferredRangeTargets | 0,
