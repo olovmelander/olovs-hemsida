@@ -109,7 +109,7 @@ import { createPackedGroundDetailTexture } from './engine/ground-detail-upload.m
 import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { applyCrownDepth } from './engine/crown-depth.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
-import { smoothShore } from './engine/ring-smoothing.mjs';
+import { smoothShore, curveShore } from './engine/ring-smoothing.mjs';
 import { smoothMownEdges } from './engine/ring-smoothing.mjs';
 import { deriveTeeBearings, inferSynthTeePads } from './engine/tee-pads.mjs';
 import { deriveTeePlayingPositions } from './engine/tee-playing-position.mjs';
@@ -901,15 +901,35 @@ for (const h of HOLES) {
     await new Promise(() => {});
   }
   const preserveMappedBoundaries = M.infra.preserveMappedBoundaries === true;
+  /* The DRAWN shoreline becomes a curve through its own surveyed vertices (see
+     curveShore). Deliberately HERE, after the v2 water preparation above and not
+     before it: every level was measured at the ring's own surveyed points, and
+     the flat-water mask, the carved beds and each course's baked water sidecar
+     (matched on a hash of these very rings) all read the RAW polygon. Fitting
+     first would have moved none of that for the better and unbound thirteen
+     sidecars. What changes is the sheet's outline and its shore distance.
+     Left alone: the sea and every ring that was CUT -- a clipped part meets its
+     neighbour vertex for vertex along the cut, and a curve there opens a seam. */
+  const curveShores = requestedSurfaceEdges(location.search) === 'exact';
+  const cutRing = w => w.isSea || w.shoreline || w.artificialCutEdgeCount > 0 || w.surr;
+  let shoresCurved = 0;
   for (const w of M.water) {
     if (w.stream || !w.ring) continue;
     w.ring = smoothShore(w.ring, near, 3, 3, 8, { preserveMappedBoundaries });
+    if (!curveShores || cutRing(w)) continue;
+    const points = w.ring.length;
+    w.ring = curveShore(w.ring, near);
+    if (w.ring.length !== points) shoresCurved++;
   }
+  BOOT_PERF.shoresCurved = shoresCurved;
   /* The silt shallows are traced far coarser than the water is -- 12 points with
      a 64 m median segment and one of 427 m -- and they draw the pale margin
      right where the eye is, just off the island 14th. Same treatment. */
   if (M.surround && M.surround.shallows)
-    M.surround.shallows = M.surround.shallows.map(r => smoothShore(r, near, 3, 3, 8, { preserveMappedBoundaries }));
+    M.surround.shallows = M.surround.shallows.map(r => {
+      const smoothed = smoothShore(r, near, 3, 3, 8, { preserveMappedBoundaries });
+      return curveShores ? curveShore(smoothed, near) : smoothed;
+    });
 
   /* THE MOWN EDGES, for the same reason and at a finer step.
      Measured across the six courses, fairway rings run a 10-31 m MEDIAN segment

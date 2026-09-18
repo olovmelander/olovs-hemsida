@@ -88,7 +88,13 @@ export function fitLine(source, options = {}) {
   return line.length < 3 ? line : fitCurve(line, false, options);
 }
 
-function fitCurve(ring, closed, { cornerDeg = 60, chordError = 0.01, alpha = 0.5, stats = null } = {}) {
+/* `near(point)` limits the fit to spans with an end it accepts -- a lake ring is
+   walked by every CPU water test, so only the shore a player stands beside is
+   worth the points. `straightOver` keeps any span longer than that many metres
+   STRAIGHT and its two ends sharp: a chord that long is never a surveyed shore,
+   it is where a ring was cut (an extract's edge, a window's), and its neighbour
+   across the cut has to keep meeting it vertex for vertex. */
+function fitCurve(ring, closed, { cornerDeg = 60, chordError = 0.01, alpha = 0.5, stats = null, near = null, straightOver = Infinity } = {}) {
   const n = ring.length;
   const corner = new Uint8Array(n);
   let corners = 0;
@@ -97,6 +103,12 @@ function fitCurve(ring, closed, { cornerDeg = 60, chordError = 0.01, alpha = 0.5
     const turn = turnDegrees(ring[(i - 1 + n) % n], ring[i], ring[(i + 1) % n]);
     if (turn >= cornerDeg) { corner[i] = 1; corners++; if (stats && turn > 120) stats.spikes++; }
   }
+  const untouched = i => {
+    const a = ring[i], b = ring[(i + 1) % n];
+    return (near && !near(a) && !near(b)) || Math.hypot(b[0] - a[0], b[1] - a[1]) > straightOver;
+  };
+  const spans = closed ? n : n - 1;
+  for (let i = 0; i < spans; i++) if (untouched(i)) { corner[i] = 1; corner[(i + 1) % n] = 1; }
   if (stats) { stats.fitted++; stats.corners += corners; }
   const knot = (a, b) => Math.max(1e-6, Math.hypot(b[0] - a[0], b[1] - a[1]) ** alpha);
   const out = [];

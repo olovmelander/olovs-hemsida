@@ -612,58 +612,61 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        other (Lidingo, from above). Only natural against natural -- or against
        rough -- is a soft ramp. Rough is neither: it is what is left over. */
     const isCut = index => exactEdges && index !== roughIndex && !SOFT_EDGE_SURFACES.has(classes[index]);
-    const widthOf = index => float(widths[index]);
-    const cutOf = index => float(isCut(index) ? 1 : 0);
-    const roughWidthNode = widthOf(roughIndex);
-    /* A pair blends over the WIDER of its two widths, on both sides: with
-       asymmetric widths one class fades before the other has risen and the
-       sliver between reads as rough. Which class each one meets is found per
-       fragment from the two largest distances -- the nearest other class of
-       the leader is the runner-up, of everyone else it is the leader -- and
-       when the runner-up is far (nothing else within a metre) the leader is
-       meeting rough and takes rough's width. */
-    let best = sdfs[0];
-    let bestWidth = widthOf(0);
-    let second = float(-8);
-    let secondWidth = roughWidthNode;
-    let bestCut = cutOf(0);
-    let secondCut = float(0);
-    for (let index = 1; index < sdfs.length; index++) {
-      const sdf = sdfs[index];
-      const width = widthOf(index);
-      const cut = cutOf(index);
-      const leads = sdf.greaterThan(best);
-      const runsUp = sdf.greaterThan(second).and(leads.not());
-      const nextSecond = select(leads, best, select(runsUp, sdf, second));
-      const nextSecondWidth = select(leads, bestWidth, select(runsUp, width, secondWidth));
-      const nextSecondCut = select(leads, bestCut, select(runsUp, cut, secondCut));
-      best = select(leads, sdf, best);
-      bestWidth = select(leads, width, bestWidth);
-      bestCut = select(leads, cut, bestCut);
-      second = nextSecond;
-      secondWidth = nextSecondWidth;
-      secondCut = nextSecondCut;
-    }
-    const meetsSomething = second.greaterThan(float(-1));
-    const leaderMeets = select(meetsSomething, secondWidth, roughWidthNode);
-    const leaderMeetsCut = select(meetsSomething, secondCut, float(0));
-    /* physical half-width per class, widened only when the screen needs it --
-       on an exact field a cut's width already IS the screen's, and fwidth of
-       the distance would only put the texel lattice back into the edge */
-    const classRaws = sdfs.map((sdf, index) => {
-      const leading = sdf.greaterThanEqual(best);
-      const meets = select(leading, leaderMeets, bestWidth);
-      let width;
-      if (!exactEdges) width = fwidth(sdf).mul(0.75).max(max(float(widths[index]), meets));
-      else if (isCut(index)) width = pixelHalf;
-      else {
-        /* a natural class: one pixel where it meets a cut, its own ramp (never
-           thinner than a pixel) where it meets another natural class or rough */
-        const meetsCut = select(leading, leaderMeetsCut, bestCut);
-        width = mix(max(float(widths[index]), meets).max(pixelHalf), pixelHalf, meetsCut);
+    let classRaws;
+    if (exactEdges) {
+      /* No pairing is needed to know any of this. A cut is one pixel against
+         anything, so it never asks what it meets; a natural class only asks
+         whether a cut lies within a metre of the fragment, which is one max()
+         over the cut distances; and natural against natural blends over ONE
+         common ramp, the widest any of them has, which is symmetric by
+         construction. The leader/runner-up chain below does the same job for
+         fields that need it and costs ten nested selects per channel: measured
+         on the RTX 3070 it took the terrain material's compile from 1.7 s to
+         4.9 s, three seconds of every boot, and a phone compiles slower. */
+      const cutDistances = sdfs.filter((_, index) => isCut(index));
+      const nearestCut = cutDistances.length
+        ? cutDistances.reduce((a, b) => max(a, b)) : float(-8);
+      const meetsCut = smoothstep(-1.5, -0.5, nearestCut);
+      const softRamp = Math.max(...classes.map((sid, index) => (isCut(index) ? 0 : widths[index])));
+      const softWidth = mix(max(float(softRamp), pixelHalf), pixelHalf, meetsCut);
+      classRaws = sdfs.map((sdf, index) => {
+        const width = isCut(index) ? pixelHalf : softWidth;
+        return smoothstep(width.negate(), width, sdf);
+      });
+    } else {
+      const widthOf = index => float(widths[index]);
+      const roughWidthNode = widthOf(roughIndex);
+      /* A pair blends over the WIDER of its two widths, on both sides: with
+         asymmetric widths one class fades before the other has risen and the
+         sliver between reads as rough. Which class each one meets is found per
+         fragment from the two largest distances -- the nearest other class of
+         the leader is the runner-up, of everyone else it is the leader -- and
+         when the runner-up is far (nothing else within a metre) the leader is
+         meeting rough and takes rough's width. */
+      let best = sdfs[0];
+      let bestWidth = widthOf(0);
+      let second = float(-8);
+      let secondWidth = roughWidthNode;
+      for (let index = 1; index < sdfs.length; index++) {
+        const sdf = sdfs[index];
+        const width = widthOf(index);
+        const leads = sdf.greaterThan(best);
+        const runsUp = sdf.greaterThan(second).and(leads.not());
+        const nextSecond = select(leads, best, select(runsUp, sdf, second));
+        const nextSecondWidth = select(leads, bestWidth, select(runsUp, width, secondWidth));
+        best = select(leads, sdf, best);
+        bestWidth = select(leads, width, bestWidth);
+        second = nextSecond;
+        secondWidth = nextSecondWidth;
       }
-      return smoothstep(width.negate(), width, sdf);
-    });
+      const leaderMeets = select(second.greaterThan(float(-1)), secondWidth, roughWidthNode);
+      /* physical half-width per class, widened only when the screen needs it */
+      classRaws = sdfs.map((sdf, index) => {
+        const meets = select(sdf.greaterThanEqual(best), leaderMeets, bestWidth);
+        const width = fwidth(sdf).mul(0.75).max(max(float(widths[index]), meets));
+        return smoothstep(width.negate(), width, sdf);
+      });
+    }
     let classSum = classRaws[0];
     for (let index = 1; index < classRaws.length; index++) classSum = classSum.add(classRaws[index]);
     /* Rough is what no class claims: 1 - the sum of the class weights, never

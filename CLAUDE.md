@@ -2376,16 +2376,54 @@ wrong-class area in the green collar **6.6% → 0.0%** and the tee collar
   ACROSS it — a plank over ground that changes facet every metre, lifted 3 cm —
   so the line on the low side of a cambered road sank into the terrain in teeth
   one facet long. Paint runs are sampled every metre across now.
+- **The shorelines are curves too, and WHERE the fit runs is the whole design.**
+  The water sheet is triangulated straight from its ring, so with
+  `preserveMappedBoundaries` switching `smoothShore` off, every pond was drawn as
+  the polygon it was digitised as — the most angular thing on a course the day
+  the mown edges stopped being stairs. `curveShore` (ring-smoothing.mjs) runs the
+  same interpolating fit, and it runs AFTER the v2 water preparation on purpose:
+  every level is measured at the ring's own surveyed points, and the flat-water
+  mask, the carved beds and each course's baked water sidecar (matched on a hash
+  of those very rings) all read the RAW polygon. Only the drawn outline and its
+  shore distance change. Left alone: the sea, and every ring that was CUT
+  (`isSea`, `shoreline`, `artificialCutEdgeCount`, the surroundings' water) — a
+  clipped part meets its neighbour vertex for vertex, and a curve there opens a
+  seam; any span over 80 m stays straight with sharp ends for the same reason,
+  which is also why Puttom's 50–100 m OSM lake chords barely change. Only spans
+  near the played ground are fitted: a lake ring is walked by every CPU water
+  test. **A ring traced off a RASTER is the one case a vertex is not a surveyed
+  point** — a spline through a staircase keeps every stair, its 90° turns are all
+  "corners" — so a ring with ≥ 30% axis-aligned edges is first replaced by its
+  edge MIDPOINTS: those lie ON the diagonal the raster approximated, so the steps
+  go with no averaging, by at most half a lattice step, area unchanged to 2%.
+- **The per-class shader cost three seconds of every boot, and I shipped it
+  twice before measuring.** Interleaved old/new boots on one browser: 21.8 →
+  26.0 s, of which the atlas was 0.3 s. The app's own spans put all of the rest
+  in `v2 prepare … preflight` (1.7 → 4.9 s) — the terrain material's COMPILE.
+  Caching the intermediates with `.toVar()` changed nothing (4.90 against 4.85),
+  so it was not expression re-expansion: it was the leader/runner-up chain, ten
+  nested `select`s per channel, which a driver compiles slowly. On an exact field
+  the chain answers a question nobody asks — a cut is one pixel against anything
+  and never needs to know what it meets, and a natural class needs only "is a cut
+  within a metre", which is ONE `max()` over the cut distances. Without the
+  chain: prepare 1.8 s, boot 15.7 s against the old path's 15.3, and the Lidingö
+  road frame pixel-identical (0.000/255). The chain survives only for
+  mask-compiled fields. **Measure a boot with the two builds interleaved in one
+  browser** — run new-then-old per launch and the cold first boot hides or fakes
+  the difference.
+- **Every engine commit expires the baked sidecars.** `courseSourceRevision`
+  hashes main.js, the engine, the loader and `packages/course-v2`, and both the
+  prepared tint and the prepared water are keyed on it, so they fall back to the
+  live calculation until somebody re-bakes. Not specific to this work, and worth
+  knowing before blaming a slow boot on the change in hand.
 - **Costs, measured on all thirteen:** the exact build is 170–460 ms (atlas total
   430–1,070 ms, Visby the slowest), and the fields are 29–79 MB of GPU texture
   with the SDF mip chain (Johannesberg's 4.2 M-texel CORE the largest), a third
   less under LOWQ, which drops the chain. They are built only under v2.
 - **Not done, and visible:** the tan and grey-green BLOCKS in Ovan are the 6 m
   tint raster baking mown tones into the rough colour plus the 12 m land-cover
-  cells; WATER shorelines are raw polygons with hard vertices (and 1–4 m lattice
-  steps where a ring was traced off the laser) — they are a different system,
-  carved into `terrainH` and drawn as sheets, and `preserveMappedBoundaries`
-  switches their smoother off exactly as it did the greens'; `makeGround`
+  cells; a lake ring surveyed with 50–100 m chords stays a polygon (the cut-edge
+  guard cannot tell it from a cut); `makeGround`
   (`?v2=0`, out of scope by the owner's word) still draws the pair field and
   carries a `+ b.res*0.5` uv offset that shifts every surface ~0.5 m; true
   RASTER-derived rings (Ribbingsfors, Tortuna fairways, Veckefjärden's DTM

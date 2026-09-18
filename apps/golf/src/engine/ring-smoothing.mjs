@@ -19,6 +19,8 @@
    to 0.8 m at every green vertex -- an error the transect audit measured and
    nothing else could see. */
 
+import { fitRing } from './exact-class-sdf.mjs';
+
 export function smoothShore(ring, near, step = 3, passes = 3, minPts = 8, { preserveMappedBoundaries = false } = {}) {
   // An adopted source boundary is geometry, not a sketch to beautify. Pixel
   // traces and DTM plate edges retain every supplied vertex under this policy.
@@ -45,6 +47,45 @@ export function smoothShore(ring, near, step = 3, passes = 3, minPts = 8, { pres
     out = next;
   }
   return out;
+}
+
+/* THE SHORELINE, AS A CURVE THAT MOVES NOTHING.
+
+   `preserveMappedBoundaries` switches smoothShore off on twelve of thirteen
+   courses, and for a reason: it is an averaging pass, it shrinks what it rounds
+   and drags every supplied vertex off the survey. But the water sheet is
+   triangulated straight from this ring, so with the smoother off every pond was
+   drawn as the polygon it was digitised as -- hard vertices every 5-15 m round a
+   pond beside a green, 50 m chords on a lake -- which became the most angular
+   thing on the course the day the mown edges stopped being stairs.
+
+   An INTERPOLATING curve answers the policy instead of fighting it: it passes
+   through every supplied vertex and only bends the chords between them.
+
+   A ring traced off a RASTER is the one case a vertex is not a surveyed point:
+   a lattice corner is where a cell boundary fell, not where the shore is, and a
+   spline through a staircase keeps every stair (its 90 degree turns are all
+   "corners"). The shore crossed each of those cell edges somewhere, and the
+   unbiased estimate is its midpoint -- the midpoints of a staircase's edges lie
+   ON the diagonal the raster approximated, so the steps go without any
+   averaging, by at most half a lattice step, with no net area change. */
+export function curveShore(ring, near, { chordError = 0.05, straightOver = 80 } = {}) {
+  if (!ring || ring.length < 5) return ring;
+  let axis = 0;
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length];
+    if (Math.abs(a[0] - b[0]) < 1e-6 || Math.abs(a[1] - b[1]) < 1e-6) axis++;
+  }
+  let source = ring;
+  if (axis >= ring.length * 0.3) {
+    source = [];
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i], b = ring[(i + 1) % ring.length];
+      const stair = Math.hypot(b[0] - a[0], b[1] - a[1]) <= 12 && (near(a) || near(b));
+      source.push(stair ? [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2] : a);
+    }
+  }
+  return fitRing(source, { cornerDeg: 60, chordError, near, straightOver });
 }
 
 const always = () => true;
