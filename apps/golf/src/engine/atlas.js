@@ -7,7 +7,7 @@
    the pure implementation is probe-testable in Node. */
 
 import * as THREE from 'three/webgpu';
-import { ringBBox } from './geom.js';
+import { ringBBox, ringSD } from './geom.js';
 import { SURFACE, SURFACE_PRIORITY } from './surface.js';
 import { canopySampler } from './canopy-cover.mjs';
 import { fitFeatures, buildExactClassSdf, packClassPlanes, encodeDistance } from './exact-class-sdf.mjs';
@@ -398,7 +398,19 @@ function rasterClassPlane(surface, { classes, idData, signedDistance }) {
    length leaves 1, and the material fades the stripes out over that one texel
    instead of drawing the blend -- the lesson of the wrapped phase byte, met from
    the other side: store something that interpolates, and know when it has not. */
-export function mowDirectionBytes({ bounds, owner, holes = [] }) {
+/* A DRIVING RANGE IS MOWN TOO, AND NOT BY A HOLE. Its ring is rastered as fairway,
+   so it took the across-the-hole coordinate of whichever hole line lay nearest:
+   stripes at a meaningless angle, or one flat tone past that coordinate's reach.
+   A range is cut lengthwise, away from the tee line. Its texels carry that axis
+   at HALF LENGTH, and the length is the flag: the material reads a settled
+   vector of length 1 as "a hole's bearing" and one of length 0.5 as "the range",
+   so no channel is spent on a mask and nothing is stored that cannot be
+   filtered -- across the range's border the length passes through neither value
+   and that one texel draws plain turf. The semi band round the field is stamped
+   with it; another hole's FAIRWAY inside that margin is left alone. */
+export const RANGE_DIRECTION_LENGTH = 0.5;
+const RANGE_MARGIN_METRES = 6;
+export function mowDirectionBytes({ bounds, owner, holes = [], ranges = [], classes = null }) {
   const count = bounds.w * bounds.h;
   const out = new Uint8Array(count * 2);
   const enc = c => Math.max(0, Math.min(255, Math.round(127.5 + 127 * c)));
@@ -408,6 +420,23 @@ export function mowDirectionBytes({ bounds, owner, holes = [] }) {
   for (let k = 0; k < count; k++) {
     const d = byHole.get(owner[k]) || [1, 0];
     out[k * 2] = enc(d[0]); out[k * 2 + 1] = enc(d[1]);
+  }
+  for (const range of ranges) {
+    const ring = range?.ring, axis = range?.axis;
+    const long = axis ? Math.hypot(axis[0], axis[1]) : 0;
+    if (!(ring?.length >= 3) || !(long > 1e-6)) continue;
+    const bx = enc(axis[0] / long * RANGE_DIRECTION_LENGTH), bz = enc(axis[1] / long * RANGE_DIRECTION_LENGTH);
+    const r = rasterBounds(ringBBox(ring), bounds, RANGE_MARGIN_METRES);
+    for (let j = r.j0; j <= r.j1; j++) {
+      const z = bounds.z0 + (j + 0.5) * bounds.res;
+      for (let i = r.i0; i <= r.i1; i++) {
+        const k = j * bounds.w + i;
+        const sd = ringSD(bounds.x0 + (i + 0.5) * bounds.res, z, ring);
+        if (sd > RANGE_MARGIN_METRES) continue;
+        if (sd > 0 && classes && classes[k] === SURFACE.FAIRWAY) continue;
+        out[k * 2] = bx; out[k * 2 + 1] = bz;
+      }
+    }
   }
   for (const h of holes) {
     if (!(h?.line?.length >= 2)) continue;
@@ -581,7 +610,7 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
   const texels = bounds.w * bounds.h;
   const classField = new Uint8Array(texels * 4);
   /* ... and B, A the mowing direction (mowDirectionBytes) */
-  const mowDirection = mowDirectionBytes({ bounds, owner, holes: options.HOLES || [] });
+  const mowDirection = mowDirectionBytes({ bounds, owner, holes: options.HOLES || [], ranges: options.ranges || [], classes });
   const mowLateral = mowLateralBytes({ bounds, owner, holes: options.HOLES || [] });
   for (let k = 0; k < texels; k++) {
     classField[k * 4] = mowLateral[k];

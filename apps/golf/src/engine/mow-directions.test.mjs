@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createGroundAtlas, mowDirectionBytes, mowLateralBytes } from './atlas.js';
+import { createGroundAtlas, mowDirectionBytes, mowLateralBytes, RANGE_DIRECTION_LENGTH } from './atlas.js';
 import { requestedMowing } from './surface-render-policy.mjs';
 import { SURFACE } from './surface.js';
 
@@ -31,6 +31,49 @@ describe('which way the mower went', () => {
   it('is unit east where no hole owns the ground, never a zero vector', () => {
     const bytes = mowDirectionBytes({ bounds, owner: new Uint16Array(100 * 100), holes: [hole] });
     expect(decode(bytes, 5050)[0]).toBeCloseTo(1, 2);
+  });
+});
+
+describe('the driving range is mown too, and not by a hole', () => {
+  /* one hole playing east owns all the ground; the range is a field to its south,
+     hit from its west end */
+  const hole = { n: 2, line: [[10, 20], [90, 20]], tees: { pads: [] } };
+  const owner = new Uint16Array(100 * 100).fill(2);
+  const range = { ring: square(30, 50, 90, 90), axis: [0, 40] };
+
+  it('carries the range axis at half length inside the field and its semi band', () => {
+    const bytes = mowDirectionBytes({ bounds, owner, holes: [hole], ranges: [range] });
+    for (const [i, j] of [[60, 70], [31, 51], [60, 93]]) {
+      const [x, z] = decode(bytes, j * 100 + i);
+      expect(Math.hypot(x, z)).toBeCloseTo(RANGE_DIRECTION_LENGTH, 2);
+      expect(x).toBeCloseTo(0, 2);
+      expect(z).toBeCloseTo(RANGE_DIRECTION_LENGTH, 2);
+    }
+  });
+
+  it('leaves the hole its own unit bearing everywhere else', () => {
+    const bytes = mowDirectionBytes({ bounds, owner, holes: [hole], ranges: [range] });
+    for (const [i, j] of [[50, 20], [60, 40], [20, 70]]) {
+      const [x, z] = decode(bytes, j * 100 + i);
+      expect(x).toBeCloseTo(1, 2);
+      expect(z).toBeCloseTo(0, 2);
+    }
+  });
+
+  it('does not take another hole\'s fairway that lies inside its margin', () => {
+    const classes = new Uint8Array(100 * 100);
+    const fairwayTexel = 47 * 100 + 60;                   /* 3 m north of the range's edge */
+    classes[fairwayTexel] = SURFACE.FAIRWAY;
+    const bytes = mowDirectionBytes({ bounds, owner, holes: [hole], ranges: [range], classes });
+    expect(Math.hypot(...decode(bytes, fairwayTexel))).toBeCloseTo(1, 2);
+    /* its neighbour, not fairway, is the range's semi band */
+    expect(Math.hypot(...decode(bytes, fairwayTexel + 1))).toBeCloseTo(RANGE_DIRECTION_LENGTH, 2);
+  });
+
+  it('ignores a range with no usable axis', () => {
+    const plain = mowDirectionBytes({ bounds, owner, holes: [hole] });
+    const bytes = mowDirectionBytes({ bounds, owner, holes: [hole], ranges: [{ ring: range.ring, axis: [0, 0] }, { ring: range.ring }] });
+    expect(bytes).toEqual(plain);
   });
 });
 
