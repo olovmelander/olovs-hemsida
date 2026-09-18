@@ -70,20 +70,49 @@ function pointChordDistance(p, a, b) {
 }
 
 /** Corner-aware centripetal Catmull-Rom through every vertex of a closed ring. */
-export function fitRing(source, { cornerDeg = 60, chordError = 0.01, alpha = 0.5, stats = null } = {}) {
+export function fitRing(source, options = {}) {
   const ring = cleanRing(source);
+  if (ring.length <= 4) { if (options.stats) options.stats.keptStraight++; return ring; }
+  return fitCurve(ring, true, options);
+}
+
+/** The same curve through an OPEN polyline -- a path, a gravel track. Its two
+ *  ends are corners by definition, so the curve neither overshoots nor turns
+ *  back at them, and a two-point line is returned as it came. */
+export function fitLine(source, options = {}) {
+  const line = [];
+  for (const p of source) {
+    const q = line[line.length - 1];
+    if (!q || Math.abs(q[0] - p[0]) > 1e-6 || Math.abs(q[1] - p[1]) > 1e-6) line.push([p[0], p[1]]);
+  }
+  return line.length < 3 ? line : fitCurve(line, false, options);
+}
+
+/* `near(point)` limits the fit to spans with an end it accepts -- a lake ring is
+   walked by every CPU water test, so only the shore a player stands beside is
+   worth the points. `straightOver` keeps any span longer than that many metres
+   STRAIGHT and its two ends sharp: a chord that long is never a surveyed shore,
+   it is where a ring was cut (an extract's edge, a window's), and its neighbour
+   across the cut has to keep meeting it vertex for vertex. */
+function fitCurve(ring, closed, { cornerDeg = 60, chordError = 0.01, alpha = 0.5, stats = null, near = null, straightOver = Infinity } = {}) {
   const n = ring.length;
-  if (n <= 4) { if (stats) stats.keptStraight++; return ring; }
   const corner = new Uint8Array(n);
   let corners = 0;
   for (let i = 0; i < n; i++) {
+    if (!closed && (i === 0 || i === n - 1)) { corner[i] = 1; continue; }
     const turn = turnDegrees(ring[(i - 1 + n) % n], ring[i], ring[(i + 1) % n]);
     if (turn >= cornerDeg) { corner[i] = 1; corners++; if (stats && turn > 120) stats.spikes++; }
   }
+  const untouched = i => {
+    const a = ring[i], b = ring[(i + 1) % n];
+    return (near && !near(a) && !near(b)) || Math.hypot(b[0] - a[0], b[1] - a[1]) > straightOver;
+  };
+  const spans = closed ? n : n - 1;
+  for (let i = 0; i < spans; i++) if (untouched(i)) { corner[i] = 1; corner[(i + 1) % n] = 1; }
   if (stats) { stats.fitted++; stats.corners += corners; }
   const knot = (a, b) => Math.max(1e-6, Math.hypot(b[0] - a[0], b[1] - a[1]) ** alpha);
   const out = [];
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < (closed ? n : n - 1); i++) {
     const i2 = (i + 1) % n;
     const p1 = ring[i], p2 = ring[i2];
     if (corner[i] && corner[i2]) { out.push(p1); continue; }
@@ -114,30 +143,142 @@ export function fitRing(source, { cornerDeg = 60, chordError = 0.01, alpha = 0.5
     out.push(p1);
     subdivide(t1, p1, t2, p2, 0);
   }
+  if (!closed) out.push(ring[n - 1]);
   if (stats) stats.pointsIn += n, stats.pointsOut += out.length;
+  return out;
+}
+
+/** A ring traced off a RASTER is the one case a vertex is not a surveyed point: a
+ *  lattice corner is where a cell boundary fell, not where the edge is, and a
+ *  spline through a staircase keeps every stair (its 90 degree turns are all
+ *  "corners"). The edge crossed each of those cell sides somewhere, and the
+ *  unbiased estimate is the side's midpoint -- the midpoints of a staircase's
+ *  edges lie ON the diagonal the raster approximated, so the steps go with no
+ *  averaging, by at most half a lattice step, with no net area change. A ring is
+ *  taken for a raster trace when 30% of its edges are exactly axis-aligned; a
+ *  surveyed ring measures 0-2%. Long edges are real straights and are kept. */
+export function unstairRing(ring, { near = null, longest = 12 } = {}) {
+  if (!Array.isArray(ring) || ring.length < 8) return ring;
+  let axis = 0;
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length];
+    if (Math.abs(a[0] - b[0]) < 1e-6 || Math.abs(a[1] - b[1]) < 1e-6) axis++;
+  }
+  if (axis < ring.length * 0.3) return ring;
+  const out = [];
+  for (let i = 0; i < ring.length; i++) {
+    const a = ring[i], b = ring[(i + 1) % ring.length];
+    const stair = Math.hypot(b[0] - a[0], b[1] - a[1]) <= longest && (!near || near(a) || near(b));
+    out.push(stair ? [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2] : a);
+  }
+  return out;
+}
+
+/* A CRISP EDGE DRAWS EVERY SLIP OF THE DIGITISER. While the mown edges were a
+   metre of staircase nobody could see them; the day they became exact curves
+   they came out as needles and comb teeth. Two kinds, measured over every ring of
+   every course:
+
+   - a SPIKE: the outline runs out and straight back -- a turn past 120 degrees,
+     the two neighbours under three metres apart, a leg under eight. 39 of them,
+     32 on Tortuna's fairways. Removed on every surface. The leg test is what
+     spares a real neck: Veckefjarden's 3rd narrows between 22 and 32 m legs, and
+     that is the fairway, not a slip.
+   - a TOOTH: a sharp vertex (60 degrees or more) that encloses almost nothing --
+     under three square metres. Fairways and their first cut ONLY: there it is a
+     pixel trace's jitter (a quarter of Tortuna's fairway vertices), but a bunker
+     is digitised with two-metre legs and its LOBES are sharp vertices of about a
+     square metre and a half, which this rule would shave off. A tee deck's corner
+     encloses twenty, a real fairway corner four or more, and both stay.
+
+   Dropping a vertex is the one thing here that does not pass through it, and it
+   is meant to: a slip is not a surveyed point. */
+export function despikeRing(ring, { teeth = false, stats = null } = {}) {
+  /* a duplicated closing vertex hides a spike at the seam of the ring */
+  let out = cleanRing(ring);
+  for (let pass = 0; pass < 4 && out.length > 4; pass++) {
+    const n = out.length, keep = [];
+    let dropped = 0, droppedPrevious = false;
+    for (let i = 0; i < n; i++) {
+      const a = out[(i - 1 + n) % n], b = out[i], c = out[(i + 1) % n];
+      const turn = turnDegrees(a, b, c);
+      const la = Math.hypot(b[0] - a[0], b[1] - a[1]), lb = Math.hypot(c[0] - b[0], c[1] - b[1]);
+      const spike = turn > 120 && Math.min(la, lb) < 8 && Math.hypot(c[0] - a[0], c[1] - a[1]) < 3;
+      const area = Math.abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])) / 2;
+      const tooth = teeth && turn >= 60 && area < 3;
+      /* never two neighbours in one pass: the second is judged against a vertex
+         that is already gone */
+      if ((spike || tooth) && !droppedPrevious && n - dropped > 4) {
+        dropped++; droppedPrevious = true;
+        if (stats) stats[spike ? 'spikesRemoved' : 'teethRemoved']++;
+        continue;
+      }
+      droppedPrevious = false;
+      keep.push(b);
+    }
+    if (!dropped) break;
+    out = keep;
+  }
   return out;
 }
 
 /** Replace the rings of the played (crisp) classes by their fitted curves. One
  *  fit per source ring, shared by every feature that uses it (fairway + semi,
  *  green + fringe), so the band stays an exact offset of its parent. */
-export function fitFeatures(features, { crisp, cornerDeg, chordError } = {}) {
-  const cache = new Map();
-  const stats = { fitted: 0, keptStraight: 0, corners: 0, spikes: 0, pointsIn: 0, pointsOut: 0 };
-  const fit = ring => {
+export function fitFeatures(features, { crisp, lines = new Set(), toothed = new Set(), cornerDeg, chordError } = {}) {
+  /* one fit per source ring AND per cleaning rule: a fairway and its first cut
+     share a ring and a rule, so the band stays an exact offset of its parent */
+  const caches = [new Map(), new Map()];
+  const stats = { fitted: 0, keptStraight: 0, corners: 0, spikes: 0, unstaired: 0, spikesRemoved: 0, teethRemoved: 0, pointsIn: 0, pointsOut: 0 };
+  const fit = (ring, teeth) => {
     if (!Array.isArray(ring) || ring.length < 3) return ring;
+    const cache = caches[teeth ? 1 : 0];
     let fitted = cache.get(ring);
-    if (!fitted) { fitted = fitRing(ring, { cornerDeg, chordError, stats }); cache.set(ring, fitted); }
+    if (!fitted) {
+      /* the stairs first: a raster trace is ALL tiny sharp vertices, and the
+         tooth rule would eat it at random instead of straightening it */
+      const source = unstairRing(ring);
+      if (source !== ring) stats.unstaired++;
+      fitted = fitRing(despikeRing(source, { teeth, stats }), { cornerDeg, chordError, stats });
+      cache.set(ring, fitted);
+    }
+    return fitted;
+  };
+  /* A NATURAL ring surveyed as a polygon stays the polygon it was surveyed as:
+     its edge is a ramp metres wide and nobody reads its chords. One traced off a
+     raster is different -- a reed belt read off the laser on a 4 m lattice draws
+     a 4 m staircase through any ramp (Angso, from above) -- so those, and only
+     those, lose their stairs and take a coarse curve. */
+  const softCache = new Map();
+  const softFit = ring => {
+    if (!Array.isArray(ring) || ring.length < 3) return ring;
+    let fitted = softCache.get(ring);
+    if (!fitted) {
+      const source = unstairRing(ring);
+      fitted = source === ring ? ring : fitRing(source, { cornerDeg, chordError: 0.1, stats });
+      if (source !== ring) stats.unstaired++;
+      softCache.set(ring, fitted);
+    }
     return fitted;
   };
   const out = features.map(feature => {
-    if (!crisp.has(feature.surface) || feature.line) return feature;
+    if (feature.line) {
+      return lines.has(feature.surface) && feature.line.length > 2
+        ? { ...feature, line: fitLine(feature.line, { cornerDeg, chordError, stats }) } : feature;
+    }
+    if (!crisp.has(feature.surface)) {
+      const next = { ...feature };
+      if (feature.rings) next.rings = feature.rings.map(softFit);
+      if (feature.polygons) next.polygons = feature.polygons.map(polygon => ({ ...polygon, rings: (polygon?.rings || []).map(softFit) }));
+      return next;
+    }
     const next = { ...feature };
-    if (feature.rings) next.rings = feature.rings.map(fit);
-    if (feature.polygons) next.polygons = feature.polygons.map(polygon => ({ ...polygon, rings: (polygon?.rings || []).map(fit) }));
+    const teeth = toothed.has(feature.surface);
+    if (feature.rings) next.rings = feature.rings.map(ring => fit(ring, teeth));
+    if (feature.polygons) next.polygons = feature.polygons.map(polygon => ({ ...polygon, rings: (polygon?.rings || []).map(ring => fit(ring, teeth)) }));
     return next;
   });
-  return { features: out, cache, stats };
+  return { features: out, stats };
 }
 
 /* ------------------------------------------------------ exact distances */
@@ -147,7 +288,7 @@ export function encodeDistance(metres, limit) {
   return Math.round((clamped + limit) / (2 * limit) * 255);
 }
 
-export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priority, ringSurfaces = [], ringStep = 0.16, ringReach = 24, rasterPlanes = [] }) {
+export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priority, ringSurfaces = [], ringStep = 0.16, ringReach = 24, rasterPlanes = [], waterRings = [], bankStep = 0.05, bankReach = 6, bankLongestEdge = 150 }) {
   const started = performance.now();
   const w = Math.max(1, Math.ceil((CORE.x1 - CORE.x0) / res));
   const h = Math.max(1, Math.ceil((CORE.z1 - CORE.z0) / res));
@@ -299,6 +440,31 @@ export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priorit
     stats.touched += touchedCount;
     stats.lines++;
   }
+  /* THE WATERLINE, for the damp bank the material draws on its land side: the
+     exact unsigned distance to the nearest shore, 5 cm a step. Unsigned is enough
+     -- the side under the water is under the water. An edge longer than
+     bankLongestEdge is never shore: it is where a ring was CUT (a sea ring closed
+     offshore, a lake clipped at the extract's edge), and at Norrfallsviken such
+     an edge crosses the peninsula, where it would draw a damp line over dry
+     land. */
+  let bankBytes = null;
+  if (waterRings.length) {
+    bankBytes = new Uint8Array(count).fill(255);
+    touchedCount = 0;
+    for (const ring of waterRings) {
+      if (!ring || ring.length < 3) continue;
+      for (let p = 0, q = ring.length - 1; p < ring.length; q = p++) {
+        if (Math.hypot(ring[p][0] - ring[q][0], ring[p][1] - ring[q][1]) > bankLongestEdge) continue;
+        splat(ring[q][0], ring[q][1], ring[p][0], ring[p][1], bankReach);
+      }
+    }
+    for (let n = 0; n < touchedCount; n++) {
+      const k = touched[n];
+      bankBytes[k] = Math.min(255, Math.round(Math.sqrt(d2[k]) / bankStep));
+      d2[k] = INF;
+    }
+  }
+
   /* a class with no vectors of its own (the canopy floor's cover raster) arrives
      already encoded, and joins its class before the priority step like any ring */
   for (const extra of rasterPlanes) {
@@ -323,19 +489,22 @@ export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priorit
   const csgMs = performance.now() - csgStarted;
   return {
     bounds: { x0, z0, x1: x0 + w * res, z1: z0 + h * res, w, h, res },
-    channels, planes, ringBytes, limit, ringStep,
+    channels, planes, ringBytes, bankBytes, bankStep, limit, ringStep,
     stats: { ...stats, distanceMs: +distanceMs.toFixed(1), csgMs: +csgMs.toFixed(1), totalMs: +(performance.now() - started).toFixed(1) },
   };
 }
 
 /** Pack the class planes four to an RGBA8 buffer; an absent slot is byte 0 (-limit, "far outside"). */
-export function packClassPlanes({ channels, planes, bounds }) {
+export function packClassPlanes({ channels, planes, bounds, bankBytes = null }) {
   const count = bounds.w * bounds.h;
   const textures = [];
-  for (let first = 0; first < channels.length; first += 4) {
+  /* the waterline rides in the slot after the last class -- free on every course
+     whose class count is not a multiple of four, one more texture where it is */
+  const all = bankBytes ? [...channels.map(c => planes.get(c)), bankBytes] : channels.map(c => planes.get(c));
+  for (let first = 0; first < all.length; first += 4) {
     const data = new Uint8Array(count * 4);
-    for (let slot = 0; slot < 4 && first + slot < channels.length; slot++) {
-      const bytes = planes.get(channels[first + slot]);
+    for (let slot = 0; slot < 4 && first + slot < all.length; slot++) {
+      const bytes = all[first + slot];
       for (let k = 0; k < count; k++) data[k * 4 + slot] = bytes[k];
     }
     textures.push(data);

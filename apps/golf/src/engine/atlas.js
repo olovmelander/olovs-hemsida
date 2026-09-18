@@ -353,7 +353,21 @@ export function rasterizeGroundAtlas({ CORE, HOLES = [], features = [], res = 1,
 /* The classes whose outline a golfer reads as a CUT: they take the curve fit and,
    in the material, a one-pixel edge. Everything else (forest floor, wetland,
    heath, shore, rock) is a soft natural ramp and keeps its surveyed chords. */
-const CUT_SURFACES = new Set([SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN, SURFACE.TEE, SURFACE.SAND]);
+const CUT_SURFACES = new Set([SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN, SURFACE.TEE, SURFACE.SAND,
+  /* laid ground too: a car park's real corners turn 90 degrees and stay corners
+     under the 60 degree rule, its bowed edges become the curves they were traced from */
+  SURFACE.PATH, SURFACE.GRAVEL, SURFACE.ASPHALT]);
+/* A path, a track or a road is a curve somebody surveyed as a polyline. The app
+   curves those lines ITSELF before it builds this atlas (main.js), because the
+   lane paint, the rails and the bridges read the same lines and must agree with
+   the surface painted here; fitting again is harmless -- an interpolating curve
+   through a curve's own points is that curve -- and it is what a caller that did
+   NOT pre-fit (the surface compiler, a test) gets. Asphalt used to be left out,
+   back when only this copy was curved and its paint was not. */
+const CURVED_LINES = new Set([SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ASPHALT]);
+/* where a sharp vertex enclosing next to nothing is a pixel trace's jitter and not
+   a shape: see despikeRing for why a bunker's lobes must never be on this list */
+const TOOTHED_SURFACES = new Set([SURFACE.FAIRWAY, SURFACE.SEMI]);
 const EXACT_LIMIT_METRES = 4;
 
 /* A class that reaches the raster from a RASTER (the canopy floor's 3 m cover
@@ -371,6 +385,94 @@ function rasterClassPlane(surface, { classes, idData, signedDistance }) {
   return { surface, bytes };
 }
 
+/* WHICH WAY THE MOWER WENT, AND HOW FAR ACROSS THE HOLE.
+
+   A stripe is grass laid toward you or away from you, so a green's and a tee's
+   straight passes need a DIRECTION, and the direction belongs to the hole. Two
+   bytes per texel, a unit vector: the hole's tee-to-green bearing, taken from the
+   texel's owner (the hole whose line is nearest), and over each tee pad -- with
+   three metres of margin, which is collar and carries no stripes -- the bearing
+   of that hole's FIRST leg, since a tee faces its landing area and on a dogleg
+   that is not where the green is. Inside one hole every texel holds the same
+   vector, so linear filtering is exact; across an ownership line it blends, its
+   length leaves 1, and the material fades the stripes out over that one texel
+   instead of drawing the blend -- the lesson of the wrapped phase byte, met from
+   the other side: store something that interpolates, and know when it has not. */
+export function mowDirectionBytes({ bounds, owner, holes = [] }) {
+  const count = bounds.w * bounds.h;
+  const out = new Uint8Array(count * 2);
+  const enc = c => Math.max(0, Math.min(255, Math.round(127.5 + 127 * c)));
+  const unit = (a, b) => { const d = Math.hypot(b[0] - a[0], b[1] - a[1]); return d > 1e-6 ? [(b[0] - a[0]) / d, (b[1] - a[1]) / d] : [1, 0]; };
+  const byHole = new Map();
+  for (const h of holes) if (h?.line?.length >= 2) byHole.set(h.n || 0, unit(h.line[0], h.line[h.line.length - 1]));
+  for (let k = 0; k < count; k++) {
+    const d = byHole.get(owner[k]) || [1, 0];
+    out[k * 2] = enc(d[0]); out[k * 2 + 1] = enc(d[1]);
+  }
+  for (const h of holes) {
+    if (!(h?.line?.length >= 2)) continue;
+    const d = unit(h.line[0], h.line[1]), bx = enc(d[0]), bz = enc(d[1]);
+    for (const pad of h.tees?.pads || []) {
+      if (!pad?.ring?.length) continue;
+      const r = rasterBounds(ringBBox(pad.ring), bounds, 3);
+      for (let j = r.j0; j <= r.j1; j++) for (let i = r.i0; i <= r.i1; i++) { const k = j * bounds.w + i; out[k * 2] = bx; out[k * 2 + 1] = bz; }
+    }
+  }
+  return out;
+}
+
+/* THE ACROSS-THE-HOLE COORDINATE, SIGNED. Fairway stripes were drawn off the
+   UNSIGNED distance to the hole's line, and an unsigned distance is a contour
+   map: the stripes came out mirrored about the middle of the fairway, and at each
+   end of the line they wrapped round it in rings, which from the tee read as
+   stripes fanning out of a point by the green. A mower does neither. This is the
+   distance to the hole's OWN line with a SIDE -- left of play negative, right
+   positive -- so the passes alternate straight across the whole width, and the
+   first and last legs are carried straight on past their ends, so the stripes
+   run out through the tee and past the green instead of turning round them.
+   Only the texel's owner hole is measured: a neighbour's carried-on leg crossing
+   this fairway would otherwise tear it. One byte, 0.25 m over +/-31.75 m -- the
+   precision the unsigned byte had -- saturating beyond, where a fairway that
+   wide takes one tone. At the inside of a dogleg the two legs' passes meet in a
+   mitre, as they do on the ground. */
+const LATERAL_STEP_METRES = 0.25, LATERAL_REACH_METRES = 48, LATERAL_CARRY_ON_METRES = 60;
+export function mowLateralBytes({ bounds, owner, holes = [] }) {
+  const { x0, z0, w, res } = bounds;
+  const count = w * bounds.h;
+  const out = new Uint8Array(count).fill(255);
+  const best = new Float32Array(count).fill(Infinity);
+  for (const hole of holes) {
+    const line = hole?.line;
+    if (!(line?.length >= 2)) continue;
+    const n = hole.n || 0;
+    for (let s = 0; s + 1 < line.length; s++) {
+      const a = line[s], b = line[s + 1];
+      const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+      if (len < 1e-6) continue;
+      const ux = (b[0] - a[0]) / len, uz = (b[1] - a[1]) / len;
+      const t0 = s === 0 ? -LATERAL_CARRY_ON_METRES : 0;
+      const t1 = s + 2 === line.length ? len + LATERAL_CARRY_ON_METRES : len;
+      const ax = a[0] + ux * t0, az = a[1] + uz * t0, bx = a[0] + ux * t1, bz = a[1] + uz * t1;
+      const r = rasterBounds({ x0: Math.min(ax, bx), x1: Math.max(ax, bx), z0: Math.min(az, bz), z1: Math.max(az, bz) }, bounds, LATERAL_REACH_METRES);
+      for (let j = r.j0; j <= r.j1; j++) {
+        const pz = z0 + (j + 0.5) * res - a[1];
+        for (let i = r.i0; i <= r.i1; i++) {
+          const k = j * w + i;
+          if (owner[k] !== n) continue;
+          const px = x0 + (i + 0.5) * res - a[0];
+          const t = clamp(px * ux + pz * uz, t0, t1);
+          const d = Math.hypot(px - ux * t, pz - uz * t);
+          if (d >= best[k] || d > LATERAL_REACH_METRES) continue;
+          best[k] = d;
+          const side = ux * pz - uz * px >= 0 ? 1 : -1;
+          out[k] = clamp(Math.round(128 + side * d / LATERAL_STEP_METRES), 1, 255);
+        }
+      }
+    }
+  }
+  return out;
+}
+
 /** `edges: 'exact'` (the default) also builds one exact signed-distance channel
  *  per class from the curve-fitted vectors -- see exact-class-sdf.mjs -- and the
  *  class raster every CPU consumer reads is filled from those same fitted rings,
@@ -380,7 +482,7 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
   if (edges !== 'exact' && edges !== 'pair') throw new TypeError(`unknown ground atlas edges: ${edges}`);
   const exactStarted = performance.now();
   const fitted = edges === 'exact'
-    ? fitFeatures(options.features || [], { crisp: CUT_SURFACES, cornerDeg: 60, chordError: 0.01 })
+    ? fitFeatures(options.features || [], { crisp: CUT_SURFACES, lines: CURVED_LINES, toothed: TOOTHED_SURFACES, cornerDeg: 60, chordError: 0.01 })
     : null;
   if (fitted) options = { ...options, features: fitted.features };
   const fitMs = performance.now() - exactStarted;
@@ -469,16 +571,23 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
     priority: SURFACE_PRIORITY.filter(id => id !== SURFACE.ROUGH),
     ringSurfaces: [SURFACE.GREEN, SURFACE.TEE],
     rasterPlanes: options.canopyFloor ? [rasterClassPlane(SURFACE.FOREST, raster)] : [],
+    waterRings: options.waterRings || [],
   });
   const packed = packClassPlanes(exact);
-  /* the class-SDF material's field layout: R route distance (0.25 m, 255 = no
-     route), G distance to the nearest green or tee edge (0.16 m) -- EXACT, where
-     the pair field's fourth channel is a chamfer from the raster */
+  /* the class-SDF material's field layout: R the SIGNED distance across the hole
+     (mowLateralBytes: 128 = on the line, 0.25 m a step), G distance to the nearest
+     green or tee edge (0.16 m) -- EXACT, where the pair field's fourth channel is
+     a chamfer from the raster */
   const texels = bounds.w * bounds.h;
   const classField = new Uint8Array(texels * 4);
+  /* ... and B, A the mowing direction (mowDirectionBytes) */
+  const mowDirection = mowDirectionBytes({ bounds, owner, holes: options.HOLES || [] });
+  const mowLateral = mowLateralBytes({ bounds, owner, holes: options.HOLES || [] });
   for (let k = 0; k < texels; k++) {
-    classField[k * 4] = fieldData[k * 4 + 1];
+    classField[k * 4] = mowLateral[k];
     classField[k * 4 + 1] = exact.ringBytes[k];
+    classField[k * 4 + 2] = mowDirection[k * 2];
+    classField[k * 4 + 3] = mowDirection[k * 2 + 1];
   }
   const linearTexture = (data, mipmaps) => {
     const tex = new THREE.DataTexture(data, bounds.w, bounds.h, THREE.RGBAFormat, THREE.UnsignedByteType);
@@ -499,6 +608,10 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
     limitMetres: exact.limit,
     routeStepMetres: 1 / ROUTE_SCALE,
     ringStepMetres: exact.ringStep,
+    lateralStepMetres: LATERAL_STEP_METRES,
+    /* which SDF slot holds the distance to the waterline (null = no water here) */
+    bankSlot: exact.bankBytes ? exact.channels.length : null,
+    bankStepMetres: exact.bankStep,
     /* Exposed only for deterministic probes/tests and boot telemetry. */
     data: { planes: exact.planes, ringBytes: exact.ringBytes },
     stats: {

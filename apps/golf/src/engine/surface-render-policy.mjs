@@ -17,6 +17,25 @@ export function requestedSurfaceEdges(search = globalThis.location?.search || ''
   return SURFACE_EDGE_MODES.has(requested) ? requested : 'exact';
 }
 
+/** How strongly height of cut is drawn as TONE (material.js CUT_TONE) and as the
+ *  contact line on the taller side: 1 is the authored table, 0 the palette as it
+ *  was, up to 2 for judging it by eye. Anything unreadable is the default. */
+export function requestedCutTone(search = globalThis.location?.search || '') {
+  const raw = new URLSearchParams(search).get('cuts');
+  const value = raw === null || raw.trim() === '' ? 1 : Number(raw);
+  return Number.isFinite(value) ? Math.min(2, Math.max(0, value)) : 1;
+}
+
+/** The mowing patterns: `?mow=classic` is the soft waves and green rings as they
+ *  were, a number scales the new stripes (1 the authored strength, up to 2).
+ *  Anything unreadable is the default. */
+export function requestedMowing(search = globalThis.location?.search || '') {
+  const raw = (new URLSearchParams(search).get('mow') || '').trim().toLowerCase();
+  if (raw === 'classic') return { strength: 0 };
+  const value = raw === '' ? 1 : Number(raw);
+  return { strength: Number.isFinite(value) ? Math.min(2, Math.max(0, value)) : 1 };
+}
+
 /**
  * The vector meshes are a legacy-only fallback. A ready v2 terrain already
  * carries the course surfaces in its own material and must remain the sole
