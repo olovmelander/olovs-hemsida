@@ -571,6 +571,7 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
     priority: SURFACE_PRIORITY.filter(id => id !== SURFACE.ROUGH),
     ringSurfaces: [SURFACE.GREEN, SURFACE.TEE],
     rasterPlanes: options.canopyFloor ? [rasterClassPlane(SURFACE.FOREST, raster)] : [],
+    waterRings: options.waterRings || [],
   });
   const packed = packClassPlanes(exact);
   /* the class-SDF material's field layout: R the SIGNED distance across the hole
@@ -608,6 +609,9 @@ export function createGroundAtlas({ edges = 'exact', sdfMipmaps = true, ...optio
     routeStepMetres: 1 / ROUTE_SCALE,
     ringStepMetres: exact.ringStep,
     lateralStepMetres: LATERAL_STEP_METRES,
+    /* which SDF slot holds the distance to the waterline (null = no water here) */
+    bankSlot: exact.bankBytes ? exact.channels.length : null,
+    bankStepMetres: exact.bankStep,
     /* Exposed only for deterministic probes/tests and boot telemetry. */
     data: { planes: exact.planes, ringBytes: exact.ringBytes },
     stats: {

@@ -610,6 +610,12 @@ const MOW_AMPLITUDE = Object.freeze({
   [SURFACE.FAIRWAY]: 0.05, [SURFACE.SEMI]: 0.025, [SURFACE.GREEN]: 0.04,
   [SURFACE.FRINGE]: 0.03, [SURFACE.TEE]: 0.04,
 });
+/* display luminance either side of the rough's own tone */
+const ROUGH_CLUMP_AMPLITUDE = 0.20;
+/* how dark the bank is at the waterline, and how far up the bank it reaches */
+const BANK_SHADE = 0.24, BANK_FALLOFF_METRES = 0.9;
+/* a rake's pass, its depth of tone, and how much damper the low middle stands */
+const SAND_RAKE_METRES = 0.32, SAND_RAKE_AMPLITUDE = 0.035, SAND_LOW_SHADE = 0.07;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
 function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, look = 'real', uSun = null, cutTone = 0, mowStrength = 0 }) {
@@ -901,6 +907,47 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       });
       litBase = litBase.mul(oneMinus(contact.mul(oneMinus(smoothstep(0.12, 0.5, footprint)))));
     }
+    if (exactEdges && cutTone > 0) {
+      const footprint = fwidth(wp).length();
+      const display = look === 'ghibli' ? 2.2 : 1.1;
+      /* THE ROUGH IS GRASS, NOT A WASH. Its colour comes from a 6 m raster, so up
+         close a hectare of it was one smooth gradient -- the thing that made the
+         scene read as a painted backdrop once the cuts were crisp and the
+         fairways striped. Uncut grass stands in CLUMPS a metre or two across,
+         darker where it is dense and shades itself. The DIFFERENCE of two taps
+         of the detail texture, on the tint-coloured classes only (meta.a): a
+         difference is zero-mean whatever the channel's own mean is -- the first
+         version subtracted 0.5 from a sum and darkened every hectare of rough
+         by 3.3% -- and the texture's features are a metre across at a scale of
+         0.09, not at the 0.43 first tried, where they averaged away into the mip
+         chain and nothing showed at all. That same chain takes this to flat grey
+         with distance, so it cannot shimmer. */
+      const clump = texture(DETAIL, wp.mul(0.09)).g.sub(texture(DETAIL, wp.mul(0.031).add(vec2(0.37, 0.61))).g);
+      litBase = litBase.mul(float(1).add(clump.mul(ROUGH_CLUMP_AMPLITUDE * display * cutTone).mul(meta.a)));
+      /* THE BANK IS DAMP. Water met the ground as a sticker: the sheet's edge, then
+         dry turf at full brightness. Wet soil and wet grass are darker, and only
+         for a stride or two. From the exact distance to the drawn waterline; not
+         on paving, and gone before a pixel outgrows it. */
+      if (atlas.data.bankSlot !== null && atlas.data.bankSlot !== undefined) {
+        const slot = atlas.data.bankSlot;
+        const shore = samples[slot >> 2][swizzle[slot & 3]].mul(255 * atlas.data.bankStepMetres);
+        const damp = shore.div(BANK_FALLOFF_METRES).negate().exp().mul(BANK_SHADE * cutTone)
+          .mul(oneMinus(pavingWeight)).mul(oneMinus(smoothstep(0.6, 2.5, footprint)));
+        litBase = litBase.mul(oneMinus(damp));
+      }
+      /* A BUNKER IS RAKED, AND DAMPER IN ITS LOW MIDDLE. The rake follows the edge
+         in, a third of a metre a pass -- seen only from beside it, faded out long
+         before it could moire -- and the sand a few metres in from the lip holds
+         the wet. The sand's own distance channel is both coordinates. */
+      const sandIndex = channels.indexOf(SURFACE.SAND);
+      if (sandIndex >= 0) {
+        const inSand = sdfs[sandIndex].max(0);
+        const k = 2 * Math.PI / SAND_RAKE_METRES;
+        const rake = sin(inSand.mul(k)).mul(oneMinus(smoothstep(0.5, 1.4, footprint.mul(k))));
+        const low = smoothstep(1.2, 3.6, inSand).mul(SAND_LOW_SHADE);
+        litBase = litBase.mul(float(1).add(rake.mul(SAND_RAKE_AMPLITUDE * display).sub(low).mul(cutTone).mul(weights[sandIndex])));
+      }
+    }
     if (look === 'ghibli') {
       const painted = paintedGround({ base: litBase, wp, DETAIL, uSun, mow: mowNode, turf: oneMinus(meta.g.max(meta.b)), seasonal: meta.a });
       material.colorNode = painted.colorNode;
@@ -955,6 +1002,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       bounds: atlas.bounds, texSdf: exact.texSdf, texF: exact.texF,
       data: { channels: exact.channels, routeStepMetres: exact.routeStepMetres,
         ringStepMetres: exact.ringStepMetres, lateralStepMetres: exact.lateralStepMetres,
+        bankSlot: exact.bankSlot, bankStepMetres: exact.bankStepMetres,
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(

@@ -2549,6 +2549,28 @@ wrong-class area in the green collar **6.6% → 0.0%** and the tee collar
   overshot once: the view falloff was applied to the collar's RINGS too and at
   0.55, and from above the green went blank. `?mow=classic` is the waves and
   rings as they were; a number scales the strength.
+- **The rough is grass, water has a bank, a bunker is raked** (all under
+  `?cuts=`, exact fields only). The rough's colour comes from a 6 m raster, so
+  up close a hectare of it was one smooth gradient — the thing that made the
+  scene read as a painted backdrop once the cuts were crisp and the fairways
+  striped. It is CLUMPED now, on the tint-coloured classes only (`meta.a`), and
+  the first attempt is the lesson: `tap·0.6 + tap·0.4 − 0.5` at scales 0.43 and
+  1.17 drew NOTHING and darkened every hectare of rough by a measured 3.3% —
+  at those scales the detail texture's features average away into its mip chain,
+  and a sum minus a constant is only zero-mean if you know the mean. **Measured
+  before guessing** (brightness ratio by distance from the shore, before/after):
+  bank −6% at 1 m, a uniform −3.3% everywhere else, greens 1.000. The fix is the
+  DIFFERENCE of two taps (zero-mean by construction) at 0.09, where the texture's
+  features are a metre across: rough mean 1.006×. The same mip chain takes it to
+  flat grey with distance, so it cannot shimmer. THE BANK: the exact unsigned
+  distance to the DRAWN waterline (the curved shorelines), 5 cm a step, in the
+  SDF slot after the last class — free wherever the class count is not a
+  multiple of four — darkens the land side by 24% at the water, e-folding in
+  0.9 m, never on paving. An edge over 150 m is never shore: it is where a ring
+  was CUT, and at Norrfällsviken such an edge crosses the peninsula. THE SAND:
+  rake lines 0.32 m a pass following the bunker's edge in, faded long before
+  they could moiré, and 7% damper a few metres in from the lip — both off the
+  sand's own distance channel. (The rake was not looked at up close on a GPU.)
 - **The rough you play from is not the rough on the hill.** The references get
   their 0.72 from a DARKER rough, which cannot be done globally here; but on a
   real course the primary rough beside the mown ground is fed, watered and

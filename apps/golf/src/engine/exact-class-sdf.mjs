@@ -288,7 +288,7 @@ export function encodeDistance(metres, limit) {
   return Math.round((clamped + limit) / (2 * limit) * 255);
 }
 
-export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priority, ringSurfaces = [], ringStep = 0.16, ringReach = 24, rasterPlanes = [] }) {
+export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priority, ringSurfaces = [], ringStep = 0.16, ringReach = 24, rasterPlanes = [], waterRings = [], bankStep = 0.05, bankReach = 6, bankLongestEdge = 150 }) {
   const started = performance.now();
   const w = Math.max(1, Math.ceil((CORE.x1 - CORE.x0) / res));
   const h = Math.max(1, Math.ceil((CORE.z1 - CORE.z0) / res));
@@ -440,6 +440,31 @@ export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priorit
     stats.touched += touchedCount;
     stats.lines++;
   }
+  /* THE WATERLINE, for the damp bank the material draws on its land side: the
+     exact unsigned distance to the nearest shore, 5 cm a step. Unsigned is enough
+     -- the side under the water is under the water. An edge longer than
+     bankLongestEdge is never shore: it is where a ring was CUT (a sea ring closed
+     offshore, a lake clipped at the extract's edge), and at Norrfallsviken such
+     an edge crosses the peninsula, where it would draw a damp line over dry
+     land. */
+  let bankBytes = null;
+  if (waterRings.length) {
+    bankBytes = new Uint8Array(count).fill(255);
+    touchedCount = 0;
+    for (const ring of waterRings) {
+      if (!ring || ring.length < 3) continue;
+      for (let p = 0, q = ring.length - 1; p < ring.length; q = p++) {
+        if (Math.hypot(ring[p][0] - ring[q][0], ring[p][1] - ring[q][1]) > bankLongestEdge) continue;
+        splat(ring[q][0], ring[q][1], ring[p][0], ring[p][1], bankReach);
+      }
+    }
+    for (let n = 0; n < touchedCount; n++) {
+      const k = touched[n];
+      bankBytes[k] = Math.min(255, Math.round(Math.sqrt(d2[k]) / bankStep));
+      d2[k] = INF;
+    }
+  }
+
   /* a class with no vectors of its own (the canopy floor's cover raster) arrives
      already encoded, and joins its class before the priority step like any ring */
   for (const extra of rasterPlanes) {
@@ -464,19 +489,22 @@ export function buildExactClassSdf({ CORE, features, res = 1, limit = 4, priorit
   const csgMs = performance.now() - csgStarted;
   return {
     bounds: { x0, z0, x1: x0 + w * res, z1: z0 + h * res, w, h, res },
-    channels, planes, ringBytes, limit, ringStep,
+    channels, planes, ringBytes, bankBytes, bankStep, limit, ringStep,
     stats: { ...stats, distanceMs: +distanceMs.toFixed(1), csgMs: +csgMs.toFixed(1), totalMs: +(performance.now() - started).toFixed(1) },
   };
 }
 
 /** Pack the class planes four to an RGBA8 buffer; an absent slot is byte 0 (-limit, "far outside"). */
-export function packClassPlanes({ channels, planes, bounds }) {
+export function packClassPlanes({ channels, planes, bounds, bankBytes = null }) {
   const count = bounds.w * bounds.h;
   const textures = [];
-  for (let first = 0; first < channels.length; first += 4) {
+  /* the waterline rides in the slot after the last class -- free on every course
+     whose class count is not a multiple of four, one more texture where it is */
+  const all = bankBytes ? [...channels.map(c => planes.get(c)), bankBytes] : channels.map(c => planes.get(c));
+  for (let first = 0; first < all.length; first += 4) {
     const data = new Uint8Array(count * 4);
-    for (let slot = 0; slot < 4 && first + slot < channels.length; slot++) {
-      const bytes = planes.get(channels[first + slot]);
+    for (let slot = 0; slot < 4 && first + slot < all.length; slot++) {
+      const bytes = all[first + slot];
       for (let k = 0; k < count; k++) data[k * 4 + slot] = bytes[k];
     }
     textures.push(data);

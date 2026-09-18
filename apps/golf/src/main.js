@@ -2729,6 +2729,8 @@ if (groundMode === 'atlas') {
   groundAtlas = createGroundAtlas({ CORE, HOLES, features, res: 1,
     canopyFloor: SCENERY?.canopyFloor ? M.cover : null,
     edges: exactEdges ? 'exact' : 'pair',
+    /* the shorelines AS DRAWN (curved above), for the damp bank beside them */
+    waterRings: M.water.filter(w => !w.stream && w.ring?.length >= 3).map(w => w.ring),
     /* a distance field minifies cleanly, but only past ~1 m a pixel; a phone
        does without the third of the memory the chain costs */
     sdfMipmaps: !LOWQ });

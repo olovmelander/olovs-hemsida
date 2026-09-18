@@ -215,6 +215,38 @@ describe('exact per-class distance fields', () => {
   });
 });
 
+describe('the waterline, for the damp bank', () => {
+  const CORE = { x0: 0, z0: 0, x1: 60, z1: 60 };
+  const green = { surface: SURFACE.GREEN, rings: [circle(45, 45, 6, 16)] };
+
+  it('is the exact distance to the shore, and rides in the slot after the last class', () => {
+    const pond = square(10, 10, 30, 30);
+    const atlas = createGroundAtlas({ CORE, features: [green], res: 1, waterRings: [pond] });
+    expect(atlas.exactEdges.bankSlot).toBe(atlas.exactEdges.channels.length);
+    const slot = atlas.exactEdges.bankSlot, data = atlas.exactEdges.texSdf[slot >> 2].image.data;
+    const at = (i, j) => data[(j * 60 + i) * 4 + (slot & 3)] * atlas.exactEdges.bankStepMetres;
+    /* texel centres: 2.5 m and 0.5 m outside the east shore, then far away */
+    expect(at(32, 20)).toBeCloseTo(2.5, 1);
+    expect(at(30, 20)).toBeCloseTo(0.5, 1);
+    expect(at(55, 5)).toBeCloseTo(12.75, 2);
+    atlas.dispose();
+  });
+
+  it('never takes a cut edge for a shore', () => {
+    /* a lake clipped by the extract: its 400 m closing edge runs across dry land */
+    const clipped = [[-200, 20], [200, 20], [200, 25], [-200, 25]];
+    const exact = buildExactClassSdf({ CORE, res: 1, limit: LIMIT, priority: PRIORITY, features: [green], waterRings: [clipped] });
+    const k = 20 * 60 + 30;
+    expect(exact.bankBytes[k]).toBe(255);
+  });
+
+  it('is absent where there is no water', () => {
+    const atlas = createGroundAtlas({ CORE, features: [green], res: 1 });
+    expect(atlas.exactEdges.bankSlot).toBeNull();
+    atlas.dispose();
+  });
+});
+
 describe('the boot atlas', () => {
   const CORE = { x0: 0, z0: 0, x1: 60, z1: 60 };
   const features = [
