@@ -1,0 +1,199 @@
+{
+  "tool": "frame-time",
+  "date": "2026-09-18T06:26:39.437Z",
+  "label": "default",
+  "base": "http://127.0.0.1:8671",
+  "course": "puttom",
+  "viewport": [
+    1920,
+    1080
+  ],
+  "adapter": {
+    "vendor": "nvidia",
+    "architecture": "ampere",
+    "timestampQuery": true,
+    "webgl": "ANGLE (NVIDIA, NVIDIA GeForce RTX 3070 Laptop GPU (0x000024DD) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "hubRafMs": {
+      "median": 0.4,
+      "min": 0.2
+    }
+  },
+  "boot": {
+    "backend": "webgpu",
+    "trees": 209951,
+    "gpuTiming": true,
+    "px": {
+      "mode": "zone",
+      "zoneTiers": [
+        1,
+        2,
+        4,
+        4
+      ],
+      "hero": 64,
+      "full": 24,
+      "impostor": 8,
+      "hysteresis": 0.1,
+      "dwell": 6,
+      "floors": [
+        1,
+        2
+      ],
+      "reach": [
+        500,
+        900
+      ]
+    }
+  },
+  "frames": 200,
+  "warm": 30,
+  "views": [
+    {
+      "id": "h1_tee_golden",
+      "cpuMs": {
+        "n": 200,
+        "median": 30.9,
+        "p95": 56.4,
+        "max": 69.9,
+        "mean": 28.99
+      },
+      "gpuMs": {
+        "n": 1,
+        "median": 40.89,
+        "p95": 40.89,
+        "max": 40.89,
+        "mean": 40.89
+      },
+      "triangles": 37519436,
+      "drawCalls": 295,
+      "tiers": {
+        "t0": 772,
+        "t1": 3956,
+        "t2": 0,
+        "t3": 31899,
+        "cellsVisible": 186,
+        "updateMs": 0.4
+      }
+    },
+    {
+      "id": "h12_tee_golden",
+      "cpuMs": {
+        "n": 200,
+        "median": 23.9,
+        "p95": 72.7,
+        "max": 120.7,
+        "mean": 35.21
+      },
+      "gpuMs": null,
+      "triangles": 41488346,
+      "drawCalls": 333,
+      "tiers": {
+        "t0": 3467,
+        "t1": 8413,
+        "t2": 0,
+        "t3": 40621,
+        "cellsVisible": 295,
+        "updateMs": 0.4
+      }
+    },
+    {
+      "id": "h14_tee_golden",
+      "cpuMs": {
+        "n": 200,
+        "median": 21.8,
+        "p95": 24.3,
+        "max": 29.1,
+        "mean": 14.8
+      },
+      "gpuMs": null,
+      "triangles": 27081887,
+      "drawCalls": 113,
+      "tiers": {
+        "t0": 1685,
+        "t1": 6503,
+        "t2": 0,
+        "t3": 56007,
+        "cellsVisible": 288,
+        "updateMs": 0.5
+      }
+    },
+    {
+      "id": "h7_top_noon",
+      "cpuMs": {
+        "n": 200,
+        "median": 6.3,
+        "p95": 33.2,
+        "max": 34.5,
+        "mean": 11.42
+      },
+      "gpuMs": null,
+      "triangles": 15052542,
+      "drawCalls": 118,
+      "tiers": {
+        "t0": 1656,
+        "t1": 2762,
+        "t2": 0,
+        "t3": 2690,
+        "cellsVisible": 38,
+        "updateMs": 0.1
+      }
+    },
+    {
+      "id": "h12_orbit_golden",
+      "cpuMs": {
+        "n": 200,
+        "median": 27.6,
+        "p95": 49.3,
+        "max": 68.6,
+        "mean": 23.53
+      },
+      "gpuMs": null,
+      "triangles": 39642174,
+      "drawCalls": 325,
+      "tiers": {
+        "t0": 3234,
+        "t1": 8564,
+        "t2": 0,
+        "t3": 46619,
+        "cellsVisible": 308,
+        "updateMs": 0.5
+      }
+    },
+    {
+      "id": "h5_tee_noon",
+      "cpuMs": {
+        "n": 200,
+        "median": 5.1,
+        "p95": 16.5,
+        "max": 32.6,
+        "mean": 8.55
+      },
+      "gpuMs": null,
+      "triangles": 19653592,
+      "drawCalls": 79,
+      "tiers": {
+        "t0": 1056,
+        "t1": 3499,
+        "t2": 0,
+        "t3": 30291,
+        "cellsVisible": 194,
+        "updateMs": 0.4
+      }
+    }
+  ],
+  "walk": {
+    "id": "h1_walk_golden",
+    "cpuMs": {
+      "n": 199,
+      "median": 6.8,
+      "p95": 31.9,
+      "max": 40.1,
+      "mean": 11.17
+    },
+    "trianglesMax": 37519436,
+    "framesWithSwitches": 0,
+    "switches": 0,
+    "gpuMsAfter": null
+  },
+  "errors": []
+}
