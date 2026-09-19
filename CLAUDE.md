@@ -2176,6 +2176,25 @@ the six files that import it.
   manifest): the active scan is ONE June 2026 campaign at 3.119 returns/m²
   covering the whole 15.56 km² AOI exclusively — **zero seams**, simpler than
   Puttom.
+- **The credentialed chain runs LOCALLY now (2026-09-19)**, with `node
+  --env-file=.env`: the `.env` pair is accepted by dl1 for both the DTM and
+  the COPC (the 401 of 2026-09-02 is gone). The workflow's steps run as they
+  are -- census, `build-canopy` (97 M points, 450 MB, 4 min), `compile-vegetation`
+  (about an hour on one core), `render-review`, `publish-vegetation` -- then
+  `refresh-ortho-vegetation --write` once and `tools/build-startup-packs.mjs`.
+  Re-run because the generation of 2026-09-11 was compiled against the club-plan
+  fairways of holes 1-3, and the compile DROPS canopy under its exclusion mask
+  (`stand-fields.mjs`), so no later exclusion refresh could give those strips
+  their trees back: 52 trees returned. What still stands empty along the 3rd's
+  right is the laser-traced ditch (`dtm-ditch-12`, w 1.6): streams exclude
+  `w * 6` in full width, the same band the renderer carves and calls wet.
+  **The access preflight also checks the discovery snapshot**: Lantmäteriet
+  republished DTM item 702_68 on 2026-09-15 (same 2020-2024 capture, +216 bytes),
+  the preflight refused, and `discover-pilots.mjs --write` re-pinned it; over
+  the 4,096 m window the new file equals the published tiles to storage
+  rounding except 30 samples (29 of 1-7 cm, one shore pixel 1.1 m), so the
+  terrain was NOT republished -- `publish-ground-rings` refuses a changed course
+  tile by design.
 - **A vegetation publish must not strip the ring quadtree's parent links —
   and the gate agreed with the bug.** `assembleVegetationGraph` rebuilt each
   tile entry field by field and dropped `parentId` on every ground it

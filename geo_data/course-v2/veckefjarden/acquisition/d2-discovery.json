@@ -8,7 +8,7 @@
     "veckefjarden",
     "veckefjarden-korthalsbanan"
   ],
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-19",
   "state": "discovery-evidence-only",
   "aoi": {
     "bboxWgs84": [
@@ -21,11 +21,11 @@
       681806.627,
       7020598.526,
       685918.182,
-      7024383.366
+      7024383.365
     ],
     "widthMetres": 4111.555,
-    "heightMetres": 3784.84,
-    "squareMetres": 15561577.826
+    "heightMetres": 3784.839,
+    "squareMetres": 15561573.715
   },
   "sourceContracts": {
     "terrain": {
@@ -82,8 +82,8 @@
     "collection": "dtm-cog",
     "itemCount": 1,
     "coverage": {
-      "requiredSquareMetres": 15561577.826,
-      "coveredSquareMetres": 15561577.826,
+      "requiredSquareMetres": 15561573.715,
+      "coveredSquareMetres": 15561573.715,
       "ratio": 1,
       "complete": true
     },
@@ -92,7 +92,7 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613 (RH 2000)",
     "resolutionMetres": 1,
-    "fullSourceCompressedBytes": 274998450,
+    "fullSourceCompressedBytes": 274998666,
     "captureRange": {
       "first": "2020-06-18T00:00:00Z",
       "last": "2024-06-27T00:00:00Z"
@@ -133,8 +133,8 @@
               "data"
             ],
             "bytes": 356352,
-            "stacChecksum": "12204d8868282072b18d811c6a066f65e1a4a86d7fc455f805cfb4ea31954e8cfc97",
-            "sha256": "4d8868282072b18d811c6a066f65e1a4a86d7fc455f805cfb4ea31954e8cfc97",
+            "stacChecksum": "1220a988a21c61d20d345ce0ab184372aa57e7cdc89f2d1e4bb9865089d4b2648684",
+            "sha256": "a988a21c61d20d345ce0ab184372aa57e7cdc89f2d1e4bb9865089d4b2648684",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -146,9 +146,9 @@
             "roles": [
               "data"
             ],
-            "bytes": 274998450,
-            "stacChecksum": "12200532a03bfd19859b2824b9f822c51d5edb56c9b8de4badd4420dd3d7a29e9b56",
-            "sha256": "0532a03bfd19859b2824b9f822c51d5edb56c9b8de4badd4420dd3d7a29e9b56",
+            "bytes": 274998666,
+            "stacChecksum": "1220014324b70e2942467338c1e5fe14e75ec337e4ab970b95900fbb34fe0dcda5a3",
+            "sha256": "014324b70e2942467338c1e5fe14e75ec337e4ab970b95900fbb34fe0dcda5a3",
             "projCode": "EPSG:5845",
             "projBbox": [
               680000,
@@ -182,9 +182,9 @@
             "roles": [
               "metadata"
             ],
-            "bytes": 286379,
-            "stacChecksum": "1220d1ac45c5503e8dfed97f4e30d522d324740296ab5d2334ee259fdf169a59132c",
-            "sha256": "d1ac45c5503e8dfed97f4e30d522d324740296ab5d2334ee259fdf169a59132c",
+            "bytes": 285089,
+            "stacChecksum": "1220dd47b737d6588f954d19b5cccc100ec316702bea07e302467ed5279c739cfd1c",
+            "sha256": "dd47b737d6588f954d19b5cccc100ec316702bea07e302467ed5279c739cfd1c",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -211,8 +211,8 @@
     "collection": "dsm-skoglig-copc",
     "itemCount": 1,
     "coverage": {
-      "requiredSquareMetres": 15561577.826,
-      "coveredSquareMetres": 15561577.826,
+      "requiredSquareMetres": 15561573.715,
+      "coveredSquareMetres": 15561573.715,
       "ratio": 1,
       "complete": true
     },
@@ -297,14 +297,14 @@
     "primaryItemCount": 6,
     "itemCount": 6,
     "primaryCoverage": {
-      "requiredSquareMetres": 15561577.826,
-      "coveredSquareMetres": 15561577.826,
+      "requiredSquareMetres": 15561573.715,
+      "coveredSquareMetres": 15561573.715,
       "ratio": 1,
       "complete": true
     },
     "coverage": {
-      "requiredSquareMetres": 15561577.826,
-      "coveredSquareMetres": 15561577.826,
+      "requiredSquareMetres": 15561573.715,
+      "coveredSquareMetres": 15561573.715,
       "ratio": 1,
       "complete": true
     },
@@ -717,8 +717,8 @@
         "rank": "2024-12-31",
         "itemCount": 6,
         "coverage": {
-          "requiredSquareMetres": 15561577.826,
-          "coveredSquareMetres": 15561577.826,
+          "requiredSquareMetres": 15561573.715,
+          "coveredSquareMetres": 15561573.715,
           "ratio": 1,
           "complete": true
         }
@@ -728,8 +728,8 @@
         "rank": "2022-12-31",
         "itemCount": 6,
         "coverage": {
-          "requiredSquareMetres": 15561577.826,
-          "coveredSquareMetres": 15561577.826,
+          "requiredSquareMetres": 15561573.715,
+          "coveredSquareMetres": 15561573.715,
           "ratio": 1,
           "complete": true
         }
@@ -739,8 +739,8 @@
         "rank": "2020-12-31",
         "itemCount": 6,
         "coverage": {
-          "requiredSquareMetres": 15561577.826,
-          "coveredSquareMetres": 15561577.826,
+          "requiredSquareMetres": 15561573.715,
+          "coveredSquareMetres": 15561573.715,
           "ratio": 1,
           "complete": true
         }
@@ -750,8 +750,8 @@
         "rank": "2018-12-31",
         "itemCount": 12,
         "coverage": {
-          "requiredSquareMetres": 15561577.826,
-          "coveredSquareMetres": 15561577.826,
+          "requiredSquareMetres": 15561573.715,
+          "coveredSquareMetres": 15561573.715,
           "ratio": 1,
           "complete": true
         }
@@ -761,8 +761,8 @@
         "rank": "2016-12-31",
         "itemCount": 12,
         "coverage": {
-          "requiredSquareMetres": 15561577.826,
-          "coveredSquareMetres": 15561577.826,
+          "requiredSquareMetres": 15561573.715,
+          "coveredSquareMetres": 15561573.715,
           "ratio": 1,
           "complete": true
         }
@@ -796,7 +796,7 @@
       "expectedSha256": "e064fbbf055871f6f0f6d5a9765adda8f501bb4c11fae0d26beee005ed752a71",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 185.732
+      "elapsedMilliseconds": 116.934
     },
     {
       "itemId": "702_68",
@@ -804,13 +804,13 @@
       "asset": "metadata",
       "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/70_6/m702_68_ursprung.json",
       "status": "verified",
-      "bytes": 286379,
-      "expectedBytes": 286379,
-      "sha256": "d1ac45c5503e8dfed97f4e30d522d324740296ab5d2334ee259fdf169a59132c",
-      "expectedSha256": "d1ac45c5503e8dfed97f4e30d522d324740296ab5d2334ee259fdf169a59132c",
+      "bytes": 285089,
+      "expectedBytes": 285089,
+      "sha256": "dd47b737d6588f954d19b5cccc100ec316702bea07e302467ed5279c739cfd1c",
+      "expectedSha256": "dd47b737d6588f954d19b5cccc100ec316702bea07e302467ed5279c739cfd1c",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 1008.742
+      "elapsedMilliseconds": 182.406
     },
     {
       "itemId": "26f015-702_68",
@@ -824,7 +824,7 @@
       "expectedSha256": "db96cd4e9d724c932accfbf443e20f32154df05db33aaea225cf025176feb4ee",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 186.201
+      "elapsedMilliseconds": 108.749
     },
     {
       "itemId": "o70200_6800_25_mr24",
@@ -838,7 +838,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 584.511
+      "elapsedMilliseconds": 117.024
     },
     {
       "itemId": "o70200_6825_25_mr24",
@@ -852,7 +852,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 741.164
+      "elapsedMilliseconds": 123.949
     },
     {
       "itemId": "o70200_6850_25_mr24",
@@ -866,7 +866,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 575.6
+      "elapsedMilliseconds": 122.978
     },
     {
       "itemId": "o70225_6800_25_mr24",
@@ -880,7 +880,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 410.795
+      "elapsedMilliseconds": 86.026
     },
     {
       "itemId": "o70225_6825_25_mr24",
@@ -894,7 +894,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 562.701
+      "elapsedMilliseconds": 48.959
     },
     {
       "itemId": "o70225_6850_25_mr24",
@@ -908,17 +908,17 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 453.375
+      "elapsedMilliseconds": 60.043
     }
   ],
   "measurements": {
-    "discoveryElapsedMilliseconds": 1885.718,
-    "metadataFetchElapsedMilliseconds": 1037.683,
+    "discoveryElapsedMilliseconds": 758.703,
+    "metadataFetchElapsedMilliseconds": 197.019,
     "metadata": {
       "requestedAssets": 9,
       "verifiedAssets": 9,
-      "downloadedBytes": 807745,
-      "elapsedMilliseconds": 4708.821,
+      "downloadedBytes": 806455,
+      "elapsedMilliseconds": 967.068,
       "complete": true
     },
     "decodedAoiBudgets": {
@@ -954,9 +954,5 @@
       "Skogsstyrelsen tree-height REST/WMS requires a separate raster account (or FTPS ingestion).",
       "Independent course control points are still required before any source is promoted to authoritative."
     ]
-  },
-  "projection": {
-    "library": "packages/course-geo/chmv2/projection.mjs",
-    "note": "AOI bbox projected with the repository Krüger series because the PROJ toolchain is unavailable here; PROJ remains the projection authority and no published coordinate comes from this file"
   }
 }

@@ -10,16 +10,16 @@
   "inputGround": {
     "bytes": 577099,
     "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
-    "sha256": "0023441c37757a3f81cd257d898d7837986106593b59d02cfe37a9380f6162dd",
-    "url": "grounds/veckefjarden/ground-v2-0023441c37757a3f81cd257d898d7837986106593b59d02cfe37a9380f6162dd.json"
+    "sha256": "0a85e63b2ee0b92e7b01a0239b6c5ecee800fe535c7edceab267f17295403820",
+    "url": "grounds/veckefjarden/ground-v2-0a85e63b2ee0b92e7b01a0239b6c5ecee800fe535c7edceab267f17295403820.json"
   },
   "method": "Monotonically add stand exclusions within one cell half diagonal of accepted playing surfaces; preserve canopy channels, crown objects, terrain, surfaces and routing.",
   "reviewedAreas": 107,
-  "individualCrownsPreserved": 14084,
+  "individualCrownsPreserved": 14089,
   "individualIntersections": [],
   "changedTiles": 19,
-  "excludedCellsAdded": 1567,
-  "eligibleCanopyCellsRemoved": 41,
+  "excludedCellsAdded": 685,
+  "eligibleCanopyCellsRemoved": 34,
   "changes": [
     {
       "tileId": "l0/5/5",
@@ -365,17 +365,17 @@
     {
       "tileId": "l0/8/8",
       "previous": {
-        "bytes": 5158,
+        "bytes": 5166,
         "decodedBytes": 16384,
-        "decodedSha256": "fbb616a86c8d722b385ddd08324f601b78a9cdfd42d0a7f305eb26ca9e1294ef",
+        "decodedSha256": "a8e0d8b954c53d081a9f5c2ae35b208146d6c33553d6b32cf963db077c4f963a",
         "kind": "stands",
         "mediaType": "application/vnd.banvy.chunk-v2",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ],
-        "sha256": "5ad9f19e917a49068890a4f0a60e9e38027c5b5b78693b381d0da73aadcac849",
-        "url": "grounds/veckefjarden/stands/5ad9f19e917a49068890a4f0a60e9e38027c5b5b78693b381d0da73aadcac849.bvch"
+        "sha256": "2f8444ac203d0fc616d74b4c7270c57894b28d77ed3aaf71b1cbca66272aa58d",
+        "url": "grounds/veckefjarden/stands/2f8444ac203d0fc616d74b4c7270c57894b28d77ed3aaf71b1cbca66272aa58d.bvch"
       },
       "updated": {
         "kind": "stands",
@@ -390,7 +390,7 @@
           "stand-field-u8-v1"
         ]
       },
-      "excludedCellsAdded": 246,
+      "excludedCellsAdded": 38,
       "eligibleCanopyCellsRemoved": 0
     },
     {
@@ -427,17 +427,17 @@
     {
       "tileId": "l0/7/9",
       "previous": {
-        "bytes": 8946,
+        "bytes": 8962,
         "decodedBytes": 16384,
-        "decodedSha256": "b0231ffbc958473ee85bb96a9c575576d789ad59ab8f025cfff6dba2a9029c0b",
+        "decodedSha256": "9771d8e0e56dfcac76802073a1eff818cb94033218b55535ad19c8a1dee696ad",
         "kind": "stands",
         "mediaType": "application/vnd.banvy.chunk-v2",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ],
-        "sha256": "13ea420454bc70c1a0c31812da6ab587abc03a7e547a053307916e8a39307eca",
-        "url": "grounds/veckefjarden/stands/13ea420454bc70c1a0c31812da6ab587abc03a7e547a053307916e8a39307eca.bvch"
+        "sha256": "41142774b6e67568ba7b8e399960c5f24b281e42bcd0df159beb31043e7a457d",
+        "url": "grounds/veckefjarden/stands/41142774b6e67568ba7b8e399960c5f24b281e42bcd0df159beb31043e7a457d.bvch"
       },
       "updated": {
         "kind": "stands",
@@ -452,69 +452,69 @@
           "stand-field-u8-v1"
         ]
       },
-      "excludedCellsAdded": 305,
+      "excludedCellsAdded": 26,
       "eligibleCanopyCellsRemoved": 0
     },
     {
       "tileId": "l0/8/9",
       "previous": {
-        "bytes": 4002,
+        "bytes": 4206,
         "decodedBytes": 16384,
-        "decodedSha256": "29153bb71e5202098294aeead467ceeac2c0db605e501dedc4352e33a05142de",
+        "decodedSha256": "cf497f2db8cc98b889e101a817f3d2302543b8582937f305773f8240ee6d95f6",
         "kind": "stands",
         "mediaType": "application/vnd.banvy.chunk-v2",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ],
-        "sha256": "95e73d895da0c8c7edbe8d41f5a0b63d652e265cc81c5a704e4a3058d44ed56a",
-        "url": "grounds/veckefjarden/stands/95e73d895da0c8c7edbe8d41f5a0b63d652e265cc81c5a704e4a3058d44ed56a.bvch"
+        "sha256": "f94d2adc963604dd9a81a4582dead29d3c5f410c286e081e985aa718be3bab99",
+        "url": "grounds/veckefjarden/stands/f94d2adc963604dd9a81a4582dead29d3c5f410c286e081e985aa718be3bab99.bvch"
       },
       "updated": {
         "kind": "stands",
-        "url": "grounds/veckefjarden/stands/6c1c01e32fed8481a6a8e6d1aa8721f4bf70851ed61b5ace9f7ae18e0b7f4d88.bvch",
+        "url": "grounds/veckefjarden/stands/69274578a210975c2846a8df2b3001f20454004f24de602fde5f65342a7b996e.bvch",
         "mediaType": "application/vnd.banvy.chunk-v2",
-        "bytes": 4012,
-        "sha256": "6c1c01e32fed8481a6a8e6d1aa8721f4bf70851ed61b5ace9f7ae18e0b7f4d88",
+        "bytes": 4199,
+        "sha256": "69274578a210975c2846a8df2b3001f20454004f24de602fde5f65342a7b996e",
         "decodedBytes": 16384,
-        "decodedSha256": "5f30b467537759c62986f6e7669d301696be882519debf9b5a70d4492d0ac6f1",
+        "decodedSha256": "8b28dcf6fb9a7acfb972a3e1fd2ac4dc680424baf6e73bbd2209e0dd4f9c158d",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ]
       },
-      "excludedCellsAdded": 352,
-      "eligibleCanopyCellsRemoved": 1
+      "excludedCellsAdded": 64,
+      "eligibleCanopyCellsRemoved": 0
     },
     {
       "tileId": "l0/9/9",
       "previous": {
-        "bytes": 4672,
+        "bytes": 4763,
         "decodedBytes": 16384,
-        "decodedSha256": "05211cb42b589bc96b699da7504c7424f8039d63650bee0e8dafcaa1974ebe3a",
+        "decodedSha256": "f4d0905a91e823160f4600ad311393e8e2bcea9cabead04bed2001d18a5a5ee8",
         "kind": "stands",
         "mediaType": "application/vnd.banvy.chunk-v2",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ],
-        "sha256": "e562b3f5d994821dfe5c3933b4475691577b951749d73cc86e54b373d2c8dd02",
-        "url": "grounds/veckefjarden/stands/e562b3f5d994821dfe5c3933b4475691577b951749d73cc86e54b373d2c8dd02.bvch"
+        "sha256": "998a37e7ffecb485f6b323626518d38eb18c06891348424b47e6c5f53ba0e8ac",
+        "url": "grounds/veckefjarden/stands/998a37e7ffecb485f6b323626518d38eb18c06891348424b47e6c5f53ba0e8ac.bvch"
       },
       "updated": {
         "kind": "stands",
-        "url": "grounds/veckefjarden/stands/df962411b1591513ec8bc49d18ccfdf9441c0007d06166413449692d71f43b72.bvch",
+        "url": "grounds/veckefjarden/stands/0f3e6641456868cade138ec3e8631b5b5a2a3e458691254b5f958f0a47be9327.bvch",
         "mediaType": "application/vnd.banvy.chunk-v2",
-        "bytes": 4665,
-        "sha256": "df962411b1591513ec8bc49d18ccfdf9441c0007d06166413449692d71f43b72",
+        "bytes": 4765,
+        "sha256": "0f3e6641456868cade138ec3e8631b5b5a2a3e458691254b5f958f0a47be9327",
         "decodedBytes": 16384,
-        "decodedSha256": "ddf3bd075225bf75feddec22dd4ef481d27816af0d77513c9d7653dac9931507",
+        "decodedSha256": "fccbe7797867a2266ec1348b61870a40f205a9a023877c6cb35fb97b5530c5b2",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ]
       },
-      "excludedCellsAdded": 124,
+      "excludedCellsAdded": 51,
       "eligibleCanopyCellsRemoved": 0
     },
     {
@@ -551,70 +551,70 @@
     {
       "tileId": "l0/8/10",
       "previous": {
-        "bytes": 6227,
+        "bytes": 6360,
         "decodedBytes": 16384,
-        "decodedSha256": "bc018b4fa16fe3ffd0336161a27fde2d5048a531116c91b2b929f32ff01ae00a",
+        "decodedSha256": "6075c0e02d4a762061cce11e83f23eac57b7ca46d1dd9703505889b183859221",
         "kind": "stands",
         "mediaType": "application/vnd.banvy.chunk-v2",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ],
-        "sha256": "0fa8a4601eb402377825bd556d6479c031c3ba41aad7f4edcb8316b12301a377",
-        "url": "grounds/veckefjarden/stands/0fa8a4601eb402377825bd556d6479c031c3ba41aad7f4edcb8316b12301a377.bvch"
+        "sha256": "7106a81af4e59094fdf2a95b654515edfb32d7124fc49c7c3f28470347a107e2",
+        "url": "grounds/veckefjarden/stands/7106a81af4e59094fdf2a95b654515edfb32d7124fc49c7c3f28470347a107e2.bvch"
       },
       "updated": {
         "kind": "stands",
-        "url": "grounds/veckefjarden/stands/14eb3221fa9aff7b6f36349efaeaf9e115cedf488b5cbc1d5f04cae8b8daa948.bvch",
+        "url": "grounds/veckefjarden/stands/15ef1f9b3aae72c39b31e2817ea421298fe25612692deeb7b8f5927c6ec1f2dd.bvch",
         "mediaType": "application/vnd.banvy.chunk-v2",
-        "bytes": 6209,
-        "sha256": "14eb3221fa9aff7b6f36349efaeaf9e115cedf488b5cbc1d5f04cae8b8daa948",
+        "bytes": 6356,
+        "sha256": "15ef1f9b3aae72c39b31e2817ea421298fe25612692deeb7b8f5927c6ec1f2dd",
         "decodedBytes": 16384,
-        "decodedSha256": "9f8beccfe17ac69d803f08d0d5bc4759839dc28f990801d3c7daf9a29560cf22",
+        "decodedSha256": "02c8e94e44699f71f9c5f329f558dc2173bc58e22df2b7df089164bb0eaa6ecc",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ]
       },
-      "excludedCellsAdded": 131,
-      "eligibleCanopyCellsRemoved": 6
+      "excludedCellsAdded": 101,
+      "eligibleCanopyCellsRemoved": 3
     },
     {
       "tileId": "l0/9/10",
       "previous": {
-        "bytes": 9312,
+        "bytes": 9311,
         "decodedBytes": 16384,
-        "decodedSha256": "47419f80c0aa85a54d7428da46ecf3c8ee2ea66578830104c62a0e4e6080e7e5",
+        "decodedSha256": "e18190ffb6caedb25501a08eee0c4f176f6e46243df2db0a96ef49ae637cc658",
         "kind": "stands",
         "mediaType": "application/vnd.banvy.chunk-v2",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ],
-        "sha256": "afb2ca5e8a797daad83be17ba3df43982a7c2192c1894d0be24a9c6408255efc",
-        "url": "grounds/veckefjarden/stands/afb2ca5e8a797daad83be17ba3df43982a7c2192c1894d0be24a9c6408255efc.bvch"
+        "sha256": "fbd5d94b1ca4df090058a731862b0b5198dc9d480b6fe4f6431c3bf63df94a6a",
+        "url": "grounds/veckefjarden/stands/fbd5d94b1ca4df090058a731862b0b5198dc9d480b6fe4f6431c3bf63df94a6a.bvch"
       },
       "updated": {
         "kind": "stands",
-        "url": "grounds/veckefjarden/stands/0d3f98005f730819829906cd0c30a15774ce4cd628be9e90c129331fcd1b4a22.bvch",
+        "url": "grounds/veckefjarden/stands/a681a6bde41d80684b799d7a6b310a6bd50591ffde61f3444dfe5793f21def94.bvch",
         "mediaType": "application/vnd.banvy.chunk-v2",
-        "bytes": 9320,
-        "sha256": "0d3f98005f730819829906cd0c30a15774ce4cd628be9e90c129331fcd1b4a22",
+        "bytes": 9315,
+        "sha256": "a681a6bde41d80684b799d7a6b310a6bd50591ffde61f3444dfe5793f21def94",
         "decodedBytes": 16384,
-        "decodedSha256": "95ee7a30fdb442ecd00b4568843c248f7968c91687997dbde4ec182cb7012b3c",
+        "decodedSha256": "33ed394586528341bacef13acfbb4d5d0b43fe322ab75856e632220765d42931",
         "requiredFeatures": [
           "chunk-envelope-v2",
           "stand-field-u8-v1"
         ]
       },
-      "excludedCellsAdded": 24,
-      "eligibleCanopyCellsRemoved": 6
+      "excludedCellsAdded": 20,
+      "eligibleCanopyCellsRemoved": 3
     }
   ],
   "outputGround": {
-    "url": "grounds/veckefjarden/ground-v2-66757b37ada49720e885b51018cdb35319bcfabc70c8c51ef75a9e93941c50e4.json",
+    "url": "grounds/veckefjarden/ground-v2-2ca0c550716833617d657cf4242b2c96825036c83bf34fe317fd3a8ab27fbe83.json",
     "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
     "bytes": 577099,
-    "sha256": "66757b37ada49720e885b51018cdb35319bcfabc70c8c51ef75a9e93941c50e4"
+    "sha256": "2ca0c550716833617d657cf4242b2c96825036c83bf34fe317fd3a8ab27fbe83"
   }
 }
