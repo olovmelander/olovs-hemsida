@@ -222,7 +222,18 @@ def main():
             audit.document(document)
         feature_id,kind = feature['id'],feature['kind']
         audit.require(feature['status'] == 'accepted', feature_id + ': feature is not accepted')
-        audit.require(original_hash == feature['originalRingSha256'], feature_id + ': reviewed baseline geometry differs from Git baseline')
+        # A reconcile rule fix can hand a surface different pre-review geometry than
+        # the pinned Git baseline carried (H5: the short course's strips there, its
+        # own plan reading now). The record then names the Git baseline it
+        # superseded, which is still verified here, and the apply step verifies the
+        # new pre-review geometry against originalRingSha256 on every build.
+        reassigned = feature.get('baselineReassignment')
+        if reassigned is not None:
+            audit.require(isinstance(reassigned.get('reason'), str) and reassigned['reason'].strip() != '' and
+                          reassigned.get('gitBaselineRingSha256') != feature['originalRingSha256'],
+                          feature_id + ': baseline reassignment needs a reason and a distinct superseded hash')
+        expected_original = reassigned['gitBaselineRingSha256'] if reassigned else feature['originalRingSha256']
+        audit.require(original_hash == expected_original, feature_id + ': reviewed baseline geometry differs from Git baseline')
         rings = rings_for(feature)
         expected_model_geometry = rings if kind in ['fairway','tee-set'] else rings[0]
         audit.require(stored(actual_holes[feature['hole']],feature) == expected_model_geometry, feature_id + ': actual model vertices differ from accepted ledger')

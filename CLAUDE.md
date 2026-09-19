@@ -60,6 +60,10 @@ compared against their OSM survey to measure the whole chain: green centres land
 that pair (the reader traces the green complex at ~2.1× the putting surface, so
 traced greens shrink toward their centroid by 1/√2.1). These carry `prov:"plan"`;
 anything still synthesised carries `prov:"synth"` and is hatched in `design.svg`.
+**No fairway uses a plan reading any more (2026-09-19)**: the plan fairways were
+corridor envelopes 1.2-2.3x the mowing, so the 1st's bunkers read as
+mid-fairway; holes 1, 2, 3 and 5 are traced off the 2024 orthophoto in
+`geobuild/mapping/` (see its README), the rest are OSM or already reviewed.
 
 **The trees come from satellite imagery, and the imagery is the authority.**
 `fetch-sat.mjs` caches Esri World Imagery tiles (z17, ~0.54 m/px, orthorectified — a
@@ -5708,7 +5712,12 @@ the drive (86.7% at 180 m) and cost fairway a portrait phone used to hold: below
 260 m, Veckefjärden's 5th loses its own fairway from frame on every tee, because
 that hole's routed line runs straight down while its OSM fairway lies 45-110 m east
 -- a disagreement in the model that no aim along the line can frame, recorded here
-rather than tuned around. 260 m is the longest cap that still gains and the
+rather than tuned around. (2026-09-19: the LINE was right and the fairway was
+not. Those two OSM ways were the short course's 4th and 5th, handed to the 5th
+by a centroid-within-70 m rule; reconcile now requires a hole's line to run
+through its fairway, and the 5th's is traced off the 2024 orthophoto in
+`geobuild/mapping/ortho-reviewed-05-fairway.json`. The cap was measured before
+that and was not re-swept.) 260 m is the longest cap that still gains and the
 shortest that regresses nothing: 609 of 819 tee marks do not move at all, the
 median range change is 0 m so pitch and orbit radius stand, and the 8 marks that
 see no fairway see none either way.

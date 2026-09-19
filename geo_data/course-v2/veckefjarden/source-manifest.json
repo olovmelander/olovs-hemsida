@@ -693,7 +693,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "geobuild/course-model.json",
-      "sha256": "66885fa4e54d3c240f717800e27035262c82c48e0eea3002b7afbbf0da0997fd",
+      "sha256": "e1377dee00b13f773dc04896950c12f73c53f73abd7de3ea2b313a33bf0b840c",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -819,7 +819,7 @@
       "id": "legacy-short-course-model",
       "kind": "composite",
       "path": "veckefjardenkortbuild/course-model.json",
-      "sha256": "0e3bd2f09a89062bdd4b5f715ccb0195c42ab2687ad10086202cf8c0be3ef911",
+      "sha256": "9036352576941572b2e2fd220bc3f7a6ccefd8f827ad89aae6e33d6a9f3156ba",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -861,7 +861,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/course-model.epsg3006.json",
-      "sha256": "2cf429476146063c3c6f56e91b6049ee9f0137997c8505ccd9dad85511aceac5",
+      "sha256": "45421247af351f993d04fbeb7737553b0723f7eede9127fc757d35e5d3ed44fb",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -892,7 +892,7 @@
       "id": "migration-short-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/veckefjarden/migration/short-course-model.epsg3006.json",
-      "sha256": "8aa9b809a06d8dc0bf9aac31bd2c15660dee2e3518087c4b4613f5668be01572",
+      "sha256": "b399d01d438ab2619eab67425640fa2738869e1bdc2bf7eda505f9aeb3f13baa",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -922,7 +922,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/veckefjarden/migration/residual-report.json",
-      "sha256": "98fba1cbca8a9259eb78657285f8af3a7b130d0f16cfce1470c938d9295f084d",
+      "sha256": "ff5a093d179d35525e7b840c683b4c190b8d83882ed462a96670ef29ca3b4001",
       "derivedFrom": [
         "terrarium-legacy",
         "osm-legacy",
@@ -1138,7 +1138,7 @@
       "id": "ortho-reviewed-vectors",
       "kind": "surface",
       "path": "geobuild/mapping/lm-ortho-review.json",
-      "sha256": "4d3f0edf8cdd0feb09e8c9248bdebd2702abaca9cc6cfa8f54e051e527b39d53",
+      "sha256": "96ccb7edf3a7b190a21415b4f60458658c93e965f9ad1b57c04a5060b25b2673",
       "derivedFrom": [
         "imagery-lm-window-context-0-0",
         "imagery-lm-window-context-0-1",
@@ -1164,7 +1164,7 @@
       "id": "ortho-alignment-audit",
       "kind": "control",
       "path": "geo_data/course-v2/veckefjarden/acquisition/ortho-alignment-audit.json",
-      "sha256": "6484f78d94668926ed81c08c55988da6cad3147b2ba0e33d0447f750a25da633",
+      "sha256": "26c54ab7cba9ea3db8676469f383bfd7a2b5585614cc3074f9a00f16182bf8ca",
       "derivedFrom": [
         "imagery-lm-window-context-0-0",
         "imagery-lm-window-context-0-1",
@@ -1190,7 +1190,7 @@
       "id": "tee-coordinate-review",
       "kind": "control",
       "path": "geo_data/course-v2/veckefjarden/acquisition/tee-coordinate-review.json",
-      "sha256": "c3c2183bd6996011f26f47a4b4a5964332bd9698aeaca9851d93308e8aeaeacc",
+      "sha256": "5f51fbadde2cd8f6bbd031b22289d23ef42281cedbd50b4bc256724a1985ef03",
       "derivedFrom": [
         "imagery-lm-window-context-0-0",
         "imagery-lm-window-context-0-1",

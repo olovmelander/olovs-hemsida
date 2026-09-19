@@ -74,8 +74,8 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
   'upsala-mellanbanan': 'fe252ba09bfc33b02a9dfd99f74d2fcadd488970a9143d133616563122af3649',
   johannesberg: '1fbfc8dac4b330ef5181a2ab72e786ba9a32e8bd7b3683b5d7a42ca1eb7eea7b',
   'johannesberg-9': '4b1253f96523618a6ac8b0e873f5b5b3445e797213bb6bacffb6e0944f64df6e',
-  veckefjarden: '2cf429476146063c3c6f56e91b6049ee9f0137997c8505ccd9dad85511aceac5',
-  'veckefjarden-korthalsbanan': '8aa9b809a06d8dc0bf9aac31bd2c15660dee2e3518087c4b4613f5668be01572',
+  veckefjarden: '45421247af351f993d04fbeb7737553b0723f7eede9127fc757d35e5d3ed44fb',
+  'veckefjarden-korthalsbanan': 'b399d01d438ab2619eab67425640fa2738869e1bdc2bf7eda505f9aeb3f13baa',
 });
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;

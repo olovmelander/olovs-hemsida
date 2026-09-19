@@ -10,7 +10,7 @@ import assert from 'node:assert/strict';
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const files = [
   'ortho-reviewed-01-06.json', 'ortho-reviewed-07-12.json', 'ortho-reviewed-13-18.json',
-  'ortho-reviewed-07-12-turf.json', 'ortho-reviewed-13-18-turf.json',
+  'ortho-reviewed-07-12-turf.json', 'ortho-reviewed-13-18-turf.json', 'ortho-reviewed-05-fairway.json', 'ortho-reviewed-01-03-fairways.json',
   'ortho-reviewed-01-04-tees.json', 'ortho-reviewed-05-06-tees.json',
   'ortho-reviewed-07-12-tee-associations.json', 'ortho-reviewed-13-18-tee-associations.json',
 ].map(file => 'geobuild/mapping/' + file);
