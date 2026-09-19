@@ -5915,3 +5915,53 @@ cannot fetch its own modules. Set it from PowerShell or prefix
 `MSYS_NO_PATHCONV=1`. (`tools/check-basepath.mjs` is Linux-container-shaped —
 hardcoded Chromium path, `pnpm` without a shell — and does not run on this
 machine at all; the chooser gate against a subpath build is the substitute.)
+
+## The pin flags fly the real wind, as cloth baked in Blender (2026-09-19)
+
+Every flag on every course used to fly due east at one flutter rate, whatever
+the wind -- the one place the scene contradicted Kikaren, which already
+fetched the live reading. Now the reading is fetched once the course is up
+(and every half hour; never under `det=1` or in an automated browser, so no
+golden depends on the weather and no harness calls a third party), every flag
+turns DOWNWIND, and the cloth is a real cloth simulation. `?vind=270,6[,gust]`
+forces a wind (from degrees, m/s); `?flagcloth=0` flies the old drawn flag,
+which is also what stands in if the asset cannot load.
+
+- **The cloth is baked in Blender and played back, not simulated in the
+  browser.** `tools/blender-flag/bake_flag_cloth.py` (run in the live Blender
+  over the 9876 bridge with `tools/blender-flag/blender-bridge.mjs` -- this
+  machine has no Python -- or headless) simulates the app's own flag, one
+  WIND BAND at a time, cuts each into a seamless 4 s loop and writes the
+  frames; `tools/build-flag-cloth.mjs` packs them with the app's codec
+  (`engine/flag-cloth.mjs`: quantized, frame-delta, zigzag, byte planes,
+  deflate -- the heightfields' scheme) into
+  `public/models/flag/cloth-<sha256>.bin` (~200 kB, all courses) and writes
+  `engine/flag-cloth-asset.mjs`. The app fetches it by content, verifies it
+  like a pack, plays the band nearest the wind, crossfades on a change, and
+  gives every flag its own clock, gusts (the reading's gust speed) and a few
+  degrees of swing -- eighteen flags flapping in step gives a course away.
+- **Every band is calibrated to the golfer's reading of a flag**, about four
+  degrees per mph (nine per m/s): limp in calm, 45 deg in 5 m/s, straight out
+  from 10. Blender's wind strength is not a speed; the HANG it produces is
+  what is matched, and the speed each band stands for is the rule applied to
+  its measured hang. `MODE="calibrate"` prints hang, free-edge speed and
+  rhythm per candidate; `flag-cloth.test.mjs` holds the shipped file to it.
+- **Five Blender facts that each cost a bake:**
+  a flat vertical sheet never leaves its plane (gravity and a wind along it
+  act IN the plane; Blender's wind pushes only through face normals), so it
+  needs a starting crumple, wind a few degrees off its axis, and turbulence;
+  the crumple must be the START shape only -- a cloth's rest angles come from
+  its mesh, so a crumpled mesh keeps its crumples and every edge comes out
+  serrated like foil (a flat shape key is `rest_shape_key`); cloth mass AND
+  air damping are PER VERTEX, so a finer grid is a heavier, more damped flag
+  that never flaps; wind and turbulence noise depend on WORLD POSITION and
+  this regime is chaotic, so a calibration only holds if the bake puts every
+  band at the same spot (they never touch); and the loop with the best seam is
+  the STILLEST four seconds, so windows are chosen among those that move at
+  least 90% as much as the band does on average.
+- The pole is one turned profile with the flag's sleeve on it, so the sleeve
+  costs no draw; thin nylon glows with the sun behind it (`uThroughSun`, the
+  sun's colour at its strength, so blue hour and mist do not); posing all
+  eighteen costs ~0.5 ms a frame on this machine and only flags within 380 m
+  (220 m under LOWQ) are posed. `V3D.flags()` reports the band each flag plays,
+  where it points, and its hang MEASURED off the vertices drawn.

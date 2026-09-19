@@ -127,6 +127,8 @@ import {
 } from './engine/caddie.js';
 import { createShotEnvironment } from './engine/shot-planner.mjs';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
+import { decodeFlagCloth, flagClothIndex, flagClothBand, accumulateFlagClothPose, flagClothHang } from './engine/flag-cloth.mjs';
+import { FLAG_CLOTH_ASSET } from './engine/flag-cloth-asset.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
   selectV2TerrainSource,
@@ -149,6 +151,29 @@ const DET = new URLSearchParams(location.search).get('det') === '1';
 const groundMode = new URLSearchParams(location.search).get('ground') === 'mesh' ? 'mesh' : 'atlas';
 const surfaceDebugMode = requestedSurfaceDebugMode(location.search);
 const time = DET ? float(3.25) : __liveTime;
+
+/* The pin flag's cloth, baked in Blender (engine/flag-cloth.mjs): asked for
+   here so the download overlaps the boot, awaited where the flags are built.
+   Fetched BY CONTENT and verified like a pack; anything wrong and the drawn
+   flag stands in. ?flagcloth=0 keeps the drawn flag -- the A/B control. */
+const FLAG_CLOTH_READY = new URLSearchParams(location.search).get('flagcloth') === '0' ? Promise.resolve(null) : (async () => {
+  try {
+    const url = new URL(`${FLAG_CLOTH_ASSET.path}?v=${FLAG_CLOTH_ASSET.sha256.slice(0, 16)}`,
+      new URL(import.meta.env.BASE_URL, location.href));
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    if (bytes.length !== FLAG_CLOTH_ASSET.bytes) throw new Error(`${bytes.length} bytes, the asset says ${FLAG_CLOTH_ASSET.bytes}`);
+    if (crypto.subtle) {
+      const got = [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))].map(b => b.toString(16).padStart(2, '0')).join('');
+      if (got !== FLAG_CLOTH_ASSET.sha256) throw new Error('sha256 does not match the asset');
+    }
+    return await decodeFlagCloth(bytes, inflate);
+  } catch (error) {
+    console.warn('The baked flag cloth is unavailable; the drawn flag stands in:', error);
+    return null;
+  }
+})();
 
 let MODEL_PREP_STARTED = 0;
 /* ------------------------------------------------------------------ boot ui */
@@ -1860,6 +1885,9 @@ span('procedural textures (DETAIL, SANDN, WATERN)', TEX_STARTED);
 
 /* ------------------------------------------------------------- lighting */
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
+/* the sun's colour at its strength, for light that comes THROUGH thin stuff
+   (the pin flags): set with the preset, so blue hour and mist do not glow */
+const uThroughSun = uniform(new THREE.Color(0xffd0a0));
 /* seasonal foliage: the birch crowns and reed heads take their colour from the
    preset, which is what lets Höst turn the shore gold without a rebuild */
 const uLeaf = uniform(new THREE.Color(0x5f8944));
@@ -1934,6 +1962,7 @@ function setPreset(name, overrides = null) {
   sun.color.setHex(p.sun); sun.intensity = p.int;
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
+  uThroughSun.value.setHex(p.sun).multiplyScalar(Math.min(1, p.int / 2.5));
   hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI;
   fog.color.setHex(p.fog);
   fog.density = CONTINUOUS_OCEAN_ENABLED && presetName === 'noon' ? 0.00022 : p.dens;
@@ -6846,6 +6875,19 @@ const flagGroup = new THREE.Group();
 scene.add(flagGroup);
 const pins = [];
 const FURN = { poles: [], cups: [], markers: [] };
+/* The baked cloth, or null. Its download began with the module; a stalled one
+   must not hold the boot, so it gets a few seconds and the drawn flag stands in. */
+const FLAG_CLOTH = await Promise.race([FLAG_CLOTH_READY, new Promise(resolve => setTimeout(() => resolve(null), 6000))]);
+const FLAG_CLOTH_INDEX = FLAG_CLOTH ? new THREE.BufferAttribute(flagClothIndex(FLAG_CLOTH.grid.nx, FLAG_CLOTH.grid.nz), 1) : null;
+/* One material for every flag. Thin nylon GLOWS with the sun behind it: the
+   tussocks' through-the-blade term, a touch stronger for thinner stuff, in the
+   sun's own colour and strength (uThroughSun) so blue hour and mist do not. */
+const flagMat = new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2d24b), roughness: 0.85, side: THREE.DoubleSide });
+{
+  const V = normalize(cameraPosition.sub(positionWorld));
+  flagMat.emissiveNode = color(0xf2d24b).mul(uThroughSun).mul(pow(saturate(V.dot(uSun.negate())), 3.0).mul(0.6));
+}
+const hash01 = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
 for (const h of HOLES) {
   const [x, z] = h.pin;
   const y = terrainH(x, z);
@@ -6853,15 +6895,30 @@ for (const h of HOLES) {
   g.position.set(x, y, z);
   FURN.poles.push({ x, y: y + 1.3, z });
   /* the club flies yellow flags with its badge, not red-and-amber halves */
-  const cloth = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.5, 8, 3),
-    new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2d24b),
-      roughness: 0.85, side: THREE.DoubleSide }));
-  cloth.position.set(0.39, 2.28, 0);
+  let cloth;
+  if (FLAG_CLOTH) {
+    /* the baked cloth: posed every frame in the flag's own frame, pole at the origin */
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(FLAG_CLOTH.nv * 3), 3));
+    geo.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(FLAG_CLOTH.nv * 3), 3));
+    geo.setIndex(FLAG_CLOTH_INDEX);
+    /* every band's reach, gale swing included, with room to spare */
+    geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(0.4, 2.1, 0), 0.95);
+    cloth = new THREE.Mesh(geo, flagMat);
+  } else {
+    cloth = new THREE.Mesh(new THREE.PlaneGeometry(0.78, 0.5, 8, 3), flagMat);
+    cloth.position.set(0.39, 2.28, 0);
+  }
   g.add(cloth);
   /* the cup, which is the thing that makes a green read as a green up close */
   FURN.cups.push({ x, y: y + 0.02, z });
   flagGroup.add(g);
-  pins.push({ hole: h.n, cloth, g });
+  /* each flag runs its own clock and has its own gusts: eighteen flags flapping
+     in step is the first thing that gives a course away as drawn */
+  const cs = FLAG_CLOTH ? { seed: h.n, offset: hash01(h.n) * FLAG_CLOTH.frames / FLAG_CLOTH.fps,
+    from: -1, to: -1, w: 1, fade: 1.6, gusts: 0, gustUntil: 0, nextGust: 3 + hash01(h.n + 0.5) * 9,
+    pose: new Float32Array(FLAG_CLOTH.nv * 3), posed: false } : null;
+  pins.push({ hole: h.n, cloth, g, cs });
 
   /* Decorative pairs stay across the direction of play on the same deck.
      Their span fits its width; an unresolved reference may have no pair. */
@@ -6877,10 +6934,101 @@ for (const h of HOLES) {
     }
   }
 }
+/* The flags fly with the live wind -- the reading Kikaren shows, so the flag
+   and the card never disagree. Every cloth is turned DOWNWIND and waves at a
+   rate its speed sets. Until a reading arrives (offline, a failed fetch) they
+   fly as they always did: east, in a moderate breeze. `?vind=270,6` (from
+   degrees, m/s) forces a wind on the flags alone -- a harness's way in, since
+   det=1 and an automated browser never fetch the weather.
+   The cloth hangs off the pole along local +x, and rotation.y = t sends +x to
+   (cos t, -sin t) in (x, z); downwind is the compass bearing from + 180, which
+   is (sin b, -cos b) with north -z -- so t = -90 deg - from.
+   And it HANGS by the wind, the way a golfer reads it: about four degrees of
+   flag per mph, nine per m/s -- limp in calm, 45 deg in 5 m/s, straight out
+   from 10. Each fibre leaves the pole at that angle from vertical: a shear in
+   the cloth's own plane, so nothing stretches and the normals stay +z. 8 deg
+   is the floor -- no flag hangs dead straight, and at 0 the sheet would fold
+   onto itself. The old look is 90 exactly, which is what no reading keeps.
+   That shear is the DRAWN flag, which stands in when the baked cloth cannot
+   load (FLAG_CLOTH null); the baked cloth hangs by the same rule because every
+   band of it was calibrated to it in Blender (tools/blender-flag/). */
+const FLAG_WIND = { rate: 5.5, amp: 0.1, hang: 90, phase: 0, fromDeg: null, ms: null, gust: null, source: 'default',
+  yaw: 0, clock: 0, rest: !FLAG_CLOTH && pins.length ? pins[0].cloth.geometry.attributes.position.array.slice() : null };
+/* a limp drawn cloth reaches a metre below its rest box: widen the culling sphere once */
+if (!FLAG_CLOTH) for (const p of pins) p.cloth.geometry.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, -0.39, 0), 0.8);
+/* with no reading the flags fly a moderate breeze, as they always did */
+const FLAG_DEFAULT_MS = 4;
+function setFlagWind(fromDeg, ms, source, gustMs = null) {
+  if (!Number.isFinite(fromDeg) || !Number.isFinite(ms)) return;
+  const s = Math.max(0, ms);
+  Object.assign(FLAG_WIND, { fromDeg, ms: s, source, gust: Number.isFinite(gustMs) ? gustMs : null,
+    /* the old wave (5.5 rad/s, 10 cm at the tip) is a 4 m/s breeze: slower and
+       smaller below it, faster and fuller above, capped at a gale's worth */
+    rate: 5.5 * Math.min(2.2, Math.max(0.3, s / 4)),
+    amp: 0.1 * Math.min(1.3, Math.max(0.35, 0.35 + s * 0.16)),
+    hang: Math.min(90, Math.max(8, 8.95 * s)),
+    yaw: -Math.PI / 2 - fromDeg * Math.PI / 180 });
+  for (const p of pins) p.g.rotation.y = FLAG_WIND.yaw;
+}
+{
+  const forced = (new URLSearchParams(location.search).get('vind') || '').split(',').map(Number);
+  if (forced.length === 2 || forced.length === 3) setFlagWind(forced[0], forced[1], 'url', forced[2]);
+}
+/* The baked cloth, posed for this frame. Each flag plays the band its wind
+   stands for (flagClothBand: the nearest by the speed each band's measured
+   hang means), crossfading when the band changes -- a new reading, or a gust
+   passing (the reading's gust speed, at seeded times of the flag's own: a gust
+   crosses a course, it does not arrive everywhere at once). The whole flag also
+   swings a few degrees about the pole, as a real one does when the air veers.
+   Under det nothing is random: the band is the wind's, the clock is pinned.
+   A flag past a few hundred metres is a few pixels and keeps its last pose. */
+function poseFlagCloths(dt) {
+  const C = FLAG_CLOTH;
+  const T = FLAG_WIND.clock = DET ? 3.25 : FLAG_WIND.clock + dt;
+  const ms = FLAG_WIND.ms ?? FLAG_DEFAULT_MS;
+  const base = flagClothBand(C, ms);
+  const gust = !DET && FLAG_WIND.gust !== null && FLAG_WIND.gust > ms + 1 ? flagClothBand(C, FLAG_WIND.gust) : base;
+  const far2 = (LOWQ ? 220 : 380) ** 2;
+  for (const p of pins) {
+    const s = p.cs;
+    if (gust !== base && T >= s.nextGust) {
+      s.gustUntil = T + 1.5 + hash01(s.seed * 3.1 + s.gusts) * 2.5;
+      s.nextGust = s.gustUntil + 4 + hash01(s.seed * 5.7 + s.gusts) * 10;
+      s.gusts++;
+    }
+    const want = gust !== base && T < s.gustUntil ? gust : base;
+    if (DET || s.to < 0) { s.from = s.to = want; s.w = 1; }
+    else if (want !== s.to) {
+      s.from = s.w < 0.5 ? s.from : s.to;
+      s.to = want; s.w = 0;
+      s.fade = want === gust && gust !== base ? 0.8 : 1.8;     /* a gust arrives quicker than it leaves */
+    }
+    if (s.w < 1) s.w = Math.min(1, s.w + dt / s.fade);
+    const hang = C.bands[s.to].hangDeg;
+    p.g.rotation.y = FLAG_WIND.yaw + (DET ? 0 : (hang < 50 ? 0.09 : 0.05)
+      * (Math.sin(T * 0.31 + s.seed * 1.7) * 0.6 + Math.sin(T * 0.83 + s.seed * 4.1) * 0.4));
+    if (s.posed && !DET && camera.position.distanceToSquared(p.g.position) > far2) continue;
+    const out = s.pose;
+    out.fill(0);
+    const t = T + s.offset, e = s.w * s.w * (3 - 2 * s.w);
+    if (e < 1) accumulateFlagClothPose(C, s.from, t, 1 - e, out);
+    if (e > 0) accumulateFlagClothPose(C, s.to, t, e, out);
+    const geo = p.cloth.geometry;
+    geo.attributes.position.array.set(out);
+    geo.attributes.position.needsUpdate = true;
+    geo.computeVertexNormals();
+    s.posed = true;
+  }
+}
 /* the furniture's draws: one for every pole, one for every cup, one for every
    marker (the colour rides on the instance; a white material times it is the
    colour the material used to carry) */
-instancedFurniture(new THREE.CylinderGeometry(0.035, 0.045, 2.6, 6),
+/* the stick, tapering 4.5 to 3.5 cm, with the flag's SLEEVE round its top half
+   metre -- one turned profile, so the sleeve costs no draw of its own; the
+   baked cloth's hoist (4.5 cm off the axis) runs inside it */
+const poleProfile = [[0.0001, -1.3], [0.045, -1.3], [0.0386, 0.705], [0.052, 0.715], [0.052, 1.245],
+  [0.036, 1.255], [0.035, 1.3], [0.0001, 1.3]].map(([r, y]) => new THREE.Vector2(r, y));
+instancedFurniture(new THREE.LatheGeometry(poleProfile, 10),
   new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }), FURN.poles, { cast: true, into: flagGroup, tag: 'pins' });
 instancedFurniture(new THREE.CylinderGeometry(0.054, 0.054, 0.12, 12),
   new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x11170f), roughness: 1 }), FURN.cups, { into: flagGroup, tag: 'pins' });
@@ -9997,14 +10145,21 @@ function groundHit(clientX, clientY) {
   }
   return null;
 }
-/* the live reading for this course: fetched when the card first opens, again
-   when the half-hour cache has run out, never twice at once */
+/* the live reading for this course: fetched once the course is up (for the
+   flags) or when the card first opens, again when the half-hour cache has run
+   out, never twice at once */
 function kikWeather() {
   if (kikWxBusy || !GEO.origin) return;
   if (kikWx && Number.isFinite(kikWx.fetchedAt) && Date.now() - kikWx.fetchedAt < WEATHER_TTL_MS) return;
   kikWxBusy = true;
   fetchWeather(GEO.origin.lat, GEO.origin.lon)
-    .then(w => { kikWxBusy = false; if (w && w !== kikWx) { kikWx = w; if (kik) kikRender(); } })
+    .then(w => {
+      kikWxBusy = false;
+      if (!w || w === kikWx) return;
+      kikWx = w;
+      if (FLAG_WIND.source !== 'url') setFlagWind(w.windFromDeg, w.windMs, w.stale ? 'stale' : w.source, w.gustMs);
+      if (kik) kikRender();
+    })
     .catch(() => { kikWxBusy = false; });
 }
 /* what a straight shot crosses: water at its own level, sand */
@@ -11272,13 +11427,19 @@ function frame() {
       }
     }
   }
-  /* flag cloth: a travelling wave pinned at the pole */
-  const t = DET ? 3.25 : now / 1000;
-  for (const p of pins) {
-    const g = p.cloth.geometry, pos = g.attributes.position;
+  /* flag cloth: the Blender bake where it loaded (poseFlagCloths); otherwise the
+     drawn flag -- every fibre leaving the pole at the wind's hang angle, with a
+     travelling wave pinned at the pole at the wind's rate (see FLAG_WIND). The
+     phase is integrated so a new reading changes the rate without a jump;
+     under det it is the pinned clock times the rate. */
+  FLAG_WIND.phase = DET ? 3.25 * FLAG_WIND.rate : (FLAG_WIND.phase + dt * FLAG_WIND.rate) % (Math.PI * 2);
+  const hang = FLAG_WIND.hang * Math.PI / 180, hs = Math.sin(hang), hc = Math.cos(hang), rest = FLAG_WIND.rest;
+  if (FLAG_CLOTH) poseFlagCloths(dt);
+  else for (const p of pins) {
+    const pos = p.cloth.geometry.attributes.position;
     for (let i = 0; i < pos.count; i++) {
-      const vx = pos.getX(i) + 0.39;
-      pos.setZ(i, vx > 0.02 ? Math.sin(t * 5.5 + vx * 5.5) * 0.1 * vx : 0);
+      const u = rest[i * 3] + 0.39, v = rest[i * 3 + 1];
+      pos.setXYZ(i, u * hs - 0.39, v - u * hc, u > 0.02 ? Math.sin(FLAG_WIND.phase + u * 5.5) * FLAG_WIND.amp * u : 0);
     }
     pos.needsUpdate = true;
   }
@@ -12114,6 +12275,19 @@ window.V3D = {
     graphError: V2_SELECTION.graphError,
   }),
   plates: () => plateSites.map(p => ({ ...p })),
+  /* the wind the flags fly in, and the world bearing each cloth actually points
+     (pole to free end, compass degrees): a gate compares the two */
+  flags: () => ({ fromDeg: FLAG_WIND.fromDeg, ms: FLAG_WIND.ms, gust: FLAG_WIND.gust, source: FLAG_WIND.source,
+    mode: FLAG_CLOTH ? 'baked-cloth' : 'drawn', asset: FLAG_CLOTH ? FLAG_CLOTH_ASSET.sha256 : null,
+    rate: FLAG_WIND.rate, amp: FLAG_WIND.amp, hangDeg: FLAG_WIND.hang,
+    /* the baked cloth: the band each flag plays, and its hang MEASURED off the
+       vertices the frame drew (hoist middle to free-edge middle) */
+    bands: FLAG_CLOTH ? pins.map(p => FLAG_CLOTH.bands[p.cs.to]?.name ?? null) : null,
+    hangMeasuredDeg: FLAG_CLOTH ? pins.map(p => +flagClothHang(FLAG_CLOTH, p.cloth.geometry.attributes.position.array).toFixed(2)) : null,
+    pointing: pins.map(p => {
+      const e = p.g.localToWorld(new THREE.Vector3(1, 0, 0)), o = p.g.getWorldPosition(new THREE.Vector3());
+      return ((Math.atan2(e.x - o.x, -(e.z - o.z)) * 180 / Math.PI) + 360) % 360;
+    }) }),
   course: () => ({ ...CMETA }),
   /* what the shot harness waits on: no camera tween, and the tree tiers'
      last change drawn twice -- under a software renderer the frame that
@@ -12233,6 +12407,15 @@ BOOT_PERF.courseReadyAtNavigationMs = +performance.now().toFixed(1);
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);
 if (BOOTQ.get('kiosk') === '1') setTimeout(startTour, 1200);
+/* the flags' wind (FLAG_WIND): the live reading once the course is up, and
+   again as the half-hour cache runs out. Never under det -- a golden must not
+   depend on the weather -- nor in an automated browser, where a harness has no
+   business calling a third party and a proxy that resets it would read as a
+   failure in every gate; `?vind=` is the way in there. */
+if (!DET && !navigator.webdriver && FLAG_WIND.source !== 'url') {
+  kikWeather();
+  setInterval(kikWeather, WEATHER_TTL_MS + 1000);
+}
 
 /* Ten seconds of honest measurement, then a decision: a phone crawling at the
    full treatment gets its pixel ratio and bloom dropped on the fly, and the
