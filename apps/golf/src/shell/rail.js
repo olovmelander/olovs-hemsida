@@ -385,10 +385,12 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
      - hero-1 is the .shot background, set at once for the first cards and only
        when a card comes near the screen for the rest: a poster nobody scrolls
        to is never fetched, which is what lets the list grow past thirteen.
-     - the extra stills belong to cards big enough to show them. A 170 px tile
-       in the phone gallery stays still -- eight small pictures changing every
-       second is restlessness, not motion -- and only the full-width lead card
-       cycles there.
+     - every card rolls through all of its stills, the phone's small tiles
+       included. They used to stay still below 260 px, on the reasoning that
+       eight small pictures changing is restlessness rather than motion; the
+       owner looked at it on a phone and wanted them rolling (2026-09-19), and
+       the owner's eye decides. What keeps that affordable is the queue below,
+       not the width: a phone tile pays only while it is ON SCREEN.
      - ONE queue for the whole list, one fetch at a time, a pause between
        fetches, lowest frame first: every visible card gets its second poster
        before any gets its fifth, and a visitor who picks a course five seconds
@@ -414,7 +416,6 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   const SAVE_DATA = !!(navigator.connection && navigator.connection.saveData);
   const SLIDE_MS = 5400, STAGGER_MS = 900;
   const FETCH_GAP_MS = 650;     /* between two extra posters, so the queue trickles and never bursts */
-  const MIN_SHOW_WIDTH = 260;   /* narrower than this a card is a tile, and tiles stay still */
   const shows = [];
   if (!REDUCED && !SAVE_DATA) {
     el.querySelectorAll('.shot[data-photos]').forEach((shot, i) => {
@@ -460,9 +461,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
     img.src = url;
   };
   const ensureFrames = s => {
-    /* judged when the card comes on screen, by the card's own width: the same
-       course is a tile on a phone and a poster on a desktop */
-    if (!s.queued && s.shot.clientWidth >= MIN_SHOW_WIDTH) {
+    if (!s.queued) {
       s.queued = true;
       for (let i = 2; i <= s.count; i++) pending.push({ s, i });
     }

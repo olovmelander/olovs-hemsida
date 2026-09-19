@@ -243,27 +243,59 @@ await section('touch warm-up', async () => {
   await ctx.close();
 });
 
-/* ------------------------------------------------------ what it downloads
-   The posters are decoration, and the first cut of the two-up gallery let them
-   become most of the page: 54 posters, 3.5 MB, inside two seconds on a phone,
-   because six to eight cards were on screen where one had been. Counted here so
-   that cannot come back unnoticed. */
+/* ----------------------------------------------- the posters, and their cost
+   Two things at once, because each alone is easy. The first cut of the two-up
+   gallery let the posters become most of the page -- 54 of them, 3.5 MB, inside
+   two seconds on a phone -- and the fix for that made a phone's small tiles stay
+   still, which the owner looked at and did not want: "the hero photos on the
+   mobile version does not seem to roll between the 5 photos". So a phone card
+   must ROLL through every one of its stills, and the fetching behind it must
+   TRICKLE. The rolling is read off what each card DISPLAYS over time, never off
+   what it has loaded: a frame fetched and never shown proves nothing. */
 console.log('weight');
 const posterLog = page => {
   const seen = [];
   page.on('request', q => { const m = /hero-(\d)\.webp/.exec(q.url()); if (m) seen.push(+m[1]); });
   return seen;
 };
-await section('phone weight', async () => {
+await section('phone posters', async () => {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
   const page = await ctx.newPage();
   const seen = posterLog(page);
   await page.goto(BASE + '/', { waitUntil: 'load', timeout: 120000 });
   await page.waitForSelector('#chooser .card', { timeout: 60000 });
-  await page.waitForTimeout(4000);
-  const extras = seen.filter(n => n > 1).length;
-  gate(extras === 0 && seen.length <= manifest.courses.length,
-    `phone, four seconds in: ${seen.length} posters, ${extras} of them slideshow extras -- the gallery's tiles stay still (the first cut fetched 54)`);
+  /* which still each on-screen card SHOWS, once a second: 1 is the resting
+     poster, 2-5 the crossfaded extras */
+  const shown = new Map();
+  const sample = async () => {
+    const now = await page.evaluate(() =>
+      [...document.querySelectorAll('#chooser .card-item')]
+        .filter(i => { const b = i.getBoundingClientRect(); return i.offsetParent && b.bottom > 0 && b.top < innerHeight; })
+        .map(i => {
+          const on = [...i.querySelectorAll('.shot-frames i')].findIndex(l => l.classList.contains('is-on'));
+          return [i.dataset.slug, on < 0 ? 1 : on + 2, i.querySelectorAll('.shot-frames i').length + 1];
+        }));
+    for (const [slug, frame, held] of now) {
+      const r = shown.get(slug) || { frames: new Set(), held: 0 };
+      r.frames.add(frame); r.held = held; shown.set(slug, r);
+    }
+  };
+  let extrasAt4 = null;
+  for (let t = 1; t <= 32; t++) {
+    await page.waitForTimeout(1000);
+    await sample();
+    if (t === 4) extrasAt4 = seen.filter(n => n > 1).length;
+  }
+  const cards = [...shown.entries()];
+  const want = slug => manifest.courses.find(c => c.slug === slug)?.photos || 1;
+  const rolling = cards.filter(([, r]) => r.frames.size >= 3);
+  const fullSet = cards.filter(([slug, r]) => r.held >= want(slug));
+  gate(cards.length >= 4 && rolling.length === cards.length,
+    `phone: all ${cards.length} on-screen cards roll -- each has SHOWN at least 3 different stills in 32 s (${cards.map(([, r]) => r.frames.size).join(' ')})`);
+  gate(fullSet.length === cards.length,
+    `phone: every on-screen card holds its whole set in rotation (${cards.map(([slug, r]) => `${r.held}/${want(slug)}`).join(' ')})`);
+  gate(extrasAt4 !== null && extrasAt4 <= 8,
+    `phone, four seconds in: ${extrasAt4} slideshow extras -- a trickle, one at a time (the first cut fetched 41 in two seconds)`);
   await ctx.close();
 });
 await section('desktop weight', async () => {

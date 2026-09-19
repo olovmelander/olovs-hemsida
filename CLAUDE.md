@@ -5881,14 +5881,29 @@ What it found that was not about size:
 - **The gallery made decoration the heaviest thing on the page.** With six to
   eight cards on a phone's screen instead of one, the per-card poster slideshow
   pulled **54 posters, 3.5 MB, inside two seconds** (the old single column: 21,
-  1.35 MB). Now: a phone tile narrower than 260 px stays still (only the
-  full-width lead card cycles), the extras go through ONE queue for the whole
-  list with 650 ms between fetches and lowest frame first, and hero-1 is lazy
-  past the first six cards. Measured on the build, everything the bare route
-  downloads: phone **1587 kB** old → 3786 first cut → **1089 kB** now; desktop
-  **2702 kB** old → 3556 first cut → **977 kB** at rest, 1911 kB ten seconds in.
-  **Count the bytes after changing a layout** — every layout check passed while
-  the first cut was true.
+  1.35 MB). The extras now go through ONE queue for the whole list, one fetch
+  at a time with 650 ms between, lowest frame first and only for cards ON
+  SCREEN, and hero-1 is lazy past the first six cards. **The fix then went a
+  step too far, and the owner caught it on a phone** (2026-09-19, *"the hero
+  photos on the mobile version does not seem to roll between the 5 photos"*):
+  it also froze every tile under 260 px, on the reasoning that eight small
+  pictures changing is restlessness — so a phone never showed more than one
+  photo per course. The width gate is gone and the queue alone bounds the
+  cost. Measured on the build, one visitor sitting on the menu (poster bytes
+  only): phone **838 kB** frozen → 1203 kB at 5 s, 1770 at 10 s, **2932 kB** at
+  30 s, where it stops, every on-screen card holding all 5 (45 posters);
+  desktop 1061 / 1579 / 2213 kB, unchanged. The ceiling is every poster there
+  is, ~4.4 MB, and only for a visitor who scrolls the whole list and waits.
+  Reduced motion and Save-Data still fetch no extras at all. The cheaper route,
+  not taken: the phone tiles are 176 CSS px, ~530 device px at DPR 3, against
+  800 px posters, so a smaller poster set would roughly halve that.
+  `check-chooser-ui` now asserts every on-screen phone card SHOWS
+  at least 3 different stills in 32 s and holds its whole set — it read
+  `1 1 1 1 1 1 1 1` against the frozen build — AND that four seconds in the
+  queue has fetched no more than 8 extras. **Count the bytes after changing a
+  layout**, and then look at it on the device: every check passed while the
+  first cut was 3.5 MB, and every check passed again while the fix had frozen
+  what the owner came to see.
 - **`:hover` sticks on a touch screen**, so a tapped card stayed lifted and
   zoomed when the visitor came back, and the "Starta bana" it reveals could never
   be seen. Hover effects sit under `@media (hover: hover) and (pointer: fine)`;
