@@ -157,19 +157,33 @@ for (let n = 1; n <= 18; n++) lines[n] = rawLine(n).line;
 /* A feature belongs to the hole whose centre line it lies nearest, but only if it is
    near enough to be part of that hole at all; the rest is the short course, the range,
    or somebody's garden, and becomes scenery. */
-function assign(features, maxDist, key = f => f.c || centroid(f.ring)) {
+function assign(features, maxDist, key = f => f.c || centroid(f.ring), accept = () => true) {
   const out = {}, spare = [];
   for (const f of features) {
     const c = key(f);
     let best = null, bd = Infinity;
     for (let n = 1; n <= 18; n++) { const d = distToLine(c[0], c[1], lines[n]); if (d < bd) { bd = d; best = n; } }
-    if (bd <= maxDist) { (out[best] ||= []).push({ ...f, d: r1(bd) }); f.hole = best; }
+    if (bd <= maxDist && accept(f, best)) { (out[best] ||= []).push({ ...f, d: r1(bd) }); f.hole = best; }
     else spare.push(f);
   }
   return { out, spare };
 }
 
-const fair = assign(osm.fairways, 70);
+/* A fairway is the ground the hole is played along, so the hole's own line runs
+   through it. A centroid within 70 m is not enough: the short course's strips lie
+   45-70 m east of the 4th and 5th, and by centroid alone they were handed to those
+   two holes -- the 5th then drew two short-course fairways as its own and none on
+   the 400 m of striped turf its line actually runs down (the orthophoto shows it).
+   Measured on this extract, every championship fairway OSM maps is crossed by its
+   hole's line for 36-262 m, and every short-course strip lies 29-51 m clear of it. */
+const lineCrosses = (ring, L) => {
+  for (let i = 1; i < L.length; i++) {
+    const a = L[i - 1], b = L[i], d = hyp(a, b);
+    for (let s = 0; s <= d; s += 2) if (pointInPoly(a[0] + (b[0] - a[0]) * s / d, a[1] + (b[1] - a[1]) * s / d, ring)) return true;
+  }
+  return false;
+};
+const fair = assign(osm.fairways, 70, undefined, (f, n) => lineCrosses(f.ring, lines[n]));
 const bunk = assign(osm.bunkers, 60);
 const tee = assign(osm.tees, 75);
 say(`fairways: ${Object.values(fair.out).flat().length} on championship holes, ${fair.spare.length} scenery`);

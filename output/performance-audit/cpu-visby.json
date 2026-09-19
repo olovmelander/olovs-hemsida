@@ -1,0 +1,3668 @@
+{
+  "url": "http://127.0.0.1:8671/?bana=visby&q=hi&startup=1&ghibli=1&v2=require&det=1&qualitylock=1&hal=1&vy=tee&ljus=kvall",
+  "errors": [],
+  "messages": [
+    {
+      "type": "warning",
+      "text": "The powerPreference option is currently ignored when calling requestAdapter() on Windows. See https://crbug.com/369219127"
+    },
+    {
+      "type": "warning",
+      "text": "Service Worker registration blocked by Playwright"
+    },
+    {
+      "type": "info",
+      "text": "v2 world: 213 ring tiles read for the model in 512 ms"
+    },
+    {
+      "type": "info",
+      "text": "v2 world: 213 ring tiles resident for construction (0 ms in prepare)"
+    },
+    {
+      "type": "info",
+      "text": "v2 world: first frontier covered, 1 tiles in 1 draws (104 still streaming)"
+    },
+    {
+      "type": "info",
+      "text": "v2 world: backend preflight passed"
+    },
+    {
+      "type": "info",
+      "text": "ghibli trees: visby-coastal-pine-2026-09-16, 26 assets, 3426 kB"
+    }
+  ],
+  "perf": {
+    "marks": [
+      {
+        "name": "läser terrängdata",
+        "atMs": 73.6
+      },
+      {
+        "name": "startar renderaren",
+        "atMs": 1068.1
+      },
+      {
+        "name": "bygger terrängen",
+        "atMs": 1370.9
+      },
+      {
+        "name": "bygger terrängen",
+        "atMs": 5940.5
+      },
+      {
+        "name": "bygger horisonten",
+        "atMs": 5987.4
+      },
+      {
+        "name": "lägger fairways och greener",
+        "atMs": 6007.6
+      },
+      {
+        "name": "fyller vattnet",
+        "atMs": 6188.9
+      },
+      {
+        "name": "planterar skogen",
+        "atMs": 10718.2
+      },
+      {
+        "name": "sätter ut flaggor",
+        "atMs": 13956.2
+      },
+      {
+        "name": "ställer ljuset",
+        "atMs": 14117.6
+      },
+      {
+        "name": "ritar första vyn",
+        "atMs": 14319.6
+      }
+    ],
+    "spans": [
+      {
+        "name": "v2 preview: select + decode pilot/surface tiles",
+        "ms": 373.8
+      },
+      {
+        "name": "v2 rings: fetch + verify + decode",
+        "ms": 512.6,
+        "tiles": 213
+      },
+      {
+        "name": "model prep after terrain data (pads, water levels, shores, grids)",
+        "ms": 596.5
+      },
+      {
+        "name": "procedural textures (DETAIL, SANDN, WATERN)",
+        "ms": 190.7
+      },
+      {
+        "name": "PMREM environment",
+        "ms": 85.5,
+        "preset": "golden"
+      },
+      {
+        "name": "coastal water: connected extension",
+        "ms": 664.8,
+        "cells": 129328,
+        "quads": 632
+      },
+      {
+        "name": "ground atlas (1 m, CORE)",
+        "ms": 335.6
+      },
+      {
+        "name": "v2 prepare (worker, first frontier coverage, preflight)",
+        "ms": 1842
+      },
+      {
+        "name": "ground tint rasters (near 6 m + far 24 m)",
+        "ms": 1677.1
+      },
+      {
+        "name": "v2 vegetation: wait for chunk load",
+        "ms": 0
+      },
+      {
+        "name": "reeds (lattice + SHORE field)",
+        "ms": 341.7,
+        "reeds": 0
+      },
+      {
+        "name": "v2 vegetation: plan individuals + stand trees",
+        "ms": 209.8
+      },
+      {
+        "name": "legacy tree lattice",
+        "ms": 76.7
+      },
+      {
+        "name": "v2 vegetation: push planned trees",
+        "ms": 65.6
+      },
+      {
+        "name": "tree impostor atlases (5 species, 64 views each)",
+        "ms": 162.5
+      },
+      {
+        "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+        "ms": 350.8,
+        "trees": 51127,
+        "cells": 469
+      },
+      {
+        "name": "far vista cones",
+        "ms": 2169.3,
+        "vista": 211482
+      },
+      {
+        "name": "ground cover (tufts, bushes, stones, stumps)",
+        "ms": 0
+      },
+      {
+        "name": "v2 stream: first frontier fully resident (after the overlap)",
+        "ms": 2.9,
+        "tiles": 27
+      },
+      {
+        "name": "v2 stream: opening terrain texture upload",
+        "ms": 28.3
+      },
+      {
+        "name": "GPU startup: compile opening scene",
+        "ms": 2296.6
+      }
+    ],
+    "atlasMs": 335.6,
+    "totalMs": 16649.8,
+    "doneAtMs": 18563.9,
+    "firstFrames": [
+      {
+        "atMs": 16651.5,
+        "ms": 934.5,
+        "tris": 21562246,
+        "draws": 332,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18271.9,
+        "ms": 21,
+        "tris": 21562246,
+        "draws": 332,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18374.9,
+        "ms": 17.7,
+        "tris": 21562246,
+        "draws": 332,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18543.1,
+        "ms": 6.3,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18557.1,
+        "ms": 6.8,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18580.5,
+        "ms": 6.6,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18610.8,
+        "ms": 6.5,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18687.4,
+        "ms": 5.6,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18708.9,
+        "ms": 6.7,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18716.8,
+        "ms": 4.9,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18736.5,
+        "ms": 7.6,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      },
+      {
+        "atMs": 18745.2,
+        "ms": 5.6,
+        "tris": 11066990,
+        "draws": 85,
+        "tiers": {
+          "t0": 1445,
+          "t1": 204,
+          "t2": 0,
+          "t3": 5344
+        }
+      }
+    ],
+    "engineStartedAtNavigationMs": 144.4,
+    "courseReadyAtNavigationMs": 18708.3,
+    "preparedTint": false,
+    "courseData": {
+      "networkBytes": 6670810,
+      "networkRequests": 5,
+      "cacheHits": 0,
+      "sharedHits": 27,
+      "decodes": 926,
+      "complete": true,
+      "fallbackReasons": [],
+      "cache": {
+        "persistent": true,
+        "bytes": 6670810,
+        "totalBytes": 6670810,
+        "evicted": 0
+      },
+      "packages": 4,
+      "chunks": 842,
+      "verified": 842,
+      "decodedResidentBytes": 16776446
+    },
+    "courseDataReadyAtNavigationMs": 11157.6,
+    "gpuPreparation": {
+      "milliseconds": 2287.2,
+      "branches": 92,
+      "completed": 92,
+      "concurrency": 4,
+      "target": "scene-pass",
+      "samples": 4
+    },
+    "firstSceneSubmittedAtMs": 17586,
+    "firstSceneGpuReadyAtMs": 18550.3,
+    "tintMs": 1677
+  },
+  "navigationStart": 173229976098,
+  "whole": {
+    "self": [
+      {
+        "ms": 3692,
+        "functionName": "u",
+        "scriptId": "22",
+        "url": "http://127.0.0.1:8671/assets/ring-index-Cz_ZN3Q5.js",
+        "lineNumber": 0,
+        "columnNumber": 1338,
+        "parent": "p"
+      },
+      {
+        "ms": 3383,
+        "functionName": "(idle)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1,
+        "parent": "(root)"
+      },
+      {
+        "ms": 1221.3,
+        "functionName": "(program)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1,
+        "parent": "(root)"
+      },
+      {
+        "ms": 879.1,
+        "functionName": "",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 0,
+        "columnNumber": 0,
+        "parent": "(root)"
+      },
+      {
+        "ms": 444,
+        "functionName": "s",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 1308,
+        "parent": "f"
+      },
+      {
+        "ms": 429.9,
+        "functionName": "l",
+        "scriptId": "21",
+        "url": "http://127.0.0.1:8671/assets/geom-BrwqqLR-.js",
+        "lineNumber": 0,
+        "columnNumber": 811,
+        "parent": "u"
+      },
+      {
+        "ms": 393.1,
+        "functionName": "u",
+        "scriptId": "22",
+        "url": "http://127.0.0.1:8671/assets/ring-index-Cz_ZN3Q5.js",
+        "lineNumber": 0,
+        "columnNumber": 1338,
+        "parent": "p"
+      },
+      {
+        "ms": 319,
+        "functionName": "f",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 2068,
+        "parent": "h"
+      },
+      {
+        "ms": 311.7,
+        "functionName": "(garbage collector)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1,
+        "parent": "(root)"
+      },
+      {
+        "ms": 298.8,
+        "functionName": "l",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 1861,
+        "parent": "f"
+      },
+      {
+        "ms": 273.9,
+        "functionName": "a",
+        "scriptId": "51",
+        "url": "http://127.0.0.1:8671/assets/v2-vegetation-BLYn1oS3.js",
+        "lineNumber": 0,
+        "columnNumber": 3682,
+        "parent": "covers"
+      },
+      {
+        "ms": 160.2,
+        "functionName": "_f",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 151346,
+        "parent": ""
+      },
+      {
+        "ms": 127.3,
+        "functionName": "c",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 1728,
+        "parent": "f"
+      },
+      {
+        "ms": 115.6,
+        "functionName": "o",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 980,
+        "parent": "f"
+      },
+      {
+        "ms": 110.7,
+        "functionName": "at",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 137733,
+        "parent": "em"
+      },
+      {
+        "ms": 90.9,
+        "functionName": "pa",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 4271,
+        "parent": "ma"
+      },
+      {
+        "ms": 83.6,
+        "functionName": "at",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 137733,
+        "parent": "i"
+      },
+      {
+        "ms": 81.4,
+        "functionName": "l",
+        "scriptId": "21",
+        "url": "http://127.0.0.1:8671/assets/geom-BrwqqLR-.js",
+        "lineNumber": 0,
+        "columnNumber": 811,
+        "parent": "u"
+      },
+      {
+        "ms": 80.5,
+        "functionName": "sample",
+        "scriptId": "48",
+        "url": "http://127.0.0.1:8671/assets/v2-graph-frontier-DUUDKsmk.js",
+        "lineNumber": 0,
+        "columnNumber": 1642,
+        "parent": "heightAt"
+      },
+      {
+        "ms": 79,
+        "functionName": "l",
+        "scriptId": "21",
+        "url": "http://127.0.0.1:8671/assets/geom-BrwqqLR-.js",
+        "lineNumber": 0,
+        "columnNumber": 811,
+        "parent": "u"
+      },
+      {
+        "ms": 78.9,
+        "functionName": "s",
+        "scriptId": "30",
+        "url": "http://127.0.0.1:8671/assets/surface-CWHik6JE.js",
+        "lineNumber": 0,
+        "columnNumber": 878,
+        "parent": ""
+      },
+      {
+        "ms": 72.3,
+        "functionName": "l",
+        "scriptId": "21",
+        "url": "http://127.0.0.1:8671/assets/geom-BrwqqLR-.js",
+        "lineNumber": 0,
+        "columnNumber": 811,
+        "parent": "u"
+      },
+      {
+        "ms": 72.1,
+        "functionName": "at",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 137733,
+        "parent": "_f"
+      },
+      {
+        "ms": 71.5,
+        "functionName": "m",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 5823,
+        "parent": "_"
+      },
+      {
+        "ms": 69.7,
+        "functionName": "h",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 3556,
+        "parent": "createResource"
+      },
+      {
+        "ms": 68.1,
+        "functionName": "Kp",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 165315,
+        "parent": "s"
+      },
+      {
+        "ms": 62.1,
+        "functionName": "_",
+        "scriptId": "51",
+        "url": "http://127.0.0.1:8671/assets/v2-vegetation-BLYn1oS3.js",
+        "lineNumber": 0,
+        "columnNumber": 4498,
+        "parent": ""
+      },
+      {
+        "ms": 61.2,
+        "functionName": "n",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 234501,
+        "parent": ""
+      },
+      {
+        "ms": 59.6,
+        "functionName": "at",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 137733,
+        "parent": ""
+      },
+      {
+        "ms": 58.7,
+        "functionName": "s",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 3877,
+        "parent": "fa"
+      },
+      {
+        "ms": 58.6,
+        "functionName": "em",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 166332,
+        "parent": ""
+      },
+      {
+        "ms": 56.6,
+        "functionName": "",
+        "scriptId": "46",
+        "url": "http://127.0.0.1:8671/assets/course-startup-D3anpmJM.js",
+        "lineNumber": 0,
+        "columnNumber": 7398,
+        "parent": "(root)"
+      },
+      {
+        "ms": 55.7,
+        "functionName": "u",
+        "scriptId": "22",
+        "url": "http://127.0.0.1:8671/assets/ring-index-Cz_ZN3Q5.js",
+        "lineNumber": 0,
+        "columnNumber": 1338,
+        "parent": "d"
+      },
+      {
+        "ms": 48.9,
+        "functionName": "u",
+        "scriptId": "22",
+        "url": "http://127.0.0.1:8671/assets/ring-index-Cz_ZN3Q5.js",
+        "lineNumber": 0,
+        "columnNumber": 1338,
+        "parent": "d"
+      },
+      {
+        "ms": 45.3,
+        "functionName": "s",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 168020,
+        "parent": "tm"
+      }
+    ],
+    "inclusive": [
+      {
+        "ms": 18755.2,
+        "functionName": "(root)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1
+      },
+      {
+        "ms": 9874.6,
+        "functionName": "",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 0,
+        "columnNumber": 0,
+        "parent": "(root)"
+      },
+      {
+        "ms": 4260.9,
+        "functionName": "Sa",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 10465,
+        "parent": ""
+      },
+      {
+        "ms": 4251.6,
+        "functionName": "p",
+        "scriptId": "22",
+        "url": "http://127.0.0.1:8671/assets/ring-index-Cz_ZN3Q5.js",
+        "lineNumber": 0,
+        "columnNumber": 2332,
+        "parent": "Sa"
+      },
+      {
+        "ms": 4142.1,
+        "functionName": "u",
+        "scriptId": "22",
+        "url": "http://127.0.0.1:8671/assets/ring-index-Cz_ZN3Q5.js",
+        "lineNumber": 0,
+        "columnNumber": 1338,
+        "parent": "p"
+      },
+      {
+        "ms": 3383,
+        "functionName": "(idle)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1,
+        "parent": "(root)"
+      },
+      {
+        "ms": 1666.6,
+        "functionName": "tm",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 167790,
+        "parent": ""
+      },
+      {
+        "ms": 1664.5,
+        "functionName": "s",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 168020,
+        "parent": "tm"
+      },
+      {
+        "ms": 1433.3,
+        "functionName": "",
+        "scriptId": "56",
+        "url": "http://127.0.0.1:8671/assets/v2-terrain-runtime-BTJtGI7R.js",
+        "lineNumber": 0,
+        "columnNumber": 9991,
+        "parent": "(root)"
+      },
+      {
+        "ms": 1428.9,
+        "functionName": "createResource",
+        "scriptId": "56",
+        "url": "http://127.0.0.1:8671/assets/v2-terrain-runtime-BTJtGI7R.js",
+        "lineNumber": 0,
+        "columnNumber": 25533,
+        "parent": ""
+      },
+      {
+        "ms": 1425,
+        "functionName": "h",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 3556,
+        "parent": "createResource"
+      },
+      {
+        "ms": 1350.6,
+        "functionName": "f",
+        "scriptId": "50",
+        "url": "http://127.0.0.1:8671/assets/terrain-render-data-DW1Tn4fZ.js",
+        "lineNumber": 0,
+        "columnNumber": 2068,
+        "parent": "h"
+      },
+      {
+        "ms": 1221.3,
+        "functionName": "(program)",
+        "scriptId": "0",
+        "url": "",
+        "lineNumber": -1,
+        "columnNumber": -1,
+        "parent": "(root)"
+      },
+      {
+        "ms": 1142.7,
+        "functionName": "",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 168674,
+        "parent": "s"
+      },
+      {
+        "ms": 1055.4,
+        "functionName": "_f",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 151346,
+        "parent": ""
+      },
+      {
+        "ms": 957.7,
+        "functionName": "e",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 22,
+        "columnNumber": 76926,
+        "parent": "(root)"
+      },
+      {
+        "ms": 950.7,
+        "functionName": "",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 229,
+        "columnNumber": 26036,
+        "parent": "e"
+      },
+      {
+        "ms": 948,
+        "functionName": "Ay",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 229,
+        "columnNumber": 23192,
+        "parent": ""
+      },
+      {
+        "ms": 917.2,
+        "functionName": "render",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 537,
+        "columnNumber": 41127,
+        "parent": "cs"
+      },
+      {
+        "ms": 917.2,
+        "functionName": "cs",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 52510,
+        "parent": "eg"
+      },
+      {
+        "ms": 917.2,
+        "functionName": "eg",
+        "scriptId": "13",
+        "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+        "lineNumber": 218,
+        "columnNumber": 282550,
+        "parent": "Ay"
+      },
+      {
+        "ms": 915.6,
+        "functionName": "render",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 51271,
+        "parent": "render"
+      },
+      {
+        "ms": 915.6,
+        "functionName": "render",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 22,
+        "columnNumber": 135309,
+        "parent": "render"
+      },
+      {
+        "ms": 915.6,
+        "functionName": "_renderScene",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 53539,
+        "parent": "render"
+      },
+      {
+        "ms": 913.9,
+        "functionName": "_renderObjects",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 69838,
+        "parent": "_renderScene"
+      },
+      {
+        "ms": 913.8,
+        "functionName": "_renderObjectDirect",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 73502,
+        "parent": "renderObject"
+      },
+      {
+        "ms": 913.8,
+        "functionName": "renderObject",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 71635,
+        "parent": "_renderObjects"
+      },
+      {
+        "ms": 906.3,
+        "functionName": "updateBeforeNode",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 520,
+        "parent": "updateBefore"
+      },
+      {
+        "ms": 906.3,
+        "functionName": "updateBefore",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 15094,
+        "parent": "_renderObjectDirect"
+      },
+      {
+        "ms": 879.6,
+        "functionName": "updateBefore",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 22,
+        "columnNumber": 153747,
+        "parent": "updateBeforeNode"
+      },
+      {
+        "ms": 877.7,
+        "functionName": "_renderScene",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 53539,
+        "parent": "render"
+      },
+      {
+        "ms": 877.7,
+        "functionName": "render",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 51271,
+        "parent": "updateBefore"
+      },
+      {
+        "ms": 837.6,
+        "functionName": "_renderObjects",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 69838,
+        "parent": "_renderScene"
+      },
+      {
+        "ms": 835.9,
+        "functionName": "_renderObjectDirect",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 73502,
+        "parent": "renderObject"
+      },
+      {
+        "ms": 835.9,
+        "functionName": "renderObject",
+        "scriptId": "17",
+        "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+        "lineNumber": 28,
+        "columnNumber": 71635,
+        "parent": "_renderObjects"
+      }
+    ]
+  },
+  "frames": [
+    {
+      "atMs": 16651.5,
+      "ms": 934.5,
+      "tris": 21562246,
+      "draws": 332,
+      "tiers": {
+        "t0": 1445,
+        "t1": 204,
+        "t2": 0,
+        "t3": 5344
+      },
+      "self": [
+        {
+          "ms": 51.2,
+          "functionName": "(garbage collector)",
+          "scriptId": "0",
+          "url": "",
+          "lineNumber": -1,
+          "columnNumber": -1,
+          "parent": "(root)"
+        },
+        {
+          "ms": 11.1,
+          "functionName": "ee",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 216,
+          "columnNumber": 1183,
+          "parent": "k"
+        },
+        {
+          "ms": 8.6,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 27,
+          "columnNumber": 1554,
+          "parent": "getForRender"
+        },
+        {
+          "ms": 6.2,
+          "functionName": "getForRender",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 94641,
+          "parent": "updateForRender"
+        },
+        {
+          "ms": 4.6,
+          "functionName": "createAttribute",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 536,
+          "columnNumber": 499,
+          "parent": "createAttribute"
+        },
+        {
+          "ms": 4.2,
+          "functionName": "getVars",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 430,
+          "columnNumber": 138,
+          "parent": "buildCode"
+        },
+        {
+          "ms": 3.3,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 7694,
+          "parent": "generate"
+        },
+        {
+          "ms": 3.3,
+          "functionName": "_getNodeChildren",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 10525,
+          "parent": "customProgramCacheKey"
+        },
+        {
+          "ms": 3.3,
+          "functionName": "_getChildren",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 5061,
+          "parent": "getChildren"
+        },
+        {
+          "ms": 3.3,
+          "functionName": "getRenderCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 32177,
+          "parent": "_getRenderCacheKey"
+        },
+        {
+          "ms": 3.2,
+          "functionName": "analyze",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 7074,
+          "parent": "build"
+        },
+        {
+          "ms": 3.2,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 11380,
+          "parent": "build"
+        },
+        {
+          "ms": 3.1,
+          "functionName": "createBindGroup",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 536,
+          "columnNumber": 6435,
+          "parent": "createBindings"
+        },
+        {
+          "ms": 3,
+          "functionName": "updateAttributes",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 88143,
+          "parent": "updateForRender"
+        },
+        {
+          "ms": 2.8,
+          "functionName": "increaseUsage",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 81292,
+          "parent": "analyze"
+        },
+        {
+          "ms": 2.5,
+          "functionName": "ds",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 18801,
+          "parent": "Fs"
+        },
+        {
+          "ms": 2.5,
+          "functionName": "get values",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 76781,
+          "parent": "updateNumber"
+        },
+        {
+          "ms": 2.4,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "getHash",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 5960,
+          "parent": "getShared"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "getUniformFromNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 415,
+          "columnNumber": 6425,
+          "parent": "generate"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "createUniformBuffer",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 34595,
+          "parent": "_createBindings"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 7694,
+          "parent": "build"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 7694,
+          "parent": "build"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 7694,
+          "parent": "build"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "_getChildren",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 5061,
+          "parent": "getChildren"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 12,
+          "columnNumber": 2239,
+          "parent": "build"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 198,
+          "columnNumber": 4378,
+          "parent": "call"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "getNodeFromHash",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 80397,
+          "parent": "getShared"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "addChain",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 80210,
+          "parent": "build"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "analyze",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 7074,
+          "parent": "build"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "getShared",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 6617,
+          "parent": "build"
+        },
+        {
+          "ms": 1.7,
+          "functionName": "setHashNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 79312,
+          "parent": "addNode"
+        },
+        {
+          "ms": 1.7,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 113588,
+          "parent": "flowChildNode"
+        },
+        {
+          "ms": 1.7,
+          "functionName": "e",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 4013,
+          "parent": "$u"
+        },
+        {
+          "ms": 1.7,
+          "functionName": "setHashNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 79312,
+          "parent": "addNode"
+        }
+      ],
+      "inclusive": [
+        {
+          "ms": 935.1,
+          "functionName": "(root)",
+          "scriptId": "0",
+          "url": "",
+          "lineNumber": -1,
+          "columnNumber": -1
+        },
+        {
+          "ms": 883.9,
+          "functionName": "Ay",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 229,
+          "columnNumber": 23192,
+          "parent": ""
+        },
+        {
+          "ms": 883.9,
+          "functionName": "",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 229,
+          "columnNumber": 26036,
+          "parent": "e"
+        },
+        {
+          "ms": 883.9,
+          "functionName": "e",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 76926,
+          "parent": "(root)"
+        },
+        {
+          "ms": 865.4,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 41127,
+          "parent": "cs"
+        },
+        {
+          "ms": 865.4,
+          "functionName": "cs",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 218,
+          "columnNumber": 52510,
+          "parent": "eg"
+        },
+        {
+          "ms": 865.4,
+          "functionName": "eg",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 218,
+          "columnNumber": 282550,
+          "parent": "Ay"
+        },
+        {
+          "ms": 863.9,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "render"
+        },
+        {
+          "ms": 863.9,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 135309,
+          "parent": "render"
+        },
+        {
+          "ms": 863.8,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 862.1,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 862.1,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 862.1,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 856.1,
+          "functionName": "updateBeforeNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 520,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 856.1,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 15094,
+          "parent": "_renderObjectDirect"
+        },
+        {
+          "ms": 837,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 153747,
+          "parent": "updateBeforeNode"
+        },
+        {
+          "ms": 836.8,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 836.8,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 801.4,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 799.8,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 799.8,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 599.9,
+          "functionName": "needsRefresh",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 15859,
+          "parent": "_renderObjectDirect"
+        },
+        {
+          "ms": 599.5,
+          "functionName": "getForRender",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 8988,
+          "parent": "getNodeBuilderState"
+        },
+        {
+          "ms": 599.5,
+          "functionName": "getNodeBuilderState",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 80086,
+          "parent": "getMonitor"
+        },
+        {
+          "ms": 599.5,
+          "functionName": "getMonitor",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 80162,
+          "parent": "needsRefresh"
+        },
+        {
+          "ms": 598,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 27,
+          "columnNumber": 1554,
+          "parent": "getForRender"
+        },
+        {
+          "ms": 392.1,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 113588,
+          "parent": "build"
+        },
+        {
+          "ms": 339.4,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 7694,
+          "parent": "build"
+        },
+        {
+          "ms": 339.4,
+          "functionName": "build",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 11380,
+          "parent": "build"
+        },
+        {
+          "ms": 174.5,
+          "functionName": "updateShadow",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 21946,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 174.5,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 23448,
+          "parent": "updateBeforeNode"
+        },
+        {
+          "ms": 174.5,
+          "functionName": "updateBeforeNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 520,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 174.5,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 15094,
+          "parent": "_renderObjectDirect"
+        },
+        {
+          "ms": 172.8,
+          "functionName": "renderShadow",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 21706,
+          "parent": "updateShadow"
+        },
+        {
+          "ms": 172.3,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        }
+      ]
+    },
+    {
+      "atMs": 18271.9,
+      "ms": 21,
+      "tris": 21562246,
+      "draws": 332,
+      "tiers": {
+        "t0": 1445,
+        "t1": 204,
+        "t2": 0,
+        "t3": 5344
+      },
+      "self": [
+        {
+          "ms": 3.2,
+          "functionName": "getMaterialCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 82476,
+          "parent": "getCacheKey"
+        },
+        {
+          "ms": 1.8,
+          "functionName": "updateNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 1385,
+          "parent": "updateForRender"
+        },
+        {
+          "ms": 1.7,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 1.7,
+          "functionName": "ky",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 229,
+          "columnNumber": 23004,
+          "parent": "Ay"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "_draw",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 26344,
+          "parent": "draw"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "has",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 85728,
+          "parent": "has"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "_getNodeChildren",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 10525,
+          "parent": "customProgramCacheKey"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "update",
+          "scriptId": "54",
+          "url": "http://127.0.0.1:8671/assets/v2-graph-terrain-HdsD9jrB.js",
+          "lineNumber": 1,
+          "columnNumber": 16527,
+          "parent": "Oy"
+        },
+        {
+          "ms": 1.4,
+          "functionName": "needsRefresh",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 0,
+          "columnNumber": 25534,
+          "parent": "needsRefresh"
+        },
+        {
+          "ms": 1.2,
+          "functionName": "getRenderCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 32177,
+          "parent": "_getRenderCacheKey"
+        },
+        {
+          "ms": 1.2,
+          "functionName": "k",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 216,
+          "columnNumber": 2113,
+          "parent": "Ay"
+        },
+        {
+          "ms": 1.1,
+          "functionName": "getForRender",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 94641,
+          "parent": "updateForRender"
+        },
+        {
+          "ms": 0.8,
+          "functionName": "createBindings",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 536,
+          "columnNumber": 5381,
+          "parent": "updateBindings"
+        },
+        {
+          "ms": 0.4,
+          "functionName": "finishRender",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 20635,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 0.4,
+          "functionName": "equals",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 0,
+          "columnNumber": 21406,
+          "parent": "needsRefresh"
+        },
+        {
+          "ms": 0.1,
+          "functionName": "",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 16,
+          "columnNumber": 24490,
+          "parent": ""
+        },
+        {
+          "ms": 0.1,
+          "functionName": "updateSharedForRender",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 97901,
+          "parent": "_renderObjectDirect"
+        }
+      ],
+      "inclusive": [
+        {
+          "ms": 21.4,
+          "functionName": "Ay",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 229,
+          "columnNumber": 23192,
+          "parent": ""
+        },
+        {
+          "ms": 21.4,
+          "functionName": "",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 229,
+          "columnNumber": 26036,
+          "parent": "e"
+        },
+        {
+          "ms": 21.4,
+          "functionName": "e",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 76926,
+          "parent": "(root)"
+        },
+        {
+          "ms": 21.4,
+          "functionName": "(root)",
+          "scriptId": "0",
+          "url": "",
+          "lineNumber": -1,
+          "columnNumber": -1
+        },
+        {
+          "ms": 17,
+          "functionName": "updateBeforeNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 520,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 17,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 15094,
+          "parent": "_renderObjectDirect"
+        },
+        {
+          "ms": 17,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 17,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 17,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 17,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 17,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "render"
+        },
+        {
+          "ms": 17,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 135309,
+          "parent": "render"
+        },
+        {
+          "ms": 17,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 41127,
+          "parent": "cs"
+        },
+        {
+          "ms": 17,
+          "functionName": "cs",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 218,
+          "columnNumber": 52510,
+          "parent": "eg"
+        },
+        {
+          "ms": 17,
+          "functionName": "eg",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 218,
+          "columnNumber": 282550,
+          "parent": "Ay"
+        },
+        {
+          "ms": 15.8,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 15.8,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 15.8,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 153747,
+          "parent": "updateBeforeNode"
+        },
+        {
+          "ms": 15.4,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 15.4,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 15.4,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "i"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "i",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 13757,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "renderShadow"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "renderShadow",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 21706,
+          "parent": "updateShadow"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "updateShadow",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 21946,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 23448,
+          "parent": "updateBeforeNode"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "updateBeforeNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 520,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 10.3,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 15094,
+          "parent": "_renderObjectDirect"
+        },
+        {
+          "ms": 4.8,
+          "functionName": "getMaterialCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 82476,
+          "parent": "getCacheKey"
+        },
+        {
+          "ms": 4.8,
+          "functionName": "getCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 83987,
+          "parent": "get"
+        },
+        {
+          "ms": 4.8,
+          "functionName": "get",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 84565,
+          "parent": "_renderObjectDirect"
+        }
+      ]
+    },
+    {
+      "atMs": 18374.9,
+      "ms": 17.7,
+      "tris": 21562246,
+      "draws": 332,
+      "tiers": {
+        "t0": 1445,
+        "t1": 204,
+        "t2": 0,
+        "t3": 5344
+      },
+      "self": [
+        {
+          "ms": 2.4,
+          "functionName": "go",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 459,
+          "parent": "getMaterialCacheKey"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "getForRender",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 94641,
+          "parent": "updateForRender"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "setSize",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 155302,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "beginRender",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 15254,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "get needsGeometryUpdate",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 83293,
+          "parent": "get"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "update",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 77246,
+          "parent": "_update"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "customProgramCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 10714,
+          "parent": "getMaterialCacheKey"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "_draw",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 26344,
+          "parent": "draw"
+        },
+        {
+          "ms": 1.6,
+          "functionName": "v",
+          "scriptId": "56",
+          "url": "http://127.0.0.1:8671/assets/v2-terrain-runtime-BTJtGI7R.js",
+          "lineNumber": 0,
+          "columnNumber": 17181,
+          "parent": "x"
+        },
+        {
+          "ms": 1.4,
+          "functionName": "RegExp: ^(is[A-Z]|_)|^(visible|version|uuid|name|opacity|userData)$",
+          "scriptId": "0",
+          "url": "",
+          "lineNumber": -1,
+          "columnNumber": -1,
+          "parent": "getMaterialCacheKey"
+        },
+        {
+          "ms": 1.2,
+          "functionName": "ho",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 2,
+          "columnNumber": 18,
+          "parent": "go"
+        }
+      ],
+      "inclusive": [
+        {
+          "ms": 17.8,
+          "functionName": "Ay",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 229,
+          "columnNumber": 23192,
+          "parent": ""
+        },
+        {
+          "ms": 17.8,
+          "functionName": "",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 229,
+          "columnNumber": 26036,
+          "parent": "e"
+        },
+        {
+          "ms": 17.8,
+          "functionName": "e",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 76926,
+          "parent": "(root)"
+        },
+        {
+          "ms": 17.8,
+          "functionName": "(root)",
+          "scriptId": "0",
+          "url": "",
+          "lineNumber": -1,
+          "columnNumber": -1
+        },
+        {
+          "ms": 16.2,
+          "functionName": "updateBeforeNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 520,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 15094,
+          "parent": "_renderObjectDirect"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "render"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 135309,
+          "parent": "render"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 537,
+          "columnNumber": 41127,
+          "parent": "cs"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "cs",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 218,
+          "columnNumber": 52510,
+          "parent": "eg"
+        },
+        {
+          "ms": 16.2,
+          "functionName": "eg",
+          "scriptId": "13",
+          "url": "http://127.0.0.1:8671/assets/main-DoFxHGvP.js",
+          "lineNumber": 218,
+          "columnNumber": 282550,
+          "parent": "Ay"
+        },
+        {
+          "ms": 14.6,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 153747,
+          "parent": "updateBeforeNode"
+        },
+        {
+          "ms": 13,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 13,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 13,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 13,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 13,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "_renderObjectDirect",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 73502,
+          "parent": "renderObject"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "renderObject",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 71635,
+          "parent": "i"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "i",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 13757,
+          "parent": "_renderObjects"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "_renderObjects",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 69838,
+          "parent": "_renderScene"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "_renderScene",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 53539,
+          "parent": "render"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "render",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 51271,
+          "parent": "renderShadow"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "renderShadow",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 21706,
+          "parent": "updateShadow"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "updateShadow",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 21946,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 23,
+          "columnNumber": 23448,
+          "parent": "updateBeforeNode"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "updateBeforeNode",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 520,
+          "parent": "updateBefore"
+        },
+        {
+          "ms": 9.8,
+          "functionName": "updateBefore",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 28,
+          "columnNumber": 15094,
+          "parent": "_renderObjectDirect"
+        },
+        {
+          "ms": 6.6,
+          "functionName": "getMaterialCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 82476,
+          "parent": "getCacheKey"
+        },
+        {
+          "ms": 6.6,
+          "functionName": "getCacheKey",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 83987,
+          "parent": "get"
+        },
+        {
+          "ms": 6.6,
+          "functionName": "get",
+          "scriptId": "17",
+          "url": "http://127.0.0.1:8671/assets/three.webgpu-Ct0xRfAu.js",
+          "lineNumber": 22,
+          "columnNumber": 84565,
+          "parent": "_renderObjectDirect"
+        }
+      ]
+    }
+  ],
+  "textureWrites": [
+    {
+      "atMs": 2806.0999999940395,
+      "ms": 0.30000001192092896,
+      "id": 1,
+      "width": 512,
+      "height": 512,
+      "format": "r8unorm",
+      "label": "",
+      "bytes": 262144,
+      "backingBytes": 262144
+    },
+    {
+      "atMs": 2806.5999999940395,
+      "ms": 1.5999999940395355,
+      "id": 2,
+      "width": 685,
+      "height": 685,
+      "format": "rgba8unorm-srgb",
+      "label": "",
+      "bytes": 1876900,
+      "backingBytes": 1876900
+    },
+    {
+      "atMs": 2808.300000011921,
+      "ms": 0.7999999821186066,
+      "id": 3,
+      "width": 513,
+      "height": 513,
+      "format": "rgba8unorm-srgb",
+      "label": "",
+      "bytes": 1052676,
+      "backingBytes": 1052676
+    },
+    {
+      "atMs": 2809.300000011921,
+      "ms": 0,
+      "id": 4,
+      "width": 32,
+      "height": 4,
+      "format": "rgba32float",
+      "label": "",
+      "bytes": 2048,
+      "backingBytes": 2048
+    },
+    {
+      "atMs": 2809.300000011921,
+      "ms": 1.899999976158142,
+      "id": 5,
+      "width": 1440,
+      "height": 1656,
+      "format": "rg8unorm",
+      "label": "",
+      "bytes": 4769280,
+      "backingBytes": 4769280
+    },
+    {
+      "atMs": 2811.4000000059605,
+      "ms": 3.7999999821186066,
+      "id": 6,
+      "width": 1440,
+      "height": 1656,
+      "format": "rgba8unorm",
+      "label": "",
+      "bytes": 9538560,
+      "backingBytes": 9538560
+    },
+    {
+      "atMs": 2816.5999999940395,
+      "ms": 0.09999999403953552,
+      "id": 7,
+      "width": 16,
+      "height": 16,
+      "format": "rg16float",
+      "label": "DFG_LUT",
+      "bytes": 1024,
+      "backingBytes": 1024
+    },
+    {
+      "atMs": 2816.800000011921,
+      "ms": 0.699999988079071,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3509,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3509.4000000059605,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3509.699999988079,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3510.199999988079,
+      "ms": 0.4000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3510.5999999940395,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3510.9000000059605,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3511.300000011921,
+      "ms": 0.3999999761581421,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3511.699999988079,
+      "ms": 0.800000011920929,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3512.5,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3513.0999999940395,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3513.5999999940395,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3514.0999999940395,
+      "ms": 0.4000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3514.5,
+      "ms": 0.9000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3515.4000000059605,
+      "ms": 0.699999988079071,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3516.0999999940395,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3516.5999999940395,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3516.9000000059605,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3517.4000000059605,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3518,
+      "ms": 0.800000011920929,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3518.9000000059605,
+      "ms": 0.4000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3519.4000000059605,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3519.699999988079,
+      "ms": 0.6000000238418579,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3520.300000011921,
+      "ms": 0.699999988079071,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3521.0999999940395,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3521.5999999940395,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3522.199999988079,
+      "ms": 0.6000000238418579,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3522.800000011921,
+      "ms": 0.7999999821186066,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 3523.5999999940395,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14435.800000011921,
+      "ms": 0.3999999761581421,
+      "id": 9,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x1-rgba8",
+      "bytes": 528392,
+      "backingBytes": 528392
+    },
+    {
+      "atMs": 14436.199999988079,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14436.5,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14436.800000011921,
+      "ms": 0.3999999761581421,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14437.199999988079,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14437.5,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14437.800000011921,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14438.40000000596,
+      "ms": 0.699999988079071,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14439.09999999404,
+      "ms": 0.7000000178813934,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14439.800000011921,
+      "ms": 0.7999999821186066,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14440.59999999404,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14441.09999999404,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14441.59999999404,
+      "ms": 0.7000000178813934,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14442.300000011921,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14442.90000000596,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14443.40000000596,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14443.90000000596,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14444.5,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14445,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14445.300000011921,
+      "ms": 0.3999999761581421,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14445.699999988079,
+      "ms": 0.6000000238418579,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14446.300000011921,
+      "ms": 0.3999999761581421,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14446.699999988079,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14447,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14447.300000011921,
+      "ms": 0.5999999940395355,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14447.90000000596,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14448.40000000596,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14448.699999988079,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14449,
+      "ms": 0.4000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14449.40000000596,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14449.699999988079,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14450.199999988079,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14450.5,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14450.800000011921,
+      "ms": 0.3999999761581421,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14451.199999988079,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14451.5,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14451.800000011921,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14452.09999999404,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14452.40000000596,
+      "ms": 0.19999998807907104,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14452.59999999404,
+      "ms": 0.20000001788139343,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14452.800000011921,
+      "ms": 0.09999999403953552,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14452.90000000596,
+      "ms": 0.19999998807907104,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14453.09999999404,
+      "ms": 5.800000011920929,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14458.90000000596,
+      "ms": 0.5,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14459.40000000596,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14459.699999988079,
+      "ms": 0.20000001788139343,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14459.90000000596,
+      "ms": 0.09999999403953552,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14460,
+      "ms": 0.4000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14460.40000000596,
+      "ms": 0.19999998807907104,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14460.59999999404,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14460.90000000596,
+      "ms": 0.19999998807907104,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14461.09999999404,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14461.40000000596,
+      "ms": 0.19999998807907104,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14461.59999999404,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14461.90000000596,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14462.199999988079,
+      "ms": 0.10000002384185791,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14462.300000011921,
+      "ms": 0.19999998807907104,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14462.5,
+      "ms": 0.4000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14462.90000000596,
+      "ms": 0.29999998211860657,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14463.199999988079,
+      "ms": 0.30000001192092896,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14463.5,
+      "ms": 0.4000000059604645,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14463.90000000596,
+      "ms": 0.09999999403953552,
+      "id": 8,
+      "width": 514,
+      "height": 257,
+      "format": "rgba8unorm",
+      "label": "banvy-v2-terrain-514x257x128-rgba8",
+      "bytes": 67634176,
+      "backingBytes": 67634176
+    },
+    {
+      "atMs": 14532.300000011921,
+      "ms": 1,
+      "id": 2,
+      "width": 685,
+      "height": 685,
+      "format": "rgba8unorm-srgb",
+      "label": "",
+      "bytes": 1876900,
+      "backingBytes": 1876900
+    },
+    {
+      "atMs": 14533.40000000596,
+      "ms": 0.699999988079071,
+      "id": 3,
+      "width": 513,
+      "height": 513,
+      "format": "rgba8unorm-srgb",
+      "label": "",
+      "bytes": 1052676,
+      "backingBytes": 1052676
+    }
+  ],
+  "boot": "<div id=\"boot\" class=\"done\"><div class=\"inner\">\n  <div class=\"boot-logo\">\n    <div class=\"boot-ring\"></div>\n    <div class=\"mark\">Ban<i>v</i>y</div>\n  </div>\n  <h1 id=\"bootTitle\">Visby Golfklubb</h1>\n  <p class=\"sub\" id=\"bootSub\">Kronholmen · 18 hål · Par 72</p>\n  <div id=\"bar\"><i style=\"width: 100%;\"></i></div>\n  <div class=\"boot-status\">\n    <span class=\"status-pulse\"></span>\n    <span id=\"bmsg\">klar</span>\n  </div>\n</div></div>",
+  "adapters": [
+    {
+      "atMs": 827.5,
+      "vendor": "nvidia",
+      "architecture": "ampere",
+      "device": "",
+      "description": "",
+      "isFallbackAdapter": false
+    }
+  ]
+}

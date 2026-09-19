@@ -210,6 +210,15 @@ export default defineConfig(({ mode }) => {
               expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },
           },
           {
+            // The pin flag's baked cloth (tools/build-flag-cloth.mjs) is named
+            // by its sha256 and verified against it, so a cached copy is never
+            // the wrong one; every course shares the one file.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/flag\/cloth-[a-f0-9]{64}\.bin$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'banvy-flag-cloth',
+              expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
             urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|visby-pine)\/[a-f0-9]{64}\.(glb|png)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'banvy-ghibli-foliage-assets',

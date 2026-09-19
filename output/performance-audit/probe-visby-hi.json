@@ -1,0 +1,965 @@
+{
+  "url": "http://127.0.0.1:8671/?bana=visby&det=1&qualitylock=1&startup=1&ljus=kvall&ghibli=1&gl=0&hal=1&vy=tee&v2=require&q=hi",
+  "gpu": true,
+  "mobileEmulation": false,
+  "cpuRate": 1,
+  "physicalPhone": false,
+  "runs": [
+    {
+      "booted": true,
+      "wallMs": 25225,
+      "errors": [],
+      "logs": [
+        {
+          "atMs": 1324,
+          "text": "v2 world: 213 ring tiles read for the model in 542 ms"
+        },
+        {
+          "atMs": 2719,
+          "text": "v2 world: 213 ring tiles resident for construction (0 ms in prepare)"
+        },
+        {
+          "atMs": 2835,
+          "text": "v2 world: first frontier covered, 1 tiles in 1 draws (105 still streaming)"
+        },
+        {
+          "atMs": 4401,
+          "text": "v2 world: backend preflight passed"
+        }
+      ],
+      "network": {
+        "requests": 97,
+        "transferredBytes": 10568163,
+        "scope": "page CDP; service-worker requests excluded",
+        "serviceWorkers": false,
+        "mbps": 0,
+        "latencyMs": 0
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 136.5
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 1265.6
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 1564.7
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 5982
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 6003
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 6023.4
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 6191.7
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 12517.4
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 17279.7
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 17519.9
+          },
+          {
+            "name": "ritar första vyn",
+            "atMs": 17781.2
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 444.5
+          },
+          {
+            "name": "v2 rings: fetch + verify + decode",
+            "ms": 542.1,
+            "tiles": 213
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 663.9
+          },
+          {
+            "name": "procedural textures (DETAIL, SANDN, WATERN)",
+            "ms": 194.2
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 77.6,
+            "preset": "golden"
+          },
+          {
+            "name": "coastal water: connected extension",
+            "ms": 657.8,
+            "cells": 129328,
+            "quads": 632
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 286.9
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 1696.2
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 1615.1
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 116.9
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 882,
+            "reeds": 0
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 324.4
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 120.2
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 98.4
+          },
+          {
+            "name": "tree impostor atlases (5 species, 64 views each)",
+            "ms": 205.8
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 458.3,
+            "trees": 51127,
+            "cells": 469
+          },
+          {
+            "name": "far vista cones",
+            "ms": 2851,
+            "vista": 211482
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 0
+          },
+          {
+            "name": "v2 stream: first frontier fully resident (after the overlap)",
+            "ms": 2.9,
+            "tiles": 27
+          },
+          {
+            "name": "v2 stream: opening terrain texture upload",
+            "ms": 42.2
+          },
+          {
+            "name": "GPU startup: compile opening scene",
+            "ms": 3465.9
+          }
+        ],
+        "atlasMs": 286.9,
+        "totalMs": 21284,
+        "doneAtMs": 24818,
+        "firstFrames": [
+          {
+            "atMs": 21287.6,
+            "ms": 1686.1,
+            "tris": 21562246,
+            "draws": 332,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24332.4,
+            "ms": 30.6,
+            "tris": 21562246,
+            "draws": 332,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24502.4,
+            "ms": 27.4,
+            "tris": 21562246,
+            "draws": 332,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24807.9,
+            "ms": 10,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24841.8,
+            "ms": 9.3,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24863.6,
+            "ms": 9.4,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24910.5,
+            "ms": 9.4,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24947.9,
+            "ms": 8.5,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 24983,
+            "ms": 9,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 25016.2,
+            "ms": 8,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          },
+          {
+            "atMs": 25051,
+            "ms": 8.9,
+            "tris": 11066990,
+            "draws": 85,
+            "tiers": {
+              "t0": 1445,
+              "t1": 204,
+              "t2": 0,
+              "t3": 5344
+            }
+          }
+        ],
+        "engineStartedAtNavigationMs": 145.2,
+        "courseReadyAtNavigationMs": 24963.2,
+        "preparedTint": false,
+        "courseData": {
+          "networkBytes": 6670810,
+          "networkRequests": 5,
+          "cacheHits": 0,
+          "sharedHits": 46,
+          "decodes": 907,
+          "complete": true,
+          "fallbackReasons": [],
+          "cache": {
+            "persistent": true,
+            "bytes": 6670810,
+            "totalBytes": 6670810,
+            "evicted": 0
+          },
+          "packages": 4,
+          "chunks": 842,
+          "verified": 842,
+          "decodedResidentBytes": 16776446
+        },
+        "courseDataReadyAtNavigationMs": 14920.2,
+        "gpuPreparation": {
+          "milliseconds": 3451,
+          "branches": 92,
+          "completed": 92,
+          "concurrency": 4,
+          "target": "scene-pass",
+          "samples": 4
+        },
+        "firstSceneSubmittedAtMs": 22973.8,
+        "firstSceneGpuReadyAtMs": 24762.2,
+        "tintMs": 1615
+      },
+      "stats": {
+        "verts": 20120,
+        "tris": 32506,
+        "trees": 51127,
+        "vista": 211482,
+        "vistaSpecies": {
+          "spruce": 12511,
+          "pine": 153468,
+          "birch": 45503,
+          "alder": 0,
+          "oak": 0
+        },
+        "environmentWater": null,
+        "tufts": 0,
+        "bushes": 0,
+        "stones": 0,
+        "reeds": 0,
+        "cars": 0,
+        "authoredParkingCars": 0,
+        "pylons": 0,
+        "stumps": 0,
+        "inferredRangeTargets": 0,
+        "measuredRoofBuildings": 0,
+        "measuredRoofTriangles": 0,
+        "sourceRoofBuildings": 0,
+        "sourceRoofTriangles": 0,
+        "architecturalBuildings": 0,
+        "architecturalTriangles": 0,
+        "authoredBuildingModels": 0,
+        "authoredBuildingMeshes": 0,
+        "authoredBuildingTriangles": 0,
+        "architectureAssets": null,
+        "authoredFacilityBuildings": 7,
+        "facilities": {
+          "status": "loaded",
+          "courseSlug": "visby",
+          "replacedBuildingIds": [
+            "way/530655627",
+            "way/530655628",
+            "way/530655629",
+            "way/530655630",
+            "way/530655631",
+            "way/530655632",
+            "way/530655633"
+          ],
+          "replacedLandmarkIds": [
+            "skansudde-lighthouse"
+          ],
+          "facilities": [
+            {
+              "id": "way/530655627",
+              "sourceBuildingId": "way/530655627",
+              "nodeName": "Visby Range practice building",
+              "meshes": 21,
+              "triangles": 926,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 3.774959828502324,
+              "sourceGroundRh2000M": 3.7762155474887753,
+              "groundResidualMetres": 0.0012557189864512708,
+              "boundsBeforePlacement": {
+                "min": [
+                  -338.0322265625,
+                  3.4814648628234863,
+                  77.20160675048828
+                ],
+                "max": [
+                  -323.019775390625,
+                  8.121288299560547,
+                  91.8263931274414
+                ]
+              }
+            },
+            {
+              "id": "way/530655628",
+              "sourceBuildingId": "way/530655628",
+              "nodeName": "Visby Eastern service building",
+              "meshes": 6,
+              "triangles": 219,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 5.293492689671923,
+              "sourceGroundRh2000M": 5.290098749962491,
+              "groundResidualMetres": -0.0033939397094320256,
+              "boundsBeforePlacement": {
+                "min": [
+                  219.72850036621094,
+                  4.737512111663818,
+                  -116.36566162109375
+                ],
+                "max": [
+                  252.9617156982422,
+                  11.890098571777344,
+                  -48.23444366455078
+                ]
+              }
+            },
+            {
+              "id": "way/530655629",
+              "sourceBuildingId": "way/530655629",
+              "nodeName": "Visby Parking auxiliary building",
+              "meshes": 11,
+              "triangles": 738,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.661808,
+              "sourceGroundRh2000M": 2.6642955001498425,
+              "groundResidualMetres": 0.0024875001498423366,
+              "boundsBeforePlacement": {
+                "min": [
+                  -448.771728515625,
+                  2.0207700729370117,
+                  171.24575805664062
+                ],
+                "max": [
+                  -435.1430969238281,
+                  6.00929594039917,
+                  183.31094360351562
+                ]
+              }
+            },
+            {
+              "id": "way/530655630",
+              "sourceBuildingId": "way/530655630",
+              "nodeName": "Visby Eastern clubhouse auxiliary",
+              "meshes": 22,
+              "triangles": 3528,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.2,
+              "sourceGroundRh2000M": 2.201699847153035,
+              "groundResidualMetres": 0.0016998471530347281,
+              "boundsBeforePlacement": {
+                "min": [
+                  -485.4396667480469,
+                  2.003953695297241,
+                  205.952880859375
+                ],
+                "max": [
+                  -466.7299499511719,
+                  9.341699600219727,
+                  222.4786834716797
+                ]
+              }
+            },
+            {
+              "id": "clubhouse",
+              "sourceBuildingId": "way/530655631",
+              "nodeName": "Visby Clubhouse and terraces",
+              "meshes": 74,
+              "triangles": 7997,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.7490769640416453,
+              "sourceGroundRh2000M": 2.750605541092852,
+              "groundResidualMetres": 0.001528577051206792,
+              "boundsBeforePlacement": {
+                "min": [
+                  -535.1902465820312,
+                  1.4906055927276611,
+                  186.65345764160156
+                ],
+                "max": [
+                  -503.70001220703125,
+                  9.990605354309082,
+                  228.4600067138672
+                ]
+              }
+            },
+            {
+              "id": "way/530655632",
+              "sourceBuildingId": "way/530655632",
+              "nodeName": "Visby Red former keeper house",
+              "meshes": 23,
+              "triangles": 2528,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 4.5646,
+              "sourceGroundRh2000M": 4.5645100766942655,
+              "groundResidualMetres": -0.00008992330573498464,
+              "boundsBeforePlacement": {
+                "min": [
+                  -595.34619140625,
+                  4.181450843811035,
+                  196.64366149902344
+                ],
+                "max": [
+                  -580.1834716796875,
+                  11.704509735107422,
+                  209.23634338378906
+                ]
+              }
+            },
+            {
+              "id": "way/530655633",
+              "sourceBuildingId": "way/530655633",
+              "nodeName": "Visby Fyrhuset lodging",
+              "meshes": 19,
+              "triangles": 2405,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 4.846731999999992,
+              "sourceGroundRh2000M": 4.848186826702089,
+              "groundResidualMetres": 0.0014548267020968453,
+              "boundsBeforePlacement": {
+                "min": [
+                  -613.0697021484375,
+                  4.0553812980651855,
+                  192.03797912597656
+                ],
+                "max": [
+                  -600.0487670898438,
+                  11.038187026977539,
+                  201.5220184326172
+                ]
+              }
+            },
+            {
+              "id": "range-parking-building-2026",
+              "sourceFeatureId": "range-parking-building-2026",
+              "nodeName": "Visby range-parking-building-2026",
+              "meshes": 8,
+              "triangles": 714,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 3.242599999999998,
+              "sourceGroundRh2000M": 3.2424287057201204,
+              "groundResidualMetres": -0.0001712942798777206,
+              "boundsBeforePlacement": {
+                "min": [
+                  -357.1615905761719,
+                  2.7294018268585205,
+                  117.5802001953125
+                ],
+                "max": [
+                  -339.047607421875,
+                  7.937429428100586,
+                  132.61329650878906
+                ]
+              }
+            },
+            {
+              "id": "service-west-north-2026",
+              "sourceFeatureId": "service-west-north-2026",
+              "nodeName": "Visby service-west-north-2026",
+              "meshes": 8,
+              "triangles": 1434,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 5.095219999999999,
+              "sourceGroundRh2000M": 5.093576292040593,
+              "groundResidualMetres": -0.001643707959406271,
+              "boundsBeforePlacement": {
+                "min": [
+                  192.97032165527344,
+                  4.888089179992676,
+                  -101.68738555908203
+                ],
+                "max": [
+                  217.32554626464844,
+                  9.738576889038086,
+                  -65.14984893798828
+                ]
+              }
+            },
+            {
+              "id": "service-west-south-2026",
+              "sourceFeatureId": "service-west-south-2026",
+              "nodeName": "Visby service-west-south-2026",
+              "meshes": 8,
+              "triangles": 1362,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 5.078484,
+              "sourceGroundRh2000M": 5.075035103405031,
+              "groundResidualMetres": -0.003448896594969497,
+              "boundsBeforePlacement": {
+                "min": [
+                  206.0970001220703,
+                  4.553081512451172,
+                  -70.77276611328125
+                ],
+                "max": [
+                  230.01280212402344,
+                  11.670036315917969,
+                  -35.3939208984375
+                ]
+              }
+            },
+            {
+              "id": "service-north-small-2026",
+              "sourceFeatureId": "service-north-small-2026",
+              "nodeName": "Visby service-north-small-2026",
+              "meshes": 8,
+              "triangles": 354,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 5.036539999999999,
+              "sourceGroundRh2000M": 5.03839950237253,
+              "groundResidualMetres": 0.0018595023725316295,
+              "boundsBeforePlacement": {
+                "min": [
+                  222.22860717773438,
+                  4.864368438720703,
+                  -141.6492919921875
+                ],
+                "max": [
+                  230.69139099121094,
+                  8.233400344848633,
+                  -133.5906982421875
+                ]
+              }
+            },
+            {
+              "id": "range-firing-mats-west-2026",
+              "sourceFeatureId": "range-firing-mats-west-2026",
+              "nodeName": "Visby range-firing-mats-west-2026",
+              "meshes": 10,
+              "triangles": 1000,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 4.114994791836734,
+              "sourceGroundRh2000M": 4.113977500964771,
+              "groundResidualMetres": -0.0010172908719630058,
+              "boundsBeforePlacement": {
+                "min": [
+                  -346.0884704589844,
+                  3.880598783493042,
+                  60.500526428222656
+                ],
+                "max": [
+                  -330.1995544433594,
+                  6.027949333190918,
+                  76.3734359741211
+                ]
+              }
+            },
+            {
+              "id": "range-firing-mats-central-2026",
+              "sourceFeatureId": "range-firing-mats-central-2026",
+              "nodeName": "Visby range-firing-mats-central-2026",
+              "meshes": 5,
+              "triangles": 2778,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.9853168343490246,
+              "sourceGroundRh2000M": 2.9880153545238035,
+              "groundResidualMetres": 0.0026985201747788956,
+              "boundsBeforePlacement": {
+                "min": [
+                  -321.0433349609375,
+                  2.722126007080078,
+                  90.8846664428711
+                ],
+                "max": [
+                  -267.933837890625,
+                  3.558523416519165,
+                  110.84817504882812
+                ]
+              }
+            },
+            {
+              "id": "range-firing-mats-east-2026",
+              "sourceFeatureId": "range-firing-mats-east-2026",
+              "nodeName": "Visby range-firing-mats-east-2026",
+              "meshes": 5,
+              "triangles": 986,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.8804131725,
+              "sourceGroundRh2000M": 2.8784748093928734,
+              "groundResidualMetres": -0.0019383631071265839,
+              "boundsBeforePlacement": {
+                "min": [
+                  -250.795166015625,
+                  2.784573793411255,
+                  108.50272369384766
+                ],
+                "max": [
+                  -231.9977264404297,
+                  3.1181674003601074,
+                  114.09916687011719
+                ]
+              }
+            },
+            {
+              "id": "range-east-net-base-2026",
+              "sourceFeatureId": "range-east-net-base-2026",
+              "nodeName": "Visby range-east-net-base-2026",
+              "meshes": 6,
+              "triangles": 26836,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.669294117647058,
+              "sourceGroundRh2000M": 2.668909885550002,
+              "groundResidualMetres": -0.0003842320970561808,
+              "boundsBeforePlacement": {
+                "min": [
+                  -229.0399932861328,
+                  1.7309545278549194,
+                  -26.309232711791992
+                ],
+                "max": [
+                  -164.60000610351562,
+                  11.934690475463867,
+                  105.46923065185547
+                ]
+              }
+            },
+            {
+              "id": "range-east-shelter-2026",
+              "sourceFeatureId": "range-east-shelter-2026",
+              "nodeName": "Visby range-east-shelter-2026",
+              "meshes": 23,
+              "triangles": 1258,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.89,
+              "sourceGroundRh2000M": 2.888020194531074,
+              "groundResidualMetres": -0.001979805468926177,
+              "boundsBeforePlacement": {
+                "min": [
+                  -265.21539306640625,
+                  2.6409640312194824,
+                  109.62025451660156
+                ],
+                "max": [
+                  -248.74464416503906,
+                  6.462968826293945,
+                  120.89974212646484
+                ]
+              }
+            },
+            {
+              "id": "skansudde-lighthouse",
+              "sourceLandmarkId": "skansudde-lighthouse",
+              "nodeName": "Visby Skansudde lighthouse",
+              "meshes": 14,
+              "triangles": 1108,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 5.022999999999996,
+              "sourceGroundRh2000M": 5.022101526248763,
+              "groundResidualMetres": -0.0008984737512331975,
+              "boundsBeforePlacement": {
+                "min": [
+                  -604.9500122070312,
+                  5.022101402282715,
+                  188.75
+                ],
+                "max": [
+                  -601.6500244140625,
+                  15.422101974487305,
+                  192.0500030517578
+                ]
+              }
+            },
+            {
+              "id": "shoreline-shed",
+              "sourceFeatureId": "shoreline-shed",
+              "nodeName": "Visby shoreline shed",
+              "meshes": 12,
+              "triangles": 726,
+              "shift": 0,
+              "mode": "absolute-rh2000",
+              "terrainHeight": 2.063236000071476,
+              "sourceGroundRh2000M": 2.0639202855826597,
+              "groundResidualMetres": 0.0006842855111837132,
+              "boundsBeforePlacement": {
+                "min": [
+                  -548.8982543945312,
+                  1.6389203071594238,
+                  228.7252197265625
+                ],
+                "max": [
+                  -544.2617797851562,
+                  5.258920669555664,
+                  232.99478149414062
+                ]
+              }
+            }
+          ],
+          "meshes": 283,
+          "triangles": 56897,
+          "assetSha256": "c8b571e49e6d18f59c21604655fc0f50c9f2d9d8dcccb654074aa11d2361cf20"
+        },
+        "sourceBuildingBatchIds": [
+          "way/549809883",
+          "way/597491147",
+          "way/597491148",
+          "way/597491149",
+          "way/597491150",
+          "way/1309534308",
+          "way/1309534309",
+          "way/1309534310",
+          "way/1309542500",
+          "way/1309542501",
+          "way/1309542502",
+          "way/1309542503",
+          "way/1309542504",
+          "way/1309542505",
+          "way/1309542506",
+          "way/1309542507",
+          "way/1309542508",
+          "way/1309542509",
+          "way/1309542518",
+          "way/1309542519",
+          "way/1309542528",
+          "way/1309542529",
+          "way/1309945201",
+          "way/1309945202",
+          "way/1309945203"
+        ],
+        "sourceBuildingBatchIndices": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "sourceParkingBatchIds": [],
+        "sourceParkingBatchIndices": [],
+        "authoredRangeFacilities": true,
+        "rangeNets": 0,
+        "rangeFacilities": null,
+        "facilityExcludedTrees": 25,
+        "facilityExcludedClutter": 0,
+        "genericRoofBuildings": 25,
+        "clubhouseDetails": [],
+        "courtyardDetails": null,
+        "draws": 85,
+        "surfaceOverlays": 0,
+        "backend": "webgpu"
+      },
+      "adapters": [
+        {
+          "atMs": 837.0999999940395,
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": "",
+          "isFallbackAdapter": false
+        }
+      ],
+      "treeAllocation": {
+        "drawableBytes": 5447680,
+        "slotBytes": 163840,
+        "capacity": 40960,
+        "used": 6993,
+        "resizes": 0
+      },
+      "rendererInfo": {
+        "calls": 837,
+        "frameCalls": 14,
+        "drawCalls": 85,
+        "triangles": 11066990,
+        "points": 0,
+        "lines": 48,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 971,
+          "attributesSize": 66601707,
+          "geometries": 327,
+          "indexAttributes": 202,
+          "indexAttributesSize": 4933308,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 105,
+          "programsSize": 920604,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 26,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 56,
+          "texturesSize": 276133932,
+          "uniformBuffers": 516,
+          "uniformBuffersSize": 88336,
+          "total": 348677887
+        },
+        "drawingBuffer": [
+          1600,
+          900
+        ],
+        "pixelRatio": 1
+      },
+      "v2": {
+        "status": "ready",
+        "mode": "fixed-frontier",
+        "backend": "webgpu"
+      }
+    }
+  ]
+}

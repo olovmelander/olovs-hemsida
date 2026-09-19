@@ -2,13 +2,13 @@
   "schemaVersion": 1,
   "groundId": "veckefjarden",
   "kind": "independent-orthophoto-alignment-evidence-audit",
-  "auditedAt": "2026-09-09T20:08:26.622759+00:00",
+  "auditedAt": "2026-09-19T08:03:09.954571+00:00",
   "state": "passed",
   "inputs": {
     "ledgerPath": "geobuild/mapping/lm-ortho-review.json",
-    "ledgerSha256": "4d3f0edf8cdd0feb09e8c9248bdebd2702abaca9cc6cfa8f54e051e527b39d53",
+    "ledgerSha256": "96ccb7edf3a7b190a21415b4f60458658c93e965f9ad1b57c04a5060b25b2673",
     "modelPath": "geobuild/course-model.json",
-    "modelSha256": "66885fa4e54d3c240f717800e27035262c82c48e0eea3002b7afbbf0da0997fd",
+    "modelSha256": "e1377dee00b13f773dc04896950c12f73c53f73abd7de3ea2b313a33bf0b840c",
     "baselineCommit": "7aac4d4495e78d9321889273b34ad6d1bb12290a",
     "baselineModelSha256": "938823c626068d8f464c7318dc84e95fa6c11711f215354b229c441b31fc1093"
   },
@@ -32,55 +32,26 @@
     "limitation": "Numerical source registration, pixel resolution and boundary interpretation uncertainty are distinct from absolute surveying accuracy. No daily marker positions are verified."
   },
   "summary": {
-    "features": 67,
-    "featuresPassed": 67,
+    "features": 71,
+    "featuresPassed": 71,
     "featureKinds": {
+      "fairway": 7,
       "green": 16,
       "tee-set": 18,
-      "bunker": 30,
-      "fairway": 3
+      "bunker": 30
     },
-    "sourceVerticesChecked": 1389,
-    "sourceTracedRings": 96,
+    "sourceVerticesChecked": 1612,
+    "sourceTracedRings": 100,
     "retainedHistoricalRings": 7,
     "actualNativeTiffHashesVerified": 7,
-    "actualReviewPanelHashesVerified": 57,
-    "exactPanelRgbSamplesCompared": 513,
+    "actualReviewPanelHashesVerified": 61,
+    "exactPanelRgbSamplesCompared": 549,
     "provisionalPhysicalPlatformReferences": 87,
     "unresolvedTeeReferences": 21,
     "actualCorroboratingDocumentsVerified": 7,
     "errors": 0
   },
   "sources": [
-    {
-      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-2.tif",
-      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524",
-      "bytes": 51029709,
-      "crs": "EPSG:3006",
-      "width": 4000,
-      "height": 4000,
-      "geoTransform": [
-        684164.96,
-        0.16,
-        0.0,
-        7022747.04,
-        0.0,
-        -0.16
-      ],
-      "boundsEPSG3006": [
-        684164.96,
-        7022107.04,
-        684804.96,
-        7022747.04
-      ],
-      "bandCount": 4,
-      "dtypes": [
-        "uint8",
-        "uint8",
-        "uint8",
-        "uint8"
-      ]
-    },
     {
       "path": "geobuild/cache/lm-ortho-veckefjarden/context-1-2.tif",
       "sha256": "9d117d304649f8b714d71807d9212cd5a004ba38e30be702443fe04e1c781e1e",
@@ -101,6 +72,35 @@
         7022747.04,
         684804.96,
         7023387.04
+      ],
+      "bandCount": 4,
+      "dtypes": [
+        "uint8",
+        "uint8",
+        "uint8",
+        "uint8"
+      ]
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-veckefjarden/context-2-2.tif",
+      "sha256": "e235a3eab4b4bc131d0c79138ae3a5138789f3fc9464b629e50a4cdacd01b524",
+      "bytes": 51029709,
+      "crs": "EPSG:3006",
+      "width": 4000,
+      "height": 4000,
+      "geoTransform": [
+        684164.96,
+        0.16,
+        0.0,
+        7022747.04,
+        0.0,
+        -0.16
+      ],
+      "boundsEPSG3006": [
+        684164.96,
+        7022107.04,
+        684804.96,
+        7022747.04
       ],
       "bandCount": 4,
       "dtypes": [
@@ -258,6 +258,25 @@
   ],
   "panels": [
     {
+      "path": "geobuild/cache/lm-ortho-review-h01-03-fairway/h01-fairway-00-plain.png",
+      "sha256": "bb2c4d54c61b1813314f84f649151f93f7273491a6c573836650efb3cbb6f978",
+      "reportPath": "geobuild/cache/lm-ortho-review-h01-03-fairway/panels.json",
+      "pixelSize": [
+        1171,
+        1935
+      ],
+      "geoTransform": [
+        684170.615719293,
+        0.15999999999998807,
+        0,
+        7022804.38801104,
+        0,
+        -0.1599999999998075
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
       "path": "geobuild/cache/lm-ortho-after-01-06/greens-hole-01-plain.png",
       "sha256": "06c1996e0779222a7e3caaf0ece581b13f04c8f5ca21d32fbf3b46f3e382646e",
       "reportPath": "geobuild/cache/lm-ortho-after-01-06/panels.json",
@@ -334,6 +353,25 @@
       "maximumRgbChannelDifference": 0
     },
     {
+      "path": "geobuild/cache/lm-ortho-review-h01-03-fairway/h02-fairway-00-plain.png",
+      "sha256": "d56c4b791eccd9f9102b48d3cd272a1eceddb93e1632a501c1ceff53c4bbc254",
+      "reportPath": "geobuild/cache/lm-ortho-review-h01-03-fairway/panels.json",
+      "pixelSize": [
+        2289,
+        1314
+      ],
+      "geoTransform": [
+        683913.6654433105,
+        0.15999999999999592,
+        0,
+        7022479.318785411,
+        0,
+        -0.16000000000017012
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
       "path": "geobuild/cache/lm-tee-01-06-final-check/tees-h02-back-plain.png",
       "sha256": "df8ce518f0b0e84d0a644bf9780709a1654496232bea4d6f7799907e51ff3b21",
       "reportPath": "geobuild/cache/lm-tee-01-06-final-check/panels.json",
@@ -386,6 +424,25 @@
         7022686.776751938,
         0,
         -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-h01-03-fairway/h03-fairway-00-plain.png",
+      "sha256": "f215a690528f83871e5f44ef4904d15184b8a051e5e1b8c1b610f31ce3b994ba",
+      "reportPath": "geobuild/cache/lm-ortho-review-h01-03-fairway/panels.json",
+      "pixelSize": [
+        1767,
+        2001
+      ],
+      "geoTransform": [
+        683893.3510588281,
+        0.15999999999998418,
+        0,
+        7022653.520322119,
+        0,
+        -0.16000000000007447
       ],
       "rgbSamplesCompared": 9,
       "maximumRgbChannelDifference": 0
@@ -462,6 +519,25 @@
         7022913.101138401,
         0,
         -0.125
+      ],
+      "rgbSamplesCompared": 9,
+      "maximumRgbChannelDifference": 0
+    },
+    {
+      "path": "geobuild/cache/lm-ortho-review-h05-fairway/h05-fairway-00-tall-plain.png",
+      "sha256": "59c53d2dad600de78769f2e86fa671c157d000202d5a504eabc5860b269cd4ee",
+      "reportPath": "geobuild/cache/lm-ortho-review-h05-fairway/panels.json",
+      "pixelSize": [
+        1301,
+        3126
+      ],
+      "geoTransform": [
+        683808.687954118,
+        0.16000000000002507,
+        0,
+        7022899.54735136,
+        0,
+        -0.16000000000004766
       ],
       "rgbSamplesCompared": 9,
       "maximumRgbChannelDifference": 0
@@ -1380,6 +1456,26 @@
   ],
   "features": [
     {
+      "id": "lm-2024-h01-fairway",
+      "hole": 1,
+      "kind": "fairway",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "2511b46a566362011b041e82ece2ab0dffdbf4db9c602eb14d4a4f21f4b50dbe",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 53,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.8036522163991574e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006585561776573316,
+      "interpretationUncertaintyMetres": 2,
+      "beforeAreaSquareMetres": 8553.715,
+      "afterAreaSquareMetres": 6879.878,
+      "areaChangeSquareMetres": -1673.837,
+      "areaWeightedCentroidShiftMetres": 13.739
+    },
+    {
       "id": "lm-2024-h01-green",
       "hole": 1,
       "kind": "green",
@@ -1440,6 +1536,26 @@
       "areaWeightedCentroidShiftMetres": 1.891
     },
     {
+      "id": "lm-2024-h02-fairway",
+      "hole": 2,
+      "kind": "fairway",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "2cca919d0f2c6a62d5d4bfe4203fb909e0f14869edbc122308ae535ded5d30d9",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 65,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.877140660839749e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.006159004026021107,
+      "interpretationUncertaintyMetres": 2,
+      "beforeAreaSquareMetres": 12419.115,
+      "afterAreaSquareMetres": 9859.051,
+      "areaChangeSquareMetres": -2560.064,
+      "areaWeightedCentroidShiftMetres": 9.909
+    },
+    {
       "id": "lm-2024-h02-tee-inventory",
       "hole": 2,
       "kind": "tee-set",
@@ -1478,6 +1594,26 @@
       "afterAreaSquareMetres": 88.004,
       "areaChangeSquareMetres": 53.004,
       "areaWeightedCentroidShiftMetres": 3.194
+    },
+    {
+      "id": "lm-2024-h03-fairway",
+      "hole": 3,
+      "kind": "fairway",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "cc069b619d68cf54d88ad8033a4a102e6f98a415893717c0632157330700bdf2",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 47,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 2.8036522163991574e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0062913746303490765,
+      "interpretationUncertaintyMetres": 2,
+      "beforeAreaSquareMetres": 15779.995,
+      "afterAreaSquareMetres": 6841.341,
+      "areaChangeSquareMetres": -8938.654,
+      "areaWeightedCentroidShiftMetres": 31.953
     },
     {
       "id": "lm-2024-h03-green",
@@ -1618,6 +1754,26 @@
       "afterAreaSquareMetres": 71.837,
       "areaChangeSquareMetres": -11.288,
       "areaWeightedCentroidShiftMetres": 1.664
+    },
+    {
+      "id": "lm-2024-h05-fairway",
+      "hole": 5,
+      "kind": "fairway",
+      "action": "replace",
+      "state": "passed",
+      "originalRingSha256": "e2d5b54e0bd9896533feeba225d23f4246ac709e1cd78703cd81ebb614c371d5",
+      "adoptedRings": 1,
+      "sourceTracedRings": 1,
+      "retainedHistoricalRings": 0,
+      "sourceVerticesChecked": 58,
+      "maximumPixelAffineErrorMetres": 0.0,
+      "maximumProjectionRoundtripErrorMetres": 1.877140660839749e-09,
+      "maximumStoredVertexQuantizationErrorMetres": 0.0067146114471408795,
+      "interpretationUncertaintyMetres": 2,
+      "beforeAreaSquareMetres": 6980.95,
+      "afterAreaSquareMetres": 11265.369,
+      "areaChangeSquareMetres": 4284.419,
+      "areaWeightedCentroidShiftMetres": 90.892
     },
     {
       "id": "lm-2024-h05-green",
@@ -2748,8 +2904,8 @@
       },
       "fairways": {
         "totalComponents": 1,
-        "sourceReviewedComponents": 0,
-        "unresolvedComponents": 1
+        "sourceReviewedComponents": 1,
+        "unresolvedComponents": 0
       },
       "teeReferences": [
         {
@@ -2900,8 +3056,8 @@
       },
       "fairways": {
         "totalComponents": 1,
-        "sourceReviewedComponents": 0,
-        "unresolvedComponents": 1
+        "sourceReviewedComponents": 1,
+        "unresolvedComponents": 0
       },
       "teeReferences": [
         {
@@ -3053,8 +3209,8 @@
       },
       "fairways": {
         "totalComponents": 1,
-        "sourceReviewedComponents": 0,
-        "unresolvedComponents": 1
+        "sourceReviewedComponents": 1,
+        "unresolvedComponents": 0
       },
       "teeReferences": [
         {
@@ -3201,9 +3357,9 @@
         "inferredPadGenerationDisabled": true
       },
       "fairways": {
-        "totalComponents": 2,
+        "totalComponents": 0,
         "sourceReviewedComponents": 0,
-        "unresolvedComponents": 2
+        "unresolvedComponents": 0
       },
       "teeReferences": [
         {
@@ -3356,9 +3512,9 @@
         "inferredPadGenerationDisabled": true
       },
       "fairways": {
-        "totalComponents": 2,
-        "sourceReviewedComponents": 0,
-        "unresolvedComponents": 2
+        "totalComponents": 1,
+        "sourceReviewedComponents": 1,
+        "unresolvedComponents": 0
       },
       "teeReferences": [
         {

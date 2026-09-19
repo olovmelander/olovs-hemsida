@@ -1351,8 +1351,8 @@
    },
    "photos": 5,
    "packUrl": "courses/veckefjarden/pack.bin",
-   "bytes": 368039,
-   "sha256": "77e76fc8e4e77e537d6b0d6c8ad17b0ebefe4bc2bfa54b5e6916f699ec8fdd0d",
+   "bytes": 369370,
+   "sha256": "d6cb9ae771ac069c3a59788606a30de5aa7bf37822111ed977ded6abefba69cd",
    "landcover": {
     "url": "courses/veckefjarden/landcover.json",
     "bytes": 183022,
@@ -1364,155 +1364,9 @@
     "sha256": "6999be8e7f131c688e3e4ea18140fd7c228c96b1f15b87be33525262d53e83c0"
    },
    "startup": {
-    "url": "grounds/veckefjarden/startup/manifest-8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2.json",
+    "url": "grounds/veckefjarden/startup/manifest-eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc.json",
     "bytes": 173276,
-    "sha256": "8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2"
-   },
-   "preparedTint": {
-    "natural-hi": {
-     "identity": "83a5f58c1ff1d5edc633583fa5b9efd63f74e16f594a278098728f1b1175d1c8",
-     "url": "courses/veckefjarden/prepared/tint-81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae.bin",
-     "bytes": 506713,
-     "decodedBytes": 3132040,
-     "sha256": "81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae",
-     "decodedSha256": "3aaa7597cc7bf0e21577afb22db79bdbbf36ef5a705fd3dfde5099451a1ee978",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    },
-    "natural-lo": {
-     "identity": "71046b3e016cf6ebc46be10a8a36477e98f4c3542c142153e0314c458101180e",
-     "url": "courses/veckefjarden/prepared/tint-81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae.bin",
-     "bytes": 506713,
-     "decodedBytes": 3132040,
-     "sha256": "81b9939b3cdf4a91a55aa1deabfe4fad9a4ef2a5f894bd6f1b1e89342207daae",
-     "decodedSha256": "3aaa7597cc7bf0e21577afb22db79bdbbf36ef5a705fd3dfde5099451a1ee978",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    },
-    "painted-hi": {
-     "identity": "738fffdb8569c1b2c93210c7c9df7d3622d4b7d6627a136bb353b6be80f0dea9",
-     "url": "courses/veckefjarden/prepared/tint-40746d715741a3d8d6748b33611ea81182549dcf4a98abaa240c17080efa4fbf.bin",
-     "bytes": 642322,
-     "decodedBytes": 3132040,
-     "sha256": "40746d715741a3d8d6748b33611ea81182549dcf4a98abaa240c17080efa4fbf",
-     "decodedSha256": "80dc6c83d8d20d850e0f23fb731314bcc4ecced5c7fe22660f1f71f22b056c30",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    },
-    "painted-lo": {
-     "identity": "14656cd3190725e16aa378c0adae3c5f81558eefffb0f72d30da39b9e243f9c3",
-     "url": "courses/veckefjarden/prepared/tint-40746d715741a3d8d6748b33611ea81182549dcf4a98abaa240c17080efa4fbf.bin",
-     "bytes": 642322,
-     "decodedBytes": 3132040,
-     "sha256": "40746d715741a3d8d6748b33611ea81182549dcf4a98abaa240c17080efa4fbf",
-     "decodedSha256": "80dc6c83d8d20d850e0f23fb731314bcc4ecced5c7fe22660f1f71f22b056c30",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    }
-   },
-   "preparedWater": {
-    "identity": "b7108a8b8370daed31bdb98ace26271af1bb3a30fa0e8eca6c3a940dac767175",
-    "url": "courses/veckefjarden/prepared/water-9f913075470742243af98b239a540af76f4ff0daebe42e592db06bd8f6d173fe.bin",
-    "bytes": 306778,
-    "decodedBytes": 63070553,
-    "sha256": "9f913075470742243af98b239a540af76f4ff0daebe42e592db06bd8f6d173fe",
-    "decodedSha256": "d4f03e2cd6fa6aaff7ee301029ccf4955d184d88e90a9e4fc45eaf3f9387dfb0"
+    "sha256": "eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc"
    }
   },
   {
@@ -1539,8 +1393,8 @@
    },
    "photos": 5,
    "packUrl": "courses/veckefjarden-korthalsbanan/pack.bin",
-   "bytes": 362836,
-   "sha256": "ea508183ed4dd208316a17c2940462aedc46ac17f4594dec60600aaf77d4e4ab",
+   "bytes": 364003,
+   "sha256": "b08bb0dda4c51ae01fa2117d474d45ef4708f4bdd5aac76d1fc860be6f855e77",
    "landcover": {
     "url": "courses/veckefjarden-korthalsbanan/landcover.json",
     "bytes": 183022,
@@ -1552,155 +1406,9 @@
     "sha256": "6999be8e7f131c688e3e4ea18140fd7c228c96b1f15b87be33525262d53e83c0"
    },
    "startup": {
-    "url": "grounds/veckefjarden/startup/manifest-8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2.json",
+    "url": "grounds/veckefjarden/startup/manifest-eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc.json",
     "bytes": 173276,
-    "sha256": "8f07b7dea5626c6b46bf4a55bebecf6c27797dfd13be5e6a763f565165fa7eb2"
-   },
-   "preparedTint": {
-    "natural-hi": {
-     "identity": "c0f2636e1177d33f08384bd8d26abe1d07d088e46c252ab59ad629e5ac944900",
-     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909.bin",
-     "bytes": 504620,
-     "decodedBytes": 3132040,
-     "sha256": "cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909",
-     "decodedSha256": "9782eeac9d1bb40c725b94afd8ca98cd169cb748128893a068690a3ca77c0a61",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    },
-    "natural-lo": {
-     "identity": "e1b38a38d6f382f52234f68fd143d72e3b271fc957edd226d7a49c6c539e470c",
-     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909.bin",
-     "bytes": 504620,
-     "decodedBytes": 3132040,
-     "sha256": "cb7cce6d8488c4d67a05706ab19aadd8b8d00e2e31fb8cf88ad57e7db8431909",
-     "decodedSha256": "9782eeac9d1bb40c725b94afd8ca98cd169cb748128893a068690a3ca77c0a61",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    },
-    "painted-hi": {
-     "identity": "3e1764eec3f083ca4e6a6d7ac1e73c462b488f53486e64695f3ea3882de78283",
-     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-9e4430fbe540f0e1b10633587c56d9c8a151507f03fc7ab91d45535db31bed8d.bin",
-     "bytes": 641495,
-     "decodedBytes": 3132040,
-     "sha256": "9e4430fbe540f0e1b10633587c56d9c8a151507f03fc7ab91d45535db31bed8d",
-     "decodedSha256": "1dcccb793305144eabd5f6d1719b356eca5a4922eeafb96aea75e32f2bd0b38f",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    },
-    "painted-lo": {
-     "identity": "bbd132856a91f8e3496b365aa439d5483f2db7ac5916740ce22714b37e44c02b",
-     "url": "courses/veckefjarden-korthalsbanan/prepared/tint-9e4430fbe540f0e1b10633587c56d9c8a151507f03fc7ab91d45535db31bed8d.bin",
-     "bytes": 641495,
-     "decodedBytes": 3132040,
-     "sha256": "9e4430fbe540f0e1b10633587c56d9c8a151507f03fc7ab91d45535db31bed8d",
-     "decodedSha256": "1dcccb793305144eabd5f6d1719b356eca5a4922eeafb96aea75e32f2bd0b38f",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 721,
-       "dx": 24,
-       "bounds": {
-        "x0": -8652,
-        "z0": -8652,
-        "x1": 8652,
-        "z1": 8652
-       },
-       "offset": 1052676,
-       "bytes": 2079364
-      }
-     ]
-    }
-   },
-   "preparedWater": {
-    "identity": "8a12fb946115fac9e4ce261be9c8155c7ef92628962fcb58d3dbba98f5ff142e",
-    "url": "courses/veckefjarden-korthalsbanan/prepared/water-2e7d15c915be7cf0c82e8de64f3104419d09079fa35279feca7697f89dbca99e.bin",
-    "bytes": 306777,
-    "decodedBytes": 63070553,
-    "sha256": "2e7d15c915be7cf0c82e8de64f3104419d09079fa35279feca7697f89dbca99e",
-    "decodedSha256": "0dde4d89c6777825de720157625b6ecd04c1d84c8edf68696a593bd4b3f7b108"
+    "sha256": "eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc"
    }
   },
   {

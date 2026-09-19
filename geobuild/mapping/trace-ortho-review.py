@@ -133,7 +133,7 @@ def main():
             'node', '-e', "const fs=require('node:fs'),c=require('node:crypto');"
             "process.stdout.write(c.createHash('sha256').update(JSON.stringify(JSON.parse(fs.readFileSync(0,'utf8')))).digest('hex'));"
         ], input=json.dumps(original), text=True, capture_output=True, check=True).stdout
-        feature = {key: decision[key] for key in ['id', 'hole', 'kind', 'index', 'action', 'referencePads'] if key in decision}
+        feature = {key: decision[key] for key in ['id', 'hole', 'kind', 'index', 'action', 'referencePads', 'baselineReassignment'] if key in decision}
         if kind == 'tee-set':
             pads = []
             for part, (ring, evidence) in zip(parts, traced):
@@ -169,7 +169,7 @@ def main():
             feature['evidence']['corroboratingDocuments'] = decision['corroboratingDocuments']
         features.append(feature)
     result = dict(schemaVersion=1, groundId='veckefjarden', frame=frame,
-                  reviewedOn='2026-09-09', features=features)
+                  reviewedOn=decisions.get('reviewedOn', '2026-09-09'), features=features)
     for policy in ['reviewedTeeHoles', 'suppressInferredTeeHoles']:
         if policy in decisions:
             result[policy] = decisions[policy]

@@ -1,0 +1,3544 @@
+{
+  "url": "http://127.0.0.1:8671/?bana=veckefjarden&det=1&qualitylock=1&startup=1&ljus=kvall&ghibli=1&gl=0&hal=1&vy=tee&v2=require&q=hi",
+  "gpu": true,
+  "mobileEmulation": false,
+  "cpuRate": 1,
+  "physicalPhone": false,
+  "runs": [
+    {
+      "booted": true,
+      "wallMs": 22797,
+      "errors": [],
+      "logs": [
+        {
+          "atMs": 1566,
+          "text": "v2 world: 213 ring tiles read for the model in 484 ms"
+        },
+        {
+          "atMs": 1573,
+          "text": "v2 water levels re-measured: vatten 21.59->21.56, vatten 21.63->21.4, vatten 107.06->101.84, vatten 23.17->23.3, vatten 23.29->23.38, vatten 28.99->29.03, vatten 36.14->35.23, vatten 35.87->35.85, vatten 33.25->33.35, vatten 32.44->32.51, vatten 35.11->34.48, vatten 36.54->36.6, vatten 31.91->32.02,"
+        },
+        {
+          "atMs": 1784,
+          "text": "v2 flat water: 51 flats over 0.48 ha, 40 beyond the model's rings (1781 ha), 208 ms"
+        },
+        {
+          "atMs": 2364,
+          "text": "v2 water beds: 3840.1 ha carved to 3.5 m, 1622694 samples in 152 ring tiles, 580 ms (field 307 ms: mask 29, mode boxed, bodies 38, boxedCells 887584, knownBodies 142, distanceTransform 108, depth 12, nearMask 15)"
+        },
+        {
+          "atMs": 3512,
+          "text": "v2 world: 213 ring tiles resident for construction (0 ms in prepare)"
+        },
+        {
+          "atMs": 3617,
+          "text": "v2 world: first frontier covered, 1 tiles in 1 draws (165 still streaming)"
+        },
+        {
+          "atMs": 5342,
+          "text": "v2 world: backend preflight passed"
+        }
+      ],
+      "network": {
+        "requests": 99,
+        "transferredBytes": 23417737,
+        "scope": "page CDP; service-worker requests excluded",
+        "serviceWorkers": false,
+        "mbps": 0,
+        "latencyMs": 0
+      },
+      "perf": {
+        "marks": [
+          {
+            "name": "läser terrängdata",
+            "atMs": 150.9
+          },
+          {
+            "name": "startar renderaren",
+            "atMs": 2612.3
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 2939.8
+          },
+          {
+            "name": "bygger terrängen",
+            "atMs": 8772
+          },
+          {
+            "name": "bygger horisonten",
+            "atMs": 8792.7
+          },
+          {
+            "name": "lägger fairways och greener",
+            "atMs": 8971.2
+          },
+          {
+            "name": "fyller vattnet",
+            "atMs": 10383.8
+          },
+          {
+            "name": "planterar skogen",
+            "atMs": 11571.8
+          },
+          {
+            "name": "sätter ut flaggor",
+            "atMs": 16624.7
+          },
+          {
+            "name": "ställer ljuset",
+            "atMs": 16874
+          },
+          {
+            "name": "ritar första vyn",
+            "atMs": 17768.4
+          }
+        ],
+        "spans": [
+          {
+            "name": "v2 preview: select + decode pilot/surface tiles",
+            "ms": 684.3
+          },
+          {
+            "name": "v2 rings: fetch + verify + decode",
+            "ms": 483.9,
+            "tiles": 213
+          },
+          {
+            "name": "v2 flat water: detect",
+            "ms": 208.6
+          },
+          {
+            "name": "v2 water beds: carve rings",
+            "ms": 580,
+            "tiles": 152
+          },
+          {
+            "name": "v2 water: prepare",
+            "ms": 791.2,
+            "prepared": false
+          },
+          {
+            "name": "model prep after terrain data (pads, water levels, shores, grids)",
+            "ms": 1756.8
+          },
+          {
+            "name": "procedural textures (DETAIL, SANDN, WATERN)",
+            "ms": 190.8
+          },
+          {
+            "name": "PMREM environment",
+            "ms": 110.5,
+            "preset": "golden"
+          },
+          {
+            "name": "ground atlas (1 m, CORE)",
+            "ms": 370.7
+          },
+          {
+            "name": "v2 prepare (worker, first frontier coverage, preflight)",
+            "ms": 1847.5
+          },
+          {
+            "name": "ground tint rasters (near 6 m + far 24 m)",
+            "ms": 2239.4
+          },
+          {
+            "name": "v2 vegetation: wait for chunk load",
+            "ms": 1344.8
+          },
+          {
+            "name": "reeds (lattice + SHORE field)",
+            "ms": 660.8,
+            "reeds": 2952
+          },
+          {
+            "name": "v2 vegetation: plan individuals + stand trees",
+            "ms": 442.1
+          },
+          {
+            "name": "legacy tree lattice",
+            "ms": 52.3
+          },
+          {
+            "name": "v2 vegetation: push planned trees",
+            "ms": 754
+          },
+          {
+            "name": "tree impostor atlases (5 species, 64 views each)",
+            "ms": 138.3
+          },
+          {
+            "name": "tree tiers (18 InstancedMesh + 3 impostor batches, cells)",
+            "ms": 599.1,
+            "trees": 155306,
+            "cells": 962
+          },
+          {
+            "name": "far vista cones",
+            "ms": 1855.6,
+            "vista": 378438
+          },
+          {
+            "name": "ground cover (tufts, bushes, stones, stumps)",
+            "ms": 446.2
+          },
+          {
+            "name": "v2 stream: first frontier fully resident (after the overlap)",
+            "ms": 664,
+            "tiles": 65
+          },
+          {
+            "name": "v2 stream: opening terrain texture upload",
+            "ms": 32.8
+          },
+          {
+            "name": "GPU startup: compile opening scene",
+            "ms": 2415.3
+          }
+        ],
+        "atlasMs": 370.6,
+        "totalMs": 20204,
+        "doneAtMs": 22605.2,
+        "firstFrames": [
+          {
+            "atMs": 20205.9,
+            "ms": 905.5,
+            "tris": 51569552,
+            "draws": 248,
+            "tiers": {
+              "t0": 1937,
+              "t1": 4304,
+              "t2": 0,
+              "t3": 22785
+            }
+          },
+          {
+            "atMs": 21889,
+            "ms": 14.1,
+            "tris": 51569552,
+            "draws": 248,
+            "tiers": {
+              "t0": 1937,
+              "t1": 4304,
+              "t2": 0,
+              "t3": 22785
+            }
+          },
+          {
+            "atMs": 22004.3,
+            "ms": 9.9,
+            "tris": 51569552,
+            "draws": 248,
+            "tiers": {
+              "t0": 1937,
+              "t1": 4304,
+              "t2": 0,
+              "t3": 22785
+            }
+          },
+          {
+            "atMs": 22589.3,
+            "ms": 5.9,
+            "tris": 26688560,
+            "draws": 114,
+            "tiers": {
+              "t0": 1937,
+              "t1": 4304,
+              "t2": 0,
+              "t3": 22785
+            }
+          },
+          {
+            "atMs": 22599.7,
+            "ms": 5.4,
+            "tris": 26688560,
+            "draws": 114,
+            "tiers": {
+              "t0": 1937,
+              "t1": 4304,
+              "t2": 0,
+              "t3": 22785
+            }
+          },
+          {
+            "atMs": 22719.1,
+            "ms": 5.5,
+            "tris": 26688560,
+            "draws": 114,
+            "tiers": {
+              "t0": 1937,
+              "t1": 4304,
+              "t2": 0,
+              "t3": 22785
+            }
+          }
+        ],
+        "engineStartedAtNavigationMs": 149.6,
+        "courseReadyAtNavigationMs": 22754.8,
+        "preparedWater": false,
+        "preparedWaterLoad": null,
+        "preparedTint": false,
+        "courseData": {
+          "networkBytes": 18575650,
+          "networkRequests": 10,
+          "cacheHits": 0,
+          "sharedHits": 53,
+          "decodes": 1106,
+          "complete": true,
+          "fallbackReasons": [],
+          "cache": {
+            "persistent": true,
+            "bytes": 18575650,
+            "totalBytes": 18575650,
+            "evicted": 0
+          },
+          "packages": 9,
+          "chunks": 962,
+          "verified": 962,
+          "decodedResidentBytes": 16776446
+        },
+        "courseDataReadyAtNavigationMs": 11794.2,
+        "gpuPreparation": {
+          "milliseconds": 2396.9,
+          "branches": 111,
+          "completed": 111,
+          "concurrency": 4,
+          "target": "scene-pass",
+          "samples": 4
+        },
+        "firstSceneSubmittedAtMs": 21111.4,
+        "firstSceneGpuReadyAtMs": 22595.9,
+        "tintMs": 2239
+      },
+      "stats": {
+        "verts": 347635,
+        "tris": 853472,
+        "trees": 155306,
+        "vista": 378438,
+        "vistaSpecies": {
+          "spruce": 239044,
+          "pine": 129137,
+          "birch": 9849,
+          "alder": 408,
+          "oak": 0
+        },
+        "environmentWater": null,
+        "tufts": 15703,
+        "bushes": 2878,
+        "stones": 655,
+        "reeds": 2952,
+        "cars": 93,
+        "authoredParkingCars": 24,
+        "pylons": 187,
+        "stumps": 202,
+        "inferredRangeTargets": 5,
+        "measuredRoofBuildings": 0,
+        "measuredRoofTriangles": 0,
+        "sourceRoofBuildings": 0,
+        "sourceRoofTriangles": 0,
+        "architecturalBuildings": 0,
+        "architecturalTriangles": 0,
+        "authoredBuildingModels": 0,
+        "authoredBuildingMeshes": 0,
+        "authoredBuildingTriangles": 0,
+        "architectureAssets": null,
+        "authoredFacilityBuildings": 10,
+        "facilities": {
+          "status": "loaded",
+          "courseSlug": "veckefjarden",
+          "replacedBuildingIds": [],
+          "replacedBuildingIndices": [
+            3,
+            6,
+            0,
+            1,
+            5,
+            4,
+            28,
+            26,
+            25,
+            24
+          ],
+          "replacedParkingIndices": [
+            3,
+            0,
+            1
+          ],
+          "facilities": [
+            {
+              "id": "R01",
+              "meshes": 8,
+              "triangles": 13825,
+              "sourceBuildingIndices": [
+                3
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  210.1355743408203,
+                  29.114696502685547,
+                  -482.45989990234375
+                ],
+                "max": [
+                  246.7141876220703,
+                  43.37653350830078,
+                  -435.7699890136719
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  210.1355743408203,
+                  29.114696502685547,
+                  -482.45989990234375
+                ],
+                "max": [
+                  246.7141876220703,
+                  43.37653350830078,
+                  -435.7699890136719
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                228.42698419793544,
+                -464.15248929544987
+              ],
+              "sourceGroundRh2000M": 30.029650368,
+              "terrainHeight": 51.02649248722397,
+              "groundResidualMetres": -0.004442119223973862
+            },
+            {
+              "id": "R02",
+              "meshes": 7,
+              "triangles": 544,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  215.29710388183594,
+                  28.847030639648438,
+                  -458.82720947265625
+                ],
+                "max": [
+                  223.42994689941406,
+                  32.807029724121094,
+                  -454.04949951171875
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  215.29710388183594,
+                  28.847030639648438,
+                  -458.82720947265625
+                ],
+                "max": [
+                  223.42994689941406,
+                  32.807029724121094,
+                  -454.04949951171875
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                219.3972040862405,
+                -456.24495272960274
+              ],
+              "sourceGroundRh2000M": 28.924239999999998,
+              "terrainHeight": 49.90556031470385,
+              "groundResidualMetres": 0.011079685296152775
+            },
+            {
+              "id": "R03",
+              "meshes": 6,
+              "triangles": 1518,
+              "sourceBuildingIndices": [
+                6,
+                0
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  251.78713989257812,
+                  30.99089241027832,
+                  -441.7251892089844
+                ],
+                "max": [
+                  268.32794189453125,
+                  37.74322509765625,
+                  -420.2322998046875
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  251.78713989257812,
+                  30.99089241027832,
+                  -441.7251892089844
+                ],
+                "max": [
+                  268.32794189453125,
+                  37.74322509765625,
+                  -420.2322998046875
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                257.0785120819375,
+                -427.24992886799015
+              ],
+              "sourceGroundRh2000M": 31.6963808,
+              "terrainHeight": 52.678733809819704,
+              "groundResidualMetres": 0.010046990180299531
+            },
+            {
+              "id": "R04",
+              "meshes": 8,
+              "triangles": 2220,
+              "sourceBuildingIndices": [
+                1,
+                5
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  235.82366943359375,
+                  30.17032241821289,
+                  -427.5172119140625
+                ],
+                "max": [
+                  252.39854431152344,
+                  36.95663833618164,
+                  -402.5994873046875
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  235.82366943359375,
+                  30.17032241821289,
+                  -427.5172119140625
+                ],
+                "max": [
+                  252.39854431152344,
+                  36.95663833618164,
+                  -402.5994873046875
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                241.323001349009,
+                -413.49121433058684
+              ],
+              "sourceGroundRh2000M": 30.885241599999997,
+              "terrainHeight": 51.881107358507315,
+              "groundResidualMetres": -0.0034657585073176733
+            },
+            {
+              "id": "R05",
+              "meshes": 6,
+              "triangles": 1782,
+              "sourceBuildingIndices": [
+                4
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  219.4303436279297,
+                  27.829708099365234,
+                  -413.616455078125
+                ],
+                "max": [
+                  236.61485290527344,
+                  35.282875061035156,
+                  -388.02911376953125
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  219.4303436279297,
+                  27.829708099365234,
+                  -413.616455078125
+                ],
+                "max": [
+                  236.61485290527344,
+                  35.282875061035156,
+                  -388.02911376953125
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                225.3892448383069,
+                -400.8030116099238
+              ],
+              "sourceGroundRh2000M": 29.1241228,
+              "terrainHeight": 50.123456207851156,
+              "groundResidualMetres": -0.006933407851157369
+            },
+            {
+              "id": "R06",
+              "meshes": 3,
+              "triangles": 988,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  263.0946350097656,
+                  31.67420768737793,
+                  -418.19793701171875
+                ],
+                "max": [
+                  269.84979248046875,
+                  34.92920684814453,
+                  -404.4605712890625
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  263.0946350097656,
+                  31.67420768737793,
+                  -418.19793701171875
+                ],
+                "max": [
+                  269.84979248046875,
+                  34.92920684814453,
+                  -404.4605712890625
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                266.41812684579287,
+                -411.3679991151349
+              ],
+              "sourceGroundRh2000M": 30.786264,
+              "terrainHeight": 51.778127896332236,
+              "groundResidualMetres": 0.0005361036677626885
+            },
+            {
+              "id": "R07",
+              "meshes": 3,
+              "triangles": 431,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  257.7495422363281,
+                  31.627193450927734,
+                  -401.4712829589844
+                ],
+                "max": [
+                  263.5066223144531,
+                  35.787193298339844,
+                  -396.6152648925781
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  257.7495422363281,
+                  31.627193450927734,
+                  -401.4712829589844
+                ],
+                "max": [
+                  263.5066223144531,
+                  35.787193298339844,
+                  -396.6152648925781
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                260.5769117322874,
+                -399.11132683158627
+              ],
+              "sourceGroundRh2000M": 31.627194285714285,
+              "terrainHeight": 52.61510388457423,
+              "groundResidualMetres": 0.0044904011400532795
+            },
+            {
+              "id": "R08",
+              "meshes": 4,
+              "triangles": 570,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  199.91905212402344,
+                  28.80149269104004,
+                  -375.4153137207031
+                ],
+                "max": [
+                  217.7457733154297,
+                  34.32366943359375,
+                  -352.4031066894531
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  199.91905212402344,
+                  28.80149269104004,
+                  -375.4153137207031
+                ],
+                "max": [
+                  217.7457733154297,
+                  34.32366943359375,
+                  -352.4031066894531
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                208.79810764789386,
+                -364.10491240272677
+              ],
+              "sourceGroundRh2000M": 28.943883999999997,
+              "terrainHeight": 49.942253763493405,
+              "groundResidualMetres": -0.005969763493403946
+            },
+            {
+              "id": "R09",
+              "meshes": 6,
+              "triangles": 388,
+              "sourceBuildingIndices": [
+                28
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  156.17404174804688,
+                  36.09678268432617,
+                  -241.35910034179688
+                ],
+                "max": [
+                  168.4403076171875,
+                  40.601783752441406,
+                  -231.2603302001953
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  156.17404174804688,
+                  36.09678268432617,
+                  -241.35910034179688
+                ],
+                "max": [
+                  168.4403076171875,
+                  40.601783752441406,
+                  -231.2603302001953
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                162.18785722673863,
+                -236.30285110065188
+              ],
+              "sourceGroundRh2000M": 36.115228,
+              "terrainHeight": 57.10224651851957,
+              "groundResidualMetres": 0.005381481480434047
+            },
+            {
+              "id": "R10",
+              "meshes": 5,
+              "triangles": 1206,
+              "sourceBuildingIndices": [
+                26
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  4.812047958374023,
+                  16.16140365600586,
+                  -416.4644470214844
+                ],
+                "max": [
+                  27.730731964111328,
+                  22.945449829101562,
+                  -375.31689453125
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  4.812047958374023,
+                  16.16140365600586,
+                  -416.4644470214844
+                ],
+                "max": [
+                  27.730731964111328,
+                  22.945449829101562,
+                  -375.31689453125
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                15.936066298351045,
+                -393.3719822436254
+              ],
+              "sourceGroundRh2000M": 17.1312,
+              "terrainHeight": 38.142669641883515,
+              "groundResidualMetres": -0.019069641883518784
+            },
+            {
+              "id": "R11",
+              "meshes": 5,
+              "triangles": 930,
+              "sourceBuildingIndices": [
+                25
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  47.977500915527344,
+                  17.00945281982422,
+                  -417.07330322265625
+                ],
+                "max": [
+                  59.77019500732422,
+                  23.51497459411621,
+                  -386.4804382324219
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  47.977500915527344,
+                  17.00945281982422,
+                  -417.07330322265625
+                ],
+                "max": [
+                  59.77019500732422,
+                  23.51497459411621,
+                  -386.4804382324219
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                53.898295429205675,
+                -401.6950056530146
+              ],
+              "sourceGroundRh2000M": 17.3586416,
+              "terrainHeight": 38.37295064800607,
+              "groundResidualMetres": -0.021909048006065746
+            },
+            {
+              "id": "R12",
+              "meshes": 5,
+              "triangles": 738,
+              "sourceBuildingIndices": [
+                24
+              ],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  33.914730072021484,
+                  17.75314712524414,
+                  -376.6536865234375
+                ],
+                "max": [
+                  54.47890853881836,
+                  24.349712371826172,
+                  -367.1201171875
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  33.914730072021484,
+                  17.75314712524414,
+                  -376.6536865234375
+                ],
+                "max": [
+                  54.47890853881836,
+                  24.349712371826172,
+                  -367.1201171875
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                44.15776574025907,
+                -371.88492601177614
+              ],
+              "sourceGroundRh2000M": 18.365000000000002,
+              "terrainHeight": 39.35518519074496,
+              "groundResidualMetres": 0.0022148092550366982
+            },
+            {
+              "id": "S01",
+              "meshes": 5,
+              "triangles": 1930,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  214.20579528808594,
+                  28.847034454345703,
+                  -454.74639892578125
+                ],
+                "max": [
+                  230.73780822753906,
+                  33.16863250732422,
+                  -438.9976806640625
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  214.20579528808594,
+                  28.847034454345703,
+                  -454.74639892578125
+                ],
+                "max": [
+                  230.73780822753906,
+                  33.16863250732422,
+                  -438.9976806640625
+                ]
+              },
+              "groundContact": {
+                "meshes": 1,
+                "samples": 3140,
+                "maximumLiftMetres": 0.16345384452736766,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                221.90982977819544,
+                -446.40028623383415
+              ],
+              "sourceGroundRh2000M": 28.96945691428571,
+              "terrainHeight": 49.9558576937996,
+              "groundResidualMetres": 0.005999220486110346
+            },
+            {
+              "id": "S02",
+              "meshes": 5,
+              "triangles": 1260,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  240.7472686767578,
+                  30.832717895507812,
+                  -398.79925537109375
+                ],
+                "max": [
+                  248.5074920654297,
+                  32.800148010253906,
+                  -392.7392578125
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  240.7472686767578,
+                  30.832717895507812,
+                  -398.79925537109375
+                ],
+                "max": [
+                  248.5074920654297,
+                  32.800148010253906,
+                  -392.7392578125
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                244.66050349183885,
+                -395.7337459952788
+              ],
+              "sourceGroundRh2000M": 30.76016,
+              "terrainHeight": 51.74528646241551,
+              "groundResidualMetres": 0.007273537584495671
+            },
+            {
+              "id": "S03",
+              "meshes": 5,
+              "triangles": 2090,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  220.1417694091797,
+                  29.862646102905273,
+                  -379.5346984863281
+                ],
+                "max": [
+                  237.4072265625,
+                  36.187644958496094,
+                  -356.8615417480469
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  220.1417694091797,
+                  29.862646102905273,
+                  -379.5346984863281
+                ],
+                "max": [
+                  237.4072265625,
+                  36.187644958496094,
+                  -356.8615417480469
+                ]
+              },
+              "groundContact": {
+                "meshes": 0,
+                "samples": 0,
+                "maximumLiftMetres": 0,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                228.7744741591567,
+                -368.19811503134616
+              ],
+              "sourceGroundRh2000M": 30.011719999999997,
+              "terrainHeight": 51.00203954746898,
+              "groundResidualMetres": 0.0020804525310182953
+            },
+            {
+              "id": "S04",
+              "meshes": 1,
+              "triangles": 2764,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  221.61070251464844,
+                  29.48227310180664,
+                  -527.2985229492188
+                ],
+                "max": [
+                  255.61207580566406,
+                  31.127023696899414,
+                  -488.5353088378906
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  221.61070251464844,
+                  29.6380615234375,
+                  -527.2985229492188
+                ],
+                "max": [
+                  255.61207580566406,
+                  31.181161880493164,
+                  -488.5353088378906
+                ]
+              },
+              "groundContact": {
+                "meshes": 1,
+                "samples": 23892,
+                "maximumLiftMetres": 0.1557887153270059,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                240.32981137244118,
+                -506.68183991373525
+              ],
+              "sourceGroundRh2000M": 30.349924671999997,
+              "terrainHeight": 51.346650336719584,
+              "groundResidualMetres": -0.0043256647195875075
+            },
+            {
+              "id": "S05",
+              "meshes": 1,
+              "triangles": 3604,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  262.8864440917969,
+                  32.67789840698242,
+                  -516.38525390625
+                ],
+                "max": [
+                  282.3052062988281,
+                  33.656742095947266,
+                  -453.66839599609375
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  262.8864440917969,
+                  32.754878997802734,
+                  -516.38525390625
+                ],
+                "max": [
+                  282.3052062988281,
+                  33.78563690185547,
+                  -453.66839599609375
+                ]
+              },
+              "groundContact": {
+                "meshes": 1,
+                "samples": 31300,
+                "maximumLiftMetres": 0.15547694669896828,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                274.05903442310336,
+                -478.3055414399871
+              ],
+              "sourceGroundRh2000M": 33.17244760493827,
+              "terrainHeight": 54.14824974648432,
+              "groundResidualMetres": 0.016597858453955894
+            },
+            {
+              "id": "S06",
+              "meshes": 1,
+              "triangles": 4248,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  293.5758056640625,
+                  36.37772750854492,
+                  -505.7966613769531
+                ],
+                "max": [
+                  313.199462890625,
+                  37.431270599365234,
+                  -444.2060241699219
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  293.5758056640625,
+                  36.40004348754883,
+                  -505.7966613769531
+                ],
+                "max": [
+                  313.199462890625,
+                  37.73723220825195,
+                  -444.2060241699219
+                ]
+              },
+              "groundContact": {
+                "meshes": 1,
+                "samples": 30816,
+                "maximumLiftMetres": 0.3059613798752281,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                304.3832629541517,
+                -471.26717204725196
+              ],
+              "sourceGroundRh2000M": 36.671046857142855,
+              "terrainHeight": 57.67353221854487,
+              "groundResidualMetres": -0.010085361402012438
+            },
+            {
+              "id": "S07",
+              "meshes": 2,
+              "triangles": 244,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  250.7906036376953,
+                  31.54570198059082,
+                  -459.6690979003906
+                ],
+                "max": [
+                  257.7995910644531,
+                  32.030242919921875,
+                  -452.2966613769531
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  250.7906036376953,
+                  31.54570198059082,
+                  -459.6690979003906
+                ],
+                "max": [
+                  257.7995910644531,
+                  32.030242919921875,
+                  -452.2966613769531
+                ]
+              },
+              "groundContact": {
+                "meshes": 1,
+                "samples": 1068,
+                "maximumLiftMetres": 0.1196829972661746,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                254.3503060461969,
+                -455.82248414424043
+              ],
+              "sourceGroundRh2000M": 31.69914642962963,
+              "terrainHeight": 52.67886640756999,
+              "groundResidualMetres": 0.0126800220596337
+            },
+            {
+              "id": "S08",
+              "meshes": 3,
+              "triangles": 3142,
+              "sourceBuildingIndices": [],
+              "shift": 20.9924,
+              "mode": "absolute-rh2000",
+              "boundsBeforePlacement": {
+                "min": [
+                  91.31844329833984,
+                  36.14659881591797,
+                  -241.58155822753906
+                ],
+                "max": [
+                  154.76181030273438,
+                  44.564937591552734,
+                  -168.2717742919922
+                ]
+              },
+              "boundsAfterGroundContact": {
+                "min": [
+                  91.31844329833984,
+                  36.14659881591797,
+                  -241.58155822753906
+                ],
+                "max": [
+                  154.76181030273438,
+                  44.564937591552734,
+                  -168.2717742919922
+                ]
+              },
+              "groundContact": {
+                "meshes": 1,
+                "samples": 15668,
+                "maximumLiftMetres": 0.0904410290601163,
+                "clearanceMetres": 0.1
+              },
+              "groundAnchorLocal": [
+                120.65801559299896,
+                -207.23957727459094
+              ],
+              "sourceGroundRh2000M": 37.05447542857143,
+              "terrainHeight": 58.011688025839966,
+              "groundResidualMetres": 0.03518740273145937
+            }
+          ],
+          "meshes": 89,
+          "triangles": 44422,
+          "groundSurfaceMaterials": [
+            {
+              "featureId": "S01",
+              "profileId": "grey-ground-paving",
+              "colorSrgb": "#6b6d68",
+              "roughness": 0.93,
+              "detail": true
+            },
+            {
+              "featureId": "S04",
+              "profileId": "weathered-grey-hardstanding",
+              "colorSrgb": "#62635e",
+              "roughness": 0.97,
+              "detail": true
+            },
+            {
+              "featureId": "S05",
+              "profileId": "weathered-grey-hardstanding",
+              "colorSrgb": "#62635e",
+              "roughness": 0.97,
+              "detail": true
+            },
+            {
+              "featureId": "S06",
+              "profileId": "weathered-grey-hardstanding",
+              "colorSrgb": "#62635e",
+              "roughness": 0.97,
+              "detail": true
+            },
+            {
+              "featureId": "S07",
+              "profileId": "dark-grey-island-fill",
+              "colorSrgb": "#585b56",
+              "roughness": 0.97,
+              "detail": true
+            },
+            {
+              "featureId": "S08",
+              "profileId": "grey-range-apron",
+              "colorSrgb": "#575d5e",
+              "roughness": 0.96,
+              "detail": true
+            }
+          ],
+          "parkingCars": {
+            "count": 24,
+            "draws": 6,
+            "triangles": 11904,
+            "lots": {
+              "S04": 6,
+              "S05": 12,
+              "S06": 6
+            },
+            "placements": [
+              {
+                "id": "parking-car-1",
+                "lot": "S04",
+                "x": 226.145,
+                "z": -506.313,
+                "yaw": 2.6358538523813158,
+                "corners": [
+                  [
+                    225.9297955496697,
+                    -503.86020831611035
+                  ],
+                  [
+                    224.1801619534895,
+                    -504.82911609248407
+                  ],
+                  [
+                    226.36020445033031,
+                    -508.76579168388963
+                  ],
+                  [
+                    228.10983804651053,
+                    -507.7968839075159
+                  ]
+                ],
+                "position": [
+                  226.145,
+                  50.958115939040475,
+                  -506.313
+                ],
+                "matrix": [
+                  -0.8744440265275131,
+                  -0.03165968898054671,
+                  -0.48409225212143747,
+                  0,
+                  -0.025620130475756037,
+                  0.9994895060138945,
+                  -0.01908759499010091,
+                  0,
+                  0.4844494332587824,
+                  -0.004288526758216413,
+                  -0.8748087534732883,
+                  0,
+                  226.145,
+                  50.958115939040475,
+                  -506.313,
+                  1
+                ],
+                "wheelHeights": [
+                  50.965816185797536,
+                  50.90323142446303,
+                  50.94550175176178,
+                  50.90038760104633
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.033763290067575724,
+                  0.03373541178856243,
+                  0.025028091237082606
+                ]
+              },
+              {
+                "id": "parking-car-2",
+                "lot": "S04",
+                "x": 228.93691,
+                "z": -504.76481,
+                "yaw": 2.6358538523813158,
+                "corners": [
+                  [
+                    228.7217055496697,
+                    -502.31201831611037
+                  ],
+                  [
+                    226.9720719534895,
+                    -503.2809260924841
+                  ],
+                  [
+                    229.15211445033032,
+                    -507.21760168388965
+                  ],
+                  [
+                    230.90174804651053,
+                    -506.24869390751593
+                  ]
+                ],
+                "position": [
+                  228.93691,
+                  51.06421677209432,
+                  -504.76481
+                ],
+                "matrix": [
+                  -0.8739292608434275,
+                  -0.034434607343248554,
+                  -0.484831831523856,
+                  0,
+                  -0.0408231280219421,
+                  0.999162950974145,
+                  0.002620995830290821,
+                  0,
+                  0.48433575054931116,
+                  0.022082916876050795,
+                  -0.8746034675909311,
+                  0,
+                  228.93691,
+                  51.06421677209432,
+                  -504.76481,
+                  1
+                ],
+                "wheelHeights": [
+                  51.02623128794872,
+                  50.98005754331328,
+                  51.09829812611875,
+                  51.02726754280653
+                ],
+                "wheelClearances": [
+                  0.037442962604693264,
+                  0.025077874756611607,
+                  0.02499999999999858,
+                  0.03749175082869982
+                ]
+              },
+              {
+                "id": "parking-car-3",
+                "lot": "S04",
+                "x": 232.05728000000002,
+                "z": -503.03448,
+                "yaw": 2.6358538523813158,
+                "corners": [
+                  [
+                    231.84207554966972,
+                    -500.58168831611033
+                  ],
+                  [
+                    230.0924419534895,
+                    -501.55059609248406
+                  ],
+                  [
+                    232.27248445033032,
+                    -505.4872716838896
+                  ],
+                  [
+                    234.02211804651054,
+                    -504.5183639075159
+                  ]
+                ],
+                "position": [
+                  232.05728000000002,
+                  51.21266207465463,
+                  -503.03448
+                ],
+                "matrix": [
+                  -0.872863806098439,
+                  -0.0466473570669166,
+                  -0.48572914271435097,
+                  0,
+                  -0.062215707564674476,
+                  0.9979350255240282,
+                  0.01596529249917337,
+                  0,
+                  0.4839813857325234,
+                  0.044155508275059416,
+                  -0.8739635629437863,
+                  0,
+                  232.05728000000002,
+                  51.21266207465463,
+                  -503.03448,
+                  1
+                ],
+                "wheelHeights": [
+                  51.1527439768162,
+                  51.08804382047643,
+                  51.286922264332844,
+                  51.19253806214445
+                ],
+                "wheelClearances": [
+                  0.03995841517398446,
+                  0.025358064499990007,
+                  0.02499999999999858,
+                  0.04008369517462995
+                ]
+              },
+              {
+                "id": "parking-car-4",
+                "lot": "S04",
+                "x": 235.67034,
+                "z": -501.03094,
+                "yaw": 2.6358538523813158,
+                "corners": [
+                  [
+                    235.4551355496697,
+                    -498.57814831611034
+                  ],
+                  [
+                    233.7055019534895,
+                    -499.54705609248407
+                  ],
+                  [
+                    235.88554445033031,
+                    -503.48373168388963
+                  ],
+                  [
+                    237.63517804651053,
+                    -502.5148239075159
+                  ]
+                ],
+                "position": [
+                  235.67034,
+                  51.358240952872066,
+                  -501.03094
+                ],
+                "matrix": [
+                  -0.8743549810809844,
+                  -0.020401218548141503,
+                  -0.4848578733408612,
+                  0,
+                  -0.03155113494766714,
+                  0.9993918798573825,
+                  0.014845752208673145,
+                  0,
+                  0.4842601500664552,
+                  0.028278273583763804,
+                  -0.8744669498047003,
+                  0,
+                  235.67034,
+                  51.358240952872066,
+                  -501.03094,
+                  1
+                ],
+                "wheelHeights": [
+                  51.294946580052766,
+                  51.27765871445163,
+                  51.38875765797607,
+                  51.33661140569191
+                ],
+                "wheelClearances": [
+                  0.04245973924713553,
+                  0.025065533316428912,
+                  0.02499999999999858,
+                  0.042464180752318725
+                ]
+              },
+              {
+                "id": "parking-car-5",
+                "lot": "S04",
+                "x": 238.95494000000002,
+                "z": -499.20954,
+                "yaw": 2.6358538523813158,
+                "corners": [
+                  [
+                    238.73973554966972,
+                    -496.75674831611036
+                  ],
+                  [
+                    236.9901019534895,
+                    -497.7256560924841
+                  ],
+                  [
+                    239.17014445033033,
+                    -501.66233168388965
+                  ],
+                  [
+                    240.91977804651054,
+                    -500.6934239075159
+                  ]
+                ],
+                "position": [
+                  238.95494000000002,
+                  51.42285049122775,
+                  -499.20954
+                ],
+                "matrix": [
+                  -0.8741943666335824,
+                  -0.025545011469216637,
+                  -0.48490376543717134,
+                  0,
+                  -0.03552866081153895,
+                  0.9993035444914359,
+                  0.011407901989032604,
+                  0,
+                  0.48427463655145964,
+                  0.02720070506237565,
+                  -0.8744931091993015,
+                  0,
+                  238.95494000000002,
+                  51.42285049122775,
+                  -499.20954,
+                  1
+                ],
+                "wheelHeights": [
+                  51.38051623873494,
+                  51.33934274451033,
+                  51.45628470281079,
+                  51.41051245601753
+                ],
+                "wheelClearances": [
+                  0.02732656040743109,
+                  0.025073535134374936,
+                  0.02499999999999858,
+                  0.02734572729559659
+                ]
+              },
+              {
+                "id": "parking-car-6",
+                "lot": "S04",
+                "x": 242.568,
+                "z": -497.206,
+                "yaw": 2.6358538523813158,
+                "corners": [
+                  [
+                    242.3527955496697,
+                    -494.7532083161104
+                  ],
+                  [
+                    240.6031619534895,
+                    -495.7221160924841
+                  ],
+                  [
+                    242.78320445033032,
+                    -499.65879168388966
+                  ],
+                  [
+                    244.53283804651053,
+                    -498.68988390751593
+                  ]
+                ],
+                "position": [
+                  242.568,
+                  51.54985342793896,
+                  -497.206
+                ],
+                "matrix": [
+                  -0.8733431203917588,
+                  -0.04300794121554819,
+                  -0.4852031647225582,
+                  0,
+                  -0.053046457968344334,
+                  0.9985677269454023,
+                  0.00696907455153592,
+                  0,
+                  0.48420849575508135,
+                  0.03182470259864401,
+                  -0.874373673518999,
+                  0,
+                  242.568,
+                  51.54985342793896,
+                  -497.206,
+                  1
+                ],
+                "wheelHeights": [
+                  51.51844682946401,
+                  51.441361891468006,
+                  51.60058761050951,
+                  51.531161598181626
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.028971437929570243,
+                  0.028785915970843234,
+                  0.02509842823229036
+                ]
+              },
+              {
+                "id": "parking-car-7",
+                "lot": "S05",
+                "x": 267.108,
+                "z": -506.999,
+                "yaw": -1.628236893620763,
+                "corners": [
+                  [
+                    269.4116981596981,
+                    -507.8681805272804
+                  ],
+                  [
+                    269.29688018911924,
+                    -505.8714790389171
+                  ],
+                  [
+                    264.8043018403019,
+                    -506.12981947271965
+                  ],
+                  [
+                    264.9191198108808,
+                    -508.126520961083
+                  ]
+                ],
+                "position": [
+                  267.108,
+                  54.20203110940656,
+                  -506.999
+                ],
+                "matrix": [
+                  -0.05735199726429525,
+                  -0.002247295077176594,
+                  0.9983514902451102,
+                  0,
+                  -0.02541482617206659,
+                  0.9996766787655966,
+                  0.0007902802225211926,
+                  0,
+                  -0.9980304780017693,
+                  -0.02532760543404305,
+                  -0.05739056875948804,
+                  0,
+                  267.108,
+                  54.20203110940656,
+                  -506.999,
+                  1
+                ],
+                "wheelHeights": [
+                  54.213133577558125,
+                  54.189827988000076,
+                  54.125244372458525,
+                  54.14090423480823
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.044485187926845526,
+                  0.044504670427677695,
+                  0.025024406446767955
+                ]
+              },
+              {
+                "id": "parking-car-8",
+                "lot": "S05",
+                "x": 267.0808,
+                "z": -501.31386000000003,
+                "yaw": -1.628236893620763,
+                "corners": [
+                  [
+                    269.3844981596981,
+                    -502.1830405272804
+                  ],
+                  [
+                    269.26968018911924,
+                    -500.1863390389171
+                  ],
+                  [
+                    264.7771018403019,
+                    -500.44467947271966
+                  ],
+                  [
+                    264.8919198108808,
+                    -502.441380961083
+                  ]
+                ],
+                "position": [
+                  267.0808,
+                  54.17976964709309,
+                  -501.31386000000003
+                ],
+                "matrix": [
+                  -0.05725283151795804,
+                  -0.008036286669845268,
+                  0.9983273668390226,
+                  0,
+                  -0.019657589103464337,
+                  0.9997828182132751,
+                  0.00692066443058037,
+                  0,
+                  -0.9981661647610659,
+                  -0.01922848153342867,
+                  -0.057398371266987366,
+                  0,
+                  267.0808,
+                  54.17976964709309,
+                  -501.31386000000003,
+                  1
+                ],
+                "wheelHeights": [
+                  54.18755894083259,
+                  54.170706462731374,
+                  54.132447144095096,
+                  54.12196525839457
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.028190790762472773,
+                  0.02819489659723473,
+                  0.025015094959023543
+                ]
+              },
+              {
+                "id": "parking-car-9",
+                "lot": "S05",
+                "x": 267.05039999999997,
+                "z": -494.95988,
+                "yaw": -1.628236893620763,
+                "corners": [
+                  [
+                    269.3540981596981,
+                    -495.8290605272804
+                  ],
+                  [
+                    269.2392801891192,
+                    -493.83235903891705
+                  ],
+                  [
+                    264.74670184030185,
+                    -494.0906994727196
+                  ],
+                  [
+                    264.86151981088074,
+                    -496.08740096108295
+                  ]
+                ],
+                "position": [
+                  267.05039999999997,
+                  54.138256216488415,
+                  -494.95988
+                ],
+                "matrix": [
+                  -0.05705805592553553,
+                  -0.014743340959292282,
+                  0.9982619957462854,
+                  0,
+                  -0.024216794713585513,
+                  0.9996171988355003,
+                  0.013379187048100313,
+                  0,
+                  -0.9980771138082462,
+                  -0.023411315418533262,
+                  -0.05739325049668671,
+                  0,
+                  267.05039999999997,
+                  54.138256216488415,
+                  -494.95988,
+                  1
+                ],
+                "wheelHeights": [
+                  54.14627911188157,
+                  54.13232965248804,
+                  54.09418192294723,
+                  54.05797107886272
+                ],
+                "wheelClearances": [
+                  0.03611422023726618,
+                  0.02499999999999858,
+                  0.025000857541563448,
+                  0.036148021995273893
+                ]
+              },
+              {
+                "id": "parking-car-10",
+                "lot": "S05",
+                "x": 267.0152,
+                "z": -487.60264,
+                "yaw": -1.628236893620763,
+                "corners": [
+                  [
+                    269.3188981596981,
+                    -488.4718205272804
+                  ],
+                  [
+                    269.2040801891192,
+                    -486.47511903891706
+                  ],
+                  [
+                    264.7115018403019,
+                    -486.73345947271963
+                  ],
+                  [
+                    264.82631981088076,
+                    -488.73016096108296
+                  ]
+                ],
+                "position": [
+                  267.0152,
+                  54.19488786078952,
+                  -487.60264
+                ],
+                "matrix": [
+                  -0.05743890486593423,
+                  0.002153992987387246,
+                  0.9983466995598335,
+                  0,
+                  -0.01382706115559698,
+                  0.999900041470739,
+                  -0.002952870910484036,
+                  0,
+                  -0.9982532667552866,
+                  -0.013973810540610898,
+                  -0.05740337996471613,
+                  0,
+                  267.0152,
+                  54.19488786078952,
+                  -487.60264,
+                  1
+                ],
+                "wheelHeights": [
+                  54.17067445558146,
+                  54.190583399058625,
+                  54.149187914665646,
+                  54.136603994676676
+                ],
+                "wheelClearances": [
+                  0.04124715539860091,
+                  0.02499999999999858,
+                  0.025004407854773092,
+                  0.041250115922302655
+                ]
+              },
+              {
+                "id": "parking-car-11",
+                "lot": "S05",
+                "x": 266.9832,
+                "z": -480.91424,
+                "yaw": -1.628236893620763,
+                "corners": [
+                  [
+                    269.2868981596981,
+                    -481.7834205272804
+                  ],
+                  [
+                    269.17208018911924,
+                    -479.78671903891706
+                  ],
+                  [
+                    264.6795018403019,
+                    -480.04505947271963
+                  ],
+                  [
+                    264.7943198108808,
+                    -482.04176096108296
+                  ]
+                ],
+                "position": [
+                  266.9832,
+                  54.221930392705566,
+                  -480.91424
+                ],
+                "matrix": [
+                  -0.05749546503771014,
+                  0.0045941240732825656,
+                  0.9983351969774965,
+                  0,
+                  -0.01868850317477664,
+                  0.9998092364105844,
+                  -0.005677203287769477,
+                  0,
+                  -0.9981708327481744,
+                  -0.018983803941349128,
+                  -0.05739863969409558,
+                  0,
+                  266.9832,
+                  54.221930392705566,
+                  -480.91424,
+                  1
+                ],
+                "wheelHeights": [
+                  54.2186535225641,
+                  54.22054932497636,
+                  54.16147090681855,
+                  54.17520092246289
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.03091420851231419,
+                  0.030926345103907238,
+                  0.025006340384145176
+                ]
+              },
+              {
+                "id": "parking-car-12",
+                "lot": "S05",
+                "x": 266.948,
+                "z": -473.557,
+                "yaw": -1.628236893620763,
+                "corners": [
+                  [
+                    269.2516981596981,
+                    -474.4261805272804
+                  ],
+                  [
+                    269.1368801891192,
+                    -472.42947903891707
+                  ],
+                  [
+                    264.64430184030186,
+                    -472.68781947271964
+                  ],
+                  [
+                    264.75911981088075,
+                    -474.68452096108297
+                  ]
+                ],
+                "position": [
+                  266.948,
+                  54.25801459818254,
+                  -473.557
+                ],
+                "matrix": [
+                  -0.05757655380918529,
+                  0.008776230613436095,
+                  0.9983025183919342,
+                  0,
+                  -0.018837161428619943,
+                  0.9997737914720867,
+                  -0.009875587822533236,
+                  0,
+                  -0.9981633642850101,
+                  -0.01937378800720811,
+                  -0.057398210228905684,
+                  0,
+                  266.948,
+                  54.25801459818254,
+                  -473.557,
+                  1
+                ],
+                "wheelHeights": [
+                  54.25170941597085,
+                  54.258923025735754,
+                  54.19167820922863,
+                  54.21431613777318
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.03270598227793897,
+                  0.03272197912276198,
+                  0.02500364262105137
+                ]
+              },
+              {
+                "id": "parking-car-13",
+                "lot": "S05",
+                "x": 279.509,
+                "z": -505.805,
+                "yaw": 1.5133517665679939,
+                "corners": [
+                  [
+                    277.2052983693338,
+                    -504.9358286723172
+                  ],
+                  [
+                    277.3201243135416,
+                    -506.93252970215036
+                  ],
+                  [
+                    281.81270163066625,
+                    -506.6741713276828
+                  ],
+                  [
+                    281.6978756864584,
+                    -504.67747029784965
+                  ]
+                ],
+                "position": [
+                  279.509,
+                  54.51157956939024,
+                  -505.805
+                ],
+                "matrix": [
+                  0.056329955836413655,
+                  0.06554861922789397,
+                  -0.9962581566003786,
+                  0,
+                  -0.018368921426067327,
+                  0.9977416690643448,
+                  0.0646076198163844,
+                  0,
+                  0.9982432162559937,
+                  0.014660843427718295,
+                  0.057406801590728564,
+                  0,
+                  279.509,
+                  54.51157956939024,
+                  -505.805,
+                  1
+                ],
+                "wheelHeights": [
+                  54.3884011407869,
+                  54.522503757106534,
+                  54.450395410355355,
+                  54.53968655167719
+                ],
+                "wheelClearances": [
+                  0.04766996363221665,
+                  0.02499999999999858,
+                  0.025259971318597252,
+                  0.04740148268417954
+                ]
+              },
+              {
+                "id": "parking-car-14",
+                "lot": "S05",
+                "x": 279.3492,
+                "z": -499.22974,
+                "yaw": 1.5133517665679939,
+                "corners": [
+                  [
+                    277.04549836933376,
+                    -498.3605686723172
+                  ],
+                  [
+                    277.1603243135416,
+                    -500.35726970215035
+                  ],
+                  [
+                    281.65290163066624,
+                    -500.0989113276828
+                  ],
+                  [
+                    281.5380756864584,
+                    -498.10221029784964
+                  ]
+                ],
+                "position": [
+                  279.3492,
+                  54.360565215267584,
+                  -499.22974
+                ],
+                "matrix": [
+                  0.05677491776584174,
+                  0.029569225605349837,
+                  -0.9979490315691388,
+                  0,
+                  -0.022413434210783394,
+                  0.999347155150912,
+                  0.028335515853041286,
+                  0,
+                  0.9981353849451289,
+                  0.020758718382380765,
+                  0.05740060044599021,
+                  0,
+                  279.3492,
+                  54.360565215267584,
+                  -499.22974,
+                  1
+                ],
+                "wheelHeights": [
+                  54.28235134363959,
+                  54.310305348780076,
+                  54.31605460532765,
+                  54.38872332684835
+                ],
+                "wheelClearances": [
+                  0.025055760047230535,
+                  0.04736943843584385,
+                  0.047401037991598116,
+                  0.02499999999999858
+                ]
+              },
+              {
+                "id": "parking-car-15",
+                "lot": "S05",
+                "x": 279.17060000000004,
+                "z": -491.88092,
+                "yaw": 1.5133517665679939,
+                "corners": [
+                  [
+                    276.8668983693338,
+                    -491.0117486723172
+                  ],
+                  [
+                    276.98172431354163,
+                    -493.00844970215036
+                  ],
+                  [
+                    281.4743016306663,
+                    -492.7500913276828
+                  ],
+                  [
+                    281.35947568645844,
+                    -490.75339029784965
+                  ]
+                ],
+                "position": [
+                  279.17060000000004,
+                  54.316866956369324,
+                  -491.88092
+                ],
+                "matrix": [
+                  0.0573573845533075,
+                  0.0067253222691985295,
+                  -0.9983310575543464,
+                  0,
+                  -0.008458022451514547,
+                  0.9999446965763406,
+                  0.0062502515997306055,
+                  0,
+                  0.9983178813851896,
+                  0.008085408414278248,
+                  0.05741109542031608,
+                  0,
+                  279.17060000000004,
+                  54.316866956369324,
+                  -491.88092,
+                  1
+                ],
+                "wheelHeights": [
+                  54.26711198983449,
+                  54.28666817893887,
+                  54.297065441338106,
+                  54.300377360092426
+                ],
+                "wheelClearances": [
+                  0.03312314124674032,
+                  0.02499999999999858,
+                  0.025000292461676565,
+                  0.033121421564992204
+                ]
+              },
+              {
+                "id": "parking-car-16",
+                "lot": "S05",
+                "x": 278.9638,
+                "z": -483.37176,
+                "yaw": 1.5133517665679939,
+                "corners": [
+                  [
+                    276.66009836933375,
+                    -482.5025886723172
+                  ],
+                  [
+                    276.7749243135416,
+                    -484.49928970215035
+                  ],
+                  [
+                    281.26750163066623,
+                    -484.2409313276828
+                  ],
+                  [
+                    281.1526756864584,
+                    -482.24423029784964
+                  ]
+                ],
+                "position": [
+                  278.9638,
+                  54.33306340969341,
+                  -483.37176
+                ],
+                "matrix": [
+                  0.057500806498475804,
+                  -0.006475493109706486,
+                  -0.9983244589015192,
+                  0,
+                  -0.013376645526385853,
+                  0.9998842007038259,
+                  -0.007256068999996323,
+                  0,
+                  0.9982558402566379,
+                  0.01377146222655496,
+                  0.057407527569616736,
+                  0,
+                  278.9638,
+                  54.33306340969341,
+                  -483.37176,
+                  1
+                ],
+                "wheelHeights": [
+                  54.284208175171926,
+                  54.28396192105268,
+                  54.33215905284251,
+                  54.31038399227273
+                ],
+                "wheelClearances": [
+                  0.035767929658881314,
+                  0.0250058454916271,
+                  0.02499999999999858,
+                  0.035766722283277375
+                ]
+              },
+              {
+                "id": "parking-car-17",
+                "lot": "S05",
+                "x": 278.7758,
+                "z": -475.63616,
+                "yaw": 1.5133517665679939,
+                "corners": [
+                  [
+                    276.47209836933376,
+                    -474.7669886723172
+                  ],
+                  [
+                    276.5869243135416,
+                    -476.7636897021504
+                  ],
+                  [
+                    281.07950163066624,
+                    -476.5053313276828
+                  ],
+                  [
+                    280.9646756864584,
+                    -474.50863029784966
+                  ]
+                ],
+                "position": [
+                  278.7758,
+                  54.325761868729685,
+                  -475.63616
+                ],
+                "matrix": [
+                  0.05740059613435838,
+                  0.004255490439158966,
+                  -0.9983421569604994,
+                  0,
+                  -0.003030359325755919,
+                  0.9999870514072219,
+                  0.0040882686124091875,
+                  0,
+                  0.9983466274224483,
+                  0.002790666410130855,
+                  0.057412748542551774,
+                  0,
+                  278.7758,
+                  54.325761868729685,
+                  -475.63616,
+                  1
+                ],
+                "wheelHeights": [
+                  54.2933771510167,
+                  54.28201929933769,
+                  54.28231967239245,
+                  54.308146435256646
+                ],
+                "wheelClearances": [
+                  0.025000151186027608,
+                  0.04359233661160289,
+                  0.043592429117630616,
+                  0.02499999999999858
+                ]
+              },
+              {
+                "id": "parking-car-18",
+                "lot": "S05",
+                "x": 278.569,
+                "z": -467.127,
+                "yaw": 1.5133517665679939,
+                "corners": [
+                  [
+                    276.2652983693338,
+                    -466.2578286723172
+                  ],
+                  [
+                    276.3801243135416,
+                    -468.25452970215036
+                  ],
+                  [
+                    280.87270163066626,
+                    -467.9961713276828
+                  ],
+                  [
+                    280.7578756864584,
+                    -465.99947029784965
+                  ]
+                ],
+                "position": [
+                  278.569,
+                  54.33298495422466,
+                  -467.127
+                ],
+                "matrix": [
+                  0.05742227990912949,
+                  0.0013696476032384571,
+                  -0.9983490400834173,
+                  0,
+                  0.006756282098591968,
+                  0.9999756263809344,
+                  0.0017604818267096805,
+                  0,
+                  0.998327117943934,
+                  -0.006846218627890323,
+                  0.05741162659476995,
+                  0,
+                  278.569,
+                  54.33298495422466,
+                  -467.127,
+                  1
+                ],
+                "wheelHeights": [
+                  54.31144013850533,
+                  54.31839154983507,
+                  54.29757781407832,
+                  54.29528342724578
+                ],
+                "wheelClearances": [
+                  0.029623010404229433,
+                  0.02499999999999858,
+                  0.02500054453593492,
+                  0.029623332293986948
+                ]
+              },
+              {
+                "id": "parking-car-19",
+                "lot": "S06",
+                "x": 297.85107999999997,
+                "z": -470.76252,
+                "yaw": -1.6282469345388768,
+                "corners": [
+                  [
+                    300.15478688695254,
+                    -471.6316773959919
+                  ],
+                  [
+                    300.0399488676632,
+                    -469.6349770606072
+                  ],
+                  [
+                    295.5473731130474,
+                    -469.8933626040081
+                  ],
+                  [
+                    295.6622111323367,
+                    -471.8900629393928
+                  ]
+                ],
+                "position": [
+                  297.85107999999997,
+                  57.665375191370266,
+                  -470.76252
+                ],
+                "matrix": [
+                  -0.05723079307808293,
+                  -0.007135951861698564,
+                  0.9983354719304937,
+                  0,
+                  -0.026571030947722018,
+                  0.9996311186990617,
+                  0.005621996339165173,
+                  0,
+                  -0.9980073229380778,
+                  -0.026205051411701305,
+                  -0.057399291306437186,
+                  0,
+                  297.85107999999997,
+                  57.665375191370266,
+                  -470.76252,
+                  1
+                ],
+                "wheelHeights": [
+                  57.68181756985851,
+                  57.66164882384763,
+                  57.603010642779424,
+                  57.59889986140789
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.03303762784599229,
+                  0.03305328826748877,
+                  0.025032951474138088
+                ]
+              },
+              {
+                "id": "parking-car-20",
+                "lot": "S06",
+                "x": 297.9785,
+                "z": -462.73,
+                "yaw": -1.6282469345388768,
+                "corners": [
+                  [
+                    300.28220688695257,
+                    -463.59915739599194
+                  ],
+                  [
+                    300.16736886766324,
+                    -461.6024570606072
+                  ],
+                  [
+                    295.67479311304743,
+                    -461.8608426040081
+                  ],
+                  [
+                    295.78963113233675,
+                    -463.85754293939283
+                  ]
+                ],
+                "position": [
+                  297.9785,
+                  57.65472931605569,
+                  -462.73
+                ],
+                "matrix": [
+                  -0.057408916938558284,
+                  -0.00035225858151702137,
+                  0.9983506859665263,
+                  0,
+                  -0.028649745189752836,
+                  0.9995886732373332,
+                  -0.001294772640460385,
+                  0,
+                  -0.9979395815160876,
+                  -0.028676824257926434,
+                  -0.0573953952332071,
+                  0,
+                  297.9785,
+                  57.65472931605569,
+                  -462.73,
+                  1
+                ],
+                "wheelHeights": [
+                  57.654734441748275,
+                  57.668143609009604,
+                  57.591283659738366,
+                  57.57667582749107
+                ],
+                "wheelClearances": [
+                  0.03900800684991168,
+                  0.02499999999999858,
+                  0.025031363363417825,
+                  0.0390403560221273
+                ]
+              },
+              {
+                "id": "parking-car-21",
+                "lot": "S06",
+                "x": 298.10038000000003,
+                "z": -455.04672000000005,
+                "yaw": -1.6282469345388768,
+                "corners": [
+                  [
+                    300.4040868869526,
+                    -455.91587739599197
+                  ],
+                  [
+                    300.2892488676633,
+                    -453.91917706060724
+                  ],
+                  [
+                    295.79667311304746,
+                    -454.17756260400813
+                  ],
+                  [
+                    295.9115111323368,
+                    -456.17426293939286
+                  ]
+                ],
+                "position": [
+                  298.10038000000003,
+                  57.609264809122195,
+                  -455.04672000000005
+                ],
+                "matrix": [
+                  -0.05717997755719798,
+                  -0.008336463739585237,
+                  0.9983290807839253,
+                  0,
+                  -0.028899897799238582,
+                  0.9995599131604974,
+                  0.006691480387202642,
+                  0,
+                  -0.9979455125775916,
+                  -0.02846898970629856,
+                  -0.05739573635167307,
+                  0,
+                  298.10038000000003,
+                  57.609264809122195,
+                  -455.04672000000005,
+                  1
+                ],
+                "wheelHeights": [
+                  57.62978393940435,
+                  57.61544067969899,
+                  57.55272721623956,
+                  57.53870252171933
+                ],
+                "wheelClearances": [
+                  0.02499999999999858,
+                  0.02517127134805719,
+                  0.02519045095777983,
+                  0.025043157120713033
+                ]
+              },
+              {
+                "id": "parking-car-22",
+                "lot": "S06",
+                "x": 308.80472,
+                "z": -469.86992,
+                "yaw": 1.5133417256504922,
+                "corners": [
+                  [
+                    306.5010096421723,
+                    -469.00077180363905
+                  ],
+                  [
+                    306.61585563508464,
+                    -470.9974716804137
+                  ],
+                  [
+                    311.1084303578277,
+                    -470.7390681963609
+                  ],
+                  [
+                    310.9935843649153,
+                    -468.74236831958626
+                  ]
+                ],
+                "position": [
+                  308.80472,
+                  57.86420148669407,
+                  -469.86992
+                ],
+                "matrix": [
+                  0.05722512484440935,
+                  0.01077162967429912,
+                  -0.9983031889564922,
+                  0,
+                  -0.018674958823056673,
+                  0.999778387834159,
+                  0.009717053704039112,
+                  0,
+                  0.9981866213286464,
+                  0.018087211335355183,
+                  0.0574136028011768,
+                  0,
+                  308.80472,
+                  57.86420148669407,
+                  -469.86992,
+                  1
+                ],
+                "wheelHeights": [
+                  57.80423209343738,
+                  57.82393870219212,
+                  57.85446333677365,
+                  57.87139438037596
+                ],
+                "wheelClearances": [
+                  0.026395772730808176,
+                  0.025000934422372723,
+                  0.02499999999999858,
+                  0.026380726843996172
+                ]
+              },
+              {
+                "id": "parking-car-23",
+                "lot": "S06",
+                "x": 308.5715,
+                "z": -460.6805,
+                "yaw": 1.5133417256504922,
+                "corners": [
+                  [
+                    306.2677896421723,
+                    -459.81135180363907
+                  ],
+                  [
+                    306.3826356350847,
+                    -461.8080516804137
+                  ],
+                  [
+                    310.8752103578277,
+                    -461.5496481963609
+                  ],
+                  [
+                    310.76036436491535,
+                    -459.5529483195863
+                  ]
+                ],
+                "position": [
+                  308.5715,
+                  57.861249334829374,
+                  -460.6805
+                ],
+                "matrix": [
+                  0.05668010491475982,
+                  0.022078102621956388,
+                  -0.9981482470512415,
+                  0,
+                  -0.03425607239931107,
+                  0.9992098094595944,
+                  0.020156343505075565,
+                  0,
+                  0.9978045335688875,
+                  0.03305017495166714,
+                  0.05739162591388413,
+                  0,
+                  308.5715,
+                  57.861249334829374,
+                  -460.6805,
+                  1
+                ],
+                "wheelHeights": [
+                  57.772766221553326,
+                  57.786587841094416,
+                  57.8382891022317,
+                  57.89963345824279
+                ],
+                "wheelClearances": [
+                  0.02509898986263437,
+                  0.04881014477886936,
+                  0.04881158155376397,
+                  0.02499999999999858
+                ]
+              },
+              {
+                "id": "parking-car-24",
+                "lot": "S06",
+                "x": 308.34842,
+                "z": -451.89062,
+                "yaw": 1.5133417256504922,
+                "corners": [
+                  [
+                    306.0447096421723,
+                    -451.0214718036391
+                  ],
+                  [
+                    306.15955563508464,
+                    -453.01817168041373
+                  ],
+                  [
+                    310.6521303578277,
+                    -452.75976819636094
+                  ],
+                  [
+                    310.5372843649153,
+                    -450.7630683195863
+                  ]
+                ],
+                "position": [
+                  308.34842,
+                  57.87604121563337,
+                  -451.89062
+                ],
+                "matrix": [
+                  0.057316648434214065,
+                  0.002760631579219638,
+                  -0.9983522327943943,
+                  0,
+                  -0.038573721094742996,
+                  0.999255606498336,
+                  0.0005485640781228714,
+                  0,
+                  0.9976105802632478,
+                  0.038478718727715494,
+                  0.05738047012616464,
+                  0,
+                  308.34842,
+                  57.87604121563337,
+                  -451.89062,
+                  1
+                ],
+                "wheelHeights": [
+                  57.79666443387467,
+                  57.79510378874866,
+                  57.894373276542666,
+                  57.905334022758126
+                ],
+                "wheelClearances": [
+                  0.025083974633950845,
+                  0.03133769344462678,
+                  0.031267672530788104,
+                  0.02499999999999858
+                ]
+              }
+            ],
+            "placement": "Illustrative occupancy in orthophoto-guided rows; supported by the rendered paving"
+          },
+          "assetSha256": "b912895fd3b9f99d2f98797a4b50f21c5550ff4caf4a5fcfd3aff5e3d194b54f"
+        },
+        "sourceBuildingBatchIds": [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        "sourceBuildingBatchIndices": [
+          2,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          27,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68,
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102,
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116,
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136,
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172,
+          173,
+          174,
+          175,
+          176,
+          177,
+          178,
+          179,
+          180,
+          181,
+          182,
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199,
+          200,
+          201,
+          202,
+          203,
+          204,
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211,
+          212,
+          213,
+          214,
+          215,
+          216,
+          217,
+          218,
+          219,
+          220,
+          221,
+          222,
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238,
+          239,
+          240,
+          241,
+          242,
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251,
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258,
+          259,
+          260,
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275,
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291,
+          292,
+          293,
+          294,
+          295,
+          296,
+          297,
+          298,
+          299,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307,
+          308,
+          309,
+          310,
+          311,
+          312,
+          313,
+          314,
+          315,
+          316,
+          317,
+          318,
+          319,
+          320,
+          321,
+          322,
+          323,
+          324,
+          325,
+          326,
+          327,
+          328,
+          329,
+          330,
+          331,
+          332,
+          333,
+          334,
+          335,
+          336,
+          337,
+          338,
+          339,
+          340,
+          341,
+          342,
+          343
+        ],
+        "sourceParkingBatchIds": [
+          null,
+          null,
+          null,
+          null
+        ],
+        "sourceParkingBatchIndices": [
+          2,
+          4,
+          5,
+          6
+        ],
+        "authoredRangeFacilities": true,
+        "rangeNets": 0,
+        "rangeFacilities": null,
+        "facilityExcludedTrees": 7,
+        "facilityExcludedClutter": 0,
+        "genericRoofBuildings": 334,
+        "clubhouseDetails": [],
+        "courtyardDetails": null,
+        "draws": 134,
+        "surfaceOverlays": 0,
+        "backend": "webgpu"
+      },
+      "adapters": [
+        {
+          "atMs": 719.8999999761581,
+          "vendor": "nvidia",
+          "architecture": "ampere",
+          "device": "",
+          "description": "",
+          "isFallbackAdapter": false
+        }
+      ],
+      "treeAllocation": {
+        "drawableBytes": 5857280,
+        "slotBytes": 229376,
+        "capacity": 57344,
+        "used": 29026,
+        "resizes": 7
+      },
+      "rendererInfo": {
+        "calls": 767,
+        "frameCalls": 14,
+        "drawCalls": 114,
+        "triangles": 26688560,
+        "points": 0,
+        "lines": 16002,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 780,
+          "attributesSize": 113534963,
+          "geometries": 204,
+          "indexAttributes": 171,
+          "indexAttributesSize": 13444716,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 198,
+          "programsSize": 1568125,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 26,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 58,
+          "texturesSize": 280171901,
+          "uniformBuffers": 503,
+          "uniformBuffersSize": 796032,
+          "total": 409515737
+        },
+        "drawingBuffer": [
+          1600,
+          900
+        ],
+        "pixelRatio": 1
+      },
+      "v2": {
+        "status": "ready",
+        "mode": "fixed-frontier",
+        "backend": "webgpu"
+      }
+    }
+  ]
+}

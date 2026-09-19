@@ -370,7 +370,15 @@ test('repository inventory plans Laserdata and tree-height controls for every ho
        window row) and the 8th's fairway 24 m north across 6614784 (+3), so
        87 -> 93 and the repository 980 -> 986. Measured hole by hole, never
        summed. */
-    requestedWindowReferences: 986,
+    /* 986 -> 983 on 2026-09-19: Veckefjärden's 5th had carried two of the
+       short course's fairways (OSM w284933769/70) as its own, reaching 60-90 m
+       east of its line into the E 684032 window column. Reconcile now requires
+       a hole's line to run through its fairway and the 5th's is the reviewed
+       orthophoto trace, so it drops those three windows (6 -> 3). Measured
+       hole by hole against the preceding committed migration: no other hole
+       on any course moves, and uniqueGroundWindowCount stays 280 because the
+       short course still reaches the column. */
+    requestedWindowReferences: 983,
     groundsWithDiscovery: plan.grounds.filter(ground =>
       ground.discoveryState === 'checksummed-snapshot-available').length,
     productionEnabled: false,

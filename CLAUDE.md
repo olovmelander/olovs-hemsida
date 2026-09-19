@@ -60,6 +60,10 @@ compared against their OSM survey to measure the whole chain: green centres land
 that pair (the reader traces the green complex at ~2.1× the putting surface, so
 traced greens shrink toward their centroid by 1/√2.1). These carry `prov:"plan"`;
 anything still synthesised carries `prov:"synth"` and is hatched in `design.svg`.
+**No fairway uses a plan reading any more (2026-09-19)**: the plan fairways were
+corridor envelopes 1.2-2.3x the mowing, so the 1st's bunkers read as
+mid-fairway; holes 1, 2, 3 and 5 are traced off the 2024 orthophoto in
+`geobuild/mapping/` (see its README), the rest are OSM or already reviewed.
 
 **The trees come from satellite imagery, and the imagery is the authority.**
 `fetch-sat.mjs` caches Esri World Imagery tiles (z17, ~0.54 m/px, orthorectified — a
@@ -2172,6 +2176,25 @@ the six files that import it.
   manifest): the active scan is ONE June 2026 campaign at 3.119 returns/m²
   covering the whole 15.56 km² AOI exclusively — **zero seams**, simpler than
   Puttom.
+- **The credentialed chain runs LOCALLY now (2026-09-19)**, with `node
+  --env-file=.env`: the `.env` pair is accepted by dl1 for both the DTM and
+  the COPC (the 401 of 2026-09-02 is gone). The workflow's steps run as they
+  are -- census, `build-canopy` (97 M points, 450 MB, 4 min), `compile-vegetation`
+  (about an hour on one core), `render-review`, `publish-vegetation` -- then
+  `refresh-ortho-vegetation --write` once and `tools/build-startup-packs.mjs`.
+  Re-run because the generation of 2026-09-11 was compiled against the club-plan
+  fairways of holes 1-3, and the compile DROPS canopy under its exclusion mask
+  (`stand-fields.mjs`), so no later exclusion refresh could give those strips
+  their trees back: 52 trees returned. What still stands empty along the 3rd's
+  right is the laser-traced ditch (`dtm-ditch-12`, w 1.6): streams exclude
+  `w * 6` in full width, the same band the renderer carves and calls wet.
+  **The access preflight also checks the discovery snapshot**: Lantmäteriet
+  republished DTM item 702_68 on 2026-09-15 (same 2020-2024 capture, +216 bytes),
+  the preflight refused, and `discover-pilots.mjs --write` re-pinned it; over
+  the 4,096 m window the new file equals the published tiles to storage
+  rounding except 30 samples (29 of 1-7 cm, one shore pixel 1.1 m), so the
+  terrain was NOT republished -- `publish-ground-rings` refuses a changed course
+  tile by design.
 - **A vegetation publish must not strip the ring quadtree's parent links —
   and the gate agreed with the bug.** `assembleVegetationGraph` rebuilt each
   tile entry field by field and dropped `parentId` on every ground it
@@ -5708,7 +5731,12 @@ the drive (86.7% at 180 m) and cost fairway a portrait phone used to hold: below
 260 m, Veckefjärden's 5th loses its own fairway from frame on every tee, because
 that hole's routed line runs straight down while its OSM fairway lies 45-110 m east
 -- a disagreement in the model that no aim along the line can frame, recorded here
-rather than tuned around. 260 m is the longest cap that still gains and the
+rather than tuned around. (2026-09-19: the LINE was right and the fairway was
+not. Those two OSM ways were the short course's 4th and 5th, handed to the 5th
+by a centroid-within-70 m rule; reconcile now requires a hole's line to run
+through its fairway, and the 5th's is traced off the 2024 orthophoto in
+`geobuild/mapping/ortho-reviewed-05-fairway.json`. The cap was measured before
+that and was not re-swept.) 260 m is the longest cap that still gains and the
 shortest that regresses nothing: 609 of 819 tee marks do not move at all, the
 median range change is 0 m so pitch and orbit radius stand, and the 8 marks that
 see no fairway see none either way.
@@ -5853,14 +5881,29 @@ What it found that was not about size:
 - **The gallery made decoration the heaviest thing on the page.** With six to
   eight cards on a phone's screen instead of one, the per-card poster slideshow
   pulled **54 posters, 3.5 MB, inside two seconds** (the old single column: 21,
-  1.35 MB). Now: a phone tile narrower than 260 px stays still (only the
-  full-width lead card cycles), the extras go through ONE queue for the whole
-  list with 650 ms between fetches and lowest frame first, and hero-1 is lazy
-  past the first six cards. Measured on the build, everything the bare route
-  downloads: phone **1587 kB** old → 3786 first cut → **1089 kB** now; desktop
-  **2702 kB** old → 3556 first cut → **977 kB** at rest, 1911 kB ten seconds in.
-  **Count the bytes after changing a layout** — every layout check passed while
-  the first cut was true.
+  1.35 MB). The extras now go through ONE queue for the whole list, one fetch
+  at a time with 650 ms between, lowest frame first and only for cards ON
+  SCREEN, and hero-1 is lazy past the first six cards. **The fix then went a
+  step too far, and the owner caught it on a phone** (2026-09-19, *"the hero
+  photos on the mobile version does not seem to roll between the 5 photos"*):
+  it also froze every tile under 260 px, on the reasoning that eight small
+  pictures changing is restlessness — so a phone never showed more than one
+  photo per course. The width gate is gone and the queue alone bounds the
+  cost. Measured on the build, one visitor sitting on the menu (poster bytes
+  only): phone **838 kB** frozen → 1203 kB at 5 s, 1770 at 10 s, **2932 kB** at
+  30 s, where it stops, every on-screen card holding all 5 (45 posters);
+  desktop 1061 / 1579 / 2213 kB, unchanged. The ceiling is every poster there
+  is, ~4.4 MB, and only for a visitor who scrolls the whole list and waits.
+  Reduced motion and Save-Data still fetch no extras at all. The cheaper route,
+  not taken: the phone tiles are 176 CSS px, ~530 device px at DPR 3, against
+  800 px posters, so a smaller poster set would roughly halve that.
+  `check-chooser-ui` now asserts every on-screen phone card SHOWS
+  at least 3 different stills in 32 s and holds its whole set — it read
+  `1 1 1 1 1 1 1 1` against the frozen build — AND that four seconds in the
+  queue has fetched no more than 8 extras. **Count the bytes after changing a
+  layout**, and then look at it on the device: every check passed while the
+  first cut was 3.5 MB, and every check passed again while the fix had frozen
+  what the owner came to see.
 - **`:hover` sticks on a touch screen**, so a tapped card stayed lifted and
   zoomed when the visitor came back, and the "Starta bana" it reveals could never
   be seen. Hover effects sit under `@media (hover: hover) and (pointer: fine)`;
@@ -5887,3 +5930,53 @@ cannot fetch its own modules. Set it from PowerShell or prefix
 `MSYS_NO_PATHCONV=1`. (`tools/check-basepath.mjs` is Linux-container-shaped —
 hardcoded Chromium path, `pnpm` without a shell — and does not run on this
 machine at all; the chooser gate against a subpath build is the substitute.)
+
+## The pin flags fly the real wind, as cloth baked in Blender (2026-09-19)
+
+Every flag on every course used to fly due east at one flutter rate, whatever
+the wind -- the one place the scene contradicted Kikaren, which already
+fetched the live reading. Now the reading is fetched once the course is up
+(and every half hour; never under `det=1` or in an automated browser, so no
+golden depends on the weather and no harness calls a third party), every flag
+turns DOWNWIND, and the cloth is a real cloth simulation. `?vind=270,6[,gust]`
+forces a wind (from degrees, m/s); `?flagcloth=0` flies the old drawn flag,
+which is also what stands in if the asset cannot load.
+
+- **The cloth is baked in Blender and played back, not simulated in the
+  browser.** `tools/blender-flag/bake_flag_cloth.py` (run in the live Blender
+  over the 9876 bridge with `tools/blender-flag/blender-bridge.mjs` -- this
+  machine has no Python -- or headless) simulates the app's own flag, one
+  WIND BAND at a time, cuts each into a seamless 4 s loop and writes the
+  frames; `tools/build-flag-cloth.mjs` packs them with the app's codec
+  (`engine/flag-cloth.mjs`: quantized, frame-delta, zigzag, byte planes,
+  deflate -- the heightfields' scheme) into
+  `public/models/flag/cloth-<sha256>.bin` (~200 kB, all courses) and writes
+  `engine/flag-cloth-asset.mjs`. The app fetches it by content, verifies it
+  like a pack, plays the band nearest the wind, crossfades on a change, and
+  gives every flag its own clock, gusts (the reading's gust speed) and a few
+  degrees of swing -- eighteen flags flapping in step gives a course away.
+- **Every band is calibrated to the golfer's reading of a flag**, about four
+  degrees per mph (nine per m/s): limp in calm, 45 deg in 5 m/s, straight out
+  from 10. Blender's wind strength is not a speed; the HANG it produces is
+  what is matched, and the speed each band stands for is the rule applied to
+  its measured hang. `MODE="calibrate"` prints hang, free-edge speed and
+  rhythm per candidate; `flag-cloth.test.mjs` holds the shipped file to it.
+- **Five Blender facts that each cost a bake:**
+  a flat vertical sheet never leaves its plane (gravity and a wind along it
+  act IN the plane; Blender's wind pushes only through face normals), so it
+  needs a starting crumple, wind a few degrees off its axis, and turbulence;
+  the crumple must be the START shape only -- a cloth's rest angles come from
+  its mesh, so a crumpled mesh keeps its crumples and every edge comes out
+  serrated like foil (a flat shape key is `rest_shape_key`); cloth mass AND
+  air damping are PER VERTEX, so a finer grid is a heavier, more damped flag
+  that never flaps; wind and turbulence noise depend on WORLD POSITION and
+  this regime is chaotic, so a calibration only holds if the bake puts every
+  band at the same spot (they never touch); and the loop with the best seam is
+  the STILLEST four seconds, so windows are chosen among those that move at
+  least 90% as much as the band does on average.
+- The pole is one turned profile with the flag's sleeve on it, so the sleeve
+  costs no draw; thin nylon glows with the sun behind it (`uThroughSun`, the
+  sun's colour at its strength, so blue hour and mist do not); posing all
+  eighteen costs ~0.5 ms a frame on this machine and only flags within 380 m
+  (220 m under LOWQ) are posed. `V3D.flags()` reports the band each flag plays,
+  where it points, and its hang MEASURED off the vertices drawn.
