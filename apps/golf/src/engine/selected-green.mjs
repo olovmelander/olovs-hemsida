@@ -28,5 +28,13 @@ export function createSelectedGreen({ camera, heightAt, onLocate }) {
     ctx.fillStyle = '#ffd0bd'; ctx.strokeStyle = '#13231c'; ctx.lineWidth = 1.5; ctx.fill(); ctx.stroke();
     ctx.restore();
   }
-  return { select, update: marker.update, drawMini };
+  function update(options = {}) {
+    if (!selected) return marker.update(options);
+    const [x, z] = selected.pin;
+    const distance = Math.hypot(camera.position.x - x, camera.position.y - heightAt(x, z), camera.position.z - z);
+    const t = Math.max(0, Math.min(1, (distance - 3) / 6));
+    // A badge is useful across the course, but it covers a 108 mm cup nearby.
+    return marker.update({ ...options, opacity: t * t * (3 - 2 * t) });
+  }
+  return { select, update, drawMini };
 }

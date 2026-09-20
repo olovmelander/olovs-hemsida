@@ -31,7 +31,7 @@
 import * as THREE from 'three/webgpu';
 import {
   Fn, float, vec2, vec3, vec4, color, uniform, attribute, varying, texture, uv,
-  positionWorld, positionLocal, normalWorld, normalLocal, cameraPosition, time as __liveTime,
+  positionWorld, positionLocal, normalWorld, normalLocal, cameraPosition, materialOpacity, time as __liveTime,
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
@@ -95,6 +95,8 @@ import {
   shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
+import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { createSunShadowFilter } from './engine/sun-shadow.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
@@ -1821,7 +1823,9 @@ controls.dampingFactor = 0.055;
    ground is kept out of the camera by clamping its height against the terrain every
    frame instead, which is what that clamp was standing in for. */
 controls.maxPolarAngle = Math.PI - 0.08;
-controls.minDistance = 6;
+// Inspect the cup from standing height; the existing ground clamp keeps the
+// near plane above the turf while orbiting and zooming.
+controls.minDistance = 1.8;
 controls.maxDistance = 4200;
 /* The breathing gaze is OPT-IN (?breath=1). Measured with tools/glitter-meter.mjs
    on Puttom's 12th tee: a gaze drift at the breath's own peak rate (0.16 px a
@@ -2810,9 +2814,11 @@ if (groundMode === 'atlas') {
   span('ground atlas (1 m, CORE)', atlasStarted);
 }
 
-const turfMat = groundMode === 'atlas'
+const CUP_MASK = createGolfCupMask(HOLES.map(h => h.pin));
+const cupGreenSurfaces = [];
+const turfMat = CUP_MASK.apply(groundMode === 'atlas'
   ? makeGround({ atlas: groundAtlas, DETAIL, SANDN, uSun, C, SHADE, look: GHIBLI_LOOK ? 'ghibli' : 'real' })
-  : makeTurf();
+  : makeTurf());
 let frontierSurroundMaterial = null;
 /* Every surface that LIES ON the terrain -- mown overlays, sand, roads, paths,
    parking, ballast, the greengrid -- nudges itself in front of it in DEPTH SPACE,
@@ -2821,7 +2827,7 @@ let frontierSurroundMaterial = null;
    distance, which is where the speckled fairways in the phone photo came from.
    Only the three terrain levels themselves stay un-nudged. */
 const nudged = (tier, mk = makeTurf) => {
-  const m = mk();
+  const m = CUP_MASK.apply(mk());
   m.polygonOffset = true;
   m.polygonOffsetFactor = DEPTH_SIGN * tier;
   m.polygonOffsetUnits = DEPTH_SIGN * tier * 2;
@@ -2981,7 +2987,7 @@ if (TERRAIN_PREVIEW.ready) {
   const renderStride = ['1', '2'].includes(requestedTerrainStride)
     ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
   const prepareStarted = performance.now();
-  const decorateGround = createV2GroundMaterialDecorator({
+  const decorateGround = CUP_MASK.wrap(createV2GroundMaterialDecorator({
     /* exact fields from the vectors outrank anything compiled from a mask */
     atlas: groundAtlas?.exactEdges ? groundAtlas : (TERRAIN_PREVIEW.surfaceAtlas || groundAtlas), DETAIL, C, SHADE,
     graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF,
@@ -2989,7 +2995,7 @@ if (TERRAIN_PREVIEW.ready) {
     look: GHIBLI_LOOK ? 'ghibli' : 'real', uSun,
     cutTone: CUT_TONE_STRENGTH,
     mowStrength: MOWING.strength,
-  });
+  }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
     renderStride,
@@ -3482,6 +3488,7 @@ if (legacySurfaceOverlays) {
     m.receiveShadow = true;
     m.renderOrder = order;
     m.userData.tag = 'legacy-surface-overlay';
+    if (rings === green) cupGreenSurfaces.push(m);
     scene.add(m);
     stats.draws++;
     stats.surfaceOverlays++;
@@ -6877,6 +6884,7 @@ const flagGroup = new THREE.Group();
 scene.add(flagGroup);
 const pins = [];
 const FURN = { poles: [], cups: [], markers: [] };
+const cupGeometries = [];
 /* The baked cloth, or null. Its download began with the module; a stalled one
    must not hold the boot, so it gets a few seconds and the drawn flag stands in. */
 const FLAG_CLOTH = await Promise.race([FLAG_CLOTH_READY, new Promise(resolve => setTimeout(() => resolve(null), 6000))]);
@@ -6885,14 +6893,15 @@ const flagAtlas = createFlagAtlas(HOLES.map(h => h.n));
 const flagMat = createFlagMaterial(flagAtlas, uSun, uThroughSun);
 for (const h of HOLES) {
   const [x, z] = h.pin;
-  const y = terrainH(x, z);
+  const cupHeightAt = cupSurfaceHeightAt(x, z, terrainH, cupGreenSurfaces);
+  const y = cupHeightAt(x, z);
   const g = new THREE.Group();
   g.position.set(x, y, z);
   FURN.poles.push({ x, y: y + 1.3, z });
   const cloth = new THREE.Mesh(createFlagGeometry(flagGrid, flagAtlas, pins.length), flagMat);
   g.add(cloth);
-  /* the cup, which is the thing that makes a green read as a green up close */
-  FURN.cups.push({ x, y: y + 0.02, z });
+  FURN.cups.push({ hole: h.n, x, y, z });
+  cupGeometries.push(createGolfCupGeometry(x, z, cupHeightAt).translate(x, y, z));
   flagGroup.add(g);
   /* each flag runs its own clock and has its own gusts: eighteen flags flapping
      in step is the first thing that gives a course away as drawn */
@@ -6955,11 +6964,19 @@ function poseFlagCloths(dt) {
    marker (the colour rides on the instance; a white material times it is the
    colour the material used to carry) */
 /* Diameters 4.5 -> 3.5 cm; the shifted cloth hoist stays inside the sleeve. */
-const poleProfile = FLAG_POLE_PROFILE.map(([r, y]) => new THREE.Vector2(r, y));
+// Continue the flagstick down into the cup instead of ending it at turf level.
+const poleProfile = FLAG_POLE_PROFILE.map(([r, y], i) => new THREE.Vector2(r, i < 2 ? y - CUP.depth : y));
 instancedFurniture(new THREE.LatheGeometry(poleProfile, 10),
   new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xf2f4f2), roughness: 0.35, metalness: 0.5 }), FURN.poles, { cast: true, into: flagGroup, tag: 'pins' });
-instancedFurniture(new THREE.CylinderGeometry(0.054, 0.054, 0.12, 12),
-  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0x11170f), roughness: 1 }), FURN.cups, { into: flagGroup, tag: 'pins' });
+if (cupGeometries.length) {
+  const geometry = mergeGeometries(cupGeometries);
+  for (const part of cupGeometries) part.dispose();
+  cupGeometries.length = 0;
+  const cups = new THREE.Mesh(geometry, new THREE.MeshStandardNodeMaterial({ vertexColors: true, roughness: 0.92 }));
+  cups.name = 'Recessed golf cups'; cups.userData.tag = 'pins'; cups.receiveShadow = true;
+  flagGroup.add(cups);
+  stats.verts += geometry.attributes.position.count; stats.tris += geometry.index.count / 3; stats.draws++;
+}
 instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
   new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
 
@@ -9789,6 +9806,12 @@ function buildStrategy() {
     sweep, primaryDistance: currentStrategy.primaryDistance, line: currentStrategy.line,
     arcCount: 0,
   };
+  // The tactical target must give way to the physical cup up close. Read the
+  // material's animated opacity so this also preserves the entrance animation.
+  strategyGroup.traverse(object => {
+    if (object.material) object.material.opacityNode = materialOpacity
+      .mul(smoothstep(4, 12, cameraPosition.sub(positionWorld).length()));
+  });
   scene.add(strategyGroup);
   startStrategyAnimation();
   drawMini();
@@ -10612,6 +10635,7 @@ function buildGreenGrid() {
     }
   }
 
+  gridGroup.traverse(object => { if (object.material) CUP_MASK.apply(object.material); });
   scene.add(gridGroup);
 
   // Update HUD facts with slope insights
@@ -12188,6 +12212,9 @@ window.V3D = {
     graphError: V2_SELECTION.graphError,
   }),
   plates: () => plateSites.map(p => ({ ...p })),
+  cups: () => ({ radius: CUP.radius, depth: CUP.depth, linerInset: CUP.linerInset,
+    maskBytes: CUP_MASK.field.data.byteLength, legacyGreenOverlays: cupGreenSurfaces.length,
+    positions: FURN.cups.map(p => ({ ...p })) }),
   /* the wind the flags fly in, and the world bearing each cloth actually points
      (pole to free end, compass degrees): a gate compares the two */
   flags: () => ({ fromDeg: FLAG_WIND.fromDeg, ms: FLAG_WIND.ms, gust: FLAG_WIND.gust, source: FLAG_WIND.source,

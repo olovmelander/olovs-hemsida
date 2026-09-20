@@ -124,8 +124,9 @@ export function createHoleMarker({ id, kind, icon, camera, heightAt, onLocate, d
       (score(rect) === score(best) && distance(rect) < distance(best)) ? rect : best, preferred);
   }
 
-  function update({ now = performance.now(), hidden = false, mode = 'orbit', reserved = [] } = {}) {
-    root.hidden = !selected || hidden;
+  function update({ now = performance.now(), hidden = false, opacity: markerOpacity = 1, mode = 'orbit', reserved = [] } = {}) {
+    root.hidden = !selected || hidden || markerOpacity <= 0;
+    setStyle(root, 'opacity', String(markerOpacity));
     if (root.hidden) return null;
     const width = innerWidth, height = innerHeight;
     const box = inset(width, height);
