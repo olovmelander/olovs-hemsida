@@ -3,9 +3,9 @@
 
    One loop of cloth motion per WIND BAND -- calm to gale -- each a real cloth
    simulation calibrated to hang the way a golfer reads a flag (nine degrees of
-   flag per m/s). The app plays the band nearest the wind at the flag and
-   crossfades when the band changes; the flag group's rotation still says where
-   the wind goes, as it did before the bake.
+   flag per m/s). The app blends neighbouring bands at the flag's smoothed wind
+   speed (flag-motion.mjs); the flag group's rotation follows the wind with a
+   short response delay. The baked positions and codec stay unchanged.
 
    The file (FLG1) is what tools/build-flag-cloth.mjs writes:
      'FLG1' | u32 header length | header JSON | deflate-raw payload
