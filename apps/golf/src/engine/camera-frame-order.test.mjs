@@ -103,7 +103,7 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     camTween: { on: false, t: 0, dur: 0.1,
       from: camera.position.clone(), to: new THREE.Vector3(30, 10, 0),
       lookFrom: controls.target.clone(), lookTo: new THREE.Vector3(60, 10, 0) },
-    flying: 0, tour: false, pins: [], FLAG_WIND: { rate: 5.5, amp: 0.1, hang: 90, phase: 0, rest: null }, FLAG_CLOTH: null,
+    flying: 0, tour: false, poseFlagCloths() {},
     tourFlight: { st: {}, fov: 30, pos: new THREE.Vector3(30, 10, 0), look: new THREE.Vector3(60, 10, 0), cardPending: false },
     flightStep: () => { calls.push('flight'); return { u: 0.1, done: false, ls: 0 }; },
     updateTourProgress() {},
