@@ -17,8 +17,8 @@ describe('exact cup openings', () => {
     expect(field.spacing).toBeLessThan(16);
     for (const [x, z] of pins) for (let i = 0; i < 64; i++) {
       const a = i / 64 * Math.PI * 2;
-      expect(isOpening(field, x + Math.cos(a) * .053, z + Math.sin(a) * .053)).toBe(true);
-      expect(isOpening(field, x + Math.cos(a) * .055, z + Math.sin(a) * .055)).toBe(false);
+      expect(isOpening(field, x + Math.cos(a) * (CUP.radius - .001), z + Math.sin(a) * (CUP.radius - .001))).toBe(true);
+      expect(isOpening(field, x + Math.cos(a) * (CUP.radius + .001), z + Math.sin(a) * (CUP.radius + .001))).toBe(false);
     }
     expect(isOpening(field, 200, 200)).toBe(false);
     expect(isOpening(field, 5000, -5000)).toBe(false);

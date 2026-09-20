@@ -1,8 +1,10 @@
 import * as THREE from 'three/webgpu';
 import { positionWorld, texture, vec2 } from 'three/tsl';
 
-// Metres. Keep the existing 108 mm opening; the liner sits below the turf.
-export const CUP = Object.freeze({ radius: 0.054, linerInset: 0.027, depth: 0.13, segments: 64 });
+// Metres. Deliberately enlarged to 140 mm for readability beside the app's
+// thick, distance-readable flagstick. This is a display dimension, not a
+// regulation-size hole. The terrain cutout and interior share this radius.
+export const CUP = Object.freeze({ radius: 0.07, linerInset: 0.027, depth: 0.13, segments: 64 });
 
 /* A sparse spatial lookup: one nearest-filtered texel identifies the exact
    centre of a cup, not a rasterised hole. The shader cuts a true circle even

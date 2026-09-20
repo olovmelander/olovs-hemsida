@@ -16,6 +16,7 @@ const entry = path.join(APP, 'src/__cup-review.mjs');
 const fixture = `
 import * as THREE from 'three/webgpu';
 import { CUP, createGolfCupMask, createGolfCupGeometry } from './engine/golf-cups.mjs';
+import { FLAG_POLE_PROFILE } from './engine/flag-appearance.mjs';
 import { createV2GroundMaterialDecorator } from './engine/material.js';
 import { SURFACE } from './engine/surface.js';
 const renderer = new THREE.WebGPURenderer({ antialias:true, forceWebGL:${!webgpu} });
@@ -43,8 +44,9 @@ const underlay = new THREE.Mesh(groundGeometry,mask.apply(new THREE.MeshStandard
 underlay.position.set(x,y-.015,z); scene.add(underlay);
 const cup = new THREE.Mesh(createGolfCupGeometry(x,z,heightAt),new THREE.MeshStandardNodeMaterial({vertexColors:true,roughness:.92}));
 cup.position.set(x,y,z); scene.add(cup);
-const pole = new THREE.Mesh(new THREE.CylinderGeometry(.022,.0225,.9,24),new THREE.MeshStandardNodeMaterial({color:'#f2f4f2',roughness:.35,metalness:.5}));
-pole.position.set(x,y+.32,z); scene.add(pole);
+const poleProfile = FLAG_POLE_PROFILE.map(([r,h],i)=>new THREE.Vector2(r,i<2?h-CUP.depth:h));
+const pole = new THREE.Mesh(new THREE.LatheGeometry(poleProfile,10),new THREE.MeshStandardNodeMaterial({color:'#f2f4f2',roughness:.35,metalness:.5}));
+pole.position.set(x,y+1.3,z); scene.add(pole);
 const proof = new THREE.Mesh(new THREE.PlaneGeometry(.3,.3),new THREE.MeshBasicNodeMaterial({color:'#ff00ff'}));
 proof.rotation.x=-Math.PI/2; proof.position.set(x,y-.15,z); proof.visible=false; scene.add(proof);
 function draw(){ renderer.render(scene,camera); }
