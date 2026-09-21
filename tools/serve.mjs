@@ -35,15 +35,8 @@ http.createServer((req, res) => {
     if (fs.existsSync(idx)) file = idx;
   }
   if (!file.startsWith(ROOT) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
-    /* SPA fallback for .html paths: the app handles legacy page names itself
-       (see src/shell/router.js), so the server's job is only to put the app in
-       front of them -- which is exactly what the host will be configured to do.
-       Anything else still 404s, so a missing pack stays a visible failure. */
-    const idx = path.join(ROOT, 'index.html');
-    if (/\.html$/.test(clean) && fs.existsSync(idx)) {
-      res.writeHead(200, { 'content-type': MIME['.html'], 'cache-control': 'no-store' });
-      fs.createReadStream(idx).pipe(res); return;
-    }
+    // Generated legacy redirect pages are real files. No SPA fallback: missing
+    // HTML and data must fail here just as they do on GitHub Pages.
     res.writeHead(404); res.end('not found'); return;
   }
   /* Answer the way a real static host answers, because the harnesses pointed

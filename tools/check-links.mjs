@@ -2,7 +2,7 @@
 
    usage: node tools/check-links.mjs [baseUrl]     (default http://127.0.0.1:8620)
 
-   The six standalone pages have been shared and bookmarked with the full query
+   The seven historical pages have been shared and bookmarked with the full query
    grammar. This drives the app through every shape those links take and asserts
    the view that comes back -- hole, camera, light, tee, markers, clean mode --
    is the one the link asked for. Two of these params exist in this test only
@@ -21,9 +21,10 @@ import { browserArgs } from './browser-args.mjs';
 /* SwiftShader boots the atlas build in minutes, not seconds; --boot-timeout
    raises it further when harnesses must share a CPU. */
 const BOOT_TIMEOUT = +(process.env.BANVY_BOOT_TIMEOUT || 420) * 1000;
-const BASE = process.argv[2] || 'http://127.0.0.1:8620';
+const BASE = (process.argv[2] || 'http://127.0.0.1:8620').replace(/\/$/, '');
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
+const CHROME = process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME :
+  fs.existsSync(chromium.executablePath()) ? chromium.executablePath() : undefined);
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
 const DEFAULT_SLUG = manifest.courses[0].slug;
 
@@ -45,6 +46,9 @@ const CASES = [
   /* the legacy half: the page name carries the course, the query the view */
   { url: '/veckefjarden3d.html?hal=14&vy=green', want: { slug: 'veckefjarden', hole: 14, cam: 'green', rail: false }, why: 'a shared link to the old page' },
   { url: '/norrfallsviken3d.html?hal=3&ljus=dag&tee=2', want: { slug: 'norrfallsviken', hole: 3, preset: 'noon', tee: 1, rail: false }, why: 'an old link with light and tee' },
+  { url: '/veckefjardensgc.html?hal=3&vy=green', want: { slug: 'veckefjarden', hole: 3, cam: 'green', rail: false }, why: 'the 2023 bookmark opens the current championship course' },
+  { url: '/angso3d.html?hal=3&q=lo&gl=1', want: { slug: 'angso', hole: 3, rail: false }, why: 'an old link preserves quality and backend' },
+  { url: '/upsala3d.html?tee=6', want: { slug: 'upsala', tee: 5, rail: false }, why: 'an old link preserves the sixth tee' },
   { url: '/puttom3d.html', want: { slug: 'puttom', rail: false }, why: 'a bare old link still names its course' },
   { url: '/johannesberg3d.html?hal=12&vy=tee&skylt=1', want: { slug: 'johannesberg', hole: 12, cam: 'tee', skylt: 1, rail: false }, why: 'an old link carrying markers' },
 ];
@@ -53,7 +57,7 @@ let bad = 0;
 const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if (!ok) bad++; };
 
 const browser = await chromium.launch({
-  ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }),
+  ...(CHROME ? { executablePath: CHROME } : {}),
   args: browserArgs(),
 });
 

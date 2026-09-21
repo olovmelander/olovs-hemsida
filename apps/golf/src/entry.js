@@ -11,7 +11,7 @@ if (supportedSearch !== location.search) {
 
 const legacy = legacyTarget(location.pathname, location.search);
 if (legacy) {
-  location.replace(legacy);
+  location.replace(legacy + location.hash);
 } else if (coursePreview(new URLSearchParams(location.search).get('bana'))) {
   await import('./course-preview.js');
 } else if (location.search === '' && /(?:\/|\/index\.html)$/.test(location.pathname)) {

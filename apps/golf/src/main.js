@@ -212,7 +212,7 @@ const yieldWork = () => new Promise(resolve => setTimeout(() => {
    work and would still be wrong. */
 {
   const to = legacyTarget(location.pathname, location.search);
-  if (to) { location.replace(to); throw new Error('redirecting to ' + to); }
+  if (to) { location.replace(to + location.hash); throw new Error('redirecting to ' + to); }
 }
 const rawBana = new URLSearchParams(location.search).get('bana');
 const isBareVisit = !rawBana;

@@ -33,13 +33,24 @@ describe('legacyTarget', () => {
     expect(q(legacyTarget('/some/where/upsala3d.html', '?vy=top')).bana).toBe('upsala');
   });
 
-  it('returns null for anything that is not one of the six pages', () => {
-    for (const p of ['/', '/index.html', '/veckefjardensgc.html', '/courses/index.json'])
+  it('returns null for anything that is not one of the seven pages', () => {
+    for (const p of ['/', '/index.html', '/unknown3d.html', '/courses/index.json'])
       expect(legacyTarget(p, '?hal=3')).toBeNull();
   });
 
-  it('never claims the legacy viewer page, which is not part of the app', () => {
-    expect(legacyTarget('/veckefjardensgc.html', '')).toBeNull();
+  it('maps the 2023 viewer to the current championship course under the mount', () => {
+    expect(legacyTarget('/olovs-hemsida/veckefjardensgc.html', '?hal=3&gl=1', '/olovs-hemsida/'))
+      .toBe('/olovs-hemsida/?bana=veckefjarden&hal=3&gl=1');
+  });
+
+  it('takes the course from the filename and drops retired presentation flags', () => {
+    expect(legacyTarget('/puttom3d.html', '?bana=visby&hal=3&v2=0&ghibli=0&det=1'))
+      .toBe('/?bana=puttom&hal=3&det=1');
+  });
+
+  it('does not treat object prototype names as bookmarks', () => {
+    for (const name of ['toString', 'constructor', '__proto__'])
+      expect(legacyTarget('/' + name, '')).toBeNull();
   });
 });
 
@@ -59,4 +70,3 @@ describe('courseUrl', () => {
     expect(courseUrl('puttom', '')).toBe('?bana=puttom');
   });
 });
-
