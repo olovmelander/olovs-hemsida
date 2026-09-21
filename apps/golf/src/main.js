@@ -1810,7 +1810,9 @@ let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
-const COASTAL_DEPTH_ENABLED = !IS_GPU && (M.infra.terrainPlacement === 'measured-only' || CONTINUOUS_OCEAN_ENABLED) && M.water.some(w => w.isSea);
+// Inland measured ponds have the same centimetre clearance as the sea.
+// Excluding them left Tortuna's water fighting its DTM at distant WebGL zoom.
+const COASTAL_DEPTH_ENABLED = !IS_GPU && (M.infra.terrainPlacement === 'measured-only' || CONTINUOUS_OCEAN_ENABLED) && M.water.some(w => !w.stream && w.ring?.length >= 3);
 const COASTAL_TERRAIN_CEILING = V2_SELECTION.graph
   ? V2_SELECTION.graph.ground.bounds.maxHeightRH2000 + (TERRAIN_PREVIEW.bridge?.verticalDatumOffsetMetres ?? 0)
   : NaN;
