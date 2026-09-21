@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "groundId": "puttom",
   "groundName": "Puttom Golfklubb",
-  "observedOn": "2026-09-11",
+  "observedOn": "2026-09-21",
   "state": "canopy-rasters-built",
   "method": "Node reader over authenticated range requests (copc + laz-perf); ground from the cloud's own class 2/9 returns, mean per 1 m cell, nearest-fill to 60 m, 3x3 mean; height above ground bilinear; CHM = highest non-noise return per cell, 0 where only ground returns exist, NaN where none; densities counted, never copied",
   "haloMetres": 32,
   "frameFingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
-  "groundManifest": "grounds/puttom/ground-v2-2fe7fdb917785e4482f816a2d03ae44562d95d957794f15b1473f6ec37d9d3ef.json",
+  "groundManifest": "grounds/puttom/ground-v2-fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803.json",
   "campaignsSha256": "4b5225999da05b04ae44f99be06884d4c185861cc0595b56a660d83874eeb89e",
-  "censusSha256": "d05f4bb2271d92a1deaf30bcb1480e323f1c189ec3eb3907357d930974b1a70c",
+  "censusSha256": "a1aee8c64c3c8df1566025bf0de1431406d0ae1a42be3168ef980943197f3c44",
   "rasterDirectory": "../../_temp/veg/rasters",
   "campaigns": [
     {
@@ -26,7 +26,7 @@
       "hierarchyNodes": 6820,
       "subdivision": "header-extent per axis (verified; not the specification cube)",
       "tiles": 144,
-      "elapsedMilliseconds": 271897.8,
+      "elapsedMilliseconds": 310951.6,
       "transfer": {
         "requests": 1863,
         "bytes": 204672830
@@ -8783,7 +8783,7 @@
       "hierarchyNodes": 9381,
       "subdivision": "header-extent per axis (verified; not the specification cube)",
       "tiles": 128,
-      "elapsedMilliseconds": 402560.2,
+      "elapsedMilliseconds": 454584.5,
       "transfer": {
         "requests": 2605,
         "bytes": 265867426

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "groundId": "puttom",
   "groundName": "Puttom Golfklubb",
-  "observedOn": "2026-09-11",
+  "observedOn": "2026-09-21",
   "state": "census-complete",
   "campaignsSha256": "4b5225999da05b04ae44f99be06884d4c185861cc0595b56a660d83874eeb89e",
   "method": "LAS header + COPC info VLR + hierarchy pages over authenticated HTTP range requests; point counts are area-weighted sums of octree nodes; no point bytes were read",
@@ -986,7 +986,7 @@
       "transfer": {
         "requests": 16,
         "bytes": 219437,
-        "elapsedMilliseconds": 3184.8
+        "elapsedMilliseconds": 3740.9
       }
     },
     {
@@ -1713,7 +1713,7 @@
       "transfer": {
         "requests": 52,
         "bytes": 302669,
-        "elapsedMilliseconds": 6774.1
+        "elapsedMilliseconds": 7892.3
       }
     },
     {
@@ -2422,7 +2422,7 @@
       "transfer": {
         "requests": 66,
         "bytes": 267725,
-        "elapsedMilliseconds": 8259
+        "elapsedMilliseconds": 9594.4
       }
     }
   ]
