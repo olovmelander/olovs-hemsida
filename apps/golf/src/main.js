@@ -1,3 +1,4 @@
+import { createBagEditor } from './ui/bag-editor.mjs';
 import { bunkerRings, bunkerSignedDistance, pointInBunker } from './engine/bunker-geometry.mjs';
 
 /* ===========================================================================
@@ -125,10 +126,11 @@ import {
 } from './engine/caddie.js';
 import { createShotEnvironment } from './engine/shot-planner.mjs';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
-import { decodeFlagCloth, accumulateFlagClothPose, flagClothHang } from './engine/flag-cloth.mjs';
+import { decodeFlagCloth, sampleFlagCloth, flagClothHang } from './engine/flag-cloth.mjs';
 import { FLAG_CLOTH_ASSET } from './engine/flag-cloth-asset.mjs';
-import { FLAG_DEFAULT_MS, createFlagMotion, stepFlagMotion, flagBandBlend, flagWindYaw, poseDrawnFlag } from './engine/flag-motion.mjs';
-import { FLAG_GRID, FLAG_POLE_PROFILE, createFlagAtlas, createFlagMaterial, createFlagGeometry, anchorFlagHoist } from './engine/flag-appearance.mjs';
+import { FLAG_DEFAULT_MS, createFlagMotion, stepFlagMotion, flagBandBlend, flagWindYaw, poseDrawnFlag, turnFlagCloth } from './engine/flag-motion.mjs';
+import { FLAG_GRID, FLAG_POLE_PROFILE, createFlagAtlas, createFlagMaterial, createFlagGeometry, anchorFlagHoist, clearFlagPole } from './engine/flag-appearance.mjs';
+import { createFlagDynamics, stepFlagDynamics } from './engine/flag-dynamics.mjs';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
   selectV2TerrainSource,
@@ -6286,6 +6288,7 @@ for (const h of HOLES) {
   g.position.set(x, y, z);
   FURN.poles.push({ x, y: y + 1.3, z });
   const cloth = new THREE.Mesh(createFlagGeometry(flagGrid, flagAtlas, pins.length), flagMat);
+  cloth.receiveShadow = true;
   g.add(cloth);
   FURN.cups.push({ hole: h.n, x, y, z });
   cupGeometries.push(createGolfCupGeometry(x, z, cupHeightAt).translate(x, y, z));
@@ -6293,7 +6296,7 @@ for (const h of HOLES) {
   /* each flag runs its own clock and has its own gusts: eighteen flags flapping
      in step is the first thing that gives a course away as drawn */
   const cs = createFlagMotion(h.n, FLAG_CLOTH ? FLAG_CLOTH.frames / FLAG_CLOTH.fps : 4);
-  pins.push({ hole: h.n, cloth, g, cs });
+  pins.push({ hole: h.n, cloth, g, cs, dynamics: createFlagDynamics(flagGrid) });
 
   /* Decorative pairs stay across the direction of play on the same deck.
      Their span fits its width; an unresolved reference may have no pair. */
@@ -6332,19 +6335,30 @@ function poseFlagCloths(dt) {
   for (const p of pins) {
     const s = stepFlagMotion(p.cs, dt, FLAG_WIND, DET);
     p.g.rotation.y = s.yaw + s.swing;
-    if (s.posed && !DET && camera.position.distanceToSquared(p.g.position) > far2) continue;
+    if (s.posed && !DET) {
+      const distance2 = camera.position.distanceToSquared(p.g.position);
+      if (distance2 > far2) continue;
+      // Spend the constraint solve on nearby fabric. Small, distant flags still
+      // advance at 15/30 Hz while their wind response and orientation run every frame.
+      const interval = distance2 > (LOWQ ? 100 : 150) ** 2 ? 1/15 : distance2 > 60**2 ? 1/30 : 0;
+      if (s.clock - s.lastPoseTime + 1e-6 < interval) continue;
+    }
     const geo = p.cloth.geometry;
     const out = geo.attributes.position.array;
     if (C) {
       const b = flagBandBlend(C, s.ms, s.blend);
-      out.fill(0);
-      if (b.weight < 1) accumulateFlagClothPose(C, b.lo, s.poseTime, 1 - b.weight, out);
-      if (b.weight > 0) accumulateFlagClothPose(C, b.hi, s.poseTime, b.weight, out);
-    } else poseDrawnFlag(flagGrid, s, out);
+      sampleFlagCloth(C, b, s.poseTime, out, false);
+      stepFlagDynamics(flagGrid, p.dynamics, out, s, DET, clearFlagPole);
+    } else {
+      poseDrawnFlag(flagGrid, s, out);
+      turnFlagCloth(flagGrid, s, out);
+      clearFlagPole(flagGrid, out);
+    }
     anchorFlagHoist(out, p.cloth.position);
     geo.attributes.position.needsUpdate = true;
     geo.computeVertexNormals();
     s.posed = true;
+    s.lastPoseTime = s.clock;
   }
 }
 /* the furniture's draws: one for every pole, one for every cup, one for every
@@ -8774,86 +8788,16 @@ let playerBag;
 try { playerBag = parseBag(localStorage.getItem(BAG_KEY)); }
 catch { playerBag = normalizeBag(DEFAULT_BAG); }
 
-const bagDialog = document.getElementById('bagDialog');
-const bagForm = document.getElementById('bagForm');
-const bagList = document.getElementById('bagList');
-const bagCount = document.getElementById('bagCount');
-const bagAddBtn = document.getElementById('bagAddBtn');
-
-function bagDraftFromRows() {
-  return [...bagList.querySelectorAll('.bag-row')].map((row, i) => ({
-    id: row.dataset.clubId || `club-${i + 1}`,
-    name: row.querySelector('.bag-name').value,
-    carry: row.querySelector('.bag-distance').value,
-  }));
-}
-
-function syncBagEditor() {
-  const count = bagList.querySelectorAll('.bag-row').length;
-  bagCount.innerHTML = `<b>${count}</b> / ${MAX_BAG_CLUBS} klubbor`;
-  bagCount.classList.toggle('limit', count >= MAX_BAG_CLUBS);
-  bagAddBtn.disabled = count >= MAX_BAG_CLUBS;
-  bagAddBtn.textContent = count >= MAX_BAG_CLUBS ? 'Bagen är full' : '+ Lägg till klubba';
-  for (const button of bagList.querySelectorAll('.bag-remove')) button.disabled = count <= 2;
-}
-
-function renderBagForm(value = playerBag) {
-  bagList.innerHTML = normalizeBag(value).map((club, i) => `
-    <div class="bag-row" data-club-id="${htmlEsc(club.id)}">
-      <span class="bag-rank">${String(i + 1).padStart(2, '0')}</span>
-      <input class="bag-name" value="${htmlEsc(club.name)}" maxlength="24" aria-label="Klubba ${i + 1}" required>
-      <span class="bag-carry"><input class="bag-distance" type="number" inputmode="numeric" min="20" max="350"
-        value="${club.carry}" aria-label="Carry för ${htmlEsc(club.name)} i meter" required><span>m</span></span>
-      <button class="bag-remove" type="button" aria-label="Ta bort ${htmlEsc(club.name)}" title="Ta bort">×</button>
-    </div>`).join('');
-  syncBagEditor();
-}
-function openBag() {
-  renderBagForm();
-  if (typeof bagDialog.showModal === 'function') bagDialog.showModal();
-  else bagDialog.setAttribute('open', '');
-  requestAnimationFrame(() => bagList.querySelector('input')?.focus({ preventScroll: true }));
-}
-document.getElementById('bagBtn').onclick = openBag;
-document.getElementById('bagResetBtn').onclick = () => renderBagForm(DEFAULT_BAG);
-bagAddBtn.onclick = () => {
-  const draft = bagDraftFromRows();
-  if (draft.length >= MAX_BAG_CLUBS) return;
-  const shortest = Math.min(...draft.map(club => Number(club.carry)).filter(Number.isFinite));
-  draft.push({
-    id: `custom-${Date.now().toString(36)}`,
-    name: 'Ny klubba',
-    carry: Math.max(20, Number.isFinite(shortest) ? shortest - 10 : 80),
-  });
-  renderBagForm(draft);
-  const input = bagList.querySelector('.bag-row:last-child .bag-name');
-  input?.focus({ preventScroll: true });
-  input?.select();
-  input?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-};
-bagList.addEventListener('click', event => {
-  const button = event.target.closest('.bag-remove');
-  if (!button) return;
-  const draft = bagDraftFromRows();
-  if (draft.length <= 2) return;
-  const index = [...bagList.querySelectorAll('.bag-row')].indexOf(button.closest('.bag-row'));
-  draft.splice(index, 1);
-  renderBagForm(draft);
-  bagList.querySelectorAll('.bag-name')[Math.min(index, draft.length - 1)]?.focus({ preventScroll: true });
-});
-bagForm.addEventListener('submit', event => {
-  if (event.submitter?.value !== 'save') return;
-  event.preventDefault();
-  playerBag = normalizeBag(bagDraftFromRows()).sort((a, b) => b.carry - a.carry);
-  try { localStorage.setItem(BAG_KEY, JSON.stringify({ version: 2, clubs: playerBag })); }
-  catch { /* private storage may be unavailable; the in-memory bag still works */ }
-  bagDialog.close?.();
-  buildStrategy();
-  if (kik) kikRender();
-  toast('Bagen är sparad · klubbvalen är uppdaterade');
-});
-bagDialog.addEventListener('click', event => {
-  if (event.target === bagDialog) bagDialog.close?.('cancel');
+const { open: openBag } = createBagEditor({
+  getBag: () => playerBag,
+  onSave(clubs) {
+    playerBag = clubs;
+    try { localStorage.setItem(BAG_KEY, JSON.stringify({ version: 3, clubs: playerBag })); }
+    catch { /* The in-memory bag still works when storage is unavailable. */ }
+    buildStrategy();
+    if (kik) kikRender();
+    toast('Bagen är sparad · klubbvalen är uppdaterade');
+  },
 });
 
 const STRATEGY_KEY = 'banvy-strategy-visible-v1';

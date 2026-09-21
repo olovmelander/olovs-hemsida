@@ -1,0 +1,296 @@
+{
+  "schemaVersion": 1,
+  "kind": "ghibli-trees",
+  "design": "fluffy-2026-09",
+  "budgets": {
+    "hero": 4500,
+    "full": 1700,
+    "lite": 420
+  },
+  "species": [
+    {
+      "key": "tall",
+      "name": "Kronholmen martall (Pinus sylvestris)",
+      "foliage": {
+        "key": "tall",
+        "atlas": {
+          "file": "visby-pine/156f6f1e2bebc2f54dc51bb289c4199499f3027cf8a58dd983de7ae4966f0487.png",
+          "bytes": 202836,
+          "sha256": "156f6f1e2bebc2f54dc51bb289c4199499f3027cf8a58dd983de7ae4966f0487"
+        }
+      },
+      "variants": [
+        {
+          "seed": 16000,
+          "name": "Vindpinad tall",
+          "tiers": {
+            "hero": {
+              "file": "visby-pine/9b050b046b442d121061d5460e755e15d011087b8404b299a95c25c0d48880a5.glb",
+              "bytes": 222016,
+              "sha256": "9b050b046b442d121061d5460e755e15d011087b8404b299a95c25c0d48880a5",
+              "tris": 4500
+            },
+            "full": {
+              "file": "visby-pine/ea340a8fcdd610127df30dae47f9b2271ca109875e8d38605003bf28243b5366.glb",
+              "bytes": 91456,
+              "sha256": "ea340a8fcdd610127df30dae47f9b2271ca109875e8d38605003bf28243b5366",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "visby-pine/6b0f7119423747f82368274faaea1a5195eb1b57ba290d8697a2ba683d6afbed.glb",
+              "bytes": 10924,
+              "sha256": "6b0f7119423747f82368274faaea1a5195eb1b57ba290d8697a2ba683d6afbed",
+              "tris": 304
+            }
+          },
+          "branchPaths": 34,
+          "foliageFans": 23,
+          "templateHeight": 8.05129623413086,
+          "templateRadius": 9.52491283416748
+        },
+        {
+          "seed": 16100,
+          "name": "Krokig flerstammig martall",
+          "tiers": {
+            "hero": {
+              "file": "visby-pine/d12b23eab0da07ea2467bf1e58a744f7b703eb479a6105ce54af53048c83b4ef.glb",
+              "bytes": 226984,
+              "sha256": "d12b23eab0da07ea2467bf1e58a744f7b703eb479a6105ce54af53048c83b4ef",
+              "tris": 4500
+            },
+            "full": {
+              "file": "visby-pine/989209470f463f72f23e19ce794370f59df9457f5c0cceefc5081a8adfd2236c.glb",
+              "bytes": 100124,
+              "sha256": "989209470f463f72f23e19ce794370f59df9457f5c0cceefc5081a8adfd2236c",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "visby-pine/054e56d6c85c6645bedf1a15e2554f1e9c462074d4836ac37ee13795db605a3b.glb",
+              "bytes": 10924,
+              "sha256": "054e56d6c85c6645bedf1a15e2554f1e9c462074d4836ac37ee13795db605a3b",
+              "tris": 304
+            }
+          },
+          "branchPaths": 29,
+          "foliageFans": 18,
+          "templateHeight": 8.383621215820312,
+          "templateRadius": 5.599079608917236
+        },
+        {
+          "seed": 16200,
+          "name": "Låg kustmartall",
+          "tiers": {
+            "hero": {
+              "file": "visby-pine/39f60b48335da4d511f1647295d9670a38b226fde395e85d3dcbc3b96077fed9.glb",
+              "bytes": 259276,
+              "sha256": "39f60b48335da4d511f1647295d9670a38b226fde395e85d3dcbc3b96077fed9",
+              "tris": 4500
+            },
+            "full": {
+              "file": "visby-pine/93c49049ebdf4ff1eacb5ee0e8c5d979697cba7ff4437561e0d63793b433e3c3.glb",
+              "bytes": 107072,
+              "sha256": "93c49049ebdf4ff1eacb5ee0e8c5d979697cba7ff4437561e0d63793b433e3c3",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "visby-pine/dbd4ce985c538b9d76734afc867be6b5f546c438f04600a328816c7dfcc61065.glb",
+              "bytes": 10920,
+              "sha256": "dbd4ce985c538b9d76734afc867be6b5f546c438f04600a328816c7dfcc61065",
+              "tris": 304
+            }
+          },
+          "branchPaths": 27,
+          "foliageFans": 17,
+          "templateHeight": 5.453965663909912,
+          "templateRadius": 9.392634391784668
+        },
+        {
+          "seed": 16300,
+          "name": "Öppen skärmtall",
+          "tiers": {
+            "hero": {
+              "file": "visby-pine/6d574feee0962efd704c0d667995fd282b98f121a5a07f19a2a328918a532c82.glb",
+              "bytes": 238252,
+              "sha256": "6d574feee0962efd704c0d667995fd282b98f121a5a07f19a2a328918a532c82",
+              "tris": 4500
+            },
+            "full": {
+              "file": "visby-pine/2f8017c22847230a954170dcf0be543c365057772085efe7095857b9cfec8aed.glb",
+              "bytes": 99228,
+              "sha256": "2f8017c22847230a954170dcf0be543c365057772085efe7095857b9cfec8aed",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "visby-pine/f70ced809107fa2be5e290a64403b670a69e5904afa7eb2bab09b77db3024d8a.glb",
+              "bytes": 10924,
+              "sha256": "f70ced809107fa2be5e290a64403b670a69e5904afa7eb2bab09b77db3024d8a",
+              "tris": 304
+            }
+          },
+          "branchPaths": 31,
+          "foliageFans": 20,
+          "templateHeight": 8.702945709228516,
+          "templateRadius": 5.894728660583496
+        }
+      ]
+    },
+    {
+      "key": "gran",
+      "name": "Norway spruce",
+      "foliage": {
+        "key": "gran",
+        "atlas": {
+          "file": "ghibli-fluffy/93ab21f11e79384035c25997183cdcfd3d9fc3954a7692701e79d1fae69582ed.png",
+          "bytes": 205483,
+          "sha256": "93ab21f11e79384035c25997183cdcfd3d9fc3954a7692701e79d1fae69582ed"
+        }
+      },
+      "variants": [
+        {
+          "seed": 10000,
+          "templateHeight": 19.44489097595215,
+          "templateRadius": 6.940996170043945,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/f725eed7649b22dd01a4c2c7f64585efb2d397d1620e3f9f095772ff325eedff.glb",
+              "bytes": 252800,
+              "sha256": "f725eed7649b22dd01a4c2c7f64585efb2d397d1620e3f9f095772ff325eedff",
+              "tris": 4500
+            },
+            "full": {
+              "file": "ghibli-fluffy/5929672ca681c2c6a3353f7ea46ebcafb84de735c5347ebf9fc591a7aa866b96.glb",
+              "bytes": 111288,
+              "sha256": "5929672ca681c2c6a3353f7ea46ebcafb84de735c5347ebf9fc591a7aa866b96",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/4f640ec13657e602c6c5686e6151fc1b27b36ab8f04f8cf9c1297e5551618c6a.glb",
+              "bytes": 11420,
+              "sha256": "4f640ec13657e602c6c5686e6151fc1b27b36ab8f04f8cf9c1297e5551618c6a",
+              "tris": 308
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "björk",
+      "name": "Silver birch",
+      "foliage": {
+        "key": "bjork",
+        "atlas": {
+          "file": "ghibli-fluffy/ab9d076207e58acc57002f6311aace49f51bd74d03efed6ba90284edbcef3f86.png",
+          "bytes": 134748,
+          "sha256": "ab9d076207e58acc57002f6311aace49f51bd74d03efed6ba90284edbcef3f86"
+        }
+      },
+      "variants": [
+        {
+          "seed": 5000,
+          "templateHeight": 14.886198043823242,
+          "templateRadius": 5.4486470222473145,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/59620c4d8050a5648691298d37e78358f5357fa9e78f474eadf0ffa7b38f60a2.glb",
+              "bytes": 282228,
+              "sha256": "59620c4d8050a5648691298d37e78358f5357fa9e78f474eadf0ffa7b38f60a2",
+              "tris": 4500
+            },
+            "full": {
+              "file": "ghibli-fluffy/d9edbdc92ec439b86b67102e4d31de19377b553b057b4f6f5d0bd543cdde3d4e.glb",
+              "bytes": 114440,
+              "sha256": "d9edbdc92ec439b86b67102e4d31de19377b553b057b4f6f5d0bd543cdde3d4e",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/9a7fd98af52b1efd80fa8214f8850d0d08a378407c11763d185d104d76b6e221.glb",
+              "bytes": 11424,
+              "sha256": "9a7fd98af52b1efd80fa8214f8850d0d08a378407c11763d185d104d76b6e221",
+              "tris": 308
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "al",
+      "name": "Grey alder",
+      "foliage": {
+        "key": "al",
+        "atlas": {
+          "file": "ghibli-fluffy/8b156749e5c5941a3958fc8e1e798c18ac401528472adfe9895e77ba415a62af.png",
+          "bytes": 106461,
+          "sha256": "8b156749e5c5941a3958fc8e1e798c18ac401528472adfe9895e77ba415a62af"
+        }
+      },
+      "variants": [
+        {
+          "seed": 7000,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/12d810d7b52e06be20bae5da777515eda0006217cd6345cbfdbffe6cf34eafde.glb",
+              "bytes": 264192,
+              "sha256": "12d810d7b52e06be20bae5da777515eda0006217cd6345cbfdbffe6cf34eafde",
+              "tris": 4032
+            },
+            "full": {
+              "file": "ghibli-fluffy/1abcb3e95ee2e0679387d3029f510ecc91f6141b6470f47581e8142ded521b71.glb",
+              "bytes": 129444,
+              "sha256": "1abcb3e95ee2e0679387d3029f510ecc91f6141b6470f47581e8142ded521b71",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/94234fb0a3371d52e7c832dd3cdb5c2a4feec4a0e40223bf63dc8b31f97ee345.glb",
+              "bytes": 4828,
+              "sha256": "94234fb0a3371d52e7c832dd3cdb5c2a4feec4a0e40223bf63dc8b31f97ee345",
+              "tris": 108
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "ek",
+      "name": "Pasture oak",
+      "foliage": {
+        "key": "ek",
+        "atlas": {
+          "file": "ghibli-fluffy/c438ef7817287ab64f5f0937131dcffe739c63a732584dde5993d73046a96905.png",
+          "bytes": 92516,
+          "sha256": "c438ef7817287ab64f5f0937131dcffe739c63a732584dde5993d73046a96905"
+        }
+      },
+      "variants": [
+        {
+          "seed": 1000,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "ghibli-fluffy/50f261f89619e68be419dd2d63f877ca0668d292bda1ebccb16bd03392e60fa5.glb",
+              "bytes": 314864,
+              "sha256": "50f261f89619e68be419dd2d63f877ca0668d292bda1ebccb16bd03392e60fa5",
+              "tris": 4500
+            },
+            "full": {
+              "file": "ghibli-fluffy/0255c7b74e2a1459e9e5398030019962ba3a974115612e1cb0ebf944a84fdbfe.glb",
+              "bytes": 122716,
+              "sha256": "0255c7b74e2a1459e9e5398030019962ba3a974115612e1cb0ebf944a84fdbfe",
+              "tris": 1700
+            },
+            "lite": {
+              "file": "ghibli-fluffy/5ee802079291ec71567226751b314593ca3e33d01524bf611c17a85256abd821.glb",
+              "bytes": 7036,
+              "sha256": "5ee802079291ec71567226751b314593ca3e33d01524bf611c17a85256abd821",
+              "tris": 200
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "revision": "visby-martall-original-colours-2026-09-21",
+  "course": "visby"
+}

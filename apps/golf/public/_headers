@@ -26,6 +26,13 @@
 /models/flag/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Club filenames contain their content hash; the authoring catalogue revalidates.
+/models/clubs/*.glb
+  Cache-Control: public, max-age=31536000, immutable
+
+/models/clubs/catalogue.json
+  Cache-Control: no-cache
+
 # Packs are immutable because the loader asks for them BY CONTENT: the URL
 # carries the sha256 prefix, so changed bytes are a changed URL. This is not
 # just an optimisation. The runtime verifies the pack against the manifest's

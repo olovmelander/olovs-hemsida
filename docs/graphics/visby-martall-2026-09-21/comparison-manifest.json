@@ -1,0 +1,166 @@
+{
+  "capturedAt": "2026-09-21T17:00:09.023Z",
+  "beforeRevision": "visby-coastal-pine-2026-09-16",
+  "afterRevision": "visby-martall-2026-09-21",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "lighting": "noon",
+  "wind": "270 degrees, 6 m/s, gust 8 m/s",
+  "deterministic": true,
+  "sameApplicationBuild": true,
+  "rootPlacementSha256": "034f917a9d379cabbd338cdca65883f8fb981b3a353b94996110820ec8c4b9c2",
+  "comparisons": [
+    {
+      "name": "close",
+      "before": {
+        "name": "close",
+        "file": "previous-pine-close.png",
+        "camera": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.6,
+          "coordinateSystem": 2001,
+          "reversedDepth": true,
+          "position": [
+            -573,
+            6.999999999999999,
+            -37.00000000000001
+          ],
+          "target": [
+            -569.89,
+            6.5,
+            -7.08
+          ]
+        },
+        "sha256": "15b6b1161cdecd62200b7fc829e163426b4b893225a05a378b56e31ab3c8fabd"
+      },
+      "after": {
+        "name": "close",
+        "file": "production-pine-close.png",
+        "camera": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.6,
+          "coordinateSystem": 2001,
+          "reversedDepth": true,
+          "position": [
+            -573,
+            6.999999999999999,
+            -37.00000000000001
+          ],
+          "target": [
+            -569.89,
+            6.5,
+            -7.08
+          ]
+        },
+        "sha256": "bda1190a17d01fca54cab85907912e7dea8b0b993b2dad79ea3564f4bb3a7e18"
+      },
+      "matchingCamera": true
+    },
+    {
+      "name": "middle",
+      "before": {
+        "name": "middle",
+        "file": "previous-pine-middle.png",
+        "camera": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.6,
+          "coordinateSystem": 2001,
+          "reversedDepth": true,
+          "position": [
+            -576,
+            10.000000000000007,
+            -65
+          ],
+          "target": [
+            -569.89,
+            6.5,
+            -7.08
+          ]
+        },
+        "sha256": "540c19c9d218287a8880c94d8f0c619293fc887ed08bd4a48831673819f3355c"
+      },
+      "after": {
+        "name": "middle",
+        "file": "production-pine-middle.png",
+        "camera": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.6,
+          "coordinateSystem": 2001,
+          "reversedDepth": true,
+          "position": [
+            -576,
+            10.000000000000007,
+            -65
+          ],
+          "target": [
+            -569.89,
+            6.5,
+            -7.08
+          ]
+        },
+        "sha256": "d5c0cafe34e9bb0fbaaace177c47da04e265eb85f1957977756941b427d19eac"
+      },
+      "matchingCamera": true
+    },
+    {
+      "name": "distant",
+      "before": {
+        "name": "distant",
+        "file": "previous-pine-distant.png",
+        "camera": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.6,
+          "coordinateSystem": 2001,
+          "reversedDepth": true,
+          "position": [
+            -583,
+            16.000000000000007,
+            -134.99999999999997
+          ],
+          "target": [
+            -569.89,
+            6.5,
+            -7.08
+          ]
+        },
+        "sha256": "4ce65b2a0d3c3e7e473db130adfa70e297bbfa20e689c08d4414581a4c6488bd"
+      },
+      "after": {
+        "name": "distant",
+        "file": "production-pine-distant.png",
+        "camera": {
+          "fov": 48,
+          "near": 1,
+          "far": 14000,
+          "aspect": 1.6,
+          "coordinateSystem": 2001,
+          "reversedDepth": true,
+          "position": [
+            -583,
+            16.000000000000007,
+            -134.99999999999997
+          ],
+          "target": [
+            -569.89,
+            6.5,
+            -7.08
+          ]
+        },
+        "sha256": "45ef6a95c7102b37b4d5bdc3ae4bb575c441c9780cc96396fd0e8c1fd9ebed12"
+      },
+      "matchingCamera": true
+    }
+  ]
+}

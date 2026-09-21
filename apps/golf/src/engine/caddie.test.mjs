@@ -34,6 +34,27 @@ describe('bag', () => {
   it('marks a shot that is beyond the longest club', () => {
     expect(recommendClub(250, DEFAULT_BAG).beyondBag).toBe(true);
   });
+
+  it('keeps the putter in the bag without recommending it for carry shots', () => {
+    const bag = normalizeBag([{ id: 'w', name: 'SW', carry: 70 }, { id: 'p', name: 'Putter', carry: 0 }]);
+    expect(bag).toHaveLength(2);
+    expect(bag[1].carry).toBe(0);
+    expect(recommendClub(5, bag).club.id).toBe('w');
+  });
+
+  it('preserves a chosen model through storage and ignores putter carry', () => {
+    const bag = parseBag(JSON.stringify({ version: 3, clubs: [
+      { id: 'a', name: 'Min favorit', kind: 'wedge', carry: 80 },
+      { id: 'b', name: 'På green', kind: 'putter', carry: 200 },
+    ] }));
+    expect(bag[0].kind).toBe('wedge');
+    expect(bag[1].carry).toBe(0);
+    expect(recommendClub(200, bag).club.id).toBe('a');
+  });
+
+  it('recovers a stored bag containing only putters to a usable carry set', () => {
+    expect(normalizeBag([{ name: 'Putter', carry: 0 }, { name: 'Putter 2', carry: 0 }])).toEqual(DEFAULT_BAG);
+  });
 });
 
 describe('GPS frame', () => {

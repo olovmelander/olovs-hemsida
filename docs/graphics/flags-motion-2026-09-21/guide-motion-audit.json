@@ -1,0 +1,55 @@
+{
+  "blender": "4.5.9 LTS",
+  "activeScene": "Visby GK | Martallar - original colours",
+  "fps": 30,
+  "bands": [
+    {
+      "name": "calm",
+      "ms": 0,
+      "maxNormalStepDeg": 1.4787793334710982e-06,
+      "seamNormalStepDeg": 1.4787793334710982e-06,
+      "maxVertexStepM": 0.0,
+      "seamVertexStepM": 0.0
+    },
+    {
+      "name": "light",
+      "ms": 2.34,
+      "maxNormalStepDeg": 7.386736584220164,
+      "seamNormalStepDeg": 4.791112692284898,
+      "maxVertexStepM": 0.004523593704125076,
+      "seamVertexStepM": 0.003519517012318603
+    },
+    {
+      "name": "moderate",
+      "ms": 6.45,
+      "maxNormalStepDeg": 13.099154239082985,
+      "seamNormalStepDeg": 8.071855590658505,
+      "maxVertexStepM": 0.03492445275161805,
+      "seamVertexStepM": 0.023284520609194427
+    },
+    {
+      "name": "gale",
+      "ms": 9.73,
+      "maxNormalStepDeg": 175.40798774096658,
+      "seamNormalStepDeg": 44.93809187904783,
+      "maxVertexStepM": 0.27975481068249747,
+      "seamVertexStepM": 0.14281840007506033
+    },
+    {
+      "name": "strong-gale",
+      "ms": 16,
+      "maxNormalStepDeg": 90.3969792702347,
+      "seamNormalStepDeg": 82.2028839825004,
+      "maxVertexStepM": 0.48374473041057514,
+      "seamVertexStepM": 0.4057652047674862
+    },
+    {
+      "name": "storm",
+      "ms": 24,
+      "maxNormalStepDeg": 177.4756005553448,
+      "seamNormalStepDeg": 71.67236438325328,
+      "maxVertexStepM": 0.5908556677395927,
+      "seamVertexStepM": 0.17341278557246007
+    }
+  ]
+}

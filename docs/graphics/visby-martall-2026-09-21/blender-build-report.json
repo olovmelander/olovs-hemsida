@@ -1,0 +1,124 @@
+{
+  "reference": "https://www.visbygk.com/om-banorna/",
+  "blender": "4.5.9 LTS",
+  "budgets": {
+    "hero": 4500,
+    "full": 1700,
+    "lite": 420
+  },
+  "variants": [
+    {
+      "seed": 16000,
+      "name": "Vindpinad tall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/26535a12542d8874dbdc2c4c4b8f478df9788a428bc02a849ee497ac26e73f45.glb",
+          "bytes": 222008,
+          "sha256": "26535a12542d8874dbdc2c4c4b8f478df9788a428bc02a849ee497ac26e73f45",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/fd689f0cfc7940ccb90c7c7ad4e0215180f306426cb2e67790a1f127e80d8bc0.glb",
+          "bytes": 91448,
+          "sha256": "fd689f0cfc7940ccb90c7c7ad4e0215180f306426cb2e67790a1f127e80d8bc0",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/9b6270bc8de5f0104bd90f0d02eb0173e0d75ab25234c820c36b83003cf7cc33.glb",
+          "bytes": 10916,
+          "sha256": "9b6270bc8de5f0104bd90f0d02eb0173e0d75ab25234c820c36b83003cf7cc33",
+          "tris": 304
+        }
+      },
+      "branchPaths": 34,
+      "foliageFans": 23,
+      "templateHeight": 8.05129623413086,
+      "templateRadius": 9.52491283416748
+    },
+    {
+      "seed": 16100,
+      "name": "Krokig flerstammig martall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/fad949898feb6c35dc75e73c4e90794fdad22f82ff4278ec3870bab050909ed4.glb",
+          "bytes": 226976,
+          "sha256": "fad949898feb6c35dc75e73c4e90794fdad22f82ff4278ec3870bab050909ed4",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/4a06ecf03df92dc2a494193a6fc02628af8d17af185c0f1b9019c107eca8e41c.glb",
+          "bytes": 100116,
+          "sha256": "4a06ecf03df92dc2a494193a6fc02628af8d17af185c0f1b9019c107eca8e41c",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/6855c52fa39715076c8f39eac4c0928c9f25773032dfcf97ac4d5c5e2b93abb2.glb",
+          "bytes": 10916,
+          "sha256": "6855c52fa39715076c8f39eac4c0928c9f25773032dfcf97ac4d5c5e2b93abb2",
+          "tris": 304
+        }
+      },
+      "branchPaths": 29,
+      "foliageFans": 18,
+      "templateHeight": 8.383621215820312,
+      "templateRadius": 5.599079608917236
+    },
+    {
+      "seed": 16200,
+      "name": "L\u00e5g kustmartall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/243729d815bb1d1b005b643b5b461644d4de21a21a9e6de681be209a7300df69.glb",
+          "bytes": 259268,
+          "sha256": "243729d815bb1d1b005b643b5b461644d4de21a21a9e6de681be209a7300df69",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/53bafa69aa5ace2d984100656f1c9b6326103a43fdd74ad317b933658eddd81f.glb",
+          "bytes": 107064,
+          "sha256": "53bafa69aa5ace2d984100656f1c9b6326103a43fdd74ad317b933658eddd81f",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/cb434dec5e3c1d90d6e0fc7c1ddeb458d6d8deb5358dfd94f0ce5971a4071783.glb",
+          "bytes": 10912,
+          "sha256": "cb434dec5e3c1d90d6e0fc7c1ddeb458d6d8deb5358dfd94f0ce5971a4071783",
+          "tris": 304
+        }
+      },
+      "branchPaths": 27,
+      "foliageFans": 17,
+      "templateHeight": 5.453965663909912,
+      "templateRadius": 9.392634391784668
+    },
+    {
+      "seed": 16300,
+      "name": "\u00d6ppen sk\u00e4rmtall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/3d767133a86ae88cd0d0c0819bbe1646941a4539e10714837e9024c9a4ddc5a7.glb",
+          "bytes": 238244,
+          "sha256": "3d767133a86ae88cd0d0c0819bbe1646941a4539e10714837e9024c9a4ddc5a7",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/9958518248da4b279bd0023af0fa39f10205e72b537130dcf15e690cf3230005.glb",
+          "bytes": 99220,
+          "sha256": "9958518248da4b279bd0023af0fa39f10205e72b537130dcf15e690cf3230005",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/d62230f4b4013d4695028571ff4906267fc21d35c60d52aa64f14b70b3e08642.glb",
+          "bytes": 10916,
+          "sha256": "d62230f4b4013d4695028571ff4906267fc21d35c60d52aa64f14b70b3e08642",
+          "tris": 304
+        }
+      },
+      "branchPaths": 31,
+      "foliageFans": 20,
+      "templateHeight": 8.702945709228516,
+      "templateRadius": 5.894728660583496
+    }
+  ],
+  "placement": "Existing Visby pine roots and measured dimensions"
+}

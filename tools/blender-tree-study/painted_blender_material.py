@@ -3,7 +3,7 @@ import bpy
 from mathutils import Vector
 from pine_meshes import linear
 
-def painted_material(name,hex_colour,image,key='tall'):
+def painted_material(name,hex_colour,image,key='tall',palette=None):
     m=bpy.data.materials.new(name+' | Painted canopy');m.use_nodes=True
     m.surface_render_method='DITHERED';m.use_backface_culling=False
     nt=m.node_tree;nt.nodes.clear();new=nt.nodes.new;link=nt.links.new
@@ -24,7 +24,7 @@ def painted_material(name,hex_colour,image,key='tall'):
         node=new('ShaderNodeMapRange');node.interpolation_type='SMOOTHSTEP';node.clamp=True
         node.inputs['From Min'].default_value=lo;node.inputs['From Max'].default_value=hi;link(add.outputs[0],node.inputs['Value']);return node.outputs['Result']
     palettes={'tall':(0x123b26,0x427823,0x91b843),'gran':(0x0d3629,0x2f6532,0x71a543),'bjork':(0x244f26,0x6e992a,0xb1ce50),'al':(0x123f2b,0x397936,0x7aad49),'ek':(0x1c3f1a,0x537e20,0xa0bc43)}
-    shade,base,light=[linear(value) for value in palettes[key]]
+    shade,base,light=[linear(value) for value in (palette if palette is not None else palettes[key])]
     mix=new('ShaderNodeMixRGB');mix.inputs[1].default_value=(*shade,1);mix.inputs[2].default_value=(*base,1);link(ramp(-.35,.72),mix.inputs[0])
     highlight=new('ShaderNodeMixRGB');link(mix.outputs[0],highlight.inputs[1]);highlight.inputs[2].default_value=(*light,1);link(ramp(.45,.95),highlight.inputs[0]);link(highlight.outputs[0],emission.inputs['Color'])
     tex=new('ShaderNodeTexImage');tex.image=image

@@ -10,6 +10,7 @@ import { latLonToSweref99Tm } from '../../../../packages/course-geo/chmv2/projec
    not terrain falls back to GPK1: a GPS fix is WGS84, and a grid-authored
    pack's x/z axes are SWEREF99 TM. */
 import { PROJECTED_GPS_FRAMES } from './gps-projected-frames.mjs';
+import { clubKind, CLUB_KINDS } from './club-design.mjs';
 
 const DEFAULT_CLUBS = [
   ['driver', 'Driver', 210],
@@ -25,6 +26,7 @@ const DEFAULT_CLUBS = [
   ['gw', 'GW', 90],
   ['sw', 'SW', 75],
   ['lw', 'Lobwedge', 55],
+  ['putter', 'Putter', 0],
 ];
 
 export const MAX_BAG_CLUBS = 14;
@@ -34,11 +36,12 @@ export const DEFAULT_BAG = Object.freeze(DEFAULT_CLUBS.map(([id, name, carry]) =
 
 const cleanClub = (club, index) => {
   const name = String(club?.name || '').trim().slice(0, 24);
-  const carry = Math.round(Number(club?.carry));
-  if (!name || !Number.isFinite(carry) || carry < 20 || carry > 350) return null;
+  const putter = clubKind(club) === 'putter';
+  const carry = putter ? 0 : Math.round(Number(club?.carry));
+  if (!name || !Number.isFinite(carry) || (!putter && carry < 20) || carry > 350) return null;
   const rawId = String(club?.id || `club-${index + 1}`).toLowerCase();
   const id = rawId.replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-').slice(0, 32) || `club-${index + 1}`;
-  return { id, name, carry };
+  return { id, name, carry, ...(Object.hasOwn(CLUB_KINDS, club?.kind) ? { kind: club.kind } : {}) };
 };
 
 export function normalizeBag(value, fallback = DEFAULT_BAG) {
@@ -51,7 +54,7 @@ export function normalizeBag(value, fallback = DEFAULT_BAG) {
     usedIds.add(id);
     return { ...club, id };
   }).slice(0, MAX_BAG_CLUBS);
-  return clubs.length >= 2 ? clubs : fallback.map(club => ({ ...club }));
+  return clubs.length >= 2 && clubs.some(club => club.carry > 0) ? clubs : fallback.map(club => ({ ...club }));
 }
 
 export function parseBag(raw) {
@@ -66,7 +69,7 @@ export function parseBag(raw) {
 
 export function recommendClub(distance, value = DEFAULT_BAG) {
   if (!Number.isFinite(distance) || distance <= 0) return null;
-  const clubs = normalizeBag(value).sort((a, b) => b.carry - a.carry);
+  const clubs = normalizeBag(value).filter(club => club.carry > 0).sort((a, b) => b.carry - a.carry);
   let best = clubs[0], bestScore = Infinity;
   for (const club of clubs) {
     const delta = distance - club.carry;
@@ -153,7 +156,7 @@ const statedMaxCarry = note => {
 export function strategyForHole(hole, teeIndex = 0, value = DEFAULT_BAG, environment) {
   const origin = hole?.tees?.marks?.[teeIndex]?.c || hole?.tees?.marks?.[0]?.c || hole?.line?.[0];
   if (!origin) return null;
-  const clubs = normalizeBag(value).sort((a, b) => b.carry - a.carry);
+  const clubs = normalizeBag(value).filter(club => club.carry > 0).sort((a, b) => b.carry - a.carry);
   const maxCarry = statedMaxCarry(hole.note);
   const plan = planGolfShots({ hole, origin, clubs, maxCarry, environment });
   const line = [[...origin], ...plan.shots.map(shot => [...shot.point])];

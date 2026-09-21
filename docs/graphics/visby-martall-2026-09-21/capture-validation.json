@@ -1,0 +1,173 @@
+{
+  "revision": "visby-martall-2026-09-21",
+  "errors": [],
+  "checks": [
+    {
+      "check": "all root positions, yaw and species unchanged",
+      "trees": 51119,
+      "sha256": "034f917a9d379cabbd338cdca65883f8fb981b3a353b94996110820ec8c4b9c2"
+    },
+    {
+      "check": "martall palette selected for crown and impostor",
+      "meshes": [
+        "trees-pine0-crown-t0",
+        "trees-pine-impostor-t3",
+        "trees-pine1-crown-t0",
+        "trees-pine-impostor-t3",
+        "trees-pine2-crown-t0",
+        "trees-pine-impostor-t3",
+        "trees-pine3-crown-t0",
+        "trees-pine-impostor-t3",
+        "vista-pine-impostor"
+      ]
+    },
+    {
+      "check": "three before/after pairs have identical cameras, viewport, lighting and deterministic weather",
+      "views": [
+        "close",
+        "middle",
+        "distant"
+      ]
+    },
+    {
+      "check": "close, middle and distant camera views retain valid tree tiers"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "desktop-webgpu",
+      "catalogue": {
+        "look": "painted",
+        "loaded": true,
+        "design": "fluffy-2026-09",
+        "revision": "visby-martall-2026-09-21",
+        "variants": 4,
+        "hero": true,
+        "heroOnly": true,
+        "files": 13,
+        "bytes": 2802624
+      },
+      "backend": "webgpu",
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 308,
+            "inCount": 308,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 968,
+            "inCount": 968,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1045,
+            "inCount": 1045,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1029,
+            "inCount": 1029,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 998,
+            "inCount": 998,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 1868,
+            "inCount": 1868,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "species": {
+        "spruce": 2514,
+        "pine": 37975,
+        "birch": 10630,
+        "alder": 0,
+        "oak": 0
+      },
+      "total": 51119,
+      "triangles": [
+        [
+          [
+            3500,
+            1000
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            2018,
+            2482
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            1908,
+            2592
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            2628,
+            1872
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            2240,
+            2260
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            3644,
+            856
+          ],
+          [],
+          []
+        ],
+        null,
+        null
+      ]
+    }
+  ],
+  "pineAssets": [
+    "26535a12542d8874dbdc2c4c4b8f478df9788a428bc02a849ee497ac26e73f45",
+    "fad949898feb6c35dc75e73c4e90794fdad22f82ff4278ec3870bab050909ed4",
+    "243729d815bb1d1b005b643b5b461644d4de21a21a9e6de681be209a7300df69",
+    "3d767133a86ae88cd0d0c0819bbe1646941a4539e10714837e9024c9a4ddc5a7"
+  ],
+  "passed": true
+}
