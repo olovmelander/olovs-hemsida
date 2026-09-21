@@ -4,6 +4,8 @@
    and geometric classification logic.
    =========================================================================== */
 
+import { bunkerSignedDistance } from './bunker-geometry.mjs';
+
 export const SURFACE = {
   ROUGH: 0,
   SEMI: 1,
@@ -143,7 +145,7 @@ export function createClassifier({ GI, TI, BI, FI, PI, VI, HOLES, ringSD, distTo
 
     if (BI) {
       for (const b of BI.at(x, z)) {
-        const sd = ringSD(x, z, b.ring, CUTOFF.bunker);
+        const sd = bunkerSignedDistance(x, z, b, ringSD, CUTOFF.bunker);
         /* Bunker cut is crisp at 0.25m */
         if (sd < 0.25) sand = Math.max(sand, 1 - smooth(-0.45, 0.25, sd));
       }

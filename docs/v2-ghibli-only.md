@@ -60,3 +60,9 @@ The Ribbingsfors browser gate also passed under SwiftShader for both ordinary
 and historical opt-out links with a saved realistic preference: verified ring
 terrain, painted style, no style controls, and published vegetation loaded.
 This is behavioral evidence only; no appearance or FPS claim is made.
+
+Merge validation against main `53ea008` retained Hero + Impostor trees and the
+Visby bunker audit. The one conflict was in the removed legacy overlay block;
+v2 bunker outlines and grass-island exclusions remain intact. All 991 app
+tests and four Visby bunker tests passed, along with lint, the production
+build and verification of all 13 published course graphs.
