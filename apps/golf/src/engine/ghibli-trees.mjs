@@ -186,12 +186,11 @@ function fitFoliageTier(parts, height, radius) {
   for (const g of [parts.crown, parts.trunk]) g.scale(radius / r, height / box.max.y, radius / r);
 }
 
-/** Load the templates the engine's three tiers draw: hero (optional, the
- * study's hero tier, else the full one), full, and the far mesh tier (the
- * study's "lite"). The standard fluffy set has one model per species; the
- * Visby pines have three variants, each with its own instanced batch. */
+/** Production requests heroOnly: one Hero mesh per variant, also used for
+ * the impostor bake. Full/Lite remain available to the isolated asset studies.
+ * The standard fluffy set has one model per species; Visby pines have three. */
 export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = false, fetchImpl = fetch,
-  design = 'fluffy', courseSlug = null,
+  design = 'fluffy', courseSlug = null, heroOnly = false,
 } = {}) {
   // The approved fluffy set is the default. Study pages explicitly request
   // the original/refined catalogues for comparison.
@@ -204,7 +203,7 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = fals
   const manifest = await res.json();
   if (manifest?.schemaVersion !== 1 || manifest.kind !== 'ghibli-trees') throw new Error('Ghibli tree manifest: unknown schema');
   const byKey = Object.fromEntries(manifest.species.map(s => [s.key, s]));
-  const out = { manifest, species: [], colours: GHIBLI_COLOURS, foliage: manifest.design === 'fluffy-2026-09', summary: { design: manifest.design || design, revision: manifest.revision || null, variants, hero, files: 0, bytes: 0 } };
+  const out = { manifest, species: [], colours: GHIBLI_COLOURS, foliage: manifest.design === 'fluffy-2026-09', summary: { design: manifest.design || design, revision: manifest.revision || null, variants, hero: heroOnly || hero, heroOnly, files: 0, bytes: 0 } };
   for (const [s, key] of GHIBLI_SPECIES.entries()) {
     if (!key) { out.species.push(null); continue; }
     const entry = byKey[key];
@@ -214,7 +213,8 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = fals
     const list = [];
     for (let v = 0; v < Math.min(variants, entry.variants.length); v++) {
       const var_ = entry.variants[v];
-      const need = { full: 'full', decimated: 'lite', hero: hero && var_.tiers.hero ? 'hero' : 'full' };
+      const need = heroOnly ? { hero: 'hero' }
+        : { full: 'full', decimated: 'lite', hero: hero && var_.tiers.hero ? 'hero' : 'full' };
       const tiers = {};
       for (const [slot, tier] of Object.entries(need)) {
         const rec = var_.tiers[tier];
@@ -232,7 +232,7 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, hero = fals
         tiers[slot] = slot === tier ? tiers[tier] : { crown: tiers[tier].crown.clone(), trunk: tiers[tier].trunk.clone() };
       }
       list.push({ key, variant: v, seed: var_.seed, foliage, templateHeight: var_.templateHeight, templateRadius: var_.templateRadius,
-        trunkMean: tiers.full.trunkMean,
+        trunkMean: (heroOnly ? tiers.hero : tiers.full).trunkMean,
         hero: tiers.hero, full: tiers.full, decimated: tiers.decimated, tris: Object.fromEntries(Object.entries(var_.tiers).map(([t, r]) => [t, r.tris])) });
     }
     if (!list.length) throw new Error(`Ghibli tree manifest: ${key} has no variants`);

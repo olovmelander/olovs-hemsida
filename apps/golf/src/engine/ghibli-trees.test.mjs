@@ -34,6 +34,25 @@ describe('approved Ghibli foliage assets',()=>{
 describe('production foliage loader',()=>{
   beforeEach(()=>vi.spyOn(THREE.TextureLoader.prototype,'loadAsync').mockImplementation(async()=>new THREE.Texture()));
   afterEach(()=>vi.restoreAllMocks());
+  for(const courseSlug of ['puttom','visby']) it(`loads only real Hero meshes for production (${courseSlug})`,async()=>{
+    const fetchImpl=vi.fn(assetFetch);
+    // An old hero:false preference must not downgrade the production policy.
+    const loaded=await loadGhibliTrees({courseSlug,heroOnly:true,hero:false,fetchImpl});
+    const catalogue=loaded.manifest;
+    const expected=new Set(catalogue.species.flatMap(s=>s.variants.map(v=>v.tiers.hero.file)));
+    const meshRequests=fetchImpl.mock.calls.map(([url])=>String(url).split('/models/trees/')[1]).filter(url=>url.endsWith('.glb'));
+    expect(new Set(meshRequests)).toEqual(expected);
+    expect(loaded.summary.files).toBe(expected.size+5);
+    expect(loaded.summary.hero).toBe(true);expect(loaded.summary.heroOnly).toBe(true);
+    for(const s of loaded.species)for(const v of s.variants){
+      expect(v.full).toBeUndefined();expect(v.decimated).toBeUndefined();
+      const triangles=[v.hero.crown,v.hero.trunk].reduce((n,g)=>n+(g.index?.count??g.attributes.position.count)/3,0);
+      expect(triangles).toBe(v.tris.hero);
+      expect(v.hero.crown.attributes.uv.count).toBe(v.hero.crown.attributes.position.count);
+      expect(v.trunkMean).toHaveLength(3);
+      expect(v.trunkMean.every(Number.isFinite)).toBe(true);
+    }
+  });
   it('uses the coastal pine only at Visby, preserving the other species and every detail budget',async()=>{
     const coastal=JSON.parse(fs.readFileSync(new URL('ghibli-visby.json',root)));
     for(const s of coastal.species){
