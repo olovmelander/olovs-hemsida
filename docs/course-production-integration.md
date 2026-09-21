@@ -338,6 +338,16 @@ locate and size the revision; they do not approve it. Puttom is a broad terrain
 revision and Johannesberg is localized, so both remain blocked on visual/source
 review rather than raising the production tolerance.
 
+Fresh canopy acquisition completed for all four active campaigns. Every CHM
+raster SHA-256 is identical to the retained September 11 evidence, so the canopy
+compiler is reproducible across acquisition dates for these inputs. The candidate
+source stages verified 563 Puttom inputs and 560 Johannesberg inputs, including
+the newly archived terrain and canopy rasters. The next terrain stage then failed
+closed at 2.850 m and 0.180 m respectively after runtime quantization. Mapping,
+vegetation, assembly and validation were not marked complete from that partial
+run. Review and either accept or correct the terrain revision before rebuilding
+those dependent stages.
+
 Unit tests exercise raw raster refusal, grid registration, deterministic pack
 compilation, stage failure/replacement, per-hole uncertainty, real shared-ground
 assembly/validation adapters, startup generation, corruption rejection and capture
