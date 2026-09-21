@@ -150,6 +150,24 @@ campaigns and evidence) are archived separately from compiled outputs. Archive
 these externally before expiration for durable repeat builds; this finite CI
 retention is not permanent source storage.
 
+Local credentials are not required when using these GitHub Actions workflows:
+they read `LANTMATERIET_USERNAME` and `LANTMATERIET_PASSWORD` from repository
+secrets. Each supports a documented push trigger for callers with repository
+contents access but no workflow-dispatch capability. On a separate `claude/**`
+source-revision branch, change the relevant control file and commit it:
+
+| Workflow | Control file | Acquisition-only settings |
+| --- | --- | --- |
+| `ground-terrain-rings.yml` | `geo_data/course-v2/<ground>/acquisition/RUN-terrain-rings` | `publish=false` and an empty `levels=` to acquire all seven levels |
+| `veckefjarden-vegetation.yml` | `geo_data/course-v2/<ground>/vegetation/RUN` | `publish=false` and `observed_on=YYYY-MM-DD` |
+
+Use one ground per branch/trigger commit: each workflow resolves the first
+changed matching control file. These settings request acquisition and staged
+compilation without live publication. A preflight failure prevents the raw
+acquisition and archive steps. This route has been exercised for both pilots;
+it does not establish that orthophoto access is configured. There is no generic
+pilot imagery workflow wired to these control files.
+
 Reacquisition may change provider bytes, campaign coverage, evidence timestamps or
 grids. Preserve the previous manifest and compare measurements before updating
 artifact/profile hashes and running `--configure`. Do not re-pin merely to make
@@ -258,7 +276,8 @@ match their published SHA-256s; no published pack was copied as a build result.
 Both source preflights verify pinned retained artifacts and baseline bytes, then
 fail on exactly eleven unavailable terrain/canopy inputs per ground. Source
 overlay attempts fail on 45 Puttom and 74 Johannesberg missing raw windows and
-emit **zero** image panels. Local Lantmäteriet credentials are absent. No live
+emit **zero** image panels. Local Lantmäteriet credentials are absent, but the
+GitHub-hosted acquisition route has configured repository secrets. No live
 geography, review approvals or production build receipts were changed.
 
 GitHub artifact metadata was checked on 2026-09-21: Puttom terrain run
@@ -272,6 +291,32 @@ and Johannesberg vegetation run
 all report their artifacts expired on September 18. The historical vegetation
 workflow archived compile/review directories only, not raw CHM. The archive fix
 in this integration applies to future acquisitions and cannot restore these inputs.
+
+Follow-up acquisition attempts on 2026-09-21 used separate source-revision
+branches with `publish=false`. All four runs passed the repository-secret check.
+The terrain access preflight then rejected a mismatch between the provider's
+reported source size and the retained discovery snapshot:
+
+| Ground | Recorded bytes | Returned bytes | Terrain run | Vegetation run |
+| --- | ---: | ---: | --- | --- |
+| Puttom | 276,884,943 | 276,884,845 | [35603533749](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603533749) | [35603533599](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603533599) |
+| Johannesberg | 316,420,657 | 316,420,633 | [35603582107](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603582107) | [35603582194](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603582194) |
+
+The vegetation workflow uses the combined terrain/laser preflight and stopped
+on the terrain mismatch too; these runs do not independently prove laser or
+imagery access. No new raw artifacts were produced. The immediate hosted-build
+blocker is source drift, not missing local credentials. A fresh public discovery
+run for each ground completed with verified metadata and confirmed the returned
+sizes. All three terrain assets and their break-geometry checksums changed;
+Puttom's terrain capture range also extends to 2026-06-17. Laser and orthophoto
+item selections/checksums were unchanged. Candidate reports were written under
+`output/course-production/<ground>/source-refresh-2026-09-21/`; the retained
+discovery files and production profile pins were not changed.
+
+Continue in a candidate source revision, compare actual measurements and preserve
+the old snapshot before accepting new pins. A small byte-count difference alone
+does not prove equivalent terrain. Keep the source-size guard enabled. The
+discovery and campaign-review commands are in stage 5 of the v2 runbook.
 
 Unit tests exercise raw raster refusal, grid registration, deterministic pack
 compilation, stage failure/replacement, per-hole uncertainty, real shared-ground
