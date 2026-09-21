@@ -65,6 +65,9 @@ describe('production foliage loader',()=>{
     expect(loaded.summary.revision).toBe(VISBY_PINE_REVISION);
     expect(loaded.summary.files).toBe(26);
     expect(loaded.species[1].variants).toHaveLength(3);
+    expect(loaded.species[1].foliage.key).toBe('tall');
+    const pine=coastal.species.find(s=>s.key==='tall');
+    expect(new Set(pine.variants.map(v=>v.tiers.hero.sha256)).size).toBe(3);
     for(const v of loaded.species[1].variants){
       for(const [tier,slot] of [['hero','hero'],['full','full'],['lite','decimated']]){
         const parts=v[slot],box=new THREE.Box3();

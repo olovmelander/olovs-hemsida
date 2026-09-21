@@ -23,6 +23,9 @@ const MODULE = path.join(ROOT, 'apps/golf/src/engine/flag-cloth-asset.mjs');
 
 const bake = JSON.parse(fs.readFileSync(SRC, 'utf8'));
 if (bake.format !== 'banvy-flag-bake-v1') throw new Error(`${SRC} is not a banvy-flag-bake-v1`);
+if (bake.bands.some((b,i) => !Number.isFinite(b.ms) || (i && b.ms <= bake.bands[i-1].ms))) {
+  throw new Error('Flag bands must be ordered by distinct measured wind speeds');
+}
 const { header, payload } = packFlagCloth(bake);
 const deflated = zlib.deflateRawSync(payload, { level: 9 });
 const file = assembleFlagCloth(header, deflated);

@@ -1,0 +1,127 @@
+{
+  "reference": "https://www.visbygk.com/om-banorna/",
+  "blender": "4.5.9 LTS",
+  "budgets": {
+    "hero": 4500,
+    "full": 1700,
+    "lite": 420
+  },
+  "variants": [
+    {
+      "seed": 16000,
+      "name": "Vindpinad tall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/9b050b046b442d121061d5460e755e15d011087b8404b299a95c25c0d48880a5.glb",
+          "bytes": 222016,
+          "sha256": "9b050b046b442d121061d5460e755e15d011087b8404b299a95c25c0d48880a5",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/ea340a8fcdd610127df30dae47f9b2271ca109875e8d38605003bf28243b5366.glb",
+          "bytes": 91456,
+          "sha256": "ea340a8fcdd610127df30dae47f9b2271ca109875e8d38605003bf28243b5366",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/6b0f7119423747f82368274faaea1a5195eb1b57ba290d8697a2ba683d6afbed.glb",
+          "bytes": 10924,
+          "sha256": "6b0f7119423747f82368274faaea1a5195eb1b57ba290d8697a2ba683d6afbed",
+          "tris": 304
+        }
+      },
+      "branchPaths": 34,
+      "foliageFans": 23,
+      "templateHeight": 8.05129623413086,
+      "templateRadius": 9.52491283416748
+    },
+    {
+      "seed": 16100,
+      "name": "Krokig flerstammig martall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/d12b23eab0da07ea2467bf1e58a744f7b703eb479a6105ce54af53048c83b4ef.glb",
+          "bytes": 226984,
+          "sha256": "d12b23eab0da07ea2467bf1e58a744f7b703eb479a6105ce54af53048c83b4ef",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/989209470f463f72f23e19ce794370f59df9457f5c0cceefc5081a8adfd2236c.glb",
+          "bytes": 100124,
+          "sha256": "989209470f463f72f23e19ce794370f59df9457f5c0cceefc5081a8adfd2236c",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/054e56d6c85c6645bedf1a15e2554f1e9c462074d4836ac37ee13795db605a3b.glb",
+          "bytes": 10924,
+          "sha256": "054e56d6c85c6645bedf1a15e2554f1e9c462074d4836ac37ee13795db605a3b",
+          "tris": 304
+        }
+      },
+      "branchPaths": 29,
+      "foliageFans": 18,
+      "templateHeight": 8.383621215820312,
+      "templateRadius": 5.599079608917236
+    },
+    {
+      "seed": 16200,
+      "name": "L\u00e5g kustmartall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/39f60b48335da4d511f1647295d9670a38b226fde395e85d3dcbc3b96077fed9.glb",
+          "bytes": 259276,
+          "sha256": "39f60b48335da4d511f1647295d9670a38b226fde395e85d3dcbc3b96077fed9",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/93c49049ebdf4ff1eacb5ee0e8c5d979697cba7ff4437561e0d63793b433e3c3.glb",
+          "bytes": 107072,
+          "sha256": "93c49049ebdf4ff1eacb5ee0e8c5d979697cba7ff4437561e0d63793b433e3c3",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/dbd4ce985c538b9d76734afc867be6b5f546c438f04600a328816c7dfcc61065.glb",
+          "bytes": 10920,
+          "sha256": "dbd4ce985c538b9d76734afc867be6b5f546c438f04600a328816c7dfcc61065",
+          "tris": 304
+        }
+      },
+      "branchPaths": 27,
+      "foliageFans": 17,
+      "templateHeight": 5.453965663909912,
+      "templateRadius": 9.392634391784668
+    },
+    {
+      "seed": 16300,
+      "name": "\u00d6ppen sk\u00e4rmtall",
+      "tiers": {
+        "hero": {
+          "file": "visby-pine/6d574feee0962efd704c0d667995fd282b98f121a5a07f19a2a328918a532c82.glb",
+          "bytes": 238252,
+          "sha256": "6d574feee0962efd704c0d667995fd282b98f121a5a07f19a2a328918a532c82",
+          "tris": 4500
+        },
+        "full": {
+          "file": "visby-pine/2f8017c22847230a954170dcf0be543c365057772085efe7095857b9cfec8aed.glb",
+          "bytes": 99228,
+          "sha256": "2f8017c22847230a954170dcf0be543c365057772085efe7095857b9cfec8aed",
+          "tris": 1700
+        },
+        "lite": {
+          "file": "visby-pine/f70ced809107fa2be5e290a64403b670a69e5904afa7eb2bab09b77db3024d8a.glb",
+          "bytes": 10924,
+          "sha256": "f70ced809107fa2be5e290a64403b670a69e5904afa7eb2bab09b77db3024d8a",
+          "tris": 304
+        }
+      },
+      "branchPaths": 31,
+      "foliageFans": 20,
+      "templateHeight": 8.702945709228516,
+      "templateRadius": 5.894728660583496
+    }
+  ],
+  "placement": "Existing Visby pine roots and measured dimensions",
+  "revision": "visby-martall-original-colours-2026-09-21",
+  "foliageKey": "tall",
+  "originalColours": true
+}

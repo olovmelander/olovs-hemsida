@@ -1,0 +1,78 @@
+#bagDialog{width:min(1060px,calc(100vw - 32px));max-height:calc(100dvh - 32px);border-radius:24px;background:#101f19;border:1px solid #35453b;box-shadow:0 30px 120px #0009;color:#eef2e9}
+#bagDialog .bag-form{max-height:calc(100dvh - 32px)}
+#bagDialog .bag-head{padding:24px 26px 20px;align-items:center;border-color:#ffffff0d}
+#bagDialog .bag-kicker{font-size:10px;letter-spacing:.2em;color:#a8bb9c}
+#bagDialog .bag-title h2{font-size:32px;font-weight:600;letter-spacing:-.04em;margin:6px 0}
+#bagDialog .bag-title p{font-size:12px;color:#a4b1a8;max-width:550px}
+#bagDialog .bag-close{width:38px;height:38px;border:1px solid #ffffff20;color:#d3decf}
+.bag-workspace{display:grid;grid-template-columns:360px minmax(0,1fr);min-height:0;flex:1}
+.bag-inventory{display:flex;flex-direction:column;min-height:0;border-right:1px solid #ffffff0d}
+#bagDialog .bag-toolbar{padding:15px 20px 10px}
+.bag-columns{display:flex;justify-content:space-between;padding:0 59px 8px 72px;color:#819286;font:500 9px/1.5 Outfit,sans-serif;letter-spacing:.13em;text-transform:uppercase}
+#bagDialog .bag-list{padding:0 12px 16px;gap:3px;height:455px;min-height:0}
+#bagDialog .bag-row{grid-template-columns:40px minmax(0,1fr) 66px 23px;gap:7px;min-height:52px;padding:2px 8px;background:transparent;border:1px solid transparent;border-radius:12px;transition:background .2s,border-color .2s}
+#bagDialog .bag-row:hover{background:#ffffff05}
+#bagDialog .bag-row.selected{background:#ceddba12;border-color:#cad7b638}
+.bag-preview{width:40px;height:44px;border:0;border-radius:8px;background:transparent;color:#b8c4b8;cursor:pointer;padding:0}
+.bag-preview svg{width:32px;height:42px;transition:transform .25s}
+.bag-row.selected .bag-preview{color:#e1ebcd}.bag-row.selected .bag-preview svg{transform:rotate(-10deg)}
+#bagDialog .bag-row input{background:transparent;border-color:transparent;padding-left:2px;font-weight:500}
+#bagDialog .bag-row input:hover{border-color:#ffffff15}
+#bagDialog .bag-row input:focus{border-color:#b3c99b;background:#07150f;box-shadow:none}
+#bagDialog .bag-distance{font-size:12px;color:#bdcbb9}
+#bagDialog .bag-carry span{color:#748477}
+#bagDialog .is-putter .bag-carry{opacity:.32}
+#bagDialog .is-putter .bag-carry input{visibility:hidden}
+#bagDialog .is-putter .bag-carry span{font-size:0}#bagDialog .is-putter .bag-carry span:after{content:'—';font-size:12px}
+.club-studio{position:relative;min-width:0;display:flex;flex-direction:column;margin:14px 14px 14px 0;background:#edeee7;color:#23362a;border-radius:18px;overflow:hidden}
+.club-studio:before{content:'';position:absolute;inset:15% -20% 0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,#c5cebb70,transparent 58%)}
+.club-studio-head{position:relative;z-index:1;padding:22px 24px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.club-overline{font:600 9px/1.4 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#73836c}
+.club-studio-head h3{font:500 30px/1.15 Outfit,sans-serif;letter-spacing:-.035em;margin:6px 0 5px}
+#clubFamily{font:400 10px/1.5 Outfit,sans-serif;color:#6f7a68}
+.club-edition{border:1px solid #29402a28;border-radius:50%;width:40px;height:40px;display:grid;place-items:center;font:400 10px/1 'JetBrains Mono',monospace;color:#66775f}
+.club-canvas{position:relative;flex:1;min-height:0;isolation:isolate;cursor:grab;touch-action:none}
+.club-canvas:active{cursor:grabbing}.club-canvas canvas{display:block;width:100%;height:100%;position:absolute;inset:0;outline:none}
+.club-canvas canvas:focus-visible{outline:2px solid #56764a;outline-offset:-4px;border-radius:14px}
+.club-status{position:absolute;inset:42% 30px auto;text-align:center;font:500 12px/1.6 Outfit,sans-serif;color:#6d7e64;pointer-events:none}
+.club-status[hidden]{display:none}
+#clubRetry{position:absolute;left:50%;top:65%;transform:translateX(-50%);border:1px solid #849279;background:#e8ecdf;color:#20321c;padding:8px 14px;border-radius:8px;cursor:pointer}
+.club-canvas[data-state=error] canvas{visibility:hidden}
+.club-hint{position:relative;text-align:center;font:400 10px/1.5 Outfit,sans-serif;color:#748169;padding:0 12px 14px;pointer-events:none}
+.club-controls{position:relative;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 16px 20px}
+.club-segment{display:flex;border:1px solid #a6b29b55;border-radius:30px;padding:3px;background:#ffffff50}
+.club-controls button{border:0;border-radius:30px;padding:8px 13px;font:500 10px/1 Outfit,sans-serif;background:transparent;color:#53654b;cursor:pointer;min-height:32px}
+.club-controls button[aria-pressed=true]{background:#29402e;color:#f0f2e9;box-shadow:0 2px 8px #18331e18}
+.club-controls>button{border:1px solid #a6b29b55;background:#ffffff50}
+.club-controls button:hover{box-shadow:inset 0 0 0 1px #677e5970}
+.club-detail{position:relative;margin:0 22px;padding:17px 0 19px;border-top:1px solid #82947238;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.club-detail label{display:flex;gap:8px;align-items:center;color:#78866d;font:500 10px/1 Outfit,sans-serif}
+.club-detail select{border:0;background:transparent;color:#405439;font:500 11px/1 Outfit,sans-serif;padding:5px;max-width:120px;cursor:pointer}
+#clubCarry{font:500 14px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#344a2c}
+#bagDialog .bag-actions{padding:14px 22px;align-items:center;gap:10px}
+.bag-local-note{margin-right:auto;font:400 10px/1.4 Outfit,sans-serif;color:#7e9382}
+#bagDialog .bag-actions button{font-size:11px;min-height:39px}
+#bagDialog .bag-save{flex:0 0 auto;padding:0 24px;background:#cadbb6;border-color:#cadbb6;color:#1b331f}
+#bagDialog :focus-visible{outline:2px solid #b7ce9e;outline-offset:3px}
+@media(max-width:720px){
+  #bagDialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);border-radius:18px}
+  #bagDialog .bag-form{max-height:calc(100dvh - 16px)}
+  #bagDialog .bag-head{padding:16px 18px 12px}#bagDialog .bag-title h2{font-size:26px}
+  #bagDialog .bag-title p{font-size:10px;max-width:280px}
+  .bag-workspace{display:flex;flex-direction:column;overflow:auto}
+  .club-studio{order:-1;flex:0 0 auto;margin:8px 10px 0;min-height:340px}
+  .club-studio-head{padding:16px 18px 0}.club-studio-head h3{font-size:25px}
+  .club-canvas{height:210px;min-height:210px;flex:none}
+  .club-hint{font-size:9px;padding-bottom:8px}.club-controls{padding-bottom:12px;gap:5px}
+  .club-controls button{padding:7px 10px;font-size:9px;min-height:30px}
+  .club-detail{margin:0 17px;padding:10px 0}.club-detail label{font-size:9px}#clubCarry{font-size:12px}
+  .bag-inventory{flex:0 0 auto;border:0}#bagDialog .bag-list{height:auto;overflow:visible;padding:0 10px 12px}
+  #bagDialog .bag-toolbar{padding:14px 18px 10px}#bagDialog .bag-row{min-height:49px;grid-template-columns:40px minmax(0,1fr) 76px 28px}
+  #bagDialog .bag-actions{padding:10px 14px calc(10px + env(safe-area-inset-bottom))}.bag-local-note{display:none}#bagDialog .bag-save{flex:1}
+}
+@media(prefers-reduced-motion:reduce){#bagDialog *{transition:none!important}}
+@media(min-width:721px) and (max-height:600px){
+  .bag-workspace{overflow:auto;flex-shrink:1}.club-studio{min-height:410px}
+  #bagDialog .bag-head{padding:12px 20px}#bagDialog .bag-title h2{font-size:25px}
+  #bagDialog .bag-list{height:410px;flex-shrink:0}
+}

@@ -44,6 +44,9 @@ export const PAINTED_SCENERY = {
   tuft:[0x557331,0xb4a343], bush:[0x3f733d,0x91973c],
 };
 export const FOLIAGE_PALETTES = {
+  // Visby martall: muted blue/grey-green needles and restrained olive tips.
+  // Selected by its catalogue so close meshes and distant impostors agree.
+  martall:[0x182e27,0x385343,0x738368],
   // Stronger green midtones and less chalky yellow in sunlit crowns.
   tall:[0x193c2b,0x3c7328,0x7ba638], gran:[0x183b2e,0x2e6334,0x60963f],
   bjork:[0x284b20,0x5b9425,0x99bd36], al:[0x1d472b,0x40822d,0x83b33c],

@@ -840,18 +840,40 @@ body.gps-on #v2TerrainBadge{top:118px}
   <form class="bag-form" id="bagForm" method="dialog">
     <div class="bag-head">
       <div class="bag-title">
-        <div class="bag-kicker">Personlig caddie</div>
+        <div class="bag-kicker">Ditt spel. Dina klubbor.</div>
         <h2 id="bagTitle">Min bag</h2>
-        <p>Ange din normala carry i meter. Lägg till upp till 14 slagklubbor; puttern behövs inte. Sparas bara på den här enheten.</p>
+        <p>Utforska dina klubbor i 3D och ställ in dina egna carryavstånd.</p>
       </div>
-      <button class="panel-close-btn bag-close" value="cancel" aria-label="Stäng">×</button>
+      <button class="panel-close-btn bag-close" value="cancel" formnovalidate aria-label="Stäng">×</button>
     </div>
+    <div class="bag-workspace">
+    <div class="bag-inventory">
     <div class="bag-toolbar">
       <span class="bag-count" id="bagCount" aria-live="polite"></span>
       <button class="bag-add" id="bagAddBtn" type="button">+ Lägg till klubba</button>
     </div>
+    <div class="bag-columns"><span>Klubba</span><span>Carry</span></div>
     <div class="bag-list" id="bagList"></div>
+    </div>
+    <section class="club-studio" aria-label="Klubbvisare">
+      <div class="club-studio-head">
+        <div><div class="club-overline">Närmare spelet</div><h3 id="clubName">Din klubba</h3><p id="clubFamily"></p></div>
+        <span class="club-edition" aria-hidden="true">360°</span>
+      </div>
+      <div class="club-canvas" id="clubCanvas"><p class="club-status" id="clubStatus" role="status">Laddar din klubba…</p><button id="clubRetry" type="button" hidden>Försök igen</button></div>
+      <p class="club-hint">Dra för att rotera · nyp eller skrolla för att zooma</p>
+      <div class="club-controls" aria-label="Visningsalternativ">
+        <div class="club-segment"><button type="button" data-club-mode="head" aria-pressed="true">Huvud</button><button type="button" data-club-mode="full" aria-pressed="false">Hela klubban</button></div>
+        <button type="button" data-club-pose="face">Träffyta</button>
+        <button type="button" data-club-pose="sole">Sula</button>
+        <button type="button" data-club-pose="hero" aria-label="Återställ vinkel">↺</button>
+        <button type="button" id="clubSpin" aria-pressed="true">⟳ Rotera</button>
+      </div>
+      <div class="club-detail"><label for="clubKind">Modell <select id="clubKind" aria-label="Klubbmodell"></select></label><span id="clubCarry"></span></div>
+    </section>
+    </div>
     <div class="bag-actions">
+      <span class="bag-local-note">Dina avstånd sparas på den här enheten.</span>
       <button class="bag-reset" id="bagResetBtn" type="button">Återställ</button>
       <button class="bag-save" value="save">Spara avstånd</button>
     </div>

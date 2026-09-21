@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Softer flag folds</title>
+<style>
+body{margin:0;background:#edf0e6;color:#203e2c;font:16px system-ui,sans-serif}
+main{max-width:1100px;margin:32px auto;padding:0 20px}h1{margin-bottom:8px}
+p{line-height:1.5}nav{display:flex;gap:24px;flex-wrap:wrap;margin:20px 0}
+select{font:inherit;padding:6px;background:#fff;border:1px solid #839980;border-radius:4px}
+.compare{position:relative;aspect-ratio:12/7;overflow:hidden;--split:50%}
+.compare img{display:block;width:100%;height:100%;object-fit:contain}
+.after{position:absolute;inset:0;clip-path:inset(0 0 0 var(--split))}
+.line{position:absolute;top:0;bottom:0;left:var(--split);border-left:2px solid white}
+.label{position:absolute;top:12px;padding:6px 12px;background:#203e2ce8;color:#fff;border-radius:4px}
+.old{left:12px}.new{right:12px}input{display:block;width:100%;margin:12px 0 24px;accent-color:#356642}
+a{color:#245c37}footer{display:flex;gap:24px;flex-wrap:wrap;margin:20px 0}
+</style>
+<main>
+<h1>Softer flag folds</h1>
+<p>Compare the hanging flag from the front, side and rear. Drag the divider to see the change.</p>
+<nav>
+<label>Wind <select id="wind"><option>0</option><option>0.5</option><option>1.2</option><option selected>2</option><option>4</option></select> m/s</label>
+<label>View <select id="view"><option value="front">Front</option><option value="side">Side</option><option value="back" selected>Rear</option></select></label>
+</nav>
+<div class="compare">
+<img id="before" src="before/webgl2-fold-2-back.png" alt="Previous flag with bunched, sharp folds">
+<img id="after" class="after" src="webgl2-fold-2-back.png" alt="Updated flag with broad, smooth folds">
+<span class="line"></span><span class="label old">Before</span><span class="label new">After</span>
+</div>
+<label for="divider">Comparison divider</label><input id="divider" type="range" min="0" max="100" value="50">
+<footer><a href="webgl2-motion.html">Watch the flag move through light wind and calm</a><a href="flag-wind-study.blend">Blender study</a></footer>
+</main>
+<script>
+const panel=document.querySelector('.compare'),wind=document.querySelector('#wind'),view=document.querySelector('#view');
+document.querySelector('#divider').oninput=e=>panel.style.setProperty('--split',e.target.value+'%');
+function update(){const file='webgl2-fold-'+wind.value+'-'+view.value+'.png';document.querySelector('#before').src='before/'+file;document.querySelector('#after').src=file;}
+wind.onchange=update;view.onchange=update;
+</script>
+</html>

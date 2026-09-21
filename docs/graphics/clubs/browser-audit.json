@@ -1,0 +1,39 @@
+{
+  "models": [
+    "driver",
+    "wood-3",
+    "wood-5",
+    "hybrid-4",
+    "iron-5",
+    "iron-6",
+    "iron-7",
+    "iron-8",
+    "iron-9",
+    "pw",
+    "gw",
+    "sw",
+    "lw",
+    "putter"
+  ],
+  "interactions": [
+    "all 14 models",
+    "head and full views",
+    "face preset",
+    "sole preset returns to head view",
+    "keyboard rotation",
+    "drag rotation",
+    "save",
+    "cancel",
+    "add/remove",
+    "model type persistence",
+    "reset",
+    "putter carry excluded",
+    "reduced motion",
+    "mobile layout",
+    "closed render loop stops",
+    "asset error fallback",
+    "asset retry",
+    "editing survives asset failure"
+  ],
+  "errors": []
+}

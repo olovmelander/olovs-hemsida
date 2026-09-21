@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="sv">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Visby GK · Nya martallar med tidigare färger</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#14221e;color:#e4e8de;font:16px/1.6 system-ui,sans-serif}main{max-width:1500px;margin:auto;padding:40px 24px}h1{font-size:clamp(32px,5vw,60px);line-height:1.15;margin:4px 0 18px}h2{font-size:24px;margin-top:40px}p{max-width:850px;color:#b9c7ba}a{color:#bace9e}img{display:block;width:100%;border-radius:6px}figure{margin:0}figcaption{font-size:14px;color:#b9c7ba;margin:10px 0 28px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.reference{object-fit:cover;aspect-ratio:1.5}.eyebrow{font-size:13px;letter-spacing:.18em;color:#bace9e}.compare{position:relative;overflow:hidden;border-radius:6px;--split:50%}.compare .after{position:absolute;inset:0;clip-path:inset(0 0 0 var(--split))}.compare .line{position:absolute;left:var(--split);inset-block:0;border-left:2px solid white}.labels{display:flex;justify-content:space-between;color:#b9c7ba;font-size:14px}input{width:100%;accent-color:#bace9e}footer{margin:40px 0} @media(max-width:700px){.grid{grid-template-columns:1fr}main{padding:24px 16px}}
+</style>
+<style>
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}button{font:inherit;color:inherit;background:#24392e;border:1px solid #56705b;border-radius:6px;padding:9px 14px;cursor:pointer}button[aria-pressed=true]{background:#bace9e;color:#14221e}button:focus-visible,input:focus-visible{outline:3px solid #e1c68d;outline-offset:3px}.compare.side-by-side{display:grid;grid-template-columns:1fr 1fr;gap:12px}.compare.side-by-side .after{position:static;clip-path:none}.compare.side-by-side .line{display:none}.comparison-note{font-size:14px}.labels span{padding:5px 0}.comparison-links{display:flex;gap:20px;flex-wrap:wrap}.comparison-links a{font-size:14px}#comparison{scroll-margin-top:20px}
+</style>
+<main>
+<div class="eyebrow">KRONHOLMEN · 21 SEPTEMBER 2026</div>
+<h1>Nya former · tidigare färger</h1>
+<p><strong>Beslut: de gamla tallarna behålls på Visby GK.</strong> De tre tidigare modellerna med ursprungliga färger och barr är återställda. De nya formerna är sparade här för jämförelse och används inte på banan.</p>
+<p>Jämför de tidigare tallarna med de nya formerna i samma färgpalett. Bilderna och båda modellversionerna är sparade för att kunna granskas senare. <a href="../visby-martall-2026-09-21/index.html">Det tidigare mörkare förslaget finns kvar här.</a></p>
+<section id="comparison" aria-label="Jämför tallarna på Visby GK">
+<nav class="controls" aria-label="Kameravy">
+<button type="button" data-view="close" aria-pressed="true">Närbild</button>
+<button type="button" data-view="middle" aria-pressed="false">Mellanavstånd</button>
+<button type="button" data-view="distant" aria-pressed="false">Överblick</button>
+</nav>
+<div class="controls" aria-label="Jämförelseläge">
+<button type="button" data-mode="before" aria-pressed="false">Bara före</button>
+<button type="button" data-mode="after" aria-pressed="false">Bara efter</button>
+<button type="button" data-mode="wipe" aria-pressed="true">Dra för att jämföra</button>
+<button type="button" data-mode="side" aria-pressed="false">Sida vid sida</button>
+</div>
+<div class="labels"><span>Före · nuvarande tallar på banan</span><span>Efter · arkiverat förslag</span></div>
+<div class="compare"><img class="before" src="previous-pine-close.png" alt="Före: tidigare tallar, närbild"><img class="after" src="production-pine-close.png" alt="Efter: nya former, tidigare färger, närbild"><div class="line" aria-hidden="true"></div></div>
+<div id="slider-controls"><label for="divider">Flytta skiljelinjen</label><input id="divider" type="range" min="0" max="100" value="50"></div>
+<p class="comparison-note">Samma kamera, dagsljus, väder och gröna färgpalett i varje bildpar. Trädens placeringar är oförändrade. De nya formerna och barrens konturer är bevarade; bark och barr har de tidigare färgerna.</p>
+<div class="comparison-links"><a id="before-original" href="previous-pine-close.png" target="_blank" rel="noopener">Öppna före i full storlek</a><a id="after-original" href="production-pine-close.png" target="_blank" rel="noopener">Öppna efter i full storlek</a></div>
+</section>
+<h2>Färgbytet på samma form</h2>
+<p>Samma Vindpinad tall, kamera och ljus i Blender. Till vänster det tidigare mörkare förslaget; till höger Visbys ursprungliga färger.</p>
+<div class="grid">
+<figure><img src="../visby-martall-2026-09-21/variant-0.png" alt="Vindpinad tall med det mörkare färgförslaget"><figcaption>Tidigare förslag · mörkare barr och bark.</figcaption></figure>
+<figure><img src="variant-0.png" alt="Samma Vindpinad tall med Visbys ursprungliga gröna barr och varma bark"><figcaption>Arkiverat färgförslag · samma nya form, tidigare färger.</figcaption></figure>
+</div>
+<h2>Fyra växtsätt</h2>
+<img src="blender-four-variants.png" alt="Fyra martallar i Blender, från starkt vindpinad till öppen skärmtall">
+<p><a href="visby-coastal-pines.blend">Öppna Blender-studien</a> · <a href="research.md">Referenser och modellanteckningar</a></p>
+<div class="grid">
+<figure><img src="variant-0.png" alt="Vindpinad tall, låg klyka och lång sidogren"><figcaption>01 · Vindpinad tall — huvudmodellen, med klubbens foto som formreferens.</figcaption></figure>
+<figure><img src="variant-1.png" alt="Krokig flerstammig martall"><figcaption>02 · Krokig flerstammig martall — tre ojämna stammar och öppningar i kronan.</figcaption></figure>
+<figure><img src="variant-2.png" alt="Låg kustmartall med starkt lutande krona"><figcaption>03 · Låg kustmartall — stark lutning och lång, låg krona.</figcaption></figure>
+<figure><img src="variant-3.png" alt="Öppen skärmtall med högre krona"><figcaption>04 · Öppen skärmtall — högre stam och bred, oregelbunden krona.</figcaption></figure>
+</div>
+<h2>Referensmaterial</h2>
+<p>Klubbens foto styr huvudmodellens form. De övriga bilderna visar växtsätt; deras ursprungliga fotografer och platser är ännu inte verifierade.</p>
+<div class="grid">
+<figure><img class="reference" src="../visby-martall-2026-09-21/reference/465_VisbyGK_JacobSjoman_16BITS_V1-copy-scaled.jpg" alt="Visby GK, vindpinade tallar fotograferade av Jacob Sjöman"><figcaption>Visby GK / Jacob Sjöman · <a href="https://www.visbygk.com/wp-content/uploads/2021/04/465_VisbyGK_JacobSjoman_16BITS_V1-copy-scaled.jpg">Originalfoto</a></figcaption></figure>
+<figure><img class="reference" src="../visby-martall-2026-09-21/reference/user-reference-1.jpg" alt="Låg tall i stark vindform"><figcaption>Användarens referens 1 · Låg vindform.</figcaption></figure>
+<figure><img class="reference" src="../visby-martall-2026-09-21/reference/user-reference-2.jpg" alt="Tall med vriden stam och öppet grenverk"><figcaption>Användarens referens 2 · Vriden stam och öppet grenverk.</figcaption></figure>
+<figure><img class="reference" src="../visby-martall-2026-09-21/reference/user-reference-3.jpg" alt="Flera vindpinade tallar vid havet"><figcaption>Användarens referens 3 · Flera stammar och varierade silhuetter.</figcaption></figure>
+</div>
+<footer><a href="colour-validation.json">Former och färger</a> · <a href="comparison-manifest.json">Sparade bildpar och kameravyer</a> · <a href="blender-build-report.json">Modelldata</a> · <a href="runtime-validation.json">Kontroll i webbläsaren</a></footer>
+</main>
+<script>
+const panel=document.querySelector('.compare'),slider=document.querySelector('#divider');
+const viewNames={close:'närbild',middle:'mellanavstånd',distant:'överblick'};
+function setMode(mode){
+  panel.classList.toggle('side-by-side',mode==='side');
+  document.querySelector('#slider-controls').hidden=mode==='side';
+  if(mode!=='side'){
+    slider.value=mode==='before'?100:mode==='after'?0:50;
+    panel.style.setProperty('--split',slider.value+'%');
+  }
+  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+}
+document.querySelectorAll('[data-mode]').forEach(button=>button.addEventListener('click',()=>setMode(button.dataset.mode)));
+slider.addEventListener('input',()=>{
+  panel.style.setProperty('--split',slider.value+'%');
+  const mode=slider.value==='100'?'before':slider.value==='0'?'after':'wipe';
+  document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+});
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{
+  const view=button.dataset.view;
+  for(const [side,prefix,label] of [['before','previous','Före: tidigare tallar'],['after','production','Efter: nya former, tidigare färger']]){
+    const file=prefix+'-pine-'+view+'.png',img=panel.querySelector('.'+side);
+    img.src=file;img.alt=label+', '+viewNames[view];
+    document.querySelector('#'+side+'-original').href=file;
+  }
+  document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
+}));
+setMode('before');
+</script>
+</html>

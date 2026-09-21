@@ -1,0 +1,287 @@
+{
+  "asset": {
+    "path": "models/flag/cloth-dc9711d69e398739ec1fd78efdbbce5657778683b1495d031117945c0114cc84.bin",
+    "sha256": "dc9711d69e398739ec1fd78efdbbce5657778683b1495d031117945c0114cc84",
+    "bytes": 1099931,
+    "bands": [
+      {
+        "name": "calm",
+        "ms": 0,
+        "hangDeg": 10.26
+      },
+      {
+        "name": "light",
+        "ms": 2.34,
+        "hangDeg": 20.94
+      },
+      {
+        "name": "moderate",
+        "ms": 6.45,
+        "hangDeg": 57.77
+      },
+      {
+        "name": "gale",
+        "ms": 9.73,
+        "hangDeg": 87.06
+      },
+      {
+        "name": "strong-gale",
+        "ms": 16,
+        "hangDeg": 87.97
+      },
+      {
+        "name": "storm",
+        "ms": 24,
+        "hangDeg": 87.78
+      }
+    ]
+  },
+  "quantumM": 0.0001,
+  "framesPerSequence": 540,
+  "fps": 60,
+  "minIndividualAreaRatio": 0.5909472919692726,
+  "maxFaceNormalStepDeg": 78.13736738474654,
+  "faceNormalStepsOver90": 0,
+  "records": [
+    {
+      "seed": 1,
+      "ms": 4,
+      "minArea": 0.8272105291371539,
+      "maxTurnDeg": 26.454865837300368,
+      "over90": 0,
+      "areaAt": {
+        "frame": 81,
+        "triangle": 629
+      },
+      "turnAt": {
+        "frame": 72,
+        "triangle": 129
+      }
+    },
+    {
+      "seed": 1,
+      "ms": 5,
+      "minArea": 0.8493531275860959,
+      "maxTurnDeg": 55.612943112060904,
+      "over90": 0,
+      "areaAt": {
+        "frame": 134,
+        "triangle": 540
+      },
+      "turnAt": {
+        "frame": 62,
+        "triangle": 492
+      }
+    },
+    {
+      "seed": 1,
+      "ms": 6,
+      "minArea": 0.8659276626861233,
+      "maxTurnDeg": 51.28046989572883,
+      "over90": 0,
+      "areaAt": {
+        "frame": 301,
+        "triangle": 637
+      },
+      "turnAt": {
+        "frame": 301,
+        "triangle": 639
+      }
+    },
+    {
+      "seed": 1,
+      "ms": 8,
+      "minArea": 0.7346244692812031,
+      "maxTurnDeg": 78.13736738474654,
+      "over90": 0,
+      "areaAt": {
+        "frame": 253,
+        "triangle": 274
+      },
+      "turnAt": {
+        "frame": 254,
+        "triangle": 179
+      }
+    },
+    {
+      "seed": 3,
+      "ms": 4,
+      "minArea": 0.7366026440155973,
+      "maxTurnDeg": 33.80876498008241,
+      "over90": 0,
+      "areaAt": {
+        "frame": 234,
+        "triangle": 272
+      },
+      "turnAt": {
+        "frame": 36,
+        "triangle": 728
+      }
+    },
+    {
+      "seed": 3,
+      "ms": 5,
+      "minArea": 0.8594141984264979,
+      "maxTurnDeg": 52.847137798041366,
+      "over90": 0,
+      "areaAt": {
+        "frame": 237,
+        "triangle": 442
+      },
+      "turnAt": {
+        "frame": 136,
+        "triangle": 443
+      }
+    },
+    {
+      "seed": 3,
+      "ms": 6,
+      "minArea": 0.8305285614159698,
+      "maxTurnDeg": 60.18049231350003,
+      "over90": 0,
+      "areaAt": {
+        "frame": 463,
+        "triangle": 637
+      },
+      "turnAt": {
+        "frame": 178,
+        "triangle": 489
+      }
+    },
+    {
+      "seed": 3,
+      "ms": 8,
+      "minArea": 0.5909472919692726,
+      "maxTurnDeg": 57.44924401955669,
+      "over90": 0,
+      "areaAt": {
+        "frame": 416,
+        "triangle": 186
+      },
+      "turnAt": {
+        "frame": 76,
+        "triangle": 189
+      }
+    },
+    {
+      "seed": 7,
+      "ms": 4,
+      "minArea": 0.8159060603371047,
+      "maxTurnDeg": 23.82025960408475,
+      "over90": 0,
+      "areaAt": {
+        "frame": 515,
+        "triangle": 629
+      },
+      "turnAt": {
+        "frame": 52,
+        "triangle": 565
+      }
+    },
+    {
+      "seed": 7,
+      "ms": 5,
+      "minArea": 0.8467862582829354,
+      "maxTurnDeg": 28.741666426446173,
+      "over90": 0,
+      "areaAt": {
+        "frame": 412,
+        "triangle": 490
+      },
+      "turnAt": {
+        "frame": 128,
+        "triangle": 149
+      }
+    },
+    {
+      "seed": 7,
+      "ms": 6,
+      "minArea": 0.8286670422548381,
+      "maxTurnDeg": 63.80065874666841,
+      "over90": 0,
+      "areaAt": {
+        "frame": 12,
+        "triangle": 637
+      },
+      "turnAt": {
+        "frame": 452,
+        "triangle": 489
+      }
+    },
+    {
+      "seed": 7,
+      "ms": 8,
+      "minArea": 0.6647077775012225,
+      "maxTurnDeg": 74.98734355089998,
+      "over90": 0,
+      "areaAt": {
+        "frame": 313,
+        "triangle": 184
+      },
+      "turnAt": {
+        "frame": 333,
+        "triangle": 179
+      }
+    },
+    {
+      "seed": 18,
+      "ms": 4,
+      "minArea": 0.7087462994726659,
+      "maxTurnDeg": 22.409101719640432,
+      "over90": 0,
+      "areaAt": {
+        "frame": 505,
+        "triangle": 272
+      },
+      "turnAt": {
+        "frame": 31,
+        "triangle": 565
+      }
+    },
+    {
+      "seed": 18,
+      "ms": 5,
+      "minArea": 0.8530210662019619,
+      "maxTurnDeg": 47.060847221019614,
+      "over90": 0,
+      "areaAt": {
+        "frame": 506,
+        "triangle": 442
+      },
+      "turnAt": {
+        "frame": 406,
+        "triangle": 443
+      }
+    },
+    {
+      "seed": 18,
+      "ms": 6,
+      "minArea": 0.8186322438362987,
+      "maxTurnDeg": 65.11979075858783,
+      "over90": 0,
+      "areaAt": {
+        "frame": 378,
+        "triangle": 637
+      },
+      "turnAt": {
+        "frame": 443,
+        "triangle": 489
+      }
+    },
+    {
+      "seed": 18,
+      "ms": 8,
+      "minArea": 0.6853842237459566,
+      "maxTurnDeg": 66.75820814766585,
+      "over90": 0,
+      "areaAt": {
+        "frame": 323,
+        "triangle": 185
+      },
+      "turnAt": {
+        "frame": 446,
+        "triangle": 88
+      }
+    }
+  ]
+}

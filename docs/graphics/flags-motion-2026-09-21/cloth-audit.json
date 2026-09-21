@@ -1,0 +1,98 @@
+{
+  "asset": "models/flag/cloth-dc9711d69e398739ec1fd78efdbbce5657778683b1495d031117945c0114cc84.bin",
+  "bytes": 1099931,
+  "grid": {
+    "nx": 25,
+    "nz": 17,
+    "width": 0.78,
+    "height": 0.5,
+    "hoistX": 0.024,
+    "top": 2.53
+  },
+  "fps": 30,
+  "frames": 180,
+  "blender": "4.5.9 LTS",
+  "bands": [
+    {
+      "name": "calm",
+      "ms": 0,
+      "hangDeg": 10.26,
+      "tailHz": 0,
+      "edgeSpeedMs": 0,
+      "minPoleRadius": 0.03569229724367574,
+      "maxStretch": 1.0814150020560418,
+      "minAreaRatio": 0.9360795796756005,
+      "maxAreaRatio": 0.9360795796756005
+    },
+    {
+      "name": "light",
+      "ms": 2.34,
+      "hangDeg": 20.94,
+      "tailHz": 0.33,
+      "edgeSpeedMs": 0.024,
+      "minPoleRadius": 0.04904334664649259,
+      "maxStretch": 1.078790728062057,
+      "minAreaRatio": 0.9432684537831665,
+      "maxAreaRatio": 0.9471340753058515
+    },
+    {
+      "name": "moderate",
+      "ms": 6.45,
+      "hangDeg": 57.77,
+      "tailHz": 0.5,
+      "edgeSpeedMs": 0.292,
+      "minPoleRadius": 0.031275709633386335,
+      "maxStretch": 1.1642217078693626,
+      "minAreaRatio": 0.9001234000000172,
+      "maxAreaRatio": 0.9425229884890818
+    },
+    {
+      "name": "gale",
+      "ms": 9.73,
+      "hangDeg": 87.06,
+      "tailHz": 3.12,
+      "edgeSpeedMs": 3.742,
+      "minPoleRadius": 0.05601829959521426,
+      "maxStretch": 1.1838430777815476,
+      "minAreaRatio": 0.9641608397684254,
+      "maxAreaRatio": 1.01748201423845
+    },
+    {
+      "name": "strong-gale",
+      "ms": 16,
+      "hangDeg": 87.97,
+      "tailHz": 4.42,
+      "edgeSpeedMs": 6.155,
+      "minPoleRadius": 0.05574773514704068,
+      "maxStretch": 1.115493427265159,
+      "minAreaRatio": 0.9858893054352049,
+      "maxAreaRatio": 1.0238898178121785
+    },
+    {
+      "name": "storm",
+      "ms": 24,
+      "hangDeg": 87.78,
+      "tailHz": 6,
+      "edgeSpeedMs": 9.377,
+      "minPoleRadius": 0.055304972347536896,
+      "maxStretch": 1.2135637437379623,
+      "minAreaRatio": 0.9327743677706242,
+      "maxAreaRatio": 1.0330947155784187
+    }
+  ],
+  "blendAudit": {
+    "minAreaRatio": 0.9958458813413241,
+    "maxAreaRatio": 1.0184928637938486,
+    "ms": 20,
+    "time": 0.011666666666666665,
+    "minPoleRadius": 0.04133904664363221,
+    "maxStretch": 1.163856622050995,
+    "maxHoistDistanceM": 0.7879970162657033,
+    "stretchAt": {
+      "ms": 20,
+      "time": 0.011666666666666665,
+      "i": 21,
+      "j": 11
+    }
+  }
+}

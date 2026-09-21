@@ -153,6 +153,12 @@ export default defineConfig(({ mode }) => {
 
         runtimeCaching: [
           {
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/clubs\/[a-z0-9-]+-[a-f0-9]{12}\.glb$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'banvy-club-models',
+              expiration: { maxEntries: 28, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
             // These publications use stable filenames and verify each model
             // against its manifest. Revalidate online; preserve both offline.
             urlPattern: ({ url, sameOrigin }) => sameOrigin &&

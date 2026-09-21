@@ -1,0 +1,142 @@
+{
+  "asset": "models/flag/cloth-2add4d27765378a1eccbfcdf55102b6b7cae6d7226009f49ead4410e124fccb1.bin",
+  "bytes": 1647237,
+  "grid": {
+    "nx": 25,
+    "nz": 17,
+    "width": 0.78,
+    "height": 0.5,
+    "hoistX": 0.024,
+    "top": 2.53
+  },
+  "fps": 30,
+  "frames": 180,
+  "blender": "4.5.9 LTS",
+  "bands": [
+    {
+      "name": "calm",
+      "ms": 0,
+      "hangDeg": 2.91,
+      "tailHz": 1.25,
+      "edgeSpeedMs": 0.02,
+      "minPoleRadius": 0.023400854250549163,
+      "maxStretch": 1.1138760926124778,
+      "minAreaRatio": 0.9481779950647673,
+      "maxAreaRatio": 0.9509343714534109
+    },
+    {
+      "name": "light",
+      "ms": 1.14,
+      "hangDeg": 10.16,
+      "tailHz": 0.17,
+      "edgeSpeedMs": 0.107,
+      "minPoleRadius": 0.023590675366576955,
+      "maxStretch": 1.128832710346137,
+      "minAreaRatio": 0.9642560659038817,
+      "maxAreaRatio": 0.977155440560702
+    },
+    {
+      "name": "gentle",
+      "ms": 3.24,
+      "hangDeg": 29.02,
+      "tailHz": 0.33,
+      "edgeSpeedMs": 0.071,
+      "minPoleRadius": 0.02860279725484385,
+      "maxStretch": 1.1186641334216199,
+      "minAreaRatio": 0.9211486250932377,
+      "maxAreaRatio": 0.9305462473050848
+    },
+    {
+      "name": "breeze",
+      "ms": 4.36,
+      "hangDeg": 39.03,
+      "tailHz": 0.17,
+      "edgeSpeedMs": 0.077,
+      "minPoleRadius": 0.03320241001176126,
+      "maxStretch": 1.1176949029395984,
+      "minAreaRatio": 0.9537849724675369,
+      "maxAreaRatio": 0.9612437977772849
+    },
+    {
+      "name": "moderate",
+      "ms": 5.52,
+      "hangDeg": 49.36,
+      "tailHz": 0.58,
+      "edgeSpeedMs": 0.518,
+      "minPoleRadius": 0.021408409467951615,
+      "maxStretch": 1.170945470417424,
+      "minAreaRatio": 0.9065474344465819,
+      "maxAreaRatio": 0.9646567285141726
+    },
+    {
+      "name": "fresh",
+      "ms": 6.59,
+      "hangDeg": 59.02,
+      "tailHz": 0.33,
+      "edgeSpeedMs": 0.267,
+      "minPoleRadius": 0.029546574087743957,
+      "maxStretch": 1.1299035976063134,
+      "minAreaRatio": 0.9106796404737789,
+      "maxAreaRatio": 0.9646401887576604
+    },
+    {
+      "name": "strong",
+      "ms": 7.43,
+      "hangDeg": 66.5,
+      "tailHz": 0.75,
+      "edgeSpeedMs": 0.599,
+      "minPoleRadius": 0.037434208749645086,
+      "maxStretch": 1.1285254944640586,
+      "minAreaRatio": 0.907899186635185,
+      "maxAreaRatio": 0.9630193630298255
+    },
+    {
+      "name": "gale",
+      "ms": 9.73,
+      "hangDeg": 87.06,
+      "tailHz": 3.12,
+      "edgeSpeedMs": 3.742,
+      "minPoleRadius": 0.05603320343028216,
+      "maxStretch": 1.1848762177390362,
+      "minAreaRatio": 0.96420530062772,
+      "maxAreaRatio": 1.0175142738506098
+    },
+    {
+      "name": "strong-gale",
+      "ms": 16,
+      "hangDeg": 87.97,
+      "tailHz": 4.42,
+      "edgeSpeedMs": 6.155,
+      "minPoleRadius": 0.05572396156338005,
+      "maxStretch": 1.1172698343649192,
+      "minAreaRatio": 0.985777002385734,
+      "maxAreaRatio": 1.023891180190778
+    },
+    {
+      "name": "storm",
+      "ms": 24,
+      "hangDeg": 87.78,
+      "tailHz": 6,
+      "edgeSpeedMs": 9.377,
+      "minPoleRadius": 0.055304972347536896,
+      "maxStretch": 1.2168433017869011,
+      "minAreaRatio": 0.9327906986139355,
+      "maxAreaRatio": 1.0331697255533094
+    }
+  ],
+  "blendAudit": {
+    "minAreaRatio": 0.9683516632115756,
+    "maxAreaRatio": 1.0132910090944487,
+    "ms": 2.25,
+    "time": 2.0116666666666667,
+    "minPoleRadius": 0.027000020385639575,
+    "maxStretch": 1.1574659351109564,
+    "maxHoistDistanceM": 0.7879964489907595,
+    "stretchAt": {
+      "ms": 20,
+      "time": 0.011666666666666665,
+      "i": 21,
+      "j": 11
+    }
+  }
+}
