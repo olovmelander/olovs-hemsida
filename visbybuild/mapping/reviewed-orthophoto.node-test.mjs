@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { applyReviewedOrthophoto, orthophotoRing } from './reviewed-orthophoto.mjs';
+import { applyReviewedBunkers } from './reviewed-bunkers.mjs';
 import { excludeReviewedStandCells } from './orthophoto-vegetation.mjs';
 import { pointInPoly } from '../../geobuild/lib.mjs';
 const read = name => JSON.parse(fs.readFileSync(new URL(name,import.meta.url)));
@@ -17,7 +18,9 @@ test('dated source traces survive reapplication and keep H9 target on the actual
   assert.equal(pointInPoly(687205.25,6370789.75,h9.green.ring),false);
   assert.equal(adopted.holes.reduce((s,h)=>s+h.tees.pads.length,0), geometry.holes.reduce((s,h)=>s+h.tees.pads.length,0), 'reapplying H3 traces preserves later reviewed tee additions');
   assert.equal(adopted.holes[2].tees.pads.length, 3);
-  assert.equal(adopted.holes.reduce((s,h)=>s+h.bunkers.length,0)+adopted.scenery.bunkers.length,84);
+  const current = applyReviewedBunkers(adopted);
+  assert.deepEqual(current.holes.map(h => h.bunkers), geometry.holes.map(h => h.bunkers), 'later bunker audit supersedes historical contours');
+  assert.deepEqual(current.scenery.bunkers, geometry.scenery.bunkers);
 });
 
 test('out-of-image coordinates and missing source hashes cannot become accepted traces', () => {

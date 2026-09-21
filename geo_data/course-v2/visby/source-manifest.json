@@ -554,6 +554,33 @@
       "horizontalAccuracyMetres": null,
       "verticalAccuracyMetres": null,
       "notes": "2022-campaign image acquired at0.5m output spacing from advertised0.25m source, reprojected EPSG:3015 to EPSG:3006. 3500x3600 pixels, worldfile and stable export request in retained ledger. Exact capture date, primary licence and absolute registration error unknown; reference only, never a runtime texture."
+    },
+    {
+      "id": "visby-public-ortho-bunker-review-2026-09-21",
+      "productId": "lantmateriet-ortofoto",
+      "roles": [
+        "imagery",
+        "control"
+      ],
+      "lifecycle": "planned",
+      "use": "supporting",
+      "sourceUri": "https://minkarta.lantmateriet.se/map/ortofoto",
+      "localPath": null,
+      "bboxWgs84": [
+        18.105,
+        57.429,
+        18.145,
+        57.455
+      ],
+      "acquiredAt": null,
+      "capturedAt": null,
+      "checksum": null,
+      "checksumReason": "Mutable public WMS has no complete-source checksum. Eighteen bounded responses acquired on 2026-09-21 have individual SHA-256 hashes, request URLs and exact grids in the bunker review ledger.",
+      "replacementSourceId": null,
+      "accuracyTier": "unrated",
+      "horizontalAccuracyMetres": null,
+      "verticalAccuracyMetres": null,
+      "notes": "Public Ortofoto_0.16 WMS windows support the dated main-course bunker interpretation. Capture date and independent registration accuracy are unknown. Source images remain in ignored local cache; no source imagery shipped or uploaded. Existing rights and independent survey gates remain unchanged."
     }
   ],
   "artifacts": [
@@ -759,7 +786,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "All 18 main-course identities matched against guide and 2022 image; explicit pixels and source associations; independent review pending."
@@ -776,7 +804,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "Reproducible source-pixel polygons and sand seeds; interpretation uncertainty separate from unknown registration accuracy."
@@ -793,7 +822,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "Observed provisional surface polygons; OSM ring lineage and image trace methods retained per feature. Production rights and contemporary verification remain unresolved."
@@ -810,7 +840,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "Geometry, association, coverage and source-byte audit; not survey approval."
@@ -819,7 +850,7 @@
       "id": "canonical-routing-candidate",
       "kind": "composite",
       "path": "visbybuild/mapping/geometry.json",
-      "sha256": "6e2b02245777c3d18432bd5a2a88cc33d6bb47753144faae8a045a3195c6ca0b",
+      "sha256": "6913a48860184e56dee7f50e9062a6eca3b44d858d44b74d7be27aeab8465acc",
       "derivedFrom": [
         "visby-municipal-ortho-2022",
         "visby-osm-2026-09-07",
@@ -827,7 +858,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "EPSG:3006 main-course authoring geometry; cardinal tee lengths do not determine source coordinates."
@@ -844,7 +876,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "Image component parameters and omitted unresolved contours."
@@ -928,6 +961,7 @@
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
         "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21",
         "club-scorecard"
       ],
       "use": "discovery-evidence",
@@ -937,7 +971,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "visbybuild/course-model.json",
-      "sha256": "81ff33e5f8b842e7a20a08f6a73e88c2c02731043258f28a59239a859441da75",
+      "sha256": "98b11ea31ac59bcab5c8d12e25015763b3e537eeceec35d730d4b805ac6f07c0",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -950,6 +984,7 @@
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
         "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21",
         "club-scorecard"
       ],
       "use": "migration-only",
@@ -984,6 +1019,7 @@
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
         "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21",
         "club-scorecard"
       ],
       "use": "discovery-evidence",
@@ -993,7 +1029,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/visby/migration/course-model.epsg3006.json",
-      "sha256": "4e1f79c621fe7981e79d30e2031665899e46653f6492a4fd9911e24211533a32",
+      "sha256": "da127e2d8c70d127570f8b37ee04411dc463d37f3742790e6e07b7add58a5847",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -1006,6 +1042,7 @@
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
         "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21",
         "club-scorecard"
       ],
       "use": "migration-only",
@@ -1015,7 +1052,7 @@
       "id": "migration-residual-report",
       "kind": "control",
       "path": "geo_data/course-v2/visby/migration/residual-report.json",
-      "sha256": "7fea7fe3d17d1f416f868b13d2282c5b828e3491e7906463d362c8aea1dc4032",
+      "sha256": "331a42d373ed3a2533d998b53aa68b3e67862db440f215d521319703a75bdc86",
       "derivedFrom": [
         "terrain-lm-636-68",
         "terrain-lm-637-68",
@@ -1028,6 +1065,7 @@
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
         "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21",
         "club-scorecard"
       ],
       "use": "migration-only",
@@ -1057,7 +1095,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "Observed range field excludes measured height cells that may be range structures, retaining visible boundary trees."
@@ -1074,7 +1113,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "Source pixel vertices, retained image hash and independent overlay review of range footprint."
@@ -1151,7 +1191,8 @@
         "imagery-lm-o63700-6875-25-mr26",
         "imagery-lm-o63700-6850-25-mr26",
         "imagery-lm-o63675-6850-25-mr26",
-        "imagery-lm-o63675-6875-25-mr26"
+        "imagery-lm-o63675-6875-25-mr26",
+        "visby-public-ortho-bunker-review-2026-09-21"
       ],
       "use": "discovery-evidence",
       "notes": "Registered mowing boundaries for the short-game green and neighbouring nine-course green beside the range. Schematic guide corroborates identity only; no new playable routing or equipment inferred."
@@ -1272,6 +1313,31 @@
       ],
       "use": "discovery-evidence",
       "notes": "Eight unchanged H16/H18 references corroborated against native imagery and guide topology. Together the dated reviews support 75 of 108 numbered-platform associations; 33 remain explicitly unresolved."
+    },
+    {
+      "id": "bunker-completeness-review-2026-09-21",
+      "kind": "control",
+      "path": "visbybuild/mapping/bunker-review-2026-09-21.json",
+      "sha256": "bbfbb5b306de17937fdce7caa91d0e90f1cfb560f551cb393e1de7ce15a1ced6",
+      "derivedFrom": [
+        "visby-public-ortho-bunker-review-2026-09-21",
+        "club-banguide"
+      ],
+      "use": "discovery-evidence",
+      "notes": "All 18 main-course windows inspected: 14 omitted sand areas added, eight incomplete outlines replaced, two false sand polygons removed, 18 scenery bunkers assigned to holes. Three grass islands preserved. Source pixels, response hashes and explicit canopy limitations retained; no capture-date or independent survey claim."
+    },
+    {
+      "id": "bunker-stand-exclusion-review-2026-09-21",
+      "kind": "control",
+      "path": "geo_data/course-v2/visby/vegetation/bunker-exclusion-review-2026-09-21.json",
+      "sha256": "e3b44c169120422f928ccb8c3b87c5bdc744578169a28c93b1cfb1febc15b63b",
+      "derivedFrom": [
+        "visby-public-ortho-bunker-review-2026-09-21",
+        "laser-lm-24e002-636-68",
+        "laser-lm-24e002-637-68"
+      ],
+      "use": "discovery-evidence",
+      "notes": "Representative stand exclusion flags updated at reviewed sand boundaries; measured canopy channels, all individual crowns and terrain preserved."
     }
   ],
   "blockers": [

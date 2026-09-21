@@ -16,19 +16,27 @@ export function reviewedPlayingAreas(review) {
   return [...review.holes.flatMap(h => [...(h.green ? [h.green] : []), ...(h.tees ?? []),
     ...(h.fairways ?? []), ...(h.bunkers?.accepted ?? [])]), ...(review.sceneryBunkers?.accepted ?? [])]
     .map(e => {
-      const { ring } = orthophotoRing(review, e);
-      return { id: e.id, ring, bounds: [Math.min(...ring.map(p => p[0])), Math.min(...ring.map(p => p[1])),
+      const { ring, innerRings } = orthophotoRing(review, e);
+      return { id: e.id, ring, innerRings, bounds: [Math.min(...ring.map(p => p[0])), Math.min(...ring.map(p => p[1])),
         Math.max(...ring.map(p => p[0])), Math.max(...ring.map(p => p[1]))] };
     });
 }
 
-export function nearRing(e, n, ring, margin) {
-  if (pointInPoly(e, n, ring)) return true;
+function nearEdge(e, n, ring, margin) {
   return ring.slice(1).some((b, i) => {
     const a = ring[i], dx = b[0] - a[0], dy = b[1] - a[1];
     const t = Math.max(0, Math.min(1, ((e-a[0])*dx+(n-a[1])*dy)/(dx*dx+dy*dy || 1)));
     return Math.hypot(e-a[0]-t*dx, n-a[1]-t*dy) <= margin;
   });
+}
+
+export function nearRing(e, n, ring, margin) {
+  return pointInPoly(e, n, ring) || nearEdge(e, n, ring, margin);
+}
+
+function nearArea(e, n, area, margin) {
+  return nearRing(e, n, area.ring, margin) && !(area.innerRings ?? []).some(ring =>
+    pointInPoly(e, n, ring) && !nearEdge(e, n, ring, margin));
 }
 
 export function excludeReviewedStandCells(header, source, areas) {
@@ -46,7 +54,7 @@ export function excludeReviewedStandCells(header, source, areas) {
     const e = header.bounds.minEasting+(col+.5)*s.cellMetres;
     const n = header.bounds.maxNorthing-(row+.5)*s.cellMetres;
     if (!candidates.some(a => e >= a.bounds[0]-margin && e <= a.bounds[2]+margin &&
-      n >= a.bounds[1]-margin && n <= a.bounds[3]+margin && nearRing(e,n,a.ring,margin))) continue;
+      n >= a.bounds[1]-margin && n <= a.bounds[3]+margin && nearArea(e,n,a,margin))) continue;
     payload[i+3] |= 4; changed++;
     if (payload[i]) eligibleCanopyRemoved++;
   }
@@ -59,8 +67,10 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const read = u => fs.readFileSync(path.join(publicDir,u));
   const json = u => JSON.parse(read(u));
   const sha = b => createHash('sha256').update(b).digest('hex');
-  const reviewBytes = fs.readFileSync(path.join(root,'visbybuild/mapping/orthophoto-review-2026.json'));
-  const areas = reviewedPlayingAreas(JSON.parse(reviewBytes));
+  const bunkerAudit = process.argv.includes('--bunker-audit');
+  const reviewPath = bunkerAudit ? 'visbybuild/mapping/bunker-review-2026-09-21.json' : 'visbybuild/mapping/orthophoto-review-2026.json';
+  const reviewBytes = fs.readFileSync(path.join(root,reviewPath));
+  const review = JSON.parse(reviewBytes), areas = reviewedPlayingAreas(review);
   const entry = json('courses/v2-index.json').courses.find(c => c.slug === 'visby');
   const course = json(entry.manifest.url), ground = json(course.groundManifest.url);
   assert.equal(ground.groundId, 'visby');
@@ -73,7 +83,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       objectLayers[tile.id] = tile.layers.objects;
       const objects = readChunk(read(tile.layers.objects.url)).content.records;
       individualCrowns += objects.length;
-      for (const o of objects) if (areas.some(a => pointInPoly(o.easting,o.northing,a.ring)))
+      for (const o of objects) if (areas.some(a => nearArea(o.easting,o.northing,a,0)))
         throw new Error(`Individual crown ${o.id} needs source-image review before changing a playing area`);
     }
     if (!tile.layers.stands) continue;
@@ -89,8 +99,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     changes.push({tileId:tile.id,previous:tile.layers.stands,updated:reference,
       excludedCellsAdded:result.changed,eligibleCanopyCellsRemoved:result.eligibleCanopyRemoved});
   }
-  const report = {schemaVersion:1,groundId:'visby',reviewedAt:'2026-09-09',
-    review:{path:'visbybuild/mapping/orthophoto-review-2026.json',sha256:sha(reviewBytes)},
+  const report = {schemaVersion:1,groundId:'visby',reviewedAt:review.reviewedAt,
+    review:{path:reviewPath,sha256:sha(reviewBytes)},
     inputGround:course.groundManifest,reviewedAreas:areas.length,individualCrownsPreserved:individualCrowns,
     method:'Add the excluded flag to measured stand cells within a cell half diagonal of the reviewed 2026 playing polygons. All canopy measurements, crown objects and terrain bytes are preserved.',
     changes,excludedCellsAdded:changes.reduce((s,c)=>s+c.excludedCellsAdded,0),
@@ -104,6 +114,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
       sourceManifestSha256:sha(fs.readFileSync(path.join(root,'geo_data/course-v2/visby/source-manifest.json'))),
       readAsset:async u=>read(u)});
     await writeGroundGraphFiles(publicDir,graph);
-    if (changes.length) fs.writeFileSync(path.join(root,'geo_data/course-v2/visby/vegetation/orthophoto-exclusion-review.json'),JSON.stringify(report,null,2)+'\n');
+    if (changes.length) fs.writeFileSync(path.join(root,`geo_data/course-v2/visby/vegetation/${bunkerAudit ? 'bunker-exclusion-review-2026-09-21' : 'orthophoto-exclusion-review'}.json`),JSON.stringify(report,null,2)+'\n');
   }
 }

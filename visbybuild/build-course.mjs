@@ -1,3 +1,4 @@
+import { applyReviewedBunkers } from './mapping/reviewed-bunkers.mjs';
 /* Visby source authoring adapter. Canonical vectors remain in EPSG:3006.
    This compatibility model uses exact projected offsets and samples the actual
    acquired DTM; scorecard lengths never move geometry or alter terrain. */
@@ -236,7 +237,7 @@ export function buildHoles(card, geometry, heightAt, notes = null) {
       green: { ring: greenRing, c: pin, sourceIds: input.green.sourceIds ?? [] },
       fairway: { rings: fairwayRings },
       tees: { inferPads: false, pads, marks, ...(unresolvedPlatform ? { status: 'unresolved-physical-platform', sourceIds: input.tees.sourceIds } : {}) },
-      bunkers: (input.bunkers ?? []).map((bunker, number) => ({ ring: localRing(bunker.ring, `Hole ${row.number} bunker ${number + 1}`), sourceIds: bunker.sourceIds ?? [] })),
+      bunkers: (input.bunkers ?? []).map((bunker, number) => ({ ring: localRing(bunker.ring, `Hole ${row.number} bunker ${number + 1}`), sourceIds: bunker.sourceIds ?? [], ...(bunker.innerRings?.length ? { innerRings: bunker.innerRings.map((ring, i) => localRing(ring, `Hole ${row.number} bunker ${number + 1} island ${i + 1}`)) } : {}) })),
       elev: { tee: r1(teeHeight), green: r1(greenHeight), rise: r1(greenHeight - teeHeight) }, tiers: 1, name: notes?.get(row.number)?.name ?? null,
       note: notes?.get(row.number)?.note
         ?? (input.notes ?? 'Preliminär 3D-bana från källunderlag. Terräng: Lantmäteriet 1 m. Spelytor och hålrutter behöver fortsatt kontroll. Flaggor och utslagsreferenser är visningspunkter.')
@@ -261,7 +262,7 @@ export async function buildCourse() {
   const fine = new Float32Array(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
   const heightAt = makeHeightSampler(fine);
   const card = await json('visbybuild/reference/club-scorecard.json');
-  const geometry = applyReviewedTeeAlignment(applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(await json('visbybuild/mapping/geometry.json'), await json('visbybuild/mapping/facilities-review.json')), await json('visbybuild/mapping/tee-platform-review.json')), await json('visbybuild/mapping/environment-surfaces-review.json')), await json('visbybuild/mapping/orthophoto-review-2026.json')));
+  const geometry = applyReviewedBunkers(applyReviewedTeeAlignment(applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(await json('visbybuild/mapping/geometry.json'), await json('visbybuild/mapping/facilities-review.json')), await json('visbybuild/mapping/tee-platform-review.json')), await json('visbybuild/mapping/environment-surfaces-review.json')), await json('visbybuild/mapping/orthophoto-review-2026.json'))));
   const holes = buildHoles(card, geometry, heightAt, holeNotes(await json('visbybuild/guide-notes.json')));
   const context = projectedFeatures(await json(geometry.contextPath ?? 'geo_data/course-v2/visby/mapping/osm-context-epsg3006.geojson'), 'Visby context');
   const { vegetation, landuse } = vistaLandcover(await json(geometry.vistaLandcoverPath ?? 'geo_data/course-v2/visby/mapping/osm-vista-landcover-epsg3006.geojson'));
