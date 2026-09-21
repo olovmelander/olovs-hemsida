@@ -39,13 +39,36 @@
       "maximumHeightRH2000": 48.69599914550781,
       "requests": 81,
       "bytes": 46085695,
-      "elapsedSeconds": 13.423,
+      "elapsedSeconds": 13.548,
       "rasterSha256": "6155cee17eb0a43d86133c2c035c34f459a09234f4175b2c94250b29f1359ce4",
       "publishedAgreement": {
         "tiles": 256,
         "samples": 16908544,
         "withinQuantum": 16907056,
-        "maximumDifferenceMetres": 0.18419456481933594
+        "outsideQuantum": 1488,
+        "outsideQuantumFraction": 0.00008800284637163318,
+        "meanAbsoluteDifferenceMetres": 0.002379950391841777,
+        "rootMeanSquareDifferenceMetres": 0.0028128712775808604,
+        "maximumDifferenceMetres": 0.18419456481933594,
+        "thresholdExceedances": {
+          "1": 0,
+          "2": 0,
+          "0.011": 39,
+          "0.05": 8,
+          "0.1": 1,
+          "0.25": 0,
+          "0.5": 0
+        },
+        "worstSample": {
+          "tileId": "l0/1/6",
+          "row": 216,
+          "column": 195,
+          "easting": 677830.5,
+          "northing": 6625596.5,
+          "baselineHeightRH2000": 13.670000076293945,
+          "candidateHeightRH2000": 13.48580551147461,
+          "differenceMetres": 0.18419456481933594
+        }
       }
     },
     {
@@ -75,7 +98,7 @@
       "maximumHeightRH2000": 48.69599914550781,
       "requests": 81,
       "bytes": 46085695,
-      "elapsedSeconds": 7.795,
+      "elapsedSeconds": 8.089,
       "rasterSha256": "7bc50871e4688c44119171fb20e3df96c3450bf5667175b95d489fd8edf33e15"
     },
     {
@@ -105,7 +128,7 @@
       "maximumHeightRH2000": 53.378746032714844,
       "requests": 25,
       "bytes": 15258164,
-      "elapsedSeconds": 3.164,
+      "elapsedSeconds": 3.209,
       "rasterSha256": "931efd544e596b85f2c6c4d2eb262a9994604c42e2036d353dd0c6656f45542d"
     },
     {
@@ -139,7 +162,7 @@
       "maximumHeightRH2000": 64.14753723144531,
       "requests": 30,
       "bytes": 14502393,
-      "elapsedSeconds": 10.271,
+      "elapsedSeconds": 9.332,
       "rasterSha256": "9126f104170d1ecd93859389a18486c8cccc625704f75f67ea1ca43f3385617c"
     },
     {
@@ -173,7 +196,7 @@
       "maximumHeightRH2000": 63.31707763671875,
       "requests": 15,
       "bytes": 5488124,
-      "elapsedSeconds": 3.391,
+      "elapsedSeconds": 3.181,
       "rasterSha256": "b0f1b027a09ab68b478e788453452d17e6b24660560bc392033bc4df36cdfd08"
     },
     {
@@ -207,7 +230,7 @@
       "maximumHeightRH2000": 61.9971923828125,
       "requests": 6,
       "bytes": 1736359,
-      "elapsedSeconds": 3.532,
+      "elapsedSeconds": 2.095,
       "rasterSha256": "cae1e1b4fc1b7008c39630081019d2cc477205e3f60cfd53714a4fd3e2875cd8"
     },
     {
@@ -241,7 +264,7 @@
       "maximumHeightRH2000": 61.87405014038086,
       "requests": 6,
       "bytes": 1736359,
-      "elapsedSeconds": 2.16,
+      "elapsedSeconds": 2.092,
       "rasterSha256": "081aeb19f527d15ed3ab9cc3f6078130e7722c4b30d20c072ca9cb8fa051efc8"
     }
   ],
@@ -549,5 +572,5 @@
   ],
   "seaFillRule": "not declared for this ground; every sample comes from the height model",
   "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
-  "elapsedSeconds": 44.253
+  "elapsedSeconds": 42.503
 }
