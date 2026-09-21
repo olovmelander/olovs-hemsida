@@ -277,50 +277,24 @@ Johannesberg pairs. They prepared 18 + 27 hole sheets, with 7 and 15 open
 source/category discrepancies respectively. All three freshly compiled packs
 match their published SHA-256s; no published pack was copied as a build result.
 
-Both source preflights verify pinned retained artifacts and baseline bytes, then
-fail on exactly eleven unavailable terrain/canopy inputs per ground. Source
-overlay attempts fail on 45 Puttom and 74 Johannesberg missing raw windows and
-emit **zero** image panels. Local Lantmäteriet credentials are absent, but the
-GitHub-hosted acquisition route has configured repository secrets. No live
-geography, review approvals or production build receipts were changed.
+The September 11 terrain and vegetation artifacts expired on September 18, but
+the repository's hosted acquisition credentials work. Initial refreshes failed
+safely when provider byte counts no longer matched the pinned discovery. Fresh
+public discovery on isolated branches confirmed changed bytes/checksums for the
+three terrain assets and their break geometry; Puttom capture coverage now extends
+to 2026-06-17. Laser and orthophoto item selections/checksums did not change. No
+retained production pin was silently replaced.
 
-GitHub artifact metadata was checked on 2026-09-21: Puttom terrain run
-[34607296018](https://github.com/olovmelander/olovs-hemsida/actions/runs/34607296018),
-Johannesberg terrain run
-[34609157529](https://github.com/olovmelander/olovs-hemsida/actions/runs/34609157529),
-Puttom vegetation run
-[34619132588](https://github.com/olovmelander/olovs-hemsida/actions/runs/34619132588)
-and Johannesberg vegetation run
-[34648691397](https://github.com/olovmelander/olovs-hemsida/actions/runs/34648691397)
-all report their artifacts expired on September 18. The historical vegetation
-workflow archived compile/review directories only, not raw CHM. The archive fix
-in this integration applies to future acquisitions and cannot restore these inputs.
+Candidate-only runs then acquired and archived the real inputs and compile outputs:
 
-Follow-up acquisition attempts on 2026-09-21 used separate source-revision
-branches with `publish=false`. All four runs passed the repository-secret check.
-The terrain access preflight then rejected a mismatch between the provider's
-reported source size and the retained discovery snapshot:
+| Ground | Terrain acquisition | Vegetation acquisition | Retention |
+| --- | --- | --- | --- |
+| Puttom | [35608574169](https://github.com/olovmelander/olovs-hemsida/actions/runs/35608574169) | [35605716827](https://github.com/olovmelander/olovs-hemsida/actions/runs/35605716827) | raw terrain, CHM and compile/review artifacts through 2026-12-20 |
+| Johannesberg | [35608622245](https://github.com/olovmelander/olovs-hemsida/actions/runs/35608622245) | [35605878004](https://github.com/olovmelander/olovs-hemsida/actions/runs/35605878004) | raw terrain, CHM and compile/review artifacts through 2026-12-20 |
 
-| Ground | Recorded bytes | Returned bytes | Terrain run | Vegetation run |
-| --- | ---: | ---: | --- | --- |
-| Puttom | 276,884,943 | 276,884,845 | [35603533749](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603533749) | [35603533599](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603533599) |
-| Johannesberg | 316,420,657 | 316,420,633 | [35603582107](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603582107) | [35603582194](https://github.com/olovmelander/olovs-hemsida/actions/runs/35603582194) |
-
-The vegetation workflow uses the combined terrain/laser preflight and stopped
-on the terrain mismatch too; these runs do not independently prove laser or
-imagery access. No new raw artifacts were produced. The immediate hosted-build
-blocker is source drift, not missing local credentials. A fresh public discovery
-run for each ground completed with verified metadata and confirmed the returned
-sizes. All three terrain assets and their break-geometry checksums changed;
-Puttom's terrain capture range also extends to 2026-06-17. Laser and orthophoto
-item selections/checksums were unchanged. Candidate reports were written under
-`output/course-production/<ground>/source-refresh-2026-09-21/`; the retained
-discovery files and production profile pins were not changed.
-
-Continue in a candidate source revision, compare actual measurements and preserve
-the old snapshot before accepting new pins. A small byte-count difference alone
-does not prove equivalent terrain. Keep the source-size guard enabled. The
-discovery and campaign-review commands are in stage 5 of the v2 runbook.
+Keep the source-size guard enabled. Reacquisition is a source revision requiring
+measurement comparison and review, not permission to re-pin production inputs.
+The discovery and campaign-review commands are in stage 5 of the v2 runbook.
 
 After accepting the candidate discovery record on isolated acquisition branches,
 both terrain acquisitions completed successfully and archived all seven raw
@@ -346,13 +320,28 @@ ground-wide difference is outside that central review area.
 
 Fresh canopy acquisition completed for all four active campaigns. Every CHM
 raster SHA-256 is identical to the retained September 11 evidence, so the canopy
-compiler is reproducible across acquisition dates for these inputs. The candidate
-source stages verified 563 Puttom inputs and 560 Johannesberg inputs, including
-the newly archived terrain and canopy rasters. The next terrain stage then failed
-closed at 2.850 m and 0.180 m respectively after runtime quantization. Mapping,
-vegetation, assembly and validation were not marked complete from that partial
-run. Review and either accept or correct the terrain revision before rebuilding
-those dependent stages.
+compiler inputs are reproducible across acquisition dates. Fresh acquisition-only
+compiles also completed without publication:
+
+| Ground | Crown candidates | Machine-approved records | Object tiles | Stand tiles |
+| --- | ---: | ---: | ---: | ---: |
+| Puttom | 162,807 | 15,159 | 251 | 256 |
+| Johannesberg | 98,143 | 14,787 | 223 | 256 |
+
+The Johannesberg artifact exposed a review-output collision: both layouts used
+`hole-01.png` through `hole-09.png`, overwriting the short-course panels. The
+shared renderer now qualifies filenames by course slug on multi-layout grounds,
+fails on duplicate identities and retains the established names on single-layout
+grounds. Re-rendering the fresh Johannesberg rasters and candidates produced 27
+unique per-hole panels plus the overview; this fixes evidence preparation but is
+not geographic approval.
+
+The candidate source stages verified 563 Puttom inputs and 560 Johannesberg inputs,
+including the newly archived terrain and canopy rasters. The next terrain stage
+then failed closed at 2.850 m and 0.180 m respectively after runtime quantization.
+Mapping, vegetation, assembly and validation were not marked complete from that
+partial run. Review and either accept or correct the terrain revision before
+rebuilding those dependent stages.
 
 Unit tests exercise raw raster refusal, grid registration, deterministic pack
 compilation, stage failure/replacement, per-hole uncertainty, real shared-ground
@@ -362,8 +351,9 @@ Python image tests cover hash/geotransform/date/mask rejection, RGBI handling,
 coverage and deterministic overlays. CI runs these tests and checks generated
 pilot dependencies.
 
-End-to-end terrain/canopy rebuilding, real source-image overlays, candidate
-player preparation/captures, independent geographic approval, named-device
-performance and mobile/offline/rollback acceptance remain unverified until those
-inputs/capabilities are supplied. The implemented adapters and diagnostic
-reports make these blockers explicit; no successful release is claimed.
+Real terrain/canopy rebuilding and acquisition-only vegetation compilation are
+now verified. Orthophoto acquisition and real source-image overlays, the complete
+six-stage candidate after terrain review, player preparation/captures, independent
+geographic approval, named-device performance and mobile/offline/rollback
+acceptance remain unverified. The implemented adapters and diagnostic reports
+make these blockers explicit; no successful release is claimed.
