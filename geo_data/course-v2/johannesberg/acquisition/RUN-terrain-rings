@@ -1,5 +1,4 @@
-# Publish the standard rings (16 km root, seven levels, 1 m over the central 4,096 m): the published
-# 1 m tiles are carried across (re-addressed onto the standard lattice where the level widened), lods 1-6
-# are read from Markhöjdmodell in this run.
-publish=true
+# Acquire measured terrain for production integration; do not publish a live graph.
+# Requested 2026-09-21. All seven source levels are needed for offline replay.
+publish=false
 levels=
