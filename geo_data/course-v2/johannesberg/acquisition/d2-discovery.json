@@ -8,7 +8,7 @@
     "johannesberg",
     "johannesberg-9"
   ],
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-09-21",
   "state": "discovery-evidence-only",
   "aoi": {
     "bboxWgs84": [
@@ -21,11 +21,11 @@
       676656.668,
       6621974.013,
       682316.53,
-      6628907.847
+      6628907.846
     ],
     "widthMetres": 5659.862,
-    "heightMetres": 6933.834,
-    "squareMetres": 39244543.571
+    "heightMetres": 6933.833,
+    "squareMetres": 39244537.911
   },
   "sourceContracts": {
     "terrain": {
@@ -82,8 +82,8 @@
     "collection": "dtm-cog",
     "itemCount": 2,
     "coverage": {
-      "requiredSquareMetres": 39244543.571,
-      "coveredSquareMetres": 39244543.571,
+      "requiredSquareMetres": 39244537.911,
+      "coveredSquareMetres": 39244537.911,
       "ratio": 1,
       "complete": true
     },
@@ -92,7 +92,7 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613 (RH 2000)",
     "resolutionMetres": 1,
-    "fullSourceCompressedBytes": 603428397,
+    "fullSourceCompressedBytes": 603428448,
     "captureRange": {
       "first": "2021-04-17T00:00:00Z",
       "last": "2025-06-13T00:00:00Z"
@@ -133,8 +133,8 @@
               "data"
             ],
             "bytes": 172032,
-            "stacChecksum": "1220d9b3dea23887fa70c980c88cbbd3d2201110d8ff0aa6b4bae32d6183ce13418e",
-            "sha256": "d9b3dea23887fa70c980c88cbbd3d2201110d8ff0aa6b4bae32d6183ce13418e",
+            "stacChecksum": "12208d60b949ff34d7be3f54109fef50af4c8be925eab1519e7128844bf83047d7aa",
+            "sha256": "8d60b949ff34d7be3f54109fef50af4c8be925eab1519e7128844bf83047d7aa",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -146,9 +146,9 @@
             "roles": [
               "data"
             ],
-            "bytes": 316420657,
-            "stacChecksum": "1220903595f07858f02a9ed3162aedbb15d239436fecf76831a56161353eb2402ff2",
-            "sha256": "903595f07858f02a9ed3162aedbb15d239436fecf76831a56161353eb2402ff2",
+            "bytes": 316420633,
+            "stacChecksum": "12201c5930d3c765bf431e08ca82ea6d3db77b928b3794984f45c54d35a8e54b023e",
+            "sha256": "1c5930d3c765bf431e08ca82ea6d3db77b928b3794984f45c54d35a8e54b023e",
             "projCode": "EPSG:5845",
             "projBbox": [
               670000,
@@ -182,9 +182,9 @@
             "roles": [
               "metadata"
             ],
-            "bytes": 10800,
-            "stacChecksum": "12206387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
-            "sha256": "6387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
+            "bytes": 9252,
+            "stacChecksum": "1220e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
+            "sha256": "e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -226,8 +226,8 @@
               "data"
             ],
             "bytes": 380928,
-            "stacChecksum": "1220bf5383a37006fccbba9af1dc59a301f6a856ae9662785458aec46d2aba9f1891",
-            "sha256": "bf5383a37006fccbba9af1dc59a301f6a856ae9662785458aec46d2aba9f1891",
+            "stacChecksum": "122074a276bba34ff3fb3bb744f4dbd28ccde356442e4cb7c97aca1d95fc974f681c",
+            "sha256": "74a276bba34ff3fb3bb744f4dbd28ccde356442e4cb7c97aca1d95fc974f681c",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -239,9 +239,9 @@
             "roles": [
               "data"
             ],
-            "bytes": 287007740,
-            "stacChecksum": "122009e2d304f7d8778c9c1e1a099d4ab0733860a218ebaccfded2e167a6675a2632",
-            "sha256": "09e2d304f7d8778c9c1e1a099d4ab0733860a218ebaccfded2e167a6675a2632",
+            "bytes": 287007815,
+            "stacChecksum": "122052b8ab1b229c4eb45acbf783f74a5be183bd86cc88a1acf79c4785210dd198c6",
+            "sha256": "52b8ab1b229c4eb45acbf783f74a5be183bd86cc88a1acf79c4785210dd198c6",
             "projCode": "EPSG:5845",
             "projBbox": [
               680000,
@@ -275,9 +275,9 @@
             "roles": [
               "metadata"
             ],
-            "bytes": 33915,
-            "stacChecksum": "1220001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
-            "sha256": "001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
+            "bytes": 32367,
+            "stacChecksum": "1220df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
+            "sha256": "df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -304,8 +304,8 @@
     "collection": "dsm-skoglig-copc",
     "itemCount": 2,
     "coverage": {
-      "requiredSquareMetres": 39244543.571,
-      "coveredSquareMetres": 39244543.571,
+      "requiredSquareMetres": 39244537.911,
+      "coveredSquareMetres": 39244537.911,
       "ratio": 1,
       "complete": true
     },
@@ -452,14 +452,14 @@
     "primaryItemCount": 12,
     "itemCount": 12,
     "primaryCoverage": {
-      "requiredSquareMetres": 39244543.571,
-      "coveredSquareMetres": 39244543.571,
+      "requiredSquareMetres": 39244537.911,
+      "coveredSquareMetres": 39244537.911,
       "ratio": 1,
       "complete": true
     },
     "coverage": {
-      "requiredSquareMetres": 39244543.571,
-      "coveredSquareMetres": 39244543.571,
+      "requiredSquareMetres": 39244537.911,
+      "coveredSquareMetres": 39244537.911,
       "ratio": 1,
       "complete": true
     },
@@ -1262,8 +1262,8 @@
         "rank": "2025-12-31",
         "itemCount": 12,
         "coverage": {
-          "requiredSquareMetres": 39244543.571,
-          "coveredSquareMetres": 39244543.571,
+          "requiredSquareMetres": 39244537.911,
+          "coveredSquareMetres": 39244537.911,
           "ratio": 1,
           "complete": true
         }
@@ -1273,8 +1273,8 @@
         "rank": "2023-12-31",
         "itemCount": 12,
         "coverage": {
-          "requiredSquareMetres": 39244543.571,
-          "coveredSquareMetres": 39244543.571,
+          "requiredSquareMetres": 39244537.911,
+          "coveredSquareMetres": 39244537.911,
           "ratio": 1,
           "complete": true
         }
@@ -1284,8 +1284,8 @@
         "rank": "2021-12-31",
         "itemCount": 12,
         "coverage": {
-          "requiredSquareMetres": 39244543.571,
-          "coveredSquareMetres": 39244543.571,
+          "requiredSquareMetres": 39244537.911,
+          "coveredSquareMetres": 39244537.911,
           "ratio": 1,
           "complete": true
         }
@@ -1295,8 +1295,8 @@
         "rank": "2019-12-31",
         "itemCount": 12,
         "coverage": {
-          "requiredSquareMetres": 39244543.571,
-          "coveredSquareMetres": 39244543.571,
+          "requiredSquareMetres": 39244537.911,
+          "coveredSquareMetres": 39244537.911,
           "ratio": 1,
           "complete": true
         }
@@ -1306,8 +1306,8 @@
         "rank": "2017-12-31",
         "itemCount": 24,
         "coverage": {
-          "requiredSquareMetres": 39244543.571,
-          "coveredSquareMetres": 39244543.571,
+          "requiredSquareMetres": 39244537.911,
+          "coveredSquareMetres": 39244537.911,
           "ratio": 1,
           "complete": true
         }
@@ -1341,7 +1341,7 @@
       "expectedSha256": "107671f6edaa3193d301a80fea0875f9bf5b46330bcafbb5a6cdd3c7a2397188",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 101.987
+      "elapsedMilliseconds": 16177.921
     },
     {
       "itemId": "662_67",
@@ -1349,13 +1349,13 @@
       "asset": "metadata",
       "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/66_6/m662_67_ursprung.json",
       "status": "verified",
-      "bytes": 10800,
-      "expectedBytes": 10800,
-      "sha256": "6387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
-      "expectedSha256": "6387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
+      "bytes": 9252,
+      "expectedBytes": 9252,
+      "sha256": "e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
+      "expectedSha256": "e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 110.014
+      "elapsedMilliseconds": 16321.536
     },
     {
       "itemId": "662_68",
@@ -1369,7 +1369,7 @@
       "expectedSha256": "96e755365a3f6d7faaf880e1f184780301fe4f8a405edd0014d0a1ea6fc7107d",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 104.019
+      "elapsedMilliseconds": 16182.969
     },
     {
       "itemId": "662_68",
@@ -1377,13 +1377,13 @@
       "asset": "metadata",
       "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/66_6/m662_68_ursprung.json",
       "status": "verified",
-      "bytes": 33915,
-      "expectedBytes": 33915,
-      "sha256": "001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
-      "expectedSha256": "001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
+      "bytes": 32367,
+      "expectedBytes": 32367,
+      "sha256": "df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
+      "expectedSha256": "df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 113.878
+      "elapsedMilliseconds": 16756.073
     },
     {
       "itemId": "21c039-662_67",
@@ -1397,7 +1397,7 @@
       "expectedSha256": "5815b69d292bff6563163d21a076c6d3f1d686096ffda656b1d7f66b87174c1c",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 115.479
+      "elapsedMilliseconds": 16497.828
     },
     {
       "itemId": "21c039-662_68",
@@ -1411,7 +1411,7 @@
       "expectedSha256": "a270efe8078e985f44e59777ba84f81a91919b13caf78cfc205acf5a6136e2cd",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 109.558
+      "elapsedMilliseconds": 16495.869
     },
     {
       "itemId": "o66200_6750_25_mr25",
@@ -1425,7 +1425,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 123.357
+      "elapsedMilliseconds": 11193.66
     },
     {
       "itemId": "o66200_6775_25_mr25",
@@ -1439,7 +1439,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 67.223
+      "elapsedMilliseconds": 424.306
     },
     {
       "itemId": "o66200_6800_25_mr25",
@@ -1453,7 +1453,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 60.53
+      "elapsedMilliseconds": 347.549
     },
     {
       "itemId": "o66225_6750_25_mr25",
@@ -1467,7 +1467,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 76.616
+      "elapsedMilliseconds": 505.661
     },
     {
       "itemId": "o66225_6775_25_mr25",
@@ -1481,7 +1481,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 76.998
+      "elapsedMilliseconds": 403.676
     },
     {
       "itemId": "o66225_6800_25_mr25",
@@ -1495,7 +1495,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 64.518
+      "elapsedMilliseconds": 317.009
     },
     {
       "itemId": "o66250_6750_25_mr25",
@@ -1509,7 +1509,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 53.903
+      "elapsedMilliseconds": 402.101
     },
     {
       "itemId": "o66250_6775_25_mr25",
@@ -1523,7 +1523,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 48.226
+      "elapsedMilliseconds": 264.017
     },
     {
       "itemId": "o66250_6800_25_mr25",
@@ -1537,7 +1537,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 39.428
+      "elapsedMilliseconds": 273.847
     },
     {
       "itemId": "o66275_6750_25_mr25",
@@ -1551,7 +1551,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 63.139
+      "elapsedMilliseconds": 308.163
     },
     {
       "itemId": "o66275_6775_25_mr25",
@@ -1565,7 +1565,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 46.973
+      "elapsedMilliseconds": 275.196
     },
     {
       "itemId": "o66275_6800_25_mr25",
@@ -1579,17 +1579,17 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 35.891
+      "elapsedMilliseconds": 261.547
     }
   ],
   "measurements": {
-    "discoveryElapsedMilliseconds": 842.16,
-    "metadataFetchElapsedMilliseconds": 257.809,
+    "discoveryElapsedMilliseconds": 47052.313,
+    "metadataFetchElapsedMilliseconds": 27371.736,
     "metadata": {
       "requestedAssets": 18,
       "verifiedAssets": 18,
-      "downloadedBytes": 994768,
-      "elapsedMilliseconds": 1411.737,
+      "downloadedBytes": 991672,
+      "elapsedMilliseconds": 113408.928,
       "complete": true
     },
     "decodedAoiBudgets": {
@@ -1625,9 +1625,5 @@
       "Skogsstyrelsen tree-height REST/WMS requires a separate raster account (or FTPS ingestion).",
       "Independent course control points are still required before any source is promoted to authoritative."
     ]
-  },
-  "projection": {
-    "library": "packages/course-geo/chmv2/projection.mjs",
-    "note": "AOI bbox projected with the repository Krüger series because the PROJ toolchain is unavailable here; PROJ remains the projection authority and no published coordinate comes from this file"
   }
 }
