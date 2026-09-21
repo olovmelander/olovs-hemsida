@@ -390,7 +390,7 @@ await section('map', async () => {
 if (PLAYER) {
   console.log('player');
   const slug = manifest.courses[0].slug;
-  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&v2=0&q=lo&hal=3` });
+  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&q=lo&hal=3` });
   try {
     await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
     await page.evaluate(() => document.getElementById('bytBtn').click());

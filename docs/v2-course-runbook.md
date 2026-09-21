@@ -3,6 +3,11 @@
 > Current entrypoint and terrain/catalogue inventory updated 2026-09-21.
 > Start with the [executable production workflow](course-production-workflow.md).
 > Detailed worked implementations below retain their stated historical dates.
+> The player now supports **v2 terrain + Ghibli styling only** on WebGPU and
+> WebGL2. Earlier opt-out, style-toggle and GPK1-renderer fallback instructions
+> in dated examples are historical. GPK1 compatibility data and `fallbackV1`
+> schema references remain required internally; failed v2 verification stops
+> boot. See [the current visual policy](v2-ghibli-only.md).
 >
 > Puttom is the reference implementation for the spatial, tile, provenance,
 > runtime and validation framework. It is not yet the authority for every data
@@ -69,7 +74,7 @@ constants.
 | Trees and vegetation | Individual positions come from survey or data-derived crown evidence; dense forest uses measured stand fields. Every base samples the exact published terrain. Procedural large objects are forbidden in the playing truth zone. |
 | Stable objects | Buildings, bridges, fences, signs, lights, furniture, boulders and drainage objects have stable IDs, source/date/accuracy/review fields and tile ownership. |
 | Distribution | Course and ground are separate, chunks are immutable and content-addressed, a coarse shell loads independently, and every payload is verified before use. |
-| Runtime | WebGPU and WebGL2 use the same geography, height sampler, surface semantics and zone-A transforms. Default/`v2=1` can use the declared GPK1 fallback; `v2=require` rejects unmet v2 requirements. |
+| Runtime | WebGPU and WebGL2 use v2 terrain + Ghibli with the same geography, height sampler, surface semantics and zone-A transforms. All links require verified v2; an integrity or renderer failure stops boot. GPK1 remains internal compatibility data. |
 | Validation | Geometry, provenance, visuals, both render backends, caching, offline reopen and named hardware budgets pass per course and per hole. Human visual inspection is mandatory because self-consistency tests cannot prove resemblance to the real course. |
 
 The non-negotiable rules are:
@@ -99,7 +104,7 @@ measurements retain their checkpoint scope and are not a fresh accuracy review.
 | Terrain identity | The earlier 64-tile/4,227,136-sample preview comparison is historical. Compare a new candidate against its own retained source window. |
 | Surface preview | Separate `class-sdf-v1` migration preview, not an authoritative ground layer. Its earlier 30-of-64 coverage describes that preview checkpoint, not today's 256-tile core. |
 | Vegetation | 251 object tiles and 256 stand tiles in the current graph. These counts do not establish individual-tree accuracy or human review. |
-| Runtime | Flagless visits select v2 when its configured requirements can be met. `?v2=0` selects GPK1; `v2=require` makes unmet v2 requirements a hard failure. Improved graphics are default for ready v2; `graphics=0` is the explicit comparison path. |
+| Runtime | Flagless and historical opt-out links select v2 + Ghibli. Unmet v2 requirements fail boot. There is no alternate supported player style. |
 | Frame status | Runtime assets carry an `EPSG:5845` frame and fingerprint, but the source manifest still records zero independent origin anchors and `pending-control-approval`. Treat it as a migration frame, not an approved survey origin. |
 
 The authoritative current graph is reached through

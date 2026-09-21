@@ -80,7 +80,10 @@ export function buildGroundSurfaceFeatures({
     const tees = (hole.tees?.pads || []).filter(tee => teeOwners.has(tee)).map(tee => tee?.ring);
     rings(SURFACE.FRINGE, tees, { pad: 2.2, hole: owner });
     rings(SURFACE.TEE, tees, { hole: owner });
-    rings(SURFACE.SAND, (hole.bunkers || []).map(bunker => bunker?.ring), { pad: sandPad, hole: owner });
+    rings(SURFACE.SAND, (hole.bunkers || []).filter(b => !b.innerRings?.length).map(bunker => bunker?.ring), { pad: sandPad, hole: owner });
+    for (const bunker of hole.bunkers || []) if (bunker.innerRings?.length) {
+      features.push({ surface: SURFACE.SAND, polygons: [{ rings: [bunker.ring, ...bunker.innerRings] }], hole: owner });
+    }
   }
 
   const scenery = model.scenery || {};

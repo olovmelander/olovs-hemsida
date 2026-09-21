@@ -15,7 +15,17 @@ const laser = ['laser-lm-24e002-636-68', 'laser-lm-24e002-637-68'];
 const orthoReviewPath = 'visbybuild/mapping/orthophoto-review-2026.json';
 const orthoReview = has(orthoReviewPath) ? read(orthoReviewPath) : null;
 const orthoSources = orthoReview ? [...new Set(Object.values(orthoReview.sources).flatMap(s => s.sourceIds))] : [];
-const surfaces = ['visby-municipal-ortho-2022', 'visby-osm-2026-09-07', 'club-banguide', ...orthoSources];
+const bunkerReviewPath = 'visbybuild/mapping/bunker-review-2026-09-21.json';
+const bunkerSource = 'visby-public-ortho-bunker-review-2026-09-21';
+if (has(bunkerReviewPath) && !m.sources.some(s => s.id === bunkerSource)) m.sources.push({
+  id: bunkerSource, productId: 'lantmateriet-ortofoto', roles: ['imagery', 'control'],
+  lifecycle: 'planned', use: 'supporting', sourceUri: 'https://minkarta.lantmateriet.se/map/ortofoto',
+  localPath: null, bboxWgs84: m.targetBboxWgs84, acquiredAt: null, capturedAt: null,
+  checksum: null, checksumReason: 'Mutable public WMS has no complete-source checksum. Eighteen bounded responses acquired on 2026-09-21 have individual SHA-256 hashes, request URLs and exact grids in the bunker review ledger.',
+  replacementSourceId: null, accuracyTier: 'unrated', horizontalAccuracyMetres: null, verticalAccuracyMetres: null,
+  notes: 'Public Ortofoto_0.16 WMS windows support the dated main-course bunker interpretation. Capture date and independent registration accuracy are unknown. Source images remain in ignored local cache; no source imagery shipped or uploaded. Existing rights and independent survey gates remain unchanged.'
+});
+const surfaces = ['visby-municipal-ortho-2022', 'visby-osm-2026-09-07', 'club-banguide', ...orthoSources, ...(has(bunkerReviewPath) ? [bunkerSource] : [])];
 const lineage = [...terrain, ...water, ...surfaces, 'club-scorecard'];
 if (has('visbybuild/course-model.json')) {
   const model = read('visbybuild/course-model.json');
@@ -91,6 +101,8 @@ artifact('playing-surface-review', 'control', 'visbybuild/mapping/playing-surfac
 artifact('practice-surface-candidate', 'surface', 'visbybuild/mapping/practice-surfaces.geojson', surfaces, 'Observed range field excludes measured height cells that may be range structures, retaining visible boundary trees.');
 artifact('practice-surface-review', 'control', base+'vegetation/practice-surface-evidence.json', surfaces, 'Source pixel vertices, retained image hash and independent overlay review of range footprint.');
 artifact('canonical-routing-candidate', 'composite', 'visbybuild/mapping/geometry.json', surfaces, 'EPSG:3006 main-course authoring geometry; cardinal tee lengths do not determine source coordinates.');
+artifact('bunker-completeness-review-2026-09-21', 'control', bunkerReviewPath, [bunkerSource, 'club-banguide'], 'All 18 main-course windows inspected: 14 omitted sand areas added, eight incomplete outlines replaced, two false sand polygons removed, 18 scenery bunkers assigned to holes. Three grass islands preserved. Source pixels, response hashes and explicit canopy limitations retained; no capture-date or independent survey claim.');
+artifact('bunker-stand-exclusion-review-2026-09-21', 'control', base+'vegetation/bunker-exclusion-review-2026-09-21.json', [bunkerSource, ...laser], 'Representative stand exclusion flags updated at reviewed sand boundaries; measured canopy channels, all individual crowns and terrain preserved.');
 artifact('orthophoto-boundary-review-2026', 'control', orthoReviewPath, [...orthoSources, 'club-banguide'], '2026-04-10 native image pixels: two greens, three hole-3 tee outlines, the southern hole-3 fairway and 64 bunker contours. Per-feature source hashes and uncertainty retained; 19 net additional sand areas. CC BY 4.0 derivative attribution retained. Independent registration and remaining boundaries are pending.');
 artifact('orthophoto-building-roof-colours-2026', 'control', 'visbybuild/mapping/building-roof-review-2026.json', orthoSources, 'Sixteen daylight roof-colour families replace the generic rendering palette. No wall colours, building dimensions or roof geometry inferred.');
 artifact('clubhouse-and-first-tee-review', 'control', 'visbybuild/mapping/facilities-review.json', ['visby-municipal-ortho-2022', 'club-banguide'], 'Source image registration and pixel boundaries for a clubhouse practice green and two additional first-hole platforms. Numbered platform groups checked against the retained Caddee plan; tee 59 corrected to the rear platform. Daily marker positions remain unverified.');

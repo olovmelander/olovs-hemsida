@@ -59,7 +59,7 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      (tortunabuild/trace-fairways.mjs). Greens, bunkers, water and everything
      else are byte-identical. The migration follows the model through the
      canonical migrator, still an exact translation. */
-  visby: '4e1f79c621fe7981e79d30e2031665899e46653f6492a4fd9911e24211533a32',
+  visby: 'da127e2d8c70d127570f8b37ee04411dc463d37f3742790e6e07b7add58a5847',
   lidingo: 'e806bd21a71fa172aa9ec428e15968e3fc031c5c61a6e10ed3b009d9c94c74f1',
   angso: '1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf',
   norrfallsviken: 'b6b65607904c8727b8789c85235ebf1278d2185990f558f6fae5099da975d15f',

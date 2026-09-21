@@ -55,7 +55,7 @@ also requires that whole shared ground to qualify.
 | Routing and surfaces | Reconcile every hole with the current card and source imagery/survey. Review tees, greens, fairways, bunkers and water as geometry. Preserve accepted features and annotate uncertainty. Resolution and feature counts are not accuracy evidence. |
 | Vegetation | Follow the [tree placement workflow](tree-placement-workflow.md): frozen references, held-out evaluation, independent canopy checks, reviewed play-relevant individuals, measured woodland stands and stable IDs. Adapt and validate Visby pilot methods on the target ground before adopting them. |
 | Infrastructure | Review roads, paths, buildings, bridges and other relevant objects with measured/source-linked placement. Explain genuine absence explicitly. |
-| Runtime | Reuse the common v2 graph, loader, height sampler and renderer configuration. Verify default selection, `v2=require`, declared GPK1 fallback, WebGPU, WebGL2, mobile, seasons, caching and offline reopen. |
+| Runtime | Use v2 terrain + Ghibli styling through the common graph, loader, height sampler and reviewed renderer configuration. Verify default selection, WebGPU, WebGL2, mobile, seasons, caching, offline reopen and a clear boot failure if v2 cannot be verified. Retain and verify GPK1 compatibility data; it is not an alternative player renderer. |
 
 The [production guide](v2-course-runbook.md) contains the detailed spatial and
 compiler contracts; the [mapping workflow](v2-course-mapping-workflow.md) contains
@@ -75,7 +75,7 @@ an old course's builder silently.
 | `terrain` | Compile the standard terrain, rings and shell using the shared compiler. | Immutable terrain compilation and seam/coverage report. |
 | `mapping` | Compile reviewed routing, surfaces, water and infrastructure. | Validated geometry and all-hole coverage report. |
 | `vegetation` | Apply the reviewed canopy/object/stand method to the frozen geography. | Registry, stand fields, exclusions and evaluation report. |
-| `assemble` | Emit one coherent graph for every shared routing and its exact fallback. | Staged ground/course assets and catalogue references. |
+| `assemble` | Emit one coherent graph for every shared routing and its exact GPK1 compatibility reference (`fallbackV1` in the schema). | Staged ground/course assets and catalogue references. |
 | `validate` | Run geometry, source, graph, renderer and course-specific checks. | Validation reports and capture manifests for subsequent review. |
 
 Adapter configuration example (the script must actually be implemented for the
@@ -197,7 +197,7 @@ Release succeeds only with current build receipts, valid graph/schema/topology,
 an approved matching frame, acquired terrain/imagery/canopy source metadata, no
 release-blocking source entries, current source artifacts, complete matching
 review evidence and performance results. It then verifies every selected BVCH
-chunk, decoded payload and reference, plus the fallback pack hash, identity,
+chunk, decoded payload and reference, plus the GPK1 compatibility pack hash, identity,
 framing and compressed streams, and direct player sidecar hashes. It does not
 publish or merge.
 
@@ -216,8 +216,10 @@ pnpm course audit --check
 pnpm test
 ```
 
-Review captures on the promoted candidate, including default v2 activation and
-the explicit fallback; a matching digest alone does not test application routing.
+Review captures on the promoted candidate, including default v2 + Ghibli
+activation and failure when v2 integrity checks cannot pass. Historical opt-out
+links must open the same supported setup. A matching digest alone does not test
+application routing; follow [the supported visual setup](v2-ghibli-only.md).
 Ship the code, source ledger, candidate files, build records, evidence and review
 in one PR. No test fixture geography belongs in the player catalogue.
 

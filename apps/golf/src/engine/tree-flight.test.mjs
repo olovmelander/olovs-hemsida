@@ -8,15 +8,17 @@ import * as THREE from 'three/webgpu';
 const main = readFileSync(new URL('../main.js', import.meta.url), 'utf8');
 const start = main.indexOf('function updateTreeTiers()');
 const update = main.slice(start, main.indexOf('\n}', start) + 2);
-const defaultTiers = main.match(/zoneTiers: (LOWQ[^\n]+),/)[1];
+const defaultTiers = main.match(/zoneTiers: ([^\n]+),/)[1];
 const defaultMode = main.match(/const LODMODE = ([^\n]+);/)[1];
 
 describe('trees during a rapid camera flight', () => {
-  for (const low of [false, true]) for (const coordinateSystem of [THREE.WebGLCoordinateSystem, THREE.WebGPUCoordinateSystem]) {
-    it(`retains geographic tiers through exits/reentries (${low ? 'low' : 'high'}, ${coordinateSystem})`, () => {
+  for (const low of [false, true]) for (const coordinateSystem of [THREE.WebGLCoordinateSystem, THREE.WebGPUCoordinateSystem])
+  for (const mode of ['zone', 'screen']) for (const force of [0, 2, 3, 4]) {
+    it(`uses only Hero/Impostor through exits/reentries (${low ? 'low' : 'high'}, ${coordinateSystem}, ${mode}, override ${force})`, () => {
       const zoneTiers = runInNewContext(defaultTiers, { LOWQ: low });
-      const lodMode = runInNewContext(defaultMode, { URLSearchParams, location: { search: '' } });
-      expect(lodMode).toBe('zone');
+      const lodMode = runInNewContext(defaultMode, { URLSearchParams, location: { search: mode === 'zone' ? '' : '?lodmode=screen' } });
+      expect(lodMode).toBe(mode);
+      expect(Array.from(zoneTiers)).toEqual([1, 1, 4, 4]);
       const zone = new Uint8Array([1, 2, 3, 0]), tierOf = new Uint8Array(4);
       const imp = new Float32Array(24);
       const cells = Array.from({ length: 4 }, (_, i) => {
@@ -29,7 +31,7 @@ describe('trees during a rapid camera flight', () => {
         pend: new Uint8Array(4), pendN: new Uint8Array(4),
         t: [null, ...Array.from({ length: 4 }, () => ({ count: 0, dirtyM: [], dirtyF: [], parts: [], fade: [] }))] };
       const lod = { ready: true, frozen: false, cells, tiers: [sp, null, null], imp: [imp],
-        heroPx: 64, switchPx: 24, impostorPx: 8, hysteresis: 0.1, force: 0, resetPending: false,
+        heroPx: low ? 200 : 64, switchPx: low ? 60 : 24, impostorPx: low ? 22 : 8, hysteresis: 0.1, force, resetPending: false,
         cellMode: false, floors: [1, 2], floorReach: [500, 900], lodMode, zoneTiers, dwell: 6,
         queue: [], qHead: 0, stats: { updates: 0 } };
       const camera = new THREE.PerspectiveCamera(48, 4 / 3, 1, 5000);
@@ -54,9 +56,14 @@ describe('trees during a rapid camera flight', () => {
         camera.position.set(x, 35 + 1100 * Math.sin(phase * Math.PI) ** 2, 80 + phase * 300);
         camera.lookAt(x, 12, 0); camera.updateMatrixWorld(true);
         context.FRAME_NO++; context.updateTreeTiers();
-        for (let k = 0; k < 4; k++) if (tierOf[k]) expect(tierOf[k]).toBe(zoneTiers[k]);
+        for (let k = 0; k < 4; k++) if (tierOf[k]) {
+          expect([1, 4]).toContain(tierOf[k]);
+          if (force) expect(tierOf[k]).toBe(force === 4 ? 4 : 1);
+          else if (mode === 'zone') expect(tierOf[k]).toBe(zoneTiers[k]);
+        }
+        expect(sp.t[2].count).toBe(0); expect(sp.t[3].count).toBe(0);
       }
-      expect(moves.filter(m => m.from && m.to)).toEqual([]);
+      if (mode === 'zone' || force) expect(moves.filter(m => m.from && m.to)).toEqual([]);
       expect(moves.filter(m => m.to === 0).length).toBeGreaterThan(4);
       for (let k = 0; k < 4; k++) expect(moves.filter(m => m.k === k && m.to > 0).length).toBeGreaterThan(1);
     });

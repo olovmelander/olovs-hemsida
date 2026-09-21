@@ -20,8 +20,8 @@ const report = { revision, treeRevision: treeCatalog.revision, physicalPhone: fa
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
 try {
   for (const course of catalog.courses.filter(course => !only.length || only.includes(course.slug))) for (const mode of [
-    { look: '0', gl: '1', q: 'lo', backend: 'webgl2' }, { look: '1', gl: '1', q: 'lo', backend: 'webgl2' },
-    { look: '0', gl: '0', q: 'hi', backend: 'webgpu' }, { look: '1', gl: '0', q: 'hi', backend: 'webgpu' },
+    { look: '1', gl: '1', q: 'lo', backend: 'webgl2' },
+    { look: '1', gl: '0', q: 'hi', backend: 'webgpu' },
   ]) {
     const page = await browser.newPage({ viewport: { width: 1000, height: 700 }, serviceWorkers: 'block' });
     const errors = [];

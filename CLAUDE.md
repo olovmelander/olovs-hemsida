@@ -6,6 +6,22 @@ and release checks. The current v2 catalogue has 13 layouts on 10 grounds using
 the standard 469-tile graph. Historical notes below describe early standalone
 pages; they do not define the current app or justify copying old course builders.
 
+## Current player visual setup — 21 September 2026
+
+The supported app presentation is **v2 terrain + Ghibli styling** on both
+WebGPU and WebGL2, with the existing high/low quality budgets. Historical
+`v2=0`, `ghibli=0`, `look=real`, `ground=mesh` and `trees=procedural` links
+open the same supported setup; saved style preferences are no longer read.
+There is no visual-style switch. Missing/unverified terrain reports a boot
+error instead of quietly rendering GPK1. All 13 selectable courses must have
+a published graph and a reviewed live adapter; check-app-build gates this.
+
+This decision supersedes the historical opt-out/default/style-toggle notes
+below. GPK1 routing and compatibility data, verified v2 adapters, surface
+representations and diagnostic/material fixtures remain internal tools, not
+alternative player styles. Do not delete them as if they were unused terrain.
+See `docs/v2-ghibli-only.md` for scope and validation.
+
 # Historical notes: Veckefjärdens GC and Norrfällsvikens GK
 
 This repo renders two real golf courses as self-contained WebGPU/TSL pages.
