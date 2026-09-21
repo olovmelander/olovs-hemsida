@@ -1,6 +1,6 @@
 /* Synthetic shader/capture fixture, not course geography or a shipped asset. */
 import * as THREE from 'three/webgpu';
-import { createV2GroundMaterialDecorator } from './material.js';
+import { createV2GroundMaterialDecorator } from '../studies/ground-material.mjs';
 import { fillGroundDetailPixels } from './ground-detail-texture.mjs';
 import { createPackedGroundDetailTexture } from './ground-detail-upload.mjs';
 import { SURFACE } from './surface.js';

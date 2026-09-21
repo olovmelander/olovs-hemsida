@@ -1,4 +1,3 @@
-const GROUND_MODES = new Set(['atlas', 'mesh']);
 const SURFACE_DEBUG_MODES = new Set(['off', 'weights']);
 
 export function requestedSurfaceDebugMode(search = globalThis.location?.search || '') {
@@ -34,19 +33,4 @@ export function requestedMowing(search = globalThis.location?.search || '') {
   if (raw === 'classic') return { strength: 0 };
   const value = raw === '' ? 1 : Number(raw);
   return { strength: Number.isFinite(value) ? Math.min(2, Math.max(0, value)) : 1 };
-}
-
-/**
- * The vector meshes are a legacy-only fallback. A ready v2 terrain already
- * carries the course surfaces in its own material and must remain the sole
- * physical ground representation.
- */
-export function shouldRenderLegacySurfaceOverlays({ groundMode, v2Active }) {
-  if (!GROUND_MODES.has(groundMode)) {
-    throw new TypeError(`unknown ground mode: ${groundMode}`);
-  }
-  if (typeof v2Active !== 'boolean') {
-    throw new TypeError('v2Active must be a boolean');
-  }
-  return groundMode === 'mesh' && !v2Active;
 }

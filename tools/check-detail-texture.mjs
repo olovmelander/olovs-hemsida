@@ -14,6 +14,8 @@ import { chromium } from 'playwright-core';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const engine = path.join(root, 'apps/golf/src/engine');
 const threeRoot = fs.realpathSync(path.join(root, 'apps/golf/node_modules/three'));
+const expectedThreeVersion = JSON.parse(fs.readFileSync(path.join(root, 'apps/golf/package.json'))).dependencies.three;
+const installedThreeVersion = JSON.parse(fs.readFileSync(path.join(threeRoot, 'package.json'))).version;
 const sourceMainBaseline = 'ce3597883a6c7495fc8204c23acac82413f197b7';
 const baselineSource = execFileSync('git', ['show', `${sourceMainBaseline}:apps/golf/src/main.js`], { cwd: root, encoding: 'utf8', maxBuffer: 2_000_000 });
 const sha256 = data => createHash('sha256').update(data).digest('hex');
@@ -215,7 +217,7 @@ const html = `<!doctype html><style>body{margin:0}</style><script type="importma
 import * as THREE from 'three/webgpu';
 import { texture, positionWorld, vec3 } from 'three/tsl';
 import { fillGroundDetailPixels } from '/engine/ground-detail-texture.mjs';
-import { createV2GroundMaterialDecorator } from '/engine/material.js';
+import { createV2GroundMaterialDecorator } from '/studies/ground-material.mjs';
 import { SURFACE } from '/engine/surface.js';
 import { DETAIL, baselineAuthored, C, SHADE, PRESETS } from '/fixture.mjs';
 (${checkInPage.toString()})().then(result => window.result = result, error => window.result = { error: String(error.stack || error) });
@@ -225,7 +227,7 @@ async function main() {
   const args = process.argv.slice(2);
   if (args.length !== 2 || args[0] !== '--out') throw new Error('Usage: node tools/check-detail-texture.mjs --out DIRECTORY');
   const out = path.resolve(args[1]); fs.mkdirSync(out, { recursive: true });
-  const allowed = new Set(['geom.js', 'surface.js', 'material.js', 'ground-detail-texture.mjs']);
+  const allowed = new Set(['geom.js', 'surface.js', 'bunker-geometry.mjs', 'material.js', 'ground-detail-texture.mjs', 'ground-material-core.mjs', 'painted-world-lighting.mjs', 'ground-surface-relief.mjs']);
   const server = http.createServer((req, res) => {
     try {
       const name = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
@@ -234,6 +236,7 @@ async function main() {
       }
       let file;
       if (name.startsWith('/engine/') && allowed.has(name.slice(8))) file = path.join(engine, name.slice(8));
+      else if (name === '/studies/ground-material.mjs') file = path.join(engine, '../studies/ground-material.mjs');
       else {
         if (!name.startsWith('/three/')) throw new Error('Unknown file');
         file = fs.realpathSync(path.resolve(threeRoot, name.slice(7)));
@@ -266,7 +269,7 @@ async function main() {
     delete result.compiled;
     const stats = result.authored;
     const checks = {
-      threeR185: result.threeRevision === '185', softwareRenderer: /SwiftShader/i.test(result.renderer),
+      threeMatchesApp: installedThreeVersion === expectedThreeVersion && result.threeRevision === expectedThreeVersion.split('.')[1], softwareRenderer: /SwiftShader/i.test(result.renderer),
       disabledExactAuthoredBytes: stats.disabled.rgbaSha256 === stats.legacy.rgbaSha256,
       unchangedBladeAndGlintBytes: result.channelDifferenceCounts.R === 0 && result.channelDifferenceCounts.A === 0,
       calibratedMoments: ['G', 'B'].every(c => Math.abs(stats.candidate.channels[c].mean - stats.legacy.channels[c].mean) < .35
@@ -284,8 +287,8 @@ async function main() {
       materialChangesPixels: result.rows.every(row => row.comparison.differingPixels > 0), noBrowserErrors: errors.length === 0,
     };
     const report = { evidence: 'Actual baseline and candidate 512² DETAIL CanvasTexture; authored and Canvas readback diagnostics; live v2 class-SDF ground material on a uniform synthetic rough plane, plus explicit G/B diagnostic planes. Fixed SwiftShader WebGL2, noon lights, 256x192, DPR 1. Not full-course, WebGPU, phone hardware, FPS or total application memory evidence.',
-      sourceMainBaseline, helperSha256: sha256(fs.readFileSync(path.join(engine, 'ground-detail-texture.mjs'))),
-      materialSourceSha256: sha256(fs.readFileSync(path.join(engine, 'material.js'))), baselineGeneratorSha256: sha256(detailSource),
+      sourceMainBaseline, expectedThreeVersion, helperSha256: sha256(fs.readFileSync(path.join(engine, 'ground-detail-texture.mjs'))),
+      materialSourceSha256: sha256(['material.js', 'ground-material-core.mjs', '../studies/ground-material.mjs'].map(file => fs.readFileSync(path.join(engine, file))).join('\n')), baselineGeneratorSha256: sha256(detailSource),
       fixturePaletteSha256: sha256(paletteSource + shadeSource + presetsSource),
       mipMethod: 'CPU 2x2 box averages of quantized authored bytes and separately of Canvas2D readback, with Uint8ClampedArray quantization at every level. Diagnostic approximation, not a GPU mip readback.',
       ...result, errors, checks, passed: Object.values(checks).every(Boolean) };

@@ -13,6 +13,9 @@ below. GPK1 routing and compatibility data, verified v2 adapters, surface
 representations and diagnostic/material fixtures remain internal tools, not
 alternative player styles. Do not delete them as if they were unused terrain.
 See `docs/v2-ghibli-only.md` for scope and validation.
+The player material and tree loader now have fixed painted/Hero policies.
+Historical shader finishes and alternate tree tiers live in `apps/golf/src/studies`;
+keep those entry points out of the player import graph.
 
 # Two courses in 3D — Veckefjärdens GC and Norrfällsvikens GK
 

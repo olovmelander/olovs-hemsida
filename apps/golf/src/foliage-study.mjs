@@ -2,7 +2,7 @@ import * as THREE from 'three/webgpu';
 import { makePaintedCanopyMaterial, makeBirchBarkMaterial } from './study-canopy-material.mjs';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { loadGhibliTrees, GHIBLI_COLOURS, GHIBLI_SPECIES } from './engine/ghibli-trees.mjs';
+import { loadStudyTrees, GHIBLI_COLOURS, GHIBLI_SPECIES } from './studies/tree-loader.mjs';
 
 const base = `${import.meta.env.BASE_URL}models/trees/foliage-study/`;
 const status = document.querySelector('#status');
@@ -19,7 +19,7 @@ const initial = new URLSearchParams(location.search);
 if (notes[initial.get('species')]) speciesSelect.value = initial.get('species');
 try {
   const [original, report] = await Promise.all([
-    loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: true, design: 'original' }),
+    loadStudyTrees({ baseUrl: import.meta.env.BASE_URL, hero: true, design: 'original' }),
     fetch(`${base}species-study.json`).then(r => { if (!r.ok) throw new Error('Missing foliage study'); return r.json(); }),
   ]);
   const loader = new GLTFLoader(), templates = {};

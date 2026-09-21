@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three/webgpu';
 import { vec3 } from 'three/tsl';
-import { createV2GroundMaterialDecorator } from './material.js';
+import { createV2GroundMaterialDecorator as createPaintedDecorator } from './material.js';
+import { createV2GroundMaterialDecorator } from '../studies/ground-material.mjs';
 import { SURFACE } from './surface.js';
 import { groundReliefTier } from './ground-surface-relief.mjs';
 import { createCoastalTerrainMask } from './coastal-terrain-mask.mjs';
@@ -44,8 +45,8 @@ describe.each(['class-sdf-v1', 'pair-sdf-v1'])('%s graphics polish', representat
     const material = new THREE.MeshStandardNodeMaterial();
     const normal = vec3(0, 1, 0), position = vec3(0, 0, 0);
     material.normalNode = normal; material.positionNode = position;
-    const decorate = createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE,
-      look: 'ghibli', uSun: vec3(-.56, .15, .71) });
+    const decorate = createPaintedDecorator({ atlas, DETAIL, C, SHADE,
+      uSun: vec3(-.56, .15, .71) });
     try {
       decorate(material);
       const samples = textureSamples([material.colorNode], DETAIL);

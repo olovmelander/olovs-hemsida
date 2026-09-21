@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import * as THREE from 'three/webgpu';
+import { vec3 } from 'three/tsl';
 import { verifyChunkAsset } from '../../../../packages/course-v2/chunk-node.mjs';
 import { compileSurfacePreviewAssets } from '../../../../packages/course-v2/surface-compiler-node.mjs';
 import { createV2GroundMaterialDecorator } from './material.js';
@@ -112,7 +113,7 @@ describe('class-sdf-v1 atlas and material', () => {
     const atlas = createSurfacePreviewAtlas({ resources: resources(), frame, bridge });
     const DETAIL = new THREE.DataTexture(new Uint8Array(16), 2, 2, THREE.RGBAFormat, THREE.UnsignedByteType);
     for (const debugMode of ['off', 'weights']) {
-      const decorate = createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode });
+      const decorate = createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode, uSun: vec3(0, 1, 0) });
       const material = decorate(new THREE.MeshStandardNodeMaterial());
       expect(material.userData.surfaceRepresentation).toBe('class-sdf-v1');
       expect(material.userData.surfaceChannels).toEqual([SURFACE.FAIRWAY, SURFACE.GREEN]);

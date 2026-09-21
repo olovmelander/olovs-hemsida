@@ -15,6 +15,7 @@ const out = path.resolve(ROOT, process.argv.find(a => a.startsWith('--out='))?.s
 const entry = path.join(APP, 'src/__cup-review.mjs');
 const fixture = `
 import * as THREE from 'three/webgpu';
+import { vec3 } from 'three/tsl';
 import { CUP, createGolfCupMask, createGolfCupGeometry } from './engine/golf-cups.mjs';
 import { FLAG_POLE_PROFILE } from './engine/flag-appearance.mjs';
 import { createV2GroundMaterialDecorator } from './engine/material.js';
@@ -33,7 +34,7 @@ const C = Object.fromEntries(['rough','forest','heath','semi','fair','fringe','g
   .map(name=>[name,[.3,.46,.2]]));
 const atlas = { bounds:{x0:x-2,z0:z-2,x1:x+2,z1:z+2,w:1,h:1,res:4},
   texID:tex([SURFACE.GREEN,SURFACE.GREEN,0,255]),texF:tex([128,0,0,0]),data:{representation:'pair-sdf-v1'} };
-const decorate = mask.wrap(createV2GroundMaterialDecorator({atlas,DETAIL,C,SHADE:Array.from({length:32},()=>[1.5,.1,.2,.6])}));
+const decorate = mask.wrap(createV2GroundMaterialDecorator({atlas,DETAIL,C,uSun:vec3(3,6,4).normalize(),SHADE:Array.from({length:32},()=>[1.5,.1,.2,.6])}));
 const material = decorate(new THREE.MeshStandardNodeMaterial());
 const groundGeometry = new THREE.PlaneGeometry(4,4); groundGeometry.rotateX(-Math.PI/2);
 const p = groundGeometry.attributes.position;
