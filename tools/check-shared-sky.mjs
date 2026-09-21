@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-/* Render both visual styles at identical sun/camera/cloud state. The atmosphere
- * must match in pixels, including with post processing and reversed depth.
+/* Render the supported Ghibli sky across sun/camera/cloud states, including
+ * post processing and reversed depth.
  * BANVY_GPU=1 node tools/check-shared-sky.mjs --base http://127.0.0.1:8623
  * --backend webgpu|webgl2, --rdepth 0|1, --quality hi|lo, --mobile,
  * --course veckefjarden, --presets golden,noon,..., --out directory, --elevated
@@ -17,7 +17,7 @@ const args = process.argv.slice(2);
 const option = (key, fallback) => args.includes(`--${key}`) ? args[args.indexOf(`--${key}`) + 1] : fallback;
 const base = option('base', 'http://127.0.0.1:8623');
 const before = option('before', null);
-const beforeLook = option('before-look', 'real');
+const beforeLook = option('before-look', 'painted');
 const backend = option('backend', 'webgpu');
 const rdepth = option('rdepth', '1');
 const quality = option('quality', 'hi');
@@ -83,7 +83,7 @@ async function run(origin, look, label) {
     await page.waitForSelector('#boot.done', { timeout });
     await page.addStyleTag({ content: 'body > :not(canvas) { visibility: hidden !important; }' });
     await settle(page);
-    report.state = await page.evaluate(() => ({ backend: V3D.stats.backend, painted: document.querySelector('#lookBtn')?.getAttribute('aria-pressed') === 'true', camera: V3D.cameraInfo(), quality: V3D.quality(), atmosphere: V3D.atmosphere?.(), audit: V3D.treeTierAudit() }));
+    report.state = await page.evaluate(() => ({ backend: V3D.stats.backend, painted: V3D.treeCatalogue?.().look === 'painted' || document.querySelector('#lookBtn')?.getAttribute('aria-pressed') === 'true', camera: V3D.cameraInfo(), quality: V3D.quality(), atmosphere: V3D.atmosphere?.(), audit: V3D.treeTierAudit() }));
     gate(report.state.backend === backend && report.state.camera.reversedDepth === (backend === 'webgpu' && rdepth === '1'), `${label}: renderer and depth active`);
     gate(report.state.painted === (look === 'painted'), `${label}: requested visual style active`);
     if (label !== 'before') gate(report.state.atmosphere?.kind === 'SkyMesh', `${label}: shared atmospheric sky active`);
@@ -116,7 +116,7 @@ async function run(origin, look, label) {
       pictures.set(`${label}/${preset}`, sky);
       gate(metrics.range > 1 && metrics.mean > 2, `${label}/${preset}: sky shaded (${metrics.mean.toFixed(1)}/255, ${metrics.percentNearWhite.toFixed(1)}% near white)`);
       if (['golden', 'noon'].includes(preset)) gate(metrics.mean > 120 && metrics.range > 10, `${label}/${preset}: daylight atmosphere retains colour and brightness`);
-      if (audit && label === 'real') {
+      if (audit && label === 'painted') {
         await page.evaluate(p => V3D.setPreset(p, { cloud: 0 }), preset);
         await settle(page);
         const clear = await capture(page, `${label}-${preset}-cloudless.png`);
@@ -148,25 +148,19 @@ async function run(origin, look, label) {
 }
 try {
   await run(base, 'painted', 'painted');
-  await run(base, 'real', 'real');
   if (before) await run(before, beforeLook, 'before');
   for (const preset of presets) {
-    const painted = pictures.get(`painted/${preset}`), real = pictures.get(`real/${preset}`);
-    if (painted && real) {
-      const comparison = measure(painted, real);
-      runs[0].presets.find(p => p.preset === preset).comparison = comparison;
-      gate(comparison.meanDifference < 0.25 && comparison.percentOver2 < 0.1, `${preset}: skies match across styles (${comparison.meanDifference.toFixed(4)}/255, ${comparison.percentOver2.toFixed(3)}% over 2)`);
-    }
+    const painted = pictures.get(`painted/${preset}`);
     const old = pictures.get(`before/${preset}`);
-    if (!audit && real && old && ['golden', 'noon'].includes(preset)) {
-      const now = measure(real), previous = measure(old);
+    if (!audit && painted && old && ['golden', 'noon'].includes(preset)) {
+      const now = measure(painted), previous = measure(old);
       gate(now.mean < previous.mean - 5 && now.percentNearWhite < previous.percentNearWhite, `${preset}: sky highlights reduced (${previous.mean.toFixed(1)} → ${now.mean.toFixed(1)}/255; ${previous.percentNearWhite.toFixed(1)} → ${now.percentNearWhite.toFixed(1)}% near white)`);
     }
   }
   if (audit) {
     if (farBounds && before) {
       const previous = runs.find(r => r.label === 'before');
-      const current = runs.find(r => r.label === beforeLook);
+      const current = runs.find(r => r.label === 'painted');
       for (const name of ['dawn', 'mist']) {
         const old = previous?.presets.find(p => p.preset === name)?.distantLandscape;
         const now = current?.presets.find(p => p.preset === name)?.distantLandscape;
@@ -183,12 +177,12 @@ try {
         gate(p.sky.meanRGB[2] > p.sky.meanRGB[0] + 10 && p.ground.mean > 25, `${run.label}: blue twilight retains readable terrain`);
       }
     }
-    const currentMidnight = runs.find(r => r.label === 'real')?.presets.find(p => p.preset === 'midnight');
+    const currentMidnight = runs.find(r => r.label === 'painted')?.presets.find(p => p.preset === 'midnight');
     const beforeMidnight = runs.find(r => r.label === 'before')?.presets.find(p => p.preset === 'midnight');
     if (currentMidnight && beforeMidnight) gate(currentMidnight.ground.mean > beforeMidnight.ground.mean * 1.15,
       `midnight: ground illumination improved (${beforeMidnight.ground.mean.toFixed(1)} → ${currentMidnight.ground.mean.toFixed(1)}/255)`);
     for (let i = 0; i < presets.length; i++) for (let j = i + 1; j < presets.length; j++) {
-      const a = pictures.get(`real/${presets[i]}`), b = pictures.get(`real/${presets[j]}`);
+      const a = pictures.get(`painted/${presets[i]}`), b = pictures.get(`painted/${presets[j]}`);
       if (a && b) gate(measure(a, b).meanDifference > 2.5, `${presets[i]}/${presets[j]}: visibly distinct skies`);
     }
   }

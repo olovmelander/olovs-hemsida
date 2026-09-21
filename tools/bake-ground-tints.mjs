@@ -23,13 +23,13 @@ const results = [];
 try {
   for (const course of catalog.courses) {
     if (only.length && !only.includes(course.slug)) continue;
-    for (const painted of [false, true]) for (const quality of ['hi', 'lo']) {
+    for (const quality of ['hi', 'lo']) {
       const page = await browser.newPage({ viewport: { width: 1280, height: 720 }, serviceWorkers: 'block' });
       try {
         const errors = [];
         page.on('pageerror', e => errors.push(e.message));
         const query = new URLSearchParams({ bana: course.slug, v2: 'require', det: '1', qualitylock: '1',
-          q: quality, ghibli: painted ? '1' : '0', startup: '1', bakeTint: '1' });
+          q: quality, ghibli: '1', startup: '1', bakeTint: '1' });
         await page.goto(`${base}/?${query}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
         await page.waitForFunction(() => !!window.__GROUND_TINT_BAKE__, null, { timeout: 120000 });
         if (errors.length) throw new Error(errors.join('\n'));
@@ -41,6 +41,7 @@ try {
             return { ...layer, bytes: undefined, base64: btoa(binary) };
           }) };
         });
+        if (baked.variant !== `painted-${quality}`) throw new Error('bake did not use the supported visual setup');
         if (baked.revision !== revision) throw new Error('bake server is not built from the current source revision');
         let offset = 0;
         const parts = [], layers = [];

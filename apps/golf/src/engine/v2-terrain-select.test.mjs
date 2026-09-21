@@ -1,421 +1,119 @@
 import { describe, expect, it, vi } from 'vitest';
-import {
-  V2_GRAPH_RENDERER_GATE,
-  V2_OBJECT_LAYER_GATE,
-  V2_PUBLISHED_GRAPH_SLUGS,
-  selectV2TerrainSource,
-  v2ObjectLayerBlocker,
-  v2RequestMode,
-  v2StreamProbeRequested,
-} from './v2-terrain-select.mjs';
+import fs from 'node:fs';
+import { V2_PUBLISHED_GRAPH_SLUGS, V2_OBJECT_LAYER_GATE,
+  selectV2TerrainSource, v2ObjectLayerBlocker, v2RequestMode, v2StreamProbeRequested } from './v2-terrain-select.mjs';
+import { V2_GRAPH_FRONTIER_CONFIGS } from './v2-frontier-configs.mjs';
+import { PUTTOM_PREVIEW_CONFIG } from './v2-puttom-preview.mjs';
 
-const PACK_META = Object.freeze({
-  slug: 'puttom',
-  packUrl: 'courses/puttom/pack.bin',
-  bytes: 4096,
-  sha256: 'a'.repeat(64),
-});
-
-function readyPreview(slug) {
-  return Object.freeze({ requested: true, ready: true, status: 'ready', reason: null, slug });
+const ready = slug => Object.freeze({ slug, ready: true, requested: true, status: 'ready' });
+function fixture(slug = 'ribbingsfors') {
+  const graph = { slug, summary: { objectTiles: 0, standTiles: 0 } };
+  return {
+    slug, graph,
+    options: { slug, geo: { frame: 'fixture' }, packMeta: { slug, sha256: 'a'.repeat(64) },
+      graphResolver: vi.fn(async () => graph),
+      graphFrontierLoader: vi.fn(async () => ready(slug)),
+      previewLoader: vi.fn(async () => ready(slug)),
+      publishedGraphSlugs: [slug], graphFrontierConfigs: { [slug]: { slug } } },
+  };
 }
 
-function neverResolveGraph() {
-  return vi.fn(async () => { throw new Error('graph resolver must not run'); });
-}
-
-describe('v2RequestMode', () => {
-  it('recognises only the documented flag values', () => {
-    /* An ABSENT flag is the course's own default (v2 where a reviewed live
-       contract exists); any explicit value that is not documented -- ?v2=0
-       above all -- is the opt-out. */
-    expect(v2RequestMode('')).toBe('default');
-    expect(v2RequestMode('?bana=puttom')).toBe('default');
-    expect(v2RequestMode('?v2=1')).toBe('opt-in');
-    expect(v2RequestMode('?v2=require')).toBe('require');
-    expect(v2RequestMode('?v2=0')).toBe('off');
-    expect(v2RequestMode('?v2=2')).toBe('off');
+describe('v2 as the only terrain setup', () => {
+  it.each(['', '?v2=0', '?v2=1', '?v2=require', '?v2=unknown'])
+  ('requires verified v2 even for historical link %s', async search => {
+    expect(v2RequestMode(search)).toBe('require');
+    const { graph, options } = fixture();
+    const selection = await selectV2TerrainSource({ ...options, search });
+    expect(selection).toMatchObject({ requestMode: 'require', require: true, requested: true,
+      mode: 'fixed-frontier', graph, graphError: null, source: { ready: true } });
+    expect(options.previewLoader).not.toHaveBeenCalled();
+    expect(options.graphFrontierLoader).toHaveBeenCalledWith(expect.objectContaining({
+      graph, geo: options.geo, config: options.graphFrontierConfigs[options.slug] }));
+    expect(Object.isFrozen(selection)).toBe(true);
   });
-});
 
-describe('v2StreamProbeRequested', () => {
-  /* Lives beside v2RequestMode so the player can read it without importing
-     the probe -- a static import of the probe module put a v2 chunk in front
-     of every ordinary visitor. */
-  it('needs its own explicit flag', () => {
-    expect(v2StreamProbeRequested('?v2=1')).toBe(false);
-    expect(v2StreamProbeRequested('?v2=1&v2stream=1')).toBe(true);
-    expect(v2StreamProbeRequested('?v2stream=0')).toBe(false);
+  it('keeps diagnostics opt-in', () => {
     expect(v2StreamProbeRequested('')).toBe(false);
-  });
-});
-
-describe('selectV2TerrainSource', () => {
-  /* The registry is the one value here that tracks published data, so it is
-     asserted in exactly one place; every other test pins it explicitly rather
-     than inheriting it, so publishing a course cannot quietly change what
-     those tests mean. check-app-build is what keeps this list honest against
-     the built root. */
-  it('registers exactly the courses whose graph is published', () => {
-    expect(V2_PUBLISHED_GRAPH_SLUGS).toEqual([
-      'angso',
-      'johannesberg',
-      'johannesberg-9',
-      'lidingo',
-      'norrfallsviken',
-      'puttom',
-      'ribbingsfors',
-      'tortuna',
-      'upsala',
-      'upsala-mellanbanan',
-      'veckefjarden',
-      'veckefjarden-korthalsbanan',
-      'visby',
-    ]);
-    expect(Object.isFrozen(V2_PUBLISHED_GRAPH_SLUGS)).toBe(true);
+    expect(v2StreamProbeRequested('?v2=require')).toBe(false);
+    expect(v2StreamProbeRequested('?v2stream=1')).toBe(true);
   });
 
-  it('requires a course slug', async () => {
-    await expect(selectV2TerrainSource({ search: '?v2=1' })).rejects.toThrow(/slug/);
+  it('covers every public course with a published graph and a reviewed renderer', () => {
+    const root = JSON.parse(fs.readFileSync(new URL('../../public/courses/v2-index.json', import.meta.url)));
+    const catalog = JSON.parse(fs.readFileSync(new URL('../../public/courses/index.json', import.meta.url)));
+    const slugs = catalog.courses.map(c => c.slug).sort();
+    expect([...V2_PUBLISHED_GRAPH_SLUGS].sort()).toEqual(slugs);
+    expect(root.courses.map(c => c.slug).sort()).toEqual(slugs);
+    expect([...Object.keys(V2_GRAPH_FRONTIER_CONFIGS), PUTTOM_PREVIEW_CONFIG.slug].sort()).toEqual(slugs);
   });
 
-  it('makes no request and loads nothing under the ?v2=0 opt-out', async () => {
-    const graphResolver = neverResolveGraph();
-    const selection = await selectV2TerrainSource({
-      slug: 'puttom',
-      packMeta: PACK_META,
-      search: '?bana=puttom&v2=0',
-      publishedGraphSlugs: Object.freeze(['puttom']),
-      graphResolver,
-    });
-    expect(selection.mode).toBe('off');
-    expect(selection.defaulted).toBe(false);
-    expect(selection.requested).toBe(false);
-    expect(selection.require).toBe(false);
-    expect(selection.source.requested).toBe(false);
-    expect(selection.source.status).toBe('off');
-    expect(Number.isNaN(selection.source.heightAt(0, 0))).toBe(true);
-    expect(graphResolver).not.toHaveBeenCalled();
+  it('requires a slug and never probes an unpublished course', async () => {
+    await expect(selectV2TerrainSource()).rejects.toThrow(/slug/);
+    const { options } = fixture('unpublished');
+    await expect(selectV2TerrainSource({ ...options, publishedGraphSlugs: [] })).rejects.toThrow(/ingen publicerad/);
+    expect(options.graphResolver).not.toHaveBeenCalled();
   });
 
-  it('defaults a course with no reviewed live contract to off without probing the network', async () => {
-    /* No frontier contract and not the pilot: a flagless visit must stay
-       exactly what it always was -- pure GPK1, zero v2 requests. The real
-       registry is deliberately NOT used here: the point is the ABSENCE of a
-       contract, and every real course may eventually gain one. */
-    const graphResolver = neverResolveGraph();
-    const selection = await selectV2TerrainSource({
-      slug: 'not-a-published-course',
-      packMeta: { ...PACK_META, slug: 'not-a-published-course' },
-      search: '?bana=not-a-published-course',
-      publishedGraphSlugs: Object.freeze(['not-a-published-course']),
-      graphFrontierConfigs: Object.freeze({}),
-      graphResolver,
-    });
-    expect(selection.mode).toBe('off');
-    expect(selection.defaulted).toBe(true);
-    expect(selection.requested).toBe(false);
-    expect(selection.source.status).toBe('off');
-    expect(graphResolver).not.toHaveBeenCalled();
+  it('rejects a published course lacking a reviewed renderer', async () => {
+    const { options } = fixture();
+    await expect(selectV2TerrainSource({ ...options, graphFrontierConfigs: {} })).rejects.toThrow(/ingen verifierad v2-renderare/);
+    expect(options.graphResolver).not.toHaveBeenCalled();
   });
 
-  it('defaults a course with a reviewed frontier contract to the live v2 source', async () => {
-    const graph = Object.freeze({
-      slug: 'ribbingsfors',
-      summary: Object.freeze({ groundId: 'ribbingsfors', tiles: 85, surfaceTiles: 0 }),
-    });
-    const source = readyPreview('ribbingsfors');
-    const config = Object.freeze({ slug: 'ribbingsfors' });
-    const selection = await selectV2TerrainSource({
-      slug: 'ribbingsfors',
-      packMeta: { ...PACK_META, slug: 'ribbingsfors' },
-      search: '?bana=ribbingsfors',
-      publishedGraphSlugs: Object.freeze(['ribbingsfors']),
-      graphResolver: vi.fn(async () => graph),
-      graphFrontierLoader: vi.fn(async () => source),
-      graphFrontierConfigs: Object.freeze({ ribbingsfors: config }),
-      previewLoader: vi.fn(async () => { throw new Error('pilot loader must not run'); }),
-    });
-    expect(selection.mode).toBe('fixed-frontier');
-    expect(selection.defaulted).toBe(true);
-    expect(selection.requested).toBe(true);
-    /* the default behaves like ?v2=1, never like ?v2=require */
-    expect(selection.require).toBe(false);
-    expect(selection.source).toBe(source);
+  it.each(['', '?v2=0', '?v2=1', '?v2=require'])
+  ('reports graph verification failure without legacy fallback for %s', async search => {
+    const { options } = fixture();
+    const cause = new Error('root not canonical');
+    options.graphResolver.mockRejectedValue(new Error('root verification failed', { cause }));
+    await expect(selectV2TerrainSource({ ...options, search })).rejects.toThrow(/root verification failed: root not canonical/);
+    expect(options.graphFrontierLoader).not.toHaveBeenCalled();
+    expect(options.previewLoader).not.toHaveBeenCalled();
   });
 
-  it('defaults the retained pilot to its preview', async () => {
-    const previewLoader = vi.fn(async options => readyPreview(options.slug));
-    const selection = await selectV2TerrainSource({
-      slug: 'puttom',
-      packMeta: PACK_META,
-      search: '',
-      publishedGraphSlugs: Object.freeze([]),
-      previewLoader,
-      graphResolver: neverResolveGraph(),
-    });
-    expect(selection.mode).toBe('fixed-frontier');
-    expect(selection.defaulted).toBe(true);
-    expect(selection.require).toBe(false);
-    expect(previewLoader.mock.calls[0][0]).toMatchObject({ slug: 'puttom', requested: true });
+  it('rejects an empty graph resolver result', async () => {
+    const { options } = fixture(); options.graphResolver.mockResolvedValue(null);
+    await expect(selectV2TerrainSource(options)).rejects.toThrow(/grafen saknas/);
   });
 
-  it('keeps an unpublished non-pilot course on the explicit fallback without probing the network', async () => {
-    const graphResolver = neverResolveGraph();
-    /* The real registry, not a stub: a course with no published graph must
-       stay off the network even while another course has one. The slug is
-       deliberately NOT a real course. This test named Ängsö first and then
-       Norrfällsviken, and each in turn gained a v2 ground and broke it; a
-       fleet where every course is eventually published has no real course
-       left to mean "unpublished", so the example is a synthetic slug that
-       nothing will ever publish. */
-    const selection = await selectV2TerrainSource({
-      slug: 'not-a-published-course',
-      packMeta: { ...PACK_META, slug: 'not-a-published-course' },
-      search: '?v2=1',
-      graphResolver,
-    });
-    expect(V2_PUBLISHED_GRAPH_SLUGS).not.toContain('not-a-published-course');
-    expect(selection.mode).toBe('fallback');
-    expect(selection.requested).toBe(true);
-    expect(selection.graph).toBe(null);
-    expect(selection.graphError).toBe(null);
-    expect(selection.source.status).toBe('fallback');
-    expect(selection.source.reason).toBe('course-not-enabled');
-    expect(graphResolver).not.toHaveBeenCalled();
+  it('reports tile failure and disposes the course transport without invoking the pilot', async () => {
+    const { graph, options } = fixture();
+    const chunkSource = { dispose: vi.fn() };
+    options.createChunkSource = vi.fn(async () => chunkSource);
+    options.graphFrontierLoader.mockRejectedValue(new Error('tile hash mismatch'));
+    await expect(selectV2TerrainSource(options)).rejects.toThrow(/tile hash mismatch/);
+    expect(options.createChunkSource).toHaveBeenCalledWith(graph);
+    expect(chunkSource.dispose).toHaveBeenCalledOnce();
+    expect(options.previewLoader).not.toHaveBeenCalled();
   });
 
-  it('routes the retained pilot through the preview loader with an explicit request decision', async () => {
-    const previewLoader = vi.fn(async options => readyPreview(options.slug));
-    const selection = await selectV2TerrainSource({
-      slug: 'puttom',
-      geo: { origin: { lat: 63.2992, lon: 18.9413 } },
-      packMeta: PACK_META,
-      search: '?v2=1',
-      publishedGraphSlugs: Object.freeze([]),
-      previewLoader,
-      graphResolver: neverResolveGraph(),
-    });
-    expect(selection.mode).toBe('fixed-frontier');
-    expect(selection.require).toBe(false);
-    expect(previewLoader).toHaveBeenCalledTimes(1);
-    expect(previewLoader.mock.calls[0][0]).toMatchObject({
-      slug: 'puttom',
-      packSha256: PACK_META.sha256,
-      requested: true,
-    });
+  it('rejects an unready frontier instead of allowing legacy rendering', async () => {
+    const { options } = fixture();
+    options.graphFrontierLoader.mockResolvedValue({ ready: false, reason: 'missing terrain tile' });
+    await expect(selectV2TerrainSource(options)).rejects.toThrow(/missing terrain tile/);
   });
 
-  it('fails closed under ?v2=require when no v2 source can serve', async () => {
-    await expect(selectV2TerrainSource({
-      slug: 'angso',
-      packMeta: { ...PACK_META, slug: 'angso' },
-      search: '?v2=require',
-      publishedGraphSlugs: Object.freeze([]),
-    })).rejects.toThrow(/v2 krävdes men ingen verifierad v2-terräng finns för angso/);
-
-    const failedPreview = vi.fn(async options => Object.freeze({
-      requested: true, ready: false, status: 'fallback', reason: 'load-failed',
-      error: 'descriptor hash mismatch', slug: options.slug,
-    }));
-    await expect(selectV2TerrainSource({
-      slug: 'puttom',
-      packMeta: PACK_META,
-      search: '?v2=require',
-      publishedGraphSlugs: Object.freeze([]),
-      previewLoader: failedPreview,
-    })).rejects.toThrow(/descriptor hash mismatch/);
-
-    /* And with the graph published: a pilot whose preview cannot verify is
-       still a boot error under require, even though its graph resolved. */
-    await expect(selectV2TerrainSource({
-      slug: 'puttom',
-      packMeta: PACK_META,
-      search: '?v2=require',
-      publishedGraphSlugs: Object.freeze(['puttom']),
-      graphResolver: vi.fn(async () => ({ slug: 'puttom', summary: { tiles: 85 } })),
-      previewLoader: failedPreview,
-    })).rejects.toThrow(/descriptor hash mismatch/);
-  });
-
-  it('reports a verified published graph and gates its renderer explicitly', async () => {
-    const graph = Object.freeze({
-      slug: 'angso',
-      summary: Object.freeze({ groundId: 'angso', tiles: 2, holes: 18 }),
-    });
-    const graphResolver = vi.fn(async () => graph);
-    const previewLoader = vi.fn(async () => { throw new Error('preview must not load for a graph course'); });
-    const selection = await selectV2TerrainSource({
-      slug: 'angso',
-      packMeta: { ...PACK_META, slug: 'angso' },
-      search: '?v2=1',
-      publishedGraphSlugs: Object.freeze(['angso']),
-      graphResolver,
-      previewLoader,
-    });
-    expect(selection.mode).toBe('graph');
+  it('keeps Puttom on its verified v2 adapter with the published graph attached', async () => {
+    const { graph, options } = fixture('puttom');
+    const selection = await selectV2TerrainSource({ ...options, search: '?v2=0',
+      graphFrontierConfigs: {}, previewOptions: { requested: false } });
     expect(selection.graph).toBe(graph);
-    expect(selection.source.requested).toBe(true);
-    expect(selection.source.ready).toBe(false);
-    expect(selection.source.status).toBe('fallback');
-    expect(selection.source.reason).toBe(V2_GRAPH_RENDERER_GATE);
-    expect(previewLoader).not.toHaveBeenCalled();
-    expect(graphResolver).toHaveBeenCalledWith(expect.objectContaining({ slug: 'angso' }));
-  });
-
-  it('turns a reviewed graph frontier into the selected live source without calling the pilot loader', async () => {
-    const graph = Object.freeze({
-      slug: 'ribbingsfors',
-      summary: Object.freeze({ groundId: 'ribbingsfors', tiles: 85, surfaceTiles: 0 }),
-    });
-    const source = readyPreview('ribbingsfors');
-    const config = Object.freeze({ slug: 'ribbingsfors' });
-    const graphFrontierLoader = vi.fn(async () => source);
-    const previewLoader = vi.fn(async () => { throw new Error('pilot loader must not run'); });
-    const selection = await selectV2TerrainSource({
-      slug: 'ribbingsfors',
-      geo: { frame: 'fixture' },
-      packMeta: { ...PACK_META, slug: 'ribbingsfors' },
-      search: '?v2=require',
-      publishedGraphSlugs: Object.freeze(['ribbingsfors']),
-      graphResolver: vi.fn(async () => graph),
-      graphFrontierLoader,
-      graphFrontierConfigs: Object.freeze({ ribbingsfors: config }),
-      previewLoader,
-    });
-    expect(selection.mode).toBe('fixed-frontier');
+    expect(selection.frontierConfig).toBe(PUTTOM_PREVIEW_CONFIG);
+    expect(selection.source.ready).toBe(true);
     expect(selection.require).toBe(true);
-    expect(selection.graph).toBe(graph);
-    expect(selection.source).toBe(source);
-    expect(selection.frontierConfig).toBe(config);
-    expect(graphFrontierLoader).toHaveBeenCalledWith(expect.objectContaining({
-      graph, config, geo: { frame: 'fixture' },
-    }));
-    expect(previewLoader).not.toHaveBeenCalled();
+    expect(options.previewLoader).toHaveBeenCalledWith(expect.objectContaining({ requested: true, packSha256: options.packMeta.sha256 }));
+    expect(options.graphFrontierLoader).not.toHaveBeenCalled();
   });
 
-  it('fails required graph-frontier activation closed and reports opt-in failure as graph fallback', async () => {
-    const graph = Object.freeze({
-      slug: 'ribbingsfors',
-      summary: Object.freeze({ groundId: 'ribbingsfors', tiles: 85, surfaceTiles: 0 }),
-    });
-    const options = {
-      slug: 'ribbingsfors',
-      packMeta: { ...PACK_META, slug: 'ribbingsfors' },
-      publishedGraphSlugs: Object.freeze(['ribbingsfors']),
-      graphResolver: vi.fn(async () => graph),
-      graphFrontierLoader: vi.fn(async () => { throw new Error('tile hash mismatch'); }),
-      graphFrontierConfigs: Object.freeze({ ribbingsfors: Object.freeze({ slug: 'ribbingsfors' }) }),
-    };
-    await expect(selectV2TerrainSource({ ...options, search: '?v2=require' }))
-      .rejects.toThrow(/terrängfronten.*tile hash mismatch/);
-    const selection = await selectV2TerrainSource({ ...options, search: '?v2=1' });
-    expect(selection.mode).toBe('graph');
-    expect(selection.graphError).toBe('tile hash mismatch');
-    expect(selection.source.reason).toBe(V2_GRAPH_RENDERER_GATE);
-    /* and a DEFAULTED visit takes the silent opt-in path, never the closed one:
-       a broken v2 ground must not stop an ordinary visitor's course opening */
-    const defaulted = await selectV2TerrainSource({ ...options, search: '?bana=ribbingsfors' });
-    expect(defaulted.defaulted).toBe(true);
-    expect(defaulted.mode).toBe('graph');
-    expect(defaulted.graphError).toBe('tile hash mismatch');
+  it('does not fall back when the Puttom adapter fails verification', async () => {
+    const { options } = fixture('puttom');
+    options.previewLoader.mockResolvedValue({ ready: false, error: 'surface hash mismatch' });
+    await expect(selectV2TerrainSource({ ...options, graphFrontierConfigs: {} })).rejects.toThrow(/surface hash mismatch/);
   });
 
-  it('fails closed under ?v2=require when the graph is verified but its renderer is gated', async () => {
-    /* A published slug with no reviewed live contract in
-       V2_GRAPH_FRONTIER_CONFIGS. This test named Ängsö first and then
-       Norrfällsviken, and BOTH stopped exercising the gate as soon as they were
-       given a contract -- so naming a third real course would only schedule the
-       same breakage again. The gate is about the ABSENCE of a contract, not
-       about which course currently lacks one, so the registry is passed in
-       empty and the test no longer depends on the state of the fleet. */
-    await expect(selectV2TerrainSource({
-      slug: 'norrfallsviken',
-      packMeta: { ...PACK_META, slug: 'norrfallsviken' },
-      search: '?v2=require',
-      publishedGraphSlugs: Object.freeze(['norrfallsviken']),
-      graphResolver: vi.fn(async () => ({ slug: 'norrfallsviken', summary: {} })),
-      graphFrontierConfigs: Object.freeze({}),
-    })).rejects.toThrow(/generella v2-renderaren är inte aktiverad/);
-  });
-
-  /* The vegetation plan's object-layer gate: with the vegetation runtime
-     present (Phase 4) a graph may declare object and stand layers; without
-     it, such a graph must never render the legacy planter over ground whose
-     registry says which trees stand there. */
-  it('accepts object and stand layers with the vegetation runtime, and blocks them without it', async () => {
-    expect(v2ObjectLayerBlocker(null)).toBe(null);
-    expect(v2ObjectLayerBlocker({ summary: { objectTiles: 0 } })).toBe(null);
-    expect(v2ObjectLayerBlocker({ summary: {} })).toBe(null);
+  it('accepts declared vegetation only when its runtime is supported', () => {
     expect(v2ObjectLayerBlocker({ summary: { objectTiles: 3, standTiles: 4 } })).toBe(null);
     expect(v2ObjectLayerBlocker({ summary: { objectTiles: 3 } }, { activated: false })).toContain(V2_OBJECT_LAYER_GATE);
     expect(v2ObjectLayerBlocker({ summary: { standTiles: 1 } }, { activated: false })).toContain(V2_OBJECT_LAYER_GATE);
     expect(v2ObjectLayerBlocker({ summary: { objectTiles: 0 } }, { activated: false })).toBe(null);
-
-    /* the pilot: a ready preview pairs with a graph that carries objects */
-    const graph = Object.freeze({ slug: 'puttom', summary: Object.freeze({ tiles: 85, objectTiles: 64, standTiles: 64 }) });
-    const selection = await selectV2TerrainSource({
-      slug: 'puttom',
-      packMeta: PACK_META,
-      search: '?v2=require',
-      graphResolver: vi.fn(async () => graph),
-      previewLoader: vi.fn(async () => readyPreview('puttom')),
-    });
-    expect(selection.mode).toBe('fixed-frontier');
-    expect(selection.graph).toBe(graph);
-    expect(selection.graphError).toBe(null);
-  });
-
-  it('records a graph failure and falls through under ?v2=1, but fails closed under ?v2=require', async () => {
-    const graphResolver = vi.fn(async () => { throw new Error('root sha mismatch'); });
-    const optIn = await selectV2TerrainSource({
-      slug: 'angso',
-      packMeta: { ...PACK_META, slug: 'angso' },
-      search: '?v2=1',
-      publishedGraphSlugs: Object.freeze(['angso']),
-      graphResolver,
-    });
-    expect(optIn.mode).toBe('fallback');
-    expect(optIn.graph).toBe(null);
-    expect(optIn.graphError).toContain('root sha mismatch');
-    expect(optIn.source.reason).toBe('published-graph-unavailable');
-    expect(optIn.source.error).toContain('root sha mismatch');
-
-    await expect(selectV2TerrainSource({
-      slug: 'angso',
-      packMeta: { ...PACK_META, slug: 'angso' },
-      search: '?v2=require',
-      publishedGraphSlugs: Object.freeze(['angso']),
-      graphResolver,
-    })).rejects.toThrow(/publicerade v2-grafen för angso kunde inte verifieras: root sha mismatch/);
-  });
-
-  it('prefers the ready pilot and still attaches a verified pilot graph', async () => {
-    const graph = Object.freeze({ slug: 'puttom', summary: Object.freeze({ groundId: 'puttom' }) });
-    const selection = await selectV2TerrainSource({
-      slug: 'puttom',
-      packMeta: PACK_META,
-      search: '?v2=1',
-      publishedGraphSlugs: Object.freeze(['puttom']),
-      graphResolver: vi.fn(async () => graph),
-      previewLoader: vi.fn(async options => readyPreview(options.slug)),
-    });
-    expect(selection.mode).toBe('fixed-frontier');
-    expect(selection.graph).toBe(graph);
-  });
-  it('retains the underlying published terrain failure on a normal Norrfallsviken visit', async () => {
-    const failure = new Error('v2 root manifest could not be loaded', {
-      cause: new Error('v2 root manifest is not canonical JSON'),
-    });
-    const selection = await selectV2TerrainSource({
-      slug: 'norrfallsviken', packMeta: PACK_META, search: '?bana=norrfallsviken',
-      publishedGraphSlugs: ['norrfallsviken'],
-      graphFrontierConfigs: { norrfallsviken: { slug: 'norrfallsviken' } },
-      graphResolver: vi.fn(async () => { throw failure; }),
-    });
-    expect(selection.source.ready).toBe(false);
-    expect(selection.source.reason).toBe('published-graph-unavailable');
-    expect(selection.source.error).toContain('not canonical JSON');
-    expect(selection.graphError).toBe(selection.source.error);
   });
 });

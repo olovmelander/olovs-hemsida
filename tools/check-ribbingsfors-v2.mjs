@@ -7,12 +7,8 @@
      node tools/serve.mjs apps/golf/dist 8620
      BANVY_GPU=1 node tools/check-ribbingsfors-v2.mjs [baseUrl]
 
-   This intentionally boots both paths. Ribbingsfors serves v2 by default now
-   (the frontier registry decides), so the pure-GPK1 proof runs on the
-   explicit ?v2=0 opt-out; the required URL must complete the transactional
-   GPU preflight and legacy cut, then expose the published 1 m terrain and
-   vegetation evidence. The flagless default itself is gated by
-   tools/check-course-v2.mjs. */
+   Ordinary and historical opt-out links both serve verified v2. This gate
+   retains the course-specific vegetation, water and frame assertions. */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
 import { browserArgs } from './browser-args.mjs';
@@ -91,11 +87,11 @@ const gate = (condition, label) => {
   console.log(`${condition ? 'ok  ' : 'FAIL'} ${label}`);
   if (!condition) failures++;
 };
-gate(plain.booted && plain.errors.length === 0, '?v2=0 GPK1 path boots without page errors');
-gate(plain.report?.terrain.requested === false && plain.report?.terrain.mode === 'off',
-  '?v2=0 opt-out does not request v2');
-gate(plain.report?.objects.loaded === null && plain.report?.objects.planned === null,
-  '?v2=0 opt-out does not load or plant v2 vegetation');
+gate(plain.booted && plain.errors.length === 0, 'historical opt-out link boots without page errors');
+gate(plain.report?.terrain.ready === true && plain.report?.terrain.requestMode === 'require',
+  'historical opt-out still requires verified v2');
+gate(plain.report?.objects.loaded != null && plain.report?.objects.planned != null,
+  'historical opt-out loads and plants the published vegetation');
 
 const terrain = required.report?.terrain;
 const renderer = terrain?.renderer;
@@ -174,7 +170,7 @@ gate(lake?.shore?.inWater === true && lake?.shore?.depth > 0.5 && lake?.shore?.d
 gate(required.report?.lakeSheets?.length === 1 && required.report?.lakeSheets[0].depthMean > 1.5,
   'the Skagern sheet reads deep water over most of its vertices, not silt');
 const plainLake = plain.report?.lakeBed;
-gate(plainLake?.openGround < 69.3 - 4.5, 'the GPK1 path carves the same lake (legacy carve)');
+gate(plainLake?.open?.depth >= 3, 'historical links retain the verified v2 lake bed');
 
 if (plain.errors.length) console.log(`?v2=0 page error: ${plain.errors[0]}`);
 if (required.errors.length) console.log(`required page error: ${required.errors[0]}`);

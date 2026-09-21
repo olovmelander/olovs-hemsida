@@ -64,10 +64,8 @@ async function checkCourse(c) {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 } });
   const errs = [];
   page.on('pageerror', e => errs.push(String(e).slice(0, 160)));
-  /* v2=0 pins the GPK1 pack path this gate was written for (cards, HUD, atlas
-     probes, deep links); courses with a reviewed v2 ground serve v2 flagless
-     now, and that default is gated by tools/check-course-v2.mjs instead. */
-  await page.goto(`${BASE}/?bana=${c.slug}&det=1&v2=0`, { waitUntil: 'load', timeout: 120000 });
+  // Exercise the supported v2 + Ghibli player, including every course card.
+  await page.goto(`${BASE}/?bana=${c.slug}&det=1`, { waitUntil: 'load', timeout: 120000 });
   try { await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT }); }
   catch { gate(false, 'boot did not complete'); await page.close(); return; }
 
@@ -272,19 +270,21 @@ async function checkCourse(c) {
   }
   console.log(`  perf atlas ${got.ground.perf.atlasMs} ms, boot JS ${got.ground.perf.totalMs} ms`);
 
-  /* The vegetation plan, held on every course on the PLAIN path: without a
-     v2 flag the legacy planter is the only tree population, its export
-     agrees with the draw statistics, and no v2 vegetation was loaded. The
-     v2 path -- registry trees, stand fields, the lattice cut out of their
-     coverage -- is gated by tools/vegetation-baseline.mjs on Puttom. */
+  /* The sole visual setup uses the published vegetation where declared.
+     The placement export includes both surveyed trees and uncovered stands. */
   const veg = await page.evaluate(() => {
     const V = window.V3D;
     const trees = V.legacyTrees();
     return { total: trees.total, statsTrees: V.stats.trees, zones: trees.zones, reasons: trees.reasons, objects: V.v2Objects() };
   });
   gate(veg.total === veg.statsTrees, `tree export (${veg.total}) matches the planter count (${veg.statsTrees}); zones ${JSON.stringify(veg.zones)}`);
-  gate(veg.objects.loaded === null && !(veg.reasons.v2Individual > 0) && !(veg.reasons.v2Stand > 0),
-    `no v2 vegetation on the plain path (${veg.objects.graphObjectTiles ?? 'no graph'} object tiles referenced)`);
+  const objects = veg.objects;
+  const declaredVegetation = (objects.graphObjectTiles || 0) + (objects.graphStandTiles || 0);
+  gate(objects.error === null && (declaredVegetation > 0
+    ? objects.loaded?.referencedObjectTiles === objects.graphObjectTiles &&
+      objects.loaded?.referencedStandTiles === objects.graphStandTiles
+    : objects.loaded === null),
+    `published vegetation is loaded completely (${objects.graphObjectTiles ?? 0} object / ${objects.graphStandTiles ?? 0} stand tiles)`);
 
   /* The land-cover record (tools/build-landcover.mjs): where the manifest
      declares one it must have loaded, decoded and reached the far tint's

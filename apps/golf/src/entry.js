@@ -2,6 +2,12 @@
    historical URLs still enter the player directly. */
 import { legacyTarget } from './shell/router.js';
 import { coursePreview } from './course-previews.mjs';
+import { supportedVisualSearch } from './engine/look-mode.mjs';
+
+const supportedSearch = supportedVisualSearch(location.search);
+if (supportedSearch !== location.search) {
+  history.replaceState(history.state, '', location.pathname + supportedSearch + location.hash);
+}
 
 const legacy = legacyTarget(location.pathname, location.search);
 if (legacy) {

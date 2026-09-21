@@ -96,10 +96,10 @@ try {
   }
   if(errors.length)throw new Error(errors.join('\n'));
   const appResults=[];
-  if(process.argv.includes('--app'))for(const ground of ['atlas','mesh']) {
+  if(process.argv.includes('--app'))for(const ground of ['v2-ghibli']) {
     const app = await browser.newPage({viewport:{width:1200,height:800}}), appErrors=[];
     app.on('pageerror',e=>appErrors.push(e.message));
-    await app.goto(base+'/?bana=angso&v2=0&gl=1&q=low&det=1&vind=270,5&ground='+ground);
+    await app.goto(base+'/?bana=angso&gl=1&q=lo&det=1&vind=270,5');
     await app.waitForFunction(()=>window.V3D?.cups,null,{timeout:240000});
     const cups=await app.evaluate(()=>window.V3D.cups());
     if(cups.positions.length!==18)throw new Error('Missing cups');

@@ -10,17 +10,9 @@
    contract, so a course added there without its browser proof passing fails
    here rather than in front of someone.
 
-   Each course is booted twice on purpose. A slug in this registry serves v2
-   BY DEFAULT, so the ordinary flagless URL -- the one a visitor actually
-   opens -- must complete the transactional preflight and legacy cut, then
-   render the published metre terrain; and the explicit ?v2=0 opt-out must
-   stay pure GPK1 -- a v2 chunk must not reach a visitor who declined it.
-   (?v2=require's fail-closed semantics are unit-tested in
-   v2-terrain-select.test.mjs; the serving path it proves in a browser is the
-   same one the flagless boot takes here.) What is asserted per course comes
-   from that course's own config, never from a literal here: the tile count,
-   the bridge the config declares, and the exact legacy CORE omission it
-   reviewed. */
+   Both ordinary and historical opt-out links must serve v2 + Ghibli.
+   The reviewed per-course contract still gates tile counts, bridges and cuts.
+   Missing/corrupt terrain must fail visibly rather than select GPK1. */
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
 import { browserArgs } from './browser-args.mjs';
@@ -41,7 +33,7 @@ for (const slug of slugs) {
 }
 
 const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const executablePath = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
+const executablePath = process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined);
 const browser = await chromium.launch({
   ...(executablePath ? { executablePath } : { channel: 'chrome' }),
   args: browserArgs(),
@@ -50,6 +42,7 @@ const browser = await chromium.launch({
 async function boot(search) {
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
   const errors = [];
+  await page.addInitScript(() => localStorage.setItem('banvy:ghibli-look', '0'));
   page.on('pageerror', error => errors.push(String(error).split('\n')[0].slice(0, 240)));
   await page.goto(`${BASE}/${search}`, { waitUntil: 'load', timeout: 120_000 });
   let booted = true;
@@ -74,6 +67,8 @@ async function boot(search) {
         boundaryBlendMetres: terrain.boundaryBlendMetres,
       },
       objects: window.V3D.v2Objects(),
+      look: window.V3D.treeCatalogue().look,
+      styleControls: document.querySelectorAll('#lookBtn, #dLookBtn').length,
     };
   }) : null;
   await page.close();
@@ -91,20 +86,20 @@ const near = (value, expected, tolerance = 1e-6) =>
 for (const slug of slugs) {
   const config = V2_GRAPH_FRONTIER_CONFIGS[slug];
   console.log(`\n${slug} — ${config.label}`);
-  const optOut = await boot(`?bana=${slug}&det=1&v2=0`);
+  const oldLink = await boot(`?bana=${slug}&det=1&v2=0&ghibli=0&look=real&ground=mesh&trees=procedural`);
   const plain = await boot(`?bana=${slug}&det=1`);
 
-  gate(optOut.booted && optOut.errors.length === 0, '?v2=0 GPK1 path boots without page errors');
-  gate(optOut.report?.terrain.requested === false && optOut.report?.terrain.mode === 'off',
-    '?v2=0 opt-out does not request v2');
-  gate(optOut.report?.objects.loaded === null && optOut.report?.objects.planned === null,
-    '?v2=0 opt-out does not load or plant v2 vegetation');
+  gate(oldLink.booted && oldLink.errors.length === 0, 'historical visual-mode link boots without page errors');
+  gate(oldLink.report?.terrain.ready === true && oldLink.report?.terrain.requestMode === 'require',
+    'historical opt-out still serves verified v2');
+  gate([oldLink, plain].every(run => run.report?.look === 'painted' && run.report?.styleControls === 0),
+    'Ghibli is the sole style even with a saved realistic preference');
 
   const terrain = plain.report?.terrain;
   const renderer = terrain?.renderer;
   gate(plain.booted && plain.errors.length === 0, 'default v2 path boots without page errors');
   gate(terrain?.requested === true && terrain?.ready === true && terrain?.status === 'ready' &&
-    terrain?.mode === 'fixed-frontier' && terrain?.requestMode === 'opt-in' &&
+    terrain?.mode === 'fixed-frontier' && terrain?.requestMode === 'require' &&
     terrain?.defaulted === true,
     'the reviewed fixed frontier serves the flagless visit by default');
   /* A config that declares a published ring graph must be SERVED by it: the
@@ -200,7 +195,7 @@ for (const slug of slugs) {
       'no v2 vegetation is published for this ground, and none is half-loaded');
   }
 
-  for (const error of optOut.errors.slice(0, 2)) console.log(`  ?v2=0 page error: ${error}`);
+  for (const error of oldLink.errors.slice(0, 2)) console.log(`  historical link page error: ${error}`);
   for (const error of plain.errors.slice(0, 2)) console.log(`  flagless page error: ${error}`);
   if (renderer?.error) console.log(`  renderer: ${renderer.error}`);
 }

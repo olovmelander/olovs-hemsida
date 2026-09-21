@@ -40,7 +40,7 @@ const gate = (ok, message) => {
   if (!ok) process.exitCode = 1;
 };
 
-await page.goto(`${BASE}/?bana=veckefjarden&hal=12&vy=tee&det=1&v2=0`, { waitUntil: 'load', timeout: 180_000 });
+await page.goto(`${BASE}/?bana=veckefjarden&hal=12&vy=tee&det=1`, { waitUntil: 'load', timeout: 180_000 });
 await page.waitForSelector('#boot.done', { timeout: 600_000 });
 await page.waitForTimeout(1200);
 
