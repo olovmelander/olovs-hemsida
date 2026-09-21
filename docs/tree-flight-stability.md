@@ -17,14 +17,50 @@ placements, including repeated frustum exits and reentries.
 
 | Distance from a playing line | High quality | Low quality / phone |
 | --- | --- | --- |
-| Within about 90 m | Hero mesh | Full mesh |
-| About 90–300 m | Full mesh | Reduced mesh |
-| About 300–700 m | Reduced mesh | Billboard |
-| Farther out | Billboard | Billboard |
+| Within about 300 m | Hero mesh | Hero mesh |
+| Farther out | Impostor | Impostor |
 
 Changing the camera position, altitude, zoom or active view does not change a
-tree's geographic tier. `lodmode=screen` and `lod=1..4` remain explicit review
-overrides. Normal visits should use the default zone mode.
+tree's geographic tier. Normal visits should use the default zone mode.
+
+As of September 21, 2026, the app draws only **Hero and Impostor** trees.
+Full and Lite are no longer downloaded, instantiated or selected by either
+quality profile. The authored Hero geometry also supplies the impostor bake.
+The standalone asset studies retain access to the older models for comparisons.
+`hero=0` cannot downgrade the app's meshes. Review overrides still work:
+`lod=1` selects Hero, `lod=4` selects Impostor, and old `lod=2` / `lod=3`
+links resolve to Hero. `lodmode=screen` also resolves every mesh request to
+Hero. Diagnostic `tier1` / `tier2` counters remain zero, preserving existing
+capture formats without allocating their old geometry or instance buffers.
+
+The higher mesh quality costs more triangles, especially on phones: Hero
+models have 4,032–4,500 triangles versus 1,620–1,700 for Full and 108–308 for
+Lite. The 300 m corridor, tree placement, density rules and frustum culling
+are retained. Reduced downloads and allocations do not imply equal GPU cost;
+actual phone frame time requires a physical-device measurement.
+
+### September 21 verification
+
+- 87 targeted tests pass, including the actual tier update across high/low
+  quality, both backend coordinate systems, 180-position flights, screen-mode
+  overrides and historical forced Full/Lite requests. Geographic flights have
+  no detail switches; retired tier counts remain zero.
+- Production build and the app's no-undefined-variable lint pass.
+- The real Visby v2 app renders on WebGL2/SwiftShader at 390 × 844 with
+  `q=lo&hero=0`. It requests only seven Hero GLBs plus five species atlases.
+  The tee view contains 480 Hero trees and 413 impostors; the overhead view
+  contains 100 Hero trees. Camera movement causes zero detail switches, slot
+  audits pass, no Full/Lite drawables exist, and there are no page errors.
+- Authored model/atlas payload falls from 2,753,641 to 2,125,493 bytes for
+  the standard catalogue (22.8%), and 3,508,685 to 2,648,453 bytes at Visby
+  (24.5%). These are uncompressed asset bytes, excluding the manifest.
+- The Visby tee's tree batches submit 2,160,826 triangles, including the
+  impostors. This is a workload count, not an FPS measurement. Physical phone
+  performance remains unmeasured.
+
+Reproduce with `CHROME=/path/to/chrome node tools/check-hero-impostor.mjs
+--course visby --q lo` against `tools/serve.mjs apps/golf/dist 8620`.
+Evidence: [report and captures](graphics/hero-impostor-2026-09-21/).
 
 ## What caused the apparent switching
 
@@ -59,7 +95,7 @@ Tree coordinates, species, measured dimensions, populations and course data
 remain unchanged. This addresses reproduced tree-edge pixels and atlas flashes;
 it does not change the water material or introduce a particle effect.
 
-## Verification
+## September 9 verification (before the two-tier change)
 
 - The full repository suite passes: **571 Vitest tests and 405 Node tests**;
   three pre-existing Node tests are skipped.

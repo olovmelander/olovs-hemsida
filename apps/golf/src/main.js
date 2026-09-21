@@ -4622,9 +4622,9 @@ const TREES_PARAM = new URLSearchParams(location.search).get('trees') ?? (GHIBLI
 const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
   try {
     const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
-    /* Load the close tier by default. ?hero=0 reuses an independent copy of
-       the middle mesh in that slot; automatic quality/zone selection remains. */
-    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug, hero: new URLSearchParams(location.search).get('hero') !== '0' });
+    /* Hero is the only mesh tier, including on phones and old ?hero=0 links.
+       The same template supplies the distant impostor; no Full/Lite downloads. */
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug, heroOnly: true });
     console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { console.warn('ghibli trees unavailable, procedural templates kept:', err); return null; }
@@ -4676,7 +4676,7 @@ const SPECIES = (() => {
     /* species 3 and 4 (alder, oak) exist only with the authored set: the
        course rules ask for them by index when `extended` is on */
     if (!table[s]) table[s] = { cc: 0, tc: 0, sc: GHIBLI.colours[s].sc || [0.7, 1.2] };
-    table[s].crown = g.full.crown; table[s].trunk = g.full.trunk;
+    table[s].crown = g.hero.crown; table[s].trunk = g.hero.trunk;
     table[s].cc = GHIBLI.colours[s].cc; table[s].tc = GHIBLI.colours[s].tc;
   }
   return table;
@@ -5100,7 +5100,7 @@ if (V2_VEG_PLAN) {
    request. Computed on demand, never at boot. */
 const LEGACY_TREE_REASONS = ['none', 'forestRing', 'scrubRing', 'satellite', 'shore', 'v2Individual', 'v2Stand'];
 const LEGACY_ZONE_A_METRES = 90, LEGACY_ZONE_B_METRES = 300;
-/* the third band, for the tier-by-zone rule: decimated crowns out to here, impostors beyond */
+/* Retained third band for geographic diagnostics; both outer bands use impostors. */
 const ZONE_C_METRES = 700;
 function legacyTreeExport(withInstances = false) {
   const names = SPECIES_NAMES;
@@ -5139,24 +5139,13 @@ function legacyTreeExport(withInstances = false) {
 }
 lap('v2 vegetation: push planned trees');
 /* ------------------------------------------------------------ tree tiers
-   Every tree used to be the same 204-436 triangle template at every distance,
-   in six InstancedMeshes whose bounding spheres were the whole course, so
-   nothing was ever culled and 92,000 trees were drawn twice a frame (once
-   for the camera, once into the shadow map). docs/tree-lod-plan.md is the
-   plan; this is its phase 1: two tiers, chosen per 128 m cell by the height
-   a nominal tree projects to, with hysteresis, and cells outside the frustum
-   in no tier at all.
-
-   The container is deliberately NOT BatchedMesh: on the WebGPU backend a
-   BatchedMesh is one draw command per instance inside the pass, and on
-   WebGL2 it needs WEBGL_multi_draw. One InstancedMesh per (species, part,
-   tier) is one instanced draw on both backends -- twelve draws for the
-   forest -- and an instance moves between tiers by a swap-remove in one
-   tier's slot list and an append in the other's, with the matrix copied
-   from a table built once at boot. Placement never changes: trees[] and
-   treeWhy[] are what the baseline and the fingerprint read, and they are
-   untouched. The far cones beyond MIDR are unchanged until phase 2 (the
-   impostors) replaces them. */
+   Hero meshes within 300 m of a hole line, image impostors beyond, for both
+   quality profiles. Geographic tiers do not change during camera movement.
+   Each species/variant uses two InstancedMeshes (crown/trunk) and an impostor
+   batch, with cell frustum culling and dirty-range instance uploads.
+   Tree positions and measured dimensions belong to the existing planter.
+   Screen-size selection remains an explicit review override, but it too can
+   draw only Hero or Impostor. Indices 2/3 are empty diagnostic placeholders. */
 /* ?lodpin=a,b overrides the course corridor's tier floors (4,4 switches them off) */
 const LODPIN = (() => {
   const q = new URLSearchParams(location.search).get('lodpin'), v = q ? q.split(',').map(Number) : null;
@@ -5175,125 +5164,36 @@ const LODPX = (() => {
 })();
 const TREE_LOD = {
   cell: 128, cells: [], tiers: [], mats: [], imp: [], tint: [], atlases: [], ready: false,
-  /* Phase 4 (docs/tree-lod-plan.md): the tier is decided PER TREE from the
-     pixels its own drawn height projects to -- hero above heroPx, the full
-     template above switchPx, decimated above impostorPx, an impostor below --
-     with a hysteresis band on every boundary; nominalHeight is only what the
-     tools quote a boundary distance for. A switch is a CROSSFADE of fadeS
-     seconds (engine/tree-fade.mjs): 0 under ?det=1, so every deterministic
-     gate renders instant switches. fadeClock is the shader's clock, epoch-
-     relative and rebased below FADE_EPOCH_S; queue holds every fade in flight
-     until its OUT entry can go. frozen and clockDriven belong to the harness:
-     a frozen update leaves every tier as it is, a driven clock advances only
-     when the harness says so. */
+  /* Only the screen-size review mode changes detail during a flight. Its
+     crossfade keeps the two representations complementary; geographic tiers
+     stay fixed. Deterministic captures switch instantly. */
   fadeS: DET ? 0 : (LOWQ ? 0.25 : 0.3), fadeClock: 0, clockDriven: false, queue: [], qHead: 0, frozen: false, resetPending: false,
   /* the harness's "before": decide per CELL from a nominal tree at the cell box, as phases 1-3 did */
   cellMode: false,
-  /* desktop defaults 64 / 24 / 8 px, measured on the RTX 3070 at 1080p (docs/tree-lod-plan.md,
-     phase 4): a 12 m tree is hero to ~230 m, the full template to ~600 m, decimated to the
-     middle ring's edge, at most a millisecond a frame over the 110 / 40 / 14 the plan
-     started from; a phone keeps 200 / 60 / 22 until one is measured */
+  /* Legacy review parameters remain readable. Selection collapses all mesh
+     requests to Hero; impostorPx controls the screen-mode mesh boundary. */
   nominalHeight: 12, heroPx: LODPX?.hero ?? (LOWQ ? 200 : 64), switchPx: LODPX?.full ?? (LOWQ ? 60 : 24), impostorPx: LODPX?.impostor ?? (LOWQ ? 22 : 8), hysteresis: 0.1,
-  /* The tier by ZONE: the owner's rule. A tree on the corridors (zone A) is
-     hero, in the close surroundings (B) full, out to 700 m (C) decimated,
-     beyond that an impostor -- fixed for the visit, whatever the camera does,
-     so no tree ever changes its detail while the picture moves. The
-     screen-size tiers, floors, hysteresis and dwell below are the other mode
-     (?lodmode=screen), kept for the before and for the harness that measures
-     switching. Phones take one tier coarser in every band. */
+  /* Hero throughout the existing 300 m course corridor; impostors beyond.
+     The same geographic policy applies to both quality profiles. Keep the
+     four diagnostic indices (1 Hero, 4 Impostor); 2/3 never allocate meshes. */
   lodMode: LODMODE,
-  zoneTiers: LOWQ ? [2, 3, 4, 4] : [1, 2, 3, 4],
+  zoneTiers: [1, 1, 4, 4],
   /* frames a tree must want its new tier for before it switches: a fast camera
      wobbles a tree's size across a threshold and back within a fade, and each
      wobble was a crossfade -- 450 a second in a flight, most of them reversals */
   dwell: 6,
-  /* The course corridor keeps its detail whatever the distance. Screen-size
-     LOD is right for a forest and wrong for the trees a golfer is looking
-     at: as the camera moves around a course every tree at the boundary
-     distance dissolves into its next tier, and however soft each dissolve
-     is, the course never stops changing. So a tree within zone A (90 m of a
-     hole line) never drops below floors[0] and one within zone B (300 m)
-     never below floors[1] -- hero and full on the desktop, 5,036 and 18,084
-     trees at Puttom -- and only the forest beyond is tiered by screen size.
-     A phone floors zone A at the full template and leaves zone B alone. */
-  floors: LODPIN ?? (LOWQ ? [2, 4] : [1, 2]),
-  /* how far from the camera the floors reach: the hero floor to the first
-     distance, the full-template floor to the second, screen size beyond. Past
-     500 m a 12 m tree is 29 px and past 900 m it is 16 px, where the hero
-     crown is the full template and the full template is the decimated one, so
-     a switch there does not show; pinning further only costs -- from the 12th
-     tee a floor with no reach held 3,676 hero trees and a third more
-     triangles. ?lodreach=hero,full overrides. */
+  /* Screen-mode corridor floors and reaches are diagnostic overrides only.
+     A requested Full/Lite floor resolves to Hero before any slot is written. */
+  floors: LODPIN ?? [1, 1],
   floorReach: LODREACH ?? (LOWQ ? [250, 500] : [500, 900]),
-  /* ?lod=1|2|3|4 forces every visible cell into one tier (hero, full,
-     decimated, impostor), so a tier can be looked at up close and judged on
-     its own; nothing else changes */
+  /* ?lod=1 forces Hero, ?lod=4 Impostor; historical 2/3 links now show Hero. */
   force: [1, 2, 3, 4].includes(+new URLSearchParams(location.search).get("lod")) ? +new URLSearchParams(location.search).get("lod") : 0,
-  /* tier0 is the hero tier, tier1 the full template, tier2 decimated, tier3 the impostor */
+  /* tier0 is Hero, tier3 is Impostor; tier1/tier2 remain zero for tool compatibility. */
   stats: { tier0: 0, tier1: 0, tier2: 0, tier3: 0, cells: 0, cellsVisible: 0, moves: 0, switches: 0, reversals: 0, updates: 0, bakeMs: 0, fading: 0, updateMs: 0, zoneA: 0, zoneB: 0 },
   /* ?impdbg=normal|albedo|mask|world draws the impostors unlit, one term at a time */
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
-/* with the authored templates (tools/blender-tree-study/PLAN.md) the budget
-   is: zone A the full template, zone B the far mesh, zone C impostors -- the
-   hero tier only if &hero=1 asks for it, to be looked at, not to be paid for */
-/* A phone takes the same mapping as the desktop's flagless one: the authored
-   full tier beside the corridors, lite to 300 m, impostors beyond. One tier
-   coarser put the lite meshes at the tee and billboards from 90 m, and the
-   owner's phone showed it; measured on the phone profile the full/lite
-   mapping draws a quarter of the realistic desktop's triangles. */
-/* ...and the desktop now runs the SAME mapping as the procedural set does:
-   hero beside the corridors, the full template out to 300 m, impostors past
-   it. The painted look used to sit one tier coarser everywhere ([2, 3, 4, 4]),
-   which is what put flat-shaded cones on and beside the fairways. Zone C
-   stays on impostors rather than the lite mesh: the authored templates are
-   four to five times the procedural ones, so [1, 2, 3, 4] is a different
-   budget again and 300 m is already past anything a player is reading. */
-if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
 {
-  /* the decimated templates: the same silhouettes and the same crown noise
-     (so the colour variance matches across the switch) at a quarter of the
-     triangles -- 56 / 44 / 80 against 204 / 212 / 436 */
-  const decimated = (() => {
-    const spruce = grownCrown(mergeGeos((() => {
-      const p = [];
-      for (let i = 0; i < 3; i++) {
-        const t = i / 2, r = 3.5 * (1 - t * 0.8) + 0.45, hh = 3.6 * (1 - t * 0.35) * 2.2;
-        const g = new THREE.ConeGeometry(r, hh, 6, 1);
-        g.translate(0, 2.6 + t * 9.6, 0);
-        p.push(g);
-      }
-      return p;
-    })()), 1, 0.15, 0.13);
-    const pine = grownCrown(mergeGeos((() => {
-      const p = [];
-      /* three tall whorls standing in for the five, tapering to the same leader */
-      for (let i = 0; i < 3; i++) {
-        const t = i / 2, r = 4.2 - t * 2.7, hh = (2.8 - t * 0.9) * 1.3;
-        const g = new THREE.ConeGeometry(r, hh, 6, 1);
-        g.translate((t - 0.5) * 0.6, 8.5 + t * 3.5, (t * 0.5 - 0.25));
-        p.push(g);
-      }
-      return p;
-    })()), 2, 0.2, 0.15);
-    const birch = grownCrown(mergeGeos((() => {
-      const p = [];
-      for (let i = 0; i < 3; i++) {
-        const a = i / 3 * TAU;
-        const g = new THREE.IcosahedronGeometry(2.4 - (i % 2) * 0.4, 0);
-        g.translate(Math.cos(a) * 1.4, 7.6 + (i % 2) * 1.6, Math.sin(a) * 1.4);
-        p.push(g);
-      }
-      return p;
-    })()), 3, 0.22, 0.17);
-    const trunk = (r0, r1, h) => { const g = new THREE.CylinderGeometry(r0, r1, h, 5); g.translate(0, h / 2, 0); return g; };
-    const proc = [
-      { crown: spruce, trunk: trunk(0.18, 0.42, 3.2) },
-      { crown: pine, trunk: trunk(0.22, 0.46, 9.0) },
-      { crown: birch, trunk: trunk(0.16, 0.30, 7.4) },
-    ];
-    return SPECIES.map((_, s) => authored(s) ? { crown: GHIBLI.species[s].decimated.crown, trunk: GHIBLI.species[s].decimated.trunk } : proc[s]);
-  })();
   /* --- the hero tier: what a tree a golfer stands beside is made of ---
      The plan's alpha-tested needle and leaf cards were built and taken out
      again: hung on a flat-shaded cone they read as debris stuck to the
@@ -5373,7 +5273,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
       if (authored(s)) continue;
       const bounds = SPECIES[s].crown.boundingBox;
       const envelope = { minY: bounds.min.y, maxY: bounds.max.y };
-      for (const crown of [hero[s].crown, SPECIES[s].crown, decimated[s].crown]) {
+      for (const crown of [hero[s].crown, SPECIES[s].crown]) {
         applyCrownDepth(crown, envelope);
       }
     }
@@ -5384,11 +5284,11 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
     mat.positionNode = windSway(false);
     return attachTreeFade(mat);
   };
-  const crownMaterial = (s, hex, sway, tier = 'full') => {
+  const crownMaterial = (s, hex, sway) => {
     const foliage = GHIBLI?.species[s]?.foliage;
     if (foliage) {
       const tint = attribute('aTint', 'vec4');
-      const mat = makeGhibliFoliageMaterial({ key: foliage.key, map: tier === 'lite' ? null : foliage.map,
+      const mat = makeGhibliFoliageMaterial({ key: foliage.key, map: foliage.map,
         sunDirection: uSun, tint: tint.xyz, seed: tint.w, autumn: uAutumn });
       if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
       return attachTreeFade(mat);
@@ -5446,7 +5346,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
   };
   /* GPU-only harmonic wind sway with zero CPU matrix updates: trunk roots at
      y=0 stay rigid, while crown upper branches gently bend. The near tier
-     only: at the distance the decimated tier draws, sway is sub-pixel. */
+     only: distant impostors remain still. */
   function windSway(isCrown) {
     const wp = positionWorld.xz;
     const hNorm = saturate(positionLocal.y.div(13.0));
@@ -5481,7 +5381,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
       const bakeTrunk = authored(s) && GHIBLI.species[s].trunkMean
         ? new THREE.Color(...GHIBLI.species[s].trunkMean).multiply(new THREE.Color(SPECIES[s].tc))
         : SPECIES[s].tc;
-      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: SPECIES[s].crown, trunk: SPECIES[s].trunk, trunkColor: bakeTrunk,
+      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: hero[s].crown, trunk: hero[s].trunk, trunkColor: bakeTrunk,
         foliage: GHIBLI?.species[s]?.foliage }));
     }
     TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
@@ -5513,12 +5413,12 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
   const TEMPLATES = [];
   for (let s = 0; s < SPECIES.length; s++) {
     const vars = authored(s) ? GHIBLI.species[s].variants : null;
-    if (!vars) { TEMPLATES.push({ s, v: 0, nv: 1, name: SPECIES_NAMES[s], spec: SPECIES[s], hr: hero[s], de: decimated[s], ky: 1, kxz: 1 }); continue; }
+    if (!vars) { TEMPLATES.push({ s, v: 0, nv: 1, name: SPECIES_NAMES[s], spec: SPECIES[s], hr: hero[s], ky: 1, kxz: 1 }); continue; }
     for (let v = 0; v < vars.length; v++) {
       const g = vars[v];
       TEMPLATES.push({ s, v, nv: vars.length, name: `${SPECIES_NAMES[s]}${v}`,
-        spec: { ...SPECIES[s], crown: g.full.crown, trunk: g.full.trunk },
-        hr: { crown: g.hero.crown, trunk: g.hero.trunk }, de: { crown: g.decimated.crown, trunk: g.decimated.trunk },
+        spec: { ...SPECIES[s], crown: g.hero.crown, trunk: g.hero.trunk },
+        hr: { crown: g.hero.crown, trunk: g.hero.trunk },
         ky: SPECIES[s].templateHeight / g.templateHeight, kxz: SPECIES[s].templateRadius / g.templateRadius });
     }
   }
@@ -5585,8 +5485,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
     /* which course zone each tree stands in (0 beyond, 1 A, 2 B, 3 C): in zone mode it IS the tier, in screen mode the floor */
     const zone = new Uint8Array(n);
-    const templateBox = treeTemplateBounds([tpl.hr.crown, tpl.hr.trunk,
-      tpl.spec.crown, tpl.spec.trunk, tpl.de.crown, tpl.de.trunk]);
+    const templateBox = treeTemplateBounds([tpl.hr.crown, tpl.hr.trunk]);
     for (let j = 0; j < n; j++) {
       const k = ks[j];
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
@@ -5621,7 +5520,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
     }
     if (!n) { TREE_LOD.tiers.push(null); continue; }
     const initialCapacity = initialTreeTierCapacity(n, !!RENDERER_LOADING);
-    const spec = tpl.spec, deci = tpl.de;
+    const spec = tpl.spec;
     /* a mesh tier is one InstancedMesh per part (crown, trunk, and for the
        hero its cards), every part sharing the tier's slot list */
     const tier = (parts, label) => {
@@ -5649,7 +5548,7 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
       });
       return { parts: meshes, fade: meshes.map(im => im.geometry.getAttribute('aFade')),
                tint: meshes.map(im => im.geometry.getAttribute('aTint')).filter(Boolean),
-               slots: new Int32Array(initialCapacity), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
+               slots: new Int32Array(meshes.length ? initialCapacity : 0), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
     };
     const hr = tpl.hr;
     const rec = {
@@ -5662,9 +5561,11 @@ if (GHIBLI) TREE_LOD.zoneTiers = LOWQ ? [2, 3, 4, 4] : [1, 2, 4, 4];
       fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
       t: [null,
         /* the bark texture needs the procedural trunk's UVs; an authored trunk has none and carries its colour instead */
-        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true, 'hero')], ['trunk', hr.trunk, authored(s) ? trunkMaterial(spec.tc, true, true, s) : barkMaterial(spec.tc)]], 't0'),
-        tier([['crown', spec.crown, crownMaterial(s, spec.cc, true)], ['trunk', spec.trunk, trunkMaterial(spec.tc, true, authored(s), s)]], 't1'),
-        tier([['crown', deci.crown, crownMaterial(s, spec.cc, false, 'lite')], ['trunk', deci.trunk, trunkMaterial(spec.tc, false, authored(s), s)]], 't2'),
+        tier([['crown', hr.crown, crownMaterial(s, spec.cc, true)], ['trunk', hr.trunk, authored(s) ? trunkMaterial(spec.tc, true, true, s) : barkMaterial(spec.tc)]], 't0'),
+        // Reserved counters keep existing captures/tools readable, with zero
+        // geometry, materials or instance buffers for the removed mesh tiers.
+        tier([], 'reserved-full'),
+        tier([], 'reserved-lite'),
         impostorBatch(s, initialCapacity, 't3')],
     };
     for (let i = 1; i <= 4; i++) rec.t[i].idx = i;
@@ -5927,6 +5828,9 @@ function updateTreeTiers() {
           const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
           if (want > fl) want = fl;
         }
+        // Old review URLs and screen-mode floors may still request 2/3.
+        // Resolve every mesh request to Hero before touching drawable slots.
+        want = want === 4 ? 4 : 1;
         if (want !== cur) {
           /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
              the new tier has to be wanted for dwell frames running */
@@ -5970,7 +5874,7 @@ function updateTreeTiers() {
   TREE_LOD.stats.tier0 = t0; TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2; TREE_LOD.stats.tier3 = t3;
 }
 
-lap('tree tiers (18 InstancedMesh + 3 impostor batches, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
+lap('tree tiers (Hero + Impostor, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
@@ -12087,7 +11991,7 @@ window.V3D = {
       tints: await Promise.all(TREE_LOD.tint.map(hash)),
     };
   },
-  /* the tree tiers' live state: how many trees are drawn full, decimated, and how many cells changed */
+  /* Live Hero/Impostor counts; legacy Full/Lite counters remain zero. */
   treeTiers: () => ({ ...TREE_LOD.stats, heroPx: TREE_LOD.heroPx, switchPx: TREE_LOD.switchPx, impostorPx: TREE_LOD.impostorPx,
     hysteresis: TREE_LOD.hysteresis, nominalHeight: TREE_LOD.nominalHeight, cell: TREE_LOD.cell, force: TREE_LOD.force,
     fadeS: TREE_LOD.fadeS, frozen: TREE_LOD.frozen, clockDriven: TREE_LOD.clockDriven, cellMode: TREE_LOD.cellMode, floors: [...TREE_LOD.floors] }),
