@@ -10,6 +10,7 @@ import {
 } from '../../apps/golf/src/engine/v2-puttom-preview.mjs';
 import { createSurfacePreviewAtlas } from '../../apps/golf/src/engine/v2-surface-preview-atlas.mjs';
 import { V2_PUBLISHED_GRAPH_SLUGS } from '../../apps/golf/src/engine/v2-terrain-select.mjs';
+import { V2_GRAPH_FRONTIER_CONFIGS } from '../../apps/golf/src/engine/v2-frontier-configs.mjs';
 import { canonicalJson } from './canonical-json.mjs';
 import { verifyChunkAsset } from './chunk-node.mjs';
 import { verifyAssetGraph } from './graph-node.mjs';
@@ -347,6 +348,15 @@ if (V2_PUBLISHED_GRAPH_SLUGS.length === 0) {
   }
   const rootSlugs = (root.courses || []).map(course => course?.slug).sort();
   const registered = [...V2_PUBLISHED_GRAPH_SLUGS].sort();
+  const visibleSlugs = courseIndex.courses.map(course => course.slug).sort();
+  if (JSON.stringify(visibleSlugs) !== JSON.stringify(registered)) {
+    throw new Error('every selectable course must publish v2 terrain');
+  }
+  for (const slug of visibleSlugs) {
+    if (!V2_GRAPH_FRONTIER_CONFIGS[slug] && slug !== PUTTOM_PREVIEW_CONFIG.slug) {
+      throw new Error(`${slug} has no reviewed v2 renderer contract`);
+    }
+  }
   if (JSON.stringify(rootSlugs) !== JSON.stringify(registered)) {
     throw new Error(`published v2 root lists ${rootSlugs.join(', ')} but the app registers ${registered.join(', ')}`);
   }

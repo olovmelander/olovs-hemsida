@@ -44,15 +44,15 @@ describe('legacyTarget', () => {
 });
 
 describe('courseUrl', () => {
-  it('switches course slug while preserving ghibli and hero parameters', () => {
-    expect(courseUrl('puttom', '?bana=angso&ghibli=1&hero=1')).toBe('?bana=puttom&ghibli=1&hero=1');
-    expect(courseUrl('puttom', '?bana=angso&ghibli=0')).toBe('?bana=puttom&ghibli=0');
+  it('switches course while preserving quality settings and discarding retired modes', () => {
+    expect(courseUrl('puttom', '?bana=angso&ghibli=1&hero=1')).toBe('?bana=puttom&hero=1');
+    expect(courseUrl('puttom', '?bana=angso&ghibli=0')).toBe('?bana=puttom');
   });
 
   it('preserves other persistent engine flags while dropping stale course views', () => {
     const initial = '?bana=angso&hal=14&vy=tee&ljus=dag&q=lo&gl=1&ghibli=1';
     const target = courseUrl('visby', initial);
-    expect(target).toBe('?bana=visby&ghibli=1&gl=1&q=lo');
+    expect(target).toBe('?bana=visby&gl=1&q=lo');
   });
 
   it('generates a clean course url when no search string is provided', () => {

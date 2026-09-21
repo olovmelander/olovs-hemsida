@@ -2,7 +2,7 @@
 /* Rendered acceptance for three upgrades, beyond population fingerprints.
  *
  * node tools/serve.mjs apps/golf/dist 8620
- * BANVY_GPU=1 node tools/check-three-rendering.mjs --backend webgpu --look real
+ * BANVY_GPU=1 node tools/check-three-rendering.mjs --backend webgpu --look ghibli
  * BANVY_GPU=1 node tools/check-three-rendering.mjs --backend webgpu --rdepth 0
  * node tools/check-three-rendering.mjs --backend webgl2
  *
@@ -35,8 +35,8 @@ const rdepth = flag('rdepth', '1');
 const quality = flag('quality', 'hi');
 const captureMode = flag('capture', 'screenshot');
 const mobile = args.includes('--mobile');
-if (!['webgpu', 'webgl2'].includes(backend) || !['real', 'ghibli'].includes(look) || !['0', '1'].includes(rdepth) || !['hi', 'lo'].includes(quality)) {
-  throw new Error('Use --backend webgpu|webgl2, --look real|ghibli, --rdepth 0|1, --quality hi|lo');
+if (!['webgpu', 'webgl2'].includes(backend) || look !== 'ghibli' || !['0', '1'].includes(rdepth) || !['hi', 'lo'].includes(quality)) {
+  throw new Error('Use --backend webgpu|webgl2, --look ghibli, --rdepth 0|1, --quality hi|lo');
 }
 if (!['screenshot', 'canvas'].includes(captureMode) || (captureMode === 'canvas' && backend !== 'webgl2')) {
   throw new Error('--capture canvas requires --backend webgl2');

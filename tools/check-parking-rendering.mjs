@@ -8,7 +8,7 @@ const output = path.resolve(process.argv[3] || 'output/parking');
 const courses = (process.argv[4] || 'upsala,tortuna,veckefjarden').split(',');
 const backend = process.argv[5] || 'webgpu';
 const look = process.argv[6] || 'ghibli';
-if (!['webgpu', 'webgl2'].includes(backend) || !['ghibli', 'real'].includes(look)) throw new Error('Invalid backend or look');
+if (!['webgpu', 'webgl2'].includes(backend) || look !== 'ghibli') throw new Error('Invalid backend or look');
 await fs.mkdir(output, { recursive: true });
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
 const reports = [];

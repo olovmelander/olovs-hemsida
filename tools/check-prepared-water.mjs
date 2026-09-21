@@ -28,7 +28,7 @@ try {
         await cdp.send('Emulation.setCPUThrottlingRate', { rate: cpu });
         if (args.includes('--missing-water')) await page.route('**/prepared/water-*.bin', route => route.abort());
         const query = new URLSearchParams({ bana: course.slug, v2: 'require', det: '1', startup, waterAudit: '1',
-          ghibli: round % 2 ? '0' : '1', ljus: round % 2 ? 'dis' : 'gryning', q: round % 2 ? 'hi' : 'lo' });
+          ghibli: '1', ljus: round % 2 ? 'dis' : 'gryning', q: round % 2 ? 'hi' : 'lo' });
         await page.goto(`${base}/?${query}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
         await page.waitForFunction(() => !!window.__WATER_BAKE__, null, { timeout: 180000 });
         assert.deepEqual(errors, []);

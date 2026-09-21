@@ -64,7 +64,7 @@ import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLight
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
 import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
-import { readLookMode, persistLookMode } from './engine/look-mode.mjs';
+import { GHIBLI_LOOK } from './engine/look-mode.mjs';
 import { teePadSurfaceOwners } from './engine/tee-surface-ownership.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { initialTreeTierCapacity, reserveTreeTier, treeTierAllocation } from './engine/tree-tier-capacity.mjs';
@@ -93,9 +93,8 @@ import {
   requestedSurfaceEdges,
   requestedCutTone,
   requestedMowing,
-  shouldRenderLegacySurfaceOverlays,
 } from './engine/surface-render-policy.mjs';
-import { createV2GroundMaterialDecorator, makeGround } from './engine/material.js';
+import { createV2GroundMaterialDecorator, makeGround, paintedGround } from './engine/material.js';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
@@ -153,7 +152,7 @@ import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
    hand-maintained source, so the parity contract lives here as a runtime switch
    instead of a special build. */
 const DET = new URLSearchParams(location.search).get('det') === '1';
-const groundMode = new URLSearchParams(location.search).get('ground') === 'mesh' ? 'mesh' : 'atlas';
+const groundMode = 'atlas';
 const surfaceDebugMode = requestedSurfaceDebugMode(location.search);
 const time = DET ? float(3.25) : __liveTime;
 
@@ -316,16 +315,8 @@ const HF0 = PACK.H.HF0;
 const HF1 = PACK.H.HF1;
 
 await tick('läser terrängdata', 0.04);
-/* V2 is the DEFAULT for every course with a reviewed live contract (the
-   frontier registry, plus the retained Puttom pilot); a course without one
-   defaults to GPK1 and fetches no v2 chunk, and ?v2=0 is the explicit
-   opt-out everywhere. One boundary decides the source: a published, verified
-   course/ground graph first, then the retained Puttom preview, then the
-   explicit GPK1 fallback state. Start it beside GPK1 inflation so the
-   integrity work does not serialize the boot. By default and under ?v2=1 a
-   failed or absent source resolves to an explicit fallback and never blocks
-   the normal course; under ?v2=require the selection throws instead of
-   quietly serving GPK1. */
+/* Every course uses verified v2 terrain. GPK1 still supplies routing and
+   compatibility metadata; it is no longer an alternative visual setup. */
 const previewStarted = performance.now();
 /* The model is inflated beside the terrain selection, and a FIXED FRONTIER
    needs its water while its tiles decode (the lake beds are carved into the
@@ -373,10 +364,8 @@ MODEL_PREP_STARTED = performance.now();
 /* Phase 4 of the vegetation plan (docs/puttom-v2-lidar-tree-placement-plan.md):
    a published graph that carries object registries or stand fields has them
    fetched now, in parallel with everything below, through a dynamic import
-   so that a flagless visit never downloads the vegetation runtime. The load
-   is awaited before the ground is installed: under ?v2=require a bad chunk
-   is a boot error, under ?v2=1 the legacy lattice serves everywhere. There
-   is deliberately no per-tile fallback. */
+   so the chooser stays light. The load is awaited before the ground is
+   installed: a bad chunk is a boot error. There is no per-tile fallback. */
 const V2_VEGETATION_LOADING = V2_SELECTION.graph &&
   ((V2_SELECTION.graph.summary?.objectTiles || 0) + (V2_SELECTION.graph.summary?.standTiles || 0)) > 0
   ? import('./engine/v2-vegetation.mjs').then(async mod => ({
@@ -496,8 +485,7 @@ if (TERRAIN_PREVIEW.ready && V2_SELECTION.graph) {
       V2_WORLD = mod;
     } catch (error) {
       const detail = String(error?.message || error).slice(0, 300);
-      if (V2_SELECTION.require) throw new Error(`v2 krävdes men världens ringar kunde inte läsas: ${detail}`);
-      console.warn('v2 world rings could not be read; the course window serves alone:', detail);
+      throw new Error(`banans v2-terräng kunde inte läsas. Ladda om för att försöka igen. ${detail}`);
     }
   }
 }
@@ -1400,15 +1388,6 @@ const L = hex => [s2l(((hex >> 16) & 255) / 255), s2l(((hex >> 8) & 255) / 255),
    dry fescue variation; and a green is bluer and
    deeper than the fairway around it. Those three relationships are most of what makes
    mown ground read as mown ground from 200 m away. */
-/* The painted look -- authored trees, a painted palette and ground, a cumulus
-   dome, blue distance, flatter water and a little more chroma. Standard mode
-   by default on desktop and phone; explicit ?ghibli=0 (or the Målad button)
-   chooses the realistic look. Declared here because the palette below is the
-   first reader. */
-const GHIBLI_LOOK = readLookMode({
-  search: location.search,
-  storage: (() => { try { return localStorage; } catch { return null; } })(),
-}).ghibli;
 /* nudged against the club's July aerial: the mown surfaces run brighter and
    greener than the first authoring -- a fresh-cut vividness, not a repaint */
 const C = {
@@ -1865,19 +1844,6 @@ const DETAIL = SURFACE_RELIEF !== 'off' ? createPackedGroundDetailTexture({ seam
   g.putImageData(im, 0, 0);
 }, { srgb: false });
 
-const SANDN = canvasTex(256, (g, S) => {
-  const im = g.createImageData(S, S), d = im.data;
-  const H = (x, y) => Math.sin(x * 0.42 + Math.sin(y * 0.11) * 3.2) * 0.5 + fbm(x * 0.3, y * 0.3, 2) * 0.4;
-  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-    const i = (y * S + x) * 4;
-    const nx = (H(x - 1, y) - H(x + 1, y)) * 1.1, ny = (H(x, y - 1) - H(x, y + 1)) * 1.1;
-    const l = Math.hypot(nx, ny, 1);
-    d[i] = (nx / l * 0.5 + 0.5) * 255; d[i + 1] = (ny / l * 0.5 + 0.5) * 255;
-    d[i + 2] = (1 / l * 0.5 + 0.5) * 255; d[i + 3] = 255;
-  }
-  g.putImageData(im, 0, 0);
-}, { srgb: false });
-
 const WATERN = canvasTex(512, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
   const H = (x, y) => fbm(x * 0.028, y * 0.043, 4) + fbm(x * 0.11, y * 0.09, 2) * 0.35;
@@ -1890,7 +1856,7 @@ const WATERN = canvasTex(512, (g, S) => {
   }
   g.putImageData(im, 0, 0);
 }, { srgb: false });
-span('procedural textures (DETAIL, SANDN, WATERN)', TEX_STARTED);
+span('procedural textures (DETAIL, WATERN)', TEX_STARTED);
 
 /* ------------------------------------------------------------- lighting */
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
@@ -2001,100 +1967,18 @@ function setPreset(name, overrides = null) {
 }
 
 /* ------------------------------------------------------------- materials */
-/* The turf shader. Four per-vertex channels drive it, which is what lets one
-   material cover fescue and a putting green without either looking like the other:
-   aDet how tightly the detail tiles, aBmp how much relief, aGls how wet it reads,
-   aStr how strongly the mow shows. Gloss arrives as roughness because that is the
-   only thing the standard BRDF actually listens to. */
+/* Small authored surfaces outside the terrain atlas share the painted look. */
 function makeTurf() {
-  const m = new THREE.MeshStandardNodeMaterial({ metalness: 0.0, vertexColors: true });
-  const aDet = attribute('aDet', 'float');
-  const aBmp = attribute('aBmp', 'float');
-  const aGls = attribute('aGls', 'float');
-  const aStr = attribute('aStr', 'float');
-  const aMow = attribute('aMow', 'vec2');
-  const wp = positionWorld.xz;
-  const cd = cameraPosition.sub(positionWorld).length();
-  const near = oneMinus(smoothstep(60, 420, cd));
-
-  /* Three taps at three scales. The scales matter more than the texture does: at a
-     tile of a metre and a half the whole thing averages to flat grey past about ten
-     metres, which is most of what a golfer is ever looking at. These tile at roughly
-     2 m, 9 m and 70 m, so there is structure at arm's length, at the width of a
-     fairway, and across the whole property. */
-  const sc = aDet.max(0.45);
-  const dtF = texture(DETAIL, wp.mul(sc.mul(0.33)));      /* about 2 m: blades */
-  const dt = texture(DETAIL, wp.mul(sc.mul(0.055)));      /* about 12 m: clumps  */
-  const dtM = texture(DETAIL, wp.mul(0.0085));            /* about 120 m: the field */
-
-  /* Centred on zero before it is applied. Written as a multiplier around 1 the mean
-     of the three taps lands near 1 and the whole modulation cancels to a fraction of
-     a percent, which is a texture you have paid for and cannot see. Close up the fine
-     tap carries it; far away that tap is smaller than a pixel and only the two slow
-     ones survive, which is also what stops it shimmering. */
-  const micro = mix(dt.g.sub(0.5).mul(0.55).add(dtM.b.sub(0.5).mul(0.45)),
-                    dtF.r.sub(0.5).mul(0.58).add(dt.g.sub(0.5).mul(0.30))
-                      .add(dtM.b.sub(0.5).mul(0.16)), near);
-  const amt = clamp(aBmp.mul(0.44), 0.11, 0.56);
-  let col = attribute('color', 'vec3').mul(float(1).add(micro.mul(amt.mul(2.1))));
-
-  /* Mow bands, per pixel from the coordinate the mesh carries. A mown band is not
-     really a different colour -- it is the same grass lying the other way, so what
-     changes is how it catches the light. Hence a small albedo shift and a much larger
-     view-dependent sheen: the stripes appear and vanish as you walk round the green,
-     which is the thing that makes them read as grass rather than as paint. */
-  const V = normalize(cameraPosition.sub(positionWorld));
-  /* Fade the band out before it aliases, not after: once a stripe cycle is under a
-     few pixels the sin can only moire, and a floor of residual contrast at distance
-     turned the far fairways to shimmer and the green rings to op-art. fwidth of the
-     phase is exactly cycles-per-pixel, so the attenuation is resolution-aware. */
-  const phase = aMow.x.mul(aMow.y);
-  const band = sin(phase);
-  const bandAA = oneMinus(smoothstep(0.55, 1.7, fwidth(phase)));
-  /* A band lying toward the light is paler; one lying away is darker and glossier.
-     Part of that is fixed, so the stripes are there at any angle, and part follows
-     the view, so they strengthen and fade as you walk round -- which is what tells
-     the eye it is grass lying two ways rather than paint. */
-  /* Looking down-sun the whole band system is already lit by the specular term, and
-     stacking the albedo sheen on top of that read as a fairway of gold sand. The
-     sheen yields as the view turns into the sun. */
-  const intoSun = pow(saturate(V.negate().dot(uSun)), 3);
-  const sheen = oneMinus(abs(V.y)).mul(0.075).add(0.038).mul(oneMinus(intoSun.mul(0.75)));
-  col = col.mul(float(1).add(band.mul(aStr.min(1.8)).mul(sheen).mul(near.mul(0.35).add(0.65)).mul(bandAA)));
-
-  /* light through the blade rather than off it -- the reason turf glows when the
-     sun is low and behind it */
-  const sss = pow(saturate(V.dot(uSun.negate())), 3.4).mul(0.16);
-  col = col.add(vec3(0.07, 0.15, 0.035).mul(sss).mul(aStr.add(0.4).min(1.2)));
-
-  m.colorNode = col;
-  /* a mown band lying toward you is glossier than one lying away */
-  m.roughnessNode = clamp(float(0.97).sub(aGls.mul(0.62)).sub(band.mul(bandAA).mul(aStr).mul(0.05)), 0.40, 0.99);
-  /* The blade-level relief lives in the normal map, not in the mesh: a 4 m grid
-     cannot hold it and a finer one would cost a quarter of a million vertices to
-     say the same thing. It fades out with distance because past a couple of
-     hundred metres it is finer than a pixel and only adds shimmer. */
-  /* bumpMap, not normalMap: a tangent-space normal map needs UVs and tangents, and
-     these meshes are built from world coordinates and carry neither. bumpMap
-     differentiates the sampled value in screen space instead, so it works on
-     geometry that has nothing but positions. */
-  m.normalNode = bumpMap(texture(DETAIL, wp.mul(sc.mul(0.33))).r,
-                         aBmp.add(0.25).mul(near).mul(0.5));
-  return m;
+  return makeGround({ DETAIL, uSun, C, SHADE, look: 'ghibli' });
 }
 
 function makeSand() {
-  const m = new THREE.MeshStandardNodeMaterial({ metalness: 0, vertexColors: true });
-  const wp = positionWorld.xz;
-  const cd = cameraPosition.sub(positionWorld).length();
-  const near = oneMinus(smoothstep(30, 200, cd));
-  const t = texture(DETAIL, wp.mul(0.22));
-  const tm = texture(DETAIL, wp.mul(0.045));
-  m.colorNode = attribute('color', 'vec3').mul(float(0.88).add(t.r.mul(0.14)).add(tm.b.mul(0.12)));
-  m.roughnessNode = float(0.94);
-  /* rake lines: shallow, and only worth computing where they can be seen */
-  m.normalNode = bumpMap(texture(SANDN, wp.mul(0.30)).r, near.mul(0.30));
-  return m;
+  const material = new THREE.MeshStandardNodeMaterial({ metalness: 0, vertexColors: false });
+  const painted = paintedGround({ base: attribute('color', 'vec3'), wp: positionWorld.xz,
+    DETAIL, uSun, turf: float(0) });
+  material.colorNode = painted.colorNode;
+  material.roughnessNode = painted.roughnessNode;
+  return material;
 }
 
 /* ------------------------------------------------------------- terrain mesh */
@@ -2819,9 +2703,7 @@ if (groundMode === 'atlas') {
 
 const CUP_MASK = createGolfCupMask(HOLES.map(h => h.pin));
 const cupGreenSurfaces = [];
-const turfMat = CUP_MASK.apply(groundMode === 'atlas'
-  ? makeGround({ atlas: groundAtlas, DETAIL, SANDN, uSun, C, SHADE, look: GHIBLI_LOOK ? 'ghibli' : 'real' })
-  : makeTurf());
+const turfMat = CUP_MASK.apply(makeGround({ atlas: groundAtlas, DETAIL, uSun, C, SHADE, look: 'ghibli' }));
 let frontierSurroundMaterial = null;
 /* Every surface that LIES ON the terrain -- mown overlays, sand, roads, paths,
    parking, ballast, the greengrid -- nudges itself in front of it in DEPTH SPACE,
@@ -3061,14 +2943,7 @@ if (TERRAIN_PREVIEW.ready) {
   }
   if (!preparation.ok) {
     const failure = terrainV2.rendererState;
-    /* ?v2=require means diagnose, never mask: refuse to present the GPK1
-       rebuild as if the required v2 terrain were serving. */
-    if (V2_SELECTION.require) {
-      throw new Error(`v2 krävdes men terrängpreflighten föll tillbaka: ${failure.error}`);
-    }
-    if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = failure.error;
-    console.warn('Puttom 1 m terrain preflight fell back to the full GPK1 mesh:', failure.error);
-    setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
+    throw new Error(`banans v2-terräng kunde inte förberedas. Ladda om för att försöka igen. ${failure.error}`);
   }
 }
 
@@ -3088,8 +2963,7 @@ if (V2_VEGETATION_LOADING) {
     span('v2 vegetation: wait for chunk load', vegWaitStarted);
   } catch (error) {
     const detail = String(error?.message || error).slice(0, 300);
-    if (V2_SELECTION.require) throw new Error(`v2 krävdes men vegetationslagren kunde inte verifieras: ${detail}`);
-    V2_VEGETATION_ERROR = detail;
+    throw new Error(`banans v2-vegetation kunde inte verifieras. Ladda om för att försöka igen. ${detail}`);
   }
 }
 if (terrainV2.preparation) {
@@ -3132,23 +3006,10 @@ if (terrainV2.preparation) {
     stats.verts = coreStatsBefore.verts;
     stats.tris = coreStatsBefore.tris;
     builtTerrain.core = null;
-    /* Under ?v2=require the transaction still rolls back, but the GPK1 rebuild
-       must not happen: required v2 that cannot install is a boot error. */
-    if (V2_SELECTION.require) {
-      throw new Error(`v2 krävdes men terränginstallationen föll tillbaka: ${String(error?.message || error).slice(0, 300)}`);
-    }
-    coreGeometry = await buildTerrain(CORE, null, true);
-    coreMesh = makeCoreMesh(coreGeometry);
-    scene.add(coreMesh);
-    const terrainPreviewRender = terrainV2.confirmFallbackRebuilt();
-    if (terrainPreviewBadge) terrainPreviewBadge.dataset.error = terrainPreviewRender.error;
-    console.warn('Puttom 1 m terrain renderer rebuilt the full GPK1 mesh:', error);
-    setTerrainPreviewBadge(IS_GPU ? 'WebGPU' : 'WebGL2', 'failed');
+    throw new Error(`banans v2-terräng kunde inte visas. Ladda om för att försöka igen. ${String(error?.message || error).slice(0, 300)}`);
   }
 } else {
-  coreGeometry = await buildTerrain(CORE, null, true);
-  coreMesh = makeCoreMesh(coreGeometry);
-  scene.add(coreMesh);
+  throw new Error('banans v2-terräng är inte redo. Ladda om för att försöka igen.');
 }
 
 await tick('bygger terrängen', 0.26);
@@ -3474,72 +3335,8 @@ const shadeSand = (x, z) => {
 // Sites replacing parking as well as architecture load after terrain, before
 // any replacement surfaces are batched. Failure retains the complete fallback.
 if (SCENERY?.loadFacilitiesBeforeSurfaces) await installFacilityArchitecture();
-const legacySurfaceOverlays = shouldRenderLegacySurfaceOverlays({
-  groundMode,
-  v2Active: terrainV2.active,
-});
-if (legacySurfaceOverlays) {
-  /* Each overlay tier pulls itself in front of the layers beneath in depth space:
-     semi first, then fairway, collar, green and tee, sand above all -- so the
-     stack resolves on any depth buffer, not just a deep desktop one. */
-  const OMATS = [null, nudged(1), nudged(2), nudged(3), nudged(4)];
-  const sandMat = nudged(5, makeSand);
-  const add = (rings, lift, edge, shade, order, mat, cons) => {
-    const g = surfaceMesh(rings, lift, edge, shade, cons);
-    if (!g) return;
-    const m = new THREE.Mesh(g, mat || OMATS[Math.min(order, 4)]);
-    m.receiveShadow = true;
-    m.renderOrder = order;
-    m.userData.tag = 'legacy-surface-overlay';
-    if (rings === green) cupGreenSurfaces.push(m);
-    scene.add(m);
-    stats.draws++;
-    stats.surfaceOverlays++;
-  };
-  /* Batch by mower tier, not by hole. These are the original curved rings, but
-     six course-wide meshes keep their cost bounded to six draw calls. */
-  const semi = [], fair = [], collar = [], green = [], tee = [], sand = [];
-  for (const h of HOLES) {
-    const semiShade = shadeSemi(h), fairShade = shadeFair(h);
-    for (const ring of h.fairway.rings) {
-      semi.push({ ring: offsetRing(ring, 4.5), shade: semiShade });
-      fair.push({ ring, shade: fairShade });
-    }
-    const collarShade = shadeCollar(h);
-    collar.push({ ring: offsetRing(h.green.ring, 3.2), shade: collarShade });
-    green.push({ ring: h.green.ring, shade: shadeGreen(h) });
-    const teeShade = shadeTee();
-    for (const pad of h.tees.pads) {
-      if (!teeSurfaceOwners.has(pad)) continue;
-      collar.push({ ring: offsetRing(pad.ring, 2.2), shade: collarShade });
-      tee.push(pad.preserveTerrain ? { rings: [pad.ring], shade: teeShade } : { ring: pad.ring, shade: teeShade });
-    }
-    for (const bunker of h.bunkers) {
-      sand.push(bunker.innerRings?.length ? { rings: bunkerRings(bunker), shade: shadeSand }
-        : { ring: M.infra.preserveMappedBoundaries ? bunker.ring : offsetRing(bunker.ring, 0.5), shade: shadeSand });
-    }
-  }
-  const quietFair = shadeFair(null);
-  for (const feature of approaches) {
-    semi.push({ rings: feature.rings, shade: shadeSemi(HOLES.find(h => h.n === feature.hole)) });
-  }
-  const sceneryFairShade = (x, z) => ({ ...quietFair(x, z), str: 0.35, mowK: 0 });
-  for (const ring of M.scenery.fairways.concat(M.scenery.range)) {
-    fair.push({ ring, shade: sceneryFairShade });
-  }
-  for (const ring of M.scenery.greens) green.push({ ring, shade: shadeGreen(null) });
-  for (const ring of M.scenery.tees) tee.push({ ring, shade: shadeTee() });
-  for (const ring of M.scenery.bunkers.concat(M.veg.sand)) {
-    sand.push({ ring: M.infra.preserveMappedBoundaries ? ring : offsetRing(ring, 0.5), shade: shadeSand });
-  }
-  /* laid in the order a mower would: the widest cut first, the tightest last */
-  add(semi, 0.018, 5.5, null, 1);
-  add(fair, 0.036, 3.6, null, 2);
-  add(collar, 0.052, 2.2, null, 3);
-  add(green, 0.072, 1.4, null, 4);
-  add(tee, 0.086, 2.0, null, 4);
-  add(sand, 0.035, 1.8, null, 5, sandMat, true);
-}
+// The v2 material owns every played surface, including parking.
+const legacySurfaceOverlays = false;
 
 /* Dated facility footprints retain corners and interior exclusions. Mats
    are individually mapped objects; the surrounding platform is a separate surface. */
@@ -4619,9 +4416,8 @@ function grownCrown(geo, seed, amp, colVar) {
 }
 /* Ghibli mode loads the approved five-species Blender catalogue for all
    detail tiers and the distant atlas bake. Placement and measured sizes
-   retain their existing rules; a load failure logs and uses procedural trees. */
-const TREES_PARAM = new URLSearchParams(location.search).get('trees') ?? (GHIBLI_LOOK ? 'ghibli' : null);
-const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
+   retain their existing rules; missing catalogue assets report a loading error. */
+const GHIBLI = await (async () => {
   try {
     const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
     /* Hero is the only mesh tier, including on phones and old ?hero=0 links.
@@ -4629,8 +4425,8 @@ const GHIBLI = TREES_PARAM === 'ghibli' ? await (async () => {
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug, heroOnly: true });
     console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
-  } catch (err) { console.warn('ghibli trees unavailable, procedural templates kept:', err); return null; }
-})() : null;
+  } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
+})();
 /* Which species have a successfully loaded authored template. */
 const authored = s => !!(GHIBLI && GHIBLI.species[s]);
 const SPECIES = (() => {
@@ -8500,30 +8296,6 @@ function toast(msg, ms = 2600) {
 
 document.querySelectorAll('[data-cam]').forEach(b => b.onclick = () => setCam(b.dataset.cam));
 document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPreset(b.dataset.preset));
-/* the painted look is decided at boot (materials, sky, templates), so the
-   button rewrites the URL, persists the preference, and reloads; syncURL keeps
-   the flag because it starts from the live search params */
-{
-  const lookBtn = document.getElementById('lookBtn');
-  if (lookBtn) {
-    lookBtn.classList.toggle('on', GHIBLI_LOOK);
-    lookBtn.setAttribute('aria-pressed', GHIBLI_LOOK ? 'true' : 'false');
-    lookBtn.onclick = () => {
-      const sp = new URLSearchParams(location.search);
-      const store = (() => { try { return localStorage; } catch { return null; } })();
-      if (GHIBLI_LOOK) {
-        sp.set('ghibli', '0');
-        sp.delete('hero');
-        persistLookMode(false, store);
-      } else {
-        sp.set('ghibli', '1');
-        sp.set('hero', '1');
-        persistLookMode(true, store);
-      }
-      location.search = sp.toString();
-    };
-  }
-}
 /* on a phone the rail is a sheet behind the Vy · Ljus button; choosing anything
    closes it so the scene comes straight back */
 {
@@ -11131,7 +10903,6 @@ const navDrawer = buildNavDrawer({
   onBackToStart: () => openRail(),
   onSwitchCourse: (slug) => goToCourse(slug),
   devOverlay,
-  ghibliLook: GHIBLI_LOOK,
   onAction: (type, val) => {
     if (type === 'cam') setCam(val);
     if (type === 'preset') setPreset(val);
@@ -11558,7 +11329,7 @@ window.V3D = {
   /* Read and drive the developer overlay from a harness or the console:
      V3D.devOverlay() reports, V3D.devOverlay(true) turns it on. */
   devOverlay: (on) => (on === undefined ? devOverlay : setDevOverlay(on)),
-  treeCatalogue: () => ({ look: GHIBLI_LOOK ? 'painted' : 'natural', loaded: !!GHIBLI, ...GHIBLI?.summary }),
+  treeCatalogue: () => ({ look: 'painted', loaded: !!GHIBLI, ...GHIBLI?.summary }),
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            vistaSpecies: stats.vistaSpecies ?? null,
            environmentWater: stats.environmentWater ?? null,

@@ -1,18 +1,14 @@
-/* Phase 0 of the vegetation plan: freeze and measure the legacy tree
-   population before anything about it changes.
+/* Measure the supported v2 vegetation population.
 
    usage: node tools/vegetation-baseline.mjs [baseUrl] [--course puttom]
             [--shots] [--out geo_data/course-v2/<course>/vegetation/phase0-baseline.json]
    e.g.   node tools/serve.mjs apps/golf/dist 8620 &
           BANVY_GPU=1 node tools/vegetation-baseline.mjs http://127.0.0.1:8620 --course puttom --shots
 
-   Boots the built app twice -- the plain GPK1 path and ?v2=require -- and
-   records what V3D reports: the tree population by species, by the source
-   that planted each tree, by hole and by provisional zone; draw calls and
-   the other instance counts; boot marks; and the v2 selection's object-layer
-   state, which today must be "no renderer, zero tiles". With --shots it also
-   captures every tee view and an overhead, and records their SHA-256s so the
-   pictures (gitignored, like the goldens) are pinned by content.
+   Records the supported v2 + Ghibli tree population, placement sources,
+   provisional zones, draw counts and published object layers. --shots pins
+   tee/overhead captures. --label phase0 is only for a historical build URL;
+   the current player cannot render the retired GPK1 visual setup.
 
    The identities of the inputs -- pack, tree-cover raster, published v2
    manifests -- are read from the committed manifests, not recomputed, so the
@@ -77,7 +73,7 @@ const runs = [];
 let failed = 0;
 const gate = (ok, msg) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${msg}`); if (!ok) failed++; };
 
-for (const mode of [{ label: 'gpk1', search: '&det=1&v2=0' }, { label: 'v2-require', search: '&det=1&v2=require' }]) {
+for (const mode of EXPECT_V2 ? [{ label: 'v2-require', search: '&det=1' }] : [{ label: 'gpk1', search: '&det=1&v2=0' }]) {
   const url = `${BASE}/?bana=${SLUG}${mode.search}`;
   console.log(`\n${SLUG} ${mode.label} <- ${url}`);
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, deviceScaleFactor: 1 });
