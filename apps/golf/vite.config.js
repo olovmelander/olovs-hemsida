@@ -1,7 +1,6 @@
-/* Banvy's build.
-   Two things live here: the PWA, and nothing else -- the app has no aliases, no
-   polyfills and no special resolution, because three.js is a normal dependency
-   and the engine is plain modules.
+/* Banvy's app/PWA build, with explicit modes for development studies.
+   The app has no aliases, polyfills or special resolution: three.js is a normal
+   dependency and the engine is plain modules.
 
    WHY A SERVICE WORKER AT ALL. A course is a 400 KB pack plus a 1.4 MB engine,
    and the brief names Android and iOS before desktop. Installed, Banvy opens a
@@ -19,6 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { readFileSync } from 'node:fs';
 import { courseSourceRevision } from '../../tools/course-source-revision.mjs';
 import { golferLabPlugin } from '../../experiments/golfer/vite-plugin.mjs';
+import { productionPublicAssetsPlugin } from '../../tools/production-public-assets.mjs';
 
 /* Cloudflare would serve this at a domain root; GitHub Pages serves it under the
    repository name. Vite rewrites the tags in index.html and every asset URL it
@@ -54,6 +54,7 @@ export default defineConfig(({ mode }) => {
 
   plugins: [
     golferLabPlugin(golferLab),
+    productionPublicAssetsPlugin(),
     {
       name: 'course-source-revision',
       generateBundle() {
@@ -94,15 +95,11 @@ export default defineConfig(({ mode }) => {
       },
 
       workbox: {
-        /* Precache the SHELL only: markup, engine, styles, fonts, icons. The
-           packs are deliberately absent -- six of them is 2.4 MB, and nobody
-           should pay for five courses they did not open. They arrive below, on
-           demand, and then stay. */
+        /* Precache the shell only: markup, engine, styles, fonts, icons.
+           Course data arrives on demand and stays available offline. */
         globPatterns: ['index.html', 'assets/*.{js,css}', 'favicon.svg', 'icons/*.png', 'fonts/**'],
-        /* These chunks are reachable only through the explicit Puttom v2
-           preview. Keeping terrain AND its matching surface decoder/material
-           out of install-time precache preserves the normal mobile player's
-           critical path; content-addressed BVCH data is cached on demand below. */
+        /* All courses use v2. Load terrain and its matching surface code when
+           opening a course, then cache it through runtime-code below. */
         globIgnores: [
           // A selected course loads its own scenery through the runtime-code
           // cache below. Installing the shell must not download other courses.
@@ -124,7 +121,7 @@ export default defineConfig(({ mode }) => {
              only from a v2 visit whose graph publishes trees */
           'assets/v2-vegetation-*.js',
           'assets/stand-field-*.js',
-          /* the authored tree templates load only behind ?trees=ghibli */
+          /* the supported Ghibli tree loader arrives when a course opens */
           'assets/ghibli-trees-*.js',
         ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */

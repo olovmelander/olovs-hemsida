@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /* Isolated-scene correctness check, NOT an app or hardware FPS benchmark.
- * Uses Three r185 and explicitly forces SwiftShader WebGL2. Requires the
+ * Uses the app's pinned Three version and forces SwiftShader WebGL2. Requires the
  * repository dependencies and Playwright's Chromium headless shell.
  *
  * node tools/check-bloom-bypass.mjs [--out /tmp/bloom-bypass]
@@ -15,6 +15,8 @@ import { chromium } from 'playwright-core';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const helper = path.join(root, 'apps/golf/src/engine/active-render-pipeline.mjs');
 const threeRoot = fs.realpathSync(path.join(root, 'apps/golf/node_modules/three'));
+const expectedThreeVersion = JSON.parse(fs.readFileSync(path.join(root, 'apps/golf/package.json'))).dependencies.three;
+const installedThreeVersion = JSON.parse(fs.readFileSync(path.join(threeRoot, 'package.json'))).version;
 const sourceMainBaseline = 'a40681dac130275f136f9dae9eb26dbeb279f66b';
 
 // Serialized into the page below, where the Three and helper imports resolve.
@@ -189,7 +191,7 @@ async function main() {
     if (result.error) throw new Error(result.error);
     const [before, after, repeat] = result.rows;
     const checks = {
-      threeR185: result.threeRevision === '185',
+      threeMatchesApp: installedThreeVersion === expectedThreeVersion && result.threeRevision === expectedThreeVersion.split('.')[1],
       softwareRenderer: /SwiftShader/i.test(result.renderer),
       identicalPixels: result.comparison.differingPixels === 0,
       identicalRepeat: result.repeat.differingPixels === 0,

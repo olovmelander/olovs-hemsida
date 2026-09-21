@@ -79,21 +79,24 @@ what each gate protects, and the mistakes that are worth not repeating.
 The survey-grade terrain, surface and real-object rollout is tracked in
 [`docs/course-digital-twin-implementation-plan.md`](docs/course-digital-twin-implementation-plan.md).
 The repeatable, course-by-course production workflow is in
-[`docs/v2-course-runbook.md`](docs/v2-course-runbook.md). Per-ground source and
-rights records live beside it in [`docs/courses/`](docs/courses/) —
-[Ribbingsfors](docs/courses/ribbingsfors-source-dossier.md) and
-[Upsala](docs/courses/upsala-source-dossier.md) so far.
-Its source/licence register covers all six physical grounds and all nine course
-slugs. Puttom's retained Three.js r185 WebGPU/WebGL2 1 m terrain and matching
-migration-surface preview remains opt-in and explicitly provisional. The
-authoritative surface intake, object registry and all-course source controls are
-implemented as fail-closed foundations; real surface polygons and reviewed
-object tiles still require their independent geodetic, licence, visual,
-human-review and reference-device gates.
+[`docs/course-production-workflow.md`](docs/course-production-workflow.md).
+Per-ground source and rights records live in [`docs/courses/`](docs/courses/).
+All 13 selectable layouts on 10 grounds require a published v2 graph and reviewed
+adapter. The player uses v2 terrain + Ghibli styling on WebGPU and WebGL2;
+the app pins Three.js in [`apps/golf/package.json`](apps/golf/package.json).
+New course publications still require the workflow's source, licence, per-hole,
+visual and reference-device gates. Historical terrain/material previews remain
+development fixtures, not selectable player styles.
 
-    pnpm check:geo-sources                 # six grounds, nine slugs, checksums/licences
+    pnpm check:geo-sources                 # source checksums and licences
     pixi run --manifest-path packages/course-geo/toolchain/pixi.toml --frozen test-controls
     pnpm check:course-v2                   # synthetic content-addressed graph
-    pnpm check:course-v2-app               # built Puttom preview and PWA isolation
+    pnpm check:course-v2-app               # all selectable graphs and PWA policy
+    pnpm check:course-workflow            # current catalogue and release configurations
+
+Study models remain available to local authoring tools. Production builds omit
+the refined-tree and foliage-study catalogues; see
+[`docs/repository-cleanup.md`](docs/repository-cleanup.md) for rebuild commands
+and the retained historical evidence.
 
 Deployed by `.github/workflows/pages.yml` on every push to `main`.

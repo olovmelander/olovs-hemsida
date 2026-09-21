@@ -1,1 +1,0 @@
-function e(e,{mask:t=null}={}){return e.forceSinglePass=t===null,e}var t=.06;function n({ocean:e=!1,showBed:t=!0}={}){return e===!0||t===!1}function r(e,{measuredOnly:t=!1,depthSign:n=-1}={}){return e.depthTest=!0,e.depthFunc=t?2:3,e.polygonOffset=!t,e.polygonOffsetFactor=t?0:n,e.polygonOffsetUnits=t?0:n*2,e}export{n as i,r as n,e as r,t};
