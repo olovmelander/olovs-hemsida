@@ -170,7 +170,9 @@ pilots. The orthophoto workflow uses each pilot's existing bounded reader and
 pinned plan. It keeps raw RGBI windows in access-controlled artifacts for three
 days, keeps the plan and acquisition evidence for fourteen days, and removes
 the pixels from the runner. Deliberately trigger it only for an authorized
-review; it never commits or publishes raw pixels.
+review; it never commits or publishes raw pixels. Olov explicitly authorized
+the 2026-09-21 Puttom/Johannesberg review runs; that approval does not authorize
+unbounded acquisition, publication or geographic acceptance.
 
 Reacquisition may change provider bytes, campaign coverage, evidence timestamps or
 grids. Preserve the previous manifest and compare measurements before updating
@@ -343,6 +345,23 @@ Mapping, vegetation, assembly and validation were not marked complete from that
 partial run. Review and either accept or correct the terrain revision before
 rebuilding those dependent stages.
 
+The explicitly authorized orthophoto workflows also completed without publication:
+
+| Ground | Workflow | Pinned RGBI windows | Rendered panels | Coverage / errors |
+| --- | --- | ---: | ---: | --- |
+| Puttom | [35625808289](https://github.com/olovmelander/olovs-hemsida/actions/runs/35625808289) | 45 | 18 | every panel 100%; zero renderer errors |
+| Johannesberg | [35625822349](https://github.com/olovmelander/olovs-hemsida/actions/runs/35625822349) | 74 | 27 | every panel 100%; zero renderer errors |
+
+The raw artifacts expire on 2026-09-24 and their acquisition evidence on
+2026-10-05. The renderer rechecked the pinned acquisition file, every raster hash,
+grid, dimensions, source date and full validity before producing paired source /
+vector panels. The Puttom and Johannesberg report SHA-256s were respectively
+`030011d7bca236b88178ad6f9f9d628ca4edac3b2045a3751d89f6bf30dead16` and
+`2ef2639d20299d4b737a717990ef7cfb40e98c29417b570a70d93c31fb53ab23`.
+Representative panels were visually opened, but systematic per-feature decisions
+remain to be recorded. Both reports say `prepared-awaiting-review` and
+`geographicApproval: false`.
+
 Unit tests exercise raw raster refusal, grid registration, deterministic pack
 compilation, stage failure/replacement, per-hole uncertainty, real shared-ground
 assembly/validation adapters, startup generation, corruption rejection and capture
@@ -351,9 +370,10 @@ Python image tests cover hash/geotransform/date/mask rejection, RGBI handling,
 coverage and deterministic overlays. CI runs these tests and checks generated
 pilot dependencies.
 
-Real terrain/canopy rebuilding and acquisition-only vegetation compilation are
-now verified. Orthophoto acquisition and real source-image overlays, the complete
-six-stage candidate after terrain review, player preparation/captures, independent
-geographic approval, named-device performance and mobile/offline/rollback
-acceptance remain unverified. The implemented adapters and diagnostic reports
-make these blockers explicit; no successful release is claimed.
+Real terrain/canopy rebuilding, acquisition-only vegetation compilation,
+orthophoto acquisition and real source-image overlay preparation are now verified.
+Systematic per-feature source decisions, the complete six-stage candidate after
+terrain review, player preparation/captures, independent geographic approval,
+named-device performance and mobile/offline/rollback acceptance remain unverified.
+The implemented adapters and diagnostic reports make these blockers explicit;
+no successful release is claimed.
