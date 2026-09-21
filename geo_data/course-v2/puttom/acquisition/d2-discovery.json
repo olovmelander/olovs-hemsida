@@ -7,7 +7,7 @@
   "courseSlugs": [
     "puttom"
   ],
-  "observedOn": "2026-08-30",
+  "observedOn": "2026-09-21",
   "state": "discovery-evidence-only",
   "aoi": {
     "bboxWgs84": [
@@ -58,12 +58,12 @@
       "product": "Ortofoto Nedladdning",
       "discovery": "https://api.lantmateriet.se/stac-bild/v1/",
       "collection": "selected dynamically from the newest complete campaign",
-      "dataAccess": "authenticated access after a free order and legal review",
+      "dataAccess": "authenticated access after a free order; Lantmäteriet reviews the intended USE under GDPR and requires accepting särskilda användningsvillkor",
       "horizontalCrs": "EPSG:3006",
       "verticalCrs": null,
-      "licence": "CC-BY-4.0 with special access/GDPR terms",
+      "licence": "CC-BY-4.0 (catalogue), with a GDPR use review and special terms on delivery",
       "terms": "https://geotorget.lantmateriet.se/dokument/projects/ortofoto-nedladdning/released/2025.02/",
-      "termsVersion": "current terms must be captured when access is approved"
+      "termsVersion": "Geotorget product page 2025.02, read 2026-09-01: avgiftsfri, GDPR use review, särskilda användningsvillkor"
     },
     "treeHeight": {
       "provider": "Skogsstyrelsen",
@@ -91,10 +91,10 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613 (RH 2000)",
     "resolutionMetres": 1,
-    "fullSourceCompressedBytes": 276884943,
+    "fullSourceCompressedBytes": 276884845,
     "captureRange": {
       "first": "2020-06-16T00:00:00Z",
-      "last": "2024-06-27T00:00:00Z"
+      "last": "2026-06-17T00:00:00Z"
     },
     "items": [
       {
@@ -113,9 +113,9 @@
           700000,
           7030000
         ],
-        "capturedAt": "2022-06-22T00:00:00Z",
+        "capturedAt": "2023-06-17T00:00:00Z",
         "captureStart": "2020-06-16T00:00:00Z",
-        "captureEnd": "2024-06-27T00:00:00Z",
+        "captureEnd": "2026-06-17T00:00:00Z",
         "modifiedAt": "2024-12-09T00:00:00Z",
         "resolutionMetres": 1,
         "horizontalUncertaintyMetres": 0.3,
@@ -132,8 +132,8 @@
               "data"
             ],
             "bytes": 458752,
-            "stacChecksum": "12204df9d9b17ab0425b23d4ab58b3eca6220c89b64b603db7d7ec6e40f233714eb2",
-            "sha256": "4df9d9b17ab0425b23d4ab58b3eca6220c89b64b603db7d7ec6e40f233714eb2",
+            "stacChecksum": "122004566b2aaed26a4dc6d0db30cf55051be3d3bfc6cc271af7a55a17769fc8f5ad",
+            "sha256": "04566b2aaed26a4dc6d0db30cf55051be3d3bfc6cc271af7a55a17769fc8f5ad",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -145,9 +145,9 @@
             "roles": [
               "data"
             ],
-            "bytes": 276884943,
-            "stacChecksum": "12207a482ddca6dcc703f59732ad2b4517956e90411d23db279755c81e7e35b5a6b1",
-            "sha256": "7a482ddca6dcc703f59732ad2b4517956e90411d23db279755c81e7e35b5a6b1",
+            "bytes": 276884845,
+            "stacChecksum": "122011c083a824f69d0a04da3ccd5d236385109909e8904ca476ee3b13de98861e50",
+            "sha256": "11c083a824f69d0a04da3ccd5d236385109909e8904ca476ee3b13de98861e50",
             "projCode": "EPSG:5845",
             "projBbox": [
               690000,
@@ -181,9 +181,9 @@
             "roles": [
               "metadata"
             ],
-            "bytes": 123397,
-            "stacChecksum": "12205b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
-            "sha256": "5b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
+            "bytes": 122430,
+            "stacChecksum": "122029552195ab06e361c26fefdd476e9325c21f5937e532730e093158260d88399f",
+            "sha256": "29552195ab06e361c26fefdd476e9325c21f5937e532730e093158260d88399f",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -727,7 +727,7 @@
       "expectedSha256": "6b40e4a99b941726ed4e1454088383e69fcc3ea72dc6ea67929a31a05e6c845a",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 9918.337
+      "elapsedMilliseconds": 16478.002
     },
     {
       "itemId": "702_69",
@@ -735,13 +735,13 @@
       "asset": "metadata",
       "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/70_6/m702_69_ursprung.json",
       "status": "verified",
-      "bytes": 123397,
-      "expectedBytes": 123397,
-      "sha256": "5b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
-      "expectedSha256": "5b92199ecbb3f7615ffd190a6f99ec7dd9606fbb54e42f16c1572bf3f45de35b",
+      "bytes": 122430,
+      "expectedBytes": 122430,
+      "sha256": "29552195ab06e361c26fefdd476e9325c21f5937e532730e093158260d88399f",
+      "expectedSha256": "29552195ab06e361c26fefdd476e9325c21f5937e532730e093158260d88399f",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 10754.513
+      "elapsedMilliseconds": 16839.185
     },
     {
       "itemId": "23f028-702_69",
@@ -755,7 +755,7 @@
       "expectedSha256": "301e94c5199da607f0ae0f70ca3c245515c1009ed510f6da866c5c06a07b9d3b",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 10288.846
+      "elapsedMilliseconds": 16747.544
     },
     {
       "itemId": "26f015-702_69",
@@ -769,7 +769,7 @@
       "expectedSha256": "a276fb7210f51878c8bb2dcf965a99eecf1f8a0bf29a3457c3d5907d7a7aab51",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 10097.233
+      "elapsedMilliseconds": 16417.18
     },
     {
       "itemId": "o70225_6950_25_mr24",
@@ -783,7 +783,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 10764.884
+      "elapsedMilliseconds": 17027.702
     },
     {
       "itemId": "o70225_6975_25_mr24",
@@ -797,7 +797,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 10421.169
+      "elapsedMilliseconds": 16673.457
     },
     {
       "itemId": "o70250_6950_25_mr24",
@@ -811,7 +811,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 10845.042
+      "elapsedMilliseconds": 536.78
     },
     {
       "itemId": "o70250_6975_25_mr24",
@@ -825,17 +825,17 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 364.165
+      "elapsedMilliseconds": 278.857
     }
   ],
   "measurements": {
-    "discoveryElapsedMilliseconds": 29655.299,
-    "metadataFetchElapsedMilliseconds": 20764.246,
+    "discoveryElapsedMilliseconds": 36740.127,
+    "metadataFetchElapsedMilliseconds": 17030.546,
     "metadata": {
       "requestedAssets": 8,
       "verifiedAssets": 8,
-      "downloadedBytes": 509451,
-      "elapsedMilliseconds": 73454.189,
+      "downloadedBytes": 508484,
+      "elapsedMilliseconds": 100998.707,
       "complete": true
     },
     "decodedAoiBudgets": {
