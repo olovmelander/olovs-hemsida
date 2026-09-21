@@ -1,5 +1,8 @@
 # Course production workflow
 
+For executable Puttom/Johannesberg adapters, pinned inputs, pilot comparison and
+actual rebuild/review commands, see the [production integration guide](course-production-integration.md).
+
 Start here for every new ground and every course upgrade. The executable policy
 is `banvy-course-production-v1` in
 [`packages/course-workflow/standard.mjs`](../packages/course-workflow/standard.mjs).

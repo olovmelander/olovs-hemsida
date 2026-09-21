@@ -4,6 +4,10 @@ For setup, staged execution and release evidence, start with the
 [course production workflow](course-production-workflow.md). Use this guide
 for the detailed methods within those stages.
 
+The [production integration guide](course-production-integration.md) provides
+shared per-hole review preparation, verified source-overlay rendering and
+candidate-bound capture commands for the first two integrated grounds.
+
 Verified against repository tools on 2026-09-07, including mapping checkpoint
 `7dbe4e3`. This practical companion covers geographic investigation and adoption.
 The [v2 course runbook](v2-course-runbook.md) owns the architecture, ground/course

@@ -1,0 +1,126 @@
+name: course orthophoto review
+
+# Acquire the already planned, bounded RGBI review windows without publishing
+# course geometry or raw imagery. Repository secrets stay on the hosted runner;
+# the access-controlled pixels are retained briefly as workflow artifacts.
+on:
+  push:
+    branches:
+      - "claude/**"
+    paths:
+      - ".github/workflows/course-orthophoto-review.yml"
+      - "geo_data/course-v2/*/acquisition/RUN-orthophoto-review"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: course-orthophoto-review-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  acquire:
+    name: acquire
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Resolve the ground from the reviewed control file
+        run: |
+          changed=$(git diff --name-only HEAD^ HEAD -- 'geo_data/course-v2/*/acquisition/RUN-orthophoto-review' | head -1)
+          if [ -z "$changed" ]; then
+            echo "the push touched no orthophoto review control file" >&2
+            exit 1
+          fi
+          ground=$(basename "$(dirname "$(dirname "$changed")")")
+          case "$ground" in
+            puttom|johannesberg) ;;
+            *) echo "no reviewed orthophoto adapter for $ground" >&2; exit 1 ;;
+          esac
+          echo "GROUND=$ground" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the bounded raster reader
+        run: python -m pip install rasterio==1.4.3 numpy==2.3.5 Pillow==11.3.0 pyproj==3.7.2
+
+      - name: Verify repository secrets are configured
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+        run: |
+          if [ -z "$LANTMATERIET_USERNAME" ] || [ -z "$LANTMATERIET_PASSWORD" ]; then
+            echo "LANTMATERIET_USERNAME / LANTMATERIET_PASSWORD secrets are not configured" >&2
+            exit 1
+          fi
+
+      - name: Verify orthophoto access without downloading the review set
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          LANTMATERIET_BEARER_TOKEN: ${{ secrets.LANTMATERIET_BEARER_TOKEN }}
+        run: |
+          if [ "$GROUND" = puttom ]; then
+            python puttombuild/mapping/lm_ortho.py \
+              --cache "$RUNNER_TEMP/orthophoto" \
+              --out "$RUNNER_TEMP/orthophoto-evidence.json" \
+              --probe-only
+          else
+            python johannesbergbuild/mapping/lm-ortho-acquire.py --probe-only
+          fi
+
+      - name: Acquire all pinned georeferenced RGBI windows
+        env:
+          LANTMATERIET_USERNAME: ${{ secrets.LANTMATERIET_USERNAME }}
+          LANTMATERIET_PASSWORD: ${{ secrets.LANTMATERIET_PASSWORD }}
+          LANTMATERIET_BEARER_TOKEN: ${{ secrets.LANTMATERIET_BEARER_TOKEN }}
+        run: |
+          if [ "$GROUND" = puttom ]; then
+            python puttombuild/mapping/lm_ortho.py \
+              --cache "$RUNNER_TEMP/orthophoto" \
+              --out "$RUNNER_TEMP/orthophoto-evidence.json"
+          else
+            python johannesbergbuild/mapping/lm-ortho-acquire.py
+          fi
+
+      - name: Collect private pixels and public-safe evidence separately
+        run: |
+          mkdir -p "$RUNNER_TEMP/artifact/pixels" "$RUNNER_TEMP/artifact/evidence"
+          if [ "$GROUND" = puttom ]; then
+            cp "$RUNNER_TEMP"/orthophoto/*.tif "$RUNNER_TEMP/artifact/pixels/"
+            cp "$RUNNER_TEMP"/orthophoto/*.json "$RUNNER_TEMP/artifact/pixels/"
+            cp "$RUNNER_TEMP/orthophoto-evidence.json" "$RUNNER_TEMP/artifact/evidence/acquisition.json"
+            cp puttombuild/mapping/lm-ortho-plan.json "$RUNNER_TEMP/artifact/evidence/plan.json"
+          else
+            cp johannesbergbuild/cache/lm-ortho/*.tif "$RUNNER_TEMP/artifact/pixels/"
+            cp johannesbergbuild/cache/lm-ortho/*.json "$RUNNER_TEMP/artifact/pixels/"
+            cp geo_data/course-v2/johannesberg/reference/lm-ortho-acquisition-2026-09-09.json "$RUNNER_TEMP/artifact/evidence/acquisition.json"
+            cp johannesbergbuild/cache/lm-ortho/plan.json "$RUNNER_TEMP/artifact/evidence/plan.json"
+          fi
+
+      - name: Retain access-controlled source windows for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.GROUND }}-orthophoto-pixels-${{ github.run_number }}
+          path: ${{ runner.temp }}/artifact/pixels/
+          if-no-files-found: error
+          retention-days: 3
+
+      - name: Retain acquisition evidence and the exact plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.GROUND }}-orthophoto-evidence-${{ github.run_number }}
+          path: ${{ runner.temp }}/artifact/evidence/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Remove source pixels from the runner
+        if: always()
+        run: |
+          rm -rf "$RUNNER_TEMP/orthophoto" "$RUNNER_TEMP/artifact/pixels" \
+            johannesbergbuild/cache/lm-ortho
