@@ -23,6 +23,7 @@ import { croppedFromSquare, publishedItemExtent } from './ring-item-extent.mjs';
 import { dtmItemsFor, ringLevelExtent, ringSpecFor } from '../../course-v2/ground-rings-registry.mjs';
 import { readChunk } from '../../course-v2/chunk-node.mjs';
 import { decodeTerrainGrid } from '../../course-v2/terrain-grid.mjs';
+import { summarizeTerrainDifference } from './terrain-difference.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 function arg(name, fallback = null) {
@@ -283,27 +284,7 @@ function publishedCourseTiles() {
 }
 
 function compareWithPublished(level, read) {
-  const tiles = publishedCourseTiles();
-  let samples = 0, withinQuantum = 0, maximumDifference = 0;
-  for (const tile of tiles) {
-    const quantum = tile.grid.heightScaleMetres / 2 + 1e-6;
-    for (let row = 0; row < tile.grid.height; row++) {
-      const northing = tile.bounds.maxNorthing - row * tile.grid.sampleSpacingMetres;
-      const levelRow = Math.round((read.extent.maxNorthing - northing) / level.sampleSpacingMetres);
-      for (let column = 0; column < tile.grid.width; column++) {
-        const easting = tile.bounds.minEasting + column * tile.grid.sampleSpacingMetres;
-        const levelColumn = Math.round((easting - read.extent.minEasting) / level.sampleSpacingMetres);
-        const a = tile.heights[row * tile.grid.width + column];
-        const b = read.values[levelRow * read.size + levelColumn];
-        if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
-        samples++;
-        const difference = Math.abs(a - b);
-        if (difference > maximumDifference) maximumDifference = difference;
-        if (difference <= quantum) withinQuantum++;
-      }
-    }
-  }
-  return { tiles: tiles.length, samples, withinQuantum, maximumDifferenceMetres: maximumDifference };
+  return summarizeTerrainDifference({ level, read, tiles: publishedCourseTiles() });
 }
 
 const levelEvidence = [];
