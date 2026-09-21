@@ -67,7 +67,7 @@ under the deployment base.
   server stopped. Query settings and fragments reached the expected app URLs.
 - App tests, focused router/build/dev-server tests, lint and syntax checks passed.
   Both deployment builds and validation of all 13 course graphs passed.
-- The subpath build's seven redirect documents total 8,632 bytes, replacing
+- The full subpath browser gate passed Veckefjärden boot, hole 14, fonts, PWA\n  scope and pack/manifest caching, then timed out during Puttom boot under\n  SwiftShader. Full Puttom browser acceptance remains unverified in this run.\n- The subpath build's seven redirect documents total 8,632 bytes, replacing
   5,541,115 bytes of published historical renderer HTML. Root source files are
   unchanged, and no course or model data is modified.
 - Five retained HTML/pack comparisons pass. Puttom's vector comparison fails
