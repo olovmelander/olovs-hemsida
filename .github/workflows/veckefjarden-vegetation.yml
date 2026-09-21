@@ -89,7 +89,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install the COPC reader (own install, never in the workspace lockfile)
-        run: npm install --prefix packages/course-geo/copc-reader
+        run: npm ci --prefix packages/course-geo/copc-reader --ignore-scripts --no-audit --no-fund
 
       - name: Verify repository secrets are configured
         env:
@@ -150,6 +150,21 @@ jobs:
           node packages/course-geo/acquisition/record-artifact-checksum.mjs \
             --ground "$GROUND" \
             --path "geo_data/course-v2/$GROUND/vegetation/canopy-evidence.json"
+
+      # Compiled objects cannot reconstruct measured canopy. Keep the exact CHM
+      # bytes, grid sidecars and source metadata for offline deterministic replay.
+      - name: Archive measured canopy inputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.GROUND }}-canopy-inputs-${{ github.run_number }}
+          path: |
+            ${{ runner.temp }}/veg/rasters/chm-*.f32
+            ${{ runner.temp }}/veg/rasters/chm-*.json
+            geo_data/course-v2/${{ env.GROUND }}/vegetation/canopy-evidence.json
+            geo_data/course-v2/${{ env.GROUND }}/acquisition/laser-campaigns.json
+          if-no-files-found: error
+          retention-days: 90
+
 
       - name: Compile the machine-reviewed generation
         run: |
@@ -223,7 +238,8 @@ jobs:
             ${{ runner.temp }}/veg/compile
             ${{ runner.temp }}/veg/review
           if-no-files-found: error
-          retention-days: 7
+          retention-days: 90
+
 
       - name: Gates (manifests, unit tests, build, app-build graph verify)
         if: env.PUBLISH == 'true'

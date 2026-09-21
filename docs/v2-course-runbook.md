@@ -2,6 +2,8 @@
 
 > Current entrypoint and terrain/catalogue inventory updated 2026-09-21.
 > Start with the [executable production workflow](course-production-workflow.md).
+> The [production integration guide](course-production-integration.md) compares
+> current course tooling and wires Puttom/Johannesberg into isolated stages.
 > Detailed worked implementations below retain their stated historical dates.
 > The player now supports **v2 terrain + Ghibli styling only** on WebGPU and
 > WebGL2. Earlier opt-out, style-toggle and GPK1-renderer fallback instructions

@@ -99,7 +99,7 @@ jobs:
       # lockfile. Without this the suite fails on ERR_MODULE_NOT_FOUND and the
       # failure looks like Visby's data rather than a missing dependency.
       - name: Install the COPC reader (own install, never in the workspace lockfile)
-        run: npm install --prefix packages/course-geo/copc-reader
+        run: npm ci --prefix packages/course-geo/copc-reader --ignore-scripts --no-audit --no-fund
 
       - name: Verify repository secrets are configured
         env:
@@ -165,7 +165,10 @@ jobs:
             geo_data/course-v2/${{ env.GROUND }}/acquisition/ground-rings.json
             packages/course-geo/toolchain/.cache/acquisition/${{ env.GROUND }}-ground-rings
           if-no-files-found: error
-          retention-days: 7
+          # Exact measured inputs are needed by the offline production adapter.
+          # This is a bounded acquisition directory, never a credentials cache.
+          include-hidden-files: true
+          retention-days: 90
 
       # --ground scopes the EXIT CODE to this ground. Every manifest is still
       # validated and printed; what it stops is an unrelated ground's in-flight

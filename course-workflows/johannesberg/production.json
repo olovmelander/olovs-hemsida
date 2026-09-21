@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "visualSetup": "v2-ghibli",
+  "frame": {
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "compoundCrs": "EPSG:5845",
+    "fingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
+    "horizontalCrs": "EPSG:3006",
+    "origin": {
+      "easting": 679427.5,
+      "heightRH2000": 9.88,
+      "northing": 6625300.5
+    },
+    "verticalCrs": "EPSG:5613"
+  },
+  "baselineGround": {
+    "path": "apps/golf/public/grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
+    "sha256": "fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd"
+  },
+  "terrain": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-ground-rings",
+    "evidence": {
+      "path": "geo_data/course-v2/johannesberg/acquisition/ground-rings.json",
+      "sha256": "7a560244e133146d995802f98e3385b54d83a60df5a8d16056f4e79a17142636"
+    },
+    "maximumBaselineDifferenceMetres": 0.011
+  },
+  "vegetation": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-vegetation",
+    "campaigns": {
+      "path": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns.json",
+      "sha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65"
+    },
+    "evidence": {
+      "path": "geo_data/course-v2/johannesberg/vegetation/canopy-evidence.json",
+      "sha256": "3a970a6ac4f74a79a2fd93808caab329687c2cacbb44cb9c5653468136fe7a07"
+    },
+    "reviewMode": "machine-v1",
+    "observedOn": "2026-09-11",
+    "reviewNote": "Replay the existing machine-v1 method as a provisional candidate. This is not human approval; evaluate against RGBI and held-out references before release."
+  },
+  "courses": [
+    {
+      "slug": "johannesberg",
+      "holes": 18,
+      "model": {
+        "path": "johannesbergbuild/course-model.json",
+        "sha256": "d8b2b931791709105a6863b4b03b29acb182d5feced01b4cdc2fd984eaa35eed"
+      },
+      "heightfields": {
+        "path": "johannesbergbuild/heightfields.json",
+        "sha256": "1496744e94403f30fb456612897b80a46a0d5057a41d8bbc556c507798ce9302"
+      },
+      "card": {
+        "path": "johannesbergbuild/card.json",
+        "sha256": "54f166565d6e1c7bf4038133733274abda96d0a334f5580b2594ca2fcf88b372"
+      },
+      "cover": {
+        "path": "johannesbergbuild/tree-cover.json",
+        "sha256": "96558fdf9417919db2d9fd1aedce91463d452db5a1c4b05f5270018931ab0e5c"
+      },
+      "strokeIndexStatus": "unverified",
+      "accuracyTier": "D",
+      "player": {
+        "slug": "johannesberg",
+        "name": "Johannesberg",
+        "club": "Johannesberg Golf & Country Club",
+        "title": "Johannesberg Golf & CC — Banan i 3D",
+        "tag": "Gottröra",
+        "boot": "Gottröra · Uppland",
+        "build": "johannesbergbuild",
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Blå",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            4886496,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 1
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "johannesbergbuild/landcover.json",
+          "sha256": "7b245169bcf2f8dbd7a630446e41dbf8f88f31dc62ffbeeabcde7837133c0ff0"
+        }
+      }
+    },
+    {
+      "slug": "johannesberg-9",
+      "holes": 9,
+      "model": {
+        "path": "johannesberg9build/course-model.json",
+        "sha256": "6d8af299e4a3a2f69b8304dcc0c123d2b26f3f77bd1ea44c29603a784d6b0cc3"
+      },
+      "heightfields": {
+        "path": "johannesberg9build/heightfields.json",
+        "sha256": "1496744e94403f30fb456612897b80a46a0d5057a41d8bbc556c507798ce9302"
+      },
+      "card": {
+        "path": "johannesberg9build/card.json",
+        "sha256": "7e036c0ebf5a7450956fd8482d1a4f0e4b0a4f695799d9dce615dcd7034f3de9"
+      },
+      "cover": {
+        "path": "johannesberg9build/tree-cover.json",
+        "sha256": "96558fdf9417919db2d9fd1aedce91463d452db5a1c4b05f5270018931ab0e5c"
+      },
+      "strokeIndexStatus": "unverified",
+      "accuracyTier": "D",
+      "player": {
+        "slug": "johannesberg-9",
+        "name": "Johannesberg 9",
+        "club": "Johannesberg Golf & Country Club",
+        "title": "Johannesberg Golf & CC — Niohålsbanan i 3D",
+        "tag": "Niohålsbanan",
+        "boot": "Gottröra · Uppland",
+        "build": "johannesberg9build",
+        "tees": {
+          "names": [
+            "Gul",
+            "Röd"
+          ],
+          "cols": [
+            15780154,
+            14702410
+          ],
+          "hideFrom": 3,
+          "def": 0
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "johannesberg9build/landcover.json",
+          "sha256": "7b245169bcf2f8dbd7a630446e41dbf8f88f31dc62ffbeeabcde7837133c0ff0"
+        }
+      }
+    }
+  ],
+  "mappingEvidence": [
+    {
+      "path": "johannesbergbuild/mapping/lm-review-front9.json",
+      "sha256": "c294717df62ca25f8bbf576496b73bccfb06030815c67ecbe95b156e32a80c56"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9.json",
+      "sha256": "ed4b3b810126ab4cf6a2813ca5de0f4a575bcd63aaf78ce9397bed921a506de0"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-back9-turf.json",
+      "sha256": "1e48af0457699621bc9b375c401a5852b5070a96d6057e42df98f9f84e1e8bf5"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-nine.json",
+      "sha256": "09474acfff42200b76c7d55abd8c6c858cdafe6bc523b9a0052b844c4e632be3"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-estate.json",
+      "sha256": "9356d75ad5b54bd42b7f8de0783d219a68f050d06ba277da163fe5e505c32990"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-alignment-validation.json",
+      "sha256": "01e539819c6198e46df0ec110a45ccb6ccdcb680e04555bd2eac0ca64c8d6486"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-stand-exclusions.json",
+      "sha256": "193ea3d281f83b935ed4c16d08159e2be650d3fe57c044eaf49c6f2e58cd625b"
+    },
+    {
+      "path": "johannesbergbuild/mapping/lm-review-tee-platforms.json",
+      "sha256": "f12af8ec7bfdc5a7d43fd700ac73a050114561730062f6b55371ef47d191cdc9"
+    },
+    {
+      "path": "johannesbergbuild/mapping/tee-placement-review.json",
+      "sha256": "127fc3a44da9e9d74621aab1f26ce0c86b984b97cac4edd15446e7a2b195af5e"
+    },
+    {
+      "path": "johannesbergbuild/mapping/tee-placement-nine-review.json",
+      "sha256": "1a3abe7215001c7f7598c81b879e7ef01f3c6833738bda13af667aaf899a488a"
+    },
+    {
+      "path": "johannesbergbuild/mapping/ob-placement-review.json",
+      "sha256": "0c3c09123169dec2042ee5d80f193c44eaed2effa15fabfc3d34f5f2beb53d39"
+    },
+    {
+      "path": "johannesbergbuild/mapping/ob-orthophoto-acquisition.json",
+      "sha256": "a3169b31a3be7d8bdfb39044e7afaf75dbe4d7677201c5438017bf69c918d354"
+    }
+  ],
+  "review": {
+    "sourceDirectory": "johannesbergbuild/cache/production-orthophoto",
+    "captureBackend": [
+      "webgpu",
+      "webgl2"
+    ],
+    "captureQuality": [
+      "hi",
+      "lo"
+    ],
+    "capturePresets": [
+      "noon",
+      "host"
+    ],
+    "notes": "Imagery source pixels and captures stay local. Empty or unknown categories require review; counts never approve geography.",
+    "acquisition": {
+      "path": "geo_data/course-v2/johannesberg/reference/lm-ortho-acquisition-2026-09-09.json",
+      "sha256": "0c4d03442123221aa62c4caf195543ae26296f63a67b0673374f37c8e9301d21"
+    }
+  }
+}

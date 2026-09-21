@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "groundId": "puttom",
+  "visualSetup": "v2-ghibli",
+  "frame": {
+    "axisMapping": {
+      "worldX": "easting - originEasting",
+      "worldY": "heightRH2000 - originHeightRH2000",
+      "worldZ": "originNorthing - northing"
+    },
+    "compoundCrs": "EPSG:5845",
+    "fingerprint": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+    "horizontalCrs": "EPSG:3006",
+    "origin": {
+      "easting": 697428.5,
+      "heightRH2000": 26.12,
+      "northing": 7024826.5
+    },
+    "verticalCrs": "EPSG:5613"
+  },
+  "baselineGround": {
+    "path": "apps/golf/public/grounds/puttom/ground-v2-fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803.json",
+    "sha256": "fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803"
+  },
+  "terrain": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/puttom-ground-rings",
+    "evidence": {
+      "path": "geo_data/course-v2/puttom/acquisition/ground-rings.json",
+      "sha256": "589e8138c45b856e2a632524a3eddcd6cff08bc33ecfb4ae4b2a1abcf130887f"
+    },
+    "maximumBaselineDifferenceMetres": 0.011
+  },
+  "vegetation": {
+    "directory": "packages/course-geo/toolchain/.cache/acquisition/puttom-vegetation",
+    "campaigns": {
+      "path": "geo_data/course-v2/puttom/acquisition/laser-campaigns.json",
+      "sha256": "4b5225999da05b04ae44f99be06884d4c185861cc0595b56a660d83874eeb89e"
+    },
+    "evidence": {
+      "path": "geo_data/course-v2/puttom/vegetation/canopy-evidence.json",
+      "sha256": "4a3b1c12dbbfa8f37220bb5a50bd356aff85ada7f5307f3aa508df0bec01d938"
+    },
+    "reviewMode": "machine-v1",
+    "observedOn": "2026-09-11",
+    "reviewNote": "Replay the existing machine-v1 method as a provisional candidate. This is not human approval; evaluate against RGBI and held-out references before release."
+  },
+  "courses": [
+    {
+      "slug": "puttom",
+      "holes": 18,
+      "model": {
+        "path": "puttombuild/course-model.json",
+        "sha256": "8f0dad509aba561875dc80da16aa26a768b95b2b008bf198a961e82ceaf7c496"
+      },
+      "heightfields": {
+        "path": "puttombuild/heightfields.json",
+        "sha256": "1c063138fd8bb522a6cd48deb754ac8925cd0beedfb2f90fc607ec2526482632"
+      },
+      "card": {
+        "path": "puttombuild/card.json",
+        "sha256": "40850fbfba1a6bf9ec999610c11787191e43f2d3e8af98571bb900a621542c35"
+      },
+      "cover": {
+        "path": "puttombuild/tree-cover.json",
+        "sha256": "7dfb71058eee3a52d1ee1f32d212c3b4aab05a11ec81d1a81278292b40af5655"
+      },
+      "strokeIndexStatus": "verified",
+      "accuracyTier": "unrated",
+      "player": {
+        "slug": "puttom",
+        "name": "Puttom",
+        "club": "Örnsköldsviks Golfklubb",
+        "title": "Örnsköldsviks GK Puttom — Skogsbana i 3D",
+        "tag": "Örnsköldsviks GK",
+        "boot": "Arnäsvall · Örnsköldsvik",
+        "build": "puttombuild",
+        "tees": {
+          "names": [
+            "Vit",
+            "Gul",
+            "Röd",
+            "Orange"
+          ],
+          "cols": [
+            16053486,
+            15780154,
+            14702410,
+            14715706
+          ],
+          "hideFrom": 5,
+          "def": 1
+        }
+      },
+      "sidecars": {
+        "landcover": {
+          "path": "puttombuild/landcover.json",
+          "sha256": "bd70bd4a431e65a1eaee338f53560c445def35154a218d3467dff765160f4204"
+        }
+      }
+    }
+  ],
+  "mappingEvidence": [
+    {
+      "path": "puttombuild/mapping/lm-ortho-discovery.json",
+      "sha256": "beb17d3fc222e7d5a059b8d66afda4db28b9811f08c6906c1dfaecd61703b13e"
+    },
+    {
+      "path": "puttombuild/mapping/lm-ortho-plan.json",
+      "sha256": "5dda645ad4da1af3a7eb94540933752ba45f94edd6326f301afad33eca807045"
+    },
+    {
+      "path": "puttombuild/mapping/orthophoto-review.json",
+      "sha256": "cb19efa7e652e6570de00aa1cdf9e8ec35de9d3cf756d50630a1181f8ac8ad6c"
+    },
+    {
+      "path": "puttombuild/mapping/alignment-audit.json",
+      "sha256": "2a0809327e3bc82f552501b346149fa151861e83ea9b730ee46dcbc464b3933a"
+    },
+    {
+      "path": "puttombuild/mapping/review-water.json",
+      "sha256": "76fc9ed4ba47a965bd6eb173a8767fae36171921588d9668430349fe189e3799"
+    },
+    {
+      "path": "puttombuild/mapping/lm-tee-2022-discovery.json",
+      "sha256": "89fb70899875a586fd99b2b59d2ddd8d1d96a98384082b0db2c721af35a49fc1"
+    },
+    {
+      "path": "puttombuild/mapping/lm-tee-2022-plan.json",
+      "sha256": "2d800048806b27305513cb09e789577487cf5647bb8f20ba22617b9038500f03"
+    },
+    {
+      "path": "puttombuild/mapping/tee-coordinate-report.json",
+      "sha256": "2692b1fe80642f9e543c0bac4aebe6d4a4799d8ba0325a4d00ce95fab7b9920d"
+    },
+    {
+      "path": "puttombuild/mapping/tee-coordinates.csv",
+      "sha256": "93e24d8ce8d5b0fb7b4c46fa7f4544880e19eb99896682f8768e99b7a06308f9"
+    }
+  ],
+  "review": {
+    "sourceDirectory": "puttombuild/cache/production-orthophoto",
+    "captureBackend": [
+      "webgpu",
+      "webgl2"
+    ],
+    "captureQuality": [
+      "hi",
+      "lo"
+    ],
+    "capturePresets": [
+      "noon",
+      "host"
+    ],
+    "notes": "Imagery source pixels and captures stay local. Empty or unknown categories require review; counts never approve geography.",
+    "acquisition": {
+      "path": "geo_data/course-v2/puttom/acquisition/orthophoto-review.json",
+      "sha256": "33bb29f4308e2233a5cab49622b9a2534aa890cc9ac660790af2a048618e6fb0"
+    }
+  }
+}

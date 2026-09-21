@@ -21,7 +21,18 @@ jobs:
         with:
           node-version: 22
       - name: Test setup, stages, candidate identity and release rejection
-        run: node --test packages/course-workflow/workflow.node-test.mjs
+        run: node --test packages/course-workflow/workflow.node-test.mjs packages/course-workflow/production.node-test.mjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test source overlay integrity and pixel registration
+        run: |
+          python -m pip install -r packages/course-workflow/requirements-review.txt
+          python packages/course-workflow/source-overlays_test.py
+      - name: Check generated pilot dependency lists
+        run: |
+          node packages/course-workflow/production.mjs --ground puttom --check-config
+          node packages/course-workflow/production.mjs --ground johannesberg --check-config
       - name: Validate every workflow configuration
         run: node packages/course-workflow/cli.mjs check
       - name: Audit every published ground and routing

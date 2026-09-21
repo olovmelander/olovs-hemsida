@@ -1,13 +1,36 @@
 import fs from 'node:fs';
+import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { STAGES, assertWorkflow } from './standard.mjs';
-import { inventory, candidateInventory, hashObject, readJson, writeJson, safePath } from './io.mjs';
+import { inventory, candidateInventory, hashObject, readJson, writeJson, safePath, digest } from './io.mjs';
+import { horizontalProjectionBackend } from '../course-geo/proj.mjs';
+
+const executionIdentities = new Map();
+function executionIdentity(w) {
+  const production = Object.values(w.stages).some(s => s.command?.includes('packages/course-workflow/production.mjs'));
+  const key = `${production}:${process.env.COURSE_GEO_PYPROJ_PYTHON || ''}:${process.env.PATH}`;
+  let projection;
+  if (production && !executionIdentities.has(key)) {
+    projection = horizontalProjectionBackend();
+    if (!process.env.COURSE_GEO_PYPROJ_PYTHON) {
+      const executable = (process.env.PATH || '').split(path.delimiter).map(dir => path.join(dir, process.platform === 'win32' ? 'cs2cs.exe' : 'cs2cs'))
+        .find(file => { try { fs.accessSync(file, fs.constants.X_OK); return fs.statSync(file).isFile(); } catch { return false; } });
+      if (!executable) throw new Error('cs2cs unavailable: use the locked Pixi toolchain or explicitly set COURSE_GEO_PYPROJ_PYTHON for horizontal-only mapping');
+      projection.executableSha256 = digest(fs.readFileSync(executable));
+    }
+  }
+  if (!executionIdentities.has(key)) executionIdentities.set(key, {
+    node: process.version, zlib: process.versions.zlib,
+    ...(production ? { horizontalProjection: projection } : {}),
+  });
+  return executionIdentities.get(key);
+}
 
 const recordPath = (w, stage) => `course-workflows/${w.groundId}/build-records/${stage}.json`;
 function stamp(root, w, stage, prior, publicRoot = w.publicRoot) {
   const s = w.stages[stage];
   return hashObject({ standard: w.standard, groundId: w.groundId, publicRoot: w.publicRoot, stage, specification: s,
-    code: inventory(root, w.watch), inputs: candidateInventory(root, s.inputs, w.publicRoot, publicRoot), prior });
+    execution: executionIdentity(w), code: inventory(root, w.watch), inputs: candidateInventory(root, s.inputs, w.publicRoot, publicRoot), prior });
 }
 export function plan(root, w, { publicRoot = w.publicRoot } = {}) {
   assertWorkflow(w);
