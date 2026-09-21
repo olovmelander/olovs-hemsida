@@ -1,6 +1,7 @@
 /* Fixed-point depth spends most of its precision close to the near plane.
-   A 1 m near plane cannot reliably separate Visby's sea from its laser plate
-   at kilometre range. Reversed *fixed-point* depth has the same limitation.
+   A 1 m near plane cannot reliably separate measured water from its laser
+   plate at kilometre range, including inland ponds such as Tortuna's.
+   Reversed *fixed-point* depth has the same limitation.
    Raise near only above the entire measured world, with a 64 m allowance for
    scenery. Taking one eighth of that empty vertical space keeps the near
    rectangle well clear of the scene; the focus and absolute caps are extra
