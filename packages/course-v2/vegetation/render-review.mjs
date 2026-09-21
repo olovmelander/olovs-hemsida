@@ -16,7 +16,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { encodePNG } from '../../../geobuild/png.mjs';
-import { loadGroundGeometry, readRawRaster } from './compile-vegetation.mjs';
+import { loadGroundCourseGeometries, mergeCourseGeometries, readRawRaster } from './compile-vegetation.mjs';
+import { reviewHoleEntries } from './review-identity.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const args = process.argv.slice(2);
@@ -33,7 +34,8 @@ const dataDir = path.join(ROOT, 'geo_data/course-v2', groundId);
 const campaigns = JSON.parse(fs.readFileSync(path.join(dataDir, 'acquisition/laser-campaigns.json'), 'utf8'));
 /* every course model of the ground, merged, so the overlay draws the same
    exclusions and holes the compiler saw -- the korthålsbana's included */
-const geometry = loadGroundGeometry(dataDir, groundId);
+const courseGeometries = loadGroundCourseGeometries(dataDir, groundId);
+const geometry = mergeCourseGeometries(courseGeometries.map(course => course.geometry));
 const candidates = JSON.parse(fs.readFileSync(candidatesPath, 'utf8'));
 
 /* merge the campaign rasters: each is NaN outside its own extent */
@@ -121,7 +123,8 @@ const ground = [base.originEasting, base.originNorthing - base.height * base.sam
 fs.writeFileSync(path.join(outDir, 'overview-2m.png'), render({ bbox: ground, metresPerPixel: 2 }));
 console.log(`overview-2m.png  ${ground.map(v => v.toFixed(1)).join(',')}`);
 const index = [];
-for (const hole of geometry.holes || []) {
+for (const entry of reviewHoleEntries(courseGeometries)) {
+  const { hole } = entry;
   const points = [...hole.line, ...(hole.green?.ring || [])];
   if (!points.length) continue;
   const xs = points.map(p => p[0]);
@@ -130,9 +133,9 @@ for (const hole of geometry.holes || []) {
   let bbox = [Math.min(...xs) - margin, Math.min(...ys) - margin, Math.max(...xs) + margin, Math.max(...ys) + margin];
   bbox = [Math.max(bbox[0], ground[0]), Math.max(bbox[1], ground[1]), Math.min(bbox[2], ground[2]), Math.min(bbox[3], ground[3])];
   if (bbox[2] - bbox[0] < 50 || bbox[3] - bbox[1] < 50) continue;
-  const file = `hole-${String(hole.n).padStart(2, '0')}.png`;
+  const { file } = entry;
   fs.writeFileSync(path.join(outDir, file), render({ bbox, metresPerPixel: 1 }));
-  index.push({ hole: hole.n, file, bboxEpsg3006: bbox.map(v => Math.round(v * 10) / 10) });
+  index.push({ course: entry.slug, hole: hole.n, file, bboxEpsg3006: bbox.map(v => Math.round(v * 10) / 10) });
   console.log(`${file}  ${Math.round(bbox[2] - bbox[0])} x ${Math.round(bbox[3] - bbox[1])} m`);
 }
 fs.writeFileSync(path.join(outDir, 'legend.json'), JSON.stringify({

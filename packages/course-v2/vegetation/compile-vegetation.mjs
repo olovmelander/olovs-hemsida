@@ -82,13 +82,17 @@ export function mergeCourseGeometries(geometries) {
 
 /** Every migration model of a ground, merged: the registry's courseModels
     where the ground declares them, else the single course-model file. */
-export function loadGroundGeometry(dataDir, groundId) {
+export function loadGroundCourseGeometries(dataDir, groundId) {
   const courseModels = GROUND_RINGS[groundId]?.courseModels;
-  const files = courseModels
-    ? Object.values(courseModels).map(model => model.migration)
-    : ['course-model.epsg3006.json'];
-  return mergeCourseGeometries(files.map(file =>
-    JSON.parse(fs.readFileSync(path.join(dataDir, 'migration', file), 'utf8')).geometry));
+  const entries = courseModels
+    ? Object.entries(courseModels).map(([slug, model]) => [slug, model.migration])
+    : [[groundId, 'course-model.epsg3006.json']];
+  return entries.map(([slug, file]) => Object.freeze({ slug,
+    geometry: JSON.parse(fs.readFileSync(path.join(dataDir, 'migration', file), 'utf8')).geometry }));
+}
+
+export function loadGroundGeometry(dataDir, groundId) {
+  return mergeCourseGeometries(loadGroundCourseGeometries(dataDir, groundId).map(course => course.geometry));
 }
 export const PROVISIONAL_ZONES = Object.freeze({ zoneAMetres: 90, zoneBMetres: 300 });
 export const DEFAULT_MINIMUM_CONFIDENCE = 0.5;
