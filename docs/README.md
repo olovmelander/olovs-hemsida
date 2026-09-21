@@ -1,14 +1,16 @@
 # Golf course documentation
 
-Updated 2026-09-07. Start here when creating a course or improving an existing
-one. The current guide combines the v2 architecture with the mapping techniques
-tested during the Upsala work.
+Updated 2026-09-21. Start with the executable production workflow when creating
+a course or improving an existing one. The detailed guides explain the
+spatial, mapping and review techniques used within its stages.
 
 The reusable tree-placement workflow and its review template were added on
 2026-09-16 following the Visby pilots.
 
 | Document | Use it for |
 |---|---|
+| [Course production workflow](course-production-workflow.md) | Default entrypoint: initialize a course, configure staged adapters, audit the catalogue, record exact-candidate evidence and pass CI release checks. |
+| [Course production audit](course-production-audit.md) | Baseline inventory and declared source blockers for all published grounds; regenerate with `pnpm course audit`. |
 | [Course v2 production guide](v2-course-runbook.md) | Ground/course identity, source hierarchy, coordinates, terrain/surface/object compilation, current tool support, publication and release gates. |
 | [Course mapping workflow](v2-course-mapping-workflow.md) | Complete object inventory, new-course and existing-course review, source acquisition, QGIS/imagery/survey techniques, guarded adoption, Windows recipes and next-session handoff. |
 | [Tree placement workflow](tree-placement-workflow.md) | Reusable LiDAR/RGB/IR method for existing and new grounds: reference samples, detection benchmarking, reviewed individuals, woodland fields, assets, acceptance gates and current tooling limits. Start with its [review template](templates/tree-placement-review.md). |

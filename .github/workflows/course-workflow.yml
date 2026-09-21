@@ -1,0 +1,43 @@
+name: course production
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  course-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Test setup, stages, candidate identity and release rejection
+        run: node --test packages/course-workflow/workflow.node-test.mjs
+      - name: Validate every workflow configuration
+        run: node packages/course-workflow/cli.mjs check
+      - name: Audit every published ground and routing
+        run: node packages/course-workflow/cli.mjs audit --check --out output/course-production/audit.json --markdown output/course-production/audit.md
+      - name: Require evidence for new and previously qualified courses
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            BASE_SHA=$(git rev-parse HEAD^)
+          fi
+          node packages/course-workflow/cli.mjs check-new --base-ref "$BASE_SHA"
+      - name: Save the current catalogue audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: course-production-audit
+          path: output/course-production/
+          if-no-files-found: ignore

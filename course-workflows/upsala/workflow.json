@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "standard": "banvy-course-production-v1",
+  "groundId": "upsala",
+  "name": "Upsala Golfklubb",
+  "courses": [
+    {
+      "slug": "upsala",
+      "holes": 18
+    },
+    {
+      "slug": "upsala-mellanbanan",
+      "holes": 9
+    }
+  ],
+  "releasePolicy": "advisory",
+  "sourceManifest": "geo_data/course-v2/upsala/source-manifest.json",
+  "publicRoot": "output/course-workflow/upsala/public",
+  "reviewFile": "course-workflows/upsala/review.json",
+  "watch": [
+    "apps/golf/src",
+    "packages/course-v2",
+    "packages/course-pack",
+    "packages/course-geo",
+    "packages/course-workflow",
+    "pnpm-lock.yaml",
+    "upsalabuild"
+  ],
+  "stages": {
+    "sources": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "terrain": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "mapping": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "vegetation": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "assemble": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "validate": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    }
+  },
+  "performance": {
+    "maxRegressionPercent": 10,
+    "maxColdLoadMs": 10000,
+    "maxFrameP95Ms": {
+      "webgpu": 20,
+      "webgl2": 33.4,
+      "mobile": 33.4
+    }
+  }
+}

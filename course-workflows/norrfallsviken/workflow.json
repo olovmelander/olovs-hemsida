@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "standard": "banvy-course-production-v1",
+  "groundId": "norrfallsviken",
+  "name": "Norrfällsvikens Golfklubb",
+  "courses": [
+    {
+      "slug": "norrfallsviken",
+      "holes": 18
+    }
+  ],
+  "releasePolicy": "advisory",
+  "sourceManifest": "geo_data/course-v2/norrfallsviken/source-manifest.json",
+  "publicRoot": "output/course-workflow/norrfallsviken/public",
+  "reviewFile": "course-workflows/norrfallsviken/review.json",
+  "watch": [
+    "apps/golf/src",
+    "packages/course-v2",
+    "packages/course-pack",
+    "packages/course-geo",
+    "packages/course-workflow",
+    "pnpm-lock.yaml",
+    "nvgkbuild"
+  ],
+  "stages": {
+    "sources": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "terrain": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "mapping": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "vegetation": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "assemble": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "validate": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    }
+  },
+  "performance": {
+    "maxRegressionPercent": 10,
+    "maxColdLoadMs": 10000,
+    "maxFrameP95Ms": {
+      "webgpu": 20,
+      "webgl2": 33.4,
+      "mobile": 33.4
+    }
+  }
+}

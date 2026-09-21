@@ -1,3 +1,11 @@
+# Current course development entrypoint
+
+For new courses and upgrades, read [docs/course-production-workflow.md](docs/course-production-workflow.md)
+first. Use its shared initializer, staged adapters, source and per-hole reviews,
+and release checks. The current v2 catalogue has 13 layouts on 10 grounds using
+the standard 469-tile graph. Historical notes below describe early standalone
+pages; they do not define the current app or justify copying old course builders.
+
 ## Current player visual setup — 21 September 2026
 
 The supported app presentation is **v2 terrain + Ghibli styling** on both
@@ -14,7 +22,7 @@ representations and diagnostic/material fixtures remain internal tools, not
 alternative player styles. Do not delete them as if they were unused terrain.
 See `docs/v2-ghibli-only.md` for scope and validation.
 
-# Two courses in 3D — Veckefjärdens GC and Norrfällsvikens GK
+# Historical notes: Veckefjärdens GC and Norrfällsvikens GK
 
 This repo renders two real golf courses as self-contained WebGPU/TSL pages.
 **`norrfallsviken3d.html` + `nvgkbuild/`** is the newer build — see "The
