@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three';
 import {loadGhibliTrees,GHIBLI_FOLIAGE_REVISION,VISBY_PINE_REVISION} from './ghibli-trees.mjs';
+import {loadStudyTrees} from '../studies/tree-loader.mjs';
 import {inspectBuildingGlb} from './authored-buildings.mjs';
 const root=new URL('../../public/models/trees/',import.meta.url);
 const manifest=JSON.parse(fs.readFileSync(new URL('ghibli-fluffy.json',root)));
@@ -36,8 +37,8 @@ describe('production foliage loader',()=>{
   afterEach(()=>vi.restoreAllMocks());
   for(const courseSlug of ['puttom','visby']) it(`loads only real Hero meshes for production (${courseSlug})`,async()=>{
     const fetchImpl=vi.fn(assetFetch);
-    // An old hero:false preference must not downgrade the production policy.
-    const loaded=await loadGhibliTrees({courseSlug,heroOnly:true,hero:false,fetchImpl});
+    // Historical study options cannot switch or downgrade the player catalogue.
+    const loaded=await loadGhibliTrees({courseSlug,heroOnly:false,hero:false,design:'original',fetchImpl});
     const catalogue=loaded.manifest;
     const expected=new Set(catalogue.species.flatMap(s=>s.variants.map(v=>v.tiers.hero.file)));
     const meshRequests=fetchImpl.mock.calls.map(([url])=>String(url).split('/models/trees/')[1]).filter(url=>url.endsWith('.glb'));
@@ -59,7 +60,7 @@ describe('production foliage loader',()=>{
       if(s.key!=='tall')expect(s).toEqual(manifest.species.find(original=>original.key===s.key));
     }
     const fetchImpl=vi.fn(assetFetch);
-    const loaded=await loadGhibliTrees({courseSlug:'visby',hero:true,fetchImpl});
+    const loaded=await loadStudyTrees({courseSlug:'visby',hero:true,fetchImpl});
     expect(fetchImpl.mock.calls[0][0]).toBe(`/models/trees/ghibli-visby.json?v=${VISBY_PINE_REVISION}`);
     expect(loaded.summary.revision).toBe(VISBY_PINE_REVISION);
     expect(loaded.summary.files).toBe(26);
@@ -86,7 +87,7 @@ describe('production foliage loader',()=>{
     expect(elsewhere.species[1].variants).toHaveLength(1);
   });
   it('defaults to approved foliage, retaining UVs, custom normals and independent LOD buffers',async()=>{
-    const loaded=await loadGhibliTrees({hero:true,fetchImpl:assetFetch});
+    const loaded=await loadStudyTrees({hero:true,fetchImpl:assetFetch});
     expect(loaded.foliage).toBe(true);expect(loaded.summary.files).toBe(20);
     for(const s of loaded.species){
       expect(s.foliage.map).toBeInstanceOf(THREE.Texture);
@@ -120,13 +121,19 @@ describe('production foliage loader',()=>{
     expect(loaded.summary.revision).toBe(manifest.revision);
   });
   it('loads no close meshes with hero disabled and never shares mutable tier geometry',async()=>{
-    const loaded=await loadGhibliTrees({hero:false,fetchImpl:assetFetch});
+    const loaded=await loadStudyTrees({hero:false,fetchImpl:assetFetch});
     expect(loaded.summary.files).toBe(15);
     for(const s of loaded.species){
       expect(s.hero.crown).not.toBe(s.full.crown);
       expect(s.hero.crown.attributes.position.array).not.toBe(s.full.crown.attributes.position.array);
       expect(s.hero.crown.attributes.position.count).toBe(s.full.crown.attributes.position.count);
     }
+  });
+  it('rejects an unpainted catalogue before constructing player materials',async()=>{
+    const invalid=structuredClone(manifest);
+    delete invalid.species.find(s=>s.key==='gran').foliage;
+    await expect(loadGhibliTrees({fetchImpl:async()=>Response.json(invalid)})).rejects.toThrow('lacks painted foliage');
+    expect(THREE.TextureLoader.prototype.loadAsync).not.toHaveBeenCalled();
   });
   it('rejects corrupted atlas bytes before decoding a texture',async()=>{
     await expect(loadGhibliTrees({fetchImpl:async url=>String(url).endsWith('.png')?new Response(new Uint8Array(16)):assetFetch(url)})).rejects.toThrow('atlas checksum');

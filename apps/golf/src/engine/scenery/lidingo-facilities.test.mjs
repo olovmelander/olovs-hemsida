@@ -225,7 +225,7 @@ describe('Lidingö Blender facilities installation', () => {
     expect(scenery.loadFacilitiesBeforeSurfaces).toBe(true);
     expect(main).toContain("get('buildingGeometry') !== 'source'");
     expect(main).toContain('!SCENERY?.loadFacilities || !authoredFacilityView');
-    expect(main.indexOf('if (SCENERY?.loadFacilitiesBeforeSurfaces)')).toBeLessThan(main.indexOf('const legacySurfaceOverlays'));
+    expect(main.indexOf('if (SCENERY?.loadFacilitiesBeforeSurfaces)')).toBeLessThan(main.indexOf('for (const feature of M.scenery.mappedFeatures || [])'));
     expect(main).toContain('facilityArchitecture?.replacedBuildingIds?.has(b.id)');
     expect(main).toContain('SCENERY?.replacesRangeFacilities && facilityArchitecture?.report.status');
   });

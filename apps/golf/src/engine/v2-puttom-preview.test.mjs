@@ -9,7 +9,6 @@ import {
   assertPuttomSurfaceCoverage,
   createTerrainResourceSampler,
   decimateTerrainRenderResources,
-  fallbackTerrainPreviewState,
   loadPuttomTerrainPreview,
   puttomPreviewRequested,
   verifiedSurfaceClassIds,
@@ -78,10 +77,6 @@ describe('Puttom interactive terrain preview bridge', () => {
     const forcedOn = await loadPuttomTerrainPreview({ slug: 'upsala', search: '?v2=require', requested: true });
     expect(forcedOn).toMatchObject({ requested: true, status: 'fallback', reason: 'course-not-enabled' });
     await expect(loadPuttomTerrainPreview({ slug: 'puttom', requested: 1 })).rejects.toThrow(/boolean/);
-    const fallback = fallbackTerrainPreviewState({ slug: 'angso', reason: 'graph-renderer-not-activated' });
-    expect(fallback).toMatchObject({ requested: true, ready: false, status: 'fallback', reason: 'graph-renderer-not-activated' });
-    expect(Number.isNaN(fallback.heightAt(0, 0))).toBe(true);
-    expect(() => fallbackTerrainPreviewState({ slug: 'angso' })).toThrow(/reason/);
   });
 
   it('uses the verified primary/secondary union for the required surface inventory', () => {

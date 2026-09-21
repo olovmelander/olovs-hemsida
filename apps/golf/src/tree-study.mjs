@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { loadGhibliTrees, GHIBLI_SPECIES, GHIBLI_COLOURS } from './engine/ghibli-trees.mjs';
+import { loadStudyTrees, GHIBLI_SPECIES, GHIBLI_COLOURS } from './studies/tree-loader.mjs';
 
 const notes = {
   gran: ['Norway spruce', 'Individual sweeping boughs replace the stacked skirts. Smaller drooping sprays break up the edges, with darker old growth beneath the fresh tips.'],
@@ -62,7 +62,7 @@ for (const view of views) view.controls.addEventListener('change', () => {
 
 try {
   for (const view of views) {
-    view.catalogue = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, hero: true, design: view.design === 'atelier' ? 'refined' : 'original' });
+    view.catalogue = await loadStudyTrees({ baseUrl: import.meta.env.BASE_URL, hero: true, design: view.design === 'atelier' ? 'refined' : 'original' });
   }
   function update() {
     const s = GHIBLI_SPECIES.indexOf(speciesSelect.value), variant = Number(variantSelect.value), tier = tierSelect.value;
