@@ -6,6 +6,7 @@ import { build } from '../../apps/golf/node_modules/vite/dist/node/index.js';
 await build({
   configFile: path.resolve('apps/golf/vite.config.js'),
   root: path.resolve('apps/golf'),
+  mode: 'study',
   publicDir: false,
   build: {
     outDir: path.resolve(process.argv[2] || 'output/tree-study-build'),

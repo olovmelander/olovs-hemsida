@@ -191,8 +191,6 @@ const span = (name, startedMs, extra) => {
 const LAP = { t: 0 };
 const lapStart = () => { LAP.t = performance.now(); };
 const lap = (name, extra) => { span(name, LAP.t, extra); LAP.t = performance.now(); };
-let step0 = 0;
-const STEPS = ['terräng', 'vatten', 'banan', 'skog', 'ljus', 'klar'];
 const tick = (msg, frac) => {
   BOOT_PERF.marks.push({ name: msg, atMs: +(performance.now() - bootStarted).toFixed(1) });
   msgEl.textContent = msg;
@@ -500,29 +498,21 @@ const OCEAN_SOURCE = CONTINUOUS_OCEAN_ENABLED ? await (async () => {
     import('./engine/source-ocean.mjs'),import('./engine/norrfallsviken-ocean-source.mjs'),
     import('./engine/norrfallsviken-coastal-surfaces.mjs'),
   ]);
-  try {
-    const data=await mod.loadSourceOcean({...asset,baseUrl:new URL(import.meta.env.BASE_URL,location.href).href});
-    return {mod,data,asset,surfaces:coastalSurfaces.createNorrfallsvikenCoastalSurfaces({
-      origin:TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,bridge:TERRAIN_PREVIEW.bridge,
-    })};
-  } catch(error) {
-    if(V2_SELECTION.require)throw error;
-    console.warn('Marine source unavailable; using connected terrain contour',error);
-    return null;
-  }
+  const data=await mod.loadSourceOcean({...asset,baseUrl:new URL(import.meta.env.BASE_URL,location.href).href});
+  return {mod,data,asset,surfaces:coastalSurfaces.createNorrfallsvikenCoastalSurfaces({
+    origin:TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,bridge:TERRAIN_PREVIEW.bridge,
+  })};
 })() : null;
 const SEA_WORLD_LEVEL = CONTINUOUS_OCEAN_ENABLED
-  ? seaLevelInWorld(OCEAN_SOURCE?.data.seaLevelRH2000 ?? GEO.seaLevel,TERRAIN_PREVIEW.bridge) : GEO.seaLevel;
+  ? seaLevelInWorld(OCEAN_SOURCE.data.seaLevelRH2000 ?? GEO.seaLevel,TERRAIN_PREVIEW.bridge) : GEO.seaLevel;
 const OCEAN_DISPLAY_LIFT = 0.2;
-const OCEAN_DTM_TOLERANCE = 0.15;
 const CONTINUOUS_OCEAN = CONTINUOUS_OCEAN_ENABLED ? await (async () => {
   const bounds=coastalWorldBounds(V2_SELECTION.graph.ground.bounds,TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,TERRAIN_PREVIEW.bridge);
   const started=performance.now();
-  const ocean=OCEAN_SOURCE ? OCEAN_SOURCE.mod.buildSourceOcean({data:OCEAN_SOURCE.data,bounds,
+  const ocean=OCEAN_SOURCE.mod.buildSourceOcean({data:OCEAN_SOURCE.data,bounds,
     origin:TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006,bridge:TERRAIN_PREVIEW.bridge,seaLevel:SEA_WORLD_LEVEL,
     maximumCoveredTerrainHeight:V2_SELECTION.graph.ground.bounds.maxHeightRH2000+TERRAIN_PREVIEW.bridge.verticalDatumOffsetMetres,
-  }) : (await import('./engine/continuous-ocean.mjs')).buildContinuousOcean({ bounds,bodies:M.water,seaLevel:SEA_WORLD_LEVEL,
-    tolerance:OCEAN_DTM_TOLERANCE,spacing:16,refineSpacing:4,heightAt:(x,z)=>terrainV2.worldHeightAt(x,z) });
+  });
   span('continuous ocean: uncarved terrain coverage',started,{cells:ocean.cells});
   console.info(`continuous ocean: ${ocean.cells} cells, ${ocean.indices.length/3} triangles, world level ${SEA_WORLD_LEVEL}`);
   return ocean;
@@ -850,7 +840,7 @@ for (const h of HOLES) {
       const knownBodies = M.water.filter(w => !w.stream && !(CONTINUOUS_OCEAN && w.isSea) && w.ring?.length >= 3)
         .map(w => ({ ring: w.ring, level: w.level, ...(w.exactShore ? { exactShore: true } : {}) }));
       const waterInputs = WATER_PREPARATION.preparedWaterInputs({ knownBodies, bridge: TERRAIN_PREVIEW.bridge,
-        origin: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006, ocean: CONTINUOUS_OCEAN ? OCEAN_SOURCE?.asset ?? 'fallback' : null });
+        origin: TERRAIN_PREVIEW_CONFIG.legacyOriginEpsg3006, ocean: CONTINUOUS_OCEAN ? OCEAN_SOURCE.asset : null });
       const preparedWater = await PREPARED_WATER_LOADING;
       const restoreWater = !!preparedWater && preparedWater.inputs === waterInputs;
       BOOT_PERF.preparedWater = restoreWater;
@@ -3250,45 +3240,14 @@ function surfaceMesh(rings, lift, maxEdge, shade, conservative) {
 
 await tick('lägger fairways och greener', 0.44);
 
-/* Push a closed ring outward by d metres along its angle bisectors. Used for the
-   collar round a green and the first cut round a fairway, which are the two bands
-   that stop mown ground from looking like a decal stuck on the rough. */
-function offsetRing(ring, d) {
-  const n = ring.length, out = [];
-  let area = 0;
-  for (let i = 0, j = n - 1; i < n; j = i++) area += (ring[j][0] + ring[i][0]) * (ring[j][1] - ring[i][1]);
-  const sgn = area > 0 ? -1 : 1;
-  for (let i = 0; i < n; i++) {
-    const p = ring[i], a = ring[(i - 1 + n) % n], b = ring[(i + 1) % n];
-    const n1 = [p[1] - a[1], a[0] - p[0]], n2 = [b[1] - p[1], p[0] - b[0]];
-    const l1 = Math.hypot(n1[0], n1[1]) || 1, l2 = Math.hypot(n2[0], n2[1]) || 1;
-    const mx = n1[0] / l1 + n2[0] / l2, mz = n1[1] / l1 + n2[1] / l2;
-    const ml = Math.hypot(mx, mz);
-    if (ml < 0.15) { out.push(p.slice()); continue; }
-    const half = Math.max(0.42, ml / 2);
-    out.push([p[0] + mx / ml * sgn * d / half, p[1] + mz / ml * sgn * d / half]);
-  }
-  return out;
-}
-
 /* The overlays must not reuse the terrain's classifier. That one fades a surface out
    over several metres, which is right for a 4 m grid that cannot hold an edge and
    wrong here: an outline that has been cut on the ground has an edge, and running the
    soft classifier over it would blur back in exactly the crispness these meshes exist
    to provide. */
-/* The mow coordinate: distance across the hole for a fairway, a fixed diagonal for
-   anything with no hole to run along. It is carried per vertex and the band itself is
-   computed per pixel from it, because a stripe baked into vertices on a 3.6 m mesh is
-   sampled four times per 16 m period and comes out as beating, not as stripes. */
-const mowCoord = (x, z, hole) => hole ? distToLine(x, z, hole.line) : (x + z) * 0.7071;
-const mowBand = (x, z, hole, k) => Math.sin(mowCoord(x, z, hole) * k) * 0.5 + 0.5;
 const shadeGreen = hole => (x, z) => ({
   col: C.green.slice(), det: 2.85, bmp: 0.13, gls: 0.42, str: 0.85,
   mow: hole ? -ringSD(x, z, hole.green.ring) : (x + z) * 0.7071, mowK: 4.19,
-});
-const shadeCollar = hole => (x, z) => ({
-  col: C.fringe.slice(), det: 2.0, bmp: 0.3, gls: 0.34, str: 0.8,
-  mow: mowCoord(x, z, hole), mowK: 2.90,
 });
 const shadeTee = () => (x, z) => ({
   col: C.tee.slice(), det: 2.2, bmp: 0.22, gls: 0.4, str: 1.3,
@@ -9782,7 +9741,6 @@ function slopeColor(s) {
     return [0.98, 0.48 - t * 0.30, 0.10 + t * 0.08];
   }
 }
-const slopePulseColor = slopeColor;
 
 function gridClear() {
   if (gridGroup) {
@@ -11388,7 +11346,7 @@ window.V3D = {
     polygonOffsetFactor: oceanMat.polygonOffsetFactor, polygonOffsetUnits: oceanMat.polygonOffsetUnits,
     terrainMaskBytes: COASTAL_TERRAIN_MASK?.bytes ?? 0,
     triangles: CONTINUOUS_OCEAN?.triangles, refinedCells: CONTINUOUS_OCEAN?.refinedCells,
-    classificationToleranceMetres: CONTINUOUS_OCEAN ? OCEAN_DTM_TOLERANCE : null,
+    classificationToleranceMetres: null,
     transparent: oceanMat.transparent, terrainCeiling: COASTAL_TERRAIN_CEILING,
     vistaTreesOnSea: CONTINUOUS_OCEAN ? VISTA_PTS.reduce((sum,value,i)=>sum+(i%4===0&&CONTINUOUS_OCEAN.isSeaAt(value,VISTA_PTS[i+2])?1:0),0) : null,
   } : null,

@@ -15,9 +15,11 @@ import { ATMOSPHERE_PRESETS } from '../apps/golf/src/engine/atmosphere-presets.m
 const root = fileURLToPath(new URL('../', import.meta.url));
 const helper = path.join(root, 'apps/golf/src/engine/water-render-policy.mjs');
 const threeRoot = fs.realpathSync(path.join(root, 'apps/golf/node_modules/three'));
+const expectedThreeVersion = JSON.parse(fs.readFileSync(path.join(root, 'apps/golf/package.json'))).dependencies.three;
+const installedThreeVersion = JSON.parse(fs.readFileSync(path.join(threeRoot, 'package.json'))).version;
 const sourceMainBaseline = '241a3eeb4999442604d6e5ec41bfa020db822b30';
 const mainSource = fs.readFileSync(path.join(root, 'apps/golf/src/main.js'), 'utf8');
-const waterSource = mainSource.match(/function makeWater\(\{ mask = null \} = \{\}\) \{[\s\S]*?\n\}/)?.[0];
+const waterSource = mainSource.match(/function makeWater\(\{ mask = null, showBed = true, ocean = false \} = \{\}\) \{[\s\S]*?\n\}/)?.[0];
 if (!waterSource) throw new Error('Could not locate the live makeWater function; update this fixture explicitly.');
 const presetSource = JSON.stringify(ATMOSPHERE_PRESETS);
 const sha256 = value => createHash('sha256').update(value).digest('hex');
@@ -27,8 +29,9 @@ const sha256 = value => createHash('sha256').update(value).digest('hex');
 const fixtureModule = `
 import * as THREE from 'three/webgpu';
 import { float, vec2, vec3, uniform, attribute, texture, positionWorld, cameraPosition,
-  oneMinus, smoothstep, normalize, pow, saturate, reflect, color, mix, exp, step } from 'three/tsl';
-import { configureWaterRenderPasses } from '/helper.mjs';
+  oneMinus, smoothstep, normalize, pow, saturate, reflect, color, mix, step } from 'three/tsl';
+import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque } from '/helper.mjs';
+import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from '/painted-world-lighting.mjs';
 import { createWaterReflectionLighting } from '/water-lighting.mjs';
 function fixedTexture() {
   const data = new Uint8Array(16 * 16 * 4);
@@ -46,9 +49,10 @@ function fixedTexture() {
 const WATERN = fixedTexture(), DETAIL = fixedTexture(), time = uniform(3.25);
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
 const uSun = uniform(new THREE.Vector3(0.3, 0.7, 0.4).normalize());
-const uFogD = uniform(0.0001), uFogC = uniform(new THREE.Color(0x718098));
 const waterLighting = createWaterReflectionLighting({ enabled: true });
 waterLighting.setPreset((${presetSource}).golden);
+setPaintedWorldLighting((${presetSource}).golden, 'golden');
+const M = { infra: { terrainPlacement: null } };
 let DEPTH_SIGN = -1;
 export function setFixtureDepth(reversed) { DEPTH_SIGN = reversed ? 1 : -1; }
 export ${waterSource}
@@ -225,7 +229,7 @@ function makeServer() {
       }
       let file;
       if (pathname === '/helper.mjs') file = helper;
-      else if (pathname === '/water-lighting.mjs' || pathname === '/lighting-environment.mjs') {
+      else if (['/water-lighting.mjs', '/lighting-environment.mjs', '/painted-world-lighting.mjs'].includes(pathname)) {
         file = path.join(root, 'apps/golf/src/engine', pathname.slice(1));
       }
       else {
@@ -262,7 +266,7 @@ async function main() {
     const result = await page.evaluate(() => window.result);
     if (result.error) throw new Error(result.error);
     const checks = {
-      threeR185: result.threeRevision === '185',
+      threeMatchesApp: installedThreeVersion === expectedThreeVersion && result.threeRevision === expectedThreeVersion.split('.')[1],
       softwareRenderer: /SwiftShader/i.test(result.renderer),
       completeMatrix: result.rows.length === (result.clipControl ? 24 : 12),
       identicalPixels: result.rows.every(row => row.difference.differingPixels === 0),

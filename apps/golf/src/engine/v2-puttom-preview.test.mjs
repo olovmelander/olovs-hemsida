@@ -10,7 +10,6 @@ import {
   createTerrainResourceSampler,
   decimateTerrainRenderResources,
   loadPuttomTerrainPreview,
-  puttomPreviewRequested,
   verifiedSurfaceClassIds,
 } from './v2-puttom-preview.mjs';
 import {
@@ -58,12 +57,6 @@ function fixture() {
 }
 
 describe('Puttom interactive terrain preview bridge', () => {
-  it('only enables the explicit Puttom opt-in', () => {
-    expect(puttomPreviewRequested('puttom', '?v2=1')).toBe(true);
-    expect(puttomPreviewRequested('puttom', '?v2=0')).toBe(false);
-    expect(puttomPreviewRequested('upsala', '?v2=1')).toBe(false);
-  });
-
   it('keeps ordinary visits off the v2 network path and reports unsupported courses', async () => {
     const off = await loadPuttomTerrainPreview({ slug: 'puttom', search: '' });
     expect(off).toMatchObject({ requested: false, ready: false, status: 'off' });

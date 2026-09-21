@@ -752,12 +752,6 @@ export class V2GraphTerrainAdapter {
     return this.renderer;
   }
 
-  confirmFallbackRebuilt() {
-    if (this.phase !== 'failed') throw new Error(`v2 world adapter cannot confirm fallback from ${this.phase}`);
-    this.renderer = Object.freeze({ ...this.renderer, fallbackRebuilt: true });
-    return this.renderer;
-  }
-
   snapshot() {
     const runtime = this.runtime?.snapshot() ?? null;
     return Object.freeze({

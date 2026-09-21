@@ -215,10 +215,6 @@ export function decimateTerrainRenderResources(resources, stride = 1) {
   }));
 }
 
-export function puttomPreviewRequested(slug, search = globalThis.location?.search || '') {
-  return slug === PUTTOM_PREVIEW_CONFIG.slug && new URLSearchParams(search).get('v2') === '1';
-}
-
 function validatePuttomDescriptor(descriptor, geo) {
   if (descriptor.label !== PUTTOM_PREVIEW_CONFIG.label) {
     throw new Error('Puttom preview label does not match the approved pilot');

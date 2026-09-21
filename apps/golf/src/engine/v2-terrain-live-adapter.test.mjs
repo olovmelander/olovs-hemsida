@@ -254,7 +254,6 @@ describe('v2 terrain live adapter', () => {
     expect(adapter.rendererState).toEqual({
       status: 'failed', fallbackRebuilt: false, error: 'shader rejected',
     });
-    expect(adapter.confirmFallbackRebuilt()).toMatchObject({ fallbackRebuilt: true });
   });
 
   it('rejects a surface atlas that cannot address its own last sample', async () => {
