@@ -57,6 +57,8 @@ because study models were never fetched by the player.
 The seven published standalone pages still have bookmark and course-pack
 verification contracts. They remain in this change; retiring their deployment
 requires preserving those links and migrating the remaining validators.
+The subsequent [legacy URL change](legacy-url-compatibility.md) replaces only
+deployed pages with redirects; retained source HTML still serves the data checks.
 
 ## Verification
 

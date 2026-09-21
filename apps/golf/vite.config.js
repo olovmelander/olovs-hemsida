@@ -19,6 +19,7 @@ import { readFileSync } from 'node:fs';
 import { courseSourceRevision } from '../../tools/course-source-revision.mjs';
 import { golferLabPlugin } from '../../experiments/golfer/vite-plugin.mjs';
 import { productionPublicAssetsPlugin } from '../../tools/production-public-assets.mjs';
+import { legacyPageRedirectsPlugin } from '../../tools/legacy-page-redirects.mjs';
 
 /* Cloudflare would serve this at a domain root; GitHub Pages serves it under the
    repository name. Vite rewrites the tags in index.html and every asset URL it
@@ -55,6 +56,7 @@ export default defineConfig(({ mode }) => {
   plugins: [
     golferLabPlugin(golferLab),
     productionPublicAssetsPlugin(),
+    legacyPageRedirectsPlugin(),
     {
       name: 'course-source-revision',
       generateBundle() {
@@ -126,7 +128,7 @@ export default defineConfig(({ mode }) => {
         ],
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,   /* three.tsl is ~1 MB */
 
-        /* No path routes exist, so the only navigations are / and the six legacy
+        /* No path routes exist, so the only navigations are / and the seven legacy
            page names; those must still open the app offline. Everything under
            /courses/ is data, never a navigation -- the denylist is what stops a
            missing pack being answered with the HTML shell, exactly as the absent
@@ -145,22 +147,8 @@ export default defineConfig(({ mode }) => {
           /* Authored facilities are data too; an absent model must preserve
              its generic building fallback instead of receiving HTML. */
           /\/models\//,
-          /* The seven standalone pages are REAL FILES on GitHub Pages -- pages.yml
-             copies them beside the app, because that host has no rewrite rules --
-             and they sit inside this worker's scope. Without this the navigation
-             fallback answers them with the app shell, and a bookmarked link
-             silently stops being the page that was bookmarked. MEASURED: before
-             the worker installs, /veckefjarden3d.html?hal=3 serves the real page;
-             after it installs, the same URL landed on /?bana=veckefjarden&hal=3
-             carrying the app's bundle. The old gate could not see it, because the
-             app redirects to the same hole and wears the same title.
-
-             Matched with (\?|$) because workbox tests pathname AND SEARCH, so a
-             bare $ would miss every shared link carrying the view grammar --
-             exactly the links worth protecting. Only on a subpath: at a domain
-             root these names are _redirects rewrites INTO the app, no file
-             exists, and denying them would only cost the offline shell. */
-          ...(BASE !== '/' ? [/\/[a-z]+3d\.html(\?|$)/, /\/veckefjardensgc\.html(\?|$)/] : []),
+          // Legacy page navigations may use the offline shell. Its router
+          // replaces them with the same course/query as the generated redirects.
         ],
 
         runtimeCaching: [

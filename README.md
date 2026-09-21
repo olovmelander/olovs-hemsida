@@ -26,10 +26,12 @@ Pick a course from the front door, or deep-link straight into one:
 
 The full grammar is `bana hal vy ljus tee skylt ren kiosk q gl`.
 
-## The standalone pages
+## Historical links
 
-Each course also exists as one self-contained page — no build step, no
-dependencies — and every one of these URLs keeps working:
+These seven URLs now open the corresponding course in the v2 + Ghibli app,
+preserving hole, camera, lighting, tee, marker and quality/backend settings.
+The original HTML sources remain in the repository for data validation and
+historical comparisons; they are no longer published as separate renderers:
 
 | | |
 |---|---|
@@ -39,7 +41,7 @@ dependencies — and every one of these URLs keeps working:
 | [Ängsö GK](https://olovmelander.github.io/olovs-hemsida/angso3d.html) | the Mälaren peninsula north of Ängsön |
 | [Upsala GK](https://olovmelander.github.io/olovs-hemsida/upsala3d.html) | Håmö gård, west of Uppsala |
 | [Johannesberg G&CC](https://olovmelander.github.io/olovs-hemsida/johannesberg3d.html) | the manor course at Gottröra |
-| [Veckefjärdens GC (2023)](https://olovmelander.github.io/olovs-hemsida/veckefjardensgc.html) | the earlier page, in its own local frame |
+| [Veckefjärdens GC (2023)](https://olovmelander.github.io/olovs-hemsida/veckefjardensgc.html) | opens the current Mästerskapsbanan |
 
 ## Building and checking
 
@@ -67,12 +69,14 @@ lists the integrated course updates and verification results.
     pnpm install
     pnpm --filter @banvy/golf build          # the app
     node tools/check-app.mjs                 # every course, through the app
-    node tools/check-links.mjs               # every URL that ever worked
+    node tools/check-legacy-links.mjs        # seven redirects, online/offline
+    node tools/check-links.mjs               # resulting course/view state
     node tools/check-pwa.mjs                 # it really works offline
     node tools/check-basepath.mjs            # it really works under /<repo>/
 
-`CLAUDE.md` is the working notebook: where each course's geometry comes from,
-what each gate protects, and the mistakes that are worth not repeating.
+[CLAUDE.md](CLAUDE.md) contains current development guidance. The complete dated
+[development notebook](docs/archive/claude-history-2026-09.md) retains geometry
+provenance, measurements and the lessons behind the checks.
 
 ## Measured course-v2 programme
 

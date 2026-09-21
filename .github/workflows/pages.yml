@@ -1,22 +1,8 @@
 # Publish the site to GitHub Pages.
 #
-# Two things live at this address and they are published differently.
-#
-#   /                       the Banvy app -- a Vite build, so it must be BUILT
-#   /veckefjarden3d.html    the seven standalone pages -- self-contained files,
-#   /norrfallsviken3d.html  copied as-is (verified: zero same-origin fetches
-#   ...                     between them, so a copy is genuinely all they need)
-#
-# The standalone pages are published as REAL FILES on purpose. They have been
-# shared and bookmarked, and GitHub Pages has no rewrite rules -- so the trick
-# the Cloudflare deploy uses (_redirects rewriting those names into the app)
-# cannot work here. Serving the actual pages is better anyway: the person who
-# bookmarked one gets the thing they bookmarked.
-#
-# The app is built with BANVY_BASE because Pages serves it from a SUBPATH
-# (/olovs-hemsida/), while Cloudflare would serve it from a domain root. One
-# build config, two hosts, and the app reads import.meta.env.BASE_URL at runtime
-# rather than assuming either.
+# Vite publishes the supported app and seven tiny legacy-URL redirects.
+# The root HTML sources remain validation fixtures and must not overwrite those
+# generated redirects. BANVY_BASE preserves this site's repository subpath.
 name: pages
 
 on:
@@ -69,11 +55,6 @@ jobs:
           set -euo pipefail
           rm -rf _site && mkdir -p _site
           cp -r apps/golf/dist/. _site/
-          # the standalone pages, beside the app rather than instead of it
-          cp veckefjardensgc.html _site/
-          for p in veckefjarden norrfallsviken puttom angso upsala johannesberg; do
-            cp "${p}3d.html" _site/
-          done
           # Pages is served by a Jekyll-free static host; the marker stops any
           # future underscore-prefixed file from being silently dropped
           touch _site/.nojekyll

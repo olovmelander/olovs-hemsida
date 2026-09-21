@@ -1,6 +1,10 @@
-/* Is the pack the same course the page ships? Exits non-zero if not.
+/* Is the pack the same course the retained page source records? Exits non-zero if not.
 
    usage: node packages/course-pack/check-pack.mjs <pack.bin> <page.html> <buildDir>
+
+   Pass the repository-root HTML source, never the generated dist redirect.
+   These historical files remain data-validation baselines after retirement
+   from deployment.
 
    Three claims, each checked against something that did not produce the pack:
      1. the three streams are BYTE-IDENTICAL to the page's embedded base64 --

@@ -21,13 +21,15 @@ import path from 'node:path';
 import { execFileSync, spawn } from 'node:child_process';
 import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
+import { browserArgs } from './browser-args.mjs';
+import { checkLegacyLinks } from './check-legacy-links.mjs';
 
 const BASE = process.argv[2] || '/olovs-hemsida/';
 const PORT = +(process.argv[3] || 8641);
 const MOUNT = BASE.replace(/\/$/, '');
 const URLB = `http://127.0.0.1:${PORT}${MOUNT}`;
-const CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
-const PAGES = ['veckefjarden', 'norrfallsviken', 'puttom', 'angso', 'upsala', 'johannesberg'];
+const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
+const CHROME = process.env.BANVY_CHROME || (fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined);
 
 let bad = 0;
 const gate = (ok, m) => { console.log(`  ${ok ? 'ok  ' : 'FAIL'} ${m}`); if (!ok) bad++; };
@@ -41,8 +43,7 @@ const site = fs.mkdtempSync(path.join(os.tmpdir(), 'banvy-base-'));
 const mount = path.join(site, MOUNT.replace(/^\//, ''));
 fs.mkdirSync(mount, { recursive: true });
 fs.cpSync(path.join(ROOT, 'apps/golf/dist'), mount, { recursive: true });
-for (const p of [...PAGES.map(s => `${s}3d.html`), 'veckefjardensgc.html'])
-  fs.copyFileSync(path.join(ROOT, p), path.join(mount, p));
+// The build already contains the seven redirects; do not copy source pages.
 
 const srv = spawn(process.execPath, [path.join(ROOT, 'tools/serve.mjs'), site, String(PORT)], { stdio: 'ignore' });
 const cleanup = () => { try { srv.kill('SIGKILL'); } catch {} fs.rmSync(site, { recursive: true, force: true }); };
@@ -50,7 +51,7 @@ process.on('exit', cleanup);
 await new Promise(r => setTimeout(r, 1500));
 
 const browser = await chromium.launch({ executablePath: CHROME,
-  args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader'] });
+  args: browserArgs() });
 const ctx = await browser.newContext({ viewport: { width: 1000, height: 620 } });
 const p = await ctx.newPage();
 p.setDefaultTimeout(300000);
@@ -58,7 +59,7 @@ const errs = [], four = [];
 p.on('pageerror', e => errs.push(String(e).split('\n')[0].slice(0, 120)));
 p.on('response', r => { if (r.status() >= 400) four.push(`${r.status()} ${new URL(r.url()).pathname}`); });
 
-await p.goto(`${URLB}/?bana=veckefjarden&hal=14&vy=green`, { waitUntil: 'load', timeout: 120000 });
+await p.goto(`${URLB}/?bana=veckefjarden&hal=14&vy=green&q=lo&det=1`, { waitUntil: 'load', timeout: 120000 });
 await p.waitForSelector('#boot.done', { timeout: 300000 });
 const info = await p.evaluate(() => ({
   slug: window.V3D.course().slug, holes: window.V3D.HOLES.length,
@@ -108,19 +109,14 @@ const packs = cached['banvy-packs'] || [];
 gate(packs.length >= 1 && packs[0].startsWith(BASE), `the pack caches under the base: ${packs[0] || '(none)'}`);
 gate((cached['banvy-manifest'] || []).length === 1, 'and so does the manifest');
 
-/* The v2 pilot, which is the one thing on this site whose assets are fetched
-   by a URL the app BUILDS rather than one Vite rewrote. Its descriptor path is
-   a bare 'grounds/puttom/preview.json' resolved against import.meta.env.BASE_URL,
-   and every chunk after it resolves against the descriptor -- so if the base
-   were dropped anywhere in that chain the whole pilot would 404 and fall back
-   to GPK1 silently, which looks exactly like "v2 is off" rather than like a
-   bug. Nothing else here covered it: the gate drove veckefjarden, and the v2
-   flag is opt-in, so the one course that ships a pilot was never asked. */
+/* Puttom's retained terrain/surface resources must resolve through the same
+   deployment base as every other required v2 graph. A missing graph fails boot;
+   the app must never silently fall back to a historical renderer. */
 const v = await ctx.newPage();
 v.setDefaultTimeout(300000);
 const v404 = [];
 v.on('response', r => { if (r.status() >= 400) v404.push(`${r.status()} ${new URL(r.url()).pathname}`); });
-await v.goto(`${URLB}/?bana=puttom&v2=require&q=lo&det=1`, { waitUntil: 'load', timeout: 300000 });
+await v.goto(`${URLB}/?bana=puttom&q=lo&det=1`, { waitUntil: 'load', timeout: 300000 });
 await v.waitForSelector('#boot.done, #boot.error', { timeout: 600000 });
 const pilot = await v.evaluate(() => {
   const t = window.V3D?.v2Terrain?.();
@@ -131,41 +127,17 @@ const pilot = await v.evaluate(() => {
   } : null;
 });
 gate(pilot?.status === 'ready',
-  `the v2 pilot loads under the base: ${JSON.stringify(pilot)}`);
+  `required v2 terrain loads under the base: ${JSON.stringify(pilot)}`);
 gate(pilot?.tiles === 64 && pilot?.surface === 30 && pilot?.draws === 1 &&
      pilot?.surfaceOverlays === 0,
   `and renders 64 terrain + 30 surface tiles in one draw with zero surface overlays`);
-gate(v404.length === 0, `no 404 on the pilot's own chunks${v404.length ? `: ${v404.slice(0, 3).join(', ')}` : ''}`);
+gate(v404.length === 0, `no 404 on the terrain's own chunks${v404.length ? `: ${v404.slice(0, 3).join(', ')}` : ''}`);
 await v.close();
 
-/* the bookmarked standalone pages sit beside the app, as real files */
-const q = await ctx.newPage();
-q.setDefaultTimeout(300000);
-await q.goto(`${URLB}/veckefjarden3d.html?hal=3`, { waitUntil: 'domcontentloaded', timeout: 120000 });
-/* deliberately NOT waiting for #boot.done: the standalone pages fetch three.js
-   from a CDN, which this sandbox blocks, so they cannot finish booting here.
-   That is also how the fix was confirmed -- while the worker was hijacking this
-   URL the app shell answered it and booted fine, which is precisely why the old
-   assertion passed. Identity is what is being tested, and the document is enough
-   to establish it. */
-await q.waitForTimeout(1500);
-/* IDENTITY, not title. The service worker's navigation fallback will happily
-   answer this URL with the app shell, and the app then redirects to the same
-   course on the same hole wearing the same title -- so an assertion on title
-   and hole passes while the bookmarked page has quietly been replaced. Measured:
-   before the worker installed this served the real page; after, it landed on
-   /?bana=veckefjarden&hal=3 carrying the app's bundle. Ask what we actually got.
-   This runs AFTER the reload above, so the worker is installed and controlling;
-   a first visit would go to the network and prove nothing about the fallback. */
-const legacy = await q.evaluate(() => ({
-  t: document.title,
-  path: location.pathname,
-  appBundle: !!document.querySelector('script[src*="assets/index-"]'),
-  /* the standalone pages carry their own course data inline -- the app never does */
-  ownData: /@GEODATA|GEODATA\*\//.test(document.documentElement.innerHTML) }));
-gate(legacy.path.endsWith('/veckefjarden3d.html') && !legacy.appBundle,
-  `a bookmarked page still opens ITSELF ("${legacy.t.slice(0, 34)}")` +
-  (legacy.appBundle ? ` -- HIJACKED by the app shell, now at ${legacy.path}` : ''));
+/* Verify every built legacy redirect before/after worker installation and with
+   the server stopped. This covers the URL contract separately from course boot. */
+const legacy = await checkLegacyLinks(path.join(ROOT, 'apps/golf/dist'), BASE);
+gate(legacy.passed && legacy.cases === 21, 'all seven bookmarks preserve their views online and offline');
 
 await browser.close();
 console.log(bad ? `\n${bad} failed at base ${BASE}` : `\nthe app works mounted at ${BASE}`);
