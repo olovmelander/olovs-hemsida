@@ -338,6 +338,12 @@ locate and size the revision; they do not approve it. Puttom is a broad terrain
 revision and Johannesberg is localized, so both remain blocked on visual/source
 review rather than raising the production tolerance.
 
+The central 2,048 m review makes the distinction clearer. Puttom has 633,219 of
+4,227,136 samples over per-tile quantization tolerance and a 1.086 m maximum;
+Johannesberg has 195 such samples, nine over 11 mm, and a 0.024 m maximum. The
+Puttom change therefore reaches the course core, while Johannesberg's largest
+ground-wide difference is outside that central review area.
+
 Fresh canopy acquisition completed for all four active campaigns. Every CHM
 raster SHA-256 is identical to the retained September 11 evidence, so the canopy
 compiler is reproducible across acquisition dates for these inputs. The candidate
