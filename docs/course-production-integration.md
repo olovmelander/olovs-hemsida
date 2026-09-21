@@ -160,13 +160,17 @@ source-revision branch, change the relevant control file and commit it:
 | --- | --- | --- |
 | `ground-terrain-rings.yml` | `geo_data/course-v2/<ground>/acquisition/RUN-terrain-rings` | `publish=false` and an empty `levels=` to acquire all seven levels |
 | `veckefjarden-vegetation.yml` | `geo_data/course-v2/<ground>/vegetation/RUN` | `publish=false` and `observed_on=YYYY-MM-DD` |
+| `course-orthophoto-review.yml` | `geo_data/course-v2/<ground>/acquisition/RUN-orthophoto-review` | `observed_on=YYYY-MM-DD`; currently reviewed for Puttom and Johannesberg |
 
 Use one ground per branch/trigger commit: each workflow resolves the first
 changed matching control file. These settings request acquisition and staged
 compilation without live publication. A preflight failure prevents the raw
-acquisition and archive steps. This route has been exercised for both pilots;
-it does not establish that orthophoto access is configured. There is no generic
-pilot imagery workflow wired to these control files.
+acquisition and archive steps. Terrain and canopy have been exercised for both
+pilots. The orthophoto workflow uses each pilot's existing bounded reader and
+pinned plan. It keeps raw RGBI windows in access-controlled artifacts for three
+days, keeps the plan and acquisition evidence for fourteen days, and removes
+the pixels from the runner. Deliberately trigger it only for an authorized
+review; it never commits or publishes raw pixels.
 
 Reacquisition may change provider bytes, campaign coverage, evidence timestamps or
 grids. Preserve the previous manifest and compare measurements before updating
@@ -317,6 +321,22 @@ Continue in a candidate source revision, compare actual measurements and preserv
 the old snapshot before accepting new pins. A small byte-count difference alone
 does not prove equivalent terrain. Keep the source-size guard enabled. The
 discovery and campaign-review commands are in stage 5 of the v2 runbook.
+
+After accepting the candidate discovery record on isolated acquisition branches,
+both terrain acquisitions completed successfully and archived all seven raw
+rings for ninety days. Sample-for-sample comparison with the published finest
+terrain deliberately keeps both revisions in review:
+
+| Ground | Finest samples | Over quantization tolerance | Over 11 mm | Maximum difference | Worst EPSG:3006 sample |
+| --- | ---: | ---: | ---: | ---: | --- |
+| Puttom | 16,908,544 | 1,726,667 (10.212%) | 1,237,788 | 2.849 m | E 696850.5, N 7026586.5 |
+| Johannesberg | 16,908,544 | 1,488 (0.0088%) | 39 | 0.184 m | E 677830.5, N 6625596.5 |
+
+The shared acquisition comparison now also records mean absolute error, RMSE,
+fixed-threshold counts and the worst tile/sample with both heights. These values
+locate and size the revision; they do not approve it. Puttom is a broad terrain
+revision and Johannesberg is localized, so both remain blocked on visual/source
+review rather than raising the production tolerance.
 
 Unit tests exercise raw raster refusal, grid registration, deterministic pack
 compilation, stage failure/replacement, per-hole uncertainty, real shared-ground
