@@ -1,5 +1,9 @@
 # Tree placement workflow for every golf ground
 
+For setup, staged execution and release evidence, start with the
+[course production workflow](course-production-workflow.md). Use this guide
+for the detailed methods within those stages.
+
 Updated 2026-09-16. Use this for improving an existing course, adding a routing to an existing ground, or building a new ground. Start by copying the [course review template](templates/tree-placement-review.md). The [production guide](v2-course-runbook.md) still owns spatial, runtime and release contracts; the [mapping workflow](v2-course-mapping-workflow.md) owns general source acquisition and adoption.
 
 Our recommended method is **LiDAR + RGB orthophotos + near-infrared imagery where available + visual review + an unseen evaluation sample**. Keep individual, play-relevant trees distinct from woodland represented by measured density. Keep the current tree assets while testing geography, then improve appearance separately.

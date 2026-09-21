@@ -2,10 +2,17 @@
 
 **[Banvy — svenska golfbanor i 3D](https://olovmelander.github.io/olovs-hemsida/)**
 
-Swedish golf courses rendered in real time from real ground: AWS Terrarium
-elevation, OpenStreetMap survey, club GPS surveys and orthoimagery, reconciled by
-a per-course pipeline and checked against each club's own scorecard. The app is
+Swedish golf courses rendered in real time from source terrain, mapped geometry,
+club material and imagery. The current v2 catalogue has 13 layouts on 10 grounds
+using the common 1 m terrain/ring contract; mapping and review maturity varies.
+The app is
 installable, and a course you have already opened works with no network at all.
+
+**Adding or upgrading a course?** Start with the
+[course production workflow](docs/course-production-workflow.md): `pnpm course
+init`, staged builds, all-hole evidence and the release check. Use `pnpm course
+audit --check` to inspect the current catalogue. The older standalone builders
+below are historical implementations, not new-course templates.
 
 ## The app
 

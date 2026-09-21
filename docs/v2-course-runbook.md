@@ -1,7 +1,8 @@
 # Course v2 production guide
 
-> Updated 2026-09-07 against repository code and locally published manifests,
-> including the provisional Lidingö implementation.
+> Current entrypoint and terrain/catalogue inventory updated 2026-09-21.
+> Start with the [executable production workflow](course-production-workflow.md).
+> Detailed worked implementations below retain their stated historical dates.
 >
 > Puttom is the reference implementation for the spatial, tile, provenance,
 > runtime and validation framework. It is not yet the authority for every data
@@ -10,7 +11,8 @@
 > rather than surveyed, its zone-A tree approval was automated rather than
 > human. V2 is already the default for supported course configurations, with
 > improved graphics on when v2 is ready. The live root contains ten course
-> slugs on eight grounds; all ground graphs still have zero authoritative
+> slugs on eight grounds in the September 7 snapshot. The current root has
+> 13 slugs on 10 grounds; all ground graphs still have zero authoritative
 > surface tiles. These are implemented, progressively reviewed environments,
 > not completed surveys. A new course must close its own evidence gates.
 
@@ -38,7 +40,8 @@ adapter before another ground uses them.
 For an existing course, first identify the specific deficient layer and preserve
 accepted geometry and terrain. A new tee outline does not require a fresh terrain
 publication. For a new ground, follow all stages and implement the missing
-ground-specific adapters explicitly; there is no universal course-creation CLI.
+ground-specific adapters explicitly. `pnpm course init` and `pnpm course run`
+provide common setup and orchestration; geographic adapters still need review.
 The release targets below define the intended complete digital twin. A passing
 build, dense feature count or attractive render does not prove those targets.
 
@@ -86,16 +89,16 @@ The non-negotiable rules are:
 
 ## 2. The Puttom reference, stated accurately
 
-These numbers describe the current implementation and are useful as a sanity
-shape. They are not constants for another course.
+The terrain counts below reflect the current standard graph. Earlier preview
+measurements retain their checkpoint scope and are not a fresh accuracy review.
 
 | Layer | Puttom reference state |
 |---|---|
-| Finest terrain | 2,048 × 2,048 m; 8 × 8 tiles; 1 m sample spacing; 256 m tile span; 257 × 257 samples per tile; 1 cm height quantization. |
-| World terrain | Seven levels at 1, 2, 4, 8, 16, 32 and 64 m; 277 tiles total; 16,384 m root extent; the 1 m level is reused byte-for-byte. |
-| Terrain identity | 64 finest tiles, 4,227,136 compared samples, exact against the retained preview at the recorded checkpoint. |
-| Surface preview | 30 of the 64 finest tiles, on the 1 m lattice; `class-sdf-v1`; derived from the current GPK1 vectors; explicitly “migrerade ytor (ej inmätta)”. It is a separate preview descriptor and is not attached as an authoritative surface layer in the current ground graph. |
-| Vegetation | 3,502 `derived-lidar` individual records plus 64 measured 4 m stand-field tiles; 64 object tiles; stable base heights from the published terrain. The current generation used versioned machine review by owner decision, not per-object human review. |
+| Finest terrain | 4,096 × 4,096 m; 16 × 16 tiles; 1 m sample spacing; 256 m tile span; 257 × 257 samples per tile; 1 cm height quantization. |
+| World terrain | Seven levels at 1, 2, 4, 8, 16, 32 and 64 m; 469 tiles total; 16,384 m root extent. |
+| Terrain identity | The earlier 64-tile/4,227,136-sample preview comparison is historical. Compare a new candidate against its own retained source window. |
+| Surface preview | Separate `class-sdf-v1` migration preview, not an authoritative ground layer. Its earlier 30-of-64 coverage describes that preview checkpoint, not today's 256-tile core. |
+| Vegetation | 251 object tiles and 256 stand tiles in the current graph. These counts do not establish individual-tree accuracy or human review. |
 | Runtime | Flagless visits select v2 when its configured requirements can be met. `?v2=0` selects GPK1; `v2=require` makes unmet v2 requirements a hard failure. Improved graphics are default for ready v2; `graphics=0` is the explicit comparison path. |
 | Frame status | Runtime assets carry an `EPSG:5845` frame and fingerprint, but the source manifest still records zero independent origin anchors and `pending-control-approval`. Treat it as a migration frame, not an approved survey origin. |
 
@@ -248,13 +251,13 @@ fit it.
 
 ### 5.3 Coarser world rings
 
-The world must remain one height source to the horizon. Puttom's reference ring
-shape is defined in
-[`puttom-ground-rings.mjs`](../packages/course-v2/puttom-ground-rings.mjs):
+The world must remain one height source to the horizon. The shared production
+shape for every ground is defined in
+[`standard-ground-rings.mjs`](../packages/course-v2/standard-ground-rings.mjs):
 
 | LOD | Spacing | Tiles/side | Extent | Height quantum |
 |---:|---:|---:|---:|---:|
-| 0 | 1 m | 8 | 2,048 m | 0.01 m |
+| 0 | 1 m | 16 | 4,096 m | 0.01 m |
 | 1 | 2 m | 8 | 4,096 m | 0.02 m |
 | 2 | 4 m | 8 | 8,192 m | 0.04 m |
 | 3 | 8 m | 8 | 16,384 m | 0.08 m |
@@ -262,8 +265,8 @@ shape is defined in
 | 5 | 32 m | 2 | 16,384 m | 0.16 m |
 | 6 | 64 m | 1 | 16,384 m | 0.16 m |
 
-A new ground may require a different finest rectangle or horizon radius, but
-it must preserve these topology rules:
+A ground requiring a larger reviewed extent needs an explicit standard/version
+change. Preserve these topology rules:
 
 1. Every origin is an integer number of finer tile spans from the finer origin.
 2. A finer ring is made from complete coarser tiles. A coarser tile may be
@@ -276,8 +279,8 @@ it must preserve these topology rules:
    height band. This catches the zero/nodata padding that GDAL can otherwise
    create when a requested window leaves a source item.
 
-Do not cargo-cult Puttom's 8-wide rings. That shape fixed Puttom's half-covered
-coarse-tile holes; derive and test the topology for the new extent.
+Use the shared specification and topology tests; do not copy a historical
+ground's older tile dimensions into a new driver.
 
 ### 5.4 Surface tiles
 
@@ -1401,18 +1404,17 @@ record its scope and do not relabel it as a complete or perfectly surveyed twin.
 
 ## 9. Current tool support and remaining implementation
 
-Updated 2026-09-07 with Lidingö's and Visby's provisional graphs. Source
-registration covers nine grounds and twelve course slugs, all with compatibility
-models. The local public v2 root contains eleven course slugs on nine grounds.
-Registration, acquisition support and runtime publication are
-different sets. Resolve the current manifests before copying this snapshot.
+The 2026-09-21 root contains 13 course slugs on 10 grounds. Use `pnpm course audit`
+for a fresh inventory; registration, acquisition and runtime activation remain
+separate responsibilities.
 
 | Concern | Implemented support | Remaining work for a new ground |
 |---|---|---|
+| Production orchestration | `pnpm course init/adopt/plan/run/candidate/release`, versioned configurations and CI evidence checks. | Implement source/geometry adapters and supply real review evidence; initialization alone does not qualify a course. |
 | Identity and source acquisition | `EXPECTED_GROUNDS` feeds acquisition selection; source/migration validators cover the registered inventory. | Register actual identity, routing, evidence and supported geometry keys. Historical pilots are separate. |
 | Coordinates | Canonical EPSG:3006/RH 2000 contracts and per-ground legacy bridges; explicit pyproj alternative for supported horizontal tools. | Independently approve the target frame and any vertical bridge. Never copy another course's fitted offset. |
-| Finest terrain | GDAL-free window registry includes Ängsö, Johannesberg, Lidingö, Norrfällsviken, Upsala and Visby; GDAL path also exists. Nine locally published grounds share compiler/emitter primitives. | Add a reviewed source/window spec and driver where absent. No generic all-ground compile CLI exists. |
-| World rings | Shared registry supports Ängsö, Norrfällsviken, Puttom, Upsala and Veckefjärden. | Other grounds need reviewed specs. Publish every shared routing against the same ground generation. |
+| Finest terrain | GDAL-free and GDAL source-window paths, shared compiler/emitter primitives; all 10 published grounds have the standard 1 m core. | Add a reviewed source/window spec and driver where absent. The workflow runner orchestrates these adapters. |
+| World rings | Shared standard and ring registry cover all 10 published grounds. | Add the new ground's source/frame spec; publish every shared routing against the same generation. |
 | Surfaces | Generic authoritative preflight/compiler libraries; Puttom wrapper and separate migration class/SDF preview. Other live paths use `legacy-ground-atlas`. | Complete controlled source intake and generic publication integration. All current ground graphs have zero authoritative surface tiles. |
 | Vegetation | Canopy acquisition, candidates, stable registry, stand compiler and shared-ground publication. | Review real truth zones and zone-A objects. CHMv2 CLI defaults/seam/cache assumptions need adaptation for other inputs. |
 | Infrastructure | Strict v2 object schema; legacy exact mapped polygons and bridge footprints; GIS-only drainage/barrier/tree observations. | Normalize source observations and acquire missing dimensions/epochs. A generic authoritative infrastructure importer/publisher is still absent. |
@@ -1426,14 +1428,15 @@ Published terrain/object/stand tile counts at this checkpoint:
 | Ground | Terrain | Objects | Stands |
 |---|---:|---:|---:|
 | Ängsö | 469 | 234 | 256 |
-| Johannesberg | 85 | 50 | 64 |
-| Lidingö | 85 | 0 | 64 |
+| Johannesberg | 469 | 223 | 256 |
+| Lidingö | 469 | 0 | 64 |
 | Norrfällsviken | 469 | 163 | 229 |
-| Puttom | 277 | 64 | 64 |
-| Ribbingsfors | 85 | 60 | 64 |
-| Upsala (shared) | 277 | 58 | 64 |
-| Veckefjärden (shared) | 277 | 51 | 64 |
-| Visby | 341 | 0 | 256 |
+| Puttom | 469 | 251 | 256 |
+| Ribbingsfors | 469 | 245 | 254 |
+| Tortuna | 469 | 57 | 120 |
+| Upsala (shared) | 469 | 234 | 256 |
+| Veckefjärden (shared) | 469 | 236 | 256 |
+| Visby | 469 | 116 | 256 |
 
 These are manifest inventories, not resident tile counts or completeness scores.
 Generalize only after independent grounds exercise the same contract; moving a

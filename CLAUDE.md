@@ -1,4 +1,12 @@
-# Two courses in 3D — Veckefjärdens GC and Norrfällsvikens GK
+# Current course development entrypoint
+
+For new courses and upgrades, read [docs/course-production-workflow.md](docs/course-production-workflow.md)
+first. Use its shared initializer, staged adapters, source and per-hole reviews,
+and release checks. The current v2 catalogue has 13 layouts on 10 grounds using
+the standard 469-tile graph. Historical notes below describe early standalone
+pages; they do not define the current app or justify copying old course builders.
+
+# Historical notes: Veckefjärdens GC and Norrfällsvikens GK
 
 This repo renders two real golf courses as self-contained WebGPU/TSL pages.
 **`norrfallsviken3d.html` + `nvgkbuild/`** is the newer build — see "The

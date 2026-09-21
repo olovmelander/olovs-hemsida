@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "standard": "banvy-course-production-v1",
+  "groundId": "veckefjarden",
+  "name": "Veckefjärdens Golfklubb",
+  "courses": [
+    {
+      "slug": "veckefjarden",
+      "holes": 18
+    },
+    {
+      "slug": "veckefjarden-korthalsbanan",
+      "holes": 9
+    }
+  ],
+  "releasePolicy": "advisory",
+  "sourceManifest": "geo_data/course-v2/veckefjarden/source-manifest.json",
+  "publicRoot": "output/course-workflow/veckefjarden/public",
+  "reviewFile": "course-workflows/veckefjarden/review.json",
+  "watch": [
+    "apps/golf/src",
+    "packages/course-v2",
+    "packages/course-pack",
+    "packages/course-geo",
+    "packages/course-workflow",
+    "pnpm-lock.yaml",
+    "geobuild"
+  ],
+  "stages": {
+    "sources": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "terrain": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "mapping": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "vegetation": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "assemble": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "validate": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    }
+  },
+  "performance": {
+    "maxRegressionPercent": 10,
+    "maxColdLoadMs": 10000,
+    "maxFrameP95Ms": {
+      "webgpu": 20,
+      "webgl2": 33.4,
+      "mobile": 33.4
+    }
+  }
+}

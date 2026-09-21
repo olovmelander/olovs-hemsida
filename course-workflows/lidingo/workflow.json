@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "standard": "banvy-course-production-v1",
+  "groundId": "lidingo",
+  "name": "Lidingö Golfklubb",
+  "courses": [
+    {
+      "slug": "lidingo",
+      "holes": 18
+    }
+  ],
+  "releasePolicy": "advisory",
+  "sourceManifest": "geo_data/course-v2/lidingo/source-manifest.json",
+  "publicRoot": "output/course-workflow/lidingo/public",
+  "reviewFile": "course-workflows/lidingo/review.json",
+  "watch": [
+    "apps/golf/src",
+    "packages/course-v2",
+    "packages/course-pack",
+    "packages/course-geo",
+    "packages/course-workflow",
+    "pnpm-lock.yaml",
+    "lidingobuild"
+  ],
+  "stages": {
+    "sources": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "terrain": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "mapping": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "vegetation": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "assemble": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    },
+    "validate": {
+      "command": null,
+      "inputs": [],
+      "outputs": []
+    }
+  },
+  "performance": {
+    "maxRegressionPercent": 10,
+    "maxColdLoadMs": 10000,
+    "maxFrameP95Ms": {
+      "webgpu": 20,
+      "webgl2": 33.4,
+      "mobile": 33.4
+    }
+  }
+}
