@@ -2,14 +2,14 @@
   "schemaVersion": 1,
   "groundId": "johannesberg",
   "groundName": "Johannesbergs Golf",
-  "observedOn": "2026-09-11",
+  "observedOn": "2026-09-21",
   "state": "canopy-rasters-built",
   "method": "Node reader over authenticated range requests (copc + laz-perf); ground from the cloud's own class 2/9 returns, mean per 1 m cell, nearest-fill to 60 m, 3x3 mean; height above ground bilinear; CHM = highest non-noise return per cell, 0 where only ground returns exist, NaN where none; densities counted, never copied",
   "haloMetres": 32,
   "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
-  "groundManifest": "grounds/johannesberg/ground-v2-1f0f72bbbac45925e255ee312e9632628f355048110c744be7a04750136709aa.json",
+  "groundManifest": "grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
   "campaignsSha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65",
-  "censusSha256": "002427d3f85c1bccdef70571963a74485af60ac8d5afc161093ffd806f13c359",
+  "censusSha256": "e84faa35e25033f7470e853c725d18a10c21997ee374ff4c8373f43f7afa5849",
   "rasterDirectory": "../../_temp/veg/rasters",
   "campaigns": [
     {
@@ -26,7 +26,7 @@
       "hierarchyNodes": 6463,
       "subdivision": "header-extent per axis (verified; not the specification cube)",
       "tiles": 176,
-      "elapsedMilliseconds": 310967.9,
+      "elapsedMilliseconds": 248370.5,
       "transfer": {
         "requests": 1833,
         "bytes": 158894403
@@ -10682,7 +10682,7 @@
       "hierarchyNodes": 18960,
       "subdivision": "header-extent per axis (verified; not the specification cube)",
       "tiles": 96,
-      "elapsedMilliseconds": 258091.4,
+      "elapsedMilliseconds": 200016.5,
       "transfer": {
         "requests": 1415,
         "bytes": 106986207
