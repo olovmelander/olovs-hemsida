@@ -1,3 +1,4 @@
+import { bunkerRings, bunkerSignedDistance, pointInBunker } from './engine/bunker-geometry.mjs';
 
 /* ===========================================================================
    Ängsö Golfklubb — a course on a Mälaren peninsula at Stora Bodarna.
@@ -1013,7 +1014,7 @@ for (const h of HOLES) {
   GI.add(g, g.bb, 26);
   h._g = g;
   for (const t of h.tees.pads) if (teeSurfaceOwners.has(t)) { const r = { ring: t.ring, bb: ringBBox(t.ring), preserveTerrain: t.preserveTerrain }; TI.add(r, r.bb, 12); }
-  for (const b of h.bunkers) { const r = { ring: b.ring, bb: ringBBox(b.ring), c: centroidOf(b.ring) }; BI.add(r, r.bb, 9); b._r = r; }
+  for (const b of h.bunkers) { const r = { ring: b.ring, innerRings: b.innerRings, bb: ringBBox(b.ring), c: centroidOf(b.ring) }; BI.add(r, r.bb, 9); b._r = r; }
   for (const r of h.fairway.rings) { const q = { ring: r, bb: ringBBox(r) }; FI.add(q, q.bb, 16); }
 }
 for (const r of M.scenery.fairways.concat(M.scenery.greens, M.scenery.tees, M.scenery.grass, M.scenery.range)) {
@@ -1188,7 +1189,7 @@ function legacyTerrainH(x, z) {
      cliff. On a 4 m grid that tears into the jagged flaps that were showing up round
      every bunker. */
   for (const b of BI.at(x, z)) {
-    const sd = ringSD(x, z, b.ring);
+    const sd = bunkerSignedDistance(x, z, b, ringSD);
     if (sd > 9) continue;
     const r = Math.max(4, Math.min(14, (b.bb.x1 - b.bb.x0 + b.bb.z1 - b.bb.z0) * 0.25));
     /* the lip's falloff must be wider than the 4 m grid that carries it: at 1.7 m
@@ -1287,7 +1288,7 @@ function microClass(x, z) {
   let green = 0, tee = 0, fair = 0, sand = 0, forest = 0;
   for (const g of GI.at(x, z)) { const sd = ringSD(x, z, g.ring); if (sd < 3) green = Math.max(green, 1 - smooth(-2, 3, sd)); }
   for (const t of TI.at(x, z)) { const sd = ringSD(x, z, t.ring); if (sd < 2) tee = Math.max(tee, 1 - smooth(-1, 2, sd)); }
-  for (const b of BI.at(x, z)) { const sd = ringSD(x, z, b.ring); if (sd < 1) sand = Math.max(sand, 1 - smooth(-1, 1, sd)); }
+  for (const b of BI.at(x, z)) { const sd = bunkerSignedDistance(x, z, b, ringSD); if (sd < 1) sand = Math.max(sand, 1 - smooth(-1, 1, sd)); }
   for (const f of FI.at(x, z)) { const sd = ringSD(x, z, f.ring); if (sd < 4) fair = Math.max(fair, 1 - smooth(-2, 4, sd)); }
   for (const v of VI.at(x, z)) {
     if (v.kind !== 'forest' && v.kind !== 'wood') continue;
@@ -2272,7 +2273,7 @@ function buildDetailMask(R) {
      the water, which is the least forgiving thing a facet can sit on */
   for (const w of M.water) if (!w.stream && w.ring) walk(w.ring, 7, 3);
   for (const h of HOLES) {
-    for (const b of h.bunkers) walk(b.ring, 5, 3);      /* the dish and its lip */
+    for (const b of h.bunkers) for (const ring of bunkerRings(b)) walk(ring, 5, 3);      /* the dish and its lip */
     walk(h.green.ring, 5, 3);                            /* the pad's shoulder */
   }
   let n = 0;
@@ -3463,7 +3464,7 @@ const shadeSand = (x, z) => {
      and warms -- the occlusion of a cut hazard, which a light grid this coarse
      cannot shade on its own. sd is distance to the bunker's own edge. */
   let sd = -9;
-  for (const b of BI.at(x, z)) sd = Math.max(sd, ringSD(x, z, b.ring));
+  for (const b of BI.at(x, z)) sd = Math.max(sd, bunkerSignedDistance(x, z, b, ringSD));
   const wall = smooth(-1.5, -0.05, sd);
   const k = 0.95 + g;
   return { col: [C.sand[0] * k * (1 - wall * 0.14), C.sand[1] * k * (1 - wall * 0.20), C.sand[2] * k * (1 - wall * 0.28)],
@@ -3514,7 +3515,8 @@ if (legacySurfaceOverlays) {
       tee.push(pad.preserveTerrain ? { rings: [pad.ring], shade: teeShade } : { ring: pad.ring, shade: teeShade });
     }
     for (const bunker of h.bunkers) {
-      sand.push({ ring: M.infra.preserveMappedBoundaries ? bunker.ring : offsetRing(bunker.ring, 0.5), shade: shadeSand });
+      sand.push(bunker.innerRings?.length ? { rings: bunkerRings(bunker), shade: shadeSand }
+        : { ring: M.infra.preserveMappedBoundaries ? bunker.ring : offsetRing(bunker.ring, 0.5), shade: shadeSand });
     }
   }
   const quietFair = shadeFair(null);
@@ -10022,7 +10024,7 @@ function kikWeather() {
 /* what a straight shot crosses: water at its own level, sand */
 function kikKindAt(x, z) {
   for (const w of WI.at(x, z)) if (!w.stream && ringSD(x, z, w.ring) < 0 && terrainH(x, z) < w.level + 0.3) return 'vatten';
-  for (const b of BI.at(x, z)) if (inRing(x, z, b.ring)) return 'bunker';
+  for (const b of BI.at(x, z)) if (pointInBunker(x, z, b, inRing)) return 'bunker';
   return null;
 }
 function kikLie(x, z, y) {

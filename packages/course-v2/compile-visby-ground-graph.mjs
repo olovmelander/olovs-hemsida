@@ -38,7 +38,7 @@ export function assertVisbyCanonicalRouting(geometry, model, pack) {
         JSON.stringify(fallback.fairway.rings) !== JSON.stringify(hole.fairway.rings) ||
         fallback.tees.status !== hole.tees.status || JSON.stringify(fallback.tees.pads.map(pad => pad.ring)) !== JSON.stringify(hole.tees.pads.map(pad => pad.ring)) ||
         JSON.stringify(fallback.tees.marks.map(mark => mark.c)) !== JSON.stringify(hole.tees.marks.map(mark => mark.c)) ||
-        JSON.stringify(fallback.bunkers.map(bunker => bunker.ring)) !== JSON.stringify(hole.bunkers.map(bunker => bunker.ring))) throw new Error(`Visby hole ${index + 1} fallback differs from authored geometry`);
+        JSON.stringify(fallback.bunkers.map(bunker => [bunker.ring, bunker.innerRings ?? []])) !== JSON.stringify(hole.bunkers.map(bunker => [bunker.ring, bunker.innerRings ?? []]))) throw new Error(`Visby hole ${index + 1} fallback differs from authored geometry`);
     if (source.line.length !== hole.line.length || source.line.some((point, number) => point.some((value, axis) => Math.abs(value - projected(hole.line[number])[axis]) > 1e-7))) throw new Error(`Visby hole ${hole.n} was moved from its canonical source route`);
     return { number: hole.n, par: hole.par, strokeIndex: hole.idx, strokeIndexStatus: 'verified', accuracyTier: 'unrated', line: source.line.map(point => [...point]) };
   });

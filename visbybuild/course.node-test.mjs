@@ -1,3 +1,4 @@
+import { applyReviewedBunkers } from './mapping/reviewed-bunkers.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -18,10 +19,10 @@ import { applyReviewedTeeAlignment } from './mapping/reviewed-tee-alignment.mjs'
 
 const bytes = relative => readFileSync(new URL(relative, import.meta.url));
 const json = relative => JSON.parse(bytes(relative));
-const applyCurrentReviews = geometry => applyReviewedTeeAlignment(applyReviewedOrthophoto(
+const applyCurrentReviews = geometry => applyReviewedBunkers(applyReviewedTeeAlignment(applyReviewedOrthophoto(
   applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(geometry,
     json('./mapping/facilities-review.json')), json('./mapping/tee-platform-review.json')),
-  json('./mapping/environment-surfaces-review.json')), json('./mapping/orthophoto-review-2026.json')));
+  json('./mapping/environment-surfaces-review.json')), json('./mapping/orthophoto-review-2026.json'))));
 
 test('expanded tee inventory survives regeneration and keeps reviewed cameras on real turf', () => {
   const geometry = json('./mapping/geometry.json'), model = json('./course-model.json');

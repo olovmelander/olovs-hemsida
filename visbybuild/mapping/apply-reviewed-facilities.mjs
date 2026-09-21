@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { applyReviewedBunkers } from './reviewed-bunkers.mjs';
 /* Apply only reviewed facilities, using the generator's surface/tee rules.
  * The raw terrain acquisition need not be reconstructed from quantized tiles.
  * node visbybuild/mapping/apply-reviewed-facilities.mjs [--geometry-only] [--write]
@@ -24,7 +25,7 @@ if (args.some(arg => !['--write', '--geometry-only'].includes(arg))) throw new E
 const teeReview = read('visbybuild/mapping/tee-platform-review.json');
 const environmentReview = read('visbybuild/mapping/environment-surfaces-review.json');
 const orthophotoReview = read('visbybuild/mapping/orthophoto-review-2026.json');
-const applyReviews = input => applyReviewedTeeAlignment(applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(input, read('visbybuild/mapping/facilities-review.json')), teeReview), environmentReview), orthophotoReview));
+const applyReviews = input => applyReviewedBunkers(applyReviewedTeeAlignment(applyReviewedOrthophoto(applyReviewedEnvironment(applyReviewedTeePlatforms(applyReviewedFacilities(input, read('visbybuild/mapping/facilities-review.json')), teeReview), environmentReview), orthophotoReview)));
 const geometry = applyReviews(read('visbybuild/mapping/geometry.json'));
 assert.deepEqual(applyReviews(geometry), geometry, 'the complete dated review chain must be idempotent');
 if (!args.includes('--geometry-only')) {

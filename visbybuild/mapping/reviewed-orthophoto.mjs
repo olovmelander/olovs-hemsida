@@ -11,7 +11,11 @@ export function orthophotoRing(review, entry) {
   if (!source?.sourceIds?.length || !/^[a-f0-9]{64}$/.test(source.sha256) ||
       !entry.id || !entry.ringPixels || entry.ringPixels.length < 4 ||
       !sameRing([entry.ringPixels[0]], [entry.ringPixels.at(-1)])) throw new Error('Orthophoto trace needs a checked source and closed pixel ring');
+  for (const ring of entry.islandPixels ?? []) {
+    if (ring.length < 4 || !sameRing([ring[0]], [ring.at(-1)])) throw new Error('Orthophoto island needs a closed pixel ring');
+  }
   return { ring: entry.ringPixels.map(p => facilityPoint({ source }, p)),
+    ...(entry.islandPixels?.length ? { innerRings: entry.islandPixels.map(r => r.map(p => facilityPoint({ source }, p))) } : {}),
     sourceIds: source.sourceIds, reviewId: entry.id };
 }
 
