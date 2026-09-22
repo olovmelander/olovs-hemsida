@@ -1,0 +1,3393 @@
+{
+  "baseline": "fb3e6dd8e0378089d5dfa207cdb5376449961621",
+  "revision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+  "sourceHashes": {
+    "baseline": "28248cfceb496daf37ca7a5958356e2719ce541d411b452b81544419e3a24021",
+    "candidate": "fb139808523baebfee45d70f7076b8361ebb621a89f44a7c1253019b796ea7de"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "browser": "140.0.7339.16",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "availableParallelism": 8
+  },
+  "limitations": [
+    "CPU diagnostic replay, not normal-use FPS or complete boot timing",
+    "Synthetic camera paths through real placements; no GPU draw calls in replay",
+    "Proxy geometries omit static vertex payloads; full geometry-cloning cost during buffer growth is not represented",
+    "Reported upload bytes are unchanged requested attribute ranges; not a measured GPU bandwidth reduction",
+    "No new hardware GPU, physical-phone, sustained-frame or screenshot measurements"
+  ],
+  "measurements": [
+    {
+      "course": "veckefjarden",
+      "quality": "lo",
+      "inputRevision": "de3bb826cfff7cb0aa312404e5745b4ebae852d5feff16d56912945e03397ae9",
+      "inputSha256": "dcdff678ffe374c4d81029af045e098fb15334ecaa096e1758d77ef33f4bc9a6",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 86269,
+      "cells": 959,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 4769280,
+            "sorts": 25,
+            "sortedSlots": 49873,
+            "uploads": 31,
+            "uploadBytes": 1025748,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 13248,
+            "sorts": 14,
+            "sortedSlots": 26496,
+            "uploads": 31,
+            "uploadBytes": 1025748,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 61.99999999254942,
+              "meanMs": 0.17222222220152617,
+              "p95Ms": 0.29999999701976776,
+              "maxMs": 11.5
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 23.200000002980232,
+              "meanMs": 0.06444444445272286,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 12.900000005960464
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 26.69999999552965,
+              "meanMs": 0.07416666665424904,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 14.199999995529652
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 71.79999999701977,
+              "meanMs": 0.19944444443616602,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 16
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 67.29999999701977,
+              "meanMs": 0.18694444443616604,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 15.800000004470348
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 22.80000000447035,
+              "meanMs": 0.06333333334575096,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 12.299999997019768
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 26.49999999254942,
+              "meanMs": 0.07361111109041506,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 13.299999997019768
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 64.49999998509884,
+              "meanMs": 0.17916666662527456,
+              "p95Ms": 0.29999999701976776,
+              "maxMs": 15.299999997019768
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 60.599999986588955,
+              "meanMs": 0.16833333329608044,
+              "p95Ms": 0.29999999701976776,
+              "maxMs": 14.699999995529652
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 22.30000001192093,
+              "meanMs": 0.06194444447755813,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 12.200000002980232
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 25.200000002980232,
+              "meanMs": 0.07000000000827843,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 12.699999995529652
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 67.90000000596046,
+              "meanMs": 0.18861111112766796,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 14.099999994039536
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.18305555553072028,
+              "p75": 0.18819444445479247,
+              "min": 0.16833333329608044,
+              "max": 0.19944444443616602
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.06722222223050064,
+              "p75": 0.0727083333198809,
+              "min": 0.06194444447755813,
+              "max": 0.07416666665424904
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.11319444443409642,
+            "p75": 0.12236111109765868,
+            "min": 0.1055555555348595,
+            "max": 0.12527777778191698
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 63.277693465457574
+        },
+        {
+          "scenario": "orbit",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 9897865,
+            "sorts": 5811,
+            "sortedSlots": 734379,
+            "uploads": 27437,
+            "uploadBytes": 11536088,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 102955,
+            "sorts": 3120,
+            "sortedSlots": 376282,
+            "uploads": 27437,
+            "uploadBytes": 11536088,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 189.8999999910593,
+              "meanMs": 0.5274999999751647,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 16.200000002980232
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 96.79999998956919,
+              "meanMs": 0.2688888888599144,
+              "p95Ms": 0.7000000029802322,
+              "maxMs": 14.899999998509884
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 94.10000002384186,
+              "meanMs": 0.26138888895511625,
+              "p95Ms": 0.6000000014901161,
+              "maxMs": 14.300000004470348
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 180.49999999254942,
+              "meanMs": 0.5013888888681929,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 17.700000002980232
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 173,
+              "meanMs": 0.48055555555555557,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 19.399999998509884
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 99.30000000447035,
+              "meanMs": 0.27583333334575094,
+              "p95Ms": 0.6000000014901161,
+              "maxMs": 15
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 101.79999999701977,
+              "meanMs": 0.28277777776949936,
+              "p95Ms": 0.6000000014901161,
+              "maxMs": 17.600000001490116
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 163.3999999910593,
+              "meanMs": 0.4538888888640536,
+              "p95Ms": 1,
+              "maxMs": 14.899999998509884
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 170.39999999850988,
+              "meanMs": 0.47333333332919414,
+              "p95Ms": 1,
+              "maxMs": 14.5
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 98.29999998956919,
+              "meanMs": 0.27305555552658106,
+              "p95Ms": 0.6000000014901161,
+              "maxMs": 16
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 121.59999999403954,
+              "meanMs": 0.3377777777612209,
+              "p95Ms": 0.6000000014901161,
+              "maxMs": 24.299999997019768
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 177.59999999403954,
+              "meanMs": 0.4933333333167765,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 16.399999998509884
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.486944444436166,
+              "p75": 0.4993749999803388,
+              "min": 0.4538888888640536,
+              "max": 0.5274999999751647
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.274444444436166,
+              "p75": 0.28104166666356223,
+              "min": 0.26138888895511625,
+              "max": 0.3377777777612209
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.20250000000620885,
+            "p75": 0.23118055548725863,
+            "min": 0.15555555555555556,
+            "max": 0.2586111111152503
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 43.63947518613838
+        },
+        {
+          "scenario": "flight",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 3116274,
+            "sorts": 5679,
+            "sortedSlots": 5599199,
+            "uploads": 28826,
+            "uploadBytes": 79802932,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 756551,
+            "sorts": 3296,
+            "sortedSlots": 2897550,
+            "uploads": 28826,
+            "uploadBytes": 79802932,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 461,
+              "meanMs": 1.2805555555555554,
+              "p95Ms": 5.600000001490116,
+              "maxMs": 15.200000002980232
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 374.7000000178814,
+              "meanMs": 1.0408333333830038,
+              "p95Ms": 4.799999997019768,
+              "maxMs": 19.100000001490116
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 359.6000000014901,
+              "meanMs": 0.9988888888930281,
+              "p95Ms": 4.600000001490116,
+              "maxMs": 11.700000002980232
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 454.70000000298023,
+              "meanMs": 1.263055555563834,
+              "p95Ms": 5.5,
+              "maxMs": 14
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 454.59999999403954,
+              "meanMs": 1.262777777761221,
+              "p95Ms": 5.5999999940395355,
+              "maxMs": 15.300000004470348
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 413.2000000178814,
+              "meanMs": 1.1477777778274483,
+              "p95Ms": 5.299999997019768,
+              "maxMs": 19.5
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 371.3999999910593,
+              "meanMs": 1.0316666666418315,
+              "p95Ms": 4.700000002980232,
+              "maxMs": 14.399999998509884
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 490.0000000074506,
+              "meanMs": 1.3611111111318073,
+              "p95Ms": 6.399999998509884,
+              "maxMs": 12.600000001490116
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 497.90000000596046,
+              "meanMs": 1.3830555555721125,
+              "p95Ms": 6.299999997019768,
+              "maxMs": 16.600000001490116
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 395.69999998807907,
+              "meanMs": 1.099166666633553,
+              "p95Ms": 5.100000001490116,
+              "maxMs": 19.600000001490116
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 386.2999999821186,
+              "meanMs": 1.073055555505885,
+              "p95Ms": 5.399999998509884,
+              "maxMs": 13.100000001490116
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 448.20000000298023,
+              "meanMs": 1.2450000000082784,
+              "p95Ms": 5.5,
+              "maxMs": 16.100000001490116
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 1.2718055555596948,
+              "p75": 1.3409722222377443,
+              "min": 1.2450000000082784,
+              "max": 1.3830555555721125
+            },
+            "candidate": {
+              "n": 6,
+              "median": 1.0569444444444445,
+              "p75": 1.0926388888516358,
+              "min": 0.9988888888930281,
+              "max": 1.1477777778274483
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.25194444442167885,
+            "p75": 0.2789583333716212,
+            "min": 0.11499999993377275,
+            "max": 0.3294444444899758
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 16.894179316640468
+        }
+      ]
+    },
+    {
+      "course": "puttom",
+      "quality": "lo",
+      "inputRevision": "de3bb826cfff7cb0aa312404e5745b4ebae852d5feff16d56912945e03397ae9",
+      "inputSha256": "508bc7ee185c73cfd4df915788ea956975ef63271723ea801e4ffd785158e4dd",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 145065,
+      "cells": 1031,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 7877160,
+            "sorts": 21,
+            "sortedSlots": 84852,
+            "uploads": 27,
+            "uploadBytes": 1426388,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 21881,
+            "sorts": 12,
+            "sortedSlots": 43762,
+            "uploads": 27,
+            "uploadBytes": 1426388,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 77.60000000149012,
+              "meanMs": 0.21555555555969477,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 17
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 27.600000001490116,
+              "meanMs": 0.07666666667080588,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 16.80000000447035
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 29.900000005960464,
+              "meanMs": 0.0830555555721124,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 18.700000002980232
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 76.59999999403954,
+              "meanMs": 0.21277777776122092,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 18.700000002980232
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 76.19999999552965,
+              "meanMs": 0.21166666665424902,
+              "p95Ms": 0.29999999701976776,
+              "maxMs": 19.80000000447035
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 27.799999997019768,
+              "meanMs": 0.0772222222139438,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 16.799999997019768
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 29.100000001490116,
+              "meanMs": 0.08083333333747254,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 18.200000002980232
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 78.60000002384186,
+              "meanMs": 0.2183333333995607,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 18.200000002980232
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 91.20000000298023,
+              "meanMs": 0.25333333334161173,
+              "p95Ms": 0.3999999985098839,
+              "maxMs": 21.200000002980232
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 31.700000002980232,
+              "meanMs": 0.08805555556383397,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 18.200000002980232
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 30.30000000447035,
+              "meanMs": 0.0841666666790843,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 20.30000000447035
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 79.7999999821186,
+              "meanMs": 0.22166666661699613,
+              "p95Ms": 0.3999999985098839,
+              "maxMs": 18.299999997019768
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.21694444447962774,
+              "p75": 0.22083333331263727,
+              "min": 0.21166666665424902,
+              "max": 0.25333333334161173
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.08194444445479247,
+              "p75": 0.08388888890234134,
+              "min": 0.07666666667080588,
+              "max": 0.08805555556383397
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.1375,
+            "p75": 0.1385416666821887,
+            "min": 0.1297222221891085,
+            "max": 0.16527777777777775
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 62.22791293349413
+        },
+        {
+          "scenario": "orbit",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 17695217,
+            "sorts": 5919,
+            "sortedSlots": 1337477,
+            "uploads": 32966,
+            "uploadBytes": 22024856,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 197986,
+            "sorts": 3238,
+            "sortedSlots": 690308,
+            "uploads": 32966,
+            "uploadBytes": 22024856,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 299.60000003129244,
+              "meanMs": 0.8322222223091457,
+              "p95Ms": 1.3999999985098839,
+              "maxMs": 37.80000000447035
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 213.19999999552965,
+              "meanMs": 0.5922222222098046,
+              "p95Ms": 1.2000000029802322,
+              "maxMs": 37.100000001490116
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 169.49999998509884,
+              "meanMs": 0.4708333332919412,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 29
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 307.59999999403954,
+              "meanMs": 0.8544444444278876,
+              "p95Ms": 1.5999999940395355,
+              "maxMs": 39.5
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 302.40000001341105,
+              "meanMs": 0.840000000037253,
+              "p95Ms": 1.6000000014901161,
+              "maxMs": 35
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 159.8999999910593,
+              "meanMs": 0.4441666666418314,
+              "p95Ms": 0.8000000044703484,
+              "maxMs": 36.29999999701977
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 167.7000000178814,
+              "meanMs": 0.46583333338300387,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 33.70000000298023
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 297.5,
+              "meanMs": 0.8263888888888888,
+              "p95Ms": 1.5,
+              "maxMs": 31.200000002980232
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 289.69999998807907,
+              "meanMs": 0.8047222221891085,
+              "p95Ms": 1.2000000029802322,
+              "maxMs": 34
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 163.90000000596046,
+              "meanMs": 0.45527777779433465,
+              "p95Ms": 0.5,
+              "maxMs": 43.20000000298023
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 150.5,
+              "meanMs": 0.41805555555555557,
+              "p95Ms": 0.8000000044703484,
+              "maxMs": 29.400000005960464
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 303.19999999552965,
+              "meanMs": 0.8422222222098046,
+              "p95Ms": 1.6000000014901161,
+              "maxMs": 32.19999999552965
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.8361111111731994,
+              "p75": 0.8416666666666667,
+              "min": 0.8047222221891085,
+              "max": 0.8544444444278876
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.46055555558866923,
+              "p75": 0.46958333331470686,
+              "min": 0.41805555555555557,
+              "max": 0.5922222222098046
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.3720833333209157,
+            "p75": 0.39277777783055273,
+            "min": 0.24000000009934108,
+            "max": 0.424166666654249
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 44.916943521724626
+        },
+        {
+          "scenario": "flight",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 4018412,
+            "sorts": 4934,
+            "sortedSlots": 8589717,
+            "uploads": 27972,
+            "uploadBytes": 123462324,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 1160348,
+            "sorts": 2878,
+            "sortedSlots": 4451482,
+            "uploads": 27972,
+            "uploadBytes": 123462324,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 680.0999999940395,
+              "meanMs": 1.88916666665011,
+              "p95Ms": 8.699999995529652,
+              "maxMs": 23.100000001490116
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 555.0000000149012,
+              "meanMs": 1.5416666667080587,
+              "p95Ms": 7.4000000059604645,
+              "maxMs": 16.600000001490116
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 546.900000013411,
+              "meanMs": 1.5191666667039196,
+              "p95Ms": 6.799999997019768,
+              "maxMs": 25.5
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 637.6000000089407,
+              "meanMs": 1.7711111111359463,
+              "p95Ms": 8.200000002980232,
+              "maxMs": 18.69999999552965
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 682.8999999910593,
+              "meanMs": 1.896944444419609,
+              "p95Ms": 8.600000001490116,
+              "maxMs": 22.5
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 550.4000000208616,
+              "meanMs": 1.528888888946838,
+              "p95Ms": 7.100000001490116,
+              "maxMs": 17.700000002980232
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 536.0000000074506,
+              "meanMs": 1.488888888909585,
+              "p95Ms": 7,
+              "maxMs": 19.200000002980232
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 668.1000000089407,
+              "meanMs": 1.8558333333581687,
+              "p95Ms": 8.399999998509884,
+              "maxMs": 23.100000001490116
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 618.099999986589,
+              "meanMs": 1.7169444444071915,
+              "p95Ms": 7.800000004470348,
+              "maxMs": 19.5
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 534.7999999821186,
+              "meanMs": 1.485555555505885,
+              "p95Ms": 6.899999998509884,
+              "maxMs": 20.600000001490116
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 624.8000000044703,
+              "meanMs": 1.7355555555679731,
+              "p95Ms": 8.399999998509884,
+              "maxMs": 18.19999999552965
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 735.6000000089407,
+              "meanMs": 2.0433333333581687,
+              "p95Ms": 8.699999995529652,
+              "maxMs": 50.30000000447035
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 1.8725000000041394,
+              "p75": 1.8949999999772342,
+              "min": 1.7169444444071915,
+              "max": 2.0433333333581687
+            },
+            "candidate": {
+              "n": 6,
+              "median": 1.5240277778253788,
+              "p75": 1.5384722222677536,
+              "min": 1.485555555505885,
+              "max": 1.7355555555679731
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.32763888886612336,
+            "p75": 0.36208333332195053,
+            "min": 0.2313888889013065,
+            "max": 0.36805555547277113
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 18.609998514178383
+        }
+      ]
+    },
+    {
+      "course": "visby",
+      "quality": "lo",
+      "inputRevision": "de3bb826cfff7cb0aa312404e5745b4ebae852d5feff16d56912945e03397ae9",
+      "inputSha256": "1921b8836c7d8c33ba9229b358c96cb90a8311d5e3393045bc8af41ce82cbf14",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 34944,
+      "cells": 460,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 1290960,
+            "sorts": 35,
+            "sortedSlots": 13199,
+            "uploads": 45,
+            "uploadBytes": 310132,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 3586,
+            "sorts": 20,
+            "sortedSlots": 7172,
+            "uploads": 45,
+            "uploadBytes": 310132,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 28.600000001490116,
+              "meanMs": 0.07944444444858366,
+              "p95Ms": 0.20000000298023224,
+              "maxMs": 8.5
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 11.5,
+              "meanMs": 0.03194444444444444,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 5.700000002980232
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 13.799999997019768,
+              "meanMs": 0.03833333332505491,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 5.200000002980232
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 24.899999998509884,
+              "meanMs": 0.06916666666252745,
+              "p95Ms": 0.19999999552965164,
+              "maxMs": 6.299999997019768
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 30.69999998807907,
+              "meanMs": 0.08527777774466408,
+              "p95Ms": 0.20000000298023224,
+              "maxMs": 6
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 13.800000004470348,
+              "meanMs": 0.03833333334575097,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 6.799999997019768
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 12.199999988079071,
+              "meanMs": 0.0338888888557752,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 6
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 21.80000000447035,
+              "meanMs": 0.06055555556797319,
+              "p95Ms": 0.20000000298023224,
+              "maxMs": 4.9000000059604645
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 20.69999999552965,
+              "meanMs": 0.057499999987582366,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 5.399999998509884
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 15.299999997019768,
+              "meanMs": 0.042499999991721576,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 6.799999997019768
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 10.899999991059303,
+              "meanMs": 0.03027777775294251,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 5.5
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 22.50000000745058,
+              "meanMs": 0.06250000002069606,
+              "p95Ms": 0.10000000149011612,
+              "maxMs": 5.399999998509884
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.06583333334161176,
+              "p75": 0.07687500000206961,
+              "min": 0.057499999987582366,
+              "max": 0.08527777774466408
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.03611111109041505,
+              "p75": 0.03833333334057695,
+              "min": 0.03027777775294251,
+              "max": 0.042499999991721576
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.031527777802613045,
+            "p75": 0.04326388886612322,
+            "min": 0.01499999999586079,
+            "max": 0.04750000000413922
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 45.14767936322915
+        },
+        {
+          "scenario": "orbit",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 4205390,
+            "sorts": 5890,
+            "sortedSlots": 272694,
+            "uploads": 21154,
+            "uploadBytes": 4316720,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 36643,
+            "sorts": 3146,
+            "sortedSlots": 139868,
+            "uploads": 21154,
+            "uploadBytes": 4316720,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 103.29999999701977,
+              "meanMs": 0.286944444436166,
+              "p95Ms": 0.6999999955296516,
+              "maxMs": 6.200000002980232
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 55.399999998509884,
+              "meanMs": 0.15388888888474966,
+              "p95Ms": 0.5,
+              "maxMs": 7
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 70.79999999701977,
+              "meanMs": 0.19666666665838825,
+              "p95Ms": 0.6000000014901161,
+              "maxMs": 16.100000001490116
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 139.10000001639128,
+              "meanMs": 0.3863888889344202,
+              "p95Ms": 0.8000000044703484,
+              "maxMs": 15.100000001490116
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 120.09999999403954,
+              "meanMs": 0.33361111109455427,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 8.599999994039536
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 56.100000001490116,
+              "meanMs": 0.15583333333747254,
+              "p95Ms": 0.5,
+              "maxMs": 6.899999998509884
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 61.99999999254942,
+              "meanMs": 0.17222222220152617,
+              "p95Ms": 0.5999999940395355,
+              "maxMs": 9
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 113.29999999701977,
+              "meanMs": 0.3147222222139438,
+              "p95Ms": 0.7000000029802322,
+              "maxMs": 7
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 104.30000000447035,
+              "meanMs": 0.28972222223463984,
+              "p95Ms": 0.7999999970197678,
+              "maxMs": 6.5999999940395355
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 107.10000000149012,
+              "meanMs": 0.29750000000413923,
+              "p95Ms": 0.6000000014901161,
+              "maxMs": 41.20000000298023
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 53.599999994039536,
+              "meanMs": 0.14888888887233204,
+              "p95Ms": 0.5,
+              "maxMs": 6.600000001490116
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 113.09999999403954,
+              "meanMs": 0.31416666665010984,
+              "p95Ms": 0.8000000044703484,
+              "maxMs": 7.200000002980232
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.3144444444320268,
+              "p75": 0.32888888887440165,
+              "min": 0.286944444436166,
+              "max": 0.3863888889344202
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.16402777776949934,
+              "p75": 0.19055555554417272,
+              "min": 0.14888888887233204,
+              "max": 0.29750000000413923
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.15388888889509772,
+            "p75": 0.17465277776225574,
+            "min": -0.007777777769499394,
+            "max": 0.18972222227603194
+          },
+          "fasterPairs": 5,
+          "medianCpuReductionPercent": 47.83568904650911
+        },
+        {
+          "scenario": "flight",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 746424,
+            "sorts": 6412,
+            "sortedSlots": 2220271,
+            "uploads": 23077,
+            "uploadBytes": 33701100,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 318117,
+            "sorts": 3870,
+            "sortedSlots": 1154044,
+            "uploads": 23077,
+            "uploadBytes": 33701100,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 223.40000000596046,
+              "meanMs": 0.6205555555721124,
+              "p95Ms": 3.7999999970197678,
+              "maxMs": 8.800000004470348
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 191.19999999552965,
+              "meanMs": 0.5311111110986935,
+              "p95Ms": 3.2000000029802322,
+              "maxMs": 8.899999998509884
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 197.69999999552965,
+              "meanMs": 0.5491666666542491,
+              "p95Ms": 3.399999998509884,
+              "maxMs": 14
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 212.20000000298023,
+              "meanMs": 0.5894444444527228,
+              "p95Ms": 3.600000001490116,
+              "maxMs": 8.299999997019768
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 203.39999998360872,
+              "meanMs": 0.5649999999544687,
+              "p95Ms": 3.3000000044703484,
+              "maxMs": 10.899999998509884
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 188.7999999895692,
+              "meanMs": 0.52444444441547,
+              "p95Ms": 3,
+              "maxMs": 13.699999995529652
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 185.79999999701977,
+              "meanMs": 0.5161111111028327,
+              "p95Ms": 2.899999998509884,
+              "maxMs": 12
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 187.39999999850988,
+              "meanMs": 0.5205555555514163,
+              "p95Ms": 3.2000000029802322,
+              "maxMs": 8.199999995529652
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 187.09999999403954,
+              "meanMs": 0.5197222222056653,
+              "p95Ms": 3.2000000029802322,
+              "maxMs": 6.600000001490116
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 158.8000000268221,
+              "meanMs": 0.4411111111856169,
+              "p95Ms": 2.600000001490116,
+              "maxMs": 10.5
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 174.10000000149012,
+              "meanMs": 0.48361111111525035,
+              "p95Ms": 2.899999998509884,
+              "maxMs": 10.799999997019768
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 186.69999998807907,
+              "meanMs": 0.5186111110779974,
+              "p95Ms": 3.1999999955296516,
+              "maxMs": 7.899999998509884
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.5427777777529426,
+              "p75": 0.5833333333281593,
+              "min": 0.5186111110779974,
+              "max": 0.6205555555721124
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.5202777777591514,
+              "p75": 0.5294444444278876,
+              "min": 0.4411111111856169,
+              "max": 0.5491666666542491
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": 0.04041666666873622,
+            "p75": 0.06909722214978599,
+            "min": 0.0044444444485836065,
+            "max": 0.08944444447341893
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 4.145342885432668
+        }
+      ]
+    }
+  ],
+  "calibration": [
+    {
+      "course": "veckefjarden",
+      "quality": "lo",
+      "inputRevision": "de3bb826cfff7cb0aa312404e5745b4ebae852d5feff16d56912945e03397ae9",
+      "inputSha256": "dcdff678ffe374c4d81029af045e098fb15334ecaa096e1758d77ef33f4bc9a6",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 86269,
+      "cells": 959,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 4769280,
+            "sorts": 25,
+            "sortedSlots": 49873,
+            "uploads": 31,
+            "uploadBytes": 1025748,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 4769280,
+            "sorts": 25,
+            "sortedSlots": 49873,
+            "uploads": 31,
+            "uploadBytes": 1025748,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 62.79999998956919,
+              "meanMs": 0.17444444441546997,
+              "p95Ms": 0.29999999701976776,
+              "maxMs": 15.300000004470348
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 66.40000000596046,
+              "meanMs": 0.18444444446100128,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 14
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 72.09999999403954,
+              "meanMs": 0.20027777776122094,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 17.69999999552965
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 63.69999998807907,
+              "meanMs": 0.17694444441133075,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 12.5
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 56,
+              "meanMs": 0.15555555555555556,
+              "p95Ms": 0.20000000298023224,
+              "maxMs": 13.100000001490116
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 59.599999994039536,
+              "meanMs": 0.1655555555389987,
+              "p95Ms": 0.20000000298023224,
+              "maxMs": 13.799999997019768
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 58.899999998509884,
+              "meanMs": 0.1636111111069719,
+              "p95Ms": 0.29999999701976776,
+              "maxMs": 12.5
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 62.200000025331974,
+              "meanMs": 0.17277777784814438,
+              "p95Ms": 0.20000000298023224,
+              "maxMs": 15.5
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 66.1000000089407,
+              "meanMs": 0.1836111111359464,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 15
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 69.90000001341105,
+              "meanMs": 0.19416666670391958,
+              "p95Ms": 0.30000000447034836,
+              "maxMs": 16.30000000447035
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 61.79999998956919,
+              "meanMs": 0.1716666666376922,
+              "p95Ms": 0.29999999701976776,
+              "maxMs": 13.600000001490116
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 51.10000002384186,
+              "meanMs": 0.14194444451067184,
+              "p95Ms": 0.20000000298023224,
+              "maxMs": 11.100000001490116
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.17361111113180716,
+              "p75": 0.17631944441236555,
+              "min": 0.14194444451067184,
+              "max": 0.1836111111359464
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.17805555554934674,
+              "p75": 0.19173611114319,
+              "min": 0.1636111111069719,
+              "max": 0.20027777776122094
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": -0.01027777780675225,
+            "p75": -0.009999999998965184,
+            "min": -0.02972222212702036,
+            "max": 0.009166666741172474
+          },
+          "fasterPairs": 1,
+          "medianCpuReductionPercent": -2.559999984197625
+        },
+        {
+          "scenario": "orbit",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 9897865,
+            "sorts": 5811,
+            "sortedSlots": 734379,
+            "uploads": 27437,
+            "uploadBytes": 11536088,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 9897865,
+            "sorts": 5811,
+            "sortedSlots": 734379,
+            "uploads": 27437,
+            "uploadBytes": 11536088,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 177.00000001490116,
+              "meanMs": 0.4916666667080588,
+              "p95Ms": 1,
+              "maxMs": 15.400000005960464
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 175.79999999701977,
+              "meanMs": 0.4883333333250549,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 14.600000001490116
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 196.1000000089407,
+              "meanMs": 0.5447222222470575,
+              "p95Ms": 1.1000000014901161,
+              "maxMs": 16.30000000447035
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 166.2999999821186,
+              "meanMs": 0.4619444443947739,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 15.399999998509884
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 184.49999999254942,
+              "meanMs": 0.512499999979304,
+              "p95Ms": 1,
+              "maxMs": 16.600000001490116
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 179,
+              "meanMs": 0.49722222222222223,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 16
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 179.40000000596046,
+              "meanMs": 0.49833333334989016,
+              "p95Ms": 0.8999999985098839,
+              "maxMs": 19.5
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 194.1000000089407,
+              "meanMs": 0.5391666666915019,
+              "p95Ms": 1.1000000014901161,
+              "maxMs": 19.69999999552965
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 191.50000000745058,
+              "meanMs": 0.5319444444651406,
+              "p95Ms": 1.1000000014901161,
+              "maxMs": 15.600000001490116
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 195,
+              "meanMs": 0.5416666666666666,
+              "p95Ms": 1.2000000029802322,
+              "maxMs": 19.30000000447035
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 192.00000000745058,
+              "meanMs": 0.5333333333540294,
+              "p95Ms": 1,
+              "maxMs": 15.399999998509884
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 163.8999999910593,
+              "meanMs": 0.45527777775294254,
+              "p95Ms": 0.7999999970197678,
+              "maxMs": 15.199999995529652
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 0.5020833333436814,
+              "p75": 0.5270833333436814,
+              "min": 0.45527777775294254,
+              "max": 0.5391666666915019
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.5158333333519598,
+              "p75": 0.5395833333385074,
+              "min": 0.4883333333250549,
+              "max": 0.5447222222470575
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": -0.003194444409261088,
+            "p75": 0.012291666663562267,
+            "min": -0.08277777785228357,
+            "max": 0.040833333341611766
+          },
+          "fasterPairs": 3,
+          "medianCpuReductionPercent": -2.738589213210618
+        },
+        {
+          "scenario": "flight",
+          "frames": 360,
+          "exact": true,
+          "baseline": {
+            "decisions": 3116274,
+            "sorts": 5679,
+            "sortedSlots": 5599199,
+            "uploads": 28826,
+            "uploadBytes": 79802932,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 3116274,
+            "sorts": 5679,
+            "sortedSlots": 5599199,
+            "uploads": 28826,
+            "uploadBytes": 79802932,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "totalMs": 477.90000000596046,
+              "meanMs": 1.3275000000165569,
+              "p95Ms": 6.100000001490116,
+              "maxMs": 13.100000001490116
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "totalMs": 435.79999999701977,
+              "meanMs": 1.2105555555472771,
+              "p95Ms": 5.5,
+              "maxMs": 12
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "totalMs": 506.50000002235174,
+              "meanMs": 1.4069444445065327,
+              "p95Ms": 6.199999995529652,
+              "maxMs": 18.399999998509884
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "totalMs": 577.2000000029802,
+              "meanMs": 1.6033333333416118,
+              "p95Ms": 7.200000002980232,
+              "maxMs": 19.600000001490116
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "totalMs": 452.6000000089407,
+              "meanMs": 1.2572222222470575,
+              "p95Ms": 5.899999998509884,
+              "maxMs": 17.100000001490116
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "totalMs": 545.6999999955297,
+              "meanMs": 1.5158333333209157,
+              "p95Ms": 7.5,
+              "maxMs": 13.100000001490116
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "totalMs": 594.6999999955297,
+              "meanMs": 1.6519444444320268,
+              "p95Ms": 7.200000002980232,
+              "maxMs": 53
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "totalMs": 532.2000000029802,
+              "meanMs": 1.4783333333416118,
+              "p95Ms": 6.700000002980232,
+              "maxMs": 28.399999998509884
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "totalMs": 451.8999999836087,
+              "meanMs": 1.2552777777322464,
+              "p95Ms": 5.700000002980232,
+              "maxMs": 14.5
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "totalMs": 492.09999999403954,
+              "meanMs": 1.3669444444278875,
+              "p95Ms": 6.199999995529652,
+              "maxMs": 19.100000001490116
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "totalMs": 445.8999999910593,
+              "meanMs": 1.2386111110862759,
+              "p95Ms": 5.200000002980232,
+              "maxMs": 16.200000002980232
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "totalMs": 448.99999998509884,
+              "meanMs": 1.24722222218083,
+              "p95Ms": 5.799999997019768,
+              "maxMs": 15.799999997019768
+            }
+          ],
+          "meanCpuMsPerUpdate": {
+            "baseline": {
+              "n": 6,
+              "median": 1.2923611111318072,
+              "p75": 1.440625000010348,
+              "min": 1.24722222218083,
+              "max": 1.6033333333416118
+            },
+            "candidate": {
+              "n": 6,
+              "median": 1.38694444446721,
+              "p75": 1.48861111111732,
+              "min": 1.2105555555472771,
+              "max": 1.6519444444320268
+            }
+          },
+          "pairedMeanCpuSavingsMs": {
+            "n": 6,
+            "median": -0.05152777780054352,
+            "p75": 0.08986111112559836,
+            "min": -0.25861111107385826,
+            "max": 0.1963888888350791
+          },
+          "fasterPairs": 3,
+          "medianCpuReductionPercent": -7.318645889349762
+        }
+      ]
+    }
+  ],
+  "additionalCourseParity": [
+    {
+      "course": "angso",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "66b9a188b39df57ed658ac4d909c33f98371c085a3150810b43e3baf71fd22f4",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 57752,
+      "cells": 883,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 304980,
+            "sorts": 35,
+            "sortedSlots": 19336,
+            "uploads": 45,
+            "uploadBytes": 371884,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 5083,
+            "sorts": 20,
+            "sortedSlots": 10166,
+            "uploads": 45,
+            "uploadBytes": 371884,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1205257,
+            "sorts": 1993,
+            "sortedSlots": 531620,
+            "uploads": 23521,
+            "uploadBytes": 8605792,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 80933,
+            "sorts": 1132,
+            "sortedSlots": 274820,
+            "uploads": 23521,
+            "uploadBytes": 8605792,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 231046,
+            "sorts": 1610,
+            "sortedSlots": 1299693,
+            "uploads": 6509,
+            "uploadBytes": 23222084,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 197636,
+            "sorts": 940,
+            "sortedSlots": 691666,
+            "uploads": 6509,
+            "uploadBytes": 23222084,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "norrfallsviken",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "e67201218511809a537ea2c25626094e55ea197a296e4c1867794adc638a4e69",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 59520,
+      "cells": 623,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 33840,
+            "sorts": 9,
+            "sortedSlots": 1692,
+            "uploads": 15,
+            "uploadBytes": 90240,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 564,
+            "sorts": 6,
+            "sortedSlots": 1128,
+            "uploads": 15,
+            "uploadBytes": 90240,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1212893,
+            "sorts": 1182,
+            "sortedSlots": 595345,
+            "uploads": 9175,
+            "uploadBytes": 9147336,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 93812,
+            "sorts": 676,
+            "sortedSlots": 305378,
+            "uploads": 9175,
+            "uploadBytes": 9147336,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 109817,
+            "sorts": 783,
+            "sortedSlots": 613071,
+            "uploads": 4228,
+            "uploadBytes": 12488984,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 99803,
+            "sorts": 480,
+            "sortedSlots": 332706,
+            "uploads": 4228,
+            "uploadBytes": 12488984,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "upsala",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "f56035f2617b1ada73f08d8fcab9873f3b9275046feb9ff3ab892f092ea564d4",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 97317,
+      "cells": 1032,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1870380,
+            "sorts": 21,
+            "sortedSlots": 122738,
+            "uploads": 27,
+            "uploadBytes": 1832028,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 31173,
+            "sorts": 12,
+            "sortedSlots": 62346,
+            "uploads": 27,
+            "uploadBytes": 1832028,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1819934,
+            "sorts": 1227,
+            "sortedSlots": 834303,
+            "uploads": 17831,
+            "uploadBytes": 12510744,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 116650,
+            "sorts": 698,
+            "sortedSlots": 426772,
+            "uploads": 17831,
+            "uploadBytes": 12510744,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 302012,
+            "sorts": 992,
+            "sortedSlots": 1809488,
+            "uploads": 3763,
+            "uploadBytes": 29386868,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 287211,
+            "sorts": 586,
+            "sortedSlots": 943128,
+            "uploads": 3763,
+            "uploadBytes": 29386868,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "upsala-mellanbanan",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "f00c71ff13666082b7c15ad3f2af0de6d064b27050c65fadf4e36f736aa5168a",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 97347,
+      "cells": 1032,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1401000,
+            "sorts": 21,
+            "sortedSlots": 88208,
+            "uploads": 27,
+            "uploadBytes": 1774936,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 23350,
+            "sorts": 12,
+            "sortedSlots": 46700,
+            "uploads": 27,
+            "uploadBytes": 1774936,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1920015,
+            "sorts": 1209,
+            "sortedSlots": 884651,
+            "uploads": 18266,
+            "uploadBytes": 13035116,
+            "fragmented": 4,
+            "fragmentedBytes": 865540
+          },
+          "candidate": {
+            "decisions": 129441,
+            "sorts": 686,
+            "sortedSlots": 450196,
+            "uploads": 18266,
+            "uploadBytes": 13035116,
+            "fragmented": 2,
+            "fragmentedBytes": 865540
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 248398,
+            "sorts": 831,
+            "sortedSlots": 1403120,
+            "uploads": 3719,
+            "uploadBytes": 20364960,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 208263,
+            "sorts": 498,
+            "sortedSlots": 725628,
+            "uploads": 3719,
+            "uploadBytes": 20364960,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "johannesberg",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "9ad7282cd6232c756f10f38d56130e696ec890007c5420b67def9e51855caf63",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 64578,
+      "cells": 855,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1284000,
+            "sorts": 21,
+            "sortedSlots": 81367,
+            "uploads": 27,
+            "uploadBytes": 1569964,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 21400,
+            "sorts": 12,
+            "sortedSlots": 42800,
+            "uploads": 27,
+            "uploadBytes": 1569964,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1247479,
+            "sorts": 1248,
+            "sortedSlots": 534517,
+            "uploads": 16490,
+            "uploadBytes": 8467848,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 73594,
+            "sorts": 712,
+            "sortedSlots": 274974,
+            "uploads": 16490,
+            "uploadBytes": 8467848,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 113696,
+            "sorts": 789,
+            "sortedSlots": 683473,
+            "uploads": 2130,
+            "uploadBytes": 12026776,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 106617,
+            "sorts": 482,
+            "sortedSlots": 360644,
+            "uploads": 2130,
+            "uploadBytes": 12026776,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "johannesberg-9",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "526348819414f21cd976fc6cb3a938bb0b1de1bb26033d082ded903dd9743b13",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 64600,
+      "cells": 855,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 148920,
+            "sorts": 21,
+            "sortedSlots": 9807,
+            "uploads": 27,
+            "uploadBytes": 142132,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 2482,
+            "sorts": 12,
+            "sortedSlots": 4964,
+            "uploads": 27,
+            "uploadBytes": 142132,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1050160,
+            "sorts": 798,
+            "sortedSlots": 530957,
+            "uploads": 13400,
+            "uploadBytes": 6519596,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 68600,
+            "sorts": 412,
+            "sortedSlots": 265796,
+            "uploads": 13400,
+            "uploadBytes": 6519596,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 92400,
+            "sorts": 527,
+            "sortedSlots": 562557,
+            "uploads": 892,
+            "uploadBytes": 7349352,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 91429,
+            "sorts": 308,
+            "sortedSlots": 282480,
+            "uploads": 892,
+            "uploadBytes": 7349352,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "veckefjarden-korthalsbanan",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "e5099bea18802cb6810c87ae596ee9b9f02559b1a1ea38ee632fc94ef7a481f8",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 86259,
+      "cells": 959,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 49860,
+            "sorts": 28,
+            "sortedSlots": 2531,
+            "uploads": 36,
+            "uploadBytes": 128856,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 831,
+            "sorts": 16,
+            "sortedSlots": 1662,
+            "uploads": 36,
+            "uploadBytes": 128856,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1699776,
+            "sorts": 888,
+            "sortedSlots": 748139,
+            "uploads": 14756,
+            "uploadBytes": 9409960,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 103782,
+            "sorts": 446,
+            "sortedSlots": 375212,
+            "uploads": 14756,
+            "uploadBytes": 9409960,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 11721,
+            "sorts": 478,
+            "sortedSlots": 21839,
+            "uploads": 1199,
+            "uploadBytes": 1055188,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 4187,
+            "sorts": 308,
+            "sortedSlots": 14500,
+            "uploads": 1199,
+            "uploadBytes": 1055188,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "ribbingsfors",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "565de2c403a812eb5865abaf6bb9740946be3fbff6d4ef476953d04946497b93",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 90457,
+      "cells": 984,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 2106120,
+            "sorts": 21,
+            "sortedSlots": 136540,
+            "uploads": 27,
+            "uploadBytes": 2243048,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 35102,
+            "sorts": 12,
+            "sortedSlots": 70204,
+            "uploads": 27,
+            "uploadBytes": 2243048,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1810615,
+            "sorts": 1173,
+            "sortedSlots": 821794,
+            "uploads": 19109,
+            "uploadBytes": 11497616,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 118979,
+            "sorts": 662,
+            "sortedSlots": 416858,
+            "uploads": 19109,
+            "uploadBytes": 11497616,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 286174,
+            "sorts": 980,
+            "sortedSlots": 1609790,
+            "uploads": 4804,
+            "uploadBytes": 23709040,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 246659,
+            "sorts": 580,
+            "sortedSlots": 829066,
+            "uploads": 4804,
+            "uploadBytes": 23709040,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "tortuna",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "de08b69bfc5ea60df59351680d68106e5d83819ed96753ea30cff0cd4a86d948",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 26066,
+      "cells": 389,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 620580,
+            "sorts": 21,
+            "sortedSlots": 36717,
+            "uploads": 27,
+            "uploadBytes": 1040576,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 10343,
+            "sorts": 12,
+            "sortedSlots": 20686,
+            "uploads": 27,
+            "uploadBytes": 1040576,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 625110,
+            "sorts": 1169,
+            "sortedSlots": 237098,
+            "uploads": 7405,
+            "uploadBytes": 5082656,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 37737,
+            "sorts": 660,
+            "sortedSlots": 127410,
+            "uploads": 7405,
+            "uploadBytes": 5082656,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 126969,
+            "sorts": 1063,
+            "sortedSlots": 627612,
+            "uploads": 4073,
+            "uploadBytes": 14515572,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 95961,
+            "sorts": 620,
+            "sortedSlots": 354754,
+            "uploads": 4073,
+            "uploadBytes": 14515572,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "lidingo",
+      "quality": "lo",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "c561f0aa2263fa942c69bc63d721e18ce69957bf6c156dd0a2007537f9b01d42",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 30391,
+      "cells": 282,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 296820,
+            "sorts": 21,
+            "sortedSlots": 17248,
+            "uploads": 27,
+            "uploadBytes": 531564,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 4947,
+            "sorts": 12,
+            "sortedSlots": 9894,
+            "uploads": 27,
+            "uploadBytes": 531564,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 993744,
+            "sorts": 1260,
+            "sortedSlots": 272197,
+            "uploads": 8060,
+            "uploadBytes": 7430064,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 46545,
+            "sorts": 720,
+            "sortedSlots": 153218,
+            "uploads": 8060,
+            "uploadBytes": 7430064,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 217419,
+            "sorts": 1110,
+            "sortedSlots": 995424,
+            "uploads": 5261,
+            "uploadBytes": 24929928,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 151632,
+            "sorts": 644,
+            "sortedSlots": 570676,
+            "uploads": 5261,
+            "uploadBytes": 24929928,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    }
+  ],
+  "highQualityParity": [
+    {
+      "course": "veckefjarden",
+      "quality": "hi",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "781dfc4aecee2011a9e69b854d15cd4fbf7a15147d4ece9bbe9efecf1cdcbdbb",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 155342,
+      "cells": 962,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1445400,
+            "sorts": 25,
+            "sortedSlots": 90616,
+            "uploads": 31,
+            "uploadBytes": 1873032,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 24090,
+            "sorts": 14,
+            "sortedSlots": 48180,
+            "uploads": 31,
+            "uploadBytes": 1873032,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 2967885,
+            "sorts": 1328,
+            "sortedSlots": 1321689,
+            "uploads": 15994,
+            "uploadBytes": 20661324,
+            "fragmented": 4,
+            "fragmentedBytes": 639288
+          },
+          "candidate": {
+            "decisions": 185921,
+            "sorts": 746,
+            "sortedSlots": 677420,
+            "uploads": 15994,
+            "uploadBytes": 20661324,
+            "fragmented": 2,
+            "fragmentedBytes": 639288
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1013436,
+            "sorts": 1342,
+            "sortedSlots": 5340516,
+            "uploads": 6865,
+            "uploadBytes": 79854812,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 769373,
+            "sorts": 772,
+            "sortedSlots": 2778212,
+            "uploads": 6865,
+            "uploadBytes": 79854812,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "puttom",
+      "quality": "hi",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "085594da820f1ba9fa682720813bf785f312e5f674608a88374b5271a8cd4f2a",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 209936,
+      "cells": 1031,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1912020,
+            "sorts": 21,
+            "sortedSlots": 123550,
+            "uploads": 27,
+            "uploadBytes": 2080228,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 31867,
+            "sorts": 12,
+            "sortedSlots": 63734,
+            "uploads": 27,
+            "uploadBytes": 2080228,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 4280260,
+            "sorts": 1251,
+            "sortedSlots": 1930377,
+            "uploads": 20628,
+            "uploadBytes": 30710212,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 286050,
+            "sorts": 714,
+            "sortedSlots": 996280,
+            "uploads": 20628,
+            "uploadBytes": 30710212,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 879762,
+            "sorts": 1052,
+            "sortedSlots": 5052093,
+            "uploads": 6039,
+            "uploadBytes": 75346560,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 716573,
+            "sorts": 616,
+            "sortedSlots": 2635498,
+            "uploads": 6039,
+            "uploadBytes": 75346560,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "visby",
+      "quality": "hi",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "8f33a9fbc1c5abf5a5b513a34b870ed09fec1cbd548a0c1410d31279620e30c3",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "population": 51119,
+      "cells": 469,
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 320940,
+            "sorts": 35,
+            "sortedSlots": 19683,
+            "uploads": 45,
+            "uploadBytes": 463152,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 5349,
+            "sorts": 20,
+            "sortedSlots": 10698,
+            "uploads": 45,
+            "uploadBytes": 463152,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 1016477,
+            "sorts": 1762,
+            "sortedSlots": 397594,
+            "uploads": 10591,
+            "uploadBytes": 6017424,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 53525,
+            "sorts": 1008,
+            "sortedSlots": 203858,
+            "uploads": 10591,
+            "uploadBytes": 6017424,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        },
+        {
+          "scenario": "flight",
+          "frames": 60,
+          "exact": true,
+          "baseline": {
+            "decisions": 190925,
+            "sorts": 1465,
+            "sortedSlots": 839587,
+            "uploads": 6548,
+            "uploadBytes": 13466580,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "candidate": {
+            "decisions": 118589,
+            "sorts": 880,
+            "sortedSlots": 443816,
+            "uploads": 6548,
+            "uploadBytes": 13466580,
+            "fragmented": 0,
+            "fragmentedBytes": 0
+          },
+          "samples": []
+        }
+      ]
+    }
+  ],
+  "exactTintVariants": 26,
+  "waterParity": [
+    {
+      "course": "angso",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "2264ffcc6bf495271d2eee4dcf491c0065c80a025e8956dad2cd999fbb6c9ad9"
+    },
+    {
+      "course": "norrfallsviken",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "864818fe46a731bd1473b05efb02f598267380ba297cbae36e40a2570709494d"
+    },
+    {
+      "course": "puttom",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "69c9282717522c7abc7df5dcc56f35edaf5661f1f0cf5aadd1585469b30640d3"
+    },
+    {
+      "course": "upsala",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "9a4644001e308f5d6af8e86841ebb1fd96231e7134a391b555bf58799546119b"
+    },
+    {
+      "course": "upsala-mellanbanan",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "9a4644001e308f5d6af8e86841ebb1fd96231e7134a391b555bf58799546119b"
+    },
+    {
+      "course": "johannesberg",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "7c4905cf77e4cf2d7fde9d3ec0d91b56ed065487596b35083e5ce1740f09e6d1"
+    },
+    {
+      "course": "johannesberg-9",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "7c4905cf77e4cf2d7fde9d3ec0d91b56ed065487596b35083e5ce1740f09e6d1"
+    },
+    {
+      "course": "veckefjarden",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "0833b42fa288336eda7bd06f2fc072fdd01f7143dbf81a630485c120766c3219"
+    },
+    {
+      "course": "veckefjarden-korthalsbanan",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "0833b42fa288336eda7bd06f2fc072fdd01f7143dbf81a630485c120766c3219"
+    },
+    {
+      "course": "ribbingsfors",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "dbaab5ef3de278d197af8cfa0413575689c5cc329a133e9d210a04fc4b31d3c4"
+    },
+    {
+      "course": "visby",
+      "supported": false
+    },
+    {
+      "course": "tortuna",
+      "supported": false
+    },
+    {
+      "course": "lidingo",
+      "supported": false
+    }
+  ],
+  "prepared": {
+    "revision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+    "courses": [
+      {
+        "course": "angso",
+        "chunks": 960,
+        "packages": 8,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "3e01971a2858d4e27657403bee0ffb5da0e076bcb5be0f839c3b2c788a35f5b1"
+          },
+          {
+            "quality": "lo",
+            "sha256": "3e01971a2858d4e27657403bee0ffb5da0e076bcb5be0f839c3b2c788a35f5b1"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "norrfallsviken",
+        "chunks": 862,
+        "packages": 7,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "bc4ce126c4aeaf67bae97775f914c00e543776d423045344a329ca795203b39e"
+          },
+          {
+            "quality": "lo",
+            "sha256": "bc4ce126c4aeaf67bae97775f914c00e543776d423045344a329ca795203b39e"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "puttom",
+        "chunks": 977,
+        "packages": 10,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "82e8341a6d33bbaed2f2ac2abea1274b43db65f39fe7337f2b8d77d51836f2ac"
+          },
+          {
+            "quality": "lo",
+            "sha256": "82e8341a6d33bbaed2f2ac2abea1274b43db65f39fe7337f2b8d77d51836f2ac"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "upsala",
+        "chunks": 960,
+        "packages": 10,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "33ffdeb6d2ab1d38da0be9a3adf4e05126472a1029faed80fa02d7683b8d6ef1"
+          },
+          {
+            "quality": "lo",
+            "sha256": "33ffdeb6d2ab1d38da0be9a3adf4e05126472a1029faed80fa02d7683b8d6ef1"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "upsala-mellanbanan",
+        "chunks": 960,
+        "packages": 10,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "5d8d32ce4150774f49fcdd96e0e28cdb6804e742d3f2ac86412f18ead51f712f"
+          },
+          {
+            "quality": "lo",
+            "sha256": "5d8d32ce4150774f49fcdd96e0e28cdb6804e742d3f2ac86412f18ead51f712f"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "johannesberg",
+        "chunks": 949,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "e42b549c4305267c61a66d8d5c471d63f3ccadf574e5ca1bd049bd81d0f7d839"
+          },
+          {
+            "quality": "lo",
+            "sha256": "e42b549c4305267c61a66d8d5c471d63f3ccadf574e5ca1bd049bd81d0f7d839"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "johannesberg-9",
+        "chunks": 949,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "a77498be8eefee0cf1615e2f067685c271c1dbaa0b301cb34d987223f5f123de"
+          },
+          {
+            "quality": "lo",
+            "sha256": "a77498be8eefee0cf1615e2f067685c271c1dbaa0b301cb34d987223f5f123de"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "veckefjarden",
+        "chunks": 962,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "8da589525641bf840c39324950711ab789312e828239c3d341cc62de0bd9a464"
+          },
+          {
+            "quality": "lo",
+            "sha256": "8da589525641bf840c39324950711ab789312e828239c3d341cc62de0bd9a464"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "veckefjarden-korthalsbanan",
+        "chunks": 962,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "461021b0a7c874fdc88114df59ea379467511d3b2cce3b4a937d066b64683300"
+          },
+          {
+            "quality": "lo",
+            "sha256": "461021b0a7c874fdc88114df59ea379467511d3b2cce3b4a937d066b64683300"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "ribbingsfors",
+        "chunks": 969,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "d529682caa1505c49d075947d36aa42bcb75b067f45435323c38d0fdbcfcddb3"
+          },
+          {
+            "quality": "lo",
+            "sha256": "d529682caa1505c49d075947d36aa42bcb75b067f45435323c38d0fdbcfcddb3"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "visby",
+        "chunks": 842,
+        "packages": 4,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "4471946ac9d78c7e373e622a4393179205dcc8a8dc209f1f7fd95a7c07fc2c91"
+          },
+          {
+            "quality": "lo",
+            "sha256": "4471946ac9d78c7e373e622a4393179205dcc8a8dc209f1f7fd95a7c07fc2c91"
+          }
+        ],
+        "water": "verified unsupported path"
+      },
+      {
+        "course": "tortuna",
+        "chunks": 647,
+        "packages": 8,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "31d84cfda4b1c5c50c51c18080c6f4e0949929e42f77a78ccc9fd8bde055efcc"
+          },
+          {
+            "quality": "lo",
+            "sha256": "31d84cfda4b1c5c50c51c18080c6f4e0949929e42f77a78ccc9fd8bde055efcc"
+          }
+        ],
+        "water": "verified unsupported path"
+      },
+      {
+        "course": "lidingo",
+        "chunks": 534,
+        "packages": 7,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "e6cf74b6eade5234956f58ef7b172ed9ca2c18c285c5c58dcfa6d78ae7b94d02"
+          },
+          {
+            "quality": "lo",
+            "sha256": "e6cf74b6eade5234956f58ef7b172ed9ca2c18c285c5c58dcfa6d78ae7b94d02"
+          }
+        ],
+        "water": "verified unsupported path"
+      }
+    ]
+  },
+  "openings": [
+    {
+      "course": "veckefjarden",
+      "exactWorldAndWater": true,
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "preparedTint": true,
+      "preparedWater": true,
+      "completeCourse": true,
+      "world": {
+        "trees": [
+          "d2f6a4716b938dfe1c61d0d9a8f721ea514d90bd76e833c03c6f7bafea84f55d",
+          "cf8659b815477941b1b69ec8474bfe8969292895dfd4b47b5f790199f2e05d1b",
+          "e40f6ccb2998ad23e0411a7606425a7e59b343a544ead3e565a948b3fec6f917",
+          "8a76a12463347af68db55b0059da33d2df718d66ca17ce81d2e4791f199b50c9",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "reasons": [
+          "f5e47f97cf6a77ecf77d0c4ee5108a61aaa7c472d324d5c542cfc631be0674ee",
+          "94d6771011db3bf2a9943f1fd31c871aca6bab58785f7b03b9174b39b5e8e9e4",
+          "0508d6479e848df687595b18639451bbbbe462e42c70de66fd27b206a0c07c41",
+          "5e2ff01f6be29a4e0b291aa2517736d29c614204caf0d11c88ec98b67a983e5c",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "vista": "637e3a999c0d3794b97419c51970eaa5183c458edc11b78e71c8a100766673b7",
+        "matrices": [
+          "76275e4621b20cba18411eb231969feb3a2112d4af5e0d2f1aaee937707be409",
+          "b28c58d3808510a672966a36dbed225a181699494d062600fb290f07cfcde50b",
+          "547d006daabf8f520177c38b33e9da03299431dbc91e50fc5c327ea33655f976",
+          "eda388d2b3a8a68e5bd0b1fe147decd51014ba22969465956ed9876d937e8706",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "impostors": [
+          "96c2936dd779d0969087f27e2e9e55bd4d465abbcadf5923adb3feacafa1466e",
+          "561f600a9ce0da43bea294dc84e73647b68e9c9d1d9616318daf8db92773923e",
+          "9b897d3e65aa66cda51368192c3f87c67d73bcf2e72f59f466520944619f9927",
+          "56ac6e5c1a162cc7a89a72df6562409dd8531b43b4a7b45cb2559ecb74e96c68",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "tints": [
+          "55f519278ae5d4d1a63dc5cd9238aab5e9d487e6f45ae8576891bfa37b67cea0",
+          "fd485a37ee7bd871cea68140849cc77ed7a657f5cdd9a1acbec4b7a592195d49",
+          "3d9d748f640dbd2f2689471167181df4730451622a0d0366c6cbd70fc7db430b",
+          "8af06d9efb69ffd30c4e8a53e05edc68aa5ee753d5b95609677f70bca051bda3",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ]
+      },
+      "waterSha256": "ecd11cd80dd8d0c38b15830b9db4cf3c2e054cc95f54233d8f382774444c56d8"
+    },
+    {
+      "course": "puttom",
+      "exactWorldAndWater": true,
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "preparedTint": true,
+      "preparedWater": true,
+      "completeCourse": true,
+      "world": {
+        "trees": [
+          "809cd093b36f6385183afa455bcc0e30ae2f1038cc275152f0fee07886d36dd4",
+          "d127d9195ccca210588e865cf16ca093f54e38574d38b35d21d5b17c49b3b527",
+          "42f0419599e2500166e07d6de25b7105381377fe388b51910858dd980bbe018d",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "reasons": [
+          "c67884e9f17e73ae6e2636493a1c5a73abb0299938b16ce82a94021abdf86f17",
+          "f21100d16258022de20ca6f2232dae7656965b017dc55970f6c9f90bdaec811d",
+          "694fb44d793cda3483bf5f4ca8a977c30c7496db5caa0f47f31abc581f5f0700",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "vista": "78be90c19637da49f1f576eca1207980b247bd3f0dfab6c15ab5d1d28dbee7e0",
+        "matrices": [
+          "ffec79d48d2307a40a1975224e9e3d066ef35ba2465fb0e514e2d7515d11ed31",
+          "4ee6b4182226f441ed96e8923707cc0e669c0a2b3ef3968075b586fc2d28815b",
+          "44b0a63c6829409a36f6ccb868de5e92d268781afe7c7fc20b5bbf8e1c688766",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "impostors": [
+          "56f8a44af89166e075980367bbeefd7054615171a642f9c3e69a4df67fe0f07d",
+          "799b3161b70170ee8d655b4ca429f76c643e006555d2cd8fdbc5389da53a58ef",
+          "d4ca42b0407fa7417692d02509c08b3641c36e821d9b63a02366ce9be137fcf8",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "tints": [
+          "a1bfd4dbbedb36ad2dbcf0ac547451dd7f3de0dbdf6d3a88ca79913808f0f978",
+          "152c890e0e2f26ae5f2d2d678c05f2ad53cd9c21949924c2fa9c4a8504d7fbea",
+          "080398e9908c2b1531066edc3b611c3da4e1ae1e0277a969c6249230939ffbfc",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ]
+      },
+      "waterSha256": "bc4e4e4444f70ceab286dc5af164540dac69ba466aa878fca59a3c69469955c5"
+    },
+    {
+      "course": "visby",
+      "exactWorldAndWater": true,
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "preparedTint": true,
+      "completeCourse": true,
+      "world": {
+        "trees": [
+          "71c150f6ad3beed7d3a5e2374cda6a212c7fda0697810478840679b43a682503",
+          "d1df7635dd652cdb77bf2c732ae1953bc186a1ea2df235d52d33f6ab8ba02ef8",
+          "fdfe3b0fbc9239b581aa24fac8df0e7cec806991dc355d1db402d28185bd1d7d",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "reasons": [
+          "3a2649433258fa1232867026f35b02c8c3630ffeb8cc8eb589f2f181c600a216",
+          "e8b03ef60beaa7716cb80d129b9047dde304b32d14b0c491eeeca21c01b083d7",
+          "362a26920561ee1271e6b7266ba25e990cafa62e3b51440af31074f153114860",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "vista": "1f911d77e0158d5466bcf64bbfe682b22c8b414fb835d70f3fa210ab37753aa6",
+        "matrices": [
+          "3b2d064562d9e5d2572a9bf2d2770ca1caccdbe4088d704ba6b9e6d22822edeb",
+          "4a71f90f572d69501f8f6305fc653fe205febe5a4e08990a6e669147ebabb608",
+          "d7a37e94073a411372e3523a62edde8a138f02207351ebe0d6ee44bcc0ae4c63",
+          "6493fd97406ab0308c894b70324251ef68065568fe871ff1149af4bd52a5d798",
+          "335209bdca1bcd4eca5f3696308dcfc8a0263a0a78ad54894643f26fa6b68c26",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "impostors": [
+          "c66af9eb05d9730cbf56e1bf6a459ae719ae72aa93ab0d1cec2751f6cfec2283",
+          "ae779aefabd9ccbd4aba2645366597527eb277674f1e3275f33e2b5c135485d7",
+          "6e646f8033d94b5671b95c94b50325c814fb20a41c6e07606f4c61cc266a36e3",
+          "92b2a8f25033731e19d25a14244a433b107578d8a3ecbfcc372d64f09a381594",
+          "e7a2d9efad699c1b160c4dc180a2aa61566693e6d3f61b976a3848a375ccde00",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "tints": [
+          "87b182132dc5fd6a3c7d958316a8a9daa89351533ee341a178f019994cd4bcc1",
+          "e5fe69d8c56f8f665c45e04fe26da33c061346126326a6f8d09a6f1ef1da0aa3",
+          "b3e5154bfc6487fb003c6cb476d5c8248516757dc19b4d28bbbf61df1277fa0a",
+          "e3b977341127607fb0d24b23295eb63b1c060cb995b259e6aa71fc09ff548899",
+          "342fbdc6a41638979f80d9d6a54c624930156ac13d0580ace31ffdef7346c949",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ]
+      },
+      "waterSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    }
+  ],
+  "tests": {
+    "vitestPassed": 1273,
+    "vitestTotal": 1273,
+    "nodePassed": 477,
+    "nodeFailed": 0,
+    "nodeSkipped": 3
+  },
+  "rawFiles": {
+    "tree-replay.json": {
+      "bytes": 35962,
+      "sha256": "fef12328526cdc5f659fa5b0884485b2664d65c22d1dfe1eb3ee92de244d08dc"
+    },
+    "tree-calibration-final.json": {
+      "bytes": 12358,
+      "sha256": "adc7e0998bc89922f8399df40bd9a811f836f9c478cde3ea798fdb0a54286f94"
+    },
+    "tree-parity-other.json": {
+      "bytes": 24210,
+      "sha256": "e7ea3f0a2feb6878a0e062898bb267a20826c21f520871b46afd477510c5973b"
+    },
+    "tree-parity-high.json": {
+      "bytes": 7739,
+      "sha256": "851ba8b010e88efafb7008b8d8050a639a50d517aacff3b6aa5d0b744c571b85"
+    },
+    "water-publication.json": {
+      "bytes": 2350040,
+      "sha256": "5e9bb068574e6bf94f1b9b7fe218cec32ee8410d848dddaf1ec08bb87bd087e3"
+    },
+    "tint-publication.json": {
+      "bytes": 4812,
+      "sha256": "947c340d4cc67bd80605ebc2773129dd4fd7ced64d6d6e960a930f3ee2f2b995"
+    },
+    "prepared-gate.json": {
+      "bytes": 5450,
+      "sha256": "e239f1ae0953f157f6651247b4c6946dd0fee83a7dd25da6bb93841967a3add8"
+    },
+    "openings.json": {
+      "bytes": 455748,
+      "sha256": "a0fa182d8885ce5cfb2519b3cf81511385c2969caec1869576ba93305d27c5e9"
+    },
+    "vitest.txt": {
+      "bytes": 242,
+      "sha256": "ad1ff8f6afd710d630adc44801a1a89bc980be2e8586dd222376ff7cb3d7659a"
+    },
+    "node-tests.txt": {
+      "bytes": 45008,
+      "sha256": "f7cd74222560a5ab2a5ebab5ca9004c224c6d149f3226ea57f0646691f712275"
+    },
+    "validation.txt": {
+      "bytes": 69167,
+      "sha256": "bf977db7a82febddfe44dcc671a2409c0bad8f8fb78b6913cd18cc1f3e9e3dc6"
+    }
+  }
+}

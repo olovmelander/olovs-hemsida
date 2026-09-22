@@ -1,0 +1,287 @@
+// Immutable replay reference: main.js at fb3e6dd8e0378089d5dfa207cdb5376449961621.
+function treeFadeWrite(tier, slot, t0, code) {
+  for (const a of tier.fade) { a.array[slot * 2] = t0; a.array[slot * 2 + 1] = code; }
+  tier.dirtyF.push(slot);
+}
+function treeTierWrite(s, tier, slot, k, t0, code) {
+  if (tier.mesh) {
+    const imp = TREE_LOD.imp[s];
+    tier.pos.array.set(imp.subarray(k * 6, k * 6 + 3), slot * 3);
+    tier.par.array[slot * 4] = imp[k * 6 + 3];
+    tier.par.array[slot * 4 + 1] = imp[k * 6 + 4];
+    tier.par.array[slot * 4 + 2] = imp[k * 6 + 5];
+    tier.par.array[slot * 4 + 3] = 0;
+  } else {
+    const mats = TREE_LOD.mats[s];
+    for (const im of tier.parts) im.instanceMatrix.array.set(mats.subarray(k * 16, k * 16 + 16), slot * 16);
+  }
+  if (tier.tint?.length) { const T = TREE_LOD.tint[s]; for (const a of tier.tint) a.array.set(T.subarray(k * 4, k * 4 + 4), slot * 4); }
+  tier.dirtyM.push(slot);
+  treeFadeWrite(tier, slot, t0, code);
+}
+/* the slots written this frame, as runs: a swap-remove touches one slot at
+   each end of a tier, and one range from the lowest to the highest slot
+   uploaded the whole tier between them -- 640 KB a frame for the pine tier
+   on a walk that switches ten trees a frame */
+function flushRanges(attrs, dirty, stride) {
+  if (!dirty.length) return;
+  dirty.sort((a, b) => a - b);
+  const runs = [];
+  let start = dirty[0], end = dirty[0];
+  for (let i = 1; i < dirty.length; i++) {
+    const v = dirty[i];
+    if (v === end || v === end + 1) { end = v; continue; }
+    runs.push([start, end]); start = end = v;
+  }
+  runs.push([start, end]);
+  for (const a of attrs) {
+    a.clearUpdateRanges();
+    if (runs.length > 96) a.addUpdateRange(runs[0][0] * stride, (runs[runs.length - 1][1] - runs[0][0] + 1) * stride);
+    else for (const [s0, s1] of runs) a.addUpdateRange(s0 * stride, (s1 - s0 + 1) * stride);
+    a.needsUpdate = true;
+  }
+  dirty.length = 0;
+}
+/* swap-remove: the tree moved into the freed slot may hold this tier as its IN entry or as its OUT entry */
+function tierRemove(s, tier, slot) {
+  const sp = TREE_LOD.tiers[s], last = --tier.count;
+  if (slot !== last) {
+    const m = tier.slots[last];
+    tier.slots[slot] = m;
+    const isIn = sp.tierOf[m] === tier.idx;
+    if (isIn) sp.where[m] = slot; else sp.whereOut[m] = slot;
+    treeTierWrite(s, tier, slot, m, sp.fadeT0[m], isIn ? sp.fadeCode[m] : PAIR[sp.fadeCode[m]]);
+  }
+}
+function tierAppend(s, tier, k, t0, code) {
+  reserveTreeTier(tier, tier.count + 1, TREE_LOD.tiers[s].n);
+  const slot = tier.count++;
+  tier.slots[slot] = k;
+  treeTierWrite(s, tier, slot, k, t0, code);
+  return slot;
+}
+/* move one tree from tier `from` to tier `to` (0 = not drawn). With a fade
+   in effect the old entry stays as the OUT half of a crossfade and the new
+   one is appended as the IN half, both stamped with the same start time;
+   a tree asked to go back while its fade runs swaps the two roles in place
+   with the masks continuous; a tree asked for a THIRD tier finishes its
+   pending OUT at once (a partial pop, only at cuts and hole jumps). */
+function treeTierMove(s, k, from, to) {
+  const sp = TREE_LOD.tiers[s], dur = TREE_LOD.fadeS, clock = TREE_LOD.fadeClock;
+  TREE_LOD.stats.moves++;
+  if (from && to) TREE_LOD.stats.switches++;
+  if (dur > 0 && to && sp.outTier[k] === to && sp.tierOf[k] === from) {
+    /* a switch back to the tier it is still fading out of: the tree wobbled across a threshold within one fade */
+    TREE_LOD.stats.reversals++;
+    const { t0, inCode } = reversedFade(clock, sp.fadeT0[k], dur, sp.fadeCode[k]);
+    const wIn = sp.where[k], wOut = sp.whereOut[k];
+    sp.where[k] = wOut; sp.whereOut[k] = wIn; sp.tierOf[k] = to; sp.outTier[k] = from;
+    sp.fadeT0[k] = t0; sp.fadeCode[k] = inCode;
+    treeFadeWrite(sp.t[to], wOut, t0, inCode);
+    treeFadeWrite(sp.t[from], wIn, t0, PAIR[inCode]);
+    TREE_LOD.queue.push({ s, k, t0: sp.fadeT0[k], drainAt: drainAt(sp.fadeT0[k], dur) });
+    return;
+  }
+  if (sp.outTier[k]) { tierRemove(s, sp.t[sp.outTier[k]], sp.whereOut[k]); sp.outTier[k] = 0; }
+  if (!to) {
+    /* left the frustum: gone now, both halves */
+    if (from) tierRemove(s, sp.t[from], sp.where[k]);
+    sp.where[k] = -1; sp.tierOf[k] = 0; sp.fadeCode[k] = 0;
+  } else if (!from || dur <= 0) {
+    /* entered the frustum, or an instant switch */
+    if (from) tierRemove(s, sp.t[from], sp.where[k]);
+    sp.fadeCode[k] = 0; sp.fadeT0[k] = 0;
+    sp.where[k] = tierAppend(s, sp.t[to], k, 0, 0); sp.tierOf[k] = to;
+  } else {
+    /* the crossfade: polarity alternates per tree so neighbours do not flip in step */
+    const inCode = (k & 1) ? 2 : 1, t0 = Math.fround(clock);
+    sp.outTier[k] = from; sp.whereOut[k] = sp.where[k];
+    treeFadeWrite(sp.t[from], sp.whereOut[k], t0, PAIR[inCode]);
+    sp.fadeT0[k] = t0; sp.fadeCode[k] = inCode;
+    sp.where[k] = tierAppend(s, sp.t[to], k, t0, inCode); sp.tierOf[k] = to;
+    TREE_LOD.queue.push({ s, k, t0, drainAt: drainAt(t0, dur) });
+  }
+}
+/* fades whose OUT entry is fully discarded by now: drop the entry. An entry
+   whose tree has since been re-timed (a reversal, a later fade) is stale
+   and is skipped; the newer entry drains it. A reversed entry may sit
+   behind later ones and drain a little late -- invisible, only a draw. */
+function drainTreeFades() {
+  const Q = TREE_LOD.queue;
+  let changed = false;
+  while (TREE_LOD.qHead < Q.length && Q[TREE_LOD.qHead].drainAt <= TREE_LOD.fadeClock) {
+    const e = Q[TREE_LOD.qHead++], sp = TREE_LOD.tiers[e.s];
+    if (sp.outTier[e.k] && sp.fadeT0[e.k] === e.t0) {
+      tierRemove(e.s, sp.t[sp.outTier[e.k]], sp.whereOut[e.k]);
+      sp.outTier[e.k] = 0; sp.fadeCode[e.k] = 0;
+      treeFadeWrite(sp.t[sp.tierOf[e.k]], sp.where[e.k], 0, 0);
+      changed = true;
+    }
+  }
+  if (TREE_LOD.qHead > 4096) { TREE_LOD.queue = Q.slice(TREE_LOD.qHead); TREE_LOD.qHead = 0; }
+  return changed;
+}
+/* the clock is an f32 in the shader: past FADE_EPOCH_S it is wound back by
+   an epoch, together with every fade in flight, so a twelve-minute bansafari
+   never runs it out of precision */
+function rebaseFadeClock() {
+  if (TREE_LOD.fadeClock < FADE_EPOCH_S) return;
+  const E = FADE_EPOCH_S, Q = TREE_LOD.queue;
+  TREE_LOD.fadeClock -= E;
+  for (let i = TREE_LOD.qHead; i < Q.length; i++) {
+    const e = Q[i], sp = TREE_LOD.tiers[e.s];
+    const live = sp.outTier[e.k] && sp.fadeT0[e.k] === e.t0;
+    e.t0 = Math.fround(e.t0 - E); e.drainAt -= E;
+    if (live) {
+      sp.fadeT0[e.k] = e.t0;
+      treeFadeWrite(sp.t[sp.tierOf[e.k]], sp.where[e.k], e.t0, sp.fadeCode[e.k]);
+      treeFadeWrite(sp.t[sp.outTier[e.k]], sp.whereOut[e.k], e.t0, PAIR[sp.fadeCode[e.k]]);
+    }
+  }
+}
+/* the harness's consistency check: every drawn slot belongs to exactly one
+   tree as its IN or OUT entry, and no tree holds both in one tier */
+function treeTierAudit() {
+  const out = { ok: true, species: [] };
+  for (let s = 0; s < TREE_LOD.tiers.length; s++) {
+    const sp = TREE_LOD.tiers[s];
+    if (!sp) continue;
+    let sumCount = 0, inCount = 0, outCount = 0, roundTrip = true, noSelfPair = true;
+    for (let i = 1; i <= 4; i++) {
+      const tier = sp.t[i];
+      sumCount += tier.count;
+      for (let slot = 0; slot < tier.count; slot++) {
+        const k = tier.slots[slot];
+        if (!((sp.tierOf[k] === i && sp.where[k] === slot) || (sp.outTier[k] === i && sp.whereOut[k] === slot))) roundTrip = false;
+      }
+    }
+    for (let k = 0; k < sp.n; k++) {
+      if (sp.tierOf[k]) inCount++;
+      if (sp.outTier[k]) { outCount++; if (sp.outTier[k] === sp.tierOf[k]) noSelfPair = false; }
+    }
+    const ok = sumCount === inCount + outCount && roundTrip && noSelfPair;
+    out.species.push({ sumCount, inCount, outCount, roundTrip, noSelfPair, ok });
+    if (!ok) out.ok = false;
+  }
+  return out;
+}
+
+const TREE_FRUSTUM = new THREE.Frustum(), TREE_PROJ = new THREE.Matrix4();
+/* per frame: a cell outside the frustum draws nothing; inside it every tree
+   is tiered from the pixels its own height projects to at its own distance
+   (to the crown centre, height included: from 330 m straight up a tree
+   under the camera is 330 m away), with the hysteresis band on each
+   boundary; only trees whose tier changed move, and a move is a crossfade */
+function updateTreeTiers() {
+  if (!TREE_LOD.ready || TREE_LOD.frozen) return;
+  const tStart = performance.now();
+  rebaseFadeClock();
+  let changed = drainTreeFades();
+  TREE_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+  TREE_FRUSTUM.setFromProjectionMatrix(TREE_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
+  const viewportH = renderResolution.detailHeight();
+  const Kpx = viewportH / (2 * Math.tan(camera.fov * 0.5 * Math.PI / 180));
+  const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
+  const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
+  const force = TREE_LOD.force, reset = TREE_LOD.resetPending, cellMode = TREE_LOD.cellMode;
+  const floorA = TREE_LOD.floors[0], floorB = TREE_LOD.floors[1], reachH = TREE_LOD.floorReach[0], reachF = TREE_LOD.floorReach[1], floorAFar = Math.max(floorA, 2);
+  const cells = TREE_LOD.cells;
+  let visible = 0;
+  for (let ci = 0; ci < cells.length; ci++) {
+    const c = cells[ci];
+    if (!TREE_FRUSTUM.intersectsBox(c.box)) {
+      if (c.visible) {
+        for (let s = 0; s < TREE_LOD.tiers.length; s++) {
+          const sp = TREE_LOD.tiers[s];
+          if (!sp) continue;
+          const L = c.lists[s];
+          for (let i = 0; i < L.length; i++) { const k = L[i]; if (sp.tierOf[k]) treeTierMove(s, k, sp.tierOf[k], 0); }
+        }
+        c.visible = false; changed = true;
+      }
+      continue;
+    }
+    c.visible = true; visible++;
+    let pxCell = 0;
+    if (cellMode) {
+      const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dy = Math.max(c.y0 - cy, 0, cy - c.y1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
+      pxCell = TREE_LOD.nominalHeight * Kpx / Math.max(1, Math.hypot(dx, dy, dz));
+    }
+    for (let s = 0; s < TREE_LOD.tiers.length; s++) {
+      const sp = TREE_LOD.tiers[s];
+      if (!sp) continue;
+      const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone, PD = sp.pend, PN = sp.pendN, dwell = TREE_LOD.dwell;
+      const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
+      for (let i = 0; i < L.length; i++) {
+        const k = L[i];
+        // Geographic tiers and forced review tiers never consult distance.
+        // Keep the screen-mode calculation for its thresholds/corridor floors.
+        let d = 1, px = 0;
+        if (!force && !zoneMode) {
+          const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
+          d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
+          px = cellMode ? pxCell : H[k] * Kpx / d;
+        }
+        const cur = T[k];
+        let want;
+        if (force) want = force;
+        else if (zoneMode) want = ZT[Z[k] ? Z[k] - 1 : 3];
+        else if (!cur || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
+        else {
+          want = cur;
+          while (want > 1 && px > thr[want - 2] * (1 + hy)) want--;
+          while (want < 4 && px < thr[want - 1] * (1 - hy)) want++;
+        }
+        /* the corridor's floor, unless a forced tier is being judged on its own */
+        /* the floors are zone A's and B's; the outer band (3) exists for the zone rule and has no floor here */
+        if (!force && !zoneMode && Z[k] && Z[k] <= 2) {
+          /* the reaches carry the same 10% band as the pixel boundaries, so a tree at a reach does not flip */
+          const rH = reachH * (cur === floorA ? 1.1 : 1), rF = reachF * (cur && cur <= 2 ? 1.1 : 1);
+          const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
+          if (want > fl) want = fl;
+        }
+        // Old review URLs and screen-mode floors may still request 2/3.
+        // Resolve every mesh request to Hero before touching drawable slots.
+        want = want === 4 ? 4 : 1;
+        if (want !== cur) {
+          /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
+             the new tier has to be wanted for dwell frames running */
+          if (!cur || reset || force || dwell <= 0 || (PD[k] === want && PN[k] >= dwell - 1)) { treeTierMove(s, k, cur, want); changed = true; PN[k] = 0; }
+          else if (PD[k] === want) PN[k]++;
+          else { PD[k] = want; PN[k] = 1; }
+        } else PN[k] = 0;
+      }
+    }
+  }
+  TREE_LOD.resetPending = false;
+  TREE_LOD.stats.cellsVisible = visible;
+  TREE_LOD.stats.fading = TREE_LOD.queue.length - TREE_LOD.qHead;
+  TREE_LOD.stats.updateMs = performance.now() - tStart;
+  if (!changed) return;
+  TREE_LOD.stats.updates++;
+  TIER_FRAME = FRAME_NO;
+  let t0 = 0, t1 = 0, t2 = 0, t3 = 0;
+  for (const species of TREE_LOD.tiers) {
+    if (!species) continue;
+    for (let i = 1; i <= 4; i++) {
+      const tier = species.t[i];
+      if (tier.dirtyM.length || tier.dirtyF.length) treeUploadsThisFrame++;
+      if (tier.mesh) {
+        tier.geo.instanceCount = tier.count;
+        tier.mesh.visible = tier.count > 0;
+        const dirty = tier.dirtyM.slice();
+        flushRanges([tier.pos], dirty.slice(), 3);
+        flushRanges([tier.par], dirty, 4);
+        if (tier.tint?.length) flushRanges(tier.tint, tier.dirtyM.slice(), 4);
+        tier.dirtyM.length = 0;
+      } else {
+        for (const im of tier.parts) im.count = tier.count;
+        if (tier.tint?.length) flushRanges(tier.tint, tier.dirtyM.slice(), 4);
+        flushRanges(tier.parts.map(im => im.instanceMatrix), tier.dirtyM, 16);
+      }
+      flushRanges(tier.fade, tier.dirtyF, 2);
+    }
+    t0 += species.t[1].count; t1 += species.t[2].count; t2 += species.t[3].count; t3 += species.t[4].count;
+  }
+  TREE_LOD.stats.tier0 = t0; TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2; TREE_LOD.stats.tier3 = t3;
+}
