@@ -6,9 +6,9 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { deflateRawSync, inflateRawSync } from 'node:zlib';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, browserExecutable } from './browser-args.mjs';
 import { courseSourceRevision } from './course-source-revision.mjs';
-import { decodePreparedWater } from '../apps/golf/src/engine/prepared-water.mjs';
+import { decodePreparedWater, preparedWaterIdentity } from '../apps/golf/src/engine/prepared-water.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -16,12 +16,13 @@ const base = args.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8641';
 const publicRoot = path.resolve(flag('public', 'apps/golf/public'));
 const catalogPath = path.join(publicRoot, 'courses/index.json');
 const catalog = JSON.parse(await fs.readFile(catalogPath, 'utf8'));
+const v2 = JSON.parse(await fs.readFile(path.join(publicRoot, 'courses/v2-index.json'), 'utf8'));
 const only = flag('only', '').split(',').filter(Boolean);
 if (only.some(slug => !catalog.courses.some(c => c.slug === slug))) throw new Error('unknown course');
 const snapshot = flag('snapshot', null);
 const revision = snapshot ? JSON.parse(await fs.readFile(snapshot, 'utf8')).revision : courseSourceRevision(process.cwd());
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
+const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 const results = [];
 try {
   for (const course of catalog.courses.filter(c => !only.length || only.includes(c.slug))) {
@@ -48,6 +49,9 @@ try {
       if (baked.revision !== revision) throw new Error('bake server source revision mismatch');
       if (baked.supported === false) {
         delete course.preparedWater;
+        const graph = JSON.parse(await fs.readFile(path.join(publicRoot, v2.courses.find(c => c.slug === course.slug).manifest.url), 'utf8'));
+        course.preparedWaterUnsupported = { revision,
+          identity: await preparedWaterIdentity({ meta: course, groundSha256: graph.groundManifest.sha256, revision }) };
         results.push({ course: course.slug, supported: false });
         console.log(`${course.slug}: retains existing measured/frontier water path`);
         continue;
@@ -72,8 +76,13 @@ try {
     const current = latest.courses.find(c => c.slug === result.course), baked = catalog.courses.find(c => c.slug === result.course);
     if (!current || current.sha256 !== baked.sha256 || JSON.stringify(current.startup) !== JSON.stringify(baked.startup) ||
         JSON.stringify(current.surroundings) !== JSON.stringify(baked.surroundings)) throw new Error('course changed during publication');
-    if (baked.preparedWater) current.preparedWater = baked.preparedWater;
-    else delete current.preparedWater;
+    if (baked.preparedWater) {
+      current.preparedWater = baked.preparedWater;
+      delete current.preparedWaterUnsupported;
+    } else {
+      delete current.preparedWater;
+      current.preparedWaterUnsupported = baked.preparedWaterUnsupported;
+    }
   }
   await fs.writeFile(catalogPath, JSON.stringify(latest, null, 1) + '\n');
   const report = flag('report', 'tools/reference/prepared-water-publication.json');

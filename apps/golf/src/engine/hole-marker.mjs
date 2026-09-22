@@ -125,7 +125,8 @@ export function createHoleMarker({ id, kind, icon, camera, heightAt, onLocate, d
   }
 
   function update({ now = performance.now(), hidden = false, opacity: markerOpacity = 1, mode = 'orbit', reserved = [] } = {}) {
-    root.hidden = !selected || hidden || markerOpacity <= 0;
+    const nextHidden = !selected || hidden || markerOpacity <= 0;
+    if (root.hidden !== nextHidden) root.hidden = nextHidden;
     setStyle(root, 'opacity', String(markerOpacity));
     if (root.hidden) return null;
     const width = innerWidth, height = innerHeight;
@@ -151,7 +152,7 @@ export function createHoleMarker({ id, kind, icon, camera, heightAt, onLocate, d
     if (offscreen) {
       const edge = edgePlacement(p, box, size);
       const rect = clearEdge(edge, [...obstacles, ...reserved], size);
-      card.style.transform = `translate(${rect.left.toFixed(1)}px, ${rect.top.toFixed(1)}px)`;
+      setStyle(card, 'transform', `translate(${rect.left.toFixed(1)}px, ${rect.top.toFixed(1)}px)`);
       /* The arrow sits where the direction leaves the badge's own rim, so it
          stays outside a tee pill that is twice as wide as it is tall -- a fixed
          radius would park it inside the digits. */
@@ -159,11 +160,11 @@ export function createHoleMarker({ id, kind, icon, camera, heightAt, onLocate, d
       const ax = Math.cos(radians), ay = Math.sin(radians);
       const reach = Math.min(ax ? (size.width / 2 + 5) / Math.abs(ax) : Infinity,
         ay ? (size.height / 2 + 5) / Math.abs(ay) : Infinity);
-      arrow.style.transform = `translate(${(ax * reach).toFixed(1)}px, ${(ay * reach).toFixed(1)}px)`
-        + ` rotate(${edge.angle.toFixed(1)}deg)`;
+      setStyle(arrow, 'transform', `translate(${(ax * reach).toFixed(1)}px, ${(ay * reach).toFixed(1)}px)`
+        + ` rotate(${edge.angle.toFixed(1)}deg)`);
       return rect;
     }
-    point.style.transform = `translate(${p.x}px, ${p.y}px)`;
+    setStyle(point, 'transform', `translate(${p.x}px, ${p.y}px)`);
     /* Within a few metres the ring's own radius fills the screen, so it stops
        describing the target and only clutters it. */
     let ring = '';
@@ -176,7 +177,7 @@ export function createHoleMarker({ id, kind, icon, camera, heightAt, onLocate, d
         ring += `${i ? 'L' : 'M'}${q.x.toFixed(1)},${q.y.toFixed(1)} `;
       }
     }
-    for (const path of rings) path.setAttribute('d', ring ? ring + 'Z' : '');
+    for (const path of rings) setAttr(path, 'd', ring ? ring + 'Z' : '');
     // At ground level the flag remains legible without tracing the horizon.
     const opacity = clamp(((camera.position.y - y) / distance - 0.12) / 0.3, 0, 1);
     let boundary = '';
@@ -188,14 +189,14 @@ export function createHoleMarker({ id, kind, icon, camera, heightAt, onLocate, d
       }
     }
     for (const path of outlines) {
-      path.setAttribute('d', boundary ? boundary + 'Z' : '');
-      path.style.opacity = opacity;
+      setAttr(path, 'd', boundary ? boundary + 'Z' : '');
+      setStyle(path, 'opacity', String(opacity));
     }
     const rect = placeBadge(p, box, reserved);
-    card.style.transform = `translate(${rect.left}px, ${rect.top}px)`;
+    setStyle(card, 'transform', `translate(${rect.left}px, ${rect.top}px)`);
     const endX = clamp(p.x, rect.left + 4, rect.right - 4);
     const endY = clamp(p.y, rect.top + 4, rect.bottom - 4);
-    for (const path of leaders) path.setAttribute('d', `M${p.x},${p.y} L${endX},${endY}`);
+    for (const path of leaders) setAttr(path, 'd', `M${p.x},${p.y} L${endX},${endY}`);
     return rect;
   }
   return { select, update };

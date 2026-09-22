@@ -91,26 +91,31 @@ function insideIndexed(index, x, z) {
 
 /* unsigned distance with the growing-square search; exact below cutoff */
 function distanceIndexed(index, x, z, cutoff) {
-  const { x0, z0, cell, nx, nz, cells, ax, az, bx, bz, stamp } = index;
+  const { x0, z0, cell, nx, nz, cells, ax, az, bx, bz, stamp, edgeCount } = index;
   const ci = Math.min(nx - 1, Math.max(0, Math.floor((x - x0) / cell)));
   const cj = Math.min(nz - 1, Math.max(0, Math.floor((z - z0) / cell)));
   const query = ++index.query;
   let m = Infinity;
+  let visitedCells = 0;
+  const visit = (i, j) => {
+    visitedCells++;
+    const list = cells[j * nx + i];
+    if (!list) return;
+    for (const e of list) {
+      if (stamp[e] === query) continue;
+      stamp[e] = query;
+      const d = ptSegD(x, z, ax[e], az[e], bx[e], bz[e]);
+      if (d < m) m = d;
+    }
+  };
   for (let k = 0; ; k++) {
     const i0 = ci - k, i1 = ci + k, j0 = cj - k, j1 = cj + k;
-    for (let j = Math.max(0, j0); j <= Math.min(nz - 1, j1); j++) {
-      const edgeRow = j === j0 || j === j1;
-      for (let i = Math.max(0, i0); i <= Math.min(nx - 1, i1); i++) {
-        if (!edgeRow && i !== i0 && i !== i1) continue;   /* only the square's border is new */
-        const list = cells[j * nx + i];
-        if (!list) continue;
-        for (const e of list) {
-          if (stamp[e] === query) continue;
-          stamp[e] = query;
-          const d = ptSegD(x, z, ax[e], az[e], bx[e], bz[e]);
-          if (d < m) m = d;
-        }
-      }
+    const left = Math.max(0, i0), right = Math.min(nx - 1, i1);
+    if (j0 >= 0) for (let i = left; i <= right; i++) visit(i, j0);
+    if (j1 < nz && j1 !== j0) for (let i = left; i <= right; i++) visit(i, j1);
+    for (let j = Math.max(0, j0 + 1); j <= Math.min(nz - 1, j1 - 1); j++) {
+      if (i0 >= 0) visit(i0, j);
+      if (i1 < nx && i1 !== i0) visit(i1, j);
     }
     /* every edge not yet examined lies beyond a side of the square that is
        not the grid's own edge; the point is on the near side of each such
@@ -123,6 +128,17 @@ function distanceIndexed(index, x, z, cutoff) {
     if (bound === Infinity) return m;                 /* the square covers the grid */
     if (bound >= m) return m;                         /* exact */
     if (bound >= cutoff) return Math.max(bound, cutoff);   /* licensed: at least the cutoff, not the value */
+    // Deep interior/unbounded queries can walk more empty cells than there
+    // are edges. Finish with the same exact segment calculation in that case.
+    // Finite-cutoff callers retain their existing saturation behavior.
+    if (cutoff === Infinity && visitedCells >= edgeCount) {
+      for (let e = 0; e < edgeCount; e++) {
+        if (stamp[e] === query) continue;
+        const d = ptSegD(x, z, ax[e], az[e], bx[e], bz[e]);
+        if (d < m) m = d;
+      }
+      return m;
+    }
   }
 }
 

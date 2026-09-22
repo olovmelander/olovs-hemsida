@@ -38,6 +38,23 @@ function agree(indexed, plain, cutoff) {
 }
 
 describe('the ring index', () => {
+  it('keeps exact distances through long empty interiors and outside clipped search borders', () => {
+    for (const [width, height] of [[4096, 4096], [16384, 12], [12, 16384]]) {
+      const ring = [];
+      const corners = [[0, 0], [width, 0], [width, height], [0, height]];
+      for (let side = 0; side < 4; side++) for (let i = 0; i < 16; i++) {
+        const a = corners[side], b = corners[(side + 1) % 4];
+        ring.push([a[0] + (b[0] - a[0]) * i / 16, a[1] + (b[1] - a[1]) * i / 16]);
+      }
+      for (const x of [-1000, 0, 6, width / 4, width / 2, width - 6, width, width + 1000]) {
+        for (const z of [-1000, 0, 6, height / 4, height / 2, height - 6, height, height + 1000]) {
+          const plain = ringSD(x, z, ring);
+          expect(ringSDIndexed(x, z, ring)).toBe(plain);
+          for (const cutoff of [1, 6, 7, 13, 100]) agree(ringSDIndexed(x, z, ring, cutoff), plain, cutoff);
+        }
+      }
+    }
+  });
   it('returns ringSD exactly, inside and out, near and far, on a jagged ring', () => {
     const ring = star(160, 100, -50, 120, 400);
     for (let i = 0; i < 4000; i++) {

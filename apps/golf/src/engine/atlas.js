@@ -7,7 +7,8 @@
    the pure implementation is probe-testable in Node. */
 
 import * as THREE from 'three/webgpu';
-import { ringBBox, ringSD } from './geom.js';
+import { ringBBox } from './geom.js';
+import { inRingIndexed, ringSDIndexed } from './ring-index.mjs';
 import { SURFACE, SURFACE_PRIORITY } from './surface.js';
 import { canopySampler } from './canopy-cover.mjs';
 import { fitFeatures, buildExactClassSdf, packClassPlanes, encodeDistance } from './exact-class-sdf.mjs';
@@ -416,10 +417,14 @@ export function mowDirectionBytes({ bounds, owner, holes = [], ranges = [], clas
   const enc = c => Math.max(0, Math.min(255, Math.round(127.5 + 127 * c)));
   const unit = (a, b) => { const d = Math.hypot(b[0] - a[0], b[1] - a[1]); return d > 1e-6 ? [(b[0] - a[0]) / d, (b[1] - a[1]) / d] : [1, 0]; };
   const byHole = new Map();
-  for (const h of holes) if (h?.line?.length >= 2) byHole.set(h.n || 0, unit(h.line[0], h.line[h.line.length - 1]));
+  for (const h of holes) if (h?.line?.length >= 2) {
+    const d = unit(h.line[0], h.line[h.line.length - 1]);
+    byHole.set(h.n || 0, [enc(d[0]), enc(d[1])]);
+  }
+  const fallback = [enc(1), enc(0)];
   for (let k = 0; k < count; k++) {
-    const d = byHole.get(owner[k]) || [1, 0];
-    out[k * 2] = enc(d[0]); out[k * 2 + 1] = enc(d[1]);
+    const d = byHole.get(owner[k]) || fallback;
+    out[k * 2] = d[0]; out[k * 2 + 1] = d[1];
   }
   for (const range of ranges) {
     const ring = range?.ring, axis = range?.axis;
@@ -431,7 +436,10 @@ export function mowDirectionBytes({ bounds, owner, holes = [], ranges = [], clas
       const z = bounds.z0 + (j + 0.5) * bounds.res;
       for (let i = r.i0; i <= r.i1; i++) {
         const k = j * bounds.w + i;
-        const sd = ringSD(bounds.x0 + (i + 0.5) * bounds.res, z, ring);
+        const x = bounds.x0 + (i + 0.5) * bounds.res;
+        // Interior samples need only membership. Outside, keep the inclusive
+        // margin exact: a saturated result must be strictly beyond the margin.
+        const sd = inRingIndexed(x, z, ring) ? 0 : ringSDIndexed(x, z, ring, RANGE_MARGIN_METRES + 1);
         if (sd > RANGE_MARGIN_METRES) continue;
         if (sd > 0 && classes && classes[k] === SURFACE.FAIRWAY) continue;
         out[k * 2] = bx; out[k * 2 + 1] = bz;
