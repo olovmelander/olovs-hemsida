@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 import { test } from 'node:test';
 import { compileTerrainAssets } from '../terrain-compiler-node.mjs';
 import {
@@ -41,6 +42,46 @@ function plan(manager, overrides = {}) {
     ...overrides,
   });
 }
+
+test('planner preserves complete decisions through movement, residency, errors and hysteresis changes', async () => {
+  // Immutable implementation from published tree batch 3ec71683, before this optimization.
+  const source = await readFile(new URL('../../../tests/fixtures/terrain-tile-manager-2026-09-22.txt', import.meta.url), 'utf8');
+  const Baseline = (await import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`)).TerrainTileManager;
+  const tiles = [];
+  for (let lod = 0; lod <= 4; lod++) {
+    const count = 2 ** (4 - lod), size = 16 * 2 ** lod;
+    for (let x = 0; x < count; x++) for (let y = 0; y < count; y++) tiles.push({
+      id: `l${lod}/${x}/${y}`, lod, courses: ['replay'], geometricErrorMetres: lod * .3,
+      bounds: { minEasting: x * size, maxEasting: (x + 1) * size,
+        minNorthing: y * size, maxNorthing: (y + 1) * size, minHeightRH2000: 0, maxHeightRH2000: 30 },
+      layers: { terrain: { url: `tile-${lod}-${x}-${y}` } },
+    });
+  }
+  const ground = { shell: { url: 'shell' }, tiles }, options = { ground, courseSlug: 'replay' };
+  const a = new Baseline(options), b = new TerrainTileManager(options);
+  const budgets = [1, 16, 24, 32, 48, 256];
+  for (let frame = 0; frame < 1200; frame++) {
+    if (frame % 53 === 0) {
+      const tile = tiles[frame % tiles.length], error = tile.geometricErrorMetres + frame % 7;
+      a.setRenderErrorMetres(tile.id, error); b.setRenderErrorMetres(tile.id, error);
+    }
+    if (frame % 211 === 0) { a.resetHysteresis(); b.resetHysteresis(); }
+    const active = frame % 3 ? [] : [tiles[frame % 256].id, tiles[(frame * 13) % 256].id];
+    const resident = tiles.filter((_, i) => (i + frame) % 7 < frame % 8).map(tile => tile.id);
+    if (frame % 2) resident.push('shell');
+    const input = {
+      camera: { easting: 128 + Math.cos(frame / 19) * 400,
+        northing: 128 + Math.sin(frame / 19) * 400, heightRH2000: 32 + frame % 60 },
+      viewportHeightPixels: [480, 700, 1080, 2160][frame % 4], fieldOfViewYRadians: [.4, .8, 1.2][frame % 3],
+      targetErrorPixels: [1, 1.5, 1.75, 2.5][frame % 4], maximumSelectedTiles: budgets[frame % budgets.length],
+      hysteresisRatio: [0, .15, .3][frame % 3], minimumDistanceMetres: frame % 5 + .5,
+      activeTileIds: frame % 2 ? active : new Set(active), residentTileIds: frame % 2 ? new Set(resident) : resident,
+      visible: tile => (tile.column + tile.row + frame) % 5 !== 0,
+    };
+    assert.deepEqual(b.plan(input), a.plan(input), `frame ${frame}`);
+    assert.deepEqual(b.refined, a.refined, `hysteresis ${frame}`);
+  }
+});
 
 test('measured render error refines roots without changing their published source error', () => {
   const data = ground(), manager = new TerrainTileManager({ ground: data, courseSlug: 'test-course' });
