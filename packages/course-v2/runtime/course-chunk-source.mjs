@@ -50,7 +50,7 @@ export class CourseChunkSource {
     this.packages = new Map();
     this.manifest = null;
     this.metrics = { networkBytes: 0, networkRequests: 0, cacheHits: 0, sharedHits: 0,
-      decodes: 0, complete: false, fallbackReasons: [] };
+      decodes: 0, consumerCopies: 0, consumerCopyBytes: 0, complete: false, fallbackReasons: [] };
     const fetchBytes = createHttpByteFetcher(fetchImpl);
     this.cache = cache || (graph.course.groundManifest?.sha256
       ? new CourseGenerationCache({ cacheStorage, generation: graph.course.groundManifest.sha256 })
@@ -151,7 +151,7 @@ export class CourseChunkSource {
     }
   }
 
-  load(reference, { signal, retain = true } = {}) {
+  #acquire(reference, signal) {
     if (this.controller.signal.aborted || signal?.aborted) return Promise.reject(abortError());
     const known = this.references.get(reference.sha256);
     if (!known || canonicalJson(known) !== canonicalJson(reference)) return Promise.reject(new Error('chunk is outside the active ground generation'));
@@ -170,8 +170,14 @@ export class CourseChunkSource {
         promise.then(remove, remove);
       }
     }
-    return subscribe(promise, signal).then(value => {
+    return subscribe(promise, signal);
+  }
+
+  load(reference, { signal, retain = true } = {}) {
+    return this.#acquire(reference, signal).then(value => {
       if (retain) this.#retain(reference, value);
+      this.metrics.consumerCopies++;
+      this.metrics.consumerCopyBytes += value.payload.byteLength;
       return { ...value, header: structuredClone(value.header),
         payload: value.payload.slice(), content: value.content ? structuredClone(value.content) : null };
     });
@@ -183,7 +189,9 @@ export class CourseChunkSource {
     await Promise.all(Array.from({ length: 4 }, async () => {
       while (next < remaining.length) {
         const ref = remaining[next++];
-        if (!this.verified.has(ref.sha256)) await this.load(ref, { retain: false });
+        // Readiness needs verification, not a private mutable consumer copy.
+        // Keep sharing pending work and all transport/decoded integrity gates.
+        if (!this.verified.has(ref.sha256)) await this.#acquire(ref);
       }
     }));
     this.metrics.complete = this.verified.size === this.references.size;

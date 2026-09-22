@@ -1,10 +1,30 @@
 import { describe, expect, it } from 'vitest';
-import { buildExactClassSdf, despikeRing, fitFeatures, fitLine, fitRing } from './exact-class-sdf.mjs';
+import { buildExactClassSdf, despikeRing, fitFeatures, fitLine, fitRing, packClassPlanes } from './exact-class-sdf.mjs';
 import { createGroundAtlas } from './atlas.js';
 import { SURFACE, SURFACE_PRIORITY } from './surface.js';
 
 const PRIORITY = SURFACE_PRIORITY.filter(id => id !== SURFACE.ROUGH);
 const LIMIT = 4;
+
+describe('class texture packing', () => {
+  it('preserves every byte and zero padding for full/partial groups with or without a bank channel', () => {
+    const bounds = { w: 17, h: 13 }, count = bounds.w * bounds.h;
+    for (let n = 0; n <= 9; n++) for (const bank of [false, true]) {
+      const channels = Array.from({ length: n }, (_, i) => i + 1);
+      const planes = new Map(channels.map(c => [c, Uint8Array.from({ length: count }, (_, k) => (c * 73 + k * 29) % 256)]));
+      const bankBytes = bank ? new Uint8Array(count).fill(219) : null;
+      const source = channels.map(c => planes.get(c));
+      if (bank) source.push(bankBytes);
+      const packed = packClassPlanes({ channels, planes, bounds, bankBytes });
+      expect(packed.length).toBe(Math.ceil(source.length / 4));
+      for (let group = 0; group < packed.length; group++) {
+        for (let k = 0; k < count; k++) for (let slot = 0; slot < 4; slot++) {
+          expect(packed[group][k * 4 + slot]).toBe(source[group * 4 + slot]?.[k] ?? 0);
+        }
+      }
+    }
+  });
+});
 const circle = (cx, cz, r, n) => Array.from({ length: n }, (_, i) => {
   const a = i / n * Math.PI * 2;
   return [cx + Math.cos(a) * r, cz + Math.sin(a) * r];

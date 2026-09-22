@@ -35,6 +35,24 @@ describe('approved Ghibli foliage assets',()=>{
 describe('production foliage loader',()=>{
   beforeEach(()=>vi.spyOn(THREE.TextureLoader.prototype,'loadAsync').mockImplementation(async()=>new THREE.Texture()));
   afterEach(()=>vi.restoreAllMocks());
+  it('overlaps at most three asset fetches while retaining catalogue and variant order',async()=>{
+    let active=0,peak=0;
+    const fetchImpl=async(url)=>{
+      if(String(url).includes('.json'))return assetFetch(url);
+      active++;peak=Math.max(peak,active);
+      await new Promise(resolve=>setTimeout(resolve,String(url).endsWith('.png')?8:2));
+      active--;
+      return assetFetch(url);
+    };
+    const loaded=await loadGhibliTrees({courseSlug:'visby',fetchImpl});
+    expect(peak).toBe(3);
+    expect(loaded.species.map(s=>s.key)).toEqual(['gran','tall','björk','al','ek']);
+    for(const s of loaded.species){
+      const entry=loaded.manifest.species.find(e=>e.key===s.key);
+      expect(s.variants.map(v=>v.seed)).toEqual(entry.variants.slice(0,4).map(v=>v.seed));
+      expect(s.variants.every(v=>v.foliage===s.foliage&&v.hero&&v.foliage.map)).toBe(true);
+    }
+  });
   for(const courseSlug of ['puttom','visby']) it(`loads only real Hero meshes for production (${courseSlug})`,async()=>{
     const fetchImpl=vi.fn(assetFetch);
     // Historical study options cannot switch or downgrade the player catalogue.

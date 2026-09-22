@@ -50,6 +50,9 @@ jobs:
           BANVY_BASE: ${{ steps.pages.outputs.base_path }}/
         run: pnpm --filter @banvy/golf build
 
+      - name: Verify prepared data matches the complete course build
+        run: node tools/check-prepared-startup.mjs --public apps/golf/dist
+
       - name: Assemble the site
         run: |
           set -euo pipefail

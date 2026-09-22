@@ -16,6 +16,11 @@
    like with like: that rule has already cost this repo a day once.          */
 export const GPU = process.env.BANVY_GPU === '1';
 
+// A Work/CI checkout can use its installed Playwright Chromium without
+// pretending the software adapter is the owner's desktop GPU.
+export const browserExecutable = () => process.env.BANVY_CHROME_PATH
+  ? { executablePath: process.env.BANVY_CHROME_PATH } : { channel: 'chrome' };
+
 /* `uncappedFrameRate` lifts the vsync lock, so a requestAnimationFrame
    interval becomes a frame time instead of a multiple of the refresh period;
    only a timing tool asks for it -- every capture must stay vsync-locked so

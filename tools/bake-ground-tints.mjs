@@ -4,7 +4,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { deflateRawSync, inflateRawSync } from 'node:zlib';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, browserExecutable } from './browser-args.mjs';
 import { courseSourceRevision } from './course-source-revision.mjs';
 
 const args = process.argv.slice(2);
@@ -18,7 +18,7 @@ const snapshot = flag('snapshot', null);
 const revision = snapshot ? JSON.parse(await fs.readFile(snapshot, 'utf8')).revision : courseSourceRevision(process.cwd());
 if (!/^[a-f0-9]{64}$/.test(revision)) throw new Error('invalid source revision');
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
+const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 const results = [];
 try {
   for (const course of catalog.courses) {

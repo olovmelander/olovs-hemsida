@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, browserExecutable } from './browser-args.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -14,7 +14,7 @@ const only = flag('only', '').split(',').filter(Boolean), rounds = Number(flag('
 assert.ok(Number.isSafeInteger(rounds) && rounds > 0 && Number.isFinite(cpu) && cpu >= 1, 'invalid rounds/CPU rate');
 assert.ok(only.every(slug => catalog.courses.some(c => c.slug === slug)), 'unknown course');
 const report = { physicalPhone: false, cpu, rounds, results: [] };
-const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
+const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
 try {
   for (const course of catalog.courses.filter(c => !only.length || only.includes(c.slug))) {
     const result = { course: course.slug, runs: [] };

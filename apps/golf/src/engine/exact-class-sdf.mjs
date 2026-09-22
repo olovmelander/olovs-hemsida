@@ -503,9 +503,18 @@ export function packClassPlanes({ channels, planes, bounds, bankBytes = null }) 
   const all = bankBytes ? [...channels.map(c => planes.get(c)), bankBytes] : channels.map(c => planes.get(c));
   for (let first = 0; first < all.length; first += 4) {
     const data = new Uint8Array(count * 4);
-    for (let slot = 0; slot < 4 && first + slot < all.length; slot++) {
-      const bytes = all[first + slot];
-      for (let k = 0; k < count; k++) data[k * 4 + slot] = bytes[k];
+    if (first + 3 < all.length) {
+      const a = all[first], b = all[first + 1], c = all[first + 2], d = all[first + 3];
+      for (let k = 0; k < count; k++) {
+        const offset = k * 4;
+        data[offset] = a[k]; data[offset + 1] = b[k];
+        data[offset + 2] = c[k]; data[offset + 3] = d[k];
+      }
+    } else {
+      for (let slot = 0; slot < 4 && first + slot < all.length; slot++) {
+        const bytes = all[first + slot];
+        for (let k = 0; k < count; k++) data[k * 4 + slot] = bytes[k];
+      }
     }
     textures.push(data);
   }

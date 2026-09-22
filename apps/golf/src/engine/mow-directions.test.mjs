@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createGroundAtlas, mowDirectionBytes, mowLateralBytes, RANGE_DIRECTION_LENGTH } from './atlas.js';
 import { requestedMowing } from './surface-render-policy.mjs';
 import { SURFACE } from './surface.js';
+import { ringSD } from './geom.js';
 
 const decode = (bytes, k) => [(bytes[k * 2] - 127.5) / 127, (bytes[k * 2 + 1] - 127.5) / 127];
 const metres = byte => (byte - 128) * 0.25;
@@ -35,6 +36,28 @@ describe('which way the mower went', () => {
 });
 
 describe('the driving range is mown too, and not by a hole', () => {
+  it('matches exhaustive distance checks on concave and subdivided ranges, including 0 and 6 metre edges', () => {
+    const rectangle = [];
+    const corners = square(20.5, 20.5, 70.5, 70.5);
+    for (let side = 0; side < 4; side++) for (let i = 0; i < 16; i++) {
+      const a = corners[side], b = corners[(side + 1) % 4];
+      rectangle.push([a[0] + (b[0] - a[0]) * i / 16, a[1] + (b[1] - a[1]) * i / 16]);
+    }
+    const concave = Array.from({ length: 64 }, (_, i) => {
+      const r = i % 2 ? 25 : 35, angle = i * Math.PI / 32;
+      return [50 + Math.cos(angle) * r, 50 + Math.sin(angle) * r];
+    });
+    for (const ring of [rectangle, concave]) for (const fairway of [false, true]) {
+      const classes = new Uint8Array(10000).fill(fairway ? SURFACE.FAIRWAY : SURFACE.ROUGH);
+      const bytes = mowDirectionBytes({ bounds, owner: new Uint16Array(10000), classes, ranges: [{ ring, axis: [0, 1] }] });
+      for (let j = 0; j < 100; j++) for (let i = 0; i < 100; i++) {
+        const sd = ringSD(i + 0.5, j + 0.5, ring);
+        const range = sd <= 6 && !(sd > 0 && fairway);
+        expect(bytes[(j * 100 + i) * 2]).toBe(range ? 128 : 255);
+        expect(bytes[(j * 100 + i) * 2 + 1]).toBe(range ? Math.round(127.5 + 127 * RANGE_DIRECTION_LENGTH) : 128);
+      }
+    }
+  });
   /* one hole playing east owns all the ground; the range is a field to its south,
      hit from its west end */
   const hole = { n: 2, line: [[10, 20], [90, 20]], tees: { pads: [] } };

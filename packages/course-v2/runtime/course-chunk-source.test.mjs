@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { deflateRawSync } from 'node:zlib';
 import { createSyntheticAssetGraph } from '../synthetic-fixture.mjs';
 import { assetReferenceForChunk, verifyChunkAsset, sha256Bytes } from '../chunk-node.mjs';
@@ -56,6 +56,42 @@ function fixture() {
 }
 
 describe('lossless complete-course startup', () => {
+  it('completes verification without exposing or copying a consumer payload', async () => {
+    const f = fixture();
+    const slice = vi.fn(f.decoded.payload.slice.bind(f.decoded.payload));
+    f.decoded.payload.slice = slice;
+    const workerClient = { decode: vi.fn(async () => f.decoded) };
+    const source = f.makeSource({ workerClient });
+    expect((await source.ensureComplete()).complete).toBe(true);
+    expect(slice).not.toHaveBeenCalled();
+    expect(source.stats().decodedResidentBytes).toBe(0);
+    expect(source.stats().consumerCopies).toBe(0);
+    const consumer = await source.load(f.ref);
+    expect(slice).toHaveBeenCalledTimes(1);
+    consumer.payload.fill(0);
+    expect(f.decoded.payload.some(byte => byte !== 0)).toBe(true);
+    source.dispose();
+  });
+
+  it('shares in-flight readiness verification with a mutable consumer', async () => {
+    const f = fixture(), source = f.makeSource();
+    await source.initialize(f.setManifest());
+    const [ready, consumer] = await Promise.all([source.ensureComplete(), source.load(f.ref)]);
+    expect(ready.complete).toBe(true);
+    expect(consumer.payload).toEqual(f.decoded.payload);
+    expect(source.stats().decodes).toBe(1);
+    expect(source.stats().consumerCopies).toBe(1);
+    source.dispose();
+  });
+
+  it('never reports complete when verification of an original chunk fails', async () => {
+    const f = fixture(), source = f.makeSource();
+    f.resources.set(f.ref.url, new Uint8Array(f.resources.get(f.ref.url).length));
+    await expect(source.ensureComplete()).rejects.toThrow(/integrity/);
+    expect(source.stats().complete).toBe(false);
+    expect(source.stats().verified).toBe(0);
+    source.dispose();
+  });
   it('preserves every u16 value, no-data and discontinuous edges in both directions', () => {
     const data = new Uint8Array(65536 * 2);
     const view = new DataView(data.buffer);
