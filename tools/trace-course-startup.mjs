@@ -3,8 +3,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, GPU } from './browser-args.mjs';
 import { recordRequestedAdapters } from './startup-adapter-probe.mjs';
+import { assertGpuIdle } from './timing-mode.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -12,7 +13,11 @@ const base = args.find(a => /^https?:/.test(a)) || 'http://127.0.0.1:8633';
 const output = path.resolve(flag('out', 'tools/reference/startup-cpu'));
 await fs.mkdir(path.dirname(output), { recursive: true });
 const query = new URLSearchParams({ bana: flag('course', 'veckefjarden'), q: flag('q', 'hi'),
-  startup: flag('startup', '1'), ghibli: flag('look', '1'), v2: 'require', det: '1', qualitylock: '1', hal: '1', vy: 'tee' });
+  startup: flag('startup', '1'), ghibli: flag('look', '1'), v2: 'require', qualitylock: '1', hal: '1', vy: 'tee' });
+// Normal use unless --det (tools/timing-mode.mjs): det cold-solves every
+// flag cloth in the first frames, which is what these windows measure.
+if (args.includes('--det')) query.set('det', '1');
+const gpuIdle = GPU ? await assertGpuIdle({ allowBusy: args.includes('--allow-busy-gpu') }) : { checked: false, utilisation: null, allowedBusy: false };
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
 try {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, serviceWorkers: 'block' });
@@ -92,7 +97,7 @@ try {
     return { ...frame, ...summarize(start, start + frame.ms * 1000) };
   });
   const textureWrites = await page.evaluate(() => window.__startupTextureWrites);
-  const report = { url: page.url(), errors, messages, perf, navigationStart, whole: summarize(), frames, textureWrites,
+  const report = { url: page.url(), det: query.get('det') === '1', gpuIdle, errors, messages, perf, navigationStart, whole: summarize(), frames, textureWrites,
     boot: await page.locator('#boot').evaluate(element => element.outerHTML),
     adapters: await page.evaluate(() => window.__startupAdapters) };
   await fs.writeFile(`${output}.cpuprofile`, JSON.stringify(profile));

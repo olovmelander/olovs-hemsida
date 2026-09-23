@@ -4,8 +4,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
-import { browserArgs } from './browser-args.mjs';
+import { browserArgs, GPU } from './browser-args.mjs';
 import { recordRequestedAdapters } from './startup-adapter-probe.mjs';
+import { assertGpuIdle } from './timing-mode.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -14,7 +15,11 @@ const output = path.resolve(flag('out', 'tools/reference/gpu-startup-profile.jso
 await fs.mkdir(path.dirname(output), { recursive: true });
 const query = new URLSearchParams({ bana: flag('course', 'veckefjarden'), startup: flag('startup', '1'),
   q: flag('q', 'hi'), ghibli: flag('look', '1'), gl: flag('gl', '0'), v2: 'require',
-  det: '1', qualitylock: '1', hal: '1', vy: 'tee', ljus: flag('light', 'kvall') });
+  qualitylock: '1', hal: '1', vy: 'tee', ljus: flag('light', 'kvall') });
+// Normal use unless --det (tools/timing-mode.mjs): det cold-solves every
+// flag cloth in the first frames, which is what these windows measure.
+if (args.includes('--det')) query.set('det', '1');
+const gpuIdle = GPU ? await assertGpuIdle({ allowBusy: args.includes('--allow-busy-gpu') }) : { checked: false, utilisation: null, allowedBusy: false };
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
 try {
   const page = await browser.newPage({ viewport: { width: 1600, height: 900 }, serviceWorkers: 'block' });
@@ -134,6 +139,7 @@ try {
   }
   const report = await page.evaluate(() => ({ perf: V3D.perf(), stats: V3D.stats,
     adapters: window.__startupAdapters, gpu: window.__startupGPU }));
+  report.det = query.get('det') === '1'; report.gpuIdle = gpuIdle;
   const { perf, gpu } = report;
   if (args.includes('--timestamps')) report.execution = await page.evaluate(() => window.__readStartupGPUTimestamps?.());
   const submitted = perf.engineStartedAtNavigationMs + perf.firstSceneSubmittedAtMs;

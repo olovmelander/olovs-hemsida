@@ -24,6 +24,7 @@ import { chromium } from 'playwright-core';
 import { ROOT } from '../geobuild/lib.mjs';
 import { browserArgs, GPU } from './browser-args.mjs';
 import { recordRequestedAdapters } from './startup-adapter-probe.mjs';
+import { assertGpuIdle } from './timing-mode.mjs';
 
 const args = process.argv.slice(2);
 const flag = (name, fallback = null) => { const i = args.indexOf(`--${name}`); return i < 0 ? fallback : args[i + 1]; };
@@ -37,6 +38,10 @@ const PAINTED = flag('ghibli', '1');
 const GL = flag('gl', '0');
 const HOLE = flag('hole', '1');
 const MOBILE = args.includes('--mobile');
+/* normal use unless --det: det cold-solves every flag cloth in the first
+   frames and hides the shadow's rest behaviour (tools/timing-mode.mjs) */
+const DET = args.includes('--det');
+const gpuIdle = GPU ? await assertGpuIdle({ allowBusy: args.includes('--allow-busy-gpu') }) : { checked: false, utilisation: null, allowedBusy: false };
 const CPU_RATE = +flag('cpu', '1');
 const MBPS = +flag('mbps', '0');
 const LATENCY = +flag('latency', '0');
@@ -54,7 +59,7 @@ const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 
 /* 'off' emits an explicit v2=0: with v2 the flagless default on reviewed
    grounds, an unflagged URL would profile the v2 boot, not the GPK1 one. */
-const search = `?bana=${SLUG}&det=1&qualitylock=1&startup=${STARTUP}&ljus=${LIGHT}&ghibli=${PAINTED}&gl=${GL}&hal=${HOLE}&vy=tee${V2 === 'off' ? '&v2=0' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}`;
+const search = `?bana=${SLUG}${DET ? '&det=1' : ''}&qualitylock=1&startup=${STARTUP}&ljus=${LIGHT}&ghibli=${PAINTED}&gl=${GL}&hal=${HOLE}&vy=tee${V2 === 'off' ? '&v2=0' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}`;
 const url = `${BASE}/${search}`;
 const browser = await chromium.launch({ ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }), args: browserArgs() });
 const runs = [];
@@ -134,6 +139,6 @@ for (const [i, r] of runs.entries()) {
   if (r.logs.length) { console.log('\n  runtime log'); for (const l of r.logs) console.log(`  ${fmt(l.atMs)}  ${l.text}`); }
   if (r.fingerprint) { console.log('\n  fingerprint'); for (const [k, v] of Object.entries(r.fingerprint)) console.log(`  ${k.padEnd(14)} ${typeof v === 'string' ? v : JSON.stringify(v)}`); }
 }
-if (OUT) { fs.writeFileSync(path.resolve(ROOT, OUT), JSON.stringify({ url, gpu: GPU, mobileEmulation: MOBILE,
+if (OUT) { fs.writeFileSync(path.resolve(ROOT, OUT), JSON.stringify({ url, gpu: GPU, det: DET, gpuIdle, mobileEmulation: MOBILE,
   cpuRate: CPU_RATE, physicalPhone: false, runs }, null, 2) + '\n'); console.log(`\nwrote ${OUT}`); }
 if (runs.some(r => !r.booted)) process.exit(1);

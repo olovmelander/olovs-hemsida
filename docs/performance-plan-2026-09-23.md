@@ -312,6 +312,14 @@ readback where shadows are involved.
   shadow pass CPU 8-10.3 ms -> 3.8-6.2 ms under SwiftShader, and all 165
   casters' pipeline keys identical, so the shadow map is drawn by the same
   pipelines.
+- **0.2 landed.** `frame-time`, `boot-profile`, `trace-course-startup` and
+  `profile-gpu-startup` load the app in normal use (`tools/timing-mode.mjs`:
+  `qualitylock=1`, an explicit `q`, no `det`); `--det` restores the old
+  harness for comparing with an older number, and each result records which
+  mode it used. A timing run on a GPU refuses to start when `nvidia-smi`
+  reads it above 10% busy (the quietest of three readings;
+  `--allow-busy-gpu` overrides and is recorded). Pixel tools
+  (`tree-pop-meter`, `check-startup-gpu-courses`, goldens) keep `det=1`.
 - **Deferred, with reasons.** 1.3 (finer culling) and 1.5 (caster limits) change
   which off-screen trees cast shadows into the view, which is the owner's
   decision 2 and needs eyes on the GPU. 1.10 needs a GPU
