@@ -4300,6 +4300,7 @@ function mergeGeos(list) {
 /* Load the approved five-species Blender catalogue for Hero meshes
    and the distant impostor bake. Placement and measured sizes
    retain their existing rules; missing catalogue assets report a loading error. */
+const GHIBLI_STARTED = performance.now();
 const GHIBLI = await (async () => {
   try {
     const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
@@ -4311,6 +4312,7 @@ const GHIBLI = await (async () => {
   } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
 })();
 // Preserve the placement scales used before authored templates became mandatory.
+span('tree models (download + decode)', GHIBLI_STARTED);
 const SPECIES = GHIBLI.species.map((g, s) => ({
   crown: g.hero.crown, trunk: g.hero.trunk,
   cc: GHIBLI.colours[s].cc, tc: GHIBLI.colours[s].tc,
@@ -4340,6 +4342,7 @@ for (const spec of SPECIES) {
    6 m grid, out to 30 m. The birch belt needs the neighbourhood, not the survey,
    and asking the lake's 443-segment ring per sample would cost more than the
    whole planter. */
+const SHORE_STARTED = performance.now();
 const SHORE = (() => {
   const cs = 6, x0 = MIDR.x0, z0 = MIDR.z0;
   const nx = Math.ceil((MIDR.x1 - x0) / cs), nz = Math.ceil((MIDR.z1 - z0) / cs);
@@ -4378,6 +4381,7 @@ const SHORE = (() => {
     return (i < 0 || j < 0 || i >= nx || j >= nz) ? 1e9 : d[j * nx + i];
   };
 })();
+span('shore distance field', SHORE_STARTED);
 
 /* Reeds: the fjärd is a calm regulated lake and its low shores carry a Phragmites
    fringe -- densest on the reserve side, thinned where the course plays along the
@@ -4391,6 +4395,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   if (lake) {
     const pts = [];
     const G = 1.7;
+    const reedStarted = performance.now();
     /* the reed scan is boxed to the water body the course actually stands on --
        and the box matters beyond its cost: the 1.7 m lattice is phased from its
        own start, so moving the start moves every reed */
@@ -4429,6 +4434,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       pts.push(px, h - 0.06, pz, 0.5 + hash2(i + 61, j + 3) * 0.4, hash2(i + 3, j + 41) * TAU);
       }
     }
+    span('reed lattice', reedStarted);
     const n = pts.length / 5;
     if (n) {
       const g = (() => {
@@ -5825,6 +5831,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   stone.scale(1, 0.55, 0.85); stone.translate(0, 0.16, 0);
 
   const T = [], B = [], S = [], STU = [];
+  const coverLatticeStarted = performance.now();
   const GAP = 5.2;
   const rnd = (i, j, k) => hash2(i * 6151 + k * 97, j * 24593 + k * 13);
   for (let z = MIDR.z0; z < MIDR.z1; z += GAP) {
@@ -5898,6 +5905,8 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
      rough beside the mowing is fed and dense (PRIMARY_ROUGH_SHADE says the same
      thing about its colour), so this is a small clump of five narrow blades in
      the rough's own greens, a handful to the square metre. One more draw. */
+  span('ground cover lattice', coverLatticeStarted);
+  const edgeTuftsStarted = performance.now();
   const ET = [];
   let edgeTufts = 0;
   const EDGE = groundAtlas?.exactEdges;
@@ -5940,6 +5949,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     }
   }
   stats.edgeTufts = edgeTufts;
+  span('ground cover edge tufts', edgeTuftsStarted);
 
   const place = (geo, mat, arr, shadow) => {
     const n = arr.length / 5;
