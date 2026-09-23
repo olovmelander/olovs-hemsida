@@ -9,7 +9,7 @@ high quality, golden lighting, 1920 × 1080 at DPR 1, charger connected and
 Each run launches a fresh Chrome process/context, blocks service workers and
 disables the HTTP cache; OS file and driver caches persist across runs.
 
-Four variants separate the two prepared-construction changes:
+Four labels describe the intended prepared-construction conditions:
 
 | Variant | Vista preparation | Scatter preparation | Query |
 |---|---|---|---|
@@ -17,6 +17,20 @@ Four variants separate the two prepared-construction changes:
 | after | on | on | default |
 | vista | on | off | `prepscatter=0` |
 | scatter | off | on | `prepvista=0` |
+
+**Merged-control coupling:** PR #89's `preparedTintAllowed` does not whitelist
+either preparation switch. Vista delegates to it; scatter additionally delegates
+to vista's own enable check. Consequently either disable switch also disables
+prepared tint/water and the other forest preparation. The literal-query arm
+records this existing behavior; the table describes isolated conditions only
+for the `--control assets` arm below. Do not attribute the whole literal-URL
+startup delta to one forest loop.
+
+The isolated arm keeps the normal URL unchanged and aborts only the requested
+vista/scatter binary fetches. Fresh contexts prevent an old cached asset from
+escaping that control. The ordinary verified loader falls back to procedural
+construction; tint/water remain eligible. Every blocked URL and actual prepared
+state is recorded, and the same exact world-fingerprint assertion applies.
 
 The order is before, after, vista, scatter, scatter, vista, after, before,
 before, after, vista, scatter: three fresh starts per condition, with the
@@ -28,6 +42,7 @@ timing remains pending until the idle and competing-browser guards pass.
 ```powershell
 $env:BANVY_GPU='1'
 node tools/startup-ab.mjs --base http://127.0.0.1:8648 --course veckefjarden --out tools/reference/rtx3070/startup
+node tools/startup-ab.mjs --base http://127.0.0.1:8648 --course veckefjarden --control assets --out tools/reference/rtx3070/startup-isolated
 ```
 
 Serve the same production build throughout. Do not run this alongside another
