@@ -117,7 +117,7 @@ What is **missing**, and what the audit found in passing:
 | GPS off | The course as today | — |
 | GPS on, no round | Kikaren from your position; the shot rail offers "Slå första slaget" with the predicted club | GPS-läge / Hitta min bana |
 | Round on | The shot rail, the running score in the sheet head ("+2 efter 6") | the first club tap starts it; nothing else to set up |
-| Pocket mode | A black, touch-locked screen with the hole and the distance to the green in large dim type; GPS and detectors run | "Fickläge" on the sheet, or automatically after N s face-down (Android) |
+| Pocket mode | A black, touch-locked screen with the hole and the distance to the green in large dim type; GPS and detectors run | "Fickläge" on the sheet — one tap, remembered for the round (the web has no proximity sensor to switch it on by itself) |
 | Review | The hole or the round as a timeline of shots drawn on the 3D hole | tap the score, or at the round's end |
 
 A round needs no setup screen. It starts on the first shot with the course, the tee
@@ -135,6 +135,13 @@ In GPS mode the Kikaren sheet's resting row becomes the rail:
 └───────────────────────────────────────────────────────────────┘
 ```
 
+- **It replaces a card that is already there.** Measured in GPS mode on a 390×844
+  phone (Ängsö, 5th tee): the sheet's head sits at 607 px with the plays-like line
+  and a club card ("Driver · 210 m carry · Green är utom räckhåll… · Ändra") under
+  it, the quick actions at 747–788 px and the hole strip at 792–836 px. The layout
+  gate lets the sheet start as high as 506 px, so a 48 px chip row in place of the
+  passive card fits with room to spare — the rail turns the recommendation the
+  golfer already sees into the action they take.
 - **The middle chip is the prediction** (section 7.4), flanked by the next longer and
   shorter club; `⋯` opens the whole bag as a grid. Three chips cover the choice most
   of the time; the whole bag is one more tap.
