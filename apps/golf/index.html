@@ -441,40 +441,8 @@ body.tour::before{top:0}body.tour::after{bottom:0}
 @keyframes gpsPulseWait{50%{opacity:.35}}
 body.gps-on #v2TerrainBadge{top:118px}
 
-/* My bag is a focused editor, not another permanent panel over the course. */
-#bagDialog{width:min(480px,calc(100vw - 24px));max-height:min(760px,calc(100dvh - 24px));margin:auto;padding:0;
-  color:var(--ink);background:linear-gradient(160deg,rgba(15,31,23,.99),rgba(5,12,9,.995));border:1px solid var(--edge);
-  border-radius:20px;box-shadow:0 28px 90px rgba(0,0,0,.72);overflow:hidden}
-#bagDialog::backdrop{background:rgba(2,7,4,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-.bag-form{display:flex;flex-direction:column;max-height:min(760px,calc(100dvh - 24px))}
-.bag-head{display:flex;align-items:flex-start;gap:12px;padding:18px 18px 13px;border-bottom:1px solid rgba(255,255,255,.07)}
-.bag-title{flex:1}.bag-kicker{font:750 9px/1 Outfit,sans-serif;color:var(--turf);letter-spacing:.15em;text-transform:uppercase}
-.bag-title h2{font:800 22px/1.15 Outfit,sans-serif;margin-top:5px}.bag-title p{font-size:11px;line-height:1.45;color:var(--dim);margin-top:4px}
-.bag-close{display:grid;width:34px;height:34px;border-radius:50%;font-size:18px;flex:0 0 auto}
-.bag-toolbar{display:flex;align-items:center;gap:10px;padding:10px 18px 0}
-.bag-count{margin-right:auto;font:650 10px/1 'JetBrains Mono',monospace;color:var(--dim);font-variant-numeric:tabular-nums}
-.bag-count b{color:var(--ink);font-weight:700}.bag-count.limit b{color:var(--amber)}
-.bag-add{min-height:34px;padding:0 11px;border:1px solid rgba(95,208,122,.25);border-radius:9px;background:rgba(95,208,122,.08);
-  color:var(--turf);font:700 10px/1 Outfit,sans-serif;cursor:pointer;transition:background .18s ease,border-color .18s ease,opacity .18s ease}
-.bag-add:hover:not(:disabled){background:rgba(95,208,122,.15);border-color:rgba(95,208,122,.45)}
-.bag-add:disabled{opacity:.38;cursor:default}
-.bag-list{overflow:auto;padding:10px 18px 4px;display:flex;flex-direction:column;gap:6px;scrollbar-width:thin}
-.bag-row{display:grid;grid-template-columns:30px minmax(0,1fr) 86px 30px;align-items:center;gap:8px;min-height:46px;
-  padding:5px 7px;border-radius:11px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055)}
-.bag-rank{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:rgba(95,208,122,.12);color:var(--turf);
-  font:750 9px/1 'JetBrains Mono',monospace}
-.bag-row input{width:100%;min-width:0;height:34px;border-radius:8px;border:1px solid rgba(255,255,255,.09);background:rgba(0,0,0,.2);
-  color:var(--ink);padding:0 9px;font:600 12px/1 Outfit,sans-serif;outline:none}
-.bag-row input:focus{border-color:var(--turf);box-shadow:0 0 0 3px rgba(95,208,122,.12)}
-.bag-carry{position:relative}.bag-carry input{padding-right:26px;text-align:right;font-family:'JetBrains Mono',monospace}
-.bag-carry span{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--faint);pointer-events:none}
-.bag-remove{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--faint);
-  font:500 18px/1 Outfit,sans-serif;cursor:pointer;transition:color .18s ease,background .18s ease}
-.bag-remove:hover:not(:disabled){color:#f2a090;background:rgba(239,124,103,.1)}.bag-remove:disabled{opacity:.2;cursor:default}
-.bag-actions{display:flex;gap:8px;padding:13px 18px calc(15px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,255,255,.07)}
-.bag-actions button{min-height:42px;border-radius:11px;padding:0 14px;font:700 11px/1 Outfit,sans-serif;cursor:pointer}
-.bag-reset{color:var(--dim);background:transparent;border:1px solid rgba(255,255,255,.1)}
-.bag-save{flex:1;color:#04140a;background:var(--turf);border:1px solid #89e9a0}
+/* My bag is a focused editor, not another permanent panel over the course.
+   Its layout lives with the editor in src/ui/bag-editor.css. */
 
 @media(max-width:980px){
   #leftStack{position:static;max-height:none}
@@ -585,8 +553,6 @@ body.gps-on #v2TerrainBadge{top:118px}
   #card .nm{display:none}
   .mobile-hud-cluster{left:8px;right:8px;justify-content:space-between;border-radius:16px}
   .m-hud-btn{padding:8px 9px;flex:1;justify-content:center}
-  .bag-list{padding-left:10px;padding-right:10px}.bag-head,.bag-actions{padding-left:12px;padding-right:12px}
-  .bag-toolbar{padding-left:12px;padding-right:12px}.bag-row{grid-template-columns:26px minmax(0,1fr) 78px 28px;gap:6px;padding-left:5px;padding-right:5px}
 }
 </style>
 </head>
@@ -836,46 +802,79 @@ body.gps-on #v2TerrainBadge{top:118px}
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="3"></circle><circle cx="12" cy="12" r="8"></circle><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"></path></svg>
   </button>
 </div>
-<dialog id="bagDialog" aria-labelledby="bagTitle">
-  <form class="bag-form" id="bagForm" method="dialog">
-    <div class="bag-head">
+<dialog id="bagDialog" aria-labelledby="bagTitle" data-view="list">
+  <form class="bag-form" id="bagForm" method="dialog" novalidate>
+    <div class="bag-shell">
+    <header class="bag-head">
+      <button class="club-back" id="clubBack" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>Min bag</button>
       <div class="bag-title">
         <div class="bag-kicker">Ditt spel. Dina klubbor.</div>
-        <h2 id="bagTitle">Min bag</h2>
-        <p>Utforska dina klubbor i 3D och ställ in dina egna carryavstånd.</p>
+        <h2 id="bagTitle" tabindex="-1">Min bag</h2>
+        <p class="bag-summary" id="bagCount"></p>
       </div>
-      <button class="panel-close-btn bag-close" value="cancel" formnovalidate aria-label="Stäng">×</button>
-    </div>
+      <span class="club-pos" id="clubPos" aria-hidden="true"></span>
+      <button class="bag-close" id="bagCloseBtn" type="button" aria-label="Stäng min bag" title="Stäng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </header>
     <div class="bag-workspace">
-    <div class="bag-inventory">
-    <div class="bag-toolbar">
-      <span class="bag-count" id="bagCount" aria-live="polite"></span>
-      <button class="bag-add" id="bagAddBtn" type="button">+ Lägg till klubba</button>
+      <section class="bag-inventory" aria-label="Klubbor och carry">
+        <p class="bag-intro">Ange hur långt du slår varje klubba. Caddien använder avstånden för klubbval och spellinje.</p>
+        <div class="bag-columns" aria-hidden="true"><span>Klubba</span><span>Carry</span></div>
+        <ol class="bag-list" id="bagList"></ol>
+        <div class="bag-list-foot">
+          <button class="bag-add" id="bagAddBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Lägg till klubba</span></button>
+          <button class="bag-reset" id="bagResetBtn" type="button">Återställ standardbag</button>
+          <p class="bag-local-note">Avstånden sparas bara på den här enheten.</p>
+        </div>
+      </section>
+      <section class="bag-detail" id="bagDetail" aria-labelledby="clubName">
+        <div class="club-studio">
+          <div class="club-studio-head"><div class="club-overline" id="clubFamily"></div><h3 id="clubName">Din klubba</h3></div>
+          <div class="club-tools">
+            <button type="button" id="clubSpin" aria-pressed="true" aria-label="Rotera automatiskt" title="Rotera automatiskt">360°</button>
+            <button type="button" data-club-pose="hero" aria-label="Återställ vinkel" title="Återställ vinkel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></svg></button>
+          </div>
+          <div class="club-canvas" id="clubCanvas"><p class="club-status" id="clubStatus" role="status">Laddar din klubba…</p><button id="clubRetry" type="button" hidden>Försök igen</button></div>
+          <button class="club-step prev" type="button" data-club-step="-1" aria-label="Föregående klubba"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+          <button class="club-step next" type="button" data-club-step="1" aria-label="Nästa klubba"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+          <div class="club-controls" role="group" aria-label="Visningsalternativ">
+            <p class="club-hint" id="clubHint">Dra för att rotera · nyp eller skrolla för att zooma</p>
+            <div class="club-segment"><button type="button" data-club-mode="head" aria-pressed="true">Huvud</button><button type="button" data-club-mode="full" aria-pressed="false">Hela klubban</button></div>
+            <button type="button" data-club-pose="face">Träffyta</button>
+            <button type="button" data-club-pose="sole">Sula</button>
+          </div>
+        </div>
+        <div class="club-edit">
+          <div class="club-field club-carry">
+            <label class="club-label" for="clubCarryInput">Carry</label>
+            <div class="club-stepper" id="clubStepper">
+              <button type="button" data-carry-step="-1" aria-label="Kortare carry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+              <span class="club-carry-value"><input id="clubCarryInput" type="number" inputmode="numeric" enterkeyhint="done" min="20" max="350" step="1"><span aria-hidden="true">m</span></span>
+              <button type="button" data-carry-step="1" aria-label="Längre carry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+            <p class="club-putter-note" id="clubPutterNote" hidden>Putter används på greenen och har ingen carry.</p>
+          </div>
+          <div class="club-field club-name">
+            <label class="club-label" for="clubNameInput">Namn</label>
+            <input class="club-name-input" id="clubNameInput" maxlength="24" autocomplete="off" spellcheck="false" enterkeyhint="done">
+          </div>
+          <fieldset class="club-field club-kinds" id="clubKind"><legend class="club-label">Typ av klubba</legend><div class="club-kind-list"></div></fieldset>
+          <button class="club-remove" id="clubRemove" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>Ta bort ur bagen</button>
+        </div>
+      </section>
     </div>
-    <div class="bag-columns"><span>Klubba</span><span>Carry</span></div>
-    <div class="bag-list" id="bagList"></div>
+    <footer class="bag-actions">
+      <div class="bag-undo" id="bagUndo" hidden><span></span><button type="button" id="bagUndoBtn">Ångra</button></div>
+      <p class="bag-error" id="bagError" role="alert" hidden></p>
+      <p class="bag-sr" id="bagLive" aria-live="polite"></p>
+      <button class="bag-save" id="bagSaveBtn" type="submit" value="save">Klar</button>
+    </footer>
     </div>
-    <section class="club-studio" aria-label="Klubbvisare">
-      <div class="club-studio-head">
-        <div><div class="club-overline">Närmare spelet</div><h3 id="clubName">Din klubba</h3><p id="clubFamily"></p></div>
-        <span class="club-edition" aria-hidden="true">360°</span>
+    <div class="bag-confirm" id="bagConfirm" role="alertdialog" aria-modal="true" aria-labelledby="bagConfirmTitle" aria-describedby="bagConfirmText" hidden>
+      <div class="bag-confirm-card">
+        <h3 id="bagConfirmTitle">Spara ändringarna?</h3>
+        <p id="bagConfirmText">Du har ändrat din bag. Ändringarna försvinner om du stänger utan att spara.</p>
+        <div class="bag-confirm-actions"><button type="button" id="bagDiscardBtn">Släng ändringar</button><button type="button" id="bagConfirmSaveBtn">Spara</button></div>
       </div>
-      <div class="club-canvas" id="clubCanvas"><p class="club-status" id="clubStatus" role="status">Laddar din klubba…</p><button id="clubRetry" type="button" hidden>Försök igen</button></div>
-      <p class="club-hint">Dra för att rotera · nyp eller skrolla för att zooma</p>
-      <div class="club-controls" aria-label="Visningsalternativ">
-        <div class="club-segment"><button type="button" data-club-mode="head" aria-pressed="true">Huvud</button><button type="button" data-club-mode="full" aria-pressed="false">Hela klubban</button></div>
-        <button type="button" data-club-pose="face">Träffyta</button>
-        <button type="button" data-club-pose="sole">Sula</button>
-        <button type="button" data-club-pose="hero" aria-label="Återställ vinkel">↺</button>
-        <button type="button" id="clubSpin" aria-pressed="true">⟳ Rotera</button>
-      </div>
-      <div class="club-detail"><label for="clubKind">Modell <select id="clubKind" aria-label="Klubbmodell"></select></label><span id="clubCarry"></span></div>
-    </section>
-    </div>
-    <div class="bag-actions">
-      <span class="bag-local-note">Dina avstånd sparas på den här enheten.</span>
-      <button class="bag-reset" id="bagResetBtn" type="button">Återställ</button>
-      <button class="bag-save" value="save">Spara avstånd</button>
     </div>
   </form>
 </dialog>

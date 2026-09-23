@@ -53,9 +53,11 @@ await page.click('#bagBtn');
 gate(await page.locator('#bagDialog').evaluate(element => element.open), 'bag opens as a modal editor');
 const initialClubCount = await page.locator('#bagList .bag-row').count();
 gate(initialClubCount > 9, 'bag offers a complete default carry set');
-await page.click('#bagAddBtn');
+// The default bag is already full; add only when there is room.
+if (initialClubCount < 14) await page.click('#bagAddBtn');
 gate(await page.locator('#bagList .bag-row').count() === 14 && await page.locator('#bagAddBtn').isDisabled(), 'bag supports fourteen clubs and communicates its limit');
-await page.locator('#bagList .bag-remove').last().click();
+await page.locator('#bagList .bag-preview').last().click();
+await page.click('#clubRemove');
 gate(await page.locator('#bagList .bag-row').count() === 13, 'a club can be removed without leaving the editor');
 await page.locator('#bagList .bag-distance').first().fill('225');
 await page.click('.bag-save');

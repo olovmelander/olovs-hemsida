@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { clubKind, clubAssetKey } from './club-design.mjs';
+import { clubKind, clubAssetKey, clubIcon, CLUB_KINDS } from './club-design.mjs';
 import { CLUB_ASSETS } from './club-assets.mjs';
 import { DEFAULT_BAG } from './caddie.js';
 
@@ -15,6 +15,15 @@ describe('club appearance and legacy bags', () => {
   it('lets an explicit model survive arbitrary custom names', () => {
     expect(clubKind({id:'driver',name:'Min favorit',kind:'wedge'})).toBe('wedge');
     expect(clubAssetKey({id:'custom',name:'Min favorit',kind:'wedge'})).toBe('pw');
+  });
+  it('draws every default club its own icon and every kind a picker icon', () => {
+    const icons = DEFAULT_BAG.map(club => clubIcon(clubAssetKey(club)));
+    expect(new Set(icons).size).toBe(DEFAULT_BAG.length);
+    for (const svg of [...icons, ...Object.keys(CLUB_KINDS).map(clubIcon)]) {
+      expect(svg).toMatch(/^<svg [^>]*viewBox=/);
+      expect(svg).not.toMatch(/NaN|undefined|#fff/);
+    }
+    expect(clubIcon('iron')).toBe(clubIcon('iron-7'));
   });
   it('uses recognized renamed clubs before their stale IDs', () => {
     expect(clubKind({id:'driver',name:'Putter'})).toBe('putter');

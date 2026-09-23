@@ -121,6 +121,9 @@ try {
   await page.locator('[data-club-mode=head]').click();
   await page.setViewportSize({ width: 390, height: 844 });
   await page.waitForTimeout(200);
+  // A phone opens on the list; the putter's page holds the model.
+  await page.locator('[data-club-id=putter] .bag-preview').click();
+  await page.locator('#clubCanvas[data-state=ready]').waitFor();
   await page.locator('[data-club-pose=hero]').click();
   await page.locator('.bag-workspace').evaluate(element => { element.scrollTop = 0; });
   await page.waitForTimeout(200);
