@@ -1,7 +1,5 @@
 # Shot tracking, scoring and analytics on the phone — plan, 2026-09-23
 
-*Status: draft — the audit, design and milestones are written; the research sections are marked pending.*
-
 The owner's brief, in their words: *"before taking a shot, the user selects their
 club, and upon reaching the ball, they select their next club. This will allow us
 to record the club used, GPS coordinates, shot distance, and overall statistics,
@@ -19,7 +17,57 @@ of 23 September 2026, sources at the end); sections 3–10 are the design; secti
 11 the milestones with the gates that decide when each is done; section 12 the
 decisions only the owner can make.
 
-> **Pending:** the one-page summary — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- RESEARCH_SUMMARY -->
+## Summary — the plan on one page
+
+**What we build.** In GPS mode the golfer taps the club they are about to hit; the
+next tap, at the ball, ends that shot. Club, position, distance, lie, elevation and
+score follow on their own. On the green one tap at the cup records the putts and
+the pin and finishes the hole; each hole's score is confirmed with one tap, never
+typed. Penalties are one tap on the last shot, rules-correct for OB (stroke and
+distance, or the two-stroke E-5 drop), water, unplayable, provisional ball (with a
+3-minute search timer) and mulligans (which the card then marks as not valid for
+handicap). Nothing is modal; everything is correctable afterwards on the 3D hole.
+
+**Why it can be the best.** The market (2.1) splits into sensor systems that are
+effortless but cost €250–350 plus a subscription (Arccos, Shot Scope, Garmin) and
+phone apps that either make the golfer mark every shot or guess from GPS and hand
+them an editing job. **Every one is weak on penalties** — none documents E-5 or
+mulligans. Banvy starts with things none of them has: 1 m laser terrain, measured
+surfaces and water levels on thirteen real courses, and the GPS round tracker
+shipped today. That makes lie, elevation, "in the water?" and "fairway hit?" facts
+rather than questions.
+
+**What a phone alone can and cannot do.** A web app gets GPS and motion only while
+the screen is on and the page visible, on iOS and Android alike (10). So the
+default is the owner's own workflow with the screen off between shots — wake at the
+ball, tap, pocket — which is also the most battery-friendly design the web allows.
+**Fickläge** (pocket mode: black, touch-locked, 3D paused, wake lock) adds
+automation: GPS stops, which a prototype found at 94–99 % of ball positions, a
+median of 1.6–2.7 m out (7.3), and later motion swings. A stop never becomes a
+shot on its own, because a wait for the group ahead is a perfect stop. Hands-free
+with the screen off needs a native wrapper or a watch: the plan decides that after
+field data (M6).
+
+**What the data becomes.** Club distances as GPS totals normalised to a flat, calm
+21 °C, kept beside the bag's carry and never confused with it (7.4). Dispersion as
+lateral and distance miss. Strokes gained against the published tour baseline and
+labelled amateur approximations (7.7). FIR, GIR, scrambling, putting, penalties by
+cause and per-hole history. Insights with their sample sizes. The same view on
+phone and desktop (8).
+
+**How it is built.** An event log per round (UUIDv7, append-only, tombstones) in
+IndexedDB. Pure engines with tests, like `gps-round.mjs` (6). Sync later: the log
+makes it an outbox, recommended on Supabase in Stockholm with email-code sign-in,
+after a custom domain, because every github.io project page shares this app's
+storage (9). Privacy is designed in: shot points rather than tracks, ~1 m
+precision, export and delete.
+
+**In what order** (11): M1 round core and the one-tap rail → M2 smart assist,
+pocket mode and the field recorder → M3 the statistics view → M4 field validation
+on real rounds → M5 accounts and sync → M6 motion and native → M7 formats and
+people. **Six decisions are the owner's** (12): backend, when to go native,
+handicap scope (link out to Min Golf; direct submission needs SGF's paid GIT
+licence), business model, pins, mulligan default.
 
 ---
 
@@ -80,7 +128,64 @@ What is **missing**, and what the audit found in passing:
 
 ## 2. Research — the market, the platform, the rules
 
-> **Pending:** competitors, web-platform limits, analytics methodology and rules — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- RESEARCH_SECTIONS -->
+Four research passes on 23 September 2026 — the market, the web platform, golf
+analytics and the Rules, sync and privacy — each from vendors' own pages, help
+centres, specifications, engine source code and the governing bodies' texts. The
+details sit where they are used (sections 4–10); this is what they add up to.
+
+### 2.1 The market: how the others capture a shot
+
+| Product | What the golfer does per shot | Phone-only automatic? | Penalties | Club distance shown | Price (Sept 2026) |
+|---|---|---|---|---|---|
+| **Arccos** | nothing with grip sensors or the Air clip (18 Mar 2026: pocket wearable, gyroscope + accelerometer + GPS); edit afterwards — Arccos itself recommends 3–5 min per round | **yes**, iPhone 12+ in a pocket (motion ML), club tagged by hand or by an AI feature in beta | "+1 (drop)" / "+2 (re-hit)" on a shot; a dedicated penalty flow "coming" | 70th percentile, mishits/chips/recovery excluded, normalised to 70 °F, sea level, zero slope, no wind | $199.99/yr; Air $349.99 |
+| **18Birdies** | phone in the pocket; after each hole confirm the predicted score and putts, pick a first-putt range | **yes** — GPS "pauses in movement" | "+Penalties" against a stroke | True Distance (recent shots, normalised) | $99.99/yr |
+| **Hole19** | tap *Save Shot* at the ball (club and lie suggested); *Intelligence* (Dec 2025) proposes grey "+" markers from GPS stops and "never saves a shot automatically" | **proposals only** | drag the marker to the water, mark it, drag to the drop; no 2-stroke penalties | average of the "most common shot" | $69.99 / $99.99/yr |
+| **Shot Scope** | nothing (V5 watch reads RFID club tags within 7–10 cm) or tap an NFC tag to the phone before each shot (CONNEX, phone on a "virtual lock" scan screen); **PinCollect**: press the putt count at the cup — records putts AND the pin, then advances | no | **the best in-round model**: OB/lost, drop, provisional with a search timer, 1- or 2-stroke penalties | P-AVG (trimmed, well-struck) | no subscription; V5 ~$250, CONNEX $99.99 |
+| **Garmin** | nothing with a watch (full swings only — "putts are not detected"); CT10 grip sensors add clubs and putts | no | reportedly missing from the app scorecard | all shots averaged | CT10 $299 |
+| **Golfshot** | phone: Track → walk → "At my ball" → club → Save; watch: the next swing ends the previous shot, practice swings filtered by the one you walk away from | no | — | 5 "On Target" shots before a distance is set | $79.99/yr |
+| **Golf Pad** | tap an NFC tag with the phone in the pocket ("Scanning mode": screen on, dimmed, touches blocked); a Bluetooth button | no | a tag action adds a penalty | — | $29.99–49.99/yr; tags $99–119 |
+| **Golf GameBook** | manual score entry; the Nordic social leader (2 M golfers, 70 M rounds); Min Golf login partner | no | manual | — | Gold 199–599 kr |
+
+**The direction of 2026 is reconciling from the score, not asking per shot**: Arccos
+*Smart Edit* (Aug 2026) asks only for each hole's score and putts, rebuilds the shots
+and clubs, and flags holes where they disagree; 18Birdies predicts score and putts
+after each hole; Shot Scope's watch proposes the score to confirm.
+
+### 2.2 Where every one of them falls short — the openings
+
+- **Penalties.** No app documents E-5 or mulligans; most have no drop flow at all.
+  A clear, rules-correct, one-tap penalty model (4.4) would be best in class on its
+  own.
+- **The editing burden.** Reviewers' first complaint after the subscription:
+  minutes of fixing per round, phantom shots, missed chips and tap-ins. Arccos
+  advises editing at the next tee, never mid-hole — which is where 4.3's one
+  question lives.
+- **Pins.** Proximity and putting statistics need the hole position; every app
+  improvises (a pin button, PinCollect, a first-putt range).
+- **Battery.** About 40 % of a phone per round for Arccos; 25–55 % of a watch for
+  Golfshot's auto tracking.
+- **No one has the ground.** Arccos normalises distances to zero slope with its own
+  course data; nobody shows the golfer the slope, the lie and the shot on a
+  measured 3D course. Banvy's 1 m laser terrain, surface classes and water levels
+  (section 1) make lie, elevation and penalty detection facts instead of guesses.
+
+### 2.3 What the platform allows
+
+The web delivers GPS and motion **only while the page is visible**, on iOS and
+Android alike, with no standard planned; Wake Lock works in iOS home-screen apps
+from 18.4; iOS has no vibration API; background sync is Chromium-only. So: *wake at
+the ball* is the default, pocket mode is opt-in and battery-costly, and a native
+wrapper or a watch is the only way to hands-free tracking with the screen off.
+Section 10 has the matrix and the native path.
+
+### 2.4 What the numbers and the Rules require
+
+GPS measures total distance (carry needs the golfer or a launch monitor); club
+averages are medians or percentiles over full swings only; strokes gained has a
+published tour baseline but no public amateur one; the Rules give each penalty an
+exact count (18.2, E-5, 17, 19, 18.3), a mulligan is not a Rule and voids a round
+for handicap in Sweden, and Min Golf accepts scores from third parties only
+through SGF's paid GIT licence. Sections 4.4, 4.6, 7.4 and 7.7 carry the details.
 
 ---
 
@@ -169,15 +274,26 @@ When the fix is on the green (inside the ring plus the collar), the rail becomes
 │  [ 1 putt ]  [■ 2 puttar ■]  [ 3 ]  [ 4+ ]  [ I hål ]          │
 ```
 
-- One tap records the putts **and finishes the hole**: the score appears in the
-  sheet head (`Hål 5 · 4 slag · par`), the hole's shots are complete.
-- `I hål` is a chip-in or a holed shot from off the green (0 putts).
+- **Tapped at the cup, after holing out** — Shot Scope's PinCollect pattern: one tap
+  records the putts, **records the pin** (the golfer is standing at it; the same
+  fix-averaging as 7.1) and **finishes the hole**. The score appears in the sheet
+  head (`Hål 5 · 4 slag · par`). The day's pin is what proximity, putting and
+  strokes gained need (2.2), and it arrives without a pin button.
+- `I hål` is a chip-in or a holed shot from off the green (0 putts). Putts are
+  strokes on the green only; a putter from the fringe is a shot, as the Tour
+  counts it.
 - The approach shot ends where the golfer first **stopped on the green** (the ball),
   not where they walked on and not at the hole — the stop detector gives that
-  point; without a stop, the tap position.
+  point; without a stop, it is left open rather than guessed.
 - Walking off to the next tee without tapping is allowed: the round tracker moves
   on, and the next tee's rail starts with one question chip, `Puttar på 5:an? 1 · 2 · 3`,
   which disappears when the next club is tapped (the hole stays open for review).
+- **The score is the one number checked every hole** — the 2026 lesson of Arccos
+  Smart Edit and 18Birdies (2.1): the finished hole's chip shows the score the shots
+  add up to, `Hål 5: 4 ✓`, with `−`/`+` beside it. Correcting the number never
+  rewrites the shots; it marks the hole *shots and score disagree* for the review,
+  so the scorecard is always what the golfer says and the statistics never invent
+  a shot to match it.
 
 ### 4.4 Penalties, drops, mulligans, provisional balls
 
@@ -191,13 +307,13 @@ Every correction is on the **last shot's chip** — tap it and the row turns int
 
 | Situation | Rule (2023) | One tap | Counting | Club statistics |
 |---|---|---|---|---|
-| Out of bounds / lost, replay | Rule 18.1 stroke and distance | `OB · slå om +1` | +1; the next shot starts where the golfer next taps (back at the spot) | shot excluded |
-| Out of bounds / lost, local rule | Model Local Rule E-5 | `OB · droppa +2` | +2; next shot from the drop | excluded |
-| Penalty area (red/yellow) | Rule 17 | `Vatten +1` | +1; next shot from the drop | excluded (the ball's rest point is unknown) |
-| Unplayable | Rule 19 | `Ospelbar +1` | +1 | the shot's own distance kept, it ended where it ended |
-| Provisional | Rule 18.3 | `Provisorisk` | both balls kept until "Hittade du bollen? Ja / Nej" (the only question, asked once, after the hole) | the lost one excluded |
-| Mulligan | not in the Rules (casual) | `Mulligan` | the shot does not count | excluded |
-| Free relief (cart path, GUR) | Rule 16 | nothing | the next shot simply starts at the drop | unaffected |
+| Out of bounds, or lost after a 3-minute search | Rule 18.2, stroke and distance | `OB · slå om +1` | +1; a drive OB makes the next tee shot the 3rd stroke; the next shot starts where the golfer next taps (back at the spot) | shot excluded |
+| The same, where the club allows the local rule | Model Local Rule E-5 (not after a provisional, in a penalty area, or for an unplayable ball) | `OB · droppa +2` | +2; a drive OB makes the next shot the 4th; next shot from the drop | excluded |
+| Penalty area, red or yellow | Rule 17 | `Vatten +1` | +1; a drive into water, dropped, makes the next shot the 3rd | excluded (the ball's rest point is unknown) |
+| Unplayable | Rule 19 | `Ospelbar +1`; from a bunker, dropped back outside it, `+2` | +1 (+2) | the shot's own distance kept — it ended where it ended |
+| Provisional ball | Rule 18.3 | `Provisorisk` | the provisional tee shot is the 3rd stroke; if the original is found in bounds within 3 minutes the provisional's strokes do not count — a **3-minute search timer** appears on the chip when the golfer reaches the area (Shot Scope's idea; Rule 18.2's limit), and the one question, "Hittade du bollen? Ja / Nej", is asked once after the hole | the lost one excluded |
+| Mulligan | not in the Rules — a replayed shot is stroke and distance under 18.1 | `Mulligan` | the shot does not count, and **the round is marked as not valid for handicap** (SGF handicap rule 2.1: a round where a Rule was knowingly ignored cannot count) | excluded |
+| Free relief (cart path, ground under repair, embedded ball) | Rule 16 | nothing | the next shot simply starts at the drop (from a bunker, dropping outside costs 1) | unaffected |
 
 Three things make this *intuitive* rather than a menu:
 
@@ -210,7 +326,14 @@ Three things make this *intuitive* rather than a menu:
 - **Drops need nothing.** The next shot starts where the golfer taps; a drop is just
   a new position. The penalty stroke is the only thing to record.
 - **Mulligans are a round setting** ("Mulligans tillåtna"), off by default, so the
-  chip is not in the way of anyone playing by the Rules.
+  chip is not in the way of anyone playing by the Rules — and a round that used one
+  says, on its card, that it cannot be registered for handicap.
+- **E-5 in Sweden**: SGF's handicap rules let a casual round count when the player
+  used E-5 even where the club has not adopted it; a secondary source says SGF's
+  rules committee advises clubs *not* to adopt it (not confirmed in an SGF
+  document). The chip is shown on every course; the course's own local rules, where
+  the repo has transcribed them (Veckefjärden, Visby, Tortuna, Lidingö), can later
+  say whether it applies.
 
 ### 4.5 Pocket and bag — two modes, because the web allows exactly two
 
@@ -270,14 +393,31 @@ slå på den för slagmätning` — rather than recording shots at kilometre pre
 
 ### 4.6 The scorecard and formats
 
-- Per hole: strokes, putts, penalties, fairway (tee shot finishing on fairway on
-  par 4/5), green in regulation, sand save, up-and-down — all derived.
-- Formats: **Slag** (gross, to par), **Netto** and **Poäng** (Stableford) from a
-  playing handicap the golfer enters once ("Spelhandicap", from Min Golf); strokes
-  received by stroke index; net double bogey shown as the handicap-counting score.
-  Match play and friends' cards are milestone 7.
+- Per hole, all derived, with the PGA TOUR's definitions: **fairway** (tee shot at
+  rest on THIS hole's fairway, par 4/5 only; the first cut is a miss), **green in
+  regulation** (on the putting surface in par − 2 strokes or fewer; the fringe is
+  not the green), putts (strokes on the green only), penalties by cause, sand save
+  (up and down from a greenside bunker), scrambling (par or better after a missed
+  GIR).
+- Formats in the golfer's own words, the ones Swedish golf uses: **Slagspel**
+  (gross, to par), **Poängbogey** (Stableford: max(0, 2 + par + s − gross) per
+  hole), **Slaggolf** (capped at par + 5) and net. They need the golfer's strokes
+  per hole, s = ⌊PH/18⌋ + (1 if hålindex ≤ PH mod 18), from their *justerad
+  spelhandicap* PH — which they either type in (Min Golf shows it) or the app
+  computes as round(exakt handicap × Slope/113 + CR − par) at Sweden's 100 %
+  allowance, when the course's slope table is in the data (Visby's is; the rest
+  need it added). Net double bogey (par + 2 + s) is shown as the handicap-counting
+  score.
+- Match play and friends' cards are milestone 7.
 - The round ends itself after the last hole's putts, or after 8 h idle; "Avsluta
-  runda" in the sheet body. A link to register the round in Min Golf.
+  runda" in the sheet body.
+- **Min Golf**: the app links out to register the round. Submitting it directly
+  needs SGF's commercial GIT API licence — no open API exists; 2026 prices are
+  60,375 SEK to start and 48,300 SEK a year for login + handicap registration, and
+  casual-round submission only after SGF's GIT team has verified the integration.
+  A business decision (section 12), not an engineering one. A Swedish handicap
+  round also needs 9+ holes and a marker who attests it, registered before
+  midnight — the card can show exactly what Min Golf will ask for.
 
 ### 4.7 Review — the round on the real ground
 
@@ -293,31 +433,33 @@ club. The round recap can fly the shots as the broadcast flyover the blueprint p
 
 The source of truth is an **append-only log of events per round**; the round, its
 scores and every statistic are a fold of it. That makes undo trivial (an `undo`
-event), makes sync a set union of event IDs (7.8), and keeps every correction
+event), makes sync a set union of event IDs (9.2), and keeps every correction
 auditable.
 
 ```json
 {
-  "round": "01J8Z5W3Q4…", "v": 1,
-  "course": { "slug": "puttom", "pack": "2e07d11db74e…", "tee": { "index": 1, "name": "Gul" } },
+  "round": "01a0cd49-57b8-7c3e-…", "v": 1,
+  "course": { "slug": "puttom", "pack": "2e07d11db74e…", "tee": { "index": 0, "name": "Vit" } },
   "format": { "kind": "stroke", "playingHandicap": 18, "mulligans": false },
   "events": [
-    { "id": "01J8Z5W4…", "t": 1727078531000, "type": "shot", "hole": 1, "club": "driver",
-      "at": { "lat": 63.29870, "lon": 18.93960, "acc": 4, "x": -78.6, "z": -251.5, "y": 61.2, "lie": "tee", "fixes": 5 },
+    { "id": "01a0cd49-57b8-7f01-…", "t": 1790150531000, "type": "shot", "hole": 1, "club": "driver",
+      "at": { "lat": 63.30146, "lon": 18.93973, "acc": 4, "x": -78.6, "z": -251.5, "y": 68.1, "lie": "tee", "fixes": 5 },
       "source": "tap" },
-    { "id": "01J8Z5X9…", "t": 1727078702000, "type": "shot", "hole": 1, "club": "iron-7",
+    { "id": "01a0cd4b-f3b0-7…", "t": 1790150702000, "type": "shot", "hole": 1, "club": "iron-7",
       "at": { "…": "…", "lie": "fairway" }, "source": "tap", "suggested": "iron-7" },
-    { "id": "01J8Z60A…", "t": 1727078790000, "type": "penalty", "hole": 1, "after": "01J8Z5X9…", "kind": "water", "strokes": 1 },
-    { "id": "01J8Z61B…", "t": 1727078903000, "type": "green", "hole": 1, "at": { "…": "…" }, "source": "stop" },
-    { "id": "01J8Z62C…", "t": 1727079011000, "type": "putts", "hole": 1, "n": 2 },
-    { "id": "01J8Z63D…", "t": 1727079020000, "type": "undo", "target": "01J8Z60A…" }
+    { "id": "01a0cd4d-4b70-7…", "t": 1790150790000, "type": "penalty", "hole": 1, "after": "01a0cd4b-f3b0-7…", "kind": "water", "strokes": 1 },
+    { "id": "01a0cd4f-04d8-7…", "t": 1790150903000, "type": "green", "hole": 1, "at": { "…": "…" }, "source": "stop" },
+    { "id": "01a0cd50-aab8-7…", "t": 1790151011000, "type": "putts", "hole": 1, "n": 2 },
+    { "id": "01a0cd50-cde0-7…", "t": 1790151020000, "type": "undo", "target": "01a0cd4d-4b70-7…" }
   ]
 }
 ```
 
-- **IDs are UUIDv7** (RFC 9562; ULIDs in the sketch above are the same idea)
-  generated on the device: sortable by time, unique across devices, so records made
-  offline on two phones never collide and sync needs no CRDT (section 9).
+- **IDs are UUIDv7** (RFC 9562) generated on the device: the first 48 bits are the
+  time in milliseconds, so they sort by time, and the rest is random, so records
+  made offline on two phones never collide and sync needs no CRDT (section 9). The
+  sketch is Puttom's 1st from the back tee, at the tee mark's real coordinates
+  (the pack's frame, the laser's height) on the morning of this plan.
 - **Positions keep both frames**: WGS84 (what GPS said, for sync and re-projection,
   rounded to 5 decimals ≈ 1 m — finer is noise and more personal data than the
   statistics need) and the course's local x/z/y (what the scene and the statistics
@@ -378,8 +520,11 @@ error also drifts over seconds, so a tap never takes the last fix alone:
   plays-like already uses), then taken back to 21 °C and still air with the
   weather reading of that minute (`rangefinder.js` coefficients). A 7-iron that
   went 135 m up a 10 m slope into a 4 m/s wind is a 7-iron that goes about 157 m on
-  a flat, calm day, and that is the number the bag should learn. **No caddie app has
-  the ground to do this**; it is Banvy's first unfair advantage in statistics.
+  a flat, calm day, and that is the number the bag should learn. Arccos does the
+  same normalisation (70 °F, sea level, zero slope, no wind) from its own course
+  data; what Banvy adds is that the slope comes from 1 m laser terrain the golfer
+  can *see* the shot drawn on, and the lie from measured surfaces — an advantage in
+  trust, not only in arithmetic.
 - **Aim**: the intended line is from the shot's origin to its target — the strategy
   landing point for a tee shot on a par 4/5 (the hålguide's "max 200 m" included),
   the green centre (or pin) for an approach. The miss is split into *lateral*
@@ -420,10 +565,26 @@ error also drifts over seconds, so a tap never takes the last fix alone:
 
 ### 7.4 Club prediction — the golfer's own numbers, not a table
 
-- Per club, from the golfer's own full shots (flat-equivalent distances): centre
-  m = median, spread s = 1.4826·MAD (floored at 5 % of m), n shots. Blended with
-  the bag's carry as a prior until the club has history:
-  m̂ = (n·m + k·carry)/(n + k), k = 3.
+- **GPS measures TOTAL distance — carry plus roll — and the bag holds CARRY.** They
+  are different numbers and both are kept: the measured total says where the ball
+  *finishes* (what an approach to a pin or a layup short of a hazard needs); the
+  carry says what it *clears* (what water in front of a green needs). Roll varies
+  with the ground, so gapping between clubs is judged on carry, which only a launch
+  monitor or the golfer can supply.
+- Which shots count, from how the apps golfers trust do it: full swings only — no
+  penalty, mulligan or recovery shot (Broadie's rule: starting 30+ yards out and
+  travelling under 40 % of the way or finishing 15°+ off line), no chip or partial
+  inside ~45 m of the green, no punch-out, nothing marked as a layup, nothing
+  low-confidence (7.1). Arccos drops mishits and abnormally long shots too; Shot
+  Scope's P-AVG trims ~10 % at both ends; Stagner's Arccos studies report medians;
+  Broadie uses the 75th percentile for drives.
+- Per club, from those shots (flat-equivalent totals, 7.2): centre m = median,
+  spread s = 1.4826·MAD (floored at 5 % of m), n shots; the median's own
+  uncertainty ≈ 1.25·s/√n is shown beside it, and below ~10 shots the number says
+  it is provisional. Until a club has history, the prior is the bag's carry plus a
+  roll prior by club type (driver ~+8 %, woods ~+6 %, hybrids and irons ~+3 %,
+  wedges ~+1 %, refitted per golfer as totals arrive):
+  m̂ = (n·m + k·prior)/(n + k), k = 3.
 - Target d* = the plays-like distance to the target the strategy layer already
   computes (the green or pin for an approach; the hålguide's landing distance or the
   layup for a tee shot). Lie factors from rough, sand and recovery start as priors
@@ -460,7 +621,27 @@ The rule M6 starts from, every threshold to be fitted on recorded rounds (7.6):
   taps of recorded rounds, reported per phone model and per carry position (front
   pocket, back pocket, bag).
 
-__SWING_MARKET__
+What the market and the literature say the thresholds are near, to start from:
+
+- **It works commercially**: Arccos detects shots from an iPhone 12+ in a pocket,
+  and its Air clip from gyroscope + accelerometer + GPS alone (reviewers: 99 % of
+  shots detected, 60–90 % of clubs right). Placement matters — Arccos asks for the
+  lead-side front pocket and rules out the back pocket, the bag, a cart or a jacket
+  for Air.
+- **A pocketed phone's swing** peaks at about 6 rad/s (~340°/s) about the
+  gyroscope's y-axis (patent US11071902B2, which also calibrates on 3 full swings,
+  3 chips and 3 putts, and treats putts as low-amplitude with little z rotation);
+  pelvis rotation peaks at 415 ± 33°/s in tour players' downswings, slower in
+  amateurs.
+- **Timing** (Kim 2020, 200 Hz IMUs incl. one at the waist): backswing
+  1.16 ± 0.23 s, downswing 0.32 ± 0.05 s, follow-through 0.67 ± 0.12 s — so 60 Hz
+  gives ~19 samples across a downswing, enough to find its peak, not to shape it.
+- **Practice swings** are handled everywhere the same way we plan to: one shot per
+  "grouping session", the swing the golfer walks away from (Golfshot; the Microsoft
+  wrist patent US10097961B2).
+- A per-golfer **calibration** — three practice swings with the phone where it will
+  ride — is the cheap way to adapt a threshold that varies with swing speed and
+  pocket, and it is what the patent does.
 
 ### 7.6 The field recorder — the data every automatic rule is tuned on
 
@@ -474,7 +655,68 @@ itself, nothing measured against it means anything").
 
 ### 7.7 Strokes gained
 
-> **Pending:** strokes-gained baselines — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- SG -->
+**The formula** (Broadie 2011): SG(shot) = J(d₀, c₀) − J(d₁, c₁) − 1 − penalties,
+where J is the average strokes to hole out from distance d in lie c, and a holed
+ball has J = 0. With the penalty term, each hole's shots sum to J(tee) − score —
+Broadie's own example scores a drive out of bounds and replayed at −2.
+
+**Lies and categories.** Broadie's lies are tee, fairway, rough, sand, recovery and
+green; the surface classifier maps onto them directly (fringe → fairway, which is
+Broadie-consistent since he has no fringe; semi, rough, heath, path → rough; forest,
+wetland, rock → recovery, plus his automatic rule: a shot from 30+ yards that
+travels under 40 % of the way, or finishes 15°+ off the line, is recovery). The
+PGA TOUR categories: **off the tee** (drives on par 4/5), **approach** (from more
+than 30 yards ≈ 27 m from the green's edge, par-3 tee shots included), **around
+the green** (within 30 yards, not on it), **putting** (on the green). Distance from
+the tee is measured along the hole — the hole line the pack already has — and
+straight to the hole everywhere else.
+
+**Baselines.** Only the tour's is published in full:
+
+| Yards (m) | Tee | Fairway | Rough | Sand | Recovery |
+|---|---|---|---|---|---|
+| 20 (18) | – | 2.40 | 2.59 | 2.53 | 3.51 |
+| 50 (46) | – | 2.66 | 2.87 | 2.92 | 3.79 |
+| 100 (91) | 2.92 | 2.80 | 3.02 | 3.23 | 3.80 |
+| 140 (128) | 2.97 | 2.91 | 3.15 | 3.22 | 3.80 |
+| 200 (183) | 3.12 | 3.19 | 3.42 | 3.55 | 3.87 |
+| 300 (274) | 3.71 | 3.78 | 3.90 | 4.04 | 4.20 |
+| 400 (366) | 3.99 | 4.11 | 4.30 | 4.69 | 4.75 |
+| 500 (457) | 4.41 | 4.50 | 4.77 | 5.40 | 5.22 |
+
+*PGA TOUR, ShotLink 2003–10, 8 million shots (Broadie 2011, Table 9; the full table
+runs 10–600 yards). Putting, in feet (m): 2 (0.6) 1.01 · 4 (1.2) 1.14 · 6 (1.8) 1.34
+· 8 (2.4) 1.50 · 10 (3.0) 1.61 · 15 (4.6) 1.78 · 20 (6.1) 1.87 · 30 (9.1) 1.98 ·
+60 (18.3) 2.21 · 90 (27.4) 2.36 — tour players hole half from 8 ft and average two
+putts from 33 ft.*
+
+There are **no published amateur tables** (Broadie "ran out of pages"), and the
+apps' handicap baselines are proprietary (Arccos: a scratch baseline from 314,000
+rounds; Shot Scope: scratch and 5–25 handicaps from 80 million shots). What is
+published anchors an approximation: Broadie 2008 (makes half from 8.2 ft for pros,
+5.8 / 5.1 / 3.8 ft for the 70–83 / 84–97 / 98–120 scoring bands; two putts on
+average from 30 / 25 / 19 / 12 ft; sand saves 50 / 26 / 17 / 7 %; strokes lost to
+scratch per round 4.0 / 15.5 / 31.0, of which putting 0.8 / 2.3 / 5.1), the tee
+fits (tour J = 2.38 + 0.0041·d; a 90-shooter J = 2.79 + 0.0066·d, d in yards), and
+Shot Scope's putts holed by handicap (0–6 ft: 92.8 % scratch → 82.5 % at 25). So:
+
+- ship the **tour baseline as published** and **scratch / hcp 10 / hcp 20
+  baselines fitted to those anchors**, labelled "Banvy-uppskattning" with their
+  sources in the app — honest about being an approximation;
+- replace the approximation with **our own baseline** once golfers have opted in to
+  contributing rounds (9.5: consent, not contract) — Swedish amateurs on real,
+  measured ground, which nobody else has;
+- **pins decide the precision.** Without the day's hole position, the green centre
+  stands in with ± half the green's depth, and putting SG is GPS-limited (±4 m on a
+  10 m first putt is most of the putt) — so putting shows putts per hole against the
+  expectation for the approach's proximity band until a pin is set (section 12).
+
+**Dispersion references** for the dashboard: Broadie measured drive direction
+spread at 4.0° for tour pros and 5.4°, 6.4° and 8.1° for low, mid and high
+handicaps (4° is 14 yards at 200); amateur patterns on short shots run about three
+times longer than wide, and misses are mostly short (41 % of scratch players' shots
+from 100 yards finish 1–9 yards short). Lateral and distance error are reported
+separately, never as one radius.
 
 ---
 
@@ -485,14 +727,21 @@ the app, reachable from the chooser and the in-game menu), in four tabs:
 
 - **Rundor** — every round with score, to par, putts, FIR, GIR, penalties; tap for
   the scorecard and the 3D replay (4.7).
-- **Klubbor** — per club: median distance (flat-equivalent and as measured), the
-  25–75 % range, longest, sample size, lateral miss (mean and spread, left/right
-  share), a dispersion ellipse drawn on a neutral range; the bag's carry beside the
-  measured one with **"Uppdatera bagen"** when they differ by more than the spread.
-- **Spel** — strokes gained by category (off the tee, approach, around the green,
-  putting) against a chosen baseline (scratch / hcp 10 / hcp 20), scoring by par
-  type, penalty sources, putts by first-putt distance, per-hole history on each
-  course ("Hål 7: höger i 4 av 5 rundor — vatten där").
+- **Klubbor** — per club: median total (flat-equivalent and as measured) with its
+  uncertainty, the 25–75 % range, longest, sample size, lateral miss and distance
+  miss separately (mean, spread, left/right and short/long shares, direction spread
+  in degrees beside Broadie's handicap references), a dispersion ellipse drawn on a
+  neutral range; the bag's carry beside the measured total. The one bag correction
+  the data can make safely: **a measured total SHORTER than the bag's carry** means
+  the carry is optimistic (a ball cannot finish shorter than it flew, plugged and
+  uphill lies aside) — *"Järn 7 slutar på 131 m i snitt (18 slag) men bagen säger
+  140 m carry. Sänka?"* Carry itself stays the golfer's number or a launch
+  monitor's.
+- **Spel** — strokes gained by category (7.7) against a chosen baseline (tour as
+  published; scratch / hcp 10 / hcp 20 as Banvy's labelled approximation), FIR, GIR,
+  scrambling, sand saves, putts per GIR, three-putt avoidance, penalties by cause,
+  scoring by par type, per-hole history on each course ("Hål 7: höger i 4 av 5
+  rundor — vatten där").
 - **Trender** — rolling 5-round averages of the above, with the sample shown.
 
 **Insights** are rules over those numbers, each with a threshold and a minimum sample,
@@ -664,7 +913,7 @@ weeks for one person who knows the codebase.
 | # | Milestone | Delivers | Done when (gates) | Est. |
 |---|---|---|---|---|
 | **M0** | **GPS follows the round** — *shipped 2026-09-23* | course + hole auto-selection, handoff, "Hitta min bana", GPS survives signal loss | `gps-round.test.mjs` simulated rounds on 13 courses; `check-gps-round.mjs` | done |
-| **M1** | **Round core** | `engine/round.mjs` event fold; IndexedDB store; the shot rail (club tap, putts, last-shot chip: OB ×2, water, unplayable, mulligan, provisional, change club, delete, undo); score in the sheet head; hole and round end; scorecard; JSON export/import | unit tests for every row of the 4.4 table and every format; undo-restores-fold property test; `check-shot-rail.mjs`: a scripted 18-hole round by geolocation and taps produces the expected scorecard, zero dialogs, no overlap with `#kikGreen`/`#gpsStatus`/HUD at 390×844 and 1440×900, `check-caddie-ui` still green | 2–3 |
+| **M1** | **Round core** | `engine/round.mjs` event fold; IndexedDB store; the shot rail (club tap, wake-at-the-ball fresh-fix capture, putts tapped at the cup with the pin, the per-hole score confirmation, last-shot chip: OB ×2, water, unplayable ±bunker, mulligan with the handicap flag, provisional with the search timer, change club, delete, undo); score in the sheet head; hole and round end; scorecard with Slagspel/Poängbogey/Slaggolf; JSON export/import | unit tests for every row of the 4.4 table and every format; undo-restores-fold property test; `check-shot-rail.mjs`: a scripted 18-hole round by geolocation and taps produces the expected scorecard, zero dialogs, no overlap with `#kikGreen`/`#gpsStatus`/HUD at 390×844 and 1440×900, `check-caddie-ui` still green | 2–3 |
 | **M2** | **Smart assist** | tap averaging and provisional positions (7.1); stop detector and ghost shots for forgotten taps (7.3); penalty suggestions from water rings, OB stakes and re-hits (4.4); club model v1 (7.4); Screen Wake Lock + Fickläge; battery readout; the field recorder (7.6) | simulated rounds with forgotten taps recover ≥ 95 % of shots within 5 m; suggestion-agreement metric computed on fixtures; pocket-mode touch lock proven by a gate that taps it; no regression in M1 gates | 2–3 |
 | **M3** | **Statistics** | `?statistik` view (Rundor, Klubbor, Spel, Trender) on phone and desktop from one code path; flat-equivalent club distances and dispersion; strokes gained v1 with selectable baseline; insights v1; per-hole 3D replay of shots | fixture rounds → exact expected numbers; layout gates at 390 and 1440 px; the view makes no third-party request | 2–3 |
 | **M4** | **Field validation** (runs alongside M2–M3) | the owner plays 3–5 rounds with the recorder and a laser rangefinder for spot checks | published in this document: distance error vs laser (target median ≤ 4 m), stop recall/precision, taps per hole, battery per round; detector thresholds re-fitted on the traces and the traces committed as fixtures | 1 + rounds |
@@ -697,12 +946,20 @@ None of these block M1–M3, which are local-first by design. They block M5–M7
    decide after M4, with the field numbers for battery and pocket-mode capture in
    hand — if foreground pocket mode captures ≥ 85 % of shots at acceptable battery,
    the wrapper can wait.
-3. **Handicap scope.** Recommendation: keep the blueprint's line — gross, net and
-   Stableford computed for display from a playing handicap the golfer enters, a
-   link out to register the round in Min Golf, no WHS re-implementation.
-4. **Business model.** Free on-course core (GPS, one-tap tracking, scorecard, club
-   distances) and a paid tier for strokes gained, insights and multi-device sync is
-   the market's shape (section 2); nothing in M1–M4 depends on the choice.
+3. **Handicap scope.** Recommendation: keep the blueprint's line — gross, net,
+   Poängbogey and Slaggolf computed for display from a justerad spelhandicap the
+   golfer enters (or the app computes where a slope table exists), a link out to
+   register the round in Min Golf, no WHS re-implementation. Submitting rounds
+   straight into Min Golf is possible only with SGF's commercial GIT API licence
+   (60,375 SEK to start and 48,300 SEK a year in 2026, integration verified by SGF);
+   worth it only if handicap registration becomes a reason people choose the app.
+4. **Business model.** The market's shape (2.1): sensor systems at €250–350 plus
+   $100–200 a year (Arccos, Garmin) or without a subscription (Shot Scope), phone
+   apps at $30–100 a year (Golf Pad, Hole19, Golfshot, 18Birdies), GameBook at
+   199–599 kr. A free on-course core (GPS, one-tap tracking, scorecard, club
+   distances) with a paid tier for strokes gained, insights and multi-device sync
+   fits that shape; reviewers' first complaint is the subscription, so what is free
+   matters as much as what is paid. Nothing in M1–M4 depends on the choice.
 5. **Pins.** Strokes gained, putting and proximity are only as good as the hole
    position. A "flagga idag" drag-the-pin on the green (golfer) or a pin sheet
    (club portal) turns the green-centre approximation into a measurement; the
@@ -714,4 +971,44 @@ None of these block M1–M3, which are local-first by design. They block M5–M7
 
 ## Sources
 
-> **Pending:** the source list — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- SOURCES -->
+All read on 23 September 2026. Where a vendor's help page refused automated
+access, the claim came from a search snippet and is marked as uncertain in the
+text; prices and free-tier limits change often and should be re-checked at M5.
+
+**In this repository**
+- `apps/golf/src/engine/gps-round.mjs`, `gps-round.test.mjs` — the round tracker and its simulated rounds
+- `tools/sim-stop-detector.mjs` — the stop-detection measurement in 7.3
+- `tools/check-gps-round.mjs`, `tools/check-caddie-ui.mjs` — the browser gates
+- `apps/golf/src/engine/caddie.js`, `rangefinder.js`, `weather.js`, `surface.js` — bag, plays-like, weather, surfaces
+- `docs/banvy-blueprint.md` — the product blueprint this plan extends (Tier 4, "GPS mode")
+
+**Market and competitors**
+- Arccos: [Air launch](https://www.arccosgolf.com/blogs/community/introducing-arccos-air-no-phone-no-sensors-just-golf) · [Air](https://www.arccosgolf.com/pages/arccos-air) · [members FAQ](https://www.arccosgolf.com/pages/arccos-members-frequently-asked-questions) · [Link Pro vs Air](https://support.arccosgolf.com/hc/en-us/articles/52635615927572-Link-Pro-vs-Arccos-AIR) · [Smart Club Selection](https://support.arccosgolf.com/hc/en-us/articles/46185274264724-What-is-Smart-club-selection) · [where to place Air](https://support.arccosgolf.com/hc/en-us/articles/47278024291220-Where-should-I-place-Arccos-Air-during-a-round) · [where to keep the phone](https://support.arccosgolf.com/hc/en-us/articles/35180496920212-Where-Do-I-keep-my-phone-for-shot-detection) · [missed shots](https://support.arccosgolf.com/hc/en-us/articles/360036195212-Why-is-my-phone-missing-shots) · [will Arccos detect all shots](https://support.arccosgolf.com/hc/en-us/articles/35106058736660-Will-Arccos-detect-all-my-shots) · [editing a round](https://support.arccosgolf.com/hc/en-us/articles/360054190652-Will-I-need-to-edit-my-round) · [Smart Edit](https://support.arccosgolf.com/hc/en-us/articles/49286798786580-What-is-Smart-Edit) · [Smart Edit launch](https://www.arccosgolf.com/blogs/community/smart-edit-is-here-the-scorecard-that-edits-itself) · [Smart Putt Detection](https://support.arccosgolf.com/hc/en-us/articles/360038324351-What-is-Smart-Putt-Detection) · [pin locations with Air](https://support.arccosgolf.com/hc/en-us/articles/46185858480404-Setting-Pin-Locations-with-Arccos-Air-Step-by-Step-Guide) · [hole switching](https://support.arccosgolf.com/hc/en-us/articles/360052865132-Why-is-Arccos-not-automatically-switching-holes) · [club assignment](https://support.arccosgolf.com/hc/en-us/articles/12825013864596-Why-Is-Arccos-Assigning-a-Different-Club-to-My-Shot) · [penalty strokes](https://support.arccosgolf.com/hc/en-us/articles/360037871951-How-do-I-add-a-penalty-stroke) · [Smart Distance](https://support.arccosgolf.com/hc/en-us/articles/360036475132-What-is-Smart-Distance-Smart-Range-and-Longest) · [smart club distances](https://www.arccosgolf.com/pages/smart-club-distances) · [battery](https://support.arccosgolf.com/hc/en-us/articles/360036799151-How-much-battery-will-Arccos-use-on-my-phone) · [2026 app update (Golf.com)](https://golf.com/gear/arccos-new-app-update-2026/) · [Air review (Plugged In Golf)](https://pluggedingolf.com/arccos-air-shot-tracker-review/) · [Air review (Breaking Eighty)](https://breakingeighty.com/arccos-air-review) · [Arccos review (Breaking Eighty)](https://breakingeighty.com/arccos-caddie-review) · [Golf Monthly on sensorless tracking](https://www.golfmonthly.com/news/the-day-of-sensorless-shot-tracking-has-finally-arrived)
+- Shot Scope: [V5 penalties](https://v5support.shotscope.com/hc/en-us/articles/23432914588049-How-to-Record-Penalties-While-Playing-a-Round-on-Your-V5-Watch) · [V5 score entry](https://v5support.shotscope.com/hc/en-us/articles/23432861956753-How-the-Score-Entry-Feature-Works-on-V5) · [off-green putts and PinCollect](https://v5support.shotscope.com/hc/en-us/articles/23424480802577-Should-I-Include-Off-Green-Putts-in-My-PinCollect-Press) · [P-AVG](https://v5support.shotscope.com/hc/en-us/articles/23425490591889-What-Is-P-AVG-Performance-Average-Distance) · [CONNEX scanning](https://connexsupport.shotscope.com/hc/en-us/articles/17271200937105-How-do-I-scan-a-shot-on-CONNEX) · [CONNEX phone lock](https://connexsupport.shotscope.com/hc/en-us/articles/17271672927633-Can-I-lock-my-phone-when-using-Connex) · [V5 review](https://breakingeighty.com/shot-scope-v5-review) · [CONNEX review](https://pluggedingolf.com/shot-scope-connex-review/) · [6 Benchmarks launch](https://www.firstcallgolf.com/industry-news/release/2026-05-19/shot-scope-simplifies-game-improvement-with-launch-of-the-shot-scope-6-benchmarks-for-success-to-mobile-app-and-dashboard) · [strokes gained](https://shotscope.com/blog/practice-green/stats-and-data/what-is-strokes-gained/) · [putting make % by handicap](https://shotscope.com/blog/practice-green/stats-and-data/putting-make-percentages-by-handicap-how-do-you-compare/)
+- Garmin: [AutoShot (Approach S62 manual)](https://www8.garmin.com/manuals-apac/webhelp/approachs62/EN-SG/GUID-4F30D64E-C2F9-4A8B-A011-D1C59AD56386-5832.html) · [CT10 manual](https://www8.garmin.com/manuals/webhelp/approachct10/EN-US/GUID-3DEC1B0D-480C-4907-9B07-B962BCE47C40.html) · [CT10 review](https://breakingeighty.com/garmin-ct10-sensors-review) · [strokes gained](https://www.garmin.com/en-GB/garmin-technology/golf-science/garmingolfapp/strokes-gained/) · [penalty strokes forum thread](https://forums.garmin.com/apps-software/mobile-apps-web/f/garmin-golf-ios/329167/penalty-strokes-on-score-card)
+- Golfshot: [Auto Shot Tracking](https://golfshot.com/auto-shot-tracking-golf-app) · [tracking shots](https://shotzoom.zendesk.com/hc/en-us/articles/360000944613-How-do-I-track-shots) · [practice swings](https://shotzoom.zendesk.com/hc/en-us/articles/360063096553-What-if-Auto-Shot-Tracking-records-practice-swings) · [Auto Putt devices](https://shotzoom.zendesk.com/hc/en-us/articles/40618400429207-What-devices-are-supported-with-Auto-Putt-Tracking) · [Auto Accuracy](https://shotzoom.zendesk.com/hc/en-us/articles/1500002845182-What-is-Shot-Tracking-Auto-Accuracy) · [Smart Club Distances](https://shotzoom.zendesk.com/hc/en-us/articles/360061291014-What-are-Smart-Club-Distances) · [battery](https://shotzoom.zendesk.com/hc/en-us/articles/1500002823962-How-much-battery-does-Auto-Shot-Tracking-use)
+- 18Birdies: [Smart Tracking](https://help.18birdies.com/article/734-smart-tracking-automatic-shot-tracking-with-18birdies) · [with Apple Watch](https://help.18birdies.com/article/747-smart-tracking-with-apple-watch) · [how shot detection works](https://help.18birdies.com/article/722-how-shot-detection-works-in-18birdies) · [plays-like](https://18birdies.com/clubhouse/play/plays-like-distances-your-virtual-caddie-best-golf-gps-app)
+- Hole19: [auto shot detection](https://help.hole19golf.com/hc/en-us/articles/26053870684444-How-Auto-Shot-Detection-Works-Intelligence) · [shot tracker](https://help.hole19golf.com/hc/en-us/articles/25036534122012-How-to-Use-the-Shot-Tracker-Premium) · [tiers](https://help.hole19golf.com/hc/en-us/articles/26051600319516-Intelligence-Premium-Free-What-s-the-difference) · [strokes gained](https://help.hole19golf.com/hc/en-us/articles/28901742653084-What-is-Strokes-Gained-and-how-does-it-work-Intelligence) · [club statistics](https://help.hole19golf.com/hc/en-us/articles/360021011620-Club-Statistics-Premium) · [auto change hole](https://help.hole19golf.com/hc/en-us/articles/360002180474-Auto-Change-Hole-Premium) · [Intelligence tier](https://www.hole19golf.com/the-19th-hole/hole19-intelligence-tier)
+- Golf GameBook and Sweden: [Golf GameBook](https://www.golfgamebook.com/) · [App Store (SE)](https://apps.apple.com/se/app/golf-gamebook-scorecard-gps/id409307935) · [Svensk Golf partner article](https://www.svenskgolf.se/partner/gor-dig-redo-for-golfsasongen-med-golf-gamebook/) · [Så funkar Min Golf](https://golf.se/spela-golf/sa-funkar-min-golf) · [GIT API licence models](https://klubb.golf.se/administration/git-och-it/licensmodeller-for-git-api)
+- Others: [TheGrint](https://apps.apple.com/us/app/thegrint-golf-handicap/id532085262) · [Golf Pad TAGS](https://golfpadgps.com/tags) · [Golf Pad Click](https://golfpadgps.com/click) · [Golf Pad screen-on scanning](https://support.golfpadgps.com/support/solutions/articles/57-why-does-the-screen-stay-on-when-golf-pad-tags-are-enabled-) · [Golf Pad tag actions](https://support.golfpadgps.com/support/solutions/articles/6000194326-how-to-assign-a-custom-action-like-adding-penalty-or-marking-flag-for-tags-) · [SwingU strokes gained](https://help.swingu.com/article/477-how-to-track-a-round-using-swingu-strokes-gained)
+- Motion research: [US11071902B2](https://patents.google.com/patent/US11071902B2/en) · [US10097961B2](https://patents.google.com/patent/US10097961B2/en) · [Kim 2020, swing phases (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC7472298/) · [pelvis rotation (Ann Rehabil Med 2018)](https://www.e-arm.org/journal/view.php?doi=10.5535%2Farm.2018.42.5.713)
+
+**Web platform**
+- Geolocation: [W3C Geolocation](https://www.w3.org/TR/geolocation/) · [WebKit bug 193946](https://bugs.webkit.org/show_bug.cgi?id=193946) · [Apple forums: suspension](https://developer.apple.com/forums/thread/777860) · [Chromium: geolocation in the background](https://issues.chromium.org/issues/41186218) · [W3C issue 74, background geolocation](https://github.com/w3c/geolocation-api/issues/74) · [Android Location accuracy](https://developer.android.com/reference/android/location/Location) · [Chrome approximate location](https://www.privacyguides.org/news/2026/05/07/chrome-for-android-now-supports-approximate-location/) · [GPS.gov accuracy](https://www.gps.gov/gps-accuracy) · [2026 field study of Android accuracy](https://arxiv.org/html/2603.26706)
+- Wake lock, motion, haptics: [Safari 18.4 features](https://webkit.org/blog/16574/webkit-features-in-safari-18-4/) · [WebKit bug 254545](https://bugs.webkit.org/show_bug.cgi?id=254545) · [Chrome Wake Lock](https://developer.chrome.com/docs/capabilities/web-apis/wake-lock) · [DeviceMotionEvent.requestPermission](https://developer.mozilla.org/en-US/docs/Web/API/DeviceMotionEvent/requestPermission_static) · [W3C Generic Sensor](https://www.w3.org/TR/generic-sensor/) · [W3C DeviceOrientation](https://w3c.github.io/deviceorientation/) · [Navigator.vibrate](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/vibrate) · [ios-haptics](https://github.com/tijnjh/ios-haptics) · [Web NFC](https://developer.chrome.com/docs/capabilities/nfc)
+- Storage, sync, push: [WebKit storage policy](https://webkit.org/blog/14403/updates-to-storage-policy/) · [persistent storage](https://web.dev/articles/persistent-storage) · [Periodic Background Sync](https://developer.chrome.com/docs/capabilities/periodic-background-sync) · [Background Synchronization (MDN)](https://developer.mozilla.org/en-US/docs/Web/API/Background_Synchronization_API) · [Web Push on iOS](https://webkit.org/blog/13878/web-push-for-web-apps-on-ios-and-ipados/) · [Safari 27.0 features](https://webkit.org/blog/18325/webkit-features-for-safari-27-0/)
+- Native and watches: [iOS background location](https://developer.apple.com/documentation/corelocation/handling-location-updates-in-the-background) · [CLBackgroundActivitySession](https://developer.apple.com/documentation/corelocation/clbackgroundactivitysession-3mzv3) · [App Review Guidelines](https://developer.apple.com/app-store/review/guidelines/) · [Android background location](https://developer.android.com/develop/sensors-and-location/location/background) · [capacitor-community/background-geolocation](https://github.com/capacitor-community/background-geolocation) · [Transistorsoft background geolocation](https://github.com/transistorsoft/capacitor-background-geolocation) · [WWDC23 Core Motion notes](https://wwdcnotes.com/documentation/wwdc23-10179-whats-new-in-core-motion/) · [Wear OS GolfShotEvent](https://developer.android.com/reference/kotlin/androidx/health/services/client/data/GolfShotEvent)
+- Battery: [Google Maps power saving (Android Police)](https://www.androidpolice.com/google-maps-power-saving-mode/) · [Purdue dark-mode study](https://www.purdue.edu/newsroom/releases/2021/Q3/dark-mode-may-not-save-your-phones-battery-life-as-much-as-you-think,-but-there-are-a-few-silver-linings.html)
+
+**Golf analytics, Rules and handicap**
+- Strokes gained: [Broadie 2011, strokes gained (PGA)](https://columbia.edu/~mnb2/broadie/Assets/strokes_gained_pga_broadie_20110408.pdf) · [Broadie, putts gained](http://www.columbia.edu/~mnb2/broadie/Assets/putting_strokes_gained_20110113.pdf) · [Broadie 2008, Golfmetrics](http://www.columbia.edu/~mnb2/broadie/Assets/broadie_wscg_v_200804.pdf) · [Every Shot Counts](http://everyshotcounts.com/248-2/) · [Arccos on strokes gained](https://www.arccosgolf.com/blogs/community/understanding-strokes-gained) · [Shot Scope on strokes gained](https://shotscope.com/blog/practice-green/stats-and-data/understanding-strokes-gained/) · [GolfWRX on tour SG stats](https://golfwrx.com/381340/the-tours-new-strokes-gained-stats-what-do-they-mean-and-how-can-you-use-them/)
+- Distances and dispersion: [Lou Stagner, iron distances](https://newsletter.loustagnergolf.com/p/how-far-do-golfers-really-hit-their-irons) · [Lou Stagner, approaches short](https://newsletter.loustagnergolf.com/p/approach-shots-coming-up-short) · [FlightScope on gapping](https://flightscope.com/blogs/blogs/master-the-carry-distance-gapping-between-your-clubs) · [Golf.com on gapping](https://golf.com/gear/irons/what-you-need-know-gapping-iron-set/) · [Garmin forum: averaging](https://forums.garmin.com/outdoor-recreation/golf/f/approach-s70/405937/is-average-distance-from-the-last-20-rounds-or-all-time) · [Compleat Golfer, scratch stats](https://www.compleatgolfer.com/golf/scratch-golfer-stats-that-will-shock-you/)
+- Stat definitions: [PGA TOUR stats](https://www.pgatour.com/stats/detail/103) · [GIR definition](https://www.golfplaza.com/en/glossary-term/green-in-regulation-gir/)
+- Rules: [R&A Rule 18](https://www.randa.org/en/rog/the-rules-of-golf/rule-18) (and Rules 14, 16, 17, 19) · [Committee Procedures 8 (Model Local Rules)](https://www.randa.org/en/rog/committee-procedures/8) · [bogeytime.se on OB](https://bogeytime.se/golfregler/out-of-bounds/)
+- Handicap in Sweden: [SGF handicapregler](https://golf.se/regler-handicap/handicapregler) · [vanliga handicapfrågor](https://golf.se/regler-handicap/handicapregler/vanliga-handicapfragor) · [spel- och tävlingsformer](https://golf.se/spela-golf/spel--och-tavlingsformer)
+
+**Sync, accounts and privacy**
+- Backends: [Supabase pricing](https://supabase.com/pricing) · [regions](https://supabase.com/docs/guides/platform/regions) · [free-project pausing](https://supabase.com/docs/guides/platform/free-project-pausing) · [DPA](https://supabase.com/legal/customer-resources/data-processing-addendum) · [GDPR](https://supabase.com/docs/guides/security/gdpr-compliance) · [passwordless email](https://supabase.com/docs/guides/auth/auth-email-passwordless) · [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp) · [passkeys beta](https://supabase.com/changelog/46458-passkeys-for-supabase-auth-beta) · [row-level security](https://supabase.com/docs/guides/database/postgres/row-level-security) · [Firestore quotas](https://firebase.google.com/docs/firestore/quotas) · [Firestore locations](https://firebase.google.com/docs/firestore/locations) · [Firebase privacy](https://firebase.google.com/support/privacy) · [Cloudflare D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/) · [D1 EU jurisdiction](https://developers.cloudflare.com/changelog/post/2025-11-05-d1-jurisdiction/) · [PocketBase](https://github.com/pocketbase/pocketbase) · [Appwrite pricing](https://appwrite.io/blog/post/appwrite-pricing-update) · [Drive appDataFolder](https://developers.google.com/workspace/drive/api/guides/appdata) · [Google token model](https://developers.google.com/identity/oauth2/web/guides/use-token-model)
+- Sync libraries: [RxDB Supabase replication](https://rxdb.info/replication-supabase.html) · [PowerSync pricing](https://powersync.com/pricing) · [Dexie Cloud pricing](https://dexie.org/cloud/pricing) · [Zero offline](https://zero.rocicorp.dev/docs/offline) · [ElectricSQL 1.0](https://electric.ax/blog/2025/03/17/electricsql-1.0-released)
+- iOS and origins: [WWDC23, web apps](https://developer.apple.com/videos/play/wwdc2023/10120/) · [WebAuthn RP ID](https://web.dev/articles/webauthn-rp-id) · [GitHub Pages shared origin](https://github.com/orgs/community/discussions/60479)
+- Privacy: [GDPR Art. 4](https://gdpr-info.eu/art-4-gdpr/) · [EDPB 2/2019, Art. 6(1)(b)](https://www.edpb.europa.eu/sites/default/files/files/file1/edpb_guidelines-art_6-1-b-adopted_after_public_consultation_en.pdf) · [EDPB 04/2020, location data](https://www.edpb.europa.eu/our-work-tools/our-documents/guidelines/guidelines-042020-use-location-data-and-contact-tracing_en) · [LEK (SFS 2022:482)](https://data.riksdagen.se/dokument/sfs-2022-482.text) · [IMY: when a DPIA is required](https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/konsekvensbedomning/nar-ska-en-konsekvensbedomning-genomforas/) · [IMY: processor agreements](https://www.imy.se/verksamhet/dataskydd/det-har-galler-enligt-gdpr/personuppgiftsansvariga-och-personuppgiftsbitraden/personuppgiftsbitradesavtal/) · [Arccos privacy policy](https://www.arccosgolf.com/pages/privacy-policy) · [Hole19 rights](https://www.hole19golf.com/terms/your-rights-and-preferences) · [Caddee integritetspolicy](https://www.caddee.se/integritetspolicy) · [OnTag integritetspolicy](https://www.ontagscorekort.se/integritetspolicy/)
