@@ -339,15 +339,17 @@ chunks cached, prepared tint applied and exact world/model fingerprints:
 was measured during concurrent visual tests; it is a correctness check, not a
 cached-performance result or acceptance of the cached target.
 
-## Terrain preparation after water carving (opt-in experiment)
+## Terrain preparation after water carving (default since 2026-09-23)
 
 Shared loading deliberately decodes raw heights without preparing GPU texels:
 CPU construction needs the heights, and water-bed carving subsequently changes
 them. Previously, the shared renderer prepared the final height/parent/normal
-texels synchronously on the main thread. With `?startup=terrain-worker`, the
-terrain loader sends those final carved heights to a dedicated worker, using
-the existing calculation. The default remains main-thread preparation until
-isolated device measurements establish a complete startup improvement.
+texels synchronously on the main thread. The terrain loader now sends those
+final carved heights to a dedicated worker, using the existing calculation.
+Measured on the owner's RTX 3070 (docs/performance-plan-2026-09-23.md, 3.5 and
+4) it removed the 30-60 ms per-tile stalls in flights and 1.3 s of boot, so it
+became the default. `?startup=terrain-main` keeps the main-thread path, as does
+the `?startup=0` baseline; `?startup=terrain-worker` still selects the worker.
 
 Preparation is part of the request scheduler's bounded work: at most three
 desktop or two mobile requests are in flight. A transferred private copy leaves
@@ -357,7 +359,7 @@ readiness gates still apply. Aborted requests discard late worker replies; the
 runtime disposes the additional worker with its owned loader. Worker failure
 rejects future requests instead of leaving them waiting for a dead worker.
 
-`check-course-startup.mjs --baseline 1 --candidate terrain-worker` compares the
+`check-course-startup.mjs --baseline terrain-main --candidate 1` compares the
 two preparation paths in the same build through the existing exact-world,
 visual and offline checks. The default `--baseline 0 --candidate 1` remains the
 complete optimization comparison. `--baseline unindexed` isolates the lookup

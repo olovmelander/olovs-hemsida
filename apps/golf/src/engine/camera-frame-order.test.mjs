@@ -115,7 +115,7 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
       observed.trees.push(reading);
     },
     placeSun: () => { calls.push('sun'); }, shadowRest: () => { calls.push('shadow'); },
-    skyMesh: { position: new THREE.Vector3() }, updateSky() {}, updateStrategy() {}, kikTagUpdate() {}, drawMini() {}, gridOn: false,
+    skyMesh: { position: new THREE.Vector3() }, updateSky() {}, updateStrategy() {}, kikTagUpdate() {}, drawMini() {}, drawMiniIfChanged() {}, gridOn: false,
     captureRenderLocked: false,
     renderActivePipeline() {
       calls.push('render');

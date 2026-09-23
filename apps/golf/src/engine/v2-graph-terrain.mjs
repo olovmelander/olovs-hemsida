@@ -555,9 +555,12 @@ export class V2GraphTerrainAdapter {
         },
       };
       this.runtime = new CourseV2TerrainRuntime({
-        // Opt-in experiment until isolated device timings show a startup win.
-        // All other startup optimizations and prepared colors remain enabled.
-        prepareInWorker: new URLSearchParams(globalThis.location?.search ?? '').get('startup') === 'terrain-worker',
+        // Streamed tiles are prepared in the worker by default: on the owner's
+        // GPU it removed the 30-60 ms main-thread tile stalls in flights
+        // (frames > 50 ms 176 -> 137) and 1.3 s of boot. The prepared data is
+        // the same function's output (v2-terrain-runtime.test.mjs compares it).
+        // ?startup=terrain-main, and the ?startup=0 baseline, keep the main thread.
+        prepareInWorker: !['0', 'terrain-main'].includes(new URLSearchParams(globalThis.location?.search ?? '').get('startup')),
         ground: { ...this.graph.ground, frame },
         course: this.graph.course,
         scene: this.group,
