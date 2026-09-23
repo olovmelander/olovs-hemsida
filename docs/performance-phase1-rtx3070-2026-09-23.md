@@ -1,6 +1,7 @@
 # Phase 1 RTX 3070 verification
 
-Status: measurement harness prepared; accepted hardware evidence pending.
+Status: normal-use stationary A/B/B/A complete; deterministic, tour and image
+evidence in progress.
 The application baseline is merged PR #89 (`a93f79e6`), built with source
 revision `acbce9219025e4efd1550d7e85789c42596496d96ccd6cd238459af11976a4e7`.
 The owner's uncommitted shadow-rest edits are excluded in a separate worktree.
@@ -8,6 +9,27 @@ The owner's uncommitted shadow-rest edits are excluded in a separate worktree.
 Initial attempts were discarded: the laptop was on battery at 210 MHz, then
 other automated Chrome sessions reopened during the comparisons. No numbers
 from those attempts should enter the performance plan or support a saving.
+
+## Accepted normal-use results
+
+RTX 3070 Laptop, driver 572.47, Chrome 153.0.8010.53, charger connected.
+The values below average the two runs' medians, rather than treating correlated
+timestamp samples as independent repeats. Both before runs bracket both after
+runs. Raw samples, per-window clocks/power/temperature, adapter proof and shadow
+refresh counts are in [normal.json](graphics/performance-phase1-rtx3070-2026-09-23/normal.json).
+
+| Puttom view | Four-toggle before, GPU ms | Merged defaults, GPU ms | Reduction |
+|---|---:|---:|---:|
+| 1 tee, golden | 28.77 | 19.43 | 32.5% |
+| 12 orbit, golden | 51.05 | 46.17 | 9.6% |
+| 14 tee, golden | 38.67 | 33.91 | 12.3% |
+
+The original estimate overstates the implemented foliage saving in the heavy
+views. Its noise-removal ablation was an upper bound, not a measurement of the
+landed per-vertex implementation. At the first tee, the old path requests a
+shadow refresh on every frame; the merged path requests about one per 60 frames
+in normal use. The screenshot/readback comparison is still needed to assess
+appearance and depth identity.
 
 ## Conditions
 
@@ -28,7 +50,8 @@ from those attempts should enter the performance plan or support a saving.
   establish those two normal-use savings.
 - Before every screenshot, wait for `loadingTiles === 0` and settled tree/camera
   state, then at least two further drawn frames. Capture the presented canvas
-  and hash a readback of the actual `depth32float` sun-shadow texture.
+  and hash the actual sun-shadow depth texels read as `f32` via `textureLoad`
+  (including `depth24plus`, whose native storage cannot be copied directly).
 
 The combined before URL is
 `?shadowcell=0&foliagenoise=pixel&flagcull=0&shadowalpha=0`.
