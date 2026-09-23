@@ -34,7 +34,25 @@ fs.mkdirSync(out, { recursive: true });
 const build = await (await fetch(`${base}/course-startup-build.json`)).json();
 const report = { date: new Date().toISOString(), source: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
   build, base, course, kind, det, quality: 'hi', backend: 'webgpu', viewport: [1920, 1080], dpr: 1,
-  uncapped: kind === 'frames', frames, seconds, variants, order, runs: [] };
+  uncapped: kind === 'frames', frames, seconds, variants, order, viewConfig: views, runs: [] };
+if (args.includes('--resume')) {
+  const previous = JSON.parse(fs.readFileSync(path.join(out, 'report.json'), 'utf8'));
+  for (const key of ['build', 'base', 'course', 'kind', 'det', 'quality', 'backend', 'viewport', 'dpr', 'uncapped', 'frames', 'seconds', 'variants', 'order'])
+    assert.deepEqual(previous[key], report[key], `cannot resume changed ${key}`);
+  if (previous.viewConfig) assert.deepEqual(previous.viewConfig, views, 'cannot resume changed views/poses');
+  else assert.ok(!poses, 'legacy report does not record exact custom poses');
+  const expectedViews = kind === 'tour' ? 1 : views.length;
+  // Keep only a contiguous prefix of wholly completed, error-free runs.
+  for (const run of previous.runs) {
+    if (run.index !== report.runs.length || run.views.length !== expectedViews || run.errors.length) break;
+    assert.equal(run.variant, order[run.index], 'cannot resume changed run order');
+    const expectedIds = kind === 'tour' ? ['h1-tee-golden'] : views.map(([h, c, p, , id]) => id ?? `h${h}-${c}-${p}`);
+    assert.deepEqual(run.views.map(v => v.id), expectedIds, 'cannot resume changed view sequence');
+    report.runs.push(run);
+  }
+  report.resumed = { at: report.date, originalDate: previous.date, retainedRuns: report.runs.length,
+    discardedPartialRuns: previous.runs.length - report.runs.length };
+}
 const save = () => fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
 const summary = values => {
   const s = [...values].sort((a, b) => a - b), q = p => s[Math.floor((s.length - 1) * p)];
@@ -45,9 +63,10 @@ const summary = values => {
 const hardware = () => execFileSync('nvidia-smi', ['--query-gpu=name,driver_version,utilization.gpu,clocks.gr,clocks.mem,power.draw,temperature.gpu,pstate', '--format=csv,noheader'], { encoding: 'utf8', windowsHide: true }).trim();
 function assertOnlyOneBrowser() {
   if (process.platform !== 'win32') return;
-  const count = +execFileSync('powershell.exe', ['-NoProfile', '-Command',
-    "@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^(chrome|msedge|firefox|brave|opera)\\.exe$' -and $_.CommandLine -notmatch '--type=' }).Count"], { encoding: 'utf8', windowsHide: true });
-  assert.equal(count, 1, 'another browser appeared during the run; discard this batch');
+  const roots = JSON.parse(execFileSync('powershell.exe', ['-NoProfile', '-Command',
+    "$benchmarkBrowsers = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^(chrome|msedge|firefox|brave|opera)\\.exe$' }); $benchmarkRoots = @($benchmarkBrowsers | Where-Object { $_.ParentProcessId -notin $benchmarkBrowsers.ProcessId -and $_.CommandLine -notmatch '--type=' } | Select-Object ProcessId,ParentProcessId,Name); ConvertTo-Json -InputObject $benchmarkRoots -Compress"],
+  { encoding: 'utf8', windowsHide: true }));
+  assert.equal(roots.length, 1, `competing browser roots: ${JSON.stringify(roots)}; discard the interrupted run`);
 }
 async function settle(page) {
   await page.waitForFunction(() => {
@@ -59,7 +78,9 @@ async function settle(page) {
     V3D.v2Terrain().adapter?.stream?.loadingTiles === 0, f, { polling: 20 });
 }
 for (const [index, variant] of order.entries()) {
+  if (index < report.runs.length) continue;
   const gpuIdle = await assertGpuIdle();
+  assert.ok(gpuIdle.checked, 'RTX comparison requires a working GPU idle probe');
   const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs({ uncappedFrameRate: kind === 'frames' }) });
   const errors = [];
   try {
@@ -74,11 +95,17 @@ for (const [index, variant] of order.entries()) {
     const url = `${base}/?${query}`;
     await page.goto(url, { waitUntil: 'load' });
     await page.waitForSelector('#boot.done');
-    const boot = await page.evaluate(() => ({ adapters: window.__startupAdapters, backend: V3D.v2Terrain().backend,
-      gpuTiming: V3D.gpuTimingEnabled(), perf: V3D.perf(), trees: V3D.stats.trees }));
+    const boot = await page.evaluate(async () => ({ adapters: window.__startupAdapters, backend: V3D.v2Terrain().backend,
+      gpuTiming: V3D.gpuTimingEnabled(), perf: V3D.perf(), trees: V3D.stats.trees,
+      quality: V3D.quality(), treePolicy: V3D.treeLodPx(), fingerprint: await V3D.startupWorldFingerprint() }));
     assert.equal(boot.backend, 'webgpu');
     assert.ok(boot.adapters.some(a => a.vendor === 'nvidia' && a.isFallbackAdapter !== true), 'NVIDIA device required');
     assert.ok(boot.gpuTiming, 'timestamp queries required');
+    assert.equal(boot.quality.lowq, false, 'comparison requires high quality');
+    assert.equal(boot.quality.qualityLocked, true, 'quality must stay locked');
+    assert.equal(boot.quality.pixelRatio, 1, 'comparison requires DPR 1');
+    if (report.runs[0]?.boot.fingerprint)
+      assert.deepEqual(boot.fingerprint, report.runs[0].boot.fingerprint, 'variant changed planting data');
     const run = { index, variant, url, gpuIdle, hardwareAfterBoot: hardware(), chrome: browser.version(), boot, errors, views: [] };
     console.log(`${index + 1}/${order.length} ${variant}: boot complete; ${run.hardwareAfterBoot}`);
     report.runs.push(run); save();
@@ -90,7 +117,7 @@ for (const [index, variant] of order.entries()) {
       assertOnlyOneBrowser();
       if (kind === 'shots') {
         const image = `${index}-${variant}-${id}.png`;
-        const state = await page.evaluate(() => ({ camera: V3D.camInfo(), terrain: V3D.v2Terrain().adapter.stream,
+        const state = await page.evaluate(() => ({ camera: V3D.camInfo(), cameraExact: V3D.cameraInfo(), terrain: V3D.v2Terrain().adapter.stream,
           tiers: V3D.treeTiers(), shadow: V3D.shadowRest(), frame: V3D.frame() }));
         await page.evaluate(() => V3D.prepareCapture());
         await page.locator('body > canvas').screenshot({ path: path.join(out, image) });
@@ -129,6 +156,7 @@ for (const [index, variant] of order.entries()) {
               matrix: sun.shadow.matrix.toArray(), sun: sun.position.toArray(), target: sun.target.position.toArray() };
           } finally { buffer.destroy(); storage.destroy(); }
         });
+        assertOnlyOneBrowser();
         run.views.push({ id, image, state, shadowMap });
         console.log(`${index + 1}/${order.length} ${variant} ${id}: ${image}`);
       } else {
