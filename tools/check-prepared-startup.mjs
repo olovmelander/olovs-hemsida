@@ -9,6 +9,7 @@ import { inflateRawSync } from 'node:zlib';
 import { courseSourceRevision } from './course-source-revision.mjs';
 import { groundTintIdentity } from '../apps/golf/src/engine/prepared-ground-tint.mjs';
 import { preparedWaterIdentity, decodePreparedWater } from '../apps/golf/src/engine/prepared-water.mjs';
+import { preparedVistaIdentity, validPreparedVistaReference, vistaVariant } from '../apps/golf/src/engine/prepared-vista.mjs';
 import { canonicalJson } from '../packages/course-v2/canonical-json.mjs';
 import { validateStartupManifest } from '../packages/course-v2/startup-manifest.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -67,8 +68,21 @@ export async function checkPreparedStartup(publicRoot, revision) {
       assert.equal(meta.preparedWaterUnsupported?.identity, waterIdentity, `${meta.slug}: missing current unsupported-water bake receipt`);
       assert.equal(meta.preparedWaterUnsupported?.revision, revision);
     }
+    // The far vista's prepared planting: current for both qualities, or an
+    // explicit receipt that this course plants no far vista at all.
+    const vista = [];
+    for (const lowQuality of [false, true]) {
+      const variant = vistaVariant(lowQuality), ref = meta.preparedVista?.[variant];
+      assert.equal(ref?.identity, await preparedVistaIdentity({ meta, groundSha256: course.groundManifest.sha256, lowQuality, revision }),
+        `${meta.slug}: stale/missing ${variant}`);
+      if (ref.none === true) { vista.push({ variant, none: true }); continue; }
+      assert.ok(validPreparedVistaReference(ref), `${meta.slug}: invalid ${variant} record`);
+      const bits = await compressed(ref, 16 * 1024 * 1024);
+      assert.equal(bits.length, (ref.candidates + 7) >> 3, `${meta.slug}: ${variant} bit count`);
+      vista.push({ variant, candidates: ref.candidates, points: ref.points });
+    }
     results.push({ course: meta.slug, chunks: Object.keys(startup.entries).length, packages: startup.packs.length,
-      tints, water: meta.preparedWater ? 'prepared' : 'verified unsupported path' });
+      tints, water: meta.preparedWater ? 'prepared' : 'verified unsupported path', vista });
   }
   return { revision, courses: results };
 }

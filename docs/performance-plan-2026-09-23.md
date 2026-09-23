@@ -376,6 +376,23 @@ in flight at low quality) whatever else lands.
     fairways and water. CPU work cannot be overlapped away on a phone.
 3.6 Cached reopen and session reuse (Sept 18, 5.1/5.2).
 
+#### Phase 3 progress
+
+- **3.5 far vista landed** (`engine/prepared-vista.mjs`, `tools/bake-vista.mjs`).
+  Measured first: on Veckefjärden the far vista is 2.6 s desktop and 6.0 s in
+  the phone proxy, and the terrain height of the kept points is only 3.4% of
+  it; the rest is the per-candidate tests. A bake records one bit per
+  candidate; a visit replays only the set bits, recomputing every value with
+  the same code, and keeps the result only if it reproduces the bake's digest
+  of every planted value (else it plants the ordinary way). Records are tied
+  to the source revision like the tints, so an engine PR re-bakes them too
+  (`bake-vista.mjs`), and `check-prepared-startup` requires them.
+  26 records, 5-222 KB, 2.7 MB in all. Proof, prepared vs `?prepvista=0`, same
+  build, SwiftShader: Ängsö lo 686 -> 286 ms, Veckefjärden hi 1406 -> 587 ms,
+  Visby lo 842 -> 227 ms, with the far-vista fingerprint, the whole world
+  fingerprint and every count identical on all three. The remaining time is
+  the species pass and GPU data, which both paths share.
+
 ### Phase 4 — devices
 
 An iPhone 12-class Safari and a Galaxy A54-class Chrome: cold, cached, a tour,

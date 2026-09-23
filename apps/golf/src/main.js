@@ -107,6 +107,8 @@ import { waterShoreDistance } from './engine/water-shore.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
 import { createGroundTintOverview } from './engine/ground-tint-overview.mjs';
 import { groundTintIdentity, preparedTintAllowed, loadPreparedGroundTint, applyPreparedGroundTint } from './engine/prepared-ground-tint.mjs';
+import { vistaVariant, preparedVistaIdentity, preparedVistaInputs, preparedVistaAllowed, packVistaBits,
+  vistaDigest, loadPreparedVista, usablePreparedVista } from './engine/prepared-vista.mjs';
 import { createPackedGroundDetailTexture } from './engine/ground-detail-upload.mjs';
 import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
@@ -1727,6 +1729,13 @@ const PREPARED_TINT_LOADING = TINT_INPUTS_READY && !import.meta.env.DEV && prepa
   ? TINT_IDENTITY.then(identity => loadPreparedGroundTint({ reference: CMETA.preparedTint[TINT_VARIANT], identity,
     cache: V2_SELECTION.chunkSource?.cache,
     baseUrl: new URL(import.meta.env.BASE_URL, location.href).href })) : Promise.resolve(null);
+/* The far vista's prepared planting (engine/prepared-vista.mjs) downloads now;
+   its identity and run-time inputs are compared where the vista is planted. */
+const BAKE_VISTA = new URLSearchParams(location.search).get('bakeVista') === '1';
+const PREPARED_VISTA_LOADING = !import.meta.env.DEV && V2_SELECTION.graph && preparedVistaAllowed(location.search)
+  && CMETA.preparedVista?.[vistaVariant(LOWQ)]
+  ? loadPreparedVista({ reference: CMETA.preparedVista[vistaVariant(LOWQ)], cache: V2_SELECTION.chunkSource?.cache,
+    baseUrl: new URL(import.meta.env.BASE_URL, location.href).href }) : Promise.resolve(null);
 /* LOWQ for NO reason but a remembered verdict. That verdict is written after
    ten slow seconds, and a machine is slow for reasons that are not the
    machine: another tab on the GPU, a capture harness, a driver waking up.
@@ -5383,6 +5392,14 @@ lap('tree tiers (Hero + Impostor, cells)', { trees: stats.trees | 0, cells: TREE
    LiDAR stand fields), so where it speaks the far ring stands on it; where it
    is silent such a course still plants nothing. */
 const MEASURED_ONLY = M.infra.vegetationPlacement === 'measured-only';
+if (BAKE_VISTA && !(!MEASURED_ONLY || LANDCOVER_REC)) {
+  // This course plants no far vista at all; the publisher records exactly that.
+  window.__VISTA_BAKE__ = { none: true, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
+    identity: V2_SELECTION.graph ? await preparedVistaIdentity({ meta: CMETA,
+      groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, lowQuality: LOWQ,
+      revision: __COURSE_SOURCE_REVISION__ }) : null };
+  await new Promise(() => {});
+}
 if (!MEASURED_ONLY || LANDCOVER_REC) {
   /* THE FAR RING IS NOT THE IMAGERY'S RING, and it used to be gated on it.
      Both loops below sat inside `if (M.cover)`, so a course with no tree-cover
@@ -5397,7 +5414,6 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
      have a raster are untouched. */
   const cv = M.cover;
   const inset = 50;
-  const pts = [];
   const rnd2 = (i, j) => hash2(i * 4241 + 5, j * 7573 + 11);
   /* no impostor conifer stands in a field, a garden block, a clear-fell or the yard */
   const openLand = (px, pz) => {
@@ -5441,142 +5457,227 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       crownRadiusAt: h => V2_VEGETATION.mod.crownRadiusForHeight(h, V2_VEGETATION.mod.STAND_PLANTING.allometry),
     })
     : null;
+  /* One planting run. `replay` is a prepared record's bit reader: a clear bit
+     skips the candidate, a set bit plants it with every test skipped and every
+     value recomputed below (engine/prepared-vista.mjs). Without it the run
+     makes its decisions as it always has, and records them for a bake. */
+  const plantVista = async replay => {
+  const pts = [], ptsSize = [];   /* ptsSize, calibrated only: [height, crown radius] per far tree, else undefined */
   const farBandCounts = [0, 0, 0];
   let vistaSkippedInsideCoverage = 0;
+  const decisions = replay ? null : [];
+  /* a planted candidate marks its own decision; only the recording run keeps them */
+  const planted = () => { if (decisions) decisions[decisions.length - 1] = 1; };
   /* the data ring: where the plans or the survey still reach */
   const GAP2 = LOWQ ? 18 : 13;
-  if (cv && !MEASURED_ONLY) for (let z = cv.z0; z < cvz1; z += GAP2) {
-    if (shouldYieldWork()) await yieldWork();
-    for (let x = cv.x0; x < cvx1; x += GAP2) {
-      const i = Math.floor(x / GAP2), j = Math.floor(z / GAP2);
-      /* inside the planted ring a cone stands only where the planter has
-         thinned out: its chance is the complement of the planter's */
-      if (x > MIDR.x0 + inset && x < MIDR.x1 - inset &&
-          z > MIDR.z0 + inset && z < MIDR.z1 - inset &&
-          rnd2(i + 61, j + 47) < midrEdgeFade(x, z)) continue;
-      const px = x + (rnd2(i, j) - 0.5) * GAP2 * 1.6;
-      const pz = z + (rnd2(i + 7, j + 3) - 0.5) * GAP2 * 1.6;
-      if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) continue;
-      const cvv = coverAt(px, pz);
-      let wooded = cvv === 3;
-      /* the surveyed rings only speak where the imagery has no answer */
-      if (!wooded && cvv === 0) for (const v of VI.at(px, pz)) {
-        if ((v.kind === 'forest' || v.kind === 'wood') && ringSD(px, pz, v.ring, 1) < 0) { wooded = true; break; }
-      }
-      if (!wooded) continue;
-      if (openLand(px, pz)) continue;
-      if (rnd2(i + 19, j + 13) > 0.8) continue;
-      const h = terrainH(px, pz);
-      if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < VISTA_SEA_LEVEL) continue;
-      if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
-      if (inWater(px, pz, h)) continue;
-      pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
+  const dataRing = !!cv && !MEASURED_ONLY;
+  /* one candidate of the data ring: every test, then the plant */
+  const dataCell = (x, z) => {
+    const i = Math.floor(x / GAP2), j = Math.floor(z / GAP2);
+    /* inside the planted ring a cone stands only where the planter has
+       thinned out: its chance is the complement of the planter's */
+    if (!replay && x > MIDR.x0 + inset && x < MIDR.x1 - inset &&
+        z > MIDR.z0 + inset && z < MIDR.z1 - inset &&
+        rnd2(i + 61, j + 47) < midrEdgeFade(x, z)) return;
+    const px = x + (rnd2(i, j) - 0.5) * GAP2 * 1.6;
+    const pz = z + (rnd2(i + 7, j + 3) - 0.5) * GAP2 * 1.6;
+    if (!replay) {
+    if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) return;
+    const cvv = coverAt(px, pz);
+    let wooded = cvv === 3;
+    /* the surveyed rings only speak where the imagery has no answer */
+    if (!wooded && cvv === 0) for (const v of VI.at(px, pz)) {
+      if ((v.kind === 'forest' || v.kind === 'wood') && ringSD(px, pz, v.ring, 1) < 0) { wooded = true; break; }
     }
-  }
-  /* beyond every record we have, the hills get the forest they carry in life --
-     this ring is dressing, not data, and it stays far outside the property */
+    if (!wooded) return;
+    if (openLand(px, pz)) return;
+    if (rnd2(i + 19, j + 13) > 0.8) return;
+    }
+    const h = terrainH(px, pz);
+    if (!replay) {
+    if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < VISTA_SEA_LEVEL) return;
+    if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)return;
+    if (inWater(px, pz, h)) return;
+    }
+    pts.push(px, h - 0.4, pz, 0.8 + rnd2(i + 5, j + 23) * 0.7);
+    planted();
+  };
   const GAP3 = LOWQ ? 42 : 30;
-  const ptsSize = [];   /* calibrated only: [height, crown radius] per far tree, else undefined */
   /* Calibrated, the lattice is walked at the NEAR band's spacing everywhere
      and a coarser band keeps one candidate in (spacing / near)^2 of its
      cells by hash -- one walk, three densities, no seam between them. */
   const farStep = FAR_CAL ? farRingSpacing(0, FAR_CAL, LOWQ) : GAP3;
-  for (let z = FARR.z0; z < FARR.z1; z += farStep) {
-    if (shouldYieldWork()) await yieldWork();
-    for (let x = FARR.x0; x < FARR.x1; x += farStep) {
-      if (cv && x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) continue;
-      const i = Math.floor(x / farStep), j = Math.floor(z / farStep);
-      const px = x + (rnd2(i + 51, j + 29) - 0.5) * farStep * 1.6;
-      const pz = z + (rnd2(i + 87, j + 61) - 0.5) * farStep * 1.6;
-      /* the measured generation is the box this ring must not close over --
-         its trees are already standing there. This used to be tested only
-         where a course had no raster, so on a coverage wider than the raster
-         (Ängsö, Norrfällsviken) cones stood among the measured stands. */
-      if (V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) { vistaSkippedInsideCoverage++; continue; }
-      let band = 2, bandSpacing = farStep;
-      if (FAR_CAL) {
-        const dCover = V2_VEG_COVER.distanceOutside(px, pz);
-        const spacing = farRingSpacing(dCover, FAR_CAL, LOWQ);
-        bandSpacing = spacing;
-        band = spacing === farStep ? 0 : dCover < 1800 ? 1 : 2;
-        const keep = (farStep * farStep) / (spacing * spacing);
-        if (keep < 1 && rnd2(i + 23, j + 91) > keep) continue;
-      }
-      /* THE RECORD SAYS WHERE THE FOREST IS. Where the orthophoto was read, a
-         cone stands on closed canopy and nowhere else -- not on the pasture,
-         the field, the town or the clear-fell the noise gap used to miss; only
-         where the record is silent does the old dressing rule (forest
-         everywhere but the noise gaps and the declared open land) still hold. */
-      /* A CONE NEVER STANDS ON A PLAYED SURFACE, whatever any classifier says.
-         This branch had no defence of its own: openLand knows landuse and
-         surroundings rings and nothing about the course, because UNKNOWN had
-         never occurred INSIDE one -- within the record's box every cell carries
-         a class. Refusing the record's WATER verdict for the colour and ALSO
-         handing those cells here would have created exactly that case on the
-         one course whose record calls half its cells water, so the
-         reclassification is not made (the colour refusal in vistaGround
-         stands). Measured, it had not in fact put a cone on any played surface
-         -- but it removed the reason the omission was safe, and a misread
-         fairway would reach a green by the same route. The guard is cheap and
-         explicit; the assumption was neither. */
-      const lc = landAt(px, pz);
-      if (lc === LANDCOVER.UNKNOWN && MEASURED_ONLY) continue;
-      if (lc !== LANDCOVER.UNKNOWN) {
-        if (!isTreeClass(lc)) continue;
-        /* inside the planted ring the planter now reads the same record, so
-           a cone stands only where it has thinned out -- as the data ring does */
-        if (px > MIDR.x0 + inset && px < MIDR.x1 - inset && pz > MIDR.z0 + inset && pz < MIDR.z1 - inset &&
-            M.infra.vegetationPlacement !== 'measured-only' && rnd2(i + 61, j + 47) < midrEdgeFade(px, pz)) continue;
-      } else {
-        if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) continue;   /* pasture gaps */
-        if (openLand(px, pz)) continue;
-      }
-      /* the played ground, by the same test the middle planter makes, and only
-         where the course actually is -- classify() is the course's own rule and
-         says nothing a kilometre out, so the far ring pays for it over playB
-         alone */
-      if (px > playB.x0 - 60 && px < playB.x1 + 60 && pz > playB.z0 - 60 && pz < playB.z1 + 60) {
-        const pc = classify(px, pz);
-        if (pc.fair > 0.05 || pc.green > 0.02 || pc.tee > 0.02 || pc.sand > 0.05 || pc.path > 0.15) continue;
-      }
-      /* a course may declare places this ring must not close over -- a churchyard
-         it looks across at, a cleared works yard. They are facts about one place,
-         so they come from the course's own module, never from the engine: the
-         hardcoded coordinate that used to sit here was Norrfällsviken's, and it
-         was punching that clearing into five other courses' horizons. */
-      if (CLEARINGS.some(cl => Math.hypot(px - cl.c[0], pz - cl.c[1])
-            < cl.r + (cl.wobble ? fbm(px * 0.01, pz * 0.01, 2) * cl.wobble : 0))) continue;
-      /* a ski slope, a jump's landing hill or a pitch is open whatever a 12 m cell says */
-      if (SURR && SI.at(px, pz).some(q => (q.kind === 'piste' || q.kind === 'pitch' || q.kind === 'track') && ringSD(px, pz, q.ring, 1) < 0)) continue;
-      /* the 15% thinning was the dressing rule's own texture; a cell the record
-         calls closed canopy is closed, and from 500 m up the far forest read as
-         meadow with trees on it at one cone per 1,060 m2 */
-      if (lc === LANDCOVER.UNKNOWN && rnd2(i + 9, j + 33) > 0.85) continue;
-      /* calibrated, a stem's chance is the record's LOCAL tree fraction over
-         the cell and its eight neighbours, the way a stand thins at its own
-         edge, rather than one cell's whole verdict */
-      if (FAR_CAL && lc !== LANDCOVER.UNKNOWN) {
-        const fraction = treeFraction(landAt, px, pz, LANDCOVER_REC.cell);
-        if (fraction >= 0 && rnd2(i + 41, j + 17) > fraction) continue;
-      }
-      const h = terrainH(px, pz);
-      if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < GEO.seaLevel + 1.5) continue;
-      if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)continue;
-      if (inWater(px, pz, h)) continue;
-      // Calibrated landcover can call this closed canopy even beside an open
-      // jump. Apply the crown clearance to that branch as well as openLand.
-      if (SCENERY?.isLandmarkTreeObstruction?.(px, pz, 10,
-        landmarkArchitecture?.replacedLandmarkIds)) continue;
-      pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
-      if (FAR_CAL) {
-        /* the band's own spacing, so a thinned band's quad is grown to cover
-           the stems it stands in for instead of drawing one of them */
-        const tree = farRingTree(FAR_CAL, rnd2(i + 3, j + 71), rnd2(i + 13, j + 57), lc === LANDCOVER.LIGHT_TREES, undefined, bandSpacing);
-        ptsSize[pts.length / 4 - 1] = [tree.height, tree.radius];
-        farBandCounts[band]++;
+  /* one candidate of the far ring */
+  const farCell = (x, z) => {
+    if (cv && x > cv.x0 && x < cvx1 && z > cv.z0 && z < cvz1) return;
+    const i = Math.floor(x / farStep), j = Math.floor(z / farStep);
+    const px = x + (rnd2(i + 51, j + 29) - 0.5) * farStep * 1.6;
+    const pz = z + (rnd2(i + 87, j + 61) - 0.5) * farStep * 1.6;
+    /* the measured generation is the box this ring must not close over --
+       its trees are already standing there. This used to be tested only
+       where a course had no raster, so on a coverage wider than the raster
+       (Ängsö, Norrfällsviken) cones stood among the measured stands. */
+    if (!replay && V2_VEG_COVER && V2_VEG_COVER.covers(px, pz)) { vistaSkippedInsideCoverage++; return; }
+    let band = 2, bandSpacing = farStep;
+    if (FAR_CAL) {
+      const dCover = V2_VEG_COVER.distanceOutside(px, pz);
+      const spacing = farRingSpacing(dCover, FAR_CAL, LOWQ);
+      bandSpacing = spacing;
+      band = spacing === farStep ? 0 : dCover < 1800 ? 1 : 2;
+      const keep = (farStep * farStep) / (spacing * spacing);
+      if (!replay && keep < 1 && rnd2(i + 23, j + 91) > keep) return;
+    }
+    /* THE RECORD SAYS WHERE THE FOREST IS. Where the orthophoto was read, a
+       cone stands on closed canopy and nowhere else -- not on the pasture,
+       the field, the town or the clear-fell the noise gap used to miss; only
+       where the record is silent does the old dressing rule (forest
+       everywhere but the noise gaps and the declared open land) still hold. */
+    /* A CONE NEVER STANDS ON A PLAYED SURFACE, whatever any classifier says.
+       This branch had no defence of its own: openLand knows landuse and
+       surroundings rings and nothing about the course, because UNKNOWN had
+       never occurred INSIDE one -- within the record's box every cell carries
+       a class. Refusing the record's WATER verdict for the colour and ALSO
+       handing those cells here would have created exactly that case on the
+       one course whose record calls half its cells water, so the
+       reclassification is not made (the colour refusal in vistaGround
+       stands). Measured, it had not in fact put a cone on any played surface
+       -- but it removed the reason the omission was safe, and a misread
+       fairway would reach a green by the same route. The guard is cheap and
+       explicit; the assumption was neither. */
+    const lc = landAt(px, pz);
+    if (!replay) {
+    if (lc === LANDCOVER.UNKNOWN && MEASURED_ONLY) return;
+    if (lc !== LANDCOVER.UNKNOWN) {
+      if (!isTreeClass(lc)) return;
+      /* inside the planted ring the planter now reads the same record, so
+         a cone stands only where it has thinned out -- as the data ring does */
+      if (px > MIDR.x0 + inset && px < MIDR.x1 - inset && pz > MIDR.z0 + inset && pz < MIDR.z1 - inset &&
+          M.infra.vegetationPlacement !== 'measured-only' && rnd2(i + 61, j + 47) < midrEdgeFade(px, pz)) return;
+    } else {
+      if (fbm(px * 0.0011, pz * 0.0011, 2) < -0.18) return;   /* pasture gaps */
+      if (openLand(px, pz)) return;
+    }
+    /* the played ground, by the same test the middle planter makes, and only
+       where the course actually is -- classify() is the course's own rule and
+       says nothing a kilometre out, so the far ring pays for it over playB
+       alone */
+    if (px > playB.x0 - 60 && px < playB.x1 + 60 && pz > playB.z0 - 60 && pz < playB.z1 + 60) {
+      const pc = classify(px, pz);
+      if (pc.fair > 0.05 || pc.green > 0.02 || pc.tee > 0.02 || pc.sand > 0.05 || pc.path > 0.15) return;
+    }
+    /* a course may declare places this ring must not close over -- a churchyard
+       it looks across at, a cleared works yard. They are facts about one place,
+       so they come from the course's own module, never from the engine: the
+       hardcoded coordinate that used to sit here was Norrfällsviken's, and it
+       was punching that clearing into five other courses' horizons. */
+    if (CLEARINGS.some(cl => Math.hypot(px - cl.c[0], pz - cl.c[1])
+          < cl.r + (cl.wobble ? fbm(px * 0.01, pz * 0.01, 2) * cl.wobble : 0))) return;
+    /* a ski slope, a jump's landing hill or a pitch is open whatever a 12 m cell says */
+    if (SURR && SI.at(px, pz).some(q => (q.kind === 'piste' || q.kind === 'pitch' || q.kind === 'track') && ringSD(px, pz, q.ring, 1) < 0)) return;
+    /* the 15% thinning was the dressing rule's own texture; a cell the record
+       calls closed canopy is closed, and from 500 m up the far forest read as
+       meadow with trees on it at one cone per 1,060 m2 */
+    if (lc === LANDCOVER.UNKNOWN && rnd2(i + 9, j + 33) > 0.85) return;
+    /* calibrated, a stem's chance is the record's LOCAL tree fraction over
+       the cell and its eight neighbours, the way a stand thins at its own
+       edge, rather than one cell's whole verdict */
+    if (FAR_CAL && lc !== LANDCOVER.UNKNOWN) {
+      const fraction = treeFraction(landAt, px, pz, LANDCOVER_REC.cell);
+      if (fraction >= 0 && rnd2(i + 41, j + 17) > fraction) return;
+    }
+    }
+    const h = terrainH(px, pz);
+    if (!replay) {
+    if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < GEO.seaLevel + 1.5) return;
+    if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)return;
+    if (inWater(px, pz, h)) return;
+    // Calibrated landcover can call this closed canopy even beside an open
+    // jump. Apply the crown clearance to that branch as well as openLand.
+    if (SCENERY?.isLandmarkTreeObstruction?.(px, pz, 10,
+      landmarkArchitecture?.replacedLandmarkIds)) return;
+    }
+    pts.push(px, h - 0.5, pz, 1.5 + rnd2(i + 3, j + 71) * 1.1);
+    planted();
+    if (FAR_CAL) {
+      /* the band's own spacing, so a thinned band's quad is grown to cover
+         the stems it stands in for instead of drawing one of them */
+      const tree = farRingTree(FAR_CAL, rnd2(i + 3, j + 71), rnd2(i + 13, j + 57), lc === LANDCOVER.LIGHT_TREES, undefined, bandSpacing);
+      ptsSize[pts.length / 4 - 1] = [tree.height, tree.radius];
+      farBandCounts[band]++;
+    }
+  };
+  if (!replay) {
+    if (dataRing) for (let z = cv.z0; z < cvz1; z += GAP2) {
+      if (shouldYieldWork()) await yieldWork();
+      for (let x = cv.x0; x < cvx1; x += GAP2) { decisions.push(0); dataCell(x, z); }
+    }
+    for (let z = FARR.z0; z < FARR.z1; z += farStep) {
+      if (shouldYieldWork()) await yieldWork();
+      for (let x = FARR.x0; x < FARR.x1; x += farStep) { decisions.push(0); farCell(x, z); }
+    }
+  } else {
+    /* only the set bits: each is mapped back to its row and column, whose
+       coordinates are accumulated exactly as the loops above accumulate them */
+    const steps = (from, to, step) => { const out = []; for (let v = from; v < to; v += step) out.push(v); return out; };
+    const xsD = dataRing ? steps(cv.x0, cvx1, GAP2) : [], zsD = dataRing ? steps(cv.z0, cvz1, GAP2) : [];
+    const xsF = steps(FARR.x0, FARR.x1, farStep), zsF = steps(FARR.z0, FARR.z1, farStep);
+    const nD = xsD.length * zsD.length, total = nD + xsF.length * zsF.length;
+    if (total !== replay.candidates) return null;
+    const bits = replay.bits;
+    let kept = 0;
+    for (let b = 0; b < bits.length; b++) {
+      let byte = bits[b];
+      if (!byte) continue;
+      if ((b & 4095) === 0 && shouldYieldWork()) await yieldWork();
+      for (let bit = 0; byte; bit++, byte >>= 1) {
+        if (!(byte & 1)) continue;
+        const k = b * 8 + bit;
+        if (k >= total) return null;
+        const before = pts.length;
+        if (k < nD) dataCell(xsD[k % xsD.length], zsD[Math.floor(k / xsD.length)]);
+        else { const f = k - nD; farCell(xsF[f % xsF.length], zsF[Math.floor(f / xsF.length)]); }
+        if (pts.length === before) return null;   /* a set bit that plants nothing is not this record */
+        kept++;
       }
     }
   }
+  return { pts, ptsSize, farBandCounts, farStep, decisions,
+    skipped: replay ? replay.skipped : vistaSkippedInsideCoverage };
+  };
+  /* A prepared record is used only for this revision, these inputs and the
+     exact planting it was baked from: the replay's digest must reproduce the
+     bake's, or the vista is planted the ordinary way. */
+  const vistaInputs = preparedVistaInputs({
+    landmarks: landmarkArchitecture?.replacedLandmarkIds ? [...landmarkArchitecture.replacedLandmarkIds] : [],
+    flags: { vegetation: !!V2_VEG_PLAN, coverage: !!V2_VEG_COVER, landcover: !!LANDCOVER_REC, surroundings: !!SURR,
+      mown: !!MOWN_REC, flatWater: typeof terrainV2.isFlatWaterAt === 'function', ocean: !!CONTINUOUS_OCEAN,
+      coastal: !!COASTAL_WATER, legacyLattice: legacyLatticeCount },
+  });
+  const vistaIdentity = V2_SELECTION.graph ? await preparedVistaIdentity({ meta: CMETA,
+    groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, lowQuality: LOWQ,
+    revision: __COURSE_SOURCE_REVISION__ }) : null;
+  let vistaRun = null;
+  BOOT_PERF.preparedVista = false;
+  const preparedVista = await PREPARED_VISTA_LOADING;
+  if (usablePreparedVista(preparedVista, { identity: vistaIdentity, inputs: vistaInputs })) {
+    try {
+      const replayed = await plantVista({ bits: preparedVista.bits, candidates: preparedVista.candidates,
+        skipped: preparedVista.skipped ?? 0 });
+      if (replayed && await vistaDigest(replayed.pts, replayed.ptsSize) === preparedVista.digest) {
+        vistaRun = replayed; BOOT_PERF.preparedVista = true;
+      } else BOOT_PERF.preparedVista = 'mismatch';
+    } catch { BOOT_PERF.preparedVista = 'mismatch'; }
+  }
+  if (!vistaRun) vistaRun = await plantVista(null);
+  if (BAKE_VISTA) {
+    // The publisher records this exact production planting; no second copy of its rules.
+    window.__VISTA_BAKE__ = { identity: vistaIdentity, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
+      inputs: vistaInputs, candidates: vistaRun.decisions.length, bits: packVistaBits(vistaRun.decisions),
+      digest: await vistaDigest(vistaRun.pts, vistaRun.ptsSize), skipped: vistaRun.skipped, points: vistaRun.pts.length / 4 };
+    await new Promise(() => {}); // Dedicated publishing page closes here.
+  }
+  const { pts, ptsSize, farBandCounts, farStep } = vistaRun;
+  const vistaSkippedInsideCoverage = vistaRun.skipped;
   stats.vistaCalibration = FAR_CAL ? {
     samples: FAR_CAL.samples, medianHeight: +FAR_CAL.medianHeight.toFixed(2), m2PerStem: +FAR_CAL.m2PerStem.toFixed(1),
     nearSpacing: +farStep.toFixed(2), bands: farBandCounts, skippedInsideCoverage: vistaSkippedInsideCoverage,

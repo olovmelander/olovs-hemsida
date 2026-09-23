@@ -113,7 +113,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "f01037fe0a6129a124a6ee1f9e03476d93a46866d53ae3d25933484cc54641d5",
+     "identity": "45d285b4a8355a46fc574b5b984c26dfa1443d09fedb043c4cafa28e059037e5",
      "url": "courses/angso/prepared/tint-93db725d61c486c208e5020ce33952003786056e2741d2555aa5d4dbaa8ebc18.bin",
      "bytes": 599902,
      "decodedBytes": 3052072,
@@ -147,7 +147,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "839c65d459636629567a701d6d37ce639638125affa3dc0d15af9e9557883e5c",
+     "identity": "774a793fa2e187d37971b4732ceb945bcb5a955242ef949f636ccba9efd6febe",
      "url": "courses/angso/prepared/tint-93db725d61c486c208e5020ce33952003786056e2741d2555aa5d4dbaa8ebc18.bin",
      "bytes": 599902,
      "decodedBytes": 3052072,
@@ -182,12 +182,40 @@
     }
    },
    "preparedWater": {
-    "identity": "e3c68894da43ff1fd3e2ac5a840fd4ede0a6d6841835e37e8ff99b8e47ba2f05",
-    "url": "courses/angso/prepared/water-6beda8baede845e138b7205a6fef587d3a80b17243d7c608528ab32259bacaac.bin",
-    "bytes": 436880,
+    "identity": "eae5a86314fa4751d66cbc41d27460b5d0b1310dc7276b9905bf0a945ce322ef",
+    "url": "courses/angso/prepared/water-2043da6a793451cb5986bd50a07a842f9edf1127e933a0a3e0bc548434449712.bin",
+    "bytes": 436875,
     "decodedBytes": 63054969,
-    "sha256": "6beda8baede845e138b7205a6fef587d3a80b17243d7c608528ab32259bacaac",
-    "decodedSha256": "771201f606c3120e9323fa6e6534e31fcb10edf34f52da1598239fa26c0743e3"
+    "sha256": "2043da6a793451cb5986bd50a07a842f9edf1127e933a0a3e0bc548434449712",
+    "decodedSha256": "0e1ada05262b5c0313c5201947a857d0422cfe5756cfb7e4890b786222f459c2"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "e95e8cc2e334e7f5404275feb741b2a37d2cbf8883dbb852ae351d26f67050ed",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/angso/prepared/vista-76cbdda799ba711e64e14e7d32112802a2a43a9b14c7e66454f6a6dec6d1f427.bin",
+     "bytes": 111793,
+     "decodedBytes": 385780,
+     "sha256": "76cbdda799ba711e64e14e7d32112802a2a43a9b14c7e66454f6a6dec6d1f427",
+     "decodedSha256": "2867c41f6c4ba6965e6a207d84f8ca557be64f5927fc36ce1dcea0bcafc10202",
+     "candidates": 3086234,
+     "digest": "1f70d641289ced09a331219dcba4c6f863abcc936f12c91ea4d1bcffa35e73f2",
+     "skipped": 287028,
+     "points": 283012
+    },
+    "vista-lo": {
+     "identity": "39f38565af05c9970c6457fdfa4a13372ad1c35306bdec3568afbfba4d6a3531",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/angso/prepared/vista-b6037c593b4eab12b9b5714d0a0fb8dc4181363b61b7158bd6cfb8531cde707b.bin",
+     "bytes": 64774,
+     "decodedBytes": 214471,
+     "sha256": "b6037c593b4eab12b9b5714d0a0fb8dc4181363b61b7158bd6cfb8531cde707b",
+     "decodedSha256": "f93e47f32824bd15a4c00c19fc5e2b97739af448b066358cada4da9daa09f404",
+     "candidates": 1715765,
+     "digest": "e45ffbaee5d54f6f428d66995f3dcde9e47f13c78fe99f2e3254c95c9dab17dd",
+     "skipped": 159411,
+     "points": 156610
+    }
    }
   },
   {
@@ -303,7 +331,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "bacb3500a89881e85c6cada2d240066d2653f20b1b358c5527a266124f82df87",
+     "identity": "8777fac28023117b4d11c9c58ac03cc9a9361bd118de05d83c851d4540b11edf",
      "url": "courses/norrfallsviken/prepared/tint-659d8abeb00af8f5a26babe7c2cac697adf7129a28d7c954a5163eca1d0e6fdb.bin",
      "bytes": 389885,
      "decodedBytes": 3213576,
@@ -337,7 +365,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "5f57a687903ace57aee4fbc2fad3cab9a859528a0bb923a5911045c5808a9fbe",
+     "identity": "6caa7d63cb8f0cab431336707352852c1ee2d260e64bc6596f77a26d595c2d25",
      "url": "courses/norrfallsviken/prepared/tint-659d8abeb00af8f5a26babe7c2cac697adf7129a28d7c954a5163eca1d0e6fdb.bin",
      "bytes": 389885,
      "decodedBytes": 3213576,
@@ -372,12 +400,40 @@
     }
    },
    "preparedWater": {
-    "identity": "effd56952e9dd3066f6a6709f0e60a8e2ad833b600cc9b237046ae8c145e9ef4",
-    "url": "courses/norrfallsviken/prepared/water-7d9cdef82cc9e5e5bd3976e343e3b6af16f05d4d9ca4bccc20752c54a85a81bb.bin",
-    "bytes": 78471,
+    "identity": "c8b5b396c1b898f75fb79a9fc4aeaad24d18e3ff9b69826772e5e66b11a326dc",
+    "url": "courses/norrfallsviken/prepared/water-e9b63b1955ddda1b99d0af6d2ebb3ddacd5be6091eb5006210fb957634e44588.bin",
+    "bytes": 78475,
     "decodedBytes": 62983513,
-    "sha256": "7d9cdef82cc9e5e5bd3976e343e3b6af16f05d4d9ca4bccc20752c54a85a81bb",
-    "decodedSha256": "7d6ed30330b284f38b868717757e567b1f19f8399331aa776247dd992a83c3b9"
+    "sha256": "e9b63b1955ddda1b99d0af6d2ebb3ddacd5be6091eb5006210fb957634e44588",
+    "decodedSha256": "4730ad9932a20b5c28c653e318f48d39cf2acdbd674f3984b1c8d286acff201f"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "e3978fd59b149c5c5b58faa49b878ca675afa7e2d22c732f819f4951979e7aa9",
+     "inputs": "{\"flags\":{\"coastal\":true,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":true,\"ocean\":true,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/norrfallsviken/prepared/vista-330938110053f32b93851c4bd990eaf134ea9ef89251d51072dcf8e0918766c4.bin",
+     "bytes": 64524,
+     "decodedBytes": 440526,
+     "sha256": "330938110053f32b93851c4bd990eaf134ea9ef89251d51072dcf8e0918766c4",
+     "decodedSha256": "b3c418e4f0e9fa8f62a4f457dd61c9f54c927f4dcb0668e3a3bf4b52b6b1937b",
+     "candidates": 3524208,
+     "digest": "9fce2dd1a8ead93edf34141e030775efa1782dba2c5f775167d22bbabdf308f1",
+     "skipped": 199919,
+     "points": 163387
+    },
+    "vista-lo": {
+     "identity": "d8b87ad17e8baede898e33e9fba18ec0062de074e2bedc050f5757e6ff73dc7b",
+     "inputs": "{\"flags\":{\"coastal\":true,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":true,\"ocean\":true,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/norrfallsviken/prepared/vista-194560dafed0d7a4cab6e25ddddcd865e0685848c46f22a37d25092e2b95f750.bin",
+     "bytes": 37162,
+     "decodedBytes": 244084,
+     "sha256": "194560dafed0d7a4cab6e25ddddcd865e0685848c46f22a37d25092e2b95f750",
+     "decodedSha256": "576537048dc1c282046f9ef9289b8baec54f2dd6c1656b9bfe49f08e5ece68cd",
+     "candidates": 1952667,
+     "digest": "8d1ec8408b7b62d81f73135c79d307f0ca00c7f44c2e1533f5b90459dd8e0f16",
+     "skipped": 110925,
+     "points": 89970
+    }
    }
   },
   {
@@ -490,7 +546,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "6dbc5255bb2b90a1d36b08cbb00fbaefea137c6bf7ea17da188e0150e078c980",
+     "identity": "c7fef5e68552ca681c21697efa6f71c0a208e18a21fd321b7bff885d8e32354e",
      "url": "courses/puttom/prepared/tint-794d6c7c07bb8084418f786889d9390c277dbaee21a14937f26b8fc33d5e75fc.bin",
      "bytes": 634834,
      "decodedBytes": 3007080,
@@ -524,7 +580,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "cd5de42934d5f3fc90b0510a187d073b994e886f7c914345536273f13c1e33ef",
+     "identity": "73fcc5c254340cc92453863087936977e33354ee4d9f97d24f42019e2ff90454",
      "url": "courses/puttom/prepared/tint-794d6c7c07bb8084418f786889d9390c277dbaee21a14937f26b8fc33d5e75fc.bin",
      "bytes": 634834,
      "decodedBytes": 3007080,
@@ -559,12 +615,40 @@
     }
    },
    "preparedWater": {
-    "identity": "9735bb3908c51bc119c65bf9a8bf062c23fcd1f51f0f939ce863e77a4d5ed17f",
-    "url": "courses/puttom/prepared/water-c1e4261f4f666396eecd5fea202f6f25b0d9e8f1a649bde7a607c9b8c2036b24.bin",
-    "bytes": 337622,
+    "identity": "0f6739de2293102cc306a69a228038e257046ae89bc2f00ac07ebd5d2ecdbfa2",
+    "url": "courses/puttom/prepared/water-0e0001b7b4096ba51f639c2ff18c3b61632e6c2b303f12fd769ee4a5baee978e.bin",
+    "bytes": 337625,
     "decodedBytes": 63000881,
-    "sha256": "c1e4261f4f666396eecd5fea202f6f25b0d9e8f1a649bde7a607c9b8c2036b24",
-    "decodedSha256": "2e7cdd8b735fddd7fa59132c7190c748a9ec53936a8f9ed102613e55d8c0c404"
+    "sha256": "0e0001b7b4096ba51f639c2ff18c3b61632e6c2b303f12fd769ee4a5baee978e",
+    "decodedSha256": "3e610eb649a0a1441e78e8131ca6d2a0105a80b8f16b574d293aad78b7d8e33c"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "9a7ec63a914868943a7942b13f4157e5cb1dfb0516b681026cff339589dd816d",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/puttom/prepared/vista-ca8bc697ace282a847964a658cd5de397346c7de2e7632d32dba9606bf9f5fdc.bin",
+     "bytes": 194376,
+     "decodedBytes": 426331,
+     "sha256": "ca8bc697ace282a847964a658cd5de397346c7de2e7632d32dba9606bf9f5fdc",
+     "decodedSha256": "6445add48096eb7f5af6dbe500424f970096dbf2ac83e9388354339e699d0674",
+     "candidates": 3410641,
+     "digest": "8234fc6741107ba316de693e932253066058e74e48ca41991e4f03a513494078",
+     "skipped": 271791,
+     "points": 596718
+    },
+    "vista-lo": {
+     "identity": "a516375e50b3e115210d972923e1fd177b537d5f4bee5a2daefbd25183fc5ae7",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/puttom/prepared/vista-d4bd7754fd54f0cf99787a685277642d2a14eba98efd99c918beaabd2e7f8ec1.bin",
+     "bytes": 110071,
+     "decodedBytes": 233009,
+     "sha256": "d4bd7754fd54f0cf99787a685277642d2a14eba98efd99c918beaabd2e7f8ec1",
+     "decodedSha256": "71c48688d1c631dca5d6e655468ed35bf04505f4df08f2227b865749970893c3",
+     "candidates": 1864069,
+     "digest": "8b10a86da9ba32d10ac56b77d3fc6d46d0ca0eb1c17877c5522373c59e7ec0f8",
+     "skipped": 148478,
+     "points": 327503
+    }
    }
   },
   {
@@ -681,7 +765,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "e0fc05dd7acd0dde7e090e6b83615c83abe1eec13153d8df16bddef7df835566",
+     "identity": "50646472540b427b92557a4971249ee733aad1252beb2d778f4467123e7c4bfd",
      "url": "courses/upsala/prepared/tint-b8e2291489a592017eb7ebae3ee254a3a503d2775048ba7fab7184515bd56a8d.bin",
      "bytes": 625038,
      "decodedBytes": 3074760,
@@ -715,7 +799,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "d0700613bc30ea67b64abd77c982a1429a7eeb5ffd6a9b13d6c66c17c3ca862b",
+     "identity": "e8f3e248fdf1ca8343eef984f32f5a3f84a0cfa7ba2b6c9ae80154a61438a2c1",
      "url": "courses/upsala/prepared/tint-b8e2291489a592017eb7ebae3ee254a3a503d2775048ba7fab7184515bd56a8d.bin",
      "bytes": 625038,
      "decodedBytes": 3074760,
@@ -750,12 +834,40 @@
     }
    },
    "preparedWater": {
-    "identity": "89bbe5ccfa5960ccf4c2e1df8875d487f99bec512d20cf949ffa41900e2ec631",
-    "url": "courses/upsala/prepared/water-ebddb84756059ef2db4c17e58b66680aa0ad50ed849bd76ba53ff5945524c1dc.bin",
+    "identity": "4705b3094f08a094a27768da20ee4bcba36c4ec2fd297c041b4b993b3601d5d6",
+    "url": "courses/upsala/prepared/water-e7948f3e139e8022e825d3a4e50fffe39144cc5af9b9819a84e019c6bfc17930.bin",
     "bytes": 333989,
     "decodedBytes": 63016105,
-    "sha256": "ebddb84756059ef2db4c17e58b66680aa0ad50ed849bd76ba53ff5945524c1dc",
-    "decodedSha256": "b70c84f7e54ae2ccc9198d2f95b95489e17b2c2e3e507f5221d23896606a2aa7"
+    "sha256": "e7948f3e139e8022e825d3a4e50fffe39144cc5af9b9819a84e019c6bfc17930",
+    "decodedSha256": "90abf6a19a36487301e1fa8ff2e60dfb4129b05940cdfcfe44d91542c9fba071"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "1ded641d02e860ac1be1348d4dbe868758d1b04e0f9a62a688d37f1264ed0139",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":20205,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/upsala/prepared/vista-64160b0b80ad194ca697290cd250d1ae9694d6187ccecb18f23327b6ccb54cc2.bin",
+     "bytes": 9948,
+     "decodedBytes": 20294,
+     "sha256": "64160b0b80ad194ca697290cd250d1ae9694d6187ccecb18f23327b6ccb54cc2",
+     "decodedSha256": "d42142b21757196e82886666a249f073c0b862fb21dbad5f2fce69239407746e",
+     "candidates": 162345,
+     "digest": "a9142a518cbe06525bc0bd209c81269521680a2cf92232cb2dee6d81ff48ec21",
+     "skipped": 12409,
+     "points": 64372
+    },
+    "vista-lo": {
+     "identity": "4e454da2c3ffcc643a254faad07d7105dce7a9e5b4829824fe21f3f0e81987e0",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":11241,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/upsala/prepared/vista-ca5dd239cc73fe922f7dd36a6a2ed17a534cae065cc7a6399ded992224444255.bin",
+     "bytes": 5604,
+     "decodedBytes": 10465,
+     "sha256": "ca5dd239cc73fe922f7dd36a6a2ed17a534cae065cc7a6399ded992224444255",
+     "decodedSha256": "24bd4899e594fab09ccc704ef9cc5232efebbb82e62b8b4bf0b5b3296e1b10ef",
+     "candidates": 83716,
+     "digest": "0699fad2b63a31b606862f879439d0a5a017936fe95e1030e0b608d8f813056a",
+     "skipped": 6342,
+     "points": 33054
+    }
    }
   },
   {
@@ -870,7 +982,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "a0da3211d3f16acaeea217b4bc7381706f35cd7f4cfc2051258f031adc3c5c5a",
+     "identity": "18eb67710b91607d56a4a00a894b8d9b1378452441e39758169b913deef2f009",
      "url": "courses/upsala-mellanbanan/prepared/tint-7bea5ac9fb27b88aa937fa09a4fbd1b1acc01fc06db7c00b9cee561e857d0e3f.bin",
      "bytes": 622230,
      "decodedBytes": 3074760,
@@ -904,7 +1016,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "10436b42ef196344c9e29daefe749fbc0c81c9ed7f97aab2e64476e0eeeab0f5",
+     "identity": "c5d24b5036a39f18ef6ccd69f5118c41a702a7178021a5a0938400285919f8d1",
      "url": "courses/upsala-mellanbanan/prepared/tint-7bea5ac9fb27b88aa937fa09a4fbd1b1acc01fc06db7c00b9cee561e857d0e3f.bin",
      "bytes": 622230,
      "decodedBytes": 3074760,
@@ -939,12 +1051,40 @@
     }
    },
    "preparedWater": {
-    "identity": "ae185d00670762fa7d442518d37596e632c02a460ad25e67cb304226dddf659a",
-    "url": "courses/upsala-mellanbanan/prepared/water-998a8495b10f2b6db4546eeb2495190b3a5a5a976180b5f68175d0f484afedfc.bin",
+    "identity": "09f0801971e46ec690e3e096a4cf6026813535159591678efca939bb39a518d1",
+    "url": "courses/upsala-mellanbanan/prepared/water-d126083a88fe1fffa47b9988bf0cc46bb0d5070ae4e75153e77030bc0d09c96a.bin",
     "bytes": 333983,
     "decodedBytes": 63016105,
-    "sha256": "998a8495b10f2b6db4546eeb2495190b3a5a5a976180b5f68175d0f484afedfc",
-    "decodedSha256": "18f824d69e9640f83ba594429d786e7355694cfb8c19e6c1d5bf9e73b8920898"
+    "sha256": "d126083a88fe1fffa47b9988bf0cc46bb0d5070ae4e75153e77030bc0d09c96a",
+    "decodedSha256": "2b9c094c67285aa46461ad84fad3eb19890b0ea03b12699530ba546f539ad7ae"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "53eb502c9abbb730902429a9a0d3045169e5653f1acc7b9d3b2349f032b620eb",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":20205,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/upsala-mellanbanan/prepared/vista-64160b0b80ad194ca697290cd250d1ae9694d6187ccecb18f23327b6ccb54cc2.bin",
+     "bytes": 9948,
+     "decodedBytes": 20294,
+     "sha256": "64160b0b80ad194ca697290cd250d1ae9694d6187ccecb18f23327b6ccb54cc2",
+     "decodedSha256": "d42142b21757196e82886666a249f073c0b862fb21dbad5f2fce69239407746e",
+     "candidates": 162345,
+     "digest": "a9142a518cbe06525bc0bd209c81269521680a2cf92232cb2dee6d81ff48ec21",
+     "skipped": 12409,
+     "points": 64372
+    },
+    "vista-lo": {
+     "identity": "f8f1f5496bf191b0f88c980a4fe902c1dea0b6a25155b37e4afe2e7decded6ad",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":11241,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/upsala-mellanbanan/prepared/vista-ca5dd239cc73fe922f7dd36a6a2ed17a534cae065cc7a6399ded992224444255.bin",
+     "bytes": 5604,
+     "decodedBytes": 10465,
+     "sha256": "ca5dd239cc73fe922f7dd36a6a2ed17a534cae065cc7a6399ded992224444255",
+     "decodedSha256": "24bd4899e594fab09ccc704ef9cc5232efebbb82e62b8b4bf0b5b3296e1b10ef",
+     "candidates": 83716,
+     "digest": "0699fad2b63a31b606862f879439d0a5a017936fe95e1030e0b608d8f813056a",
+     "skipped": 6342,
+     "points": 33054
+    }
    }
   },
   {
@@ -1059,7 +1199,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "3e171fede4d1d791ee215c749c590b79c207ce907142dca72041d59a23a41752",
+     "identity": "ed1abeb5c64710719dd1869d011b74db0fd67570d1c4f8f653079e1a949f0a27",
      "url": "courses/johannesberg/prepared/tint-6af3a5791e96aae58e806f45ce0baa45522119fe74ffc82c9017b0ac2d346289.bin",
      "bytes": 635018,
      "decodedBytes": 2951560,
@@ -1093,7 +1233,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "a6bceaa869ba762eee9f1a5aa45894746da6c16b2311f2398705a8509cd50334",
+     "identity": "a227d5c78e8cc3ae10429b6efb559ed89ac7fb856eba58285d679e12a924bea4",
      "url": "courses/johannesberg/prepared/tint-6af3a5791e96aae58e806f45ce0baa45522119fe74ffc82c9017b0ac2d346289.bin",
      "bytes": 635018,
      "decodedBytes": 2951560,
@@ -1128,12 +1268,40 @@
     }
    },
    "preparedWater": {
-    "identity": "8673ea6719003782d390e831b8fee034342efb38f27c031b792bc3a2e05501a2",
-    "url": "courses/johannesberg/prepared/water-fc869c658910c5d3af53a66bf767120e29215871c6660d1633da69562ab176a3.bin",
-    "bytes": 572253,
+    "identity": "47af7981a809264229b5543e874f14b0edc2d87e0b9488928de09d7e991fa585",
+    "url": "courses/johannesberg/prepared/water-3d7f00f1b7414bf684417689d982a8db236d1fb17a514a2beab5dd06ba47cbf2.bin",
+    "bytes": 572255,
     "decodedBytes": 63062969,
-    "sha256": "fc869c658910c5d3af53a66bf767120e29215871c6660d1633da69562ab176a3",
-    "decodedSha256": "2e6b2a54ec9dbcad873422db2c93c66a6a5a399b87ca4c9b1868ad3c22ff2143"
+    "sha256": "3d7f00f1b7414bf684417689d982a8db236d1fb17a514a2beab5dd06ba47cbf2",
+    "decodedSha256": "55f3e152be5bedbe8bae8e43fa779bb848c8f1de307d0a8c8b9f601bdaf674ed"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "195a54234602e29fcdad7e61d84f592b584f7f3399e27ab1bf5ec2e84df9f084",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/johannesberg/prepared/vista-17eeac46f6c60d544f7119a64fa0a134b89e3192704ddd822b0c04d2cb123549.bin",
+     "bytes": 176447,
+     "decodedBytes": 363261,
+     "sha256": "17eeac46f6c60d544f7119a64fa0a134b89e3192704ddd822b0c04d2cb123549",
+     "decodedSha256": "77b1bfaf1351cb9d34ad486330e59618e1b564b0fe6608a40f804cfd4f45d26f",
+     "candidates": 2906082,
+     "digest": "0f4598ba03ad57dd4b831162279a5e155ba6006e60a5f9f8445de3e24a643940",
+     "skipped": 187948,
+     "points": 544092
+    },
+    "vista-lo": {
+     "identity": "eb03275cd033f664cece50fb9552ce6578391788c6e19fae093457e927dec6e9",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/johannesberg/prepared/vista-8e96ae7edb58c969b5abca2e6c2a25c84a93e9aff5248626421681c9326af174.bin",
+     "bytes": 100873,
+     "decodedBytes": 202252,
+     "sha256": "8e96ae7edb58c969b5abca2e6c2a25c84a93e9aff5248626421681c9326af174",
+     "decodedSha256": "7af12fd8c2b3e1499e3067fe3d733ec725ae841a64d4ab229f031714c639423a",
+     "candidates": 1618010,
+     "digest": "31d9886ab19f8a6eeb3eec4e5f5329393d9bd3fd5d3c61dcfb109e622a19108e",
+     "skipped": 105131,
+     "points": 300759
+    }
    }
   },
   {
@@ -1242,7 +1410,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "8591f05940b214d5280a07941e56cdd739e8cfceb9d3fcdc69987ec361f0f0fb",
+     "identity": "eedfeb35b4d5f9facf688107d086bedbafae7dcc93821ab33e473a2d0e29f901",
      "url": "courses/johannesberg-9/prepared/tint-42b597cc3881809ad927c84c256c81f47548507032ba6c069261ba3a39e5d0a5.bin",
      "bytes": 623378,
      "decodedBytes": 2951560,
@@ -1276,7 +1444,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "07e404f155e57e28db978d341edfe7b3a3709ed2b530fd9505c88dc6e4ac46f7",
+     "identity": "b8a01100d0dea6a189a99fbdce94ab4e509b083cbe1ab6c0f461cf628f32c7e3",
      "url": "courses/johannesberg-9/prepared/tint-42b597cc3881809ad927c84c256c81f47548507032ba6c069261ba3a39e5d0a5.bin",
      "bytes": 623378,
      "decodedBytes": 2951560,
@@ -1311,12 +1479,40 @@
     }
    },
    "preparedWater": {
-    "identity": "41056c75c1e59290483d356575c7385f450105275468a210bf9c4776bfa1677d",
-    "url": "courses/johannesberg-9/prepared/water-e23f0f571b77be593fcf35f7f296d7d48629b220ad6899b9bdf2761746997c46.bin",
-    "bytes": 572251,
+    "identity": "a68c48596546f08e707b4935afdd47f4dbecf7a06ad9e54f84019e8b6260a23b",
+    "url": "courses/johannesberg-9/prepared/water-620cc8db4c0dd6d4f48aa8b7b4e72c6941eb836f8d1a0cc22901fc8dd44f6658.bin",
+    "bytes": 572257,
     "decodedBytes": 63062969,
-    "sha256": "e23f0f571b77be593fcf35f7f296d7d48629b220ad6899b9bdf2761746997c46",
-    "decodedSha256": "a0527289bdf79a968c769d61d33d8572488a37a1a125e3509ce1b9b8e2a95ecf"
+    "sha256": "620cc8db4c0dd6d4f48aa8b7b4e72c6941eb836f8d1a0cc22901fc8dd44f6658",
+    "decodedSha256": "643c49d3095e654d0701442128a33781d4dbbd94fa94129e18d4e50c8baf8165"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "39b6bfe8e2bfce3c7ea5f43a3fdf03677495f6a2f66e3aed5b66ed83d198bfd6",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/johannesberg-9/prepared/vista-93885abbb735a5296b7c311dd8292aed33d894f72e4d96f02ef1e70d72a81c7a.bin",
+     "bytes": 176444,
+     "decodedBytes": 363261,
+     "sha256": "93885abbb735a5296b7c311dd8292aed33d894f72e4d96f02ef1e70d72a81c7a",
+     "decodedSha256": "2cccbad9f1247eee779833bcdff159491d4a4bf1a8bc2e1464fc18a23f4ca746",
+     "candidates": 2906082,
+     "digest": "bdae87ac08c1bb9eab8c0baa677d1ad339eebaacc749c29f81d2b9b052750380",
+     "skipped": 187982,
+     "points": 544075
+    },
+    "vista-lo": {
+     "identity": "a51b94ab3b43b60d016cb23ba9108ba560ac17e3ecc86c8accfc298793a53a53",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/johannesberg-9/prepared/vista-1d351686a265fea9c78179c9fbe829220ebcc0b4531248a63c7486548037fcfc.bin",
+     "bytes": 100866,
+     "decodedBytes": 202252,
+     "sha256": "1d351686a265fea9c78179c9fbe829220ebcc0b4531248a63c7486548037fcfc",
+     "decodedSha256": "558abd55b6553a10d3092bda181d22bb1c8adfdab067588f0e798bd4939c4816",
+     "candidates": 1618010,
+     "digest": "ef2062a9af4b3dc47fc19a3b0450ba36a7e6946522b793db5eff6f970334cdb3",
+     "skipped": 105145,
+     "points": 300751
+    }
    }
   },
   {
@@ -1369,16 +1565,16 @@
     "sha256": "eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc"
    },
    "preparedWater": {
-    "identity": "aaf16adf61dd9c7c55348f95e892b200772ece9f8585a00fae3cffff36b01d4a",
-    "url": "courses/veckefjarden/prepared/water-b35d467b1828ae7c1a0f4539b3ac139e5ab07e766cb29954589a97425b4e7fa4.bin",
-    "bytes": 306779,
+    "identity": "c7187fcdba0d5e9e545af3cb453e8885b22ca868bc32bb1a6ba36ffac9012247",
+    "url": "courses/veckefjarden/prepared/water-9dd899336eec0ca78712e4520f312bce153f85972f82e209a899e92c39d2c3fc.bin",
+    "bytes": 306778,
     "decodedBytes": 63070553,
-    "sha256": "b35d467b1828ae7c1a0f4539b3ac139e5ab07e766cb29954589a97425b4e7fa4",
-    "decodedSha256": "889be32fbe28c68c120e19bba098663d80b1b0ebdd1db60d780295213b671269"
+    "sha256": "9dd899336eec0ca78712e4520f312bce153f85972f82e209a899e92c39d2c3fc",
+    "decodedSha256": "16277e1d82df33df5d77d949e0aad13b31ecb496b3cd60be598424819468c326"
    },
    "preparedTint": {
     "painted-hi": {
-     "identity": "e3842a672f7baf921028a89c67e30abc0e060df1e804b98d54edf804d9baefd3",
+     "identity": "0af260ea547a23c0c80a3160390a67cb62901454dc5685923859d6114f852cf1",
      "url": "courses/veckefjarden/prepared/tint-5da7dcd25da9fae7a1ad9f953d4ebed2a8f96406e7cc346dc7360b70e04a25cf.bin",
      "bytes": 673340,
      "decodedBytes": 3132040,
@@ -1412,7 +1608,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "057865a442d8216f631fa65cf1535b6332bc1b0a7d36e551c1143dcc904fc850",
+     "identity": "2bc798366ab87365ee82af142676e386e6809d85dc563c8784327b256277d15e",
      "url": "courses/veckefjarden/prepared/tint-5da7dcd25da9fae7a1ad9f953d4ebed2a8f96406e7cc346dc7360b70e04a25cf.bin",
      "bytes": 673340,
      "decodedBytes": 3132040,
@@ -1444,6 +1640,34 @@
        "bytes": 2079364
       }
      ]
+    }
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "6704c1f2f3abeb2f04506c6b4dcecc26b6faf7e371303f368777786621cc4ede",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
+     "url": "courses/veckefjarden/prepared/vista-a63514e920f6ca6880abb5ebf4cf327b2399425dd665cfe435906ac632ee566d.bin",
+     "bytes": 144861,
+     "decodedBytes": 337682,
+     "sha256": "a63514e920f6ca6880abb5ebf4cf327b2399425dd665cfe435906ac632ee566d",
+     "decodedSha256": "24f00115050f97cee78386ba3d9b544f554af74ea515642d0a6486ba9eb4cb51",
+     "candidates": 2701452,
+     "digest": "7217d84359e7260891f05ca76473dca11a4178596d21000eb68e641f188cbd1f",
+     "skipped": 290442,
+     "points": 378417
+    },
+    "vista-lo": {
+     "identity": "cb5d8601425bb0001c0e6306a795dfd625fac37c6a18e3aa584a4263a066efaa",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
+     "url": "courses/veckefjarden/prepared/vista-0a107a3e410fbd46c2aae3518538fc8db1d91267118191dbd689c4f709a095d5.bin",
+     "bytes": 82962,
+     "decodedBytes": 187403,
+     "sha256": "0a107a3e410fbd46c2aae3518538fc8db1d91267118191dbd689c4f709a095d5",
+     "decodedSha256": "ccd8cd5d598f4891990cff8e6cc0255f1ea0d54ac90c52c94df7032540999c13",
+     "candidates": 1499218,
+     "digest": "1f39f59656dfa4e8eaaa8cf6e8bb3278d18af46cc9196f5c123bf4d9234f3467",
+     "skipped": 161344,
+     "points": 208980
     }
    }
   },
@@ -1489,16 +1713,16 @@
     "sha256": "eee3c83871d05e5c8083989d6d77aa1a8fa390779f6449345abb5f9f31afb0bc"
    },
    "preparedWater": {
-    "identity": "98683574df7dac7946e2029e4a9fbb6540028d70a30f35b7bdbd7198dd0325ab",
-    "url": "courses/veckefjarden-korthalsbanan/prepared/water-6fd20273ac00a18296503b06c857868019c36d81a81f1787cd9a25fb007bfb92.bin",
-    "bytes": 306768,
+    "identity": "3e089f6618ac21ce19255f1a83b075ddd10a937fbed615c62f5ff468cac3f74d",
+    "url": "courses/veckefjarden-korthalsbanan/prepared/water-031e50643de7183b13ffdb0742d8adf832a84eef11b75a04c5420f6c4e52ab66.bin",
+    "bytes": 306776,
     "decodedBytes": 63070553,
-    "sha256": "6fd20273ac00a18296503b06c857868019c36d81a81f1787cd9a25fb007bfb92",
-    "decodedSha256": "481a97166243562587812420506b68a3441ecec863f5dc987360fd2ed4c9d160"
+    "sha256": "031e50643de7183b13ffdb0742d8adf832a84eef11b75a04c5420f6c4e52ab66",
+    "decodedSha256": "4f0eb927f99f60b822c77cc3e3b90f8360565bddfefeba15120bbabe8970e6b1"
    },
    "preparedTint": {
     "painted-hi": {
-     "identity": "2a4087af897a48235807ac8149087421b252510da9247ed2ba71432073c95c9f",
+     "identity": "51fa6a1cf446c1b6ea29e3c5694839a30ccb99d24879eb471ab4992ee3736972",
      "url": "courses/veckefjarden-korthalsbanan/prepared/tint-a9a3db93a298f3b62958beab55d17dc5b2f148539502b7b3ccece84a397eb118.bin",
      "bytes": 666210,
      "decodedBytes": 3132040,
@@ -1532,7 +1756,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "a9bf8f842a81ae1bfda7d51e67604a3e938a47b04b27c33f92b1773ac9e25e18",
+     "identity": "9006ba38064395eeefeddbf351fde54fc3cb31bacc9b0bad75e3adea473492bc",
      "url": "courses/veckefjarden-korthalsbanan/prepared/tint-a9a3db93a298f3b62958beab55d17dc5b2f148539502b7b3ccece84a397eb118.bin",
      "bytes": 666210,
      "decodedBytes": 3132040,
@@ -1564,6 +1788,34 @@
        "bytes": 2079364
       }
      ]
+    }
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "d27bc160bc3f878dd363865fa3c104be04fd8c6d88cb7b4c10207bbc1a5053c8",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
+     "url": "courses/veckefjarden-korthalsbanan/prepared/vista-000cd4c59ea633c0ecbccd06aaba9efadc093d66f4706bc23865184b520ab0eb.bin",
+     "bytes": 144857,
+     "decodedBytes": 337682,
+     "sha256": "000cd4c59ea633c0ecbccd06aaba9efadc093d66f4706bc23865184b520ab0eb",
+     "decodedSha256": "cfb943ff529836063daa166fedea4cf1558f42e550b040071ce13e82c536c14c",
+     "candidates": 2701452,
+     "digest": "a40c3a2ff6755fd2f59f79ae6556e537938d74a7c9eca58503891d2e51b2ce11",
+     "skipped": 290445,
+     "points": 378418
+    },
+    "vista-lo": {
+     "identity": "89263811b42257fc10d0056e2d3de25c949afa513d5b77de130cc011f2fcdde6",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":true,\"vegetation\":true},\"landmarks\":[\"w104048726\",\"w70606159\"]}",
+     "url": "courses/veckefjarden-korthalsbanan/prepared/vista-0c03a6222983b9c517cf8e1b02076ada6db0c772e2ec09ecd44115533b533d45.bin",
+     "bytes": 82962,
+     "decodedBytes": 187403,
+     "sha256": "0c03a6222983b9c517cf8e1b02076ada6db0c772e2ec09ecd44115533b533d45",
+     "decodedSha256": "4542fa0a3cad2b5bf2826e566d30b1c0a011555b9276de905cf49c10992d85f9",
+     "candidates": 1499218,
+     "digest": "0956ec2c1f59713cfb39493b958977d7fb1bfbdb844667b68d26e0ddd8fd7646",
+     "skipped": 161345,
+     "points": 208987
     }
    }
   },
@@ -1676,7 +1928,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "fa85dd51a6d370abea3db1b77e23bd6563055ba20e0fe646ae479f4f9bde64c8",
+     "identity": "47ac68fc5f3d0cd451896de2d7d2187f8494d779e57fb4f08b7d7a8359d72b72",
      "url": "courses/ribbingsfors/prepared/tint-fe20f123c69b654ddd65abc9bd3bb9ba230e56382ad817cc336294749aa5bea3.bin",
      "bytes": 579627,
      "decodedBytes": 2929576,
@@ -1710,7 +1962,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "01bce4dfb90ccbd83673041ee1a0cabacdd2f129c2f81b7f4ee1cd8e3ca370e4",
+     "identity": "0e8b7739405d071d0fadc81b3bdda2886e3d5255addb37c5599414117776e69c",
      "url": "courses/ribbingsfors/prepared/tint-fe20f123c69b654ddd65abc9bd3bb9ba230e56382ad817cc336294749aa5bea3.bin",
      "bytes": 579627,
      "decodedBytes": 2929576,
@@ -1745,12 +1997,40 @@
     }
    },
    "preparedWater": {
-    "identity": "14175b5d8ab4e41b8a5ec456d94ef4101eaa7438433834405ec9e713518ef9d5",
-    "url": "courses/ribbingsfors/prepared/water-e22a1e8b7c3658afe54cc94abeb51166b5cbb2945138bb9ded9aba2b12fc72e1.bin",
-    "bytes": 660543,
+    "identity": "be1118e8c91261a3a9fc82a2e627bc9dedbf326cad41faecba592e76020b6a70",
+    "url": "courses/ribbingsfors/prepared/water-fafb775359808d4d1a85cba27cd3d5b378ececece44f3088c7b41c43efe4d359.bin",
+    "bytes": 660547,
     "decodedBytes": 63055569,
-    "sha256": "e22a1e8b7c3658afe54cc94abeb51166b5cbb2945138bb9ded9aba2b12fc72e1",
-    "decodedSha256": "9cdfc177176100fcb5531682a28eba59b3d9ee240aa3a8896b8bddde36dc35be"
+    "sha256": "fafb775359808d4d1a85cba27cd3d5b378ececece44f3088c7b41c43efe4d359",
+    "decodedSha256": "e77e3dca1608e847ca38cce051e0b76993d44b9f5a7b5ed46c6695551d9bff10"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "f23bd02ceec1e24ba0f687a1adcba9a6ed61eba46e7afdcdda6e5d435bd894ff",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/ribbingsfors/prepared/vista-05c9dfe9d4f89ba8abb64af3050999d77c638b10c1281b7da7a591dd5b5d9bcb.bin",
+     "bytes": 198873,
+     "decodedBytes": 406772,
+     "sha256": "05c9dfe9d4f89ba8abb64af3050999d77c638b10c1281b7da7a591dd5b5d9bcb",
+     "decodedSha256": "8cb40ef9a34e3f0750dd78eb1762b73b202d99d20829029553286648481fe9ed",
+     "candidates": 3254173,
+     "digest": "8989c7b1d913589c63e57973bfe21a48b8e509fd3ddadc180a9a93906d286127",
+     "skipped": 344395,
+     "points": 537355
+    },
+    "vista-lo": {
+     "identity": "05339a726f32042a1205217d380efdc50b4d23f3f4eb249c30d612a1e6284162",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/ribbingsfors/prepared/vista-77fdbaaae9e05eba108fcc3eb8089c7a230e2d45b1af32d458a4501cd1c87dd1.bin",
+     "bytes": 112981,
+     "decodedBytes": 226075,
+     "sha256": "77fdbaaae9e05eba108fcc3eb8089c7a230e2d45b1af32d458a4501cd1c87dd1",
+     "decodedSha256": "84277a16aa706c2b3f6aef16de4514187c155616d649e0871f4efb75567c9fde",
+     "candidates": 1808596,
+     "digest": "15abcba31d0a27f187f0b182da03c5c44b65c388f8c76af1da029aa176b6607a",
+     "skipped": 190968,
+     "points": 296714
+    }
    }
   },
   {
@@ -1800,7 +2080,7 @@
    },
    "preparedTint": {
     "painted-hi": {
-     "identity": "2f91017492bf074204459a35de92c5161e7f1ac000fce82a2bcde43b6bbc0144",
+     "identity": "8276bd2041a14807e89ffd88f4e7d066f94ff77e7dba95853191c29cde1fdc65",
      "url": "courses/visby/prepared/tint-f8682306dfc8be1d7ef7c25af10a4ef9cd9b0d93c250837c00abecad28c0af70.bin",
      "bytes": 433436,
      "decodedBytes": 2929576,
@@ -1834,7 +2114,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "ef1909214d937b3a9e974998688085717a63002557d0c2d1fed276bbdb1efaf4",
+     "identity": "7ca9f33179f6e63cdb64fcfb3406a1dd8c10d8a35f233e936c683ac51274f5a6",
      "url": "courses/visby/prepared/tint-f8682306dfc8be1d7ef7c25af10a4ef9cd9b0d93c250837c00abecad28c0af70.bin",
      "bytes": 433436,
      "decodedBytes": 2929576,
@@ -1869,8 +2149,36 @@
     }
    },
    "preparedWaterUnsupported": {
-    "revision": "3abe4fd0d5a59ca08940b903c60bfd7a101c4f991e2579c13dbdaee2ced01bd1",
-    "identity": "e6ea0aceaf615eebb133cf33931b7470458be6b2fb092f67b0065cdfa5681f7b"
+    "revision": "bf427c6131f0f239b62031ed0056ab002ad93e5b4316cb3ee06a8a7112846dfc",
+    "identity": "626c52407bf8db3a856cbc0693e469c97ed29e68df73451bfd7276384ca40a44"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "9224e32a306cd3ad38a829fc59c9ce755bd5ece1657d1d3416fbf4d911d8c097",
+     "inputs": "{\"flags\":{\"coastal\":true,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/visby/prepared/vista-1283dca96863fe2469fa1636d694fcf05d244490859b0c9a33040ae1f9ce2d01.bin",
+     "bytes": 88420,
+     "decodedBytes": 436646,
+     "sha256": "1283dca96863fe2469fa1636d694fcf05d244490859b0c9a33040ae1f9ce2d01",
+     "decodedSha256": "75d72acf843e669d735db9f005e88035eda5681d94f7f2b5fb3afc105761afa8",
+     "candidates": 3493161,
+     "digest": "451eca083b0e28c78ecfd50628149cc52d6203d3b968701f780408bd60a3fc2b",
+     "skipped": 501713,
+     "points": 211476
+    },
+    "vista-lo": {
+     "identity": "a9984fbc1a56414eba7620f32deb457376f60bc4c152c2efb0567655d88c9a29",
+     "inputs": "{\"flags\":{\"coastal\":true,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/visby/prepared/vista-f75ed80ea526c298f07e22ff6243237e3e3965c5e9290d8511239db88c7ce9a9.bin",
+     "bytes": 50486,
+     "decodedBytes": 238050,
+     "sha256": "f75ed80ea526c298f07e22ff6243237e3e3965c5e9290d8511239db88c7ce9a9",
+     "decodedSha256": "596ced988888fc2a31e2339f2d70b9cfca6e91dab6404712f47213530afa60ad",
+     "candidates": 1904400,
+     "digest": "c63e70edb170f751d7474085d440d46ea57d388cff5331202682e55c2955e3fb",
+     "skipped": 274011,
+     "points": 115793
+    }
    }
   },
   {
@@ -1984,7 +2292,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "212f695968b9894f0428ee28c8a90956c9eebf626cb576e3fc0e231ab6208051",
+     "identity": "cdc9e72641c4132a5e73e99f2fa0c47f22002dcc1ff16c17dd2e8f9b234dd5af",
      "url": "courses/tortuna/prepared/tint-746fbc709b90dbf8d4e951acb102390c3f690282194f7f40e524ca4a88188953.bin",
      "bytes": 603306,
      "decodedBytes": 2929576,
@@ -2018,7 +2326,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "ad9d3f6bd2798afe5a16935f1fed197f456965c855d4a72ced5e6c3d32a0dd9e",
+     "identity": "508d3be445c46307ad2782aa1120a2a21e7a2f3616b78c4cfb6e5de54c0d98e7",
      "url": "courses/tortuna/prepared/tint-746fbc709b90dbf8d4e951acb102390c3f690282194f7f40e524ca4a88188953.bin",
      "bytes": 603306,
      "decodedBytes": 2929576,
@@ -2053,8 +2361,36 @@
     }
    },
    "preparedWaterUnsupported": {
-    "revision": "3abe4fd0d5a59ca08940b903c60bfd7a101c4f991e2579c13dbdaee2ced01bd1",
-    "identity": "285bf6de1a4186e1f7ac0353189076ae9671daf17750a1ceafe1f652cdf944f8"
+    "revision": "bf427c6131f0f239b62031ed0056ab002ad93e5b4316cb3ee06a8a7112846dfc",
+    "identity": "f1a97d4061b521f41d29f8c70126ea744902b592038bd8aab44aee49b8b7f0db"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "366629fa362be656364dcbdae1e05acf5717a705a7dc1b838a80541eb18a8882",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/tortuna/prepared/vista-0ced941cb48bc9df8752a7404507c8135abae909d7d3dfcf31b5baedbde1180d.bin",
+     "bytes": 153673,
+     "decodedBytes": 377147,
+     "sha256": "0ced941cb48bc9df8752a7404507c8135abae909d7d3dfcf31b5baedbde1180d",
+     "decodedSha256": "0e2e56aaf4f8c649beea6724735a97901538ddaf083e194f3459b2368eee71bc",
+     "candidates": 3017169,
+     "digest": "c9355d4b34be8edef9a0c8250912e938787b0501c1332daf6de560ba80493d9f",
+     "skipped": 203382,
+     "points": 293628
+    },
+    "vista-lo": {
+     "identity": "22924a1aee737eec18f3ee9157602cc7b3f45e4bcfe13d8b4e258284f7bf5ce4",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/tortuna/prepared/vista-01e4fdca9059b45285f4892e1ab6d01c5c10831f2b84297179352fd083deec0d.bin",
+     "bytes": 87267,
+     "decodedBytes": 207691,
+     "sha256": "01e4fdca9059b45285f4892e1ab6d01c5c10831f2b84297179352fd083deec0d",
+     "decodedSha256": "c6166787e7c33bb83aba2e47167e84cddbd20bd3a9f63095b64519b769bdb6f4",
+     "candidates": 1661521,
+     "digest": "4f7634fe10bc3b73a436a0c22c8b8c1ebdb4432f8ba6ce8c8641039cf95cdf66",
+     "skipped": 111843,
+     "points": 161798
+    }
    }
   },
   {
@@ -2170,7 +2506,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "d55d1764b9fd7776bf676e4839cca08e334c80abe9c3df88518aa27356f4d883",
+     "identity": "3f99394ecef669c3def44717e090cf5e8e3ee4bf2a405cdbfe3152af08da2b7d",
      "url": "courses/lidingo/prepared/tint-e1ee897535bb1aa15d49df7e8a76dba72836c088cee041133d9cb0efe2a705d6.bin",
      "bytes": 676041,
      "decodedBytes": 2929576,
@@ -2204,7 +2540,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "277f8edd0d26a9669646ffbcbb7ae08d327d3f6f5766709d4eaacf0df7b7f29c",
+     "identity": "589037e5ceb14978615724b5d78cc43ed52c2ae9d8be145f119a571adbfc3c9e",
      "url": "courses/lidingo/prepared/tint-e1ee897535bb1aa15d49df7e8a76dba72836c088cee041133d9cb0efe2a705d6.bin",
      "bytes": 676041,
      "decodedBytes": 2929576,
@@ -2239,8 +2575,36 @@
     }
    },
    "preparedWaterUnsupported": {
-    "revision": "3abe4fd0d5a59ca08940b903c60bfd7a101c4f991e2579c13dbdaee2ced01bd1",
-    "identity": "8353effc1b737dd9d230057471f9b4b8a92f0955d32836d5400071665a92d276"
+    "revision": "bf427c6131f0f239b62031ed0056ab002ad93e5b4316cb3ee06a8a7112846dfc",
+    "identity": "15d4683d5e0e8c1076ef76a8154934d94036a54848f054286f082af18cf2f641"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "a862f2735bf585538cd7b2197b2ec06d48a3b2831e91c55f9fc5e110492f250f",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/lidingo/prepared/vista-4a72f6212e4b40d889f9586e9e65def20b8f475481b57792583a17327ae16d65.bin",
+     "bytes": 221888,
+     "decodedBytes": 530966,
+     "sha256": "4a72f6212e4b40d889f9586e9e65def20b8f475481b57792583a17327ae16d65",
+     "decodedSha256": "475850ba18f2adaec83acea13ed27647a65a57a274cd04640b9aa40312903ea8",
+     "candidates": 4247721,
+     "digest": "5f26302a93080f581756a7bd91b2a227a0ea70d7c452969f085270d8458cf684",
+     "skipped": 66477,
+     "points": 417133
+    },
+    "vista-lo": {
+     "identity": "c9c565ddd0429ed908a26e9a7066d0e18eb57ab16e3c21bd7add9ad9fa85445c",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/lidingo/prepared/vista-5b4a04d66e694353dbf015b8501011949cf64666e51578d6a87dba8c96694eca.bin",
+     "bytes": 124392,
+     "decodedBytes": 291085,
+     "sha256": "5b4a04d66e694353dbf015b8501011949cf64666e51578d6a87dba8c96694eca",
+     "decodedSha256": "2c907dc2bdb875896d4e570d525dfb4ce536569930d3110635394ed58bc17167",
+     "candidates": 2328676,
+     "digest": "486f2ab42d5bc035859ff7d76f4854694f776f269fba2b9468f49ea3421483aa",
+     "skipped": 36377,
+     "points": 228481
+    }
    }
   }
  ]
