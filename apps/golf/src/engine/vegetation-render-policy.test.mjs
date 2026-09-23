@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { describe, expect, it } from 'vitest';
+import * as preparedVista from './prepared-vista.mjs';
 
 const main = readFileSync(new URL('../main.js', import.meta.url), 'utf8');
 const start = main.indexOf('/* Beyond the planted middle ring');
@@ -24,6 +25,15 @@ async function runVista(vegetationPlacement) {
     treeWhy: [[], [], []], WHY_V2_INDIVIDUAL: 5, V2_VEG_PLAN: null, V2_VEG_COVER: null, V2_VEGETATION: null,
     calibrateFarRing: () => null, farRingSpacing: () => 30, farRingTree: () => null, treeFraction: () => -1,
     stats: {}, VISTA_PTS: null,
+    /* the prepared far vista (engine/prepared-vista.mjs): no record here, so
+       the pass plants the ordinary way and the policy above is what is tested */
+    ...preparedVista,
+    /* the pass builds its inputs inside this VM, whose Object is not the test's;
+       canonicalJson rightly refuses a foreign prototype, so copy across first */
+    preparedVistaInputs: inputs => preparedVista.preparedVistaInputs(JSON.parse(JSON.stringify(inputs))),
+    BAKE_VISTA: false, PREPARED_VISTA_LOADING: Promise.resolve(null), BOOT_PERF: {},
+    V2_SELECTION: { graph: null }, CMETA: { slug: 'test' }, __COURSE_SOURCE_REVISION__: '0'.repeat(64),
+    landmarkArchitecture: null, SURR: null, MOWN_REC: null, terrainV2: {}, CONTINUOUS_OCEAN: null, COASTAL_WATER: null,
   };
   await runInNewContext(`(async () => { ${vistaPass} })()`, context);
   return { sourceReads, points: context.VISTA_PTS, stats: context.stats };
