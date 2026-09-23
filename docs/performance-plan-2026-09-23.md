@@ -10,6 +10,10 @@ software rendering and saved fractions of a millisecond. The frame-rate problem
 is on the GPU, plus a few specific CPU stalls, and none of it had been measured
 on hardware since the painted Hero trees landed.
 
+The initial audit below describes `9046f6e6`. The progress notes and §6 now
+include the subsequent real-GPU verification of the merged PR #89 build;
+historical ablations remain distinct from measured implementations.
+
 ## 1. Summary
 
 - **Hero tree crowns are about three quarters (72–83%) of the GPU frame** in
@@ -67,9 +71,11 @@ thread (`relaxFlagClothPose`), and it gives a flat ~40 ms frame at every
 Puttom view. Normal use at Puttom's first tee is 27 ms. Every frame time taken
 by `frame-time.mjs` or the boot profiler's first frames includes this.
 
-**Trap 2 — `det=1` also hides a real cost.** The sun-jitter bug in §3.4 does
-not occur under `det`, so harnesses report shadows as skipped at rest while
-visitors pay for them every frame.
+**Trap 2 — `det=1` can hide a real cost.** The initial audit did not reproduce
+the sun-jitter bug in §3.4 under `det`, while normal use refreshed shadows
+every frame. The follow-up's explicit camera-selection sequence reproduces
+the old first-tee refresh even with `det=1`; that masking behavior is not
+universal. Measure normal use as well as deterministic captures.
 
 ## 3. Frame rate
 
@@ -267,8 +273,10 @@ readback where shadows are involved.
   (`engine/shadow-cell.mjs`: texel cell in the light's right/up plane, the
   depth along the sun in the same texel, the fit and the sun direction). The
   same cell leaves `sun.position` bit-identical, so orbit-target float noise no
-  longer requests a render. `?shadowcell=0` is the before. Unit-tested; the
-  5 ms saving at Puttom's first tee still has to be measured on the RTX 3070.
+  longer requests a render. `?shadowcell=0` is the before. Isolated RTX 3070
+  A/B/B/A now measures **25.10 → 19.30 GPU ms** at Puttom's first tee, saving
+  5.80 ms. Actual shadow-depth hashes match in all seven captured Puttom/tour
+  views; see the [hardware report](performance-phase1-rtx3070-2026-09-23.md).
 - **1.2 landed as per-vertex evaluation, not a per-template attribute.** In
   three 0.186 the fragment's `positionLocal` is the final vertex-stage value:
   after `instancedMesh()` applies the instance matrix and after the wind
@@ -279,8 +287,13 @@ readback where shadows are involved.
   Isolated SwiftShader renders of all five Hero species, pixel vs vertex:
   mean 0.11–0.31/255 on the tree, max 2–8/255. The oak exceeds the 2/255
   target on 3–4% of its pixels (sun-dab bands on the lit tops); side by side
-  it is not visibly different. `?foliagenoise=pixel` is the before. The GPU
-  saving still has to be measured on the RTX 3070.
+  it is not visibly different. `?foliagenoise=pixel` is the before. Isolated
+  RTX 3070 A/B/B/A at Puttom 12 orbit measures **51.02 → 45.91 GPU ms**,
+  a 10.0% saving rather than the removal ceiling's 20–25%. Whole-course
+  hardware captures preserve shadow depth, but exceed the strict 2/255 color
+  target: Puttom maxima 8–14/255, with 0.026–0.838% of canvas pixels above
+  2/255. The [hardware report](performance-phase1-rtx3070-2026-09-23.md)
+  contains the original images and measured exception for review.
 
 - **1.6 landed.** The terrain worker is the default; `?startup=terrain-main`
   (and the `?startup=0` baseline) keep the main thread, and
@@ -403,25 +416,67 @@ in flight at low quality) whatever else lands.
   Ängsö lo reeds 253 -> 19 ms, cover 691 -> 40 ms, edge 168 -> 33 ms;
   Veckefjärden hi reeds 289 -> 6 ms, cover 622 -> 44 ms, edge 175 -> 71 ms.
 
+- **3.5 desktop verification complete.** On the RTX 3070, three interleaved
+  fresh-browser runs per condition isolate vista/scatter while keeping
+  tint/water prepared: pre-first-frame marker **13.67 → 12.11 s** with both
+  enabled. Vista 825.1 → 275.7 ms, reeds 185.1 → 3.0 ms, cover 349.7 → 22.9 ms,
+  edge 69.8 → 19.6 ms. All 24 starts, including the requested literal URLs,
+  preserve the world fingerprint. The literal controls also disable the other
+  prepared paths in PR #89, so their larger 15.22 → 12.10 s saving is not
+  attributable only to forest construction. [Report and raw runs](performance-startup-rtx3070-2026-09-23.md).
+
 ### Phase 4 — devices
 
 An iPhone 12-class Safari and a Galaxy A54-class Chrome: cold, cached, a tour,
 thermal state. Desktop emulation does not stand in for either.
 
-## 6. Expected results
+## 6. Measured results and remaining projections
 
-Projections from the ablations above, not measured implementations. Savings
-overlap, so they are not added naively.
+The RTX 3070 verification now measures the merged implementation through PR #89.
+The original audit is retained for context; causal comparisons use the matched
+before/default columns. See the [Phase 1 report](performance-phase1-rtx3070-2026-09-23.md)
+and [desktop startup report](performance-startup-rtx3070-2026-09-23.md) for raw
+samples, ranges, adapter proof and screenshots.
 
-| | Today | After Phase 1 | + Phase 2 |
-|---|---:|---:|---:|
-| Puttom 1 tee, GPU ms at 1080p | 27 | ~15–16 | ~10 |
-| Puttom 12 orbit | 51 | ~35 | ~12–15 |
-| Puttom 14 tee | 39 | ~27 | ~10 |
-| Veckefjärden tour, median frame | 38 ms (25 fps) | ~26–28 ms | ~15 ms |
-| Veckefjärden tour, frames > 50 ms | 12.6% | a few % | < 1% |
-| Veckefjärden desktop open, localhost | 15.6 s | ~14 s | Phase 3: ~9–10 s |
-| Phone-proxy CPU frame in flight | 43 ms | ~20–25 ms | GPU-bound until Phase 2 |
+| Metric | Original audit | Matched before | Merged default, measured | Remaining projection, unmeasured |
+|---|---:|---:|---:|---:|
+| Puttom 1 tee, GPU ms at 1080p | 27 | 28.77 | **19.43** | Phase 2: ~10 |
+| Puttom 12 orbit, GPU ms | 51 | 51.05 | **46.17** | Phase 2: ~12–15 |
+| Puttom 14 tee, GPU ms | 39 | 38.67 | **33.91** | Phase 2: ~10 |
+| Veckefjärden tour, median frame | 38 ms (30 s tour) | 30.45 ms | **23.20 ms** | Phase 2: ~15 ms |
+| Veckefjärden tour, frames >50 ms | 12.6% (CPU-profile run) | 7.72% | **1.80%** | Phase 2: <1% |
+| Veckefjärden desktop, pre-first-frame marker | 15.6 s | 15.22 s | **12.10 s** | Phase 3: ~9–10 s |
+| Phone-proxy CPU frame in flight | 43 ms | not repeated | **not measured here** | Full Phase 1: ~20–25 ms; phone GPU still unmeasured |
+
+Frame conditions: WebGPU, high quality, 1920×1080, DPR 1, golden lighting,
+charger connected, other browsers closed, no busy-GPU override. Stationary
+results average the GPU medians of two normal-use runs per side in A/B/B/A
+order. The before URL disables `shadowcell`, `foliagenoise`, `flagcull` and
+`shadowalpha`; it does **not** undo workers, material reuse or minimap caching.
+The matched tour is 45 seconds with vsync, distinct from the historical tour
+and CPU-profile windows. `det=1` timing is recorded separately and is not
+visitor FPS. Puttom 14's frame p95 worsened 44.5 → 48.2 ms despite its better
+median; the tour still has individual ~420 ms stalls.
+
+Startup uses three fresh-browser starts per condition on localhost. The
+pre-first-frame marker is `V3D.perf().totalMs`, set before scene submission;
+the matched disabled/default first-scene GPU-ready medians are 16.99/13.86 s
+from engine start, and navigation-to-ready is 17.14/14.03 s. The literal
+`prepvista=0` and `prepscatter=0` controls also disable prepared tint/water and
+each other in PR #89. With tint/water held prepared by an independent asset
+control, vista/scatter together reduce the pre-first-frame median
+**13.67 → 12.11 s**. Measured loop medians: vista 825.1 → 275.7 ms, reeds
+185.1 → 3.0 ms, cover 349.7 → 22.9 ms and edge tufts 69.8 → 19.6 ms. World
+fingerprints match in all 24 starts. OS/driver caches persist between starts.
+
+The old full-Phase-1 GPU projections (~15–16/35/27 ms) have not been achieved
+by the merged subset. They included deferred 1.3, 1.5 and 1.10, and the
+noise-removal ablation was an upper bound for the actual per-vertex change.
+All seven captured views have bit-identical shadow-depth hashes for each
+control. Foliage-noise color differences exceed the strict 2/255 maximum
+target; the report records the measured exception. Phase 2 stays a projection
+until its opt-in prototype is measured and visually reviewed. These desktop
+results establish neither phone performance nor approval to change defaults.
 
 ## 7. Decisions for the owner
 
