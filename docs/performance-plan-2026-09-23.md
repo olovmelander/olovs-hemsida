@@ -382,6 +382,12 @@ Puttom 1/12/14 GPU medians **19.33/45.81/33.65 → 11.67/13.01/9.27 ms** at
 [prototype report and owner review](performance-distant-hero-review-2026-09-23.md).
 These measurements do not approve a default change; screenshots, bounded
 motion probes and full-tour review have separate acceptance scopes.
+All 21 deterministic screenshots and nine bounded motion sweeps are now
+recorded. The largest 24 px transition step changes 112 of 1.44 M pixels
+above 24/255; no 16×16 block exceeds 6/255 mean change. The camera-creep
+glitter result improves only 2.5%, so a large shimmer reduction is not
+established. **24 px is the leading review candidate**, with visible distant
+forest/shadow differences and owner acceptance/full-tour video still pending.
 
 Without this decision, phones stay geometry-bound (21.6 M triangles per frame
 in flight at low quality) whatever else lands.

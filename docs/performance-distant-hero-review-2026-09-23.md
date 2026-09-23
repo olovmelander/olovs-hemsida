@@ -178,15 +178,70 @@ comparisons support keeping the default behavior unchanged in this PR.
 
 ### Motion probes
 
-The motion probes are in progress; their measurements will be appended before
-the prototype review is marked complete.
+The existing meters use **1600 × 900**, DPR 1, high quality, WebGPU and
+`det=1`, with `lodmode=zone` explicit. This is a separate pixel experiment
+from the 1080p frame timings. The pop meter drives the 0.3-second fade clock
+and takes 180 samples at 0.25 m spacing in each of three roughly 45 m dollies.
+At each position it compares the frozen tiers with the subsequent tier/fade
+update, discarding camera motion alone. All three variants completed without
+page errors and record their actual geographic policy and selected threshold.
 
-Motion review uses the existing pop meter's three 45 m dollies (180 steps at
-0.25 m) and the glitter meter's hole 12 orbit creep, with `lodmode=zone` explicit
-so these probes exercise the proposed geographic-policy exception. These
-bounded probes and a 45-second tour do not qualify every hole of a complete
-course flight or establish phone FPS. A default-change proposal still needs
-the owner's visual review and the plan's full-tour video evidence.
+| Puttom dolly | New tree switches, off / 16 / 24 | Max pixels changing >24/255, off / 16 / 24 | Worst 16×16 block mean change /255, off / 16 / 24 |
+|---|---:|---:|---:|
+| 5 tee, noon | 0 / 24 / 50 | 0 / 0 / 21 | 0 / 0 / 2.29 |
+| 1 tee, golden | 0 / 8 / 6 | 0 / 4 / 9 | 0.04 / 0.82 / 2.04 |
+| 13 tee, golden | 0 / 0 / 3 | 1 / 45 / 112 | 1.39 / 1.72 / 2.35 |
+
+No 16×16 block exceeds the meter's 6/255 mean-change threshold in any run.
+The worst 24 px step affects 112 of 1,440,000 pixels above 24/255 (0.0078%);
+its per-view p95 is 0.0012%, 0.0003% and 0.0062%. Changes at 16 px on hole
+13 occur mostly in the first 18 samples without new switches, consistent
+with draining fades already created during view setup; they are retained,
+not discarded. A switch can also concern an occluded or off-screen tree in
+a visible cell, so a switch count with zero changed pixels is not proof
+that every transition is invisible. These probes show small local changes,
+not a guarantee of pop-free motion everywhere.
+
+The glitter meter creeps through Puttom 12 orbit for eight samples at 0.12 m
+and 0.04° yaw per sample. It counts isolated luminance changes >40/255 when
+the eight neighbours change by less than 10/255 on average:
+
+| Camera-creep metric, median per frame | Off | 16 px | 24 px |
+|---|---:|---:|---:|
+| Isolated flashes | 2,796 | 2,782 | 2,727 |
+| Pixels changing >24/255 | 88,544 | 85,900 | 81,688 |
+| Bright isolated points | 2,342 | 2,250 | 2,198 |
+
+Every pixel metric in every frame repeats exactly on the second identical
+creep in all three variants. The isolated-flash reduction is only 0.5% at
+16 px and 2.5% at 24 px: this does **not** establish a large improvement in
+shimmer. It also does not measure live wind animation. The main demonstrated
+benefit remains lower GPU cost, with small transition changes in these paths.
+
+See the [motion summary](graphics/performance-distant-hero-2026-09-23/motion-summary.json),
+raw pop runs [off](graphics/performance-distant-hero-2026-09-23/pop-0.json),
+[16](graphics/performance-distant-hero-2026-09-23/pop-16.json),
+[24](graphics/performance-distant-hero-2026-09-23/pop-24.json), and raw glitter
+runs [off](graphics/performance-distant-hero-2026-09-23/glitter-0/results.json),
+[16](graphics/performance-distant-hero-2026-09-23/glitter-16/results.json),
+[24](graphics/performance-distant-hero-2026-09-23/glitter-24/results.json).
+The glitter directories also contain the original annotated diagnostic PNGs.
+
+### Recommendation
+
+**Review 24 px first.** It delivers substantially more GPU headroom than
+16 px, especially in the two heaviest stationary views, and the bounded
+motion probes show no large block changes. The screenshots show a real
+trade-off in distant forest texture, gaps, highlights and shadows; 16 px is
+the more conservative alternative if that difference is objectionable.
+Neither setting eliminates the longest tour stalls or most shimmer.
+
+Keep the default off in this PR. These probes and a 45-second tour do not
+qualify every hole of a complete course flight or establish phone FPS. A
+default-change proposal still needs the owner's visual acceptance and the
+plan's side-by-side full-tour video evidence. The HTML review viewer was
+checked in Chrome: all seven pairs load, both threshold selectors work, and
+full-size links resolve without page errors.
 
 ## Reproduction
 
