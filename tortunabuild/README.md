@@ -357,6 +357,8 @@ the rule-trace fairways back, so the plan fairways must be applied after it.
   - That cull reaches a few metres past a fairway's edge. The old bands came
     within 1.7–7.5 m of the tree line north of the range, so real trees there
     were hidden; they now show.
+  - Measured in the built app (`V3D.v2Objects().planned`), the cull takes 48
+    published trees now against 52 before, and 38,552 trees are drawn.
 - **A pack change here also expires the prepared startup records**, because
   their identities include the pack's sha256, and the Pages workflow runs
   `tools/check-prepared-startup.mjs` and refuses a stale one.
