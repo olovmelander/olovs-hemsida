@@ -1,0 +1,390 @@
+{
+  "report": "report.json",
+  "reference": "after",
+  "results": [
+    {
+      "id": "tour-0",
+      "reference": "after",
+      "variant": "cell",
+      "referenceImage": "0-after-tour-0.png",
+      "image": "1-cell-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0,
+      "maxChannelError255": 0,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.93442771021974
+      ],
+      "changedPixels": 0,
+      "changedPercent": 0,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904"
+    },
+    {
+      "id": "tour-1",
+      "reference": "after",
+      "variant": "cell",
+      "referenceImage": "0-after-tour-1.png",
+      "image": "1-cell-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 3.2150205761316875e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        61.99061099826601,
+        61.99061099826601
+      ],
+      "changedPixels": 2,
+      "changedPercent": 0.00009645061728395061,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882"
+    },
+    {
+      "id": "tour-2",
+      "reference": "after",
+      "variant": "cell",
+      "referenceImage": "0-after-tour-2.png",
+      "image": "1-cell-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000018325617283950617,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        32.34332141136773,
+        32.34332415857689
+      ],
+      "changedPixels": 112,
+      "changedPercent": 0.005401234567901234,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206"
+    },
+    {
+      "id": "tour-3",
+      "reference": "after",
+      "variant": "cell",
+      "referenceImage": "0-after-tour-3.png",
+      "image": "1-cell-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.0000024112654320987654,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        52.26276007878334,
+        52.26275953817569
+      ],
+      "changedPixels": 12,
+      "changedPercent": 0.0005787037037037037,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e"
+    },
+    {
+      "id": "tour-0",
+      "reference": "after",
+      "variant": "noise",
+      "referenceImage": "0-after-tour-0.png",
+      "image": "2-noise-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.005424543467078189,
+      "maxChannelError255": 12,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.93454328266703
+      ],
+      "changedPixels": 25325,
+      "changedPercent": 1.2213059413580247,
+      "pixelsOver2Percent": 0.00945216049382716,
+      "pixelsOver8Percent": 0.00009645061728395061,
+      "shadowBitIdentical": true,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904"
+    },
+    {
+      "id": "tour-1",
+      "reference": "after",
+      "variant": "noise",
+      "referenceImage": "0-after-tour-1.png",
+      "image": "2-noise-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.040034239969135806,
+      "maxChannelError255": 18,
+      "brightnessStddev": [
+        61.99061099826601,
+        61.98955246076986
+      ],
+      "changedPixels": 171823,
+      "changedPercent": 8.286217206790123,
+      "pixelsOver2Percent": 0.09129050925925926,
+      "pixelsOver8Percent": 0.00014467592592592592,
+      "shadowBitIdentical": true,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882"
+    },
+    {
+      "id": "tour-2",
+      "reference": "after",
+      "variant": "noise",
+      "referenceImage": "0-after-tour-2.png",
+      "image": "2-noise-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.04240772890946502,
+      "maxChannelError255": 26,
+      "brightnessStddev": [
+        32.34332141136773,
+        32.34188727645933
+      ],
+      "changedPixels": 179002,
+      "changedPercent": 8.632426697530864,
+      "pixelsOver2Percent": 0.10648148148148148,
+      "pixelsOver8Percent": 0.0005304783950617284,
+      "shadowBitIdentical": true,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206"
+    },
+    {
+      "id": "tour-3",
+      "reference": "after",
+      "variant": "noise",
+      "referenceImage": "0-after-tour-3.png",
+      "image": "2-noise-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.029578510802469135,
+      "maxChannelError255": 8,
+      "brightnessStddev": [
+        52.26276007878334,
+        52.26252217317652
+      ],
+      "changedPixels": 131541,
+      "changedPercent": 6.343605324074074,
+      "pixelsOver2Percent": 0.039496527777777776,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e"
+    },
+    {
+      "id": "tour-0",
+      "reference": "after",
+      "variant": "flag",
+      "referenceImage": "0-after-tour-0.png",
+      "image": "3-flag-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0,
+      "maxChannelError255": 0,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.93442771021974
+      ],
+      "changedPixels": 0,
+      "changedPercent": 0,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904"
+    },
+    {
+      "id": "tour-1",
+      "reference": "after",
+      "variant": "flag",
+      "referenceImage": "0-after-tour-1.png",
+      "image": "3-flag-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0,
+      "maxChannelError255": 0,
+      "brightnessStddev": [
+        61.99061099826601,
+        61.99061099826601
+      ],
+      "changedPixels": 0,
+      "changedPercent": 0,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882"
+    },
+    {
+      "id": "tour-2",
+      "reference": "after",
+      "variant": "flag",
+      "referenceImage": "0-after-tour-2.png",
+      "image": "3-flag-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000018968621399176956,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        32.34332141136773,
+        32.34332992507077
+      ],
+      "changedPixels": 115,
+      "changedPercent": 0.005545910493827161,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206"
+    },
+    {
+      "id": "tour-3",
+      "reference": "after",
+      "variant": "flag",
+      "referenceImage": "0-after-tour-3.png",
+      "image": "3-flag-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.0000028935185185185184,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        52.26276007878334,
+        52.26275937589431
+      ],
+      "changedPixels": 15,
+      "changedPercent": 0.0007233796296296296,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e"
+    },
+    {
+      "id": "tour-0",
+      "reference": "after",
+      "variant": "alpha",
+      "referenceImage": "0-after-tour-0.png",
+      "image": "4-alpha-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 4.822530864197531e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.93442747858061
+      ],
+      "changedPixels": 3,
+      "changedPercent": 0.00014467592592592592,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904"
+    },
+    {
+      "id": "tour-1",
+      "reference": "after",
+      "variant": "alpha",
+      "referenceImage": "0-after-tour-1.png",
+      "image": "4-alpha-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0,
+      "maxChannelError255": 0,
+      "brightnessStddev": [
+        61.99061099826601,
+        61.99061099826601
+      ],
+      "changedPixels": 0,
+      "changedPercent": 0,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882"
+    },
+    {
+      "id": "tour-2",
+      "reference": "after",
+      "variant": "alpha",
+      "referenceImage": "0-after-tour-2.png",
+      "image": "4-alpha-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000015592849794238683,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        32.34332141136773,
+        32.343326393220046
+      ],
+      "changedPixels": 95,
+      "changedPercent": 0.004581404320987655,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206"
+    },
+    {
+      "id": "tour-3",
+      "reference": "after",
+      "variant": "alpha",
+      "referenceImage": "0-after-tour-3.png",
+      "image": "4-alpha-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000003375771604938272,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        52.26276007878334,
+        52.26275937589431
+      ],
+      "changedPixels": 18,
+      "changedPercent": 0.0008680555555555555,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e"
+    }
+  ]
+}

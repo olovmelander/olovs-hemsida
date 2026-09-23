@@ -1,0 +1,3878 @@
+{
+  "date": "2026-09-23T16:45:06.578Z",
+  "source": "ce725356d776e9178d64e726c34c6d0c4c35b4cf",
+  "build": {
+    "revision": "acbce9219025e4efd1550d7e85789c42596496d96ccd6cd238459af11976a4e7"
+  },
+  "base": "http://127.0.0.1:8648",
+  "course": "puttom",
+  "kind": "shots",
+  "det": true,
+  "quality": "hi",
+  "backend": "webgpu",
+  "viewport": [
+    1920,
+    1080
+  ],
+  "dpr": 1,
+  "uncapped": false,
+  "frames": 600,
+  "seconds": 45,
+  "variants": {
+    "after": "",
+    "cell": "shadowcell=0",
+    "noise": "foliagenoise=pixel",
+    "flag": "flagcull=0",
+    "alpha": "shadowalpha=0"
+  },
+  "order": [
+    "after",
+    "cell",
+    "noise",
+    "flag",
+    "alpha"
+  ],
+  "runs": [
+    {
+      "index": 0,
+      "variant": "after",
+      "url": "http://127.0.0.1:8648/?bana=puttom&q=hi&qualitylock=1&v2=require&gl=0&gputime=1&ren=1&ljus=kvall&hal=1&vy=tee&det=1",
+      "gpuIdle": {
+        "checked": true,
+        "utilisation": 0,
+        "allowedBusy": false
+      },
+      "hardwareAfterBoot": "NVIDIA GeForce RTX 3070 Laptop GPU, 572.47, 43 %, 1905 MHz, 7000 MHz, 64.41 W, 64, P0",
+      "chrome": "153.0.8010.53",
+      "boot": {
+        "adapters": [
+          {
+            "atMs": 627.2000000029802,
+            "vendor": "nvidia",
+            "architecture": "ampere",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          }
+        ],
+        "backend": "webgpu",
+        "gpuTiming": true,
+        "perf": {
+          "marks": [
+            {
+              "name": "läser terrängdata",
+              "atMs": 75
+            },
+            {
+              "name": "startar renderaren",
+              "atMs": 1787.4
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 2027.5
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 5232.5
+            },
+            {
+              "name": "bygger horisonten",
+              "atMs": 5252.7
+            },
+            {
+              "name": "lägger fairways och greener",
+              "atMs": 5272.8
+            },
+            {
+              "name": "fyller vattnet",
+              "atMs": 5768.7
+            },
+            {
+              "name": "planterar skogen",
+              "atMs": 6221.2
+            },
+            {
+              "name": "sätter ut flaggor",
+              "atMs": 9336.6
+            },
+            {
+              "name": "ställer ljuset",
+              "atMs": 9383.8
+            },
+            {
+              "name": "ritar första vyn",
+              "atMs": 10119.6
+            }
+          ],
+          "spans": [
+            {
+              "name": "v2 preview: select + decode pilot/surface tiles",
+              "ms": 657.4
+            },
+            {
+              "name": "v2 rings: fetch + verify + decode",
+              "ms": 508.1,
+              "tiles": 213
+            },
+            {
+              "name": "v2 flat water: detect",
+              "ms": 172.2
+            },
+            {
+              "name": "v2 water beds: carve rings",
+              "ms": 283,
+              "tiles": 153
+            },
+            {
+              "name": "v2 water: prepare",
+              "ms": 456.4,
+              "prepared": false
+            },
+            {
+              "name": "model prep after terrain data (pads, water levels, shores, grids)",
+              "ms": 1034.9
+            },
+            {
+              "name": "procedural textures (DETAIL, WATERN)",
+              "ms": 155.2
+            },
+            {
+              "name": "PMREM environment",
+              "ms": 59.7,
+              "preset": "golden"
+            },
+            {
+              "name": "ground atlas (1 m, CORE)",
+              "ms": 559
+            },
+            {
+              "name": "v2 prepare (worker, first frontier coverage, preflight)",
+              "ms": 1115.5
+            },
+            {
+              "name": "ground tint rasters (near 6 m + far 24 m)",
+              "ms": 1503.1
+            },
+            {
+              "name": "v2 vegetation: wait for chunk load",
+              "ms": 0
+            },
+            {
+              "name": "tree models (download + decode)",
+              "ms": 80.9
+            },
+            {
+              "name": "shore distance field",
+              "ms": 8.7
+            },
+            {
+              "name": "reed lattice",
+              "ms": 123.5
+            },
+            {
+              "name": "reeds (lattice + SHORE field)",
+              "ms": 214.6,
+              "reeds": 496
+            },
+            {
+              "name": "v2 vegetation: plan individuals + stand trees",
+              "ms": 425.3
+            },
+            {
+              "name": "legacy tree lattice",
+              "ms": 57.3
+            },
+            {
+              "name": "v2 vegetation: push planned trees",
+              "ms": 493.5
+            },
+            {
+              "name": "tree impostor atlases (5 species, 64 views each)",
+              "ms": 97.9
+            },
+            {
+              "name": "tree tiers (Hero + Impostor, cells)",
+              "ms": 355,
+              "trees": 209936,
+              "cells": 1031
+            },
+            {
+              "name": "far vista cones",
+              "ms": 924.3,
+              "vista": 596718
+            },
+            {
+              "name": "ground cover lattice",
+              "ms": 454.5
+            },
+            {
+              "name": "ground cover edge tufts",
+              "ms": 69.6
+            },
+            {
+              "name": "ground cover (tufts, bushes, stones, stumps)",
+              "ms": 529.8
+            },
+            {
+              "name": "v2 stream: first frontier fully resident (after the overlap)",
+              "ms": 518,
+              "tiles": 60
+            },
+            {
+              "name": "v2 stream: opening terrain texture upload",
+              "ms": 40.5
+            },
+            {
+              "name": "GPU startup: compile opening scene",
+              "ms": 1585.4
+            }
+          ],
+          "atlasMs": 559,
+          "totalMs": 11725.5,
+          "doneAtMs": 13501.8,
+          "firstFrames": [
+            {
+              "atMs": 11731.6,
+              "ms": 686.5,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 12704.1,
+              "ms": 52.3,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13176.6,
+              "ms": 47.5,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13313.3,
+              "ms": 41.6,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13457.4,
+              "ms": 44.4,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13504,
+              "ms": 41.4,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13554.2,
+              "ms": 43.4,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13598.4,
+              "ms": 42.6,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13642,
+              "ms": 40.4,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13683.3,
+              "ms": 41.2,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13726.4,
+              "ms": 43.2,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13770.5,
+              "ms": 40,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            }
+          ],
+          "engineStartedAtNavigationMs": 142.6,
+          "courseReadyAtNavigationMs": 13644.4,
+          "preparedWater": false,
+          "preparedWaterLoad": null,
+          "shoresCurved": 2,
+          "linesCurved": 34,
+          "exactEdges": {
+            "fitMs": 10.4,
+            "buildMs": 273,
+            "fit": {
+              "fitted": 139,
+              "keptStraight": 21,
+              "corners": 142,
+              "spikes": 10,
+              "unstaired": 0,
+              "spikesRemoved": 1,
+              "teethRemoved": 0,
+              "pointsIn": 4990,
+              "pointsOut": 18748
+            },
+            "build": {
+              "w": 1296,
+              "h": 1512,
+              "texels": 1959552,
+              "segments": 20405,
+              "visits": 10691466,
+              "touched": 452321,
+              "shapes": 132,
+              "lines": 57,
+              "distanceMs": 135.6,
+              "csgMs": 37.1,
+              "totalMs": 172.9
+            },
+            "textures": 3,
+            "textureBytes": 39191040
+          },
+          "preparedTint": false,
+          "preparedScatter": {},
+          "preparedVista": false,
+          "courseData": {
+            "networkBytes": 19862170,
+            "networkRequests": 11,
+            "cacheHits": 0,
+            "sharedHits": 44,
+            "decodes": 1141,
+            "consumerCopies": 934,
+            "consumerCopyBytes": 67540839,
+            "complete": true,
+            "fallbackReasons": [],
+            "cache": {
+              "persistent": true,
+              "bytes": 19862170,
+              "totalBytes": 19862170,
+              "evicted": 0
+            },
+            "packages": 10,
+            "chunks": 977,
+            "verified": 977,
+            "decodedResidentBytes": 16776446
+          },
+          "courseDataReadyAtNavigationMs": 6396.3,
+          "gpuPreparation": {
+            "milliseconds": 1564.5,
+            "branches": 51,
+            "completed": 51,
+            "concurrency": 4,
+            "target": "scene-pass",
+            "samples": 4
+          },
+          "firstSceneSubmittedAtMs": 12418.1,
+          "firstSceneGpuReadyAtMs": 13355.4,
+          "tintMs": 1503
+        },
+        "trees": 209936
+      },
+      "errors": [],
+      "views": [
+        {
+          "id": "h1-tee-golden",
+          "image": "0-after-h1-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                -80.1,
+                69.8,
+                -253.6
+              ],
+              "look": [
+                -159.5,
+                69.9,
+                -467.5
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 130,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 60,
+              "drawCalls": 1,
+              "triangles": 7987200,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 60,
+                  "residentLayers": 60,
+                  "textureUploads": 207,
+                  "renderRevision": 246,
+                  "morphing": false,
+                  "frameAttributeVersion": 55,
+                  "paramsAttributeVersion": 192,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7987200,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 60,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 4729,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 31897,
+              "cells": 1031,
+              "cellsVisible": 186,
+              "moves": 36626,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 1,
+              "bakeMs": 98,
+              "fading": 0,
+              "updateMs": 0.09999999403953552,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 2,
+              "frames": 38,
+              "sinceRender": 35,
+              "why": "settled",
+              "terrainRevision": 192,
+              "settlePending": false
+            },
+            "frame": 38
+          },
+          "shadowMap": {
+            "sha256": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226233,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              1.734723475976807e-20,
+              0.0012331493356362013,
+              0.00007438360791606536,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              1.0185546875,
+              0.35888671875,
+              0.6605578263187009,
+              1
+            ],
+            "sun": [
+              -892.6993757486778,
+              266.3024252749808,
+              461.9406605623159
+            ],
+            "target": [
+              -159.57453612793756,
+              69.9297003765683,
+              -467.55690395683666
+            ]
+          }
+        },
+        {
+          "id": "h12-orbit-golden",
+          "image": "0-after-h12-orbit-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                226.3,
+                98.1,
+                424.1
+              ],
+              "look": [
+                183,
+                65.1,
+                339.6
+              ],
+              "mode": "orbit"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 80,
+              "drawCalls": 1,
+              "triangles": 10649600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 80,
+                  "residentLayers": 80,
+                  "textureUploads": 242,
+                  "renderRevision": 295,
+                  "morphing": false,
+                  "frameAttributeVersion": 61,
+                  "paramsAttributeVersion": 235,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 10649600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 80,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 11799,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 46616,
+              "cells": 1031,
+              "cellsVisible": 308,
+              "moves": 58415,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 2,
+              "bakeMs": 98,
+              "fading": 0,
+              "updateMs": 0.10000000149011612,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 10,
+              "frames": 100,
+              "sinceRender": 18,
+              "why": "settled",
+              "terrainRevision": 235,
+              "settlePending": false
+            },
+            "frame": 100
+          },
+          "shadowMap": {
+            "sha256": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.05761718749999983,
+              0.45117187499999994,
+              0.4718701651490562,
+              1
+            ],
+            "sun": [
+              -550.1930706522651,
+              261.40024463305207,
+              1269.0411723742577
+            ],
+            "target": [
+              182.93176896847513,
+              65.02751973463958,
+              339.54360785510505
+            ]
+          }
+        },
+        {
+          "id": "h14-tee-golden",
+          "image": "0-after-h14-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                16.4,
+                65,
+                -113.6
+              ],
+              "look": [
+                -92.2,
+                72.6,
+                126.2
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 55,
+              "drawCalls": 1,
+              "triangles": 7321600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 55,
+                  "residentLayers": 55,
+                  "textureUploads": 296,
+                  "renderRevision": 380,
+                  "morphing": false,
+                  "frameAttributeVersion": 71,
+                  "paramsAttributeVersion": 310,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7321600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 55,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 8183,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 56000,
+              "cells": 1031,
+              "cellsVisible": 288,
+              "moves": 175709,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 3,
+              "bakeMs": 98,
+              "fading": 0,
+              "updateMs": 0.19999999552965164,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 29,
+              "frames": 172,
+              "sinceRender": 12,
+              "why": "settled",
+              "terrainRevision": 310,
+              "settlePending": false
+            },
+            "frame": 172
+          },
+          "shadowMap": {
+            "sha256": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.49267578124999994,
+              0.4423828125,
+              0.4700035575377757,
+              1
+            ],
+            "sun": [
+              -825.2638315781949,
+              269.0087194880684,
+              1055.7781495318643
+            ],
+            "target": [
+              -92.13899195745462,
+              72.6359945896559,
+              126.28058501271168
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "variant": "cell",
+      "url": "http://127.0.0.1:8648/?bana=puttom&q=hi&qualitylock=1&v2=require&gl=0&gputime=1&ren=1&ljus=kvall&hal=1&vy=tee&det=1&shadowcell=0",
+      "gpuIdle": {
+        "checked": true,
+        "utilisation": 0,
+        "allowedBusy": false
+      },
+      "hardwareAfterBoot": "NVIDIA GeForce RTX 3070 Laptop GPU, 572.47, 72 %, 1920 MHz, 7000 MHz, 67.79 W, 64, P0",
+      "chrome": "153.0.8010.53",
+      "boot": {
+        "adapters": [
+          {
+            "atMs": 329.70000000298023,
+            "vendor": "nvidia",
+            "architecture": "ampere",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          }
+        ],
+        "backend": "webgpu",
+        "gpuTiming": true,
+        "perf": {
+          "marks": [
+            {
+              "name": "läser terrängdata",
+              "atMs": 96.7
+            },
+            {
+              "name": "startar renderaren",
+              "atMs": 1782.8
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 2032.9
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 5216
+            },
+            {
+              "name": "bygger horisonten",
+              "atMs": 5236.4
+            },
+            {
+              "name": "lägger fairways och greener",
+              "atMs": 5257
+            },
+            {
+              "name": "fyller vattnet",
+              "atMs": 5749
+            },
+            {
+              "name": "planterar skogen",
+              "atMs": 6187.5
+            },
+            {
+              "name": "sätter ut flaggor",
+              "atMs": 9288.9
+            },
+            {
+              "name": "ställer ljuset",
+              "atMs": 9335
+            },
+            {
+              "name": "ritar första vyn",
+              "atMs": 10163.4
+            }
+          ],
+          "spans": [
+            {
+              "name": "v2 preview: select + decode pilot/surface tiles",
+              "ms": 638.3
+            },
+            {
+              "name": "v2 rings: fetch + verify + decode",
+              "ms": 512.5,
+              "tiles": 213
+            },
+            {
+              "name": "v2 flat water: detect",
+              "ms": 164.8
+            },
+            {
+              "name": "v2 water beds: carve rings",
+              "ms": 282,
+              "tiles": 153
+            },
+            {
+              "name": "v2 water: prepare",
+              "ms": 447.4,
+              "prepared": false
+            },
+            {
+              "name": "model prep after terrain data (pads, water levels, shores, grids)",
+              "ms": 1026.6
+            },
+            {
+              "name": "procedural textures (DETAIL, WATERN)",
+              "ms": 166
+            },
+            {
+              "name": "PMREM environment",
+              "ms": 58.4,
+              "preset": "golden"
+            },
+            {
+              "name": "ground atlas (1 m, CORE)",
+              "ms": 554.1
+            },
+            {
+              "name": "v2 prepare (worker, first frontier coverage, preflight)",
+              "ms": 1136.2
+            },
+            {
+              "name": "ground tint rasters (near 6 m + far 24 m)",
+              "ms": 1465.5
+            },
+            {
+              "name": "v2 vegetation: wait for chunk load",
+              "ms": 0.1
+            },
+            {
+              "name": "tree models (download + decode)",
+              "ms": 80.4
+            },
+            {
+              "name": "shore distance field",
+              "ms": 8.6
+            },
+            {
+              "name": "reed lattice",
+              "ms": 123.2
+            },
+            {
+              "name": "reeds (lattice + SHORE field)",
+              "ms": 213.8,
+              "reeds": 496
+            },
+            {
+              "name": "v2 vegetation: plan individuals + stand trees",
+              "ms": 420.6
+            },
+            {
+              "name": "legacy tree lattice",
+              "ms": 55.7
+            },
+            {
+              "name": "v2 vegetation: push planned trees",
+              "ms": 491.6
+            },
+            {
+              "name": "tree impostor atlases (5 species, 64 views each)",
+              "ms": 100
+            },
+            {
+              "name": "tree tiers (Hero + Impostor, cells)",
+              "ms": 360.5,
+              "trees": 209936,
+              "cells": 1031
+            },
+            {
+              "name": "far vista cones",
+              "ms": 928.7,
+              "vista": 596718
+            },
+            {
+              "name": "ground cover lattice",
+              "ms": 447.9
+            },
+            {
+              "name": "ground cover edge tufts",
+              "ms": 65.1
+            },
+            {
+              "name": "ground cover (tufts, bushes, stones, stumps)",
+              "ms": 518.5
+            },
+            {
+              "name": "v2 stream: first frontier fully resident (after the overlap)",
+              "ms": 612,
+              "tiles": 60
+            },
+            {
+              "name": "v2 stream: opening terrain texture upload",
+              "ms": 42.1
+            },
+            {
+              "name": "GPU startup: compile opening scene",
+              "ms": 1590.9
+            }
+          ],
+          "atlasMs": 554.1,
+          "totalMs": 11774.5,
+          "doneAtMs": 13559.5,
+          "firstFrames": [
+            {
+              "atMs": 11777.2,
+              "ms": 678.5,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 12749.8,
+              "ms": 52.2,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13230,
+              "ms": 45.8,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13366.8,
+              "ms": 43.3,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13515.3,
+              "ms": 44.1,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13572.2,
+              "ms": 42.8,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13617.2,
+              "ms": 41.3,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13659.6,
+              "ms": 41.9,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13702.6,
+              "ms": 42.4,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13748,
+              "ms": 44.2,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13795.1,
+              "ms": 42.3,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13838.2,
+              "ms": 41.5,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            }
+          ],
+          "engineStartedAtNavigationMs": 167.8,
+          "courseReadyAtNavigationMs": 13727.3,
+          "preparedWater": false,
+          "preparedWaterLoad": null,
+          "shoresCurved": 2,
+          "linesCurved": 34,
+          "exactEdges": {
+            "fitMs": 8.6,
+            "buildMs": 266.1,
+            "fit": {
+              "fitted": 139,
+              "keptStraight": 21,
+              "corners": 142,
+              "spikes": 10,
+              "unstaired": 0,
+              "spikesRemoved": 1,
+              "teethRemoved": 0,
+              "pointsIn": 4990,
+              "pointsOut": 18748
+            },
+            "build": {
+              "w": 1296,
+              "h": 1512,
+              "texels": 1959552,
+              "segments": 20405,
+              "visits": 10691466,
+              "touched": 452321,
+              "shapes": 132,
+              "lines": 57,
+              "distanceMs": 129.7,
+              "csgMs": 35.6,
+              "totalMs": 165.4
+            },
+            "textures": 3,
+            "textureBytes": 39191040
+          },
+          "preparedTint": false,
+          "preparedScatter": {},
+          "preparedVista": false,
+          "courseData": {
+            "networkBytes": 19862170,
+            "networkRequests": 11,
+            "cacheHits": 0,
+            "sharedHits": 44,
+            "decodes": 1141,
+            "consumerCopies": 934,
+            "consumerCopyBytes": 67540839,
+            "complete": true,
+            "fallbackReasons": [],
+            "cache": {
+              "persistent": true,
+              "bytes": 19862170,
+              "totalBytes": 19862170,
+              "evicted": 0
+            },
+            "packages": 10,
+            "chunks": 977,
+            "verified": 977,
+            "decodedResidentBytes": 16776446
+          },
+          "courseDataReadyAtNavigationMs": 6386.8,
+          "gpuPreparation": {
+            "milliseconds": 1571.3,
+            "branches": 51,
+            "completed": 51,
+            "concurrency": 4,
+            "target": "scene-pass",
+            "samples": 4
+          },
+          "firstSceneSubmittedAtMs": 12455.8,
+          "firstSceneGpuReadyAtMs": 13410.6,
+          "tintMs": 1465
+        },
+        "trees": 209936
+      },
+      "errors": [],
+      "views": [
+        {
+          "id": "h1-tee-golden",
+          "image": "1-cell-h1-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                -80.1,
+                69.8,
+                -253.6
+              ],
+              "look": [
+                -159.5,
+                69.9,
+                -467.5
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 130,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 60,
+              "drawCalls": 1,
+              "triangles": 7987200,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 60,
+                  "residentLayers": 60,
+                  "textureUploads": 207,
+                  "renderRevision": 244,
+                  "morphing": false,
+                  "frameAttributeVersion": 55,
+                  "paramsAttributeVersion": 190,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7987200,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 60,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 4729,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 31897,
+              "cells": 1031,
+              "cellsVisible": 186,
+              "moves": 36626,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 1,
+              "bakeMs": 100,
+              "fading": 0,
+              "updateMs": 0.09999999403953552,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 35,
+              "frames": 35,
+              "sinceRender": 0,
+              "why": "sun",
+              "terrainRevision": 190,
+              "settlePending": true
+            },
+            "frame": 35
+          },
+          "shadowMap": {
+            "sha256": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226233,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              1.734723475976807e-20,
+              0.0012331493356362013,
+              0.00007438360791606536,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              1.0185546875,
+              0.35888671875,
+              0.6605578263187009,
+              1
+            ],
+            "sun": [
+              -892.6993757486779,
+              266.3024252749808,
+              461.94066056231594
+            ],
+            "target": [
+              -159.57453612793765,
+              69.92970037656832,
+              -467.5569039568366
+            ]
+          }
+        },
+        {
+          "id": "h12-orbit-golden",
+          "image": "1-cell-h12-orbit-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                226.3,
+                98.1,
+                424.1
+              ],
+              "look": [
+                183,
+                65.1,
+                339.6
+              ],
+              "mode": "orbit"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 80,
+              "drawCalls": 1,
+              "triangles": 10649600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 80,
+                  "residentLayers": 80,
+                  "textureUploads": 242,
+                  "renderRevision": 291,
+                  "morphing": false,
+                  "frameAttributeVersion": 61,
+                  "paramsAttributeVersion": 231,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 10649600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 80,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 11799,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 46616,
+              "cells": 1031,
+              "cellsVisible": 308,
+              "moves": 58415,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 2,
+              "bakeMs": 100,
+              "fading": 0,
+              "updateMs": 0,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 76,
+              "frames": 92,
+              "sinceRender": 16,
+              "why": "settled",
+              "terrainRevision": 231,
+              "settlePending": false
+            },
+            "frame": 92
+          },
+          "shadowMap": {
+            "sha256": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226233,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              1.734723475976807e-20,
+              0.0012331493356362013,
+              0.00007438360791606536,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.05761718749999978,
+              0.451171875,
+              0.4718701651490562,
+              1
+            ],
+            "sun": [
+              -550.1930706522651,
+              261.40024463305207,
+              1269.0411723742577
+            ],
+            "target": [
+              182.93176896847518,
+              65.02751973463957,
+              339.5436078551051
+            ]
+          }
+        },
+        {
+          "id": "h14-tee-golden",
+          "image": "1-cell-h14-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                16.4,
+                65,
+                -113.6
+              ],
+              "look": [
+                -92.2,
+                72.6,
+                126.2
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 55,
+              "drawCalls": 1,
+              "triangles": 7321600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 55,
+                  "residentLayers": 55,
+                  "textureUploads": 296,
+                  "renderRevision": 378,
+                  "morphing": false,
+                  "frameAttributeVersion": 71,
+                  "paramsAttributeVersion": 308,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7321600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 55,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 8183,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 56000,
+              "cells": 1031,
+              "cellsVisible": 288,
+              "moves": 175709,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 3,
+              "bakeMs": 100,
+              "fading": 0,
+              "updateMs": 0.09999999403953552,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 96,
+              "frames": 163,
+              "sinceRender": 11,
+              "why": "settled",
+              "terrainRevision": 308,
+              "settlePending": false
+            },
+            "frame": 163
+          },
+          "shadowMap": {
+            "sha256": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.49267578124999994,
+              0.4423828125,
+              0.4700035575377757,
+              1
+            ],
+            "sun": [
+              -825.2638315781949,
+              269.0087194880684,
+              1055.7781495318643
+            ],
+            "target": [
+              -92.13899195745462,
+              72.6359945896559,
+              126.28058501271168
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "variant": "noise",
+      "url": "http://127.0.0.1:8648/?bana=puttom&q=hi&qualitylock=1&v2=require&gl=0&gputime=1&ren=1&ljus=kvall&hal=1&vy=tee&det=1&foliagenoise=pixel",
+      "gpuIdle": {
+        "checked": true,
+        "utilisation": 0,
+        "allowedBusy": false
+      },
+      "hardwareAfterBoot": "NVIDIA GeForce RTX 3070 Laptop GPU, 572.47, 2 %, 345 MHz, 405 MHz, 19.91 W, 58, P8",
+      "chrome": "153.0.8010.53",
+      "boot": {
+        "adapters": [
+          {
+            "atMs": 652,
+            "vendor": "nvidia",
+            "architecture": "ampere",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          }
+        ],
+        "backend": "webgpu",
+        "gpuTiming": true,
+        "perf": {
+          "marks": [
+            {
+              "name": "läser terrängdata",
+              "atMs": 88.2
+            },
+            {
+              "name": "startar renderaren",
+              "atMs": 1825.4
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 2080.7
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 5260.6
+            },
+            {
+              "name": "bygger horisonten",
+              "atMs": 5280.8
+            },
+            {
+              "name": "lägger fairways och greener",
+              "atMs": 5300.8
+            },
+            {
+              "name": "fyller vattnet",
+              "atMs": 5796.1
+            },
+            {
+              "name": "planterar skogen",
+              "atMs": 6249
+            },
+            {
+              "name": "sätter ut flaggor",
+              "atMs": 9384.7
+            },
+            {
+              "name": "ställer ljuset",
+              "atMs": 9430.7
+            },
+            {
+              "name": "ritar första vyn",
+              "atMs": 10262.8
+            }
+          ],
+          "spans": [
+            {
+              "name": "v2 preview: select + decode pilot/surface tiles",
+              "ms": 676
+            },
+            {
+              "name": "v2 rings: fetch + verify + decode",
+              "ms": 520.9,
+              "tiles": 213
+            },
+            {
+              "name": "v2 flat water: detect",
+              "ms": 165.4
+            },
+            {
+              "name": "v2 water beds: carve rings",
+              "ms": 284,
+              "tiles": 153
+            },
+            {
+              "name": "v2 water: prepare",
+              "ms": 450,
+              "prepared": false
+            },
+            {
+              "name": "model prep after terrain data (pads, water levels, shores, grids)",
+              "ms": 1041.2
+            },
+            {
+              "name": "procedural textures (DETAIL, WATERN)",
+              "ms": 171
+            },
+            {
+              "name": "PMREM environment",
+              "ms": 57.8,
+              "preset": "golden"
+            },
+            {
+              "name": "ground atlas (1 m, CORE)",
+              "ms": 564.4
+            },
+            {
+              "name": "v2 prepare (worker, first frontier coverage, preflight)",
+              "ms": 1121.3
+            },
+            {
+              "name": "ground tint rasters (near 6 m + far 24 m)",
+              "ms": 1466.6
+            },
+            {
+              "name": "v2 vegetation: wait for chunk load",
+              "ms": 0
+            },
+            {
+              "name": "tree models (download + decode)",
+              "ms": 81
+            },
+            {
+              "name": "shore distance field",
+              "ms": 9
+            },
+            {
+              "name": "reed lattice",
+              "ms": 124.1
+            },
+            {
+              "name": "reeds (lattice + SHORE field)",
+              "ms": 215.5,
+              "reeds": 496
+            },
+            {
+              "name": "v2 vegetation: plan individuals + stand trees",
+              "ms": 421.2
+            },
+            {
+              "name": "legacy tree lattice",
+              "ms": 53.9
+            },
+            {
+              "name": "v2 vegetation: push planned trees",
+              "ms": 495.4
+            },
+            {
+              "name": "tree impostor atlases (5 species, 64 views each)",
+              "ms": 99.4
+            },
+            {
+              "name": "tree tiers (Hero + Impostor, cells)",
+              "ms": 356.5,
+              "trees": 209936,
+              "cells": 1031
+            },
+            {
+              "name": "far vista cones",
+              "ms": 951.3,
+              "vista": 596718
+            },
+            {
+              "name": "ground cover lattice",
+              "ms": 451.6
+            },
+            {
+              "name": "ground cover edge tufts",
+              "ms": 71.3
+            },
+            {
+              "name": "ground cover (tufts, bushes, stones, stumps)",
+              "ms": 528.8
+            },
+            {
+              "name": "v2 stream: first frontier fully resident (after the overlap)",
+              "ms": 615.1,
+              "tiles": 60
+            },
+            {
+              "name": "v2 stream: opening terrain texture upload",
+              "ms": 41.5
+            },
+            {
+              "name": "GPU startup: compile opening scene",
+              "ms": 1576.7
+            }
+          ],
+          "atlasMs": 564.4,
+          "totalMs": 11860.9,
+          "doneAtMs": 13568.5,
+          "firstFrames": [
+            {
+              "atMs": 11862.6,
+              "ms": 686.2,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 12791.8,
+              "ms": 47.2,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13267.6,
+              "ms": 44.1,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13405.9,
+              "ms": 42.7,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13525.4,
+              "ms": 43,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            }
+          ],
+          "engineStartedAtNavigationMs": 153.4,
+          "courseReadyAtNavigationMs": 13721.9,
+          "preparedWater": false,
+          "preparedWaterLoad": null,
+          "shoresCurved": 2,
+          "linesCurved": 34,
+          "exactEdges": {
+            "fitMs": 8.5,
+            "buildMs": 274.8,
+            "fit": {
+              "fitted": 139,
+              "keptStraight": 21,
+              "corners": 142,
+              "spikes": 10,
+              "unstaired": 0,
+              "spikesRemoved": 1,
+              "teethRemoved": 0,
+              "pointsIn": 4990,
+              "pointsOut": 18748
+            },
+            "build": {
+              "w": 1296,
+              "h": 1512,
+              "texels": 1959552,
+              "segments": 20405,
+              "visits": 10691466,
+              "touched": 452321,
+              "shapes": 132,
+              "lines": 57,
+              "distanceMs": 138.3,
+              "csgMs": 35.1,
+              "totalMs": 173.5
+            },
+            "textures": 3,
+            "textureBytes": 39191040
+          },
+          "preparedTint": false,
+          "preparedScatter": {},
+          "preparedVista": false,
+          "courseData": {
+            "networkBytes": 19862170,
+            "networkRequests": 11,
+            "cacheHits": 0,
+            "sharedHits": 44,
+            "decodes": 1141,
+            "consumerCopies": 934,
+            "consumerCopyBytes": 67540839,
+            "complete": true,
+            "fallbackReasons": [],
+            "cache": {
+              "persistent": true,
+              "bytes": 19862170,
+              "totalBytes": 19862170,
+              "evicted": 0
+            },
+            "packages": 10,
+            "chunks": 977,
+            "verified": 977,
+            "decodedResidentBytes": 16776446
+          },
+          "courseDataReadyAtNavigationMs": 6455.4,
+          "gpuPreparation": {
+            "milliseconds": 1557,
+            "branches": 51,
+            "completed": 51,
+            "concurrency": 4,
+            "target": "scene-pass",
+            "samples": 4
+          },
+          "firstSceneSubmittedAtMs": 12548.8,
+          "firstSceneGpuReadyAtMs": 13449.1,
+          "tintMs": 1466
+        },
+        "trees": 209936
+      },
+      "errors": [],
+      "views": [
+        {
+          "id": "h1-tee-golden",
+          "image": "2-noise-h1-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                -80.1,
+                69.8,
+                -253.6
+              ],
+              "look": [
+                -159.5,
+                69.9,
+                -467.5
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 130,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 60,
+              "drawCalls": 1,
+              "triangles": 7987200,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 60,
+                  "residentLayers": 60,
+                  "textureUploads": 207,
+                  "renderRevision": 243,
+                  "morphing": false,
+                  "frameAttributeVersion": 55,
+                  "paramsAttributeVersion": 189,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7987200,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 60,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 4729,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 31897,
+              "cells": 1031,
+              "cellsVisible": 186,
+              "moves": 36626,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 1,
+              "bakeMs": 99,
+              "fading": 0,
+              "updateMs": 0.10000000149011612,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 2,
+              "frames": 23,
+              "sinceRender": 20,
+              "why": "settled",
+              "terrainRevision": 189,
+              "settlePending": false
+            },
+            "frame": 23
+          },
+          "shadowMap": {
+            "sha256": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226233,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              1.734723475976807e-20,
+              0.0012331493356362013,
+              0.00007438360791606536,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              1.0185546875,
+              0.35888671875,
+              0.6605578263187009,
+              1
+            ],
+            "sun": [
+              -892.6993757486778,
+              266.3024252749808,
+              461.9406605623159
+            ],
+            "target": [
+              -159.57453612793756,
+              69.9297003765683,
+              -467.55690395683666
+            ]
+          }
+        },
+        {
+          "id": "h12-orbit-golden",
+          "image": "2-noise-h12-orbit-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                226.3,
+                98.1,
+                424.1
+              ],
+              "look": [
+                183,
+                65.1,
+                339.6
+              ],
+              "mode": "orbit"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 80,
+              "drawCalls": 1,
+              "triangles": 10649600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 80,
+                  "residentLayers": 80,
+                  "textureUploads": 242,
+                  "renderRevision": 288,
+                  "morphing": false,
+                  "frameAttributeVersion": 61,
+                  "paramsAttributeVersion": 228,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 10649600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 80,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 11799,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 46616,
+              "cells": 1031,
+              "cellsVisible": 308,
+              "moves": 58415,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 2,
+              "bakeMs": 99,
+              "fading": 0,
+              "updateMs": 0,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 8,
+              "frames": 81,
+              "sinceRender": 16,
+              "why": "settled",
+              "terrainRevision": 228,
+              "settlePending": false
+            },
+            "frame": 81
+          },
+          "shadowMap": {
+            "sha256": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.05761718749999983,
+              0.45117187499999994,
+              0.4718701651490562,
+              1
+            ],
+            "sun": [
+              -550.1930706522651,
+              261.40024463305207,
+              1269.0411723742577
+            ],
+            "target": [
+              182.93176896847513,
+              65.02751973463958,
+              339.54360785510505
+            ]
+          }
+        },
+        {
+          "id": "h14-tee-golden",
+          "image": "2-noise-h14-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                16.4,
+                65,
+                -113.6
+              ],
+              "look": [
+                -92.2,
+                72.6,
+                126.2
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 55,
+              "drawCalls": 1,
+              "triangles": 7321600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 55,
+                  "residentLayers": 55,
+                  "textureUploads": 296,
+                  "renderRevision": 373,
+                  "morphing": false,
+                  "frameAttributeVersion": 71,
+                  "paramsAttributeVersion": 303,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7321600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 55,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 8183,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 56000,
+              "cells": 1031,
+              "cellsVisible": 288,
+              "moves": 175709,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 3,
+              "bakeMs": 99,
+              "fading": 0,
+              "updateMs": 0,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 27,
+              "frames": 143,
+              "sinceRender": 8,
+              "why": "settled",
+              "terrainRevision": 303,
+              "settlePending": false
+            },
+            "frame": 143
+          },
+          "shadowMap": {
+            "sha256": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.49267578124999994,
+              0.4423828125,
+              0.4700035575377757,
+              1
+            ],
+            "sun": [
+              -825.2638315781949,
+              269.0087194880684,
+              1055.7781495318643
+            ],
+            "target": [
+              -92.13899195745462,
+              72.6359945896559,
+              126.28058501271168
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "variant": "flag",
+      "url": "http://127.0.0.1:8648/?bana=puttom&q=hi&qualitylock=1&v2=require&gl=0&gputime=1&ren=1&ljus=kvall&hal=1&vy=tee&det=1&flagcull=0",
+      "gpuIdle": {
+        "checked": true,
+        "utilisation": 0,
+        "allowedBusy": false
+      },
+      "hardwareAfterBoot": "NVIDIA GeForce RTX 3070 Laptop GPU, 572.47, 0 %, 885 MHz, 6000 MHz, 27.55 W, 58, P3",
+      "chrome": "153.0.8010.53",
+      "boot": {
+        "adapters": [
+          {
+            "atMs": 640.2999999970198,
+            "vendor": "nvidia",
+            "architecture": "ampere",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          }
+        ],
+        "backend": "webgpu",
+        "gpuTiming": true,
+        "perf": {
+          "marks": [
+            {
+              "name": "läser terrängdata",
+              "atMs": 104.3
+            },
+            {
+              "name": "startar renderaren",
+              "atMs": 1913.2
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 2187.5
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 5430
+            },
+            {
+              "name": "bygger horisonten",
+              "atMs": 5450.5
+            },
+            {
+              "name": "lägger fairways och greener",
+              "atMs": 5470.8
+            },
+            {
+              "name": "fyller vattnet",
+              "atMs": 5969.7
+            },
+            {
+              "name": "planterar skogen",
+              "atMs": 6436.3
+            },
+            {
+              "name": "sätter ut flaggor",
+              "atMs": 9615
+            },
+            {
+              "name": "ställer ljuset",
+              "atMs": 9662.4
+            },
+            {
+              "name": "ritar första vyn",
+              "atMs": 10507.6
+            }
+          ],
+          "spans": [
+            {
+              "name": "v2 preview: select + decode pilot/surface tiles",
+              "ms": 660.3
+            },
+            {
+              "name": "v2 rings: fetch + verify + decode",
+              "ms": 520.9,
+              "tiles": 213
+            },
+            {
+              "name": "v2 flat water: detect",
+              "ms": 175.6
+            },
+            {
+              "name": "v2 water beds: carve rings",
+              "ms": 291,
+              "tiles": 153
+            },
+            {
+              "name": "v2 water: prepare",
+              "ms": 467.2,
+              "prepared": false
+            },
+            {
+              "name": "model prep after terrain data (pads, water levels, shores, grids)",
+              "ms": 1127.6
+            },
+            {
+              "name": "procedural textures (DETAIL, WATERN)",
+              "ms": 186.2
+            },
+            {
+              "name": "PMREM environment",
+              "ms": 61.9,
+              "preset": "golden"
+            },
+            {
+              "name": "ground atlas (1 m, CORE)",
+              "ms": 559.3
+            },
+            {
+              "name": "v2 prepare (worker, first frontier coverage, preflight)",
+              "ms": 1166.2
+            },
+            {
+              "name": "ground tint rasters (near 6 m + far 24 m)",
+              "ms": 1488.6
+            },
+            {
+              "name": "v2 vegetation: wait for chunk load",
+              "ms": 0
+            },
+            {
+              "name": "tree models (download + decode)",
+              "ms": 91.4
+            },
+            {
+              "name": "shore distance field",
+              "ms": 8.5
+            },
+            {
+              "name": "reed lattice",
+              "ms": 129.7
+            },
+            {
+              "name": "reeds (lattice + SHORE field)",
+              "ms": 231.2,
+              "reeds": 496
+            },
+            {
+              "name": "v2 vegetation: plan individuals + stand trees",
+              "ms": 422.7
+            },
+            {
+              "name": "legacy tree lattice",
+              "ms": 55.1
+            },
+            {
+              "name": "v2 vegetation: push planned trees",
+              "ms": 502.6
+            },
+            {
+              "name": "tree impostor atlases (5 species, 64 views each)",
+              "ms": 104.3
+            },
+            {
+              "name": "tree tiers (Hero + Impostor, cells)",
+              "ms": 361.6,
+              "trees": 209936,
+              "cells": 1031
+            },
+            {
+              "name": "far vista cones",
+              "ms": 957.4,
+              "vista": 596718
+            },
+            {
+              "name": "ground cover lattice",
+              "ms": 455.8
+            },
+            {
+              "name": "ground cover edge tufts",
+              "ms": 69.6
+            },
+            {
+              "name": "ground cover (tufts, bushes, stones, stumps)",
+              "ms": 531.6
+            },
+            {
+              "name": "v2 stream: first frontier fully resident (after the overlap)",
+              "ms": 624.7,
+              "tiles": 60
+            },
+            {
+              "name": "v2 stream: opening terrain texture upload",
+              "ms": 39.7
+            },
+            {
+              "name": "GPU startup: compile opening scene",
+              "ms": 1731.7
+            }
+          ],
+          "atlasMs": 559.3,
+          "totalMs": 12260.5,
+          "doneAtMs": 13925.3,
+          "firstFrames": [
+            {
+              "atMs": 12261.3,
+              "ms": 670.7,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13216.3,
+              "ms": 52,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13694.9,
+              "ms": 43.6,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13828.2,
+              "ms": 41.5,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13882.3,
+              "ms": 43,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13929.2,
+              "ms": 40.8,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13980.6,
+              "ms": 40.8,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            }
+          ],
+          "engineStartedAtNavigationMs": 170.6,
+          "courseReadyAtNavigationMs": 14095.9,
+          "preparedWater": false,
+          "preparedWaterLoad": null,
+          "shoresCurved": 2,
+          "linesCurved": 34,
+          "exactEdges": {
+            "fitMs": 9,
+            "buildMs": 272.7,
+            "fit": {
+              "fitted": 139,
+              "keptStraight": 21,
+              "corners": 142,
+              "spikes": 10,
+              "unstaired": 0,
+              "spikesRemoved": 1,
+              "teethRemoved": 0,
+              "pointsIn": 4990,
+              "pointsOut": 18748
+            },
+            "build": {
+              "w": 1296,
+              "h": 1512,
+              "texels": 1959552,
+              "segments": 20405,
+              "visits": 10691466,
+              "touched": 452321,
+              "shapes": 132,
+              "lines": 57,
+              "distanceMs": 133,
+              "csgMs": 35.9,
+              "totalMs": 169
+            },
+            "textures": 3,
+            "textureBytes": 39191040
+          },
+          "preparedTint": false,
+          "preparedScatter": {},
+          "preparedVista": false,
+          "courseData": {
+            "networkBytes": 19862170,
+            "networkRequests": 11,
+            "cacheHits": 0,
+            "sharedHits": 44,
+            "decodes": 1141,
+            "consumerCopies": 934,
+            "consumerCopyBytes": 67540839,
+            "complete": true,
+            "fallbackReasons": [],
+            "cache": {
+              "persistent": true,
+              "bytes": 19862170,
+              "totalBytes": 19862170,
+              "evicted": 0
+            },
+            "packages": 10,
+            "chunks": 977,
+            "verified": 977,
+            "decodedResidentBytes": 16776446
+          },
+          "courseDataReadyAtNavigationMs": 6668.1,
+          "gpuPreparation": {
+            "milliseconds": 1711.4,
+            "branches": 51,
+            "completed": 51,
+            "concurrency": 4,
+            "target": "scene-pass",
+            "samples": 4
+          },
+          "firstSceneSubmittedAtMs": 12932,
+          "firstSceneGpuReadyAtMs": 13870.2,
+          "tintMs": 1488
+        },
+        "trees": 209936
+      },
+      "errors": [],
+      "views": [
+        {
+          "id": "h1-tee-golden",
+          "image": "3-flag-h1-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                -80.1,
+                69.8,
+                -253.6
+              ],
+              "look": [
+                -159.5,
+                69.9,
+                -467.5
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 130,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 60,
+              "drawCalls": 1,
+              "triangles": 7987200,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 60,
+                  "residentLayers": 60,
+                  "textureUploads": 207,
+                  "renderRevision": 243,
+                  "morphing": false,
+                  "frameAttributeVersion": 55,
+                  "paramsAttributeVersion": 189,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7987200,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 60,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 4729,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 31897,
+              "cells": 1031,
+              "cellsVisible": 186,
+              "moves": 36626,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 1,
+              "bakeMs": 104,
+              "fading": 0,
+              "updateMs": 0.09999999403953552,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 2,
+              "frames": 26,
+              "sinceRender": 23,
+              "why": "settled",
+              "terrainRevision": 189,
+              "settlePending": false
+            },
+            "frame": 26
+          },
+          "shadowMap": {
+            "sha256": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226233,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              1.734723475976807e-20,
+              0.0012331493356362013,
+              0.00007438360791606536,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              1.0185546875,
+              0.35888671875,
+              0.6605578263187009,
+              1
+            ],
+            "sun": [
+              -892.6993757486778,
+              266.3024252749808,
+              461.9406605623159
+            ],
+            "target": [
+              -159.57453612793756,
+              69.9297003765683,
+              -467.55690395683666
+            ]
+          }
+        },
+        {
+          "id": "h12-orbit-golden",
+          "image": "3-flag-h12-orbit-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                226.3,
+                98.1,
+                424.1
+              ],
+              "look": [
+                183,
+                65.1,
+                339.6
+              ],
+              "mode": "orbit"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 80,
+              "drawCalls": 1,
+              "triangles": 10649600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 80,
+                  "residentLayers": 80,
+                  "textureUploads": 242,
+                  "renderRevision": 289,
+                  "morphing": false,
+                  "frameAttributeVersion": 61,
+                  "paramsAttributeVersion": 229,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 10649600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 80,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 11799,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 46616,
+              "cells": 1031,
+              "cellsVisible": 308,
+              "moves": 58415,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 2,
+              "bakeMs": 104,
+              "fading": 0,
+              "updateMs": 0,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 10,
+              "frames": 89,
+              "sinceRender": 17,
+              "why": "settled",
+              "terrainRevision": 229,
+              "settlePending": false
+            },
+            "frame": 89
+          },
+          "shadowMap": {
+            "sha256": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.05761718749999983,
+              0.45117187499999994,
+              0.4718701651490562,
+              1
+            ],
+            "sun": [
+              -550.1930706522651,
+              261.40024463305207,
+              1269.0411723742577
+            ],
+            "target": [
+              182.93176896847513,
+              65.02751973463958,
+              339.54360785510505
+            ]
+          }
+        },
+        {
+          "id": "h14-tee-golden",
+          "image": "3-flag-h14-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                16.4,
+                65,
+                -113.6
+              ],
+              "look": [
+                -92.2,
+                72.6,
+                126.2
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 55,
+              "drawCalls": 1,
+              "triangles": 7321600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 55,
+                  "residentLayers": 55,
+                  "textureUploads": 296,
+                  "renderRevision": 375,
+                  "morphing": false,
+                  "frameAttributeVersion": 71,
+                  "paramsAttributeVersion": 305,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7321600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 55,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 8183,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 56000,
+              "cells": 1031,
+              "cellsVisible": 288,
+              "moves": 175709,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 3,
+              "bakeMs": 104,
+              "fading": 0,
+              "updateMs": 0.10000000149011612,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 30,
+              "frames": 161,
+              "sinceRender": 12,
+              "why": "settled",
+              "terrainRevision": 305,
+              "settlePending": false
+            },
+            "frame": 161
+          },
+          "shadowMap": {
+            "sha256": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.49267578124999994,
+              0.4423828125,
+              0.4700035575377757,
+              1
+            ],
+            "sun": [
+              -825.2638315781949,
+              269.0087194880684,
+              1055.7781495318643
+            ],
+            "target": [
+              -92.13899195745462,
+              72.6359945896559,
+              126.28058501271168
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "variant": "alpha",
+      "url": "http://127.0.0.1:8648/?bana=puttom&q=hi&qualitylock=1&v2=require&gl=0&gputime=1&ren=1&ljus=kvall&hal=1&vy=tee&det=1&shadowalpha=0",
+      "gpuIdle": {
+        "checked": true,
+        "utilisation": 0,
+        "allowedBusy": false
+      },
+      "hardwareAfterBoot": "NVIDIA GeForce RTX 3070 Laptop GPU, 572.47, 78 %, 375 MHz, 405 MHz, 28.92 W, 60, P8",
+      "chrome": "153.0.8010.53",
+      "boot": {
+        "adapters": [
+          {
+            "atMs": 640.6999999955297,
+            "vendor": "nvidia",
+            "architecture": "ampere",
+            "device": "",
+            "description": "",
+            "isFallbackAdapter": false
+          }
+        ],
+        "backend": "webgpu",
+        "gpuTiming": true,
+        "perf": {
+          "marks": [
+            {
+              "name": "läser terrängdata",
+              "atMs": 107
+            },
+            {
+              "name": "startar renderaren",
+              "atMs": 1892.3
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 2155.2
+            },
+            {
+              "name": "bygger terrängen",
+              "atMs": 5440.1
+            },
+            {
+              "name": "bygger horisonten",
+              "atMs": 5460.3
+            },
+            {
+              "name": "lägger fairways och greener",
+              "atMs": 5480.7
+            },
+            {
+              "name": "fyller vattnet",
+              "atMs": 5981.6
+            },
+            {
+              "name": "planterar skogen",
+              "atMs": 6453.2
+            },
+            {
+              "name": "sätter ut flaggor",
+              "atMs": 9645.9
+            },
+            {
+              "name": "ställer ljuset",
+              "atMs": 9694.9
+            },
+            {
+              "name": "ritar första vyn",
+              "atMs": 10530
+            }
+          ],
+          "spans": [
+            {
+              "name": "v2 preview: select + decode pilot/surface tiles",
+              "ms": 668.9
+            },
+            {
+              "name": "v2 rings: fetch + verify + decode",
+              "ms": 510.5,
+              "tiles": 213
+            },
+            {
+              "name": "v2 flat water: detect",
+              "ms": 170.2
+            },
+            {
+              "name": "v2 water beds: carve rings",
+              "ms": 289,
+              "tiles": 153
+            },
+            {
+              "name": "v2 water: prepare",
+              "ms": 459.9,
+              "prepared": false
+            },
+            {
+              "name": "model prep after terrain data (pads, water levels, shores, grids)",
+              "ms": 1096.2
+            },
+            {
+              "name": "procedural textures (DETAIL, WATERN)",
+              "ms": 170.2
+            },
+            {
+              "name": "PMREM environment",
+              "ms": 66.9,
+              "preset": "golden"
+            },
+            {
+              "name": "ground atlas (1 m, CORE)",
+              "ms": 575.1
+            },
+            {
+              "name": "v2 prepare (worker, first frontier coverage, preflight)",
+              "ms": 1168.7
+            },
+            {
+              "name": "ground tint rasters (near 6 m + far 24 m)",
+              "ms": 1513.9
+            },
+            {
+              "name": "v2 vegetation: wait for chunk load",
+              "ms": 0
+            },
+            {
+              "name": "tree models (download + decode)",
+              "ms": 98.6
+            },
+            {
+              "name": "shore distance field",
+              "ms": 8.9
+            },
+            {
+              "name": "reed lattice",
+              "ms": 127.9
+            },
+            {
+              "name": "reeds (lattice + SHORE field)",
+              "ms": 236.8,
+              "reeds": 496
+            },
+            {
+              "name": "v2 vegetation: plan individuals + stand trees",
+              "ms": 434.6
+            },
+            {
+              "name": "legacy tree lattice",
+              "ms": 55.2
+            },
+            {
+              "name": "v2 vegetation: push planned trees",
+              "ms": 496.9
+            },
+            {
+              "name": "tree impostor atlases (5 species, 64 views each)",
+              "ms": 112
+            },
+            {
+              "name": "tree tiers (Hero + Impostor, cells)",
+              "ms": 367.8,
+              "trees": 209936,
+              "cells": 1031
+            },
+            {
+              "name": "far vista cones",
+              "ms": 942.9,
+              "vista": 596718
+            },
+            {
+              "name": "ground cover lattice",
+              "ms": 462.7
+            },
+            {
+              "name": "ground cover edge tufts",
+              "ms": 69
+            },
+            {
+              "name": "ground cover (tufts, bushes, stones, stumps)",
+              "ms": 537.3
+            },
+            {
+              "name": "v2 stream: first frontier fully resident (after the overlap)",
+              "ms": 618.3,
+              "tiles": 60
+            },
+            {
+              "name": "v2 stream: opening terrain texture upload",
+              "ms": 40.2
+            },
+            {
+              "name": "GPU startup: compile opening scene",
+              "ms": 1550.2
+            }
+          ],
+          "atlasMs": 575.1,
+          "totalMs": 12101.3,
+          "doneAtMs": 13787,
+          "firstFrames": [
+            {
+              "atMs": 12103.3,
+              "ms": 667.1,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13057.6,
+              "ms": 54.7,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13532.5,
+              "ms": 48.3,
+              "tris": 59975782,
+              "draws": 284,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13674.2,
+              "ms": 41.5,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13743.7,
+              "ms": 43.3,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13795.9,
+              "ms": 41.4,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            },
+            {
+              "atMs": 13839.5,
+              "ms": 40.9,
+              "tris": 30775709,
+              "draws": 120,
+              "tiers": {
+                "t0": 4729,
+                "t1": 0,
+                "t2": 0,
+                "t3": 31897
+              }
+            }
+          ],
+          "engineStartedAtNavigationMs": 168.5,
+          "courseReadyAtNavigationMs": 13955.5,
+          "preparedWater": false,
+          "preparedWaterLoad": null,
+          "shoresCurved": 2,
+          "linesCurved": 34,
+          "exactEdges": {
+            "fitMs": 8.7,
+            "buildMs": 279.3,
+            "fit": {
+              "fitted": 139,
+              "keptStraight": 21,
+              "corners": 142,
+              "spikes": 10,
+              "unstaired": 0,
+              "spikesRemoved": 1,
+              "teethRemoved": 0,
+              "pointsIn": 4990,
+              "pointsOut": 18748
+            },
+            "build": {
+              "w": 1296,
+              "h": 1512,
+              "texels": 1959552,
+              "segments": 20405,
+              "visits": 10691466,
+              "touched": 452321,
+              "shapes": 132,
+              "lines": 57,
+              "distanceMs": 140.6,
+              "csgMs": 35.8,
+              "totalMs": 176.7
+            },
+            "textures": 3,
+            "textureBytes": 39191040
+          },
+          "preparedTint": false,
+          "preparedScatter": {},
+          "preparedVista": false,
+          "courseData": {
+            "networkBytes": 19862170,
+            "networkRequests": 11,
+            "cacheHits": 0,
+            "sharedHits": 60,
+            "decodes": 1125,
+            "consumerCopies": 934,
+            "consumerCopyBytes": 67540839,
+            "complete": true,
+            "fallbackReasons": [],
+            "cache": {
+              "persistent": true,
+              "bytes": 19862170,
+              "totalBytes": 19862170,
+              "evicted": 0
+            },
+            "packages": 10,
+            "chunks": 977,
+            "verified": 977,
+            "decodedResidentBytes": 16776446
+          },
+          "courseDataReadyAtNavigationMs": 8414.7,
+          "gpuPreparation": {
+            "milliseconds": 1529.7,
+            "branches": 51,
+            "completed": 51,
+            "concurrency": 4,
+            "target": "scene-pass",
+            "samples": 4
+          },
+          "firstSceneSubmittedAtMs": 12770.4,
+          "firstSceneGpuReadyAtMs": 13716.3,
+          "tintMs": 1514
+        },
+        "trees": 209936
+      },
+      "errors": [],
+      "views": [
+        {
+          "id": "h1-tee-golden",
+          "image": "4-alpha-h1-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                -80.1,
+                69.8,
+                -253.6
+              ],
+              "look": [
+                -159.5,
+                69.9,
+                -467.5
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 130,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 60,
+              "drawCalls": 1,
+              "triangles": 7987200,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 60,
+                  "residentLayers": 60,
+                  "textureUploads": 207,
+                  "renderRevision": 248,
+                  "morphing": false,
+                  "frameAttributeVersion": 55,
+                  "paramsAttributeVersion": 194,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7987200,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 60,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 4729,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 31897,
+              "cells": 1031,
+              "cellsVisible": 186,
+              "moves": 36626,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 1,
+              "bakeMs": 112,
+              "fading": 0,
+              "updateMs": 0,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 2,
+              "frames": 25,
+              "sinceRender": 22,
+              "why": "settled",
+              "terrainRevision": 194,
+              "settlePending": false
+            },
+            "frame": 25
+          },
+          "shadowMap": {
+            "sha256": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226233,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              1.734723475976807e-20,
+              0.0012331493356362013,
+              0.00007438360791606536,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              1.0185546875,
+              0.35888671875,
+              0.6605578263187009,
+              1
+            ],
+            "sun": [
+              -892.6993757486778,
+              266.3024252749808,
+              461.9406605623159
+            ],
+            "target": [
+              -159.57453612793756,
+              69.9297003765683,
+              -467.55690395683666
+            ]
+          }
+        },
+        {
+          "id": "h12-orbit-golden",
+          "image": "4-alpha-h12-orbit-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                226.3,
+                98.1,
+                424.1
+              ],
+              "look": [
+                183,
+                65.1,
+                339.6
+              ],
+              "mode": "orbit"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 80,
+              "drawCalls": 1,
+              "triangles": 10649600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 80,
+                  "residentLayers": 80,
+                  "textureUploads": 242,
+                  "renderRevision": 295,
+                  "morphing": false,
+                  "frameAttributeVersion": 61,
+                  "paramsAttributeVersion": 235,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 10649600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 80,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 11799,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 46616,
+              "cells": 1031,
+              "cellsVisible": 308,
+              "moves": 58415,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 2,
+              "bakeMs": 112,
+              "fading": 0,
+              "updateMs": 0,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 9,
+              "frames": 85,
+              "sinceRender": 17,
+              "why": "settled",
+              "terrainRevision": 235,
+              "settlePending": false
+            },
+            "frame": 85
+          },
+          "shadowMap": {
+            "sha256": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.05761718749999983,
+              0.45117187499999994,
+              0.4718701651490562,
+              1
+            ],
+            "sun": [
+              -550.1930706522651,
+              261.40024463305207,
+              1269.0411723742577
+            ],
+            "target": [
+              182.93176896847513,
+              65.02751973463958,
+              339.54360785510505
+            ]
+          }
+        },
+        {
+          "id": "h14-tee-golden",
+          "image": "4-alpha-h14-tee-golden.png",
+          "state": {
+            "camera": {
+              "pos": [
+                16.4,
+                65,
+                -113.6
+              ],
+              "look": [
+                -92.2,
+                72.6,
+                126.2
+              ],
+              "mode": "tee"
+            },
+            "terrain": {
+              "renderStride": 1,
+              "readyTiles": 174,
+              "loadingTiles": 0,
+              "failedTiles": 0,
+              "renderedTiles": 55,
+              "drawCalls": 1,
+              "triangles": 7321600,
+              "textureCapacityBytes": 67634176,
+              "batches": [
+                {
+                  "width": 257,
+                  "height": 257,
+                  "capacity": 128,
+                  "renderedTiles": 55,
+                  "residentLayers": 55,
+                  "textureUploads": 296,
+                  "renderRevision": 382,
+                  "morphing": false,
+                  "frameAttributeVersion": 71,
+                  "paramsAttributeVersion": 312,
+                  "textureCapacityBytes": 67634176,
+                  "topologyBytes": 2603535,
+                  "triangles": 7321600,
+                  "drawCalls": 1
+                }
+              ],
+              "selectedTiles": 55,
+              "requests": {
+                "queued": 0,
+                "running": 0,
+                "jobs": 0
+              }
+            },
+            "tiers": {
+              "tier0": 8183,
+              "tier1": 0,
+              "tier2": 0,
+              "tier3": 56000,
+              "cells": 1031,
+              "cellsVisible": 288,
+              "moves": 175709,
+              "switches": 0,
+              "reversals": 0,
+              "updates": 3,
+              "bakeMs": 112,
+              "fading": 0,
+              "updateMs": 0,
+              "zoneA": 4670,
+              "zoneB": 18025,
+              "heroPx": 64,
+              "switchPx": 24,
+              "impostorPx": 8,
+              "hysteresis": 0.1,
+              "nominalHeight": 12,
+              "cell": 128,
+              "force": 0,
+              "fadeS": 0,
+              "frozen": false,
+              "clockDriven": false,
+              "cellMode": false,
+              "floors": [
+                1,
+                1
+              ]
+            },
+            "shadow": {
+              "enabled": true,
+              "renders": 29,
+              "frames": 156,
+              "sinceRender": 11,
+              "why": "settled",
+              "terrainRevision": 312,
+              "settlePending": false
+            },
+            "frame": 156
+          },
+          "shadowMap": {
+            "sha256": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+            "width": 2048,
+            "height": 2048,
+            "format": "depth24plus",
+            "matrix": [
+              0.0009814571943226236,
+              0.00012667793101802727,
+              -0.00027769880288664405,
+              0,
+              3.469446951953614e-20,
+              0.0012331493356362016,
+              0.00007438360791606533,
+              0,
+              0.0007741070828460133,
+              -0.00016060951968357027,
+              0.0003520824108027093,
+              0,
+              0.49267578124999994,
+              0.4423828125,
+              0.4700035575377757,
+              1
+            ],
+            "sun": [
+              -825.2638315781949,
+              269.0087194880684,
+              1055.7781495318643
+            ],
+            "target": [
+              -92.13899195745462,
+              72.6359945896559,
+              126.28058501271168
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
