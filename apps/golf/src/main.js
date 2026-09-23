@@ -4875,8 +4875,8 @@ const TREE_LOD = {
      four diagnostic indices (1 Hero, 4 Impostor); 2/3 never allocate meshes. */
   lodMode: LODMODE,
   zoneTiers: [1, 1, 4, 4],
-  /* Owner-review flag only: ?distanthero=16 or 24. Only zone A/B Hero trees
-     may become their own baked impostor; outer-zone trees stay impostors. */
+  /* 24 px by default; ?distanthero=0 restores geographic detail, 16 compares
+     the conservative threshold. Only zone A/B Hero trees may demote. */
   distantHeroPx: distantHeroReviewPixels(location.search),
   /* frames a tree must want its new tier for before it switches: a fast camera
      wobbles a tree's size across a threshold and back within a fade, and each
@@ -5379,8 +5379,8 @@ function updateTreeTiers() {
       const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone, PD = sp.pend, PN = sp.pendN, dwell = TREE_LOD.dwell;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
-        // Default geographic tiers and forced review tiers skip distance.
-        // The opt-in distant-Hero experiment only considers zone A/B trees.
+        // Geographic opt-out and forced review tiers skip distance.
+        // The distant-Hero exception only considers zone A/B trees.
         let d = 1, px = 0;
         if (!force && (!zoneMode || (distantHeroPx && Z[k] > 0 && Z[k] <= 2))) {
           const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;

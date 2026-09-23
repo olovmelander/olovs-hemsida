@@ -1,0 +1,78 @@
+{
+  "report": "compare-default24.json",
+  "reference": "far24",
+  "results": [
+    {
+      "id": "h1-tee-golden",
+      "reference": "far24",
+      "variant": "default24",
+      "referenceImage": "../../puttom/2-far24-h1-tee-golden.png",
+      "image": "0-default24-h1-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000004018775720164609,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        55.68169820562956,
+        55.68169772067185
+      ],
+      "changedPixels": 24,
+      "changedPercent": 0.0011574074074074073,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "85f019f9b8c8fc64c2dbe75092d5a308be788f3428692b4bcefc366e7e2c3436",
+      "shadow": "85f019f9b8c8fc64c2dbe75092d5a308be788f3428692b4bcefc366e7e2c3436"
+    },
+    {
+      "id": "h12-orbit-golden",
+      "reference": "far24",
+      "variant": "default24",
+      "referenceImage": "../../puttom/2-far24-h12-orbit-golden.png",
+      "image": "0-default24-h12-orbit-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.00000626929012345679,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        47.47853023166321,
+        47.47853114616901
+      ],
+      "changedPixels": 39,
+      "changedPercent": 0.001880787037037037,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "0de26ce4c3da53f25756b514b8a7be5c15faeb477725b17e9bc4b9751083a829",
+      "shadow": "0de26ce4c3da53f25756b514b8a7be5c15faeb477725b17e9bc4b9751083a829"
+    },
+    {
+      "id": "h14-tee-golden",
+      "reference": "far24",
+      "variant": "default24",
+      "referenceImage": "../../puttom/2-far24-h14-tee-golden.png",
+      "image": "0-default24-h14-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.00000626929012345679,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        62.38705807767999,
+        62.38705791058885
+      ],
+      "changedPixels": 38,
+      "changedPercent": 0.0018325617283950616,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "9b53e3ceb282b8b197a9bd9ead7b4c59435fc8784bd5525d8240ad9d1ef0c171",
+      "shadow": "9b53e3ceb282b8b197a9bd9ead7b4c59435fc8784bd5525d8240ad9d1ef0c171"
+    }
+  ]
+}

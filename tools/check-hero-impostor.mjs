@@ -31,6 +31,8 @@ page.on('console', message => {
   if (/ghibli trees:|v2 .*ready/.test(message.text())) console.log(message.text().slice(0, 200));
 });
 const settle = async () => {
+  await page.waitForFunction(() => V3D.settled()
+    && (V3D.v2Terrain().adapter?.stream?.loadingTiles ?? 0) === 0, null, { timeout: 240000, polling: 100 });
   const frame = await page.evaluate(() => V3D.frame());
   await page.waitForFunction(f => V3D.frame() >= f + 2 && V3D.settled()
     && (V3D.v2Terrain().adapter?.stream?.loadingTiles ?? 0) === 0, frame, { timeout: 240000, polling: 500 });
@@ -43,7 +45,7 @@ const snapshot = () => page.evaluate(() => {
       trianglesEach: (m.geometry.index?.count ?? m.geometry.attributes.position.count) / 3 });
   });
   return { tiers: V3D.treeTiers(), audit: V3D.treeTierAudit(), allocation: V3D.treeTierAllocation(),
-    quality: V3D.quality(), inventory, renderer: V3D.rendererInfo() };
+    backend: V3D.v2Terrain().backend, policy: V3D.treeLodPx(), quality: V3D.quality(), inventory, renderer: V3D.rendererInfo() };
 });
 const verify = record => {
   assert(record.audit.ok, 'Tree slots must retain one owner');
@@ -52,7 +54,8 @@ const verify = record => {
 };
 try {
   // Deliberately include the former downgrade flag: it must still load Hero.
-  const url = `${base}/?bana=${course}&v2=require&ghibli=1&hero=0&q=${quality}&qualitylock=1&gl=${flag('gl', '1')}&det=1&hal=1&vy=tee&ljus=middag`;
+  const override = flag('distanthero', null);
+  const url = `${base}/?bana=${course}&v2=require&ghibli=1&hero=0&q=${quality}&qualitylock=1&gl=${flag('gl', '1')}&det=1&hal=1&vy=tee&ljus=middag${override === null ? '' : `&distanthero=${encodeURIComponent(override)}`}`;
   console.log(`Opening ${course} / ${quality}`);
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
   await page.waitForFunction(() => window.V3D?.settled(), null, { timeout: 360000, polling: 500 });
@@ -60,6 +63,8 @@ try {
   assert.deepEqual([...new Set(report.models)].sort(), expectedModels);
   report.views.push({ view: 'tee', ...await snapshot() });
   verify(report.views[0]);
+  assert.equal(report.views[0].backend, flag('gl', '1') === '1' ? 'webgl2' : 'webgpu');
+  if (override === null) assert.equal(report.views[0].policy.distantHero, 24, 'Ordinary visits use the approved 24 px policy');
   assert(report.views[0].tiers.tier0 > 0, 'Expected Hero trees by the playing line');
   await page.evaluate(() => V3D.prepareCapture());
   await page.screenshot({ path: path.join(out, `${course}-${quality}-tee.png`), timeout: 120000 });
@@ -69,7 +74,8 @@ try {
   await settle();
   report.views.push({ view: 'top', ...await snapshot() });
   verify(report.views[1]);
-  assert.equal(report.views[1].tiers.switches, switches, 'Camera movement must not switch geographic detail');
+  if (!report.views[0].policy.distantHero)
+    assert.equal(report.views[1].tiers.switches, switches, 'Camera movement must not switch geographic opt-out detail');
   await page.evaluate(() => V3D.prepareCapture());
   await page.screenshot({ path: path.join(out, `${course}-${quality}-top.png`), timeout: 120000 });
   // An old forced-Lite link must resolve to Hero without using retired slots.

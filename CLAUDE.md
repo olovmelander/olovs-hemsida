@@ -25,9 +25,12 @@ this guide or the current production workflow.
 - GPK1 still transports routing, card, placement and compatibility height data.
   Reviewed adapters, class/pair surface representations and diagnostic fixtures
   remain dependencies. Do not remove them merely because their names say legacy.
-- Player trees use approved Hero geometry and Impostors. Preserve the geographic
-  zone policy: trees on or around the course do not change detail with camera
-  distance. Full/Lite and alternative catalogues belong to isolated studies.
+- Player trees use approved Hero geometry and Impostors. Geographic zones select
+  the base tier; zone A/B Hero trees use their own baked impostors below the
+  owner-approved 24 px projected whole-tree threshold, with hysteresis, dwell
+  and crossfade. Outer-zone trees remain impostors. `?distanthero=0` restores
+  geographic-only detail; `16` retains the measured comparison threshold.
+  Full/Lite and alternative catalogues belong to isolated studies.
 - Study shader/tree entry points live in `apps/golf/src/studies`. Keep them out
   of the player import graph. Refined/foliage study assets remain available
   locally and are omitted from production builds.

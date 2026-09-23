@@ -33,9 +33,13 @@ function fixture(threshold, detailHeight, coordinateSystem) {
   return { replay, step };
 }
 
-describe('owner-review distant Hero policy', () => {
-  it('is off for ordinary, disabled and unrecognised URLs', () => {
-    for (const search of ['', '?distanthero=0', '?distanthero=', '?distanthero=32', '?distanthero=NaN'])
+describe('distant Hero policy', () => {
+  it('defaults ordinary course URLs to the measured 24 px policy', () => {
+    for (const search of ['', '?bana=puttom&q=hi', '?bana=veckefjarden&q=lo&gl=1'])
+      expect(distantHeroReviewPixels(search)).toBe(24);
+  });
+  it('retains the geographic opt-out and measured review overrides', () => {
+    for (const search of ['?distanthero=0', '?distanthero=', '?distanthero=32', '?distanthero=NaN'])
       expect(distantHeroReviewPixels(search)).toBe(0);
     expect(distantHeroReviewPixels('?distanthero=1')).toBe(24);
     expect(distantHeroReviewPixels('?distanthero=24')).toBe(24);
@@ -46,11 +50,11 @@ describe('owner-review distant Hero policy', () => {
       for (const value of ['0', '16', '24']) expect(allowed(`?bana=puttom&distanthero=${value}`)).toBe(true);
   });
   for (const backend of [THREE.WebGLCoordinateSystem, THREE.WebGPUCoordinateSystem]) for (const height of [450, 1080]) {
-    it(`keeps default geographic detail at every distance (${backend}, ${height})`, () => {
-      const { step } = fixture(0, height, backend);
+    it(`keeps explicit opt-out geographic detail at every distance (${backend}, ${height})`, () => {
+      const { step } = fixture(distantHeroReviewPixels('?distanthero=0'), height, backend);
       for (const px of [40, 20, 8, 50]) expect(step(px, 30)).toEqual([1, 1, 4, 4]);
     });
-    for (const threshold of [16, 24]) {
+    for (const threshold of [16, distantHeroReviewPixels('')]) {
       it(`retains near Hero, outer impostors, hysteresis, dwell and fades (${backend}, ${height}, ${threshold})`, () => {
         const { replay, step } = fixture(threshold, height, backend);
         expect(step(threshold * 1.3)).toEqual([1, 1, 4, 4]);

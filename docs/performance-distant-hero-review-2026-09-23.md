@@ -1,12 +1,16 @@
-# Distant Hero review prototype
+# Distant Hero: 24 px default and measured review
 
-Status: prototype implemented, rebaked, tested and measured on the RTX 3070;
-owner visual review pending. The default remains the geographic Hero/Impostor
-policy. This experiment does not authorize changing that default or merging.
+**Owner decision, September 23:** after the prototype measurements and review
+discussion, the owner explicitly requested making 24 px the default before
+merging PRs #90–#93. Ordinary visits now select the measured 24 px policy.
+The original interleaved measurements and captures below are retained as
+historical evidence; their `default`/`before` labels mean the old geographic-only
+policy. No full-tour video review or physical-phone measurement is claimed.
 
-Use `?distanthero=16` or `?distanthero=24` (`1` aliases 24). Missing, disabled,
-empty and unrecognised values leave the experiment off. In geographic mode,
-only a zone A/B tree assigned Hero by the geographic policy may use its own Hero-baked
+Use `?distanthero=0` to restore geographic-only detail, `16` for the conservative
+comparison, or `24` (`1` aliases 24) to select the default explicitly. An absent
+parameter selects 24; explicit empty and unrecognised values retain the opt-out.
+In geographic mode, only a zone A/B tree assigned Hero by the geographic policy may use its own Hero-baked
 impostor when it becomes small on screen. Outer zones remain impostors even
 when the camera approaches; forced diagnostic tiers retain their precedence.
 
@@ -23,7 +27,7 @@ tree's centre distance, rather than just the crown's height. It retains:
 
 The flag is classified as display-only by prepared-startup eligibility, so a
 review URL does not accidentally disable prepared colors, water or vegetation.
-The source revision is
+The original measured prototype's source revision was
 `25202cc6903ffb8f909d97adb7673e84e9cb9e4fab87b9721e97801268b6a972`.
 All 13 courses were actually rebaked with the existing tint, water and vista
 tools (the last also bakes scatter), and the prepared-startup release gate
@@ -44,7 +48,7 @@ compare against PR #89. Original bake receipts are retained for
 
 The focused tests execute the application's actual tier update and slot/fade
 code across high/low detail heights and both backend coordinate systems. They
-check default geographic detail, threshold dwell and hysteresis, fade drain,
+check explicit geographic opt-out, threshold dwell and hysteresis, fade drain,
 outer-zone invariance, forced tiers and the absence of retired Full/Lite slots.
 The existing default-vs-baseline replay tests retain exact state/upload parity.
 
@@ -72,7 +76,7 @@ Normal-use timing has no `det` pin. Each view warms for 90 frames, then records
 Values below average the two run medians; GPU timestamps resolve in batches,
 so these are 6–10 GPU samples per run, not 600 independent GPU measurements.
 
-| Puttom view | Default GPU ms | 16 px GPU ms | 24 px GPU ms | Hero trees: off / 16 / 24 |
+| Puttom view | Old default GPU ms | 16 px GPU ms | 24 px GPU ms | Hero trees: off / 16 / 24 |
 |---|---:|---:|---:|---:|
 | 1 tee | 19.33 | 15.43 | 11.67 | 4,729 / 3,064 / 1,838 |
 | 12 orbit | 45.81 | 20.77 | 13.01 | 11,799 / 3,726 / 1,680 |
@@ -174,7 +178,8 @@ With the flag **off**, all seven views match the original PR #89 build to
 at most 1/255 per channel, and all native shadow maps are bit-identical.
 The [Puttom](graphics/performance-distant-hero-2026-09-23/default-puttom-diff.json)
 and [tour](graphics/performance-distant-hero-2026-09-23/default-veckefjarden-diff.json)
-comparisons support keeping the default behavior unchanged in this PR.
+comparisons establish the behavior retained by the explicit `?distanthero=0`
+opt-out. They do not describe the newly selected 24 px default.
 
 ### Motion probes
 
@@ -227,7 +232,7 @@ runs [off](graphics/performance-distant-hero-2026-09-23/glitter-0/results.json),
 [24](graphics/performance-distant-hero-2026-09-23/glitter-24/results.json).
 The glitter directories also contain the original annotated diagnostic PNGs.
 
-### Recommendation
+### Original recommendation and owner decision
 
 **Review 24 px first.** It delivers substantially more GPU headroom than
 16 px, especially in the two heaviest stationary views, and the bounded
@@ -236,12 +241,46 @@ trade-off in distant forest texture, gaps, highlights and shadows; 16 px is
 the more conservative alternative if that difference is objectionable.
 Neither setting eliminates the longest tour stalls or most shimmer.
 
-Keep the default off in this PR. These probes and a 45-second tour do not
-qualify every hole of a complete course flight or establish phone FPS. A
-default-change proposal still needs the owner's visual acceptance and the
-plan's side-by-side full-tour video evidence. The HTML review viewer was
+The original recommendation was to keep the default off pending owner review
+and side-by-side full-tour video evidence. The owner subsequently explicitly
+requested enabling 24 px and merging all four PRs; that decision supersedes
+the opt-in rollout. These probes and a 45-second tour still do not qualify every
+hole of a complete course flight or establish phone FPS. Full-tour video
+and physical-device coverage remain follow-up work. The HTML review viewer was
 checked in Chrome: all seven pairs load, both threshold selectors work, and
 full-size links resolve without page errors.
+
+## Default rollout verification
+
+The owner-selected default build has source revision
+`4f127fdea81c6a2f1a19cd535f3fe82c874dcb20526cceb2d7792baad06b550f`.
+All 13 courses were regenerated through the actual tint, water and
+vista/scatter publishers again. The [prepared-data release check](graphics/performance-distant-hero-2026-09-23/default24/prepared-check.json)
+passes, and the [construction audit](graphics/performance-distant-hero-2026-09-23/default24/publication-identity.json)
+again proves unchanged colors, water fields and vegetation content.
+
+The final build was captured on the RTX 3070 at the same seven Puttom/tour
+views, both without the parameter and with `?distanthero=0`. All seven new
+default captures match the original measured 24 px captures within 1/255 per
+channel; all seven opt-out captures match the original geographic-only images
+within 1/255. All 14 shadow-map comparisons are bit-identical. Projection
+settings and shadow matrices match exactly; camera-position comparisons allow
+only 1e-9 m for the existing final-bit OrbitControls re-clamping. Terrain was
+idle for two additional frames before capture. [Results and original-image paths](graphics/performance-distant-hero-2026-09-23/default24/visual-parity.json)
+and [capture provenance](graphics/performance-distant-hero-2026-09-23/default24/capture-provenance.json)
+retain the discarded browser-interrupted attempt and the accepted replacement.
+
+The updated real-course Hero/Impostor check also passes on Visby at low quality
+with WebGL2, selecting 24 px without a URL parameter: 47 Hero / 846 impostors
+at the tee and 48 / 52 overhead, valid slot ownership, no retired Full/Lite
+drawables and working forced-tier overrides. Both rendered views were inspected.
+[Report](graphics/performance-distant-hero-2026-09-23/default24/webgl2-low/visby-lo.json).
+This desktop check does not establish physical-phone performance.
+
+Final local validation: **1,315 Vitest and 478 Node tests pass**, with three
+environment skips; production build, app isolation, no-undef lint and
+course-workflow checks pass. The early test attempt correctly rejected the
+old prepared identities; the complete suite passed after regeneration.
 
 ## Reproduction
 
@@ -250,7 +289,7 @@ following sequentially in PowerShell with other browsers and GPU jobs closed:
 
 ```powershell
 $env:BANVY_GPU='1'
-$variants='before=|far16=distanthero=16|far24=distanthero=24'
+$variants='before=distanthero=0|far16=distanthero=16|far24=distanthero=24'
 $order='before,far16,far24,far24,far16,before'
 node tools/performance-ab.mjs --base http://127.0.0.1:8649 --variants $variants --order $order --out tools/reference/prototype-normal
 node tools/performance-ab.mjs --base http://127.0.0.1:8649 --kind tour --course veckefjarden --variants $variants --order $order --out tools/reference/prototype-tour

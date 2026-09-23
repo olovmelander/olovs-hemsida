@@ -1,0 +1,19 @@
+{
+  "discardedAttempt": {
+    "at": "2026-09-23T18:37:43.519Z",
+    "build": {
+      "revision": "4f127fdea81c6a2f1a19cd535f3fe82c874dcb20526cceb2d7792baad06b550f"
+    },
+    "runs": [
+      {
+        "variant": "default24",
+        "completedViews": 0
+      }
+    ],
+    "reason": "A Chrome window launched from Explorer opened after boot. The exclusive-browser guard rejected the run before any screenshots; the entire capture was restarted after closing that window."
+  },
+  "cameraComparison": {
+    "positionTargetToleranceWorldMetres": 1e-9,
+    "reason": "Settled OrbitControls re-clamping changes final double-precision bits. Projection settings and shadow matrices require exact equality; shadow bytes remain bit-identical. Raw camera coordinates are retained in comparison reports."
+  }
+}
