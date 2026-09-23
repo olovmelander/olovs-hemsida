@@ -212,25 +212,61 @@ Three things make this *intuitive* rather than a menu:
 - **Mulligans are a round setting** ("Mulligans tillåtna"), off by default, so the
   chip is not in the way of anyone playing by the Rules.
 
-### 4.5 Pocket and bag
+### 4.5 Pocket and bag — two modes, because the web allows exactly two
 
-Section 2 says the limit plainly: a web page gets **no GPS while it is hidden or
-the screen is locked**. So pocket mode keeps the page visible and costs as little
-as a lit screen can:
+Section 10 has the limit in full: **a web page gets no GPS, and no motion events,
+while it is hidden or the screen is locked — on iOS and on Android, with no
+standard planned.** So there are two honest ways to carry the phone, and the owner's
+workflow is already the better of them:
 
-- **Fickläge**: a full-black overlay (OLED pixels off), the Screen Wake Lock held,
-  every touch swallowed except a deliberate long press on a lock glyph; the hole
-  number and the distance to the green in large dim type for a glance.
-- GPS and the stop detector keep running; with permission, the motion detector
-  (7.5) listens for swings. Each stop with a swing becomes a shot with the predicted
-  club; each stop without one is kept only if the golfer walked 30 m+ afterwards.
-- **Taking the phone out is the review**: the rail shows `2 slag registrerade · Järn 7
-  142 m · Wedge 64 m — stämmer?` with each club editable by one tap.
-- **In the bag on a trolley**, stops are the trolley's, parked a few metres from the
-  ball; distances from bag-mode rounds are tagged lower-confidence and weighted down
-  in club statistics.
-- Honest battery: section 2's numbers; the round screen tells the golfer the drain
-  per hole after two holes.
+**Wake at the ball — the default.** The screen goes off between shots, as it would
+anyway. At the ball the golfer wakes the phone and taps the club. On becoming
+visible the app restarts the watch for a *fresh* fix (no cached position), and the
+tap is **accepted at once** — the chip shows `Järn 6 · söker GPS…` and the shot's
+position fills in from the first fix under ±10 m, usually within seconds; the golfer
+never waits. Nothing is tracked on the walk (there is nothing to track), the hole
+tracker picks up on the first fix, and the 3D scene renders only while it is looked
+at. This is also the platform research's own conclusion: *screen off between shots,
+wake to mark* is the most battery-friendly design a web app can have.
+
+**Fickläge — pocket mode, for automation, opt-in.**
+
+- A full-black overlay (OLED pixels off) and — the part that matters most for the
+  battery — **the 3D render loop paused**: no WebGL/WebGPU frames at all while the
+  overlay is up.
+- The Screen Wake Lock held and re-requested on every `visibilitychange` (both
+  engines release it when the page hides); the first request needs a tap, and on
+  iOS it works in a home-screen app only from iOS 18.4.
+- Every touch swallowed except a deliberate long press on a lock glyph (there is no
+  proximity sensor on the web to do it for us); the hole number and the distance to
+  the green in large dim type for a glance.
+- GPS and the stop detector run; with the motion permission (asked from the same
+  tap that switches Fickläge on — iOS requires a user gesture, and Chrome is moving
+  the same way) the swing detector (7.5) listens. A stop with a swing becomes a shot
+  with the predicted club; a stop without one is a candidate only if the golfer then
+  walked 30 m or more.
+- **Taking the phone out is the review**: `2 slag registrerade · Järn 7 142 m ·
+  Wedge 64 m — stämmer?`, each club one tap to change.
+- **Battery, honestly**: a screen-on web page for a 4-hour round is estimated at
+  30–60 % (not measured; Arccos's native app, screen mostly off, reports about 40 %).
+  A black overlay is what Google Maps' power-saving mode uses (3 %/h against 8 %/h
+  with its light interface, on a Pixel). So pocket mode shows its measured drain per
+  hole after two holes, and M4 measures it on real phones before it is recommended.
+
+**In the bag on a trolley**, stops are the trolley's, parked a few metres from the
+ball; rounds tagged as bag-mode keep their distances out of club statistics unless
+confirmed shot by shot.
+
+**Haptics**: Android can buzz on a tap (`navigator.vibrate`, after a gesture); iOS
+has no vibration API at all — only a real tap on an `<input type="checkbox" switch>`
+(Safari 17.4+) produces a haptic, and script cannot fire one, so an auto-detected
+shot cannot buzz on iOS. The club chips can be built as such switches to get the
+tap haptic on iPhone; to be verified on a device before it is relied on.
+
+**Precise location can be switched off by the user** (iOS "Exakt plats"; Chrome on
+Android offers approximate-only sharing since May 2026). Repeated fixes worse than
+±100 m mean exactly that, and the rail says so — `Exakt plats är avstängd ·
+slå på den för slagmätning` — rather than recording shots at kilometre precision.
 
 ### 4.6 The scorecard and formats
 
@@ -239,7 +275,7 @@ as a lit screen can:
 - Formats: **Slag** (gross, to par), **Netto** and **Poäng** (Stableford) from a
   playing handicap the golfer enters once ("Spelhandicap", from Min Golf); strokes
   received by stroke index; net double bogey shown as the handicap-counting score.
-  Match play and friends' cards are milestone 6.
+  Match play and friends' cards are milestone 7.
 - The round ends itself after the last hole's putts, or after 8 h idle; "Avsluta
   runda" in the sheet body. A link to register the round in Min Golf.
 
@@ -315,8 +351,13 @@ auditable.
 
 ### 7.1 A position worth recording
 
-A single fix is ±3–8 m and its error drifts over seconds, so a tap never takes
-the last fix alone:
+What a fix is worth: GPS.gov puts smartphones at about 4.9 m under open sky; a 2026
+field study of Android-reported accuracy found medians of 3.8 m standing and 6.8 m
+walking; under trees it is worse, and dual-frequency receivers help less than their
+marketing. The number the browser reports is not one thing either — the spec says
+95 % confidence, Chrome passes through Android's 68 % (one sigma), Apple does not
+say — so the app treats `accuracy` as roughly one sigma and plans for 2–5 m. The
+error also drifts over seconds, so a tap never takes the last fix alone:
 
 - take the fixes of the last 10 s with accuracy ≤ 20 m whose spread is ≤ 6 m (the
   golfer is standing); the shot position is their accuracy-weighted mean
@@ -399,7 +440,27 @@ the last fix alone:
 
 ### 7.5 Swings from the phone's motion sensors (beta)
 
-> **Pending:** swing detection from motion sensors — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- SWING -->
+What the web gives: `devicemotion` at 60 Hz (rotation rate and acceleration),
+after a permission asked from a tap, **only while the page is visible** — so only in
+pocket mode with the screen held on (that events keep flowing in a pocket is an
+inference from the specs, to be proved in M4). 60 Hz is coarse for a swing that
+lasts about a second from the top to impact, but a swing is also the largest,
+fastest rotation a pocketed phone ever sees, which is what makes it detectable.
+
+The rule M6 starts from, every threshold to be fitted on recorded rounds (7.6):
+
+- a **swing** is a peak of angular speed |ω| far above walking (walking is a
+  periodic ~2 Hz pattern at much lower |ω|), preceded by at least a second of near
+  stillness (the address) and followed by a follow-through decay;
+- **practice swings** are common, so of several swings at one stop the shot is the
+  **last swing before the golfer walks away** (25 m or more);
+- **fusion**: stop ∧ swing → shot (high confidence); stop without swing → only a
+  candidate (4.5); swing without stop → ignored unless GPS was lost;
+- the detector's worth is measured, not asserted: precision and recall against the
+  taps of recorded rounds, reported per phone model and per carry position (front
+  pocket, back pocket, bag).
+
+__SWING_MARKET__
 
 ### 7.6 The field recorder — the data every automatic rule is tuned on
 
@@ -549,7 +610,47 @@ twice in 2026. Re-check at M5.)*
 
 ## 10. Platform strategy — what the web can do, and when to wrap it
 
-> **Pending:** the platform capability matrix — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- PLATFORM -->
+Checked on 23 September 2026 against Safari 26.x/27.0 and Chrome 152/153, several
+points in the engines' own source rather than only their documentation:
+
+| Capability | iOS (Safari / home-screen web app) | Android (Chrome / installed PWA) | Native wrapper (+ watch) |
+|---|---|---|---|
+| GPS, screen on and page visible | yes, ~1 Hz | yes (high accuracy every 500 ms) | yes |
+| GPS with the screen locked or the app in the background | **no** | **no** | **yes** |
+| A web standard for background location | none planned (WebKit request closed "later", Nov 2025) | none | — |
+| Screen Wake Lock | Safari 16.4+; home-screen apps only from iOS 18.4 | Chrome 84+ | native |
+| Motion sensors | `devicemotion` 60 Hz after `requestPermission()` from a tap; stops when hidden | `devicemotion` 60 Hz; Generic Sensor API capped at 60 Hz; stops when hidden | native rates; Apple Watch accelerometer up to 800 Hz |
+| Vibration | none (a switch-checkbox haptic on real taps only) | yes, after a gesture | native haptics |
+| Storage | IndexedDB up to 60 % of disk; `persist()` by heuristic; a home-screen app's store is separate from Safari's | up to 60 % of disk; `persist()`; Storage Buckets | native database |
+| Background Sync / Periodic Sync | no / no | yes / yes (installed) | native |
+| Web Push | home-screen apps only (16.4+), never silent | yes, never silent | incl. silent push |
+
+**What the app does with that, per milestone:**
+
+- **M1–M4 stay on the web.** The wake-at-the-ball flow (4.5) works fully inside
+  these limits; pocket mode works while the screen is on; sync runs when the app is
+  open. The web app is the product until the field numbers say otherwise.
+- **The wrapper decision (M6) is a battery-and-capture decision.** A Capacitor shell
+  gets what the web cannot: on iOS, background location for a round the golfer
+  started, with *While Using* permission plus the location background mode and
+  `CLBackgroundActivitySession` (Apple names tracking "the precise path taken during
+  a hike or fitness workout" as a valid use; no *Always* permission needed); on
+  Android, a location foreground service with its notification, again without the
+  restricted background-location permission. Plugins: the community
+  `background-geolocation` (free, documented only to Capacitor 7) or Transistorsoft's
+  (Capacitor 8, motion-aware GPS duty-cycling, paid licence for release builds). App
+  Review would judge it against 4.2 ("more than a repackaged website"), 2.5.4, 5.1.5
+  and 2.4.2 (battery) — a real risk to plan for, not a formality.
+- **The watch is where "zero interruption" is fully solved.** Apple Watch gives
+  batched accelerometer data at 800 Hz during a HealthKit workout (Apple's own WWDC23
+  example was a golf swing); Wear OS Health Services has a golf exercise type with
+  built-in shot counting (`GolfShotEvent`). Both need native apps; both are the path
+  Arccos and Garmin prove golfers accept. After M6, not before.
+- **Battery rules for every milestone:** render the 3D scene only while it is looked
+  at (the render loop already pauses in pocket mode, and iOS Low Power Mode throttles
+  frames to 30 fps anyway), a black UI outdoors where auto-brightness runs high
+  (dark UI on OLED saves 39–47 % at full brightness, only 3–9 % at 30–50 %), and no
+  GPS duty-cycling tricks — the web can only start or stop `watchPosition`.
 
 ---
 
