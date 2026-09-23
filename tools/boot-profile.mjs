@@ -59,7 +59,9 @@ const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 
 /* 'off' emits an explicit v2=0: with v2 the flagless default on reviewed
    grounds, an unflagged URL would profile the v2 boot, not the GPK1 one. */
-const search = `?bana=${SLUG}${DET ? '&det=1' : ''}&qualitylock=1&startup=${STARTUP}&ljus=${LIGHT}&ghibli=${PAINTED}&gl=${GL}&hal=${HOLE}&vy=tee${V2 === 'off' ? '&v2=0' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}`;
+/* --query k=v&k2=v2 appends parameters, e.g. prepvista=0 for the before of a prepared step */
+const EXTRA_QUERY = flag('query', '');
+const search = `?bana=${SLUG}${DET ? '&det=1' : ''}&qualitylock=1&startup=${STARTUP}&ljus=${LIGHT}&ghibli=${PAINTED}&gl=${GL}&hal=${HOLE}&vy=tee${V2 === 'off' ? '&v2=0' : `&v2=${V2}`}${Q ? `&q=${Q}` : ''}${EXTRA_QUERY ? `&${EXTRA_QUERY}` : ''}`;
 const url = `${BASE}/${search}`;
 const browser = await chromium.launch({ ...(CHROME ? { executablePath: CHROME } : { channel: 'chrome' }), args: browserArgs() });
 const runs = [];

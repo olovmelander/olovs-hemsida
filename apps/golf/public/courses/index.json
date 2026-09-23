@@ -188,6 +188,34 @@
     "decodedBytes": 63054969,
     "sha256": "6beda8baede845e138b7205a6fef587d3a80b17243d7c608528ab32259bacaac",
     "decodedSha256": "771201f606c3120e9323fa6e6534e31fcb10edf34f52da1598239fa26c0743e3"
+   },
+   "preparedVista": {
+    "vista-hi": {
+     "identity": "710095b3431fcfa2e6d3421e2a6a9ece3416c010874fde1d693863dd7199ef3a",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/angso/prepared/vista-76cbdda799ba711e64e14e7d32112802a2a43a9b14c7e66454f6a6dec6d1f427.bin",
+     "bytes": 111793,
+     "decodedBytes": 385780,
+     "sha256": "76cbdda799ba711e64e14e7d32112802a2a43a9b14c7e66454f6a6dec6d1f427",
+     "decodedSha256": "2867c41f6c4ba6965e6a207d84f8ca557be64f5927fc36ce1dcea0bcafc10202",
+     "candidates": 3086234,
+     "digest": "1f70d641289ced09a331219dcba4c6f863abcc936f12c91ea4d1bcffa35e73f2",
+     "skipped": 287028,
+     "points": 283012
+    },
+    "vista-lo": {
+     "identity": "3eff37ccabab625a0397353d5e8de2e7c83181296948c8ddce3dca6ef9e5d249",
+     "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
+     "url": "courses/angso/prepared/vista-b6037c593b4eab12b9b5714d0a0fb8dc4181363b61b7158bd6cfb8531cde707b.bin",
+     "bytes": 64774,
+     "decodedBytes": 214471,
+     "sha256": "b6037c593b4eab12b9b5714d0a0fb8dc4181363b61b7158bd6cfb8531cde707b",
+     "decodedSha256": "f93e47f32824bd15a4c00c19fc5e2b97739af448b066358cada4da9daa09f404",
+     "candidates": 1715765,
+     "digest": "e45ffbaee5d54f6f428d66995f3dcde9e47f13c78fe99f2e3254c95c9dab17dd",
+     "skipped": 159411,
+     "points": 156610
+    }
    }
   },
   {
