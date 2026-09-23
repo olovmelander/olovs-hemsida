@@ -1,10 +1,13 @@
 #!/usr/bin/env node
-/* Publish the far vista's prepared planting for every course and quality.
+/* Publish the far vista's and the scatter's prepared plantings (far vista,
+   reeds, ground cover, edge tufts) for every course and quality.
 
    Runs a built app against the published sources with ?bakeVista=1, which
    plants the far vista the ordinary way and records one bit per candidate
-   (engine/prepared-vista.mjs), then writes the bits as a content-addressed,
-   deflated file beside the course and its record into courses/index.json.
+   (engine/prepared-vista.mjs), and runs on through the ground cover, whose
+   three loops are recorded the same way (engine/prepared-scatter.mjs). Each
+   record's bits go into a content-addressed, deflated file beside the course,
+   and the records into courses/index.json.
    Like the tint and water bakes it refuses a build whose source revision is
    not the checkout's, and sources that change while it runs.
 
@@ -29,7 +32,7 @@ if (only.some(slug => !catalog.courses.some(c => c.slug === slug))) throw new Er
 const revision = courseSourceRevision(process.cwd());
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
-const records = new Map(), results = [];
+const records = new Map(), scatterRecords = new Map(), results = [];
 try {
   for (const course of catalog.courses.filter(c => !only.length || only.includes(c.slug))) {
     for (const quality of ['hi', 'lo']) {
@@ -43,11 +46,11 @@ try {
         await page.waitForFunction(() => !!window.__VISTA_BAKE__, null, { timeout: 1800000 });
         if (errors.length) throw new Error(errors.join('\n'));
         const baked = await page.evaluate(() => {
+          const b64 = bytes => { let binary = ''; for (let o = 0; o < bytes.length; o += 32768) binary += String.fromCharCode(...bytes.subarray(o, o + 32768)); return btoa(binary); };
           const data = window.__VISTA_BAKE__;
-          if (data.none) return data;
-          let binary = '';
-          for (let offset = 0; offset < data.bits.length; offset += 32768) binary += String.fromCharCode(...data.bits.subarray(offset, offset + 32768));
-          return { ...data, bits: undefined, base64: btoa(binary) };
+          const scatter = { ...data.scatter, payload: undefined, base64: b64(data.scatter.payload) };
+          if (data.none) return { ...data, scatter };
+          return { ...data, bits: undefined, base64: b64(data.bits), scatter };
         });
         if (baked.variant !== `vista-${quality}`) throw new Error('bake did not use the requested quality');
         if (baked.revision !== revision) throw new Error('bake server is not built from the current source revision');
@@ -72,6 +75,27 @@ try {
         if (!records.has(course.slug)) records.set(course.slug, {});
         records.get(course.slug)[baked.variant] = record;
         results.push({ course: course.slug, variant: baked.variant, ...record });
+        // The scatter record: reeds, ground cover and edge tufts, one file.
+        const sc = baked.scatter;
+        if (sc.variant !== `scatter-${quality}`) throw new Error('scatter bake did not use the requested quality');
+        if (!/^[a-f0-9]{64}$/.test(sc.identity ?? '')) throw new Error(`${course.slug}: scatter bake has no identity`);
+        let scatterRecord;
+        const payload = Buffer.from(sc.base64, 'base64');
+        if (Object.values(sc.sections).every(v => v === null)) {
+          scatterRecord = { none: true, identity: sc.identity };
+          console.log(`${course.slug} ${sc.variant}: no scatter loops on this course`);
+        } else {
+          const compressed = deflateRawSync(payload, { level: 9 });
+          if (!inflateRawSync(compressed).equals(payload)) throw new Error('scatter round trip failed');
+          const hash = sha(compressed), url = `courses/${course.slug}/prepared/scatter-${hash}.bin`;
+          await fs.writeFile(path.join(publicRoot, url), compressed);
+          scatterRecord = { identity: sc.identity, inputs: sc.inputs, url, bytes: compressed.length,
+            decodedBytes: payload.length, sha256: hash, decodedSha256: sha(payload), sections: sc.sections };
+          const kept = Object.entries(sc.sections).filter(([, v]) => v).map(([k, v]) => `${k} ${v.candidates}`).join(', ');
+          console.log(`${course.slug} ${sc.variant}: ${kept} candidates, ${compressed.length} bytes`);
+        }
+        if (!scatterRecords.has(course.slug)) scatterRecords.set(course.slug, {});
+        scatterRecords.get(course.slug)[sc.variant] = scatterRecord;
       } finally { await page.close(); }
     }
   }
@@ -83,6 +107,7 @@ try {
     const before = catalog.courses.find(c => c.slug === slug);
     if (current.sha256 !== before.sha256) throw new Error('course data changed during publication');
     current.preparedVista = { ...(current.preparedVista ?? {}), ...variants };
+    current.preparedScatter = { ...(current.preparedScatter ?? {}), ...scatterRecords.get(slug) };
   }
   await fs.writeFile(catalogPath, JSON.stringify(latest, null, 1) + '\n');
   const report = flag('report', null);
@@ -90,5 +115,5 @@ try {
     await fs.mkdir(path.dirname(path.resolve(report)), { recursive: true });
     await fs.writeFile(report, JSON.stringify({ revision, results }, null, 2) + '\n');
   }
-  console.log(`Published ${results.length} far-vista records for ${records.size} courses.`);
+  console.log(`Published ${results.length} far-vista and ${results.length} scatter records for ${records.size} courses.`);
 } finally { await browser.close(); }
