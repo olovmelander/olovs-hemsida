@@ -143,6 +143,7 @@ import { clipLegacyTerrainGeometry } from './engine/v2-legacy-clip.mjs';
 import { createLegacyTerrainTransition } from './engine/v2-terrain-transition.mjs';
 import { calibrateFarRing, farRingSpacing, farRingTree } from './engine/far-ring-calibration.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
+import { steadyShadowAlpha } from './engine/steady-shadow-alpha.mjs';
 import { shadowSnapCell, sameShadowCell } from './engine/shadow-cell.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
@@ -1777,6 +1778,12 @@ let captureReadbackTarget = null;
 let captureRenderLocked = false;
 
 const scene = new THREE.Scene();
+/* The shadow pass sets its shared material as the override before it renders
+   the scene; give it an alphaTest that does not churn the casters' cache keys
+   (engine/steady-shadow-alpha.mjs). ?shadowalpha=0 is the before. */
+if (new URLSearchParams(location.search).get('shadowalpha') !== '0') {
+  scene.onBeforeRender = () => { if (scene.overrideMaterial?.isShadowPassMaterial) steadyShadowAlpha(scene.overrideMaterial); };
+}
 const camera = new THREE.PerspectiveCamera(48, innerWidth / innerHeight, 1.0, 14000);
 // Inland measured ponds have the same centimetre clearance as the sea.
 // Excluding them left Tortuna's water fighting its DTM at distant WebGL zoom.
