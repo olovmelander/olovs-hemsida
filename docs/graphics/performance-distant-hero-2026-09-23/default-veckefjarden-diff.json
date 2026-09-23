@@ -1,0 +1,102 @@
+{
+  "report": "default-veckefjarden.json",
+  "reference": "merged",
+  "results": [
+    {
+      "id": "tour-0",
+      "reference": "merged",
+      "variant": "prototype-default",
+      "referenceImage": "../performance-phase1-rtx3070-2026-09-23/veckefjarden/0-after-tour-0.png",
+      "image": "veckefjarden/0-before-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0,
+      "maxChannelError255": 0,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.93442771021974
+      ],
+      "changedPixels": 0,
+      "changedPercent": 0,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904"
+    },
+    {
+      "id": "tour-1",
+      "reference": "merged",
+      "variant": "prototype-default",
+      "referenceImage": "../performance-phase1-rtx3070-2026-09-23/veckefjarden/0-after-tour-1.png",
+      "image": "veckefjarden/0-before-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 8.037551440329218e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        61.99061099826601,
+        61.990611480643196
+      ],
+      "changedPixels": 5,
+      "changedPercent": 0.00024112654320987653,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882"
+    },
+    {
+      "id": "tour-2",
+      "reference": "merged",
+      "variant": "prototype-default",
+      "referenceImage": "../performance-phase1-rtx3070-2026-09-23/veckefjarden/0-after-tour-2.png",
+      "image": "veckefjarden/0-before-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000015753600823045267,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        32.34332141136773,
+        32.34333309345966
+      ],
+      "changedPixels": 97,
+      "changedPercent": 0.004677854938271605,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206"
+    },
+    {
+      "id": "tour-3",
+      "reference": "merged",
+      "variant": "prototype-default",
+      "referenceImage": "../performance-phase1-rtx3070-2026-09-23/veckefjarden/0-after-tour-3.png",
+      "image": "veckefjarden/0-before-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000002732767489711934,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        52.26276007878334,
+        52.26275953817569
+      ],
+      "changedPixels": 13,
+      "changedPercent": 0.000626929012345679,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e"
+    }
+  ]
+}
