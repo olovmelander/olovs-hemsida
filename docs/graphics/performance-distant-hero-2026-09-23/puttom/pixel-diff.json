@@ -1,0 +1,150 @@
+{
+  "report": "report.json",
+  "reference": "before",
+  "results": [
+    {
+      "id": "h1-tee-golden",
+      "reference": "before",
+      "variant": "far16",
+      "referenceImage": "0-before-h1-tee-golden.png",
+      "image": "1-far16-h1-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.005186149691358025,
+      "maxChannelError255": 157,
+      "brightnessStddev": [
+        55.68699382355019,
+        55.685096438706786
+      ],
+      "changedPixels": 1063,
+      "changedPercent": 0.051263503086419755,
+      "pixelsOver2Percent": 0.03968942901234568,
+      "pixelsOver8Percent": 0.027777777777777776,
+      "shadowBitIdentical": false,
+      "referenceShadow": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+      "shadow": "637d32e93a3eaae5fb8d82de7d54b4d128594c0500c464f54d2b37c6e0e450ef"
+    },
+    {
+      "id": "h12-orbit-golden",
+      "reference": "before",
+      "variant": "far16",
+      "referenceImage": "0-before-h12-orbit-golden.png",
+      "image": "1-far16-h12-orbit-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.20545717592592594,
+      "maxChannelError255": 214,
+      "brightnessStddev": [
+        47.447775379162586,
+        47.45396540758345
+      ],
+      "changedPixels": 29030,
+      "changedPercent": 1.399980709876543,
+      "pixelsOver2Percent": 1.2811053240740742,
+      "pixelsOver8Percent": 1.0424864969135803,
+      "shadowBitIdentical": false,
+      "referenceShadow": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+      "shadow": "7f985e2ad06d93553f070ebe430f07d064d58a7d1450e77d608c920f56833038"
+    },
+    {
+      "id": "h14-tee-golden",
+      "reference": "before",
+      "variant": "far16",
+      "referenceImage": "0-before-h14-tee-golden.png",
+      "image": "1-far16-h14-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.0540625,
+      "maxChannelError255": 159,
+      "brightnessStddev": [
+        62.31599836052855,
+        62.34989176008066
+      ],
+      "changedPixels": 8953,
+      "changedPercent": 0.4317611882716049,
+      "pixelsOver2Percent": 0.34934413580246915,
+      "pixelsOver8Percent": 0.2606095679012346,
+      "shadowBitIdentical": false,
+      "referenceShadow": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+      "shadow": "36b3e0669f865dd2b2cc6d9df6762e7c3bf6e52341fdc1392d7ee4acccb6bab7"
+    },
+    {
+      "id": "h1-tee-golden",
+      "reference": "before",
+      "variant": "far24",
+      "referenceImage": "0-before-h1-tee-golden.png",
+      "image": "2-far24-h1-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.02223701131687243,
+      "maxChannelError255": 157,
+      "brightnessStddev": [
+        55.68699382355019,
+        55.68169820562956
+      ],
+      "changedPixels": 3758,
+      "changedPercent": 0.18123070987654322,
+      "pixelsOver2Percent": 0.15388695987654322,
+      "pixelsOver8Percent": 0.11424575617283951,
+      "shadowBitIdentical": false,
+      "referenceShadow": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+      "shadow": "85f019f9b8c8fc64c2dbe75092d5a308be788f3428692b4bcefc366e7e2c3436"
+    },
+    {
+      "id": "h12-orbit-golden",
+      "reference": "before",
+      "variant": "far24",
+      "referenceImage": "0-before-h12-orbit-golden.png",
+      "image": "2-far24-h12-orbit-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.5102271412037037,
+      "maxChannelError255": 214,
+      "brightnessStddev": [
+        47.447775379162586,
+        47.47853023166321
+      ],
+      "changedPixels": 64367,
+      "changedPercent": 3.1041184413580245,
+      "pixelsOver2Percent": 2.8564814814814814,
+      "pixelsOver8Percent": 2.3741319444444446,
+      "shadowBitIdentical": false,
+      "referenceShadow": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+      "shadow": "0de26ce4c3da53f25756b514b8a7be5c15faeb477725b17e9bc4b9751083a829"
+    },
+    {
+      "id": "h14-tee-golden",
+      "reference": "before",
+      "variant": "far24",
+      "referenceImage": "0-before-h14-tee-golden.png",
+      "image": "2-far24-h14-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.1424506494341564,
+      "maxChannelError255": 211,
+      "brightnessStddev": [
+        62.31599836052855,
+        62.38705807767999
+      ],
+      "changedPixels": 21185,
+      "changedPercent": 1.0216531635802468,
+      "pixelsOver2Percent": 0.8375771604938271,
+      "pixelsOver8Percent": 0.6300154320987654,
+      "shadowBitIdentical": false,
+      "referenceShadow": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+      "shadow": "9b53e3ceb282b8b197a9bd9ead7b4c59435fc8784bd5525d8240ad9d1ef0c171"
+    }
+  ]
+}

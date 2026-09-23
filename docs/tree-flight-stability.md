@@ -9,7 +9,15 @@ direct rendering path.
 
 ## Keep detail tied to the course
 
-The existing default is already geographic (`lodmode=zone`). The distance is
+**September 23 update:** the owner approved the measured 24 px distant-Hero
+exception as the default. Geographic zone A/B trees keep Hero detail nearby
+and use their own baked impostors when their projected whole-tree height falls
+below the threshold, with 10% hysteresis, six-frame dwell and existing fades.
+Outer zones stay impostors. `?distanthero=0` restores the geographic-only policy
+described below; `?distanthero=16` retains the conservative comparison.
+See the [GPU and motion evidence](performance-distant-hero-review-2026-09-23.md).
+
+The September 21 default was geographic (`lodmode=zone`). The distance is
 from any hole's playing line, rasterised once on a 12 m grid; it is **not** the
 distance from the camera. The fix preserves that policy and adds a regression
 that runs the application's actual tier update through 180 rapid camera
@@ -21,7 +29,8 @@ placements, including repeated frustum exits and reentries.
 | Farther out | Impostor | Impostor |
 
 Changing the camera position, altitude, zoom or active view does not change a
-tree's geographic tier. Normal visits should use the default zone mode.
+tree's geographic base tier. Normal visits use zone mode with the 24 px
+exception above; only the explicit opt-out keeps detail independent of the camera.
 
 As of September 21, 2026, the app draws only **Hero and Impostor** trees.
 Full and Lite are no longer downloaded, instantiated or selected by either

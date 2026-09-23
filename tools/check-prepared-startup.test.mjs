@@ -7,10 +7,17 @@ import { courseSourceRevision } from './course-source-revision.mjs';
 
 async function alteredCatalog(mutate, run) {
   const source = path.resolve('apps/golf/public'), root = await fs.mkdtemp(path.join(os.tmpdir(), 'banvy-prepared-gate-'));
+  const linkReadOnlyInput = async (from, to) => {
+    if (process.platform !== 'win32') return fs.symlink(from, to);
+    // Junctions need no symlink privilege; copy the few root metadata files.
+    // Only the separate index.json below is mutated by these fixtures.
+    if ((await fs.stat(from)).isDirectory()) return fs.symlink(from, to, 'junction');
+    return fs.copyFile(from, to);
+  };
   try {
-    for (const name of await fs.readdir(source)) if (name !== 'courses') await fs.symlink(path.join(source, name), path.join(root, name));
+    for (const name of await fs.readdir(source)) if (name !== 'courses') await linkReadOnlyInput(path.join(source, name), path.join(root, name));
     await fs.mkdir(path.join(root, 'courses'));
-    for (const name of await fs.readdir(path.join(source, 'courses'))) if (name !== 'index.json') await fs.symlink(path.join(source, 'courses', name), path.join(root, 'courses', name));
+    for (const name of await fs.readdir(path.join(source, 'courses'))) if (name !== 'index.json') await linkReadOnlyInput(path.join(source, 'courses', name), path.join(root, 'courses', name));
     const catalog = JSON.parse(await fs.readFile(path.join(source, 'courses/index.json'))); mutate(catalog);
     await fs.writeFile(path.join(root, 'courses/index.json'), JSON.stringify(catalog));
     await run(root);

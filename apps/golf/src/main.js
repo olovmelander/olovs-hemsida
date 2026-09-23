@@ -68,6 +68,7 @@ import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine
 import { teePadSurfaceOwners } from './engine/tee-surface-ownership.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute, PAIR, drainAt, reversedFade, FADE_EPOCH_S } from './engine/tree-fade.mjs';
 import { initialTreeTierCapacity, reserveTreeTier, treeTierAllocation } from './engine/tree-tier-capacity.mjs';
+import { distantHeroReviewPixels } from './engine/distant-hero-review.mjs';
 import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createCameraBreathing } from './engine/camera-breathing.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
@@ -4860,9 +4861,9 @@ const LODPX = (() => {
 })();
 const TREE_LOD = {
   cell: 128, cells: [], tiers: [], mats: [], imp: [], tint: [], atlases: [], ready: false,
-  /* Only the screen-size review mode changes detail during a flight. Its
-     crossfade keeps the two representations complementary; geographic tiers
-     stay fixed. Deterministic captures switch instantly. */
+  /* Screen-size and distant-Hero review modes may change detail in flight.
+     Their crossfade keeps the representations complementary; default
+     geographic tiers stay fixed. Deterministic captures switch instantly. */
   fadeS: DET ? 0 : (LOWQ ? 0.25 : 0.3), fadeClock: 0, clockDriven: false, queue: [], qHead: 0, frozen: false, resetPending: false,
   /* the harness's "before": decide per CELL from a nominal tree at the cell box, as phases 1-3 did */
   cellMode: false,
@@ -4874,6 +4875,9 @@ const TREE_LOD = {
      four diagnostic indices (1 Hero, 4 Impostor); 2/3 never allocate meshes. */
   lodMode: LODMODE,
   zoneTiers: [1, 1, 4, 4],
+  /* 24 px by default; ?distanthero=0 restores geographic detail, 16 compares
+     the conservative threshold. Only zone A/B Hero trees may demote. */
+  distantHeroPx: distantHeroReviewPixels(location.search),
   /* frames a tree must want its new tier for before it switches: a fast camera
      wobbles a tree's size across a threshold and back within a fade, and each
      wobble was a crossfade -- 450 a second in a flight, most of them reversals */
@@ -5341,7 +5345,8 @@ function updateTreeTiers() {
   // A settled visible cell can reuse it; frustum checks and fade draining
   // still run every frame. Screen mode and unfinished dwell never reuse it.
   const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
-  const decisionKey = force || (zoneMode ? ZT.reduce((key, tier, i) => key | ((tier === 4 ? 1 : 0) << i), 16) : 0);
+  const distantHeroPx = TREE_LOD.distantHeroPx || 0;
+  const decisionKey = force || (zoneMode && !distantHeroPx ? ZT.reduce((key, tier, i) => key | ((tier === 4 ? 1 : 0) << i), 16) : 0);
   const floorA = TREE_LOD.floors[0], floorB = TREE_LOD.floors[1], reachH = TREE_LOD.floorReach[0], reachF = TREE_LOD.floorReach[1], floorAFar = Math.max(floorA, 2);
   const cells = TREE_LOD.cells;
   let visible = 0;
@@ -5374,10 +5379,10 @@ function updateTreeTiers() {
       const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone, PD = sp.pend, PN = sp.pendN, dwell = TREE_LOD.dwell;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
-        // Geographic tiers and forced review tiers never consult distance.
-        // Keep the screen-mode calculation for its thresholds/corridor floors.
+        // Geographic opt-out and forced review tiers skip distance.
+        // The distant-Hero exception only considers zone A/B trees.
         let d = 1, px = 0;
-        if (!force && !zoneMode) {
+        if (!force && (!zoneMode || (distantHeroPx && Z[k] > 0 && Z[k] <= 2))) {
           const dx = imp[k * 6] - cx, dy = CY[k] - cy, dz = imp[k * 6 + 2] - cz;
           d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
           px = cellMode ? pxCell : H[k] * Kpx / d;
@@ -5385,7 +5390,15 @@ function updateTreeTiers() {
         const cur = T[k];
         let want;
         if (force) want = force;
-        else if (zoneMode) want = ZT[Z[k] ? Z[k] - 1 : 3];
+        else if (zoneMode) {
+          want = ZT[Z[k] ? Z[k] - 1 : 3];
+          if (distantHeroPx && want === 1 && Z[k] > 0 && Z[k] <= 2) {
+            // Reuse the current tier's 10% hysteresis, six-frame dwell and
+            // complementary fade below. Fresh/reset trees use the threshold.
+            const band = reset || !cur ? 1 : cur === 1 ? 1 - hy : 1 + hy;
+            want = px < distantHeroPx * band ? 4 : 1;
+          }
+        }
         else if (!cur || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
         else {
           want = cur;
@@ -11651,7 +11664,7 @@ window.V3D = {
     if (o.reset) TREE_LOD.resetPending = true;
     return window.V3D.treeLodPx();
   },
-  treeLodPx: () => ({ mode: TREE_LOD.lodMode, zoneTiers: [...TREE_LOD.zoneTiers], hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis, dwell: TREE_LOD.dwell, floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] }),
+  treeLodPx: () => ({ mode: TREE_LOD.lodMode, zoneTiers: [...TREE_LOD.zoneTiers], distantHero: TREE_LOD.distantHeroPx, hero: TREE_LOD.heroPx, full: TREE_LOD.switchPx, impostor: TREE_LOD.impostorPx, hysteresis: TREE_LOD.hysteresis, dwell: TREE_LOD.dwell, floors: [...TREE_LOD.floors], reach: [...TREE_LOD.floorReach] }),
   /* the corridor floors (zone A, zone B) as tier numbers 1-4; 4 is no floor */
   setTreeLodPin: (a, b, reachHero, reachFull) => {
     TREE_LOD.floors = [Math.min(4, Math.max(1, a | 0 || 4)), Math.min(4, Math.max(1, b | 0 || 4))];

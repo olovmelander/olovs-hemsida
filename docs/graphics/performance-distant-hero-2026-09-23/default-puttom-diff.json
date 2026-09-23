@@ -1,0 +1,78 @@
+{
+  "report": "default-puttom.json",
+  "reference": "merged",
+  "results": [
+    {
+      "id": "h1-tee-golden",
+      "reference": "merged",
+      "variant": "prototype-default",
+      "referenceImage": "../performance-phase1-rtx3070-2026-09-23/puttom/0-after-h1-tee-golden.png",
+      "image": "puttom/0-before-h1-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000002250514403292181,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        55.68699385819046,
+        55.68699382355019
+      ],
+      "changedPixels": 14,
+      "changedPercent": 0.0006751543209876543,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+      "shadow": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680"
+    },
+    {
+      "id": "h12-orbit-golden",
+      "reference": "merged",
+      "variant": "prototype-default",
+      "referenceImage": "../performance-phase1-rtx3070-2026-09-23/puttom/0-after-h12-orbit-golden.png",
+      "image": "puttom/0-before-h12-orbit-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000006590792181069959,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        47.4477731271672,
+        47.447775379162586
+      ],
+      "changedPixels": 40,
+      "changedPercent": 0.0019290123456790122,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+      "shadow": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace"
+    },
+    {
+      "id": "h14-tee-golden",
+      "reference": "merged",
+      "variant": "prototype-default",
+      "referenceImage": "../performance-phase1-rtx3070-2026-09-23/puttom/0-after-h14-tee-golden.png",
+      "image": "puttom/0-before-h14-tee-golden.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.00000369727366255144,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        62.31599886600011,
+        62.31599836052855
+      ],
+      "changedPixels": 23,
+      "changedPercent": 0.001109182098765432,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+      "shadow": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "report": "compare-geographic.json",
+  "reference": "before",
+  "results": [
+    {
+      "id": "tour-0",
+      "reference": "before",
+      "variant": "geographic",
+      "referenceImage": "../../veckefjarden/0-before-tour-0.png",
+      "image": "1-geographic-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 1.6075102880658437e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.93442747858061
+      ],
+      "changedPixels": 1,
+      "changedPercent": 0.000048225308641975306,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904"
+    },
+    {
+      "id": "tour-1",
+      "reference": "before",
+      "variant": "geographic",
+      "referenceImage": "../../veckefjarden/0-before-tour-1.png",
+      "image": "1-geographic-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 6.430041152263375e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        61.990611480643196,
+        61.99061099826601
+      ],
+      "changedPixels": 4,
+      "changedPercent": 0.00019290123456790122,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882"
+    },
+    {
+      "id": "tour-2",
+      "reference": "before",
+      "variant": "geographic",
+      "referenceImage": "../../veckefjarden/0-before-tour-2.png",
+      "image": "1-geographic-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000016718106995884773,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        32.34333309345966,
+        32.34331729432007
+      ],
+      "changedPixels": 102,
+      "changedPercent": 0.004918981481481482,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206"
+    },
+    {
+      "id": "tour-3",
+      "reference": "before",
+      "variant": "geographic",
+      "referenceImage": "../../veckefjarden/0-before-tour-3.png",
+      "image": "1-geographic-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 3.2150205761316875e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        52.26275953817569,
+        52.26275953817569
+      ],
+      "changedPixels": 1,
+      "changedPercent": 0.000048225308641975306,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e"
+    }
+  ]
+}

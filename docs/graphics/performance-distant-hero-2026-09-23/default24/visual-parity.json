@@ -1,0 +1,393 @@
+{
+  "at": "2026-09-23T18:41:09.499Z",
+  "results": [
+    {
+      "course": "puttom",
+      "variant": "default24",
+      "reference": "far24",
+      "build": {
+        "revision": "4f127fdea81c6a2f1a19cd535f3fe82c874dcb20526cceb2d7792baad06b550f"
+      },
+      "baselineBuild": {
+        "revision": "25202cc6903ffb8f909d97adb7673e84e9cb9e4fab87b9721e97801268b6a972"
+      },
+      "results": [
+        {
+          "id": "h1-tee-golden",
+          "reference": "far24",
+          "variant": "default24",
+          "referenceImage": "../../puttom/2-far24-h1-tee-golden.png",
+          "image": "0-default24-h1-tee-golden.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.000004018775720164609,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            55.68169820562956,
+            55.68169772067185
+          ],
+          "changedPixels": 24,
+          "changedPercent": 0.0011574074074074073,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "85f019f9b8c8fc64c2dbe75092d5a308be788f3428692b4bcefc366e7e2c3436",
+          "shadow": "85f019f9b8c8fc64c2dbe75092d5a308be788f3428692b4bcefc366e7e2c3436"
+        },
+        {
+          "id": "h12-orbit-golden",
+          "reference": "far24",
+          "variant": "default24",
+          "referenceImage": "../../puttom/2-far24-h12-orbit-golden.png",
+          "image": "0-default24-h12-orbit-golden.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.00000626929012345679,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            47.47853023166321,
+            47.47853114616901
+          ],
+          "changedPixels": 39,
+          "changedPercent": 0.001880787037037037,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "0de26ce4c3da53f25756b514b8a7be5c15faeb477725b17e9bc4b9751083a829",
+          "shadow": "0de26ce4c3da53f25756b514b8a7be5c15faeb477725b17e9bc4b9751083a829"
+        },
+        {
+          "id": "h14-tee-golden",
+          "reference": "far24",
+          "variant": "default24",
+          "referenceImage": "../../puttom/2-far24-h14-tee-golden.png",
+          "image": "0-default24-h14-tee-golden.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.00000626929012345679,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            62.38705807767999,
+            62.38705791058885
+          ],
+          "changedPixels": 38,
+          "changedPercent": 0.0018325617283950616,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "9b53e3ceb282b8b197a9bd9ead7b4c59435fc8784bd5525d8240ad9d1ef0c171",
+          "shadow": "9b53e3ceb282b8b197a9bd9ead7b4c59435fc8784bd5525d8240ad9d1ef0c171"
+        }
+      ]
+    },
+    {
+      "course": "puttom",
+      "variant": "geographic",
+      "reference": "before",
+      "build": {
+        "revision": "4f127fdea81c6a2f1a19cd535f3fe82c874dcb20526cceb2d7792baad06b550f"
+      },
+      "baselineBuild": {
+        "revision": "25202cc6903ffb8f909d97adb7673e84e9cb9e4fab87b9721e97801268b6a972"
+      },
+      "results": [
+        {
+          "id": "h1-tee-golden",
+          "reference": "before",
+          "variant": "geographic",
+          "referenceImage": "../../puttom/0-before-h1-tee-golden.png",
+          "image": "1-geographic-h1-tee-golden.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.0000020897633744855966,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            55.68699382355019,
+            55.68699359825402
+          ],
+          "changedPixels": 13,
+          "changedPercent": 0.000626929012345679,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680",
+          "shadow": "406c15ca0b3926668fb9fb7463f8da9babbf401fad529b3f7dcf42bfea42f680"
+        },
+        {
+          "id": "h12-orbit-golden",
+          "reference": "before",
+          "variant": "geographic",
+          "referenceImage": "../../puttom/0-before-h12-orbit-golden.png",
+          "image": "1-geographic-h12-orbit-golden.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.000008037551440329219,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            47.447775379162586,
+            47.44777291615054
+          ],
+          "changedPixels": 49,
+          "changedPercent": 0.00236304012345679,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace",
+          "shadow": "46e613c388246162b8d38fe6f6494e7e440596e27e8b53287a0dbb2e704dcace"
+        },
+        {
+          "id": "h14-tee-golden",
+          "reference": "before",
+          "variant": "geographic",
+          "referenceImage": "../../puttom/0-before-h14-tee-golden.png",
+          "image": "1-geographic-h14-tee-golden.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.000008519804526748972,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            62.31599836052855,
+            62.31599948877753
+          ],
+          "changedPixels": 53,
+          "changedPercent": 0.0025559413580246914,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65",
+          "shadow": "616afeea49b4f4dbbd48262dd89b518c393f3fe22d9251a8e2b8b9f6a7089d65"
+        }
+      ]
+    },
+    {
+      "course": "veckefjarden",
+      "variant": "default24",
+      "reference": "far24",
+      "build": {
+        "revision": "4f127fdea81c6a2f1a19cd535f3fe82c874dcb20526cceb2d7792baad06b550f"
+      },
+      "baselineBuild": {
+        "revision": "25202cc6903ffb8f909d97adb7673e84e9cb9e4fab87b9721e97801268b6a972"
+      },
+      "results": [
+        {
+          "id": "tour-0",
+          "reference": "far24",
+          "variant": "default24",
+          "referenceImage": "../../veckefjarden/2-far24-tour-0.png",
+          "image": "0-default24-tour-0.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 4.822530864197531e-7,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            62.98087185378553,
+            62.98087185378553
+          ],
+          "changedPixels": 2,
+          "changedPercent": 0.00009645061728395061,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "c7d6be0b77507289d88a1b77e8af8bef7285447c2260aab4f1c6799fe9bbc874",
+          "shadow": "c7d6be0b77507289d88a1b77e8af8bef7285447c2260aab4f1c6799fe9bbc874"
+        },
+        {
+          "id": "tour-1",
+          "reference": "far24",
+          "variant": "default24",
+          "referenceImage": "../../veckefjarden/2-far24-tour-1.png",
+          "image": "0-default24-tour-1.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 1.6075102880658437e-7,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            61.99537552370228,
+            61.99537552370228
+          ],
+          "changedPixels": 1,
+          "changedPercent": 0.000048225308641975306,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "ccdca79ef47ffa4b34b458924a34f9b3773cf87e3a2ae24eea28123e4949ca14",
+          "shadow": "ccdca79ef47ffa4b34b458924a34f9b3773cf87e3a2ae24eea28123e4949ca14"
+        },
+        {
+          "id": "tour-2",
+          "reference": "far24",
+          "variant": "default24",
+          "referenceImage": "../../veckefjarden/2-far24-tour-2.png",
+          "image": "0-default24-tour-2.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.000019290123456790123,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            32.5330471839063,
+            32.53305676170716
+          ],
+          "changedPixels": 114,
+          "changedPercent": 0.005497685185185185,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "2e8d3b0f68fa92f0f389812ec92a896fd865244577adb50be74a32b5cecf6240",
+          "shadow": "2e8d3b0f68fa92f0f389812ec92a896fd865244577adb50be74a32b5cecf6240"
+        },
+        {
+          "id": "tour-3",
+          "reference": "far24",
+          "variant": "default24",
+          "referenceImage": "../../veckefjarden/2-far24-tour-3.png",
+          "image": "0-default24-tour-3.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0,
+          "maxChannelError255": 0,
+          "brightnessStddev": [
+            52.26677694954891,
+            52.26677694954891
+          ],
+          "changedPixels": 0,
+          "changedPercent": 0,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "04d0e77c828d1b706dde80ae3bf7b2237a3e00acee457a333858e5d7b83d793d",
+          "shadow": "04d0e77c828d1b706dde80ae3bf7b2237a3e00acee457a333858e5d7b83d793d"
+        }
+      ]
+    },
+    {
+      "course": "veckefjarden",
+      "variant": "geographic",
+      "reference": "before",
+      "build": {
+        "revision": "4f127fdea81c6a2f1a19cd535f3fe82c874dcb20526cceb2d7792baad06b550f"
+      },
+      "baselineBuild": {
+        "revision": "25202cc6903ffb8f909d97adb7673e84e9cb9e4fab87b9721e97801268b6a972"
+      },
+      "results": [
+        {
+          "id": "tour-0",
+          "reference": "before",
+          "variant": "geographic",
+          "referenceImage": "../../veckefjarden/0-before-tour-0.png",
+          "image": "1-geographic-tour-0.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 1.6075102880658437e-7,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            62.93442771021974,
+            62.93442747858061
+          ],
+          "changedPixels": 1,
+          "changedPercent": 0.000048225308641975306,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+          "shadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904"
+        },
+        {
+          "id": "tour-1",
+          "reference": "before",
+          "variant": "geographic",
+          "referenceImage": "../../veckefjarden/0-before-tour-1.png",
+          "image": "1-geographic-tour-1.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 6.430041152263375e-7,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            61.990611480643196,
+            61.99061099826601
+          ],
+          "changedPixels": 4,
+          "changedPercent": 0.00019290123456790122,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+          "shadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882"
+        },
+        {
+          "id": "tour-2",
+          "reference": "before",
+          "variant": "geographic",
+          "referenceImage": "../../veckefjarden/0-before-tour-2.png",
+          "image": "1-geographic-tour-2.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 0.000016718106995884773,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            32.34333309345966,
+            32.34331729432007
+          ],
+          "changedPixels": 102,
+          "changedPercent": 0.004918981481481482,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+          "shadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206"
+        },
+        {
+          "id": "tour-3",
+          "reference": "before",
+          "variant": "geographic",
+          "referenceImage": "../../veckefjarden/0-before-tour-3.png",
+          "image": "1-geographic-tour-3.png",
+          "dimensions": [
+            1920,
+            1080
+          ],
+          "meanChannelError255": 3.2150205761316875e-7,
+          "maxChannelError255": 1,
+          "brightnessStddev": [
+            52.26275953817569,
+            52.26275953817569
+          ],
+          "changedPixels": 1,
+          "changedPercent": 0.000048225308641975306,
+          "pixelsOver2Percent": 0,
+          "pixelsOver8Percent": 0,
+          "shadowBitIdentical": true,
+          "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+          "shadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e"
+        }
+      ]
+    }
+  ]
+}

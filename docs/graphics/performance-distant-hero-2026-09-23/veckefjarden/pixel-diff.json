@@ -1,0 +1,198 @@
+{
+  "report": "report.json",
+  "reference": "before",
+  "results": [
+    {
+      "id": "tour-0",
+      "reference": "before",
+      "variant": "far16",
+      "referenceImage": "0-before-tour-0.png",
+      "image": "1-far16-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.04311262217078189,
+      "maxChannelError255": 141,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.94798660917998
+      ],
+      "changedPixels": 7948,
+      "changedPercent": 0.38329475308641975,
+      "pixelsOver2Percent": 0.31158371913580246,
+      "pixelsOver8Percent": 0.23345871913580246,
+      "shadowBitIdentical": false,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "d0d727c035fd54f5a9318a1b189e24c348a10ca865357d70841029c18d4fe8d6"
+    },
+    {
+      "id": "tour-1",
+      "reference": "before",
+      "variant": "far16",
+      "referenceImage": "0-before-tour-1.png",
+      "image": "1-far16-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.04689975565843622,
+      "maxChannelError255": 130,
+      "brightnessStddev": [
+        61.990611480643196,
+        61.99571346184689
+      ],
+      "changedPixels": 8751,
+      "changedPercent": 0.42201967592592593,
+      "pixelsOver2Percent": 0.3533950617283951,
+      "pixelsOver8Percent": 0.27411265432098764,
+      "shadowBitIdentical": false,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "4f379f65d60782f2732adafc92a337d4172d26b8bc854390216d40cbf7f05847"
+    },
+    {
+      "id": "tour-2",
+      "reference": "before",
+      "variant": "far16",
+      "referenceImage": "0-before-tour-2.png",
+      "image": "1-far16-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.5496961805555556,
+      "maxChannelError255": 193,
+      "brightnessStddev": [
+        32.34333309345966,
+        32.45998569910809
+      ],
+      "changedPixels": 78719,
+      "changedPercent": 3.7962480709876543,
+      "pixelsOver2Percent": 3.5577256944444446,
+      "pixelsOver8Percent": 2.974922839506173,
+      "shadowBitIdentical": false,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "f96dcbeca0481747a5ed0bbddf75bc1689e4fef5241489cb6ec262c48ac0f78e"
+    },
+    {
+      "id": "tour-3",
+      "reference": "before",
+      "variant": "far16",
+      "referenceImage": "0-before-tour-3.png",
+      "image": "1-far16-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.007794174382716049,
+      "maxChannelError255": 93,
+      "brightnessStddev": [
+        52.26275953817569,
+        52.26428325469314
+      ],
+      "changedPixels": 1404,
+      "changedPercent": 0.06770833333333333,
+      "pixelsOver2Percent": 0.057629243827160496,
+      "pixelsOver8Percent": 0.04436728395061729,
+      "shadowBitIdentical": false,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "dee30fe51671e7e5b6ff29aa5ff746361f39f362aeeeba04d608bffc7a82d3f1"
+    },
+    {
+      "id": "tour-0",
+      "reference": "before",
+      "variant": "far24",
+      "referenceImage": "0-before-tour-0.png",
+      "image": "2-far24-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.21479793595679011,
+      "maxChannelError255": 183,
+      "brightnessStddev": [
+        62.93442771021974,
+        62.98087185378553
+      ],
+      "changedPixels": 34414,
+      "changedPercent": 1.6596257716049383,
+      "pixelsOver2Percent": 1.347608024691358,
+      "pixelsOver8Percent": 1.0337577160493827,
+      "shadowBitIdentical": false,
+      "referenceShadow": "fd5f9ecf595eac0b48192a05386690dbcdade4e4431347e37c387e7b14d59904",
+      "shadow": "c7d6be0b77507289d88a1b77e8af8bef7285447c2260aab4f1c6799fe9bbc874"
+    },
+    {
+      "id": "tour-1",
+      "reference": "before",
+      "variant": "far24",
+      "referenceImage": "0-before-tour-1.png",
+      "image": "2-far24-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.1722093621399177,
+      "maxChannelError255": 176,
+      "brightnessStddev": [
+        61.990611480643196,
+        61.99537552370228
+      ],
+      "changedPixels": 29438,
+      "changedPercent": 1.4196566358024691,
+      "pixelsOver2Percent": 1.193431712962963,
+      "pixelsOver8Percent": 0.9173418209876543,
+      "shadowBitIdentical": false,
+      "referenceShadow": "8412c593f4d56743c50472f97efc8a3059fbde0a0126f02975369f37b55c6882",
+      "shadow": "ccdca79ef47ffa4b34b458924a34f9b3773cf87e3a2ae24eea28123e4949ca14"
+    },
+    {
+      "id": "tour-2",
+      "reference": "before",
+      "variant": "far24",
+      "referenceImage": "0-before-tour-2.png",
+      "image": "2-far24-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.9273987268518519,
+      "maxChannelError255": 197,
+      "brightnessStddev": [
+        32.34333309345966,
+        32.5330471839063
+      ],
+      "changedPixels": 126541,
+      "changedPercent": 6.102478780864198,
+      "pixelsOver2Percent": 5.664400077160494,
+      "pixelsOver8Percent": 4.733940972222222,
+      "shadowBitIdentical": false,
+      "referenceShadow": "05989158c74e5922ae6147960e4d1bec75c93c2865ace82e103bdd1694c1e206",
+      "shadow": "2e8d3b0f68fa92f0f389812ec92a896fd865244577adb50be74a32b5cecf6240"
+    },
+    {
+      "id": "tour-3",
+      "reference": "before",
+      "variant": "far24",
+      "referenceImage": "0-before-tour-3.png",
+      "image": "2-far24-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.042795621141975305,
+      "maxChannelError255": 125,
+      "brightnessStddev": [
+        52.26275953817569,
+        52.26677694954891
+      ],
+      "changedPixels": 8367,
+      "changedPercent": 0.4035011574074074,
+      "pixelsOver2Percent": 0.33608217592592593,
+      "pixelsOver8Percent": 0.25284529320987653,
+      "shadowBitIdentical": false,
+      "referenceShadow": "48d103efd4327bfc87328330659725db6de86816dd726b571673f4310f160f7e",
+      "shadow": "04d0e77c828d1b706dde80ae3bf7b2237a3e00acee457a333858e5d7b83d793d"
+    }
+  ]
+}

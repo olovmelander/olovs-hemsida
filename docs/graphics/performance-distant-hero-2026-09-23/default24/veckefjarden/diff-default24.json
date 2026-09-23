@@ -1,0 +1,102 @@
+{
+  "report": "compare-default24.json",
+  "reference": "far24",
+  "results": [
+    {
+      "id": "tour-0",
+      "reference": "far24",
+      "variant": "default24",
+      "referenceImage": "../../veckefjarden/2-far24-tour-0.png",
+      "image": "0-default24-tour-0.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 4.822530864197531e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        62.98087185378553,
+        62.98087185378553
+      ],
+      "changedPixels": 2,
+      "changedPercent": 0.00009645061728395061,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "c7d6be0b77507289d88a1b77e8af8bef7285447c2260aab4f1c6799fe9bbc874",
+      "shadow": "c7d6be0b77507289d88a1b77e8af8bef7285447c2260aab4f1c6799fe9bbc874"
+    },
+    {
+      "id": "tour-1",
+      "reference": "far24",
+      "variant": "default24",
+      "referenceImage": "../../veckefjarden/2-far24-tour-1.png",
+      "image": "0-default24-tour-1.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 1.6075102880658437e-7,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        61.99537552370228,
+        61.99537552370228
+      ],
+      "changedPixels": 1,
+      "changedPercent": 0.000048225308641975306,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "ccdca79ef47ffa4b34b458924a34f9b3773cf87e3a2ae24eea28123e4949ca14",
+      "shadow": "ccdca79ef47ffa4b34b458924a34f9b3773cf87e3a2ae24eea28123e4949ca14"
+    },
+    {
+      "id": "tour-2",
+      "reference": "far24",
+      "variant": "default24",
+      "referenceImage": "../../veckefjarden/2-far24-tour-2.png",
+      "image": "0-default24-tour-2.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0.000019290123456790123,
+      "maxChannelError255": 1,
+      "brightnessStddev": [
+        32.5330471839063,
+        32.53305676170716
+      ],
+      "changedPixels": 114,
+      "changedPercent": 0.005497685185185185,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "2e8d3b0f68fa92f0f389812ec92a896fd865244577adb50be74a32b5cecf6240",
+      "shadow": "2e8d3b0f68fa92f0f389812ec92a896fd865244577adb50be74a32b5cecf6240"
+    },
+    {
+      "id": "tour-3",
+      "reference": "far24",
+      "variant": "default24",
+      "referenceImage": "../../veckefjarden/2-far24-tour-3.png",
+      "image": "0-default24-tour-3.png",
+      "dimensions": [
+        1920,
+        1080
+      ],
+      "meanChannelError255": 0,
+      "maxChannelError255": 0,
+      "brightnessStddev": [
+        52.26677694954891,
+        52.26677694954891
+      ],
+      "changedPixels": 0,
+      "changedPercent": 0,
+      "pixelsOver2Percent": 0,
+      "pixelsOver8Percent": 0,
+      "shadowBitIdentical": true,
+      "referenceShadow": "04d0e77c828d1b706dde80ae3bf7b2237a3e00acee457a333858e5d7b83d793d",
+      "shadow": "04d0e77c828d1b706dde80ae3bf7b2237a3e00acee457a333858e5d7b83d793d"
+    }
+  ]
+}

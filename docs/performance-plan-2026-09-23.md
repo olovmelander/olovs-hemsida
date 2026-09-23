@@ -340,7 +340,14 @@ readback where shadows are involved.
 
 ### Phase 2 — owner decision: distant Hero crowns
 
-The zone rule in CLAUDE.md says trees on or around the course do not change
+**September 23 owner decision:** enable the measured 24 px policy by default
+before merging PRs #90–#93. `?distanthero=0` retains geographic-only detail;
+`?distanthero=16` remains available for comparison. CLAUDE.md now records this
+exception. The measurements below were taken before the default change and
+retain their original off/16/24 baselines. Full-tour video and physical-phone
+coverage remain follow-up work, not completed acceptance evidence.
+
+The previous zone rule in CLAUDE.md said trees on or around the course do not change
 detail with camera distance. That rule is why 73–98% of on-screen Hero crowns
 are drawn with ~4,500 sub-pixel triangles under 4× MSAA.
 
@@ -365,11 +372,30 @@ the existing hysteresis, dwell and 0.3 s crossfade. The case that this is
 *equally good or better*: the distant glitter measured on 10 September comes
 from sub-pixel crown gaps, and a mip-mapped impostor twinkles less.
 
-Evidence for the owner's eye before anything ships:
+Original visual-review checklist (full-tour video remains follow-up after the
+owner decision above):
 
 - side-by-side videos of the golden views and a full tour flight
 - the pop meter's dolly, and switch counts from the flight probe
 - `glitter-meter.mjs` before and after
+
+**Opt-in prototype measured on the RTX 3070.** `?distanthero=16` and
+`?distanthero=24` apply the exception only to geographic zone A/B Hero trees;
+outer-zone trees keep their existing detail. The threshold uses projected
+whole-tree height, retains 10% hysteresis, six-frame dwell and existing fades,
+and initially left the default off. Matched off / 16 / 24 / 24 / 16 / off timing gives
+Puttom 1/12/14 GPU medians **19.33/45.81/33.65 → 11.67/13.01/9.27 ms** at
+24 px. The 45-second tour's median frame is **23.70 → 18.20 ms**, p95
+**48.40 → 24.25 ms**, with ~291 ms stalls still present. See the
+[prototype report and owner review](performance-distant-hero-review-2026-09-23.md).
+The owner subsequently approved the default change above; screenshots, bounded
+motion probes and full-tour review have separate coverage scopes.
+All 21 deterministic screenshots and nine bounded motion sweeps are now
+recorded. The largest 24 px transition step changes 112 of 1.44 M pixels
+above 24/255; no 16×16 block exceeds 6/255 mean change. The camera-creep
+glitter result improves only 2.5%, so a large shimmer reduction is not
+established. **24 px is the owner-selected default**, with visible distant
+forest/shadow differences and full-tour video still outstanding.
 
 Without this decision, phones stay geometry-bound (21.6 M triangles per frame
 in flight at low quality) whatever else lands.
@@ -438,15 +464,24 @@ before/default columns. See the [Phase 1 report](performance-phase1-rtx3070-2026
 and [desktop startup report](performance-startup-rtx3070-2026-09-23.md) for raw
 samples, ranges, adapter proof and screenshots.
 
-| Metric | Original audit | Matched before | Merged default, measured | Remaining projection, unmeasured |
+| Metric | Original audit | Matched before | Phase 1 default, measured | 24 px, measured prototype / selected default |
 |---|---:|---:|---:|---:|
-| Puttom 1 tee, GPU ms at 1080p | 27 | 28.77 | **19.43** | Phase 2: ~10 |
-| Puttom 12 orbit, GPU ms | 51 | 51.05 | **46.17** | Phase 2: ~12–15 |
-| Puttom 14 tee, GPU ms | 39 | 38.67 | **33.91** | Phase 2: ~10 |
-| Veckefjärden tour, median frame | 38 ms (30 s tour) | 30.45 ms | **23.20 ms** | Phase 2: ~15 ms |
-| Veckefjärden tour, frames >50 ms | 12.6% (CPU-profile run) | 7.72% | **1.80%** | Phase 2: <1% |
-| Veckefjärden desktop, pre-first-frame marker | 15.6 s | 15.22 s | **12.10 s** | Phase 3: ~9–10 s |
-| Phone-proxy CPU frame in flight | 43 ms | not repeated | **not measured here** | Full Phase 1: ~20–25 ms; phone GPU still unmeasured |
+| Puttom 1 tee, GPU ms at 1080p | 27 | 28.77 | **19.43** | **11.67** |
+| Puttom 12 orbit, GPU ms | 51 | 51.05 | **46.17** | **13.01** |
+| Puttom 14 tee, GPU ms | 39 | 38.67 | **33.91** | **9.27** |
+| Veckefjärden tour, median frame | 38 ms (30 s tour) | 30.45 ms | **23.20 ms** | **18.20 ms** |
+| Veckefjärden tour, frames >50 ms | 12.6% (CPU-profile run) | 7.72% | **1.80%** | **0.40%** |
+| Veckefjärden desktop, pre-first-frame marker | 15.6 s | 15.22 s | **12.10 s** | not repeated |
+| Phone-proxy CPU frame in flight | 43 ms | not repeated | **not measured here** | not measured |
+
+The prototype is a separate interleaved comparison against flag-off on the
+same prototype build: **19.33/45.81/33.65 GPU ms**, **23.70 ms** tour median
+and **0.81%** >50 ms. Use those matched baselines for its incremental gain;
+do not treat the final two columns as one continuous timing session. The
+16 px results and visual trade-offs are in the
+[prototype report](performance-distant-hero-review-2026-09-23.md). Remaining
+unmeasured projections are Phase 3 startup ~9–10 s and full-Phase-1 phone-proxy
+CPU ~20–25 ms; physical phone GPU performance is still unknown.
 
 Frame conditions: WebGPU, high quality, 1920×1080, DPR 1, golden lighting,
 charger connected, other browsers closed, no busy-GPU override. Stationary
@@ -474,9 +509,9 @@ by the merged subset. They included deferred 1.3, 1.5 and 1.10, and the
 noise-removal ablation was an upper bound for the actual per-vertex change.
 All seven captured views have bit-identical shadow-depth hashes for each
 control. Foliage-noise color differences exceed the strict 2/255 maximum
-target; the report records the measured exception. Phase 2 stays a projection
-until its opt-in prototype is measured and visually reviewed. These desktop
-results establish neither phone performance nor approval to change defaults.
+target; the report records the measured exception. Phase 2 now has opt-in
+hardware measurements and the owner's explicit instruction to enable 24 px.
+These desktop results do not establish phone performance or full-tour coverage.
 
 ## 7. Decisions for the owner
 
