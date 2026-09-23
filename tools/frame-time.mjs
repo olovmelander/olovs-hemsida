@@ -5,6 +5,11 @@
    usage: node tools/serve.mjs apps/golf/dist 8620 &
           BANVY_GPU=1 node tools/frame-time.mjs [http://127.0.0.1:8620] [--course puttom]
               [--px hero,full,impostor] [--frames 300] [--warm 30] [--out file.json] [--label text]
+              [--q hi|lo] [--det] [--allow-busy-gpu]
+
+   Normal use, not det=1 (tools/timing-mode.mjs): det cold-solves every flag
+   cloth each frame and hides the shadow's rest behaviour. --det is the old
+   harness, for comparing with a number taken before 2026-09-23.
 
    The page boots with ?gputime=1 (a timestamp-query pool the renderer resolves
    on request) and Chrome is launched with the frame-rate cap off, so a
@@ -15,6 +20,7 @@
 import fs from 'node:fs';
 import { chromium } from 'playwright-core';
 import { browserArgs, GPU } from './browser-args.mjs';
+import { assertGpuIdle, timingQueryString } from './timing-mode.mjs';
 
 if (!GPU) { console.error('BANVY_GPU=1 required: a frame time under SwiftShader is not a measurement'); process.exit(2); }
 const args = process.argv.slice(2);
@@ -25,6 +31,8 @@ const PX = flag('px', null);
 const N = +flag('frames', 300), WARM = +flag('warm', 30);
 const QUERY = flag('query', '');   /* extra URL parameters, e.g. lodpin=4,4 */
 const OUT = flag('out', null), LABEL = flag('label', PX || 'default');
+const DET = args.includes('--det'), QUALITY = flag('q', 'hi');
+const gpuIdle = await assertGpuIdle({ allowBusy: args.includes('--allow-busy-gpu') });
 const VIEWS = [
   ['h1_tee_golden', 1, 'tee', 'golden'], ['h12_tee_golden', 12, 'tee', 'golden'], ['h14_tee_golden', 14, 'tee', 'golden'],
   ['h7_top_noon', 7, 'top', 'noon'], ['h12_orbit_golden', 12, 'orbit', 'golden'], ['h5_tee_noon', 5, 'tee', 'noon'],
@@ -47,7 +55,7 @@ const adapter = await page.evaluate(async () => {
 });
 console.log(`adapter ${adapter.vendor}/${adapter.architecture} timestamp-query ${adapter.timestampQuery} | ${adapter.webgl} | hub rAF median ${adapter.hubRafMs.median} ms (uncapped if < 3)`);
 const tBoot = Date.now();
-await page.goto(`${BASE}/?bana=${SLUG}&det=1&v2=require&gputime=1&ren=1${PX ? `&lodpx=${PX}` : ''}${QUERY ? `&${QUERY}` : ''}`, { waitUntil: 'load' });
+await page.goto(`${BASE}/?bana=${SLUG}${timingQueryString({ det: DET, quality: QUALITY })}&v2=require&gputime=1&ren=1${PX ? `&lodpx=${PX}` : ''}${QUERY ? `&${QUERY}` : ''}`, { waitUntil: 'load' });
 await page.waitForSelector('#boot.done');
 const boot = await page.evaluate(() => ({ backend: window.V3D.stats.backend, trees: window.V3D.stats.trees, gpuTiming: window.V3D.gpuTimingEnabled(), px: window.V3D.treeLodPx() }));
 console.log(`${SLUG} ${boot.backend} boot ${((Date.now() - tBoot) / 1000).toFixed(1)} s, trees ${boot.trees}, thresholds ${boot.px.hero}/${boot.px.full}/${boot.px.impostor}, gpu timing ${boot.gpuTiming}`);
@@ -111,7 +119,7 @@ const walk = await page.evaluate(({ n }) => new Promise(resolve => {
 const g2 = (await gpuWindow()).slice(2);
 const walkRow = { id: 'h1_walk_golden', cpuMs: stat(walk.ms), trianglesMax: Math.max(...walk.tris), framesWithSwitches: walk.sw.filter(s => s > 0).length, switches: walk.sw.reduce((a, b) => a + b, 0), gpuMsAfter: g2.length ? stat(g2) : null };
 console.log(`  ${walkRow.id.padEnd(18)} cpu ${walkRow.cpuMs.median}/${walkRow.cpuMs.p95}/${walkRow.cpuMs.max} ms  tris max ${(walkRow.trianglesMax / 1e6).toFixed(2)} M  ${walkRow.framesWithSwitches} of ${N} frames switched ${walkRow.switches} trees`);
-const report = { tool: 'frame-time', date: new Date().toISOString(), label: LABEL, base: BASE, course: SLUG, viewport: [1920, 1080], adapter, boot, frames: N, warm: WARM, views: rows, walk: walkRow, errors };
+const report = { tool: 'frame-time', date: new Date().toISOString(), label: LABEL, base: BASE, course: SLUG, det: DET, quality: QUALITY, gpuIdle, viewport: [1920, 1080], adapter, boot, frames: N, warm: WARM, views: rows, walk: walkRow, errors };
 if (errors.length) console.log('page errors:', errors.join(' | '));
 if (OUT) { fs.mkdirSync(OUT.replace(/[\\/][^\\/]*$/, '') || '.', { recursive: true }); fs.writeFileSync(OUT, JSON.stringify(report, null, 2) + '\n'); console.log(`wrote ${OUT}`); }
 await browser.close();
