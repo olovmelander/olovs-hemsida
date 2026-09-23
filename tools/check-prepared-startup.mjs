@@ -10,6 +10,7 @@ import { courseSourceRevision } from './course-source-revision.mjs';
 import { groundTintIdentity } from '../apps/golf/src/engine/prepared-ground-tint.mjs';
 import { preparedWaterIdentity, decodePreparedWater } from '../apps/golf/src/engine/prepared-water.mjs';
 import { preparedVistaIdentity, validPreparedVistaReference, vistaVariant } from '../apps/golf/src/engine/prepared-vista.mjs';
+import { preparedScatterIdentity, validPreparedScatterReference, scatterVariant } from '../apps/golf/src/engine/prepared-scatter.mjs';
 import { canonicalJson } from '../packages/course-v2/canonical-json.mjs';
 import { validateStartupManifest } from '../packages/course-v2/startup-manifest.mjs';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
@@ -81,8 +82,20 @@ export async function checkPreparedStartup(publicRoot, revision) {
       assert.equal(bits.length, (ref.candidates + 7) >> 3, `${meta.slug}: ${variant} bit count`);
       vista.push({ variant, candidates: ref.candidates, points: ref.points });
     }
+    // The scatter's (reeds, ground cover, edge tufts): the same rule.
+    const scatter = [];
+    for (const lowQuality of [false, true]) {
+      const variant = scatterVariant(lowQuality), ref = meta.preparedScatter?.[variant];
+      assert.equal(ref?.identity, await preparedScatterIdentity({ meta, groundSha256: course.groundManifest.sha256, lowQuality, revision }),
+        `${meta.slug}: stale/missing ${variant}`);
+      if (ref.none === true) { scatter.push({ variant, none: true }); continue; }
+      assert.ok(validPreparedScatterReference(ref), `${meta.slug}: invalid ${variant} record`);
+      const bits = await compressed(ref, 32 * 1024 * 1024);
+      assert.equal(bits.length, ref.decodedBytes, `${meta.slug}: ${variant} payload`);
+      scatter.push({ variant, sections: Object.fromEntries(Object.entries(ref.sections).map(([k, v]) => [k, v?.candidates ?? null])) });
+    }
     results.push({ course: meta.slug, chunks: Object.keys(startup.entries).length, packages: startup.packs.length,
-      tints, water: meta.preparedWater ? 'prepared' : 'verified unsupported path', vista });
+      tints, water: meta.preparedWater ? 'prepared' : 'verified unsupported path', vista, scatter });
   }
   return { revision, courses: results };
 }

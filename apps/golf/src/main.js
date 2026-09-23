@@ -109,6 +109,8 @@ import { createGroundTintOverview } from './engine/ground-tint-overview.mjs';
 import { groundTintIdentity, preparedTintAllowed, loadPreparedGroundTint, applyPreparedGroundTint } from './engine/prepared-ground-tint.mjs';
 import { vistaVariant, preparedVistaIdentity, preparedVistaInputs, preparedVistaAllowed, packVistaBits,
   vistaDigest, loadPreparedVista, usablePreparedVista } from './engine/prepared-vista.mjs';
+import { scatterVariant, preparedScatterIdentity, preparedScatterAllowed, scatterRecorder, packScatter,
+  forEachSetBit, scatterDigest, loadPreparedScatter, usableScatterSection } from './engine/prepared-scatter.mjs';
 import { createPackedGroundDetailTexture } from './engine/ground-detail-upload.mjs';
 import { bindCameraGestureInterrupt } from './engine/camera-gesture-interrupt.mjs';
 import { renderActivePipeline as renderPipeline } from './engine/active-render-pipeline.mjs';
@@ -1732,6 +1734,12 @@ const PREPARED_TINT_LOADING = TINT_INPUTS_READY && !import.meta.env.DEV && prepa
 /* The far vista's prepared planting (engine/prepared-vista.mjs) downloads now;
    its identity and run-time inputs are compared where the vista is planted. */
 const BAKE_VISTA = new URLSearchParams(location.search).get('bakeVista') === '1';
+/* the far vista's bake record, published with the scatter's after the ground cover */
+let VISTA_BAKE_DATA = null;
+const PREPARED_SCATTER_LOADING = !import.meta.env.DEV && V2_SELECTION.graph && preparedScatterAllowed(location.search)
+  && CMETA.preparedScatter?.[scatterVariant(LOWQ)]
+  ? loadPreparedScatter({ reference: CMETA.preparedScatter[scatterVariant(LOWQ)], cache: V2_SELECTION.chunkSource?.cache,
+    baseUrl: new URL(import.meta.env.BASE_URL, location.href).href }) : Promise.resolve(null);
 const PREPARED_VISTA_LOADING = !import.meta.env.DEV && V2_SELECTION.graph && preparedVistaAllowed(location.search)
   && CMETA.preparedVista?.[vistaVariant(LOWQ)]
   ? loadPreparedVista({ reference: CMETA.preparedVista[vistaVariant(LOWQ)], cache: V2_SELECTION.chunkSource?.cache,
@@ -4300,6 +4308,7 @@ function mergeGeos(list) {
 /* Load the approved five-species Blender catalogue for Hero meshes
    and the distant impostor bake. Placement and measured sizes
    retain their existing rules; missing catalogue assets report a loading error. */
+const GHIBLI_STARTED = performance.now();
 const GHIBLI = await (async () => {
   try {
     const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
@@ -4311,6 +4320,7 @@ const GHIBLI = await (async () => {
   } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
 })();
 // Preserve the placement scales used before authored templates became mandatory.
+span('tree models (download + decode)', GHIBLI_STARTED);
 const SPECIES = GHIBLI.species.map((g, s) => ({
   crown: g.hero.crown, trunk: g.hero.trunk,
   cc: GHIBLI.colours[s].cc, tc: GHIBLI.colours[s].tc,
@@ -4340,6 +4350,7 @@ for (const spec of SPECIES) {
    6 m grid, out to 30 m. The birch belt needs the neighbourhood, not the survey,
    and asking the lake's 443-segment ring per sample would cost more than the
    whole planter. */
+const SHORE_STARTED = performance.now();
 const SHORE = (() => {
   const cs = 6, x0 = MIDR.x0, z0 = MIDR.z0;
   const nx = Math.ceil((MIDR.x1 - x0) / cs), nz = Math.ceil((MIDR.z1 - z0) / cs);
@@ -4378,6 +4389,51 @@ const SHORE = (() => {
     return (i < 0 || j < 0 || i >= nx || j >= nz) ? 1e9 : d[j * nx + i];
   };
 })();
+span('shore distance field', SHORE_STARTED);
+
+/* The scatter loops (reeds, ground cover, its edge tufts) run through one
+   enumeration: rows outer, columns inner, coordinates accumulated exactly as
+   the old loops accumulated them. With a usable prepared record a loop visits
+   only its set bits and keeps the result if it reproduces the bake's digest
+   (engine/prepared-scatter.mjs); a bake records every decision. */
+const scatterSteps = (from, to, step) => { const out = []; for (let v = from; v < to; v += step) out.push(v); return out; };
+const scatterIndex = n => Array.from({ length: n }, (_, i) => i);
+const SCATTER_BAKE = BAKE_VISTA ? {} : null;
+BOOT_PERF.preparedScatter = {};
+let scatterContextPromise = null;
+const scatterContext = () => scatterContextPromise ??= (async () => ({
+  identity: V2_SELECTION.graph ? await preparedScatterIdentity({ meta: CMETA,
+    groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, lowQuality: LOWQ,
+    revision: __COURSE_SOURCE_REVISION__ }) : null,
+  inputs: preparedVistaInputs({ landmarks: [], flags: { atlas: !!groundAtlas, exactEdges: !!groundAtlas?.exactEdges,
+    flatWater: typeof terrainV2.isFlatWaterAt === 'function', landcover: !!LANDCOVER_REC, surroundings: !!SURR,
+    mown: !!MOWN_REC, ocean: !!CONTINUOUS_OCEAN, coastal: !!COASTAL_WATER } }),
+}))();
+async function scatterGrid(name, xs, zs, cell, outputs) {
+  const prepared = await PREPARED_SCATTER_LOADING;
+  if (!SCATTER_BAKE && prepared) {
+    const context = await scatterContext();
+    if (usableScatterSection(prepared, name, { ...context, candidates: xs.length * zs.length })) {
+      const section = prepared.sections[name];
+      const ok = await forEachSetBit(prepared.payload, section,
+        k => cell(xs[k % xs.length], zs[Math.floor(k / xs.length)], true, null),
+        async () => { if (shouldYieldWork()) await yieldWork(); });
+      if (ok && await scatterDigest(outputs) === section.digest) {
+        BOOT_PERF.preparedScatter[name] = true;
+        return section.extra ?? {};
+      }
+      for (const o of outputs) o.length = 0;
+      BOOT_PERF.preparedScatter[name] = 'mismatch';
+    }
+  }
+  const rec = SCATTER_BAKE ? scatterRecorder() : null;
+  for (let r = 0; r < zs.length; r++) {
+    if (shouldYieldWork()) await yieldWork();
+    for (let c = 0; c < xs.length; c++) { rec?.candidate(); cell(xs[c], zs[r], false, rec); }
+  }
+  if (SCATTER_BAKE) SCATTER_BAKE[name] = { decisions: rec.decisions, digest: await scatterDigest(outputs) };
+  return null;
+}
 
 /* Reeds: the fjärd is a calm regulated lake and its low shores carry a Phragmites
    fringe -- densest on the reserve side, thinned where the course plays along the
@@ -4391,21 +4447,23 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   if (lake) {
     const pts = [];
     const G = 1.7;
+    const reedStarted = performance.now();
     /* the reed scan is boxed to the water body the course actually stands on --
        and the box matters beyond its cost: the 1.7 m lattice is phased from its
        own start, so moving the start moves every reed */
     const rb = (SCENERY && SCENERY.reedbed) || null;
     const bx0 = rb ? Math.max(MIDR.x0, rb.box[0]) : MIDR.x0, bx1 = rb ? Math.min(MIDR.x1, rb.box[1]) : MIDR.x1;
     const bz0 = rb ? Math.max(MIDR.z0, rb.box[2]) : MIDR.z0, bz1 = rb ? Math.min(MIDR.z1, rb.box[3]) : MIDR.z1;
-    for (let z = bz0; z < bz1; z += G) {
-      if (shouldYieldWork()) await yieldWork();
-      for (let x = bx0; x < bx1; x += G) {
+    const reedCell = (x, z, replay, rec) => {
       const i = Math.floor(x / G), j = Math.floor(z / G);
       const px = x + (hash2(i, j) - 0.5) * G * 1.6, pz = z + (hash2(i + 7, j + 3) - 0.5) * G * 1.6;
+      let h;
+      if (replay) h = terrainH(px, pz);
+      else {
       const shalBB = SHAL.some(sr => px > sr.bb.x0 && px < sr.bb.x1 && pz > sr.bb.z0 && pz < sr.bb.z1);
-      if (!shalBB && SHORE(px, pz) > 7) continue;
-      if (LOWQ && hash2(i + 5, j + 5) < 0.5) continue;
-      const h = terrainH(px, pz);
+      if (!shalBB && SHORE(px, pz) > 7) return;
+      if (LOWQ && hash2(i + 5, j + 5) < 0.5) return;
+      h = terrainH(px, pz);
       /* on the silt flats reeds gather into offshore islands -- the close aerial of
          the 14th shows whole beds standing in the shallow water -- while on firm
          shores they stay a waterline fringe */
@@ -4413,22 +4471,25 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       if (shalBB) for (const sr of SHAL) if (ringSD(px, pz, sr.ring) < 0) { inShal = true; break; }
       let bedClump = 0;
       if (inShal) {
-        if (h < lake.level - 0.42 || h > lake.level + 0.2) continue;
+        if (h < lake.level - 0.42 || h > lake.level + 0.2) return;
         const cl = fbm(px * 0.05, pz * 0.05, 2);
-        if (cl < 0.22) continue;
+        if (cl < 0.22) return;
         bedClump = 1;                       /* inside a bed, reeds stand shoulder to shoulder */
-      } else if (h < lake.level - 0.22 || h > lake.level + 0.2) continue;
+      } else if (h < lake.level - 0.22 || h > lake.level + 0.2) return;
       let dens = 0.2 + (fbm(px * 0.02, pz * 0.02, 2) * 0.5 + 0.5) * 0.35;
       if (bedClump) dens = 0.92;
       if (rb && rb.denser && px < rb.denser[0]) dens *= rb.denser[1];
       const c = classify(px, pz);
       if (c.dLine < 34) dens *= 0.12;                    /* play stays open -- the moat above all */
       if (c.wet > 0.3) dens *= 2.2;                      /* the mapped reedbed */
-      if (c.fair > 0.05 || c.green > 0.02 || c.tee > 0.02 || c.path > 0.1) continue;
-      if (hash2(i + 31, j + 17) > dens) continue;
-      pts.push(px, h - 0.06, pz, 0.5 + hash2(i + 61, j + 3) * 0.4, hash2(i + 3, j + 41) * TAU);
+      if (c.fair > 0.05 || c.green > 0.02 || c.tee > 0.02 || c.path > 0.1) return;
+      if (hash2(i + 31, j + 17) > dens) return;
       }
-    }
+      pts.push(px, h - 0.06, pz, 0.5 + hash2(i + 61, j + 3) * 0.4, hash2(i + 3, j + 41) * TAU);
+      rec?.passed();
+    };
+    await scatterGrid('reeds', scatterSteps(bx0, bx1, G), scatterSteps(bz0, bz1, G), reedCell, [pts]);
+    span('reed lattice', reedStarted);
     const n = pts.length / 5;
     if (n) {
       const g = (() => {
@@ -5394,11 +5455,10 @@ lap('tree tiers (Hero + Impostor, cells)', { trees: stats.trees | 0, cells: TREE
 const MEASURED_ONLY = M.infra.vegetationPlacement === 'measured-only';
 if (BAKE_VISTA && !(!MEASURED_ONLY || LANDCOVER_REC)) {
   // This course plants no far vista at all; the publisher records exactly that.
-  window.__VISTA_BAKE__ = { none: true, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
+  VISTA_BAKE_DATA = { none: true, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
     identity: V2_SELECTION.graph ? await preparedVistaIdentity({ meta: CMETA,
       groundSha256: V2_SELECTION.graph.course.groundManifest.sha256, lowQuality: LOWQ,
       revision: __COURSE_SOURCE_REVISION__ }) : null };
-  await new Promise(() => {});
 }
 if (!MEASURED_ONLY || LANDCOVER_REC) {
   /* THE FAR RING IS NOT THE IMAGERY'S RING, and it used to be gated on it.
@@ -5671,10 +5731,9 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
   if (!vistaRun) vistaRun = await plantVista(null);
   if (BAKE_VISTA) {
     // The publisher records this exact production planting; no second copy of its rules.
-    window.__VISTA_BAKE__ = { identity: vistaIdentity, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
+    VISTA_BAKE_DATA = { identity: vistaIdentity, variant: vistaVariant(LOWQ), revision: __COURSE_SOURCE_REVISION__,
       inputs: vistaInputs, candidates: vistaRun.decisions.length, bits: packVistaBits(vistaRun.decisions),
       digest: await vistaDigest(vistaRun.pts, vistaRun.ptsSize), skipped: vistaRun.skipped, points: vistaRun.pts.length / 4 };
-    await new Promise(() => {}); // Dedicated publishing page closes here.
   }
   const { pts, ptsSize, farBandCounts, farStep } = vistaRun;
   const vistaSkippedInsideCoverage = vistaRun.skipped;
@@ -5825,46 +5884,51 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   stone.scale(1, 0.55, 0.85); stone.translate(0, 0.16, 0);
 
   const T = [], B = [], S = [], STU = [];
+  const coverLatticeStarted = performance.now();
   const GAP = 5.2;
   const rnd = (i, j, k) => hash2(i * 6151 + k * 97, j * 24593 + k * 13);
-  for (let z = MIDR.z0; z < MIDR.z1; z += GAP) {
-    if (shouldYieldWork()) await yieldWork();
-    for (let x = MIDR.x0; x < MIDR.x1; x += GAP) {
+  const coverCell = (x, z, replay, rec) => {
     const i = Math.round(x / GAP), j = Math.round(z / GAP);
-    if (LOWQ && rnd(i, j, 9) < 0.5) continue;
+    if (!replay && LOWQ && rnd(i, j, 9) < 0.5) return;
     const px = x + (rnd(i, j, 1) - 0.5) * GAP * 1.8, pz = z + (rnd(i, j, 2) - 0.5) * GAP * 1.8;
+    if (!replay) {
     const c = classify(px, pz);
-    if (c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.1) continue;
+    if (c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.1) return;
     if (authoredFacilityView && SCENERY?.isFacilityGroundInterior?.(px, pz)) {
       stats.facilityExcludedClutter = (stats.facilityExcludedClutter || 0) + 1;
-      continue;
+      return;
     }
-    if (c.dLine < 24 || c.dLine > 300) continue;
-    if (c.forest > 0.55) continue;                       /* the trees own that ground */
+    if (c.dLine < 24 || c.dLine > 300) return;
+    if (c.forest > 0.55) return;                       /* the trees own that ground */
     let yard = false;
     for (const q of II.at(px, pz)) if (ringSD(px, pz, q.ring, 3) < 3) { yard = true; break; }
     if (!yard) for (const q of LI.at(px, pz))
       if (q.kind !== 'industrial' && q.kind !== 'commercial' && ringSD(px, pz, q.ring, 1) < 0) { yard = true; break; }
     if (!yard) for (const q of SI.at(px, pz))
       if (q.kind === 'yard' && ringSD(px, pz, q.ring, 1) < 0) { yard = true; break; }
-    if (yard) continue;                                  /* mown, cropped or worked ground */
+    if (yard) return;                                  /* mown, cropped or worked ground */
     /* the clubhouse lawn is mown: no tussocks, no boulders on it */
-    if (CLUB && Math.hypot(px - CLUB.cx, pz - CLUB.cz) < 52) continue;
+    if (CLUB && Math.hypot(px - CLUB.cx, pz - CLUB.cz) < 52) return;
+    }
     /* a clear-fell keeps its stumps: pale cut faces where the stand used to be */
     let cut = false;
     for (const q of SI.at(px, pz)) if (q.kind === 'cut' && ringSD(px, pz, q.ring, 1) < 0) { cut = true; break; }
     if (cut) {
+      rec?.passed();
       if (rnd(i, j, 8) < 0.55) STU.push(px, terrainH(px, pz) - 0.04, pz, 0.8 + rnd(i, j, 7) * 0.5, rnd(i, j, 5) * TAU);
-      continue;
+      return;
     }
     const h = terrainH(px, pz);
+    if (!replay) {
     let wet = false;
     for (const w of WI.at(px, pz)) {
       if (w.stream) { if (distToLine(px, pz, w.line, w.w * 3) < w.w * 3) wet = true; }
       else if (ringSD(px, pz, w.ring, 3) < 3 || h < w.level + 0.4) wet = true;
     }
     if (!wet && typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(px, pz)) wet = true;
-    if (wet) continue;
+    if (wet) return;
+    }
+    rec?.passed();
     const clump = fbm(px * 0.045, pz * 0.045, 2) * 0.5 + 0.5;
     const r = rnd(i, j, 3);
     const sc = 0.6 + rnd(i, j, 4) * 0.9;
@@ -5878,7 +5942,12 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       const rocky = smooth(0.20, 0.52, sl);
       if (rnd(i, j, 6) > 0.72 - rocky * 0.5) S.push(px, h - 0.05, pz, sc * (0.8 + rocky * 1.7), rot);
     }
-    }
+  };
+  {
+    const excludedBefore = stats.facilityExcludedClutter;
+    const extra = await scatterGrid('cover', scatterSteps(MIDR.x0, MIDR.x1, GAP), scatterSteps(MIDR.z0, MIDR.z1, GAP), coverCell, [T, B, S, STU]);
+    if (extra) { if (extra.facilityExcludedClutter) stats.facilityExcludedClutter = (excludedBefore || 0) + extra.facilityExcludedClutter; }
+    else if (SCATTER_BAKE?.cover) SCATTER_BAKE.cover.extra = { facilityExcludedClutter: (stats.facilityExcludedClutter || 0) - (excludedBefore || 0) };
   }
 
   /* THE LONG GRASS STARTS WHERE THE MOWER STOPS. The lattice above keeps 24 m off
@@ -5898,6 +5967,8 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
      rough beside the mowing is fed and dense (PRIMARY_ROUGH_SHADE says the same
      thing about its colour), so this is a small clump of five narrow blades in
      the rough's own greens, a handful to the square metre. One more draw. */
+  span('ground cover lattice', coverLatticeStarted);
+  const edgeTuftsStarted = performance.now();
   const ET = [];
   let edgeTufts = 0;
   const EDGE = groundAtlas?.exactEdges;
@@ -5909,24 +5980,24 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const step = 2 * lim / 255, ATTEMPTS = LOWQ ? 1 : 3;
     const others = EDGE.channels.filter(id => id !== SURFACE.SEMI && id !== SURFACE.HEATH)
       .map(id => EDGE.data.planes.get(id));
-    for (let j = 0; j < eb.h; j++) {
-      if (shouldYieldWork()) await yieldWork();
-      const row = j * eb.w;
-      for (let i = 0; i < eb.w; i++) {
-        const k = row + i, s = semiPlane[k];
-        if (s > NEAR || s < FAR) continue;
+    const edgeCell = (i, j, replay, rec) => {
+        const k = j * eb.w + i, s = semiPlane[k];
+        const cx = eb.x0 + (i + 0.5) * eb.res, cz = eb.z0 + (j + 0.5) * eb.res;
+        if (!replay) {
+        if (s > NEAR || s < FAR) return;
         let rough = true;
         for (const o of others) if (o[k] > ABSENT) { rough = false; break; }
-        if (!rough) continue;
-        const cx = eb.x0 + (i + 0.5) * eb.res, cz = eb.z0 + (j + 0.5) * eb.res;
-        if (CLUB && Math.hypot(cx - CLUB.cx, cz - CLUB.cz) < 52) continue;
+        if (!rough) return;
+        if (CLUB && Math.hypot(cx - CLUB.cx, cz - CLUB.cz) < 52) return;
         let wet = false;
         const h0 = terrainH(cx, cz);
         for (const w of WI.at(cx, cz)) {
           if (w.stream) { if (distToLine(cx, cz, w.line, w.w * 3) < w.w * 3) wet = true; }
           else if (ringSD(cx, cz, w.ring, 3) < 3 || h0 < w.level + 0.4) wet = true;
         }
-        if (wet) continue;
+        if (wet) return;
+        }
+        rec?.passed();
         const out = lim - s * step;                       /* metres outside the cut */
         const clump = fbm(cx * 0.045, cz * 0.045, 2) * 0.5 + 0.5;
         const chance = (0.30 + 0.60 * smooth(0.25, 0.70, clump)) * (1 - smooth(0.8, 3.0, out));
@@ -5936,10 +6007,12 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
           ET.push(px, terrainH(px, pz), pz, 0.55 + rnd(i, j, 14 + a * 5) * 0.6, rnd(i, j, 15 + a * 5) * TAU);
           edgeTufts++;
         }
-      }
-    }
+    };
+    await scatterGrid('edge', scatterIndex(eb.w), scatterIndex(eb.h), edgeCell, [ET]);
   }
-  stats.edgeTufts = edgeTufts;
+  /* counted from the output, so a rejected replay that is planted again counts once */
+  stats.edgeTufts = ET.length / 5;
+  span('ground cover edge tufts', edgeTuftsStarted);
 
   const place = (geo, mat, arr, shadow) => {
     const n = arr.length / 5;
@@ -6010,6 +6083,14 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
 }
 
 lap('ground cover (tufts, bushes, stones, stumps)');
+if (BAKE_VISTA) {
+  // The publisher records these exact production plantings; no second copy of their rules.
+  const packed = packScatter(SCATTER_BAKE);
+  const context = await scatterContext();
+  window.__VISTA_BAKE__ = { ...VISTA_BAKE_DATA, scatter: { identity: context.identity, inputs: context.inputs,
+    variant: scatterVariant(LOWQ), sections: packed.sections, payload: packed.payload } };
+  await new Promise(() => {}); // Dedicated publishing page closes here.
+}
 /* ------------------------------------------------------- penalty marking
    Red and yellow stakes trace the margins of the water they mark -- the runs come out
    of the reconciler, which walked the real shorelines, so a stake can never stand away

@@ -35,6 +35,10 @@ describe('prepared startup release gate', () => {
     await alteredCatalog(c => { c.courses[0].preparedVista['vista-hi'].identity = '0'.repeat(64); },
       async root => { await expect(checkPreparedStartup(root, revision)).rejects.toThrow(/stale\/missing vista-hi/); });
   });
+  it('rejects a stale scatter record rather than silently planting from it', async () => {
+    await alteredCatalog(c => { c.courses[0].preparedScatter['scatter-lo'].identity = '0'.repeat(64); },
+      async root => { await expect(checkPreparedStartup(root, revision)).rejects.toThrow(/stale\/missing scatter-lo/); });
+  });
   it('requires a current unsupported-water receipt rather than accepting any missing water', async () => {
     await alteredCatalog(c => { delete c.courses[0].preparedWater; delete c.courses[0].preparedWaterUnsupported; },
       async root => { await expect(checkPreparedStartup(root, revision)).rejects.toThrow(/unsupported-water bake receipt/); });
