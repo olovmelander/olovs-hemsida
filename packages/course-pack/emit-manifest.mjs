@@ -13,7 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { readPack, sha256, readCard } from './lib.mjs';
+import { readPack, sha256, readCard, inflateStream, courseGpsRecord } from './lib.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const OUT = path.join(ROOT, 'apps/golf/public/courses/index.json');
@@ -109,7 +109,7 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
   const cardHoles = readCard(ROOT, c.build);
   const packFile = path.join(ROOT, 'apps/golf/public/courses', c.slug, 'pack.bin');
   const buf = fs.readFileSync(packFile);
-  const { header } = readPack(buf);                       /* validates magic + fmt + framing */
+  const { header, sv } = readPack(buf);                   /* validates magic + fmt + framing */
   if (header.slug !== c.slug) throw new Error(`${c.slug}: pack header says ${header.slug}`);
   const nTee = cardHoles[0].t.length;
   if (nTee !== c.tees.names.length || nTee !== c.tees.cols.length)
@@ -176,6 +176,11 @@ const entries = COURSES.filter(c => !only || c.slug === only).map(c => {
     packUrl: `courses/${c.slug}/pack.bin`, bytes: buf.length, sha256: sha256(buf),
     ...(landcover ? { landcover } : {}),
     ...(surroundings ? { surroundings } : {}),
+    /* Where the course lies, for GPS mode: with every course's hole lines in
+       the manifest, turning GPS on anywhere finds the course the player is
+       standing on -- and the hole -- before a single pack is fetched. Read out
+       of the pack's own GEO and VEC, like bytes and sha256 out of its file. */
+    gps: courseGpsRecord(header.GEO, JSON.parse(inflateStream(sv).toString('utf8')).holes),
   };
 });
 
@@ -188,7 +193,14 @@ if (only) {
   manifest = { ...previous, courses: previous.courses.map(c => c.slug === only ? entries[0] : c) };
   if (!found) manifest.courses.push(entries[0]);
 }
-fs.writeFileSync(OUT, JSON.stringify(manifest, null, 1) + '\n');
+/* One-space indentation as ever, except that each hole's line stays on one
+   row: indented point by point, the thirteen courses' lines alone ran to 3,600
+   rows and quadrupled a file the chooser fetches on every visit. */
+const rows = [];
+const text = JSON.stringify(manifest, (key, value) =>
+  key === 'lines' && Array.isArray(value) ? value.map(line => `\u0000${rows.push(JSON.stringify(line)) - 1}`) : value, 1)
+  .replace(/"\\u0000(\d+)"/g, (_, i) => rows[Number(i)]);
+fs.writeFileSync(OUT, text + '\n');
 for (const e of entries)
   console.log(`${e.slug.padEnd(16)} par ${e.par}  ${String(e.tees.names.length)} tees  ${(e.bytes / 1024).toFixed(0).padStart(4)} KB  ${e.sha256.slice(0, 12)}…`);
 console.log(`wrote ${path.relative(ROOT, OUT)}`);

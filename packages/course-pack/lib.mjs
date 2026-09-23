@@ -50,6 +50,30 @@ export function readPack(buf) {
 export const inflateStream = s => zlib.inflateRawSync(s);
 export const sha256 = buf => createHash('sha256').update(buf).digest('hex');
 
+/* Where a course is, for GPS mode: the pack's own frame (so the app's
+   gpsToLocal places a fix exactly as it does inside the course) and every
+   hole's line to the metre, in hole order. About 700 bytes a course -- enough
+   for the app to tell which course, and which hole of it, a fix stands on
+   without downloading thirteen packs to find out. Derived from the pack, never
+   written down, and manifest-gps.test.mjs re-derives it from each committed
+   pack so the two cannot drift. */
+export function courseGpsRecord(geo, holes) {
+  holes.forEach((hole, i) => {
+    if (hole.n !== i + 1) throw new Error(`gps record: hole ${i + 1} is numbered ${hole.n}; lines are stored by position`);
+    if (!Array.isArray(hole.line) || hole.line.length < 2) throw new Error(`gps record: hole ${hole.n} has no line`);
+  });
+  const { lat, lon } = geo.origin;
+  if (![lat, lon, geo.mPerLon].every(Number.isFinite) || typeof geo.frame !== 'string') {
+    throw new Error('gps record: the pack GEO carries no complete frame');
+  }
+  /* `|| 0`: Math.round(-0.3) is -0, which JSON writes as 0 */
+  const metre = v => Math.round(v) || 0;
+  return {
+    frame: geo.frame, origin: { lat, lon }, mPerLon: geo.mPerLon,
+    lines: holes.map(hole => hole.line.map(([x, z]) => [metre(x), metre(z)])),
+  };
+}
+
 /* The card, whichever shape this course keeps it in. The five newer builds have
    their own card.json holding an ARRAY of {n,par,hcp,t}; Veckefjarden's card is
    banguide/guide-card.json, an OBJECT keyed by hole number -- the club's guide

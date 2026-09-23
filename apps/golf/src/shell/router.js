@@ -58,7 +58,16 @@ export function currentSlug(search = location.search) {
    tearing it down in place is the persistent-renderer phase's work, not this
    one. The view keys are dropped on purpose: hole 14 of one course means
    nothing on another, and carrying a stale hole number across would open the
-   new course on a hole the visitor never asked for. */
-export function goToCourse(slug) {
-  location.search = '?bana=' + encodeURIComponent(slug);
+   new course on a hole the visitor never asked for. The one exception is a
+   hole measured ON the new course -- GPS mode's, where the player stands --
+   which is the hole they are asking for. */
+export function courseSearch(slug, { hole = null } = {}) {
+  const sp = new URLSearchParams();
+  sp.set('bana', slug);
+  if (Number.isInteger(hole) && hole > 0) sp.set('hal', String(hole));
+  return '?' + sp.toString();
+}
+
+export function goToCourse(slug, options) {
+  location.search = courseSearch(slug, options);
 }

@@ -140,6 +140,37 @@
   border-color: rgba(95, 208, 122, 0.4);
 }
 
+/* GPS: the course you stand on. Turf-tinted, because it is the one control on
+   the front door that acts on the real world rather than on the list. */
+.chooser-locate-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border-radius: 10px;
+  background: rgba(95, 208, 122, 0.12);
+  border: 1px solid rgba(95, 208, 122, 0.36);
+  color: var(--turf);
+  font: 600 11.5px/1 Outfit, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.chooser-locate-btn:hover {
+  background: rgba(95, 208, 122, 0.2);
+  border-color: rgba(95, 208, 122, 0.6);
+  color: var(--ink);
+}
+.chooser-locate-btn:disabled { cursor: progress; }
+.chooser-locate-btn.busy svg { animation: chooserLocatePulse 1.2s ease-in-out infinite; }
+@keyframes chooserLocatePulse { 50% { opacity: 0.35; } }
+.chooser-locate-msg {
+  margin: 6px 0 0;
+  color: var(--turf);
+  font: 600 12.5px/1.35 Outfit, sans-serif;
+}
+.chooser-locate-msg[hidden] { display: none; }
+
 .chooser-head {
   flex: 0 0 auto;
   padding: clamp(14px, 2.5vh, 26px) clamp(20px, 4vw, 56px) clamp(8px, 1.5vh, 16px);
@@ -1313,12 +1344,16 @@
   .wordmark { font-size: 24px; }
   .hub-pill { display: none; }
   .c-view-btn { padding: 5px 8px; font-size: 11px; }
+  /* the crosshair alone on a phone: it is the locate glyph every map app uses */
+  .chooser-locate-btn { padding: 7px 9px; }
+  .chooser-locate-btn span { display: none; }
   .chooser-head { padding: 10px 16px 6px; }
   .chooser-scroll { padding: 8px 16px clamp(20px, 3vh, 36px); }
   .card .facts { flex-wrap: wrap; gap: 6px 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .chooser-locate-btn.busy svg { animation: none; }
   #chooser, .nav-drawer, .nav-drawer-panel, .card, #menuToggle, .holes-wrap, .mobile-hud-cluster { transition: none !important; }
   .card:hover { transform: none !important; }
 }

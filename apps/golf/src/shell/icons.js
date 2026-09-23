@@ -132,6 +132,15 @@ export const ICONS = {
     </svg>
   `,
 
+  /* the same crosshair as the HUD's GPS locate button, so the two read as one */
+  locate: (s = 15, sw = 2.2) => `
+    <svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"></circle>
+      <circle cx="12" cy="12" r="8"></circle>
+      <path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"></path>
+    </svg>
+  `,
+
   map: (s = 15, sw = 2) => `
     <svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">
       <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon>

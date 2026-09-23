@@ -2525,6 +2525,72 @@ leaves GPS the same way a long press does (before, the GPS origin silently
 won over the moved ball and the button did nothing); and the desktop keeps
 the panel it always had — the sheet's `open` state is inert there by CSS.
 
+### GPS mode follows the round, and the course (2026-09-23)
+
+Turn GPS on anywhere and the app picks the course and the hole the player is
+standing on, then moves with them. `engine/gps-round.mjs` is the rule, pure
+and fixed by simulation; main.js only wires it.
+
+- **The hole is a ROUND, not a nearest line.** Nearest centreline (with 28 m
+  hysteresis, switching inside 120 m) flipped to whatever fairway a slice or
+  the walk between holes came near. Now: your own green holds; the next hole
+  starts once you have been ON your green and are nearer its tee than the
+  green's edge (at once past 25 m from the edge, else 5 of the last 6 fixes);
+  your corridor (45 m) or tee holds; any other hole needs 90 s ON its tee
+  (12 m) or green (4 m), or its fairway while 80 m off your own line, with
+  80% of the fixes agreeing -- 150 s for a tee already played. A hole picked
+  by hand holds until the player is 40 m from where they picked it, then the
+  tracker looks afresh with that hole as its guess (a correction sticks, a
+  preview lapses). Fixes worse than ±40 m never change the hole.
+- **Every threshold was set by walking rounds through all thirteen packs**
+  (tee, shots with one in seven missed by 35 m, 40 s at each ball, 2 min on
+  the green, straight to the next tee, 4 m error white or drifting with a
+  10 s memory). 45 s jumps still fired -- a ball at rest 40 s plus the walk in
+  and out is 45 s of evidence -- and "near the next tee" fired on balls lying
+  beside it; the numbers above are what came out clean. `gps-round.test.mjs`
+  keeps the walk as the gate: one switch per hole, never early, never an
+  unrelated hole, a new hole picked up at its tee inside 30 s. The one
+  exception is geometry, not tuning: **Ribbingsfors' 3rd tee is 2.1 m from
+  the 2nd green's edge**, inside GPS error, so there the hole changes when the
+  player walks off the tee (~80 s) rather than guess.
+- **The course comes from the manifest.** `emit-manifest` writes a `gps`
+  record per course -- the pack's own frame (frame string, origin, mPerLon)
+  and every hole line to the metre -- via `courseGpsRecord` in
+  `course-pack/lib.mjs`; `manifest-gps.test.mjs` re-derives it from every
+  committed pack. `rankCourses` measures a fix through the SAME `gpsToLocal`
+  the player uses, so a grid-authored pack is placed by SWEREF 99 TM. Lines
+  are written one row each: pretty-printed point by point they quadrupled the
+  file the chooser fetches every visit (11 → 24 kB, +4.5 kB gzipped).
+  Off the course on screen (> 450 m, the tracker's own off-course number),
+  any course within reach wins at once -- the one whose hole you stand on,
+  else the nearest, and in a car park two courses share, the club's first
+  listed, so Veckefjärden's car park opens the eighteen, not its nine. On the
+  course, only a course sharing its ground can take over: within 20 m of its
+  line, 50 m clearer than yours, ±25 m or better, for a minute (at once on
+  the first good fix). The korthålsbana's lines come within 33 m of the
+  eighteen's, measured, which is what those numbers sit around.
+- **A course switch is a navigation, and GPS crosses it as a HANDOFF**
+  (`shell/gps-handoff.js`): written only when GPS itself (or the chooser's
+  "Hitta min bana", which the player pressed) decides, read once by the next
+  page before the pack download, honoured for 2 minutes, never by a reload or
+  a link. Going BACK to the course GPS left is a choice: that course is not
+  switched away from again in the tab. × during the 1.6 s countdown calls the
+  switch off and drops the handoff. `goToCourse(slug, { hole })` opens the
+  measured hole.
+- **Only a refusal ends GPS mode.** `gpsFailure` cleared the watch on ANY
+  error, so one "position unavailable" under trees ended GPS for the round;
+  timeouts and signal loss now keep the watch and say "söker". Found by
+  `tools/check-gps-round.mjs`, whose first run also passed three checks with
+  GPS silently off -- every check there now requires `active` and the fix
+  where it was put. A mid-flight fix moves the camera tween's ends instead of
+  killing the tween, and a back-forward-cache restore restarts the watch that
+  `pagehide` cleared.
+- `tools/check-gps-round.mjs` (after `node tools/serve.mjs apps/golf/dist
+  8620`) scripts geolocation from the manifest's own `gps` record: hole
+  selection, the advance, the manual hold, off-course text, the switch to
+  Puttom's 12th with GPS carried over, and the chooser button opening Visby
+  on the 3rd. `--quick` stops before the two extra boots.
+
 ### The clubhouses, and what a photograph is for
 
 **Two of six were not being drawn as clubhouses at all.** The buildings pass

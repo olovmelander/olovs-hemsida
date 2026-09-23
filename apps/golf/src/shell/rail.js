@@ -42,7 +42,11 @@ const LINES = {
 
 const TEE_WORD = n => `${n} tees`;
 
-export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = false }) {
+/* `onLocate`, when given, puts "Hitta min bana" in the top bar: GPS picks the
+   course (and the hole) the visitor is standing on. It resolves with a line to
+   show when it is not navigating -- nothing near, permission refused -- because
+   when it finds a course, opening it is the answer. */
+export function buildRail({ courses, current, onPick, onIntent, onLocate, isInitialBoot = false }) {
   courses = [...courses, ...COURSE_PREVIEWS.filter(p => !courses.some(c => c.slug === p.slug))];
   const el = document.createElement('div');
   el.id = 'chooser';
@@ -66,6 +70,13 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
       </div>
 
       <div class="chooser-top-actions">
+        ${onLocate && typeof navigator !== 'undefined' && navigator.geolocation ? `
+          <button class="chooser-locate-btn" id="chooserLocateBtn" type="button"
+                  aria-label="Hitta min bana med GPS" title="Välj banan och hålet du står på, med GPS">
+            ${ICONS.locate(15)}
+            <span>Hitta min bana</span>
+          </button>
+        ` : ''}
         <div class="chooser-view-toggle" id="chooserViewToggle">
           <button class="c-view-btn active" data-view="grid" id="viewGridBtn" title="Visa som kort">
             ${ICONS.gridCards(14)}
@@ -90,6 +101,7 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
       <div class="chooser-title-wrap">
         <h1 class="chooser-main-title">Välj golfbana</h1>
         <p class="chooser-subtitle">Utforska ${courses.filter(c => c.status !== 'mapping').length} svenska golfbanor i 3D och följ nya banor under kartläggning.</p>
+        <p class="chooser-locate-msg" id="chooserLocateMsg" role="status" aria-live="polite" hidden></p>
       </div>
 
       <div class="chooser-controls" id="chooserControls">
@@ -209,6 +221,22 @@ export function buildRail({ courses, current, onPick, onIntent, isInitialBoot = 
       activeFilter = 'all';
       filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === 'all'));
       applyFilters();
+    });
+  }
+
+  // GPS: find the course the visitor is standing on
+  const locateBtn = el.querySelector('#chooserLocateBtn');
+  const locateMsg = el.querySelector('#chooserLocateMsg');
+  if (locateBtn) {
+    const say = text => { locateMsg.textContent = text || ''; locateMsg.hidden = !text; };
+    locateBtn.addEventListener('click', async () => {
+      if (locateBtn.disabled) return;
+      locateBtn.disabled = true;
+      locateBtn.classList.add('busy');
+      say('Söker din position…');
+      try { say(await onLocate()); }
+      catch { say('Kunde inte hitta din position · försök igen'); }
+      finally { locateBtn.disabled = false; locateBtn.classList.remove('busy'); }
     });
   }
 

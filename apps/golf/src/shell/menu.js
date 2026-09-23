@@ -145,7 +145,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
               <span class="dt-icon">${ICONS.compass(18)}</span>
               <div class="dt-text">
                 <div class="dt-name">GPS-läge</div>
-                <div class="dt-desc">Följ din boll och uppdatera caddien live</div>
+                <div class="dt-desc">Väljer bana och hål efter var du står</div>
               </div>
             </button>
             <button class="d-tool-btn" id="dStrategyBtn">

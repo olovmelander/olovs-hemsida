@@ -100,9 +100,11 @@ import { boundaryMarkerSubmerged } from './engine/boundary-marker-placement.mjs'
 import { createGroundHeightSampler } from './engine/ground-height-sampler.mjs';
 import { compassBearing, windAlong, playsLike, greenDistances, lineHazards, layupTargets } from './engine/rangefinder.js';
 import {
-  DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, nearestHole, normalizeBag, parseBag,
+  DEFAULT_BAG, MAX_BAG_CLUBS, gpsToLocal, normalizeBag, parseBag,
   pointAlongLine, recommendClub, strategyForHole,
 } from './engine/caddie.js';
+import { COURSE_DEFAULTS, chooseCourse, createCourseWatch, createHoleTracker, formatDistance, rankCourses } from './engine/gps-round.mjs';
+import { clearGpsHandoff, declinedCourses, takeGpsHandoff, writeGpsHandoff } from './shell/gps-handoff.js';
 import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
 import { PUTTOM_PREVIEW_CONFIG } from './engine/v2-puttom-preview.mjs';
 import {
@@ -170,6 +172,10 @@ const yieldWork = () => new Promise(resolve => setTimeout(() => {
 }
 const rawBana = new URLSearchParams(location.search).get('bana');
 const isBareVisit = !rawBana;
+/* GPS mode followed the player here from another course, or the chooser's
+   locate button found this one: taken now, before the pack download, because a
+   handoff is only honoured fresh -- and once, so a reload never repeats it. */
+const GPS_HANDOFF = takeGpsHandoff(rawBana);
 const COURSE = await loadCourse(rawBana);
 const CMETA = COURSE.meta;
 const PACK = COURSE.pack;
@@ -7772,6 +7778,10 @@ function placeSun() {
    An old manifest without the field still opens on the back tee. */
 const DEF_TEE = CMETA.tees.def ?? 0;
 let hole = 1, teeIdx = DEF_TEE, camMode = 'orbit', flying = 0;
+/* GPS mode wants to hear about a hole picked by hand (it holds that hole until
+   the player walks away). Declared here, not in the GPS section, because
+   goHole runs at boot long before that section is reached. */
+let gpsHolePicked = null;
 const TEE_NAMES = CMETA.tees.names;
 
 const holesBar = document.getElementById('holes');
@@ -7924,8 +7934,9 @@ function setCam(mode, instant) {
           V3(m.x, terrainH(m.x, m.z) + 4, m.z), DUR);
   }
 }
-function goHole(n, recam, instant) {
+function goHole(n, recam, instant, byGps = false) {
   hole = Math.min(NHOLES, Math.max(1, n));
+  if (!byGps) gpsHolePicked?.(hole);
   drawCard();
   const activeBtn = holesBar?.children[hole - 1];
   if (activeBtn && holesBar) {
@@ -9168,10 +9179,21 @@ strategyBtn.onclick = () => {
 
 /* ------------------------------------------------------------ live GPS
    WGS84 fixes enter through the exact flat-earth frame declared by every pack.
-   Hole changes use a 28 m hysteresis so two adjacent fairways cannot make the
-   UI flicker. GPS is opt-in per visit and never starts from stored state. */
+   Turn GPS on and the app follows the ROUND (engine/gps-round.mjs): the next
+   hole comes up once the green is done and the player heads for its tee, any
+   other hole needs a minute and a half of evidence, and a hole picked by hand
+   holds until the player walks away from where they picked it. The course is
+   the same question asked of every course in the manifest: a player standing on
+   another course is taken there with GPS mode still running, through a one-shot
+   handoff (shell/gps-handoff.js). GPS is opt-in per visit and never starts from
+   stored state; the handoff is this visit's opt-in, carried across the
+   navigation it caused. */
 const gpsState = { active: false, watchId: null, point: null, accuracy: null, follow: true, firstFix: true };
 let gpsGroup = null;
+/* per GPS session: the round, the course question, and a switch under way */
+let gpsTracker = null, gpsCourseWatch = null, gpsCourseAsked = false, gpsDeclined = [];
+let gpsLeaving = null, gpsLeaveTimer = 0;
+gpsHolePicked = n => { if (gpsState.active && gpsTracker) gpsTracker.manual(n, gpsState.point); };
 const gpsBtn = document.getElementById('gpsBtn');
 const mobileGpsBtn = document.getElementById('mobileGpsToggle');
 const gpsStatus = document.getElementById('gpsStatus');
@@ -9244,47 +9266,104 @@ function focusGps(instant = false) {
         instant || RMOTION ? 0 : 1.1);
 }
 
+/* Which course the fix stands on, asked of every course in the manifest on
+   every fix (a few hundred line segments). Off this course, any course within
+   reach wins at once; on it, a course sharing its ground wins only after a
+   minute on its own holes -- except on the first good fix, which is the moment
+   somebody who opened the wrong one of two neighbouring courses turns GPS on.
+   Returns true when the player is being taken to another course. */
+function gpsFollowCourse(coords, accuracy, time) {
+  const ranked = rankCourses(coords, COURSE.all);
+  const first = !gpsCourseAsked;
+  if (accuracy <= COURSE_DEFAULTS.sharedAccuracy) gpsCourseAsked = true;
+  const choice = gpsCourseWatch.step(
+    chooseCourse(ranked, { current: CMETA.slug, accuracy, declined: gpsDeclined }), time, { first });
+  if (!choice) return { ranked, leaving: false };
+  gpsLeaving = choice;
+  writeGpsHandoff({ from: CMETA.slug, to: choice.slug, hole: choice.hole });
+  syncGpsUi('waiting', `${choice.name} · byter bana…`);
+  toast(`Du står på ${choice.name} · byter bana till hål ${choice.hole}`, 4000);
+  /* a moment to read it, and to press × if this is not what they want */
+  gpsLeaveTimer = setTimeout(() => {
+    gpsLeaving = null;               /* going, not called off: keep the handoff */
+    stopGps(false);
+    goToCourse(choice.slug, { hole: choice.hole });
+  }, 1600);
+  return { ranked, leaving: true };
+}
+
+/* Off the course: how far, and -- when it is nearer -- which other course.
+   A course the player came back from (declined) is named, never switched to. */
+function gpsOffCourseText(step, ranked) {
+  const other = ranked.find(r => r.slug !== CMETA.slug);
+  const here = step.nearest?.distance ?? Infinity;
+  if (other && other.distance < here) {
+    return other.distance <= COURSE_DEFAULTS.atCourse ? `Du står på ${other.name}`
+      : `Närmaste bana: ${other.name} · ${formatDistance(other.distance)}`;
+  }
+  return Number.isFinite(here) ? `${formatDistance(here)} från närmaste hål` : 'Positionen ligger utanför banan';
+}
+
 function receiveGps(position) {
-  if (!gpsState.active) return;
-  const local = gpsToLocal(position.coords, GEO);
-  const nearby = nearestHole(local, HOLES, hole);
-  const accuracy = Number.isFinite(position.coords.accuracy) ? position.coords.accuracy : 0;
-  if (!nearby || nearby.distance > 450) {
+  if (!gpsState.active || gpsLeaving) return;
+  const coords = position.coords;
+  const local = gpsToLocal(coords, GEO);
+  const accuracy = Number.isFinite(coords.accuracy) ? coords.accuracy : 0;
+  const time = Number.isFinite(position.timestamp) ? position.timestamp : Date.now();
+  const step = gpsTracker.update({ point: local, accuracy, time });
+  const course = gpsFollowCourse(coords, accuracy, time);
+  if (course.leaving) return;
+  if (step.offCourse) {
     gpsState.point = null; gpsState.accuracy = accuracy;
     gpsMarkerClear();
-    syncGpsUi('error', nearby ? `${Math.round(nearby.distance)} m från närmaste hål` : 'Positionen ligger utanför banan');
+    syncGpsUi('error', gpsOffCourseText(step, course.ranked));
     if (kik) kikRender();
     return;
   }
 
   const previous = gpsState.point;
   gpsState.point = local; gpsState.accuracy = accuracy;
-  if (nearby.distance <= 120 && nearby.hole !== hole) goHole(nearby.hole, false);
+  const moved = step.hole !== hole;
+  if (moved) goHole(step.hole, false, false, true);
   drawGpsMarker();
   const weak = accuracy > 35 ? ' · svag noggrannhet' : '';
-  syncGpsUi('live', `Hål ${nearby.hole} · ±${Math.max(1, Math.round(accuracy))} m${weak}`);
+  const held = step.held ? ' · manuellt' : '';
+  syncGpsUi('live', `Hål ${hole}${held} · ±${Math.max(1, Math.round(accuracy))} m${weak}`);
   if (gpsState.follow) {
-    if (gpsState.firstFix || !previous) focusGps();
+    /* a new hole is a new picture: the player and the NEW green */
+    if (gpsState.firstFix || !previous || moved) focusGps();
     else {
       const dx = local[0] - previous[0], dz = local[1] - previous[1];
       const dy = terrainH(local[0], local[1]) - terrainH(previous[0], previous[1]);
-      camera.position.add(V3(dx, dy, dz)); controls.target.add(V3(dx, dy, dz)); camTween.on = false;
+      const d = V3(dx, dy, dz);
+      /* mid-flight the flight's ends move with the player; cutting the flight
+         short, as a fix every second used to, left the framing half done */
+      if (camTween.on) { camTween.from.add(d); camTween.to.add(d); camTween.lookFrom.add(d); camTween.lookTo.add(d); }
+      else { camera.position.add(d); controls.target.add(d); }
     }
   }
+  if (moved) toast(`Hål ${hole} · valt av GPS`);
   gpsState.firstFix = false;
   if (kik) kikRender();
   drawMini();
 }
 
+/* Only a refusal ends GPS mode. A timeout or a spell without a position --
+   under trees, beside the clubhouse wall -- is weather, not a verdict: a watch
+   keeps running after an error, so the last position stays drawn and the pill
+   says it is looking. This used to clear the watch on ANY error, which on a
+   round-long GPS mode meant one bad moment silently ended it for good (found
+   by check-gps-round, whose second fix came back "position unavailable"). */
 function gpsFailure(error) {
   if (!gpsState.active) return;
+  if (error?.code !== 1) {
+    if (!gpsLeaving) syncGpsUi('waiting', gpsState.point ? 'Tappade GPS-signalen · söker…' : 'Söker din position…');
+    return;
+  }
   if (gpsState.watchId !== null) navigator.geolocation.clearWatch(gpsState.watchId);
   gpsState.watchId = null; gpsState.active = false; gpsState.point = null;
   gpsMarkerClear();
-  const detail = error?.code === 1 ? 'Platsåtkomst nekades · tillåt plats i webbläsaren'
-    : error?.code === 2 ? 'Ingen GPS-position hittades'
-      : 'GPS svarade inte · försök igen';
-  syncGpsUi('error', detail);
+  syncGpsUi('error', 'Platsåtkomst nekades · tillåt plats i webbläsaren');
 }
 
 function startGps() {
@@ -9293,6 +9372,11 @@ function startGps() {
     return;
   }
   gpsState.active = true; gpsState.firstFix = true;
+  /* a fresh round every time GPS comes on, starting from the hole on screen */
+  gpsTracker = createHoleTracker(HOLES);
+  gpsTracker.hint(hole);
+  gpsCourseWatch = createCourseWatch(); gpsCourseAsked = false;
+  gpsDeclined = declinedCourses(CMETA.slug);
   syncGpsUi('waiting', 'Söker din position…');
   setKik(true, true);
   try {
@@ -9303,6 +9387,8 @@ function startGps() {
 }
 
 function stopGps(announce = true) {
+  /* × while a course switch is counting down calls the switch off */
+  if (gpsLeaving) { clearTimeout(gpsLeaveTimer); gpsLeaving = null; clearGpsHandoff(); }
   if (gpsState.watchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(gpsState.watchId);
   gpsState.watchId = null; gpsState.active = false; gpsState.point = null; gpsState.firstFix = true;
   gpsMarkerClear();
@@ -9324,6 +9410,15 @@ gpsFollowBtn.onclick = () => {
 };
 addEventListener('pagehide', () => {
   if (gpsState.watchId !== null && navigator.geolocation) navigator.geolocation.clearWatch(gpsState.watchId);
+});
+/* Back from the back-forward cache the page is the same visit, restored: a
+   return to the course GPS moved the player away from is noted (it will not
+   move them again), and a watch cleared on the way out is started again rather
+   than left showing GPS mode with no fixes coming. */
+addEventListener('pageshow', event => {
+  if (!event.persisted) return;
+  takeGpsHandoff(CMETA.slug);
+  if (gpsState.active) { stopGps(false); startGps(); }
 });
 
 /* --------------------------------------------------------------- kikaren
@@ -10479,6 +10574,13 @@ const railEl = buildRail({
       goToCourse(slug);
     }
   },
+  /* inside a course, finding your course IS GPS mode: its first fix moves the
+     player to the course they stand on if it is not this one */
+  onLocate: () => {
+    closeRail();
+    if (!gpsState.active) startGps();
+    return null;
+  },
 });
 document.body.append(railEl);
 let railOpen = false;
@@ -10968,7 +11070,10 @@ window.V3D = {
       zones: currentStrategy.zones.map(zone => ({ ...zone, point: [...zone.point], club: zone.club ? { ...zone.club } : null })),
     } : null,
     gps: { active: gpsState.active, point: gpsState.point ? [...gpsState.point] : null,
-           accuracy: gpsState.accuracy, follow: gpsState.follow },
+           accuracy: gpsState.accuracy, follow: gpsState.follow, hole,
+           settled: gpsTracker?.settled ?? false, held: gpsTracker?.held ?? false,
+           leaving: gpsLeaving ? { slug: gpsLeaving.slug, hole: gpsLeaving.hole } : null,
+           status: gpsStatus.hidden ? null : { state: gpsStatus.dataset.state, text: gpsStatusText.textContent } },
     kik: { on: kik, point: kikPt ? [...kikPt] : null, ball: kikBall ? [...kikBall] : null,
            sheetOpen: kikOut.classList.contains('open'), tag: kikTagXY.visible ? { x: kikTagXY.x, y: kikTagXY.y } : null },
   }),
@@ -11522,6 +11627,9 @@ BOOT_PERF.doneAtMs = +(performance.now() - bootStarted).toFixed(1);
 bootEl.classList.add('done');
 setTimeout(() => { document.getElementById('hint').style.opacity = 0; }, 6000);
 if (BOOTQ.get('kiosk') === '1') setTimeout(startTour, 1200);
+/* GPS mode followed the player here: carry on, on the hole the handoff named
+   (?hal=), until the first fix says where exactly they stand */
+else if (GPS_HANDOFF) startGps();
 
 /* Ten seconds of honest measurement, then a decision: a phone crawling at the
    full treatment gets its pixel ratio and bloom dropped on the fly, and the

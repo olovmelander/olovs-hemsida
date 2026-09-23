@@ -19,6 +19,8 @@ try {
     current: null,
     isInitialBoot: true,
     onPick: goToCourse,
+    /* the locate code loads on the press, never with the front door */
+    onLocate: async () => (await import('./shell/locate.js')).locateAndOpen(courses),
     onIntent: slug => {
       if (prefetched.has(slug)) return;
       prefetched.add(slug);
