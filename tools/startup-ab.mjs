@@ -25,6 +25,11 @@ const variants = { before: 'prepvista=0&prepscatter=0', after: '', vista: 'preps
 const order = option('order', 'before,after,vista,scatter,scatter,vista,after,before,before,after,vista,scatter').split(',');
 assert.ok(order.every(k => Object.hasOwn(variants, k)));
 const build = await (await fetch(`${base}/course-startup-build.json`)).json();
+const catalog = await (await fetch(`${base}/courses/index.json`)).json();
+const courseRecord = catalog.courses.find(c => c.slug === course);
+assert.ok(courseRecord, 'unknown course');
+const scatterReference = courseRecord.preparedScatter?.['scatter-hi'];
+const scatterSections = Object.entries(scatterReference?.sections ?? {}).filter(([, value]) => value !== null).map(([name]) => name).sort();
 const report = { date: new Date().toISOString(), source: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(),
   build, base, course, control, det: false, quality: 'hi', viewport: [1920, 1080], dpr: 1, cpuRate: 1,
   network: 'localhost; fresh browser/context; service workers blocked; server no-store; OS and driver caches retained',
@@ -32,13 +37,15 @@ const report = { date: new Date().toISOString(), source: execFileSync('git', ['r
 const save = () => fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
 function assertOnlyOneBrowser() {
   if (process.platform !== 'win32') return;
-  const count = +execFileSync('powershell.exe', ['-NoProfile', '-Command',
-    "@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^(chrome|msedge|firefox|brave|opera)\\.exe$' -and $_.CommandLine -notmatch '--type=' }).Count"], { encoding: 'utf8', windowsHide: true });
-  assert.equal(count, 1, 'another browser appeared during startup; discard this batch');
+  const roots = JSON.parse(execFileSync('powershell.exe', ['-NoProfile', '-Command',
+    "$benchmarkBrowsers = @(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^(chrome|msedge|firefox|brave|opera)\\.exe$' }); $benchmarkRoots = @($benchmarkBrowsers | Where-Object { $_.ParentProcessId -notin $benchmarkBrowsers.ProcessId -and $_.CommandLine -notmatch '--type=' } | Select-Object ProcessId,ParentProcessId,Name); ConvertTo-Json -InputObject $benchmarkRoots -Compress"],
+  { encoding: 'utf8', windowsHide: true }));
+  assert.equal(roots.length, 1, `competing browser roots: ${JSON.stringify(roots)}; discard this startup run`);
 }
 let expectedFingerprint;
 for (const [index, variant] of order.entries()) {
   const gpuIdle = await assertGpuIdle();
+  assert.ok(gpuIdle.checked, 'RTX comparison requires a working GPU idle probe');
   const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });
   try {
     const page = await browser.newPage({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1, serviceWorkers: 'block' });
@@ -80,7 +87,11 @@ for (const [index, variant] of order.entries()) {
     assert.deepEqual(errors, []);
     if (control === 'assets') {
       assert.equal(data.perf.preparedTint, true, 'tint must remain prepared in isolated comparison');
-      assert.equal(data.perf.preparedVista, ['after', 'vista'].includes(variant));
+      assert.equal(!!data.perf.preparedWater, !!courseRecord.preparedWater, 'water eligibility must remain unchanged');
+      assert.equal(data.perf.preparedVista, ['after', 'vista'].includes(variant) && !courseRecord.preparedVista?.['vista-hi']?.none);
+      const expectedSections = ['after', 'scatter'].includes(variant) ? scatterSections : [];
+      assert.deepEqual(Object.keys(data.perf.preparedScatter).sort(), expectedSections, 'scatter control must affect only scatter');
+      assert.ok(Object.values(data.perf.preparedScatter).every(value => value === true), 'scatter replay mismatch');
     }
     expectedFingerprint ??= data.fingerprint;
     assert.deepEqual(data.fingerprint, expectedFingerprint, 'prepared startup changed world fingerprint');
