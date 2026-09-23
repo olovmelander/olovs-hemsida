@@ -97,23 +97,37 @@ for (const [index, variant] of order.entries()) {
         const shadowMap = await page.evaluate(async () => {
           const { renderer, sun } = V3D.harness(), device = renderer.backend.device;
           const texture = renderer.backend.get(sun.shadow.map.depthTexture).texture;
-          if (texture.format !== 'depth32float') throw new Error(`unsupported shadow format ${texture.format}`);
-          const bytesPerRow = Math.ceil(texture.width * 4 / 256) * 256;
-          const buffer = device.createBuffer({ size: bytesPerRow * texture.height, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ });
+          // depth24plus cannot be copied directly. Read native depth texels
+          // through textureLoad into f32 storage without changing the map.
+          const size = texture.width * texture.height * 4;
+          const storage = device.createBuffer({ size, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC });
+          const buffer = device.createBuffer({ size, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ });
           device.pushErrorScope('validation');
           try {
+            const module = device.createShaderModule({ code: `
+              @group(0) @binding(0) var source: texture_depth_2d;
+              @group(0) @binding(1) var<storage, read_write> depths: array<f32>;
+              @compute @workgroup_size(8, 8)
+              fn main(@builtin(global_invocation_id) id: vec3<u32>) {
+                let dims = textureDimensions(source);
+                if (all(id.xy < dims)) { depths[id.y * dims.x + id.x] = textureLoad(source, vec2<i32>(id.xy), 0); }
+              }` });
+            const pipeline = await device.createComputePipelineAsync({ layout: 'auto', compute: { module, entryPoint: 'main' } });
+            const bindGroup = device.createBindGroup({ layout: pipeline.getBindGroupLayout(0), entries: [
+              { binding: 0, resource: texture.createView({ aspect: 'depth-only' }) }, { binding: 1, resource: { buffer: storage } }] });
             const encoder = device.createCommandEncoder();
-            encoder.copyTextureToBuffer({ texture, aspect: 'depth-only' }, { buffer, bytesPerRow }, [texture.width, texture.height, 1]);
+            const pass = encoder.beginComputePass();
+            pass.setPipeline(pipeline); pass.setBindGroup(0, bindGroup);
+            pass.dispatchWorkgroups(Math.ceil(texture.width / 8), Math.ceil(texture.height / 8)); pass.end();
+            encoder.copyBufferToBuffer(storage, 0, buffer, 0, size);
             device.queue.submit([encoder.finish()]);
             await buffer.mapAsync(GPUMapMode.READ);
-            const bytes = new Uint8Array(buffer.getMappedRange()), compact = new Uint8Array(texture.width * texture.height * 4);
-            for (let row = 0; row < texture.height; row++) compact.set(bytes.subarray(row * bytesPerRow, row * bytesPerRow + texture.width * 4), row * texture.width * 4);
-            const sha256 = [...new Uint8Array(await crypto.subtle.digest('SHA-256', compact))].map(v => v.toString(16).padStart(2, '0')).join('');
+            const sha256 = [...new Uint8Array(await crypto.subtle.digest('SHA-256', buffer.getMappedRange()))].map(v => v.toString(16).padStart(2, '0')).join('');
             const error = await device.popErrorScope();
             if (error) throw new Error(error.message);
             return { sha256, width: texture.width, height: texture.height, format: texture.format,
               matrix: sun.shadow.matrix.toArray(), sun: sun.position.toArray(), target: sun.target.position.toArray() };
-          } finally { buffer.destroy(); }
+          } finally { buffer.destroy(); storage.destroy(); }
         });
         run.views.push({ id, image, state, shadowMap });
         console.log(`${index + 1}/${order.length} ${variant} ${id}: ${image}`);
