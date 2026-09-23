@@ -1,5 +1,5 @@
 import {Color,MeshBasicNodeMaterial,MeshStandardNodeMaterial,DoubleSide} from 'three/webgpu';
-import {color,float,fract,mix,mx_noise_float,normalWorldGeometry,positionLocal,smoothstep,texture,uniform,vec3} from 'three/tsl';
+import {color,float,fract,mix,mx_noise_float,normalWorldGeometry,positionLocal,smoothstep,texture,uniform,vec2,vec3} from 'three/tsl';
 import {FOLIAGE_PALETTES,AUTUMN_FOLIAGE} from './painted-world-palette.mjs';
 export {FOLIAGE_PALETTES} from './painted-world-palette.mjs';
 
@@ -16,9 +16,19 @@ export function setFoliageLighting(p){
   foliageSun.value.lerp(foliageShadow.value,1-direct);
 }
 
+// The two noise terms are broad (3.3 m and 1.4 m wavelengths) and small, so
+// they are evaluated per vertex and interpolated: per pixel they were 20-25% of
+// a 1080p frame in tree views (docs/performance-plan-2026-09-23.md, 3.3). The
+// position is the same one the pixel path read -- instanced and wind-swayed --
+// so the pattern still varies from tree to tree. noisePerPixel is the before.
+function foliageNoise(position,noisePerPixel){
+  const noise=vec2(mx_noise_float(position.mul(.30)),mx_noise_float(position.mul(.70)));
+  return noisePerPixel?noise:noise.toVarying('vFoliageNoise');
+}
+
 // Meshes and all impostor rings share this light/season response. Impostors
 // use the baked custom normals, not the normals of the foliage card planes.
-export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight}){
+export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false}){
   const palette=FOLIAGE_PALETTES[key];
   if(!palette)throw new Error(`Unknown foliage palette: ${key}`);
   const seasonal=AUTUMN_FOLIAGE[key];
@@ -32,7 +42,8 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
     return mix(color(hex),warm,turned);
   });
   const alignment=normal.dot(sunDirection);
-  const dabs=position?mx_noise_float(position.mul(.30)).mul(.07):float(0);
+  const noise=position?foliageNoise(position,noisePerPixel):null;
+  const dabs=noise?noise.x.mul(.07):float(0);
   // Broad canopy normals need a deeper light-to-shade transition: wrapping
   // sunlight too far around them lifts the whole crown into pale midtones.
   const diffuse=normal.y.mul(.28).add(.50);
@@ -40,7 +51,7 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
   // Concentrate the bright pigment on the sun-facing tops, with a smooth
   // transition into the stronger green body rather than a pale overall wash.
   const highlight=mix(normal.y.max(0).mul(.10),smoothstep(.48,.98,alignment.add(dabs.mul(.65))).mul(.74),foliageDirect);
-  const pigment=position?mx_noise_float(position.mul(.70)).mul(.0125).add(1):float(1);
+  const pigment=noise?noise.y.mul(.0125).add(1):float(1);
   const lightTint=mix(foliageShadow,foliageSun,lit);
   return mix(mix(shades[0],shades[1],lit),shades[2],highlight).mul(pigment).mul(tint).mul(lighting).mul(lightTint);
 }
@@ -52,9 +63,9 @@ export function foliageSurfacePigment(texel){
   return mix(vec3(1),texel.rgb.div(texel.a.max(.01)).min(1),.30);
 }
 
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight}){
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
-  m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting});
+  m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel});
   if(map){
     const texel=texture(map);
     m.map=map;m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;

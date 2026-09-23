@@ -143,6 +143,7 @@ import { clipLegacyTerrainGeometry } from './engine/v2-legacy-clip.mjs';
 import { createLegacyTerrainTransition } from './engine/v2-terrain-transition.mjs';
 import { calibrateFarRing, farRingSpacing, farRingTree } from './engine/far-ring-calibration.mjs';
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
+import { shadowSnapCell, sameShadowCell } from './engine/shadow-cell.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
    the flag-cloth wave -- so two boots render the same pixels. Phase 0 proved the
@@ -4818,7 +4819,9 @@ const TREE_LOD = {
     const foliage = GHIBLI.species[s].foliage;
     const tint = attribute('aTint', 'vec4');
     const mat = makeGhibliFoliageMaterial({ key: foliage.key, map: foliage.map,
-      sunDirection: uSun, tint: tint.xyz, seed: tint.w, autumn: uAutumn });
+      sunDirection: uSun, tint: tint.xyz, seed: tint.w, autumn: uAutumn,
+      /* ?foliagenoise=pixel is the before: the noise per pixel instead of per vertex */
+      noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel' });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -7682,9 +7685,12 @@ function renderActivePipeline() {
    ?shadowsnap=0 and V3D.setShadowSnap switch the snap off for a before/after. */
 const SHADOW_FITS = [260, 400, 600, 850, 1150];
 let shadowSnap = new URLSearchParams(location.search).get('shadowsnap') !== '0';
+/* ?shadowcell=0 is the before: the light re-placed from the float target every frame */
+const SHADOW_CELL_KEY = new URLSearchParams(location.search).get('shadowcell') !== '0';
 let shadowRadiusOverride = null;   /* a harness stepping a flight pose by pose gives it the flight's fixed fit */
 const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), m: new THREE.Matrix4(),
-                    o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0 };
+                    o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0, version: 0,
+                    placed: { version: -1, texel: 0, iu: 0, iv: 0, iw: 0 } };
 /* What moves a shadow: the sun or its box (placeSun), a tree changing tier or
    fading (an upload this frame, or a fade queue still draining), the terrain
    (a tile arriving or leaving, and the 240 ms morph after it), a flight -- and
@@ -7754,14 +7760,15 @@ function placeSun() {
     B.m.lookAt(d, B.o, THREE.Object3D.DEFAULT_UP);
     B.right.setFromMatrixColumn(B.m, 0);
     B.up.setFromMatrixColumn(B.m, 1);
+    B.version++;
   }
-  let ox = 0, oy = 0;
-  if (shadowSnap) {
-    const u = t.dot(B.right), v = t.dot(B.up);
-    ox = Math.round(u / texel) * texel - u;
-    oy = Math.round(v / texel) * texel - v;
-  }
+  let ox = 0, oy = 0, cell = null;
+  if (shadowSnap) { cell = shadowSnapCell(t, B.right, B.up, B.d, texel); ox = cell.ox; oy = cell.oy; }
   B.texel = texel; B.R = R; B.remainder = Math.hypot(ox, oy) / texel;
+  /* the same cell is the same box: leave the light bit-identical, so float
+     noise in the orbit target cannot request a shadow render at rest */
+  if (!cell || !SHADOW_CELL_KEY) B.placed.version = -1;
+  else if (sameShadowCell(B.placed, B.version, texel, cell)) return;
   const cx = t.x + B.right.x * ox + B.up.x * oy, cy = t.y + B.right.y * ox + B.up.y * oy, cz = t.z + B.right.z * ox + B.up.z * oy;
   sun.position.set(cx + d.x * 1200, cy + d.y * 1200, cz + d.z * 1200);
   sun.target.position.set(cx, cy, cz);

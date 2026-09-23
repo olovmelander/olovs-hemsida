@@ -261,6 +261,27 @@ readback where shadows are involved.
 | 1.9 | Minimap: redraw only when its inputs change; cache the puck | `drawMini`, `main.js:10260` | 0.5 ms desktop, 2.2 ms at 4× CPU | canvas pixels identical |
 | 1.10 | Allow the reduced 129² grid for distant WebGPU tiles when measured error is sub-pixel | terrain runtime stride policy | terrain is 4–7 ms; est. 1–3 ms | pixel diff; the planner already accounts render error |
 
+#### Phase 1 progress
+
+- **1.1 landed.** `placeSun` keys the light on its integer snap cell
+  (`engine/shadow-cell.mjs`: texel cell in the light's right/up plane, the
+  depth along the sun in the same texel, the fit and the sun direction). The
+  same cell leaves `sun.position` bit-identical, so orbit-target float noise no
+  longer requests a render. `?shadowcell=0` is the before. Unit-tested; the
+  5 ms saving at Puttom's first tee still has to be measured on the RTX 3070.
+- **1.2 landed as per-vertex evaluation, not a per-template attribute.** In
+  three 0.186 the fragment's `positionLocal` is the final vertex-stage value:
+  after `instancedMesh()` applies the instance matrix and after the wind
+  `positionNode`. So the noise is sampled in instance (world) space and differs
+  from tree to tree; a template attribute would give every tree of a variant
+  the same pattern. The two noise terms are now one `vec2` varying computed in
+  the vertex shader from that same position (confirmed in the generated GLSL).
+  Isolated SwiftShader renders of all five Hero species, pixel vs vertex:
+  mean 0.11–0.31/255 on the tree, max 2–8/255. The oak exceeds the 2/255
+  target on 3–4% of its pixels (sun-dab bands on the lit tops); side by side
+  it is not visibly different. `?foliagenoise=pixel` is the before. The GPU
+  saving still has to be measured on the RTX 3070.
+
 ### Phase 2 — owner decision: distant Hero crowns
 
 The zone rule in CLAUDE.md says trees on or around the course do not change
