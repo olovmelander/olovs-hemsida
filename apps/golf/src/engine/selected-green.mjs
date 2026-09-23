@@ -36,5 +36,7 @@ export function createSelectedGreen({ camera, heightAt, onLocate }) {
     // A badge is useful across the course, but it covers a 108 mm cup nearby.
     return marker.update({ ...options, opacity: t * t * (3 - 2 * t) });
   }
-  return { select, update, drawMini };
+  // What drawMini paints, for a caller that redraws only on change.
+  function miniKey(out) { out.push(selected, selected?.pin[0], selected?.pin[1], selected?.green.ring); }
+  return { select, update, drawMini, miniKey };
 }

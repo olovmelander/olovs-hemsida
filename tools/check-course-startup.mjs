@@ -21,7 +21,7 @@ const backend = flag('backend', 'webgpu');
 const quality = flag('q', 'lo');
 const baseline = flag('baseline', '0');
 const candidate = flag('candidate', '1');
-assert.ok(['0', '1', 'main-thread', 'unindexed', 'live-water', 'unprepared-gpu'].includes(baseline), 'invalid baseline');
+assert.ok(['0', '1', 'main-thread', 'terrain-main', 'unindexed', 'live-water', 'unprepared-gpu'].includes(baseline), 'invalid baseline');
 assert.ok(['1', 'terrain-worker'].includes(candidate) && baseline !== candidate, 'invalid candidate');
 const out = path.resolve(flag('out', 'tools/reference/startup-review'));
 await fs.mkdir(out, { recursive: true });

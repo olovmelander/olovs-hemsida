@@ -282,6 +282,33 @@ readback where shadows are involved.
   it is not visibly different. `?foliagenoise=pixel` is the before. The GPU
   saving still has to be measured on the RTX 3070.
 
+- **1.6 landed.** The terrain worker is the default; `?startup=terrain-main`
+  (and the `?startup=0` baseline) keep the main thread, and
+  `check-course-startup.mjs --baseline terrain-main --candidate 1` compares
+  them. The runtime test already proves the worker's prepared data equals the
+  main thread's for carved tiles.
+- **1.8 landed in part.** A flag outside the view is not posed (its clock and
+  wind response still run); `?flagcull=0` is the before, and `det=1` poses all
+  flags as before. The test sphere is widened ~1.7 degrees because the loop
+  poses flags before the controls update. Fewer solver iterations for tiny
+  flags is a visible change and is not done.
+- **1.9 landed.** The frame loop redraws the minimap only when something it
+  paints changes (camera arrow at 1/256 px and 1e-5 rad, hole, skyltar,
+  tactical line, Kikaren point, GPS fix, selected tee and green). Every other
+  caller still redraws unconditionally.
+- **Deferred, with reasons.** 1.3 (finer culling) and 1.5 (caster limits) change
+  which off-screen trees cast shadows into the view, which is the owner's
+  decision 2 and needs eyes on the GPU. 1.4: reordering casters by
+  `renderOrder` also reorders the main pass, whose cost only the GPU can
+  measure; the alternative is a local three patch (`Renderer.js` copies
+  `alphaTest` onto the shared shadow material and `Material.alphaTest` bumps
+  `version` on every zero crossing), which is the owner's call. 1.7: three
+  0.186 caches node builds by structural key (`customProgramCacheKey`), not by
+  material identity, so re-creating the tactical-guide materials should not
+  by itself rebuild; the 14-36 builds per hole need the diagnostic build's
+  node-builder log to attribute before anything is changed. 1.10 needs a GPU
+  pixel diff.
+
 ### Phase 2 — owner decision: distant Hero crowns
 
 The zone rule in CLAUDE.md says trees on or around the course do not change

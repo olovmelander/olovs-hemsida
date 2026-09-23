@@ -27,5 +27,7 @@ export function createSelectedTee({ camera, heightAt, onLocate }) {
     ctx.beginPath(); ctx.arc(x, y, 3, 0, Math.PI * 2); ctx.fill();
     ctx.restore();
   }
-  return { select, update: marker.update, drawMini };
+  // What drawMini paints, for a caller that redraws only on change.
+  function miniKey(out) { out.push(selected, selected?.[0], selected?.[1]); }
+  return { select, update: marker.update, drawMini, miniKey };
 }

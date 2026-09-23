@@ -6337,15 +6337,33 @@ function setFlagWind(fromDeg, ms, source, gustMs = null) {
 /* Blend adjacent baked wind speeds continuously; the response state survives
    every interrupted gust. The fallback shares that response and its material.
    Distant cloth keeps its last pose while its wind/clock advances. */
+/* A flag outside the view is not posed; its clock and wind response still run,
+   so it comes back into view in the pose it would have had. The cloth casts no
+   shadow, so nothing on screen depends on it. The test runs before this
+   frame's controls update, so the sphere is widened by ~1.7 degrees of view to
+   cover one frame of a fast pan. det=1 poses every flag, as before. */
+const FLAG_FRUSTUM = new THREE.Frustum(), FLAG_PROJ = new THREE.Matrix4(), FLAG_SPHERE = new THREE.Sphere();
+const FLAG_VIEW_CULL = new URLSearchParams(location.search).get('flagcull') !== '0';   /* ?flagcull=0 is the before */
 function poseFlagCloths(dt) {
   const C = FLAG_CLOTH;
   const far2 = (LOWQ ? 220 : 380) ** 2;
+  const cull = FLAG_VIEW_CULL && !DET;
+  if (cull) {
+    camera.updateMatrixWorld();
+    FLAG_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    FLAG_FRUSTUM.setFromProjectionMatrix(FLAG_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
+  }
   for (const p of pins) {
     const s = stepFlagMotion(p.cs, dt, FLAG_WIND, DET);
     p.g.rotation.y = s.yaw + s.swing;
     if (s.posed && !DET) {
       const distance2 = camera.position.distanceToSquared(p.g.position);
       if (distance2 > far2) continue;
+      if (cull) {
+        FLAG_SPHERE.center.copy(p.g.position); FLAG_SPHERE.center.y += 1.6;
+        FLAG_SPHERE.radius = 4 + 0.03 * Math.sqrt(distance2);
+        if (!FLAG_FRUSTUM.intersectsSphere(FLAG_SPHERE)) continue;
+      }
       // Spend the constraint solve on nearby fabric. Small, distant flags still
       // advance at 15/30 Hz while their wind response and orientation run every frame.
       const interval = distance2 > (LOWQ ? 100 : 150) ** 2 ? 1/15 : distance2 > 60**2 ? 1/30 : 0;
@@ -10264,7 +10282,29 @@ miniBase.width = mini.width; miniBase.height = mini.height;
   g.font = '600 13px Outfit,sans-serif'; g.textAlign = 'center';
   g.fillText('N', 337, 58);
 }
+/* Everything drawMini paints over the static layers. The frame loop redraws
+   only when this changes: at rest the minimap is the same picture, and a full
+   canvas repaint with text was 0.5 ms a frame on the desktop and 2.2 ms at a
+   phone's CPU (docs/performance-plan-2026-09-23.md, 3.6). The camera arrow is
+   compared at 1/256 px and 1e-5 rad, far below anything the canvas rasterises,
+   so the orbit target's last-bit noise does not count as a move. */
+const miniDrawn = [], miniNow = [];
+function miniKey(out) {
+  out.length = 0;
+  const heading = -Math.atan2(controls.target.x - camera.position.x, controls.target.z - camera.position.z);
+  out.push(Math.round(MX(camera.position.x) * 256), Math.round(MZ(camera.position.z) * 256), Math.round(heading * 1e5),
+    hole, skyState, strategyOn, currentStrategy, kikPt, kikPt?.[0], kikPt?.[1],
+    gpsState.active, gpsState.point, gpsState.point?.[0], gpsState.point?.[1], gpsState.accuracy);
+  selectedTee.miniKey(out); selectedGreen.miniKey(out);
+  return out;
+}
+function drawMiniIfChanged() {
+  miniKey(miniNow);
+  if (miniNow.length === miniDrawn.length && miniNow.every((v, i) => v === miniDrawn[i])) return;
+  drawMini();
+}
 function drawMini() {
+  miniKey(miniDrawn);
   mctx.clearRect(0, 0, mini.width, mini.height);
   mctx.drawImage(miniBase, 0, 0);
   if (skyState >= 1) mctx.drawImage(skyNum, 0, 0);
@@ -10724,7 +10764,7 @@ function frame() {
   const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
   const teeCardRect = selectedTee.update(markerOptions);
   selectedGreen.update({ ...markerOptions, reserved: teeCardRect ? [teeCardRect] : [] });
-  drawMini();
+  drawMiniIfChanged();
   if (gridOn) updateGreenGrid(dt, now);
   if (!captureRenderLocked) renderActivePipeline();
 }
