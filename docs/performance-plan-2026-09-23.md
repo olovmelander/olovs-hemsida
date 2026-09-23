@@ -302,13 +302,19 @@ readback where shadows are involved.
   each node's `id`, and `buildStrategy` gave each material a new `opacityNode`
   graph every hole. One shared graph: 4, 0, 0, 0, 0 (the 4 are shapes first
   drawn on that change, built once), and boot 131 -> 125.
+- **1.4 landed without patching three.** The shared shadow material is the
+  scene's override while the shadow pass renders, so `scene.onBeforeRender`
+  gives it an `alphaTest` that stores the value without the version bump
+  (`engine/steady-shadow-alpha.mjs`; `?shadowalpha=0` is the before). Each
+  caster's pipeline key already holds alphaTest on/off, and the alpha-test
+  uniform is refreshed per draw. Measured on Ängsö in one diagnostic build
+  with deterministic uuids: cache-key recomputes per shadow pass 164 -> 0,
+  shadow pass CPU 8-10.3 ms -> 3.8-6.2 ms under SwiftShader, and all 165
+  casters' pipeline keys identical, so the shadow map is drawn by the same
+  pipelines.
 - **Deferred, with reasons.** 1.3 (finer culling) and 1.5 (caster limits) change
   which off-screen trees cast shadows into the view, which is the owner's
-  decision 2 and needs eyes on the GPU. 1.4: reordering casters by
-  `renderOrder` also reorders the main pass, whose cost only the GPU can
-  measure; the alternative is a local three patch (`Renderer.js` copies
-  `alphaTest` onto the shared shadow material and `Material.alphaTest` bumps
-  `version` on every zero crossing), which is the owner's call. 1.10 needs a GPU
+  decision 2 and needs eyes on the GPU. 1.10 needs a GPU
   pixel diff.
 
 ### Phase 2 — owner decision: distant Hero crowns
