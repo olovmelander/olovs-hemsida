@@ -9067,6 +9067,11 @@ function syncStrategyStatus() {
     : 'Ingen fri spellinje hittades med dina klubblängder.';
 }
 
+/* One node graph for every tactical-guide material. A node's shader cache key
+   includes its own id, so a graph built anew per material and per hole made
+   every hole change compile fresh shaders for the same fade
+   (docs/performance-plan-2026-09-23.md, 3.5 and 1.7). */
+const STRATEGY_OPACITY = materialOpacity.mul(smoothstep(4, 12, cameraPosition.sub(positionWorld).length()));
 function buildStrategy() {
   strategyClear();
   const cacheKey = JSON.stringify([hole, teeIdx, playerBag]);
@@ -9146,8 +9151,7 @@ function buildStrategy() {
   // The tactical target must give way to the physical cup up close. Read the
   // material's animated opacity so this also preserves the entrance animation.
   strategyGroup.traverse(object => {
-    if (object.material) object.material.opacityNode = materialOpacity
-      .mul(smoothstep(4, 12, cameraPosition.sub(positionWorld).length()));
+    if (object.material) object.material.opacityNode = STRATEGY_OPACITY;
   });
   scene.add(strategyGroup);
   startStrategyAnimation();
