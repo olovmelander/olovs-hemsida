@@ -2830,8 +2830,8 @@
    "photos": 5,
    "overviewUrl": "courses/tortuna/overview.svg",
    "packUrl": "courses/tortuna/pack.bin",
-   "bytes": 638858,
-   "sha256": "4ca2f560cb24d59086e7c1c1554106d84c6510aac9ab6a14812aa13b4ac58983",
+   "bytes": 654696,
+   "sha256": "64c688261167db0bbe9943d73195bb6a6c40d3f79ad8dcdaecd33b366e60c82b",
    "landcover": {
     "url": "courses/tortuna/landcover.json",
     "bytes": 121966,
@@ -2843,81 +2843,13 @@
     "sha256": "859eab32a87c4358972ff6010b83f495539bd52a8ed553b44053ad8bd4efe322"
    },
    "preparedTint": {
-    "natural-hi": {
-     "identity": "a8eedd5ceebacc198c6654ba29f679c73a664d1b8dbedc0ae59da5399d5e667d",
-     "url": "courses/tortuna/prepared/tint-8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7.bin",
-     "bytes": 411140,
-     "decodedBytes": 2929576,
-     "sha256": "8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7",
-     "decodedSha256": "729699af7b2a0ce6e626caf69765dba3cf91fc94be23605897fe705f39fb2bd0",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 685,
-       "dx": 24,
-       "bounds": {
-        "x0": -8220,
-        "z0": -8220,
-        "x1": 8220,
-        "z1": 8220
-       },
-       "offset": 1052676,
-       "bytes": 1876900
-      }
-     ]
-    },
-    "natural-lo": {
-     "identity": "dc405bd2c237b34c2770b4f0163954a59a2c2b24d8202cfe214d2a0c471e9528",
-     "url": "courses/tortuna/prepared/tint-8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7.bin",
-     "bytes": 411140,
-     "decodedBytes": 2929576,
-     "sha256": "8e7d178760dd88466047c18c2a0ee1cef4f8204262a713de83cc5f898b9771e7",
-     "decodedSha256": "729699af7b2a0ce6e626caf69765dba3cf91fc94be23605897fe705f39fb2bd0",
-     "layers": [
-      {
-       "n": 513,
-       "dx": 6,
-       "bounds": {
-        "x0": -1539,
-        "z0": -1539,
-        "x1": 1539,
-        "z1": 1539
-       },
-       "offset": 0,
-       "bytes": 1052676
-      },
-      {
-       "n": 685,
-       "dx": 24,
-       "bounds": {
-        "x0": -8220,
-        "z0": -8220,
-        "x1": 8220,
-        "z1": 8220
-       },
-       "offset": 1052676,
-       "bytes": 1876900
-      }
-     ]
-    },
     "painted-hi": {
-     "identity": "c23955eccf26f10bc08ea42029626a26642125d53a834a384a7e1b6d86a5d14b",
-     "url": "courses/tortuna/prepared/tint-746fbc709b90dbf8d4e951acb102390c3f690282194f7f40e524ca4a88188953.bin",
-     "bytes": 603306,
+     "identity": "c0a1b4ead8671b2331fa901ff22df1d0da54bbe9986878797312f533fe2dc3ff",
+     "url": "courses/tortuna/prepared/tint-0c89a5e14807645d3c63cb78d8e747a27c817f37057b3e6c875ef3ab3d3ce8e8.bin",
+     "bytes": 603288,
      "decodedBytes": 2929576,
-     "sha256": "746fbc709b90dbf8d4e951acb102390c3f690282194f7f40e524ca4a88188953",
-     "decodedSha256": "31d84cfda4b1c5c50c51c18080c6f4e0949929e42f77a78ccc9fd8bde055efcc",
+     "sha256": "0c89a5e14807645d3c63cb78d8e747a27c817f37057b3e6c875ef3ab3d3ce8e8",
+     "decodedSha256": "8c83e7ad137490144b038bb16c868138a533bea8da4e26cf13ba2722441fa04c",
      "layers": [
       {
        "n": 513,
@@ -2946,12 +2878,12 @@
      ]
     },
     "painted-lo": {
-     "identity": "b974abbd62ec93a23f6e8bd089bbedfdffbf23f057d20a510940d6738fd8d44b",
-     "url": "courses/tortuna/prepared/tint-746fbc709b90dbf8d4e951acb102390c3f690282194f7f40e524ca4a88188953.bin",
-     "bytes": 603306,
+     "identity": "8beede60ace185ba301d75348dfc96cdf581edf4e4908ae70dce59a60f019d27",
+     "url": "courses/tortuna/prepared/tint-0c89a5e14807645d3c63cb78d8e747a27c817f37057b3e6c875ef3ab3d3ce8e8.bin",
+     "bytes": 603288,
      "decodedBytes": 2929576,
-     "sha256": "746fbc709b90dbf8d4e951acb102390c3f690282194f7f40e524ca4a88188953",
-     "decodedSha256": "31d84cfda4b1c5c50c51c18080c6f4e0949929e42f77a78ccc9fd8bde055efcc",
+     "sha256": "0c89a5e14807645d3c63cb78d8e747a27c817f37057b3e6c875ef3ab3d3ce8e8",
+     "decodedSha256": "8c83e7ad137490144b038bb16c868138a533bea8da4e26cf13ba2722441fa04c",
      "layers": [
       {
        "n": 513,
@@ -2982,44 +2914,44 @@
    },
    "preparedWaterUnsupported": {
     "revision": "4f127fdea81c6a2f1a19cd535f3fe82c874dcb20526cceb2d7792baad06b550f",
-    "identity": "357b14e6122f1d880cac6bb0d2711e9496c73d71b5d19e3b599e6db7e065b842"
+    "identity": "9fe26e817d2ffa5e5488f90f18463097ca063b2fac803581afc2f0848437a8fb"
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "ba3ee69e996a41ef73f5032404ffa11dee08b47463bcf156f66579fb5e80c5ea",
+     "identity": "245ef25b970268d0d492b8180069e44bde35818c84f8d1e043259a2ded8e5bf2",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/tortuna/prepared/vista-0ced941cb48bc9df8752a7404507c8135abae909d7d3dfcf31b5baedbde1180d.bin",
-     "bytes": 153673,
+     "url": "courses/tortuna/prepared/vista-c006da116070aea67d84095b245664ec15830f7bb14ba5e9d121e2ff1de3de12.bin",
+     "bytes": 153665,
      "decodedBytes": 377147,
-     "sha256": "0ced941cb48bc9df8752a7404507c8135abae909d7d3dfcf31b5baedbde1180d",
-     "decodedSha256": "0e2e56aaf4f8c649beea6724735a97901538ddaf083e194f3459b2368eee71bc",
+     "sha256": "c006da116070aea67d84095b245664ec15830f7bb14ba5e9d121e2ff1de3de12",
+     "decodedSha256": "182dd3ac40685a554c5f299c35bdb0eb8e92754100c338037498f3e4950b0e2d",
      "candidates": 3017169,
-     "digest": "c9355d4b34be8edef9a0c8250912e938787b0501c1332daf6de560ba80493d9f",
-     "skipped": 203382,
-     "points": 293628
+     "digest": "d165865216cbf75ea54a9c6f369db89b419f4138f2c86b8c853ff52814ab4830",
+     "skipped": 203395,
+     "points": 293602
     },
     "vista-lo": {
-     "identity": "29bec0c0d58885ebc78e00ad2a3da477fecb4cd58f4050d7e63725c9e82e16ea",
+     "identity": "1c5a73b69417f94584f86b0c70675a5e939654b0e5d37a8c0b667aaac9bc3d88",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/tortuna/prepared/vista-01e4fdca9059b45285f4892e1ab6d01c5c10831f2b84297179352fd083deec0d.bin",
-     "bytes": 87267,
+     "url": "courses/tortuna/prepared/vista-d13009429d7a3f11866f567f4323b9e80c94af921ca8fcbd6e0d2546ac1add76.bin",
+     "bytes": 87265,
      "decodedBytes": 207691,
-     "sha256": "01e4fdca9059b45285f4892e1ab6d01c5c10831f2b84297179352fd083deec0d",
-     "decodedSha256": "c6166787e7c33bb83aba2e47167e84cddbd20bd3a9f63095b64519b769bdb6f4",
+     "sha256": "d13009429d7a3f11866f567f4323b9e80c94af921ca8fcbd6e0d2546ac1add76",
+     "decodedSha256": "e608a2d69e0d6d7f675515410c7312e82ebbe520ed304bd2a727965c82d94989",
      "candidates": 1661521,
-     "digest": "4f7634fe10bc3b73a436a0c22c8b8c1ebdb4432f8ba6ce8c8641039cf95cdf66",
-     "skipped": 111843,
-     "points": 161798
+     "digest": "f8e47c5a5c7a2116aae12e586c021df139a7e1cc015eb1afc645b697298ae218",
+     "skipped": 111875,
+     "points": 161765
     }
    },
    "preparedScatter": {
     "scatter-hi": {
      "none": true,
-     "identity": "da8f68f7c074df5319132d61df509bfe16b1add608471913a5cf41d2b1273e88"
+     "identity": "9024213f872e7ca02a410bd340819659198f91cd93bab358b864bde0f8a170cf"
     },
     "scatter-lo": {
      "none": true,
-     "identity": "979862a3f5e19105e9bb48eff808085e514c2bbe730ab4a4e83e513c3531de66"
+     "identity": "3ff6bd5a18046a17a5a89be01dda4f842a2b43fb10f357dcd9565ea6bf278b9d"
     }
    }
   },

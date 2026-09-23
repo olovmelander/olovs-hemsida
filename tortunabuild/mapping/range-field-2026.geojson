@@ -1,0 +1,240 @@
+{
+ "type": "FeatureCollection",
+ "name": "tortuna-range-field-2026",
+ "crs": {
+  "type": "name",
+  "properties": {
+   "name": "EPSG:3006"
+  }
+ },
+ "axisOrder": [
+  "easting",
+  "northing"
+ ],
+ "generatedOn": "2026-09-23",
+ "why": "The model carried only the visibly grassed southern wedge of the range (tortuna-range-grassed-front, 4,680 m², drawn 2026-09-09 with \"no full-range mowing boundary claim\"), so the landing field between it and the ball-stop net rendered as rough and the net stood in rough 100 m beyond the mown ground. The owner states (2026-09-10) that the driving range is grass; the whole field the net closes is the range.",
+ "features": [
+  {
+   "type": "Feature",
+   "id": "tortuna-range-field-2026",
+   "properties": {
+    "kind": "range_field",
+    "material": "grass",
+    "replacesFeatureIds": [
+     "tortuna-range-grassed-front"
+    ],
+    "sourceId": "imagery-lm-ortho",
+    "sourceCollection": "orto-n2-2026",
+    "captureDate": "2026-05-02",
+    "observedYear": 2026,
+    "reviewedOn": "2026-09-23",
+    "reviewer": "assistant-visual-interpretation",
+    "reviewStatus": "provisional-not-human-accepted",
+    "notSurveyed": true,
+    "terrainModified": false,
+    "method": "boundary read by eye off a labelled 0.25 m crop of the 2026-05-02 orthophoto (Min karta WMS) along the edges it shows: the tee line (the retained grassed-front ring's own south-west edge; the mats and their access strip stay outside), the barn and the machinery yard (excluded), the field's northern edge under the tree line, the ball-stop net (its ten measured posts from apps/golf/src/engine/scenery/tortuna-range-site.json, verbatim), and the south-east edge against the ditch and hedge along the ploughed field (the traced earthworks' own south-east edge)",
+    "materialStatus": "grass by the owner's statement of 2026-09-10; the May 2026 capture shows most of the landing field as bare fill the club was still grassing (its 2025 report), which dates the capture, not the surface",
+    "roleEvidence": [
+     "caddee-overview (DRIVING RANGE is drawn on this field)",
+     "tortuna-range-site.json (net posts and mats)",
+     "owner statement 2026-09-10"
+    ],
+    "boundaryInterpretationUncertaintyMetres": 4,
+    "uncertaintyStatus": "interpretation allowance, not measured positional accuracy",
+    "areaSquareMetres": 16580.7,
+    "earthworksRelation": "94% of the scraped extent traced in apps/golf/src/engine/scenery/tortuna-range-site.json (earthworks, 9,606 m², a reading that is never drawn) lies inside this field. The rest is the edge within the interpretation allowance and a scraped working strip north of the field edge beside the machinery yard, about 300 m², which is left out of the range."
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       597427.2,
+       6615251.6
+      ],
+      [
+       597438.5,
+       6615251.3
+      ],
+      [
+       597447.5,
+       6615248.5
+      ],
+      [
+       597460.5,
+       6615247
+      ],
+      [
+       597468.5,
+       6615250.5
+      ],
+      [
+       597474,
+       6615256.5
+      ],
+      [
+       597478,
+       6615261
+      ],
+      [
+       597480.5,
+       6615270.5
+      ],
+      [
+       597492.5,
+       6615276.5
+      ],
+      [
+       597499.5,
+       6615289.5
+      ],
+      [
+       597508.5,
+       6615304.5
+      ],
+      [
+       597521.5,
+       6615310.5
+      ],
+      [
+       597538.5,
+       6615313
+      ],
+      [
+       597556.5,
+       6615318.5
+      ],
+      [
+       597570.5,
+       6615323.5
+      ],
+      [
+       597582.09,
+       6615324.15
+      ],
+      [
+       597593.92,
+       6615325
+      ],
+      [
+       597601.99,
+       6615322.29
+      ],
+      [
+       597610.57,
+       6615319.69
+      ],
+      [
+       597616.12,
+       6615312.59
+      ],
+      [
+       597625.06,
+       6615309.19
+      ],
+      [
+       597633.63,
+       6615305.32
+      ],
+      [
+       597641.52,
+       6615301.08
+      ],
+      [
+       597650.61,
+       6615297.63
+      ],
+      [
+       597655.31,
+       6615293.76
+      ],
+      [
+       597657.5,
+       6615288.5
+      ],
+      [
+       597652.5,
+       6615280.5
+      ],
+      [
+       597635.5,
+       6615268.5
+      ],
+      [
+       597615.5,
+       6615255.5
+      ],
+      [
+       597596.5,
+       6615242.5
+      ],
+      [
+       597580.5,
+       6615234.5
+      ],
+      [
+       597563.5,
+       6615229.5
+      ],
+      [
+       597550.5,
+       6615225
+      ],
+      [
+       597539.5,
+       6615216.5
+      ],
+      [
+       597525.5,
+       6615204.5
+      ],
+      [
+       597511.5,
+       6615193
+      ],
+      [
+       597498.5,
+       6615182
+      ],
+      [
+       597488.5,
+       6615176.5
+      ],
+      [
+       597480,
+       6615176
+      ],
+      [
+       597470.8,
+       6615182.8
+      ],
+      [
+       597460.4,
+       6615193.2
+      ],
+      [
+       597451.2,
+       6615204.8
+      ],
+      [
+       597442.8,
+       6615217.2
+      ],
+      [
+       597435.6,
+       6615229.2
+      ],
+      [
+       597431.2,
+       6615240
+      ],
+      [
+       597427.2,
+       6615251.6
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}

@@ -626,7 +626,7 @@
       "id": "playing-surface-candidates",
       "kind": "surface",
       "path": "tortunabuild/mapping/playing-surfaces.geojson",
-      "sha256": "fa5135f5f6fb2f43c403aa95c9d9325913d7d487d9d226e194ab4c7744d3c7cd",
+      "sha256": "0ecd1fdc3c50329a4973da358d699b470132858040f8eada4bfcb9549d59b816",
       "derivedFrom": [
         "imagery-lm-ortho"
       ],
@@ -672,7 +672,7 @@
       "id": "projected-course-input",
       "kind": "composite",
       "path": "tortunabuild/mapping/course-input.json",
-      "sha256": "656af319fb8cc676b18f808dcd36cd46a846d06d9db48627ae5c14c049df27f9",
+      "sha256": "7ec0eee9f8287223d3d5e086fbecee0b96acfd1c42f2913ddab05473b20c0bea",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",
@@ -691,7 +691,7 @@
       "id": "legacy-course-model",
       "kind": "composite",
       "path": "tortunabuild/course-model.json",
-      "sha256": "7f8b2c1703a05262a0dfb4dfb25bfd927738fe5511e71a47a93cff7115e1a9b0",
+      "sha256": "252917523a831556c0c096e9a513d6f153bdcb1b1af345ba27e8375a3d36a069",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",
@@ -733,7 +733,7 @@
       "id": "migration-course-model-epsg3006",
       "kind": "composite",
       "path": "geo_data/course-v2/tortuna/migration/course-model.epsg3006.json",
-      "sha256": "de4db215cfb5a918566eb5cd7042b2b5376a3dd2061105d3a5b193585376cd2a",
+      "sha256": "e26c5a3a1460ea4338b03badf6d148b42d38cfe28673be84f4263ccb19d12627",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",

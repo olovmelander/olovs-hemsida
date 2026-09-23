@@ -6,7 +6,8 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { deflateRawSync } from 'node:zlib';
 import { readFileSync } from 'node:fs';
-import { createCourseModel, projectedCourseModel, localRing, verifyInputSources, adoptMeasuredRoof, holeNotes, teeStatus } from './build-course.mjs';
+import { createCourseModel, projectedCourseModel, localRing, verifyInputSources, adoptMeasuredRoof, holeNotes, teeStatus, holeFairways, rangeFields } from './build-course.mjs';
+import { loadPublishedTrees } from './lib/published-trees.mjs';
 import { pointInPoly } from '../geobuild/lib.mjs';
 import { TORTUNA_FRAME as FRAME, projected } from './frame.mjs';
 import { assertTortunaCanonicalRouting } from '../packages/course-v2/compile-tortuna-ground-graph.mjs';
@@ -243,4 +244,47 @@ test('every card colour stands on a named platform of its own hole, and the mode
   }
   assert.equal(observed + derived, 72);
   assert.ok(observed >= 40, `${observed} colours stand on observed or laser platforms`);
+});
+
+test('the committed fairways and range are the input\'s, through the generator\'s own rules', () => {
+  /* mapping/apply-fairways-and-range.mjs writes the model through holeFairways() and rangeFields()
+     because build-course.mjs needs the private raster; re-derived here a third time. */
+  const model = JSON.parse(readFileSync(new URL('./course-model.json', import.meta.url), 'utf8'));
+  const input = JSON.parse(readFileSync(new URL('./mapping/course-input.json', import.meta.url), 'utf8'));
+  for (const hole of model.holes) {
+    assert.deepEqual(hole.fairway, holeFairways(input.holes.find(h => h.number === hole.n), `Tortuna hole ${hole.n}`), `hole ${hole.n}`);
+  }
+  assert.deepEqual(model.scenery.range, rangeFields(input.facilities));
+  /* the plan fairways: every hole but the 5th, whose plan draws only rough from tee to green */
+  assert.deepEqual(model.holes.filter(h => !h.fairway.rings.length).map(h => h.n), [5]);
+  assert.ok(model.holes.every(h => h.fairway.sourceFeatureIds.every(id => /^tortuna-h\d\d-fairway-plan-2026-\d$/.test(id))));
+});
+
+test('no published tree stands on a fairway', () => {
+  /* the runtime plants every published record whatever surface is under it, so a fairway
+     redrawn after the vegetation was published must keep clear of the trunks it plants */
+  const model = JSON.parse(readFileSync(new URL('./course-model.json', import.meta.url), 'utf8'));
+  const { trees } = loadPublishedTrees();
+  const standing = [];
+  for (const hole of model.holes) for (const ring of hole.fairway.rings) {
+    const xs = ring.map(p => p[0]), zs = ring.map(p => p[1]);
+    const [x0, x1, z0, z1] = [Math.min(...xs), Math.max(...xs), Math.min(...zs), Math.max(...zs)];
+    for (const t of trees) if (t.x >= x0 && t.x <= x1 && t.z >= z0 && t.z <= z1 && pointInPoly(t.x, t.z, ring)) standing.push(`hole ${hole.n} (${t.x.toFixed(1)}, ${t.z.toFixed(1)})`);
+  }
+  assert.deepEqual(standing, []);
+});
+
+test('the range field is the whole field the net closes: targets inside, buildings outside', () => {
+  const model = JSON.parse(readFileSync(new URL('./course-model.json', import.meta.url), 'utf8'));
+  const [field] = model.scenery.range;
+  assert.equal(model.scenery.range.length, 1);
+  for (const target of model.scenery.mappedFeatures.filter(f => f.kind === 'range_target_surface')) {
+    assert.ok(target.rings[0].every(p => pointInPoly(p[0], p[1], field)), `${target.id} lies in the range field`);
+  }
+  for (const building of model.infra.buildings) {
+    assert.ok(!building.ring.some(p => pointInPoly(p[0], p[1], field)), `${building.id} stands outside the range field`);
+  }
+  let area = 0;
+  for (let i = 0, j = field.length - 1; i < field.length; j = i++) area += (field[j][0] + field[i][0]) * (field[j][1] - field[i][1]);
+  assert.ok(Math.abs(area / 2) > 15000, 'the range reaches the net, not only the wedge by the tee line');
 });

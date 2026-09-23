@@ -186,7 +186,8 @@ atlas and is not a putting-practice location.
 
 See [runtime review](../docs/courses/tortuna-runtime-review.md) for retained
 browser evidence and limitations. Green outlines exist for all 18 holes; fairway
-outlines remain partial. There are 22 observed platforms, with none resolved for
+outlines are the club plans' shapes on 17 holes (see the 2026-09-23 section
+below; the 5th has none by its plan). There are 22 observed platforms, with none resolved for
 holes 6 and 15; only forward pads are observed for holes 4 and 12. Coloured
 markers and daily flag locations are unverified. Independent
 horizontal/vertical controls, 2021 canopy currentness, complete facilities,
@@ -259,6 +260,115 @@ refreshing its checksum ledger.
   on the 0.16 m capture and refuses all 18 (no compact dark blob, or a runner-up
   within 10 brightness of the darkest); the pin stays the green centre and the
   record says so.
+
+## Fairways from the club's plans, and the whole range (2026-09-23)
+
+The rule-traced fairways above were the mown estate clipped to a 24 m design
+half-width, so they rendered as straight-edged bands about 48 m wide (150,270 m²
+over 18 holes). The range carried only the 4,680 m² grassed wedge by the tee
+line, so the landing field was rough and the ball-stop net stood in rough
+100 m beyond any mown ground. No capture here can fix either. Every national
+flight of this course is a spring one. The open Min karta WMS serves only the
+2026-05-02 flight; older flights need credentials. In spring, fairway and mown
+rough are the same colour. Esri's live mosaic is spring too (2020-05-09).
+Wayback's one autumn frame (2018-10-25, WV02, 0.5 m) is coarser and eight years
+older than the plans, and was not tried. The club's own Caddee hole plans draw
+the fairway itself, so the fairways now come from them:
+
+    node tortunabuild/trace-plan-fairways.mjs      # -> mapping/fairways-plan-2026.geojson + cache/review/plan-fairway-NN.png
+    node tortunabuild/mapping/apply-fairways-and-range.mjs --write   # fairways + range -> playing-surfaces, course-input, model (+ review-2026-09-23.json)
+
+In a full rebuild the apply runs after `apply-review-2026.mjs` and before
+`build-course.mjs` (`assemble-input.py` -> `apply-review-2026.mjs` ->
+`apply-fairways-and-range.mjs` -> `build-course.mjs`). The review script puts
+the rule-trace fairways back, so the plan fairways must be applied after it.
+
+- **A plan is registered on what was measured.** `lib/plans.mjs` reads each
+  pinned plan (fetched into the ignored cache if missing, and refused unless
+  it matches its sha256 in `reference/source-assets.json`). It finds the green
+  (peak and region-grow), the sand blobs and the orange and red tee dots. A
+  weighted least-squares similarity then fits the plan to the traced green
+  (weight 3), the bunkers it matches (1) and the tee dots (0.4 / 0.3, or
+  1 / 0.7 where no bunker matches). Every ring records its residuals:
+  - greens: 0.1–1.5 m, median 0.5 m;
+  - bunkers: median 1.2 m, with three over 5 m (the 10th's 9.2 m, 12th's
+    5.3 m, 13th's 5.5 m);
+  - tee dots: median 5.2 m, up to 25 m, because a plan's tee dot is a symbol
+    and not a position.
+
+  The plans are illustrations, so these residuals are the accuracy claimed,
+  not a survey.
+- **Fairway on a plan is a colour AND a stripe.** The colour test is the
+  yellow-green hue band (`FAIRWAY_COLOUR`), and hue rather than brightness,
+  or shaded bands fail it. The stripe test is the mowing pattern: structure-
+  tensor orientation within 12° of that plan's own stripe angle (138–142° on
+  every plan), seeded where it is coherent and grown 10 px. Two things that
+  failed first:
+  - Coherence alone fires on every fairway edge.
+  - The angle must come from a count-weighted histogram. Weighted by energy it
+    read 65° on the 13th, the fairway's edge rather than its stripes, and
+    split the fairway into pieces.
+- **In the world, a fairway gives way to everything measured.** Each mask is
+  carried through its registration onto a 0.5 m grid and cleared from:
+  - its own green (1.5 m) and other greens (3 m);
+  - bunkers, water, tees, buildings and mapped features;
+  - the published trees (half a crown, at least 1.2 m).
+
+  `lib/published-trees.mjs` plants the published ground with the runtime's
+  own `planV2Vegetation`, so "no tree stands on a fairway" is tested against
+  the trees the app draws; it agrees with an app dump to 7 mm. The mask is then
+  closed and opened by 1.5 m, holes under 150 m² are filled, strays are
+  dropped, and the ring is simplified and Chaikin-smoothed.
+- **Result: 18 rings on 17 holes, 88,390 m².** The 5th has none, because its
+  plan draws rough from tee to green. The par 3s keep only the aprons their
+  plans draw (the 11th 265 m², the 14th 271 m²). `mownFraction2026` records
+  how much of each hole's rings the May imagery reads as mown: 0.72–0.99 on 15
+  holes, 0.38 on the 11th's apron, and 0.18 on the 3rd, whose plan fairway is
+  not mown in that capture.
+  - The rule trace stays in `mapping/fairways-2026.geojson` as the record it
+    was. `review-2026-09-23.json` names the 23 features replaced. That list is
+    derived from that file on every run, so a rerun writes the same bytes.
+    (Read back off the features instead, it lost the 5th, which has no plan
+    feature to carry it.)
+- **The range is the whole field the net closes.** `mapping/range-field-2026.geojson`
+  (16,581 m²) replaces `tortuna-range-grassed-front`. It was read by eye off
+  the 2026 orthophoto along the edges it shows:
+  - the tee line, with the mats and their access strip outside;
+  - the barn and machinery yard, which are excluded;
+  - the tree line;
+  - the ten measured net posts, verbatim from `tortuna-range-site.json`;
+  - the ditch and hedge on the south-east.
+
+  It is grass by the owner's word. 94% of the bare-earth extent traced in the
+  range site file lies inside it. The rest is the 4 m interpretation margin
+  and a scraped working strip beside the machinery yard, about 300 m², which
+  stays out of the range. `scenery.range` renders as range turf.
+  `course.node-test.mjs` asserts that the targets are inside, that no building
+  is, and that the field exceeds 15,000 m².
+- **The published vegetation is not recompiled.** Its stand fields used the
+  rule-trace fairways as exclusions: `stand-evidence.json` pins the old
+  `playing-surfaces.geojson`, and a recompile needs the private canopy
+  rasters. The next stand or ground-graph compile will therefore refuse
+  ("rebuild stands explicitly") until `compile-stands.mjs` is re-run. That
+  refusal is the designed fail-closed path.
+  - Until then the plan fairways avoid every tree the published ground plants,
+    and the runtime still culls any tree on a played surface
+    (`onPlayedSurface`, `classify().fair > 0.05`).
+  - That cull reaches a few metres past a fairway's edge. The old bands came
+    within 1.7–7.5 m of the tree line north of the range, so real trees there
+    were hidden; they now show.
+- **A pack change here also expires the prepared startup records**, because
+  their identities include the pack's sha256, and the Pages workflow runs
+  `tools/check-prepared-startup.mjs` and refuses a stale one.
+  - Use `emit-manifest.mjs --only=tortuna`. A full run rewrites every course's
+    row and drops every course's prepared records; `--only` drops Tortuna's.
+  - `tools/build-startup-packs.mjs` restores `startup` (unchanged while the
+    ground is).
+  - Then build and serve `apps/golf/dist`, run `bake-ground-tints.mjs`,
+    `bake-water.mjs` and `bake-vista.mjs` with `--only tortuna`, rebuild, and
+    run `check-prepared-startup.mjs --public apps/golf/dist`.
+
+  Superseded prepared files stay on disk, as on every other course.
 
 ## Every tree is a measured crown now, or a stand cell that says so (2026-09-10)
 

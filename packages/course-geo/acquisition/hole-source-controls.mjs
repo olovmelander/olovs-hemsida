@@ -24,7 +24,7 @@ export const COURSE_MODEL_PATHS = Object.freeze({
 // Keep the immutable migration candidates fail-closed even when CI has to
 // reconstruct a model from an already committed legacy course model.
 export const COURSE_MODEL_SHA256 = Object.freeze({
-  tortuna: 'de4db215cfb5a918566eb5cd7042b2b5376a3dd2061105d3a5b193585376cd2a',
+  tortuna: 'e26c5a3a1460ea4338b03badf6d148b42d38cfe28673be84f4263ccb19d12627',
   /* 2026-09-08: re-migrated through PROJ 9.5.1 (pyproj 3.7.2) four times. Hole
      16's fairway ring was re-synced from mapping/geometry.json, which the model
      had never been rebuilt against; the seven rings the national water break
@@ -58,7 +58,18 @@ export const COURSE_MODEL_SHA256 = Object.freeze({
      and the 15 partial fairway strips became 23 rule-traced 2026 fairways
      (tortunabuild/trace-fairways.mjs). Greens, bunkers, water and everything
      else are byte-identical. The migration follows the model through the
-     canonical migrator, still an exact translation. */
+     canonical migrator, still an exact translation.
+     2026-09-23: the plan fairways and the whole range field. The 23
+     rule-traced strips, clipped to a 24 m design half-width because no spring
+     capture separates fairway from mown rough, read as straight-edged bands;
+     each hole's fairway is now the shape the club's own Caddee plan draws,
+     registered on the measured green, bunkers and tees
+     (tortunabuild/trace-plan-fairways.mjs): 18 rings on 17 holes, none on the
+     5th, whose plan draws rough from tee to green. The range's 4,680 m² grassed
+     wedge became the 16,581 m² field the ball-stop net closes
+     (mapping/range-field-2026.geojson). Nothing else moves: playing-geometry
+     pairs 2,838 -> 5,098 are the new fairway vertices, residuals still 0 m, and
+     no pair lies outside 5 km. */
   visby: 'da127e2d8c70d127570f8b37ee04411dc463d37f3742790e6e07b7add58a5847',
   lidingo: 'e806bd21a71fa172aa9ec428e15968e3fc031c5c61a6e10ed3b009d9c94c74f1',
   angso: '1998d4b47cc8d3183337b6b2b5288191680dd096be22e2b6958192d8bd0d5ebf',

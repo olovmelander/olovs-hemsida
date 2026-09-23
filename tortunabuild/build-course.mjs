@@ -153,6 +153,26 @@ export function teeStatus(pads, h) {
   return pads.length === 0 && typeof h.teeReferenceStatus === 'string' ? { status: 'unresolved-physical-platform' } : {};
 }
 
+/* THE FAIRWAYS AND THE RANGE, EACH THROUGH ONE RULE (2026-09-23). The
+   fairways come from the club's hole plans registered on the measured course
+   (trace-plan-fairways.mjs) and the range field is the whole field the net
+   closes (mapping/range-field-2026.geojson); mapping/apply-fairways-and-range.mjs
+   puts both into the committed model through these two exports, because this
+   generator cannot run without the private raster it pins, and
+   course.node-test.mjs re-derives them a third time and demands equality. */
+export function holeFairways(h, label) {
+  const fairways = (h.fairways || []).map(feature => ({ ring: localRing(feature.ring, `${label} fairway`), sourceFeatureId: sourceId(feature.sourceFeatureId, `${label} fairway`) }));
+  return { rings: fairways.map(feature => feature.ring), sourceFeatureIds: fairways.map(feature => feature.sourceFeatureId) };
+}
+
+export function rangeFields(facilities) {
+  return (facilities || []).filter(f => f.kind === 'range_field').map(f => {
+    const rings = f.rings.map(ring => localRing(ring, f.id));
+    if (rings.length !== 1) throw new Error(`${f.id}: range cannot discard exclusions`);
+    return rings[0];
+  });
+}
+
 export function createCourseModel(input, heightAt, notes = null) {
   if (input?.schemaVersion !== 1 || input.groundId !== 'tortuna' || input.horizontalCrs !== 'EPSG:3006') throw new Error('Tortuna course input requires the explicit projected frame');
   const card = input.card;
@@ -172,7 +192,6 @@ export function createCourseModel(input, heightAt, notes = null) {
     const pin = h.pin ? localPoint(h.pin, `${label} target`) : interior(green.ring, `${label} green`);
     if (!pointInPoly(...pin, green.ring)) throw new Error(`${label}: virtual target must be inside its source green`);
     const pads = sourceRings(h.teePlatforms, `${label} tee`).map(pad => ({ ...pad, id: pad.sourceFeatureId, preserveTerrain: true }));
-    const fairways = sourceRings(h.fairways, `${label} fairway`);
     const references = h.teeReferences || (pads.length === 1 ? card.teeNames.map(() => projected(interior(pads[0].ring, `${label} tee`))) : null);
     if (!Array.isArray(references) || references.length !== card.teeNames.length) throw new Error(`${label}: explicit sourced tee camera references are required`);
     const marks = references.map((value, tee) => ({ c: localPoint(value, `${label} tee reference`), b: 0, m: h.teeLengths[tee], placement: h.teeReferenceStatus || 'nominal-camera-reference-on-observed-platform; colour position unverified' }));
@@ -181,7 +200,7 @@ export function createCourseModel(input, heightAt, notes = null) {
     const teeHeight = heightAt(...marks[Math.min(1, marks.length - 1)].c), greenHeight = heightAt(...pin);
     return { n: h.number, par: h.par, idx: h.strokeIndex, strokeIndexStatus: h.strokeIndexStatus, t: [...h.teeLengths],
       line, lineLen: polyLen(line), sourceFeatureId: sourceId(h.sourceFeatureId, label), pin,
-      green: { ...green, c: pin }, fairway: { rings: fairways.map(feature => feature.ring), sourceFeatureIds: fairways.map(feature => feature.sourceFeatureId) },
+      green: { ...green, c: pin }, fairway: holeFairways(h, label),
       tees: { inferPads: false, pads, marks, ...reviewed, ...teeStatus(pads, h) }, bunkers: sourceRings(h.bunkers, `${label} bunker`),
       elev: { tee: round(teeHeight), green: round(greenHeight), rise: round(greenHeight - teeHeight) },
       tiers: 1, name: notes?.get(h.number)?.name ?? h.name ?? null, note: notes?.get(h.number)?.note ?? h.note ?? 'Preliminär källbaserad karta. Flaggposition och färgade teemarkeringar är inte inmätta.',
@@ -231,7 +250,7 @@ export function createCourseModel(input, heightAt, notes = null) {
     const rings = f.rings.map(ring => localRing(ring, f.id));
     sourceId(f.sourceId, f.id);
     const provenance = Object.fromEntries(['parentFacilityId', 'sourceSha256', 'observedYear', 'reviewStatus', 'horizontalUncertaintyMetres', 'materialStatus'].filter(key => f[key] !== undefined).map(key => [key, f[key]]));
-    if (f.kind === 'range_field') { if (rings.length !== 1) throw new Error(`${f.id}: range cannot discard exclusions`); scenery.range.push(rings[0]); }
+    if (f.kind === 'range_field') scenery.range.push(...rangeFields([f]));
     else if (f.kind === 'parking') {
       if (rings.length !== 1) throw new Error(`${f.id}: parking cannot discard exclusions`);
       infra.parking.push({ id: f.id, ring: rings[0], sourceId: f.sourceId, surface: f.material || 'unknown', cars: false, notSurveyed: true, ...provenance });

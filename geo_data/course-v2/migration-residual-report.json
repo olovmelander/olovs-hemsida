@@ -825,13 +825,13 @@
         "status": "projected-source-frame-pending-independent-control",
         "source": "legacyFrame.projectedOriginEpsg3006"
       },
-      "coordinatePairCount": 17266,
+      "coordinatePairCount": 19547,
       "outsideCourseVicinity5km": 0,
       "scopes": {
         "playingGeometry": {
-          "coordinatePairCount": 2838,
+          "coordinatePairCount": 5098,
           "directFrameDelta": {
-            "count": 2838,
+            "count": 5098,
             "biasMetres": {
               "x": 0,
               "z": 0
@@ -850,7 +850,7 @@
               "z": 0
             },
             "residuals": {
-              "count": 2838,
+              "count": 5098,
               "biasMetres": {
                 "x": 0,
                 "z": 0
@@ -864,84 +864,84 @@
           }
         },
         "courseVicinity5km": {
-          "coordinatePairCount": 17266,
+          "coordinatePairCount": 19547,
           "directFrameDelta": {
-            "count": 17266,
+            "count": 19547,
             "biasMetres": {
               "x": 0.000003,
-              "z": -0.000004
+              "z": -0.000003
             },
-            "rmseMetres": 0.000311,
-            "p50Metres": 0.000222,
-            "p95Metres": 0.000557,
-            "p99Metres": 0.000635,
+            "rmseMetres": 0.000293,
+            "p50Metres": 0.000116,
+            "p95Metres": 0.000552,
+            "p99Metres": 0.000632,
             "maxMetres": 0.000705
           },
           "bestFitSimilarity": {
             "scale": 1.000000003,
-            "rotationDegrees": 1.55e-7,
+            "rotationDegrees": 1.53e-7,
             "translationMetres": {
               "x": 0.000002,
               "z": -0.000002
             },
             "residuals": {
-              "count": 17266,
+              "count": 19547,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.000311,
-              "p50Metres": 0.000222,
-              "p95Metres": 0.000558,
-              "p99Metres": 0.000635,
-              "maxMetres": 0.000702
+              "rmseMetres": 0.000293,
+              "p50Metres": 0.000116,
+              "p95Metres": 0.000551,
+              "p99Metres": 0.000631,
+              "maxMetres": 0.000701
             }
           }
         },
         "allInventoriedGeometry": {
-          "coordinatePairCount": 17266,
+          "coordinatePairCount": 19547,
           "directFrameDelta": {
-            "count": 17266,
+            "count": 19547,
             "biasMetres": {
               "x": 0.000003,
-              "z": -0.000004
+              "z": -0.000003
             },
-            "rmseMetres": 0.000311,
-            "p50Metres": 0.000222,
-            "p95Metres": 0.000557,
-            "p99Metres": 0.000635,
+            "rmseMetres": 0.000293,
+            "p50Metres": 0.000116,
+            "p95Metres": 0.000552,
+            "p99Metres": 0.000632,
             "maxMetres": 0.000705
           },
           "bestFitSimilarity": {
             "scale": 1.000000003,
-            "rotationDegrees": 1.55e-7,
+            "rotationDegrees": 1.53e-7,
             "translationMetres": {
               "x": 0.000002,
               "z": -0.000002
             },
             "residuals": {
-              "count": 17266,
+              "count": 19547,
               "biasMetres": {
                 "x": 0,
                 "z": 0
               },
-              "rmseMetres": 0.000311,
-              "p50Metres": 0.000222,
-              "p95Metres": 0.000558,
-              "p99Metres": 0.000635,
-              "maxMetres": 0.000702
+              "rmseMetres": 0.000293,
+              "p50Metres": 0.000116,
+              "p95Metres": 0.000551,
+              "p99Metres": 0.000631,
+              "maxMetres": 0.000701
             }
           }
         }
       },
       "report": {
         "path": "geo_data/course-v2/tortuna/migration/residual-report.json",
-        "sha256": "96c36e946cb34f48fcc8a74161342c88be4dbd662b1341b4b179ec3bc5aba6d1"
+        "sha256": "89298727b8353e690a4f14a1c112d5ba573a4b4f90d1042621013638491ff144"
       },
       "outputs": [
         {
           "path": "geo_data/course-v2/tortuna/migration/course-model.epsg3006.json",
-          "sha256": "de4db215cfb5a918566eb5cd7042b2b5376a3dd2061105d3a5b193585376cd2a"
+          "sha256": "e26c5a3a1460ea4338b03badf6d148b42d38cfe28673be84f4263ccb19d12627"
         }
       ]
     },

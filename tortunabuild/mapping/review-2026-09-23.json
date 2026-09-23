@@ -1,0 +1,312 @@
+{
+  "schemaVersion": 1,
+  "groundId": "tortuna",
+  "reviewedOn": "2026-09-23",
+  "script": "tortunabuild/mapping/apply-fairways-and-range.mjs",
+  "why": "Every Lantmäteriet capture of this course is a spring one, as is the one Esri's live mosaic serves, and in spring fairway and mown rough cannot be told apart; the 2026 rule trace clipped the mown estate to a 24 m design half-width and read as straight-edged bands. The club hole plans draw the fairway itself. The range carried only the grassed wedge by the tee line while the owner states the whole range is grass.",
+  "sources": {
+    "fairways": {
+      "path": "tortunabuild/mapping/fairways-plan-2026.geojson",
+      "sha256": "e8025c32d350db97a95802635b6c7d783b4d5fbc27eb42159b41ce338e2f75d5"
+    },
+    "range": {
+      "path": "tortunabuild/mapping/range-field-2026.geojson",
+      "sha256": "f30e650b776c360b0d8a60811f2142f18830b6747982ff7d911dec2a304885eb"
+    }
+  },
+  "removedFeatureIds": [
+    "tortuna-h01-fairway-rule-2026-1",
+    "tortuna-h02-fairway-rule-2026-1",
+    "tortuna-h03-fairway-rule-2026-1",
+    "tortuna-h04-fairway-rule-2026-1",
+    "tortuna-h05-fairway-rule-2026-1",
+    "tortuna-h06-fairway-rule-2026-1",
+    "tortuna-h07-fairway-rule-2026-1",
+    "tortuna-h08-fairway-rule-2026-1",
+    "tortuna-h09-fairway-rule-2026-1",
+    "tortuna-h10-fairway-rule-2026-1",
+    "tortuna-h10-fairway-rule-2026-2",
+    "tortuna-h11-fairway-rule-2026-1",
+    "tortuna-h11-fairway-rule-2026-2",
+    "tortuna-h12-fairway-rule-2026-1",
+    "tortuna-h12-fairway-rule-2026-2",
+    "tortuna-h12-fairway-rule-2026-3",
+    "tortuna-h13-fairway-rule-2026-1",
+    "tortuna-h14-fairway-rule-2026-1",
+    "tortuna-h14-fairway-rule-2026-2",
+    "tortuna-h15-fairway-rule-2026-1",
+    "tortuna-h16-fairway-rule-2026-1",
+    "tortuna-h17-fairway-rule-2026-1",
+    "tortuna-h18-fairway-rule-2026-1"
+  ],
+  "addedFeatureIds": [
+    "tortuna-h01-fairway-plan-2026-1",
+    "tortuna-h02-fairway-plan-2026-1",
+    "tortuna-h03-fairway-plan-2026-1",
+    "tortuna-h04-fairway-plan-2026-1",
+    "tortuna-h06-fairway-plan-2026-1",
+    "tortuna-h07-fairway-plan-2026-1",
+    "tortuna-h08-fairway-plan-2026-1",
+    "tortuna-h09-fairway-plan-2026-1",
+    "tortuna-h10-fairway-plan-2026-1",
+    "tortuna-h11-fairway-plan-2026-1",
+    "tortuna-h12-fairway-plan-2026-1",
+    "tortuna-h12-fairway-plan-2026-2",
+    "tortuna-h13-fairway-plan-2026-1",
+    "tortuna-h14-fairway-plan-2026-1",
+    "tortuna-h15-fairway-plan-2026-1",
+    "tortuna-h16-fairway-plan-2026-1",
+    "tortuna-h17-fairway-plan-2026-1",
+    "tortuna-h18-fairway-plan-2026-1"
+  ],
+  "holes": [
+    {
+      "hole": 1,
+      "replaced": [
+        "tortuna-h01-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h01-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 8520,
+        "after": 4456
+      }
+    },
+    {
+      "hole": 2,
+      "replaced": [
+        "tortuna-h02-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h02-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 11293,
+        "after": 5416
+      }
+    },
+    {
+      "hole": 3,
+      "replaced": [
+        "tortuna-h03-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h03-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 2411,
+        "after": 1378
+      }
+    },
+    {
+      "hole": 4,
+      "replaced": [
+        "tortuna-h04-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h04-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 13243,
+        "after": 10767
+      }
+    },
+    {
+      "hole": 5,
+      "replaced": [
+        "tortuna-h05-fairway-rule-2026-1"
+      ],
+      "adopted": [],
+      "areaSquareMetres": {
+        "before": 1692,
+        "after": 0
+      },
+      "note": "the club plan draws no fairway on this hole: rough from tee to green"
+    },
+    {
+      "hole": 6,
+      "replaced": [
+        "tortuna-h06-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h06-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 13321,
+        "after": 9142
+      }
+    },
+    {
+      "hole": 7,
+      "replaced": [
+        "tortuna-h07-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h07-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 4981,
+        "after": 4016
+      }
+    },
+    {
+      "hole": 8,
+      "replaced": [
+        "tortuna-h08-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h08-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 7106,
+        "after": 4573
+      }
+    },
+    {
+      "hole": 9,
+      "replaced": [
+        "tortuna-h09-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h09-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 1612,
+        "after": 566
+      }
+    },
+    {
+      "hole": 10,
+      "replaced": [
+        "tortuna-h10-fairway-rule-2026-1",
+        "tortuna-h10-fairway-rule-2026-2"
+      ],
+      "adopted": [
+        "tortuna-h10-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 7510,
+        "after": 3857
+      }
+    },
+    {
+      "hole": 11,
+      "replaced": [
+        "tortuna-h11-fairway-rule-2026-1",
+        "tortuna-h11-fairway-rule-2026-2"
+      ],
+      "adopted": [
+        "tortuna-h11-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 2898,
+        "after": 265
+      }
+    },
+    {
+      "hole": 12,
+      "replaced": [
+        "tortuna-h12-fairway-rule-2026-1",
+        "tortuna-h12-fairway-rule-2026-2",
+        "tortuna-h12-fairway-rule-2026-3"
+      ],
+      "adopted": [
+        "tortuna-h12-fairway-plan-2026-1",
+        "tortuna-h12-fairway-plan-2026-2"
+      ],
+      "areaSquareMetres": {
+        "before": 15495,
+        "after": 9680
+      }
+    },
+    {
+      "hole": 13,
+      "replaced": [
+        "tortuna-h13-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h13-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 14733,
+        "after": 7592
+      }
+    },
+    {
+      "hole": 14,
+      "replaced": [
+        "tortuna-h14-fairway-rule-2026-1",
+        "tortuna-h14-fairway-rule-2026-2"
+      ],
+      "adopted": [
+        "tortuna-h14-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 2847,
+        "after": 271
+      }
+    },
+    {
+      "hole": 15,
+      "replaced": [
+        "tortuna-h15-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h15-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 9943,
+        "after": 7386
+      }
+    },
+    {
+      "hole": 16,
+      "replaced": [
+        "tortuna-h16-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h16-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 12325,
+        "after": 6552
+      }
+    },
+    {
+      "hole": 17,
+      "replaced": [
+        "tortuna-h17-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h17-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 10591,
+        "after": 6457
+      }
+    },
+    {
+      "hole": 18,
+      "replaced": [
+        "tortuna-h18-fairway-rule-2026-1"
+      ],
+      "adopted": [
+        "tortuna-h18-fairway-plan-2026-1"
+      ],
+      "areaSquareMetres": {
+        "before": 11441,
+        "after": 6016
+      }
+    }
+  ],
+  "range": {
+    "replaced": "tortuna-range-grassed-front",
+    "adopted": "tortuna-range-field-2026",
+    "areaSquareMetres": 16580.7
+  },
+  "limits": [
+    "The fairways are the club plans' drawn shapes placed on the measured greens, bunkers and tees; the plans are illustrations, and the registration residuals in the fairway record are the accuracy claimed, not a survey.",
+    "The range field boundary is a visual interpretation of the 2026 orthophoto along the edges it shows; the owner's word is its material."
+  ]
+}

@@ -17,7 +17,7 @@ import {
 import { COURSE_DATA_DIR, REPO_ROOT } from './pilots.mjs';
 
 export const LEGACY_COURSE_MODEL_SOURCES = Object.freeze({
-  tortuna: Object.freeze({ path: 'tortunabuild/course-model.json', sha256: '7f8b2c1703a05262a0dfb4dfb25bfd927738fe5511e71a47a93cff7115e1a9b0',
+  tortuna: Object.freeze({ path: 'tortunabuild/course-model.json', sha256: '252917523a831556c0c096e9a513d6f153bdcb1b1af345ba27e8375a3d36a069',
     projectedOriginEpsg3006: Object.freeze({ easting: 597400.5, northing: 6614899.5 }) }),
   visby: Object.freeze({ path: 'visbybuild/course-model.json', sha256: '98b11ea31ac59bcab5c8d12e25015763b3e537eeceec35d730d4b805ac6f07c0',
     projectedOriginEpsg3006: Object.freeze({ easting: 687748.5, northing: 6370951.5 }) }),
