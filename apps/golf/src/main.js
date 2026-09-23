@@ -5094,7 +5094,7 @@ function treeTierWrite(s, tier, slot, k, t0, code) {
    each end of a tier, and one range from the lowest to the highest slot
    uploaded the whole tier between them -- 640 KB a frame for the pine tier
    on a walk that switches ten trees a frame */
-function flushRanges(attrs, dirty, stride) {
+function flushRanges(groups, dirty) {
   if (!dirty.length) return;
   dirty.sort((a, b) => a - b);
   const runs = [];
@@ -5105,7 +5105,9 @@ function flushRanges(attrs, dirty, stride) {
     runs.push([start, end]); start = end = v;
   }
   runs.push([start, end]);
-  for (const a of attrs) {
+  // Position, matrix and tint attributes share slot changes. Sort/coalesce
+  // those slots once, then apply the same runs at each attribute's stride.
+  for (const [attrs, stride] of groups) for (const a of attrs) {
     a.clearUpdateRanges();
     if (runs.length > 96) a.addUpdateRange(runs[0][0] * stride, (runs[runs.length - 1][1] - runs[0][0] + 1) * stride);
     else for (const [s0, s1] of runs) a.addUpdateRange(s0 * stride, (s1 - s0 + 1) * stride);
@@ -5255,6 +5257,11 @@ function updateTreeTiers() {
   const cx = camera.position.x, cy = camera.position.y, cz = camera.position.z;
   const thr = [TREE_LOD.heroPx, TREE_LOD.switchPx, TREE_LOD.impostorPx], hy = TREE_LOD.hysteresis;
   const force = TREE_LOD.force, reset = TREE_LOD.resetPending, cellMode = TREE_LOD.cellMode;
+  // Geographic/forced detail depends only on this policy, not the camera.
+  // A settled visible cell can reuse it; frustum checks and fade draining
+  // still run every frame. Screen mode and unfinished dwell never reuse it.
+  const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
+  const decisionKey = force || (zoneMode ? ZT.reduce((key, tier, i) => key | ((tier === 4 ? 1 : 0) << i), 16) : 0);
   const floorA = TREE_LOD.floors[0], floorB = TREE_LOD.floors[1], reachH = TREE_LOD.floorReach[0], reachF = TREE_LOD.floorReach[1], floorAFar = Math.max(floorA, 2);
   const cells = TREE_LOD.cells;
   let visible = 0;
@@ -5272,7 +5279,10 @@ function updateTreeTiers() {
       }
       continue;
     }
+    const wasVisible = c.visible;
     c.visible = true; visible++;
+    if (decisionKey && !reset && wasVisible && c.tierDecisionKey === decisionKey) continue;
+    let settled = true;
     let pxCell = 0;
     if (cellMode) {
       const dx = Math.max(c.x0 - cx, 0, cx - c.x1), dy = Math.max(c.y0 - cy, 0, cy - c.y1), dz = Math.max(c.z0 - cz, 0, cz - c.z1);
@@ -5282,7 +5292,6 @@ function updateTreeTiers() {
       const sp = TREE_LOD.tiers[s];
       if (!sp) continue;
       const imp = TREE_LOD.imp[s], L = c.lists[s], H = sp.treeH, CY = sp.treeCY, T = sp.tierOf, Z = sp.zone, PD = sp.pend, PN = sp.pendN, dwell = TREE_LOD.dwell;
-      const zoneMode = TREE_LOD.lodMode === 'zone', ZT = TREE_LOD.zoneTiers;
       for (let i = 0; i < L.length; i++) {
         const k = L[i];
         // Geographic tiers and forced review tiers never consult distance.
@@ -5318,11 +5327,12 @@ function updateTreeTiers() {
           /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
              the new tier has to be wanted for dwell frames running */
           if (!cur || reset || force || dwell <= 0 || (PD[k] === want && PN[k] >= dwell - 1)) { treeTierMove(s, k, cur, want); changed = true; PN[k] = 0; }
-          else if (PD[k] === want) PN[k]++;
-          else { PD[k] = want; PN[k] = 1; }
+          else if (PD[k] === want) { PN[k]++; settled = false; }
+          else { PD[k] = want; PN[k] = 1; settled = false; }
         } else PN[k] = 0;
       }
     }
+    c.tierDecisionKey = settled ? decisionKey : 0;
   }
   TREE_LOD.resetPending = false;
   TREE_LOD.stats.cellsVisible = visible;
@@ -5340,17 +5350,12 @@ function updateTreeTiers() {
       if (tier.mesh) {
         tier.geo.instanceCount = tier.count;
         tier.mesh.visible = tier.count > 0;
-        const dirty = tier.dirtyM.slice();
-        flushRanges([tier.pos], dirty.slice(), 3);
-        flushRanges([tier.par], dirty, 4);
-        if (tier.tint?.length) flushRanges(tier.tint, tier.dirtyM.slice(), 4);
-        tier.dirtyM.length = 0;
+        flushRanges([[[tier.pos], 3], [[tier.par], 4], [tier.tint || [], 4]], tier.dirtyM);
       } else {
         for (const im of tier.parts) im.count = tier.count;
-        if (tier.tint?.length) flushRanges(tier.tint, tier.dirtyM.slice(), 4);
-        flushRanges(tier.parts.map(im => im.instanceMatrix), tier.dirtyM, 16);
+        flushRanges([[tier.tint || [], 4], [tier.parts.map(im => im.instanceMatrix), 16]], tier.dirtyM);
       }
-      flushRanges(tier.fade, tier.dirtyF, 2);
+      flushRanges([[tier.fade, 2]], tier.dirtyF);
     }
     t0 += species.t[1].count; t1 += species.t[2].count; t2 += species.t[3].count; t3 += species.t[4].count;
   }

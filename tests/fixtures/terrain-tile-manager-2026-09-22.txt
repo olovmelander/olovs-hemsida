@@ -73,18 +73,6 @@ function candidateOrder(left, right) {
     left.tile.id.localeCompare(right.tile.id);
 }
 
-function insertCandidate(candidates, candidate) {
-  // Keep the same stable priority order without sorting the whole queue for
-  // every child. Equal candidates follow existing entries, as stable sort did.
-  let low = 0, high = candidates.length;
-  while (low < high) {
-    const middle = (low + high) >>> 1;
-    if (candidateOrder(candidate, candidates[middle]) < 0) high = middle;
-    else low = middle + 1;
-  }
-  candidates.splice(low, 0, candidate);
-}
-
 function idOrder(left, right) {
   return left.localeCompare(right, 'en');
 }
@@ -155,15 +143,6 @@ export class TerrainTileManager {
       .filter(tile => !this.parentById.has(tile.id))
       .sort((left, right) => right.lod - left.lod || idOrder(left.id, right.id)));
     this.maximumLod = Math.max(...[...this.tiles.values()].map(tile => tile.lod));
-    // Verified hierarchy is fixed for this manager's lifetime. Reuse ancestry
-    // during planning; camera, visibility, residency and errors stay live.
-    this.ancestorPaths = new Map();
-    for (const tile of this.tiles.values()) {
-      const path = [];
-      let cursor = tile;
-      while (cursor) { path.push(cursor); cursor = this.tiles.get(this.parentById.get(cursor.id)); }
-      this.ancestorPaths.set(tile.id, Object.freeze(path));
-    }
     this.refined = new Set();
     this.renderErrors = new Map();
   }
@@ -225,7 +204,11 @@ export class TerrainTileManager {
     }
     const forcedPath = new Set();
     for (const tileId of active) {
-      for (const tile of this.ancestorPaths.get(tileId)) forcedPath.add(tile.id);
+      let cursor = tileId;
+      while (cursor) {
+        forcedPath.add(cursor);
+        cursor = this.parentById.get(cursor);
+      }
     }
 
     const visibility = new Map();
@@ -256,7 +239,8 @@ export class TerrainTileManager {
       if (!isVisible(tile)) return;
       frontier.set(tile.id, tile);
       if (shouldRefine(tile)) {
-        insertCandidate(candidates, { tile, forced: forcedPath.has(tile.id), errorPixels: errorPixels(tile) });
+        candidates.push({ tile, forced: forcedPath.has(tile.id), errorPixels: errorPixels(tile) });
+        candidates.sort(candidateOrder);
       }
     };
     for (const root of this.roots) enqueue(root);
@@ -315,10 +299,14 @@ export class TerrainTileManager {
     };
     request('shell', this.ground.shell, -1_000_000, Number.POSITIVE_INFINITY, true);
     for (const tile of desired) {
-      const path = this.ancestorPaths.get(tile.id);
-      for (let index = path.length - 1; index >= 0; index--) {
-        const pathTile = path[index];
-        if (resident.has(pathTile.id)) continue;
+      const path = [];
+      let cursor = tile;
+      while (cursor) {
+        path.push(cursor);
+        cursor = this.tiles.get(this.parentById.get(cursor.id));
+      }
+      path.reverse();
+      for (const pathTile of path) {
         const activePath = forcedPath.has(pathTile.id);
         const priority = (activePath ? -100_000 : 0) +
           (this.maximumLod - pathTile.lod) * 1_000 -
@@ -335,7 +323,8 @@ export class TerrainTileManager {
        fire and froze the boot. */
     const retain = new Set();
     for (const tile of desired) {
-      for (const ancestor of this.ancestorPaths.get(tile.id)) retain.add(ancestor.id);
+      let cursor = tile.id;
+      while (cursor) { retain.add(cursor); cursor = this.parentById.get(cursor); }
     }
     /* A refined quad's children out of the frustum are wanted too, at the
        back of the queue, and kept once they arrive. The render rule stands a

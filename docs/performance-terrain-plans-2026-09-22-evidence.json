@@ -1,0 +1,3689 @@
+{
+  "baseline": "3ec71683da0abe78c762f95e417769eeb4b1c9e2",
+  "revision": "e947c6e9fa8f764e9909ff3a43c40ff29f6cf6a22f4e12081861bff31d7f90b0",
+  "sourceHashes": {
+    "baseline": "9bcf6140a674481a9aee440d0b85acf1bfd2017898400035e46e67a1ecb5edcf",
+    "candidate": "e2ed799943ea04bc39ad77ca6055cdc828610a30a5f36b96020e7aa509347b39"
+  },
+  "environment": {
+    "node": "v24.19.0",
+    "browser": "140.0.7339.16",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "availableParallelism": 8
+  },
+  "limitations": [
+    "CPU planner replay, not complete frame times, FPS or boot timing",
+    "Synthetic orbit and instantaneous hole changes; fixed opening residency in timing; changing residency checked separately",
+    "Frustum construction/testing and manager construction excluded from replay timer",
+    "Baseline component probes use live frustum tests; replay uses captured visibility sets",
+    "No hardware GPU, physical-phone, thermal or new screenshot measurements"
+  ],
+  "measurements": [
+    {
+      "course": "veckefjarden",
+      "tiles": 469,
+      "resident": 114,
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "a8dfac17387d15e5e22c3a06097499805b8516f2d12803f491974893b0cae374",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.34420000000298023,
+        "plannerMs": 0.16179999999701977,
+        "controllerSnapshotMs": 0.015799999997019767,
+        "batchSyncMs": 0.017,
+        "batchTickMs": 0.0008000000044703484
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 58,
+            "renderRevision": 43,
+            "morphing": false,
+            "frameAttributeVersion": 24,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 11,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 9,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 126,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 35980096,
+        "textureUploads": 107
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 58,
+            "renderRevision": 43,
+            "morphing": false,
+            "frameAttributeVersion": 24,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 11,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 9,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 126,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 35980096,
+        "textureUploads": 107
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.12588888888764713,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.08861111111111111,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.09166666666666666,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.12158333333416117,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.12677777777736385,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.0837222222218083,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.08155555555596948,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.12327777777694994,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.13886111111069718,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.0812777777781917,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.09111111111111111,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.13291666666666666,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.1263333333325055,
+              "p75": 0.13138194444434095,
+              "min": 0.12158333333416117,
+              "max": 0.13886111111069718
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.08616666666645971,
+              "p75": 0.09048611111111111,
+              "min": 0.0812777777781917,
+              "max": 0.09166666666666666
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.041763888888268,
+            "p75": 0.04274305555555554,
+            "min": 0.029916666667494513,
+            "max": 0.05758333333250548
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 31.7941952503765
+        },
+        {
+          "scenario": "orbit",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.132333333334989,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.11933333333374725,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.1237222222218083,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.15936111111193896,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.13441666666625274,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.11891666666501098,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.10952777777901954,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.13636111111069718,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.12547222222305007,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.10950000000082784,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.12899999999958608,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.14077777777694994,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.13538888888847495,
+              "p75": 0.13967361111038676,
+              "min": 0.12547222222305007,
+              "max": 0.15936111111193896
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.11912499999937912,
+              "p75": 0.12262499999979304,
+              "min": 0.10950000000082784,
+              "max": 0.12899999999958608
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.015736111111731996,
+            "p75": 0.024118055554313792,
+            "min": 0.011777777777363857,
+            "max": 0.03563888889013066
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 12.012720558252765
+        },
+        {
+          "scenario": "holes",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.18233333333498902,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.14969444444403052,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.14838888888971674,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.1797500000004139,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.1963333333325055,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.15686111111193896,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.15119444444568622,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.17805555555555555,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.16766666666708058,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.16163888888847497,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.1526666666670806,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.18138888888888888,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.1805694444446514,
+              "p75": 0.18209722222346397,
+              "min": 0.16766666666708058,
+              "max": 0.1963333333325055
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.1519305555563834,
+              "p75": 0.15581250000072436,
+              "min": 0.14838888888971674,
+              "max": 0.16163888888847497
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.030041666666252728,
+            "p75": 0.03231944444589317,
+            "min": 0.006027777778605609,
+            "max": 0.03947222222056654
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 15.860318436681265
+        }
+      ]
+    },
+    {
+      "course": "puttom",
+      "tiles": 469,
+      "resident": 122,
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "701d77d2ae855def01c8587443fd8cdfdcd9a9f5b6d6a4e8fcf3c23206c19c6f",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.2932999999970198,
+        "plannerMs": 0.1495,
+        "controllerSnapshotMs": 0.0165,
+        "batchSyncMs": 0.016100000001490117,
+        "batchTickMs": 0.0006999999955296516
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 55,
+            "renderRevision": 45,
+            "morphing": false,
+            "frameAttributeVersion": 21,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 12,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 10,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 116,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 36508488,
+        "textureUploads": 105
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 55,
+            "renderRevision": 45,
+            "morphing": false,
+            "frameAttributeVersion": 21,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 12,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 10,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 116,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 36508488,
+        "textureUploads": 105
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.12688888888806105,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.09352777777860562,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.09383333333250549,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.12286111111235287,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.1273333333329194,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.09422222222305006,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.0948333333329194,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.12902777777777777,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.12938888889013064,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.10561111110986934,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.10080555555514163,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.13516666666708058,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.12818055555534857,
+              "p75": 0.12929861111204244,
+              "min": 0.12286111111235287,
+              "max": 0.13516666666708058
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.09452777777798474,
+              "p75": 0.09931249999958608,
+              "min": 0.09352777777860562,
+              "max": 0.10561111110986934
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.03323611110966239,
+            "p75": 0.03398611111100763,
+            "min": 0.0237777777802613,
+            "max": 0.034361111111938944
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 26.254198721141066
+        },
+        {
+          "scenario": "orbit",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.1301111111106972,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.10716666666583882,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.10566666666625274,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.13363888888723321,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.1273333333329194,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.09794444444485836,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.09088888888764712,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.12711111110945542,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.12855555555472772,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.10352777777860563,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.11091666666583883,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.13172222222305008,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.12933333333271246,
+              "p75": 0.13131944444496185,
+              "min": 0.12711111110945542,
+              "max": 0.13363888888723321
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.10459722222242918,
+              "p75": 0.10679166666594231,
+              "min": 0.09088888888764712,
+              "max": 0.11091666666583883
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.026499999998551287,
+            "p75": 0.0290347222212909,
+            "min": 0.020805555557211253,
+            "max": 0.03622222222180829
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 19.125859105980958
+        },
+        {
+          "scenario": "holes",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.16049999999917217,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.14047222222305006,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.12858333333498903,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.15461111111152503,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.16538888888847497,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.1335833333329194,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.13674999999917214,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.14797222222305007,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.16116666666749452,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.13469444444403053,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.13683333333167766,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.15713888888764713,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.15881944444340965,
+              "p75": 0.16100000000041392,
+              "min": 0.14797222222305007,
+              "max": 0.16538888888847497
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.13572222222160135,
+              "p75": 0.13681249999855127,
+              "min": 0.12858333333498903,
+              "max": 0.14047222222305006
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.023166666666252736,
+            "p75": 0.02636111111173199,
+            "min": 0.01122222222387792,
+            "max": 0.03180555555555556
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 14.543069523227214
+        }
+      ]
+    },
+    {
+      "course": "visby",
+      "tiles": 469,
+      "resident": 78,
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "f467d0002182be15670f61efb700e02799fd3809fdee86763f0b894234e69a2c",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.17279999999701975,
+        "plannerMs": 0.09620000000298023,
+        "controllerSnapshotMs": 0.0135,
+        "batchSyncMs": 0.0095,
+        "batchTickMs": 0.001
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 14,
+            "residentLayers": 14,
+            "textureUploads": 45,
+            "renderRevision": 20,
+            "morphing": false,
+            "frameAttributeVersion": 8,
+            "paramsAttributeVersion": 17,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 473088,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 16,
+            "renderedTiles": 9,
+            "residentLayers": 9,
+            "textureUploads": 16,
+            "renderRevision": 8,
+            "morphing": false,
+            "frameAttributeVersion": 4,
+            "paramsAttributeVersion": 5,
+            "textureCapacityBytes": 8454272,
+            "topologyBytes": 2603535,
+            "triangles": 1198080,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 64,
+        "morphing": false,
+        "renderedTiles": 23,
+        "residentLayers": 23,
+        "drawCalls": 2,
+        "triangles": 1671168,
+        "textureCapacityBytes": 15372808,
+        "textureUploads": 62
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 14,
+            "residentLayers": 14,
+            "textureUploads": 45,
+            "renderRevision": 20,
+            "morphing": false,
+            "frameAttributeVersion": 8,
+            "paramsAttributeVersion": 17,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 473088,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 16,
+            "renderedTiles": 9,
+            "residentLayers": 9,
+            "textureUploads": 16,
+            "renderRevision": 8,
+            "morphing": false,
+            "frameAttributeVersion": 4,
+            "paramsAttributeVersion": 5,
+            "textureCapacityBytes": 8454272,
+            "topologyBytes": 2603535,
+            "triangles": 1198080,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 64,
+        "morphing": false,
+        "renderedTiles": 23,
+        "residentLayers": 23,
+        "drawCalls": 2,
+        "triangles": 1671168,
+        "textureCapacityBytes": 15372808,
+        "textureUploads": 62
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.06105555555472771,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.05216666666790843,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.05455555555721124,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.06447222222263614,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.06369444444568621,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.05149999999958608,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.0487222222218083,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.06236111111111111,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.06263888888888888,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.051944444444444446,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.05316666666625275,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.059749999998344315,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.0625,
+              "p75": 0.06343055555648688,
+              "min": 0.059749999998344315,
+              "max": 0.06447222222263614
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.05205555555617644,
+              "p75": 0.05291666666666667,
+              "min": 0.0487222222218083,
+              "max": 0.05455555555721124
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.010305555554934669,
+            "p75": 0.01181944444568621,
+            "min": 0.006583333332091566,
+            "max": 0.013638888889302807
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 16.71111111011769
+        },
+        {
+          "scenario": "orbit",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.07144444444320268,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.05294444444278876,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.057305555554727716,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.07611111111111112,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.06958333333333333,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.050111111112766796,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.05219444444403052,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.07697222222263614,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.08608333333291941,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.06383333333250549,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.06605555555679732,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.07305555555555555,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.07458333333333333,
+              "p75": 0.07675694444475488,
+              "min": 0.06958333333333333,
+              "max": 0.08608333333291941
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.05512499999875824,
+              "p75": 0.062201388888061045,
+              "min": 0.050111111112766796,
+              "max": 0.06605555555679732
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.019138888888474967,
+            "p75": 0.021555555555452077,
+            "min": 0.006999999998758236,
+            "max": 0.02477777777860562
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 26.089385476525273
+        },
+        {
+          "scenario": "holes",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.08391666666708059,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.07625,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.07433333333374725,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.08483333333291941,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.07938888888806105,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.07444444444444444,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.07558333333374725,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.08425000000124176,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.08813888888806104,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.08019444444320269,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.06519444444527228,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.08183333333374726,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.08408333333416118,
+              "p75": 0.0846875,
+              "min": 0.07938888888806105,
+              "max": 0.08813888888806104
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.07501388888909585,
+              "p75": 0.07608333333343681,
+              "min": 0.06519444444527228,
+              "max": 0.08019444444320269
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.00830555555617643,
+            "p75": 0.010041666666252745,
+            "min": 0.004944444443616608,
+            "max": 0.01663888888847498
+          },
+          "fasterPairs": 6,
+          "medianCpuReductionPercent": 10.786257020784184
+        }
+      ]
+    }
+  ],
+  "calibration": [
+    {
+      "course": "veckefjarden",
+      "tiles": 469,
+      "resident": 114,
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "a8dfac17387d15e5e22c3a06097499805b8516f2d12803f491974893b0cae374",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.34420000000298023,
+        "plannerMs": 0.16179999999701977,
+        "controllerSnapshotMs": 0.015799999997019767,
+        "batchSyncMs": 0.017,
+        "batchTickMs": 0.0008000000044703484
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 58,
+            "renderRevision": 43,
+            "morphing": false,
+            "frameAttributeVersion": 24,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 11,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 9,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 126,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 35980096,
+        "textureUploads": 107
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 58,
+            "renderRevision": 43,
+            "morphing": false,
+            "frameAttributeVersion": 24,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 11,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 9,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 126,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 35980096,
+        "textureUploads": 107
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.12774999999958608,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.12802777777736385,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.13024999999958609,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.1309999999983443,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.12911111111235288,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.12308333333374726,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.13552777777736386,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.12430555555555556,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.13911111111028326,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.11763888888888889,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.12202777777694994,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.12925000000124176,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.1291805555567973,
+              "p75": 0.13056249999906866,
+              "min": 0.12430555555555556,
+              "max": 0.13911111111028326
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.12555555555555556,
+              "p75": 0.12969444444403053,
+              "min": 0.11763888888888889,
+              "max": 0.13552777777736386
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.0033888888886819193,
+            "p75": 0.006923611112870272,
+            "min": -0.011222222221808298,
+            "max": 0.021472222221394374
+          },
+          "fasterPairs": 4,
+          "medianCpuReductionPercent": 2.8061498772916527
+        },
+        {
+          "scenario": "orbit",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.13680555555555557,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.14530555555596947,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.1424722222238779,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.15366666666542492,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.15647222222139437,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.14308333333374726,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.14088888888971673,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.13158333333209157,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.14519444444320267,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.1350833333325055,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.13766666666708058,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.12933333333167765,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.14099999999937912,
+              "p75": 0.15154861110986936,
+              "min": 0.12933333333167765,
+              "max": 0.15647222222139437
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.14168055555679732,
+              "p75": 0.14293055555627993,
+              "min": 0.1350833333325055,
+              "max": 0.14530555555596947
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.0008888888876471268,
+            "p75": 0.01092361110883456,
+            "min": -0.009305555557625161,
+            "max": 0.01338888888764711
+          },
+          "fasterPairs": 3,
+          "medianCpuReductionPercent": -0.4826635159015602
+        },
+        {
+          "scenario": "holes",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.1840277777777778,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.1888611111106972,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.18611111111111112,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.1960277777786056,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.18316666666832235,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.18875,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.19013888888888889,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.18663888888847496,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.19555555555555557,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.18594444444403052,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.17700000000082783,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.20175000000124177,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.19109722222201525,
+              "p75": 0.19590972222284309,
+              "min": 0.18316666666832235,
+              "max": 0.20175000000124177
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.18743055555555554,
+              "p75": 0.1888333333330229,
+              "min": 0.17700000000082783,
+              "max": 0.19013888888888889
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.0030555555555555614,
+            "p75": 0.009840277778502132,
+            "min": -0.0055833333316776534,
+            "max": 0.02475000000041394
+          },
+          "fasterPairs": 3,
+          "medianCpuReductionPercent": 1.9187440946681011
+        }
+      ]
+    },
+    {
+      "course": "puttom",
+      "tiles": 469,
+      "resident": 122,
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "701d77d2ae855def01c8587443fd8cdfdcd9a9f5b6d6a4e8fcf3c23206c19c6f",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.2932999999970198,
+        "plannerMs": 0.1495,
+        "controllerSnapshotMs": 0.0165,
+        "batchSyncMs": 0.016100000001490117,
+        "batchTickMs": 0.0006999999955296516
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 55,
+            "renderRevision": 45,
+            "morphing": false,
+            "frameAttributeVersion": 21,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 12,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 10,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 116,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 36508488,
+        "textureUploads": 105
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 55,
+            "renderRevision": 45,
+            "morphing": false,
+            "frameAttributeVersion": 21,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 12,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 10,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 116,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 36508488,
+        "textureUploads": 105
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.1161944444456862,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.1175833333325055,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.11483333333498902,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.13836111110945543,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.12825000000082784,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.1323888888872332,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.1273888888893028,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.12719444444610012,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.1326388888888889,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.12938888888806105,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.13647222222139438,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.125,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.12772222222346397,
+              "p75": 0.1315416666668736,
+              "min": 0.1161944444456862,
+              "max": 0.13836111110945543
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.12838888888868194,
+              "p75": 0.1316388888874402,
+              "min": 0.11483333333498902,
+              "max": 0.13647222222139438
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": -0.0007916666650109871,
+            "p75": 0.0023888888898202093,
+            "min": -0.01147222222139438,
+            "max": 0.023527777774466407
+          },
+          "fasterPairs": 2,
+          "medianCpuReductionPercent": -0.5219660710659824
+        },
+        {
+          "scenario": "orbit",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.12561111110986936,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.12313888888806104,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.13,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.12227777777653602,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.12266666666708059,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.13066666666625273,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.11925000000124177,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.12794444444485836,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.12286111111028326,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.12647222222139437,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.12483333333291942,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.12191666666625274,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.12276388888868192,
+              "p75": 0.12492361110997284,
+              "min": 0.12191666666625274,
+              "max": 0.12794444444485836
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.1256527777771569,
+              "p75": 0.1291180555553486,
+              "min": 0.11925000000124177,
+              "max": 0.13066666666625273
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": -0.0032638888888888926,
+            "p75": 0.0011249999996895688,
+            "min": -0.007999999999172142,
+            "max": 0.008694444443616597
+          },
+          "fasterPairs": 2,
+          "medianCpuReductionPercent": -2.353207376066835
+        },
+        {
+          "scenario": "holes",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.17208333333333334,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.15974999999834433,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.15541666666666668,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.14569444444444443,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.1500833333345751,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.1425833333325055,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.155,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.1461666666654249,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.15638888888888888,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.14911111111028327,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.15799999999917216,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.1538611111106972,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.15197222222263615,
+              "p75": 0.15575694444434096,
+              "min": 0.14569444444444443,
+              "max": 0.17208333333333334
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.15520833333333334,
+              "p75": 0.1573541666660458,
+              "min": 0.1425833333325055,
+              "max": 0.15974999999834433
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.001569444445065321,
+            "p75": 0.007444444446203603,
+            "min": -0.009722222222222243,
+            "max": 0.01233333333498901
+          },
+          "fasterPairs": 3,
+          "medianCpuReductionPercent": -2.129409614051947
+        }
+      ]
+    },
+    {
+      "course": "visby",
+      "tiles": 469,
+      "resident": 78,
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "f467d0002182be15670f61efb700e02799fd3809fdee86763f0b894234e69a2c",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.17279999999701975,
+        "plannerMs": 0.09620000000298023,
+        "controllerSnapshotMs": 0.0135,
+        "batchSyncMs": 0.0095,
+        "batchTickMs": 0.001
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 14,
+            "residentLayers": 14,
+            "textureUploads": 45,
+            "renderRevision": 20,
+            "morphing": false,
+            "frameAttributeVersion": 8,
+            "paramsAttributeVersion": 17,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 473088,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 16,
+            "renderedTiles": 9,
+            "residentLayers": 9,
+            "textureUploads": 16,
+            "renderRevision": 8,
+            "morphing": false,
+            "frameAttributeVersion": 4,
+            "paramsAttributeVersion": 5,
+            "textureCapacityBytes": 8454272,
+            "topologyBytes": 2603535,
+            "triangles": 1198080,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 64,
+        "morphing": false,
+        "renderedTiles": 23,
+        "residentLayers": 23,
+        "drawCalls": 2,
+        "triangles": 1671168,
+        "textureCapacityBytes": 15372808,
+        "textureUploads": 62
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 14,
+            "residentLayers": 14,
+            "textureUploads": 45,
+            "renderRevision": 20,
+            "morphing": false,
+            "frameAttributeVersion": 8,
+            "paramsAttributeVersion": 17,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 473088,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 16,
+            "renderedTiles": 9,
+            "residentLayers": 9,
+            "textureUploads": 16,
+            "renderRevision": 8,
+            "morphing": false,
+            "frameAttributeVersion": 4,
+            "paramsAttributeVersion": 5,
+            "textureCapacityBytes": 8454272,
+            "topologyBytes": 2603535,
+            "triangles": 1198080,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 64,
+        "morphing": false,
+        "renderedTiles": 23,
+        "residentLayers": 23,
+        "drawCalls": 2,
+        "triangles": 1671168,
+        "textureCapacityBytes": 15372808,
+        "textureUploads": 62
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.057472222221808304,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.06211111110945543,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.05533333333209157,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.055638888890130654,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.0673888888893028,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.059472222222636144,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.05419444444485837,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.054666666665838824,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.05886111111069719,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.0638611111127668,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.05519444444527229,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.055,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.05655555555596948,
+              "p75": 0.05851388888847497,
+              "min": 0.054666666665838824,
+              "max": 0.0673888888893028
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.057402777777363856,
+              "p75": 0.061451388887750605,
+              "min": 0.05419444444485837,
+              "max": 0.0638611111127668
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.000055555556383399957,
+            "p75": 0.00043055555524511464,
+            "min": -0.005000000002069606,
+            "max": 0.007916666666666662
+          },
+          "fasterPairs": 3,
+          "medianCpuReductionPercent": -1.49803536198303
+        },
+        {
+          "scenario": "orbit",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.06352777777653601,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.06822222222263614,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.0686666666674945,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.06433333333374726,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.06783333333209157,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.07094444444403053,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.07097222222222223,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.06455555555514163,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.0648888888893028,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.07300000000124177,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.06413888888847497,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.06591666666583883,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.06472222222222221,
+              "p75": 0.06565972222170482,
+              "min": 0.06352777777653601,
+              "max": 0.06783333333209157
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.06980555555576251,
+              "p75": 0.07096527777767431,
+              "min": 0.06413888888847497,
+              "max": 0.07300000000124177
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": -0.004513888889923691,
+            "p75": -0.00341666666739103,
+            "min": -0.008111111111938962,
+            "max": 0.001777777777363862
+          },
+          "fasterPairs": 1,
+          "medianCpuReductionPercent": -7.8540772535386605
+        },
+        {
+          "scenario": "holes",
+          "samples": [
+            {
+              "round": 0,
+              "variant": "baseline",
+              "meanMs": 0.08736111111111111,
+              "count": 3600
+            },
+            {
+              "round": 0,
+              "variant": "candidate",
+              "meanMs": 0.08513888888888889,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "candidate",
+              "meanMs": 0.08149999999958608,
+              "count": 3600
+            },
+            {
+              "round": 1,
+              "variant": "baseline",
+              "meanMs": 0.08691666666625275,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "baseline",
+              "meanMs": 0.07830555555721123,
+              "count": 3600
+            },
+            {
+              "round": 2,
+              "variant": "candidate",
+              "meanMs": 0.0824444444456862,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "candidate",
+              "meanMs": 0.09075000000082785,
+              "count": 3600
+            },
+            {
+              "round": 3,
+              "variant": "baseline",
+              "meanMs": 0.08519444444527229,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "baseline",
+              "meanMs": 0.08397222222346398,
+              "count": 3600
+            },
+            {
+              "round": 4,
+              "variant": "candidate",
+              "meanMs": 0.08408333333209157,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "candidate",
+              "meanMs": 0.08647222222139438,
+              "count": 3600
+            },
+            {
+              "round": 5,
+              "variant": "baseline",
+              "meanMs": 0.08752777777819169,
+              "count": 3600
+            }
+          ],
+          "meanCpuMsPerPlan": {
+            "baseline": {
+              "n": 6,
+              "median": 0.08605555555576253,
+              "p75": 0.08724999999989652,
+              "min": 0.07830555555721123,
+              "max": 0.08752777777819169
+            },
+            "candidate": {
+              "n": 6,
+              "median": 0.08461111111049023,
+              "p75": 0.08613888888826801,
+              "min": 0.08149999999958608,
+              "max": 0.09075000000082785
+            }
+          },
+          "pairedSavingsMs": {
+            "n": 6,
+            "median": 0.0004722222240848631,
+            "p75": 0.001930555555865996,
+            "min": -0.005555555555555564,
+            "max": 0.005416666666666667
+          },
+          "fasterPairs": 3,
+          "medianCpuReductionPercent": 1.6785022604802302
+        }
+      ]
+    }
+  ],
+  "browserParity": [
+    {
+      "course": "veckefjarden",
+      "tiles": 469,
+      "resident": 114,
+      "courseManifestSha256": "3ece3c152a2a09a098a90deb0f17f386f823b84f7426979c34bb211050fe14e8",
+      "groundManifestSha256": "2ca0c550716833617d657cf4242b2c96825036c83bf34fe317fd3a8ab27fbe83",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "a8dfac17387d15e5e22c3a06097499805b8516f2d12803f491974893b0cae374",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.34420000000298023,
+        "plannerMs": 0.16179999999701977,
+        "controllerSnapshotMs": 0.015799999997019767,
+        "batchSyncMs": 0.017,
+        "batchTickMs": 0.0008000000044703484
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 58,
+            "renderRevision": 43,
+            "morphing": false,
+            "frameAttributeVersion": 24,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 11,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 9,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 126,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 35980096,
+        "textureUploads": 107
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 58,
+            "renderRevision": 43,
+            "morphing": false,
+            "frameAttributeVersion": 24,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 11,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 9,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 126,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 35980096,
+        "textureUploads": 107
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "samples": []
+        },
+        {
+          "scenario": "holes",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "puttom",
+      "tiles": 469,
+      "resident": 122,
+      "courseManifestSha256": "2d3f73f6ffba9295f6a1ce2d5cbd1d356b1c579fc9060c2412d4287b2685d796",
+      "groundManifestSha256": "fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "701d77d2ae855def01c8587443fd8cdfdcd9a9f5b6d6a4e8fcf3c23206c19c6f",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.2932999999970198,
+        "plannerMs": 0.1495,
+        "controllerSnapshotMs": 0.0165,
+        "batchSyncMs": 0.016100000001490117,
+        "batchTickMs": 0.0006999999955296516
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 55,
+            "renderRevision": 45,
+            "morphing": false,
+            "frameAttributeVersion": 21,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 12,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 10,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 116,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 36508488,
+        "textureUploads": 105
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 7,
+            "residentLayers": 7,
+            "textureUploads": 55,
+            "renderRevision": 45,
+            "morphing": false,
+            "frameAttributeVersion": 21,
+            "paramsAttributeVersion": 36,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 236544,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 56,
+            "renderedTiles": 49,
+            "residentLayers": 49,
+            "textureUploads": 49,
+            "renderRevision": 12,
+            "morphing": false,
+            "frameAttributeVersion": 2,
+            "paramsAttributeVersion": 10,
+            "textureCapacityBytes": 29589952,
+            "topologyBytes": 2603535,
+            "triangles": 6522880,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 116,
+        "morphing": false,
+        "renderedTiles": 56,
+        "residentLayers": 56,
+        "drawCalls": 2,
+        "triangles": 6759424,
+        "textureCapacityBytes": 36508488,
+        "textureUploads": 105
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "samples": []
+        },
+        {
+          "scenario": "holes",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "course": "visby",
+      "tiles": 469,
+      "resident": 78,
+      "courseManifestSha256": "8392769862570da26961f9bd3a673c5b72ea6d1754100e80770a097fbe7ef158",
+      "groundManifestSha256": "61515d2112e97be03a3909f604303499b0902f170ce262070ab3e722476e9a8c",
+      "inputRevision": "0f244b727986c55e2b90bfedb795560e42ee241ec6cbfe5db827cf85f450fd0c",
+      "inputSha256": "f467d0002182be15670f61efb700e02799fd3809fdee86763f0b894234e69a2c",
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "components": {
+        "completeSettledUpdateMs": 0.17279999999701975,
+        "plannerMs": 0.09620000000298023,
+        "controllerSnapshotMs": 0.0135,
+        "batchSyncMs": 0.0095,
+        "batchTickMs": 0.001
+      },
+      "statsBefore": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 14,
+            "residentLayers": 14,
+            "textureUploads": 45,
+            "renderRevision": 20,
+            "morphing": false,
+            "frameAttributeVersion": 8,
+            "paramsAttributeVersion": 17,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 473088,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 16,
+            "renderedTiles": 9,
+            "residentLayers": 9,
+            "textureUploads": 16,
+            "renderRevision": 8,
+            "morphing": false,
+            "frameAttributeVersion": 4,
+            "paramsAttributeVersion": 5,
+            "textureCapacityBytes": 8454272,
+            "topologyBytes": 2603535,
+            "triangles": 1198080,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 64,
+        "morphing": false,
+        "renderedTiles": 23,
+        "residentLayers": 23,
+        "drawCalls": 2,
+        "triangles": 1671168,
+        "textureCapacityBytes": 15372808,
+        "textureUploads": 62
+      },
+      "statsAfter": {
+        "batches": [
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 1,
+            "renderedTiles": 0,
+            "residentLayers": 0,
+            "textureUploads": 1,
+            "renderRevision": 3,
+            "morphing": false,
+            "frameAttributeVersion": 1,
+            "paramsAttributeVersion": 1,
+            "textureCapacityBytes": 528392,
+            "topologyBytes": 2603535,
+            "triangles": 0,
+            "drawCalls": 0
+          },
+          {
+            "width": 129,
+            "height": 129,
+            "capacity": 48,
+            "renderedTiles": 14,
+            "residentLayers": 14,
+            "textureUploads": 45,
+            "renderRevision": 20,
+            "morphing": false,
+            "frameAttributeVersion": 8,
+            "paramsAttributeVersion": 17,
+            "textureCapacityBytes": 6390144,
+            "topologyBytes": 460047,
+            "triangles": 473088,
+            "drawCalls": 1
+          },
+          {
+            "width": 257,
+            "height": 257,
+            "capacity": 16,
+            "renderedTiles": 9,
+            "residentLayers": 9,
+            "textureUploads": 16,
+            "renderRevision": 8,
+            "morphing": false,
+            "frameAttributeVersion": 4,
+            "paramsAttributeVersion": 5,
+            "textureCapacityBytes": 8454272,
+            "topologyBytes": 2603535,
+            "triangles": 1198080,
+            "drawCalls": 1
+          }
+        ],
+        "renderRevision": 64,
+        "morphing": false,
+        "renderedTiles": 23,
+        "residentLayers": 23,
+        "drawCalls": 2,
+        "triangles": 1671168,
+        "textureCapacityBytes": 15372808,
+        "textureUploads": 62
+      },
+      "parity": {
+        "exact": true,
+        "comparisons": 1516
+      },
+      "scenarios": [
+        {
+          "scenario": "rest",
+          "samples": []
+        },
+        {
+          "scenario": "orbit",
+          "samples": []
+        },
+        {
+          "scenario": "holes",
+          "samples": []
+        }
+      ]
+    }
+  ],
+  "allCourseParity": {
+    "revision": "e947c6e9fa8f764e9909ff3a43c40ff29f6cf6a22f4e12081861bff31d7f90b0",
+    "baselineSourceSha256": "9bcf6140a674481a9aee440d0b85acf1bfd2017898400035e46e67a1ecb5edcf",
+    "mode": "verified public manifests; synthetic camera and visibility/residency sequences; all holes and four backend/device budgets; exact complete plans and hysteresis",
+    "results": [
+      {
+        "course": "angso",
+        "manifestSha256": "db38ce79226055524a2835322c217fa9fb8fa02473010133001d41ce208616e0",
+        "groundSha256": "0327367adaf0561e23b19292aa549e92dc53c880f39bee8fc10d2524a4dc67ec",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "johannesberg",
+        "manifestSha256": "41e4447437bd3bb88ead9d6ca97a5235ac707b247efeacaa9ebf2b21845ff408",
+        "groundSha256": "fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "johannesberg-9",
+        "manifestSha256": "aadd7ee81ee375da3b658114258969a4a46d745636896ba4e642c194cdaf224a",
+        "groundSha256": "fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd",
+        "tiles": 469,
+        "holes": 9,
+        "comparisons": 432,
+        "exact": true
+      },
+      {
+        "course": "lidingo",
+        "manifestSha256": "4012897f28580a02231ecc9c171002209ad4e97aa696aca4527dfeadc7486ae2",
+        "groundSha256": "f7a0d942d5e91b3f30578403ff28211a5cee3b20458734b476009dd8e2a415aa",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "norrfallsviken",
+        "manifestSha256": "0cf1f4a2c9676f1a710f85fa319b456706ea0dec01887587285a56a7280c064d",
+        "groundSha256": "6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "puttom",
+        "manifestSha256": "2d3f73f6ffba9295f6a1ce2d5cbd1d356b1c579fc9060c2412d4287b2685d796",
+        "groundSha256": "fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "ribbingsfors",
+        "manifestSha256": "8018775e267001a252db28de3b59007c95d5906685819c698d26ee1f679a8481",
+        "groundSha256": "45c8d0edb7e6fd1c66106caee027d7f52636de594b24995588f1500097489d54",
+        "tiles": 469,
+        "holes": 9,
+        "comparisons": 432,
+        "exact": true
+      },
+      {
+        "course": "tortuna",
+        "manifestSha256": "9333d30e62947c6663c0fba2786d4bf77c614de8ff8493e079dedf786fac4593",
+        "groundSha256": "29bbfb05ea74fb0e0ab9f6347d4df4b80a2b12e44316f40fae8c9270cd92f44a",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "upsala",
+        "manifestSha256": "2c15740e941b3afe29f414068523f1d41ae88d6eaed874ac2c131df2676624da",
+        "groundSha256": "a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "upsala-mellanbanan",
+        "manifestSha256": "e9af95daca1aa1fd93a4fe6b6e440323e4e994f4a567a8ded160d394dffc148c",
+        "groundSha256": "a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434",
+        "tiles": 469,
+        "holes": 9,
+        "comparisons": 432,
+        "exact": true
+      },
+      {
+        "course": "veckefjarden",
+        "manifestSha256": "3ece3c152a2a09a098a90deb0f17f386f823b84f7426979c34bb211050fe14e8",
+        "groundSha256": "2ca0c550716833617d657cf4242b2c96825036c83bf34fe317fd3a8ab27fbe83",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      },
+      {
+        "course": "veckefjarden-korthalsbanan",
+        "manifestSha256": "95e67c306a7718472a3048f5d883615ed567a9e66060a42dfd86a50bbdf571a6",
+        "groundSha256": "2ca0c550716833617d657cf4242b2c96825036c83bf34fe317fd3a8ab27fbe83",
+        "tiles": 469,
+        "holes": 9,
+        "comparisons": 432,
+        "exact": true
+      },
+      {
+        "course": "visby",
+        "manifestSha256": "8392769862570da26961f9bd3a673c5b72ea6d1754100e80770a097fbe7ef158",
+        "groundSha256": "61515d2112e97be03a3909f604303499b0902f170ce262070ab3e722476e9a8c",
+        "tiles": 469,
+        "holes": 18,
+        "comparisons": 864,
+        "exact": true
+      }
+    ]
+  },
+  "exactTintVariants": 26,
+  "waterParity": [
+    {
+      "course": "angso",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "2264ffcc6bf495271d2eee4dcf491c0065c80a025e8956dad2cd999fbb6c9ad9"
+    },
+    {
+      "course": "norrfallsviken",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "864818fe46a731bd1473b05efb02f598267380ba297cbae36e40a2570709494d"
+    },
+    {
+      "course": "puttom",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "69c9282717522c7abc7df5dcc56f35edaf5661f1f0cf5aadd1585469b30640d3"
+    },
+    {
+      "course": "upsala",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "9a4644001e308f5d6af8e86841ebb1fd96231e7134a391b555bf58799546119b"
+    },
+    {
+      "course": "upsala-mellanbanan",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "9a4644001e308f5d6af8e86841ebb1fd96231e7134a391b555bf58799546119b"
+    },
+    {
+      "course": "johannesberg",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "7c4905cf77e4cf2d7fde9d3ec0d91b56ed065487596b35083e5ce1740f09e6d1"
+    },
+    {
+      "course": "johannesberg-9",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "7c4905cf77e4cf2d7fde9d3ec0d91b56ed065487596b35083e5ce1740f09e6d1"
+    },
+    {
+      "course": "veckefjarden",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "0833b42fa288336eda7bd06f2fc072fdd01f7143dbf81a630485c120766c3219"
+    },
+    {
+      "course": "veckefjarden-korthalsbanan",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "0833b42fa288336eda7bd06f2fc072fdd01f7143dbf81a630485c120766c3219"
+    },
+    {
+      "course": "ribbingsfors",
+      "supported": true,
+      "exactFields": true,
+      "fingerprint": "dbaab5ef3de278d197af8cfa0413575689c5cc329a133e9d210a04fc4b31d3c4"
+    },
+    {
+      "course": "visby",
+      "supported": false
+    },
+    {
+      "course": "tortuna",
+      "supported": false
+    },
+    {
+      "course": "lidingo",
+      "supported": false
+    }
+  ],
+  "prepared": {
+    "revision": "e947c6e9fa8f764e9909ff3a43c40ff29f6cf6a22f4e12081861bff31d7f90b0",
+    "courses": [
+      {
+        "course": "angso",
+        "chunks": 960,
+        "packages": 8,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "3e01971a2858d4e27657403bee0ffb5da0e076bcb5be0f839c3b2c788a35f5b1"
+          },
+          {
+            "quality": "lo",
+            "sha256": "3e01971a2858d4e27657403bee0ffb5da0e076bcb5be0f839c3b2c788a35f5b1"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "norrfallsviken",
+        "chunks": 862,
+        "packages": 7,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "bc4ce126c4aeaf67bae97775f914c00e543776d423045344a329ca795203b39e"
+          },
+          {
+            "quality": "lo",
+            "sha256": "bc4ce126c4aeaf67bae97775f914c00e543776d423045344a329ca795203b39e"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "puttom",
+        "chunks": 977,
+        "packages": 10,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "82e8341a6d33bbaed2f2ac2abea1274b43db65f39fe7337f2b8d77d51836f2ac"
+          },
+          {
+            "quality": "lo",
+            "sha256": "82e8341a6d33bbaed2f2ac2abea1274b43db65f39fe7337f2b8d77d51836f2ac"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "upsala",
+        "chunks": 960,
+        "packages": 10,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "33ffdeb6d2ab1d38da0be9a3adf4e05126472a1029faed80fa02d7683b8d6ef1"
+          },
+          {
+            "quality": "lo",
+            "sha256": "33ffdeb6d2ab1d38da0be9a3adf4e05126472a1029faed80fa02d7683b8d6ef1"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "upsala-mellanbanan",
+        "chunks": 960,
+        "packages": 10,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "5d8d32ce4150774f49fcdd96e0e28cdb6804e742d3f2ac86412f18ead51f712f"
+          },
+          {
+            "quality": "lo",
+            "sha256": "5d8d32ce4150774f49fcdd96e0e28cdb6804e742d3f2ac86412f18ead51f712f"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "johannesberg",
+        "chunks": 949,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "e42b549c4305267c61a66d8d5c471d63f3ccadf574e5ca1bd049bd81d0f7d839"
+          },
+          {
+            "quality": "lo",
+            "sha256": "e42b549c4305267c61a66d8d5c471d63f3ccadf574e5ca1bd049bd81d0f7d839"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "johannesberg-9",
+        "chunks": 949,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "a77498be8eefee0cf1615e2f067685c271c1dbaa0b301cb34d987223f5f123de"
+          },
+          {
+            "quality": "lo",
+            "sha256": "a77498be8eefee0cf1615e2f067685c271c1dbaa0b301cb34d987223f5f123de"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "veckefjarden",
+        "chunks": 962,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "8da589525641bf840c39324950711ab789312e828239c3d341cc62de0bd9a464"
+          },
+          {
+            "quality": "lo",
+            "sha256": "8da589525641bf840c39324950711ab789312e828239c3d341cc62de0bd9a464"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "veckefjarden-korthalsbanan",
+        "chunks": 962,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "461021b0a7c874fdc88114df59ea379467511d3b2cce3b4a937d066b64683300"
+          },
+          {
+            "quality": "lo",
+            "sha256": "461021b0a7c874fdc88114df59ea379467511d3b2cce3b4a937d066b64683300"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "ribbingsfors",
+        "chunks": 969,
+        "packages": 9,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "d529682caa1505c49d075947d36aa42bcb75b067f45435323c38d0fdbcfcddb3"
+          },
+          {
+            "quality": "lo",
+            "sha256": "d529682caa1505c49d075947d36aa42bcb75b067f45435323c38d0fdbcfcddb3"
+          }
+        ],
+        "water": "prepared"
+      },
+      {
+        "course": "visby",
+        "chunks": 842,
+        "packages": 4,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "4471946ac9d78c7e373e622a4393179205dcc8a8dc209f1f7fd95a7c07fc2c91"
+          },
+          {
+            "quality": "lo",
+            "sha256": "4471946ac9d78c7e373e622a4393179205dcc8a8dc209f1f7fd95a7c07fc2c91"
+          }
+        ],
+        "water": "verified unsupported path"
+      },
+      {
+        "course": "tortuna",
+        "chunks": 647,
+        "packages": 8,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "31d84cfda4b1c5c50c51c18080c6f4e0949929e42f77a78ccc9fd8bde055efcc"
+          },
+          {
+            "quality": "lo",
+            "sha256": "31d84cfda4b1c5c50c51c18080c6f4e0949929e42f77a78ccc9fd8bde055efcc"
+          }
+        ],
+        "water": "verified unsupported path"
+      },
+      {
+        "course": "lidingo",
+        "chunks": 534,
+        "packages": 7,
+        "tints": [
+          {
+            "quality": "hi",
+            "sha256": "e6cf74b6eade5234956f58ef7b172ed9ca2c18c285c5c58dcfa6d78ae7b94d02"
+          },
+          {
+            "quality": "lo",
+            "sha256": "e6cf74b6eade5234956f58ef7b172ed9ca2c18c285c5c58dcfa6d78ae7b94d02"
+          }
+        ],
+        "water": "verified unsupported path"
+      }
+    ]
+  },
+  "openings": [
+    {
+      "course": "veckefjarden",
+      "exactWorldAndWater": true,
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "completeCourse": true,
+      "preparedTint": true,
+      "world": {
+        "trees": [
+          "d2f6a4716b938dfe1c61d0d9a8f721ea514d90bd76e833c03c6f7bafea84f55d",
+          "cf8659b815477941b1b69ec8474bfe8969292895dfd4b47b5f790199f2e05d1b",
+          "e40f6ccb2998ad23e0411a7606425a7e59b343a544ead3e565a948b3fec6f917",
+          "8a76a12463347af68db55b0059da33d2df718d66ca17ce81d2e4791f199b50c9",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "reasons": [
+          "f5e47f97cf6a77ecf77d0c4ee5108a61aaa7c472d324d5c542cfc631be0674ee",
+          "94d6771011db3bf2a9943f1fd31c871aca6bab58785f7b03b9174b39b5e8e9e4",
+          "0508d6479e848df687595b18639451bbbbe462e42c70de66fd27b206a0c07c41",
+          "5e2ff01f6be29a4e0b291aa2517736d29c614204caf0d11c88ec98b67a983e5c",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "vista": "637e3a999c0d3794b97419c51970eaa5183c458edc11b78e71c8a100766673b7",
+        "matrices": [
+          "76275e4621b20cba18411eb231969feb3a2112d4af5e0d2f1aaee937707be409",
+          "b28c58d3808510a672966a36dbed225a181699494d062600fb290f07cfcde50b",
+          "547d006daabf8f520177c38b33e9da03299431dbc91e50fc5c327ea33655f976",
+          "eda388d2b3a8a68e5bd0b1fe147decd51014ba22969465956ed9876d937e8706",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "impostors": [
+          "96c2936dd779d0969087f27e2e9e55bd4d465abbcadf5923adb3feacafa1466e",
+          "561f600a9ce0da43bea294dc84e73647b68e9c9d1d9616318daf8db92773923e",
+          "9b897d3e65aa66cda51368192c3f87c67d73bcf2e72f59f466520944619f9927",
+          "56ac6e5c1a162cc7a89a72df6562409dd8531b43b4a7b45cb2559ecb74e96c68",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "tints": [
+          "55f519278ae5d4d1a63dc5cd9238aab5e9d487e6f45ae8576891bfa37b67cea0",
+          "fd485a37ee7bd871cea68140849cc77ed7a657f5cdd9a1acbec4b7a592195d49",
+          "3d9d748f640dbd2f2689471167181df4730451622a0d0366c6cbd70fc7db430b",
+          "8af06d9efb69ffd30c4e8a53e05edc68aa5ee753d5b95609677f70bca051bda3",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ]
+      },
+      "waterSha256": "ecd11cd80dd8d0c38b15830b9db4cf3c2e054cc95f54233d8f382774444c56d8"
+    },
+    {
+      "course": "puttom",
+      "exactWorldAndWater": true,
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "completeCourse": true,
+      "preparedTint": true,
+      "world": {
+        "trees": [
+          "809cd093b36f6385183afa455bcc0e30ae2f1038cc275152f0fee07886d36dd4",
+          "d127d9195ccca210588e865cf16ca093f54e38574d38b35d21d5b17c49b3b527",
+          "42f0419599e2500166e07d6de25b7105381377fe388b51910858dd980bbe018d",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "reasons": [
+          "c67884e9f17e73ae6e2636493a1c5a73abb0299938b16ce82a94021abdf86f17",
+          "f21100d16258022de20ca6f2232dae7656965b017dc55970f6c9f90bdaec811d",
+          "694fb44d793cda3483bf5f4ca8a977c30c7496db5caa0f47f31abc581f5f0700",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "vista": "78be90c19637da49f1f576eca1207980b247bd3f0dfab6c15ab5d1d28dbee7e0",
+        "matrices": [
+          "ffec79d48d2307a40a1975224e9e3d066ef35ba2465fb0e514e2d7515d11ed31",
+          "4ee6b4182226f441ed96e8923707cc0e669c0a2b3ef3968075b586fc2d28815b",
+          "44b0a63c6829409a36f6ccb868de5e92d268781afe7c7fc20b5bbf8e1c688766",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "impostors": [
+          "56f8a44af89166e075980367bbeefd7054615171a642f9c3e69a4df67fe0f07d",
+          "799b3161b70170ee8d655b4ca429f76c643e006555d2cd8fdbc5389da53a58ef",
+          "d4ca42b0407fa7417692d02509c08b3641c36e821d9b63a02366ce9be137fcf8",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "tints": [
+          "a1bfd4dbbedb36ad2dbcf0ac547451dd7f3de0dbdf6d3a88ca79913808f0f978",
+          "152c890e0e2f26ae5f2d2d678c05f2ad53cd9c21949924c2fa9c4a8504d7fbea",
+          "080398e9908c2b1531066edc3b611c3da4e1ae1e0277a969c6249230939ffbfc",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ]
+      },
+      "waterSha256": "bc4e4e4444f70ceab286dc5af164540dac69ba466aa878fca59a3c69469955c5"
+    },
+    {
+      "course": "visby",
+      "exactWorldAndWater": true,
+      "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "completeCourse": true,
+      "preparedTint": true,
+      "world": {
+        "trees": [
+          "71c150f6ad3beed7d3a5e2374cda6a212c7fda0697810478840679b43a682503",
+          "d1df7635dd652cdb77bf2c732ae1953bc186a1ea2df235d52d33f6ab8ba02ef8",
+          "fdfe3b0fbc9239b581aa24fac8df0e7cec806991dc355d1db402d28185bd1d7d",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "reasons": [
+          "3a2649433258fa1232867026f35b02c8c3630ffeb8cc8eb589f2f181c600a216",
+          "e8b03ef60beaa7716cb80d129b9047dde304b32d14b0c491eeeca21c01b083d7",
+          "362a26920561ee1271e6b7266ba25e990cafa62e3b51440af31074f153114860",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "vista": "1f911d77e0158d5466bcf64bbfe682b22c8b414fb835d70f3fa210ab37753aa6",
+        "matrices": [
+          "3b2d064562d9e5d2572a9bf2d2770ca1caccdbe4088d704ba6b9e6d22822edeb",
+          "4a71f90f572d69501f8f6305fc653fe205febe5a4e08990a6e669147ebabb608",
+          "d7a37e94073a411372e3523a62edde8a138f02207351ebe0d6ee44bcc0ae4c63",
+          "6493fd97406ab0308c894b70324251ef68065568fe871ff1149af4bd52a5d798",
+          "335209bdca1bcd4eca5f3696308dcfc8a0263a0a78ad54894643f26fa6b68c26",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "impostors": [
+          "c66af9eb05d9730cbf56e1bf6a459ae719ae72aa93ab0d1cec2751f6cfec2283",
+          "ae779aefabd9ccbd4aba2645366597527eb277674f1e3275f33e2b5c135485d7",
+          "6e646f8033d94b5671b95c94b50325c814fb20a41c6e07606f4c61cc266a36e3",
+          "92b2a8f25033731e19d25a14244a433b107578d8a3ecbfcc372d64f09a381594",
+          "e7a2d9efad699c1b160c4dc180a2aa61566693e6d3f61b976a3848a375ccde00",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "tints": [
+          "87b182132dc5fd6a3c7d958316a8a9daa89351533ee341a178f019994cd4bcc1",
+          "e5fe69d8c56f8f665c45e04fe26da33c061346126326a6f8d09a6f1ef1da0aa3",
+          "b3e5154bfc6487fb003c6cb476d5c8248516757dc19b4d28bbbf61df1277fa0a",
+          "e3b977341127607fb0d24b23295eb63b1c060cb995b259e6aa71fc09ff548899",
+          "342fbdc6a41638979f80d9d6a54c624930156ac13d0580ace31ffdef7346c949",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ]
+      },
+      "waterSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    }
+  ],
+  "tests": {
+    "vitestPassed": 1273,
+    "vitestTotal": 1273,
+    "nodePassed": 478,
+    "nodeFailed": 0,
+    "nodeSkipped": 3
+  },
+  "rawFiles": {
+    "terrain-plans.json": {
+      "bytes": 31186,
+      "sha256": "d12778fa35789542dfe421e391b27de274e84a991ed6889b16f62fc9b6bf8eeb"
+    },
+    "terrain-calibration.json": {
+      "bytes": 31122,
+      "sha256": "e29a8a9fef12d23f21a2a8918966ee87a445a8e4fb9abba6847ba7bff36f03d7"
+    },
+    "terrain-browser-parity.json": {
+      "bytes": 13854,
+      "sha256": "a8906c8a761866333bd38601a73feec092acd6f9f18d06380a40910b7296964c"
+    },
+    "all-course-parity.json": {
+      "bytes": 4410,
+      "sha256": "429a569356ff7458559691e753c950102f5f1f97d11e793fdfc85730010fd0af"
+    },
+    "prepared-gate.json": {
+      "bytes": 5450,
+      "sha256": "d993812cd2f0968d09414574274b413e7a533b8a13b4e58661066488ab76a5bb"
+    },
+    "water-publication.json": {
+      "bytes": 2350025,
+      "sha256": "11c2f5b7ac5001627fbba46be3566667ba8861aa4b782e46618f7429621005d9"
+    },
+    "tint-publication.json": {
+      "bytes": 4812,
+      "sha256": "5b698803b8e81c4eaa86f9ae52334d2c69b4b6219095058939c1a544b2e232d8"
+    },
+    "openings.json": {
+      "bytes": 456021,
+      "sha256": "c164f0a321b6c6478f8b9d6f1265e063955007f68b89da1e1a1845e85eda5376"
+    },
+    "vitest.txt": {
+      "bytes": 243,
+      "sha256": "74248debcc22293b72e8d67505a49b8c74b98478487520af71fafe45a9c8c6dd"
+    },
+    "node-tests.txt": {
+      "bytes": 45097,
+      "sha256": "29b93e3484988d945a2c199c4bba01d7ffb187ddab2d8a8700f52668393febc8"
+    },
+    "validation.txt": {
+      "bytes": 69167,
+      "sha256": "423165aa5ca2ffa9ec6967bc10d331ac7cc32271a03a34bebf31123ad3e8b7e1"
+    }
+  }
+}
