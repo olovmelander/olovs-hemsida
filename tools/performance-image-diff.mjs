@@ -20,6 +20,7 @@ for (const run of report.runs.filter(r => r.variant !== reference)) for (const v
   assert.deepEqual([a.width, a.height], [b.width, b.height]);
   const pixels = a.width * a.height;
   let total = 0, max = 0, changed = 0, over2 = 0, over8 = 0, nonblackA = 0, nonblackB = 0;
+  let sumA = 0, sumB = 0, squaredA = 0, squaredB = 0;
   for (let i = 0; i < pixels; i++) {
     let peak = 0, brightA = 0, brightB = 0;
     for (let c = 0; c < 3; c++) {
@@ -29,10 +30,15 @@ for (const run of report.runs.filter(r => r.variant !== reference)) for (const v
     }
     max = Math.max(max, peak); changed += peak > 0; over2 += peak > 2; over8 += peak > 8;
     nonblackA += brightA > 8; nonblackB += brightB > 8;
+    sumA += brightA; sumB += brightB; squaredA += brightA * brightA; squaredB += brightB * brightB;
   }
   assert.ok(nonblackA > pixels / 10 && nonblackB > pixels / 10, 'black/empty canvas capture');
+  const varianceA = squaredA / pixels - (sumA / pixels) ** 2;
+  const varianceB = squaredB / pixels - (sumB / pixels) ** 2;
+  assert.ok(varianceA > 25 && varianceB > 25, 'flat/empty presented canvas');
   const row = { id: view.id, reference, variant: run.variant, referenceImage: ref.image, image: view.image,
     dimensions: [a.width, a.height], meanChannelError255: total / (pixels * 3), maxChannelError255: max,
+    brightnessStddev: [Math.sqrt(varianceA), Math.sqrt(varianceB)],
     changedPixels: changed, changedPercent: changed * 100 / pixels, pixelsOver2Percent: over2 * 100 / pixels,
     pixelsOver8Percent: over8 * 100 / pixels, shadowBitIdentical: ref.shadowMap.sha256 === view.shadowMap.sha256,
     referenceShadow: ref.shadowMap.sha256, shadow: view.shadowMap.sha256 };
