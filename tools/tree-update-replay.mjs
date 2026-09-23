@@ -12,7 +12,7 @@ export function treeFunctions(source) {
 
 export function captureTreeInput(lod, holes, heightAt, detailHeight) {
   const fields = ['cell', 'fadeS', 'cellMode', 'nominalHeight', 'heroPx', 'switchPx', 'impostorPx',
-    'hysteresis', 'lodMode', 'zoneTiers', 'dwell', 'floors', 'floorReach', 'force'];
+    'hysteresis', 'lodMode', 'zoneTiers', 'distantHeroPx', 'dwell', 'floors', 'floorReach', 'force'];
   return {
     config: Object.fromEntries(fields.map(k => [k, lod[k]])), detailHeight,
     cells: lod.cells.map(c => ({ x0: c.x0, x1: c.x1, z0: c.z0, z1: c.z1, y0: c.y0, y1: c.y1,
@@ -48,6 +48,8 @@ export function createTreeReplay(THREE) {
   }
 
   function createReplay(input, source, coordinateSystem = THREE.WebGLCoordinateSystem, instrument = false) {
+    // Instrumentation anchors use LF on both Windows and Linux checkouts.
+    source = source.replaceAll('\r\n', '\n');
     const lod = { ...structuredClone(input.config), ready: true, frozen: false, resetPending: false,
       fadeClock: 0, queue: [], qHead: 0, stats: { moves: 0, switches: 0, reversals: 0, updates: 0 },
       cells: input.cells.map(c => ({ ...c, visible: false, lists: c.lists.map(l => Int32Array.from(l)),
@@ -69,7 +71,9 @@ export function createTreeReplay(THREE) {
         if (!source.includes(before)) throw new Error(`tree counter anchor missing: ${before}`);
         source = source.replace(before, after);
       };
-      inject('const k = L[i];\n        // Geographic', 'counters.decisions++; const k = L[i];\n        // Geographic');
+      // The newline selects the decision loop, excluding the one-line
+      // offscreen-removal loop, without depending on its explanatory comment.
+      inject('const k = L[i];\n', 'counters.decisions++; const k = L[i];\n');
       inject('dirty.sort((a, b) => a - b);', 'counters.sorts++; counters.sortedSlots += dirty.length; dirty.sort((a, b) => a - b);');
       inject('runs.push([start, end]);\n', 'runs.push([start, end]);\n  if (runs.length > 96) counters.fragmented++;\n');
       inject('a.needsUpdate = true;\n  }\n  dirty.length = 0;',

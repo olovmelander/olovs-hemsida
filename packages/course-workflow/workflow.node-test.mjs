@@ -70,7 +70,7 @@ test('configuration rejects misspelled fields, path escapes, duplicate layouts a
 test('filesystem references reject traversal and symlinks', t => {
   const root = repo(t);
   for (const p of ['../escape', '/tmp/escape', 'C:/escape', 'x/../escape', '.git/config', 'x\\y']) assert.throws(() => safePath(root, p));
-  fs.symlinkSync(root, path.join(root, 'link'));
+  fs.symlinkSync(root, path.join(root, 'link'), process.platform === 'win32' ? 'junction' : 'dir');
   assert.throws(() => safePath(root, 'link/implementation/adapter.mjs'), /symlink/);
 });
 test('CLI rejects unknown options before mutating a new ground', t => {
