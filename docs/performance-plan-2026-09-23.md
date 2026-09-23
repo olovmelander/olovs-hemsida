@@ -392,6 +392,16 @@ in flight at low quality) whatever else lands.
   Visby lo 842 -> 227 ms, with the far-vista fingerprint, the whole world
   fingerprint and every count identical on all three. The remaining time is
   the species pass and GPU data, which both paths share.
+- **3.5 reeds and ground cover landed** (`engine/prepared-scatter.mjs`, baked
+  by `tools/bake-vista.mjs`). The next largest forest-stage loops in the phone
+  proxy on Veckefjärden: reed lattice 1.6 s, ground-cover lattice 1.7 s, edge
+  tufts 0.5 s (tree models, 1.2 s, is a download). One record per course and
+  quality with a section per loop, each replayed and digest-checked on its
+  own; `?prepscatter=0` plants them all the ordinary way. 26 records, 284 KB in
+  all; Visby, Tortuna and Lidingö have no scatter to prepare. Proof, prepared
+  vs `?prepscatter=0`, SwiftShader, whole world fingerprint identical:
+  Ängsö lo reeds 253 -> 19 ms, cover 691 -> 40 ms, edge 168 -> 33 ms;
+  Veckefjärden hi reeds 289 -> 6 ms, cover 622 -> 44 ms, edge 175 -> 71 ms.
 
 ### Phase 4 — devices
 
