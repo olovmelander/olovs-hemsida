@@ -191,7 +191,7 @@
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "e95e8cc2e334e7f5404275feb741b2a37d2cbf8883dbb852ae351d26f67050ed",
+     "identity": "66e237812055e0a9496bfb5bfba4c02109d29d6e1aefdc1d329b4f7eda629bc1",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-76cbdda799ba711e64e14e7d32112802a2a43a9b14c7e66454f6a6dec6d1f427.bin",
      "bytes": 111793,
@@ -204,7 +204,7 @@
      "points": 283012
     },
     "vista-lo": {
-     "identity": "39f38565af05c9970c6457fdfa4a13372ad1c35306bdec3568afbfba4d6a3531",
+     "identity": "bfa152fba719b2d3086873726b0519f8d5012dbe91e3db01da08a1ffae682ad4",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
      "url": "courses/angso/prepared/vista-b6037c593b4eab12b9b5714d0a0fb8dc4181363b61b7158bd6cfb8531cde707b.bin",
      "bytes": 64774,
@@ -215,6 +215,70 @@
      "digest": "e45ffbaee5d54f6f428d66995f3dcde9e47f13c78fe99f2e3254c95c9dab17dd",
      "skipped": 159411,
      "points": 156610
+    }
+   },
+   "preparedScatter": {
+    "scatter-hi": {
+     "identity": "0ec919a536debae052632a790da6b3901bc51d9ac0a0aa3540107c88e64cb66c",
+     "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
+     "url": "courses/angso/prepared/scatter-dd759f30189cbe8832fc79fdf1c5b93df0c938126ac2d797f59e704005777aea.bin",
+     "bytes": 26278,
+     "decodedBytes": 804843,
+     "sha256": "dd759f30189cbe8832fc79fdf1c5b93df0c938126ac2d797f59e704005777aea",
+     "decodedSha256": "d4327cca07821a6191b4120e8d2c259351c754cab84fad0498a445be1b58222b",
+     "sections": {
+      "reeds": {
+       "candidates": 3348936,
+       "offset": 0,
+       "digest": "0b99f03960b3e6aec9379e76de56e21b4eebc9b9e75d226dcb03dd03e6a67dfc",
+       "extra": {}
+      },
+      "cover": {
+       "candidates": 357840,
+       "offset": 418617,
+       "digest": "af32c15b4cc842a7dad4702223c3fe3139e5cea4342db438eb4c91b098e45465",
+       "extra": {
+        "facilityExcludedClutter": 137
+       }
+      },
+      "edge": {
+       "candidates": 2731968,
+       "offset": 463347,
+       "digest": "89473635b6cf98d6097f055e4e561887a8d4068492cf1cba431ffdd89f84c586",
+       "extra": {}
+      }
+     }
+    },
+    "scatter-lo": {
+     "identity": "dab846e7af7ccf72a1b7678eeef42908f4a025d15e476b3b55d9d85fb65988f2",
+     "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
+     "url": "courses/angso/prepared/scatter-22bdb9998cddc6c75cabaf330e276fe1856862f7bd77f18fda0842b5cae01a4b.bin",
+     "bytes": 25698,
+     "decodedBytes": 804843,
+     "sha256": "22bdb9998cddc6c75cabaf330e276fe1856862f7bd77f18fda0842b5cae01a4b",
+     "decodedSha256": "00d8537d202b2f5ac00cb77d3c52757f35a7cdeafd74d68ac9717516530e726b",
+     "sections": {
+      "reeds": {
+       "candidates": 3348936,
+       "offset": 0,
+       "digest": "7268f41f4ca7c8775c18ee2d72ba3ac7224312fe7bb92f931850811a10274be1",
+       "extra": {}
+      },
+      "cover": {
+       "candidates": 357840,
+       "offset": 418617,
+       "digest": "0093a9fc011ef972d1515d81c3d5068fbfad9cb1d5f2b6427baa69c7dd592e23",
+       "extra": {
+        "facilityExcludedClutter": 53
+       }
+      },
+      "edge": {
+       "candidates": 2731968,
+       "offset": 463347,
+       "digest": "1fb970e55f245e778b4435bb0f7387fde83728a54b12d15bfc0c584835949263",
+       "extra": {}
+      }
+     }
     }
    }
   },
