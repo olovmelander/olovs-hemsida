@@ -1,78 +1,224 @@
-#bagDialog{width:min(1060px,calc(100vw - 32px));max-height:calc(100dvh - 32px);border-radius:24px;background:#101f19;border:1px solid #35453b;box-shadow:0 30px 120px #0009;color:#eef2e9}
-#bagDialog .bag-form{max-height:calc(100dvh - 32px)}
-#bagDialog .bag-head{padding:24px 26px 20px;align-items:center;border-color:#ffffff0d}
-#bagDialog .bag-kicker{font-size:10px;letter-spacing:.2em;color:#a8bb9c}
-#bagDialog .bag-title h2{font-size:32px;font-weight:600;letter-spacing:-.04em;margin:6px 0}
-#bagDialog .bag-title p{font-size:12px;color:#a4b1a8;max-width:550px}
-#bagDialog .bag-close{width:38px;height:38px;border:1px solid #ffffff20;color:#d3decf}
-.bag-workspace{display:grid;grid-template-columns:360px minmax(0,1fr);min-height:0;flex:1}
-.bag-inventory{display:flex;flex-direction:column;min-height:0;border-right:1px solid #ffffff0d}
-#bagDialog .bag-toolbar{padding:15px 20px 10px}
-.bag-columns{display:flex;justify-content:space-between;padding:0 59px 8px 72px;color:#819286;font:500 9px/1.5 Outfit,sans-serif;letter-spacing:.13em;text-transform:uppercase}
-#bagDialog .bag-list{padding:0 12px 16px;gap:3px;height:455px;min-height:0}
-#bagDialog .bag-row{grid-template-columns:40px minmax(0,1fr) 66px 23px;gap:7px;min-height:52px;padding:2px 8px;background:transparent;border:1px solid transparent;border-radius:12px;transition:background .2s,border-color .2s}
-#bagDialog .bag-row:hover{background:#ffffff05}
-#bagDialog .bag-row.selected{background:#ceddba12;border-color:#cad7b638}
-.bag-preview{width:40px;height:44px;border:0;border-radius:8px;background:transparent;color:#b8c4b8;cursor:pointer;padding:0}
-.bag-preview svg{width:32px;height:42px;transition:transform .25s}
-.bag-row.selected .bag-preview{color:#e1ebcd}.bag-row.selected .bag-preview svg{transform:rotate(-10deg)}
-#bagDialog .bag-row input{background:transparent;border-color:transparent;padding-left:2px;font-weight:500}
-#bagDialog .bag-row input:hover{border-color:#ffffff15}
-#bagDialog .bag-row input:focus{border-color:#b3c99b;background:#07150f;box-shadow:none}
-#bagDialog .bag-distance{font-size:12px;color:#bdcbb9}
-#bagDialog .bag-carry span{color:#748477}
-#bagDialog .is-putter .bag-carry{opacity:.32}
-#bagDialog .is-putter .bag-carry input{visibility:hidden}
-#bagDialog .is-putter .bag-carry span{font-size:0}#bagDialog .is-putter .bag-carry span:after{content:'—';font-size:12px}
-.club-studio{position:relative;min-width:0;display:flex;flex-direction:column;margin:14px 14px 14px 0;background:#edeee7;color:#23362a;border-radius:18px;overflow:hidden}
+/* Min bag: a carry list beside a 3D club page. A desktop shows both; a phone
+   shows one at a time (data-view) and slides the club page over the list. */
+#bagDialog{
+  --bag-bg:#101f19;--bag-raise:#172a21;--bag-field:#0a1712;--bag-line:#ffffff12;--bag-line-strong:#ffffff24;
+  --bag-ink:#eef2e9;--bag-dim:#a4b1a8;--bag-faint:#7f9184;--bag-accent:#cadbb6;--bag-accent-ink:#1b331f;
+  --bag-focus:#b7ce9e;--bag-warn:#e6b566;--bag-danger:#f0a090;--studio:#edeee7;--studio-ink:#23362a;
+  width:min(1100px,calc(100vw - 48px));height:min(860px,calc(100dvh - 48px));max-width:none;max-height:none;
+  margin:auto;padding:0;overflow:hidden;border:1px solid #35453b;border-radius:24px;
+  background:var(--bag-bg);color:var(--bag-ink);box-shadow:0 30px 120px #0009}
+#bagDialog::backdrop{background:rgba(2,7,4,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#bagDialog button{font-family:inherit;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+#bagDialog button>svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#bagDialog button:not(.bag-preview):focus-visible{outline:2px solid var(--bag-focus);outline-offset:3px}
+.bag-form{position:relative;height:100%}
+.bag-shell{height:100%;min-height:0;display:flex;flex-direction:column}
+.bag-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* Header: title and bag summary; on a phone's club page, back and position. */
+.bag-head{flex:none;display:flex;align-items:center;gap:12px;padding:20px 20px 16px 26px;border-bottom:1px solid var(--bag-line)}
+.bag-title{flex:1;min-width:0}
+.bag-kicker{font:600 10px/1 Outfit,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:#a8bb9c}
+.bag-title h2{margin-top:7px;font:600 30px/1.05 Outfit,sans-serif;letter-spacing:-.04em;outline:none}
+.bag-summary{margin-top:7px;font:500 12px/1.3 'JetBrains Mono',monospace;color:var(--bag-dim);font-variant-numeric:tabular-nums}
+.bag-summary b{color:var(--bag-ink);font-weight:600}
+.bag-close{flex:none;display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--bag-line-strong);border-radius:50%;background:transparent;color:#d3decf;cursor:pointer;transition:background .18s}
+.club-back,.club-pos{display:none}
+
+.bag-workspace{flex:1;min-height:0;display:grid;grid-template-columns:minmax(290px,390px) minmax(0,1fr)}
+
+/* The carry list. */
+.bag-inventory{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:16px 14px 24px;border-right:1px solid var(--bag-line);scrollbar-width:thin;scrollbar-color:#ffffff26 transparent}
+.bag-intro{padding:0 8px 16px;font:400 13px/1.5 Outfit,sans-serif;color:var(--bag-dim)}
+.bag-columns{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:10px;padding:0 11px 8px 61px;font:600 10px/1 Outfit,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--bag-faint)}
+.bag-columns span:last-child{text-align:center}
+.bag-list{list-style:none;display:flex;flex-direction:column;gap:2px}
+.bag-row{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 92px;align-items:center;gap:10px;min-height:62px;padding:4px 10px 4px 4px;border:1px solid transparent;border-radius:14px;transition:background .18s,border-color .18s}
+.bag-row.selected{background:#ceddba14;border-color:#cad7b640}
+.bag-preview{display:flex;align-items:center;gap:12px;min-width:0;align-self:stretch;padding:6px 0 6px 6px;border:0;background:none;color:inherit;text-align:left;cursor:pointer}
+.bag-preview::after{content:'';position:absolute;inset:-1px;border-radius:14px}
+.bag-preview:focus-visible{outline:none}
+.bag-preview:focus-visible::after{outline:2px solid var(--bag-focus);outline-offset:-2px}
+.bag-icon{flex:none;display:grid;place-items:center;width:38px;height:44px;color:#b8c4b8}
+.bag-icon svg{width:36px;height:36px;transition:transform .25s}
+.bag-row.selected .bag-icon{color:#e1ebcd}.bag-row.selected .bag-icon svg{transform:rotate(-8deg)}
+.bag-label{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.bag-name{font:600 15px/1.2 Outfit,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bag-meter{display:block;height:4px;border-radius:4px;background:#ffffff0f;overflow:hidden}
+.bag-meter i{display:block;width:calc(var(--carry,0) * 100%);height:100%;border-radius:inherit;background:linear-gradient(90deg,#6f8c5e,var(--bag-accent));transition:width .3s ease}
+.is-putter .bag-meter{visibility:hidden}
+.bag-gap{margin-top:-2px;font:500 12px/1.3 Outfit,sans-serif;color:var(--bag-warn)}
+.bag-gap:empty{display:none}
+.bag-carry{position:relative;z-index:1}
+.bag-distance{display:block;width:100%;height:46px;padding:0 30px 0 8px;border:1px solid var(--bag-line-strong);border-radius:12px;background:var(--bag-field);color:var(--bag-ink);font:500 16px/1 'JetBrains Mono',monospace;text-align:right;outline:none;appearance:textfield;-moz-appearance:textfield;transition:border-color .15s,box-shadow .15s}
+.bag-distance::-webkit-outer-spin-button,.bag-distance::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.bag-distance:focus{border-color:var(--bag-focus);box-shadow:0 0 0 3px #b7ce9e2e;background:#07150f}
+.bag-unit{position:absolute;right:11px;top:50%;transform:translateY(-50%);font:500 12px/1 'JetBrains Mono',monospace;color:var(--bag-faint);pointer-events:none}
+.bag-row.invalid .bag-distance{border-color:var(--bag-danger);box-shadow:0 0 0 3px #f0a09026}
+.bag-green{display:none}
+.is-putter .bag-distance,.is-putter .bag-unit{display:none}
+.is-putter .bag-green{display:flex;align-items:center;justify-content:flex-end;height:46px;padding-right:11px;font:500 13px/1 Outfit,sans-serif;color:var(--bag-faint)}
+.bag-chevron{display:none;color:var(--bag-faint)}
+.bag-chevron svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bag-list-foot{display:flex;flex-direction:column;gap:4px;padding:14px 4px 0}
+.bag-add{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 16px;border:1px dashed #cad7b659;border-radius:14px;background:transparent;color:var(--bag-accent);font:600 14px/1.2 Outfit,sans-serif;cursor:pointer;transition:background .18s,border-color .18s}
+.bag-add:disabled{opacity:.5;cursor:default}
+.bag-reset{align-self:center;min-height:44px;padding:0 14px;border:0;background:none;color:var(--bag-dim);font:500 13px/1 Outfit,sans-serif;text-decoration:underline;text-decoration-color:#ffffff33;text-underline-offset:4px;cursor:pointer}
+.bag-local-note{text-align:center;font:400 12px/1.4 Outfit,sans-serif;color:var(--bag-faint)}
+
+/* The club page: the light studio with the model, then its settings. */
+.bag-detail{min-width:0;min-height:0;display:flex;flex-direction:column;gap:18px;padding:14px 14px 20px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ffffff26 transparent}
+.club-studio{position:relative;flex:1 0 auto;min-height:360px;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;isolation:isolate;background:var(--studio);color:var(--studio-ink)}
 .club-studio:before{content:'';position:absolute;inset:15% -20% 0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,#c5cebb70,transparent 58%)}
-.club-studio-head{position:relative;z-index:1;padding:22px 24px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.club-overline{font:600 9px/1.4 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#73836c}
-.club-studio-head h3{font:500 30px/1.15 Outfit,sans-serif;letter-spacing:-.035em;margin:6px 0 5px}
-#clubFamily{font:400 10px/1.5 Outfit,sans-serif;color:#6f7a68}
-.club-edition{border:1px solid #29402a28;border-radius:50%;width:40px;height:40px;display:grid;place-items:center;font:400 10px/1 'JetBrains Mono',monospace;color:#66775f}
-.club-canvas{position:relative;flex:1;min-height:0;isolation:isolate;cursor:grab;touch-action:none}
-.club-canvas:active{cursor:grabbing}.club-canvas canvas{display:block;width:100%;height:100%;position:absolute;inset:0;outline:none}
-.club-canvas canvas:focus-visible{outline:2px solid #56764a;outline-offset:-4px;border-radius:14px}
-.club-status{position:absolute;inset:42% 30px auto;text-align:center;font:500 12px/1.6 Outfit,sans-serif;color:#6d7e64;pointer-events:none}
+.club-studio-head{position:relative;z-index:1;padding:20px 124px 0 22px;pointer-events:none}
+.club-overline{font:600 10px/1.4 Outfit,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#73836c}
+.club-studio-head h3{margin-top:5px;font:500 30px/1.1 Outfit,sans-serif;letter-spacing:-.035em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.club-tools{position:absolute;z-index:2;top:16px;right:16px;display:flex;gap:8px}
+.club-tools button{display:grid;place-items:center;min-width:44px;height:44px;padding:0 11px;border:1px solid #29402a26;border-radius:22px;background:#ffffff8c;color:#3f5236;font:500 12px/1 'JetBrains Mono',monospace;cursor:pointer;transition:background .18s,color .18s}
+.club-tools button[aria-pressed=true]{background:#29402e;border-color:#29402e;color:#f0f2e9}
+.club-tools button>svg{width:18px;height:18px}
+.club-canvas{position:relative;flex:1;min-height:0;cursor:grab;touch-action:none}
+.club-canvas:active{cursor:grabbing}
+.club-canvas canvas{display:block;position:absolute;inset:0;width:100%;height:100%;outline:none}
+.club-canvas canvas:focus-visible{outline:2px solid #56764a;outline-offset:-4px;border-radius:16px}
+.club-status{position:absolute;inset:42% 30px auto;text-align:center;font:500 13px/1.6 Outfit,sans-serif;color:#6d7e64;pointer-events:none}
 .club-status[hidden]{display:none}
-#clubRetry{position:absolute;left:50%;top:65%;transform:translateX(-50%);border:1px solid #849279;background:#e8ecdf;color:#20321c;padding:8px 14px;border-radius:8px;cursor:pointer}
+#clubRetry{position:absolute;left:50%;top:60%;transform:translateX(-50%);min-height:44px;padding:0 18px;border:1px solid #849279;border-radius:12px;background:#e8ecdf;color:#20321c;font:600 13px/1 Outfit,sans-serif;cursor:pointer}
+#clubRetry[hidden]{display:none}
 .club-canvas[data-state=error] canvas{visibility:hidden}
-.club-hint{position:relative;text-align:center;font:400 10px/1.5 Outfit,sans-serif;color:#748169;padding:0 12px 14px;pointer-events:none}
-.club-controls{position:relative;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 16px 20px}
-.club-segment{display:flex;border:1px solid #a6b29b55;border-radius:30px;padding:3px;background:#ffffff50}
-.club-controls button{border:0;border-radius:30px;padding:8px 13px;font:500 10px/1 Outfit,sans-serif;background:transparent;color:#53654b;cursor:pointer;min-height:32px}
+.club-step{position:absolute;z-index:2;top:50%;display:grid;place-items:center;width:44px;height:44px;margin-top:-22px;border:1px solid #29402a1f;border-radius:50%;background:#ffffffa6;color:#3f5236;cursor:pointer;transition:opacity .2s,background .18s}
+.club-step.prev{left:12px}.club-step.next{right:12px}
+.club-step:disabled{opacity:0;pointer-events:none}
+.club-hint{position:absolute;left:0;right:0;bottom:100%;padding:0 16px 8px;text-align:center;font:400 12px/1.4 Outfit,sans-serif;color:#748169;pointer-events:none;transition:opacity .5s}
+.club-hint.used,.club-studio[data-mode=full] .club-hint{opacity:0}
+.club-controls{position:relative;z-index:2;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;padding:0 14px 16px}
+.club-segment{display:flex;padding:3px;border:1px solid #a6b29b55;border-radius:999px;background:#ffffff59}
+.club-controls button{min-height:38px;padding:0 15px;border:0;border-radius:999px;background:transparent;color:#53654b;font:500 13px/1 Outfit,sans-serif;white-space:nowrap;cursor:pointer}
+.club-controls>button{min-height:46px;border:1px solid #a6b29b55;background:#ffffff59}
 .club-controls button[aria-pressed=true]{background:#29402e;color:#f0f2e9;box-shadow:0 2px 8px #18331e18}
-.club-controls>button{border:1px solid #a6b29b55;background:#ffffff50}
-.club-controls button:hover{box-shadow:inset 0 0 0 1px #677e5970}
-.club-detail{position:relative;margin:0 22px;padding:17px 0 19px;border-top:1px solid #82947238;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.club-detail label{display:flex;gap:8px;align-items:center;color:#78866d;font:500 10px/1 Outfit,sans-serif}
-.club-detail select{border:0;background:transparent;color:#405439;font:500 11px/1 Outfit,sans-serif;padding:5px;max-width:120px;cursor:pointer}
-#clubCarry{font:500 14px/1 'JetBrains Mono',monospace;letter-spacing:-.04em;color:#344a2c}
-#bagDialog .bag-actions{padding:14px 22px;align-items:center;gap:10px}
-.bag-local-note{margin-right:auto;font:400 10px/1.4 Outfit,sans-serif;color:#7e9382}
-#bagDialog .bag-actions button{font-size:11px;min-height:39px}
-#bagDialog .bag-save{flex:0 0 auto;padding:0 24px;background:#cadbb6;border-color:#cadbb6;color:#1b331f}
-#bagDialog :focus-visible{outline:2px solid #b7ce9e;outline-offset:3px}
+.club-edit{flex:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px 18px;align-items:start;padding:0 4px}
+.club-field{min-width:0;display:flex;flex-direction:column;gap:7px}
+.club-label{display:block;padding:0;font:600 10px/1.2 Outfit,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--bag-faint)}
+.club-stepper{display:grid;grid-template-columns:54px minmax(0,1fr) 54px;height:52px;border:1px solid var(--bag-line-strong);border-radius:16px;background:var(--bag-field);overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.club-stepper[hidden]{display:none}
+.club-stepper:focus-within{border-color:var(--bag-focus);box-shadow:0 0 0 3px #b7ce9e2e}
+.club-stepper.invalid{border-color:var(--bag-danger);box-shadow:0 0 0 3px #f0a09026}
+.club-stepper button{display:grid;place-items:center;border:0;background:transparent;color:var(--bag-ink);cursor:pointer;transition:background .15s}
+.club-stepper button:active{background:#ffffff1a}
+.club-carry-value{position:relative;display:flex;border-inline:1px solid var(--bag-line)}
+.club-carry-value input{width:100%;min-width:0;height:100%;padding:0 26px;border:0;background:transparent;color:var(--bag-ink);font:600 22px/1 'JetBrains Mono',monospace;text-align:center;outline:none;appearance:textfield;-moz-appearance:textfield}
+.club-carry-value input::-webkit-outer-spin-button,.club-carry-value input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.club-carry-value span{position:absolute;right:12px;top:50%;transform:translateY(-50%);font:500 12px/1 'JetBrains Mono',monospace;color:var(--bag-faint);pointer-events:none}
+.club-putter-note{display:flex;align-items:center;min-height:52px;padding:0 16px;border:1px dashed var(--bag-line-strong);border-radius:16px;font:400 13px/1.4 Outfit,sans-serif;color:var(--bag-dim)}
+.club-putter-note[hidden]{display:none}
+.club-name-input{width:100%;height:52px;padding:0 16px;border:1px solid var(--bag-line-strong);border-radius:16px;background:var(--bag-field);color:var(--bag-ink);font:500 16px/1 Outfit,sans-serif;outline:none;transition:border-color .15s,box-shadow .15s}
+.club-name-input:focus{border-color:var(--bag-focus);box-shadow:0 0 0 3px #b7ce9e2e}
+.club-kinds{grid-column:1/-1;display:block;border:0}
+.club-kinds legend{margin-bottom:7px}
+.club-kind-list{display:flex;flex-wrap:wrap;gap:8px}
+.club-kind{position:relative;display:block}
+.club-kind input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.club-kind span{display:flex;align-items:center;gap:6px;min-height:42px;padding:0 16px 0 10px;border:1px solid var(--bag-line-strong);border-radius:999px;font:500 14px/1 Outfit,sans-serif;color:var(--bag-dim);transition:background .15s,color .15s,border-color .15s}
+.club-kind span svg{width:22px;height:22px}
+.club-kind input:checked+span{background:var(--bag-accent);border-color:var(--bag-accent);color:var(--bag-accent-ink)}
+.club-kind input:focus-visible+span{outline:2px solid var(--bag-focus);outline-offset:2px}
+.club-remove{grid-column:1/-1;justify-self:start;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 12px;border:1px solid #f0a09033;border-radius:12px;background:transparent;color:var(--bag-danger);font:600 13px/1 Outfit,sans-serif;cursor:pointer;transition:background .15s}
+.club-remove:disabled{opacity:.35;cursor:default}
+.club-remove>svg{width:18px;height:18px}
+
+/* Footer: one primary action that says whether anything will be saved. */
+.bag-actions{position:relative;flex:none;display:flex;align-items:center;justify-content:flex-end;gap:14px;padding:14px 20px;border-top:1px solid var(--bag-line)}
+.bag-error{margin-right:auto;font:500 13px/1.4 Outfit,sans-serif;color:var(--bag-danger)}
+.bag-save{min-width:200px;min-height:50px;padding:0 26px;border:1px solid var(--bag-accent);border-radius:14px;background:transparent;color:var(--bag-accent);font:600 15px/1 Outfit,sans-serif;cursor:pointer;transition:background .18s,color .18s}
+.bag-save.dirty{background:var(--bag-accent);color:var(--bag-accent-ink)}
+.bag-undo{display:flex;align-items:center;gap:12px;min-width:0;margin-right:auto;padding:5px 5px 5px 14px;border-radius:14px;background:#e8ecdf;color:var(--bag-accent-ink);font:500 14px/1.3 Outfit,sans-serif;animation:bagFade .2s ease-out}
+.bag-undo[hidden]{display:none}
+.bag-undo span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bag-undo button{flex:none;min-height:40px;padding:0 14px;border:0;border-radius:10px;background:var(--bag-accent-ink);color:#e8ecdf;font:600 14px/1 Outfit,sans-serif;cursor:pointer}
+.bag-confirm{position:absolute;inset:0;z-index:10;display:grid;place-items:center;padding:24px;background:#050b08b3;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:bagFade .2s ease-out}
+.bag-confirm[hidden]{display:none}
+.bag-confirm-card{width:min(380px,100%);padding:24px;border:1px solid var(--bag-line-strong);border-radius:22px;background:var(--bag-raise);box-shadow:0 24px 60px #000a}
+.bag-confirm-card h3{font:600 20px/1.2 Outfit,sans-serif;letter-spacing:-.02em}
+.bag-confirm-card p{margin-top:8px;font:400 14px/1.5 Outfit,sans-serif;color:var(--bag-dim)}
+.bag-confirm-actions{display:flex;gap:10px;margin-top:20px}
+.bag-confirm-actions button{flex:1;min-height:50px;padding:0 12px;border-radius:14px;font:600 14px/1.2 Outfit,sans-serif;cursor:pointer}
+#bagDiscardBtn{border:1px solid #f0a09055;background:transparent;color:var(--bag-danger)}
+#bagConfirmSaveBtn{border:1px solid var(--bag-accent);background:var(--bag-accent);color:var(--bag-accent-ink)}
+@keyframes bagRise{from{opacity:0;transform:translateY(8px)}}
+@keyframes bagFade{from{opacity:0}}
+
+@media(hover:hover){
+  .bag-close:hover{background:#ffffff10}
+  .bag-row:hover:not(.selected){background:#ffffff07}
+  .bag-distance:hover:not(:focus){border-color:#ffffff3a}
+  .bag-add:hover:not(:disabled){background:#cadbb60f;border-style:solid}
+  .bag-reset:hover{color:var(--bag-ink)}
+  .club-tools button:hover:not([aria-pressed=true]),.club-step:hover{background:#fff}
+  .club-controls button:hover:not([aria-pressed=true]){box-shadow:inset 0 0 0 1px #677e5970}
+  .club-stepper button:hover{background:#ffffff0d}
+  .club-name-input:hover:not(:focus){border-color:#ffffff3a}
+  .club-kind:hover input:not(:checked)+span{border-color:#ffffff40;color:var(--bag-ink)}
+  .club-remove:hover:not(:disabled){background:#f0a09014}
+  .bag-save:hover{background:#cadbb614}.bag-save.dirty:hover{background:#d8e6c6}
+}
+
+@media(min-width:721px) and (max-height:919px){.bag-kicker{display:none}.bag-title h2{margin-top:0}}
+
+/* Phone: full screen, one page at a time. */
 @media(max-width:720px){
-  #bagDialog{width:calc(100vw - 16px);max-height:calc(100dvh - 16px);border-radius:18px}
-  #bagDialog .bag-form{max-height:calc(100dvh - 16px)}
-  #bagDialog .bag-head{padding:16px 18px 12px}#bagDialog .bag-title h2{font-size:26px}
-  #bagDialog .bag-title p{font-size:10px;max-width:280px}
-  .bag-workspace{display:flex;flex-direction:column;overflow:auto}
-  .club-studio{order:-1;flex:0 0 auto;margin:8px 10px 0;min-height:340px}
-  .club-studio-head{padding:16px 18px 0}.club-studio-head h3{font-size:25px}
-  .club-canvas{height:210px;min-height:210px;flex:none}
-  .club-hint{font-size:9px;padding-bottom:8px}.club-controls{padding-bottom:12px;gap:5px}
-  .club-controls button{padding:7px 10px;font-size:9px;min-height:30px}
-  .club-detail{margin:0 17px;padding:10px 0}.club-detail label{font-size:9px}#clubCarry{font-size:12px}
-  .bag-inventory{flex:0 0 auto;border:0}#bagDialog .bag-list{height:auto;overflow:visible;padding:0 10px 12px}
-  #bagDialog .bag-toolbar{padding:14px 18px 10px}#bagDialog .bag-row{min-height:49px;grid-template-columns:40px minmax(0,1fr) 76px 28px}
-  #bagDialog .bag-actions{padding:10px 14px calc(10px + env(safe-area-inset-bottom))}.bag-local-note{display:none}#bagDialog .bag-save{flex:1}
+  #bagDialog{width:100vw;height:100dvh;border:0;border-radius:0}
+  .bag-head{min-height:64px;padding:calc(8px + env(safe-area-inset-top)) 10px 8px 18px}
+  .bag-kicker{display:none}
+  .bag-title h2{margin:0;font-size:24px}
+  .bag-summary{margin-top:4px}
+  #bagDialog[data-view=club] .bag-title{display:none}
+  #bagDialog[data-view=club] .club-back{display:flex;align-items:center;gap:2px;min-height:44px;margin-left:-10px;padding:0 12px 0 4px;border:0;border-radius:12px;background:none;color:var(--bag-accent);font:600 16px/1 Outfit,sans-serif;cursor:pointer}
+  #bagDialog[data-view=club] .club-back svg{width:24px;height:24px}
+  #bagDialog[data-view=club] .club-pos{display:block;flex:1;text-align:center;font:500 13px/1 'JetBrains Mono',monospace;color:var(--bag-dim)}
+  .bag-workspace{grid-template:100% / 100%;overflow:hidden;overflow:clip}
+  .bag-inventory,.bag-detail{grid-area:1/1;transition:transform .34s cubic-bezier(.2,.8,.2,1),opacity .34s}
+  .bag-inventory{padding:12px 10px 28px;border:0}
+  .bag-intro{padding:0 8px 12px}
+  .bag-columns{grid-template-columns:minmax(0,1fr) 84px 20px;gap:8px;padding:0 5px 8px 57px}
+  .bag-row{grid-template-columns:minmax(0,1fr) 84px 20px;gap:8px;padding:4px 4px 4px 2px}
+  .bag-chevron{display:grid;place-items:center}
+  .bag-detail{padding:10px 12px 28px;gap:20px;background:var(--bag-bg);transform:translateX(100%)}
+  #bagDialog[data-view=club] .bag-detail{transform:none}
+  #bagDialog[data-view=club] .bag-inventory{transform:translateX(-24%);opacity:0}
+  .club-studio{flex:none;height:clamp(300px,56dvh,480px);min-height:0;border-radius:22px}
+  .club-studio-head{padding:18px 112px 0 18px}
+  .club-studio-head h3{font-size:26px}
+  .club-tools{top:14px;right:14px;gap:6px}
+  .club-step.prev{left:8px}.club-step.next{right:8px}
+  .club-controls{gap:6px;padding:0 10px 12px}
+  .club-controls button{padding:0 12px}
+  .club-edit{grid-template-columns:minmax(0,1fr);gap:20px;padding:0 2px}
+  .club-stepper,.club-name-input{height:56px}.club-putter-note{min-height:56px}
+  .club-kind span{min-height:44px}
+  .club-remove{justify-self:stretch;justify-content:center;min-height:50px}
+  .bag-actions{flex-wrap:wrap;gap:8px;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+  .bag-error{flex:1 0 100%;margin:0;text-align:center}
+  .bag-undo{position:absolute;z-index:3;left:12px;right:12px;bottom:calc(100% + 10px);margin:0;box-shadow:0 14px 34px #0009;animation:bagRise .25s ease-out}
+  .bag-save{flex:1;min-width:0;min-height:52px}
 }
-@media(prefers-reduced-motion:reduce){#bagDialog *{transition:none!important}}
-@media(min-width:721px) and (max-height:600px){
-  .bag-workspace{overflow:auto;flex-shrink:1}.club-studio{min-height:410px}
-  #bagDialog .bag-head{padding:12px 20px}#bagDialog .bag-title h2{font-size:25px}
-  #bagDialog .bag-list{height:410px;flex-shrink:0}
+@media(max-width:374px){
+  .bag-columns{grid-template-columns:minmax(0,1fr) 76px 18px}
+  .bag-row{grid-template-columns:minmax(0,1fr) 76px 18px}
+  .bag-icon{width:32px}.bag-icon svg{width:32px;height:32px}
+  .club-controls button{padding:0 10px;font-size:12px}
 }
+/* Landscape phones: keep the split, give the model the height. */
+@media(min-width:721px) and (max-height:560px){
+  #bagDialog{width:100vw;height:100dvh;border:0;border-radius:0}
+  .bag-head{padding:8px 12px 8px 20px}
+  .bag-kicker,.bag-intro{display:none}
+  .bag-title h2{margin:0;font-size:22px}
+  .bag-summary{margin-top:3px}
+  .bag-inventory{padding-top:10px}
+  .club-studio{flex:none;height:max(240px,calc(100dvh - 150px));min-height:0}
+  .club-studio-head{position:absolute;top:0;left:0;right:120px;padding:14px 18px}.club-studio-head h3{font-size:24px}
+  .club-hint{display:none}
+  .bag-actions{padding:8px 16px calc(8px + env(safe-area-inset-bottom))}
+  .bag-save{min-height:44px}
+}
+@media(prefers-reduced-motion:reduce){#bagDialog *,#bagDialog *:before,#bagDialog *:after{transition:none!important;animation:none!important}}

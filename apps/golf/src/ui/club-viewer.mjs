@@ -36,11 +36,13 @@ export async function createClubViewer(host, onStatus) {
   const loader = new GLTFLoader(), cache = new Map();
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   let model, request = 0, active = false, spinning = !reducedMotion.matches, mode = 'head', frame = 0, lastTime = 0, disposed = false;
-  let transition;
+  let transition, view = 'hero', framedAspect = 0;
   function resize() {
     const { width, height } = host.getBoundingClientRect();
     if (!width || !height) return;
     renderer.setSize(width, height); camera.aspect = width / height; camera.updateProjectionMatrix();
+    // The fit depends on the aspect: reframe after a rotation or a layout change.
+    if (model && Math.abs(camera.aspect / framedAspect - 1) > .1) pose(view, false);
   }
   const observer = new ResizeObserver(resize); observer.observe(host);
   function draw(time = 0) {
@@ -61,8 +63,9 @@ export async function createClubViewer(host, onStatus) {
   function setActive(value) { active = value; if (!value) { cancelAnimationFrame(frame); frame = 0; } else { resize(); start(); } }
   function visibility() { if (document.hidden) { cancelAnimationFrame(frame); frame = 0; } else start(); }
   document.addEventListener('visibilitychange', visibility);
-  function pose(view = 'hero', animate = true) {
+  function pose(next = 'hero', animate = true) {
     if (!model) return;
+    view = next; framedAspect = camera.aspect;
     const wide = ['driver', 'fairway', 'hybrid'].includes(model.userData.kind);
     const iron = model.userData.kind === 'iron';
     const wedge = model.userData.kind === 'wedge';
