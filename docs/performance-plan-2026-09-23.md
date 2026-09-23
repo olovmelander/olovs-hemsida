@@ -296,17 +296,19 @@ readback where shadows are involved.
   paints changes (camera arrow at 1/256 px and 1e-5 rad, hole, skyltar,
   tactical line, Kikaren point, GPS fix, selected tee and green). Every other
   caller still redraws unconditionally.
+- **1.7 landed.** Attributed first: on Ängsö, every node build after boot on a
+  hole change came from the tactical guide (15, 10, 4, 15, 15 builds for holes
+  2, 3, 4, 2, 1; revisits rebuilt too). three 0.186's node cache key includes
+  each node's `id`, and `buildStrategy` gave each material a new `opacityNode`
+  graph every hole. One shared graph: 4, 0, 0, 0, 0 (the 4 are shapes first
+  drawn on that change, built once), and boot 131 -> 125.
 - **Deferred, with reasons.** 1.3 (finer culling) and 1.5 (caster limits) change
   which off-screen trees cast shadows into the view, which is the owner's
   decision 2 and needs eyes on the GPU. 1.4: reordering casters by
   `renderOrder` also reorders the main pass, whose cost only the GPU can
   measure; the alternative is a local three patch (`Renderer.js` copies
   `alphaTest` onto the shared shadow material and `Material.alphaTest` bumps
-  `version` on every zero crossing), which is the owner's call. 1.7: three
-  0.186 caches node builds by structural key (`customProgramCacheKey`), not by
-  material identity, so re-creating the tactical-guide materials should not
-  by itself rebuild; the 14-36 builds per hole need the diagnostic build's
-  node-builder log to attribute before anything is changed. 1.10 needs a GPU
+  `version` on every zero crossing), which is the owner's call. 1.10 needs a GPU
   pixel diff.
 
 ### Phase 2 — owner decision: distant Hero crowns
