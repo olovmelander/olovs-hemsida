@@ -279,10 +279,16 @@ auditable.
 }
 ```
 
-- **IDs are ULIDs** generated on the device: sortable by time, unique across devices.
-- **Positions keep both frames**: WGS84 (what GPS said, for sync and re-projection)
-  and the course's local x/z/y (what the scene and the statistics use), plus the
-  accuracy and how many fixes were averaged.
+- **IDs are UUIDv7** (RFC 9562; ULIDs in the sketch above are the same idea)
+  generated on the device: sortable by time, unique across devices, so records made
+  offline on two phones never collide and sync needs no CRDT (section 9).
+- **Positions keep both frames**: WGS84 (what GPS said, for sync and re-projection,
+  rounded to 5 decimals ≈ 1 m — finer is noise and more personal data than the
+  statistics need) and the course's local x/z/y (what the scene and the statistics
+  use), plus the accuracy and how many fixes were averaged.
+- **Nothing is ever hard-deleted in the log**: an `undo` or a deleted shot is a
+  tombstone event, because an offline device that never sees a delete would
+  resurrect the record on its next sync.
 - **Derived, never stored**: distance, score, FIR/GIR, strokes gained. A better rule
   later re-computes every old round.
 - **Continuous tracks are opt-in** (the field recorder, 7.6), stored separately and
@@ -442,7 +448,102 @@ checked by the browser gate at 1440 px and 390 px.
 
 ## 9. Sync, accounts and privacy
 
-> **Pending:** sync and privacy — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- SYNC_PRIVACY -->
+### 9.1 First: the app needs its own origin
+
+**Every GitHub Pages project on `olovmelander.github.io` shares one browser origin
+— and therefore one IndexedDB and one localStorage** — with every other project
+page served from that user site. GitHub has said it has no plans to change this.
+Today that is harmless (a bag and three preferences); with people's rounds and
+positions in storage it is not. A custom domain (Cloudflare, which the repo's
+`_headers` and `_redirects` already target, or any registrar) is the first task of
+M5 and a precondition for storing shots under anything but a developer's own use.
+It also gives passkeys a clean relying-party ID (`github.io` is a public suffix, so
+the RP ID would otherwise be `olovmelander.github.io`).
+
+### 9.2 The data model is the sync design
+
+Because every shot and correction is an **immutable event with a device-generated
+UUIDv7**, two devices can never write the same record, so sync is:
+
+- the phone keeps an **outbox** of unsent events in IndexedDB and pushes them as
+  idempotent upserts whenever it is online and the app is open (Background Sync
+  exists only in Chromium; on iOS, sync runs on open and on coming back online);
+- each device **pulls** events newer than its last checkpoint (a server-set
+  `updated_at`), and folds;
+- **the same round edited on two devices** merges as a union of events; the few
+  mutable round fields (format, playing handicap, notes) are per-field
+  last-writer-wins with history kept; derived numbers (club distances, strokes
+  gained) are recomputed on each device, never synced;
+- the desktop shows "väntar på telefonen" for a round whose phone has not synced.
+
+No CRDT library is needed for this shape (Automerge and Yjs earn their keep only for
+live multi-player scorecards, milestone 7 at the earliest), and several "sync
+engines" do not fit it: Zero 1.0 rejects writes while offline, Replicache is in
+maintenance, ElectricSQL syncs reads only. RxDB's free Supabase replicator or
+PowerSync are the options if the hand-written outbox ever becomes the bottleneck.
+
+### 9.3 Backend options (researched 23 September 2026)
+
+| Option | Start → scale cost | EU residency and DPA | Fit here |
+|---|---|---|---|
+| **Supabase**, `eu-north-1` (Stockholm) | $0 (500 MB, 50k MAU; pauses after a week idle) → Pro $25/mo | Stockholm region; DPA with SCCs, accepted with the terms | **Recommended**: Postgres with row-level security (`user_id = auth.uid()`), email-code auth; no offline layer — ours is the outbox |
+| Supabase + PowerSync | + $49/mo | as above | the upgrade path if sync grows complex |
+| Cloudflare Workers + D1 (`jurisdiction eu`) | $0 → $5/mo | EU jurisdiction; DPA by default | cheapest at scale, but auth is ours to build |
+| PocketBase on an EU VPS | ~€5.5/mo + operations | fully ours | simplest self-hosted; we run backups and upgrades |
+| Firebase / Firestore | $0 → pay as you go | Firestore in Stockholm, but **Firebase Auth runs only in US data centres** | best built-in offline cache, weaker residency story |
+| Google Drive `appDataFolder` | $0 (the user's own 15 GB) | data never touches us | attractive "use my own cloud" option, but browser tokens expire hourly with no refresh and need a tap — poor in an iOS home-screen app |
+| Dexie Cloud | $0 → €0.12/user/month | hosted in Azure US East (EU needs a €3,495 self-host licence) | prototype only |
+| Appwrite Cloud | $0 → $25/mo | Frankfurt | pauses after 7 days without console activity — hostile to a hobby-scale live app |
+
+Volume, estimated: ~90 shots × ~250 bytes ≈ 25 KB per round, so 1,000 golfers ×
+40 rounds is about 1 GB a year — past Supabase's free tier within a season at that
+scale, comfortably inside Pro.
+
+### 9.4 Accounts
+
+- **Six-digit email codes, not magic links.** On iOS a home-screen app's storage is
+  separate from Safari's, so a link tapped in Mail signs the golfer in to Safari,
+  not to the app. Supabase supports codes (`{{ .Token }}` in the template) and needs
+  our own SMTP beyond two emails an hour.
+- OAuth popups fail in iOS standalone mode; any Google/Apple sign-in uses redirects.
+  Sign in with Apple on the web needs the $99/yr developer programme and a secret
+  rotated every six months. Passkeys work on iOS 16+ but are beta in Supabase
+  (May 2026): a later addition, not the first.
+- `navigator.storage.persist()` at the first round (Safari 17+); an installed
+  home-screen app is exempt from Safari's 7-day deletion of site data, but deleting
+  the app still loses anything unsynced — the round screen says so until the first
+  sync.
+
+### 9.5 Privacy (GDPR, Sweden) — designed in, not added on
+
+- **Shot coordinates are personal data** (GDPR Art. 4(1) names location data; the
+  EDPB calls it notoriously hard to anonymise). Not a special category, but "highly
+  personal" in the DPIA guidelines.
+- **Lawful basis**: storing and syncing a golfer's own rounds is *contract* (Art.
+  6(1)(b)) — it is the service they asked for. The OS location prompt is not GDPR
+  consent. Anything beyond that — analytics, sharing, using golfers' shots to improve
+  course maps — needs its own consent or a documented legitimate-interest test.
+- **No cookie banner for the app's own storage**: LEK 9 kap. 28 § exempts storage
+  necessary for a service the user explicitly asked for; analytics storage would not
+  be exempt.
+- **Minimise by construction**: a position is stored only on a shot tap or a
+  confirmed stop, only inside the course, at ~1 m precision; no background track
+  unless the field recorder is on; "Ta bort GPS från gamla rundor" keeps the
+  statistics and drops the coordinates.
+- **Rights**: one-tap export (JSON, CSV, GPX) for portability; account deletion
+  cascades to every server row within a month; dormant accounts purged after a
+  stated period (a Swedish peer keeps two years after the last round).
+- **Processors**: accept each provider's DPA (IMY: Art. 28 needs one in writing),
+  list sub-processors in the privacy notice, and write the short DPIA — a golf app
+  likely meets one of IMY's nine criteria (location), two trigger a mandatory one,
+  and the document is cheap either way.
+- What peers disclose: Arccos stores precise GPS until deletion and may store data
+  in the US; Hole19 promises access within a month and deletion within 30 days;
+  Caddee keeps location only as long as needed and shares it de-identified; OnTag
+  processes in the EU/EEA. EU-only processing is a differentiator worth stating.
+
+*(Analysis, not legal advice; prices and limits change often — Appwrite's changed
+twice in 2026. Re-check at M5.)*
 
 ---
 
@@ -466,7 +567,7 @@ weeks for one person who knows the codebase.
 | **M2** | **Smart assist** | tap averaging and provisional positions (7.1); stop detector and ghost shots for forgotten taps (7.3); penalty suggestions from water rings, OB stakes and re-hits (4.4); club model v1 (7.4); Screen Wake Lock + Fickläge; battery readout; the field recorder (7.6) | simulated rounds with forgotten taps recover ≥ 95 % of shots within 5 m; suggestion-agreement metric computed on fixtures; pocket-mode touch lock proven by a gate that taps it; no regression in M1 gates | 2–3 |
 | **M3** | **Statistics** | `?statistik` view (Rundor, Klubbor, Spel, Trender) on phone and desktop from one code path; flat-equivalent club distances and dispersion; strokes gained v1 with selectable baseline; insights v1; per-hole 3D replay of shots | fixture rounds → exact expected numbers; layout gates at 390 and 1440 px; the view makes no third-party request | 2–3 |
 | **M4** | **Field validation** (runs alongside M2–M3) | the owner plays 3–5 rounds with the recorder and a laser rangefinder for spot checks | published in this document: distance error vs laser (target median ≤ 4 m), stop recall/precision, taps per hole, battery per round; detector thresholds re-fitted on the traces and the traces committed as fixtures | 1 + rounds |
-| **M5** | **Accounts and sync** | the chosen backend (section 12), event-log sync, consent and privacy screens, export and delete-everything | two-device merge tests (offline edits on both, then sync), delete-account test, EU residency verified, no location data leaves the device before consent | 2–4 |
+| **M5** | **Accounts and sync** | a custom domain first (9.1); the chosen backend (section 12), event-log outbox sync (9.2), email-code accounts (9.4), the privacy notice, export (JSON/CSV/GPX) and delete-everything (9.5) | two-device merge tests (offline edits on both, then sync), delete-account test, EU residency verified, no location data leaves the device before consent | 2–4 |
 | **M6** | **Automation beyond the browser** | motion swing detection (beta, 7.5) tuned on M4 traces; a Capacitor wrapper spike for background GPS and motion with the screen off; watch-companion feasibility | detection precision/recall on recorded traces at the targets set by M4; battery per round in background mode measured | 3–4 |
 | **M7** | **Formats and people** | Stableford/net polish, match play, playing partners' cards (manual), round sharing (image/link), Min Golf link-out, pin-of-the-day input | format unit tests; share output checked | 2–3 |
 
@@ -483,7 +584,12 @@ with the screen dimmed, to be measured, not assumed).
 
 None of these block M1–M3, which are local-first by design. They block M5–M7.
 
-1. **Sync backend and accounts** — > **Pending:** the backend recommendation — being completed from the web research of 23 September 2026 in the next revision of this file. <!-- BACKEND_REC -->
+1. **Sync backend and accounts** — recommendation: **Supabase in Stockholm
+   (`eu-north-1`) with a hand-written event outbox and six-digit email codes**,
+   free to start and $25/mo once people depend on it; Cloudflare D1 if cost at scale
+   matters more than building auth; a "use my own Google Drive" option later for
+   those who want to hold their own data. Before any of it: **a custom domain**
+   (9.1), because every github.io project page shares this app's storage.
 2. **When to wrap the app natively.** A Capacitor shell is the only way to keep GPS
    and motion running with the screen off (section 10). It also means App Store and
    Play review, a developer account, and a second release pipeline. Recommendation:
