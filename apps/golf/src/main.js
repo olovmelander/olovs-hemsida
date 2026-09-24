@@ -73,6 +73,7 @@ import { createGroundClamp, GROUND_CLAMP } from './engine/camera-clamp.mjs';
 import { createCameraBreathing } from './engine/camera-breathing.mjs';
 import { coastalCameraNear } from './engine/coastal-camera-depth.mjs';
 import { createRenderResolution, requestedRenderResolution } from './engine/render-resolution.mjs';
+import { playerTerrainDetail } from './engine/terrain-detail.mjs';
 import { teeView } from './engine/tee-view.mjs';
 import { createSelectedTee } from './engine/selected-tee.mjs';
 import { createSelectedGreen } from './engine/selected-green.mjs';
@@ -2829,13 +2830,18 @@ async function preflightTerrainPreviewGpu(batch) {
    The pilot source still supplies its 1 m sampler and the surface atlas.
    Loaded dynamically so a flagless visit never downloads it. */
 const BOOTQ_TILEGRACE = new URLSearchParams(location.search).get('tilegrace');
+/* The same terrain on a phone as on the desktop, on either backend: native
+   tiles, one pixel of screen error and the desktop tile budget at every quality
+   (engine/terrain-detail.mjs). `mobile` below sets only streaming concurrency,
+   how many unused tiles stay cached and how the tile texture grows. */
+const TERRAIN_DETAIL = playerTerrainDetail(location.search);
 if (V2_WORLD) {
   terrainV2.configure({
     backend: IS_GPU ? 'webgpu' : 'webgl2',
     mobile: LOWQ,
     /* the pilot's course window took 64 tiles in one draw; a world of rings
        refines the course to 1 m AND keeps the horizon resident */
-    profile: { targetErrorPixels: IS_GPU ? 1 : 1.5, maximumSelectedTiles: LOWQ ? 56 : 128 },
+    profile: TERRAIN_DETAIL.profile,
     /* ?tilegrace=<ms>: how long an unwanted tile stays resident (0 is the before: released on the next plan, its coarse parent drawn while it loads again) */
     releaseGraceMilliseconds: Number.isFinite(parseInt(BOOTQ_TILEGRACE, 10)) ? parseInt(BOOTQ_TILEGRACE, 10) : undefined,
   });
@@ -2876,12 +2882,10 @@ const SOURCE_WATER_COVERAGE = await (async () => {
 })();
 const COASTAL_TERRAIN_MASK = V2_WORLD ? createCoastalTerrainMask(COASTAL_WATER ?? SOURCE_WATER_COVERAGE) : null;
 if (TERRAIN_PREVIEW.ready) {
-  /* Low WebGL2 requests reduced terrain. Ring grounds retain every native
-     course vertex and simplify surrounding levels with rebuilt morphs.
-     ?terrainStride=1|2 provides a matched comparison on either backend. */
-  const requestedTerrainStride = new URLSearchParams(location.search).get('terrainStride');
-  const renderStride = ['1', '2'].includes(requestedTerrainStride)
-    ? Number(requestedTerrainStride) : !IS_GPU && LOWQ ? 2 : 1;
+  /* Every quality draws native terrain. ?terrainStride=2 is the reduced grid
+     low WebGL2 drew until 24 September: ring grounds keep every native course
+     vertex and simplify the refinable levels with rebuilt morphs. */
+  const renderStride = TERRAIN_DETAIL.renderStride;
   const prepareStarted = performance.now();
   const decorateGround = CUP_MASK.wrap(createV2GroundMaterialDecorator({
     /* exact fields from the vectors outrank anything compiled from a mask */

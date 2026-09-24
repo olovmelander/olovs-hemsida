@@ -204,4 +204,23 @@ describe('isolated v2 terrain runtime', () => {
     runtime.dispose();
     expect(scene.children).toHaveLength(0);
   });
+
+  it.each([[true, 8], [false, 128]])('with the desktop budget, a mobile=%s native runtime reserves %i terrain layers', async (mobile, layers) => {
+    const { course, ground, loader } = fixture();
+    const runtime = new CourseV2TerrainRuntime({ ground, course, scene: new THREE.Scene(), backend: 'webgl2', mobile,
+      profile: { targetErrorPixels: 1, maximumSelectedTiles: 128 }, assetLoader: loader, clock: () => 0 });
+    const camera = new THREE.PerspectiveCamera(48, 1, 1, 2000);
+    camera.position.set(64, 50, 192);
+    camera.lookAt(64, 0, 192);
+    runtime.update({ camera, viewportHeightPixels: 720, activeHoleNumber: 1, visible: () => true });
+    await settle(() => runtime.snapshot().renderer.renderedTiles === 2);
+    const { renderStride, profile, renderer } = runtime.snapshot();
+    expect(renderStride).toBe(1);
+    expect(profile.maximumSelectedTiles).toBe(128);
+    const regular = renderer.batches.filter(batch => batch.capacity > 1);
+    expect(regular).toHaveLength(1);
+    expect(regular[0].capacity).toBe(layers);
+    expect(regular[0].textureCapacityBytes).toBe(layers * regular[0].width * regular[0].height * 8);
+    runtime.dispose();
+  });
 });

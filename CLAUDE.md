@@ -35,6 +35,13 @@ this guide or the current production workflow.
   dwell and crossfade. Outer-zone trees remain impostors. `?distanthero=0`
   restores geographic-only detail; `16` retains the measured comparison
   threshold. Lite and alternative catalogues belong to isolated studies.
+- Terrain detail is the same on every device and backend (owner request,
+  24 September): native tile grids, a coarser level only within one rendered
+  pixel of the finer surface, and a 128-tile budget, so phones draw the
+  desktop's 1 m course ground. Low quality changes only streaming concurrency,
+  caching and a grow-as-needed tile texture. `?terrainStride=2` is a
+  comparison, not a phone default. See
+  [terrain render optimization](docs/v2-terrain-render-optimization.md).
 - Study shader/tree entry points live in `apps/golf/src/studies`. Keep them out
   of the player import graph. Refined/foliage study assets remain available
   locally and are omitted from production builds.
