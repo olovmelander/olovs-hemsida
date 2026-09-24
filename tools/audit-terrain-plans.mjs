@@ -43,7 +43,7 @@ const server = await createServer({ root: app, configFile: path.join(app, 'vite.
     if (id !== mainPath) return;
     const anchor = "await tick('ritar första vyn', 0.98);";
     assert.ok(text.includes(anchor));
-    return text.replace(anchor, `globalThis.__terrainAudit = { terrainV2, camera, controls, HOLES, goHole, setCam, updateTerrainView, viewport: renderResolution.detailHeight(), renderer };\nawait new Promise(() => {});\n${anchor}`);
+    return text.replace(anchor, `globalThis.__terrainAudit = { terrainV2, camera, controls, HOLES, goHole, setCam, updateTerrainView, viewport: renderResolution.terrainDetailHeight(), renderer };\nawait new Promise(() => {});\n${anchor}`);
   } }] });
 await server.listen();
 const browser = await chromium.launch({ ...browserExecutable(), args: browserArgs() });

@@ -113,6 +113,22 @@ describe('independent render resolution', () => {
     expect(high.ratio()).toBe(1);
     expect(high.controller.detailHeight()).toBe(844);
   });
+  it('measures terrain in device pixels up to two per CSS pixel at every quality', () => {
+    const low = fixture(), high = fixture({ lowQuality: false });
+    expect(low.controller.detailHeight()).toBe(844);
+    expect(low.controller.terrainDetailHeight()).toBe(1688);
+    expect(high.controller.terrainDetailHeight()).toBe(1688);
+    expect(low.controller.snapshot()).toMatchObject({ detailPixelRatio: 1, terrainDetailPixelRatio: 2 });
+    low.run(30_000);
+    expect(low.ratio()).toBe(1.5);
+    expect(low.controller.terrainDetailHeight()).toBe(1688);
+    high.fallback();
+    expect(high.controller.detailHeight()).toBe(844);
+    expect(high.controller.terrainDetailHeight()).toBe(1688);
+    low.resize(844, 390, 1.5);
+    expect(low.controller.terrainDetailHeight()).toBe(585);
+    expect(fixture({ devicePixelRatio: 1 }).controller.terrainDetailHeight()).toBe(844);
+  });
   it('allows fixed sharpness independently of scene quality and diagnostic locks', () => {
     const f = fixture({ adaptive: false, requested: 1.5 });
     f.run(30_000, 50);

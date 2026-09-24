@@ -228,3 +228,41 @@ test('explicit parent ids from a ring compilation drive refinement across unalig
   const broken = compiled.tiles.map(tile => (tile.id === 'l0/0/0' ? { ...tile, parentId: 'l1/9/9' } : tile));
   assert.throws(() => new TerrainTileManager({ ground: { shell: compiled.shell, tiles: broken }, courseSlug: 'ring-course' }), /names parent/);
 });
+
+test('ground off the course refines to its own looser target while the course keeps the strict one', () => {
+  // Three levels over 64 m: a root, four 32 m tiles, sixteen 16 m tiles.
+  const tiles = [];
+  for (let lod = 0; lod <= 2; lod++) {
+    const count = 2 ** (2 - lod), size = 16 * 2 ** lod;
+    for (let x = 0; x < count; x++) for (let y = 0; y < count; y++) tiles.push({
+      id: `l${lod}/${x}/${y}`, lod, courses: ['course'], geometricErrorMetres: lod * .3,
+      bounds: { minEasting: x * size, maxEasting: (x + 1) * size,
+        minNorthing: y * size, maxNorthing: (y + 1) * size, minHeightRH2000: 0, maxHeightRH2000: 30 },
+      layers: { terrain: { url: `tile-${lod}-${x}-${y}` } },
+    });
+  }
+  const manager = () => new TerrainTileManager({ ground: { shell: { url: 'shell' }, tiles }, courseSlug: 'course' });
+  // Every 32 m tile projects 3 px from 50 m above the middle; the root 6 px.
+  const input = { camera: { easting: 32, northing: 32, heightRH2000: 80 }, viewportHeightPixels: 1000,
+    fieldOfViewYRadians: Math.PI / 2, targetErrorPixels: 1, maximumSelectedTiles: 64 };
+  const uniform = manager().plan(input);
+  assert.equal(uniform.desiredTileIds.filter(id => id.startsWith('l0/')).length, 16);
+  // Unused, the course list changes nothing.
+  assert.deepEqual(manager().plan({ ...input, courseTileIds: ['l0/3/3'] }), uniform);
+
+  const smart = manager().plan({ ...input, courseTileIds: ['l0/3/3'], outsideCourseTargetErrorPixels: 4 });
+  assert.deepEqual(smart.refinedTileIds, ['l1/1/1', 'l2/0/0']);
+  assert.deepEqual(smart.desiredTileIds, ['l0/2/2', 'l0/2/3', 'l0/3/2', 'l0/3/3', 'l1/0/0', 'l1/0/1', 'l1/1/0']);
+
+  // With room for one more quad, the course outranks equal raw error off it.
+  const tight = { ...input, courseTileIds: ['l0/3/3'], outsideCourseTargetErrorPixels: 2, maximumSelectedTiles: 7 };
+  assert.deepEqual(manager().plan(tight).refinedTileIds, ['l1/1/1', 'l2/0/0']);
+  assert.deepEqual(manager().plan({ ...tight, outsideCourseTargetErrorPixels: 1 }).refinedTileIds, ['l1/0/0', 'l2/0/0']);
+
+  // The active hole is still forced wherever it lies.
+  const active = manager().plan({ ...input, courseTileIds: ['l0/3/3'], outsideCourseTargetErrorPixels: 64, activeTileIds: ['l0/0/0'] });
+  assert.ok(active.refinedTileIds.includes('l1/0/0'));
+
+  assert.throws(() => manager().plan({ ...input, outsideCourseTargetErrorPixels: 0.5 }), /from targetErrorPixels/);
+  assert.throws(() => manager().plan({ ...input, courseTileIds: ['l0/9/9'], outsideCourseTargetErrorPixels: 2 }), /not in this course/);
+});

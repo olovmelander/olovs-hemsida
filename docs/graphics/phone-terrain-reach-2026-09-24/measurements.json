@@ -1,0 +1,1416 @@
+{
+ "setup": "Built app, WebGL2 under SwiftShader with draw calls skipped: counts and main-thread time, not frame rate. Phone = 412x915 (portrait) or 915x412 (landscape) CSS px at device pixel ratio 3, low quality locked. Desktop = 1920x1080 at DPR 1, high quality. Main = f3dc1d97 (revision 105c3388); this change = revision ba8720f7 with ?offcourse=N selecting the off-course target (default 3; 1 = the course rule everywhere). Course tiles = every hole's tiles; \"at 1 m\" = visible course tiles drawn as themselves. Largest error = the planner's projected error over drawn tiles that have finer children, split by course path.",
+ "offCourseComparison": {
+  "veckefjarden portrait": {
+   "main": {
+    "1:tee:golden": {
+     "courseTilesVisible": 4,
+     "courseTilesAt1m": 4,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0.65,
+     "tiles": 28,
+     "byLevel": {
+      "0": 19,
+      "1": 1,
+      "2": 4,
+      "3": 4
+     },
+     "terrainTriangles": 3727360,
+     "frameTriangles": 6120515,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 915
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.07,
+     "tiles": 32,
+     "byLevel": {
+      "0": 20,
+      "1": 5,
+      "2": 4,
+      "3": 1,
+      "4": 2
+     },
+     "terrainTriangles": 4259840,
+     "frameTriangles": 6370323,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 915
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 3,
+     "courseTilesAt1m": 3,
+     "courseLargestErrorPx": 0.64,
+     "offCourseLargestErrorPx": 0.97,
+     "tiles": 25,
+     "byLevel": {
+      "0": 11,
+      "1": 7,
+      "2": 5,
+      "3": 1,
+      "4": 1
+     },
+     "terrainTriangles": 3328000,
+     "frameTriangles": 5239301,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 915
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 6,
+     "courseTilesAt1m": 6,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 6,
+     "byLevel": {
+      "0": 6
+     },
+     "terrainTriangles": 798720,
+     "frameTriangles": 2556017,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 915
+    }
+   },
+   "offcourse1": {
+    "1:tee:golden": {
+     "courseTilesVisible": 4,
+     "courseTilesAt1m": 4,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 28,
+     "byLevel": {
+      "0": 20,
+      "2": 4,
+      "3": 4
+     },
+     "terrainTriangles": 3727360,
+     "frameTriangles": 6120515,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.14,
+     "tiles": 42,
+     "byLevel": {
+      "0": 30,
+      "1": 1,
+      "2": 7,
+      "3": 3,
+      "4": 1
+     },
+     "terrainTriangles": 5591040,
+     "frameTriangles": 7701523,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 3,
+     "courseTilesAt1m": 3,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.08,
+     "tiles": 29,
+     "byLevel": {
+      "0": 13,
+      "1": 6,
+      "2": 5,
+      "3": 5
+     },
+     "terrainTriangles": 3860480,
+     "frameTriangles": 5771781,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 6,
+     "courseTilesAt1m": 6,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 6,
+     "byLevel": {
+      "0": 6
+     },
+     "terrainTriangles": 798720,
+     "frameTriangles": 2556017,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    }
+   },
+   "offcourse2": {
+    "1:tee:golden": {
+     "courseTilesVisible": 4,
+     "courseTilesAt1m": 4,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.31,
+     "tiles": 28,
+     "byLevel": {
+      "0": 19,
+      "1": 1,
+      "2": 4,
+      "3": 4
+     },
+     "terrainTriangles": 3727360,
+     "frameTriangles": 6120515,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 1830
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 2.15,
+     "tiles": 32,
+     "byLevel": {
+      "0": 20,
+      "1": 5,
+      "2": 4,
+      "3": 1,
+      "4": 2
+     },
+     "terrainTriangles": 4259840,
+     "frameTriangles": 6370323,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 1830
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 3,
+     "courseTilesAt1m": 3,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.93,
+     "tiles": 26,
+     "byLevel": {
+      "0": 13,
+      "1": 6,
+      "2": 5,
+      "3": 1,
+      "4": 1
+     },
+     "terrainTriangles": 3461120,
+     "frameTriangles": 5372421,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 1830
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 6,
+     "courseTilesAt1m": 6,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 6,
+     "byLevel": {
+      "0": 6
+     },
+     "terrainTriangles": 798720,
+     "frameTriangles": 2556017,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 1830
+    }
+   },
+   "offcourse3 (default)": {
+    "1:tee:golden": {
+     "courseTilesVisible": 4,
+     "courseTilesAt1m": 4,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.33,
+     "tiles": 20,
+     "byLevel": {
+      "0": 16,
+      "1": 2,
+      "3": 1,
+      "4": 1
+     },
+     "terrainTriangles": 2662400,
+     "frameTriangles": 5055555,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.27,
+     "tiles": 25,
+     "byLevel": {
+      "0": 14,
+      "1": 7,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 3328000,
+     "frameTriangles": 10057652,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 3,
+     "courseTilesAt1m": 3,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.44,
+     "tiles": 25,
+     "byLevel": {
+      "0": 11,
+      "1": 7,
+      "2": 5,
+      "4": 2
+     },
+     "terrainTriangles": 3328000,
+     "frameTriangles": 5239301,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 6,
+     "courseTilesAt1m": 6,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 6,
+     "byLevel": {
+      "0": 6
+     },
+     "terrainTriangles": 798720,
+     "frameTriangles": 2556017,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    }
+   },
+   "offcourse4": {
+    "1:tee:golden": {
+     "courseTilesVisible": 4,
+     "courseTilesAt1m": 4,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 4.41,
+     "tiles": 16,
+     "byLevel": {
+      "0": 10,
+      "1": 4,
+      "3": 1,
+      "4": 1
+     },
+     "terrainTriangles": 2129920,
+     "frameTriangles": 4523075,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.27,
+     "tiles": 25,
+     "byLevel": {
+      "0": 14,
+      "1": 7,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 3328000,
+     "frameTriangles": 5438483,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 3,
+     "courseTilesAt1m": 3,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.88,
+     "tiles": 18,
+     "byLevel": {
+      "0": 7,
+      "1": 6,
+      "2": 1,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 2396160,
+     "frameTriangles": 4307461,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 6,
+     "courseTilesAt1m": 6,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 6,
+     "byLevel": {
+      "0": 6
+     },
+     "terrainTriangles": 798720,
+     "frameTriangles": 2556017,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 1830
+    }
+   }
+  },
+  "veckefjarden landscape": {
+   "main": {
+    "1:tee:golden": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 8,
+     "courseLargestErrorPx": 1.02,
+     "offCourseLargestErrorPx": 1.1,
+     "tiles": 41,
+     "byLevel": {
+      "0": 14,
+      "1": 14,
+      "2": 4,
+      "3": 4,
+      "4": 5
+     },
+     "terrainTriangles": 5457920,
+     "frameTriangles": 7270471,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 412
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 0.54,
+     "offCourseLargestErrorPx": 0.92,
+     "tiles": 49,
+     "byLevel": {
+      "0": 22,
+      "1": 17,
+      "2": 3,
+      "3": 3,
+      "4": 4
+     },
+     "terrainTriangles": 6522880,
+     "frameTriangles": 8412709,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 412
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 13,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0.81,
+     "offCourseLargestErrorPx": 0.97,
+     "tiles": 37,
+     "byLevel": {
+      "0": 8,
+      "1": 14,
+      "2": 6,
+      "3": 4,
+      "4": 5
+     },
+     "terrainTriangles": 4925440,
+     "frameTriangles": 7140623,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 412
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 0.54,
+     "offCourseLargestErrorPx": 0.88,
+     "tiles": 16,
+     "byLevel": {
+      "0": 12,
+      "1": 4
+     },
+     "terrainTriangles": 2129920,
+     "frameTriangles": 3566250,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 412
+    }
+   },
+   "offcourse1": {
+    "1:tee:golden": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.13,
+     "tiles": 67,
+     "byLevel": {
+      "0": 41,
+      "1": 7,
+      "2": 10,
+      "3": 5,
+      "4": 4
+     },
+     "terrainTriangles": 8919040,
+     "frameTriangles": 10731591,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 824
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.84,
+     "offCourseLargestErrorPx": 1.0,
+     "tiles": 79,
+     "byLevel": {
+      "0": 53,
+      "1": 7,
+      "2": 11,
+      "3": 5,
+      "4": 3
+     },
+     "terrainTriangles": 10516480,
+     "frameTriangles": 12406309,
+     "tileTextureBytes": 42271360,
+     "detailHeightPx": 824
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 13,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.63,
+     "offCourseLargestErrorPx": 1.11,
+     "tiles": 78,
+     "byLevel": {
+      "0": 36,
+      "1": 16,
+      "2": 15,
+      "3": 8,
+      "4": 3
+     },
+     "terrainTriangles": 10383360,
+     "frameTriangles": 12598543,
+     "tileTextureBytes": 42271360,
+     "detailHeightPx": 824
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 1.08,
+     "offCourseLargestErrorPx": 0.01,
+     "tiles": 16,
+     "byLevel": {
+      "0": 13,
+      "1": 3
+     },
+     "terrainTriangles": 2129920,
+     "frameTriangles": 3566250,
+     "tileTextureBytes": 42271360,
+     "detailHeightPx": 824
+    }
+   },
+   "offcourse2": {
+    "1:tee:golden": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 2.19,
+     "tiles": 46,
+     "byLevel": {
+      "0": 21,
+      "1": 12,
+      "2": 4,
+      "3": 4,
+      "4": 5
+     },
+     "terrainTriangles": 6123520,
+     "frameTriangles": 7936071,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 824
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.84,
+     "offCourseLargestErrorPx": 1.83,
+     "tiles": 52,
+     "byLevel": {
+      "0": 26,
+      "1": 16,
+      "2": 3,
+      "3": 3,
+      "4": 4
+     },
+     "terrainTriangles": 6922240,
+     "frameTriangles": 8812069,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 824
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 13,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.63,
+     "offCourseLargestErrorPx": 1.93,
+     "tiles": 43,
+     "byLevel": {
+      "0": 16,
+      "1": 12,
+      "2": 6,
+      "3": 4,
+      "4": 5
+     },
+     "terrainTriangles": 5724160,
+     "frameTriangles": 7939343,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 824
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 1.08,
+     "offCourseLargestErrorPx": 1.75,
+     "tiles": 16,
+     "byLevel": {
+      "0": 12,
+      "1": 4
+     },
+     "terrainTriangles": 2129920,
+     "frameTriangles": 3566250,
+     "tileTextureBytes": 29589952,
+     "detailHeightPx": 824
+    }
+   },
+   "offcourse3 (default)": {
+    "1:tee:golden": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 2.99,
+     "tiles": 37,
+     "byLevel": {
+      "0": 17,
+      "1": 9,
+      "2": 1,
+      "3": 5,
+      "4": 5
+     },
+     "terrainTriangles": 4925440,
+     "frameTriangles": 6737991,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 824
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.84,
+     "offCourseLargestErrorPx": 2.65,
+     "tiles": 44,
+     "byLevel": {
+      "0": 22,
+      "1": 13,
+      "2": 1,
+      "3": 4,
+      "4": 4
+     },
+     "terrainTriangles": 5857280,
+     "frameTriangles": 14929318,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 824
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 13,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.63,
+     "offCourseLargestErrorPx": 3.22,
+     "tiles": 33,
+     "byLevel": {
+      "0": 13,
+      "1": 5,
+      "2": 5,
+      "3": 5,
+      "4": 5
+     },
+     "terrainTriangles": 4392960,
+     "frameTriangles": 6608143,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 824
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 1.08,
+     "offCourseLargestErrorPx": 1.75,
+     "tiles": 16,
+     "byLevel": {
+      "0": 12,
+      "1": 4
+     },
+     "terrainTriangles": 2129920,
+     "frameTriangles": 3566250,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 824
+    }
+   },
+   "offcourse4": {
+    "1:tee:golden": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 4.35,
+     "tiles": 31,
+     "byLevel": {
+      "0": 17,
+      "1": 1,
+      "2": 3,
+      "3": 5,
+      "4": 5
+     },
+     "terrainTriangles": 4126720,
+     "frameTriangles": 5939271,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 824
+    },
+    "9:orbit:golden": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.84,
+     "offCourseLargestErrorPx": 2.73,
+     "tiles": 41,
+     "byLevel": {
+      "0": 22,
+      "1": 9,
+      "2": 2,
+      "3": 4,
+      "4": 4
+     },
+     "terrainTriangles": 5457920,
+     "frameTriangles": 14130598,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 824
+    },
+    "14:tee:golden": {
+     "courseTilesVisible": 13,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.63,
+     "offCourseLargestErrorPx": 3.22,
+     "tiles": 33,
+     "byLevel": {
+      "0": 13,
+      "1": 5,
+      "2": 5,
+      "3": 5,
+      "4": 5
+     },
+     "terrainTriangles": 4392960,
+     "frameTriangles": 6608143,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 824
+    },
+    "5:top:noon": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 1.08,
+     "offCourseLargestErrorPx": 1.75,
+     "tiles": 16,
+     "byLevel": {
+      "0": 12,
+      "1": 4
+     },
+     "terrainTriangles": 2129920,
+     "frameTriangles": 3566290,
+     "tileTextureBytes": 38044224,
+     "detailHeightPx": 824
+    }
+   }
+  }
+ },
+ "flyovers": {
+  "veckefjarden portrait": {
+   "main": {
+    "hole1": {
+     "samples": 113,
+     "settledSamples": 101,
+     "maxErrorPxMedian": 1.0199935355373129,
+     "maxErrorPxP90": 1.1440871425466013,
+     "maxErrorPxSettledMax": 1.1440871425466013,
+     "tilesMedian": 31,
+     "tilesMax": 36,
+     "lod0Median": 21,
+     "terrainTrisMedian": 4126720,
+     "terrainTrisMax": 4792320,
+     "textureCapacityMaxBytes": 33817088,
+     "courseErrorPxMedian": 0,
+     "courseErrorPxP90": 1.0494911402594165,
+     "courseAt1mShareMedian": 1,
+     "courseAt1mShareMin": 0.41
+    },
+    "hole9": {
+     "samples": 116,
+     "settledSamples": 108,
+     "maxErrorPxMedian": 1.0685150702715587,
+     "maxErrorPxP90": 1.1391390919454645,
+     "maxErrorPxSettledMax": 1.1487839485701818,
+     "tilesMedian": 29,
+     "tilesMax": 35,
+     "lod0Median": 18,
+     "terrainTrisMedian": 3860480,
+     "terrainTrisMax": 4659200,
+     "textureCapacityMaxBytes": 33817088,
+     "courseErrorPxMedian": 0.7400619361007953,
+     "courseErrorPxP90": 1.0089304860613149,
+     "courseAt1mShareMedian": 1,
+     "courseAt1mShareMin": 0.8
+    }
+   },
+   "thisChange": {
+    "hole1": {
+     "samples": 113,
+     "settledSamples": 98,
+     "maxErrorPxMedian": 2.991744067744365,
+     "maxErrorPxP90": 3.454229276545766,
+     "maxErrorPxSettledMax": 3.434269309263571,
+     "tilesMedian": 25,
+     "tilesMax": 33,
+     "lod0Median": 19,
+     "terrainTrisMedian": 3328000,
+     "terrainTrisMax": 4392960,
+     "textureCapacityMaxBytes": 42271360,
+     "courseErrorPxMedian": 0,
+     "courseErrorPxP90": 1.0838168793831153,
+     "courseAt1mShareMedian": 1,
+     "courseAt1mShareMin": 0.75
+    },
+    "hole9": {
+     "samples": 116,
+     "settledSamples": 115,
+     "maxErrorPxMedian": 3.0063763207873184,
+     "maxErrorPxP90": 3.3428613039708774,
+     "maxErrorPxSettledMax": 3.447554298401661,
+     "tilesMedian": 27,
+     "tilesMax": 31,
+     "lod0Median": 16,
+     "terrainTrisMedian": 3594240,
+     "terrainTrisMax": 4126720,
+     "textureCapacityMaxBytes": 42271360,
+     "courseErrorPxMedian": 0,
+     "courseErrorPxP90": 0,
+     "courseAt1mShareMedian": 1,
+     "courseAt1mShareMin": 1
+    }
+   }
+  },
+  "veckefjarden landscape": {
+   "main": {
+    "hole1": {
+     "samples": 114,
+     "settledSamples": 109,
+     "maxErrorPxMedian": 1.0644830459383625,
+     "maxErrorPxP90": 1.1271313686236553,
+     "maxErrorPxSettledMax": 1.1497277219392201,
+     "tilesMedian": 40,
+     "tilesMax": 51,
+     "lod0Median": 20,
+     "terrainTrisMedian": 5324800,
+     "terrainTrisMax": 6789120,
+     "textureCapacityMaxBytes": 29589952,
+     "courseErrorPxMedian": 0.6295144243399937,
+     "courseErrorPxP90": 1.070325487952033,
+     "courseAt1mShareMedian": 0.78,
+     "courseAt1mShareMin": 0.41
+    }
+   },
+   "thisChange": {
+    "hole1": {
+     "samples": 113,
+     "settledSamples": 108,
+     "maxErrorPxMedian": 3.0181289175692405,
+     "maxErrorPxP90": 3.345200015261578,
+     "maxErrorPxSettledMax": 3.407068700737236,
+     "tilesMedian": 37,
+     "tilesMax": 48,
+     "lod0Median": 16,
+     "terrainTrisMedian": 4925440,
+     "terrainTrisMax": 6389760,
+     "textureCapacityMaxBytes": 33817088,
+     "courseErrorPxMedian": 0,
+     "courseErrorPxP90": 0.9496584332646536,
+     "courseAt1mShareMedian": 1,
+     "courseAt1mShareMin": 0.52
+    }
+   }
+  }
+ },
+ "courses": {
+  "visby portrait": {
+   "1:tee:golden": {
+    "main": {
+     "courseTilesVisible": 8,
+     "courseTilesAt1m": 4,
+     "courseLargestErrorPx": 0.71,
+     "offCourseLargestErrorPx": 0.45,
+     "tiles": 13,
+     "byLevel": {
+      "0": 6,
+      "1": 2,
+      "2": 1,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 1730560,
+     "frameTriangles": 2246728,
+     "tileTextureBytes": 30118344,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 8,
+     "courseTilesAt1m": 6,
+     "courseLargestErrorPx": 0.82,
+     "offCourseLargestErrorPx": 0.9,
+     "tiles": 14,
+     "byLevel": {
+      "0": 8,
+      "1": 1,
+      "2": 1,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 1863680,
+     "frameTriangles": 2379848,
+     "tileTextureBytes": 25891208,
+     "detailHeightPx": 1830
+    }
+   },
+   "9:orbit:golden": {
+    "main": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.06,
+     "tiles": 20,
+     "byLevel": {
+      "0": 10,
+      "1": 1,
+      "2": 3,
+      "3": 3,
+      "4": 3
+     },
+     "terrainTriangles": 2662400,
+     "frameTriangles": 6578308,
+     "tileTextureBytes": 30118344,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 2.12,
+     "tiles": 20,
+     "byLevel": {
+      "0": 10,
+      "1": 1,
+      "2": 3,
+      "3": 3,
+      "4": 3
+     },
+     "terrainTriangles": 2662400,
+     "frameTriangles": 6578308,
+     "tileTextureBytes": 25891208,
+     "detailHeightPx": 1830
+    }
+   },
+   "14:tee:golden": {
+    "main": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 6,
+     "courseLargestErrorPx": 0.97,
+     "offCourseLargestErrorPx": 0.44,
+     "tiles": 19,
+     "byLevel": {
+      "0": 7,
+      "1": 3,
+      "2": 3,
+      "3": 3,
+      "4": 3
+     },
+     "terrainTriangles": 2529280,
+     "frameTriangles": 3970388,
+     "tileTextureBytes": 30118344,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 12,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0.9,
+     "offCourseLargestErrorPx": 0.89,
+     "tiles": 22,
+     "byLevel": {
+      "0": 12,
+      "1": 1,
+      "2": 3,
+      "3": 3,
+      "4": 3
+     },
+     "terrainTriangles": 2928640,
+     "frameTriangles": 4369748,
+     "tileTextureBytes": 25891208,
+     "detailHeightPx": 1830
+    }
+   },
+   "5:top:noon": {
+    "main": {
+     "courseTilesVisible": 2,
+     "courseTilesAt1m": 2,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 2,
+     "byLevel": {
+      "0": 2
+     },
+     "terrainTriangles": 266240,
+     "frameTriangles": 1506724,
+     "tileTextureBytes": 30118344,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 2,
+     "courseTilesAt1m": 2,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 2,
+     "byLevel": {
+      "0": 2
+     },
+     "terrainTriangles": 266240,
+     "frameTriangles": 937106,
+     "tileTextureBytes": 25891208,
+     "detailHeightPx": 1830
+    }
+   }
+  },
+  "upsala portrait": {
+   "1:tee:golden": {
+    "main": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.05,
+     "tiles": 39,
+     "byLevel": {
+      "0": 29,
+      "1": 4,
+      "2": 1,
+      "3": 2,
+      "4": 3
+     },
+     "terrainTriangles": 5191680,
+     "frameTriangles": 6345787,
+     "tileTextureBytes": 25362816,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.16,
+     "tiles": 34,
+     "byLevel": {
+      "0": 22,
+      "1": 6,
+      "3": 3,
+      "4": 3
+     },
+     "terrainTriangles": 4526080,
+     "frameTriangles": 5680187,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    }
+   },
+   "9:orbit:golden": {
+    "main": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 1.13,
+     "offCourseLargestErrorPx": 1.02,
+     "tiles": 20,
+     "byLevel": {
+      "0": 10,
+      "1": 5,
+      "2": 1,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 2662400,
+     "frameTriangles": 3360037,
+     "tileTextureBytes": 25362816,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 5,
+     "courseTilesAt1m": 5,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 2.04,
+     "tiles": 20,
+     "byLevel": {
+      "0": 11,
+      "1": 4,
+      "2": 1,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 2662400,
+     "frameTriangles": 3360037,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    }
+   },
+   "14:tee:golden": {
+    "main": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 9,
+     "courseLargestErrorPx": 0.85,
+     "offCourseLargestErrorPx": 1.01,
+     "tiles": 21,
+     "byLevel": {
+      "0": 14,
+      "1": 2,
+      "2": 1,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 2795520,
+     "frameTriangles": 3713045,
+     "tileTextureBytes": 25362816,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 2.88,
+     "tiles": 24,
+     "byLevel": {
+      "0": 17,
+      "1": 2,
+      "2": 1,
+      "3": 2,
+      "4": 2
+     },
+     "terrainTriangles": 3194880,
+     "frameTriangles": 4112405,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    }
+   },
+   "5:top:noon": {
+    "main": {
+     "courseTilesVisible": 10,
+     "courseTilesAt1m": 9,
+     "courseLargestErrorPx": 0.52,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 10,
+     "byLevel": {
+      "0": 9,
+      "1": 1
+     },
+     "terrainTriangles": 1331200,
+     "frameTriangles": 3924862,
+     "tileTextureBytes": 25362816,
+     "detailHeightPx": 915
+    },
+    "thisChange": {
+     "courseTilesVisible": 10,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0,
+     "tiles": 10,
+     "byLevel": {
+      "0": 10
+     },
+     "terrainTriangles": 1331200,
+     "frameTriangles": 3924862,
+     "tileTextureBytes": 33817088,
+     "detailHeightPx": 1830
+    }
+   }
+  }
+ },
+ "desktop": {
+  "veckefjarden 1920x1080": {
+   "1:tee:golden": {
+    "main": {
+     "courseTilesVisible": 10,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.1,
+     "tiles": 70,
+     "byLevel": {
+      "0": 46,
+      "1": 4,
+      "2": 9,
+      "3": 9,
+      "4": 2
+     },
+     "terrainTriangles": 9318400,
+     "frameTriangles": 23932479,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    },
+    "thisChange": {
+     "courseTilesVisible": 10,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.21,
+     "tiles": 35,
+     "byLevel": {
+      "0": 15,
+      "1": 12,
+      "3": 4,
+      "4": 4
+     },
+     "terrainTriangles": 4659200,
+     "frameTriangles": 19273279,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    }
+   },
+   "9:orbit:golden": {
+    "main": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 1.01,
+     "tiles": 79,
+     "byLevel": {
+      "0": 59,
+      "1": 3,
+      "2": 9,
+      "3": 6,
+      "4": 2
+     },
+     "terrainTriangles": 10516480,
+     "frameTriangles": 36957481,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    },
+    "thisChange": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 11,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 3.14,
+     "tiles": 47,
+     "byLevel": {
+      "0": 28,
+      "1": 11,
+      "3": 4,
+      "4": 4
+     },
+     "terrainTriangles": 6256640,
+     "frameTriangles": 28437801,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    }
+   },
+   "14:tee:golden": {
+    "main": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 9,
+     "courseLargestErrorPx": 0.76,
+     "offCourseLargestErrorPx": 1.14,
+     "tiles": 71,
+     "byLevel": {
+      "0": 34,
+      "1": 12,
+      "2": 15,
+      "3": 9,
+      "4": 1
+     },
+     "terrainTriangles": 9451520,
+     "frameTriangles": 16792761,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    },
+    "thisChange": {
+     "courseTilesVisible": 11,
+     "courseTilesAt1m": 9,
+     "courseLargestErrorPx": 0.76,
+     "offCourseLargestErrorPx": 3.24,
+     "tiles": 34,
+     "byLevel": {
+      "0": 14,
+      "1": 7,
+      "2": 6,
+      "3": 3,
+      "4": 4
+     },
+     "terrainTriangles": 4526080,
+     "frameTriangles": 11867321,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    }
+   },
+   "5:top:noon": {
+    "main": {
+     "courseTilesVisible": 10,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0.01,
+     "tiles": 15,
+     "byLevel": {
+      "0": 12,
+      "1": 3
+     },
+     "terrainTriangles": 1996800,
+     "frameTriangles": 8276615,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    },
+    "thisChange": {
+     "courseTilesVisible": 10,
+     "courseTilesAt1m": 10,
+     "courseLargestErrorPx": 0,
+     "offCourseLargestErrorPx": 0.01,
+     "tiles": 15,
+     "byLevel": {
+      "0": 12,
+      "1": 3
+     },
+     "terrainTriangles": 1996800,
+     "frameTriangles": 8276615,
+     "tileTextureBytes": 67634176,
+     "detailHeightPx": 1080
+    }
+   }
+  }
+ },
+ "boot": {
+  "course": "veckefjarden",
+  "dpr": 3,
+  "rounds": 3,
+  "interleaved": true,
+  "summary": {
+   "OLD": {
+    "wallS": 40,
+    "totalMs": 33934.2,
+    "terrainRequests": 0,
+    "capacityMB": 33.8
+   },
+   "NEW": {
+    "wallS": 39.7,
+    "totalMs": 33699.8,
+    "terrainRequests": 0,
+    "capacityMB": 33.8
+   }
+  },
+  "runs": [
+   {
+    "label": "OLD",
+    "round": 0,
+    "wallS": 39,
+    "totalMs": 33094.1,
+    "readyTiles": 66,
+    "textureCapacityBytes": 33817088,
+    "spans": [
+     [
+      "v2 prepare (worker, first frontier coverage, preflight)",
+      1424
+     ],
+     [
+      "v2 stream: first frontier fully resident (after the overlap)",
+      707
+     ],
+     [
+      "v2 stream: opening terrain texture upload",
+      278
+     ]
+    ]
+   },
+   {
+    "label": "NEW",
+    "round": 0,
+    "wallS": 39.2,
+    "totalMs": 32940,
+    "readyTiles": 54,
+    "textureCapacityBytes": 33817088,
+    "spans": [
+     [
+      "v2 prepare (worker, first frontier coverage, preflight)",
+      1452
+     ],
+     [
+      "v2 stream: first frontier fully resident (after the overlap)",
+      509
+     ],
+     [
+      "v2 stream: opening terrain texture upload",
+      517
+     ]
+    ]
+   },
+   {
+    "label": "NEW",
+    "round": 1,
+    "wallS": 39.7,
+    "totalMs": 33736.8,
+    "readyTiles": 54,
+    "textureCapacityBytes": 38044224,
+    "spans": [
+     [
+      "v2 prepare (worker, first frontier coverage, preflight)",
+      1517
+     ],
+     [
+      "v2 stream: first frontier fully resident (after the overlap)",
+      505
+     ],
+     [
+      "v2 stream: opening terrain texture upload",
+      1186
+     ]
+    ]
+   },
+   {
+    "label": "OLD",
+    "round": 1,
+    "wallS": 40,
+    "totalMs": 33934.2,
+    "readyTiles": 66,
+    "textureCapacityBytes": 33817088,
+    "spans": [
+     [
+      "v2 prepare (worker, first frontier coverage, preflight)",
+      1496
+     ],
+     [
+      "v2 stream: first frontier fully resident (after the overlap)",
+      808
+     ],
+     [
+      "v2 stream: opening terrain texture upload",
+      295
+     ]
+    ]
+   },
+   {
+    "label": "OLD",
+    "round": 2,
+    "wallS": 41.7,
+    "totalMs": 35611.9,
+    "readyTiles": 66,
+    "textureCapacityBytes": 38044224,
+    "spans": [
+     [
+      "v2 prepare (worker, first frontier coverage, preflight)",
+      1477
+     ],
+     [
+      "v2 stream: first frontier fully resident (after the overlap)",
+      626
+     ],
+     [
+      "v2 stream: opening terrain texture upload",
+      1090
+     ]
+    ]
+   },
+   {
+    "label": "NEW",
+    "round": 2,
+    "wallS": 40,
+    "totalMs": 33699.8,
+    "readyTiles": 54,
+    "textureCapacityBytes": 33817088,
+    "spans": [
+     [
+      "v2 prepare (worker, first frontier coverage, preflight)",
+      1574
+     ],
+     [
+      "v2 stream: first frontier fully resident (after the overlap)",
+      513
+     ],
+     [
+      "v2 stream: opening terrain texture upload",
+      1149
+     ]
+    ]
+   }
+  ]
+ }
+}

@@ -130,7 +130,7 @@ existing textures and preserves terrain normals. Device acceptance remains open.
 
 **9 September implementation update:** the [terrain optimization pilot](v2-terrain-render-optimization.md) now consumes this option, preserves all finest available leaves, and derives transitions from actual rendered parents. The audit observations below describe the pre-change baseline.
 
-**24 September update:** at the owner's request, low quality no longer reduces the terrain. Every device and backend draws native grids within one pixel of screen error and a 128-tile budget; the reduced grid remains available as `?terrainStride=2`. See [the measurements](v2-terrain-render-optimization.md#24-september-phones-draw-the-desktop-terrain).
+**24 September update:** at the owner's request, low quality no longer reduces the terrain. Every device and backend draws native grids with a 128-tile budget, within one screen pixel on the holes and three off them, in the device's own pixels; the reduced grid remains available as `?terrainStride=2`. See [the measurements](v2-terrain-render-optimization.md#later-on-24-september-the-course-first).
 
 The `renderStride` setting in [`main.js`](../apps/golf/src/main.js) reaches the
 fixed-frontier [live adapter](../apps/golf/src/engine/v2-terrain-live-adapter.mjs),
@@ -158,8 +158,8 @@ test mixed levels, morphing and terrain contacts. Keep the full 1 m CPU height
 source. Treat visible grass/water/object contact disagreement as a failed pilot.
 
 Also inspect the selection policy: the app sets WebGL2 screen error to 1.5 pixels
-for both qualities, overriding the package's coarser mobile default (one pixel on
-both backends since 24 September). Active-hole
+for both qualities, overriding the package's coarser mobile default (since 24 September
+one pixel on the course and three off it, on both backends). Active-hole
 requirements can exceed nominal selection limits. Adjust screen error, active
 coverage and render topology together from measured image error; a tile-count
 cap alone is not a memory or triangle budget.

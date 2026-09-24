@@ -47,6 +47,12 @@ export function activeHoleTerrainTileIds(course, holeNumber) {
   return Object.freeze([...(hole?.tileIds || [])]);
 }
 
+/** Every hole's tiles: the finest tiles within the compiled buffer of each
+    tee-to-green line, which the planner holds to the strict target. */
+export function courseTerrainTileIds(course) {
+  return Object.freeze([...new Set((course?.holes || []).flatMap(hole => hole.tileIds || []))].sort());
+}
+
 function tileWorldBox(tile, frame, target) {
   const origin = frameOrigin(frame);
   return target.set(
@@ -141,8 +147,12 @@ export class CourseV2TerrainRuntime {
     if (profile !== undefined && (!Number.isFinite(profile?.targetErrorPixels) || !Number.isSafeInteger(profile?.maximumSelectedTiles))) {
       throw new TypeError('profile must carry targetErrorPixels and maximumSelectedTiles');
     }
+    if (profile?.outsideCourseTargetErrorPixels !== undefined && !(profile.outsideCourseTargetErrorPixels >= profile.targetErrorPixels)) {
+      throw new RangeError('profile.outsideCourseTargetErrorPixels must be at least targetErrorPixels');
+    }
     this.profile = profile ?? terrainTileQualityProfile({ backend, mobile });
     this.manager = new TerrainTileManager({ ground, courseSlug: course.slug });
+    this.courseTileIds = new Set(courseTerrainTileIds(course));
     this.layer = new TerrainTileBatchSet({
       maximumTiles: this.profile.maximumSelectedTiles,
       decorateMaterial,
@@ -267,6 +277,8 @@ export class CourseV2TerrainRuntime {
       viewportHeightPixels,
       fieldOfViewYRadians: fov,
       targetErrorPixels: this.profile.targetErrorPixels,
+      outsideCourseTargetErrorPixels: this.profile.outsideCourseTargetErrorPixels ?? this.profile.targetErrorPixels,
+      courseTileIds: this.courseTileIds,
       maximumSelectedTiles: this.profile.maximumSelectedTiles,
       activeTileIds: activeHoleTerrainTileIds(this.course, activeHoleNumber),
       visible: visibility,

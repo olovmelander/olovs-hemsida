@@ -36,11 +36,14 @@ this guide or the current production workflow.
   restores geographic-only detail; `16` retains the measured comparison
   threshold. Lite and alternative catalogues belong to isolated studies.
 - Terrain detail is the same on every device and backend (owner request,
-  24 September): native tile grids, a coarser level only within one rendered
-  pixel of the finer surface, and a 128-tile budget, so phones draw the
-  desktop's 1 m course ground. Low quality changes only streaming concurrency,
-  caching and a grow-as-needed tile texture. `?terrainStride=2` is a
-  comparison, not a phone default. See
+  24 September): native tile grids and a 128-tile budget. The playable course
+  -- every hole's tiles, within 80-90 m of each tee-to-green line, and the
+  tiles containing them -- refines until it is within one screen pixel of the
+  finer surface; ground off the course stops at three (`?offcourse=1` applies
+  the course rule everywhere). The pixel is the device's own, up to two per CSS
+  pixel as on a high-quality desktop, not the low-quality canvas's. Low quality
+  changes only streaming concurrency, caching and a grow-as-needed tile
+  texture. `?terrainStride=2` is a comparison, not a phone default. See
   [terrain render optimization](docs/v2-terrain-render-optimization.md).
 - Study shader/tree entry points live in `apps/golf/src/studies`. Keep them out
   of the player import graph. Refined/foliage study assets remain available
