@@ -14,9 +14,10 @@ lighting presets, seasons, accessibility and Hero + Impostor trees.
   Puttom retains its verified v2 preview adapter for initial terrain resources.
   Graph, tile, vegetation and terrain installation failures report a boot error
   with retry guidance; they cannot rebuild the course using GPK1 terrain.
-- Authored Ghibli tree assets are required. The player loads only Hero meshes
-  and uses them to bake distant impostors. Full/Lite and alternative catalogues
-  belong to isolated tree studies.
+- Authored Ghibli tree assets are required. The player loads one mesh tier and
+  uses it to bake distant impostors: Hero at high quality, and since 24 September
+  the lighter Full model at low quality (every phone). Lite and alternative
+  catalogues belong to isolated tree studies.
 - Legacy played-surface overlays and the old turf/sand shaders in main.js are
   removed. Small authored surfaces use the painted material. The unused sand
   normal texture is no longer baked during startup.
@@ -85,7 +86,8 @@ depth helper. GPK1 transport, reviewed
 adapters, exact/pair surface representations and quality/backend controls remain.
 
 `src/studies/tree-loader.mjs` owns alternative catalogues and Full/Lite loading.
-The production loader requires painted foliage and only fetches Hero meshes.
+The production loader requires painted foliage and fetches one mesh tier: Hero,
+or Full at low quality (see [tree flight stability](tree-flight-stability.md)).
 Both loaders share verified GLB/atlas decoding; there is no duplicated decoder.
 Study pages and historical relief fixtures use the explicit study entry points.
 

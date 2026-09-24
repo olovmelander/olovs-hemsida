@@ -1,0 +1,195 @@
+{
+  "date": "2026-09-24",
+  "build": {
+    "revision": "0cfcacdf6d1c5e34671c19e1c988dde5d5cc78d580616b41f2bdfee4522231c7"
+  },
+  "note": "SwiftShader with draw calls skipped: triangle and draw counts and main-thread CPU time, not frame rate. Physical phone performance is not measured here.",
+  "setup": "Veckefjarden, WebGL2, 412x915 CSS px at DPR 1, q=lo qualitylock, SwiftShader with draw calls skipped; triangles and draws from renderer.info; CPU = CDP ThreadTime per frame; 4x = CDP CPU throttling",
+  "conditions": {
+    "H": "?treemesh=hero (the tier phones drew until now)",
+    "F": "default low quality (Full)"
+  },
+  "perView": {
+    "1:tee:golden": {
+      "H": {
+        "near": 523,
+        "impostor": 4699,
+        "trisStill": 7589367,
+        "trisWithShadow": 13911875,
+        "draws": 77
+      },
+      "F": {
+        "near": 523,
+        "impostor": 4699,
+        "trisStill": 6120515,
+        "trisWithShadow": 10974171,
+        "draws": 77
+      }
+    },
+    "9:orbit:golden": {
+      "H": {
+        "near": 307,
+        "impostor": 10009,
+        "trisStill": 7999755,
+        "trisWithShadow": 15099876,
+        "draws": 163
+      },
+      "F": {
+        "near": 307,
+        "impostor": 10009,
+        "trisStill": 7137299,
+        "trisWithShadow": 13374964,
+        "draws": 163
+      }
+    },
+    "14:tee:golden": {
+      "H": {
+        "near": 86,
+        "impostor": 3054,
+        "trisStill": 5185089,
+        "trisWithShadow": 9245189,
+        "draws": 78
+      },
+      "F": {
+        "near": 86,
+        "impostor": 3054,
+        "trisStill": 4943365,
+        "trisWithShadow": 8761741,
+        "draws": 78
+      }
+    },
+    "5:top:noon": {
+      "H": {
+        "near": 266,
+        "impostor": 960,
+        "trisStill": 3240285,
+        "trisWithShadow": 5875301,
+        "draws": 95
+      },
+      "F": {
+        "near": 266,
+        "impostor": 960,
+        "trisStill": 2556017,
+        "trisWithShadow": 4506765,
+        "draws": 95
+      }
+    }
+  },
+  "flyover4x": {
+    "hole1": {
+      "H": {
+        "trisMedian": 14958989.5,
+        "trisMax": 20155462,
+        "threadMsPerFrame": [
+          70.4,
+          69.6
+        ],
+        "frames": [
+          824,
+          794
+        ]
+      },
+      "F": {
+        "trisMedian": 12204995,
+        "trisMax": 14721947,
+        "threadMsPerFrame": [
+          78.1,
+          67.8
+        ],
+        "frames": [
+          694,
+          820
+        ]
+      }
+    },
+    "hole9": {
+      "H": {
+        "trisMedian": 15519254,
+        "trisMax": 17962579,
+        "threadMsPerFrame": [
+          64.1,
+          62.2
+        ],
+        "frames": [
+          816,
+          828
+        ]
+      },
+      "F": {
+        "trisMedian": 13666820,
+        "trisMax": 15658179,
+        "threadMsPerFrame": [
+          63,
+          60.1
+        ],
+        "frames": [
+          799,
+          844
+        ]
+      }
+    }
+  },
+  "rest4x": {
+    "1:tee:golden": {
+      "H": {
+        "threadMsPerFrame": [
+          11.5,
+          11.6
+        ]
+      },
+      "F": {
+        "threadMsPerFrame": [
+          11.3,
+          10.9
+        ]
+      }
+    }
+  },
+  "hole1TeeBreakdown": {
+    "H": {
+      "all": 7590000,
+      "trees": 2350000,
+      "terrain": 3730000,
+      "water": 390000,
+      "other": 1120000
+    },
+    "F": {
+      "all": 6120000,
+      "trees": 890000,
+      "terrain": 3730000,
+      "water": 390000,
+      "other": 1120000
+    },
+    "method": "main-pass triangles with no shadow refresh, measured by hiding trees, then the terrain world, then water"
+  },
+  "treeModelDownloadKB": {
+    "veckefjarden": {
+      "H": 2076,
+      "F": 1251
+    },
+    "visby": {
+      "H": 2586,
+      "F": 1457
+    }
+  },
+  "placementParity": {
+    "veckefjarden": {
+      "trees": 86269,
+      "facilityExcluded": 4
+    },
+    "angso": {
+      "trees": 57752,
+      "facilityExcluded": 9
+    },
+    "norrfallsviken": {
+      "trees": 59520,
+      "facilityExcluded": 4
+    },
+    "note": "identical tree counts and facility exclusions for Hero and Full at low quality"
+  },
+  "visbyGate": {
+    "full": "tee 47 near, 846 impostor; top 78 near, 22 impostor",
+    "hero": "tee 47 near, 846 impostor; top 78 near, 22 impostor",
+    "pixelDiff": "1.78% of pixels differ by more than 8/255, mean 0.764/255 (tee view, trees only)"
+  }
+}
