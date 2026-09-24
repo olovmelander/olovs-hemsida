@@ -87,9 +87,12 @@ export const treeFadeMask = Fn(() => {
 
 /** NodeMaterial emits `bool(maskNode).not().discard()` itself, in the colour
  *  pass and -- through Renderer._getShadowNodes -- in the shadow pass, so an
- *  instance that is out of its fade casts exactly the shadow it draws. */
+ *  instance that is out of its fade casts exactly the shadow it draws. A
+ *  material with its own shadow mask (the foliage crowns) has that mask read
+ *  INSTEAD of maskNode in the shadow pass, so the fade joins it there. */
 export function attachTreeFade(material) {
   material.maskNode = treeFadeMask();
+  if (material.maskShadowNode) material.maskShadowNode = material.maskShadowNode.and(material.maskNode);
   return material;
 }
 

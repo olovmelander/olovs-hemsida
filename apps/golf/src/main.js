@@ -150,6 +150,7 @@ import { calibrateFarRing, farRingSpacing, farRingTree } from './engine/far-ring
 import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 import { steadyShadowAlpha } from './engine/steady-shadow-alpha.mjs';
 import { shadowSnapCell, sameShadowCell } from './engine/shadow-cell.mjs';
+import { SHADOW_FITS, SHADOW_FIT_TUNED, chooseShadowFit, shadowBoxFor } from './engine/shadow-fit.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
    the flag-cloth wave -- so two boots render the same pixels. Phase 0 proved the
@@ -4863,6 +4864,13 @@ const LODREACH = (() => {
   const q = new URLSearchParams(location.search).get('lodreach'), v = q ? q.split(',').map(Number) : null;
   return v && v.length === 2 && v.every(x => x > 0) ? v : null;
 })();
+/* An impostor casts its tree's shadow: in the shadow pass the billboard
+   turns to the sun and draws the tree's silhouette as the sun sees it
+   (engine/tree-impostor.mjs). Without it a course tree's shadow went out
+   with the mesh the moment the camera pulled far enough back for the tree
+   to become a picture, and the forests beyond the corridor never cast at
+   all. ?impostorshadow=0 is the before. */
+const IMPOSTOR_SHADOWS = new URLSearchParams(location.search).get('impostorshadow') !== '0';
 /* ?lodpx=hero,full,impostor overrides the three tier boundaries for a sweep */
 const LODPX = (() => {
   const q = new URLSearchParams(location.search).get('lodpx'), v = q ? q.split(',').map(Number) : null;
@@ -4911,7 +4919,9 @@ const TREE_LOD = {
     const mat = makeGhibliFoliageMaterial({ key: foliage.key, map: foliage.map,
       sunDirection: uSun, tint: tint.xyz, seed: tint.w, autumn: uAutumn,
       /* ?foliagenoise=pixel is the before: the noise per pixel instead of per vertex */
-      noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel' });
+      noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
+      /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
+      mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip' });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -4971,7 +4981,7 @@ const TREE_LOD = {
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
     });
     const mesh = new THREE.Mesh(geo, mat);
-    mesh.castShadow = false;
+    mesh.castShadow = IMPOSTOR_SHADOWS;
     mesh.receiveShadow = true;
     mesh.frustumCulled = false;
     mesh.userData.tag = 'trees';
@@ -5465,6 +5475,10 @@ function updateTreeTiers() {
 }
 
 lap('tree tiers (Hero + Impostor, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
+/* The far ring's impostors cast only while the shadow box reaches past its
+   tuned 1150 m (placeSun): the camera is then far enough out to see the far
+   forest beside the course's, and nearer views pay nothing for it. */
+const VISTA_SHADOW_CASTERS = [];
 /* Beyond the planted middle ring the hills still carry forest, and a bare green
    hillside a kilometre off reads as clear-cut. One cone per stand-in, no trunks,
    no shadows, one draw call: at that distance a conifer is its silhouette. */
@@ -5839,6 +5853,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       mesh.castShadow = false; mesh.receiveShadow = false; mesh.frustumCulled = false;
       mesh.userData.tag = 'vista';
       mesh.name = `vista-${SPECIES_NAMES[s]}-impostor`;
+      VISTA_SHADOW_CASTERS.push(mesh);
       scene.add(mesh);
       stats.draws++;
     }
@@ -7911,14 +7926,16 @@ function renderActivePipeline() {
    LightShadow.updateMatrices builds that camera from the light's position and
    its target with y up, which is the basis used here. The normal bias scales
    with the fit, a texel's worth of push whatever the size.
-   ?shadowsnap=0 and V3D.setShadowSnap switch the snap off for a before/after. */
-const SHADOW_FITS = [260, 400, 600, 850, 1150];
+   ?shadowsnap=0 and V3D.setShadowSnap switch the snap off for a before/after.
+   The sizes, and the box beyond the tuned 1150 m, are engine/shadow-fit.mjs;
+   ?shadowreach=0 is the before, the box stopping at 1150 m. */
+const SHADOW_FIT_MAX = new URLSearchParams(location.search).get('shadowreach') === '0' ? SHADOW_FIT_TUNED : SHADOW_FITS[SHADOW_FITS.length - 1];
 let shadowSnap = new URLSearchParams(location.search).get('shadowsnap') !== '0';
 /* ?shadowcell=0 is the before: the light re-placed from the float target every frame */
 const SHADOW_CELL_KEY = new URLSearchParams(location.search).get('shadowcell') !== '0';
 let shadowRadiusOverride = null;   /* a harness stepping a flight pose by pose gives it the flight's fixed fit */
 const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), m: new THREE.Matrix4(),
-                    o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0, version: 0,
+                    o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0, version: 0, lightDistance: 1200,
                     placed: { version: -1, texel: 0, iu: 0, iv: 0, iw: 0 } };
 /* What moves a shadow: the sun or its box (placeSun), a tree changing tier or
    fading (an upload this frame, or a fade queue still draining), the terrain
@@ -7971,17 +7988,17 @@ function placeSun() {
   const t = controls.target;
   const d = uSun.value;
   const c = sun.shadow.camera;
-  const want = shadowRadiusOverride ?? (flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, 1150));
-  /* the fit: the smallest fixed size that holds the want; it grows at once and
-     shrinks only once the want is well under the next size down */
-  let R = c.top || 0;
-  if (!R || want > R) R = SHADOW_FITS.find(f => f >= want) ?? SHADOW_FITS[SHADOW_FITS.length - 1];
-  else { const i = SHADOW_FITS.indexOf(R); if (i > 0 && want < SHADOW_FITS[i - 1] * 0.9) R = SHADOW_FITS.find(f => f >= want) ?? R; }
+  const want = shadowRadiusOverride ?? (flying > 0 ? 580 : clampf(camera.position.distanceTo(t) * 1.15 + 90, 260, SHADOW_FIT_MAX));
+  /* the fit: the smallest fixed size that holds the want, with hysteresis */
+  const R = chooseShadowFit(want, c.top || 0);
   if (R !== c.top) {
+    const box = shadowBoxFor(R);
     c.left = -R; c.right = R; c.top = R; c.bottom = -R;
-    c.near = 200; c.far = 2400;
+    c.near = box.near; c.far = box.far;
     c.updateProjectionMatrix();
-    sun.shadow.normalBias = 0.22 * Math.min(2.5, R / 260);
+    sun.shadow.normalBias = box.normalBias;
+    SUN_BASIS.lightDistance = box.lightDistance;
+    for (const m of VISTA_SHADOW_CASTERS) m.castShadow = IMPOSTOR_SHADOWS && R > SHADOW_FIT_TUNED;
   }
   const B = SUN_BASIS, texel = 2 * R / sun.shadow.mapSize.width;
   if (!B.d.equals(d)) {
@@ -7999,7 +8016,8 @@ function placeSun() {
   if (!cell || !SHADOW_CELL_KEY) B.placed.version = -1;
   else if (sameShadowCell(B.placed, B.version, texel, cell)) return;
   const cx = t.x + B.right.x * ox + B.up.x * oy, cy = t.y + B.right.y * ox + B.up.y * oy, cz = t.z + B.right.z * ox + B.up.z * oy;
-  sun.position.set(cx + d.x * 1200, cy + d.y * 1200, cz + d.z * 1200);
+  const L = B.lightDistance;
+  sun.position.set(cx + d.x * L, cy + d.y * L, cz + d.z * L);
   sun.target.position.set(cx, cy, cz);
   sun.target.updateMatrixWorld();
 }
@@ -11704,7 +11722,9 @@ window.V3D = {
   setShadowRadius: r => { shadowRadiusOverride = r > 0 ? +r : null; return shadowRadiusOverride; },
   /* the shadow map's fit and snap, for the harness: the size, the texel, and how far the box was moved to land on a texel */
   shadowFit: () => ({ R: SUN_BASIS.R, texel: +SUN_BASIS.texel.toFixed(4), snap: shadowSnap, remainderTexels: +SUN_BASIS.remainder.toFixed(3),
-                      normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true }),
+                      normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true,
+                      maxFit: SHADOW_FIT_MAX, lightDistance: SUN_BASIS.lightDistance, near: sun.shadow.camera.near, far: sun.shadow.camera.far,
+                      impostorShadows: IMPOSTOR_SHADOWS, vistaShadows: VISTA_SHADOW_CASTERS.some(m => m.castShadow) }),
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
   setShadowBoundaryFade: on => { sunShadowFilter.enabled.value = on ? 1 : 0; return !!on; },
   /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */

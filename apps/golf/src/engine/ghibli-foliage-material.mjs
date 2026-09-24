@@ -63,13 +63,23 @@ export function foliageSurfacePigment(texel){
   return mix(vec3(1),texel.rgb.div(texel.a.max(.01)).min(1),.30);
 }
 
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false}){
+// The shadow pass cuts the cards at the atlas's own resolution. With the
+// atlas as `map`, three tested its MIPMAPPED alpha there, at the mip the
+// shadow map's texel picks, so a card averaged under half opacity dropped
+// out: in the 850 m box a crown kept on average three quarters of its shadow
+// on a desktop's map and under two thirds on a phone's (as little as 38 %),
+// so shadows faded as the camera pulled back (docs/tree-shadows-zoom.md). The
+// colour pass never read `map` -- colorNode and opacityNode replace it -- so
+// it is unchanged. mipShadow (?foliageshadow=mip) is the before.
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
   m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel});
   if(map){
     const texel=texture(map);
-    m.map=map;m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;
+    m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;
     m.alphaTest=.5;m.alphaToCoverage=false;
+    if(mipShadow)m.map=map;
+    else m.maskShadowNode=texture(map).level(0).a.greaterThan(.5);
   }
   m.userData.foliageKey=key;
   return m;
