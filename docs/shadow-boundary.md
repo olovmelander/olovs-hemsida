@@ -47,3 +47,10 @@ shadow transforms, rendering backend, pixel comparisons and browser errors.
 `V3D.setShadowBoundaryFade(false)` restores the old boundary for comparison;
 pass `true` to restore the fix. This only changes a uniform, so the comparison
 uses the same compiled materials, shadow map and terrain.
+
+**2026-09-24:** the box no longer stops at 1150 m. A camera pulled back past
+about 920 m from its target gets the 1600, 2200 and 3000 m boxes, each the
+1150 m box scaled: depth range, light distance and normal bias grow with it,
+so the coverage fade keeps the same proportions of a larger footprint. See
+[tree shadows when zooming out](tree-shadows-zoom.md); `?shadowreach=0` keeps
+the old limit for comparison.

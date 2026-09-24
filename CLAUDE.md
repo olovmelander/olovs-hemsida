@@ -88,6 +88,11 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
 - Use the existing camera clamp; do not add a second clamp or snap to terrain.
   Preserve snapped shadow bounds and the renderer's reversed-depth conventions.
   See [the tree LOD measurements](docs/tree-lod-plan.md) for the failure cases.
+- Tree shadows must survive zooming out: impostors cast sun-facing shadows,
+  crowns cut theirs at the foliage atlas's full resolution, and the shadow box
+  grows past 1150 m as that box scaled. Keep mesh and impostor shadows in
+  agreement with `tools/check-tree-shadows.mjs`; see
+  [tree shadows when zooming out](docs/tree-shadows-zoom.md).
 
 ## Build and focused checks
 
