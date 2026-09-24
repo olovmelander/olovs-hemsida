@@ -4,7 +4,7 @@ This implements the P0 ring-terrain item in the [graphics improvement guide](v2-
 
 Visby's subsequent phone report is investigated in [the WebGL2 coastal depth follow-up](visby-webgl-water-distance.md). Native-terrain captures also reproduce distant water breakup: the sea sheet competes with the laser water surface independently of grid simplification. The follow-up masks redundant underwater terrain in verified sea interiors. Low-quality framebuffer resolution is a separate source of landscape softness.
 
-**24 September update:** the reduced grid is no longer a phone default. Every device and backend draws native grids; see [below](#24-september-phones-draw-the-desktop-terrain). The sections after it describe the 9 September pilot, which `?terrainStride=2` still reproduces.
+**24 September update:** the reduced grid is no longer a phone default. Every device and backend draws native grids; see [below](#24-september-phones-draw-the-desktop-terrain). Later that day the course took priority: [one screen pixel on the holes, three off them](#later-on-24-september-the-course-first). The sections after those describe the 9 September pilot, which `?terrainStride=2` still reproduces.
 
 ## 24 September: phones draw the desktop terrain
 
@@ -35,7 +35,33 @@ Portrait is 412 × 915 and landscape 915 × 412. The largest error is taken over
 
 Through Veckefjärden's hole 1 and 9 flyovers, terrain triangles per frame fall from 4.33 / 5.26 M to 4.13 / 3.86 M (median; peaks 5.29 / 5.99 M to 4.79 / 4.79 M), and the largest error per frame from 1.59 / 1.46 px to 1.02 / 1.06 px (p90 2.53 / 1.70 px to 1.14 / 1.14 px). Opening Veckefjärden, three interleaved runs each, took 21.3 s against 22.8 s; the opening terrain settled in 0.7 s instead of 1.5 s. After opening, the phone's tile texture holds 25–34 MB instead of 15–29 MB, sized by the construction-time plan from above the course.
 
-A 1920 × 1080 desktop at one pixel draws 34–59 of its 70–79 tiles at 1 m in the same tee and orbit views; it sees more ground across a wider, taller canvas and applies the same rule per pixel. One pixel is measured in the pixels the canvas draws: low quality renders at device pixel ratio 1, so a phone refines as a desktop of the same CSS height does. Physical-phone frame rate and memory remain unmeasured, and the WebGPU phone path was not run here. Evidence: [graphics/phone-terrain-1m-2026-09-24](graphics/phone-terrain-1m-2026-09-24/).
+A 1920 × 1080 desktop at one pixel draws 34–59 of its 70–79 tiles at 1 m in the same tee and orbit views; it sees more ground across a wider, taller canvas and applies the same rule per pixel. One pixel was then measured in the pixels the canvas draws (device pixel ratio 1 at low quality), so a phone refined as a desktop of the same CSS height did; later that day it became the screen's own pixel, below. Physical-phone frame rate and memory remain unmeasured, and the WebGPU phone path was not run here. Evidence: [graphics/phone-terrain-1m-2026-09-24](graphics/phone-terrain-1m-2026-09-24/).
+
+## Later on 24 September: the course first
+
+The owner's rule: the holes must be perfect and as detailed as possible; ground off the course need not match. The terrain is stored as nested rings: 1 m and 2 m over the 4 × 4 km around the course, 4 m to 8 km, 8 m to 16 km, then 16, 32 and 64 m copies of the whole. Each frame the planner draws, for each place, the coarsest ring that still meets its target. Two changes move those switch points ([`terrain-detail.mjs`](../apps/golf/src/engine/terrain-detail.mjs), [`terrain-tile-manager.mjs`](../packages/course-v2/runtime/terrain-tile-manager.mjs)):
+
+- **The pixel is the screen's own.** Terrain error is measured at the device's pixel density, up to two per CSS pixel, as a high-quality desktop always did, whatever resolution the low-quality canvas is drawn at (`terrainDetailHeight` in [`render-resolution.mjs`](../apps/golf/src/engine/render-resolution.mjs)). Tree LOD keeps its own budget.
+- **The course keeps one pixel; the rest three.** Every hole's tiles (the finest tiles within 80–90 m of each tee-to-green line, so tees, fairways, greens, rough and bunkers) and the tiles containing them keep the one-pixel target. Ground that neither is nor contains a course tile stops at three. A tight budget goes to the tiles furthest over their own target, and the active hole is still forced to 1 m. `?offcourse=1|2|3|4|6|8` compares targets; 1 is the course rule everywhere.
+
+Only 29 of Veckefjärden's 256 1 m tiles are on the course. A phone at device pixel ratio 3 (412 × 915 portrait, 915 × 412 landscape), WebGL2, low quality locked, SwiftShader counts; "course at 1 m" counts the visible course tiles drawn as themselves:
+
+| Veckefjärden, phone | Main: course at 1 m / terrain | Course rule everywhere | Now: 3 px off the course |
+| --- | ---: | ---: | ---: |
+| Portrait, 1st tee | 4 of 4 / 3.73 M | 4 of 4 / 3.73 M | 4 of 4 / 2.66 M |
+| Portrait, 9th orbit | 5 of 5 / 4.26 M | 5 of 5 / 5.59 M | 5 of 5 / 3.33 M |
+| Portrait, 14th tee | 3 of 3 / 3.33 M | 3 of 3 / 3.86 M | 3 of 3 / 3.33 M |
+| Landscape, 1st tee | 8 of 11 / 5.46 M | 11 of 11 / 8.92 M | 11 of 11 / 4.93 M |
+| Landscape, 9th orbit | 10 of 12 / 6.52 M | 11 of 12 / 10.52 M | 11 of 12 / 5.86 M |
+| Landscape, 14th tee | 5 of 13 / 4.93 M | 11 of 13 / 10.38 M | 11 of 13 / 4.39 M |
+
+A course tile not drawn at 1 m is covered by a coarser tile within one screen pixel of it; off the course the ground stays within 3.45 px (three pixels and the planner's 15% hysteresis). Overhead views are unchanged. Two and four pixels off the course were measured too: two costs more than main in landscape; four saves another 20–28% at the portrait tees but leaves the ground off the course up to 4.4 px out, so three is the middle.
+
+Through the portrait flyovers of holes 1 and 9, terrain triangles per frame fall from 4.13 / 3.86 M to 3.33 / 3.59 M (median), and the share of visible course tiles at 1 m never drops below 75% / 100% (main 41% / 80%). The landscape hole 1 flyover falls from 5.32 to 4.93 M with the whole visible course at 1 m in the median frame (main 78%).
+
+Visby and Upsala draw as much or more of their course at 1 m, at −13% to +16% terrain triangles per view: Visby's 14th tee has 11 of 12 course tiles at 1 m (main 6), Upsala's 11 of 11 (main 9). A 1920 × 1080 desktop at high quality keeps every course tile it drew at 1 m and draws about half the terrain: 9.32 → 4.66 M at the 1st tee, 10.52 → 6.26 M at the 9th orbit, 9.45 → 4.53 M at the 14th tee.
+
+Opening Veckefjärden at device pixel ratio 3 took 39.7 s against 40.0 s (three interleaved runs each). After opening, the tile texture holds 25–42 MB against main's 25–38 MB; boot timing sets it within that range. The course is resolved in 256 m tiles, so ground far from every hole's line, such as a practice area, counts as off the course. Physical-phone frame rate and memory remain unmeasured, and the WebGPU phone path was not run here. Evidence: [graphics/phone-terrain-reach-2026-09-24](graphics/phone-terrain-reach-2026-09-24/).
 
 ## Policy
 
