@@ -2,7 +2,11 @@ import {beforeEach,afterEach,describe,it,expect,vi} from 'vitest';
 import fs from 'node:fs';
 import {createHash} from 'node:crypto';
 import * as THREE from 'three';
-import {loadGhibliTrees,GHIBLI_FOLIAGE_REVISION,VISBY_PINE_REVISION} from './ghibli-trees.mjs';
+import {loadGhibliTrees,playerTreeMeshTier,PLAYER_TREE_MESH_TIERS,GHIBLI_FOLIAGE_REVISION,VISBY_PINE_REVISION} from './ghibli-trees.mjs';
+import {preparedTintAllowed} from './prepared-ground-tint.mjs';
+import {preparedWaterAllowed} from './prepared-water.mjs';
+import {preparedVistaAllowed} from './prepared-vista.mjs';
+import {preparedScatterAllowed} from './prepared-scatter.mjs';
 import {loadStudyTrees} from '../studies/tree-loader.mjs';
 import {inspectBuildingGlb} from './authored-buildings.mjs';
 const root=new URL('../../public/models/trees/',import.meta.url);
@@ -62,15 +66,52 @@ describe('production foliage loader',()=>{
     const meshRequests=fetchImpl.mock.calls.map(([url])=>String(url).split('/models/trees/')[1]).filter(url=>url.endsWith('.glb'));
     expect(new Set(meshRequests)).toEqual(expected);
     expect(loaded.summary.files).toBe(expected.size+5);
-    expect(loaded.summary.hero).toBe(true);expect(loaded.summary.heroOnly).toBe(true);
+    expect(loaded.summary.tier).toBe('hero');expect(loaded.summary.hero).toBe(true);
     for(const s of loaded.species)for(const v of s.variants){
-      expect(v.full).toBeUndefined();expect(v.decimated).toBeUndefined();
+      expect(v.full).toBeUndefined();expect(v.decimated).toBeUndefined();expect(v.mesh).toBe(v.hero);
       const triangles=[v.hero.crown,v.hero.trunk].reduce((n,g)=>n+(g.index?.count??g.attributes.position.count)/3,0);
       expect(triangles).toBe(v.tris.hero);
       expect(v.hero.crown.attributes.uv.count).toBe(v.hero.crown.attributes.position.count);
       expect(v.trunkMean).toHaveLength(3);
       expect(v.trunkMean.every(Number.isFinite)).toBe(true);
     }
+  });
+  for(const courseSlug of ['puttom','visby']) it(`gives low quality only the lighter Full meshes, at Hero's height and radius (${courseSlug})`,async()=>{
+    const fetchImpl=vi.fn(assetFetch);
+    const loaded=await loadGhibliTrees({courseSlug,tier:'full',fetchImpl});
+    const expected=new Set(loaded.manifest.species.flatMap(s=>s.variants.map(v=>v.tiers.full.file)));
+    const meshRequests=fetchImpl.mock.calls.map(([url])=>String(url).split('/models/trees/')[1]).filter(url=>url.endsWith('.glb'));
+    expect(new Set(meshRequests)).toEqual(expected);
+    expect(loaded.summary.files).toBe(expected.size+5);
+    expect(loaded.summary.tier).toBe('full');expect(loaded.summary.hero).toBe(false);
+    for(const s of loaded.species)for(const v of s.variants){
+      expect(v.hero).toBeUndefined();expect(v.decimated).toBeUndefined();expect(v.mesh).toBe(v.full);
+      const box=new THREE.Box3();
+      let triangles=0;
+      for(const g of [v.full.crown,v.full.trunk]){
+        g.computeBoundingBox();box.union(g.boundingBox);
+        triangles+=(g.index?.count??g.attributes.position.count)/3;
+      }
+      expect(triangles).toBe(v.tris.full);
+      // Under half of Hero's triangles, drawn at exactly the same size.
+      expect(triangles).toBeLessThan(v.tris.hero/2);
+      expect(box.max.y).toBeCloseTo(v.templateHeight,4);
+      expect(Math.max(Math.abs(box.min.x),box.max.x,Math.abs(box.min.z),box.max.z)).toBeCloseTo(v.templateRadius,4);
+      expect(v.full.crown.attributes.uv.count).toBe(v.full.crown.attributes.position.count);
+      expect(v.trunkMean.every(Number.isFinite)).toBe(true);
+    }
+  });
+  it('picks Full for low quality and Hero for high, with a comparison override',async()=>{
+    expect(PLAYER_TREE_MESH_TIERS).toEqual(['hero','full']);
+    expect(playerTreeMeshTier('',true)).toBe('full');
+    expect(playerTreeMeshTier('?bana=puttom&q=lo',true)).toBe('full');
+    expect(playerTreeMeshTier('',false)).toBe('hero');
+    expect(playerTreeMeshTier('?treemesh=hero',true)).toBe('hero');
+    expect(playerTreeMeshTier('?treemesh=full',false)).toBe('full');
+    for(const value of ['lite','decimated','','1','HERO'])expect(playerTreeMeshTier(`?treemesh=${value}`,true)).toBe('full');
+    await expect(loadGhibliTrees({tier:'lite',fetchImpl:assetFetch})).rejects.toThrow(/no lite tier/);
+    for(const allowed of [preparedTintAllowed,preparedWaterAllowed,preparedVistaAllowed,preparedScatterAllowed])
+      for(const value of ['hero','full'])expect(allowed(`?bana=puttom&q=lo&treemesh=${value}`)).toBe(true);
   });
   it('uses the coastal pine only at Visby, preserving the other species and every detail budget',async()=>{
     const coastal=JSON.parse(fs.readFileSync(new URL('ghibli-visby.json',root)));
