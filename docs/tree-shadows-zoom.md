@@ -136,13 +136,18 @@ impostor 0.487 of its steady shadow, and the crown 0.502 (WebGL2) or 0.506
 
 **Prepared startup data.** The source revision moved, so tints (26), far
 vista (26), scatter (26) and water (10 courses) were re-baked through the
-existing publishers for revision `f1aeff3b`. Visby, Tortuna and Lidingö keep
-their measured water path with a refreshed identity.
+existing publishers. That happened first for this change alone, and again
+after merging main's phone terrain change (#95), for the merged revision
+`bc8d7db4`. Visby, Tortuna and Lidingö keep their measured water path with a
+refreshed identity.
 [`check-publication.mjs`](graphics/tree-shadows-zoom-2026-09-24/check-publication.mjs)
-proves that every record kept its content and only its source identity changed
+proves that, against main at `f3dc1d97`, every record kept its content and
+only its source identity changed
 ([`publication-identity.json`](graphics/tree-shadows-zoom-2026-09-24/publication-identity.json)).
 `check-prepared-startup` passes on the rebuilt app
 ([`prepared-check.json`](graphics/tree-shadows-zoom-2026-09-24/prepared-check.json)).
+The first bake's water payloads were never published, so they are removed
+rather than kept for older clients.
 
 **Tests.** `shadow-fit.test.mjs` replays the old fit rule over camera paths
 within 900 m and holds the larger boxes to the scaled 1150 m box. It also
@@ -155,9 +160,9 @@ keeps the before switches display-only for prepared startup.
 - the billboard lies flat in the shadow map, where the old ray to the light's
   position tilted two off-centre trees by 18° and 74°.
 
-In the full `pnpm test`, 1,328 Vitest tests and 475 Node tests pass, with 3
-environment skips. Its one failure was the Visby stand compiler's missing COPC
-reader dependency, which passes after
+On the tree merged with main, the full `pnpm test` passes: 1,333 Vitest tests
+and 478 Node tests, with 3 environment skips. The Node suite needs the offline
+COPC reader dependency for the Visby stand compiler:
 `npm ci --prefix packages/course-geo/copc-reader --ignore-scripts`. The
 production build, app-build isolation check, no-undef lint and
 `check:course-workflow` pass.
