@@ -9,6 +9,17 @@ direct rendering path.
 
 ## Keep detail tied to the course
 
+**September 24 update:** at the owner's request, low quality -- the profile
+every phone gets -- draws the approved catalogue's **Full** model near the
+course instead of Hero: 1,620–1,700 triangles a tree against 4,032–4,500.
+High quality is unchanged. Both tiers are fitted to the variant's height and
+radius, so every tree stands exactly as tall and wide as before; the zones, the
+24 px rule, hysteresis, dwell and fades are untouched. The drawn tier also bakes
+the impostors, so the 24 px crossfade meets a picture of the same tree, and it
+answers the facility clearance test, so a Full crown (which hangs lower than
+Hero's) is tested as the crown it is. `?treemesh=hero|full` selects either tier
+for comparison. See [the September 24 measurements](#september-24-phones-draw-the-full-model).
+
 **September 23 update:** the owner approved the measured 24 px distant-Hero
 exception as the default. Geographic zone A/B trees keep Hero detail nearby
 and use their own baked impostors when their projected whole-tree height falls
@@ -25,7 +36,7 @@ placements, including repeated frustum exits and reentries.
 
 | Distance from a playing line | High quality | Low quality / phone |
 | --- | --- | --- |
-| Within about 300 m | Hero mesh | Hero mesh |
+| Within about 300 m | Hero mesh | Full mesh (Hero until September 24) |
 | Farther out | Impostor | Impostor |
 
 Changing the camera position, altitude, zoom or active view does not change a
@@ -34,7 +45,8 @@ exception above; only the explicit opt-out keeps detail independent of the camer
 
 As of September 21, 2026, the app draws only **Hero and Impostor** trees.
 Full and Lite are no longer downloaded, instantiated or selected by either
-quality profile. The authored Hero geometry also supplies the impostor bake.
+quality profile. (Since September 24 low quality downloads and draws Full in
+Hero's place; Lite stays retired.) The authored Hero geometry also supplies the impostor bake.
 The standalone asset studies retain access to the older models for comparisons.
 `hero=0` cannot downgrade the app's meshes. Review overrides still work:
 `lod=1` selects Hero, `lod=4` selects Impostor, and old `lod=2` / `lod=3`
@@ -47,6 +59,36 @@ models have 4,032–4,500 triangles versus 1,620–1,700 for Full and 108–308 
 Lite. The 300 m corridor, tree placement, density rules and frustum culling
 are retained. Reduced downloads and allocations do not imply equal GPU cost;
 actual phone frame time requires a physical-device measurement.
+
+### September 24: phones draw the Full model
+
+Measured on the built app with WebGL2 at a 412 × 915 phone viewport, low
+quality locked, under SwiftShader with the draw calls skipped. That yields
+triangle and draw counts and main-thread time, not frame rate. The before is
+`?treemesh=hero` on the same build, two runs each.
+
+| Veckefjärden, phone | Hero (before) | Full (now) |
+| --- | ---: | ---: |
+| Tree triangles, hole 1 tee | 2.35 M | 0.89 M |
+| Frame triangles, hole 1 tee | 7.59 M | 6.12 M |
+| Frame triangles, hole 9 orbit / overhead | 8.00 / 3.24 M | 7.14 / 2.56 M |
+| Flyover, triangles per frame (median, with the shadow map) | 15.0 M | 12.2 M |
+| Flyover, peak | 20.2 M | 14.7 M |
+| Tree model download | 2,076 kB | 1,251 kB |
+
+Near-tree counts are identical (523 at the 1st tee), and so is placement: the
+same tree totals and facility exclusions at Veckefjärden, Ängsö and
+Norrfällsviken. Main-thread time does not change, since the draws and instances
+are the same. At the 1st tee the terrain (3.73 M) now outweighs the trees.
+Visby's gate passes with only Full requests (1,457 kB against 2,586) and the
+same 47 near / 846 impostor tee split; at phone size 1.78% of the tee view's
+pixels change by more than 8/255, all on the trees
+([comparison](graphics/phone-full-trees-2026-09-24/visby-tee-trees-hero-vs-full.png)).
+
+The change moved the source revision, so tints, water, far vista and scatter
+were re-baked for all 13 courses; `check-publication.mjs` in the same folder
+proves every record kept its content. Physical-phone frame rate remains
+unmeasured. Evidence: [graphics/phone-full-trees-2026-09-24](graphics/phone-full-trees-2026-09-24/).
 
 ### September 21 verification
 

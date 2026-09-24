@@ -4306,24 +4306,31 @@ function mergeGeos(list) {
   out.setIndex(new THREE.BufferAttribute(idx, 1));
   return out;
 }
-/* Load the approved five-species Blender catalogue for Hero meshes
+/* Load the approved five-species Blender catalogue for the near meshes
    and the distant impostor bake. Placement and measured sizes
    retain their existing rules; missing catalogue assets report a loading error. */
 const GHIBLI_STARTED = performance.now();
 const GHIBLI = await (async () => {
   try {
-    const { loadGhibliTrees } = await import('./engine/ghibli-trees.mjs');
-    /* Hero is the only mesh tier, including on phones and old ?hero=0 links.
-       The same template supplies the distant impostor; no Full/Lite downloads. */
-    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug });
-    console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
+    const { loadGhibliTrees, playerTreeMeshTier } = await import('./engine/ghibli-trees.mjs');
+    /* One mesh tier near the course, and it supplies the distant impostor
+       too: Hero at high quality, the same catalogue's Full model at low
+       quality -- every phone -- at about 40% of Hero's triangles, fitted to
+       the same height and radius. ?treemesh=hero|full overrides for
+       comparison; old ?hero=0 links change nothing. No Lite downloads. */
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
+      tier: playerTreeMeshTier(location.search, LOWQ) });
+    console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
 })();
 // Preserve the placement scales used before authored templates became mandatory.
 span('tree models (download + decode)', GHIBLI_STARTED);
+/* The drawn template is also the one placement asks about (its crown's
+   underside keeps trees out of the authored buildings), so a Full crown,
+   which hangs lower than Hero's, is tested as the crown it is. */
 const SPECIES = GHIBLI.species.map((g, s) => ({
-  crown: g.hero.crown, trunk: g.hero.trunk,
+  crown: g.mesh.crown, trunk: g.mesh.trunk,
   cc: GHIBLI.colours[s].cc, tc: GHIBLI.colours[s].tc,
   sc: [[0.85, 1.5], [0.72, 1.34], [0.60, 1.06]][s] || GHIBLI.colours[s].sc,
 }));
@@ -4836,8 +4843,10 @@ function legacyTreeExport(withInstances = false) {
 }
 lap('v2 vegetation: push planned trees');
 /* ------------------------------------------------------------ tree tiers
-   Hero meshes within 300 m of a hole line, image impostors beyond, for both
-   quality profiles. Geographic tiers do not change during camera movement.
+   The near mesh within 300 m of a hole line, image impostors beyond, for both
+   quality profiles; the near mesh is Hero at high quality and Full at low
+   (GHIBLI.summary.tier), and "Hero" below means that tier either way.
+   Geographic tiers do not change during camera movement.
    Each species/variant uses two InstancedMeshes (crown/trunk) and an impostor
    batch, with cell frustum culling and dirty-range instance uploads.
    Tree positions and measured dimensions belong to the existing planter.
@@ -4894,8 +4903,8 @@ const TREE_LOD = {
   debug: new URLSearchParams(location.search).get("impdbg") || null,
 };
 {
-  // Authored Hero geometry also supplies the distant impostor atlases.
-  const hero = GHIBLI.species.map(s => s.hero);
+  // The drawn near mesh (Hero, or Full at low quality) also supplies the distant impostor atlases.
+  const near = GHIBLI.species.map(s => s.mesh);
   const crownMaterial = (s, sway) => {
     const foliage = GHIBLI.species[s].foliage;
     const tint = attribute('aTint', 'vec4');
@@ -4949,7 +4958,7 @@ const TREE_LOD = {
          instead (engine/ghibli-trees.mjs). Without it every impostor pine drew
          a white pole. */
       const bakeTrunk = new THREE.Color(...GHIBLI.species[s].trunkMean).multiply(new THREE.Color(SPECIES[s].tc));
-      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: hero[s].crown, trunk: hero[s].trunk, trunkColor: bakeTrunk,
+      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: near[s].crown, trunk: near[s].trunk, trunkColor: bakeTrunk,
         foliage: GHIBLI.species[s].foliage }));
     }
     TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
@@ -4984,8 +4993,8 @@ const TREE_LOD = {
     for (let v = 0; v < vars.length; v++) {
       const g = vars[v];
       TEMPLATES.push({ s, v, nv: vars.length, name: `${SPECIES_NAMES[s]}${v}`,
-        spec: { ...SPECIES[s], crown: g.hero.crown, trunk: g.hero.trunk },
-        hr: { crown: g.hero.crown, trunk: g.hero.trunk },
+        spec: { ...SPECIES[s], crown: g.mesh.crown, trunk: g.mesh.trunk },
+        hr: { crown: g.mesh.crown, trunk: g.mesh.trunk },
         ky: SPECIES[s].templateHeight / g.templateHeight, kxz: SPECIES[s].templateRadius / g.templateRadius });
     }
   }

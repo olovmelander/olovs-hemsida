@@ -1,0 +1,767 @@
+{
+  "course": "visby",
+  "quality": "lo",
+  "gpu": "SwiftShader",
+  "errors": [],
+  "models": [
+    "ghibli-fluffy/5929672ca681c2c6a3353f7ea46ebcafb84de735c5347ebf9fc591a7aa866b96.glb",
+    "visby-pine/ebee79800f071e5ad8e4667e79abe11b66c1b3a7bd31375dd7bfdb77ae61cdbf.glb",
+    "visby-pine/c3654c5a0114dd29cf4a17191f82e586ae9e0b1e205a78aecfd69bb8cb345f23.glb",
+    "visby-pine/50811396d8f5cfc321cc0667f0a2b16e8825ad55b2e56c1e7aca72a089d4e0de.glb",
+    "ghibli-fluffy/d9edbdc92ec439b86b67102e4d31de19377b553b057b4f6f5d0bd543cdde3d4e.glb",
+    "ghibli-fluffy/1abcb3e95ee2e0679387d3029f510ecc91f6141b6470f47581e8142ded521b71.glb",
+    "ghibli-fluffy/0255c7b74e2a1459e9e5398030019962ba3a974115612e1cb0ebf944a84fdbfe.glb"
+  ],
+  "views": [
+    {
+      "view": "tee",
+      "tier": "full",
+      "tiers": {
+        "tier0": 47,
+        "tier1": 0,
+        "tier2": 0,
+        "tier3": 846,
+        "cells": 460,
+        "cellsVisible": 20,
+        "moves": 893,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 1,
+        "bakeMs": 2709,
+        "fading": 0,
+        "updateMs": 0.10000000149011612,
+        "zoneA": 2577,
+        "zoneB": 1041,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          1
+        ]
+      },
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 54,
+            "inCount": 54,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 162,
+            "inCount": 162,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 144,
+            "inCount": 144,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 184,
+            "inCount": 184,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 349,
+            "inCount": 349,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "allocation": {
+        "drawableBytes": 2135900,
+        "slotBytes": 80600,
+        "capacity": 20150,
+        "used": 893,
+        "resizes": 0
+      },
+      "backend": "webgl2",
+      "policy": {
+        "mode": "zone",
+        "zoneTiers": [
+          1,
+          1,
+          4,
+          4
+        ],
+        "distantHero": 24,
+        "hero": 200,
+        "full": 60,
+        "impostor": 22,
+        "hysteresis": 0.1,
+        "dwell": 6,
+        "floors": [
+          1,
+          1
+        ],
+        "reach": [
+          250,
+          500
+        ]
+      },
+      "quality": {
+        "lowfx": false,
+        "lowq": true,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            390,
+            844
+          ],
+          "extraPixelBudget": 1000000,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": null
+      },
+      "inventory": [
+        {
+          "name": "trees-spruce0-crown-t0",
+          "count": 2,
+          "trianglesEach": 1632
+        },
+        {
+          "name": "trees-spruce0-trunk-t0",
+          "count": 2,
+          "trianglesEach": 68
+        },
+        {
+          "name": "trees-spruce-impostor-t3",
+          "count": 52,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-pine0-crown-t0",
+          "count": 12,
+          "trianglesEach": 1260
+        },
+        {
+          "name": "trees-pine0-trunk-t0",
+          "count": 12,
+          "trianglesEach": 440
+        },
+        {
+          "name": "trees-pine-impostor-t3",
+          "count": 150,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-pine1-crown-t0",
+          "count": 6,
+          "trianglesEach": 1180
+        },
+        {
+          "name": "trees-pine1-trunk-t0",
+          "count": 6,
+          "trianglesEach": 520
+        },
+        {
+          "name": "trees-pine-impostor-t3",
+          "count": 138,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-pine2-crown-t0",
+          "count": 8,
+          "trianglesEach": 1260
+        },
+        {
+          "name": "trees-pine2-trunk-t0",
+          "count": 8,
+          "trianglesEach": 440
+        },
+        {
+          "name": "trees-pine-impostor-t3",
+          "count": 176,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-birch0-crown-t0",
+          "count": 19,
+          "trianglesEach": 1572
+        },
+        {
+          "name": "trees-birch0-trunk-t0",
+          "count": 19,
+          "trianglesEach": 128
+        },
+        {
+          "name": "trees-birch-impostor-t3",
+          "count": 330,
+          "trianglesEach": 2
+        }
+      ],
+      "renderer": {
+        "calls": 691,
+        "frameCalls": 2,
+        "drawCalls": 43,
+        "triangles": 1778786,
+        "points": 0,
+        "lines": 48,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 519,
+          "attributesSize": 23853262,
+          "geometries": 287,
+          "indexAttributes": 162,
+          "indexAttributesSize": 3467634,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 71,
+          "programsSize": 640710,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 14,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 49,
+          "texturesSize": 198959810,
+          "uniformBuffers": 349,
+          "uniformBuffersSize": 45536,
+          "total": 226966952
+        },
+        "drawingBuffer": [
+          390,
+          844
+        ],
+        "pixelRatio": 1
+      }
+    },
+    {
+      "view": "top",
+      "tier": "full",
+      "tiers": {
+        "tier0": 78,
+        "tier1": 0,
+        "tier2": 0,
+        "tier3": 22,
+        "cells": 460,
+        "cellsVisible": 4,
+        "moves": 1782,
+        "switches": 0,
+        "reversals": 0,
+        "updates": 2,
+        "bakeMs": 2709,
+        "fading": 0,
+        "updateMs": 0.19999999552965164,
+        "zoneA": 2577,
+        "zoneB": 1041,
+        "heroPx": 200,
+        "switchPx": 60,
+        "impostorPx": 22,
+        "hysteresis": 0.1,
+        "nominalHeight": 12,
+        "cell": 128,
+        "force": 0,
+        "fadeS": 0,
+        "frozen": false,
+        "clockDriven": false,
+        "cellMode": false,
+        "floors": [
+          1,
+          1
+        ]
+      },
+      "audit": {
+        "ok": true,
+        "species": [
+          {
+            "sumCount": 4,
+            "inCount": 4,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 27,
+            "inCount": 27,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 15,
+            "inCount": 15,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 19,
+            "inCount": 19,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          },
+          {
+            "sumCount": 35,
+            "inCount": 35,
+            "outCount": 0,
+            "roundTrip": true,
+            "noSelfPair": true,
+            "ok": true
+          }
+        ]
+      },
+      "allocation": {
+        "drawableBytes": 2135900,
+        "slotBytes": 80600,
+        "capacity": 20150,
+        "used": 100,
+        "resizes": 0
+      },
+      "backend": "webgl2",
+      "policy": {
+        "mode": "zone",
+        "zoneTiers": [
+          1,
+          1,
+          4,
+          4
+        ],
+        "distantHero": 24,
+        "hero": 200,
+        "full": 60,
+        "impostor": 22,
+        "hysteresis": 0.1,
+        "dwell": 6,
+        "floors": [
+          1,
+          1
+        ],
+        "reach": [
+          250,
+          500
+        ]
+      },
+      "quality": {
+        "lowfx": false,
+        "lowq": true,
+        "phone": false,
+        "autoQualityDone": true,
+        "qualityLocked": true,
+        "graphicsPolish": true,
+        "surfaceRelief": "off",
+        "pixelRatio": 1,
+        "resolution": {
+          "mode": "quality",
+          "requested": null,
+          "pixelRatio": 1,
+          "detailPixelRatio": 1,
+          "maximumPixelRatio": 1,
+          "drawingBuffer": [
+            390,
+            844
+          ],
+          "extraPixelBudget": 1000000,
+          "changes": 0,
+          "reason": "initial",
+          "frameP90Ms": null
+        },
+        "bloom": null
+      },
+      "inventory": [
+        {
+          "name": "trees-spruce0-crown-t0",
+          "count": 3,
+          "trianglesEach": 1632
+        },
+        {
+          "name": "trees-spruce0-trunk-t0",
+          "count": 3,
+          "trianglesEach": 68
+        },
+        {
+          "name": "trees-spruce-impostor-t3",
+          "count": 1,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-pine0-crown-t0",
+          "count": 21,
+          "trianglesEach": 1260
+        },
+        {
+          "name": "trees-pine0-trunk-t0",
+          "count": 21,
+          "trianglesEach": 440
+        },
+        {
+          "name": "trees-pine-impostor-t3",
+          "count": 6,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-pine1-crown-t0",
+          "count": 13,
+          "trianglesEach": 1180
+        },
+        {
+          "name": "trees-pine1-trunk-t0",
+          "count": 13,
+          "trianglesEach": 520
+        },
+        {
+          "name": "trees-pine-impostor-t3",
+          "count": 2,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-pine2-crown-t0",
+          "count": 14,
+          "trianglesEach": 1260
+        },
+        {
+          "name": "trees-pine2-trunk-t0",
+          "count": 14,
+          "trianglesEach": 440
+        },
+        {
+          "name": "trees-pine-impostor-t3",
+          "count": 5,
+          "trianglesEach": 2
+        },
+        {
+          "name": "trees-birch0-crown-t0",
+          "count": 27,
+          "trianglesEach": 1572
+        },
+        {
+          "name": "trees-birch0-trunk-t0",
+          "count": 27,
+          "trianglesEach": 128
+        },
+        {
+          "name": "trees-birch-impostor-t3",
+          "count": 8,
+          "trianglesEach": 2
+        }
+      ],
+      "renderer": {
+        "calls": 711,
+        "frameCalls": 3,
+        "drawCalls": 445,
+        "triangles": 1831438,
+        "points": 0,
+        "lines": 48,
+        "timestamp": 0,
+        "memory": {
+          "attributes": 683,
+          "attributesSize": 24069363,
+          "geometries": 347,
+          "indexAttributes": 183,
+          "indexAttributesSize": 3296556,
+          "indirectStorageAttributes": 0,
+          "indirectStorageAttributesSize": 0,
+          "programs": 75,
+          "programsSize": 675539,
+          "readbackBuffers": 0,
+          "readbackBuffersSize": 0,
+          "renderTargets": 14,
+          "storageAttributes": 0,
+          "storageAttributesSize": 0,
+          "textures": 51,
+          "texturesSize": 192831743,
+          "uniformBuffers": 517,
+          "uniformBuffersSize": 81120,
+          "total": 220954321
+        },
+        "drawingBuffer": [
+          390,
+          844
+        ],
+        "pixelRatio": 1
+      }
+    }
+  ],
+  "override": {
+    "tier": "full",
+    "tiers": {
+      "tier0": 100,
+      "tier1": 0,
+      "tier2": 0,
+      "tier3": 0,
+      "cells": 460,
+      "cellsVisible": 4,
+      "moves": 1864,
+      "switches": 82,
+      "reversals": 0,
+      "updates": 4,
+      "bakeMs": 2709,
+      "fading": 0,
+      "updateMs": 0.10000000149011612,
+      "zoneA": 2577,
+      "zoneB": 1041,
+      "heroPx": 200,
+      "switchPx": 60,
+      "impostorPx": 22,
+      "hysteresis": 0.1,
+      "nominalHeight": 12,
+      "cell": 128,
+      "force": 3,
+      "fadeS": 0,
+      "frozen": false,
+      "clockDriven": false,
+      "cellMode": false,
+      "floors": [
+        1,
+        1
+      ]
+    },
+    "audit": {
+      "ok": true,
+      "species": [
+        {
+          "sumCount": 4,
+          "inCount": 4,
+          "outCount": 0,
+          "roundTrip": true,
+          "noSelfPair": true,
+          "ok": true
+        },
+        {
+          "sumCount": 27,
+          "inCount": 27,
+          "outCount": 0,
+          "roundTrip": true,
+          "noSelfPair": true,
+          "ok": true
+        },
+        {
+          "sumCount": 15,
+          "inCount": 15,
+          "outCount": 0,
+          "roundTrip": true,
+          "noSelfPair": true,
+          "ok": true
+        },
+        {
+          "sumCount": 19,
+          "inCount": 19,
+          "outCount": 0,
+          "roundTrip": true,
+          "noSelfPair": true,
+          "ok": true
+        },
+        {
+          "sumCount": 35,
+          "inCount": 35,
+          "outCount": 0,
+          "roundTrip": true,
+          "noSelfPair": true,
+          "ok": true
+        }
+      ]
+    },
+    "allocation": {
+      "drawableBytes": 2135900,
+      "slotBytes": 80600,
+      "capacity": 20150,
+      "used": 100,
+      "resizes": 0
+    },
+    "backend": "webgl2",
+    "policy": {
+      "mode": "zone",
+      "zoneTiers": [
+        1,
+        1,
+        4,
+        4
+      ],
+      "distantHero": 24,
+      "hero": 200,
+      "full": 60,
+      "impostor": 22,
+      "hysteresis": 0.1,
+      "dwell": 6,
+      "floors": [
+        1,
+        1
+      ],
+      "reach": [
+        250,
+        500
+      ]
+    },
+    "quality": {
+      "lowfx": false,
+      "lowq": true,
+      "phone": false,
+      "autoQualityDone": true,
+      "qualityLocked": true,
+      "graphicsPolish": true,
+      "surfaceRelief": "off",
+      "pixelRatio": 1,
+      "resolution": {
+        "mode": "quality",
+        "requested": null,
+        "pixelRatio": 1,
+        "detailPixelRatio": 1,
+        "maximumPixelRatio": 1,
+        "drawingBuffer": [
+          390,
+          844
+        ],
+        "extraPixelBudget": 1000000,
+        "changes": 0,
+        "reason": "initial",
+        "frameP90Ms": null
+      },
+      "bloom": null
+    },
+    "inventory": [
+      {
+        "name": "trees-spruce0-crown-t0",
+        "count": 4,
+        "trianglesEach": 1632
+      },
+      {
+        "name": "trees-spruce0-trunk-t0",
+        "count": 4,
+        "trianglesEach": 68
+      },
+      {
+        "name": "trees-spruce-impostor-t3",
+        "count": 0,
+        "trianglesEach": 2
+      },
+      {
+        "name": "trees-pine0-crown-t0",
+        "count": 27,
+        "trianglesEach": 1260
+      },
+      {
+        "name": "trees-pine0-trunk-t0",
+        "count": 27,
+        "trianglesEach": 440
+      },
+      {
+        "name": "trees-pine-impostor-t3",
+        "count": 0,
+        "trianglesEach": 2
+      },
+      {
+        "name": "trees-pine1-crown-t0",
+        "count": 15,
+        "trianglesEach": 1180
+      },
+      {
+        "name": "trees-pine1-trunk-t0",
+        "count": 15,
+        "trianglesEach": 520
+      },
+      {
+        "name": "trees-pine-impostor-t3",
+        "count": 0,
+        "trianglesEach": 2
+      },
+      {
+        "name": "trees-pine2-crown-t0",
+        "count": 19,
+        "trianglesEach": 1260
+      },
+      {
+        "name": "trees-pine2-trunk-t0",
+        "count": 19,
+        "trianglesEach": 440
+      },
+      {
+        "name": "trees-pine-impostor-t3",
+        "count": 0,
+        "trianglesEach": 2
+      },
+      {
+        "name": "trees-birch0-crown-t0",
+        "count": 35,
+        "trianglesEach": 1572
+      },
+      {
+        "name": "trees-birch0-trunk-t0",
+        "count": 35,
+        "trianglesEach": 128
+      },
+      {
+        "name": "trees-birch-impostor-t3",
+        "count": 0,
+        "trianglesEach": 2
+      }
+    ],
+    "renderer": {
+      "calls": 731,
+      "frameCalls": 3,
+      "drawCalls": 440,
+      "triangles": 1906194,
+      "points": 0,
+      "lines": 48,
+      "timestamp": 0,
+      "memory": {
+        "attributes": 683,
+        "attributesSize": 24069363,
+        "geometries": 347,
+        "indexAttributes": 183,
+        "indexAttributesSize": 3296556,
+        "indirectStorageAttributes": 0,
+        "indirectStorageAttributesSize": 0,
+        "programs": 75,
+        "programsSize": 675539,
+        "readbackBuffers": 0,
+        "readbackBuffersSize": 0,
+        "renderTargets": 14,
+        "storageAttributes": 0,
+        "storageAttributesSize": 0,
+        "textures": 51,
+        "texturesSize": 192831743,
+        "uniformBuffers": 517,
+        "uniformBuffersSize": 81120,
+        "total": 220954321
+      },
+      "drawingBuffer": [
+        390,
+        844
+      ],
+      "pixelRatio": 1
+    }
+  },
+  "ok": true
+}
