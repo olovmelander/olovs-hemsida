@@ -4,6 +4,35 @@ This implements the P0 ring-terrain item in the [graphics improvement guide](v2-
 
 Visby's subsequent phone report is investigated in [the WebGL2 coastal depth follow-up](visby-webgl-water-distance.md). Native-terrain captures also reproduce distant water breakup: the sea sheet competes with the laser water surface independently of grid simplification. The follow-up masks redundant underwater terrain in verified sea interiors. Low-quality framebuffer resolution is a separate source of landscape softness.
 
+**24 September update:** the reduced grid is no longer a phone default. Every device and backend draws native grids; see [below](#24-september-phones-draw-the-desktop-terrain). The sections after it describe the 9 September pilot, which `?terrainStride=2` still reproduces.
+
+## 24 September: phones draw the desktop terrain
+
+The owner asked for the 1 m terrain on phones as well. Terrain detail no longer depends on quality, device or backend ([`terrain-detail.mjs`](../apps/golf/src/engine/terrain-detail.mjs)):
+
+- Every tile is drawn at its native grid. A coarser level is drawn only while it stays within **one pixel** of the finer surface on screen, and the frontier may hold **128 tiles**.
+- Before, low quality on WebGL2 drew refinable levels at half density within 1.5 px and capped the frontier at 56 tiles; low quality on WebGPU capped it at 56; WebGL2 desktops accepted 1.5 px. High-quality WebGPU is unchanged.
+- The active hole's tiles are still always 1 m, and CPU heights still come from the 1 m source and rings.
+- Low quality keeps its own streaming: two concurrent requests, a smaller cache of unused tiles and a tile texture that grows with the frontier in groups of eight, the path the reduced grid already used. The desktop reserves all 128 native layers up front, 67.6 MB on the CPU and again on the GPU, which would be most of the [96 MiB pilot phone texture budget](v2-graphics-improvement-guide.md#8-performance-budgets-and-quality-tiers); the phone runs below reached 25–34 MB, most of it grown by the construction-time plan.
+
+The reduced grid did not make phone views lighter. The planner adds each simplified parent's measured error to its budget and refines it into full-density children, so close views drew more tiles, and the parents it kept stayed above one pixel. Veckefjärden at 412 × 915, WebGL2, low quality locked, draw calls skipped under SwiftShader (counts, not frame rate):
+
+| Veckefjärden, phone | Before | Now |
+| --- | ---: | ---: |
+| 1st tee: tiles (1 m) / terrain triangles | 28 (20) / 3.73 M | 28 (19) / 3.73 M |
+| 9th orbit: tiles (1 m, half density) | 40 (30, 3) | 32 (20, 0) |
+| 9th orbit: terrain triangles / largest error | 5.03 M / 1.54 px | 4.26 M / 1.07 px |
+| 14th tee: tiles (1 m, half density) | 28 (11, 7) | 25 (11, 0) |
+| 14th tee: terrain triangles / largest error | 3.03 M / 1.67 px | 3.33 M / 0.97 px |
+| Flyovers 1 / 9: terrain triangles per frame, median | 4.33 / 5.26 M | 4.13 / 3.86 M |
+| Flyovers 1 / 9: peak | 5.29 / 5.99 M | 4.79 / 4.79 M |
+| Flyovers 1 / 9: largest error per frame, median (p90) | 1.59 (2.53) / 1.46 (1.70) px | 1.02 (1.14) / 1.06 (1.14) px |
+| Tile texture reserved | 17–28 MB | 25–34 MB |
+
+The largest error is taken over the drawn tiles that have finer children; a leaf is already the finest data at its place, such as the 1 m tile under a tee camera. The overhead view draws the same six 1 m tiles either way. Where the reduced grid drew more 1 m tiles (the 9th orbit, the 9th flyover), it was refining around its own half-density parents; the new frontier's 2 m tiles there stay within a pixel of the 1 m surface. One pixel allows 15% hysteresis, hence the 1.14 px.
+
+A 1920 × 1080 desktop at one pixel draws 46–59 of its 70–79 tiles at 1 m in the same tee and orbit views; it sees more ground across its wider screen, and selects the same levels at the same pixel error. One pixel is measured in the pixels the canvas draws: low quality renders at device pixel ratio 1, so a phone refines as a desktop of the same CSS height does. Physical-phone frame rate and memory remain unmeasured, and the WebGPU phone path was not run here. Evidence: [graphics/phone-terrain-1m-2026-09-24](graphics/phone-terrain-1m-2026-09-24/).
+
 ## Policy
 
 The parent-linked graph adapter now consumes `renderStride`. Low-quality WebGL2 already requested stride 2; that request now reaches the runtime. High-quality WebGL2 and WebGPU keep stride 1 by default. `terrainStride=1` or `terrainStride=2` provides a reversible comparison on either backend.
