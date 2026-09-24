@@ -15,7 +15,8 @@ export function preparedTintAllowed(search) {
   if (params.get('startup') === '0' || params.has('bakeTint')) return false;
   const displayOnly = new Set(['bana', 'hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'q', 'det',
     'ghibli', 'gl', 'rdepth', 'hero', 'trees', 'look', 'qualitylock', 'startup', 'v2', 'kiosk',
-    'distanthero', 'treemesh']); // drawable tree detail does not change prepared planting/color inputs
+    'distanthero', 'treemesh', // drawable tree detail does not change prepared planting/color inputs
+    'impostorshadow', 'foliageshadow', 'shadowreach']); // nor does what casts into the sun's shadow map
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

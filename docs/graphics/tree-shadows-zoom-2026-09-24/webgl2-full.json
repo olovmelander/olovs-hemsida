@@ -1,0 +1,1268 @@
+{
+ "ref": "04cb52ae",
+ "adapter": "swiftshader",
+ "performanceEvidence": false,
+ "query": "modes=thin%2Ccolour&tier=full&gl=1",
+ "tier": "full",
+ "match": [],
+ "thin": [
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.967,
+   "mesh": 0.988,
+   "impostor": 1.022,
+   "iouMeshImpostor": 0.92
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.929,
+   "mesh": 1.003,
+   "impostor": 1.017,
+   "iouMeshImpostor": 0.938
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.845,
+   "mesh": 0.969,
+   "impostor": 1.018,
+   "iouMeshImpostor": 0.929
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.74,
+   "mesh": 1.007,
+   "impostor": 1.039,
+   "iouMeshImpostor": 0.931
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.647,
+   "mesh": 1.011,
+   "impostor": 1.019,
+   "iouMeshImpostor": 0.937
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.501,
+   "mesh": 0.871,
+   "impostor": 0.972,
+   "iouMeshImpostor": 0.893
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.894,
+   "mesh": 0.973,
+   "impostor": 1.011,
+   "iouMeshImpostor": 0.914
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.583,
+   "mesh": 1.019,
+   "impostor": 1.054,
+   "iouMeshImpostor": 0.921
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.383,
+   "mesh": 0.973,
+   "impostor": 1.006,
+   "iouMeshImpostor": 0.916
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.45,
+   "mesh": 0.978,
+   "impostor": 1.08,
+   "iouMeshImpostor": 0.902
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.972,
+   "mesh": 0.993,
+   "impostor": 1.023,
+   "iouMeshImpostor": 0.936
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.937,
+   "mesh": 0.996,
+   "impostor": 1.03,
+   "iouMeshImpostor": 0.945
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.853,
+   "mesh": 0.96,
+   "impostor": 1.018,
+   "iouMeshImpostor": 0.927
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.691,
+   "mesh": 1.004,
+   "impostor": 1.021,
+   "iouMeshImpostor": 0.946
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.59,
+   "mesh": 0.992,
+   "impostor": 1.009,
+   "iouMeshImpostor": 0.928
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.529,
+   "mesh": 0.841,
+   "impostor": 0.924,
+   "iouMeshImpostor": 0.9
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.897,
+   "mesh": 0.99,
+   "impostor": 1.019,
+   "iouMeshImpostor": 0.935
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.485,
+   "mesh": 1.018,
+   "impostor": 1.014,
+   "iouMeshImpostor": 0.91
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.446,
+   "mesh": 0.954,
+   "impostor": 1.004,
+   "iouMeshImpostor": 0.949
+  },
+  {
+   "species": "gran",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.482,
+   "mesh": 0.974,
+   "impostor": 0.973,
+   "iouMeshImpostor": 0.942
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.973,
+   "mesh": 0.993,
+   "impostor": 1.027,
+   "iouMeshImpostor": 0.868
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.943,
+   "mesh": 0.983,
+   "impostor": 1.018,
+   "iouMeshImpostor": 0.884
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.846,
+   "mesh": 0.971,
+   "impostor": 1.047,
+   "iouMeshImpostor": 0.865
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.749,
+   "mesh": 0.965,
+   "impostor": 1.02,
+   "iouMeshImpostor": 0.874
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.703,
+   "mesh": 1.033,
+   "impostor": 1.042,
+   "iouMeshImpostor": 0.897
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.791,
+   "mesh": 0.851,
+   "impostor": 0.85,
+   "iouMeshImpostor": 0.911
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.865,
+   "mesh": 0.993,
+   "impostor": 1.026,
+   "iouMeshImpostor": 0.877
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.654,
+   "mesh": 0.977,
+   "impostor": 1.027,
+   "iouMeshImpostor": 0.902
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.599,
+   "mesh": 1.066,
+   "impostor": 0.905,
+   "iouMeshImpostor": 0.791
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.733,
+   "mesh": 0.93,
+   "impostor": 0.929,
+   "iouMeshImpostor": 0.91
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.99,
+   "mesh": 1.002,
+   "impostor": 1.062,
+   "iouMeshImpostor": 0.885
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.943,
+   "mesh": 1.003,
+   "impostor": 1.069,
+   "iouMeshImpostor": 0.883
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.885,
+   "mesh": 0.988,
+   "impostor": 1.058,
+   "iouMeshImpostor": 0.909
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.769,
+   "mesh": 0.948,
+   "impostor": 1.035,
+   "iouMeshImpostor": 0.843
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.699,
+   "mesh": 0.97,
+   "impostor": 1.028,
+   "iouMeshImpostor": 0.881
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.663,
+   "mesh": 1.193,
+   "impostor": 0.996,
+   "iouMeshImpostor": 0.736
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.904,
+   "mesh": 0.993,
+   "impostor": 1.083,
+   "iouMeshImpostor": 0.886
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.686,
+   "mesh": 1.12,
+   "impostor": 1.037,
+   "iouMeshImpostor": 0.84
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.826,
+   "mesh": 1.103,
+   "impostor": 0.991,
+   "iouMeshImpostor": 0.836
+  },
+  {
+   "species": "tall",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 1.015,
+   "mesh": 1.16,
+   "impostor": 0.943,
+   "iouMeshImpostor": 0.832
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.965,
+   "mesh": 0.999,
+   "impostor": 1.054,
+   "iouMeshImpostor": 0.917
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.909,
+   "mesh": 0.986,
+   "impostor": 1.055,
+   "iouMeshImpostor": 0.913
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.807,
+   "mesh": 0.985,
+   "impostor": 1.026,
+   "iouMeshImpostor": 0.933
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.656,
+   "mesh": 0.984,
+   "impostor": 1.045,
+   "iouMeshImpostor": 0.894
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.476,
+   "mesh": 1.003,
+   "impostor": 1.022,
+   "iouMeshImpostor": 0.97
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.339,
+   "mesh": 1.004,
+   "impostor": 1.004,
+   "iouMeshImpostor": 1
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.865,
+   "mesh": 0.988,
+   "impostor": 1.057,
+   "iouMeshImpostor": 0.906
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.538,
+   "mesh": 0.934,
+   "impostor": 1.033,
+   "iouMeshImpostor": 0.886
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.561,
+   "mesh": 0.999,
+   "impostor": 1.038,
+   "iouMeshImpostor": 0.867
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.369,
+   "mesh": 1.098,
+   "impostor": 1.098,
+   "iouMeshImpostor": 1
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.967,
+   "mesh": 0.997,
+   "impostor": 1.055,
+   "iouMeshImpostor": 0.922
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.91,
+   "mesh": 0.978,
+   "impostor": 1.05,
+   "iouMeshImpostor": 0.911
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.822,
+   "mesh": 0.995,
+   "impostor": 1.064,
+   "iouMeshImpostor": 0.908
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.643,
+   "mesh": 1.01,
+   "impostor": 1.03,
+   "iouMeshImpostor": 0.889
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.504,
+   "mesh": 0.952,
+   "impostor": 0.971,
+   "iouMeshImpostor": 0.982
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.411,
+   "mesh": 0.889,
+   "impostor": 1.026,
+   "iouMeshImpostor": 0.852
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.837,
+   "mesh": 0.997,
+   "impostor": 1.047,
+   "iouMeshImpostor": 0.924
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.509,
+   "mesh": 0.976,
+   "impostor": 1.037,
+   "iouMeshImpostor": 0.937
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.49,
+   "mesh": 0.939,
+   "impostor": 0.98,
+   "iouMeshImpostor": 0.908
+  },
+  {
+   "species": "björk",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.524,
+   "mesh": 0.897,
+   "impostor": 1.046,
+   "iouMeshImpostor": 0.833
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.972,
+   "mesh": 0.994,
+   "impostor": 1.078,
+   "iouMeshImpostor": 0.92
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.929,
+   "mesh": 1.012,
+   "impostor": 1.088,
+   "iouMeshImpostor": 0.916
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.811,
+   "mesh": 0.996,
+   "impostor": 1.045,
+   "iouMeshImpostor": 0.936
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.7,
+   "mesh": 0.983,
+   "impostor": 1.045,
+   "iouMeshImpostor": 0.946
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.681,
+   "mesh": 1.005,
+   "impostor": 1.006,
+   "iouMeshImpostor": 0.984
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.599,
+   "mesh": 1.052,
+   "impostor": 1.057,
+   "iouMeshImpostor": 1
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.903,
+   "mesh": 1.022,
+   "impostor": 1.065,
+   "iouMeshImpostor": 0.931
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.737,
+   "mesh": 0.948,
+   "impostor": 0.919,
+   "iouMeshImpostor": 0.951
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.712,
+   "mesh": 0.924,
+   "impostor": 0.991,
+   "iouMeshImpostor": 0.929
+  },
+  {
+   "species": "al",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.654,
+   "mesh": 1.161,
+   "impostor": 1.038,
+   "iouMeshImpostor": 0.862
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.975,
+   "mesh": 0.995,
+   "impostor": 1.041,
+   "iouMeshImpostor": 0.947
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.929,
+   "mesh": 0.987,
+   "impostor": 1.017,
+   "iouMeshImpostor": 0.957
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.847,
+   "mesh": 1.01,
+   "impostor": 1.022,
+   "iouMeshImpostor": 0.957
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.731,
+   "mesh": 1.008,
+   "impostor": 1.052,
+   "iouMeshImpostor": 0.913
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.705,
+   "mesh": 0.943,
+   "impostor": 0.984,
+   "iouMeshImpostor": 0.913
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.547,
+   "mesh": 1.082,
+   "impostor": 0.969,
+   "iouMeshImpostor": 0.895
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.904,
+   "mesh": 1.008,
+   "impostor": 1.035,
+   "iouMeshImpostor": 0.957
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.699,
+   "mesh": 0.959,
+   "impostor": 0.941,
+   "iouMeshImpostor": 0.973
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.718,
+   "mesh": 0.913,
+   "impostor": 0.848,
+   "iouMeshImpostor": 0.923
+  },
+  {
+   "species": "al",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.598,
+   "mesh": 1.187,
+   "impostor": 1.066,
+   "iouMeshImpostor": 0.895
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.994,
+   "mesh": 1,
+   "impostor": 1.036,
+   "iouMeshImpostor": 0.923
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.991,
+   "mesh": 0.997,
+   "impostor": 1.036,
+   "iouMeshImpostor": 0.927
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.968,
+   "mesh": 0.982,
+   "impostor": 1.056,
+   "iouMeshImpostor": 0.926
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.947,
+   "mesh": 1.003,
+   "impostor": 1.033,
+   "iouMeshImpostor": 0.948
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.925,
+   "mesh": 1.011,
+   "impostor": 1.069,
+   "iouMeshImpostor": 0.948
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.669,
+   "mesh": 0.953,
+   "impostor": 0.951,
+   "iouMeshImpostor": 0.999
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.979,
+   "mesh": 0.998,
+   "impostor": 1.053,
+   "iouMeshImpostor": 0.929
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.93,
+   "mesh": 1.014,
+   "impostor": 1.072,
+   "iouMeshImpostor": 0.931
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.839,
+   "mesh": 0.989,
+   "impostor": 1.077,
+   "iouMeshImpostor": 0.911
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 27.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.694,
+   "mesh": 0.97,
+   "impostor": 1.004,
+   "iouMeshImpostor": 0.899
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 2048,
+   "texel": 0.254,
+   "meshBefore": 0.992,
+   "mesh": 1.001,
+   "impostor": 1.059,
+   "iouMeshImpostor": 0.926
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 400,
+   "mapSize": 2048,
+   "texel": 0.391,
+   "meshBefore": 0.993,
+   "mesh": 1.003,
+   "impostor": 1.064,
+   "iouMeshImpostor": 0.933
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 2048,
+   "texel": 0.586,
+   "meshBefore": 0.978,
+   "mesh": 0.983,
+   "impostor": 1.077,
+   "iouMeshImpostor": 0.898
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 2048,
+   "texel": 0.83,
+   "meshBefore": 0.968,
+   "mesh": 1.003,
+   "impostor": 1.071,
+   "iouMeshImpostor": 0.936
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 2048,
+   "texel": 1.123,
+   "meshBefore": 0.969,
+   "mesh": 1.024,
+   "impostor": 1.099,
+   "iouMeshImpostor": 0.931
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 2200,
+   "mapSize": 2048,
+   "texel": 2.148,
+   "meshBefore": 0.664,
+   "mesh": 0.929,
+   "impostor": 0.995,
+   "iouMeshImpostor": 0.837
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 260,
+   "mapSize": 1024,
+   "texel": 0.508,
+   "meshBefore": 0.993,
+   "mesh": 1.003,
+   "impostor": 1.082,
+   "iouMeshImpostor": 0.925
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 600,
+   "mapSize": 1024,
+   "texel": 1.172,
+   "meshBefore": 0.943,
+   "mesh": 1.032,
+   "impostor": 1.095,
+   "iouMeshImpostor": 0.926
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 850,
+   "mapSize": 1024,
+   "texel": 1.66,
+   "meshBefore": 0.831,
+   "mesh": 1.049,
+   "impostor": 1.089,
+   "iouMeshImpostor": 0.94
+  },
+  {
+   "species": "ek",
+   "elevationDeg": 9.4,
+   "R": 1150,
+   "mapSize": 1024,
+   "texel": 2.246,
+   "meshBefore": 0.689,
+   "mesh": 0.834,
+   "impostor": 0.943,
+   "iouMeshImpostor": 0.879
+  }
+ ],
+ "colour": [
+  {
+   "what": "impostor gran",
+   "view": 0,
+   "coveredPixels": 9058,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor gran",
+   "view": 1,
+   "coveredPixels": 1455,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown gran",
+   "view": 0,
+   "coveredPixels": 297817,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown gran",
+   "view": 1,
+   "coveredPixels": 418564,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown gran",
+   "view": 2,
+   "coveredPixels": 589824,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor tall",
+   "view": 0,
+   "coveredPixels": 8779,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor tall",
+   "view": 1,
+   "coveredPixels": 1664,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown tall",
+   "view": 0,
+   "coveredPixels": 301039,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown tall",
+   "view": 1,
+   "coveredPixels": 418564,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown tall",
+   "view": 2,
+   "coveredPixels": 589824,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor björk",
+   "view": 0,
+   "coveredPixels": 6578,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor björk",
+   "view": 1,
+   "coveredPixels": 1113,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown björk",
+   "view": 0,
+   "coveredPixels": 292915,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown björk",
+   "view": 1,
+   "coveredPixels": 418564,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown björk",
+   "view": 2,
+   "coveredPixels": 589824,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor al",
+   "view": 0,
+   "coveredPixels": 4115,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor al",
+   "view": 1,
+   "coveredPixels": 650,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown al",
+   "view": 0,
+   "coveredPixels": 269065,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown al",
+   "view": 1,
+   "coveredPixels": 418564,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown al",
+   "view": 2,
+   "coveredPixels": 589824,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor ek",
+   "view": 0,
+   "coveredPixels": 12758,
+   "differingPixels": 0
+  },
+  {
+   "what": "impostor ek",
+   "view": 1,
+   "coveredPixels": 2059,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown ek",
+   "view": 0,
+   "coveredPixels": 344767,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown ek",
+   "view": 1,
+   "coveredPixels": 418564,
+   "differingPixels": 0
+  },
+  {
+   "what": "crown ek",
+   "view": 2,
+   "coveredPixels": 589824,
+   "differingPixels": 0
+  }
+ ],
+ "fade": [],
+ "dumps": [],
+ "errors": [],
+ "backend": "webgl2",
+ "reversedDepth": false,
+ "pageErrors": []
+}

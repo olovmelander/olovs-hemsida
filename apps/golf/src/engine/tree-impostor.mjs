@@ -10,7 +10,8 @@
  * the other, so the impostor takes the sun, the sky, the fog and the season
  * from the same material model as the meshes. That is Ryan Brucks's
  * technique (Fortnite, and the UE plugin), written here in TSL for the
- * WebGPU renderer rather than imported.
+ * WebGPU renderer rather than imported. In the sun's shadow pass the same
+ * billboard turns to the sun and casts the tree's silhouette as its shadow.
  *
  * The mapping functions exist twice on purpose: once in plain JS, which
  * places the bake cameras and is what the unit test exercises, and once in
@@ -18,6 +19,7 @@
 import * as THREE from 'three/webgpu';
 import {
   Fn, float, vec2, vec3, color, uv, attribute, varying, texture, cameraPosition, uniform,
+  cameraProjectionMatrix, cameraWorldMatrix,
   normalize, abs, floor, fract, select, dot, pow, saturate, sin, cos,
   transformNormalToView, positionWorld, normalWorldGeometry,
 } from 'three/tsl';
@@ -44,6 +46,14 @@ export const impostorDebugMode = uniform(0);
  */
 export const IMPOSTOR_BEND = 0.5;
 export const impostorBend = uniform(IMPOSTOR_BEND);
+/**
+ * The atlas coverage above which an impostor occludes the sun. The shadow
+ * map holds one depth per texel, so coverage has to become a yes or no; the
+ * mesh crowns make the same cut on their cards' alpha
+ * (engine/ghibli-foliage-material.mjs), and the two shadows agree at every
+ * box size (docs/tree-shadows-zoom.md).
+ */
+export const IMPOSTOR_SHADOW_COVERAGE = 0.5;
 
 /* Two facts about render targets that decide the atlas layout, both read
    out of three.js 0.185 rather than assumed:
@@ -113,6 +123,32 @@ export function viewBasis(dx, dy, dz) {
   const a = 1 / (1 + dy);
   return { right: [1 - dx * dx * a, -dx, -dx * dz * a],
     up: [dx * dz * a, dz, -1 + dz * dz * a] };
+}
+
+/**
+ * Which way a billboard faces: back along the ray to a perspective camera,
+ * and along the axis of an orthographic one. The sun's shadow camera is
+ * orthographic, so in the shadow pass every impostor turns to the sun and
+ * draws the tree as the sun sees it -- its silhouette, which is its shadow --
+ * whatever the player's camera is doing. The choice is read from the
+ * projection's last row (0 0 -1 0 perspective, 0 0 0 1 orthographic), not
+ * from the camera at build time: three reuses a material's shader for every
+ * camera whose cache key matches, and the key does not hold the camera type.
+ * `projection` and `world` are the camera's column-major matrix elements;
+ * returns the unit vector from `centre` toward the camera.
+ */
+export function impostorViewDirection(projection, world, centre) {
+  const [x, y, z] = projection[15] > 0.5
+    ? [world[8], world[9], world[10]]
+    : [world[12] - centre[0], world[13] - centre[1], world[14] - centre[2]];
+  const len = Math.hypot(x, y, z) || 1;
+  return [x / len, y / len, z / len];
+}
+
+/* Shader twin of impostorViewDirection. */
+function viewDirectionNode(centre) {
+  const orthographic = cameraProjectionMatrix.element(3).w.greaterThan(0.5);
+  return normalize(select(orthographic, cameraWorldMatrix.element(2).xyz, cameraPosition.sub(centre)));
 }
 
 /* Shader twin. Atlas directions all have y >= 0; a camera directly BELOW
@@ -309,7 +345,8 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
   const param = attribute('aImpostorParam', 'vec4');
   const yaw = param.x, scaleXZ = param.y, scaleY = param.z;
   const centre = base.add(vec3(0, float(atlas.centreY).mul(scaleY), 0));   /* a number times a node is NaN in JS, and NaN in the shader */
-  const view = normalize(cameraPosition.sub(centre));
+  /* toward the player's camera in the colour pass, toward the sun in the shadow pass */
+  const view = viewDirectionNode(centre);
   const { right, up } = viewBasisNode(view);
   const q = uv().sub(0.5);
   /* Support of the scaled template sphere along each billboard axis. The
@@ -419,6 +456,16 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
     return coverage;
   })();
   material.opacityNode = coveredOpacity;
+  /* The shadow pass draws every caster with one shared depth material and
+     keeps none of this material's discards: three copies the position and a
+     mask into it and nothing else (Renderer._getShadowNodes). So the cut is
+     stated again as that mask -- the coverage, and for a crossfading batch
+     the same dither, so an impostor's shadow fades in and out with it as a
+     mesh tier's does. The billboard faces the light there (viewDirectionNode),
+     and three draws a front-sided caster's back faces into the map. */
+  const shadowCut = coverage.greaterThan(IMPOSTOR_SHADOW_COVERAGE);
+  material.maskShadowNode = fade ? shadowCut.and(treeFadeMask()) : shadowCut;
+  material.shadowSide = THREE.DoubleSide;
   /* the crown takes the species' base colour (the birch its season), the
      trunk keeps the colour it was baked with; and the same back-lit glow
      the mesh crowns carry against a low sun */
@@ -447,6 +494,8 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
     unlit.positionNode = world;
     enableImpostorCoverage(unlit);
     unlit.opacityNode = coveredOpacity;
+    unlit.maskShadowNode = material.maskShadowNode;
+    unlit.shadowSide = material.shadowSide;
     unlit.fog = false;
     unlit.toneMapped = false;
     /* the frame is tone-mapped and sRGB-encoded whatever a material says,

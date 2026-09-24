@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { hemiOctahedralEncode, hemiOctahedralDecode, frameBlend, viewBasis, frameNdcOffset, frameUv } from './tree-impostor.mjs';
+import * as THREE from 'three/webgpu';
+import { hemiOctahedralEncode, hemiOctahedralDecode, frameBlend, viewBasis, frameNdcOffset, frameUv, impostorViewDirection } from './tree-impostor.mjs';
 
 let seed = 3;
 const rnd = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
@@ -105,5 +106,80 @@ describe('the atlas layout', () => {
   it('keeps the tree the right way up: v = 1 of a frame is nearer the atlas top than v = 0', () => {
     const [, vTop] = frameUv(3, 5, 0.5, 1, 8, 768), [, vBase] = frameUv(3, 5, 0.5, 0, 8, 768);
     expect(vTop).toBeLessThan(vBase);
+  });
+});
+
+describe('the direction an impostor faces', () => {
+  const d = new THREE.Vector3(-0.42, 0.46, 0.78).normalize();
+  /* the sun's shadow camera as placeSun and LightShadow.updateMatrices build it */
+  const sunCamera = (target, R, lightDistance) => {
+    const light = new THREE.DirectionalLight();
+    light.position.copy(target).addScaledVector(d, lightDistance);
+    light.target.position.copy(target);
+    light.updateMatrixWorld(); light.target.updateMatrixWorld();
+    const cam = light.shadow.camera;
+    cam.left = -R; cam.right = R; cam.top = R; cam.bottom = -R;
+    cam.near = lightDistance / 6; cam.far = lightDistance * 2;
+    cam.updateProjectionMatrix();
+    light.shadow.updateMatrices(light);
+    return cam;
+  };
+  const toward = (cam, centre) => impostorViewDirection(cam.projectionMatrix.elements, cam.matrixWorld.elements, centre);
+  const distance = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+
+  it('tells the renderer\'s cameras apart by the projection\'s last row, in both coordinate systems and depth conventions', () => {
+    for (const system of [THREE.WebGLCoordinateSystem, THREE.WebGPUCoordinateSystem]) for (const reversed of [false, true]) {
+      const perspective = new THREE.PerspectiveCamera(48, 16 / 9, 1, 14000);
+      const orthographic = new THREE.OrthographicCamera(-400, 400, 400, -400, 200, 2400);
+      for (const cam of [perspective, orthographic]) {
+        cam.coordinateSystem = system;
+        cam._reversedDepth = reversed;
+        cam.updateProjectionMatrix();
+        expect(cam.reversedDepth).toBe(reversed);
+      }
+      expect(perspective.projectionMatrix.elements[15]).toBe(0);
+      expect(orthographic.projectionMatrix.elements[15]).toBe(1);
+    }
+  });
+
+  it('keeps the colour pass on the ray to the player\'s camera', () => {
+    const cam = new THREE.PerspectiveCamera(48, 16 / 9, 1, 14000);
+    cam.position.set(10, 50, 300); cam.lookAt(0, 0, 0); cam.updateMatrixWorld();
+    for (let i = 0; i < 50; i++) {
+      const centre = [(rnd() - 0.5) * 2000, rnd() * 80, (rnd() - 0.5) * 2000];
+      const ray = new THREE.Vector3(10 - centre[0], 50 - centre[1], 300 - centre[2]).normalize();
+      expect(distance(toward(cam, centre), ray.toArray())).toBeLessThan(1e-12);
+    }
+  });
+
+  it('turns every impostor to the sun in the shadow pass, wherever it stands in the box', () => {
+    for (const [R, L] of [[260, 1200], [1150, 1200], [3000, 1200 * 3000 / 1150]]) {
+      const target = new THREE.Vector3(123.4, 40, -77.7), cam = sunCamera(target, R, L);
+      for (let i = 0; i < 100; i++) {
+        const centre = [target.x + (rnd() * 2 - 1) * R, target.y + rnd() * 60, target.z + (rnd() * 2 - 1) * R];
+        expect(distance(toward(cam, centre), d.toArray())).toBeLessThan(1e-9);
+      }
+    }
+  });
+
+  it('lays the billboard flat in the shadow map, where the ray to the light tilted it', () => {
+    const target = new THREE.Vector3(0, 30, 0), cam = sunCamera(target, 1150, 1200);
+    /* the four corners of a 16 m billboard, in the shadow camera's view space */
+    const depthSpread = (centre, view) => {
+      const { right, up } = viewBasis(...view);
+      const z = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([a, b]) => new THREE.Vector3(
+        centre[0] + (right[0] * a + up[0] * b) * 8, centre[1] + (right[1] * a + up[1] * b) * 8,
+        centre[2] + (right[2] * a + up[2] * b) * 8).applyMatrix4(cam.matrixWorldInverse).z);
+      return Math.max(...z) - Math.min(...z);
+    };
+    const light = cam.position.toArray();
+    for (const centre of [[0, 36, 0], [700, 36, -300], [-900, 50, 800]]) {
+      expect(depthSpread(centre, toward(cam, centre))).toBeLessThan(1e-6);
+      const ray = new THREE.Vector3(light[0] - centre[0], light[1] - centre[1], light[2] - centre[2]).normalize().toArray();
+      /* the ray to the light's position, which is what the billboard followed before: flat at the target only;
+         these two trees, 550 and 650 m off it in the light's plane, it tilted by 18 and 74 degrees --
+         5.5 and 21.7 m deep across their sixteen, a squashed and misdrawn shadow */
+      if (centre[0] !== 0) expect(depthSpread(centre, ray)).toBeGreaterThan(5);
+    }
   });
 });

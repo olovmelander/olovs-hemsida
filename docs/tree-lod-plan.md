@@ -178,6 +178,13 @@ cone and still read as forest.
 
 ## Shadows
 
+**Superseded 2026-09-24:** impostors cast now, turned to the sun in the shadow
+pass; the mesh crowns cut their shadow at the foliage atlas's full resolution;
+and the shadow box grows past 1150 m. Without these, tree shadows thinned and
+then vanished as the camera pulled back. See
+[tree shadows when zooming out](tree-shadows-zoom.md). The plan below is the
+original design.
+
 - Tiers 0 and 1 cast with their own geometry; tier 2 casts with its own,
   which is the proxy-mesh practice — the mid-distance shadow of a 50-
   triangle tree is indistinguishable from the 250-triangle one at that
