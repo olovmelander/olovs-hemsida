@@ -146,7 +146,11 @@ export class CourseV2TerrainRuntime {
     this.layer = new TerrainTileBatchSet({
       maximumTiles: this.profile.maximumSelectedTiles,
       decorateMaterial,
-      compactCapacity: this.renderStride > 1,
+      /* A reduced grid mixes two batch sizes. A phone refines with the desktop
+         budget but allocates only the layers its frontier has used, in groups
+         of eight: all 128 native layers up front are 68 MB, on the CPU and
+         again on the GPU, where a phone view draws about twenty tiles. */
+      compactCapacity: this.renderStride > 1 || mobile,
       allowMixedDimensions: this.renderStride > 1,
     });
     scene.add(this.layer.group);
