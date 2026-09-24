@@ -7,7 +7,7 @@ import { execFileSync } from 'node:child_process';
 import { inflateRawSync } from 'node:zlib';
 import { createHash } from 'node:crypto';
 const root = 'apps/golf/public/';
-const baseline = 'f3dc1d97';
+const baseline = '26c4dd16';
 const before = JSON.parse(execFileSync('git', ['show', `${baseline}:apps/golf/public/courses/index.json`], { encoding: 'utf8', maxBuffer: 64 << 20 }));
 const after = JSON.parse(fs.readFileSync(`${root}courses/index.json`));
 const withoutIdentity = ({ identity, ...rest }) => rest;
