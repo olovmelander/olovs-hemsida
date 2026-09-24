@@ -1,0 +1,213 @@
+{
+ "adapter": "swiftshader",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "the sky and the hill cover the frame (target)",
+     "ok": true,
+     "magenta": 0,
+     "sky": 18413,
+     "hill": 9235
+    },
+    {
+     "label": "the sky drawn last is the same picture (target)",
+     "ok": true,
+     "maxLevels": 0,
+     "differingPixels": 0,
+     "pixels": 27648
+    },
+    {
+     "label": "the sky and the hill cover the frame (canvas)",
+     "ok": true,
+     "magenta": 0,
+     "sky": 18432,
+     "hill": 9216
+    },
+    {
+     "label": "the sky drawn last is the same picture (canvas)",
+     "ok": true,
+     "maxLevels": 0,
+     "differingPixels": 0,
+     "pixels": 27648
+    },
+    {
+     "label": "the same with the dither (canvas)",
+     "ok": true,
+     "maxLevels": 0,
+     "differingPixels": 0,
+     "pixels": 27648
+    },
+    {
+     "label": "the dither moves a channel one level at most, and moves some",
+     "ok": true,
+     "maxLevels": 1,
+     "differingPixels": 16988,
+     "pixels": 27648
+    },
+    {
+     "label": "the striped ground compiles and draws with either stripe fade",
+     "ok": true,
+     "across": {
+      "drawn": 0.9725477430555556
+     },
+     "iso": {
+      "drawn": 0.9725477430555556
+     }
+    },
+    {
+     "label": "an instanced stump is coloured by its own height, wherever it stands",
+     "ok": true,
+     "geometry-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "geometry-50": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-50": {
+      "pale": 3906,
+      "bark": 58,
+      "paleShare": 0.9853683148335015
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "shaders": {
+    "ground": {
+     "across": {
+      "drawn": 0.9725477430555556
+     },
+     "iso": {
+      "drawn": 0.9725477430555556
+     }
+    },
+    "stumps": {
+     "geometry-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "geometry-50": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-50": {
+      "pale": 3906,
+      "bark": 58,
+      "paleShare": 0.9853683148335015
+     }
+    }
+   },
+   "canvasPresents": true
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "the sky and the hill cover the frame (target)",
+     "ok": true,
+     "magenta": 0,
+     "sky": 18240,
+     "hill": 9408
+    },
+    {
+     "label": "the sky drawn last is the same picture (target)",
+     "ok": true,
+     "maxLevels": 0,
+     "differingPixels": 0,
+     "pixels": 27648
+    },
+    {
+     "label": "the striped ground compiles and draws with either stripe fade",
+     "ok": true,
+     "across": {
+      "drawn": 0.9725477430555556
+     },
+     "iso": {
+      "drawn": 0.9725477430555556
+     }
+    },
+    {
+     "label": "an instanced stump is coloured by its own height, wherever it stands",
+     "ok": true,
+     "geometry-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "geometry-50": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-50": {
+      "pale": 3903,
+      "bark": 61,
+      "paleShare": 0.9846115035317861
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "shaders": {
+    "ground": {
+     "across": {
+      "drawn": 0.9725477430555556
+     },
+     "iso": {
+      "drawn": 0.9725477430555556
+     }
+    },
+    "stumps": {
+     "geometry-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "geometry-50": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-0": {
+      "pale": 324,
+      "bark": 3688,
+      "paleShare": 0.08075772681954138
+     },
+     "local-50": {
+      "pale": 3903,
+      "bark": 61,
+      "paleShare": 0.9846115035317861
+     }
+    }
+   },
+   "canvasPresents": false
+  }
+ }
+}

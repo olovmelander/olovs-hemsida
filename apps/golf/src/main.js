@@ -33,18 +33,19 @@ import { bunkerRings, bunkerSignedDistance, pointInBunker } from './engine/bunke
 import * as THREE from 'three/webgpu';
 import {
   Fn, float, vec2, vec3, vec4, color, uniform, attribute, varying, texture, uv,
-  positionWorld, positionLocal, normalWorld, normalLocal, cameraPosition, materialOpacity, time as __liveTime,
+  positionWorld, positionLocal, positionGeometry, normalWorld, normalLocal, cameraPosition, materialOpacity, time as __liveTime,
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
   normalMap, bumpMap, transformedNormalView,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { createAtmosphericSky, setAtmospherePreset, atmosphereState } from './engine/atmospheric-sky.mjs';
+import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
 import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
 import { createAerialPerspective } from './engine/aerial-perspective.mjs';
+import { installOutputDither } from './engine/output-dither.mjs';
 
 import { loadCourse } from './loader/pack.js';
 import { buildScenery, loadSceneryModule } from './engine/scenery/index.js';
@@ -106,6 +107,8 @@ import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
+import { waterFetch, waterMeshStep } from './engine/water-fetch.mjs';
+import { fillWaterNormalPixels } from './engine/water-normal-texture.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
 import { createGroundTintOverview } from './engine/ground-tint-overview.mjs';
 import { groundTintIdentity, preparedTintAllowed, loadPreparedGroundTint, applyPreparedGroundTint } from './engine/prepared-ground-tint.mjs';
@@ -1778,7 +1781,10 @@ const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
   adaptive: GRAPHICS_POLISH && !DET && !QUALITY_LOCK,
   requested: requestedRenderResolution(location.search),
   width: innerWidth, height: innerHeight, devicePixelRatio });
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
+/* ACES with half a step of dither before the 8-bit output (engine/output-dither.mjs):
+   the painted sky, haze and water banded without it. ?dither=0 is the before. */
+if (new URLSearchParams(location.search).get('dither') === '0') renderer.toneMapping = THREE.ACESFilmicToneMapping;
+else installOutputDither(renderer);
 renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
 /* PCFShadowMap, not PCFSoftShadowMap: r186 removed PCFSoftShadowMap from the
@@ -1851,24 +1857,26 @@ function canvasTex(size, draw, { srgb = true, rep = 1 } = {}) {
 }
 
 /* One packed map does all the turf detail: R blade-scale speckle, G a medium clump,
-   B a macro variation that keeps a fairway from tiling visibly, A a glint mask. */
+   B a macro variation that keeps a fairway from tiling visibly, A a glint mask.
+   Its bytes go up as they are. Through a 2D canvas, premultiplied alpha wiped the
+   colour of every texel whose glint mask is 0 -- about a third of them -- and the
+   painted blotches, rough clumps and the mowing's wander read salt-and-pepper
+   noise, 5% darker on average (docs/v2-ground-material-relief.md). The ground,
+   roads, facilities, tufts and water foam all read it. ?detailupload=canvas is
+   the before. */
+const DETAIL_CANVAS = new URLSearchParams(location.search).get('detailupload') === 'canvas';
 const TEX_STARTED = performance.now();
-const DETAIL = SURFACE_RELIEF !== 'off' ? createPackedGroundDetailTexture({ seamless: GRAPHICS_POLISH }) : canvasTex(512, (g, S) => {
+const DETAIL = SURFACE_RELIEF !== 'off' || !DETAIL_CANVAS ? createPackedGroundDetailTexture({ seamless: GRAPHICS_POLISH }) : canvasTex(512, (g, S) => {
   const im = g.createImageData(S, S), d = im.data;
   fillGroundDetailPixels(d, S, { seamless: GRAPHICS_POLISH });
   g.putImageData(im, 0, 0);
 }, { srgb: false });
 
+/* the ripples' normals, closing across the repeat (engine/water-normal-texture.mjs);
+   ?waternormal=legacy is the before, with a seam through every repeat */
 const WATERN = canvasTex(512, (g, S) => {
-  const im = g.createImageData(S, S), d = im.data;
-  const H = (x, y) => fbm(x * 0.028, y * 0.043, 4) + fbm(x * 0.11, y * 0.09, 2) * 0.35;
-  for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) {
-    const i = (y * S + x) * 4;
-    const nx = (H(x - 1, y) - H(x + 1, y)) * 2.6, ny = (H(x, y - 1) - H(x, y + 1)) * 2.6;
-    const l = Math.hypot(nx, ny, 1);
-    d[i] = (nx / l * 0.5 + 0.5) * 255; d[i + 1] = (ny / l * 0.5 + 0.5) * 255;
-    d[i + 2] = (1 / l * 0.5 + 0.5) * 255; d[i + 3] = 255;
-  }
+  const im = g.createImageData(S, S);
+  fillWaterNormalPixels(im.data, S, { seamless: new URLSearchParams(location.search).get('waternormal') !== 'legacy' });
   g.putImageData(im, 0, 0);
 }, { srgb: false });
 span('procedural textures (DETAIL, WATERN)', TEX_STARTED);
@@ -1878,6 +1886,12 @@ const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
 /* the sun's colour at its strength, for light that comes THROUGH thin stuff
    (the pin flags): set with the preset, so blue hour and mist do not glow */
 const uThroughSun = uniform(new THREE.Color(0xffd0a0));
+/* whether there is a sun to glow through the tufts, clumps and reeds seen
+   against it: they shone at full strength with it gone -- blue hour, mist,
+   storm. Full in every preset with a sun (dawn's is 0.66 of the strongest), none
+   below 0.15 of it. ?coverglow=always is the before. */
+const COVER_GLOW_ALWAYS = new URLSearchParams(location.search).get('coverglow') === 'always';
+const uSunThrough = uniform(1);
 /* seasonal foliage: the birch crowns and reed heads take their colour from the
    preset, which is what lets Höst turn the shore gold without a rebuild */
 const uLeaf = uniform(new THREE.Color(0x5f8944));
@@ -1885,6 +1899,14 @@ const uLeaf = uniform(new THREE.Color(0x5f8944));
    still green, most gold, a few orange, instead of every crown one gold */
 const uAutumn = uniform(0);
 const uReedC = uniform(new THREE.Color(0x8d8a52));
+/* HOW FAR UP A TREE, REED, CLUMP OR STUMP: its template's own height. three
+   applies the instance matrix before a positionNode runs, and a fragment reads
+   that final positionLocal, so positionLocal.y in these instanced materials was
+   the height above the course's datum. On ground 13 m up every vertex of a tree
+   swayed at full weight -- roots too -- and crowns slid against their trunks;
+   a stump above 0.37 m was all cut face, a clump all tip, a reed all head.
+   ?localheight=0 is the before. */
+const LOCAL_HEIGHT = new URLSearchParams(location.search).get('localheight') === '0' ? positionLocal.y : positionGeometry.y;
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -1915,7 +1937,9 @@ const aerialPerspective = createAerialPerspective(fog);
 scene.fogNode = aerialPerspective.node;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
-const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true });
+const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
+  /* after the opaque world, so hidden sky is never shaded; ?skyorder=first is the before */
+  drawLast: new URLSearchParams(location.search).get('skyorder') !== 'first' });
 scene.add(skyMesh);
 
 /* The selected sky and the indirect light share a palette. Reuse the baker,
@@ -1952,6 +1976,8 @@ function setPreset(name, overrides = null) {
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
   uThroughSun.value.setHex(p.sun).multiplyScalar(Math.min(1, p.int / 2.5));
+  { const t = Math.min(1, Math.max(0, (Math.min(1, p.int / 2.5) - 0.15) / 0.35));
+    uSunThrough.value = COVER_GLOW_ALWAYS ? 1 : t * t * (3 - 2 * t); }
   hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI;
   fog.color.setHex(p.fog);
   fog.density = CONTINUOUS_OCEAN_ENABLED && presetName === 'noon' ? 0.00022 : p.dens;
@@ -1966,6 +1992,8 @@ function setPreset(name, overrides = null) {
   fog.color.lerp(new THREE.Color(p.paintedFog), 0.22);
   fog.density *= 0.9;
   scene.background = fog.color.clone();
+  /* the sky's band under the horizon meets the ground in the same haze; ?skyhaze=raw is the before */
+  if (new URLSearchParams(location.search).get('skyhaze') !== 'raw') setSkyGroundHaze(skyMesh, fog.color);
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(p);
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
@@ -2895,6 +2923,8 @@ if (TERRAIN_PREVIEW.ready) {
     uSun,
     cutTone: CUT_TONE_STRENGTH,
     mowStrength: MOWING.strength,
+    /* stripes fade by the pixel across them; ?mowfade=iso is the before, by its whole footprint */
+    mowFade: new URLSearchParams(location.search).get('mowfade') === 'iso' ? 'iso' : 'across',
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -3888,6 +3918,8 @@ if (SEA_WINDOW) for (const w of M.water) {
   w.shoreline = { rings: [], lines, windowCutsOmitted: true };
 }
 
+/* ?pondfetch=lake is the before: every body the pack flags a lake gets a lake's chop, wash and mesh */
+const POND_FETCH_LEGACY = new URLSearchParams(location.search).get('pondfetch') === 'lake';
 for (const w of M.water) {
   if (CONTINUOUS_OCEAN && w.isSea) continue;
   if (w.ring.length < 3) continue;
@@ -3896,7 +3928,9 @@ for (const w of M.water) {
   /* big water needs interior vertices for the wave normal to vary across; ponds
      need them for aShore -- at 26 m nearly every pond vertex sat ON the outline
      where aShore is zero, so the depth ramp never left the shallows */
-  const { V, F } = subdivide(w.ring, faces, w.isLake ? 34 : w.surr ? 30 : 9);
+  /* a lake's chop and wash only where the wind has room (engine/water-fetch.mjs) */
+  const lakeFetch = waterFetch(w, { legacy: POND_FETCH_LEGACY });
+  const { V, F } = subdivide(w.ring, faces, waterMeshStep(w, lakeFetch));
   if (SEA_WINDOW && w.shoreline?.windowCutsOmitted) {
     /* every vertex this sheet puts on the window's edge, for the weld outside */
     for (const [x, z] of V) {
@@ -3911,7 +3945,7 @@ for (const w of M.water) {
     }
   }
   const pos = [], sh = [], fm = [], dp = [], idx = [];
-  const foamy = w.isLake ? 1 : 0;
+  const foamy = lakeFetch;
   for (const [x, z] of V) {
     pos.push(x, w.level, z);
     sh.push(waterShoreDistance(x, z, w));
@@ -4520,13 +4554,13 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       const mat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.9, metalness: 0 });
       {
         const V = normalize(cameraPosition.sub(positionWorld));
-        const lit = pow(saturate(V.dot(uSun.negate())), 2.2).mul(0.7);
-        const tall = saturate(positionLocal.y.div(2.1)).mul(0.7);
+        const lit = pow(saturate(V.dot(uSun.negate())), 2.2).mul(0.7).mul(uSunThrough);
+        const tall = saturate(LOCAL_HEIGHT.div(2.1)).mul(0.7);
         mat.colorNode = mix(color(0x53583a), uReedC, tall).mul(float(1).add(lit));
 
         /* GPU vertex sway for water reeds */
         const wp = positionWorld.xz;
-        const hNorm = saturate(positionLocal.y.div(2.1));
+        const hNorm = saturate(LOCAL_HEIGHT.div(2.1));
         const weight = pow(hNorm, 1.6).mul(0.22);
         const windPhase = time.mul(2.2).add(wp.x.mul(0.08)).add(wp.y.mul(0.06));
         const swayX = sin(windPhase).mul(0.18).mul(weight);
@@ -4950,7 +4984,7 @@ const TREE_LOD = {
      only: distant impostors remain still. */
   function windSway(isCrown) {
     const wp = positionWorld.xz;
-    const hNorm = saturate(positionLocal.y.div(13.0));
+    const hNorm = saturate(LOCAL_HEIGHT.div(13.0));
     /* Sway fades out between 50 and 140 m from the camera: past that a crown's
        0.3 m of travel is under a pixel and only flips the sub-pixel gaps in its
        silhouette -- at rest on the 12th tee, 86 isolated flips a frame with it and
@@ -4960,7 +4994,7 @@ const TREE_LOD = {
     const weight = (isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10)).mul(swayFade);
     const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
     const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
-    const swayX = sin(windPhase.add(positionLocal.y.mul(0.08))).mul(0.24)
+    const swayX = sin(windPhase.add(LOCAL_HEIGHT.mul(0.08))).mul(0.24)
                   .add(sin(windPhase.mul(2.1)).mul(0.06))
                   .mul(weight).mul(gust.mul(0.4).add(0.6));
     const swayZ = cos(windPhase.mul(0.82)).mul(0.18)
@@ -6134,7 +6168,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   const tuftMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
   {
     const V = normalize(cameraPosition.sub(positionWorld));
-    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55);
+    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough);
     const tint = texture(DETAIL, positionWorld.xz.mul(0.03)).b;
     tuftMat.colorNode = mix(color(PAINTED_SCENERY.tuft[0]),
       mix(color(PAINTED_SCENERY.tuft[1]), uReedC, uAutumn), tint).mul(float(1).add(lit.mul(0.45)));
@@ -6163,11 +6197,11 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     })();
     const clumpMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
     const V = normalize(cameraPosition.sub(positionWorld));
-    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55);
+    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough);
     const tone = texture(DETAIL, positionWorld.xz.mul(0.05)).b;
     /* dark at the root, the rough's own light green at the tip */
     clumpMat.colorNode = mix(color(0x3f6a24), color(0x7aa23e),
-      saturate(positionLocal.y.mul(3.2)).mul(0.7).add(tone.mul(0.3))).mul(float(1).add(lit.mul(0.45)));
+      saturate(LOCAL_HEIGHT.mul(3.2)).mul(0.7).add(tone.mul(0.3))).mul(float(1).add(lit.mul(0.45)));
     place(clumpGeo, clumpMat, ET, false);
   }
   stats.bushes = place(bush, bushMat, B, true);
@@ -6176,7 +6210,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   stump.translate(0, 0.19, 0);
   const stumpMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
   stumpMat.colorNode = mix(color(PAINTED_SCENERY.wood), color(PAINTED_SCENERY.cutWood),
-    smoothstep(0.3, 0.37, positionLocal.y));           /* pale cut face on top */
+    smoothstep(0.3, 0.37, LOCAL_HEIGHT));              /* pale cut face on top */
   stats.stumps = place(stump, stumpMat, STU, false);
 }
 
@@ -6437,14 +6471,19 @@ function mappedPointObjects(points) {
    ran twice a frame for every one of them, shadow pass and main pass: at
    rest, with nothing moving, that was most of the frame's CPU time, and an
    uneven frame cadence is what the water's animation shows as jitter. Same
-   geometry, same material, same transforms, in an InstancedMesh per kind. */
+   geometry, same material, same transforms, in an InstancedMesh per kind.
+   They take the trees' shade like everything round them: a flagstick, marker
+   or plate stood fully sunlit inside a tree's shadow while the flag cloth on
+   it darkened. The normal bias (0.22 m and up) is wider than any of them, so
+   none shades itself. ?furnitureshadow=0 is the before. */
+const FURNITURE_SHADOW = new URLSearchParams(location.search).get('furnitureshadow') !== '0';
 const instancedFurniture = (geo, mat, list, { cast = false, colour = false, into, tag = 'furniture' } = {}) => {
   if (!list.length) return null;
   const im = new THREE.InstancedMesh(geo, mat, list.length), M = new THREE.Matrix4();
   list.forEach((e, i) => { M.makeRotationY(e.rot || 0); M.setPosition(e.x, e.y, e.z); im.setMatrixAt(i, M); if (colour) im.setColorAt(i, e.colour); });
   im.instanceMatrix.needsUpdate = true;
   if (colour) im.instanceColor.needsUpdate = true;
-  im.castShadow = cast; im.userData.tag = tag;
+  im.castShadow = cast; im.receiveShadow = FURNITURE_SHADOW; im.userData.tag = tag;
   im.computeBoundingSphere();
   into.add(im);
   return im;
@@ -7933,7 +7972,9 @@ if (M.infra.objectPlacement === 'mapped-only') {
     stats.draws++;
   }
   /* the aviation lamps on the mast and the chimney: unlit and pushed past white
-     so the bloom picks them out at dusk the way the real lamps read */
+     so the bloom picks them out at dusk the way the real lamps read. At 3.0 red
+     their luminance was 0.82, under the bloom's 0.86 threshold before any haze:
+     they never bloomed. Twice that clears it through most of the haze. */
   if (avLights.length) {
     const P = [];
     for (const [lx, ly, lz] of avLights)
@@ -7944,7 +7985,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
     const lg = new THREE.BufferGeometry();
     lg.setAttribute('position', new THREE.Float32BufferAttribute(P, 3));
     const lm = new THREE.Mesh(lg, new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide }));
-    lm.material.colorNode = vec3(3.0, 0.24, 0.2);
+    lm.material.colorNode = new URLSearchParams(location.search).get('bloomknee') === 'hard'
+      ? vec3(3.0, 0.24, 0.2) : vec3(6.0, 0.48, 0.4);
     scene.add(lm);
     stats.draws++; stats.tris += P.length / 9;
   }
@@ -7961,6 +8003,10 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   openingScenePass = scenePass;
   const sceneColor = scenePass.getTextureNode('output');
   const bloomNode = bloom(sceneColor, 0.14, 0.3, 0.86);
+  /* a knee, not a switch: at the stock 0.01 a sunlit flag or trim crossing the
+     threshold turned its whole halo on in one frame. It now grows from 0.86 to
+     1.16. ?bloomknee=hard is the before (and the lamps' old strength). */
+  if (new URLSearchParams(location.search).get('bloomknee') !== 'hard') bloomNode.smoothWidth.value = 0.3;
   const out = sceneColor.add(bloomNode);
   // Pigments and lighting now carry the colour. A global saturation/contrast
   // boost clipped the grass greens and made high/low quality disagree.

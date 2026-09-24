@@ -5,7 +5,7 @@
 import * as THREE from 'three/webgpu';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
-  mix, smoothstep, clamp, abs, sin, oneMinus, fwidth,
+  mix, smoothstep, clamp, abs, sin, oneMinus, fwidth, dFdx, dFdy,
   saturate, step, max, vec4, select, floor,
 } from 'three/tsl';
 
@@ -513,7 +513,7 @@ const BANK_SHADE = 0.24, BANK_FALLOFF_METRES = 0.9;
 const SAND_RAKE_METRES = 0.32, SAND_RAKE_AMPLITUDE = 0.035, SAND_LOW_SHADE = 0.07;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0 }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across' }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -709,10 +709,20 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
          texture); and how much of it shows depends on where you stand -- strongest
          looking down the passes, where the laid blades face or turn from you,
          weakest across them and from straight above. A pattern finer than the
-         pixel fades out before it can moire. */
+         pixel fades out before it can moire -- the pixel measured ACROSS the
+         passes, where the pattern changes. Its whole footprint is its depth down a
+         fairway seen from the tee, tens of metres, which faded the stripes out
+         30-80 m from the tee while a pixel still spanned centimetres across them
+         (mowFade 'iso', ?mowfade=iso, is that before). A pass's coordinate is a
+         world distance along a known bearing, so its footprint is the two screen
+         steps of the world position projected on that bearing; differentiating
+         the coordinate itself would drag in the bearing's own texel-to-texel
+         turns, multiplied by hundreds of metres of world position. */
       const footprint = fwidth(wp).length();
-      const pass = (coordinate, k) => {
-        const pixel = footprint.mul(k);
+      const stepX = dFdx(wp), stepY = dFdy(wp);
+      const reachAlong = bearing => (mowFade === 'iso' ? footprint : abs(stepX.dot(bearing)).add(abs(stepY.dot(bearing))));
+      const pass = (coordinate, k, reach = footprint) => {
+        const pixel = reach.mul(k);
         const edge = max(pixel.mul(0.9), float(MOW_OVERLAP_METRES * k));
         return clamp(sin(coordinate.mul(k)).div(edge), -1, 1).mul(oneMinus(smoothstep(0.55, 1.7, pixel)));
       };
@@ -725,20 +735,28 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       const along = wp.dot(dir);
       const across = wp.y.mul(dir.x).sub(wp.x.mul(dir.y));
       const greenCoordinate = across.mul(0.8192).sub(along.mul(0.5736));
+      /* the bearings those coordinates grow along: across the hole (the signed
+         lateral distance grows the same way), and the green's, 35 degrees off it */
+      const acrossBearing = vec2(dir.y.negate(), dir.x);
+      const acrossReach = reachAlong(acrossBearing);
+      const greenReach = reachAlong(acrossBearing.mul(0.8192).sub(dir.mul(0.5736)));
       const cleanUp = oneMinus(smoothstep(MOW_CLEAN_UP_METRES - 0.2, MOW_CLEAN_UP_METRES + 0.2, ringDistance));
       /* THE RANGE: its texels carry their axis at half length (atlas.js,
          RANGE_DIRECTION_LENGTH). Passes ALONG that axis off the world coordinate,
          bent by one low tap of the detail texture. Everywhere else 'ranged' is
          exactly 0 and the mix returns the hole's own passes untouched. */
       const ranged = oneMinus(abs(length.sub(0.5)).mul(10)).clamp(0, 1);
-      const wobble = texture(DETAIL, wp.mul(0.006)).r.sub(0.5).mul(2 * RANGE_WOBBLE_METRES);
-      const rangePass = pass(across.add(wobble), Math.PI / RANGE_PASS_METRES).mul(RANGE_TONE);
+      /* the LOW channel (B, the macro variation): R is the blade speckle, a new
+         value every 0.33 m at this scale, which jittered the range's passes */
+      const wobble = texture(DETAIL, wp.mul(0.006)).b.sub(0.5).mul(2 * RANGE_WOBBLE_METRES);
+      const rangePass = pass(across.add(wobble), Math.PI / RANGE_PASS_METRES, acrossReach).mul(RANGE_TONE);
       const patterns = {
-        [SURFACE.FAIRWAY]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.fairway), rangePass, ranged),
-        [SURFACE.SEMI]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.semi), rangePass, ranged),
-        [SURFACE.GREEN]: mix(pass(greenCoordinate, Math.PI / MOW_BAND_METRES.green), float(0.5), cleanUp),
+        [SURFACE.FAIRWAY]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.fairway, acrossReach), rangePass, ranged),
+        [SURFACE.SEMI]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.semi, acrossReach), rangePass, ranged),
+        [SURFACE.GREEN]: mix(pass(greenCoordinate, Math.PI / MOW_BAND_METRES.green, greenReach), float(0.5), cleanUp),
+        /* the collar's laps follow its edge every way round: no one bearing */
         [SURFACE.FRINGE]: pass(ringDistance, Math.PI / MOW_BAND_METRES.fringe),
-        [SURFACE.TEE]: pass(across, Math.PI / MOW_BAND_METRES.tee),
+        [SURFACE.TEE]: pass(across, Math.PI / MOW_BAND_METRES.tee, acrossReach),
       };
       /* where you stand: the horizontal part of the view direction against the
          hole's bearing -- 0 from straight above or square across, 1 down the hole */
@@ -854,9 +872,10 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0 }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across' }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
+  if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
   if (!['off', 'weights'].includes(debugMode)) throw new TypeError(`unknown surface debug mode: ${debugMode}`);
   if (typeof graphicsPolish !== 'boolean') throw new TypeError('graphicsPolish must be a boolean');
   groundReliefTier(surfaceRelief);
@@ -884,7 +903,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade }, shading),
       atlas,
     );
   }

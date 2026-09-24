@@ -10,7 +10,16 @@ import { Fn, cameraPosition, float, luminance, mix, normalize, positionWorld, po
 export const SKY_RADIANCE = 0.35;
 const controls = new WeakMap();
 
-export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false } = {}) {
+/* THE SKY IS DRAWN LAST OF THE OPAQUE WORLD, before the overlays (render order 1
+   and up). It writes no depth and sits at the far plane, so behind the terrain,
+   trees and buildings the depth test now rejects it before its four noise
+   octaves are shaded; drawn first, it shaded every pixel of the screen and the
+   world painted over most of them. Every opaque object at order 0 writes depth,
+   and what does not is transparent and follows the sky anyway. `drawLast:
+   false` is the before (?skyorder=first). */
+export const SKY_RENDER_ORDER = 0.5;
+
+export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false, drawLast = true } = {}) {
   const sky = new SkyMesh();
   sky.name = 'atmospheric-sky';
   // A tiny HDR sun disc sparkling through foliage creates distracting bloom.
@@ -60,8 +69,18 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     })();
   }
   sky.scale.setScalar(12000);
-  sky.renderOrder = -2;
+  sky.renderOrder = drawLast ? SKY_RENDER_ORDER : -2;
   return sky;
+}
+
+/* The band under the horizon is the haze the ground fades into, so it takes the
+   fog's FINAL colour: setPreset tints the fog toward the painted fog after the
+   preset is applied here, and the band stayed on the untinted colour -- a few
+   levels apart at every horizon in golden, dawn, midnight, mist and autumn. */
+export function setSkyGroundHaze(sky, colour) {
+  const c = controls.get(sky);
+  if (!c) throw new Error('Unknown atmospheric sky');
+  c.groundHaze.value.copy(colour);
 }
 
 export function setAtmospherePreset(sky, preset) {
@@ -100,5 +119,5 @@ export function atmosphereState(sky) {
     cloudCoverage: sky.cloudCoverage.value, cloudDensity: sky.cloudDensity.value,
     cloudScale: sky.cloudScale.value, cloudElevation: sky.cloudElevation.value, cloudSpeed: sky.cloudSpeed.value,
     paletteBlend: c.paletteBlend.value, sun: sky.sunPosition.value.toArray(),
-    sunGlowStrength: c.sunGlowStrength?.value??0 };
+    sunGlowStrength: c.sunGlowStrength?.value??0, groundHaze: c.groundHaze.value.getHex() };
 }

@@ -1,0 +1,68 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "backend": "webgl2",
+   "q": "hi",
+   "variant": "fixed",
+   "toneMapping": 5,
+   "skyOrder": 0.5,
+   "bloomKnee": 0.3,
+   "furnitureReceives": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "skyHaze": 13743514,
+   "fogColour": 13743514,
+   "tiersAudit": true,
+   "frame": 8,
+   "errors": []
+  },
+  {
+   "backend": "webgl2",
+   "q": "lo",
+   "variant": "fixed",
+   "toneMapping": 5,
+   "skyOrder": 0.5,
+   "bloomKnee": null,
+   "furnitureReceives": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "skyHaze": 13743514,
+   "fogColour": 13743514,
+   "tiersAudit": true,
+   "frame": 7,
+   "errors": []
+  },
+  {
+   "backend": "webgl2",
+   "q": "hi",
+   "variant": "before",
+   "toneMapping": 4,
+   "skyOrder": -2,
+   "bloomKnee": 0.01,
+   "furnitureReceives": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "skyHaze": 13874583,
+   "fogColour": 13743514,
+   "tiersAudit": true,
+   "frame": 5,
+   "errors": []
+  }
+ ]
+}

@@ -94,6 +94,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   reach the view keep their trees as impostors. Keep mesh and impostor shadows
   in agreement with `tools/check-tree-shadows.mjs`; see
   [tree shadows when zooming out](docs/tree-shadows-zoom.md).
+- The sky draws after the opaque world (render order 0.5). Keep opaque world
+  objects at order 0 and writing depth, and overlays at 1 and up;
+  `sky-draw-order.test.mjs` checks every order in `main.js`. In instanced
+  materials, three applies the instance matrix before `positionNode` and the
+  fragment read `positionLocal`: use `positionGeometry` for a height up the
+  template. Upload packed data textures directly, never through a 2D canvas.
+  See [the visual fixes of 24 September](docs/visual-fixes-2026-09-24.md).
 
 ## Build and focused checks
 
