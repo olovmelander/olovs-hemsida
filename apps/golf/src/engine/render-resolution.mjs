@@ -54,11 +54,16 @@ export function createRenderResolution({ renderer, lowQuality, adaptive = false,
   sizeCanvas();
 
   return {
-    // Both terrain error and optional screen-space tree LOD use this budget,
-    // so a sharper image does not also request more geometry or streamed tiles.
+    // Optional screen-space tree LOD uses this budget, so a sharper image does
+    // not also request more tree geometry.
     detailHeight: () => Math.max(1, Math.floor(h * baseRatio)),
+    // Terrain error is measured in the screen's own pixels, up to the high-quality
+    // cap of two per CSS pixel, at every quality and after a performance fallback
+    // (owner request, 24 September): a phone reaches as far with 1 m ground as a
+    // desktop of the same pixels, whatever resolution its canvas is drawn at.
+    terrainDetailHeight: () => Math.max(1, Math.floor(h * Math.min(nativeRatio, 2))),
     snapshot: () => ({ mode: fixed !== null ? 'fixed' : automatic ? 'adaptive' : 'quality',
-      requested: fixed, pixelRatio: ratio, detailPixelRatio: baseRatio,
+      requested: fixed, pixelRatio: ratio, detailPixelRatio: baseRatio, terrainDetailPixelRatio: Math.min(nativeRatio, 2),
       maximumPixelRatio: lowQuality || fallback ? levels.at(-1) : Math.min(nativeRatio, 2),
       drawingBuffer: [Math.floor(w * ratio), Math.floor(h * ratio)],
       extraPixelBudget: lowQuality || fallback ? LOW_RESOLUTION_PIXEL_BUDGET : null,

@@ -10888,7 +10888,7 @@ function updateTerrainView() {
   if (terrainV2.kind === 'graph' && terrainV2.active) {
     /* The graph adapter refreshes camera matrices before its frustum test;
        tree visibility below consumes that same pose, without a second sync. */
-    terrainV2.update({ camera, viewportHeightPixels: renderResolution.detailHeight(), activeHoleNumber: hole });
+    terrainV2.update({ camera, viewportHeightPixels: renderResolution.terrainDetailHeight(), activeHoleNumber: hole });
   } else if (GRAPHICS_POLISH) camera.updateMatrixWorld(true);
 }
 function updateFrameVisibility(now, dt) {

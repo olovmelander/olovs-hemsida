@@ -2,9 +2,12 @@
    24 September): a phone refines the same 1 m ground as the owner's WebGPU
    desktop. Every tile is drawn at its native density, a coarser level only
    where it stays within one pixel of the finer surface on screen, with the
-   desktop tile budget. Low quality on WebGL2 used to draw the refinable levels
-   at half density within 1.5 px, and WebGL2 desktops also accepted 1.5 px.
-   ?terrainStride=2 still draws that reduced grid for a matched comparison. */
+   desktop tile budget. The pixel is the screen's own, up to two per CSS pixel
+   as on a high-quality desktop (terrainDetailHeight in render-resolution.mjs),
+   not the low-quality canvas's. Low quality on WebGL2 used to draw the
+   refinable levels at half density within 1.5 px of its canvas, and WebGL2
+   desktops also accepted 1.5 px. ?terrainStride=2 still draws that reduced
+   grid for a matched comparison. */
 export const TERRAIN_TARGET_ERROR_PIXELS = 1;
 export const TERRAIN_MAXIMUM_SELECTED_TILES = 128;
 

@@ -72,7 +72,7 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     BOOT_PERF: { doneAtMs: 1 }, document: { hidden: false, body: { classList: { contains: () => false } } },
     selectedTee: { update() {} },
     selectedGreen: { update() {} },
-    renderResolution: { detailHeight: () => 240, sample() {} },
+    renderResolution: { detailHeight: () => 240, terrainDetailHeight: () => 480, sample() {} },
     FRAME_NO: 0, TIER_FRAME: 0, FRAME_MS: new Float32Array(120), DET: false,
     /* Breathing is opt-in behind ?breath=1 in the player, so the frame loop
        reads BREATH. These tests are about how it behaves once enabled -- they
@@ -139,7 +139,7 @@ describe('application camera frame ordering', () => {
     };
     f.step(16);
     expect(samples).toEqual([{ interval: 16, now: 16, eligible: true }]);
-    expect(f.observed.terrain[0].bufferHeight).toBe(240);
+    expect(f.observed.terrain[0].bufferHeight).toBe(480);
     f.context.BOOT_PERF.doneAtMs = 0;
     f.step(16);
     f.context.BOOT_PERF.doneAtMs = 1;
@@ -177,7 +177,7 @@ describe('application camera frame ordering', () => {
     expect(f.observed.trees[0].visible).toEqual([false, true]);
     expect(f.observed.trees[0]).toEqual(f.observed.render[0]);
     expect(f.observed.terrain[0]).toMatchObject(f.observed.render[0]);
-    expect(f.observed.terrain[0]).toMatchObject({ hole: 1, bufferHeight: 240 });
+    expect(f.observed.terrain[0]).toMatchObject({ hole: 1, bufferHeight: 480 });
     expect(f.calls).toEqual(['tick', 'controls', 'clamp', 'terrain', 'trees', 'sun', 'shadow', 'render']);
   });
 
