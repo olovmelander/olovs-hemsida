@@ -69,7 +69,7 @@ function projectedError(tile, camera, projectionScale, minimumDistanceMetres, er
 
 function candidateOrder(left, right) {
   return Number(right.forced) - Number(left.forced) ||
-    right.errorPixels - left.errorPixels ||
+    right.rank - left.rank ||
     left.tile.id.localeCompare(right.tile.id);
 }
 
@@ -193,6 +193,11 @@ export class TerrainTileManager {
     visible = () => true,
     hysteresisRatio = 0.15,
     minimumDistanceMetres = 0.5,
+    /* The playable course -- every hole's tiles -- keeps targetErrorPixels.
+       Ground that neither is nor contains a course tile may be refined to a
+       looser target; left at the course target, every tile is treated alike. */
+    courseTileIds = [],
+    outsideCourseTargetErrorPixels = targetErrorPixels,
   } = {}) {
     if (!camera) throw new TypeError('camera is required');
     const cameraPosition = Object.freeze({
@@ -210,6 +215,10 @@ export class TerrainTileManager {
       throw new RangeError('targetErrorPixels must be above zero and at most 64');
     }
     positiveInteger(maximumSelectedTiles, 'maximumSelectedTiles', 4096);
+    finite(outsideCourseTargetErrorPixels, 'outsideCourseTargetErrorPixels');
+    if (outsideCourseTargetErrorPixels < targetErrorPixels || outsideCourseTargetErrorPixels > 64) {
+      throw new RangeError('outsideCourseTargetErrorPixels must be from targetErrorPixels to 64');
+    }
     finite(hysteresisRatio, 'hysteresisRatio');
     if (hysteresisRatio < 0 || hysteresisRatio >= 0.5) {
       throw new RangeError('hysteresisRatio must be from zero up to but excluding 0.5');
@@ -227,6 +236,13 @@ export class TerrainTileManager {
     for (const tileId of active) {
       for (const tile of this.ancestorPaths.get(tileId)) forcedPath.add(tile.id);
     }
+    const relaxed = outsideCourseTargetErrorPixels !== targetErrorPixels;
+    const coursePath = new Set();
+    for (const tileId of relaxed ? courseTileIds : []) {
+      if (!this.tiles.has(tileId)) throw new Error(`course terrain tile ${tileId} is not in this course`);
+      for (const tile of this.ancestorPaths.get(tileId)) coursePath.add(tile.id);
+    }
+    const outsideCourse = tile => relaxed && !coursePath.has(tile.id);
 
     const visibility = new Map();
     const isVisible = tile => {
@@ -244,11 +260,20 @@ export class TerrainTileManager {
     };
     const enterThreshold = targetErrorPixels * (1 + hysteresisRatio);
     const exitThreshold = targetErrorPixels * (1 - hysteresisRatio);
+    const outsideEnterThreshold = outsideCourseTargetErrorPixels * (1 + hysteresisRatio);
+    const outsideExitThreshold = outsideCourseTargetErrorPixels * (1 - hysteresisRatio);
     const shouldRefine = tile => {
       if (!this.childrenById.get(tile.id)?.length) return false;
       if (forcedPath.has(tile.id)) return true;
-      return errorPixels(tile) > (this.refined.has(tile.id) ? exitThreshold : enterThreshold);
+      const refined = this.refined.has(tile.id);
+      return errorPixels(tile) > (outsideCourse(tile)
+        ? (refined ? outsideExitThreshold : outsideEnterThreshold)
+        : (refined ? exitThreshold : enterThreshold));
     };
+    /* A tight budget goes to the tiles furthest over their own target, so
+       ground off the course does not outrank the course it surrounds. */
+    const outsideWeight = targetErrorPixels / outsideCourseTargetErrorPixels;
+    const rank = tile => outsideCourse(tile) ? errorPixels(tile) * outsideWeight : errorPixels(tile);
 
     const frontier = new Map();
     const candidates = [];
@@ -256,7 +281,7 @@ export class TerrainTileManager {
       if (!isVisible(tile)) return;
       frontier.set(tile.id, tile);
       if (shouldRefine(tile)) {
-        insertCandidate(candidates, { tile, forced: forcedPath.has(tile.id), errorPixels: errorPixels(tile) });
+        insertCandidate(candidates, { tile, forced: forcedPath.has(tile.id), rank: rank(tile) });
       }
     };
     for (const root of this.roots) enqueue(root);

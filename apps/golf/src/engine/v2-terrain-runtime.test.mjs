@@ -8,6 +8,7 @@ import { compileTerrainAssets } from '../../../../packages/course-v2/terrain-com
 import {
   CourseV2TerrainRuntime,
   activeHoleTerrainTileIds,
+  courseTerrainTileIds,
   worldToCanonicalCamera,
 } from './v2-terrain-runtime.mjs';
 
@@ -158,6 +159,30 @@ describe('isolated v2 terrain runtime', () => {
     });
     expect(activeHoleTerrainTileIds(course, 1)).toEqual(['l0/0/0']);
     expect(activeHoleTerrainTileIds(course, 99)).toEqual([]);
+  });
+
+  it('holds every hole to the course target and the ground off it to its own', () => {
+    const { course, ground, loader } = fixture();
+    expect(courseTerrainTileIds({ holes: [{ tileIds: ['l0/1/0', 'l0/0/0'] }, { tileIds: ['l0/0/0'] }, {}] }))
+      .toEqual(['l0/0/0', 'l0/1/0']);
+    expect(courseTerrainTileIds(null)).toEqual([]);
+    const profile = { targetErrorPixels: 1, outsideCourseTargetErrorPixels: 3, maximumSelectedTiles: 128 };
+    const runtime = new CourseV2TerrainRuntime({ ground, course, scene: new THREE.Scene(), backend: 'webgl2',
+      profile, assetLoader: loader, clock: () => 0 });
+    runtime.update({ camera: { position: { x: 64, y: 50, z: 192 }, fov: 48 },
+      viewportHeightPixels: 720, activeHoleNumber: 1, visible: () => true });
+    expect(runtime.lastUpdate).toMatchObject({ targetErrorPixels: 1, outsideCourseTargetErrorPixels: 3 });
+    expect([...runtime.lastUpdate.courseTileIds]).toEqual(courseTerrainTileIds(course));
+    runtime.dispose();
+    const uniform = new CourseV2TerrainRuntime({ ground, course, scene: new THREE.Scene(), backend: 'webgl2',
+      profile: { targetErrorPixels: 1, maximumSelectedTiles: 128 }, assetLoader: loader, clock: () => 0 });
+    uniform.update({ camera: { position: { x: 64, y: 50, z: 192 }, fov: 48 },
+      viewportHeightPixels: 720, activeHoleNumber: 1, visible: () => true });
+    expect(uniform.lastUpdate.outsideCourseTargetErrorPixels).toBe(1);
+    uniform.dispose();
+    expect(() => new CourseV2TerrainRuntime({ ground, course, scene: new THREE.Scene(), backend: 'webgl2',
+      profile: { ...profile, outsideCourseTargetErrorPixels: 0.5 }, assetLoader: loader }))
+      .toThrow(/at least targetErrorPixels/);
   });
 
   it('streams shell to regular tiles, batches one draw and exposes the same CPU height', async () => {

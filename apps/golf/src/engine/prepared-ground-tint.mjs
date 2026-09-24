@@ -15,7 +15,8 @@ export function preparedTintAllowed(search) {
   if (params.get('startup') === '0' || params.has('bakeTint')) return false;
   const displayOnly = new Set(['bana', 'hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'q', 'det',
     'ghibli', 'gl', 'rdepth', 'hero', 'trees', 'look', 'qualitylock', 'startup', 'v2', 'kiosk',
-    'distanthero', 'treemesh']); // drawable tree detail does not change prepared planting/color inputs
+    'distanthero', 'treemesh', // drawable tree detail does not change prepared planting/color inputs
+    'offcourse']); // nor does drawn terrain detail: CPU heights come from the 1 m source
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 
