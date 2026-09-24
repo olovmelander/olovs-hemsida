@@ -4875,6 +4875,14 @@ const LODREACH = (() => {
    to become a picture, and the forests beyond the corridor never cast at
    all. ?impostorshadow=0 is the before. */
 const IMPOSTOR_SHADOWS = new URLSearchParams(location.search).get('impostorshadow') !== '0';
+/* A tree out of view still shadows the view: behind the camera at golden
+   hour, or just past the edge of the frame, its shadow lies across the
+   fairway the camera looks at. The tiers draw only the cells in view, so
+   such a shadow vanished the moment the camera turned a little. Now a cell
+   out of view whose shadow can reach the view keeps its trees as impostors
+   (updateTreeTiers), which cost two triangles each and cast the tree's own
+   silhouette. ?offscreenshadow=0 is the before. */
+const OFFSCREEN_SHADOWS = IMPOSTOR_SHADOWS && new URLSearchParams(location.search).get('offscreenshadow') !== '0';
 /* ?lodpx=hero,full,impostor overrides the three tier boundaries for a sweep */
 const LODPX = (() => {
   const q = new URLSearchParams(location.search).get('lodpx'), v = q ? q.split(',').map(Number) : null;
@@ -5347,7 +5355,9 @@ function treeTierAudit() {
 }
 
 const TREE_FRUSTUM = new THREE.Frustum(), TREE_PROJ = new THREE.Matrix4();
-/* per frame: a cell outside the frustum draws nothing; inside it every tree
+/* per frame: a cell outside the frustum draws nothing, unless its trees can
+   shadow the view (castsIntoView): then they stay, as impostors, for their
+   shadows alone. Inside it every tree
    is tiered from the pixels its own height projects to at its own distance
    (to the crown centre, height included: from 330 m straight up a tree
    under the camera is 330 m away), with the hysteresis band on each
@@ -5372,21 +5382,34 @@ function updateTreeTiers() {
   const decisionKey = force || (zoneMode && !distantHeroPx ? ZT.reduce((key, tier, i) => key | ((tier === 4 ? 1 : 0) << i), 16) : 0);
   const floorA = TREE_LOD.floors[0], floorB = TREE_LOD.floors[1], reachH = TREE_LOD.floorReach[0], reachF = TREE_LOD.floorReach[1], floorAFar = Math.max(floorA, 2);
   const cells = TREE_LOD.cells;
-  let visible = 0;
+  /* set by placeSun; absent, only the trees in view are drawn */
+  const sweep = TREE_LOD.shadowSweep;
+  let visible = 0, shadowCells = 0;
   for (let ci = 0; ci < cells.length; ci++) {
     const c = cells[ci];
     if (!TREE_FRUSTUM.intersectsBox(c.box)) {
-      if (c.visible) {
+      if (sweep && castsIntoView(c, sweep)) {
+        /* nothing of it is on screen but its shadow, so it changes at once:
+           a crossfade would only dither a shadow the two agree on */
+        if (!c.shadowOnly) { cellToImpostors(c); c.visible = false; c.shadowOnly = true; changed = true; }
+        shadowCells++;
+        continue;
+      }
+      if (c.visible || c.shadowOnly) {
         for (let s = 0; s < TREE_LOD.tiers.length; s++) {
           const sp = TREE_LOD.tiers[s];
           if (!sp) continue;
           const L = c.lists[s];
           for (let i = 0; i < L.length; i++) { const k = L[i]; if (sp.tierOf[k]) treeTierMove(s, k, sp.tierOf[k], 0); }
         }
-        c.visible = false; changed = true;
+        c.visible = false; c.shadowOnly = false; changed = true;
       }
       continue;
     }
+    /* back in view: its trees enter as any tree entering the view does, at
+       once in their own tier; those still wanted as impostors stay where they are */
+    const entering = c.shadowOnly;
+    c.shadowOnly = false;
     const wasVisible = c.visible;
     c.visible = true; visible++;
     if (decisionKey && !reset && wasVisible && c.tierDecisionKey === decisionKey) continue;
@@ -5410,7 +5433,8 @@ function updateTreeTiers() {
           d = Math.max(1, Math.sqrt(dx * dx + dy * dy + dz * dz));
           px = cellMode ? pxCell : H[k] * Kpx / d;
         }
-        const cur = T[k];
+        /* a tree entering from its shadow-only tier is judged as any tree entering the view */
+        const cur = T[k], was = entering ? 0 : cur;
         let want;
         if (force) want = force;
         else if (zoneMode) {
@@ -5418,13 +5442,13 @@ function updateTreeTiers() {
           if (distantHeroPx && want === 1 && Z[k] > 0 && Z[k] <= 2) {
             // Reuse the current tier's 10% hysteresis, six-frame dwell and
             // complementary fade below. Fresh/reset trees use the threshold.
-            const band = reset || !cur ? 1 : cur === 1 ? 1 - hy : 1 + hy;
+            const band = reset || !was ? 1 : was === 1 ? 1 - hy : 1 + hy;
             want = px < distantHeroPx * band ? 4 : 1;
           }
         }
-        else if (!cur || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
+        else if (!was || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
         else {
-          want = cur;
+          want = was;
           while (want > 1 && px > thr[want - 2] * (1 + hy)) want--;
           while (want < 4 && px < thr[want - 1] * (1 - hy)) want++;
         }
@@ -5432,7 +5456,7 @@ function updateTreeTiers() {
         /* the floors are zone A's and B's; the outer band (3) exists for the zone rule and has no floor here */
         if (!force && !zoneMode && Z[k] && Z[k] <= 2) {
           /* the reaches carry the same 10% band as the pixel boundaries, so a tree at a reach does not flip */
-          const rH = reachH * (cur === floorA ? 1.1 : 1), rF = reachF * (cur && cur <= 2 ? 1.1 : 1);
+          const rH = reachH * (was === floorA ? 1.1 : 1), rF = reachF * (was && was <= 2 ? 1.1 : 1);
           const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
           if (want > fl) want = fl;
         }
@@ -5442,7 +5466,11 @@ function updateTreeTiers() {
         if (want !== cur) {
           /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
              the new tier has to be wanted for dwell frames running */
-          if (!cur || reset || force || dwell <= 0 || (PD[k] === want && PN[k] >= dwell - 1)) { treeTierMove(s, k, cur, want); changed = true; PN[k] = 0; }
+          if (!was || reset || force || dwell <= 0 || (PD[k] === want && PN[k] >= dwell - 1)) {
+            /* out of the shadow-only tier first, so nothing fades in view */
+            if (cur !== was) treeTierMove(s, k, cur, 0);
+            treeTierMove(s, k, was, want); changed = true; PN[k] = 0;
+          }
           else if (PD[k] === want) { PN[k]++; settled = false; }
           else { PD[k] = want; PN[k] = 1; settled = false; }
         } else PN[k] = 0;
@@ -5452,6 +5480,7 @@ function updateTreeTiers() {
   }
   TREE_LOD.resetPending = false;
   TREE_LOD.stats.cellsVisible = visible;
+  TREE_LOD.stats.shadowCells = shadowCells;
   TREE_LOD.stats.fading = TREE_LOD.queue.length - TREE_LOD.qHead;
   TREE_LOD.stats.updateMs = performance.now() - tStart;
   if (!changed) return;
@@ -5476,6 +5505,34 @@ function updateTreeTiers() {
     t0 += species.t[1].count; t1 += species.t[2].count; t2 += species.t[3].count; t3 += species.t[4].count;
   }
   TREE_LOD.stats.tier0 = t0; TREE_LOD.stats.tier1 = t1; TREE_LOD.stats.tier2 = t2; TREE_LOD.stats.tier3 = t3;
+}
+const TREE_SWEEP = new THREE.Box3(), TREE_SWEEP_POINT = new THREE.Vector3();
+/* Can an out-of-view cell shadow the view? Its box must stand inside the
+   shadow map's square, in the light's plane; and swept away from the sun as
+   far as a shadow of it can fall -- to 30 m below its lowest point, and no
+   longer than the map reaches -- it must meet the view's frustum. */
+function castsIntoView(c, w) {
+  const b = c.box, hx = (b.max.x - b.min.x) / 2, hy = (b.max.y - b.min.y) / 2, hz = (b.max.z - b.min.z) / 2;
+  const mx = (b.max.x + b.min.x) / 2 - w.cx, my = (b.max.y + b.min.y) / 2 - w.cy, mz = (b.max.z + b.min.z) / 2 - w.cz;
+  if (Math.abs(mx * w.rx + my * w.ry + mz * w.rz) > w.R + hx * Math.abs(w.rx) + hy * Math.abs(w.ry) + hz * Math.abs(w.rz)) return false;
+  if (Math.abs(mx * w.ux + my * w.uy + mz * w.uz) > w.R + hx * Math.abs(w.ux) + hy * Math.abs(w.uy) + hz * Math.abs(w.uz)) return false;
+  const reach = Math.min(3 * w.R, (b.max.y - b.min.y + 30) / Math.max(w.dy, 0.05));
+  TREE_SWEEP.copy(b)
+    .expandByPoint(TREE_SWEEP_POINT.set(b.min.x - w.dx * reach, b.min.y - w.dy * reach, b.min.z - w.dz * reach))
+    .expandByPoint(TREE_SWEEP_POINT.set(b.max.x - w.dx * reach, b.max.y - w.dy * reach, b.max.z - w.dz * reach));
+  return TREE_FRUSTUM.intersectsBox(TREE_SWEEP);
+}
+/* every tree of a cell to its impostor at once, both halves of any fade included */
+function cellToImpostors(c) {
+  for (let s = 0; s < TREE_LOD.tiers.length; s++) {
+    const sp = TREE_LOD.tiers[s];
+    if (!sp) continue;
+    for (const k of c.lists[s]) {
+      if (sp.tierOf[k] === 4 && !sp.outTier[k]) continue;
+      if (sp.tierOf[k]) treeTierMove(s, k, sp.tierOf[k], 0);
+      treeTierMove(s, k, 0, 4);
+    }
+  }
 }
 
 lap('tree tiers (Hero + Impostor, cells)', { trees: stats.trees | 0, cells: TREE_LOD.cells.length });
@@ -7941,6 +7998,8 @@ let shadowRadiusOverride = null;   /* a harness stepping a flight pose by pose g
 const SUN_BASIS = { d: new THREE.Vector3(), right: new THREE.Vector3(), up: new THREE.Vector3(), m: new THREE.Matrix4(),
                     o: new THREE.Vector3(), texel: 0, remainder: 0, R: 0, version: 0, lightDistance: 1200,
                     placed: { version: -1, texel: 0, iu: 0, iv: 0, iw: 0 } };
+/* the shadow box and the sun as updateTreeTiers reads them, one frame late: placeSun runs after it */
+const TREE_SHADOW_SWEEP = {};
 /* What moves a shadow: the sun or its box (placeSun), a tree changing tier or
    fading (an upload this frame, or a fade queue still draining), the terrain
    (a tile arriving or leaving, and the 240 ms morph after it), a flight -- and
@@ -8024,6 +8083,13 @@ function placeSun() {
   sun.position.set(cx + d.x * L, cy + d.y * L, cz + d.z * L);
   sun.target.position.set(cx, cy, cz);
   sun.target.updateMatrixWorld();
+  /* where out-of-view trees can shadow the view (updateTreeTiers): the map's
+     square in the light's plane, and the way the sun points */
+  if (OFFSCREEN_SHADOWS) {
+    Object.assign(TREE_SHADOW_SWEEP, { R, cx, cy, cz, dx: d.x, dy: d.y, dz: d.z,
+      rx: B.right.x, ry: B.right.y, rz: B.right.z, ux: B.up.x, uy: B.up.y, uz: B.up.z });
+    TREE_LOD.shadowSweep = TREE_SHADOW_SWEEP;
+  }
 }
 
 /* ------------------------------------------------------------------- ui */

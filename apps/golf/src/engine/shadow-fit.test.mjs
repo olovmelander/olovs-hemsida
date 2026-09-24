@@ -69,7 +69,7 @@ describe('the shadow box past the tuned range', () => {
   });
   it('leaves the prepared startup paths eligible for the shadow before-and-after switches', () => {
     for (const allowed of [preparedTintAllowed, preparedWaterAllowed, preparedVistaAllowed, preparedScatterAllowed])
-      for (const flag of ['shadowreach=0', 'impostorshadow=0', 'foliageshadow=mip']) expect(allowed(`?bana=puttom&${flag}`)).toBe(true);
+      for (const flag of ['shadowreach=0', 'impostorshadow=0', 'foliageshadow=mip', 'offscreenshadow=0']) expect(allowed(`?bana=puttom&${flag}`)).toBe(true);
   });
   it('shrinks with hysteresis on the way back in, as the tuned fits do', () => {
     expect(chooseShadowFit(2100, 3000)).toBe(3000);

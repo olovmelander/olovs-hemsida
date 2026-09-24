@@ -7,6 +7,8 @@ Three things took them away, each measured before it was changed. All three
 changes have a before switch, and the switches keep the prepared startup data
 eligible, so an A/B pair differs only in its shadows:
 `?impostorshadow=0&foliageshadow=mip&shadowreach=0` is the complete before.
+A second report the same day, shadows vanishing as the camera turns, is
+covered in [Turning the camera](#turning-the-camera).
 
 ## What made them disappear
 
@@ -184,6 +186,167 @@ production build, app-build isolation check, no-undef lint and
   at the 400 m box on a desktop, 10 % more. That is the same fix reaching the
   nearest boxes, and it brings phone shadows level with desktop ones.
 
+## Turning the camera
+
+**Owner report, 24 September**, from a phone on Ängsö's driving range: "When
+i just change the camera slightly to the side the shadows just pops away".
+
+**Cause.** The tree tiers draw a 128 m cell only while its box meets the
+camera's frustum (`updateTreeTiers`), and the shadow pass draws the same
+batches. So a tree out of view cast nothing. With a low sun, a tree just past
+the edge of the frame, or behind the camera, throws its shadow a hundred metres
+or more across the view. A turn of a few degrees took its whole cell out of the
+frustum, and every shadow that cell cast vanished in the same frame.
+
+**Change** (`main.js`). A cell out of view now keeps its trees when their
+shadows can reach the view (`castsIntoView`). Two conditions decide:
+
+- The cell's box stands inside the shadow map's square in the light's plane. A
+  caster outside the square draws nothing into the map.
+- The box, swept away from the sun as far as a shadow of it can fall, meets
+  the camera's frustum. The sweep runs to 30 m below the cell's lowest point,
+  and no further than three times the box's half-size. The swept volume is
+  bounded by one axis-aligned box. So the test can keep a cell whose shadow
+  misses the view, but it keeps every cell whose shadow reaches the view over
+  ground no more than 30 m below the cell.
+
+Such a cell's trees are drawn as impostors. An impostor casts the tree's
+silhouette as the sun sees it, which agrees with the mesh's shadow (the IoU
+table above). The change is instant, with no crossfade, because nothing of the
+tree is on screen but its shadow. When the cell comes back into view, its trees
+are judged as any tree entering the view and take their own tier at once. Those
+still wanted as impostors stay where they are, so a cell of impostors costs
+nothing to bring back. `placeSun` records the box and the sun for the next
+frame's tier update, so a moving sun is followed one frame late.
+`V3D.treeTiers().shadowCells` counts the kept cells.
+`?offscreenshadow=0` is the before. `?impostorshadow=0` also turns this off,
+since the kept trees would cast nothing, so the complete before URL above still
+holds.
+
+**Evidence.** `tree-shadow-casters.test.mjs` replays the app's own tier update
+on a row of cells in both coordinate systems, with the camera looking along the
+row's normal and a low sun from one side. The cells in view keep their tier.
+The cell just past the frame's edge on the sun's side is kept as impostors, and
+only that one: the next cell out throws a shadow that ends short of the view,
+and the cells on the other side throw theirs away from it. Turning into view and
+back, including halfway through a crossfade, moves every tree at once, with a
+clean tier audit and no stale fade left behind. A cell of impostors comes back
+into view without moving a tree: the same turn takes exactly its 20 moves fewer
+than one where the cell enters from nothing. Without the sun's record the old
+behaviour is unchanged, and a cell outside the map's square is not kept.
+
+In the built app,
+[`check-turning.mjs`](graphics/tree-shadows-offscreen-2026-09-24/check-turning.mjs)
+turns the camera in place at the first tee, under the golden-hour sun
+(`ljus=kvall`), and records the tier counts with and without the change
+([`turning-counts.json`](graphics/tree-shadows-offscreen-2026-09-24/turning-counts.json)).
+It ran in SwiftShader on WebGL2, where the shadow box was 400 m in every view.
+The difference between the two impostor columns is what the change adds, all
+of it out of view:
+
+Ängsö, phone-shaped view (412 × 915 portrait, low quality), the owner's case:
+
+| turn | cells in view | cells kept out of view | impostors before | impostors now |
+|---:|---:|---:|---:|---:|
+| 0° | 35 | 34 | 1,067 | 3,250 |
+| +6° | 38 | 28 | 1,340 | 3,344 |
+| +12° | 43 | 27 | 2,026 | 3,946 |
+| +24° | 54 | 28 | 3,205 | 4,714 |
+| −6° | 32 | 27 | 881 | 2,427 |
+| −12° | 30 | 22 | 770 | 1,820 |
+| −24° | 29 | 28 | 1,366 | 2,659 |
+
+Ängsö, desktop-shaped view (960 × 600, high quality):
+
+| turn | cells in view | cells kept out of view | impostors before | impostors now |
+|---:|---:|---:|---:|---:|
+| 0° | 98 | 12 | 9,186 | 10,181 |
+| +6° | 97 | 15 | 8,753 | 10,160 |
+| +12° | 105 | 9 | 9,449 | 10,567 |
+| +24° | 116 | 6 | 10,969 | 11,566 |
+| −6° | 97 | 19 | 9,305 | 11,199 |
+| −12° | 98 | 21 | 9,380 | 12,032 |
+| −24° | 100 | 32 | 8,574 | 11,920 |
+
+Puttom, desktop-shaped view (960 × 600, high quality):
+
+| turn | cells in view | cells kept out of view | impostors before | impostors now |
+|---:|---:|---:|---:|---:|
+| 0° | 174 | 38 | 34,023 | 42,164 |
+| +6° | 168 | 42 | 32,240 | 40,682 |
+| +12° | 155 | 45 | 29,618 | 37,927 |
+| +24° | 145 | 53 | 26,279 | 35,434 |
+| −6° | 178 | 36 | 34,399 | 42,115 |
+| −12° | 185 | 30 | 36,052 | 42,793 |
+| −24° | 188 | 31 | 36,227 | 43,454 |
+
+At every turn both variants draw the same cells and the same Hero trees in
+view, and every tier audit passes. The change only adds impostors, all of them
+out of view. The narrow portrait view shows the problem most: it sees 29–54
+cells, and 22–34 more cells out of view cast shadows into it. A turn of a few
+degrees moves cells across its edges on both sides. There the change keeps
+1,050–2,183 impostors, beside 770–3,205 drawn before. On the desktop-shaped
+view it adds 5–39 % to the impostors at Ängsö and 19–35 % at Puttom.
+
+**Cost.** The kept trees are off screen, so the colour pass runs only their
+vertex shader, four vertices each, before clipping them. The shadow pass draws
+them whenever the map renders, which is on demand: while the camera or sun
+moves, a tier changes or a fade runs. The test itself is two dot products per
+out-of-view cell, plus a frustum test for the cells inside the map's square.
+
+On the CPU,
+[`check-cpu.mjs`](graphics/tree-shadows-offscreen-2026-09-24/check-cpu.mjs)
+replays the tier update on the real placements of Puttom and Ängsö. It runs
+the update with the sun's record, as `placeSun` sets it at golden hour, and
+without it, in six interleaved rounds of 360 frames per camera path on this
+container's CPU
+([`cpu-replay.json`](graphics/tree-shadows-offscreen-2026-09-24/cpu-replay.json)).
+Without the record, the update matches main's before the change exactly, frame
+by frame, on every path:
+
+| course, quality | path | median ms, before → now | mean ms, before → now | tree moves |
+|---|---|---:|---:|---:|
+| Puttom, high | at rest | 0.38 → 0.40 | 0.58 → 0.57 | +28 % |
+| Puttom, high | orbit | 1.37 → 1.43 | 1.92 → 2.06 | +2 % |
+| Puttom, high | fly-through | 0.75 → 1.18 | 2.49 → 3.20 | +14 % |
+| Puttom, low | at rest | 0.30 → 0.30 | 0.44 → 0.48 | +27 % |
+| Puttom, low | orbit | 1.23 → 1.13 | 1.64 → 1.72 | +3 % |
+| Puttom, low | fly-through | 0.68 → 1.07 | 2.02 → 2.60 | +14 % |
+| Ängsö, low | at rest | 0.10 → 0.12 | 0.18 → 0.26 | +32 % |
+| Ängsö, low | orbit | 0.50 → 0.57 | 0.85 → 0.95 | +4 % |
+| Ängsö, low | fly-through | 0.32 → 0.80 | 1.22 → 1.58 | +23 % |
+
+At rest, the extra moves are the kept cells filling on the first frame, and
+the median frame is unchanged within the timer's 0.1 ms resolution. The orbit
+circles the course 800 m out, 1° and 14 m a frame, and adds 2–4 % to the
+moves. Bringing a cell of impostors back into view moves nothing. Before that
+refinement, the same orbit added 57 % at Puttom (a scratch run of this replay,
+not retained). The fly-through walks every
+hole's centre line in 360 frames, tens of metres a frame with a cut between
+holes, so cells cross the view's edges all the time. There the median update
+rises by 0.4–0.5 ms. A cell leaving the view beside the camera turns its Hero
+trees into impostors, where before it dropped them. Keeping them as Hero meshes
+off screen would cost far more on the GPU. These are CPU figures for one
+function, not a frame rate. The frame cost on a GPU, and on the owner's phone
+in particular, was not measured here. Compare it with interleaved A/B runs
+against `?offscreenshadow=0`.
+
+**Prepared startup data.** The source revision moved, so tints (26), far vista
+(26), scatter (26) and water (10 courses) were re-baked through the existing
+publishers for revision `ce6bfa20`. Against main at `aa8fea3d`,
+[`check-publication.mjs`](graphics/tree-shadows-offscreen-2026-09-24/check-publication.mjs)
+proves that every record kept its content and only its source identity changed
+([`publication-identity.json`](graphics/tree-shadows-offscreen-2026-09-24/publication-identity.json)).
+`check-prepared-startup` passes on the rebuilt app
+([`prepared-check.json`](graphics/tree-shadows-offscreen-2026-09-24/prepared-check.json)).
+The published water payloads stay beside the new ones.
+
+**Not established.** No picture: full courses render black in this container.
+Judge Ängsö's driving range on the phone, turning the camera a little each way
+at golden hour, against `?offscreenshadow=0`. A shadow reaching the view from a
+cell beyond the shadow map's square still ends at the map's edge, as it did
+before. That edge is where the boundary fade already removes shadows.
+
 ## Reproduce
 
 ```sh
@@ -200,6 +363,12 @@ node tools/bake-ground-tints.mjs http://127.0.0.1:8662   # then rebuild
 node tools/bake-vista.mjs http://127.0.0.1:8662          # then rebuild
 node tools/check-prepared-startup.mjs --public apps/golf/dist
 node docs/graphics/tree-shadows-zoom-2026-09-24/check-publication.mjs
+# turning the camera at a tee, with and without the out-of-view casters (after a build)
+node docs/graphics/tree-shadows-offscreen-2026-09-24/check-turning.mjs
+# the tier update's CPU cost on real placements, and its parity with main without the sun's record
+node docs/graphics/tree-shadows-offscreen-2026-09-24/check-cpu.mjs
+# the turning change's re-bake, against main before it
+node docs/graphics/tree-shadows-offscreen-2026-09-24/check-publication.mjs
 ```
 
 In a container without Chrome, point `BANVY_CHROME_PATH` at a Chromium. The
