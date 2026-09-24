@@ -17,7 +17,10 @@ export function preparedTintAllowed(search) {
     'ghibli', 'gl', 'rdepth', 'hero', 'trees', 'look', 'qualitylock', 'startup', 'v2', 'kiosk',
     'distanthero', 'treemesh', // drawable tree detail does not change prepared planting/color inputs
     'impostorshadow', 'foliageshadow', 'shadowreach', 'offscreenshadow', // nor does what casts into the sun's shadow map
-    'offcourse']); // nor does drawn terrain detail: CPU heights come from the 1 m source
+    'offcourse', // nor does drawn terrain detail: CPU heights come from the 1 m source
+    // nor do the visual fixes' before switches: shading, textures and draw order only
+    'detailupload', 'mowfade', 'localheight', 'coverglow', 'pondfetch', 'waternormal',
+    'dither', 'bloomknee', 'skyhaze', 'skyorder', 'furnitureshadow']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 
