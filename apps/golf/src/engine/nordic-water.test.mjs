@@ -118,10 +118,11 @@ describe('Nordic lake water', () => {
     expect((shading.match(/texture\(WATERN, drift\(\d, /g) || []).length).toBe(4);
     expect(shading).toMatch(/texture\(DETAIL, drift\(4, 0\.55,/);
     expect(shading).toMatch(/mul\(waterChop\)\.mul\(waterPatchChop\(\{ p: wp, distance: cd \}\)\)/);
-    expect(shading).toMatch(/if \(!ocean\) \{[\s\S]*?skyC = mix\(skyC, waterTreeLine, treeLineShare\(\{ R: Rs, up: saturate\(Rs\.y\) \}\)/);
+    /* none on the ocean's sheets, nor on the open sea (the water road pass, water-road.mjs) */
+    expect(shading).toMatch(/if \(!ocean && !sea\) \{[\s\S]*?skyC = mix\(skyC, waterTreeLine, treeLineShare\(\{ R: Rs, up: saturate\(Rs\.y\) \}\)/);
     expect(shading).toMatch(/expectedGlitter\(\{ V, L: uSun, sigma \}\), dabs,/);
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-    expect(main).toMatch(/waterShading\(\{ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,\n    cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON \}\)/);
+    expect(main).toMatch(/waterShading\(\{ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,\n    cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,\n/);
     expect(main).toMatch(/if \(NORDIC_WATER_ON\) setNordicWaterPreset\(p, \{ sky: skyPreset\(p, presetName\)/);
     expect(main).toMatch(/stepWaterMotion\(WATER_MOTION, dt, AIR, \{ deterministic: DET, still: cameraMotionPreference\.matches \}\)/);
   });

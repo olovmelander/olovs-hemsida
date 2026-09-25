@@ -22,6 +22,8 @@ const WATER_BEFORE = ['nordicwater=0', 'waterwind=0'];
 const GLOW_BEFORE = ['glowthreshold=0', 'cloudglow=0'];
 
 const BUILDING_BEFORE = ['wallbase=0', 'roofridge=0'];
+/* the water road pass's (docs/visual-water-road-2026-09-25.md) */
+const WATER_ROAD_BEFORE = ['waterroad=0', 'watermirror=0', 'waterrelief=0', 'opensea=0'];
 
 describe('the visual fixes\' before switches', () => {
   it('leave every prepared startup path eligible, alone and all together', () => {
@@ -36,10 +38,10 @@ describe('the visual fixes\' before switches', () => {
       expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE].join('&')}`)).toBe(true);
     }
   });
-  it('leave prepared startup eligible for the landscape, air, water, glow and buildings batches\' befores, and all of them together', () => {
+  it('leave prepared startup eligible for the landscape, air, water, glow, buildings and water road batches\' befores, and all of them together', () => {
     for (const allowed of [preparedTintAllowed, preparedWaterAllowed, preparedVistaAllowed, preparedScatterAllowed]) {
-      for (const flag of [...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE]) expect(allowed(`?bana=angso&${flag}`)).toBe(true);
-      expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE, ...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE].join('&')}`)).toBe(true);
+      for (const flag of [...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE]) expect(allowed(`?bana=angso&${flag}`)).toBe(true);
+      expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE, ...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE].join('&')}`)).toBe(true);
     }
   });
 });

@@ -111,6 +111,7 @@ import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWate
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } from './engine/building-paint.mjs';
 import { waterShading } from './engine/water-shading.mjs';
+import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -1946,6 +1947,16 @@ const NORDIC_WATER_ON = new URLSearchParams(location.search).get('nordicwater') 
 /* The water on the one wind: ripples drifting downwind, chop with the wind,
    calm and gusty patches; ?waterwind=0 is the before, the ripples' own clock. */
 const WATER_WIND_ON = new URLSearchParams(location.search).get('waterwind') !== '0';
+/* THE SUN'S ROAD, SPARKLING TO THE HORIZON (engine/water-road.mjs): the dabs at every
+   distance, brighter toward grazing, cut by the clouds only under a high sun
+   (?waterroad=0 is the water batch's road); toward a low sun the water mirrors more
+   of its glowing sky (?watermirror=0); looked down on, the waves show their relief
+   (?waterrelief=0); and the open sea mirrors no far shore (?opensea=0 gives it the
+   lakes' wood). */
+const WATER_ROAD_ON = new URLSearchParams(location.search).get('waterroad') !== '0';
+const WATER_MIRROR_ON = new URLSearchParams(location.search).get('watermirror') !== '0';
+const WATER_RELIEF_ON = new URLSearchParams(location.search).get('waterrelief') !== '0';
+const OPEN_SEA_ON = new URLSearchParams(location.search).get('opensea') !== '0';
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -2077,6 +2088,8 @@ function setPreset(name, overrides = null) {
   /* the sky's band under the horizon meets the ground in the same haze; ?skyhaze=raw is the before */
   if (new URLSearchParams(location.search).get('skyhaze') !== 'raw') setSkyGroundHaze(skyMesh, fog.color);
   if (NORDIC_WATER_ON) setNordicWaterPreset(p, { sky: skyPreset(p, presetName), fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax });
+  /* the waves' relief from above follows how direct the sun is (engine/water-road.mjs) */
+  setWaterRoadPreset(p);
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(skyPreset(p, presetName));
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
@@ -3885,7 +3898,7 @@ await tick('fyller vattnet', 0.52);
    surface runs out into foam -- and writes the answer. */
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
-function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
+function makeWater({ mask = null, showBed = true, ocean = false, sea = false } = {}) {
   /* no bed to see through to -> nothing to be see-through for (see the policy) */
   const opaque = waterSheetIsOpaque({ ocean, showBed });
   const m = new THREE.MeshBasicNodeMaterial({ transparent: !opaque, side: THREE.DoubleSide });
@@ -3895,7 +3908,8 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
   });
   /* the colour and opacity (water-shading.mjs), with the water batch's light and ripples unless their befores are asked for */
   const { colour, opacity: sheetOpacity, wp } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
-    cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON });
+    cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,
+    road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -3921,11 +3935,15 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
 // Measured coastlines use physical clearance and normal depth testing. The
 // same material is used by mapped water and the connected ocean extension.
 const waterMat = makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only' });
+/* The open sea is the lakes' water without their far shore: Visby's Baltic mirrored
+   a wood across its whole horizon (engine/water-road.mjs; ?opensea=0 is the before). */
+const openSeaMat = OPEN_SEA_ON && HAS_SEA ? makeWater({ showBed: M.infra.terrainPlacement !== 'measured-only', sea: true }) : waterMat;
 /* The sea a source-water coverage masks the terrain under is drawn OPAQUE, the
    way the Norrfällsviken ocean is: with the plate gone there is sky behind a
    transparent sheet, and a 14% window on the sky paled the whole fjärd. */
 const seaSheetMat = SOURCE_WATER_COVERAGE ? makeWater({ showBed: false, ocean: true }) : null;
-const seaSheetFor = level => seaSheetMat && Number.isFinite(level) && level <= SOURCE_WATER_COVERAGE.seaLevel + 1e-6 ? seaSheetMat : waterMat;
+const seaSheetFor = (level, isSea = false) => seaSheetMat && Number.isFinite(level) && level <= SOURCE_WATER_COVERAGE.seaLevel + 1e-6 ? seaSheetMat
+  : isSea ? openSeaMat : waterMat;
 /* THE COURSE WINDOW'S EDGE IS NOT A SHORE. The pack's sea rings are the fjärd
    clipped to the 2048 m course window, and the measured polygons outside are
    clipped to the same lines, so along each edge two sheets meet. A ring's
@@ -4007,7 +4025,7 @@ for (const w of M.water) {
   g.setAttribute('aDepth', new THREE.Float32BufferAttribute(dp, 1));
   g.setIndex(idx);
   g.computeVertexNormals();
-  const m = new THREE.Mesh(g, seaSheetFor(w.level));
+  const m = new THREE.Mesh(g, seaSheetFor(w.level, w.isSea));
   // Display clearance above laser-flattened water. Source levels/DTM stay
   // unchanged; this 6 cm lift is confined to the exact water polygon.
   if (M.infra.terrainPlacement === 'measured-only') m.position.y = MEASURED_WATER_CLEARANCE_METRES;
@@ -4044,7 +4062,7 @@ if (LIDINGO_WATER_LOADING) {
       /* the measured sea is one plane in the world and nine polygons in the
          file; the item seams were welded vertex for vertex in the batches, and
          the sheet is opaque where the terrain under it is masked away */
-      const mesh = new THREE.Mesh(g, seaSheetMat ?? waterMat);
+      const mesh = new THREE.Mesh(g, seaSheetMat ?? openSeaMat);
       mesh.name = `lidingo-source-water-${batch.sourceItemId}`;
       mesh.position.y = 0.06;
       mesh.renderOrder = 6;
@@ -4123,7 +4141,7 @@ if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
 /* One connected ocean across the Norrfällsviken world, including both sides
    of the old source polygon's offshore closures. Other courses retain their
    measured coastal extension or legacy horizon sheet. */
-const oceanMat = CONTINUOUS_OCEAN ? makeWater({showBed:false,ocean:true}) : waterMat;
+const oceanMat = CONTINUOUS_OCEAN ? makeWater({showBed:false,ocean:true}) : openSeaMat;
 if (COASTAL_WATER?.indices.length) {
   const g = new THREE.BufferGeometry();
   const count = COASTAL_WATER.positions.length / 3;
@@ -4161,7 +4179,7 @@ if (COASTAL_WATER?.indices.length) {
   g.setAttribute('aDepth', new THREE.Float32BufferAttribute(dp, 1));
   g.setIndex(idx);
   g.computeVertexNormals();
-  const m = new THREE.Mesh(g, waterMat);
+  const m = new THREE.Mesh(g, openSeaMat);
   m.renderOrder = 5;
   scene.add(m);
   stats.draws++;
@@ -12091,7 +12109,11 @@ window.V3D = {
     return { glint: uWaterGlint.value, chop: uWaterChop.value,
       /* the water batch (docs/visual-water-2026-09-25.md): null where its before is asked for */
       nordic: NORDIC_WATER_ON ? { sun: waterSun.value.toArray(), skyGlow: waterSkyGlow.value.toArray(), treeLine: waterTreeLine.value.toArray() } : null,
-      wind: WATER_WIND_ON ? { chop: WATER_MOTION.chop, patch: [...WATER_MOTION.patch], flow: WATER_MOTION.flow.map(f => [...f]) } : null }; },
+      wind: WATER_WIND_ON ? { chop: WATER_MOTION.chop, patch: [...WATER_MOTION.patch], flow: WATER_MOTION.flow.map(f => [...f]) } : null,
+      /* the water road pass (docs/visual-water-road-2026-09-25.md): its switches, and the sheets drawn as open sea */
+      road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON ? waterReliefSun.value : null,
+      openSea: { on: OPEN_SEA_ON, sheets: WATER_MESHES.filter(m => m.material === openSeaMat && openSeaMat !== waterMat).length,
+        lakeSheets: WATER_MESHES.filter(m => m.material === waterMat).length } }; },
   /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
   /* the meter's handle on the scene: hide by name, zero a light, read a pose (tools/glitter-meter.mjs) */
   harness: () => ({ scene, renderer, camera, sun, controls, terrainV2 }),

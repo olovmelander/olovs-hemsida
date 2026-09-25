@@ -32,7 +32,9 @@ export function preparedTintAllowed(search) {
     // nor do the glow batch's: the glow's threshold and the clouds' shine are drawn
     'glowthreshold', 'cloudglow',
     // nor do the buildings batch's: a wall's foot and a roof's ridge are drawn
-    'wallbase', 'roofridge']);
+    'wallbase', 'roofridge',
+    // nor do the water road pass's: the sun's road, the water's mirror, the waves' relief and the open sea are drawn
+    'waterroad', 'watermirror', 'waterrelief', 'opensea']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 
