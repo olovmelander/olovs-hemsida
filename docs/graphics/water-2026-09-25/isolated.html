@@ -1,0 +1,276 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Water batch: isolated checks</title>
+<!-- The player's own water shading (water-shading.mjs) and the water batch's
+     functions (nordic-water.mjs) in isolated scenes, each with its before, and
+     main's own water shading from before the batch, generated from git by
+     check-isolated.mjs, which serves this page from the repository root. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+/* the renderer's clock, pinned for the comparisons with main's water (whose ripples run on it):
+   three's node frame adds the time since its last update, so the page holds performance.now
+   still and sets the frame's own time */
+const realNow = performance.now.bind(performance);
+let pinnedNow = null;
+performance.now = () => pinnedNow ?? realNow();
+
+const THREE = await import('three/webgpu');
+const { uniform, float, vec3, vec4, uv, sin, cos, sqrt, positionWorld, cameraPosition, normalize, color } = await import('three/tsl');
+const { waterShading } = await import('/apps/golf/src/engine/water-shading.mjs');
+const { oldWaterShading } = await import('./old-water.gen.mjs');
+const { expectedGlitter, treeLineShare, waterPatchChop, setNordicWaterPreset, waterFlow, waterPatchOffset, waterChop, NORDIC_WATER, waterSun } = await import('/apps/golf/src/engine/nordic-water.mjs');
+const { cloudPatternTexture } = await import('/apps/golf/src/engine/cloud-shadow.mjs');
+const { fillWaterNormalPixels } = await import('/apps/golf/src/engine/water-normal-texture.mjs');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const { createWaterReflectionLighting } = await import('/apps/golf/src/engine/water-lighting.mjs');
+const { setPaintedWorldLighting, paintedWaterLight, paintedWaterSparkle } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { createAerialPerspective } = await import('/apps/golf/src/engine/aerial-perspective.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { fetchGlb, loadFoliageAtlas, fitFoliageTier } = await import('/apps/golf/src/engine/ghibli-tree-assets.mjs');
+const { setFoliageLighting } = await import('/apps/golf/src/engine/ghibli-foliage-material.mjs');
+const { bakeCrownDepth } = await import('/apps/golf/src/engine/crown-depth.mjs');
+const { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } = await import('/apps/golf/src/engine/tree-impostor.mjs');
+const { hash2 } = await import('/apps/golf/src/engine/geom.js');
+
+const backend = new URLSearchParams(location.search).get('backend') || 'webgl2';
+const W = 480, H = 270;
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+
+try {
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true });
+  const readTarget = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    const tone = renderer.toneMapping;
+    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.setRenderTarget(target);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    renderer.toneMapping = tone;
+    const half = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+    return Array.from(half, THREE.DataUtils.fromHalfFloat);
+  };
+  /* where each pixel is, 2 km up the scale in a float target (the output clamps a negative colour) */
+  const OFFSET = 2000;
+  const positionTarget = new THREE.RenderTarget(W, H, { type: THREE.FloatType, depthBuffer: true });
+  const positionMaterial = () => { const m = new THREE.MeshBasicNodeMaterial(); m.colorNode = positionWorld.add(OFFSET); m.fog = false; return m; };
+  const readPositions = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    renderer.setRenderTarget(positionTarget);
+    renderer.setClearColor(0x000000, 0);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    const raw = await renderer.readRenderTargetPixelsAsync(positionTarget, 0, 0, W, H);
+    return Array.from(raw, (v, k) => k % 4 === 3 ? v : (v === 0 ? 0 : v - OFFSET));
+  };
+  /* the function grids read back in full float: their grid coordinates must be exact */
+  const readFloat = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    renderer.setRenderTarget(positionTarget);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    return Array.from(await renderer.readRenderTargetPixelsAsync(positionTarget, 0, 0, W, H));
+  };
+  const show = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    for (let i = 0; i < 3; i++) { renderer.render(scene, camera); await frame(); }
+  };
+
+  /* ------------------------------------------------------------ function grids
+     each writes its value in red and the grid coordinate it used in green and blue */
+  const gridScene = node => {
+    const scene = new THREE.Scene();
+    const m = new THREE.MeshBasicNodeMaterial(); m.fog = false;
+    m.colorNode = node;
+    scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), m));
+    return scene;
+  };
+  const gridCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, -1, 1);
+  const glitterScene = gridScene((() => {
+    const b = uv().x.mul(0.6), sigma = uv().y.mul(0.2);
+    return vec3(expectedGlitter({ V: vec3(0, 1, 0), L: vec3(sin(b.mul(2)), cos(b.mul(2)), 0), sigma }), uv().x, uv().y);
+  })());
+  window.__glitterGrid = () => readFloat(glitterScene, gridCamera);
+  const treeScene = gridScene((() => {
+    const az = uv().x.mul(2).sub(1).mul(Math.PI), up = uv().y.mul(0.12), c = sqrt(float(1).sub(up.mul(up)));
+    return vec3(treeLineShare({ R: vec3(cos(az).mul(c), up, sin(az).mul(c)), up }), uv().x, uv().y);
+  })());
+  window.__treeGrid = () => readFloat(treeScene, gridCamera);
+  const patchDistance = uniform(100);
+  const patchScene = gridScene(vec3(waterPatchChop({ p: uv().sub(0.5).mul(3000), distance: patchDistance }), uv().x, uv().y));
+  window.__patchGrid = async ({ distance, offset }) => { patchDistance.value = distance; waterPatchOffset.value.set(...offset); return readFloat(patchScene, gridCamera); };
+
+  /* ------------------------------------------------------------ the water itself
+     a lake 4 x 3 km at y = 0, deep and open (aShore 200 m, aDepth 50 m), a lake's
+     fetch (aFoam 1) or a pond's (0); the player's own shading, and main's */
+  const WATERN = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 512;
+    const g = c.getContext('2d'), im = g.createImageData(512, 512);
+    fillWaterNormalPixels(im.data, 512, { seamless: true });
+    g.putImageData(im, 0, 0);
+    const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+    return t;
+  })();
+  const DETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const uSun = uniform(new THREE.Vector3(0, 1, 0));
+  const glint = uniform(1), chop = uniform(1);
+  const waterLighting = createWaterReflectionLighting({ enabled: true });
+  const lakeGeometry = fetch => {
+    const g = new THREE.PlaneGeometry(4000, 3000, 200, 150).rotateX(-Math.PI / 2);
+    const n = g.attributes.position.count;
+    g.setAttribute('aShore', new THREE.Float32BufferAttribute(new Float32Array(n).fill(200), 1));
+    g.setAttribute('aFoam', new THREE.Float32BufferAttribute(new Float32Array(n).fill(fetch), 1));
+    g.setAttribute('aDepth', new THREE.Float32BufferAttribute(new Float32Array(n).fill(50), 1));
+    return g;
+  };
+  const lakes = { 1: lakeGeometry(1), 0: lakeGeometry(0) };
+  const waterMaterials = {};
+  const waterMaterial = ({ version, nordic = false, wind = false, ocean = false }) => {
+    const key = `${version}-${nordic}-${wind}-${ocean}`;
+    if (waterMaterials[key]) return waterMaterials[key];
+    const m = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+    if (version === 'main') {
+      const old = oldWaterShading({ WATERN, DETAIL, uSun, waterLighting, uWaterChop: chop, uWaterGlint: glint, CLOUD: null, ocean, showBed: true });
+      m.colorNode = old.colorNode;
+    } else {
+      const { colour } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint, chop, ocean, showBed: true, nordic, wind });
+      m.colorNode = colour.mul(paintedWaterLight);
+    }
+    return (waterMaterials[key] = m);
+  };
+  const waterScene = new THREE.Scene();
+  waterScene.background = new THREE.Color(0);
+  const lakeMesh = new THREE.Mesh(lakes[1], waterMaterial({ version: 'new' }));
+  lakeMesh.frustumCulled = false;
+  waterScene.add(lakeMesh);
+  const waterPositions = new THREE.Scene();
+  waterPositions.add(new THREE.Mesh(new THREE.PlaneGeometry(4000, 3000, 200, 150).rotateX(-Math.PI / 2), positionMaterial()));
+  const views = {
+    /* a player 3 m over the water, looking along the sun's road toward a low sun */
+    road: preset => { const d = new THREE.Vector3(...painted(preset).dir).normalize(); const cam = new THREE.PerspectiveCamera(50, W / H, 0.5, 8000);
+      cam.position.set(0, 3, 0); cam.lookAt(d.x * 1000, -8, d.z * 1000); return cam; },
+    /* from 60 m up, looking out across the lake to its horizon */
+    across: () => { const cam = new THREE.PerspectiveCamera(50, W / H, 0.5, 8000); cam.position.set(0, 60, 1200); cam.lookAt(0, 0, -800); return cam; },
+    /* straight down from 120 m */
+    down: () => { const cam = new THREE.OrthographicCamera(-48, 48, 27, -27, 1, 500); cam.position.set(0, 120, 0); cam.up.set(0, 0, -1); cam.lookAt(0, 0, 0); return cam; },
+  };
+  const setWaterPreset = (name, overrides = {}) => {
+    const p = { ...painted(name), ...overrides };
+    uSun.value.set(...p.dir).normalize();
+    setPaintedWorldLighting(p, name);
+    waterLighting.setPreset(p);
+    setNordicWaterPreset(p, { fogColour: finalFog(p), fogDensity: (p.dens ?? 0.0003) * 0.9, hazeMax: p.hazeMax });
+    return p;
+  };
+  window.__waterPositions = async ({ view, preset = 'golden' }) => readPositions(waterPositions, views[view](preset));
+  window.__water = async ({ version = 'new', nordic = false, wind = false, ocean = false, fetch = 1, preset = 'golden', view = 'road', glint: g = 1,
+    pinned = 1234.5, flow = null, patch = [0, 0], windChop = 1 }) => {
+    setWaterPreset(preset);
+    glint.value = g;
+    waterFlow.forEach((f, i) => f.value.set(...(flow ? flow[i] : [0, 0])));
+    waterPatchOffset.value.set(...patch);
+    waterChop.value = windChop;
+    lakeMesh.geometry = lakes[fetch];
+    lakeMesh.material = waterMaterial({ version, nordic, wind, ocean });
+    const nodeFrame = renderer._nodes.nodeFrame;
+    pinnedNow = 1e9; nodeFrame.lastTime = pinnedNow; nodeFrame.time = pinned;
+    const px = await readTarget(waterScene, views[view](preset));
+    pinnedNow = null; nodeFrame.lastTime = undefined;
+    return { px, sun: waterSun.value.toArray(), sparkle: paintedWaterSparkle.value, light: paintedWaterLight.value };
+  };
+
+  /* ------------------------------------------------------------ pictures
+     a lake at golden hour and at noon, a wood along its far shore and round it,
+     with the batch's light and ripples, and without them */
+  const treeBase = '/apps/golf/public/models/trees/';
+  const manifest = await (await fetch(treeBase + 'ghibli-fluffy.json')).json();
+  const entry = manifest.species.find(e => e.key === 'gran');
+  const variant = entry.variants[0], rec = variant.tiers.hero;
+  const foliageMap = await loadFoliageAtlas(treeBase, entry.foliage.atlas, fetch);
+  const spruce = await fetchGlb(treeBase + rec.file, rec, fetch);
+  fitFoliageTier(spruce, variant.templateHeight, variant.templateRadius);
+  bakeCrownDepth(spruce.crown);
+  const atlas = bakeImpostorAtlas(renderer, { crown: spruce.crown, trunk: spruce.trunk, trunkColor: new THREE.Color(...spruce.trunkMean),
+    foliage: { key: entry.foliage.key, map: foliageMap } });
+  const picture = (() => {
+    const scene = new THREE.Scene();
+    const fog = new THREE.FogExp2(0xffffff, 0.0003);
+    scene.fog = fog;
+    const aerial = createAerialPerspective(fog, {});
+    scene.fogNode = aerial.node;
+    const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+    const shore = new THREE.Mesh(new THREE.RingGeometry(900, 6000, 64, 4).rotateX(-Math.PI / 2), new THREE.MeshStandardNodeMaterial({ color: 0x5f8a45, roughness: 0.95 }));
+    shore.position.y = 0.4;
+    const sunLight = new THREE.DirectionalLight(0xffffff, 2), hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    const water = new THREE.Mesh(new THREE.CircleGeometry(1000, 96).rotateX(-Math.PI / 2), waterMaterial({ version: 'new' }));
+    const n = water.geometry.attributes.position.count;
+    for (const [name, value] of [['aShore', 200], ['aFoam', 1], ['aDepth', 50]]) water.geometry.setAttribute(name, new THREE.Float32BufferAttribute(new Float32Array(n).fill(value), 1));
+    const list = [];
+    for (let a = 0; a < 2 * Math.PI; a += 0.0045) for (let r = 930; r < 1250; r += 14) {
+      const x = Math.cos(a) * (r + hash2(a * 90, r) * 10), z = Math.sin(a) * (r + hash2(r, a * 70) * 10);
+      if (hash2(x * 0.02, z * 0.02) > 0.82) continue;
+      list.push([x, z]);
+    }
+    const geometry = createImpostorGeometry(list.length);
+    const P = geometry.getAttribute('aImpostorPos').array, Q = geometry.getAttribute('aImpostorParam').array;
+    list.forEach(([x, z], i) => { P.set([x, 0.4, z], i * 3); const s = 0.9 + hash2(x, z) * 0.4; Q.set([hash2(z, x) * 6.28, s, s, 0], i * 4); });
+    geometry.instanceCount = list.length;
+    const trees = new THREE.Mesh(geometry, createImpostorMaterial(atlas, { crownBase: color(0x2c5230), sunDirection: uSun }));
+    trees.frustumCulled = false;
+    scene.add(sky, shore, sunLight, sunLight.target, hemi, water, trees);
+    return { scene, fog, aerial, sky, sunLight, hemi, water };
+  })();
+  window.__picture = async ({ preset, nordic, wind, patch = [0, 0], flow = null, view = 'shore' }) => {
+    const p = setWaterPreset(preset);
+    setFoliageLighting(p);
+    const w = picture, d = new THREE.Vector3(...p.dir).normalize();
+    w.sunLight.color.setHex(p.sun); w.sunLight.intensity = p.int; w.sunLight.position.copy(d).multiplyScalar(500);
+    w.hemi.color.setHex(p.hemiS); w.hemi.groundColor.setHex(p.hemiG); w.hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    const fogColour = finalFog(p);
+    w.fog.color.copy(fogColour); w.fog.density = (p.dens ?? 0.0003) * 0.9;
+    w.aerial.setPreset(p);
+    setAtmospherePreset(w.sky, p); setSkyGroundHaze(w.sky, fogColour);
+    renderer.toneMappingExposure = p.exp;
+    waterFlow.forEach((f, i) => f.value.set(...(flow ? flow[i] : [0, 0])));
+    waterPatchOffset.value.set(...patch);
+    waterChop.value = 1;
+    /* the sun's sparkle at full strength, whatever the checks last asked for */
+    glint.value = 1; chop.value = 1;
+    w.water.material = waterMaterial({ version: 'new', nordic, wind });
+    /* from the near shore, 4 m up, looking across the lake toward the sun's azimuth */
+    const cam = new THREE.PerspectiveCamera(50, W / H, 0.5, 20000);
+    cam.position.set(-d.x * 880, 4, -d.z * 880); cam.lookAt(d.x * 1000, 30, d.z * 1000);
+    await show(w.scene, cam);
+    return true;
+  };
+
+  window.__result = { backend, W, H, ready: true, patternBytes: Array.from(cloudPatternTexture().bytes), constants: NORDIC_WATER };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>

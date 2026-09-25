@@ -122,6 +122,14 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   and impostors take the same per-vertex share (`sunlit`) and dim as open ground
   does. Valley mist is part of the haze, per vertex (`aerial-perspective.mjs`).
   See [the air batch](docs/visual-air-2026-09-25.md).
+- The water's colour lives in `water-shading.mjs` (its sheets' passes, depth
+  and masks in `main.js`). Past a few hundred metres the sun's dabs give way to
+  their expectation over the ripple map's own spread of slopes
+  (`nordic-water.mjs`); it is fitted to the map, so keep `slopeSpread` and the
+  glitter form in step with `water-normal-texture.mjs` (the unit test measures
+  both). The reflection takes the sky's own sun glow and a dark far-shore band,
+  read off a calmer surface, and the ripples, foam and calm/gusty patches drift
+  with the one wind. See [the water batch](docs/visual-water-2026-09-25.md).
 
 ## Build and focused checks
 

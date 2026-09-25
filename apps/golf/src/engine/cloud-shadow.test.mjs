@@ -92,7 +92,9 @@ describe('cloud shadows', () => {
     expect(main).toMatch(/sun\.colorNode = clouded\.colorNode/);
     /* the painted crowns and both impostor batches take the same per-vertex share */
     expect((main.match(/sunlit: SUNLIT/g) || []).length).toBe(3);
-    expect(main).toMatch(/sparkle\.mul\(CLOUD\.sunlightAt\(positionWorld\)\)/);
+    /* the water's sparkle, in its own shading (water-shading.mjs), to which main.js hands the clouds */
+    expect(fs.readFileSync(new URL('./water-shading.mjs', import.meta.url), 'utf8')).toMatch(/sparkle\.mul\(cloud\.sunlightAt\(positionWorld\)\)/);
+    expect(main).toMatch(/cloud: CLOUD, ocean, showBed/);
     expect(main).toMatch(/createFlagMaterial\(flagAtlas, uSun, SUNLIT \? uThroughSun\.mul\(SUNLIT\) : uThroughSun\)/);
     expect((main.match(/mul\(uSunThrough\)\.mul\(SUNLIT \?\? 1\)/g) || []).length).toBe(3);
     expect(main).toMatch(/CLOUD\.setPreset\(p\); CLOUD\.setSun\(d\);/);

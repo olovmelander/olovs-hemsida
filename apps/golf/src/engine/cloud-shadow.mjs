@@ -87,15 +87,25 @@ export function cloudShadowOf(preset) {
   return cover > 0 && opacity > 0 ? { cover, opacity } : { cover: 0, opacity: 0 };
 }
 
-export function createCloudShadow() {
-  const { size, tileMetres, softness, sunFloor } = CLOUD_SHADOW;
+/* One copy of the pattern, shared: the water's calm and gusty patches read it
+   too, at their own scale (nordic-water.mjs). Uploaded as it is: a single-channel
+   byte texture, tiling, filtered, no mips (the clouds read it at level 0). */
+let shared = null;
+export function cloudPatternTexture() {
+  if (shared) return shared;
+  const { size } = CLOUD_SHADOW;
   const bytes = cloudPattern(size);
-  /* uploaded as it is: a single-channel byte texture, tiling, filtered, no mips (it is read at level 0) */
   const map = new DataTexture(bytes, size, size, RedFormat, UnsignedByteType);
   map.wrapS = map.wrapT = RepeatWrapping;
   map.magFilter = map.minFilter = LinearFilter;
   map.generateMipmaps = false;
   map.needsUpdate = true;
+  return (shared = { bytes, map });
+}
+
+export function createCloudShadow() {
+  const { tileMetres, softness, sunFloor } = CLOUD_SHADOW;
+  const { bytes, map } = cloudPatternTexture();
   const offset = uniform(new Vector2(0, 0)).setGroup(renderGroup);
   const threshold = uniform(2).setGroup(renderGroup), opacity = uniform(0).setGroup(renderGroup);
   /* how far the pattern moves per metre of height, along the sun: the sun's ground direction over its height */
