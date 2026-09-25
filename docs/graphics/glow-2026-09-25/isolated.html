@@ -1,0 +1,402 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Glow batch: isolated checks</title>
+<!-- What the glow's threshold sees: the player's own sky, haze, Nordic water,
+     far-shore wood, crowns and ground material, lit by the preset's sun, sky
+     fill and baked environment as main.js lights them, read back from a
+     half-float target before exposure and tone mapping -- the colour the bloom's
+     high pass takes (three's BloomNode: luminance, then smoothstep from the
+     threshold). Served from the repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+/* one pinned clock for every pass of a view: the passes are told apart by what differs between them */
+const realNow = performance.now.bind(performance);
+let pinnedNow = null;
+performance.now = () => pinnedNow ?? realNow();
+
+const THREE = await import('three/webgpu');
+const { uniform, color, float, vec3, normalize, positionWorld, cameraPosition } = await import('three/tsl');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { createAerialPerspective } = await import('/apps/golf/src/engine/aerial-perspective.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, PAINTED_GROUND, PAINTED_SCENERY } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { createLightingEnvironment } = await import('/apps/golf/src/engine/lighting-environment.mjs');
+const { setPaintedWorldLighting, paintedWaterLight } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { waterShading } = await import('/apps/golf/src/engine/water-shading.mjs');
+const { setNordicWaterPreset } = await import('/apps/golf/src/engine/nordic-water.mjs');
+const { fillWaterNormalPixels } = await import('/apps/golf/src/engine/water-normal-texture.mjs');
+const { createWaterReflectionLighting } = await import('/apps/golf/src/engine/water-lighting.mjs');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const { fetchGlb, loadFoliageAtlas, fitFoliageTier } = await import('/apps/golf/src/engine/ghibli-tree-assets.mjs');
+const { makeGhibliFoliageMaterial, setFoliageLighting } = await import('/apps/golf/src/engine/ghibli-foliage-material.mjs');
+const { bakeCrownDepth } = await import('/apps/golf/src/engine/crown-depth.mjs');
+const { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } = await import('/apps/golf/src/engine/tree-impostor.mjs');
+const { hash2 } = await import('/apps/golf/src/engine/geom.js');
+const { createGroundAtlas } = await import('/apps/golf/src/engine/atlas.js');
+const { createV2GroundMaterialDecorator } = await import('/apps/golf/src/engine/material.js');
+const { SURFACE } = await import('/apps/golf/src/engine/surface.js');
+const { GLOW, glowThresholdOf } = await import('/apps/golf/src/engine/glow.mjs');
+const { installOutputDither } = await import('/apps/golf/src/engine/output-dither.mjs');
+const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
+const { pass } = await import('three/tsl');
+/* main's own sky before the batch, generated from git by check-isolated.mjs when it runs */
+const mainSky = await import('./old-atmospheric-sky.gen.mjs').catch(() => null);
+
+const backend = new URLSearchParams(location.search).get('backend') || 'webgl2';
+const W = +(new URLSearchParams(location.search).get('w') || 480), H = +(new URLSearchParams(location.search).get('h') || 270);
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+/* the preset as the player takes it, or with both before switches: one threshold and the clouds' flat paint */
+const presetFor = (name, before) => before ? { ...painted(name), skyCloudGlow: 0, bloomThreshold: GLOW.threshold } : painted(name);
+/* the fog colour as main.js setPreset leaves it: the preset's, a fifth toward the painted fog */
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+const b64 = a => { const u = new Uint8Array(a.buffer, a.byteOffset, a.byteLength); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+
+try {
+  /* as the app: 4x MSAA, HalfFloat output, reversed depth on WebGPU only */
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
+  /* ACES with the app's dither (output-dither.mjs), for the pictures; the read-backs take none */
+  installOutputDither(renderer);
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+
+  /* ---------------------------------------------------------------- read-backs */
+  const colourTarget = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true, samples: 4 });
+  const floatTarget = new THREE.RenderTarget(W, H, { type: THREE.FloatType, depthBuffer: true });
+  const pin = () => { const f = renderer._nodes.nodeFrame; pinnedNow = 1e9; f.lastTime = pinnedNow; f.time = 1234.5; };
+  /* the scene's linear colour, as the scene pass hands it to the bloom: no exposure, no tone mapping */
+  const readColour = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    const tone = renderer.toneMapping;
+    renderer.toneMapping = THREE.NoToneMapping;
+    pin();
+    renderer.setRenderTarget(colourTarget);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    renderer.toneMapping = tone;
+    const half = await renderer.readRenderTargetPixelsAsync(colourTarget, 0, 0, W, H);
+    if (half.length !== W * H * 4) throw new Error(`unexpected readback size ${half.length}`);
+    return Float32Array.from(half, THREE.DataUtils.fromHalfFloat);
+  };
+  /* each pixel's ray, from an inverted sphere round the eye (2 up the scale: the output clamps a negative) */
+  const dirScene = new THREE.Scene();
+  const dirMaterial = new THREE.MeshBasicNodeMaterial({ side: THREE.BackSide });
+  dirMaterial.fog = false;
+  dirMaterial.colorNode = normalize(positionWorld.sub(cameraPosition)).add(2);
+  const dirSphere = new THREE.Mesh(new THREE.SphereGeometry(40, 96, 48), dirMaterial);
+  dirSphere.frustumCulled = false;
+  dirScene.add(dirSphere);
+  const readRays = async camera => {
+    dirSphere.position.copy(camera.position);
+    await renderer.compileAsync(dirScene, camera);
+    renderer.setRenderTarget(floatTarget);
+    renderer.render(dirScene, camera);
+    renderer.setRenderTarget(null);
+    const raw = await renderer.readRenderTargetPixelsAsync(floatTarget, 0, 0, W, H);
+    return Float32Array.from(raw, (v, k) => k % 4 === 3 ? v : v - 2);
+  };
+  const differs = (a, b, k) => Math.abs(a[k] - b[k]) > 1e-3 || Math.abs(a[k + 1] - b[k + 1]) > 1e-3 || Math.abs(a[k + 2] - b[k + 2]) > 1e-3;
+  /* A view read back with every pixel labelled by what it shows: `layers` are
+     [code, objects] pairs, each told apart by hiding it (later layers over earlier
+     ones); `sky` the sky mesh, its pixels those the sky alone draws the same, and
+     its clouds those that change when the cloud layer is emptied. */
+  const CODE = { other: 0, clear: 1, cloud: 2 };
+  const readView = async ({ scene, camera, layers = [], sky = null }) => {
+    const full = await readColour(scene, camera);
+    const label = new Uint8Array(W * H);
+    for (const [code, objects] of layers) {
+      for (const o of objects) o.visible = false;
+      const without = await readColour(scene, camera);
+      for (const o of objects) o.visible = true;
+      for (let i = 0; i < W * H; i++) if (differs(full, without, i * 4)) label[i] = code;
+    }
+    if (sky) {
+      const hidden = scene.children.filter(o => o !== sky && o.visible && !o.isLight);
+      for (const o of hidden) o.visible = false;
+      const alone = await readColour(scene, camera);
+      const density = sky.cloudDensity.value;
+      sky.cloudDensity.value = 0;
+      const clear = await readColour(scene, camera);
+      sky.cloudDensity.value = density;
+      for (const o of hidden) o.visible = true;
+      for (let i = 0; i < W * H; i++) {
+        if (label[i] || differs(full, alone, i * 4)) continue;
+        label[i] = differs(alone, clear, i * 4) ? CODE.cloud : CODE.clear;
+      }
+    }
+    const rays = await readRays(camera);
+    return { colour: b64(full), label: b64(label), rays: b64(rays) };
+  };
+
+  /* ---------------------------------------------------------------- the light */
+  const lights = scene => {
+    const sun = new THREE.DirectionalLight(0xffffff, 3), hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    scene.add(sun, sun.target, hemi);
+    return { sun, hemi };
+  };
+  /* the preset's baked environment, as main.js createLightingEnvironment (graphics polish on) */
+  const environmentScene = new THREE.Scene();
+  const environment = createLightingEnvironment(renderer, environmentScene, { enabled: true });
+  const light = (p, name, scene, { sun, hemi }, sky = null) => {
+    const d = new THREE.Vector3(...p.dir).normalize();
+    sun.color.setHex(p.sun); sun.intensity = p.int; sun.position.copy(d).multiplyScalar(500);
+    hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    environment.setPreset(name, p);
+    scene.environment = environmentScene.environment;
+    scene.environmentIntensity = environmentScene.environmentIntensity;
+    setPaintedWorldLighting(p, name);
+    setFoliageLighting(p);
+    if (sky) { setAtmospherePreset(sky, p); setSkyGroundHaze(sky, finalFog(p)); }
+    return d;
+  };
+
+  /* ---------------------------------------------------------------- the lake
+     a lake 1 km round with a wooded far shore, under the preset's sky and haze,
+     as the water batch's picture: the sky round the sun, its clouds, the sun's
+     road on the water and the wood against the light, in one view */
+  const WATERN = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 512;
+    const g = c.getContext('2d'), im = g.createImageData(512, 512);
+    fillWaterNormalPixels(im.data, 512, { seamless: true });
+    g.putImageData(im, 0, 0);
+    const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+    return t;
+  })();
+  const DETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const uSun = uniform(new THREE.Vector3(0, 1, 0));
+  const waterLighting = createWaterReflectionLighting({ enabled: true });
+  const treeBase = '/apps/golf/public/models/trees/';
+  const manifest = await (await fetch(treeBase + 'ghibli-fluffy.json')).json();
+  const trees = {};
+  const loadTree = async key => {
+    if (trees[key]) return trees[key];
+    const entry = manifest.species.find(e => e.key === key);
+    const variant = entry.variants[0], rec = variant.tiers.hero;
+    const map = await loadFoliageAtlas(treeBase, entry.foliage.atlas, fetch);
+    const model = await fetchGlb(treeBase + rec.file, rec, fetch);
+    fitFoliageTier(model, variant.templateHeight, variant.templateRadius);
+    bakeCrownDepth(model.crown);
+    const foliage = { key: entry.foliage.key, map };
+    const atlas = bakeImpostorAtlas(renderer, { crown: model.crown, trunk: model.trunk, trunkColor: new THREE.Color(...model.trunkMean), foliage });
+    return (trees[key] = { model, foliage, atlas, height: variant.templateHeight });
+  };
+  const spruce = await loadTree('gran');
+  const lake = (() => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const fog = new THREE.FogExp2(0xffffff, 0.0003);
+    scene.fog = fog;
+    const aerial = createAerialPerspective(fog, { sunward: true });
+    scene.fogNode = aerial.node;
+    const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+    const shore = new THREE.Mesh(new THREE.RingGeometry(900, 6000, 64, 4).rotateX(-Math.PI / 2), new THREE.MeshStandardNodeMaterial({ color: PAINTED_GROUND.rough, roughness: 0.95 }));
+    shore.position.y = 0.4;
+    const waterMat = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+    const { colour } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uniform(1), chop: uniform(1), ocean: false, showBed: true, nordic: true, wind: true });
+    waterMat.colorNode = colour.mul(paintedWaterLight);
+    const water = new THREE.Mesh(new THREE.CircleGeometry(1000, 96).rotateX(-Math.PI / 2), waterMat);
+    const n = water.geometry.attributes.position.count;
+    for (const [name, value] of [['aShore', 200], ['aFoam', 1], ['aDepth', 50]]) water.geometry.setAttribute(name, new THREE.Float32BufferAttribute(new Float32Array(n).fill(value), 1));
+    const list = [];
+    for (let a = 0; a < 2 * Math.PI; a += 0.0045) for (let r = 930; r < 1250; r += 14) {
+      const x = Math.cos(a) * (r + hash2(a * 90, r) * 10), z = Math.sin(a) * (r + hash2(r, a * 70) * 10);
+      if (hash2(x * 0.02, z * 0.02) > 0.82) continue;
+      list.push([x, z]);
+    }
+    const geometry = createImpostorGeometry(list.length);
+    const P = geometry.getAttribute('aImpostorPos').array, Q = geometry.getAttribute('aImpostorParam').array;
+    list.forEach(([x, z], i) => { P.set([x, 0.4, z], i * 3); const s = 0.9 + hash2(x, z) * 0.4; Q.set([hash2(z, x) * 6.28, s, s, 0], i * 4); });
+    geometry.instanceCount = list.length;
+    const wood = new THREE.Mesh(geometry, createImpostorMaterial(spruce.atlas, { crownBase: color(0x2c5230), sunDirection: uSun }));
+    wood.frustumCulled = false;
+    scene.add(sky, shore, water, wood);
+    return { scene, fog, aerial, sky, shore, water, wood, ...lights(scene) };
+  })();
+  const LAKE = { clear: 1, cloud: 2, water: 3, wood: 4 };
+  const setLake = ({ preset, view = 'sun', before = false }) => {
+    const p = presetFor(preset, before);
+    const d = light(p, preset, lake.scene, lake, lake.sky);
+    uSun.value.copy(d);
+    waterLighting.setPreset(p);
+    const fogColour = finalFog(p);
+    lake.fog.color.copy(fogColour); lake.fog.density = (p.dens ?? 0.0003) * 0.9;
+    lake.aerial.setPreset(p);
+    setNordicWaterPreset(p, { fogColour, fogDensity: lake.fog.density, hazeMax: p.hazeMax });
+    /* from 4 m over the water near one shore, looking across it: toward the sun's
+       azimuth (the sun in the frame when it is low), at right angles to it, or away */
+    const az = Math.atan2(d.x, d.z) + { sun: 0, side: Math.PI / 2, away: Math.PI }[view];
+    const ahead = new THREE.Vector3(Math.sin(az), 0, Math.cos(az));
+    const camera = new THREE.PerspectiveCamera(50, W / H, 0.5, 20000);
+    camera.position.copy(ahead).multiplyScalar(-880).setY(4);
+    camera.lookAt(camera.position.clone().add(ahead.clone().multiplyScalar(1000)).setY(4 + 1000 * Math.tan(6 * Math.PI / 180)));
+    return { p, d, scene: lake.scene, camera, sky: lake.sky, layers: [[LAKE.water, [lake.water]], [LAKE.wood, [lake.wood]]], extra: { codes: LAKE } };
+  };
+
+  /* ---------------------------------------------------------------- the crowns
+     an approved Hero crown drawn with the player's foliage material (baked depth,
+     back-light), in front of the painted sky over a lawn */
+  const grove = (() => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+    const lawn = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000).rotateX(-Math.PI / 2), new THREE.MeshStandardNodeMaterial({ color: PAINTED_GROUND.rough, roughness: 0.95 }));
+    scene.add(sky, lawn);
+    return { scene, sky, lawn, meshes: {}, ...lights(scene) };
+  })();
+  const GROVE = { clear: 1, cloud: 2, crown: 5, trunk: 6 };
+  const setCrown = async ({ key = 'gran', preset, view = 'sun', before = false }) => {
+    const tree = await loadTree(key);
+    if (!grove.meshes[key]) {
+      const crown = new THREE.Mesh(tree.model.crown, makeGhibliFoliageMaterial({ key: tree.foliage.key, map: tree.foliage.map, sunDirection: uSun,
+        tint: vec3(1), seed: float(0.5), autumn: float(0), backLight: true }));
+      const trunk = new THREE.Mesh(tree.model.trunk, new THREE.MeshStandardNodeMaterial({ vertexColors: true, roughness: 0.95 }));
+      grove.meshes[key] = { crown, trunk };
+    }
+    for (const m of Object.values(grove.meshes)) grove.scene.remove(m.crown, m.trunk);
+    const { crown, trunk } = grove.meshes[key];
+    grove.scene.add(crown, trunk);
+    const p = presetFor(preset, before);
+    const d = light(p, preset, grove.scene, grove, grove.sky);
+    uSun.value.copy(d);
+    /* toward the sun through the crown, across it, or with the sun behind the eye */
+    const az = Math.atan2(d.x, d.z) + { sun: Math.PI, side: Math.PI / 2, away: 0 }[view];
+    const camera = new THREE.PerspectiveCamera(40, W / H, 0.5, 14000);
+    camera.position.set(Math.sin(az) * 34, 1.7, Math.cos(az) * 34);
+    camera.lookAt(0, tree.height * 0.55, 0);
+    return { p, d, scene: grove.scene, camera, sky: grove.sky, layers: [[GROVE.trunk, [trunk]], [GROVE.crown, [crown]]], extra: { codes: GROVE } };
+  };
+
+  /* ---------------------------------------------------------------- the ground
+     fairway, green, bunker and path strips, each 20 m long, on the app's own
+     exact-edge atlas and ground material with its gloss and edges, in rough; a
+     block of the buildings' white trim and a white ball on the grass */
+  const Lin = hex => { const c = new THREE.Color(hex); return [c.r, c.g, c.b]; };
+  const GC = Object.fromEntries(Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, Lin(hex)]));
+  const GSHADE = {
+    [SURFACE.ROUGH]: [0.62, 1.25, 0.06, 0], [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.5],
+    [SURFACE.FAIRWAY]: [1.55, 0.44, 0.28, 1.15], [SURFACE.GREEN]: [2.85, 0.13, 0.54, 0.9],
+    [SURFACE.FRINGE]: [2.0, 0.30, 0.34, 0.9], [SURFACE.TEE]: [2.2, 0.22, 0.40, 1.3],
+    [SURFACE.SAND]: [2.3, 0.58, 0.14, 0], [SURFACE.PATH]: [3.2, 0.34, 0.18, 0],
+  };
+  const square = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
+  const STRIPS = { fairway: [-23, -15], green: [-13, -5], sand: [-3, 5], path: [8, 11] };
+  const groundAtlas = createGroundAtlas({ CORE: { x0: -30, z0: -20, x1: 30, z1: 20 }, res: 0.5, features: [
+    { surface: SURFACE.FAIRWAY, rings: [square(STRIPS.fairway[0], -10, STRIPS.fairway[1], 10)] },
+    { surface: SURFACE.GREEN, rings: [square(STRIPS.green[0], -10, STRIPS.green[1], 10)] },
+    { surface: SURFACE.SAND, rings: [square(STRIPS.sand[0], -10, STRIPS.sand[1], 10)] },
+    { surface: SURFACE.PATH, rings: [square(STRIPS.path[0], -10, STRIPS.path[1], 10)] },
+  ] });
+  const TN = 16, tintData = new Uint8Array(TN * TN * 4);
+  const roughHex = PAINTED_GROUND.rough;
+  for (let k = 0; k < TN * TN; k++) tintData.set([(roughHex >> 16) & 255, (roughHex >> 8) & 255, roughHex & 255, 128], k * 4);
+  const tintTexture = new THREE.DataTexture(tintData, TN, TN, THREE.RGBAFormat, THREE.UnsignedByteType);
+  Object.assign(tintTexture, { colorSpace: THREE.SRGBColorSpace, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, generateMipmaps: false, flipY: false, needsUpdate: true });
+  const course = (() => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+    const decorate = createV2GroundMaterialDecorator({ atlas: groundAtlas, DETAIL, C: GC, SHADE: GSHADE, uSun, graphicsPolish: true,
+      tint: { near: { texture: tintTexture, bounds: { x0: -80, z0: -80, x1: 80, z1: 80 }, fadeMetres: 8 } },
+      cutTone: 1, mowStrength: 1, surfaceGloss: true, surfaceEdges: true, groundRelief: true });
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(60, 40, 60, 40).rotateX(-Math.PI / 2), decorate(new THREE.MeshStandardNodeMaterial()));
+    const trim = new THREE.Mesh(new THREE.BoxGeometry(1.2, 1.2, 1.2), new THREE.MeshStandardNodeMaterial({ color: PAINTED_SCENERY.trim, roughness: 0.8 }));
+    const ball = new THREE.Mesh(new THREE.SphereGeometry(0.35, 32, 16), new THREE.MeshStandardNodeMaterial({ color: 0xf4f4f0, roughness: 0.45 }));
+    const flag = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.5, 0.02), new THREE.MeshStandardNodeMaterial({ color: 0xedc943, roughness: 0.82 }));
+    scene.add(sky, ground, trim, ball, flag);
+    return { scene, sky, ground, trim, ball, flag, ...lights(scene) };
+  })();
+  const COURSE = { clear: 1, cloud: 2, ground: 7, trim: 8, ball: 9, flag: 10 };
+  const setCourse = ({ preset, view = 'sun', before = false }) => {
+    const p = presetFor(preset, before);
+    const d = light(p, preset, course.scene, course, course.sky);
+    uSun.value.copy(d);
+    /* from eye height at the strips' side, looking over all four toward the sun, or away from it */
+    const az = Math.atan2(d.x, d.z) + { sun: 0, side: Math.PI / 2, away: Math.PI }[view];
+    const ahead = new THREE.Vector3(Math.sin(az), 0, Math.cos(az)), side = new THREE.Vector3(ahead.z, 0, -ahead.x);
+    const centre = new THREE.Vector3(-6, 0, 0);
+    const camera = new THREE.PerspectiveCamera(60, W / H, 0.2, 14000);
+    camera.position.copy(centre).addScaledVector(ahead, -16).setY(1.7);
+    camera.lookAt(centre.clone().addScaledVector(ahead, 6));
+    course.trim.position.copy(centre).addScaledVector(ahead, -5).addScaledVector(side, 2.5).setY(0.6);
+    course.ball.position.copy(centre).addScaledVector(ahead, -6).addScaledVector(side, -2).setY(0.35);
+    /* the flag's yellow, a card as big as the flag at its height, square to the sun */
+    course.flag.position.copy(centre).addScaledVector(ahead, -4).addScaledVector(side, -4.5).setY(2.28);
+    course.flag.lookAt(course.flag.position.clone().add(new THREE.Vector3(d.x, 0, d.z)));
+    return { p, d, scene: course.scene, camera, sky: course.sky,
+      layers: [[COURSE.ground, [course.ground]], [COURSE.trim, [course.trim]], [COURSE.ball, [course.ball]], [COURSE.flag, [course.flag]]],
+      extra: { codes: COURSE, eye: camera.position.toArray(), strips: STRIPS } };
+  };
+
+  /* ---------------------------------------------------------------- the before
+     the player's sky with both befores beside main's own, in one scene and view */
+  const pair = (() => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const now = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+    const main = mainSky ? mainSky.createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true }) : null;
+    return { scene, now, main };
+  })();
+  window.__skyPair = async ({ preset, view = 'sun' }) => {
+    if (!pair.main) throw new Error('main\'s sky was not generated');
+    const p = presetFor(preset, true), d = new THREE.Vector3(...p.dir).normalize();
+    setAtmospherePreset(pair.now, p); setSkyGroundHaze(pair.now, finalFog(p));
+    mainSky.setAtmospherePreset(pair.main, p); mainSky.setSkyGroundHaze(pair.main, finalFog(p));
+    const az = Math.atan2(d.x, d.z) + { sun: 0, side: Math.PI / 2, away: Math.PI }[view];
+    const camera = new THREE.PerspectiveCamera(50, W / H, 0.5, 20000);
+    camera.position.set(0, 4, 0);
+    camera.lookAt(Math.sin(az) * 1000, 4 + 1000 * Math.tan(6 * Math.PI / 180), Math.cos(az) * 1000);
+    const read = async sky => { pair.scene.add(sky); const px = await readColour(pair.scene, camera); pair.scene.remove(sky); return px; };
+    return { now: b64(await read(pair.now)), main: b64(await read(pair.main)) };
+  };
+
+  /* ---------------------------------------------------------------- read-back and pictures */
+  const SETUPS = { lake: setLake, crown: setCrown, course: setCourse };
+  window.__read = async ({ kind, ...options }) => {
+    const v = await SETUPS[kind](options);
+    const out = await readView(v);
+    return { ...out, ...v.extra, sun: v.d.toArray(), threshold: glowThresholdOf(v.p), strength: v.p.bloom ?? 0.14 };
+  };
+  /* through the app's own pipeline (main.js): the scene pass, the bloom at the
+     preset's strength and threshold with the knee, ACES with the dither at the
+     preset's exposure -- or with both befores */
+  window.__picture = async ({ kind, glowOnly = 0, ...options }) => {
+    const v = await SETUPS[kind](options);
+    const post = new THREE.RenderPipeline(renderer);
+    const scenePass = pass(v.scene, v.camera);
+    const sceneColor = scenePass.getTextureNode('output');
+    const glow = bloom(sceneColor, v.p.bloom ?? 0.14, GLOW.radius, glowThresholdOf(v.p));
+    glow.smoothWidth.value = GLOW.knee;
+    /* or the glow alone, scaled up to be seen */
+    post.outputNode = glowOnly ? glow.mul(glowOnly) : sceneColor.add(glow);
+    renderer.toneMappingExposure = v.p.exp;
+    pin();
+    for (let i = 0; i < 3; i++) { post.render(); await frame(); }
+    post.dispose();
+    return true;
+  };
+
+  window.__result = { backend, W, H, ready: true, mainSky: !!mainSky };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>

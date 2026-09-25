@@ -108,6 +108,7 @@ import { groundReliefBytes } from './engine/ground-relief.mjs';
 import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift } from './engine/one-wind.mjs';
 import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
+import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { waterShading } from './engine/water-shading.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
@@ -2019,9 +2020,18 @@ const INITIAL_ATMOSPHERE = paintedAtmosphere(INITIAL_PRESET, PRESETS[INITIAL_PRE
    midnight sun and autumn -- not in golden hour's alone.
    ?sunglow=0 is the before. */
 const SUN_GLOW_BEFORE = new URLSearchParams(location.search).get('sunglow') === '0';
+/* THE GLOW AT A LOW SUN (engine/glow.mjs): each low-sun preset's own glow
+   threshold, just above its broad sky paint, and the clouds' centres shining
+   toward the sun past it. ?glowthreshold=0 keeps 0.86 for every light and
+   ?cloudglow=0 the clouds' flat paint: the before. The shine is there to be
+   glowed: without the bloom -- low quality, or after the runtime drop -- the
+   clouds keep their paint, so phones see the sky they did. */
+const GLOW_THRESHOLD_ON = new URLSearchParams(location.search).get('glowthreshold') !== '0';
+const CLOUD_GLOW_ON = new URLSearchParams(location.search).get('cloudglow') !== '0';
 const skyPreset = (p, name) => ({ ...p,
   ...(SUN_GLOW_BEFORE && name !== 'golden' ? { skySunGlowStrength: 0 } : {}),
-  ...(HAZE_WARM ? {} : { hazeGlow: 0 }) });
+  ...(HAZE_WARM ? {} : { hazeGlow: 0 }),
+  ...(CLOUD_GLOW_ON && !LOWQ && !lowfx ? {} : { skyCloudGlow: 0 }) });
 setAtmospherePreset(skyMesh, skyPreset(INITIAL_ATMOSPHERE, INITIAL_PRESET));
 const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
 waterLighting.setPreset(INITIAL_ATMOSPHERE);
@@ -2072,6 +2082,8 @@ function setPreset(name, overrides = null) {
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
   if (renderer.__bloomNode) renderer.__bloomNode.strength.value = lowfx ? 0 : (p.bloom ?? 0.14);
+  /* and so does the threshold: a low sun's is lowered to just above its sky's paint (engine/glow.mjs) */
+  if (renderer.__bloomNode) renderer.__bloomNode.threshold.value = GLOW_THRESHOLD_ON ? glowThresholdOf(p) : GLOW.threshold;
   placeSun();
   document.querySelectorAll('[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === name));
   if (window.__navDrawer) window.__navDrawer.updateActivePreset(presetName);
@@ -8039,11 +8051,12 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const scenePass = pass(scene, camera);
   openingScenePass = scenePass;
   const sceneColor = scenePass.getTextureNode('output');
-  const bloomNode = bloom(sceneColor, 0.14, 0.3, 0.86);
+  const bloomNode = bloom(sceneColor, 0.14, GLOW.radius, GLOW.threshold);
   /* a knee, not a switch: at the stock 0.01 a sunlit flag or trim crossing the
-     threshold turned its whole halo on in one frame. It now grows from 0.86 to
-     1.16. ?bloomknee=hard is the before (and the lamps' old strength). */
-  if (new URLSearchParams(location.search).get('bloomknee') !== 'hard') bloomNode.smoothWidth.value = 0.3;
+     threshold turned its whole halo on in one frame. It now grows over 0.3 from
+     the preset's threshold (0.86 to 1.16 at noon). ?bloomknee=hard is the before
+     (and the lamps' old strength). */
+  if (new URLSearchParams(location.search).get('bloomknee') !== 'hard') bloomNode.smoothWidth.value = GLOW.knee;
   const out = sceneColor.add(bloomNode);
   // Pigments and lighting now carry the colour. A global saturation/contrast
   // boost clipped the grass greens and made high/low quality disagree.
@@ -11901,7 +11914,8 @@ window.V3D = {
   quality: () => ({ lowfx, lowq: LOWQ, phone: phoneDevice, autoQualityDone, qualityLocked: QUALITY_LOCK,
                     graphicsPolish: GRAPHICS_POLISH, surfaceRelief: SURFACE_RELIEF, pixelRatio: renderer.getPixelRatio(),
                     resolution: renderResolution.snapshot(),
-                    bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
+                    bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null,
+                    bloomThreshold: renderer.__bloomNode ? renderer.__bloomNode.threshold.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
@@ -12156,6 +12170,8 @@ if (!LOWQ && !QUALITY_LOCK) setTimeout(() => {
         }
         renderResolution.performanceFallback(performance.now());
         if (renderer.__bloomNode) renderer.__bloomNode.strength.value = 0;
+        /* and with the glow gone, the clouds' shine that fed it (engine/glow.mjs) */
+        setAtmospherePreset(skyMesh, skyPreset(preset, presetName));
         const sp = new URLSearchParams(location.search);
         sp.set('q', 'lo');
         toast(`Låg bildfrekvens — förenklade grafiken. <a href="${location.pathname}?${sp.toString()}">Starta i lättviktsläge</a>`, 10000);

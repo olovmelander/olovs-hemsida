@@ -130,6 +130,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   both). The reflection takes the sky's own sun glow and a dark far-shore band,
   read off a calmer surface, and the ripples, foam and calm/gusty patches drift
   with the one wind. See [the water batch](docs/visual-water-2026-09-25.md).
+- The glow's threshold is per preset (`glow.mjs`). A low sun's sits just above
+  its broad sky, cloud and haze paint (`skyPaintCeiling`), so none of that
+  glows. Toward the sun the clouds' thick centres shine past it in the sun
+  glow's colour (`painted-sky.mjs`, `skyCloudGlow`), only where there is a glow
+  (high quality, before any runtime drop). When a preset's sky colours change,
+  keep its threshold above that paint and re-solve its shine (`glow.test.mjs`
+  holds both). See [the glow batch](docs/visual-glow-2026-09-25.md).
 
 ## Build and focused checks
 
