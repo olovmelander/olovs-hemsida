@@ -107,6 +107,8 @@ import { treeTint, vistaTint } from './engine/stand-tint.mjs';
 import { groundReliefBytes } from './engine/ground-relief.mjs';
 import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift } from './engine/one-wind.mjs';
 import { createCloudShadow } from './engine/cloud-shadow.mjs';
+import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
+import { waterShading } from './engine/water-shading.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -1936,6 +1938,12 @@ const CLOUD_SHADOWS_ON = new URLSearchParams(location.search).get('cloudshadows'
 /* Mist lies in the low ground at dawn and in the mist preset
    (aerial-perspective.mjs); ?valleymist=0 is the before. */
 const VALLEY_MIST_ON = new URLSearchParams(location.search).get('valleymist') !== '0';
+/* The lakes' light: the sun's road, the sky's glow and the far shore in the
+   reflection (nordic-water.mjs); ?nordicwater=0 is the before. */
+const NORDIC_WATER_ON = new URLSearchParams(location.search).get('nordicwater') !== '0';
+/* The water on the one wind: ripples drifting downwind, chop with the wind,
+   calm and gusty patches; ?waterwind=0 is the before, the ripples' own clock. */
+const WATER_WIND_ON = new URLSearchParams(location.search).get('waterwind') !== '0';
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -1959,6 +1967,8 @@ if (CLOUD) {
 const SUNLIT = CLOUD ? CLOUD.vertex : null;
 /* the one air: eased toward the flags' target wind every frame (the frame loop) */
 const AIR = createAir();
+/* the water it carries: ripple drift, chop and patches */
+const WATER_MOTION = createWaterMotion();
 /* The shadow map is re-rendered when something that casts has moved, and not
    otherwise (shadowRest, in the frame loop): three's default is every frame,
    and at rest that pass over ten million triangles was a third of the frame's
@@ -2055,6 +2065,7 @@ function setPreset(name, overrides = null) {
   scene.background = fog.color.clone();
   /* the sky's band under the horizon meets the ground in the same haze; ?skyhaze=raw is the before */
   if (new URLSearchParams(location.search).get('skyhaze') !== 'raw') setSkyGroundHaze(skyMesh, fog.color);
+  if (NORDIC_WATER_ON) setNordicWaterPreset(p, { sky: skyPreset(p, presetName), fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax });
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(skyPreset(p, presetName));
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
@@ -3852,84 +3863,13 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
   configureWaterDepth(m, {
     measuredOnly: ocean || M.infra.terrainPlacement === 'measured-only', depthSign: DEPTH_SIGN,
   });
-  const aSh = attribute('aShore', 'float');
-  const aFoam = attribute('aFoam', 'float');
-  const wp = positionWorld.xz;
-  const t = time;
-
-  /* Four wave scales crossing at four angles. One scrolling layer repeats visibly;
-     four at incommensurate speeds do not, and the two fine ones fade out with
-     distance where they would otherwise be finer than a pixel and just shimmer. */
-  const cd = cameraPosition.sub(positionWorld).length();
-  const near = oneMinus(smoothstep(90, 900, cd));
-  const n1 = texture(WATERN, wp.mul(0.115).add(vec2(t.mul(0.028), t.mul(0.017)))).xy.sub(0.5);
-  const n2 = texture(WATERN, wp.mul(0.052).add(vec2(t.mul(-0.021), t.mul(0.033)))).xy.sub(0.5);
-  const n3 = texture(WATERN, wp.mul(0.245).add(vec2(t.mul(0.047), t.mul(-0.038)))).xy.sub(0.5);
-  const n4 = texture(WATERN, wp.mul(0.014).add(vec2(t.mul(0.008), t.mul(0.011)))).xy.sub(0.5);
-  /* The fine chop is kept at three tenths out to the horizon rather than faded to
-     nothing. Water seen far off is almost all reflection, and if the reflection is
-     unbroken it is a mirror of a pale sky -- which is to say, indistinguishable from
-     haze. The glitter is the thing that says water. */
-  /* a pond has no fetch: the fjord's chop on a 20 m pond tilted enough normals that
-     the fresnel term fired everywhere and fifteen ponds rendered as ice sheets */
-  const rippleAmp = mix(float(0.38), float(1), aFoam);
-  const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16))).mul(uWaterChop)
-                   .add(n2.mul(0.7)).add(n4.mul(0.9)).mul(rippleAmp);
-  const waveSlope = ocean ? 0.4 : 0.55;
-  const N = normalize(vec3(ripple.x.mul(waveSlope), float(1), ripple.y.mul(waveSlope)));
-
-  const V = normalize(cameraPosition.sub(positionWorld));
-  const fres = pow(oneMinus(saturate(N.dot(V))), 4.2).mul(0.93).add(0.035);
-
-  /* The preview uses the indirect-light palette for the analytic reflection.
-     Angle, Fresnel, waves and the water body's own depth colours stay the same. */
-  const R = reflect(V.negate(), N);
-  const up = saturate(R.y);
-  const sunUp = uSun.y.max(0.02);
-  const skyC = waterLighting.reflectedSkyColour(up, sunUp);
-
-  /* depth: the bed falls away from the bank, so the shallows keep their own colour.
-     The ramp is the water's own scale -- 30 m of shallows suits a fjord, but on a
-     pond whose whole radius is ten metres it kept every pixel pale */
-  /* the deep body is the blue the club's aerials show, not steel grey */
-  const depth = smoothstep(0.0, 1.0, saturate(aSh.div(ocean ? float(14) : mix(float(7), float(30), aFoam))));
-  /* the regulated fjärd's bottom reading up through thin water: pale silt in the
-     shallowest film, then the dark olive weed the close aerial shows */
-  const aDp = attribute('aDepth', 'float');
-  // A surface-only DTM supplies no bed observation. Keep its water shader
-  // independent of the coplanar terrain instead of displaying invented silt.
-  const bed = showBed ? oneMinus(smoothstep(0.12, 1.1, aDp)).mul(aFoam) : float(0);
-  const bedCol = mix(color(0x8a7a5c), color(0x2e4a35), smoothstep(0.18, 0.6, aDp));
-
-  // Teal shallows, blue depths and the active atmosphere's reflected sky.
-  let body = mix(paintedWaterShallow, paintedWaterDeep, depth);
-  body = mix(body, bedCol, bed.mul(0.6));
-  let c = mix(body, skyC, fres.mul(0.42));
-  /* the sun's own reflection -- the single thing that says a surface is moving */
-  const H = normalize(V.add(uSun));
-  /* painted sparkle: dabs of white where the ripple faces the sun, not a pinpoint glint */
-  /* a cloud's shade puts the sparkle out: read per pixel here, where a pond's
-     few large triangles would blur the cloud's edge per vertex */
-  const sparkle = color(0xfff4d9).mul(smoothstep(0.985, 0.996, saturate(N.dot(H)))).mul(paintedWaterSparkle).mul(uWaterGlint);
-  c = c.add(CLOUD ? sparkle.mul(CLOUD.sunlightAt(positionWorld)) : sparkle);
-  /* foam, broken up by noise so a shoreline is a shoreline and not a stripe */
-  /* Foam only where there is enough water behind it to make a wave. A metre-deep
-     pond in a field has none at all, and drawing a three-metre white band round every
-     one of them made fifteen ponds look like fifteen holes cut in an ice sheet. The
-     lake gets a thin, broken line -- thresholded against noise so it is a scatter of
-     wash rather than a rim. */
-  const fw = texture(DETAIL, wp.mul(0.55).add(vec2(t.mul(0.035), t.mul(0.02)))).g;
-  const foam = saturate(oneMinus(smoothstep(0.15, ocean ? 0.7 : 1.5, aSh)).mul(smoothstep(0.44, 0.72, fw)))
-                 .mul(aFoam).mul(oneMinus(bed.mul(0.85)));
-  c = mix(c, color(0xdfeeee), foam.mul(ocean ? 0.4 : 0.24));
-
+  /* the colour and opacity (water-shading.mjs), with the water batch's light and ripples unless their befores are asked for */
+  const { colour, opacity: sheetOpacity, wp } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
+    cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
-  m.colorNode = c.mul(paintedWaterLight);
-  /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
-  let opacity = mix(mix(float(0.86), float(0.97), depth),
-                    mix(float(0.62), float(0.97), depth), aFoam)
-                  .add(foam.mul(0.2)).sub(bed.mul(0.28)).clamp(0.4, 1);
+  m.colorNode = colour.mul(paintedWaterLight);
+  let opacity = sheetOpacity;
   if (mask) {
     /* the sheet over water the ground found: its extent is the mask, read in
        the tile lattice's own space through the bridge's linear part */
@@ -6752,6 +6692,10 @@ function stepOneAir(dt) {
     skySpeed: skyMesh.cloudSpeed.value * 35, cloudPeriod: CLOUD ? CLOUD.period : Infinity });
   applyAir(AIR);
   if (CLOUD) CLOUD.setOffset(AIR.cloudX, AIR.cloudZ);
+  if (WATER_WIND_ON) {
+    stepWaterMotion(WATER_MOTION, dt, AIR, { deterministic: DET, still: cameraMotionPreference.matches });
+    applyWaterMotion(WATER_MOTION);
+  }
 }
 /* Blend adjacent baked wind speeds continuously; the response state survives
    every interrupted gust. The fallback shares that response and its material.
@@ -12087,7 +12031,11 @@ window.V3D = {
   camExact: () => ({ pos: camera.position.toArray(), look: controls.target.toArray(), ground: terrainH(camera.position.x, camera.position.z) }),
   groundClamp: () => ({ lift: +groundClamp.lift.toFixed(4), ...GROUND_CLAMP }),
   /* the water shader's probe gains: {glint, chop}, each 1 by default */
-  water: (o = {}) => { if (o.glint != null) uWaterGlint.value = +o.glint; if (o.chop != null) uWaterChop.value = +o.chop; return { glint: uWaterGlint.value, chop: uWaterChop.value }; },
+  water: (o = {}) => { if (o.glint != null) uWaterGlint.value = +o.glint; if (o.chop != null) uWaterChop.value = +o.chop;
+    return { glint: uWaterGlint.value, chop: uWaterChop.value,
+      /* the water batch (docs/visual-water-2026-09-25.md): null where its before is asked for */
+      nordic: NORDIC_WATER_ON ? { sun: waterSun.value.toArray(), skyGlow: waterSkyGlow.value.toArray(), treeLine: waterTreeLine.value.toArray() } : null,
+      wind: WATER_WIND_ON ? { chop: WATER_MOTION.chop, patch: [...WATER_MOTION.patch], flow: WATER_MOTION.flow.map(f => [...f]) } : null }; },
   /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
   /* the meter's handle on the scene: hide by name, zero a light, read a pose (tools/glitter-meter.mjs) */
   harness: () => ({ scene, renderer, camera, sun, controls, terrainV2 }),

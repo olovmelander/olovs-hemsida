@@ -1,0 +1,440 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "6158f6b1",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "with both before switches the player's water is main's own, pixel for pixel: lake, pond and sea, golden hour and noon",
+     "ok": true,
+     "lake golden": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "lake noon": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "pond golden": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "pond noon": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "sea golden": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "sea noon": {
+      "maxDiff": 0,
+      "differingValues": 0
+     }
+    },
+    {
+     "label": "the shader's expected glitter is nordic-water.mjs's form over tilts to 34 degrees and spreads to 0.2",
+     "ok": true,
+     "maxError": 0.0001
+    },
+    {
+     "label": "on a lake at golden hour the road beyond the dabs is their expectation, and runs on through the change without a hole",
+     "ok": true,
+     "road": [
+      {
+       "metres": 37,
+       "pixels": 363,
+       "measured": 0.4752,
+       "expected": 0.4649,
+       "ratio": 1.0221
+      },
+      {
+       "metres": 60,
+       "pixels": 198,
+       "measured": 0.5058,
+       "expected": 0.4456,
+       "ratio": 1.1352
+      },
+      {
+       "metres": 95,
+       "pixels": 102,
+       "measured": 0.5333,
+       "expected": 0.4299,
+       "ratio": 1.2403
+      },
+      {
+       "metres": 155,
+       "pixels": 72,
+       "measured": 0.5104,
+       "expected": 0.4152,
+       "ratio": 1.2292
+      },
+      {
+       "metres": 232,
+       "pixels": 22,
+       "measured": 0.5025,
+       "expected": 0.425,
+       "ratio": 1.1823
+      },
+      {
+       "metres": 405,
+       "pixels": 42,
+       "measured": 0.4428,
+       "expected": 0.4246,
+       "ratio": 1.0428
+      },
+      {
+       "metres": 1232,
+       "pixels": 20,
+       "measured": 0.4249,
+       "expected": 0.4249,
+       "ratio": 1.0001
+      }
+     ],
+     "mainRoad": [
+      {
+       "metres": 37,
+       "pixels": 363,
+       "measured": 0.6516,
+       "expected": 0.4649,
+       "ratio": 1.4015
+      },
+      {
+       "metres": 60,
+       "pixels": 198,
+       "measured": 0.6936,
+       "expected": 0.4456,
+       "ratio": 1.5567
+      },
+      {
+       "metres": 95,
+       "pixels": 102,
+       "measured": 0.7312,
+       "expected": 0.4299,
+       "ratio": 1.7007
+      },
+      {
+       "metres": 155,
+       "pixels": 72,
+       "measured": 0.7057,
+       "expected": 0.4152,
+       "ratio": 1.6997
+      },
+      {
+       "metres": 232,
+       "pixels": 22,
+       "measured": 0.7279,
+       "expected": 0.425,
+       "ratio": 1.7125
+      },
+      {
+       "metres": 405,
+       "pixels": 42,
+       "measured": 0.731,
+       "expected": 0.4246,
+       "ratio": 1.7214
+      },
+      {
+       "metres": 1232,
+       "pixels": 20,
+       "measured": 0.731,
+       "expected": 0.4249,
+       "ratio": 1.7204
+      }
+     ],
+     "stepRatios": [
+      1.0644,
+      1.0544,
+      0.9571,
+      0.8676
+     ]
+    },
+    {
+     "label": "the far shore's wood stands where the shader says round the whole horizon, darkens a lake's far water toward the horizon and leaves the open sea alone",
+     "ok": true,
+     "gridMaxError": 0.0002,
+     "farWaterPixels": 5142,
+     "farLake": {
+      "before": 0.2536,
+      "after": 0.2298
+     },
+     "byDistance": {
+      "1.1-1.5 km": 1,
+      "2 km and more": 0.6961
+     },
+     "sea": {
+      "maxDiff": 0,
+      "differingValues": 0
+     }
+    },
+    {
+     "label": "the patches' chop is the pattern's over its mean, carried by its offset and fading far off; the ripples drift by the offsets the air carries",
+     "ok": true,
+     "patches": {
+      "100 m, offset 0,0": {
+       "maxError": 0,
+       "range": [
+        0.5018,
+        1.3383
+       ]
+      },
+      "100 m, offset 431,-210": {
+       "maxError": 0,
+       "range": [
+        0.5018,
+        1.3383
+       ]
+      },
+      "1000 m, offset 431,-210": {
+       "maxError": 0,
+       "range": [
+        0.7096,
+        1.1972
+       ]
+      },
+      "2000 m, offset 0,0": {
+       "maxError": 0,
+       "range": [
+        1,
+        1
+       ]
+      }
+     },
+     "drift": {
+      "asked": [
+       4,
+       -3
+      ],
+      "found": [
+       4,
+       -3
+      ],
+      "metresPerPixel": 0.2
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "with both before switches the player's water is main's own, pixel for pixel: lake, pond and sea, golden hour and noon",
+     "ok": true,
+     "lake golden": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "lake noon": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "pond golden": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "pond noon": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "sea golden": {
+      "maxDiff": 0,
+      "differingValues": 0
+     },
+     "sea noon": {
+      "maxDiff": 0,
+      "differingValues": 0
+     }
+    },
+    {
+     "label": "the shader's expected glitter is nordic-water.mjs's form over tilts to 34 degrees and spreads to 0.2",
+     "ok": true,
+     "maxError": 0.0001
+    },
+    {
+     "label": "on a lake at golden hour the road beyond the dabs is their expectation, and runs on through the change without a hole",
+     "ok": true,
+     "road": [
+      {
+       "metres": 37,
+       "pixels": 363,
+       "measured": 0.4747,
+       "expected": 0.4649,
+       "ratio": 1.0211
+      },
+      {
+       "metres": 60,
+       "pixels": 198,
+       "measured": 0.5031,
+       "expected": 0.4456,
+       "ratio": 1.1291
+      },
+      {
+       "metres": 95,
+       "pixels": 102,
+       "measured": 0.5337,
+       "expected": 0.4299,
+       "ratio": 1.2414
+      },
+      {
+       "metres": 155,
+       "pixels": 72,
+       "measured": 0.5078,
+       "expected": 0.4152,
+       "ratio": 1.223
+      },
+      {
+       "metres": 232,
+       "pixels": 22,
+       "measured": 0.5003,
+       "expected": 0.425,
+       "ratio": 1.1772
+      },
+      {
+       "metres": 405,
+       "pixels": 42,
+       "measured": 0.4422,
+       "expected": 0.4246,
+       "ratio": 1.0414
+      },
+      {
+       "metres": 1161,
+       "pixels": 20,
+       "measured": 0.4255,
+       "expected": 0.4255,
+       "ratio": 1
+      }
+     ],
+     "mainRoad": [
+      {
+       "metres": 37,
+       "pixels": 363,
+       "measured": 0.651,
+       "expected": 0.4649,
+       "ratio": 1.4003
+      },
+      {
+       "metres": 60,
+       "pixels": 198,
+       "measured": 0.6899,
+       "expected": 0.4456,
+       "ratio": 1.5484
+      },
+      {
+       "metres": 95,
+       "pixels": 102,
+       "measured": 0.7319,
+       "expected": 0.4299,
+       "ratio": 1.7022
+      },
+      {
+       "metres": 155,
+       "pixels": 72,
+       "measured": 0.7019,
+       "expected": 0.4152,
+       "ratio": 1.6904
+      },
+      {
+       "metres": 232,
+       "pixels": 22,
+       "measured": 0.7239,
+       "expected": 0.425,
+       "ratio": 1.7032
+      },
+      {
+       "metres": 405,
+       "pixels": 42,
+       "measured": 0.7267,
+       "expected": 0.4246,
+       "ratio": 1.7112
+      },
+      {
+       "metres": 1161,
+       "pixels": 20,
+       "measured": 0.7271,
+       "expected": 0.4255,
+       "ratio": 1.709
+      }
+     ],
+     "stepRatios": [
+      1.0598,
+      1.0608,
+      0.9515,
+      0.8708
+     ]
+    },
+    {
+     "label": "the far shore's wood stands where the shader says round the whole horizon, darkens a lake's far water toward the horizon and leaves the open sea alone",
+     "ok": true,
+     "gridMaxError": 0.0002,
+     "farWaterPixels": 5144,
+     "farLake": {
+      "before": 0.2484,
+      "after": 0.2251
+     },
+     "byDistance": {
+      "1.1-1.5 km": 1,
+      "2 km and more": 0.6975
+     },
+     "sea": {
+      "maxDiff": 0,
+      "differingValues": 0
+     }
+    },
+    {
+     "label": "the patches' chop is the pattern's over its mean, carried by its offset and fading far off; the ripples drift by the offsets the air carries",
+     "ok": true,
+     "patches": {
+      "100 m, offset 0,0": {
+       "maxError": 0,
+       "range": [
+        0.5018,
+        1.3383
+       ]
+      },
+      "100 m, offset 431,-210": {
+       "maxError": 0,
+       "range": [
+        0.5018,
+        1.3383
+       ]
+      },
+      "1000 m, offset 431,-210": {
+       "maxError": 0,
+       "range": [
+        0.7096,
+        1.1972
+       ]
+      },
+      "2000 m, offset 0,0": {
+       "maxError": 0,
+       "range": [
+        1,
+        1
+       ]
+      }
+     },
+     "drift": {
+      "asked": [
+       4,
+       -3
+      ],
+      "found": [
+       4,
+       -3
+      ],
+      "metresPerPixel": 0.2
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  }
+ }
+}

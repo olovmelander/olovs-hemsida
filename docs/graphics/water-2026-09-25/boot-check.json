@@ -1,0 +1,754 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Ängsö, golden hour",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "waterSheets": 15,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "waterSheets": true,
+    "nordicOn": true,
+    "chopFollowsWind": true,
+    "pinned": true
+   },
+   "first": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.6038273388475408,
+       0.26225065751888765
+      ],
+      "skyGlow": [
+       1,
+       0.46778379610254284,
+       0.11193242782769693
+      ],
+      "treeLine": [
+       0.09023496182322609,
+       0.09051848182568685,
+       0.06459104082011499
+      ]
+     },
+     "wind": {
+      "chop": 1,
+      "patch": [
+       0,
+       0
+      ],
+      "flow": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 6
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "Ängsö, golden hour, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "waterSheets": 15,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "waterSheets": true,
+    "nordicOn": true,
+    "chopFollowsWind": true,
+    "pinned": true
+   },
+   "first": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.6038273388475408,
+       0.26225065751888765
+      ],
+      "skyGlow": [
+       1,
+       0.46778379610254284,
+       0.11193242782769693
+      ],
+      "treeLine": [
+       0.09023496182322609,
+       0.09051848182568685,
+       0.06459104082011499
+      ]
+     },
+     "wind": {
+      "chop": 1,
+      "patch": [
+       0,
+       0
+      ],
+      "flow": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 5
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "Ängsö, golden hour, both befores",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&nordicwater=0&waterwind=0",
+   "waterSheets": 15,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "waterSheets": true,
+    "beforesOff": true
+   },
+   "first": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": null,
+     "wind": null
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 6
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "Ängsö, noon, a 12 m/s westerly",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag&vind=270,12",
+   "waterSheets": 15,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "waterSheets": true,
+    "nordicOn": true,
+    "chopFollowsWind": true,
+    "pinned": true,
+    "galeChop": true
+   },
+   "first": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.8713671191959567,
+       0.6795424696265424
+      ],
+      "skyGlow": [
+       1,
+       1,
+       1
+      ],
+      "treeLine": [
+       0.040815300843107985,
+       0.0990223718311738,
+       0.10367851126000883
+      ]
+     },
+     "wind": {
+      "chop": 1.6,
+      "patch": [
+       0,
+       0
+      ],
+      "flow": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 12,
+     "axis": [
+      1,
+      -2.4492935982947064e-16
+     ],
+     "sway": 2.2,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": 12,
+      "fromDeg": 270,
+      "source": "url"
+     }
+    },
+    "frame": 5
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "Ängsö, noon, running",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&ljus=dag",
+   "waterSheets": 15,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "waterSheets": true,
+    "nordicOn": true,
+    "chopFollowsWind": true,
+    "waterMoves": true
+   },
+   "first": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.8713671191959567,
+       0.6795424696265424
+      ],
+      "skyGlow": [
+       1,
+       1,
+       1
+      ],
+      "treeLine": [
+       0.040815300843107985,
+       0.0990223718311738,
+       0.10367851126000883
+      ]
+     },
+     "wind": {
+      "chop": 1,
+      "patch": [
+       2.638,
+       0
+      ],
+      "flow": [
+       [
+        0.021235900000000002,
+        0.0091011
+       ],
+       [
+        0.01646112,
+        0.9917694399999999
+       ],
+       [
+        0.032315500000000004,
+        0.025852399999999998
+       ],
+       [
+        0.007386400000000001,
+        0.00110796
+       ],
+       [
+        0.029018000000000002,
+        0.043527
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      2.638,
+      0
+     ],
+     "sky": [
+      0.0003924025,
+      0,
+      0.0003924025
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 7
+   },
+   "later": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.8713671191959567,
+       0.6795424696265424
+      ],
+      "skyGlow": [
+       1,
+       1,
+       1
+      ],
+      "treeLine": [
+       0.040815300843107985,
+       0.0990223718311738,
+       0.10367851126000883
+      ]
+     },
+     "wind": {
+      "chop": 1,
+      "patch": [
+       7.438000000000002,
+       0
+      ],
+      "flow": [
+       [
+        0.05987590000000001,
+        0.025661099999999992
+       ],
+       [
+        0.04641311999999998,
+        0.9767934399999996
+       ],
+       [
+        0.09111550000000002,
+        0.0728924
+       ],
+       [
+        0.020826399999999995,
+        0.003123960000000001
+       ],
+       [
+        0.08181800000000002,
+        0.12272699999999996
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      7.438000000000002,
+      0
+     ],
+     "sky": [
+      0.0011064025,
+      0,
+      0.0011064025
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 19
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, noon, running, reduced motion",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&ljus=dag",
+   "waterSheets": 15,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "waterSheets": true,
+    "nordicOn": true,
+    "chopFollowsWind": true,
+    "stillForReducedMotion": true
+   },
+   "first": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.8713671191959567,
+       0.6795424696265424
+      ],
+      "skyGlow": [
+       1,
+       1,
+       1
+      ],
+      "treeLine": [
+       0.040815300843107985,
+       0.0990223718311738,
+       0.10367851126000883
+      ]
+     },
+     "wind": {
+      "chop": 1,
+      "patch": [
+       0,
+       0
+      ],
+      "flow": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 0,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 5
+   },
+   "later": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.8713671191959567,
+       0.6795424696265424
+      ],
+      "skyGlow": [
+       1,
+       1,
+       1
+      ],
+      "treeLine": [
+       0.040815300843107985,
+       0.0990223718311738,
+       0.10367851126000883
+      ]
+     },
+     "wind": {
+      "chop": 1,
+      "patch": [
+       0,
+       0
+      ],
+      "flow": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 0,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 17
+   },
+   "errors": []
+  },
+  {
+   "name": "Norrfällsviken, golden hour",
+   "q": "hi",
+   "url": "/?bana=norrfallsviken&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "waterSheets": 11,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "waterSheets": true,
+    "nordicOn": true,
+    "chopFollowsWind": true,
+    "pinned": true
+   },
+   "first": {
+    "water": {
+     "glint": 1,
+     "chop": 1,
+     "nordic": {
+      "sun": [
+       1,
+       0.6038273388475408,
+       0.26225065751888765
+      ],
+      "skyGlow": [
+       1,
+       0.46778379610254284,
+       0.11193242782769693
+      ],
+      "treeLine": [
+       0.09023496182322609,
+       0.09051848182568685,
+       0.06459104082011499
+      ]
+     },
+     "wind": {
+      "chop": 1,
+      "patch": [
+       0,
+       0
+      ],
+      "flow": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        0
+       ]
+      ]
+     }
+    },
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "frame": 5
+   },
+   "later": null,
+   "errors": []
+  }
+ ]
+}
