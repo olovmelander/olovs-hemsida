@@ -142,9 +142,63 @@ SwiftShader on WebGL2 and on WebGPU with reversed depth, and the two agree.
 
 **App boot**
 ([`check-boot.mjs`](graphics/landscape-2026-09-25/check-boot.mjs),
-[result](graphics/landscape-2026-09-25/boot-check.json)). See below.
+[result](graphics/landscape-2026-09-25/boot-check.json)). The built app boots at
+Ängsö's first tee at golden hour on WebGL2 in SwiftShader, at high and low
+quality and with every before switch. No page or console error occurs, so no
+shader failed to compile. What the harness reads back:
 
-**Prepared startup data.** See below.
+| | high quality | low quality | every before switch |
+|---|---|---|---|
+| far vista tint (red), mean and spread | 0.995, 0.108 | 0.993, 0.109 | 1, 0 |
+| near relief: sheltered / exposed cells | 34% / 3% | 34% / 3% | 34% / 3%, not read |
+| far relief: sheltered / exposed cells | 13% / 15% | 13% / 15% | 13% / 15%, not read |
+| tree tier audit | passes | passes | passes |
+
+[The near relief as a map](graphics/landscape-2026-09-25/relief-angso-near.png)
+covers 3 km of Ängsö. Sheltered cells are drawn blue and exposed ones straw
+over the tint:
+- the woods carry a soft, even shelter;
+- their edges are drawn darker where they meet open ground;
+- knolls stand out as small exposed patches.
+
+A first version took each cell's own 3 m canopy sample and picked out every
+gap in a wood as a dark speck. The share is now smoothed over the 3 x 3 cells
+round each cell.
+
+**Prepared startup data.** The source revision moved, so the following were
+re-baked through the existing publishers for revision `70f608c5`: tints (26),
+far vista (26), scatter (26) and water (10 courses).
+
+[`check-publication.mjs`](graphics/landscape-2026-09-25/check-publication.mjs)
+compares against main at `39dba316`
+([result](graphics/landscape-2026-09-25/publication-identity.json)):
+- every far-vista, scatter and water record keeps its content, and only its
+  source identity changed;
+- every ground tint keeps its layout and every RGB byte, and its alpha, which
+  was 255 everywhere, now carries the relief.
+
+The relief's share of cells, near and far together:
+
+| Course | Sheltered | Exposed |
+|---|---|---|
+| Visby (flat, coastal) | 10% | 2% |
+| Tortuna | 15% | 12% |
+| Ribbingsfors | 18% | 8% |
+| Ängsö | 20% | 11% |
+| Norrfallsviken | 23% | 12% |
+| Johannesberg | 26% | 17% |
+| Upsala | 28% | 16% |
+| Puttom | 33% | 19% |
+| Veckefjärden | 39% | 17% |
+| Lidingö (hilly, wooded) | 41% | 21% |
+
+`check-prepared-startup` passes on the rebuilt app
+([`prepared-check.json`](graphics/landscape-2026-09-25/prepared-check.json)), and
+the app boot above ran on it.
+
+**Suite.** The full `pnpm test` passes: 1,388 Vitest tests and 482 Node tests,
+with 3 environment skips. The app-build isolation check, `check:course-workflow`
+and the no-undef lint also pass.
 
 ## Not established
 

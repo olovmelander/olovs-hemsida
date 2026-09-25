@@ -108,6 +108,12 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   against a low sun. Keep per-pixel work off crowns (reckon per vertex), and
   keep impostors in agreement with the meshes (`IMPOSTOR_BACK_EDGE`, and the
   bake's vertex colours). See [the lighting batch](docs/visual-lighting-2026-09-25.md).
+- Trees take slow stand-scale colour washes from position (`stand-tint.mjs`),
+  near and far. The ground finish reads each surface's `SHADE` gloss, and draws
+  bunker lips and path edges from the exact class fields. The ground tint's
+  alpha carries baked relief (`ground-relief.mjs`: horizon occlusion, crests,
+  wood edges, 128 = open); its RGB is the ground's colour and stays unchanged
+  unless the colour rules change. See [the landscape batch](docs/visual-landscape-2026-09-25.md).
 
 ## Build and focused checks
 
