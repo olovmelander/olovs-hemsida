@@ -135,9 +135,12 @@ describe('authored building GLB display assets', () => {
         measuredRoofTriangles: 0, clubhouseDetails: [], draws: 0, tris: 0, verts: 0,
         sourceBuildingBatchIds: [], sourceBuildingBatchIndices: [] },
       measuredRoofGeometry: vi.fn(() => ({ triangles: [], walls: [] })), terrainH: () => 35,
-      L: value => value, tri: vi.fn(), quad: vi.fn() });
+      L: value => value, tri: vi.fn(), quad: vi.fn(), paintBuildingModel: vi.fn() });
     const normal = makeContext(prepared); vm.runInNewContext(loop, normal);
     expect(normal.scene.add).toHaveBeenCalledTimes(1);
+    /* the model it adds takes the wall's foot (building-paint.mjs), once */
+    expect(normal.paintBuildingModel).toHaveBeenCalledTimes(1);
+    expect(normal.paintBuildingModel).toHaveBeenCalledWith(normal.scene.add.mock.calls[0][0]);
     expect(normal.measuredRoofGeometry).toHaveBeenCalledTimes(1);
     expect(normal.stats.sourceRoofBuildings).toBe(2);
     expect(normal.stats.authoredBuildingModels).toBe(1);
@@ -145,6 +148,7 @@ describe('authored building GLB display assets', () => {
     const source = makeContext(await loadAuthoredBuildings({ ...fixture.args, sourceMode: true }));
     source.sourceBuildingView = true; vm.runInNewContext(loop, source);
     expect(source.scene.add).not.toHaveBeenCalled(); expect(source.measuredRoofGeometry).toHaveBeenCalledTimes(2);
+    expect(source.paintBuildingModel).not.toHaveBeenCalled();
     expect(source.generic).toEqual([generic.id]);
   });
 });

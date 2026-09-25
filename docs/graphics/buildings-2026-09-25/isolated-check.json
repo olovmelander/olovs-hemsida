@@ -1,0 +1,4551 @@
+{
+ "adapter": "swiftshader",
+ "constants": {
+  "foot": {
+   "batch": {
+    "floor": 0.72,
+    "metres": 0.9
+   },
+   "model": {
+    "floor": 0.84,
+    "metres": 0.55
+   }
+  },
+  "steep": [
+   0.5,
+   0.8
+  ],
+  "ridge": {
+   "eave": 0.94,
+   "band": 0.22,
+   "light": 1.14
+  },
+  "groundCell": 0.25
+ },
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "the batch's wall foot darkens walls' foot band by its own curve and changes nothing else",
+     "ok": true,
+     "foot": {
+      "floor": 0.72,
+      "metres": 0.9
+     },
+     "albedo": 0.8,
+     "within": {
+      "median": 0.005,
+      "p90": 0.015
+     },
+     "rows": {
+      "golden": {
+       "pixels": 88329,
+       "unchanged": 83359,
+       "changed": 4970,
+       "onTheFoot": 4970,
+       "atItsEdges": 0,
+       "rounding": 287,
+       "unexplained": 0,
+       "bands": [
+        {
+         "from": 0,
+         "to": 0.15,
+         "pixels": 835,
+         "paint": 0.726,
+         "share": 0.931,
+         "expected": 0.741,
+         "measured": 0.741,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.15,
+         "to": 0.3,
+         "pixels": 837,
+         "paint": 0.764,
+         "share": 0.931,
+         "expected": 0.777,
+         "measured": 0.777,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.3,
+         "to": 0.45,
+         "pixels": 837,
+         "paint": 0.825,
+         "share": 0.931,
+         "expected": 0.835,
+         "measured": 0.835,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.45,
+         "to": 0.6,
+         "pixels": 840,
+         "paint": 0.895,
+         "share": 0.931,
+         "expected": 0.9,
+         "measured": 0.9,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.6,
+         "to": 0.75,
+         "pixels": 841,
+         "paint": 0.956,
+         "share": 0.931,
+         "expected": 0.959,
+         "measured": 0.959,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.75,
+         "to": 0.9,
+         "pixels": 759,
+         "paint": 0.993,
+         "share": 0.931,
+         "expected": 0.994,
+         "measured": 0.994,
+         "error": 0,
+         "error90": 0
+        }
+       ],
+       "unexplainedPixels": []
+      },
+      "noon": {
+       "pixels": 88329,
+       "unchanged": 83361,
+       "changed": 4968,
+       "onTheFoot": 4968,
+       "atItsEdges": 0,
+       "rounding": 291,
+       "unexplained": 0,
+       "bands": [
+        {
+         "from": 0,
+         "to": 0.15,
+         "pixels": 835,
+         "paint": 0.726,
+         "share": 0.903,
+         "expected": 0.748,
+         "measured": 0.748,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.15,
+         "to": 0.3,
+         "pixels": 837,
+         "paint": 0.764,
+         "share": 0.903,
+         "expected": 0.781,
+         "measured": 0.781,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.3,
+         "to": 0.45,
+         "pixels": 837,
+         "paint": 0.825,
+         "share": 0.903,
+         "expected": 0.839,
+         "measured": 0.839,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.45,
+         "to": 0.6,
+         "pixels": 840,
+         "paint": 0.895,
+         "share": 0.903,
+         "expected": 0.902,
+         "measured": 0.902,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.6,
+         "to": 0.75,
+         "pixels": 841,
+         "paint": 0.956,
+         "share": 0.903,
+         "expected": 0.96,
+         "measured": 0.96,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.75,
+         "to": 0.9,
+         "pixels": 757,
+         "paint": 0.993,
+         "share": 0.903,
+         "expected": 0.994,
+         "measured": 0.994,
+         "error": 0,
+         "error90": 0
+        }
+       ],
+       "unexplainedPixels": []
+      }
+     }
+    },
+    {
+     "label": "the ridge lights each slope from its eaves up, and changes nothing but roofs and their edges",
+     "ok": true,
+     "eave": 0.94,
+     "light": 1.14,
+     "albedo": 0.8,
+     "within": {
+      "median": 0.005,
+      "p90": 0.015
+     },
+     "rows": {
+      "golden": {
+       "pixels": 129600,
+       "unchanged": 123989,
+       "roofPixelsChanged": 5608,
+       "paint": {
+        "eaves": 0.941,
+        "ridge": 1.126
+       },
+       "share": 0.919,
+       "measured": {
+        "p01": 0.945,
+        "p99": 1.115
+       },
+       "error": 0,
+       "error90": 0,
+       "atRoofEdges": 3,
+       "rounding": 327,
+       "unexplained": 0,
+       "unexplainedPixels": []
+      },
+      "noon": {
+       "pixels": 129600,
+       "unchanged": 123974,
+       "roofPixelsChanged": 5608,
+       "paint": {
+        "eaves": 0.941,
+        "ridge": 1.126
+       },
+       "share": 0.847,
+       "measured": {
+        "p01": 0.949,
+        "p99": 1.106
+       },
+       "error": 0,
+       "error90": 0,
+       "atRoofEdges": 18,
+       "rounding": 362,
+       "unexplained": 0,
+       "unexplainedPixels": []
+      }
+     }
+    },
+    {
+     "label": "each Blender model takes the foot on its walls' lowest half metre only, by its own curve: every other pixel keeps its value",
+     "ok": true,
+     "foot": {
+      "floor": 0.84,
+      "metres": 0.55
+     },
+     "albedo": 0.8,
+     "within": {
+      "median": 0.005,
+      "p90": 0.015
+     },
+     "modelsWhereTheFootShows": 9,
+     "models": {
+      "angso": {
+       "views": {
+        "sun": {
+         "pixels": 69677,
+         "unchanged": 69200,
+         "changed": 477,
+         "onTheFoot": 477,
+         "atItsEdges": 0,
+         "rounding": 14,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 132,
+           "paint": 0.853,
+           "share": 0.969,
+           "expected": 0.858,
+           "measured": 0.858,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 115,
+           "paint": 0.897,
+           "share": 0.973,
+           "expected": 0.902,
+           "measured": 0.902,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 165,
+           "paint": 0.933,
+           "share": 0.97,
+           "expected": 0.935,
+           "measured": 0.935,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 65,
+           "paint": 0.99,
+           "share": 0.969,
+           "expected": 0.991,
+           "measured": 0.991,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 71881,
+         "unchanged": 71321,
+         "changed": 560,
+         "onTheFoot": 560,
+         "atItsEdges": 0,
+         "rounding": 80,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 179,
+           "paint": 0.847,
+           "share": 0.963,
+           "expected": 0.853,
+           "measured": 0.853,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 134,
+           "paint": 0.882,
+           "share": 0.957,
+           "expected": 0.888,
+           "measured": 0.888,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 110,
+           "paint": 0.935,
+           "share": 0.961,
+           "expected": 0.938,
+           "measured": 0.938,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 137,
+           "paint": 0.997,
+           "share": 0.875,
+           "expected": 0.997,
+           "measured": 0.997,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 86591,
+         "unchanged": 86578,
+         "changed": 13,
+         "onTheFoot": 13,
+         "atItsEdges": 0,
+         "rounding": 0,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 141,
+       "materials": 140,
+       "footArea": {
+        "wall": 5878.6,
+        "foot": 457,
+        "buildings": 19,
+        "withoutFoot": [
+         "S01",
+         "S02"
+        ]
+       }
+      },
+      "johannesberg": {
+       "views": {
+        "sun": {
+         "pixels": 90789,
+         "unchanged": 88797,
+         "changed": 1992,
+         "onTheFoot": 1992,
+         "atItsEdges": 0,
+         "rounding": 178,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 501,
+           "paint": 0.847,
+           "share": 0.938,
+           "expected": 0.857,
+           "measured": 0.857,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 504,
+           "paint": 0.891,
+           "share": 0.938,
+           "expected": 0.898,
+           "measured": 0.898,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 506,
+           "paint": 0.949,
+           "share": 0.938,
+           "expected": 0.952,
+           "measured": 0.953,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 481,
+           "paint": 0.993,
+           "share": 0.938,
+           "expected": 0.993,
+           "measured": 0.993,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 99601,
+         "unchanged": 96783,
+         "changed": 2818,
+         "onTheFoot": 2818,
+         "atItsEdges": 0,
+         "rounding": 235,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 713,
+           "paint": 0.847,
+           "share": 0.916,
+           "expected": 0.86,
+           "measured": 0.86,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 722,
+           "paint": 0.89,
+           "share": 0.916,
+           "expected": 0.9,
+           "measured": 0.9,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 717,
+           "paint": 0.95,
+           "share": 0.916,
+           "expected": 0.954,
+           "measured": 0.954,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 666,
+           "paint": 0.992,
+           "share": 0.916,
+           "expected": 0.993,
+           "measured": 0.993,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 90009,
+         "unchanged": 89760,
+         "changed": 249,
+         "onTheFoot": 249,
+         "atItsEdges": 0,
+         "rounding": 17,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 74,
+           "paint": 0.848,
+           "share": 0.879,
+           "expected": 0.868,
+           "measured": 0.868,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 70,
+           "paint": 0.893,
+           "share": 0.9,
+           "expected": 0.905,
+           "measured": 0.905,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 54,
+           "paint": 0.948,
+           "share": 0.9,
+           "expected": 0.953,
+           "measured": 0.953,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 51,
+           "paint": 0.991,
+           "share": 0.902,
+           "expected": 0.992,
+           "measured": 0.992,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 183,
+       "materials": 183,
+       "footArea": {
+        "wall": 26706.2,
+        "foot": 1111.8,
+        "buildings": 22,
+        "withoutFoot": []
+       }
+      },
+      "lidingo": {
+       "views": {
+        "sun": {
+         "pixels": 70099,
+         "unchanged": 70050,
+         "changed": 49,
+         "onTheFoot": 49,
+         "atItsEdges": 0,
+         "rounding": 5,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 15,
+           "paint": 0.908,
+           "share": 0.726,
+           "expected": 0.92,
+           "measured": 0.92,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 12,
+           "paint": 0.954,
+           "share": 0.72,
+           "expected": 0.967,
+           "measured": 0.967,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 15,
+           "paint": 0.989,
+           "share": 0.72,
+           "expected": 0.992,
+           "measured": 0.992,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 69006,
+         "unchanged": 68900,
+         "changed": 106,
+         "onTheFoot": 106,
+         "atItsEdges": 0,
+         "rounding": 33,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 14,
+           "paint": 0.903,
+           "share": 0.881,
+           "expected": 0.907,
+           "measured": 0.907,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 19,
+           "paint": 0.946,
+           "share": 0.96,
+           "expected": 0.951,
+           "measured": 0.951,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 65,
+           "paint": 0.996,
+           "share": 0.883,
+           "expected": 0.996,
+           "measured": 0.996,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 90660,
+         "unchanged": 90617,
+         "changed": 43,
+         "onTheFoot": 43,
+         "atItsEdges": 0,
+         "rounding": 8,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 14,
+           "paint": 0.891,
+           "share": 0.802,
+           "expected": 0.913,
+           "measured": 0.913,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 12,
+           "paint": 0.936,
+           "share": 0.881,
+           "expected": 0.946,
+           "measured": 0.946,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 14,
+           "paint": 0.997,
+           "share": 0.883,
+           "expected": 0.997,
+           "measured": 0.997,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 191,
+       "materials": 191,
+       "footArea": {
+        "wall": 9159.5,
+        "foot": 304,
+        "buildings": 21,
+        "withoutFoot": []
+       }
+      },
+      "puttom": {
+       "views": {
+        "sun": {
+         "pixels": 89605,
+         "unchanged": 89134,
+         "changed": 471,
+         "onTheFoot": 463,
+         "atItsEdges": 8,
+         "rounding": 73,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 22,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 84,
+           "paint": 0.847,
+           "share": 0.955,
+           "expected": 0.854,
+           "measured": 0.854,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 130,
+           "paint": 0.896,
+           "share": 0.955,
+           "expected": 0.901,
+           "measured": 0.901,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 128,
+           "paint": 0.95,
+           "share": 0.955,
+           "expected": 0.957,
+           "measured": 0.957,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 121,
+           "paint": 0.994,
+           "share": 0.955,
+           "expected": 0.994,
+           "measured": 0.994,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 75180,
+         "unchanged": 75082,
+         "changed": 98,
+         "onTheFoot": 43,
+         "atItsEdges": 55,
+         "rounding": 10,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 15,
+           "paint": 0.886,
+           "share": 0.94,
+           "expected": 0.895,
+           "measured": 0.895,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 13,
+           "paint": 0.949,
+           "share": 0.924,
+           "expected": 0.953,
+           "measured": 0.953,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 91234,
+         "unchanged": 91107,
+         "changed": 127,
+         "onTheFoot": 127,
+         "atItsEdges": 0,
+         "rounding": 13,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 12,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 29,
+           "paint": 0.844,
+           "share": 0.925,
+           "expected": 0.856,
+           "measured": 0.856,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 33,
+           "paint": 0.894,
+           "share": 0.92,
+           "expected": 0.899,
+           "measured": 0.899,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 35,
+           "paint": 0.959,
+           "share": 0.92,
+           "expected": 0.965,
+           "measured": 0.965,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 30,
+           "paint": 0.991,
+           "share": 0.918,
+           "expected": 0.994,
+           "measured": 0.994,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 150,
+       "materials": 150,
+       "footArea": {
+        "wall": 8947.5,
+        "foot": 404.9,
+        "buildings": 25,
+        "withoutFoot": []
+       }
+      },
+      "ribbingsfors": {
+       "views": {
+        "sun": {
+         "pixels": 112508,
+         "unchanged": 106604,
+         "changed": 5904,
+         "onTheFoot": 5904,
+         "atItsEdges": 0,
+         "rounding": 492,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 1500,
+           "paint": 0.847,
+           "share": 0.954,
+           "expected": 0.855,
+           "measured": 0.856,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 1498,
+           "paint": 0.891,
+           "share": 0.954,
+           "expected": 0.897,
+           "measured": 0.897,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 1504,
+           "paint": 0.949,
+           "share": 0.954,
+           "expected": 0.953,
+           "measured": 0.953,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 1402,
+           "paint": 0.992,
+           "share": 0.954,
+           "expected": 0.993,
+           "measured": 0.993,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 114075,
+         "unchanged": 108357,
+         "changed": 5718,
+         "onTheFoot": 5718,
+         "atItsEdges": 0,
+         "rounding": 494,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 1431,
+           "paint": 0.846,
+           "share": 0.951,
+           "expected": 0.855,
+           "measured": 0.855,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 1513,
+           "paint": 0.891,
+           "share": 0.951,
+           "expected": 0.897,
+           "measured": 0.897,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 1433,
+           "paint": 0.951,
+           "share": 0.951,
+           "expected": 0.954,
+           "measured": 0.954,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 1341,
+           "paint": 0.993,
+           "share": 0.95,
+           "expected": 0.993,
+           "measured": 0.993,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 85918,
+         "unchanged": 85895,
+         "changed": 23,
+         "onTheFoot": 23,
+         "atItsEdges": 0,
+         "rounding": 3,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 1064,
+       "materials": 162,
+       "footArea": {
+        "wall": 8905.1,
+        "foot": 762,
+        "buildings": 44,
+        "withoutFoot": []
+       }
+      },
+      "veckefjarden": {
+       "views": {
+        "sun": {
+         "pixels": 67957,
+         "unchanged": 67426,
+         "changed": 531,
+         "onTheFoot": 531,
+         "atItsEdges": 0,
+         "rounding": 10,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 217,
+           "paint": 0.912,
+           "share": 0.958,
+           "expected": 0.917,
+           "measured": 0.917,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 280,
+           "paint": 0.932,
+           "share": 0.959,
+           "expected": 0.936,
+           "measured": 0.936,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 28,
+           "paint": 0.994,
+           "share": 0.981,
+           "expected": 0.994,
+           "measured": 0.994,
+           "error": 0,
+           "error90": 0.001
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 94867,
+         "unchanged": 94767,
+         "changed": 100,
+         "onTheFoot": 86,
+         "atItsEdges": 14,
+         "rounding": 8,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 6,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 44,
+           "paint": 0.847,
+           "share": 0.955,
+           "expected": 0.855,
+           "measured": 0.855,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 22,
+           "paint": 0.938,
+           "share": 0.974,
+           "expected": 0.94,
+           "measured": 0.94,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 90719,
+         "unchanged": 90631,
+         "changed": 88,
+         "onTheFoot": 80,
+         "atItsEdges": 8,
+         "rounding": 6,
+         "seenThroughGlass": true,
+         "throughAGlassFoot": 9,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 23,
+           "paint": 0.847,
+           "share": 0.962,
+           "expected": 0.854,
+           "measured": 0.854,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 24,
+           "paint": 0.89,
+           "share": 0.959,
+           "expected": 0.894,
+           "measured": 0.894,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 19,
+           "paint": 0.951,
+           "share": 0.96,
+           "expected": 0.954,
+           "measured": 0.954,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 14,
+           "paint": 0.993,
+           "share": 0.949,
+           "expected": 0.994,
+           "measured": 0.994,
+           "error": 0,
+           "error90": 0.003
+          }
+         ],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 89,
+       "materials": 88,
+       "footArea": {
+        "wall": 7319.5,
+        "foot": 544.2,
+        "buildings": 20,
+        "withoutFoot": []
+       }
+      },
+      "veckefjarden church": {
+       "views": {
+        "sun": {
+         "pixels": 128305,
+         "unchanged": 124877,
+         "changed": 3428,
+         "onTheFoot": 3428,
+         "atItsEdges": 0,
+         "rounding": 416,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 854,
+           "paint": 0.901,
+           "share": 0.975,
+           "expected": 0.905,
+           "measured": 0.905,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 1328,
+           "paint": 0.949,
+           "share": 0.975,
+           "expected": 0.951,
+           "measured": 0.95,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 1246,
+           "paint": 0.992,
+           "share": 0.975,
+           "expected": 0.992,
+           "measured": 0.993,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 128167,
+         "unchanged": 124719,
+         "changed": 3448,
+         "onTheFoot": 3448,
+         "atItsEdges": 0,
+         "rounding": 438,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 865,
+           "paint": 0.901,
+           "share": 0.961,
+           "expected": 0.905,
+           "measured": 0.905,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 1336,
+           "paint": 0.949,
+           "share": 0.961,
+           "expected": 0.951,
+           "measured": 0.951,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 1247,
+           "paint": 0.992,
+           "share": 0.96,
+           "expected": 0.993,
+           "measured": 0.992,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 77061,
+         "unchanged": 76282,
+         "changed": 779,
+         "onTheFoot": 779,
+         "atItsEdges": 0,
+         "rounding": 64,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 197,
+           "paint": 0.847,
+           "share": 0.974,
+           "expected": 0.853,
+           "measured": 0.853,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 204,
+           "paint": 0.893,
+           "share": 0.974,
+           "expected": 0.897,
+           "measured": 0.896,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 184,
+           "paint": 0.948,
+           "share": 0.974,
+           "expected": 0.95,
+           "measured": 0.95,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 194,
+           "paint": 0.99,
+           "share": 0.974,
+           "expected": 0.99,
+           "measured": 0.99,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 12,
+       "materials": 12,
+       "footArea": {
+        "wall": 4277.4,
+        "foot": 62.4,
+        "buildings": 1,
+        "withoutFoot": []
+       }
+      },
+      "veckefjarden ski jump": {
+       "views": {
+        "sun": {
+         "pixels": 70785,
+         "unchanged": 70785,
+         "changed": 0,
+         "onTheFoot": 0,
+         "atItsEdges": 0,
+         "rounding": 0,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 69588,
+         "unchanged": 69588,
+         "changed": 0,
+         "onTheFoot": 0,
+         "atItsEdges": 0,
+         "rounding": 0,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 76035,
+         "unchanged": 76031,
+         "changed": 4,
+         "onTheFoot": 4,
+         "atItsEdges": 0,
+         "rounding": 0,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 15,
+       "materials": 15,
+       "footArea": {
+        "wall": 5304.1,
+        "foot": 2.9,
+        "buildings": 1,
+        "withoutFoot": []
+       }
+      },
+      "visby": {
+       "views": {
+        "sun": {
+         "pixels": 69386,
+         "unchanged": 69311,
+         "changed": 75,
+         "onTheFoot": 75,
+         "atItsEdges": 0,
+         "rounding": 11,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 31,
+           "paint": 0.879,
+           "share": 0.983,
+           "expected": 0.882,
+           "measured": 0.882,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 36,
+           "paint": 0.995,
+           "share": 0.98,
+           "expected": 0.995,
+           "measured": 0.995,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 69728,
+         "unchanged": 69670,
+         "changed": 58,
+         "onTheFoot": 58,
+         "atItsEdges": 0,
+         "rounding": 0,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 46,
+           "paint": 0.851,
+           "share": 0.985,
+           "expected": 0.854,
+           "measured": 0.854,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 12,
+           "paint": 0.873,
+           "share": 0.973,
+           "expected": 0.876,
+           "measured": 0.876,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 88551,
+         "unchanged": 88536,
+         "changed": 15,
+         "onTheFoot": 15,
+         "atItsEdges": 0,
+         "rounding": 1,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 283,
+       "materials": 133,
+       "footArea": {
+        "wall": 6863.9,
+        "foot": 682.8,
+        "buildings": 18,
+        "withoutFoot": []
+       }
+      },
+      "tortuna": {
+       "views": {
+        "sun": {
+         "pixels": 114223,
+         "unchanged": 110171,
+         "changed": 4052,
+         "onTheFoot": 4052,
+         "atItsEdges": 0,
+         "rounding": 290,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 980,
+           "paint": 0.847,
+           "share": 0.963,
+           "expected": 0.852,
+           "measured": 0.852,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 986,
+           "paint": 0.891,
+           "share": 0.963,
+           "expected": 0.895,
+           "measured": 0.895,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 1065,
+           "paint": 0.95,
+           "share": 0.963,
+           "expected": 0.952,
+           "measured": 0.952,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 1021,
+           "paint": 0.992,
+           "share": 0.963,
+           "expected": 0.992,
+           "measured": 0.992,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 106177,
+         "unchanged": 102743,
+         "changed": 3434,
+         "onTheFoot": 3434,
+         "atItsEdges": 0,
+         "rounding": 339,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 790,
+           "paint": 0.847,
+           "share": 0.944,
+           "expected": 0.856,
+           "measured": 0.856,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 800,
+           "paint": 0.891,
+           "share": 0.944,
+           "expected": 0.897,
+           "measured": 0.897,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 925,
+           "paint": 0.95,
+           "share": 0.945,
+           "expected": 0.952,
+           "measured": 0.952,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 919,
+           "paint": 0.992,
+           "share": 0.945,
+           "expected": 0.993,
+           "measured": 0.993,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 89143,
+         "unchanged": 88834,
+         "changed": 309,
+         "onTheFoot": 309,
+         "atItsEdges": 0,
+         "rounding": 37,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 108,
+           "paint": 0.957,
+           "share": 0.973,
+           "expected": 0.958,
+           "measured": 0.958,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 201,
+           "paint": 0.99,
+           "share": 0.968,
+           "expected": 0.991,
+           "measured": 0.991,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 12,
+       "materials": 12,
+       "footArea": {
+        "wall": 1486,
+        "foot": 61.4,
+        "buildings": 12,
+        "withoutFoot": [
+         "Clubhouse_|_Tile_course",
+         "Clubhouse_|_Roof_flashing",
+         "Clubhouse_|_Timber_battens"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "a map's alpha passes through the foot: only the colour darkens",
+     "ok": true,
+     "rows": {
+      "before": {
+       "settled": true,
+       "pixels": 124,
+       "worst": 0,
+       "atTheGround": {
+        "height": 0.005,
+        "measured": 0.75,
+        "expected": 0.75,
+        "ifTheAlphaTookTheFoot": 0.756
+       }
+      },
+      "foot": {
+       "settled": true,
+       "pixels": 124,
+       "worst": 0,
+       "atTheGround": {
+        "height": 0.005,
+        "measured": 0.709,
+        "expected": 0.71,
+        "ifTheAlphaTookTheFoot": 0.756
+       }
+      }
+     }
+    },
+    {
+     "label": "every read-back settled: two renders in a row agree",
+     "ok": true,
+     "reads": 102,
+     "renders": 204,
+     "mostRenders": 2,
+     "unsettled": []
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "metals": {
+    "angso: ANG MODEL 4 | campus_gravel": {
+     "metalness": 0,
+     "roughness": 0.97,
+     "colour": "#aaa89e",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 226,
+      "p99": 0.234,
+      "max": 0.348,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "angso: ANG MODEL 4 | service_cladding": {
+     "metalness": 0.1,
+     "roughness": 0.82,
+     "colour": "#a2a6a0",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 81,
+      "p99": 0.121,
+      "max": 0.121,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "angso: ANG MODEL 4 | roof_silver": {
+     "metalness": 0.35,
+     "roughness": 0.58,
+     "colour": "#cdd1d0",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 115,
+      "p99": 0.716,
+      "max": 0.762,
+      "over": 0.043,
+      "kept": 0.001
+     }
+    },
+    "angso: ANG MODEL 4 | red": {
+     "metalness": 0,
+     "roughness": 0.84,
+     "colour": "#933a2c",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 49,
+      "p99": 0.069,
+      "max": 0.074,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "angso: ANG MODEL 4 | roof_tile": {
+     "metalness": 0,
+     "roughness": 0.9,
+     "colour": "#bf6f48",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 56,
+      "p99": 0.142,
+      "max": 0.172,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "angso: ANG MODEL 4 | range_paving": {
+     "metalness": 0,
+     "roughness": 0.93,
+     "colour": "#b6a895",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 48,
+      "p99": 0.234,
+      "max": 0.247,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "angso: ANG MODEL 4 | foundation": {
+     "metalness": 0,
+     "roughness": 0.96,
+     "colour": "#8e9089",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 52,
+      "p99": 0.307,
+      "max": 0.31,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "angso: ANG MODEL 4 | roof_dark": {
+     "metalness": 0.15,
+     "roughness": 0.67,
+     "colour": "#3c4547",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 60,
+      "p99": 0.055,
+      "max": 0.07,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "angso: ANG MODEL 4 | white": {
+     "metalness": 0,
+     "roughness": 0.68,
+     "colour": "#ebeae2",
+     "worst": {
+      "preset": "midnight",
+      "view": "sun",
+      "threshold": 0.5,
+      "pixels": 40,
+      "p99": 0.712,
+      "max": 0.718,
+      "over": 0.1,
+      "kept": 0.029
+     }
+    },
+    "johannesberg: JOH ARCH | foundation": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#777972",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 475,
+      "p99": 0.071,
+      "max": 0.074,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | falu-red": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#8b352b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 822,
+      "p99": 0.037,
+      "max": 0.039,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | white": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#eee9db",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 222,
+      "p99": 0.755,
+      "max": 0.755,
+      "over": 0.743,
+      "kept": 0.332
+     }
+    },
+    "johannesberg: JOH ARCH | glass": {
+     "metalness": 0,
+     "roughness": 0.28,
+     "colour": "#314d5c",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 117,
+      "p99": 0.078,
+      "max": 0.084,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | dark-metal": {
+     "metalness": 0.2,
+     "roughness": 0.78,
+     "colour": "#303636",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 33,
+      "p99": 0.146,
+      "max": 0.161,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | roof-seam": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#4c5352",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 92,
+      "p99": 0.071,
+      "max": 0.073,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | grey-metal": {
+     "metalness": 0.2,
+     "roughness": 0.78,
+     "colour": "#969b96",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 720,
+      "p99": 0.245,
+      "max": 0.311,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | peach": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#d7b496",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 523,
+      "p99": 0.17,
+      "max": 0.352,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | tile-red": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#ad5237",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 446,
+      "p99": 0.335,
+      "max": 0.476,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | cream": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#e5d3aa",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 825,
+      "p99": 0.612,
+      "max": 0.612,
+      "over": 0.229,
+      "kept": 0.037
+     }
+    },
+    "johannesberg: JOH ARCH | roof-dark": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#353b3b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 754,
+      "p99": 0.226,
+      "max": 0.267,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | wood": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#806949",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 35,
+      "p99": 0.122,
+      "max": 0.146,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | tile-light": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#b86543",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 41,
+      "p99": 0.26,
+      "max": 0.26,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | glass-light": {
+     "metalness": 0,
+     "roughness": 0.28,
+     "colour": "#547482",
+     "worst": {
+      "preset": "dawn",
+      "view": "side",
+      "threshold": 0.6,
+      "pixels": 187,
+      "p99": 0.158,
+      "max": 0.197,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "johannesberg: JOH ARCH | black": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#202522",
+     "worst": {
+      "preset": "dawn",
+      "view": "side",
+      "threshold": 0.6,
+      "pixels": 30,
+      "p99": 0.022,
+      "max": 0.037,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | e6e5dd_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#e6e5dd",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 179,
+      "p99": 0.72,
+      "max": 0.72,
+      "over": 0.553,
+      "kept": 0.255
+     }
+    },
+    "lidingo: LID MODEL | 343b3e_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#343b3e",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 394,
+      "p99": 0.18,
+      "max": 0.198,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 242b2d_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#242b2d",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 34,
+      "p99": 0.148,
+      "max": 0.154,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 893b2e_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#893b2e",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 135,
+      "p99": 0.036,
+      "max": 0.036,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 303a40_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#303a40",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 199,
+      "p99": 0.019,
+      "max": 0.019,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 565650_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#565650",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 85,
+      "p99": 0.132,
+      "max": 0.132,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 303a40_0.6_0.25_1.001": {
+     "metalness": 0.25,
+     "roughness": 0.6,
+     "colour": "#303a40",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 146,
+      "p99": 0.028,
+      "max": 0.03,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 4c5850_0.95_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#4c5850",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 121,
+      "p99": 0.113,
+      "max": 0.118,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 9aa6a6_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#9aa6a6",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 50,
+      "p99": 0.284,
+      "max": 0.285,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 354345_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#354345",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 37,
+      "p99": 0.085,
+      "max": 0.095,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 984538_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#984538",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 39,
+      "p99": 0.143,
+      "max": 0.143,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 303a40_0.55_0.3_1.001": {
+     "metalness": 0.3,
+     "roughness": 0.55,
+     "colour": "#303a40",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 54,
+      "p99": 0.027,
+      "max": 0.028,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 566166_0.48_0.45_1.001": {
+     "metalness": 0.45,
+     "roughness": 0.48,
+     "colour": "#566166",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 41,
+      "p99": 0.033,
+      "max": 0.033,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 344c50_0.23_0.22_1.001": {
+     "metalness": 0.22,
+     "roughness": 0.23,
+     "colour": "#344c50",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 31,
+      "p99": 0.048,
+      "max": 0.048,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 555c4c_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#555c4c",
+     "worst": {
+      "preset": "dawn",
+      "view": "away",
+      "threshold": 0.6,
+      "pixels": 45,
+      "p99": 0.094,
+      "max": 0.094,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 63833d_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#63833d",
+     "worst": {
+      "preset": "midnight",
+      "view": "sun",
+      "threshold": 0.5,
+      "pixels": 36,
+      "p99": 0.141,
+      "max": 0.16,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "lidingo: LID MODEL | 693129_0.8_0_1.001": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#693129",
+     "worst": {
+      "preset": "host",
+      "view": "side",
+      "threshold": 0.86,
+      "pixels": 30,
+      "p99": 0.063,
+      "max": 0.064,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | foundation.003": {
+     "metalness": 0,
+     "roughness": 0.92,
+     "colour": "#6a767b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 283,
+      "p99": 0.065,
+      "max": 0.065,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | roof-metal.003": {
+     "metalness": 0.3,
+     "roughness": 0.54,
+     "colour": "#303738",
+     "worst": {
+      "preset": "dawn",
+      "view": "sun",
+      "threshold": 0.6,
+      "pixels": 385,
+      "p99": 1.069,
+      "max": 1.283,
+      "over": 0.013,
+      "kept": 0.016
+     }
+    },
+    "puttom: PUT MODEL | red.003": {
+     "metalness": 0,
+     "roughness": 0.88,
+     "colour": "#993c31",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 673,
+      "p99": 0.043,
+      "max": 0.047,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | net-mesh.002": {
+     "metalness": 0,
+     "roughness": 1,
+     "colour": "#3c4d42",
+     "worst": {
+      "preset": "dawn",
+      "view": "sun",
+      "threshold": 0.6,
+      "pixels": 885,
+      "p99": 0.364,
+      "max": 0.833,
+      "over": 0.002,
+      "kept": 0.001
+     }
+    },
+    "puttom: PUT MODEL | white.003": {
+     "metalness": 0,
+     "roughness": 0.64,
+     "colour": "#e3e7dc",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 73,
+      "p99": 0.725,
+      "max": 0.73,
+      "over": 0.849,
+      "kept": 0.228
+     }
+    },
+    "puttom: PUT MODEL | net-pole.002": {
+     "metalness": 0.15,
+     "roughness": 0.8,
+     "colour": "#797d77",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 71,
+      "p99": 0.109,
+      "max": 0.197,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | red-dark.003": {
+     "metalness": 0,
+     "roughness": 0.88,
+     "colour": "#772d25",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 115,
+      "p99": 0.024,
+      "max": 0.029,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | roof-light.003": {
+     "metalness": 0.2,
+     "roughness": 0.68,
+     "colour": "#87928e",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 93,
+      "p99": 0.216,
+      "max": 0.225,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | glass.003": {
+     "metalness": 0.28,
+     "roughness": 0.21,
+     "colour": "#355e6b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 37,
+      "p99": 0.059,
+      "max": 0.084,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | roof.003": {
+     "metalness": 0.05,
+     "roughness": 0.77,
+     "colour": "#474740",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 130,
+      "p99": 0.227,
+      "max": 0.464,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | paving-rose.002": {
+     "metalness": 0,
+     "roughness": 0.94,
+     "colour": "#ba9184",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 45,
+      "p99": 0.152,
+      "max": 0.161,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | blue-base.003": {
+     "metalness": 0,
+     "roughness": 0.9,
+     "colour": "#436473",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 33,
+      "p99": 0.106,
+      "max": 0.106,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | cream.003": {
+     "metalness": 0,
+     "roughness": 0.9,
+     "colour": "#ded6b8",
+     "worst": {
+      "preset": "midnight",
+      "view": "side",
+      "threshold": 0.5,
+      "pixels": 328,
+      "p99": 0.607,
+      "max": 0.607,
+      "over": 0.787,
+      "kept": 0.13
+     }
+    },
+    "puttom: PUT MODEL | wood.003": {
+     "metalness": 0,
+     "roughness": 0.9,
+     "colour": "#796348",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 49,
+      "p99": 0.168,
+      "max": 0.168,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | roof-red.003": {
+     "metalness": 0,
+     "roughness": 0.82,
+     "colour": "#934a38",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 509,
+      "p99": 0.157,
+      "max": 0.159,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "puttom: PUT MODEL | timber-red.002": {
+     "metalness": 0,
+     "roughness": 0.94,
+     "colour": "#9e4435",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 56,
+      "p99": 0.15,
+      "max": 0.15,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "ribbingsfors: RIBB | red": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#95422f",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 315,
+      "p99": 0.097,
+      "max": 0.108,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "ribbingsfors: RIBB | stone": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#979993",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 95,
+      "p99": 0.186,
+      "max": 0.189,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "ribbingsfors: RIBB | tile": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#a65f3b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 397,
+      "p99": 0.157,
+      "max": 0.172,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "ribbingsfors: RIBB | trim": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#c8cbc2",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 40,
+      "p99": 0.419,
+      "max": 0.554,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "ribbingsfors: RIBB | yellow": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#ddc493",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 140,
+      "p99": 0.525,
+      "max": 0.525,
+      "over": 0.4,
+      "kept": 0.003
+     }
+    },
+    "ribbingsfors: RIBB | slate": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#485257",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 573,
+      "p99": 0.183,
+      "max": 0.236,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | parking_gravel.001": {
+     "metalness": 0,
+     "roughness": 0.96,
+     "colour": "#bab7af",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 7237,
+      "p99": 0.261,
+      "max": 0.335,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | foundation.002": {
+     "metalness": 0,
+     "roughness": 0.88,
+     "colour": "#959793",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 238,
+      "p99": 0.19,
+      "max": 0.246,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | wall_yellow.002": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#decd99",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 757,
+      "p99": 0.579,
+      "max": 0.579,
+      "over": 0.526,
+      "kept": 0.044
+     }
+    },
+    "veckefjarden: VECK MODEL | clubhouse_basement.002": {
+     "metalness": 0,
+     "roughness": 0.78,
+     "colour": "#90a68b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 133,
+      "p99": 0.121,
+      "max": 0.121,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | roof_grey.002": {
+     "metalness": 0.3,
+     "roughness": 0.53,
+     "colour": "#5b6169",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 1472,
+      "p99": 2.455,
+      "max": 2.852,
+      "over": 0.092,
+      "kept": 0.177
+     }
+    },
+    "veckefjarden: VECK MODEL | white.002": {
+     "metalness": 0,
+     "roughness": 0.6,
+     "colour": "#f5f3e8",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 182,
+      "p99": 0.837,
+      "max": 0.837,
+      "over": 0.989,
+      "kept": 0.288
+     }
+    },
+    "veckefjarden: VECK MODEL | roof_seam.002": {
+     "metalness": 0.4,
+     "roughness": 0.5,
+     "colour": "#797e84",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 48,
+      "p99": 0.057,
+      "max": 2.06,
+      "over": 0.021,
+      "kept": 0.043
+     }
+    },
+    "veckefjarden: VECK MODEL | island_gravel.001": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#cbc9c1",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 30,
+      "p99": 0.296,
+      "max": 0.313,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | glass.002": {
+     "metalness": 0.15,
+     "roughness": 0.16,
+     "colour": "#5d818b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 69,
+      "p99": 0.189,
+      "max": 0.195,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | metal.002": {
+     "metalness": 0.5,
+     "roughness": 0.48,
+     "colour": "#4b5559",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 47,
+      "p99": 2.986,
+      "max": 3.002,
+      "over": 0.085,
+      "kept": 0.142
+     }
+    },
+    "veckefjarden: VECK MODEL | translucent.001": {
+     "metalness": 0,
+     "roughness": 0.21,
+     "colour": "#dbefec",
+     "worst": {
+      "preset": "dawn",
+      "view": "away",
+      "threshold": 0.6,
+      "pixels": 103,
+      "p99": 0.503,
+      "max": 0.604,
+      "over": 0.01,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | court_glass.001": {
+     "metalness": 0,
+     "roughness": 0.1,
+     "colour": "#b1d3d8",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 80,
+      "p99": 0.214,
+      "max": 0.263,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | neutral_timber.001": {
+     "metalness": 0,
+     "roughness": 0.84,
+     "colour": "#cdcbbf",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 338,
+      "p99": 0.55,
+      "max": 0.55,
+      "over": 0.766,
+      "kept": 0.029
+     }
+    },
+    "veckefjarden: VECK MODEL | range_apron.001": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#a8aba8",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 32,
+      "p99": 0.268,
+      "max": 0.284,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | wood.002": {
+     "metalness": 0,
+     "roughness": 0.86,
+     "colour": "#a28665",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 30,
+      "p99": 0.271,
+      "max": 0.277,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | blue.002": {
+     "metalness": 0,
+     "roughness": 0.82,
+     "colour": "#428bb8",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 31,
+      "p99": 0.1,
+      "max": 0.104,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden: VECK MODEL | range_mat.001": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#3c846f",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 54,
+      "p99": 0.19,
+      "max": 0.191,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture granite": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#96938c",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 5678,
+      "p99": 0.102,
+      "max": 0.17,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture trim": {
+     "metalness": 0,
+     "roughness": 0.75,
+     "colour": "#f4f1e9",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 7617,
+      "p99": 0.811,
+      "max": 0.813,
+      "over": 0.969,
+      "kept": 0.647
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture plaster": {
+     "metalness": 0,
+     "roughness": 0.88,
+     "colour": "#eeeae0",
+     "worst": {
+      "preset": "midnight",
+      "view": "away",
+      "threshold": 0.5,
+      "pixels": 22207,
+      "p99": 0.76,
+      "max": 0.76,
+      "over": 0.935,
+      "kept": 0.543
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture copper": {
+     "metalness": 0.18,
+     "roughness": 0.74,
+     "colour": "#796149",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 5084,
+      "p99": 0.052,
+      "max": 0.052,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture door": {
+     "metalness": 0,
+     "roughness": 0.8,
+     "colour": "#555b5a",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 231,
+      "p99": 0.041,
+      "max": 0.041,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture glass": {
+     "metalness": 0.1,
+     "roughness": 0.27,
+     "colour": "#344447",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 2870,
+      "p99": 1.456,
+      "max": 1.553,
+      "over": 0.087,
+      "kept": 0.086
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture dark": {
+     "metalness": 0,
+     "roughness": 0.82,
+     "colour": "#30332f",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 428,
+      "p99": 0.019,
+      "max": 0.021,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture copper_": {
+     "metalness": 0.18,
+     "roughness": 0.68,
+     "colour": "#89745b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 1048,
+      "p99": 0.068,
+      "max": 0.12,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture upper_r": {
+     "metalness": 0.18,
+     "roughness": 0.72,
+     "colour": "#4d4b41",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 340,
+      "p99": 0.031,
+      "max": 0.031,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture patina": {
+     "metalness": 0.12,
+     "roughness": 0.7,
+     "colour": "#6b7867",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 189,
+      "p99": 0.059,
+      "max": 0.059,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure timber_l": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#969487",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 636,
+      "p99": 0.103,
+      "max": 0.104,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure landing_": {
+     "metalness": 0,
+     "roughness": 0.96,
+     "colour": "#356e53",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 876,
+      "p99": 0.104,
+      "max": 0.146,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure landing": {
+     "metalness": 0,
+     "roughness": 0.96,
+     "colour": "#316b50",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 1693,
+      "p99": 0.103,
+      "max": 0.133,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure timber": {
+     "metalness": 0,
+     "roughness": 0.91,
+     "colour": "#777365",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 80,
+      "p99": 0.123,
+      "max": 0.153,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure timber_d": {
+     "metalness": 0,
+     "roughness": 0.94,
+     "colour": "#494a43",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 165,
+      "p99": 0.086,
+      "max": 0.088,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure granite": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#96938c",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 284,
+      "p99": 0.187,
+      "max": 0.19,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure steel": {
+     "metalness": 0.35,
+     "roughness": 0.65,
+     "colour": "#969e9d",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 276,
+      "p99": 0.219,
+      "max": 0.391,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure rail": {
+     "metalness": 0.45,
+     "roughness": 0.44,
+     "colour": "#b7bdb9",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 31,
+      "p99": 2.01,
+      "max": 2.193,
+      "over": 0.129,
+      "kept": 0.238
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure ballast": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#74736c",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 58,
+      "p99": 0.132,
+      "max": 0.137,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure track": {
+     "metalness": 0,
+     "roughness": 0.92,
+     "colour": "#4d6846",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 71,
+      "p99": 0.044,
+      "max": 0.044,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "visby: Visby / stone": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#b8b4a2",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 38,
+      "p99": 0.156,
+      "max": 0.158,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "visby: Visby / redwood": {
+     "metalness": 0,
+     "roughness": 0.88,
+     "colour": "#93483f",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 224,
+      "p99": 0.044,
+      "max": 0.074,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "visby: Visby / roof": {
+     "metalness": 0.3,
+     "roughness": 0.48,
+     "colour": "#35424e",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 460,
+      "p99": 0.095,
+      "max": 5.58,
+      "over": 0.007,
+      "kept": 0.034
+     }
+    },
+    "visby: Visby / glass": {
+     "metalness": 0.18,
+     "roughness": 0.24,
+     "colour": "#355663",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 35,
+      "p99": 0.085,
+      "max": 0.096,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "visby: Visby / trim": {
+     "metalness": 0,
+     "roughness": 0.68,
+     "colour": "#f1f0e9",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 36,
+      "p99": 0.923,
+      "max": 0.923,
+      "over": 0.611,
+      "kept": 0.195
+     }
+    },
+    "visby: Visby / render": {
+     "metalness": 0,
+     "roughness": 0.83,
+     "colour": "#e4e3dc",
+     "worst": {
+      "preset": "midnight",
+      "view": "side",
+      "threshold": 0.5,
+      "pixels": 84,
+      "p99": 0.699,
+      "max": 0.699,
+      "over": 0.119,
+      "kept": 0.039
+     }
+    },
+    "visby: Visby / darkwood": {
+     "metalness": 0,
+     "roughness": 0.9,
+     "colour": "#50524b",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 41,
+      "p99": 0.1,
+      "max": 0.1,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "visby: Visby / seam": {
+     "metalness": 0.35,
+     "roughness": 0.5,
+     "colour": "#4a5966",
+     "worst": {
+      "preset": "midnight",
+      "view": "side",
+      "threshold": 0.5,
+      "pixels": 37,
+      "p99": 0.095,
+      "max": 0.102,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Foundation": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#7f7d73",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 937,
+      "p99": 0.071,
+      "max": 0.071,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | White trim": {
+     "metalness": 0,
+     "roughness": 0.65,
+     "colour": "#e8e8de",
+     "worst": {
+      "preset": "golden",
+      "view": "away",
+      "threshold": 0.7,
+      "pixels": 1900,
+      "p99": 0.918,
+      "max": 0.918,
+      "over": 0.824,
+      "kept": 0.586
+     }
+    },
+    "tortuna: Tortuna | Ochre timber": {
+     "metalness": 0,
+     "roughness": 0.85,
+     "colour": "#cba548",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 8399,
+      "p99": 0.139,
+      "max": 0.14,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Timber battens": {
+     "metalness": 0,
+     "roughness": 0.85,
+     "colour": "#bc923b",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 1000,
+      "p99": 0.114,
+      "max": 0.114,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Glass": {
+     "metalness": 0.18,
+     "roughness": 0.22,
+     "colour": "#344a4d",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 1328,
+      "p99": 0.024,
+      "max": 0.071,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Metal rail": {
+     "metalness": 0.5,
+     "roughness": 0.5,
+     "colour": "#747e7c",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 276,
+      "p99": 0.12,
+      "max": 0.128,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Deck timber": {
+     "metalness": 0,
+     "roughness": 0.9,
+     "colour": "#847764",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 132,
+      "p99": 0.159,
+      "max": 0.16,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Roof tile": {
+     "metalness": 0,
+     "roughness": 0.88,
+     "colour": "#59473e",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 4131,
+      "p99": 0.033,
+      "max": 0.46,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Tile course": {
+     "metalness": 0,
+     "roughness": 0.88,
+     "colour": "#665046",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 966,
+      "p99": 0.138,
+      "max": 0.376,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Roof flashing": {
+     "metalness": 0.25,
+     "roughness": 0.5,
+     "colour": "#655f59",
+     "worst": {
+      "preset": "midnight",
+      "view": "sun",
+      "threshold": 0.5,
+      "pixels": 159,
+      "p99": 1.675,
+      "max": 3.607,
+      "over": 0.025,
+      "kept": 0.058
+     }
+    },
+    "tortuna: Tortuna | Brick": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#8a5141",
+     "worst": {
+      "preset": "golden",
+      "view": "sun",
+      "threshold": 0.7,
+      "pixels": 71,
+      "p99": 0.096,
+      "max": 0.097,
+      "over": 0,
+      "kept": 0
+     }
+    },
+    "tortuna: Tortuna | Awning": {
+     "metalness": 0,
+     "roughness": 0.95,
+     "colour": "#d9d7c8",
+     "worst": {
+      "preset": "golden",
+      "view": "side",
+      "threshold": 0.7,
+      "pixels": 896,
+      "p99": 0.316,
+      "max": 0.316,
+      "over": 0,
+      "kept": 0
+     }
+    }
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "the batch's wall foot darkens walls' foot band by its own curve and changes nothing else",
+     "ok": true,
+     "foot": {
+      "floor": 0.72,
+      "metres": 0.9
+     },
+     "albedo": 0.8,
+     "within": {
+      "median": 0.005,
+      "p90": 0.015
+     },
+     "rows": {
+      "golden": {
+       "pixels": 88329,
+       "unchanged": 83359,
+       "changed": 4970,
+       "onTheFoot": 4970,
+       "atItsEdges": 0,
+       "rounding": 287,
+       "unexplained": 0,
+       "bands": [
+        {
+         "from": 0,
+         "to": 0.15,
+         "pixels": 835,
+         "paint": 0.726,
+         "share": 0.931,
+         "expected": 0.741,
+         "measured": 0.741,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.15,
+         "to": 0.3,
+         "pixels": 837,
+         "paint": 0.764,
+         "share": 0.931,
+         "expected": 0.777,
+         "measured": 0.777,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.3,
+         "to": 0.45,
+         "pixels": 837,
+         "paint": 0.825,
+         "share": 0.931,
+         "expected": 0.835,
+         "measured": 0.835,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.45,
+         "to": 0.6,
+         "pixels": 840,
+         "paint": 0.895,
+         "share": 0.931,
+         "expected": 0.9,
+         "measured": 0.9,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.6,
+         "to": 0.75,
+         "pixels": 841,
+         "paint": 0.956,
+         "share": 0.931,
+         "expected": 0.959,
+         "measured": 0.959,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.75,
+         "to": 0.9,
+         "pixels": 759,
+         "paint": 0.993,
+         "share": 0.931,
+         "expected": 0.994,
+         "measured": 0.994,
+         "error": 0,
+         "error90": 0
+        }
+       ],
+       "unexplainedPixels": []
+      },
+      "noon": {
+       "pixels": 88329,
+       "unchanged": 83361,
+       "changed": 4968,
+       "onTheFoot": 4968,
+       "atItsEdges": 0,
+       "rounding": 291,
+       "unexplained": 0,
+       "bands": [
+        {
+         "from": 0,
+         "to": 0.15,
+         "pixels": 835,
+         "paint": 0.726,
+         "share": 0.903,
+         "expected": 0.748,
+         "measured": 0.748,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.15,
+         "to": 0.3,
+         "pixels": 837,
+         "paint": 0.764,
+         "share": 0.903,
+         "expected": 0.781,
+         "measured": 0.781,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.3,
+         "to": 0.45,
+         "pixels": 837,
+         "paint": 0.825,
+         "share": 0.903,
+         "expected": 0.839,
+         "measured": 0.839,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.45,
+         "to": 0.6,
+         "pixels": 840,
+         "paint": 0.895,
+         "share": 0.903,
+         "expected": 0.902,
+         "measured": 0.902,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.6,
+         "to": 0.75,
+         "pixels": 841,
+         "paint": 0.956,
+         "share": 0.903,
+         "expected": 0.96,
+         "measured": 0.96,
+         "error": 0,
+         "error90": 0
+        },
+        {
+         "from": 0.75,
+         "to": 0.9,
+         "pixels": 757,
+         "paint": 0.993,
+         "share": 0.903,
+         "expected": 0.994,
+         "measured": 0.994,
+         "error": 0,
+         "error90": 0
+        }
+       ],
+       "unexplainedPixels": []
+      }
+     }
+    },
+    {
+     "label": "the ridge lights each slope from its eaves up, and changes nothing but roofs and their edges",
+     "ok": true,
+     "eave": 0.94,
+     "light": 1.14,
+     "albedo": 0.8,
+     "within": {
+      "median": 0.005,
+      "p90": 0.015
+     },
+     "rows": {
+      "golden": {
+       "pixels": 129600,
+       "unchanged": 123989,
+       "roofPixelsChanged": 5608,
+       "paint": {
+        "eaves": 0.941,
+        "ridge": 1.126
+       },
+       "share": 0.919,
+       "measured": {
+        "p01": 0.945,
+        "p99": 1.115
+       },
+       "error": 0,
+       "error90": 0,
+       "atRoofEdges": 3,
+       "rounding": 327,
+       "unexplained": 0,
+       "unexplainedPixels": []
+      },
+      "noon": {
+       "pixels": 129600,
+       "unchanged": 123974,
+       "roofPixelsChanged": 5608,
+       "paint": {
+        "eaves": 0.941,
+        "ridge": 1.126
+       },
+       "share": 0.847,
+       "measured": {
+        "p01": 0.949,
+        "p99": 1.106
+       },
+       "error": 0,
+       "error90": 0,
+       "atRoofEdges": 18,
+       "rounding": 362,
+       "unexplained": 0,
+       "unexplainedPixels": []
+      }
+     }
+    },
+    {
+     "label": "each Blender model takes the foot on its walls' lowest half metre only, by its own curve: every other pixel keeps its value",
+     "ok": true,
+     "foot": {
+      "floor": 0.84,
+      "metres": 0.55
+     },
+     "albedo": 0.8,
+     "within": {
+      "median": 0.005,
+      "p90": 0.015
+     },
+     "modelsWhereTheFootShows": 2,
+     "models": {
+      "angso": {
+       "views": {
+        "sun": {
+         "pixels": 69667,
+         "unchanged": 69191,
+         "changed": 476,
+         "onTheFoot": 476,
+         "atItsEdges": 0,
+         "rounding": 14,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 132,
+           "paint": 0.853,
+           "share": 0.969,
+           "expected": 0.858,
+           "measured": 0.858,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 115,
+           "paint": 0.897,
+           "share": 0.973,
+           "expected": 0.902,
+           "measured": 0.902,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 164,
+           "paint": 0.933,
+           "share": 0.97,
+           "expected": 0.935,
+           "measured": 0.935,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 65,
+           "paint": 0.99,
+           "share": 0.969,
+           "expected": 0.991,
+           "measured": 0.991,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 71855,
+         "unchanged": 71282,
+         "changed": 573,
+         "onTheFoot": 573,
+         "atItsEdges": 0,
+         "rounding": 80,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 180,
+           "paint": 0.847,
+           "share": 0.963,
+           "expected": 0.853,
+           "measured": 0.853,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 134,
+           "paint": 0.882,
+           "share": 0.957,
+           "expected": 0.888,
+           "measured": 0.888,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 110,
+           "paint": 0.935,
+           "share": 0.961,
+           "expected": 0.938,
+           "measured": 0.938,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 149,
+           "paint": 0.996,
+           "share": 0.893,
+           "expected": 0.997,
+           "measured": 0.997,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 86591,
+         "unchanged": 86576,
+         "changed": 15,
+         "onTheFoot": 15,
+         "atItsEdges": 0,
+         "rounding": 1,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 141,
+       "materials": 140,
+       "footArea": {
+        "wall": 5878.6,
+        "foot": 457,
+        "buildings": 19,
+        "withoutFoot": [
+         "S01",
+         "S02"
+        ]
+       }
+      },
+      "tortuna": {
+       "views": {
+        "sun": {
+         "pixels": 114223,
+         "unchanged": 110171,
+         "changed": 4052,
+         "onTheFoot": 4052,
+         "atItsEdges": 0,
+         "rounding": 290,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 980,
+           "paint": 0.847,
+           "share": 0.963,
+           "expected": 0.852,
+           "measured": 0.852,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 986,
+           "paint": 0.891,
+           "share": 0.963,
+           "expected": 0.895,
+           "measured": 0.895,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 1065,
+           "paint": 0.95,
+           "share": 0.963,
+           "expected": 0.952,
+           "measured": 0.952,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 1021,
+           "paint": 0.992,
+           "share": 0.963,
+           "expected": 0.992,
+           "measured": 0.992,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "away": {
+         "pixels": 106177,
+         "unchanged": 102743,
+         "changed": 3434,
+         "onTheFoot": 3434,
+         "atItsEdges": 0,
+         "rounding": 339,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0,
+           "to": 0.138,
+           "pixels": 790,
+           "paint": 0.847,
+           "share": 0.944,
+           "expected": 0.856,
+           "measured": 0.856,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.138,
+           "to": 0.275,
+           "pixels": 800,
+           "paint": 0.891,
+           "share": 0.944,
+           "expected": 0.897,
+           "measured": 0.897,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 925,
+           "paint": 0.95,
+           "share": 0.945,
+           "expected": 0.952,
+           "measured": 0.952,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 919,
+           "paint": 0.992,
+           "share": 0.945,
+           "expected": 0.993,
+           "measured": 0.993,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        },
+        "side": {
+         "pixels": 89143,
+         "unchanged": 88834,
+         "changed": 309,
+         "onTheFoot": 309,
+         "atItsEdges": 0,
+         "rounding": 37,
+         "seenThroughGlass": false,
+         "throughAGlassFoot": 0,
+         "unexplained": 0,
+         "bands": [
+          {
+           "from": 0.275,
+           "to": 0.413,
+           "pixels": 108,
+           "paint": 0.957,
+           "share": 0.973,
+           "expected": 0.958,
+           "measured": 0.958,
+           "error": 0,
+           "error90": 0
+          },
+          {
+           "from": 0.413,
+           "to": 0.55,
+           "pixels": 201,
+           "paint": 0.99,
+           "share": 0.968,
+           "expected": 0.991,
+           "measured": 0.991,
+           "error": 0,
+           "error90": 0
+          }
+         ],
+         "unexplainedPixels": []
+        }
+       },
+       "meshes": 12,
+       "materials": 12,
+       "footArea": {
+        "wall": 1486,
+        "foot": 61.4,
+        "buildings": 12,
+        "withoutFoot": [
+         "Clubhouse_|_Tile_course",
+         "Clubhouse_|_Roof_flashing",
+         "Clubhouse_|_Timber_battens"
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "a map's alpha passes through the foot: only the colour darkens",
+     "ok": true,
+     "rows": {
+      "before": {
+       "settled": true,
+       "pixels": 124,
+       "worst": 0,
+       "atTheGround": {
+        "height": 0.005,
+        "measured": 0.75,
+        "expected": 0.75,
+        "ifTheAlphaTookTheFoot": 0.756
+       }
+      },
+      "foot": {
+       "settled": true,
+       "pixels": 124,
+       "worst": 0,
+       "atTheGround": {
+        "height": 0.005,
+        "measured": 0.709,
+        "expected": 0.71,
+        "ifTheAlphaTookTheFoot": 0.756
+       }
+      }
+     }
+    },
+    {
+     "label": "every read-back settled: two renders in a row agree",
+     "ok": true,
+     "reads": 30,
+     "renders": 63,
+     "mostRenders": 3,
+     "unsettled": []
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "metals": {}
+  }
+ },
+ "metalsPassing": [
+  {
+   "name": "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture trim",
+   "metalness": 0,
+   "roughness": 0.75,
+   "colour": "#f4f1e9",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 7617,
+    "p99": 0.811,
+    "max": 0.813,
+    "over": 0.969,
+    "kept": 0.647
+   }
+  },
+  {
+   "name": "tortuna: Tortuna | White trim",
+   "metalness": 0,
+   "roughness": 0.65,
+   "colour": "#e8e8de",
+   "worst": {
+    "preset": "golden",
+    "view": "away",
+    "threshold": 0.7,
+    "pixels": 1900,
+    "p99": 0.918,
+    "max": 0.918,
+    "over": 0.824,
+    "kept": 0.586
+   }
+  },
+  {
+   "name": "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture plaster",
+   "metalness": 0,
+   "roughness": 0.88,
+   "colour": "#eeeae0",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 22207,
+    "p99": 0.76,
+    "max": 0.76,
+    "over": 0.935,
+    "kept": 0.543
+   }
+  },
+  {
+   "name": "johannesberg: JOH ARCH | white",
+   "metalness": 0,
+   "roughness": 0.78,
+   "colour": "#eee9db",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 222,
+    "p99": 0.755,
+    "max": 0.755,
+    "over": 0.743,
+    "kept": 0.332
+   }
+  },
+  {
+   "name": "veckefjarden: VECK MODEL | white.002",
+   "metalness": 0,
+   "roughness": 0.6,
+   "colour": "#f5f3e8",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 182,
+    "p99": 0.837,
+    "max": 0.837,
+    "over": 0.989,
+    "kept": 0.288
+   }
+  },
+  {
+   "name": "lidingo: LID MODEL | e6e5dd_0.8_0_1.001",
+   "metalness": 0,
+   "roughness": 0.8,
+   "colour": "#e6e5dd",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 179,
+    "p99": 0.72,
+    "max": 0.72,
+    "over": 0.553,
+    "kept": 0.255
+   }
+  },
+  {
+   "name": "veckefjarden ski jump: VECK LANDMARK | Paradiskullen K90 - editable structure rail",
+   "metalness": 0.45,
+   "roughness": 0.44,
+   "colour": "#b7bdb9",
+   "worst": {
+    "preset": "golden",
+    "view": "side",
+    "threshold": 0.7,
+    "pixels": 31,
+    "p99": 2.01,
+    "max": 2.193,
+    "over": 0.129,
+    "kept": 0.238
+   }
+  },
+  {
+   "name": "puttom: PUT MODEL | white.003",
+   "metalness": 0,
+   "roughness": 0.64,
+   "colour": "#e3e7dc",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 73,
+    "p99": 0.725,
+    "max": 0.73,
+    "over": 0.849,
+    "kept": 0.228
+   }
+  },
+  {
+   "name": "visby: Visby / trim",
+   "metalness": 0,
+   "roughness": 0.68,
+   "colour": "#f1f0e9",
+   "worst": {
+    "preset": "golden",
+    "view": "away",
+    "threshold": 0.7,
+    "pixels": 36,
+    "p99": 0.923,
+    "max": 0.923,
+    "over": 0.611,
+    "kept": 0.195
+   }
+  },
+  {
+   "name": "veckefjarden: VECK MODEL | roof_grey.002",
+   "metalness": 0.3,
+   "roughness": 0.53,
+   "colour": "#5b6169",
+   "worst": {
+    "preset": "golden",
+    "view": "sun",
+    "threshold": 0.7,
+    "pixels": 1472,
+    "p99": 2.455,
+    "max": 2.852,
+    "over": 0.092,
+    "kept": 0.177
+   }
+  },
+  {
+   "name": "veckefjarden: VECK MODEL | metal.002",
+   "metalness": 0.5,
+   "roughness": 0.48,
+   "colour": "#4b5559",
+   "worst": {
+    "preset": "golden",
+    "view": "sun",
+    "threshold": 0.7,
+    "pixels": 47,
+    "p99": 2.986,
+    "max": 3.002,
+    "over": 0.085,
+    "kept": 0.142
+   }
+  },
+  {
+   "name": "puttom: PUT MODEL | cream.003",
+   "metalness": 0,
+   "roughness": 0.9,
+   "colour": "#ded6b8",
+   "worst": {
+    "preset": "midnight",
+    "view": "side",
+    "threshold": 0.5,
+    "pixels": 328,
+    "p99": 0.607,
+    "max": 0.607,
+    "over": 0.787,
+    "kept": 0.13
+   }
+  },
+  {
+   "name": "veckefjarden church: VECK LANDMARK | Sjalevads kyrka - editable architecture glass",
+   "metalness": 0.1,
+   "roughness": 0.27,
+   "colour": "#344447",
+   "worst": {
+    "preset": "golden",
+    "view": "away",
+    "threshold": 0.7,
+    "pixels": 2870,
+    "p99": 1.456,
+    "max": 1.553,
+    "over": 0.087,
+    "kept": 0.086
+   }
+  },
+  {
+   "name": "tortuna: Tortuna | Roof flashing",
+   "metalness": 0.25,
+   "roughness": 0.5,
+   "colour": "#655f59",
+   "worst": {
+    "preset": "midnight",
+    "view": "sun",
+    "threshold": 0.5,
+    "pixels": 159,
+    "p99": 1.675,
+    "max": 3.607,
+    "over": 0.025,
+    "kept": 0.058
+   }
+  },
+  {
+   "name": "veckefjarden: VECK MODEL | wall_yellow.002",
+   "metalness": 0,
+   "roughness": 0.8,
+   "colour": "#decd99",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 757,
+    "p99": 0.579,
+    "max": 0.579,
+    "over": 0.526,
+    "kept": 0.044
+   }
+  },
+  {
+   "name": "veckefjarden: VECK MODEL | roof_seam.002",
+   "metalness": 0.4,
+   "roughness": 0.5,
+   "colour": "#797e84",
+   "worst": {
+    "preset": "golden",
+    "view": "sun",
+    "threshold": 0.7,
+    "pixels": 48,
+    "p99": 0.057,
+    "max": 2.06,
+    "over": 0.021,
+    "kept": 0.043
+   }
+  },
+  {
+   "name": "visby: Visby / render",
+   "metalness": 0,
+   "roughness": 0.83,
+   "colour": "#e4e3dc",
+   "worst": {
+    "preset": "midnight",
+    "view": "side",
+    "threshold": 0.5,
+    "pixels": 84,
+    "p99": 0.699,
+    "max": 0.699,
+    "over": 0.119,
+    "kept": 0.039
+   }
+  },
+  {
+   "name": "johannesberg: JOH ARCH | cream",
+   "metalness": 0,
+   "roughness": 0.78,
+   "colour": "#e5d3aa",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 825,
+    "p99": 0.612,
+    "max": 0.612,
+    "over": 0.229,
+    "kept": 0.037
+   }
+  },
+  {
+   "name": "visby: Visby / roof",
+   "metalness": 0.3,
+   "roughness": 0.48,
+   "colour": "#35424e",
+   "worst": {
+    "preset": "golden",
+    "view": "sun",
+    "threshold": 0.7,
+    "pixels": 460,
+    "p99": 0.095,
+    "max": 5.58,
+    "over": 0.007,
+    "kept": 0.034
+   }
+  },
+  {
+   "name": "angso: ANG MODEL 4 | white",
+   "metalness": 0,
+   "roughness": 0.68,
+   "colour": "#ebeae2",
+   "worst": {
+    "preset": "midnight",
+    "view": "sun",
+    "threshold": 0.5,
+    "pixels": 40,
+    "p99": 0.712,
+    "max": 0.718,
+    "over": 0.1,
+    "kept": 0.029
+   }
+  },
+  {
+   "name": "veckefjarden: VECK MODEL | neutral_timber.001",
+   "metalness": 0,
+   "roughness": 0.84,
+   "colour": "#cdcbbf",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 338,
+    "p99": 0.55,
+    "max": 0.55,
+    "over": 0.766,
+    "kept": 0.029
+   }
+  },
+  {
+   "name": "puttom: PUT MODEL | roof-metal.003",
+   "metalness": 0.3,
+   "roughness": 0.54,
+   "colour": "#303738",
+   "worst": {
+    "preset": "dawn",
+    "view": "sun",
+    "threshold": 0.6,
+    "pixels": 385,
+    "p99": 1.069,
+    "max": 1.283,
+    "over": 0.013,
+    "kept": 0.016
+   }
+  },
+  {
+   "name": "ribbingsfors: RIBB | yellow",
+   "metalness": 0,
+   "roughness": 0.78,
+   "colour": "#ddc493",
+   "worst": {
+    "preset": "midnight",
+    "view": "away",
+    "threshold": 0.5,
+    "pixels": 140,
+    "p99": 0.525,
+    "max": 0.525,
+    "over": 0.4,
+    "kept": 0.003
+   }
+  },
+  {
+   "name": "angso: ANG MODEL 4 | roof_silver",
+   "metalness": 0.35,
+   "roughness": 0.58,
+   "colour": "#cdd1d0",
+   "worst": {
+    "preset": "golden",
+    "view": "sun",
+    "threshold": 0.7,
+    "pixels": 115,
+    "p99": 0.716,
+    "max": 0.762,
+    "over": 0.043,
+    "kept": 0.001
+   }
+  },
+  {
+   "name": "puttom: PUT MODEL | net-mesh.002",
+   "metalness": 0,
+   "roughness": 1,
+   "colour": "#3c4d42",
+   "worst": {
+    "preset": "dawn",
+    "view": "sun",
+    "threshold": 0.6,
+    "pixels": 885,
+    "p99": 0.364,
+    "max": 0.833,
+    "over": 0.002,
+    "kept": 0.001
+   }
+  },
+  {
+   "name": "veckefjarden: VECK MODEL | translucent.001",
+   "metalness": 0,
+   "roughness": 0.21,
+   "colour": "#dbefec",
+   "worst": {
+    "preset": "dawn",
+    "view": "away",
+    "threshold": 0.6,
+    "pixels": 103,
+    "p99": 0.503,
+    "max": 0.604,
+    "over": 0.01,
+    "kept": 0
+   }
+  }
+ ]
+}

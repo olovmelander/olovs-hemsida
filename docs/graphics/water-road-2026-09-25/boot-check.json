@@ -1,0 +1,133 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Visby, high quality",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 115,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "relief": true,
+    "openSea": true
+   },
+   "water": {
+    "road": true,
+    "mirror": true,
+    "relief": 1,
+    "openSea": {
+     "on": true,
+     "sheets": 8,
+     "lakeSheets": 33
+    },
+    "nordic": true,
+    "wind": true
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, low quality",
+   "q": "lo",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 71,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "relief": true,
+    "openSea": true
+   },
+   "water": {
+    "road": true,
+    "mirror": true,
+    "relief": 1,
+    "openSea": {
+     "on": true,
+     "sheets": 8,
+     "lakeSheets": 33
+    },
+    "nordic": true,
+    "wind": true
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, all four befores",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&waterroad=0&watermirror=0&waterrelief=0&opensea=0",
+   "seconds": 95,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "befores": true
+   },
+   "water": {
+    "road": false,
+    "mirror": false,
+    "relief": null,
+    "openSea": {
+     "on": false,
+     "sheets": 0,
+     "lakeSheets": 41
+    },
+    "nordic": true,
+    "wind": true
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby in a storm",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=storm",
+   "seconds": 75,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "relief": true,
+    "openSea": true
+   },
+   "water": {
+    "road": true,
+    "mirror": true,
+    "relief": 0.25333333333333335,
+    "openSea": {
+     "on": true,
+     "sheets": 8,
+     "lakeSheets": 33
+    },
+    "nordic": true,
+    "wind": true
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, a lake course",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 108,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "relief": true,
+    "openSea": true
+   },
+   "water": {
+    "road": true,
+    "mirror": true,
+    "relief": 1,
+    "openSea": {
+     "on": true,
+     "sheets": 0,
+     "lakeSheets": 14
+    },
+    "nordic": true,
+    "wind": true
+   },
+   "errors": []
+  }
+ ]
+}

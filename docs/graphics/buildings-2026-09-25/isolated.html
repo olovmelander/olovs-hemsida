@@ -1,0 +1,454 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Buildings batch: isolated checks</title>
+<!-- The buildings batch's helpers (building-paint.mjs) on houses built as
+     main.js builds the batch's -- walls from under the ground, a gable roof --
+     on sloping ground, and on the courses' own models made in Blender, loaded
+     from their files; each with its before. Lit by the preset's sun, sky fill
+     and baked environment as main.js lights them, and read back linear from a
+     half-float target: the colour the glow's threshold sees. Served from the
+     repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+const THREE = await import('three/webgpu');
+const { normalize, positionWorld, normalWorld, cameraPosition, color, float, vec3, attribute } = await import('three/tsl');
+const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
+const { pass } = await import('three/tsl');
+const { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } = await import('/apps/golf/src/engine/building-paint.mjs');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, PAINTED_SCENERY, PAINTED_GROUND } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { createLightingEnvironment } = await import('/apps/golf/src/engine/lighting-environment.mjs');
+const { setPaintedWorldLighting } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { GLOW, glowThresholdOf } = await import('/apps/golf/src/engine/glow.mjs');
+const { footArea } = await import('/docs/graphics/buildings-2026-09-25/foot-area.mjs');
+const { installOutputDither } = await import('/apps/golf/src/engine/output-dither.mjs');
+
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const W = +(params.get('w') || 480), H = +(params.get('h') || 270);
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+const b64 = a => { const u = new Uint8Array(a.buffer, a.byteOffset, a.byteLength); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+const L = hex => { const c = new THREE.Color(hex); return [c.r, c.g, c.b]; };
+
+try {
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
+  installOutputDither(renderer);
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+
+  /* ---------------------------------------------------------------- read-backs */
+  /* the comparisons read one sample a pixel, as the labels do, so every changed pixel is its own surface's */
+  const colourTarget = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true });
+  const floatTarget = new THREE.RenderTarget(W, H, { type: THREE.FloatType, depthBuffer: true });
+  /* drawn until two read-backs agree: on WebGPU the first frames of a new scene or material are not yet
+     settled (a before and an after differed on the first model and in the first light only) */
+  const readColour = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    const tone = renderer.toneMapping;
+    renderer.toneMapping = THREE.NoToneMapping;
+    let last = null, renders = 0, settled = false;
+    while (!settled && renders < 6) {
+      renderer.setRenderTarget(colourTarget);
+      renderer.render(scene, camera);
+      renderer.setRenderTarget(null);
+      const now = await renderer.readRenderTargetPixelsAsync(colourTarget, 0, 0, W, H);
+      renders++;
+      settled = last !== null && now.length === last.length && now.every((v, k) => v === last[k]);
+      last = now;
+      if (!settled) await frame();
+    }
+    renderer.toneMapping = tone;
+    return { pixels: Float32Array.from(last, THREE.DataUtils.fromHalfFloat), renders, settled };
+  };
+  /* where each pixel is (2 km up the scale: the output clamps a negative), and what it shows */
+  const OFFSET = 2000;
+  const positionMaterial = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+  positionMaterial.colorNode = positionWorld.add(OFFSET);
+  positionMaterial.fog = false;
+  /* seeThrough: glass and other see-through surfaces left out, so a pixel is labelled by what shows through them */
+  const readWith = async (scene, camera, override, { seeThrough = false } = {}) => {
+    const saved = [], hidden = [];
+    scene.traverse(o => {
+      if (o.name === 'atmospheric-sky' || (seeThrough && o.isMesh && [o.material].flat().some(m => m.transparent))) {
+        if (o.visible) { hidden.push(o); o.visible = false; }
+      } else if (o.isMesh) { saved.push([o, o.material]); o.material = override(o); }
+    });
+    const background = scene.background;
+    scene.background = null;
+    const clear = renderer.getClearAlpha();
+    renderer.setClearColor(0x000000, 0);
+    await renderer.compileAsync(scene, camera);
+    renderer.setRenderTarget(floatTarget);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    renderer.setClearColor(0x000000, clear);
+    for (const [o, m] of saved) o.material = m;
+    for (const o of hidden) o.visible = true;
+    scene.background = background;
+    return Float32Array.from(await renderer.readRenderTargetPixelsAsync(floatTarget, 0, 0, W, H));
+  };
+  const readPositions = (scene, camera) => readWith(scene, camera, () => positionMaterial);
+  /* each pixel's height over the ground stamped under it (what the foot reads), its |normal.y|, and whether it has one */
+  const aboveMaterial = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+  aboveMaterial.colorNode = vec3(positionWorld.y.sub(attribute('aGround', 'float')).add(OFFSET), normalWorld.y.abs(), 1);
+  aboveMaterial.fog = false;
+  const normalMaterial = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+  normalMaterial.colorNode = vec3(0, normalWorld.y.abs(), 0);
+  normalMaterial.fog = false;
+  const readAbove = (scene, camera, options) => readWith(scene, camera, o => o.geometry.getAttribute('aGround') ? aboveMaterial : normalMaterial, options);
+  /* the least share of its colour the foot leaves any see-through layer in front of the first opaque surface:
+     opaque surfaces write depth only, and each glass layer in front of them its foot, the least one kept */
+  const depthOnly = new THREE.MeshBasicNodeMaterial({ colorWrite: false, side: THREE.DoubleSide });
+  const layerMaterials = new Map();
+  const layerMaterial = shade => {
+    if (!layerMaterials.has(shade)) {
+      const m = new THREE.MeshBasicNodeMaterial({ transparent: true, depthWrite: false, side: THREE.DoubleSide,
+        blending: THREE.CustomBlending, blendEquation: THREE.MinEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneFactor });
+      m.colorNode = wallFootColour(shade);
+      m.fog = false;
+      layerMaterials.set(shade, m);
+    }
+    return layerMaterials.get(shade);
+  };
+  const readLayers = async (scene, camera, shade) => {
+    const saved = [], hidden = [];
+    scene.traverse(o => {
+      if (o.name === 'atmospheric-sky') { if (o.visible) { hidden.push(o); o.visible = false; } }
+      else if (o.isMesh) {
+        saved.push([o, o.material]);
+        o.material = [o.material].flat().some(m => m.transparent) && o.geometry.getAttribute('aGround') ? layerMaterial(shade) : depthOnly;
+      }
+    });
+    const background = scene.background;
+    scene.background = null;
+    const clear = renderer.getClearAlpha(), clearColour = renderer.getClearColor(new THREE.Color());
+    renderer.setClearColor(0xffffff, 1);
+    await renderer.compileAsync(scene, camera);
+    renderer.setRenderTarget(floatTarget);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    renderer.setClearColor(clearColour, clear);
+    for (const [o, m] of saved) o.material = m;
+    for (const o of hidden) o.visible = true;
+    scene.background = background;
+    return Float32Array.from(await renderer.readRenderTargetPixelsAsync(floatTarget, 0, 0, W, H));
+  };
+  /* the share of its colour the ridge gives each pixel of the batch's houses (1 off the roofs) */
+  const shadeMaterial = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+  shadeMaterial.colorNode = vec3(attribute('aShade', 'float'), 0, 1);
+  shadeMaterial.fog = false;
+  const readShade = (scene, camera) => readWith(scene, camera, o => o.geometry.getAttribute('aShade') ? shadeMaterial : normalMaterial);
+  /* each pixel's surface: which material it is (by index, in red) and its normal (green, blue: y, and a flag) */
+  const idMaterials = new Map();
+  const idOf = index => {
+    if (!idMaterials.has(index)) {
+      const m = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+      m.colorNode = color(index + 1, 0, 0);
+      m.fog = false;
+      idMaterials.set(index, m);
+    }
+    return idMaterials.get(index);
+  };
+
+  /* ---------------------------------------------------------------- the light */
+  const environmentScene = new THREE.Scene();
+  const environment = createLightingEnvironment(renderer, environmentScene, { enabled: true });
+  const lights = scene => {
+    const sun = new THREE.DirectionalLight(0xffffff, 3), hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    Object.assign(sun.shadow.camera, { left: -80, right: 80, top: 80, bottom: -80, near: 1, far: 1200 });
+    sun.shadow.camera.updateProjectionMatrix();
+    sun.shadow.bias = -0.0004;
+    scene.add(sun, sun.target, hemi);
+    return { sun, hemi };
+  };
+  const light = (name, scene, { sun, hemi }, sky, centre) => {
+    const p = painted(name);
+    const d = new THREE.Vector3(...p.dir).normalize();
+    sun.color.setHex(p.sun); sun.intensity = p.int;
+    sun.position.copy(centre).addScaledVector(d, 500); sun.target.position.copy(centre);
+    hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    environment.setPreset(name, p);
+    scene.environment = environmentScene.environment;
+    scene.environmentIntensity = environmentScene.environmentIntensity;
+    setPaintedWorldLighting(p, name);
+    setAtmospherePreset(sky, p); setSkyGroundHaze(sky, finalFog(p));
+    renderer.toneMappingExposure = p.exp;
+    return { p, d };
+  };
+
+  /* ---------------------------------------------------------------- the batch's houses
+     two houses as main.js house() builds them -- walls from a skirt under the
+     ground to the eaves, a gable roof on the long axis -- on ground sloping 12%
+     across them, in the batch's own material, with and without the foot and ridge */
+  const slopeGround = (x, z) => 0.12 * x + 0.03 * z;
+  const houseGeometry = ridge => {
+    const V = [], K = [], S = [];
+    const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); S.push(1, 1, 1); };
+    const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
+    /* each corner's colour, and the share of its surface's colour that is (aShade) */
+    const triC = base => (a, b, c, ca, cb, cc) => { V.push(...a, ...b, ...c); K.push(...ca, ...cb, ...cc); S.push(ca[0] / base[0], cb[0] / base[0], cc[0] / base[0]); };
+    const slope = (points, col) => ridge ? roofSlope(triC(col), points, col) : quad(...points, col);
+    for (const [cx, cz, wall, roof] of [[-7, 0, L(PAINTED_SCENERY.wallRed), L(PAINTED_SCENERY.roofSlate)], [8, 3, L(PAINTED_SCENERY.wallCream), L(PAINTED_SCENERY.roofClay)]]) {
+      const hw = 4.2, hd = 3.1, hgt = 3.0;
+      const ring = [[cx - hw, cz - hd], [cx + hw, cz - hd], [cx + hw, cz + hd], [cx - hw, cz + hd]];
+      let top = -Infinity, bot = Infinity;
+      for (const p of ring) { const t = slopeGround(p[0], p[1]); top = Math.max(top, t); bot = Math.min(bot, t); }
+      const base = top + 0.06, skirt = Math.max(1.2, top - bot + 0.5);
+      for (let i = 0; i < 4; i++) {
+        const a = ring[i], b = ring[(i + 1) % 4];
+        quad([a[0], base - skirt, a[1]], [b[0], base - skirt, b[1]], [b[0], base + hgt, b[1]], [a[0], base + hgt, a[1]], wall);
+      }
+      const e = base + hgt, r = e + 2.2, oh = 0.35;
+      const P = (u, v, y) => [cx + u, y, cz + v];
+      slope([P(-hw - oh, -hd - oh, e), P(hw + oh, -hd - oh, e), P(hw + oh, 0, r), P(-hw - oh, 0, r)], roof);
+      slope([P(hw + oh, hd + oh, e), P(-hw - oh, hd + oh, e), P(-hw - oh, 0, r), P(hw + oh, 0, r)], roof);
+      const end = points => ridge ? roofSlope(triC(wall), points, wall, { shade: false }) : tri(...points, wall);
+      end([P(hw + oh, -hd - oh, e), P(hw + oh, hd + oh, e), P(hw + oh, 0, r)]);
+      end([P(-hw - oh, hd + oh, e), P(-hw - oh, -hd - oh, e), P(-hw - oh, 0, r)]);
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(V, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(K, 3));
+    g.setAttribute('aShade', new THREE.Float32BufferAttribute(S, 1));
+    g.computeVertexNormals();
+    return g;
+  };
+  const batchMaterial = foot => {
+    const m = new THREE.MeshStandardNodeMaterial({ vertexColors: true, roughness: 0.82, metalness: 0, flatShading: true, side: THREE.DoubleSide });
+    if (foot) m.colorNode = wallFootColour(BUILDING_PAINT.foot.batch);
+    return m;
+  };
+  const village = (() => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+    const groundGeometry = new THREE.PlaneGeometry(200, 200, 100, 100).rotateX(-Math.PI / 2);
+    const gp = groundGeometry.getAttribute('position');
+    for (let i = 0; i < gp.count; i++) gp.setY(i, slopeGround(gp.getX(i), gp.getZ(i)));
+    groundGeometry.computeVertexNormals();
+    const ground = new THREE.Mesh(groundGeometry, new THREE.MeshStandardNodeMaterial({ color: PAINTED_GROUND.rough, roughness: 0.95 }));
+    ground.receiveShadow = true;
+    const houses = {};
+    for (const ridge of [false, true]) for (const foot of [false, true]) {
+      const g = houseGeometry(ridge);
+      if (foot) stampGround(g, groundCache(slopeGround));
+      const mesh = new THREE.Mesh(g, batchMaterial(foot));
+      mesh.castShadow = mesh.receiveShadow = true;
+      houses[`${ridge}-${foot}`] = mesh;
+    }
+    scene.add(sky, ground);
+    return { scene, sky, ground, houses, ...lights(scene) };
+  })();
+  const villageView = view => {
+    const cam = new THREE.PerspectiveCamera(45, W / H, 0.3, 14000);
+    if (view === 'roofs') { cam.position.set(0, 26, -30); cam.lookAt(0, 3, 0); }
+    /* closer, for the pictures */
+    else if (view === 'ridge') { cam.position.set(-1, 9, -14); cam.lookAt(0.5, 3.6, 1.5); }
+    else { cam.position.set(2, 3.2, -20); cam.lookAt(0, 1.8, 0); }
+    return cam;
+  };
+  /* albedo: the houses' every colour scaled by this -- how much of each pixel's light follows its colour */
+  const setVillage = ({ preset = 'golden', ridge = true, foot = true, view = 'front', albedo = 1 }) => {
+    for (const m of Object.values(village.houses)) village.scene.remove(m);
+    village.scene.add(village.houses[`${ridge}-${foot}`]);
+    village.houses[`${ridge}-${foot}`].material.color.setScalar(albedo);
+    const { p } = light(preset, village.scene, village, village.sky, new THREE.Vector3(0, 0, 0));
+    return { p, scene: village.scene, camera: villageView(view) };
+  };
+  window.__village = async options => {
+    const v = setVillage(options);
+    const colour = await readColour(v.scene, v.camera);
+    const labelled = setVillage({ ...options, foot: true, albedo: 1 });
+    const above = await readAbove(labelled.scene, v.camera), shade = await readShade(labelled.scene, v.camera);
+    setVillage({ ...options, albedo: 1 });
+    return { colour: b64(colour.pixels), renders: colour.renders, settled: colour.settled, above: b64(above), shade: b64(shade), offset: OFFSET };
+  };
+
+  /* ---------------------------------------------------------------- the Blender models
+     loaded from their own files as the courses load them (GLTFLoader, their own
+     materials), set on a ground at their lowest point, with and without the foot */
+  const MODELS = {
+    angso: '/apps/golf/public/models/angso/facilities-03ec1d92965315bef789d2fab2a3ab33f7d8c4d48c4be2a81830139860cc1ce6.glb',
+    johannesberg: '/apps/golf/public/models/johannesberg/facilities-ec6112a80362db78051bc7fd05056f710e09f77d6d66c0f69cdca149409f21bf.glb',
+    lidingo: '/apps/golf/public/models/lidingo/facilities-2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a.glb',
+    puttom: '/apps/golf/public/models/puttom/facilities-v1.glb',
+    ribbingsfors: '/apps/golf/public/models/ribbingsfors/facilities-2d81e0123d467f7d15753649b89d3922ae044652d3a6659649b08ebb3bd8dc39.glb',
+    veckefjarden: '/apps/golf/public/models/veckefjarden/facilities-v1.glb',
+    'veckefjarden church': '/apps/golf/public/models/veckefjarden/sjalevads-kyrka-v1.glb',
+    'veckefjarden ski jump': '/apps/golf/public/models/veckefjarden/paradiskullen-k90-v1.glb',
+    visby: '/apps/golf/public/models/visby/facilities-v1.glb',
+    tortuna: '/apps/golf/public/courses/tortuna/architecture/1a78f59daa18e4474c8e0c5856d10a94acae7de36f7ffb9c75556fe1fb6b92b0.glb',
+  };
+  const SINGLE = new Set(['tortuna', 'veckefjarden church', 'veckefjarden ski jump']);
+  const loader = new GLTFLoader();
+  const models = {};
+  const loadModel = async key => {
+    if (models[key]) return models[key];
+    const gltf = await loader.loadAsync(MODELS[key]);
+    const root = gltf.scene;
+    root.updateMatrixWorld(true);
+    const box = new THREE.Box3().setFromObject(root);
+    const materials = [];
+    root.traverse(o => { if (o.isMesh) { o.castShadow = o.receiveShadow = true; for (const m of [o.material].flat()) if (!materials.includes(m)) materials.push(m); } });
+    materials.forEach((m, i) => { m.userData.sourceIndex = i; m.userData.madeWith = m.color.clone(); });
+    /* the same model with the foot: its own clone, each geometry and each distinct material copied */
+    const footed = root.clone(true), copies = new Map();
+    const copy = m => { if (!copies.has(m)) { const c = m.clone(); c.userData.sourceIndex = m.userData.sourceIndex; copies.set(m, c); } return copies.get(m); };
+    footed.traverse(o => { if (o.isMesh) { o.geometry = o.geometry.clone(); o.material = Array.isArray(o.material) ? o.material.map(copy) : copy(o.material); } });
+    const groundY = box.min.y;
+    /* No terrain here. A campus's top-level nodes are its buildings, each standing on a ground at its own
+       foundation's foot; a single building's model (grouped by material) stands on its lowest point. In the
+       app each vertex reads the course's own ground instead (main.js terrainH). */
+    const report = { meshes: 0, vertices: 0, materials: 0 };
+    for (const node of SINGLE.has(key) ? [footed] : footed.children) {
+      const low = new THREE.Box3().setFromObject(node).min.y;
+      const r = groundModel(node, () => low);
+      report.meshes += r.meshes; report.vertices += r.vertices; report.materials += r.materials;
+    }
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+    const size = box.getSize(new THREE.Vector3()), centre = box.getCenter(new THREE.Vector3());
+    /* the building whose foot the close view looks at: the largest footprint */
+    let foot = null;
+    for (const node of SINGLE.has(key) ? [footed] : footed.children) {
+      const b = new THREE.Box3().setFromObject(node), s = b.getSize(new THREE.Vector3());
+      if (!foot || s.x * s.z > foot.area) foot = { area: s.x * s.z, box: b, size: s, centre: b.getCenter(new THREE.Vector3()) };
+    }
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000).rotateX(-Math.PI / 2), new THREE.MeshStandardNodeMaterial({ color: PAINTED_GROUND.rough, roughness: 0.95 }));
+    ground.position.set(centre.x, groundY - 0.02, centre.z);
+    ground.receiveShadow = true;
+    scene.add(sky, ground);
+    const lit = lights(scene), reach = Math.max(size.x, size.z) / 2 + 25;
+    Object.assign(lit.sun.shadow.camera, { left: -reach, right: reach, top: reach, bottom: -reach });
+    lit.sun.shadow.camera.updateProjectionMatrix();
+    return (models[key] = { root, footed, scene, sky, box, size, centre, groundY, materials, report, ground, foot, ...lit });
+  };
+  const modelView = (model, d, view, close = false) => {
+    if (close === 'foot') {
+      /* eye height, outside the largest building, looking at the foot of its nearest wall */
+      const f = model.foot, reach = Math.max(f.size.x, f.size.z) / 2 + 7;
+      const az = Math.atan2(d.x, d.z) + { sun: Math.PI, side: Math.PI / 2, away: 0 }[view];
+      const cam = new THREE.PerspectiveCamera(50, W / H, 0.3, 20000);
+      cam.position.set(f.centre.x + Math.sin(az) * reach, f.box.min.y + 1.7, f.centre.z + Math.cos(az) * reach);
+      cam.lookAt(f.centre.x, f.box.min.y + 0.8, f.centre.z);
+      return cam;
+    }
+    const radius = Math.max(model.size.x, model.size.z) * (close ? 0.55 : 0.8) + (close ? 8 : 12);
+    const az = Math.atan2(d.x, d.z) + { sun: Math.PI, side: Math.PI / 2, away: 0 }[view];
+    const cam = new THREE.PerspectiveCamera(50, W / H, 0.3, 20000);
+    /* close: low, from outside the footprint, looking at the feet of the walls nearest the eye */
+    cam.position.set(model.centre.x + Math.sin(az) * radius, model.groundY + (close ? 2.5 : Math.max(6, radius * 0.25)), model.centre.z + Math.cos(az) * radius);
+    cam.lookAt(model.centre.x, model.groundY + (close ? 1.2 : model.size.y * 0.3), model.centre.z);
+    return cam;
+  };
+  /* albedo: the model's every colour scaled by this (the model without the foot) */
+  const setModel = async ({ key, preset = 'golden', view = 'sun', foot = true, close = false, albedo = 1 }) => {
+    const model = await loadModel(key);
+    model.scene.remove(model.root, model.footed);
+    model.scene.add(foot ? model.footed : model.root);
+    for (const m of model.materials) m.color.copy(m.userData.madeWith).multiplyScalar(albedo);
+    const { p, d } = light(preset, model.scene, model, model.sky, model.centre);
+    return { p, model, scene: model.scene, camera: modelView(model, d, view, close) };
+  };
+  window.__model = async options => {
+    const v = await setModel(options);
+    const colour = await readColour(v.scene, v.camera);
+    for (const m of v.model.materials) m.color.copy(m.userData.madeWith);
+    /* the footed model's own heights over its stamped ground, whichever version is drawn */
+    v.model.scene.remove(v.model.root); v.model.scene.add(v.model.footed);
+    const above = await readAbove(v.scene, v.camera);
+    /* and, where a model has glass, what shows through it */
+    const glass = v.model.materials.some(m => m.transparent);
+    const behind = glass ? await readAbove(v.scene, v.camera, { seeThrough: true }) : null;
+    const layers = glass ? await readLayers(v.scene, v.camera, BUILDING_PAINT.foot.model) : null;
+    v.model.scene.remove(v.model.footed); v.model.scene.add(options.foot === false ? v.model.root : v.model.footed);
+    /* the material under each pixel, by its index in the model's own list */
+    const ids = await readWith(v.scene, v.camera, o => o !== v.model.ground ? idOf([o.material].flat()[0].userData.sourceIndex ?? -1) : idOf(-1));
+    return { colour: b64(colour.pixels), renders: colour.renders, settled: colour.settled, above: b64(above),
+      behind: behind && b64(behind), layers: layers && b64(layers), ids: b64(ids), offset: OFFSET, groundY: v.model.groundY,
+      threshold: glowThresholdOf(v.p), materials: v.model.materials.map(m => ({ name: m.name, metalness: m.metalness, roughness: m.roughness,
+        colour: '#' + m.color.getHexString(), transparent: m.transparent, opacity: m.opacity })), report: v.model.report };
+  };
+
+  /* ---------------------------------------------------------------- a map's alpha
+     no model brings a map today; should one, only its colour takes the foot. A half-see-through grey
+     panel from a map (alpha 0.5), standing on the ground in front of white, unlit: over white its pixel
+     is (grey x foot) x alpha + (1 - alpha), which only a kept alpha gives */
+  window.__alpha = async () => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(1, 1, 1);
+    const map = new THREE.DataTexture(new Uint8Array([128, 128, 128, 128]), 1, 1);
+    map.needsUpdate = true;
+    const panel = new THREE.PlaneGeometry(4, 2, 1, 8).translate(0, 1, 0);
+    stampGround(panel, () => 0);
+    const camera = new THREE.PerspectiveCamera(40, W / H, 0.1, 100);
+    camera.position.set(0, 1, 6); camera.lookAt(0, 1, 0);
+    const rows = {};
+    for (const foot of [false, true]) {
+      const m = new THREE.MeshBasicNodeMaterial({ map, transparent: true, side: THREE.DoubleSide });
+      if (foot) m.colorNode = wallFootColour(BUILDING_PAINT.foot.model);
+      const mesh = new THREE.Mesh(panel, m);
+      scene.add(mesh);
+      const r = await readColour(scene, camera);
+      const positions = await readPositions(scene, camera);
+      scene.remove(mesh);
+      /* the panel's pixels by their height, across its middle */
+      const at = [];
+      for (let y = 0; y < H; y++) {
+        const k = (y * W + (W >> 1)) * 4;
+        if (positions[k + 3] === 0) continue;
+        at.push({ height: positions[k + 1] - OFFSET, value: r.pixels[k] });
+      }
+      rows[foot ? 'foot' : 'before'] = { settled: r.settled, at };
+    }
+    return { texel: 128 / 255, shade: BUILDING_PAINT.foot.model, rows };
+  };
+
+  /* how much of each building's walls stands in the foot's band over the ground it was given here */
+  window.__footArea = async key => footArea((await loadModel(key)).footed, { metres: BUILDING_PAINT.foot.model.metres });
+
+  /* ---------------------------------------------------------------- pictures, through the app's own pipeline */
+  window.__picture = async ({ kind, ...options }) => {
+    const v = kind === 'village' ? setVillage(options) : await setModel(options);
+    const post = new THREE.RenderPipeline(renderer);
+    const sceneColor = pass(v.scene, v.camera).getTextureNode('output');
+    /* glowBefore: the one 0.86 of every light before the glow batch */
+    const glow = bloom(sceneColor, v.p.bloom ?? 0.14, GLOW.radius, options.glowBefore ? GLOW.threshold : glowThresholdOf(v.p));
+    glow.smoothWidth.value = GLOW.knee;
+    post.outputNode = sceneColor.add(glow);
+    for (let i = 0; i < 3; i++) { post.render(); await frame(); }
+    post.dispose();
+    return true;
+  };
+
+  window.__result = { backend, W, H, ready: true, models: Object.keys(MODELS) };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>

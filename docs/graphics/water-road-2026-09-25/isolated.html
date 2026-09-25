@@ -1,0 +1,225 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Water road: isolated study</title>
+<!-- The player's own water (water-shading.mjs), sky, haze, cloud shadows, wind
+     patches and tone mapping, over an open sea seen from a player's camera: a
+     course on the coast, the sea beyond it to the horizon, the sun ahead. Each
+     view can leave out a part (the water batch's light, its wind patches, the
+     cloud shadows) to see what it does to the sun's road. Served from the
+     repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+/* the renderer's clock, pinned: three's node frame adds the time since its last update */
+const realNow = performance.now.bind(performance);
+let pinnedNow = null;
+performance.now = () => pinnedNow ?? realNow();
+
+const THREE = await import('three/webgpu');
+const { float, vec3, color, positionWorld } = await import('three/tsl');
+const { waterShading } = await import('/apps/golf/src/engine/water-shading.mjs');
+const nordic = await import('/apps/golf/src/engine/nordic-water.mjs');
+const { createCloudShadow } = await import('/apps/golf/src/engine/cloud-shadow.mjs');
+const { fillWaterNormalPixels } = await import('/apps/golf/src/engine/water-normal-texture.mjs');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const { createWaterReflectionLighting } = await import('/apps/golf/src/engine/water-lighting.mjs');
+const { setPaintedWorldLighting, paintedWaterLight } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { createAerialPerspective } = await import('/apps/golf/src/engine/aerial-perspective.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, PAINTED_GROUND } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { installOutputDither } = await import('/apps/golf/src/engine/output-dither.mjs');
+const { setWaterRoadPreset } = await import('/apps/golf/src/engine/water-road.mjs');
+const { GLOW, glowThresholdOf } = await import('/apps/golf/src/engine/glow.mjs');
+const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
+const { pass } = await import('three/tsl');
+/* main's own water, generated from git by check-isolated.mjs when it is there */
+const main = await import('./main-water.gen.mjs').catch(() => null);
+
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const W = +(params.get('w') || 360), H = +(params.get('h') || 640);
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const b64 = a => { const u = new Uint8Array(a.buffer, a.byteOffset, a.byteLength); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+
+try {
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  installOutputDither(renderer);
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+
+  /* ------------------------------------------------------------ the world, lit as main.js lights it */
+  const scene = new THREE.Scene();
+  const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
+  scene.fog = fog;
+  const aerial = createAerialPerspective(fog, { sunward: true, valleyMist: true });
+  scene.fogNode = aerial.node;
+  const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true, drawLast: true });
+  const sunLight = new THREE.DirectionalLight(0xffffff, 2), hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  scene.add(sky, sunLight, sunLight.target, hemi);
+  const waterLighting = createWaterReflectionLighting({ enabled: true });
+  const cloud = createCloudShadow();
+
+  const WATERN = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 512;
+    const g = c.getContext('2d'), im = g.createImageData(512, 512);
+    fillWaterNormalPixels(im.data, 512, { seamless: true });
+    g.putImageData(im, 0, 0);
+    const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+    return t;
+  })();
+  const DETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const uSun = (await import('three/tsl')).uniform(new THREE.Vector3(0, 1, 0));
+  const glint = (await import('three/tsl')).uniform(1), chop = (await import('three/tsl')).uniform(1);
+
+  /* the open sea as the Visby extension draws it: the lake's shading, a lake's fetch, open water */
+  const sea = (() => {
+    const g = new THREE.PlaneGeometry(60000, 60000, 60, 60).rotateX(-Math.PI / 2);
+    const n = g.attributes.position.count;
+    for (const [name, value] of [['aShore', 60], ['aFoam', 1], ['aDepth', 3]]) g.setAttribute(name, new THREE.Float32BufferAttribute(new Float32Array(n).fill(value), 1));
+    const mesh = new THREE.Mesh(g, new THREE.MeshBasicNodeMaterial());
+    mesh.frustumCulled = false;
+    mesh.renderOrder = 5;
+    return mesh;
+  })();
+  /* the course: land up to a coast across the view, a little above the sea */
+  const land = new THREE.Mesh(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), new THREE.MeshStandardNodeMaterial({ color: PAINTED_GROUND.rough, roughness: 0.95 }));
+  land.frustumCulled = false;
+  scene.add(sea, land);
+
+  const materials = new Map();
+  const waterMaterial = ({ version = 'current', nordic: nordicOn = true, wind = true, clouds = true, road = true, mirror = true, relief = true, seaOpen = true }) => {
+    const key = JSON.stringify({ version, nordicOn, wind, clouds, road, mirror, relief, seaOpen });
+    if (materials.has(key)) return materials.get(key);
+    const m = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+    const shade = version === 'main' ? main.waterShading : waterShading;
+    const { colour } = shade({ WATERN, DETAIL, sun: uSun, waterLighting, glint, chop, cloud: clouds ? cloud : null,
+      ocean: false, showBed: false, nordic: nordicOn, wind, ...(version === 'main' ? {} : { road, mirror, relief, sea: seaOpen }) });
+    m.colorNode = colour.mul(paintedWaterLight);
+    materials.set(key, m);
+    return m;
+  };
+
+  /* ------------------------------------------------------------ one view */
+  const setView = ({ preset = 'golden', version = 'current', nordic: nordicOn = true, wind = true, clouds = true, road = true, mirror = true, seaOpen = true,
+    height = 180, pitch = -12, back = 450, yaw = 0, fov = 48, patch = [0, 0], cloudOffset = [0, 0], windChop = 1, glint: g = 1, flow = null, move = [0, 0, 0],
+    relief = true }) => {
+    const p = painted(preset), skyP = { ...p, skyCloudGlow: 0 };
+    const d = new THREE.Vector3(...p.dir).normalize();
+    uSun.value.copy(d);
+    setPaintedWorldLighting(p, preset);
+    waterLighting.setPreset(p);
+    sunLight.color.setHex(p.sun); sunLight.intensity = p.int; sunLight.position.copy(d).multiplyScalar(500);
+    hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    fog.color.setHex(p.fog); fog.density = p.dens;
+    fog.color.lerp(new THREE.Color(p.paintedFog), 0.22); fog.density *= 0.9;
+    setAtmospherePreset(sky, skyP); setSkyGroundHaze(sky, fog.color);
+    aerial.setPreset(skyP);
+    renderer.toneMappingExposure = p.exp;
+    for (const mod of [nordic, main?.nordic].filter(Boolean)) {
+      mod.setNordicWaterPreset(p, { sky: skyP, fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax });
+      mod.waterFlow.forEach((f, i) => f.value.set(...(flow ? flow[i] : [0, 0])));
+      mod.waterPatchOffset.value.set(...patch);
+      mod.waterChop.value = windChop;
+    }
+    cloud.setPreset(p); cloud.setSun(d); cloud.setOffset(...cloudOffset);
+    setWaterRoadPreset(p);
+    glint.value = g; chop.value = 1;
+    sea.material = waterMaterial({ version, nordic: nordicOn, wind, clouds, road, mirror, relief, seaOpen });
+    /* the camera looks toward the sun's azimuth, turned by yaw; the coast crosses the view `back` metres ahead */
+    const az = Math.atan2(d.x, d.z) + yaw * Math.PI / 180, ax = Math.sin(az), az_ = Math.cos(az);
+    const cam = new THREE.PerspectiveCamera(fov, W / H, 1, 20000);
+    cam.position.set(move[0], height + move[1], move[2]);
+    const pr = pitch * Math.PI / 180;
+    cam.lookAt(move[0] + ax * Math.cos(pr) * 100, height + move[1] + Math.sin(pr) * 100, move[2] + az_ * Math.cos(pr) * 100);
+    /* the land: 30 km wide, from 5 km behind the eye to the coast */
+    land.position.set(ax * (back - 2500), 1.5, az_ * (back - 2500));
+    land.rotation.y = az;
+    land.scale.set(30000, 1, 5000);
+    return { p, cam };
+  };
+  const pin = () => { const nodeFrame = renderer._nodes.nodeFrame; pinnedNow = 1e9; nodeFrame.lastTime = pinnedNow; nodeFrame.time = 1234.5; };
+  const unpin = () => { pinnedNow = null; renderer._nodes.nodeFrame.lastTime = undefined; };
+
+  /* the picture, through the app's tone mapping and exposure; `glow` adds high quality's bloom at the preset's
+     strength and threshold, as main.js builds it */
+  window.__show = async ({ glow = false, ...options }) => {
+    const { p, cam } = setView(options);
+    await renderer.compileAsync(scene, cam);
+    if (!glow) { for (let i = 0; i < 3; i++) { pin(); renderer.render(scene, cam); unpin(); await frame(); } return true; }
+    const post = new THREE.RenderPipeline(renderer);
+    const sceneColor = pass(scene, cam).getTextureNode('output');
+    const b = bloom(sceneColor, p.bloom ?? 0.14, GLOW.radius, glowThresholdOf(p));
+    b.smoothWidth.value = GLOW.knee;
+    post.outputNode = sceneColor.add(b);
+    for (let i = 0; i < 3; i++) { pin(); post.render(); unpin(); await frame(); }
+    post.dispose();
+    return true;
+  };
+  /* the linear colour before exposure and tone mapping, settled: two renders in a row agree */
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true });
+  window.__read = async options => {
+    const { cam } = setView(options);
+    await renderer.compileAsync(scene, cam);
+    const tone = renderer.toneMapping;
+    renderer.toneMapping = THREE.NoToneMapping;
+    let last = null, renders = 0, settled = false;
+    while (!settled && renders < 6) {
+      pin();
+      renderer.setRenderTarget(target); renderer.render(scene, cam); renderer.setRenderTarget(null);
+      unpin();
+      const now = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+      renders++;
+      settled = last !== null && now.every((v, k) => v === last[k]);
+      last = now;
+      if (!settled) await frame();
+    }
+    renderer.toneMapping = tone;
+    return { px: b64(Float32Array.from(last, THREE.DataUtils.fromHalfFloat)), renders, settled };
+  };
+  /* where each pixel is on the water: world x and z 50 km up the scale (the output clamps a negative colour),
+     and its distance from the eye */
+  const WHERE_OFFSET = 50000;
+  const where = new THREE.MeshBasicNodeMaterial();
+  where.colorNode = vec3(positionWorld.x.add(WHERE_OFFSET), positionWorld.z.add(WHERE_OFFSET), positionWorld.sub((await import('three/tsl')).cameraPosition).length());
+  where.fog = false;
+  const floatTarget = new THREE.RenderTarget(W, H, { type: THREE.FloatType, depthBuffer: true });
+  /* the land stands in front of the sea as it does in the picture, marked as no water (distance 0) */
+  const landWhere = new THREE.MeshBasicNodeMaterial();
+  landWhere.colorNode = vec3(0, 0, 0);
+  landWhere.fog = false;
+  window.__where = async options => {
+    const { cam } = setView(options);
+    const saved = sea.material, savedLand = land.material, skyVisible = sky.visible;
+    sea.material = where; land.material = landWhere; sky.visible = false;
+    const background = scene.background; scene.background = null;
+    renderer.setClearColor(0x000000, 0);
+    await renderer.compileAsync(scene, cam);
+    renderer.setRenderTarget(floatTarget); renderer.render(scene, cam); renderer.setRenderTarget(null);
+    sea.material = saved; land.material = savedLand; sky.visible = skyVisible; scene.background = background;
+    return { px: b64(new Float32Array(await renderer.readRenderTargetPixelsAsync(floatTarget, 0, 0, W, H))) };
+  };
+
+  window.__result = { backend, W, H, ready: true, main: Boolean(main), whereOffset: WHERE_OFFSET };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>

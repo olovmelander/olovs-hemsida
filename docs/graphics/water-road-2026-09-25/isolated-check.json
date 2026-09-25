@@ -1,0 +1,309 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "b7619256",
+ "constants": {
+  "dabs": [
+   0.985,
+   0.996
+  ],
+  "grazing": {
+   "reference": 0.3420201433256688,
+   "cap": 2.5
+  },
+  "cloudSun": [
+   0.25881904510252074,
+   0.573576436351046
+  ],
+  "mirror": {
+   "share": 0.42,
+   "glow": 0.7
+  },
+  "relief": {
+   "gain": 2,
+   "cap": 0.12,
+   "fullSun": 1.5
+  }
+ },
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "with its four befores the water is main's own, value for value",
+     "ok": true,
+     "rows": {
+      "owner": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "low": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "noonAbove": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "steep": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     }
+    },
+    {
+     "label": "the owner's road runs unbroken from the coast to the horizon, and a low sun's clouds leave it alone",
+     "ok": true,
+     "main": {
+      "rows": 268,
+      "bars": 15,
+      "deepest": 0.522,
+      "rowsFrom": 494.65,
+      "rowsTo": 18783.259
+     },
+     "road": {
+      "rows": 268,
+      "bars": 0,
+      "deepest": 0.83,
+      "rowsFrom": 494.65,
+      "rowsTo": 18783.259
+     },
+     "cloudsLeaveItAlone": true
+    },
+    {
+     "label": "the road brightens toward grazing by the water's reflectance, glint for glint",
+     "ok": true,
+     "glints": 27137,
+     "grazingFactor": {
+      "least": 1.002,
+      "median": 2.127,
+      "most": 2.5
+     },
+     "colourRatio": 0.729,
+     "medianError": 0,
+     "error90": 0.001
+    },
+    {
+     "label": "under a high sun a cloud's shade puts the glitter out as the pattern says",
+     "ok": true,
+     "offset": [
+      3776,
+      3264
+     ],
+     "glitterPixels": 113204,
+     "shaded": 56789,
+     "medianError": 0,
+     "error90": 0
+    },
+    {
+     "label": "the open sea mirrors no far shore: only its reflected horizon changes, and only lighter",
+     "ok": true,
+     "changed": 10057,
+     "darker": 0,
+     "nearestChangeMetres": 33.317,
+     "mostLifted": 0.28
+    },
+    {
+     "label": "the mirror warms the water toward a low sun and leaves it away from the sun",
+     "ok": true,
+     "towardWarmth": {
+      "mirror": 1.442,
+      "before": 1.115
+     },
+     "awayMaxDiff": 0
+    },
+    {
+     "label": "the relief shows the waves from above, little far off and next to nothing under a weak sun",
+     "ok": true,
+     "fromAbove": {
+      "relief": 0.01871,
+      "before": 0.00139
+     },
+     "overviewNear": {
+      "relief": 0.01065,
+      "before": 0.00281
+     },
+     "overviewFar": {
+      "relief": 0.00176,
+      "before": 0.00206
+     },
+     "blueHour": {
+      "relief": 0.00122,
+      "before": 0.00059
+     }
+    },
+    {
+     "label": "past 800 m the road is as steady as main's glow",
+     "ok": true,
+     "road": {
+      "300-800 m": 0.047,
+      "800-2000 m": 0.002,
+      "beyond 2 km": 0
+     },
+     "mainGlow": {
+      "300-800 m": 0.021,
+      "800-2000 m": 0.002,
+      "beyond 2 km": 0
+     }
+    },
+    {
+     "label": "every read-back settled: two renders in a row agree",
+     "ok": true,
+     "reads": 47,
+     "mostRenders": 2
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "with its four befores the water is main's own, value for value",
+     "ok": true,
+     "rows": {
+      "owner": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "low": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "noonAbove": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "steep": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     }
+    },
+    {
+     "label": "the owner's road runs unbroken from the coast to the horizon, and a low sun's clouds leave it alone",
+     "ok": true,
+     "main": {
+      "rows": 268,
+      "bars": 15,
+      "deepest": 0.521,
+      "rowsFrom": 18783.259,
+      "rowsTo": 494.65
+     },
+     "road": {
+      "rows": 268,
+      "bars": 0,
+      "deepest": 0.825,
+      "rowsFrom": 18783.259,
+      "rowsTo": 494.65
+     },
+     "cloudsLeaveItAlone": true
+    },
+    {
+     "label": "the road brightens toward grazing by the water's reflectance, glint for glint",
+     "ok": true,
+     "glints": 27179,
+     "grazingFactor": {
+      "least": 1.002,
+      "median": 2.122,
+      "most": 2.5
+     },
+     "colourRatio": 0.729,
+     "medianError": 0,
+     "error90": 0.001
+    },
+    {
+     "label": "under a high sun a cloud's shade puts the glitter out as the pattern says",
+     "ok": true,
+     "offset": [
+      2368,
+      3520
+     ],
+     "glitterPixels": 112936,
+     "shaded": 56708,
+     "medianError": 0,
+     "error90": 0
+    },
+    {
+     "label": "the open sea mirrors no far shore: only its reflected horizon changes, and only lighter",
+     "ok": true,
+     "changed": 10091,
+     "darker": 0,
+     "nearestChangeMetres": 33.317,
+     "mostLifted": 0.28
+    },
+    {
+     "label": "the mirror warms the water toward a low sun and leaves it away from the sun",
+     "ok": true,
+     "towardWarmth": {
+      "mirror": 1.444,
+      "before": 1.116
+     },
+     "awayMaxDiff": 0
+    },
+    {
+     "label": "the relief shows the waves from above, little far off and next to nothing under a weak sun",
+     "ok": true,
+     "fromAbove": {
+      "relief": 0.01873,
+      "before": 0.0014
+     },
+     "overviewNear": {
+      "relief": 0.01066,
+      "before": 0.00281
+     },
+     "overviewFar": {
+      "relief": 0.00176,
+      "before": 0.00206
+     },
+     "blueHour": {
+      "relief": 0.00122,
+      "before": 0.00059
+     }
+    },
+    {
+     "label": "past 800 m the road is as steady as main's glow",
+     "ok": true,
+     "road": {
+      "300-800 m": 0.047,
+      "800-2000 m": 0.002,
+      "beyond 2 km": 0
+     },
+     "mainGlow": {
+      "300-800 m": 0.021,
+      "800-2000 m": 0.002,
+      "beyond 2 km": 0
+     }
+    },
+    {
+     "label": "every read-back settled: two renders in a row agree",
+     "ok": true,
+     "reads": 47,
+     "mostRenders": 2
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  }
+ },
+ "pictures": {
+  "water": [
+   "golden hour, 180 m: main",
+   "golden hour, 180 m: the road",
+   "autumn, 180 m: main",
+   "autumn, 180 m: the road",
+   "golden hour, 3 m: main",
+   "golden hour, 3 m: the road",
+   "midnight sun, 40 m: main",
+   "midnight sun, 40 m: the road",
+   "autumn, 45 degrees down: main",
+   "autumn, 45 degrees down: relief",
+   "golden hour, 180 m, desktop glow: main",
+   "golden hour, 180 m, desktop glow: the road"
+  ]
+ }
+}
