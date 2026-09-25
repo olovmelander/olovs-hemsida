@@ -15,15 +15,18 @@
    `relief` and `sea` are the water road pass's (water-road.mjs): the sun's road
    sparkling to the horizon, the water mirroring more of a low sun's glowing sky,
    the waves' relief from above, and the open sea, which has no far shore to
-   mirror. */
+   mirror. `cloudShade` and `lanes` are the water from above's (water-above.mjs):
+   the body in a cloud's shade as level ground is, and the calm and gusty patches
+   seen from above. */
 import { attribute, cameraPosition, color, float, mix, normalize, oneMinus, positionWorld, pow, reflect, saturate, smoothstep, texture, time, vec2, vec3 } from 'three/tsl';
 import { paintedWaterShallow, paintedWaterDeep, paintedWaterSparkle } from './painted-world-lighting.mjs';
 import { NORDIC_WATER, SLOPE_SCALE, expectedGlitter, reflectedSunGlow, treeLineShare, waterSun, waterSkyGlow, waterTreeLine,
   waterFlow, waterChop, waterPatchChop } from './nordic-water.mjs';
 import { sunRoad, mirrorShare, bodyRelief } from './water-road.mjs';
+import { bodySunlit, bodyCloudShade, waterRoughness, waterLanes } from './water-above.mjs';
 
 export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, cloud = null, ocean = false, showBed = true, nordic = false, wind = false,
-  road = false, mirror = false, relief = false, sea = false }) {
+  road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false }) {
   const uSun = sun, uWaterGlint = glint, uWaterChop = chop;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
@@ -49,7 +52,8 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   /* a pond has no fetch: the fjord's chop on a 20 m pond tilted enough normals that
      the fresnel term fired everywhere and fifteen ponds rendered as ice sheets */
   /* the chop follows the wind, and the air carries calm and gusty patches across a lake */
-  const rippleAmp = wind ? mix(float(0.38), float(1), aFoam).mul(waterChop).mul(waterPatchChop({ p: wp, distance: cd }))
+  const patchChop = wind ? waterPatchChop({ p: wp, distance: cd }) : null;
+  const rippleAmp = wind ? mix(float(0.38), float(1), aFoam).mul(waterChop).mul(patchChop)
     : mix(float(0.38), float(1), aFoam);
   const fineWeight = near.mul(0.45).add(0.30).mul(uWaterChop), finestWeight = near.mul(0.30).add(0.16).mul(uWaterChop);
   const ripple = n1.mul(near.mul(0.45).add(0.30)).add(n3.mul(near.mul(0.30).add(0.16))).mul(uWaterChop)
@@ -94,18 +98,29 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   const bed = showBed ? oneMinus(smoothstep(0.12, 1.1, aDp)).mul(aFoam) : float(0);
   const bedCol = mix(color(0x8a7a5c), color(0x2e4a35), smoothstep(0.18, 0.6, aDp));
 
+  /* the share of the sun past the clouds, read per pixel here, where a pond's few large triangles would blur
+     the cloud's edge per vertex: the sparkle's, and with `cloudShade` the body's (water-above.mjs) */
+  const sunlit = cloud ? cloud.sunlightAt(positionWorld) : null;
+  const bodySun = cloudShade && sunlit ? bodySunlit({ sunlit, V, sunUp: uSun.y }) : null;
+  const shade = bodySun ? bodyCloudShade(bodySun) : null;
+  /* from above, the calm and gusty patches: glassy and ruffled (water-above.mjs) */
+  const rough = lanes && patchChop ? waterRoughness({ chop: patchChop, V }) : null;
+
   // Teal shallows, blue depths and the active atmosphere's reflected sky.
   let body = mix(paintedWaterShallow, paintedWaterDeep, depth);
   body = mix(body, bedCol, bed.mul(0.6));
-  /* the waves from above: a facet toward the sun lighter, away darker (water-road.mjs) */
-  if (relief) body = body.mul(bodyRelief({ N, sun: uSun }));
+  /* the waves from above: a facet toward the sun lighter, away darker (water-road.mjs), as rough as the patch, giving
+     way in a cloud's shade */
+  if (relief) body = body.mul(bodyRelief({ N, sun: uSun, sunlit: bodySun, rough }));
+  /* from above: the body in a cloud's shade as level ground is, and ruffled water a little lighter (water-above.mjs) */
+  if (shade) body = body.mul(shade);
+  if (rough) body = body.mul(waterLanes({ chop: patchChop, V }));
   /* toward a low sun the water mirrors more of its glowing sky (water-road.mjs) */
   let c = mix(body, skyC, mirror && glowShare ? mirrorShare({ fres, glow: glowShare }) : fres.mul(0.42));
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
   /* painted sparkle: dabs of white where the ripple faces the sun, not a pinpoint glint */
-  /* a cloud's shade puts the sparkle out: read per pixel here, where a pond's
-     few large triangles would blur the cloud's edge per vertex */
+  /* a cloud's shade puts the sparkle out (`sunlit`, above) */
   const dabs = smoothstep(0.985, 0.996, saturate(N.dot(H)));
   /* the water batch's road: past a few hundred metres the dabs gave way to their expectation over the
      ripples' own spread of slopes (these very weights, chop and slope), in the sun's colour (nordic-water.mjs) */
@@ -114,13 +129,13 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   /* THE SUN'S ROAD, SPARKLING TO THE HORIZON: the dabs at every distance, brighter toward grazing, in the sun's
      colour, put out by a cloud's shade only under a high sun (water-road.mjs) */
   const sparkle = road
-    ? waterSun.mul(sunRoad({ nh: N.dot(H), vh: V.dot(H), sunUp: uSun.y, sunlight: cloud ? cloud.sunlightAt(positionWorld) : null }))
+    ? waterSun.mul(sunRoad({ nh: N.dot(H), vh: V.dot(H), sunUp: uSun.y, sunlight: sunlit }))
       .mul(paintedWaterSparkle).mul(uWaterGlint)
     : nordic
     ? waterSun.mul(mix(expectedGlitter({ V, L: uSun, sigma }), dabs, oneMinus(smoothstep(NORDIC_WATER.sharpMetres[0], NORDIC_WATER.sharpMetres[1], cd))))
       .mul(paintedWaterSparkle).mul(uWaterGlint)
     : color(0xfff4d9).mul(dabs).mul(paintedWaterSparkle).mul(uWaterGlint);
-  c = c.add(cloud && !road ? sparkle.mul(cloud.sunlightAt(positionWorld)) : sparkle);
+  c = c.add(sunlit && !road ? sparkle.mul(sunlit) : sparkle);
   /* foam, broken up by noise so a shoreline is a shoreline and not a stripe */
   /* Foam only where there is enough water behind it to make a wave. A metre-deep
      pond in a field has none at all, and drawing a three-metre white band round every
@@ -130,7 +145,8 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   const fw = texture(DETAIL, drift(4, 0.55, vec2(t.mul(0.035), t.mul(0.02)))).g;
   const foam = saturate(oneMinus(smoothstep(0.15, ocean ? 0.7 : 1.5, aSh)).mul(smoothstep(0.44, 0.72, fw)))
                  .mul(aFoam).mul(oneMinus(bed.mul(0.85)));
-  c = mix(c, color(0xdfeeee), foam.mul(ocean ? 0.4 : 0.24));
+  /* the wash is lit as the ground is, and takes the body's cloud shade */
+  c = mix(c, shade ? color(0xdfeeee).mul(shade) : color(0xdfeeee), foam.mul(ocean ? 0.4 : 0.24));
 
   /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
   const opacity = mix(mix(float(0.86), float(0.97), depth),

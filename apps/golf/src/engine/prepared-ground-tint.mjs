@@ -34,7 +34,9 @@ export function preparedTintAllowed(search) {
     // nor do the buildings batch's: a wall's foot and a roof's ridge are drawn
     'wallbase', 'roofridge',
     // nor do the water road pass's: the sun's road, the water's mirror, the waves' relief and the open sea are drawn
-    'waterroad', 'watermirror', 'waterrelief', 'opensea']);
+    'waterroad', 'watermirror', 'waterrelief', 'opensea',
+    // nor do the water from above's: the water's cloud shade and its patches seen from above are drawn
+    'watercloud', 'waterlanes']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 
