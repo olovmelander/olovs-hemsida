@@ -303,7 +303,7 @@ function guardedPairWeight({ fieldTexture, uvAtlas, texel, filtered, halfWidth, 
   };
 }
 
-export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }, shading) {
+export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE, surfaceGloss = false }, shading) {
   /* The atlas supplies its own colour, so implicit vertex multiplication must
      stay off. Natural ground retains its established colour response; paving
      uses linear albedo once, avoiding near-black asphalt and parking areas. */
@@ -319,7 +319,7 @@ export function makeGround({ atlas, DETAIL, SANDN, uSun, C, SHADE }, shading) {
 
   function finish(col, det, bmp, gls, strength, band, sandWeight = float(0), hardWeight = float(0)) {
     shading.finishGround({ material: m, col, wp, DETAIL, SANDN, uSun,
-      det, bmp, gls, strength, band, sandWeight, hardWeight });
+      det, bmp, gls, strength, band, sandWeight, hardWeight, surfaceGloss });
     return m;
   }
 
@@ -431,6 +431,8 @@ function bindV2SurfaceAuthority(decorator, atlas) {
    class-SDF branch prevents a compatibility atlas from silently falling back
    to flat C.rough over most of a course even when main.js supplied the same
    near/far tint textures used by the full Puttom material. */
+/* The tint's colour in rgb and the ground's relief in alpha (ground-relief.mjs),
+   read from the one texel; outside both rasters the flat colour, and open ground. */
 function groundTintColour(tint, wp, fallbackColour) {
   const tintSample = (layer, fadeMetres) => {
     const tb = layer.bounds;
@@ -440,9 +442,9 @@ function groundTintColour(tint, wp, fallbackColour) {
     );
     const edge = uv.x.min(oneMinus(uv.x)).min(uv.y).min(oneMinus(uv.y));
     const inside = smoothstep(0, fadeMetres / (tb.x1 - tb.x0), edge);
-    return { colour: texture(layer.texture, uv).rgb, inside };
+    return { colour: texture(layer.texture, uv), inside };
   };
-  let colour = vec3(...fallbackColour);
+  let colour = vec4(...fallbackColour, 128 / 255);
   if (tint?.far) {
     const far = tintSample(tint.far, tint.far.fadeMetres ?? 600);
     colour = mix(colour, far.colour, far.inside);
@@ -452,6 +454,21 @@ function groundTintColour(tint, wp, fallbackColour) {
     colour = mix(colour, near.colour, near.inside);
   }
   return colour;
+}
+
+/* THE GROUND'S OWN LIGHT. The tint's alpha is 128 + 127 s (ground-relief.mjs):
+   sheltered ground (s < 0: a hollow, the foot of a slope, open ground beside a
+   wood) takes less of the sky, whatever is laid on it, and natural ground there
+   stays lusher; natural ground on an exposed crest (s > 0) dries toward straw.
+   Mown turf is watered, and keeps its colour on a crest. */
+const RELIEF_SHELTER_DARK = 0.35;
+const RELIEF_LUSH = [-0.05, 0.03, -0.05], RELIEF_DRY = [0.08, 0.035, -0.07];
+function applyGroundRelief(litBase, alpha, natural) {
+  const s = alpha.mul(255).sub(128).div(127).clamp(-1, 1);
+  const shelter = s.negate().max(0), exposure = s.max(0);
+  return litBase.mul(oneMinus(shelter.mul(RELIEF_SHELTER_DARK)))
+    .mul(vec3(1).add(vec3(...RELIEF_LUSH).mul(shelter.mul(natural))))
+    .mul(vec3(1).add(vec3(...RELIEF_DRY).mul(exposure.mul(natural))));
 }
 
 /* Natural ground grades into its neighbour over metres and keeps its physical
@@ -511,9 +528,14 @@ const ROUGH_CLUMP_AMPLITUDE = 0.20;
 const BANK_SHADE = 0.24, BANK_FALLOFF_METRES = 0.9;
 /* a rake's pass, its depth of tone, and how much damper the low middle stands */
 const SAND_RAKE_METRES = 0.32, SAND_RAKE_AMPLITUDE = 0.035, SAND_LOW_SHADE = 0.07;
+/* the bunker lip's band at its edge: darker, and warmest where blue falls most */
+const BUNKER_LIP_SHADE = [0.10, 0.16, 0.26];
+/* a path's edges take up to this share of the ground beside it; its middle is this much paler */
+const GROWN_EDGE_SURFACES = [SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT];
+const PATH_EDGE_GRASS = 0.6, PATH_WORN_LIFT = 0.08;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across' }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -657,7 +679,8 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        flat rough colour remains. */
     /* A raster's edge is a square drawn on the ground unless the hand-over is
        gradual; groundTintColour fades near -> far -> the fallback colour. */
-    const roughColour = groundTintColour(tint, wp, styles[roughIndex].colour);
+    const roughTint = groundTintColour(tint, wp, styles[roughIndex].colour);
+    const roughColour = roughTint.rgb;
     /* The surroundings' classes -- forest floor, heath, wetland, shore -- are
        painted by the tint outside the surface window, from the same rings and
        the same imagery. Inside it they must be painted the same way, or the
@@ -859,9 +882,36 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         const low = smoothstep(1.2, 3.6, inSand).mul(SAND_LOW_SHADE);
         litBase = litBase.mul(float(1).add(rake.mul(SAND_RAKE_AMPLITUDE * display).sub(low).mul(cutTone).mul(weights[sandIndex])));
       }
+      if (surfaceEdges) {
+        /* THE LIP OF A BUNKER. Where the turf breaks off into the sand, the face
+           is sand and soil in the lip's own shade: a warm, darker band a hand or
+           two wide inside the sand's edge, as a painter draws it. The grass side
+           already takes the lip's contact shade (above). Gone before a pixel
+           outgrows it. ?surfaceedges=0 is the before, for this and the paths. */
+        if (sandIndex >= 0) {
+          const lip = oneMinus(smoothstep(0.03, 0.4, sdfs[sandIndex].max(0))).mul(weights[sandIndex])
+            .mul(oneMinus(smoothstep(0.12, 0.45, footprint))).mul(cutTone);
+          litBase = litBase.mul(oneMinus(lip.mul(vec3(...BUNKER_LIP_SHADE))));
+        }
+        /* A PATH IS WORN IN ITS MIDDLE AND GROWN IN AT ITS EDGES. Feet and carts
+           keep the middle bare and a little paler; grass creeps in from both
+           sides in the colour of the ground beside it, raggedly -- the rough's own
+           clumps move the line, so it wanders as the grass does. */
+        const near = oneMinus(smoothstep(0.3, 1.2, footprint)).mul(cutTone);
+        for (const sid of GROWN_EDGE_SURFACES) {
+          const index = channels.indexOf(sid);
+          if (index < 0) continue;
+          const inPath = sdfs[index].max(0);
+          const grown = oneMinus(smoothstep(0.06, 0.45, inPath.add(clump.mul(0.6)))).mul(PATH_EDGE_GRASS).mul(weights[index]).mul(near);
+          const worn = smoothstep(0.4, 1.0, inPath).mul(PATH_WORN_LIFT).mul(weights[index]).mul(near);
+          litBase = mix(litBase.mul(float(1).add(worn)), roughColour, grown);
+        }
+      }
     }
+    /* ?groundrelief=0 is the before: the relief is baked, and not read */
+    if (groundRelief) litBase = applyGroundRelief(litBase, roughTint.a, meta.a);
     shading.finishV2({ material, litBase, wp, DETAIL, uSun, mow: mowNode,
-      shade, meta, graphicsPolish, surfaceRelief, seasonal: meta.a });
+      shade, meta, graphicsPolish, surfaceRelief, seasonal: meta.a, surfaceGloss });
     material.metalness = 0;
     /* the atlas owns its textures; nothing was created here to dispose */
     material.userData.terrainPreviewTextures = [];
@@ -872,7 +922,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across' }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
@@ -886,7 +936,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
     }
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun }, shading),
+      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, surfaceGloss, groundRelief }, shading),
       atlas,
     );
   }
@@ -903,7 +953,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief }, shading),
       atlas,
     );
   }
@@ -979,7 +1029,8 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       return material;
     }
     const active = mix(secondaryMeta.r, primaryMeta.r, primaryWeight).mul(inBounds);
-    const roughColor = groundTintColour(tint, wp, C.rough);
+    const roughTint = groundTintColour(tint, wp, C.rough);
+    const roughColor = roughTint.rgb;
     /* Meta.a is the shared ground-tint flag. This makes rough, forest, heath,
        wetland and shore use exactly the same procedural colour source as the
        Puttom class-SDF path while preserving the pair atlas as the sole
@@ -1008,9 +1059,10 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
     const mow = mix(classBand(primaryId), classBand(secondaryId), pair.deepSecondary)
       .mul(strength).mul(0.045);
     const pavingWeight = mix(pavedClassWeight(secondaryId), pavedClassWeight(primaryId), primaryWeight).mul(inBounds);
-    const litBase = groundSurfaceAlbedo(base, pavingWeight, shading.atlasLinearShare);
+    const albedo = groundSurfaceAlbedo(base, pavingWeight, shading.atlasLinearShare);
+    const litBase = groundRelief ? applyGroundRelief(albedo, roughTint.a, meta.a.add(oneMinus(inBounds)).min(1)) : albedo;
     shading.finishV2({ material, litBase, wp, DETAIL, uSun, mow,
-      shade, meta, graphicsPolish, surfaceRelief, seasonal: meta.a.add(oneMinus(inBounds)) });
+      shade, meta, graphicsPolish, surfaceRelief, seasonal: meta.a.add(oneMinus(inBounds)), surfaceGloss });
     material.metalness = 0;
     material.userData.terrainPreviewTextures = [styleTexture];
     material.userData.surfaceDebugMode = debugMode;

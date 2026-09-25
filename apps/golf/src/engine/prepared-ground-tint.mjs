@@ -22,7 +22,9 @@ export function preparedTintAllowed(search) {
     'detailupload', 'mowfade', 'localheight', 'coverglow', 'pondfetch', 'waternormal',
     'dither', 'bloomknee', 'skyhaze', 'skyorder', 'furnitureshadow',
     // nor do the lighting batch's before switches: light, sky and crown colour only
-    'shadowtint', 'sunglow', 'hazewarm', 'crowndepth', 'backlight']);
+    'shadowtint', 'sunglow', 'hazewarm', 'crowndepth', 'backlight',
+    // nor do the landscape batch's: tree colour from the planted positions, and ground shading
+    'standtint', 'surfacegloss', 'surfaceedges', 'groundrelief']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

@@ -1,0 +1,285 @@
+{
+ "adapter": "swiftshader",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "the forest shows broad washes where it was speckled: block-scale warmth spread up a quarter or more",
+     "ok": true,
+     "trees": [
+      16617,
+      3645,
+      1054
+     ],
+     "noon": {
+      "before": {
+       "blocks": 126,
+       "across": 0.0191,
+       "within": 0.0893
+      },
+      "after": {
+       "blocks": 126,
+       "across": 0.0278,
+       "within": 0.0907
+      },
+      "acrossGain": 0.4555
+     },
+     "golden": {
+      "before": {
+       "blocks": 126,
+       "across": 0.0243,
+       "within": 0.1207
+      },
+      "after": {
+       "blocks": 126,
+       "across": 0.0315,
+       "within": 0.1223
+      },
+      "acrossGain": 0.2963
+     }
+    },
+    {
+     "label": "a fairway is unchanged, a green takes more of the sun and rough less",
+     "ok": true,
+     "fairway": {
+      "before": [
+       0.0822,
+       0.1932,
+       0.026
+      ],
+      "gloss": [
+       0.0822,
+       0.1932,
+       0.026
+      ]
+     },
+     "green": {
+      "lumGain": 0.0344
+     },
+     "rough": {
+      "lumGain": -0.0322
+     }
+    },
+    {
+     "label": "a bunker lip is darker and warmer, a path grown in at its edges and paler in its middle, the rest untouched",
+     "ok": true,
+     "lip": {
+      "lumGain": -0.0957,
+      "blueGain": -0.1659,
+      "redGain": -0.0646
+     },
+     "deepSand": true,
+     "pathEdge": {
+      "greenness": 0.7671,
+      "before": 0.5735
+     },
+     "pathMiddle": {
+      "lumGain": 0.0767
+     },
+     "beside": true
+    },
+    {
+     "label": "open ground is the before; sheltered ground is darker on every surface; a crest dries natural ground only",
+     "ok": true,
+     "fairway": {
+      "openIsBefore": true,
+      "shelter": [
+       0.8251,
+       0.8034,
+       0.8649
+      ],
+      "exposed": [
+       1,
+       1,
+       1
+      ]
+     },
+     "green": {
+      "openIsBefore": true,
+      "shelter": [
+       0.8475,
+       0.8032,
+       0.8429
+      ],
+      "exposed": [
+       1,
+       1,
+       1
+      ]
+     },
+     "sand": {
+      "openIsBefore": true,
+      "shelter": [
+       0.7939,
+       0.7942,
+       0.7961
+      ],
+      "exposed": [
+       1,
+       1,
+       1
+      ]
+     },
+     "rough": {
+      "openIsBefore": true,
+      "shelter": [
+       0.8095,
+       0.8214,
+       0.8661
+      ],
+      "exposed": [
+       1.0525,
+       1.0257,
+       0.9677
+      ]
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "the forest shows broad washes where it was speckled: block-scale warmth spread up a quarter or more",
+     "ok": true,
+     "trees": [
+      16617,
+      3645,
+      1054
+     ],
+     "noon": {
+      "before": {
+       "blocks": 118,
+       "across": 0.0184,
+       "within": 0.0894
+      },
+      "after": {
+       "blocks": 118,
+       "across": 0.0271,
+       "within": 0.0909
+      },
+      "acrossGain": 0.4728
+     },
+     "golden": {
+      "before": {
+       "blocks": 118,
+       "across": 0.0232,
+       "within": 0.1206
+      },
+      "after": {
+       "blocks": 118,
+       "across": 0.0301,
+       "within": 0.1223
+      },
+      "acrossGain": 0.2974
+     }
+    },
+    {
+     "label": "a fairway is unchanged, a green takes more of the sun and rough less",
+     "ok": true,
+     "fairway": {
+      "before": [
+       0.0822,
+       0.1932,
+       0.026
+      ],
+      "gloss": [
+       0.0822,
+       0.1932,
+       0.026
+      ]
+     },
+     "green": {
+      "lumGain": 0.0344
+     },
+     "rough": {
+      "lumGain": -0.0322
+     }
+    },
+    {
+     "label": "a bunker lip is darker and warmer, a path grown in at its edges and paler in its middle, the rest untouched",
+     "ok": true,
+     "lip": {
+      "lumGain": -0.0957,
+      "blueGain": -0.1659,
+      "redGain": -0.0647
+     },
+     "deepSand": true,
+     "pathEdge": {
+      "greenness": 0.7668,
+      "before": 0.5735
+     },
+     "pathMiddle": {
+      "lumGain": 0.0767
+     },
+     "beside": true
+    },
+    {
+     "label": "open ground is the before; sheltered ground is darker on every surface; a crest dries natural ground only",
+     "ok": true,
+     "fairway": {
+      "openIsBefore": true,
+      "shelter": [
+       0.8251,
+       0.8034,
+       0.8649
+      ],
+      "exposed": [
+       1,
+       1,
+       1
+      ]
+     },
+     "green": {
+      "openIsBefore": true,
+      "shelter": [
+       0.8475,
+       0.8032,
+       0.8429
+      ],
+      "exposed": [
+       1,
+       1,
+       1
+      ]
+     },
+     "sand": {
+      "openIsBefore": true,
+      "shelter": [
+       0.7939,
+       0.7942,
+       0.7961
+      ],
+      "exposed": [
+       1,
+       1,
+       1
+      ]
+     },
+     "rough": {
+      "openIsBefore": true,
+      "shelter": [
+       0.8095,
+       0.8214,
+       0.8661
+      ],
+      "exposed": [
+       1.0525,
+       1.0257,
+       0.9677
+      ]
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  }
+ }
+}
