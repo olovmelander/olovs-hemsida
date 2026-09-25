@@ -203,7 +203,19 @@ the two agree to the digit.
 
 **App boot**
 ([`check-boot.mjs`](graphics/air-2026-09-25/check-boot.mjs),
-[result](graphics/air-2026-09-25/boot-check.json)): pending.
+[result](graphics/air-2026-09-25/boot-check.json)). The built app boots at
+Ängsö's first tee on WebGL2 in SwiftShader, six ways. No page or console error
+occurs in any, so no shader failed to compile, and the tree tier audit passes
+in each. No live weather reached the container, so the wind is the flags'
+default: 4 m/s from the west.
+
+| Boot | What the harness reads back |
+|---|---|
+| Dawn, high and low quality (`det=1`) | Cloud shadows at 30% cover and 45% opacity. Valley mist at 0.0016 per metre, thinning every 6 m, from a base of 3.3 m (Ängsö's low ground). The air pinned east at 4 m/s, sway 1, nothing carried. |
+| Dawn, every before switch | No cloud shadows, no mist, and the plants and sky on their own again. |
+| Noon, `?vind=0,8` (`det=1`) | A northerly: the air blows south at 8 m/s, sway 1.8. |
+| Noon, running | Over twelve frames the gusts moved 4.8 m east, the cloud shadows 7.2 m (1.5 times as far) and the sky at its preset speed. |
+| Noon, running, reduced motion | Sway 0, and nothing moved. |
 
 **Tree shadow proof** (`tools/check-tree-shadows.mjs --ref 4ae4c594`,
 [summary](graphics/air-2026-09-25/tree-shadows.json)): passes on WebGL2 in
@@ -215,10 +227,20 @@ SwiftShader, with main as the reference.
   main's pixel for pixel: 6.6 million covered pixels, none differing.
 
 **Prepared startup data.** The source revision moved, so the following were
-re-baked through the existing publishers: tints (26), far vista (26), scatter
-(26) and water (10 courses). The re-bake is pending.
+re-baked through the existing publishers for revision `e13138ae`: tints (26),
+far vista (26), scatter (26) and water (10 courses).
 
-**Suite.** Pending.
+[`check-publication.mjs`](graphics/air-2026-09-25/check-publication.mjs)
+compares against main at `4ae4c594`
+([result](graphics/air-2026-09-25/publication-identity.json)). Every tint,
+vista, scatter and water record keeps its content; only its source identity
+changed. `check-prepared-startup` passes on the rebuilt app
+([`prepared-check.json`](graphics/air-2026-09-25/prepared-check.json)), and the
+app boot above ran on it.
+
+**Suite.** The full `pnpm test` passes: 1,411 Vitest tests and 482 Node tests,
+with 3 environment skips. The app-build isolation check,
+`check:course-workflow` and the no-undef lint also pass.
 
 ## Not established
 
