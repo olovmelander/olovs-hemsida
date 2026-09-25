@@ -6,7 +6,7 @@ import { createAtmosphericSky, setAtmospherePreset, atmosphereState } from './at
 const luminance = hex => { const c = new Color(hex); return c.r * 0.2126 + c.g * 0.7152 + c.b * 0.0722; };
 const fill = p => luminance(p.hemiS) * p.hemiI;
 
-describe('eight atmosphere identities', () => {
+describe('nine atmosphere identities', () => {
   it('uses an overcast, weakly sunlit storm and a brighter diffuse mist', () => {
     expect(presets.storm.cloud).toBeGreaterThanOrEqual(0.95);
     expect(presets.storm.cloudDensity).toBeGreaterThan(presets.noon.cloudDensity);
@@ -28,19 +28,32 @@ describe('eight atmosphere identities', () => {
     expect(fill(p)).toBeGreaterThan(fill(presets.noon) * 0.7);
     expect(p.environmentIntensity).toBeGreaterThan(presets.noon.environmentIntensity);
   });
-  it('gives all eight modes distinct cloud settings and valid physical inputs', () => {
-    expect(Object.keys(presets)).toHaveLength(8);
+  it('gives all nine modes distinct cloud settings and valid physical inputs', () => {
+    expect(Object.keys(presets)).toHaveLength(9);
     const cloudProfiles = new Set();
     for (const p of Object.values(presets)) {
       cloudProfiles.add(JSON.stringify([p.cloud, p.cloudDensity, p.cloudScale, p.cloudElevation]));
       expect(p.cloud).toBeGreaterThanOrEqual(0); expect(p.cloud).toBeLessThanOrEqual(1);
-      expect(p.cloudDensity).toBeGreaterThan(0);
+      /* every sky has clouds but the summer day's */
+      if (p === presets.summer) expect(p.cloudDensity).toBe(0);
+      else expect(p.cloudDensity).toBeGreaterThan(0);
       expect(p.cloudScale).toBeGreaterThan(0);
       expect(p.skyRadiance).toBeGreaterThan(0);
       expect(p.exp).toBeGreaterThan(0);
       expect(p.dir.every(Number.isFinite)).toBe(true);
     }
-    expect(cloudProfiles.size).toBe(8);
+    expect(cloudProfiles.size).toBe(9);
+  });
+  it('keeps the summer day cloudless, its sun high over the afternoon and its air clearer than noon\'s', () => {
+    const p = presets.summer, elevation = Math.asin(p.dir[1] / Math.hypot(...p.dir)) * 180 / Math.PI;
+    expect(p.cloud).toBe(0);
+    expect(p.cloudDensity).toBe(0);
+    /* as high as a Swedish summer sun stands in the early afternoon: lower than noon's, which no Swedish sun reaches */
+    expect(elevation).toBeGreaterThan(45);
+    expect(elevation).toBeLessThan(55);
+    expect(p.dir[1] / Math.hypot(...p.dir)).toBeLessThan(presets.noon.dir[1] / Math.hypot(...presets.noon.dir));
+    expect(p.dens).toBeLessThan(presets.noon.dens);
+    expect(p.int).toBeGreaterThanOrEqual(presets.noon.int);
   });
 });
 

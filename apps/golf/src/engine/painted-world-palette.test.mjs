@@ -21,7 +21,7 @@ describe('painted world palette',()=>{
     }
     expect(ATMOSPHERE_PRESETS).toEqual(original);
   });
-  it('switches all eight palettes and back without rebuilding sky or water uniforms',()=>{
+  it('switches every palette and back without rebuilding sky or water uniforms',()=>{
     const sky=createAtmosphericSky({deterministic:true,painted:true});
     const node=sky.material.colorNode,geometry=sky.geometry;
     const shallow=paintedWaterShallow.value,deep=paintedWaterDeep.value,foliage=foliageLight.value;
@@ -30,9 +30,9 @@ describe('painted world palette',()=>{
         const p=paintedAtmosphere(name,ATMOSPHERE_PRESETS[name]);
         setPaintedWorldLighting(p,name);setFoliageLighting(p);setAtmospherePreset(sky,p);
         expect(paintedSeason.value).toBe(name==='host'?1:0);
-        expect(paintedTurfStrength.value).toBe(name==='noon'?.85:1);
+        expect(paintedTurfStrength.value).toBe({noon:.85,summer:.87}[name]??1);
         expect(paintedGrassSheen.value).toBeGreaterThan(0);
-        expect(atmosphereState(sky).sunGlowStrength>0).toBe(['golden','dawn','midnight','host'].includes(name));
+        expect(atmosphereState(sky).sunGlowStrength>0).toBe(['golden','dawn','midnight','host','summer'].includes(name));
         expect(paintedWaterShallow.value).toBe(shallow);expect(paintedWaterDeep.value).toBe(deep);
         expect(foliageLight.value).toBe(foliage);
         expect(shallow.getHex()).toBe(p.water[0]);expect(deep.getHex()).toBe(p.water[1]);
@@ -42,6 +42,21 @@ describe('painted world palette',()=>{
       }
       expect(paintedSeason.value).toBe(0);
     }finally{sky.geometry.dispose();sky.material.dispose();}
+  });
+  it('paints the summer day cloudless: a deep blue zenith over a light blue horizon, no cloud and no cloud shadow',()=>{
+    const p=paintedAtmosphere('summer',ATMOSPHERE_PRESETS.summer);
+    expect(p.cloud).toBe(0);expect(p.cloudDensity).toBe(0);expect(p.cloudShadow).toBeUndefined();
+    const sky=createAtmosphericSky({deterministic:true,painted:true});
+    try{setAtmospherePreset(sky,p);expect(atmosphereState(sky)).toMatchObject({cloudCoverage:0,cloudDensity:0});}
+    finally{sky.geometry.dispose();sky.material.dispose();}
+    const zenith=new Color(p.skyZenith),horizon=new Color(p.skyHorizon);
+    /* a saturated blue overhead, bluer than noon's, and a horizon lighter than it but still blue */
+    expect(zenith.b).toBeGreaterThan(zenith.g*2);expect(zenith.g).toBeGreaterThan(zenith.r*2);
+    expect(zenith.b/(zenith.r+zenith.g+zenith.b)).toBeGreaterThan(new Color(PAINTED_ATMOSPHERES.noon.skyZenith).b/(new Color(PAINTED_ATMOSPHERES.noon.skyZenith).toArray().reduce((a,b)=>a+b)));
+    expect(luminance(p.skyHorizon)).toBeGreaterThan(luminance(p.skyZenith)*3);
+    expect(horizon.b).toBeGreaterThan(horizon.r*2);
+    /* a sunny day's water: more sparkle than noon's */
+    expect(p.sparkle).toBeGreaterThan(PAINTED_ATMOSPHERES.noon.sparkle);
   });
   it('removes directional hot spots and water sparkle under diffuse lighting',()=>{
     for(const name of ['bluehour','storm','mist']){

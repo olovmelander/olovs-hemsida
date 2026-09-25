@@ -93,9 +93,10 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
         <!-- Lighting Presets -->
         <div class="drawer-section">
           <div class="drawer-sec-title">Ljus & Atmosfär</div>
-          <div class="drawer-btn-grid cols-4">
+          <div class="drawer-btn-grid cols-3">
             <button class="d-btn active" data-preset="golden">Kväll</button>
             <button class="d-btn" data-preset="noon">Dag</button>
+            <button class="d-btn" data-preset="summer">Sommar</button>
             <button class="d-btn" data-preset="dawn">Gryning</button>
             <button class="d-btn" data-preset="midnight">Midnattssol</button>
             <button class="d-btn" data-preset="bluehour">Blå timmen</button>

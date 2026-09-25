@@ -40,7 +40,7 @@ export function cloudGlowOf(p, out = new Color()) {
 export const luminanceOf = c => 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
 
 /** The brightest broad paint of a preset's sky, as the painted sky and the haze
-    draw it (linear luminance): its clouds' lit paint and its clear sky's colours
+    draw it (linear luminance): its clouds' lit paint (if it has clouds) and its clear sky's colours
     and sun glow, at the sky's exposure, and the haze -- warmed toward the sun --
     its horizon and far ground fade into. `fogColour` is the fog as setPreset
     leaves it. */
@@ -50,7 +50,9 @@ export function skyPaintCeiling(p, fogColour) {
   const horizon = colour(p.skyHorizon, 0xccddee);
   /* the sun glow, at its strength, over the horizon it is strongest above (painted-sky.mjs) */
   const glow = horizon.clone().lerp(colour(p.skySunGlow, 0xffffff), Math.min(1, p.skySunGlowStrength ?? 0));
-  const sky = [colour(p.skyCloudLit, 0xfff5df), colour(p.skyZenith, 0x6688bb), horizon, glow];
+  /* a sky without cloud density -- the cloudless summer day's -- draws no cloud paint (painted-sky.mjs coverage) */
+  const clouds = (p.cloudDensity ?? 1) > 0 ? [colour(p.skyCloudLit, 0xfff5df)] : [];
+  const sky = [...clouds, colour(p.skyZenith, 0x6688bb), horizon, glow];
   const fog = new Color(fogColour);
   const warmed = fog.clone().lerp(colour(p.skySunGlow, 0xffffff), Math.min(1, hazeGlowStrength(p)));
   return Math.max(...sky.map(c => luminanceOf(c) * exposure), luminanceOf(fog), luminanceOf(warmed));

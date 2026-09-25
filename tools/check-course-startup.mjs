@@ -25,7 +25,7 @@ assert.ok(['0', '1', 'main-thread', 'terrain-main', 'unindexed', 'live-water', '
 assert.ok(['1', 'terrain-worker'].includes(candidate) && baseline !== candidate, 'invalid candidate');
 const out = path.resolve(flag('out', 'tools/reference/startup-review'));
 await fs.mkdir(out, { recursive: true });
-const modes = args.includes('--single-mode') ? ['golden'] : ['golden', 'noon', 'dawn', 'midnight', 'bluehour', 'storm', 'mist', 'host'];
+const modes = args.includes('--single-mode') ? ['golden'] : ['golden', 'noon', 'summer', 'dawn', 'midnight', 'bluehour', 'storm', 'mist', 'host'];
 const browser = await chromium.launch({ channel: 'chrome', args: browserArgs() });
 const report = { revision, backend, quality, baseline, candidate, courses, comparisons: [], errors: [], physicalPhone: false };
 

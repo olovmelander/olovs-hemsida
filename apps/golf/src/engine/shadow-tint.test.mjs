@@ -14,7 +14,7 @@ const presets = Object.fromEntries(Object.keys(ATMOSPHERE_PRESETS).map(name => [
 
 describe('the sky-lit shadow tint', () => {
   it('lights a shadow with the preset\'s sky colour at its share of the sun', () => {
-    for (const name of ['noon', 'golden', 'dawn', 'midnight', 'host']) {
+    for (const name of ['noon', 'summer', 'golden', 'dawn', 'midnight', 'host']) {
       const p = presets[name], tint = shadowTintFor(p), sun = new Color(p.sun), sky = new Color(p.hemiS);
       expect(p.shadowSky, name).toBeGreaterThan(0);
       for (const channel of ['r', 'g', 'b']) expect(sun[channel] * tint[channel], `${name} ${channel}`).toBeCloseTo(p.shadowSky * sky[channel], 6);

@@ -126,6 +126,9 @@ canvas{display:block;position:fixed;inset:0}
   cursor:pointer;text-align:center;letter-spacing:.04em;transition:.15s}
 .btn:hover{background:rgba(255,255,255,.09);color:var(--ink)}
 .btn.on{background:rgba(95,208,122,.17);border-color:rgba(95,208,122,.42);color:var(--turf)}
+/* four light names in one row on the desktop rail: less side padding leaves
+   Sommar room to fit (the short-window tiers below restate the rail's padding) */
+@media(min-width:769px){#rail .grp.tight .btn{padding-left:2px;padding-right:2px}}
 .lbl{font-size:8.5px;color:var(--faint);letter-spacing:.15em;text-transform:uppercase;margin:2px 0 -1px}
 #facts{font-size:10px;color:var(--dim);line-height:1.55;padding-top:4px;border-top:1px solid rgba(255,255,255,.06)}
 #facts b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
@@ -677,9 +680,10 @@ body.gps-on #v2TerrainBadge{top:118px}
     <button class="btn" data-cam="top">Ovan</button>
   </div>
   <div class="lbl">Ljus & Atmosfär</div>
-  <div class="grp">
+  <div class="grp tight">
     <button class="btn on" data-preset="golden">Kväll</button>
     <button class="btn" data-preset="noon">Dag</button>
+    <button class="btn" data-preset="summer" title="Sommar: klarblå himmel utan moln och högt sommarljus">Sommar</button>
     <button class="btn" data-preset="dawn">Gryning</button>
   </div>
   <div class="grp">
