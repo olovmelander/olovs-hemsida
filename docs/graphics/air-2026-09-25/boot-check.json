@@ -1,0 +1,442 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "dawn",
+   "backend": "webgl2",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=gryning",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "oneWindOn": true,
+    "dawnCloudShadows": true,
+    "dawnValleyMist": true,
+    "pinnedToTarget": true
+   },
+   "first": {
+    "preset": "dawn",
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.45,
+     "threshold": 0.6607843137254902,
+     "offset": [
+      0,
+      0
+     ],
+     "slope": [
+      5.833333333333333,
+      -5.166666666666667
+     ]
+    },
+    "valleyMist": {
+     "density": 0.0016,
+     "height": 6,
+     "base": 3.2881223143500087
+    },
+    "frame": 5
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "dawn, low quality",
+   "backend": "webgl2",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=gryning",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "oneWindOn": true,
+    "dawnCloudShadows": true,
+    "dawnValleyMist": true,
+    "pinnedToTarget": true
+   },
+   "first": {
+    "preset": "dawn",
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.45,
+     "threshold": 0.6607843137254902,
+     "offset": [
+      0,
+      0
+     ],
+     "slope": [
+      5.833333333333333,
+      -5.166666666666667
+     ]
+    },
+    "valleyMist": {
+     "density": 0.0016,
+     "height": 6,
+     "base": 3.2881223143500087
+    },
+    "frame": 5
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "dawn, every before",
+   "backend": "webgl2",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=gryning&onewind=0&cloudshadows=0&valleymist=0",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "beforesOff": true,
+    "pinnedToTarget": true
+   },
+   "first": {
+    "preset": "dawn",
+    "wind": {
+     "oneWind": false,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "cloudShadow": null,
+    "valleyMist": null,
+    "frame": 5
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "noon, a northerly at 8 m/s",
+   "backend": "webgl2",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag&vind=0,8",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "oneWindOn": true,
+    "noonCloudShadows": true,
+    "noonNoMist": true,
+    "pinnedToTarget": true,
+    "northerlyBlowsSouth": true
+   },
+   "first": {
+    "preset": "noon",
+    "wind": {
+     "oneWind": true,
+     "ms": 8,
+     "axis": [
+      6.123233995736766e-17,
+      1
+     ],
+     "sway": 1.8,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": 8,
+      "fromDeg": 0,
+      "source": "url"
+     }
+    },
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62,
+     "threshold": 0.6607843137254902,
+     "offset": [
+      0,
+      0
+     ],
+     "slope": [
+      -0.25,
+      0.47727272727272724
+     ]
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 3.2881223143500087
+    },
+    "frame": 7
+   },
+   "later": null,
+   "errors": []
+  },
+  {
+   "name": "noon, live",
+   "backend": "webgl2",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&ljus=dag",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "oneWindOn": true,
+    "noonCloudShadows": true,
+    "noonNoMist": true,
+    "airCarries": true
+   },
+   "first": {
+    "preset": "noon",
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      1.6612000000029803,
+      0
+     ],
+     "sky": [
+      0.0002471035000004433,
+      0,
+      0.0002471035000004433
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62,
+     "threshold": 0.6607843137254902,
+     "offset": [
+      2.4918000000044707,
+      0
+     ],
+     "slope": [
+      -0.25,
+      0.47727272727272724
+     ]
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 3.2881223143500087
+    },
+    "frame": 5
+   },
+   "later": {
+    "preset": "noon",
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 1,
+     "gust": [
+      6.461200000002982,
+      0
+     ],
+     "sky": [
+      0.0009611035000004431,
+      0,
+      0.0009611035000004431
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62,
+     "threshold": 0.6607843137254902,
+     "offset": [
+      9.691800000004468,
+      0
+     ],
+     "slope": [
+      -0.25,
+      0.47727272727272724
+     ]
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 3.2881223143500087
+    },
+    "frame": 17
+   },
+   "errors": []
+  },
+  {
+   "name": "noon, live, reduced motion",
+   "backend": "webgl2",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&ljus=dag",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "oneWindOn": true,
+    "noonCloudShadows": true,
+    "noonNoMist": true,
+    "stillForReducedMotion": true
+   },
+   "first": {
+    "preset": "noon",
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 0,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62,
+     "threshold": 0.6607843137254902,
+     "offset": [
+      0,
+      0
+     ],
+     "slope": [
+      -0.25,
+      0.47727272727272724
+     ]
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 3.2881223143500087
+    },
+    "frame": 5
+   },
+   "later": {
+    "preset": "noon",
+    "wind": {
+     "oneWind": true,
+     "ms": 4,
+     "axis": [
+      1,
+      0
+     ],
+     "sway": 0,
+     "gust": [
+      0,
+      0
+     ],
+     "sky": [
+      0,
+      0,
+      0
+     ],
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    },
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62,
+     "threshold": 0.6607843137254902,
+     "offset": [
+      0,
+      0
+     ],
+     "slope": [
+      -0.25,
+      0.47727272727272724
+     ]
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 3.2881223143500087
+    },
+    "frame": 17
+   },
+   "errors": []
+  }
+ ]
+}

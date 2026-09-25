@@ -24,7 +24,9 @@ export function preparedTintAllowed(search) {
     // nor do the lighting batch's before switches: light, sky and crown colour only
     'shadowtint', 'sunglow', 'hazewarm', 'crowndepth', 'backlight',
     // nor do the landscape batch's: tree colour from the planted positions, and ground shading
-    'standtint', 'surfacegloss', 'surfaceedges', 'groundrelief']);
+    'standtint', 'surfacegloss', 'surfaceedges', 'groundrelief',
+    // nor do the air batch's: sway, sky drift, cloud shade and mist are drawn, not prepared
+    'onewind', 'cloudshadows', 'valleymist']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

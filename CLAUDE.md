@@ -114,6 +114,14 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   alpha carries baked relief (`ground-relief.mjs`: horizon occlusion, crests,
   wood edges, 128 = open); its RGB is the ground's colour and stays unchanged
   unless the colour rules change. See [the landscape batch](docs/visual-landscape-2026-09-25.md).
+- One air carries the wind (`one-wind.mjs`): the plants' sway, the sky's cloud
+  drift and the cloud shadows follow the flags' target wind; reduced motion
+  holds them still, while the flags keep answering the wind. Cloud shadows
+  (`cloud-shadow.mjs`) take the sun away through its colour and its shadow node,
+  keeping the sky-lit tint (sun x mix(tint, 1, shadow x cloud)); painted crowns
+  and impostors take the same per-vertex share (`sunlit`) and dim as open ground
+  does. Valley mist is part of the haze, per vertex (`aerial-perspective.mjs`).
+  See [the air batch](docs/visual-air-2026-09-25.md).
 
 ## Build and focused checks
 

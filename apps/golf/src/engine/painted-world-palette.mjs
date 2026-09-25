@@ -68,13 +68,18 @@ export const AUTUMN_FOLIAGE = {
 
 // The same eight atmosphere identities, with lighting and pigments composed
 // together. Kept separate so the natural rendering mode retains its palette.
+// cloudShadow: the share of the ground in a cloud's shade and how much of the
+// sun that shade takes (cloud-shadow.mjs), in each preset with a sun; lighter
+// than a tree's shadow, lightest where a low sun is thin already. valleyMist:
+// the mist lying in the low ground (aerial-perspective.mjs), density per metre
+// at the course's low ground and the height it thins over, at dawn and in mist.
 export const PAINTED_ATMOSPHERES = {
   noon:{ sun:0xfff0d7, int:2.35, hemiS:0xadc9df, hemiG:0x879c76, hemiI:1.28,
     fog:0x8dbdd0, paintedFog:0x8dbdd0, exp:1.00, paintedFill:1.0, groundStrength:.85,
     skyPalette:.10, skyZenith:0x146ab6, skyHorizon:0x91cadc, skyRadiance:.05, paintedSkyExposure:1, cloud:.28,
     environment:{ground:0xa8ad91,horizon:0xc5dde2,zenith:0x579bc4},
     foliage:{strength:1.04,direct:.95}, water:[0x228b9d,0x164c88], waterLight:1, sparkle:.18,
-    shadowSky:.12,
+    shadowSky:.12, cloudShadow:{cover:.30,opacity:.62},
   },
   // Low honey-coloured sunlight, cool open shade and a sunward amber glow.
   golden:{ sun:0xffcc8c, int:3.80, hemiS:0x95aed0, hemiG:0xb0a783, hemiI:1.40,
@@ -85,7 +90,7 @@ export const PAINTED_ATMOSPHERES = {
     environment:{ground:0xab956e,horizon:0xe8bb85,zenith:0x648bb8}, environmentIntensity:.48,
     foliage:{strength:1.20,direct:.96,sunWhite:.18,shadowWhite:.38,back:.42},
     water:[0x438b87,0x24577f], waterLight:.94, sparkle:.36,
-    shadowSky:.10,
+    shadowSky:.10, cloudShadow:{cover:.22,opacity:.55},
   },
   dawn:{ sun:0xffd8c4, int:1.65, hemiS:0xbccbe0, hemiG:0xaca595, hemiI:1.75,
     fog:0xbcbacb, paintedFog:0xbfc9dc, exp:1.10, paintedFill:1.06,
@@ -94,7 +99,7 @@ export const PAINTED_ATMOSPHERES = {
     skySunGlow:0xffc79a, skySunGlowStrength:.72, hazeGlow:.5,
     environment:{ground:0xaaa697,horizon:0xdcc3d0,zenith:0x809bc4},
     foliage:{strength:.91,direct:.57,back:.30}, water:[0x789ea8,0x446789], waterLight:.83, sparkle:.32,
-    shadowSky:.12,
+    shadowSky:.12, cloudShadow:{cover:.30,opacity:.45}, valleyMist:{density:.0016,height:6},
   },
   midnight:{ sun:0xffb76c, int:1.90, hemiS:0xb4bed8, hemiG:0xb09d89, hemiI:2.05,
     fog:0xaba0ae, paintedFog:0xa3a7c1, exp:1.13, paintedFill:1.04,
@@ -103,7 +108,7 @@ export const PAINTED_ATMOSPHERES = {
     skySunGlow:0xffc27c, skySunGlowStrength:.70, hazeGlow:.5,
     environment:{ground:0xaaa08d,horizon:0xddb496,zenith:0x798db5},
     foliage:{strength:.90,direct:.70,back:.38}, water:[0x7b9c9e,0x4a6285], waterLight:.84, sparkle:.45,
-    shadowSky:.11,
+    shadowSky:.11, cloudShadow:{cover:.18,opacity:.45},
   },
   bluehour:{ hemiS:0xa7bddf, hemiG:0x8896a5, hemiI:1.85,
     fog:0x879cba, paintedFog:0x879cba, paintedFill:1.04,
@@ -125,6 +130,7 @@ export const PAINTED_ATMOSPHERES = {
     skyCloudLit:0xd8e2df, skyCloudShade:0x9baeb4,
     environment:{ground:0xadb6a3,horizon:0xd2dfdd,zenith:0xa9c1ca},
     foliage:{strength:.85,direct:.08}, water:[0x91b1a9,0x658e98], waterLight:.88, sparkle:.025,
+    valleyMist:{density:.0022,height:9},
   },
   host:{ sun:0xffdda9, int:2.25, hemiS:0xbfcfdf, hemiG:0xb4a285, hemiI:1.65,
     fog:0xa8c4d1, paintedFog:0xaccbdb, dens:.00035, exp:1.10, paintedFill:1.06,
@@ -134,7 +140,7 @@ export const PAINTED_ATMOSPHERES = {
     environment:{ground:0xb4a285,horizon:0xddd0b8,zenith:0x769fc1},
     foliage:{strength:1.14,direct:.92,back:.30}, water:[0x2f858e,0x1b5084], waterLight:.96, sparkle:.46,
     leaf:0xd6a442, reed:0xbe9855,
-    shadowSky:.11,
+    shadowSky:.11, cloudShadow:{cover:.32,opacity:.60},
   },
 };
 

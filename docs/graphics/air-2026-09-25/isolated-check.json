@@ -1,0 +1,323 @@
+{
+ "adapter": "swiftshader",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "with a clear sky, the lit world is the before: field, platform, pole and its shadow, bush, impostors and a Hero crown",
+     "ok": true,
+     "maxDiff": 0,
+     "differingValues": 0
+    },
+    {
+     "label": "a cloud pattern darkens the field as the sun under the clouds says, pixel by pixel, and the platform 40 m up by the pattern moved along the sun",
+     "ok": true,
+     "field": {
+      "offset": [
+       2400,
+       96
+      ],
+      "pixels": 90008,
+      "shadedShare": 0.1589,
+      "medianError": 0,
+      "p99Error": 0.001
+     },
+     "platform": {
+      "pixels": 9216,
+      "meanError": 0.0002,
+      "ifUnshifted": 0.1347,
+      "ifShiftedAgainst": 0.1975,
+      "slope": [
+       -0.25,
+       0.4773
+      ]
+     }
+    },
+    {
+     "label": "under a cloud a tree's shadow keeps its sky-lit tint while the ground round it darkens toward it: sun x mix(tint, 1, shadow x cloud) at every pixel, penumbra too",
+     "ok": true,
+     "shadowPixels": 144,
+     "umbraPixels": 125,
+     "umbraKept": 0.9999,
+     "shadowP99Error": 0.0002,
+     "contrast": {
+      "clear": 0.3609,
+      "cloud": 0.5863
+     },
+     "groundRatio": 0.587,
+     "groundP99Error": 0
+    },
+    {
+     "label": "a bush with no shadow map darkens under the cloud as the ground does",
+     "ok": true,
+     "pixels": 400,
+     "medianError": 0,
+     "p99Error": 0.0001
+    },
+    {
+     "label": "the impostors and a Hero crown darken under the cloud alike, and about as the open ground round them does",
+     "ok": true,
+     "pixels": {
+      "impostors": 8407,
+      "spruce": 442
+     },
+     "ratio": {
+      "impostors": 0.6057,
+      "spruce": 0.5955
+     },
+     "groundRatio": 0.587
+    },
+    {
+     "label": "plants move along the wind's axis by its strength and the gust the air carries, across it on its side, and not at all when it is still",
+     "ok": true,
+     "metresPerPixel": 0.2,
+     "still": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1414
+     },
+     "westerly": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1336
+     },
+     "northerlyGustsCarried": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1387
+     },
+     "northWestGale": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1246
+     },
+     "acrossTheWind": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1336
+     }
+    },
+    {
+     "label": "the sky's clouds drift downwind: east for a westerly, south for a northerly",
+     "ok": true,
+     "east": {
+      "measured": [
+       -5.8797,
+       -0.0168
+      ],
+      "expected": [
+       -5.9328,
+       -0.0012
+      ]
+     },
+     "south": {
+      "measured": [
+       -0.1226,
+       -5.8686
+      ],
+      "expected": [
+       -0.0013,
+       -5.9328
+      ]
+     }
+    },
+    {
+     "label": "a preset without mist leaves the haze exactly as it was, and the before has none",
+     "ok": true,
+     "maxDiff": 0,
+     "groundPixels": 72118
+    },
+    {
+     "label": "the mist the eye sees at every pixel is the closed form's, alone and with the haze, and it lies on the valley floor, not its slopes",
+     "ok": true,
+     "snapshot": {
+      "density": 0.0016,
+      "height": 6,
+      "base": 0
+     },
+     "medianError": 0,
+     "p99Error": 0,
+     "withHaze": {
+      "medianError": 0,
+      "p99Error": 0.0001
+     },
+     "at400m": {
+      "floor": 0.0696,
+      "slopes": 0.0021,
+      "floorPixels": 613,
+      "slopePixels": 713
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "with a clear sky, the lit world is the before: field, platform, pole and its shadow, bush, impostors and a Hero crown",
+     "ok": true,
+     "maxDiff": 0,
+     "differingValues": 0
+    },
+    {
+     "label": "a cloud pattern darkens the field as the sun under the clouds says, pixel by pixel, and the platform 40 m up by the pattern moved along the sun",
+     "ok": true,
+     "field": {
+      "offset": [
+       2400,
+       96
+      ],
+      "pixels": 90008,
+      "shadedShare": 0.1589,
+      "medianError": 0,
+      "p99Error": 0.001
+     },
+     "platform": {
+      "pixels": 9216,
+      "meanError": 0.0002,
+      "ifUnshifted": 0.1347,
+      "ifShiftedAgainst": 0.1975,
+      "slope": [
+       -0.25,
+       0.4773
+      ]
+     }
+    },
+    {
+     "label": "under a cloud a tree's shadow keeps its sky-lit tint while the ground round it darkens toward it: sun x mix(tint, 1, shadow x cloud) at every pixel, penumbra too",
+     "ok": true,
+     "shadowPixels": 144,
+     "umbraPixels": 125,
+     "umbraKept": 0.9999,
+     "shadowP99Error": 0.0002,
+     "contrast": {
+      "clear": 0.3609,
+      "cloud": 0.5863
+     },
+     "groundRatio": 0.587,
+     "groundP99Error": 0
+    },
+    {
+     "label": "a bush with no shadow map darkens under the cloud as the ground does",
+     "ok": true,
+     "pixels": 400,
+     "medianError": 0,
+     "p99Error": 0.0001
+    },
+    {
+     "label": "the impostors and a Hero crown darken under the cloud alike, and about as the open ground round them does",
+     "ok": true,
+     "pixels": {
+      "impostors": 8407,
+      "spruce": 442
+     },
+     "ratio": {
+      "impostors": 0.6057,
+      "spruce": 0.5955
+     },
+     "groundRatio": 0.587
+    },
+    {
+     "label": "plants move along the wind's axis by its strength and the gust the air carries, across it on its side, and not at all when it is still",
+     "ok": true,
+     "metresPerPixel": 0.2,
+     "still": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1414
+     },
+     "westerly": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1393
+     },
+     "northerlyGustsCarried": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1387
+     },
+     "northWestGale": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1246
+     },
+     "acrossTheWind": {
+      "markers": 66,
+      "blobs": 66,
+      "matched": 66,
+      "worstMetres": 0.1336
+     }
+    },
+    {
+     "label": "the sky's clouds drift downwind: east for a westerly, south for a northerly",
+     "ok": true,
+     "east": {
+      "measured": [
+       -5.8797,
+       0.0168
+      ],
+      "expected": [
+       -5.9328,
+       -0.0013
+      ]
+     },
+     "south": {
+      "measured": [
+       -0.1225,
+       5.8686
+      ],
+      "expected": [
+       0.0012,
+       5.9328
+      ]
+     }
+    },
+    {
+     "label": "a preset without mist leaves the haze exactly as it was, and the before has none",
+     "ok": true,
+     "maxDiff": 0,
+     "groundPixels": 72124
+    },
+    {
+     "label": "the mist the eye sees at every pixel is the closed form's, alone and with the haze, and it lies on the valley floor, not its slopes",
+     "ok": true,
+     "snapshot": {
+      "density": 0.0016,
+      "height": 6,
+      "base": 0
+     },
+     "medianError": 0,
+     "p99Error": 0,
+     "withHaze": {
+      "medianError": 0,
+      "p99Error": 0.0001
+     },
+     "at400m": {
+      "floor": 0.0696,
+      "slopes": 0.0021,
+      "floorPixels": 613,
+      "slopePixels": 713
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  }
+ }
+}

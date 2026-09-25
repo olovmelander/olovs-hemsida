@@ -333,7 +333,7 @@ function enableImpostorCoverage(material) {
  * crossfades (`fade`), `aFade` (engine/tree-fade.mjs). The quad's own `uv`
  * runs 0..1.
  */
-export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn = float(0), roughness = 0.92, debug = null, fade = false, backLight = true } = {}) {
+export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn = float(0), roughness = 0.92, debug = null, fade = false, backLight = true, sunlit = null } = {}) {
   const material = atlas.foliage ? new THREE.MeshBasicNodeMaterial() : new THREE.MeshStandardNodeMaterial({ roughness, metalness: 0, flatShading: false });
   const n = atlas.framesPerSide;
   const cell = 1 / n;
@@ -483,8 +483,10 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
        at the sun through the tree, at the edge weight's mean over a crown */
     const crownColour = paintedFoliageColour({key:atlas.foliage.key,normal:nWorld,sunDirection,
       tint:tint.xyz,seed:tint.w,autumn,
-      backLight:backLight ? foliageFacingSun(view.negate(), sunDirection).mul(IMPOSTOR_BACK_EDGE) : null});
-    const barkLight = nWorld.dot(sunDirection).max(0).mul(.65).add(.55);
+      backLight:backLight ? foliageFacingSun(view.negate(), sunDirection).mul(IMPOSTOR_BACK_EDGE) : null, sunlit});
+    /* the trunk's direct light gives way in a cloud's shade as the crown's does (sunlit, cloud-shadow.mjs) */
+    const barkDirect = nWorld.dot(sunDirection).max(0).mul(.65);
+    const barkLight = (sunlit ? barkDirect.mul(sunlit) : barkDirect).add(.55);
     material.colorNode = crownPremultiplied.mul(crownColour)
       .add(trunkPremultiplied.mul(barkLight).mul(foliageLight)).div(coverage.max(1e-4));
     material.userData.foliageKey = atlas.foliage.key;
