@@ -1,0 +1,579 @@
+{
+  "revision": "e2289081f223c13cc077c2f92e06a51778f51dcc6501156db60de7ef545e13e2",
+  "courses": [
+    {
+      "course": "angso",
+      "chunks": 960,
+      "packages": 8,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "849919f3091785e47e3787b9c4c1f0bb319539ea97c52e70743571ce5bcf4cbd"
+        },
+        {
+          "quality": "lo",
+          "sha256": "849919f3091785e47e3787b9c4c1f0bb319539ea97c52e70743571ce5bcf4cbd"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 3086234,
+          "points": 283012
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1715765,
+          "points": 156610
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": 3348936,
+            "cover": 357840,
+            "edge": 2731968
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": 3348936,
+            "cover": 357840,
+            "edge": 2731968
+          }
+        }
+      ]
+    },
+    {
+      "course": "norrfallsviken",
+      "chunks": 862,
+      "packages": 7,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "d0f315a9076d9ce0e5e8315833e29fba44526d3c08e4e1902a480c6607e6605d"
+        },
+        {
+          "quality": "lo",
+          "sha256": "d0f315a9076d9ce0e5e8315833e29fba44526d3c08e4e1902a480c6607e6605d"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 3524208,
+          "points": 163387
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1952667,
+          "points": 89970
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": null,
+            "cover": 299250,
+            "edge": 1710720
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": null,
+            "cover": 299250,
+            "edge": 1710720
+          }
+        }
+      ]
+    },
+    {
+      "course": "puttom",
+      "chunks": 977,
+      "packages": 10,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "e014bc8a214883cc72eda9521de9f4f965f6451dfd0d152ff31e9f3d88fb87ae"
+        },
+        {
+          "quality": "lo",
+          "sha256": "e014bc8a214883cc72eda9521de9f4f965f6451dfd0d152ff31e9f3d88fb87ae"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 3410641,
+          "points": 596718
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1864069,
+          "points": 327503
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": 2889824,
+            "cover": 309339,
+            "edge": 1959552
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": 2889824,
+            "cover": 309339,
+            "edge": 1959552
+          }
+        }
+      ]
+    },
+    {
+      "course": "upsala",
+      "chunks": 960,
+      "packages": 10,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "0b0f521c29423458f289f5a176c5d56ec730395577bbcd238af149bab2c0ac50"
+        },
+        {
+          "quality": "lo",
+          "sha256": "0b0f521c29423458f289f5a176c5d56ec730395577bbcd238af149bab2c0ac50"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 162345,
+          "points": 64372
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 83716,
+          "points": 33054
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": null,
+            "cover": 583646,
+            "edge": 2851200
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": null,
+            "cover": 583646,
+            "edge": 2851200
+          }
+        }
+      ]
+    },
+    {
+      "course": "upsala-mellanbanan",
+      "chunks": 960,
+      "packages": 10,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "36b465099f42e11c8432a8ca65c90bb9c4ee1e0d3a41670e626659d2cce1f5a3"
+        },
+        {
+          "quality": "lo",
+          "sha256": "36b465099f42e11c8432a8ca65c90bb9c4ee1e0d3a41670e626659d2cce1f5a3"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 162345,
+          "points": 64372
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 83716,
+          "points": 33054
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": null,
+            "cover": 583646,
+            "edge": 2610144
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": null,
+            "cover": 583646,
+            "edge": 2610144
+          }
+        }
+      ]
+    },
+    {
+      "course": "johannesberg",
+      "chunks": 949,
+      "packages": 9,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "2e643cdacc17d123995ddd596b2836904646d17f1ee8c733a5a8b4af9ceb0be3"
+        },
+        {
+          "quality": "lo",
+          "sha256": "2e643cdacc17d123995ddd596b2836904646d17f1ee8c733a5a8b4af9ceb0be3"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 2906082,
+          "points": 544092
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1618010,
+          "points": 300759
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": 3385413,
+            "cover": 361816,
+            "edge": 4164048
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": 3385413,
+            "cover": 361816,
+            "edge": 4164048
+          }
+        }
+      ]
+    },
+    {
+      "course": "johannesberg-9",
+      "chunks": 949,
+      "packages": 9,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "31e1e0144aec18802d6034d39fdab2a9fdef1ff1de8ea8a94c0a1b09bec6fb0d"
+        },
+        {
+          "quality": "lo",
+          "sha256": "31e1e0144aec18802d6034d39fdab2a9fdef1ff1de8ea8a94c0a1b09bec6fb0d"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 2906082,
+          "points": 544075
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1618010,
+          "points": 300751
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": 3385413,
+            "cover": 361816,
+            "edge": 4164048
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": 3385413,
+            "cover": 361816,
+            "edge": 4164048
+          }
+        }
+      ]
+    },
+    {
+      "course": "veckefjarden",
+      "chunks": 962,
+      "packages": 9,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "9666106fbcea77dfa13e7a55ce327220fb8a941cf421dc86375f007b5c0aa3e2"
+        },
+        {
+          "quality": "lo",
+          "sha256": "9666106fbcea77dfa13e7a55ce327220fb8a941cf421dc86375f007b5c0aa3e2"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 2701452,
+          "points": 378417
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1499218,
+          "points": 208980
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": 1000615,
+            "cover": 202768,
+            "edge": 2349648
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": 1000615,
+            "cover": 202768,
+            "edge": 2349648
+          }
+        }
+      ]
+    },
+    {
+      "course": "veckefjarden-korthalsbanan",
+      "chunks": 962,
+      "packages": 9,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "af834040a8674ecbd305efae4af34cd99b995c47ba846a773c888a3dbf438ab6"
+        },
+        {
+          "quality": "lo",
+          "sha256": "af834040a8674ecbd305efae4af34cd99b995c47ba846a773c888a3dbf438ab6"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 2701452,
+          "points": 378418
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1499218,
+          "points": 208987
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": 1000615,
+            "cover": 202768,
+            "edge": 2222640
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": 1000615,
+            "cover": 202768,
+            "edge": 2222640
+          }
+        }
+      ]
+    },
+    {
+      "course": "ribbingsfors",
+      "chunks": 969,
+      "packages": 9,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "b333c9ca4efbd35840dff44a8b1163f824c7cf708db7f39ccf23a29a896853ae"
+        },
+        {
+          "quality": "lo",
+          "sha256": "b333c9ca4efbd35840dff44a8b1163f824c7cf708db7f39ccf23a29a896853ae"
+        }
+      ],
+      "water": "prepared",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 3254173,
+          "points": 537355
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1808596,
+          "points": 296714
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "sections": {
+            "reeds": 1406596,
+            "cover": 150544,
+            "edge": 1534464
+          }
+        },
+        {
+          "variant": "scatter-lo",
+          "sections": {
+            "reeds": 1406596,
+            "cover": 150544,
+            "edge": 1534464
+          }
+        }
+      ]
+    },
+    {
+      "course": "visby",
+      "chunks": 842,
+      "packages": 4,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "f8f2992e34d1ccc1b4484de7d6ea8fcb969bcb301950ab4a0431a26e7d81ddd7"
+        },
+        {
+          "quality": "lo",
+          "sha256": "f8f2992e34d1ccc1b4484de7d6ea8fcb969bcb301950ab4a0431a26e7d81ddd7"
+        }
+      ],
+      "water": "verified unsupported path",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 3493161,
+          "points": 211476
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1904400,
+          "points": 115793
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "none": true
+        },
+        {
+          "variant": "scatter-lo",
+          "none": true
+        }
+      ]
+    },
+    {
+      "course": "tortuna",
+      "chunks": 647,
+      "packages": 8,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "40f9dccaeac704b52b1460516a9cd4a7e626bbf45b034ee26e5aa2ebb68d81ea"
+        },
+        {
+          "quality": "lo",
+          "sha256": "40f9dccaeac704b52b1460516a9cd4a7e626bbf45b034ee26e5aa2ebb68d81ea"
+        }
+      ],
+      "water": "verified unsupported path",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 3017169,
+          "points": 293628
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 1661521,
+          "points": 161798
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "none": true
+        },
+        {
+          "variant": "scatter-lo",
+          "none": true
+        }
+      ]
+    },
+    {
+      "course": "lidingo",
+      "chunks": 534,
+      "packages": 7,
+      "tints": [
+        {
+          "quality": "hi",
+          "sha256": "b20d1e15a43bf8baeadbf45fe3277542909dde626bae453caf021a4bfe94443b"
+        },
+        {
+          "quality": "lo",
+          "sha256": "b20d1e15a43bf8baeadbf45fe3277542909dde626bae453caf021a4bfe94443b"
+        }
+      ],
+      "water": "verified unsupported path",
+      "vista": [
+        {
+          "variant": "vista-hi",
+          "candidates": 4247721,
+          "points": 417133
+        },
+        {
+          "variant": "vista-lo",
+          "candidates": 2328676,
+          "points": 228481
+        }
+      ],
+      "scatter": [
+        {
+          "variant": "scatter-hi",
+          "none": true
+        },
+        {
+          "variant": "scatter-lo",
+          "none": true
+        }
+      ]
+    }
+  ]
+}
