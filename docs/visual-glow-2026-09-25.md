@@ -185,12 +185,36 @@ strength and threshold, then ACES with the dither at the preset's exposure.
 
 **App boot**
 ([`check-boot.mjs`](graphics/glow-2026-09-25/check-boot.mjs),
-[result](graphics/glow-2026-09-25/boot-check.json)): pending.
+[result](graphics/glow-2026-09-25/boot-check.json)). The re-baked app boots
+five ways on WebGL2 in SwiftShader.
+- Each boot compiles every material in the scene, the sky's included.
+- No page or console error occurs in any boot, so no shader failed to compile.
+- The tree tier audit passes in each.
+- Where a boot steps through the lights, it uses the page's own buttons.
 
-**Prepared startup data.** The source revision moved, so tints, far vista,
-scatter and water were re-baked through the existing publishers. Pending.
+| Boot | What the harness reads back |
+|---|---|
+| Ängsö, high quality, every light (`det=1`) | Each light's own threshold and strength: golden hour 0.70 and 0.09, dawn 0.60, midnight sun 0.50, the rest 0.86. The clouds' shine in each low sun's glow colour: golden hour (0.50, 0.23, 0.06), none in the other lights. |
+| Ängsö, low quality | No glow, and no shine in any light. |
+| Ängsö, high quality, both befores, every light | 0.86 and no shine in every light. |
+| Norrfällsviken at dawn, from the URL | 0.60, with dawn's shine. |
+| Ängsö, high quality, no quality lock | Before the runtime drop's verdict: 0.70, 0.09 and golden hour's shine. After it, software rendering being slow enough: a strength of 0 and no shine. |
 
-**Suite.** Pending.
+**Prepared startup data.** The source revision moved, so the following were
+re-baked through the existing publishers for revision `6a8952e1`: tints (26),
+far vista (26), scatter (26) and water (10 courses).
+
+[`check-publication.mjs`](graphics/glow-2026-09-25/check-publication.mjs)
+compares against main at `71d373e8`
+([result](graphics/glow-2026-09-25/publication-identity.json)). Every tint,
+vista, scatter and water record keeps its content; only its source identity
+changed. `check-prepared-startup` passes on the rebuilt app
+([`prepared-check.json`](graphics/glow-2026-09-25/prepared-check.json)), and the
+app boot above ran on it.
+
+**Suite.** The full `pnpm test` passes: 1,425 Vitest tests and 482 Node tests,
+with 3 environment skips. The app-build isolation check,
+`check:course-workflow` and the no-undef lint also pass.
 
 ## Not established
 

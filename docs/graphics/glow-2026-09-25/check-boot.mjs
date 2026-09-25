@@ -49,14 +49,19 @@ try {
     const lock = run.drop ? '' : '&qualitylock=1';
     const url = `http://127.0.0.1:${port}/?bana=${run.course}&v2=require&ghibli=1&q=${run.q}${lock}&gl=1&hal=1&vy=tee&${run.query}`;
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
+    const read = () => page.evaluate(() => { const q = V3D.quality(), a = V3D.atmosphere();
+      return { preset: a.preset, threshold: q.bloomThreshold, strength: q.bloom, cloudGlow: a.cloudGlow, lowfx: q.lowfx }; });
+    /* before the verdict (14 s after boot applies the preset -- a full course boots slower than that
+       in software rendering): the preset with its glow and shine, read as soon as the page has it */
+    const early = run.drop ? (await page.waitForFunction(() => { try { const q = V3D.quality(), a = V3D.atmosphere();
+      return !q.lowfx && q.bloom > 0 && a.cloudGlow?.[0] > 0 ? { preset: a.preset, threshold: q.bloomThreshold, strength: q.bloom, cloudGlow: a.cloudGlow, lowfx: q.lowfx } : null; }
+      catch { return null; } }, null, { timeout: 900000, polling: 200 })).jsonValue() : null;
     await page.waitForFunction(() => window.V3D?.settled(), null, { timeout: 900000, polling: 1000 });
     const f = await page.evaluate(() => V3D.frame());
     await page.waitForFunction(f0 => V3D.frame() >= f0 + 3, f, { timeout: 600000, polling: 500 });
     /* every material compiled, in view or not: a failing shader reports an error */
     await page.evaluate(async () => { const { scene, renderer, camera } = V3D.harness(); await renderer.compileAsync(scene, camera); });
-    const read = () => page.evaluate(() => { const q = V3D.quality(), a = V3D.atmosphere();
-      return { preset: a.preset, threshold: q.bloomThreshold, strength: q.bloom, cloudGlow: a.cloudGlow, lowfx: q.lowfx }; });
-    const states = [await read()];
+    const states = [...(early ? [await early] : []), await read()];
     for (const light of run.lights) {
       await page.evaluate(name => document.querySelector(`[data-preset="${name}"]`).click(), light);
       states.push(await read());
@@ -78,7 +83,9 @@ try {
     };
     checks.everyLight = states.every(expected);
     if (run.lights.length) checks.lightsVisited = run.lights.every(l => states.some(s => s.preset === l));
-    if (run.drop) checks.dropped = states.at(-1).lowfx === true && states[0].lowfx === false && !same(states[0].cloudGlow, [0, 0, 0]);
+    /* the shine was on before the verdict and went with the glow */
+    if (run.drop) checks.dropped = states[0].lowfx === false && !same(states[0].cloudGlow, [0, 0, 0])
+      && states.at(-1).lowfx === true && states.at(-1).strength === 0 && same(states.at(-1).cloudGlow, [0, 0, 0]);
     const row = { name: run.name, q: run.q, url: url.replace(`http://127.0.0.1:${port}`, ''), checks, states, errors };
     rows.push(row);
     if (!Object.values(checks).every(Boolean)) failed = true;

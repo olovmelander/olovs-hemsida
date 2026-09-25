@@ -1,0 +1,349 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Ängsö, high quality, every light",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "everyLight": true,
+    "lightsVisited": true
+   },
+   "states": [
+    {
+     "preset": "golden",
+     "threshold": 0.7,
+     "strength": 0.09,
+     "cloudGlow": [
+      0.5,
+      0.23389189805127142,
+      0.05596621391384846
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "golden",
+     "threshold": 0.7,
+     "strength": 0.09,
+     "cloudGlow": [
+      0.5,
+      0.23389189805127142,
+      0.05596621391384846
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "noon",
+     "threshold": 0.86,
+     "strength": 0.04,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "dawn",
+     "threshold": 0.6,
+     "strength": 0.085,
+     "cloudGlow": [
+      1.31,
+      0.7481735265881269,
+      0.4233176039239193
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "midnight",
+     "threshold": 0.5,
+     "strength": 0.08,
+     "cloudGlow": [
+      2.16,
+      1.1652756962472897,
+      0.4353615081730889
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "bluehour",
+     "threshold": 0.86,
+     "strength": 0.035,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "storm",
+     "threshold": 0.86,
+     "strength": 0.015,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "mist",
+     "threshold": 0.86,
+     "strength": 0.025,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "host",
+     "threshold": 0.86,
+     "strength": 0.065,
+     "cloudGlow": [
+      0.27,
+      0.23526912218290832,
+      0.1703044268114696
+     ],
+     "lowfx": false
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Ängsö, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "everyLight": true,
+    "lightsVisited": true
+   },
+   "states": [
+    {
+     "preset": "golden",
+     "threshold": null,
+     "strength": null,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "golden",
+     "threshold": null,
+     "strength": null,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "dawn",
+     "threshold": null,
+     "strength": null,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Ängsö, high quality, both befores, every light",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&glowthreshold=0&cloudglow=0",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "everyLight": true,
+    "lightsVisited": true
+   },
+   "states": [
+    {
+     "preset": "golden",
+     "threshold": 0.86,
+     "strength": 0.09,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "golden",
+     "threshold": 0.86,
+     "strength": 0.09,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "noon",
+     "threshold": 0.86,
+     "strength": 0.04,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "dawn",
+     "threshold": 0.86,
+     "strength": 0.085,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "midnight",
+     "threshold": 0.86,
+     "strength": 0.08,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "bluehour",
+     "threshold": 0.86,
+     "strength": 0.035,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "storm",
+     "threshold": 0.86,
+     "strength": 0.015,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "mist",
+     "threshold": 0.86,
+     "strength": 0.025,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "host",
+     "threshold": 0.86,
+     "strength": 0.065,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": false
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Norrfällsviken at dawn, from the URL",
+   "q": "hi",
+   "url": "/?bana=norrfallsviken&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=gryning",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "everyLight": true
+   },
+   "states": [
+    {
+     "preset": "dawn",
+     "threshold": 0.6,
+     "strength": 0.085,
+     "cloudGlow": [
+      1.31,
+      0.7481735265881269,
+      0.4233176039239193
+     ],
+     "lowfx": false
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Ängsö, high quality, the runtime drop",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&gl=1&hal=1&vy=tee&ljus=kvall",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "everyLight": true,
+    "dropped": true
+   },
+   "states": [
+    {
+     "preset": "golden",
+     "threshold": 0.7,
+     "strength": 0.09,
+     "cloudGlow": [
+      0.5,
+      0.23389189805127142,
+      0.05596621391384846
+     ],
+     "lowfx": false
+    },
+    {
+     "preset": "golden",
+     "threshold": 0.7,
+     "strength": 0,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": true
+    },
+    {
+     "preset": "golden",
+     "threshold": 0.7,
+     "strength": 0,
+     "cloudGlow": [
+      0,
+      0,
+      0
+     ],
+     "lowfx": true
+    }
+   ],
+   "errors": []
+  }
+ ]
+}
