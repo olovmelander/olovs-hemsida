@@ -28,7 +28,9 @@ export function preparedTintAllowed(search) {
     // nor do the air batch's: sway, sky drift, cloud shade and mist are drawn, not prepared
     'onewind', 'cloudshadows', 'valleymist',
     // nor do the water batch's: the water's light and ripples are drawn; its prepared fields are untouched
-    'nordicwater', 'waterwind']);
+    'nordicwater', 'waterwind',
+    // nor do the glow batch's: the glow's threshold and the clouds' shine are drawn
+    'glowthreshold', 'cloudglow']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

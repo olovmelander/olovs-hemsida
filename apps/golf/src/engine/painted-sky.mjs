@@ -1,4 +1,5 @@
 import {Color} from 'three/webgpu';
+import {CLOUD_GLOW} from './glow.mjs';
 import {float,mix,mx_noise_float,normalize,positionWorld,cameraPosition,pow,saturate,smoothstep,time,uniform,vec3,vec4} from 'three/tsl';
 
 // A separate cloud coverage field lets blue sky and cream clouds keep their
@@ -7,9 +8,13 @@ import {float,mix,mx_noise_float,normalize,positionWorld,cameraPosition,pow,satu
 // wind: their offset across the cloud plane (x, y) and how far they have run
 // (z), which also turns their shapes over. Without it, the before: a drift west
 // at the preset's speed.
+// `cloudGlow` (glow.mjs): toward a low sun the clouds' lit centres shine past
+// their paint in the sun glow's colour, so the glow's threshold picks them out
+// and nothing else in the sky; their edges, and every cloud away from the sun,
+// keep the paint. Black is the before (?cloudglow=0).
 export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic,drift=null}){
   const exposure=uniform(1);
-  const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0),hazeGlow=uniform(0);
+  const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0),hazeGlow=uniform(0),cloudGlow=uniform(new Color(0,0,0));
   const direction=normalize(positionWorld.sub(cameraPosition));
   const up=saturate(direction.y);
   const t=deterministic?float(0):time.mul(sky.cloudSpeed).mul(35);
@@ -30,10 +35,14 @@ export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundH
   const sunward=pow(saturate(direction.dot(normalize(sky.sunPosition)).mul(.5).add(.5)),6);
   const glow=sunward.mul(smoothstep(.10,.68,up).oneMinus()).mul(sunGlowStrength);
   const cloud=mix(mix(cloudShade,cloudLit,light.mul(.65).add(.35)),cloudLit,glow.mul(.6));
+  // The shine is a narrower lobe than the glow's (its square), on the cloud's
+  // thick interior past its soft edge.
+  const centre=smoothstep(threshold.add(CLOUD_GLOW.centre[0]),threshold.add(CLOUD_GLOW.centre[1]),field);
+  const shining=cloud.mul(cloudGlow.mul(sunward.mul(sunward).mul(centre)).add(1));
   const clear=mix(mix(horizon,zenith,pow(up,.38)),sunGlow,glow);
-  const painted=mix(clear,cloud,coverage).mul(exposure);
+  const painted=mix(clear,shining,coverage).mul(exposure);
   // The band under the horizon is the ground's haze, warmed toward the sun as
   // the aerial perspective warms it (aerial-perspective.mjs), so they still meet.
   const haze=mix(groundHaze,sunGlow,sunward.mul(hazeGlow));
-  return{node:vec4(mix(haze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength,hazeGlow};
+  return{node:vec4(mix(haze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength,hazeGlow,cloudGlow};
 }
