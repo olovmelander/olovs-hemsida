@@ -235,7 +235,19 @@ shadow comparisons, and all 25 crown and impostor colour passes are identical
 to main's pixel for pixel: with no back-lit sun set, the new crown colour is
 the old one.
 
-**Prepared startup data.** See below.
+**Prepared startup data.** The source revision moved, so tints (26), far vista
+(26), scatter (26) and water (10 courses) were re-baked through the existing
+publishers for revision `2b793638`. Against main at `9bb1f2bf`,
+[`check-publication.mjs`](graphics/lighting-2026-09-25/check-publication.mjs)
+proves that every record kept its content and only its source identity changed
+([`publication-identity.json`](graphics/lighting-2026-09-25/publication-identity.json)).
+`check-prepared-startup` passes on the rebuilt app
+([`prepared-check.json`](graphics/lighting-2026-09-25/prepared-check.json)). The
+app boot above ran on that rebuilt app.
+
+**Suite.** The full `pnpm test` passes: 1,376 Vitest tests and 482 Node tests,
+with 3 environment skips. The app-build isolation check, `check:course-workflow`
+and the no-undef lint also pass.
 
 ## Not established
 

@@ -1,0 +1,138 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "backend": "webgl2",
+   "q": "hi",
+   "variant": "fixed",
+   "preset": "golden",
+   "shadowNodeOnSun": [
+    true
+   ],
+   "shadowTint": [
+    0.030054379440498952,
+    0.07009746706464981,
+    0.24051689414481195
+   ],
+   "skyGlow": 0.92,
+   "skyHazeGlow": 0.46,
+   "hazeGlow": 0.46,
+   "crownBackLight": [
+    0.42,
+    0.25360748231596714,
+    0.1101452761579328
+   ],
+   "crowns": {
+    "gran": {
+     "minGreen": 0.598,
+     "meanGreen": 0.781
+    },
+    "tall": {
+     "minGreen": 0.582,
+     "meanGreen": 0.773
+    },
+    "bjork": {
+     "minGreen": 0.598,
+     "meanGreen": 0.788
+    },
+    "al": {
+     "minGreen": 0.604,
+     "meanGreen": 0.762
+    },
+    "ek": {
+     "minGreen": 0.604,
+     "meanGreen": 0.754
+    }
+   },
+   "tiersAudit": true,
+   "frame": 6,
+   "errors": []
+  },
+  {
+   "backend": "webgl2",
+   "q": "lo",
+   "variant": "fixed",
+   "preset": "golden",
+   "shadowNodeOnSun": [
+    true
+   ],
+   "shadowTint": [
+    0.030054379440498952,
+    0.07009746706464981,
+    0.24051689414481195
+   ],
+   "skyGlow": 0.92,
+   "skyHazeGlow": 0.46,
+   "hazeGlow": 0.46,
+   "crownBackLight": [
+    0.42,
+    0.25360748231596714,
+    0.1101452761579328
+   ],
+   "crowns": {
+    "gran": {
+     "minGreen": 0.598,
+     "meanGreen": 0.752
+    },
+    "tall": {
+     "minGreen": 0.582,
+     "meanGreen": 0.799
+    },
+    "bjork": {
+     "minGreen": 0.598,
+     "meanGreen": 0.788
+    },
+    "al": {
+     "minGreen": 0.604,
+     "meanGreen": 0.771
+    },
+    "ek": {
+     "minGreen": 0.604,
+     "meanGreen": 0.768
+    }
+   },
+   "tiersAudit": true,
+   "frame": 5,
+   "errors": []
+  },
+  {
+   "backend": "webgl2",
+   "q": "hi",
+   "variant": "before",
+   "preset": "golden",
+   "shadowNodeOnSun": [
+    false
+   ],
+   "shadowTint": null,
+   "skyGlow": 0.92,
+   "skyHazeGlow": 0,
+   "hazeGlow": 0,
+   "crownBackLight": null,
+   "crowns": {
+    "gran": {
+     "minGreen": 0.965,
+     "meanGreen": 0.982
+    },
+    "tall": {
+     "minGreen": 0.939,
+     "meanGreen": 0.974
+    },
+    "bjork": {
+     "minGreen": 0.965,
+     "meanGreen": 0.982
+    },
+    "al": {
+     "minGreen": 0.973,
+     "meanGreen": 0.985
+    },
+    "ek": {
+     "minGreen": 0.973,
+     "meanGreen": 0.985
+    }
+   },
+   "tiersAudit": true,
+   "frame": 5,
+   "errors": []
+  }
+ ]
+}
