@@ -20,7 +20,9 @@ export function preparedTintAllowed(search) {
     'offcourse', // nor does drawn terrain detail: CPU heights come from the 1 m source
     // nor do the visual fixes' before switches: shading, textures and draw order only
     'detailupload', 'mowfade', 'localheight', 'coverglow', 'pondfetch', 'waternormal',
-    'dither', 'bloomknee', 'skyhaze', 'skyorder', 'furnitureshadow']);
+    'dither', 'bloomknee', 'skyhaze', 'skyorder', 'furnitureshadow',
+    // nor do the lighting batch's before switches: light, sky and crown colour only
+    'shadowtint', 'sunglow', 'hazewarm', 'crowndepth', 'backlight']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

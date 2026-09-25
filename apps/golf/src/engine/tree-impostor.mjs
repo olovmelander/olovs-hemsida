@@ -24,7 +24,7 @@ import {
   transformNormalToView, positionWorld, normalWorldGeometry,
 } from 'three/tsl';
 import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
-import { paintedFoliageColour, foliageLight, foliageSurfacePigment } from './ghibli-foliage-material.mjs';
+import { paintedFoliageColour, foliageLight, foliageSurfacePigment, foliageFacingSun, IMPOSTOR_BACK_EDGE } from './ghibli-foliage-material.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
  *  0 view-space normal, 1 dot(normal, view) in world, 2 the same in the
@@ -333,7 +333,7 @@ function enableImpostorCoverage(material) {
  * crossfades (`fade`), `aFade` (engine/tree-fade.mjs). The quad's own `uv`
  * runs 0..1.
  */
-export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn = float(0), roughness = 0.92, debug = null, fade = false } = {}) {
+export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn = float(0), roughness = 0.92, debug = null, fade = false, backLight = true } = {}) {
   const material = atlas.foliage ? new THREE.MeshBasicNodeMaterial() : new THREE.MeshStandardNodeMaterial({ roughness, metalness: 0, flatShading: false });
   const n = atlas.framesPerSide;
   const cell = 1 / n;
@@ -479,8 +479,11 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
     .div(coverage.max(1e-4)).mul(lenScale);
   if (atlas.foliage) {
     const tint = attribute('aTint', 'vec4');
+    /* the mesh crowns' back-light (foliageBackLight): how squarely the eye looks
+       at the sun through the tree, at the edge weight's mean over a crown */
     const crownColour = paintedFoliageColour({key:atlas.foliage.key,normal:nWorld,sunDirection,
-      tint:tint.xyz,seed:tint.w,autumn});
+      tint:tint.xyz,seed:tint.w,autumn,
+      backLight:backLight ? foliageFacingSun(view.negate(), sunDirection).mul(IMPOSTOR_BACK_EDGE) : null});
     const barkLight = nWorld.dot(sunDirection).max(0).mul(.65).add(.55);
     material.colorNode = crownPremultiplied.mul(crownColour)
       .add(trunkPremultiplied.mul(barkLight).mul(foliageLight)).div(coverage.max(1e-4));

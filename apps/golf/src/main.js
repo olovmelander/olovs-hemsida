@@ -62,7 +62,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
-import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting } from './engine/ghibli-foliage-material.mjs';
+import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack } from './engine/ghibli-foliage-material.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
 import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
@@ -102,6 +102,7 @@ import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } fro
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { createSunShadowFilter } from './engine/sun-shadow.mjs';
+import { createShadowTint, shadowTintFor } from './engine/shadow-tint.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -1907,11 +1908,19 @@ const uReedC = uniform(new THREE.Color(0x8d8a52));
    a stump above 0.37 m was all cut face, a clump all tip, a reed all head.
    ?localheight=0 is the before. */
 const LOCAL_HEIGHT = new URLSearchParams(location.search).get('localheight') === '0' ? positionLocal.y : positionGeometry.y;
+/* Crowns glow at the edge against a low sun, meshes and impostors alike
+   (ghibli-foliage-material.mjs foliageBackLight); ?backlight=0 is the before. */
+const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !== '0';
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
 const sunShadowFilter = createSunShadowFilter();
 sun.shadow.filterNode = sunShadowFilter.filterNode;
+/* Shadows are lit by the sky: a share of the sun's strength reaches them in the
+   preset's sky colour (shadow-tint.mjs), so shade lifts in the sky's cool colour,
+   most at noon and on surfaces facing the sun. ?shadowtint=0 is the before. */
+const shadowTint = new URLSearchParams(location.search).get('shadowtint') === '0' ? null : createShadowTint(sun);
+if (shadowTint) sun.shadow.shadowNode = shadowTint.node;
 /* The shadow map is re-rendered when something that casts has moved, and not
    otherwise (shadowRest, in the frame loop): three's default is every frame,
    and at rest that pass over ten million triangles was a third of the frame's
@@ -1933,7 +1942,10 @@ scene.add(hemi);
 let preset = PRESETS.golden;
 const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
 scene.fog = fog;
-const aerialPerspective = createAerialPerspective(fog);
+/* The haze warms toward the sun with the sky's own glow (aerial-perspective.mjs);
+   ?hazewarm=0 is the before, one haze colour in every direction. */
+const HAZE_WARM = new URLSearchParams(location.search).get('hazewarm') !== '0';
+const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM });
 scene.fogNode = aerialPerspective.node;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
@@ -1953,7 +1965,14 @@ const LJUS2P = {
 };
 const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
 const INITIAL_ATMOSPHERE = paintedAtmosphere(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
-setAtmospherePreset(skyMesh, INITIAL_ATMOSPHERE);
+/* A glow where the light comes from in every sky with a low sun -- dawn, the
+   midnight sun and autumn -- not in golden hour's alone.
+   ?sunglow=0 is the before. */
+const SUN_GLOW_BEFORE = new URLSearchParams(location.search).get('sunglow') === '0';
+const skyPreset = (p, name) => ({ ...p,
+  ...(SUN_GLOW_BEFORE && name !== 'golden' ? { skySunGlowStrength: 0 } : {}),
+  ...(HAZE_WARM ? {} : { hazeGlow: 0 }) });
+setAtmospherePreset(skyMesh, skyPreset(INITIAL_ATMOSPHERE, INITIAL_PRESET));
 const waterLighting = createWaterReflectionLighting({ enabled: GRAPHICS_POLISH });
 waterLighting.setPreset(INITIAL_ATMOSPHERE);
 const lightingEnvironment = createLightingEnvironment(renderer, scene, {
@@ -1973,6 +1992,7 @@ function setPreset(name, overrides = null) {
   lightingEnvironment.setPreset(overrides ? `${presetName}:${JSON.stringify(overrides)}` : presetName, p);
   waterLighting.setPreset(p);
   sun.color.setHex(p.sun); sun.intensity = p.int;
+  if (shadowTint) shadowTintFor(p, shadowTint.tint.value);
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
   uThroughSun.value.setHex(p.sun).multiplyScalar(Math.min(1, p.int / 2.5));
@@ -1983,7 +2003,7 @@ function setPreset(name, overrides = null) {
   fog.density = CONTINUOUS_OCEAN_ENABLED && presetName === 'noon' ? 0.00022 : p.dens;
   scene.background = new THREE.Color(p.fog);
   renderer.toneMappingExposure = p.exp;
-  setAtmospherePreset(skyMesh, p);
+  setAtmospherePreset(skyMesh, skyPreset(p, presetName));
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
   uAutumn.value = presetName === 'host' ? 1 : 0;
   setFoliageLighting(p);
@@ -1995,7 +2015,7 @@ function setPreset(name, overrides = null) {
   /* the sky's band under the horizon meets the ground in the same haze; ?skyhaze=raw is the before */
   if (new URLSearchParams(location.search).get('skyhaze') !== 'raw') setSkyGroundHaze(skyMesh, fog.color);
   hemi.intensity = p.hemiI * p.paintedFill;
-  aerialPerspective.setPreset(p);
+  aerialPerspective.setPreset(skyPreset(p, presetName));
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
@@ -4358,7 +4378,9 @@ const GHIBLI = await (async () => {
        the same height and radius. ?treemesh=hero|full overrides for
        comparison; old ?hero=0 links change nothing. No Lite downloads. */
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
-      tier: playerTreeMeshTier(location.search, LOWQ) });
+      tier: playerTreeMeshTier(location.search, LOWQ),
+      /* ?crowndepth=0 is the before: every card of a crown one flat colour */
+      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0' });
     console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
@@ -4967,7 +4989,8 @@ const TREE_LOD = {
       /* ?foliagenoise=pixel is the before: the noise per pixel instead of per vertex */
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
-      mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip' });
+      mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
+      backLight: CROWN_BACK_LIGHT });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -5025,6 +5048,7 @@ const TREE_LOD = {
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
+      backLight: CROWN_BACK_LIGHT,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = IMPOSTOR_SHADOWS;
@@ -5926,7 +5950,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
@@ -11856,7 +11880,9 @@ window.V3D = {
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
-    preset: presetName, aerialPerspective: aerialPerspective.snapshot() }),
+    preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
+    /* the lighting batch (docs/visual-lighting-2026-09-25.md): null where its before is asked for */
+    shadowTint: shadowTint ? shadowTint.tint.value.toArray() : null, crownBackLight: CROWN_BACK_LIGHT ? foliageBack.value.toArray() : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */
   gpuTimingEnabled: () => renderer.backend?.trackTimestamp === true,

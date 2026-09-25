@@ -101,6 +101,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   fragment read `positionLocal`: use `positionGeometry` for a height up the
   template. Upload packed data textures directly, never through a 2D canvas.
   See [the visual fixes of 24 September](docs/visual-fixes-2026-09-24.md).
+- Lighting is tuned per preset in `painted-world-palette.mjs`: shadows keep a
+  sky-coloured share of the sun (the light's shadow node, so every receiver
+  agrees), the haze and the sky's horizon band share the sun glow's lobe, and
+  crowns bake their depth into vertex colours at load and glow at the edge
+  against a low sun. Keep per-pixel work off crowns (reckon per vertex), and
+  keep impostors in agreement with the meshes (`IMPOSTOR_BACK_EDGE`, and the
+  bake's vertex colours). See [the lighting batch](docs/visual-lighting-2026-09-25.md).
 
 ## Build and focused checks
 

@@ -1,0 +1,719 @@
+{
+ "adapter": "swiftshader",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "each low-sun sky is warmer toward the sun with its glow, and little changed away from it",
+     "ok": true,
+     "golden": {
+      "sunwardWarmer": 0.2955,
+      "awayWarmer": 0
+     },
+     "dawn": {
+      "sunwardWarmer": 0.0759,
+      "awayWarmer": 0
+     },
+     "midnight": {
+      "sunwardWarmer": 0.1422,
+      "awayWarmer": 0
+     },
+     "host": {
+      "sunwardWarmer": 0.0832,
+      "awayWarmer": 0
+     }
+    },
+    {
+     "label": "the skies without a glow are the same picture",
+     "ok": true,
+     "maxDifference": {
+      "noon": 0,
+      "bluehour": 0,
+      "storm": 0,
+      "mist": 0
+     }
+    },
+    {
+     "label": "the umbra gains the sky colour at its share of the sun, sunlit ground is unchanged, and the shadow stays darker",
+     "ok": true,
+     "noon": {
+      "lit": [
+       0.6821,
+       0.6826,
+       0.6455
+      ],
+      "umbraBefore": [
+       0.1677,
+       0.2345,
+       0.2961
+      ],
+      "umbra": [
+       0.1936,
+       0.2705,
+       0.3418
+      ],
+      "gained": [
+       0.0259,
+       0.036,
+       0.0457
+      ],
+      "predicted": [
+       0.0265,
+       0.0371,
+       0.0468
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124896,
+       "umbra": 3255,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "golden": {
+      "lit": [
+       0.9634,
+       0.688,
+       0.4951
+      ],
+      "umbraBefore": [
+       0.132,
+       0.1858,
+       0.2769
+      ],
+      "umbra": [
+       0.157,
+       0.2211,
+       0.3293
+      ],
+      "gained": [
+       0.025,
+       0.0353,
+       0.0525
+      ],
+      "predicted": [
+       0.0257,
+       0.0362,
+       0.0539
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124789,
+       "umbra": 3357,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "dawn": {
+      "lit": [
+       0.6538,
+       0.5952,
+       0.6328
+      ],
+      "umbraBefore": [
+       0.2925,
+       0.3474,
+       0.4336
+      ],
+      "umbra": [
+       0.3145,
+       0.3733,
+       0.4661
+      ],
+      "gained": [
+       0.022,
+       0.0259,
+       0.0325
+      ],
+      "predicted": [
+       0.0224,
+       0.0266,
+       0.0332
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124797,
+       "umbra": 3367,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "midnight": {
+      "lit": [
+       0.7212,
+       0.541,
+       0.5215
+      ],
+      "umbraBefore": [
+       0.3052,
+       0.3442,
+       0.4592
+      ],
+      "umbra": [
+       0.3262,
+       0.3679,
+       0.4905
+      ],
+      "gained": [
+       0.021,
+       0.0237,
+       0.0313
+      ],
+      "predicted": [
+       0.0215,
+       0.0242,
+       0.0323
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 125405,
+       "umbra": 2763,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "host": {
+      "lit": [
+       0.7783,
+       0.6982,
+       0.6001
+      ],
+      "umbraBefore": [
+       0.2859,
+       0.3423,
+       0.4048
+      ],
+      "umbra": [
+       0.314,
+       0.376,
+       0.4448
+      ],
+      "gained": [
+       0.0281,
+       0.0337,
+       0.04
+      ],
+      "predicted": [
+       0.029,
+       0.0348,
+       0.0411
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124796,
+       "umbra": 3360,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "storm": {
+      "lit": [
+       0.2949,
+       0.3625,
+       0.4114
+      ],
+      "umbraBefore": [
+       0.2568,
+       0.3171,
+       0.3577
+      ],
+      "umbra": [
+       0.2568,
+       0.3171,
+       0.3577
+      ],
+      "gained": [
+       0,
+       0,
+       0
+      ],
+      "predicted": [
+       0,
+       0,
+       0
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124926,
+       "umbra": 3281,
+       "floor": 128576
+      },
+      "ok": true
+     }
+    },
+    {
+     "label": "the haze is warmer toward the sun in each low-sun preset, and hardly changed away from it",
+     "ok": true,
+     "golden": {
+      "sunwardWarmer": 0.0068,
+      "awayWarmer": 0
+     },
+     "dawn": {
+      "sunwardWarmer": 0.0139,
+      "awayWarmer": 0
+     },
+     "midnight": {
+      "sunwardWarmer": 0.0123,
+      "awayWarmer": 0
+     },
+     "host": {
+      "sunwardWarmer": 0.0035,
+      "awayWarmer": 0
+     }
+    },
+    {
+     "label": "without a sun glow the haze is the same picture",
+     "ok": true,
+     "maxDifference": {
+      "noon": 0,
+      "bluehour": 0.0001,
+      "storm": 0.0002,
+      "mist": 0.0005
+     }
+    },
+    {
+     "label": "the baked depth darkens each crown, and its impostor with it",
+     "ok": true,
+     "gran": {
+      "mesh": {
+       "depth": -0.1117,
+       "backTowardSun": 0.7595,
+       "backAway": 0.0347
+      },
+      "impostor": {
+       "depth": -0.1397,
+       "backTowardSun": 0.8391,
+       "backAway": 0.0364
+      }
+     },
+     "björk": {
+      "mesh": {
+       "depth": -0.0708,
+       "backTowardSun": 0.4224,
+       "backAway": 0.0236
+      },
+      "impostor": {
+       "depth": -0.0746,
+       "backTowardSun": 0.3983,
+       "backAway": 0.0205
+      }
+     },
+     "ek": {
+      "mesh": {
+       "depth": -0.0701,
+       "backTowardSun": 0.5854,
+       "backAway": 0.0416
+      },
+      "impostor": {
+       "depth": -0.0351,
+       "backTowardSun": 0.2628,
+       "backAway": 0.0152
+      }
+     }
+    },
+    {
+     "label": "the back-light brightens a crown against the sun, mesh and impostor, and hardly at all away from it",
+     "ok": true,
+     "gran": {
+      "mesh": {
+       "depth": -0.1117,
+       "backTowardSun": 0.7595,
+       "backAway": 0.0347
+      },
+      "impostor": {
+       "depth": -0.1397,
+       "backTowardSun": 0.8391,
+       "backAway": 0.0364
+      }
+     },
+     "björk": {
+      "mesh": {
+       "depth": -0.0708,
+       "backTowardSun": 0.4224,
+       "backAway": 0.0236
+      },
+      "impostor": {
+       "depth": -0.0746,
+       "backTowardSun": 0.3983,
+       "backAway": 0.0205
+      }
+     },
+     "ek": {
+      "mesh": {
+       "depth": -0.0701,
+       "backTowardSun": 0.5854,
+       "backAway": 0.0416
+      },
+      "impostor": {
+       "depth": -0.0351,
+       "backTowardSun": 0.2628,
+       "backAway": 0.0152
+      }
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "each low-sun sky is warmer toward the sun with its glow, and little changed away from it",
+     "ok": true,
+     "golden": {
+      "sunwardWarmer": 0.2955,
+      "awayWarmer": 0
+     },
+     "dawn": {
+      "sunwardWarmer": 0.0759,
+      "awayWarmer": 0
+     },
+     "midnight": {
+      "sunwardWarmer": 0.1422,
+      "awayWarmer": 0
+     },
+     "host": {
+      "sunwardWarmer": 0.0832,
+      "awayWarmer": 0
+     }
+    },
+    {
+     "label": "the skies without a glow are the same picture",
+     "ok": true,
+     "maxDifference": {
+      "noon": 0,
+      "bluehour": 0,
+      "storm": 0,
+      "mist": 0
+     }
+    },
+    {
+     "label": "the umbra gains the sky colour at its share of the sun, sunlit ground is unchanged, and the shadow stays darker",
+     "ok": true,
+     "noon": {
+      "lit": [
+       0.6821,
+       0.6826,
+       0.6455
+      ],
+      "umbraBefore": [
+       0.1677,
+       0.2345,
+       0.2961
+      ],
+      "umbra": [
+       0.1936,
+       0.2705,
+       0.3418
+      ],
+      "gained": [
+       0.0259,
+       0.036,
+       0.0457
+      ],
+      "predicted": [
+       0.0265,
+       0.0371,
+       0.0468
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124896,
+       "umbra": 3255,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "golden": {
+      "lit": [
+       0.9634,
+       0.688,
+       0.4951
+      ],
+      "umbraBefore": [
+       0.132,
+       0.1858,
+       0.2769
+      ],
+      "umbra": [
+       0.157,
+       0.2211,
+       0.3293
+      ],
+      "gained": [
+       0.025,
+       0.0353,
+       0.0525
+      ],
+      "predicted": [
+       0.0257,
+       0.0362,
+       0.0539
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124789,
+       "umbra": 3357,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "dawn": {
+      "lit": [
+       0.6538,
+       0.5952,
+       0.6328
+      ],
+      "umbraBefore": [
+       0.2925,
+       0.3474,
+       0.4336
+      ],
+      "umbra": [
+       0.3145,
+       0.3733,
+       0.4661
+      ],
+      "gained": [
+       0.022,
+       0.0259,
+       0.0325
+      ],
+      "predicted": [
+       0.0224,
+       0.0266,
+       0.0332
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124797,
+       "umbra": 3367,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "midnight": {
+      "lit": [
+       0.7212,
+       0.541,
+       0.5215
+      ],
+      "umbraBefore": [
+       0.3052,
+       0.3442,
+       0.4592
+      ],
+      "umbra": [
+       0.3262,
+       0.3679,
+       0.4905
+      ],
+      "gained": [
+       0.021,
+       0.0237,
+       0.0313
+      ],
+      "predicted": [
+       0.0215,
+       0.0242,
+       0.0323
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 125405,
+       "umbra": 2763,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "host": {
+      "lit": [
+       0.7783,
+       0.6982,
+       0.6001
+      ],
+      "umbraBefore": [
+       0.2859,
+       0.3423,
+       0.4048
+      ],
+      "umbra": [
+       0.314,
+       0.376,
+       0.4448
+      ],
+      "gained": [
+       0.0281,
+       0.0337,
+       0.04
+      ],
+      "predicted": [
+       0.029,
+       0.0348,
+       0.0411
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124796,
+       "umbra": 3360,
+       "floor": 128576
+      },
+      "ok": true
+     },
+     "storm": {
+      "lit": [
+       0.2949,
+       0.3625,
+       0.4114
+      ],
+      "umbraBefore": [
+       0.2568,
+       0.3171,
+       0.3577
+      ],
+      "umbra": [
+       0.2568,
+       0.3171,
+       0.3577
+      ],
+      "gained": [
+       0,
+       0,
+       0
+      ],
+      "predicted": [
+       0,
+       0,
+       0
+      ],
+      "litChange": 0,
+      "pixels": {
+       "lit": 124926,
+       "umbra": 3281,
+       "floor": 128576
+      },
+      "ok": true
+     }
+    },
+    {
+     "label": "the haze is warmer toward the sun in each low-sun preset, and hardly changed away from it",
+     "ok": true,
+     "golden": {
+      "sunwardWarmer": 0.0068,
+      "awayWarmer": 0
+     },
+     "dawn": {
+      "sunwardWarmer": 0.0139,
+      "awayWarmer": 0
+     },
+     "midnight": {
+      "sunwardWarmer": 0.0123,
+      "awayWarmer": 0
+     },
+     "host": {
+      "sunwardWarmer": 0.0035,
+      "awayWarmer": 0
+     }
+    },
+    {
+     "label": "without a sun glow the haze is the same picture",
+     "ok": true,
+     "maxDifference": {
+      "noon": 0.0002,
+      "bluehour": 0.0001,
+      "storm": 0.0002,
+      "mist": 0.0005
+     }
+    },
+    {
+     "label": "the baked depth darkens each crown, and its impostor with it",
+     "ok": true,
+     "gran": {
+      "mesh": {
+       "depth": -0.1117,
+       "backTowardSun": 0.7607,
+       "backAway": 0.0346
+      },
+      "impostor": {
+       "depth": -0.1396,
+       "backTowardSun": 0.8391,
+       "backAway": 0.0364
+      }
+     },
+     "björk": {
+      "mesh": {
+       "depth": -0.0709,
+       "backTowardSun": 0.4224,
+       "backAway": 0.0237
+      },
+      "impostor": {
+       "depth": -0.0742,
+       "backTowardSun": 0.3981,
+       "backAway": 0.0205
+      }
+     },
+     "ek": {
+      "mesh": {
+       "depth": -0.0701,
+       "backTowardSun": 0.5872,
+       "backAway": 0.0416
+      },
+      "impostor": {
+       "depth": -0.035,
+       "backTowardSun": 0.2632,
+       "backAway": 0.0152
+      }
+     }
+    },
+    {
+     "label": "the back-light brightens a crown against the sun, mesh and impostor, and hardly at all away from it",
+     "ok": true,
+     "gran": {
+      "mesh": {
+       "depth": -0.1117,
+       "backTowardSun": 0.7607,
+       "backAway": 0.0346
+      },
+      "impostor": {
+       "depth": -0.1396,
+       "backTowardSun": 0.8391,
+       "backAway": 0.0364
+      }
+     },
+     "björk": {
+      "mesh": {
+       "depth": -0.0709,
+       "backTowardSun": 0.4224,
+       "backAway": 0.0237
+      },
+      "impostor": {
+       "depth": -0.0742,
+       "backTowardSun": 0.3981,
+       "backAway": 0.0205
+      }
+     },
+     "ek": {
+      "mesh": {
+       "depth": -0.0701,
+       "backTowardSun": 0.5872,
+       "backAway": 0.0416
+      },
+      "impostor": {
+       "depth": -0.035,
+       "backTowardSun": 0.2632,
+       "backAway": 0.0152
+      }
+     }
+    },
+    {
+     "label": "no page errors",
+     "ok": true,
+     "errors": []
+    }
+   ]
+  }
+ }
+}

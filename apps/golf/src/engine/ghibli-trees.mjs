@@ -7,6 +7,7 @@
 import { GHIBLI_SPECIES, GHIBLI_COLOURS, GHIBLI_FOLIAGE_REVISION, VISBY_PINE_REVISION,
   fetchGlb, loadFoliageAtlas, validateAsset, fitFoliageTier } from './ghibli-tree-assets.mjs';
 export { GHIBLI_SPECIES, GHIBLI_COLOURS, GHIBLI_FOLIAGE_REVISION, VISBY_PINE_REVISION } from './ghibli-tree-assets.mjs';
+import { bakeCrownDepth } from './crown-depth.mjs';
 
 /* Hero is 4,032-4,500 triangles a tree and Full 1,620-1,700. */
 export const PLAYER_TREE_MESH_TIERS = Object.freeze(['hero', 'full']);
@@ -19,7 +20,9 @@ export function playerTreeMeshTier(search = '', lowQuality = false) {
   return lowQuality ? 'full' : 'hero';
 }
 
-export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero' } = {}) {
+/* crownDepth darkens each crown's heart and underside by its own leaves
+   (crown-depth.mjs); false is the before, flat crown colours. */
+export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true } = {}) {
   if (!PLAYER_TREE_MESH_TIERS.includes(tier)) throw new Error(`Ghibli trees: the player draws no ${tier} tier`);
   const coastalPine = courseSlug === 'visby';
   const base = `${baseUrl}models/trees/`;
@@ -59,6 +62,7 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
         const mesh = await fetchGlb(`${base}${rec.file}`, rec, fetchImpl);
         fitFoliageTier(mesh, variant.templateHeight, variant.templateRadius);
         if (!mesh.crown.attributes.uv) throw new Error(`Ghibli foliage ${key}/${tier} lacks UVs`);
+        if (crownDepth) bakeCrownDepth(mesh.crown);
         item.mesh = mesh; item[tier] = mesh; item.trunkMean = mesh.trunkMean;
       });
     }

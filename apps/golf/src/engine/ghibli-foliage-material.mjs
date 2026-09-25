@@ -1,11 +1,12 @@
 import {Color,MeshBasicNodeMaterial,MeshStandardNodeMaterial,DoubleSide} from 'three/webgpu';
-import {color,float,fract,mix,mx_noise_float,normalWorldGeometry,positionLocal,smoothstep,texture,uniform,vec2,vec3} from 'three/tsl';
+import {abs,cameraPosition,color,dot,float,fract,mix,mx_noise_float,normalize,normalWorldGeometry,positionLocal,positionWorld,pow,saturate,smoothstep,texture,uniform,vec2,vec3} from 'three/tsl';
 import {FOLIAGE_PALETTES,AUTUMN_FOLIAGE} from './painted-world-palette.mjs';
 export {FOLIAGE_PALETTES} from './painted-world-palette.mjs';
 
 export const foliageLight=uniform(new Color(0xffffff));
 const foliageShadow=uniform(new Color(0xffffff)),foliageSun=uniform(new Color(0xffffff));
 const foliageDirect=uniform(.9);
+export const foliageBack=uniform(new Color(0,0,0));
 export function setFoliageLighting(p){
   const strength=p.foliage?.strength??Math.max(.35,Math.min(1,.18+p.int*.30+p.hemiI*.10));
   const direct=p.foliage?.direct??Math.min(.9,p.int/2.5);
@@ -14,7 +15,26 @@ export function setFoliageLighting(p){
   foliageShadow.value.setHex(p.hemiS).lerp(new Color(0xffffff),p.foliage?.shadowWhite??.62);
   foliageSun.value.setHex(p.sun).lerp(new Color(0xffffff),p.foliage?.sunWhite??.70);
   foliageSun.value.lerp(foliageShadow.value,1-direct);
+  foliageBack.value.setHex(p.sun??0xffffff).multiplyScalar(p.foliage?.back??0);
 }
+
+/* THE SUN THROUGH THE LEAVES. Looking toward a low sun, a crown's thin outer
+   leaves glow with the light passing through them, along the silhouette where
+   the canopy normal turns side-on to the eye; the thick core stays dark.
+   `foliage.back` sets it per preset -- golden hour, the midnight sun, dawn and
+   autumn -- and a preset without a low sun has none. The glow's colour is
+   reckoned per vertex and interpolated: per pixel a crown adds one addition. */
+export const foliageFacingSun=(toward,sunDirection)=>pow(saturate(dot(toward,sunDirection)),4);
+export function foliageBackLight({normal,sunDirection}){
+  const toward=normalize(positionWorld.sub(cameraPosition));
+  const edge=float(1).sub(abs(dot(normal,toward)));
+  return foliageFacingSun(toward,sunDirection).mul(edge.mul(edge));
+}
+/* A billboard has one normal per vertex, facing the eye, so an impostor takes
+   one edge weight for the whole crown: 0.34, at which the five species'
+   impostors gain as much light against the sun as their mesh crowns, at golden
+   hour and under the midnight sun (docs/visual-lighting-2026-09-25.md). */
+export const IMPOSTOR_BACK_EDGE=.34;
 
 // The two noise terms are broad (3.3 m and 1.4 m wavelengths) and small, so
 // they are evaluated per vertex and interpolated: per pixel they were 20-25% of
@@ -28,7 +48,7 @@ function foliageNoise(position,noisePerPixel){
 
 // Meshes and all impostor rings share this light/season response. Impostors
 // use the baked custom normals, not the normals of the foliage card planes.
-export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false}){
+export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false,backLight=null}){
   const palette=FOLIAGE_PALETTES[key];
   if(!palette)throw new Error(`Unknown foliage palette: ${key}`);
   const seasonal=AUTUMN_FOLIAGE[key];
@@ -53,7 +73,11 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
   const highlight=mix(normal.y.max(0).mul(.10),smoothstep(.48,.98,alignment.add(dabs.mul(.65))).mul(.74),foliageDirect);
   const pigment=noise?noise.y.mul(.0125).add(1):float(1);
   const lightTint=mix(foliageShadow,foliageSun,lit);
-  return mix(mix(shades[0],shades[1],lit),shades[2],highlight).mul(pigment).mul(tint).mul(lighting).mul(lightTint);
+  const body=mix(mix(shades[0],shades[1],lit),shades[2],highlight);
+  if(!backLight)return body.mul(pigment).mul(tint).mul(lighting).mul(lightTint);
+  // the leaf's brightest pigment, lit from behind in the sun's colour
+  const through=shades[2].mul(foliageBack).mul(backLight).toVertexStage();
+  return body.mul(lightTint).add(through).mul(pigment).mul(tint).mul(lighting);
 }
 
 // Transparent atlas texels contain black RGB. Undo that dark fringe after
@@ -71,9 +95,10 @@ export function foliageSurfacePigment(texel){
 // so shadows faded as the camera pulled back (docs/tree-shadows-zoom.md). The
 // colour pass never read `map` -- colorNode and opacityNode replace it -- so
 // it is unchanged. mipShadow (?foliageshadow=mip) is the before.
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false}){
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
-  m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel});
+  m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel,
+    backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null});
   if(map){
     const texel=texture(map);
     m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;
