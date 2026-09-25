@@ -1,0 +1,393 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Ängsö, high quality",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 121,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "batchStamped": true,
+    "modelsPainted": true,
+    "stampedAsReported": true,
+    "groundUnderEveryVertex": true,
+    "footOnTheGround": true
+   },
+   "paint": {
+    "wallBase": true,
+    "roofRidge": true,
+    "models": 1,
+    "modelMeshes": 135,
+    "modelMaterials": 29,
+    "modelVertices": 124248,
+    "modelCopies": 0,
+    "modelCopiedVertices": 0,
+    "batchVertices": 14184,
+    "batchTriangles": 4728,
+    "roofSlopes": 612,
+    "stampMs": 20.199999999254942
+   },
+   "stamped": {
+    "meshes": 136,
+    "vertices": 138432,
+    "withoutGround": 0
+   },
+   "facilities": "loaded",
+   "landmarks": null,
+   "authored": [],
+   "footArea": [
+    {
+     "name": "Ängsö authored facilities",
+     "wall": 5872.3,
+     "foot": 676.8,
+     "buildings": 18,
+     "withoutFoot": []
+    },
+    {
+     "name": "the batch",
+     "wall": 36486.5,
+     "foot": 6190.6,
+     "buildings": 1,
+     "withoutFoot": []
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Ängsö, high quality, both befores",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&wallbase=0&roofridge=0",
+   "seconds": 114,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "nothingStamped": true,
+    "roofsAsBefore": true
+   },
+   "paint": {
+    "wallBase": false,
+    "roofRidge": false,
+    "models": 0,
+    "modelMeshes": 0,
+    "modelMaterials": 0,
+    "modelVertices": 0,
+    "modelCopies": 0,
+    "modelCopiedVertices": 0,
+    "batchVertices": 0,
+    "batchTriangles": 3504,
+    "roofSlopes": 612,
+    "stampMs": 0
+   },
+   "stamped": {
+    "meshes": 0,
+    "vertices": 0,
+    "withoutGround": 0
+   },
+   "facilities": "loaded",
+   "landmarks": null,
+   "authored": [],
+   "footArea": [],
+   "errors": []
+  },
+  {
+   "name": "Ängsö, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 98,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "batchStamped": true,
+    "modelsPainted": true,
+    "stampedAsReported": true,
+    "groundUnderEveryVertex": true,
+    "footOnTheGround": true,
+    "modelsAsHighQuality": true
+   },
+   "paint": {
+    "wallBase": true,
+    "roofRidge": true,
+    "models": 1,
+    "modelMeshes": 135,
+    "modelMaterials": 29,
+    "modelVertices": 124248,
+    "modelCopies": 0,
+    "modelCopiedVertices": 0,
+    "batchVertices": 13644,
+    "batchTriangles": 4548,
+    "roofSlopes": 588,
+    "stampMs": 23.90000000037253
+   },
+   "stamped": {
+    "meshes": 136,
+    "vertices": 137892,
+    "withoutGround": 0
+   },
+   "facilities": "loaded",
+   "landmarks": null,
+   "authored": [],
+   "footArea": [
+    {
+     "name": "Ängsö authored facilities",
+     "wall": 5872.3,
+     "foot": 676.8,
+     "buildings": 18,
+     "withoutFoot": []
+    },
+    {
+     "name": "the batch",
+     "wall": 35317.9,
+     "foot": 5988.6,
+     "buildings": 1,
+     "withoutFoot": []
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Veckefjärden: facilities, church and ski jump",
+   "q": "hi",
+   "url": "/?bana=veckefjarden&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 113,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "batchStamped": true,
+    "modelsPainted": true,
+    "stampedAsReported": true,
+    "groundUnderEveryVertex": true,
+    "footOnTheGround": true
+   },
+   "paint": {
+    "wallBase": true,
+    "roofRidge": true,
+    "models": 3,
+    "modelMeshes": 110,
+    "modelMaterials": 43,
+    "modelVertices": 250647,
+    "modelCopies": 0,
+    "modelCopiedVertices": 0,
+    "batchVertices": 535674,
+    "batchTriangles": 178558,
+    "roofSlopes": 23600,
+    "stampMs": 103.59999999962747
+   },
+   "stamped": {
+    "meshes": 111,
+    "vertices": 786321,
+    "withoutGround": 0
+   },
+   "facilities": "loaded",
+   "landmarks": [
+    "loaded",
+    "loaded"
+   ],
+   "authored": [],
+   "footArea": [
+    {
+     "name": "landmark-sjalevads-kyrka",
+     "wall": 4277.4,
+     "foot": 120.6,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "landmark-paradiskullen-k90",
+     "wall": 5304.1,
+     "foot": 644.5,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "Veckefjarden authored facilities",
+     "wall": 7319.5,
+     "foot": 708,
+     "buildings": 17,
+     "withoutFoot": []
+    },
+    {
+     "name": "the batch",
+     "wall": 1202617.2,
+     "foot": 202420.8,
+     "buildings": 1,
+     "withoutFoot": []
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Tortuna: authored buildings",
+   "q": "hi",
+   "url": "/?bana=tortuna&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 95,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "batchStamped": true,
+    "modelsPainted": true,
+    "stampedAsReported": true,
+    "groundUnderEveryVertex": true,
+    "footOnTheGround": true
+   },
+   "paint": {
+    "wallBase": true,
+    "roofRidge": true,
+    "models": 8,
+    "modelMeshes": 65,
+    "modelMaterials": 65,
+    "modelVertices": 74847,
+    "modelCopies": 0,
+    "modelCopiedVertices": 0,
+    "batchVertices": 34287,
+    "batchTriangles": 11429,
+    "roofSlopes": 1180,
+    "stampMs": 38.19999999925494
+   },
+   "stamped": {
+    "meshes": 66,
+    "vertices": 109134,
+    "withoutGround": 0
+   },
+   "facilities": null,
+   "landmarks": null,
+   "authored": [
+    "loaded",
+    "loaded",
+    "loaded",
+    "loaded",
+    "loaded",
+    "loaded",
+    "loaded",
+    "loaded"
+   ],
+   "footArea": [
+    {
+     "name": "authored-building:way/1163533113",
+     "wall": 791.9,
+     "foot": 73,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "authored-building:way/1163533114",
+     "wall": 246.3,
+     "foot": 24.9,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "authored-building:way/1163533115",
+     "wall": 483.8,
+     "foot": 41.3,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "authored-building:way/1163533123",
+     "wall": 638.1,
+     "foot": 51.9,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "authored-building:way/1163533127",
+     "wall": 1486,
+     "foot": 112.6,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "authored-building:way/1163533128",
+     "wall": 186.2,
+     "foot": 31.6,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "authored-building:way/1163607303",
+     "wall": 428.4,
+     "foot": 48.5,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "authored-building:tortuna-range-shelter",
+     "wall": 177.7,
+     "foot": 25.8,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "the batch",
+     "wall": 99175.8,
+     "foot": 12752.5,
+     "buildings": 1,
+     "withoutFoot": []
+    }
+   ],
+   "errors": []
+  },
+  {
+   "name": "Norrfällsviken: measured facility meshes",
+   "q": "hi",
+   "url": "/?bana=norrfallsviken&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 92,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "switches": true,
+    "batchStamped": true,
+    "modelsPainted": true,
+    "stampedAsReported": true,
+    "groundUnderEveryVertex": true,
+    "footOnTheGround": true
+   },
+   "paint": {
+    "wallBase": true,
+    "roofRidge": true,
+    "models": 1,
+    "modelMeshes": 14,
+    "modelMaterials": 14,
+    "modelVertices": 12546,
+    "modelCopies": 0,
+    "modelCopiedVertices": 0,
+    "batchVertices": 114615,
+    "batchTriangles": 38205,
+    "roofSlopes": 1084,
+    "stampMs": 15.799999999813735
+   },
+   "stamped": {
+    "meshes": 15,
+    "vertices": 127161,
+    "withoutGround": 0
+   },
+   "facilities": "loaded",
+   "landmarks": null,
+   "authored": [],
+   "footArea": [
+    {
+     "name": "Norrfallsviken authored facilities",
+     "wall": 912,
+     "foot": 135.6,
+     "buildings": 1,
+     "withoutFoot": []
+    },
+    {
+     "name": "the batch",
+     "wall": 65240.3,
+     "foot": 10538.7,
+     "buildings": 1,
+     "withoutFoot": []
+    }
+   ],
+   "errors": []
+  }
+ ]
+}

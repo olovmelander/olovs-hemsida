@@ -137,6 +137,14 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   (high quality, before any runtime drop). When a preset's sky colours change,
   keep its threshold above that paint and re-solve its shine (`glow.test.mjs`
   holds both). See [the glow batch](docs/visual-glow-2026-09-25.md).
+- Walls darken at their foot where they meet the ground (`building-paint.mjs`):
+  each vertex carries the visible ground's height under it (`aGround`, stamped
+  at load), and the shader scales the material's own colour, walls only. The
+  batch takes the full foot, and its gable and hip slopes a baked ridge (cut
+  where the band begins, the gable ends at the same points). The Blender models
+  take a lighter, lower foot through `groundModel`, which keeps their colours,
+  leaves self-painting materials alone and gives shared geometry its own copy.
+  Stamp a new building mesh the same way. See [the buildings batch](docs/visual-buildings-2026-09-25.md).
 
 ## Build and focused checks
 
