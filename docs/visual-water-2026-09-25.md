@@ -141,16 +141,49 @@ WebGL2 and on WebGPU with reversed depth, and the two agree.
   - Offsets for a 4 m east, 3 m north shift on every layer move the water's
     whole picture by exactly that.
 
-**Tree shadow proof:** not affected; the batch touches no tree or shadow code.
+**Tree shadow proof:** not rerun. The batch touches no tree code and no shadow
+map. Its one shared change is the cloud shadows' pattern: one copy now serves
+the clouds and the water's patches, with the same bytes and the same upload.
+`cloud-shadow.test.mjs` checks this.
 
 **App boot**
 ([`check-boot.mjs`](graphics/water-2026-09-25/check-boot.mjs),
-[result](graphics/water-2026-09-25/boot-check.json)): pending.
+[result](graphics/water-2026-09-25/boot-check.json)). The re-baked app boots
+seven ways on WebGL2 in SwiftShader, at the first tee of Ängsö and of
+Norrfällsviken.
+- Each boot compiles every material in the scene, including every water sheet,
+  in view or not.
+- No page or console error occurs in any boot, so no water shader failed to
+  compile.
+- The tree tier audit passes in each.
 
-**Prepared startup data.** The source revision moved, so tints, far vista,
-scatter and water were re-baked through the existing publishers. Pending.
+No live weather reached the container, so the wind is the flags' default:
+4 m/s from the west.
 
-**Suite.** Pending.
+| Boot | What the harness reads back |
+|---|---|
+| Ängsö at golden hour, high and low quality (`det=1`) | 15 water sheets. The sun on the water is warm (1, 0.60, 0.26), the sky's glow (1, 0.47, 0.11), and the far shore dark (0.090, 0.091, 0.065). The chop is the wind's, 1 at 4 m/s, and nothing has drifted. |
+| Ängsö at golden hour, both befores | The batch's state reads as off, and the sheets compile without it. |
+| Noon, `?vind=270,12` (`det=1`) | The chop is at its cap, 1.6. The sun is nearly white (1, 0.87, 0.68). The noon sky has no sun glow, so neither has the water. |
+| Noon, running | Over twelve frames the patches moved 4.80 m east with the gusts. The first ripple layer moved 0.039 of its texture downwind, which is 4.8 m × its 0.07 share × its 0.115 scale. It also moved 0.017 across. |
+| Noon, running, reduced motion | Nothing moved. |
+| Norrfällsviken at golden hour (`det=1`) | Its 11 sheets on the coast, in the same golden colours. |
+
+**Prepared startup data.** The source revision moved, so the following were
+re-baked through the existing publishers for revision `93430940`: tints (26),
+far vista (26), scatter (26) and water (10 courses).
+
+[`check-publication.mjs`](graphics/water-2026-09-25/check-publication.mjs)
+compares against main at `6158f6b1`
+([result](graphics/water-2026-09-25/publication-identity.json)). Every tint,
+vista, scatter and water record keeps its content; only its source identity
+changed. `check-prepared-startup` passes on the rebuilt app
+([`prepared-check.json`](graphics/water-2026-09-25/prepared-check.json)), and the
+app boot above ran on it.
+
+**Suite.** The full `pnpm test` passes: 1,420 Vitest tests and 482 Node tests,
+with 3 environment skips. The app-build isolation check,
+`check:course-workflow` and the no-undef lint also pass.
 
 ## Not established
 
@@ -160,6 +193,9 @@ scatter and water were re-baked through the existing publishers. Pending.
     under the midnight sun;
   - the far shore in a pond on the course;
   - patches on Norrfällsviken's bay in a strong wind (`?vind=270,10`).
+- **The far shore is the same on every lake.** It is one painted band, not
+  what actually stands across each lake: fields, houses or a low shore take the
+  same wood. Judge it where the far side is open.
 - **Frame time.** Nothing was timed.
 - **WebGPU full boot.** As before, the full app does not finish loading on
   WebGPU in this container's software rendering.

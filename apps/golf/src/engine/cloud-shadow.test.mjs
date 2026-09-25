@@ -5,7 +5,8 @@
    impostor tiers. */
 import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { CLOUD_SHADOW, cloudPattern, cloudShadowOf, cloudSunlight, coverThreshold } from './cloud-shadow.mjs';
+import { LinearFilter, RepeatWrapping } from 'three/webgpu';
+import { CLOUD_SHADOW, cloudPattern, cloudPatternTexture, cloudShadowOf, cloudSunlight, coverThreshold, createCloudShadow } from './cloud-shadow.mjs';
 import { PAINTED_ATMOSPHERES } from './painted-world-palette.mjs';
 import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
 import { foliageCloudShadeFor } from './ghibli-foliage-material.mjs';
@@ -28,6 +29,13 @@ describe('cloud shadows', () => {
     /* and it uses the whole byte range */
     expect(Math.min(...bytes)).toBe(0);
     expect(Math.max(...bytes)).toBe(255);
+    /* the one copy the clouds and the water's patches share (nordic-water.mjs) is this pattern, uploaded as it was */
+    const shared = cloudPatternTexture();
+    expect(shared.bytes).toEqual(bytes);
+    expect(shared.map.image.data).toBe(shared.bytes);
+    expect([shared.map.wrapS, shared.map.wrapT, shared.map.magFilter, shared.map.minFilter, shared.map.generateMipmaps])
+      .toEqual([RepeatWrapping, RepeatWrapping, LinearFilter, LinearFilter, false]);
+    expect(createCloudShadow().map).toBe(shared.map);
   });
   it('covers the share of the ground each preset asks for, hard-edged and with its soft edge', () => {
     for (const cover of [0.1, 0.18, 0.3, 0.5]) {
