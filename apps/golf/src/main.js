@@ -44,7 +44,7 @@ import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphere
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
 import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
-import { createAerialPerspective } from './engine/aerial-perspective.mjs';
+import { createAerialPerspective, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
 import { installOutputDither } from './engine/output-dither.mjs';
 
 import { loadCourse } from './loader/pack.js';
@@ -102,9 +102,11 @@ import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } fro
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { createSunShadowFilter } from './engine/sun-shadow.mjs';
-import { createShadowTint, shadowTintFor } from './engine/shadow-tint.mjs';
+import { createShadowTint, shadowTintFor, sunUnderClouds } from './engine/shadow-tint.mjs';
 import { treeTint, vistaTint } from './engine/stand-tint.mjs';
 import { groundReliefBytes } from './engine/ground-relief.mjs';
+import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift } from './engine/one-wind.mjs';
+import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -1924,6 +1926,16 @@ const SURFACE_EDGES = new URLSearchParams(location.search).get('surfaceedges') !
 /* Hollows, crests and wood edges, baked into the ground tint's alpha
    (ground-relief.mjs) and read by the ground material; ?groundrelief=0 is the before. */
 const GROUND_RELIEF_ON = new URLSearchParams(location.search).get('groundrelief') !== '0';
+/* One wind carries the flags, the trees and reeds, the sky's clouds and their
+   shadows (one-wind.mjs); ?onewind=0 is the before: the plants on their own
+   clock and axes, the sky's clouds drifting west. */
+const ONE_WIND_ON = new URLSearchParams(location.search).get('onewind') !== '0';
+/* Cloud shadows drift over the course in every preset with a sun
+   (cloud-shadow.mjs); ?cloudshadows=0 is the before. */
+const CLOUD_SHADOWS_ON = new URLSearchParams(location.search).get('cloudshadows') !== '0';
+/* Mist lies in the low ground at dawn and in the mist preset
+   (aerial-perspective.mjs); ?valleymist=0 is the before. */
+const VALLEY_MIST_ON = new URLSearchParams(location.search).get('valleymist') !== '0';
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -1934,6 +1946,19 @@ sun.shadow.filterNode = sunShadowFilter.filterNode;
    most at noon and on surfaces facing the sun. ?shadowtint=0 is the before. */
 const shadowTint = new URLSearchParams(location.search).get('shadowtint') === '0' ? null : createShadowTint(sun);
 if (shadowTint) sun.shadow.shadowNode = shadowTint.node;
+/* The clouds' shadows take the sun away from every lit surface through its
+   colour, keep the sky-lit tint through its shadow node, and reach the painted
+   crowns, the water's sparkle and the light through reeds, tufts and flags
+   through SUNLIT: the share of the sun each vertex keeps past the clouds. */
+const CLOUD = CLOUD_SHADOWS_ON ? createCloudShadow() : null;
+if (CLOUD) {
+  const clouded = sunUnderClouds(sun, { cloud: CLOUD.vertex, tint: shadowTint ? shadowTint.tint : null });
+  sun.colorNode = clouded.colorNode;
+  if (clouded.shadowNode) sun.shadow.shadowNode = clouded.shadowNode;
+}
+const SUNLIT = CLOUD ? CLOUD.vertex : null;
+/* the one air: eased toward the flags' target wind every frame (the frame loop) */
+const AIR = createAir();
 /* The shadow map is re-rendered when something that casts has moved, and not
    otherwise (shadowRest, in the frame loop): three's default is every frame,
    and at rest that pass over ten million triangles was a third of the frame's
@@ -1958,13 +1983,15 @@ scene.fog = fog;
 /* The haze warms toward the sun with the sky's own glow (aerial-perspective.mjs);
    ?hazewarm=0 is the before, one haze colour in every direction. */
 const HAZE_WARM = new URLSearchParams(location.search).get('hazewarm') !== '0';
-const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM });
+const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON });
 scene.fogNode = aerialPerspective.node;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
   /* after the opaque world, so hidden sky is never shaded; ?skyorder=first is the before */
-  drawLast: new URLSearchParams(location.search).get('skyorder') !== 'first' });
+  drawLast: new URLSearchParams(location.search).get('skyorder') !== 'first',
+  /* the clouds drift with the one wind */
+  drift: ONE_WIND_ON ? skyDrift : null });
 scene.add(skyMesh);
 
 /* The selected sky and the indirect light share a palette. Reuse the baker,
@@ -2008,6 +2035,7 @@ function setPreset(name, overrides = null) {
   if (shadowTint) shadowTintFor(p, shadowTint.tint.value);
   const d = new THREE.Vector3(...p.dir).normalize();
   uSun.value.copy(d);
+  if (CLOUD) { CLOUD.setPreset(p); CLOUD.setSun(d); }
   uThroughSun.value.setHex(p.sun).multiplyScalar(Math.min(1, p.int / 2.5));
   { const t = Math.min(1, Math.max(0, (Math.min(1, p.int / 2.5) - 0.15) / 0.35));
     uSunThrough.value = COVER_GLOW_ALWAYS ? 1 : t * t * (3 - 2 * t); }
@@ -3880,7 +3908,10 @@ function makeWater({ mask = null, showBed = true, ocean = false } = {}) {
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
   /* painted sparkle: dabs of white where the ripple faces the sun, not a pinpoint glint */
-  c = c.add(color(0xfff4d9).mul(smoothstep(0.985, 0.996, saturate(N.dot(H)))).mul(paintedWaterSparkle).mul(uWaterGlint));
+  /* a cloud's shade puts the sparkle out: read per pixel here, where a pond's
+     few large triangles would blur the cloud's edge per vertex */
+  const sparkle = color(0xfff4d9).mul(smoothstep(0.985, 0.996, saturate(N.dot(H)))).mul(paintedWaterSparkle).mul(uWaterGlint);
+  c = c.add(CLOUD ? sparkle.mul(CLOUD.sunlightAt(positionWorld)) : sparkle);
   /* foam, broken up by noise so a shoreline is a shoreline and not a stripe */
   /* Foam only where there is enough water behind it to make a wave. A metre-deep
      pond in a field has none at all, and drawing a three-metre white band round every
@@ -4599,7 +4630,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       const mat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.9, metalness: 0 });
       {
         const V = normalize(cameraPosition.sub(positionWorld));
-        const lit = pow(saturate(V.dot(uSun.negate())), 2.2).mul(0.7).mul(uSunThrough);
+        const lit = pow(saturate(V.dot(uSun.negate())), 2.2).mul(0.7).mul(uSunThrough).mul(SUNLIT ?? 1);
         const tall = saturate(LOCAL_HEIGHT.div(2.1)).mul(0.7);
         mat.colorNode = mix(color(0x53583a), uReedC, tall).mul(float(1).add(lit));
 
@@ -4607,10 +4638,15 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
         const wp = positionWorld.xz;
         const hNorm = saturate(LOCAL_HEIGHT.div(2.1));
         const weight = pow(hNorm, 1.6).mul(0.22);
-        const windPhase = time.mul(2.2).add(wp.x.mul(0.08)).add(wp.y.mul(0.06));
-        const swayX = sin(windPhase).mul(0.18).mul(weight);
-        const swayZ = cos(windPhase.mul(0.9)).mul(0.14).mul(weight);
-        mat.positionNode = positionLocal.add(vec3(swayX, float(0.0), swayZ));
+        if (ONE_WIND_ON) {
+          /* on the one wind, as the trees (one-wind.mjs) */
+          mat.positionNode = positionLocal.add(swayOnWind({ p: wp, weight, rate: 2.2, scale: 2, swing: reedSwing, lean: 0.08 }));
+        } else {
+          const windPhase = time.mul(2.2).add(wp.x.mul(0.08)).add(wp.y.mul(0.06));
+          const swayX = sin(windPhase).mul(0.18).mul(weight);
+          const swayZ = cos(windPhase.mul(0.9)).mul(0.14).mul(weight);
+          mat.positionNode = positionLocal.add(vec3(swayX, float(0.0), swayZ));
+        }
       }
       const im = new THREE.InstancedMesh(g, mat, n);
       const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
@@ -5013,7 +5049,7 @@ const TREE_LOD = {
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
-      backLight: CROWN_BACK_LIGHT });
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -5038,6 +5074,9 @@ const TREE_LOD = {
        unswayed (castShadowPositionNode) so a re-rendered map never moves a shadow. */
     const swayFade = oneMinus(smoothstep(50, 140, cameraPosition.sub(positionWorld).length()));
     const weight = (isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10)).mul(swayFade);
+    /* the one wind: the same swing turned onto the wind's axis, as strong as it
+       blows, with the gusts the air carries through the stand (one-wind.mjs) */
+    if (ONE_WIND_ON) return positionLocal.add(swayOnWind({ p: wp, weight, rate: 1.35, swing: treeSwing(LOCAL_HEIGHT), lean: 0.12 }));
     const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
     const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
     const swayX = sin(windPhase.add(LOCAL_HEIGHT.mul(0.08))).mul(0.24)
@@ -5071,7 +5110,7 @@ const TREE_LOD = {
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
-      backLight: CROWN_BACK_LIGHT,
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = IMPOSTOR_SHADOWS;
@@ -5970,7 +6009,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
@@ -6214,7 +6253,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   const tuftMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
   {
     const V = normalize(cameraPosition.sub(positionWorld));
-    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough);
+    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough).mul(SUNLIT ?? 1);
     const tint = texture(DETAIL, positionWorld.xz.mul(0.03)).b;
     tuftMat.colorNode = mix(color(PAINTED_SCENERY.tuft[0]),
       mix(color(PAINTED_SCENERY.tuft[1]), uReedC, uAutumn), tint).mul(float(1).add(lit.mul(0.45)));
@@ -6243,7 +6282,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     })();
     const clumpMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
     const V = normalize(cameraPosition.sub(positionWorld));
-    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough);
+    const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough).mul(SUNLIT ?? 1);
     const tone = texture(DETAIL, positionWorld.xz.mul(0.05)).b;
     /* dark at the root, the rough's own light green at the tip */
     clumpMat.colorNode = mix(color(0x3f6a24), color(0x7aa23e),
@@ -6659,7 +6698,7 @@ const cupGeometries = [];
 const FLAG_CLOTH = await Promise.race([FLAG_CLOTH_READY, new Promise(resolve => setTimeout(() => resolve(null), 6000))]);
 const flagGrid = FLAG_CLOTH?.grid ?? FLAG_GRID;
 const flagAtlas = createFlagAtlas(HOLES.map(h => h.n));
-const flagMat = createFlagMaterial(flagAtlas, uSun, uThroughSun);
+const flagMat = createFlagMaterial(flagAtlas, uSun, SUNLIT ? uThroughSun.mul(SUNLIT) : uThroughSun);
 for (const h of HOLES) {
   const [x, z] = h.pin;
   const cupHeightAt = cupSurfaceHeightAt(x, z, terrainH, cupGreenSurfaces);
@@ -6705,6 +6744,14 @@ function setFlagWind(fromDeg, ms, source, gustMs = null) {
 {
   const forced = (new URLSearchParams(location.search).get('vind') || '').split(',').map(Number);
   if (forced.length === 2 || forced.length === 3) setFlagWind(forced[0], forced[1], 'url', forced[2]);
+}
+/* The one air follows the flags' wind, and carries the gusts, the sky's
+   clouds and their shadows; reduced motion holds it still (one-wind.mjs). */
+function stepOneAir(dt) {
+  stepAir(AIR, dt, FLAG_WIND, { deterministic: DET, still: cameraMotionPreference.matches,
+    skySpeed: skyMesh.cloudSpeed.value * 35, cloudPeriod: CLOUD ? CLOUD.period : Infinity });
+  applyAir(AIR);
+  if (CLOUD) CLOUD.setOffset(AIR.cloudX, AIR.cloudZ);
 }
 /* Blend adjacent baked wind speeds continuously; the response state survives
    every interrupted gust. The fallback shares that response and its material.
@@ -11132,6 +11179,7 @@ function frame() {
     }
   }
   poseFlagCloths(dt);
+  stepOneAir(dt);
   if (flying === 0) {
     controls.update();
     /* never underground, and never so close to it that the near plane clips through -- eased, see groundClamp */
@@ -11167,6 +11215,16 @@ function frame() {
 /* boot state comes from the URL when there is one: ?hal=14&vy=tee&ljus=host&tee=2
    opens exactly there, ?ren=1 opens clean, ?kiosk=1 starts the bansafari */
 const BOOTQ = new URLSearchParams(location.search);
+/* the valley mist's base: the low ground under the holes, sampled along their lines */
+if (VALLEY_MIST_ON) {
+  const heights = [];
+  for (const h of HOLES) for (let i = 0; i + 1 < (h.line?.length ?? 0); i++) {
+    const [x0, z0] = h.line[i], [x1, z1] = h.line[i + 1];
+    const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, z1 - z0) / VALLEY_MIST.sampleMetres));
+    for (let k = 0; k <= n; k++) heights.push(terrainH(x0 + (x1 - x0) * k / n, z0 + (z1 - z0) * k / n));
+  }
+  aerialPerspective.setMistBase(valleyMistBase(heights));
+}
 {
   setPreset(LJUS2P[(BOOTQ.get('ljus') || '').toLowerCase()] || 'golden');
   const ti = parseInt(BOOTQ.get('tee'), 10);
@@ -11904,7 +11962,11 @@ window.V3D = {
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
     /* the lighting batch (docs/visual-lighting-2026-09-25.md): null where its before is asked for */
-    shadowTint: shadowTint ? shadowTint.tint.value.toArray() : null, crownBackLight: CROWN_BACK_LIGHT ? foliageBack.value.toArray() : null }),
+    shadowTint: shadowTint ? shadowTint.tint.value.toArray() : null, crownBackLight: CROWN_BACK_LIGHT ? foliageBack.value.toArray() : null,
+    /* the air batch (docs/visual-air-2026-09-25.md): null where its before is asked for */
+    wind: { oneWind: ONE_WIND_ON, ms: AIR.ms, axis: [AIR.axisX, AIR.axisZ], sway: AIR.sway, gust: [AIR.gustX, AIR.gustZ],
+      sky: [AIR.skyX, AIR.skyY, AIR.skyRun], target: { ms: FLAG_WIND.ms, fromDeg: FLAG_WIND.fromDeg, source: FLAG_WIND.source } },
+    cloudShadow: CLOUD ? CLOUD.snapshot() : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */
   gpuTimingEnabled: () => renderer.backend?.trackTimestamp === true,

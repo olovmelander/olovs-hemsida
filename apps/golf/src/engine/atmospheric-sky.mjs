@@ -20,7 +20,7 @@ const controls = new WeakMap();
    false` is the before (?skyorder=first). */
 export const SKY_RENDER_ORDER = 0.5;
 
-export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false, drawLast = true } = {}) {
+export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false, drawLast = true, drift = null } = {}) {
   const sky = new SkyMesh();
   sky.name = 'atmospheric-sky';
   // A tiny HDR sun disc sparkling through foliage creates distracting bloom.
@@ -54,7 +54,7 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     return vec4(mix(groundHaze, skyColour, smoothstep(-0.06, 0.10, elevation)), c.a);
   })();
   if(painted){
-    const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic});
+    const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic,drift});
     sky.material.colorNode=layer.node;
     settings.paintedExposure=layer.exposure;
     settings.sunGlow=layer.sunGlow;

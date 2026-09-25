@@ -1,0 +1,58 @@
+{
+ "command": "node tools/check-tree-shadows.mjs --out output/tree-shadows-air --ref 4ae4c594",
+ "ref": "4ae4c594",
+ "adapter": "swiftshader",
+ "backend": "webgl2",
+ "reversedDepth": false,
+ "tier": "hero",
+ "match": {
+  "cases": 80,
+  "meanIou": 0.893,
+  "minIou": 0.633
+ },
+ "thin": {
+  "cases": 100,
+  "meshUnchanged": true
+ },
+ "colour": {
+  "cases": 25,
+  "differingPixels": 0,
+  "coveredPixels": 6607670
+ },
+ "fade": [
+  {
+   "label": "impostor in, half",
+   "shareOfSteady": 0.487
+  },
+  {
+   "label": "impostor out, half",
+   "shareOfSteady": 0.487
+  },
+  {
+   "label": "impostor in, done",
+   "shareOfSteady": 1
+  },
+  {
+   "label": "impostor out, done",
+   "shareOfSteady": 0
+  },
+  {
+   "label": "crown in, half",
+   "shareOfSteady": 0.502
+  },
+  {
+   "label": "crown out, half",
+   "shareOfSteady": 0.502
+  },
+  {
+   "label": "crown in, done",
+   "shareOfSteady": 1
+  },
+  {
+   "label": "crown out, done",
+   "shareOfSteady": 0
+  }
+ ],
+ "errors": [],
+ "pageErrors": []
+}

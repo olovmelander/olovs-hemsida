@@ -7,6 +7,18 @@ export const foliageLight=uniform(new Color(0xffffff));
 const foliageShadow=uniform(new Color(0xffffff)),foliageSun=uniform(new Color(0xffffff));
 const foliageDirect=uniform(.9);
 export const foliageBack=uniform(new Color(0,0,0));
+/* THE SHARE OF ITS LIGHT A CROWN KEEPS IN A CLOUD'S FULL SHADE. A crown's
+   strength is reckoned from the preset's sun and sky (0.30 a unit of the sun's
+   intensity, 0.18 and 0.10 a unit of the sky's, below); without the sun it
+   keeps the sky's part and the sky-lit share of the sun's (shadowSky, as a
+   tree's shadow on the ground keeps). A cloud's shade then dims a crown by
+   mix(this, 1, sunlit), as it dims open ground by mix(its own share, 1, sunlit)
+   (shadow-tint.mjs): about 0.4 at noon, 0.3 against a low golden sun. */
+export const foliageCloudShade=uniform(1);
+export function foliageCloudShadeFor(p){
+  const sun=.30*(p.int??0),sky=.18+.10*(p.hemiI??0);
+  return (sky+sun*(p.shadowSky??0))/(sky+sun);
+}
 export function setFoliageLighting(p){
   const strength=p.foliage?.strength??Math.max(.35,Math.min(1,.18+p.int*.30+p.hemiI*.10));
   const direct=p.foliage?.direct??Math.min(.9,p.int/2.5);
@@ -16,6 +28,7 @@ export function setFoliageLighting(p){
   foliageSun.value.setHex(p.sun).lerp(new Color(0xffffff),p.foliage?.sunWhite??.70);
   foliageSun.value.lerp(foliageShadow.value,1-direct);
   foliageBack.value.setHex(p.sun??0xffffff).multiplyScalar(p.foliage?.back??0);
+  foliageCloudShade.value=foliageCloudShadeFor(p);
 }
 
 /* THE SUN THROUGH THE LEAVES. Looking toward a low sun, a crown's thin outer
@@ -48,7 +61,11 @@ function foliageNoise(position,noisePerPixel){
 
 // Meshes and all impostor rings share this light/season response. Impostors
 // use the baked custom normals, not the normals of the foliage card planes.
-export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false,backLight=null}){
+// `sunlit` is the share of the sun a crown keeps past the clouds (cloud-shadow.mjs,
+// per vertex): in a cloud's shade its direct light, highlight and back-light
+// give way to the sky's, as on its own shaded side, and it dims as open ground
+// does (foliageCloudShade). Without it, the before.
+export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false,backLight=null,sunlit=null}){
   const palette=FOLIAGE_PALETTES[key];
   if(!palette)throw new Error(`Unknown foliage palette: ${key}`);
   const seasonal=AUTUMN_FOLIAGE[key];
@@ -67,17 +84,21 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
   // Broad canopy normals need a deeper light-to-shade transition: wrapping
   // sunlight too far around them lifts the whole crown into pale midtones.
   const diffuse=normal.y.mul(.28).add(.50);
-  const lit=mix(diffuse,smoothstep(-.18,.85,alignment.add(dabs)),foliageDirect);
+  const direct=sunlit?foliageDirect.mul(sunlit):foliageDirect;
+  const lit=mix(diffuse,smoothstep(-.18,.85,alignment.add(dabs)),direct);
   // Concentrate the bright pigment on the sun-facing tops, with a smooth
   // transition into the stronger green body rather than a pale overall wash.
-  const highlight=mix(normal.y.max(0).mul(.10),smoothstep(.48,.98,alignment.add(dabs.mul(.65))).mul(.74),foliageDirect);
+  const highlight=mix(normal.y.max(0).mul(.10),smoothstep(.48,.98,alignment.add(dabs.mul(.65))).mul(.74),direct);
   const pigment=noise?noise.y.mul(.0125).add(1):float(1);
   const lightTint=mix(foliageShadow,foliageSun,lit);
   const body=mix(mix(shades[0],shades[1],lit),shades[2],highlight);
-  if(!backLight)return body.mul(pigment).mul(tint).mul(lighting).mul(lightTint);
+  const cloudShade=sunlit?mix(foliageCloudShade,float(1),sunlit):null;
+  if(!backLight){const plain=body.mul(pigment).mul(tint).mul(lighting).mul(lightTint);return cloudShade?plain.mul(cloudShade):plain;}
   // the leaf's brightest pigment, lit from behind in the sun's colour
-  const through=shades[2].mul(foliageBack).mul(backLight).toVertexStage();
-  return body.mul(lightTint).add(through).mul(pigment).mul(tint).mul(lighting);
+  const glow=shades[2].mul(foliageBack).mul(backLight);
+  const through=(sunlit?glow.mul(sunlit):glow).toVertexStage();
+  const colour=body.mul(lightTint).add(through).mul(pigment).mul(tint).mul(lighting);
+  return cloudShade?colour.mul(cloudShade):colour;
 }
 
 // Transparent atlas texels contain black RGB. Undo that dark fringe after
@@ -95,10 +116,10 @@ export function foliageSurfacePigment(texel){
 // so shadows faded as the camera pulled back (docs/tree-shadows-zoom.md). The
 // colour pass never read `map` -- colorNode and opacityNode replace it -- so
 // it is unchanged. mipShadow (?foliageshadow=mip) is the before.
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true}){
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
   m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel,
-    backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null});
+    backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null,sunlit});
   if(map){
     const texel=texture(map);
     m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;

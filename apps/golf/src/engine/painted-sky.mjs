@@ -3,7 +3,11 @@ import {float,mix,mx_noise_float,normalize,positionWorld,cameraPosition,pow,satu
 
 // A separate cloud coverage field lets blue sky and cream clouds keep their
 // own pigments. Four broad noise octaves; one sky draw and no cloud textures.
-export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic}){
+// `drift` (one-wind.mjs skyDrift) carries the clouds downwind with the one
+// wind: their offset across the cloud plane (x, y) and how far they have run
+// (z), which also turns their shapes over. Without it, the before: a drift west
+// at the preset's speed.
+export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic,drift=null}){
   const exposure=uniform(1);
   const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0),hazeGlow=uniform(0);
   const direction=normalize(positionWorld.sub(cameraPosition));
@@ -11,7 +15,7 @@ export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundH
   const t=deterministic?float(0):time.mul(sky.cloudSpeed).mul(35);
   const uv=direction.xz.div(up.mul(mix(float(1),float(.4),sky.cloudElevation)).add(.12))
     .mul(sky.cloudScale.mul(3600));
-  const p=vec3(uv.x.add(t),uv.y,t.mul(.15));
+  const p=drift?vec3(uv.x.sub(drift.x),uv.y.sub(drift.y),drift.z.mul(.15)):vec3(uv.x.add(t),uv.y,t.mul(.15));
   const large=mx_noise_float(p.mul(1.1));
   const medium=mx_noise_float(p.mul(2.25).add(vec3(4.7,1.3,0)));
   const small=mx_noise_float(p.mul(4.6).add(vec3(2.3,7.1,0)));

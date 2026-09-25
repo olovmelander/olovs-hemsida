@@ -1,0 +1,376 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Air batch: isolated checks</title>
+<!-- The app's own wind, cloud-shadow, shadow-tint, foliage, impostor, sky and
+     haze modules in isolated scenes, each with its before. Served from the
+     repository root by check-isolated.mjs, which does the arithmetic. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+/* A Chromium that predates the string form of the view swizzle three r186 sends
+   rejects the identity one (as the landscape batch's page); a current Chrome needs nothing. */
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+const THREE = await import('three/webgpu');
+const { uniform, color, float, vec3, positionWorld, positionLocal, cameraPosition, normalize } = await import('three/tsl');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { fetchGlb, loadFoliageAtlas, fitFoliageTier } = await import('/apps/golf/src/engine/ghibli-tree-assets.mjs');
+const { setFoliageLighting, makeGhibliFoliageMaterial } = await import('/apps/golf/src/engine/ghibli-foliage-material.mjs');
+const { bakeCrownDepth } = await import('/apps/golf/src/engine/crown-depth.mjs');
+const { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } = await import('/apps/golf/src/engine/tree-impostor.mjs');
+const { createShadowTint, shadowTintFor, sunUnderClouds } = await import('/apps/golf/src/engine/shadow-tint.mjs');
+const { createCloudShadow, CLOUD_SHADOW } = await import('/apps/golf/src/engine/cloud-shadow.mjs');
+const { swayOnWind, windAxis, windSway, airOffset, skyDrift } = await import('/apps/golf/src/engine/one-wind.mjs');
+const { createAerialPerspective } = await import('/apps/golf/src/engine/aerial-perspective.mjs');
+const { hash2 } = await import('/apps/golf/src/engine/geom.js');
+
+const backend = new URLSearchParams(location.search).get('backend') || 'webgl2';
+const W = 480, H = 270;
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+
+try {
+  /* as the app: HalfFloat output, reversed depth on WebGPU only (main.js). One renderer for every scene. */
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+  /* linear, unclamped readback, one sample a pixel so every pixel is one surface */
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true });
+  const readTarget = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    renderer.setRenderTarget(target);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    const half = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+    if (half.length !== W * H * 4) throw new Error(`unexpected readback size ${half.length}`);
+    return Array.from(half, THREE.DataUtils.fromHalfFloat);
+  };
+  const show = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    for (let i = 0; i < 3; i++) { renderer.render(scene, camera); await frame(); }
+  };
+  /* WHERE EACH PIXEL IS: positionWorld as colour, unlit and unfogged. The
+     output clamps a negative colour to zero, so the position is written 2 km
+     up the scale into a float target and taken back off here. */
+  const POSITION_OFFSET = 2000;
+  const positionTarget = new THREE.RenderTarget(W, H, { type: THREE.FloatType, depthBuffer: true });
+  const positionMaterial = (node = positionWorld) => { const m = new THREE.MeshBasicNodeMaterial(); m.colorNode = node.add(POSITION_OFFSET); m.fog = false; return m; };
+  const readPositions = async (scene, camera) => {
+    const background = scene.background;
+    scene.background = null;
+    await renderer.compileAsync(scene, camera);
+    renderer.setRenderTarget(positionTarget);
+    renderer.setClearColor(0x000000, 0);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    scene.background = background;
+    const raw = await renderer.readRenderTargetPixelsAsync(positionTarget, 0, 0, W, H);
+    /* nothing drawn reads back as zero everywhere */
+    return Array.from(raw, (v, k) => k % 4 === 3 ? v : (v === 0 ? 0 : v - POSITION_OFFSET));
+  };
+
+  /* ---------------------------------------------------------------- cloud shadows
+     Two worlds, alike but for the light: the lighting batch's sun (before), and
+     the sun under the clouds (sunUnderClouds). Each has a tessellated field, a
+     platform 40 m up, a 20 m pole casting a shadow, a bush that takes no shadow
+     map, a row of the approved crowns' impostors and one Hero spruce. */
+  const treeBase = '/apps/golf/public/models/trees/';
+  const manifest = await (await fetch(treeBase + 'ghibli-fluffy.json')).json();
+  const entry = manifest.species.find(e => e.key === 'gran');
+  const variant = entry.variants[0], rec = variant.tiers.hero;
+  const foliageMap = await loadFoliageAtlas(treeBase, entry.foliage.atlas, fetch);
+  const spruce = await fetchGlb(treeBase + rec.file, rec, fetch);
+  fitFoliageTier(spruce, variant.templateHeight, variant.templateRadius);
+  bakeCrownDepth(spruce.crown);
+  const atlas = bakeImpostorAtlas(renderer, { crown: spruce.crown, trunk: spruce.trunk, trunkColor: new THREE.Color(...spruce.trunkMean),
+    foliage: { key: entry.foliage.key, map: foliageMap } });
+  const uSun = uniform(new THREE.Vector3(0, 1, 0));
+  const CLOUD = createCloudShadow();
+  /* the layout, in metres: the view is 200 x 112.5 m from straight above */
+  const LAYOUT = { platform: { x: 55, z: 20, size: 40, y: 40 }, pole: { x: -60, z: 25 }, bush: { x: -20, z: 30, size: 6 },
+    trees: { z: -42, xs: [-80, -64, -48, -32, -16, 0, 16, 32, 48, 64, 80] }, spruce: { x: 88, z: -20 } };
+  const makeWorld = clouds => {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const sun = new THREE.DirectionalLight(0xffffff, 3);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    Object.assign(sun.shadow.camera, { left: -130, right: 130, top: 130, bottom: -130, near: 1, far: 800 });
+    sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.05;
+    const tint = createShadowTint(sun);
+    sun.shadow.shadowNode = tint.node;
+    if (clouds) {
+      const c = sunUnderClouds(sun, { cloud: CLOUD.vertex, tint: tint.tint });
+      sun.colorNode = c.colorNode; sun.shadow.shadowNode = c.shadowNode;
+    }
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    const field = new THREE.Mesh(new THREE.PlaneGeometry(240, 150, 120, 75).rotateX(-Math.PI / 2),
+      new THREE.MeshStandardNodeMaterial({ color: 0x6f9a4c, roughness: 0.95 }));
+    field.receiveShadow = true;
+    const L = LAYOUT;
+    const platform = new THREE.Mesh(new THREE.PlaneGeometry(L.platform.size, L.platform.size, 20, 20).rotateX(-Math.PI / 2),
+      new THREE.MeshStandardNodeMaterial({ color: 0x9a8c6a, roughness: 0.95 }));
+    platform.position.set(L.platform.x, L.platform.y, L.platform.z); platform.receiveShadow = true;
+    const pole = new THREE.Mesh(new THREE.BoxGeometry(2, 20, 2), new THREE.MeshStandardNodeMaterial({ color: 0x8a8a8a }));
+    pole.position.set(L.pole.x, 10, L.pole.z); pole.castShadow = true; pole.receiveShadow = true;
+    const bush = new THREE.Mesh(new THREE.BoxGeometry(L.bush.size, 2, L.bush.size, 6, 2, 6), new THREE.MeshStandardNodeMaterial({ color: 0x3f6a2c, roughness: 0.9 }));
+    bush.position.set(L.bush.x, 1, L.bush.z); bush.receiveShadow = false;
+    const geometry = createImpostorGeometry(L.trees.xs.length);
+    const P = geometry.getAttribute('aImpostorPos').array, Q = geometry.getAttribute('aImpostorParam').array;
+    L.trees.xs.forEach((x, i) => { P.set([x, 0, L.trees.z], i * 3); Q.set([i * 0.7, 1, 1, 0], i * 4); });
+    geometry.instanceCount = L.trees.xs.length;
+    const impostors = new THREE.Mesh(geometry, createImpostorMaterial(atlas, { crownBase: color(0x2c5230), sunDirection: uSun, sunlit: clouds ? CLOUD.vertex : null }));
+    impostors.frustumCulled = false;
+    const crown = new THREE.Mesh(spruce.crown, makeGhibliFoliageMaterial({ key: entry.foliage.key, map: foliageMap, sunDirection: uSun,
+      tint: vec3(1), seed: float(0.5), autumn: float(0), sunlit: clouds ? CLOUD.vertex : null }));
+    const trunk = new THREE.Mesh(spruce.trunk, new THREE.MeshStandardNodeMaterial({ color: 0x5a4632, roughness: 0.95 }));
+    for (const m of [crown, trunk]) m.position.set(L.spruce.x, 0, L.spruce.z);
+    scene.add(sun, sun.target, hemi, field, platform, pole, bush, impostors, crown, trunk);
+    return { scene, sun, hemi, tint, pole };
+  };
+  const worlds = { before: makeWorld(false), clouds: makeWorld(true) };
+  const positions = new THREE.Scene();
+  {
+    const L = LAYOUT;
+    const field = new THREE.Mesh(new THREE.PlaneGeometry(240, 150, 120, 75).rotateX(-Math.PI / 2), positionMaterial());
+    const platform = new THREE.Mesh(new THREE.PlaneGeometry(L.platform.size, L.platform.size).rotateX(-Math.PI / 2), positionMaterial());
+    platform.position.set(L.platform.x, L.platform.y, L.platform.z);
+    positions.add(field, platform);
+  }
+  const above = new THREE.OrthographicCamera(-100, 100, 56.25, -56.25, 1, 400);
+  above.position.set(0, 200, 0); above.up.set(0, 0, -1); above.lookAt(0, 0, 0);
+  window.__cloudPositions = async () => readPositions(positions, above);
+  window.__cloud = async ({ world, preset = 'noon', cover = null, threshold = null, opacity = null, offset = [0, 0], sunOff = false, poleOff = false }) => {
+    const w = worlds[world], p = painted(preset);
+    const d = new THREE.Vector3(...p.dir).normalize();
+    uSun.value.copy(d);
+    setFoliageLighting(p);
+    w.sun.color.setHex(p.sun); w.sun.intensity = sunOff ? 0 : p.int; w.sun.position.copy(d).multiplyScalar(300);
+    w.hemi.color.setHex(p.hemiS); w.hemi.groundColor.setHex(p.hemiG); w.hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    shadowTintFor(p, w.tint.tint.value);
+    CLOUD.setPreset({ cloudShadow: { cover: cover ?? 0, opacity: opacity ?? 0 } });
+    if (threshold !== null) CLOUD.threshold.value = threshold;
+    if (opacity !== null) CLOUD.opacity.value = opacity;
+    CLOUD.setSun(d);
+    CLOUD.setOffset(offset[0], offset[1]);
+    w.pole.visible = !poleOff;
+    renderer.toneMapping = THREE.NoToneMapping;
+    const px = await readTarget(w.scene, above);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    return { px, tint: w.tint.tint.value.toArray(), threshold: CLOUD.threshold.value, opacity: CLOUD.opacity.value, slope: CLOUD.slope.value.toArray() };
+  };
+
+  /* ---------------------------------------------------------------- sway
+     Markers 10 m up on an 8 m grid, each moved by swayOnWind with a swing held
+     at [1, 0] (or [0, 1]) and a weight of 4, so the offset is the wind's own
+     frame times its strength and the gust; seen from straight above. */
+  const MARK = { spacing: 8, xs: [], zs: [] };
+  for (let x = -40; x <= 40; x += MARK.spacing) MARK.xs.push(x);
+  for (let z = -20; z <= 20; z += MARK.spacing) MARK.zs.push(z);
+  const markerScene = new THREE.Scene();
+  markerScene.background = new THREE.Color(0);
+  const markers = {};
+  const markerMesh = across => {
+    if (markers[across]) return markers[across];
+    const m = new THREE.MeshBasicNodeMaterial({ color: 0xffffff });
+    m.fog = false;
+    m.positionNode = positionLocal.add(swayOnWind({ p: positionWorld.xz, weight: float(4), rate: 0,
+      swing: () => (across ? [float(0), float(1)] : [float(1), float(0)]), lean: 0 }));
+    const im = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1).rotateX(-Math.PI / 2), m, MARK.xs.length * MARK.zs.length);
+    const m4 = new THREE.Matrix4();
+    let k = 0;
+    for (const z of MARK.zs) for (const x of MARK.xs) im.setMatrixAt(k++, m4.makeTranslation(x, 10, z));
+    im.instanceMatrix.needsUpdate = true;
+    im.frustumCulled = false;
+    return (markers[across] = im);
+  };
+  const markerPlane = new THREE.Scene();
+  { const plane = new THREE.Mesh(new THREE.PlaneGeometry(120, 80).rotateX(-Math.PI / 2), positionMaterial()); plane.position.y = 10; markerPlane.add(plane); }
+  const markerView = new THREE.OrthographicCamera(-48, 48, 27, -27, 1, 400);
+  markerView.position.set(0, 200, 0); markerView.up.set(0, 0, -1); markerView.lookAt(0, 0, 0);
+  window.__markerPositions = async () => readPositions(markerPlane, markerView);
+  window.__sway = async ({ axis, sway, offset = [0, 0], across = false }) => {
+    windAxis.value.set(...axis); windSway.value = sway; airOffset.value.set(...offset);
+    for (const m of Object.values(markers)) markerScene.remove(m);
+    markerScene.add(markerMesh(across));
+    renderer.toneMapping = THREE.NoToneMapping;
+    const px = await readTarget(markerScene, markerView);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    return px;
+  };
+
+  /* ---------------------------------------------------------------- sky drift
+     The painted sky seen straight up, at two drifts; and where each pixel looks. */
+  const skyScene = new THREE.Scene();
+  const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true, drift: skyDrift });
+  skyScene.add(sky);
+  const skyDirections = new THREE.Scene();
+  {
+    const m = positionMaterial(normalize(positionWorld.sub(cameraPosition)));
+    m.side = THREE.BackSide;
+    skyDirections.add(new THREE.Mesh(new THREE.SphereGeometry(100, 96, 48), m));
+  }
+  const upward = new THREE.PerspectiveCamera(40, W / H, 0.5, 20000);
+  upward.position.set(0, 0, 0); upward.up.set(0, 0, -1); upward.lookAt(0, 1, 0);
+  window.__skyDirections = async () => readPositions(skyDirections, upward);
+  window.__sky = async ({ drift, preset = 'noon' }) => {
+    const p = painted(preset);
+    setAtmospherePreset(sky, p); setSkyGroundHaze(sky, finalFog(p));
+    skyDrift.value.set(...drift);
+    renderer.toneMapping = THREE.NoToneMapping;
+    const px = await readTarget(skyScene, upward);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    return { px, cloudScale: sky.cloudScale.value, cloudElevation: sky.cloudElevation.value };
+  };
+
+  /* ---------------------------------------------------------------- valley mist
+     A valley along x, 30 m deep, black and unlit, under a white haze: every
+     pixel's brightness is the share of the view the air takes there. */
+  const valleyGeometry = new THREE.PlaneGeometry(900, 700, 225, 175).rotateX(-Math.PI / 2);
+  { const pos = valleyGeometry.attributes.position;
+    for (let i = 0; i < pos.count; i++) { const z = pos.getZ(i); pos.setY(i, 30 * (1 - Math.exp(-(z * z) / (2 * 90 * 90)))); }
+    valleyGeometry.computeVertexNormals(); }
+  const mistWorlds = {};
+  const mistWorld = on => {
+    if (mistWorlds[on]) return mistWorlds[on];
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0);
+    const fog = new THREE.FogExp2(0xffffff, 0);
+    scene.fog = fog;
+    const aerial = createAerialPerspective(fog, { sunward: false, valleyMist: on });
+    scene.fogNode = aerial.node;
+    const ground = new THREE.Mesh(valleyGeometry, new THREE.MeshBasicNodeMaterial({ color: 0x000000 }));
+    scene.add(ground);
+    return (mistWorlds[on] = { scene, fog, aerial });
+  };
+  const valleyPositions = new THREE.Scene();
+  valleyPositions.add(new THREE.Mesh(valleyGeometry, positionMaterial()));
+  const valleyView = new THREE.PerspectiveCamera(50, W / H, 1, 5000);
+  valleyView.position.set(-380, 45, 170); valleyView.lookAt(150, 0, -10);
+  valleyView.updateMatrixWorld();
+  window.__valleyPositions = async () => ({ px: await readPositions(valleyPositions, valleyView), camera: valleyView.position.toArray(),
+    forward: new THREE.Vector3(0, 0, -1).applyQuaternion(valleyView.quaternion).toArray() });
+  window.__mist = async ({ on, preset, base = 0, haze = 0 }) => {
+    const w = mistWorld(on), p = painted(preset);
+    w.aerial.setPreset(p); w.aerial.setMistBase(base);
+    w.fog.color.setHex(0xffffff); w.fog.density = haze;
+    renderer.toneMapping = THREE.NoToneMapping;
+    const px = await readTarget(w.scene, valleyView);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    return { px, snapshot: w.aerial.snapshot() };
+  };
+
+  /* ---------------------------------------------------------------- pictures
+     A stand of the approved crowns over a field at noon, from 60 m up, under
+     drifting clouds or none; and the valley at dawn, with its mist or none. */
+  const pictureWorld = (() => {
+    const scene = new THREE.Scene();
+    const sunP = new THREE.DirectionalLight(0xffffff, 3);
+    sunP.castShadow = true; sunP.shadow.mapSize.set(2048, 2048);
+    Object.assign(sunP.shadow.camera, { left: -500, right: 500, top: 500, bottom: -500, near: 1, far: 2000 });
+    sunP.shadow.normalBias = 0.3;
+    const tint = createShadowTint(sunP);
+    const c = sunUnderClouds(sunP, { cloud: CLOUD.vertex, tint: tint.tint });
+    sunP.colorNode = c.colorNode; sunP.shadow.shadowNode = c.shadowNode;
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(4000, 4000, 200, 200).rotateX(-Math.PI / 2),
+      new THREE.MeshStandardNodeMaterial({ color: 0x6f9a4c, roughness: 0.95 }));
+    ground.receiveShadow = true;
+    const skyP = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true, drift: skyDrift });
+    const list = [];
+    for (let x = -700; x <= 700; x += 13) for (let z = -700; z <= 100; z += 13) {
+      const px = x + (hash2(x * 3 + 1, z * 5 + 2) - 0.5) * 9, pz = z + (hash2(z * 7 + 3, x * 11 + 4) - 0.5) * 9;
+      if (Math.abs(px + pz * 0.3 - 40) < 90 || hash2(px * 0.05, pz * 0.05) > 0.8) continue;   /* a fairway through the wood, and glades */
+      list.push([px, pz]);
+    }
+    const geometry = createImpostorGeometry(list.length);
+    const P = geometry.getAttribute('aImpostorPos').array, Q = geometry.getAttribute('aImpostorParam').array;
+    list.forEach(([x, z], i) => { P.set([x, 0, z], i * 3); const s = 0.85 + hash2(x, z) * 0.3; Q.set([hash2(z, x) * 6.28, s, s, 0], i * 4); });
+    geometry.instanceCount = list.length;
+    const trees = new THREE.Mesh(geometry, createImpostorMaterial(atlas, { crownBase: color(0x2c5230), sunDirection: uSun, sunlit: CLOUD.vertex }));
+    trees.frustumCulled = false; trees.castShadow = true;
+    scene.add(sunP, sunP.target, hemi, ground, skyP, trees);
+    return { scene, sun: sunP, hemi, tint, sky: skyP };
+  })();
+  /* from 260 m up over the course's edge, looking across the wood and its fairway */
+  const pictureView = new THREE.PerspectiveCamera(50, W / H, 1, 20000);
+  pictureView.position.set(-420, 260, 760); pictureView.lookAt(60, 0, -250);
+  window.__pictureClouds = async ({ opacity, cover, offset = [0, 0] }) => {
+    const p = painted('noon'), w = pictureWorld;
+    const d = new THREE.Vector3(...p.dir).normalize();
+    uSun.value.copy(d); setFoliageLighting(p);
+    w.sun.color.setHex(p.sun); w.sun.intensity = p.int; w.sun.position.copy(d).multiplyScalar(800);
+    w.hemi.color.setHex(p.hemiS); w.hemi.groundColor.setHex(p.hemiG); w.hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    shadowTintFor(p, w.tint.tint.value);
+    setAtmospherePreset(w.sky, p); setSkyGroundHaze(w.sky, finalFog(p));
+    renderer.toneMappingExposure = p.exp;
+    CLOUD.setPreset({ cloudShadow: { cover, opacity } }); CLOUD.setSun(d); CLOUD.setOffset(...offset);
+    await show(w.scene, pictureView);
+    return true;
+  };
+  const mistPicture = (() => {
+    const scene = new THREE.Scene();
+    const fog = new THREE.FogExp2(0xffffff, 0);
+    scene.fog = fog;
+    const aerial = createAerialPerspective(fog, { valleyMist: true });
+    scene.fogNode = aerial.node;
+    const sunM = new THREE.DirectionalLight(0xffffff, 2), hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    const ground = new THREE.Mesh(valleyGeometry, new THREE.MeshStandardNodeMaterial({ color: 0x5f8a45, roughness: 0.95 }));
+    const skyM = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true, drift: skyDrift });
+    const list = [];
+    for (let x = -440; x <= 440; x += 11) for (let z = -340; z <= 340; z += 11) {
+      if (Math.abs(z) < 70 || hash2(x * 0.04, z * 0.04) > 0.7) continue;   /* wooded slopes, an open floor */
+      list.push([x + (hash2(x, z) - 0.5) * 7, z + (hash2(z, x) - 0.5) * 7]);
+    }
+    const geometry = createImpostorGeometry(list.length);
+    const P = geometry.getAttribute('aImpostorPos').array, Q = geometry.getAttribute('aImpostorParam').array;
+    list.forEach(([x, z], i) => { P.set([x, 30 * (1 - Math.exp(-(z * z) / (2 * 90 * 90))), z], i * 3); const s = 0.9 + hash2(x, z) * 0.3; Q.set([hash2(z, x) * 6.28, s, s, 0], i * 4); });
+    geometry.instanceCount = list.length;
+    const trees = new THREE.Mesh(geometry, createImpostorMaterial(atlas, { crownBase: color(0x2c5230), sunDirection: uSun }));
+    trees.frustumCulled = false;
+    scene.add(sunM, sunM.target, hemi, ground, skyM, trees);
+    return { scene, fog, aerial, sun: sunM, hemi, sky: skyM };
+  })();
+  /* from 60 m up at the valley's mouth, looking along its open floor */
+  const mistView = new THREE.PerspectiveCamera(50, W / H, 1, 5000);
+  mistView.position.set(-470, 62, 25); mistView.lookAt(300, 0, 0);
+  window.__pictureMist = async ({ on }) => {
+    const p = painted('dawn'), w = mistPicture;
+    const d = new THREE.Vector3(...p.dir).normalize();
+    uSun.value.copy(d); setFoliageLighting(p);
+    w.sun.color.setHex(p.sun); w.sun.intensity = p.int; w.sun.position.copy(d).multiplyScalar(500);
+    w.hemi.color.setHex(p.hemiS); w.hemi.groundColor.setHex(p.hemiG); w.hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    const fogColour = finalFog(p);
+    w.fog.color.copy(fogColour); w.fog.density = p.dens * 0.9;
+    w.aerial.setPreset(on ? p : { ...p, valleyMist: null }); w.aerial.setMistBase(0);
+    setAtmospherePreset(w.sky, p); setSkyGroundHaze(w.sky, fogColour);
+    renderer.toneMappingExposure = p.exp;
+    await show(w.scene, mistView);
+    return true;
+  };
+
+  window.__result = { backend, W, H, ready: true, layout: LAYOUT, marks: MARK, cloud: { size: CLOUD_SHADOW.size, tile: CLOUD_SHADOW.tileMetres, softness: CLOUD_SHADOW.softness },
+    bytes: Array.from(CLOUD.bytes) };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>
