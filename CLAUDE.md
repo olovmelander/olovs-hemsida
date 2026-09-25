@@ -123,13 +123,18 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   does. Valley mist is part of the haze, per vertex (`aerial-perspective.mjs`).
   See [the air batch](docs/visual-air-2026-09-25.md).
 - The water's colour lives in `water-shading.mjs` (its sheets' passes, depth
-  and masks in `main.js`). Past a few hundred metres the sun's dabs give way to
-  their expectation over the ripple map's own spread of slopes
-  (`nordic-water.mjs`); it is fitted to the map, so keep `slopeSpread` and the
-  glitter form in step with `water-normal-texture.mjs` (the unit test measures
-  both). The reflection takes the sky's own sun glow and a dark far-shore band,
-  read off a calmer surface, and the ripples, foam and calm/gusty patches drift
-  with the one wind. See [the water batch](docs/visual-water-2026-09-25.md).
+  and masks in `main.js`). The sun's road is its dabs at every distance
+  (`water-road.mjs`), in the sun's colour, brightened toward grazing by
+  Schlick's reflectance (never dimmed) and cut by the clouds' shadows only
+  under a high sun. Do not trade the far dabs for a smooth glow again: past
+  800 m they are steady, and the glow read as a smear. (That expectation in
+  `nordic-water.mjs` is the `?waterroad=0` before; keep its `slopeSpread` in
+  step with `water-normal-texture.mjs`.) The reflection takes the sky's own sun
+  glow, mirrored more inside its lobe, and a lake's dark far-shore band, read
+  off a calmer surface; sea sheets are drawn as open sea, without it. From
+  above the body shows the ripples' relief. The ripples, foam and calm/gusty
+  patches drift with the one wind. See [the water batch](docs/visual-water-2026-09-25.md)
+  and [the water road pass](docs/visual-water-road-2026-09-25.md).
 - The glow's threshold is per preset (`glow.mjs`). A low sun's sits just above
   its broad sky, cloud and haze paint (`skyPaintCeiling`), so none of that
   glows. Toward the sun the clouds' thick centres shine past it in the sun
