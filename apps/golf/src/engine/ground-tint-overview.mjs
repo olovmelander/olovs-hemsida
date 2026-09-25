@@ -12,10 +12,11 @@ export function createGroundTintOverview(layer, { spacing, blendMetres = 300 }, 
   const { n, dx, bounds, texture } = layer;
   const data = texture.image.data;
   const radius = spacing / 2;
-  return (x, z) => {
+  /* `h`, when the caller has it, is the height there, handed on so it is not looked up twice */
+  return (x, z, h) => {
     const edge = Math.min(x - bounds.x0, bounds.x1 - x, z - bounds.z0, bounds.z1 - z);
     const t = Math.max(0, Math.min(1, (edge - radius) / blendMetres));
-    if (t === 0) return vistaColourAt(x, z);
+    if (t === 0) return vistaColourAt(x, z, h);
     const weight = t * t * (3 - 2 * t);
     const x0 = (x - radius - bounds.x0) / dx, x1 = (x + radius - bounds.x0) / dx;
     const z0 = (z - radius - bounds.z0) / dx, z1 = (z + radius - bounds.z0) / dx;
@@ -33,7 +34,7 @@ export function createGroundTintOverview(layer, { spacing, blendMetres = 300 }, 
     const area = (spacing / dx) ** 2;
     const near = sum.map(v => v / area);
     if (weight === 1) return near;
-    const vista = vistaColourAt(x, z);
+    const vista = vistaColourAt(x, z, h);
     return vista.map((v, k) => v + (near[k] - v) * weight);
   };
 }

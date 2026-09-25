@@ -103,6 +103,8 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
 import { createSunShadowFilter } from './engine/sun-shadow.mjs';
 import { createShadowTint, shadowTintFor } from './engine/shadow-tint.mjs';
+import { treeTint, vistaTint } from './engine/stand-tint.mjs';
+import { groundReliefBytes } from './engine/ground-relief.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -1911,6 +1913,17 @@ const LOCAL_HEIGHT = new URLSearchParams(location.search).get('localheight') ===
 /* Crowns glow at the edge against a low sun, meshes and impostors alike
    (ghibli-foliage-material.mjs foliageBackLight); ?backlight=0 is the before. */
 const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !== '0';
+/* Trees take their colour from broad washes across a stand as well as their own
+   (stand-tint.mjs), near and far; ?standtint=0 is the before, each tree's own speckle. */
+const STAND_TINT_ON = new URLSearchParams(location.search).get('standtint') !== '0';
+/* Each surface takes the light by its own gloss, and bunker lips and path edges
+   are drawn (material.js, ground-material-core.mjs); ?surfacegloss=0 and
+   ?surfaceedges=0 are the befores. */
+const SURFACE_GLOSS = new URLSearchParams(location.search).get('surfacegloss') !== '0';
+const SURFACE_EDGES = new URLSearchParams(location.search).get('surfaceedges') !== '0';
+/* Hollows, crests and wood edges, baked into the ground tint's alpha
+   (ground-relief.mjs) and read by the ground material; ?groundrelief=0 is the before. */
+const GROUND_RELIEF_ON = new URLSearchParams(location.search).get('groundrelief') !== '0';
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -2029,7 +2042,7 @@ function setPreset(name, overrides = null) {
 /* ------------------------------------------------------------- materials */
 /* Small authored surfaces outside the terrain atlas share the painted look. */
 function makeTurf() {
-  return makeGround({ DETAIL, uSun, C, SHADE });
+  return makeGround({ DETAIL, uSun, C, SHADE, surfaceGloss: SURFACE_GLOSS });
 }
 
 function makeSand() {
@@ -2449,9 +2462,17 @@ function fillGroundTintTextures(tint, heightAt) {
     const { n, dx, bounds, texture } = layer;
     const data = texture.image.data;
     const wet = new Uint8Array(n * n);
+    /* one height and one canopy verdict per cell: the colour reads the first,
+       the ground's relief (ground-relief.mjs) both */
+    const heights = new Float64Array(n * n), woods = new Float32Array(n * n);
     for (let j = 0; j < n; j++) {
       const z = bounds.z0 + (j + 0.5) * dx;
-      for (let i = 0; i < n; i++) wet[j * n + i] = flatWaterAt(bounds.x0 + (i + 0.5) * dx, z) ? 1 : 0;
+      for (let i = 0; i < n; i++) {
+        const x = bounds.x0 + (i + 0.5) * dx, k = j * n + i;
+        wet[k] = flatWaterAt(x, z) ? 1 : 0;
+        heights[k] = H(x, z);
+        woods[k] = coverAt(x, z) === 3 ? 1 : 0;
+      }
     }
     const steps = Math.max(1, Math.min(SUB, Math.round(dx / FLAT_WATER_SPACING)));
     for (let j = 0; j < n; j++) {
@@ -2470,24 +2491,25 @@ function fillGroundTintTextures(tint, heightAt) {
           f = hit / (steps * steps);
         }
         const c = f >= 1 ? FLAT_WATER_TINT
-          : f <= 0 ? colourAt(x, z)
-          : colourAt(x, z).map((v, ch) => lerp(v, FLAT_WATER_TINT[ch], f));
+          : f <= 0 ? colourAt(x, z, heights[k])
+          : colourAt(x, z, heights[k]).map((v, ch) => lerp(v, FLAT_WATER_TINT[ch], f));
         const o = k * 4;
-        data[o] = toSrgbByte(c[0]); data[o + 1] = toSrgbByte(c[1]); data[o + 2] = toSrgbByte(c[2]); data[o + 3] = 255;
+        data[o] = toSrgbByte(c[0]); data[o + 1] = toSrgbByte(c[1]); data[o + 2] = toSrgbByte(c[2]);
       }
     }
+    /* the alpha, which stood at 255, carries the ground's relief; the colours are untouched */
+    const relief = groundReliefBytes({ heights, forest: woods, n, dx, skip: wet });
+    for (let k = 0; k < n * n; k++) data[k * 4 + 3] = relief[k];
     texture.needsUpdate = true;
   };
-  fill(tint.near, (x, z) => {
+  fill(tint.near, (x, z, h = H(x, z)) => {
     if(CONTINUOUS_OCEAN?.isSeaAt(x,z))return SEA_TINT;
-    const h=H(x,z);
     if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
     /* this raster colours only the classes the ground material does not own */
     const base=groundAt(x,z,h,{surfacesOwned:true}).col,sand=OCEAN_SOURCE?.surfaces.sandWeight(x,z)??0;
     return sand>0?base.map((v,k)=>lerp(v,C.sand[k]*(.93+.05*fbm(x*.08,z*.08,2)),sand)):base;
   });
-  const vistaColourAt = (x, z) => {
-    const h = H(x, z);
+  const vistaColourAt = (x, z, h = H(x, z)) => {
     if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(x, z) : h < VISTA_SEA_LEVEL) return SEA_TINT;
     if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
     return vistaGround(x, z, h, GROUND_TINT_FAR.dx, H);
@@ -2763,7 +2785,7 @@ const under = (R, by) => ({ x0: R.x0 + by, x1: R.x1 - by, z0: R.z0 + by, z1: R.z
 
 const CUP_MASK = createGolfCupMask(HOLES.map(h => h.pin));
 const cupGreenSurfaces = [];
-const turfMat = CUP_MASK.apply(makeGround({ atlas: groundAtlas, DETAIL, uSun, C, SHADE }));
+const turfMat = CUP_MASK.apply(makeGround({ atlas: groundAtlas, DETAIL, uSun, C, SHADE, surfaceGloss: SURFACE_GLOSS }));
 let frontierSurroundMaterial = null;
 /* Every surface that LIES ON the terrain -- mown overlays, sand, roads, paths,
    parking, ballast, the greengrid -- nudges itself in front of it in DEPTH SPACE,
@@ -2945,6 +2967,7 @@ if (TERRAIN_PREVIEW.ready) {
     mowStrength: MOWING.strength,
     /* stripes fade by the pixel across them; ?mowfade=iso is the before, by its whole footprint */
     mowFade: new URLSearchParams(location.search).get('mowfade') === 'iso' ? 'iso' : 'across',
+    surfaceGloss: SURFACE_GLOSS, surfaceEdges: SURFACE_EDGES, groundRelief: GROUND_RELIEF_ON,
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -5163,12 +5186,9 @@ const TREE_LOD = {
       scl.set(sxz * tpl.kxz, sy * varied * tpl.ky, sxz * tpl.kxz);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), T[k * 6 + 4]);
       mtx.compose(pos, q, scl).toArray(mats, j * 16);
-      imp.set([pos.x, pos.y, pos.z, T[k * 6 + 4], sxz, sy * varied], j * 6);
-      {
-        const a = hash2(pos.x * 0.37 + 11.3, pos.z * 0.91 + 5.7) - 0.5, b = hash2(pos.z * 0.53 + 2.1, pos.x * 0.29 + 9.9) - 0.5;
-        tint[j * 4] = 1 + a * 0.24 + b * 0.06; tint[j * 4 + 1] = 1 + b * 0.16; tint[j * 4 + 2] = 1 - a * 0.24 + b * 0.04;
-        tint[j * 4 + 3] = hash2(pos.x * 0.71 + 4.4, pos.z * 0.43 + 1.9);
-      }
+      imp[j * 6] = pos.x; imp[j * 6 + 1] = pos.y; imp[j * 6 + 2] = pos.z;
+      imp[j * 6 + 3] = T[k * 6 + 4]; imp[j * 6 + 4] = sxz; imp[j * 6 + 5] = sy * varied;
+      treeTint(pos.x, pos.z, tint, j * 4, STAND_TINT_ON);
       const c = cell(pos.x, pos.z);
       c.lists[ti].push(j);
       includeTreeBounds(c.box, templateBox, TREE_LOD.atlases[s], mtx, pos, sxz, sy * varied,
@@ -5954,6 +5974,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
+      const P = posA.array, Q = parA.array, tintA = geo.getAttribute('aTint').array;
       list.forEach((k, i) => {
         const s0 = pts[k * 4 + 3];
         /* a calibrated tree is sized exactly as a planted one is when it
@@ -5962,9 +5983,10 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
         const size = ptsSize[k];
         const sy = size ? size[0] / th : 12 * s0 * (0.85 + (k % 5) * 0.07) / th;
         const sxz = size ? size[1] / tr : s0 * 0.9;
-        posA.array.set([pts[k * 4], pts[k * 4 + 1], pts[k * 4 + 2]], i * 3);
-        parA.array.set([hash2(k * 31 + 7, k * 17 + 5) * TAU, sxz, sy, 0], i * 4);
-        geo.getAttribute('aTint').array.set([1, 1, 1, hash2(pts[k * 4] * .71 + 4.4, pts[k * 4 + 2] * .43 + 1.9)], i * 4);
+        /* written in place: a throwaway array per tree was most of this loop */
+        P[i * 3] = pts[k * 4]; P[i * 3 + 1] = pts[k * 4 + 1]; P[i * 3 + 2] = pts[k * 4 + 2];
+        Q[i * 4] = hash2(k * 31 + 7, k * 17 + 5) * TAU; Q[i * 4 + 1] = sxz; Q[i * 4 + 2] = sy; Q[i * 4 + 3] = 0;
+        vistaTint(pts[k * 4], pts[k * 4 + 2], tintA, i * 4, STAND_TINT_ON);
       });
       posA.needsUpdate = parA.needsUpdate = true;
       geo.instanceCount = list.length;

@@ -1,0 +1,233 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Landscape batch: isolated checks</title>
+<!-- The app's own tree, tint and ground modules in isolated scenes, each drawn
+     with the landscape batch's change and with its before. Served from the
+     repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+/* A Chromium that predates the string form of the view swizzle three r186 sends
+   rejects the identity one (as studies/tree-shadow-proof.mjs); a current Chrome needs nothing. */
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+const THREE = await import('three/webgpu');
+const { uniform, color } = await import('three/tsl');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { fetchGlb, loadFoliageAtlas, fitFoliageTier } = await import('/apps/golf/src/engine/ghibli-tree-assets.mjs');
+const { setFoliageLighting } = await import('/apps/golf/src/engine/ghibli-foliage-material.mjs');
+const { bakeCrownDepth } = await import('/apps/golf/src/engine/crown-depth.mjs');
+const { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } = await import('/apps/golf/src/engine/tree-impostor.mjs');
+const { treeTint } = await import('/apps/golf/src/engine/stand-tint.mjs');
+const { hash2 } = await import('/apps/golf/src/engine/geom.js');
+const { createGroundAtlas } = await import('/apps/golf/src/engine/atlas.js');
+const { createV2GroundMaterialDecorator } = await import('/apps/golf/src/engine/material.js');
+const { SURFACE } = await import('/apps/golf/src/engine/surface.js');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const { PAINTED_GROUND } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { setPaintedWorldLighting } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+
+const backend = new URLSearchParams(location.search).get('backend') || 'webgl2';
+const W = 480, H = 270;
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+
+try {
+  /* as the app: 4x MSAA, HalfFloat output, reversed depth on WebGPU only (main.js).
+     One renderer for every variant: a device per variant lost the software adapter. */
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+  /* linear, unclamped readback: a half-float target, as the app's own output buffer */
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true, samples: 4 });
+  const readTarget = async (scene, camera) => {
+    renderer.setRenderTarget(target);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    const half = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+    if (half.length !== W * H * 4) throw new Error(`unexpected readback size ${half.length}`);
+    return Float32Array.from(half, THREE.DataUtils.fromHalfFloat);
+  };
+  const show = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    for (let i = 0; i < 3; i++) { renderer.render(scene, camera); await frame(); }
+  };
+
+  /* THE STANDS: three species' impostors, baked from their approved Hero
+     crowns as the player bakes them, planted on a jittered 11 m lattice over
+     1.6 km -- a closed forest, as the course's woods are -- and tinted by the
+     player's own tint, with and without its stands */
+  const treeBase = '/apps/golf/public/models/trees/';
+  const manifest = await (await fetch(treeBase + 'ghibli-fluffy.json')).json();
+  const uSun = uniform(new THREE.Vector3(0, 1, 0));
+  const forestScene = new THREE.Scene();
+  forestScene.background = new THREE.Color(0xff00ff);
+  const forestSky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+  const forestSun = new THREE.DirectionalLight(0xffffff, 3), forestHemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  const forestFloor = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000).rotateX(-Math.PI / 2),
+    new THREE.MeshStandardNodeMaterial({ color: 0x35532c, roughness: 0.95 }));
+  forestScene.add(forestSky, forestSun, forestSun.target, forestHemi, forestFloor);
+  const SPECIES = ['gran', 'tall', 'björk'];
+  const species = [];
+  for (const key of SPECIES) {
+    const entry = manifest.species.find(e => e.key === key);
+    const variant = entry.variants[0], rec = variant.tiers.hero;
+    const map = await loadFoliageAtlas(treeBase, entry.foliage.atlas, fetch);
+    const mesh = await fetchGlb(treeBase + rec.file, rec, fetch);
+    fitFoliageTier(mesh, variant.templateHeight, variant.templateRadius);
+    bakeCrownDepth(mesh.crown);
+    const atlas = bakeImpostorAtlas(renderer, { crown: mesh.crown, trunk: mesh.trunk, trunkColor: new THREE.Color(...mesh.trunkMean),
+      foliage: { key: entry.foliage.key, map } });
+    species.push({ key, atlas, height: variant.templateHeight });
+  }
+  const SPACING = 11, HALF = 800;
+  const plots = SPECIES.map(() => []);
+  for (let x = -HALF; x <= HALF; x += SPACING) for (let z = -HALF; z <= HALF; z += SPACING) {
+    const px = x + (hash2(x * 3 + 1, z * 5 + 2) - 0.5) * SPACING * 0.8, pz = z + (hash2(z * 7 + 3, x * 11 + 4) - 0.5) * SPACING * 0.8;
+    /* spruce, with pine and a little birch scattered through, as the planting does */
+    const pick = hash2(px * 0.13 + 9, pz * 0.17 + 3);
+    plots[pick < 0.78 ? 0 : pick < 0.95 ? 1 : 2].push([px, pz]);
+  }
+  const batches = {};
+  const batch = stands => {
+    if (batches[stands]) return batches[stands];
+    const group = new THREE.Group();
+    species.forEach((sp, s) => {
+      const list = plots[s], geometry = createImpostorGeometry(list.length);
+      const P = geometry.getAttribute('aImpostorPos').array, Q = geometry.getAttribute('aImpostorParam').array, T = geometry.getAttribute('aTint').array;
+      list.forEach(([x, z], i) => {
+        P[i * 3] = x; P[i * 3 + 1] = 0; P[i * 3 + 2] = z;
+        const size = 0.85 + hash2(x * 1.3 + 2, z * 1.7 + 5) * 0.3;
+        Q[i * 4] = hash2(x * 31 + 7, z * 17 + 5) * Math.PI * 2; Q[i * 4 + 1] = size; Q[i * 4 + 2] = size; Q[i * 4 + 3] = 0;
+        treeTint(x, z, T, i * 4, stands);
+      });
+      geometry.instanceCount = list.length;
+      const impostors = new THREE.Mesh(geometry, createImpostorMaterial(sp.atlas, { crownBase: color(0x2c5230), sunDirection: uSun }));
+      impostors.frustumCulled = false;
+      group.add(impostors);
+    });
+    return (batches[stands] = group);
+  };
+  const forestView = new THREE.PerspectiveCamera(48, W / H, 1, 14000);
+  window.__stands = async ({ stands, preset = 'noon', picture = false }) => {
+    const p = painted(preset);
+    setFoliageLighting(p);
+    const d = new THREE.Vector3(...p.dir).normalize();
+    uSun.value.copy(d);
+    forestSun.color.setHex(p.sun); forestSun.intensity = p.int; forestSun.position.copy(d).multiplyScalar(100);
+    forestHemi.color.setHex(p.hemiS); forestHemi.groundColor.setHex(p.hemiG); forestHemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    setAtmospherePreset(forestSky, p); setSkyGroundHaze(forestSky, finalFog(p));
+    renderer.toneMappingExposure = p.exp;
+    for (const b of Object.values(batches)) forestScene.remove(b);
+    forestScene.add(batch(stands));
+    forestSky.visible = forestFloor.visible = picture;
+    /* over the forest from 320 m, as the course overview flies, looking out across it */
+    forestView.position.set(-760, 320, 760);
+    forestView.lookAt(150, 0, -150);
+    await show(forestScene, forestView);
+    if (picture) return true;
+    return Array.from(await readTarget(forestScene, forestView));
+  };
+
+  /* THE SURFACES: fairway, green, a bunker, a 3 m path and rough side by side,
+     each 20 m long, on the app's own exact-edge atlas and ground material with
+     the app's painted palette and SHADE table (main.js), seen straight down at
+     10 px a metre -- and at a low angle for the pictures */
+  const Lin = hex => { const c = new THREE.Color(hex); return [c.r, c.g, c.b]; };
+  const GC = Object.fromEntries(Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, Lin(hex)]));
+  /* main.js SHADE: detail scale, bump, gloss, mow anisotropy */
+  const GSHADE = {
+    [SURFACE.ROUGH]: [0.62, 1.25, 0.06, 0], [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.5],
+    [SURFACE.FAIRWAY]: [1.55, 0.44, 0.28, 1.15], [SURFACE.GREEN]: [2.85, 0.13, 0.54, 0.9],
+    [SURFACE.FRINGE]: [2.0, 0.30, 0.34, 0.9], [SURFACE.TEE]: [2.2, 0.22, 0.40, 1.3],
+    [SURFACE.SAND]: [2.3, 0.58, 0.14, 0], [SURFACE.PATH]: [3.2, 0.34, 0.18, 0],
+  };
+  const square = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
+  const LAYOUT = { fairway: [-23, -15], green: [-13, -5], sand: [-3, 5], path: [8, 11] };
+  const groundAtlas = createGroundAtlas({ CORE: { x0: -30, z0: -20, x1: 30, z1: 20 }, res: 0.5, features: [
+    { surface: SURFACE.FAIRWAY, rings: [square(LAYOUT.fairway[0], -10, LAYOUT.fairway[1], 10)] },
+    { surface: SURFACE.GREEN, rings: [square(LAYOUT.green[0], -10, LAYOUT.green[1], 10)] },
+    { surface: SURFACE.SAND, rings: [square(LAYOUT.sand[0], -10, LAYOUT.sand[1], 10)] },
+    { surface: SURFACE.PATH, rings: [square(LAYOUT.path[0], -10, LAYOUT.path[1], 10)] },
+  ] });
+  const GDETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const uGroundSun = uniform(new THREE.Vector3(0, 1, 0));
+  const groundScene = new THREE.Scene();
+  groundScene.background = new THREE.Color(0xff00ff);
+  const groundSun = new THREE.DirectionalLight(0xffffff, 3), groundHemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  const groundSky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+  groundScene.add(groundSun, groundSun.target, groundHemi, groundSky);
+  /* a ground tint over the whole strip, as main.js makes one: the rough's colour
+     in rgb, and in alpha whatever relief a check asks for */
+  const TN = 16, tintData = new Uint8Array(TN * TN * 4);
+  /* the tint raster stores sRGB bytes (main.js toSrgbByte): the palette's own hex */
+  const roughHex = PAINTED_GROUND.rough, roughBytes = [(roughHex >> 16) & 255, (roughHex >> 8) & 255, roughHex & 255];
+  const tintTexture = new THREE.DataTexture(tintData, TN, TN, THREE.RGBAFormat, THREE.UnsignedByteType);
+  Object.assign(tintTexture, { colorSpace: THREE.SRGBColorSpace, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, generateMipmaps: false, flipY: false });
+  const setRelief = byte => {
+    for (let k = 0; k < TN * TN; k++) tintData.set([...roughBytes, byte], k * 4);
+    tintTexture.needsUpdate = true;
+  };
+  setRelief(128);
+  const GTINT = { near: { texture: tintTexture, bounds: { x0: -80, z0: -80, x1: 80, z1: 80 }, fadeMetres: 8 } };
+  const strips = {};
+  const strip = (gloss, edges, relief = false) => {
+    const key = `${gloss}-${edges}-${relief}`;
+    if (strips[key]) return strips[key];
+    const decorate = createV2GroundMaterialDecorator({ atlas: groundAtlas, DETAIL: GDETAIL, C: GC, SHADE: GSHADE, uSun: uGroundSun, tint: GTINT,
+      cutTone: 1, mowStrength: 1, surfaceGloss: gloss, surfaceEdges: edges, groundRelief: relief });
+    const mesh = new THREE.Mesh(new THREE.PlaneGeometry(60, 40, 60, 40).rotateX(-Math.PI / 2), decorate(new THREE.MeshStandardNodeMaterial()));
+    return (strips[key] = mesh);
+  };
+  const above = new THREE.OrthographicCamera(-24, 24, 13.5, -13.5, 1, 200);
+  above.position.set(0, 100, 0); above.up.set(0, 0, -1); above.lookAt(0, 0, 0);
+  const across = new THREE.PerspectiveCamera(40, W / H, 0.3, 500);
+  window.__ground = async ({ gloss, edges, relief = false, reliefByte = 128, preset = 'noon', picture = false, view = 'across' }) => {
+    setRelief(reliefByte);
+    const p = painted(preset);
+    setPaintedWorldLighting(p, preset);
+    const d = new THREE.Vector3(...p.dir).normalize();
+    uGroundSun.value.copy(d);
+    groundSun.color.setHex(p.sun); groundSun.intensity = p.int; groundSun.position.copy(d).multiplyScalar(100);
+    groundHemi.color.setHex(p.hemiS); groundHemi.groundColor.setHex(p.hemiG); groundHemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    renderer.toneMappingExposure = p.exp;
+    setAtmospherePreset(groundSky, p); setSkyGroundHaze(groundSky, finalFog(p));
+    for (const m of Object.values(strips)) groundScene.remove(m);
+    groundScene.add(strip(gloss, edges, relief));
+    groundSky.visible = picture;
+    if (picture) {
+      /* from 10 m up beside the strip, looking across fairway, green, bunker and path;
+         or close, at eye height, over the bunker's lip or along the path */
+      if (view === 'lip') { across.position.set(-5.5, 1.6, 6); across.lookAt(-1.5, 0, 0); }
+      else if (view === 'path') { across.position.set(9.5, 1.7, 9); across.lookAt(9.5, 0, 0); }
+      else { across.position.set(-5, 10, 19); across.lookAt(-5, 0, -1); }
+      await show(groundScene, across);
+      return true;
+    }
+    await renderer.compileAsync(groundScene, above);
+    return Array.from(await readTarget(groundScene, above));
+  };
+
+  window.__result = { backend, W, H, ready: true, trees: plots.map(l => l.length), layout: LAYOUT };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>
