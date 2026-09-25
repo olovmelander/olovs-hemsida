@@ -1,0 +1,493 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "db2cc9bb",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "the summer sky has no clouds: with its cloud field elsewhere every pixel is the same, where noon's clouds move",
+     "ok": true,
+     "the sky toward the sun": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 163304,
+       "share": 0.6645,
+       "maxDiff": 0.9763
+      }
+     },
+     "the sky straight up": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 178223,
+       "share": 0.7252,
+       "maxDiff": 0.9912
+      }
+     },
+     "the tee": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 77119,
+       "share": 0.3138,
+       "maxDiff": 0.9145
+      }
+     },
+     "the flyover": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 62369,
+       "share": 0.2538,
+       "maxDiff": 0.894
+      }
+     }
+    },
+    {
+     "label": "no cloud shadows: with their pattern elsewhere every pixel is the same, where noon's move",
+     "ok": true,
+     "straight down (Ovan)": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 169555,
+       "share": 0.6899,
+       "maxDiff": 0.2368
+      }
+     },
+     "the flyover": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 69280,
+       "share": 0.2819,
+       "maxDiff": 0.239
+      }
+     },
+     "over the lake": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 34760,
+       "share": 0.1414,
+       "maxDiff": 0.0515
+      }
+     }
+    },
+    {
+     "label": "the summer sky never glows: its brightest paint, toward the sun, is under the glow's threshold by its margin",
+     "ok": true,
+     "threshold": 0.86,
+     "margin": 0.02,
+     "brightest": {
+      "luminance": 0.5201,
+      "x": 119,
+      "fromTop": 639
+     },
+     "noonSkyBrightest": {
+      "luminance": 0.9189,
+      "x": 147,
+      "fromTop": 576
+     },
+     "scene": {
+      "tee": {
+       "summer": {
+        "over": 0,
+        "peak": 0.7524
+       },
+       "noon": {
+        "over": 0.0603,
+        "peak": 0.9189
+       }
+      },
+      "flyover": {
+       "summer": {
+        "over": 0,
+        "peak": 0.7543
+       },
+       "noon": {
+        "over": 0.0425,
+        "peak": 0.9189
+       }
+      },
+      "lake": {
+       "summer": {
+        "over": 0,
+        "peak": 0.5172
+       },
+       "noon": {
+        "over": 0.0554,
+        "peak": 0.9189
+       }
+      },
+      "glitter": {
+       "summer": {
+        "over": 0,
+        "peak": 0.4414
+       },
+       "noon": {
+        "over": 0,
+        "peak": 0.292
+       }
+      },
+      "green": {
+       "summer": {
+        "over": 0,
+        "peak": 0.7514
+       },
+       "noon": {
+        "over": 0.0631,
+        "peak": 0.9189
+       }
+      },
+      "above": {
+       "summer": {
+        "over": 0,
+        "peak": 0.6752
+       },
+       "noon": {
+        "over": 0,
+        "peak": 0.5593
+       }
+      }
+     }
+    },
+    {
+     "label": "straight up, the sky is the summer's zenith colour",
+     "ok": true,
+     "got": [
+      0.0048,
+      0.107,
+      0.5522
+     ],
+     "want": [
+      0.0048,
+      0.107,
+      0.552
+     ],
+     "error": 0.0004
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 43,
+     "settled": 43,
+     "maxRenders": 2
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "reads": {
+    "count": 43,
+    "settled": 43,
+    "maxRenders": 2
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "the summer sky has no clouds: with its cloud field elsewhere every pixel is the same, where noon's clouds move",
+     "ok": true,
+     "the sky toward the sun": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 163304,
+       "share": 0.6645,
+       "maxDiff": 0.9763
+      }
+     },
+     "the sky straight up": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 178223,
+       "share": 0.7252,
+       "maxDiff": 0.9912
+      }
+     },
+     "the tee": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 77119,
+       "share": 0.3138,
+       "maxDiff": 0.9145
+      }
+     },
+     "the flyover": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 62369,
+       "share": 0.2538,
+       "maxDiff": 0.894
+      }
+     }
+    },
+    {
+     "label": "no cloud shadows: with their pattern elsewhere every pixel is the same, where noon's move",
+     "ok": true,
+     "straight down (Ovan)": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 169466,
+       "share": 0.6896,
+       "maxDiff": 0.2361
+      }
+     },
+     "the flyover": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 69280,
+       "share": 0.2819,
+       "maxDiff": 0.2397
+      }
+     },
+     "over the lake": {
+      "summer": {
+       "differing": 0,
+       "share": 0,
+       "maxDiff": 0
+      },
+      "noon": {
+       "differing": 34776,
+       "share": 0.1415,
+       "maxDiff": 0.0513
+      }
+     }
+    },
+    {
+     "label": "the summer sky never glows: its brightest paint, toward the sun, is under the glow's threshold by its margin",
+     "ok": true,
+     "threshold": 0.86,
+     "margin": 0.02,
+     "brightest": {
+      "luminance": 0.5201,
+      "x": 119,
+      "fromTop": 639
+     },
+     "noonSkyBrightest": {
+      "luminance": 0.9189,
+      "x": 322,
+      "fromTop": 0
+     },
+     "scene": {
+      "tee": {
+       "summer": {
+        "over": 0,
+        "peak": 0.7524
+       },
+       "noon": {
+        "over": 0.0603,
+        "peak": 0.9189
+       }
+      },
+      "flyover": {
+       "summer": {
+        "over": 0,
+        "peak": 0.7543
+       },
+       "noon": {
+        "over": 0.0425,
+        "peak": 0.9189
+       }
+      },
+      "lake": {
+       "summer": {
+        "over": 0,
+        "peak": 0.5172
+       },
+       "noon": {
+        "over": 0.0554,
+        "peak": 0.9189
+       }
+      },
+      "glitter": {
+       "summer": {
+        "over": 0,
+        "peak": 0.4414
+       },
+       "noon": {
+        "over": 0,
+        "peak": 0.292
+       }
+      },
+      "green": {
+       "summer": {
+        "over": 0,
+        "peak": 0.7514
+       },
+       "noon": {
+        "over": 0.0631,
+        "peak": 0.9189
+       }
+      },
+      "above": {
+       "summer": {
+        "over": 0,
+        "peak": 0.6752
+       },
+       "noon": {
+        "over": 0,
+        "peak": 0.5593
+       }
+      }
+     }
+    },
+    {
+     "label": "straight up, the sky is the summer's zenith colour",
+     "ok": true,
+     "got": [
+      0.0048,
+      0.107,
+      0.5522
+     ],
+     "want": [
+      0.0048,
+      0.107,
+      0.552
+     ],
+     "error": 0.0004
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 43,
+     "settled": 43,
+     "maxRenders": 3
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "reads": {
+    "count": 43,
+    "settled": 43,
+    "maxRenders": 3
+   }
+  }
+ },
+ "otherLights": {
+  "ok": true,
+  "added": [
+   "summer"
+  ],
+  "rows": {
+   "golden": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   },
+   "noon": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   },
+   "dawn": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   },
+   "midnight": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   },
+   "bluehour": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   },
+   "storm": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   },
+   "mist": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   },
+   "host": {
+    "painted": true,
+    "glowThreshold": true,
+    "skyPaintCeiling": true,
+    "oceanHaze": true
+   }
+  }
+ },
+ "summer": {
+  "threshold": 0.86,
+  "margin": 0.02,
+  "skyPaintCeiling": 0.6013,
+  "zenith": [
+   0.0048,
+   0.107,
+   0.552
+  ]
+ },
+ "agreement": {
+  "measures": 70,
+  "worst": {
+   "path": "no cloud shadows: with their pattern elsewhere every pixel is the same, where noon's move.straight down (Ovan).noon.maxDiff",
+   "a": 0.2368,
+   "b": 0.2361,
+   "d": 0.0007000000000000062
+  }
+ }
+}
