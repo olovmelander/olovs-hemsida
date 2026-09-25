@@ -1,0 +1,156 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Visby, high quality",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 78,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "cloudShade": true,
+    "lanes": true,
+    "waterRoad": true
+   },
+   "environment": true,
+   "expected": [
+    0.5811,
+    0.7557,
+    0.9269
+   ],
+   "water": {
+    "cloudShade": [
+     0.5811,
+     0.7557,
+     0.9269
+    ],
+    "lanes": true,
+    "road": true,
+    "relief": 1,
+    "openSeaSheets": 8,
+    "lakeSheets": 33
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, low quality",
+   "q": "lo",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 73,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "cloudShade": true,
+    "lanes": true,
+    "waterRoad": true
+   },
+   "environment": true,
+   "expected": [
+    0.5811,
+    0.7557,
+    0.9269
+   ],
+   "water": {
+    "cloudShade": [
+     0.5811,
+     0.7557,
+     0.9269
+    ],
+    "lanes": true,
+    "road": true,
+    "relief": 1,
+    "openSeaSheets": 8,
+    "lakeSheets": 33
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, both befores",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&watercloud=0&waterlanes=0",
+   "seconds": 85,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "befores": true,
+    "waterRoad": true
+   },
+   "environment": true,
+   "expected": null,
+   "water": {
+    "cloudShade": null,
+    "lanes": false,
+    "road": true,
+    "relief": 1,
+    "openSeaSheets": 8,
+    "lakeSheets": 33
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby at noon",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag",
+   "seconds": 74,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "cloudShade": true,
+    "lanes": true,
+    "waterRoad": true
+   },
+   "environment": true,
+   "expected": [
+    0.333,
+    0.4964,
+    0.6438
+   ],
+   "water": {
+    "cloudShade": [
+     0.333,
+     0.4964,
+     0.6438
+    ],
+    "lanes": true,
+    "road": true,
+    "relief": 1,
+    "openSeaSheets": 8,
+    "lakeSheets": 33
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, a lake course",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 98,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "cloudShade": true,
+    "lanes": true,
+    "waterRoad": true
+   },
+   "environment": true,
+   "expected": [
+    0.5811,
+    0.7557,
+    0.9269
+   ],
+   "water": {
+    "cloudShade": [
+     0.5811,
+     0.7557,
+     0.9269
+    ],
+    "lanes": true,
+    "road": true,
+    "relief": 1,
+    "openSeaSheets": 0,
+    "lakeSheets": 14
+   },
+   "errors": []
+  }
+ ]
+}

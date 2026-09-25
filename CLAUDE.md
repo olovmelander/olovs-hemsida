@@ -132,9 +132,15 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   step with `water-normal-texture.mjs`.) The reflection takes the sky's own sun
   glow, mirrored more inside its lobe, and a lake's dark far-shore band, read
   off a calmer surface; sea sheets are drawn as open sea, without it. From
-  above the body shows the ripples' relief. The ripples, foam and calm/gusty
-  patches drift with the one wind. See [the water batch](docs/visual-water-2026-09-25.md)
-  and [the water road pass](docs/visual-water-road-2026-09-25.md).
+  above the body shows the ripples' relief, ruffled in a gusty patch and glassy
+  in a calm one, and keeps in a cloud's shade the share level ground keeps
+  (`water-above.mjs`, reckoned from the ground's own lights; keep it in step if
+  they change). Under a low sun the water takes that shade only as the eye looks
+  down: round shadows seen along the water are bars. Do not darken the calm
+  patches from above; they read as more cloud shadows. The ripples, foam and
+  calm/gusty patches drift with the one wind. See [the water batch](docs/visual-water-2026-09-25.md),
+  [the water road pass](docs/visual-water-road-2026-09-25.md) and
+  [the water from above](docs/visual-water-above-2026-09-25.md).
 - The glow's threshold is per preset (`glow.mjs`). A low sun's sits just above
   its broad sky, cloud and haze paint (`skyPaintCeiling`), so none of that
   glows. Toward the sun the clouds' thick centres shine past it in the sun
