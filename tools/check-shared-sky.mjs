@@ -5,7 +5,8 @@
  * --backend webgpu|webgl2, --rdepth 0|1, --quality hi|lo, --mobile,
  * --course veckefjarden, --presets golden,noon,..., --out directory, --elevated
  * --before URL optionally measures the previous realistic sky's brightness.
- * --audit checks the eight moods, visible native clouds, ground fill and reuse.
+ * --audit checks the moods, visible native clouds (none in the cloudless summer
+ * day's), ground fill and reuse.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -29,7 +30,7 @@ const audit = args.includes('--audit');
 const poseFile = option('pose', null);
 let overviewPose = poseFile ? JSON.parse(fs.readFileSync(poseFile, 'utf8')) : null;
 const farBounds = option('far-roi', null)?.split(',').map(Number);
-const allPresets = ['golden', 'noon', 'mist', 'dawn', 'host', 'midnight', 'bluehour', 'storm'];
+const allPresets = ['golden', 'noon', 'summer', 'mist', 'dawn', 'host', 'midnight', 'bluehour', 'storm'];
 const presets = option('presets', allPresets.join(',')).split(',');
 if (!['webgpu', 'webgl2'].includes(backend) || !['0', '1'].includes(rdepth) || !['hi', 'lo'].includes(quality) || presets.some(p => !allPresets.includes(p))) throw new Error('Invalid rendering options');
 const out = path.resolve(option('out', `tools/goldens/shared-sky-${backend}-${rdepth}-${quality}`));
@@ -116,7 +117,10 @@ async function run(origin, look, label) {
       pictures.set(`${label}/${preset}`, sky);
       gate(metrics.range > 1 && metrics.mean > 2, `${label}/${preset}: sky shaded (${metrics.mean.toFixed(1)}/255, ${metrics.percentNearWhite.toFixed(1)}% near white)`);
       if (['golden', 'noon'].includes(preset)) gate(metrics.mean > 120 && metrics.range > 10, `${label}/${preset}: daylight atmosphere retains colour and brightness`);
-      if (audit && label === 'painted') {
+      if (audit && label === 'painted' && !(row.atmosphere?.cloudDensity > 0)) {
+        /* the summer day's sky has no clouds to contribute (docs/visual-summer-2026-09-25.md) */
+        gate(row.atmosphere?.cloudCoverage === 0 && row.atmosphere?.cloudDensity === 0, `${preset}: a cloudless sky, as authored`);
+      } else if (audit && label === 'painted') {
         await page.evaluate(p => V3D.setPreset(p, { cloud: 0 }), preset);
         await settle(page);
         const clear = await capture(page, `${label}-${preset}-cloudless.png`);

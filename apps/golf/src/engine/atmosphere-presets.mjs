@@ -25,6 +25,20 @@ export const ATMOSPHERE_PRESETS = {
     environment: { ground: 0x9aa68d, horizon: 0xc3dbe9, zenith: 0x568bc6 }, environmentIntensity: 0.58,
     paintedFog: 0xb8d2e6, paintedFill: 1.12, grade: 0.9,
   },
+  /* A CLOUDLESS SUMMER DAY (docs/visual-summer-2026-09-25.md): the one sky with no
+     clouds at all -- coverage and density nil, so no cloud shadows either -- a high
+     afternoon sun and clear, dry air. */
+  summer: {
+    label: 'Sommar', feeling: 'Klarblå himmel utan moln, högt sommarljus och frisk grönska.',
+    sun: 0xfff6e8, int: 2.9, dir: [-0.45, 0.77, 0.45],
+    hemiS: 0xbcdcf5, hemiG: 0x8f9c80, hemiI: 1.6,
+    fog: 0x9cc4d8, dens: 0.00014, hazeMax: 0.72, exp: 1.0, bloom: 0.04,
+    turb: 1.2, ray: 2.6, mie: 0.0018, mieG: 0.78,
+    cloud: 0, cloudDensity: 0, cloudScale: 0.00032, cloudElevation: 0.35, cloudSpeed: 0.000017,
+    skyRadiance: 0.20, skyTint: 0xffffff, skyPalette: 0,
+    environment: { ground: 0x9aa68d, horizon: 0xc0dcec, zenith: 0x4f8fcb }, environmentIntensity: 0.58,
+    paintedFog: 0xafd0e6, paintedFill: 1.12, grade: 0.9,
+  },
   dawn: {
     label: 'Gryning', feeling: 'Pärlemor, rosig horisont och mjukt ljus över morgondiset.',
     sun: 0xffd7c1, int: 1.85, dir: [0.70, 0.12, -0.62],

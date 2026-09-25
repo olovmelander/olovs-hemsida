@@ -49,11 +49,12 @@ describe('cloud shadows', () => {
     const none = coverThreshold(bytes, 0);
     expect(Math.min(...Array.from(bytes, b => cloudSunlight(b / 255, none, 0.7)))).toBe(1);
   });
-  it('fall in every preset with a sun, lighter than a tree\'s shadow, and in none without', () => {
+  it('fall in every preset with a sun and clouds, lighter than a tree\'s shadow, and in none without', () => {
     for (const [name, painted] of Object.entries(PAINTED_ATMOSPHERES)) {
       const preset = { ...ATMOSPHERE_PRESETS[name], ...painted };
       const c = cloudShadowOf(preset);
-      if (painted.shadowSky > 0) {
+      /* the summer day has a sun and no clouds (docs/visual-summer-2026-09-25.md) */
+      if (painted.shadowSky > 0 && preset.cloudDensity > 0) {
         expect(c.cover, name).toBeGreaterThan(0.1);
         expect(c.opacity, name).toBeGreaterThan(0.3);
         expect(c.opacity, name).toBeLessThan(0.75);

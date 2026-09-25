@@ -108,6 +108,11 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   against a low sun. Keep per-pixel work off crowns (reckon per vertex), and
   keep impostors in agreement with the meshes (`IMPOSTOR_BACK_EDGE`, and the
   bake's vertex colours). See [the lighting batch](docs/visual-lighting-2026-09-25.md).
+- Sommar (`?ljus=sommar`) is the cloudless summer day, a ninth light beside
+  Dag. A sky has no clouds only at cloud density 0 (coverage 0 alone still
+  paints some), and a light without a `cloudShadow` casts none. Keep every
+  other light's values when tuning it (`check-isolated.mjs` compares them with
+  main's). See [the summer day](docs/visual-summer-2026-09-25.md).
 - Trees take slow stand-scale colour washes from position (`stand-tint.mjs`),
   near and far. The ground finish reads each surface's `SHADE` gloss, and draws
   bunker lips and path edges from the exact class fields. The ground tint's

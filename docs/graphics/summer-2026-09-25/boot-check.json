@@ -1,0 +1,480 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Visby, Sommar, high quality",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=sommar",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "cloudShadow": true,
+    "glow": true,
+    "haze": true,
+    "link": true,
+    "buttons": true
+   },
+   "light": {
+    "preset": "summer",
+    "cloudCoverage": 0,
+    "cloudDensity": 0,
+    "cloudShadow": {
+     "cover": 0,
+     "opacity": 0
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.000126,
+    "ljus": "sommar",
+    "railOn": [
+     "summer"
+    ],
+    "drawerActive": [
+     "summer"
+    ]
+   },
+   "expected": {
+    "preset": "summer",
+    "cloudCoverage": 0,
+    "cloudDensity": 0,
+    "cloudShadow": {
+     "cover": 0,
+     "opacity": 0
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.000126
+   },
+   "seconds": 101,
+   "errors": []
+  },
+  {
+   "name": "Visby, Sommar, low quality",
+   "q": "lo",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=sommar",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "cloudShadow": true,
+    "glow": true,
+    "haze": true,
+    "link": true,
+    "buttons": true
+   },
+   "light": {
+    "preset": "summer",
+    "cloudCoverage": 0,
+    "cloudDensity": 0,
+    "cloudShadow": {
+     "cover": 0,
+     "opacity": 0
+    },
+    "bloom": null,
+    "bloomThreshold": null,
+    "fogDensity": 0.000126,
+    "ljus": "sommar",
+    "railOn": [
+     "summer"
+    ],
+    "drawerActive": [
+     "summer"
+    ]
+   },
+   "expected": {
+    "preset": "summer",
+    "cloudCoverage": 0,
+    "cloudDensity": 0,
+    "cloudShadow": {
+     "cover": 0,
+     "opacity": 0
+    },
+    "bloom": null,
+    "bloomThreshold": null,
+    "fogDensity": 0.000126
+   },
+   "seconds": 87,
+   "errors": []
+  },
+  {
+   "name": "Visby, Dag",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "cloudShadow": true,
+    "glow": true,
+    "haze": true,
+    "link": true,
+    "buttons": true
+   },
+   "light": {
+    "preset": "noon",
+    "cloudCoverage": 0.28,
+    "cloudDensity": 0.85,
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.00018,
+    "ljus": "dag",
+    "railOn": [
+     "noon"
+    ],
+    "drawerActive": [
+     "noon"
+    ]
+   },
+   "expected": {
+    "preset": "noon",
+    "cloudCoverage": 0.28,
+    "cloudDensity": 0.85,
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.00018
+   },
+   "seconds": 95,
+   "errors": []
+  },
+  {
+   "name": "Visby, Dag, then the buttons and the menus",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "cloudShadow": true,
+    "glow": true,
+    "haze": true,
+    "link": true,
+    "buttons": true,
+    "railButton": true,
+    "drawerButton": true,
+    "noonAsBooted": true,
+    "railFits": true,
+    "drawerFits": true
+   },
+   "light": {
+    "preset": "noon",
+    "cloudCoverage": 0.28,
+    "cloudDensity": 0.85,
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.00018,
+    "ljus": "dag",
+    "railOn": [
+     "noon"
+    ],
+    "drawerActive": [
+     "noon"
+    ]
+   },
+   "expected": {
+    "preset": "noon",
+    "cloudCoverage": 0.28,
+    "cloudDensity": 0.85,
+    "cloudShadow": {
+     "cover": 0.3,
+     "opacity": 0.62
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.00018
+   },
+   "switched": {
+    "summer": {
+     "preset": "summer",
+     "cloudCoverage": 0,
+     "cloudDensity": 0,
+     "cloudShadow": {
+      "cover": 0,
+      "opacity": 0
+     },
+     "bloom": 0.04,
+     "bloomThreshold": 0.86,
+     "fogDensity": 0.000126,
+     "ljus": "sommar",
+     "railOn": [
+      "summer"
+     ],
+     "drawerActive": [
+      "summer"
+     ]
+    },
+    "noon": {
+     "preset": "noon",
+     "cloudCoverage": 0.28,
+     "cloudDensity": 0.85,
+     "cloudShadow": {
+      "cover": 0.3,
+      "opacity": 0.62
+     },
+     "bloom": 0.04,
+     "bloomThreshold": 0.86,
+     "fogDensity": 0.00018,
+     "ljus": "dag",
+     "railOn": [
+      "noon"
+     ],
+     "drawerActive": [
+      "noon"
+     ]
+    }
+   },
+   "seconds": 162,
+   "errors": []
+  },
+  {
+   "name": "Ängsö, a lake course, Sommar",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=sommar",
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "cloudShadow": true,
+    "glow": true,
+    "haze": true,
+    "link": true,
+    "buttons": true
+   },
+   "light": {
+    "preset": "summer",
+    "cloudCoverage": 0,
+    "cloudDensity": 0,
+    "cloudShadow": {
+     "cover": 0,
+     "opacity": 0
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.000126,
+    "ljus": "sommar",
+    "railOn": [
+     "summer"
+    ],
+    "drawerActive": [
+     "summer"
+    ]
+   },
+   "expected": {
+    "preset": "summer",
+    "cloudCoverage": 0,
+    "cloudDensity": 0,
+    "cloudShadow": {
+     "cover": 0,
+     "opacity": 0
+    },
+    "bloom": 0.04,
+    "bloomThreshold": 0.86,
+    "fogDensity": 0.000126
+   },
+   "seconds": 102,
+   "errors": []
+  }
+ ],
+ "menus": {
+  "rail": [
+   {
+    "viewport": [
+     1440,
+     900
+    ],
+    "rows": [
+     [
+      "Kväll",
+      "Dag",
+      "Sommar",
+      "Gryning"
+     ],
+     [
+      "Midnattssol",
+      "Blå timmen"
+     ],
+     [
+      "Oväder",
+      "Dis",
+      "Höst"
+     ]
+    ],
+    "overflowing": [],
+    "widths": {
+     "Kväll": 45.3,
+     "Dag": 45.3,
+     "Sommar": 45.3,
+     "Gryning": 45.3,
+     "Midnattssol": 95.5,
+     "Blå timmen": 95.5,
+     "Oväder": 62,
+     "Dis": 62,
+     "Höst": 62
+    }
+   },
+   {
+    "viewport": [
+     1280,
+     800
+    ],
+    "rows": [
+     [
+      "Kväll",
+      "Dag",
+      "Sommar",
+      "Gryning"
+     ],
+     [
+      "Midnattssol",
+      "Blå timmen"
+     ],
+     [
+      "Oväder",
+      "Dis",
+      "Höst"
+     ]
+    ],
+    "overflowing": [],
+    "widths": {
+     "Kväll": 45.8,
+     "Dag": 45.8,
+     "Sommar": 45.8,
+     "Gryning": 45.8,
+     "Midnattssol": 96.5,
+     "Blå timmen": 96.5,
+     "Oväder": 62.7,
+     "Dis": 62.7,
+     "Höst": 62.7
+    }
+   },
+   {
+    "viewport": [
+     1024,
+     768
+    ],
+    "rows": [
+     [
+      "Kväll",
+      "Dag",
+      "Sommar",
+      "Gryning"
+     ],
+     [
+      "Midnattssol",
+      "Blå timmen"
+     ],
+     [
+      "Oväder",
+      "Dis",
+      "Höst"
+     ]
+    ],
+    "overflowing": [],
+    "widths": {
+     "Kväll": 45.8,
+     "Dag": 45.8,
+     "Sommar": 45.8,
+     "Gryning": 45.8,
+     "Midnattssol": 96.5,
+     "Blå timmen": 96.5,
+     "Oväder": 62.7,
+     "Dis": 62.7,
+     "Höst": 62.7
+    }
+   }
+  ],
+  "drawer": [
+   {
+    "viewport": [
+     390,
+     844
+    ],
+    "open": true,
+    "columns": 3,
+    "rows": [
+     [
+      "Kväll",
+      "Dag",
+      "Sommar"
+     ],
+     [
+      "Gryning",
+      "Midnattssol",
+      "Blå timmen"
+     ],
+     [
+      "Oväder",
+      "Dis",
+      "Höst"
+     ]
+    ],
+    "overflowing": [],
+    "widths": {
+     "Kväll": 103.3,
+     "Dag": 103.3,
+     "Sommar": 103.3,
+     "Gryning": 103.3,
+     "Midnattssol": 103.3,
+     "Blå timmen": 103.3,
+     "Oväder": 103.3,
+     "Dis": 103.3,
+     "Höst": 103.3
+    }
+   },
+   {
+    "viewport": [
+     360,
+     740
+    ],
+    "open": true,
+    "columns": 3,
+    "rows": [
+     [
+      "Kväll",
+      "Dag",
+      "Sommar"
+     ],
+     [
+      "Gryning",
+      "Midnattssol",
+      "Blå timmen"
+     ],
+     [
+      "Oväder",
+      "Dis",
+      "Höst"
+     ]
+    ],
+    "overflowing": [],
+    "widths": {
+     "Kväll": 94.1,
+     "Dag": 94.1,
+     "Sommar": 94.1,
+     "Gryning": 94.1,
+     "Midnattssol": 94.1,
+     "Blå timmen": 94.1,
+     "Oväder": 94.1,
+     "Dis": 94.1,
+     "Höst": 94.1
+    }
+   }
+  ]
+ }
+}

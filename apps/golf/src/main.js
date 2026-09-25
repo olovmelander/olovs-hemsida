@@ -2028,7 +2028,7 @@ scene.add(skyMesh);
    shader connection and two reflection maps across preset changes. Resolve
    the URL here so boot does not bake golden before the requested daylight. */
 const LJUS2P = {
-  kvall: 'golden', dag: 'noon', dis: 'mist', gryning: 'dawn', host: 'host',
+  kvall: 'golden', dag: 'noon', sommar: 'summer', summer: 'summer', dis: 'mist', gryning: 'dawn', host: 'host',
   midnattssol: 'midnight', midnatt: 'midnight', midnight: 'midnight',
   blatimmen: 'bluehour', bla: 'bluehour', bluehour: 'bluehour',
   ovader: 'storm', storm: 'storm',
@@ -2080,7 +2080,9 @@ function setPreset(name, overrides = null) {
     uSunThrough.value = COVER_GLOW_ALWAYS ? 1 : t * t * (3 - 2 * t); }
   hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI;
   fog.color.setHex(p.fog);
-  fog.density = CONTINUOUS_OCEAN_ENABLED && presetName === 'noon' ? 0.00022 : p.dens;
+  /* the continuous ocean keeps at least noon's haze at its horizon: noon's own is
+     raised to it, the cloudless summer day's clearer air too, and every other light's is above it */
+  fog.density = CONTINUOUS_OCEAN_ENABLED ? Math.max(p.dens, 0.00022) : p.dens;
   scene.background = new THREE.Color(p.fog);
   renderer.toneMappingExposure = p.exp;
   setAtmospherePreset(skyMesh, skyPreset(p, presetName));
@@ -8460,7 +8462,7 @@ function goHole(n, recam, instant) {
 const VY2CAM = { tee: 'tee', green: 'green', fritt: 'orbit', ovan: 'top' };
 const CAM2VY = { tee: 'tee', green: 'green', orbit: 'fritt', top: 'ovan' };
 const P2LJUS = {
-  golden: 'kvall', noon: 'dag', mist: 'dis', dawn: 'gryning', host: 'host',
+  golden: 'kvall', noon: 'dag', summer: 'sommar', mist: 'dis', dawn: 'gryning', host: 'host',
   midnight: 'midnattssol', bluehour: 'blatimmen', storm: 'ovader',
 };
 function syncURL() {

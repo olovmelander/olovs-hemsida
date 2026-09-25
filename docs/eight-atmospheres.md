@@ -1,5 +1,9 @@
 # Eight light and atmosphere modes
 
+A ninth mode, Sommar, a cloudless summer day, was added on 25 September: see
+[the summer day](visual-summer-2026-09-25.md). What follows records the
+original eight.
+
 The eight modes share the same atmospheric sky in Målad and realistic. Each
 mode now controls its cloud field, sun, indirect light, reflected colours,
 haze, exposure and bloom together. This follows the [r186 upgrade

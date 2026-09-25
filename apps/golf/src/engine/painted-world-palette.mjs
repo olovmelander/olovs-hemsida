@@ -85,6 +85,17 @@ export const PAINTED_ATMOSPHERES = {
     foliage:{strength:1.04,direct:.95}, water:[0x228b9d,0x164c88], waterLight:1, sparkle:.18,
     shadowSky:.12, cloudShadow:{cover:.30,opacity:.62},
   },
+  // A cloudless summer day: a deep blue zenith over a pale, luminous horizon,
+  // a high afternoon sun, clear air, fresh greens and bright water. No clouds,
+  // so no cloud shadows and no cloud paint.
+  summer:{ sun:0xfff3dc, int:2.45, hemiS:0xa8c9e6, hemiG:0x879c76, hemiI:1.25,
+    fog:0x94c3d8, paintedFog:0x9ac6dc, exp:1.00, paintedFill:1.0, groundStrength:.87,
+    skyPalette:.10, skyZenith:0x0f5cc4, skyHorizon:0x8ecbea, skyRadiance:.05, paintedSkyExposure:1, cloud:0, cloudDensity:0,
+    skySunGlow:0xfff6e0, skySunGlowStrength:.15,
+    environment:{ground:0xa8ad91,horizon:0xbcdcee,zenith:0x4389cc},
+    foliage:{strength:1.08,direct:.96}, water:[0x1c8ea6,0x10498c], waterLight:1, sparkle:.35,
+    shadowSky:.13,
+  },
   // Low honey-coloured sunlight, cool open shade and a sunward amber glow.
   golden:{ sun:0xffcc8c, int:3.80, hemiS:0x95aed0, hemiG:0xb0a783, hemiI:1.40,
     fog:0xd3b597, paintedFog:0xcab4a2, exp:1.12, paintedFill:1.0,

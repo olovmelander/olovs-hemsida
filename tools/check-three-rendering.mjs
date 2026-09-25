@@ -199,7 +199,7 @@ async function run(origin, slug, label, probe) {
         gate(report.sky.mean > 20 && report.sky.range > 3, `${label}/${slug}: SkyMesh shades the sky (${report.sky.mean.toFixed(1)}/255, range ${report.sky.range.toFixed(1)})`);
         if (args.includes('--presets')) {
           report.presets = [];
-          for (const preset of ['golden', 'noon', 'mist', 'dawn', 'host', 'midnight', 'bluehour', 'storm']) {
+          for (const preset of ['golden', 'noon', 'summer', 'mist', 'dawn', 'host', 'midnight', 'bluehour', 'storm']) {
             await page.evaluate(preset => { V3D.setCam('tee', true); V3D.setPreset(preset); }, preset);
             await settle(page);
             const world = skyRange(await capture(page, `${label}-${slug}-${preset}-tee.png`));
