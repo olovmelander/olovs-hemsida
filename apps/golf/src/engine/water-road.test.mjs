@@ -53,13 +53,15 @@ describe('the water road pass', () => {
   it('is drawn by the water\'s shading: the dabs to the horizon, the mirror in the glow, no far shore on the sea', () => {
     const shading = fs.readFileSync(new URL('./water-shading.mjs', import.meta.url), 'utf8');
     /* the road is the dabs brightened and clouded (water-road.mjs); the water batch's expectation only without it */
-    expect(shading).toMatch(/const sparkle = road\n\s+\? waterSun\.mul\(sunRoad\(\{ nh: N\.dot\(H\), vh: V\.dot\(H\), sunUp: uSun\.y, sunlight: cloud \? cloud\.sunlightAt\(positionWorld\) : null \}\)\)/);
+    expect(shading).toMatch(/const sunlit = cloud \? cloud\.sunlightAt\(positionWorld\) : null;/);
+    expect(shading).toMatch(/const sparkle = road\n\s+\? waterSun\.mul\(sunRoad\(\{ nh: N\.dot\(H\), vh: V\.dot\(H\), sunUp: uSun\.y, sunlight: sunlit \}\)\)/);
     expect(shading).toMatch(/const sigma = nordic && !road \?/);
     /* the road takes the clouds inside sunRoad, so not a second time */
-    expect(shading).toMatch(/c = c\.add\(cloud && !road \? sparkle\.mul\(cloud\.sunlightAt\(positionWorld\)\) : sparkle\);/);
+    expect(shading).toMatch(/c = c\.add\(sunlit && !road \? sparkle\.mul\(sunlit\) : sparkle\);/);
     expect(shading).toMatch(/let c = mix\(body, skyC, mirror && glowShare \? mirrorShare\(\{ fres, glow: glowShare \}\) : fres\.mul\(0\.42\)\);/);
     expect(shading).toMatch(/if \(!ocean && !sea\) \{/);
-    expect(shading).toMatch(/if \(relief\) body = body\.mul\(bodyRelief\(\{ N, sun: uSun \}\)\);/);
+    /* the relief takes the water from above's cloud shade and patches only with them (water-above.mjs) */
+    expect(shading).toMatch(/if \(relief\) body = body\.mul\(bodyRelief\(\{ N, sun: uSun, sunlit: bodySun, rough \}\)\);/);
   });
 
   it('is wired in main.js, each part behind its before, the open sea on every sheet of it', () => {
@@ -68,7 +70,7 @@ describe('the water road pass', () => {
     expect(main).toMatch(/const WATER_MIRROR_ON = new URLSearchParams\(location\.search\)\.get\('watermirror'\) !== '0';/);
     expect(main).toMatch(/const OPEN_SEA_ON = new URLSearchParams\(location\.search\)\.get\('opensea'\) !== '0';/);
     expect(main).toMatch(/const WATER_RELIEF_ON = new URLSearchParams\(location\.search\)\.get\('waterrelief'\) !== '0';/);
-    expect(main).toMatch(/road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON \}\);/);
+    expect(main).toMatch(/road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,\n/);
     expect(main).toMatch(/setNordicWaterPreset\(p, [^\n]*\n[^\n]*\n\s+setWaterRoadPreset\(p\);/);
     expect(main).toMatch(/const openSeaMat = OPEN_SEA_ON && HAS_SEA \? makeWater\(\{ showBed: M\.infra\.terrainPlacement !== 'measured-only', sea: true \}\) : waterMat;/);
     /* the sea's rings, the Lidingö sea without its coverage, the coastal extension and the horizon sheet */

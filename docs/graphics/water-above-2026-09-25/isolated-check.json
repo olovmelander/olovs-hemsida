@@ -1,0 +1,827 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "f182b1e8",
+ "constants": {
+  "overhead": {
+   "horizon": 0.2,
+   "zenith": 0.8
+  },
+  "above": [
+   0.42261826174069944,
+   0.7071067811865475
+  ],
+  "lanes": {
+   "gain": 0.08,
+   "glassy": 0.5
+  }
+ },
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "with both befores the water is main's, value for value",
+     "ok": true,
+     "ovanGolden": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "owner": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "noonLow": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "ovanNoon": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "drone": {
+      "differing": 0,
+      "maxDiff": 0
+     }
+    },
+    {
+     "label": "from above, each water pixel's body keeps exactly its share in the cloud's shade, the relief giving way with the sun, the reflection untouched",
+     "ok": true,
+     "golden": {
+      "waterPixels": 174720,
+      "shadedShare": 0.6065,
+      "deepestSun": 0.45,
+      "share": [
+       0.5811,
+       0.7557,
+       0.9269
+      ],
+      "flat": {
+       "p99": 0.0005,
+       "max": 0.0007
+      },
+      "relief": {
+       "p99": 0.0005,
+       "max": 0.0007
+      }
+     },
+     "noon": {
+      "waterPixels": 174720,
+      "shadedShare": 0.6619,
+      "deepestSun": 0.38,
+      "share": [
+       0.333,
+       0.4964,
+       0.6438
+      ],
+      "flat": {
+       "p99": 0.0008,
+       "max": 0.0015
+      },
+      "relief": {
+       "p99": 0.0007,
+       "max": 0.0015
+      }
+     },
+     "host": {
+      "waterPixels": 174720,
+      "shadedShare": 0.538,
+      "deepestSun": 0.4,
+      "share": [
+       0.7587,
+       0.852,
+       0.9362
+      ],
+      "flat": {
+       "p99": 0.0006,
+       "max": 0.001
+      },
+      "relief": {
+       "p99": 0.0006,
+       "max": 0.001
+      }
+     }
+    },
+    {
+     "label": "the lit ground beside the water keeps the water's share to within what the eye sees, so the shade crosses the shoreline",
+     "ok": true,
+     "golden": {
+      "landPixels": 42349,
+      "land": [
+       0.5625,
+       0.7489,
+       0.9042
+      ],
+      "spread": [
+       0.0057,
+       0.0028,
+       0.0053
+      ],
+      "water": [
+       0.5811,
+       0.7557,
+       0.9269
+      ],
+      "diff": [
+       -0.0186,
+       -0.0068,
+       -0.0227
+      ],
+      "expected": [
+       0.5811,
+       0.7557,
+       0.9269
+      ],
+      "deepestShade": {
+       "opacity": 0.55,
+       "channels": [
+        -0.0102,
+        -0.0037,
+        -0.0125
+       ],
+       "brightness": -0.0057
+      }
+     },
+     "noon": {
+      "landPixels": 41990,
+      "land": [
+       0.3179,
+       0.4903,
+       0.598
+      ],
+      "spread": [
+       0.0051,
+       0.0033,
+       0.0121
+      ],
+      "water": [
+       0.333,
+       0.4964,
+       0.6438
+      ],
+      "diff": [
+       -0.0151,
+       -0.0061,
+       -0.0458
+      ],
+      "expected": [
+       0.333,
+       0.4964,
+       0.6438
+      ],
+      "deepestShade": {
+       "opacity": 0.62,
+       "channels": [
+        -0.0094,
+        -0.0038,
+        -0.0284
+       ],
+       "brightness": -0.0067
+      }
+     },
+     "host": {
+      "landPixels": 45503,
+      "land": [
+       0.7427,
+       0.8474,
+       0.9181
+      ],
+      "spread": [
+       0.0046,
+       0.0032,
+       0.0046
+      ],
+      "water": [
+       0.7587,
+       0.852,
+       0.9362
+      ],
+      "diff": [
+       -0.016,
+       -0.0046,
+       -0.0181
+      ],
+      "expected": [
+       0.7587,
+       0.852,
+       0.9362
+      ],
+      "deepestShade": {
+       "opacity": 0.6,
+       "channels": [
+        -0.0096,
+        -0.0028,
+        -0.0108
+       ],
+       "brightness": -0.0048
+      }
+     },
+     "dawn": {
+      "landPixels": 35714,
+      "land": [
+       0.8803,
+       0.9337,
+       0.9523
+      ],
+      "spread": [
+       0.003,
+       0.0032,
+       0.0031
+      ],
+      "water": [
+       0.8902,
+       0.9361,
+       0.9637
+      ],
+      "diff": [
+       -0.0099,
+       -0.0024,
+       -0.0114
+      ],
+      "expected": [
+       0.8902,
+       0.9361,
+       0.9637
+      ],
+      "deepestShade": {
+       "opacity": 0.45,
+       "channels": [
+        -0.0044,
+        -0.0011,
+        -0.0051
+       ],
+       "brightness": -0.0021
+      }
+     },
+     "midnight": {
+      "landPixels": 38132,
+      "land": [
+       0.9159,
+       0.9661,
+       0.9937
+      ],
+      "spread": [
+       0.0025,
+       0.0028,
+       0.0018
+      ],
+      "water": [
+       0.9232,
+       0.9674,
+       0.9956
+      ],
+      "diff": [
+       -0.0073,
+       -0.0012,
+       -0.0019
+      ],
+      "expected": [
+       0.9232,
+       0.9674,
+       0.9956
+      ],
+      "deepestShade": {
+       "opacity": 0.45,
+       "channels": [
+        -0.0033,
+        -0.0006,
+        -0.0009
+       ],
+       "brightness": -0.0012
+      }
+     }
+    },
+    {
+     "label": "from the owner's camera at golden hour nothing changes",
+     "ok": true,
+     "differing": 0,
+     "maxDiff": 0
+    },
+    {
+     "label": "under a high sun a low eye sees the body in the shade too, exactly",
+     "ok": true,
+     "waterPixels": 151296,
+     "shadedShare": 0.1794,
+     "lowestEye": 0.0027,
+     "maxError": 0.0009
+    },
+    {
+     "label": "from above the patches lighten and darken the body exactly as reckoned, and roughen and calm its relief within the cap",
+     "ok": true,
+     "ovan490": {
+      "waterPixels": 174720,
+      "brightness": {
+       "lowest": 0.9601,
+       "highest": 1.0271,
+       "maxError": 0.0006
+      },
+      "relief": {
+       "pixels": 147193,
+       "maxError": 0.0018,
+       "calmMeanDev": 0.0155,
+       "gustyMeanDev": 0.0751,
+       "calmPixels": 28761,
+       "gustyPixels": 66096
+      },
+      "meanRatio": 1.0054
+     },
+     "ovan900": {
+      "waterPixels": 174720,
+      "brightness": {
+       "lowest": 0.9705,
+       "highest": 1.02,
+       "maxError": 0.0008
+      },
+      "relief": {
+       "pixels": 165987,
+       "maxError": 0.0017,
+       "calmMeanDev": 0.0129,
+       "gustyMeanDev": 0.0597,
+       "calmPixels": 18832,
+       "gustyPixels": 82724
+      },
+      "meanRatio": 1.0039
+     },
+     "drone": {
+      "waterPixels": 245760,
+      "brightness": {
+       "lowest": 0.9601,
+       "highest": 0.9726,
+       "maxError": 0.0008
+      },
+      "relief": {
+       "pixels": 221088,
+       "maxError": 0.001,
+       "calmMeanDev": 0.0218,
+       "gustyMeanDev": 0,
+       "calmPixels": 221088,
+       "gustyPixels": 0
+      },
+      "meanRatio": 0.9623
+     }
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 59,
+     "settled": 59,
+     "maxRenders": 2
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "reads": {
+    "count": 59,
+    "settled": 59,
+    "maxRenders": 2
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "with both befores the water is main's, value for value",
+     "ok": true,
+     "ovanGolden": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "owner": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "noonLow": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "ovanNoon": {
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "drone": {
+      "differing": 0,
+      "maxDiff": 0
+     }
+    },
+    {
+     "label": "from above, each water pixel's body keeps exactly its share in the cloud's shade, the relief giving way with the sun, the reflection untouched",
+     "ok": true,
+     "golden": {
+      "waterPixels": 174720,
+      "shadedShare": 0.6065,
+      "deepestSun": 0.45,
+      "share": [
+       0.5811,
+       0.7557,
+       0.9269
+      ],
+      "flat": {
+       "p99": 0.0006,
+       "max": 0.0007
+      },
+      "relief": {
+       "p99": 0.0005,
+       "max": 0.0007
+      }
+     },
+     "noon": {
+      "waterPixels": 174720,
+      "shadedShare": 0.6619,
+      "deepestSun": 0.38,
+      "share": [
+       0.333,
+       0.4964,
+       0.6438
+      ],
+      "flat": {
+       "p99": 0.0008,
+       "max": 0.0014
+      },
+      "relief": {
+       "p99": 0.0007,
+       "max": 0.0016
+      }
+     },
+     "host": {
+      "waterPixels": 174720,
+      "shadedShare": 0.538,
+      "deepestSun": 0.4,
+      "share": [
+       0.7587,
+       0.852,
+       0.9362
+      ],
+      "flat": {
+       "p99": 0.0006,
+       "max": 0.001
+      },
+      "relief": {
+       "p99": 0.0006,
+       "max": 0.001
+      }
+     }
+    },
+    {
+     "label": "the lit ground beside the water keeps the water's share to within what the eye sees, so the shade crosses the shoreline",
+     "ok": true,
+     "golden": {
+      "landPixels": 42349,
+      "land": [
+       0.5625,
+       0.7489,
+       0.9042
+      ],
+      "spread": [
+       0.0057,
+       0.0029,
+       0.0053
+      ],
+      "water": [
+       0.5811,
+       0.7557,
+       0.9269
+      ],
+      "diff": [
+       -0.0186,
+       -0.0068,
+       -0.0227
+      ],
+      "expected": [
+       0.5811,
+       0.7557,
+       0.9269
+      ],
+      "deepestShade": {
+       "opacity": 0.55,
+       "channels": [
+        -0.0102,
+        -0.0037,
+        -0.0125
+       ],
+       "brightness": -0.0057
+      }
+     },
+     "noon": {
+      "landPixels": 41990,
+      "land": [
+       0.3179,
+       0.4903,
+       0.598
+      ],
+      "spread": [
+       0.0051,
+       0.0033,
+       0.0121
+      ],
+      "water": [
+       0.333,
+       0.4964,
+       0.6438
+      ],
+      "diff": [
+       -0.0151,
+       -0.0061,
+       -0.0458
+      ],
+      "expected": [
+       0.333,
+       0.4964,
+       0.6438
+      ],
+      "deepestShade": {
+       "opacity": 0.62,
+       "channels": [
+        -0.0094,
+        -0.0038,
+        -0.0284
+       ],
+       "brightness": -0.0067
+      }
+     },
+     "host": {
+      "landPixels": 45503,
+      "land": [
+       0.7427,
+       0.8474,
+       0.9181
+      ],
+      "spread": [
+       0.0046,
+       0.0032,
+       0.0046
+      ],
+      "water": [
+       0.7587,
+       0.852,
+       0.9362
+      ],
+      "diff": [
+       -0.016,
+       -0.0046,
+       -0.0181
+      ],
+      "expected": [
+       0.7587,
+       0.852,
+       0.9362
+      ],
+      "deepestShade": {
+       "opacity": 0.6,
+       "channels": [
+        -0.0096,
+        -0.0028,
+        -0.0108
+       ],
+       "brightness": -0.0048
+      }
+     },
+     "dawn": {
+      "landPixels": 35714,
+      "land": [
+       0.8803,
+       0.9337,
+       0.9523
+      ],
+      "spread": [
+       0.003,
+       0.0032,
+       0.0032
+      ],
+      "water": [
+       0.8902,
+       0.9361,
+       0.9637
+      ],
+      "diff": [
+       -0.0099,
+       -0.0024,
+       -0.0114
+      ],
+      "expected": [
+       0.8902,
+       0.9361,
+       0.9637
+      ],
+      "deepestShade": {
+       "opacity": 0.45,
+       "channels": [
+        -0.0044,
+        -0.0011,
+        -0.0051
+       ],
+       "brightness": -0.0021
+      }
+     },
+     "midnight": {
+      "landPixels": 38132,
+      "land": [
+       0.9159,
+       0.9661,
+       0.9937
+      ],
+      "spread": [
+       0.0025,
+       0.0028,
+       0.0018
+      ],
+      "water": [
+       0.9232,
+       0.9674,
+       0.9956
+      ],
+      "diff": [
+       -0.0073,
+       -0.0012,
+       -0.0019
+      ],
+      "expected": [
+       0.9232,
+       0.9674,
+       0.9956
+      ],
+      "deepestShade": {
+       "opacity": 0.45,
+       "channels": [
+        -0.0033,
+        -0.0006,
+        -0.0009
+       ],
+       "brightness": -0.0012
+      }
+     }
+    },
+    {
+     "label": "from the owner's camera at golden hour nothing changes",
+     "ok": true,
+     "differing": 0,
+     "maxDiff": 0
+    },
+    {
+     "label": "under a high sun a low eye sees the body in the shade too, exactly",
+     "ok": true,
+     "waterPixels": 151296,
+     "shadedShare": 0.1794,
+     "lowestEye": 0.0027,
+     "maxError": 0.0009
+    },
+    {
+     "label": "from above the patches lighten and darken the body exactly as reckoned, and roughen and calm its relief within the cap",
+     "ok": true,
+     "ovan490": {
+      "waterPixels": 174720,
+      "brightness": {
+       "lowest": 0.9601,
+       "highest": 1.0271,
+       "maxError": 0.0006
+      },
+      "relief": {
+       "pixels": 147130,
+       "maxError": 0.0018,
+       "calmMeanDev": 0.0155,
+       "gustyMeanDev": 0.0751,
+       "calmPixels": 28758,
+       "gustyPixels": 66062
+      },
+      "meanRatio": 1.0054
+     },
+     "ovan900": {
+      "waterPixels": 174720,
+      "brightness": {
+       "lowest": 0.9705,
+       "highest": 1.02,
+       "maxError": 0.0008
+      },
+      "relief": {
+       "pixels": 165832,
+       "maxError": 0.0017,
+       "calmMeanDev": 0.0129,
+       "gustyMeanDev": 0.0597,
+       "calmPixels": 18832,
+       "gustyPixels": 82610
+      },
+      "meanRatio": 1.004
+     },
+     "drone": {
+      "waterPixels": 245760,
+      "brightness": {
+       "lowest": 0.9601,
+       "highest": 0.9726,
+       "maxError": 0.0008
+      },
+      "relief": {
+       "pixels": 221033,
+       "maxError": 0.001,
+       "calmMeanDev": 0.0218,
+       "gustyMeanDev": 0,
+       "calmPixels": 221033,
+       "gustyPixels": 0
+      },
+      "meanRatio": 0.9622
+     }
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 59,
+     "settled": 59,
+     "maxRenders": 2
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "reads": {
+    "count": 59,
+    "settled": 59,
+    "maxRenders": 2
+   }
+  }
+ },
+ "views": {
+  "OVAN": {
+   "golden": {
+    "preset": "golden",
+    "height": 490,
+    "pitch": -89.5,
+    "back": -87.26482232047307,
+    "cloudOffset": [
+     1746,
+     776
+    ]
+   },
+   "noon": {
+    "preset": "noon",
+    "height": 490,
+    "pitch": -89.5,
+    "back": -87.26482232047307,
+    "cloudOffset": [
+     4074,
+     2910
+    ]
+   },
+   "host": {
+    "preset": "host",
+    "height": 270,
+    "pitch": -89.5,
+    "back": -48.084698013321905,
+    "cloudOffset": [
+     1649,
+     776
+    ]
+   },
+   "dawn": {
+    "preset": "dawn",
+    "height": 490,
+    "pitch": -89.5,
+    "back": -87.26482232047307,
+    "cloudOffset": [
+     4074,
+     2910
+    ]
+   },
+   "midnight": {
+    "preset": "midnight",
+    "height": 490,
+    "pitch": -89.5,
+    "back": -87.26482232047307,
+    "cloudOffset": [
+     2231,
+     970
+    ]
+   }
+  },
+  "OWNER": {
+   "preset": "golden",
+   "height": 180,
+   "pitch": -12,
+   "back": 450
+  },
+  "NOON_LOW": {
+   "preset": "noon",
+   "height": 40,
+   "pitch": -6,
+   "back": -100,
+   "cloudOffset": [
+    1200,
+    700
+   ]
+  },
+  "DRONE": {
+   "preset": "golden",
+   "height": 60,
+   "pitch": -89.5,
+   "back": -9000
+  }
+ },
+ "agreement": {
+  "measures": 164,
+  "worst": {
+   "path": "the lit ground beside the water keeps the water's share to within what the eye sees, so the shade crosses the shoreline.dawn.spread.2",
+   "a": 0.0031,
+   "b": 0.0032,
+   "d": 0.00010000000000000026
+  }
+ }
+}

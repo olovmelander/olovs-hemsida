@@ -112,6 +112,7 @@ import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } from './engine/building-paint.mjs';
 import { waterShading } from './engine/water-shading.mjs';
 import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
+import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -1957,6 +1958,12 @@ const WATER_ROAD_ON = new URLSearchParams(location.search).get('waterroad') !== 
 const WATER_MIRROR_ON = new URLSearchParams(location.search).get('watermirror') !== '0';
 const WATER_RELIEF_ON = new URLSearchParams(location.search).get('waterrelief') !== '0';
 const OPEN_SEA_ON = new URLSearchParams(location.search).get('opensea') !== '0';
+/* THE WATER FROM ABOVE (engine/water-above.mjs): the body in a cloud's shade as level
+   ground is, so the clouds' shadows cross the shoreline (?watercloud=0 leaves them at
+   the water's edge); and the calm and gusty patches, glassy and ruffled as the eye
+   looks down on them (?waterlanes=0 shows them in the ripples alone). */
+const WATER_CLOUD_ON = new URLSearchParams(location.search).get('watercloud') !== '0';
+const WATER_LANES_ON = new URLSearchParams(location.search).get('waterlanes') !== '0';
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -2090,6 +2097,8 @@ function setPreset(name, overrides = null) {
   if (NORDIC_WATER_ON) setNordicWaterPreset(p, { sky: skyPreset(p, presetName), fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax });
   /* the waves' relief from above follows how direct the sun is (engine/water-road.mjs) */
   setWaterRoadPreset(p);
+  /* and the body's cloud shade the share of its light level ground keeps there (engine/water-above.mjs) */
+  setWaterAbovePreset(p, { environment: GRAPHICS_POLISH });
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(skyPreset(p, presetName));
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
@@ -3909,7 +3918,8 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false } =
   /* the colour and opacity (water-shading.mjs), with the water batch's light and ripples unless their befores are asked for */
   const { colour, opacity: sheetOpacity, wp } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
     cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,
-    road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON });
+    road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,
+    cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -12113,7 +12123,9 @@ window.V3D = {
       /* the water road pass (docs/visual-water-road-2026-09-25.md): its switches, and the sheets drawn as open sea */
       road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON ? waterReliefSun.value : null,
       openSea: { on: OPEN_SEA_ON, sheets: WATER_MESHES.filter(m => m.material === openSeaMat && openSeaMat !== waterMat).length,
-        lakeSheets: WATER_MESHES.filter(m => m.material === waterMat).length } }; },
+        lakeSheets: WATER_MESHES.filter(m => m.material === waterMat).length },
+      /* the water from above (docs/visual-water-above-2026-09-25.md): the body's share in a cloud's full shade, and the patches */
+      cloudShade: WATER_CLOUD_ON ? waterCloudShade.value.toArray() : null, lanes: WATER_LANES_ON }; },
   /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
   /* the meter's handle on the scene: hide by name, zero a light, read a pose (tools/glitter-meter.mjs) */
   harness: () => ({ scene, renderer, camera, sun, controls, terrainV2 }),

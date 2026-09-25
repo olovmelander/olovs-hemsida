@@ -80,10 +80,13 @@ export const mirrorShare = ({ fres, glow }) => fres.mul(mix(float(WATER_ROAD.mir
 export const waterReliefSun = uniform(1);
 export const reliefSunOf = p => Math.min(1, Math.max(0, (p.int ?? 0) / WATER_ROAD.relief.fullSun));
 export function setWaterRoadPreset(p) { waterReliefSun.value = reliefSunOf(p); }
-/** The body's brightness over the ripples' relief (1 on a level facet): the normal N's tilt toward the sun's azimuth. */
-export function bodyRelief({ N, sun }) {
+/** The body's brightness over the ripples' relief (1 on a level facet): the normal N's tilt toward the sun's azimuth.
+    The water from above (water-above.mjs) adds two: `rough`, how much rougher than its ripples the water shows (a
+    calm patch glassier, a gusty one more ruffled), within the same cap; and `sunlit`, the share of the sun the body
+    takes past a cloud, with which the relief gives way. */
+export function bodyRelief({ N, sun, sunlit = null, rough = null }) {
   const { gain, cap } = WATER_ROAD.relief;
   const toward = normalize(vec2(sun.x, sun.z).add(vec2(1e-4, 0)));
   const tilt = N.x.mul(toward.x).add(N.z.mul(toward.y));
-  return tilt.mul(gain).clamp(-cap, cap).mul(waterReliefSun).add(1);
+  return (rough ? tilt.mul(rough) : tilt).mul(gain).clamp(-cap, cap).mul(sunlit ? waterReliefSun.mul(sunlit) : waterReliefSun).add(1);
 }

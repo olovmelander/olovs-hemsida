@@ -117,7 +117,8 @@ describe('Nordic lake water', () => {
     expect(shading).toMatch(/const drift = \(i, scale, own\) => wind \? wp\.mul\(scale\)\.sub\(waterFlow\[i\]\)/);
     expect((shading.match(/texture\(WATERN, drift\(\d, /g) || []).length).toBe(4);
     expect(shading).toMatch(/texture\(DETAIL, drift\(4, 0\.55,/);
-    expect(shading).toMatch(/mul\(waterChop\)\.mul\(waterPatchChop\(\{ p: wp, distance: cd \}\)\)/);
+    expect(shading).toMatch(/const patchChop = wind \? waterPatchChop\(\{ p: wp, distance: cd \}\) : null;/);
+    expect(shading).toMatch(/mul\(waterChop\)\.mul\(patchChop\)/);
     /* none on the ocean's sheets, nor on the open sea (the water road pass, water-road.mjs) */
     expect(shading).toMatch(/if \(!ocean && !sea\) \{[\s\S]*?skyC = mix\(skyC, waterTreeLine, treeLineShare\(\{ R: Rs, up: saturate\(Rs\.y\) \}\)/);
     expect(shading).toMatch(/expectedGlitter\(\{ V, L: uSun, sigma \}\), dabs,/);
