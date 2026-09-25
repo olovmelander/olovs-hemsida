@@ -5,7 +5,7 @@ import {float,mix,mx_noise_float,normalize,positionWorld,cameraPosition,pow,satu
 // own pigments. Four broad noise octaves; one sky draw and no cloud textures.
 export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic}){
   const exposure=uniform(1);
-  const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0);
+  const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0),hazeGlow=uniform(0);
   const direction=normalize(positionWorld.sub(cameraPosition));
   const up=saturate(direction.y);
   const t=deterministic?float(0):time.mul(sky.cloudSpeed).mul(35);
@@ -28,5 +28,8 @@ export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundH
   const cloud=mix(mix(cloudShade,cloudLit,light.mul(.65).add(.35)),cloudLit,glow.mul(.6));
   const clear=mix(mix(horizon,zenith,pow(up,.38)),sunGlow,glow);
   const painted=mix(clear,cloud,coverage).mul(exposure);
-  return{node:vec4(mix(groundHaze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength};
+  // The band under the horizon is the ground's haze, warmed toward the sun as
+  // the aerial perspective warms it (aerial-perspective.mjs), so they still meet.
+  const haze=mix(groundHaze,sunGlow,sunward.mul(hazeGlow));
+  return{node:vec4(mix(haze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength,hazeGlow};
 }

@@ -1,6 +1,7 @@
 import { SkyMesh } from 'three/addons/objects/SkyMesh.js';
 import { Color } from 'three/webgpu';
 import { paintedSkyColour } from './painted-sky.mjs';
+import { hazeGlowStrength } from './aerial-perspective.mjs';
 import { Fn, cameraPosition, float, luminance, mix, normalize, positionWorld, pow, saturate, smoothstep, uniform, vec4 } from 'three/tsl';
 
 /* The natural look attenuates r186's HDR atmosphere before tone mapping.
@@ -58,6 +59,7 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     settings.paintedExposure=layer.exposure;
     settings.sunGlow=layer.sunGlow;
     settings.sunGlowStrength=layer.sunGlowStrength;
+    settings.hazeGlow=layer.hazeGlow;
   }
   // SkyMesh pins z=w, which is the near plane with reversed depth. r186 fixes
   // renderOrder sorting, but the sky's far clip depth must still be zero.
@@ -108,6 +110,7 @@ export function setAtmospherePreset(sky, preset) {
   if(c.sunGlow){
     c.sunGlow.value.setHex(preset.skySunGlow??0xffffff);
     c.sunGlowStrength.value=preset.skySunGlowStrength??0;
+    c.hazeGlow.value=hazeGlowStrength(preset);
   }
   c.cloudLit.value.setHex(preset.skyCloudLit ?? 0xfff5df);
   c.cloudShade.value.setHex(preset.skyCloudShade ?? 0xa5b5c6);
@@ -119,5 +122,5 @@ export function atmosphereState(sky) {
     cloudCoverage: sky.cloudCoverage.value, cloudDensity: sky.cloudDensity.value,
     cloudScale: sky.cloudScale.value, cloudElevation: sky.cloudElevation.value, cloudSpeed: sky.cloudSpeed.value,
     paletteBlend: c.paletteBlend.value, sun: sky.sunPosition.value.toArray(),
-    sunGlowStrength: c.sunGlowStrength?.value??0, groundHaze: c.groundHaze.value.getHex() };
+    sunGlowStrength: c.sunGlowStrength?.value??0, hazeGlow: c.hazeGlow?.value??0, groundHaze: c.groundHaze.value.getHex() };
 }

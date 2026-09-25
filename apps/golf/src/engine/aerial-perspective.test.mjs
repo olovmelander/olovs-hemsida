@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Color, FogExp2 } from 'three/webgpu';
 import { createAerialPerspective } from './aerial-perspective.mjs';
 import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
+import { paintedAtmosphere } from './painted-world-palette.mjs';
 
 describe('distant landscape haze', () => {
   it('keeps shaded relief visible even at the maximum authored distance haze', () => {
@@ -18,9 +19,25 @@ describe('distant landscape haze', () => {
       fog.color.setHex(p.fog); fog.density = p.dens;
       aerial.setPreset(p);
       expect(aerial.node).toBe(node);
-      expect(aerial.snapshot()).toEqual({ colour: p.fog, density: p.dens, maximum: p.hazeMax });
+      expect(aerial.snapshot()).toMatchObject({ colour: p.fog, density: p.dens, maximum: p.hazeMax });
     }
     fog.color.setHex(0x718296);
     expect(aerial.snapshot().colour).toBe(0x718296);
+  });
+  it('warms toward the sun with a share of the sky\'s own glow, and only where the sky has one', () => {
+    const fog = new FogExp2(), warm = createAerialPerspective(fog), plain = createAerialPerspective(fog, { sunward: false });
+    for (const name of Object.keys(ATMOSPHERE_PRESETS)) {
+      const p = paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+      warm.setPreset(p); plain.setPreset(p);
+      const { glow, glowStrength } = warm.snapshot();
+      expect(glowStrength, name).toBeCloseTo((p.skySunGlowStrength ?? 0) * (p.hazeGlow ?? 0), 6);
+      expect(glowStrength > 0, name).toBe(['golden', 'dawn', 'midnight', 'host'].includes(name));
+      /* never the sky's full glow: the haze takes a share of it */
+      expect(glowStrength, name).toBeLessThan(0.5);
+      if (glowStrength) expect(glow, name).toBe(p.skySunGlow);
+      /* the before (?hazewarm=0) builds the plain haze and takes no glow */
+      expect(plain.snapshot().glowStrength, name).toBe(0);
+    }
+    expect(plain.node).not.toBe(warm.node);
   });
 });

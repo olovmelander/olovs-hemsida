@@ -32,7 +32,7 @@ describe('painted world palette',()=>{
         expect(paintedSeason.value).toBe(name==='host'?1:0);
         expect(paintedTurfStrength.value).toBe(name==='noon'?.85:1);
         expect(paintedGrassSheen.value).toBeGreaterThan(0);
-        expect(atmosphereState(sky).sunGlowStrength>0).toBe(name==='golden');
+        expect(atmosphereState(sky).sunGlowStrength>0).toBe(['golden','dawn','midnight','host'].includes(name));
         expect(paintedWaterShallow.value).toBe(shallow);expect(paintedWaterDeep.value).toBe(deep);
         expect(foliageLight.value).toBe(foliage);
         expect(shallow.getHex()).toBe(p.water[0]);expect(deep.getHex()).toBe(p.water[1]);
