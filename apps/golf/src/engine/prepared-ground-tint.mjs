@@ -30,7 +30,9 @@ export function preparedTintAllowed(search) {
     // nor do the water batch's: the water's light and ripples are drawn; its prepared fields are untouched
     'nordicwater', 'waterwind',
     // nor do the glow batch's: the glow's threshold and the clouds' shine are drawn
-    'glowthreshold', 'cloudglow']);
+    'glowthreshold', 'cloudglow',
+    // nor do the buildings batch's: a wall's foot and a roof's ridge are drawn
+    'wallbase', 'roofridge']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

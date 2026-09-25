@@ -109,6 +109,7 @@ import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrif
 import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
+import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } from './engine/building-paint.mjs';
 import { waterShading } from './engine/water-shading.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
@@ -2168,6 +2169,21 @@ const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
    both. Every attempt records a diagnostic -- loaded or fallback with its
    reason -- because a silent miss here looks exactly like a course that simply
    has no authored buildings. */
+/* PAINTED BUILDINGS (engine/building-paint.mjs): a wall's foot darker where it
+   meets the ground, on the batch below and -- lighter and lower -- on the models
+   made in Blender, every colour they were made with kept (?wallbase=0 is the
+   before); and a gable or hip roof lit along its ridge (?roofridge=0). */
+const WALL_BASE_ON = new URLSearchParams(location.search).get('wallbase') !== '0';
+const ROOF_RIDGE_ON = new URLSearchParams(location.search).get('roofridge') !== '0';
+stats.buildingPaint = { wallBase: WALL_BASE_ON, roofRidge: ROOF_RIDGE_ON, models: 0, modelMeshes: 0, modelMaterials: 0,
+  modelVertices: 0, modelCopies: 0, modelCopiedVertices: 0, batchVertices: 0, batchTriangles: 0, roofSlopes: 0, stampMs: 0 };
+function paintBuildingModel(root) {
+  if (!WALL_BASE_ON || !root) return;
+  const started = performance.now(), report = groundModel(root, groundCache(terrainH)), paint = stats.buildingPaint;
+  paint.models++; paint.modelMeshes += report.meshes; paint.modelMaterials += report.materials;
+  paint.modelVertices += report.vertices; paint.modelCopies += report.copies; paint.modelCopiedVertices += report.copiedVertices;
+  paint.stampMs += performance.now() - started;
+}
 const AUTHORED_BUILDING_DIAGNOSTICS = [];
 let facilityArchitecture = null;
 let landmarkArchitecture = null;
@@ -2200,6 +2216,7 @@ async function installFacilityArchitecture() {
         && (new URLSearchParams(location.search).get('bana') || CMETA.slug) === CMETA.slug,
     });
     stats.facilities = facilityArchitecture.report;
+    paintBuildingModel(facilityArchitecture.root);
     if (stats.facilities.status === 'loaded') for (const f of facilityArchitecture.facilityFootprints || []) {
       const q = { ring: f.ring, bb: ringBBox(f.ring) }; II.add(q, q.bb, 3);
     }
@@ -3237,6 +3254,7 @@ if (SCENERY?.loadLandmarks) {
     signal: landmarkAbortController.signal,
   });
   stats.landmarkModels = landmarkArchitecture.report;
+  for (const root of landmarkArchitecture.roots || []) paintBuildingModel(root);
   stats.draws += landmarkArchitecture.report.meshes;
   stats.tris += landmarkArchitecture.report.triangles;
 }
@@ -6855,6 +6873,18 @@ if (M.infra.objectPlacement === 'mapped-only') {
     K.push(...col, ...col, ...col);
   };
   const quad = (a, b, c, d, col) => { tri(a, b, c, col); tri(a, c, d, col); };
+  /* a triangle with a colour at each corner, and a gable or hip roof's slope in them:
+     a touch darker at its eaves, lit along its ridge (engine/building-paint.mjs) */
+  const triC = (a, b, c, ca, cb, cc) => {
+    V.push(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2]);
+    K.push(...ca, ...cb, ...cc);
+  };
+  const slope = (points, col, shade = true) => {
+    stats.buildingPaint.roofSlopes++;
+    if (ROOF_RIDGE_ON) roofSlope(triC, points, col, { shade });
+    else if (points.length === 4) quad(...points, col);
+    else tri(...points, col);
+  };
   const areaOf = r => { let a = 0; for (let i = 0, j = r.length - 1; i < r.length; j = i++) a += (r[j][0] + r[i][0]) * (r[j][1] - r[i][1]); return Math.abs(a / 2); };
   const pigment = key => L(PAINTED_SCENERY[key]);
   const WALLS = [[0.55, pigment('wallRed')], [0.70, pigment('wallOchre')],
@@ -6934,10 +6964,10 @@ if (M.infra.objectPlacement === 'mapped-only') {
       const rise = clampf(dep * 0.24, 1.6, 3.2), rin = dep * 0.45;
       const P = (u, v, y) => [a0[0] + ux * u + nx * v, y, a0[1] + uz * u + nz * v];
       const e = base + hgt, r = e + rise, rm = dep / 2;
-      quad(P(-0.5, -0.5, e), P(Lb + 0.5, -0.5, e), P(Lb + 0.5 - rin, rm, r), P(-0.5 + rin, rm, r), roof);
-      quad(P(Lb + 0.5, dep + 0.5, e), P(-0.5, dep + 0.5, e), P(-0.5 + rin, rm, r), P(Lb + 0.5 - rin, rm, r), roof);
-      tri(P(Lb + 0.5, -0.5, e), P(Lb + 0.5, dep + 0.5, e), P(Lb + 0.5 - rin, rm, r), roof);
-      tri(P(-0.5, dep + 0.5, e), P(-0.5, -0.5, e), P(-0.5 + rin, rm, r), roof);
+      slope([P(-0.5, -0.5, e), P(Lb + 0.5, -0.5, e), P(Lb + 0.5 - rin, rm, r), P(-0.5 + rin, rm, r)], roof);
+      slope([P(Lb + 0.5, dep + 0.5, e), P(-0.5, dep + 0.5, e), P(-0.5 + rin, rm, r), P(Lb + 0.5 - rin, rm, r)], roof);
+      slope([P(Lb + 0.5, -0.5, e), P(Lb + 0.5, dep + 0.5, e), P(Lb + 0.5 - rin, rm, r)], roof);
+      slope([P(-0.5, dep + 0.5, e), P(-0.5, -0.5, e), P(-0.5 + rin, rm, r)], roof);
     } else if (B && area / (4 * B.hw * B.hd) > 0.68 && B.hd * 2 < 26) {
       /* gable: eaves rectangle inflated for overhang, ridge along the long axis */
       const c = Math.cos(B.ang), s = Math.sin(B.ang);
@@ -6945,10 +6975,11 @@ if (M.infra.objectPlacement === 'mapped-only') {
       const rise = clampf(Math.tan(0.52) * B.hd, 1.2, 3.4);
       const P = (u, v, y) => [B.cx + u * c - v * s, y, B.cz + u * s + v * c];
       const e = base + hgt, r = e + rise;
-      quad(P(-hw, -hd, e), P(hw, -hd, e), P(hw, 0, r), P(-hw, 0, r), roof);
-      quad(P(hw, hd, e), P(-hw, hd, e), P(-hw, 0, r), P(hw, 0, r), roof);
-      tri(P(hw, -hd, e), P(hw, hd, e), P(hw, 0, r), wall);
-      tri(P(-hw, hd, e), P(-hw, -hd, e), P(-hw, 0, r), wall);
+      slope([P(-hw, -hd, e), P(hw, -hd, e), P(hw, 0, r), P(-hw, 0, r)], roof);
+      slope([P(hw, hd, e), P(-hw, hd, e), P(-hw, 0, r), P(hw, 0, r)], roof);
+      /* the gable ends, cut where the slopes beside them are */
+      slope([P(hw, -hd, e), P(hw, hd, e), P(hw, 0, r)], wall, false);
+      slope([P(-hw, hd, e), P(-hw, -hd, e), P(-hw, 0, r)], wall, false);
     } else {
       const faces = triangulate(ring);
       for (const [a, b2, c2] of faces)
@@ -7053,6 +7084,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
         stats.sourceRoofTriangles += b.roofSurface.triangleIndices.length / 3;
       }
       scene.add(authoredModel.object);
+      paintBuildingModel(authoredModel.object);
       const details = authoredModel.details;
       stats.authoredBuildingModels++;
       stats.authoredBuildingMeshes += details.meshes;
@@ -7389,11 +7421,20 @@ if (M.infra.objectPlacement === 'mapped-only') {
   g.setAttribute('position', new THREE.Float32BufferAttribute(V, 3));
   g.setAttribute('color', new THREE.Float32BufferAttribute(K, 3));
   g.computeVertexNormals();
-  const m = new THREE.Mesh(g, new THREE.MeshStandardNodeMaterial({
-    vertexColors: true, roughness: 0.82, metalness: 0, flatShading: true, side: THREE.DoubleSide }));
+  const buildingMaterial = new THREE.MeshStandardNodeMaterial({
+    vertexColors: true, roughness: 0.82, metalness: 0, flatShading: true, side: THREE.DoubleSide });
+  /* the wall's foot: every vertex knows the ground under it (engine/building-paint.mjs) */
+  if (WALL_BASE_ON) {
+    const started = performance.now();
+    stats.buildingPaint.batchVertices = stampGround(g, groundCache(terrainH));
+    stats.buildingPaint.stampMs += performance.now() - started;
+    buildingMaterial.colorNode = wallFootColour(BUILDING_PAINT.foot.batch);
+  }
+  const m = new THREE.Mesh(g, buildingMaterial);
   m.castShadow = true; m.receiveShadow = true;
   scene.add(m);
   stats.draws++; stats.tris += V.length / 9;
+  stats.buildingPaint.batchTriangles = V.length / 9;
 
   /* the distant town: each far building is its oriented box, roof-grey on top,
      read through a kilometre of haze */
@@ -11431,6 +11472,7 @@ window.V3D = {
            sourceRoofTriangles: stats.sourceRoofTriangles | 0,
            architecturalBuildings: stats.architecturalBuildings | 0,
            architecturalTriangles: stats.architecturalTriangles | 0,
+           buildingPaint: stats.buildingPaint,
            authoredBuildingModels: stats.authoredBuildingModels | 0,
            authoredBuildingMeshes: stats.authoredBuildingMeshes | 0,
            authoredBuildingTriangles: stats.authoredBuildingTriangles | 0,
