@@ -228,6 +228,19 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   two-metre strip bare every 94 m. It fades out at 330 blade lengths, hides
   above 40 m and sways on the one wind. `?neargrass=0` is the drawn before.
   See [the grass round the ball](docs/visual-near-grass-2026-09-26.md).
+- The wild cover (`wild-cover.mjs`) is planted from what already stands, by a
+  hash of where it stands, so the prepared scatter is untouched:
+  - blueberry scrub and ferns on the forest floor under the trees in zones A
+    and B, by each species' mix, where the ground cover stops (`forest` over
+    0.55), off paths, mown ground and water;
+  - clumps of summer flowers in one-kind drifts beside the rough's tussocks and
+    the fringe's clumps, only where a tussock could stand.
+
+  Measured-only grounds grow none of it; giving them any needs the owner's
+  word. Each kind is drawn in tiles, one draw a tile in view, left out past its
+  fade (scrub 320 m, ferns 220 m, flowers 66 m). In Höst the scrub reddens, the
+  ferns rust and the flowers' tiles are left out. `?forestfloor=0` and
+  `?wildflowers=0` are drawn befores. See [the wild cover](docs/visual-wild-cover-2026-09-26.md).
 - Walls darken at their foot where they meet the ground (`building-paint.mjs`):
   each vertex carries the visible ground's height under it (`aGround`, stamped
   at load), and the shader scales the material's own colour, walls only. The

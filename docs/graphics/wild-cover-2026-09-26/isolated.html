@@ -1,0 +1,346 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Wild cover: isolated checks</title>
+<!-- The app's own ground atlas and material, and the wild cover (wild-cover.mjs)
+     planted by main.js's rules round two woods beside an isolated hole: the woods'
+     floor under the near trees, and the summer flowers beside the rough's tussocks
+     and along the fairway's fringe. Served from the repository root by
+     check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+/* A Chromium that predates the string form of the view swizzle three r186 sends
+   rejects the identity one (as studies/tree-shadow-proof.mjs); a current Chrome needs nothing. */
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+const THREE = await import('three/webgpu');
+const { uniform, float, color, mix, texture, positionWorld } = await import('three/tsl');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, PAINTED_GROUND, PAINTED_SCENERY } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { setPaintedWorldLighting } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { createGroundAtlas } = await import('/apps/golf/src/engine/atlas.js');
+const { SURFACE } = await import('/apps/golf/src/engine/surface.js');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const { windSway } = await import('/apps/golf/src/engine/one-wind.mjs');
+const { tussockBlades, bladeNormalsFront, seenBladeNormal, grassCover, COVER_TUNED_SHARE } = await import('/apps/golf/src/engine/ground-cover.mjs');
+const NOW = await import('/apps/golf/src/engine/material.js');
+const WILD = await import('/apps/golf/src/engine/wild-cover.mjs');
+
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const lowQuality = params.get('q') === 'lo';
+const W = +(params.get('w') || 480), H = +(params.get('h') || 272);
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+const b64 = f => { const u = new Uint8Array(f.buffer); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000)); return btoa(s); };
+
+try {
+  /* as the app: 4x MSAA, HalfFloat output, reversed depth on WebGPU only (main.js); the sun casts */
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.shadowMap.enabled = true;
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true, samples: 4 });
+  const settle = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    let last = null, renders = 0, settled = false, calls = 0;
+    while (!settled && renders < 6) {
+      renderer.setRenderTarget(target);
+      renderer.render(scene, camera);
+      calls = renderer.info.render.drawCalls;
+      renderer.setRenderTarget(null);
+      const now = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+      renders++;
+      settled = last !== null && now.every((v, k) => v === last[k]);
+      last = now;
+      if (!settled) await frame();
+    }
+    return { px: b64(Float32Array.from(last, THREE.DataUtils.fromHalfFloat)), renders, settled, calls };
+  };
+  const show = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    for (let i = 0; i < 3; i++) { renderer.render(scene, camera); await frame(); }
+  };
+
+  /* THE HOLE (docs/graphics/turf-2026-09-26/isolated.html), flat at 0 m, and two woods:
+     one left of the fairway's wide middle, one right of its first half, past the path */
+  const Lin = hex => { const c = new THREE.Color(hex); return [c.r, c.g, c.b]; };
+  const GC = Object.fromEntries(Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, Lin(hex)]));
+  const GSHADE = {
+    [SURFACE.ROUGH]: [0.62, 1.25, 0.06, 0], [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.5],
+    [SURFACE.FAIRWAY]: [1.55, 0.44, 0.28, 1.15], [SURFACE.GREEN]: [2.85, 0.13, 0.54, 0.9],
+    [SURFACE.FRINGE]: [2.0, 0.30, 0.34, 0.9], [SURFACE.TEE]: [2.2, 0.22, 0.40, 1.3],
+    [SURFACE.SAND]: [2.3, 0.58, 0.14, 0], [SURFACE.PATH]: [3.2, 0.34, 0.18, 0],
+    [SURFACE.HEATH]: [0.85, 1.05, 0.09, 0], [SURFACE.FOREST]: [0.55, 1.35, 0.05, 0],
+    [SURFACE.SHORE]: [1.6, 0.75, 0.22, 0],
+    [SURFACE.WETLAND]: [0.72, 0.92, 0.10, 0], [SURFACE.ROCK]: [1.8, 0.48, 0.16, 0],
+    [SURFACE.ASPHALT]: [3.4, 0.18, 0.34, 0], [SURFACE.GRAVEL]: [2.6, 0.46, 0.12, 0],
+    [SURFACE.DIRT]: [1.9, 0.55, 0.08, 0], [SURFACE.MUD]: [1.2, 0.38, 0.30, 0],
+  };
+  const square = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
+  const circle = (cx, cz, r, n = 64) => Array.from({ length: n }, (_, i) => [cx + Math.cos(i / n * Math.PI * 2) * r, cz + Math.sin(i / n * Math.PI * 2) * r]);
+  const HOLE = {
+    fairway: [[-22, 40], [22, 40], [22, 190], [46, 190], [46, 270], [22, 270], [22, 340], [-22, 340], [-22, 270], [-46, 270], [-46, 190], [-22, 190]],
+    green: [0, 375, 15], fringe: [0, 375, 17.5], bunkers: [[-21, 366, 5], [21, 388, 6], [12, 150, 4]],
+    pathDown: [34, 0, 37, 480], tee: [-4, -6, 4, 2],
+    woodLeft: [-112, 150, -60, 330], woodRight: [52, 50, 116, 180],
+  };
+  const holeAtlas = createGroundAtlas({ CORE: { x0: -120, z0: -30, x1: 120, z1: 520 }, res: 1,
+    HOLES: [{ n: 1, line: [[0, -2], [0, 375]] }], features: [
+      { surface: SURFACE.FAIRWAY, rings: [HOLE.fairway] },
+      { surface: SURFACE.GREEN, rings: [circle(...HOLE.green)] },
+      { surface: SURFACE.FRINGE, rings: [circle(...HOLE.fringe)] },
+      { surface: SURFACE.SAND, rings: HOLE.bunkers.map(b => circle(...b, 40)) },
+      { surface: SURFACE.PATH, rings: [square(...HOLE.pathDown)] },
+      { surface: SURFACE.TEE, rings: [square(...HOLE.tee)] },
+      { surface: SURFACE.FOREST, rings: [square(...HOLE.woodLeft), square(...HOLE.woodRight)] },
+    ] });
+  const GDETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const uGroundSun = uniform(new THREE.Vector3(0, 1, 0));
+  const TN = 16, tintData = new Uint8Array(TN * TN * 4), roughHex = PAINTED_GROUND.rough;
+  for (let k = 0; k < TN * TN; k++) tintData.set([(roughHex >> 16) & 255, (roughHex >> 8) & 255, roughHex & 255, 128], k * 4);
+  const tintTexture = new THREE.DataTexture(tintData, TN, TN, THREE.RGBAFormat, THREE.UnsignedByteType);
+  Object.assign(tintTexture, { colorSpace: THREE.SRGBColorSpace, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, generateMipmaps: false, flipY: false, needsUpdate: true });
+  const GTINT = { near: { texture: tintTexture, bounds: { x0: -600, z0: -600, x1: 600, z1: 1400 }, fadeMetres: 8 } };
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xff00ff);
+  const sun = new THREE.DirectionalLight(0xffffff, 3), hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -90, right: 90, top: 90, bottom: -90, near: 1, far: 500 });
+  sun.shadow.bias = -0.0004;
+  const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+  scene.add(sun, sun.target, hemi, sky);
+  /* the ground's 5 m grid set off every low view's camera plane (docs/graphics/near-grass-2026-09-26/isolated.html) */
+  const plane = new THREE.PlaneGeometry(1200, 2000, 240, 400).rotateX(-Math.PI / 2).translate(3.5, 0, 401.25);
+  const decorate = NOW.createV2GroundMaterialDecorator({ atlas: holeAtlas, DETAIL: GDETAIL, C: GC, SHADE: GSHADE, uSun: uGroundSun, tint: GTINT,
+    cutTone: 1, mowStrength: 1, surfaceGloss: true, surfaceEdges: true, groundRelief: true,
+    acrossEdges: true, stripeReach: true, hardGround: true, turfGrain: true, groundWear: true, bareGround: true });
+  const ground = new THREE.Mesh(plane, decorate(new THREE.MeshStandardNodeMaterial()));
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  /* THE TREES: a jittered stand filling each wood, pine, spruce and birch by hash, as
+     plain painted shapes that cast the woods' shade (the app draws its own) */
+  const SPECIES = ['pine', 'spruce', 'birch'];
+  const trees = [], treeDraw = { pine: [], spruce: [], birch: [] };
+  for (const [x0, z0, x1, z1] of [HOLE.woodLeft, HOLE.woodRight]) {
+    for (let x = x0 + 2; x < x1 - 1; x += 4.6) for (let z = z0 + 2; z < z1 - 1; z += 4.6) {
+      const i = Math.round(x * 10), j = Math.round(z * 10);
+      const px = x + (WILD.hash(i, j, 1) - 0.5) * 3.2, pz = z + (WILD.hash(i, j, 2) - 0.5) * 3.2;
+      const sp = SPECIES[Math.min(2, Math.floor(WILD.hash(i, j, 3) * 3))];
+      const height = 13 + WILD.hash(i, j, 4) * 8, crown = sp === 'birch' ? 2.3 + WILD.hash(i, j, 5) : 2.0 + WILD.hash(i, j, 5) * 1.2;
+      const line = Math.abs(px), zone = line <= 90 ? 1 : line <= 300 ? 2 : 3;
+      trees.push(px, pz, sp, crown, zone);
+      treeDraw[sp].push([px, pz, height, crown]);
+    }
+  }
+  const trunkGeo = new THREE.CylinderGeometry(0.14, 0.24, 1, 6).translate(0, 0.5, 0);
+  const coneGeo = new THREE.ConeGeometry(1, 1, 8).translate(0, 0.5, 0);
+  const birchGeo = new THREE.SphereGeometry(1, 10, 8);
+  const treeMeshes = [];
+  const instancedTrees = (geo, hex, list, place) => {
+    const mesh = new THREE.InstancedMesh(geo, new THREE.MeshStandardNodeMaterial({ color: hex, roughness: 0.9, flatShading: true }), list.length);
+    const m4 = new THREE.Matrix4();
+    list.forEach((t, k) => mesh.setMatrixAt(k, place(m4, t)));
+    mesh.castShadow = mesh.receiveShadow = true;
+    scene.add(mesh);
+    treeMeshes.push(mesh);
+    return mesh;
+  };
+  const all = [...treeDraw.pine, ...treeDraw.spruce, ...treeDraw.birch];
+  instancedTrees(trunkGeo, 0x6a5040, all, (m, [x, z, h]) => m.compose(new THREE.Vector3(x, 0, z), new THREE.Quaternion(), new THREE.Vector3(1, h * 0.6, 1)));
+  instancedTrees(coneGeo, 0x2f5a35, treeDraw.pine, (m, [x, z, h, r]) => m.compose(new THREE.Vector3(x, h * 0.45, z), new THREE.Quaternion(), new THREE.Vector3(r, h * 0.58, r)));
+  instancedTrees(coneGeo, 0x244a30, treeDraw.spruce, (m, [x, z, h, r]) => m.compose(new THREE.Vector3(x, h * 0.18, z), new THREE.Quaternion(), new THREE.Vector3(r, h * 0.85, r)));
+  instancedTrees(birchGeo, 0x5b8c35, treeDraw.birch, (m, [x, z, h, r]) => m.compose(new THREE.Vector3(x, h * 0.72, z), new THREE.Quaternion(), new THREE.Vector3(r, h * 0.3, r)));
+
+  /* THE TUSSOCKS AND THE FRINGE, by the ground cover's rules (main.js coverCell): the
+     5.2 m lattice, jittered; off mown ground, paths and the woods, 24-300 m from the
+     line; and the fringe's clumps just past the fairway's edge */
+  const classify = (x, z) => holeAtlas.classifyAt(x, z);
+  const T = [], ET = [];
+  const GAP = 5.2;
+  for (let x = -118; x < 118; x += GAP) for (let z = -28; z < 518; z += GAP) {
+    const i = Math.round(x / GAP), j = Math.round(z / GAP);
+    if (lowQuality && WILD.hash(i, j, 9) < 0.5) continue;
+    const px = x + (WILD.hash(i, j, 1) - 0.5) * GAP * 1.8, pz = z + (WILD.hash(i, j, 2) - 0.5) * GAP * 1.8;
+    const c = classify(px, pz);
+    if (c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.1 || c.forest > 0.55) continue;
+    if (c.dLine < 24 || c.dLine > 300) continue;
+    if (WILD.hash(i, j, 3) < 0.7) T.push(px, 0, pz, 0.6 + WILD.hash(i, j, 4) * 0.9, WILD.hash(i, j, 5) * Math.PI * 2);
+  }
+  /* the fringe: clumps along the fairway's outline, 0.4-1.4 m outside it */
+  const outline = HOLE.fairway;
+  for (let e = 0; e < outline.length; e++) {
+    const [ax, az] = outline[e], [bx, bz] = outline[(e + 1) % outline.length];
+    const len = Math.hypot(bx - ax, bz - az), nx = (bz - az) / len, nz = -(bx - ax) / len;
+    for (let d = 0; d < len; d += lowQuality ? 1.6 : 0.8) {
+      const k = Math.round((ax + bx) * 7 + d * 13);
+      const out = 0.4 + WILD.hash(k, e, 1);
+      const px = ax + (bx - ax) * d / len + nx * out, pz = az + (bz - az) * d / len + nz * out;
+      const c = classify(px, pz);
+      if (c.fair > 0.03 || c.path > 0.1 || c.forest > 0.55) continue;
+      ET.push(px, 0, pz, 0.55 + WILD.hash(k, e, 2) * 0.6, WILD.hash(k, e, 3) * Math.PI * 2);
+    }
+  }
+  /* the tussocks as the app draws them (main.js tuftMat, without its detail tint) */
+  const tuftGeo = (() => {
+    const g = new THREE.BufferGeometry(), { positions, normals } = tussockBlades();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(bladeNormalsFront(normals), 3));
+    return g;
+  })();
+  const tuftMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
+  tuftMat.colorNode = grassCover(mix(color(PAINTED_SCENERY.tuft[0]), color(PAINTED_SCENERY.tuft[1]), texture(GDETAIL, positionWorld.xz.mul(0.03)).b.mul(COVER_TUNED_SHARE)));
+  tuftMat.normalNode = seenBladeNormal();
+  const tufts = new THREE.InstancedMesh(tuftGeo, tuftMat, T.length / 5);
+  { const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), up = new THREE.Vector3(0, 1, 0);
+    for (let k = 0; k < T.length / 5; k++) tufts.setMatrixAt(k, m4.compose(new THREE.Vector3(T[k * 5], 0, T[k * 5 + 2]), q.setFromAxisAngle(up, T[k * 5 + 4]), new THREE.Vector3(T[k * 5 + 3], T[k * 5 + 3], T[k * 5 + 3]))); }
+  tufts.receiveShadow = true;
+  scene.add(tufts);
+
+  /* THE WILD COVER, as main.js plants and draws it */
+  const floor = WILD.plantForestFloor({ trees, classify, heightAt: () => 0, lowQuality });
+  const flowers = WILD.plantFlowers({ tufts: T, edge: ET, heightAt: () => 0, classify });
+  const drawn = WILD.createForestFloor({ ...floor, DETAIL: GDETAIL, uSun: uGroundSun, sunThrough: float(1) });
+  const flowerPart = WILD.createWildFlowers({ flowers, uSun: uGroundSun, sunThrough: float(1) });
+  const wild = { scrub: drawn.scrub, fern: drawn.fern, flowers: flowerPart };
+  for (const part of Object.values(wild)) if (part) scene.add(part.group);
+
+  /* straight down over the rough between the fairway's right edge (x = 22) and the path (x = 34-37),
+     where the flowers stand thickest: the fairway, the rough and the path all in view */
+  const meadowTopZ = (() => {
+    let best = 60, most = -1;
+    for (let z = 50; z <= 180; z += 2) {
+      let n = 0;
+      for (let k = 0; k < flowers.length; k += 7) if (Math.abs(flowers[k] - 28) < 8 && Math.abs(flowers[k + 2] - z) < 4.5) n++;
+      if (n > most) { most = n; best = z; }
+    }
+    return best;
+  })();
+  const VIEWS = {
+    /* the app's tee camera: 1.7 m over the tee, down the hole */
+    tee: () => cam(48, [0, 1.7, 0], [0, 3, 260]),
+    /* from the fairway's left edge, looking into the left wood */
+    woodEdge: () => cam(50, [-40, 1.7, 232], [-75, 1, 250]),
+    /* from the middle of the fairway, across to the left wood */
+    woodFar: () => cam(50, [0, 1.7, 210], [-80, 4, 250]),
+    /* in the rough right of the tee, across the tussocks and their flowers */
+    meadow: () => cam(50, [40, 1.7, 20], [70, 0.4, 70]),
+    /* down among a drift, between the path and the right wood */
+    meadowLow: () => cam(55, [40, 1.3, 30], [47, 0, 40]),
+    /* in the right wood, among its ferns and scrub */
+    inWood: () => cam(55, [60, 1.7, 100], [70, 0.3, 112]),
+    /* along the fairway's fringe */
+    fringe: () => cam(50, [18, 1.7, 90], [24, 0.2, 130]),
+    /* the app's hole view: 41 m up behind the tee */
+    overview: () => cam(48, [-26, 41, -73.5], [0, 4, 150]),
+    /* straight down from 12 m over the left wood's east edge (x = -60), and from 10 m over the flowers */
+    woodTop: () => top(-58, 240, 12),
+    meadowTop: () => top(28, meadowTopZ, 10),
+    /* from 10 m over the wide rough right of the path, south of the right wood, looking up the hole */
+    flowerFade: () => cam(50, [70, 10, -45], [70, 0, 55]),
+  };
+  function cam(fov, p, t) { const c = new THREE.PerspectiveCamera(fov, W / H, 0.1, 14000); c.position.set(...p); c.lookAt(...t); c.userData.focus = t; return c; }
+  function top(x, z, h) { const c = new THREE.PerspectiveCamera(50, W / H, 0.05, 400); c.position.set(x, h, z); c.up.set(0, 0, 1); c.lookAt(x, 0, z); c.userData.focus = [x, 0, z]; return c; }
+  const cameras = {};
+  const camera = view => (cameras[view] ??= (c => { c.updateMatrixWorld(true); return c; })(VIEWS[view]()));
+  const light = (p, focus) => {
+    const d = new THREE.Vector3(...p.dir).normalize();
+    sun.color.setHex(p.sun); sun.intensity = p.int;
+    sun.target.position.set(focus[0], 0, focus[2]);
+    sun.position.copy(sun.target.position).addScaledVector(d, 220);
+    sun.target.updateMatrixWorld(); sun.updateMatrixWorld();
+    hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    renderer.toneMappingExposure = p.exp;
+    return d;
+  };
+  const set = ({ view = 'tee', preset = 'noon', sway = 0, floor: withFloor = true, scrub = withFloor, fern = withFloor, flowers: withFlowers = true,
+    sky: withSky = false, trees: withTrees = true, treeShadows = true }) => {
+    const p = painted(preset);
+    setPaintedWorldLighting(p, preset);
+    const c = camera(view);
+    uGroundSun.value.copy(light(p, c.userData.focus));
+    setAtmospherePreset(sky, p); setSkyGroundHaze(sky, finalFog(p));
+    sky.visible = withSky;
+    windSway.value = sway;
+    if (wild.scrub) wild.scrub.group.visible = scrub;
+    if (wild.fern) wild.fern.group.visible = fern;
+    if (wild.flowers) wild.flowers.group.visible = withFlowers;
+    for (const mesh of treeMeshes) { mesh.visible = withTrees; mesh.castShadow = treeShadows; }
+    /* each kind's tiles past its fade left out, as main.js's frame does */
+    for (const part of Object.values(wild)) if (part) part.update(c);
+    return c;
+  };
+  const drawnTiles = () => Object.fromEntries(Object.entries(wild).map(([k, part]) => [k, part ? part.tiles.filter(t => t.visible).length : 0]));
+  /* the tiles the renderer draws: its kind shown, the tile left in, and its sphere in the eye's frustum (as three culls) */
+  const frustum = new THREE.Frustum(), viewProjection = new THREE.Matrix4();
+  const inView = c => {
+    viewProjection.multiplyMatrices(c.projectionMatrix, c.matrixWorldInverse);
+    frustum.setFromProjectionMatrix(viewProjection, c.coordinateSystem, c.reversedDepth);
+    return Object.fromEntries(Object.entries(wild).map(([k, part]) => [k, part && part.group.visible ? part.tiles.filter(t => t.visible && frustum.intersectsObject(t)).length : 0]));
+  };
+  window.__scene = async o => { const c = set(o); const r = await settle(scene, c); return { ...r, tiles: drawnTiles(), inView: inView(c) }; };
+  window.__show = async o => { const c = set({ ...o, sky: true }); await show(scene, c); return true; };
+  /* where each pixel's centre meets the flat ground, row 0 at the top: x, z and the distance */
+  window.__ground = view => {
+    const c = camera(view), out = new Float32Array(W * H * 3), v = new THREE.Vector3(), o = new THREE.Vector3();
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      v.set((x + 0.5) / W * 2 - 1, 1 - (y + 0.5) / H * 2, 0.5).unproject(c);
+      o.copy(c.position); v.sub(o).normalize();
+      const t = -o.y / v.y, i = (y * W + x) * 3;
+      out[i] = t > 0 ? o.x + v.x * t : NaN; out[i + 1] = t > 0 ? o.z + v.z * t : NaN; out[i + 2] = t > 0 ? t : NaN;
+    }
+    return b64(out);
+  };
+  /* for each pixel, whether the ground it looks at keeps a kind's rule within `reach` metres: 0 nowhere
+     (the pixel's point and 16 round it), 2 everywhere, 1 in part */
+  const RULES = {
+    floor: c => c.forest > WILD.WILD_COVER.forest.forestAbove && !(c.path > 0.1 || c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.wet > 0.3),
+    flowers: c => !(c.fair > 0.03 || c.green > 0.02 || c.tee > 0.02 || c.sand > 0.05 || c.path > 0.1 || c.forest > WILD.WILD_COVER.forest.forestAbove),
+  };
+  window.__rule = (view, rule, reach) => {
+    const c = camera(view), out = new Uint8Array(W * H), v = new THREE.Vector3(), o = new THREE.Vector3(), keeps = RULES[rule];
+    const ring = [];
+    for (const r of [reach / 2, reach]) for (let a = 0; a < 8; a++) ring.push([Math.cos(a / 8 * Math.PI * 2) * r, Math.sin(a / 8 * Math.PI * 2) * r]);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      v.set((x + 0.5) / W * 2 - 1, 1 - (y + 0.5) / H * 2, 0.5).unproject(c);
+      o.copy(c.position); v.sub(o).normalize();
+      const t = -o.y / v.y;
+      if (!(t > 0)) { out[y * W + x] = 255; continue; }
+      const gx = o.x + v.x * t, gz = o.z + v.z * t;
+      let yes = keeps(classify(gx, gz)) ? 1 : 0;
+      for (const [dx, dz] of ring) yes += keeps(classify(gx + dx, gz + dz)) ? 1 : 0;
+      out[y * W + x] = yes === 0 ? 0 : yes === ring.length + 1 ? 2 : 1;
+    }
+    let s = '';
+    for (let i = 0; i < out.length; i += 0x8000) s += String.fromCharCode(...out.subarray(i, i + 0x8000));
+    return btoa(s);
+  };
+  window.__result = { backend, lowQuality, W, H, ready: true, hole: HOLE, meadowTopZ,
+    planted: { trees: trees.length / 5, candidates: floor.candidates, scrub: floor.scrub.length / 6, ferns: floor.fern.length / 6,
+      tufts: T.length / 5, edge: ET.length / 5, flowerClumps: flowers.length / 7,
+      tiles: Object.fromEntries(Object.entries(wild).map(([k, part]) => [k, part ? part.tiles.length : 0])) },
+    flowerList: flowers, scrubList: floor.scrub, fernList: floor.fern,
+    views: Object.fromEntries(Object.keys(VIEWS).map(k => [k, camera(k).position.toArray()])) };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>

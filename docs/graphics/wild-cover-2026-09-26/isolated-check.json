@@ -1,0 +1,1104 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "f05006e8",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "the wild cover adds one draw for each of its tiles left in and in view",
+     "ok": true,
+     "tiles": {
+      "scrub": 3,
+      "fern": 3,
+      "flowers": 12
+     },
+     "rows": {
+      "tee": {
+       "added": 7,
+       "inView": 7,
+       "byKind": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "woodEdge": {
+       "added": 6,
+       "inView": 6,
+       "byKind": {
+        "scrub": 2,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 4
+       }
+      },
+      "inWood": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 3
+       }
+      },
+      "meadowLow": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "overview": {
+       "added": 6,
+       "inView": 6,
+       "byKind": {
+        "scrub": 2,
+        "fern": 1,
+        "flowers": 3
+       },
+       "leftIn": {
+        "scrub": 2,
+        "fern": 1,
+        "flowers": 3
+       }
+      }
+     }
+    },
+    {
+     "label": "no scrub or fern stands off the forest floor, and no flower on the fairway, the path or in the wood; both grow where they may",
+     "ok": true,
+     "meadowTopZ": 180,
+     "rows": {
+      "the forest floor over the left wood's edge": {
+       "view": "woodTop",
+       "rule": "floor",
+       "reach": 1.5,
+       "outsidePixels": 81872,
+       "outsideChanged": 0,
+       "insidePixels": 28832,
+       "insideCovered": 0.0352
+      },
+      "the flowers over the left wood's edge": {
+       "view": "woodTop",
+       "rule": "flowers",
+       "reach": 0.8,
+       "outsidePixels": 33456,
+       "outsideChanged": 0,
+       "insidePixels": 86496,
+       "insideCovered": 0.002
+      },
+      "the flowers over the fairway's edge, the rough and the path": {
+       "view": "meadowTop",
+       "rule": "flowers",
+       "reach": 0.8,
+       "outsidePixels": 22576,
+       "outsideChanged": 0,
+       "insidePixels": 82688,
+       "insideCovered": 0.0057
+      }
+     }
+    },
+    {
+     "label": "no flower stands past 66 m, no fern past 220 m and no scrub past 320 m, with their ground in view past each",
+     "ok": true,
+     "rows": {
+      "flowers": {
+       "view": "flowerFade",
+       "fadeEnd": 66,
+       "reach": 0.3,
+       "changed": 310,
+       "againstSky": 0,
+       "furthest": 60.7357,
+       "nearly": 55.8372,
+       "groundBeyondFade": 16299
+      },
+      "fern": {
+       "view": "overview",
+       "fadeEnd": 220,
+       "reach": 1,
+       "changed": 100,
+       "againstSky": 0,
+       "furthest": 204.5225,
+       "nearly": 204.5225,
+       "groundBeyondFade": 2322
+      },
+      "scrub": {
+       "view": "overview",
+       "fadeEnd": 320,
+       "reach": 0.65,
+       "changed": 554,
+       "againstSky": 0,
+       "furthest": 290.5528,
+       "nearly": 280.2291,
+       "groundBeyondFade": 354
+      }
+     }
+    },
+    {
+     "label": "in Höst the scrub turns red and the ferns rust, and the flowers are gone pixel for pixel, their tiles left out",
+     "ok": true,
+     "rows": {
+      "scrub, summer": {
+       "pixels": 3856,
+       "rg": 0.3627,
+       "bg": 0.1778
+      },
+      "scrub, Höst": {
+       "pixels": 4009,
+       "rg": 3.0438,
+       "bg": 0.2445
+      },
+      "ferns, summer": {
+       "pixels": 3404,
+       "rg": 0.4246,
+       "bg": 0.156
+      },
+      "ferns, Höst": {
+       "pixels": 3412,
+       "rg": 2.3013,
+       "bg": 0.1926
+      }
+     },
+     "flowers": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0,
+      "addedDraws": 0,
+      "tilesLeftIn": 0,
+      "summerTilesLeftIn": 4
+     }
+    },
+    {
+     "label": "the forest floor's plants take the trees' shadows",
+     "ok": true,
+     "pixels": 6799,
+     "shaded": 0.2603,
+     "open": 0.4297,
+     "ratio": 0.6058
+    },
+    {
+     "label": "the ferns and the flowers sway on the one wind, the scrub stands, and all stand still under reduced motion",
+     "ok": true,
+     "ferns": {
+      "still": true,
+      "windy": false
+     },
+     "scrub": {
+      "still": true,
+      "windy": true
+     },
+     "flowers": {
+      "still": true,
+      "windy": false
+     }
+    },
+    {
+     "label": "low quality: half the floor under each tree, the flowers of its own tussocks, one draw a tile",
+     "ok": true,
+     "planted": {
+      "trees": 821,
+      "candidates": 1206,
+      "scrub": 612,
+      "ferns": 211,
+      "tufts": 1105,
+      "edge": 488,
+      "flowerClumps": 758,
+      "tiles": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 12
+      }
+     },
+     "floorPerTree": 0.5004,
+     "flowersPerTuft": 0.9699,
+     "rows": {
+      "tee": {
+       "added": 7,
+       "inView": 7,
+       "byKind": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "inWood": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 3
+       }
+      },
+      "meadowLow": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      }
+     }
+    },
+    {
+     "label": "no page errors, and every still read-back settled",
+     "ok": true,
+     "errors": [],
+     "reads": 48,
+     "unsettled": 2
+    }
+   ],
+   "measures": {
+    "planted": {
+     "trees": 821,
+     "candidates": 2410,
+     "scrub": 1211,
+     "ferns": 436,
+     "tufts": 2261,
+     "edge": 976,
+     "flowerClumps": 1588,
+     "tiles": {
+      "scrub": 3,
+      "fern": 3,
+      "flowers": 12
+     }
+    },
+    "draws": {
+     "tee": {
+      "added": 7,
+      "inView": 7,
+      "byKind": {
+       "scrub": 3,
+       "fern": 2,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 2,
+       "flowers": 4
+      }
+     },
+     "woodEdge": {
+      "added": 6,
+      "inView": 6,
+      "byKind": {
+       "scrub": 2,
+       "fern": 2,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 4
+      }
+     },
+     "inWood": {
+      "added": 4,
+      "inView": 4,
+      "byKind": {
+       "scrub": 1,
+       "fern": 1,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 3
+      }
+     },
+     "meadowLow": {
+      "added": 4,
+      "inView": 4,
+      "byKind": {
+       "scrub": 1,
+       "fern": 1,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 2,
+       "flowers": 4
+      }
+     },
+     "overview": {
+      "added": 6,
+      "inView": 6,
+      "byKind": {
+       "scrub": 2,
+       "fern": 1,
+       "flowers": 3
+      },
+      "leftIn": {
+       "scrub": 2,
+       "fern": 1,
+       "flowers": 3
+      }
+     }
+    },
+    "where": {
+     "the forest floor over the left wood's edge": {
+      "view": "woodTop",
+      "rule": "floor",
+      "reach": 1.5,
+      "outsidePixels": 81872,
+      "outsideChanged": 0,
+      "insidePixels": 28832,
+      "insideCovered": 0.0352
+     },
+     "the flowers over the left wood's edge": {
+      "view": "woodTop",
+      "rule": "flowers",
+      "reach": 0.8,
+      "outsidePixels": 33456,
+      "outsideChanged": 0,
+      "insidePixels": 86496,
+      "insideCovered": 0.002
+     },
+     "the flowers over the fairway's edge, the rough and the path": {
+      "view": "meadowTop",
+      "rule": "flowers",
+      "reach": 0.8,
+      "outsidePixels": 22576,
+      "outsideChanged": 0,
+      "insidePixels": 82688,
+      "insideCovered": 0.0057
+     }
+    },
+    "fade": {
+     "flowers": {
+      "view": "flowerFade",
+      "fadeEnd": 66,
+      "reach": 0.3,
+      "changed": 310,
+      "againstSky": 0,
+      "furthest": 60.7357,
+      "nearly": 55.8372,
+      "groundBeyondFade": 16299
+     },
+     "fern": {
+      "view": "overview",
+      "fadeEnd": 220,
+      "reach": 1,
+      "changed": 100,
+      "againstSky": 0,
+      "furthest": 204.5225,
+      "nearly": 204.5225,
+      "groundBeyondFade": 2322
+     },
+     "scrub": {
+      "view": "overview",
+      "fadeEnd": 320,
+      "reach": 0.65,
+      "changed": 554,
+      "againstSky": 0,
+      "furthest": 290.5528,
+      "nearly": 280.2291,
+      "groundBeyondFade": 354
+     }
+    },
+    "season": {
+     "rows": {
+      "scrub, summer": {
+       "pixels": 3856,
+       "rg": 0.3627,
+       "bg": 0.1778
+      },
+      "scrub, Höst": {
+       "pixels": 4009,
+       "rg": 3.0438,
+       "bg": 0.2445
+      },
+      "ferns, summer": {
+       "pixels": 3404,
+       "rg": 0.4246,
+       "bg": 0.156
+      },
+      "ferns, Höst": {
+       "pixels": 3412,
+       "rg": 2.3013,
+       "bg": 0.1926
+      }
+     },
+     "flowers": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0,
+      "addedDraws": 0,
+      "tilesLeftIn": 0,
+      "summerTilesLeftIn": 4
+     }
+    },
+    "shade": {
+     "pixels": 6799,
+     "shaded": 0.2603,
+     "open": 0.4297,
+     "ratio": 0.6058
+    },
+    "wind": {
+     "ferns": {
+      "still": true,
+      "windy": false
+     },
+     "scrub": {
+      "still": true,
+      "windy": true
+     },
+     "flowers": {
+      "still": true,
+      "windy": false
+     }
+    },
+    "lo": {
+     "planted": {
+      "trees": 821,
+      "candidates": 1206,
+      "scrub": 612,
+      "ferns": 211,
+      "tufts": 1105,
+      "edge": 488,
+      "flowerClumps": 758,
+      "tiles": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 12
+      }
+     },
+     "floorPerTree": 0.5004,
+     "flowersPerTuft": 0.9699,
+     "rows": {
+      "tee": {
+       "added": 7,
+       "inView": 7,
+       "byKind": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "inWood": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 3
+       }
+      },
+      "meadowLow": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      }
+     }
+    }
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "the wild cover adds one draw for each of its tiles left in and in view",
+     "ok": true,
+     "tiles": {
+      "scrub": 3,
+      "fern": 3,
+      "flowers": 12
+     },
+     "rows": {
+      "tee": {
+       "added": 7,
+       "inView": 7,
+       "byKind": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "woodEdge": {
+       "added": 6,
+       "inView": 6,
+       "byKind": {
+        "scrub": 2,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 4
+       }
+      },
+      "inWood": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 3
+       }
+      },
+      "meadowLow": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "overview": {
+       "added": 6,
+       "inView": 6,
+       "byKind": {
+        "scrub": 2,
+        "fern": 1,
+        "flowers": 3
+       },
+       "leftIn": {
+        "scrub": 2,
+        "fern": 1,
+        "flowers": 3
+       }
+      }
+     }
+    },
+    {
+     "label": "no scrub or fern stands off the forest floor, and no flower on the fairway, the path or in the wood; both grow where they may",
+     "ok": true,
+     "meadowTopZ": 180,
+     "rows": {
+      "the forest floor over the left wood's edge": {
+       "view": "woodTop",
+       "rule": "floor",
+       "reach": 1.5,
+       "outsidePixels": 81872,
+       "outsideChanged": 0,
+       "insidePixels": 28832,
+       "insideCovered": 0.0352
+      },
+      "the flowers over the left wood's edge": {
+       "view": "woodTop",
+       "rule": "flowers",
+       "reach": 0.8,
+       "outsidePixels": 33456,
+       "outsideChanged": 0,
+       "insidePixels": 86496,
+       "insideCovered": 0.0019
+      },
+      "the flowers over the fairway's edge, the rough and the path": {
+       "view": "meadowTop",
+       "rule": "flowers",
+       "reach": 0.8,
+       "outsidePixels": 22576,
+       "outsideChanged": 0,
+       "insidePixels": 82688,
+       "insideCovered": 0.0057
+      }
+     }
+    },
+    {
+     "label": "no flower stands past 66 m, no fern past 220 m and no scrub past 320 m, with their ground in view past each",
+     "ok": true,
+     "rows": {
+      "flowers": {
+       "view": "flowerFade",
+       "fadeEnd": 66,
+       "reach": 0.3,
+       "changed": 307,
+       "againstSky": 0,
+       "furthest": 60.7357,
+       "nearly": 57.7526,
+       "groundBeyondFade": 16299
+      },
+      "fern": {
+       "view": "overview",
+       "fadeEnd": 220,
+       "reach": 1,
+       "changed": 97,
+       "againstSky": 0,
+       "furthest": 204.953,
+       "nearly": 204.953,
+       "groundBeyondFade": 2322
+      },
+      "scrub": {
+       "view": "overview",
+       "fadeEnd": 320,
+       "reach": 0.65,
+       "changed": 475,
+       "againstSky": 0,
+       "furthest": 290.5528,
+       "nearly": 279.2052,
+       "groundBeyondFade": 354
+      }
+     }
+    },
+    {
+     "label": "in Höst the scrub turns red and the ferns rust, and the flowers are gone pixel for pixel, their tiles left out",
+     "ok": true,
+     "rows": {
+      "scrub, summer": {
+       "pixels": 3828,
+       "rg": 0.3623,
+       "bg": 0.1779
+      },
+      "scrub, Höst": {
+       "pixels": 3975,
+       "rg": 3.0684,
+       "bg": 0.2454
+      },
+      "ferns, summer": {
+       "pixels": 3408,
+       "rg": 0.4253,
+       "bg": 0.1561
+      },
+      "ferns, Höst": {
+       "pixels": 3416,
+       "rg": 2.3057,
+       "bg": 0.1933
+      }
+     },
+     "flowers": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0,
+      "addedDraws": 0,
+      "tilesLeftIn": 0,
+      "summerTilesLeftIn": 4
+     }
+    },
+    {
+     "label": "the forest floor's plants take the trees' shadows",
+     "ok": true,
+     "pixels": 6795,
+     "shaded": 0.2605,
+     "open": 0.4302,
+     "ratio": 0.6055
+    },
+    {
+     "label": "the ferns and the flowers sway on the one wind, the scrub stands, and all stand still under reduced motion",
+     "ok": true,
+     "ferns": {
+      "still": true,
+      "windy": false
+     },
+     "scrub": {
+      "still": true,
+      "windy": true
+     },
+     "flowers": {
+      "still": true,
+      "windy": false
+     }
+    },
+    {
+     "label": "low quality: half the floor under each tree, the flowers of its own tussocks, one draw a tile",
+     "ok": true,
+     "planted": {
+      "trees": 821,
+      "candidates": 1206,
+      "scrub": 612,
+      "ferns": 211,
+      "tufts": 1105,
+      "edge": 488,
+      "flowerClumps": 758,
+      "tiles": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 12
+      }
+     },
+     "floorPerTree": 0.5004,
+     "flowersPerTuft": 0.9699,
+     "rows": {
+      "tee": {
+       "added": 7,
+       "inView": 7,
+       "byKind": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "inWood": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 3
+       }
+      },
+      "meadowLow": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      }
+     }
+    },
+    {
+     "label": "no page errors, and every still read-back settled",
+     "ok": true,
+     "errors": [],
+     "reads": 48,
+     "unsettled": 2
+    }
+   ],
+   "measures": {
+    "planted": {
+     "trees": 821,
+     "candidates": 2410,
+     "scrub": 1211,
+     "ferns": 436,
+     "tufts": 2261,
+     "edge": 976,
+     "flowerClumps": 1588,
+     "tiles": {
+      "scrub": 3,
+      "fern": 3,
+      "flowers": 12
+     }
+    },
+    "draws": {
+     "tee": {
+      "added": 7,
+      "inView": 7,
+      "byKind": {
+       "scrub": 3,
+       "fern": 2,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 2,
+       "flowers": 4
+      }
+     },
+     "woodEdge": {
+      "added": 6,
+      "inView": 6,
+      "byKind": {
+       "scrub": 2,
+       "fern": 2,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 4
+      }
+     },
+     "inWood": {
+      "added": 4,
+      "inView": 4,
+      "byKind": {
+       "scrub": 1,
+       "fern": 1,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 3
+      }
+     },
+     "meadowLow": {
+      "added": 4,
+      "inView": 4,
+      "byKind": {
+       "scrub": 1,
+       "fern": 1,
+       "flowers": 2
+      },
+      "leftIn": {
+       "scrub": 3,
+       "fern": 2,
+       "flowers": 4
+      }
+     },
+     "overview": {
+      "added": 6,
+      "inView": 6,
+      "byKind": {
+       "scrub": 2,
+       "fern": 1,
+       "flowers": 3
+      },
+      "leftIn": {
+       "scrub": 2,
+       "fern": 1,
+       "flowers": 3
+      }
+     }
+    },
+    "where": {
+     "the forest floor over the left wood's edge": {
+      "view": "woodTop",
+      "rule": "floor",
+      "reach": 1.5,
+      "outsidePixels": 81872,
+      "outsideChanged": 0,
+      "insidePixels": 28832,
+      "insideCovered": 0.0352
+     },
+     "the flowers over the left wood's edge": {
+      "view": "woodTop",
+      "rule": "flowers",
+      "reach": 0.8,
+      "outsidePixels": 33456,
+      "outsideChanged": 0,
+      "insidePixels": 86496,
+      "insideCovered": 0.0019
+     },
+     "the flowers over the fairway's edge, the rough and the path": {
+      "view": "meadowTop",
+      "rule": "flowers",
+      "reach": 0.8,
+      "outsidePixels": 22576,
+      "outsideChanged": 0,
+      "insidePixels": 82688,
+      "insideCovered": 0.0057
+     }
+    },
+    "fade": {
+     "flowers": {
+      "view": "flowerFade",
+      "fadeEnd": 66,
+      "reach": 0.3,
+      "changed": 307,
+      "againstSky": 0,
+      "furthest": 60.7357,
+      "nearly": 57.7526,
+      "groundBeyondFade": 16299
+     },
+     "fern": {
+      "view": "overview",
+      "fadeEnd": 220,
+      "reach": 1,
+      "changed": 97,
+      "againstSky": 0,
+      "furthest": 204.953,
+      "nearly": 204.953,
+      "groundBeyondFade": 2322
+     },
+     "scrub": {
+      "view": "overview",
+      "fadeEnd": 320,
+      "reach": 0.65,
+      "changed": 475,
+      "againstSky": 0,
+      "furthest": 290.5528,
+      "nearly": 279.2052,
+      "groundBeyondFade": 354
+     }
+    },
+    "season": {
+     "rows": {
+      "scrub, summer": {
+       "pixels": 3828,
+       "rg": 0.3623,
+       "bg": 0.1779
+      },
+      "scrub, Höst": {
+       "pixels": 3975,
+       "rg": 3.0684,
+       "bg": 0.2454
+      },
+      "ferns, summer": {
+       "pixels": 3408,
+       "rg": 0.4253,
+       "bg": 0.1561
+      },
+      "ferns, Höst": {
+       "pixels": 3416,
+       "rg": 2.3057,
+       "bg": 0.1933
+      }
+     },
+     "flowers": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0,
+      "addedDraws": 0,
+      "tilesLeftIn": 0,
+      "summerTilesLeftIn": 4
+     }
+    },
+    "shade": {
+     "pixels": 6795,
+     "shaded": 0.2605,
+     "open": 0.4302,
+     "ratio": 0.6055
+    },
+    "wind": {
+     "ferns": {
+      "still": true,
+      "windy": false
+     },
+     "scrub": {
+      "still": true,
+      "windy": true
+     },
+     "flowers": {
+      "still": true,
+      "windy": false
+     }
+    },
+    "lo": {
+     "planted": {
+      "trees": 821,
+      "candidates": 1206,
+      "scrub": 612,
+      "ferns": 211,
+      "tufts": 1105,
+      "edge": 488,
+      "flowerClumps": 758,
+      "tiles": {
+       "scrub": 3,
+       "fern": 3,
+       "flowers": 12
+      }
+     },
+     "floorPerTree": 0.5004,
+     "flowersPerTuft": 0.9699,
+     "rows": {
+      "tee": {
+       "added": 7,
+       "inView": 7,
+       "byKind": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      },
+      "inWood": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 3,
+        "flowers": 3
+       }
+      },
+      "meadowLow": {
+       "added": 4,
+       "inView": 4,
+       "byKind": {
+        "scrub": 1,
+        "fern": 1,
+        "flowers": 2
+       },
+       "leftIn": {
+        "scrub": 3,
+        "fern": 2,
+        "flowers": 4
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "agreement": {
+  "measures": 138,
+  "disagreeing": []
+ }
+}

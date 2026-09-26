@@ -1,0 +1,622 @@
+{
+ "adapter": "swiftshader",
+ "lowQualityFloor": {
+  "hi": {
+   "trees": 13438,
+   "candidates": 35031
+  },
+  "lo": {
+   "trees": 8337,
+   "candidates": 10735
+  },
+  "ratio": 0.494
+ },
+ "rows": [
+  {
+   "name": "Ängsö, Kväll, the tee view, high quality",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 146,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": true,
+     "flowers": true,
+     "trees": 13438,
+     "candidates": 35031,
+     "scrub": 9658,
+     "ferns": 3444,
+     "flowerClumps": 12446,
+     "tiles": {
+      "scrub": 43,
+      "fern": 41,
+      "flowers": 132
+     },
+     "compiledAtOpening": 3,
+     "drawnTiles": {
+      "scrub": 4,
+      "fern": 0,
+      "flowers": 6
+     }
+    },
+    "meshes": {
+     "scrub": 43,
+     "fern": 41,
+     "flowers": 132
+    },
+    "nearest": {
+     "scrub": 242.8,
+     "fern": 249.1,
+     "flowers": -48.5
+    },
+    "instances": 25548,
+    "view": {
+     "tiles": 5,
+     "plants": 722,
+     "vertices": 43740
+    },
+    "drawCalls": 101,
+    "spanMs": 194,
+    "coverMs": 137.6,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "grown",
+    "flowers": "grown",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, the tee view, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 121,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": true,
+     "flowers": true,
+     "trees": 8337,
+     "candidates": 10735,
+     "scrub": 3059,
+     "ferns": 1043,
+     "flowerClumps": 6209,
+     "tiles": {
+      "scrub": 43,
+      "fern": 40,
+      "flowers": 129
+     },
+     "compiledAtOpening": 3,
+     "drawnTiles": {
+      "scrub": 3,
+      "fern": 0,
+      "flowers": 4
+     }
+    },
+    "meshes": {
+     "scrub": 43,
+     "fern": 40,
+     "flowers": 129
+    },
+    "nearest": {
+     "scrub": 242.7,
+     "fern": 253.5,
+     "flowers": -44.3
+    },
+    "instances": 10311,
+    "view": {
+     "tiles": 3,
+     "plants": 255,
+     "vertices": 16065
+    },
+    "drawCalls": 87,
+    "spanMs": 103.4,
+    "coverMs": 78.7,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "grown",
+    "flowers": "grown",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, the tee view, ?forestfloor=0&wildflowers=0",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee&forestfloor=0&wildflowers=0",
+   "seconds": 148,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": false,
+     "flowers": false,
+     "drawnTiles": null
+    },
+    "meshes": {},
+    "nearest": {},
+    "instances": 0,
+    "view": {
+     "tiles": 0,
+     "plants": 0,
+     "vertices": 0
+    },
+    "drawCalls": 96,
+    "spanMs": 0,
+    "coverMs": 133.4,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "off",
+    "flowers": "off",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Dag, the tee view, ?forestfloor=0",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=dag&vy=tee&forestfloor=0",
+   "seconds": 147,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": false,
+     "flowers": true,
+     "flowerClumps": 12446,
+     "tiles": {
+      "flowers": 132
+     },
+     "compiledAtOpening": 1,
+     "drawnTiles": {
+      "flowers": 6
+     }
+    },
+    "meshes": {
+     "flowers": 132
+    },
+    "nearest": {
+     "flowers": -48.5
+    },
+    "instances": 12446,
+    "view": {
+     "tiles": 4,
+     "plants": 528,
+     "vertices": 33264
+    },
+    "drawCalls": 100,
+    "spanMs": 111.7,
+    "coverMs": 153.8,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "off",
+    "flowers": "grown",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Dag, the tee view, ?wildflowers=0",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=dag&vy=tee&wildflowers=0",
+   "seconds": 148,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": true,
+     "flowers": false,
+     "trees": 13438,
+     "candidates": 35031,
+     "scrub": 9658,
+     "ferns": 3444,
+     "tiles": {
+      "scrub": 43,
+      "fern": 41
+     },
+     "compiledAtOpening": 2,
+     "drawnTiles": {
+      "scrub": 4,
+      "fern": 0
+     }
+    },
+    "meshes": {
+     "scrub": 43,
+     "fern": 41
+    },
+    "nearest": {
+     "scrub": 242.8,
+     "fern": 249.1
+    },
+    "instances": 13102,
+    "view": {
+     "tiles": 1,
+     "plants": 194,
+     "vertices": 10476
+    },
+    "drawCalls": 97,
+    "spanMs": 105.5,
+    "coverMs": 170,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "grown",
+    "flowers": "off",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Johannesberg, Dag, the tee view",
+   "q": "hi",
+   "url": "/?bana=johannesberg&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=dag&vy=tee",
+   "seconds": 192,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": true,
+     "flowers": true,
+     "trees": 11099,
+     "candidates": 27027,
+     "scrub": 7827,
+     "ferns": 1319,
+     "flowerClumps": 14968,
+     "tiles": {
+      "scrub": 28,
+      "fern": 25,
+      "flowers": 122
+     },
+     "compiledAtOpening": 3,
+     "drawnTiles": {
+      "scrub": 0,
+      "fern": 0,
+      "flowers": 6
+     }
+    },
+    "meshes": {
+     "scrub": 28,
+     "fern": 25,
+     "flowers": 122
+    },
+    "nearest": {
+     "scrub": 385.8,
+     "fern": 973.5,
+     "flowers": -66.5
+    },
+    "instances": 24114,
+    "view": {
+     "tiles": 3,
+     "plants": 569,
+     "vertices": 35847
+    },
+    "drawCalls": 197,
+    "spanMs": 237,
+    "coverMs": 228,
+    "settled": true,
+    "eye": [
+     -89.56,
+     29.42,
+     -749.44
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "grown",
+    "flowers": "grown",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Upsala, Kväll, the tee view",
+   "q": "hi",
+   "url": "/?bana=upsala&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 169,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": true,
+     "flowers": true,
+     "trees": 10365,
+     "candidates": 24437,
+     "scrub": 11776,
+     "ferns": 3352,
+     "flowerClumps": 8052,
+     "tiles": {
+      "scrub": 35,
+      "fern": 33,
+      "flowers": 104
+     },
+     "compiledAtOpening": 3,
+     "drawnTiles": {
+      "scrub": 8,
+      "fern": 7,
+      "flowers": 4
+     }
+    },
+    "meshes": {
+     "scrub": 35,
+     "fern": 33,
+     "flowers": 104
+    },
+    "nearest": {
+     "scrub": 14,
+     "fern": 39.8,
+     "flowers": -13.7
+    },
+    "instances": 23180,
+    "view": {
+     "tiles": 9,
+     "plants": 2057,
+     "vertices": 112554
+    },
+    "drawCalls": 80,
+    "spanMs": 244.9,
+    "coverMs": 96.8,
+    "settled": true,
+    "eye": [
+     12.2,
+     35.46,
+     -179.13
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "grown",
+    "flowers": "grown",
+    "scatterSections": [
+     "cover",
+     "edge"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, the tee view",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 111,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "span": true,
+    "switches": true,
+    "floor": true,
+    "flowers": true,
+    "nothingElse": true,
+    "prepared": true
+   },
+   "got": {
+    "wild": {
+     "forestFloor": true,
+     "flowers": true,
+     "drawnTiles": null
+    },
+    "meshes": {},
+    "nearest": {},
+    "instances": 0,
+    "view": {
+     "tiles": 0,
+     "plants": 0,
+     "vertices": 0
+    },
+    "drawCalls": 72,
+    "spanMs": 0,
+    "coverMs": 0,
+    "settled": true,
+    "eye": [
+     -577.16,
+     7.04,
+     144.25
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "scatter": {}
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "floor": "measured",
+    "flowers": "measured",
+    "scatterSections": []
+   },
+   "errors": []
+  }
+ ]
+}
