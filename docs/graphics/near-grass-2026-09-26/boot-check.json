@@ -1,0 +1,463 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Ängsö, Kväll, the tee view, high quality",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 221,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "grass": true,
+    "prepared": true
+   },
+   "got": {
+    "grass": {
+     "on": true,
+     "policy": null,
+     "exactEdges": true,
+     "instances": 16384,
+     "blades": 65536,
+     "rings": 4,
+     "quality": "hi",
+     "cell": 0.16,
+     "reach": 38.91,
+     "visible": true,
+     "altitude": 1.76,
+     "updates": 10,
+     "primeMs": 22.1,
+     "clip": {
+      "texels": 94,
+      "metres": 1,
+      "pending": 0,
+      "reads": 8836,
+      "lastReads": 0,
+      "lastMs": 1.5,
+      "centre": [
+       -59,
+       369
+      ],
+      "held": {
+       "i0": -106,
+       "i1": -13,
+       "j0": 322,
+       "j1": 415
+      }
+     }
+    },
+    "meshes": 1,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "grass": "drawn",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, the tee view, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 125,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "grass": true,
+    "prepared": true
+   },
+   "got": {
+    "grass": {
+     "on": true,
+     "policy": null,
+     "exactEdges": true,
+     "instances": 4800,
+     "blades": 14400,
+     "rings": 3,
+     "quality": "lo",
+     "cell": 0.24,
+     "reach": 18.24,
+     "visible": true,
+     "altitude": 1.76,
+     "updates": 9,
+     "primeMs": 17.7,
+     "clip": {
+      "texels": 54,
+      "metres": 1,
+      "pending": 0,
+      "reads": 2916,
+      "lastReads": 0,
+      "lastMs": 1.6,
+      "centre": [
+       -59,
+       369
+      ],
+      "held": {
+       "i0": -86,
+       "i1": -33,
+       "j0": 342,
+       "j1": 395
+      }
+     }
+    },
+    "meshes": 1,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "grass": "drawn",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Dag, from above",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=dag&vy=ovan",
+   "seconds": 118,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "grass": true,
+    "prepared": true
+   },
+   "got": {
+    "grass": {
+     "on": true,
+     "policy": null,
+     "exactEdges": true,
+     "instances": 16384,
+     "blades": 65536,
+     "rings": 4,
+     "quality": "hi",
+     "cell": 0.16,
+     "reach": 38.91,
+     "visible": false,
+     "altitude": 524.8,
+     "updates": 0,
+     "primeMs": 16.5,
+     "clip": {
+      "texels": 94,
+      "metres": 1,
+      "pending": 0,
+      "reads": 8836,
+      "lastReads": 436,
+      "lastMs": 0.7,
+      "centre": [
+       -101,
+       524
+      ],
+      "held": {
+       "i0": -148,
+       "i1": -55,
+       "j0": 477,
+       "j1": 570
+      }
+     }
+    },
+    "meshes": 1,
+    "settled": true,
+    "eye": [
+     -100.87,
+     529.79,
+     523.82
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "grass": "hidden",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, the tee view, ?neargrass=0",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee&neargrass=0",
+   "seconds": 148,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "grass": true,
+    "prepared": true
+   },
+   "got": {
+    "grass": {
+     "on": false,
+     "policy": null,
+     "exactEdges": true
+    },
+    "meshes": 0,
+    "settled": true,
+    "eye": [
+     -58.77,
+     7.99,
+     369.03
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "grass": "off",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Johannesberg, Dag, the tee view",
+   "q": "hi",
+   "url": "/?bana=johannesberg&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=dag&vy=tee",
+   "seconds": 229,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "grass": true,
+    "prepared": true
+   },
+   "got": {
+    "grass": {
+     "on": true,
+     "policy": null,
+     "exactEdges": true,
+     "instances": 16384,
+     "blades": 65536,
+     "rings": 4,
+     "quality": "hi",
+     "cell": 0.16,
+     "reach": 38.91,
+     "visible": true,
+     "altitude": 1.7,
+     "updates": 9,
+     "primeMs": 25.7,
+     "clip": {
+      "texels": 94,
+      "metres": 1,
+      "pending": 0,
+      "reads": 8836,
+      "lastReads": 0,
+      "lastMs": 0.6,
+      "centre": [
+       -90,
+       -749
+      ],
+      "held": {
+       "i0": -137,
+       "i1": -44,
+       "j0": -796,
+       "j1": -703
+      }
+     }
+    },
+    "meshes": 1,
+    "settled": true,
+    "eye": [
+     -89.56,
+     29.42,
+     -749.44
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "grass": "drawn",
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Upsala, Kväll, the tee view",
+   "q": "hi",
+   "url": "/?bana=upsala&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 167,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "grass": true,
+    "prepared": true
+   },
+   "got": {
+    "grass": {
+     "on": true,
+     "policy": null,
+     "exactEdges": true,
+     "instances": 16384,
+     "blades": 65536,
+     "rings": 4,
+     "quality": "hi",
+     "cell": 0.16,
+     "reach": 38.91,
+     "visible": true,
+     "altitude": 1.7,
+     "updates": 8,
+     "primeMs": 30.2,
+     "clip": {
+      "texels": 94,
+      "metres": 1,
+      "pending": 0,
+      "reads": 8836,
+      "lastReads": 0,
+      "lastMs": 0.6,
+      "centre": [
+       12,
+       -179
+      ],
+      "held": {
+       "i0": -35,
+       "i1": 58,
+       "j0": -226,
+       "j1": -133
+      }
+     }
+    },
+    "meshes": 1,
+    "settled": true,
+    "eye": [
+     12.2,
+     35.46,
+     -179.13
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "grass": "drawn",
+    "scatterSections": [
+     "cover",
+     "edge"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, the tee view",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&det=1&ljus=kvall&vy=tee",
+   "seconds": 117,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "grass": true,
+    "prepared": true
+   },
+   "got": {
+    "grass": {
+     "on": true,
+     "policy": "measured-only",
+     "exactEdges": true
+    },
+    "meshes": 0,
+    "settled": true,
+    "eye": [
+     -577.16,
+     7.04,
+     144.25
+    ],
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "scatter": {}
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "grass": "measured",
+    "scatterSections": []
+   },
+   "errors": []
+  }
+ ]
+}

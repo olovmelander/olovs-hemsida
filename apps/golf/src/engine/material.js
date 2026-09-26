@@ -55,7 +55,7 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
   return { colorNode: c, roughnessNode: mix(float(.96),sheenRoughness,sheen) };
 }
 
-const PAINTED_SHADING = {
+export const PAINTED_SHADING = {
   toneExponent: 2.2, cutLift: 1, mowDivisor: 0.55,
   vertexLinearShare: 1, atlasLinearShare: 1, requiresSun: true,
   /* how wet the ground lies in this light: its hollows damp (storm, mist) */

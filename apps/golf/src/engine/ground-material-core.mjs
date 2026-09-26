@@ -94,6 +94,17 @@ function classColours(C) {
   };
 }
 
+/* A class's colour as the class-SDF ground lays it before its finish: the
+   palette's, lifted by its cut tone (CUT_TONE at `lift`, in display terms
+   through `toneExponent`); null for the classes the ground tint paints. The
+   ground's own colours and the grass round the ball (near-grass.mjs) take it. */
+export const isGroundTintClass = sid => GROUND_TINT_CLASSES.has(sid);
+export function groundClassColour(C, SHADE, sid, { lift = 0, toneExponent = 1, hardGround = false } = {}) {
+  if (GROUND_TINT_CLASSES.has(sid)) return null;
+  const tone = Math.pow(1 + ((CUT_TONE[sid] ?? 1) - 1) * lift, toneExponent);
+  return classStyle(C, SHADE, sid, { hardGround }).colour.map(v => v * tone);
+}
+
 /* One class's complete material row: the same four rows the style texture
    carries, as plain numbers, so the per-class SDF material can bake them as
    constants instead of fetching them per fragment. */
@@ -439,7 +450,7 @@ function bindV2SurfaceAuthority(decorator, atlas) {
    near/far tint textures used by the full Puttom material. */
 /* The tint's colour in rgb and the ground's relief in alpha (ground-relief.mjs),
    read from the one texel; outside both rasters the flat colour, and open ground. */
-function groundTintColour(tint, wp, fallbackColour) {
+export function groundTintColour(tint, wp, fallbackColour) {
   const tintSample = (layer, fadeMetres) => {
     const tb = layer.bounds;
     const uv = vec2(
@@ -469,7 +480,7 @@ function groundTintColour(tint, wp, fallbackColour) {
    Mown turf is watered, and keeps its colour on a crest. */
 const RELIEF_SHELTER_DARK = 0.35;
 const RELIEF_LUSH = [-0.05, 0.03, -0.05], RELIEF_DRY = [0.08, 0.035, -0.07];
-function applyGroundRelief(litBase, alpha, natural) {
+export function applyGroundRelief(litBase, alpha, natural) {
   const s = alpha.mul(255).sub(128).div(127).clamp(-1, 1);
   const shelter = s.negate().max(0), exposure = s.max(0);
   return litBase.mul(oneMinus(shelter.mul(RELIEF_SHELTER_DARK)))
@@ -792,9 +803,8 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     // The finish defines how a display-space cut ratio maps into linear colour.
     const toneExponent = shading.toneExponent;
     const lift = (exactEdges ? cutTone : 0) * shading.cutLift;
-    const toneOf = sid => Math.pow(1 + ((CUT_TONE[sid] ?? 1) - 1) * lift, toneExponent);
-    const colourNodes = styles.map((style, index) => (GROUND_TINT_CLASSES.has(classes[index])
-      ? roughColour : vec3(...style.colour.map(v => v * toneOf(classes[index])))));
+    const colourNodes = classes.map(sid => (GROUND_TINT_CLASSES.has(sid)
+      ? roughColour : vec3(...groundClassColour(C, SHADE, sid, { lift, toneExponent, hardGround }))));
     const base = weights.reduce((acc, weight, index) => {
       const term = colourNodes[index].mul(weight);
       return acc ? acc.add(term) : term;

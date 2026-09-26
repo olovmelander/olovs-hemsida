@@ -183,8 +183,8 @@ describe('cloud shadows', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/sunUnderClouds\(sun, \{ cloud: CLOUD\.vertex/);
     expect(main).toMatch(/sun\.colorNode = clouded\.colorNode/);
-    /* the painted crowns and both impostor batches take the same per-vertex share */
-    expect((main.match(/sunlit: SUNLIT/g) || []).length).toBe(3);
+    /* the painted crowns, both impostor batches and the light through the grass round the ball take the same per-vertex share */
+    expect((main.match(/sunlit: SUNLIT/g) || []).length).toBe(4);
     /* the water's sparkle and body, in its own shading (water-shading.mjs), to which main.js hands the clouds:
        read once per pixel, for both (the body's by water-above.mjs) */
     const water = fs.readFileSync(new URL('./water-shading.mjs', import.meta.url), 'utf8');
