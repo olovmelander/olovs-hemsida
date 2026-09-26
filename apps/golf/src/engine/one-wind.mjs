@@ -43,7 +43,9 @@ export const airOffset = uniform(new Vector2(0, 0)).setGroup(renderGroup);
 export const skyDrift = uniform(new Vector3(0, 0, 0)).setGroup(renderGroup);
 
 const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
-const wrap = (x, period) => x - Math.floor(x / period) * period;
+/* an unbounded period does not wrap: 0 x Infinity is NaN, and a stretched cloud pattern takes its drift
+   unwrapped (cloud-shadow.mjs period) */
+const wrap = (x, period) => Number.isFinite(period) ? x - Math.floor(x / period) * period : x;
 
 /** How strongly the plants sway in a wind of `ms` m/s: 1 at the reference wind. */
 export function swayStrength(ms) {
@@ -79,7 +81,7 @@ export function createAir() {
 /** Ease the air toward `wind` (FLAG_WIND: ms, yaw) and carry what it carries.
     `skySpeed` is the sky's own drift in cloud-plane units a second (its preset
     speed; 0 under det=1); `cloudPeriod` wraps the cloud shadows' offset to their
-    pattern's tile. `still` is reduced motion. */
+    pattern's tile, or not at all where it is Infinity. `still` is reduced motion. */
 export function stepAir(air, dt, wind, { deterministic = false, still = false, skySpeed = 0, cloudPeriod = Infinity } = {}) {
   const step = Number.isFinite(dt) ? clamp(dt, 0, 0.1) : 0;
   const ms = Number.isFinite(wind?.ms) ? Math.max(0, wind.ms) : ONE_WIND.referenceMs;
