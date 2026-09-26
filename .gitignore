@@ -67,3 +67,6 @@ output/visby-pine-cache-build/
 output/visby-martall-build/
 output/witness-palette-build/
 output/tree-atelier-rejected-2026-09-13/*.glb
+
+# the isolated checks' copies of main's modules, generated from git while a check runs
+docs/graphics/**/*.gen.mjs
