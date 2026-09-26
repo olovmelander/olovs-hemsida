@@ -52,6 +52,12 @@ const SHADE_OVERRIDE = {
 };
 
 const HARD_SURFACES = new Set([SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL, SURFACE.DIRT, SURFACE.ROCK]);
+/* THE HARD GROUND, AS IT LIES. Mud is bare wet soil, not turf: it took the
+   turf's finish -- its yellow-green lift in the sun and the grass's sheen -- as
+   a meadow does. With `hardGround` it is hard ground, as dirt beside it is, and
+   all of it (paths, roads, gravel, soil, rock and mud) lies at ground level
+   under the grass's contact line (CUT_HEIGHT_MM). ?hardground=0 is the before. */
+const HARD_GROUND = new Set([...HARD_SURFACES, SURFACE.MUD]);
 const PAVED_SURFACES = [SURFACE.PATH, SURFACE.ASPHALT, SURFACE.GRAVEL];
 
 const pavedClassWeight = id => PAVED_SURFACES.reduce(
@@ -91,7 +97,7 @@ function classColours(C) {
 /* One class's complete material row: the same four rows the style texture
    carries, as plain numbers, so the per-class SDF material can bake them as
    constants instead of fetching them per fragment. */
-export function classStyle(C, SHADE, sid) {
+export function classStyle(C, SHADE, sid, { hardGround = false } = {}) {
   const colours = classColours(C);
   const c = colours[sid] || C.rough;
   const shade = SHADE_OVERRIDE[sid] || SHADE[sid] || SHADE[SURFACE.ROUGH];
@@ -102,7 +108,7 @@ export function classStyle(C, SHADE, sid) {
     meta: Object.freeze([
       1,
       sid === SURFACE.SAND ? 1 : 0,
-      HARD_SURFACES.has(sid) ? 1 : 0,
+      (hardGround ? HARD_GROUND : HARD_SURFACES).has(sid) ? 1 : 0,
       GROUND_TINT_CLASSES.has(sid) ? 1 : 0,
     ]),
     mow: Object.freeze([mowSource[0], mowSource[1], mowSource[2]]),
@@ -477,7 +483,10 @@ const SOFT_EDGE_SURFACES = new Set([SURFACE.FOREST, SURFACE.HEATH, SURFACE.SHORE
   SURFACE.ROCK, SURFACE.DIRT, SURFACE.MUD]);
 /* a mower leaves a line a few centimetres wide; never thinner than this however
    close the camera comes, and never thinner than the pixel that has to draw it */
-const CUT_EDGE_FLOOR_METRES = 0.03;
+export const CUT_EDGE_FLOOR_METRES = 0.03;
+/* and never wider than this, however far off the pixel: inside the fields' 4 m
+   reach, so a class's weight is 0 where its field has saturated */
+export const EDGE_REACH_METRES = 3;
 
 /* HEIGHT OF CUT, AS TONE. A mown line reads as real because the two sides are
    different HEIGHTS of grass, and taller grass shades itself: measured on nine
@@ -497,12 +506,19 @@ const CUT_TONE = Object.freeze({
   [SURFACE.GREEN]: 1.32, [SURFACE.FRINGE]: 1.21, [SURFACE.TEE]: 1.15,
   [SURFACE.FAIRWAY]: 1.23, [SURFACE.SEMI]: 1.08,
 });
-/* millimetres of grass standing over the ground; sand sits BELOW its surround */
+/* millimetres of grass standing over the ground; sand sits BELOW its surround.
+   A class missing here stood 30 mm -- every hard surface did, so a path beside a
+   fairway, green or tee took the contact line of a taller cut standing over
+   them; with `hardGround` the hard ground stands at 0 (HARD_GROUND). */
 const CUT_HEIGHT_MM = Object.freeze({
   [SURFACE.GREEN]: 4, [SURFACE.TEE]: 9, [SURFACE.FRINGE]: 10, [SURFACE.FAIRWAY]: 13, [SURFACE.SEMI]: 28,
   [SURFACE.ROUGH]: 50, [SURFACE.SAND]: -25, [SURFACE.FOREST]: 50, [SURFACE.HEATH]: 50, [SURFACE.WETLAND]: 50,
   [SURFACE.SHORE]: 20,
 });
+/* how high a class's ground stands under the contact line, in millimetres */
+export function groundStandsMillimetres(sid, { hardGround = false } = {}) {
+  return CUT_HEIGHT_MM[sid] ?? (hardGround && HARD_GROUND.has(sid) ? 0 : 30);
+}
 /* Width of one mown pass, metres: a fairway unit cuts ~2.5 m and tournament
    pass here is a little over one; a green is walked at 0.55 m and drawn at a metre so it
    survives a camera further off than the fringe of the green; a collar lap and a
@@ -535,7 +551,7 @@ const GROWN_EDGE_SURFACES = [SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT];
 const PATH_EDGE_GRASS = 0.6, PATH_WORN_LIFT = 0.08;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -546,8 +562,9 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   const exactEdges = atlas.data.exactEdges === true;
   const classes = [...channels, SURFACE.ROUGH];
   const roughIndex = classes.length - 1;
-  const styles = classes.map(sid => classStyle(C, SHADE, sid));
+  const styles = classes.map(sid => classStyle(C, SHADE, sid, { hardGround }));
   const widths = classes.map(sid => surfaceTransitionWidthMetres(sid));
+  const standsOf = sid => groundStandsMillimetres(sid, { hardGround });
   const debugColours = classes.map(sid => surfaceDebugColour(sid));
   const swizzle = ['r', 'g', 'b', 'a'];
   return material => {
@@ -570,6 +587,25 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
        the distance: fwidth of a bilinearly filtered field is piecewise constant
        per texel and jumps at every texel border. */
     const pixelHalf = exactEdges ? fwidth(wp).length().mul(0.7).max(CUT_EDGE_FLOOR_METRES) : null;
+    /* ACROSS THE EDGE. That footprint is the pixel's WHOLE extent, and seen low
+       it is tens of metres deep down the view however few centimetres it spans
+       across it. So an edge running away from the camera -- a fairway's side
+       seen from its tee -- was smeared over the pixel's depth, and once that
+       passed the fields' 4 m reach every class's ramp still stood above zero at
+       its saturated -4 m: from about 120 m off the tee each lent the far ground
+       a share of its colour, 26-29% each at 200 m, sand and asphalt and green
+       alike (ground-edges.test.mjs). An edge needs the
+       pixel measured ACROSS it: the field's own change over the pixel, the whole
+       footprint only where the edge runs across the view. The fields are exact
+       distances, sloped 1 across their edges whichever texel, so a bilinear
+       slope's step at a texel border is a sliver of a width that the floor holds
+       near the camera anyway. Never wider than the whole footprint (the before)
+       nor than EDGE_REACH_METRES. The contact line, the damp bank, the rake, the
+       lip and a path's grown edges fade by the same pixel across their own edge.
+       ?groundedges=0 is the before. */
+    const pixelAcross = exactEdges && acrossEdges ? sdfs.map(sdf => fwidth(sdf)) : null;
+    const halfOf = pixelAcross
+      ? pixelAcross.map(slope => slope.mul(0.7).max(CUT_EDGE_FLOOR_METRES).min(pixelHalf.min(EDGE_REACH_METRES))) : null;
     /* A CUT class is a mown or a laid surface. Its edge is a line WHATEVER lies
        beside it: the first version of this kept "the wider of the pair" for
        every pair, so a road running along forest floor took the forest's 0.45 m
@@ -593,11 +629,19 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         ? cutDistances.reduce((a, b) => max(a, b)) : float(-8);
       const meetsCut = smoothstep(-1.5, -0.5, nearestCut);
       const softRamp = Math.max(...classes.map((sid, index) => (isCut(index) ? 0 : widths[index])));
-      const softWidth = mix(max(float(softRamp), pixelHalf), pixelHalf, meetsCut);
-      classRaws = sdfs.map((sdf, index) => {
-        const width = isCut(index) ? pixelHalf : softWidth;
-        return smoothstep(width.negate(), width, sdf);
-      });
+      if (halfOf) {
+        classRaws = sdfs.map((sdf, index) => {
+          const half = halfOf[index];
+          const width = isCut(index) ? half : mix(max(float(softRamp), half), half, meetsCut);
+          return smoothstep(width.negate(), width, sdf);
+        });
+      } else {
+        const softWidth = mix(max(float(softRamp), pixelHalf), pixelHalf, meetsCut);
+        classRaws = sdfs.map((sdf, index) => {
+          const width = isCut(index) ? pixelHalf : softWidth;
+          return smoothstep(width.negate(), width, sdf);
+        });
+      }
     } else {
       const widthOf = index => float(widths[index]);
       const roughWidthNode = widthOf(roughIndex);
@@ -773,9 +817,17 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
          value every 0.33 m at this scale, which jittered the range's passes */
       const wobble = texture(DETAIL, wp.mul(0.006)).b.sub(0.5).mul(2 * RANGE_WOBBLE_METRES);
       const rangePass = pass(across.add(wobble), Math.PI / RANGE_PASS_METRES, acrossReach).mul(RANGE_TONE);
+      /* THE PASSES' REACH. The lateral byte holds 31.75 m either side of the line
+         (atlas.js) and saturates beyond it, where a pass was one flat tone: a
+         whole stripe's light or dark laid over the rest of a wider fairway, and
+         over any fairway no hole's line reached. The passes fade to the turf's own
+         tone over the last four metres. ?stripereach=0 is the before. */
+      const lateralLimit = 127 * atlas.data.lateralStepMetres;
+      const inReach = stripeReach ? oneMinus(smoothstep(lateralLimit - 4, lateralLimit - 0.25, lateral.abs())) : null;
+      const lateralPass = k => (inReach ? pass(lateral, k, acrossReach).mul(inReach) : pass(lateral, k, acrossReach));
       const patterns = {
-        [SURFACE.FAIRWAY]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.fairway, acrossReach), rangePass, ranged),
-        [SURFACE.SEMI]: mix(pass(lateral, Math.PI / MOW_BAND_METRES.semi, acrossReach), rangePass, ranged),
+        [SURFACE.FAIRWAY]: mix(lateralPass(Math.PI / MOW_BAND_METRES.fairway), rangePass, ranged),
+        [SURFACE.SEMI]: mix(lateralPass(Math.PI / MOW_BAND_METRES.semi), rangePass, ranged),
         [SURFACE.GREEN]: mix(pass(greenCoordinate, Math.PI / MOW_BAND_METRES.green, greenReach), float(0.5), cleanUp),
         /* the collar's laps follow its edge every way round: no one bearing */
         [SURFACE.FRINGE]: pass(ringDistance, Math.PI / MOW_BAND_METRES.fringe),
@@ -829,7 +881,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
          rule draws the lip's shadow on the grass round the sand. */
       const footprint = fwidth(wp).length();
       const standing = weights.reduce((acc, weight, index) => {
-        const term = weight.mul(CUT_HEIGHT_MM[classes[index]] ?? 30);
+        const term = weight.mul(standsOf(classes[index]));
         return acc ? acc.add(term) : term;
       }, null);
       const falloff = float(0.11).max(footprint.mul(1.2));
@@ -838,9 +890,14 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         if (!CONTACT_CASTERS.has(sid)) return;
         const rise = standing.sub(CUT_HEIGHT_MM[sid]);
         const amount = smoothstep(1, 5, rise).mul(float(0.07).add(saturate(rise.div(35)).mul(0.08))).mul(cutTone);
-        contact = contact.max(sdfs[index].min(0).div(falloff).exp().mul(oneMinus(weights[index])).mul(amount));
+        if (pixelAcross) {
+          /* the line's width and its fade by the pixel across this caster's edge */
+          const pixel = pixelAcross[index].min(footprint);
+          contact = contact.max(sdfs[index].min(0).div(float(0.11).max(pixel.mul(1.2))).exp().mul(oneMinus(weights[index])).mul(amount)
+            .mul(oneMinus(smoothstep(0.12, 0.5, pixel))));
+        } else contact = contact.max(sdfs[index].min(0).div(falloff).exp().mul(oneMinus(weights[index])).mul(amount));
       });
-      litBase = litBase.mul(oneMinus(contact.mul(oneMinus(smoothstep(0.12, 0.5, footprint)))));
+      litBase = litBase.mul(oneMinus(pixelAcross ? contact : contact.mul(oneMinus(smoothstep(0.12, 0.5, footprint)))));
     }
     if (exactEdges && cutTone > 0) {
       const footprint = fwidth(wp).length();
@@ -866,8 +923,9 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       if (atlas.data.bankSlot !== null && atlas.data.bankSlot !== undefined) {
         const slot = atlas.data.bankSlot;
         const shore = samples[slot >> 2][swizzle[slot & 3]].mul(255 * atlas.data.bankStepMetres);
+        const pixel = pixelAcross ? fwidth(shore).min(footprint) : footprint;
         const damp = shore.div(BANK_FALLOFF_METRES).negate().exp().mul(BANK_SHADE * cutTone)
-          .mul(oneMinus(pavingWeight)).mul(oneMinus(smoothstep(0.6, 2.5, footprint)));
+          .mul(oneMinus(pavingWeight)).mul(oneMinus(smoothstep(0.6, 2.5, pixel)));
         litBase = litBase.mul(oneMinus(damp));
       }
       /* A BUNKER IS RAKED, AND DAMPER IN ITS LOW MIDDLE. The rake follows the edge
@@ -875,10 +933,12 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
          before it could moire -- and the sand a few metres in from the lip holds
          the wet. The sand's own distance channel is both coordinates. */
       const sandIndex = channels.indexOf(SURFACE.SAND);
+      /* the rake and the lip follow the sand's edge: the pixel across it */
+      const sandPixel = sandIndex >= 0 && pixelAcross ? pixelAcross[sandIndex].min(footprint) : footprint;
       if (sandIndex >= 0) {
         const inSand = sdfs[sandIndex].max(0);
         const k = 2 * Math.PI / SAND_RAKE_METRES;
-        const rake = sin(inSand.mul(k)).mul(oneMinus(smoothstep(0.5, 1.4, footprint.mul(k))));
+        const rake = sin(inSand.mul(k)).mul(oneMinus(smoothstep(0.5, 1.4, sandPixel.mul(k))));
         const low = smoothstep(1.2, 3.6, inSand).mul(SAND_LOW_SHADE);
         litBase = litBase.mul(float(1).add(rake.mul(SAND_RAKE_AMPLITUDE * display).sub(low).mul(cutTone).mul(weights[sandIndex])));
       }
@@ -890,18 +950,20 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
            outgrows it. ?surfaceedges=0 is the before, for this and the paths. */
         if (sandIndex >= 0) {
           const lip = oneMinus(smoothstep(0.03, 0.4, sdfs[sandIndex].max(0))).mul(weights[sandIndex])
-            .mul(oneMinus(smoothstep(0.12, 0.45, footprint))).mul(cutTone);
+            .mul(oneMinus(smoothstep(0.12, 0.45, sandPixel))).mul(cutTone);
           litBase = litBase.mul(oneMinus(lip.mul(vec3(...BUNKER_LIP_SHADE))));
         }
         /* A PATH IS WORN IN ITS MIDDLE AND GROWN IN AT ITS EDGES. Feet and carts
            keep the middle bare and a little paler; grass creeps in from both
            sides in the colour of the ground beside it, raggedly -- the rough's own
            clumps move the line, so it wanders as the grass does. */
-        const near = oneMinus(smoothstep(0.3, 1.2, footprint)).mul(cutTone);
+        const nearAll = oneMinus(smoothstep(0.3, 1.2, footprint)).mul(cutTone);
         for (const sid of GROWN_EDGE_SURFACES) {
           const index = channels.indexOf(sid);
           if (index < 0) continue;
           const inPath = sdfs[index].max(0);
+          /* a path's edges run with it: the pixel across them */
+          const near = pixelAcross ? oneMinus(smoothstep(0.3, 1.2, pixelAcross[index].min(footprint))).mul(cutTone) : nearAll;
           const grown = oneMinus(smoothstep(0.06, 0.45, inPath.add(clump.mul(0.6)))).mul(PATH_EDGE_GRASS).mul(weights[index]).mul(near);
           const worn = smoothstep(0.4, 1.0, inPath).mul(PATH_WORN_LIFT).mul(weights[index]).mul(near);
           litBase = mix(litBase.mul(float(1).add(worn)), roughColour, grown);
@@ -918,11 +980,13 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     material.userData.surfaceDebugMode = debugMode;
     material.userData.surfaceRepresentation = 'class-sdf-v1';
     material.userData.surfaceChannels = [...channels];
+    material.userData.groundEdges = { across: !!pixelAcross, stripeReach: !!(exactEdges && mowStrength > 0 && atlas.data.mowDirections && stripeReach),
+      hardGround };
     return material;
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
@@ -936,7 +1000,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
       throw new TypeError('the per-class v2 terrain material requires SDF textures and a channel palette');
     }
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, surfaceGloss, groundRelief }, shading),
+      createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, surfaceGloss, groundRelief, hardGround }, shading),
       atlas,
     );
   }
@@ -953,7 +1017,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround }, shading),
       atlas,
     );
   }
