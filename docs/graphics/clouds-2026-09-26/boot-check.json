@@ -1,0 +1,579 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Visby, Kväll, high quality",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 116,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": 3.4867360635982263,
+    "along": [
+     -0.6192856662768105,
+     0.7851657554580989
+    ],
+    "shadowOpacity": 0.55,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": 3.4867,
+    "along": [
+     -0.6193,
+     0.7852
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.55
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, low quality",
+   "q": "lo",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 107,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": 3.4867360635982263,
+    "along": [
+     -0.6192856662768105,
+     0.7851657554580989
+    ],
+    "shadowOpacity": 0.55,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": 3.4867,
+    "along": [
+     -0.6193,
+     0.7852
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.55
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, ?cloudlight=0",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&cloudlight=0",
+   "seconds": 117,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "golden",
+    "sunLit": false,
+    "cloudSun": 0,
+    "cloudBase": 9998510,
+    "stretch": 3.4867360635982263,
+    "along": [
+     -0.6192856662768105,
+     0.7851657554580989
+    ],
+    "shadowOpacity": 0.55,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "golden",
+    "sunLit": false,
+    "cloudSun": 0,
+    "cloudBase": 9998510,
+    "stretch": 3.4867,
+    "along": [
+     -0.6193,
+     0.7852
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.55
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, ?cloudstretch=0",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&cloudstretch=0",
+   "seconds": 114,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": null,
+    "along": null,
+    "shadowOpacity": 0.55,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": false
+   },
+   "want": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": null,
+    "along": null,
+    "longShadows": false,
+    "shadowOpacity": 0.55
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, both befores",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&cloudlight=0&cloudstretch=0",
+   "seconds": 102,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "golden",
+    "sunLit": false,
+    "cloudSun": 0,
+    "cloudBase": 9998510,
+    "stretch": null,
+    "along": null,
+    "shadowOpacity": 0.55,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": false
+   },
+   "want": {
+    "preset": "golden",
+    "sunLit": false,
+    "cloudSun": 0,
+    "cloudBase": 9998510,
+    "stretch": null,
+    "along": null,
+    "longShadows": false,
+    "shadowOpacity": 0.55
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Dag",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag",
+   "seconds": 124,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "noon",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 10727108,
+    "stretch": 1.3834881338306668,
+    "along": [
+     -0.46400699467055756,
+     0.8858315352801555
+    ],
+    "shadowOpacity": 0.62,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "noon",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 10727108,
+    "stretch": 1.3835,
+    "along": [
+     -0.464,
+     0.8858
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.62
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Höst",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=host",
+   "seconds": 130,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "host",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 10331069,
+    "stretch": 3.37521051698581,
+    "along": [
+     -0.7409869514359827,
+     0.6715194247388593
+    ],
+    "shadowOpacity": 0.6,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "host",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 10331069,
+    "stretch": 3.3752,
+    "along": [
+     -0.741,
+     0.6715
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.6
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Gryning",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=gryning",
+   "seconds": 155,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "dawn",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 10130350,
+    "stretch": 5.285845566772352,
+    "along": [
+     0.748588180173163,
+     -0.6630352452962301
+    ],
+    "shadowOpacity": 0.45,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "dawn",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 10130350,
+    "stretch": 5.2858,
+    "along": [
+     0.7486,
+     -0.663
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.45
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Midnattssol",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=midnattssol",
+   "seconds": 152,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "midnight",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9800355,
+    "stretch": 5.550213670196649,
+    "along": [
+     -0.20193780364743813,
+     -0.9793983476900749
+    ],
+    "shadowOpacity": 0.45,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "midnight",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9800355,
+    "stretch": 5.5502,
+    "along": [
+     -0.2019,
+     -0.9794
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.45
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Blå timmen",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=blatimmen",
+   "seconds": 118,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "bluehour",
+    "sunLit": true,
+    "cloudSun": 0,
+    "cloudBase": 5135742,
+    "stretch": 5.550213670196649,
+    "along": [
+     -0.7270131525498174,
+     0.6866235329637165
+    ],
+    "shadowOpacity": 0,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "bluehour",
+    "sunLit": true,
+    "cloudSun": 0,
+    "cloudBase": 5135742,
+    "stretch": 5.5502,
+    "along": [
+     -0.727,
+     0.6866
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Oväder",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=ovader",
+   "seconds": 107,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "storm",
+    "sunLit": true,
+    "cloudSun": 0,
+    "cloudBase": 7110544,
+    "stretch": 2.4404327312607133,
+    "along": [
+     -0.5390536964233672,
+     0.8422714006615113
+    ],
+    "shadowOpacity": 0,
+    "offset": [
+     0,
+     0
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "storm",
+    "sunLit": true,
+    "cloudSun": 0,
+    "cloudBase": 7110544,
+    "stretch": 2.4404,
+    "along": [
+     -0.5391,
+     0.8423
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0
+   },
+   "drift": null,
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, the air moving",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&ljus=kvall",
+   "seconds": 509,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sky": true,
+    "shadows": true,
+    "drift": true,
+    "carried": true,
+    "water": true,
+    "shadowOpacity": true
+   },
+   "got": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": 3.4867360635982263,
+    "along": [
+     -0.6192856662768105,
+     0.7851657554580989
+    ],
+    "shadowOpacity": 0.55,
+    "offset": [
+     3.8475714097410627,
+     1.836654105515367
+    ],
+    "longShadows": true
+   },
+   "want": {
+    "preset": "golden",
+    "sunLit": true,
+    "cloudSun": 1,
+    "cloudBase": 9998510,
+    "stretch": 3.4867,
+    "along": [
+     -0.6193,
+     0.7852
+    ],
+    "longShadows": true,
+    "shadowOpacity": 0.55
+   },
+   "drift": {
+    "first": [
+     3.8475714097410627,
+     1.836654105515367
+    ],
+    "later": [
+     16.208880757053066,
+     7.737376183033347
+    ]
+   },
+   "errors": []
+  }
+ ]
+}

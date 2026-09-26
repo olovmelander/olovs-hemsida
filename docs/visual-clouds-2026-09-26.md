@@ -159,10 +159,17 @@ light and shade across the land.
 
 **Isolated browser measures**
 ([`check-isolated.mjs`](graphics/clouds-2026-09-26/check-isolated.mjs), on
-[the study page](graphics/clouds-2026-09-26/isolated.html)). Main's own sky,
-cloud shadows and water, generated from git at `0de84582`, are drawn in the same
-page. These measures come from WebGL2 in SwiftShader, taken while the batch was
-built; linear luminance throughout.
+[the study page](graphics/clouds-2026-09-26/isolated.html); results in
+[`isolated-check.json`](graphics/clouds-2026-09-26/isolated-check.json)). Main's
+own sky, cloud shadows and water, generated from git at `0de84582`, are drawn in
+the same page. The whole check passed after the merge on WebGL2 and on WebGPU with
+reversed depth, both in SwiftShader; linear luminance throughout.
+- **The before is main's.** With `?cloudlight=0&cloudstretch=0` every light is
+  main's, pixel for pixel, on both backends: 42 comparisons each, covering the
+  sky toward, across and away from the sun, the tee, the lake and the sea, in
+  every light. The summer day, blue hour, storm and mist are main's as they are.
+- **The backends agree** on all 180 measures below, to within 0.01 or 3%. Every
+  read-back settled: 196 on each backend, in two renders (three on WebGPU).
 - **On the CPU**, every light's painted atmosphere is main's, value for value,
   but for `skyCloudSun` and `skyCloudBase` in the five sunlit lights.
 - **The clouds' order.** Seen away from the sun, how much brighter a cloud is 6
@@ -213,9 +220,31 @@ built; linear luminance throughout.
   - Looking toward the sun, 23% darkens; the sun's road keeps its brightness to
     the read-back's precision, as main's does.
 
-**Still to run** after the merge: the whole check on WebGL2 and WebGPU, with
-the proof that the befores are main's pixel for pixel and the pictures; and
-the app boot in every light.
+**The pictures** ([`clouds.jpg`](graphics/clouds-2026-09-26/clouds.jpg)) are
+main beside the batch through the app's tone mapping and high quality's glow:
+golden hour from the tee, across the light, away from and toward the sun and in
+a flyover; noon, dawn, the midnight sun and autumn; golden hour from 1.6 km and
+the sea from 180 m; and the long shadows cutting golden hour's road, which were
+tried and dropped.
+
+**The app boot**
+([`check-boot.mjs`](graphics/clouds-2026-09-26/check-boot.mjs), results in
+[`boot-check.json`](graphics/clouds-2026-09-26/boot-check.json)). The built app
+booted 12 times on WebGL2 in SwiftShader, and every boot passed. Each compiled
+every material in the scene with no page or console error, and the tree tiers
+audited clean. Each light's sky, cloud shadows and water are the preset's:
+- **Visby, golden hour, high and low quality:** the sky lit by the sun at share
+  1, its base `0x9890ae`, the shadows stretched 3.487 along the sun, and the
+  water's body taking long shadows.
+- **The befores:** with `?cloudlight=0` the sky is main's (share 0); with
+  `?cloudstretch=0` the shadows are round and the water keeps its rule; and
+  both together.
+- **Visby at noon and in autumn, Ängsö at dawn and under the midnight sun:**
+  each light's share, base and stretch (dawn's 5.286).
+- **Visby in the blue hour and the storm:** a sky lit by the sun at no share.
+- **Visby in golden hour with the air moving** (no `det=1`): the shadows' drift
+  was carried, finite and inside the pattern's tile 30 frames on (from 3.8, 1.8
+  to 16.2, 7.7 m).
 
 ## Not established
 
@@ -228,7 +257,8 @@ the app boot in every light.
 - **Frame time.** Nothing was timed. The sky's two extra octaves are the one
   real cost.
 - **WebGPU full boot.** As before, the full app does not finish loading on
-  WebGPU in this container's software rendering.
+  WebGPU in this container's software rendering; the isolated check covers
+  WebGPU.
 
 ## Reproduce
 
