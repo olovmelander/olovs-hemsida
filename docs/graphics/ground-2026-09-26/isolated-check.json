@@ -1,0 +1,870 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "4170051d",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "with ?groundedges=0, ?stripereach=0 and ?hardground=0 the ground is main's, pixel for pixel, and the batch's is not",
+     "ok": true,
+     "tee/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 5567,
+       "maxDiff": 0.0884
+      }
+     },
+     "tee/golden": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 5427,
+       "maxDiff": 0.3403
+      }
+     },
+     "tee/noon/weights": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 5317,
+       "maxDiff": 0.415
+      }
+     },
+     "wide/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 51573,
+       "maxDiff": 0.0205
+      }
+     },
+     "beside/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 12814,
+       "maxDiff": 0.012
+      }
+     },
+     "mud/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 35674,
+       "maxDiff": 0.0253
+      }
+     }
+    },
+    {
+     "label": "in the hole view the rough past 150 m reads as rough, where main's took a share of every class",
+     "ok": true,
+     "main": {
+      "pixels": 4311,
+      "meanOff": 0.0278,
+      "readAsRough": 0.412
+     },
+     "now": {
+      "pixels": 4311,
+      "meanOff": 0.0002,
+      "readAsRough": 1
+     }
+    },
+    {
+     "150": {
+      "row": 140,
+      "footprint": 4.452,
+      "main": 13,
+      "now": 2
+     },
+     "175": {
+      "row": 135,
+      "footprint": 5.3513,
+      "main": 8,
+      "now": 2
+     },
+     "320": {
+      "row": 117,
+      "footprint": 12.7481,
+      "main": 9,
+      "now": 2
+     },
+     "label": "a fairway's side running down the view is at most three pixels of blend, where main's spread over many",
+     "ok": true
+    },
+    {
+     "label": "past 32 m from the line main's passes hold one tone and the batch's fade out; within 26 m they are main's",
+     "ok": true,
+     "profile": {
+      "main": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0714,
+        "rms": 0.0726
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0608,
+        "rms": 0.065
+       }
+      },
+      "now": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0477,
+        "rms": 0.0561
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0036,
+        "rms": 0.0044
+       }
+      }
+     },
+     "inner": {
+      "pixels": 65280,
+      "differing": 354,
+      "maxDiff": 0.0001
+     }
+    },
+    {
+     "label": "beside the path the fairway no longer darkens the path's edge as a taller cut, and nothing else there moves",
+     "ok": true,
+     "edge": {
+      "main": 0.7908,
+      "now": 0.8153
+     },
+     "elsewhere": {
+      "pixels": 119952,
+      "differing": 2752,
+      "maxDiff": 0.0001
+     }
+    },
+    {
+     "label": "the mud takes the hard ground's finish: not the turf's warm lift in the sun",
+     "ok": true,
+     "main": [
+      0.1403,
+      0.0978,
+      0.0594
+     ],
+     "now": [
+      0.1476,
+      0.1021,
+      0.0634
+     ]
+    },
+    {
+     "label": "with the sun behind the eye the tussocks, clumps and reeds are lit on the side that is seen, where main's were dark",
+     "ok": true,
+     "pixels": {
+      "tufts": 10733,
+      "clumps": 2436,
+      "reeds": 1801
+     },
+     "lit": {
+      "before": {
+       "tufts": 0.059,
+       "clumps": 0.0941,
+       "reeds": 0.0277
+      },
+      "now": {
+       "tufts": 0.1569,
+       "clumps": 0.1133,
+       "reeds": 0.1182
+      },
+      "lightOnly": {
+       "tufts": 0.1831,
+       "clumps": 0.1191,
+       "reeds": 0.1182
+      }
+     }
+    },
+    {
+     "label": "a block's shadow falls on the tussocks, where main's stayed sunlit",
+     "ok": true,
+     "before": {
+      "tuftPixels": 7600,
+      "darkened": 0
+     },
+     "now": {
+      "tuftPixels": 7600,
+      "darkened": 0.4111
+     }
+    },
+    {
+     "label": "the tussocks' colour is back where it was tuned, where main's went mustard",
+     "ok": true,
+     "tuned": {
+      "rg": 0.8887,
+      "bg": 0.1842
+     },
+     "main": {
+      "rg": 1.0042,
+      "bg": 0.1765
+     },
+     "now": {
+      "rg": 0.8928,
+      "bg": 0.1898
+     }
+    },
+    {
+     "label": "in autumn the mown edge's clumps take the rough's ochre, where main's stayed green",
+     "ok": true,
+     "main": {
+      "rg": 0.5245,
+      "bg": 0.1303
+     },
+     "now": {
+      "rg": 0.6205,
+      "bg": 0.1108
+     }
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 42,
+     "settled": 42,
+     "maxRenders": 2
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "measures": {
+    "edges": {
+     "far": {
+      "main": {
+       "pixels": 4311,
+       "meanOff": 0.0278,
+       "readAsRough": 0.412
+      },
+      "now": {
+       "pixels": 4311,
+       "meanOff": 0.0002,
+       "readAsRough": 1
+      }
+     },
+     "side": {
+      "150": {
+       "row": 140,
+       "footprint": 4.452,
+       "main": 13,
+       "now": 2
+      },
+      "175": {
+       "row": 135,
+       "footprint": 5.3513,
+       "main": 8,
+       "now": 2
+      },
+      "320": {
+       "row": 117,
+       "footprint": 12.7481,
+       "main": 9,
+       "now": 2
+      }
+     }
+    },
+    "stripes": {
+     "profile": {
+      "main": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0714,
+        "rms": 0.0726
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0608,
+        "rms": 0.065
+       }
+      },
+      "now": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0477,
+        "rms": 0.0561
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0036,
+        "rms": 0.0044
+       }
+      }
+     },
+     "inner": {
+      "pixels": 65280,
+      "differing": 354,
+      "maxDiff": 0.0001
+     }
+    },
+    "hard": {
+     "edge": {
+      "main": 0.7908,
+      "now": 0.8153
+     },
+     "elsewhere": {
+      "pixels": 119952,
+      "differing": 2752,
+      "maxDiff": 0.0001
+     },
+     "mud": {
+      "main": [
+       0.1403,
+       0.0978,
+       0.0594
+      ],
+      "now": [
+       0.1476,
+       0.1021,
+       0.0634
+      ]
+     }
+    },
+    "cover": {
+     "lit": {
+      "before": {
+       "tufts": 0.059,
+       "clumps": 0.0941,
+       "reeds": 0.0277
+      },
+      "now": {
+       "tufts": 0.1569,
+       "clumps": 0.1133,
+       "reeds": 0.1182
+      },
+      "lightOnly": {
+       "tufts": 0.1831,
+       "clumps": 0.1191,
+       "reeds": 0.1182
+      }
+     },
+     "shadow": {
+      "before": {
+       "tuftPixels": 7600,
+       "darkened": 0
+      },
+      "now": {
+       "tuftPixels": 7600,
+       "darkened": 0.4111
+      }
+     },
+     "colour": {
+      "tuned": {
+       "rg": 0.8887,
+       "bg": 0.1842
+      },
+      "main": {
+       "rg": 1.0042,
+       "bg": 0.1765
+      },
+      "now": {
+       "rg": 0.8928,
+       "bg": 0.1898
+      }
+     },
+     "autumn": {
+      "main": {
+       "rg": 0.5245,
+       "bg": 0.1303
+      },
+      "now": {
+       "rg": 0.6205,
+       "bg": 0.1108
+      }
+     }
+    }
+   },
+   "reads": {
+    "count": 42,
+    "settled": 42,
+    "maxRenders": 2
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "with ?groundedges=0, ?stripereach=0 and ?hardground=0 the ground is main's, pixel for pixel, and the batch's is not",
+     "ok": true,
+     "tee/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 5535,
+       "maxDiff": 0.0883
+      }
+     },
+     "tee/golden": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 5446,
+       "maxDiff": 0.3403
+      }
+     },
+     "tee/noon/weights": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 5328,
+       "maxDiff": 0.415
+      }
+     },
+     "wide/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 51523,
+       "maxDiff": 0.0205
+      }
+     },
+     "beside/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 12813,
+       "maxDiff": 0.012
+      }
+     },
+     "mud/noon": {
+      "before": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "pixels": 130560,
+       "differing": 35667,
+       "maxDiff": 0.0251
+      }
+     }
+    },
+    {
+     "label": "in the hole view the rough past 150 m reads as rough, where main's took a share of every class",
+     "ok": true,
+     "main": {
+      "pixels": 4311,
+      "meanOff": 0.0279,
+      "readAsRough": 0.4092
+     },
+     "now": {
+      "pixels": 4311,
+      "meanOff": 0.0002,
+      "readAsRough": 1
+     }
+    },
+    {
+     "150": {
+      "row": 140,
+      "footprint": 4.452,
+      "main": 13,
+      "now": 3
+     },
+     "175": {
+      "row": 135,
+      "footprint": 5.3513,
+      "main": 8,
+      "now": 2
+     },
+     "320": {
+      "row": 117,
+      "footprint": 12.7481,
+      "main": 9,
+      "now": 2
+     },
+     "label": "a fairway's side running down the view is at most three pixels of blend, where main's spread over many",
+     "ok": true
+    },
+    {
+     "label": "past 32 m from the line main's passes hold one tone and the batch's fade out; within 26 m they are main's",
+     "ok": true,
+     "profile": {
+      "main": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0714,
+        "rms": 0.0726
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0608,
+        "rms": 0.065
+       }
+      },
+      "now": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0477,
+        "rms": 0.0561
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0036,
+        "rms": 0.0044
+       }
+      }
+     },
+     "inner": {
+      "pixels": 65280,
+      "differing": 350,
+      "maxDiff": 0.0001
+     }
+    },
+    {
+     "label": "beside the path the fairway no longer darkens the path's edge as a taller cut, and nothing else there moves",
+     "ok": true,
+     "edge": {
+      "main": 0.7908,
+      "now": 0.8153
+     },
+     "elsewhere": {
+      "pixels": 119952,
+      "differing": 2751,
+      "maxDiff": 0.0001
+     }
+    },
+    {
+     "label": "the mud takes the hard ground's finish: not the turf's warm lift in the sun",
+     "ok": true,
+     "main": [
+      0.1403,
+      0.0978,
+      0.0594
+     ],
+     "now": [
+      0.1476,
+      0.1021,
+      0.0634
+     ]
+    },
+    {
+     "label": "with the sun behind the eye the tussocks, clumps and reeds are lit on the side that is seen, where main's were dark",
+     "ok": true,
+     "pixels": {
+      "tufts": 10727,
+      "clumps": 2424,
+      "reeds": 1794
+     },
+     "lit": {
+      "before": {
+       "tufts": 0.0591,
+       "clumps": 0.0942,
+       "reeds": 0.0276
+      },
+      "now": {
+       "tufts": 0.1569,
+       "clumps": 0.1134,
+       "reeds": 0.1181
+      },
+      "lightOnly": {
+       "tufts": 0.1831,
+       "clumps": 0.1192,
+       "reeds": 0.1181
+      }
+     }
+    },
+    {
+     "label": "a block's shadow falls on the tussocks, where main's stayed sunlit",
+     "ok": true,
+     "before": {
+      "tuftPixels": 7613,
+      "darkened": 0
+     },
+     "now": {
+      "tuftPixels": 7613,
+      "darkened": 0.4092
+     }
+    },
+    {
+     "label": "the tussocks' colour is back where it was tuned, where main's went mustard",
+     "ok": true,
+     "tuned": {
+      "rg": 0.8883,
+      "bg": 0.1843
+     },
+     "main": {
+      "rg": 1.004,
+      "bg": 0.1765
+     },
+     "now": {
+      "rg": 0.8927,
+      "bg": 0.1898
+     }
+    },
+    {
+     "label": "in autumn the mown edge's clumps take the rough's ochre, where main's stayed green",
+     "ok": true,
+     "main": {
+      "rg": 0.5246,
+      "bg": 0.1303
+     },
+     "now": {
+      "rg": 0.6207,
+      "bg": 0.1108
+     }
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 42,
+     "settled": 42,
+     "maxRenders": 2
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "measures": {
+    "edges": {
+     "far": {
+      "main": {
+       "pixels": 4311,
+       "meanOff": 0.0279,
+       "readAsRough": 0.4092
+      },
+      "now": {
+       "pixels": 4311,
+       "meanOff": 0.0002,
+       "readAsRough": 1
+      }
+     },
+     "side": {
+      "150": {
+       "row": 140,
+       "footprint": 4.452,
+       "main": 13,
+       "now": 3
+      },
+      "175": {
+       "row": 135,
+       "footprint": 5.3513,
+       "main": 8,
+       "now": 2
+      },
+      "320": {
+       "row": 117,
+       "footprint": 12.7481,
+       "main": 9,
+       "now": 2
+      }
+     }
+    },
+    "stripes": {
+     "profile": {
+      "main": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0714,
+        "rms": 0.0726
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0608,
+        "rms": 0.065
+       }
+      },
+      "now": {
+       "offset": 0.0009,
+       "inner": {
+        "pixels": 65280,
+        "meanAbs": 0.0681,
+        "rms": 0.0703
+       },
+       "edge": {
+        "pixels": 13600,
+        "meanAbs": 0.0477,
+        "rms": 0.0561
+       },
+       "beyond": {
+        "pixels": 31552,
+        "meanAbs": 0.0036,
+        "rms": 0.0044
+       }
+      }
+     },
+     "inner": {
+      "pixels": 65280,
+      "differing": 350,
+      "maxDiff": 0.0001
+     }
+    },
+    "hard": {
+     "edge": {
+      "main": 0.7908,
+      "now": 0.8153
+     },
+     "elsewhere": {
+      "pixels": 119952,
+      "differing": 2751,
+      "maxDiff": 0.0001
+     },
+     "mud": {
+      "main": [
+       0.1403,
+       0.0978,
+       0.0594
+      ],
+      "now": [
+       0.1476,
+       0.1021,
+       0.0634
+      ]
+     }
+    },
+    "cover": {
+     "lit": {
+      "before": {
+       "tufts": 0.0591,
+       "clumps": 0.0942,
+       "reeds": 0.0276
+      },
+      "now": {
+       "tufts": 0.1569,
+       "clumps": 0.1134,
+       "reeds": 0.1181
+      },
+      "lightOnly": {
+       "tufts": 0.1831,
+       "clumps": 0.1192,
+       "reeds": 0.1181
+      }
+     },
+     "shadow": {
+      "before": {
+       "tuftPixels": 7613,
+       "darkened": 0
+      },
+      "now": {
+       "tuftPixels": 7613,
+       "darkened": 0.4092
+      }
+     },
+     "colour": {
+      "tuned": {
+       "rg": 0.8883,
+       "bg": 0.1843
+      },
+      "main": {
+       "rg": 1.004,
+       "bg": 0.1765
+      },
+      "now": {
+       "rg": 0.8927,
+       "bg": 0.1898
+      }
+     },
+     "autumn": {
+      "main": {
+       "rg": 0.5246,
+       "bg": 0.1303
+      },
+      "now": {
+       "rg": 0.6207,
+       "bg": 0.1108
+      }
+     }
+    }
+   },
+   "reads": {
+    "count": 42,
+    "settled": 42,
+    "maxRenders": 2
+   }
+  }
+ },
+ "agreement": {
+  "measures": 75,
+  "disagreeing": []
+ }
+}
