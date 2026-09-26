@@ -245,6 +245,13 @@ describe('main.js', () => {
     expect(main).toMatch(/lap\('wild cover \(forest floor, flowers\)'\);/);
   });
 
+  it('compiles a tile of each kind with the opening view, whatever the view looks at', () => {
+    expect(main).toMatch(/firstTiles: live\.map\(\(\[, part\]\) => part\.tiles\[0\]\),/);
+    /* unculled for the opening preparation, and culled again whatever it throws */
+    expect(main).toMatch(/const wildTiles = wildCover\?\.firstTiles \?\? \[\];\n\s*for \(const tile of wildTiles\) tile\.frustumCulled = false;/);
+    expect(main).toMatch(/await prepareOpeningGpu\([^\n]*\n\s*\} finally \{\n\s*if \(grassHidden\) nearGrass\.mesh\.visible = false;\n\s*for \(const tile of wildTiles\) tile\.frustumCulled = true;/);
+  });
+
   it('updates its tiles each frame from the camera the frame draws', () => {
     expect(main).toMatch(/nearGrass\?\.update\(camera, renderer\.domElement\.height\);\s*wildCover\?\.update\(camera\);/);
     expect(main).toMatch(/wildCover: \(\) => \(\{ \.\.\.structuredClone\(stats\.wildCover\), drawnTiles:/);

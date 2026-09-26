@@ -6428,6 +6428,8 @@ if (coverPlantings && (FOREST_FLOOR_ON || WILD_FLOWERS_ON)) {
   wildCover = {
     drawnTiles,
     update(camera) { for (const [name, part] of live) drawnTiles[name] = part.update(camera); },
+    /* a tile of each kind, compiled with the opening view whatever it looks at */
+    firstTiles: live.map(([, part]) => part.tiles[0]),
   };
 }
 lap('wild cover (forest floor, flowers)');
@@ -11481,10 +11483,16 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
        the opening view even when that view is too high to draw it */
     const grassHidden = nearGrass ? !nearGrass.prime(camera, renderer.domElement.height) : false;
     if (grassHidden) nearGrass.mesh.visible = true;
+    /* and the wild cover's materials, even where no tile of a kind lies in the opening view:
+       one tile of each is left unculled while it compiles */
+    const wildTiles = wildCover?.firstTiles ?? [];
+    for (const tile of wildTiles) tile.frustumCulled = false;
+    if (wildCover) stats.wildCover.compiledAtOpening = wildTiles.length;
     try {
       BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass });
     } finally {
       if (grassHidden) nearGrass.mesh.visible = false;
+      for (const tile of wildTiles) tile.frustumCulled = true;
     }
   } catch (error) {
     const retryMessage = 'kunde inte visa banan — ladda om och försök igen';
