@@ -24,6 +24,9 @@
      under a high sun keeps its brightness.
    - CLOUDS ONLY UNDER A HIGH SUN. A cloud's shade puts out the road where the
      sun stands over 35 degrees, as it always did; below 15 degrees it does not.
+     The clouds batch (docs/visual-clouds-2026-09-26.md) drew a low sun's shadows
+     out along its light, so they no longer cross the road as bars; let through,
+     they cut golden hour's road into long pieces, and the road keeps this rule.
    And (water-shading.mjs):
    - `mirror`: toward a low sun the water mirrors more of its glowing sky: the
      reflection's share rises from 0.42 to 0.7 inside the sun glow's own lobe,

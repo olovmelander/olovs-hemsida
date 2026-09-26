@@ -79,7 +79,10 @@ export const AUTUMN_FOLIAGE = {
 // are what crosses it. glaze: the light's colour laid over the land
 // (aerial-perspective.mjs), a share of every colour the haze reaches given to
 // the tint at its own brightness. wind: the floor of a light's own wind in the
-// visible air (one-wind.mjs lightWind), in the storm alone. The audit of the
+// visible air (one-wind.mjs lightWind), in the storm alone. skyCloudSun,
+// skyCloudBase: the clouds lit by the sun (painted-sky.mjs), in each light with
+// a sun and clouds: its share, and the colour of a cloud's shaded base and far
+// flank, darker than its lit paint and apart from the sky's blue. The audit of the
 // nine lights (docs/visual-lights-2026-09-25.md) set the blue hour, golden
 // hour, dawn, midnight sun and storm below; LIGHTS_BEFORE keeps what they were.
 export const PAINTED_ATMOSPHERES = {
@@ -88,7 +91,7 @@ export const PAINTED_ATMOSPHERES = {
     skyPalette:.10, skyZenith:0x146ab6, skyHorizon:0x91cadc, skyRadiance:.05, paintedSkyExposure:1, cloud:.28,
     environment:{ground:0xa8ad91,horizon:0xc5dde2,zenith:0x579bc4},
     foliage:{strength:1.04,direct:.95}, water:[0x228b9d,0x164c88], waterLight:1, sparkle:.18,
-    shadowSky:.12, cloudShadow:{cover:.30,opacity:.62},
+    shadowSky:.12, cloudShadow:{cover:.30,opacity:.62}, skyCloudSun:1, skyCloudBase:0xa3aec4,
   },
   // A cloudless summer day: a deep blue zenith over a pale, luminous horizon,
   // a high afternoon sun, clear air, fresh greens and bright water. No clouds,
@@ -113,6 +116,7 @@ export const PAINTED_ATMOSPHERES = {
     foliage:{strength:1.20,direct:.96,sunWhite:.18,shadowWhite:.38,back:.42},
     water:[0x438b87,0x24577f], waterLight:.94, sparkle:.36,
     shadowSky:.14, cloudShadow:{cover:.22,opacity:.55}, bloomThreshold:.70, skyCloudGlow:.5,
+    skyCloudSun:1, skyCloudBase:0x9890ae,
   },
   // Pearl and rose: a pale pearl-blue zenith, so the sky between the pink clouds
   // is pearl rather than lilac; crowns take the rose sun and the land a rose glaze.
@@ -125,7 +129,7 @@ export const PAINTED_ATMOSPHERES = {
     foliage:{strength:.93,direct:.70,back:.30,sunWhite:.20,shadowWhite:.45}, water:[0x789ea8,0x446789], waterLight:.83, sparkle:.32,
     glaze:{tint:0xe8b8a8,amount:.22},
     shadowSky:.12, cloudShadow:{cover:.30,opacity:.45}, valleyMist:{density:.0016,height:6},
-    bloomThreshold:.60, skyCloudGlow:1.31,
+    bloomThreshold:.60, skyCloudGlow:1.31, skyCloudSun:1, skyCloudBase:0x9a93ae,
   },
   midnight:{ sun:0xffb76c, int:1.90, hemiS:0xb4bed8, hemiG:0xb09d89, hemiI:2.05,
     fog:0xaba0ae, paintedFog:0xa3a7c1, exp:1.13, paintedFill:1.04,
@@ -137,6 +141,7 @@ export const PAINTED_ATMOSPHERES = {
     foliage:{strength:.90,direct:.80,back:.38,sunWhite:.25,shadowWhite:.50}, water:[0x7b9c9e,0x4a6285], waterLight:.84, sparkle:.45,
     glaze:{tint:0xf0c890,amount:.15},
     shadowSky:.11, cloudShadow:{cover:.18,opacity:.45}, bloomThreshold:.50, skyCloudGlow:2.16,
+    skyCloudSun:1, skyCloudBase:0x958aa3,
   },
   // The sky is the light: a luminous cobalt over a periwinkle horizon, brighter
   // than the land beneath it, which lies dark, cool and blue-grey. It was the
@@ -175,7 +180,7 @@ export const PAINTED_ATMOSPHERES = {
     environment:{ground:0xb4a285,horizon:0xddd0b8,zenith:0x769fc1},
     foliage:{strength:1.14,direct:.92,back:.30}, water:[0x2f858e,0x1b5084], waterLight:.96, sparkle:.46,
     leaf:0xd6a442, reed:0xbe9855,
-    shadowSky:.11, cloudShadow:{cover:.32,opacity:.60}, skyCloudGlow:.27,
+    shadowSky:.11, cloudShadow:{cover:.32,opacity:.60}, skyCloudGlow:.27, skyCloudSun:1, skyCloudBase:0x9da3bd,
   },
 };
 

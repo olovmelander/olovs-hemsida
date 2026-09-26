@@ -38,7 +38,9 @@ export function preparedTintAllowed(search) {
     // nor do the water from above's: the water's cloud shade and its patches seen from above are drawn
     'watercloud', 'waterlanes',
     // nor does the lights audit's: the lights' colours, the glaze on the land and the storm's wind are drawn
-    'lights']);
+    'lights',
+    // nor do the clouds batch's: the clouds' light and their shadows' stretch are drawn
+    'cloudlight', 'cloudstretch']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

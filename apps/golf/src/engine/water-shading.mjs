@@ -26,7 +26,7 @@ import { sunRoad, mirrorShare, bodyRelief } from './water-road.mjs';
 import { bodySunlit, bodyCloudShade, waterRoughness, waterLanes } from './water-above.mjs';
 
 export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, cloud = null, ocean = false, showBed = true, nordic = false, wind = false,
-  road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false }) {
+  road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false }) {
   const uSun = sun, uWaterGlint = glint, uWaterChop = chop;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
@@ -101,7 +101,7 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   /* the share of the sun past the clouds, read per pixel here, where a pond's few large triangles would blur
      the cloud's edge per vertex: the sparkle's, and with `cloudShade` the body's (water-above.mjs) */
   const sunlit = cloud ? cloud.sunlightAt(positionWorld) : null;
-  const bodySun = cloudShade && sunlit ? bodySunlit({ sunlit, V, sunUp: uSun.y }) : null;
+  const bodySun = cloudShade && sunlit ? bodySunlit({ sunlit, V, sunUp: uSun.y, long: longShadows }) : null;
   const shade = bodySun ? bodyCloudShade(bodySun) : null;
   /* from above, the calm and gusty patches: glassy and ruffled (water-above.mjs) */
   const rough = lanes && patchChop ? waterRoughness({ chop: patchChop, V }) : null;

@@ -18,7 +18,17 @@
    the ground's beside it, moved along the sun as far as the crown stands up.
    It is read once per vertex -- the shapes are hundreds of metres across -- so
    nothing is added per pixel but on the water, and the shadow map and its
-   on-demand renders are untouched: moving clouds render nothing again. */
+   on-demand renders are untouched: moving clouds render nothing again.
+
+   A LOW SUN DRAWS THE SHADOWS OUT ALONG ITS LIGHT (docs/visual-clouds-2026-09-26.md).
+   A cloud stands about half as tall as it is wide, and its shadow falls that
+   height's run beyond it: 1 + depth x cot(sun's height) times as long as it is
+   wide, along the sun's azimuth -- 3.5 times at golden hour, 1.4 at noon, to at
+   most 6. The pattern is read that many times more slowly along the light, so
+   its shapes are that much longer, their soft edges too, while the share of the
+   ground they cover, each preset's, is unchanged: the read's values are the
+   pattern's own. They were round at every sun, where a low sun's are bands.
+   Without it (?cloudstretch=0), the before. */
 import { DataTexture, LinearFilter, RedFormat, RepeatWrapping, UnsignedByteType, Vector2 } from 'three/webgpu';
 import { float, positionWorld, renderGroup, smoothstep, texture, uniform } from 'three/tsl';
 
@@ -32,7 +42,17 @@ export const CLOUD_SHADOW = Object.freeze({
   /* a sun lower than this (the sine of its height) is taken at this height, so the
      pattern's shift up a slope stays bounded near the horizon */
   sunFloor: 0.12,
+  /* a low sun draws a cloud's shadow out along its light: a cloud's height over its width, and the longest stretch */
+  stretch: { depth: 0.55, max: 6 },
 });
+
+/** How many times longer than wide a cloud's shadow falls under a sun this high (the sine of its height): 1 overhead.
+    Below the floor the sun is taken at the floor, as for the pattern's shift. */
+export function shadowStretch(sunUp) {
+  const { sunFloor, stretch } = CLOUD_SHADOW;
+  const s = Math.min(1, Math.max(sunUp, sunFloor));
+  return Math.min(stretch.max, 1 + stretch.depth * Math.sqrt(1 - s * s) / s);
+}
 
 const smooth = t => t * t * (3 - 2 * t);
 /* a small integer hash to 0..1, the same on every machine */
@@ -103,25 +123,40 @@ export function cloudPatternTexture() {
   return (shared = { bytes, map });
 }
 
-export function createCloudShadow() {
+export function createCloudShadow({ stretch = false } = {}) {
   const { tileMetres, softness, sunFloor } = CLOUD_SHADOW;
   const { bytes, map } = cloudPatternTexture();
   const offset = uniform(new Vector2(0, 0)).setGroup(renderGroup);
   const threshold = uniform(2).setGroup(renderGroup), opacity = uniform(0).setGroup(renderGroup);
   /* how far the pattern moves per metre of height, along the sun: the sun's ground direction over its height */
   const slope = uniform(new Vector2(0, 0)).setGroup(renderGroup);
+  /* the stretch: the sun's azimuth (unit, x z), and how much less of the pattern a metre along it reads, 1/stretch - 1 */
+  const along = uniform(new Vector2(1, 0)).setGroup(renderGroup), squeeze = uniform(0).setGroup(renderGroup);
   /** The share of the sun reaching `position` (world, vec3) past the clouds: 1 in the clear. */
   const sunlightAt = position => {
-    const q = position.xz.sub(slope.mul(position.y)).sub(offset).div(tileMetres);
+    let ground = position.xz.sub(slope.mul(position.y));
+    /* stretched, the drift is the pattern's own (setOffset), subtracted after the stretch */
+    ground = stretch ? ground.add(along.mul(ground.dot(along).mul(squeeze))).sub(offset) : ground.sub(offset);
+    const q = ground.div(tileMetres);
     const v = texture(map, q).level(0).r;
     return float(1).sub(smoothstep(threshold.sub(softness), threshold.add(softness), v).mul(opacity));
   };
   const state = { cover: 0, opacity: 0 };
+  /* the air's drift, in metres over the ground: stretched, the pattern takes it in its own frame, wrapped to the tile
+     there -- a stretched pattern does not meet itself across a wrap of the ground's drift, so the air does not wrap it */
+  const drift = { x: 0, z: 0 };
+  const wrapTile = v => v - Math.floor(v / tileMetres) * tileMetres;
+  const placeDrift = () => {
+    if (!stretch) { offset.value.set(drift.x, drift.z); return; }
+    const a = along.value, k = (drift.x * a.x + drift.z * a.y) * squeeze.value;
+    offset.value.set(wrapTile(drift.x + a.x * k), wrapTile(drift.z + a.y * k));
+  };
   return {
-    map, bytes, offset, threshold, opacity, slope, sunlightAt,
+    map, bytes, offset, threshold, opacity, slope, along, squeeze, sunlightAt,
     /* per vertex, shared by every material that takes it */
     vertex: sunlightAt(positionWorld).toVertexStage(),
-    period: tileMetres,
+    /* the air wraps its drift to this (one-wind.mjs stepAir) */
+    period: stretch ? Infinity : tileMetres,
     setPreset(preset) {
       const c = cloudShadowOf(preset);
       Object.assign(state, c);
@@ -132,8 +167,14 @@ export function createCloudShadow() {
     setSun(direction) {
       const up = Math.max(direction.y, sunFloor);
       slope.value.set(direction.x / up, direction.z / up);
+      if (!stretch) return;
+      const flat = Math.hypot(direction.x, direction.z);
+      if (flat > 1e-6) along.value.set(direction.x / flat, direction.z / flat);
+      squeeze.value = 1 / shadowStretch(direction.y) - 1;
+      placeDrift();
     },
-    setOffset(x, z) { offset.value.set(x, z); },
-    snapshot: () => ({ ...state, threshold: threshold.value, offset: offset.value.toArray(), slope: slope.value.toArray() }),
+    setOffset(x, z) { drift.x = x; drift.z = z; placeDrift(); },
+    snapshot: () => ({ ...state, threshold: threshold.value, offset: offset.value.toArray(), slope: slope.value.toArray(),
+      stretch: stretch ? 1 / (1 + squeeze.value) : null, along: stretch ? along.value.toArray() : null }),
   };
 }

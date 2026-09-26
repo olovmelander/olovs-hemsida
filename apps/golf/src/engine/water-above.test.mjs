@@ -75,8 +75,9 @@ describe('the water from above', () => {
 
   it('is drawn by the water\'s shading: the body in the shade, the relief as rough as the patch', () => {
     const above = fs.readFileSync(new URL('./water-above.mjs', import.meta.url), 'utf8');
-    /* under a low sun only as the eye looks down; under a high one everywhere, as the road is cut (water-road.mjs) */
-    expect(above).toMatch(/const \[low, high\] = WATER_ROAD\.cloudSun;\n\s+return mix\(float\(1\), sunlit, max\(fromAbove\(V\), smoothstep\(low, high, sunUp\)\)\);/);
+    /* under a low sun only as the eye looks down; under a high one everywhere, as the road is cut (water-road.mjs);
+       with the shadows drawn out along a low sun's light (cloud-shadow.mjs stretch), everywhere at every sun */
+    expect(above).toMatch(/export function bodySunlit\(\{ sunlit, V, sunUp, long = false \}\) \{\n\s+if \(long\) return sunlit;\n\s+const \[low, high\] = WATER_ROAD\.cloudSun;\n\s+return mix\(float\(1\), sunlit, max\(fromAbove\(V\), smoothstep\(low, high, sunUp\)\)\);/);
     expect(WATER_ROAD.cloudSun[0]).toBeCloseTo(Math.sin(15 * Math.PI / 180), 9);
     expect(above).toMatch(/export const bodyCloudShade = share => mix\(waterCloudShade, vec3\(1\), share\);/);
     expect(above).toMatch(/export const waterRoughness = \(\{ chop, V \}\) => mix\(float\(1\), chop\.mul\(chop\)\.max\(WATER_ABOVE\.lanes\.glassy\), fromAbove\(V\)\);/);
@@ -84,7 +85,8 @@ describe('the water from above', () => {
     /* the roughness scales the tilt inside the relief's cap */
     expect(road).toMatch(/return \(rough \? tilt\.mul\(rough\) : tilt\)\.mul\(gain\)\.clamp\(-cap, cap\)\.mul\(sunlit \? waterReliefSun\.mul\(sunlit\) : waterReliefSun\)\.add\(1\);/);
     const shading = fs.readFileSync(new URL('./water-shading.mjs', import.meta.url), 'utf8');
-    expect(shading).toMatch(/const bodySun = cloudShade && sunlit \? bodySunlit\(\{ sunlit, V, sunUp: uSun\.y \}\) : null;/);
+    expect(shading).toMatch(/const bodySun = cloudShade && sunlit \? bodySunlit\(\{ sunlit, V, sunUp: uSun\.y, long: longShadows \}\) : null;/);
+    expect(shading).toMatch(/cloudShade = false, lanes = false, longShadows = false \}\) \{/);
     expect(shading).toMatch(/const rough = lanes && patchChop \? waterRoughness\(\{ chop: patchChop, V \}\) : null;/);
     expect(shading).toMatch(/if \(relief\) body = body\.mul\(bodyRelief\(\{ N, sun: uSun, sunlit: bodySun, rough \}\)\);/);
     expect(shading).toMatch(/if \(shade\) body = body\.mul\(shade\);\n\s+if \(rough\) body = body\.mul\(waterLanes\(\{ chop: patchChop, V \}\)\);/);
@@ -97,7 +99,7 @@ describe('the water from above', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/const WATER_CLOUD_ON = new URLSearchParams\(location\.search\)\.get\('watercloud'\) !== '0';/);
     expect(main).toMatch(/const WATER_LANES_ON = new URLSearchParams\(location\.search\)\.get\('waterlanes'\) !== '0';/);
-    expect(main).toMatch(/sea: sea && OPEN_SEA_ON,\n\s+cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON \}\);/);
+    expect(main).toMatch(/sea: sea && OPEN_SEA_ON,\n\s+cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON \}\);/);
     /* the shade's share follows the preset, as the player's environment lights the ground */
     expect(main).toMatch(/setWaterRoadPreset\(p\);\n[^\n]*\n\s+setWaterAbovePreset\(p, \{ environment: GRAPHICS_POLISH \}\);/);
     expect(main).toMatch(/const lightingEnvironment = createLightingEnvironment\(renderer, scene, \{\n\s+enabled: GRAPHICS_POLISH,/);
