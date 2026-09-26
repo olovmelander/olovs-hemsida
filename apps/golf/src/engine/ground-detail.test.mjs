@@ -11,7 +11,7 @@ import * as THREE from 'three/webgpu';
 import { vec3 } from 'three/tsl';
 import { createGroundAtlas } from './atlas.js';
 import { createV2GroundMaterialDecorator, DETAIL_BROAD_MEAN } from './material.js';
-import { GROUND_DETAIL } from './ground-material-core.mjs';
+import { GROUND_DETAIL, DETAIL_CLUMP_MEAN } from './ground-material-core.mjs';
 import { fillGroundDetailPixels } from './ground-detail-texture.mjs';
 import { GROUND_WETNESS, paintedWet, setPaintedWorldLighting } from './painted-world-lighting.mjs';
 import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
@@ -69,15 +69,16 @@ const at = (A, u, v) => {
   const g = (i, j) => A[(((j % N) + N) % N) * N + (((i % N) + N) % N)];
   return (g(x0, y0) * (1 - fx) + g(x0 + 1, y0) * fx) * (1 - fy) + (g(x0, y0 + 1) * (1 - fx) + g(x0 + 1, y0 + 1) * fx) * fy;
 };
-/* the clumps (near minus far, the near tap turned) and the near tap alone, over 200 m of ground */
+/* the clumps (near minus far, the near tap turned), the near tap alone and the far tap alone, over 200 m of ground */
 const [cos, sin] = GROUND_DETAIL.NEAR_TAP_TURN;
-const clumps = [], crests = [];
+const clumps = [], crests = [], fars = [];
 for (let z = 0; z < 200; z += 0.137) for (let x = 0; x < 200; x += 0.137) {
-  const near = at(G, (x * cos - z * sin) * 0.09, (x * sin + z * cos) * 0.09);
-  clumps.push(near - at(G, x * 0.031 + 0.37, z * 0.031 + 0.61));
+  const near = at(G, (x * cos - z * sin) * 0.09, (x * sin + z * cos) * 0.09), far = at(G, x * 0.031 + 0.37, z * 0.031 + 0.61);
+  clumps.push(near - far);
   crests.push(near);
+  fars.push(far);
 }
-const clump = stats(clumps);
+const clump = stats(clumps), far = stats(fars);
 
 describe('the detail taps', () => {
   it('are four a pixel with the turf\'s grain, seven without it', () => {
@@ -127,18 +128,25 @@ describe('the amplitudes, from the detail texture itself', () => {
     expect(broad * (1 + GROUND_DETAIL.TURF_BROAD_LIFT)).toBeGreaterThan(0.028);
     expect(broad * (1 + GROUND_DETAIL.TURF_BROAD_LIFT)).toBeLessThan(0.034);
   });
-  it('mottle rock, soil and mud at about 10, 9 and 6%, their edges wandering about 12 cm', () => {
+  it('mottle rock, soil and mud from the far tap about its own mean, at about 8, 7 and 5%, their edges wandering about 12 cm', () => {
+    /* the far tap alone averages the clump channel's mean, in both texture variants */
+    expect(Math.abs(far.mean - DETAIL_CLUMP_MEAN)).toBeLessThan(0.003);
+    expect(Math.abs(stats(G).mean - DETAIL_CLUMP_MEAN)).toBeLessThan(0.001);
+    const plain = new Uint8ClampedArray(N * N * 4);
+    fillGroundDetailPixels(plain, N, { seamless: false });
+    let mean = 0; for (let i = 0; i < N * N; i++) mean += plain[i * 4 + 1] / 255;
+    expect(Math.abs(mean / (N * N) - DETAIL_CLUMP_MEAN)).toBeLessThan(0.001);
     const { ROCK, DIRT, MUD } = SURFACE, mottle = GROUND_DETAIL.BARE_MOTTLE;
-    expect(clump.sd * mottle[ROCK]).toBeCloseTo(0.10, 2);
-    expect(clump.sd * mottle[DIRT]).toBeCloseTo(0.09, 2);
-    expect(clump.sd * mottle[MUD]).toBeCloseTo(0.06, 2);
+    expect(far.sd * mottle[ROCK]).toBeCloseTo(0.08, 2);
+    expect(far.sd * mottle[DIRT]).toBeCloseTo(0.07, 2);
+    expect(far.sd * mottle[MUD]).toBeCloseTo(0.05, 2);
     expect(clump.sd * GROUND_DETAIL.BARE_RAGGED_METRES).toBeCloseTo(0.12, 2);
   });
-  it('scar about 3% of a tee\'s middle, and none once a texel of the near tap outgrows 70 cm', () => {
+  it('scar about 1% of a tee\'s middle, and none once a texel of the near tap outgrows 35 cm', () => {
     const [low, high] = GROUND_DETAIL.DIVOT_CREST;
     const share = values => values.reduce((sum, v) => sum + smoothstep(low, high, v), 0) / values.length;
-    expect(share(crests)).toBeGreaterThan(0.025);
-    expect(share(crests)).toBeLessThan(0.04);
+    expect(share(crests)).toBeGreaterThan(0.005);
+    expect(share(crests)).toBeLessThan(0.02);
     /* the mip chain: each level the mean of four */
     let level = G, n = N;
     const shares = [];
@@ -150,19 +158,27 @@ describe('the amplitudes, from the detail texture itself', () => {
       }
       level = next; n = m;
     }
-    /* level 4 is 35 cm a texel at the tap's scale, level 5 69 cm */
-    expect(shares[4]).toBeLessThan(0.005);
-    for (const s of shares.slice(5)) expect(s).toBe(0);
+    /* level 3 is 17 cm a texel at the tap's scale, level 4 35 cm */
+    expect(shares[3]).toBeLessThan(0.01);
+    for (const s of shares.slice(4)) expect(s).toBe(0);
   });
-  it('band the walk a metre to four out from a green\'s and a tee\'s edge, most where the clumps are thin', () => {
+  it('band the walk a metre to four out from a green\'s and a tee\'s edge, in patches where the clumps are thinnest', () => {
     const [a, b, c, d] = GROUND_DETAIL.WEAR_BAND_METRES;
     const band = ring => smoothstep(a, b, ring) * (1 - smoothstep(c, d, ring));
     expect(band(0.3)).toBe(0);
     for (const ring of [1.2, 2, 2.6]) expect(band(ring)).toBe(1);
     expect(band(4.6)).toBe(0);
-    const thin = clumps.reduce((sum, v) => sum + smoothstep(-0.12, 0.18, -v), 0) / clumps.length;
-    expect(thin).toBeGreaterThan(0.4);
-    expect(thin).toBeLessThan(0.5);
+    const [t0, t1] = GROUND_DETAIL.WEAR_THIN;
+    const thin = clumps.reduce((sum, v) => sum + smoothstep(t0, t1, -v), 0) / clumps.length;
+    const full = clumps.filter(v => -v >= t1).length / clumps.length;
+    expect(thin).toBeGreaterThan(0.2);
+    expect(thin).toBeLessThan(0.35);
+    /* the worn patches' hearts: about a seventh of the band, about 7% brighter at display */
+    expect(full).toBeGreaterThan(0.1);
+    expect(full).toBeLessThan(0.2);
+    const heart = (0.2126 * GROUND_DETAIL.WEAR_TINT[0] + 0.7152 * GROUND_DETAIL.WEAR_TINT[1] + 0.0722 * GROUND_DETAIL.WEAR_TINT[2]) * 2.2 / 2.2;
+    expect(heart).toBeGreaterThan(0.06);
+    expect(heart).toBeLessThan(0.08);
     /* paler and yellower: red and green up, blue down */
     const [r, g, bl] = GROUND_DETAIL.WEAR_TINT;
     expect(r).toBeGreaterThan(g);
@@ -209,7 +225,7 @@ describe('the shader', () => {
   it('grains every class but the rough\'s own paint by its SHADE bump, and mottles and frays the bare ground', () => {
     expect(core).toMatch(/clump\.mul\(TURF_GRAIN \* display \* cutTone\)\.mul\(shade\.y\)\.mul\(oneMinus\(meta\.a\)\)/);
     expect(core).toMatch(/bareIndices\.includes\(index\) \? sdf\.add\(clumpAt\(\)\.mul\(BARE_RAGGED_METRES\)\) : sdf/);
-    expect(core).toMatch(/litBase = litBase\.mul\(float\(1\)\.add\(clump\.mul\(display \* cutTone\)\.mul\(bare\)\)\);/);
+    expect(core).toMatch(/litBase = litBase\.mul\(float\(1\)\.add\(farTap\(\)\.g\.sub\(DETAIL_CLUMP_MEAN\)\.mul\(display \* cutTone\)\.mul\(bare\)\)\);/);
   });
   it('is wired in main.js behind its befores', () => {
     expect(main).toMatch(/turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON,/);

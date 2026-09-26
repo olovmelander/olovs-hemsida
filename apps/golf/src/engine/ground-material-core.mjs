@@ -548,24 +548,28 @@ const TURF_GRAIN = 0.28, TURF_BROAD_LIFT = 1.5;
 /* the detail texture's near tap, turned off the world's axes: its 11 m repeat
    no longer lines up with the others' (a rotation by atan(3/4), about 37 degrees) */
 const NEAR_TAP_TURN = Object.freeze([0.8, 0.6]);
-/* BARE GROUND (bareGround). Rock, soil and mud mottle at about 10, 9 and 6%
-   display luminance either side on top of the grain their SHADE bump gives them
-   (about 13, 12 and 8% in all), and their edges wander this far with it (about
-   12 cm either side, up to 40) */
-const BARE_MOTTLE = Object.freeze({ [SURFACE.ROCK]: 0.5, [SURFACE.DIRT]: 0.45, [SURFACE.MUD]: 0.3 });
+/* BARE GROUND (bareGround). Rock, soil and mud mottle in soft blotches a metre
+   across (the far tap, about its channel's own mean) at about 8, 7 and 5% of
+   display luminance either side, on top of the grain their SHADE bump gives
+   them; their edges wander with the clumps (about 12 cm either side, up to 40) */
+const BARE_MOTTLE = Object.freeze({ [SURFACE.ROCK]: 0.55, [SURFACE.DIRT]: 0.5, [SURFACE.MUD]: 0.35 });
 const BARE_RAGGED_METRES = 0.6;
-/* WEAR AND WET (groundWear). A tee's divots: the share of its middle a clump
-   crest scars (about 3%), and how much of the scar is sand and seed over soil */
-const DIVOT_CREST = [0.74, 0.8], DIVOT_SAND = 0.4, DIVOT_SHARE = 0.85;
+/* the detail texture's clump channel (G) averages this, both variants within 0.001 (ground-detail-texture.mjs) */
+export const DETAIL_CLUMP_MEAN = 0.5136;
+/* WEAR AND WET (groundWear). A tee's divots: the clump crests that scar (about
+   1% of its middle), how much of a scar is soil rather than grass, and how much
+   of that soil is the sand-and-seed mix */
+const DIVOT_CREST = [0.8, 0.86], DIVOT_SAND = 0.3, DIVOT_SHARE = 0.7;
 /* the walk on and off a green: a band this far out from its edge (and a tee's),
-   paler and yellower where the clumps are thin */
-const WEAR_BAND_METRES = [0.4, 1.2, 2.6, 4.6], WEAR_TINT = Object.freeze([0.06, 0.035, -0.03]);
+   worn paler and yellower in patches where the clumps are thinnest (a patch's
+   heart about 7% brighter at display) */
+const WEAR_BAND_METRES = [0.4, 1.2, 2.6, 4.6], WEAR_TINT = Object.freeze([0.12, 0.07, -0.05]), WEAR_THIN = [0.02, 0.22];
 /* damp hollows: from this much shelter (the baked relief) to full, darker and a
    little cooler, at each light's wetness (storm 1, mist 0.6) */
 const DAMP_SHELTER = [0.45, 0.9], DAMP_SHADE = 0.12, DAMP_COOL = Object.freeze([-0.03, 0, 0.03]);
 /* the grain's, the wear's and the bare ground's numbers, as the shader takes them (for their tests) */
 export const GROUND_DETAIL = Object.freeze({ TURF_GRAIN, TURF_BROAD_LIFT, NEAR_TAP_TURN, BARE_MOTTLE, BARE_RAGGED_METRES,
-  DIVOT_CREST, DIVOT_SAND, DIVOT_SHARE, WEAR_BAND_METRES, WEAR_TINT, DAMP_SHELTER, DAMP_SHADE, DAMP_COOL, ROUGH_CLUMP_AMPLITUDE });
+  DIVOT_CREST, DIVOT_SAND, DIVOT_SHARE, WEAR_BAND_METRES, WEAR_TINT, WEAR_THIN, DAMP_SHELTER, DAMP_SHADE, DAMP_COOL, ROUGH_CLUMP_AMPLITUDE });
 /* how dark the bank is at the waterline, and how far up the bank it reaches */
 const BANK_SHADE = 0.24, BANK_FALLOFF_METRES = 0.9;
 /* a rake's pass, its depth of tone, and how much damper the low middle stands */
@@ -627,9 +631,10 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     } : null;
     /* the rough's clumps: the difference of the near and far taps, zero-mean
        (without the shared taps, the before's two, each read once) */
-    let nearNode = null, clumpNode = null;
+    let nearNode = null, farNode = null, clumpNode = null;
     const nearTap = () => (nearNode ??= taps ? taps.near : texture(DETAIL, wp.mul(0.09)));
-    const clumpAt = () => (clumpNode ??= nearTap().g.sub(taps ? taps.far.g : texture(DETAIL, wp.mul(0.031).add(vec2(0.37, 0.61))).g));
+    const farTap = () => (farNode ??= taps ? taps.far : texture(DETAIL, wp.mul(0.031).add(vec2(0.37, 0.61))));
+    const clumpAt = () => (clumpNode ??= nearTap().g.sub(farTap().g));
     /* BARE GROUND'S EDGE. Rock, soil and mud broke off along their mapped line
        like a cut; bare ground frays into the grass round it. Their fields move
        with the clumps (?bareground=0 is the before). */
@@ -984,12 +989,14 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       if (bareIndices.length) {
         /* BARE GROUND. Rock, soil and mud were one flat colour, and as hard ground
            took a third of the finish's blotch: stickers laid on the grass. They
-           mottle with the same clumps, strongly, as broken ground does. */
+           mottle in soft blotches a metre across, as a painter lays broken
+           ground: the far tap alone, about its channel's mean. The clumps' finer
+           half made a speckle, noise across a patch from the hole view. */
         const bare = bareIndices.reduce((acc, index) => {
           const term = weights[index].mul(BARE_MOTTLE[channels[index]]);
           return acc ? acc.add(term) : term;
         }, null);
-        litBase = litBase.mul(float(1).add(clump.mul(display * cutTone).mul(bare)));
+        litBase = litBase.mul(float(1).add(farTap().g.sub(DETAIL_CLUMP_MEAN).mul(display * cutTone).mul(bare)));
       }
       /* THE BANK IS DAMP. Water met the ground as a sticker: the sheet's edge, then
          dry turf at full brightness. Wet soil and wet grass are darker, and only
@@ -1046,11 +1053,12 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       }
       if (groundWear) {
         /* A TEE IS DIVOTED. Every tee on the course was unmarked turf. Where the
-           near clumps crest, in the tee's middle, the turf is scarred: bare soil
-           under a sand-and-seed mix. The crests are a few tenths of a metre, and
-           the mip chain lowers them below the threshold with distance, so the
-           scars go before they could shimmer. ?groundwear=0 is the before, for
-           this, the greens' traffic and the damp. */
+           near clumps crest highest, in the tee's middle, the turf is scarred:
+           bare soil under a sand-and-seed mix, a hand or two across. The mip
+           chain lowers the crests below the threshold with distance (none once
+           the tap's texel passes 35 cm), so the scars go before they could
+           shimmer. ?groundwear=0 is the before, for this, the greens' traffic
+           and the damp. */
         const teeIndex = channels.indexOf(SURFACE.TEE);
         if (teeIndex >= 0) {
           const crest = nearTap().g;
@@ -1063,14 +1071,15 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         }
         /* THE WALK ON AND OFF A GREEN. Players cross the collar and the ground
            round it at the same few places a round; the turf a metre or four out
-           from a green's (and a tee's) edge is thinner, paler and yellower, most
-           where the clumps are thin. From the exact distance to those edges. */
+           from a green's (and a tee's) edge is worn thin, paler and yellower, in
+           patches where the clumps are thinnest. From the exact distance to
+           those edges. */
         const greenIndex = channels.indexOf(SURFACE.GREEN);
         const onPad = [greenIndex, teeIndex].filter(index => index >= 0)
           .reduce((acc, index) => acc.add(weights[index]), float(0));
         const band = smoothstep(WEAR_BAND_METRES[0], WEAR_BAND_METRES[1], ringDistance)
           .mul(oneMinus(smoothstep(WEAR_BAND_METRES[2], WEAR_BAND_METRES[3], ringDistance)))
-          .mul(oneMinus(onPad).max(0)).mul(oneMinus(meta.g.max(meta.b))).mul(smoothstep(-0.12, 0.18, clump.negate()))
+          .mul(oneMinus(onPad).max(0)).mul(oneMinus(meta.g.max(meta.b))).mul(smoothstep(WEAR_THIN[0], WEAR_THIN[1], clump.negate()))
           .mul(cutTone);
         litBase = litBase.mul(vec3(1).add(vec3(...WEAR_TINT).mul(band.mul(display))));
         /* A WET HOLLOW. In the storm and the mist, ground that the baked relief
