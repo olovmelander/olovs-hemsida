@@ -28,6 +28,8 @@ const WATER_ROAD_BEFORE = ['waterroad=0', 'watermirror=0', 'waterrelief=0', 'ope
 const WATER_ABOVE_BEFORE = ['watercloud=0', 'waterlanes=0'];
 /* the lights audit's (docs/visual-lights-2026-09-25.md) */
 const LIGHTS_BEFORE = ['lights=before'];
+/* the clouds batch's (docs/visual-clouds-2026-09-26.md) */
+const CLOUDS_BEFORE = ['cloudlight=0', 'cloudstretch=0'];
 
 describe('the visual fixes\' before switches', () => {
   it('leave every prepared startup path eligible, alone and all together', () => {
@@ -42,10 +44,10 @@ describe('the visual fixes\' before switches', () => {
       expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE].join('&')}`)).toBe(true);
     }
   });
-  it('leave prepared startup eligible for the landscape, air, water, glow, buildings, water road, water from above and lights audit batches\' befores, and all of them together', () => {
+  it('leave prepared startup eligible for the landscape, air, water, glow, buildings, water road, water from above, lights audit and clouds batches\' befores, and all of them together', () => {
     for (const allowed of [preparedTintAllowed, preparedWaterAllowed, preparedVistaAllowed, preparedScatterAllowed]) {
-      for (const flag of [...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE]) expect(allowed(`?bana=angso&${flag}`)).toBe(true);
-      expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE, ...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE].join('&')}`)).toBe(true);
+      for (const flag of [...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE, ...CLOUDS_BEFORE]) expect(allowed(`?bana=angso&${flag}`)).toBe(true);
+      expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE, ...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE, ...CLOUDS_BEFORE].join('&')}`)).toBe(true);
     }
   });
 });

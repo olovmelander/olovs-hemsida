@@ -1978,7 +1978,12 @@ if (shadowTint) sun.shadow.shadowNode = shadowTint.node;
    colour, keep the sky-lit tint through its shadow node, and reach the painted
    crowns, the water's sparkle and the light through reeds, tufts and flags
    through SUNLIT: the share of the sun each vertex keeps past the clouds. */
-const CLOUD = CLOUD_SHADOWS_ON ? createCloudShadow() : null;
+/* A low sun draws the clouds' shadows out along its light, 3.5 times as long as
+   they are wide at golden hour (engine/cloud-shadow.mjs), and with them the
+   water's body takes their shade at every angle (engine/water-above.mjs).
+   ?cloudstretch=0 is the before: round shadows at every sun. */
+const CLOUD_STRETCH_ON = new URLSearchParams(location.search).get('cloudstretch') !== '0';
+const CLOUD = CLOUD_SHADOWS_ON ? createCloudShadow({ stretch: CLOUD_STRETCH_ON }) : null;
 if (CLOUD) {
   const clouded = sunUnderClouds(sun, { cloud: CLOUD.vertex, tint: shadowTint ? shadowTint.tint : null });
   sun.colorNode = clouded.colorNode;
@@ -2021,7 +2026,11 @@ const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuff
   /* after the opaque world, so hidden sky is never shaded; ?skyorder=first is the before */
   drawLast: new URLSearchParams(location.search).get('skyorder') !== 'first',
   /* the clouds drift with the one wind */
-  drift: ONE_WIND_ON ? skyDrift : null });
+  drift: ONE_WIND_ON ? skyDrift : null,
+  /* the clouds lit by the sun: lit tops and sunward flanks, shaded bases in the
+     light's own base colour, a lining toward the sun (engine/painted-sky.mjs);
+     ?cloudlight=0 is the before, their light and shade from their noise alone */
+  sunLit: new URLSearchParams(location.search).get('cloudlight') !== '0' });
 scene.add(skyMesh);
 
 /* The selected sky and the indirect light share a palette. Reuse the baker,
@@ -3926,7 +3935,7 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false } =
   const { colour, opacity: sheetOpacity, wp } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
     cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,
     road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,
-    cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON });
+    cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -12136,7 +12145,9 @@ window.V3D = {
       openSea: { on: OPEN_SEA_ON, sheets: WATER_MESHES.filter(m => m.material === openSeaMat && openSeaMat !== waterMat).length,
         lakeSheets: WATER_MESHES.filter(m => m.material === waterMat).length },
       /* the water from above (docs/visual-water-above-2026-09-25.md): the body's share in a cloud's full shade, and the patches */
-      cloudShade: WATER_CLOUD_ON ? waterCloudShade.value.toArray() : null, lanes: WATER_LANES_ON }; },
+      cloudShade: WATER_CLOUD_ON ? waterCloudShade.value.toArray() : null, lanes: WATER_LANES_ON,
+      /* the clouds batch (docs/visual-clouds-2026-09-26.md): the body takes long shadows at every angle */
+      longShadows: CLOUD_STRETCH_ON }; },
   /* the sun's shadow map: re-rendered every frame (three's default) or frozen as it is, for the cost bisection */
   /* the meter's handle on the scene: hide by name, zero a light, read a pose (tools/glitter-meter.mjs) */
   harness: () => ({ scene, renderer, camera, sun, controls, terrainV2 }),

@@ -19,11 +19,16 @@
      degrees, in full from 45: all of any Ovan frame, a desktop's corners too,
      and none of the water a player looks out over: from the owner's camera
      over Visby's sea the nearest water lies 22 degrees down). The clouds'
-     shadows are laid round, where a low sun would draw them out along its
+     shadows were laid round, where a low sun would draw them out along its
      light, and seen along the water a round shadow is a thin bar: the bars the
      water road pass took off the sun's road.
      Under a high sun, when the shadows are round, the water takes them at every
-     angle, as the road does.
+     angle, as the road does. And now a low sun's are drawn out along its light
+     (cloud-shadow.mjs, docs/visual-clouds-2026-09-26.md): with them (`long`) the
+     body takes the shade at every angle too, and a shadow crossing the shore
+     goes on over the water a player looks out over, as long and as soft. The
+     road keeps its rule: cut by long shadows a low sun's road lay in long
+     pieces, and it is golden hour's road that stays whole.
    - THE WIND DID NOT SHOW. The air carries calm and gusty patches across the
      water (nordic-water.mjs), but they only change how strongly it ripples, and
      from a few hundred metres up that barely showed. Seen from above, a gust's
@@ -90,8 +95,10 @@ export function setWaterAbovePreset(p, { environment = true } = {}) {
 export const fromAbove = V => smoothstep(WATER_ABOVE.above[0], WATER_ABOVE.above[1], V.y);
 
 /** The share of the sun the body takes past the clouds (`sunlit`, 1 in the clear): the cloud's own as the eye
-    looks down or the sun stands high (the road's rule, water-road.mjs), and all of it seen low under a low sun. */
-export function bodySunlit({ sunlit, V, sunUp }) {
+    looks down or the sun stands high (the road's rule, water-road.mjs), and all of it seen low under a low sun --
+    unless the shadows are drawn out along a low sun's light (`long`), when the body takes the cloud's own at every angle. */
+export function bodySunlit({ sunlit, V, sunUp, long = false }) {
+  if (long) return sunlit;
   const [low, high] = WATER_ROAD.cloudSun;
   return mix(float(1), sunlit, max(fromAbove(V), smoothstep(low, high, sunUp)));
 }

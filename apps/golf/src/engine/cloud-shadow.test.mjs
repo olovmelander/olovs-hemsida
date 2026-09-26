@@ -6,13 +6,44 @@
 import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { LinearFilter, RepeatWrapping } from 'three/webgpu';
-import { CLOUD_SHADOW, cloudPattern, cloudPatternTexture, cloudShadowOf, cloudSunlight, coverThreshold, createCloudShadow } from './cloud-shadow.mjs';
+import { Vector3 } from 'three/webgpu';
+import { CLOUD_SHADOW, cloudPattern, cloudPatternTexture, cloudShadowOf, cloudSunlight, coverThreshold, createCloudShadow, shadowStretch } from './cloud-shadow.mjs';
 import { PAINTED_ATMOSPHERES } from './painted-world-palette.mjs';
 import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
 import { foliageCloudShadeFor } from './ghibli-foliage-material.mjs';
 
 const N = CLOUD_SHADOW.size;
 const bytes = cloudPattern();
+const sunAt = (degrees, azimuth = 0) => {
+  const e = degrees * Math.PI / 180;
+  return new Vector3(Math.cos(e) * Math.sin(azimuth), Math.sin(e), Math.cos(e) * Math.cos(azimuth));
+};
+/* the pattern as the shader reads it at world (x, y, z): the same ground point, stretch and drift, filtered as the
+   texture filters it (linear, repeating, texel centres at half a texel) */
+const patternAt = (cloud, x, y, z, stretched) => {
+  const { tileMetres } = CLOUD_SHADOW;
+  const [sx, sz] = cloud.slope.value.toArray(), [ax, az] = cloud.along.value.toArray(), k = cloud.squeeze.value;
+  let gx = x - sx * y, gz = z - sz * y;
+  if (stretched) { const d = (gx * ax + gz * az) * k; gx += ax * d; gz += az * d; }
+  gx -= cloud.offset.value.x; gz -= cloud.offset.value.y;
+  const u = gx / tileMetres * N - 0.5, v = gz / tileMetres * N - 0.5;
+  const i0 = Math.floor(u), j0 = Math.floor(v), fu = u - i0, fv = v - j0;
+  const at = (i, j) => bytes[(((j % N) + N) % N) * N + (((i % N) + N) % N)] / 255;
+  return (at(i0, j0) * (1 - fu) + at(i0 + 1, j0) * fu) * (1 - fv) + (at(i0, j0 + 1) * (1 - fu) + at(i0 + 1, j0 + 1) * fu) * fv;
+};
+/* how far along a direction the pattern stays like itself: the lag at which its correlation falls to a half */
+const lengthAlong = (read, [dx, dz], lags) => {
+  const points = [];
+  for (let i = 0; i < 48; i++) for (let j = 0; j < 48; j++) points.push([i * 331 + 17, j * 293 + 5]);
+  const base = points.map(([x, z]) => read(x, z)), mean = base.reduce((a, b) => a + b) / base.length;
+  const variance = base.reduce((a, b) => a + (b - mean) ** 2, 0) / base.length;
+  for (const lag of lags) {
+    let c = 0;
+    points.forEach(([x, z], n) => { c += (base[n] - mean) * (read(x + dx * lag, z + dz * lag) - mean); });
+    if (c / base.length / variance < 0.5) return lag;
+  }
+  return Infinity;
+};
 
 describe('cloud shadows', () => {
   it('draw one deterministic pattern that tiles without a seam', () => {
@@ -95,6 +126,59 @@ describe('cloud shadows', () => {
     /* the sky-lit share of the sun stays, as in a tree's shadow on the ground */
     expect(foliageCloudShadeFor({ int: 2, hemiI: 1, shadowSky: 0.1 })).toBeGreaterThan(foliageCloudShadeFor({ int: 2, hemiI: 1 }));
   });
+  it('are drawn out along a low sun\'s light: 3.5 times as long as wide at golden hour, round overhead', () => {
+    const sine = d => Math.sin(d * Math.PI / 180);
+    expect(shadowStretch(1)).toBe(1);
+    expect(shadowStretch(sine(12.5))).toBeCloseTo(1 + 0.55 / Math.tan(12.5 * Math.PI / 180), 9);
+    expect(shadowStretch(sine(12.5))).toBeCloseTo(3.48, 2);
+    expect(shadowStretch(sine(55.1))).toBeCloseTo(1.38, 2);
+    /* never longer than the most, and a sun below the floor is taken at the floor, as the pattern's shift is */
+    expect(shadowStretch(sine(4.6))).toBe(shadowStretch(CLOUD_SHADOW.sunFloor));
+    expect(shadowStretch(0)).toBeLessThanOrEqual(CLOUD_SHADOW.stretch.max);
+    for (let d = 1; d < 90; d++) expect(shadowStretch(sine(d + 1))).toBeLessThanOrEqual(shadowStretch(sine(d)));
+    /* read as the shader reads it: longer along the light than across it, by the stretch */
+    for (const [degrees, azimuth] of [[12.5, -0.67], [7.3, 2.2], [55.1, 0.9]]) {
+      const sun = sunAt(degrees, azimuth), cloud = createCloudShadow({ stretch: true });
+      cloud.setSun(sun); cloud.setOffset(1234, -567);
+      const along = [Math.sin(azimuth), Math.cos(azimuth)], across = [Math.cos(azimuth), -Math.sin(azimuth)];
+      const read = (x, z) => patternAt(cloud, x, 0, z, true), lags = Array.from({ length: 400 }, (_, i) => (i + 1) * 16);
+      const ratio = lengthAlong(read, along, lags) / lengthAlong(read, across, lags);
+      expect(ratio / shadowStretch(sun.y), `${degrees} degrees`).toBeGreaterThan(0.8);
+      expect(ratio / shadowStretch(sun.y), `${degrees} degrees`).toBeLessThan(1.25);
+    }
+  });
+  it('keep each preset\'s cover when drawn out, and drift with the air without a jump', () => {
+    const sun = sunAt(12.5, -0.67), cloud = createCloudShadow({ stretch: true });
+    cloud.setSun(sun);
+    /* the air does not wrap a stretched pattern's drift: the pattern takes it in its own frame, wrapped to the tile there */
+    expect(cloud.period).toBe(Infinity);
+    expect(createCloudShadow().period).toBe(CLOUD_SHADOW.tileMetres);
+    const t = coverThreshold(bytes, 0.22);
+    let shaded = 0, n = 0;
+    for (let x = 0; x < 20000; x += 97) for (let z = 0; z < 20000; z += 89) { n++; if (patternAt(cloud, x, 0, z, true) > t) shaded++; }
+    expect(Math.abs(shaded / n - 0.22)).toBeLessThan(0.03);
+    /* the shadows move with the air: after the air carries the drift by (dx, dz), the pattern at a point is what it
+       was that far upwind -- also across every multiple of the tile a wrapped drift would have jumped at */
+    for (const start of [[0, 0], [4090, -4090], [81920 - 3, 12288 + 2]]) {
+      cloud.setOffset(...start);
+      const before = [[100, 200], [-1500, 900], [2500, -3100]].map(([x, z]) => patternAt(cloud, x, 0, z, true));
+      cloud.setOffset(start[0] + 7.5, start[1] - 3.25);
+      const after = [[107.5, 196.75], [-1492.5, 896.75], [2507.5, -3103.25]].map(([x, z]) => patternAt(cloud, x, 0, z, true));
+      after.forEach((v, i) => expect(v).toBeCloseTo(before[i], 5));
+      /* the drift the shader subtracts stays within the tile */
+      for (const v of cloud.offset.value.toArray()) { expect(v).toBeGreaterThanOrEqual(0); expect(v).toBeLessThan(CLOUD_SHADOW.tileMetres); }
+    }
+    /* a crown takes the ground's sample beside it, moved along the sun as far as it stands up, stretched or not */
+    cloud.setOffset(300, 400);
+    const up = cloud.slope.value;
+    expect(patternAt(cloud, 50 + up.x * 20, 20, 60 + up.y * 20, true)).toBeCloseTo(patternAt(cloud, 50, 0, 60, true), 9);
+    /* the before is the round pattern, its drift the air's own */
+    const round = createCloudShadow();
+    round.setSun(sun); round.setOffset(5000, -300);
+    expect(round.offset.value.toArray()).toEqual([5000, -300]);
+    expect(round.snapshot()).toMatchObject({ stretch: null, along: null });
+    expect(cloud.snapshot().stretch).toBeCloseTo(shadowStretch(sun.y), 9);
+  });
   it('reach the ground, the crowns, both impostor tiers, the water, the flags and the light through reeds and tufts in main.js', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/sunUnderClouds\(sun, \{ cloud: CLOUD\.vertex/);
@@ -111,5 +195,9 @@ describe('cloud shadows', () => {
     expect(main).toMatch(/createFlagMaterial\(flagAtlas, uSun, SUNLIT \? uThroughSun\.mul\(SUNLIT\) : uThroughSun\)/);
     expect((main.match(/mul\(uSunThrough\)\.mul\(SUNLIT \?\? 1\)/g) || []).length).toBe(3);
     expect(main).toMatch(/CLOUD\.setPreset\(p\); CLOUD\.setSun\(d\);/);
+    /* drawn out along a low sun's light, behind its before; the air wraps the drift as the pattern asks */
+    expect(main).toMatch(/const CLOUD_STRETCH_ON = new URLSearchParams\(location\.search\)\.get\('cloudstretch'\) !== '0';/);
+    expect(main).toMatch(/const CLOUD = CLOUD_SHADOWS_ON \? createCloudShadow\(\{ stretch: CLOUD_STRETCH_ON \}\) : null;/);
+    expect(main).toMatch(/cloudPeriod: CLOUD \? CLOUD\.period : Infinity/);
   });
 });

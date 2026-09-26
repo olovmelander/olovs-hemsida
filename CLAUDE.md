@@ -147,8 +147,10 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   above the body shows the ripples' relief, ruffled in a gusty patch and glassy
   in a calm one, and keeps in a cloud's shade the share level ground keeps
   (`water-above.mjs`, reckoned from the ground's own lights; keep it in step if
-  they change). Under a low sun the water takes that shade only as the eye looks
-  down: round shadows seen along the water are bars. Do not darken the calm
+  they change). With the clouds' shadows drawn out along a low sun's light the
+  body takes that shade at every angle; with round ones (`?cloudstretch=0`) only
+  as the eye looks down, since round shadows seen along the water are bars. The
+  road keeps its rule under long shadows too. Do not darken the calm
   patches from above; they read as more cloud shadows. The ripples, foam and
   calm/gusty patches drift with the one wind. See [the water batch](docs/visual-water-2026-09-25.md),
   [the water road pass](docs/visual-water-road-2026-09-25.md) and
@@ -160,6 +162,18 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   (high quality, before any runtime drop). When a preset's sky colours change,
   keep its threshold above that paint and re-solve its shine (`glow.test.mjs`
   holds both). See [the glow batch](docs/visual-glow-2026-09-25.md).
+- The painted sky lights its clouds by the sun (`painted-sky.mjs` `sunLit`, at
+  each light's `skyCloudSun` share): tops and sunward flanks take the lit paint,
+  bases and far flanks the light's `skyCloudBase`, and toward the sun a lining
+  lies inside each cloud's edge. Near the sun they keep their lit paint, so the
+  glow's shine still crosses its threshold, and no cloud is ever brighter than
+  its lit paint. A low sun draws the clouds' shadows out along its light
+  (`cloud-shadow.mjs` `stretch`, 3.5 times at golden hour) over each light's
+  own cover. The pattern takes the air's drift in its own frame and wraps it
+  there, so the air must not wrap a stretched drift (`period` is Infinity;
+  `one-wind.mjs` leaves an unbounded period unwrapped, since 0 x Infinity is NaN).
+  Keep the tests' CPU reading of the pattern in step with the shader's.
+  `?cloudlight=0` and `?cloudstretch=0` are the befores. See [the clouds batch](docs/visual-clouds-2026-09-26.md).
 - Walls darken at their foot where they meet the ground (`building-paint.mjs`):
   each vertex carries the visible ground's height under it (`aGround`, stamped
   at load), and the shader scales the material's own colour, walls only. The

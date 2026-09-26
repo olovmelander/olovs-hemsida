@@ -7,6 +7,7 @@ import { FLAG_DEFAULT_MS, flagWindYaw } from './flag-motion.mjs';
 import { ONE_WIND, createAir, downwindOf, gustAt, lightWind, stepAir, swayStrength } from './one-wind.mjs';
 import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
 import { paintedAtmosphere } from './painted-world-palette.mjs';
+import { CLOUD_SHADOW, createCloudShadow } from './cloud-shadow.mjs';
 
 const wind = (fromDeg, ms) => ({ ms, yaw: flagWindYaw(fromDeg) });
 const run = (air, seconds, w, options = {}) => { for (let t = 0; t < seconds; t += 1 / 60) stepAir(air, 1 / 60, w, options); return air; };
@@ -68,6 +69,25 @@ describe('the one wind', () => {
     const air = run(createAir(), 600, wind(250, 12), { cloudPeriod: 4096 });
     for (const v of [air.gustX, air.gustZ]) expect(v >= 0 && v < ONE_WIND.gustPeriod).toBe(true);
     for (const v of [air.cloudX, air.cloudZ]) expect(v >= 0 && v < 4096).toBe(true);
+  });
+  it('carries a stretched cloud pattern\'s drift unwrapped, finite through a reversal, into the pattern\'s own frame', () => {
+    /* the stretched pattern asks for no wrap (cloud-shadow.mjs period): 0 x Infinity must not turn the drift to NaN */
+    const cloud = createCloudShadow({ stretch: true });
+    const e = 12.5 * Math.PI / 180;
+    cloud.setSun({ x: -Math.cos(e) * 0.62, y: Math.sin(e), z: Math.cos(e) * 0.78 });
+    expect(cloud.period).toBe(Infinity);
+    const air = run(createAir(), 20, wind(270, 6), { cloudPeriod: cloud.period });
+    expect(Number.isFinite(air.cloudX) && Number.isFinite(air.cloudZ)).toBe(true);
+    expect(air.cloudX).toBeGreaterThan(100);
+    /* the wind turns round and carries the drift back past where it began, without a wrap */
+    run(air, 60, wind(90, 6), { cloudPeriod: cloud.period });
+    expect(Number.isFinite(air.cloudX)).toBe(true);
+    expect(air.cloudX).toBeLessThan(0);
+    cloud.setOffset(air.cloudX, air.cloudZ);
+    for (const v of cloud.offset.value.toArray()) { expect(Number.isFinite(v)).toBe(true); expect(v >= 0 && v < CLOUD_SHADOW.tileMetres).toBe(true); }
+    /* the round pattern's drift still wraps to its tile */
+    const round = run(createAir(), 600, wind(250, 12), { cloudPeriod: createCloudShadow().period });
+    for (const v of [round.cloudX, round.cloudZ]) expect(v >= 0 && v < CLOUD_SHADOW.tileMetres).toBe(true);
   });
   it('holds still for reduced motion: no sway, and nothing carried', () => {
     const air = run(createAir(), 2, wind(270, 5), { skySpeed: 0.001, cloudPeriod: 4096 });

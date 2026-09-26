@@ -21,7 +21,7 @@ const controls = new WeakMap();
    false` is the before (?skyorder=first). */
 export const SKY_RENDER_ORDER = 0.5;
 
-export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false, drawLast = true, drift = null } = {}) {
+export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false, drawLast = true, drift = null, sunLit = false } = {}) {
   const sky = new SkyMesh();
   sky.name = 'atmospheric-sky';
   // A tiny HDR sun disc sparkling through foliage creates distracting bloom.
@@ -31,9 +31,9 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
   const tint = uniform(new Color(0xffffff));
   const paletteBlend = uniform(0), minimumLight = uniform(0), twilightLift = uniform(0);
   const zenith = uniform(new Color(0x6688bb)), horizon = uniform(new Color(0xccddee));
-  const cloudLit = uniform(new Color(0xfff5df)), cloudShade = uniform(new Color(0xa5b5c6));
+  const cloudLit = uniform(new Color(0xfff5df)), cloudShade = uniform(new Color(0xa5b5c6)), cloudBase = uniform(new Color(0xa5b5c6));
   const groundHaze = uniform(new Color(0xc1b8a9));
-  const settings={ deterministic, radiance, tint, paletteBlend, minimumLight, twilightLift, zenith, horizon, groundHaze, cloudLit, cloudShade };
+  const settings={ deterministic, radiance, tint, paletteBlend, minimumLight, twilightLift, zenith, horizon, groundHaze, cloudLit, cloudShade, cloudBase };
   controls.set(sky, settings);
   const atmosphere = sky.material.colorNode;
   sky.material.colorNode = Fn(() => {
@@ -55,13 +55,14 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     return vec4(mix(groundHaze, skyColour, smoothstep(-0.06, 0.10, elevation)), c.a);
   })();
   if(painted){
-    const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,groundHaze,deterministic,drift});
+    const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBase,groundHaze,deterministic,drift,sunLit});
     sky.material.colorNode=layer.node;
     settings.paintedExposure=layer.exposure;
     settings.sunGlow=layer.sunGlow;
     settings.sunGlowStrength=layer.sunGlowStrength;
     settings.hazeGlow=layer.hazeGlow;
     settings.cloudGlow=layer.cloudGlow;
+    if(sunLit)settings.cloudSun=layer.cloudSun;
   }
   // SkyMesh pins z=w, which is the near plane with reversed depth. r186 fixes
   // renderOrder sorting, but the sky's far clip depth must still be zero.
@@ -115,8 +116,11 @@ export function setAtmospherePreset(sky, preset) {
     c.hazeGlow.value=hazeGlowStrength(preset);
     cloudGlowOf(preset,c.cloudGlow.value);
   }
+  /* the clouds lit by the sun (painted-sky.mjs sunLit): its share, and their base colour, the lit paint's shaded side */
+  if(c.cloudSun)c.cloudSun.value=preset.skyCloudSun??0;
   c.cloudLit.value.setHex(preset.skyCloudLit ?? 0xfff5df);
   c.cloudShade.value.setHex(preset.skyCloudShade ?? 0xa5b5c6);
+  c.cloudBase.value.setHex(preset.skyCloudBase ?? preset.skyCloudShade ?? 0xa5b5c6);
 }
 
 export function atmosphereState(sky) {
@@ -125,5 +129,6 @@ export function atmosphereState(sky) {
     cloudCoverage: sky.cloudCoverage.value, cloudDensity: sky.cloudDensity.value,
     cloudScale: sky.cloudScale.value, cloudElevation: sky.cloudElevation.value, cloudSpeed: sky.cloudSpeed.value,
     paletteBlend: c.paletteBlend.value, sun: sky.sunPosition.value.toArray(),
-    sunGlowStrength: c.sunGlowStrength?.value??0, hazeGlow: c.hazeGlow?.value??0, cloudGlow: c.cloudGlow?.value.toArray()??null, groundHaze: c.groundHaze.value.getHex() };
+    sunGlowStrength: c.sunGlowStrength?.value??0, hazeGlow: c.hazeGlow?.value??0, cloudGlow: c.cloudGlow?.value.toArray()??null, groundHaze: c.groundHaze.value.getHex(),
+    sunLit: !!c.cloudSun, cloudSun: c.cloudSun?.value??0, cloudBase: c.cloudBase.value.getHex() };
 }
