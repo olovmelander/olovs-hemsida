@@ -5,7 +5,8 @@
 export const ATMOSPHERE_PRESETS = {
   golden: {
     label: 'Kväll', feeling: 'Honungsljus, långa skuggor och varm kvällshorisont.',
-    sun: 0xffd0a0, int: 2.7, dir: [-0.56, 0.15, 0.71],
+    /* 12.5 degrees up: long shadows still, and a sun that lights the ground it falls on (docs/visual-lights-2026-09-25.md) */
+    sun: 0xffd0a0, int: 2.7, dir: [-0.56, 0.20, 0.71],
     hemiS: 0xbacbe0, hemiG: 0x95937e, hemiI: 1.85,
     fog: 0xc1b8a9, dens: 0.00024, hazeMax: 0.78, exp: 1.12, bloom: 0.09,
     turb: 3.6, ray: 2.2, mie: 0.0028, mieG: 0.76,
@@ -16,7 +17,8 @@ export const ATMOSPHERE_PRESETS = {
   },
   noon: {
     label: 'Dag', feeling: 'Klar svensk sommardag med vita moln och frisk grönska.',
-    sun: 0xfff8ec, int: 2.8, dir: [-0.22, 0.88, 0.42],
+    /* 55 degrees up, as a Swedish midsummer sun stands at noon: at 61.7 it stood higher than any does */
+    sun: 0xfff8ec, int: 2.8, dir: [-0.22, 0.68, 0.42],
     hemiS: 0xc9e2f5, hemiG: 0x8f9c80, hemiI: 1.65,
     fog: 0xa4becb, dens: 0.00020, hazeMax: 0.78, exp: 1.02, bloom: 0.04,
     turb: 1.6, ray: 2.2, mie: 0.0025, mieG: 0.75,

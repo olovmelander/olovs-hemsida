@@ -29,9 +29,10 @@ describe('the water from above', () => {
       expect(k.b).toBeGreaterThan(k.g);
       expect(k.g).toBeGreaterThan(k.r);
     }
-    /* deepest under a high sun, lightest where a low sun lights level ground little */
-    expect(lum(deepest('noon'))).toBeCloseTo(0.673, 2);
-    expect(lum(deepest('golden'))).toBeCloseTo(0.852, 2);
+    /* deepest under a high sun, lightest where a low sun lights level ground little
+       (the lights audit lowered noon's sun and lifted golden hour's shade: 0.673 and 0.852 before) */
+    expect(lum(deepest('noon'))).toBeCloseTo(0.683, 2);
+    expect(lum(deepest('golden'))).toBeCloseTo(0.849, 2);
     expect(lum(deepest('host'))).toBeCloseTo(0.903, 2);
     expect(lum(deepest('dawn'))).toBeGreaterThan(0.95);
     expect(lum(deepest('midnight'))).toBeGreaterThan(0.95);

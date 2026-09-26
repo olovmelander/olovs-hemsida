@@ -76,7 +76,12 @@ export const AUTUMN_FOLIAGE = {
 // bloomThreshold, skyCloudGlow: the glow at a low sun (glow.mjs): the threshold,
 // just above the preset's broad sky, cloud and haze paint (0.86 where unset),
 // and how far past their paint the clouds' centres shine at the sun, so they
-// are what crosses it.
+// are what crosses it. glaze: the light's colour laid over the land
+// (aerial-perspective.mjs), a share of every colour the haze reaches given to
+// the tint at its own brightness. wind: the floor of a light's own wind in the
+// visible air (one-wind.mjs lightWind), in the storm alone. The audit of the
+// nine lights (docs/visual-lights-2026-09-25.md) set the blue hour, golden
+// hour, dawn, midnight sun and storm below; LIGHTS_BEFORE keeps what they were.
 export const PAINTED_ATMOSPHERES = {
   noon:{ sun:0xfff0d7, int:2.35, hemiS:0xadc9df, hemiG:0x879c76, hemiI:1.28,
     fog:0x8dbdd0, paintedFog:0x8dbdd0, exp:1.00, paintedFill:1.0, groundStrength:.85,
@@ -96,24 +101,29 @@ export const PAINTED_ATMOSPHERES = {
     foliage:{strength:1.08,direct:.96}, water:[0x1c8ea6,0x10498c], waterLight:1, sparkle:.35,
     shadowSky:.13,
   },
-  // Low honey-coloured sunlight, cool open shade and a sunward amber glow.
-  golden:{ sun:0xffcc8c, int:3.80, hemiS:0x95aed0, hemiG:0xb0a783, hemiI:1.40,
+  // Low honey-coloured sunlight, cool open shade and a sunward amber glow. The
+  // shade takes more of the sky's cool light: the course read darkest of all
+  // nine lights from above.
+  golden:{ sun:0xffcc8c, int:3.80, hemiS:0x8fb0e0, hemiG:0xb0a783, hemiI:1.80,
     fog:0xd3b597, paintedFog:0xcab4a2, exp:1.12, paintedFill:1.0,
     skyPalette:.24, skyZenith:0x397cba, skyHorizon:0xa9bfd2, skyRadiance:.46, paintedSkyExposure:.95, cloud:.24,
     skyCloudLit:0xffd49b, skyCloudShade:0x8f9ebb,
     skySunGlow:0xffb65e, skySunGlowStrength:.92, hazeGlow:.5,
-    environment:{ground:0xab956e,horizon:0xe8bb85,zenith:0x648bb8}, environmentIntensity:.48,
+    environment:{ground:0xab956e,horizon:0xe8bb85,zenith:0x648bb8}, environmentIntensity:.55,
     foliage:{strength:1.20,direct:.96,sunWhite:.18,shadowWhite:.38,back:.42},
     water:[0x438b87,0x24577f], waterLight:.94, sparkle:.36,
-    shadowSky:.10, cloudShadow:{cover:.22,opacity:.55}, bloomThreshold:.70, skyCloudGlow:.5,
+    shadowSky:.14, cloudShadow:{cover:.22,opacity:.55}, bloomThreshold:.70, skyCloudGlow:.5,
   },
+  // Pearl and rose: a pale pearl-blue zenith, so the sky between the pink clouds
+  // is pearl rather than lilac; crowns take the rose sun and the land a rose glaze.
   dawn:{ sun:0xffd8c4, int:1.65, hemiS:0xbccbe0, hemiG:0xaca595, hemiI:1.75,
     fog:0xbcbacb, paintedFog:0xbfc9dc, exp:1.10, paintedFill:1.06,
-    skyZenith:0x527dbd, skyHorizon:0xf4acb6, skyRadiance:.65, paintedSkyExposure:.62,
+    skyZenith:0x8aa6c8, skyHorizon:0xf4acb6, skyRadiance:.65, paintedSkyExposure:.62,
     skyCloudLit:0xedd0d7, skyCloudShade:0x818eac,
     skySunGlow:0xffc79a, skySunGlowStrength:.72, hazeGlow:.5,
     environment:{ground:0xaaa697,horizon:0xdcc3d0,zenith:0x809bc4},
-    foliage:{strength:.91,direct:.57,back:.30}, water:[0x789ea8,0x446789], waterLight:.83, sparkle:.32,
+    foliage:{strength:.93,direct:.70,back:.30,sunWhite:.20,shadowWhite:.45}, water:[0x789ea8,0x446789], waterLight:.83, sparkle:.32,
+    glaze:{tint:0xe8b8a8,amount:.22},
     shadowSky:.12, cloudShadow:{cover:.30,opacity:.45}, valleyMist:{density:.0016,height:6},
     bloomThreshold:.60, skyCloudGlow:1.31,
   },
@@ -123,22 +133,31 @@ export const PAINTED_ATMOSPHERES = {
     skyCloudLit:0xecc6a4, skyCloudShade:0x7f859e,
     skySunGlow:0xffc27c, skySunGlowStrength:.70, hazeGlow:.5,
     environment:{ground:0xaaa08d,horizon:0xddb496,zenith:0x798db5},
-    foliage:{strength:.90,direct:.70,back:.38}, water:[0x7b9c9e,0x4a6285], waterLight:.84, sparkle:.45,
+    // crowns take the low sun's gold, and the land a little of it
+    foliage:{strength:.90,direct:.80,back:.38,sunWhite:.25,shadowWhite:.50}, water:[0x7b9c9e,0x4a6285], waterLight:.84, sparkle:.45,
+    glaze:{tint:0xf0c890,amount:.15},
     shadowSky:.11, cloudShadow:{cover:.18,opacity:.45}, bloomThreshold:.50, skyCloudGlow:2.16,
   },
-  bluehour:{ hemiS:0xa7bddf, hemiG:0x8896a5, hemiI:1.85,
-    fog:0x879cba, paintedFog:0x879cba, paintedFill:1.04,
-    skyZenith:0x284b95, skyHorizon:0xa894c7, paintedSkyExposure:.20,
+  // The sky is the light: a luminous cobalt over a periwinkle horizon, brighter
+  // than the land beneath it, which lies dark, cool and blue-grey. It was the
+  // other way round: a dark sky over a lit, saturated lawn.
+  bluehour:{ hemiS:0x8fa8e0, hemiG:0x8896a5, hemiI:1.20,
+    fog:0x879cba, paintedFog:0x879cba, exp:1.00, paintedFill:1.04,
+    skyZenith:0x1d4aa6, skyHorizon:0x9aa2cf, paintedSkyExposure:.55,
     skyCloudLit:0x9399b8, skyCloudShade:0x4e5d7e,
     environment:{ground:0x8896a5,horizon:0x9aacc9,zenith:0x5474a9},
-    foliage:{strength:.64,direct:.03}, water:[0x6c92aa,0x405d83], waterLight:.64, sparkle:.015,
+    foliage:{strength:.45,direct:.03,shadowWhite:.30}, water:[0x6c92aa,0x405d83], waterLight:.64, sparkle:.015,
+    glaze:{tint:0x8098b8,amount:.45},
   },
+  // A heavy front: one low deck of broad, soft forms instead of a leopard's
+  // spots, a wet course greyed and glossy under it, and a gale in the air.
   storm:{ hemiS:0xb6c8d3, hemiG:0x8b9b98, hemiI:1.70,
     fog:0x879da9, paintedFog:0x879da9, paintedFill:1.03,
-    skyZenith:0x456179, skyHorizon:0x96afbc, paintedSkyExposure:.46,
-    skyCloudLit:0x9aaeba, skyCloudShade:0x5d7186,
+    skyZenith:0x456179, skyHorizon:0x96afbc, paintedSkyExposure:.42, cloudScale:.0001,
+    skyCloudLit:0x8597a4, skyCloudShade:0x6c7f90,
     environment:{ground:0x8b9b98,horizon:0x9aafb8,zenith:0x607a91},
     foliage:{strength:.71,direct:.12}, water:[0x729595,0x3f6576], waterLight:.70, sparkle:.06,
+    grassSheen:.60, glaze:{tint:0xb8c0c4,amount:.35}, wind:{ms:12,gust:18},
   },
   mist:{ hemiS:0xd7e2e3, hemiG:0xadb6a3, hemiI:1.85,
     fog:0xb3c6c6, paintedFog:0xc3d4d3, paintedFill:1.03,
@@ -160,6 +179,22 @@ export const PAINTED_ATMOSPHERES = {
   },
 };
 
-export function paintedAtmosphere(name, base) {
-  return {...base,grassSheen:.36,...PAINTED_ATMOSPHERES[name]};
+/* THE NINE LIGHTS BEFORE THE AUDIT (?lights=before): each changed value as it
+   was, the sun's height in atmosphere-presets.mjs included, and none of what the
+   audit added (a glaze, the storm's wind). */
+export const LIGHTS_BEFORE = {
+  golden:{ dir:[-0.56,0.15,0.71], hemiS:0x95aed0, hemiI:1.40, environmentIntensity:.48, shadowSky:.10 },
+  noon:{ dir:[-0.22,0.88,0.42] },
+  dawn:{ skyZenith:0x527dbd, foliage:{strength:.91,direct:.57,back:.30}, glaze:undefined },
+  midnight:{ foliage:{strength:.90,direct:.70,back:.38}, glaze:undefined },
+  bluehour:{ hemiS:0xa7bddf, hemiI:1.85, exp:1.14, skyZenith:0x284b95, skyHorizon:0xa894c7, paintedSkyExposure:.20,
+    foliage:{strength:.64,direct:.03}, glaze:undefined },
+  storm:{ paintedSkyExposure:.46, cloudScale:.00026, skyCloudLit:0x9aaeba, skyCloudShade:0x5d7186,
+    grassSheen:.36, glaze:undefined, wind:undefined },
+};
+
+/** A light as the player paints it: the painted atmosphere over the authored
+    preset; `before` gives the light as it was before the audit. */
+export function paintedAtmosphere(name, base, { before = false } = {}) {
+  return {...base,grassSheen:.36,...PAINTED_ATMOSPHERES[name],...(before ? LIGHTS_BEFORE[name] : null)};
 }
