@@ -100,6 +100,7 @@ import {
 import { createV2GroundMaterialDecorator, makeGround, paintedGround } from './engine/material.js';
 import { tussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
   seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
+import { createNearGrass } from './engine/near-grass.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
@@ -1961,6 +1962,10 @@ const COVER_SHADOW_ON = new URLSearchParams(location.search).get('covershadow') 
 const COVER_COLOUR_ON = new URLSearchParams(location.search).get('covercolour') !== '0';
 const COVER_SEAT_ON = new URLSearchParams(location.search).get('coverseat') !== '0';
 const REED_LAKES_ON = new URLSearchParams(location.search).get('reedlakes') !== '0';
+/* The grass round the ball (near-grass.mjs): blades round the eye in every low
+   view -- the tee view, and wherever the camera goes down to the ground -- grown
+   from the ground's own class fields, one draw. ?neargrass=0 is the before. */
+const NEAR_GRASS_ON = new URLSearchParams(location.search).get('neargrass') !== '0';
 /* Hollows, crests and wood edges, baked into the ground tint's alpha
    (ground-relief.mjs) and read by the ground material; ?groundrelief=0 is the before. */
 const GROUND_RELIEF_ON = new URLSearchParams(location.search).get('groundrelief') !== '0';
@@ -6366,6 +6371,40 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
 }
 
 lap('ground cover (tufts, bushes, stones, stumps)');
+/* THE GRASS ROUND THE BALL. Gated as the ground cover is: a measured-only
+   vegetation ground draws what it measured and nothing invented. It needs the
+   exact class fields the ground draws its cuts from. No grass grows in water:
+   inside a lake's or pond's ring or within 0.3 m of it, on low ground at its
+   edge, in a stream, or where the terrain found flat water. */
+let nearGrass = null;
+stats.nearGrass = { on: NEAR_GRASS_ON, policy: M.infra.vegetationPlacement ?? null, exactEdges: !!groundAtlas?.exactEdges };
+if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAtlas?.exactEdges) {
+  const exact = groundAtlas.exactEdges;
+  const wetAt = (x, z, h) => {
+    for (const w of WI.at(x, z)) {
+      if (w.stream) { if (distToLine(x, z, w.line, w.w * 2) < w.w) return true; }
+      else {
+        const sd = ringSD(x, z, w.ring, 6);
+        if (sd < 0.3 || (sd < 6 && h < w.level + 0.02)) return true;
+      }
+    }
+    return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(x, z);
+  };
+  nearGrass = createNearGrass({
+    atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
+    tint: GROUND_TINT, DETAIL, C, SHADE, cutTone: CUT_TONE_STRENGTH, uSun, sunThrough: uSunThrough, sunlit: SUNLIT,
+    quality: LOWQ ? 'lo' : 'hi',
+    /* the ground's own terms, as the ground material takes them, so a blade has its root's colour */
+    ground: { relief: GROUND_RELIEF_ON, wear: GROUND_WEAR_ON, grain: TURF_GRAIN_ON, gloss: SURFACE_GLOSS },
+    groundAt: (x, z) => {
+      const h = terrainH(x, z);
+      return { h, grass: Number.isFinite(h) && !wetAt(x, z, h) };
+    },
+  });
+  scene.add(nearGrass.mesh);
+  stats.draws++;
+  Object.assign(stats.nearGrass, { instances: nearGrass.layout.instances, blades: nearGrass.layout.bladesTotal, rings: nearGrass.layout.rings.length });
+}
 if (BAKE_VISTA) {
   // The publisher records these exact production plantings; no second copy of their rules.
   const packed = packScatter(SCATTER_BAKE);
@@ -11298,6 +11337,7 @@ function frame() {
   shadowRest(now);
   skyMesh.position.copy(camera.position);
   updateSky();
+  nearGrass?.update(camera, renderer.domElement.height);
   updateStrategy(now);
   kikTagUpdate();
   const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
@@ -11376,7 +11416,15 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
   skyMesh.position.copy(camera.position);
   updateSky();
   try {
-    BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass });
+    /* the grass's ground round the opening eye, filled now; its material compiled with
+       the opening view even when that view is too high to draw it */
+    const grassHidden = nearGrass ? !nearGrass.prime(camera, renderer.domElement.height) : false;
+    if (grassHidden) nearGrass.mesh.visible = true;
+    try {
+      BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass });
+    } finally {
+      if (grassHidden) nearGrass.mesh.visible = false;
+    }
   } catch (error) {
     const retryMessage = 'kunde inte visa banan — ladda om och försök igen';
     msgEl.textContent = retryMessage;
@@ -11904,6 +11952,8 @@ window.V3D = {
   /* the ground cover as drawn (ground-cover.mjs): its switches, and per population its
      count, shadows, blade normal and seat */
   cover: () => structuredClone(stats.cover),
+  /* the grass round the ball: its layout, whether it is drawn, and its ground grid */
+  nearGrass: () => (nearGrass ? { ...structuredClone(stats.nearGrass), ...nearGrass.stats() } : structuredClone(stats.nearGrass ?? null)),
   waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
     id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, isSea: !!w.isSea, surroundings: !!w.surr, points: w.ring?.length ?? 0,
     bb: w.ring?.length ? ringBBox(w.ring) : null,
@@ -12155,10 +12205,11 @@ window.V3D = {
       return ((Math.atan2(e.x - o.x, -(e.z - o.z)) * 180 / Math.PI) + 360) % 360;
     }) }),
   course: () => ({ ...CMETA }),
-  /* what the shot harness waits on: no camera tween, and the tree tiers'
-     last change drawn twice -- under a software renderer the frame that
-     compiles a tier's materials can outlast any fixed wait */
-  settled: () => !camTween.on && FRAME_NO >= TIER_FRAME + 2 && (TREE_LOD.clockDriven || TREE_LOD.queue.length === TREE_LOD.qHead),
+  /* what the shot harness waits on: no camera tween, the tree tiers' last
+     change drawn twice -- under a software renderer the frame that compiles a
+     tier's materials can outlast any fixed wait -- and the grass round the
+     ball's ground read */
+  settled: () => !camTween.on && FRAME_NO >= TIER_FRAME + 2 && (TREE_LOD.clockDriven || TREE_LOD.queue.length === TREE_LOD.qHead) && (nearGrass?.settled ?? true),
   /* the bansafari, measurable: simulate a hole's shot offline, or fly it live */
   flightSim: (n, step, transit) => flightSim(n, step, transit),
   flightState: () => ({ flying, tour, t: tourFlight.t, duration: tourFlight.duration, orbitT: tourFlight.orbitT,

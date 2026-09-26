@@ -116,6 +116,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     },
     placeSun: () => { calls.push('sun'); }, shadowRest: () => { calls.push('shadow'); },
     skyMesh: { position: new THREE.Vector3() }, updateSky() {}, updateStrategy() {}, kikTagUpdate() {}, drawMini() {}, drawMiniIfChanged() {}, gridOn: false,
+    /* the grass round the ball: where it was moved to, and whether its ground is read */
+    nearGrass: { settled: true, seen: [], update(cam, height) { calls.push('grass'); this.seen.push({ position: cam.position.toArray(), height }); } },
     captureRenderLocked: false,
     renderActivePipeline() {
       calls.push('render');
@@ -178,7 +180,7 @@ describe('application camera frame ordering', () => {
     expect(f.observed.trees[0]).toEqual(f.observed.render[0]);
     expect(f.observed.terrain[0]).toMatchObject(f.observed.render[0]);
     expect(f.observed.terrain[0]).toMatchObject({ hole: 1, bufferHeight: 480 });
-    expect(f.calls).toEqual(['tick', 'controls', 'clamp', 'terrain', 'trees', 'sun', 'shadow', 'render']);
+    expect(f.calls).toEqual(['tick', 'controls', 'clamp', 'terrain', 'trees', 'sun', 'shadow', 'grass', 'render']);
   });
 
   it('preserves the disabled ordering, with the old one-frame visibility delay measurable', () => {
@@ -188,7 +190,7 @@ describe('application camera frame ordering', () => {
     expect(f.observed.trees[0].visible).toEqual([true, false]);
     expect(f.observed.terrain[0].visible).toEqual([true, false]);
     expect(f.observed.render[0].visible).toEqual([false, true]);
-    expect(f.calls).toEqual(['tick', 'terrain', 'trees', 'controls', 'clamp', 'sun', 'shadow', 'render']);
+    expect(f.calls).toEqual(['tick', 'terrain', 'trees', 'controls', 'clamp', 'sun', 'shadow', 'grass', 'render']);
     f.step();
     expect(f.observed.trees[1]).toEqual(f.observed.render[1]);
   });
@@ -310,7 +312,7 @@ describe('application camera frame ordering', () => {
     expect(f.observed.render[0]).toMatchObject({ position: [30, 10, 0], fov: 30, visible: [false, true] });
     expect(f.observed.trees[0]).toEqual(f.observed.render[0]);
     expect(f.observed.terrain[0]).toMatchObject({ ...f.observed.render[0], hole: 7 });
-    expect(f.calls).toEqual(['tick', 'flight', 'clampReset', 'terrain', 'trees', 'sun', 'shadow', 'render']);
+    expect(f.calls).toEqual(['tick', 'flight', 'clampReset', 'terrain', 'trees', 'sun', 'shadow', 'grass', 'render']);
   });
 
   it('keeps one visibility/timing update per frame, settled draw counts and identical resting poses', () => {
@@ -327,13 +329,24 @@ describe('application camera frame ordering', () => {
       expect(f.context.TREE_LOD.fadeClock).toBe(0.032);
       expect(f.context.FRAME_MS[0]).toBe(16);
       expect(f.context.FRAME_MS[1]).toBe(16);
-      for (const action of ['tick', 'terrain', 'trees', 'controls', 'clamp', 'sun', 'shadow', 'render']) {
+      for (const action of ['tick', 'terrain', 'trees', 'controls', 'clamp', 'sun', 'shadow', 'grass', 'render']) {
         expect(f.calls.filter(call => call === action)).toHaveLength(2);
       }
     }
     expect(after.observed.render).toEqual(before.observed.render);
     expect(after.observed.terrain).toEqual(before.observed.terrain);
     expect(after.observed.trees).toEqual(before.observed.trees);
+  });
+
+  it('moves the grass round the ball with the camera the frame draws, and waits for its ground to be read', () => {
+    const f = fixture();
+    f.context.camTween.on = true;
+    f.step();
+    expect(f.context.nearGrass.seen[0]).toEqual({ position: f.observed.render[0].position, height: 240 });
+    for (let k = 0; k < 6 && !f.context.settled(); k++) f.step();
+    expect(f.context.settled()).toBe(true);
+    f.context.nearGrass.settled = false;
+    expect(f.context.settled()).toBe(false);
   });
 
   it('respects deterministic and externally driven fade clocks without introducing extra renders', () => {
