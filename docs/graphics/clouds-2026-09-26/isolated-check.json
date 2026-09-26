@@ -1,0 +1,1999 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "0de84582",
+ "sunlit": [
+  "golden",
+  "noon",
+  "dawn",
+  "midnight",
+  "host"
+ ],
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "with ?cloudlight=0&cloudstretch=0 every light is main's, pixel for pixel, and the summer day, blue hour, storm and mist are main's as they are",
+     "ok": true,
+     "golden/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     }
+    },
+    {
+     "label": "the clouds lit by the sun: seen away from it their tops brighter than their bases, seen across its light their sunward flanks brighter than their far ones, where main's have no such order",
+     "ok": true,
+     "golden": {
+      "tops": [
+       0.0142,
+       0.124
+      ],
+      "sunward": [
+       0.0002,
+       0.038
+      ]
+     },
+     "noon": {
+      "tops": [
+       -0.009,
+       0.0744
+      ],
+      "sunward": [
+       0.004,
+       0.0117
+      ]
+     },
+     "dawn": {
+      "tops": [
+       0.0447,
+       0.1142
+      ],
+      "sunward": [
+       0.0033,
+       -0.0007
+      ]
+     },
+     "midnight": {
+      "tops": [
+       0.0226,
+       0.0215
+      ],
+      "sunward": [
+       0.0136,
+       0.0216
+      ]
+     },
+     "host": {
+      "tops": [
+       -0.0066,
+       0.0991
+      ],
+      "sunward": [
+       0.0035,
+       0.0269
+      ]
+     }
+    },
+    {
+     "label": "toward the sun their edges brighter against their bodies than main's: the lining",
+     "ok": true,
+     "golden": [
+      0.2527,
+      0.2693
+     ],
+     "noon": [
+      0.3575,
+      0.3602
+     ],
+     "dawn": [
+      0.1487,
+      0.1597
+     ],
+     "midnight": [
+      0.2487,
+      0.2708
+     ],
+     "host": [
+      0.2637,
+      0.2845
+     ]
+    },
+    {
+     "label": "no cloud paint brighter than main's away from the sun, and near it the glow's threshold crossed over at least 60% of main's share where the glow is the light's",
+     "ok": true,
+     "golden": {
+      "brightest": [
+       0.6781,
+       0.6708
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0163,
+        "cloudsToward": 0.0379
+       },
+       {
+        "towardSky": 0.0114,
+        "cloudsToward": 0.0299
+       }
+      ]
+     },
+     "noon": {
+      "brightest": [
+       0.9189,
+       0.9179
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0833,
+        "cloudsToward": 0.1163
+       },
+       {
+        "towardSky": 0.0141,
+        "cloudsToward": 0.0121
+       }
+      ]
+     },
+     "dawn": {
+      "brightest": [
+       0.4351,
+       0.4351
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0376,
+        "cloudsToward": 0.1468
+       },
+       {
+        "towardSky": 0.0366,
+        "cloudsToward": 0.148
+       }
+      ]
+     },
+     "midnight": {
+      "brightest": [
+       0.3543,
+       0.3543
+      ],
+      "glow": [
+       {
+        "towardSky": 0.002,
+        "cloudsToward": 0.0072
+       },
+       {
+        "towardSky": 0.0018,
+        "cloudsToward": 0.006
+       }
+      ]
+     },
+     "host": {
+      "brightest": [
+       0.845,
+       0.8363
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0412,
+        "cloudsToward": 0.0897
+       },
+       {
+        "towardSky": 0.0178,
+        "cloudsToward": 0.0713
+       }
+      ]
+     }
+    },
+    {
+     "label": "the shadows drawn out along a low sun's light: pixel by pixel the pattern drawn out by the light's stretch, where main's is the round one, longer along the sun than across, over the same share of the ground",
+     "ok": true,
+     "golden": {
+      "stretch": 3.487,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3,
+       "along": 9.8508,
+       "across": 11.8489,
+       "ratio": 0.8314,
+       "shaded": 0.2712
+      },
+      "now": {
+       "round": 0.2981,
+       "stretched": 0.9971,
+       "along": 38.3977,
+       "across": 11.3439,
+       "ratio": 3.3849,
+       "shaded": 0.2842
+      }
+     },
+     "noon": {
+      "stretch": 1.383,
+      "main": {
+       "round": 0.9937,
+       "stretched": 0.0973,
+       "along": 9.869,
+       "across": 11.8544,
+       "ratio": 0.8325,
+       "shaded": 0.2717
+      },
+      "now": {
+       "round": 0.0965,
+       "stretched": 0.9959,
+       "along": 14.3918,
+       "across": 11.6704,
+       "ratio": 1.2332,
+       "shaded": 0.308
+      }
+     },
+     "dawn": {
+      "stretch": 5.286,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2382,
+       "along": 9.8372,
+       "across": 11.8439,
+       "ratio": 0.8306,
+       "shaded": 0.2706
+      },
+      "now": {
+       "round": 0.2363,
+       "stretched": 0.9967,
+       "along": 59.8632,
+       "across": 9.7985,
+       "ratio": 6.1094,
+       "shaded": 0.2168
+      }
+     },
+     "midnight": {
+      "stretch": 5.55,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2631,
+       "along": 9.822,
+       "across": 11.8392,
+       "ratio": 0.8296,
+       "shaded": 0.27
+      },
+      "now": {
+       "round": 0.2618,
+       "stretched": 0.9966,
+       "along": 74.053,
+       "across": 10.0873,
+       "ratio": 7.3412,
+       "shaded": 0.2096
+      }
+     },
+     "host": {
+      "stretch": 3.375,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3182,
+       "along": 9.8495,
+       "across": 11.8477,
+       "ratio": 0.8313,
+       "shaded": 0.2711
+      },
+      "now": {
+       "round": 0.3156,
+       "stretched": 0.9971,
+       "along": 34.0294,
+       "across": 11.1267,
+       "ratio": 3.0584,
+       "shaded": 0.2821
+      }
+     }
+    },
+    {
+     "label": "the water seen low under a low sun: the body in a cloud's shade, where main's is not, and the sun's road whole under it",
+     "ok": true,
+     "seaAcross": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.9837,
+       "meanDrop": 0.0725,
+       "roadKept": 0.9888
+      }
+     },
+     "seaToward": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.2255,
+       "meanDrop": 0.0141,
+       "roadKept": 1
+      }
+     },
+     "roadcut": {
+      "darker": 0.2255,
+      "meanDrop": 0.0141,
+      "roadKept": 1
+     }
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 196,
+     "settled": 196,
+     "maxRenders": 2
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "measures": {
+    "clouds": {
+     "golden": {
+      "main": {
+       "topsOverBases": {
+        "order": 0.0142,
+        "pixels": 37964
+       },
+       "sunwardOverFar": {
+        "order": 0.0002,
+        "pixels": 33596
+       },
+       "toward": {
+        "edgeOverBody": 0.2527,
+        "edges": 4458,
+        "bodies": 2301
+       },
+       "brightest": 0.6781,
+       "glow": {
+        "towardSky": 0.0163,
+        "cloudsToward": 0.0379
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.124,
+        "pixels": 33835
+       },
+       "sunwardOverFar": {
+        "order": 0.038,
+        "pixels": 30981
+       },
+       "toward": {
+        "edgeOverBody": 0.2693,
+        "edges": 4482,
+        "bodies": 2371
+       },
+       "brightest": 0.6708,
+       "glow": {
+        "towardSky": 0.0114,
+        "cloudsToward": 0.0299
+       }
+      }
+     },
+     "noon": {
+      "main": {
+       "topsOverBases": {
+        "order": -0.009,
+        "pixels": 41731
+       },
+       "sunwardOverFar": {
+        "order": 0.004,
+        "pixels": 41794
+       },
+       "toward": {
+        "edgeOverBody": 0.3575,
+        "edges": 4753,
+        "bodies": 3943
+       },
+       "brightest": 0.9189,
+       "glow": {
+        "towardSky": 0.0833,
+        "cloudsToward": 0.1163
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.0744,
+        "pixels": 41230
+       },
+       "sunwardOverFar": {
+        "order": 0.0117,
+        "pixels": 41076
+       },
+       "toward": {
+        "edgeOverBody": 0.3602,
+        "edges": 4663,
+        "bodies": 3953
+       },
+       "brightest": 0.9179,
+       "glow": {
+        "towardSky": 0.0141,
+        "cloudsToward": 0.0121
+       }
+      }
+     },
+     "dawn": {
+      "main": {
+       "topsOverBases": {
+        "order": 0.0447,
+        "pixels": 65605
+       },
+       "sunwardOverFar": {
+        "order": 0.0033,
+        "pixels": 60731
+       },
+       "toward": {
+        "edgeOverBody": 0.1487,
+        "edges": 4688,
+        "bodies": 14894
+       },
+       "brightest": 0.4351,
+       "glow": {
+        "towardSky": 0.0376,
+        "cloudsToward": 0.1468
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.1142,
+        "pixels": 51960
+       },
+       "sunwardOverFar": {
+        "order": -0.0007,
+        "pixels": 61867
+       },
+       "toward": {
+        "edgeOverBody": 0.1597,
+        "edges": 3388,
+        "bodies": 19241
+       },
+       "brightest": 0.4351,
+       "glow": {
+        "towardSky": 0.0366,
+        "cloudsToward": 0.148
+       }
+      }
+     },
+     "midnight": {
+      "main": {
+       "topsOverBases": {
+        "order": 0.0226,
+        "pixels": 21636
+       },
+       "sunwardOverFar": {
+        "order": 0.0136,
+        "pixels": 50896
+       },
+       "toward": {
+        "edgeOverBody": 0.2487,
+        "edges": 2651,
+        "bodies": 3048
+       },
+       "brightest": 0.3543,
+       "glow": {
+        "towardSky": 0.002,
+        "cloudsToward": 0.0072
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.0215,
+        "pixels": 17246
+       },
+       "sunwardOverFar": {
+        "order": 0.0216,
+        "pixels": 43938
+       },
+       "toward": {
+        "edgeOverBody": 0.2708,
+        "edges": 2534,
+        "bodies": 3543
+       },
+       "brightest": 0.3543,
+       "glow": {
+        "towardSky": 0.0018,
+        "cloudsToward": 0.006
+       }
+      }
+     },
+     "host": {
+      "main": {
+       "topsOverBases": {
+        "order": -0.0066,
+        "pixels": 51673
+       },
+       "sunwardOverFar": {
+        "order": 0.0035,
+        "pixels": 53159
+       },
+       "toward": {
+        "edgeOverBody": 0.2637,
+        "edges": 5576,
+        "bodies": 6360
+       },
+       "brightest": 0.845,
+       "glow": {
+        "towardSky": 0.0412,
+        "cloudsToward": 0.0897
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.0991,
+        "pixels": 50087
+       },
+       "sunwardOverFar": {
+        "order": 0.0269,
+        "pixels": 51217
+       },
+       "toward": {
+        "edgeOverBody": 0.2845,
+        "edges": 5571,
+        "bodies": 6465
+       },
+       "brightest": 0.8363,
+       "glow": {
+        "towardSky": 0.0178,
+        "cloudsToward": 0.0713
+       }
+      }
+     }
+    },
+    "shadows": {
+     "golden": {
+      "stretch": 3.487,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3,
+       "along": 9.8508,
+       "across": 11.8489,
+       "ratio": 0.8314,
+       "shaded": 0.2712
+      },
+      "now": {
+       "round": 0.2981,
+       "stretched": 0.9971,
+       "along": 38.3977,
+       "across": 11.3439,
+       "ratio": 3.3849,
+       "shaded": 0.2842
+      }
+     },
+     "noon": {
+      "stretch": 1.383,
+      "main": {
+       "round": 0.9937,
+       "stretched": 0.0973,
+       "along": 9.869,
+       "across": 11.8544,
+       "ratio": 0.8325,
+       "shaded": 0.2717
+      },
+      "now": {
+       "round": 0.0965,
+       "stretched": 0.9959,
+       "along": 14.3918,
+       "across": 11.6704,
+       "ratio": 1.2332,
+       "shaded": 0.308
+      }
+     },
+     "dawn": {
+      "stretch": 5.286,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2382,
+       "along": 9.8372,
+       "across": 11.8439,
+       "ratio": 0.8306,
+       "shaded": 0.2706
+      },
+      "now": {
+       "round": 0.2363,
+       "stretched": 0.9967,
+       "along": 59.8632,
+       "across": 9.7985,
+       "ratio": 6.1094,
+       "shaded": 0.2168
+      }
+     },
+     "midnight": {
+      "stretch": 5.55,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2631,
+       "along": 9.822,
+       "across": 11.8392,
+       "ratio": 0.8296,
+       "shaded": 0.27
+      },
+      "now": {
+       "round": 0.2618,
+       "stretched": 0.9966,
+       "along": 74.053,
+       "across": 10.0873,
+       "ratio": 7.3412,
+       "shaded": 0.2096
+      }
+     },
+     "host": {
+      "stretch": 3.375,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3182,
+       "along": 9.8495,
+       "across": 11.8477,
+       "ratio": 0.8313,
+       "shaded": 0.2711
+      },
+      "now": {
+       "round": 0.3156,
+       "stretched": 0.9971,
+       "along": 34.0294,
+       "across": 11.1267,
+       "ratio": 3.0584,
+       "shaded": 0.2821
+      }
+     }
+    },
+    "water": {
+     "seaAcross": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.9837,
+       "meanDrop": 0.0725,
+       "roadKept": 0.9888
+      }
+     },
+     "seaToward": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.2255,
+       "meanDrop": 0.0141,
+       "roadKept": 1
+      }
+     },
+     "roadcut": {
+      "darker": 0.2255,
+      "meanDrop": 0.0141,
+      "roadKept": 1
+     }
+    }
+   },
+   "reads": {
+    "count": 196,
+    "settled": 196,
+    "maxRenders": 2
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "with ?cloudlight=0&cloudstretch=0 every light is main's, pixel for pixel, and the summer day, blue hour, storm and mist are main's as they are",
+     "ok": true,
+     "golden/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/towardSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/sideSky": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/lake": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/seaHigh": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/above": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     }
+    },
+    {
+     "label": "the clouds lit by the sun: seen away from it their tops brighter than their bases, seen across its light their sunward flanks brighter than their far ones, where main's have no such order",
+     "ok": true,
+     "golden": {
+      "tops": [
+       0.0142,
+       0.124
+      ],
+      "sunward": [
+       0.0002,
+       0.038
+      ]
+     },
+     "noon": {
+      "tops": [
+       -0.009,
+       0.0744
+      ],
+      "sunward": [
+       0.004,
+       0.0117
+      ]
+     },
+     "dawn": {
+      "tops": [
+       0.0447,
+       0.1142
+      ],
+      "sunward": [
+       0.0033,
+       -0.0007
+      ]
+     },
+     "midnight": {
+      "tops": [
+       0.0226,
+       0.0215
+      ],
+      "sunward": [
+       0.0136,
+       0.0216
+      ]
+     },
+     "host": {
+      "tops": [
+       -0.0066,
+       0.0991
+      ],
+      "sunward": [
+       0.0035,
+       0.0269
+      ]
+     }
+    },
+    {
+     "label": "toward the sun their edges brighter against their bodies than main's: the lining",
+     "ok": true,
+     "golden": [
+      0.2527,
+      0.2693
+     ],
+     "noon": [
+      0.3575,
+      0.3602
+     ],
+     "dawn": [
+      0.1487,
+      0.1597
+     ],
+     "midnight": [
+      0.2487,
+      0.2708
+     ],
+     "host": [
+      0.2637,
+      0.2845
+     ]
+    },
+    {
+     "label": "no cloud paint brighter than main's away from the sun, and near it the glow's threshold crossed over at least 60% of main's share where the glow is the light's",
+     "ok": true,
+     "golden": {
+      "brightest": [
+       0.6781,
+       0.6708
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0163,
+        "cloudsToward": 0.0379
+       },
+       {
+        "towardSky": 0.0114,
+        "cloudsToward": 0.0299
+       }
+      ]
+     },
+     "noon": {
+      "brightest": [
+       0.9189,
+       0.9179
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0833,
+        "cloudsToward": 0.1163
+       },
+       {
+        "towardSky": 0.0141,
+        "cloudsToward": 0.0121
+       }
+      ]
+     },
+     "dawn": {
+      "brightest": [
+       0.4351,
+       0.4351
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0376,
+        "cloudsToward": 0.1468
+       },
+       {
+        "towardSky": 0.0366,
+        "cloudsToward": 0.148
+       }
+      ]
+     },
+     "midnight": {
+      "brightest": [
+       0.3543,
+       0.3543
+      ],
+      "glow": [
+       {
+        "towardSky": 0.002,
+        "cloudsToward": 0.0072
+       },
+       {
+        "towardSky": 0.0018,
+        "cloudsToward": 0.006
+       }
+      ]
+     },
+     "host": {
+      "brightest": [
+       0.845,
+       0.8363
+      ],
+      "glow": [
+       {
+        "towardSky": 0.0412,
+        "cloudsToward": 0.0897
+       },
+       {
+        "towardSky": 0.0178,
+        "cloudsToward": 0.0713
+       }
+      ]
+     }
+    },
+    {
+     "label": "the shadows drawn out along a low sun's light: pixel by pixel the pattern drawn out by the light's stretch, where main's is the round one, longer along the sun than across, over the same share of the ground",
+     "ok": true,
+     "golden": {
+      "stretch": 3.487,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3,
+       "along": 9.8508,
+       "across": 11.8489,
+       "ratio": 0.8314,
+       "shaded": 0.2712
+      },
+      "now": {
+       "round": 0.2981,
+       "stretched": 0.9971,
+       "along": 38.3977,
+       "across": 11.3439,
+       "ratio": 3.3849,
+       "shaded": 0.2842
+      }
+     },
+     "noon": {
+      "stretch": 1.383,
+      "main": {
+       "round": 0.9937,
+       "stretched": 0.0973,
+       "along": 9.869,
+       "across": 11.8544,
+       "ratio": 0.8325,
+       "shaded": 0.2717
+      },
+      "now": {
+       "round": 0.0965,
+       "stretched": 0.9959,
+       "along": 14.3918,
+       "across": 11.6704,
+       "ratio": 1.2332,
+       "shaded": 0.308
+      }
+     },
+     "dawn": {
+      "stretch": 5.286,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2382,
+       "along": 9.8372,
+       "across": 11.8439,
+       "ratio": 0.8306,
+       "shaded": 0.2706
+      },
+      "now": {
+       "round": 0.2363,
+       "stretched": 0.9967,
+       "along": 59.8632,
+       "across": 9.7985,
+       "ratio": 6.1094,
+       "shaded": 0.2168
+      }
+     },
+     "midnight": {
+      "stretch": 5.55,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2631,
+       "along": 9.822,
+       "across": 11.8392,
+       "ratio": 0.8296,
+       "shaded": 0.27
+      },
+      "now": {
+       "round": 0.2618,
+       "stretched": 0.9966,
+       "along": 74.053,
+       "across": 10.0873,
+       "ratio": 7.3412,
+       "shaded": 0.2096
+      }
+     },
+     "host": {
+      "stretch": 3.375,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3182,
+       "along": 9.8495,
+       "across": 11.8477,
+       "ratio": 0.8313,
+       "shaded": 0.2711
+      },
+      "now": {
+       "round": 0.3156,
+       "stretched": 0.9971,
+       "along": 34.0294,
+       "across": 11.1267,
+       "ratio": 3.0584,
+       "shaded": 0.2821
+      }
+     }
+    },
+    {
+     "label": "the water seen low under a low sun: the body in a cloud's shade, where main's is not, and the sun's road whole under it",
+     "ok": true,
+     "seaAcross": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.9835,
+       "meanDrop": 0.0723,
+       "roadKept": 0.989
+      }
+     },
+     "seaToward": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.226,
+       "meanDrop": 0.0142,
+       "roadKept": 1
+      }
+     },
+     "roadcut": {
+      "darker": 0.226,
+      "meanDrop": 0.0142,
+      "roadKept": 1
+     }
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 196,
+     "settled": 196,
+     "maxRenders": 3
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "measures": {
+    "clouds": {
+     "golden": {
+      "main": {
+       "topsOverBases": {
+        "order": 0.0142,
+        "pixels": 37964
+       },
+       "sunwardOverFar": {
+        "order": 0.0002,
+        "pixels": 33596
+       },
+       "toward": {
+        "edgeOverBody": 0.2527,
+        "edges": 4458,
+        "bodies": 2301
+       },
+       "brightest": 0.6781,
+       "glow": {
+        "towardSky": 0.0163,
+        "cloudsToward": 0.0379
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.124,
+        "pixels": 33835
+       },
+       "sunwardOverFar": {
+        "order": 0.038,
+        "pixels": 30981
+       },
+       "toward": {
+        "edgeOverBody": 0.2693,
+        "edges": 4482,
+        "bodies": 2371
+       },
+       "brightest": 0.6708,
+       "glow": {
+        "towardSky": 0.0114,
+        "cloudsToward": 0.0299
+       }
+      }
+     },
+     "noon": {
+      "main": {
+       "topsOverBases": {
+        "order": -0.009,
+        "pixels": 41731
+       },
+       "sunwardOverFar": {
+        "order": 0.004,
+        "pixels": 41794
+       },
+       "toward": {
+        "edgeOverBody": 0.3575,
+        "edges": 4753,
+        "bodies": 3943
+       },
+       "brightest": 0.9189,
+       "glow": {
+        "towardSky": 0.0833,
+        "cloudsToward": 0.1163
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.0744,
+        "pixels": 41230
+       },
+       "sunwardOverFar": {
+        "order": 0.0117,
+        "pixels": 41076
+       },
+       "toward": {
+        "edgeOverBody": 0.3602,
+        "edges": 4663,
+        "bodies": 3953
+       },
+       "brightest": 0.9179,
+       "glow": {
+        "towardSky": 0.0141,
+        "cloudsToward": 0.0121
+       }
+      }
+     },
+     "dawn": {
+      "main": {
+       "topsOverBases": {
+        "order": 0.0447,
+        "pixels": 65605
+       },
+       "sunwardOverFar": {
+        "order": 0.0033,
+        "pixels": 60731
+       },
+       "toward": {
+        "edgeOverBody": 0.1487,
+        "edges": 4688,
+        "bodies": 14894
+       },
+       "brightest": 0.4351,
+       "glow": {
+        "towardSky": 0.0376,
+        "cloudsToward": 0.1468
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.1142,
+        "pixels": 51960
+       },
+       "sunwardOverFar": {
+        "order": -0.0007,
+        "pixels": 61867
+       },
+       "toward": {
+        "edgeOverBody": 0.1597,
+        "edges": 3388,
+        "bodies": 19241
+       },
+       "brightest": 0.4351,
+       "glow": {
+        "towardSky": 0.0366,
+        "cloudsToward": 0.148
+       }
+      }
+     },
+     "midnight": {
+      "main": {
+       "topsOverBases": {
+        "order": 0.0226,
+        "pixels": 21636
+       },
+       "sunwardOverFar": {
+        "order": 0.0136,
+        "pixels": 50896
+       },
+       "toward": {
+        "edgeOverBody": 0.2487,
+        "edges": 2651,
+        "bodies": 3048
+       },
+       "brightest": 0.3543,
+       "glow": {
+        "towardSky": 0.002,
+        "cloudsToward": 0.0072
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.0215,
+        "pixels": 17246
+       },
+       "sunwardOverFar": {
+        "order": 0.0216,
+        "pixels": 43938
+       },
+       "toward": {
+        "edgeOverBody": 0.2708,
+        "edges": 2534,
+        "bodies": 3543
+       },
+       "brightest": 0.3543,
+       "glow": {
+        "towardSky": 0.0018,
+        "cloudsToward": 0.006
+       }
+      }
+     },
+     "host": {
+      "main": {
+       "topsOverBases": {
+        "order": -0.0066,
+        "pixels": 51673
+       },
+       "sunwardOverFar": {
+        "order": 0.0035,
+        "pixels": 53159
+       },
+       "toward": {
+        "edgeOverBody": 0.2637,
+        "edges": 5576,
+        "bodies": 6360
+       },
+       "brightest": 0.845,
+       "glow": {
+        "towardSky": 0.0412,
+        "cloudsToward": 0.0897
+       }
+      },
+      "now": {
+       "topsOverBases": {
+        "order": 0.0991,
+        "pixels": 50087
+       },
+       "sunwardOverFar": {
+        "order": 0.0269,
+        "pixels": 51217
+       },
+       "toward": {
+        "edgeOverBody": 0.2845,
+        "edges": 5571,
+        "bodies": 6465
+       },
+       "brightest": 0.8363,
+       "glow": {
+        "towardSky": 0.0178,
+        "cloudsToward": 0.0713
+       }
+      }
+     }
+    },
+    "shadows": {
+     "golden": {
+      "stretch": 3.487,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3,
+       "along": 9.8508,
+       "across": 11.8489,
+       "ratio": 0.8314,
+       "shaded": 0.2712
+      },
+      "now": {
+       "round": 0.2981,
+       "stretched": 0.9971,
+       "along": 38.3977,
+       "across": 11.3439,
+       "ratio": 3.3849,
+       "shaded": 0.2842
+      }
+     },
+     "noon": {
+      "stretch": 1.383,
+      "main": {
+       "round": 0.9937,
+       "stretched": 0.0973,
+       "along": 9.869,
+       "across": 11.8544,
+       "ratio": 0.8325,
+       "shaded": 0.2717
+      },
+      "now": {
+       "round": 0.0965,
+       "stretched": 0.9959,
+       "along": 14.3918,
+       "across": 11.6704,
+       "ratio": 1.2332,
+       "shaded": 0.308
+      }
+     },
+     "dawn": {
+      "stretch": 5.286,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2382,
+       "along": 9.8372,
+       "across": 11.8439,
+       "ratio": 0.8306,
+       "shaded": 0.2706
+      },
+      "now": {
+       "round": 0.2363,
+       "stretched": 0.9967,
+       "along": 59.8632,
+       "across": 9.7985,
+       "ratio": 6.1094,
+       "shaded": 0.2168
+      }
+     },
+     "midnight": {
+      "stretch": 5.55,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.2631,
+       "along": 9.822,
+       "across": 11.8392,
+       "ratio": 0.8296,
+       "shaded": 0.27
+      },
+      "now": {
+       "round": 0.2618,
+       "stretched": 0.9966,
+       "along": 74.053,
+       "across": 10.0873,
+       "ratio": 7.3412,
+       "shaded": 0.2096
+      }
+     },
+     "host": {
+      "stretch": 3.375,
+      "main": {
+       "round": 0.9936,
+       "stretched": 0.3182,
+       "along": 9.8495,
+       "across": 11.8477,
+       "ratio": 0.8313,
+       "shaded": 0.2711
+      },
+      "now": {
+       "round": 0.3156,
+       "stretched": 0.9971,
+       "along": 34.0294,
+       "across": 11.1267,
+       "ratio": 3.0584,
+       "shaded": 0.2821
+      }
+     }
+    },
+    "water": {
+     "seaAcross": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.9835,
+       "meanDrop": 0.0723,
+       "roadKept": 0.989
+      }
+     },
+     "seaToward": {
+      "main": {
+       "darker": 0,
+       "meanDrop": 0,
+       "roadKept": 1
+      },
+      "now": {
+       "darker": 0.226,
+       "meanDrop": 0.0142,
+       "roadKept": 1
+      }
+     },
+     "roadcut": {
+      "darker": 0.226,
+      "meanDrop": 0.0142,
+      "roadKept": 1
+     }
+    }
+   },
+   "reads": {
+    "count": 196,
+    "settled": 196,
+    "maxRenders": 3
+   }
+  }
+ },
+ "data": {
+  "ok": true,
+  "rows": {
+   "golden": {
+    "restIsMain": true,
+    "skyCloudSun": 1,
+    "skyCloudBase": "9890ae",
+    "sunElevation": 12.47,
+    "shadowStretch": 3.487
+   },
+   "noon": {
+    "restIsMain": true,
+    "skyCloudSun": 1,
+    "skyCloudBase": "a3aec4",
+    "sunElevation": 55.11,
+    "shadowStretch": 1.383
+   },
+   "summer": {
+    "restIsMain": true,
+    "sunElevation": 50.43,
+    "shadowStretch": null
+   },
+   "dawn": {
+    "restIsMain": true,
+    "skyCloudSun": 1,
+    "skyCloudBase": "9a93ae",
+    "sunElevation": 7.31,
+    "shadowStretch": 5.286
+   },
+   "midnight": {
+    "restIsMain": true,
+    "skyCloudSun": 1,
+    "skyCloudBase": "958aa3",
+    "sunElevation": 4.62,
+    "shadowStretch": 5.55
+   },
+   "bluehour": {
+    "restIsMain": true,
+    "sunElevation": -1.45,
+    "shadowStretch": null
+   },
+   "storm": {
+    "restIsMain": true,
+    "sunElevation": 20.9,
+    "shadowStretch": null
+   },
+   "mist": {
+    "restIsMain": true,
+    "sunElevation": 31.19,
+    "shadowStretch": null
+   },
+   "host": {
+    "restIsMain": true,
+    "skyCloudSun": 1,
+    "skyCloudBase": "9da3bd",
+    "sunElevation": 13.04,
+    "shadowStretch": 3.375
+   }
+  }
+ },
+ "agreement": {
+  "measures": 180,
+  "disagreeing": []
+ }
+}
