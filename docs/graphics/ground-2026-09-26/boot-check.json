@@ -1,0 +1,825 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "4170051d",
+ "rows": [
+  {
+   "name": "Ängsö, Kväll, high quality",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 136,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 14136,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 14
+      },
+      "tufts": {
+       "count": 16358,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 24090,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 2931,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 2531,
+        "deepest": 0.726
+       }
+      },
+      "stones": {
+       "count": 652,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 512,
+        "deepest": 0.277
+       }
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 14136,
+    "preparedScatter": {
+     "reeds": true,
+     "cover": true,
+     "edge": true
+    },
+    "tierAudit": true,
+    "reedLatticeMs": 33.2
+   },
+   "expected": {
+    "reeds": 14136,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 119,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 7169,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 14
+      },
+      "tufts": {
+       "count": 8404,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 7951,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 1450,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 1266,
+        "deepest": 0.445
+       }
+      },
+      "stones": {
+       "count": 307,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 235,
+        "deepest": 0.277
+       }
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 7169,
+    "preparedScatter": {
+     "reeds": true,
+     "cover": true,
+     "edge": true
+    },
+    "tierAudit": true,
+    "reedLatticeMs": 26.2
+   },
+   "expected": {
+    "reeds": 7169,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, every drawn before",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&groundedges=0&stripereach=0&hardground=0&coverlight=0&covershadow=0&covercolour=0&coverseat=0",
+   "seconds": 146,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": false,
+     "stripeReach": false,
+     "hardGround": false
+    },
+    "cover": {
+     "light": false,
+     "shadow": false,
+     "colour": false,
+     "seat": false,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 14136,
+       "castShadow": false,
+       "receiveShadow": false,
+       "bladeNormal": false,
+       "waters": 14
+      },
+      "tufts": {
+       "count": 16358,
+       "castShadow": false,
+       "receiveShadow": false,
+       "bladeNormal": false
+      },
+      "edgeTufts": {
+       "count": 24090,
+       "castShadow": false,
+       "receiveShadow": false,
+       "bladeNormal": false
+      },
+      "bushes": {
+       "count": 2931,
+       "castShadow": true,
+       "receiveShadow": false,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 0,
+        "deepest": 0
+       }
+      },
+      "stones": {
+       "count": 652,
+       "castShadow": true,
+       "receiveShadow": false,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 0,
+        "deepest": 0
+       }
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 14136,
+    "preparedScatter": {
+     "reeds": true,
+     "cover": true,
+     "edge": true
+    },
+    "tierAudit": true,
+    "reedLatticeMs": 27.8
+   },
+   "expected": {
+    "reeds": 14136,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, ?reedlakes=0",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&reedlakes=0",
+   "seconds": 153,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": false,
+     "populations": {
+      "reeds": {
+       "count": 14069,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 14
+      },
+      "tufts": {
+       "count": 16358,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 24090,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 2931,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 2531,
+        "deepest": 0.726
+       }
+      },
+      "stones": {
+       "count": 652,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 512,
+        "deepest": 0.277
+       }
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 14069,
+    "preparedScatter": {},
+    "tierAudit": true,
+    "reedLatticeMs": 420.6
+   },
+   "expected": {
+    "reeds": 14069,
+    "reedsFrom": "main"
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, ?prepscatter=0",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&prepscatter=0",
+   "seconds": 159,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 14136,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 14
+      },
+      "tufts": {
+       "count": 16358,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 24090,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 2931,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 2531,
+        "deepest": 0.726
+       }
+      },
+      "stones": {
+       "count": 652,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 512,
+        "deepest": 0.277
+       }
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 14136,
+    "preparedScatter": {},
+    "tierAudit": true,
+    "reedLatticeMs": 406.2
+   },
+   "expected": {
+    "reeds": 14136,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Dag, ?surfaceRelief=1",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag&surfaceRelief=1",
+   "seconds": 166,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 14136,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 14
+      },
+      "tufts": {
+       "count": 16358,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 24090,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 2931,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 2531,
+        "deepest": 0.726
+       }
+      },
+      "stones": {
+       "count": 652,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 512,
+        "deepest": 0.277
+       }
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 14136,
+    "preparedScatter": {
+     "reeds": true,
+     "cover": true,
+     "edge": true
+    },
+    "tierAudit": true,
+    "reedLatticeMs": 31.8
+   },
+   "expected": {
+    "reeds": 14136,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Johannesberg, Kväll",
+   "q": "hi",
+   "url": "/?bana=johannesberg&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 208,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 1848,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 12
+      },
+      "tufts": {
+       "count": 21104,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 22969,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 3797,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 3363,
+        "deepest": 0.8
+       }
+      },
+      "stones": {
+       "count": 893,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 747,
+        "deepest": 2.423
+       }
+      },
+      "stumps": {
+       "count": 20,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": false
+      }
+     },
+     "stoneColour": 7829355
+    },
+    "reeds": 1848,
+    "preparedScatter": {
+     "reeds": true,
+     "cover": true,
+     "edge": true
+    },
+    "tierAudit": true,
+    "reedLatticeMs": 9.4
+   },
+   "expected": {
+    "reeds": 1848,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Puttom, Dag",
+   "q": "hi",
+   "url": "/?bana=puttom&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag",
+   "seconds": 184,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 4305,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 13
+      },
+      "tufts": {
+       "count": 5028,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 26324,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 866,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 827,
+        "deepest": 0.447
+       }
+      },
+      "stones": {
+       "count": 199,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 183,
+        "deepest": 0.286
+       }
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 4305,
+    "preparedScatter": {
+     "reeds": true,
+     "cover": true,
+     "edge": true
+    },
+    "tierAudit": true,
+    "reedLatticeMs": 19.5
+   },
+   "expected": {
+    "reeds": 4305,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Veckefjärden, Kväll",
+   "q": "hi",
+   "url": "/?bana=veckefjarden&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 153,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {
+      "reeds": {
+       "count": 3132,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true,
+       "waters": 38
+      },
+      "tufts": {
+       "count": 16010,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "edgeTufts": {
+       "count": 23374,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": true
+      },
+      "bushes": {
+       "count": 2920,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 2757,
+        "deepest": 1.656
+       }
+      },
+      "stones": {
+       "count": 662,
+       "castShadow": true,
+       "receiveShadow": true,
+       "bladeNormal": false,
+       "seat": {
+        "lowered": 608,
+        "deepest": 1.953
+       }
+      },
+      "stumps": {
+       "count": 206,
+       "castShadow": false,
+       "receiveShadow": true,
+       "bladeNormal": false
+      }
+     },
+     "stoneColour": 8952229
+    },
+    "reeds": 3132,
+    "preparedScatter": {
+     "reeds": true,
+     "cover": true,
+     "edge": true
+    },
+    "tierAudit": true,
+    "reedLatticeMs": 7.7
+   },
+   "expected": {
+    "reeds": 3132,
+    "reedsFrom": "now"
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 131,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundEdges": true,
+    "switches": true,
+    "cover": true,
+    "stones": true,
+    "prepared": true,
+    "reeds": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "cover": {
+     "light": true,
+     "shadow": true,
+     "colour": true,
+     "seat": true,
+     "reedLakes": true,
+     "populations": {}
+    },
+    "reeds": 0,
+    "preparedScatter": {},
+    "tierAudit": true,
+    "reedLatticeMs": null
+   },
+   "expected": {
+    "reeds": null,
+    "reedsFrom": null
+   },
+   "errors": []
+  }
+ ]
+}

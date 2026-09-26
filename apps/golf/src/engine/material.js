@@ -7,6 +7,8 @@ export { groundSurfaceAlbedo, classStyle, surfaceDebugColour, createGroundStyleD
 
 /* A fairway's gloss in SHADE: the sheen every turf took before surfaces had their own */
 export const FAIRWAY_GLOSS = 0.28;
+/* autumn's ochre on the grass (Höst): what the rough, and what grows in it, is multiplied by */
+export const SEASON_OCHRE = Object.freeze([1.14, .93, .75]);
 
 export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0), gloss = null }) {
   const blotchA = texture(DETAIL, wp.mul(0.012)).b.sub(0.5);
@@ -35,7 +37,7 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
   /* the palette carries the chroma now; the finish only shapes it */
   // Uncut surroundings acquire an ochre undertone in autumn; mown playing
   // surfaces keep their distinct sage/moss hues and readable mowing pattern.
-  const seasonTone = mix(vec3(1), vec3(1.14,.93,.75), paintedSeason.mul(seasonal).mul(turf));
+  const seasonTone = mix(vec3(1), vec3(...SEASON_OCHRE), paintedSeason.mul(seasonal).mul(turf));
   const c = base.mul(float(1).add(blotch).add(mow.mul(0.55))).mul(tone).mul(seasonTone)
     .mul(mix(float(1), paintedTurfStrength, turf));
   // Broad grass reflections use the standard light/shadow response, so the

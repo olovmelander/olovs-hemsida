@@ -40,7 +40,12 @@ export function preparedTintAllowed(search) {
     // nor does the lights audit's: the lights' colours, the glaze on the land and the storm's wind are drawn
     'lights',
     // nor do the clouds batch's: the clouds' light and their shadows' stretch are drawn
-    'cloudlight', 'cloudstretch']);
+    'cloudlight', 'cloudstretch',
+    // nor do the ground batch's: the class edges, the stripes' reach, the hard ground's finish, and the
+    // cover's light, shadows, colours and seat are drawn (?reedlakes=0 moves plantings, and is not here),
+    'groundedges', 'stripereach', 'hardground', 'coverlight', 'covershadow', 'covercolour', 'coverseat',
+    // and the surface relief pilot, which the painted finish never read
+    'surfaceRelief']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

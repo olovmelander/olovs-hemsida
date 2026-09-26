@@ -174,6 +174,27 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   `one-wind.mjs` leaves an unbounded period unwrapped, since 0 x Infinity is NaN).
   Keep the tests' CPU reading of the pattern in step with the shader's.
   `?cloudlight=0` and `?cloudstretch=0` are the befores. See [the clouds batch](docs/visual-clouds-2026-09-26.md).
+- The ground's class edges are measured across each edge
+  (`ground-material-core.mjs`): the width is `fwidth` of each class's own field,
+  never wider than the whole footprint nor `EDGE_REACH_METRES` (3 m, inside the
+  fields' 4 m reach). So no class lends its colour to ground past its field's
+  reach, and the contact line, bank, rake, lip and path edges fade by the same
+  pixel. The mowing passes fade out before their lateral byte's 31.75 m. Hard
+  ground (paths, roads, gravel, soil, rock, mud) stands at 0 mm under the
+  contact line and takes no turf finish. The ground cover (`ground-cover.mjs`):
+  - blades are lit by `seenBladeNormal()`, their tilt up and their facing turned
+    to the seen side, so keep their normals on the front face;
+  - every cover population receives shadows;
+  - colours read the detail texture at `COVER_TUNED_SHARE` and take the rough's
+    grass strength and autumn;
+  - stones and bushes sit on the lowest ground under their rim;
+  - reeds stand at the first lake's level by any water, as before, and also
+    where the ground lies at a lake's or pond's own level beside it
+    (`reedWaterAt`); that rule moves plantings, so change it only with a re-bake.
+
+  `?groundedges=0`, `?stripereach=0`, `?hardground=0`, `?coverlight=0`,
+  `?covershadow=0`, `?covercolour=0` and `?coverseat=0` are drawn befores;
+  `?reedlakes=0` plants live. See [the ground batch](docs/visual-ground-2026-09-26.md).
 - Walls darken at their foot where they meet the ground (`building-paint.mjs`):
   each vertex carries the visible ground's height under it (`aGround`, stamped
   at load), and the shader scales the material's own colour, walls only. The

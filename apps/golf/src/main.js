@@ -98,6 +98,8 @@ import {
   requestedMowing,
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround, paintedGround } from './engine/material.js';
+import { tussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
+  seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
@@ -1929,6 +1931,27 @@ const STAND_TINT_ON = new URLSearchParams(location.search).get('standtint') !== 
    ?surfaceedges=0 are the befores. */
 const SURFACE_GLOSS = new URLSearchParams(location.search).get('surfacegloss') !== '0';
 const SURFACE_EDGES = new URLSearchParams(location.search).get('surfaceedges') !== '0';
+/* The ground's class edges are drawn by the pixel ACROSS each edge, so a far
+   edge neither smears down the view nor lends every class's colour to the
+   ground beyond its field's reach; the mowing passes fade before the lateral
+   byte saturates; the hard ground lies at ground level, and mud is hard ground
+   (ground-material-core.mjs). ?groundedges=0, ?stripereach=0 and ?hardground=0
+   are the befores. */
+const GROUND_EDGES_ON = new URLSearchParams(location.search).get('groundedges') !== '0';
+const STRIPE_REACH_ON = new URLSearchParams(location.search).get('stripereach') !== '0';
+const HARD_GROUND_ON = new URLSearchParams(location.search).get('hardground') !== '0';
+/* The ground cover (ground-cover.mjs): the blades of tussocks, clumps and reeds
+   lit from the side that is seen; every piece of it in the trees' shadows; its
+   colours where they were tuned, in the light's grass strength and autumn's
+   ochre, and a reviewed ground's stone; the stones and bushes seated on the
+   lowest ground under them; reeds at every lake and pond, each at its own level.
+   ?coverlight=0, ?covershadow=0, ?covercolour=0, ?coverseat=0 and ?reedlakes=0
+   are the befores; the last moves plantings, so it plants them live. */
+const COVER_LIGHT_ON = new URLSearchParams(location.search).get('coverlight') !== '0';
+const COVER_SHADOW_ON = new URLSearchParams(location.search).get('covershadow') !== '0';
+const COVER_COLOUR_ON = new URLSearchParams(location.search).get('covercolour') !== '0';
+const COVER_SEAT_ON = new URLSearchParams(location.search).get('coverseat') !== '0';
+const REED_LAKES_ON = new URLSearchParams(location.search).get('reedlakes') !== '0';
 /* Hollows, crests and wood edges, baked into the ground tint's alpha
    (ground-relief.mjs) and read by the ground material; ?groundrelief=0 is the before. */
 const GROUND_RELIEF_ON = new URLSearchParams(location.search).get('groundrelief') !== '0';
@@ -2200,6 +2223,13 @@ const farRingRuns = line => {
 };
 
 const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
+/* the ground cover as drawn, per population (V3D.cover) */
+stats.cover = { light: COVER_LIGHT_ON, shadow: COVER_SHADOW_ON, colour: COVER_COLOUR_ON, seat: COVER_SEAT_ON,
+  reedLakes: REED_LAKES_ON, populations: {} };
+const coverDrawn = (name, im, extra = {}) => {
+  stats.cover.populations[name] = { count: im.count, castShadow: im.castShadow, receiveShadow: im.receiveShadow,
+    bladeNormal: !!im.material.normalNode, ...extra };
+};
 /* Per-building authored GLB replacements, the second of the two display-
    architecture mechanisms. `loadFacilities` above installs a whole campus from
    one asset; this one swaps a SINGLE source footprint for its own reviewed
@@ -3074,6 +3104,7 @@ if (TERRAIN_PREVIEW.ready) {
     /* stripes fade by the pixel across them; ?mowfade=iso is the before, by its whole footprint */
     mowFade: new URLSearchParams(location.search).get('mowfade') === 'iso' ? 'iso' : 'across',
     surfaceGloss: SURFACE_GLOSS, surfaceEdges: SURFACE_EDGES, groundRelief: GROUND_RELIEF_ON,
+    acrossEdges: GROUND_EDGES_ON, stripeReach: STRIPE_REACH_ON, hardGround: HARD_GROUND_ON,
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -4581,6 +4612,13 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   // The legacy Norrfallsviken sea is also marked isLake. Applying the inland
   // reed-fringe rule to it plants rows of spikes across the open sand beach.
   const lake = M.water.find(w => w.isLake && !(CMETA.slug === 'norrfallsviken' && w.isSea));
+  /* whether the ground at a candidate lies at the level of the water beside it: the first lake's,
+     as before, by any water -- a river at its mouth, a ditch at the lake's height -- or now also
+     any lake's or pond's own (ground-cover.mjs); ?reedlakes=0 is the first lake's alone */
+  const atFirstLake = (h, below) => h >= lake.level - below && h <= lake.level + 0.2;
+  const reedWater = REED_LAKES_ON
+    ? (px, pz, h, below) => atFirstLake(h, below) || reedWaterAt(WI.at(px, pz), px, pz, h, below, ringSD)
+    : (px, pz, h, below) => atFirstLake(h, below);
   if (lake) {
     const pts = [];
     const G = 1.7;
@@ -4608,11 +4646,11 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       if (shalBB) for (const sr of SHAL) if (ringSD(px, pz, sr.ring) < 0) { inShal = true; break; }
       let bedClump = 0;
       if (inShal) {
-        if (h < lake.level - 0.42 || h > lake.level + 0.2) return;
+        if (!reedWater(px, pz, h, 0.42)) return;
         const cl = fbm(px * 0.05, pz * 0.05, 2);
         if (cl < 0.22) return;
         bedClump = 1;                       /* inside a bed, reeds stand shoulder to shoulder */
-      } else if (h < lake.level - 0.22 || h > lake.level + 0.2) return;
+      } else if (!reedWater(px, pz, h, 0.22)) return;
       let dens = 0.2 + (fbm(px * 0.02, pz * 0.02, 2) * 0.5 + 0.5) * 0.35;
       if (bedClump) dens = 0.92;
       if (rb && rb.denser && px < rb.denser[0]) dens *= rb.denser[1];
@@ -4630,15 +4668,9 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const n = pts.length / 5;
     if (n) {
       const g = (() => {
-        const p = [], nn = [];
-        for (let k = 0; k < 3; k++) {
-          const a = k / 3 * TAU + 0.7, c2 = Math.cos(a), s2 = Math.sin(a);
-          p.push(c2 * 0.3, 0, s2 * 0.3, -c2 * 0.3, 0, -s2 * 0.3, c2 * 0.12, 2.1, s2 * 0.12);
-          for (let q = 0; q < 3; q++) nn.push(-s2, 0.25, c2);
-        }
-        const gg = new THREE.BufferGeometry();
-        gg.setAttribute('position', new THREE.Float32BufferAttribute(p, 3));
-        gg.setAttribute('normal', new THREE.Float32BufferAttribute(nn, 3));
+        const gg = new THREE.BufferGeometry(), { positions, normals } = reedBlades();
+        gg.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        gg.setAttribute('normal', new THREE.Float32BufferAttribute(COVER_LIGHT_ON ? bladeNormalsFront(normals) : normals, 3));
         return gg;
       })();
       const mat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.9, metalness: 0 });
@@ -4647,6 +4679,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
         const lit = pow(saturate(V.dot(uSun.negate())), 2.2).mul(0.7).mul(uSunThrough).mul(SUNLIT ?? 1);
         const tall = saturate(LOCAL_HEIGHT.div(2.1)).mul(0.7);
         mat.colorNode = mix(color(0x53583a), uReedC, tall).mul(float(1).add(lit));
+        if (COVER_LIGHT_ON) mat.normalNode = seenBladeNormal();
 
         /* GPU vertex sway for water reeds */
         const wp = positionWorld.xz;
@@ -4672,8 +4705,10 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
         im.setMatrixAt(k, m4.compose(v3, q, s3));
       }
       im.instanceMatrix.needsUpdate = true;
+      im.receiveShadow = COVER_SHADOW_ON;
       scene.add(im);
       stats.draws++; stats.reeds = n;
+      coverDrawn('reeds', im, { waters: M.water.filter(w => !w.stream && !w.isSea).length });
     }
   }
 }
@@ -6097,16 +6132,9 @@ lap('far vista cones', { vista: stats.vista | 0 });
    is what made the extra clause look free. */
 if (M.infra.vegetationPlacement !== 'measured-only') {
   const tuft = (() => {
-    const g = new THREE.BufferGeometry();
-    const p = [], n = [];
-    for (let i = 0; i < 3; i++) {
-      const a = i / 3 * TAU + 0.4, c = Math.cos(a), sn = Math.sin(a);
-      /* a splayed blade: wide at the base, leaning out, meeting at a tip */
-      p.push(c * 0.14, 0, sn * 0.14, -sn * 0.12, 0, c * 0.12, c * 0.24, 0.30, sn * 0.24);
-      for (let k = 0; k < 3; k++) n.push(-sn, 0.55, c);
-    }
-    g.setAttribute('position', new THREE.Float32BufferAttribute(p, 3));
-    g.setAttribute('normal', new THREE.Float32BufferAttribute(n, 3));
+    const g = new THREE.BufferGeometry(), { positions, normals } = tussockBlades();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    g.setAttribute('normal', new THREE.Float32BufferAttribute(COVER_LIGHT_ON ? bladeNormalsFront(normals) : normals, 3));
     return g;
   })();
   const bush = new THREE.IcosahedronGeometry(0.62, 0);
@@ -6245,22 +6273,32 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   stats.edgeTufts = ET.length / 5;
   span('ground cover edge tufts', edgeTuftsStarted);
 
-  const place = (geo, mat, arr, shadow) => {
+  /* `rim`: seated on the lowest ground under that share of its scale (ground-cover.mjs) */
+  const place = (name, geo, mat, arr, shadow, rim = 0) => {
     const n = arr.length / 5;
     if (!n) return 0;
     const im = new THREE.InstancedMesh(geo, mat, n);
     const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), sv = new THREE.Vector3();
+    const seat = rim ? { lowered: 0, deepest: 0 } : null;
     for (let k = 0; k < n; k++) {
       v.set(arr[k * 5], arr[k * 5 + 1], arr[k * 5 + 2]);
       const sc = arr[k * 5 + 3];
+      if (rim && COVER_SEAT_ON) {
+        /* the planted height is the centre's, less its sink: keep the sink, from the lowest ground */
+        const centre = terrainH(v.x, v.z), drop = centre - seatHeight(terrainH, v.x, v.z, rim * sc, centre);
+        v.y -= drop;
+        if (drop > 0.01) seat.lowered++;
+        seat.deepest = Math.max(seat.deepest, drop);
+      }
       sv.set(sc, sc * (0.8 + (k % 5) * 0.09), sc);
       q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), arr[k * 5 + 4]);
       im.setMatrixAt(k, m4.compose(v, q, sv));
     }
     im.instanceMatrix.needsUpdate = true;
-    im.castShadow = shadow; im.receiveShadow = false;
+    im.castShadow = shadow; im.receiveShadow = COVER_SHADOW_ON;
     scene.add(im);
     stats.draws++;
+    coverDrawn(name, im, seat ? { seat: { lowered: seat.lowered, deepest: +seat.deepest.toFixed(3) } } : {});
     return n;
   };
   /* tussocks catch the low sun through the blade, the way the turf shader does */
@@ -6269,29 +6307,30 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const V = normalize(cameraPosition.sub(positionWorld));
     const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough).mul(SUNLIT ?? 1);
     const tint = texture(DETAIL, positionWorld.xz.mul(0.03)).b;
-    tuftMat.colorNode = mix(color(PAINTED_SCENERY.tuft[0]),
-      mix(color(PAINTED_SCENERY.tuft[1]), uReedC, uAutumn), tint).mul(float(1).add(lit.mul(0.45)));
+    const tuftColour = mix(color(PAINTED_SCENERY.tuft[0]),
+      mix(color(PAINTED_SCENERY.tuft[1]), uReedC, uAutumn), COVER_COLOUR_ON ? tint.mul(COVER_TUNED_SHARE) : tint).mul(float(1).add(lit.mul(0.45)));
+    tuftMat.colorNode = COVER_COLOUR_ON ? grassCover(tuftColour) : tuftColour;
+    if (COVER_LIGHT_ON) tuftMat.normalNode = seenBladeNormal();
   }
   const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
-  bushMat.colorNode = mix(color(PAINTED_SCENERY.bush[0]),
-    mix(color(PAINTED_SCENERY.bush[1]), color(0xb8894c), uAutumn),
-    texture(DETAIL, positionWorld.xz.mul(0.017)).g);
+  {
+    const leaf = texture(DETAIL, positionWorld.xz.mul(0.017)).g;
+    bushMat.colorNode = mix(color(PAINTED_SCENERY.bush[0]),
+      mix(color(PAINTED_SCENERY.bush[1]), color(0xb8894c), uAutumn), COVER_COLOUR_ON ? leaf.mul(COVER_TUNED_SHARE) : leaf);
+  }
+  /* a reviewed ground's photographed stone (Johannesberg), where it has one */
+  const reviewedStone = SCENERY?.groundAppearance?.palette?.rock;
+  const stoneColour = COVER_COLOUR_ON && reviewedStone !== undefined ? reviewedStone : PAINTED_SCENERY.stone;
   const stoneMat = new THREE.MeshStandardNodeMaterial({
-    color: new THREE.Color(PAINTED_SCENERY.stone), roughness: 0.86, metalness: 0, flatShading: true });
+    color: new THREE.Color(stoneColour), roughness: 0.86, metalness: 0, flatShading: true });
 
-  stats.tufts = place(tuft, tuftMat, T, false);
+  stats.tufts = place('tufts', tuft, tuftMat, T, false);
   if (ET.length) {
     const clumpGeo = (() => {
-      const g = new THREE.BufferGeometry();
-      const p = [], n = [];
-      for (let b = 0; b < 5; b++) {
-        const a = b / 5 * TAU + 0.3, c = Math.cos(a), sn = Math.sin(a);
-        const r = 0.04, half = 0.03, lean = 0.07 + (b % 3) * 0.035, tall = 0.17 + ((b * 7) % 5) * 0.025;
-        p.push(c * r - sn * half, 0, sn * r + c * half, c * r + sn * half, 0, sn * r - c * half, c * (r + lean), tall, sn * (r + lean));
-        for (let k = 0; k < 3; k++) n.push(c * 0.45, 0.8, sn * 0.45);
-      }
-      g.setAttribute('position', new THREE.Float32BufferAttribute(p, 3));
-      g.setAttribute('normal', new THREE.Float32BufferAttribute(n, 3));
+      /* its normals already lie on its blades' front faces */
+      const g = new THREE.BufferGeometry(), { positions, normals } = clumpBlades();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      g.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
       return g;
     })();
     const clumpMat = new THREE.MeshStandardNodeMaterial({ side: THREE.DoubleSide, roughness: 0.95, metalness: 0 });
@@ -6299,18 +6338,21 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const lit = pow(saturate(V.dot(uSun.negate())), 2.4).mul(0.55).mul(uSunThrough).mul(SUNLIT ?? 1);
     const tone = texture(DETAIL, positionWorld.xz.mul(0.05)).b;
     /* dark at the root, the rough's own light green at the tip */
-    clumpMat.colorNode = mix(color(0x3f6a24), color(0x7aa23e),
-      saturate(LOCAL_HEIGHT.mul(3.2)).mul(0.7).add(tone.mul(0.3))).mul(float(1).add(lit.mul(0.45)));
-    place(clumpGeo, clumpMat, ET, false);
+    const clumpColour = mix(color(0x3f6a24), color(0x7aa23e),
+      saturate(LOCAL_HEIGHT.mul(3.2)).mul(0.7).add((COVER_COLOUR_ON ? tone.mul(COVER_TUNED_SHARE) : tone).mul(0.3))).mul(float(1).add(lit.mul(0.45)));
+    clumpMat.colorNode = COVER_COLOUR_ON ? grassCover(clumpColour) : clumpColour;
+    if (COVER_LIGHT_ON) clumpMat.normalNode = seenBladeNormal();
+    place('edgeTufts', clumpGeo, clumpMat, ET, false);
   }
-  stats.bushes = place(bush, bushMat, B, true);
-  stats.stones = place(stone, stoneMat, S, true);
+  stats.bushes = place('bushes', bush, bushMat, B, true, SEAT_RIM.bush);
+  stats.stones = place('stones', stone, stoneMat, S, true, SEAT_RIM.stone);
+  stats.cover.stoneColour = stoneMat.color.getHex();
   const stump = new THREE.CylinderGeometry(0.16, 0.2, 0.38, 6);
   stump.translate(0, 0.19, 0);
   const stumpMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
   stumpMat.colorNode = mix(color(PAINTED_SCENERY.wood), color(PAINTED_SCENERY.cutWood),
     smoothstep(0.3, 0.37, LOCAL_HEIGHT));              /* pale cut face on top */
-  stats.stumps = place(stump, stumpMat, STU, false);
+  stats.stumps = place('stumps', stump, stumpMat, STU, false);
 }
 
 lap('ground cover (tufts, bushes, stones, stumps)');
@@ -11849,8 +11891,11 @@ window.V3D = {
   placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
   /* the hole lines as drawn, for a harness framing a whole hole */
   holeLines: () => HOLES.map(h => ({ n: h.n, line: h.line.map(p => [p[0], p[1]]) })),
+  /* the ground cover as drawn (ground-cover.mjs): its switches, and per population its
+     count, shadows, blade normal and seat */
+  cover: () => structuredClone(stats.cover),
   waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
-    id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, points: w.ring?.length ?? 0,
+    id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, isSea: !!w.isSea, surroundings: !!w.surr, points: w.ring?.length ?? 0,
     bb: w.ring?.length ? ringBBox(w.ring) : null,
   })),
   v2Terrain: () => ({
@@ -11876,6 +11921,8 @@ window.V3D = {
       : TERRAIN_PREVIEW.surfaceAtlas ? 'published' : 'pair',
     exactEdges: groundAtlas?.exactEdges
       ? { channels: [...groundAtlas.exactEdges.channels], ...groundAtlas.exactEdges.stats } : null,
+    /* what the drawn ground material was built with (ground-material-core.mjs) */
+    groundEdges: (() => { let found = null; scene.traverse(o => { if (!found && o.material?.userData?.groundEdges) found = { ...o.material.userData.groundEdges }; }); return found; })(),
     reason: TERRAIN_PREVIEW.reason,
     selection: {
       mode: V2_SELECTION.mode,
