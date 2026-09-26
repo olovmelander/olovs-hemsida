@@ -277,7 +277,8 @@ describe('main.js', () => {
   it('moves it with the camera each frame, fills its ground and compiles it at boot, and waits for it to settle', () => {
     expect(main).toMatch(/updateSky\(\);\s*nearGrass\?\.update\(camera, renderer\.domElement\.height\);/);
     expect(main).toMatch(/const grassHidden = nearGrass \? !nearGrass\.prime\(camera, renderer\.domElement\.height\) : false;/);
-    expect(main).toMatch(/if \(grassHidden\) nearGrass\.mesh\.visible = true;\s*try \{\s*BOOT_PERF\.gpuPreparation = await prepareOpeningGpu/);
+    /* (the wild cover readies its tiles between the two, within the same block) */
+    expect(main).toMatch(/if \(grassHidden\) nearGrass\.mesh\.visible = true;[^}]*?try \{\s*BOOT_PERF\.gpuPreparation = await prepareOpeningGpu/);
     expect(main).toMatch(/&& \(nearGrass\?\.settled \?\? true\)/);
     expect(main).toMatch(/nearGrass: \(\) => \(nearGrass \?/);
   });
