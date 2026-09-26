@@ -101,6 +101,7 @@ import { createV2GroundMaterialDecorator, makeGround, paintedGround } from './en
 import { tussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
   seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
 import { createNearGrass } from './engine/near-grass.mjs';
+import { createForestFloor, createWildFlowers, plantFlowers, plantForestFloor } from './engine/wild-cover.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
@@ -1966,6 +1967,11 @@ const REED_LAKES_ON = new URLSearchParams(location.search).get('reedlakes') !== 
    view -- the tee view, and wherever the camera goes down to the ground -- grown
    from the ground's own class fields, one draw. ?neargrass=0 is the before. */
 const NEAR_GRASS_ON = new URLSearchParams(location.search).get('neargrass') !== '0';
+/* The wild cover (wild-cover.mjs): the woods' floor under the near trees, and the
+   summer's flowers beside the rough's tussocks and along the fringe, each derived
+   from a planting already made. ?forestfloor=0 and ?wildflowers=0 are the befores. */
+const FOREST_FLOOR_ON = new URLSearchParams(location.search).get('forestfloor') !== '0';
+const WILD_FLOWERS_ON = new URLSearchParams(location.search).get('wildflowers') !== '0';
 /* Hollows, crests and wood edges, baked into the ground tint's alpha
    (ground-relief.mjs) and read by the ground material; ?groundrelief=0 is the before. */
 const GROUND_RELIEF_ON = new URLSearchParams(location.search).get('groundrelief') !== '0';
@@ -2240,6 +2246,8 @@ const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
 /* the ground cover as drawn, per population (V3D.cover) */
 stats.cover = { light: COVER_LIGHT_ON, shadow: COVER_SHADOW_ON, colour: COVER_COLOUR_ON, seat: COVER_SEAT_ON,
   reedLakes: REED_LAKES_ON, populations: {} };
+/* the wild cover as drawn (V3D.wildCover): its switches, and what grew */
+stats.wildCover = { forestFloor: FOREST_FLOOR_ON, flowers: WILD_FLOWERS_ON };
 const coverDrawn = (name, im, extra = {}) => {
   stats.cover.populations[name] = { count: im.count, castShadow: im.castShadow, receiveShadow: im.receiveShadow,
     bladeNormal: !!im.material.normalNode, ...extra };
@@ -6145,6 +6153,8 @@ lap('far vista cones', { vista: stats.vista | 0 });
    nothing had drawn ground cover on them since. Visby and Lidingö declare
    `vegetationPlacement: 'measured-only'` and are unaffected either way, which
    is what made the extra clause look free. */
+/* the tussocks and the fringe as planted, for the wild cover below (null where nothing is invented) */
+let coverPlantings = null;
 if (M.infra.vegetationPlacement !== 'measured-only') {
   const tuft = (() => {
     const g = new THREE.BufferGeometry(), { positions, normals } = tussockBlades();
@@ -6368,9 +6378,59 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   stumpMat.colorNode = mix(color(PAINTED_SCENERY.wood), color(PAINTED_SCENERY.cutWood),
     smoothstep(0.3, 0.37, LOCAL_HEIGHT));              /* pale cut face on top */
   stats.stumps = place('stumps', stump, stumpMat, STU, false);
+
+  const coverWetAt = (x, z, h) => {
+    for (const w of WI.at(x, z)) {
+      if (w.stream) { if (distToLine(x, z, w.line, w.w * 3) < w.w * 3) return true; }
+      else if (ringSD(x, z, w.ring, 3) < 3 || h < w.level + 0.4) return true;
+    }
+    return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(x, z);
+  };
+  /* the tussocks and the fringe, and the water rule they were planted by, for the wild cover */
+  coverPlantings = { tufts: T, edge: ET, wetAt: coverWetAt };
 }
 
 lap('ground cover (tufts, bushes, stones, stumps)');
+/* THE WILD COVER (wild-cover.mjs). The woods' floor under the trees within 300 m
+   of a hole's line, and the summer's flowers beside the tussocks and along the
+   fringe: each plant derived from a planting already made, by a hash of where it
+   stands, so the prepared scatter's records stand as they are. Out of the water
+   by the tussocks' own rule; nowhere the ground cover is not. */
+/* each kind in tiles, a tile left out while its nearest plant is past the kind's fade (frame() updates them) */
+let wildCover = null;
+if (coverPlantings && (FOREST_FLOOR_ON || WILD_FLOWERS_ON)) {
+  const parts = {};
+  if (FOREST_FLOOR_ON && TREE_LOD.ready) {
+    /* the trees in zones A and B: where they stand, their kind, and their crown's reach */
+    const near = [];
+    TREE_LOD.tiers.forEach((rec, ti) => {
+      if (!rec) return;
+      const imp = TREE_LOD.imp[ti], species = SPECIES_NAMES[rec.species], radius = SPECIES[rec.species].templateRadius;
+      for (let j = 0; j < rec.n; j++) {
+        if (rec.zone[j] === 1 || rec.zone[j] === 2) near.push(imp[j * 6], imp[j * 6 + 2], species, imp[j * 6 + 4] * radius, rec.zone[j]);
+      }
+    });
+    const floor = plantForestFloor({ trees: near, classify, heightAt: terrainH, wetAt: coverPlantings.wetAt, lowQuality: LOWQ });
+    const drawn = createForestFloor({ ...floor, DETAIL, uSun, sunThrough: uSunThrough, sunlit: SUNLIT });
+    parts.scrub = drawn.scrub; parts.fern = drawn.fern;
+    Object.assign(stats.wildCover, { trees: near.length / 5, candidates: floor.candidates, scrub: floor.scrub.length / 6, ferns: floor.fern.length / 6 });
+  }
+  if (WILD_FLOWERS_ON) {
+    /* the tussocks and the fringe already stand at the quality's own density */
+    const flowers = plantFlowers({ tufts: coverPlantings.tufts, edge: coverPlantings.edge, heightAt: terrainH, classify, wetAt: coverPlantings.wetAt });
+    parts.flowers = createWildFlowers({ flowers, uSun, sunThrough: uSunThrough, sunlit: SUNLIT });
+    stats.wildCover.flowerClumps = flowers.length / 7;
+  }
+  const live = Object.entries(parts).filter(([, part]) => part);
+  for (const [, part] of live) scene.add(part.group);
+  stats.wildCover.tiles = Object.fromEntries(live.map(([name, part]) => [name, part.tiles.length]));
+  const drawnTiles = {};
+  wildCover = {
+    drawnTiles,
+    update(camera) { for (const [name, part] of live) drawnTiles[name] = part.update(camera); },
+  };
+}
+lap('wild cover (forest floor, flowers)');
 /* THE GRASS ROUND THE BALL. Gated as the ground cover is: a measured-only
    vegetation ground draws what it measured and nothing invented. It needs the
    exact class fields the ground draws its cuts from. No grass grows in water:
@@ -11338,6 +11398,7 @@ function frame() {
   skyMesh.position.copy(camera.position);
   updateSky();
   nearGrass?.update(camera, renderer.domElement.height);
+  wildCover?.update(camera);
   updateStrategy(now);
   kikTagUpdate();
   const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
@@ -11952,6 +12013,8 @@ window.V3D = {
   /* the ground cover as drawn (ground-cover.mjs): its switches, and per population its
      count, shadows, blade normal and seat */
   cover: () => structuredClone(stats.cover),
+  /* the wild cover (wild-cover.mjs): its switches, the near trees and what grew under them, and the flowers */
+  wildCover: () => ({ ...structuredClone(stats.wildCover), drawnTiles: wildCover ? { ...wildCover.drawnTiles } : null }),
   /* the grass round the ball: its layout, whether it is drawn, and its ground grid */
   nearGrass: () => (nearGrass ? { ...structuredClone(stats.nearGrass), ...nearGrass.stats() } : structuredClone(stats.nearGrass ?? null)),
   waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
