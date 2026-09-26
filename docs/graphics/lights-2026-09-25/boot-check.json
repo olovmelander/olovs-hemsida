@@ -1,0 +1,686 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Visby, Blå timmen, high quality",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=blatimmen",
+   "seconds": 86,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "bluehour",
+    "elevation": -1.45,
+    "cloudCoverage": 0.35,
+    "cloudDensity": 0.62,
+    "cloudScale": 0.00029,
+    "exposure": 1,
+    "glaze": {
+     "tint": [
+      0.7075918236771651,
+      1.029256608771394,
+      1.5712140123675034
+     ],
+     "amount": 0.45
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "bluehour",
+    "elevation": -1.45,
+    "cloudCoverage": 0.35,
+    "cloudDensity": 0.62,
+    "cloudScale": 0.00029,
+    "exposure": 1,
+    "glaze": {
+     "amount": 0.45,
+     "tint": [
+      0.7075918236771651,
+      1.029256608771394,
+      1.5712140123675034
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Blå timmen, low quality",
+   "q": "lo",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=blatimmen",
+   "seconds": 68,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "bluehour",
+    "elevation": -1.45,
+    "cloudCoverage": 0.35,
+    "cloudDensity": 0.62,
+    "cloudScale": 0.00029,
+    "exposure": 1,
+    "glaze": {
+     "tint": [
+      0.7075918236771651,
+      1.029256608771394,
+      1.5712140123675034
+     ],
+     "amount": 0.45
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "bluehour",
+    "elevation": -1.45,
+    "cloudCoverage": 0.35,
+    "cloudDensity": 0.62,
+    "cloudScale": 0.00029,
+    "exposure": 1,
+    "glaze": {
+     "amount": 0.45,
+     "tint": [
+      0.7075918236771651,
+      1.029256608771394,
+      1.5712140123675034
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Blå timmen, before",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=blatimmen&lights=before",
+   "seconds": 79,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "bluehour",
+    "elevation": -1.45,
+    "cloudCoverage": 0.35,
+    "cloudDensity": 0.62,
+    "cloudScale": 0.00029,
+    "exposure": 1.14,
+    "glaze": {
+     "tint": [
+      1,
+      1,
+      1
+     ],
+     "amount": 0
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "bluehour",
+    "elevation": -1.45,
+    "cloudCoverage": 0.35,
+    "cloudDensity": 0.62,
+    "cloudScale": 0.00029,
+    "exposure": 1.14,
+    "glaze": {
+     "amount": 0,
+     "tint": [
+      1,
+      1,
+      1
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Oväder",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=ovader",
+   "seconds": 75,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "storm",
+    "elevation": 20.9,
+    "cloudCoverage": 1,
+    "cloudDensity": 1.5,
+    "cloudScale": 0.0001,
+    "exposure": 1.02,
+    "glaze": {
+     "tint": [
+      0.9239881637185847,
+      1.0161227384997706,
+      1.064115426847547
+     ],
+     "amount": 0.35
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 12,
+     "light": {
+      "ms": 12,
+      "gust": 18,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "storm",
+    "elevation": 20.9,
+    "cloudCoverage": 1,
+    "cloudDensity": 1.5,
+    "cloudScale": 0.0001,
+    "exposure": 1.02,
+    "glaze": {
+     "amount": 0.35,
+     "tint": [
+      0.9239881637185847,
+      1.0161227384997706,
+      1.064115426847547
+     ]
+    },
+    "windMs": 12
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Oväder, a wind asked for",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=ovader&vind=270,3",
+   "seconds": 87,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "storm",
+    "elevation": 20.9,
+    "cloudCoverage": 1,
+    "cloudDensity": 1.5,
+    "cloudScale": 0.0001,
+    "exposure": 1.02,
+    "glaze": {
+     "tint": [
+      0.9239881637185847,
+      1.0161227384997706,
+      1.064115426847547
+     ],
+     "amount": 0.35
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 3,
+     "light": {
+      "ms": 3,
+      "gust": null,
+      "source": "url"
+     },
+     "target": {
+      "ms": 3,
+      "fromDeg": 270,
+      "source": "url"
+     }
+    }
+   },
+   "want": {
+    "preset": "storm",
+    "elevation": 20.9,
+    "cloudCoverage": 1,
+    "cloudDensity": 1.5,
+    "cloudScale": 0.0001,
+    "exposure": 1.02,
+    "glaze": {
+     "amount": 0.35,
+     "tint": [
+      0.9239881637185847,
+      1.0161227384997706,
+      1.064115426847547
+     ]
+    },
+    "windMs": 3
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Oväder, before",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=ovader&lights=before",
+   "seconds": 94,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "storm",
+    "elevation": 20.9,
+    "cloudCoverage": 1,
+    "cloudDensity": 1.5,
+    "cloudScale": 0.00026,
+    "exposure": 1.02,
+    "glaze": {
+     "tint": [
+      1,
+      1,
+      1
+     ],
+     "amount": 0
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "storm",
+    "elevation": 20.9,
+    "cloudCoverage": 1,
+    "cloudDensity": 1.5,
+    "cloudScale": 0.00026,
+    "exposure": 1.02,
+    "glaze": {
+     "amount": 0,
+     "tint": [
+      1,
+      1,
+      1
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 95,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "golden",
+    "elevation": 12.47,
+    "cloudCoverage": 0.24,
+    "cloudDensity": 0.68,
+    "cloudScale": 0.00032,
+    "exposure": 1.12,
+    "glaze": {
+     "tint": [
+      1,
+      1,
+      1
+     ],
+     "amount": 0
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "golden",
+    "elevation": 12.47,
+    "cloudCoverage": 0.24,
+    "cloudDensity": 0.68,
+    "cloudScale": 0.00032,
+    "exposure": 1.12,
+    "glaze": {
+     "amount": 0,
+     "tint": [
+      1,
+      1,
+      1
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Dag",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag",
+   "seconds": 86,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "noon",
+    "elevation": 55.11,
+    "cloudCoverage": 0.28,
+    "cloudDensity": 0.85,
+    "cloudScale": 0.00032,
+    "exposure": 1,
+    "glaze": {
+     "tint": [
+      1,
+      1,
+      1
+     ],
+     "amount": 0
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 1.645
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "noon",
+    "elevation": 55.11,
+    "cloudCoverage": 0.28,
+    "cloudDensity": 0.85,
+    "cloudScale": 0.00032,
+    "exposure": 1,
+    "glaze": {
+     "amount": 0,
+     "tint": [
+      1,
+      1,
+      1
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Gryning",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=gryning",
+   "seconds": 115,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true,
+    "valleyMist": true
+   },
+   "got": {
+    "preset": "dawn",
+    "elevation": 7.31,
+    "cloudCoverage": 0.6,
+    "cloudDensity": 0.65,
+    "cloudScale": 0.00022,
+    "exposure": 1.1,
+    "glaze": {
+     "tint": [
+      1.4870875403623798,
+      0.88331256942239,
+      0.7216071920784574
+     ],
+     "amount": 0.22
+    },
+    "valleyMist": {
+     "density": 0.0016,
+     "height": 6,
+     "base": 3.2881223143500087
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "dawn",
+    "elevation": 7.31,
+    "cloudCoverage": 0.6,
+    "cloudDensity": 0.65,
+    "cloudScale": 0.00022,
+    "exposure": 1.1,
+    "glaze": {
+     "amount": 0.22,
+     "tint": [
+      1.4870875403623798,
+      0.88331256942239,
+      0.7216071920784574
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Midnattssol",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=midnattssol",
+   "seconds": 99,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "preset": true,
+    "sun": true,
+    "sky": true,
+    "exposure": true,
+    "glaze": true,
+    "wind": true
+   },
+   "got": {
+    "preset": "midnight",
+    "elevation": 4.62,
+    "cloudCoverage": 0.3,
+    "cloudDensity": 0.36,
+    "cloudScale": 0.0002,
+    "exposure": 1.13,
+    "glaze": {
+     "tint": [
+      1.4088977567696783,
+      0.9338793821078692,
+      0.45093909732989335
+     ],
+     "amount": 0.15
+    },
+    "valleyMist": {
+     "density": 0,
+     "height": 1,
+     "base": 3.2881223143500087
+    },
+    "wind": {
+     "air": 4,
+     "light": {
+      "ms": null,
+      "gust": null,
+      "source": "default"
+     },
+     "target": {
+      "ms": null,
+      "fromDeg": null,
+      "source": "default"
+     }
+    }
+   },
+   "want": {
+    "preset": "midnight",
+    "elevation": 4.62,
+    "cloudCoverage": 0.3,
+    "cloudDensity": 0.36,
+    "cloudScale": 0.0002,
+    "exposure": 1.13,
+    "glaze": {
+     "amount": 0.15,
+     "tint": [
+      1.4088977567696783,
+      0.9338793821078692,
+      0.45093909732989335
+     ]
+    },
+    "windMs": 4
+   },
+   "errors": []
+  }
+ ]
+}
