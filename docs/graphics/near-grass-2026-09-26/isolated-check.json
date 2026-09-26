@@ -1,0 +1,1776 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "d5488b6d",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "without the grass the ground is main's, pixel for pixel, and the hole view 41 m up hides it",
+     "ok": true,
+     "rows": {
+      "tee/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "tee/golden": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "tee/noon/weights": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "teeEye/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "greenLow/golden": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "fairLow/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "roughLow/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "pond/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "greenTop/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "sandTop/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "overview/golden, the grass on": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0,
+       "grassVisible": false,
+       "altitude": 41
+      }
+     }
+    },
+    {
+     "label": "the grass is one draw of all its blades",
+     "ok": true,
+     "without": 1,
+     "with": 2,
+     "visible": true,
+     "instances": 16384,
+     "blades": 65536
+    },
+    {
+     "label": "no blade stands on the green, in a bunker, on the path or in the pond; the collar, fairway and rough are grown",
+     "ok": true,
+     "rows": {
+      "greenTop": {
+       "nonePixels": 50398,
+       "noneChanged": 0,
+       "growsPixels": 56744,
+       "growsCovered": 0.0155
+      },
+      "sandTop": {
+       "nonePixels": 39992,
+       "noneChanged": 0,
+       "growsPixels": 65418,
+       "growsCovered": 0.0234
+      },
+      "pathTop": {
+       "nonePixels": 58752,
+       "noneChanged": 0,
+       "growsPixels": 58752,
+       "growsCovered": 0.0222
+      },
+      "pondTop": {
+       "nonePixels": 18364,
+       "noneChanged": 0,
+       "growsPixels": 70458,
+       "growsCovered": 0.1061
+      }
+     }
+    },
+    {
+     "label": "no blade stands before ground past the reach (38.9 m), and they are densest near the eye",
+     "ok": true,
+     "reach": 38.912,
+     "rows": {
+      "tee": {
+       "changed": 8860,
+       "furthest": 26.4973,
+       "nearly": 20.2564,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.1905
+        },
+        {
+         "metres": "5-10",
+         "share": 0.1848
+        },
+        {
+         "metres": "10-20",
+         "share": 0.1332
+        },
+        {
+         "metres": "20-40",
+         "share": 0.0162
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "roughLow": {
+       "changed": 10892,
+       "furthest": 22.9558,
+       "nearly": 17.6301,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.264
+        },
+        {
+         "metres": "5-10",
+         "share": 0.1699
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0954
+        },
+        {
+         "metres": "20-40",
+         "share": 0.0047
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "fairLow": {
+       "changed": 4858,
+       "furthest": 8.9918,
+       "nearly": 7.8193,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0662
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0347
+        },
+        {
+         "metres": "10-20",
+         "share": 0
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      }
+     }
+    },
+    {
+     "label": "no seam where the ground grid wraps (z = 94 m): the strips either side grown like their neighbours",
+     "ok": true,
+     "wrapZ": 94,
+     "strips": {
+      "0": 0.1697,
+      "1": 0.1707,
+      "2": 0.1646,
+      "3": 0.1797,
+      "-4": 0.1916,
+      "-3": 0.2597,
+      "-2": 0.2449,
+      "-1": 0.209
+     },
+     "atWrap": [
+      1.0351,
+      0.8408
+     ]
+    },
+    {
+     "label": "the blades take the ground's colour at noon and at golden hour, and darken with it in a sheltered hollow and a damp one",
+     "ok": true,
+     "rows": {
+      "noon, the tee view": {
+       "pixels": 8860,
+       "ground": 0.3861,
+       "blades": 0.3831,
+       "ratio": 0.9923,
+       "groundHue": {
+        "rg": 0.5629,
+        "bg": 0.1819
+       },
+       "bladeHue": {
+        "rg": 0.5616,
+        "bg": 0.1775
+       }
+      },
+      "noon, the rough": {
+       "pixels": 10892,
+       "ground": 0.38,
+       "blades": 0.3811,
+       "ratio": 1.0029,
+       "groundHue": {
+        "rg": 0.5303,
+        "bg": 0.1544
+       },
+       "bladeHue": {
+        "rg": 0.5328,
+        "bg": 0.1486
+       }
+      },
+      "noon, the fairway": {
+       "pixels": 4858,
+       "ground": 0.4445,
+       "blades": 0.4453,
+       "ratio": 1.0019,
+       "groundHue": {
+        "rg": 0.4519,
+        "bg": 0.1604
+       },
+       "bladeHue": {
+        "rg": 0.4524,
+        "bg": 0.1563
+       }
+      },
+      "golden, the tee view": {
+       "pixels": 9733,
+       "ground": 0.3462,
+       "blades": 0.3332,
+       "ratio": 0.9623,
+       "groundHue": {
+        "rg": 0.8367,
+        "bg": 0.2317
+       },
+       "bladeHue": {
+        "rg": 0.7774,
+        "bg": 0.2212
+       }
+      },
+      "golden, round the green": {
+       "pixels": 14787,
+       "ground": 0.3169,
+       "blades": 0.3099,
+       "ratio": 0.9777,
+       "groundHue": {
+        "rg": 0.6533,
+        "bg": 0.185
+       },
+       "bladeHue": {
+        "rg": 0.6161,
+        "bg": 0.1761
+       }
+      },
+      "golden, the rough": {
+       "pixels": 11027,
+       "ground": 0.304,
+       "blades": 0.3067,
+       "ratio": 1.0086,
+       "groundHue": {
+        "rg": 0.5604,
+        "bg": 0.1595
+       },
+       "bladeHue": {
+        "rg": 0.5614,
+        "bg": 0.15
+       }
+      },
+      "noon, a sheltered hollow": {
+       "pixels": 9969,
+       "ground": 0.3224,
+       "blades": 0.3233,
+       "ratio": 1.0025,
+       "groundHue": {
+        "rg": 0.5218,
+        "bg": 0.1719
+       },
+       "bladeHue": {
+        "rg": 0.5231,
+        "bg": 0.1657
+       }
+      },
+      "storm, the open rough": {
+       "pixels": 9092,
+       "ground": 0.2673,
+       "blades": 0.2695,
+       "ratio": 1.0082,
+       "groundHue": {
+        "rg": 0.3741,
+        "bg": 0.1405
+       },
+       "bladeHue": {
+        "rg": 0.3775,
+        "bg": 0.1331
+       }
+      },
+      "storm, a sheltered hollow": {
+       "pixels": 5572,
+       "ground": 0.2003,
+       "blades": 0.2021,
+       "ratio": 1.0088,
+       "groundHue": {
+        "rg": 0.3427,
+        "bg": 0.1438
+       },
+       "bladeHue": {
+        "rg": 0.3456,
+        "bg": 0.1351
+       }
+      }
+     },
+     "hollow": {
+      "groundDarkens": 0.8484,
+      "bladesDarken": 0.8483,
+      "ok": true
+     },
+     "damp": {
+      "groundDarkens": 0.7493,
+      "bladesDarken": 0.7499,
+      "ok": true
+     }
+    },
+    {
+     "label": "the blades sway on the one wind, and stand still under reduced motion",
+     "ok": true,
+     "stillSettled": true,
+     "windySettled": false,
+     "groundSettled": true
+    },
+    {
+     "label": "low quality: 4800 instances, one draw, no blade past its reach (18.2 m)",
+     "ok": true,
+     "reach": 18.24,
+     "instances": 4800,
+     "rows": {
+      "tee": {
+       "changed": 2808,
+       "furthest": 17.9341,
+       "nearly": 15.3638,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0617
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0642
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0326
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "roughLow": {
+       "changed": 3589,
+       "furthest": 17.6013,
+       "nearly": 13.5523,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.091
+        },
+        {
+         "metres": "5-10",
+         "share": 0.058
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0223
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "fairLow": {
+       "changed": 1494,
+       "furthest": 8.5576,
+       "nearly": 7.7589,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.02
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0115
+        },
+        {
+         "metres": "10-20",
+         "share": 0
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      }
+     }
+    },
+    {
+     "label": "no page errors, and every still read-back settled",
+     "ok": true,
+     "errors": [],
+     "reads": 69,
+     "unsettled": 1
+    }
+   ],
+   "measures": {
+    "before": {
+     "tee/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "tee/golden": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "tee/noon/weights": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "teeEye/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "greenLow/golden": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "fairLow/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "roughLow/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "pond/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "greenTop/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "sandTop/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "overview/golden, the grass on": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0,
+      "grassVisible": false,
+      "altitude": 41
+     }
+    },
+    "draws": {
+     "without": 1,
+     "with": 2,
+     "visible": true,
+     "instances": 16384,
+     "blades": 65536
+    },
+    "where": {
+     "greenTop": {
+      "nonePixels": 50398,
+      "noneChanged": 0,
+      "growsPixels": 56744,
+      "growsCovered": 0.0155
+     },
+     "sandTop": {
+      "nonePixels": 39992,
+      "noneChanged": 0,
+      "growsPixels": 65418,
+      "growsCovered": 0.0234
+     },
+     "pathTop": {
+      "nonePixels": 58752,
+      "noneChanged": 0,
+      "growsPixels": 58752,
+      "growsCovered": 0.0222
+     },
+     "pondTop": {
+      "nonePixels": 18364,
+      "noneChanged": 0,
+      "growsPixels": 70458,
+      "growsCovered": 0.1061
+     }
+    },
+    "reach": {
+     "tee": {
+      "changed": 8860,
+      "furthest": 26.4973,
+      "nearly": 20.2564,
+      "bands": [
+       {
+        "metres": "0-5",
+        "share": 0.1905
+       },
+       {
+        "metres": "5-10",
+        "share": 0.1848
+       },
+       {
+        "metres": "10-20",
+        "share": 0.1332
+       },
+       {
+        "metres": "20-40",
+        "share": 0.0162
+       },
+       {
+        "metres": "40-",
+        "share": 0
+       }
+      ]
+     },
+     "roughLow": {
+      "changed": 10892,
+      "furthest": 22.9558,
+      "nearly": 17.6301,
+      "bands": [
+       {
+        "metres": "0-5",
+        "share": 0.264
+       },
+       {
+        "metres": "5-10",
+        "share": 0.1699
+       },
+       {
+        "metres": "10-20",
+        "share": 0.0954
+       },
+       {
+        "metres": "20-40",
+        "share": 0.0047
+       },
+       {
+        "metres": "40-",
+        "share": 0
+       }
+      ]
+     },
+     "fairLow": {
+      "changed": 4858,
+      "furthest": 8.9918,
+      "nearly": 7.8193,
+      "bands": [
+       {
+        "metres": "0-5",
+        "share": 0.0662
+       },
+       {
+        "metres": "5-10",
+        "share": 0.0347
+       },
+       {
+        "metres": "10-20",
+        "share": 0
+       },
+       {
+        "metres": "20-40",
+        "share": 0
+       },
+       {
+        "metres": "40-",
+        "share": 0
+       }
+      ]
+     }
+    },
+    "wrap": {
+     "wrapZ": 94,
+     "strips": {
+      "0": 0.1697,
+      "1": 0.1707,
+      "2": 0.1646,
+      "3": 0.1797,
+      "-4": 0.1916,
+      "-3": 0.2597,
+      "-2": 0.2449,
+      "-1": 0.209
+     },
+     "atWrap": [
+      1.0351,
+      0.8408
+     ]
+    },
+    "colour": {
+     "rows": {
+      "noon, the tee view": {
+       "pixels": 8860,
+       "ground": 0.3861,
+       "blades": 0.3831,
+       "ratio": 0.9923,
+       "groundHue": {
+        "rg": 0.5629,
+        "bg": 0.1819
+       },
+       "bladeHue": {
+        "rg": 0.5616,
+        "bg": 0.1775
+       }
+      },
+      "noon, the rough": {
+       "pixels": 10892,
+       "ground": 0.38,
+       "blades": 0.3811,
+       "ratio": 1.0029,
+       "groundHue": {
+        "rg": 0.5303,
+        "bg": 0.1544
+       },
+       "bladeHue": {
+        "rg": 0.5328,
+        "bg": 0.1486
+       }
+      },
+      "noon, the fairway": {
+       "pixels": 4858,
+       "ground": 0.4445,
+       "blades": 0.4453,
+       "ratio": 1.0019,
+       "groundHue": {
+        "rg": 0.4519,
+        "bg": 0.1604
+       },
+       "bladeHue": {
+        "rg": 0.4524,
+        "bg": 0.1563
+       }
+      },
+      "golden, the tee view": {
+       "pixels": 9733,
+       "ground": 0.3462,
+       "blades": 0.3332,
+       "ratio": 0.9623,
+       "groundHue": {
+        "rg": 0.8367,
+        "bg": 0.2317
+       },
+       "bladeHue": {
+        "rg": 0.7774,
+        "bg": 0.2212
+       }
+      },
+      "golden, round the green": {
+       "pixels": 14787,
+       "ground": 0.3169,
+       "blades": 0.3099,
+       "ratio": 0.9777,
+       "groundHue": {
+        "rg": 0.6533,
+        "bg": 0.185
+       },
+       "bladeHue": {
+        "rg": 0.6161,
+        "bg": 0.1761
+       }
+      },
+      "golden, the rough": {
+       "pixels": 11027,
+       "ground": 0.304,
+       "blades": 0.3067,
+       "ratio": 1.0086,
+       "groundHue": {
+        "rg": 0.5604,
+        "bg": 0.1595
+       },
+       "bladeHue": {
+        "rg": 0.5614,
+        "bg": 0.15
+       }
+      },
+      "noon, a sheltered hollow": {
+       "pixels": 9969,
+       "ground": 0.3224,
+       "blades": 0.3233,
+       "ratio": 1.0025,
+       "groundHue": {
+        "rg": 0.5218,
+        "bg": 0.1719
+       },
+       "bladeHue": {
+        "rg": 0.5231,
+        "bg": 0.1657
+       }
+      },
+      "storm, the open rough": {
+       "pixels": 9092,
+       "ground": 0.2673,
+       "blades": 0.2695,
+       "ratio": 1.0082,
+       "groundHue": {
+        "rg": 0.3741,
+        "bg": 0.1405
+       },
+       "bladeHue": {
+        "rg": 0.3775,
+        "bg": 0.1331
+       }
+      },
+      "storm, a sheltered hollow": {
+       "pixels": 5572,
+       "ground": 0.2003,
+       "blades": 0.2021,
+       "ratio": 1.0088,
+       "groundHue": {
+        "rg": 0.3427,
+        "bg": 0.1438
+       },
+       "bladeHue": {
+        "rg": 0.3456,
+        "bg": 0.1351
+       }
+      }
+     },
+     "hollow": {
+      "groundDarkens": 0.8484,
+      "bladesDarken": 0.8483,
+      "ok": true
+     },
+     "damp": {
+      "groundDarkens": 0.7493,
+      "bladesDarken": 0.7499,
+      "ok": true
+     }
+    },
+    "wind": {
+     "stillSettled": true,
+     "windySettled": false,
+     "groundSettled": true
+    },
+    "lo": {
+     "reach": 18.24,
+     "rows": {
+      "tee": {
+       "changed": 2808,
+       "furthest": 17.9341,
+       "nearly": 15.3638,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0617
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0642
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0326
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "roughLow": {
+       "changed": 3589,
+       "furthest": 17.6013,
+       "nearly": 13.5523,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.091
+        },
+        {
+         "metres": "5-10",
+         "share": 0.058
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0223
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "fairLow": {
+       "changed": 1494,
+       "furthest": 8.5576,
+       "nearly": 7.7589,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.02
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0115
+        },
+        {
+         "metres": "10-20",
+         "share": 0
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "without the grass the ground is main's, pixel for pixel, and the hole view 41 m up hides it",
+     "ok": true,
+     "rows": {
+      "tee/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "tee/golden": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "tee/noon/weights": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "teeEye/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "greenLow/golden": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "fairLow/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "roughLow/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "pond/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "greenTop/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "sandTop/noon": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "overview/golden, the grass on": {
+       "pixels": 130560,
+       "differing": 0,
+       "maxDiff": 0,
+       "grassVisible": false,
+       "altitude": 41
+      }
+     }
+    },
+    {
+     "label": "the grass is one draw of all its blades",
+     "ok": true,
+     "without": 1,
+     "with": 2,
+     "visible": true,
+     "instances": 16384,
+     "blades": 65536
+    },
+    {
+     "label": "no blade stands on the green, in a bunker, on the path or in the pond; the collar, fairway and rough are grown",
+     "ok": true,
+     "rows": {
+      "greenTop": {
+       "nonePixels": 50398,
+       "noneChanged": 0,
+       "growsPixels": 56744,
+       "growsCovered": 0.0152
+      },
+      "sandTop": {
+       "nonePixels": 39992,
+       "noneChanged": 0,
+       "growsPixels": 65418,
+       "growsCovered": 0.0229
+      },
+      "pathTop": {
+       "nonePixels": 58752,
+       "noneChanged": 0,
+       "growsPixels": 58752,
+       "growsCovered": 0.0222
+      },
+      "pondTop": {
+       "nonePixels": 18364,
+       "noneChanged": 0,
+       "growsPixels": 70458,
+       "growsCovered": 0.1068
+      }
+     }
+    },
+    {
+     "label": "no blade stands before ground past the reach (38.9 m), and they are densest near the eye",
+     "ok": true,
+     "reach": 38.912,
+     "rows": {
+      "tee": {
+       "changed": 8850,
+       "furthest": 27.3796,
+       "nearly": 20.2426,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.1925
+        },
+        {
+         "metres": "5-10",
+         "share": 0.1827
+        },
+        {
+         "metres": "10-20",
+         "share": 0.1353
+        },
+        {
+         "metres": "20-40",
+         "share": 0.0159
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "roughLow": {
+       "changed": 10927,
+       "furthest": 24.2014,
+       "nearly": 17.6016,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.267
+        },
+        {
+         "metres": "5-10",
+         "share": 0.1698
+        },
+        {
+         "metres": "10-20",
+         "share": 0.094
+        },
+        {
+         "metres": "20-40",
+         "share": 0.0043
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "fairLow": {
+       "changed": 4874,
+       "furthest": 9.0022,
+       "nearly": 7.7322,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0664
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0347
+        },
+        {
+         "metres": "10-20",
+         "share": 0
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      }
+     }
+    },
+    {
+     "label": "no seam where the ground grid wraps (z = 94 m): the strips either side grown like their neighbours",
+     "ok": true,
+     "wrapZ": 94,
+     "strips": {
+      "0": 0.1735,
+      "1": 0.1695,
+      "2": 0.1671,
+      "3": 0.1775,
+      "-4": 0.188,
+      "-3": 0.2648,
+      "-2": 0.2491,
+      "-1": 0.2114
+     },
+     "atWrap": [
+      1.0431,
+      0.8561
+     ]
+    },
+    {
+     "label": "the blades take the ground's colour at noon and at golden hour, and darken with it in a sheltered hollow and a damp one",
+     "ok": true,
+     "rows": {
+      "noon, the tee view": {
+       "pixels": 8850,
+       "ground": 0.3862,
+       "blades": 0.3832,
+       "ratio": 0.9922,
+       "groundHue": {
+        "rg": 0.5628,
+        "bg": 0.1818
+       },
+       "bladeHue": {
+        "rg": 0.5615,
+        "bg": 0.1775
+       }
+      },
+      "noon, the rough": {
+       "pixels": 10927,
+       "ground": 0.38,
+       "blades": 0.381,
+       "ratio": 1.0027,
+       "groundHue": {
+        "rg": 0.5304,
+        "bg": 0.1544
+       },
+       "bladeHue": {
+        "rg": 0.5329,
+        "bg": 0.1486
+       }
+      },
+      "noon, the fairway": {
+       "pixels": 4874,
+       "ground": 0.4441,
+       "blades": 0.4453,
+       "ratio": 1.0026,
+       "groundHue": {
+        "rg": 0.4519,
+        "bg": 0.1604
+       },
+       "bladeHue": {
+        "rg": 0.4524,
+        "bg": 0.1562
+       }
+      },
+      "golden, the tee view": {
+       "pixels": 9707,
+       "ground": 0.3462,
+       "blades": 0.3332,
+       "ratio": 0.9623,
+       "groundHue": {
+        "rg": 0.8364,
+        "bg": 0.2316
+       },
+       "bladeHue": {
+        "rg": 0.7768,
+        "bg": 0.221
+       }
+      },
+      "golden, round the green": {
+       "pixels": 14645,
+       "ground": 0.3169,
+       "blades": 0.3098,
+       "ratio": 0.9777,
+       "groundHue": {
+        "rg": 0.6531,
+        "bg": 0.185
+       },
+       "bladeHue": {
+        "rg": 0.6156,
+        "bg": 0.176
+       }
+      },
+      "golden, the rough": {
+       "pixels": 11029,
+       "ground": 0.3039,
+       "blades": 0.3066,
+       "ratio": 1.0086,
+       "groundHue": {
+        "rg": 0.5603,
+        "bg": 0.1594
+       },
+       "bladeHue": {
+        "rg": 0.5614,
+        "bg": 0.1499
+       }
+      },
+      "noon, a sheltered hollow": {
+       "pixels": 10002,
+       "ground": 0.3224,
+       "blades": 0.3231,
+       "ratio": 1.0023,
+       "groundHue": {
+        "rg": 0.522,
+        "bg": 0.1719
+       },
+       "bladeHue": {
+        "rg": 0.5233,
+        "bg": 0.1659
+       }
+      },
+      "storm, the open rough": {
+       "pixels": 9055,
+       "ground": 0.2672,
+       "blades": 0.2693,
+       "ratio": 1.0079,
+       "groundHue": {
+        "rg": 0.3742,
+        "bg": 0.1405
+       },
+       "bladeHue": {
+        "rg": 0.3776,
+        "bg": 0.1332
+       }
+      },
+      "storm, a sheltered hollow": {
+       "pixels": 5585,
+       "ground": 0.2003,
+       "blades": 0.2019,
+       "ratio": 1.0082,
+       "groundHue": {
+        "rg": 0.3427,
+        "bg": 0.1438
+       },
+       "bladeHue": {
+        "rg": 0.3456,
+        "bg": 0.1351
+       }
+      }
+     },
+     "hollow": {
+      "groundDarkens": 0.8484,
+      "bladesDarken": 0.848,
+      "ok": true
+     },
+     "damp": {
+      "groundDarkens": 0.7496,
+      "bladesDarken": 0.7497,
+      "ok": true
+     }
+    },
+    {
+     "label": "the blades sway on the one wind, and stand still under reduced motion",
+     "ok": true,
+     "stillSettled": true,
+     "windySettled": false,
+     "groundSettled": true
+    },
+    {
+     "label": "low quality: 4800 instances, one draw, no blade past its reach (18.2 m)",
+     "ok": true,
+     "reach": 18.24,
+     "instances": 4800,
+     "rows": {
+      "tee": {
+       "changed": 2749,
+       "furthest": 17.6279,
+       "nearly": 15.2413,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0603
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0631
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0314
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "roughLow": {
+       "changed": 3597,
+       "furthest": 18.0105,
+       "nearly": 13.4634,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0901
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0589
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0223
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "fairLow": {
+       "changed": 1479,
+       "furthest": 8.6901,
+       "nearly": 7.7486,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0199
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0112
+        },
+        {
+         "metres": "10-20",
+         "share": 0
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      }
+     }
+    },
+    {
+     "label": "no page errors, and every still read-back settled",
+     "ok": true,
+     "errors": [],
+     "reads": 69,
+     "unsettled": 1
+    }
+   ],
+   "measures": {
+    "before": {
+     "tee/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "tee/golden": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "tee/noon/weights": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "teeEye/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "greenLow/golden": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "fairLow/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "roughLow/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "pond/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "greenTop/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "sandTop/noon": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0
+     },
+     "overview/golden, the grass on": {
+      "pixels": 130560,
+      "differing": 0,
+      "maxDiff": 0,
+      "grassVisible": false,
+      "altitude": 41
+     }
+    },
+    "draws": {
+     "without": 1,
+     "with": 2,
+     "visible": true,
+     "instances": 16384,
+     "blades": 65536
+    },
+    "where": {
+     "greenTop": {
+      "nonePixels": 50398,
+      "noneChanged": 0,
+      "growsPixels": 56744,
+      "growsCovered": 0.0152
+     },
+     "sandTop": {
+      "nonePixels": 39992,
+      "noneChanged": 0,
+      "growsPixels": 65418,
+      "growsCovered": 0.0229
+     },
+     "pathTop": {
+      "nonePixels": 58752,
+      "noneChanged": 0,
+      "growsPixels": 58752,
+      "growsCovered": 0.0222
+     },
+     "pondTop": {
+      "nonePixels": 18364,
+      "noneChanged": 0,
+      "growsPixels": 70458,
+      "growsCovered": 0.1068
+     }
+    },
+    "reach": {
+     "tee": {
+      "changed": 8850,
+      "furthest": 27.3796,
+      "nearly": 20.2426,
+      "bands": [
+       {
+        "metres": "0-5",
+        "share": 0.1925
+       },
+       {
+        "metres": "5-10",
+        "share": 0.1827
+       },
+       {
+        "metres": "10-20",
+        "share": 0.1353
+       },
+       {
+        "metres": "20-40",
+        "share": 0.0159
+       },
+       {
+        "metres": "40-",
+        "share": 0
+       }
+      ]
+     },
+     "roughLow": {
+      "changed": 10927,
+      "furthest": 24.2014,
+      "nearly": 17.6016,
+      "bands": [
+       {
+        "metres": "0-5",
+        "share": 0.267
+       },
+       {
+        "metres": "5-10",
+        "share": 0.1698
+       },
+       {
+        "metres": "10-20",
+        "share": 0.094
+       },
+       {
+        "metres": "20-40",
+        "share": 0.0043
+       },
+       {
+        "metres": "40-",
+        "share": 0
+       }
+      ]
+     },
+     "fairLow": {
+      "changed": 4874,
+      "furthest": 9.0022,
+      "nearly": 7.7322,
+      "bands": [
+       {
+        "metres": "0-5",
+        "share": 0.0664
+       },
+       {
+        "metres": "5-10",
+        "share": 0.0347
+       },
+       {
+        "metres": "10-20",
+        "share": 0
+       },
+       {
+        "metres": "20-40",
+        "share": 0
+       },
+       {
+        "metres": "40-",
+        "share": 0
+       }
+      ]
+     }
+    },
+    "wrap": {
+     "wrapZ": 94,
+     "strips": {
+      "0": 0.1735,
+      "1": 0.1695,
+      "2": 0.1671,
+      "3": 0.1775,
+      "-4": 0.188,
+      "-3": 0.2648,
+      "-2": 0.2491,
+      "-1": 0.2114
+     },
+     "atWrap": [
+      1.0431,
+      0.8561
+     ]
+    },
+    "colour": {
+     "rows": {
+      "noon, the tee view": {
+       "pixels": 8850,
+       "ground": 0.3862,
+       "blades": 0.3832,
+       "ratio": 0.9922,
+       "groundHue": {
+        "rg": 0.5628,
+        "bg": 0.1818
+       },
+       "bladeHue": {
+        "rg": 0.5615,
+        "bg": 0.1775
+       }
+      },
+      "noon, the rough": {
+       "pixels": 10927,
+       "ground": 0.38,
+       "blades": 0.381,
+       "ratio": 1.0027,
+       "groundHue": {
+        "rg": 0.5304,
+        "bg": 0.1544
+       },
+       "bladeHue": {
+        "rg": 0.5329,
+        "bg": 0.1486
+       }
+      },
+      "noon, the fairway": {
+       "pixels": 4874,
+       "ground": 0.4441,
+       "blades": 0.4453,
+       "ratio": 1.0026,
+       "groundHue": {
+        "rg": 0.4519,
+        "bg": 0.1604
+       },
+       "bladeHue": {
+        "rg": 0.4524,
+        "bg": 0.1562
+       }
+      },
+      "golden, the tee view": {
+       "pixels": 9707,
+       "ground": 0.3462,
+       "blades": 0.3332,
+       "ratio": 0.9623,
+       "groundHue": {
+        "rg": 0.8364,
+        "bg": 0.2316
+       },
+       "bladeHue": {
+        "rg": 0.7768,
+        "bg": 0.221
+       }
+      },
+      "golden, round the green": {
+       "pixels": 14645,
+       "ground": 0.3169,
+       "blades": 0.3098,
+       "ratio": 0.9777,
+       "groundHue": {
+        "rg": 0.6531,
+        "bg": 0.185
+       },
+       "bladeHue": {
+        "rg": 0.6156,
+        "bg": 0.176
+       }
+      },
+      "golden, the rough": {
+       "pixels": 11029,
+       "ground": 0.3039,
+       "blades": 0.3066,
+       "ratio": 1.0086,
+       "groundHue": {
+        "rg": 0.5603,
+        "bg": 0.1594
+       },
+       "bladeHue": {
+        "rg": 0.5614,
+        "bg": 0.1499
+       }
+      },
+      "noon, a sheltered hollow": {
+       "pixels": 10002,
+       "ground": 0.3224,
+       "blades": 0.3231,
+       "ratio": 1.0023,
+       "groundHue": {
+        "rg": 0.522,
+        "bg": 0.1719
+       },
+       "bladeHue": {
+        "rg": 0.5233,
+        "bg": 0.1659
+       }
+      },
+      "storm, the open rough": {
+       "pixels": 9055,
+       "ground": 0.2672,
+       "blades": 0.2693,
+       "ratio": 1.0079,
+       "groundHue": {
+        "rg": 0.3742,
+        "bg": 0.1405
+       },
+       "bladeHue": {
+        "rg": 0.3776,
+        "bg": 0.1332
+       }
+      },
+      "storm, a sheltered hollow": {
+       "pixels": 5585,
+       "ground": 0.2003,
+       "blades": 0.2019,
+       "ratio": 1.0082,
+       "groundHue": {
+        "rg": 0.3427,
+        "bg": 0.1438
+       },
+       "bladeHue": {
+        "rg": 0.3456,
+        "bg": 0.1351
+       }
+      }
+     },
+     "hollow": {
+      "groundDarkens": 0.8484,
+      "bladesDarken": 0.848,
+      "ok": true
+     },
+     "damp": {
+      "groundDarkens": 0.7496,
+      "bladesDarken": 0.7497,
+      "ok": true
+     }
+    },
+    "wind": {
+     "stillSettled": true,
+     "windySettled": false,
+     "groundSettled": true
+    },
+    "lo": {
+     "reach": 18.24,
+     "rows": {
+      "tee": {
+       "changed": 2749,
+       "furthest": 17.6279,
+       "nearly": 15.2413,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0603
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0631
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0314
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "roughLow": {
+       "changed": 3597,
+       "furthest": 18.0105,
+       "nearly": 13.4634,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0901
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0589
+        },
+        {
+         "metres": "10-20",
+         "share": 0.0223
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      },
+      "fairLow": {
+       "changed": 1479,
+       "furthest": 8.6901,
+       "nearly": 7.7486,
+       "bands": [
+        {
+         "metres": "0-5",
+         "share": 0.0199
+        },
+        {
+         "metres": "5-10",
+         "share": 0.0112
+        },
+        {
+         "metres": "10-20",
+         "share": 0
+        },
+        {
+         "metres": "20-40",
+         "share": 0
+        },
+        {
+         "metres": "40-",
+         "share": 0
+        }
+       ]
+      }
+     }
+    }
+   }
+  }
+ },
+ "agreement": {
+  "measures": 184,
+  "disagreeing": []
+ }
+}

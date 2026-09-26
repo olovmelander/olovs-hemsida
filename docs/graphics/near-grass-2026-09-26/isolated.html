@@ -1,0 +1,231 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Near grass: isolated checks</title>
+<!-- The app's own ground atlas, ground material and near grass (near-grass.mjs)
+     in an isolated hole, drawn as main draws it and with the grass. Served from
+     the repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+/* A Chromium that predates the string form of the view swizzle three r186 sends
+   rejects the identity one (as studies/tree-shadow-proof.mjs); a current Chrome needs nothing. */
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+const THREE = await import('three/webgpu');
+const { uniform, float } = await import('three/tsl');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, PAINTED_GROUND } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { setPaintedWorldLighting } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { createGroundAtlas } = await import('/apps/golf/src/engine/atlas.js');
+const { SURFACE } = await import('/apps/golf/src/engine/surface.js');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const { windSway } = await import('/apps/golf/src/engine/one-wind.mjs');
+const NOW = await import('/apps/golf/src/engine/material.js');
+const { createNearGrass, nearGrassLayout } = await import('/apps/golf/src/engine/near-grass.mjs');
+/* main's ground material, generated from git by check-isolated.mjs */
+let MAIN = null;
+try { MAIN = await import('./main-material.gen.mjs'); } catch (e) { console.warn('main material missing', e); }
+
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const quality = params.get('q') || 'hi';
+const W = +(params.get('w') || 480), H = +(params.get('h') || 272);
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+const b64 = f => { const u = new Uint8Array(f.buffer); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000)); return btoa(s); };
+
+try {
+  /* as the app: 4x MSAA, HalfFloat output, reversed depth on WebGPU only (main.js) */
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true, samples: 4 });
+  /* the linear colour before exposure and tone mapping, settled: two renders in a row agree */
+  const settle = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    let last = null, renders = 0, settled = false, calls = 0;
+    while (!settled && renders < 6) {
+      renderer.setRenderTarget(target);
+      renderer.render(scene, camera);
+      calls = renderer.info.render.drawCalls;
+      renderer.setRenderTarget(null);
+      const now = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+      renders++;
+      settled = last !== null && now.every((v, k) => v === last[k]);
+      last = now;
+      if (!settled) await frame();
+    }
+    return { px: b64(Float32Array.from(last, THREE.DataUtils.fromHalfFloat)), renders, settled, calls };
+  };
+  const show = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    for (let i = 0; i < 3; i++) { renderer.render(scene, camera); await frame(); }
+  };
+  const light = (sun, hemi, p) => {
+    const d = new THREE.Vector3(...p.dir).normalize();
+    sun.color.setHex(p.sun); sun.intensity = p.int; sun.position.copy(sun.target.position).addScaledVector(d, 150);
+    hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    renderer.toneMappingExposure = p.exp;
+    return d;
+  };
+
+  /* THE HOLE (docs/graphics/turf-2026-09-26/isolated.html): a par 4 on the app's own
+     exact-edge atlas at its own 1 m, with the app's painted palette and SHADE table
+     (main.js), flat at 0 m, and a pond in the rough left of the fairway. */
+  const Lin = hex => { const c = new THREE.Color(hex); return [c.r, c.g, c.b]; };
+  const GC = Object.fromEntries(Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, Lin(hex)]));
+  const GSHADE = {
+    [SURFACE.ROUGH]: [0.62, 1.25, 0.06, 0], [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.5],
+    [SURFACE.FAIRWAY]: [1.55, 0.44, 0.28, 1.15], [SURFACE.GREEN]: [2.85, 0.13, 0.54, 0.9],
+    [SURFACE.FRINGE]: [2.0, 0.30, 0.34, 0.9], [SURFACE.TEE]: [2.2, 0.22, 0.40, 1.3],
+    [SURFACE.SAND]: [2.3, 0.58, 0.14, 0], [SURFACE.PATH]: [3.2, 0.34, 0.18, 0],
+    [SURFACE.HEATH]: [0.85, 1.05, 0.09, 0], [SURFACE.FOREST]: [0.55, 1.35, 0.05, 0],
+    [SURFACE.SHORE]: [1.6, 0.75, 0.22, 0],
+    [SURFACE.WETLAND]: [0.72, 0.92, 0.10, 0], [SURFACE.ROCK]: [1.8, 0.48, 0.16, 0],
+    [SURFACE.ASPHALT]: [3.4, 0.18, 0.34, 0], [SURFACE.GRAVEL]: [2.6, 0.46, 0.12, 0],
+    [SURFACE.DIRT]: [1.9, 0.55, 0.08, 0], [SURFACE.MUD]: [1.2, 0.38, 0.30, 0],
+  };
+  const square = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
+  const circle = (cx, cz, r, n = 64) => Array.from({ length: n }, (_, i) => [cx + Math.cos(i / n * Math.PI * 2) * r, cz + Math.sin(i / n * Math.PI * 2) * r]);
+  const HOLE = {
+    fairway: [[-22, 40], [22, 40], [22, 190], [46, 190], [46, 270], [22, 270], [22, 340], [-22, 340], [-22, 270], [-46, 270], [-46, 190], [-22, 190]],
+    green: [0, 375, 15], fringe: [0, 375, 17.5], bunkers: [[-21, 366, 5], [21, 388, 6], [12, 150, 4]],
+    pathBeside: [22, 60, 25.5, 130], pathDown: [34, 0, 37, 480], road: [-80, 20, 80, 26], mud: [-70, 110, -50, 140], tee: [-4, -6, 4, 2],
+    rock: [8, -4, 14, 4], dirt: [-16, -4, -10, 4],
+    /* water: no grass grows in it (the app's groundAt reads its water index) */
+    pond: [-9, 16, 3.5],
+  };
+  const holeAtlas = createGroundAtlas({ CORE: { x0: -120, z0: -30, x1: 120, z1: 520 }, res: 1,
+    HOLES: [{ n: 1, line: [[0, -2], [0, 375]] }], features: [
+      { surface: SURFACE.FAIRWAY, rings: [HOLE.fairway] },
+      { surface: SURFACE.GREEN, rings: [circle(...HOLE.green)] },
+      { surface: SURFACE.FRINGE, rings: [circle(...HOLE.fringe)] },
+      { surface: SURFACE.SAND, rings: HOLE.bunkers.map(b => circle(...b, 40)) },
+      { surface: SURFACE.PATH, rings: [square(...HOLE.pathBeside), square(...HOLE.pathDown)] },
+      { surface: SURFACE.ASPHALT, rings: [square(...HOLE.road)] },
+      { surface: SURFACE.MUD, rings: [square(...HOLE.mud)] },
+      { surface: SURFACE.TEE, rings: [square(...HOLE.tee)] },
+      { surface: SURFACE.ROCK, rings: [square(...HOLE.rock)] },
+      { surface: SURFACE.DIRT, rings: [square(...HOLE.dirt)] },
+    ] });
+  const GDETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const uGroundSun = uniform(new THREE.Vector3(0, 1, 0));
+  const TN = 16, tintData = new Uint8Array(TN * TN * 4), roughHex = PAINTED_GROUND.rough;
+  for (let k = 0; k < TN * TN; k++) tintData.set([(roughHex >> 16) & 255, (roughHex >> 8) & 255, roughHex & 255, 128], k * 4);
+  const tintTexture = new THREE.DataTexture(tintData, TN, TN, THREE.RGBAFormat, THREE.UnsignedByteType);
+  Object.assign(tintTexture, { colorSpace: THREE.SRGBColorSpace, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, generateMipmaps: false, flipY: false, needsUpdate: true });
+  const GTINT = { near: { texture: tintTexture, bounds: { x0: -600, z0: -600, x1: 600, z1: 1400 }, fadeMetres: 8 } };
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xff00ff);
+  const sun = new THREE.DirectionalLight(0xffffff, 3), hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+  scene.add(sun, sun.target, hemi, sky);
+  /* the ground's 5 m grid is set off every low view's camera plane (its rows 1.25 m from the tee's, the
+     player's, the green's, the fairway's and the pond's, its columns 2.5 m from the rough's): SwiftShader's
+     WebGL2 path mis-draws the depth of a large triangle clipped at a corner in the camera's plane, and hid
+     a triangle of blades behind it that WebGPU drew */
+  const plane = new THREE.PlaneGeometry(1200, 2000, 240, 400).rotateX(-Math.PI / 2).translate(3.5, 0, 401.25);
+  const grounds = {};
+  const groundMesh = ({ version, debug = false }) => {
+    const key = `${version}-${debug}`;
+    if (grounds[key]) return grounds[key];
+    const module = version === 'main' ? MAIN : NOW;
+    const decorate = module.createV2GroundMaterialDecorator({ atlas: holeAtlas, DETAIL: GDETAIL, C: GC, SHADE: GSHADE, uSun: uGroundSun, tint: GTINT,
+      cutTone: 1, mowStrength: 1, surfaceGloss: true, surfaceEdges: true, groundRelief: true, debugMode: debug ? 'weights' : 'off',
+      acrossEdges: true, stripeReach: true, hardGround: true, turfGrain: true, groundWear: true, bareGround: true });
+    return (grounds[key] = new THREE.Mesh(plane, decorate(new THREE.MeshStandardNodeMaterial())));
+  };
+  /* THE GRASS, as main.js builds it: the exact fields, the tint, the palette; the ground flat at 0, and the pond's
+     water with main.js's margin (wetAt: nothing grows within 0.3 m of a pond's ring) */
+  const inPond = (x, z) => Math.hypot(x - HOLE.pond[0], z - HOLE.pond[1]) < HOLE.pond[2] + 0.3;
+  const exact = holeAtlas.exactEdges;
+  const grass = createNearGrass({ atlas: { bounds: holeAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels }, tint: GTINT, DETAIL: GDETAIL,
+    C: GC, SHADE: GSHADE, cutTone: 1, uSun: uGroundSun, sunThrough: float(1), groundAt: (x, z) => ({ h: 0, grass: !inPond(x, z) }), quality });
+  scene.add(grass.mesh);
+  const top = (x, z, h = 3) => { const c = new THREE.PerspectiveCamera(50, W / H, 0.05, 400); c.position.set(x, h, z); c.up.set(0, 0, 1); c.lookAt(x, 0, z); return c; };
+  const VIEWS = {
+    /* the app's tee camera (mow-fade.test.mjs): 1.7 m over the tee, down the hole */
+    tee: () => { const c = new THREE.PerspectiveCamera(48, W / H, 0.1, 14000); c.position.set(0, 1.7, 0); c.lookAt(0, 3, 260); return c; },
+    /* a player on the tee's back edge, looking over it */
+    teeEye: () => { const c = new THREE.PerspectiveCamera(55, W / H, 0.1, 4000); c.position.set(0, 1.7, -7.5); c.lookAt(0, 0, 3); return c; },
+    /* in the rough short of the green, looking at its front */
+    greenLow: () => { const c = new THREE.PerspectiveCamera(50, W / H, 0.1, 4000); c.position.set(-3, 1.7, 349); c.lookAt(0, 0, 362); return c; },
+    /* on the fairway, looking down at it */
+    fairLow: () => { const c = new THREE.PerspectiveCamera(50, W / H, 0.1, 4000); c.position.set(0, 1.7, 100); c.lookAt(0, 0, 105); return c; },
+    /* in the rough beside the fairway, across it */
+    roughLow: () => { const c = new THREE.PerspectiveCamera(50, W / H, 0.1, 4000); c.position.set(-34, 1.7, 90); c.lookAt(-10, 0.5, 100); return c; },
+    /* the pond from beside it */
+    pond: () => { const c = new THREE.PerspectiveCamera(50, W / H, 0.1, 4000); c.position.set(-9, 1.7, 8); c.lookAt(-9, 0, 16); return c; },
+    /* the app's hole view (main.js setCam): 41 m up, where the grass has faded and is hidden */
+    overview: () => { const c = new THREE.PerspectiveCamera(48, W / H, 1, 14000); c.position.set(-26, 41, -73.5); c.lookAt(0, 4, 150); return c; },
+    /* straight down over an edge from 3 m: the collar into the green, the fairway into a bunker
+       and into the path beside it; and from 6 m, the rough into the pond */
+    greenTop: () => top(0, 360),
+    sandTop: () => top(12, 146),
+    pathTop: () => top(22, 90),
+    pondTop: () => top(-9, 11.8, 6),
+  };
+  const cameras = {};
+  const camera = view => (cameras[view] ??= (c => { c.updateMatrixWorld(true); return c; })(VIEWS[view]()));
+  /* the baked relief under the whole hole: 0 open ground, 1 a hollow's full shelter (the tint's alpha, ground-relief.mjs) */
+  const shelterAll = s => {
+    const alpha = Math.round(128 - 127 * s);
+    for (let k = 0; k < TN * TN; k++) tintData[k * 4 + 3] = alpha;
+    tintTexture.needsUpdate = true;
+  };
+  let shelterNow = 0;
+  const set = ({ version = 'now', grass: withGrass = true, view = 'tee', preset = 'noon', debug = false, sway = 0, shift = null, sky: withSky = false, shelter = 0 }) => {
+    if (shelter !== shelterNow) { shelterAll(shelter); shelterNow = shelter; }
+    const p = painted(preset);
+    setPaintedWorldLighting(p, preset);
+    uGroundSun.value.copy(light(sun, hemi, p));
+    if (debug) sun.intensity = hemi.intensity = 0;
+    setAtmospherePreset(sky, p); setSkyGroundHaze(sky, finalFog(p));
+    for (const m of Object.values(grounds)) scene.remove(m);
+    scene.add(groundMesh({ version, debug }));
+    sky.visible = withSky;
+    windSway.value = sway;
+    const c = camera(view);
+    if (shift) c.setViewOffset(W, H, shift[0], shift[1], W, H); else c.clearViewOffset();
+    c.updateMatrixWorld(true);
+    /* the whole grid round this eye, as the app fills it at boot (paced a frame at a time after) */
+    grass.prime(c, H);
+    if (!withGrass) grass.mesh.visible = false;
+    return c;
+  };
+  window.__scene = async o => { const c = set(o); const r = await settle(scene, c); return { ...r, grass: grass.stats() }; };
+  window.__show = async o => { const c = set({ ...o, sky: true }); await show(scene, c); return grass.stats(); };
+  /* where each pixel's centre meets the ground, row 0 at the top */
+  window.__ground = view => {
+    const c = camera(view), out = new Float32Array(W * H * 3), v = new THREE.Vector3(), o = new THREE.Vector3();
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      v.set((x + 0.5) / W * 2 - 1, 1 - (y + 0.5) / H * 2, 0.5).unproject(c);
+      o.copy(c.position); v.sub(o).normalize();
+      const t = -o.y / v.y, i = (y * W + x) * 3;
+      out[i] = t > 0 ? o.x + v.x * t : NaN; out[i + 1] = t > 0 ? o.z + v.z * t : NaN; out[i + 2] = t > 0 ? t : NaN;
+    }
+    return b64(out);
+  };
+  window.__result = { backend, quality, W, H, ready: true, main: !!MAIN, hole: HOLE, layout: nearGrassLayout(quality),
+    views: Object.fromEntries(Object.keys(VIEWS).map(k => [k, camera(k).position.toArray()])) };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>

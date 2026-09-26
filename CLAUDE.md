@@ -214,6 +214,20 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
 
   `?turfgrain=0`, `?groundwear=0` and `?bareground=0` are drawn befores. See
   [the turf batch](docs/visual-turf-2026-09-26.md).
+- The grass round the ball (`near-grass.mjs`) grows blades round the eye in
+  every low view, in one instanced draw of nested rings; each ring thins to a
+  quarter at its edge, where the next ring's density takes over. What grows,
+  and how tall, comes from the ground's exact class fields (a little over each
+  cut; nothing on greens, sand, paths, hard ground, the forest floor, the shore
+  or water, with `wetAt`'s 0.3 m margin). A blade takes its root's colour
+  through the ground's own functions and terms (`groundClassColour`,
+  `groundTintColour`, `applyGroundRelief`, the clumps, grain, damp, blotches
+  and gloss): keep them in step when the ground's colour rules change. Its
+  ground grid round the eye wraps toroidally; keep its indices exact (integer
+  division, a remainder brought back into range), since a float floor left a
+  two-metre strip bare every 94 m. It fades out at 330 blade lengths, hides
+  above 40 m and sways on the one wind. `?neargrass=0` is the drawn before.
+  See [the grass round the ball](docs/visual-near-grass-2026-09-26.md).
 - Walls darken at their foot where they meet the ground (`building-paint.mjs`):
   each vertex carries the visible ground's height under it (`aGround`, stamped
   at load), and the shader scales the material's own colour, walls only. The
