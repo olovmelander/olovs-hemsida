@@ -540,6 +540,36 @@ const MOW_AMPLITUDE = Object.freeze({
 });
 /* display luminance either side of the rough's own tone */
 const ROUGH_CLUMP_AMPLITUDE = 0.20;
+/* THE TURF'S GRAIN (turfGrain). A class's near grain, per unit of its SHADE
+   bump (rough 1.25 down to a green's 0.13): a fairway's 0.44 takes about 2.5%
+   display luminance either side at 0.4-1 m, a green's under 1%; and how much
+   more of the finish's broad blotch mown turf takes (2.5 times: about 3%) */
+const TURF_GRAIN = 0.28, TURF_BROAD_LIFT = 1.5;
+/* the detail texture's near tap, turned off the world's axes: its 11 m repeat
+   no longer lines up with the others' (a rotation by atan(3/4), about 37 degrees) */
+const NEAR_TAP_TURN = Object.freeze([0.8, 0.6]);
+/* BARE GROUND (bareGround). Rock, soil and mud mottle in soft blotches a metre
+   across (the far tap, about its channel's own mean) at about 8, 7 and 5% of
+   display luminance either side, on top of the grain their SHADE bump gives
+   them; their edges wander with the clumps (about 12 cm either side, up to 40) */
+const BARE_MOTTLE = Object.freeze({ [SURFACE.ROCK]: 0.55, [SURFACE.DIRT]: 0.5, [SURFACE.MUD]: 0.35 });
+const BARE_RAGGED_METRES = 0.6;
+/* the detail texture's clump channel (G) averages this, both variants within 0.001 (ground-detail-texture.mjs) */
+export const DETAIL_CLUMP_MEAN = 0.5136;
+/* WEAR AND WET (groundWear). A tee's divots: the clump crests that scar (about
+   1% of its middle), how much of a scar is soil rather than grass, and how much
+   of that soil is the sand-and-seed mix */
+const DIVOT_CREST = [0.8, 0.86], DIVOT_SAND = 0.3, DIVOT_SHARE = 0.7;
+/* the walk on and off a green: a band this far out from its edge (and a tee's),
+   worn paler and yellower in patches where the clumps are thinnest (a patch's
+   heart about 7% brighter at display) */
+const WEAR_BAND_METRES = [0.4, 1.2, 2.6, 4.6], WEAR_TINT = Object.freeze([0.12, 0.07, -0.05]), WEAR_THIN = [0.02, 0.22];
+/* damp hollows: from this much shelter (the baked relief) to full, darker and a
+   little cooler, at each light's wetness (storm 1, mist 0.6) */
+const DAMP_SHELTER = [0.45, 0.9], DAMP_SHADE = 0.12, DAMP_COOL = Object.freeze([-0.03, 0, 0.03]);
+/* the grain's, the wear's and the bare ground's numbers, as the shader takes them (for their tests) */
+export const GROUND_DETAIL = Object.freeze({ TURF_GRAIN, TURF_BROAD_LIFT, NEAR_TAP_TURN, BARE_MOTTLE, BARE_RAGGED_METRES,
+  DIVOT_CREST, DIVOT_SAND, DIVOT_SHARE, WEAR_BAND_METRES, WEAR_TINT, WEAR_THIN, DAMP_SHELTER, DAMP_SHADE, DAMP_COOL, ROUGH_CLUMP_AMPLITUDE });
 /* how dark the bank is at the waterline, and how far up the bank it reaches */
 const BANK_SHADE = 0.24, BANK_FALLOFF_METRES = 0.9;
 /* a rake's pass, its depth of tone, and how much damper the low middle stands */
@@ -551,7 +581,7 @@ const GROWN_EDGE_SURFACES = [SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT];
 const PATH_EDGE_GRASS = 0.6, PATH_WORN_LIFT = 0.08;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -582,7 +612,36 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     const inBounds = step(0, uvAtlas.x).mul(step(uvAtlas.x, 1))
       .mul(step(0, uvAtlas.y)).mul(step(uvAtlas.y, 1));
     const samples = atlas.texSdf.map(tex => texture(tex, uvAtlas));
-    const sdfs = channels.map((_, index) => samples[index >> 2][swizzle[index & 3]].mul(8).sub(4));
+    const fieldSdfs = channels.map((_, index) => samples[index >> 2][swizzle[index & 3]].mul(8).sub(4));
+    /* THE DETAIL TAPS, SHARED (turfGrain). The ground read the detail texture
+       seven times a pixel -- the range's wobble, a pass's wander, two clump taps
+       here, and three blotches in the finish -- each at its own scale, with its
+       other three channels thrown away. Four taps give all seven: the broad
+       blotch's tap carries the range's wobble in the same channel (a wobble of
+       13 m instead of 27), the far clump tap is the finish's middle blotch (1.1 m
+       for 0.9), and the near clump tap's blade channel its fine one (2.2 cm for
+       1.8). The near tap is turned off the world's axes, so its 11 m repeat no
+       longer lines up with the others'. ?turfgrain=0 is the before. */
+    const taps = exactEdges && turfGrain ? {
+      broad: texture(DETAIL, wp.mul(0.012)),
+      wander: texture(DETAIL, wp.mul(0.017)),
+      near: texture(DETAIL, vec2(wp.x.mul(NEAR_TAP_TURN[0]).sub(wp.y.mul(NEAR_TAP_TURN[1])),
+        wp.x.mul(NEAR_TAP_TURN[1]).add(wp.y.mul(NEAR_TAP_TURN[0]))).mul(0.09)),
+      far: texture(DETAIL, wp.mul(0.031).add(vec2(0.37, 0.61))),
+    } : null;
+    /* the rough's clumps: the difference of the near and far taps, zero-mean
+       (without the shared taps, the before's two, each read once) */
+    let nearNode = null, farNode = null, clumpNode = null;
+    const nearTap = () => (nearNode ??= taps ? taps.near : texture(DETAIL, wp.mul(0.09)));
+    const farTap = () => (farNode ??= taps ? taps.far : texture(DETAIL, wp.mul(0.031).add(vec2(0.37, 0.61))));
+    const clumpAt = () => (clumpNode ??= nearTap().g.sub(farTap().g));
+    /* BARE GROUND'S EDGE. Rock, soil and mud broke off along their mapped line
+       like a cut; bare ground frays into the grass round it. Their fields move
+       with the clumps (?bareground=0 is the before). */
+    const bareIndices = exactEdges && bareGround ? channels.flatMap((sid, index) => (BARE_MOTTLE[sid] ? [index] : [])) : [];
+    const sdfs = bareIndices.length
+      ? fieldSdfs.map((sdf, index) => (bareIndices.includes(index) ? sdf.add(clumpAt().mul(BARE_RAGGED_METRES)) : sdf))
+      : fieldSdfs;
     /* One pixel's footprint on the ground, from the WORLD POSITION and not from
        the distance: fwidth of a bilinearly filtered field is piecewise constant
        per texel and jumps at every texel border. */
@@ -815,7 +874,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       const ranged = oneMinus(abs(length.sub(0.5)).mul(10)).clamp(0, 1);
       /* the LOW channel (B, the macro variation): R is the blade speckle, a new
          value every 0.33 m at this scale, which jittered the range's passes */
-      const wobble = texture(DETAIL, wp.mul(0.006)).b.sub(0.5).mul(2 * RANGE_WOBBLE_METRES);
+      const wobble = (taps ? taps.broad.b : texture(DETAIL, wp.mul(0.006)).b).sub(0.5).mul(2 * RANGE_WOBBLE_METRES);
       const rangePass = pass(across.add(wobble), Math.PI / RANGE_PASS_METRES, acrossReach).mul(RANGE_TONE);
       /* THE PASSES' REACH. The lateral byte holds 31.75 m either side of the line
          (atlas.js) and saturates beyond it, where a pass was one flat tone: a
@@ -839,7 +898,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       const downThePasses = abs(toCamera.x.mul(dir.x).add(toCamera.z.mul(dir.y)));
       const seen = mix(float(MOW_SEEN_ACROSS), float(1), smoothstep(0.1, 0.8, downThePasses));
       /* the grass is not uniform along a pass */
-      const wander = texture(DETAIL, wp.mul(0.017)).g.mul(0.7).add(0.65);
+      const wander = (taps ? taps.wander.g : texture(DETAIL, wp.mul(0.017)).g).mul(0.7).add(0.65);
       /* a DISPLAY amplitude: x2.2 of linear colour painted, x1.1 realistic */
       const toLinear = (shading.toneExponent) * mowStrength;
       let mow = null;
@@ -914,8 +973,31 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
          0.09, not at the 0.43 first tried, where they averaged away into the mip
          chain and nothing showed at all. That same chain takes this to flat grey
          with distance, so it cannot shimmer. */
-      const clump = texture(DETAIL, wp.mul(0.09)).g.sub(texture(DETAIL, wp.mul(0.031).add(vec2(0.37, 0.61))).g);
+      const clump = clumpAt();
       litBase = litBase.mul(float(1).add(clump.mul(ROUGH_CLUMP_AMPLITUDE * display * cutTone).mul(meta.a)));
+      if (taps) {
+        /* THE MOWN TURF'S GRAIN. A fairway was its flat colour and its stripes:
+           the finish's three blotches moved it by 1.2, 0.5 and 0.4% of display
+           luminance, under what the eye sees, so the finest thing on it was the
+           rough's metre-wide clumps beside it. Every class that is not the
+           rough's own paint takes the same clumps at its SHADE bump -- a
+           fairway's 0.44 about 2.5% either side, a green's 0.13 under 1%, sand
+           and paths their own -- and the mip chain takes them to flat grey with
+           distance, so they cannot shimmer. */
+        litBase = litBase.mul(float(1).add(clump.mul(TURF_GRAIN * display * cutTone).mul(shade.y).mul(oneMinus(meta.a))));
+      }
+      if (bareIndices.length) {
+        /* BARE GROUND. Rock, soil and mud were one flat colour, and as hard ground
+           took a third of the finish's blotch: stickers laid on the grass. They
+           mottle in soft blotches a metre across, as a painter lays broken
+           ground: the far tap alone, about its channel's mean. The clumps' finer
+           half made a speckle, noise across a patch from the hole view. */
+        const bare = bareIndices.reduce((acc, index) => {
+          const term = weights[index].mul(BARE_MOTTLE[channels[index]]);
+          return acc ? acc.add(term) : term;
+        }, null);
+        litBase = litBase.mul(float(1).add(farTap().g.sub(DETAIL_CLUMP_MEAN).mul(display * cutTone).mul(bare)));
+      }
       /* THE BANK IS DAMP. Water met the ground as a sticker: the sheet's edge, then
          dry turf at full brightness. Wet soil and wet grass are darker, and only
          for a stride or two. From the exact distance to the drawn waterline; not
@@ -969,11 +1051,55 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
           litBase = mix(litBase.mul(float(1).add(worn)), roughColour, grown);
         }
       }
+      if (groundWear) {
+        /* A TEE IS DIVOTED. Every tee on the course was unmarked turf. Where the
+           near clumps crest highest, in the tee's middle, the turf is scarred:
+           bare soil under a sand-and-seed mix, a hand or two across. The mip
+           chain lowers the crests below the threshold with distance (none once
+           the tap's texel passes 35 cm), so the scars go before they could
+           shimmer. ?groundwear=0 is the before, for this, the greens' traffic
+           and the damp. */
+        const teeIndex = channels.indexOf(SURFACE.TEE);
+        if (teeIndex >= 0) {
+          const crest = nearTap().g;
+          const scar = smoothstep(DIVOT_CREST[0], DIVOT_CREST[1], crest).mul(smoothstep(0.5, 1.5, sdfs[teeIndex]))
+            .mul(weights[teeIndex]).mul(DIVOT_SHARE * cutTone).min(1);
+          const soil = C.soil || C.rough, sand = C.sand || soil;
+          /* the scar's colour as the ground's own colours reach litBase */
+          const scarColour = groundSurfaceAlbedo(vec3(...soil.map((v, i) => v + (sand[i] - v) * DIVOT_SAND)), float(0), shading.atlasLinearShare);
+          litBase = mix(litBase, scarColour, scar);
+        }
+        /* THE WALK ON AND OFF A GREEN. Players cross the collar and the ground
+           round it at the same few places a round; the turf a metre or four out
+           from a green's (and a tee's) edge is worn thin, paler and yellower, in
+           patches where the clumps are thinnest. From the exact distance to
+           those edges. */
+        const greenIndex = channels.indexOf(SURFACE.GREEN);
+        const onPad = [greenIndex, teeIndex].filter(index => index >= 0)
+          .reduce((acc, index) => acc.add(weights[index]), float(0));
+        const band = smoothstep(WEAR_BAND_METRES[0], WEAR_BAND_METRES[1], ringDistance)
+          .mul(oneMinus(smoothstep(WEAR_BAND_METRES[2], WEAR_BAND_METRES[3], ringDistance)))
+          .mul(oneMinus(onPad).max(0)).mul(oneMinus(meta.g.max(meta.b))).mul(smoothstep(WEAR_THIN[0], WEAR_THIN[1], clump.negate()))
+          .mul(cutTone);
+        litBase = litBase.mul(vec3(1).add(vec3(...WEAR_TINT).mul(band.mul(display))));
+        /* A WET HOLLOW. In the storm and the mist, ground that the baked relief
+           finds sheltered -- a hollow, a slope's foot, open ground beside a wood --
+           is damp: darker and a little cooler, patchily with the clumps. Nothing
+           in any other light. */
+        const shelter = roughTint.a.mul(255).sub(128).div(127).clamp(-1, 1).negate().max(0);
+        const damp = smoothstep(DAMP_SHELTER[0], DAMP_SHELTER[1], shelter).mul(shading.wetness ?? float(0))
+          .mul(float(0.75).add(clump.mul(1.2)).clamp(0, 1)).mul(oneMinus(pavingWeight)).mul(cutTone);
+        litBase = litBase.mul(oneMinus(damp.mul(DAMP_SHADE * display))).mul(vec3(1).add(vec3(...DAMP_COOL).mul(damp)));
+      }
     }
     /* ?groundrelief=0 is the before: the relief is baked, and not read */
     if (groundRelief) litBase = applyGroundRelief(litBase, roughTint.a, meta.a);
+    /* the finish takes its blotches from the shared taps, and mown turf (neither
+       the rough's paint, sand nor hard ground) takes more of the broad one */
+    const finishTaps = taps ? { taps: { a: taps.broad.b, b: taps.far.g, c: taps.near.r },
+      broadLift: oneMinus(meta.g.max(meta.b).max(meta.a)).mul(TURF_BROAD_LIFT) } : {};
     shading.finishV2({ material, litBase, wp, DETAIL, uSun, mow: mowNode,
-      shade, meta, graphicsPolish, surfaceRelief, seasonal: meta.a, surfaceGloss });
+      shade, meta, graphicsPolish, surfaceRelief, seasonal: meta.a, surfaceGloss, ...finishTaps });
     material.metalness = 0;
     /* the atlas owns its textures; nothing was created here to dispose */
     material.userData.terrainPreviewTextures = [];
@@ -982,11 +1108,12 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     material.userData.surfaceChannels = [...channels];
     material.userData.groundEdges = { across: !!pixelAcross, stripeReach: !!(exactEdges && mowStrength > 0 && atlas.data.mowDirections && stripeReach),
       hardGround };
+    material.userData.groundDetail = { turfGrain: !!taps, groundWear: !!(exactEdges && cutTone > 0 && groundWear), bareGround: bareIndices.length > 0 };
     return material;
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
@@ -1017,7 +1144,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround }, shading),
       atlas,
     );
   }

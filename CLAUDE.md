@@ -195,6 +195,25 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   `?groundedges=0`, `?stripereach=0`, `?hardground=0`, `?coverlight=0`,
   `?covershadow=0`, `?covercolour=0` and `?coverseat=0` are drawn befores;
   `?reedlakes=0` plants live. See [the ground batch](docs/visual-ground-2026-09-26.md).
+- The ground reads the detail texture four times a pixel: the class-SDF ground's
+  shared taps (`ground-material-core.mjs`) serve the range's wobble, a pass's
+  wander, the clumps and the finish's three blotches (`paintedGround` takes
+  them as `taps`). Add a detail read to one of those taps' channels before
+  adding a tap. Every class but the rough's paint takes the clumps at its
+  `SHADE` bump (a fairway about 2.5%), and mown turf 2.5 times the broad blotch,
+  centred on its channel's mean (`DETAIL_BROAD_MEAN`), so its tone holds.
+  - Tees are scarred where the near clumps crest highest.
+  - The ground 1-4 m round greens and tees (the mow-ring field) is worn paler
+    in patches where the clumps are thinnest.
+  - Sheltered ground (the baked relief) lies damp at each light's
+    `GROUND_WETNESS` (storm 1, mist 0.6).
+  - Rock, soil and mud mottle in soft blotches (the far tap about
+    `DETAIL_CLUMP_MEAN`), and their drawn edges fray with the clumps; the
+    ball's lie keeps the mapped line. Keep speckle off bare ground: the
+    clumps' 0.4 m half read as noise.
+
+  `?turfgrain=0`, `?groundwear=0` and `?bareground=0` are drawn befores. See
+  [the turf batch](docs/visual-turf-2026-09-26.md).
 - Walls darken at their foot where they meet the ground (`building-paint.mjs`):
   each vertex carries the visible ground's height under it (`aGround`, stamped
   at load), and the shader scales the material's own colour, walls only. The

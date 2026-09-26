@@ -1,0 +1,482 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Ängsö, Kväll, high quality",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 150,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     11,
+     12,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": true,
+     "groundWear": true,
+     "bareGround": true
+    },
+    "detailReads": 4,
+    "graphNodes": 2185,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 116,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     11,
+     12,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": true,
+     "groundWear": true,
+     "bareGround": true
+    },
+    "detailReads": 4,
+    "graphNodes": 2185,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, every before",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall&turfgrain=0&groundwear=0&bareground=0",
+   "seconds": 155,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     11,
+     12,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": false,
+     "groundWear": false,
+     "bareGround": false
+    },
+    "detailReads": 7,
+    "graphNodes": 1980,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Oväder",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=ovader",
+   "seconds": 145,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     11,
+     12,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": true,
+     "groundWear": true,
+     "bareGround": true
+    },
+    "detailReads": 4,
+    "graphNodes": 2185,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Dis",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dis",
+   "seconds": 161,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     11,
+     12,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": true,
+     "groundWear": true,
+     "bareGround": true
+    },
+    "detailReads": 4,
+    "graphNodes": 2185,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Johannesberg, Dag",
+   "q": "hi",
+   "url": "/?bana=johannesberg&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=dag",
+   "seconds": 201,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     11,
+     12,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": true,
+     "groundWear": true,
+     "bareGround": true
+    },
+    "detailReads": 4,
+    "graphNodes": 2185,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Upsala, Kväll",
+   "q": "hi",
+   "url": "/?bana=upsala&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 173,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     11,
+     12,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": true,
+     "groundWear": true,
+     "bareGround": true
+    },
+    "detailReads": 4,
+    "graphNodes": 2185,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "cover": true,
+      "edge": true
+     }
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": [
+     "cover",
+     "edge"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&hal=1&vy=tee&det=1&ljus=kvall",
+   "seconds": 118,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "groundDetail": true,
+    "groundEdges": true,
+    "detailReads": true,
+    "prepared": true
+   },
+   "got": {
+    "surfaceEdges": "exact",
+    "channels": [
+     6,
+     4,
+     5,
+     13,
+     14,
+     3,
+     2,
+     1,
+     15,
+     11,
+     8
+    ],
+    "groundEdges": {
+     "across": true,
+     "stripeReach": true,
+     "hardGround": true
+    },
+    "groundDetail": {
+     "turfGrain": true,
+     "groundWear": true,
+     "bareGround": true
+    },
+    "detailReads": 4,
+    "graphNodes": 2235,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "scatter": {}
+    },
+    "tierAudit": true
+   },
+   "expected": {
+    "scatterSections": []
+   },
+   "errors": []
+  }
+ ]
+}

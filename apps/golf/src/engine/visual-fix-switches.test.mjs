@@ -32,6 +32,8 @@ const LIGHTS_BEFORE = ['lights=before'];
 const CLOUDS_BEFORE = ['cloudlight=0', 'cloudstretch=0'];
 /* the ground batch's (docs/visual-ground-2026-09-26.md), all but ?reedlakes=0, which moves plantings */
 const GROUND_BEFORE = ['groundedges=0', 'stripereach=0', 'hardground=0', 'coverlight=0', 'covershadow=0', 'covercolour=0', 'coverseat=0'];
+/* the turf batch's (docs/visual-turf-2026-09-26.md) */
+const TURF_BEFORE = ['turfgrain=0', 'groundwear=0', 'bareground=0'];
 
 describe('the visual fixes\' before switches', () => {
   it('leave every prepared startup path eligible, alone and all together', () => {
@@ -46,10 +48,10 @@ describe('the visual fixes\' before switches', () => {
       expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE].join('&')}`)).toBe(true);
     }
   });
-  it('leave prepared startup eligible for the landscape, air, water, glow, buildings, water road, water from above, lights audit, clouds and ground batches\' befores, and all of them together', () => {
+  it('leave prepared startup eligible for the landscape, air, water, glow, buildings, water road, water from above, lights audit, clouds, ground and turf batches\' befores, and all of them together', () => {
     for (const allowed of [preparedTintAllowed, preparedWaterAllowed, preparedVistaAllowed, preparedScatterAllowed]) {
-      for (const flag of [...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE, ...CLOUDS_BEFORE, ...GROUND_BEFORE]) expect(allowed(`?bana=angso&${flag}`)).toBe(true);
-      expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE, ...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE, ...CLOUDS_BEFORE, ...GROUND_BEFORE].join('&')}`)).toBe(true);
+      for (const flag of [...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE, ...CLOUDS_BEFORE, ...GROUND_BEFORE, ...TURF_BEFORE]) expect(allowed(`?bana=angso&${flag}`)).toBe(true);
+      expect(allowed(`?bana=angso&${[...BEFORE, ...LIGHTING_BEFORE, ...LANDSCAPE_BEFORE, ...AIR_BEFORE, ...WATER_BEFORE, ...GLOW_BEFORE, ...BUILDING_BEFORE, ...WATER_ROAD_BEFORE, ...WATER_ABOVE_BEFORE, ...LIGHTS_BEFORE, ...CLOUDS_BEFORE, ...GROUND_BEFORE, ...TURF_BEFORE].join('&')}`)).toBe(true);
     }
   });
   it('plant the reeds live for ?reedlakes=0: the prepared scatter holds the reeds round every lake', () => {

@@ -1940,6 +1940,15 @@ const SURFACE_EDGES = new URLSearchParams(location.search).get('surfaceedges') !
 const GROUND_EDGES_ON = new URLSearchParams(location.search).get('groundedges') !== '0';
 const STRIPE_REACH_ON = new URLSearchParams(location.search).get('stripereach') !== '0';
 const HARD_GROUND_ON = new URLSearchParams(location.search).get('hardground') !== '0';
+/* The ground's grain, wear and bare ground (ground-material-core.mjs): the mown
+   classes take the near clumps at their SHADE bump and more of the broad blotch,
+   from four detail taps shared by the whole ground where it read seven; tees are
+   divoted, the ground round greens and tees walked pale, and sheltered hollows
+   damp in the storm and the mist; rock, soil and mud mottle, and fray at their
+   edges. ?turfgrain=0, ?groundwear=0 and ?bareground=0 are the befores. */
+const TURF_GRAIN_ON = new URLSearchParams(location.search).get('turfgrain') !== '0';
+const GROUND_WEAR_ON = new URLSearchParams(location.search).get('groundwear') !== '0';
+const BARE_GROUND_ON = new URLSearchParams(location.search).get('bareground') !== '0';
 /* The ground cover (ground-cover.mjs): the blades of tussocks, clumps and reeds
    lit from the side that is seen; every piece of it in the trees' shadows; its
    colours where they were tuned, in the light's grass strength and autumn's
@@ -3105,6 +3114,7 @@ if (TERRAIN_PREVIEW.ready) {
     mowFade: new URLSearchParams(location.search).get('mowfade') === 'iso' ? 'iso' : 'across',
     surfaceGloss: SURFACE_GLOSS, surfaceEdges: SURFACE_EDGES, groundRelief: GROUND_RELIEF_ON,
     acrossEdges: GROUND_EDGES_ON, stripeReach: STRIPE_REACH_ON, hardGround: HARD_GROUND_ON,
+    turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON,
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -11923,6 +11933,7 @@ window.V3D = {
       ? { channels: [...groundAtlas.exactEdges.channels], ...groundAtlas.exactEdges.stats } : null,
     /* what the drawn ground material was built with (ground-material-core.mjs) */
     groundEdges: (() => { let found = null; scene.traverse(o => { if (!found && o.material?.userData?.groundEdges) found = { ...o.material.userData.groundEdges }; }); return found; })(),
+    groundDetail: (() => { let found = null; scene.traverse(o => { if (!found && o.material?.userData?.groundDetail) found = { ...o.material.userData.groundDetail }; }); return found; })(),
     reason: TERRAIN_PREVIEW.reason,
     selection: {
       mode: V2_SELECTION.mode,

@@ -44,6 +44,8 @@ export function preparedTintAllowed(search) {
     // nor do the ground batch's: the class edges, the stripes' reach, the hard ground's finish, and the
     // cover's light, shadows, colours and seat are drawn (?reedlakes=0 moves plantings, and is not here),
     'groundedges', 'stripereach', 'hardground', 'coverlight', 'covershadow', 'covercolour', 'coverseat',
+    // nor do the turf batch's: the turf's grain, the wear and damp, and the bare ground's mottle and edges are drawn
+    'turfgrain', 'groundwear', 'bareground',
     // and the surface relief pilot, which the painted finish never read
     'surfaceRelief']);
   return [...params.keys()].every(key => displayOnly.has(key));

@@ -1,0 +1,247 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Turf batch: isolated checks</title>
+<!-- The app's own ground atlas and ground material in an isolated hole, drawn as
+     main draws it, with the turf batch's befores and with the batch. Served from
+     the repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+/* A Chromium that predates the string form of the view swizzle three r186 sends
+   rejects the identity one (as studies/tree-shadow-proof.mjs); a current Chrome needs nothing. */
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+const THREE = await import('three/webgpu');
+const { uniform } = await import('three/tsl');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, PAINTED_GROUND } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { setPaintedWorldLighting } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { createGroundAtlas } = await import('/apps/golf/src/engine/atlas.js');
+const { SURFACE } = await import('/apps/golf/src/engine/surface.js');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const NOW = await import('/apps/golf/src/engine/material.js');
+/* main's ground material, generated from git by check-isolated.mjs */
+let MAIN = null;
+try { MAIN = await import('./main-material.gen.mjs'); } catch (e) { console.warn('main material missing', e); }
+
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const W = +(params.get('w') || 480), H = +(params.get('h') || 272);
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = name => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+const finalFog = p => new THREE.Color(p.fog).lerp(new THREE.Color(p.paintedFog), 0.22);
+const b64 = f => { const u = new Uint8Array(f.buffer); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000)); return btoa(s); };
+
+try {
+  /* as the app: 4x MSAA, HalfFloat output, reversed depth on WebGPU only (main.js) */
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true, samples: 4 });
+  /* the linear colour before exposure and tone mapping, settled: two renders in a row agree */
+  const settle = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    let last = null, renders = 0, settled = false;
+    while (!settled && renders < 6) {
+      renderer.setRenderTarget(target);
+      renderer.render(scene, camera);
+      renderer.setRenderTarget(null);
+      const now = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+      renders++;
+      settled = last !== null && now.every((v, k) => v === last[k]);
+      last = now;
+      if (!settled) await frame();
+    }
+    return { px: b64(Float32Array.from(last, THREE.DataUtils.fromHalfFloat)), renders, settled };
+  };
+  const show = async (scene, camera) => {
+    await renderer.compileAsync(scene, camera);
+    for (let i = 0; i < 3; i++) { renderer.render(scene, camera); await frame(); }
+  };
+  const light = (sun, hemi, p) => {
+    const d = new THREE.Vector3(...p.dir).normalize();
+    sun.color.setHex(p.sun); sun.intensity = p.int; sun.position.copy(sun.target.position).addScaledVector(d, 150);
+    hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    renderer.toneMappingExposure = p.exp;
+    return d;
+  };
+
+  /* THE HOLE (docs/graphics/ground-2026-09-26/isolated.html): a par 4 on the app's
+     own exact-edge atlas at its own 1 m, with the app's painted palette and SHADE
+     table (main.js): a tee, a fairway 44 m wide that widens to 92 m between 190
+     and 270 m, a fairway bunker, a green in its collar between two bunkers at
+     375 m, a cart path along the fairway's right edge and another running down
+     the view, a road across at 20 m and a patch of mud in the rough; and for this
+     batch rock and bare soil either side of the tee. The hole's line runs down +z
+     from the tee. */
+  const Lin = hex => { const c = new THREE.Color(hex); return [c.r, c.g, c.b]; };
+  const GC = Object.fromEntries(Object.entries(PAINTED_GROUND).map(([key, hex]) => [key, Lin(hex)]));
+  /* main.js's SHADE */
+  const GSHADE = {
+    [SURFACE.ROUGH]: [0.62, 1.25, 0.06, 0], [SURFACE.SEMI]: [1.15, 0.62, 0.17, 0.5],
+    [SURFACE.FAIRWAY]: [1.55, 0.44, 0.28, 1.15], [SURFACE.GREEN]: [2.85, 0.13, 0.54, 0.9],
+    [SURFACE.FRINGE]: [2.0, 0.30, 0.34, 0.9], [SURFACE.TEE]: [2.2, 0.22, 0.40, 1.3],
+    [SURFACE.SAND]: [2.3, 0.58, 0.14, 0], [SURFACE.PATH]: [3.2, 0.34, 0.18, 0],
+    [SURFACE.HEATH]: [0.85, 1.05, 0.09, 0], [SURFACE.FOREST]: [0.55, 1.35, 0.05, 0],
+    [SURFACE.SHORE]: [1.6, 0.75, 0.22, 0],
+    [SURFACE.WETLAND]: [0.72, 0.92, 0.10, 0], [SURFACE.ROCK]: [1.8, 0.48, 0.16, 0],
+    [SURFACE.ASPHALT]: [3.4, 0.18, 0.34, 0], [SURFACE.GRAVEL]: [2.6, 0.46, 0.12, 0],
+    [SURFACE.DIRT]: [1.9, 0.55, 0.08, 0], [SURFACE.MUD]: [1.2, 0.38, 0.30, 0],
+  };
+  const square = (x0, z0, x1, z1) => [[x0, z0], [x1, z0], [x1, z1], [x0, z1]];
+  const circle = (cx, cz, r, n = 64) => Array.from({ length: n }, (_, i) => [cx + Math.cos(i / n * Math.PI * 2) * r, cz + Math.sin(i / n * Math.PI * 2) * r]);
+  const HOLE = {
+    fairway: [[-22, 40], [22, 40], [22, 190], [46, 190], [46, 270], [22, 270], [22, 340], [-22, 340], [-22, 270], [-46, 270], [-46, 190], [-22, 190]],
+    green: [0, 375, 15], fringe: [0, 375, 17.5], bunkers: [[-21, 366, 5], [21, 388, 6], [12, 150, 4]],
+    pathBeside: [22, 60, 25.5, 130], pathDown: [34, 0, 37, 480], road: [-80, 20, 80, 26], mud: [-70, 110, -50, 140], tee: [-4, -6, 4, 2],
+    rock: [8, -4, 14, 4], dirt: [-16, -4, -10, 4],
+    /* the hollow: the ground tint's relief fully sheltered here (alpha 0), open everywhere else (128) */
+    hollow: [-95, 205, -65, 235],
+  };
+  const holeAtlas = createGroundAtlas({ CORE: { x0: -120, z0: -30, x1: 120, z1: 520 }, res: 1,
+    HOLES: [{ n: 1, line: [[0, -2], [0, 375]] }], features: [
+      { surface: SURFACE.FAIRWAY, rings: [HOLE.fairway] },
+      { surface: SURFACE.GREEN, rings: [circle(...HOLE.green)] },
+      { surface: SURFACE.FRINGE, rings: [circle(...HOLE.fringe)] },
+      { surface: SURFACE.SAND, rings: HOLE.bunkers.map(b => circle(...b, 40)) },
+      { surface: SURFACE.PATH, rings: [square(...HOLE.pathBeside), square(...HOLE.pathDown)] },
+      { surface: SURFACE.ASPHALT, rings: [square(...HOLE.road)] },
+      { surface: SURFACE.MUD, rings: [square(...HOLE.mud)] },
+      { surface: SURFACE.TEE, rings: [square(...HOLE.tee)] },
+      { surface: SURFACE.ROCK, rings: [square(...HOLE.rock)] },
+      { surface: SURFACE.DIRT, rings: [square(...HOLE.dirt)] },
+    ] });
+  const GDETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const uGroundSun = uniform(new THREE.Vector3(0, 1, 0));
+  /* the ground tint over the hole at about a metre: the rough's colour, and the baked relief in its alpha */
+  const TB = { x0: -120, z0: -30, x1: 120, z1: 520 }, TX = 256, TZ = 512;
+  const tintData = new Uint8Array(TX * TZ * 4), roughHex = PAINTED_GROUND.rough;
+  for (let j = 0; j < TZ; j++) for (let i = 0; i < TX; i++) {
+    const x = TB.x0 + (i + 0.5) / TX * (TB.x1 - TB.x0), z = TB.z0 + (j + 0.5) / TZ * (TB.z1 - TB.z0);
+    const [hx0, hz0, hx1, hz1] = HOLE.hollow;
+    const sheltered = x > hx0 && x < hx1 && z > hz0 && z < hz1;
+    tintData.set([(roughHex >> 16) & 255, (roughHex >> 8) & 255, roughHex & 255, sheltered ? 0 : 128], (j * TX + i) * 4);
+  }
+  const tintTexture = new THREE.DataTexture(tintData, TX, TZ, THREE.RGBAFormat, THREE.UnsignedByteType);
+  Object.assign(tintTexture, { colorSpace: THREE.SRGBColorSpace, minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter, generateMipmaps: false, flipY: false, needsUpdate: true });
+  const GTINT = { near: { texture: tintTexture, bounds: TB, fadeMetres: 8 } };
+  const holeScene = new THREE.Scene();
+  holeScene.background = new THREE.Color(0xff00ff);
+  const holeSun = new THREE.DirectionalLight(0xffffff, 3), holeHemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  const holeSky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true });
+  holeScene.add(holeSun, holeSun.target, holeHemi, holeSky);
+  const plane = new THREE.PlaneGeometry(1200, 2000, 120, 200).rotateX(-Math.PI / 2).translate(0, 0, 400);
+  const holeMeshes = {};
+  const ALL = { turfGrain: true, groundWear: true, bareGround: true };
+  /* version: 'main' (main's module) or 'now', with the batch's switches (all off: the befores); debug: the weights' categorical colours */
+  const decorator = ({ version, switches = ALL, debug = false, mowStrength = 1 }) => {
+    const module = version === 'main' ? MAIN : NOW;
+    /* the ground batch's switches as the app sets them, in main and now alike */
+    return module.createV2GroundMaterialDecorator({ atlas: holeAtlas, DETAIL: GDETAIL, C: GC, SHADE: GSHADE, uSun: uGroundSun, tint: GTINT,
+      cutTone: 1, mowStrength, surfaceGloss: true, surfaceEdges: true, groundRelief: true, debugMode: debug ? 'weights' : 'off',
+      acrossEdges: true, stripeReach: true, hardGround: true, ...(version === 'main' ? {} : switches) });
+  };
+  const holeMesh = o => {
+    const key = JSON.stringify([o.version, o.version === 'main' ? null : (o.switches || ALL), !!o.debug, o.mowStrength ?? 1]);
+    return (holeMeshes[key] ??= new THREE.Mesh(plane, decorator(o)(new THREE.MeshStandardNodeMaterial())));
+  };
+  /* ortho: a camera straight above (cx, cz), `across` metres wide, north up the screen */
+  const above = (cx, cz, across) => () => {
+    const h = across / 2, c = new THREE.OrthographicCamera(-h, h, h * H / W, -h * H / W, 1, 500);
+    c.position.set(cx, 200, cz); c.up.set(0, 0, 1); c.lookAt(cx, 0, cz); return c;
+  };
+  const VIEWS = {
+    /* the app's tee camera (mow-fade.test.mjs): 1.7 m over the tee, down the hole */
+    tee: () => { const c = new THREE.PerspectiveCamera(48, W / H, 1, 14000); c.position.set(0, 1.7, 0); c.lookAt(0, 3, 260); return c; },
+    /* the app's hole view (main.js setCam): behind and above the tee, looking down the hole to 40% of its length */
+    overview: () => { const c = new THREE.PerspectiveCamera(48, W / H, 1, 14000); c.position.set(-26, 41, -73.5); c.lookAt(0, 4, 150); return c; },
+    /* the ground batch's: the wide fairway, the path beside it, the mud */
+    wide: above(0, 230, 104),
+    beside: above(23, 95, 8),
+    mud: () => { const c = new THREE.PerspectiveCamera(40, W / H, 1, 2000); c.position.set(-45, 25, 95); c.lookAt(-60, 0, 125); return c; },
+    /* this batch's: a player on the tee's back edge, looking over it; and from above, the tee and its surround,
+       the green's front and the ground round it, the fairway and the green close, the rock and the soil, the hollow */
+    teeEye: () => { const c = new THREE.PerspectiveCamera(55, W / H, 0.1, 4000); c.position.set(0, 1.7, -7.5); c.lookAt(0, 0, 3); return c; },
+    teeTop: above(0, -2, 12),
+    greenTop: above(0, 357, 24),
+    fairTop: above(0, 100, 8),
+    greenIn: above(0, 375, 8),
+    rockTop: above(11, 0, 12),
+    dirtTop: above(-13, 0, 12),
+    /* the soil, the tee and the rock together */
+    bareTop: above(-1, 0, 34),
+    damp: above(-80, 220, 60),
+  };
+  const cameras = {};
+  /* placed now: __ground unprojects through a camera that may not have drawn yet */
+  const camera = view => (cameras[view] ??= (c => { c.updateMatrixWorld(true); return c; })(VIEWS[view]()));
+  const setHole = ({ preset = 'noon', sky = false, shift = null, view = 'tee', ...o }) => {
+    const p = painted(preset);
+    setPaintedWorldLighting(p, preset);
+    uGroundSun.value.copy(light(holeSun, holeHemi, p));
+    /* the classes' colours alone: no light to glint off the black they are drawn on */
+    if (o.debug) holeSun.intensity = holeHemi.intensity = 0;
+    setAtmospherePreset(holeSky, p); setSkyGroundHaze(holeSky, finalFog(p));
+    for (const m of Object.values(holeMeshes)) holeScene.remove(m);
+    holeScene.add(holeMesh(o));
+    holeSky.visible = sky;
+    /* a sub-pixel shift of the whole view, for the shimmer */
+    const c = camera(view);
+    if (shift) c.setViewOffset(W, H, shift[0], shift[1], W, H); else c.clearViewOffset();
+    return c;
+  };
+  window.__hole = async o => { const c = setHole(o); return settle(holeScene, c); };
+  window.__showHole = async o => { const c = setHole({ ...o, sky: true }); await show(holeScene, c); return true; };
+  /* where each pixel's centre meets the ground, row 0 at the top */
+  window.__ground = view => {
+    const c = camera(view), out = new Float32Array(W * H * 2), v = new THREE.Vector3(), o = new THREE.Vector3();
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+      v.set((x + 0.5) / W * 2 - 1, 1 - (y + 0.5) / H * 2, 0.5).unproject(c);
+      if (c.isOrthographicCamera) { o.set((x + 0.5) / W * 2 - 1, 1 - (y + 0.5) / H * 2, -1).unproject(c); v.sub(o).normalize(); }
+      else { o.copy(c.position); v.sub(o).normalize(); }
+      const t = -o.y / v.y, i = (y * W + x) * 2;
+      out[i] = t > 0 ? o.x + v.x * t : NaN; out[i + 1] = t > 0 ? o.z + v.z * t : NaN;
+    }
+    return b64(out);
+  };
+  /* how many times a pixel of the ground reads the detail texture: its distinct reads in the drawn graph */
+  window.__taps = () => {
+    const count = material => {
+      const seen = new Set(), reads = new Set();
+      const walk = node => {
+        if (!node || typeof node !== 'object' || !node.isNode || seen.has(node.id)) return;
+        seen.add(node.id);
+        if (node.isTextureNode && node.value === GDETAIL) reads.add(node.id);
+        for (const child of node.getChildren()) walk(child);
+      };
+      walk(material.colorNode); walk(material.roughnessNode);
+      return reads.size;
+    };
+    const none = { turfGrain: false, groundWear: false, bareGround: false };
+    return { main: count(holeMesh({ version: 'main' }).material), before: count(holeMesh({ version: 'now', switches: none }).material),
+      now: count(holeMesh({ version: 'now' }).material), groundDetail: holeMesh({ version: 'now' }).material.userData.groundDetail };
+  };
+
+  window.__result = { backend, W, H, ready: true, main: !!MAIN, hole: HOLE,
+    debug: Object.fromEntries(['ROUGH', 'ROCK', 'DIRT', 'TEE', 'GREEN', 'FRINGE'].map(k => [k, NOW.surfaceDebugColour(SURFACE[k])])),
+    palette: { soil: GC.soil, sand: GC.sand, rock: GC.rock, tee: GC.tee } };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>
