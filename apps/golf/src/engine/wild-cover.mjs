@@ -10,9 +10,9 @@
      each, as a meadow grows them; in Höst they are gone.
    Every plant is derived from a planting that already stands -- the trees,
    the tussocks, the fringe -- by a hash of where it stands, so the prepared
-   scatter's records are untouched. Each kind is one instanced draw; each
-   shrinks away before it could shimmer. ?forestfloor=0 and ?wildflowers=0
-   are the befores. */
+   scatter's records are untouched. Each kind is drawn in tiles, one instanced
+   draw a tile, and each plant shrinks away before it could shimmer.
+   ?forestfloor=0 and ?wildflowers=0 are the befores. */
 import { Color, Float32BufferAttribute, BufferGeometry, DoubleSide, Group, InstancedBufferAttribute, InstancedMesh,
   Matrix4, MeshStandardNodeMaterial, Quaternion, Vector3 } from 'three/webgpu';
 import { attribute, cameraPosition, cameraViewMatrix, cameraWorldMatrix, color, float, mix, normalize,
@@ -181,8 +181,8 @@ export function plantFlowers({ tufts = [], edge = [], heightAt, classify = null,
 /* THE SHAPES. Positions in metres at scale 1; `aWhere` carries each vertex's
    role: x its share of the plant's height (for the wind and the colour ramp),
    y 1 on a flower's head, and on a head zw its corner facing the eye. */
-/* blueberry scrub: a low dome of eighteen small leaves, half a metre across, each
-   pointing out and up from the dome's heart, as a dwarf shrub's twigs do */
+/* blueberry scrub: a low dome of eighteen small leaves, 0.7 m across and 0.3 m tall
+   at scale 1, each pointing out and up from the dome's heart, as a dwarf shrub's twigs do */
 export function scrubGeometry() {
   const positions = [], normals = [], where = [];
   for (let k = 0; k < 18; k++) {
@@ -203,7 +203,8 @@ export function scrubGeometry() {
   g.setAttribute('aWhere', new Float32BufferAttribute(where, 4));
   return g;
 }
-/* a fern: six fronds arching out from the crown and drooping at the tip, 0.6 m across */
+/* a fern: six fronds 0.5-0.7 m long, arching out from the crown and drooping at the
+   tip: 1.4 m across and half a metre tall at scale 1 */
 export function fernGeometry() {
   const positions = [], where = [];
   for (let f = 0; f < 6; f++) {
@@ -227,8 +228,8 @@ export function fernGeometry() {
   g.setAttribute('aWhere', new Float32BufferAttribute(where, 4));
   return g;
 }
-/* a clump of flowers: seven stems and their heads, a hand or two across; a head is a
-   diamond that turns to face the eye, so it reads from every side and from above */
+/* a clump of flowers: seven stems and their heads, 0.4 m across and as tall at scale 1;
+   a head is a diamond that turns to face the eye, so it reads from every side and from above */
 export function flowerClumpGeometry() {
   const positions = [], normals = [], where = [];
   for (let f = 0; f < 7; f++) {
