@@ -1,0 +1,310 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>The nine lights: isolated study</title>
+<!-- A course-like scene lit as the player lights it -- the painted sky, the sun with
+     its sky-lit shadows and the clouds' shade, the sky's hemisphere light and the
+     preset's environment, the haze and the light's glaze on the land -- with the
+     player's ground finish, the approved trees' impostors in stands along a fairway
+     (the birches turning in autumn as the player turns them), a green, a lake in the
+     player's water shading and a lamp pushed past white. Seen from the tee, a
+     flyover, straight down, across the lake, over the woods toward the sun and away
+     from it, and the sky alone, in any light: as it is now, as it was before the
+     audit (?lights=before), or as main draws it -- main's presets, palette and
+     aerial perspective, generated from git by check-isolated.mjs beside this
+     page; its fog node takes the scene's in its own programs, over the same
+     trees, atlas and textures. Served from the repository root by
+     check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+/* the renderer's clock, pinned: three's node frame adds the time since its last update */
+const realNow = performance.now.bind(performance);
+let pinnedNow = null;
+performance.now = () => pinnedNow ?? realNow();
+
+const THREE = await import('three/webgpu');
+const { uniform, color, float, vec3, positionWorld, cameraPosition, normalize, mix, smoothstep, abs, sin, fract, step, pass } = await import('three/tsl');
+const { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze } = await import('/apps/golf/src/engine/atmospheric-sky.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, PAINTED_GROUND } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const { fetchGlb, loadFoliageAtlas, fitFoliageTier } = await import('/apps/golf/src/engine/ghibli-tree-assets.mjs');
+const { setFoliageLighting } = await import('/apps/golf/src/engine/ghibli-foliage-material.mjs');
+const { bakeCrownDepth } = await import('/apps/golf/src/engine/crown-depth.mjs');
+const { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } = await import('/apps/golf/src/engine/tree-impostor.mjs');
+const { createShadowTint, shadowTintFor, sunUnderClouds } = await import('/apps/golf/src/engine/shadow-tint.mjs');
+const { createCloudShadow } = await import('/apps/golf/src/engine/cloud-shadow.mjs');
+const { createAerialPerspective } = await import('/apps/golf/src/engine/aerial-perspective.mjs');
+const { treeTint } = await import('/apps/golf/src/engine/stand-tint.mjs');
+const { hash2 } = await import('/apps/golf/src/engine/geom.js');
+const { paintedGround } = await import('/apps/golf/src/engine/material.js');
+const { waterShading } = await import('/apps/golf/src/engine/water-shading.mjs');
+const nordic = await import('/apps/golf/src/engine/nordic-water.mjs');
+const { fillWaterNormalPixels } = await import('/apps/golf/src/engine/water-normal-texture.mjs');
+const { createPackedGroundDetailTexture } = await import('/apps/golf/src/engine/ground-detail-upload.mjs');
+const { createWaterReflectionLighting } = await import('/apps/golf/src/engine/water-lighting.mjs');
+const { setPaintedWorldLighting, paintedWaterLight } = await import('/apps/golf/src/engine/painted-world-lighting.mjs');
+const { installOutputDither } = await import('/apps/golf/src/engine/output-dither.mjs');
+const { setWaterRoadPreset } = await import('/apps/golf/src/engine/water-road.mjs');
+const { setWaterAbovePreset } = await import('/apps/golf/src/engine/water-above.mjs');
+const { createLightingEnvironment } = await import('/apps/golf/src/engine/lighting-environment.mjs');
+const { GLOW, glowThresholdOf } = await import('/apps/golf/src/engine/glow.mjs');
+const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
+
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const W = +(params.get('w') || 480), H = +(params.get('h') || 320);
+const frame = () => new Promise(r => requestAnimationFrame(r));
+const painted = (name, before = false) => paintedAtmosphere(name, ATMOSPHERE_PRESETS[name], { before });
+/* main's own light, when check-isolated.mjs has generated its modules here from git */
+const MAIN = await Promise.all([import('./main-atmosphere-presets.gen.mjs'), import('./main-painted-world-palette.gen.mjs'), import('./main-aerial-perspective.gen.mjs')])
+  .then(([presets, palette, aerial]) => ({ painted: name => palette.paintedAtmosphere(name, presets.ATMOSPHERE_PRESETS[name]), createAerialPerspective: aerial.createAerialPerspective }))
+  .catch(() => null);
+const b64 = a => { const u = new Uint8Array(a.buffer, a.byteOffset, a.byteLength); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+
+try {
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL: backend === 'webgl2', reversedDepthBuffer: backend === 'webgpu' });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true;
+  installOutputDither(renderer);
+  document.body.appendChild(renderer.domElement);
+  await renderer.init();
+
+  /* ------------------------------------------------------------ the light, as main.js sets it */
+  const scene = new THREE.Scene();
+  const fog = new THREE.FogExp2(0xa2bcca, 0.00042);
+  scene.fog = fog;
+  const aerial = createAerialPerspective(fog, { sunward: true, valleyMist: true });
+  /* main's aerial perspective: the scene takes its node instead for main's light, and three compiles programs of its own for it */
+  const aerialMain = MAIN ? MAIN.createAerialPerspective(fog, { sunward: true, valleyMist: true }) : null;
+  scene.fogNode = aerial.node;
+  const sky = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: true, painted: true, drawLast: true });
+  const sun = new THREE.DirectionalLight(0xffffff, 3);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  Object.assign(sun.shadow.camera, { left: -700, right: 700, top: 700, bottom: -700, near: 1, far: 3000 });
+  sun.shadow.normalBias = 0.3;
+  const tint = createShadowTint(sun);
+  const CLOUD = createCloudShadow();
+  const clouded = sunUnderClouds(sun, { cloud: CLOUD.vertex, tint: tint.tint });
+  sun.colorNode = clouded.colorNode; sun.shadow.shadowNode = clouded.shadowNode;
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+  const environment = createLightingEnvironment(renderer, scene, { enabled: true });
+  const waterLighting = createWaterReflectionLighting({ enabled: true });
+  const uSun = uniform(new THREE.Vector3(0, 1, 0));
+  scene.add(sky, sun, sun.target, hemi);
+
+  /* ------------------------------------------------------------ the ground: rough, a fairway north from the tee, a green */
+  const DETAIL = createPackedGroundDetailTexture({ seamless: true });
+  const fairCentre = z => sin(z.div(170)).mul(22);
+  const wp = positionWorld.xz;
+  const across = wp.x.sub(fairCentre(wp.y));
+  const inside = (x, edge, soft) => float(1).sub(smoothstep(edge, edge + soft, x));
+  const onFairway = inside(abs(across), 25, 4).mul(inside(wp.y, 335, 10)).mul(smoothstep(-345, -335, wp.y));
+  const onGreen = inside(wp.sub(vec3(4, 0, -345).xz).length(), 15, 2);
+  const onTee = inside(abs(wp.x.sub(fairCentre(float(372)))), 6, 1).mul(inside(abs(wp.y.sub(372)), 10, 2));
+  let base = mix(color(PAINTED_GROUND.rough), color(PAINTED_GROUND.fair), onFairway);
+  base = mix(base, color(PAINTED_GROUND.tee), onTee);
+  base = mix(base, color(PAINTED_GROUND.green), onGreen);
+  const cut = onFairway.max(onGreen).max(onTee);
+  const mow = step(0.5, fract(wp.y.div(14))).mul(cut).mul(0.05);
+  const groundMaterial = new THREE.MeshStandardNodeMaterial({ metalness: 0 });
+  Object.assign(groundMaterial, paintedGround({ base, wp, DETAIL, uSun, mow, turf: float(1), gloss: mix(float(0.06), float(0.28), onFairway).max(onGreen.mul(0.42)) }));
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(6000, 6000, 240, 240).rotateX(-Math.PI / 2), groundMaterial);
+  ground.receiveShadow = true;
+  scene.add(ground);
+
+  /* ------------------------------------------------------------ the lake, north of the green */
+  const LAKE = { x: -30, z: -520, r: 150 };
+  const WATERN = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 512;
+    const g = c.getContext('2d'), im = g.createImageData(512, 512);
+    fillWaterNormalPixels(im.data, 512, { seamless: true });
+    g.putImageData(im, 0, 0);
+    const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 8;
+    return t;
+  })();
+  const glint = uniform(1), chop = uniform(1);
+  const uLeaf = uniform(new THREE.Color(0x5f8944)), uAutumn = uniform(0);
+  const lake = (() => {
+    const g = new THREE.CircleGeometry(LAKE.r, 128).rotateX(-Math.PI / 2);
+    const pos = g.attributes.position, n = pos.count, shore = new Float32Array(n);
+    for (let i = 0; i < n; i++) shore[i] = LAKE.r - Math.hypot(pos.getX(i), pos.getZ(i));
+    g.setAttribute('aShore', new THREE.Float32BufferAttribute(shore, 1));
+    g.setAttribute('aFoam', new THREE.Float32BufferAttribute(new Float32Array(n).fill(1), 1));
+    g.setAttribute('aDepth', new THREE.Float32BufferAttribute(Array.from(shore, s => s / 8), 1));
+    const m = new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide });
+    const { colour } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint, chop, cloud: CLOUD, ocean: false, showBed: false,
+      nordic: true, wind: true, road: true, mirror: true, relief: true, sea: false, cloudShade: true, lanes: true });
+    m.colorNode = colour.mul(paintedWaterLight);
+    const mesh = new THREE.Mesh(g, m);
+    mesh.position.set(LAKE.x, 0.15, LAKE.z);
+    return mesh;
+  })();
+  scene.add(lake);
+
+  /* ------------------------------------------------------------ the woods: pine, spruce and birch impostors in stands */
+  const treeBase = '/apps/golf/public/models/trees/';
+  const manifest = await (await fetch(treeBase + 'ghibli-fluffy.json')).json();
+  const SPECIES = [['tall', 0x2c5230], ['gran', 0x3a6134], ['björk', 0x5f8944]];
+  const kinds = [];
+  for (const [key, cc] of SPECIES) {
+    const entry = manifest.species.find(e => e.key === key);
+    const variant = entry.variants[0], rec = variant.tiers.full;
+    const map = await loadFoliageAtlas(treeBase, entry.foliage.atlas, fetch);
+    const tree = await fetchGlb(treeBase + rec.file, rec, fetch);
+    fitFoliageTier(tree, variant.templateHeight, variant.templateRadius);
+    bakeCrownDepth(tree.crown);
+    const atlas = bakeImpostorAtlas(renderer, { crown: tree.crown, trunk: tree.trunk, trunkColor: new THREE.Color(...tree.trunkMean),
+      foliage: { key: entry.foliage.key, map } });
+    kinds.push({ key, cc, atlas, height: variant.templateHeight });
+  }
+  const spots = [[], [], []];
+  for (let x = -900; x <= 900; x += 11) for (let z = -1100; z <= 900; z += 11) {
+    const px = x + (hash2(x * 3 + 1, z * 5 + 2) - 0.5) * 8, pz = z + (hash2(z * 7 + 3, x * 11 + 4) - 0.5) * 8;
+    const off = Math.abs(px - Math.sin(pz / 170) * 22);
+    if (pz > -360 && pz < 420 && off < 48 + 14 * hash2(px * 0.02, pz * 0.02)) continue;          /* the hole's corridor */
+    if (Math.hypot(px - LAKE.x, pz - LAKE.z) < LAKE.r + 18) continue;                         /* the lake and its shore */
+    if (Math.hypot(px - 4, pz + 345) < 40) continue;                                            /* round the green */
+    if (hash2(px * 0.011, pz * 0.011) > 0.72) continue;                                         /* glades */
+    const r = hash2(px * 0.004 + 3.1, pz * 0.004 - 1.7);
+    spots[r < 0.45 ? 0 : r < 0.8 ? 1 : 2].push([px, pz]);
+  }
+  /* a lamp pushed past white (main.js's aviation lamps), in front of the tee, shown when asked for */
+  const lamp = new THREE.Mesh(new THREE.PlaneGeometry(3, 3), new THREE.MeshBasicNodeMaterial({ side: THREE.DoubleSide }));
+  lamp.material.colorNode = vec3(6.0, 0.48, 0.4);
+  lamp.position.set(4, 7, 330); lamp.visible = false;
+  scene.add(lamp);
+  const world = [ground, lake];
+  const trees = [];
+  kinds.forEach((kind, s) => {
+    const list = spots[s];
+    const geometry = createImpostorGeometry(list.length);
+    const P = geometry.getAttribute('aImpostorPos').array, Q = geometry.getAttribute('aImpostorParam').array, T = geometry.getAttribute('aTint').array;
+    list.forEach(([x, z], i) => { P.set([x, 0, z], i * 3); const sc = 0.85 + hash2(x, z) * 0.35; Q.set([hash2(z, x) * 6.28, sc, sc, 0], i * 4); treeTint(x, z, T, i * 4); });
+    geometry.instanceCount = list.length;
+    const mesh = new THREE.Mesh(geometry, createImpostorMaterial(kind.atlas, { crownBase: kind.key === 'björk' ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(kind.cc),
+      sunDirection: uSun, sunlit: CLOUD.vertex, autumn: uAutumn }));
+    mesh.frustumCulled = false; mesh.castShadow = true;
+    scene.add(mesh); world.push(mesh); trees.push(mesh);
+  });
+
+  /* ------------------------------------------------------------ the views */
+  const VIEWS = {
+    tee: { at: [4, 6, 385], look: [12, 3, -150], fov: 50 },
+    flyover: { at: [-330, 95, 520], look: [0, 0, -200], fov: 50 },
+    above: { at: [0, 420, -120], look: [0, 0, -121], fov: 48 },
+    lake: { at: [95, 5, -640], look: [-260, 0, -300], fov: 50 },
+    green: { at: [14, 22, -262], look: [-40, 0, -520], fov: 50 },
+    glitter: { at: [60, 90, -640], look: [7, 0, -587], fov: 50 },
+    /* the sky alone, from high over the course: toward the sun's azimuth from the horizon to past the sun, and straight up */
+    sun: { at: [0, 200, 0], pitch: 30, fov: 60 },
+    /* the landscape toward the sun and away from it, from 45 m over the woods */
+    toward: { at: [0, 45, 60], pitch: -5, fov: 55, azimuth: 0 },
+    away: { at: [0, 45, 60], pitch: -5, fov: 55, azimuth: Math.PI },
+    zenith: { at: [0, 200, 0], fov: 50 },
+  };
+  const camera = (name, aspect, p) => {
+    const v = VIEWS[name], cam = new THREE.PerspectiveCamera(v.fov, aspect, 0.5, 20000);
+    cam.position.set(...v.at);
+    if (name === 'sun' || name === 'toward' || name === 'away') {
+      const d = new THREE.Vector3(...p.dir).normalize(), az = Math.atan2(d.x, d.z) + (v.azimuth ?? 0), t = Math.tan(v.pitch * Math.PI / 180);
+      cam.lookAt(v.at[0] + Math.sin(az), v.at[1] + t, v.at[2] + Math.cos(az));
+    } else if (name === 'zenith') { cam.up.set(0, 0, -1); cam.lookAt(v.at[0], v.at[1] + 1, v.at[2]); }
+    else cam.lookAt(...v.look);
+    return cam;
+  };
+
+  /* ------------------------------------------------------------ one light */
+  const setLight = (name, over = {}, { cloudOffset = [900, 300], skyOnly = false, version = 'now', before = false, showLamp = false } = {}) => {
+    if (version === 'main' && !MAIN) throw new Error('main\'s modules were not generated');
+    const p = { ...(version === 'main' ? MAIN.painted(name) : painted(name, before)), ...over }, skyP = { ...p, skyCloudGlow: p.skyCloudGlow ?? 0 };
+    scene.fogNode = version === 'main' ? aerialMain.node : aerial.node;
+    lamp.visible = showLamp;
+    const d = new THREE.Vector3(...p.dir).normalize();
+    uSun.value.copy(d);
+    setPaintedWorldLighting(p, name);
+    setFoliageLighting(p);
+    waterLighting.setPreset(p);
+    environment.setPreset(JSON.stringify([p.environment, p.environmentIntensity]), p);
+    sun.color.setHex(p.sun); sun.intensity = p.int; sun.position.copy(d).multiplyScalar(1500); sun.target.position.set(0, 0, -150);
+    sun.position.add(sun.target.position);
+    shadowTintFor(p, tint.tint.value);
+    CLOUD.setPreset(p); CLOUD.setSun(d); CLOUD.setOffset(...cloudOffset);
+    uLeaf.value.setHex(p.leaf ?? 0x5f8944); uAutumn.value = name === 'host' ? 1 : 0;
+    world.forEach(m => { m.visible = !skyOnly; });
+    hemi.color.setHex(p.hemiS); hemi.groundColor.setHex(p.hemiG); hemi.intensity = p.hemiI * (p.paintedFill ?? 1);
+    fog.color.setHex(p.fog); fog.density = p.dens;
+    fog.color.lerp(new THREE.Color(p.paintedFog), 0.22); fog.density *= 0.9;
+    setAtmospherePreset(sky, skyP); setSkyGroundHaze(sky, fog.color);
+    (version === 'main' ? aerialMain : aerial).setPreset(skyP);
+    renderer.toneMappingExposure = p.exp;
+    nordic.setNordicWaterPreset(p, { sky: skyP, fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax });
+    nordic.waterFlow.forEach(f => f.value.set(0, 0));
+    nordic.waterPatchOffset.value.set(0, 0);
+    nordic.waterChop.value = 1;
+    setWaterRoadPreset(p); setWaterAbovePreset(p, { environment: true });
+    return p;
+  };
+  const pin = () => { const nodeFrame = renderer._nodes.nodeFrame; pinnedNow = 1e9; nodeFrame.lastTime = pinnedNow; nodeFrame.time = 1234.5; };
+  const unpin = () => { pinnedNow = null; renderer._nodes.nodeFrame.lastTime = undefined; };
+
+  /* the picture, through the app's tone mapping; `glow` adds high quality's bloom at the preset's strength and threshold */
+  window.__show = async ({ preset = 'summer', view = 'tee', glow = true, over = {}, cloudOffset, skyOnly, hide = [], version, before, lamp: showLamp }) => {
+    const p = setLight(preset, over, { cloudOffset, skyOnly, version, before, showLamp }), cam = camera(view, W / H, p);
+    if (hide.includes('lake')) lake.visible = false;
+    if (hide.includes('trees')) trees.forEach(t => { t.visible = false; });
+    if (hide.includes('ground')) ground.visible = false;
+    await renderer.compileAsync(scene, cam);
+    if (!glow) { for (let i = 0; i < 3; i++) { pin(); renderer.render(scene, cam); unpin(); await frame(); } return true; }
+    const post = new THREE.RenderPipeline(renderer);
+    const sceneColor = pass(scene, cam).getTextureNode('output');
+    const b = bloom(sceneColor, p.bloom ?? 0.14, GLOW.radius, glowThresholdOf(p));
+    b.smoothWidth.value = GLOW.knee;
+    post.outputNode = sceneColor.add(b);
+    for (let i = 0; i < 3; i++) { pin(); post.render(); unpin(); await frame(); }
+    post.dispose();
+    return true;
+  };
+  /* the linear colour before exposure and tone mapping, settled: two renders in a row agree */
+  const target = new THREE.RenderTarget(W, H, { type: THREE.HalfFloatType, depthBuffer: true });
+  window.__read = async ({ preset = 'summer', view = 'tee', over = {}, cloudOffset, skyOnly, version, before, lamp: showLamp }) => {
+    const p = setLight(preset, over, { cloudOffset, skyOnly, version, before, showLamp });
+    const cam = camera(view, W / H, p);
+    await renderer.compileAsync(scene, cam);
+    const tone = renderer.toneMapping;
+    renderer.toneMapping = THREE.NoToneMapping;
+    let last = null, renders = 0, settled = false;
+    while (!settled && renders < 6) {
+      pin();
+      renderer.setRenderTarget(target); renderer.render(scene, cam); renderer.setRenderTarget(null);
+      unpin();
+      const now = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+      renders++;
+      settled = last !== null && now.every((v, k) => v === last[k]);
+      last = now;
+      if (!settled) await frame();
+    }
+    renderer.toneMapping = tone;
+    return { px: b64(Float32Array.from(last, THREE.DataUtils.fromHalfFloat)), renders, settled };
+  };
+  window.__result = { backend, W, H, ready: true, main: !!MAIN, views: VIEWS, trees: spots.map(s => s.length) };
+} catch (error) {
+  window.__result = { backend, error: String(error && error.stack || error) };
+}
+</script>
+</body>

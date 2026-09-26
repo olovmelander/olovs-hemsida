@@ -1,0 +1,2479 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "381a3a5b",
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "with ?lights=before every light is main's, pixel for pixel, and the summer day, mist and autumn are main's as they are",
+     "ok": true,
+     "golden/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     }
+    },
+    {
+     "label": "the blue hour: its sky brighter than its land, where main's was darker, and the land cooler and less saturated",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.0397,
+       "spread": 0.2852,
+       "saturation": 0.5736,
+       "rgb": [
+        0.0354,
+        0.0368,
+        0.0813
+       ]
+      },
+      "ground": {
+       "mean": 0.0792,
+       "spread": 0.0182,
+       "saturation": 0.7035,
+       "rgb": [
+        0.0333,
+        0.0978,
+        0.0296
+       ]
+      },
+      "above": {
+       "mean": 0.0777,
+       "spread": 0.1708,
+       "saturation": 0.6968,
+       "rgb": [
+        0.0339,
+        0.0955,
+        0.0299
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1149,
+       "spread": 0.2477,
+       "saturation": 0.6627,
+       "rgb": [
+        0.0853,
+        0.1098,
+        0.2532
+       ]
+      },
+      "ground": {
+       "mean": 0.0552,
+       "spread": 0.0156,
+       "saturation": 0.5252,
+       "rgb": [
+        0.0299,
+        0.0629,
+        0.0534
+       ]
+      },
+      "above": {
+       "mean": 0.051,
+       "spread": 0.2242,
+       "saturation": 0.5065,
+       "rgb": [
+        0.0286,
+        0.0577,
+        0.0503
+       ]
+      }
+     }
+    },
+    {
+     "label": "golden hour: the ground from the tee and from above lighter than main's",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0595,
+       "spread": 0.0225,
+       "saturation": 0.7305,
+       "rgb": [
+        0.029,
+        0.0725,
+        0.0195
+       ]
+      },
+      "above": {
+       "mean": 0.0741,
+       "spread": 0.6027,
+       "saturation": 0.7821,
+       "rgb": [
+        0.0433,
+        0.0889,
+        0.0184
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0781,
+       "spread": 0.114,
+       "saturation": 0.731,
+       "rgb": [
+        0.0382,
+        0.0953,
+        0.0256
+       ]
+      },
+      "above": {
+       "mean": 0.0871,
+       "spread": 0.5208,
+       "saturation": 0.7837,
+       "rgb": [
+        0.05,
+        0.1048,
+        0.0218
+       ]
+      }
+     }
+    },
+    {
+     "label": "the storm: a calmer deck than main's spots, and a greyer ground",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.1474,
+       "spread": 0.2045,
+       "saturation": 0.3901,
+       "rgb": [
+        0.1143,
+        0.1534,
+        0.1854
+       ]
+      },
+      "ground": {
+       "mean": 0.0799,
+       "spread": 0.0208,
+       "saturation": 0.79,
+       "rgb": [
+        0.0363,
+        0.0988,
+        0.0207
+       ]
+      },
+      "above": {
+       "mean": 0.1001,
+       "spread": 0.136,
+       "saturation": 0.5745,
+       "rgb": [
+        0.0532,
+        0.1188,
+        0.0534
+       ]
+      },
+      "deck": {
+       "mean": 0.1517,
+       "spread": 0.1941,
+       "saturation": 0.3844,
+       "rgb": [
+        0.118,
+        0.1578,
+        0.1898
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1127,
+       "spread": 0.069,
+       "saturation": 0.3932,
+       "rgb": [
+        0.0873,
+        0.1171,
+        0.1437
+       ]
+      },
+      "ground": {
+       "mean": 0.0801,
+       "spread": 0.0167,
+       "saturation": 0.5307,
+       "rgb": [
+        0.0497,
+        0.0928,
+        0.0436
+       ]
+      },
+      "above": {
+       "mean": 0.1002,
+       "spread": 0.1359,
+       "saturation": 0.4314,
+       "rgb": [
+        0.0651,
+        0.1132,
+        0.0741
+       ]
+      },
+      "deck": {
+       "mean": 0.1096,
+       "spread": 0.092,
+       "saturation": 0.4012,
+       "rgb": [
+        0.0845,
+        0.114,
+        0.1407
+       ]
+      }
+     }
+    },
+    {
+     "label": "dawn: the land less saturated and warmer, in its rose; the midnight sun: the land warmer, in its gold",
+     "ok": true,
+     "dawn": {
+      "main": {
+       "sky": {
+        "mean": 0.3367,
+        "spread": 0.3525,
+        "saturation": 0.3091,
+        "rgb": [
+         0.4289,
+         0.3065,
+         0.365
+        ]
+       },
+       "ground": {
+        "mean": 0.116,
+        "spread": 0.0418,
+        "saturation": 0.6429,
+        "rgb": [
+         0.0671,
+         0.1372,
+         0.0492
+        ]
+       },
+       "above": {
+        "mean": 0.1069,
+        "spread": 0.3075,
+        "saturation": 0.6945,
+        "rgb": [
+         0.0574,
+         0.1285,
+         0.0386
+        ]
+       }
+      },
+      "now": {
+       "sky": {
+        "mean": 0.3621,
+        "spread": 0.2654,
+        "saturation": 0.2614,
+        "rgb": [
+         0.4546,
+         0.3332,
+         0.3754
+        ]
+       },
+       "ground": {
+        "mean": 0.116,
+        "spread": 0.0418,
+        "saturation": 0.5542,
+        "rgb": [
+         0.0889,
+         0.1299,
+         0.0581
+        ]
+       },
+       "above": {
+        "mean": 0.1028,
+        "spread": 0.3438,
+        "saturation": 0.5797,
+        "rgb": [
+         0.0764,
+         0.1162,
+         0.0474
+        ]
+       }
+      }
+     },
+     "midnight": {
+      "main": {
+       "sky": {
+        "mean": 0.2883,
+        "spread": 0.1773,
+        "saturation": 0.5345,
+        "rgb": [
+         0.4254,
+         0.2572,
+         0.1934
+        ]
+       },
+       "ground": {
+        "mean": 0.1144,
+        "spread": 0.1411,
+        "saturation": 0.7327,
+        "rgb": [
+         0.0739,
+         0.1344,
+         0.0362
+        ]
+       },
+       "above": {
+        "mean": 0.095,
+        "spread": 0.377,
+        "saturation": 0.7724,
+        "rgb": [
+         0.0502,
+         0.1153,
+         0.0257
+        ]
+       }
+      },
+      "now": {
+       "sky": {
+        "mean": 0.2883,
+        "spread": 0.1773,
+        "saturation": 0.5345,
+        "rgb": [
+         0.4254,
+         0.2572,
+         0.1934
+        ]
+       },
+       "ground": {
+        "mean": 0.1144,
+        "spread": 0.1411,
+        "saturation": 0.7066,
+        "rgb": [
+         0.0869,
+         0.1302,
+         0.0385
+        ]
+       },
+       "above": {
+        "mean": 0.0894,
+        "spread": 0.3975,
+        "saturation": 0.7241,
+        "rgb": [
+         0.0609,
+         0.1042,
+         0.0273
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "noon: its sun at 55 degrees, the course from above within a few percent of main's",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1615,
+       "spread": 0.0193,
+       "saturation": 0.7881,
+       "rgb": [
+        0.0898,
+        0.195,
+        0.0413
+       ]
+      },
+      "above": {
+       "mean": 0.1521,
+       "spread": 0.3714,
+       "saturation": 0.8226,
+       "rgb": [
+        0.0806,
+        0.1856,
+        0.0312
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1556,
+       "spread": 0.0195,
+       "saturation": 0.7852,
+       "rgb": [
+        0.0858,
+        0.1879,
+        0.0403
+       ]
+      },
+      "above": {
+       "mean": 0.1454,
+       "spread": 0.3957,
+       "saturation": 0.8192,
+       "rgb": [
+        0.0762,
+        0.1775,
+        0.0304
+       ]
+      }
+     }
+    },
+    {
+     "label": "the glaze gives way over a lamp pushed past white: the lamp keeps its colour while the land takes the glaze",
+     "ok": true,
+     "lampPixels": 1369,
+     "lampMaxRelative": 0,
+     "landDiffering": 135346
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 64,
+     "settled": 64,
+     "maxRenders": 2
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "measures": {
+    "bluehour": {
+     "main": {
+      "sky": {
+       "mean": 0.0397,
+       "spread": 0.2852,
+       "saturation": 0.5736,
+       "rgb": [
+        0.0354,
+        0.0368,
+        0.0813
+       ]
+      },
+      "ground": {
+       "mean": 0.0792,
+       "spread": 0.0182,
+       "saturation": 0.7035,
+       "rgb": [
+        0.0333,
+        0.0978,
+        0.0296
+       ]
+      },
+      "above": {
+       "mean": 0.0777,
+       "spread": 0.1708,
+       "saturation": 0.6968,
+       "rgb": [
+        0.0339,
+        0.0955,
+        0.0299
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1149,
+       "spread": 0.2477,
+       "saturation": 0.6627,
+       "rgb": [
+        0.0853,
+        0.1098,
+        0.2532
+       ]
+      },
+      "ground": {
+       "mean": 0.0552,
+       "spread": 0.0156,
+       "saturation": 0.5252,
+       "rgb": [
+        0.0299,
+        0.0629,
+        0.0534
+       ]
+      },
+      "above": {
+       "mean": 0.051,
+       "spread": 0.2242,
+       "saturation": 0.5065,
+       "rgb": [
+        0.0286,
+        0.0577,
+        0.0503
+       ]
+      }
+     }
+    },
+    "golden": {
+     "main": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0595,
+       "spread": 0.0225,
+       "saturation": 0.7305,
+       "rgb": [
+        0.029,
+        0.0725,
+        0.0195
+       ]
+      },
+      "above": {
+       "mean": 0.0741,
+       "spread": 0.6027,
+       "saturation": 0.7821,
+       "rgb": [
+        0.0433,
+        0.0889,
+        0.0184
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0781,
+       "spread": 0.114,
+       "saturation": 0.731,
+       "rgb": [
+        0.0382,
+        0.0953,
+        0.0256
+       ]
+      },
+      "above": {
+       "mean": 0.0871,
+       "spread": 0.5208,
+       "saturation": 0.7837,
+       "rgb": [
+        0.05,
+        0.1048,
+        0.0218
+       ]
+      }
+     }
+    },
+    "storm": {
+     "main": {
+      "sky": {
+       "mean": 0.1474,
+       "spread": 0.2045,
+       "saturation": 0.3901,
+       "rgb": [
+        0.1143,
+        0.1534,
+        0.1854
+       ]
+      },
+      "ground": {
+       "mean": 0.0799,
+       "spread": 0.0208,
+       "saturation": 0.79,
+       "rgb": [
+        0.0363,
+        0.0988,
+        0.0207
+       ]
+      },
+      "above": {
+       "mean": 0.1001,
+       "spread": 0.136,
+       "saturation": 0.5745,
+       "rgb": [
+        0.0532,
+        0.1188,
+        0.0534
+       ]
+      },
+      "deck": {
+       "mean": 0.1517,
+       "spread": 0.1941,
+       "saturation": 0.3844,
+       "rgb": [
+        0.118,
+        0.1578,
+        0.1898
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1127,
+       "spread": 0.069,
+       "saturation": 0.3932,
+       "rgb": [
+        0.0873,
+        0.1171,
+        0.1437
+       ]
+      },
+      "ground": {
+       "mean": 0.0801,
+       "spread": 0.0167,
+       "saturation": 0.5307,
+       "rgb": [
+        0.0497,
+        0.0928,
+        0.0436
+       ]
+      },
+      "above": {
+       "mean": 0.1002,
+       "spread": 0.1359,
+       "saturation": 0.4314,
+       "rgb": [
+        0.0651,
+        0.1132,
+        0.0741
+       ]
+      },
+      "deck": {
+       "mean": 0.1096,
+       "spread": 0.092,
+       "saturation": 0.4012,
+       "rgb": [
+        0.0845,
+        0.114,
+        0.1407
+       ]
+      }
+     }
+    },
+    "dawn": {
+     "main": {
+      "sky": {
+       "mean": 0.3367,
+       "spread": 0.3525,
+       "saturation": 0.3091,
+       "rgb": [
+        0.4289,
+        0.3065,
+        0.365
+       ]
+      },
+      "ground": {
+       "mean": 0.116,
+       "spread": 0.0418,
+       "saturation": 0.6429,
+       "rgb": [
+        0.0671,
+        0.1372,
+        0.0492
+       ]
+      },
+      "above": {
+       "mean": 0.1069,
+       "spread": 0.3075,
+       "saturation": 0.6945,
+       "rgb": [
+        0.0574,
+        0.1285,
+        0.0386
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.3621,
+       "spread": 0.2654,
+       "saturation": 0.2614,
+       "rgb": [
+        0.4546,
+        0.3332,
+        0.3754
+       ]
+      },
+      "ground": {
+       "mean": 0.116,
+       "spread": 0.0418,
+       "saturation": 0.5542,
+       "rgb": [
+        0.0889,
+        0.1299,
+        0.0581
+       ]
+      },
+      "above": {
+       "mean": 0.1028,
+       "spread": 0.3438,
+       "saturation": 0.5797,
+       "rgb": [
+        0.0764,
+        0.1162,
+        0.0474
+       ]
+      }
+     }
+    },
+    "midnight": {
+     "main": {
+      "sky": {
+       "mean": 0.2883,
+       "spread": 0.1773,
+       "saturation": 0.5345,
+       "rgb": [
+        0.4254,
+        0.2572,
+        0.1934
+       ]
+      },
+      "ground": {
+       "mean": 0.1144,
+       "spread": 0.1411,
+       "saturation": 0.7327,
+       "rgb": [
+        0.0739,
+        0.1344,
+        0.0362
+       ]
+      },
+      "above": {
+       "mean": 0.095,
+       "spread": 0.377,
+       "saturation": 0.7724,
+       "rgb": [
+        0.0502,
+        0.1153,
+        0.0257
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.2883,
+       "spread": 0.1773,
+       "saturation": 0.5345,
+       "rgb": [
+        0.4254,
+        0.2572,
+        0.1934
+       ]
+      },
+      "ground": {
+       "mean": 0.1144,
+       "spread": 0.1411,
+       "saturation": 0.7066,
+       "rgb": [
+        0.0869,
+        0.1302,
+        0.0385
+       ]
+      },
+      "above": {
+       "mean": 0.0894,
+       "spread": 0.3975,
+       "saturation": 0.7241,
+       "rgb": [
+        0.0609,
+        0.1042,
+        0.0273
+       ]
+      }
+     }
+    },
+    "noon": {
+     "main": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1615,
+       "spread": 0.0193,
+       "saturation": 0.7881,
+       "rgb": [
+        0.0898,
+        0.195,
+        0.0413
+       ]
+      },
+      "above": {
+       "mean": 0.1521,
+       "spread": 0.3714,
+       "saturation": 0.8226,
+       "rgb": [
+        0.0806,
+        0.1856,
+        0.0312
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1556,
+       "spread": 0.0195,
+       "saturation": 0.7852,
+       "rgb": [
+        0.0858,
+        0.1879,
+        0.0403
+       ]
+      },
+      "above": {
+       "mean": 0.1454,
+       "spread": 0.3957,
+       "saturation": 0.8192,
+       "rgb": [
+        0.0762,
+        0.1775,
+        0.0304
+       ]
+      }
+     }
+    }
+   },
+   "reads": {
+    "count": 64,
+    "settled": 64,
+    "maxRenders": 2
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "with ?lights=before every light is main's, pixel for pixel, and the summer day, mist and autumn are main's as they are",
+     "ok": true,
+     "golden/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "golden/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "noon/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "summer/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "dawn/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "midnight/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "bluehour/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "storm/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "mist/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/tee": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     },
+     "host/toward": {
+      "before": {
+       "differing": 0,
+       "maxDiff": 0
+      },
+      "now": {
+       "differing": 0,
+       "maxDiff": 0
+      }
+     }
+    },
+    {
+     "label": "the blue hour: its sky brighter than its land, where main's was darker, and the land cooler and less saturated",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.0397,
+       "spread": 0.2852,
+       "saturation": 0.5736,
+       "rgb": [
+        0.0354,
+        0.0368,
+        0.0813
+       ]
+      },
+      "ground": {
+       "mean": 0.0792,
+       "spread": 0.0182,
+       "saturation": 0.7035,
+       "rgb": [
+        0.0333,
+        0.0978,
+        0.0296
+       ]
+      },
+      "above": {
+       "mean": 0.0777,
+       "spread": 0.1713,
+       "saturation": 0.6968,
+       "rgb": [
+        0.0339,
+        0.0955,
+        0.0299
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1149,
+       "spread": 0.2477,
+       "saturation": 0.6627,
+       "rgb": [
+        0.0853,
+        0.1098,
+        0.2532
+       ]
+      },
+      "ground": {
+       "mean": 0.0552,
+       "spread": 0.0156,
+       "saturation": 0.5252,
+       "rgb": [
+        0.0299,
+        0.0629,
+        0.0534
+       ]
+      },
+      "above": {
+       "mean": 0.051,
+       "spread": 0.2245,
+       "saturation": 0.5065,
+       "rgb": [
+        0.0286,
+        0.0577,
+        0.0503
+       ]
+      }
+     }
+    },
+    {
+     "label": "golden hour: the ground from the tee and from above lighter than main's",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0595,
+       "spread": 0.0225,
+       "saturation": 0.7305,
+       "rgb": [
+        0.029,
+        0.0725,
+        0.0195
+       ]
+      },
+      "above": {
+       "mean": 0.0741,
+       "spread": 0.6028,
+       "saturation": 0.7821,
+       "rgb": [
+        0.0433,
+        0.0889,
+        0.0184
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0781,
+       "spread": 0.114,
+       "saturation": 0.731,
+       "rgb": [
+        0.0382,
+        0.0953,
+        0.0256
+       ]
+      },
+      "above": {
+       "mean": 0.0872,
+       "spread": 0.5209,
+       "saturation": 0.7837,
+       "rgb": [
+        0.05,
+        0.1048,
+        0.0218
+       ]
+      }
+     }
+    },
+    {
+     "label": "the storm: a calmer deck than main's spots, and a greyer ground",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.1474,
+       "spread": 0.2045,
+       "saturation": 0.3901,
+       "rgb": [
+        0.1143,
+        0.1534,
+        0.1854
+       ]
+      },
+      "ground": {
+       "mean": 0.0799,
+       "spread": 0.0208,
+       "saturation": 0.79,
+       "rgb": [
+        0.0363,
+        0.0988,
+        0.0207
+       ]
+      },
+      "above": {
+       "mean": 0.1001,
+       "spread": 0.1364,
+       "saturation": 0.5745,
+       "rgb": [
+        0.0532,
+        0.1188,
+        0.0534
+       ]
+      },
+      "deck": {
+       "mean": 0.1517,
+       "spread": 0.1941,
+       "saturation": 0.3844,
+       "rgb": [
+        0.118,
+        0.1578,
+        0.1898
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1127,
+       "spread": 0.069,
+       "saturation": 0.3932,
+       "rgb": [
+        0.0873,
+        0.1171,
+        0.1437
+       ]
+      },
+      "ground": {
+       "mean": 0.0801,
+       "spread": 0.0166,
+       "saturation": 0.5307,
+       "rgb": [
+        0.0497,
+        0.0928,
+        0.0436
+       ]
+      },
+      "above": {
+       "mean": 0.1002,
+       "spread": 0.1363,
+       "saturation": 0.4314,
+       "rgb": [
+        0.0651,
+        0.1132,
+        0.0741
+       ]
+      },
+      "deck": {
+       "mean": 0.1096,
+       "spread": 0.092,
+       "saturation": 0.4012,
+       "rgb": [
+        0.0845,
+        0.114,
+        0.1407
+       ]
+      }
+     }
+    },
+    {
+     "label": "dawn: the land less saturated and warmer, in its rose; the midnight sun: the land warmer, in its gold",
+     "ok": true,
+     "dawn": {
+      "main": {
+       "sky": {
+        "mean": 0.3367,
+        "spread": 0.3525,
+        "saturation": 0.3091,
+        "rgb": [
+         0.4289,
+         0.3065,
+         0.365
+        ]
+       },
+       "ground": {
+        "mean": 0.116,
+        "spread": 0.0418,
+        "saturation": 0.6429,
+        "rgb": [
+         0.0671,
+         0.1372,
+         0.0492
+        ]
+       },
+       "above": {
+        "mean": 0.1069,
+        "spread": 0.3077,
+        "saturation": 0.6945,
+        "rgb": [
+         0.0574,
+         0.1285,
+         0.0386
+        ]
+       }
+      },
+      "now": {
+       "sky": {
+        "mean": 0.3621,
+        "spread": 0.2654,
+        "saturation": 0.2614,
+        "rgb": [
+         0.4546,
+         0.3332,
+         0.3754
+        ]
+       },
+       "ground": {
+        "mean": 0.116,
+        "spread": 0.0418,
+        "saturation": 0.5542,
+        "rgb": [
+         0.0889,
+         0.1299,
+         0.0581
+        ]
+       },
+       "above": {
+        "mean": 0.1028,
+        "spread": 0.344,
+        "saturation": 0.5797,
+        "rgb": [
+         0.0764,
+         0.1162,
+         0.0474
+        ]
+       }
+      }
+     },
+     "midnight": {
+      "main": {
+       "sky": {
+        "mean": 0.2883,
+        "spread": 0.1773,
+        "saturation": 0.5345,
+        "rgb": [
+         0.4254,
+         0.2572,
+         0.1934
+        ]
+       },
+       "ground": {
+        "mean": 0.1144,
+        "spread": 0.1411,
+        "saturation": 0.7327,
+        "rgb": [
+         0.0739,
+         0.1344,
+         0.0362
+        ]
+       },
+       "above": {
+        "mean": 0.095,
+        "spread": 0.3772,
+        "saturation": 0.7724,
+        "rgb": [
+         0.0502,
+         0.1153,
+         0.0256
+        ]
+       }
+      },
+      "now": {
+       "sky": {
+        "mean": 0.2883,
+        "spread": 0.1773,
+        "saturation": 0.5345,
+        "rgb": [
+         0.4254,
+         0.2572,
+         0.1934
+        ]
+       },
+       "ground": {
+        "mean": 0.1144,
+        "spread": 0.1411,
+        "saturation": 0.7066,
+        "rgb": [
+         0.0869,
+         0.1302,
+         0.0385
+        ]
+       },
+       "above": {
+        "mean": 0.0894,
+        "spread": 0.3977,
+        "saturation": 0.7241,
+        "rgb": [
+         0.0609,
+         0.1042,
+         0.0273
+        ]
+       }
+      }
+     }
+    },
+    {
+     "label": "noon: its sun at 55 degrees, the course from above within a few percent of main's",
+     "ok": true,
+     "main": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1615,
+       "spread": 0.0193,
+       "saturation": 0.7881,
+       "rgb": [
+        0.0898,
+        0.195,
+        0.0413
+       ]
+      },
+      "above": {
+       "mean": 0.1522,
+       "spread": 0.3716,
+       "saturation": 0.8227,
+       "rgb": [
+        0.0806,
+        0.1856,
+        0.0312
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1556,
+       "spread": 0.0195,
+       "saturation": 0.7852,
+       "rgb": [
+        0.0858,
+        0.1879,
+        0.0403
+       ]
+      },
+      "above": {
+       "mean": 0.1454,
+       "spread": 0.396,
+       "saturation": 0.8192,
+       "rgb": [
+        0.0762,
+        0.1776,
+        0.0304
+       ]
+      }
+     }
+    },
+    {
+     "label": "the glaze gives way over a lamp pushed past white: the lamp keeps its colour while the land takes the glaze",
+     "ok": true,
+     "lampPixels": 1369,
+     "lampMaxRelative": 0,
+     "landDiffering": 135346
+    },
+    {
+     "label": "every read-back settled",
+     "ok": true,
+     "count": 64,
+     "settled": 64,
+     "maxRenders": 3
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "measures": {
+    "bluehour": {
+     "main": {
+      "sky": {
+       "mean": 0.0397,
+       "spread": 0.2852,
+       "saturation": 0.5736,
+       "rgb": [
+        0.0354,
+        0.0368,
+        0.0813
+       ]
+      },
+      "ground": {
+       "mean": 0.0792,
+       "spread": 0.0182,
+       "saturation": 0.7035,
+       "rgb": [
+        0.0333,
+        0.0978,
+        0.0296
+       ]
+      },
+      "above": {
+       "mean": 0.0777,
+       "spread": 0.1713,
+       "saturation": 0.6968,
+       "rgb": [
+        0.0339,
+        0.0955,
+        0.0299
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1149,
+       "spread": 0.2477,
+       "saturation": 0.6627,
+       "rgb": [
+        0.0853,
+        0.1098,
+        0.2532
+       ]
+      },
+      "ground": {
+       "mean": 0.0552,
+       "spread": 0.0156,
+       "saturation": 0.5252,
+       "rgb": [
+        0.0299,
+        0.0629,
+        0.0534
+       ]
+      },
+      "above": {
+       "mean": 0.051,
+       "spread": 0.2245,
+       "saturation": 0.5065,
+       "rgb": [
+        0.0286,
+        0.0577,
+        0.0503
+       ]
+      }
+     }
+    },
+    "golden": {
+     "main": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0595,
+       "spread": 0.0225,
+       "saturation": 0.7305,
+       "rgb": [
+        0.029,
+        0.0725,
+        0.0195
+       ]
+      },
+      "above": {
+       "mean": 0.0741,
+       "spread": 0.6028,
+       "saturation": 0.7821,
+       "rgb": [
+        0.0433,
+        0.0889,
+        0.0184
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.3395,
+       "spread": 0.3586,
+       "saturation": 0.6382,
+       "rgb": [
+        0.276,
+        0.3439,
+        0.4826
+       ]
+      },
+      "ground": {
+       "mean": 0.0781,
+       "spread": 0.114,
+       "saturation": 0.731,
+       "rgb": [
+        0.0382,
+        0.0953,
+        0.0256
+       ]
+      },
+      "above": {
+       "mean": 0.0872,
+       "spread": 0.5209,
+       "saturation": 0.7837,
+       "rgb": [
+        0.05,
+        0.1048,
+        0.0218
+       ]
+      }
+     }
+    },
+    "storm": {
+     "main": {
+      "sky": {
+       "mean": 0.1474,
+       "spread": 0.2045,
+       "saturation": 0.3901,
+       "rgb": [
+        0.1143,
+        0.1534,
+        0.1854
+       ]
+      },
+      "ground": {
+       "mean": 0.0799,
+       "spread": 0.0208,
+       "saturation": 0.79,
+       "rgb": [
+        0.0363,
+        0.0988,
+        0.0207
+       ]
+      },
+      "above": {
+       "mean": 0.1001,
+       "spread": 0.1364,
+       "saturation": 0.5745,
+       "rgb": [
+        0.0532,
+        0.1188,
+        0.0534
+       ]
+      },
+      "deck": {
+       "mean": 0.1517,
+       "spread": 0.1941,
+       "saturation": 0.3844,
+       "rgb": [
+        0.118,
+        0.1578,
+        0.1898
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.1127,
+       "spread": 0.069,
+       "saturation": 0.3932,
+       "rgb": [
+        0.0873,
+        0.1171,
+        0.1437
+       ]
+      },
+      "ground": {
+       "mean": 0.0801,
+       "spread": 0.0166,
+       "saturation": 0.5307,
+       "rgb": [
+        0.0497,
+        0.0928,
+        0.0436
+       ]
+      },
+      "above": {
+       "mean": 0.1002,
+       "spread": 0.1363,
+       "saturation": 0.4314,
+       "rgb": [
+        0.0651,
+        0.1132,
+        0.0741
+       ]
+      },
+      "deck": {
+       "mean": 0.1096,
+       "spread": 0.092,
+       "saturation": 0.4012,
+       "rgb": [
+        0.0845,
+        0.114,
+        0.1407
+       ]
+      }
+     }
+    },
+    "dawn": {
+     "main": {
+      "sky": {
+       "mean": 0.3367,
+       "spread": 0.3525,
+       "saturation": 0.3091,
+       "rgb": [
+        0.4289,
+        0.3065,
+        0.365
+       ]
+      },
+      "ground": {
+       "mean": 0.116,
+       "spread": 0.0418,
+       "saturation": 0.6429,
+       "rgb": [
+        0.0671,
+        0.1372,
+        0.0492
+       ]
+      },
+      "above": {
+       "mean": 0.1069,
+       "spread": 0.3077,
+       "saturation": 0.6945,
+       "rgb": [
+        0.0574,
+        0.1285,
+        0.0386
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.3621,
+       "spread": 0.2654,
+       "saturation": 0.2614,
+       "rgb": [
+        0.4546,
+        0.3332,
+        0.3754
+       ]
+      },
+      "ground": {
+       "mean": 0.116,
+       "spread": 0.0418,
+       "saturation": 0.5542,
+       "rgb": [
+        0.0889,
+        0.1299,
+        0.0581
+       ]
+      },
+      "above": {
+       "mean": 0.1028,
+       "spread": 0.344,
+       "saturation": 0.5797,
+       "rgb": [
+        0.0764,
+        0.1162,
+        0.0474
+       ]
+      }
+     }
+    },
+    "midnight": {
+     "main": {
+      "sky": {
+       "mean": 0.2883,
+       "spread": 0.1773,
+       "saturation": 0.5345,
+       "rgb": [
+        0.4254,
+        0.2572,
+        0.1934
+       ]
+      },
+      "ground": {
+       "mean": 0.1144,
+       "spread": 0.1411,
+       "saturation": 0.7327,
+       "rgb": [
+        0.0739,
+        0.1344,
+        0.0362
+       ]
+      },
+      "above": {
+       "mean": 0.095,
+       "spread": 0.3772,
+       "saturation": 0.7724,
+       "rgb": [
+        0.0502,
+        0.1153,
+        0.0256
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.2883,
+       "spread": 0.1773,
+       "saturation": 0.5345,
+       "rgb": [
+        0.4254,
+        0.2572,
+        0.1934
+       ]
+      },
+      "ground": {
+       "mean": 0.1144,
+       "spread": 0.1411,
+       "saturation": 0.7066,
+       "rgb": [
+        0.0869,
+        0.1302,
+        0.0385
+       ]
+      },
+      "above": {
+       "mean": 0.0894,
+       "spread": 0.3977,
+       "saturation": 0.7241,
+       "rgb": [
+        0.0609,
+        0.1042,
+        0.0273
+       ]
+      }
+     }
+    },
+    "noon": {
+     "main": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1615,
+       "spread": 0.0193,
+       "saturation": 0.7881,
+       "rgb": [
+        0.0898,
+        0.195,
+        0.0413
+       ]
+      },
+      "above": {
+       "mean": 0.1522,
+       "spread": 0.3716,
+       "saturation": 0.8227,
+       "rgb": [
+        0.0806,
+        0.1856,
+        0.0312
+       ]
+      }
+     },
+     "now": {
+      "sky": {
+       "mean": 0.4,
+       "spread": 0.5509,
+       "saturation": 0.6416,
+       "rgb": [
+        0.2807,
+        0.4167,
+        0.5862
+       ]
+      },
+      "ground": {
+       "mean": 0.1556,
+       "spread": 0.0195,
+       "saturation": 0.7852,
+       "rgb": [
+        0.0858,
+        0.1879,
+        0.0403
+       ]
+      },
+      "above": {
+       "mean": 0.1454,
+       "spread": 0.396,
+       "saturation": 0.8192,
+       "rgb": [
+        0.0762,
+        0.1776,
+        0.0304
+       ]
+      }
+     }
+    }
+   },
+   "reads": {
+    "count": 64,
+    "settled": 64,
+    "maxRenders": 3
+   }
+  }
+ },
+ "data": {
+  "ok": true,
+  "rows": {
+   "golden": {
+    "beforeIsMain": true,
+    "nowIsMain": false,
+    "changed": [
+     "dir",
+     "environmentIntensity",
+     "hemiI",
+     "hemiS",
+     "shadowSky"
+    ]
+   },
+   "noon": {
+    "beforeIsMain": true,
+    "nowIsMain": false,
+    "changed": [
+     "dir"
+    ]
+   },
+   "summer": {
+    "beforeIsMain": true,
+    "nowIsMain": true,
+    "changed": []
+   },
+   "dawn": {
+    "beforeIsMain": true,
+    "nowIsMain": false,
+    "changed": [
+     "foliage",
+     "glaze",
+     "skyZenith"
+    ]
+   },
+   "midnight": {
+    "beforeIsMain": true,
+    "nowIsMain": false,
+    "changed": [
+     "foliage",
+     "glaze"
+    ]
+   },
+   "bluehour": {
+    "beforeIsMain": true,
+    "nowIsMain": false,
+    "changed": [
+     "exp",
+     "foliage",
+     "glaze",
+     "hemiI",
+     "hemiS",
+     "paintedSkyExposure",
+     "skyHorizon",
+     "skyZenith"
+    ]
+   },
+   "storm": {
+    "beforeIsMain": true,
+    "nowIsMain": false,
+    "changed": [
+     "cloudScale",
+     "glaze",
+     "grassSheen",
+     "paintedSkyExposure",
+     "skyCloudLit",
+     "skyCloudShade",
+     "wind"
+    ]
+   },
+   "mist": {
+    "beforeIsMain": true,
+    "nowIsMain": true,
+    "changed": []
+   },
+   "host": {
+    "beforeIsMain": true,
+    "nowIsMain": true,
+    "changed": []
+   }
+  }
+ },
+ "pictures": {
+  "bluehour/tee": {
+   "main": {
+    "frame": {
+     "mean": 66.5,
+     "saturation": 0.533
+    },
+    "sky": {
+     "mean": 48.7,
+     "saturation": 0.447
+    },
+    "ground": {
+     "mean": 76.8,
+     "saturation": 0.592
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 72.3,
+     "saturation": 0.435
+    },
+    "sky": {
+     "mean": 98.5,
+     "saturation": 0.429
+    },
+    "ground": {
+     "mean": 53.3,
+     "saturation": 0.473
+    }
+   }
+  },
+  "bluehour/toward": {
+   "main": {
+    "frame": {
+     "mean": 69.3,
+     "saturation": 0.539
+    },
+    "sky": {
+     "mean": 50.2,
+     "saturation": 0.426
+    },
+    "ground": {
+     "mean": 76.4,
+     "saturation": 0.656
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 74.5,
+     "saturation": 0.435
+    },
+    "sky": {
+     "mean": 100.8,
+     "saturation": 0.4
+    },
+    "ground": {
+     "mean": 49.4,
+     "saturation": 0.487
+    }
+   }
+  },
+  "golden/tee": {
+   "main": {
+    "frame": {
+     "mean": 116.1,
+     "saturation": 0.474
+    },
+    "sky": {
+     "mean": 178.5,
+     "saturation": 0.267
+    },
+    "ground": {
+     "mean": 61.3,
+     "saturation": 0.636
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 123.7,
+     "saturation": 0.464
+    },
+    "sky": {
+     "mean": 178.5,
+     "saturation": 0.267
+    },
+    "ground": {
+     "mean": 77.5,
+     "saturation": 0.613
+    }
+   }
+  },
+  "golden/above": {
+   "main": {
+    "frame": {
+     "mean": 67.5,
+     "saturation": 0.697
+    },
+    "sky": {
+     "mean": 65.4,
+     "saturation": 0.697
+    },
+    "ground": {
+     "mean": 71.5,
+     "saturation": 0.699
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 76.9,
+     "saturation": 0.68
+    },
+    "sky": {
+     "mean": 75.2,
+     "saturation": 0.682
+    },
+    "ground": {
+     "mean": 79,
+     "saturation": 0.682
+    }
+   }
+  },
+  "storm/tee": {
+   "main": {
+    "frame": {
+     "mean": 88.6,
+     "saturation": 0.498
+    },
+    "sky": {
+     "mean": 110.6,
+     "saturation": 0.253
+    },
+    "ground": {
+     "mean": 70.9,
+     "saturation": 0.692
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 82.8,
+     "saturation": 0.351
+    },
+    "sky": {
+     "mean": 93.8,
+     "saturation": 0.275
+    },
+    "ground": {
+     "mean": 73.1,
+     "saturation": 0.415
+    }
+   }
+  },
+  "storm/toward": {
+   "main": {
+    "frame": {
+     "mean": 92.4,
+     "saturation": 0.452
+    },
+    "sky": {
+     "mean": 113.8,
+     "saturation": 0.242
+    },
+    "ground": {
+     "mean": 71,
+     "saturation": 0.666
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 86.4,
+     "saturation": 0.332
+    },
+    "sky": {
+     "mean": 93.8,
+     "saturation": 0.276
+    },
+    "ground": {
+     "mean": 73.2,
+     "saturation": 0.401
+    }
+   }
+  },
+  "dawn/tee": {
+   "main": {
+    "frame": {
+     "mean": 135.8,
+     "saturation": 0.293
+    },
+    "sky": {
+     "mean": 179.2,
+     "saturation": 0.108
+    },
+    "ground": {
+     "mean": 101.7,
+     "saturation": 0.472
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 137.6,
+     "saturation": 0.244
+    },
+    "sky": {
+     "mean": 184.6,
+     "saturation": 0.086
+    },
+    "ground": {
+     "mean": 102.9,
+     "saturation": 0.392
+    }
+   }
+  },
+  "dawn/away": {
+   "main": {
+    "frame": {
+     "mean": 134.8,
+     "saturation": 0.342
+    },
+    "sky": {
+     "mean": 175.1,
+     "saturation": 0.093
+    },
+    "ground": {
+     "mean": 104.3,
+     "saturation": 0.555
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 135.4,
+     "saturation": 0.28
+    },
+    "sky": {
+     "mean": 178.2,
+     "saturation": 0.079
+    },
+    "ground": {
+     "mean": 103.7,
+     "saturation": 0.451
+    }
+   }
+  },
+  "midnight/tee": {
+   "main": {
+    "frame": {
+     "mean": 126.5,
+     "saturation": 0.456
+    },
+    "sky": {
+     "mean": 166.4,
+     "saturation": 0.241
+    },
+    "ground": {
+     "mean": 99.2,
+     "saturation": 0.577
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 126.3,
+     "saturation": 0.44
+    },
+    "sky": {
+     "mean": 166.4,
+     "saturation": 0.241
+    },
+    "ground": {
+     "mean": 100,
+     "saturation": 0.549
+    }
+   }
+  },
+  "midnight/toward": {
+   "main": {
+    "frame": {
+     "mean": 126.6,
+     "saturation": 0.476
+    },
+    "sky": {
+     "mean": 170.8,
+     "saturation": 0.268
+    },
+    "ground": {
+     "mean": 92.2,
+     "saturation": 0.649
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 125,
+     "saturation": 0.454
+    },
+    "sky": {
+     "mean": 170.8,
+     "saturation": 0.268
+    },
+    "ground": {
+     "mean": 90.3,
+     "saturation": 0.611
+    }
+   }
+  },
+  "noon/tee": {
+   "main": {
+    "frame": {
+     "mean": 139.7,
+     "saturation": 0.477
+    },
+    "sky": {
+     "mean": 176.1,
+     "saturation": 0.316
+    },
+    "ground": {
+     "mean": 116,
+     "saturation": 0.608
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 138.6,
+     "saturation": 0.478
+    },
+    "sky": {
+     "mean": 176.1,
+     "saturation": 0.316
+    },
+    "ground": {
+     "mean": 113.3,
+     "saturation": 0.61
+    }
+   }
+  },
+  "noon/above": {
+   "main": {
+    "frame": {
+     "mean": 105.9,
+     "saturation": 0.681
+    },
+    "sky": {
+     "mean": 104,
+     "saturation": 0.685
+    },
+    "ground": {
+     "mean": 104,
+     "saturation": 0.686
+    }
+   },
+   "now": {
+    "frame": {
+     "mean": 102.3,
+     "saturation": 0.683
+    },
+    "sky": {
+     "mean": 100.5,
+     "saturation": 0.688
+    },
+    "ground": {
+     "mean": 100.6,
+     "saturation": 0.688
+    }
+   }
+  }
+ },
+ "agreement": {
+  "measures": 505,
+  "worst": {
+   "path": "measures.bluehour.main.above.spread",
+   "a": 0.1708,
+   "b": 0.1713,
+   "d": 0.0005000000000000004
+  }
+ }
+}

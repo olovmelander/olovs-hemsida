@@ -113,6 +113,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   paints some), and a light without a `cloudShadow` casts none. Keep every
   other light's values when tuning it (`check-isolated.mjs` compares them with
   main's). See [the summer day](docs/visual-summer-2026-09-25.md).
+- A light may lay a glaze on the land (`glaze` in `painted-world-palette.mjs`):
+  the aerial perspective's fog step gives a share of every fogged colour to the
+  glaze's tint at its own brightness, and gives way over bright colours, so lamps
+  keep theirs. The storm brings its gale into the visible air (`lightWind` in
+  `one-wind.mjs`), never into the Kikaren's live reading. Keep the blue hour's
+  sky brighter than its land. `?lights=before` is each audited light as it was.
+  See [the nine lights](docs/visual-lights-2026-09-25.md).
 - Trees take slow stand-scale colour washes from position (`stand-tint.mjs`),
   near and far. The ground finish reads each surface's `SHADE` gloss, and draws
   bunker lips and path edges from the exact class fields. The ground tint's

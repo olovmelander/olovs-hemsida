@@ -36,7 +36,9 @@ export function preparedTintAllowed(search) {
     // nor do the water road pass's: the sun's road, the water's mirror, the waves' relief and the open sea are drawn
     'waterroad', 'watermirror', 'waterrelief', 'opensea',
     // nor do the water from above's: the water's cloud shade and its patches seen from above are drawn
-    'watercloud', 'waterlanes']);
+    'watercloud', 'waterlanes',
+    // nor does the lights audit's: the lights' colours, the glaze on the land and the storm's wind are drawn
+    'lights']);
   return [...params.keys()].every(key => displayOnly.has(key));
 }
 

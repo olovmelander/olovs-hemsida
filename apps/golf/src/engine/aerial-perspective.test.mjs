@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { Color, FogExp2 } from 'three/webgpu';
 import fs from 'node:fs';
-import { createAerialPerspective, valleyMistAmount, valleyMistBase, valleyMistOf, VALLEY_MIST } from './aerial-perspective.mjs';
+import { createAerialPerspective, glazeOf, GLAZE, valleyMistAmount, valleyMistBase, valleyMistOf, VALLEY_MIST } from './aerial-perspective.mjs';
 import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
 import { paintedAtmosphere } from './painted-world-palette.mjs';
 
@@ -94,5 +94,60 @@ describe('valley mist', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/createAerialPerspective\(fog, \{ sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON \}\)/);
     expect(main).toMatch(/aerialPerspective\.setMistBase\(valleyMistBase\(heights\)\)/);
+  });
+});
+
+describe('the light\'s glaze on the land', () => {
+  const lum = c => 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b;
+  /* the glaze as the fog node lays it, on the CPU: a share of the colour to the tint at its luminance, giving way when bright */
+  const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const glazed = (c, { tint, amount }) => {
+    const l = lum(c), a = amount * (1 - smooth(GLAZE.bright[0], GLAZE.bright[1], l));
+    return new Color(c.r + (tint.r * l - c.r) * a, c.g + (tint.g * l - c.g) * a, c.b + (tint.b * l - c.b) * a);
+  };
+  const GLAZED = ['bluehour', 'storm', 'dawn', 'midnight'];
+  it('is laid in the blue hour, the storm, dawn and the midnight sun alone, and in none before the audit', () => {
+    for (const name of Object.keys(ATMOSPHERE_PRESETS)) {
+      const g = glazeOf(paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]));
+      if (GLAZED.includes(name)) { expect(g.amount, name).toBeGreaterThan(0.1); expect(g.amount, name).toBeLessThan(0.5); }
+      else expect(g.amount, name).toBe(0);
+      expect(glazeOf(paintedAtmosphere(name, ATMOSPHERE_PRESETS[name], { before: true })).amount, name).toBe(0);
+    }
+  });
+  it('keeps a colour\'s brightness, and lays each light\'s colour: the blue hour\'s blue-grey, the storm\'s grey, dawn\'s rose, the midnight sun\'s gold', () => {
+    const turf = new Color(0x4a7827);
+    for (const name of GLAZED) {
+      const g = glazeOf(paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]));
+      expect(lum(g.tint), name).toBeCloseTo(1, 9);
+      expect(lum(glazed(turf, g)), name).toBeCloseTo(lum(turf), 9);
+    }
+    const tint = name => glazeOf(paintedAtmosphere(name, ATMOSPHERE_PRESETS[name])).tint;
+    expect(tint('bluehour').b).toBeGreaterThan(tint('bluehour').g); expect(tint('bluehour').g).toBeGreaterThan(tint('bluehour').r);
+    for (const c of ['r', 'g', 'b']) expect(tint('storm')[c]).toBeCloseTo(1, 0);
+    expect(tint('dawn').r).toBeGreaterThan(tint('dawn').g); expect(tint('dawn').r).toBeGreaterThan(tint('dawn').b);
+    expect(tint('midnight').r).toBeGreaterThan(tint('midnight').g); expect(tint('midnight').g).toBeGreaterThan(tint('midnight').b);
+    /* dawn's is rose, the midnight sun's gold: dawn's blue lies far nearer its green */
+    expect(tint('dawn').g / tint('dawn').b).toBeLessThan(0.7 * tint('midnight').g / tint('midnight').b);
+    /* the blue hour's turf goes from grass green to a cool blue-grey-green, its green share cut */
+    const t = glazed(turf, glazeOf(paintedAtmosphere('bluehour', ATMOSPHERE_PRESETS.bluehour)));
+    expect(t.b / t.g).toBeGreaterThan(2 * turf.b / turf.g);
+  });
+  it('gives way over bright colours: lamps pushed past white keep their own', () => {
+    const g = glazeOf(paintedAtmosphere('bluehour', ATMOSPHERE_PRESETS.bluehour)), lamp = new Color(6, 0.48, 0.4);
+    expect(glazed(lamp, g).toArray()).toEqual(lamp.toArray());
+    expect(glazed(new Color(0, 0, 0), g).toArray()).toEqual([0, 0, 0]);
+  });
+  it('is none without a glaze: the colour is the land\'s own, and set on the aerial perspective from the preset', () => {
+    const none = glazeOf({});
+    expect(none.amount).toBe(0);
+    const turf = new Color(0x4a7827);
+    expect(glazed(turf, none).toArray()).toEqual(turf.toArray());
+    const aerial = createAerialPerspective(new FogExp2(0xffffff, 0.0003));
+    aerial.setPreset(paintedAtmosphere('storm', ATMOSPHERE_PRESETS.storm));
+    expect(aerial.snapshot().glaze.amount).toBeCloseTo(0.35, 9);
+    aerial.setPreset(paintedAtmosphere('noon', ATMOSPHERE_PRESETS.noon));
+    expect(aerial.snapshot().glaze.amount).toBe(0);
+    const source = fs.readFileSync(new URL('./aerial-perspective.mjs', import.meta.url), 'utf8');
+    expect(source).toMatch(/vec4\(mix\(glazeColour\(output\.rgb, glazeTint, glazeAmount\), hazeColour, amount\), output\.a\)/);
   });
 });

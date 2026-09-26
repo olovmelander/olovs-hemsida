@@ -105,7 +105,7 @@ import { createSunShadowFilter } from './engine/sun-shadow.mjs';
 import { createShadowTint, shadowTintFor, sunUnderClouds } from './engine/shadow-tint.mjs';
 import { treeTint, vistaTint } from './engine/stand-tint.mjs';
 import { groundReliefBytes } from './engine/ground-relief.mjs';
-import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift } from './engine/one-wind.mjs';
+import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift, lightWind } from './engine/one-wind.mjs';
 import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
@@ -2034,7 +2034,12 @@ const LJUS2P = {
   ovader: 'storm', storm: 'storm',
 };
 const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
-const INITIAL_ATMOSPHERE = paintedAtmosphere(INITIAL_PRESET, PRESETS[INITIAL_PRESET]);
+/* THE NINE LIGHTS AFTER THE AUDIT (docs/visual-lights-2026-09-25.md): the blue
+   hour's luminous sky over a dark, cool land, golden hour's lighter shade, a
+   storm's heavy deck, wet course and gale, the land in dawn's rose and the
+   midnight sun's gold, noon's Swedish sun. ?lights=before is each as it was. */
+const LIGHTS_BEFORE_ON = new URLSearchParams(location.search).get('lights') === 'before';
+const INITIAL_ATMOSPHERE = paintedAtmosphere(INITIAL_PRESET, PRESETS[INITIAL_PRESET], { before: LIGHTS_BEFORE_ON });
 /* A glow where the light comes from in every sky with a low sun -- dawn, the
    midnight sun and autumn -- not in golden hour's alone.
    ?sunglow=0 is the before. */
@@ -2065,7 +2070,7 @@ function setPreset(name, overrides = null) {
   // Optional overrides let the visual review harness tune the live uniforms.
   // Normal UI/URL selection always uses the authored preset unchanged.
   const base = PRESETS[name] || PRESETS.golden;
-  const p = { ...paintedAtmosphere(PRESETS[name] ? name : 'golden', base), ...overrides };
+  const p = { ...paintedAtmosphere(PRESETS[name] ? name : 'golden', base, { before: LIGHTS_BEFORE_ON }), ...overrides };
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
   lightingEnvironment.setPreset(overrides ? `${presetName}:${JSON.stringify(overrides)}` : presetName, p);
@@ -6748,7 +6753,8 @@ function setFlagWind(fromDeg, ms, source, gustMs = null) {
 /* The one air follows the flags' wind, and carries the gusts, the sky's
    clouds and their shadows; reduced motion holds it still (one-wind.mjs). */
 function stepOneAir(dt) {
-  stepAir(AIR, dt, FLAG_WIND, { deterministic: DET, still: cameraMotionPreference.matches,
+  /* the storm brings its own gale into the air (one-wind.mjs lightWind); the flags' target stays the weather's */
+  stepAir(AIR, dt, lightWind(FLAG_WIND, preset.wind), { deterministic: DET, still: cameraMotionPreference.matches,
     skySpeed: skyMesh.cloudSpeed.value * 35, cloudPeriod: CLOUD ? CLOUD.period : Infinity });
   applyAir(AIR);
   if (CLOUD) CLOUD.setOffset(AIR.cloudX, AIR.cloudZ);
@@ -6776,8 +6782,9 @@ function poseFlagCloths(dt) {
     FLAG_PROJ.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
     FLAG_FRUSTUM.setFromProjectionMatrix(FLAG_PROJ, renderer.coordinateSystem, camera.reversedDepth ?? false);
   }
+  const wind = lightWind(FLAG_WIND, preset.wind);
   for (const p of pins) {
-    const s = stepFlagMotion(p.cs, dt, FLAG_WIND, DET);
+    const s = stepFlagMotion(p.cs, dt, wind, DET);
     p.g.rotation.y = s.yaw + s.swing;
     if (s.posed && !DET) {
       const distance2 = camera.position.distanceToSquared(p.g.position);
@@ -11995,7 +12002,9 @@ window.V3D = {
     shadowTint: shadowTint ? shadowTint.tint.value.toArray() : null, crownBackLight: CROWN_BACK_LIGHT ? foliageBack.value.toArray() : null,
     /* the air batch (docs/visual-air-2026-09-25.md): null where its before is asked for */
     wind: { oneWind: ONE_WIND_ON, ms: AIR.ms, axis: [AIR.axisX, AIR.axisZ], sway: AIR.sway, gust: [AIR.gustX, AIR.gustZ],
-      sky: [AIR.skyX, AIR.skyY, AIR.skyRun], target: { ms: FLAG_WIND.ms, fromDeg: FLAG_WIND.fromDeg, source: FLAG_WIND.source } },
+      sky: [AIR.skyX, AIR.skyY, AIR.skyRun], target: { ms: FLAG_WIND.ms, fromDeg: FLAG_WIND.fromDeg, source: FLAG_WIND.source },
+      /* the light's own wind (the storm's gale) over the target: what the air and the flags answer */
+      light: (({ ms, gust, source }) => ({ ms, gust, source }))(lightWind(FLAG_WIND, preset.wind)) },
     cloudShadow: CLOUD ? CLOUD.snapshot() : null }),
   /* GPU milliseconds since the previous resolve, summed over every render
      pass (shadow, scene, bloom); null unless the page booted with ?gputime=1 */

@@ -1,5 +1,5 @@
 import { Color, Vector3 } from 'three/webgpu';
-import { abs, cameraPosition, densityFogFactor, dot, exp, float, fog as applyFog, mix, normalize, positionWorld, pow, reference, renderGroup, saturate, select, uniform } from 'three/tsl';
+import { abs, cameraPosition, densityFogFactor, dot, exp, float, luminance, mix, normalize, output, positionWorld, pow, reference, renderGroup, saturate, select, smoothstep, uniform, vec4 } from 'three/tsl';
 
 /* Keep atmospheric perspective on the whole landscape, including tree tiers
  * and water. Fully opaque pale FogExp2 turned wooded ridges into white cutouts.
@@ -49,6 +49,35 @@ export function valleyMistBase(heights) {
   return h[Math.min(h.length - 1, Math.floor(h.length * VALLEY_MIST.basePercentile))];
 }
 
+/* THE LIGHT'S GLAZE ON THE LAND (docs/visual-lights-2026-09-25.md). Green turf
+   and crowns stay green under any light: a blue hour's blue fill or a storm's
+   grey only dims them, so the blue hour read as a lit lawn under a night sky.
+   A painter lays the light's colour over the whole land, so everything the haze
+   reaches -- ground, crowns, trunks, buildings, water -- gives a share of its
+   colour (`amount`) to the glaze's tint at its own brightness: the blue hour's
+   land goes blue-grey, a storm's grey, dawn's rose. The sky takes no haze and
+   no glaze. The glaze gives way over bright colours -- lamps pushed past white,
+   the sun's glints -- which keep their own. None where a light has none:
+   mix(c, ..., 0) is c, so those lights draw exactly what they did. */
+export const GLAZE = Object.freeze({
+  /* it gives way over this range of a colour's linear luminance */
+  bright: [0.5, 1.0],
+});
+
+/** A preset's glaze: `glaze: { tint, amount }` in its painted atmosphere, none without; the tint at unit luminance (linear). */
+export function glazeOf(preset, tint = new Color()) {
+  const g = preset?.glaze, amount = Math.min(1, Math.max(0, g?.amount ?? 0));
+  tint.setHex(amount > 0 ? g.tint ?? 0xffffff : 0xffffff);
+  tint.multiplyScalar(1 / Math.max(1e-3, 0.2126 * tint.r + 0.7152 * tint.g + 0.0722 * tint.b));
+  return { tint, amount };
+}
+
+/** A colour under a glaze: a share of it laid in the tint at its own luminance, giving way over bright colours. */
+export const glazeColour = (colour, tint, amount) => {
+  const l = luminance(colour);
+  return mix(colour, tint.mul(l), amount.mul(float(1).sub(smoothstep(GLAZE.bright[0], GLAZE.bright[1], l))));
+};
+
 /** A preset's valley mist: `valleyMist: { density, height }` in its painted atmosphere, none without. */
 export const valleyMistOf = preset => {
   const m = preset?.valleyMist;
@@ -80,7 +109,10 @@ export function createAerialPerspective(fog, { sunward = true, valleyMist = fals
   const hazeColour = sunward
     ? mix(colour, glow, sunwardLobe(normalize(positionWorld.sub(cameraPosition)), sun).mul(glowStrength)).toVertexStage()
     : colour;
-  const node = applyFog(hazeColour, amount);
+  /* the haze over the land's colour, as three's fog() lays it, the light's glaze first:
+     with no glaze (every light but those the audit gave one, and ?lights=before) the colour is the land's own */
+  const glazeTint = uniform(new Color(1, 1, 1)).setGroup(renderGroup), glazeAmount = uniform(0).setGroup(renderGroup);
+  const node = vec4(mix(glazeColour(output.rgb, glazeTint, glazeAmount), hazeColour, amount), output.a);
   const mistState = { density: 0, height: 1, base: 0 };
   return {
     node,
@@ -93,11 +125,13 @@ export function createAerialPerspective(fog, { sunward = true, valleyMist = fals
       const mist = valleyMist ? valleyMistOf(preset) : { density: 0, height: 1 };
       mistDensity.value = mistState.density = mist.density;
       mistHeight.value = mistState.height = mist.height;
+      glazeAmount.value = glazeOf(preset, glazeTint.value).amount;
     },
     /** the course's low ground, from valleyMistBase */
     setMistBase(base) { mistBase.value = mistState.base = Number.isFinite(base) ? base : 0; },
     snapshot: () => ({ density: fog.density, maximum: settings.maximum, colour: fog.color.getHex(),
-      glow: glow.value.getHex(), glowStrength: glowStrength.value, valleyMist: valleyMist ? { ...mistState } : null }),
+      glow: glow.value.getHex(), glowStrength: glowStrength.value, valleyMist: valleyMist ? { ...mistState } : null,
+      glaze: { tint: glazeTint.value.toArray(), amount: glazeAmount.value } }),
   };
 }
 

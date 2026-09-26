@@ -1,7 +1,7 @@
 import {describe,it,expect} from 'vitest';
 import {Color} from 'three/webgpu';
 import {ATMOSPHERE_PRESETS} from './atmosphere-presets.mjs';
-import {PAINTED_ATMOSPHERES,PAINTED_GROUND,AUTUMN_FOLIAGE,paintedAtmosphere} from './painted-world-palette.mjs';
+import {PAINTED_ATMOSPHERES,PAINTED_GROUND,AUTUMN_FOLIAGE,LIGHTS_BEFORE,paintedAtmosphere} from './painted-world-palette.mjs';
 import {setPaintedWorldLighting,paintedSeason,paintedDirect,paintedWaterShallow,paintedWaterDeep,paintedWaterLight,paintedWaterSparkle,paintedTurfStrength,paintedGrassSheen} from './painted-world-lighting.mjs';
 import {setFoliageLighting,foliageLight} from './ghibli-foliage-material.mjs';
 import {createAtmosphericSky,setAtmospherePreset,atmosphereState} from './atmospheric-sky.mjs';
@@ -57,6 +57,41 @@ describe('painted world palette',()=>{
     expect(horizon.b).toBeGreaterThan(horizon.r*2);
     /* a sunny day's water: more sparkle than noon's */
     expect(p.sparkle).toBeGreaterThan(PAINTED_ATMOSPHERES.noon.sparkle);
+  });
+  it('keeps the audit\'s lights: a luminous blue-hour sky over a dark land, golden hour\'s lifted shade, a heavy storm, the rose and gold land',()=>{
+    const p=name=>paintedAtmosphere(name,ATMOSPHERE_PRESETS[name]);
+    const elevation=q=>Math.asin(q.dir[1]/Math.hypot(...q.dir))*180/Math.PI;
+    /* the blue hour's sky is lit well past its land's fill: it was the other way round */
+    const blue=p('bluehour');
+    expect(blue.paintedSkyExposure).toBeGreaterThanOrEqual(.5);
+    expect(blue.hemiI*blue.paintedFill).toBeLessThan(1.3);
+    expect(blue.foliage.strength).toBeLessThan(.5);
+    /* a cobalt overhead: most of its light blue */
+    const zenith=new Color(blue.skyZenith);expect(zenith.b/(zenith.r+zenith.g+zenith.b)).toBeGreaterThan(.75);
+    /* golden hour: a sun that lights the ground it falls on, and more of the sky in the shade */
+    const gold=p('golden');
+    expect(elevation(gold)).toBeGreaterThan(11); expect(elevation(gold)).toBeLessThan(14);
+    expect(gold.hemiI).toBeGreaterThanOrEqual(1.8); expect(gold.shadowSky).toBeGreaterThanOrEqual(.14);
+    /* the storm's deck: broad forms in a narrow range of paint; a wet course; its gale */
+    const storm=p('storm'),lit=luminance(storm.skyCloudLit),shade=luminance(storm.skyCloudShade);
+    expect(lit/shade).toBeLessThan(1.5);
+    expect(luminance(PAINTED_ATMOSPHERES.storm.skyCloudLit)).toBeLessThan(luminance(0x9aaeba));
+    expect(storm.cloudScale).toBeLessThanOrEqual(ATMOSPHERE_PRESETS.storm.cloudScale/2);
+    expect(storm.grassSheen).toBeGreaterThan(.36); expect(storm.wind).toEqual({ms:12,gust:18});
+    /* dawn's and the midnight sun's crowns take their sun: less of it whitened away than the default 0.70 */
+    expect(p('dawn').foliage.sunWhite).toBeLessThan(.5); expect(p('midnight').foliage.sunWhite).toBeLessThan(.5);
+    /* noon's sun stands no higher than any Swedish sun does, 58 degrees at midsummer in Skåne */
+    expect(elevation(p('noon'))).toBeLessThan(58); expect(elevation(p('noon'))).toBeGreaterThan(elevation(p('summer')));
+  });
+  it('gives each audited light as it was with ?lights=before, and leaves the others as they are',()=>{
+    const before=name=>paintedAtmosphere(name,ATMOSPHERE_PRESETS[name],{before:true});
+    expect(before('bluehour')).toMatchObject({paintedSkyExposure:.20,hemiI:1.85,exp:1.14,skyZenith:0x284b95,foliage:{strength:.64,direct:.03}});
+    expect(before('golden')).toMatchObject({dir:[-0.56,0.15,0.71],hemiI:1.40,shadowSky:.10,environmentIntensity:.48});
+    expect(before('noon').dir).toEqual([-0.22,0.88,0.42]);
+    expect(before('storm')).toMatchObject({cloudScale:.00026,grassSheen:.36,paintedSkyExposure:.46});
+    for(const name of ['bluehour','storm','dawn','midnight'])expect(before(name).glaze,name).toBeUndefined();
+    for(const name of ['summer','mist','host'])expect(before(name)).toEqual(paintedAtmosphere(name,ATMOSPHERE_PRESETS[name]));
+    expect(Object.keys(LIGHTS_BEFORE).sort()).toEqual(['bluehour','dawn','golden','midnight','noon','storm']);
   });
   it('removes directional hot spots and water sparkle under diffuse lighting',()=>{
     for(const name of ['bluehour','storm','mist']){

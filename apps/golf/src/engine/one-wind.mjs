@@ -55,6 +55,22 @@ export function swayStrength(ms) {
     three turns the flag's local +x, which points downwind, to (cos yaw, -sin yaw). */
 export const downwindOf = yaw => [Math.cos(yaw), -Math.sin(yaw)];
 
+/* A LIGHT'S OWN WIND (docs/visual-lights-2026-09-25.md). The storm is weather:
+   it brings its gale into the visible air -- the trees, reeds, clouds, their
+   shadows, the water and the flags -- when the flags' wind (the live reading,
+   or the 4 m/s default) is weaker. `floor` is the light's `wind: { ms, gust }`
+   (painted-world-palette.mjs): the wind blows at least that hard, from where it
+   blew, gusting at least that high. A wind asked for with ?vind= is kept as
+   asked, and a light without a floor leaves the wind as it is. The Kikaren
+   reads the live weather itself, so its wind and its advice are untouched. */
+export function lightWind(wind, floor) {
+  if (!floor || !wind || wind.source === 'url') return wind;
+  const ms = Number.isFinite(wind.ms) ? Math.max(0, wind.ms) : ONE_WIND.referenceMs;
+  const gust = Number.isFinite(wind.gust) ? wind.gust : 0;
+  if (ms >= floor.ms && gust >= (floor.gust ?? 0)) return wind;
+  return { ...wind, ms: Math.max(ms, floor.ms), gust: Math.max(gust, floor.gust ?? 0) };
+}
+
 export function createAir() {
   return { x: null, z: null, ms: 0, axisX: 1, axisZ: 0, sway: 1,
     gustX: 0, gustZ: 0, cloudX: 0, cloudZ: 0, skyX: 0, skyY: 0, skyRun: 0 };

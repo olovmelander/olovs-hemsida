@@ -4,7 +4,9 @@
 import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { FLAG_DEFAULT_MS, flagWindYaw } from './flag-motion.mjs';
-import { ONE_WIND, createAir, downwindOf, gustAt, stepAir, swayStrength } from './one-wind.mjs';
+import { ONE_WIND, createAir, downwindOf, gustAt, lightWind, stepAir, swayStrength } from './one-wind.mjs';
+import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
+import { paintedAtmosphere } from './painted-world-palette.mjs';
 
 const wind = (fromDeg, ms) => ({ ms, yaw: flagWindYaw(fromDeg) });
 const run = (air, seconds, w, options = {}) => { for (let t = 0; t < seconds; t += 1 / 60) stepAir(air, 1 / 60, w, options); return air; };
@@ -96,11 +98,42 @@ describe('the one wind', () => {
   });
   it('is stepped every frame from the flags\' wind in main.js, and carries the trees, reeds and sky there', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-    expect(main).toMatch(/stepAir\(AIR, dt, FLAG_WIND, \{ deterministic: DET, still: cameraMotionPreference\.matches/);
+    expect(main).toMatch(/stepAir\(AIR, dt, lightWind\(FLAG_WIND, preset\.wind\), \{ deterministic: DET, still: cameraMotionPreference\.matches/);
     expect(main).toMatch(/applyAir\(AIR\)/);
     expect(main).toMatch(/poseFlagCloths\(dt\);\n  stepOneAir\(dt\);/);
     expect(main).toMatch(/swayOnWind\(\{ p: wp, weight, rate: 1\.35, swing: treeSwing\(LOCAL_HEIGHT\)/);
     expect(main).toMatch(/swayOnWind\(\{ p: wp, weight, rate: 2\.2, scale: 2, swing: reedSwing/);
     expect(main).toMatch(/drift: ONE_WIND_ON \? skyDrift : null/);
+  });
+});
+
+describe('a light\'s own wind', () => {
+  const storm = paintedAtmosphere('storm', ATMOSPHERE_PRESETS.storm).wind;
+  it('brings the storm\'s gale into the air when the weather\'s wind is weaker, from where it blew', () => {
+    expect(storm).toEqual({ ms: 12, gust: 18 });
+    const live = { fromDeg: 200, ms: 3, gust: 5, source: 'open-meteo', yaw: flagWindYaw(200) };
+    expect(lightWind(live, storm)).toEqual({ ...live, ms: 12, gust: 18 });
+    /* the default breeze, before any reading: 4 m/s from the west */
+    expect(lightWind({ fromDeg: null, ms: null, gust: null, source: 'default', yaw: 0 }, storm)).toMatchObject({ ms: 12, gust: 18, yaw: 0 });
+    /* a real gale already stronger is kept, and a stronger gust too */
+    const gale = { fromDeg: 250, ms: 15, gust: 24, source: 'open-meteo', yaw: flagWindYaw(250) };
+    expect(lightWind(gale, storm)).toBe(gale);
+    expect(lightWind({ ...gale, ms: 14, gust: 10 }, storm)).toMatchObject({ ms: 14, gust: 18 });
+  });
+  it('keeps a wind asked for with ?vind=, and leaves every other light\'s wind alone', () => {
+    const asked = { fromDeg: 270, ms: 2, gust: null, source: 'url', yaw: flagWindYaw(270) };
+    expect(lightWind(asked, storm)).toBe(asked);
+    for (const name of Object.keys(ATMOSPHERE_PRESETS)) {
+      if (name === 'storm') continue;
+      const wind = { fromDeg: 90, ms: 1, gust: null, source: 'open-meteo', yaw: flagWindYaw(90) };
+      expect(lightWind(wind, paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]).wind), name).toBe(wind);
+    }
+    /* ?lights=before: the storm without its wind */
+    expect(paintedAtmosphere('storm', ATMOSPHERE_PRESETS.storm, { before: true }).wind).toBeUndefined();
+  });
+  it('is what the air and the flags answer in main.js, while the Kikaren reads the weather itself', () => {
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toMatch(/const wind = lightWind\(FLAG_WIND, preset\.wind\);\n  for \(const p of pins\) \{\n    const s = stepFlagMotion\(p\.cs, dt, wind, DET\);/);
+    expect(main).toMatch(/windAlong\(bTo\(p\), wx\.windFromDeg, wx\.windMs\)/);
   });
 });
