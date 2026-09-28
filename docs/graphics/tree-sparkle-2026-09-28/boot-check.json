@@ -1,0 +1,269 @@
+{
+ "adapter": "swiftshader",
+ "rows": [
+  {
+   "name": "Ängsö, Kväll, the tee view, high quality",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&det=1&hal=1&ljus=kvall&vy=tee",
+   "seconds": 115,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "crowns": true,
+    "impostors": true,
+    "prepared": true
+   },
+   "got": {
+    "crowns": 5,
+    "crownMeshes": 5,
+    "impostors": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "settled": true,
+    "tierAudit": true,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "crownCuts": [
+     {
+      "coverage": true,
+      "blending": 5,
+      "alphaTest": 0.5,
+      "centred": true,
+      "shadowCut": true
+     }
+    ]
+   },
+   "expected": {
+    "coverage": true,
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, the tee view, low quality",
+   "q": "lo",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=lo&qualitylock=1&gl=1&det=1&hal=1&ljus=kvall&vy=tee",
+   "seconds": 102,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "crowns": true,
+    "impostors": true,
+    "prepared": true
+   },
+   "got": {
+    "crowns": 5,
+    "crownMeshes": 5,
+    "impostors": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "settled": true,
+    "tierAudit": true,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "crownCuts": [
+     {
+      "coverage": true,
+      "blending": 5,
+      "alphaTest": 0.5,
+      "centred": true,
+      "shadowCut": true
+     }
+    ]
+   },
+   "expected": {
+    "coverage": true,
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Ängsö, Kväll, the tee view, ?crowncoverage=0",
+   "q": "hi",
+   "url": "/?bana=angso&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&det=1&hal=1&ljus=kvall&vy=tee&crowncoverage=0",
+   "seconds": 125,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "crowns": true,
+    "impostors": true,
+    "prepared": true
+   },
+   "got": {
+    "crowns": 5,
+    "crownMeshes": 5,
+    "impostors": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "settled": true,
+    "tierAudit": true,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "crownCuts": [
+     {
+      "coverage": false,
+      "blending": 1,
+      "alphaTest": 0.5,
+      "centred": false,
+      "shadowCut": true
+     }
+    ]
+   },
+   "expected": {
+    "coverage": false,
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Puttom, Kväll, the 12th from the orbit",
+   "q": "hi",
+   "url": "/?bana=puttom&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&det=1&ljus=kvall&vy=fritt&hal=12",
+   "seconds": 197,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "crowns": true,
+    "impostors": true,
+    "prepared": true
+   },
+   "got": {
+    "crowns": 3,
+    "crownMeshes": 3,
+    "impostors": [
+     true,
+     true,
+     true
+    ],
+    "settled": true,
+    "tierAudit": true,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "water": true,
+     "scatter": {
+      "reeds": true,
+      "cover": true,
+      "edge": true
+     }
+    },
+    "crownCuts": [
+     {
+      "coverage": true,
+      "blending": 5,
+      "alphaTest": 0.5,
+      "centred": true,
+      "shadowCut": true
+     }
+    ]
+   },
+   "expected": {
+    "coverage": true,
+    "scatterSections": [
+     "cover",
+     "edge",
+     "reeds"
+    ]
+   },
+   "errors": []
+  },
+  {
+   "name": "Visby, Kväll, the tee view",
+   "q": "hi",
+   "url": "/?bana=visby&v2=require&ghibli=1&q=hi&qualitylock=1&gl=1&det=1&hal=1&ljus=kvall&vy=tee",
+   "seconds": 97,
+   "checks": {
+    "noErrors": true,
+    "tierAudit": true,
+    "settled": true,
+    "crowns": true,
+    "impostors": true,
+    "prepared": true
+   },
+   "got": {
+    "crowns": 5,
+    "crownMeshes": 5,
+    "impostors": [
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "settled": true,
+    "tierAudit": true,
+    "prepared": {
+     "tint": true,
+     "vista": true,
+     "scatter": {}
+    },
+    "crownCuts": [
+     {
+      "coverage": true,
+      "blending": 5,
+      "alphaTest": 0.5,
+      "centred": true,
+      "shadowCut": true
+     }
+    ]
+   },
+   "expected": {
+    "coverage": true,
+    "scatterSections": []
+   },
+   "errors": []
+  }
+ ]
+}

@@ -1,0 +1,386 @@
+{
+ "adapter": "swiftshader",
+ "baseline": "f05006e8",
+ "size": [
+  640,
+  400
+ ],
+ "steps": 12,
+ "yawDegrees": 0.015,
+ "backends": {
+  "webgl2": {
+   "checks": [
+    {
+     "label": "the before (?crowncoverage=0) is main's crown, value for value, in every frame, colour and mask",
+     "ok": true,
+     "maxDiff": 0
+    },
+    {
+     "label": "the flashes: fewer through the samples, and the strongest (over 120/255) far fewer",
+     "ok": true,
+     "before": {
+      "flipsPerStep": 307.6667,
+      "over80PerStep": 177.0833,
+      "over120PerStep": 103.25,
+      "area": 24467,
+      "areaChurnPerStep": 0.0004,
+      "shimmerPerStep": 369,
+      "wholeFlipsPerStep": 193.0833,
+      "minAlpha": 1
+     },
+     "coverage": {
+      "flipsPerStep": 301.4167,
+      "over80PerStep": 82.6667,
+      "over120PerStep": 7.3333,
+      "area": 24443,
+      "areaChurnPerStep": 0.0003,
+      "shimmerPerStep": 369,
+      "wholeFlipsPerStep": 6.3333,
+      "minAlpha": 1
+     }
+    },
+    {
+     "label": "the crowns keep the hard cut's area within one per cent",
+     "ok": true,
+     "before": 24467,
+     "coverage": 24443,
+     "change": -0.001
+    },
+    {
+     "label": "the silhouette moves by parts of a pixel: whole-pixel flips far fewer, over the same swept area",
+     "ok": true,
+     "before": {
+      "wholeFlips": 193.0833,
+      "swept": 369
+     },
+     "coverage": {
+      "wholeFlips": 6.3333,
+      "swept": 369
+     }
+    },
+    {
+     "label": "the crowns keep their colour: the mean over the pixels they cover within one per cent",
+     "ok": true,
+     "before": [
+      0.033,
+      0.0665,
+      0.0205
+     ],
+     "coverage": [
+      0.033,
+      0.0666,
+      0.0205
+     ],
+     "worstShare": 0.0006
+    },
+    {
+     "label": "the frame stays opaque: no pixel's alpha under 1",
+     "ok": true,
+     "before": 1,
+     "coverage": 1
+    },
+    {
+     "label": "the cut through the samples is on for the new crowns and off for main's and the before",
+     "ok": true,
+     "coverage": {
+      "gran": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "tall": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "bjork": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "ek": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "al": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      }
+     }
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "page": {
+    "ready": true,
+    "backend": "webgl2",
+    "reversedDepth": false,
+    "trees": 32,
+    "rows": [
+     [
+      60,
+      3
+     ],
+     [
+      120,
+      5
+     ],
+     [
+      240,
+      9
+     ],
+     [
+      480,
+      15
+     ]
+    ],
+    "coverage": {
+     "gran": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "tall": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "bjork": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "ek": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "al": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     }
+    }
+   },
+   "measured": {
+    "before": {
+     "flipsPerStep": 307.6667,
+     "over80PerStep": 177.0833,
+     "over120PerStep": 103.25,
+     "area": 24467,
+     "areaChurnPerStep": 0.0004,
+     "shimmerPerStep": 369,
+     "wholeFlipsPerStep": 193.0833,
+     "minAlpha": 1
+    },
+    "coverage": {
+     "flipsPerStep": 301.4167,
+     "over80PerStep": 82.6667,
+     "over120PerStep": 7.3333,
+     "area": 24443,
+     "areaChurnPerStep": 0.0003,
+     "shimmerPerStep": 369,
+     "wholeFlipsPerStep": 6.3333,
+     "minAlpha": 1
+    }
+   }
+  },
+  "webgpu": {
+   "checks": [
+    {
+     "label": "the before (?crowncoverage=0) is main's crown, value for value, in every frame, colour and mask",
+     "ok": true,
+     "maxDiff": 0
+    },
+    {
+     "label": "the flashes: fewer through the samples, and the strongest (over 120/255) far fewer",
+     "ok": true,
+     "before": {
+      "flipsPerStep": 305.1667,
+      "over80PerStep": 178.75,
+      "over120PerStep": 104.75,
+      "area": 24465,
+      "areaChurnPerStep": 0.0004,
+      "shimmerPerStep": 368,
+      "wholeFlipsPerStep": 193.9167,
+      "minAlpha": 1
+     },
+     "coverage": {
+      "flipsPerStep": 301,
+      "over80PerStep": 86.6667,
+      "over120PerStep": 7.5833,
+      "area": 24442,
+      "areaChurnPerStep": 0.0002,
+      "shimmerPerStep": 370,
+      "wholeFlipsPerStep": 4.8333,
+      "minAlpha": 1
+     }
+    },
+    {
+     "label": "the crowns keep the hard cut's area within one per cent",
+     "ok": true,
+     "before": 24465,
+     "coverage": 24442,
+     "change": -0.0009
+    },
+    {
+     "label": "the silhouette moves by parts of a pixel: whole-pixel flips far fewer, over the same swept area",
+     "ok": true,
+     "before": {
+      "wholeFlips": 193.9167,
+      "swept": 368
+     },
+     "coverage": {
+      "wholeFlips": 4.8333,
+      "swept": 370
+     }
+    },
+    {
+     "label": "the crowns keep their colour: the mean over the pixels they cover within one per cent",
+     "ok": true,
+     "before": [
+      0.033,
+      0.0665,
+      0.0205
+     ],
+     "coverage": [
+      0.0331,
+      0.0666,
+      0.0205
+     ],
+     "worstShare": 0.001
+    },
+    {
+     "label": "the frame stays opaque: no pixel's alpha under 1",
+     "ok": true,
+     "before": 1,
+     "coverage": 1
+    },
+    {
+     "label": "the cut through the samples is on for the new crowns and off for main's and the before",
+     "ok": true,
+     "coverage": {
+      "gran": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "tall": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "bjork": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "ek": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      },
+      "al": {
+       "main": false,
+       "before": false,
+       "coverage": true
+      }
+     }
+    },
+    {
+     "label": "no page or console error",
+     "ok": true,
+     "errors": []
+    }
+   ],
+   "page": {
+    "ready": true,
+    "backend": "webgpu",
+    "reversedDepth": true,
+    "trees": 32,
+    "rows": [
+     [
+      60,
+      3
+     ],
+     [
+      120,
+      5
+     ],
+     [
+      240,
+      9
+     ],
+     [
+      480,
+      15
+     ]
+    ],
+    "coverage": {
+     "gran": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "tall": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "bjork": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "ek": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     },
+     "al": {
+      "main": false,
+      "before": false,
+      "coverage": true
+     }
+    }
+   },
+   "measured": {
+    "before": {
+     "flipsPerStep": 305.1667,
+     "over80PerStep": 178.75,
+     "over120PerStep": 104.75,
+     "area": 24465,
+     "areaChurnPerStep": 0.0004,
+     "shimmerPerStep": 368,
+     "wholeFlipsPerStep": 193.9167,
+     "minAlpha": 1
+    },
+    "coverage": {
+     "flipsPerStep": 301,
+     "over80PerStep": 86.6667,
+     "over120PerStep": 7.5833,
+     "area": 24442,
+     "areaChurnPerStep": 0.0002,
+     "shimmerPerStep": 370,
+     "wholeFlipsPerStep": 4.8333,
+     "minAlpha": 1
+    }
+   }
+  }
+ },
+ "backendsAgree": {
+  "areaChange": [
+   -0.001,
+   -0.0009
+  ],
+  "over120Share": [
+   0.071,
+   0.0724
+  ]
+ }
+}

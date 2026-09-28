@@ -1,0 +1,138 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Crown sparkle: isolated check</title>
+<!-- The player's own Hero trees (all five species, crown depth baked, lit as
+     golden hour lights them) standing in rows from 60 m to 480 m against a
+     golden-hour sky, drawn through 4x MSAA as the player draws them, with three
+     crown cuts: main's material (generated from git by check-isolated.mjs), the
+     before (?crowncoverage=0) and the cut through the samples. Each frame is
+     read back linear from a half-float target: the colour, and a mask (black
+     crowns and trunks on white) whose value is exactly 1 - coverage. Served
+     from the repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+if (globalThis.GPUTexture) {
+  const createView = GPUTexture.prototype.createView;
+  GPUTexture.prototype.createView = function (d) { if (d && d.swizzle === 'rgba') { d = { ...d }; delete d.swizzle; } return createView.call(this, d); };
+}
+try {
+  const THREE = await import('three/webgpu');
+  const { uniform, float, vec3 } = await import('three/tsl');
+  const { fetchGlb, loadFoliageAtlas, fitFoliageTier } = await import('/apps/golf/src/engine/ghibli-tree-assets.mjs');
+  const { makeGhibliFoliageMaterial, setFoliageLighting } = await import('/apps/golf/src/engine/ghibli-foliage-material.mjs');
+  const MAIN = await import('./main-ghibli-foliage-material.gen.mjs');
+  const { bakeCrownDepth } = await import('/apps/golf/src/engine/crown-depth.mjs');
+  const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+  const { paintedAtmosphere } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+
+  const q = new URLSearchParams(location.search);
+  const forceWebGL = q.get('backend') === 'webgl2';
+  const W = +(q.get('w') || 640), H = +(q.get('h') || 400);
+  const renderer = new THREE.WebGPURenderer({ antialias: true, samples: 4, outputBufferType: THREE.HalfFloatType,
+    forceWebGL, reversedDepthBuffer: !forceWebGL });
+  await renderer.init();
+  renderer.setPixelRatio(1);
+  renderer.setSize(W, H);
+  document.body.append(renderer.domElement);
+
+  /* golden hour, as the player lights its crowns (main.js setPreset -> setFoliageLighting) */
+  const golden = paintedAtmosphere('golden', ATMOSPHERE_PRESETS.golden);
+  setFoliageLighting(golden);
+  MAIN.setFoliageLighting(golden);
+  const uSun = uniform(new THREE.Vector3(...golden.dir).normalize());
+
+  /* the sky behind the crowns in the app's own tee view at golden hour (linear, measured) */
+  const SKY = new THREE.Color().setRGB(0.82, 0.42, 0.18, THREE.LinearSRGBColorSpace);
+  const GROUND = new THREE.Color().setRGB(0.05, 0.09, 0.03, THREE.LinearSRGBColorSpace);
+  const scene = new THREE.Scene();
+  const groundMat = new THREE.MeshBasicNodeMaterial({ color: GROUND });
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(8000, 8000).rotateX(-Math.PI / 2), groundMat);
+  scene.add(ground);
+
+  const treeBase = '/apps/golf/public/models/trees/';
+  const manifest = await (await fetch(treeBase + 'ghibli-fluffy.json')).json();
+  const KEYS = ['gran', 'tall', 'bjork', 'ek', 'al'];
+  const trees = {};
+  for (const key of KEYS) {
+    const entry = manifest.species.find(e => e.foliage.key === key);
+    const variant = entry.variants[0], rec = variant.tiers.hero;
+    const map = await loadFoliageAtlas(treeBase, entry.foliage.atlas, fetch);
+    const model = await fetchGlb(treeBase + rec.file, rec, fetch);
+    fitFoliageTier(model, variant.templateHeight, variant.templateRadius);
+    bakeCrownDepth(model.crown);
+    const opts = { key, map, sunDirection: uSun, tint: vec3(1), seed: float(0.5), autumn: float(0) };
+    /* each cut, in colour and as a mask: the mask is the same cut built again with a black
+       colour (not a clone: three's NodeMaterial.copy does not carry alphaTest) */
+    const make = {
+      main: () => MAIN.makeGhibliFoliageMaterial(opts),
+      before: () => makeGhibliFoliageMaterial({ ...opts, coverage: false }),
+      coverage: () => makeGhibliFoliageMaterial(opts),
+    };
+    const cuts = {}, masks = {};
+    for (const [name, build] of Object.entries(make)) {
+      cuts[name] = build();
+      const k = build(); k.colorNode = vec3(0); masks[name] = k;
+    }
+    const trunk = new THREE.MeshBasicNodeMaterial({ color: new THREE.Color().setRGB(...model.trunkMean.map(v => v * 0.35)) });
+    trees[key] = { model, cuts, masks, trunk, trunkMask: new THREE.MeshBasicNodeMaterial({ color: 0x000000 }) };
+  }
+
+  /* rows of trees from 60 m to 480 m, each species in turn, turned and spaced by a fixed hash */
+  const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+  const ROWS = [[60, 3], [120, 5], [240, 9], [480, 15]];
+  const crowns = [], trunks = [];
+  let k = 0;
+  for (const [d, n] of ROWS) {
+    const half = d * 0.62;
+    for (let i = 0; i < n; i++, k++) {
+      const key = KEYS[k % KEYS.length], t = trees[key];
+      const x = -half + (i + 0.5) * (2 * half / n) + (hash(k) - 0.5) * 6, z = d + (hash(k + 50) - 0.5) * 12;
+      const crown = new THREE.Mesh(t.model.crown, t.cuts.coverage), trunk = new THREE.Mesh(t.model.trunk, t.trunk);
+      for (const m of [crown, trunk]) { m.position.set(x, 0, z); m.rotation.y = hash(k + 99) * Math.PI * 2; m.frustumCulled = false; scene.add(m); }
+      crowns.push({ mesh: crown, key }); trunks.push({ mesh: trunk, key });
+    }
+  }
+
+  const camera = new THREE.PerspectiveCamera(48, W / H, 1, 6000);
+  const rt = new THREE.RenderTarget(W, H, { samples: 4, type: THREE.HalfFloatType, depthBuffer: true });
+  const half = h => {
+    const s = (h & 0x8000) ? -1 : 1, e = (h >> 10) & 0x1f, f = h & 0x3ff;
+    return e === 0 ? s * 2 ** -14 * (f / 1024) : e === 31 ? (f ? NaN : s * Infinity) : s * 2 ** (e - 15) * (1 + f / 1024);
+  };
+  const b64 = a => { const u = new Uint8Array(a.buffer, a.byteOffset, a.byteLength); let s = ''; for (let i = 0; i < u.length; i += 32768) s += String.fromCharCode(...u.subarray(i, i + 32768)); return btoa(s); };
+
+  /* one frame of a cut, at a yaw in degrees: colour or mask, linear RGBA as float32 */
+  window.__frame = async ({ cut, yaw, mask }) => {
+    for (const c of crowns) c.mesh.material = (mask ? trees[c.key].masks : trees[c.key].cuts)[cut];
+    for (const t of trunks) t.mesh.material = mask ? trees[t.key].trunkMask : trees[t.key].trunk;
+    ground.visible = !mask;
+    scene.background = mask ? new THREE.Color(0xffffff) : SKY;
+    camera.position.set(0, 1.7, 0);
+    const a = THREE.MathUtils.degToRad(yaw);
+    camera.lookAt(Math.sin(a) * 100, 1.7 + 100 * Math.tan(THREE.MathUtils.degToRad(6)), Math.cos(a) * 100);
+    renderer.setRenderTarget(rt);
+    renderer.render(scene, camera);
+    renderer.setRenderTarget(null);
+    const raw = await renderer.readRenderTargetPixelsAsync(rt, 0, 0, W, H);
+    const out = new Float32Array(W * H * 4);
+    if (raw instanceof Uint16Array) for (let i = 0; i < out.length; i++) out[i] = half(raw[i]);
+    else out.set(raw);
+    return b64(out);
+  };
+  window.__result = { ready: true, backend: renderer.backend.isWebGPUBackend ? 'webgpu' : 'webgl2',
+    reversedDepth: renderer.reversedDepthBuffer === true, trees: crowns.length, rows: ROWS,
+    coverage: Object.fromEntries(KEYS.map(key => [key, { main: trees[key].cuts.main.alphaToCoverage,
+      before: trees[key].cuts.before.alphaToCoverage, coverage: trees[key].cuts.coverage.alphaToCoverage }])) };
+} catch (error) {
+  window.__result = { ready: false, error: String(error?.stack || error).slice(0, 1500) };
+}
+</script>
