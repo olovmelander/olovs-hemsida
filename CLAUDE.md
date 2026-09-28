@@ -94,6 +94,14 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   reach the view keep their trees as impostors. Keep mesh and impostor shadows
   in agreement with `tools/check-tree-shadows.mjs`; see
   [tree shadows when zooming out](docs/tree-shadows-zoom.md).
+- Cut every cutout through the MSAA samples (`msaa-coverage.mjs`): the mesh
+  crowns' leaf cards as the impostors. A hard alpha test keeps or drops whole
+  pixels, which MSAA does not smooth, so every crown's gaps and edges sparkled
+  against the sky as the camera moved. The crowns' cut is centred on 0.5
+  (`centredCoverageCut`) so a crown keeps its area, keeps the blend that leaves
+  an opaque backdrop opaque (`coverOpaqueBackdrop`), and leaves the shadow
+  pass its own cut. `?crowncoverage=0` is the before. See
+  [the sparkling crowns](docs/tree-sparkle-2026-09-28.md).
 - The sky draws after the opaque world (render order 0.5). Keep opaque world
   objects at order 0 and writing depth, and overlays at 1 and up;
   `sky-draw-order.test.mjs` checks every order in `main.js`. In instanced

@@ -1,6 +1,7 @@
 import {Color,MeshBasicNodeMaterial,MeshStandardNodeMaterial,DoubleSide} from 'three/webgpu';
 import {abs,cameraPosition,color,dot,float,fract,mix,mx_noise_float,normalize,normalWorldGeometry,positionLocal,positionWorld,pow,saturate,smoothstep,texture,uniform,vec2,vec3} from 'three/tsl';
 import {FOLIAGE_PALETTES,AUTUMN_FOLIAGE} from './painted-world-palette.mjs';
+import {coverOpaqueBackdrop,centredCoverageCut} from './msaa-coverage.mjs';
 export {FOLIAGE_PALETTES} from './painted-world-palette.mjs';
 
 export const foliageLight=uniform(new Color(0xffffff));
@@ -116,14 +117,26 @@ export function foliageSurfacePigment(texel){
 // so shadows faded as the camera pulled back (docs/tree-shadows-zoom.md). The
 // colour pass never read `map` -- colorNode and opacityNode replace it -- so
 // it is unchanged. mipShadow (?foliageshadow=mip) is the before.
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null}){
+//
+// THE CARDS' CUT, THROUGH THE SAMPLES. The colour pass cut the cards with a
+// hard alpha test at 0.5: each pixel all leaf or all sky, which MSAA does not
+// smooth, so as the camera moved every sub-pixel gap and edge of a crown
+// flipped, and the crowns sparkled against the bright sky -- the sparkle the
+// owner saw moving the camera (docs/tree-sparkle-2026-09-28.md). With
+// `coverage` the same cut chooses the pixel's MSAA samples, as the impostors'
+// already does (msaa-coverage.mjs), centred on 0.5 so a crown keeps its area.
+// The shadow pass keeps its own cut (maskShadowNode, and the 0.5 it copies).
+// coverage=false (?crowncoverage=0) is the before.
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
   m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel,
     backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null,sunlit});
   if(map){
     const texel=texture(map);
     m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;
-    m.alphaTest=.5;m.alphaToCoverage=false;
+    m.alphaTest=.5;
+    if(coverage){coverOpaqueBackdrop(m);m.alphaTestNode=centredCoverageCut(texel.a,m.alphaTest);}
+    else m.alphaToCoverage=false;
     if(mipShadow)m.map=map;
     else m.maskShadowNode=texture(map).level(0).a.greaterThan(.5);
   }

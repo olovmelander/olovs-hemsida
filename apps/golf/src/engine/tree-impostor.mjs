@@ -25,6 +25,7 @@ import {
 } from 'three/tsl';
 import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
 import { paintedFoliageColour, foliageLight, foliageSurfacePigment, foliageFacingSun, IMPOSTOR_BACK_EDGE } from './ghibli-foliage-material.mjs';
+import { coverOpaqueBackdrop } from './msaa-coverage.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
  *  0 view-space normal, 1 dot(normal, view) in world, 2 the same in the
@@ -312,19 +313,8 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
 
 /* --------------------------------------------------------------- material */
 
-function enableImpostorCoverage(material) {
-  material.alphaToCoverage = true;
-  /* Alpha selects MSAA samples; RGB replaces each covered sample. Preserve
-     an opaque backdrop's alpha too: overwriting it with coverage makes the
-     resolved frame translucent. The output colour transform then unpremultiplies
-     that already-composited RGB, leaving dark hollow outlines without bloom. */
-  material.blending = THREE.CustomBlending;
-  material.blendEquation = material.blendEquationAlpha = THREE.AddEquation;
-  material.blendSrc = THREE.OneFactor;
-  material.blendDst = THREE.ZeroFactor;
-  material.blendSrcAlpha = THREE.OneFactor;
-  material.blendDstAlpha = THREE.OneMinusSrcAlphaFactor;
-}
+/* the impostor's coverage, shared with the mesh crowns' cards (msaa-coverage.mjs) */
+const enableImpostorCoverage = coverOpaqueBackdrop;
 
 /**
  * The impostor material: a lit billboard. Instances come from an

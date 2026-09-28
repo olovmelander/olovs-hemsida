@@ -1924,6 +1924,11 @@ const LOCAL_HEIGHT = new URLSearchParams(location.search).get('localheight') ===
 /* Crowns glow at the edge against a low sun, meshes and impostors alike
    (ghibli-foliage-material.mjs foliageBackLight); ?backlight=0 is the before. */
 const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !== '0';
+/* The mesh crowns' leaf cards are cut through the MSAA samples, as the
+   impostors' crowns are, not all-or-nothing per pixel: their gaps and edges no
+   longer sparkle against the sky as the camera moves (ghibli-foliage-material.mjs,
+   msaa-coverage.mjs; docs/tree-sparkle-2026-09-28.md). ?crowncoverage=0 is the before. */
+const CROWN_COVERAGE_ON = new URLSearchParams(location.search).get('crowncoverage') !== '0';
 /* Trees take their colour from broad washes across a stand as well as their own
    (stand-tint.mjs), near and far; ?standtint=0 is the before, each tree's own speckle. */
 const STAND_TINT_ON = new URLSearchParams(location.search).get('standtint') !== '0';
@@ -5113,7 +5118,7 @@ const TREE_LOD = {
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT });
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
