@@ -48,6 +48,8 @@ export function preparedTintAllowed(search) {
     'turfgrain', 'groundwear', 'bareground',
     // nor does the grass round the ball: its blades are drawn round the eye, from the ground's own fields
     'neargrass',
+    // nor does the crowns' cut through the MSAA samples: the leaf cards' cut is drawn
+    'crowncoverage',
     // and the surface relief pilot, which the painted finish never read
     'surfaceRelief']);
   return [...params.keys()].every(key => displayOnly.has(key));
