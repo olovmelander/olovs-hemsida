@@ -122,6 +122,7 @@ import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { loadGolfCart, placeGolfCarts } from './engine/golf-cart-prop.mjs';
 import { createBirds } from './engine/birds.mjs';
+import { createButterflies } from './engine/butterflies.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
 import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
@@ -2115,6 +2116,13 @@ if (airMotes) {
 const BIRDS_ON = new URLSearchParams(location.search).get('birds') !== '0';
 const birds = BIRDS_ON ? createBirds({ deterministic: DET }) : null;
 if (birds) scene.add(birds.mesh);
+/* Butterflies round the eye in the low views (engine/butterflies.mjs, after
+   serenity-blocks' Odyssey meadow life): brimstone, cabbage white, common blue and
+   small tortoiseshell weaving over the turf, faded by their size on screen.
+   ?butterflies=0 is the before. */
+const BUTTERFLIES_ON = new URLSearchParams(location.search).get('butterflies') !== '0';
+const butterflies = BUTTERFLIES_ON ? createButterflies({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (butterflies) scene.add(butterflies.mesh);
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2216,6 +2224,7 @@ function setPreset(name, overrides = null) {
   aerialPerspective.setPreset(skyPreset(p, presetName));
   airMotes?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   birds?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun, sky: fog.color.getHex() });
+  butterflies?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -11575,6 +11584,7 @@ function frame() {
   nearGrass?.update(camera, renderer.domElement.height);
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   updateStrategy(now);
   fitStrategyLabels();
   kikTagUpdate();
@@ -11616,6 +11626,7 @@ if (VALLEY_MIST_ON) {
   /* shown or hidden by the opening light before the opening scene is compiled */
   airMotes?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
   birds?.update({ dt: 0, groundY: terrainH(camera.position.x, camera.position.z) });
+  butterflies?.update({ dt: 0, camera, groundY: terrainH(camera.position.x, camera.position.z) });
 }
 
 if (COURSE_DATA_READY) {
@@ -12362,6 +12373,7 @@ window.V3D = {
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   airMotes: () => airMotes?.snapshot() ?? null,
   birds: () => birds?.snapshot() ?? null,
+  butterflies: () => butterflies?.snapshot() ?? null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
