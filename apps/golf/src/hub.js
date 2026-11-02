@@ -3,6 +3,10 @@ import { goToCourse } from './shell/router.js';
 import { packRequestUrl } from './loader/pack.js';
 
 const boot = document.getElementById('boot');
+/* The bare route never loads the player, so its HUD is placeholder markup ("1",
+   "—", the camera buttons): it showed through the chooser's 95%-opaque glass
+   and its buttons sat in the tab order behind it. index.html hides it. */
+document.body.classList.add('hub');
 const message = document.getElementById('bmsg');
 const bar = document.querySelector('#bar i');
 

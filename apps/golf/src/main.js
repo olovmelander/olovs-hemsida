@@ -169,6 +169,7 @@ import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 import { steadyShadowAlpha } from './engine/steady-shadow-alpha.mjs';
 import { shadowSnapCell, sameShadowCell } from './engine/shadow-cell.mjs';
 import { SHADOW_FITS, SHADOW_FIT_TUNED, chooseShadowFit, shadowBoxFor } from './engine/shadow-fit.mjs';
+import { CAMERA_CYCLE, createShortcutKeys, nextInCycle } from './engine/keyboard-shortcuts.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
    the flag-cloth wave -- so two boots render the same pixels. Phase 0 proved the
@@ -10634,6 +10635,30 @@ gridBtn.onclick = () => {
   });
 }
 
+/* engine/keyboard-shortcuts.mjs turns a key into one of these; the menu lists
+   the same table. A named view or another hole ends a flight first, the way
+   the rail's own flight button does, so the new view is not fought over. */
+function leaveFlightForKey() {
+  if (tour) endTour({ preserveView: true });
+  else if (flying > 0) stopFlight({ preserveView: true });
+}
+const shortcutKeys = createShortcutKeys({ holes: NHOLES, onAction: ({ type, hole: n }) => {
+  if (type === 'hole') goHole(n, true);
+  else if (type === 'next') goHole(hole >= NHOLES ? 1 : hole + 1, true);
+  else if (type === 'prev') goHole(hole <= 1 ? NHOLES : hole - 1, true);
+  else if (type === 'camera') { leaveFlightForKey(); setCam(nextInCycle(CAMERA_CYCLE, camMode)); }
+  else if (type === 'light') {
+    const order = [...document.querySelectorAll('#rail [data-preset]')].map(b => b.dataset.preset);
+    const next = nextInCycle(order, presetName);
+    if (next) {
+      setPreset(next);
+      toast(document.querySelector(`#rail [data-preset="${next}"]`)?.textContent.trim() || next);
+    }
+  }
+  else if (type === 'flight') document.getElementById('flyBtn').click();
+  else if (type === 'clean') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
+  else if (type === 'markers') setSky(skyState + 1);
+} });
 addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   /* Typing is not steering. A letter meant for a text field -- the chooser's
@@ -10645,11 +10670,12 @@ addEventListener('keydown', e => {
      class is read, not `railOpen`: that is declared further down the module,
      and a key can arrive during one of the awaits in between. */
   if (e.target?.closest?.('input, textarea, select, [contenteditable]')) return;
-  if (document.body.classList.contains('choosing')) return;
-  if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole >= NHOLES ? 1 : hole + 1, true);
-  if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole <= 1 ? NHOLES : hole - 1, true);
-  if (e.key === 'h') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
-  if (e.key === 'm') setSky(skyState + 1);
+  /* The menu drawer is a modal dialog: keys belong to it until it closes. */
+  if (document.body.classList.contains('choosing') || document.getElementById('navDrawer')?.classList.contains('open')) {
+    shortcutKeys.reset();
+    return;
+  }
+  if (shortcutKeys.press(e.key) && e.key.startsWith('Arrow')) e.preventDefault();
 });
 
 /* --------------------------------------------------------------- minimap */

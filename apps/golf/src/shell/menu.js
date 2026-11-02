@@ -5,6 +5,12 @@
    =========================================================================== */
 
 import { ICONS } from './icons.js';
+import { SHORTCUT_ROWS } from '../engine/keyboard-shortcuts.mjs';
+
+/* One row per shortcut, from the same table the keyboard handler is tested
+   against: a list kept by hand here promised five keys that did nothing. */
+const shortcutRows = () => SHORTCUT_ROWS.map(([keys, text]) =>
+  `<div class="sc-row">${keys.map(k => k === '–' ? '–' : `<kbd>${esc(k)}</kbd>`).join(' ')} <span>${esc(text)}</span></div>`).join('');
 
 export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse, onAction, devOverlay = false }) {
   const drawer = document.createElement('div');
@@ -194,13 +200,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
         <div class="drawer-section">
           <div class="drawer-sec-title">Kortkommandon</div>
           <div class="drawer-shortcuts">
-            <div class="sc-row"><kbd>1</kbd>–<kbd>9</kbd> <span>Byt till hål 1–9</span></div>
-            <div class="sc-row"><kbd>0</kbd>+<kbd>1-8</kbd> <span>Hål 10–18</span></div>
-            <div class="sc-row"><kbd>C</kbd> <span>Byt kameravy</span></div>
-            <div class="sc-row"><kbd>L</kbd> <span>Växla ljus / tid på dygnet</span></div>
-            <div class="sc-row"><kbd>F</kbd> <span>Starta flygtur</span></div>
-            <div class="sc-row"><kbd>H</kbd> <span>Dölj / visa UI</span></div>
-            <div class="sc-row"><kbd>Esc</kbd> <span>Stäng meny</span></div>
+            ${shortcutRows()}
           </div>
         </div>
       </div>
