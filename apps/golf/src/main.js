@@ -104,7 +104,7 @@ import { createNearGrass } from './engine/near-grass.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
-import { createSunShadowFilter } from './engine/sun-shadow.mjs';
+import { createSunShadowFilter, GRID_SHADOW_TAPS } from './engine/sun-shadow.mjs';
 import { createShadowTint, shadowTintFor, sunUnderClouds } from './engine/shadow-tint.mjs';
 import { treeTint, vistaTint } from './engine/stand-tint.mjs';
 import { groundReliefBytes } from './engine/ground-relief.mjs';
@@ -2010,7 +2010,13 @@ const WATER_LANES_ON = new URLSearchParams(location.search).get('waterlanes') !=
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
-const sunShadowFilter = createSunShadowFilter();
+/* A soft shadow with no grain (engine/sun-shadow.mjs, from serenity-blocks):
+   a fixed grid of hardware-filtered compares instead of three's disc turned by
+   per-pixel noise, which without TAA laid a fine crosshatch over every
+   penumbra under a low sun. Nine taps at high quality, four at low.
+   ?shadowgrid=0 is the before. */
+const SHADOW_GRID_ON = new URLSearchParams(location.search).get('shadowgrid') !== '0';
+const sunShadowFilter = createSunShadowFilter({ grid: SHADOW_GRID_ON, taps: LOWQ ? GRID_SHADOW_TAPS.low : GRID_SHADOW_TAPS.high });
 sun.shadow.filterNode = sunShadowFilter.filterNode;
 /* Shadows are lit by the sky: a share of the sun's strength reaches them in the
    preset's sky colour (shadow-tint.mjs), so shade lifts in the sky's cool colour,
@@ -12131,7 +12137,8 @@ window.V3D = {
   shadowFit: () => ({ R: SUN_BASIS.R, texel: +SUN_BASIS.texel.toFixed(4), snap: shadowSnap, remainderTexels: +SUN_BASIS.remainder.toFixed(3),
                       normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true,
                       maxFit: SHADOW_FIT_MAX, lightDistance: SUN_BASIS.lightDistance, near: sun.shadow.camera.near, far: sun.shadow.camera.far,
-                      impostorShadows: IMPOSTOR_SHADOWS, vistaShadows: VISTA_SHADOW_CASTERS.some(m => m.castShadow) }),
+                      impostorShadows: IMPOSTOR_SHADOWS, vistaShadows: VISTA_SHADOW_CASTERS.some(m => m.castShadow),
+                      filter: { grid: sunShadowFilter.grid, taps: sunShadowFilter.taps } }),
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
   setShadowBoundaryFade: on => { sunShadowFilter.enabled.value = on ? 1 : 0; return !!on; },
   /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
