@@ -134,6 +134,23 @@ const gustNode = q => {
 /** The shared gust node: 0..1 at a ground position `p` (vec2), the pattern the air is carrying past it. */
 export const gustNodeAt = p => gustNode(p.sub(airOffset));
 
+/* THE WIND ON THE GRASS (2 November, after serenity-blocks' Verdant Hills
+   `windBand` and Odyssey's GROUND_WIND_LIFT). The air moved the trees, the
+   reeds, the blades round the ball and the clouds, but a hectare of rough lay
+   still under it. A gust lays grass over and shows its paler, sky-lit side, so
+   the gusts the air carries now cross the turf as soft lighter patches, the
+   wind made visible from the tee to the far rough. Two scales of the same
+   quilt (80 m and 40 m, both periodic over the air's 400 m wrap, so a wrap
+   never pops), cut into patches, as strong as the plants' sway: reduced motion
+   and det=1 hold them where the air holds still. */
+export const WIND_SHEEN = Object.freeze({ cut: Object.freeze([0.56, 0.92]), fine: 0.35, gain: 0.12,
+  tint: Object.freeze([0.985, 1.015, 1.05]), swayCap: 1.6 });
+export function windSheenAt(p) {
+  const q = p.sub(airOffset);
+  const quilt = gustNode(q).mul(1 - WIND_SHEEN.fine).add(gustNode(q.mul(2).add(vec2(17, 31))).mul(WIND_SHEEN.fine));
+  return quilt.smoothstep(WIND_SHEEN.cut[0], WIND_SHEEN.cut[1]).mul(windSway.min(WIND_SHEEN.swayCap));
+}
+
 /* Each plant's own place in the sway, so that neighbours move nearly together
    and stands differ: a bent sine field, fixed on the ground (the gusts, not the
    phase, are what travels). `scale` 1 suits trees, 2 reeds. */

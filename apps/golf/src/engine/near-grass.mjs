@@ -32,7 +32,7 @@ import { abs, cameraPosition, cameraViewMatrix, cos, faceDirection, float, floor
   normalize, positionGeometry, positionWorld, pow, saturate, select, sin, smoothstep, step, texture, textureLoad,
   transformNormalByViewMatrix, uint, uniform, varying, vec2, vec3, vec4 } from 'three/tsl';
 import { SURFACE } from './surface.js';
-import { swayOnWind, reedSwing } from './one-wind.mjs';
+import { swayOnWind, reedSwing, windSheenAt } from './one-wind.mjs';
 import { paintedGround, PAINTED_SHADING } from './material.js';
 import { paintedWet } from './painted-world-lighting.mjs';
 import { applyGroundRelief, classStyle, groundClassColour, groundTintColour, isGroundTintClass, GROUND_DETAIL } from './ground-material-core.mjs';
@@ -368,7 +368,9 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const up = varying(isTip, 'nearGrassUp');
   const rootXZ = varying(root, 'nearGrassRoot');
   /* the finish's blotches and gloss at the root: the ground's (constant along the blade) */
-  const blotches = varying(blotchTaps, 'nearGrassBlotches');
+  /* and the wind's laid sheen there (one-wind.mjs), riding in the same varying:
+     the blade has no output to spare for a fifth (16 is WebGPU's limit) */
+  const blotches = varying(vec4(blotchTaps, windSheenAt(root)), 'nearGrassBlotches');
   const glossAtRoot = varying(gloss, 'nearGrassGloss');
   /* lit like the ground under it, leaning a little toward its facing, on the side that is seen */
   const lean2 = faceXZ.mul(NEAR_GRASS.normalLean).mul(faceDirection);
@@ -382,7 +384,7 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
      (mown turf more of the broad one), the light's grass strength, autumn's ochre,
      and the class's gloss */
   const finish = paintedGround({ base: shaded, wp: rootXZ, DETAIL: null, uSun, turf: float(1), seasonal: seasonalShare,
-    taps: { a: blotches.x, b: blotches.y, c: blotches.z },
+    taps: { a: blotches.x, b: blotches.y, c: blotches.z }, laid: blotches.w,
     broadLift: terms.grain ? float(1).sub(seasonalShare).mul(GROUND_DETAIL.TURF_BROAD_LIFT) : null,
     gloss: terms.gloss ? glossAtRoot : null });
   material.colorNode = finish.colorNode;

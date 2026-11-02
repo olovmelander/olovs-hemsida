@@ -99,7 +99,7 @@ import {
   requestedCutTone,
   requestedMowing,
 } from './engine/surface-render-policy.mjs';
-import { createV2GroundMaterialDecorator, makeGround, paintedGround } from './engine/material.js';
+import { createV2GroundMaterialDecorator, makeGround, paintedGround, setWindSheen } from './engine/material.js';
 import { tussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
   seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
 import { createNearGrass } from './engine/near-grass.mjs';
@@ -1967,6 +1967,9 @@ const BARE_GROUND_ON = new URLSearchParams(location.search).get('bareground') !=
 /* the bunker's hollow: a bowl lit by the sun and the lip's crescent of shade
    (engine/ground-material-core.mjs SAND_BOWL); ?sandbowl=0 is the before */
 const SAND_BOWL_ON = new URLSearchParams(location.search).get('sandbowl') !== '0';
+/* the wind on the grass: the air's gusts cross the turf as laid, paler patches
+   (engine/one-wind.mjs windSheenAt), the ground and the blades round the ball alike; ?windsheen=0 is the before */
+setWindSheen(new URLSearchParams(location.search).get('windsheen') !== '0');
 /* The ground cover (ground-cover.mjs): the blades of tussocks, clumps and reeds
    lit from the side that is seen; every piece of it in the trees' shadows; its
    colours where they were tuned, in the light's grass strength and autumn's
