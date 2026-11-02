@@ -1964,6 +1964,9 @@ const HARD_GROUND_ON = new URLSearchParams(location.search).get('hardground') !=
 const TURF_GRAIN_ON = new URLSearchParams(location.search).get('turfgrain') !== '0';
 const GROUND_WEAR_ON = new URLSearchParams(location.search).get('groundwear') !== '0';
 const BARE_GROUND_ON = new URLSearchParams(location.search).get('bareground') !== '0';
+/* the bunker's hollow: a bowl lit by the sun and the lip's crescent of shade
+   (engine/ground-material-core.mjs SAND_BOWL); ?sandbowl=0 is the before */
+const SAND_BOWL_ON = new URLSearchParams(location.search).get('sandbowl') !== '0';
 /* The ground cover (ground-cover.mjs): the blades of tussocks, clumps and reeds
    lit from the side that is seen; every piece of it in the trees' shadows; its
    colours where they were tuned, in the light's grass strength and autumn's
@@ -3158,7 +3161,7 @@ if (TERRAIN_PREVIEW.ready) {
     mowFade: new URLSearchParams(location.search).get('mowfade') === 'iso' ? 'iso' : 'across',
     surfaceGloss: SURFACE_GLOSS, surfaceEdges: SURFACE_EDGES, groundRelief: GROUND_RELIEF_ON,
     acrossEdges: GROUND_EDGES_ON, stripeReach: STRIPE_REACH_ON, hardGround: HARD_GROUND_ON,
-    turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON,
+    turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON, sandBowl: SAND_BOWL_ON,
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,

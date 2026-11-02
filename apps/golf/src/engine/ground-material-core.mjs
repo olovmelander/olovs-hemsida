@@ -6,7 +6,7 @@ import * as THREE from 'three/webgpu';
 import {
   float, vec2, vec3, attribute, texture, positionWorld, cameraPosition,
   mix, smoothstep, clamp, abs, sin, oneMinus, fwidth, dFdx, dFdy,
-  saturate, step, max, vec4, select, floor,
+  saturate, step, max, vec4, select, floor, normalize,
 } from 'three/tsl';
 
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
@@ -585,6 +585,20 @@ export const GROUND_DETAIL = Object.freeze({ TURF_GRAIN, TURF_BROAD_LIFT, NEAR_T
 const BANK_SHADE = 0.24, BANK_FALLOFF_METRES = 0.9;
 /* a rake's pass, its depth of tone, and how much damper the low middle stands */
 const SAND_RAKE_METRES = 0.32, SAND_RAKE_AMPLITUDE = 0.035, SAND_LOW_SHADE = 0.07;
+/* THE BUNKER'S HOLLOW (sandBowl, 2 November). A bunker lies 25 mm under its
+   surround, so the terrain lit it as flat or as a swell, and the lip's dark band
+   round a bright middle read as a pillow. The sand is painted as the hollow it
+   is: a bowl `depth` metres deep reached `reach` metres in from the lip, whose
+   slope follows the sand's own distance field (two more taps of its channel,
+   `step` metres apart) and is lit by the sun against flat ground (shade within
+   `range`), and a
+   lip `lipHeight` high throws a crescent of shade onto the sand on the sun's
+   side, as long as a low sun makes it, at `lipShade`. Gone before a pixel
+   outgrows it. ?sandbowl=0 is the before. */
+export const SAND_BOWL = Object.freeze({ depth: 0.55, reach: 2.4, step: 0.6, range: Object.freeze([0.62, 1.22]),
+  lipHeight: 0.32, lipShade: 0.34, lipShadowMax: 4, fade: Object.freeze([0.7, 2.2]),
+  /* the lip's band (BUNKER_LIP_SHADE) on the lit far face and under the sunward lip */
+  farLip: 0.45, sunLip: 1.25 });
 /* the bunker lip's band at its edge: darker, and warmest where blue falls most */
 const BUNKER_LIP_SHADE = [0.10, 0.16, 0.26];
 /* a path's edges take up to this share of the ground beside it; its middle is this much paler */
@@ -592,7 +606,7 @@ const GROWN_EDGE_SURFACES = [SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT];
 const PATH_EDGE_GRASS = 0.6, PATH_WORN_LIFT = 0.08;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -1027,12 +1041,42 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       const sandIndex = channels.indexOf(SURFACE.SAND);
       /* the rake and the lip follow the sand's edge: the pixel across it */
       const sandPixel = sandIndex >= 0 && pixelAcross ? pixelAcross[sandIndex].min(footprint) : footprint;
+      /* how squarely the nearest lip faces the sun (the hollow, below): the lip's band takes it */
+      let lipFacing = null;
       if (sandIndex >= 0) {
         const inSand = sdfs[sandIndex].max(0);
         const k = 2 * Math.PI / SAND_RAKE_METRES;
         const rake = sin(inSand.mul(k)).mul(oneMinus(smoothstep(0.5, 1.4, sandPixel.mul(k))));
         const low = smoothstep(1.2, 3.6, inSand).mul(SAND_LOW_SHADE);
         litBase = litBase.mul(float(1).add(rake.mul(SAND_RAKE_AMPLITUDE * display).sub(low).mul(cutTone).mul(weights[sandIndex])));
+        if (sandBowl && uSun) {
+          const B = SAND_BOWL;
+          /* the sand field's slope on the ground, from two more taps of its own
+             channel `step` metres along x and z: smooth across texels and the
+             same from every angle (screen steps stair-stepped at each texel
+             and blew up at grazing views) */
+          const tex = atlas.texSdf[sandIndex >> 2], channel = swizzle[sandIndex & 3];
+          const du = vec2(B.step / (b.x1 - b.x0), 0), dv = vec2(0, B.step / (b.z1 - b.z0));
+          const sdfAt = offset => texture(tex, uvAtlas.add(offset))[channel].mul(8).sub(4);
+          const raw = fieldSdfs[sandIndex];
+          const toEdge = vec2(sdfAt(du).sub(raw), sdfAt(dv).sub(raw)).div(B.step);
+          const L = normalize(uSun);
+          /* the bowl: down `depth` by `reach` in (a smoothstep), so its slope is that curve's along the field's own */
+          const t = inSand.div(B.reach).clamp(0, 1);
+          const slope = toEdge.mul(t.mul(oneMinus(t)).mul(6 * B.depth / B.reach));
+          const normal = normalize(vec3(slope.x, 1, slope.y));
+          const flat = L.y.max(0).mul(0.75).add(0.25);
+          const bowl = normal.dot(L).max(0).mul(0.75).add(0.25).div(flat).clamp(B.range[0], B.range[1]);
+          /* the lip's crescent: where the edge lies toward the sun, nearer than the lip's shadow reaches */
+          const sunXZ = vec2(L.x, L.z), sunFlat = sunXZ.length().max(1e-4);
+          const facing = toEdge.div(toEdge.length().max(1e-4)).dot(sunXZ.div(sunFlat)).negate().max(0);
+          lipFacing = facing;
+          const reachLip = float(B.lipHeight).mul(sunFlat).div(L.y.max(0.05)).min(B.lipShadowMax);
+          const lipShadow = oneMinus(smoothstep(reachLip.mul(facing).mul(0.6), reachLip.mul(facing).add(0.05), inSand))
+            .mul(smoothstep(0, 0.25, facing)).mul(B.lipShade);
+          const near = oneMinus(smoothstep(B.fade[0], B.fade[1], sandPixel)).mul(weights[sandIndex]).mul(cutTone);
+          litBase = litBase.mul(mix(float(1), bowl.mul(oneMinus(lipShadow)), near));
+        }
       }
       if (surfaceEdges) {
         /* THE LIP OF A BUNKER. Where the turf breaks off into the sand, the face
@@ -1043,7 +1087,10 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         if (sandIndex >= 0) {
           const lip = oneMinus(smoothstep(0.03, 0.4, sdfs[sandIndex].max(0))).mul(weights[sandIndex])
             .mul(oneMinus(smoothstep(0.12, 0.45, sandPixel))).mul(cutTone);
-          litBase = litBase.mul(oneMinus(lip.mul(vec3(...BUNKER_LIP_SHADE))));
+          /* with the hollow, the band is deepest under the sunward lip and light on the lit far face:
+             an even ring round a bright middle read as a cushion */
+          const lipBand = lipFacing ? lip.mul(mix(float(SAND_BOWL.farLip), float(SAND_BOWL.sunLip), lipFacing)) : lip;
+          litBase = litBase.mul(oneMinus(lipBand.mul(vec3(...BUNKER_LIP_SHADE))));
         }
         /* A PATH IS WORN IN ITS MIDDLE AND GROWN IN AT ITS EDGES. Feet and carts
            keep the middle bare and a little paler; grass creeps in from both
@@ -1123,7 +1170,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
@@ -1154,7 +1201,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround, sandBowl }, shading),
       atlas,
     );
   }
