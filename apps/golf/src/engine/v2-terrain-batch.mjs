@@ -380,6 +380,9 @@ export class TerrainTextureBatch {
   }
 }
 
+/** Ticks a replaced batch outlives its replacement before it is disposed. */
+export const RETIRE_TICKS = 3;
+
 /** One batch per permitted grid size, plus the independent one-layer shell. */
 export class TerrainTileBatchSet {
   constructor({
@@ -401,8 +404,20 @@ export class TerrainTileBatchSet {
     this.group.name = 'banvy-v2-terrain';
     this.group.userData.tag = 'v2-terrain-root';
     this.batches = new Map();
+    /* RETIRED BATCHES (2 November). A grown or emptied batch leaves the scene at
+       once but is disposed RETIRE_TICKS ticks later, after its replacement has
+       drawn: disposed at once, its program fell to no users and was deleted --
+       while the WebGL2 fallback still compiled it in parallel (GL_INVALID_VALUE
+       in deleteShader, which failed the terrain's own preflight at low quality)
+       -- and the replacement then compiled the very same shader again. */
+    this.retired = [];
     this.renderRevision = 0;
     this.disposed = false;
+  }
+
+  #retire(batch) {
+    batch.mesh.removeFromParent();
+    this.retired.push({ batch, ticks: 0 });
   }
 
   #key(resource) {
@@ -432,7 +447,7 @@ export class TerrainTileBatchSet {
       batch.morphStartByTile = new Map(previous.morphStartByTile);
       batch.instanceStateDirty = true;
       batch.tick(now);
-      previous.dispose();
+      this.#retire(previous);
     }
     this.batches.set(key, batch);
     this.group.add(batch.mesh);
@@ -461,7 +476,7 @@ export class TerrainTileBatchSet {
     for (const [key, batch] of this.batches) {
       if (grouped.has(key)) continue;
       if (this.compactCapacity && !key.startsWith('shell:')) {
-        batch.dispose();
+        this.#retire(batch);
         this.batches.delete(key);
         changed = true;
         continue;
@@ -482,6 +497,10 @@ export class TerrainTileBatchSet {
   }
 
   tick(now = nowMilliseconds()) {
+    if (this.retired.length) {
+      for (const entry of this.retired) if (++entry.ticks >= RETIRE_TICKS) entry.batch.dispose();
+      this.retired = this.retired.filter(entry => !entry.batch.disposed);
+    }
     let morphing = false, changed = false;
     for (const batch of this.batches.values()) {
       const before = batch.renderRevision;
@@ -519,6 +538,8 @@ export class TerrainTileBatchSet {
     this.disposed = true;
     this.renderRevision++;
     for (const batch of this.batches.values()) batch.dispose();
+    for (const { batch } of this.retired) batch.dispose();
+    this.retired = [];
     this.batches.clear();
     this.group.removeFromParent();
   }

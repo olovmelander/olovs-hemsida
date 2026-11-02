@@ -134,6 +134,28 @@ canvas{display:block;position:fixed;inset:0}
 #facts b{color:var(--ink);font-family:'JetBrains Mono',monospace;font-weight:600}
 #facts .data-status{color:#e9bb6a;font-weight:600}
 
+/* THE PANEL FOLDS (2 November): on a desktop the rail folds to its hole summary
+   behind a chevron, and the hole note to its title a few seconds after a hole
+   change (hover, focus or a click opens it), so the course is the picture. */
+.rail-fold-btn{display:none}
+@media(min-width:769px){
+  .rail-hole-summary{position:relative;padding-right:24px}
+  .rail-fold-btn{display:flex;align-items:center;justify-content:center;position:absolute;top:0;right:0;width:22px;height:22px;
+    border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:var(--ink);cursor:pointer;
+    transition:transform .25s ease,background .2s ease}
+  .rail-fold-btn:hover{background:rgba(95,208,122,.18)}
+  .rail-fold-btn:focus-visible{outline:2px solid rgba(95,208,122,.8);outline-offset:2px}
+  body.rail-folded #rail>:not(.rail-hole-summary){display:none}
+  body.rail-folded #rail .rail-hole-summary{margin:0;border:0;padding-bottom:0}
+  body.rail-folded .rail-fold-btn{transform:rotate(180deg)}
+  #note.folded #ntx{display:none}
+  #note.folded .panel-head-bar{margin-bottom:0}
+  #note.folded{cursor:pointer}
+  #note.folded:hover #ntx,#note.folded:focus-within #ntx{display:inline}
+  #note.folded:hover .panel-head-bar,#note.folded:focus-within .panel-head-bar{margin-bottom:6px}
+}
+@media(prefers-reduced-motion:reduce){.rail-fold-btn{transition:none}}
+
 /* note */
 #note{bottom:76px;left:14px;max-width:330px;padding:10px 13px;font-size:11px;line-height:1.55;color:var(--dim)}
 #note b{color:var(--ink);display:block;font-size:11.5px;margin-bottom:3px;letter-spacing:.02em}
@@ -676,6 +698,9 @@ body.gps-on #v2TerrainBadge{top:118px}
     </div>
     <div class="rhs-sub" id="railHoleSub">Spelas 6 m nedför</div>
     <button class="panel-close-btn" id="railCloseBtn" aria-label="Stäng meny" title="Stäng">×</button>
+    <button class="rail-fold-btn" id="railFoldBtn" aria-expanded="true" aria-controls="rail" title="Fäll ihop panelen">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
+    </button>
   </div>
   <div class="lbl" title="Byt kameravy med C">Kameravy</div>
   <div class="grp">

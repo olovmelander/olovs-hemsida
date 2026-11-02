@@ -120,6 +120,7 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
+import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
 import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
@@ -1795,6 +1796,9 @@ let skyState = 2, skyMax = 2, skyHidden = false;
 const rendererResult = await (RENDERER_LOADING || beginRenderer());
 if (rendererResult.error) throw rendererResult.error;
 const renderer = rendererResult.renderer;
+/* the WebGL2 fallback's parallel compile: a pipeline destroyed while it compiles
+   no longer hangs the opening scene (engine/webgl-compile-guard.mjs) */
+guardParallelCompile(renderer.backend);
 const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
   adaptive: GRAPHICS_POLISH && !DET && !QUALITY_LOCK,
   requested: requestedRenderResolution(location.search),
@@ -8531,8 +8535,49 @@ function drawCard() {
   }
   document.getElementById('nnm').textContent = h.name || `Hål ${h.n}`;
   document.getElementById('ntx').textContent = h.note || h.shape || '';
+  unfoldNoteForAWhile();
   document.querySelectorAll('.hb').forEach((b, i) => b.classList.toggle('on', i + 1 === hole));
   drawMini();
+}
+
+/* THE PANELS FOLD (index.html .rail-fold-btn, #note.folded). The hole note opens
+   on every hole change and folds to its title after NOTE_FOLD_MS; a det=1
+   capture keeps it open, as every harness has measured it. */
+const NOTE_FOLD_MS = 8000;
+let noteFoldTimer = 0;
+function unfoldNoteForAWhile() {
+  const note = document.getElementById('note');
+  if (!note) return;
+  note.classList.remove('folded');
+  clearTimeout(noteFoldTimer);
+  if (!DET) noteFoldTimer = setTimeout(() => note.classList.add('folded'), NOTE_FOLD_MS);
+}
+/* the rail folds to its hole summary; the player's choice is remembered, and a
+   desktop narrower than 1500 px starts folded (a det=1 capture, open, as before) */
+const RAIL_FOLD_KEY = 'banvy-rail';
+function setRailFolded(folded, remember = false) {
+  document.body.classList.toggle('rail-folded', folded);
+  const btn = document.getElementById('railFoldBtn');
+  if (btn) {
+    btn.setAttribute('aria-expanded', String(!folded));
+    btn.title = folded ? 'Visa kameravy, ljus och verktyg' : 'Fäll ihop panelen';
+    btn.setAttribute('aria-label', btn.title);
+  }
+  if (remember) { try { localStorage.setItem(RAIL_FOLD_KEY, folded ? 'folded' : 'open'); } catch {} }
+}
+{
+  let stored = null;
+  try { stored = localStorage.getItem(RAIL_FOLD_KEY); } catch {}
+  setRailFolded(DET ? false : stored ? stored === 'folded' : innerWidth < 1500);
+  document.getElementById('railFoldBtn')?.addEventListener('click', event => {
+    event.stopPropagation();
+    setRailFolded(!document.body.classList.contains('rail-folded'), true);
+  });
+  const note = document.getElementById('note');
+  note?.addEventListener('click', event => {
+    if (event.target.closest('button')) return;
+    if (note.classList.contains('folded')) { note.classList.remove('folded'); clearTimeout(noteFoldTimer); }
+  });
 }
 
 const camTween = { on: false, t: 0, dur: 1.5, from: new THREE.Vector3(), to: new THREE.Vector3(),
@@ -9576,6 +9621,9 @@ function strategyLabel(title, subtitle, point, colour = '#b7dfc0', scale = 1, qu
   sprite.position.set(point[0], terrainH(point[0], point[1]) + (quiet ? 2.2 : 3.8) * scale, point[1]);
   sprite.userData.baseOpacity = quiet ? 0.68 : 0.92;
   sprite.userData.restY = sprite.position.y;
+  /* its drawn size in the world, and where it stands, for fitStrategyLabels */
+  Object.assign(sprite.userData, { worldW: width * scale, worldH: height * scale, groundY: terrainH(point[0], point[1]),
+    lift: (quiet ? 2.2 : 3.8) * scale, maxScreen: quiet ? STRATEGY_LABEL_SCREEN.quiet : STRATEGY_LABEL_SCREEN.full });
   sprite.renderOrder = 7;
   return sprite;
 }
@@ -9798,6 +9846,31 @@ function buildStrategy() {
   scene.add(strategyGroup);
   startStrategyAnimation();
   drawMini();
+}
+
+/* THE TARGET'S CARD STAYS A CARD (2 November). The label is a sprite 30 m wide in
+   the world: from the tee, 150 m off, a card; from the Green view, close over
+   the green, a dark slab across the middle of the screen covering the very
+   green it named. Each frame it is drawn at most this share of the screen's
+   height wide (0.26 is about 280 px at 1080), and stands 44 px above its
+   target on screen, clear of the pin's marker. ?labelcap=0 is the before. */
+const STRATEGY_LABEL_SCREEN = Object.freeze({ full: 0.26, quiet: 0.12 }), STRATEGY_LABEL_GAP_PX = 44;
+const STRATEGY_LABEL_CAP = new URLSearchParams(location.search).get('labelcap') !== '0';
+function fitStrategyLabels() {
+  if (!STRATEGY_LABEL_CAP || !strategyAnimation || !strategyOn) return;
+  const halfTan = Math.tan(camera.fov * Math.PI / 360);
+  for (const label of strategyAnimation.labels) {
+    const u = label.userData;
+    if (!u.worldW) continue;
+    const distance = camera.position.distanceTo(label.position);
+    /* the widest the card may be here: maxScreen of the screen's height, in metres at this distance */
+    const f = Math.min(1, u.maxScreen * 2 * halfTan * distance / u.worldW);
+    label.scale.set(u.worldW * f, u.worldH * f, 1);
+    /* it stands a gap of STRATEGY_LABEL_GAP_PX on screen above its target, clear of the pin's marker */
+    const metresPerPixel = 2 * halfTan * distance / Math.max(1, renderer.domElement.clientHeight || innerHeight);
+    u.restY = u.groundY + u.worldH * f * 0.5 + STRATEGY_LABEL_GAP_PX * metresPerPixel;
+    if (strategyAnimation.settled || strategyReducedMotion) label.position.y = u.restY;
+  }
 }
 
 function updateStrategy(now) {
@@ -11454,6 +11527,7 @@ function frame() {
   nearGrass?.update(camera, renderer.domElement.height);
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   updateStrategy(now);
+  fitStrategyLabels();
   kikTagUpdate();
   const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
   const teeCardRect = selectedTee.update(markerOptions);

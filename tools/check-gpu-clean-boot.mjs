@@ -2,7 +2,7 @@
 /* Every course boots on the real adapter with a clean console.
  *
  * node tools/serve.mjs apps/golf/dist 8620
- * BANVY_GPU=1 node tools/check-gpu-clean-boot.mjs [--course slug[,slug]] [--backend webgpu|webgl2|both]
+ * BANVY_GPU=1 node tools/check-gpu-clean-boot.mjs [--course slug[,slug]] [--backend webgpu|webgl2|both] [--quality hi|lo]
  *                                                  [--query a=b&c=d] [--out report.json]
  *
  * Written on 2 November, when the first boot on an RTX 5080 found what the
@@ -27,6 +27,7 @@ const BASE = flag('base', 'http://127.0.0.1:8620').replace(/\/$/, '');
 const QUERY = flag('query', '');
 const OUT = flag('out', null);
 const MAX_OUTPUTS = +flag('max-outputs', 15);
+const QUALITY = flag('quality', 'hi');
 const backendFlag = flag('backend', 'both');
 const backends = backendFlag === 'both' ? ['webgpu', 'webgl2'] : [backendFlag];
 const manifest = JSON.parse(fs.readFileSync(new URL('../apps/golf/public/courses/index.json', import.meta.url)));
@@ -56,7 +57,7 @@ for (const backend of backends) {
     const errors = [];
     page.on('pageerror', e => errors.push('pageerror: ' + String(e).split('\n')[0].slice(0, 300)));
     page.on('console', m => { if (m.type() === 'error') errors.push(m.text().split('\n').slice(0, 2).join(' ').slice(0, 300)); });
-    const url = `${BASE}/?bana=${slug}&q=hi&qualitylock=1&det=1&gl=${backend === 'webgl2' ? 1 : 0}${QUERY ? '&' + QUERY : ''}`;
+    const url = `${BASE}/?bana=${slug}&q=${QUALITY}&qualitylock=1&det=1&gl=${backend === 'webgl2' ? 1 : 0}${QUERY ? '&' + QUERY : ''}`;
     const row = { slug, backend, url, errors };
     const started = Date.now();
     try {
