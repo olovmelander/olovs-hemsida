@@ -155,6 +155,23 @@ view, and a held 1 would type 11. `keyboard-shortcuts.test.mjs`
 covers every hole 1–18, nine-hole courses, ordering, and that every key the
 menu lists reaches an action.
 
+## 5. Prepared startup, re-baked
+
+The prepared startup data's identity hashes `main.js`, `engine/`, `loader/`,
+`packages/course-v2` and the three version (`tools/course-source-revision.mjs`),
+so this batch, and the serenity ports that followed it
+([visual-serenity-ports-2026-11-02.md](visual-serenity-ports-2026-11-02.md)),
+expired every course's tint, vista, scatter and water records: the app would
+have rebuilt them at boot. With the code final, `bake-ground-tints`,
+`bake-vista` and `bake-water` refreshed them for source revision `71799818`.
+[The publication proof](graphics/three-r187-2026-11-02/check-publication.mjs)
+holds against main (`f3d21f17`) that every tint, vista, scatter and water
+payload keeps its content for all 13 courses; only identities moved (each
+water file carries its identity, so those are new files, as in the last
+re-bake). `tools/check-prepared-startup.mjs` passes on the rebuilt app
+([record](graphics/three-r187-2026-11-02/prepared-check.json)). Any later edit
+to those sources expires them again.
+
 ## Next, for the owner's GPU
 
 These need eyes on the real adapter, so they are proposals, not changes:
