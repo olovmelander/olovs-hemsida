@@ -1,5 +1,5 @@
 import { Color, Vector3 } from 'three/webgpu';
-import { abs, cameraPosition, densityFogFactor, dot, exp, float, luminance, mix, normalize, output, positionWorld, pow, reference, renderGroup, saturate, select, smoothstep, uniform, vec4 } from 'three/tsl';
+import { abs, cameraPosition, densityFogFactor, dot, exp, float, luminance, mix, normalize, output, positionWorld, pow, reference, renderGroup, saturate, select, smoothstep, uniform, vec3, vec4 } from 'three/tsl';
 
 /* Keep atmospheric perspective on the whole landscape, including tree tiers
  * and water. Fully opaque pale FogExp2 turned wooded ridges into white cutouts.
@@ -78,13 +78,33 @@ export const glazeColour = (colour, tint, amount) => {
   return mix(colour, tint.mul(l), amount.mul(float(1).sub(smoothstep(GLAZE.bright[0], GLAZE.bright[1], l))));
 };
 
+/* DISTANCE TURNS BLUE (ported from serenity-blocks' High Coast light,
+   HAZE_SPECTRUM). Air scatters blue more than red, so the haze's optical depth
+   is scaled per channel: red 0.7, green 1, blue 1.45. Far land keeps a little
+   more of its own red and gives more of its blue to the haze, so wooded ridges
+   step back in blue rather than grey. Green is the haze exactly as tuned, and
+   at infinity every channel reaches the same ceiling (hazeMax), so the land
+   still meets the sky's band under the horizon in the same colour. The valley
+   mist is water droplets, which scatter every colour alike: it stays grey.
+   The red and blue offsets from green change slowly with distance, so they are
+   reckoned per vertex and added per pixel to the haze as before: crowns, most
+   of the frame's cost, shade no more per pixel (CLAUDE.md). */
+export const SPECTRAL_HAZE = Object.freeze({ spectrum: Object.freeze([0.7, 1.0, 1.45]) });
+
+/** The haze per channel for a grey haze `haze` under ceiling `maximum` (the shader's formula, for the tests). */
+export function spectralHazeAmount(haze, maximum, spectrum = SPECTRAL_HAZE.spectrum) {
+  if (!(maximum > 0)) return [0, 0, 0];
+  const transmitted = Math.max(0, 1 - haze / maximum);
+  return spectrum.map((k, c) => c === 1 ? haze : maximum * (1 - transmitted ** k));
+}
+
 /** A preset's valley mist: `valleyMist: { density, height }` in its painted atmosphere, none without. */
 export const valleyMistOf = preset => {
   const m = preset?.valleyMist;
   return m && m.density > 0 && m.height > 0 ? { density: m.density, height: m.height } : { density: 0, height: 1 };
 };
 
-export function createAerialPerspective(fog, { sunward = true, valleyMist = false } = {}) {
+export function createAerialPerspective(fog, { sunward = true, valleyMist = false, spectral = true } = {}) {
   const settings = { maximum: 0.85 };
   // Match native fog's render-group references: the current scene's haze must
   // reach every material, including programs shared with the reflection bake.
@@ -95,15 +115,23 @@ export function createAerialPerspective(fog, { sunward = true, valleyMist = fals
   const glowStrength = uniform(0).setGroup(renderGroup);
   const sun = uniform(new Vector3(0, 1, 0)).setGroup(renderGroup);
   const haze = densityFogFactor(density).mul(maximum);
+  /* ?hazespectrum=0 is the before: one haze amount for every channel */
+  let hazeRGB = haze;
+  if (spectral) {
+    const [kr, , kb] = SPECTRAL_HAZE.spectrum;
+    const transmitted = float(1).sub(densityFogFactor(density)).max(1e-6);
+    const offset = vec3(transmitted.sub(pow(transmitted, kr)), 0, transmitted.sub(pow(transmitted, kb))).mul(maximum).toVertexStage();
+    hazeRGB = vec3(haze).add(offset).clamp(0, maximum);
+  }
   const mistDensity = uniform(0).setGroup(renderGroup), mistHeight = uniform(1).setGroup(renderGroup), mistBase = uniform(0).setGroup(renderGroup);
   /* ?valleymist=0 is the before: the haze alone. With no mist in the preset the
      sum below is the haze exactly (haze + 0), and never above its ceiling. */
-  let amount = haze;
+  let amount = hazeRGB;
   if (valleyMist) {
     const a = cameraPosition.y.sub(mistBase).div(mistHeight).max(0), b = positionWorld.y.sub(mistBase).div(mistHeight).max(0), d = b.sub(a);
     const mean = select(abs(d).greaterThan(1e-3), exp(a.negate()).sub(exp(b.negate())).div(d), exp(a.negate()).mul(float(1).sub(d.mul(0.5))));
     const mist = float(1).sub(exp(mistDensity.mul(positionWorld.sub(cameraPosition).length()).mul(mean).negate())).toVertexStage();
-    amount = haze.add(mist.mul(float(1).sub(haze))).min(maximum);
+    amount = hazeRGB.add(mist.mul(float(1).sub(hazeRGB))).min(maximum);
   }
   /* ?hazewarm=0 is the before: one haze colour in every direction */
   const hazeColour = sunward
@@ -131,6 +159,7 @@ export function createAerialPerspective(fog, { sunward = true, valleyMist = fals
     setMistBase(base) { mistBase.value = mistState.base = Number.isFinite(base) ? base : 0; },
     snapshot: () => ({ density: fog.density, maximum: settings.maximum, colour: fog.color.getHex(),
       glow: glow.value.getHex(), glowStrength: glowStrength.value, valleyMist: valleyMist ? { ...mistState } : null,
+      spectrum: spectral ? [...SPECTRAL_HAZE.spectrum] : null,
       glaze: { tint: glazeTint.value.toArray(), amount: glazeAmount.value } }),
   };
 }

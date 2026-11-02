@@ -52,6 +52,8 @@ export function preparedTintAllowed(search) {
     'crowncoverage',
     // nor does the shadow's filter: the grid or the noise-turned disc is how the map is read
     'shadowgrid',
+    // nor does the haze's spectrum: distance's blue is drawn over the land's colour
+    'hazespectrum',
     // and the surface relief pilot, which the painted finish never read
     'surfaceRelief']);
   return [...params.keys()].every(key => displayOnly.has(key));

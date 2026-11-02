@@ -44,7 +44,7 @@ import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphere
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
 import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
-import { createAerialPerspective, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
+import { createAerialPerspective, SPECTRAL_HAZE, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
 import { installOutputDither } from './engine/output-dither.mjs';
 
 import { loadCourse } from './loader/pack.js';
@@ -2067,7 +2067,14 @@ scene.fog = fog;
 /* The haze warms toward the sun with the sky's own glow (aerial-perspective.mjs);
    ?hazewarm=0 is the before, one haze colour in every direction. */
 const HAZE_WARM = new URLSearchParams(location.search).get('hazewarm') !== '0';
-const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON });
+/* Distance turns blue (engine/aerial-perspective.mjs, from serenity-blocks): the
+   haze's depth per channel, red 0.7, green 1, blue 1.45, so far wood steps back in
+   blue rather than grey; green, and every channel at infinity, are as tuned.
+   ?hazespectrum=0 is the before. */
+const HAZE_SPECTRUM_ON = new URLSearchParams(location.search).get('hazespectrum') !== '0';
+/* the reflected far shore takes the same haze per channel (nordic-water.mjs treeLineColour) */
+const HAZE_SPECTRUM = HAZE_SPECTRUM_ON ? SPECTRAL_HAZE.spectrum : null;
+const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON, spectral: HAZE_SPECTRUM_ON });
 scene.fogNode = aerialPerspective.node;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
@@ -2159,7 +2166,7 @@ function setPreset(name, overrides = null) {
   scene.background = fog.color.clone();
   /* the sky's band under the horizon meets the ground in the same haze; ?skyhaze=raw is the before */
   if (new URLSearchParams(location.search).get('skyhaze') !== 'raw') setSkyGroundHaze(skyMesh, fog.color);
-  if (NORDIC_WATER_ON) setNordicWaterPreset(p, { sky: skyPreset(p, presetName), fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax });
+  if (NORDIC_WATER_ON) setNordicWaterPreset(p, { sky: skyPreset(p, presetName), fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax, spectrum: HAZE_SPECTRUM });
   /* the waves' relief from above follows how direct the sun is (engine/water-road.mjs) */
   setWaterRoadPreset(p);
   /* and the body's cloud shade the share of its light level ground keeps there (engine/water-above.mjs) */

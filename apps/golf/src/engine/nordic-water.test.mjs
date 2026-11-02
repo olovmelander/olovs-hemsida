@@ -128,3 +128,21 @@ describe('Nordic lake water', () => {
     expect(main).toMatch(/stepWaterMotion\(WATER_MOTION, dt, AIR, \{ deterministic: DET, still: cameraMotionPreference\.matches \}\)/);
   });
 });
+
+describe('the reflected far shore under spectral haze', () => {
+  it('steps back in the same blue as the land, and is the grey haze without a spectrum', async () => {
+    const { treeLineColour } = await import('./nordic-water.mjs');
+    const { SPECTRAL_HAZE } = await import('./aerial-perspective.mjs');
+    const { ATMOSPHERE_PRESETS } = await import('./atmosphere-presets.mjs');
+    const { Color } = await import('three/webgpu');
+    for (const p of Object.values(ATMOSPHERE_PRESETS)) {
+      const fogColour = new Color(p.fog), args = { fogColour, fogDensity: p.dens, hazeMax: p.hazeMax };
+      const grey = treeLineColour(p, args), blue = treeLineColour(p, { ...args, spectrum: SPECTRAL_HAZE.spectrum });
+      expect(blue.g).toBeCloseTo(grey.g, 12);
+      expect(treeLineColour(p, { ...args, spectrum: null }).equals(grey)).toBe(true);
+      // red keeps more of the wood, blue more of the haze
+      expect(Math.abs(blue.r - fogColour.r)).toBeGreaterThanOrEqual(Math.abs(grey.r - fogColour.r) - 1e-12);
+      expect(Math.abs(blue.b - fogColour.b)).toBeLessThanOrEqual(Math.abs(grey.b - fogColour.b) + 1e-12);
+    }
+  });
+});
