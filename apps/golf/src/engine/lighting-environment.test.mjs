@@ -12,7 +12,9 @@ function fixture(options = {}) {
   const baker = {
     bake(palette, reusable) {
       if (reusable) {
-        expect(scene.environment).not.toBe(reusable.texture);
+        // r187 PMREMs are cube targets: the new preset is baked into the
+        // displayed cube itself, which keeps its texture identity.
+        expect(scene.environment).toBe(reusable.texture);
         reusable.palette = palette;
         return reusable;
       }
@@ -31,10 +33,8 @@ function fixture(options = {}) {
     },
     dispose() { generatorDisposals++; },
   };
-  const renderer = { copyTextureToTexture(source, destination) {
-    const from = targets.find(t => t.texture === source), to = targets.find(t => t.texture === destination);
-    to.palette = from.palette;
-  } };
+  // A texture copy cannot address every face and mip of r187's cube PMREMs.
+  const renderer = { copyTextureToTexture() { throw new Error('cube PMREMs must not be copied'); } };
   const controller = createLightingEnvironment(renderer, scene, { baker, ...options });
   return { scene, targets, baker, controller, generatorDisposals: () => generatorDisposals };
 }
@@ -78,7 +78,7 @@ describe('preset reflection palette', () => {
 });
 
 describe('lighting environment resource ownership', () => {
-  it('keeps one displayed texture and reuses staging across every changed preset', () => {
+  it('keeps one displayed texture and rebakes it in place for every changed preset', () => {
     const { controller, scene, targets } = fixture();
     const displayed = controller.setPreset('golden', PRESETS.golden);
     expect(controller.setPreset('golden', PRESETS.golden)).toBe(displayed);
@@ -87,9 +87,10 @@ describe('lighting environment resource ownership', () => {
       expect(controller.setPreset(name, PRESETS[name])).toBe(displayed);
       expect(targets[0].palette).toEqual(deriveEnvironmentPalette(PRESETS[name]));
     }
-    expect(targets).toHaveLength(2);
-    expect(targets.map(target => target.disposals)).toEqual([0, 0]);
-    expect(controller.snapshot()).toMatchObject({ allocations: 2, bakes: 5, copies: 4, cachedPresets: ['noon'] });
+    expect(targets).toHaveLength(1);
+    expect(targets.map(target => target.disposals)).toEqual([0]);
+    expect(controller.snapshot()).toMatchObject({ allocations: 1, bakes: 5, cachedPresets: ['noon'] });
+    expect(controller.snapshot()).not.toHaveProperty('copies');
     expect(scene.environmentIntensity).toBe(LIGHTING_ENVIRONMENT_INTENSITY);
     controller.dispose();
   });
@@ -124,16 +125,29 @@ describe('lighting environment resource ownership', () => {
     controller.dispose();
   });
 
-  it('preserves the displayed map if a later staging bake fails', () => {
+  it('preserves the displayed map if a later in-place bake fails', () => {
     const { controller, scene, targets, baker } = fixture();
     controller.setPreset('golden', PRESETS.golden);
     const noon = controller.setPreset('noon', PRESETS.noon);
-    baker.bake = () => { throw new Error('Failed while overwriting staging'); };
-    expect(() => controller.setPreset('host', PRESETS.host)).toThrow('overwriting staging');
+    baker.bake = () => { throw new Error('Failed before writing the displayed cube'); };
+    expect(() => controller.setPreset('host', PRESETS.host)).toThrow('displayed cube');
     expect(scene.environment).toBe(noon);
     expect(targets[0].palette).toEqual(deriveEnvironmentPalette(PRESETS.noon));
-    expect(targets.map(target => target.disposals)).toEqual([0, 0]);
+    expect(targets.map(target => target.disposals)).toEqual([0]);
     expect(controller.snapshot().cachedPresets).toEqual(['noon']);
+    controller.dispose();
+  });
+
+  it('switches to and releases the old map safely if a baker ignores the reusable one', () => {
+    const { controller, scene, targets, baker } = fixture();
+    controller.setPreset('golden', PRESETS.golden);
+    const original = baker.bake.bind(baker);
+    baker.bake = palette => original(palette, null);
+    const noon = controller.setPreset('noon', PRESETS.noon);
+    expect(noon).toBe(targets[1].texture);
+    expect(scene.environment).toBe(noon);
+    expect(targets.map(target => target.disposals)).toEqual([1, 0]);
+    expect(controller.snapshot()).toMatchObject({ allocations: 2, bakes: 2 });
     controller.dispose();
   });
 });

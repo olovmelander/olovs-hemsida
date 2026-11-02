@@ -42,7 +42,10 @@ describe('exact cup openings', () => {
     expect(wrapped(material)).toBe(material);
     expect(material.userData.ground).toBe(true);
     expect(material.maskNode).not.toBe(prior);
-    expect(material.maskNode.node.aNode).toBe(prior);
+    // r187's TSL returns the operator node itself, not a proxy around it.
+    expect(material.maskNode.isOperatorNode).toBe(true);
+    expect(material.maskNode.op).toBe('&&');
+    expect(material.maskNode.aNode).toBe(prior);
     const combined = material.maskNode;
     expect(mask.apply(material).maskNode).toBe(combined);
     expect(mask.map.minFilter).toBe(THREE.NearestFilter);

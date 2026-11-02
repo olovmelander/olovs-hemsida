@@ -37,7 +37,7 @@ import {
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
-  normalMap, bumpMap, transformedNormalView,
+  normalMap, bumpMap,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';

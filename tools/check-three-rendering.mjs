@@ -231,7 +231,7 @@ try {
       if (current && old) {
         const delta = difference(current, old);
         runs.at(-1).comparison = delta;
-        gate(delta.mean <= 2.5 && delta.percentOver8 <= 5, `${slug}: r185/r186 perceptual parity (${delta.mean.toFixed(4)}/255; ${delta.percentOver8.toFixed(3)}% over 8)`);
+        gate(delta.mean <= 2.5 && delta.percentOver8 <= 5, `${slug}: reference perceptual parity (${delta.mean.toFixed(4)}/255; ${delta.percentOver8.toFixed(3)}% over 8)`);
       }
     }
   }

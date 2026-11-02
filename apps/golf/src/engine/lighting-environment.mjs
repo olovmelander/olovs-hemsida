@@ -48,6 +48,7 @@ function createEnvironmentBaker(renderer) {
       generator ??= new THREE.PMREMGenerator(renderer);
       for (const key of Object.keys(BASE)) paletteNodes[key].value.copy(palette[key]);
       // Same sphere, gradient, 256px faces and filtering; only uniforms change.
+      // With a reusable target, r187 renders the new PMREM into that cube.
       return generator.fromScene(env, 0.04, 0.1, 100, { renderTarget });
     },
     dispose() {
@@ -63,36 +64,48 @@ function createEnvironmentBaker(renderer) {
 /** Keep the displayed texture identity stable for the lifetime of the scene.
  * Replacing scene.environment in r185 invalidates every scene shader. A stable
  * PMREM node with changing texture values also leaves cached plain-material
- * bindings stale. Instead bake into one reusable staging map, then copy its
- * pixels into the displayed map. This uses the renderer's public texture-copy
- * API, with unchanged formats, sampling and no additional scene render pass.
+ * bindings stale. So every preset after the first is baked into the displayed
+ * map itself: the same texture object and GPU resource, with unchanged
+ * formats, sampling and no additional scene render pass.
+ *
+ * r187 made PMREMs mip-mapped cube render targets (#34585). The earlier
+ * staging map plus copyTextureToTexture no longer works there: WebGPU's default
+ * copy is one face of one mip, and the WebGL2 copy binds the cube as a 2D
+ * texture, so five faces and every rough mip kept the previous preset's sky.
+ * Baking in place needs no copy on either backend. The bake renders the small
+ * gradient scene, which never samples scene.environment, into the generator's
+ * own source cube first; a bake that throws (an uninitialised backend, say)
+ * throws before it writes the displayed map, which stays as it was.
  *
  * Only the current preset is cached. Returning to another preset rebakes the
  * small environment, but does not rebuild scene shaders or allocate GPU maps.
- * At most two maps are owned; a failed bake leaves the displayed map intact.
+ * One displayed map is owned.
  */
 export function createLightingEnvironment(renderer, scene, {
   enabled = true,
   baker = createEnvironmentBaker(renderer),
   onBake,
 } = {}) {
-  let current = null, staging = null, currentKey = null, presetName = null;
-  let disposed = false, bakes = 0, allocations = 0, copies = 0;
+  let current = null, currentKey = null, presetName = null;
+  let disposed = false, bakes = 0, allocations = 0;
   return {
     setPreset(name, preset) {
       if (disposed) throw new Error('The lighting environment has been disposed.');
       const key = enabled ? name : 'baseline';
       if (key !== currentKey) {
         const started = performance.now();
-        const target = baker.bake(deriveEnvironmentPalette(preset, enabled), staging);
-        if (target !== staging) allocations++;
+        const target = baker.bake(deriveEnvironmentPalette(preset, enabled), current);
         bakes++;
-        if (!current) current = target;
-        else {
-          if (staging && staging !== target) staging.dispose();
-          staging = target;
-          renderer.copyTextureToTexture(staging.texture, current.texture);
-          copies++;
+        if (target !== current) {
+          // Only the first bake allocates; a baker that ignores the reusable
+          // map still never leaves the scene sampling a released texture.
+          allocations++;
+          const previous = current;
+          current = target;
+          if (previous) {
+            if (scene.environment === previous.texture) scene.environment = current.texture;
+            previous.dispose();
+          }
         }
         currentKey = key;
         onBake?.({ preset: key, started, ms: performance.now() - started });
@@ -104,14 +117,14 @@ export function createLightingEnvironment(renderer, scene, {
     },
     snapshot() {
       return { enabled, preset: presetName, cachedPresets: currentKey === null ? [] : [currentKey],
-        bakes, allocations, copies, disposed };
+        bakes, allocations, disposed };
     },
     dispose() {
       if (disposed) return;
       disposed = true;
       if (current && scene.environment === current.texture) scene.environment = null;
-      current?.dispose(); staging?.dispose();
-      current = null; staging = null; currentKey = null;
+      current?.dispose();
+      current = null; currentKey = null;
       baker.dispose();
     },
   };

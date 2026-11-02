@@ -1,8 +1,12 @@
 import { ColorManagement, FloatType, NoToneMapping, Vector2 } from 'three/webgpu';
 
 /** Compile against the real scene's lights, camera and output target. r186's
- * compileAsync processes one object's pipeline at a time, so a few independent
+ * compileAsync processed one object's pipeline at a time, so a few independent
  * scene branches keep the driver busy without an unbounded compile burst.
+ * r187 (#34816) builds a call's pipelines in parallel and yields on a time
+ * budget, re-applying each call's own render state around every step, so the
+ * concurrent calls stay safe; whether four branches still beat one is a
+ * hardware measurement (tools/benchmark-gpu-startup.mjs), not assumed here.
  * No objects are cloned/reparented and no renderer internals are replaced.
  * Call only while the animation loop is stopped and scene construction is done.
  */

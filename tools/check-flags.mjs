@@ -1,7 +1,7 @@
 /* Visual smoke test for the production flag geometry/material and motion.
    node tools/check-flags.mjs [--webgpu] [--motion|--calm-motion|--fold-motion|--wind-motion]
      [--fold-review] [--asset=path/to/cloth.bin] [--out=tools/goldens/flags]
-   Set BANVY_CHROME to a current Chromium executable for three.js r186 WebGPU.
+   Set BANVY_CHROME to a current Chromium executable for three.js r187 WebGPU.
    Uses software rendering unless BANVY_GPU=1; timings are not GPU benchmarks.
    A virtual Vite entry keeps the study out of the shipped application. */
 import fs from 'node:fs/promises';

@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 /** Exact-revision isolated shader/cache comparison; SwiftShader, not device FPS.
  * node tools/check-lighting-reuse.mjs --baseline REV --out /tmp/lighting-reuse
+ *
+ * A third, "fresh" run creates a new lighting environment for every preset.
+ * The candidate's reused map must draw what a fresh bake of the same preset
+ * draws: with r187's cube PMREMs a stale face or rough mip after a preset
+ * change shows here, and an r186-style staging copy fails it. `--compare
+ * fresh` (the default) gates on that; `--compare before` keeps the old
+ * revision-to-revision pixel gate, for a change meant to be pixel-identical.
  */
 import fs from 'node:fs';
 import http from 'node:http';
@@ -61,12 +68,13 @@ async function checkInPage() {
       return original(...a);
     };
   }
-  const lighting = createLightingEnvironment(renderer, scene);
+  let lighting = FRESH ? null : createLightingEnvironment(renderer, scene);
   const sequence = QUICK ? ['noon', 'golden'] : ['noon', 'golden', 'noon', 'host', 'mist', 'dawn', 'golden', 'noon', 'host'];
   const rows = [];
   for (const name of sequence) {
     const p = PRESETS[name];
     const counts = { sceneBuilds, allBuilds, programs, pipelines };
+    if (FRESH) { lighting?.dispose(); lighting = createLightingEnvironment(renderer, scene); }
     const t = performance.now();
     lighting.setPreset(name, p);
     const handlerMs = performance.now() - t;
@@ -106,6 +114,7 @@ async function checkInPage() {
 const server = http.createServer((req, res) => {
   try {
     const pathname = new URL(req.url, 'http://localhost').pathname;
+    if (pathname === '/favicon.ico') { res.writeHead(204); return res.end(); }
     res.setHeader('Content-Type', 'text/javascript');
     if (pathname === '/') {
       const side = new URL(req.url, 'http://localhost').searchParams.get('side');
@@ -113,9 +122,9 @@ const server = http.createServer((req, res) => {
       return res.end(`<!doctype html><script type="importmap">${JSON.stringify({ imports: {
         'three/webgpu': '/three/build/three.webgpu.js', 'three/tsl': '/three/build/three.tsl.js' } })}</script>
         <script type="module">import * as THREE from 'three/webgpu';
-        import {createLightingEnvironment} from '/${side}.mjs';
+        import {createLightingEnvironment} from '/${side === 'fresh' ? 'after' : side}.mjs';
         import {waitForGpuFrame} from '/first-frame-ready.mjs';
-        const PRESETS=${JSON.stringify(presets)}, QUICK=${args.includes('--quick')};
+        const PRESETS=${JSON.stringify(presets)}, QUICK=${args.includes('--quick')}, FRESH=${side === 'fresh'};
         (${checkInPage.toString()})().then(result=>window.result=result,error=>window.result={error:String(error.stack)});</script>`);
     }
     if (pathname === '/before.mjs' || pathname === '/after.mjs') return res.end(sources[pathname.slice(1, -4)]);
@@ -129,13 +138,14 @@ fs.mkdirSync(out, { recursive: true });
 let browser;
 const report = { baselineRevision: baseline, candidateCheckpoint: git('rev-parse', 'HEAD').trim(),
   sourceHashes: Object.fromEntries(Object.entries(sources).map(([k, v]) => [k, hash(v)])),
-  hardwarePerformanceEvidence: false, method: 'Isolated 7-object scene, 160x120 DPR1 MSAA4, Three r185 WebGL2 SwiftShader. Same presets, geometry, material settings and PMREM resolution/filtering. Counts include actual node builds and backend calls; software timings are diagnostic only.', errors: [] };
+  hardwarePerformanceEvidence: false, method: 'Isolated 7-object scene, 160x120 DPR1 MSAA4, the installed Three, WebGL2 SwiftShader. Same presets, geometry, material settings and PMREM resolution/filtering. Counts include actual node builds and backend calls; software timings are diagnostic only.', errors: [] };
 const persist = () => fs.writeFileSync(path.join(out, 'report.json'), JSON.stringify(report, null, 2) + '\n');
 try {
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
-  browser = await chromium.launch({ args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader'] });
+  browser = await chromium.launch({ ...(process.env.BANVY_CHROME ? { executablePath: process.env.BANVY_CHROME } : {}),
+    args: ['--no-sandbox', '--enable-unsafe-swiftshader', '--use-angle=swiftshader'] });
   const pixels = {};
-  for (const side of ['before', 'after']) {
+  for (const side of ['before', 'after', 'fresh']) {
     console.log(`Checking ${side} lighting lifecycle`);
     const page = await browser.newPage({ viewport: { width: 160, height: 120 } });
     page.on('pageerror', error => report.errors.push(String(error)));
@@ -152,19 +162,24 @@ try {
     }
     report[side] = result; persist(); await page.close();
   }
-  report.comparisons = pixels.before.map((a, i) => {
-    const b = pixels.after[i]; let max = 0, sum = 0, different = 0;
+  const compare = (from, to) => from.map((a, i) => {
+    const b = to[i]; let max = 0, sum = 0, different = 0;
     for (let p = 0; p < a.length; p += 4) {
       let changed = false;
       for (let c = 0; c < 4; c++) { const d = Math.abs(a[p + c] - b[p + c]); max = Math.max(max, d); sum += d; changed ||= d > 0; }
       if (changed) different++;
     }
-    return { preset: report.before.rows[i].preset, maximumChannelError: max, meanChannelError: sum / a.length,
-      differingPixels: different, beforeBuilds: report.before.rows[i].sceneBuilds, afterBuilds: report.after.rows[i].sceneBuilds };
+    return { preset: report.after.rows[i].preset, maximumChannelError: max, meanChannelError: sum / a.length, differingPixels: different };
   });
-  report.passed = report.errors.length === 0 && report.comparisons.every(r => r.maximumChannelError <= 1)
+  report.comparisons = compare(pixels.before, pixels.after).map((row, i) => ({ ...row,
+    beforeBuilds: report.before.rows[i].sceneBuilds, afterBuilds: report.after.rows[i].sceneBuilds }));
+  report.freshComparisons = { before: compare(pixels.before, pixels.fresh), after: compare(pixels.after, pixels.fresh) };
+  report.gate = flag('compare') === 'before' ? 'before' : 'fresh';
+  const gated = report.gate === 'before' ? report.comparisons : report.freshComparisons.after;
+  report.passed = report.errors.length === 0 && gated.every(r => r.maximumChannelError <= 1)
     && report.after.rows.slice(1).every(r => r.sceneBuilds === 0 && r.cache.allocations <= 2);
-  persist(); console.log(JSON.stringify({ passed: report.passed, comparisons: report.comparisons }, null, 2));
+  persist(); console.log(JSON.stringify({ passed: report.passed, gate: report.gate,
+    afterVsFresh: report.freshComparisons.after, beforeVsFresh: report.freshComparisons.before }, null, 2));
   if (!report.passed) process.exitCode = 1;
 } catch (error) { report.errors.push(String(error.stack)); report.passed = false; persist(); throw error; }
 finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
