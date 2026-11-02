@@ -1,0 +1,70 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Haze spectrum: isolated check</title>
+<!-- The app's own aerial perspective (engine/aerial-perspective.mjs) over ridges
+     of the spruce's darkest pigment at 150 m to 8 km, under the painted presets,
+     with the spectrum off (?hazespectrum=0, the before) and on. Served from the
+     repository root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+const THREE = await import('three/webgpu');
+const { createAerialPerspective } = await import('/apps/golf/src/engine/aerial-perspective.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const { paintedAtmosphere, FOLIAGE_PALETTES } = await import('/apps/golf/src/engine/painted-world-palette.mjs');
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const W = 512, H = 288;
+const DISTANCES = [150, 400, 900, 1800, 3500, 8000];
+
+/* six ridges, each a band of the view at its own distance, nearest at the bottom */
+function buildScene(name, spectral) {
+  const p = paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
+  const scene = new THREE.Scene();
+  const fog = scene.fog = new THREE.FogExp2(p.fog, p.dens);
+  scene.background = new THREE.Color(p.fog);
+  const aerial = createAerialPerspective(fog, { sunward: true, valleyMist: false, spectral });
+  aerial.setPreset(p);
+  scene.fogNode = aerial.node;
+  const camera = new THREE.PerspectiveCamera(48, W / H, 1, 20000);
+  camera.position.set(0, 0, 0); camera.lookAt(0, 0, -1);
+  const wood = new THREE.MeshBasicNodeMaterial({ color: FOLIAGE_PALETTES.gran[0] });
+  const halfH = Math.tan(24 * Math.PI / 180);
+  DISTANCES.forEach((d, i) => {
+    // band i spans a sixth of the frame height, from the bottom up
+    const y0 = -halfH + (2 * halfH) * (i / DISTANCES.length), y1 = -halfH + (2 * halfH) * ((i + 1) / DISTANCES.length);
+    const quad = new THREE.Mesh(new THREE.PlaneGeometry(d * 4, (y1 - y0) * d), wood);
+    quad.position.set(0, ((y0 + y1) / 2) * d, -d);
+    scene.add(quad);
+  });
+  return { scene, camera, p };
+}
+
+async function draw(name, spectral) {
+  const renderer = new THREE.WebGPURenderer({ forceWebGL: backend === 'webgl2', antialias: false });
+  await renderer.init();
+  renderer.setPixelRatio(1); renderer.setSize(W, H);
+  const { scene, camera } = buildScene(name, spectral);
+  const target = new THREE.RenderTarget(W, H, { type: THREE.FloatType });
+  renderer.setRenderTarget(target);
+  renderer.render(scene, camera);
+  const pixels = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+  renderer.setRenderTarget(null); renderer.dispose();
+  return Array.from(pixels);
+}
+
+try {
+  const results = [];
+  for (const name of ['golden', 'noon', 'summer', 'bluehour', 'mist']) {
+    for (const spectral of [false, true]) results.push({ name, spectral, width: W, height: H, pixels: await draw(name, spectral) });
+  }
+  window.result = { backend, distances: DISTANCES, results };
+} catch (error) { window.result = { backend, error: String(error.stack || error) }; }
+</script>

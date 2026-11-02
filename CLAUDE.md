@@ -48,6 +48,14 @@ this guide or the current production workflow.
 - Study shader/tree entry points live in `apps/golf/src/studies`. Keep them out
   of the player import graph. Refined/foliage study assets remain available
   locally and are omitted from production builds.
+- three.js is r187 (0.187.0). Its PMREMs are mip-mapped cube targets: the
+  lighting environment bakes each preset into the displayed cube in place
+  (`lighting-environment.mjs`); never copy one PMREM into another, which keeps
+  the old preset on five faces and every rough mip (`check-lighting-reuse.mjs`
+  gates against a fresh bake). The bare chooser route hides the player HUD
+  (`body.hub`), and the menu's shortcut list renders from
+  `keyboard-shortcuts.mjs`: add a key there, with its test. See
+  [the r187 upgrade](docs/three-r187-upgrade-2026-11-02.md).
 - All seven historical public HTML URLs redirect to the app with their course
   and supported view settings. Vite generates these redirects. Root HTML sources
   remain course-pack validation inputs; never copy them over the built redirects.
@@ -244,6 +252,25 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   take a lighter, lower foot through `groundModel`, which keeps their colours,
   leaves self-painting materials alone and gives shared geometry its own copy.
   Stamp a new building mesh the same way. See [the buildings batch](docs/visual-buildings-2026-09-25.md).
+
+- Three techniques come from serenity-blocks (same three/TSL stack): the sun's
+  shadow is read through a fixed grid of compares (`sun-shadow.mjs`, nine taps
+  high, four low, spaced to the Vogel disc's second moment), since three's
+  noise-turned PCF leaves grain without TAA; the haze's depth is per channel
+  (`aerial-perspective.mjs` `SPECTRAL_HAZE`, red 0.7, green 1, blue 1.45), green
+  as tuned, offsets per vertex, mist grey, and the water's far shore takes the
+  same haze; and pollen and down drift on the one air round the eye
+  (`air-motes.mjs`, render order 3, held still under reduced motion, each
+  light's air in `AIR_MOTES.presets`); and god rays through the trees
+  (`god-rays.mjs`, three's GodraysNode on the scene pass's depth and the sun's
+  shadow map, high quality only): forward scatter from each pixel's own ray,
+  cut past 45-85% of the shadow box's half-width to the sun's glow, each light's
+  strength in `GOD_RAYS.presets` (none in storm, mist, blue hour, and then not
+  run), joined to the output only once the shadow map exists. `?shadowgrid=0`,
+  `?hazespectrum=0`, `?airmotes=0` and `?godrays=0` are the befores. In TSL never multiply a node by a JavaScript
+  number with `*` (it compiles to `NaN` and blanks the WebGPU frame); prove a
+  new shader in an isolated scene on both backends. See
+  [the serenity ports](docs/visual-serenity-ports-2026-11-02.md).
 
 ## Build and focused checks
 

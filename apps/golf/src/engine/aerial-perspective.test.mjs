@@ -92,7 +92,7 @@ describe('valley mist', () => {
     /* the shader's sum, haze + mist (1 - haze), is the haze itself when the mist is 0 */
     for (const haze of [0, 1e-9, 0.3, 0.88]) expect(haze + 0 * (1 - haze)).toBe(haze);
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-    expect(main).toMatch(/createAerialPerspective\(fog, \{ sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON \}\)/);
+    expect(main).toMatch(/createAerialPerspective\(fog, \{ sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON, spectral: HAZE_SPECTRUM_ON \}\)/);
     expect(main).toMatch(/aerialPerspective\.setMistBase\(valleyMistBase\(heights\)\)/);
   });
 });
@@ -149,5 +149,34 @@ describe('the light\'s glaze on the land', () => {
     expect(aerial.snapshot().glaze.amount).toBe(0);
     const source = fs.readFileSync(new URL('./aerial-perspective.mjs', import.meta.url), 'utf8');
     expect(source).toMatch(/vec4\(mix\(glazeColour\(output\.rgb, glazeTint, glazeAmount\), hazeColour, amount\), output\.a\)/);
+  });
+});
+
+describe('distance turns blue (spectral haze)', () => {
+  it('keeps green as tuned, meets the same ceiling at infinity, and puts blue ahead of red at every distance', async () => {
+    const { spectralHazeAmount, SPECTRAL_HAZE } = await import('./aerial-perspective.mjs');
+    expect(SPECTRAL_HAZE.spectrum).toEqual([0.7, 1.0, 1.45]);
+    for (const p of Object.values(ATMOSPHERE_PRESETS)) {
+      const max = p.hazeMax;
+      expect(spectralHazeAmount(0, max)).toEqual([0, 0, 0]);
+      const far = spectralHazeAmount(max, max);
+      for (const c of far) expect(c).toBeCloseTo(max, 12);
+      for (const metres of [150, 500, 1500, 4000]) {
+        const grey = (1 - Math.exp(-((p.dens * metres) ** 2))) * max;
+        const [r, g, b] = spectralHazeAmount(grey, max);
+        expect(g).toBe(grey);
+        if (grey > 1e-9 && grey < max - 1e-9) { expect(r).toBeLessThan(g); expect(b).toBeGreaterThan(g); }
+        for (const c of [r, g, b]) { expect(c).toBeGreaterThanOrEqual(0); expect(c).toBeLessThanOrEqual(max); }
+      }
+    }
+  });
+
+  it('is the before with spectral off, and records the spectrum it draws with', () => {
+    const fog = new FogExp2(0xa4becb, 0.0002);
+    expect(createAerialPerspective(fog, { spectral: false }).snapshot().spectrum).toBeNull();
+    expect(createAerialPerspective(fog).snapshot().spectrum).toEqual([0.7, 1.0, 1.45]);
+    const source = fs.readFileSync(new URL('./aerial-perspective.mjs', import.meta.url), 'utf8');
+    // the offsets are per vertex: crowns shade no more per pixel
+    expect(source).toMatch(/\.mul\(maximum\)\.toVertexStage\(\)/);
   });
 });

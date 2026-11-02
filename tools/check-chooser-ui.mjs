@@ -228,6 +228,32 @@ await section('1366x768 desktop', async () => {
   await ctx.close();
 });
 
+/* ------------------------------------ nothing of the player behind it */
+/* The bare route loads no player, yet index.html carries its HUD. Before
+   body.hub hid it, the hole card ("1", "—") and the rail's camera buttons showed
+   through the chooser's 95%-opaque glass, and Tab walked into 40-odd player
+   controls that do nothing on this route. */
+await section('no player behind the chooser', async () => {
+  const { ctx, page } = await open({ width: 1440, height: 900 });
+  await page.waitForSelector('#chooser .card', { timeout: 60000 });
+  const shown = await page.evaluate(() => [...document.body.children]
+    .filter(e => !['chooser', 'boot', 'toast'].includes(e.id) && e.tagName !== 'SCRIPT')
+    .filter(e => getComputedStyle(e).display !== 'none' && e.getClientRects().length)
+    .map(e => e.id || e.className));
+  gate(shown.length === 0, `no player HUD is laid out behind the chooser${shown.length ? `: ${shown.join(', ')}` : ''}`);
+  const strays = [];
+  for (let i = 0; i < 60; i++) {
+    await page.keyboard.press('Tab');
+    const where = await page.evaluate(() => {
+      const a = document.activeElement;
+      return !a || a === document.body || a.closest('#chooser') ? null : a.id || a.className || a.tagName;
+    });
+    if (where) strays.push(where);
+  }
+  gate(strays.length === 0, `Tab stays in the chooser${strays.length ? `; it reached ${[...new Set(strays)].join(', ')}` : ''}`);
+  await ctx.close();
+});
+
 /* --------------------------------------------- a finger is not a pointer */
 await section('touch warm-up', async () => {
   const { ctx, page } = await open({ width: 390, height: 844, touch: true });
@@ -419,6 +445,44 @@ if (PLAYER) {
     await page.waitForTimeout(600);
     const open2 = await page.evaluate(() => document.body.classList.contains('choosing'));
     gate(e1.q === '' && e1.open && !open2, 'Escape empties the search first and closes the chooser second');
+
+    /* The menu listed 1-9, 0, C, L and F; until engine/keyboard-shortcuts.mjs
+       only the arrows, N/P, H and M did anything. */
+    const read = () => page.evaluate(() => ({ hole: document.getElementById('cno').textContent.trim(),
+      cam: document.querySelector('#rail [data-cam].on')?.dataset.cam, light: document.querySelector('#rail [data-preset].on')?.dataset.preset }));
+    const holes = await page.evaluate(() => document.querySelectorAll('#holes .hb').length);
+    await page.keyboard.press('7');
+    await page.waitForTimeout(300);
+    gate((await read()).hole === '7', `"7" goes to hole 7 (${(await read()).hole})`);
+    if (holes >= 14) {
+      await page.keyboard.press('1'); await page.keyboard.press('4');
+      await page.waitForTimeout(300);
+      gate((await read()).hole === '14', `"1", "4" goes to hole 14 (${(await read()).hole})`);
+      await page.keyboard.press('1');
+      await page.waitForTimeout(1200);
+      gate((await read()).hole === '1', `a lone "1" goes to hole 1 once the second digit does not come (${(await read()).hole})`);
+      await page.keyboard.press('0');
+      await page.waitForTimeout(300);
+      gate((await read()).hole === '10', `"0" goes to hole 10 (${(await read()).hole})`);
+    }
+    const s0 = await read();
+    await page.keyboard.press('c');
+    await page.waitForTimeout(300);
+    const s1 = await read();
+    gate(s1.cam && s1.cam !== s0.cam, `"C" steps the camera view (${s0.cam} -> ${s1.cam})`);
+    await page.keyboard.press('l');
+    await page.waitForTimeout(600);
+    const s2 = await read();
+    gate(s2.light && s2.light !== s0.light, `"L" steps the light (${s0.light} -> ${s2.light})`);
+    await page.evaluate(() => document.getElementById('menuToggle').click());
+    await page.waitForTimeout(500);
+    const listed = await page.evaluate(() => [...document.querySelectorAll('#navDrawer .sc-row')].map(r => r.textContent.replace(/\s+/g, ' ').trim()));
+    gate(listed.some(t => t.includes('Byt kameravy')) && listed.some(t => t.includes('Hål 10')), `the menu lists the working keys (${listed.length} rows)`);
+    const inMenu = (await read()).hole;
+    await page.keyboard.press('5');
+    await page.waitForTimeout(300);
+    gate((await read()).hole === inMenu, `keys do not steer the course behind the open menu (hole ${inMenu} -> ${(await read()).hole})`);
+    await page.keyboard.press('Escape');
   } catch (e) {
     gate(false, `player: ${String(e).split('\n')[0].slice(0, 110)}`);
   }

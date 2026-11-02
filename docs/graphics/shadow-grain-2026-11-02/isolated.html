@@ -1,0 +1,99 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Shadow grain: isolated check</title>
+<!-- The app's own sun-shadow filter (engine/sun-shadow.mjs) in an isolated
+     low-sun scene: three's noise-turned PCF (?shadowgrid=0, the before) and
+     the grid filter at nine and four taps. Served from the repository root by
+     check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+const THREE = await import('three/webgpu');
+const { createSunShadowFilter, GRID_SHADOW_TAPS } = await import('/apps/golf/src/engine/sun-shadow.mjs');
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const W = 512, H = 288;   // 2048-byte rows: no read-back padding on either backend
+
+/* rolling ground under a sun 7 degrees up: most of it sits near the edge of its own
+   shadow, where the filter's penumbra is drawn, plus trunks and crowns that cast */
+function buildScene() {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x9cc3e0);
+  const ground = new THREE.PlaneGeometry(240, 240, 240, 240);
+  ground.rotateX(-Math.PI / 2);
+  const p = ground.attributes.position;
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), z = p.getZ(i);
+    p.setY(i, 1.6 * Math.sin(x * 0.11) * Math.cos(z * 0.09) + 0.7 * Math.sin(x * 0.31 + z * 0.23));
+  }
+  ground.computeVertexNormals();
+  const turf = new THREE.MeshStandardNodeMaterial({ color: 0x6f9a4a, roughness: 1 });
+  const g = new THREE.Mesh(ground, turf); g.receiveShadow = true; g.castShadow = true; scene.add(g);
+  const bark = new THREE.MeshStandardNodeMaterial({ color: 0x6b4b33, roughness: 1 });
+  const leaf = new THREE.MeshStandardNodeMaterial({ color: 0x3f6d32, roughness: 1 });
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for (let k = 0; k < 26; k++) {
+    const x = (rnd() - 0.5) * 70, z = -rnd() * 60 + 8, h = 4 + rnd() * 5;
+    const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, h, 8), bark);
+    trunk.position.set(x, h / 2, z);
+    const crown = new THREE.Mesh(new THREE.IcosahedronGeometry(1.6 + rnd() * 1.4, 1), leaf);
+    crown.position.set(x, h + 0.6, z);
+    for (const m of [trunk, crown]) { m.castShadow = m.receiveShadow = true; scene.add(m); }
+  }
+  const sun = new THREE.DirectionalLight(0xfff0d8, 3.2);
+  const elevation = 7 * Math.PI / 180, azimuth = -0.6;
+  sun.position.set(Math.sin(azimuth) * Math.cos(elevation), Math.sin(elevation), -Math.cos(azimuth) * Math.cos(elevation)).multiplyScalar(150);
+  sun.castShadow = true;
+  Object.assign(sun.shadow.camera, { left: -70, right: 70, top: 70, bottom: -70, near: 1, far: 400 });
+  sun.shadow.mapSize.set(1024, 1024);
+  sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.08;
+  scene.add(sun, sun.target);
+  scene.add(new THREE.HemisphereLight(0xbfd8ff, 0x4a5a32, 0.9));
+  const camera = new THREE.PerspectiveCamera(48, W / H, 0.5, 600);
+  camera.position.set(4, 7, 34); camera.lookAt(0, 1.5, -6);
+  return { scene, sun, camera };
+}
+
+async function draw({ grid, taps, radius }) {
+  const renderer = new THREE.WebGPURenderer({ forceWebGL: backend === 'webgl2', antialias: false });
+  await renderer.init();
+  renderer.setPixelRatio(1); renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
+  const { scene, sun, camera } = buildScene();
+  sun.shadow.radius = radius;
+  sun.shadow.filterNode = createSunShadowFilter({ grid, taps }).filterNode;
+  const target = new THREE.RenderTarget(W, H, { type: THREE.UnsignedByteType });
+  let previous = null, pixels = null;
+  for (let i = 0; i < 6; i++) {
+    renderer.setRenderTarget(target);
+    renderer.render(scene, camera);
+    pixels = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+    if (previous && pixels.every((v, j) => v === previous[j])) break;
+    previous = pixels.slice();
+  }
+  renderer.setRenderTarget(null);
+  renderer.dispose();
+  return Array.from(pixels);
+}
+
+const cases = [
+  { name: 'pcf-r1', grid: false, taps: 5, radius: 1 },
+  { name: 'grid9-r1', grid: true, taps: GRID_SHADOW_TAPS.high, radius: 1 },
+  { name: 'grid4-r1', grid: true, taps: GRID_SHADOW_TAPS.low, radius: 1 },
+  { name: 'pcf-r3', grid: false, taps: 5, radius: 3 },
+  { name: 'grid9-r3', grid: true, taps: GRID_SHADOW_TAPS.high, radius: 3 },
+  { name: 'grid4-r3', grid: true, taps: GRID_SHADOW_TAPS.low, radius: 3 },
+];
+try {
+  const results = [];
+  for (const c of cases) results.push({ ...c, width: W, height: H, pixels: await draw(c) });
+  window.result = { backend, results };
+} catch (error) { window.result = { backend, error: String(error.stack || error) }; }
+</script>

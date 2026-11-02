@@ -1,0 +1,82 @@
+{
+  "adapter": "swiftshader",
+  "configs": {
+    "webgl2": {
+      "rows": {
+        "added": {
+          "woodAhead": 5491.599,
+          "woodBehind": 145.4702,
+          "storm": 0,
+          "openAhead": 7689.6807
+        },
+        "negativePixels": 0,
+        "stormMarchRun": false,
+        "variation": {
+          "wood": 0.311,
+          "open": 0.0109
+        }
+      },
+      "checks": {
+        "adds": true,
+        "forwardScatter": true,
+        "stormNothing": true,
+        "beams": true,
+        "noErrors": true
+      },
+      "errors": []
+    },
+    "webgpu": {
+      "rows": {
+        "added": {
+          "woodAhead": 5489.3316,
+          "woodBehind": 144.251,
+          "storm": 0,
+          "openAhead": 7684.1046
+        },
+        "negativePixels": 0,
+        "stormMarchRun": false,
+        "variation": {
+          "wood": 0.3116,
+          "open": 0.0109
+        }
+      },
+      "checks": {
+        "adds": true,
+        "forwardScatter": true,
+        "stormNothing": true,
+        "beams": true,
+        "noErrors": true
+      },
+      "errors": []
+    },
+    "webgpu-rdepth": {
+      "rows": {
+        "added": {
+          "woodAhead": 5489.3195,
+          "woodBehind": 144.2511,
+          "storm": 0,
+          "openAhead": 7684.082
+        },
+        "negativePixels": 0,
+        "stormMarchRun": false,
+        "variation": {
+          "wood": 0.3116,
+          "open": 0.0109
+        }
+      },
+      "checks": {
+        "adds": true,
+        "forwardScatter": true,
+        "stormNothing": true,
+        "beams": true,
+        "noErrors": true
+      },
+      "errors": []
+    }
+  },
+  "agreement": {
+    "webgl2 vs webgpu": 0.014,
+    "webgl2 vs webgpu-rdepth": 0.014
+  },
+  "passed": true
+}

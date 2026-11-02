@@ -27,7 +27,7 @@ import { atan, float, mix, normalize, renderGroup, sin, smoothstep, texture, uni
 import { FOLIAGE_PALETTES } from './painted-world-palette.mjs';
 import { ONE_WIND } from './one-wind.mjs';
 import { cloudPatternTexture } from './cloud-shadow.mjs';
-import { sunwardLobe } from './aerial-perspective.mjs';
+import { spectralHazeAmount, sunwardLobe } from './aerial-perspective.mjs';
 
 export const NORDIC_WATER = Object.freeze({
   /* the ripple map's spread of slopes per axis (water-normal-texture.mjs, the seamless map), measured */
@@ -95,22 +95,26 @@ export function treeLineShare({ R, up }) {
   return float(1).sub(smoothstep(top.mul(0.55), top.mul(1.1), up));
 }
 
-/** The far shore's wood, reflected: the spruce's darkest pigment in the crowns' shaded light, through the haze of its distance. */
-export function treeLineColour(p, { fogColour, fogDensity, hazeMax = 0.85 }, out = new Color()) {
+/** The far shore's wood, reflected: the spruce's darkest pigment in the crowns' shaded light, through the haze of its distance.
+ * `spectrum` is the land's haze per channel (aerial-perspective.mjs SPECTRAL_HAZE), so the reflected wood steps back in
+ * the same blue as the wood itself; null is one grey haze, as before ?hazespectrum=0. */
+export function treeLineColour(p, { fogColour, fogDensity, hazeMax = 0.85, spectrum = null }, out = new Color()) {
   const strength = p.foliage?.strength ?? Math.max(0.35, Math.min(1, 0.18 + (p.int ?? 0) * 0.30 + (p.hemiI ?? 0) * 0.10));
   const shade = new Color(p.hemiS ?? 0xffffff).lerp(new Color(1, 1, 1), p.foliage?.shadowWhite ?? 0.62);
   out.setHex(FOLIAGE_PALETTES.gran[0]).multiply(shade).multiplyScalar(strength);
   const air = (1 - Math.exp(-((fogDensity * NORDIC_WATER.treeLine.shoreMetres) ** 2))) * hazeMax;
-  return out.lerp(fogColour, Math.min(1, air + 0.12));
+  if (!spectrum) return out.lerp(fogColour, Math.min(1, air + 0.12));
+  const [r, g, b] = spectralHazeAmount(air, hazeMax, spectrum).map(a => Math.min(1, a + 0.12));
+  return out.setRGB(out.r + (fogColour.r - out.r) * r, out.g + (fogColour.g - out.g) * g, out.b + (fogColour.b - out.b) * b);
 }
 
 /** The preset's water colours: `sky` is the preset as the sky takes it (main.js skyPreset). */
-export function setNordicWaterPreset(p, { sky = p, fogColour, fogDensity, hazeMax }) {
+export function setNordicWaterPreset(p, { sky = p, fogColour, fogDensity, hazeMax, spectrum = null }) {
   const sun = new Color(p.sun ?? 0xfff4d9);
   waterSun.value.copy(sun).multiplyScalar(1 / Math.max(sun.r, sun.g, sun.b, 1e-3));
   waterSkyGlow.value.setHex(sky.skySunGlow ?? 0xffffff);
   waterSkyGlowStrength.value = sky.skySunGlowStrength ?? 0;
-  treeLineColour(p, { fogColour, fogDensity, hazeMax }, waterTreeLine.value);
+  treeLineColour(p, { fogColour, fogDensity, hazeMax, spectrum }, waterTreeLine.value);
 }
 
 /* THE WATER ON THE ONE WIND: each ripple layer's and the foam's offset, in its own texture's units and

@@ -1,0 +1,108 @@
+{
+  "adapter": "swiftshader",
+  "backends": {
+    "webgl2": {
+      "errors": [],
+      "rows": {
+        "r1": {
+          "wholeFrameGrain": {
+            "pcf": 1.0828,
+            "grid9": 1.069,
+            "grid4": 1.0695
+          },
+          "smoothGroundShare": 0.8818,
+          "grainWhereGridIsSmooth": {
+            "pcf": {
+              "grainyShare": 0.0212,
+              "mean": 0.058
+            },
+            "grid4": {
+              "grainyShare": 0.0039,
+              "mean": 0.0442
+            }
+          },
+          "penumbraDelta": {
+            "grid9": 0.0068,
+            "grid4": 0.0101
+          },
+          "passed": true
+        },
+        "r3": {
+          "wholeFrameGrain": {
+            "pcf": 1.102,
+            "grid9": 1.0428,
+            "grid4": 1.0662
+          },
+          "smoothGroundShare": 0.8811,
+          "grainWhereGridIsSmooth": {
+            "pcf": {
+              "grainyShare": 0.0596,
+              "mean": 0.1135
+            },
+            "grid4": {
+              "grainyShare": 0.0197,
+              "mean": 0.0649
+            }
+          },
+          "penumbraDelta": {
+            "grid9": 0.041,
+            "grid4": 0.1129
+          },
+          "passed": true
+        }
+      }
+    },
+    "webgpu": {
+      "errors": [],
+      "rows": {
+        "r1": {
+          "wholeFrameGrain": {
+            "pcf": 1.0824,
+            "grid9": 1.0685,
+            "grid4": 1.0691
+          },
+          "smoothGroundShare": 0.882,
+          "grainWhereGridIsSmooth": {
+            "pcf": {
+              "grainyShare": 0.0212,
+              "mean": 0.058
+            },
+            "grid4": {
+              "grainyShare": 0.0039,
+              "mean": 0.0443
+            }
+          },
+          "penumbraDelta": {
+            "grid9": 0.0068,
+            "grid4": 0.0101
+          },
+          "passed": true
+        },
+        "r3": {
+          "wholeFrameGrain": {
+            "pcf": 1.102,
+            "grid9": 1.0427,
+            "grid4": 1.066
+          },
+          "smoothGroundShare": 0.8812,
+          "grainWhereGridIsSmooth": {
+            "pcf": {
+              "grainyShare": 0.0596,
+              "mean": 0.1136
+            },
+            "grid4": {
+              "grainyShare": 0.0197,
+              "mean": 0.065
+            }
+          },
+          "penumbraDelta": {
+            "grid9": 0.0411,
+            "grid4": 0.113
+          },
+          "passed": true
+        }
+      }
+    }
+  },
+  "passed": true
+}

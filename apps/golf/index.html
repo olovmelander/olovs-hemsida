@@ -230,6 +230,11 @@ canvas{display:block;position:fixed;inset:0}
 .m-hud-btn.primary{background:rgba(95,208,122,.14);border-color:rgba(95,208,122,.35);color:var(--turf);font-weight:700}
 .m-hud-btn:active{transform:scale(.95)}
 
+/* The bare chooser route (hub.js) never loads the player: keep only the chooser,
+   the boot cover and the toast, so no placeholder HUD shows through the glass
+   or takes keyboard focus behind it. */
+body.hub>:not(#chooser):not(#boot):not(#toast):not(script){display:none!important}
+
 /* ren vy: everything fades, the landscape stays. The ghost button brings it back. */
 .panel,#hint,#uiToggle,#courseNav,.holes-wrap,.mobile-hud-cluster,#gpsStatus{transition:opacity .35s}
 body.clean .panel,body.clean #hint,body.clean #uiToggle,body.clean #courseNav,body.clean .holes-wrap,body.clean .mobile-hud-cluster,body.clean #gpsStatus,body.clean #kikTag{opacity:0!important;pointer-events:none}
@@ -634,7 +639,7 @@ body.gps-on #v2TerrainBadge{top:118px}
 
 <!-- In-Game Top-Left Navigation Trigger -->
 <div id="courseNav">
-  <button id="menuToggle" aria-label="Öppna meny och verktyg" title="Öppna meny (Esc)">
+  <button id="menuToggle" aria-label="Öppna meny och verktyg" title="Öppna meny">
     <div class="hamburger-box">
       <span class="hb-line"></span>
       <span class="hb-line"></span>
@@ -672,14 +677,14 @@ body.gps-on #v2TerrainBadge{top:118px}
     <div class="rhs-sub" id="railHoleSub">Spelas 6 m nedför</div>
     <button class="panel-close-btn" id="railCloseBtn" aria-label="Stäng meny" title="Stäng">×</button>
   </div>
-  <div class="lbl">Kameravy</div>
+  <div class="lbl" title="Byt kameravy med C">Kameravy</div>
   <div class="grp">
     <button class="btn" data-cam="tee">Tee</button>
     <button class="btn" data-cam="green">Green</button>
     <button class="btn on" data-cam="orbit">Fritt</button>
     <button class="btn" data-cam="top">Ovan</button>
   </div>
-  <div class="lbl">Ljus & Atmosfär</div>
+  <div class="lbl" title="Växla ljus med L">Ljus & Atmosfär</div>
   <div class="grp tight">
     <button class="btn on" data-preset="golden">Kväll</button>
     <button class="btn" data-preset="noon">Dag</button>
@@ -699,7 +704,7 @@ body.gps-on #v2TerrainBadge{top:118px}
   </div>
   <div class="lbl">Guidade turer</div>
   <div class="grp">
-    <button class="btn btn-action" id="flyBtn"><svg class="btn-action-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Flygtur</button>
+    <button class="btn btn-action" id="flyBtn" title="Flygtur över hålet (F)" aria-keyshortcuts="F"><svg class="btn-action-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Flygtur</button>
     <button class="btn btn-action" id="tourBtn"><svg class="btn-action-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg> Bansafari</button>
   </div>
   <div class="lbl">Verktyg</div>
@@ -718,7 +723,7 @@ body.gps-on #v2TerrainBadge{top:118px}
   <div class="tool-hint" id="toolHint">Tryck på banan för att mäta med Kikaren</div>
   <div class="lbl">Visning & Bana</div>
   <div class="grp">
-    <button class="btn btn-toggle on" id="skyltBtn"><span class="btn-toggle-dot"></span> Skyltar</button>
+    <button class="btn btn-toggle on" id="skyltBtn" title="Skyltar: av, hål, faciliteter (M)" aria-keyshortcuts="M"><span class="btn-toggle-dot"></span> Skyltar</button>
     <button class="btn btn-nav" id="bytBtn"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg> Välj bana</button>
   </div>
   <div id="facts"></div>
@@ -737,9 +742,9 @@ body.gps-on #v2TerrainBadge{top:118px}
 </div>
 
 <div id="holesContainer" class="holes-wrap">
-  <button class="hole-step-btn" id="holePrevBtn" aria-label="Föregående hål" title="Föregående hål (P)">‹</button>
+  <button class="hole-step-btn" id="holePrevBtn" aria-label="Föregående hål" title="Föregående hål (← eller P)" aria-keyshortcuts="ArrowLeft P">‹</button>
   <div class="panel" id="holes"></div>
-  <button class="hole-step-btn" id="holeNextBtn" aria-label="Nästa hål" title="Nästa hål (N)">›</button>
+  <button class="hole-step-btn" id="holeNextBtn" aria-label="Nästa hål" title="Nästa hål (→ eller N)" aria-keyshortcuts="ArrowRight N">›</button>
 </div>
 
 <div class="panel" id="mini">

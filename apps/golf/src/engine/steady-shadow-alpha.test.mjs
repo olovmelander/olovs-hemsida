@@ -27,4 +27,24 @@ describe('steady shadow alphaTest', () => {
     expect(steadyShadowAlpha(plain)).toBe(false);
     const v = plain.version; plain.alphaTest = 0.5; expect(plain.version).toBe(v + 1);
   });
+  it('reads what r187 writes: the override\'s _alphaTest, bypassing the setter', () => {
+    const m = shadowMaterial();
+    steadyShadowAlpha(m);
+    const version = m.version;
+    for (const v of [0.5, 0, 0.01, 0.5]) {
+      m._alphaTest = v;                     // Renderer.renderObject, r187
+      expect(m.alphaTest).toBe(v);          // what the node material reads
+    }
+    expect(m.version).toBe(version);
+  });
+  it('agrees with three\'s own accessor on a patched and an unpatched material', () => {
+    const patched = shadowMaterial(), plain = shadowMaterial();
+    steadyShadowAlpha(patched);
+    for (const v of [0.5, 0]) {
+      patched.alphaTest = v; plain.alphaTest = v;
+      expect(patched._alphaTest).toBe(plain._alphaTest);
+      patched._alphaTest = v; plain._alphaTest = v;
+      expect(patched.alphaTest).toBe(plain.alphaTest);
+    }
+  });
 });

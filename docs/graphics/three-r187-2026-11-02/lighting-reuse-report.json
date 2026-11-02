@@ -1,0 +1,684 @@
+{
+ "baselineRevision": "HEAD",
+ "candidateCheckpoint": "f3d21f171d3fb8922e63093fdd36f905347e1345",
+ "sourceHashes": {
+  "before": "75a92837fe6dceb546b7bb66b836813806eb9da5e3cabb97c90bffa49ca4948e",
+  "after": "58ac28cd7c76883a51b0c1e2db072a74963b4d9c3b66326a1e0bed15523f7c63"
+ },
+ "hardwarePerformanceEvidence": false,
+ "method": "Isolated 7-object scene, 160x120 DPR1 MSAA4, the installed Three, WebGL2 SwiftShader. Same presets, geometry, material settings and PMREM resolution/filtering. Counts include actual node builds and backend calls; software timings are diagnostic only.",
+ "errors": [],
+ "comparisons": [
+  {
+   "preset": "noon",
+   "maximumChannelError": 0,
+   "meanChannelError": 0,
+   "differingPixels": 0,
+   "beforeBuilds": 2,
+   "afterBuilds": 2
+  },
+  {
+   "preset": "golden",
+   "maximumChannelError": 27,
+   "meanChannelError": 1.6941015625,
+   "differingPixels": 12908,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  },
+  {
+   "preset": "noon",
+   "maximumChannelError": 0,
+   "meanChannelError": 0,
+   "differingPixels": 0,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  },
+  {
+   "preset": "host",
+   "maximumChannelError": 34,
+   "meanChannelError": 2.26703125,
+   "differingPixels": 12906,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  },
+  {
+   "preset": "mist",
+   "maximumChannelError": 31,
+   "meanChannelError": 3.4798828125,
+   "differingPixels": 12909,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  },
+  {
+   "preset": "dawn",
+   "maximumChannelError": 18,
+   "meanChannelError": 1.8228645833333332,
+   "differingPixels": 12886,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  },
+  {
+   "preset": "golden",
+   "maximumChannelError": 27,
+   "meanChannelError": 1.6941015625,
+   "differingPixels": 12908,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  },
+  {
+   "preset": "noon",
+   "maximumChannelError": 0,
+   "meanChannelError": 0,
+   "differingPixels": 0,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  },
+  {
+   "preset": "host",
+   "maximumChannelError": 34,
+   "meanChannelError": 2.26703125,
+   "differingPixels": 12906,
+   "beforeBuilds": 0,
+   "afterBuilds": 0
+  }
+ ],
+ "freshComparisons": {
+  "before": [
+   {
+    "preset": "noon",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "golden",
+    "maximumChannelError": 27,
+    "meanChannelError": 1.6941015625,
+    "differingPixels": 12908
+   },
+   {
+    "preset": "noon",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "host",
+    "maximumChannelError": 34,
+    "meanChannelError": 2.26703125,
+    "differingPixels": 12906
+   },
+   {
+    "preset": "mist",
+    "maximumChannelError": 31,
+    "meanChannelError": 3.4798828125,
+    "differingPixels": 12909
+   },
+   {
+    "preset": "dawn",
+    "maximumChannelError": 18,
+    "meanChannelError": 1.8228645833333332,
+    "differingPixels": 12886
+   },
+   {
+    "preset": "golden",
+    "maximumChannelError": 27,
+    "meanChannelError": 1.6941015625,
+    "differingPixels": 12908
+   },
+   {
+    "preset": "noon",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "host",
+    "maximumChannelError": 34,
+    "meanChannelError": 2.26703125,
+    "differingPixels": 12906
+   }
+  ],
+  "after": [
+   {
+    "preset": "noon",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "golden",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "noon",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "host",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "mist",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "dawn",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "golden",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "noon",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   },
+   {
+    "preset": "host",
+    "maximumChannelError": 0,
+    "meanChannelError": 0,
+    "differingPixels": 0
+   }
+  ]
+ },
+ "gate": "fresh",
+ "passed": true,
+ "before": {
+  "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "rows": [
+   {
+    "preset": "noon",
+    "sceneBuilds": 2,
+    "programs": 12,
+    "pipelines": 6,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "copies": 0,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "golden",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "golden",
+     "cachedPresets": [
+      "golden"
+     ],
+     "bakes": 2,
+     "allocations": 2,
+     "copies": 1,
+     "disposed": false
+    },
+    "pngSha256": "f3ddc855183916ea438d657c0b121c5711c8814775e2eae24225cc65f7b7a863"
+   },
+   {
+    "preset": "noon",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 3,
+     "allocations": 2,
+     "copies": 2,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "host",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "host",
+     "cachedPresets": [
+      "host"
+     ],
+     "bakes": 4,
+     "allocations": 2,
+     "copies": 3,
+     "disposed": false
+    },
+    "pngSha256": "8abe9fc8168b88e4b07badac457b9f775207f521c706df39ec10ff71e59c2298"
+   },
+   {
+    "preset": "mist",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "mist",
+     "cachedPresets": [
+      "mist"
+     ],
+     "bakes": 5,
+     "allocations": 2,
+     "copies": 4,
+     "disposed": false
+    },
+    "pngSha256": "7f568407d0ce9477925e2eda1bc3573420583000228722be5b81cefccaed909c"
+   },
+   {
+    "preset": "dawn",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "dawn",
+     "cachedPresets": [
+      "dawn"
+     ],
+     "bakes": 6,
+     "allocations": 2,
+     "copies": 5,
+     "disposed": false
+    },
+    "pngSha256": "5a71ff1e7803ff278452ad02ea674d558ac4cdffc797e0fa96e59c6fea09df7e"
+   },
+   {
+    "preset": "golden",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "golden",
+     "cachedPresets": [
+      "golden"
+     ],
+     "bakes": 7,
+     "allocations": 2,
+     "copies": 6,
+     "disposed": false
+    },
+    "pngSha256": "f3ddc855183916ea438d657c0b121c5711c8814775e2eae24225cc65f7b7a863"
+   },
+   {
+    "preset": "noon",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 8,
+     "allocations": 2,
+     "copies": 7,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "host",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "host",
+     "cachedPresets": [
+      "host"
+     ],
+     "bakes": 9,
+     "allocations": 2,
+     "copies": 8,
+     "disposed": false
+    },
+    "pngSha256": "8abe9fc8168b88e4b07badac457b9f775207f521c706df39ec10ff71e59c2298"
+   }
+  ]
+ },
+ "after": {
+  "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "rows": [
+   {
+    "preset": "noon",
+    "sceneBuilds": 2,
+    "programs": 12,
+    "pipelines": 6,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "golden",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "golden",
+     "cachedPresets": [
+      "golden"
+     ],
+     "bakes": 2,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "171e2013f9c10c4517c072f3fafd3bad8dbdfef15c3d47b08e120320fb153d7d"
+   },
+   {
+    "preset": "noon",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 3,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "host",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "host",
+     "cachedPresets": [
+      "host"
+     ],
+     "bakes": 4,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "920ceda998a1a0e7d3ff8d192470522a8183f0ccd2e3f9eb4de2fb0910ffb4ea"
+   },
+   {
+    "preset": "mist",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "mist",
+     "cachedPresets": [
+      "mist"
+     ],
+     "bakes": 5,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "051bf453a4263f715e2662e6fa897b0dddbb2c0423b90256f6395a42a12ca683"
+   },
+   {
+    "preset": "dawn",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "dawn",
+     "cachedPresets": [
+      "dawn"
+     ],
+     "bakes": 6,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "b77c68eaa9316f0668875ae5a6b3806f1a0b99b462eb03ec1b4eb4be032d67a6"
+   },
+   {
+    "preset": "golden",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "golden",
+     "cachedPresets": [
+      "golden"
+     ],
+     "bakes": 7,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "171e2013f9c10c4517c072f3fafd3bad8dbdfef15c3d47b08e120320fb153d7d"
+   },
+   {
+    "preset": "noon",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 8,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "host",
+    "sceneBuilds": 0,
+    "programs": 0,
+    "pipelines": 0,
+    "cache": {
+     "enabled": true,
+     "preset": "host",
+     "cachedPresets": [
+      "host"
+     ],
+     "bakes": 9,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "920ceda998a1a0e7d3ff8d192470522a8183f0ccd2e3f9eb4de2fb0910ffb4ea"
+   }
+  ]
+ },
+ "fresh": {
+  "adapter": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "rows": [
+   {
+    "preset": "noon",
+    "sceneBuilds": 2,
+    "programs": 12,
+    "pipelines": 6,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "golden",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "golden",
+     "cachedPresets": [
+      "golden"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "171e2013f9c10c4517c072f3fafd3bad8dbdfef15c3d47b08e120320fb153d7d"
+   },
+   {
+    "preset": "noon",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "host",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "host",
+     "cachedPresets": [
+      "host"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "920ceda998a1a0e7d3ff8d192470522a8183f0ccd2e3f9eb4de2fb0910ffb4ea"
+   },
+   {
+    "preset": "mist",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "mist",
+     "cachedPresets": [
+      "mist"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "051bf453a4263f715e2662e6fa897b0dddbb2c0423b90256f6395a42a12ca683"
+   },
+   {
+    "preset": "dawn",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "dawn",
+     "cachedPresets": [
+      "dawn"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "b77c68eaa9316f0668875ae5a6b3806f1a0b99b462eb03ec1b4eb4be032d67a6"
+   },
+   {
+    "preset": "golden",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "golden",
+     "cachedPresets": [
+      "golden"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "171e2013f9c10c4517c072f3fafd3bad8dbdfef15c3d47b08e120320fb153d7d"
+   },
+   {
+    "preset": "noon",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "noon",
+     "cachedPresets": [
+      "noon"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "2d8b92743ff0c393beb78708124a607f9fe4ee03e2e1e6aab497b97f3c1a4c5f"
+   },
+   {
+    "preset": "host",
+    "sceneBuilds": 2,
+    "programs": 8,
+    "pipelines": 4,
+    "cache": {
+     "enabled": true,
+     "preset": "host",
+     "cachedPresets": [
+      "host"
+     ],
+     "bakes": 1,
+     "allocations": 1,
+     "disposed": false
+    },
+    "pngSha256": "920ceda998a1a0e7d3ff8d192470522a8183f0ccd2e3f9eb4de2fb0910ffb4ea"
+   }
+  ]
+ }
+}

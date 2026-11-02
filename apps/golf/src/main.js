@@ -37,14 +37,16 @@ import {
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
-  normalMap, bumpMap, transformedNormalView,
+  normalMap, bumpMap,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
 import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
-import { createAerialPerspective, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
+import { createAerialPerspective, SPECTRAL_HAZE, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
+import { createAirMotes } from './engine/air-motes.mjs';
+import { createGodRays } from './engine/god-rays.mjs';
 import { installOutputDither } from './engine/output-dither.mjs';
 
 import { loadCourse } from './loader/pack.js';
@@ -104,7 +106,7 @@ import { createNearGrass } from './engine/near-grass.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { createLightingEnvironment } from './engine/lighting-environment.mjs';
-import { createSunShadowFilter } from './engine/sun-shadow.mjs';
+import { createSunShadowFilter, GRID_SHADOW_TAPS } from './engine/sun-shadow.mjs';
 import { createShadowTint, shadowTintFor, sunUnderClouds } from './engine/shadow-tint.mjs';
 import { treeTint, vistaTint } from './engine/stand-tint.mjs';
 import { groundReliefBytes } from './engine/ground-relief.mjs';
@@ -169,6 +171,7 @@ import { contiguousRgba8Readback } from './engine/rgba8-readback.mjs';
 import { steadyShadowAlpha } from './engine/steady-shadow-alpha.mjs';
 import { shadowSnapCell, sameShadowCell } from './engine/shadow-cell.mjs';
 import { SHADOW_FITS, SHADOW_FIT_TUNED, chooseShadowFit, shadowBoxFor } from './engine/shadow-fit.mjs';
+import { CAMERA_CYCLE, createShortcutKeys, nextInCycle } from './engine/keyboard-shortcuts.mjs';
 
 /* ?det=1 pins the clocks -- the TSL time uniform driving water and clouds, and
    the flag-cloth wave -- so two boots render the same pixels. Phase 0 proved the
@@ -2009,7 +2012,13 @@ const WATER_LANES_ON = new URLSearchParams(location.search).get('waterlanes') !=
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
-const sunShadowFilter = createSunShadowFilter();
+/* A soft shadow with no grain (engine/sun-shadow.mjs, from serenity-blocks):
+   a fixed grid of hardware-filtered compares instead of three's disc turned by
+   per-pixel noise, which without TAA laid a fine crosshatch over every
+   penumbra under a low sun. Nine taps at high quality, four at low.
+   ?shadowgrid=0 is the before. */
+const SHADOW_GRID_ON = new URLSearchParams(location.search).get('shadowgrid') !== '0';
+const sunShadowFilter = createSunShadowFilter({ grid: SHADOW_GRID_ON, taps: LOWQ ? GRID_SHADOW_TAPS.low : GRID_SHADOW_TAPS.high });
 sun.shadow.filterNode = sunShadowFilter.filterNode;
 /* Shadows are lit by the sky: a share of the sun's strength reaches them in the
    preset's sky colour (shadow-tint.mjs), so shade lifts in the sky's cool colour,
@@ -2060,8 +2069,25 @@ scene.fog = fog;
 /* The haze warms toward the sun with the sky's own glow (aerial-perspective.mjs);
    ?hazewarm=0 is the before, one haze colour in every direction. */
 const HAZE_WARM = new URLSearchParams(location.search).get('hazewarm') !== '0';
-const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON });
+/* Distance turns blue (engine/aerial-perspective.mjs, from serenity-blocks): the
+   haze's depth per channel, red 0.7, green 1, blue 1.45, so far wood steps back in
+   blue rather than grey; green, and every channel at infinity, are as tuned.
+   ?hazespectrum=0 is the before. */
+const HAZE_SPECTRUM_ON = new URLSearchParams(location.search).get('hazespectrum') !== '0';
+/* the reflected far shore takes the same haze per channel (nordic-water.mjs treeLineColour) */
+const HAZE_SPECTRUM = HAZE_SPECTRUM_ON ? SPECTRAL_HAZE.spectrum : null;
+const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON, spectral: HAZE_SPECTRUM_ON });
 scene.fogNode = aerialPerspective.node;
+/* The air's motes (engine/air-motes.mjs, from serenity-blocks): pollen and a seed's
+   down drifting on the one air round the eye, lit up against a low sun as dust in a
+   sunbeam, gone above 45 m and in the storm and the mist; one draw, held still under
+   reduced motion. An overlay after the sky. ?airmotes=0 is the before. */
+const AIR_MOTES_ON = new URLSearchParams(location.search).get('airmotes') !== '0';
+const airMotes = AIR_MOTES_ON ? createAirMotes({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (airMotes) {
+  airMotes.mesh.renderOrder = 3;
+  scene.add(airMotes.mesh);
+}
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2152,13 +2178,15 @@ function setPreset(name, overrides = null) {
   scene.background = fog.color.clone();
   /* the sky's band under the horizon meets the ground in the same haze; ?skyhaze=raw is the before */
   if (new URLSearchParams(location.search).get('skyhaze') !== 'raw') setSkyGroundHaze(skyMesh, fog.color);
-  if (NORDIC_WATER_ON) setNordicWaterPreset(p, { sky: skyPreset(p, presetName), fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax });
+  if (NORDIC_WATER_ON) setNordicWaterPreset(p, { sky: skyPreset(p, presetName), fogColour: fog.color, fogDensity: fog.density, hazeMax: p.hazeMax, spectrum: HAZE_SPECTRUM });
   /* the waves' relief from above follows how direct the sun is (engine/water-road.mjs) */
   setWaterRoadPreset(p);
   /* and the body's cloud shade the share of its light level ground keeps there (engine/water-above.mjs) */
   setWaterAbovePreset(p, { environment: GRAPHICS_POLISH });
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(skyPreset(p, presetName));
+  airMotes?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
+  godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
@@ -8227,6 +8255,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
 /* ------------------------------------------------------------ post-process */
 await tick('ställer ljuset', 0.86);
 let openingScenePass = null;
+const GOD_RAYS_ON = new URLSearchParams(location.search).get('godrays') !== '0';
+let godRays = null, godRaysPending = null;
 /* ?post=0 renders the scene straight to the canvas, no bloom: the harness's way to tell a scene fault from a pipeline fault */
 if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
@@ -8246,12 +8276,32 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   post.outputNode = out;
   renderer.__post = post;
   renderer.__bloomNode = bloomNode;   /* strength is per-preset; setPreset sets it */
+  /* God rays through the trees (engine/god-rays.mjs, from serenity-blocks): the
+     scene's depth marched through the sun's shadow map, shafts of lit air in the
+     sun's colour toward a low sun, each light's own strength (none in the storm,
+     the mist or the blue hour). High quality only; the runtime drop draws without
+     the pipeline. GodraysNode reads the shadow map while its graph is built, so
+     the shafts join the output once the map exists: before the first frame after
+     the opening scene's compile, or on the frame after the first otherwise.
+     ?godrays=0 is the before. */
+  if (GOD_RAYS_ON) godRaysPending = () => {
+    if (!sun.shadow.map) return false;
+    godRays = createGodRays({ depthNode: scenePass.getTextureNode('depth'), camera, light: sun });
+    godRays.setPreset(presetName, { sunDirection: preset.dir, sunColour: preset.sun });
+    post.outputNode = vec4(sceneColor.rgb.add(godRays.node), sceneColor.a).add(bloomNode);
+    post.needsUpdate = true;
+    return true;
+  };
 }
 
 /* RenderPipeline.render() intentionally takes no scene/camera arguments; the
    scene pass owns them. Keeping this call in one place prevents the WebGPU and
    forced-WebGL paths from quietly exercising different post-processing code. */
 function renderActivePipeline() {
+  if (godRaysPending && !lowfx) {
+    try { if (godRaysPending()) godRaysPending = null; }
+    catch (error) { godRaysPending = null; godRays = null; console.error('God rays unavailable:', error); }
+  }
   renderPipeline(renderer, scene, camera, lowfx);
 }
 
@@ -10634,6 +10684,30 @@ gridBtn.onclick = () => {
   });
 }
 
+/* engine/keyboard-shortcuts.mjs turns a key into one of these; the menu lists
+   the same table. A named view or another hole ends a flight first, the way
+   the rail's own flight button does, so the new view is not fought over. */
+function leaveFlightForKey() {
+  if (tour) endTour({ preserveView: true });
+  else if (flying > 0) stopFlight({ preserveView: true });
+}
+const shortcutKeys = createShortcutKeys({ holes: NHOLES, onAction: ({ type, hole: n }) => {
+  if (type === 'hole') goHole(n, true);
+  else if (type === 'next') goHole(hole >= NHOLES ? 1 : hole + 1, true);
+  else if (type === 'prev') goHole(hole <= 1 ? NHOLES : hole - 1, true);
+  else if (type === 'camera') { leaveFlightForKey(); setCam(nextInCycle(CAMERA_CYCLE, camMode)); }
+  else if (type === 'light') {
+    const order = [...document.querySelectorAll('#rail [data-preset]')].map(b => b.dataset.preset);
+    const next = nextInCycle(order, presetName);
+    if (next) {
+      setPreset(next);
+      toast(document.querySelector(`#rail [data-preset="${next}"]`)?.textContent.trim() || next);
+    }
+  }
+  else if (type === 'flight') document.getElementById('flyBtn').click();
+  else if (type === 'clean') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
+  else if (type === 'markers') setSky(skyState + 1);
+} });
 addEventListener('keydown', e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   /* Typing is not steering. A letter meant for a text field -- the chooser's
@@ -10645,11 +10719,15 @@ addEventListener('keydown', e => {
      class is read, not `railOpen`: that is declared further down the module,
      and a key can arrive during one of the awaits in between. */
   if (e.target?.closest?.('input, textarea, select, [contenteditable]')) return;
-  if (document.body.classList.contains('choosing')) return;
-  if (e.key === 'ArrowRight' || e.key === 'n') goHole(hole >= NHOLES ? 1 : hole + 1, true);
-  if (e.key === 'ArrowLeft' || e.key === 'p') goHole(hole <= 1 ? NHOLES : hole - 1, true);
-  if (e.key === 'h') { if (tour) endTour(); else setClean(!document.body.classList.contains('clean')); }
-  if (e.key === 'm') setSky(skyState + 1);
+  /* The menu drawer is a modal dialog: keys belong to it until it closes. */
+  if (document.body.classList.contains('choosing') || document.getElementById('navDrawer')?.classList.contains('open')) {
+    shortcutKeys.reset();
+    return;
+  }
+  /* A held key repeats: only the arrows keep stepping holes. Held F or H
+     would flicker a flight or the clean view, and a held 1 would type 11. */
+  if (e.repeat && !e.key.startsWith('Arrow')) return;
+  if (shortcutKeys.press(e.key) && e.key.startsWith('Arrow')) e.preventDefault();
 });
 
 /* --------------------------------------------------------------- minimap */
@@ -11339,10 +11417,12 @@ function frame() {
      tree updates so settled() still waits for the same two rendered frames. */
   if (GRAPHICS_POLISH) updateFrameVisibility(now, dt);
   placeSun();
+  godRays?.setShadowRadius(SUN_BASIS.R);
   shadowRest(now);
   skyMesh.position.copy(camera.position);
   updateSky();
   nearGrass?.update(camera, renderer.domElement.height);
+  airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   updateStrategy(now);
   kikTagUpdate();
   const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
@@ -11380,6 +11460,8 @@ if (VALLEY_MIST_ON) {
   const sk = parseInt(BOOTQ.get('skylt'), 10);
   setSky(Number.isFinite(sk) ? sk : skyMax, true);
   if (BOOTQ.get('ren') === '1') setClean(true);
+  /* shown or hidden by the opening light before the opening scene is compiled */
+  airMotes?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
 }
 
 if (COURSE_DATA_READY) {
@@ -12102,7 +12184,8 @@ window.V3D = {
   shadowFit: () => ({ R: SUN_BASIS.R, texel: +SUN_BASIS.texel.toFixed(4), snap: shadowSnap, remainderTexels: +SUN_BASIS.remainder.toFixed(3),
                       normalBias: sun.shadow.normalBias, fits: [...SHADOW_FITS], reversedDepth: renderer.reversedDepthBuffer === true,
                       maxFit: SHADOW_FIT_MAX, lightDistance: SUN_BASIS.lightDistance, near: sun.shadow.camera.near, far: sun.shadow.camera.far,
-                      impostorShadows: IMPOSTOR_SHADOWS, vistaShadows: VISTA_SHADOW_CASTERS.some(m => m.castShadow) }),
+                      impostorShadows: IMPOSTOR_SHADOWS, vistaShadows: VISTA_SHADOW_CASTERS.some(m => m.castShadow),
+                      filter: { grid: sunShadowFilter.grid, taps: sunShadowFilter.taps } }),
   setShadowSnap: on => { shadowSnap = !!on; return shadowSnap; },
   setShadowBoundaryFade: on => { sunShadowFilter.enabled.value = on ? 1 : 0; return !!on; },
   /* the harness's bisection switch: the terrain's level morph length in ms (0 pops) */
@@ -12118,6 +12201,8 @@ window.V3D = {
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null,
                     bloomThreshold: renderer.__bloomNode ? renderer.__bloomNode.threshold.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
+  airMotes: () => airMotes?.snapshot() ?? null,
+  godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
     /* the lighting batch (docs/visual-lighting-2026-09-25.md): null where its before is asked for */

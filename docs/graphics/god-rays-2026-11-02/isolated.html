@@ -1,0 +1,104 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>God rays: isolated check</title>
+<!-- The app's own god rays (engine/god-rays.mjs) and sun-shadow filter in an
+     isolated scene: a band of wood between the eye and a sun 7 degrees up,
+     drawn through a 4x MSAA scene pass and the shafts' composite, as main.js
+     builds them; and an open field with no trees. Served from the repository
+     root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js",
+  "three/addons/": "/apps/golf/node_modules/three/examples/jsm/"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+const THREE = await import('three/webgpu');
+const { pass, vec4 } = await import('three/tsl');
+const { createGodRays } = await import('/apps/golf/src/engine/god-rays.mjs');
+const { createSunShadowFilter } = await import('/apps/golf/src/engine/sun-shadow.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const reversed = params.get('rdepth') === '1';
+const W = 512, H = 288;
+/* toward the sun: low ahead of the eye, down the view (-z) */
+const SUN = new THREE.Vector3(0.18, 0.12, -1).normalize();
+
+function buildScene(trees) {
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x9cc0da);
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(1200, 1200), new THREE.MeshStandardNodeMaterial({ color: 0x5f8a3e, roughness: 1 }));
+  ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; scene.add(ground);
+  if (trees) {
+    const bark = new THREE.MeshStandardNodeMaterial({ color: 0x5b3f2a, roughness: 1 });
+    const leaf = new THREE.MeshStandardNodeMaterial({ color: 0x35602c, roughness: 1 });
+    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let k = 0; k < 70; k++) {
+      const x = (rnd() - 0.5) * 120, z = -25 - rnd() * 45, h = 9 + rnd() * 9;
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.45, h, 8), bark);
+      trunk.position.set(x, h / 2, z);
+      const crown = new THREE.Mesh(new THREE.IcosahedronGeometry(2.2 + rnd() * 1.8, 1), leaf);
+      crown.position.set(x, h + 0.8, z);
+      for (const m of [trunk, crown]) { m.castShadow = m.receiveShadow = true; scene.add(m); }
+    }
+  }
+  const sun = new THREE.DirectionalLight(0xffffff, 3.0);
+  sun.position.copy(SUN).multiplyScalar(400); sun.castShadow = true;
+  Object.assign(sun.shadow.camera, { left: -220, right: 220, top: 220, bottom: -220, near: 10, far: 900 });
+  sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.1;
+  sun.shadow.filterNode = createSunShadowFilter().filterNode;
+  scene.add(sun, sun.target, new THREE.HemisphereLight(0xbfd8ff, 0x4a5a32, 0.9));
+  return { scene, sun };
+}
+
+async function run(trees) {
+  const renderer = new THREE.WebGPURenderer({ forceWebGL: backend === 'webgl2', antialias: false, reversedDepthBuffer: reversed });
+  await renderer.init();
+  renderer.setPixelRatio(1); renderer.setSize(W, H);
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
+  const { scene, sun } = buildScene(trees);
+  const camera = new THREE.PerspectiveCamera(48, W / H, 1.0, 14000);
+  const target = new THREE.RenderTarget(W, H, { type: THREE.FloatType });
+  const look = ahead => { camera.position.set(0, 1.7, 30); camera.lookAt(0, 6, ahead ? -60 : 120); camera.updateMatrixWorld(); };
+  look(true);
+  /* the shadow map, then the shafts, as main.js attaches them once it exists */
+  renderer.setRenderTarget(target); renderer.render(scene, camera); renderer.setRenderTarget(null);
+  const post = new THREE.RenderPipeline(renderer);
+  post.outputColorTransform = false;
+  const scenePass = pass(scene, camera, { samples: 4 });
+  const colour = scenePass.getTextureNode('output');
+  const rays = createGodRays({ depthNode: scenePass.getTextureNode('depth'), camera, light: sun });
+  rays.setShadowRadius(220);
+  /* exploration only: ?density= and ?max= override the module's tuning */
+  if (params.has('density')) rays.march.density.value = +params.get('density');
+  if (params.has('max')) rays.march.maxDensity.value = +params.get('max');
+  post.outputNode = vec4(colour.rgb.add(rays.node), colour.a);
+  const draw = async () => {
+    renderer.setRenderTarget(target); post.render();
+    const px = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+    renderer.setRenderTarget(null);
+    return Array.from(px);
+  };
+  const shots = {};
+  for (const [name, preset, ahead] of [['golden-ahead', 'golden', true], ['golden-behind', 'golden', false], ['storm-ahead', 'storm', true]]) {
+    look(ahead);
+    rays.setPreset(preset, { sunDirection: SUN.toArray(), sunColour: ATMOSPHERE_PRESETS[preset].sun });
+    await draw(); // the blur reads the march of the frame before
+    shots[name] = { pixels: await draw(), active: rays.snapshot().active };
+    rays.setPreset('none');
+    await draw();
+    shots[name + '-without'] = { pixels: await draw() };
+  }
+  renderer.dispose();
+  return shots;
+}
+
+try {
+  window.result = { backend, reversed, width: W, height: H, wood: await run(true), open: await run(false) };
+} catch (error) { window.result = { backend, reversed, error: String(error.stack || error) }; }
+</script>

@@ -12,14 +12,23 @@
    the pass copies per caster (positionNode, colorNode, side...) never bump the
    version either. This gives the shared material an alphaTest that stores the
    value without the bump. It relies on one invariant: a source material's
-   alphaTest is fixed after creation (true of every material here). */
+   alphaTest is fixed after creation (true of every material here).
+
+   r187 does the same upstream: its renderer writes the override's
+   `_alphaTest` directly, "bypass the setter so the version doesn't change".
+   So the accessor keeps the value in that same backing field, never in a
+   copy of its own. A private copy read a stale 0 on r187 -- three no longer
+   calls the setter -- and every caster's shadow would have been built and
+   cut as if it had no alpha test (the crowns' default cut is their
+   maskShadowNode, but `?foliageshadow=mip` and any other alpha-tested
+   caster rely on the copied value). With the shared field the patch is
+   exact on r186's setter path and a no-op on r187's direct write. */
 export function steadyShadowAlpha(material) {
   if (!material?.isShadowPassMaterial || material.userData.steadyAlphaTest) return false;
-  let value = material.alphaTest;
   Object.defineProperty(material, 'alphaTest', {
     configurable: true, enumerable: false,
-    get: () => value,
-    set: v => { value = v; },
+    get() { return this._alphaTest; },
+    set(v) { this._alphaTest = v; },
   });
   material.userData.steadyAlphaTest = true;
   return true;

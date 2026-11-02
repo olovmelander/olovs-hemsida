@@ -50,6 +50,14 @@ export function preparedTintAllowed(search) {
     'neargrass',
     // nor does the crowns' cut through the MSAA samples: the leaf cards' cut is drawn
     'crowncoverage',
+    // nor does the shadow's filter: the grid or the noise-turned disc is how the map is read
+    'shadowgrid',
+    // nor does the haze's spectrum: distance's blue is drawn over the land's colour
+    'hazespectrum',
+    // nor do the air's motes: drawn round the eye, from nothing prepared
+    'airmotes',
+    // nor do the god rays: the scene's depth marched through the sun's shadow map after it is drawn
+    'godrays',
     // and the surface relief pilot, which the painted finish never read
     'surfaceRelief']);
   return [...params.keys()].every(key => displayOnly.has(key));
