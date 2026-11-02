@@ -253,6 +253,20 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   leaves self-painting materials alone and gives shared geometry its own copy.
   Stamp a new building mesh the same way. See [the buildings batch](docs/visual-buildings-2026-09-25.md).
 
+- Three techniques come from serenity-blocks (same three/TSL stack): the sun's
+  shadow is read through a fixed grid of compares (`sun-shadow.mjs`, nine taps
+  high, four low, spaced to the Vogel disc's second moment), since three's
+  noise-turned PCF leaves grain without TAA; the haze's depth is per channel
+  (`aerial-perspective.mjs` `SPECTRAL_HAZE`, red 0.7, green 1, blue 1.45), green
+  as tuned, offsets per vertex, mist grey, and the water's far shore takes the
+  same haze; and pollen and down drift on the one air round the eye
+  (`air-motes.mjs`, render order 3, held still under reduced motion, each
+  light's air in `AIR_MOTES.presets`). `?shadowgrid=0`, `?hazespectrum=0` and
+  `?airmotes=0` are the befores. In TSL never multiply a node by a JavaScript
+  number with `*` (it compiles to `NaN` and blanks the WebGPU frame); prove a
+  new shader in an isolated scene on both backends. See
+  [the serenity ports](docs/visual-serenity-ports-2026-11-02.md).
+
 ## Build and focused checks
 
 Use Node 22+ and the locked dependencies. Run commands from the repository root:
