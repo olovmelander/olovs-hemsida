@@ -36,7 +36,8 @@ export function foliageCloudShadeFor(p){
    the lit tone under a high noon and a golden hour alike, and an overcast
    light (little direct sun) keeps its soft wrap. ?canopy=0 is the before. */
 export const CANOPY=Object.freeze({wrap:.70,topWrap:.66,sunRide:.5,bands:Object.freeze([.24,.52,.60,.78]),
-  mid:.64,aoShift:.30,clump:1.6,jitter:.17,capGain:.70,capFacing:Object.freeze([.55,.92]),capOpen:Object.freeze([.70,.92])});
+  mid:.64,aoShift:.30,clump:1.6,jitter:.17,capGain:.70,capFacing:Object.freeze([.55,.92]),capOpen:Object.freeze([.70,.92]),
+  softLift:.11});
 export const canopyBandShift=uniform(0);
 /** How far the band edges move for a sun at this height (dir is toward the sun). */
 export function canopyBandShiftFor(dir){
@@ -129,8 +130,10 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
     const jitter=fract(seed.mul(13.73).add(.31)).sub(.5).mul(C.jitter);
     const lo=smoothstep(shift.add(b0),shift.add(b1),wrap);
     const hi=smoothstep(shift.add(jitter).add(b2),shift.add(jitter).add(b3),wrap);
-    /* little direct sun: the soft wrap, as before */
-    const soft=diffuse;
+    /* little direct sun: the soft wrap, as before -- less the lift the puffs'
+       upward lean gives it on average (crown-puffs.mjs, `up`), so the storm, the
+       mist and the blue hour keep their crowns as dark as they were */
+    const soft=diffuse.sub(C.softLift);
     const sunXZ=normalize(sunDirection.xz.add(vec2(1e-4,0)));
     const capFacing=normal.y.add(dot(normal.xz,sunXZ).mul(.35)).add(dabs.mul(C.clump*.6));
     const cap=smoothstep(C.capFacing[0],C.capFacing[1],capFacing).mul(smoothstep(C.capOpen[0],C.capOpen[1],open)).mul(C.capGain);

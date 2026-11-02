@@ -65,11 +65,14 @@ if (flag('compare', null)) {
   process.exit(0);
 }
 
+/* --lights: one view (--views id) under all nine lights instead of the fixed set */
+const LIGHTS = ['kvall', 'dag', 'sommar', 'gryning', 'midnatt', 'host', 'bla', 'dis', 'ovader'];
 const LABEL = flag('label', 'gallery');
 const QUERY = flag('query', '');
 const BASE = flag('base', 'http://127.0.0.1:8620').replace(/\/$/, '');
 const pick = flag('views', null)?.split(',');
-const views = pick ? GALLERY.filter(v => pick.includes(v.id) || pick.includes(v.slug)) : GALLERY;
+let views = pick ? GALLERY.filter(v => pick.includes(v.id) || pick.includes(v.slug)) : GALLERY;
+if (args.includes('--lights')) views = (flag('only-lights', null)?.split(',') ?? LIGHTS).map(ljus => ({ ...views[0], ljus, id: `${views[0].id.replace(/-[a-z]+$/, '')}-${ljus}` }));
 const out = path.join(ROOT, LABEL);
 fs.mkdirSync(out, { recursive: true });
 if (!GPU) console.warn('WARN: BANVY_GPU is not 1; pictures and times are SwiftShader\'s');
