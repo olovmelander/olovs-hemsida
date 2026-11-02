@@ -1928,6 +1928,11 @@ const LOCAL_HEIGHT = new URLSearchParams(location.search).get('localheight') ===
 /* Crowns glow at the edge against a low sun, meshes and impostors alike
    (ghibli-foliage-material.mjs foliageBackLight); ?backlight=0 is the before. */
 const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !== '0';
+/* THE PAINTED CANOPY (engine/ghibli-foliage-material.mjs, after serenity-blocks'
+   Odyssey crowns): the crowns' light in three tones cut by wide band edges that
+   the crown's depth, its clumps and each tree move, with a warm cap on every
+   up-and-sunward mass. ?canopy=0 is the before, the smooth wrap. */
+const CANOPY_ON = new URLSearchParams(location.search).get('canopy') !== '0';
 /* The mesh crowns' leaf cards are cut through the MSAA samples, as the
    impostors' crowns are, not all-or-nothing per pixel: their gaps and edges no
    longer sparkle against the sky as the camera moves (ghibli-foliage-material.mjs,
@@ -5147,7 +5152,7 @@ const TREE_LOD = {
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON });
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -5208,7 +5213,7 @@ const TREE_LOD = {
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT,
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = IMPOSTOR_SHADOWS;
@@ -6107,7 +6112,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
