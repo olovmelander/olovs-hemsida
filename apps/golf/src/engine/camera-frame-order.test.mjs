@@ -123,6 +123,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     /* the god rays (?godrays=0): optional; they take the shadow box's size once a frame */
     godRays: null, SUN_BASIS: { R: 600 },
     captureRenderLocked: false,
+    /* the frame cap (engine/frame-pacer.mjs): unlimited, so the resolution samples every frame as before */
+    frameCap: 0,
     renderActivePipeline() {
       calls.push('render');
       /* The real renderer updates the camera immediately before drawing. */
