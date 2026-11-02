@@ -1808,7 +1808,8 @@ const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
 /* ACES with half a step of dither before the 8-bit output (engine/output-dither.mjs):
    the painted sky, haze and water banded without it. ?dither=0 is the before. */
 if (new URLSearchParams(location.search).get('dither') === '0') renderer.toneMapping = THREE.ACESFilmicToneMapping;
-else installOutputDither(renderer);
+/* ?tonecurve=filmic: the hue-keeping curve instead of ACES, an A/B (engine/output-dither.mjs) */
+else installOutputDither(renderer, { curve: new URLSearchParams(location.search).get('tonecurve') === 'filmic' ? 'filmic' : 'aces' });
 renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
 /* PCFShadowMap, not PCFSoftShadowMap: r186 removed PCFSoftShadowMap from the
