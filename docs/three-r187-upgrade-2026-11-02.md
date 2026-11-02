@@ -159,11 +159,13 @@ menu lists reaches an action.
 
 The prepared startup data's identity hashes `main.js`, `engine/`, `loader/`,
 `packages/course-v2` and the three version (`tools/course-source-revision.mjs`),
-so this batch, and the serenity ports that followed it
+so this batch, and the serenity ports and god rays that followed it
 ([visual-serenity-ports-2026-11-02.md](visual-serenity-ports-2026-11-02.md)),
 expired every course's tint, vista, scatter and water records: the app would
 have rebuilt them at boot. With the code final, `bake-ground-tints`,
-`bake-vista` and `bake-water` refreshed them for source revision `71799818`.
+`bake-vista` and `bake-water` refreshed them for source revision `1c5a4ee8`
+(a first re-bake for `71799818`, before the god rays, was superseded; its
+unreferenced water files are removed).
 [The publication proof](graphics/three-r187-2026-11-02/check-publication.mjs)
 holds against main (`f3d21f17`) that every tint, vista, scatter and water
 payload keeps its content for all 13 courses; only identities moved (each
@@ -198,14 +200,14 @@ At the final commit of the branch (after the serenity ports and the re-bake):
 | Frozen lockfile install | pass, three 0.187.0 |
 | `pnpm --filter @banvy/golf build` | pass |
 | `node tools/lint-app.mjs` | pass |
-| `pnpm exec vitest run apps/golf` | **1279/1279**, 165 files |
+| `pnpm exec vitest run apps/golf` | **1286/1286**, 166 files |
 | `pnpm test`, Vitest | **1549/1549**, 198 files |
 | `pnpm test`, Node | 476 pass, 3 skipped; the one failure, Visby's `compile-stands`, needs `packages/course-geo/copc-reader`'s own `npm ci` and passes after it |
 | `tools/check-lighting-reuse.mjs --baseline HEAD` (fresh gate) | pass, 0/255 |
 | `tools/check-chooser-ui.mjs` | new gate fails before, passes after; the whole harness passes |
 | `node packages/course-v2/check-app-build.mjs` | pass |
 | `pnpm check:course-workflow` | pass |
-| `tools/check-prepared-startup.mjs` on the rebuilt app | pass (revision `71799818`) |
+| `tools/check-prepared-startup.mjs` on the rebuilt app | pass (revision `1c5a4ee8`) |
 | [Crown isolated check](graphics/tree-sparkle-2026-09-28/check-isolated.mjs) on r187 | pass; all 37 measured fields identical to its r186 record, WebGL2 and WebGPU |
 
 A whole-app shader comparison was attempted (every shader a boot compiles,
