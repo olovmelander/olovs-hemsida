@@ -45,6 +45,7 @@ import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
 import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
 import { createAerialPerspective, SPECTRAL_HAZE, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
+import { createAirMotes } from './engine/air-motes.mjs';
 import { installOutputDither } from './engine/output-dither.mjs';
 
 import { loadCourse } from './loader/pack.js';
@@ -2076,6 +2077,16 @@ const HAZE_SPECTRUM_ON = new URLSearchParams(location.search).get('hazespectrum'
 const HAZE_SPECTRUM = HAZE_SPECTRUM_ON ? SPECTRAL_HAZE.spectrum : null;
 const aerialPerspective = createAerialPerspective(fog, { sunward: HAZE_WARM, valleyMist: VALLEY_MIST_ON, spectral: HAZE_SPECTRUM_ON });
 scene.fogNode = aerialPerspective.node;
+/* The air's motes (engine/air-motes.mjs, from serenity-blocks): pollen and a seed's
+   down drifting on the one air round the eye, lit up against a low sun as dust in a
+   sunbeam, gone above 45 m and in the storm and the mist; one draw, held still under
+   reduced motion. An overlay after the sky. ?airmotes=0 is the before. */
+const AIR_MOTES_ON = new URLSearchParams(location.search).get('airmotes') !== '0';
+const airMotes = AIR_MOTES_ON ? createAirMotes({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (airMotes) {
+  airMotes.mesh.renderOrder = 3;
+  scene.add(airMotes.mesh);
+}
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2173,6 +2184,7 @@ function setPreset(name, overrides = null) {
   setWaterAbovePreset(p, { environment: GRAPHICS_POLISH });
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(skyPreset(p, presetName));
+  airMotes?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
@@ -11385,6 +11397,7 @@ function frame() {
   skyMesh.position.copy(camera.position);
   updateSky();
   nearGrass?.update(camera, renderer.domElement.height);
+  airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   updateStrategy(now);
   kikTagUpdate();
   const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
@@ -11422,6 +11435,8 @@ if (VALLEY_MIST_ON) {
   const sk = parseInt(BOOTQ.get('skylt'), 10);
   setSky(Number.isFinite(sk) ? sk : skyMax, true);
   if (BOOTQ.get('ren') === '1') setClean(true);
+  /* shown or hidden by the opening light before the opening scene is compiled */
+  airMotes?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
 }
 
 if (COURSE_DATA_READY) {
@@ -12161,6 +12176,7 @@ window.V3D = {
                     bloom: renderer.__bloomNode ? renderer.__bloomNode.strength.value : null,
                     bloomThreshold: renderer.__bloomNode ? renderer.__bloomNode.threshold.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
+  airMotes: () => airMotes?.snapshot() ?? null,
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
     /* the lighting batch (docs/visual-lighting-2026-09-25.md): null where its before is asked for */

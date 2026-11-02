@@ -54,6 +54,8 @@ export function preparedTintAllowed(search) {
     'shadowgrid',
     // nor does the haze's spectrum: distance's blue is drawn over the land's colour
     'hazespectrum',
+    // nor do the air's motes: drawn round the eye, from nothing prepared
+    'airmotes',
     // and the surface relief pilot, which the painted finish never read
     'surfaceRelief']);
   return [...params.keys()].every(key => displayOnly.has(key));

@@ -1,0 +1,206 @@
+{
+  "adapter": "swiftshader",
+  "backends": {
+    "webgl2": {
+      "errors": [],
+      "rows": {
+        "golden-ahead": {
+          "kinds": [
+            0.9,
+            0.6
+          ],
+          "visible": true,
+          "addedLight": 35.3763,
+          "litPixels": 741,
+          "darkerPixels": 0,
+          "largestPatch": 56
+        },
+        "golden-behind": {
+          "kinds": [
+            0.9,
+            0.6
+          ],
+          "visible": true,
+          "addedLight": 8.3599,
+          "litPixels": 477,
+          "darkerPixels": 0,
+          "largestPatch": 50
+        },
+        "summer-ahead": {
+          "kinds": [
+            0.8,
+            0.7
+          ],
+          "visible": true,
+          "addedLight": 53.1355,
+          "litPixels": 766,
+          "darkerPixels": 0,
+          "largestPatch": 56
+        },
+        "summer-behind": {
+          "kinds": [
+            0.8,
+            0.7
+          ],
+          "visible": true,
+          "addedLight": 12.5707,
+          "litPixels": 542,
+          "darkerPixels": 0,
+          "largestPatch": 54
+        },
+        "noon-ahead": {
+          "kinds": [
+            0.45,
+            0.3
+          ],
+          "visible": true,
+          "addedLight": 24.1152,
+          "litPixels": 672,
+          "darkerPixels": 0,
+          "largestPatch": 54
+        },
+        "noon-behind": {
+          "kinds": [
+            0.45,
+            0.3
+          ],
+          "visible": true,
+          "addedLight": 5.6994,
+          "litPixels": 399,
+          "darkerPixels": 0,
+          "largestPatch": 46
+        },
+        "storm-ahead": {
+          "kinds": [
+            0,
+            0
+          ],
+          "visible": false,
+          "addedLight": 0,
+          "litPixels": 0,
+          "darkerPixels": 0,
+          "largestPatch": 0
+        },
+        "storm-behind": {
+          "kinds": [
+            0,
+            0
+          ],
+          "visible": false,
+          "addedLight": 0,
+          "litPixels": 0,
+          "darkerPixels": 0,
+          "largestPatch": 0
+        }
+      },
+      "checks": {
+        "add": true,
+        "onlyAdd": true,
+        "sunbeam": true,
+        "stormNothing": true,
+        "small": true
+      }
+    },
+    "webgpu": {
+      "errors": [],
+      "rows": {
+        "golden-ahead": {
+          "kinds": [
+            0.9,
+            0.6
+          ],
+          "visible": true,
+          "addedLight": 35.3763,
+          "litPixels": 741,
+          "darkerPixels": 0,
+          "largestPatch": 56
+        },
+        "golden-behind": {
+          "kinds": [
+            0.9,
+            0.6
+          ],
+          "visible": true,
+          "addedLight": 8.3599,
+          "litPixels": 477,
+          "darkerPixels": 0,
+          "largestPatch": 50
+        },
+        "summer-ahead": {
+          "kinds": [
+            0.8,
+            0.7
+          ],
+          "visible": true,
+          "addedLight": 53.1355,
+          "litPixels": 766,
+          "darkerPixels": 0,
+          "largestPatch": 56
+        },
+        "summer-behind": {
+          "kinds": [
+            0.8,
+            0.7
+          ],
+          "visible": true,
+          "addedLight": 12.5707,
+          "litPixels": 542,
+          "darkerPixels": 0,
+          "largestPatch": 54
+        },
+        "noon-ahead": {
+          "kinds": [
+            0.45,
+            0.3
+          ],
+          "visible": true,
+          "addedLight": 24.1152,
+          "litPixels": 672,
+          "darkerPixels": 0,
+          "largestPatch": 54
+        },
+        "noon-behind": {
+          "kinds": [
+            0.45,
+            0.3
+          ],
+          "visible": true,
+          "addedLight": 5.6994,
+          "litPixels": 399,
+          "darkerPixels": 0,
+          "largestPatch": 46
+        },
+        "storm-ahead": {
+          "kinds": [
+            0,
+            0
+          ],
+          "visible": false,
+          "addedLight": 0,
+          "litPixels": 0,
+          "darkerPixels": 0,
+          "largestPatch": 0
+        },
+        "storm-behind": {
+          "kinds": [
+            0,
+            0
+          ],
+          "visible": false,
+          "addedLight": 0,
+          "litPixels": 0,
+          "darkerPixels": 0,
+          "largestPatch": 0
+        }
+      },
+      "checks": {
+        "add": true,
+        "onlyAdd": true,
+        "sunbeam": true,
+        "stormNothing": true,
+        "small": true
+      }
+    }
+  },
+  "passed": true
+}

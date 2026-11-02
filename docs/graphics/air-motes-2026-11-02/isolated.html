@@ -1,0 +1,63 @@
+<!doctype html>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Air motes: isolated check</title>
+<!-- The app's own air motes (engine/air-motes.mjs) over a plain field, eye 1.7 m
+     up, at det=1: each light's air with the sun ahead of the eye and behind it,
+     and the same field without them (?airmotes=0). Served from the repository
+     root by check-isolated.mjs. -->
+<script type="importmap">
+{ "imports": {
+  "three": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/webgpu": "/apps/golf/node_modules/three/build/three.webgpu.js",
+  "three/tsl": "/apps/golf/node_modules/three/build/three.tsl.js"
+} }
+</script>
+<body style="margin:0;background:#000">
+<script type="module">
+const THREE = await import('three/webgpu');
+const { createAirMotes } = await import('/apps/golf/src/engine/air-motes.mjs');
+const { ATMOSPHERE_PRESETS } = await import('/apps/golf/src/engine/atmosphere-presets.mjs');
+const params = new URLSearchParams(location.search);
+const backend = params.get('backend') || 'webgl2';
+const W = 512, H = 288;
+
+async function draw({ preset, sun, motes }) {
+  const renderer = new THREE.WebGPURenderer({ forceWebGL: backend === 'webgl2', antialias: false });
+  await renderer.init();
+  renderer.setPixelRatio(1); renderer.setSize(W, H);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x8fb4cf);
+  const field = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshBasicNodeMaterial({ color: 0x2f4a24 }));
+  field.rotation.x = -Math.PI / 2; scene.add(field);
+  const camera = new THREE.PerspectiveCamera(48, W / H, 1.0, 14000);
+  camera.position.set(0, 1.7, 0); camera.lookAt(0, 1.2, -10);
+  let snapshot = null;
+  if (motes) {
+    const air = createAirMotes({ quality: 'hi', deterministic: true });
+    air.mesh.renderOrder = 3;
+    const p = ATMOSPHERE_PRESETS[preset];
+    // the sun 8 degrees up, ahead of the eye (down the view) or behind it
+    const ahead = sun === 'ahead' ? -1 : 1;
+    air.setPreset(preset, { sunDirection: [0.25, 0.14, ahead], sunColour: p.sun });
+    air.update({ dt: 0, air: { x: 0, z: 0 }, camera, groundY: 0 });
+    scene.add(air.mesh);
+    snapshot = air.snapshot();
+  }
+  camera.updateMatrixWorld();
+  const target = new THREE.RenderTarget(W, H, { type: THREE.FloatType });
+  renderer.setRenderTarget(target);
+  renderer.render(scene, camera);
+  const pixels = await renderer.readRenderTargetPixelsAsync(target, 0, 0, W, H);
+  renderer.setRenderTarget(null); renderer.dispose();
+  return { pixels: Array.from(pixels), snapshot };
+}
+
+try {
+  const cases = [{ name: 'none', preset: 'golden', sun: 'ahead', motes: false }];
+  for (const preset of ['golden', 'summer', 'noon', 'storm']) for (const sun of ['ahead', 'behind']) cases.push({ name: `${preset}-${sun}`, preset, sun, motes: true });
+  const results = [];
+  for (const c of cases) results.push({ ...c, width: W, height: H, ...(await draw(c)) });
+  window.result = { backend, results };
+} catch (error) { window.result = { backend, error: String(error.stack || error) }; }
+</script>

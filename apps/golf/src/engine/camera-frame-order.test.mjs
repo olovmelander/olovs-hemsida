@@ -118,6 +118,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     skyMesh: { position: new THREE.Vector3() }, updateSky() {}, updateStrategy() {}, kikTagUpdate() {}, drawMini() {}, drawMiniIfChanged() {}, gridOn: false,
     /* the grass round the ball: where it was moved to, and whether its ground is read */
     nearGrass: { settled: true, seen: [], update(cam, height) { calls.push('grass'); this.seen.push({ position: cam.position.toArray(), height }); } },
+    /* the air's motes (?airmotes=0): optional, and drawn round the eye after the camera has moved */
+    airMotes: null,
     captureRenderLocked: false,
     renderActivePipeline() {
       calls.push('render');
