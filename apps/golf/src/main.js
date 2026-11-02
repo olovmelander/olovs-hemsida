@@ -4533,7 +4533,9 @@ const GHIBLI = await (async () => {
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
       tier: playerTreeMeshTier(location.search, LOWQ),
       /* ?crowndepth=0 is the before: every card of a crown one flat colour */
-      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0' });
+      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
+      /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
+      puffs: CANOPY_ON && new URLSearchParams(location.search).get('puffs') !== '0' });
     console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }

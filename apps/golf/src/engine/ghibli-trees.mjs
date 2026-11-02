@@ -8,6 +8,7 @@ import { GHIBLI_SPECIES, GHIBLI_COLOURS, GHIBLI_FOLIAGE_REVISION, VISBY_PINE_REV
   fetchGlb, loadFoliageAtlas, validateAsset, fitFoliageTier } from './ghibli-tree-assets.mjs';
 export { GHIBLI_SPECIES, GHIBLI_COLOURS, GHIBLI_FOLIAGE_REVISION, VISBY_PINE_REVISION } from './ghibli-tree-assets.mjs';
 import { bakeCrownDepth } from './crown-depth.mjs';
+import { bakePuffNormals, CROWN_PUFFS } from './crown-puffs.mjs';
 
 /* Hero is 4,032-4,500 triangles a tree and Full 1,620-1,700. */
 export const PLAYER_TREE_MESH_TIERS = Object.freeze(['hero', 'full']);
@@ -22,7 +23,9 @@ export function playerTreeMeshTier(search = '', lowQuality = false) {
 
 /* crownDepth darkens each crown's heart and underside by its own leaves
    (crown-depth.mjs); false is the before, flat crown colours. */
-export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true } = {}) {
+/* puffs leans each crown's normals toward the masses it is made of
+   (crown-puffs.mjs, the painted canopy): the spruce's masses are its tiers. */
+export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false } = {}) {
   if (!PLAYER_TREE_MESH_TIERS.includes(tier)) throw new Error(`Ghibli trees: the player draws no ${tier} tier`);
   const coastalPine = courseSlug === 'visby';
   const base = `${baseUrl}models/trees/`;
@@ -63,6 +66,9 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
         fitFoliageTier(mesh, variant.templateHeight, variant.templateRadius);
         if (!mesh.crown.attributes.uv) throw new Error(`Ghibli foliage ${key}/${tier} lacks UVs`);
         if (crownDepth) bakeCrownDepth(mesh.crown);
+        if (puffs) bakePuffNormals(mesh.crown, key === 'gran'
+          ? { puffs: CROWN_PUFFS.spruce[tier] ?? CROWN_PUFFS.spruce.full, tierWeight: CROWN_PUFFS.spruce.tierWeight }
+          : { puffs: CROWN_PUFFS.puffs[tier] ?? CROWN_PUFFS.puffs.full });
         item.mesh = mesh; item[tier] = mesh; item.trunkMean = mesh.trunkMean;
       });
     }
