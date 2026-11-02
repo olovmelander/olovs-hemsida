@@ -26,22 +26,25 @@ function fixture(count = 7) {
 }
 
 describe('opening GPU preparation', () => {
-  it('bounds in-flight compilation and compiles original branches in their final scene', async () => {
-    const f = fixture(), waits = Array.from({ length: 7 }, deferred);
-    const originalChildren = [...f.scene.children];
-    let active = 0, peak = 0;
-    f.renderer.compileAsync.mockImplementation(async (object, camera, scene) => {
-      expect(camera).toBe(f.camera); expect(scene).toBe(f.scene);
-      expect(scene.children).toEqual(originalChildren);
-      active++; peak = Math.max(peak, active);
-      await waits[object.id].promise; active--;
-    });
-    const preparing = prepareOpeningGpu(f.renderer, f.scene, f.camera);
-    expect(f.renderer.compileAsync).toHaveBeenCalledTimes(4);
-    waits[1].resolve(); await vi.waitFor(() => expect(f.renderer.compileAsync).toHaveBeenCalledTimes(5));
-    for (const wait of waits) wait.resolve();
-    expect(await preparing).toMatchObject({ completed: 7, branches: 7, concurrency: 4, target: 'canvas' });
-    expect(peak).toBe(4); f.restored();
+  it('never has two compileAsync calls in flight (r187 shares one precompilation state)', async () => {
+    for (const mode of ['branches', 'scene']) {
+      const f = fixture(), waits = Array.from({ length: 8 }, deferred);
+      const originalChildren = [...f.scene.children];
+      let active = 0, peak = 0, calls = 0;
+      f.renderer.compileAsync.mockImplementation(async (object, camera, scene) => {
+        expect(camera).toBe(f.camera); expect(scene).toBe(f.scene);
+        expect(scene.children).toEqual(originalChildren);
+        active++; peak = Math.max(peak, active);
+        await waits[calls++].promise; active--;
+      });
+      const preparing = prepareOpeningGpu(f.renderer, f.scene, f.camera, { mode });
+      for (const wait of waits) { await Promise.resolve(); await Promise.resolve(); wait.resolve(); }
+      const result = await preparing;
+      expect(result).toMatchObject({ completed: 7, branches: 7, mode, target: 'canvas' });
+      expect(f.renderer.compileAsync).toHaveBeenCalledTimes(mode === 'scene' ? 1 : 7);
+      if (mode === 'scene') expect(f.renderer.compileAsync.mock.calls[0][0]).toBe(f.scene);
+      expect(peak).toBe(1); f.restored();
+    }
   });
 
   it('matches the HDR scene pass, MSAA and reversed depth without changing the displayed tone mapping', async () => {
@@ -58,15 +61,12 @@ describe('opening GPU preparation', () => {
     f.restored();
   });
 
-  it('drains outstanding work after a rejection before restoring render state', async () => {
-    const f = fixture(), wait = deferred(); let settled = false;
-    f.renderer.compileAsync.mockImplementation(object => object.id === 0 ? Promise.reject(new Error('compile failed')) : wait.promise);
-    const preparing = prepareOpeningGpu(f.renderer, f.scene, f.camera, { scenePass: f.scenePass, concurrency: 2 });
-    const rejection = expect(preparing.finally(() => { settled = true; })).rejects.toThrow('Could not prepare');
-    await Promise.resolve(); await Promise.resolve();
-    expect(settled).toBe(false); expect(f.renderer.getRenderTarget()).toBe(f.scenePass.renderTarget);
-    expect(f.renderer.compileAsync).toHaveBeenCalledTimes(2);
-    wait.resolve(); await rejection; f.restored();
+  it('stops at the first rejection and restores render state', async () => {
+    const f = fixture();
+    f.renderer.compileAsync.mockImplementation(object => object.id === 0 ? Promise.reject(new Error('compile failed')) : Promise.resolve());
+    await expect(prepareOpeningGpu(f.renderer, f.scene, f.camera, { scenePass: f.scenePass, mode: 'branches' })).rejects.toThrow('Could not prepare');
+    expect(f.renderer.compileAsync).toHaveBeenCalledTimes(1);
+    f.restored();
   });
 
   it('rejects a Three pipeline error even when compileAsync resolves', async () => {
@@ -95,9 +95,9 @@ describe('opening GPU preparation', () => {
     f.restored();
   });
 
-  it('refuses an unbounded burst without changing any renderer state', async () => {
+  it('refuses an unknown mode without changing any renderer state', async () => {
     const f = fixture();
-    await expect(prepareOpeningGpu(f.renderer, f.scene, f.camera, { concurrency: 50 })).rejects.toThrow('concurrency');
+    await expect(prepareOpeningGpu(f.renderer, f.scene, f.camera, { mode: 'parallel' })).rejects.toThrow('mode');
     expect(f.renderer.compileAsync).not.toHaveBeenCalled(); f.restored();
   });
 });

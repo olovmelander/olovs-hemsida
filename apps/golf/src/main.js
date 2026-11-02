@@ -11508,7 +11508,9 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     const grassHidden = nearGrass ? !nearGrass.prime(camera, renderer.domElement.height) : false;
     if (grassHidden) nearGrass.mesh.visible = true;
     try {
-      BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass });
+      BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass,
+        /* ?gpuprep=branches walks the scene's branches one call at a time; the default compiles it in one */
+        mode: BOOTQ.get('gpuprep') === 'branches' ? 'branches' : 'scene' });
     } finally {
       if (grassHidden) nearGrass.mesh.visible = false;
     }
