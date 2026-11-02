@@ -122,6 +122,7 @@ import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { loadGolfCart, placeGolfCarts } from './engine/golf-cart-prop.mjs';
 import { createBirds } from './engine/birds.mjs';
+import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
 import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -2117,6 +2118,8 @@ if (birds) scene.add(birds.mesh);
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
+  /* high cirrus above the clouds (engine/painted-sky.mjs CIRRUS); ?cirrus=0 is the before */
+  cirrus: new URLSearchParams(location.search).get('cirrus') !== '0',
   /* after the opaque world, so hidden sky is never shaded; ?skyorder=first is the before */
   drawLast: new URLSearchParams(location.search).get('skyorder') !== 'first',
   /* the clouds drift with the one wind */
@@ -2155,7 +2158,7 @@ const SUN_GLOW_BEFORE = new URLSearchParams(location.search).get('sunglow') === 
    clouds keep their paint, so phones see the sky they did. */
 const GLOW_THRESHOLD_ON = new URLSearchParams(location.search).get('glowthreshold') !== '0';
 const CLOUD_GLOW_ON = new URLSearchParams(location.search).get('cloudglow') !== '0';
-const skyPreset = (p, name) => ({ ...p,
+const skyPreset = (p, name) => ({ ...p, skyCirrus: cirrusFor(name),
   ...(SUN_GLOW_BEFORE && name !== 'golden' ? { skySunGlowStrength: 0 } : {}),
   ...(HAZE_WARM ? {} : { hazeGlow: 0 }),
   ...(CLOUD_GLOW_ON && !LOWQ && !lowfx ? {} : { skyCloudGlow: 0 }) });

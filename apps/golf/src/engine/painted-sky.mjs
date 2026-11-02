@@ -42,7 +42,23 @@ export const CLOUD_SUN=Object.freeze({
   /* the lining toward the sun: inside the cloud's edge, from this far past the field's threshold to this */
   lining:[.06,.18],
 });
-export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBase=null,groundHaze,deterministic,drift=null,sunLit=false}){
+/* HIGH CIRRUS (2 November, after serenity-blocks' Verdant Hills dome and Odyssey's
+   SKY_CIRRUS). Above the painted cumulus the sky was clear blue to the zenith.
+   Now a thin, higher layer of wind-drawn streaks, gathered into patches, on a
+   plane above the clouds' that drifts at three fifths of their pace: faded at
+   the horizon and toward the zenith, thinned in the sun's glare (where wisps
+   seen end-on stand up as pillars), and warmed toward a low sun in its glow's
+   colour. Each light's share in CIRRUS; none in the storm and the mist, and
+   none in the cloudless summer day. ?cirrus=0 is the before. */
+export const CIRRUS=Object.freeze({
+  presets:Object.freeze({golden:.75,noon:.55,summer:0,dawn:.8,midnight:.65,host:.5,bluehour:.35,storm:0,mist:0}),
+  /* the streaks: long along the drift, narrow across; the plane, higher than the clouds' */
+  stretch:Object.freeze([1.1,8]),patch:1.5,cut:Object.freeze([.12,.5]),plane:.55,
+  /* at most this share of the sky's colour, toward the layer's paint */
+  opacity:.34,
+});
+export const cirrusFor=name=>CIRRUS.presets[name]??0;
+export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBase=null,groundHaze,deterministic,drift=null,sunLit=false,cirrus=false}){
   const exposure=uniform(1);
   const sunGlow=uniform(new Color(0xffffff)),sunGlowStrength=uniform(0),hazeGlow=uniform(0),cloudGlow=uniform(new Color(0,0,0));
   const cloudSun=uniform(0);
@@ -91,10 +107,23 @@ export function paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBa
   // thick interior past its soft edge.
   const centre=smoothstep(threshold.add(CLOUD_GLOW.centre[0]),threshold.add(CLOUD_GLOW.centre[1]),field);
   const shining=cloud.mul(cloudGlow.mul(sunward.mul(sunward).mul(centre)).add(1));
-  const clear=mix(mix(horizon,zenith,pow(up,.38)),sunGlow,glow);
+  let clear=mix(mix(horizon,zenith,pow(up,.38)),sunGlow,glow);
+  const cirrusShare=uniform(0);
+  if(cirrus){
+    const plane=direction.xz.div(up.add(.07)).mul(sky.cloudScale.mul(3600*CIRRUS.plane));
+    const flow=drift?vec2(drift.x,drift.y).mul(.6*CIRRUS.plane):vec2(t.mul(.6*CIRRUS.plane),0);
+    const c=plane.sub(flow);
+    const streaks=mx_noise_float(vec3(c.x.mul(CIRRUS.stretch[0]),c.y.mul(CIRRUS.stretch[1]),3.7));
+    const patches=mx_noise_float(vec3(c.mul(CIRRUS.patch),9.1));
+    const wisps=smoothstep(CIRRUS.cut[0],CIRRUS.cut[1],streaks.mul(.55).add(patches.mul(.6)).add(.1));
+    const span=smoothstep(.04,.2,up).mul(float(1).sub(smoothstep(.72,.97,up)));
+    const glare=float(1).sub(sunward.mul(sunward).mul(.8));
+    const paint=mix(cloudLit,sunGlow,sunward.mul(.55));
+    clear=mix(clear,paint,wisps.mul(span).mul(glare).mul(cirrusShare).mul(CIRRUS.opacity));
+  }
   const painted=mix(clear,shining,coverage).mul(exposure);
   // The band under the horizon is the ground's haze, warmed toward the sun as
   // the aerial perspective warms it (aerial-perspective.mjs), so they still meet.
   const haze=mix(groundHaze,sunGlow,sunward.mul(hazeGlow));
-  return{node:vec4(mix(haze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength,hazeGlow,cloudGlow,cloudSun};
+  return{node:vec4(mix(haze,painted,smoothstep(-.06,.07,direction.y)),1),exposure,sunGlow,sunGlowStrength,hazeGlow,cloudGlow,cloudSun,cirrusShare};
 }
