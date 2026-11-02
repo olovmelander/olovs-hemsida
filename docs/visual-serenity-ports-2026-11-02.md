@@ -12,7 +12,7 @@ that are self-contained, fill a gap here, and can be proved in isolated
 scenes; each keeps its before behind a URL switch that leaves prepared startup
 eligible, so an A/B pair differs only in the change:
 
-`?shadowgrid=0&hazespectrum=0&airmotes=0`
+`?shadowgrid=0&hazespectrum=0&airmotes=0&godrays=0`
 
 Nothing here changes geometry, placement, source data, prepared data or a
 light's tuned values. The isolated scenes below render the real shaders in
@@ -89,6 +89,63 @@ in the generated WGSL and GLSL) that blanked the whole WebGPU frame.
 
 ![Without, golden ahead, golden behind, summer ahead; the motes' light ×4 below](graphics/air-motes-2026-11-02/webgpu.png)
 
+## 4. God rays through the trees (`god-rays.mjs`, `?godrays=0`)
+
+**Owner request, 2 November:** "Do the god rays through the trees first."
+From serenity's forest-family lens (`src/themes/golden-forest/golden-forest-post.js`),
+on three's `GodraysNode`. The scene pass's depth gives each pixel's ray; the node
+marches it through the sun's own shadow map at half resolution (24 steps,
+jittered) and returns how much lit air it crossed, `1 - exp(-integral)` under a
+ceiling, so where the crowns shadow part of the way the shaft breaks into beams
+and gaps; a bilateral blur takes out the march's noise without bleeding across
+silhouettes. The crowns' shadow map is cut through their leaf cards
+(`maskShadowNode`), so the real woods give dappled beams.
+
+Golf's choices, where serenity's differ:
+- **Forward scatter from each pixel's own ray.** Serenity weights the shafts by
+  the sun's position on the screen; here the lobe round the sun comes from the
+  view ray (`godRayLobe`, power 6 over a floor of 0.08), so it works with the sun
+  off the screen and in every camera view.
+- **The veil.** Serenity found the march lays lit air over the far ridges and
+  the sky where the shadow box runs out, and cut the shafts past the far forest.
+  Golf's box follows the eye at 260 m to over 1150 m, so the cut is a share of
+  its half-width (45–85%, `SUN_BASIS.R` once a frame), past which only the glow
+  round the sun is kept; the haze and the sky carry the distance.
+- **Each light's shafts** (`GOD_RAYS.presets`): golden 0.5, dawn and midnight
+  sun 0.45, autumn 0.35, summer 0.25, noon 0.2; none in the storm, the mist or
+  the blue hour, whose suns are hidden or down. A light with none runs neither
+  the march nor the blur (gated subclasses of three's nodes).
+- **Density** 0.3 per 100 m of lit air and a ceiling of 0.5, serenity's order
+  of magnitude, so the 30–100 m of air in front of a wood's edge shows its beams.
+  At first tuning for kilometre paths (0.08) the near air barely registered.
+- **High quality only.** Low quality has no post pipeline, and the runtime drop
+  draws straight to the canvas, so neither pays.
+- **When the graph is built.** `GodraysNode` reads the shadow map while its
+  graph is built, so `main.js` joins the shafts to the output once the map
+  exists: before the first frame after the opening scene's compile, or on the
+  frame after the first under `?startup=0`. A failure is caught and logged, and
+  the course draws without them. `V3D.godRays()` reports their state.
+
+[Isolated scene](graphics/god-rays-2026-11-02/): a band of wood between the eye
+and a sun 7° up, the app's own sun-shadow filter, a 4× MSAA scene pass and the
+composite, on WebGL2, WebGPU, and WebGPU with reversed depth (the app's WebGPU
+default). The shafts' light (each shot less the same shot with them off):
+
+| | WebGL2 | WebGPU | WebGPU, reversed depth |
+|---|---|---|---|
+| light added toward the sun / away | 5492 / 145 | 5489 / 144 | 5489 / 144 |
+| storm: added, march run | 0, no | 0, no | 0, no |
+| beams: variation along the air in front of the wood, wood / open field | 0.311 / 0.011 | 0.312 / 0.011 | 0.312 / 0.011 |
+| pixels darkened | 0 | 0 | 0 |
+
+The three backends' shafts agree within 1.4%.
+
+![Wood toward the sun, away from it, and the open field: without, with, and the shafts' light x4](graphics/god-rays-2026-11-02/webgpu-rdepth.png)
+
+Cost: one half-resolution march of 24 shadow-map samples a pixel plus a
+two-pass blur at half resolution and one full-resolution composite. Not timed
+on hardware; measure it with `tools/frame-time.mjs` and the switch.
+
 ## Considered and not ported here
 
 - **Water depth ramp and soft shore** (Odyssey `waterRampBody`, `lakeWetLip`):
@@ -97,11 +154,9 @@ in the generated WGSL and GLSL) that blanked the whole WebGPU frame.
 - **Colour grade, vignette and tone curve** (forest-family post, Grainfields
   `gfFilmic`): the owner removed a global grade because it clipped the greens
   and made the qualities disagree; a new curve retunes all nine lights.
-- **God rays, a painterly Kuwahara pass, volumetric cumulus, birds and
-  waterfowl with wakes**: striking, but each needs the owner's GPU for cost
-  and taste before it is worth porting. Serenity's own notes record the traps
-  (god rays veiling past the shadow box until cut by distance; Kuwahara only
-  on premium tiers).
+- **A painterly Kuwahara pass, volumetric cumulus, birds and waterfowl with
+  wakes**: striking, but each needs the owner's GPU for cost and taste before
+  it is worth porting (serenity keeps Kuwahara to premium tiers).
 
 ## Reproduce
 
@@ -109,7 +164,8 @@ in the generated WGSL and GLSL) that blanked the whole WebGPU frame.
 node docs/graphics/shadow-grain-2026-11-02/check-isolated.mjs
 node docs/graphics/haze-spectrum-2026-11-02/check-isolated.mjs
 node docs/graphics/air-motes-2026-11-02/check-isolated.mjs
-pnpm exec vitest run apps/golf/src/engine/sun-shadow.test.mjs apps/golf/src/engine/aerial-perspective.test.mjs apps/golf/src/engine/air-motes.test.mjs
+node docs/graphics/god-rays-2026-11-02/check-isolated.mjs
+pnpm exec vitest run apps/golf/src/engine/sun-shadow.test.mjs apps/golf/src/engine/aerial-perspective.test.mjs apps/golf/src/engine/air-motes.test.mjs apps/golf/src/engine/god-rays.test.mjs
 ```
 
 `BANVY_CHROME` selects a Chromium; `BANVY_GPU=1` uses the real adapter.

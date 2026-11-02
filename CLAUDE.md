@@ -261,8 +261,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   as tuned, offsets per vertex, mist grey, and the water's far shore takes the
   same haze; and pollen and down drift on the one air round the eye
   (`air-motes.mjs`, render order 3, held still under reduced motion, each
-  light's air in `AIR_MOTES.presets`). `?shadowgrid=0`, `?hazespectrum=0` and
-  `?airmotes=0` are the befores. In TSL never multiply a node by a JavaScript
+  light's air in `AIR_MOTES.presets`); and god rays through the trees
+  (`god-rays.mjs`, three's GodraysNode on the scene pass's depth and the sun's
+  shadow map, high quality only): forward scatter from each pixel's own ray,
+  cut past 45-85% of the shadow box's half-width to the sun's glow, each light's
+  strength in `GOD_RAYS.presets` (none in storm, mist, blue hour, and then not
+  run), joined to the output only once the shadow map exists. `?shadowgrid=0`,
+  `?hazespectrum=0`, `?airmotes=0` and `?godrays=0` are the befores. In TSL never multiply a node by a JavaScript
   number with `*` (it compiles to `NaN` and blanks the WebGPU frame); prove a
   new shader in an isolated scene on both backends. See
   [the serenity ports](docs/visual-serenity-ports-2026-11-02.md).

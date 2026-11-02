@@ -46,6 +46,7 @@ import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engi
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
 import { createAerialPerspective, SPECTRAL_HAZE, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
 import { createAirMotes } from './engine/air-motes.mjs';
+import { createGodRays } from './engine/god-rays.mjs';
 import { installOutputDither } from './engine/output-dither.mjs';
 
 import { loadCourse } from './loader/pack.js';
@@ -2185,6 +2186,7 @@ function setPreset(name, overrides = null) {
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(skyPreset(p, presetName));
   airMotes?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
+  godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
      noon must not have, so the bloom strength follows the preset */
@@ -8253,6 +8255,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
 /* ------------------------------------------------------------ post-process */
 await tick('ställer ljuset', 0.86);
 let openingScenePass = null;
+const GOD_RAYS_ON = new URLSearchParams(location.search).get('godrays') !== '0';
+let godRays = null, godRaysPending = null;
 /* ?post=0 renders the scene straight to the canvas, no bloom: the harness's way to tell a scene fault from a pipeline fault */
 if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
@@ -8272,12 +8276,32 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   post.outputNode = out;
   renderer.__post = post;
   renderer.__bloomNode = bloomNode;   /* strength is per-preset; setPreset sets it */
+  /* God rays through the trees (engine/god-rays.mjs, from serenity-blocks): the
+     scene's depth marched through the sun's shadow map, shafts of lit air in the
+     sun's colour toward a low sun, each light's own strength (none in the storm,
+     the mist or the blue hour). High quality only; the runtime drop draws without
+     the pipeline. GodraysNode reads the shadow map while its graph is built, so
+     the shafts join the output once the map exists: before the first frame after
+     the opening scene's compile, or on the frame after the first otherwise.
+     ?godrays=0 is the before. */
+  if (GOD_RAYS_ON) godRaysPending = () => {
+    if (!sun.shadow.map) return false;
+    godRays = createGodRays({ depthNode: scenePass.getTextureNode('depth'), camera, light: sun });
+    godRays.setPreset(presetName, { sunDirection: preset.dir, sunColour: preset.sun });
+    post.outputNode = vec4(sceneColor.rgb.add(godRays.node), sceneColor.a).add(bloomNode);
+    post.needsUpdate = true;
+    return true;
+  };
 }
 
 /* RenderPipeline.render() intentionally takes no scene/camera arguments; the
    scene pass owns them. Keeping this call in one place prevents the WebGPU and
    forced-WebGL paths from quietly exercising different post-processing code. */
 function renderActivePipeline() {
+  if (godRaysPending && !lowfx) {
+    try { if (godRaysPending()) godRaysPending = null; }
+    catch (error) { godRaysPending = null; godRays = null; console.error('God rays unavailable:', error); }
+  }
   renderPipeline(renderer, scene, camera, lowfx);
 }
 
@@ -11393,6 +11417,7 @@ function frame() {
      tree updates so settled() still waits for the same two rendered frames. */
   if (GRAPHICS_POLISH) updateFrameVisibility(now, dt);
   placeSun();
+  godRays?.setShadowRadius(SUN_BASIS.R);
   shadowRest(now);
   skyMesh.position.copy(camera.position);
   updateSky();
@@ -12177,6 +12202,7 @@ window.V3D = {
                     bloomThreshold: renderer.__bloomNode ? renderer.__bloomNode.threshold.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   airMotes: () => airMotes?.snapshot() ?? null,
+  godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
     /* the lighting batch (docs/visual-lighting-2026-09-25.md): null where its before is asked for */
