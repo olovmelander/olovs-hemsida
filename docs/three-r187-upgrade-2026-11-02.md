@@ -191,16 +191,28 @@ These need eyes on the real adapter, so they are proposals, not changes:
 
 ## Verification
 
+At the final commit of the branch (after the serenity ports and the re-bake):
+
 | Check | Result |
 |---|---|
 | Frozen lockfile install | pass, three 0.187.0 |
 | `pnpm --filter @banvy/golf build` | pass |
 | `node tools/lint-app.mjs` | pass |
-| `pnpm exec vitest run apps/golf` | **1267/1267**, 163 files |
+| `pnpm exec vitest run apps/golf` | **1279/1279**, 165 files |
+| `pnpm test`, Vitest | **1549/1549**, 198 files |
+| `pnpm test`, Node | 476 pass, 3 skipped; the one failure, Visby's `compile-stands`, needs `packages/course-geo/copc-reader`'s own `npm ci` and passes after it |
 | `tools/check-lighting-reuse.mjs --baseline HEAD` (fresh gate) | pass, 0/255 |
 | `tools/check-chooser-ui.mjs` | new gate fails before, passes after; the whole harness passes |
 | `node packages/course-v2/check-app-build.mjs` | pass |
 | `pnpm check:course-workflow` | pass |
+| `tools/check-prepared-startup.mjs` on the rebuilt app | pass (revision `71799818`) |
+| [Crown isolated check](graphics/tree-sparkle-2026-09-28/check-isolated.mjs) on r187 | pass; all 37 measured fields identical to its r186 record, WebGL2 and WebGPU |
+
+A whole-app shader comparison was attempted (every shader a boot compiles,
+r186 against r187), but a full course did not finish booting in 25 minutes
+under this container's SwiftShader, as CLAUDE.md warns. The crown check
+above is the shader evidence instead: it builds every species' real foliage
+material and measures the same values to the last digit on both versions.
 
 Not established here: full-course appearance on WebGPU and WebGL2, the
 opening-scene compile time on r187, and phone frame rates. Run
