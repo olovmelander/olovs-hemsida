@@ -4078,7 +4078,9 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false } =
   const { colour, opacity: sheetOpacity, wp } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
     cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,
     road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,
-    cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON });
+    cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON,
+    /* the bank's reflection and shade inside the waterline (engine/water-shading.mjs WATER_BANK); ?waterbank=0 is the before */
+    bank: new URLSearchParams(location.search).get('waterbank') !== '0' });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
