@@ -6985,8 +6985,22 @@ if (cupGeometries.length) {
   flagGroup.add(cups);
   stats.verts += geometry.attributes.position.count; stats.tris += geometry.index.count / 3; stats.draws++;
 }
-instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
-  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
+/* THE TEE MARKERS (2 November). An 8 x 6 sphere at 13 cm faceted into a lemon
+   from every tee view, half a metre from the lens. A round painted ball now:
+   24 x 16, its base settled a little into the turf, and the matte paint of a
+   moulded marker rather than polished metal. ?teemarkers=before is the before. */
+const TEE_MARKER_BEFORE = new URLSearchParams(location.search).get('teemarkers') === 'before';
+const teeMarkerGeometry = TEE_MARKER_BEFORE ? new THREE.SphereGeometry(0.13, 8, 6) : (() => {
+  const g = new THREE.SphereGeometry(0.13, 24, 16);
+  /* a ball resting on turf: the lowest tenth flattened onto its seat */
+  const p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) if (p.getY(i) < -0.105) p.setY(i, -0.105 + (p.getY(i) + 0.105) * 0.35);
+  g.computeVertexNormals();
+  return g;
+})();
+instancedFurniture(teeMarkerGeometry,
+  new THREE.MeshStandardNodeMaterial(TEE_MARKER_BEFORE ? { color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }
+    : { color: new THREE.Color(0xffffff), roughness: 0.62, metalness: 0 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
 
 /* Mapped OSM point identities, anchored to their source coordinates. Generic
    dimensions and orientations below are rendering estimates, not measurements.
