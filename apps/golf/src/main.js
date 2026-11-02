@@ -120,6 +120,7 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
+import { loadGolfCart, placeGolfCarts } from './engine/golf-cart-prop.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
 import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
@@ -7710,6 +7711,11 @@ if (M.infra.objectPlacement === 'mapped-only') {
    along the marina piers -- the things a person standing on this course actually
    sees. The High Coast horizon itself (Mjältön, the Ulvö islands, Högbonden's
    island) needs no modelling: it is real terrain in the vista heightfield. */
+/* the painted props (engine/golf-cart-prop.mjs); ?props=0 is the before, the boxes */
+const PROPS_ON = new URLSearchParams(location.search).get('props') !== '0';
+const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
+  ? loadGolfCart({ baseUrl: import.meta.env.BASE_URL }).catch(error => { console.warn('golf cart:', error.message); return null; })
+  : Promise.resolve(null);
 {
   const V = [], K = [];
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
@@ -7872,7 +7878,22 @@ if (M.infra.objectPlacement === 'mapped-only') {
       quad(C(-hw, hd, y0), C(-hw, -hd, y0), C(-hw, -hd, y0 + h), C(-hw, hd, y0 + h), col);
       quad(C(-hw, -hd, y0 + h), C(hw, -hd, y0 + h), C(hw, hd, y0 + h), C(-hw, hd, y0 + h), col);
     };
-    for (let k = 0; k < n; k++) {
+    /* the modelled cart (engine/golf-cart-prop.mjs, built in Blender), two
+       instanced draws for the park; the boxes below if it did not load or
+       ?props=0 asks for the before */
+    const cartParts = await GOLF_CART_LOADING;
+    if (cartParts) {
+      const carts = [];
+      for (let k = 0; k < n; k++) {
+        const t = n === 1 ? 0.5 : k / (n - 1);
+        const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
+        carts.push({ x: cx, y: terrainH(cx, cz), z: cz, ax: nx, az: nz,
+          colour: new THREE.Color().setRGB(...(k === n - 1 ? L(0x2f5fa8) : L(0xe9e9e6))) });
+      }
+      scene.add(placeGolfCarts(cartParts, carts));
+      stats.draws += 2;
+    }
+    for (let k = 0; k < (cartParts ? 0 : n); k++) {
       const t = n === 1 ? 0.5 : k / (n - 1);
       const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
       const y = terrainH(cx, cz);
