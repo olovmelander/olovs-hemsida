@@ -10675,6 +10675,9 @@ addEventListener('keydown', e => {
     shortcutKeys.reset();
     return;
   }
+  /* A held key repeats: only the arrows keep stepping holes. Held F or H
+     would flicker a flight or the clean view, and a held 1 would type 11. */
+  if (e.repeat && !e.key.startsWith('Arrow')) return;
   if (shortcutKeys.press(e.key) && e.key.startsWith('Arrow')) e.preventDefault();
 });
 
