@@ -42,6 +42,8 @@ function fixture({ tour = false, reducedMotion = false, flying = true, courseHol
   const body = { classList: classList(...(tour ? ['tour', 'clean'] : [])) };
   const state = {
     camera, controls, camTween, flying: flying ? 0.4 : 0, tour: tour ? 1 : 0,
+    /* a long glide's arc (main.js flyTo): on, as in the player */
+    CAMERA_ARC_ON: true,
     heldFlightLens: false,
     tourFlight: { st: { n: 3 }, cardPending: true, baseFov: 48 },
     document: { body, getElementById: () => card, querySelectorAll: () => [] },

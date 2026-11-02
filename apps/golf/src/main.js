@@ -37,7 +37,7 @@ import {
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
-  normalMap, bumpMap,
+  normalMap, bumpMap, hash as tslHash,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
@@ -110,7 +110,7 @@ import { createSunShadowFilter, GRID_SHADOW_TAPS } from './engine/sun-shadow.mjs
 import { createShadowTint, shadowTintFor, sunUnderClouds } from './engine/shadow-tint.mjs';
 import { treeTint, vistaTint } from './engine/stand-tint.mjs';
 import { groundReliefBytes } from './engine/ground-relief.mjs';
-import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift, lightWind } from './engine/one-wind.mjs';
+import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift, lightWind, windSway as airSway } from './engine/one-wind.mjs';
 import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
@@ -1942,6 +1942,8 @@ const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !
    the crown's depth, its clumps and each tree move, with a warm cap on every
    up-and-sunward mass. ?canopy=0 is the before, the smooth wrap. */
 const CANOPY_ON = new URLSearchParams(location.search).get('canopy') !== '0';
+/* the leaves' flutter near a crown (leafFlutter, below); ?leafflutter=0 is the before */
+const LEAF_FLUTTER_ON = new URLSearchParams(location.search).get('leafflutter') !== '0';
 /* The mesh crowns' leaf cards are cut through the MSAA samples, as the
    impostors' crowns are, not all-or-nothing per pixel: their gaps and edges no
    longer sparkle against the sky as the camera moves (ghibli-foliage-material.mjs,
@@ -5202,6 +5204,20 @@ const TREE_LOD = {
   /* GPU-only harmonic wind sway with zero CPU matrix updates: trunk roots at
      y=0 stay rigid, while crown upper branches gently bend. The near tier
      only: distant impostors remain still. */
+  /* THE LEAVES FLUTTER (2 November, after Odyssey's leafy crowns): near a crown
+     every clump of cards shakes a couple of centimetres on its own phase, on top
+     of the tree's sway, as strongly as the air blows -- still under reduced motion
+     with the air -- and gone by 40 m, inside the sway's own fade. The phase comes
+     from the card's 40 cm cell of the template (shifted positive: a hash of a
+     negative seed clamps to one value in WGSL). ?leafflutter=0 is the before. */
+  function leafFlutter() {
+    const cell = floor(positionGeometry.mul(2.5)).add(1000);
+    const phase = tslHash(cell.x.add(cell.y.mul(57)).add(cell.z.mul(113))).mul(6.283);
+    const near = oneMinus(smoothstep(15, 40, cameraPosition.sub(positionWorld).length()));
+    const amplitude = airSway.min(2).mul(near).mul(0.022);
+    return vec3(sin(time.mul(7.3).add(phase)), sin(time.mul(9.1).add(phase.mul(2))).mul(0.6), cos(time.mul(6.1).add(phase)))
+      .mul(amplitude);
+  }
   function windSway(isCrown) {
     const wp = positionWorld.xz;
     const hNorm = saturate(LOCAL_HEIGHT.div(13.0));
@@ -5214,7 +5230,10 @@ const TREE_LOD = {
     const weight = (isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10)).mul(swayFade);
     /* the one wind: the same swing turned onto the wind's axis, as strong as it
        blows, with the gusts the air carries through the stand (one-wind.mjs) */
-    if (ONE_WIND_ON) return positionLocal.add(swayOnWind({ p: wp, weight, rate: 1.35, swing: treeSwing(LOCAL_HEIGHT), lean: 0.12 }));
+    if (ONE_WIND_ON) {
+      const swayed = positionLocal.add(swayOnWind({ p: wp, weight, rate: 1.35, swing: treeSwing(LOCAL_HEIGHT), lean: 0.12 }));
+      return isCrown && LEAF_FLUTTER_ON ? swayed.add(leafFlutter()) : swayed;
+    }
     const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
     const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
     const swayX = sin(windPhase.add(LOCAL_HEIGHT.mul(0.08))).mul(0.24)
@@ -8637,7 +8656,7 @@ function setRailFolded(folded, remember = false) {
   });
 }
 
-const camTween = { on: false, t: 0, dur: 1.5, from: new THREE.Vector3(), to: new THREE.Vector3(),
+const camTween = { on: false, t: 0, dur: 1.5, arc: 0, from: new THREE.Vector3(), to: new THREE.Vector3(),
                    lookFrom: new THREE.Vector3(), lookTo: new THREE.Vector3() };
 let heldFlightLens = false;
 /* The ground keeps the camera out of itself gently (engine/camera-clamp.mjs):
@@ -8658,7 +8677,15 @@ function flyTo(pos, look, dur = 1.5) {
   camTween.from.copy(camera.position); camTween.to.copy(pos);
   camTween.lookFrom.copy(controls.target); camTween.lookTo.copy(look);
   camTween.t = 0; camTween.dur = dur; camTween.on = true;
+  /* A LONG GLIDE ARCS (2 November): from one hole to the next the camera
+     rises through the middle of its way, an eighth of the distance and at most
+     45 m, so the change reads as a short flight over the course rather than a
+     slide through the trees between. Only up, never below the straight line
+     the clamp already keeps above the ground. ?camarc=0 is the before. */
+  const travel = camTween.from.distanceTo(pos);
+  camTween.arc = CAMERA_ARC_ON && travel > 80 ? Math.min(45, travel * 0.125) : 0;
 }
+const CAMERA_ARC_ON = new URLSearchParams(location.search).get('camarc') !== '0';
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 function setCam(mode, instant) {
@@ -11520,6 +11547,7 @@ function frame() {
     const t = Math.min(1, camTween.t);
     const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     camera.position.lerpVectors(camTween.from, camTween.to, e);
+    if (camTween.arc) camera.position.y += Math.sin(Math.PI * e) * camTween.arc;
     controls.target.lerpVectors(camTween.lookFrom, camTween.lookTo, e);
     if (t >= 1) camTween.on = false;
   }
