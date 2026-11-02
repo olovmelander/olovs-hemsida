@@ -120,6 +120,7 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
+import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
@@ -11246,6 +11247,7 @@ const navDrawer = buildNavDrawer({
     if (type === 'preset') setPreset(val);
     if (type === 'clean') setClean(true);
     if (type === 'devOverlay') setDevOverlay(val === undefined ? !devOverlay : val === true);
+    if (type === 'frameCap') setFrameCap(nextFrameCap(frameCap));
   }
 });
 window.__navDrawer = navDrawer;
@@ -11315,6 +11317,20 @@ addEventListener('resize', () => {
 });
 
 let last = performance.now(), acc = 0, frames = 0, fps = 0;
+/* THE FRAME CAP (engine/frame-pacer.mjs): at most 60 renders a second by
+   default, so a 144-240 Hz panel stops drawing the same picture four times
+   over; the menu offers unlimited and 30. ?fps=0 lifts it; a det=1 harness
+   keeps every vsync unless it asks, so its frame counts are what they were. */
+const FRAME_PACER = createFramePacer();
+let frameCap = DET && !new URLSearchParams(location.search).has('fps') ? 0
+  : resolveFrameCap(location.search, (() => { try { return localStorage; } catch { return null; } })());
+function setFrameCap(cap) {
+  frameCap = cap;
+  try { localStorage.setItem(FRAME_CAP_KEY, String(cap)); } catch {}
+  navDrawer.setFrameCap?.(frameCapLabel(cap));
+  toast(`Bildfrekvens: ${frameCapLabel(cap)}`, 2200);
+}
+navDrawer.setFrameCap?.(frameCapLabel(frameCap));
 /* frames rendered since boot, monotonic: what a harness waits on after
    changing anything, because under a software renderer a frame can take
    longer than any fixed wait and a screenshot shows the LAST frame drawn */
@@ -11348,8 +11364,9 @@ function updateFrameVisibility(now, dt) {
 let courseGolfer = null;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  /* a 30 fps cap's idle time is not slowness: the resolution holds still under it */
   renderResolution.sample(now - last, now,
-    BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked);
+    BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked && (frameCap === 0 || frameCap >= 50));
   /* Morph state remains current before the ground clamp samples terrain. */
   terrainV2.tick(now);
   if (__GOLFER_LAB__) courseGolfer?.update(dt);
@@ -11528,6 +11545,9 @@ const firstSceneFrameReady = new Promise((resolve, reject) => {
   resolveFirstSceneFrame = resolve; rejectFirstSceneFrame = reject;
 });
 renderer.setAnimationLoop(() => {
+  /* capped frames skip everything, the boot's first frames never */
+  if (!resolveFirstSceneFrame && BOOT_PERF.firstFrames.length >= 12
+    && !shouldRenderFrame(FRAME_PACER, performance.now(), frameCap)) return;
   /* the first frames' wall times, for the profiler: shader compiles and
      texture uploads land here and no stage mark sees them */
   if (BOOT_PERF.firstFrames.length < 12) {

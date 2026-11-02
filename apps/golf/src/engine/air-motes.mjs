@@ -37,7 +37,11 @@ export const AIR_MOTES = Object.freeze({
   /* the box of air round the eye, metres (x, y, z): the near air, where a speck is more than a pixel */
   box: Object.freeze([40, 16, 40]),
   /* motes fade in from `near` and out by `far`, metres from the eye */
-  near: 1.6, far: 30,
+  near: 2.5, far: 30,
+  /* and out as they are drawn wider than this many pixels across (radius, from
+     `fadePixels[0]` to `[1]`): a near seed's down drew as a 60-100 px yellow
+     ball on the owner's GPU (2 November), the fill-rate trap and a blot. */
+  fadePixels: Object.freeze([3.5, 7]),
   /* radius in metres: a pollen speck, a seed's down */
   size: Object.freeze([0.02, 0.065]),
   minPixels: 1.5,
@@ -129,6 +133,9 @@ export function createAirMotes({ quality = 'hi', deterministic = false } = {}) {
     const size = mix(float(A.size[0]), float(A.size[1]), isDown).mul(mix(0.7, 1.3, h2));
     const drawn = max(size, depth.mul(pixelAngle).mul(A.minPixels));
     const cover = size.div(drawn);
+    /* its radius on screen, in pixels: past a few it is a blot, not a speck */
+    const pixels = size.div(depth.mul(pixelAngle));
+    fade.mulAssign(float(1).sub(smoothstep(A.fadePixels[0], A.fadePixels[1], pixels)));
     const lifted = view.add(vec4(positionGeometry.xy.mul(drawn.mul(2)), 0, 0));
 
     /* light: a warm speck that flickers as it turns, or a white tuft; toward the sun, a sunbeam's glow */

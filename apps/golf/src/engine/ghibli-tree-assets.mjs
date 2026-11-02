@@ -128,14 +128,26 @@ async function loadFoliageAtlas(base, rec, fetchImpl) {
   if (!response.ok) throw new Error(`Ghibli foliage atlas: HTTP ${response.status}`);
   const bytes = await response.arrayBuffer();
   if (bytes.byteLength !== rec.bytes || await digest(bytes) !== rec.sha256) throw new Error('Ghibli foliage atlas checksum mismatch');
-  const url = URL.createObjectURL(new Blob([bytes], { type: 'image/png' }));
-  try {
-    const map = await new THREE.TextureLoader().loadAsync(url);
+  const blob = new Blob([bytes], { type: 'image/png' });
+  const finish = map => {
     map.colorSpace = THREE.SRGBColorSpace;map.name = `ghibli-foliage-${rec.sha256}`;
     map.flipY = false; // Preserve the exported glTF UV convention.
     map.wrapS = map.wrapT = THREE.ClampToEdgeWrapping;map.needsUpdate = true;
     return map;
-  } finally { URL.revokeObjectURL(url); }
+  };
+  /* Decoded off the main thread: an <img> through TextureLoader is decoded
+     again, synchronously, on its first GPU upload (serenity-blocks measured
+     200+ ms for its atlases). The bitmap keeps straight alpha, the file's own
+     colours and its row order, as the image path did with flipY off. */
+  if (typeof createImageBitmap === 'function') {
+    try {
+      const bitmap = await createImageBitmap(blob, { imageOrientation: 'none', premultiplyAlpha: 'none', colorSpaceConversion: 'none' });
+      return finish(new THREE.Texture(bitmap));
+    } catch { /* fall back to the image path below */ }
+  }
+  const url = URL.createObjectURL(blob);
+  try { return finish(await new THREE.TextureLoader().loadAsync(url)); }
+  finally { URL.revokeObjectURL(url); }
 }
 
 // The study's reduced models have different extents (larger spray cards in

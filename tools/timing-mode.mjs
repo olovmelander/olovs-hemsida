@@ -19,7 +19,9 @@ export const BUSY_GPU_PERCENT = 10;
 
 /** URL parameters for a timing run: normal use unless `det` is asked for. */
 export function timingQuery({ det = false, quality = 'hi' } = {}) {
-  const query = { qualitylock: '1', q: quality };
+  /* fps=0: the player's frame cap (engine/frame-pacer.mjs) would turn a frame
+     time into the cap's interval; a timing run measures the render itself */
+  const query = { qualitylock: '1', q: quality, fps: '0' };
   if (det) query.det = '1';
   return query;
 }

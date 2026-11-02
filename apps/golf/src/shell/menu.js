@@ -186,6 +186,13 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
                 <div class="dt-desc">Dölj menyer för fri panoramavy</div>
               </div>
             </button>
+            <button class="d-tool-btn" id="dFpsBtn">
+              <span class="dt-icon">${ICONS.layers(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">Bildfrekvens <span class="dt-state" id="dFpsState">60</span></div>
+                <div class="dt-desc">Tak för bilder per sekund: svalare och tystare dator, längre batteritid</div>
+              </div>
+            </button>
             <button class="d-tool-btn" id="dDevBtn" aria-pressed="false">
               <span class="dt-icon">${ICONS.layers(18)}</span>
               <div class="dt-text">
@@ -310,6 +317,12 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
      inspection and cost a second trip through the menu. */
   const devBtn = drawer.querySelector('#dDevBtn');
   devBtn?.addEventListener('click', () => onAction('devOverlay'));
+  /* the frame cap cycles 60, unlimited, 30 and keeps the drawer open, like the developer switch */
+  drawer.querySelector('#dFpsBtn')?.addEventListener('click', () => onAction('frameCap'));
+  const setFrameCap = (label) => {
+    const state = drawer.querySelector('#dFpsState');
+    if (state) state.textContent = label;
+  };
 
   // Touch swipe to dismiss drawer on mobile
   let touchStartX = 0;
@@ -341,6 +354,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   return {
     el: drawer,
     setDevOverlay,
+    setFrameCap,
     open: () => {
       drawer.classList.add('open');
       const toggleBtn = document.getElementById('menuToggle');

@@ -3,10 +3,10 @@ import { timingQuery, timingQueryString, gpuUtilisation, assertGpuIdle } from '.
 
 describe('timing mode', () => {
   it('measures normal use unless det is asked for', () => {
-    expect(timingQuery()).toEqual({ qualitylock: '1', q: 'hi' });
-    expect(timingQuery({ quality: 'lo' })).toEqual({ qualitylock: '1', q: 'lo' });
-    expect(timingQuery({ det: true })).toEqual({ qualitylock: '1', q: 'hi', det: '1' });
-    expect(timingQueryString()).toBe('&qualitylock=1&q=hi');
+    expect(timingQuery()).toEqual({ qualitylock: '1', q: 'hi', fps: '0' });
+    expect(timingQuery({ quality: 'lo' })).toEqual({ qualitylock: '1', q: 'lo', fps: '0' });
+    expect(timingQuery({ det: true })).toEqual({ qualitylock: '1', q: 'hi', fps: '0', det: '1' });
+    expect(timingQueryString()).toBe('&qualitylock=1&q=hi&fps=0');
   });
   it('reads the busiest GPU and reports none without nvidia-smi', () => {
     expect(gpuUtilisation(() => '3\n41\n')).toBe(41);
