@@ -18,16 +18,31 @@ export const GOLF_CART_ASSET = Object.freeze({
   meshes: Object.freeze(['cart_body', 'cart_trim']),
 });
 
+/* THE PARKED CAR (3 November): the car parks drew "a car is two boxes; a car
+   park is fifty of them in three colour buckets". A painted estate car from
+   tools/blender-props/parked_car.py, 1,908 triangles, its white body painted
+   per instance: a car park is two instanced draws. */
+export const PARKED_CAR_ASSET = Object.freeze({
+  url: 'models/props/parked-car-f7775cbe1727e6ba198b9c5f4b69cf29d9847fedf3676b61ec363a07bb550592.glb',
+  sha256: 'f7775cbe1727e6ba198b9c5f4b69cf29d9847fedf3676b61ec363a07bb550592',
+  bytes: 80712,
+  meshes: Object.freeze(['car_body', 'car_trim']),
+});
+
 const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(b => b.toString(16).padStart(2, '0')).join('');
 
 /** The cart's two geometries ({ body, trim }), verified; positions in metres, the ground at y = 0. */
-export async function loadGolfCart({ baseUrl = '/', fetchImpl = fetch, asset = GOLF_CART_ASSET } = {}) {
+export const loadGolfCart = options => loadPaintedProp({ asset: GOLF_CART_ASSET, ...options });
+
+/** A painted prop's two geometries ({ body: <name>_body, trim: <name>_trim }), verified. */
+export async function loadPaintedProp({ baseUrl = '/', fetchImpl = fetch, asset } = {}) {
+  const label = asset.url.split('/').pop().replace(/-[0-9a-f]{64}\.glb$/, '');
   const res = await fetchImpl(baseUrl + asset.url);
-  if (!res.ok) throw new Error(`golf cart: HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`${label}: HTTP ${res.status}`);
   const bytes = await res.arrayBuffer();
-  if (bytes.byteLength !== asset.bytes) throw new Error(`golf cart: ${bytes.byteLength} bytes, the record says ${asset.bytes}`);
-  if (await hex(bytes) !== asset.sha256) throw new Error('golf cart: sha256 does not match the record');
+  if (bytes.byteLength !== asset.bytes) throw new Error(`${label}: ${bytes.byteLength} bytes, the record says ${asset.bytes}`);
+  if (await hex(bytes) !== asset.sha256) throw new Error(`${label}: sha256 does not match the record`);
   inspectBuildingGlb(bytes);
   const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
   const gltf = await new GLTFLoader().parseAsync(bytes, '');
@@ -35,18 +50,18 @@ export async function loadGolfCart({ baseUrl = '/', fetchImpl = fetch, asset = G
   gltf.scene.updateMatrixWorld(true);
   gltf.scene.traverse(node => {
     if (!node.isMesh) return;
-    if (!asset.meshes.includes(node.name)) throw new Error(`golf cart: unexpected mesh ${node.name}`);
+    if (!asset.meshes.includes(node.name)) throw new Error(`${label}: unexpected mesh ${node.name}`);
     const g = node.geometry.clone().applyMatrix4(node.matrixWorld);
-    if (!g.attributes.color || !g.attributes.normal) throw new Error(`golf cart: ${node.name} lacks colours or normals`);
+    if (!g.attributes.color || !g.attributes.normal) throw new Error(`${label}: ${node.name} lacks colours or normals`);
     /* the colour may arrive as RGBA: the player's vertex colours are RGB */
     if (g.attributes.color.itemSize === 4) {
       const c = g.attributes.color, rgb = new Float32Array(c.count * 3);
       for (let i = 0; i < c.count; i++) { rgb[i * 3] = c.getX(i); rgb[i * 3 + 1] = c.getY(i); rgb[i * 3 + 2] = c.getZ(i); }
       g.setAttribute('color', new THREE.BufferAttribute(rgb, 3));
     }
-    parts[node.name === 'cart_body' ? 'body' : 'trim'] = g;
+    parts[node.name.endsWith('_body') ? 'body' : 'trim'] = g;
   });
-  if (!parts.body || !parts.trim) throw new Error('golf cart: needs a body and trim');
+  if (!parts.body || !parts.trim) throw new Error(`${label}: needs a body and trim`);
   return parts;
 }
 
@@ -55,6 +70,28 @@ export function cartMatrix(x, y, z, ax, az, out = new THREE.Matrix4()) {
   /* the model runs along +x; turn +x onto (ax, az) about y */
   const yaw = Math.atan2(-az, ax);
   return out.compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), yaw), new THREE.Vector3(1, 1, 1));
+}
+
+/** Two instanced meshes for any painted prop: `items` [{ matrix (THREE.Matrix4), colour (THREE.Color, linear) }]. */
+export function placePaintedProp(parts, items, { name = 'prop', tag = 'props', roughness = 0.6, metalness = 0.05, bodyRoughness = roughness, bodyMetalness = metalness } = {}) {
+  const group = new THREE.Group();
+  group.name = name;
+  for (const [key, tinted] of [['body', true], ['trim', false]]) {
+    const material = new THREE.MeshStandardNodeMaterial({ vertexColors: true,
+      roughness: tinted ? bodyRoughness : roughness, metalness: tinted ? bodyMetalness : metalness });
+    const mesh = new THREE.InstancedMesh(parts[key], material, items.length);
+    items.forEach((item, i) => {
+      mesh.setMatrixAt(i, item.matrix);
+      if (tinted) mesh.setColorAt(i, item.colour);
+    });
+    mesh.instanceMatrix.needsUpdate = true;
+    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+    mesh.castShadow = true; mesh.receiveShadow = true;
+    mesh.name = `${name}-${key}`; mesh.userData.tag = tag;
+    mesh.computeBoundingSphere();
+    group.add(mesh);
+  }
+  return group;
 }
 
 /** Two instanced meshes for a park: `carts` [{ x, y, z, ax, az, colour (THREE.Color, linear) }]. */

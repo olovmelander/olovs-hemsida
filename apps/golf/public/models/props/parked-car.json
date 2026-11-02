@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-prop",
+  "id": "parked-car",
+  "asset": { "url": "models/props/parked-car-f7775cbe1727e6ba198b9c5f4b69cf29d9847fedf3676b61ec363a07bb550592.glb", "sha256": "f7775cbe1727e6ba198b9c5f4b69cf29d9847fedf3676b61ec363a07bb550592", "bytes": 80712 },
+  "meshes": { "car_body": { "triangles": 296, "tinted": true }, "car_trim": { "triangles": 1612 } },
+  "axes": "front along +z, x across, y up; metres; the ground at y = 0; 4.35 x 1.78 x 1.46 m",
+  "source": "tools/blender-props/parked_car.py, Blender 5.2.2 LTS, built and exported through the Blender MCP on 3 November 2026",
+  "notes": "Painted vertex colours; the body is white and takes the player's instance colour."
+}

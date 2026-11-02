@@ -120,7 +120,7 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
-import { loadGolfCart, placeGolfCarts } from './engine/golf-cart-prop.mjs';
+import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET } from './engine/golf-cart-prop.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
@@ -3701,7 +3701,15 @@ const PARKING_RENDER_PROOFS = [];
 }
 
 
-/* a car is two boxes; a car park is fifty of them in three colour buckets */
+/* a car is two boxes; a car park is fifty of them in three colour buckets --
+   or, since 3 November, the painted estate car (engine/golf-cart-prop.mjs,
+   built in Blender) in the same places, its body in the same three paints with
+   a little of each car's own, two instanced draws; ?props=0 is the boxes */
+const PARKED_CARS_MODELLED = new URLSearchParams(location.search).get('props') !== '0';
+const PARKED_CAR_LOADING = PARKED_CARS_MODELLED && M.infra.objectPlacement !== 'mapped-only'
+  ? loadPaintedProp({ asset: PARKED_CAR_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('parked car:', error.message); return null; })
+  : Promise.resolve(null);
 {
   for (const r of M.infra.roads) {
     if (M.infra.objectPlacement === 'mapped-only' || r.kind !== 'trunk' || !r.oneway) continue;
@@ -3714,7 +3722,22 @@ const PARKING_RENDER_PROOFS = [];
       carSpots.push({ x, z, yaw: b, h: terrainH(x, z) + 0.2 });
     }
   }
-  if (carSpots.length) {
+  const carParts = carSpots.length ? await PARKED_CAR_LOADING : null;
+  if (carParts) {
+    const PAINTS = [[0xd8d9d6, 0xb4b6b8], [0x2b2d30, 0x6f7275], [0x7e2a24, 0x2a3a55]];
+    const items = carSpots.map((csp, k) => {
+      const pick = hash2(Math.round(csp.x * 5), Math.round(csp.z * 5));
+      const bucket = pick < 0.55 ? 0 : pick < 0.85 ? 1 : 2;
+      /* each bucket's two paints, and a little of each car's own between them */
+      const colour = new THREE.Color(PAINTS[bucket][0]).lerp(new THREE.Color(PAINTS[bucket][1]), hash2(k, 31) * (bucket === 2 ? 1 : 0.35));
+      const sc = 0.94 + hash2(k, bucket) * 0.14;
+      return { colour, matrix: new THREE.Matrix4().compose(new THREE.Vector3(csp.x, csp.h, csp.z),
+        new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), csp.yaw), new THREE.Vector3(sc, sc, sc)) };
+    });
+    scene.add(placePaintedProp(carParts, items, { name: 'parked-cars', tag: 'cars', roughness: 0.55, bodyRoughness: 0.32, bodyMetalness: 0.35 }));
+    stats.draws += 2;
+    stats.cars = carSpots.length;
+  } else if (carSpots.length) {
     const body = mergeGeos([(() => { const g = new THREE.BoxGeometry(1.76, 0.6, 4.35); g.translate(0, 0.58, 0); return g; })(),
                             (() => { const g = new THREE.BoxGeometry(1.6, 0.52, 2.05); g.translate(0, 1.12, -0.15); return g; })()]);
     const PALETTES = [[0xd8d9d6, 0xb4b6b8], [0x2b2d30, 0x6f7275], [0x7e2a24, 0x2a3a55]];
