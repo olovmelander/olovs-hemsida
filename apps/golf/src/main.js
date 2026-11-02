@@ -322,6 +322,26 @@ if (isBareVisit) {
   const bs = document.getElementById('bootSub');
   if (bt) bt.textContent = CMETA.club;
   if (bs) bs.textContent = `${CMETA.tag} · ${CMETA.holes} hål · Par ${CMETA.par}`;
+  /* the course's poster behind the loading (index.html .boot-poster): laid in only
+     once it has loaded, so a visit without it (offline, uncached) stays as it was */
+  const entry = COURSE.all?.find(c => c.slug === CMETA.slug);
+  const boot = document.getElementById('boot');
+  if (entry?.photos && boot && !boot.classList.contains('done')) {
+    const url = `${import.meta.env.BASE_URL}courses/${CMETA.slug}/hero-1.webp`;
+    const img = new Image();
+    img.decoding = 'async';
+    /* the course's own data comes first */
+    img.fetchPriority = 'low';
+    img.onload = () => {
+      if (boot.classList.contains('done')) return;
+      const poster = document.createElement('div');
+      poster.className = 'boot-poster';
+      poster.style.backgroundImage = `url('${url}')`;
+      boot.prepend(poster);
+      requestAnimationFrame(() => poster.classList.add('shown'));
+    };
+    img.src = url;
+  }
 }
 
 const hdNameEl = document.getElementById('hdName');
