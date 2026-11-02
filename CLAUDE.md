@@ -48,6 +48,14 @@ this guide or the current production workflow.
 - Study shader/tree entry points live in `apps/golf/src/studies`. Keep them out
   of the player import graph. Refined/foliage study assets remain available
   locally and are omitted from production builds.
+- three.js is r187 (0.187.0). Its PMREMs are mip-mapped cube targets: the
+  lighting environment bakes each preset into the displayed cube in place
+  (`lighting-environment.mjs`); never copy one PMREM into another, which keeps
+  the old preset on five faces and every rough mip (`check-lighting-reuse.mjs`
+  gates against a fresh bake). The bare chooser route hides the player HUD
+  (`body.hub`), and the menu's shortcut list renders from
+  `keyboard-shortcuts.mjs`: add a key there, with its test. See
+  [the r187 upgrade](docs/three-r187-upgrade-2026-11-02.md).
 - All seven historical public HTML URLs redirect to the app with their course
   and supported view settings. Vite generates these redirects. Root HTML sources
   remain course-pack validation inputs; never copy them over the built redirects.
