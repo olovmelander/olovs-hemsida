@@ -18,10 +18,24 @@ import * as THREE from 'three/webgpu';
 import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/decode-web.mjs';
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
 import { detectFlatWater, rasterFromRingTiles, waterRingTiles } from './v2-flat-water.mjs';
-import { buildWaterBedField, carveTerrainTile } from './v2-water-bed.mjs';
+import { buildWaterBedField, carveDecodedTerrainTile, carveTerrainTile } from './v2-water-bed.mjs';
 import { refineMappedWaterBeds } from './mapped-water-bed.mjs';
 
 const EPSILON = 1e-6;
+
+/* Carve a decoded tile, re-basing its quantisation below its floor where its lake bed needs it
+   (carveDecodedTerrainTile). A tile whose range cannot take the shift keeps the clamped carve,
+   as before, rather than failing the terrain. */
+function carveBelowFloor(decoded, field, options) {
+  try {
+    return carveDecodedTerrainTile(decoded, field, options);
+  } catch (error) {
+    if (!(error instanceof RangeError)) throw error;
+    const payload = decoded.payload instanceof Uint8Array ? new Uint8Array(decoded.payload) : new Uint8Array(decoded.payload);
+    const carved = carveTerrainTile({ bounds: decoded.header.bounds, grid: decoded.header.grid, payload }, field, options);
+    return carved ? { ...decoded, payload, terrainRenderData: null, waterBed: { carvedSamples: carved, rebasedOffsetMetres: null } } : decoded;
+  }
+}
 const UINT16_NO_DATA_DEFAULT = 65535;
 
 function errorText(error) {
@@ -376,15 +390,21 @@ export class V2GraphTerrainAdapter {
       if (!byLod.has(tile.lod)) byLod.set(tile.lod, []);
       byLod.get(tile.lod).push(tile);
     }
+    this.ringTiles = byLod;
+    this.#buildRingSampler();
+    this.ringTileCount = decoded.length;
+    return decoded.length;
+  }
+
+  /* the CPU sampler over the ring tiles; built again after the beds are carved, since a tile
+     re-based for its lake bed has a new quantisation offset the sampler caches */
+  #buildRingSampler() {
     this.rings = createRingHeightSampler({
       indexed: !!this.chunkSource && new URLSearchParams(globalThis.location?.search ?? '').get('startup') !== 'unindexed',
-      levels: [...byLod].map(([lod, levelTiles]) => ({ lod, tiles: levelTiles })),
+      levels: [...this.ringTiles].map(([lod, levelTiles]) => ({ lod, tiles: levelTiles })),
       legacyOrigin: this.legacyOrigin,
       verticalDatumOffsetMetres: this.bridge.verticalDatumOffsetMetres,
     });
-    this.ringTiles = byLod;
-    this.ringTileCount = decoded.length;
-    return decoded.length;
   }
 
   /**
@@ -429,22 +449,35 @@ export class V2GraphTerrainAdapter {
     });
     const field = refineMappedWaterBeds(coarseField, this.knownBodies, (x, z) => this.bridge.toGrid(x, z));
     const fieldMilliseconds = Math.round(this.clock() - started);
-    let carvedSamples = 0, carvedTiles = 0;
+    /* THE BED BELOW THE TILE'S FLOOR (3 November). A tile is quantised from its own lowest
+       height, and over a lake that is the laser's water surface: a carve clamped at q = 0
+       left the whole bed a hand's depth under the sheet, so from above every such lake read
+       as brown silt through 0.8 m of water (Veckefjarden's fjard, owner report). The tile is
+       re-based to hold the bed (carveDecodedTerrainTile, as the fixed frontier already did),
+       here and in every tile the GPU decodes, and the sampler rebuilt on the new offsets. */
+    let carvedSamples = 0, carvedTiles = 0, rebasedTiles = 0;
     for (const tiles of this.ringTiles.values()) {
       for (const tile of tiles) {
-        const count = carveTerrainTile(tile, field, {
+        const result = carveBelowFloor({ header: { grid: tile.grid, bounds: tile.bounds }, payload: tile.payload }, field, {
           legacyOrigin: this.legacyOrigin,
           verticalDatumOffsetMetres: this.bridge.verticalDatumOffsetMetres,
         });
-        if (count) { carvedSamples += count; carvedTiles++; }
+        const count = result.waterBed?.carvedSamples ?? 0;
+        if (!count) continue;
+        tile.grid = result.header.grid;
+        tile.payload = result.payload;
+        carvedSamples += count; carvedTiles++;
+        if (result.waterBed.rebasedOffsetMetres !== null) rebasedTiles++;
       }
     }
+    if (carvedTiles) this.#buildRingSampler();
     const summary = Object.freeze({
       cells: field.cells,
       hectares: field.hectares,
       maximumDepthMetres: field.maximumDepthMetres,
       carvedSamples,
       carvedTiles,
+      rebasedTiles,
       milliseconds: Math.round(this.clock() - started),
       fieldMilliseconds,
       fieldTimings: field.timings,
@@ -459,14 +492,12 @@ export class V2GraphTerrainAdapter {
     if (!this.waterBed || decoded?.header?.payloadFormat !== 'terrain-grid-u16-le-v1') return decoded;
     const tile = this.tileById.get(tileId);
     if (!tile) return decoded;
-    const payload = decoded.payload instanceof Uint8Array ? decoded.payload : new Uint8Array(decoded.payload);
-    const count = carveTerrainTile({ bounds: tile.bounds, grid: decoded.header.grid, payload }, this.waterBed, {
-      legacyOrigin: this.legacyOrigin,
-      verticalDatumOffsetMetres: this.bridge.verticalDatumOffsetMetres,
-    });
-    if (!count) return decoded;
+    /* re-based below the tile's floor where its lake bed needs it (carveWaterBeds) */
+    const result = carveBelowFloor({ ...decoded, header: { ...decoded.header, bounds: decoded.header.bounds ?? tile.bounds } },
+      this.waterBed, { legacyOrigin: this.legacyOrigin, verticalDatumOffsetMetres: this.bridge.verticalDatumOffsetMetres });
+    if (!result.waterBed?.carvedSamples) return decoded;
     this.carvedGpuTiles++;
-    return { ...decoded, payload, terrainRenderData: null };
+    return result;
   }
 
   /** Grid-space water test for a legacy world point, from the flat-water mask. */

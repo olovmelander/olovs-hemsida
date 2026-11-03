@@ -277,3 +277,15 @@ describe('carving a decoded frontier tile', () => {
     expect(carveDecodedTerrainTile(dry, field, options)).toBe(dry);
   });
 });
+
+describe('the bed below the tile\'s floor (ring path)', () => {
+  it('uses the re-basing carve for the rings and every decoded GPU tile', async () => {
+    const fs = await import('node:fs');
+    const src = fs.readFileSync(new URL('./v2-graph-terrain.mjs', import.meta.url), 'utf8');
+    /* both the CPU rings and the decoded GPU tiles go through the re-basing carve */
+    expect(src.match(/carveBelowFloor\(/g).length).toBeGreaterThanOrEqual(3);
+    expect(src).toContain('return carveDecodedTerrainTile(decoded, field, options);');
+    /* the sampler is rebuilt on the new offsets */
+    expect(src).toContain('if (carvedTiles) this.#buildRingSampler();');
+  });
+});
