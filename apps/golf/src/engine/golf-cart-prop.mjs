@@ -49,6 +49,15 @@ export const SWAN_ASSET = Object.freeze({
   meshes: Object.freeze(['swan_body', 'swan_trim']),
 });
 
+/* THE HERON (3 November): a grey heron standing in the shallows (engine/herons.mjs),
+   from tools/blender-props/heron.py, 2,536 triangles, its feet on the lake bed. */
+export const HERON_ASSET = Object.freeze({
+  url: 'models/props/heron-1143f140dbd69a4fd6d26634a054e11b8c4d4a51e7dc10e2db2c79e9b2927566.glb',
+  sha256: '1143f140dbd69a4fd6d26634a054e11b8c4d4a51e7dc10e2db2c79e9b2927566',
+  bytes: 59096,
+  meshes: Object.freeze(['heron_body', 'heron_trim']),
+});
+
 const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(b => b.toString(16).padStart(2, '0')).join('');
 

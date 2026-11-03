@@ -120,8 +120,9 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
-import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET } from './engine/golf-cart-prop.mjs';
+import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET, HERON_ASSET } from './engine/golf-cart-prop.mjs';
 import { planSwans, createSwans } from './engine/swans.mjs';
+import { planHerons } from './engine/herons.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
 import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
 import { createContactAO } from './engine/contact-ao.mjs';
@@ -7863,6 +7864,25 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
     scene.add(swans.group);
   }
 }
+/* Herons in the shallows (engine/herons.mjs, the heron built in Blender): one to a
+   pond near the course, at most four, standing where the water is 6-32 cm deep by
+   the bank and facing out over it; static instanced furniture with its shadows.
+   ?herons=0 is the before. */
+let heronCount = 0;
+if (new URLSearchParams(location.search).get('herons') !== '0') {
+  const bodies = M.water.filter(w => !w.stream && !w.isSea && w.ring?.length >= 3 && Number.isFinite(w.level))
+    .map(w => ({ id: w.id, ring: w.ring, level: w.level }));
+  const plan = bodies.length ? planHerons(bodies, { ground: terrainH, focus: playB }) : [];
+  const parts = plan.length ? await loadPaintedProp({ asset: HERON_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('heron:', error.message); return null; }) : null;
+  if (parts) {
+    const up = new THREE.Vector3(0, 1, 0), one = new THREE.Vector3(1, 1, 1), white = new THREE.Color(0.95, 0.95, 0.95);
+    const items = plan.map(h => ({ colour: white,
+      matrix: new THREE.Matrix4().compose(new THREE.Vector3(h.x, h.y, h.z), new THREE.Quaternion().setFromAxisAngle(up, h.yaw), one) }));
+    scene.add(placePaintedProp(parts, items, { name: 'herons', tag: 'herons', roughness: 0.8 }));
+    heronCount = items.length;
+  }
+}
 /* Water lilies (engine/water-lilies.mjs): rafts of notched pads, a few white
    flowers among them, in the sheltered shallows of the ponds and small lakes
    near the course (1.5-8 m out, 0.25-2.2 m deep), planned from the water
@@ -12563,6 +12583,7 @@ window.V3D = {
   fallingLeaves: () => fallingLeaves?.snapshot() ?? null,
   rain: () => rain?.snapshot() ?? null,
   swans: () => swans?.snapshot() ?? null,
+  herons: () => heronCount,
   meadowFlowers: () => meadowFlowers?.stats() ?? null,
   waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
