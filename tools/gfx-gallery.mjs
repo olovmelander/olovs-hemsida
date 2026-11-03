@@ -85,7 +85,7 @@ for (const view of views) {
   const errors = [];
   page.on('pageerror', e => errors.push(String(e).split('\n')[0].slice(0, 300)));
   page.on('console', m => { if (m.type() === 'error') errors.push(m.text().split('\n')[0].slice(0, 300)); });
-  const url = `${BASE}/?bana=${view.slug}&hal=${view.hole}&vy=${view.vy}&ljus=${view.ljus}&q=hi&qualitylock=1&det=1&gputime=1${args.includes('--gl') ? '&gl=1' : ''}${QUERY ? '&' + QUERY : ''}`;
+  const url = `${BASE}/?bana=${view.slug}&hal=${view.hole}&vy=${view.vy}&ljus=${view.ljus}&q=${flag('quality', 'hi')}&qualitylock=1&det=1&gputime=1${args.includes('--gl') ? '&gl=1' : ''}${QUERY ? '&' + QUERY : ''}`;
   const row = { ...view, url, errors };
   try {
     await page.goto(url, { waitUntil: 'load' });

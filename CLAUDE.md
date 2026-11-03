@@ -272,6 +272,45 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   new shader in an isolated scene on both backends. See
   [the serenity ports](docs/visual-serenity-ports-2026-11-02.md).
 
+- On the owner's RTX 5080 (2–3 November; see [the night on the RTX 5080](docs/visual-night-2026-11-02.md)):
+  - **One compileAsync at a time.** r187 keeps a call's progress in the
+    renderer's one `_precompilationState`. The opening scene compiles in a
+    single call (`prepare-opening-gpu.mjs`); two calls in flight broke every
+    WebGPU boot.
+  - **Vertex outputs ≤ 15.** WebGPU allows 16, so pack varyings into `vec4`s
+    (the impostor's frames and UVs, the blades' wind sheen in their blotch
+    varying). `tools/check-gpu-clean-boot.mjs` boots every course on both
+    backends (`--quality hi|lo`) and fails on any console error or a vertex
+    stage over 15.
+  - **WebGL2 compile and disposal.** `webgl-compile-guard.mjs` keeps a
+    pipeline destroyed mid-compile from hanging `compileAsync`. A grown-out
+    terrain batch is disposed `RETIRE_TICKS` later, never at once.
+  - **Frame cap.** At most 60 renders a second (`frame-pacer.mjs`, the menu's
+    Bildfrekvens). `?fps=0` lifts it, `det=1` stays uncapped and timing tools
+    pass `fps=0`.
+  - **The painted canopy** (`ghibli-foliage-material.mjs` `CANOPY`,
+    `crown-puffs.mjs`):
+    - banded crown tones whose edges, never the colour, move with openness,
+      clumps and tree;
+    - puff normals baked at load, which the impostor bake inherits;
+    - `softLift` keeps the overcast lights' crowns dark.
+    Keep the bands per vertex on meshes. `?canopy=0` and `?puffs=0` are the
+    befores.
+  - **Painted props** come from rebuildable `tools/blender-props/*.py` scripts
+    run through the Blender MCP. Each is a hash-named GLB in `models/props/`
+    with its JSON record, loaded by `loadPaintedProp` with the authored
+    buildings' checks and drawn as two instanced meshes with a tinted body.
+    `?props=0` is the boxes.
+  - **More befores:** `?sandbowl=0`, `?windsheen=0`, `?waterbank=0`,
+    `?cirrus=0`, `?birds=0`, `?butterflies=0`, `?leafflutter=0`,
+    `?covershapes=0`, `?teemarkers=before`, `?labelcap=0` and `?camarc=0`.
+    `?tonecurve=filmic` is an opt-in A/B.
+  - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
+    vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
+  - **LF line endings.** This checkout sets `core.autocrlf=false` so the
+    working tree is LF, as the source-text tests and the source revision
+    hash expect.
+
 ## Build and focused checks
 
 Use Node 22+ and the locked dependencies. Run commands from the repository root:
