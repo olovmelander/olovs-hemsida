@@ -11840,11 +11840,11 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     /* the grass's ground round the opening eye, filled now; its material compiled with
        the opening view even when that view is too high to draw it */
     const grassHidden = nearGrass ? !nearGrass.prime(camera, renderer.domElement.height) : false;
-    if (grassHidden) nearGrass.mesh.visible = true;
     /* and the flowers with it, drawn or not (an autumn light keeps a few) */
     meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
     const flowersHidden = meadowFlowers ? !meadowFlowers.mesh.visible : false;
     if (flowersHidden) meadowFlowers.mesh.visible = true;
+    if (grassHidden) nearGrass.mesh.visible = true;
     try {
       BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass,
         /* ?gpuprep=branches walks the scene's branches one call at a time; the default compiles it in one */
