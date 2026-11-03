@@ -14,7 +14,7 @@ on the 5080 at 1920 × 1080, A/B against its URL switch.
 
 Every change keeps its before behind a switch. All of them together:
 
-`?gpuprep=branches&fps=0&canopy=0&sandbowl=0&windsheen=0&waterbank=0&cirrus=0&birds=0&butterflies=0&leafflutter=0&covershapes=0&props=0&teemarkers=before&labelcap=0&camarc=0`
+`?gpuprep=branches&fps=0&canopy=0&puffs=0&sandbowl=0&windsheen=0&waterbank=0&cirrus=0&birds=0&butterflies=0&leaves=0&rain=0&flowers=0&swans=0&herons=0&lilies=0&leafflutter=0&covershapes=0&props=0&teemarkers=before&labelcap=0&camarc=0&ao=0`
 
 No geometry, placement, source data or tuned light value changed; the prepared
 startup data was re-baked for the new source revision (section 9).
@@ -141,9 +141,21 @@ as strongly as the air blows, gone by 40 m (`?leafflutter=0`).
   stride or two inside the bank darker and greener in each light's own water
   colour, so ponds lose their bright sticker rim. `?waterbank=0`.
 
+- **Contact shadows** (`contact-ao.mjs`): three r187's GTAO on the scene
+  pass's depth, which r187 reads under the reversed depth buffer, with normals
+  rebuilt from depth (no second target), 0.9 m radius, at half resolution.
+  Without temporal filtering its samples are grainy and every flat wall read
+  a slight speckle: a 3 × 3 box takes out the grain, and only occlusion past a
+  contact threshold darkens the colour, at most 0.55 of it. Wall feet, tee
+  markers, bushes, carts and the folds between crown masses gain their shade;
+  painted planes stay clean. Joined before the bloom and god rays add theirs;
+  high quality only; the same on WebGL2. +0.3–0.7 ms at 1080p. `?ao=0`.
+
 ![The bunker at Angso's third green](graphics/night-2026-11-02/bunker-hollow.png)
 ![Autumn bushes at Ribbingsfors](graphics/night-2026-11-02/cover-shapes.png)
 ![A pond's rim at Norrfallsviken](graphics/night-2026-11-02/water-bank.png)
+![Contact shadows at Puttom's first tee: before, after](graphics/night-2026-11-02/contact-shadows.png)
+![From above at Norrfallsviken: before, after](graphics/night-2026-11-02/contact-shadows-crowns.png)
 
 ## 5. Sky and life
 
@@ -158,17 +170,62 @@ as strongly as the air blows, gone by 40 m (`?leafflutter=0`).
   cabbage white, common blue and small tortoiseshell weaving over the turf in
   the low views, faded by their size on screen. `?butterflies=0`.
 
-![Cirrus at golden hour: before, after](graphics/night-2026-11-02/cirrus.png)
+- **Falling leaves in autumn** (`falling-leaves.mjs`): a few hundred birch,
+  maple and oak leaves tumbling down through a box of air round the eye in
+  Höst, each on its own pendulum, drifting on the one air, wrapped through the
+  box so none pops, faded by their size on screen. `?leaves=0`.
+- **Rain in the storm** (`rain.mjs`, after Grainfields' rain curtains): faint
+  streaks a little longer than a frame's fall, slanted by the gale, in the
+  overcast sky's colour, an additive overlay after the sky. Oväder only.
+  `?rain=0`.
+- **Meadow flowers in the rough** (`meadow-flowers.mjs`, after Odyssey's meadow
+  life): drifts of oxeye daisy, buttercup, harebell, red clover and wood
+  cranesbill round the eye, one instanced draw on a 0.5 m world grid. They
+  grow only on the rough, read from the ground's exact class fields and the
+  grass round the ball's ground grid, in drifts from a 6 m lattice noise, each
+  drift mostly one species. A painter's flower (a stem and six petals round a
+  heart, a little larger than life) sways with the grass and shrinks away by
+  28 m; autumn keeps a fifth of them. +0.13–0.19 ms. `?flowers=0`.
+- **Swans on the lakes** (`swans.mjs`): a Blender-built mute swan (section 6);
+  on each lake of open water near the course a pair or two, sometimes with a
+  grey cygnet behind, gliding a slow loop. The loops are planned once from the
+  water outlines: the deepest open water, 8 m off the shore at the nearest, no
+  island or silt bank under the loop's reach, at most 16 a course (none on
+  Visby, Tortuna or Lidingö, whose water is too small). Their places are
+  closed-form in the clock, two instanced draws and a faint ripple ring after
+  the water (order 7); no shadow, since the sun's map is redrawn on demand.
+  `?swans=0`.
+- **Herons in the shallows** (`herons.mjs`): a Blender-built grey heron
+  (section 6), one to a pond near the course and at most four a course, 80 m
+  apart, standing where the water is 6–32 cm deep within 1–4.2 m of the bank,
+  facing out over the water and a little along it. Static instanced furniture,
+  so it casts its shadow onto the bed. `?herons=0`.
+- **Water lilies** (`water-lilies.mjs`): rafts of notched pads, one in seven
+  with a white flower, in the sheltered shallows of ponds and small lakes
+  (never the sea or a big open lake): a walk round each shore puts pads round
+  a raft line 2–6.5 m out, where the water stands 0.25–2.2 m deep over the
+  ground. Two instanced draws, at most 4,200 pads. `?lilies=0`.
 
-Every light's birds, butterflies and cirrus share are in their modules; none
-fly in the storm, the mist or the blue hour, all hold still under reduced
-motion and are pinned under `det=1`. A hue-keeping tone curve (Grainfields'
+![Cirrus at golden hour: before, after](graphics/night-2026-11-02/cirrus.png)
+![Rain in the storm at Puttom's first tee](graphics/night-2026-11-02/rain.png)
+![Falling leaves in Höst at Ribbingsfors](graphics/night-2026-11-02/falling-leaves.png)
+![Meadow flowers in the rough beside Johannesberg's first tee](graphics/night-2026-11-02/meadow-flowers.png)
+![Autumn keeps a few, with the falling leaves](graphics/night-2026-11-02/meadow-flowers-autumn.png)
+![A pair of swans and their cygnet at Puttom](graphics/night-2026-11-02/swans.png)
+![Swans in the evening at Ängsö, from 40 m](graphics/night-2026-11-02/swans-evening.png)
+![Water lilies at Johannesberg](graphics/night-2026-11-02/water-lilies.png)
+![A grey heron in Puttom's shallows at golden hour](graphics/night-2026-11-02/heron.png)
+
+Every light's birds, butterflies, leaves, rain, flowers and cirrus share are
+in their modules; no birds or butterflies fly in the storm, the mist or the
+blue hour, and all of the life holds still under reduced motion and is pinned
+under `det=1`. A hue-keeping tone curve (Grainfields'
 `gfFilmic`) was A/B'd and left opt-in (`?tonecurve=filmic`): brighter greens,
 but lifted shadows and flatter woods.
 
 ## 6. Props built in Blender (`tools/blender-props/`, `golf-cart-prop.mjs`)
 
-Three painted props, each from a rebuildable script run through the Blender
+Five painted props, each from a rebuildable script run through the Blender
 MCP (Blender 5.2.2), exported as a content-addressed GLB with a JSON record in
 `models/props/`, checked like the authored buildings (bytes, sha256, no
 external URIs), cached by the service worker, and drawn as two instanced
@@ -179,6 +236,8 @@ meshes whose white body takes each instance's colour:
 | Golf cart | `golf_cart.py` | 2,396 | cart parks (Lidingo, Puttom, Ribbingsfors, Tortuna, Visby) |
 | Estate car | `parked_car.py` | 1,908 | every car park and trunk road ("a car is two boxes") |
 | Alcove motorhome | `motorhome.py` | 2,200 | Puttom's motorhome lot |
+| Mute swan | `swan.py` | 2,400 | the lakes (section 5); painted by the smooth normal, so no facets |
+| Grey heron | `heron.py` | 2,536 | the ponds' shallows (section 5) |
 
 The tee markers are round painted balls instead of 8 × 6 faceted spheres
 (`?teemarkers=before`). `?props=0` draws the boxes.
@@ -186,6 +245,8 @@ The tee markers are round painted balls instead of 8 × 6 faceted spheres
 ![The cart park](graphics/night-2026-11-02/props-carts.png)
 ![A car park](graphics/night-2026-11-02/props-cars.png)
 ![The motorhome lot](graphics/night-2026-11-02/props-motorhomes.png)
+![The swan in Blender](graphics/night-2026-11-02/blender-swan.png)
+![The heron in Blender](graphics/night-2026-11-02/blender-heron.png)
 
 ## 7. UI and UX
 
@@ -212,6 +273,10 @@ The tee markers are round painted balls instead of 8 × 6 faceted spheres
   milliseconds from timestamp queries (no uncapped rendering), `--lights` for
   one view through all nine lights, `--quality lo`, and `--compare a,b` sheets.
 - `tools/check-gpu-clean-boot.mjs` (section 1).
+- `tools/check-caddie-ui.mjs` reads the GPS hole view two animation frames
+  after it opens: it had measured the camera's pose before the phone-sized
+  resize applied, and failed the framing at 390 × 844 though the view was
+  right.
 
 ## 9. Verification
 
@@ -220,22 +285,23 @@ At the final commit, on the RTX 5080 Laptop (Chrome 156, D3D12/ANGLE):
 | Check | Result |
 |---|---|
 | Frozen lockfile install, `pnpm --filter @banvy/golf build`, `node tools/lint-app.mjs` | pass |
-| `pnpm exec vitest run apps/golf` | **1330/1330**, 178 files |
-| `pnpm test`, Vitest | **1600/1600**, 211 files |
-| `pnpm test`, Node | 476 pass, 3 skipped; Visby's `compile-stands` needs `copc-reader`'s own `npm ci` and then passes (3/3) |
+| `pnpm exec vitest run apps/golf` | **1365/1365**, 185 files |
+| `pnpm test`, Vitest | **1635/1635**, 218 files |
+| `pnpm test`, Node | **479 pass**, 0 fail, 3 skipped (Visby's `compile-stands` needs `copc-reader`'s own `npm ci` once) |
 | `node packages/course-v2/check-app-build.mjs`, `pnpm check:course-workflow` | pass |
-| `tools/check-prepared-startup.mjs` on the rebuilt app | pass, revision `692c368b` (tint, vista, scatter and water re-baked) |
-| `check-gpu-clean-boot.mjs --quality hi` | **26/26** clean: WebGPU boots 5.7–10.4 s, opening compile 0.69–0.88 s; WebGL2 4.3–8.6 s; at most 15 vertex outputs |
+| `tools/check-prepared-startup.mjs` on the rebuilt app | pass, revision `102fb4d4` (tint, vista, scatter and water re-baked after the last engine change) |
+| `check-gpu-clean-boot.mjs --quality hi` | **26/26** clean: WebGPU boots 5.3–9.1 s, opening compile 0.66–0.78 s; WebGL2 4.4–8.4 s, 0.31–0.80 s; at most 15 vertex outputs |
 | `check-gpu-clean-boot.mjs --quality lo` | **26/26** clean (before the guard, every WebGL2 course hung) |
 | `check-hud-layout.mjs` | 51/51 |
 | `check-chooser-ui.mjs` | pass |
-| `check-caddie-ui.mjs` | 24/25: the GPS hole view at 390 × 844 (open, below) |
+| `check-caddie-ui.mjs` | **25/25** (the harness now reads the GPS hole view after the resize applies, section 8) |
 | `check-hero-impostor.mjs` (Puttom hi, Visby lo) | Hero and Full routing, model requests and slots verified; the forced-Lite override (`setTreeLod(3)`) still leaves impostors drawn (9,598 hi, 17 lo), **the same on the build before any of the night's visual changes** (open, below) |
-| GPU time, all of the night's features off (`?…=0`) against on, four views, two interleaved rounds | off 8.26/8.13/8.19/6.95 and 8.45/7.80/8.00/6.29 ms; on 8.98/8.78/8.91/7.41 and 7.01/8.39/8.26/7.21 ms: +0.3–0.6 ms at 1080p, inside the ±0.7 ms spread |
+| GPU time, all of the night's features off (`?…=0`) against on, four views, two interleaved rounds | off 6.88/7.27/8.32/4.72 and 8.32/8.26/8.26/4.26 ms (mean 7.04); on 7.21/8.85/8.85/4.00 and 8.85/6.95/8.98/4.98 ms (mean 7.33): **+0.3 ms** at 1080p, inside the run-to-run spread |
 
 ![Before (the morning, top) and after, Angso's third green at golden hour](graphics/night-2026-11-02/before-after-angso-h3-green-kvall.png)
 ![Norrfallsviken's first tee](graphics/night-2026-11-02/before-after-norrfallsviken-h1-tee-kvall.png)
 ![Puttom's fifth, the Green view at noon](graphics/night-2026-11-02/before-after-puttom-h5-green-dag.png)
+![Ribbingsfors's third tee in Höst](graphics/night-2026-11-02/before-after-ribbingsfors-h3-tee-host.png)
 
 Reproduce the gallery: `node tools/serve.mjs apps/golf/dist 8620`, then
 `BANVY_GPU=1 node tools/gfx-gallery.mjs --label after` and
@@ -249,11 +315,11 @@ Reproduce the gallery: `node tools/serve.mjs apps/golf/dist 8620`, then
   impostors and passing the tree-shadow, impostor and tier gates.
 - **Reflections of land and trees in lakes** (Odyssey's `waterMarchLand`),
   replacing the tree-line band, needs the terrain's heights in the water shader.
-- **Contact shadows (GTAO)** under trees, buildings and the props, measured first.
 - **The forced-Lite override** (`check-hero-impostor.mjs`): `V3D.setTreeLod(3)`
   should resolve to the near mesh with no impostors; it leaves thousands drawn,
   already before the night's visual changes.
-- **The GPS hole view on a phone** (`check-caddie-ui.mjs`): the player lands
-  under the screen's bottom edge at 390 × 844 right after a resize. The
-  harness could not run on this machine before tonight (low quality on WebGL2
-  hung), so there is no earlier result to compare.
+- **The Hero tier's cost.** In Puttom's fifth from the Green view (noon,
+  1080p) the frame takes 9.4 ms of GPU time with Hero crowns and 5.1 ms with
+  `?treemesh=full`; god rays, the shadow grid, the canopy and the crown
+  coverage are each under 0.5 ms. Hero at high quality is the owner's decision
+  (24 September), so it stands; the evidence is here for the next tier review.
