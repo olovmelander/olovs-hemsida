@@ -609,7 +609,7 @@ const GROWN_EDGE_SURFACES = [SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT];
 const PATH_EDGE_GRASS = 0.6, PATH_WORN_LIFT = 0.08;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null, turfBump = true }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -1175,7 +1175,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       }
       const tour = tourTurf({ classes, weights, wp, dir, detail: turf, normal: material.normalNode, display: shading.toneExponent });
       litBase = litBase.mul(tour.lit);
-      material.normalNode = tour.normal;
+      if (turfBump) material.normalNode = tour.normal;
     }
     /* ?groundrelief=0 is the before: the relief is baked, and not read */
     if (groundRelief) litBase = applyGroundRelief(litBase, roughTint.a, meta.a);
@@ -1199,7 +1199,7 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null, turfBump = true }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
@@ -1230,7 +1230,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround, sandBowl, turf }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround, sandBowl, turf, turfBump }, shading),
       atlas,
     );
   }

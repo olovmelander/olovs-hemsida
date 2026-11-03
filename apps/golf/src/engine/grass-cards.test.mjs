@@ -28,7 +28,7 @@ describe('grass cards in the rough', () => {
   });
   it('is made with the tour turf behind ?grasscards=0 in main.js, updated each frame', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-    expect(main).toContain("if (TOUR_TURF_ON && new URLSearchParams(location.search).get('grasscards') !== '0') {");
+    expect(main).toContain("if (TOUR_TURF_ON && new URLSearchParams(location.search).get('grasscards') === '1') {");
     expect(main).toContain('grassCards?.update(camera, nearGrass?.mesh.visible);');
   });
 });

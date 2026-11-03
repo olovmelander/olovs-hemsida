@@ -3261,6 +3261,9 @@ if (TERRAIN_PREVIEW.ready) {
     turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON, sandBowl: SAND_BOWL_ON,
     /* the tour turf's grain and bump (turf-look.mjs); ?turf=painted is the before */
     turf: TOUR_TURF,
+    /* the grain's screen-derivative bump: off, since on detail finer than a pixel it sparkled
+       (measured 3 November: 6x the aliasing of the grain alone); ?turfbump=1 draws it */
+    turfBump: new URLSearchParams(location.search).get('turfbump') === '1',
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -6616,7 +6619,8 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
      impressive grass, from the Blender MCP): clumps of curved blades rendered in Blender, crossed
      cards on the rough round the eye, short by the cut and full height a few metres out, on the
      ground's own colour. With the tour turf; ?grasscards=0 is the before. */
-  if (TOUR_TURF_ON && new URLSearchParams(location.search).get('grasscards') !== '0') {
+  /* off since the rough's blades took the clumps (3 November): cards shimmer and read flat; ?grasscards=1 */
+  if (TOUR_TURF_ON && new URLSearchParams(location.search).get('grasscards') === '1') {
     const map = await loadGrassCards({ baseUrl: import.meta.env.BASE_URL, THREE })
       .catch(error => { console.warn('grass cards:', error.message); return null; });
     if (map) {
@@ -6631,7 +6635,8 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
      grass"): the rough round the eye drawn again as sixteen shells cut from a mat of blades
      baked in Blender, a carpet with depth under the blades and the cards. High quality, with
      the tour turf; ?grassmat=0 is the before. */
-  if (TOUR_TURF_ON && !LOWQ && new URLSearchParams(location.search).get('grassmat') !== '0') {
+  /* off since the rough's blades took the clumps (3 November): shells alias at low angles; ?grassmat=1 */
+  if (TOUR_TURF_ON && !LOWQ && new URLSearchParams(location.search).get('grassmat') === '1') {
     const map = await loadGrassMat({ baseUrl: import.meta.env.BASE_URL, THREE })
       .catch(error => { console.warn('grass mat:', error.message); return null; });
     if (map) {

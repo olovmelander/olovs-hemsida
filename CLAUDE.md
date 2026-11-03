@@ -329,15 +329,21 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     the ground and the blades round the ball: keep them in step. The rough's
     blades are finer and denser at high quality, and tussocks are clumps of
     fine blades. `?turf=painted` is the whole before.
-  - **The rough's grass** (3 November, owner request: dense, no triangles):
-    the blades round the ball are curved, tapered strips; Blender-built grass
-    cards (`grass-cards.mjs`, `tools/blender-props/grass_cards.py`) stand in
-    the rough round the eye; and the rough is drawn again as sixteen shells
-    cut from a dense mat of blades baked in Blender (`grass-shells.mjs`,
-    `grass_mat.py`; high quality only). Both textures are published hash-named
-    with their records by `tools/blender-props/publish-grass-*.mjs`, which
-    also update the modules' asset constants. `?grasscards=0` and
-    `?grassmat=0` are the befores.
+  - **The rough's grass** (3 November, owner request: dense, no triangles,
+    no noise; after research into AAA grass, chiefly Ghost of Tsushima's GDC
+    2021 talk): the blades round the ball are curved, tapered strips grown in
+    Voronoi clumps (`NEAR_GRASS_TOUR`: per-clump height, lean, dryness and
+    tone, blades pulled toward the clump), turned toward the eye when seen
+    edge-on, rounded across their width, and wider in each outer ring (fewer
+    but wider, so none is sub-pixel). The grain's screen-derivative bump is off
+    (`?turfbump=1`; it was 6x the ground's aliasing). The Blender grass cards
+    and shell mat (`grass-cards.mjs`, `grass-shells.mjs`) are kept behind
+    `?grasscards=1` and `?grassmat=1`: both alias (alpha cut), and cards read
+    as crosses from above. Measure aliasing as 1080p against a 4K render scaled
+    down (`tools/goldens/gfx/alias.mjs`, local). Temporal AA (three's TRAANode)
+    is the next lever: it replaces MSAA, needs velocity for vertex-animated
+    grass and trees, and the blades' fragment inputs must stay under 16 with
+    velocity's added.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
   - **LF line endings.** This checkout sets `core.autocrlf=false` so the

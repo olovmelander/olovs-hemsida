@@ -26,7 +26,7 @@ describe('the grass mat in shells', () => {
   });
   it('is made at high quality with the tour turf, behind ?grassmat=0, updated each frame', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-    expect(main).toContain("if (TOUR_TURF_ON && !LOWQ && new URLSearchParams(location.search).get('grassmat') !== '0') {");
+    expect(main).toContain("if (TOUR_TURF_ON && !LOWQ && new URLSearchParams(location.search).get('grassmat') === '1') {");
     expect(main).toContain('grassShells?.update(camera, nearGrass?.mesh.visible);');
   });
 });
