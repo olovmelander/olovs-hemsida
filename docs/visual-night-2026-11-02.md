@@ -215,7 +215,31 @@ The tee markers are round painted balls instead of 8 × 6 faceted spheres
 
 ## 9. Verification
 
-VERIFICATION_TABLE
+At the final commit, on the RTX 5080 Laptop (Chrome 156, D3D12/ANGLE):
+
+| Check | Result |
+|---|---|
+| Frozen lockfile install, `pnpm --filter @banvy/golf build`, `node tools/lint-app.mjs` | pass |
+| `pnpm exec vitest run apps/golf` | **1330/1330**, 178 files |
+| `pnpm test`, Vitest | **1600/1600**, 211 files |
+| `pnpm test`, Node | 476 pass, 3 skipped; Visby's `compile-stands` needs `copc-reader`'s own `npm ci` and then passes (3/3) |
+| `node packages/course-v2/check-app-build.mjs`, `pnpm check:course-workflow` | pass |
+| `tools/check-prepared-startup.mjs` on the rebuilt app | pass, revision `692c368b` (tint, vista, scatter and water re-baked) |
+| `check-gpu-clean-boot.mjs --quality hi` | **26/26** clean: WebGPU boots 5.7–10.4 s, opening compile 0.69–0.88 s; WebGL2 4.3–8.6 s; at most 15 vertex outputs |
+| `check-gpu-clean-boot.mjs --quality lo` | **26/26** clean (before the guard, every WebGL2 course hung) |
+| `check-hud-layout.mjs` | 51/51 |
+| `check-chooser-ui.mjs` | pass |
+| `check-caddie-ui.mjs` | 24/25: the GPS hole view at 390 × 844 (open, below) |
+| `check-hero-impostor.mjs` (Puttom hi, Visby lo) | Hero and Full routing, model requests and slots verified; the forced-Lite override (`setTreeLod(3)`) still leaves impostors drawn (9,598 hi, 17 lo), **the same on the build before any of the night's visual changes** (open, below) |
+| GPU time, all of the night's features off (`?…=0`) against on, four views, two interleaved rounds | off 8.26/8.13/8.19/6.95 and 8.45/7.80/8.00/6.29 ms; on 8.98/8.78/8.91/7.41 and 7.01/8.39/8.26/7.21 ms: +0.3–0.6 ms at 1080p, inside the ±0.7 ms spread |
+
+![Before (the morning, top) and after, Angso's third green at golden hour](graphics/night-2026-11-02/before-after-angso-h3-green-kvall.png)
+![Norrfallsviken's first tee](graphics/night-2026-11-02/before-after-norrfallsviken-h1-tee-kvall.png)
+![Puttom's fifth, the Green view at noon](graphics/night-2026-11-02/before-after-puttom-h5-green-dag.png)
+
+Reproduce the gallery: `node tools/serve.mjs apps/golf/dist 8620`, then
+`BANVY_GPU=1 node tools/gfx-gallery.mjs --label after` and
+`node tools/gfx-gallery.mjs --compare before,after`.
 
 ## Not done, for a next night
 
@@ -226,6 +250,9 @@ VERIFICATION_TABLE
 - **Reflections of land and trees in lakes** (Odyssey's `waterMarchLand`),
   replacing the tree-line band, needs the terrain's heights in the water shader.
 - **Contact shadows (GTAO)** under trees, buildings and the props, measured first.
+- **The forced-Lite override** (`check-hero-impostor.mjs`): `V3D.setTreeLod(3)`
+  should resolve to the near mesh with no impostors; it leaves thousands drawn,
+  already before the night's visual changes.
 - **The GPS hole view on a phone** (`check-caddie-ui.mjs`): the player lands
   under the screen's bottom edge at 390 × 844 right after a resize. The
   harness could not run on this machine before tonight (low quality on WebGL2
