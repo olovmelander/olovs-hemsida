@@ -598,7 +598,9 @@ const SAND_RAKE_METRES = 0.32, SAND_RAKE_AMPLITUDE = 0.035, SAND_LOW_SHADE = 0.0
 export const SAND_BOWL = Object.freeze({ depth: 0.55, reach: 2.4, step: 0.6, range: Object.freeze([0.62, 1.22]),
   lipHeight: 0.32, lipShade: 0.34, lipShadowMax: 4, fade: Object.freeze([0.7, 2.2]),
   /* the lip's band (BUNKER_LIP_SHADE) on the lit far face and under the sunward lip */
-  farLip: 0.45, sunLip: 1.25 });
+  farLip: 0.45, sunLip: 1.25,
+  /* the sand's colour, warmed toward cream and a little less bright */
+  warm: Object.freeze([0.95, 0.915, 0.84]) });
 /* the bunker lip's band at its edge: darker, and warmest where blue falls most */
 const BUNKER_LIP_SHADE = [0.10, 0.16, 0.26];
 /* a path's edges take up to this share of the ground beside it; its middle is this much paler */
@@ -1076,6 +1078,8 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
             .mul(smoothstep(0, 0.25, facing)).mul(B.lipShade);
           const near = oneMinus(smoothstep(B.fade[0], B.fade[1], sandPixel)).mul(weights[sandIndex]).mul(cutTone);
           litBase = litBase.mul(mix(float(1), bowl.mul(oneMinus(lipShadow)), near));
+          /* and a warmer, less papery sand at every distance: from above at noon the bunkers read as white paper */
+          litBase = litBase.mul(mix(vec3(1), vec3(...B.warm), weights[sandIndex].mul(cutTone)));
         }
       }
       if (surfaceEdges) {
