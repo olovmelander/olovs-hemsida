@@ -131,6 +131,7 @@ import { createGrassShells, loadGrassMat } from './engine/grass-shells.mjs';
 import { createContactAO } from './engine/contact-ao.mjs';
 import { createWorldVelocity } from './engine/temporal-aa.mjs';
 import { createWireMesh } from './engine/wires.mjs';
+import { followTerrain } from './engine/power-route.mjs';
 import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
@@ -6795,6 +6796,9 @@ function mappedPointObjects(points) {
     return mergeGeos([g, arm]);
   })();
   const towers = [], polesArr = [], wire = [];
+  /* the rails: their own mesh, steel, a rail head's width (with ?wires=lines they ride in the wires, as before) */
+  const WIRES_AS_LINES = new URLSearchParams(location.search).get('wires') === 'lines';
+  const rails = WIRES_AS_LINES ? wire : [];
   const seen = new Set();
   for (const support of supports) {
     const [x, z] = support.c;
@@ -6811,7 +6815,12 @@ function mappedPointObjects(points) {
     const phases = big
       ? (PYLON ? PYLON_ASSET.phases.map(([off, h]) => [off, h - 0.3]) : [[-2.8, attach], [0, attach], [2.8, attach]])
       : [[-1.0, attach], [1.0, attach]];
-    const L = mappedOnly ? ln.line.filter(p => supportByPoint.has(p.join(','))) : ln.line;
+    const L0 = mappedOnly ? ln.line.filter(p => supportByPoint.has(p.join(','))) : ln.line;
+    /* a support at least every 70 m on a pole line and 350 m on a tower line, and on every crest the
+       wire would otherwise pass through (engine/power-route.mjs); mapped supports are kept as mapped */
+    const L = mappedOnly || POWER_BEFORE ? L0 : followTerrain(L0, {
+      ground: terrainH, lift: Math.min(...phases.map(([, h]) => h)), width: Math.max(...phases.map(([off]) => Math.abs(off))),
+      maxSpan: big ? 350 : 70, clearance: big ? 6 : 3 });
     if (!mappedOnly) for (let i = 0; i < L.length; i++) {
       const [x, z] = L[i];
       if (ln.surr ? !inFarRing(x, z) : !IN(x, z)) continue;
@@ -6825,7 +6834,9 @@ function mappedPointObjects(points) {
     /* the wires: sagging catenaries between consecutive surveyed supports */
     if (!LOWQ) for (let i = 0; i < L.length - 1; i++) {
       const [x0, z0] = L[i], [x1, z1] = L[i + 1];
-      if (!mappedOnly && (ln.surr ? !(inFarRing(x0, z0) && inFarRing(x1, z1)) : !IN(x0, z0) && !IN(x1, z1))) continue;
+      /* a wire only between two drawn supports (the before: either end in the box) */
+      if (!mappedOnly && (ln.surr ? !(inFarRing(x0, z0) && inFarRing(x1, z1))
+        : POWER_BEFORE ? !IN(x0, z0) && !IN(x1, z1) : !(IN(x0, z0) && IN(x1, z1)))) continue;
       const span = Math.hypot(x1 - x0, z1 - z0);
       if (span < 4 || span > 480) continue;
       const g0 = terrainH(x0, z0), g1 = terrainH(x1, z1);
@@ -6903,7 +6914,7 @@ function mappedPointObjects(points) {
         const dl = Math.hypot(dx, dz) || 1;
         const nx = -dz / dl, nz = dx / dl;
         if (!LOWQ) for (const off of [-0.75, 0.75])
-          wire.push(P[i][0] + nx * off, h, P[i][1] + nz * off,
+          rails.push(P[i][0] + nx * off, h, P[i][1] + nz * off,
                     P[i + 1][0] + nx * off, hn, P[i + 1][1] + nz * off);
         if (r.inferMasts !== false && S[i] - lastMast > 58) {
           lastMast = S[i];
@@ -6932,6 +6943,10 @@ function mappedPointObjects(points) {
     } else scene.add(createWireMesh(wire, { name: 'power-wires' }));
     stats.draws++;
     stats.wireSegments = wire.length / 6;
+  }
+  if (rails !== wire && rails.length) {
+    scene.add(createWireMesh(rails, { diameter: 0.07, colour: 0x6b6660, opacity: 1, name: 'rails' }));
+    stats.draws++;
   }
 }
 
@@ -12564,6 +12579,8 @@ window.V3D = {
   placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
   /* the hole lines as drawn, for a harness framing a whole hole */
   holeLines: () => HOLES.map(h => ({ n: h.n, line: h.line.map(p => [p[0], p[1]]) })),
+  /* the power lines as drawn from (their mapped points), for harnesses */
+  powerLines: () => (M.infra.power?.lines || []).map(l => ({ line: l.line.map(p => [p[0], p[1]]), voltage: Number(l.voltage) || 0, surr: !!l.surr })),
   /* the drawn ground's height at a point, for harnesses that place a camera on it */
   groundAt: (x, z) => terrainH(x, z),
   /* the nearest mapped path, track, road and bunker to a point, for harnesses that look at the ground */
