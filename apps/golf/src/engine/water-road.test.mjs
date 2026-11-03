@@ -58,7 +58,9 @@ describe('the water road pass', () => {
     expect(shading).toMatch(/const sigma = nordic && !road \?/);
     /* the road takes the clouds inside sunRoad, so not a second time */
     expect(shading).toMatch(/c = c\.add\(sunlit && !road \? sparkle\.mul\(sunlit\) : sparkle\);/);
-    expect(shading).toMatch(/let c = mix\(body, skyC, mirror && glowShare \? mirrorShare\(\{ fres, glow: glowShare \}\) : fres\.mul\(0\.42\)\);/);
+    expect(shading).toMatch(/const skyShare = mirror && glowShare \? mirrorShare\(\{ fres, glow: glowShare \}\) : fres\.mul\(0\.42\);/);
+    /* without the mirror of the shores (water-reflection.mjs) the share is the sky's alone */
+    expect(shading).toMatch(/let c = mix\(body, skyC, found \? mix\(skyShare, fres\.mul\(reflection\.params\.strength\)\.max\(skyShare\), found\) : skyShare\);/);
     expect(shading).toMatch(/if \(!ocean && !sea\) \{/);
     /* the relief takes the water from above's cloud shade and patches only with them (water-above.mjs) */
     expect(shading).toMatch(/if \(relief\) body = body\.mul\(bodyRelief\(\{ N, sun: uSun, sunlit: bodySun, rough \}\)\);/);

@@ -360,6 +360,17 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     used by the ring path now as by the fixed frontier) or the bed stays a hand
     under the sheet and the lake reads as brown silt from above. The CPU
     sampler is rebuilt after carving.
+  - **Water that mirrors its shores** (3 November; see [the water
+    reflections](docs/visual-water-reflections-2026-11-03.md)): the water's own
+    material marches its reflected ray through a copy of the opaque world's
+    depth and reads the trees, banks and hills it finds
+    (`water-reflection.mjs`). The copy is gated to the scene pass's
+    single-sample target, so it runs only with the temporal AA; MSAA, `det=1`
+    and the runtime drop keep the before. What it finds replaces the painted
+    sky's reflection by its weight, under 40% of the sky's sun glow, and the
+    sun's road is still added last. The copy splits the scene's render pass, so
+    `V3D.gpuTime` under-reads with it on: time it by frame intervals.
+    `?waterreflect=0` is the before.
   - **Power lines** (3 November): towers are a Blender-built lattice pylon
     (`tools/blender-props/pylon.py`, `PYLON_ASSET`, its three phases on its
     insulators), crossarms turned square to the line, wires and lift cables

@@ -117,6 +117,7 @@ import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWate
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } from './engine/building-paint.mjs';
 import { waterShading } from './engine/water-shading.mjs';
+import { createWaterReflection } from './engine/water-reflection.mjs';
 import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
@@ -2080,6 +2081,13 @@ const OPEN_SEA_ON = new URLSearchParams(location.search).get('opensea') !== '0';
    looks down on them (?waterlanes=0 shows them in the ripples alone). */
 const WATER_CLOUD_ON = new URLSearchParams(location.search).get('watercloud') !== '0';
 const WATER_LANES_ON = new URLSearchParams(location.search).get('waterlanes') !== '0';
+/* WATER THAT MIRRORS ITS SHORES (engine/water-reflection.mjs): each water pixel marches its
+   reflected ray through a copy of the opaque world's depth and reads the trees, banks and hills
+   it finds, falling back to the painted sky's reflection off screen. It copies the scene pass's
+   own single-sample target, so it runs with the temporal AA (high quality); MSAA, the runtime
+   drop and det=1 harnesses keep the before. ?waterreflect=0 is the before. */
+const WATER_REFLECTION = TEMPORAL_AA && new URLSearchParams(location.search).get('waterreflect') !== '0'
+  ? createWaterReflection({ reversedDepth: renderer.reversedDepthBuffer === true }) : null;
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -4165,7 +4173,8 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false } =
     road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,
     cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON,
     /* the bank's reflection and shade inside the waterline (engine/water-shading.mjs WATER_BANK); ?waterbank=0 is the before */
-    bank: new URLSearchParams(location.search).get('waterbank') !== '0' });
+    bank: new URLSearchParams(location.search).get('waterbank') !== '0',
+    reflection: WATER_REFLECTION, lightScale: paintedWaterLight });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -8663,6 +8672,8 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   if (TEMPORAL_AA) {
     worldVelocity = createWorldVelocity();
     scenePass.setMRT(mrt({ output, velocity: worldVelocity.velocity }));
+    /* the water's mirror copies this pass's own target, and no other (engine/water-reflection.mjs) */
+    WATER_REFLECTION?.setTarget(scenePass.renderTarget);
   }
   openingScenePass = scenePass;
   const rawSceneColor = scenePass.getTextureNode('output');
@@ -8723,6 +8734,8 @@ function renderActivePipeline() {
   }
   /* the world-static velocity's matrices, unjittered (TRAA jitters only inside the pipeline) */
   if (!lowfx) worldVelocity?.update(camera);
+  /* the runtime drop draws straight to the canvas: no copy to mirror from */
+  WATER_REFLECTION?.setActive(!lowfx);
   renderPipeline(renderer, scene, camera, lowfx);
 }
 
@@ -12774,6 +12787,7 @@ window.V3D = {
   grassShells: () => grassShells?.stats() ?? null,
   waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
+  waterReflection: () => WATER_REFLECTION?.snapshot() ?? { on: false },
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
     /* the lighting batch (docs/visual-lighting-2026-09-25.md): null where its before is asked for */
