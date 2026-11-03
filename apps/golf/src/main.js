@@ -123,6 +123,7 @@ import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET } from './engine/golf-cart-prop.mjs';
 import { planSwans, createSwans } from './engine/swans.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
+import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { createFallingLeaves } from './engine/falling-leaves.mjs';
@@ -2162,6 +2163,8 @@ const rain = RAIN_ON ? createRain({ quality: LOWQ ? 'lo' : 'hi', deterministic: 
 if (rain) { rain.mesh.renderOrder = 3; scene.add(rain.mesh); }
 /* Swans on the lakes (engine/swans.mjs): placed once the water and the ground are known, below. */
 let swans = null;
+/* Meadow flowers in the rough (engine/meadow-flowers.mjs): made with the grass round the ball, below. */
+let meadowFlowers = null;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2266,6 +2269,7 @@ function setPreset(name, overrides = null) {
   butterflies?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   fallingLeaves?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   rain?.setPreset(presetName, { sky: fog.color.getHex() });
+  meadowFlowers?.setPreset(presetName);
   godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -6567,6 +6571,17 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
   scene.add(nearGrass.mesh);
   stats.draws++;
   Object.assign(stats.nearGrass, { instances: nearGrass.layout.instances, blades: nearGrass.layout.bladesTotal, rings: nearGrass.layout.rings.length });
+  /* Meadow flowers in the rough (engine/meadow-flowers.mjs, after serenity-blocks'
+     Odyssey meadow life): drifts of oxeye daisy, buttercup, harebell, red clover and
+     wood cranesbill on the rough round the eye, on the grass's own class fields and
+     ground grid, one instanced draw, swaying with the grass. ?flowers=0 is the before. */
+  if (new URLSearchParams(location.search).get('flowers') !== '0') {
+    meadowFlowers = createMeadowFlowers({ atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
+      clip: nearGrass.clip, quality: LOWQ ? 'lo' : 'hi' });
+    meadowFlowers.setPreset(presetName);
+    scene.add(meadowFlowers.mesh);
+    stats.draws++;
+  }
 }
 if (BAKE_VISTA) {
   // The publisher records these exact production plantings; no second copy of their rules.
@@ -11730,6 +11745,7 @@ function frame() {
   skyMesh.position.copy(camera.position);
   updateSky();
   nearGrass?.update(camera, renderer.domElement.height);
+  meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
@@ -11825,12 +11841,17 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
        the opening view even when that view is too high to draw it */
     const grassHidden = nearGrass ? !nearGrass.prime(camera, renderer.domElement.height) : false;
     if (grassHidden) nearGrass.mesh.visible = true;
+    /* and the flowers with it, drawn or not (an autumn light keeps a few) */
+    meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
+    const flowersHidden = meadowFlowers ? !meadowFlowers.mesh.visible : false;
+    if (flowersHidden) meadowFlowers.mesh.visible = true;
     try {
       BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass,
         /* ?gpuprep=branches walks the scene's branches one call at a time; the default compiles it in one */
         mode: BOOTQ.get('gpuprep') === 'branches' ? 'branches' : 'scene' });
     } finally {
       if (grassHidden) nearGrass.mesh.visible = false;
+      if (flowersHidden) meadowFlowers.mesh.visible = false;
     }
   } catch (error) {
     const retryMessage = 'kunde inte visa banan — ladda om och försök igen';
@@ -12530,6 +12551,7 @@ window.V3D = {
   fallingLeaves: () => fallingLeaves?.snapshot() ?? null,
   rain: () => rain?.snapshot() ?? null,
   swans: () => swans?.snapshot() ?? null,
+  meadowFlowers: () => meadowFlowers?.stats() ?? null,
   waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
