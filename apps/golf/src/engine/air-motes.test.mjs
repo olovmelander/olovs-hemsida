@@ -8,6 +8,15 @@ const camera = (y = 1.7) => { const c = new THREE.PerspectiveCamera(); c.positio
 const air = { x: 4, z: -3 };
 
 describe('the air\'s motes', () => {
+  it('never draw as a blot: faded out by their size on screen, and from 2.5 m', () => {
+    /* a seed's down at its largest, 1.3 x 0.065 m, 2.5 m away under a 50 degree lens at 1080 rows */
+    const pixelAngle = 2 / (1 / Math.tan(25 * Math.PI / 180) * 1080);
+    const radiusPx = 0.065 * 1.3 / (2.5 * pixelAngle);
+    expect(radiusPx).toBeGreaterThan(AIR_MOTES.fadePixels[1]);
+    expect(AIR_MOTES.fadePixels[1]).toBeLessThanOrEqual(8);
+    expect(AIR_MOTES.fadePixels[0]).toBeLessThan(AIR_MOTES.fadePixels[1]);
+    expect(AIR_MOTES.near).toBeGreaterThanOrEqual(2.5);
+  });
   it('give every light an air, none in the storm and the mist', () => {
     for (const name of Object.keys(ATMOSPHERE_PRESETS)) {
       const kinds = airMotesFor(name);

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-texture",
+  "id": "grass-cards",
+  "asset": {
+    "url": "models/props/grass-cards-9e350113d553072c4903e662814865197616ed73b787d0df5756974541776398.png",
+    "sha256": "9e350113d553072c4903e662814865197616ed73b787d0df5756974541776398",
+    "bytes": 666316
+  },
+  "layout": {
+    "width": 2048,
+    "height": 256,
+    "tiles": 4,
+    "tileMetres": [
+      1,
+      0.5
+    ]
+  },
+  "meanLinear": [
+    0.1892,
+    0.27392,
+    0.06373
+  ],
+  "coverage": 0.286,
+  "tiles": [
+    "rough: dense, 20-35 cm",
+    "fescue: wispy, 30-48 cm, some straw",
+    "short and dense, 10-24 cm",
+    "mixed green and dry, 16-38 cm"
+  ],
+  "source": "tools/blender-props/grass_cards.py, Blender 5.2.2 LTS, Eevee, rendered through the Blender MCP on 3 November 2026 (scene BanvyGrassCards)",
+  "notes": "Curved, tapered blades painted by vertex colour and rendered through emission: the texture is the grass's own colour; the game lights it and sets it on the ground's colour by meanLinear."
+}

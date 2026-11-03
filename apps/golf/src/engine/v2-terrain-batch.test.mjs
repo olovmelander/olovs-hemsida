@@ -7,7 +7,7 @@ import {
   prepareTerrainRenderData,
 } from '../../../../packages/course-v2/runtime/terrain-render-data.mjs';
 import { StaticDrawUsage } from 'three/webgpu';
-import { TerrainTextureBatch, TerrainTileBatchSet } from './v2-terrain-batch.mjs';
+import { RETIRE_TICKS, TerrainTextureBatch, TerrainTileBatchSet } from './v2-terrain-batch.mjs';
 
 function fixture() {
   const graph = createSyntheticAssetGraph();
@@ -42,12 +42,18 @@ describe('Three r185 v2 terrain batching', () => {
     layer.tick(300);
     layer.sync(resources, { now: 400 });
     const batch = [...layer.batches.values()][0];
-    expect(previous.disposed).toBe(true);
+    /* the grown-out batch leaves the scene at once and is disposed RETIRE_TICKS ticks later,
+       after its replacement has drawn, so their shared program is never deleted mid-compile */
+    expect(previous.mesh.parent).toBe(null);
+    expect(previous.disposed).toBe(false);
     expect(batch.capacity).toBe(40);
     expect(batch.attributes.params.array[2]).toBe(0);
     expect(batch.attributes.params.array[32 * 4 + 2]).toBe(1);
     expect(layer.stats().drawCalls).toBe(1);
     expect(layer.stats().textureCapacityBytes).toBe(40 * 3 * 3 * 8);
+    for (let i = 0; i < RETIRE_TICKS; i++) layer.tick(400);
+    expect(previous.disposed).toBe(true);
+    expect(layer.retired).toHaveLength(0);
     layer.dispose();
 
     const bounded = new TerrainTileBatchSet({ maximumTiles: 2, compactCapacity: true, allowMixedDimensions: true });
@@ -58,9 +64,10 @@ describe('Three r185 v2 terrain batching', () => {
     expect(bounded.stats().drawCalls).toBe(2);
     const reduced = [...bounded.batches.values()].find(b => b.width === 2);
     bounded.sync([resources[0]]);
-    expect(reduced.disposed).toBe(true);
+    expect(reduced.disposed).toBe(false);
     expect(bounded.batches.size).toBe(1);
     bounded.dispose();
+    expect(reduced.disposed).toBe(true);
   });
   it('skips settled tile work but honors resync, time rewind and morph-duration edits', () => {
     const resource = fixture().get('l0/0/0');

@@ -32,10 +32,11 @@ import { abs, cameraPosition, cameraViewMatrix, cos, faceDirection, float, floor
   normalize, positionGeometry, positionWorld, pow, saturate, select, sin, smoothstep, step, texture, textureLoad,
   transformNormalByViewMatrix, uint, uniform, varying, vec2, vec3, vec4 } from 'three/tsl';
 import { SURFACE } from './surface.js';
-import { swayOnWind, reedSwing } from './one-wind.mjs';
+import { swayOnWind, reedSwing, windSheenAt } from './one-wind.mjs';
 import { paintedGround, PAINTED_SHADING } from './material.js';
 import { paintedWet } from './painted-world-lighting.mjs';
 import { applyGroundRelief, classStyle, groundClassColour, groundTintColour, isGroundTintClass, GROUND_DETAIL } from './ground-material-core.mjs';
+import { tourGradeOf } from './turf-look.mjs';
 
 export const NEAR_GRASS = Object.freeze({
   /* a blade's length on each class, metres, from its height of cut (CUT_HEIGHT_MM):
@@ -78,9 +79,45 @@ export const NEAR_GRASS = Object.freeze({
   hideAboveMetres: 40,
 });
 
+/* THE TOUR TURF'S BLADES (turf-look.mjs, 3 November): with the tour grade the rough grows
+   finer, taller and denser at high quality -- twelve blades a cell, not four, each about a
+   third as wide against its length, curved and tapered in three segments -- so the rough
+   round the ball reads as a sward and not as scattered paper triangles. Low quality keeps
+   its own. */
+export const NEAR_GRASS_TOUR = Object.freeze({
+  blades: Object.freeze({ hi: 28 }), widthShare: 0.05,
+  /* a blade is a strip of this many segments, not one triangle: it rises, bends over toward
+     its tip and tapers to a point; its sway grows toward the tip; its widest at `belly` of its
+     length; its edges a shade darker than its middle */
+  segments: 3, belly: 0.3, edgeShade: 0.14,
+  /* THE CLUMPS (after Ghost of Tsushima's procedural grass, GDC 2021): blades grow in tufts.
+     A Voronoi cell of `clump` metres round a jittered centre; its blades are pulled toward
+     it by up to `pull`, lean its way by `align`, share its height (`clumpHeight`), and some
+     clumps are dry (`dry` of them, in `dryTint`) or a shade lighter or darker (`tone`) */
+  clump: 0.5, pull: 0.18, align: 0.45, clumpHeight: Object.freeze([0.88, 1.14]),
+  dry: 0.14, dryTint: Object.freeze([1.18, 1.02, 0.7]), tone: 0.16,
+  /* a blade seen edge-on turns this far toward the eye, so none goes paper-thin */
+  faceEye: 0.6,
+  /* rounded across its width: the normal leans this far toward each edge */
+  round: 0.45,
+  /* fewer but wider with distance: each ring's blades this much wider than the ring inside it */
+  ringWiden: 1.3,
+  /* REAL GRASS (owner: "too thick and unnatural, I want it real"): thin blades, each its own shade
+     between a yellow and a blue green, one in `deadShare` dead and straw-coloured, dark at the
+     root where dense grass shades itself (`root`, against the tip's `tip`) */
+  hueWarm: Object.freeze([1.1, 1.02, 0.82]), hueCool: Object.freeze([0.9, 1, 1.1]),
+  deadShare: 0.065, dead: Object.freeze([1.55, 1.25, 0.62]), root: 0.42, tip: 1.22,
+  /* how far a blade's tip leans off the vertical, as a share of its length: some stand, longer ones flop */
+  lean: Object.freeze([0.12, 0.85]),
+  bladeMetres: Object.freeze({ [SURFACE.SEMI]: 0.045, [SURFACE.ROUGH]: 0.085, [SURFACE.HEATH]: 0.07, [SURFACE.WETLAND]: 0.1 }),
+  /* the ground's clumps make the blades this much shorter or taller (the painted ground's 0.35-1.7) */
+  dense: Object.freeze([0.8, 1.2]),
+});
+
 /** The rings for a quality: each ring's cell, its first instance, and how far it reaches from its centre. */
-export function nearGrassLayout(quality = 'hi') {
-  const q = NEAR_GRASS.quality[quality];
+export function nearGrassLayout(quality = 'hi', { tour = false } = {}) {
+  const base = NEAR_GRASS.quality[quality];
+  const q = base && tour && NEAR_GRASS_TOUR.blades[quality] ? { ...base, blades: NEAR_GRASS_TOUR.blades[quality] } : base;
   if (!q) throw new TypeError(`unknown near-grass quality: ${quality}`);
   const perRing = q.cells * q.cells;
   const rings = Array.from({ length: q.rings }, (_, k) => {
@@ -209,12 +246,12 @@ const OFFSET = 2 ** 20;
  *   `wear` (?groundwear: the damp), `grain` (?turfgrain: the grain and the shared
  *   blotches) and `gloss` (?surfacegloss).
  */
-export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, cutTone = 1, uSun, sunThrough = float(1), sunlit = null,
+export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, cutTone = 1, uSun, sunThrough = float(1), sunlit = null, tourGrade = false,
   groundAt, quality = 'hi', budget, ground = {} } = {}) {
   const terms = { relief: true, wear: true, grain: true, gloss: true, ...ground };
   if (!atlas?.texSdf?.length || !atlas.channels?.length || !atlas.bounds) throw new TypeError('the near grass needs the exact class fields');
   if (typeof groundAt !== 'function') throw new TypeError('the near grass needs the visible ground');
-  const layout = nearGrassLayout(quality);
+  const layout = nearGrassLayout(quality, { tour: tourGrade });
   const K = layout.blades, n = layout.cells, R = layout.rings.length;
   const clip = createNearGrassClip({ texels: layout.clipTexels, groundAt, ...(budget ? { budget } : {}) });
 
@@ -223,13 +260,31 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   /* the width of one pixel per metre of distance, for the blades' minimum width */
   const pixelPerMetre = uniform(0.001);
 
-  /* THE TEMPLATE: K blades of three corners; position carries (blade, corner) */
+  /* THE TEMPLATE: K blades, each SEG segments up its length: a pair of corners at each level
+     below the tip, then the tip; position carries (blade, level, side). One segment is the
+     painted ground's triangle (two base corners and a tip); the tour turf's four are a
+     curved, tapered strip */
+  const SEG = tourGrade ? NEAR_GRASS_TOUR.segments : 1;
+  const perBlade = 2 * SEG + 1;
   const geometry = new InstancedBufferGeometry();
-  const corners = new Float32Array(K * 3 * 3);
-  for (let b = 0; b < K; b++) for (let c = 0; c < 3; c++) corners.set([b, c, 0], (b * 3 + c) * 3);
+  const corners = new Float32Array(K * perBlade * 3), index = [];
+  for (let b = 0; b < K; b++) {
+    const first = b * perBlade;
+    for (let l = 0; l < SEG; l++) {
+      corners.set([b, l, -1], (first + 2 * l) * 3);
+      corners.set([b, l, 1], (first + 2 * l + 1) * 3);
+      if (l < SEG - 1) {
+        const a = first + 2 * l;
+        index.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+      }
+    }
+    corners.set([b, SEG, 0], (first + 2 * SEG) * 3);
+    index.push(first + 2 * SEG - 2, first + 2 * SEG - 1, first + 2 * SEG);
+  }
   geometry.setAttribute('position', new BufferAttribute(corners, 3));
+  geometry.setIndex(index);
   /* up, as the ground under it: the finish's sun band reads the geometry's normal */
-  geometry.setAttribute('normal', new BufferAttribute(new Float32Array(K * 3 * 3).map((_, i) => (i % 3 === 1 ? 1 : 0)), 3));
+  geometry.setAttribute('normal', new BufferAttribute(new Float32Array(K * perBlade * 3).map((_, i) => (i % 3 === 1 ? 1 : 0)), 3));
   geometry.instanceCount = layout.instances;
   geometry.boundingSphere = new Sphere(new Vector3(), 1e7);
 
@@ -245,11 +300,31 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const cellI = centre.x.sub(n / 2).add(cu), cellJ = centre.y.sub(n / 2).add(cv);
 
   /* THE BLADE'S OWN NUMBERS, from its ring, its world cell and its place in the clump */
-  const bladeIndex = positionGeometry.x, corner = positionGeometry.y;
+  const bladeIndex = positionGeometry.x, level = positionGeometry.y, sideOf = positionGeometry.z;
   const seed = pcg(pcg(uint(cellI.add(OFFSET)).add(pcg(uint(cellJ.add(OFFSET))))).add(uint(ringOf.mul(7919).add(bladeIndex.mul(104729)))));
   const r1 = unit(pcg(seed)), r2 = unit(pcg(seed.add(uint(1)))), r3 = unit(pcg(seed.add(uint(2))));
   const r4 = unit(pcg(seed.add(uint(3)))), r5 = unit(pcg(seed.add(uint(4)))), r6 = unit(pcg(seed.add(uint(5)))), r7 = unit(pcg(seed.add(uint(6))));
-  const root = vec2(cellI.add(r1), cellJ.add(r2)).mul(cellSize);
+  const scattered = vec2(cellI.add(r1), cellJ.add(r2)).mul(cellSize);
+  /* the blade's clump (tour turf): the nearest of the jittered centres round it */
+  let clumpCentre = null, clumpKey = null;
+  if (tourGrade) {
+    const T = NEAR_GRASS_TOUR;
+    const cc = floor(scattered.div(T.clump));
+    let best = float(1e9);
+    for (let dj = -1; dj <= 1; dj++) for (let di = -1; di <= 1; di++) {
+      const ci = cc.x.add(di), cj = cc.y.add(dj);
+      const key = pcg(pcg(uint(ci.add(OFFSET))).add(uint(cj.add(OFFSET))));
+      const centreAt = vec2(ci.add(unit(pcg(key.add(uint(11))))), cj.add(unit(pcg(key.add(uint(12)))))).mul(T.clump);
+      const d = centreAt.sub(scattered).length();
+      const nearer = d.lessThan(best);
+      best = select(nearer, d, best);
+      clumpCentre = clumpCentre ? select(nearer, centreAt, clumpCentre) : centreAt;
+      clumpKey = clumpKey ? select(nearer, key, clumpKey) : key;
+    }
+  }
+  const clumpHash = k => (clumpKey ? unit(pcg(clumpKey.add(uint(k)))) : float(0.5));
+  /* pulled toward its clump's centre, so the clump reads as a tuft */
+  const root = tourGrade ? mix(scattered, clumpCentre, clumpHash(13).mul(NEAR_GRASS_TOUR.pull)) : scattered;
 
   /* A BLADE BELONGS TO THE RING IT FALLS IN: not inside the next ring in (that ring
      covers it), and thinned toward its own ring's edge */
@@ -296,7 +371,7 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const norm = float(1).div(max(sum, float(1)));
   const weights = weightsRaw.map(w => w.mul(norm));
   const roughWeight = saturate(float(1).sub(sum));
-  const lengthOf = sid => NEAR_GRASS.bladeMetres[sid] ?? 0;
+  const lengthOf = sid => (tourGrade ? NEAR_GRASS_TOUR.bladeMetres[sid] : undefined) ?? NEAR_GRASS.bladeMetres[sid] ?? 0;
   /* the ground's detail at the root, from its shared taps (ground-material-core.mjs):
      the clumps (the near tap less the far one) and the finish's three blotches */
   const [tc, ts] = GROUND_DETAIL.NEAR_TAP_TURN;
@@ -314,13 +389,15 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const roughTint = tintAtRoot.rgb;
   const shadeOf = sid => classStyle(C, SHADE, sid).shade;
   let bladeLength = roughWeight.mul(lengthOf(SURFACE.ROUGH));
-  let colour = roughTint.mul(roughWeight);
+  /* the tour grade (turf-look.mjs), as the ground under the blade takes it */
+  const graded = (sid, c) => (tourGrade && tourGradeOf(sid) ? c.mul(vec3(...tourGradeOf(sid))) : c);
+  let colour = graded(SURFACE.ROUGH, roughTint).mul(roughWeight);
   let seasonal = roughWeight;
   let bump = roughWeight.mul(shadeOf(SURFACE.ROUGH)[1]), gloss = roughWeight.mul(shadeOf(SURFACE.ROUGH)[2]);
   atlas.channels.forEach((sid, i) => {
     bladeLength = bladeLength.add(weights[i].mul(lengthOf(sid)));
     const own = groundClassColour(C, SHADE, sid, { lift, toneExponent: display, hardGround: true });
-    colour = colour.add((own ? vec3(...own) : roughTint).mul(weights[i]));
+    colour = colour.add(graded(sid, own ? vec3(...own) : roughTint).mul(weights[i]));
     if (isGroundTintClass(sid)) seasonal = seasonal.add(weights[i]);
     bump = bump.add(weights[i].mul(shadeOf(sid)[1]));
     gloss = gloss.add(weights[i].mul(shadeOf(sid)[2]));
@@ -337,52 +414,103 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
     colour = colour.mul(float(1).sub(damp.mul(GROUND_DETAIL.DAMP_SHADE * display))).mul(vec3(1).add(vec3(...GROUND_DETAIL.DAMP_COOL).mul(damp)));
   }
   if (terms.relief) colour = applyGroundRelief(colour, tintAtRoot.a, seasonal);
+  if (tourGrade) {
+    /* each clump its own: some dry, the rest a shade lighter or darker */
+    const T = NEAR_GRASS_TOUR;
+    const dry = step(clumpHash(14), float(T.dry)).mul(seasonal);
+    colour = colour.mul(mix(vec3(1), vec3(...T.dryTint), dry)).mul(clumpHash(15).sub(0.5).mul(T.tone * 2).add(1));
+    /* and each blade its own: a shade between a yellow and a blue green, a few dead */
+    const own = unit(pcg(seed.add(uint(7)))), dead = step(unit(pcg(seed.add(uint(8)))), float(T.deadShare)).mul(seasonal);
+    colour = colour.mul(mix(vec3(...T.hueCool), vec3(...T.hueWarm), own)).mul(mix(vec3(1), vec3(...T.dead), dead));
+  }
 
   /* THE FADE: whole near the eye, gone while a few pixels tall, and never past the last ring */
   const distance = positionWorldOf(root, groundY).distance(cameraPosition);
   const fadeEnd = min(bladeLength.mul(NEAR_GRASS.fadeLengths), float(layout.reach));
   const fade = float(1).sub(smoothstep(fadeEnd.mul(NEAR_GRASS.fadeFrom), fadeEnd, distance));
   /* taller where the ground's clumps are dense */
-  const dense = clump.mul(NEAR_GRASS.clumpLength).add(1).clamp(...NEAR_GRASS.clumpRange);
-  const length = bladeLength.mul(r4.mul(0.7).add(0.65)).mul(dense).mul(fade).mul(alive).mul(inBounds).mul(grassHere);
+  const dense = clump.mul(NEAR_GRASS.clumpLength).add(1).clamp(...(tourGrade ? NEAR_GRASS_TOUR.dense : NEAR_GRASS.clumpRange));
+  /* the clump's own height (tour turf) */
+  const clumpTall = tourGrade ? mix(float(NEAR_GRASS_TOUR.clumpHeight[0]), float(NEAR_GRASS_TOUR.clumpHeight[1]), clumpHash(16)) : float(1);
+  const length = bladeLength.mul(r4.mul(0.7).add(0.65)).mul(dense).mul(clumpTall).mul(fade).mul(alive).mul(inBounds).mul(grassHere);
 
   /* THE BLADE: a base across its facing, a tip leaning off the vertical, and the wind */
-  const yaw = r5.mul(Math.PI * 2);
-  const across = vec2(cos(yaw), sin(yaw)), facing = vec2(sin(yaw).negate(), cos(yaw));
-  const lean = r6.mul(NEAR_GRASS.lean[1]).add(NEAR_GRASS.lean[0]);
-  const width = max(length.mul(NEAR_GRASS.widthShare), distance.mul(pixelPerMetre).mul(NEAR_GRASS.minPixels)).mul(step(1e-4, length));
-  const isTip = step(1.5, corner), side = corner.mul(2).sub(1).mul(oneMinusNode(isTip));
-  const base = vec3(root.x, groundY.sub(0.004), root.y).add(vec3(across.x, 0, across.y).mul(width.mul(0.5)).mul(side));
+  /* its yaw: its own, or (tour turf) turned toward its clump's lean */
+  const ownYaw = r5.mul(Math.PI * 2);
+  const clumpYaw = clumpHash(17).mul(Math.PI * 2);
+  const leanDir = tourGrade
+    ? normalize(mix(vec2(sin(ownYaw).negate(), cos(ownYaw)), vec2(sin(clumpYaw).negate(), cos(clumpYaw)), NEAR_GRASS_TOUR.align))
+    : vec2(sin(ownYaw).negate(), cos(ownYaw));
+  const facing = leanDir;
+  let across = vec2(facing.y, facing.x.negate());
+  if (tourGrade) {
+    /* seen edge-on, the blade turns toward the eye (Tsushima's view-space thickening) */
+    const toEye = normalize(eye.sub(root).add(vec2(1e-4, 0)));
+    const square = vec2(toEye.y.negate(), toEye.x);
+    const edgeOn = abs(across.dot(toEye));
+    across = normalize(mix(across, square.mul(across.dot(square).greaterThanEqual(0).select(float(1), float(-1))), edgeOn.mul(NEAR_GRASS_TOUR.faceEye)));
+  }
+  const lean = tourGrade
+    ? mix(float(NEAR_GRASS_TOUR.lean[0]), float(NEAR_GRASS_TOUR.lean[1]), r6.mul(r6.mul(0.5).add(r4.mul(0.5))))
+    : r6.mul(NEAR_GRASS.lean[1]).add(NEAR_GRASS.lean[0]);
+  /* fewer but wider with distance: each ring's blades wider than the ring inside it */
+  const ringWide = tourGrade ? pick(layout.rings.map((_, k) => float(NEAR_GRASS_TOUR.ringWiden ** k))) : float(1);
+  const width = max(length.mul(tourGrade ? NEAR_GRASS_TOUR.widthShare : NEAR_GRASS.widthShare).mul(ringWide), distance.mul(pixelPerMetre).mul(NEAR_GRASS.minPixels)).mul(step(1e-4, length));
+  /* up the blade: how far up the blade (0 at its root, 1 at its tip). It rises and bends over toward its
+     facing, lean x t^2 out and (1 - lean^2 t^2 / 2) of its length up, so the one-segment blade's
+     tip lies where the triangle's did; its width tapers to the tip, widest a little above the
+     root; the wind's sway grows as t^2 */
+  const alongBlade = level.div(SEG);
   const sway = swayOnWind({ p: root, weight: length.mul(0.9), rate: 2.6, scale: 3, swing: reedSwing, lean: 0.1 });
-  const tip = vec3(root.x, groundY.add(length.mul(float(1).sub(lean.mul(lean).mul(0.5)))), root.y)
-    .add(vec3(facing.x, 0, facing.y).mul(length.mul(lean))).add(sway);
-  const position = mix(base, tip, isTip);
+  const rise = length.mul(alongBlade).mul(float(1).sub(lean.mul(lean).mul(0.5).mul(alongBlade).mul(alongBlade)));
+  const out = length.mul(lean).mul(alongBlade).mul(alongBlade);
+  const taper = SEG > 1
+    ? float(1).sub(alongBlade).mul(float(1).add(alongBlade.mul(float(1).sub(alongBlade)).mul(NEAR_GRASS_TOUR.belly * 4))).mul(0.5)
+    : float(0.5);
+  const position = vec3(root.x, groundY.sub(float(0.004).mul(float(1).sub(alongBlade))).add(rise), root.y)
+    .add(vec3(facing.x, 0, facing.y).mul(out))
+    .add(vec3(across.x, 0, across.y).mul(width.mul(taper).mul(sideOf)))
+    .add(sway.mul(alongBlade.mul(alongBlade)));
 
   const material = new MeshStandardNodeMaterial({ side: DoubleSide, metalness: 0 });
   material.positionNode = position;
   /* the root's colour, its seasonal share, the blade's facing and its tone, carried from the vertex */
   const rootColour = varying(colour, 'nearGrassColour');
   const seasonalShare = varying(seasonal, 'nearGrassSeasonal');
-  const faceXZ = varying(facing, 'nearGrassFacing');
-  const tone = varying(r7, 'nearGrassTone');
-  const up = varying(isTip, 'nearGrassUp');
+  /* the blade's width direction and how far across it (its edges a shade darker, its normal
+     rounded): one varying; its facing is square to that */
+  const acrossSide = varying(vec3(across, sideOf), 'nearGrassFacing');
+  const facingSide = acrossSide;
+  const faceXZ = vec2(acrossSide.y.negate(), acrossSide.x);
+  /* the tone and how far up the blade, packed: outputs are scarce (16 is WebGPU's limit) */
+  const toneUp = varying(vec2(r7, alongBlade), 'nearGrassToneUp');
+  const tone = toneUp.x, up = toneUp.y;
   const rootXZ = varying(root, 'nearGrassRoot');
   /* the finish's blotches and gloss at the root: the ground's (constant along the blade) */
-  const blotches = varying(blotchTaps, 'nearGrassBlotches');
+  /* and the wind's laid sheen there (one-wind.mjs), riding in the same varying:
+     the blade has no output to spare for a fifth (16 is WebGPU's limit) */
+  const blotches = varying(vec4(blotchTaps, windSheenAt(root)), 'nearGrassBlotches');
   const glossAtRoot = varying(gloss, 'nearGrassGloss');
   /* lit like the ground under it, leaning a little toward its facing, on the side that is seen */
   const lean2 = faceXZ.mul(NEAR_GRASS.normalLean).mul(faceDirection);
-  material.normalNode = transformNormalByViewMatrix(normalize(vec3(lean2.x, 1, lean2.y)), cameraViewMatrix);
+  /* rounded across the blade (tour turf): the normal leans toward each edge, so a blade shades as a
+     curved leaf, not a flat card */
+  const rounded = tourGrade ? vec2(acrossSide.x, acrossSide.y).mul(acrossSide.z.mul(NEAR_GRASS_TOUR.round)) : vec2(0);
+  material.normalNode = transformNormalByViewMatrix(normalize(vec3(lean2.x.add(rounded.x), 1, lean2.y.add(rounded.y))), cameraViewMatrix);
   const V = normalize(cameraPosition.sub(positionWorld));
   const through = pow(saturate(V.dot(uSun.negate())), 2.4).mul(NEAR_GRASS.through).mul(sunThrough).mul(sunlit ?? 1).mul(up);
-  const shaded = rootColour.mul(mix(float(NEAR_GRASS.rootTone), float(NEAR_GRASS.tipTone), up))
+  /* dark at the root where dense grass shades itself (tour turf), lighter to the tip */
+  const shaded = rootColour.mul(tourGrade
+    ? mix(float(NEAR_GRASS_TOUR.root), float(NEAR_GRASS_TOUR.tip), up.sqrt())
+    : mix(float(NEAR_GRASS.rootTone), float(NEAR_GRASS.tipTone), up))
     .mul(mix(vec3(1), vec3(...NEAR_GRASS.tipWarm), up))
-    .mul(tone.sub(0.5).mul(NEAR_GRASS.toneSpread).add(1)).mul(through.add(1));
+    .mul(tone.sub(0.5).mul(NEAR_GRASS.toneSpread).add(1)).mul(through.add(1))
+    .mul(SEG > 1 ? float(1).sub(abs(facingSide.z).mul(NEAR_GRASS_TOUR.edgeShade)) : float(1));
   /* the painted finish as the ground under it takes it: its sun band, its blotches
      (mown turf more of the broad one), the light's grass strength, autumn's ochre,
      and the class's gloss */
   const finish = paintedGround({ base: shaded, wp: rootXZ, DETAIL: null, uSun, turf: float(1), seasonal: seasonalShare,
-    taps: { a: blotches.x, b: blotches.y, c: blotches.z },
+    taps: { a: blotches.x, b: blotches.y, c: blotches.z }, laid: blotches.w,
     broadLift: terms.grain ? float(1).sub(seasonalShare).mul(GROUND_DETAIL.TURF_BROAD_LIFT) : null,
     gloss: terms.gloss ? glossAtRoot : null });
   material.colorNode = finish.colorNode;

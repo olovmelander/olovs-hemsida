@@ -90,7 +90,7 @@ it('streams a large field into one bounded destination and rejects short/long st
   expect(Buffer.from(await inflateBounded(encoded, input.length, { preallocate: true })).equals(Buffer.from(input))).toBe(true);
   await expect(inflateBounded(encoded, input.length - 1, { preallocate: true })).rejects.toThrow();
   await expect(inflateBounded(encoded, input.length + 1, { preallocate: true })).rejects.toThrow();
-});
+}, 30000); /* streams 4 MB: past 5 s when the whole suite runs in parallel */
 
 it('reopens from verified cache offline and replaces a corrupt cached field', async () => {
   const bytes = encodePreparedWater(example()), compressed = new Uint8Array(deflateRawSync(bytes));

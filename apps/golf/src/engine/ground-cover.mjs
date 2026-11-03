@@ -18,6 +18,24 @@ export function tussockBlades() {
   }
   return { positions, normals };
 }
+/* THE TOUR TUSSOCK (turf-look.mjs, 3 November): the tussock above is three triangles 26 cm
+   wide, which read up close as paper fans. A tussock is a clump of narrow blades: fourteen,
+   each 2-3 cm wide at its root, 25-45 cm tall, leaning out from a tight crown at their own
+   angles, some bent further over. Fixed (no randomness), so every boot draws the same clump. */
+export function tourTussockBlades(count = 14) {
+  const positions = [], normals = [];
+  for (let b = 0; b < count; b++) {
+    const a = b * 2.39996 + 0.3, c = Math.cos(a), sn = Math.sin(a);
+    const step = (b * 7919) % 97 / 97, step2 = (b * 104729) % 89 / 89;
+    const r = 0.015 + 0.03 * step, half = 0.0035 + 0.003 * step2;
+    const tall = 0.25 + 0.2 * step2, lean = 0.06 + 0.16 * step;
+    /* a blade: its root across its facing, its tip leaning out */
+    positions.push(c * r - sn * half, 0, sn * r + c * half, c * r + sn * half, 0, sn * r - c * half,
+      c * (r + lean), tall * (1 - 0.25 * step), sn * (r + lean));
+    for (let k = 0; k < 3; k++) normals.push(c * 0.5, 0.75, sn * 0.5);
+  }
+  return { positions, normals };
+}
 /* a reed: three crossed blades, 2.1 m tall */
 export function reedBlades() {
   const positions = [], normals = [];

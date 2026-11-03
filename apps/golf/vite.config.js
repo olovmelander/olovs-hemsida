@@ -210,6 +210,13 @@ export default defineConfig(({ mode }) => {
               expiration: { maxEntries: 2, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
           },
           {
+            // The painted props (the golf cart): content-addressed, verified on load.
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/props\/[a-z0-9-]+-[a-f0-9]{64}\.glb$/.test(url.pathname),
+            handler: 'CacheFirst',
+            options: { cacheName: 'banvy-props',
+              expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
+          },
+          {
             urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|visby-pine)\/[a-f0-9]{64}\.(glb|png)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'banvy-ghibli-foliage-assets',

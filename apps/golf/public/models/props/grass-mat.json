@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-texture",
+  "id": "grass-mat",
+  "asset": {
+    "url": "models/props/grass-mat-a4f47fc478b6a8eb347ffe4c77bf6bed64bda4d45b91eec43cb4ba1fe28f342f.png",
+    "sha256": "a4f47fc478b6a8eb347ffe4c77bf6bed64bda4d45b91eec43cb4ba1fe28f342f",
+    "bytes": 3127913
+  },
+  "layout": {
+    "width": 1024,
+    "height": 1024,
+    "metres": 1,
+    "channels": "RGB colour, A height (0 bare, 1 the tallest tip)"
+  },
+  "meanLinear": [
+    0.18229,
+    0.27746,
+    0.06361
+  ],
+  "cover": {
+    "0.05": 0.8786,
+    "0.25": 0.8009,
+    "0.5": 0.6344,
+    "0.75": 0.1287
+  },
+  "source": "tools/blender-props/grass_mat.py, Blender 5.2.2 LTS, Eevee, baked through the Blender MCP on 3 November 2026 (scene BanvyGrassMat)",
+  "notes": "A tileable 1 x 1 m patch of curved blades seen straight down: colour by emission, height as an emission ramp."
+}

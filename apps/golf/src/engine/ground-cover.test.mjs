@@ -107,7 +107,8 @@ describe('the cover\'s colours', () => {
 
   it('are the rough\'s grass: the light\'s strength and autumn\'s ochre, on the tussocks and the clumps', () => {
     expect(grassCover(vec3(0.2, 0.3, 0.1))).toBeTruthy();
-    expect(main.match(/COVER_COLOUR_ON \? grassCover\((tuftColour|clumpColour)\) : \1/g)).toHaveLength(2);
+    /* the tussocks' colour through the tour turf's grade first (tuftGraded), the clumps' as it was */
+    expect(main.match(/COVER_COLOUR_ON \? grassCover\((tuftGraded|clumpColour)\) : \1/g)).toHaveLength(2);
     expect(main.match(/COVER_COLOUR_ON \? (tint|leaf|tone)\.mul\(COVER_TUNED_SHARE\) : \1/g)).toHaveLength(3);
     const material = fs.readFileSync(new URL('./material.js', import.meta.url), 'utf8');
     /* the ground's own autumn is the same constant */

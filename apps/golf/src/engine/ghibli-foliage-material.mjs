@@ -1,5 +1,6 @@
 import {Color,MeshBasicNodeMaterial,MeshStandardNodeMaterial,DoubleSide} from 'three/webgpu';
-import {abs,cameraPosition,color,dot,float,fract,mix,mx_noise_float,normalize,normalWorldGeometry,positionLocal,positionWorld,pow,saturate,smoothstep,texture,uniform,vec2,vec3} from 'three/tsl';
+import {abs,cameraPosition,color,dot,float,fract,mix,mx_noise_float,normalize,normalWorldGeometry,positionLocal,positionWorld,pow,saturate,smoothstep,texture,uniform,vec2,vec3,vertexColor} from 'three/tsl';
+import {CROWN_DEPTH} from './crown-depth.mjs';
 import {FOLIAGE_PALETTES,AUTUMN_FOLIAGE} from './painted-world-palette.mjs';
 import {coverOpaqueBackdrop,centredCoverageCut} from './msaa-coverage.mjs';
 export {FOLIAGE_PALETTES} from './painted-world-palette.mjs';
@@ -20,7 +21,34 @@ export function foliageCloudShadeFor(p){
   const sun=.30*(p.int??0),sky=.18+.10*(p.hemiI??0);
   return (sky+sun*(p.shadowSky??0))/(sky+sun);
 }
+/* THE PAINTED CANOPY (2 November, owner request: "the tree canopy style in
+   odyssey mode in serenity blocks ... or even better"). Serenity's Odyssey
+   crowns are painted in TONES, not airbrushed: a wrapped sun term on the
+   crown's own soft normal, cut by two wide band edges into shade, a mid tone
+   and the lit tone, and the edges -- never the colour -- moved by how closed
+   the crown is there, by each clump and by each tree, so neighbours separate
+   by value and every crown reads lit on top and dark beneath
+   (serenity-blocks src/rendering/odyssey/world/odyssey-world-renderer.js,
+   FOREST_BAND_* and LEAF_LOOK). Golf's species keep their own three shades:
+   shade, body and the bright pigment, which becomes the warm cap the sun
+   puts on each up-and-sunward mass. The edges ride the sun's height
+   (`canopyBandShift`, Odyssey's FOREST_SUN_BAND_SHIFT), so the tops land on
+   the lit tone under a high noon and a golden hour alike, and an overcast
+   light (little direct sun) keeps its soft wrap. ?canopy=0 is the before. */
+export const CANOPY=Object.freeze({wrap:.70,topWrap:.66,sunRide:.5,bands:Object.freeze([.24,.52,.60,.78]),
+  mid:.64,aoShift:.30,clump:1.6,jitter:.17,capGain:.70,capFacing:Object.freeze([.55,.92]),capOpen:Object.freeze([.70,.92]),
+  softLift:.11});
+export const canopyBandShift=uniform(0);
+/** How far the band edges move for a sun at this height (dir is toward the sun). */
+export function canopyBandShiftFor(dir){
+  const [x=0,y=1,z=0]=dir??[];
+  const len=Math.hypot(x,y,z)||1;
+  /* half of Odyssey's full ride: its sun sits near one height, and the whole
+     ride at a Swedish noon put the crowns' sides in shade (measured 2 November) */
+  return ((y/len+CANOPY.wrap)/(1+CANOPY.wrap)-CANOPY.topWrap)*CANOPY.sunRide;
+}
 export function setFoliageLighting(p){
+  canopyBandShift.value=canopyBandShiftFor(p.dir);
   const strength=p.foliage?.strength??Math.max(.35,Math.min(1,.18+p.int*.30+p.hemiI*.10));
   const direct=p.foliage?.direct??Math.min(.9,p.int/2.5);
   foliageDirect.value=direct;
@@ -66,7 +94,7 @@ function foliageNoise(position,noisePerPixel){
 // per vertex): in a cloud's shade its direct light, highlight and back-light
 // give way to the sky's, as on its own shaded side, and it dims as open ground
 // does (foliageCloudShade). Without it, the before.
-export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false,backLight=null,sunlit=null}){
+export function paintedFoliageColour({key,normal,sunDirection,position=null,tint=vec3(1),autumn=float(0),seed=float(.5),lighting=foliageLight,noisePerPixel=false,backLight=null,sunlit=null,canopy=false,openness=null,perVertex=false}){
   const palette=FOLIAGE_PALETTES[key];
   if(!palette)throw new Error(`Unknown foliage palette: ${key}`);
   const seasonal=AUTUMN_FOLIAGE[key];
@@ -91,8 +119,32 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
   // transition into the stronger green body rather than a pale overall wash.
   const highlight=mix(normal.y.max(0).mul(.10),smoothstep(.48,.98,alignment.add(dabs.mul(.65))).mul(.74),direct);
   const pigment=noise?noise.y.mul(.0125).add(1):float(1);
-  const lightTint=mix(foliageShadow,foliageSun,lit);
-  const body=mix(mix(shades[0],shades[1],lit),shades[2],highlight);
+  let lightTint=mix(foliageShadow,foliageSun,lit);
+  let body=mix(mix(shades[0],shades[1],lit),shades[2],highlight);
+  if(canopy){
+    const C=CANOPY,[b0,b1,b2,b3]=C.bands;
+    const wrap=alignment.add(C.wrap).div(1+C.wrap);
+    /* openness through the crown (crown-depth.mjs, 0 at its floor, 1 open) moves both edges toward shade */
+    const open=openness?smoothstep(CROWN_DEPTH.floor,1,openness):float(1);
+    const shift=canopyBandShift.add(float(1).sub(open).mul(C.aoShift)).add(dabs.mul(C.clump));
+    const jitter=fract(seed.mul(13.73).add(.31)).sub(.5).mul(C.jitter);
+    const lo=smoothstep(shift.add(b0),shift.add(b1),wrap);
+    const hi=smoothstep(shift.add(jitter).add(b2),shift.add(jitter).add(b3),wrap);
+    /* little direct sun: the soft wrap, as before -- less the lift the puffs'
+       upward lean gives it on average (crown-puffs.mjs, `up`), so the storm, the
+       mist and the blue hour keep their crowns as dark as they were */
+    const soft=diffuse.sub(C.softLift);
+    const sunXZ=normalize(sunDirection.xz.add(vec2(1e-4,0)));
+    const capFacing=normal.y.add(dot(normal.xz,sunXZ).mul(.35)).add(dabs.mul(C.clump*.6));
+    const cap=smoothstep(C.capFacing[0],C.capFacing[1],capFacing).mul(smoothstep(C.capOpen[0],C.capOpen[1],open)).mul(C.capGain);
+    /* the warm pigment: on each up-and-sunward cap, and as before on the faces turned to the sun */
+    let bands=vec3(mix(soft,lo,direct),mix(soft.mul(soft),hi,direct),cap.mul(direct).max(highlight));
+    /* on a mesh the bands are reckoned per vertex: each leaf card takes its tone, as a painter's dab does */
+    if(perVertex)bands=bands.toVertexStage();
+    const midTone=mix(shades[0],shades[1],C.mid);
+    body=mix(mix(mix(shades[0],midTone,bands.x),shades[1],bands.y),shades[2],bands.z);
+    lightTint=mix(foliageShadow,foliageSun,bands.x);
+  }
   const cloudShade=sunlit?mix(foliageCloudShade,float(1),sunlit):null;
   if(!backLight){const plain=body.mul(pigment).mul(tint).mul(lighting).mul(lightTint);return cloudShade?plain.mul(cloudShade):plain;}
   // the leaf's brightest pigment, lit from behind in the sun's colour
@@ -127,10 +179,17 @@ export function foliageSurfacePigment(texel){
 // already does (msaa-coverage.mjs), centred on 0.5 so a crown keeps its area.
 // The shadow pass keeps its own cut (maskShadowNode, and the 0.5 it copies).
 // coverage=false (?crowncoverage=0) is the before.
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true}){
+/* THE CANOPY'S BANDS, PER PIXEL (3 November). Reckoned per vertex, a few vertices of the hero
+   pine and spruce crowns came out unbounded in a low sun's direction, and the glow spread
+   each of their triangles into a green orb in the trees (Veckefjärden's 13th under the
+   midnight sun). Per pixel, from the same per-vertex noise, they stay in their range: a few
+   smoothsteps a crown pixel. ?canopybands=vertex is the before. */
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true,canopy=false,bandsPerVertex=false}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
+  /* the crown-depth bake's openness rides in the vertex colours the material already multiplies */
   m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel,
-    backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null,sunlit});
+    backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null,sunlit,
+    canopy,openness:canopy?vertexColor().r:null,perVertex:canopy&&!noisePerPixel&&bandsPerVertex});
   if(map){
     const texel=texture(map);
     m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;

@@ -18,7 +18,7 @@
  * TSL for the shader. They must agree, and the test says so. */
 import * as THREE from 'three/webgpu';
 import {
-  Fn, float, vec2, vec3, color, uv, attribute, varying, texture, cameraPosition, uniform,
+  Fn, float, vec2, vec3, vec4, color, uv, attribute, varying, texture, cameraPosition, uniform,
   cameraProjectionMatrix, cameraWorldMatrix,
   normalize, abs, floor, fract, select, dot, pow, saturate, sin, cos,
   transformNormalToView, positionWorld, normalWorldGeometry,
@@ -323,7 +323,7 @@ const enableImpostorCoverage = coverOpaqueBackdrop;
  * crossfades (`fade`), `aFade` (engine/tree-fade.mjs). The quad's own `uv`
  * runs 0..1.
  */
-export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn = float(0), roughness = 0.92, debug = null, fade = false, backLight = true, sunlit = null } = {}) {
+export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn = float(0), roughness = 0.92, debug = null, fade = false, backLight = true, sunlit = null, canopy = false } = {}) {
   const material = atlas.foliage ? new THREE.MeshBasicNodeMaterial() : new THREE.MeshStandardNodeMaterial({ roughness, metalness: 0, flatShading: false });
   const n = atlas.framesPerSide;
   const cell = 1 / n;
@@ -370,9 +370,16 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
   const wB = select(lower, f.x, float(1).sub(f.y));
   const wC = select(lower, f.y, float(1).sub(f.x));
 
-  const vFrameA = varying(fA), vFrameB = varying(fB), vFrameC = varying(fC);
-  const vWeights = varying(vec3(wA, wB, wC));
-  const vYaw = varying(yaw);
+  /* PACKED IN FOURS. WebGPU allows 16 vertex outputs (D3D12 on an RTX 5080
+     reports exactly that), and the distant-hero batch with its crossfade, the
+     tint, the haze's colour, its spectral offset and the valley mist reached
+     17: its pipelines failed and their whole command buffer was dropped
+     (2 November). Two frames to a vec4 and the yaw beside the weights cost
+     four fewer outputs; every value is the one it was. */
+  const vFramesAB = varying(vec4(fA, fB));
+  const vFrameA = vFramesAB.xy, vFrameB = vFramesAB.zw;
+  const vWeightsYaw = varying(vec4(wA, wB, wC, yaw));
+  const vWeights = vWeightsYaw.xyz, vYaw = vWeightsYaw.w;
   const vLocal = varying(local);
   material.positionNode = world;
 
@@ -385,9 +392,11 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
     const x = t.x.sub(t.y).mul(0.5), z = t.x.add(t.y).mul(0.5);
     const direction = normalize(vec3(x, float(1).sub(abs(x)).sub(abs(z)).max(0), z));
     const basis = viewBasisNode(direction);
-    return varying(vec2(dot(localOffset, basis.right), dot(localOffset, basis.up)).div(2 * atlas.radius).add(0.5));
+    return vec2(dot(localOffset, basis.right), dot(localOffset, basis.up)).div(2 * atlas.radius).add(0.5);
   };
-  const uvA = projectedUv(fA), uvB = projectedUv(fB), uvC = projectedUv(fC);
+  const vFrameCUvA = varying(vec4(fC, projectedUv(fA)));
+  const vUvBC = varying(vec4(projectedUv(fB), projectedUv(fC)));
+  const vFrameC = vFrameCUvA.xy, uvA = vFrameCUvA.zw, uvB = vUvBC.xy, uvC = vUvBC.zw;
 
   /* --- fragment: blend the three frames, light the result --- */
   /* the TSL twin of frameUv(): frame rows count from the bottom of the
@@ -473,7 +482,9 @@ export function createImpostorMaterial(atlas, { crownBase, sunDirection, autumn 
        at the sun through the tree, at the edge weight's mean over a crown */
     const crownColour = paintedFoliageColour({key:atlas.foliage.key,normal:nWorld,sunDirection,
       tint:tint.xyz,seed:tint.w,autumn,
-      backLight:backLight ? foliageFacingSun(view.negate(), sunDirection).mul(IMPOSTOR_BACK_EDGE) : null, sunlit});
+      backLight:backLight ? foliageFacingSun(view.negate(), sunDirection).mul(IMPOSTOR_BACK_EDGE) : null, sunlit,
+      /* the painted canopy's tones, per pixel from the baked normal; the crown's depth is already in the baked albedo */
+      canopy});
     /* the trunk's direct light gives way in a cloud's shade as the crown's does (sunlit, cloud-shadow.mjs) */
     const barkDirect = nWorld.dot(sunDirection).max(0).mul(.65);
     const barkLight = (sunlit ? barkDirect.mul(sunlit) : barkDirect).add(.55);

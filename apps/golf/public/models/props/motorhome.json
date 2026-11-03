@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-prop",
+  "id": "motorhome",
+  "asset": { "url": "models/props/motorhome-cf8873b4364475a4ea1bd68bdf210a360313d88d3b7bcdadc87624a408b62779.glb", "sha256": "cf8873b4364475a4ea1bd68bdf210a360313d88d3b7bcdadc87624a408b62779", "bytes": 103328 },
+  "meshes": { "van_body": { "triangles": 564, "tinted": true }, "van_trim": { "triangles": 1636 } },
+  "axes": "front along +z, x across, y up; metres; the ground at y = 0; 6.8 x 2.3 x 3.05 m",
+  "source": "tools/blender-props/motorhome.py, Blender 5.2.2 LTS, built and exported through the Blender MCP on 3 November 2026",
+  "notes": "Painted vertex colours; the body is white and takes the player's instance colour."
+}

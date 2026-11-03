@@ -78,7 +78,7 @@ describe('the crowns\' cut through the samples', () => {
   it('is wired in main.js behind ?crowncoverage=0, for the drawn crowns', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/const CROWN_COVERAGE_ON = new URLSearchParams\(location\.search\)\.get\('crowncoverage'\) !== '0';/);
-    expect(main).toMatch(/makeGhibliFoliageMaterial\(\{[^}]*coverage: CROWN_COVERAGE_ON \}\)/s);
+    expect(main).toMatch(/makeGhibliFoliageMaterial\(\{[^}]*coverage: CROWN_COVERAGE_ON[,} ]/s);
   });
 
   it('shares its coverage with the impostors', () => {

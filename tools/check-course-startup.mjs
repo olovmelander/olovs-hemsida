@@ -95,7 +95,7 @@ try {
           if (baseline === 'unprepared-gpu') {
             assert.ok(perf.gpuPreparation?.completed > 0, 'opening GPU preparation ran');
             assert.equal(perf.gpuPreparation.completed, perf.gpuPreparation.branches);
-            assert.ok(perf.gpuPreparation.concurrency <= 4, 'bounded compilation');
+            assert.ok(['scene', 'branches'].includes(perf.gpuPreparation.mode), 'serial compilation (one compileAsync in flight)');
           }
           // Disable the network immediately after readiness, before any views
           // beyond the opening hole have been requested.

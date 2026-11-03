@@ -1,24 +1,26 @@
 import { ColorManagement, FloatType, NoToneMapping, Vector2 } from 'three/webgpu';
 
-/** Compile against the real scene's lights, camera and output target. r186's
- * compileAsync processed one object's pipeline at a time, so a few independent
- * scene branches keep the driver busy without an unbounded compile burst.
- * r187 (#34816) builds a call's pipelines in parallel and yields on a time
- * budget, re-applying each call's own render state around every step, so the
- * concurrent calls stay safe; whether four branches still beat one is a
- * hardware measurement (tools/benchmark-gpu-startup.mjs), not assumed here.
+/** Compile against the real scene's lights, camera and output target, one
+ * compileAsync call at a time. r187 (#34816) keeps a call's progress in the
+ * renderer's single `_precompilationState` across its awaits, so two calls in
+ * flight clobber each other: the first to finish nulls the state and the next
+ * `_finishPreCompile` throws "Cannot destructure 'useFrameBufferTarget'". Four
+ * concurrent branches failed every WebGPU boot on an RTX 5080 (2 November).
+ * Within one call r187 already builds up to 16 pipelines in parallel, so
+ * `mode: 'scene'` compiles the whole scene in one call and `'branches'` walks
+ * its top-level branches serially (the r186 shape, one call each).
  * No objects are cloned/reparented and no renderer internals are replaced.
  * Call only while the animation loop is stopped and scene construction is done.
  */
-export async function prepareOpeningGpu(renderer, scene, camera, { scenePass = null, concurrency = 4 } = {}) {
-  if (!Number.isInteger(concurrency) || concurrency < 1 || concurrency > 4) throw new Error('Invalid GPU preparation concurrency');
+export async function prepareOpeningGpu(renderer, scene, camera, { scenePass = null, mode = 'scene' } = {}) {
+  if (mode !== 'scene' && mode !== 'branches') throw new Error('Invalid GPU preparation mode');
   const started = performance.now();
   const previous = { target: renderer.getRenderTarget(), mrt: renderer.getMRT(),
     toneMapping: renderer.toneMapping, outputColorSpace: renderer.outputColorSpace,
     shaderError: renderer.debug.onShaderError, consoleError: console.error };
   const device = renderer.backend?.device;
   const errors = [];
-  let scope = false, next = 0, completed = 0;
+  let scope = false, completed = 0;
   const branches = scene.children.filter(object => object.visible && !object.isLight);
   try {
     // Three can report a failed pipeline/TSL build and resolve compileAsync.
@@ -48,15 +50,13 @@ export async function prepareOpeningGpu(renderer, scene, camera, { scenePass = n
       renderer.outputColorSpace = ColorManagement.workingColorSpace;
     }
     scene.updateMatrixWorld(true);
-    // Every worker catches its own failure. Drain all in-flight calls before
-    // restoring global render state; Promise.all's early rejection is unsafe.
-    await Promise.all(Array.from({ length: Math.min(concurrency, branches.length) }, async () => {
-      while (next < branches.length && !errors.length) {
-        const object = branches[next++];
-        try { await renderer.compileAsync(object, camera, scene); completed++; }
-        catch (error) { errors.push(error); }
-      }
-    }));
+    // Strictly one compileAsync in flight (see above). A failure stops the walk.
+    const units = mode === 'scene' ? (branches.length ? [scene] : []) : branches;
+    for (const object of units) {
+      if (errors.length) break;
+      try { await renderer.compileAsync(object, camera, scene); completed += object === scene ? branches.length : 1; }
+      catch (error) { errors.push(error); }
+    }
   } finally {
     renderer.setRenderTarget(previous.target);
     renderer.setMRT(previous.mrt);
@@ -71,5 +71,5 @@ export async function prepareOpeningGpu(renderer, scene, camera, { scenePass = n
   }
   if (errors.length) throw new AggregateError(errors, 'Could not prepare the opening scene');
   return { milliseconds: +(performance.now() - started).toFixed(1), branches: branches.length, completed,
-    concurrency, target: scenePass ? 'scene-pass' : 'canvas', samples: scenePass?.renderTarget.samples ?? renderer.samples };
+    mode, target: scenePass ? 'scene-pass' : 'canvas', samples: scenePass?.renderTarget.samples ?? renderer.samples };
 }

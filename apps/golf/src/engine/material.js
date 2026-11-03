@@ -1,6 +1,7 @@
 /* The production ground is always painted/Ghibli. Historical material finishes
  * live in studies/ground-material.mjs and are not imported by the player. */
 import { float, vec3, texture, mix, smoothstep, saturate, normalWorld, oneMinus } from 'three/tsl';
+import { windSheenAt, WIND_SHEEN } from './one-wind.mjs';
 import { paintedDirect, paintedSeason, paintedTurfStrength, paintedGrassSheen, paintedWet } from './painted-world-lighting.mjs';
 import { makeGround as makeGroundCore, createV2GroundMaterialDecorator as createV2DecoratorCore } from './ground-material-core.mjs';
 export { groundSurfaceAlbedo, classStyle, surfaceDebugColour, createGroundStyleData, SURFACE_PAIR_GUARD, surfacePairGuardMetres, surfacePairWeight } from './ground-material-core.mjs';
@@ -15,7 +16,15 @@ export const SEASON_OCHRE = Object.freeze([1.14, .93, .75]);
    how much more of the broad blotch a pixel takes (mown turf, there), about the
    detail texture's own mean in that channel, so the turf keeps its tone on average */
 export const DETAIL_BROAD_MEAN = 0.4705;
-export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0), gloss = null, taps = null, broadLift = null }) {
+/* the wind on the grass (one-wind.mjs windSheenAt); ?windsheen=0 is the before */
+let WIND_SHEEN_ON = true;
+export function setWindSheen(on) { WIND_SHEEN_ON = !!on; }
+/* THE TOUR TURF (turf-look.mjs): turf takes the light as grass does, not a painter's
+   two-tone band; this share of the band's hue swing and darkening is taken off. ?turf=painted is the before */
+export const TOUR_TURF_FINISH = Object.freeze({ flatten: 0.8 });
+let TOUR_TURF_ON = false;
+export function setTourTurf(on) { TOUR_TURF_ON = !!on; }
+export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0), gloss = null, taps = null, broadLift = null, laid: laidAt = null }) {
   const blotchA = (taps ? taps.a : texture(DETAIL, wp.mul(0.012)).b).sub(0.5);
   const blotchB = (taps ? taps.b : texture(DETAIL, wp.mul(0.038)).g).sub(0.5);
   const blotchC = (taps ? taps.c : texture(DETAIL, wp.mul(0.11)).r).sub(0.5);
@@ -40,13 +49,20 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
      under the warm band turned brown, and sand went orange */
   const turfTone = mix(vec3(0.91, 0.97, 1.06), vec3(1.04, 1.02, 0.94), band);
   const flatTone = mix(vec3(0.90, 0.91, 0.95), vec3(1.03, 1.03, 1.02), band);
-  const tone = mix(flatTone, turfTone, turf);
+  let tone = mix(flatTone, turfTone, turf);
+  if (TOUR_TURF_ON) tone = mix(tone, vec3(1), turf.mul(TOUR_TURF_FINISH.flatten));
   /* the palette carries the chroma now; the finish only shapes it */
   // Uncut surroundings acquire an ochre undertone in autumn; mown playing
   // surfaces keep their distinct sage/moss hues and readable mowing pattern.
   const seasonTone = mix(vec3(1), vec3(...SEASON_OCHRE), paintedSeason.mul(seasonal).mul(turf));
-  const c = base.mul(float(1).add(blotch).add(mow.mul(0.55))).mul(tone).mul(seasonTone)
+  let c = base.mul(float(1).add(blotch).add(mow.mul(0.55))).mul(tone).mul(seasonTone)
     .mul(mix(float(1), paintedTurfStrength, turf));
+  if (WIND_SHEEN_ON) {
+    /* long grass lays over most: the rough all of it, a fairway about a third, a green nothing */
+    const length = gloss ? oneMinus(smoothstep(0.08, 0.40, gloss)) : float(1);
+    const laid = (laidAt ?? windSheenAt(wp)).mul(turf).mul(length);
+    c = c.mul(mix(vec3(1), vec3(...WIND_SHEEN.tint).mul(1 + WIND_SHEEN.gain), laid));
+  }
   // Broad grass reflections use the standard light/shadow response, so the
   // sun catches the turf at grazing angles and tree shadows still occlude it.
   // Reuse the existing blotch/mowing samples; no glints, normal map or pass.

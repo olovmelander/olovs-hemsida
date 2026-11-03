@@ -37,7 +37,7 @@ import {
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
-  normalMap, bumpMap,
+  normalMap, bumpMap, hash as tslHash, mrt, output, velocity,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
@@ -99,8 +99,9 @@ import {
   requestedCutTone,
   requestedMowing,
 } from './engine/surface-render-policy.mjs';
-import { createV2GroundMaterialDecorator, makeGround, paintedGround } from './engine/material.js';
-import { tussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
+import { createV2GroundMaterialDecorator, makeGround, paintedGround, setWindSheen, setTourTurf } from './engine/material.js';
+import { createTurfDetailTexture } from './engine/turf-detail.mjs';
+import { tussockBlades, tourTussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
   seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
 import { createNearGrass } from './engine/near-grass.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
@@ -110,7 +111,7 @@ import { createSunShadowFilter, GRID_SHADOW_TAPS } from './engine/sun-shadow.mjs
 import { createShadowTint, shadowTintFor, sunUnderClouds } from './engine/shadow-tint.mjs';
 import { treeTint, vistaTint } from './engine/stand-tint.mjs';
 import { groundReliefBytes } from './engine/ground-relief.mjs';
-import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift, lightWind } from './engine/one-wind.mjs';
+import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrift, lightWind, windSway as airSway } from './engine/one-wind.mjs';
 import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
@@ -120,6 +121,27 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
+import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET, HERON_ASSET, PYLON_ASSET } from './engine/golf-cart-prop.mjs';
+import { planSwans, createSwans } from './engine/swans.mjs';
+import { planHerons } from './engine/herons.mjs';
+import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
+import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
+import { createGrassCards, loadGrassCards } from './engine/grass-cards.mjs';
+import { createGrassShells, loadGrassMat } from './engine/grass-shells.mjs';
+import { createContactAO } from './engine/contact-ao.mjs';
+import { createWorldVelocity } from './engine/temporal-aa.mjs';
+import { createWireMesh } from './engine/wires.mjs';
+import { followTerrain } from './engine/power-route.mjs';
+import { drapeOverDrawnTerrain } from './engine/drape-depth.mjs';
+import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
+import { createBirds } from './engine/birds.mjs';
+import { createButterflies } from './engine/butterflies.mjs';
+import { createFallingLeaves } from './engine/falling-leaves.mjs';
+import { createRain } from './engine/rain.mjs';
+import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
+import { cirrusFor } from './engine/painted-sky.mjs';
+import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
+import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
@@ -316,6 +338,26 @@ if (isBareVisit) {
   const bs = document.getElementById('bootSub');
   if (bt) bt.textContent = CMETA.club;
   if (bs) bs.textContent = `${CMETA.tag} · ${CMETA.holes} hål · Par ${CMETA.par}`;
+  /* the course's poster behind the loading (index.html .boot-poster): laid in only
+     once it has loaded, so a visit without it (offline, uncached) stays as it was */
+  const entry = COURSE.all?.find(c => c.slug === CMETA.slug);
+  const boot = document.getElementById('boot');
+  if (entry?.photos && boot && !boot.classList.contains('done')) {
+    const url = `${import.meta.env.BASE_URL}courses/${CMETA.slug}/hero-1.webp`;
+    const img = new Image();
+    img.decoding = 'async';
+    /* the course's own data comes first */
+    img.fetchPriority = 'low';
+    img.onload = () => {
+      if (boot.classList.contains('done')) return;
+      const poster = document.createElement('div');
+      poster.className = 'boot-poster';
+      poster.style.backgroundImage = `url('${url}')`;
+      boot.prepend(poster);
+      requestAnimationFrame(() => poster.classList.add('shown'));
+    };
+    img.src = url;
+  }
 }
 
 const hdNameEl = document.getElementById('hdName');
@@ -1794,6 +1836,9 @@ let skyState = 2, skyMax = 2, skyHidden = false;
 const rendererResult = await (RENDERER_LOADING || beginRenderer());
 if (rendererResult.error) throw rendererResult.error;
 const renderer = rendererResult.renderer;
+/* the WebGL2 fallback's parallel compile: a pipeline destroyed while it compiles
+   no longer hangs the opening scene (engine/webgl-compile-guard.mjs) */
+guardParallelCompile(renderer.backend);
 const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
   adaptive: GRAPHICS_POLISH && !DET && !QUALITY_LOCK,
   requested: requestedRenderResolution(location.search),
@@ -1801,7 +1846,8 @@ const renderResolution = createRenderResolution({ renderer, lowQuality: LOWQ,
 /* ACES with half a step of dither before the 8-bit output (engine/output-dither.mjs):
    the painted sky, haze and water banded without it. ?dither=0 is the before. */
 if (new URLSearchParams(location.search).get('dither') === '0') renderer.toneMapping = THREE.ACESFilmicToneMapping;
-else installOutputDither(renderer);
+/* ?tonecurve=filmic: the hue-keeping curve instead of ACES, an A/B (engine/output-dither.mjs) */
+else installOutputDither(renderer, { curve: new URLSearchParams(location.search).get('tonecurve') === 'filmic' ? 'filmic' : 'aces' });
 renderer.toneMappingExposure = 1.20;
 renderer.shadowMap.enabled = true;
 /* PCFShadowMap, not PCFSoftShadowMap: r186 removed PCFSoftShadowMap from the
@@ -1927,6 +1973,13 @@ const LOCAL_HEIGHT = new URLSearchParams(location.search).get('localheight') ===
 /* Crowns glow at the edge against a low sun, meshes and impostors alike
    (ghibli-foliage-material.mjs foliageBackLight); ?backlight=0 is the before. */
 const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !== '0';
+/* THE PAINTED CANOPY (engine/ghibli-foliage-material.mjs, after serenity-blocks'
+   Odyssey crowns): the crowns' light in three tones cut by wide band edges that
+   the crown's depth, its clumps and each tree move, with a warm cap on every
+   up-and-sunward mass. ?canopy=0 is the before, the smooth wrap. */
+const CANOPY_ON = new URLSearchParams(location.search).get('canopy') !== '0';
+/* the leaves' flutter near a crown (leafFlutter, below); ?leafflutter=0 is the before */
+const LEAF_FLUTTER_ON = new URLSearchParams(location.search).get('leafflutter') !== '0';
 /* The mesh crowns' leaf cards are cut through the MSAA samples, as the
    impostors' crowns are, not all-or-nothing per pixel: their gaps and edges no
    longer sparkle against the sky as the camera moves (ghibli-foliage-material.mjs,
@@ -1958,6 +2011,24 @@ const HARD_GROUND_ON = new URLSearchParams(location.search).get('hardground') !=
 const TURF_GRAIN_ON = new URLSearchParams(location.search).get('turfgrain') !== '0';
 const GROUND_WEAR_ON = new URLSearchParams(location.search).get('groundwear') !== '0';
 const BARE_GROUND_ON = new URLSearchParams(location.search).get('bareground') !== '0';
+/* the bunker's hollow: a bowl lit by the sun and the lip's crescent of shade
+   (engine/ground-material-core.mjs SAND_BOWL); ?sandbowl=0 is the before */
+const SAND_BOWL_ON = new URLSearchParams(location.search).get('sandbowl') !== '0';
+/* Temporal AA (engine/temporal-aa.mjs): three's TRAANode in place of MSAA, with the post
+   pipeline at high quality (low quality and phones keep MSAA); ?aa=msaa is the before.
+   Decided before the scene is built: what moves by its matrices (the swans) takes three's own
+   velocity. det=1 harnesses keep MSAA, whose single frame is the whole picture. */
+const AA_PARAM = new URLSearchParams(location.search).get('aa');
+const TEMPORAL_AA = !LOWQ && new URLSearchParams(location.search).get('post') !== '0'
+  && (AA_PARAM === 'traa' || (AA_PARAM === null && !DET));
+/* the wind on the grass: the air's gusts cross the turf as laid, paler patches
+   (engine/one-wind.mjs windSheenAt), the ground and the blades round the ball alike; ?windsheen=0 is the before */
+setWindSheen(new URLSearchParams(location.search).get('windsheen') !== '0');
+/* THE TOUR TURF (turf-detail.mjs, turf-look.mjs; owner request 3 November): the turf's own grain,
+   its bump, stronger stripes that swap as you turn, and grass lit as grass. ?turf=painted is the before */
+const TOUR_TURF_ON = new URLSearchParams(location.search).get('turf') !== 'painted';
+const TOUR_TURF = TOUR_TURF_ON ? createTurfDetailTexture() : null;
+setTourTurf(TOUR_TURF_ON);
 /* The ground cover (ground-cover.mjs): the blades of tussocks, clumps and reeds
    lit from the side that is seen; every piece of it in the trees' shadows; its
    colours where they were tuned, in the light's grass strength and autumn's
@@ -2081,16 +2152,55 @@ scene.fogNode = aerialPerspective.node;
 /* The air's motes (engine/air-motes.mjs, from serenity-blocks): pollen and a seed's
    down drifting on the one air round the eye, lit up against a low sun as dust in a
    sunbeam, gone above 45 m and in the storm and the mist; one draw, held still under
-   reduced motion. An overlay after the sky. ?airmotes=0 is the before. */
-const AIR_MOTES_ON = new URLSearchParams(location.search).get('airmotes') !== '0';
+   reduced motion. An overlay after the sky. Off since 3 November (owner request: "a lot of
+   particles, remove them"): ?airmotes=1 draws them. */
+const AIR_MOTES_ON = new URLSearchParams(location.search).get('airmotes') === '1';
 const airMotes = AIR_MOTES_ON ? createAirMotes({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
 if (airMotes) {
   airMotes.mesh.renderOrder = 3;
   scene.add(airMotes.mesh);
 }
+/* Birds over the course (engine/birds.mjs, after serenity-blocks' Odyssey flights):
+   a few loose flocks of gulls wheeling high round the eye, wings beating in bouts
+   and gliding; dark shapes against the sky, opaque, one draw. None in the storm,
+   the mist or the blue hour; held still under reduced motion. ?birds=0 is the before. */
+const BIRDS_ON = new URLSearchParams(location.search).get('birds') !== '0';
+const birds = BIRDS_ON ? createBirds({ deterministic: DET }) : null;
+if (birds) scene.add(birds.mesh);
+/* Butterflies round the eye in the low views (engine/butterflies.mjs, after
+   serenity-blocks' Odyssey meadow life): brimstone, cabbage white, common blue and
+   small tortoiseshell weaving over the turf, faded by their size on screen.
+   ?butterflies=0 is the before. */
+const BUTTERFLIES_ON = new URLSearchParams(location.search).get('butterflies') !== '0';
+const butterflies = BUTTERFLIES_ON ? createButterflies({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (butterflies) scene.add(butterflies.mesh);
+/* Falling leaves in autumn (engine/falling-leaves.mjs): tumbling down round the eye in
+   Höst's gold, orange and copper, drifting on the one air. ?leaves=0 is the before. */
+const FALLING_LEAVES_ON = new URLSearchParams(location.search).get('leaves') !== '0';
+const fallingLeaves = FALLING_LEAVES_ON ? createFallingLeaves({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (fallingLeaves) scene.add(fallingLeaves.mesh);
+/* Rain in the storm (engine/rain.mjs): faint streaks slanted by the gale round the
+   eye, an additive overlay after the sky like the motes. ?rain=0 is the before. */
+const RAIN_ON = new URLSearchParams(location.search).get('rain') !== '0';
+const rain = RAIN_ON ? createRain({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (rain) { rain.mesh.renderOrder = 3; scene.add(rain.mesh); }
+/* Swans on the lakes (engine/swans.mjs): placed once the water and the ground are known, below. */
+let swans = null;
+/* Meadow flowers in the rough (engine/meadow-flowers.mjs): made with the grass round the ball, below. */
+let meadowFlowers = null;
+/* Grass cards in the rough (engine/grass-cards.mjs): made with the grass round the ball, below. */
+let grassCards = null;
+/* The grass mat in shells (engine/grass-shells.mjs): made with the grass round the ball, below. */
+let grassShells = null;
+/* Contact shadows (engine/contact-ao.mjs): made with the post pipeline, below. */
+let contactAO = null;
+/* Mist on the lakes (engine/lake-mist.mjs): made once the water's sheets exist, below. */
+let lakeMist = null;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
+  /* high cirrus above the clouds (engine/painted-sky.mjs CIRRUS); ?cirrus=0 is the before */
+  cirrus: new URLSearchParams(location.search).get('cirrus') !== '0',
   /* after the opaque world, so hidden sky is never shaded; ?skyorder=first is the before */
   drawLast: new URLSearchParams(location.search).get('skyorder') !== 'first',
   /* the clouds drift with the one wind */
@@ -2129,7 +2239,7 @@ const SUN_GLOW_BEFORE = new URLSearchParams(location.search).get('sunglow') === 
    clouds keep their paint, so phones see the sky they did. */
 const GLOW_THRESHOLD_ON = new URLSearchParams(location.search).get('glowthreshold') !== '0';
 const CLOUD_GLOW_ON = new URLSearchParams(location.search).get('cloudglow') !== '0';
-const skyPreset = (p, name) => ({ ...p,
+const skyPreset = (p, name) => ({ ...p, skyCirrus: cirrusFor(name),
   ...(SUN_GLOW_BEFORE && name !== 'golden' ? { skySunGlowStrength: 0 } : {}),
   ...(HAZE_WARM ? {} : { hazeGlow: 0 }),
   ...(CLOUD_GLOW_ON && !LOWQ && !lowfx ? {} : { skyCloudGlow: 0 }) });
@@ -2186,6 +2296,13 @@ function setPreset(name, overrides = null) {
   hemi.intensity = p.hemiI * p.paintedFill;
   aerialPerspective.setPreset(skyPreset(p, presetName));
   airMotes?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
+  birds?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun, sky: fog.color.getHex() });
+  butterflies?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
+  fallingLeaves?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
+  rain?.setPreset(presetName, { sky: fog.color.getHex() });
+  meadowFlowers?.setPreset(presetName);
+  contactAO?.setPreset(presetName);
+  lakeMist?.setPreset(presetName, { haze: fog.color.getHex(), sun: p.sun, sunDirection: p.dir });
   godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -2976,12 +3093,16 @@ let frontierSurroundMaterial = null;
    centimetres of world-space lift alone z-fight on a phone's shallow buffer at
    distance, which is where the speckled fairways in the phone photo came from.
    Only the three terrain levels themselves stay un-nudged. */
+/* ... and at a distance, where the drawn ground is coarser than the exact height they are
+   draped on, their depth is moved toward the eye by its error allowance (engine/drape-depth.mjs);
+   ?drape=before is the before */
+const DRAPE_DEPTH_ON = new URLSearchParams(location.search).get('drape') !== 'before';
 const nudged = (tier, mk = makeTurf) => {
   const m = CUP_MASK.apply(mk());
   m.polygonOffset = true;
   m.polygonOffsetFactor = DEPTH_SIGN * tier;
   m.polygonOffsetUnits = DEPTH_SIGN * tier * 2;
-  return m;
+  return DRAPE_DEPTH_ON ? drapeOverDrawnTerrain(m) : m;
 };
 const DETAIL_MASK = buildDetailMask(CORE);
 
@@ -3152,7 +3273,12 @@ if (TERRAIN_PREVIEW.ready) {
     mowFade: new URLSearchParams(location.search).get('mowfade') === 'iso' ? 'iso' : 'across',
     surfaceGloss: SURFACE_GLOSS, surfaceEdges: SURFACE_EDGES, groundRelief: GROUND_RELIEF_ON,
     acrossEdges: GROUND_EDGES_ON, stripeReach: STRIPE_REACH_ON, hardGround: HARD_GROUND_ON,
-    turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON,
+    turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON, sandBowl: SAND_BOWL_ON,
+    /* the tour turf's grain and bump (turf-look.mjs); ?turf=painted is the before */
+    turf: TOUR_TURF,
+    /* the grain's screen-derivative bump: off, since on detail finer than a pixel it sparkled
+       (measured 3 November: 6x the aliasing of the grain alone); ?turfbump=1 draws it */
+    turfBump: new URLSearchParams(location.search).get('turfbump') === '1',
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -3660,7 +3786,15 @@ const PARKING_RENDER_PROOFS = [];
 }
 
 
-/* a car is two boxes; a car park is fifty of them in three colour buckets */
+/* a car is two boxes; a car park is fifty of them in three colour buckets --
+   or, since 3 November, the painted estate car (engine/golf-cart-prop.mjs,
+   built in Blender) in the same places, its body in the same three paints with
+   a little of each car's own, two instanced draws; ?props=0 is the boxes */
+const PARKED_CARS_MODELLED = new URLSearchParams(location.search).get('props') !== '0';
+const PARKED_CAR_LOADING = PARKED_CARS_MODELLED && M.infra.objectPlacement !== 'mapped-only'
+  ? loadPaintedProp({ asset: PARKED_CAR_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('parked car:', error.message); return null; })
+  : Promise.resolve(null);
 {
   for (const r of M.infra.roads) {
     if (M.infra.objectPlacement === 'mapped-only' || r.kind !== 'trunk' || !r.oneway) continue;
@@ -3673,7 +3807,22 @@ const PARKING_RENDER_PROOFS = [];
       carSpots.push({ x, z, yaw: b, h: terrainH(x, z) + 0.2 });
     }
   }
-  if (carSpots.length) {
+  const carParts = carSpots.length ? await PARKED_CAR_LOADING : null;
+  if (carParts) {
+    const PAINTS = [[0xd8d9d6, 0xb4b6b8], [0x2b2d30, 0x6f7275], [0x7e2a24, 0x2a3a55]];
+    const items = carSpots.map((csp, k) => {
+      const pick = hash2(Math.round(csp.x * 5), Math.round(csp.z * 5));
+      const bucket = pick < 0.55 ? 0 : pick < 0.85 ? 1 : 2;
+      /* each bucket's two paints, and a little of each car's own between them */
+      const colour = new THREE.Color(PAINTS[bucket][0]).lerp(new THREE.Color(PAINTS[bucket][1]), hash2(k, 31) * (bucket === 2 ? 1 : 0.35));
+      const sc = 0.94 + hash2(k, bucket) * 0.14;
+      return { colour, matrix: new THREE.Matrix4().compose(new THREE.Vector3(csp.x, csp.h, csp.z),
+        new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), csp.yaw), new THREE.Vector3(sc, sc, sc)) };
+    });
+    scene.add(placePaintedProp(carParts, items, { name: 'parked-cars', tag: 'cars', roughness: 0.55, bodyRoughness: 0.32, bodyMetalness: 0.35 }));
+    stats.draws += 2;
+    stats.cars = carSpots.length;
+  } else if (carSpots.length) {
     const body = mergeGeos([(() => { const g = new THREE.BoxGeometry(1.76, 0.6, 4.35); g.translate(0, 0.58, 0); return g; })(),
                             (() => { const g = new THREE.BoxGeometry(1.6, 0.52, 2.05); g.translate(0, 1.12, -0.15); return g; })()]);
     const PALETTES = [[0xd8d9d6, 0xb4b6b8], [0x2b2d30, 0x6f7275], [0x7e2a24, 0x2a3a55]];
@@ -4014,7 +4163,9 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false } =
   const { colour, opacity: sheetOpacity, wp } = waterShading({ WATERN, DETAIL, sun: uSun, waterLighting, glint: uWaterGlint, chop: uWaterChop,
     cloud: CLOUD, ocean, showBed, nordic: NORDIC_WATER_ON, wind: WATER_WIND_ON,
     road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,
-    cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON });
+    cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON,
+    /* the bank's reflection and shade inside the waterline (engine/water-shading.mjs WATER_BANK); ?waterbank=0 is the before */
+    bank: new URLSearchParams(location.search).get('waterbank') !== '0' });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -4527,7 +4678,9 @@ const GHIBLI = await (async () => {
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
       tier: playerTreeMeshTier(location.search, LOWQ),
       /* ?crowndepth=0 is the before: every card of a crown one flat colour */
-      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0' });
+      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
+      /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
+      puffs: CANOPY_ON && new URLSearchParams(location.search).get('puffs') !== '0' });
     console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
     return loaded;
   } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
@@ -5146,7 +5299,9 @@ const TREE_LOD = {
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON });
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON,
+      /* ?canopybands=vertex is the before: the canopy's bands per vertex, which blew up near a low sun */
+      bandsPerVertex: new URLSearchParams(location.search).get('canopybands') === 'vertex' });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -5161,6 +5316,20 @@ const TREE_LOD = {
   /* GPU-only harmonic wind sway with zero CPU matrix updates: trunk roots at
      y=0 stay rigid, while crown upper branches gently bend. The near tier
      only: distant impostors remain still. */
+  /* THE LEAVES FLUTTER (2 November, after Odyssey's leafy crowns): near a crown
+     every clump of cards shakes a couple of centimetres on its own phase, on top
+     of the tree's sway, as strongly as the air blows -- still under reduced motion
+     with the air -- and gone by 40 m, inside the sway's own fade. The phase comes
+     from the card's 40 cm cell of the template (shifted positive: a hash of a
+     negative seed clamps to one value in WGSL). ?leafflutter=0 is the before. */
+  function leafFlutter() {
+    const cell = floor(positionGeometry.mul(2.5)).add(1000);
+    const phase = tslHash(cell.x.add(cell.y.mul(57)).add(cell.z.mul(113))).mul(6.283);
+    const near = oneMinus(smoothstep(15, 40, cameraPosition.sub(positionWorld).length()));
+    const amplitude = airSway.min(2).mul(near).mul(0.022);
+    return vec3(sin(time.mul(7.3).add(phase)), sin(time.mul(9.1).add(phase.mul(2))).mul(0.6), cos(time.mul(6.1).add(phase)))
+      .mul(amplitude);
+  }
   function windSway(isCrown) {
     const wp = positionWorld.xz;
     const hNorm = saturate(LOCAL_HEIGHT.div(13.0));
@@ -5173,7 +5342,10 @@ const TREE_LOD = {
     const weight = (isCrown ? pow(hNorm, 1.4).mul(0.32) : pow(hNorm, 2.0).mul(0.10)).mul(swayFade);
     /* the one wind: the same swing turned onto the wind's axis, as strong as it
        blows, with the gusts the air carries through the stand (one-wind.mjs) */
-    if (ONE_WIND_ON) return positionLocal.add(swayOnWind({ p: wp, weight, rate: 1.35, swing: treeSwing(LOCAL_HEIGHT), lean: 0.12 }));
+    if (ONE_WIND_ON) {
+      const swayed = positionLocal.add(swayOnWind({ p: wp, weight, rate: 1.35, swing: treeSwing(LOCAL_HEIGHT), lean: 0.12 }));
+      return isCrown && LEAF_FLUTTER_ON ? swayed.add(leafFlutter()) : swayed;
+    }
     const windPhase = time.mul(1.35).add(wp.x.mul(0.032)).add(wp.y.mul(0.024));
     const gust = sin(windPhase.mul(0.55)).mul(0.5).add(0.5);
     const swayX = sin(windPhase.add(LOCAL_HEIGHT.mul(0.08))).mul(0.24)
@@ -5207,7 +5379,7 @@ const TREE_LOD = {
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT,
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = IMPOSTOR_SHADOWS;
@@ -6106,7 +6278,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
@@ -6180,15 +6352,22 @@ lap('far vista cones', { vista: stats.vista | 0 });
    is what made the extra clause look free. */
 if (M.infra.vegetationPlacement !== 'measured-only') {
   const tuft = (() => {
-    const g = new THREE.BufferGeometry(), { positions, normals } = tussockBlades();
+    /* the tour turf's tussock is a clump of fine blades (ground-cover.mjs); ?turf=painted the three wide ones */
+    const g = new THREE.BufferGeometry(), { positions, normals } = TOUR_TURF_ON ? tourTussockBlades() : tussockBlades();
     g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     g.setAttribute('normal', new THREE.Float32BufferAttribute(COVER_LIGHT_ON ? bladeNormalsFront(normals) : normals, 3));
     return g;
   })();
-  const bush = new THREE.IcosahedronGeometry(0.62, 0);
-  bush.scale(1, 0.62, 1); bush.translate(0, 0.34, 0);
-  const stone = new THREE.DodecahedronGeometry(0.5, 0);
-  stone.scale(1, 0.55, 0.85); stone.translate(0, 0.16, 0);
+  /* the bushes and stones as painted forms (engine/cover-shapes.mjs); ?covershapes=0 is the before, the faceted gems */
+  const COVER_SHAPES_ON = new URLSearchParams(location.search).get('covershapes') !== '0';
+  let bush, stone;
+  if (COVER_SHAPES_ON) { bush = puffyBushGeometry(); stone = roundedStoneGeometry(); }
+  else {
+    bush = new THREE.IcosahedronGeometry(0.62, 0);
+    bush.scale(1, 0.62, 1); bush.translate(0, 0.34, 0);
+    stone = new THREE.DodecahedronGeometry(0.5, 0);
+    stone.scale(1, 0.55, 0.85); stone.translate(0, 0.16, 0);
+  }
 
   const T = [], B = [], S = [], STU = [];
   const coverLatticeStarted = performance.now();
@@ -6357,10 +6536,12 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const tint = texture(DETAIL, positionWorld.xz.mul(0.03)).b;
     const tuftColour = mix(color(PAINTED_SCENERY.tuft[0]),
       mix(color(PAINTED_SCENERY.tuft[1]), uReedC, uAutumn), COVER_COLOUR_ON ? tint.mul(COVER_TUNED_SHARE) : tint).mul(float(1).add(lit.mul(0.45)));
-    tuftMat.colorNode = COVER_COLOUR_ON ? grassCover(tuftColour) : tuftColour;
+    /* the tour turf's tussock is the rough's own grass: its grade, and less of the pale tip colour */
+    const tuftGraded = TOUR_TURF_ON ? tuftColour.mul(vec3(0.78, 0.84, 0.66)) : tuftColour;
+    tuftMat.colorNode = COVER_COLOUR_ON ? grassCover(tuftGraded) : tuftGraded;
     if (COVER_LIGHT_ON) tuftMat.normalNode = seenBladeNormal();
   }
-  const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
+  const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: !COVER_SHAPES_ON });
   {
     const leaf = texture(DETAIL, positionWorld.xz.mul(0.017)).g;
     bushMat.colorNode = mix(color(PAINTED_SCENERY.bush[0]),
@@ -6370,9 +6551,11 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   const reviewedStone = SCENERY?.groundAppearance?.palette?.rock;
   const stoneColour = COVER_COLOUR_ON && reviewedStone !== undefined ? reviewedStone : PAINTED_SCENERY.stone;
   const stoneMat = new THREE.MeshStandardNodeMaterial({
-    color: new THREE.Color(stoneColour), roughness: 0.86, metalness: 0, flatShading: true });
+    color: new THREE.Color(stoneColour), roughness: 0.86, metalness: 0, flatShading: !COVER_SHAPES_ON });
 
-  stats.tufts = place('tufts', tuft, tuftMat, T, false);
+  /* the tour turf draws no tussocks or edge tufts: from the tee they read as tall spikes (owner, 3 November);
+     the plantings are still made, so the prepared scatter is unchanged. ?turf=painted draws them */
+  stats.tufts = TOUR_TURF_ON ? 0 : place('tufts', tuft, tuftMat, T, false);
   if (ET.length) {
     const clumpGeo = (() => {
       /* its normals already lie on its blades' front faces */
@@ -6390,7 +6573,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       saturate(LOCAL_HEIGHT.mul(3.2)).mul(0.7).add((COVER_COLOUR_ON ? tone.mul(COVER_TUNED_SHARE) : tone).mul(0.3))).mul(float(1).add(lit.mul(0.45)));
     clumpMat.colorNode = COVER_COLOUR_ON ? grassCover(clumpColour) : clumpColour;
     if (COVER_LIGHT_ON) clumpMat.normalNode = seenBladeNormal();
-    place('edgeTufts', clumpGeo, clumpMat, ET, false);
+    if (!TOUR_TURF_ON) place('edgeTufts', clumpGeo, clumpMat, ET, false);
   }
   stats.bushes = place('bushes', bush, bushMat, B, true, SEAT_RIM.bush);
   stats.stones = place('stones', stone, stoneMat, S, true, SEAT_RIM.stone);
@@ -6426,6 +6609,8 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
   nearGrass = createNearGrass({
     atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
     tint: GROUND_TINT, DETAIL, C, SHADE, cutTone: CUT_TONE_STRENGTH, uSun, sunThrough: uSunThrough, sunlit: SUNLIT,
+    /* the tour grade, as the ground under the blades takes it (turf-look.mjs) */
+    tourGrade: TOUR_TURF_ON,
     quality: LOWQ ? 'lo' : 'hi',
     /* the ground's own terms, as the ground material takes them, so a blade has its root's colour */
     ground: { relief: GROUND_RELIEF_ON, wear: GROUND_WEAR_ON, grain: TURF_GRAIN_ON, gloss: SURFACE_GLOSS },
@@ -6437,6 +6622,49 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
   scene.add(nearGrass.mesh);
   stats.draws++;
   Object.assign(stats.nearGrass, { instances: nearGrass.layout.instances, blades: nearGrass.layout.bladesTotal, rings: nearGrass.layout.rings.length });
+  /* Meadow flowers in the rough (engine/meadow-flowers.mjs, after serenity-blocks'
+     Odyssey meadow life): drifts of oxeye daisy, buttercup, harebell, red clover and
+     wood cranesbill on the rough round the eye, on the grass's own class fields and
+     ground grid, one instanced draw, swaying with the grass. Off since 3 November (owner:
+     "beautiful but they do not fit the environments"): ?flowers=1 draws them. */
+  if (new URLSearchParams(location.search).get('flowers') === '1') {
+    meadowFlowers = createMeadowFlowers({ atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
+      clip: nearGrass.clip, quality: LOWQ ? 'lo' : 'hi' });
+    meadowFlowers.setPreset(presetName);
+    scene.add(meadowFlowers.mesh);
+    stats.draws++;
+  }
+  /* Grass cards in the rough (engine/grass-cards.mjs; owner request 3 November: denser, more
+     impressive grass, from the Blender MCP): clumps of curved blades rendered in Blender, crossed
+     cards on the rough round the eye, short by the cut and full height a few metres out, on the
+     ground's own colour. With the tour turf; ?grasscards=0 is the before. */
+  /* off since the rough's blades took the clumps (3 November): cards shimmer and read flat; ?grasscards=1 */
+  if (TOUR_TURF_ON && new URLSearchParams(location.search).get('grasscards') === '1') {
+    const map = await loadGrassCards({ baseUrl: import.meta.env.BASE_URL, THREE })
+      .catch(error => { console.warn('grass cards:', error.message); return null; });
+    if (map) {
+      grassCards = createGrassCards({ map, atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
+        clip: nearGrass.clip, tint: GROUND_TINT, C, SHADE, DETAIL, uSun, tourGrade: TOUR_TURF_ON, quality: LOWQ ? 'lo' : 'hi',
+        relief: GROUND_RELIEF_ON });
+      scene.add(grassCards.mesh);
+      stats.draws++;
+    }
+  }
+  /* The grass mat in shells (engine/grass-shells.mjs; owner request 3 November: "a mat of dense
+     grass"): the rough round the eye drawn again as sixteen shells cut from a mat of blades
+     baked in Blender, a carpet with depth under the blades and the cards. High quality, with
+     the tour turf; ?grassmat=0 is the before. */
+  /* off since the rough's blades took the clumps (3 November): shells alias at low angles; ?grassmat=1 */
+  if (TOUR_TURF_ON && !LOWQ && new URLSearchParams(location.search).get('grassmat') === '1') {
+    const map = await loadGrassMat({ baseUrl: import.meta.env.BASE_URL, THREE })
+      .catch(error => { console.warn('grass mat:', error.message); return null; });
+    if (map) {
+      grassShells = createGrassShells({ map, atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
+        clip: nearGrass.clip, tint: GROUND_TINT, C, SHADE, DETAIL, uSun, tourGrade: TOUR_TURF_ON, relief: GROUND_RELIEF_ON });
+      scene.add(grassShells.mesh);
+      stats.draws++;
+    }
+  }
 }
 if (BAKE_VISTA) {
   // The publisher records these exact production plantings; no second copy of their rules.
@@ -6542,7 +6770,13 @@ function mappedPointObjects(points) {
   const mappedOnly = M.infra.objectPlacement === 'mapped-only';
   const supports = mappedOnly ? mappedPowerSupports(PW) : [];
   const supportByPoint = new Map(supports.map(p => [p.c.join(','), p]));
-  const IN = (x, z) => x > -1450 && x < 980 && z > -1900 && z < 700;
+  /* the course's own lines run as far as its terrain does (the far ring); a fixed box written for
+     the first course here cut every other course's lines off mid-corridor (?power=before) */
+  const POWER_BEFORE = new URLSearchParams(location.search).get('power') === 'before';
+  const IN = POWER_BEFORE ? (x, z) => x > -1450 && x < 980 && z > -1900 && z < 700 : inFarRing;
+  /* a support's crossarm (along its local x) stands square to its line, so the wires hang from
+     its ends; the yaw below turns x onto the line itself, a quarter turn off */
+  const ARM_TURN = POWER_BEFORE ? 0 : Math.PI / 2;
   /* a lattice pylon reads at distance as two crossed tapering planes and a crossarm */
   const towerGeo = (() => {
     const p = [], push = (...v) => p.push(...v);
@@ -6567,15 +6801,31 @@ function mappedPointObjects(points) {
     return mergeGeos([g, arm]);
   })();
   const towers = [], polesArr = [], wire = [];
+  /* the rails: their own mesh, steel, a rail head's width (with ?wires=lines they ride in the wires, as before) */
+  const WIRES_AS_LINES = new URLSearchParams(location.search).get('wires') === 'lines';
+  const rails = WIRES_AS_LINES ? wire : [];
   const seen = new Set();
   for (const support of supports) {
     const [x, z] = support.c;
-    (support.kind === 'tower' ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, support.yaw]);
+    (support.kind === 'tower' ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, support.yaw + ARM_TURN]);
   }
+  /* the modelled lattice pylon (engine/golf-cart-prop.mjs, built in Blender) for the towers, its
+     phases on its insulators' ends; the crossed planes with ?power=before or if it does not load */
+  const PYLON = POWER_BEFORE || !PW.lines.length ? null : await loadPaintedProp({ asset: PYLON_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('pylon:', error.message); return null; });
   for (const ln of PW.lines) {
     const big = mappedOnly ? ln.line.some(p => supportByPoint.get(p.join(','))?.kind === 'tower') : (ln.voltage || 0) >= 100000;
     const attach = big ? 19.5 : 8.2; // Rendering estimate; source support heights are unknown.
-    const L = mappedOnly ? ln.line.filter(p => supportByPoint.has(p.join(','))) : ln.line;
+    /* each conductor: its offset across the line and its height over the ground (a tower stands 0.3 m in it) */
+    const phases = big
+      ? (PYLON ? PYLON_ASSET.phases.map(([off, h]) => [off, h - 0.3]) : [[-2.8, attach], [0, attach], [2.8, attach]])
+      : [[-1.0, attach], [1.0, attach]];
+    const L0 = mappedOnly ? ln.line.filter(p => supportByPoint.has(p.join(','))) : ln.line;
+    /* a support at least every 70 m on a pole line and 350 m on a tower line, and on every crest the
+       wire would otherwise pass through (engine/power-route.mjs); mapped supports are kept as mapped */
+    const L = mappedOnly || POWER_BEFORE ? L0 : followTerrain(L0, {
+      ground: terrainH, lift: Math.min(...phases.map(([, h]) => h)), width: Math.max(...phases.map(([off]) => Math.abs(off))),
+      maxSpan: big ? 350 : 70, clearance: big ? 6 : 3 });
     if (!mappedOnly) for (let i = 0; i < L.length; i++) {
       const [x, z] = L[i];
       if (ln.surr ? !inFarRing(x, z) : !IN(x, z)) continue;
@@ -6584,19 +6834,22 @@ function mappedPointObjects(points) {
       seen.add(key);
       const nb = L[Math.min(i + 1, L.length - 1)], pb = L[Math.max(i - 1, 0)];
       const yaw = -Math.atan2(nb[1] - pb[1], nb[0] - pb[0]);
-      (big ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, yaw]);
+      (big ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, yaw + ARM_TURN]);
     }
     /* the wires: sagging catenaries between consecutive surveyed supports */
     if (!LOWQ) for (let i = 0; i < L.length - 1; i++) {
       const [x0, z0] = L[i], [x1, z1] = L[i + 1];
-      if (!mappedOnly && (ln.surr ? !(inFarRing(x0, z0) && inFarRing(x1, z1)) : !IN(x0, z0) && !IN(x1, z1))) continue;
+      /* a wire only between two drawn supports (the before: either end in the box) */
+      if (!mappedOnly && (ln.surr ? !(inFarRing(x0, z0) && inFarRing(x1, z1))
+        : POWER_BEFORE ? !IN(x0, z0) && !IN(x1, z1) : !(IN(x0, z0) && IN(x1, z1)))) continue;
       const span = Math.hypot(x1 - x0, z1 - z0);
       if (span < 4 || span > 480) continue;
-      const h0 = terrainH(x0, z0) + attach, h1 = terrainH(x1, z1) + attach;
+      const g0 = terrainH(x0, z0), g1 = terrainH(x1, z1);
       const sag = Math.min(4.5, span * 0.035);
       const dx = x1 - x0, dz = z1 - z0;
       const nx = -dz / span, nz = dx / span;
-      for (const off of big ? [-2.8, 0, 2.8] : [-1.0, 1.0]) {
+      for (const [off, lift] of phases) {
+        const h0 = g0 + lift, h1 = g1 + lift;
         let prev = null;
         for (let k = 0; k <= 8; k++) {
           const t = k / 8;
@@ -6622,9 +6875,17 @@ function mappedPointObjects(points) {
     scene.add(im);
     stats.draws++;
   };
-  inst(towerGeo, towers, 0x7d8287);
+  if (PYLON && towers.length) {
+    const up = new THREE.Vector3(0, 1, 0), one = new THREE.Vector3(1, 1, 1), white = new THREE.Color(1, 1, 1);
+    const items = towers.map(([x, y, z, yaw]) => ({ colour: white,
+      matrix: new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromAxisAngle(up, yaw), one) }));
+    scene.add(placePaintedProp(PYLON, items, { name: 'pylons', tag: 'power', roughness: 0.55, metalness: 0.35 }));
+    stats.draws += 2;
+  } else inst(towerGeo, towers, 0x7d8287);
   inst(poleGeo, polesArr, 0x5c5148);
   stats.pylons = towers.length + polesArr.length;
+  stats.power = { lines: PW.lines.length, surroundingLines: PW.lines.filter(l => l.surr).length, towers: towers.length, poles: polesArr.length,
+    modelled: !!PYLON, kv: [...new Set(PW.lines.map(l => l.voltage || 0))].sort((x, y) => x - y) };
   stats.mappedPowerTowers = mappedOnly ? towers.length : 0;
   stats.mappedPowerPoles = mappedOnly ? polesArr.length : 0;
 
@@ -6658,7 +6919,7 @@ function mappedPointObjects(points) {
         const dl = Math.hypot(dx, dz) || 1;
         const nx = -dz / dl, nz = dx / dl;
         if (!LOWQ) for (const off of [-0.75, 0.75])
-          wire.push(P[i][0] + nx * off, h, P[i][1] + nz * off,
+          rails.push(P[i][0] + nx * off, h, P[i][1] + nz * off,
                     P[i + 1][0] + nx * off, hn, P[i + 1][1] + nz * off);
         if (r.inferMasts !== false && S[i] - lastMast > 58) {
           lastMast = S[i];
@@ -6675,12 +6936,21 @@ function mappedPointObjects(points) {
     })();
     inst(mastGeo, masts, 0x8a9094);
   }
+  /* the wires as ribbons of their real width, faded by what they cover below a pixel
+     (engine/wires.mjs); ?wires=lines is the before, one hard pixel at every distance */
   if (wire.length) {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(wire, 3));
-    const m = new THREE.LineSegments(g, new THREE.LineBasicNodeMaterial({
-      color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }));
-    scene.add(m);
+    if (new URLSearchParams(location.search).get('wires') === 'lines') {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(wire, 3));
+      const m = new THREE.LineSegments(g, new THREE.LineBasicNodeMaterial({
+        color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }));
+      scene.add(m);
+    } else scene.add(createWireMesh(wire, { name: 'power-wires' }));
+    stats.draws++;
+    stats.wireSegments = wire.length / 6;
+  }
+  if (rails !== wire && rails.length) {
+    scene.add(createWireMesh(rails, { diameter: 0.07, colour: 0x6b6660, opacity: 1, name: 'rails' }));
     stats.draws++;
   }
 }
@@ -6967,8 +7237,22 @@ if (cupGeometries.length) {
   flagGroup.add(cups);
   stats.verts += geometry.attributes.position.count; stats.tris += geometry.index.count / 3; stats.draws++;
 }
-instancedFurniture(new THREE.SphereGeometry(0.13, 8, 6),
-  new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
+/* THE TEE MARKERS (2 November). An 8 x 6 sphere at 13 cm faceted into a lemon
+   from every tee view, half a metre from the lens. A round painted ball now:
+   24 x 16, its base settled a little into the turf, and the matte paint of a
+   moulded marker rather than polished metal. ?teemarkers=before is the before. */
+const TEE_MARKER_BEFORE = new URLSearchParams(location.search).get('teemarkers') === 'before';
+const teeMarkerGeometry = TEE_MARKER_BEFORE ? new THREE.SphereGeometry(0.13, 8, 6) : (() => {
+  const g = new THREE.SphereGeometry(0.13, 24, 16);
+  /* a ball resting on turf: the lowest tenth flattened onto its seat */
+  const p = g.attributes.position;
+  for (let i = 0; i < p.count; i++) if (p.getY(i) < -0.105) p.setY(i, -0.105 + (p.getY(i) + 0.105) * 0.35);
+  g.computeVertexNormals();
+  return g;
+})();
+instancedFurniture(teeMarkerGeometry,
+  new THREE.MeshStandardNodeMaterial(TEE_MARKER_BEFORE ? { color: new THREE.Color(0xffffff), roughness: 0.45, metalness: 0.15 }
+    : { color: new THREE.Color(0xffffff), roughness: 0.62, metalness: 0 }), FURN.markers, { cast: true, colour: true, into: flagGroup, tag: 'markers' });
 
 /* Mapped OSM point identities, anchored to their source coordinates. Generic
    dimensions and orientations below are rendering estimates, not measurements.
@@ -7678,6 +7962,77 @@ if (M.infra.objectPlacement === 'mapped-only') {
    along the marina piers -- the things a person standing on this course actually
    sees. The High Coast horizon itself (Mjältön, the Ulvö islands, Högbonden's
    island) needs no modelling: it is real terrain in the vista heightfield. */
+/* the painted props (engine/golf-cart-prop.mjs); ?props=0 is the before, the boxes */
+const PROPS_ON = new URLSearchParams(location.search).get('props') !== '0';
+const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
+  ? loadGolfCart({ baseUrl: import.meta.env.BASE_URL }).catch(error => { console.warn('golf cart:', error.message); return null; })
+  : Promise.resolve(null);
+/* Swans on the lakes (engine/swans.mjs, the swan built in Blender): a pair or
+   more on each lake of open water near the course, sometimes with a grey
+   cygnet, gliding a slow loop well inside the shore and over open water; two
+   instanced draws for them all. Held still under reduced motion, pinned under
+   det=1. ?swans=0 is the before. */
+{
+  const on = new URLSearchParams(location.search).get('swans') !== '0';
+  const bodies = on ? M.water.filter(w => !w.stream && !w.isSea && w.ring?.length >= 3 && Number.isFinite(w.level))
+    .map(w => ({ id: w.id, ring: w.ring, level: w.level })) : [];
+  const plan = bodies.length ? planSwans(bodies, { ground: terrainH, focus: playB }) : [];
+  const parts = plan.length ? await loadPaintedProp({ asset: SWAN_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('swan:', error.message); return null; }) : null;
+  if (parts) {
+    swans = createSwans(parts, plan, { deterministic: DET });
+    /* the swans move by their instance matrices: three's own object velocity is right for them (temporal AA) */
+    if (TEMPORAL_AA) for (const mesh of swans.group.children) mesh.material.mrtNode = mrt({ velocity });
+    scene.add(swans.group);
+  }
+}
+/* Herons in the shallows (engine/herons.mjs, the heron built in Blender): one to a
+   pond near the course, at most four, standing where the water is 6-32 cm deep by
+   the bank and facing out over it; static instanced furniture with its shadows.
+   ?herons=0 is the before. */
+let heronCount = 0;
+/* Mist on the lakes (engine/lake-mist.mjs): the lakes' own water sheets near the course,
+   merged, drawn as three thin drifting layers after the water in the lights that
+   have them (dawn most). ?lakemist=0 is the before. */
+if (new URLSearchParams(location.search).get('lakemist') !== '0') {
+  const sheets = WATER_MESHES.filter(m => m.userData.water && !m.userData.water.isSea && !m.userData.water.stream)
+    .map(m => ({ geometry: m.geometry, y: m.position.y }));
+  const geometry = sheets.length ? mergeLakeSheets(sheets, playB) : null;
+  if (geometry) {
+    lakeMist = createLakeMist({ geometry, detail: DETAIL, deterministic: DET });
+    lakeMist.setPreset(presetName, { haze: fog.color.getHex(), sun: preset.sun, sunDirection: preset.dir });
+    scene.add(lakeMist.group);
+  }
+}
+if (new URLSearchParams(location.search).get('herons') !== '0') {
+  const bodies = M.water.filter(w => !w.stream && !w.isSea && w.ring?.length >= 3 && Number.isFinite(w.level))
+    .map(w => ({ id: w.id, ring: w.ring, level: w.level }));
+  const plan = bodies.length ? planHerons(bodies, { ground: terrainH, focus: playB }) : [];
+  const parts = plan.length ? await loadPaintedProp({ asset: HERON_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('heron:', error.message); return null; }) : null;
+  if (parts) {
+    const up = new THREE.Vector3(0, 1, 0), one = new THREE.Vector3(1, 1, 1), white = new THREE.Color(0.95, 0.95, 0.95);
+    const items = plan.map(h => ({ colour: white,
+      matrix: new THREE.Matrix4().compose(new THREE.Vector3(h.x, h.y, h.z), new THREE.Quaternion().setFromAxisAngle(up, h.yaw), one) }));
+    scene.add(placePaintedProp(parts, items, { name: 'herons', tag: 'herons', roughness: 0.8 }));
+    heronCount = items.length;
+  }
+}
+/* Water lilies (engine/water-lilies.mjs): rafts of notched pads, a few white
+   flowers among them, in the sheltered shallows of the ponds and small lakes
+   near the course (1.5-8 m out, 0.25-2.2 m deep), planned from the water
+   outlines and the ground under the water; two instanced draws. ?lilies=0 is
+   the before. */
+let waterLilies = null;
+if (new URLSearchParams(location.search).get('lilies') !== '0') {
+  const bodies = M.water.filter(w => !w.stream && !w.isSea && w.ring?.length >= 3 && Number.isFinite(w.level))
+    .map(w => ({ id: w.id, ring: w.ring, level: w.level }));
+  const plan = planWaterLilies(bodies, { ground: terrainH, focus: playB });
+  if (plan.length) {
+    waterLilies = createWaterLilies(plan);
+    scene.add(waterLilies.group);
+  }
+}
 {
   const V = [], K = [];
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
@@ -7840,7 +8195,22 @@ if (M.infra.objectPlacement === 'mapped-only') {
       quad(C(-hw, hd, y0), C(-hw, -hd, y0), C(-hw, -hd, y0 + h), C(-hw, hd, y0 + h), col);
       quad(C(-hw, -hd, y0 + h), C(hw, -hd, y0 + h), C(hw, hd, y0 + h), C(-hw, hd, y0 + h), col);
     };
-    for (let k = 0; k < n; k++) {
+    /* the modelled cart (engine/golf-cart-prop.mjs, built in Blender), two
+       instanced draws for the park; the boxes below if it did not load or
+       ?props=0 asks for the before */
+    const cartParts = await GOLF_CART_LOADING;
+    if (cartParts) {
+      const carts = [];
+      for (let k = 0; k < n; k++) {
+        const t = n === 1 ? 0.5 : k / (n - 1);
+        const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
+        carts.push({ x: cx, y: terrainH(cx, cz), z: cz, ax: nx, az: nz,
+          colour: new THREE.Color().setRGB(...(k === n - 1 ? L(0x2f5fa8) : L(0xe9e9e6))) });
+      }
+      scene.add(placeGolfCarts(cartParts, carts));
+      stats.draws += 2;
+    }
+    for (let k = 0; k < (cartParts ? 0 : n); k++) {
       const t = n === 1 ? 0.5 : k / (n - 1);
       const cx = a[0] + (b[0] - a[0]) * t, cz = a[1] + (b[1] - a[1]) * t;
       const y = terrainH(cx, cz);
@@ -7862,6 +8232,11 @@ if (M.infra.objectPlacement === 'mapped-only') {
      lot's long axis, every second bay taken. */
   {
     let vans = 0;
+    /* the modelled motorhome (engine/golf-cart-prop.mjs, built in Blender); the boxes with ?props=0 or on a failure */
+    const hasVanLot = PROPS_ON && (M.infra.parking || []).some(p => p.vehicles === 'motorhome');
+    const vanParts = hasVanLot ? await loadPaintedProp({ asset: MOTORHOME_ASSET, baseUrl: import.meta.env.BASE_URL })
+      .catch(error => { console.warn('motorhome:', error.message); return null; }) : null;
+    const vanItems = [];
     for (const p of (M.infra.parking || [])) {
       if (p.vehicles !== 'motorhome' || !p.ring || p.ring.length < 3) continue;
       const B = obb2(p.ring);
@@ -7886,6 +8261,15 @@ if (M.infra.objectPlacement === 'mapped-only') {
           if (hash2(Math.round(x * 2), Math.round(z * 2)) > 0.62) continue;
           const y = terrainH(x, z);
           const facing = v >= 0 ? 1 : -1;
+          if (vanParts) {
+            /* the modelled van, nose along the bay's facing (the lot's n axis) */
+            const fx = -s * facing, fz = c * facing;
+            vanItems.push({ colour: new THREE.Color().setRGB(...L(hash2(Math.round(x), Math.round(z)) > 0.7 ? 0xece4d2 : 0xf1f0ea)),
+              matrix: new THREE.Matrix4().compose(new THREE.Vector3(x, y, z),
+                new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.atan2(fx, fz)), new THREE.Vector3(1, 1, 1)) });
+            vans++;
+            continue;
+          }
           box(x, z, 0, 0, 2.3, 2.7, 6.8, y + 0.35, L(0xf1f0ea));
           box(x, z, 0, facing * 2.9, 2.2, 1.7, 1.2, y + 0.4, L(0x3a3d42));       /* the cab */
           box(x, z, 0, -facing * 0.6, 2.36, 0.55, 4.6, y + 1.55, L(0x2a2f36));   /* the window band */
@@ -7894,6 +8278,10 @@ if (M.infra.objectPlacement === 'mapped-only') {
           vans++;
         }
       }
+    }
+    if (vanItems.length) {
+      scene.add(placePaintedProp(vanParts, vanItems, { name: 'motorhomes', tag: 'motorhomes', roughness: 0.55, bodyRoughness: 0.4, bodyMetalness: 0.1 }));
+      stats.draws += 2;
     }
     stats.motorhomes = vans;
   }
@@ -8227,7 +8615,10 @@ if (M.infra.objectPlacement === 'mapped-only') {
   if (cables.length) {
     const cg = new THREE.BufferGeometry();
     cg.setAttribute('position', new THREE.Float32BufferAttribute(cables, 3));
-    const cm = new THREE.LineSegments(cg, new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }));
+    /* a lift's haul rope as a ribbon of its own width (engine/wires.mjs); ?wires=lines is the before */
+    const cm = new URLSearchParams(location.search).get('wires') === 'lines'
+      ? new THREE.LineSegments(cg, new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }))
+      : createWireMesh(cables, { diameter: 0.045, name: 'lift-cables' });
     scene.add(cm);
     stats.draws++;
   }
@@ -8257,20 +8648,48 @@ await tick('ställer ljuset', 0.86);
 let openingScenePass = null;
 const GOD_RAYS_ON = new URLSearchParams(location.search).get('godrays') !== '0';
 let godRays = null, godRaysPending = null;
+let worldVelocity = null;
+/* Contact shadows (engine/contact-ao.mjs): GTAO on the scene pass's depth, at half
+   resolution, darkening the colour only where things meet the ground or fold into
+   each other. High quality (the pipeline's) only. ?ao=0 is the before. */
+const CONTACT_AO_ON = new URLSearchParams(location.search).get('ao') !== '0';
 /* ?post=0 renders the scene straight to the canvas, no bloom: the harness's way to tell a scene fault from a pipeline fault */
 if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
   const post = new THREE.RenderPipeline(renderer);
-  const scenePass = pass(scene, camera);
+  /* Temporal AA (engine/temporal-aa.mjs): three's TRAANode in place of the scene pass's MSAA,
+     reprojected by the world-static velocity. ?aa=msaa is the before */
+  const scenePass = TEMPORAL_AA ? pass(scene, camera, { samples: 0 }) : pass(scene, camera);
+  if (TEMPORAL_AA) {
+    worldVelocity = createWorldVelocity();
+    scenePass.setMRT(mrt({ output, velocity: worldVelocity.velocity }));
+  }
   openingScenePass = scenePass;
-  const sceneColor = scenePass.getTextureNode('output');
-  const bloomNode = bloom(sceneColor, 0.14, GLOW.radius, GLOW.threshold);
+  const rawSceneColor = scenePass.getTextureNode('output');
+  const sceneColor = rawSceneColor;
+  contactAO = CONTACT_AO_ON ? await createContactAO({ depthNode: scenePass.getTextureNode('depth'), camera }) : null;
+  contactAO?.setPreset(presetName);
+  /* the scene's colour as the output takes it: with the contact shadows, if any (the bloom reads the scene's own) */
+  const aoColor = contactAO ? contactAO.apply(sceneColor) : sceneColor;
+  /* the frames blended after the contact shadows, before the glow and the god rays add theirs */
+  const traaNode = TEMPORAL_AA
+    ? (await import('three/addons/tsl/display/TRAANode.js')).traa(aoColor, scenePass.getTextureNode('depth'), scenePass.getTextureNode('velocity'), camera)
+    : null;
+  renderer.__traa = traaNode;
+  /* and sharpened again (AMD's contrast-adaptive RCAS, three's SharpenNode), as TAA is in every
+     engine that runs it: the blend softens what it steadies. ?sharpen=<0..2>, 2 none */
+  const sharpness = Number(new URLSearchParams(location.search).get('sharpen') ?? 0.35);
+  const resolved = traaNode
+    ? (await import('three/addons/tsl/display/SharpenNode.js')).sharpen(traaNode.getTextureNode(), Number.isFinite(sharpness) ? sharpness : 0.35)
+    : null;
+  const litColor = resolved ?? aoColor;
+  const bloomNode = bloom(resolved ?? sceneColor, 0.14, GLOW.radius, GLOW.threshold);
   /* a knee, not a switch: at the stock 0.01 a sunlit flag or trim crossing the
      threshold turned its whole halo on in one frame. It now grows over 0.3 from
      the preset's threshold (0.86 to 1.16 at noon). ?bloomknee=hard is the before
      (and the lamps' old strength). */
   if (new URLSearchParams(location.search).get('bloomknee') !== 'hard') bloomNode.smoothWidth.value = GLOW.knee;
-  const out = sceneColor.add(bloomNode);
+  const out = litColor.add(bloomNode);
   // Pigments and lighting now carry the colour. A global saturation/contrast
   // boost clipped the grass greens and made high/low quality disagree.
   post.outputNode = out;
@@ -8288,7 +8707,7 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
     if (!sun.shadow.map) return false;
     godRays = createGodRays({ depthNode: scenePass.getTextureNode('depth'), camera, light: sun });
     godRays.setPreset(presetName, { sunDirection: preset.dir, sunColour: preset.sun });
-    post.outputNode = vec4(sceneColor.rgb.add(godRays.node), sceneColor.a).add(bloomNode);
+    post.outputNode = vec4(litColor.rgb.add(godRays.node), litColor.a).add(bloomNode);
     post.needsUpdate = true;
     return true;
   };
@@ -8302,6 +8721,8 @@ function renderActivePipeline() {
     try { if (godRaysPending()) godRaysPending = null; }
     catch (error) { godRaysPending = null; godRays = null; console.error('God rays unavailable:', error); }
   }
+  /* the world-static velocity's matrices, unjittered (TRAA jitters only inside the pipeline) */
+  if (!lowfx) worldVelocity?.update(camera);
   renderPipeline(renderer, scene, camera, lowfx);
 }
 
@@ -8517,11 +8938,52 @@ function drawCard() {
   }
   document.getElementById('nnm').textContent = h.name || `Hål ${h.n}`;
   document.getElementById('ntx').textContent = h.note || h.shape || '';
+  unfoldNoteForAWhile();
   document.querySelectorAll('.hb').forEach((b, i) => b.classList.toggle('on', i + 1 === hole));
   drawMini();
 }
 
-const camTween = { on: false, t: 0, dur: 1.5, from: new THREE.Vector3(), to: new THREE.Vector3(),
+/* THE PANELS FOLD (index.html .rail-fold-btn, #note.folded). The hole note opens
+   on every hole change and folds to its title after NOTE_FOLD_MS; a det=1
+   capture keeps it open, as every harness has measured it. */
+const NOTE_FOLD_MS = 8000;
+let noteFoldTimer = 0;
+function unfoldNoteForAWhile() {
+  const note = document.getElementById('note');
+  if (!note) return;
+  note.classList.remove('folded');
+  clearTimeout(noteFoldTimer);
+  if (!DET) noteFoldTimer = setTimeout(() => note.classList.add('folded'), NOTE_FOLD_MS);
+}
+/* the rail folds to its hole summary; the player's choice is remembered, and a
+   desktop narrower than 1500 px starts folded (a det=1 capture, open, as before) */
+const RAIL_FOLD_KEY = 'banvy-rail';
+function setRailFolded(folded, remember = false) {
+  document.body.classList.toggle('rail-folded', folded);
+  const btn = document.getElementById('railFoldBtn');
+  if (btn) {
+    btn.setAttribute('aria-expanded', String(!folded));
+    btn.title = folded ? 'Visa kameravy, ljus och verktyg' : 'Fäll ihop panelen';
+    btn.setAttribute('aria-label', btn.title);
+  }
+  if (remember) { try { localStorage.setItem(RAIL_FOLD_KEY, folded ? 'folded' : 'open'); } catch {} }
+}
+{
+  let stored = null;
+  try { stored = localStorage.getItem(RAIL_FOLD_KEY); } catch {}
+  setRailFolded(DET ? false : stored ? stored === 'folded' : innerWidth < 1500);
+  document.getElementById('railFoldBtn')?.addEventListener('click', event => {
+    event.stopPropagation();
+    setRailFolded(!document.body.classList.contains('rail-folded'), true);
+  });
+  const note = document.getElementById('note');
+  note?.addEventListener('click', event => {
+    if (event.target.closest('button')) return;
+    if (note.classList.contains('folded')) { note.classList.remove('folded'); clearTimeout(noteFoldTimer); }
+  });
+}
+
+const camTween = { on: false, t: 0, dur: 1.5, arc: 0, from: new THREE.Vector3(), to: new THREE.Vector3(),
                    lookFrom: new THREE.Vector3(), lookTo: new THREE.Vector3() };
 let heldFlightLens = false;
 /* The ground keeps the camera out of itself gently (engine/camera-clamp.mjs):
@@ -8542,7 +9004,15 @@ function flyTo(pos, look, dur = 1.5) {
   camTween.from.copy(camera.position); camTween.to.copy(pos);
   camTween.lookFrom.copy(controls.target); camTween.lookTo.copy(look);
   camTween.t = 0; camTween.dur = dur; camTween.on = true;
+  /* A LONG GLIDE ARCS (2 November): from one hole to the next the camera
+     rises through the middle of its way, an eighth of the distance and at most
+     45 m, so the change reads as a short flight over the course rather than a
+     slide through the trees between. Only up, never below the straight line
+     the clamp already keeps above the ground. ?camarc=0 is the before. */
+  const travel = camTween.from.distanceTo(pos);
+  camTween.arc = CAMERA_ARC_ON && travel > 80 ? Math.min(45, travel * 0.125) : 0;
 }
+const CAMERA_ARC_ON = new URLSearchParams(location.search).get('camarc') !== '0';
 const V3 = (x, y, z) => new THREE.Vector3(x, y, z);
 
 function setCam(mode, instant) {
@@ -9562,6 +10032,9 @@ function strategyLabel(title, subtitle, point, colour = '#b7dfc0', scale = 1, qu
   sprite.position.set(point[0], terrainH(point[0], point[1]) + (quiet ? 2.2 : 3.8) * scale, point[1]);
   sprite.userData.baseOpacity = quiet ? 0.68 : 0.92;
   sprite.userData.restY = sprite.position.y;
+  /* its drawn size in the world, and where it stands, for fitStrategyLabels */
+  Object.assign(sprite.userData, { worldW: width * scale, worldH: height * scale, groundY: terrainH(point[0], point[1]),
+    lift: (quiet ? 2.2 : 3.8) * scale, maxScreen: quiet ? STRATEGY_LABEL_SCREEN.quiet : STRATEGY_LABEL_SCREEN.full });
   sprite.renderOrder = 7;
   return sprite;
 }
@@ -9784,6 +10257,31 @@ function buildStrategy() {
   scene.add(strategyGroup);
   startStrategyAnimation();
   drawMini();
+}
+
+/* THE TARGET'S CARD STAYS A CARD (2 November). The label is a sprite 30 m wide in
+   the world: from the tee, 150 m off, a card; from the Green view, close over
+   the green, a dark slab across the middle of the screen covering the very
+   green it named. Each frame it is drawn at most this share of the screen's
+   height wide (0.26 is about 280 px at 1080), and stands 44 px above its
+   target on screen, clear of the pin's marker. ?labelcap=0 is the before. */
+const STRATEGY_LABEL_SCREEN = Object.freeze({ full: 0.26, quiet: 0.12 }), STRATEGY_LABEL_GAP_PX = 44;
+const STRATEGY_LABEL_CAP = new URLSearchParams(location.search).get('labelcap') !== '0';
+function fitStrategyLabels() {
+  if (!STRATEGY_LABEL_CAP || !strategyAnimation || !strategyOn) return;
+  const halfTan = Math.tan(camera.fov * Math.PI / 360);
+  for (const label of strategyAnimation.labels) {
+    const u = label.userData;
+    if (!u.worldW) continue;
+    const distance = camera.position.distanceTo(label.position);
+    /* the widest the card may be here: maxScreen of the screen's height, in metres at this distance */
+    const f = Math.min(1, u.maxScreen * 2 * halfTan * distance / u.worldW);
+    label.scale.set(u.worldW * f, u.worldH * f, 1);
+    /* it stands a gap of STRATEGY_LABEL_GAP_PX on screen above its target, clear of the pin's marker */
+    const metresPerPixel = 2 * halfTan * distance / Math.max(1, renderer.domElement.clientHeight || innerHeight);
+    u.restY = u.groundY + u.worldH * f * 0.5 + STRATEGY_LABEL_GAP_PX * metresPerPixel;
+    if (strategyAnimation.settled || strategyReducedMotion) label.position.y = u.restY;
+  }
 }
 
 function updateStrategy(now) {
@@ -11246,6 +11744,7 @@ const navDrawer = buildNavDrawer({
     if (type === 'preset') setPreset(val);
     if (type === 'clean') setClean(true);
     if (type === 'devOverlay') setDevOverlay(val === undefined ? !devOverlay : val === true);
+    if (type === 'frameCap') setFrameCap(nextFrameCap(frameCap));
   }
 });
 window.__navDrawer = navDrawer;
@@ -11315,6 +11814,20 @@ addEventListener('resize', () => {
 });
 
 let last = performance.now(), acc = 0, frames = 0, fps = 0;
+/* THE FRAME CAP (engine/frame-pacer.mjs): at most 60 renders a second by
+   default, so a 144-240 Hz panel stops drawing the same picture four times
+   over; the menu offers unlimited and 30. ?fps=0 lifts it; a det=1 harness
+   keeps every vsync unless it asks, so its frame counts are what they were. */
+const FRAME_PACER = createFramePacer();
+let frameCap = DET && !new URLSearchParams(location.search).has('fps') ? 0
+  : resolveFrameCap(location.search, (() => { try { return localStorage; } catch { return null; } })());
+function setFrameCap(cap) {
+  frameCap = cap;
+  try { localStorage.setItem(FRAME_CAP_KEY, String(cap)); } catch {}
+  navDrawer.setFrameCap?.(frameCapLabel(cap));
+  toast(`Bildfrekvens: ${frameCapLabel(cap)}`, 2200);
+}
+navDrawer.setFrameCap?.(frameCapLabel(frameCap));
 /* frames rendered since boot, monotonic: what a harness waits on after
    changing anything, because under a software renderer a frame can take
    longer than any fixed wait and a screenshot shows the LAST frame drawn */
@@ -11348,8 +11861,9 @@ function updateFrameVisibility(now, dt) {
 let courseGolfer = null;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
+  /* a 30 fps cap's idle time is not slowness: the resolution holds still under it */
   renderResolution.sample(now - last, now,
-    BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked);
+    BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked && (frameCap === 0 || frameCap >= 50));
   /* Morph state remains current before the ground clamp samples terrain. */
   terrainV2.tick(now);
   if (__GOLFER_LAB__) courseGolfer?.update(dt);
@@ -11360,6 +11874,7 @@ function frame() {
     const t = Math.min(1, camTween.t);
     const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     camera.position.lerpVectors(camTween.from, camTween.to, e);
+    if (camTween.arc) camera.position.y += Math.sin(Math.PI * e) * camTween.arc;
     controls.target.lerpVectors(camTween.lookFrom, camTween.lookTo, e);
     if (t >= 1) camTween.on = false;
   }
@@ -11422,8 +11937,18 @@ function frame() {
   skyMesh.position.copy(camera.position);
   updateSky();
   nearGrass?.update(camera, renderer.domElement.height);
+  meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
+  grassCards?.update(camera, nearGrass?.mesh.visible);
+  grassShells?.update(camera, nearGrass?.mesh.visible);
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  fallingLeaves?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  rain?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  swans?.update({ dt, still: cameraMotionPreference.matches });
+  lakeMist?.update({ dt, air: AIR, still: cameraMotionPreference.matches });
   updateStrategy(now);
+  fitStrategyLabels();
   kikTagUpdate();
   const markerOptions = { now, mode: camMode, hidden: flying !== 0 || document.body.classList.contains('clean') };
   const teeCardRect = selectedTee.update(markerOptions);
@@ -11462,6 +11987,10 @@ if (VALLEY_MIST_ON) {
   if (BOOTQ.get('ren') === '1') setClean(true);
   /* shown or hidden by the opening light before the opening scene is compiled */
   airMotes?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
+  birds?.update({ dt: 0, groundY: terrainH(camera.position.x, camera.position.z) });
+  butterflies?.update({ dt: 0, camera, groundY: terrainH(camera.position.x, camera.position.z) });
+  fallingLeaves?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
+  rain?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
 }
 
 if (COURSE_DATA_READY) {
@@ -11506,11 +12035,27 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     /* the grass's ground round the opening eye, filled now; its material compiled with
        the opening view even when that view is too high to draw it */
     const grassHidden = nearGrass ? !nearGrass.prime(camera, renderer.domElement.height) : false;
+    /* and the flowers with it, drawn or not (an autumn light keeps a few) */
+    meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
+    const flowersHidden = meadowFlowers ? !meadowFlowers.mesh.visible : false;
+    if (flowersHidden) meadowFlowers.mesh.visible = true;
+    /* and the grass cards, compiled with the opening view even when it is too high to draw them */
+    grassCards?.update(camera, nearGrass?.mesh.visible);
+    const cardsHidden = grassCards ? !grassCards.mesh.visible : false;
+    if (cardsHidden) grassCards.mesh.visible = true;
+    grassShells?.update(camera, nearGrass?.mesh.visible);
+    const shellsHidden = grassShells ? !grassShells.mesh.visible : false;
+    if (shellsHidden) grassShells.mesh.visible = true;
     if (grassHidden) nearGrass.mesh.visible = true;
     try {
-      BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass });
+      BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass,
+        /* ?gpuprep=branches walks the scene's branches one call at a time; the default compiles it in one */
+        mode: BOOTQ.get('gpuprep') === 'branches' ? 'branches' : 'scene' });
     } finally {
       if (grassHidden) nearGrass.mesh.visible = false;
+      if (flowersHidden) meadowFlowers.mesh.visible = false;
+      if (cardsHidden) grassCards.mesh.visible = false;
+      if (shellsHidden) grassShells.mesh.visible = false;
     }
   } catch (error) {
     const retryMessage = 'kunde inte visa banan — ladda om och försök igen';
@@ -11526,6 +12071,9 @@ const firstSceneFrameReady = new Promise((resolve, reject) => {
   resolveFirstSceneFrame = resolve; rejectFirstSceneFrame = reject;
 });
 renderer.setAnimationLoop(() => {
+  /* capped frames skip everything, the boot's first frames never */
+  if (!resolveFirstSceneFrame && BOOT_PERF.firstFrames.length >= 12
+    && !shouldRenderFrame(FRAME_PACER, performance.now(), frameCap)) return;
   /* the first frames' wall times, for the profiler: shader compiles and
      texture uploads land here and no stage mark sees them */
   if (BOOT_PERF.firstFrames.length < 12) {
@@ -11697,7 +12245,7 @@ window.V3D = {
            environmentWater: stats.environmentWater ?? null,
            tufts: stats.tufts | 0, edgeTufts: stats.edgeTufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, authoredParkingCars: stats.authoredParkingCars | 0,
-           pylons: stats.pylons | 0, stumps: stats.stumps | 0,
+           pylons: stats.pylons | 0, power: stats.power ?? null, wireSegments: stats.wireSegments | 0, stumps: stats.stumps | 0,
            inferredRangeTargets: stats.inferredRangeTargets | 0,
            measuredRoofBuildings: stats.measuredRoofBuildings | 0,
            measuredRoofTriangles: stats.measuredRoofTriangles | 0,
@@ -12036,6 +12584,18 @@ window.V3D = {
   placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
   /* the hole lines as drawn, for a harness framing a whole hole */
   holeLines: () => HOLES.map(h => ({ n: h.n, line: h.line.map(p => [p[0], p[1]]) })),
+  /* the power lines as drawn from (their mapped points), for harnesses */
+  powerLines: () => (M.infra.power?.lines || []).map(l => ({ line: l.line.map(p => [p[0], p[1]]), voltage: Number(l.voltage) || 0, surr: !!l.surr })),
+  /* the drawn ground's height at a point, for harnesses that place a camera on it */
+  groundAt: (x, z) => terrainH(x, z),
+  /* the nearest mapped path, track, road and bunker to a point, for harnesses that look at the ground */
+  groundFeaturesNear: (x, z) => {
+    const near = list => { let best = null, bd = Infinity;
+      for (const item of list) for (const p of (item.line || item.ring || item)) { const d = Math.hypot(p[0] - x, p[1] - z); if (d < bd) { bd = d; best = [p[0], p[1]]; } }
+      return best && { at: best, distance: +bd.toFixed(1) }; };
+    return { path: near(M.infra.paths || []), track: near(M.infra.tracks || []), road: near(M.infra.roads || []),
+      bunker: near(HOLES.flatMap(h => h.bunkers.map(b => b.ring))) };
+  },
   /* the ground cover as drawn (ground-cover.mjs): its switches, and per population its
      count, shadows, blade normal and seat */
   cover: () => structuredClone(stats.cover),
@@ -12202,6 +12762,17 @@ window.V3D = {
                     bloomThreshold: renderer.__bloomNode ? renderer.__bloomNode.threshold.value : null }),
   lightingEnvironment: () => lightingEnvironment.snapshot(),
   airMotes: () => airMotes?.snapshot() ?? null,
+  birds: () => birds?.snapshot() ?? null,
+  butterflies: () => butterflies?.snapshot() ?? null,
+  fallingLeaves: () => fallingLeaves?.snapshot() ?? null,
+  rain: () => rain?.snapshot() ?? null,
+  swans: () => swans?.snapshot() ?? null,
+  herons: () => heronCount,
+  lakeMist: () => lakeMist?.stats() ?? null,
+  meadowFlowers: () => meadowFlowers?.stats() ?? null,
+  grassCards: () => grassCards?.stats() ?? null,
+  grassShells: () => grassShells?.stats() ?? null,
+  waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),

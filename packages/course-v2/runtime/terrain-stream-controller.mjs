@@ -92,7 +92,17 @@ export class TerrainStreamController {
 
   #notify() {
     try { this.onChange(this.snapshot()); }
-    catch { /* observers must not corrupt streaming state */ }
+    catch (error) {
+      /* observers must not corrupt streaming state -- but a silent catch here
+         once hid a material's ReferenceError behind a 60 s "did not settle":
+         say so, once per message */
+      const message = String(error?.message ?? error);
+      if (!this.reportedObserverErrors) this.reportedObserverErrors = new Set();
+      if (!this.reportedObserverErrors.has(message)) {
+        this.reportedObserverErrors.add(message);
+        console.error('terrain stream observer failed:', error);
+      }
+    }
   }
 
   #reconcile() {

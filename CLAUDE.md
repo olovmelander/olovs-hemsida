@@ -267,10 +267,119 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   cut past 45-85% of the shadow box's half-width to the sun's glow, each light's
   strength in `GOD_RAYS.presets` (none in storm, mist, blue hour, and then not
   run), joined to the output only once the shadow map exists. `?shadowgrid=0`,
-  `?hazespectrum=0`, `?airmotes=0` and `?godrays=0` are the befores. In TSL never multiply a node by a JavaScript
+  `?hazespectrum=0` and `?godrays=0` are the befores. The motes are off since
+  3 November (owner request: no particles); `?airmotes=1` draws them. In TSL never multiply a node by a JavaScript
   number with `*` (it compiles to `NaN` and blanks the WebGPU frame); prove a
   new shader in an isolated scene on both backends. See
   [the serenity ports](docs/visual-serenity-ports-2026-11-02.md).
+
+- On the owner's RTX 5080 (2–3 November; see [the night on the RTX 5080](docs/visual-night-2026-11-02.md)):
+  - **One compileAsync at a time.** r187 keeps a call's progress in the
+    renderer's one `_precompilationState`. The opening scene compiles in a
+    single call (`prepare-opening-gpu.mjs`); two calls in flight broke every
+    WebGPU boot.
+  - **Vertex outputs ≤ 15.** WebGPU allows 16, so pack varyings into `vec4`s
+    (the impostor's frames and UVs, the blades' wind sheen in their blotch
+    varying). `tools/check-gpu-clean-boot.mjs` boots every course on both
+    backends (`--quality hi|lo`) and fails on any console error or a vertex
+    stage over 15.
+  - **WebGL2 compile and disposal.** `webgl-compile-guard.mjs` keeps a
+    pipeline destroyed mid-compile from hanging `compileAsync`. A grown-out
+    terrain batch is disposed `RETIRE_TICKS` later, never at once.
+  - **Frame cap.** At most 60 renders a second (`frame-pacer.mjs`, the menu's
+    Bildfrekvens). `?fps=0` lifts it, `det=1` stays uncapped and timing tools
+    pass `fps=0`.
+  - **The painted canopy** (`ghibli-foliage-material.mjs` `CANOPY`,
+    `crown-puffs.mjs`):
+    - banded crown tones whose edges, never the colour, move with openness,
+      clumps and tree;
+    - puff normals baked at load, which the impostor bake inherits;
+    - `softLift` keeps the overcast lights' crowns dark.
+    The bands are reckoned per pixel on meshes from per-vertex noise: per
+    vertex, a few hero pine and spruce vertices came out unbounded toward a
+    low sun and the glow drew them as green orbs in the trees (3 November).
+    `?canopy=0`, `?puffs=0` and `?canopybands=vertex` are the befores.
+  - **Painted props** come from rebuildable `tools/blender-props/*.py` scripts
+    run through the Blender MCP. Each is a hash-named GLB in `models/props/`
+    with its JSON record, loaded by `loadPaintedProp` with the authored
+    buildings' checks and drawn as two instanced meshes with a tinted body.
+    `?props=0` is the boxes. Swans (`swans.mjs`) glide closed-form loops
+    planned from the water outlines, inset off the shore and over open water;
+    they cast no shadow, since the sun's map is redrawn on demand.
+  - **More befores:** `?sandbowl=0`, `?windsheen=0`, `?waterbank=0`,
+    `?cirrus=0`, `?birds=0`, `?butterflies=0`, `?leafflutter=0`,
+    `?covershapes=0`, `?teemarkers=before`, `?labelcap=0`, `?camarc=0`,
+    `?leaves=0`, `?rain=0`, `?swans=0`, `?herons=0`, `?lilies=0` and
+    `?lakemist=0` (the lakes' own sheets, merged, as three mist layers at
+    order 7). The meadow flowers are off since 3 November (owner: they do not
+    fit the environments); `?flowers=1` draws them.
+  - **Contact shadows** (`contact-ao.mjs`): three's GTAO on the scene pass's
+    depth (r187 reads the reversed buffer; normals rebuilt from depth), at half
+    resolution, box-blurred, and only past a contact threshold so flat walls
+    and lawns stay clean. Joined to the colour before the bloom and the god
+    rays add theirs; high quality only. `?ao=0` is the before.
+    `?tonecurve=filmic` is an opt-in A/B.
+  - **The tour turf** (3 November, owner request: grass like EA Sports PGA
+    Tour 2K25; see [the tour turf](docs/visual-turf-tour-2026-11-03.md)):
+    `turf-detail.mjs` makes a seeded, tileable blade, pebble and grain texture
+    at load; `turf-look.mjs` lays each class's channel over its colour, the
+    mown blades along each hole's mowing, and bumps the terrain normal by it,
+    faded by the pixel's footprint. Stripes are stronger and swap with where
+    you stand. One per-class tour grade (`TURF_LOOK.grade`) is taken by both
+    the ground and the blades round the ball: keep them in step. The rough's
+    blades are finer and denser at high quality, and tussocks are clumps of
+    fine blades. `?turf=painted` is the whole before.
+  - **The rough's grass** (3 November, owner request: dense, no triangles,
+    no noise; after research into AAA grass, chiefly Ghost of Tsushima's GDC
+    2021 talk): the blades round the ball are curved, tapered strips grown in
+    Voronoi clumps (`NEAR_GRASS_TOUR`: per-clump height, lean, dryness and
+    tone, blades pulled toward the clump), turned toward the eye when seen
+    edge-on, rounded across their width, and wider in each outer ring (fewer
+    but wider, so none is sub-pixel). The grain's screen-derivative bump is off
+    (`?turfbump=1`; it was 6x the ground's aliasing). The Blender grass cards
+    and shell mat (`grass-cards.mjs`, `grass-shells.mjs`) are kept behind
+    `?grasscards=1` and `?grassmat=1`: both alias (alpha cut), and cards read
+    as crosses from above. Measure aliasing as 1080p against a 4K render scaled
+    down (`tools/goldens/gfx/alias.mjs`, local).
+  - **Temporal AA** (`temporal-aa.mjs`, 3 November): three's TRAANode in place
+    of the scene pass's MSAA at high quality, then AMD's RCAS sharpen
+    (`SharpenNode`, `?sharpen=0..2`). The velocity MRT is the WORLD-STATIC one
+    (each pixel's world position through this and the last frame's
+    unjittered view-projection), since three's own reads the raw geometry
+    position and is wrong for everything placed in a shader (terrain tiles,
+    grass rings, impostors); objects moved by their matrices (the swans) take
+    three's `velocity` through their `mrtNode`. Update the matrices once a
+    frame before the pipeline (`renderActivePipeline`). Low quality, phones
+    and `det=1` keep MSAA; `?aa=traa` forces it, `?aa=msaa` is the before.
+    It needs MSAA off (three), and a per-material velocity output can push a
+    fragment stage past 16 inputs (the first trial crashed the blades): keep
+    the velocity in the MRT, not in the materials.
+  - **Water from above** (3 November): ring terrain tiles are quantised from
+    their own lowest height, which over a lake is the water surface, so the
+    bed carve must re-base a tile below its floor (`carveDecodedTerrainTile`,
+    used by the ring path now as by the fixed frontier) or the bed stays a hand
+    under the sheet and the lake reads as brown silt from above. The CPU
+    sampler is rebuilt after carving.
+  - **Power lines** (3 November): towers are a Blender-built lattice pylon
+    (`tools/blender-props/pylon.py`, `PYLON_ASSET`, its three phases on its
+    insulators), crossarms turned square to the line, wires and lift cables
+    as ribbons of their real width faded by coverage below a pixel
+    (`wires.mjs`). Course lines run to the far ring, not a fixed box.
+    `?power=before` and `?wires=lines` are the befores. Blender scripts must
+    build in their own scene with the data API: the shared file holds other
+    work, and `clear()` in `parked_car.py` deletes every mesh in it.
+  - **Draped surfaces at a distance** (3 November): roads, paths, tracks,
+    lots and ballast (`nudged()` in `main.js`) move their DEPTH, never their
+    pixels, toward the eye by the terrain's error allowance there
+    (`drape-depth.mjs`: 6 px of height, by how steeply the eye looks down,
+    beyond 60-200 m, at most 6% of the distance), through `vertexNode`, so
+    lighting, shadows, fog and the TAA's reprojection keep the true position.
+    Without it the coarser far terrain buried the roads. `?drape=before`.
+  - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
+    vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
+  - **LF line endings.** This checkout sets `core.autocrlf=false` so the
+    working tree is LF, as the source-text tests and the source revision
+    hash expect.
 
 ## Build and focused checks
 

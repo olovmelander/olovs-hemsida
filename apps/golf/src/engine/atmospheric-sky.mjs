@@ -21,7 +21,7 @@ const controls = new WeakMap();
    false` is the before (?skyorder=first). */
 export const SKY_RENDER_ORDER = 0.5;
 
-export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false, drawLast = true, drift = null, sunLit = false } = {}) {
+export function createAtmosphericSky({ reversedDepth = false, deterministic = false, painted = false, drawLast = true, drift = null, sunLit = false, cirrus = false } = {}) {
   const sky = new SkyMesh();
   sky.name = 'atmospheric-sky';
   // A tiny HDR sun disc sparkling through foliage creates distracting bloom.
@@ -55,7 +55,7 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     return vec4(mix(groundHaze, skyColour, smoothstep(-0.06, 0.10, elevation)), c.a);
   })();
   if(painted){
-    const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBase,groundHaze,deterministic,drift,sunLit});
+    const layer=paintedSkyColour({sky,zenith,horizon,cloudLit,cloudShade,cloudBase,groundHaze,deterministic,drift,sunLit,cirrus});
     sky.material.colorNode=layer.node;
     settings.paintedExposure=layer.exposure;
     settings.sunGlow=layer.sunGlow;
@@ -63,6 +63,7 @@ export function createAtmosphericSky({ reversedDepth = false, deterministic = fa
     settings.hazeGlow=layer.hazeGlow;
     settings.cloudGlow=layer.cloudGlow;
     if(sunLit)settings.cloudSun=layer.cloudSun;
+    if(cirrus)settings.cirrusShare=layer.cirrusShare;
   }
   // SkyMesh pins z=w, which is the near plane with reversed depth. r186 fixes
   // renderOrder sorting, but the sky's far clip depth must still be zero.
@@ -118,6 +119,8 @@ export function setAtmospherePreset(sky, preset) {
   }
   /* the clouds lit by the sun (painted-sky.mjs sunLit): its share, and their base colour, the lit paint's shaded side */
   if(c.cloudSun)c.cloudSun.value=preset.skyCloudSun??0;
+  /* the high cirrus's share in this light (painted-sky.mjs CIRRUS) */
+  if(c.cirrusShare)c.cirrusShare.value=preset.skyCirrus??0;
   c.cloudLit.value.setHex(preset.skyCloudLit ?? 0xfff5df);
   c.cloudShade.value.setHex(preset.skyCloudShade ?? 0xa5b5c6);
   c.cloudBase.value.setHex(preset.skyCloudBase ?? preset.skyCloudShade ?? 0xa5b5c6);

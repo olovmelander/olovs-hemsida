@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-prop",
+  "id": "heron",
+  "asset": { "url": "models/props/heron-1143f140dbd69a4fd6d26634a054e11b8c4d4a51e7dc10e2db2c79e9b2927566.glb", "sha256": "1143f140dbd69a4fd6d26634a054e11b8c4d4a51e7dc10e2db2c79e9b2927566", "bytes": 59096 },
+  "meshes": { "heron_body": { "triangles": 1988, "tinted": true }, "heron_trim": { "triangles": 548 } },
+  "axes": "bill along +z, x across, y up; metres; the feet at y = 0 (the lake bed); about 0.3 x 1.0 x 0.7 m",
+  "source": "tools/blender-props/heron.py, Blender 5.2.2 LTS, built and exported through the Blender MCP on 3 November 2026",
+  "notes": "A grey heron in painted vertex colours (grey body, pale neck, black crest and shoulder, yellow bill); the body takes the player's instance colour."
+}

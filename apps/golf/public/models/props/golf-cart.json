@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-prop",
+  "id": "golf-cart",
+  "asset": { "url": "models/props/golf-cart-ba27a8f96c7235d227d08ccf0bf2c4178014f8370d714b986a22357fb46f02d1.glb", "sha256": "ba27a8f96c7235d227d08ccf0bf2c4178014f8370d714b986a22357fb46f02d1", "bytes": 109992 },
+  "meshes": { "cart_body": { "triangles": 592, "tinted": true }, "cart_trim": { "triangles": 1804 } },
+  "axes": "x along the cart (front +x), -z across, y up; metres; the ground at y = 0",
+  "source": "tools/blender-props/golf_cart.py, Blender 5.2.2 LTS, built and exported through the Blender MCP on 2 November 2026",
+  "notes": "Painted vertex colours; the body is white and takes the player's instance colour."
+}

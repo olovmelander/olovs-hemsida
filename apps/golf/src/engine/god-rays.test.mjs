@@ -77,7 +77,8 @@ describe('god rays through the trees', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toMatch(/const GOD_RAYS_ON = new URLSearchParams\(location\.search\)\.get\('godrays'\) !== '0';/);
     expect(main).toMatch(/if \(!sun\.shadow\.map\) return false;\n\s+godRays = createGodRays\(/);
-    expect(main).toMatch(/post\.outputNode = vec4\(sceneColor\.rgb\.add\(godRays\.node\), sceneColor\.a\)\.add\(bloomNode\);\n\s+post\.needsUpdate = true;/);
+    /* onto the scene's colour as the output takes it (with the contact shadows, contact-ao.mjs) */
+    expect(main).toMatch(/post\.outputNode = vec4\(litColor\.rgb\.add\(godRays\.node\), litColor\.a\)\.add\(bloomNode\);\n\s+post\.needsUpdate = true;/);
     expect(main).toMatch(/if \(godRaysPending && !lowfx\) \{\n\s+try \{ if \(godRaysPending\(\)\) godRaysPending = null; \}\n\s+catch \(error\) \{ godRaysPending = null; godRays = null;/);
     expect(main).toMatch(/godRays\?\.setPreset\(presetName, \{ sunDirection: p\.dir, sunColour: p\.sun \}\);/);
     expect(main).toMatch(/godRays\?\.setShadowRadius\(SUN_BASIS\.R\);/);

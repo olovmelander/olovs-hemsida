@@ -25,8 +25,11 @@ import { NORDIC_WATER, SLOPE_SCALE, expectedGlitter, reflectedSunGlow, treeLineS
 import { sunRoad, mirrorShare, bodyRelief } from './water-road.mjs';
 import { bodySunlit, bodyCloudShade, waterRoughness, waterLanes } from './water-above.mjs';
 
+/* the bank's reflection and shade inside the waterline (waterShading's `bank`) */
+export const WATER_BANK = Object.freeze({ reach: Object.freeze([0.3, 3.2]), share: 0.62, tint: Object.freeze([0.5, 0.72, 0.46]) });
+
 export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, cloud = null, ocean = false, showBed = true, nordic = false, wind = false,
-  road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false }) {
+  road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false, bank = false }) {
   const uSun = sun, uWaterGlint = glint, uWaterChop = chop;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
@@ -109,6 +112,17 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   // Teal shallows, blue depths and the active atmosphere's reflected sky.
   let body = mix(paintedWaterShallow, paintedWaterDeep, depth);
   body = mix(body, bedCol, bed.mul(0.6));
+  /* THE BANK IN THE WATER (2 November). A pond's body ran in one flat colour up
+     to its waterline, and from the course's high views every pond read as a
+     sticker. The water a stride or two inside the bank holds the bank's own
+     reflection and shade: darker and greener, in each light's own water colour
+     (WATER_BANK), fading out by `reach` metres from the shore. Not on the open
+     sea. The sky's reflection, laid over the body below by the fresnel term,
+     still takes the grazing views. ?waterbank=0 is the before. */
+  if (bank && !ocean && !sea) {
+    const rim = oneMinus(smoothstep(WATER_BANK.reach[0], WATER_BANK.reach[1], aSh)).mul(WATER_BANK.share);
+    body = mix(body, body.mul(vec3(...WATER_BANK.tint)), rim);
+  }
   /* the waves from above: a facet toward the sun lighter, away darker (water-road.mjs), as rough as the patch, giving
      way in a cloud's shade */
   if (relief) body = body.mul(bodyRelief({ N, sun: uSun, sunlit: bodySun, rough }));

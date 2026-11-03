@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-prop",
+  "id": "pylon",
+  "asset": { "url": "models/props/pylon-217c9c900cb51f4d2853f826991c2ec5554228225cceaa5f5b77495ebb464c32.glb", "sha256": "217c9c900cb51f4d2853f826991c2ec5554228225cceaa5f5b77495ebb464c32", "bytes": 132044 },
+  "meshes": { "pylon_body": { "triangles": 1608, "tinted": true }, "pylon_trim": { "triangles": 252 } },
+  "axes": "crossarm along +x, y up, the line along z; metres; the foot at y = 0; 7.6 m across the arm, 23.2 m to the peak",
+  "attachments": { "outer": [[-3.2, 19.5], [3.2, 19.5]], "middle": [0, 22.4] },
+  "source": "tools/blender-props/pylon.py, Blender 5.2.2 LTS, built with the data API in its own scene (BanvyPylon) and exported through the Blender MCP on 3 November 2026",
+  "notes": "A galvanised 130 kV steel lattice pylon: four tapering legs with K-bracing in seven panels, a latticed crossarm and a peak; porcelain insulator strings to the three phases."
+}
