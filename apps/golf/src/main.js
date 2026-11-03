@@ -119,6 +119,7 @@ import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, 
 import { waterShading } from './engine/water-shading.mjs';
 import { createWaterReflection } from './engine/water-reflection.mjs';
 import { createGpuGrass } from './engine/gpu-grass.mjs';
+import { createTreeGpuCull, storageInstanceAttribute } from './engine/tree-gpu-cull.mjs';
 import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
@@ -5265,6 +5266,11 @@ const LODPX = (() => {
   const q = new URLSearchParams(location.search).get('lodpx'), v = q ? q.split(',').map(Number) : null;
   return v && v.length === 3 && v.every(x => x > 0) ? { hero: v[0], full: v[1], impostor: v[2] } : null;
 })();
+/* THE TREES CULLED ON THE GPU (engine/tree-gpu-cull.mjs; ?treecull=gpu, WebGPU at high quality, opt-in until
+   measured): each hero tree tested against the frustum in a compute pass, the colour pass drawing the survivors
+   by indirect draws; the tiers' own meshes draw the shadows */
+const TREE_GPU_CULL = IS_GPU && !LOWQ && new URLSearchParams(location.search).get('treecull') === 'gpu';
+let treeGpuCull = null;
 const TREE_LOD = {
   cell: 128, cells: [], tiers: [], mats: [], imp: [], tint: [], atlases: [], ready: false,
   /* Screen-size and distant-Hero review modes may change detail in flight.
@@ -5529,10 +5535,13 @@ const TREE_LOD = {
         geo = geo.clone();
         /* the crossfade's per-instance (start time, mask code); a fifth
            vertex buffer at most, against WebGPU's eight */
-        geo.setAttribute('aFade', createFadeAttribute(initialCapacity));
+        geo.setAttribute('aFade', TREE_GPU_CULL ? storageInstanceAttribute(initialCapacity, 2) : createFadeAttribute(initialCapacity));
         /* the authored crowns take a per-tree tint: a sixth vertex buffer, not dynamic, dirty ranges like the rest */
-        if (name === 'crown') geo.setAttribute('aTint', new THREE.InstancedBufferAttribute(new Float32Array(initialCapacity * 4), 4));
+        if (name === 'crown') geo.setAttribute('aTint', TREE_GPU_CULL ? storageInstanceAttribute(initialCapacity, 4)
+          : new THREE.InstancedBufferAttribute(new Float32Array(initialCapacity * 4), 4));
         const im = new THREE.InstancedMesh(geo, mat, initialCapacity);
+        /* culled on the GPU (engine/tree-gpu-cull.mjs): the tier's buffers are storage buffers too */
+        if (TREE_GPU_CULL) im.instanceMatrix = storageInstanceAttribute(initialCapacity, 16);
         im.count = 0;
         im.castShadow = true;
         im.receiveShadow = name === 'trunk';
@@ -5576,6 +5585,14 @@ const TREE_LOD = {
     c.lists = c.lists.map(l => Int32Array.from(l));
   }
   TREE_LOD.stats.cells = TREE_LOD.cells.length;
+  /* the hero tiers culled per tree on the GPU before each frame (engine/tree-gpu-cull.mjs) */
+  if (TREE_GPU_CULL) {
+    treeGpuCull = createTreeGpuCull({ renderer, scene, sun });
+    for (const rec of TREE_LOD.tiers) {
+      const hero = rec?.t[1], atlas = rec ? TREE_LOD.atlases[rec.species] : null;
+      if (hero?.parts.length === 2 && atlas) treeGpuCull.register(hero, { centreY: atlas.centreY, halfHeight: atlas.height / 2, radius: atlas.radius });
+    }
+  }
   TREE_LOD.ready = true;
 }
 
@@ -8750,6 +8767,8 @@ function renderActivePipeline() {
   if (!lowfx) worldVelocity?.update(camera);
   /* the runtime drop draws straight to the canvas: no copy to mirror from */
   WATER_REFLECTION?.setActive(!lowfx);
+  /* the hero trees in view, culled per tree (engine/tree-gpu-cull.mjs) */
+  treeGpuCull?.update(camera);
   renderPipeline(renderer, scene, camera, lowfx);
 }
 
@@ -12648,6 +12667,9 @@ window.V3D = {
   nearGrass: () => (nearGrass ? { ...structuredClone(stats.nearGrass), ...nearGrass.stats() } : structuredClone(stats.nearGrass ?? null)),
   /* the GPU grass's two draws' blade counts, read back (engine/gpu-grass.mjs), or null for the rings */
   grassCounts: async () => (nearGrass?.counts ? nearGrass.counts() : null),
+  /* the GPU tree cull's tiers and passes, and each tier's drawn and kept trees (engine/tree-gpu-cull.mjs) */
+  treeCull: () => treeGpuCull?.stats() ?? null,
+  treeCullCounts: async () => (treeGpuCull ? treeGpuCull.counts() : null),
   waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
     id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, isSea: !!w.isSea, surroundings: !!w.surr, points: w.ring?.length ?? 0,
     bb: w.ring?.length ? ringBBox(w.ring) : null,

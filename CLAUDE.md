@@ -386,6 +386,14 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     `pack_sprigs.mjs`) into colour and normal/light-through atlases, and the
     crowns light each leaf by its own normal (`leafNormal`, a screen-derivative
     frame; `?leafnormals=0`). The tree harnesses take `--treeset v2`.
+  - **Trees culled on the GPU, `?treecull=gpu`** (3 November; opt-in until
+    measured; see [the GPU tree cull](docs/tree-gpu-cull-2026-11-03.md)):
+    - A compute pass per hero tier frustum-culls each drawn tree into a copy
+      drawn by indirect draws (`tree-gpu-cull.mjs`).
+    - The tier's own meshes draw the shadows, on a layer only the sun's shadow
+      camera sees.
+    - Its instance buffers are storage buffers, and keep their class when the
+      tier grows.
   - **The grass grown on the GPU** (3 November; see [the GPU
     grass](docs/visual-gpu-grass-2026-11-03.md)):
     - On WebGPU at high quality, a compute pass grows the blades on nested
