@@ -120,7 +120,7 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
-import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET } from './engine/golf-cart-prop.mjs';
+import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET } from './engine/golf-cart-prop.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
@@ -8008,6 +8008,11 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
      lot's long axis, every second bay taken. */
   {
     let vans = 0;
+    /* the modelled motorhome (engine/golf-cart-prop.mjs, built in Blender); the boxes with ?props=0 or on a failure */
+    const hasVanLot = PROPS_ON && (M.infra.parking || []).some(p => p.vehicles === 'motorhome');
+    const vanParts = hasVanLot ? await loadPaintedProp({ asset: MOTORHOME_ASSET, baseUrl: import.meta.env.BASE_URL })
+      .catch(error => { console.warn('motorhome:', error.message); return null; }) : null;
+    const vanItems = [];
     for (const p of (M.infra.parking || [])) {
       if (p.vehicles !== 'motorhome' || !p.ring || p.ring.length < 3) continue;
       const B = obb2(p.ring);
@@ -8032,6 +8037,15 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
           if (hash2(Math.round(x * 2), Math.round(z * 2)) > 0.62) continue;
           const y = terrainH(x, z);
           const facing = v >= 0 ? 1 : -1;
+          if (vanParts) {
+            /* the modelled van, nose along the bay's facing (the lot's n axis) */
+            const fx = -s * facing, fz = c * facing;
+            vanItems.push({ colour: new THREE.Color().setRGB(...L(hash2(Math.round(x), Math.round(z)) > 0.7 ? 0xece4d2 : 0xf1f0ea)),
+              matrix: new THREE.Matrix4().compose(new THREE.Vector3(x, y, z),
+                new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.atan2(fx, fz)), new THREE.Vector3(1, 1, 1)) });
+            vans++;
+            continue;
+          }
           box(x, z, 0, 0, 2.3, 2.7, 6.8, y + 0.35, L(0xf1f0ea));
           box(x, z, 0, facing * 2.9, 2.2, 1.7, 1.2, y + 0.4, L(0x3a3d42));       /* the cab */
           box(x, z, 0, -facing * 0.6, 2.36, 0.55, 4.6, y + 1.55, L(0x2a2f36));   /* the window band */
@@ -8040,6 +8054,10 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
           vans++;
         }
       }
+    }
+    if (vanItems.length) {
+      scene.add(placePaintedProp(vanParts, vanItems, { name: 'motorhomes', tag: 'motorhomes', roughness: 0.55, bodyRoughness: 0.4, bodyMetalness: 0.1 }));
+      stats.draws += 2;
     }
     stats.motorhomes = vans;
   }

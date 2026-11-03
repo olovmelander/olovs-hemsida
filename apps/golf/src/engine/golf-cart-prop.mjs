@@ -29,6 +29,16 @@ export const PARKED_CAR_ASSET = Object.freeze({
   meshes: Object.freeze(['car_body', 'car_trim']),
 });
 
+/* THE MOTORHOME (3 November): the motorhome lot drew white boxes with a dark
+   cab and a window band. An alcove camper from tools/blender-props/motorhome.py,
+   2,200 triangles, its body white per instance. */
+export const MOTORHOME_ASSET = Object.freeze({
+  url: 'models/props/motorhome-cf8873b4364475a4ea1bd68bdf210a360313d88d3b7bcdadc87624a408b62779.glb',
+  sha256: 'cf8873b4364475a4ea1bd68bdf210a360313d88d3b7bcdadc87624a408b62779',
+  bytes: 103328,
+  meshes: Object.freeze(['van_body', 'van_trim']),
+});
+
 const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(b => b.toString(16).padStart(2, '0')).join('');
 
