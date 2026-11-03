@@ -107,6 +107,30 @@ read as soft blobs. **Not yet re-gated:** the tree shadow proof and the
 performance A/B wait for the owner's GPU session (3 November: keep the GPU
 cool).
 
+## The modelled bark (3 November, evening)
+
+Each species' bark is a tileable patch of real relief modelled in Blender
+(`bark_atlas.py`, its own scene `BanvyTreesV2Bark`). Each patch is a displaced
+grid whose heights are periodic both ways, so it wraps round a trunk and
+repeats up it without a seam:
+- birch: smooth, with lenticels pressed in and peeling strips raised;
+- pine: plates parted by deep cracks;
+- spruce: thin flaky scales;
+- oak: deep furrows between broken ridges;
+- alder: smooth, with running fissures.
+
+It is rendered from above with Cycles on the CPU into a near-neutral colour and
+a normal map (`pack_bark.mjs`). The v2 trunks carry UVs: a seam column, whole
+repeats of the 0.6 m tile round the trunk, and their length up it. The seam
+reuses its ring's first colour, so every seeded choice, and so every tree,
+grows exactly as before. The trunk material multiplies the bark's colour into
+the per-height tone (the pine's grey foot and orange crown) and tilts its
+normal by the bark's relief (`barkSurface`). `?bark=0` is the before.
+
+At 3 m the birch shows its lenticels. The pine's and oak's relief is subtle,
+and needs a close-up review and perhaps a stronger `REALISTIC_BARK.relief` in
+the GPU session (the owner asked to keep the GPU and fans cool on the 3rd).
+
 ## In the engine
 
 - **`ghibli-trees.mjs`:** `playerTreeSet()` reads `?treeset=v2`, and the loader

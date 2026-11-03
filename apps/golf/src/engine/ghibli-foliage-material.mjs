@@ -159,6 +159,14 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
 // Transparent atlas texels contain black RGB. Undo that dark fringe after
 // filtering, then keep just a little leaf pigment within the broad crown light.
 // The impostor bake uses the same correction; alpha still defines the silhouette.
+/* THE MODELLED BARK (bark_atlas.py): the trunk's per-height tone (its vertex colour) times the bark's own near-neutral
+   colour over its mean, and the trunk's normal tilted by the bark's relief in the uv's frame, as the leaves' are */
+export const REALISTIC_BARK=Object.freeze({share:.9,relief:1});
+export function barkSurface({bark}){
+  const t=texture(bark.normals);
+  const pigment=mix(vec3(1),texture(bark.map).rgb.div(vec3(...(bark.mean??[.8,.8,.8]))),REALISTIC_BARK.share);
+  return {pigment,normal:leafNormal({normals:bark.normals,texel:t,strength:REALISTIC_BARK.relief})};
+}
 export function foliageSurfacePigment(texel,realistic=false,mean=null){
   if(realistic)return realisticLeafPigment(texel,mean);
   return mix(vec3(1),texel.rgb.div(texel.a.max(.01)).min(1),.30);

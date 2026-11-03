@@ -66,6 +66,14 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
     const foliage = { key: entry.foliage.key, map: null, realistic, normals: null, mean: realistic ? entry.foliage.mean ?? null : null };
     jobs.push(async () => { foliage.map = await loadFoliageAtlas(base, entry.foliage.atlas, fetchImpl); });
     out.summary.files++; out.summary.bytes += entry.foliage.atlas.bytes;
+    /* the modelled bark (bark_atlas.py): its colour and relief, wrapping round the trunk */
+    if (realistic && entry.bark) {
+      validateAsset(entry.bark.atlas, 'png'); validateAsset(entry.bark.normals, 'png');
+      foliage.bark = { map: null, normals: null, mean: entry.bark.mean };
+      jobs.push(async () => { foliage.bark.map = await loadFoliageAtlas(base, entry.bark.atlas, fetchImpl, { repeat: true }); });
+      jobs.push(async () => { foliage.bark.normals = await loadFoliageAtlas(base, entry.bark.normals, fetchImpl, { linear: true, repeat: true }); });
+      out.summary.files += 2; out.summary.bytes += entry.bark.atlas.bytes + entry.bark.normals.bytes;
+    }
     if (realistic && entry.foliage.normals) {
       validateAsset(entry.foliage.normals, 'png');
       jobs.push(async () => { foliage.normals = await loadFoliageAtlas(base, entry.foliage.normals, fetchImpl, { linear: true }); });

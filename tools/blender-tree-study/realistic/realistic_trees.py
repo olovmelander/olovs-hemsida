@@ -128,29 +128,42 @@ def bark_colour(kind, h, height, rnd, theta):
         return (0.13 * n, 0.12 * n, 0.105 * n)
     return (0.06 * n, 0.045 * n, 0.035 * n)     # spruce
 
+BARK_TILE = 0.6   # metres of bark a repeat of its atlas covers (bark_atlas.py)
+
 class Wood:
-    def __init__(self): self.P, self.N, self.C, self.I = [], [], [], []
+    def __init__(self): self.P, self.N, self.C, self.U, self.I = [], [], [], [], []
     def tube(self, pts, radii, sides, kind, height, rnd, cap=False):
-        """A tapered tube along `pts`: parallel-transported rings, normals radial."""
+        """A tapered tube along `pts`: parallel-transported rings, normals radial; uv round it in whole repeats
+        of the bark's tile (a seam column, so the bark wraps without a stretch) and up it by its length, v
+        falling upward (the atlases' image is up the trunk toward smaller v, as the sprigs')."""
         if len(pts) < 2 or sides < 3: return
         t0 = (pts[1] - pts[0]).normalized()
         a = UP if abs(t0.dot(UP)) < 0.9 else Vector((1.0, 0.0, 0.0))
         nrm = t0.cross(a).normalized()
         base = len(self.P)
+        rounds = max(1, round(2 * math.pi * radii[0] / BARK_TILE))
+        along = 0.0
         for i, p in enumerate(pts):
+            if i: along += (p - pts[i - 1]).length
             tan = (pts[min(i + 1, len(pts) - 1)] - pts[max(i - 1, 0)]).normalized()
             nrm = (nrm - tan * nrm.dot(tan)).normalized()
             bin_ = tan.cross(nrm)
-            for s in range(sides):
+            first = None
+            for s in range(sides + 1):
                 th = 2 * math.pi * s / sides
                 d = nrm * math.cos(th) + bin_ * math.sin(th)
                 q = p + d * radii[i]
-                self.P.append(q); self.N.append(d); self.C.append(bark_colour(kind, q.y, height, rnd, th))
+                # the seam's vertex takes the ring's first colour: drawing one more would shift every seeded choice after it
+                c = first if s == sides else bark_colour(kind, q.y, height, rnd, th)
+                if s == 0: first = c
+                self.P.append(q); self.N.append(d); self.C.append(c)
+                self.U.append((rounds * s / sides, -along / BARK_TILE))
+        ring = sides + 1
         for i in range(len(pts) - 1):
             for s in range(sides):
-                a0 = base + i * sides + s
-                a1 = base + i * sides + (s + 1) % sides
-                b0, b1 = a0 + sides, a1 + sides
+                a0 = base + i * ring + s
+                a1 = a0 + 1
+                b0, b1 = a0 + ring, a1 + ring
                 self.I += [a0, b0, a1, a1, b0, b1]
 
 def polyline(start, direction, length, segs, curve, droop, rnd, wobble):
@@ -383,7 +396,7 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
             # glTF uv: v from the image's top; the sprig's base is the cell's lower edge
             crown['U'].append((u0 + 0.5 * (0.02 + 0.96 * uu), v0 + 0.5 * (1.0 - (0.02 + 0.96 * b))))
         crown['I'] += [base, base + 1, base + 2, base, base + 2, base + 3]
-    return dict(key=key, tier=tier, crown=crown, trunk=dict(P=wood.P, N=wood.N, C=wood.C, I=wood.I),
+    return dict(key=key, tier=tier, crown=crown, trunk=dict(P=wood.P, N=wood.N, C=wood.C, U=wood.U, I=wood.I),
                 stats=dict(cards=len(chosen), candidates=len(candidates), clusters=len(clusters), crownTris=len(crown['I']) // 3, trunkTris=len(wood.I) // 3))
 
 def fitted(key, tier, variant=0):
@@ -436,7 +449,8 @@ def build_catalogue(outdir, with_preview=True):
             tree = fitted(key, tier, v)
             rec = dict(key=key, tier=tier, name=SPECIES[key]['name'],
                        crown=dict(position=flat(tree['crown']['P'], 3), normal=flat(tree['crown']['N'], 3), uv=flat(tree['crown']['U'], 2), index=tree['crown']['I']),
-                       trunk=dict(position=flat(tree['trunk']['P'], 3), normal=flat(tree['trunk']['N'], 3), color=flat(tree['trunk']['C'], 3), index=tree['trunk']['I']))
+                       trunk=dict(position=flat(tree['trunk']['P'], 3), normal=flat(tree['trunk']['N'], 3), color=flat(tree['trunk']['C'], 3),
+                                  uv=flat(tree['trunk']['U'], 2), index=tree['trunk']['I']))
             with open(os.path.join(outdir, f"{key}-{tier}-{v}.json"), 'w', encoding='utf-8') as f:
                 json.dump(rec, f, ensure_ascii=False)
             report[f"{key}-{tier}-{v}"] = tree['stats']

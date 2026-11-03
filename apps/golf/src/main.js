@@ -38,6 +38,7 @@ import {
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
   normalMap, bumpMap, hash as tslHash, mrt, output, velocity,
+  cameraViewMatrix, transformNormalByViewMatrix,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
@@ -64,7 +65,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
-import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack } from './engine/ghibli-foliage-material.mjs';
+import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack, barkSurface } from './engine/ghibli-foliage-material.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
 import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
@@ -5331,6 +5332,14 @@ const TREE_LOD = {
     const mat = birch ? makeGhibliBirchBarkMaterial() : new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: false });
     /* an authored trunk carries its bark colour per vertex (a pine is grey below and orange above) */
     if (!birch) mat.colorNode = color(hex).mul(attribute('color', 'vec3'));
+    /* the modelled bark (engine/ghibli-foliage-material.mjs barkSurface): its colour round the per-height tone and its
+       relief in the light; ?bark=0 is the before */
+    const bark = GHIBLI.species[s].foliage.bark;
+    if (bark?.map && bark.normals && new URLSearchParams(location.search).get('bark') !== '0') {
+      const surface = barkSurface({ bark });
+      mat.colorNode = mat.colorNode.mul(surface.pigment);
+      mat.normalNode = transformNormalByViewMatrix(surface.normal, cameraViewMatrix);
+    }
     if (sway) { mat.positionNode = windSway(false); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };

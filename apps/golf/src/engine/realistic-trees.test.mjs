@@ -36,7 +36,9 @@ describe('the realistic catalogue (treeset v2)', () => {
     for (const s of v2.species) {
       /* the modelled sprigs (sprig_atlas.py): a normal and light-through atlas beside the colour */
       expect(s.foliage.normals?.file).toMatch(/^realistic-v2\/[a-f0-9]{64}\.png$/);
-      for (const rec of [s.foliage.atlas, s.foliage.normals, ...s.variants.flatMap(v => [v.tiers.hero, v.tiers.full])]) {
+      /* the modelled bark (bark_atlas.py): its colour and relief, wrapping round the trunk */
+      expect(s.bark?.tileMetres).toBe(0.6);
+      for (const rec of [s.foliage.atlas, s.foliage.normals, s.bark.atlas, s.bark.normals, ...s.variants.flatMap(v => [v.tiers.hero, v.tiers.full])]) {
         const bytes = read(rec.file);
         expect(bytes.length).toBe(rec.bytes);
         expect(createHash('sha256').update(bytes).digest('hex')).toBe(rec.sha256);
@@ -68,6 +70,7 @@ describe('the realistic catalogue (treeset v2)', () => {
     /* the bake's normals are the leaves' own, as the mesh lights them */
     expect(impostor).toContain('foliage.realistic === true && foliage.normals ? leafNormal({ normals: foliage.normals }) : normalWorldGeometry');
     expect(main).toContain("normals: new URLSearchParams(location.search).get('leafnormals') !== '0' ? foliage.normals ?? null : null, mean: foliage.mean ?? null,");
+    expect(main).toContain("if (bark?.map && bark.normals && new URLSearchParams(location.search).get('bark') !== '0') {");
     expect(impostor).toContain("frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;");
   });
 });

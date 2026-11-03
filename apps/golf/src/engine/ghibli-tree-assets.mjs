@@ -123,7 +123,8 @@ function validateAsset(rec, extension) {
 }
 
 /* `linear`: the realistic sprigs' normal and light-through atlas, data rather than colour */
-async function loadFoliageAtlas(base, rec, fetchImpl, { linear = false } = {}) {
+/* `repeat`: the bark, which wraps round a trunk and repeats up it */
+async function loadFoliageAtlas(base, rec, fetchImpl, { linear = false, repeat = false } = {}) {
   validateAsset(rec, 'png');
   const response = await fetchImpl(base + rec.file);
   if (!response.ok) throw new Error(`Ghibli foliage atlas: HTTP ${response.status}`);
@@ -133,7 +134,7 @@ async function loadFoliageAtlas(base, rec, fetchImpl, { linear = false } = {}) {
   const finish = map => {
     map.colorSpace = linear ? THREE.NoColorSpace : THREE.SRGBColorSpace;map.name = `ghibli-foliage-${rec.sha256}`;
     map.flipY = false; // Preserve the exported glTF UV convention.
-    map.wrapS = map.wrapT = THREE.ClampToEdgeWrapping;map.needsUpdate = true;
+    map.wrapS = map.wrapT = repeat ? THREE.RepeatWrapping : THREE.ClampToEdgeWrapping;map.needsUpdate = true;
     return map;
   };
   /* Decoded off the main thread: an <img> through TextureLoader is decoded

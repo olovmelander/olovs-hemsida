@@ -385,7 +385,9 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     The sprigs are modelled in 3D and rendered on the CPU (`sprig_atlas.py`,
     `pack_sprigs.mjs`) into colour and normal/light-through atlases, and the
     crowns light each leaf by its own normal (`leafNormal`, a screen-derivative
-    frame; `?leafnormals=0`). The tree harnesses take `--treeset v2`.
+    frame; `?leafnormals=0`), and the bark the same way (`bark_atlas.py`,
+    `pack_bark.mjs`, UVs on the trunks, `barkSurface`; `?bark=0`). The tree
+    harnesses take `--treeset v2`.
   - **Trees culled on the GPU, `?treecull=gpu`** (3 November; opt-in until
     measured; see [the GPU tree cull](docs/tree-gpu-cull-2026-11-03.md)):
     - A compute pass per hero tier frustum-culls each drawn tree into a copy

@@ -12,7 +12,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 
-const [treeDir, atlasDir] = process.argv.slice(2);
+const [treeDir, atlasDir, barkDir = null] = process.argv.slice(2);
+/* the modelled bark (bark_atlas.py, pack_bark.mjs), if given */
+const barkRecord = barkDir ? JSON.parse(fs.readFileSync(path.join(barkDir, 'bark.json'))) : null;
 const root = path.resolve('apps/golf/public/models/trees');
 const outDir = path.join(root, 'realistic-v2');
 fs.mkdirSync(outDir, { recursive: true });
@@ -92,7 +94,8 @@ for (const old of approved.species) {
       { name: 'crown', attributes: { POSITION: [Float32Array.from(t.crown.position), 'VEC3'], NORMAL: [Float32Array.from(t.crown.normal), 'VEC3'],
         TEXCOORD_0: [Float32Array.from(t.crown.uv), 'VEC2'], COLOR_0: [new Float32Array(crownCount * 3).fill(1), 'VEC3'] }, index: Uint32Array.from(t.crown.index) },
       { name: 'trunk', attributes: { POSITION: [Float32Array.from(t.trunk.position), 'VEC3'], NORMAL: [Float32Array.from(t.trunk.normal), 'VEC3'],
-        COLOR_0: [Float32Array.from(t.trunk.color), 'VEC3'] }, index: Uint32Array.from(t.trunk.index) },
+        COLOR_0: [Float32Array.from(t.trunk.color), 'VEC3'], ...(t.trunk.uv ? { TEXCOORD_0: [Float32Array.from(t.trunk.uv), 'VEC2'] } : {}) },
+        index: Uint32Array.from(t.trunk.index) },
     ]);
     tiers[tier] = { ...write(bytes, 'glb'), tris: (t.crown.index.length + t.trunk.index.length) / 3 };
     void trunkCount;
@@ -100,7 +103,14 @@ for (const old of approved.species) {
   variants.push({ seed: variant.seed + 101 * v, templateHeight: variant.templateHeight, templateRadius: variant.templateRadius, tiers });
   }
   if (!variants.length) throw new Error(`no trees for ${key}`);
-  species.push({ key, name: old.name, foliage: { key: old.foliage.key, atlas, ...(normals ? { normals } : {}), mean: a.mean }, variants });
+  let bark = null;
+  if (barkRecord?.species[key]) {
+    const b = barkRecord.species[key], read = f => fs.readFileSync(path.join(barkDir, f));
+    const cb = read(`bark-${key}.png`), nb = read(`bark-${key}-normal.png`);
+    if (sha(cb) !== b.colour.sha256 || sha(nb) !== b.normal.sha256) throw new Error(`bark ${key} does not match its record`);
+    bark = { atlas: write(cb, 'png'), normals: write(nb, 'png'), mean: b.mean, tileMetres: barkRecord.tileMetres };
+  }
+  species.push({ key, name: old.name, foliage: { key: old.foliage.key, atlas, ...(normals ? { normals } : {}), mean: a.mean }, ...(bark ? { bark } : {}), variants });
 }
 const manifest = { schemaVersion: 1, kind: 'ghibli-trees', design: 'realistic-v2', revision: REVISION,
   budgets: { hero: Math.max(...species.flatMap(s => s.variants.map(v => v.tiers.hero.tris))), full: Math.max(...species.flatMap(s => s.variants.map(v => v.tiers.full.tris))) },
