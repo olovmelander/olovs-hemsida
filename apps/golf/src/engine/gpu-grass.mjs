@@ -405,8 +405,9 @@ export function createGpuGrass({ renderer, atlas, fields = null, tint = null, DE
     clip.update(x, z);
     group.visible = clip.ready(x, z, layout.reach);
     if (group.visible) {
-      /* grown afresh each frame, before the frame is drawn */
-      renderer.compute(reset); renderer.compute(generate); renderer.compute(finish);
+      /* grown afresh each frame, before the frame is drawn: the three passes in one compute pass and one
+         submission (WebGPU orders a pass's dispatches, each seeing the last one's writes) */
+      renderer.compute([reset, generate, finish]);
       dispatches++;
     }
     updates++;

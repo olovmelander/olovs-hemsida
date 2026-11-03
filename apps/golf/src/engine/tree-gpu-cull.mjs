@@ -96,6 +96,8 @@ export function createTreeGpuCull({ renderer, scene, sun, margin = 1.15 }) {
       return im;
     };
     if (entry.copies) for (const c of entry.copies) { scene.remove(c); c.geometry.dispose(); c.dispose(); }
+    /* and the old passes' pipelines and bindings */
+    if (entry.passes) for (const pass of entry.passes) pass.dispose();
     entry.copies = [copyOf(crown, 0), copyOf(trunk, 5)];
     Object.assign(entry, { capacity, srcMatrix: crown.instanceMatrix, count, passes: [reset, cull, finish], args });
     rebuilds++;
@@ -119,6 +121,9 @@ export function createTreeGpuCull({ renderer, scene, sun, margin = 1.15 }) {
       viewProjection.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
       frustum.setFromProjectionMatrix(viewProjection, renderer.coordinateSystem, camera.reversedDepth ?? false);
       frustum.planes.forEach((p, k) => planes.array[k].set(p.normal.x, p.normal.y, p.normal.z, p.constant));
+      /* every tier's passes in one compute pass and one submission: WebGPU orders a pass's dispatches,
+         each seeing the writes of the ones before it */
+      const passes = [];
       for (const e of entries) {
         const [crown] = e.parts;
         /* a tier that grew swapped its buffers: its copy follows */
@@ -127,9 +132,10 @@ export function createTreeGpuCull({ renderer, scene, sun, margin = 1.15 }) {
         for (const c of e.copies) c.visible = crown.visible && n > 0;
         if (!(crown.visible && n > 0)) continue;
         e.count.value = n;
-        for (const pass of e.passes) renderer.compute(pass);
+        passes.push(...e.passes);
         dispatches++;
       }
+      if (passes.length) renderer.compute(passes);
     },
     /** The copies' drawn counts, read back (a harness's view). */
     async counts() {
