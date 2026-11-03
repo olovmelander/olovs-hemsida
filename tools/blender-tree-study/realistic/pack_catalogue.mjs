@@ -72,6 +72,13 @@ for (const old of approved.species) {
   const atlasBytes = fs.readFileSync(path.join(atlasDir, `${key}.png`));
   if (sha(atlasBytes) !== a.sha256) throw new Error(`atlas ${key} does not match its record`);
   const atlas = write(atlasBytes, 'png');
+  /* the modelled sprigs (sprig_atlas.py, pack_sprigs.mjs) carry their normals and light through */
+  let normals = null;
+  if (a.normal) {
+    const nb = fs.readFileSync(path.join(atlasDir, `${key}-normal.png`));
+    if (sha(nb) !== a.normal.sha256) throw new Error(`normals ${key} do not match their record`);
+    normals = write(nb, 'png');
+  }
   /* every variant stands in the approved template's box: the engine draws each species' variants
      at the species template's height and radius (main.js TEMPLATES, ky = kxz = 1) */
   const variant = old.variants[0];
@@ -93,11 +100,11 @@ for (const old of approved.species) {
   variants.push({ seed: variant.seed + 101 * v, templateHeight: variant.templateHeight, templateRadius: variant.templateRadius, tiers });
   }
   if (!variants.length) throw new Error(`no trees for ${key}`);
-  species.push({ key, name: old.name, foliage: { key: old.foliage.key, atlas, mean: a.mean }, variants });
+  species.push({ key, name: old.name, foliage: { key: old.foliage.key, atlas, ...(normals ? { normals } : {}), mean: a.mean }, variants });
 }
 const manifest = { schemaVersion: 1, kind: 'ghibli-trees', design: 'realistic-v2', revision: REVISION,
   budgets: { hero: Math.max(...species.flatMap(s => s.variants.map(v => v.tiers.hero.tris))), full: Math.max(...species.flatMap(s => s.variants.map(v => v.tiers.full.tris))) },
-  source: { geometry: 'tools/blender-tree-study/realistic/realistic_trees.py', atlas: 'tools/blender-tree-study/realistic/make_leaf_atlas.mjs',
+  source: { geometry: 'tools/blender-tree-study/realistic/realistic_trees.py', atlas: 'tools/blender-tree-study/realistic/sprig_atlas.py (Blender, Cycles on the CPU) + pack_sprigs.mjs',
     pack: 'tools/blender-tree-study/realistic/pack_catalogue.mjs', fittedTo: 'ghibli-fluffy.json (approved hero heights and radii)' },
   species };
 fs.writeFileSync(path.join(root, 'realistic-v2.json'), JSON.stringify(manifest, null, 2) + '\n');

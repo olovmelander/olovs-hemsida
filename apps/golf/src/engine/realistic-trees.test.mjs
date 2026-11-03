@@ -34,7 +34,9 @@ describe('the realistic catalogue (treeset v2)', () => {
   });
   it('publishes hash-named assets whose bytes match their records, within the hero budget', () => {
     for (const s of v2.species) {
-      for (const rec of [s.foliage.atlas, ...s.variants.flatMap(v => [v.tiers.hero, v.tiers.full])]) {
+      /* the modelled sprigs (sprig_atlas.py): a normal and light-through atlas beside the colour */
+      expect(s.foliage.normals?.file).toMatch(/^realistic-v2\/[a-f0-9]{64}\.png$/);
+      for (const rec of [s.foliage.atlas, s.foliage.normals, ...s.variants.flatMap(v => [v.tiers.hero, v.tiers.full])]) {
         const bytes = read(rec.file);
         expect(bytes.length).toBe(rec.bytes);
         expect(createHash('sha256').update(bytes).digest('hex')).toBe(rec.sha256);
@@ -47,10 +49,14 @@ describe('the realistic catalogue (treeset v2)', () => {
         expect(v.tiers.hero.tris).toBeLessThan(before * 1.5);
         expect(v.tiers.full.tris).toBeLessThan(v.tiers.hero.tris / 2);
       }
-      /* the material divides by the atlas's mean: the sprigs are near neutral round it */
-      for (const m of s.foliage.mean) expect(Math.abs(m - REALISTIC_LEAVES.mean)).toBeLessThan(0.08);
+      /* the material divides by the atlas's own mean (the manifest's): near neutral, so the palette keeps the hue */
+      expect(s.foliage.mean).toHaveLength(3);
+      for (const m of s.foliage.mean) { expect(m).toBeGreaterThan(0.6); expect(m).toBeLessThan(0.95); }
+      expect(Math.max(...s.foliage.mean) - Math.min(...s.foliage.mean)).toBeLessThan(0.06);
+      expect(REALISTIC_LEAVES.share).toBeGreaterThan(0.5);
     }
     expect(v2.source.geometry).toBe('tools/blender-tree-study/realistic/realistic_trees.py');
+    expect(v2.source.atlas).toContain('sprig_atlas.py');
   });
   it('keeps the meshes and impostors in agreement: no painted bands on either, the bake cut at the meshes\' own resolution', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
@@ -58,7 +64,10 @@ describe('the realistic catalogue (treeset v2)', () => {
     expect(main.match(/canopy: CANOPY_ON && !GHIBLI\.species\[s\]\.foliage\.realistic/g)?.length).toBe(2);
     const impostor = fs.readFileSync(new URL('./tree-impostor.mjs', import.meta.url), 'utf8');
     expect(impostor).toContain("const mask = foliage.realistic === true ? texture(foliage.map).level(0).a : texture(foliage.map).a;");
-    expect(impostor).toContain('foliageSurfacePigment(texture(foliage.map), foliage.realistic === true)');
+    expect(impostor).toContain('foliageSurfacePigment(texture(foliage.map), foliage.realistic === true, foliage.mean ?? null)');
+    /* the bake's normals are the leaves' own, as the mesh lights them */
+    expect(impostor).toContain('foliage.realistic === true && foliage.normals ? leafNormal({ normals: foliage.normals }) : normalWorldGeometry');
+    expect(main).toContain("normals: new URLSearchParams(location.search).get('leafnormals') !== '0' ? foliage.normals ?? null : null, mean: foliage.mean ?? null,");
     expect(impostor).toContain("frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;");
   });
 });

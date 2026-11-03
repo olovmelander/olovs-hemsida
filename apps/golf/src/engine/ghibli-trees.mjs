@@ -62,9 +62,15 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
     if (!entry.foliage?.key) throw new Error(`Ghibli tree manifest lacks painted foliage for ${key}`);
     validateAsset(entry.foliage.atlas, 'png');
     /* `realistic`: the material reads the sprigs' own leaf colours (ghibli-foliage-material.mjs) */
-    const foliage = { key: entry.foliage.key, map: null, realistic };
+    /* the modelled sprigs (sprig_atlas.py) add their normals and light through, and every realistic atlas its leaves' mean */
+    const foliage = { key: entry.foliage.key, map: null, realistic, normals: null, mean: realistic ? entry.foliage.mean ?? null : null };
     jobs.push(async () => { foliage.map = await loadFoliageAtlas(base, entry.foliage.atlas, fetchImpl); });
     out.summary.files++; out.summary.bytes += entry.foliage.atlas.bytes;
+    if (realistic && entry.foliage.normals) {
+      validateAsset(entry.foliage.normals, 'png');
+      jobs.push(async () => { foliage.normals = await loadFoliageAtlas(base, entry.foliage.normals, fetchImpl, { linear: true }); });
+      out.summary.files++; out.summary.bytes += entry.foliage.normals.bytes;
+    }
     const list = [];
     for (let v = 0; v < Math.min(variants, entry.variants.length); v++) {
       const variant = entry.variants[v], rec = variant.tiers[tier];

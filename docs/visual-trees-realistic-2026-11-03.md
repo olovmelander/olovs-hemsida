@@ -71,6 +71,42 @@ The first cut (2.6-3.7k hero triangles, one variant) read as young, sparse
 trees with pole-thin trunks in close portraits. It was cheaper, but these
 replace it at about the approved budget.
 
+## The modelled sprigs (3 November, evening)
+
+The first atlases were drawn flat (`make_leaf_atlas.mjs`, kept for its
+encoder). The owner's review asked for better-designed leaves, so each
+species' four sprigs are now modelled in 3D in Blender (`sprig_atlas.py`, its
+own scene `BanvyTreesV2Sprigs`):
+- **Broadleaves:** real leaf meshes from the same outlines, folded along the
+  midrib, curled and tilted, on stalks off a tube twig.
+- **Conifers:** the pine's needle brushes and the spruce's combed sprays as
+  needle meshes.
+
+The sprigs are rendered from above in two emission-only passes, with Cycles on
+the CPU (six threads, 12 samples, about 7 s for all five species, the GPU
+untouched):
+- the colour: each leaf's own near-neutral colour, the midrib paler and the
+  base darker;
+- the card-frame normal in R and G, with in B the light that passes through:
+  leaves and needles, never the twig.
+
+`pack_sprigs.mjs` bleeds the colour into the clear texels and records each
+atlas's mean over its leaves, which the material now divides by. Coverage is
+within about 10% of the drawn atlases.
+
+In the crown material (`leafNormal` in `ghibli-foliage-material.mjs`), each
+card's soft crown normal is tilted by the leaf's own normal. The frame is the
+card's uv directions on the surface, from screen derivatives, so mirrored cards
+and instancing need no tangent attribute. The back light is scaled by the
+light-through. The impostor bake writes the same perturbed normals.
+`?leafnormals=0` is the before (the modelled colour without its normals).
+
+Portraits at Ängsö 1: the alder and the oak show their leaves one by one,
+each with its own light and shade and a real outline, where the drawn sprigs
+read as soft blobs. **Not yet re-gated:** the tree shadow proof and the
+performance A/B wait for the owner's GPU session (3 November: keep the GPU
+cool).
+
 ## In the engine
 
 - **`ghibli-trees.mjs`:** `playerTreeSet()` reads `?treeset=v2`, and the loader

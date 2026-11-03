@@ -122,7 +122,8 @@ function validateAsset(rec, extension) {
     || !new RegExp(`^[a-zA-Z0-9_/-]+\\.${extension}$`).test(rec.file)) throw new Error('Invalid Ghibli asset record');
 }
 
-async function loadFoliageAtlas(base, rec, fetchImpl) {
+/* `linear`: the realistic sprigs' normal and light-through atlas, data rather than colour */
+async function loadFoliageAtlas(base, rec, fetchImpl, { linear = false } = {}) {
   validateAsset(rec, 'png');
   const response = await fetchImpl(base + rec.file);
   if (!response.ok) throw new Error(`Ghibli foliage atlas: HTTP ${response.status}`);
@@ -130,7 +131,7 @@ async function loadFoliageAtlas(base, rec, fetchImpl) {
   if (bytes.byteLength !== rec.bytes || await digest(bytes) !== rec.sha256) throw new Error('Ghibli foliage atlas checksum mismatch');
   const blob = new Blob([bytes], { type: 'image/png' });
   const finish = map => {
-    map.colorSpace = THREE.SRGBColorSpace;map.name = `ghibli-foliage-${rec.sha256}`;
+    map.colorSpace = linear ? THREE.NoColorSpace : THREE.SRGBColorSpace;map.name = `ghibli-foliage-${rec.sha256}`;
     map.flipY = false; // Preserve the exported glTF UV convention.
     map.wrapS = map.wrapT = THREE.ClampToEdgeWrapping;map.needsUpdate = true;
     return map;

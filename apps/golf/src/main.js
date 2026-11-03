@@ -5312,6 +5312,8 @@ const TREE_LOD = {
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
       backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON, realistic: foliage.realistic === true,
+      /* the modelled sprigs' normals and light through, and the atlas's own leaf mean (engine/ghibli-foliage-material.mjs); ?leafnormals=0 is the before */
+      normals: new URLSearchParams(location.search).get('leafnormals') !== '0' ? foliage.normals ?? null : null, mean: foliage.mean ?? null,
       /* ?canopybands=vertex is the before: the canopy's bands per vertex, which blew up near a low sun */
       bandsPerVertex: new URLSearchParams(location.search).get('canopybands') === 'vertex' });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }

@@ -24,7 +24,7 @@ import {
   transformNormalToView, positionWorld, normalWorldGeometry,
 } from 'three/tsl';
 import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
-import { paintedFoliageColour, foliageLight, foliageSurfacePigment, foliageFacingSun, IMPOSTOR_BACK_EDGE } from './ghibli-foliage-material.mjs';
+import { paintedFoliageColour, foliageLight, foliageSurfacePigment, foliageFacingSun, leafNormal, IMPOSTOR_BACK_EDGE } from './ghibli-foliage-material.mjs';
 import { coverOpaqueBackdrop } from './msaa-coverage.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
@@ -229,7 +229,7 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
   crownNormal.opacityNode = float(1);
   if (foliage) {
     if (!crown.getAttribute('uv') || !foliage.map) throw new Error('Foliage impostor bake needs UVs and its shared atlas');
-    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(foliageSurfacePigment(texture(foliage.map), foliage.realistic === true));
+    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(foliageSurfacePigment(texture(foliage.map), foliage.realistic === true, foliage.mean ?? null));
     /* the realistic sprigs (treeset v2) are cut from the atlas's full resolution, as the mesh's own
        shadow cuts them (maskShadowNode): at a 96 px frame their fine leaves and needles average under
        half on the mipmaps, and the impostors' shadows kept only 0.6-0.7 of the meshes' */
@@ -238,7 +238,8 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
       mat.side = THREE.DoubleSide;
       mat.maskNode = mask.greaterThan(.5);
     }
-    crownNormal.colorNode = normalWorldGeometry.mul(.5).add(.5);
+    /* the modelled sprigs' leaves tilt the baked normal as they tilt the mesh's light */
+    crownNormal.colorNode = (foliage.realistic === true && foliage.normals ? leafNormal({ normals: foliage.normals }) : normalWorldGeometry).mul(.5).add(.5);
   }
   const trunkNormal = new THREE.MeshBasicNodeMaterial();
   trunkNormal.colorNode = faceNormal;

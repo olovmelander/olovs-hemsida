@@ -9,7 +9,7 @@
   },
   "source": {
     "geometry": "tools/blender-tree-study/realistic/realistic_trees.py",
-    "atlas": "tools/blender-tree-study/realistic/make_leaf_atlas.mjs",
+    "atlas": "tools/blender-tree-study/realistic/sprig_atlas.py (Blender, Cycles on the CPU) + pack_sprigs.mjs",
     "pack": "tools/blender-tree-study/realistic/pack_catalogue.mjs",
     "fittedTo": "ghibli-fluffy.json (approved hero heights and radii)"
   },
@@ -20,14 +20,19 @@
       "foliage": {
         "key": "tall",
         "atlas": {
-          "file": "realistic-v2/7574aa9d877a9061f39ae04498ff6c65f173ef7736cdf0de4c123d5682917f86.png",
-          "bytes": 613387,
-          "sha256": "7574aa9d877a9061f39ae04498ff6c65f173ef7736cdf0de4c123d5682917f86"
+          "file": "realistic-v2/df72c6e944d54376250233b6ebb7ff87f4622d2f045851f0602c5e8aa6618e72.png",
+          "bytes": 529134,
+          "sha256": "df72c6e944d54376250233b6ebb7ff87f4622d2f045851f0602c5e8aa6618e72"
+        },
+        "normals": {
+          "file": "realistic-v2/d3dccf6b661ac3fcb5b6d1b56ed59e960c1a6539931eb5518820fba10bffaa6f.png",
+          "bytes": 904564,
+          "sha256": "d3dccf6b661ac3fcb5b6d1b56ed59e960c1a6539931eb5518820fba10bffaa6f"
         },
         "mean": [
-          0.7664,
-          0.7914,
-          0.7251
+          0.8179,
+          0.8506,
+          0.8084
         ]
       },
       "variants": [
@@ -96,14 +101,19 @@
       "foliage": {
         "key": "gran",
         "atlas": {
-          "file": "realistic-v2/2483bc0b61edd0bf88758b43d4231dcd293cbaa10b6e65e0c255af3e3d46ad29.png",
-          "bytes": 901032,
-          "sha256": "2483bc0b61edd0bf88758b43d4231dcd293cbaa10b6e65e0c255af3e3d46ad29"
+          "file": "realistic-v2/77ec9a013321a0860604a8e03b8b29ba29ef522ef5591ef3a5284d87fce886e0.png",
+          "bytes": 768631,
+          "sha256": "77ec9a013321a0860604a8e03b8b29ba29ef522ef5591ef3a5284d87fce886e0"
+        },
+        "normals": {
+          "file": "realistic-v2/38bf6265adabab3c5435d406e6e7e76a9619646d85e3f9178fb10d4aa8c454a6.png",
+          "bytes": 1111066,
+          "sha256": "38bf6265adabab3c5435d406e6e7e76a9619646d85e3f9178fb10d4aa8c454a6"
         },
         "mean": [
-          0.7393,
-          0.7694,
-          0.7097
+          0.7843,
+          0.8141,
+          0.7727
         ]
       },
       "variants": [
@@ -172,14 +182,19 @@
       "foliage": {
         "key": "bjork",
         "atlas": {
-          "file": "realistic-v2/f5b7fb96cda6314a218dbf5dae7bf953928a5b685ca5375c00777b477aeadd17.png",
-          "bytes": 423841,
-          "sha256": "f5b7fb96cda6314a218dbf5dae7bf953928a5b685ca5375c00777b477aeadd17"
+          "file": "realistic-v2/19bfb13acf5884b755df5ca5e3215f70cf6d9f3ebb04d246f1f814c5f6a89e21.png",
+          "bytes": 464929,
+          "sha256": "19bfb13acf5884b755df5ca5e3215f70cf6d9f3ebb04d246f1f814c5f6a89e21"
+        },
+        "normals": {
+          "file": "realistic-v2/1837c716a9aed3f355da6b8400d135777a35fce651a7aeb015a997a6802a7c44.png",
+          "bytes": 647211,
+          "sha256": "1837c716a9aed3f355da6b8400d135777a35fce651a7aeb015a997a6802a7c44"
         },
         "mean": [
-          0.7775,
-          0.7754,
-          0.7724
+          0.8112,
+          0.8101,
+          0.8081
         ]
       },
       "variants": [
@@ -248,14 +263,19 @@
       "foliage": {
         "key": "al",
         "atlas": {
-          "file": "realistic-v2/a9f5e96525000fea8602e11fab03a10c53596200c6e27f0928d12c5fa824d427.png",
-          "bytes": 331680,
-          "sha256": "a9f5e96525000fea8602e11fab03a10c53596200c6e27f0928d12c5fa824d427"
+          "file": "realistic-v2/7591b31b7392e781c6c86bbd6e7832f8b07e18a8515686bb307704b5082006f5.png",
+          "bytes": 430012,
+          "sha256": "7591b31b7392e781c6c86bbd6e7832f8b07e18a8515686bb307704b5082006f5"
+        },
+        "normals": {
+          "file": "realistic-v2/46379210c65753ad306b6ddfe8a9d9fd46ab35061779afbc5570be06656583d4.png",
+          "bytes": 572138,
+          "sha256": "46379210c65753ad306b6ddfe8a9d9fd46ab35061779afbc5570be06656583d4"
         },
         "mean": [
-          0.7684,
-          0.7695,
-          0.7721
+          0.81,
+          0.808,
+          0.8044
         ]
       },
       "variants": [
@@ -324,14 +344,19 @@
       "foliage": {
         "key": "ek",
         "atlas": {
-          "file": "realistic-v2/614964f8bbec654c4bfc3d20e3f80ee1e3b0cf62392da908ecf4d3dedcc4c0e3.png",
-          "bytes": 371440,
-          "sha256": "614964f8bbec654c4bfc3d20e3f80ee1e3b0cf62392da908ecf4d3dedcc4c0e3"
+          "file": "realistic-v2/301b9bdc120ea680f1124e451b181da64f29fc3889e3f18255b625c5ec677924.png",
+          "bytes": 425264,
+          "sha256": "301b9bdc120ea680f1124e451b181da64f29fc3889e3f18255b625c5ec677924"
+        },
+        "normals": {
+          "file": "realistic-v2/34dfdec53763df39665384fb93f72b9a1a6931332b18f81d9499bd8c718c4fac.png",
+          "bytes": 578445,
+          "sha256": "34dfdec53763df39665384fb93f72b9a1a6931332b18f81d9499bd8c718c4fac"
         },
         "mean": [
-          0.7764,
-          0.7775,
-          0.7805
+          0.8138,
+          0.8092,
+          0.8009
         ]
       },
       "variants": [

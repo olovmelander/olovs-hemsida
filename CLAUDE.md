@@ -382,7 +382,10 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     bands, and the impostor bake cuts their mask at mip 0, as the mesh shadow
     does, in 128 px frames. Rebuild the meshes
     by running `realistic_trees.py` through the MCP, then `pack_catalogue.mjs`.
-    The tree harnesses take `--treeset v2`.
+    The sprigs are modelled in 3D and rendered on the CPU (`sprig_atlas.py`,
+    `pack_sprigs.mjs`) into colour and normal/light-through atlases, and the
+    crowns light each leaf by its own normal (`leafNormal`, a screen-derivative
+    frame; `?leafnormals=0`). The tree harnesses take `--treeset v2`.
   - **The grass grown on the GPU** (3 November; see [the GPU
     grass](docs/visual-gpu-grass-2026-11-03.md)):
     - On WebGPU at high quality, a compute pass grows the blades on nested
