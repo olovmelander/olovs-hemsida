@@ -45,3 +45,20 @@ describe('the tour turf', () => {
     expect(main).toContain('tourGrade: TOUR_TURF_ON,');
   });
 });
+
+describe('the tour tussock', async () => {
+  const { tourTussockBlades, tussockBlades } = await import('./ground-cover.mjs');
+  it('is a clump of narrow blades, not three wide ones', () => {
+    const { positions, normals } = tourTussockBlades();
+    expect(positions.length).toBe(14 * 9);
+    expect(normals.length).toBe(positions.length);
+    for (let b = 0; b < 14; b++) {
+      const p = positions.slice(b * 9, b * 9 + 9);
+      const rootWidth = Math.hypot(p[0] - p[3], p[2] - p[5]);
+      expect(rootWidth).toBeLessThan(0.04);
+      expect(p[7]).toBeGreaterThan(0.15);
+    }
+    expect(tussockBlades().positions.length).toBe(27);
+    expect(tourTussockBlades()).toEqual(tourTussockBlades());
+  });
+});

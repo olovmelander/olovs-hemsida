@@ -101,7 +101,7 @@ import {
 } from './engine/surface-render-policy.mjs';
 import { createV2GroundMaterialDecorator, makeGround, paintedGround, setWindSheen, setTourTurf } from './engine/material.js';
 import { createTurfDetailTexture } from './engine/turf-detail.mjs';
-import { tussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
+import { tussockBlades, tourTussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
   seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
 import { createNearGrass } from './engine/near-grass.mjs';
 import { CUP, createGolfCupMask, createGolfCupGeometry, cupSurfaceHeightAt } from './engine/golf-cups.mjs';
@@ -6325,7 +6325,8 @@ lap('far vista cones', { vista: stats.vista | 0 });
    is what made the extra clause look free. */
 if (M.infra.vegetationPlacement !== 'measured-only') {
   const tuft = (() => {
-    const g = new THREE.BufferGeometry(), { positions, normals } = tussockBlades();
+    /* the tour turf's tussock is a clump of fine blades (ground-cover.mjs); ?turf=painted the three wide ones */
+    const g = new THREE.BufferGeometry(), { positions, normals } = TOUR_TURF_ON ? tourTussockBlades() : tussockBlades();
     g.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     g.setAttribute('normal', new THREE.Float32BufferAttribute(COVER_LIGHT_ON ? bladeNormalsFront(normals) : normals, 3));
     return g;
