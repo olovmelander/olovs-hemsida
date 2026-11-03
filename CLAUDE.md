@@ -383,6 +383,19 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     does, in 128 px frames. Rebuild the meshes
     by running `realistic_trees.py` through the MCP, then `pack_catalogue.mjs`.
     The tree harnesses take `--treeset v2`.
+  - **The grass grown on the GPU** (3 November; see [the GPU
+    grass](docs/visual-gpu-grass-2026-11-03.md)):
+    - On WebGPU at high quality, a compute pass grows the blades on nested
+      world-anchored rings round the eye, culls them, colours them from the
+      ground's own functions and appends the survivors by an atomic counter.
+    - Two indirect draws (Bézier strips, four and two segments) draw them
+      (`gpu-grass.mjs`), with the rough real out to about 60 m.
+    - A compute dispatch has no camera: pass the eye in a uniform, never
+      `cameraPosition`.
+    - The rings (`near-grass.mjs`) stay unchanged for WebGL2, low quality and
+      phones. `?grass=rings` is the before; `?grassmown=0` drops the short
+      mown blades, the main source of flicker.
+    - About 0.2 ms against the rings' 1 ms.
   - **Power lines** (3 November): towers are a Blender-built lattice pylon
     (`tools/blender-props/pylon.py`, `PYLON_ASSET`, its three phases on its
     insulators), crossarms turned square to the line, wires and lift cables

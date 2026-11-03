@@ -118,6 +118,7 @@ import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } from './engine/building-paint.mjs';
 import { waterShading } from './engine/water-shading.mjs';
 import { createWaterReflection } from './engine/water-reflection.mjs';
+import { createGpuGrass } from './engine/gpu-grass.mjs';
 import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
@@ -6618,7 +6619,14 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
     }
     return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(x, z);
   };
-  nearGrass = createNearGrass({
+  /* THE GRASS GROWN ON THE GPU (engine/gpu-grass.mjs): on WebGPU at high quality with the tour turf a
+     compute pass grows the blades round the eye out to some 60 m and two indirect draws draw them; the
+     rings below stay for WebGL2, low quality and phones. ?grass=rings is the before. */
+  const gpuGrass = IS_GPU && !LOWQ && TOUR_TURF_ON && new URLSearchParams(location.search).get('grass') !== 'rings';
+  nearGrass = (gpuGrass ? createGpuGrass : createNearGrass)({
+    renderer, fields: { texF: exact.texF, lateralStepMetres: exact.lateralStepMetres },
+    /* the mown turf's short blades laid along the mowing; ?grassmown=0 grows none */
+    mown: new URLSearchParams(location.search).get('grassmown') !== '0',
     atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
     tint: GROUND_TINT, DETAIL, C, SHADE, cutTone: CUT_TONE_STRENGTH, uSun, sunThrough: uSunThrough, sunlit: SUNLIT,
     /* the tour grade, as the ground under the blades takes it (turf-look.mjs) */
@@ -6633,7 +6641,8 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
   });
   scene.add(nearGrass.mesh);
   stats.draws++;
-  Object.assign(stats.nearGrass, { instances: nearGrass.layout.instances, blades: nearGrass.layout.bladesTotal, rings: nearGrass.layout.rings.length });
+  Object.assign(stats.nearGrass, gpuGrass ? { kind: 'gpu', candidates: nearGrass.layout.candidates, rings: nearGrass.layout.rings.length }
+    : { instances: nearGrass.layout.instances, blades: nearGrass.layout.bladesTotal, rings: nearGrass.layout.rings.length });
   /* Meadow flowers in the rough (engine/meadow-flowers.mjs, after serenity-blocks'
      Odyssey meadow life): drifts of oxeye daisy, buttercup, harebell, red clover and
      wood cranesbill on the rough round the eye, on the grass's own class fields and
@@ -12256,6 +12265,24 @@ window.V3D = {
      V3D.devOverlay() reports, V3D.devOverlay(true) turns it on. */
   devOverlay: (on) => (on === undefined ? devOverlay : setDevOverlay(on)),
   treeCatalogue: () => ({ look: 'painted', loaded: true, ...GHIBLI.summary }),
+  /* the harness's tree photographs: the nearest tree of species `s` to (x, z) that has no other tree within
+     `gap` metres, so it stands clear in the picture; its base, scale and drawn height */
+  treeNear: (s, x, z, gap = 8, minHeight = 0) => {
+    const list = trees[s] ?? [], found = [];
+    for (let i = 0; i < list.length; i += 6) found.push([Math.hypot(list[i] - x, list[i + 2] - z), i]);
+    found.sort((a, b) => a[0] - b[0]);
+    for (const [, i] of found.slice(0, 3000)) {
+      const tx = list[i], tz = list[i + 2];
+      if (SPECIES[s].templateHeight * list[i + 3] < minHeight) continue;
+      const crowded = trees.some((other, k) => {
+        for (let j = 0; j < other.length; j += 6) if ((k !== s || j !== i) && Math.hypot(other[j] - tx, other[j + 2] - tz) < gap) return true;
+        return false;
+      });
+      if (!crowded) return { x: tx, y: list[i + 1], z: tz, scale: list[i + 3], height: SPECIES[s].templateHeight * list[i + 3],
+        radius: SPECIES[s].templateRadius * list[i + 3], key: GHIBLI.species[s].key };
+    }
+    return null;
+  },
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            vistaSpecies: stats.vistaSpecies ?? null,
            environmentWater: stats.environmentWater ?? null,
@@ -12617,6 +12644,8 @@ window.V3D = {
   cover: () => structuredClone(stats.cover),
   /* the grass round the ball: its layout, whether it is drawn, and its ground grid */
   nearGrass: () => (nearGrass ? { ...structuredClone(stats.nearGrass), ...nearGrass.stats() } : structuredClone(stats.nearGrass ?? null)),
+  /* the GPU grass's two draws' blade counts, read back (engine/gpu-grass.mjs), or null for the rings */
+  grassCounts: async () => (nearGrass?.counts ? nearGrass.counts() : null),
   waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
     id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, isSea: !!w.isSea, surroundings: !!w.surr, points: w.ring?.length ?? 0,
     bb: w.ring?.length ? ringBBox(w.ring) : null,
