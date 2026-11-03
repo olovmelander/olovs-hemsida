@@ -308,7 +308,7 @@ At the final commit, on the RTX 5080 Laptop (Chrome 156, D3D12/ANGLE):
 | `check-chooser-ui.mjs` | pass |
 | `check-caddie-ui.mjs` | **25/25** (the harness now reads the GPS hole view after the resize applies, section 8) |
 | `check-hero-impostor.mjs` (Puttom hi, Visby lo) | Hero and Full routing, model requests and slots verified; the forced-Lite override (`setTreeLod(3)`) still leaves impostors drawn (9,598 hi, 17 lo), **the same on the build before any of the night's visual changes** (open, below) |
-| GPU time, all of the night's features off (`?…=0`) against on, four views, two interleaved rounds | off 6.88/7.27/8.32/4.72 and 8.32/8.26/8.26/4.26 ms (mean 7.04); on 7.21/8.85/8.85/4.00 and 8.85/6.95/8.98/4.98 ms (mean 7.33): **+0.3 ms** at 1080p, inside the run-to-run spread |
+| GPU time on the final build, all of the night's features off (`?…=0`) against on, four views, two interleaved rounds | off 8.59/7.41/6.88/4.39 and 8.52/6.82/8.39/4.52 ms (mean 6.94); on 7.34/8.78/8.85/5.05 and 9.24/7.14/7.34/4.85 ms (mean 7.32): **+0.4 ms** at 1080p, inside the run-to-run spread |
 
 ![Before (the morning, top) and after, Angso's third green at golden hour](graphics/night-2026-11-02/before-after-angso-h3-green-kvall.png)
 ![Norrfallsviken's first tee](graphics/night-2026-11-02/before-after-norrfallsviken-h1-tee-kvall.png)
