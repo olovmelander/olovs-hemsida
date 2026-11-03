@@ -352,8 +352,9 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
     candidates = candidates[:hero_count]
     chosen = candidates[:keep]
     # the full tier's fewer cards are larger, so the crown keeps its area
-    # (the pine's full tier keeps the whole area: its pads must stay solid to agree with its impostor's shadow)
-    grow_k = math.sqrt(len(candidates) / max(1, len(chosen))) * (1.0 if hero or key == 'tall' else 0.92)
+    # (the pine's full tier keeps the whole area: its pads must stay solid to agree with its impostor's shadow;
+    # so does the birch's: with the modelled sprigs its lighter crown kept 0.66 of its shadow at a 2.25 m texel)
+    grow_k = math.sqrt(len(candidates) / max(1, len(chosen))) * (1.0 if hero or key in ('tall', 'björk') else 0.92)
     crown = dict(P=[], N=[], U=[], I=[])
     for (kind, p, d, centre, li, curtain) in chosen:
         size = Cd['size'] * rnd.uniform(0.8, 1.2) * grow_k
