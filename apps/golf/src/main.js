@@ -123,6 +123,7 @@ import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET } from './engine/golf-cart-prop.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
+import { createFallingLeaves } from './engine/falling-leaves.mjs';
 import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
@@ -2146,6 +2147,11 @@ if (birds) scene.add(birds.mesh);
 const BUTTERFLIES_ON = new URLSearchParams(location.search).get('butterflies') !== '0';
 const butterflies = BUTTERFLIES_ON ? createButterflies({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
 if (butterflies) scene.add(butterflies.mesh);
+/* Falling leaves in autumn (engine/falling-leaves.mjs): tumbling down round the eye in
+   Höst's gold, orange and copper, drifting on the one air. ?leaves=0 is the before. */
+const FALLING_LEAVES_ON = new URLSearchParams(location.search).get('leaves') !== '0';
+const fallingLeaves = FALLING_LEAVES_ON ? createFallingLeaves({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (fallingLeaves) scene.add(fallingLeaves.mesh);
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2248,6 +2254,7 @@ function setPreset(name, overrides = null) {
   airMotes?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   birds?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun, sky: fog.color.getHex() });
   butterflies?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
+  fallingLeaves?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -11683,6 +11690,7 @@ function frame() {
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  fallingLeaves?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   updateStrategy(now);
   fitStrategyLabels();
   kikTagUpdate();
@@ -11725,6 +11733,7 @@ if (VALLEY_MIST_ON) {
   airMotes?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
   birds?.update({ dt: 0, groundY: terrainH(camera.position.x, camera.position.z) });
   butterflies?.update({ dt: 0, camera, groundY: terrainH(camera.position.x, camera.position.z) });
+  fallingLeaves?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
 }
 
 if (COURSE_DATA_READY) {
@@ -12472,6 +12481,7 @@ window.V3D = {
   airMotes: () => airMotes?.snapshot() ?? null,
   birds: () => birds?.snapshot() ?? null,
   butterflies: () => butterflies?.snapshot() ?? null,
+  fallingLeaves: () => fallingLeaves?.snapshot() ?? null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
