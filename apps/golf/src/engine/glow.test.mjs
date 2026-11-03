@@ -70,7 +70,8 @@ describe('the glow at a low sun', () => {
     /* the shine feeds the glow: none without the bloom, at low quality or after the runtime drop */
     expect(main).toMatch(/\.\.\.\(CLOUD_GLOW_ON && !LOWQ && !lowfx \? \{\} : \{ skyCloudGlow: 0 \}\)/);
     expect(main).toMatch(/renderer\.__bloomNode\.strength\.value = 0;\n\s+\/\*[^*]*\*\/\n\s+setAtmospherePreset\(skyMesh, skyPreset\(preset, presetName\)\);/);
-    expect(main).toMatch(/bloom\(sceneColor, 0\.14, GLOW\.radius, GLOW\.threshold\)/);
+    /* on the scene's colour, or the temporal AA's resolve of it (temporal-aa.mjs) */
+    expect(main).toMatch(/bloom\(resolved \?\? sceneColor, 0\.14, GLOW\.radius, GLOW\.threshold\)/);
     expect(main).toMatch(/smoothWidth\.value = GLOW\.knee/);
     /* the glow is high quality's alone: the low-quality renderer builds no bloom */
     expect(main).toMatch(/if \(!LOWQ && new URLSearchParams\(location\.search\)\.get\('post'\) !== '0'\) \{\n  const \{ bloom \}/);

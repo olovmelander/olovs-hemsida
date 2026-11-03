@@ -37,7 +37,7 @@ import {
   mix, smoothstep, clamp, pow, max, min, abs, sin, cos, dot, normalize, fract,
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
-  normalMap, bumpMap, hash as tslHash,
+  normalMap, bumpMap, hash as tslHash, mrt, output, velocity,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
@@ -129,6 +129,7 @@ import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
 import { createGrassCards, loadGrassCards } from './engine/grass-cards.mjs';
 import { createGrassShells, loadGrassMat } from './engine/grass-shells.mjs';
 import { createContactAO } from './engine/contact-ao.mjs';
+import { createWorldVelocity } from './engine/temporal-aa.mjs';
 import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
@@ -2010,6 +2011,13 @@ const BARE_GROUND_ON = new URLSearchParams(location.search).get('bareground') !=
 /* the bunker's hollow: a bowl lit by the sun and the lip's crescent of shade
    (engine/ground-material-core.mjs SAND_BOWL); ?sandbowl=0 is the before */
 const SAND_BOWL_ON = new URLSearchParams(location.search).get('sandbowl') !== '0';
+/* Temporal AA (engine/temporal-aa.mjs): three's TRAANode in place of MSAA, with the post
+   pipeline at high quality (low quality and phones keep MSAA); ?aa=msaa is the before.
+   Decided before the scene is built: what moves by its matrices (the swans) takes three's own
+   velocity. det=1 harnesses keep MSAA, whose single frame is the whole picture. */
+const AA_PARAM = new URLSearchParams(location.search).get('aa');
+const TEMPORAL_AA = !LOWQ && new URLSearchParams(location.search).get('post') !== '0'
+  && (AA_PARAM === 'traa' || (AA_PARAM === null && !DET));
 /* the wind on the grass: the air's gusts cross the turf as laid, paler patches
    (engine/one-wind.mjs windSheenAt), the ground and the blades round the ball alike; ?windsheen=0 is the before */
 setWindSheen(new URLSearchParams(location.search).get('windsheen') !== '0');
@@ -7920,6 +7928,8 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
     .catch(error => { console.warn('swan:', error.message); return null; }) : null;
   if (parts) {
     swans = createSwans(parts, plan, { deterministic: DET });
+    /* the swans move by their instance matrices: three's own object velocity is right for them (temporal AA) */
+    if (TEMPORAL_AA) for (const mesh of swans.group.children) mesh.material.mrtNode = mrt({ velocity });
     scene.add(swans.group);
   }
 }
@@ -8582,6 +8592,7 @@ await tick('ställer ljuset', 0.86);
 let openingScenePass = null;
 const GOD_RAYS_ON = new URLSearchParams(location.search).get('godrays') !== '0';
 let godRays = null, godRaysPending = null;
+let worldVelocity = null;
 /* Contact shadows (engine/contact-ao.mjs): GTAO on the scene pass's depth, at half
    resolution, darkening the colour only where things meet the ground or fold into
    each other. High quality (the pipeline's) only. ?ao=0 is the before. */
@@ -8590,14 +8601,33 @@ const CONTACT_AO_ON = new URLSearchParams(location.search).get('ao') !== '0';
 if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
   const post = new THREE.RenderPipeline(renderer);
-  const scenePass = pass(scene, camera);
+  /* Temporal AA (engine/temporal-aa.mjs): three's TRAANode in place of the scene pass's MSAA,
+     reprojected by the world-static velocity. ?aa=msaa is the before */
+  const scenePass = TEMPORAL_AA ? pass(scene, camera, { samples: 0 }) : pass(scene, camera);
+  if (TEMPORAL_AA) {
+    worldVelocity = createWorldVelocity();
+    scenePass.setMRT(mrt({ output, velocity: worldVelocity.velocity }));
+  }
   openingScenePass = scenePass;
-  const sceneColor = scenePass.getTextureNode('output');
+  const rawSceneColor = scenePass.getTextureNode('output');
+  const sceneColor = rawSceneColor;
   contactAO = CONTACT_AO_ON ? await createContactAO({ depthNode: scenePass.getTextureNode('depth'), camera }) : null;
   contactAO?.setPreset(presetName);
   /* the scene's colour as the output takes it: with the contact shadows, if any (the bloom reads the scene's own) */
-  const litColor = contactAO ? contactAO.apply(sceneColor) : sceneColor;
-  const bloomNode = bloom(sceneColor, 0.14, GLOW.radius, GLOW.threshold);
+  const aoColor = contactAO ? contactAO.apply(sceneColor) : sceneColor;
+  /* the frames blended after the contact shadows, before the glow and the god rays add theirs */
+  const traaNode = TEMPORAL_AA
+    ? (await import('three/addons/tsl/display/TRAANode.js')).traa(aoColor, scenePass.getTextureNode('depth'), scenePass.getTextureNode('velocity'), camera)
+    : null;
+  renderer.__traa = traaNode;
+  /* and sharpened again (AMD's contrast-adaptive RCAS, three's SharpenNode), as TAA is in every
+     engine that runs it: the blend softens what it steadies. ?sharpen=<0..2>, 2 none */
+  const sharpness = Number(new URLSearchParams(location.search).get('sharpen') ?? 0.35);
+  const resolved = traaNode
+    ? (await import('three/addons/tsl/display/SharpenNode.js')).sharpen(traaNode.getTextureNode(), Number.isFinite(sharpness) ? sharpness : 0.35)
+    : null;
+  const litColor = resolved ?? aoColor;
+  const bloomNode = bloom(resolved ?? sceneColor, 0.14, GLOW.radius, GLOW.threshold);
   /* a knee, not a switch: at the stock 0.01 a sunlit flag or trim crossing the
      threshold turned its whole halo on in one frame. It now grows over 0.3 from
      the preset's threshold (0.86 to 1.16 at noon). ?bloomknee=hard is the before
@@ -8635,6 +8665,8 @@ function renderActivePipeline() {
     try { if (godRaysPending()) godRaysPending = null; }
     catch (error) { godRaysPending = null; godRays = null; console.error('God rays unavailable:', error); }
   }
+  /* the world-static velocity's matrices, unjittered (TRAA jitters only inside the pipeline) */
+  if (!lowfx) worldVelocity?.update(camera);
   renderPipeline(renderer, scene, camera, lowfx);
 }
 

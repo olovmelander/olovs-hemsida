@@ -340,10 +340,20 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     and shell mat (`grass-cards.mjs`, `grass-shells.mjs`) are kept behind
     `?grasscards=1` and `?grassmat=1`: both alias (alpha cut), and cards read
     as crosses from above. Measure aliasing as 1080p against a 4K render scaled
-    down (`tools/goldens/gfx/alias.mjs`, local). Temporal AA (three's TRAANode)
-    is the next lever: it replaces MSAA, needs velocity for vertex-animated
-    grass and trees, and the blades' fragment inputs must stay under 16 with
-    velocity's added.
+    down (`tools/goldens/gfx/alias.mjs`, local).
+  - **Temporal AA** (`temporal-aa.mjs`, 3 November): three's TRAANode in place
+    of the scene pass's MSAA at high quality, then AMD's RCAS sharpen
+    (`SharpenNode`, `?sharpen=0..2`). The velocity MRT is the WORLD-STATIC one
+    (each pixel's world position through this and the last frame's
+    unjittered view-projection), since three's own reads the raw geometry
+    position and is wrong for everything placed in a shader (terrain tiles,
+    grass rings, impostors); objects moved by their matrices (the swans) take
+    three's `velocity` through their `mrtNode`. Update the matrices once a
+    frame before the pipeline (`renderActivePipeline`). Low quality, phones
+    and `det=1` keep MSAA; `?aa=traa` forces it, `?aa=msaa` is the before.
+    It needs MSAA off (three), and a per-material velocity output can push a
+    fragment stage past 16 inputs (the first trial crashed the blades): keep
+    the velocity in the MRT, not in the materials.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
   - **LF line endings.** This checkout sets `core.autocrlf=false` so the
