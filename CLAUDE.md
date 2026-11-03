@@ -314,6 +314,16 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     and lawns stay clean. Joined to the colour before the bloom and the god
     rays add theirs; high quality only. `?ao=0` is the before.
     `?tonecurve=filmic` is an opt-in A/B.
+  - **The tour turf** (3 November, owner request: grass like EA Sports PGA
+    Tour 2K25; see [the tour turf](docs/visual-turf-tour-2026-11-03.md)):
+    `turf-detail.mjs` makes a seeded, tileable blade, pebble and grain texture
+    at load; `turf-look.mjs` lays each class's channel over its colour, the
+    mown blades along each hole's mowing, and bumps the terrain normal by it,
+    faded by the pixel's footprint. Stripes are stronger and swap with where
+    you stand. One per-class tour grade (`TURF_LOOK.grade`) is taken by both
+    the ground and the blades round the ball: keep them in step. The rough's
+    blades are finer and denser at high quality, and tussocks are clumps of
+    fine blades. `?turf=painted` is the whole before.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
   - **LF line endings.** This checkout sets `core.autocrlf=false` so the
