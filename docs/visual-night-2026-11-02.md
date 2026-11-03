@@ -297,12 +297,12 @@ At the final commit, on the RTX 5080 Laptop (Chrome 156, D3D12/ANGLE):
 | Check | Result |
 |---|---|
 | Frozen lockfile install, `pnpm --filter @banvy/golf build`, `node tools/lint-app.mjs` | pass |
-| `pnpm exec vitest run apps/golf` | **1365/1365**, 185 files |
-| `pnpm test`, Vitest | **1635/1635**, 218 files |
+| `pnpm exec vitest run apps/golf` | **1369/1369**, 186 files |
+| `pnpm test`, Vitest | **1639/1639**, 219 files |
 | `pnpm test`, Node | **479 pass**, 0 fail, 3 skipped (Visby's `compile-stands` needs `copc-reader`'s own `npm ci` once) |
 | `node packages/course-v2/check-app-build.mjs`, `pnpm check:course-workflow` | pass |
-| `tools/check-prepared-startup.mjs` on the rebuilt app | pass, revision `102fb4d4` (tint, vista, scatter and water re-baked after the last engine change) |
-| `check-gpu-clean-boot.mjs --quality hi` | **26/26** clean: WebGPU boots 5.3–9.1 s, opening compile 0.66–0.78 s; WebGL2 4.4–8.4 s, 0.31–0.80 s; at most 15 vertex outputs |
+| `tools/check-prepared-startup.mjs` on the rebuilt app | pass, revision `2af034ff` (tint, vista, scatter and water re-baked after the last engine change; the earlier bakes' water fields removed) |
+| `check-gpu-clean-boot.mjs --quality hi` | **26/26** clean: WebGPU boots 5.4–9.0 s, opening compile 0.68–0.81 s; WebGL2 4.0–8.4 s, 0.33–0.77 s; at most 15 vertex outputs |
 | `check-gpu-clean-boot.mjs --quality lo` | **26/26** clean (before the guard, every WebGL2 course hung) |
 | `check-hud-layout.mjs` | 51/51 |
 | `check-chooser-ui.mjs` | pass |
