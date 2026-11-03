@@ -42,12 +42,13 @@ each.
 - No console or validation errors.
 - `tree-gpu-cull.test.mjs`: storage buffers survive growth, the shadow layer,
   the wiring.
+- Clean boots (night of 3 November): all 13 courses on WebGPU at high quality
+  with `aa=traa&treeset=v2&treecull=gpu`, at most 14 vertex outputs.
 
-## To do in a full-speed session
+## Still to do
 
 - Interleaved A/B (`tools/goldens/gfx/ab-time.mjs`) at Puttom 5 green and
   Veckefjärden 13 tee, `treecull=gpu` against none, with v1 and v2 trees.
-- Clean boots with `treecull=gpu`.
 - `check-tree-shadows`, `check-tree-tier-capacity` and `check-hero-impostor`
   with the cull on.
 - Next step if it pays: cull the impostor tier the same way, and pick the tier

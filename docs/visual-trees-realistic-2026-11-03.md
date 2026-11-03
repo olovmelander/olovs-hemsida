@@ -180,14 +180,38 @@ All on the RTX 5080; reports in `tools/goldens/gfx/gates/` (local).
 - **Download:** a v2 visit fetches three variants' meshes of its tier and five
   1024 px atlases: about 7.7 MB at high quality, against about 3.8 MB for v1.
 
+### Re-gated with the modelled sprigs and bark (night of 3 November)
+
+Reports in `tools/goldens/gfx/session/` (local).
+
+- **Clean boots** (`aa=traa&treeset=v2`, 13 courses on both backends at high
+  quality): all 26 clean, at most 14 vertex outputs.
+- **`check-tree-shadows`, hero tier:** passes.
+- **`check-tree-shadows`, full tier:**
+  - With the modelled sprigs, the lighter full-tier birch kept 0.658 of its
+    fine-texel shadow at the 1150 m box on the 1024 map (27.4°).
+  - Its fewer cards now keep the hero crown's whole leaf area, as the pine's
+    do (`realistic_trees.py`; only the birch's three full-tier GLBs changed).
+    Every birch mesh row passes.
+  - The worst row is now its impostor at 850/1024 (9.4°): 0.748 against the
+    gate's 0.75.
+  - At 1.7–2.25 m texels a sparse crown covers a handful of shadow texels, so
+    single rows move by about 0.1 with any change to the crown. The last 0.002
+    is left for the owner's review rather than tuned against.
+- **Capacity:** passes.
+- **Hero/impostor:** as above. Every step passes up to the forced-Lite one,
+  which fails as on main.
+
 **Photographs:** `tools/goldens/gfx/tree-photos.mjs` takes the nearest clear
 tree of each species from 1.7 m, and `tree-sheet.mjs` sets old against new at
 noon and golden hour (Ängsö 1).
 
 ## Status
 
-v2 stays opt-in. Every gate passes except the hero/impostor check's forced-Lite
-step, which also fails on v1, and the GPU time sits at the edge of the ~10%
-budget. The look is a large change from the painted
+v2 stays opt-in. Every gate passes except two:
+- the hero/impostor check's forced-Lite step, which also fails on v1;
+- one full-tier birch shadow row: 0.748 against 0.75, with the modelled sprigs.
+
+The GPU time sits at the edge of the ~10% budget. The look is a large change from the painted
 style, so it should be the owner's decision by screenshot. Flipping the default
 is `playerTreeSet()`'s fallback.
