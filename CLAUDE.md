@@ -306,7 +306,8 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   - **More befores:** `?sandbowl=0`, `?windsheen=0`, `?waterbank=0`,
     `?cirrus=0`, `?birds=0`, `?butterflies=0`, `?leafflutter=0`,
     `?covershapes=0`, `?teemarkers=before`, `?labelcap=0`, `?camarc=0`,
-    `?leaves=0`, `?rain=0`, `?swans=0`, `?herons=0`, `?lilies=0` and `?flowers=0`.
+    `?leaves=0`, `?rain=0`, `?swans=0`, `?herons=0`, `?lilies=0`, `?flowers=0`
+    and `?lakemist=0` (the lakes' own sheets, merged, as three mist layers at order 7).
   - **Contact shadows** (`contact-ao.mjs`): three's GTAO on the scene pass's
     depth (r187 reads the reversed buffer; normals rebuilt from depth), at half
     resolution, box-blurred, and only past a contact threshold so flat walls

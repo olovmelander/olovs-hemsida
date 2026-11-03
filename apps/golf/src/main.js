@@ -126,6 +126,7 @@ import { planHerons } from './engine/herons.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
 import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
 import { createContactAO } from './engine/contact-ao.mjs';
+import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { createFallingLeaves } from './engine/falling-leaves.mjs';
@@ -2169,6 +2170,8 @@ let swans = null;
 let meadowFlowers = null;
 /* Contact shadows (engine/contact-ao.mjs): made with the post pipeline, below. */
 let contactAO = null;
+/* Mist on the lakes (engine/lake-mist.mjs): made once the water's sheets exist, below. */
+let lakeMist = null;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2275,6 +2278,7 @@ function setPreset(name, overrides = null) {
   rain?.setPreset(presetName, { sky: fog.color.getHex() });
   meadowFlowers?.setPreset(presetName);
   contactAO?.setPreset(presetName);
+  lakeMist?.setPreset(presetName, { haze: fog.color.getHex(), sun: p.sun, sunDirection: p.dir });
   godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -7869,6 +7873,19 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
    the bank and facing out over it; static instanced furniture with its shadows.
    ?herons=0 is the before. */
 let heronCount = 0;
+/* Mist on the lakes (engine/lake-mist.mjs): the lakes' own water sheets near the course,
+   merged, drawn as three thin drifting layers after the water in the lights that
+   have them (dawn most). ?lakemist=0 is the before. */
+if (new URLSearchParams(location.search).get('lakemist') !== '0') {
+  const sheets = WATER_MESHES.filter(m => m.userData.water && !m.userData.water.isSea && !m.userData.water.stream)
+    .map(m => ({ geometry: m.geometry, y: m.position.y }));
+  const geometry = sheets.length ? mergeLakeSheets(sheets, playB) : null;
+  if (geometry) {
+    lakeMist = createLakeMist({ geometry, detail: DETAIL, deterministic: DET });
+    lakeMist.setPreset(presetName, { haze: fog.color.getHex(), sun: preset.sun, sunDirection: preset.dir });
+    scene.add(lakeMist.group);
+  }
+}
 if (new URLSearchParams(location.search).get('herons') !== '0') {
   const bodies = M.water.filter(w => !w.stream && !w.isSea && w.ring?.length >= 3 && Number.isFinite(w.level))
     .map(w => ({ id: w.id, ring: w.ring, level: w.level }));
@@ -11784,6 +11801,7 @@ function frame() {
   fallingLeaves?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   rain?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   swans?.update({ dt, still: cameraMotionPreference.matches });
+  lakeMist?.update({ dt, air: AIR, still: cameraMotionPreference.matches });
   updateStrategy(now);
   fitStrategyLabels();
   kikTagUpdate();
@@ -12584,6 +12602,7 @@ window.V3D = {
   rain: () => rain?.snapshot() ?? null,
   swans: () => swans?.snapshot() ?? null,
   herons: () => heronCount,
+  lakeMist: () => lakeMist?.stats() ?? null,
   meadowFlowers: () => meadowFlowers?.stats() ?? null,
   waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
