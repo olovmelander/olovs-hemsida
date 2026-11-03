@@ -127,6 +127,7 @@ import { planHerons } from './engine/herons.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
 import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
 import { createGrassCards, loadGrassCards } from './engine/grass-cards.mjs';
+import { createGrassShells, loadGrassMat } from './engine/grass-shells.mjs';
 import { createContactAO } from './engine/contact-ao.mjs';
 import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
 import { createBirds } from './engine/birds.mjs';
@@ -2178,6 +2179,8 @@ let swans = null;
 let meadowFlowers = null;
 /* Grass cards in the rough (engine/grass-cards.mjs): made with the grass round the ball, below. */
 let grassCards = null;
+/* The grass mat in shells (engine/grass-shells.mjs): made with the grass round the ball, below. */
+let grassShells = null;
 /* Contact shadows (engine/contact-ao.mjs): made with the post pipeline, below. */
 let contactAO = null;
 /* Mist on the lakes (engine/lake-mist.mjs): made once the water's sheets exist, below. */
@@ -6621,6 +6624,20 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
         clip: nearGrass.clip, tint: GROUND_TINT, C, SHADE, DETAIL, uSun, tourGrade: TOUR_TURF_ON, quality: LOWQ ? 'lo' : 'hi',
         relief: GROUND_RELIEF_ON });
       scene.add(grassCards.mesh);
+      stats.draws++;
+    }
+  }
+  /* The grass mat in shells (engine/grass-shells.mjs; owner request 3 November: "a mat of dense
+     grass"): the rough round the eye drawn again as sixteen shells cut from a mat of blades
+     baked in Blender, a carpet with depth under the blades and the cards. High quality, with
+     the tour turf; ?grassmat=0 is the before. */
+  if (TOUR_TURF_ON && !LOWQ && new URLSearchParams(location.search).get('grassmat') !== '0') {
+    const map = await loadGrassMat({ baseUrl: import.meta.env.BASE_URL, THREE })
+      .catch(error => { console.warn('grass mat:', error.message); return null; });
+    if (map) {
+      grassShells = createGrassShells({ map, atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
+        clip: nearGrass.clip, tint: GROUND_TINT, C, SHADE, DETAIL, uSun, tourGrade: TOUR_TURF_ON, relief: GROUND_RELIEF_ON });
+      scene.add(grassShells.mesh);
       stats.draws++;
     }
   }
@@ -11829,6 +11846,7 @@ function frame() {
   nearGrass?.update(camera, renderer.domElement.height);
   meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
   grassCards?.update(camera, nearGrass?.mesh.visible);
+  grassShells?.update(camera, nearGrass?.mesh.visible);
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
@@ -11932,6 +11950,9 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     grassCards?.update(camera, nearGrass?.mesh.visible);
     const cardsHidden = grassCards ? !grassCards.mesh.visible : false;
     if (cardsHidden) grassCards.mesh.visible = true;
+    grassShells?.update(camera, nearGrass?.mesh.visible);
+    const shellsHidden = grassShells ? !grassShells.mesh.visible : false;
+    if (shellsHidden) grassShells.mesh.visible = true;
     if (grassHidden) nearGrass.mesh.visible = true;
     try {
       BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass,
@@ -11941,6 +11962,7 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
       if (grassHidden) nearGrass.mesh.visible = false;
       if (flowersHidden) meadowFlowers.mesh.visible = false;
       if (cardsHidden) grassCards.mesh.visible = false;
+      if (shellsHidden) grassShells.mesh.visible = false;
     }
   } catch (error) {
     const retryMessage = 'kunde inte visa banan — ladda om och försök igen';
@@ -12654,6 +12676,7 @@ window.V3D = {
   lakeMist: () => lakeMist?.stats() ?? null,
   meadowFlowers: () => meadowFlowers?.stats() ?? null,
   grassCards: () => grassCards?.stats() ?? null,
+  grassShells: () => grassShells?.stats() ?? null,
   waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),

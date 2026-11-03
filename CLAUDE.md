@@ -329,6 +329,15 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     the ground and the blades round the ball: keep them in step. The rough's
     blades are finer and denser at high quality, and tussocks are clumps of
     fine blades. `?turf=painted` is the whole before.
+  - **The rough's grass** (3 November, owner request: dense, no triangles):
+    the blades round the ball are curved, tapered strips; Blender-built grass
+    cards (`grass-cards.mjs`, `tools/blender-props/grass_cards.py`) stand in
+    the rough round the eye; and the rough is drawn again as sixteen shells
+    cut from a dense mat of blades baked in Blender (`grass-shells.mjs`,
+    `grass_mat.py`; high quality only). Both textures are published hash-named
+    with their records by `tools/blender-props/publish-grass-*.mjs`, which
+    also update the modules' asset constants. `?grasscards=0` and
+    `?grassmat=0` are the befores.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
   - **LF line endings.** This checkout sets `core.autocrlf=false` so the
