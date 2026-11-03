@@ -85,7 +85,7 @@ export const NEAR_GRASS = Object.freeze({
    round the ball reads as a sward and not as scattered paper triangles. Low quality keeps
    its own. */
 export const NEAR_GRASS_TOUR = Object.freeze({
-  blades: Object.freeze({ hi: 16 }), widthShare: 0.13,
+  blades: Object.freeze({ hi: 28 }), widthShare: 0.05,
   /* a blade is a strip of this many segments, not one triangle: it rises, bends over toward
      its tip and tapers to a point; its sway grows toward the tip; its widest at `belly` of its
      length; its edges a shade darker than its middle */
@@ -94,14 +94,21 @@ export const NEAR_GRASS_TOUR = Object.freeze({
      A Voronoi cell of `clump` metres round a jittered centre; its blades are pulled toward
      it by up to `pull`, lean its way by `align`, share its height (`clumpHeight`), and some
      clumps are dry (`dry` of them, in `dryTint`) or a shade lighter or darker (`tone`) */
-  clump: 0.5, pull: 0.3, align: 0.55, clumpHeight: Object.freeze([0.6, 1.5]),
+  clump: 0.5, pull: 0.18, align: 0.45, clumpHeight: Object.freeze([0.82, 1.22]),
   dry: 0.14, dryTint: Object.freeze([1.18, 1.02, 0.7]), tone: 0.16,
   /* a blade seen edge-on turns this far toward the eye, so none goes paper-thin */
   faceEye: 0.6,
   /* rounded across its width: the normal leans this far toward each edge */
   round: 0.45,
   /* fewer but wider with distance: each ring's blades this much wider than the ring inside it */
-  ringWiden: 1.75,
+  ringWiden: 1.3,
+  /* REAL GRASS (owner: "too thick and unnatural, I want it real"): thin blades, each its own shade
+     between a yellow and a blue green, one in `deadShare` dead and straw-coloured, dark at the
+     root where dense grass shades itself (`root`, against the tip's `tip`) */
+  hueWarm: Object.freeze([1.1, 1.02, 0.82]), hueCool: Object.freeze([0.9, 1, 1.1]),
+  deadShare: 0.065, dead: Object.freeze([1.55, 1.25, 0.62]), root: 0.42, tip: 1.22,
+  /* how far a blade's tip leans off the vertical, as a share of its length: some stand, longer ones flop */
+  lean: Object.freeze([0.12, 0.85]),
   bladeMetres: Object.freeze({ [SURFACE.SEMI]: 0.06, [SURFACE.ROUGH]: 0.12, [SURFACE.HEATH]: 0.08, [SURFACE.WETLAND]: 0.12 }),
 });
 
@@ -410,6 +417,9 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
     const T = NEAR_GRASS_TOUR;
     const dry = step(clumpHash(14), float(T.dry)).mul(seasonal);
     colour = colour.mul(mix(vec3(1), vec3(...T.dryTint), dry)).mul(clumpHash(15).sub(0.5).mul(T.tone * 2).add(1));
+    /* and each blade its own: a shade between a yellow and a blue green, a few dead */
+    const own = unit(pcg(seed.add(uint(7)))), dead = step(unit(pcg(seed.add(uint(8)))), float(T.deadShare)).mul(seasonal);
+    colour = colour.mul(mix(vec3(...T.hueCool), vec3(...T.hueWarm), own)).mul(mix(vec3(1), vec3(...T.dead), dead));
   }
 
   /* THE FADE: whole near the eye, gone while a few pixels tall, and never past the last ring */
@@ -438,7 +448,9 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
     const edgeOn = abs(across.dot(toEye));
     across = normalize(mix(across, square.mul(across.dot(square).greaterThanEqual(0).select(float(1), float(-1))), edgeOn.mul(NEAR_GRASS_TOUR.faceEye)));
   }
-  const lean = r6.mul(NEAR_GRASS.lean[1]).add(NEAR_GRASS.lean[0]);
+  const lean = tourGrade
+    ? mix(float(NEAR_GRASS_TOUR.lean[0]), float(NEAR_GRASS_TOUR.lean[1]), r6.mul(r6.mul(0.5).add(r4.mul(0.5))))
+    : r6.mul(NEAR_GRASS.lean[1]).add(NEAR_GRASS.lean[0]);
   /* fewer but wider with distance: each ring's blades wider than the ring inside it */
   const ringWide = tourGrade ? pick(layout.rings.map((_, k) => float(NEAR_GRASS_TOUR.ringWiden ** k))) : float(1);
   const width = max(length.mul(tourGrade ? NEAR_GRASS_TOUR.widthShare : NEAR_GRASS.widthShare).mul(ringWide), distance.mul(pixelPerMetre).mul(NEAR_GRASS.minPixels)).mul(step(1e-4, length));
@@ -485,7 +497,10 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   material.normalNode = transformNormalByViewMatrix(normalize(vec3(lean2.x.add(rounded.x), 1, lean2.y.add(rounded.y))), cameraViewMatrix);
   const V = normalize(cameraPosition.sub(positionWorld));
   const through = pow(saturate(V.dot(uSun.negate())), 2.4).mul(NEAR_GRASS.through).mul(sunThrough).mul(sunlit ?? 1).mul(up);
-  const shaded = rootColour.mul(mix(float(NEAR_GRASS.rootTone), float(NEAR_GRASS.tipTone), up))
+  /* dark at the root where dense grass shades itself (tour turf), lighter to the tip */
+  const shaded = rootColour.mul(tourGrade
+    ? mix(float(NEAR_GRASS_TOUR.root), float(NEAR_GRASS_TOUR.tip), up.sqrt())
+    : mix(float(NEAR_GRASS.rootTone), float(NEAR_GRASS.tipTone), up))
     .mul(mix(vec3(1), vec3(...NEAR_GRASS.tipWarm), up))
     .mul(tone.sub(0.5).mul(NEAR_GRASS.toneSpread).add(1)).mul(through.add(1))
     .mul(SEG > 1 ? float(1).sub(abs(facingSide.z).mul(NEAR_GRASS_TOUR.edgeShade)) : float(1));

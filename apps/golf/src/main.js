@@ -6529,7 +6529,9 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     const tint = texture(DETAIL, positionWorld.xz.mul(0.03)).b;
     const tuftColour = mix(color(PAINTED_SCENERY.tuft[0]),
       mix(color(PAINTED_SCENERY.tuft[1]), uReedC, uAutumn), COVER_COLOUR_ON ? tint.mul(COVER_TUNED_SHARE) : tint).mul(float(1).add(lit.mul(0.45)));
-    tuftMat.colorNode = COVER_COLOUR_ON ? grassCover(tuftColour) : tuftColour;
+    /* the tour turf's tussock is the rough's own grass: its grade, and less of the pale tip colour */
+    const tuftGraded = TOUR_TURF_ON ? tuftColour.mul(vec3(0.78, 0.84, 0.66)) : tuftColour;
+    tuftMat.colorNode = COVER_COLOUR_ON ? grassCover(tuftGraded) : tuftGraded;
     if (COVER_LIGHT_ON) tuftMat.normalNode = seenBladeNormal();
   }
   const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: !COVER_SHAPES_ON });

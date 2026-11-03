@@ -27,7 +27,7 @@ export function tourTussockBlades(count = 14) {
   for (let b = 0; b < count; b++) {
     const a = b * 2.39996 + 0.3, c = Math.cos(a), sn = Math.sin(a);
     const step = (b * 7919) % 97 / 97, step2 = (b * 104729) % 89 / 89;
-    const r = 0.015 + 0.03 * step, half = 0.01 + 0.006 * step2;
+    const r = 0.015 + 0.03 * step, half = 0.0035 + 0.003 * step2;
     const tall = 0.25 + 0.2 * step2, lean = 0.06 + 0.16 * step;
     /* a blade: its root across its facing, its tip leaning out */
     positions.push(c * r - sn * half, 0, sn * r + c * half, c * r + sn * half, 0, sn * r - c * half,
