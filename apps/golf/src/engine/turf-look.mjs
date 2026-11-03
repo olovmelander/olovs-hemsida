@@ -25,7 +25,7 @@
    the hole the light and dark passes swap, as on any mown course.
    ?turf=painted is the before, for this and the finish (material.js). */
 import {
-  abs, cross, dFdx, dFdy, dot, float, fwidth, normalize, oneMinus, positionView, sign, smoothstep, texture, vec2, vec3,
+  cameraPosition, positionWorld, mix, abs, cross, dFdx, dFdy, dot, float, fwidth, normalize, oneMinus, positionView, sign, smoothstep, texture, vec2, vec3,
 } from 'three/tsl';
 import { SURFACE } from './surface.js';
 
@@ -67,13 +67,20 @@ export const TURF_LOOK = Object.freeze({
   grade: Object.freeze({
     [S.FAIRWAY]: Object.freeze([1.36, 1.0, 0.98]), [S.TEE]: Object.freeze([1.3, 1.0, 0.98]),
     [S.SEMI]: Object.freeze([1.2, 0.93, 0.9]), [S.FRINGE]: Object.freeze([1.42, 0.96, 0.93]),
-    [S.GREEN]: Object.freeze([1.66, 0.92, 0.9]), [S.ROUGH]: Object.freeze([0.9, 0.9, 0.78]),
+    [S.GREEN]: Object.freeze([1.66, 0.92, 0.9]), [S.ROUGH]: Object.freeze([0.8, 0.86, 0.68]),
     [S.FOREST]: Object.freeze([0.88, 0.86, 0.76]), [S.HEATH]: Object.freeze([1.0, 0.88, 0.8]),
     [S.WETLAND]: Object.freeze([0.9, 0.88, 0.82]),
     /* the hard ground: warm stone, not a cold grey; asphalt darker */
     [S.PATH]: Object.freeze([0.92, 0.84, 0.7]), [S.GRAVEL]: Object.freeze([0.92, 0.84, 0.7]),
     [S.DIRT]: Object.freeze([0.95, 0.88, 0.78]), [S.ASPHALT]: Object.freeze([0.72, 0.72, 0.74]),
   }),
+  /* THE ROUGH AS A MAT (owner, from the tee: "I want a realistic dense mat of grass"). Past a few
+     metres dense grass is not blades but a velvet: seen from above you look down into the gaps
+     and it is dark; seen low across it you see the blades' lit sides and it is lighter, warmer
+     and softer. On the wild classes (rough, forest floor, heath, wetland), by how low the eye
+     looks across the ground: `velvet` = [from above, across]; the tip's colour it turns toward */
+  wild: Object.freeze([S.ROUGH, S.FOREST, S.HEATH, S.WETLAND]),
+  velvet: Object.freeze([0.84, 1.14]), velvetTip: Object.freeze([1.06, 1.04, 0.86]),
   /* the stripes' display amplitude either side, per class (the painted ground's MOW_AMPLITUDE before) */
   stripes: Object.freeze({ [S.FAIRWAY]: 0.11, [S.SEMI]: 0.05, [S.GREEN]: 0.07, [S.FRINGE]: 0.05, [S.TEE]: 0.08 }),
 });
@@ -101,7 +108,7 @@ export function tourTurf({ classes, weights, wp, dir = null, detail, normal, dis
   const world = texture(detail, vec2(wp.x.mul(0.8).sub(wp.y.mul(0.6)), wp.x.mul(0.6).add(wp.y.mul(0.8))).div(T.tiles.world));
   const mid = texture(detail, wp.div(T.tiles.mid).add(vec2(0.31, 0.77)));
   const channel = { r: mown.r, g: world.g, b: world.b, a: world.a };
-  let grain = float(0), height = float(0), turfShare = float(0);
+  let grain = float(0), height = float(0), turfShare = float(0), wildShare = float(0);
   classes.forEach((sid, index) => {
     const spec = T.classes[sid];
     if (spec) {
@@ -110,6 +117,7 @@ export function tourTurf({ classes, weights, wp, dir = null, detail, normal, dis
       height = height.add(weights[index].mul(v.mul(spec[2])));
     }
     if (T.turf.includes(sid)) turfShare = turfShare.add(weights[index]);
+    if (T.wild.includes(sid)) wildShare = wildShare.add(weights[index]);
   });
   const footprint = fwidth(wp).length();
   const near = oneMinus(smoothstep(T.fade[0], T.fade[1], footprint)).mul(strength);
@@ -117,7 +125,11 @@ export function tourTurf({ classes, weights, wp, dir = null, detail, normal, dis
   const lift = grain.mul(near).add(coarse).mul(display);
   /* a bright blade warmer, a dark gap cooler: the warmth only on turf */
   const warmth = vec3(1).add(vec3(...T.warm).sub(1).mul(turfShare));
-  const lit = vec3(1).add(warmth.mul(lift));
+  /* the velvet: how low the eye looks across this ground (0 straight down, 1 along it) */
+  const fromEye = positionWorld.sub(cameraPosition).normalize();
+  const lowView = smoothstep(0.15, 0.9, float(1).sub(fromEye.y.abs()));
+  const velvet = mix(vec3(T.velvet[0]), vec3(...T.velvetTip).mul(T.velvet[1]), lowView);
+  const lit = vec3(1).add(warmth.mul(lift)).mul(mix(vec3(1), velvet, wildShare.mul(strength)));
   /* THE BUMP: the grain's height, perturbing the terrain's own normal (in view space) by its screen slope */
   const h = height.mul(near);
   const dpdx = dFdx(positionView), dpdy = dFdy(positionView);
@@ -126,5 +138,5 @@ export function tourTurf({ classes, weights, wp, dir = null, detail, normal, dis
   const det = dot(dpdx, r1);
   const grad = r1.mul(dFdx(h)).add(r2.mul(dFdy(h))).mul(sign(det));
   const bumped = normalize(abs(det).max(1e-12).mul(N).sub(grad));
-  return { lit, normal: bumped, turfShare };
+  return { lit, normal: bumped, turfShare, wildShare };
 }

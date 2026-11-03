@@ -94,7 +94,7 @@ export const NEAR_GRASS_TOUR = Object.freeze({
      A Voronoi cell of `clump` metres round a jittered centre; its blades are pulled toward
      it by up to `pull`, lean its way by `align`, share its height (`clumpHeight`), and some
      clumps are dry (`dry` of them, in `dryTint`) or a shade lighter or darker (`tone`) */
-  clump: 0.5, pull: 0.18, align: 0.45, clumpHeight: Object.freeze([0.82, 1.22]),
+  clump: 0.5, pull: 0.18, align: 0.45, clumpHeight: Object.freeze([0.88, 1.14]),
   dry: 0.14, dryTint: Object.freeze([1.18, 1.02, 0.7]), tone: 0.16,
   /* a blade seen edge-on turns this far toward the eye, so none goes paper-thin */
   faceEye: 0.6,
@@ -109,7 +109,9 @@ export const NEAR_GRASS_TOUR = Object.freeze({
   deadShare: 0.065, dead: Object.freeze([1.55, 1.25, 0.62]), root: 0.42, tip: 1.22,
   /* how far a blade's tip leans off the vertical, as a share of its length: some stand, longer ones flop */
   lean: Object.freeze([0.12, 0.85]),
-  bladeMetres: Object.freeze({ [SURFACE.SEMI]: 0.06, [SURFACE.ROUGH]: 0.12, [SURFACE.HEATH]: 0.08, [SURFACE.WETLAND]: 0.12 }),
+  bladeMetres: Object.freeze({ [SURFACE.SEMI]: 0.045, [SURFACE.ROUGH]: 0.085, [SURFACE.HEATH]: 0.07, [SURFACE.WETLAND]: 0.1 }),
+  /* the ground's clumps make the blades this much shorter or taller (the painted ground's 0.35-1.7) */
+  dense: Object.freeze([0.8, 1.2]),
 });
 
 /** The rings for a quality: each ring's cell, its first instance, and how far it reaches from its centre. */
@@ -427,7 +429,7 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const fadeEnd = min(bladeLength.mul(NEAR_GRASS.fadeLengths), float(layout.reach));
   const fade = float(1).sub(smoothstep(fadeEnd.mul(NEAR_GRASS.fadeFrom), fadeEnd, distance));
   /* taller where the ground's clumps are dense */
-  const dense = clump.mul(NEAR_GRASS.clumpLength).add(1).clamp(...NEAR_GRASS.clumpRange);
+  const dense = clump.mul(NEAR_GRASS.clumpLength).add(1).clamp(...(tourGrade ? NEAR_GRASS_TOUR.dense : NEAR_GRASS.clumpRange));
   /* the clump's own height (tour turf) */
   const clumpTall = tourGrade ? mix(float(NEAR_GRASS_TOUR.clumpHeight[0]), float(NEAR_GRASS_TOUR.clumpHeight[1]), clumpHash(16)) : float(1);
   const length = bladeLength.mul(r4.mul(0.7).add(0.65)).mul(dense).mul(clumpTall).mul(fade).mul(alive).mul(inBounds).mul(grassHere);

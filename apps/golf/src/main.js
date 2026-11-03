@@ -6546,7 +6546,9 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   const stoneMat = new THREE.MeshStandardNodeMaterial({
     color: new THREE.Color(stoneColour), roughness: 0.86, metalness: 0, flatShading: !COVER_SHAPES_ON });
 
-  stats.tufts = place('tufts', tuft, tuftMat, T, false);
+  /* the tour turf draws no tussocks or edge tufts: from the tee they read as tall spikes (owner, 3 November);
+     the plantings are still made, so the prepared scatter is unchanged. ?turf=painted draws them */
+  stats.tufts = TOUR_TURF_ON ? 0 : place('tufts', tuft, tuftMat, T, false);
   if (ET.length) {
     const clumpGeo = (() => {
       /* its normals already lie on its blades' front faces */
@@ -6564,7 +6566,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
       saturate(LOCAL_HEIGHT.mul(3.2)).mul(0.7).add((COVER_COLOUR_ON ? tone.mul(COVER_TUNED_SHARE) : tone).mul(0.3))).mul(float(1).add(lit.mul(0.45)));
     clumpMat.colorNode = COVER_COLOUR_ON ? grassCover(clumpColour) : clumpColour;
     if (COVER_LIGHT_ON) clumpMat.normalNode = seenBladeNormal();
-    place('edgeTufts', clumpGeo, clumpMat, ET, false);
+    if (!TOUR_TURF_ON) place('edgeTufts', clumpGeo, clumpMat, ET, false);
   }
   stats.bushes = place('bushes', bush, bushMat, B, true, SEAT_RIM.bush);
   stats.stones = place('stones', stone, stoneMat, S, true, SEAT_RIM.stone);
