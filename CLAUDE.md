@@ -267,7 +267,8 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   cut past 45-85% of the shadow box's half-width to the sun's glow, each light's
   strength in `GOD_RAYS.presets` (none in storm, mist, blue hour, and then not
   run), joined to the output only once the shadow map exists. `?shadowgrid=0`,
-  `?hazespectrum=0`, `?airmotes=0` and `?godrays=0` are the befores. In TSL never multiply a node by a JavaScript
+  `?hazespectrum=0` and `?godrays=0` are the befores. The motes are off since
+  3 November (owner request: no particles); `?airmotes=1` draws them. In TSL never multiply a node by a JavaScript
   number with `*` (it compiles to `NaN` and blanks the WebGPU frame); prove a
   new shader in an isolated scene on both backends. See
   [the serenity ports](docs/visual-serenity-ports-2026-11-02.md).
@@ -294,8 +295,10 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
       clumps and tree;
     - puff normals baked at load, which the impostor bake inherits;
     - `softLift` keeps the overcast lights' crowns dark.
-    Keep the bands per vertex on meshes. `?canopy=0` and `?puffs=0` are the
-    befores.
+    The bands are reckoned per pixel on meshes from per-vertex noise: per
+    vertex, a few hero pine and spruce vertices came out unbounded toward a
+    low sun and the glow drew them as green orbs in the trees (3 November).
+    `?canopy=0`, `?puffs=0` and `?canopybands=vertex` are the befores.
   - **Painted props** come from rebuildable `tools/blender-props/*.py` scripts
     run through the Blender MCP. Each is a hash-named GLB in `models/props/`
     with its JSON record, loaded by `loadPaintedProp` with the authored
@@ -306,8 +309,10 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   - **More befores:** `?sandbowl=0`, `?windsheen=0`, `?waterbank=0`,
     `?cirrus=0`, `?birds=0`, `?butterflies=0`, `?leafflutter=0`,
     `?covershapes=0`, `?teemarkers=before`, `?labelcap=0`, `?camarc=0`,
-    `?leaves=0`, `?rain=0`, `?swans=0`, `?herons=0`, `?lilies=0`, `?flowers=0`
-    and `?lakemist=0` (the lakes' own sheets, merged, as three mist layers at order 7).
+    `?leaves=0`, `?rain=0`, `?swans=0`, `?herons=0`, `?lilies=0` and
+    `?lakemist=0` (the lakes' own sheets, merged, as three mist layers at
+    order 7). The meadow flowers are off since 3 November (owner: they do not
+    fit the environments); `?flowers=1` draws them.
   - **Contact shadows** (`contact-ao.mjs`): three's GTAO on the scene pass's
     depth (r187 reads the reversed buffer; normals rebuilt from depth), at half
     resolution, box-blurred, and only past a contact threshold so flat walls

@@ -80,11 +80,16 @@ export const NEAR_GRASS = Object.freeze({
 });
 
 /* THE TOUR TURF'S BLADES (turf-look.mjs, 3 November): with the tour grade the rough grows
-   finer, taller and denser at high quality -- seven blades a cell, not four, each a little
-   over half as wide against its length -- so the rough round the ball reads as a sward and
-   not as scattered paper triangles. Low quality keeps its own. */
+   finer, taller and denser at high quality -- twelve blades a cell, not four, each about a
+   third as wide against its length, curved and tapered in three segments -- so the rough
+   round the ball reads as a sward and not as scattered paper triangles. Low quality keeps
+   its own. */
 export const NEAR_GRASS_TOUR = Object.freeze({
-  blades: Object.freeze({ hi: 7 }), widthShare: 0.2,
+  blades: Object.freeze({ hi: 12 }), widthShare: 0.13,
+  /* a blade is a strip of this many segments, not one triangle: it rises, bends over toward
+     its tip and tapers to a point; its sway grows toward the tip; its widest at `belly` of its
+     length; its edges a shade darker than its middle */
+  segments: 3, belly: 0.3, edgeShade: 0.14,
   bladeMetres: Object.freeze({ [SURFACE.SEMI]: 0.06, [SURFACE.ROUGH]: 0.12, [SURFACE.HEATH]: 0.08, [SURFACE.WETLAND]: 0.12 }),
 });
 
@@ -234,13 +239,31 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   /* the width of one pixel per metre of distance, for the blades' minimum width */
   const pixelPerMetre = uniform(0.001);
 
-  /* THE TEMPLATE: K blades of three corners; position carries (blade, corner) */
+  /* THE TEMPLATE: K blades, each SEG segments up its length: a pair of corners at each level
+     below the tip, then the tip; position carries (blade, level, side). One segment is the
+     painted ground's triangle (two base corners and a tip); the tour turf's four are a
+     curved, tapered strip */
+  const SEG = tourGrade ? NEAR_GRASS_TOUR.segments : 1;
+  const perBlade = 2 * SEG + 1;
   const geometry = new InstancedBufferGeometry();
-  const corners = new Float32Array(K * 3 * 3);
-  for (let b = 0; b < K; b++) for (let c = 0; c < 3; c++) corners.set([b, c, 0], (b * 3 + c) * 3);
+  const corners = new Float32Array(K * perBlade * 3), index = [];
+  for (let b = 0; b < K; b++) {
+    const first = b * perBlade;
+    for (let l = 0; l < SEG; l++) {
+      corners.set([b, l, -1], (first + 2 * l) * 3);
+      corners.set([b, l, 1], (first + 2 * l + 1) * 3);
+      if (l < SEG - 1) {
+        const a = first + 2 * l;
+        index.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+      }
+    }
+    corners.set([b, SEG, 0], (first + 2 * SEG) * 3);
+    index.push(first + 2 * SEG - 2, first + 2 * SEG - 1, first + 2 * SEG);
+  }
   geometry.setAttribute('position', new BufferAttribute(corners, 3));
+  geometry.setIndex(index);
   /* up, as the ground under it: the finish's sun band reads the geometry's normal */
-  geometry.setAttribute('normal', new BufferAttribute(new Float32Array(K * 3 * 3).map((_, i) => (i % 3 === 1 ? 1 : 0)), 3));
+  geometry.setAttribute('normal', new BufferAttribute(new Float32Array(K * perBlade * 3).map((_, i) => (i % 3 === 1 ? 1 : 0)), 3));
   geometry.instanceCount = layout.instances;
   geometry.boundingSphere = new Sphere(new Vector3(), 1e7);
 
@@ -256,7 +279,7 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const cellI = centre.x.sub(n / 2).add(cu), cellJ = centre.y.sub(n / 2).add(cv);
 
   /* THE BLADE'S OWN NUMBERS, from its ring, its world cell and its place in the clump */
-  const bladeIndex = positionGeometry.x, corner = positionGeometry.y;
+  const bladeIndex = positionGeometry.x, level = positionGeometry.y, sideOf = positionGeometry.z;
   const seed = pcg(pcg(uint(cellI.add(OFFSET)).add(pcg(uint(cellJ.add(OFFSET))))).add(uint(ringOf.mul(7919).add(bladeIndex.mul(104729)))));
   const r1 = unit(pcg(seed)), r2 = unit(pcg(seed.add(uint(1)))), r3 = unit(pcg(seed.add(uint(2))));
   const r4 = unit(pcg(seed.add(uint(3)))), r5 = unit(pcg(seed.add(uint(4)))), r6 = unit(pcg(seed.add(uint(5)))), r7 = unit(pcg(seed.add(uint(6))));
@@ -364,21 +387,33 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const across = vec2(cos(yaw), sin(yaw)), facing = vec2(sin(yaw).negate(), cos(yaw));
   const lean = r6.mul(NEAR_GRASS.lean[1]).add(NEAR_GRASS.lean[0]);
   const width = max(length.mul(tourGrade ? NEAR_GRASS_TOUR.widthShare : NEAR_GRASS.widthShare), distance.mul(pixelPerMetre).mul(NEAR_GRASS.minPixels)).mul(step(1e-4, length));
-  const isTip = step(1.5, corner), side = corner.mul(2).sub(1).mul(oneMinusNode(isTip));
-  const base = vec3(root.x, groundY.sub(0.004), root.y).add(vec3(across.x, 0, across.y).mul(width.mul(0.5)).mul(side));
+  /* up the blade: how far up the blade (0 at its root, 1 at its tip). It rises and bends over toward its
+     facing, lean x t^2 out and (1 - lean^2 t^2 / 2) of its length up, so the one-segment blade's
+     tip lies where the triangle's did; its width tapers to the tip, widest a little above the
+     root; the wind's sway grows as t^2 */
+  const alongBlade = level.div(SEG);
   const sway = swayOnWind({ p: root, weight: length.mul(0.9), rate: 2.6, scale: 3, swing: reedSwing, lean: 0.1 });
-  const tip = vec3(root.x, groundY.add(length.mul(float(1).sub(lean.mul(lean).mul(0.5)))), root.y)
-    .add(vec3(facing.x, 0, facing.y).mul(length.mul(lean))).add(sway);
-  const position = mix(base, tip, isTip);
+  const rise = length.mul(alongBlade).mul(float(1).sub(lean.mul(lean).mul(0.5).mul(alongBlade).mul(alongBlade)));
+  const out = length.mul(lean).mul(alongBlade).mul(alongBlade);
+  const taper = SEG > 1
+    ? float(1).sub(alongBlade).mul(float(1).add(alongBlade.mul(float(1).sub(alongBlade)).mul(NEAR_GRASS_TOUR.belly * 4))).mul(0.5)
+    : float(0.5);
+  const position = vec3(root.x, groundY.sub(float(0.004).mul(float(1).sub(alongBlade))).add(rise), root.y)
+    .add(vec3(facing.x, 0, facing.y).mul(out))
+    .add(vec3(across.x, 0, across.y).mul(width.mul(taper).mul(sideOf)))
+    .add(sway.mul(alongBlade.mul(alongBlade)));
 
   const material = new MeshStandardNodeMaterial({ side: DoubleSide, metalness: 0 });
   material.positionNode = position;
   /* the root's colour, its seasonal share, the blade's facing and its tone, carried from the vertex */
   const rootColour = varying(colour, 'nearGrassColour');
   const seasonalShare = varying(seasonal, 'nearGrassSeasonal');
-  const faceXZ = varying(facing, 'nearGrassFacing');
-  const tone = varying(r7, 'nearGrassTone');
-  const up = varying(isTip, 'nearGrassUp');
+  /* the facing and, for the strip, how far across it (its edges a shade darker): one varying */
+  const facingSide = varying(vec3(facing, sideOf), 'nearGrassFacing');
+  const faceXZ = facingSide.xy;
+  /* the tone and how far up the blade, packed: outputs are scarce (16 is WebGPU's limit) */
+  const toneUp = varying(vec2(r7, alongBlade), 'nearGrassToneUp');
+  const tone = toneUp.x, up = toneUp.y;
   const rootXZ = varying(root, 'nearGrassRoot');
   /* the finish's blotches and gloss at the root: the ground's (constant along the blade) */
   /* and the wind's laid sheen there (one-wind.mjs), riding in the same varying:
@@ -392,7 +427,8 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const through = pow(saturate(V.dot(uSun.negate())), 2.4).mul(NEAR_GRASS.through).mul(sunThrough).mul(sunlit ?? 1).mul(up);
   const shaded = rootColour.mul(mix(float(NEAR_GRASS.rootTone), float(NEAR_GRASS.tipTone), up))
     .mul(mix(vec3(1), vec3(...NEAR_GRASS.tipWarm), up))
-    .mul(tone.sub(0.5).mul(NEAR_GRASS.toneSpread).add(1)).mul(through.add(1));
+    .mul(tone.sub(0.5).mul(NEAR_GRASS.toneSpread).add(1)).mul(through.add(1))
+    .mul(SEG > 1 ? float(1).sub(abs(facingSide.z).mul(NEAR_GRASS_TOUR.edgeShade)) : float(1));
   /* the painted finish as the ground under it takes it: its sun band, its blotches
      (mown turf more of the broad one), the light's grass strength, autumn's ochre,
      and the class's gloss */

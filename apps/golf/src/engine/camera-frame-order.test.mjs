@@ -118,8 +118,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     skyMesh: { position: new THREE.Vector3() }, updateSky() {}, updateStrategy() {}, fitStrategyLabels() {}, kikTagUpdate() {}, drawMini() {}, drawMiniIfChanged() {}, gridOn: false,
     /* the grass round the ball: where it was moved to, and whether its ground is read */
     nearGrass: { settled: true, seen: [], update(cam, height) { calls.push('grass'); this.seen.push({ position: cam.position.toArray(), height }); } },
-    /* the air's motes (?airmotes=0): optional, and drawn round the eye after the camera has moved */
-    airMotes: null, birds: null, butterflies: null, fallingLeaves: null, rain: null, swans: null, meadowFlowers: null, lakeMist: null,
+    /* the air's motes (?airmotes=1, off by default): optional, and drawn round the eye after the camera has moved */
+    airMotes: null, birds: null, butterflies: null, fallingLeaves: null, rain: null, swans: null, meadowFlowers: null, grassCards: null, lakeMist: null,
     /* the god rays (?godrays=0): optional; they take the shadow box's size once a frame */
     godRays: null, SUN_BASIS: { R: 600 },
     captureRenderLocked: false,

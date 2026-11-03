@@ -126,6 +126,7 @@ import { planSwans, createSwans } from './engine/swans.mjs';
 import { planHerons } from './engine/herons.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
 import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
+import { createGrassCards, loadGrassCards } from './engine/grass-cards.mjs';
 import { createContactAO } from './engine/contact-ao.mjs';
 import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
 import { createBirds } from './engine/birds.mjs';
@@ -2139,8 +2140,9 @@ scene.fogNode = aerialPerspective.node;
 /* The air's motes (engine/air-motes.mjs, from serenity-blocks): pollen and a seed's
    down drifting on the one air round the eye, lit up against a low sun as dust in a
    sunbeam, gone above 45 m and in the storm and the mist; one draw, held still under
-   reduced motion. An overlay after the sky. ?airmotes=0 is the before. */
-const AIR_MOTES_ON = new URLSearchParams(location.search).get('airmotes') !== '0';
+   reduced motion. An overlay after the sky. Off since 3 November (owner request: "a lot of
+   particles, remove them"): ?airmotes=1 draws them. */
+const AIR_MOTES_ON = new URLSearchParams(location.search).get('airmotes') === '1';
 const airMotes = AIR_MOTES_ON ? createAirMotes({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
 if (airMotes) {
   airMotes.mesh.renderOrder = 3;
@@ -2174,6 +2176,8 @@ if (rain) { rain.mesh.renderOrder = 3; scene.add(rain.mesh); }
 let swans = null;
 /* Meadow flowers in the rough (engine/meadow-flowers.mjs): made with the grass round the ball, below. */
 let meadowFlowers = null;
+/* Grass cards in the rough (engine/grass-cards.mjs): made with the grass round the ball, below. */
+let grassCards = null;
 /* Contact shadows (engine/contact-ao.mjs): made with the post pipeline, below. */
 let contactAO = null;
 /* Mist on the lakes (engine/lake-mist.mjs): made once the water's sheets exist, below. */
@@ -5274,7 +5278,9 @@ const TREE_LOD = {
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON });
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON,
+      /* ?canopybands=vertex is the before: the canopy's bands per vertex, which blew up near a low sun */
+      bandsPerVertex: new URLSearchParams(location.search).get('canopybands') === 'vertex' });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -6594,13 +6600,29 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
   /* Meadow flowers in the rough (engine/meadow-flowers.mjs, after serenity-blocks'
      Odyssey meadow life): drifts of oxeye daisy, buttercup, harebell, red clover and
      wood cranesbill on the rough round the eye, on the grass's own class fields and
-     ground grid, one instanced draw, swaying with the grass. ?flowers=0 is the before. */
-  if (new URLSearchParams(location.search).get('flowers') !== '0') {
+     ground grid, one instanced draw, swaying with the grass. Off since 3 November (owner:
+     "beautiful but they do not fit the environments"): ?flowers=1 draws them. */
+  if (new URLSearchParams(location.search).get('flowers') === '1') {
     meadowFlowers = createMeadowFlowers({ atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
       clip: nearGrass.clip, quality: LOWQ ? 'lo' : 'hi' });
     meadowFlowers.setPreset(presetName);
     scene.add(meadowFlowers.mesh);
     stats.draws++;
+  }
+  /* Grass cards in the rough (engine/grass-cards.mjs; owner request 3 November: denser, more
+     impressive grass, from the Blender MCP): clumps of curved blades rendered in Blender, crossed
+     cards on the rough round the eye, short by the cut and full height a few metres out, on the
+     ground's own colour. With the tour turf; ?grasscards=0 is the before. */
+  if (TOUR_TURF_ON && new URLSearchParams(location.search).get('grasscards') !== '0') {
+    const map = await loadGrassCards({ baseUrl: import.meta.env.BASE_URL, THREE })
+      .catch(error => { console.warn('grass cards:', error.message); return null; });
+    if (map) {
+      grassCards = createGrassCards({ map, atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
+        clip: nearGrass.clip, tint: GROUND_TINT, C, SHADE, DETAIL, uSun, tourGrade: TOUR_TURF_ON, quality: LOWQ ? 'lo' : 'hi',
+        relief: GROUND_RELIEF_ON });
+      scene.add(grassCards.mesh);
+      stats.draws++;
+    }
   }
 }
 if (BAKE_VISTA) {
@@ -11806,6 +11828,7 @@ function frame() {
   updateSky();
   nearGrass?.update(camera, renderer.domElement.height);
   meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
+  grassCards?.update(camera, nearGrass?.mesh.visible);
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
@@ -11905,6 +11928,10 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
     const flowersHidden = meadowFlowers ? !meadowFlowers.mesh.visible : false;
     if (flowersHidden) meadowFlowers.mesh.visible = true;
+    /* and the grass cards, compiled with the opening view even when it is too high to draw them */
+    grassCards?.update(camera, nearGrass?.mesh.visible);
+    const cardsHidden = grassCards ? !grassCards.mesh.visible : false;
+    if (cardsHidden) grassCards.mesh.visible = true;
     if (grassHidden) nearGrass.mesh.visible = true;
     try {
       BOOT_PERF.gpuPreparation = await prepareOpeningGpu(renderer, scene, camera, { scenePass: lowfx ? null : openingScenePass,
@@ -11913,6 +11940,7 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     } finally {
       if (grassHidden) nearGrass.mesh.visible = false;
       if (flowersHidden) meadowFlowers.mesh.visible = false;
+      if (cardsHidden) grassCards.mesh.visible = false;
     }
   } catch (error) {
     const retryMessage = 'kunde inte visa banan — ladda om och försök igen';
@@ -12625,6 +12653,7 @@ window.V3D = {
   herons: () => heronCount,
   lakeMist: () => lakeMist?.stats() ?? null,
   meadowFlowers: () => meadowFlowers?.stats() ?? null,
+  grassCards: () => grassCards?.stats() ?? null,
   waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),

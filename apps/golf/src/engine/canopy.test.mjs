@@ -44,3 +44,19 @@ describe('the painted canopy', () => {
     expect(main.match(/canopy: CANOPY_ON/g)?.length).toBe(3);
   });
 });
+
+describe('the canopy\'s bands per pixel', () => {
+  it('reckons the bands per pixel by default, per vertex only for ?canopybands=vertex', async () => {
+    const fs = await import('node:fs');
+    const src = fs.readFileSync(new URL('./ghibli-foliage-material.mjs', import.meta.url), 'utf8');
+    expect(src).toContain('perVertex:canopy&&!noisePerPixel&&bandsPerVertex');
+    expect(src).toMatch(/bandsPerVertex=false\}\)\{/);
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toContain("bandsPerVertex: new URLSearchParams(location.search).get('canopybands') === 'vertex'");
+  });
+  it('draws no air motes unless asked (?airmotes=1)', async () => {
+    const fs = await import('node:fs');
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toContain("const AIR_MOTES_ON = new URLSearchParams(location.search).get('airmotes') === '1';");
+  });
+});

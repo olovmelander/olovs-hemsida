@@ -179,12 +179,17 @@ export function foliageSurfacePigment(texel){
 // already does (msaa-coverage.mjs), centred on 0.5 so a crown keeps its area.
 // The shadow pass keeps its own cut (maskShadowNode, and the 0.5 it copies).
 // coverage=false (?crowncoverage=0) is the before.
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true,canopy=false}){
+/* THE CANOPY'S BANDS, PER PIXEL (3 November). Reckoned per vertex, a few vertices of the hero
+   pine and spruce crowns came out unbounded in a low sun's direction, and the glow spread
+   each of their triangles into a green orb in the trees (Veckefjärden's 13th under the
+   midnight sun). Per pixel, from the same per-vertex noise, they stay in their range: a few
+   smoothsteps a crown pixel. ?canopybands=vertex is the before. */
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true,canopy=false,bandsPerVertex=false}){
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
   /* the crown-depth bake's openness rides in the vertex colours the material already multiplies */
   m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel,
     backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null,sunlit,
-    canopy,openness:canopy?vertexColor().r:null,perVertex:canopy&&!noisePerPixel});
+    canopy,openness:canopy?vertexColor().r:null,perVertex:canopy&&!noisePerPixel&&bandsPerVertex});
   if(map){
     const texel=texture(map);
     m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;

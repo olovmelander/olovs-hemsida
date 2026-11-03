@@ -41,7 +41,7 @@ describe('meadow flowers in the rough', () => {
   });
   it('is made with the grass round the ball behind ?flowers=0, updated after it each frame', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
-    expect(main).toMatch(/get\('flowers'\) !== '0'/);
+    expect(main).toMatch(/get\('flowers'\) === '1'/);
     const frame = main.indexOf('  nearGrass?.update(camera, renderer.domElement.height);\n');
     expect(main.indexOf('meadowFlowers?.update(camera, nearGrass?.mesh.visible', frame)).toBe(frame + '  nearGrass?.update(camera, renderer.domElement.height);\n'.length + 2);
   });
