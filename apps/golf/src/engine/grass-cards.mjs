@@ -45,13 +45,21 @@ export const GRASS_CARDS_ASSET = Object.freeze({
 
 export const GRASS_CARDS = Object.freeze({
   quality: Object.freeze({
-    hi: Object.freeze({ cell: 0.55, cells: 100, fade: Object.freeze([17, 26]) }),
+    hi: Object.freeze({ cell: 0.55, cells: 130, fade: Object.freeze([24, 34]) }),
     lo: Object.freeze({ cell: 0.6, cells: 56, fade: Object.freeze([10, 15.5]) }),
   }),
   /* the share of rough cells with a card, and the cards' size against the texture's 1 x 0.5 m */
   density: 0.85, size: Object.freeze([0.7, 1.15]),
   /* beside the cut: none within edge[0] metres, a first cut's height `short` to full by edge[1] */
   edge: Object.freeze([0.8, 7]), short: 0.4,
+  /* gone as the view falls steeply onto the card (the sine of its fall), where it reads as an X */
+  steep: Object.freeze([0.5, 0.72]),
+  /* only from eye level: whole while the eye stands under eye[0] metres over the card's ground, none
+     over eye[1] (seen from higher, crossed cards read as flat crosses on the ground) */
+  eye: Object.freeze([2.2, 3.4]),
+  /* each face fades as it turns edge-on to the eye (|view . its normal|): from the side one face of
+     the cross always faces you, from above both are edge-on and gone */
+  facing: Object.freeze([0.12, 0.42]),
   /* shrunk away within this many metres of the lens */
   near: Object.freeze([0.5, 1.4]),
   /* how much the alpha is held up per mip level past the first, so a far card keeps its blades */
@@ -165,7 +173,11 @@ export function createGrassCards({ map, atlas, clip, tint = null, C, SHADE, DETA
 
   /* how near the eye: shrunk away far off and at the lens */
   const distance = vec3(root.x, groundY, root.y).distance(cameraPosition);
-  const fade = smoothstep(G.near[0], G.near[1], distance).mul(float(1).sub(smoothstep(Q.fade[0], Q.fade[1], distance)));
+  /* and gone when seen from above, where two crossed cards read as an X */
+  const fall = vec3(root.x, groundY, root.y).sub(cameraPosition).normalize().y.negate();
+  const fade = smoothstep(G.near[0], G.near[1], distance).mul(float(1).sub(smoothstep(Q.fade[0], Q.fade[1], distance)))
+    .mul(float(1).sub(smoothstep(G.steep[0], G.steep[1], fall)))
+    .mul(float(1).sub(smoothstep(G.eye[0], G.eye[1], cameraPosition.y.sub(groundY))));
   const alive = step(h3, float(G.density)).mul(rough).mul(beside).mul(grassHere).mul(inBounds);
   const scale = mix(float(G.size[0]), float(G.size[1]), h4).mul(grown).mul(fade).mul(alive);
 
@@ -197,13 +209,18 @@ export function createGrassCards({ map, atlas, clip, tint = null, C, SHADE, DETA
   material.name = 'GrassCards';
   material.positionNode = position;
   const groundColour = varying(ground, 'grassCardGround');
-  const uvCard = varying(vec2(tile.add(u).div(GRASS_CARDS_ASSET.tiles), float(1).sub(v)), 'grassCardUv');
+  /* how squarely this face of the cross faces the eye, with its texture coordinates */
+  const faceNormal = vec3(sin(yaw).negate(), 0, cos(yaw));
+  const toCard = vec3(root.x, groundY.add(scale.mul(0.25)), root.y).sub(cameraPosition).normalize();
+  const facing = toCard.dot(faceNormal).abs();
+  const card = varying(vec3(tile.add(u).div(GRASS_CARDS_ASSET.tiles), float(1).sub(v), facing), 'grassCardUv');
+  const uvCard = card.xy;
   const rootXZ = varying(root, 'grassCardRoot');
   const texel = texture(map, uvCard);
   /* held up in the far mips: the blades' alpha thins as they average, so lift it by the level */
   const texelsPerPixel = max(dFdx(uvCard.mul(vec2(2048, 256))).length(), dFdy(uvCard.mul(vec2(2048, 256))).length());
   const lod = log2(texelsPerPixel.max(1));
-  const alpha = texel.a.mul(float(1).add(lod.mul(G.mipHold)));
+  const alpha = texel.a.mul(float(1).add(lod.mul(G.mipHold))).mul(smoothstep(G.facing[0], G.facing[1], card.z));
   const mean = vec3(...GRASS_CARDS_ASSET.meanLinear);
   const base = texel.rgb.div(mean).mul(groundColour);
   const finish = paintedGround({ base, wp: rootXZ, DETAIL, uSun, turf: float(1), seasonal: float(1) });

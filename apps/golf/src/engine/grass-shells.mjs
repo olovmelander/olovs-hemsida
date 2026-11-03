@@ -48,7 +48,7 @@ export const GRASS_MAT_ASSET = Object.freeze({
 
 export const GRASS_SHELLS = Object.freeze({
   /* shells, and the grid round the eye: its cell and cells a side */
-  layers: 16, cell: 0.5, cells: 84,
+  layers: 12, cell: 0.5, cells: 130,
   /* the mat's height on each class, metres */
   height: Object.freeze({ [SURFACE.HEATH]: 0.06, [SURFACE.WETLAND]: 0.07 }),
   rough: 0.075,
@@ -56,10 +56,13 @@ export const GRASS_SHELLS = Object.freeze({
   tile: 0.85,
   /* lowered from the cut's edge: none within edge[0] metres, all of it by edge[1] */
   edge: Object.freeze([0.15, 1.6]),
-  /* how dark the bottom shell is against the top */
-  base: 0.62,
+  /* how dark the bottom shell is against the top (the shells average about the ground's tone) */
+  base: 0.9, top: 1.22,
+  /* the mat's fine detail blurred by this many mip levels, so blades under a pixel cannot shimmer,
+     and its whole detail given way to the ground's own colour between these distances, metres */
+  blur: 0.75, settle: Object.freeze([9, 28]),
   /* the shells sink to the ground between these distances, metres */
-  fade: Object.freeze([11, 19]),
+  fade: Object.freeze([22, 32]),
   hideAboveMetres: 40,
 });
 
@@ -83,7 +86,7 @@ export async function loadGrassMat({ baseUrl = '/', fetchImpl = fetch, THREE } =
   map.minFilter = THREE.LinearMipmapLinearFilter;
   map.magFilter = THREE.LinearFilter;
   map.generateMipmaps = true;
-  map.anisotropy = 16;
+  map.anisotropy = 4;
   map.needsUpdate = true;
   return map;
 }
@@ -168,12 +171,17 @@ export function createGrassShells({ map, atlas, clip, tint = null, C, SHADE, DET
   /* the mat on the world, turned off its axes so its repeat lines up with nothing */
   const p = positionWorld.xz;
   const uvMat = vec2(p.x.mul(0.8).sub(p.y.mul(0.6)), p.x.mul(0.6).add(p.y.mul(0.8))).div(S.tile);
-  const texel = texture(map, uvMat);
+  const texel = texture(map, uvMat).bias(S.blur);
   /* a blade stands at this shell where its height passes the shell's share; none where the mat is gone */
-  const stands = texel.a.sub(shell.x).add(0.5).mul(step(0.004, shell.y));
+  /* and fade in from nothing as the mat's height grows from 2 to 12 mm, so it has no edge where it ends */
+  const stands = texel.a.sub(shell.x).add(0.5).mul(smoothstep(0.002, 0.012, shell.y));
   const mean = vec3(...GRASS_MAT_ASSET.meanLinear);
-  const shade = mix(float(S.base), float(1.08), shell.x);
-  const base = texel.rgb.div(mean).mul(groundColour).mul(shade);
+  const shade = mix(float(S.base), float(S.top), shell.x);
+  /* the mat's detail gives way to the ground's own colour with distance, so where the shells end
+     the ground beyond them is the same colour */
+  const seen = positionWorld.distance(cameraPosition);
+  const detail = float(1).sub(smoothstep(S.settle[0], S.settle[1], seen));
+  const base = mix(vec3(1), texel.rgb.div(mean).mul(shade), detail).mul(groundColour);
   const finish = paintedGround({ base, wp: p, DETAIL, uSun, turf: float(1), seasonal: float(1) });
   material.colorNode = finish.colorNode;
   material.roughnessNode = finish.roughnessNode;
