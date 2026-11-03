@@ -36,6 +36,7 @@ import { swayOnWind, reedSwing, windSheenAt } from './one-wind.mjs';
 import { paintedGround, PAINTED_SHADING } from './material.js';
 import { paintedWet } from './painted-world-lighting.mjs';
 import { applyGroundRelief, classStyle, groundClassColour, groundTintColour, isGroundTintClass, GROUND_DETAIL } from './ground-material-core.mjs';
+import { tourGradeOf } from './turf-look.mjs';
 
 export const NEAR_GRASS = Object.freeze({
   /* a blade's length on each class, metres, from its height of cut (CUT_HEIGHT_MM):
@@ -78,9 +79,19 @@ export const NEAR_GRASS = Object.freeze({
   hideAboveMetres: 40,
 });
 
+/* THE TOUR TURF'S BLADES (turf-look.mjs, 3 November): with the tour grade the rough grows
+   finer, taller and denser at high quality -- seven blades a cell, not four, each a little
+   over half as wide against its length -- so the rough round the ball reads as a sward and
+   not as scattered paper triangles. Low quality keeps its own. */
+export const NEAR_GRASS_TOUR = Object.freeze({
+  blades: Object.freeze({ hi: 7 }), widthShare: 0.2,
+  bladeMetres: Object.freeze({ [SURFACE.SEMI]: 0.06, [SURFACE.ROUGH]: 0.12, [SURFACE.HEATH]: 0.08, [SURFACE.WETLAND]: 0.12 }),
+});
+
 /** The rings for a quality: each ring's cell, its first instance, and how far it reaches from its centre. */
-export function nearGrassLayout(quality = 'hi') {
-  const q = NEAR_GRASS.quality[quality];
+export function nearGrassLayout(quality = 'hi', { tour = false } = {}) {
+  const base = NEAR_GRASS.quality[quality];
+  const q = base && tour && NEAR_GRASS_TOUR.blades[quality] ? { ...base, blades: NEAR_GRASS_TOUR.blades[quality] } : base;
   if (!q) throw new TypeError(`unknown near-grass quality: ${quality}`);
   const perRing = q.cells * q.cells;
   const rings = Array.from({ length: q.rings }, (_, k) => {
@@ -209,12 +220,12 @@ const OFFSET = 2 ** 20;
  *   `wear` (?groundwear: the damp), `grain` (?turfgrain: the grain and the shared
  *   blotches) and `gloss` (?surfacegloss).
  */
-export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, cutTone = 1, uSun, sunThrough = float(1), sunlit = null,
+export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, cutTone = 1, uSun, sunThrough = float(1), sunlit = null, tourGrade = false,
   groundAt, quality = 'hi', budget, ground = {} } = {}) {
   const terms = { relief: true, wear: true, grain: true, gloss: true, ...ground };
   if (!atlas?.texSdf?.length || !atlas.channels?.length || !atlas.bounds) throw new TypeError('the near grass needs the exact class fields');
   if (typeof groundAt !== 'function') throw new TypeError('the near grass needs the visible ground');
-  const layout = nearGrassLayout(quality);
+  const layout = nearGrassLayout(quality, { tour: tourGrade });
   const K = layout.blades, n = layout.cells, R = layout.rings.length;
   const clip = createNearGrassClip({ texels: layout.clipTexels, groundAt, ...(budget ? { budget } : {}) });
 
@@ -296,7 +307,7 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const norm = float(1).div(max(sum, float(1)));
   const weights = weightsRaw.map(w => w.mul(norm));
   const roughWeight = saturate(float(1).sub(sum));
-  const lengthOf = sid => NEAR_GRASS.bladeMetres[sid] ?? 0;
+  const lengthOf = sid => (tourGrade ? NEAR_GRASS_TOUR.bladeMetres[sid] : undefined) ?? NEAR_GRASS.bladeMetres[sid] ?? 0;
   /* the ground's detail at the root, from its shared taps (ground-material-core.mjs):
      the clumps (the near tap less the far one) and the finish's three blotches */
   const [tc, ts] = GROUND_DETAIL.NEAR_TAP_TURN;
@@ -314,13 +325,15 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const roughTint = tintAtRoot.rgb;
   const shadeOf = sid => classStyle(C, SHADE, sid).shade;
   let bladeLength = roughWeight.mul(lengthOf(SURFACE.ROUGH));
-  let colour = roughTint.mul(roughWeight);
+  /* the tour grade (turf-look.mjs), as the ground under the blade takes it */
+  const graded = (sid, c) => (tourGrade && tourGradeOf(sid) ? c.mul(vec3(...tourGradeOf(sid))) : c);
+  let colour = graded(SURFACE.ROUGH, roughTint).mul(roughWeight);
   let seasonal = roughWeight;
   let bump = roughWeight.mul(shadeOf(SURFACE.ROUGH)[1]), gloss = roughWeight.mul(shadeOf(SURFACE.ROUGH)[2]);
   atlas.channels.forEach((sid, i) => {
     bladeLength = bladeLength.add(weights[i].mul(lengthOf(sid)));
     const own = groundClassColour(C, SHADE, sid, { lift, toneExponent: display, hardGround: true });
-    colour = colour.add((own ? vec3(...own) : roughTint).mul(weights[i]));
+    colour = colour.add(graded(sid, own ? vec3(...own) : roughTint).mul(weights[i]));
     if (isGroundTintClass(sid)) seasonal = seasonal.add(weights[i]);
     bump = bump.add(weights[i].mul(shadeOf(sid)[1]));
     gloss = gloss.add(weights[i].mul(shadeOf(sid)[2]));
@@ -350,7 +363,7 @@ export function createNearGrass({ atlas, tint = null, DETAIL = null, C, SHADE, c
   const yaw = r5.mul(Math.PI * 2);
   const across = vec2(cos(yaw), sin(yaw)), facing = vec2(sin(yaw).negate(), cos(yaw));
   const lean = r6.mul(NEAR_GRASS.lean[1]).add(NEAR_GRASS.lean[0]);
-  const width = max(length.mul(NEAR_GRASS.widthShare), distance.mul(pixelPerMetre).mul(NEAR_GRASS.minPixels)).mul(step(1e-4, length));
+  const width = max(length.mul(tourGrade ? NEAR_GRASS_TOUR.widthShare : NEAR_GRASS.widthShare), distance.mul(pixelPerMetre).mul(NEAR_GRASS.minPixels)).mul(step(1e-4, length));
   const isTip = step(1.5, corner), side = corner.mul(2).sub(1).mul(oneMinusNode(isTip));
   const base = vec3(root.x, groundY.sub(0.004), root.y).add(vec3(across.x, 0, across.y).mul(width.mul(0.5)).mul(side));
   const sway = swayOnWind({ p: root, weight: length.mul(0.9), rate: 2.6, scale: 3, swing: reedSwing, lean: 0.1 });

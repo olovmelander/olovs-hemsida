@@ -19,6 +19,11 @@ export const DETAIL_BROAD_MEAN = 0.4705;
 /* the wind on the grass (one-wind.mjs windSheenAt); ?windsheen=0 is the before */
 let WIND_SHEEN_ON = true;
 export function setWindSheen(on) { WIND_SHEEN_ON = !!on; }
+/* THE TOUR TURF (turf-look.mjs): turf takes the light as grass does, not a painter's
+   two-tone band; this share of the band's hue swing and darkening is taken off. ?turf=painted is the before */
+export const TOUR_TURF_FINISH = Object.freeze({ flatten: 0.8 });
+let TOUR_TURF_ON = false;
+export function setTourTurf(on) { TOUR_TURF_ON = !!on; }
 export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = float(1), seasonal = float(0), gloss = null, taps = null, broadLift = null, laid: laidAt = null }) {
   const blotchA = (taps ? taps.a : texture(DETAIL, wp.mul(0.012)).b).sub(0.5);
   const blotchB = (taps ? taps.b : texture(DETAIL, wp.mul(0.038)).g).sub(0.5);
@@ -44,7 +49,8 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
      under the warm band turned brown, and sand went orange */
   const turfTone = mix(vec3(0.91, 0.97, 1.06), vec3(1.04, 1.02, 0.94), band);
   const flatTone = mix(vec3(0.90, 0.91, 0.95), vec3(1.03, 1.03, 1.02), band);
-  const tone = mix(flatTone, turfTone, turf);
+  let tone = mix(flatTone, turfTone, turf);
+  if (TOUR_TURF_ON) tone = mix(tone, vec3(1), turf.mul(TOUR_TURF_FINISH.flatten));
   /* the palette carries the chroma now; the finish only shapes it */
   // Uncut surroundings acquire an ochre undertone in autumn; mown playing
   // surfaces keep their distinct sage/moss hues and readable mowing pattern.

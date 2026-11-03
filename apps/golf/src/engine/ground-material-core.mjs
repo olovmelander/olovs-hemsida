@@ -11,6 +11,7 @@ import {
 
 import { SURFACE, surfaceTransitionWidthMetres } from './surface.js';
 import { groundReliefTier } from './ground-surface-relief.mjs';
+import { TURF_LOOK, flipStripes, tourGradeOf, tourTurf } from './turf-look.mjs';
 
 const MIGRATED = [
   SURFACE.SEMI, SURFACE.FAIRWAY, SURFACE.FRINGE, SURFACE.GREEN,
@@ -608,7 +609,7 @@ const GROWN_EDGE_SURFACES = [SURFACE.PATH, SURFACE.GRAVEL, SURFACE.DIRT];
 const PATH_EDGE_GRASS = 0.6, PATH_WORN_LIFT = 0.08;
 const CONTACT_CASTERS = new Set([SURFACE.GREEN, SURFACE.TEE, SURFACE.FRINGE, SURFACE.FAIRWAY, SURFACE.SEMI, SURFACE.SAND]);
 
-function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false }, shading) {
+function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = null, graphicsPolish, surfaceRelief, uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null }, shading) {
   const channels = atlas.data.channels;
   /* EXACT fields (exact-class-sdf.mjs) follow the vectors to a couple of
      centimetres, so their cut classes are drawn ONE PIXEL wide. The physical
@@ -819,8 +820,12 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     // The finish defines how a display-space cut ratio maps into linear colour.
     const toneExponent = shading.toneExponent;
     const lift = (exactEdges ? cutTone : 0) * shading.cutLift;
-    const colourNodes = classes.map(sid => (GROUND_TINT_CLASSES.has(sid)
-      ? roughColour : vec3(...groundClassColour(C, SHADE, sid, { lift, toneExponent, hardGround }))));
+    const gradeOf = sid => (turf && exactEdges ? tourGradeOf(sid) : null);
+    const colourNodes = classes.map(sid => {
+      const own = GROUND_TINT_CLASSES.has(sid) ? roughColour : vec3(...groundClassColour(C, SHADE, sid, { lift, toneExponent, hardGround }));
+      /* the tour grade (turf-look.mjs), the same the blades round the ball take */
+      return gradeOf(sid) ? own.mul(vec3(...gradeOf(sid))) : own;
+    });
     const base = weights.reduce((acc, weight, index) => {
       const term = colourNodes[index].mul(weight);
       return acc ? acc.add(term) : term;
@@ -923,6 +928,12 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
       const toCamera = cameraPosition.sub(positionWorld).normalize();
       const downThePasses = abs(toCamera.x.mul(dir.x).add(toCamera.z.mul(dir.y)));
       const seen = mix(float(MOW_SEEN_ACROSS), float(1), smoothstep(0.1, 0.8, downThePasses));
+      /* THE TOUR TURF (turf-look.mjs): a pass laid away from you is light and one laid toward
+         you dark, so the passes swap as you turn round; a green's passes run 35 degrees off */
+      const toCameraXZ = vec2(toCamera.x, toCamera.z);
+      const greenPasses = vec2(acrossBearing.mul(0.8192).sub(dir.mul(0.5736)).y.negate(), acrossBearing.mul(0.8192).sub(dir.mul(0.5736)).x);
+      const flips = turf ? { hole: flipStripes(toCameraXZ, dir), green: flipStripes(toCameraXZ, greenPasses) } : null;
+      const amplitudeOf = sid => (turf ? TURF_LOOK.stripes[sid] : MOW_AMPLITUDE[sid]);
       /* the grass is not uniform along a pass */
       const wander = (taps ? taps.wander.g : texture(DETAIL, wp.mul(0.017)).g).mul(0.7).add(0.65);
       /* a DISPLAY amplitude: x2.2 of linear colour painted, x1.1 realistic */
@@ -932,9 +943,10 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         if (!patterns[sid]) return;
         /* a collar's laps run every way round, so where you stand takes nothing
            from them; a straight pass has a direction and does depend on it */
-        const directional = sid === SURFACE.FRINGE ? float(1)
+        let directional = sid === SURFACE.FRINGE ? float(1)
           : seen.mul(sid === SURFACE.FAIRWAY || sid === SURFACE.SEMI ? max(settled, ranged) : settled);
-        const term = patterns[sid].mul(MOW_AMPLITUDE[sid] * toLinear).mul(weights[index]).mul(directional);
+        if (flips && sid !== SURFACE.FRINGE) directional = directional.mul(sid === SURFACE.GREEN ? flips.green : flips.hole);
+        const term = patterns[sid].mul(amplitudeOf(sid) * toLinear).mul(weights[index]).mul(directional);
         mow = mow ? mow.add(term) : term;
       });
       /* paintedGround applies 0.55 of what it is handed; hand it the whole */
@@ -1153,6 +1165,18 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
         litBase = litBase.mul(oneMinus(damp.mul(DAMP_SHADE * display))).mul(vec3(1).add(vec3(...DAMP_COOL).mul(damp)));
       }
     }
+    /* THE TOUR TURF (turf-look.mjs): the turf's own grain and its bump, by class. ?turf=painted is the before */
+    if (turf && exactEdges && material.normalNode) {
+      let dir = null;
+      if (atlas.data.mowDirections) {
+        const raw = vec2(fields.b, fields.a).mul(255).sub(127.5).div(127);
+        const length = raw.length();
+        dir = select(length.greaterThan(0.2), raw.div(length.max(1e-3)), vec2(1, 0));
+      }
+      const tour = tourTurf({ classes, weights, wp, dir, detail: turf, normal: material.normalNode, display: shading.toneExponent });
+      litBase = litBase.mul(tour.lit);
+      material.normalNode = tour.normal;
+    }
     /* ?groundrelief=0 is the before: the relief is baked, and not read */
     if (groundRelief) litBase = applyGroundRelief(litBase, roughTint.a, meta.a);
     /* the finish takes its blotches from the shared taps, and mown turf (neither
@@ -1169,12 +1193,13 @@ function createClassSdfDecorator({ atlas, DETAIL, C, SHADE, debugMode, tint = nu
     material.userData.surfaceChannels = [...channels];
     material.userData.groundEdges = { across: !!pixelAcross, stripeReach: !!(exactEdges && mowStrength > 0 && atlas.data.mowDirections && stripeReach),
       hardGround };
-    material.userData.groundDetail = { turfGrain: !!taps, groundWear: !!(exactEdges && cutTone > 0 && groundWear), bareGround: bareIndices.length > 0 };
+    material.userData.groundDetail = { turfGrain: !!taps, groundWear: !!(exactEdges && cutTone > 0 && groundWear), bareGround: bareIndices.length > 0,
+      tourTurf: !!(turf && exactEdges) };
     return material;
   };
 }
 
-export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false }, shading) {
+export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debugMode = 'off', tint = null, graphicsPolish = false, surfaceRelief = 'off', uSun = null, cutTone = 0, mowStrength = 0, mowFade = 'across', surfaceGloss = false, surfaceEdges = false, groundRelief = false, acrossEdges = false, stripeReach = false, hardGround = false, turfGrain = false, groundWear = false, bareGround = false, sandBowl = false, turf = null }, shading) {
   if (!(cutTone >= 0 && cutTone <= 2)) throw new TypeError('cutTone must lie in 0..2');
   if (!(mowStrength >= 0 && mowStrength <= 2)) throw new TypeError('mowStrength must lie in 0..2');
   if (!['across', 'iso'].includes(mowFade)) throw new TypeError(`unknown mowing fade: ${mowFade}`);
@@ -1205,7 +1230,7 @@ export function createV2GroundMaterialDecorator({ atlas, DETAIL, C, SHADE, debug
         exactEdges: true, mowDirections: true },
     };
     return bindV2SurfaceAuthority(
-      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround, sandBowl }, shading),
+      createClassSdfDecorator({ atlas: view, DETAIL, C, SHADE, debugMode, tint, graphicsPolish, surfaceRelief, uSun, cutTone, mowStrength, mowFade, surfaceGloss, surfaceEdges, groundRelief, acrossEdges, stripeReach, hardGround, turfGrain, groundWear, bareGround, sandBowl, turf }, shading),
       atlas,
     );
   }

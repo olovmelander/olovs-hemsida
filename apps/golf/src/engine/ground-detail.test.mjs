@@ -95,12 +95,12 @@ describe('the detail taps', () => {
   it('report what the ground was built with', () => {
     for (const [turfGrain, groundWear, bareGround] of [[false, false, false], [true, false, false], [false, true, false], [false, false, true], [true, true, true]]) {
       const { material } = build({ turfGrain, groundWear, bareGround });
-      expect(material.userData.groundDetail).toEqual({ turfGrain, groundWear, bareGround });
+      expect(material.userData.groundDetail).toEqual({ turfGrain, groundWear, bareGround, tourTurf: false });
       expect(material.colorNode).toBeTruthy();
     }
     /* none of it without cut tones: the befores' own switch */
     expect(build({ turfGrain: true, groundWear: true, bareGround: true, cutTone: 0 }).material.userData.groundDetail)
-      .toEqual({ turfGrain: true, groundWear: false, bareGround: true });
+      .toEqual({ turfGrain: true, groundWear: false, bareGround: true, tourTurf: false });
   });
 });
 

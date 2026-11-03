@@ -99,7 +99,8 @@ import {
   requestedCutTone,
   requestedMowing,
 } from './engine/surface-render-policy.mjs';
-import { createV2GroundMaterialDecorator, makeGround, paintedGround, setWindSheen } from './engine/material.js';
+import { createV2GroundMaterialDecorator, makeGround, paintedGround, setWindSheen, setTourTurf } from './engine/material.js';
+import { createTurfDetailTexture } from './engine/turf-detail.mjs';
 import { tussockBlades, reedBlades, clumpBlades, seenBladeNormal, bladeNormalsFront, COVER_TUNED_SHARE, grassCover,
   seatHeight, SEAT_RIM, reedWaterAt } from './engine/ground-cover.mjs';
 import { createNearGrass } from './engine/near-grass.mjs';
@@ -2010,6 +2011,11 @@ const SAND_BOWL_ON = new URLSearchParams(location.search).get('sandbowl') !== '0
 /* the wind on the grass: the air's gusts cross the turf as laid, paler patches
    (engine/one-wind.mjs windSheenAt), the ground and the blades round the ball alike; ?windsheen=0 is the before */
 setWindSheen(new URLSearchParams(location.search).get('windsheen') !== '0');
+/* THE TOUR TURF (turf-detail.mjs, turf-look.mjs; owner request 3 November): the turf's own grain,
+   its bump, stronger stripes that swap as you turn, and grass lit as grass. ?turf=painted is the before */
+const TOUR_TURF_ON = new URLSearchParams(location.search).get('turf') !== 'painted';
+const TOUR_TURF = TOUR_TURF_ON ? createTurfDetailTexture() : null;
+setTourTurf(TOUR_TURF_ON);
 /* The ground cover (ground-cover.mjs): the blades of tussocks, clumps and reeds
    lit from the side that is seen; every piece of it in the trees' shadows; its
    colours where they were tuned, in the light's grass strength and autumn's
@@ -3246,6 +3252,8 @@ if (TERRAIN_PREVIEW.ready) {
     surfaceGloss: SURFACE_GLOSS, surfaceEdges: SURFACE_EDGES, groundRelief: GROUND_RELIEF_ON,
     acrossEdges: GROUND_EDGES_ON, stripeReach: STRIPE_REACH_ON, hardGround: HARD_GROUND_ON,
     turfGrain: TURF_GRAIN_ON, groundWear: GROUND_WEAR_ON, bareGround: BARE_GROUND_ON, sandBowl: SAND_BOWL_ON,
+    /* the tour turf's grain and bump (turf-look.mjs); ?turf=painted is the before */
+    turf: TOUR_TURF,
   }));
   const preparation = await terrainV2.prepare({
     coreGrid: CORE,
@@ -6569,6 +6577,8 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
   nearGrass = createNearGrass({
     atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
     tint: GROUND_TINT, DETAIL, C, SHADE, cutTone: CUT_TONE_STRENGTH, uSun, sunThrough: uSunThrough, sunlit: SUNLIT,
+    /* the tour grade, as the ground under the blades takes it (turf-look.mjs) */
+    tourGrade: TOUR_TURF_ON,
     quality: LOWQ ? 'lo' : 'hi',
     /* the ground's own terms, as the ground material takes them, so a blade has its root's colour */
     ground: { relief: GROUND_RELIEF_ON, wear: GROUND_WEAR_ON, grain: TURF_GRAIN_ON, gloss: SURFACE_GLOSS },
@@ -12430,6 +12440,16 @@ window.V3D = {
   placeCamera: (p, t) => flyTo(V3(p[0], p[1], p[2]), V3(t[0], t[1], t[2]), 0),
   /* the hole lines as drawn, for a harness framing a whole hole */
   holeLines: () => HOLES.map(h => ({ n: h.n, line: h.line.map(p => [p[0], p[1]]) })),
+  /* the drawn ground's height at a point, for harnesses that place a camera on it */
+  groundAt: (x, z) => terrainH(x, z),
+  /* the nearest mapped path, track, road and bunker to a point, for harnesses that look at the ground */
+  groundFeaturesNear: (x, z) => {
+    const near = list => { let best = null, bd = Infinity;
+      for (const item of list) for (const p of (item.line || item.ring || item)) { const d = Math.hypot(p[0] - x, p[1] - z); if (d < bd) { bd = d; best = [p[0], p[1]]; } }
+      return best && { at: best, distance: +bd.toFixed(1) }; };
+    return { path: near(M.infra.paths || []), track: near(M.infra.tracks || []), road: near(M.infra.roads || []),
+      bunker: near(HOLES.flatMap(h => h.bunkers.map(b => b.ring))) };
+  },
   /* the ground cover as drawn (ground-cover.mjs): its switches, and per population its
      count, shadows, blade normal and seat */
   cover: () => structuredClone(stats.cover),
