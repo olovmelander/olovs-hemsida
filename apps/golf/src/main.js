@@ -132,6 +132,7 @@ import { createContactAO } from './engine/contact-ao.mjs';
 import { createWorldVelocity } from './engine/temporal-aa.mjs';
 import { createWireMesh } from './engine/wires.mjs';
 import { followTerrain } from './engine/power-route.mjs';
+import { drapeOverDrawnTerrain } from './engine/drape-depth.mjs';
 import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
@@ -3092,12 +3093,16 @@ let frontierSurroundMaterial = null;
    centimetres of world-space lift alone z-fight on a phone's shallow buffer at
    distance, which is where the speckled fairways in the phone photo came from.
    Only the three terrain levels themselves stay un-nudged. */
+/* ... and at a distance, where the drawn ground is coarser than the exact height they are
+   draped on, their depth is moved toward the eye by its error allowance (engine/drape-depth.mjs);
+   ?drape=before is the before */
+const DRAPE_DEPTH_ON = new URLSearchParams(location.search).get('drape') !== 'before';
 const nudged = (tier, mk = makeTurf) => {
   const m = CUP_MASK.apply(mk());
   m.polygonOffset = true;
   m.polygonOffsetFactor = DEPTH_SIGN * tier;
   m.polygonOffsetUnits = DEPTH_SIGN * tier * 2;
-  return m;
+  return DRAPE_DEPTH_ON ? drapeOverDrawnTerrain(m) : m;
 };
 const DETAIL_MASK = buildDetailMask(CORE);
 

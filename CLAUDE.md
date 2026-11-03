@@ -368,6 +368,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     `?power=before` and `?wires=lines` are the befores. Blender scripts must
     build in their own scene with the data API: the shared file holds other
     work, and `clear()` in `parked_car.py` deletes every mesh in it.
+  - **Draped surfaces at a distance** (3 November): roads, paths, tracks,
+    lots and ballast (`nudged()` in `main.js`) move their DEPTH, never their
+    pixels, toward the eye by the terrain's error allowance there
+    (`drape-depth.mjs`: 6 px of height, by how steeply the eye looks down,
+    beyond 60-200 m, at most 6% of the distance), through `vertexNode`, so
+    lighting, shadows, fog and the TAA's reprojection keep the true position.
+    Without it the coarser far terrain buried the roads. `?drape=before`.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
   - **LF line endings.** This checkout sets `core.autocrlf=false` so the
