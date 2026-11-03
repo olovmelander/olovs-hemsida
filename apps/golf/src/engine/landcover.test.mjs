@@ -52,5 +52,5 @@ describe('the land-cover record', () => {
       /* a Swedish 12 km square that is not mostly sea carries real forest */
       expect(trees / known, b).toBeGreaterThan(0.15);
     }
-  });
+  }, 30000); /* decodes every committed record: past 5 s when the whole suite runs in parallel */
 });

@@ -354,6 +354,20 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     It needs MSAA off (three), and a per-material velocity output can push a
     fragment stage past 16 inputs (the first trial crashed the blades): keep
     the velocity in the MRT, not in the materials.
+  - **Water from above** (3 November): ring terrain tiles are quantised from
+    their own lowest height, which over a lake is the water surface, so the
+    bed carve must re-base a tile below its floor (`carveDecodedTerrainTile`,
+    used by the ring path now as by the fixed frontier) or the bed stays a hand
+    under the sheet and the lake reads as brown silt from above. The CPU
+    sampler is rebuilt after carving.
+  - **Power lines** (3 November): towers are a Blender-built lattice pylon
+    (`tools/blender-props/pylon.py`, `PYLON_ASSET`, its three phases on its
+    insulators), crossarms turned square to the line, wires and lift cables
+    as ribbons of their real width faded by coverage below a pixel
+    (`wires.mjs`). Course lines run to the far ring, not a fixed box.
+    `?power=before` and `?wires=lines` are the befores. Blender scripts must
+    build in their own scene with the data API: the shared file holds other
+    work, and `clear()` in `parked_car.py` deletes every mesh in it.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
   - **LF line endings.** This checkout sets `core.autocrlf=false` so the

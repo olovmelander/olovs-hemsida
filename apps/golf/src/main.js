@@ -121,7 +121,7 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
-import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET, HERON_ASSET } from './engine/golf-cart-prop.mjs';
+import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET, HERON_ASSET, PYLON_ASSET } from './engine/golf-cart-prop.mjs';
 import { planSwans, createSwans } from './engine/swans.mjs';
 import { planHerons } from './engine/herons.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
@@ -130,6 +130,7 @@ import { createGrassCards, loadGrassCards } from './engine/grass-cards.mjs';
 import { createGrassShells, loadGrassMat } from './engine/grass-shells.mjs';
 import { createContactAO } from './engine/contact-ao.mjs';
 import { createWorldVelocity } from './engine/temporal-aa.mjs';
+import { createWireMesh } from './engine/wires.mjs';
 import { mergeLakeSheets, createLakeMist } from './engine/lake-mist.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
@@ -6763,7 +6764,13 @@ function mappedPointObjects(points) {
   const mappedOnly = M.infra.objectPlacement === 'mapped-only';
   const supports = mappedOnly ? mappedPowerSupports(PW) : [];
   const supportByPoint = new Map(supports.map(p => [p.c.join(','), p]));
-  const IN = (x, z) => x > -1450 && x < 980 && z > -1900 && z < 700;
+  /* the course's own lines run as far as its terrain does (the far ring); a fixed box written for
+     the first course here cut every other course's lines off mid-corridor (?power=before) */
+  const POWER_BEFORE = new URLSearchParams(location.search).get('power') === 'before';
+  const IN = POWER_BEFORE ? (x, z) => x > -1450 && x < 980 && z > -1900 && z < 700 : inFarRing;
+  /* a support's crossarm (along its local x) stands square to its line, so the wires hang from
+     its ends; the yaw below turns x onto the line itself, a quarter turn off */
+  const ARM_TURN = POWER_BEFORE ? 0 : Math.PI / 2;
   /* a lattice pylon reads at distance as two crossed tapering planes and a crossarm */
   const towerGeo = (() => {
     const p = [], push = (...v) => p.push(...v);
@@ -6791,11 +6798,19 @@ function mappedPointObjects(points) {
   const seen = new Set();
   for (const support of supports) {
     const [x, z] = support.c;
-    (support.kind === 'tower' ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, support.yaw]);
+    (support.kind === 'tower' ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, support.yaw + ARM_TURN]);
   }
+  /* the modelled lattice pylon (engine/golf-cart-prop.mjs, built in Blender) for the towers, its
+     phases on its insulators' ends; the crossed planes with ?power=before or if it does not load */
+  const PYLON = POWER_BEFORE || !PW.lines.length ? null : await loadPaintedProp({ asset: PYLON_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('pylon:', error.message); return null; });
   for (const ln of PW.lines) {
     const big = mappedOnly ? ln.line.some(p => supportByPoint.get(p.join(','))?.kind === 'tower') : (ln.voltage || 0) >= 100000;
     const attach = big ? 19.5 : 8.2; // Rendering estimate; source support heights are unknown.
+    /* each conductor: its offset across the line and its height over the ground (a tower stands 0.3 m in it) */
+    const phases = big
+      ? (PYLON ? PYLON_ASSET.phases.map(([off, h]) => [off, h - 0.3]) : [[-2.8, attach], [0, attach], [2.8, attach]])
+      : [[-1.0, attach], [1.0, attach]];
     const L = mappedOnly ? ln.line.filter(p => supportByPoint.has(p.join(','))) : ln.line;
     if (!mappedOnly) for (let i = 0; i < L.length; i++) {
       const [x, z] = L[i];
@@ -6805,7 +6820,7 @@ function mappedPointObjects(points) {
       seen.add(key);
       const nb = L[Math.min(i + 1, L.length - 1)], pb = L[Math.max(i - 1, 0)];
       const yaw = -Math.atan2(nb[1] - pb[1], nb[0] - pb[0]);
-      (big ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, yaw]);
+      (big ? towers : polesArr).push([x, terrainH(x, z) - 0.3, z, yaw + ARM_TURN]);
     }
     /* the wires: sagging catenaries between consecutive surveyed supports */
     if (!LOWQ) for (let i = 0; i < L.length - 1; i++) {
@@ -6813,11 +6828,12 @@ function mappedPointObjects(points) {
       if (!mappedOnly && (ln.surr ? !(inFarRing(x0, z0) && inFarRing(x1, z1)) : !IN(x0, z0) && !IN(x1, z1))) continue;
       const span = Math.hypot(x1 - x0, z1 - z0);
       if (span < 4 || span > 480) continue;
-      const h0 = terrainH(x0, z0) + attach, h1 = terrainH(x1, z1) + attach;
+      const g0 = terrainH(x0, z0), g1 = terrainH(x1, z1);
       const sag = Math.min(4.5, span * 0.035);
       const dx = x1 - x0, dz = z1 - z0;
       const nx = -dz / span, nz = dx / span;
-      for (const off of big ? [-2.8, 0, 2.8] : [-1.0, 1.0]) {
+      for (const [off, lift] of phases) {
+        const h0 = g0 + lift, h1 = g1 + lift;
         let prev = null;
         for (let k = 0; k <= 8; k++) {
           const t = k / 8;
@@ -6843,9 +6859,17 @@ function mappedPointObjects(points) {
     scene.add(im);
     stats.draws++;
   };
-  inst(towerGeo, towers, 0x7d8287);
+  if (PYLON && towers.length) {
+    const up = new THREE.Vector3(0, 1, 0), one = new THREE.Vector3(1, 1, 1), white = new THREE.Color(1, 1, 1);
+    const items = towers.map(([x, y, z, yaw]) => ({ colour: white,
+      matrix: new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromAxisAngle(up, yaw), one) }));
+    scene.add(placePaintedProp(PYLON, items, { name: 'pylons', tag: 'power', roughness: 0.55, metalness: 0.35 }));
+    stats.draws += 2;
+  } else inst(towerGeo, towers, 0x7d8287);
   inst(poleGeo, polesArr, 0x5c5148);
   stats.pylons = towers.length + polesArr.length;
+  stats.power = { lines: PW.lines.length, surroundingLines: PW.lines.filter(l => l.surr).length, towers: towers.length, poles: polesArr.length,
+    modelled: !!PYLON, kv: [...new Set(PW.lines.map(l => l.voltage || 0))].sort((x, y) => x - y) };
   stats.mappedPowerTowers = mappedOnly ? towers.length : 0;
   stats.mappedPowerPoles = mappedOnly ? polesArr.length : 0;
 
@@ -6896,13 +6920,18 @@ function mappedPointObjects(points) {
     })();
     inst(mastGeo, masts, 0x8a9094);
   }
+  /* the wires as ribbons of their real width, faded by what they cover below a pixel
+     (engine/wires.mjs); ?wires=lines is the before, one hard pixel at every distance */
   if (wire.length) {
-    const g = new THREE.BufferGeometry();
-    g.setAttribute('position', new THREE.Float32BufferAttribute(wire, 3));
-    const m = new THREE.LineSegments(g, new THREE.LineBasicNodeMaterial({
-      color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }));
-    scene.add(m);
+    if (new URLSearchParams(location.search).get('wires') === 'lines') {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.Float32BufferAttribute(wire, 3));
+      const m = new THREE.LineSegments(g, new THREE.LineBasicNodeMaterial({
+        color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }));
+      scene.add(m);
+    } else scene.add(createWireMesh(wire, { name: 'power-wires' }));
     stats.draws++;
+    stats.wireSegments = wire.length / 6;
   }
 }
 
@@ -8566,7 +8595,10 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
   if (cables.length) {
     const cg = new THREE.BufferGeometry();
     cg.setAttribute('position', new THREE.Float32BufferAttribute(cables, 3));
-    const cm = new THREE.LineSegments(cg, new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }));
+    /* a lift's haul rope as a ribbon of its own width (engine/wires.mjs); ?wires=lines is the before */
+    const cm = new URLSearchParams(location.search).get('wires') === 'lines'
+      ? new THREE.LineSegments(cg, new THREE.LineBasicNodeMaterial({ color: new THREE.Color(0x2e3134), transparent: true, opacity: 0.8 }))
+      : createWireMesh(cables, { diameter: 0.045, name: 'lift-cables' });
     scene.add(cm);
     stats.draws++;
   }
@@ -12193,7 +12225,7 @@ window.V3D = {
            environmentWater: stats.environmentWater ?? null,
            tufts: stats.tufts | 0, edgeTufts: stats.edgeTufts | 0, bushes: stats.bushes | 0, stones: stats.stones | 0,
            reeds: stats.reeds | 0, cars: stats.cars | 0, authoredParkingCars: stats.authoredParkingCars | 0,
-           pylons: stats.pylons | 0, stumps: stats.stumps | 0,
+           pylons: stats.pylons | 0, power: stats.power ?? null, wireSegments: stats.wireSegments | 0, stumps: stats.stumps | 0,
            inferredRangeTargets: stats.inferredRangeTargets | 0,
            measuredRoofBuildings: stats.measuredRoofBuildings | 0,
            measuredRoofTriangles: stats.measuredRoofTriangles | 0,

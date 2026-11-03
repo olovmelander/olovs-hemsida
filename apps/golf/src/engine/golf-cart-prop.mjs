@@ -58,6 +58,17 @@ export const HERON_ASSET = Object.freeze({
   meshes: Object.freeze(['heron_body', 'heron_trim']),
 });
 
+/* THE PYLON (3 November): a galvanised 130 kV steel lattice tower for the power lines, from
+   tools/blender-props/pylon.py, 1,860 triangles; crossarm along +x, the outer phases' insulators
+   end at (+-3.2, 19.5) and the middle phase's at (0, 22.4). */
+export const PYLON_ASSET = Object.freeze({
+  url: 'models/props/pylon-217c9c900cb51f4d2853f826991c2ec5554228225cceaa5f5b77495ebb464c32.glb',
+  sha256: '217c9c900cb51f4d2853f826991c2ec5554228225cceaa5f5b77495ebb464c32',
+  bytes: 132044,
+  meshes: Object.freeze(['pylon_body', 'pylon_trim']),
+  phases: Object.freeze([Object.freeze([-3.2, 19.5]), Object.freeze([3.2, 19.5]), Object.freeze([0, 22.4])]),
+});
+
 const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(b => b.toString(16).padStart(2, '0')).join('');
 
