@@ -123,6 +123,7 @@ import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET } from './engine/golf-cart-prop.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
+import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
 import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
@@ -6290,10 +6291,16 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     g.setAttribute('normal', new THREE.Float32BufferAttribute(COVER_LIGHT_ON ? bladeNormalsFront(normals) : normals, 3));
     return g;
   })();
-  const bush = new THREE.IcosahedronGeometry(0.62, 0);
-  bush.scale(1, 0.62, 1); bush.translate(0, 0.34, 0);
-  const stone = new THREE.DodecahedronGeometry(0.5, 0);
-  stone.scale(1, 0.55, 0.85); stone.translate(0, 0.16, 0);
+  /* the bushes and stones as painted forms (engine/cover-shapes.mjs); ?covershapes=0 is the before, the faceted gems */
+  const COVER_SHAPES_ON = new URLSearchParams(location.search).get('covershapes') !== '0';
+  let bush, stone;
+  if (COVER_SHAPES_ON) { bush = puffyBushGeometry(); stone = roundedStoneGeometry(); }
+  else {
+    bush = new THREE.IcosahedronGeometry(0.62, 0);
+    bush.scale(1, 0.62, 1); bush.translate(0, 0.34, 0);
+    stone = new THREE.DodecahedronGeometry(0.5, 0);
+    stone.scale(1, 0.55, 0.85); stone.translate(0, 0.16, 0);
+  }
 
   const T = [], B = [], S = [], STU = [];
   const coverLatticeStarted = performance.now();
@@ -6465,7 +6472,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
     tuftMat.colorNode = COVER_COLOUR_ON ? grassCover(tuftColour) : tuftColour;
     if (COVER_LIGHT_ON) tuftMat.normalNode = seenBladeNormal();
   }
-  const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: true });
+  const bushMat = new THREE.MeshStandardNodeMaterial({ roughness: 0.9, metalness: 0, flatShading: !COVER_SHAPES_ON });
   {
     const leaf = texture(DETAIL, positionWorld.xz.mul(0.017)).g;
     bushMat.colorNode = mix(color(PAINTED_SCENERY.bush[0]),
@@ -6475,7 +6482,7 @@ if (M.infra.vegetationPlacement !== 'measured-only') {
   const reviewedStone = SCENERY?.groundAppearance?.palette?.rock;
   const stoneColour = COVER_COLOUR_ON && reviewedStone !== undefined ? reviewedStone : PAINTED_SCENERY.stone;
   const stoneMat = new THREE.MeshStandardNodeMaterial({
-    color: new THREE.Color(stoneColour), roughness: 0.86, metalness: 0, flatShading: true });
+    color: new THREE.Color(stoneColour), roughness: 0.86, metalness: 0, flatShading: !COVER_SHAPES_ON });
 
   stats.tufts = place('tufts', tuft, tuftMat, T, false);
   if (ET.length) {
