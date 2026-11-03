@@ -307,6 +307,11 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     `?cirrus=0`, `?birds=0`, `?butterflies=0`, `?leafflutter=0`,
     `?covershapes=0`, `?teemarkers=before`, `?labelcap=0`, `?camarc=0`,
     `?leaves=0`, `?rain=0`, `?swans=0`, `?lilies=0` and `?flowers=0`.
+  - **Contact shadows** (`contact-ao.mjs`): three's GTAO on the scene pass's
+    depth (r187 reads the reversed buffer; normals rebuilt from depth), at half
+    resolution, box-blurred, and only past a contact threshold so flat walls
+    and lawns stay clean. Joined to the colour before the bloom and the god
+    rays add theirs; high quality only. `?ao=0` is the before.
     `?tonecurve=filmic` is an opt-in A/B.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).

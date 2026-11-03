@@ -124,6 +124,7 @@ import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED
 import { planSwans, createSwans } from './engine/swans.mjs';
 import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
 import { createMeadowFlowers } from './engine/meadow-flowers.mjs';
+import { createContactAO } from './engine/contact-ao.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { createFallingLeaves } from './engine/falling-leaves.mjs';
@@ -2165,6 +2166,8 @@ if (rain) { rain.mesh.renderOrder = 3; scene.add(rain.mesh); }
 let swans = null;
 /* Meadow flowers in the rough (engine/meadow-flowers.mjs): made with the grass round the ball, below. */
 let meadowFlowers = null;
+/* Contact shadows (engine/contact-ao.mjs): made with the post pipeline, below. */
+let contactAO = null;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2270,6 +2273,7 @@ function setPreset(name, overrides = null) {
   fallingLeaves?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   rain?.setPreset(presetName, { sky: fog.color.getHex() });
   meadowFlowers?.setPreset(presetName);
+  contactAO?.setPreset(presetName);
   godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -8486,6 +8490,10 @@ await tick('ställer ljuset', 0.86);
 let openingScenePass = null;
 const GOD_RAYS_ON = new URLSearchParams(location.search).get('godrays') !== '0';
 let godRays = null, godRaysPending = null;
+/* Contact shadows (engine/contact-ao.mjs): GTAO on the scene pass's depth, at half
+   resolution, darkening the colour only where things meet the ground or fold into
+   each other. High quality (the pipeline's) only. ?ao=0 is the before. */
+const CONTACT_AO_ON = new URLSearchParams(location.search).get('ao') !== '0';
 /* ?post=0 renders the scene straight to the canvas, no bloom: the harness's way to tell a scene fault from a pipeline fault */
 if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const { bloom } = await import('three/addons/tsl/display/BloomNode.js');
@@ -8493,13 +8501,17 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   const scenePass = pass(scene, camera);
   openingScenePass = scenePass;
   const sceneColor = scenePass.getTextureNode('output');
+  contactAO = CONTACT_AO_ON ? await createContactAO({ depthNode: scenePass.getTextureNode('depth'), camera }) : null;
+  contactAO?.setPreset(presetName);
+  /* the scene's colour as the output takes it: with the contact shadows, if any (the bloom reads the scene's own) */
+  const litColor = contactAO ? contactAO.apply(sceneColor) : sceneColor;
   const bloomNode = bloom(sceneColor, 0.14, GLOW.radius, GLOW.threshold);
   /* a knee, not a switch: at the stock 0.01 a sunlit flag or trim crossing the
      threshold turned its whole halo on in one frame. It now grows over 0.3 from
      the preset's threshold (0.86 to 1.16 at noon). ?bloomknee=hard is the before
      (and the lamps' old strength). */
   if (new URLSearchParams(location.search).get('bloomknee') !== 'hard') bloomNode.smoothWidth.value = GLOW.knee;
-  const out = sceneColor.add(bloomNode);
+  const out = litColor.add(bloomNode);
   // Pigments and lighting now carry the colour. A global saturation/contrast
   // boost clipped the grass greens and made high/low quality disagree.
   post.outputNode = out;
@@ -8517,7 +8529,7 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
     if (!sun.shadow.map) return false;
     godRays = createGodRays({ depthNode: scenePass.getTextureNode('depth'), camera, light: sun });
     godRays.setPreset(presetName, { sunDirection: preset.dir, sunColour: preset.sun });
-    post.outputNode = vec4(sceneColor.rgb.add(godRays.node), sceneColor.a).add(bloomNode);
+    post.outputNode = vec4(litColor.rgb.add(godRays.node), litColor.a).add(bloomNode);
     post.needsUpdate = true;
     return true;
   };
