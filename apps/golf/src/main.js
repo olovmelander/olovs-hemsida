@@ -124,6 +124,7 @@ import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { createFallingLeaves } from './engine/falling-leaves.mjs';
+import { createRain } from './engine/rain.mjs';
 import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
@@ -2152,6 +2153,11 @@ if (butterflies) scene.add(butterflies.mesh);
 const FALLING_LEAVES_ON = new URLSearchParams(location.search).get('leaves') !== '0';
 const fallingLeaves = FALLING_LEAVES_ON ? createFallingLeaves({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
 if (fallingLeaves) scene.add(fallingLeaves.mesh);
+/* Rain in the storm (engine/rain.mjs): faint streaks slanted by the gale round the
+   eye, an additive overlay after the sky like the motes. ?rain=0 is the before. */
+const RAIN_ON = new URLSearchParams(location.search).get('rain') !== '0';
+const rain = RAIN_ON ? createRain({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
+if (rain) { rain.mesh.renderOrder = 3; scene.add(rain.mesh); }
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -2255,6 +2261,7 @@ function setPreset(name, overrides = null) {
   birds?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun, sky: fog.color.getHex() });
   butterflies?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   fallingLeaves?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
+  rain?.setPreset(presetName, { sky: fog.color.getHex() });
   godRays?.setPreset(presetName, { sunDirection: p.dir, sunColour: p.sun });
   uReedC.value.setHex(p.reed ?? 0x8d8a52);
   /* the glow belongs to the light: dusk lamps and low-sun water need a halo that
@@ -11691,6 +11698,7 @@ function frame() {
   birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   fallingLeaves?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  rain?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   updateStrategy(now);
   fitStrategyLabels();
   kikTagUpdate();
@@ -11734,6 +11742,7 @@ if (VALLEY_MIST_ON) {
   birds?.update({ dt: 0, groundY: terrainH(camera.position.x, camera.position.z) });
   butterflies?.update({ dt: 0, camera, groundY: terrainH(camera.position.x, camera.position.z) });
   fallingLeaves?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
+  rain?.update({ dt: 0, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z) });
 }
 
 if (COURSE_DATA_READY) {
@@ -12482,6 +12491,7 @@ window.V3D = {
   birds: () => birds?.snapshot() ?? null,
   butterflies: () => butterflies?.snapshot() ?? null,
   fallingLeaves: () => fallingLeaves?.snapshot() ?? null,
+  rain: () => rain?.snapshot() ?? null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
