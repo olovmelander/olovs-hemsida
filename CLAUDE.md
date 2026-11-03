@@ -300,10 +300,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     run through the Blender MCP. Each is a hash-named GLB in `models/props/`
     with its JSON record, loaded by `loadPaintedProp` with the authored
     buildings' checks and drawn as two instanced meshes with a tinted body.
-    `?props=0` is the boxes.
+    `?props=0` is the boxes. Swans (`swans.mjs`) glide closed-form loops
+    planned from the water outlines, inset off the shore and over open water;
+    they cast no shadow, since the sun's map is redrawn on demand.
   - **More befores:** `?sandbowl=0`, `?windsheen=0`, `?waterbank=0`,
     `?cirrus=0`, `?birds=0`, `?butterflies=0`, `?leafflutter=0`,
-    `?covershapes=0`, `?teemarkers=before`, `?labelcap=0` and `?camarc=0`.
+    `?covershapes=0`, `?teemarkers=before`, `?labelcap=0`, `?camarc=0`,
+    `?leaves=0`, `?rain=0` and `?swans=0`.
     `?tonecurve=filmic` is an opt-in A/B.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).

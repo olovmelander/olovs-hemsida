@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import { createHash } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
 import { Vector3 } from 'three/webgpu';
-import { GOLF_CART_ASSET, PARKED_CAR_ASSET, MOTORHOME_ASSET, cartMatrix } from './golf-cart-prop.mjs';
+import { GOLF_CART_ASSET, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET, cartMatrix } from './golf-cart-prop.mjs';
 import { inspectBuildingGlb } from './authored-buildings.mjs';
 
 const file = new URL(`../../public/${GOLF_CART_ASSET.url}`, import.meta.url);
@@ -40,7 +40,7 @@ describe('the modelled golf cart', () => {
     const vite = fs.readFileSync(new URL('../../vite.config.js', import.meta.url), 'utf8');
     expect(vite).toContain("cacheName: 'banvy-props'");
   });
-  it.each([['parked-car', PARKED_CAR_ASSET], ['motorhome', MOTORHOME_ASSET]])('carries the %s the same way: its bytes, sha256, record and two meshes', (id, ASSET) => {
+  it.each([['parked-car', PARKED_CAR_ASSET], ['motorhome', MOTORHOME_ASSET], ['swan', SWAN_ASSET]])('carries the %s the same way: its bytes, sha256, record and two meshes', (id, ASSET) => {
     const PARKED_CAR_ASSET = ASSET;
     const bytes = fs.readFileSync(new URL(`../../public/${PARKED_CAR_ASSET.url}`, import.meta.url));
     expect(bytes.length).toBe(PARKED_CAR_ASSET.bytes);

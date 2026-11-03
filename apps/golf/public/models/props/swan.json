@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-prop",
+  "id": "swan",
+  "asset": { "url": "models/props/swan-31df06fd0866cc833ca526435987d27f60731621c6107904c5aa8ce63ba765e4.glb", "sha256": "31df06fd0866cc833ca526435987d27f60731621c6107904c5aa8ce63ba765e4", "bytes": 56676 },
+  "meshes": { "swan_body": { "triangles": 2212, "tinted": true }, "swan_trim": { "triangles": 188 } },
+  "axes": "bill along +z, x across, y up; metres; the waterline at y = 0; about 0.6 x 1.0 x 1.4 m",
+  "source": "tools/blender-props/swan.py, Blender 5.2.2 LTS, built and exported through the Blender MCP on 3 November 2026",
+  "notes": "A mute swan in painted vertex colours; the body is white and takes the player's instance colour (white)."
+}

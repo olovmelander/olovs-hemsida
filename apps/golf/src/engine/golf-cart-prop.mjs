@@ -39,6 +39,16 @@ export const MOTORHOME_ASSET = Object.freeze({
   meshes: Object.freeze(['van_body', 'van_trim']),
 });
 
+/* THE SWAN (3 November): a mute swan floating at its waterline for the lakes
+   (engine/swans.mjs), from tools/blender-props/swan.py, 2,400 triangles; its
+   white body takes the player's instance colour (a cygnet's grey-brown). */
+export const SWAN_ASSET = Object.freeze({
+  url: 'models/props/swan-31df06fd0866cc833ca526435987d27f60731621c6107904c5aa8ce63ba765e4.glb',
+  sha256: '31df06fd0866cc833ca526435987d27f60731621c6107904c5aa8ce63ba765e4',
+  bytes: 56676,
+  meshes: Object.freeze(['swan_body', 'swan_trim']),
+});
+
 const hex = async bytes => [...new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))]
   .map(b => b.toString(16).padStart(2, '0')).join('');
 

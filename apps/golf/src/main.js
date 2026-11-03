@@ -120,7 +120,8 @@ import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
-import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET } from './engine/golf-cart-prop.mjs';
+import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET } from './engine/golf-cart-prop.mjs';
+import { planSwans, createSwans } from './engine/swans.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { createFallingLeaves } from './engine/falling-leaves.mjs';
@@ -2158,6 +2159,8 @@ if (fallingLeaves) scene.add(fallingLeaves.mesh);
 const RAIN_ON = new URLSearchParams(location.search).get('rain') !== '0';
 const rain = RAIN_ON ? createRain({ quality: LOWQ ? 'lo' : 'hi', deterministic: DET }) : null;
 if (rain) { rain.mesh.renderOrder = 3; scene.add(rain.mesh); }
+/* Swans on the lakes (engine/swans.mjs): placed once the water and the ground are known, below. */
+let swans = null;
 
 /* The painted atmosphere and clouds share the WebGPU/WebGL2 sky. */
 const skyMesh = createAtmosphericSky({ reversedDepth: renderer.reversedDepthBuffer, deterministic: DET, painted: true,
@@ -7823,6 +7826,23 @@ const PROPS_ON = new URLSearchParams(location.search).get('props') !== '0';
 const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
   ? loadGolfCart({ baseUrl: import.meta.env.BASE_URL }).catch(error => { console.warn('golf cart:', error.message); return null; })
   : Promise.resolve(null);
+/* Swans on the lakes (engine/swans.mjs, the swan built in Blender): a pair or
+   more on each lake of open water near the course, sometimes with a grey
+   cygnet, gliding a slow loop well inside the shore and over open water; two
+   instanced draws for them all. Held still under reduced motion, pinned under
+   det=1. ?swans=0 is the before. */
+{
+  const on = new URLSearchParams(location.search).get('swans') !== '0';
+  const bodies = on ? M.water.filter(w => !w.stream && !w.isSea && w.ring?.length >= 3 && Number.isFinite(w.level))
+    .map(w => ({ id: w.id, ring: w.ring, level: w.level })) : [];
+  const plan = bodies.length ? planSwans(bodies, { ground: terrainH, focus: playB }) : [];
+  const parts = plan.length ? await loadPaintedProp({ asset: SWAN_ASSET, baseUrl: import.meta.env.BASE_URL })
+    .catch(error => { console.warn('swan:', error.message); return null; }) : null;
+  if (parts) {
+    swans = createSwans(parts, plan, { deterministic: DET });
+    scene.add(swans.group);
+  }
+}
 {
   const V = [], K = [];
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
@@ -11699,6 +11719,7 @@ function frame() {
   butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   fallingLeaves?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   rain?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
+  swans?.update({ dt, still: cameraMotionPreference.matches });
   updateStrategy(now);
   fitStrategyLabels();
   kikTagUpdate();
@@ -12492,6 +12513,7 @@ window.V3D = {
   butterflies: () => butterflies?.snapshot() ?? null,
   fallingLeaves: () => fallingLeaves?.snapshot() ?? null,
   rain: () => rain?.snapshot() ?? null,
+  swans: () => swans?.snapshot() ?? null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
