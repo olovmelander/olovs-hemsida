@@ -330,6 +330,15 @@ Reproduce the gallery: `node tools/serve.mjs apps/golf/dist 8620`, then
 - **The forced-Lite override** (`check-hero-impostor.mjs`): `V3D.setTreeLod(3)`
   should resolve to the near mesh with no impostors; it leaves thousands drawn,
   already before the night's visual changes.
+- **Dew in the low sun** was tried and dropped: pinpoints of the sun off wet
+  turf round the eye at dawn, each drop on its own facet. With a realistic
+  mirror lobe almost none light in the usual views (dew sparkles looking into
+  a low sun, which the tee and green views seldom face); with a broad one
+  they read as scattered specks. Not clearly better, so not shipped.
+- **Upsala's first and fourth ponds**: the surveyed bed stands above the
+  water level in long tan bars (the same with every switch of tonight's off).
+  A source or water-level question for the ground's dossier, not a shading
+  one.
 - **The Hero tier's cost.** In Puttom's fifth from the Green view (noon,
   1080p) the frame takes 9.4 ms of GPU time with Hero crowns and 5.1 ms with
   `?treemesh=full`; god rays, the shadow grid, the canopy and the crown
