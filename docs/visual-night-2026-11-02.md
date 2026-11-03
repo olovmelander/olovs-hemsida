@@ -14,7 +14,7 @@ on the 5080 at 1920 × 1080, A/B against its URL switch.
 
 Every change keeps its before behind a switch. All of them together:
 
-`?gpuprep=branches&fps=0&canopy=0&puffs=0&sandbowl=0&windsheen=0&waterbank=0&cirrus=0&birds=0&butterflies=0&leaves=0&rain=0&flowers=0&swans=0&herons=0&lilies=0&leafflutter=0&covershapes=0&props=0&teemarkers=before&labelcap=0&camarc=0&ao=0`
+`?gpuprep=branches&fps=0&canopy=0&puffs=0&sandbowl=0&windsheen=0&waterbank=0&cirrus=0&birds=0&butterflies=0&leaves=0&rain=0&flowers=0&swans=0&herons=0&lilies=0&lakemist=0&leafflutter=0&covershapes=0&props=0&teemarkers=before&labelcap=0&camarc=0&ao=0`
 
 No geometry, placement, source data or tuned light value changed; the prepared
 startup data was re-baked for the new source revision (section 9).
@@ -202,6 +202,15 @@ as strongly as the air blows, gone by 40 m (`?leafflutter=0`).
   apart, standing where the water is 6–32 cm deep within 1–4.2 m of the bank,
   facing out over the water and a little along it. Static instanced furniture,
   so it casts its shadow onto the bed. `?herons=0`.
+- **Mist on the lakes** (`lake-mist.mjs`): the lakes' own water sheets near
+  the course (their outlines and shore distances) merged into one geometry
+  and drawn as three thin layers 0.3–1.6 m above the water, after it and
+  writing no depth: wisps from the ground's detail texture at two scales, each
+  layer drifting with the one air at its own rate, faded in from the bank and
+  out near the eye, in the haze's colour warmed toward the sun. Dawn most,
+  then Dis, the blue hour, the midnight sun, a little in autumn and at golden
+  hour; none at noon, on the summer day or in the storm. Three draws.
+  `?lakemist=0`.
 - **Water lilies** (`water-lilies.mjs`): rafts of notched pads, one in seven
   with a white flower, in the sheltered shallows of ponds and small lakes
   (never the sea or a big open lake): a walk round each shore puts pads round
@@ -217,6 +226,7 @@ as strongly as the air blows, gone by 40 m (`?leafflutter=0`).
 ![Swans in the evening at Ängsö, from 40 m](graphics/night-2026-11-02/swans-evening.png)
 ![Water lilies at Johannesberg](graphics/night-2026-11-02/water-lilies.png)
 ![A grey heron in Puttom's shallows at golden hour](graphics/night-2026-11-02/heron.png)
+![Mist on Puttom's lake at dawn, the swans gliding through it](graphics/night-2026-11-02/lake-mist-dawn.png)
 
 Every light's birds, butterflies, leaves, rain, flowers and cirrus share are
 in their modules; no birds or butterflies fly in the storm, the mist or the
