@@ -122,6 +122,7 @@ import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
 import { prepareOpeningGpu } from './engine/prepare-opening-gpu.mjs';
 import { loadGolfCart, placeGolfCarts, loadPaintedProp, placePaintedProp, PARKED_CAR_ASSET, MOTORHOME_ASSET, SWAN_ASSET } from './engine/golf-cart-prop.mjs';
 import { planSwans, createSwans } from './engine/swans.mjs';
+import { planWaterLilies, createWaterLilies } from './engine/water-lilies.mjs';
 import { createBirds } from './engine/birds.mjs';
 import { createButterflies } from './engine/butterflies.mjs';
 import { createFallingLeaves } from './engine/falling-leaves.mjs';
@@ -7843,6 +7844,21 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
     scene.add(swans.group);
   }
 }
+/* Water lilies (engine/water-lilies.mjs): rafts of notched pads, a few white
+   flowers among them, in the sheltered shallows of the ponds and small lakes
+   near the course (1.5-8 m out, 0.25-2.2 m deep), planned from the water
+   outlines and the ground under the water; two instanced draws. ?lilies=0 is
+   the before. */
+let waterLilies = null;
+if (new URLSearchParams(location.search).get('lilies') !== '0') {
+  const bodies = M.water.filter(w => !w.stream && !w.isSea && w.ring?.length >= 3 && Number.isFinite(w.level))
+    .map(w => ({ id: w.id, ring: w.ring, level: w.level }));
+  const plan = planWaterLilies(bodies, { ground: terrainH, focus: playB });
+  if (plan.length) {
+    waterLilies = createWaterLilies(plan);
+    scene.add(waterLilies.group);
+  }
+}
 {
   const V = [], K = [];
   const tri = (a, b, c, col) => { V.push(...a, ...b, ...c); K.push(...col, ...col, ...col); };
@@ -12514,6 +12530,7 @@ window.V3D = {
   fallingLeaves: () => fallingLeaves?.snapshot() ?? null,
   rain: () => rain?.snapshot() ?? null,
   swans: () => swans?.snapshot() ?? null,
+  waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),

@@ -306,7 +306,7 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   - **More befores:** `?sandbowl=0`, `?windsheen=0`, `?waterbank=0`,
     `?cirrus=0`, `?birds=0`, `?butterflies=0`, `?leafflutter=0`,
     `?covershapes=0`, `?teemarkers=before`, `?labelcap=0`, `?camarc=0`,
-    `?leaves=0`, `?rain=0` and `?swans=0`.
+    `?leaves=0`, `?rain=0`, `?swans=0` and `?lilies=0`.
     `?tonecurve=filmic` is an opt-in A/B.
   - **Graphics review on the GPU.** Use `tools/gfx-gallery.mjs` (1080p,
     vsync-locked, GPU ms from timestamp queries; `--lights`, `--compare`).
