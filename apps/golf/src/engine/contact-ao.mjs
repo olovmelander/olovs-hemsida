@@ -10,7 +10,7 @@
    which also keeps the painted planes clean. At most `strength` of the colour.
    High quality only, as the rest of the pipeline; the runtime drop draws
    without it. +0.1-0.5 ms at 1080p on the RTX 5080. ?ao=0 is the before. */
-import { float, int, smoothstep, uniform, vec4 } from 'three/tsl';
+import { float, getViewPosition, int, screenUV, smoothstep, uniform, vec4 } from 'three/tsl';
 
 export const CONTACT_AO = Object.freeze({
   /* GTAO's own terms: its world radius, metres, the samples, the thickness and its falloff */
@@ -18,14 +18,18 @@ export const CONTACT_AO = Object.freeze({
   /* the AO's resolution against the scene's */
   resolutionScale: 0.5,
   /* only real contact darkens: the occlusion from `contact[0]` (none) to `contact[1]` (full), and the most it takes */
-  contact: Object.freeze([0.12, 0.6]), strength: 0.55,
+  contact: Object.freeze([0.22, 0.65]), strength: 0.55,
+  /* none within near[0] metres of the eye, all of it past near[1]: the rough's long blades at
+     the lens occlude the ground just behind them, and read as dark specks */
+  near: Object.freeze([2, 8]),
   /* each light's share */
   presets: Object.freeze({}),
 });
 
 export const contactAoFor = presetName => CONTACT_AO.presets[presetName] ?? 1;
 
-/** `{ node, apply(colour), setPreset(name), dispose() }`: GTAO on `depthNode`, applied to a colour node. */
+/** `{ node, apply(colour), setPreset(name), dispose() }`: GTAO on `depthNode`, applied to a colour node,
+    faded out near the eye (the distance rebuilt from the depth as GTAO rebuilds it). */
 export async function createContactAO({ depthNode, camera }) {
   const A = CONTACT_AO;
   const { ao } = await import('three/addons/tsl/display/GTAONode.js');
@@ -41,7 +45,9 @@ export async function createContactAO({ depthNode, camera }) {
   const { boxBlur } = await import('three/addons/tsl/display/boxBlur.js');
   /* GTAO without temporal filtering is grainy: a 3 x 3 box takes the grain out */
   const occlusion = boxBlur(node.getTextureNode(), { size: int(1), separation: int(1) }).r;
-  const factor = float(1).sub(smoothstep(A.contact[0], A.contact[1], float(1).sub(occlusion)).mul(uStrength));
+  const darken = smoothstep(A.contact[0], A.contact[1], float(1).sub(occlusion)).mul(uStrength);
+  const eye = getViewPosition(screenUV, depthNode.sample(screenUV).r, uniform(camera.projectionMatrixInverse)).length();
+  const factor = float(1).sub(darken.mul(smoothstep(A.near[0], A.near[1], eye)));
   return {
     node, factor,
     apply: colour => vec4(colour.rgb.mul(factor), colour.a),

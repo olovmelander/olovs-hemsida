@@ -58,15 +58,18 @@ export const MEADOW_FLOWERS = Object.freeze({
 
 export const meadowFlowersFor = presetName => MEADOW_FLOWERS.presets[presetName] ?? 1;
 
-/** The template: a stem (corners 0-2) and a head of six petals round a heart (3, then 4-9). */
+/** The template: a stem (corners 0-2) and a head round its heart (3): twelve rim corners (4-15),
+    a petal's tip and the notch between two petals in turn, so six petals. */
+export const FLOWER_RIM = 12;
 export function meadowFlowerTemplate() {
-  const corners = new Float32Array(10 * 3);
-  for (let c = 0; c < 10; c++) corners[c * 3] = c;
+  const n = 4 + FLOWER_RIM;
+  const corners = new Float32Array(n * 3);
+  for (let c = 0; c < n; c++) corners[c * 3] = c;
   const index = [0, 1, 2];
-  for (let i = 0; i < 6; i++) index.push(3, 4 + ((i + 1) % 6), 4 + i);
+  for (let i = 0; i < FLOWER_RIM; i++) index.push(3, 4 + ((i + 1) % FLOWER_RIM), 4 + i);
   const geometry = new InstancedBufferGeometry();
   geometry.setAttribute('position', new BufferAttribute(corners, 3));
-  geometry.setAttribute('normal', new BufferAttribute(new Float32Array(10 * 3).map((_, i) => (i % 3 === 1 ? 1 : 0)), 3));
+  geometry.setAttribute('normal', new BufferAttribute(new Float32Array(n * 3).map((_, i) => (i % 3 === 1 ? 1 : 0)), 3));
   geometry.setIndex(index);
   return geometry;
 }
@@ -162,12 +165,14 @@ export function createMeadowFlowers({ atlas, clip, quality = 'hi' } = {}) {
   const sway = swayOnWind({ p: root, weight: stemHeight.mul(2.2), rate: 2.6, scale: 3, swing: reedSwing, lean: 0.1 });
   const top = vec3(root.x, groundY.add(stemHeight), root.y).add(sway);
   const base = vec3(root.x, groundY.sub(0.004), root.y).add(across.mul(stemWidth.mul(0.5)).mul(c.mul(2).sub(1)));
-  /* the rim: six petals round the heart, cupped a little, the head tilted toward its yaw */
+  /* the rim: six petals round the heart (each tip, then a notch at 0.55 of it), cupped a
+     little, the head tilted toward its yaw */
   const petal = c.sub(4);
-  const a = petal.mul(Math.PI / 3).add(yaw);
+  const a = petal.mul((2 * Math.PI) / FLOWER_RIM).add(yaw);
+  const reach = float(1).sub(step(0.5, petal.mod(2)).mul(0.45));
   /* the side of the head toward its yaw lifts, the far side dips: a head turned a little to the light */
-  const lift = cos(a).mul(sin(yaw)).add(sin(a).mul(cos(yaw))).mul(0.35).add(0.28);
-  const rim = vec3(cos(a), lift, sin(a)).mul(headRadius);
+  const lift = cos(a).mul(sin(yaw)).add(sin(a).mul(cos(yaw))).mul(0.35).add(0.28).mul(reach);
+  const rim = vec3(cos(a).mul(reach), lift, sin(a).mul(reach)).mul(headRadius);
   const headPoint = select(c.lessThan(3.5), vec3(0, headRadius.mul(0.12), 0), rim);
   const position = select(isHead.greaterThan(0.5), top.add(headPoint), select(isStemBase.greaterThan(0.5), base, top));
 

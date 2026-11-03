@@ -1,18 +1,19 @@
 import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { DataTexture } from 'three/webgpu';
-import { MEADOW_FLOWERS, createMeadowFlowers, meadowFlowerTemplate, meadowFlowersFor } from './meadow-flowers.mjs';
+import { FLOWER_RIM, MEADOW_FLOWERS, createMeadowFlowers, meadowFlowerTemplate, meadowFlowersFor } from './meadow-flowers.mjs';
 
 const atlas = { bounds: { x0: -100, x1: 100, z0: -100, z1: 100 }, texSdf: [new DataTexture(new Uint8Array(4), 1, 1)], channels: [2] };
 const clip = { texture: new DataTexture(new Float32Array(16), 2, 2), texels: 2, metres: 1 };
 
 describe('meadow flowers in the rough', () => {
-  it('builds a stem and a head of six petals round its heart', () => {
+  it('builds a stem and a head of six notched petals round its heart', () => {
     const g = meadowFlowerTemplate();
-    expect(g.getAttribute('position').count).toBe(10);
-    expect(g.index.count).toBe(3 + 6 * 3);
+    expect(FLOWER_RIM % 2).toBe(0);
+    expect(g.getAttribute('position').count).toBe(4 + FLOWER_RIM);
+    expect(g.index.count).toBe(3 + FLOWER_RIM * 3);
     /* every head triangle has the heart at its first corner */
-    for (let t = 1; t < 7; t++) expect(g.index.getX(t * 3)).toBe(3);
+    for (let t = 1; t <= FLOWER_RIM; t++) expect(g.index.getX(t * 3)).toBe(3);
   });
   it('spreads the drifts over species whose shares add up, in each light', () => {
     const total = MEADOW_FLOWERS.species.reduce((sum, s) => sum + s.share, 0);

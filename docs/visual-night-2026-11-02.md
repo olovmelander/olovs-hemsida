@@ -146,7 +146,9 @@ as strongly as the air blows, gone by 40 m (`?leafflutter=0`).
   rebuilt from depth (no second target), 0.9 m radius, at half resolution.
   Without temporal filtering its samples are grainy and every flat wall read
   a slight speckle: a 3 × 3 box takes out the grain, and only occlusion past a
-  contact threshold darkens the colour, at most 0.55 of it. Wall feet, tee
+  contact threshold darkens the colour, at most 0.55 of it, faded in from 2 m
+  to 8 m from the eye (the rough's long blades near the lens shaded the
+  ground just behind them into dark specks). Wall feet, tee
   markers, bushes, carts and the folds between crown masses gain their shade;
   painted planes stay clean. Joined before the bloom and god rays add theirs;
   high quality only; the same on WebGL2. +0.3–0.7 ms at 1080p. `?ao=0`.
@@ -184,7 +186,7 @@ as strongly as the air blows, gone by 40 m (`?leafflutter=0`).
   grow only on the rough, read from the ground's exact class fields and the
   grass round the ball's ground grid, in drifts from a 6 m lattice noise, each
   drift mostly one species. A painter's flower (a stem and six petals round a
-  heart, a little larger than life) sways with the grass and shrinks away by
+  heart, six notched petals a little larger than life) sways with the grass and shrinks away by
   28 m; autumn keeps a fifth of them. +0.13–0.19 ms. `?flowers=0`.
 - **Swans on the lakes** (`swans.mjs`): a Blender-built mute swan (section 6);
   on each lake of open water near the course a pair or two, sometimes with a
