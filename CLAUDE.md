@@ -371,6 +371,16 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     sun's road is still added last. The copy splits the scene's render pass, so
     `V3D.gpuTime` under-reads with it on: time it by frame intervals.
     `?waterreflect=0` is the before.
+  - **Realistic trees, `?treeset=v2`** (3 November; opt-in; see [the
+    realistic trees](docs/visual-trees-realistic-2026-11-03.md)): the five
+    species grown in Blender (`tools/blender-tree-study/realistic/`, its own
+    scene `BanvyTreesV2`, data API only), crowns of many sprig cards facing out
+    of the crown from procedurally drawn leaf atlases, fitted to the approved
+    templates' heights and radii, 25-30% fewer hero triangles. The crowns read
+    the atlas's own leaf colours without the painted bands, and the impostor
+    bake cuts their mask at mip 0 as the mesh shadow does. Rebuild the meshes
+    by running `realistic_trees.py` through the MCP, then `pack_catalogue.mjs`.
+    The tree harnesses take `--treeset v2`.
   - **Power lines** (3 November): towers are a Blender-built lattice pylon
     (`tools/blender-props/pylon.py`, `PYLON_ASSET`, its three phases on its
     insulators), crossarms turned square to the line, wires and lift cables

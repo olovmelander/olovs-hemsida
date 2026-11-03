@@ -16,7 +16,10 @@ const flag = (name, fallback) => args.includes(`--${name}`) ? args[args.indexOf(
 const course = flag('course', 'visby'), quality = flag('q', 'lo');
 const base = flag('url', 'http://127.0.0.1:8620');
 const out = path.resolve(flag('out', 'output/hero-impostor-review'));
-const catalogue = JSON.parse(fs.readFileSync(`apps/golf/public/models/trees/ghibli-${course === 'visby' ? 'visby' : 'fluffy'}.json`));
+/* --treeset v2: the realistic catalogue (Visby keeps its coastal pine) */
+const treeset = flag('treeset', null);
+const catalogueFile = course === 'visby' ? 'ghibli-visby.json' : treeset === 'v2' ? 'realistic-v2.json' : 'ghibli-fluffy.json';
+const catalogue = JSON.parse(fs.readFileSync(`apps/golf/public/models/trees/${catalogueFile}`));
 const treeMesh = flag('treemesh', null);
 const tier = treeMesh ?? (quality === 'lo' ? 'full' : 'hero');
 const expectedModels = catalogue.species.flatMap(s => s.variants.map(v => v.tiers[tier].file)).sort();
@@ -59,7 +62,7 @@ const verify = record => {
 try {
   // Deliberately include the former downgrade flag: it must change nothing.
   const override = flag('distanthero', null);
-  const url = `${base}/?bana=${course}&v2=require&ghibli=1&hero=0&q=${quality}&qualitylock=1&gl=${flag('gl', '1')}&det=1&hal=1&vy=tee&ljus=middag${override === null ? '' : `&distanthero=${encodeURIComponent(override)}`}${treeMesh === null ? '' : `&treemesh=${treeMesh}`}`;
+  const url = `${base}/?bana=${course}&v2=require&ghibli=1&hero=0&q=${quality}&qualitylock=1&gl=${flag('gl', '1')}&det=1&hal=1&vy=tee&ljus=middag${override === null ? '' : `&distanthero=${encodeURIComponent(override)}`}${treeMesh === null ? '' : `&treemesh=${treeMesh}`}${treeset ? `&treeset=${treeset}` : ''}`;
   console.log(`Opening ${course} / ${quality}`);
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
   await page.waitForFunction(() => window.V3D?.settled(), null, { timeout: 360000, polling: 500 });

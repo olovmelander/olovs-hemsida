@@ -4678,7 +4678,7 @@ function mergeGeos(list) {
 const GHIBLI_STARTED = performance.now();
 const GHIBLI = await (async () => {
   try {
-    const { loadGhibliTrees, playerTreeMeshTier } = await import('./engine/ghibli-trees.mjs');
+    const { loadGhibliTrees, playerTreeMeshTier, playerTreeSet } = await import('./engine/ghibli-trees.mjs');
     /* One mesh tier near the course, and it supplies the distant impostor
        too: Hero at high quality, the same catalogue's Full model at low
        quality -- every phone -- at about 40% of Hero's triangles, fitted to
@@ -4686,6 +4686,8 @@ const GHIBLI = await (async () => {
        comparison; old ?hero=0 links change nothing. No Lite downloads. */
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
       tier: playerTreeMeshTier(location.search, LOWQ),
+      /* ?treeset=v2: the realistic catalogue (engine/ghibli-trees.mjs); the painted one is the before */
+      treeset: playerTreeSet(location.search),
       /* ?crowndepth=0 is the before: every card of a crown one flat colour */
       crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
       /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
@@ -5308,14 +5310,15 @@ const TREE_LOD = {
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON,
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON, realistic: foliage.realistic === true,
       /* ?canopybands=vertex is the before: the canopy's bands per vertex, which blew up near a low sun */
       bandsPerVertex: new URLSearchParams(location.search).get('canopybands') === 'vertex' });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
   const trunkMaterial = (hex, sway, s) => {
-    const birch = GHIBLI.species[s].foliage.key === 'bjork';
+    /* the realistic birch carries its bark, lenticels and dark foot per vertex like every other trunk */
+    const birch = GHIBLI.species[s].foliage.key === 'bjork' && !GHIBLI.species[s].foliage.realistic;
     const mat = birch ? makeGhibliBirchBarkMaterial() : new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: false });
     /* an authored trunk carries its bark colour per vertex (a pine is grey below and orange above) */
     if (!birch) mat.colorNode = color(hex).mul(attribute('color', 'vec3'));
@@ -5388,7 +5391,7 @@ const TREE_LOD = {
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON,
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON && !GHIBLI.species[s].foliage.realistic,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = IMPOSTOR_SHADOWS;
@@ -6287,7 +6290,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON && !GHIBLI.species[s].foliage.realistic });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;

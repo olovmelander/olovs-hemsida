@@ -26,7 +26,7 @@ try {
     });
     try {
       const query = new URLSearchParams({ bana: flag('course', 'veckefjarden'), q: 'lo', ghibli: flag('look', '1'),
-        startup, gl: backend === 'webgl2' ? '1' : '0', det: '1', qualitylock: '1', v2: 'require', hal: '1', vy: 'tee', ren: '1' });
+        startup, gl: backend === 'webgl2' ? '1' : '0', det: '1', qualitylock: '1', v2: 'require', hal: '1', vy: 'tee', ren: '1', ...(flag('treeset', null) ? { treeset: flag('treeset') } : {}) });
       await page.goto(`${base}/?${query}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
       await page.waitForSelector('#boot.done', { timeout: 180000 });
       assert.equal(await page.evaluate(() => V3D.v2Terrain().backend), backend);

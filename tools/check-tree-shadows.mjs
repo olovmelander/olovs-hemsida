@@ -7,7 +7,7 @@
    never frame-time evidence.
 
    node tools/check-tree-shadows.mjs --out output/tree-shadows --ref GIT_REF
-     [--backend webgl2|webgpu] [--modes match,thin,colour,fade] [--tier hero|full] [--species 0,2]
+     [--backend webgl2|webgpu] [--modes match,thin,colour,fade] [--tier hero|full] [--species 0,2] [--treeset v2]
 
    --ref names the build whose tree-impostor.mjs and ghibli-foliage-material.mjs
    are the reference: the colour passes must match it pixel for pixel, and
@@ -29,6 +29,8 @@ const ref = flag('ref', null), backend = flag('backend', 'webgl2');
 if (!['webgl2', 'webgpu'].includes(backend)) throw new Error('Use --backend webgl2|webgpu');
 const query = new URLSearchParams({ modes: flag('modes', 'match,thin,colour,fade'), tier: flag('tier', 'hero') });
 if (flag('species', null)) query.set('species', flag('species', ''));
+/* --treeset v2: the realistic catalogue */
+if (flag('treeset', null)) query.set('treeset', flag('treeset', ''));
 if (backend === 'webgl2') query.set('gl', '1');
 const root = path.resolve('apps/golf'), engine = path.join(root, 'src/engine'), dist = path.join(out, 'dist'), models = path.join(root, 'public');
 fs.mkdirSync(out, { recursive: true });

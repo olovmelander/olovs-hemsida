@@ -50,7 +50,7 @@ describe('the canopy\'s bands per pixel', () => {
     const fs = await import('node:fs');
     const src = fs.readFileSync(new URL('./ghibli-foliage-material.mjs', import.meta.url), 'utf8');
     expect(src).toContain('perVertex:canopy&&!noisePerPixel&&bandsPerVertex');
-    expect(src).toMatch(/bandsPerVertex=false\}\)\{/);
+    expect(src).toMatch(/bandsPerVertex=false(,realistic=false)?\}\)\{/);
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     expect(main).toContain("bandsPerVertex: new URLSearchParams(location.search).get('canopybands') === 'vertex'");
   });

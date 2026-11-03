@@ -225,10 +225,14 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
   crownNormal.opacityNode = float(1);
   if (foliage) {
     if (!crown.getAttribute('uv') || !foliage.map) throw new Error('Foliage impostor bake needs UVs and its shared atlas');
-    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(foliageSurfacePigment(texture(foliage.map)));
+    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(foliageSurfacePigment(texture(foliage.map), foliage.realistic === true));
+    /* the realistic sprigs (treeset v2) are cut from the atlas's full resolution, as the mesh's own
+       shadow cuts them (maskShadowNode): at a 96 px frame their fine leaves and needles average under
+       half on the mipmaps, and the impostors' shadows kept only 0.6-0.7 of the meshes' */
+    const mask = foliage.realistic === true ? texture(foliage.map).level(0).a : texture(foliage.map).a;
     for (const mat of [crownAlbedo, crownNormal]) {
       mat.side = THREE.DoubleSide;
-      mat.maskNode = texture(foliage.map).a.greaterThan(.5);
+      mat.maskNode = mask.greaterThan(.5);
     }
     crownNormal.colorNode = normalWorldGeometry.mul(.5).add(.5);
   }

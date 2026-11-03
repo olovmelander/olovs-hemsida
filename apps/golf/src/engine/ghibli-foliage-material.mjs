@@ -157,8 +157,18 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
 // Transparent atlas texels contain black RGB. Undo that dark fringe after
 // filtering, then keep just a little leaf pigment within the broad crown light.
 // The impostor bake uses the same correction; alpha still defines the silhouette.
-export function foliageSurfacePigment(texel){
+export function foliageSurfacePigment(texel,realistic=false){
+  if(realistic)return realisticLeafPigment(texel);
   return mix(vec3(1),texel.rgb.div(texel.a.max(.01)).min(1),.30);
+}
+/* THE REALISTIC CATALOGUE'S LEAVES (treeset v2): its sprigs are drawn leaf by leaf in near-neutral
+   colours round `mean` with the colour bled into the clear texels (tools/blender-tree-study/realistic/
+   make_leaf_atlas.mjs), so the texel is read as it is -- straight alpha, no fringe to undo -- and most
+   of each leaf's own lightness, fold, veins and warm/cool turn is multiplied into the species' palette,
+   which still gives the tree its green and its autumn. */
+export const REALISTIC_LEAVES=Object.freeze({mean:.75,share:.85,bias:-.6});
+export function realisticLeafPigment(texel){
+  return mix(vec3(1),texel.rgb.div(REALISTIC_LEAVES.mean),REALISTIC_LEAVES.share);
 }
 
 // The shadow pass cuts the cards at the atlas's own resolution. With the
@@ -184,15 +194,19 @@ export function foliageSurfacePigment(texel){
    each of their triangles into a green orb in the trees (Veckefjärden's 13th under the
    midnight sun). Per pixel, from the same per-vertex noise, they stay in their range: a few
    smoothsteps a crown pixel. ?canopybands=vertex is the before. */
-export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true,canopy=false,bandsPerVertex=false}){
+export function makeGhibliFoliageMaterial({key,map=null,sunDirection,tint,autumn,seed,lighting=foliageLight,noisePerPixel=false,mipShadow=false,backLight=true,sunlit=null,coverage=true,canopy=false,bandsPerVertex=false,realistic=false}){
+  /* the realistic crowns are lit as a volume, without the painted canopy's bands */
+  if(realistic)canopy=false;
   const m=new MeshBasicNodeMaterial({vertexColors:true,side:DoubleSide});
   /* the crown-depth bake's openness rides in the vertex colours the material already multiplies */
   m.colorNode=paintedFoliageColour({key,normal:normalWorldGeometry,sunDirection,position:positionLocal,tint,autumn,seed,lighting,noisePerPixel,
     backLight:backLight?foliageBackLight({normal:normalWorldGeometry,sunDirection}):null,sunlit,
     canopy,openness:canopy?vertexColor().r:null,perVertex:canopy&&!noisePerPixel&&bandsPerVertex});
   if(map){
-    const texel=texture(map);
-    m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel));m.opacityNode=texel.a;
+    /* the realistic sprigs are read half a mip sharper: their leaves blurred into streaks at the
+       distance a crown is seen from, and the temporal AA steadies what the sharper mip adds */
+    const texel=realistic?texture(map).bias(REALISTIC_LEAVES.bias):texture(map);
+    m.colorNode=m.colorNode.mul(foliageSurfacePigment(texel,realistic));m.opacityNode=texel.a;
     m.alphaTest=.5;
     if(coverage){coverOpaqueBackdrop(m);m.alphaTestNode=centredCoverageCut(texel.a,m.alphaTest);}
     else m.alphaToCoverage=false;

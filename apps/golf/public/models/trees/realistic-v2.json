@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "kind": "ghibli-trees",
+  "design": "realistic-v2",
+  "revision": "realistic-v2-2026-11-03",
+  "budgets": {
+    "hero": 3708,
+    "full": 1556
+  },
+  "source": {
+    "geometry": "tools/blender-tree-study/realistic/realistic_trees.py",
+    "atlas": "tools/blender-tree-study/realistic/make_leaf_atlas.mjs",
+    "pack": "tools/blender-tree-study/realistic/pack_catalogue.mjs",
+    "fittedTo": "ghibli-fluffy.json (approved hero heights and radii)"
+  },
+  "species": [
+    {
+      "key": "tall",
+      "name": "Scots pine",
+      "foliage": {
+        "key": "tall",
+        "atlas": {
+          "file": "realistic-v2/769f17f1be908567bc62c5e5cfe1da4291b8e195de5ae9eb0eca039692b7d404.png",
+          "bytes": 486361,
+          "sha256": "769f17f1be908567bc62c5e5cfe1da4291b8e195de5ae9eb0eca039692b7d404"
+        },
+        "mean": [
+          0.776,
+          0.8031,
+          0.7362
+        ]
+      },
+      "variants": [
+        {
+          "seed": 9000,
+          "templateHeight": 18.9271240234375,
+          "templateRadius": 10.910284042358398,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/c70a1983bd77a166111b45b9daa876e15b556dee7d13c2b4d0e07d0b406422f0.glb",
+              "bytes": 284948,
+              "sha256": "c70a1983bd77a166111b45b9daa876e15b556dee7d13c2b4d0e07d0b406422f0",
+              "tris": 3276
+            },
+            "full": {
+              "file": "realistic-v2/0b0f1ed2ea13868717a37888a017b87d8340cac6b2ec5c5adf7c70e6b715ffa9.glb",
+              "bytes": 105736,
+              "sha256": "0b0f1ed2ea13868717a37888a017b87d8340cac6b2ec5c5adf7c70e6b715ffa9",
+              "tris": 1256
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "gran",
+      "name": "Norway spruce",
+      "foliage": {
+        "key": "gran",
+        "atlas": {
+          "file": "realistic-v2/2483bc0b61edd0bf88758b43d4231dcd293cbaa10b6e65e0c255af3e3d46ad29.png",
+          "bytes": 901032,
+          "sha256": "2483bc0b61edd0bf88758b43d4231dcd293cbaa10b6e65e0c255af3e3d46ad29"
+        },
+        "mean": [
+          0.7393,
+          0.7694,
+          0.7097
+        ]
+      },
+      "variants": [
+        {
+          "seed": 10000,
+          "templateHeight": 19.44489097595215,
+          "templateRadius": 6.940996170043945,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/168ef23ab3db37b264cb35d06c789c0b744f03eb3a2ab62a5e28672610b25802.glb",
+              "bytes": 281312,
+              "sha256": "168ef23ab3db37b264cb35d06c789c0b744f03eb3a2ab62a5e28672610b25802",
+              "tris": 3708
+            },
+            "full": {
+              "file": "realistic-v2/87ad7c8adc298154cc71ec0415f94426b45a5b82cb40453eb87bdae6dc5740d9.glb",
+              "bytes": 112700,
+              "sha256": "87ad7c8adc298154cc71ec0415f94426b45a5b82cb40453eb87bdae6dc5740d9",
+              "tris": 1556
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "björk",
+      "name": "Silver birch",
+      "foliage": {
+        "key": "bjork",
+        "atlas": {
+          "file": "realistic-v2/f5b7fb96cda6314a218dbf5dae7bf953928a5b685ca5375c00777b477aeadd17.png",
+          "bytes": 423841,
+          "sha256": "f5b7fb96cda6314a218dbf5dae7bf953928a5b685ca5375c00777b477aeadd17"
+        },
+        "mean": [
+          0.7775,
+          0.7754,
+          0.7724
+        ]
+      },
+      "variants": [
+        {
+          "seed": 5000,
+          "templateHeight": 14.886198043823242,
+          "templateRadius": 5.4486470222473145,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/6ecf8a58c7aa2d97273834c3eb6074e5134a989db5fe3484b66ad3de04b6e106.glb",
+              "bytes": 271128,
+              "sha256": "6ecf8a58c7aa2d97273834c3eb6074e5134a989db5fe3484b66ad3de04b6e106",
+              "tris": 3472
+            },
+            "full": {
+              "file": "realistic-v2/dd579238bddd53203f9103612a98dcfa72857abf7e3b76e733c1c489ef5a7ec1.glb",
+              "bytes": 104924,
+              "sha256": "dd579238bddd53203f9103612a98dcfa72857abf7e3b76e733c1c489ef5a7ec1",
+              "tris": 1340
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "al",
+      "name": "Grey alder",
+      "foliage": {
+        "key": "al",
+        "atlas": {
+          "file": "realistic-v2/a9f5e96525000fea8602e11fab03a10c53596200c6e27f0928d12c5fa824d427.png",
+          "bytes": 331680,
+          "sha256": "a9f5e96525000fea8602e11fab03a10c53596200c6e27f0928d12c5fa824d427"
+        },
+        "mean": [
+          0.7684,
+          0.7695,
+          0.7721
+        ]
+      },
+      "variants": [
+        {
+          "seed": 7000,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/8a2c2ae75eb944d6153adbf5c004e7a7a69163a3b7fa6e97d2f541994fd93afd.glb",
+              "bytes": 243152,
+              "sha256": "8a2c2ae75eb944d6153adbf5c004e7a7a69163a3b7fa6e97d2f541994fd93afd",
+              "tris": 3000
+            },
+            "full": {
+              "file": "realistic-v2/3275b1c9ed30f4952cfea91c71397fa04065f863c85896b0eb4f16b16432238f.glb",
+              "bytes": 98920,
+              "sha256": "3275b1c9ed30f4952cfea91c71397fa04065f863c85896b0eb4f16b16432238f",
+              "tris": 1280
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "ek",
+      "name": "Pasture oak",
+      "foliage": {
+        "key": "ek",
+        "atlas": {
+          "file": "realistic-v2/614964f8bbec654c4bfc3d20e3f80ee1e3b0cf62392da908ecf4d3dedcc4c0e3.png",
+          "bytes": 371440,
+          "sha256": "614964f8bbec654c4bfc3d20e3f80ee1e3b0cf62392da908ecf4d3dedcc4c0e3"
+        },
+        "mean": [
+          0.7764,
+          0.7775,
+          0.7805
+        ]
+      },
+      "variants": [
+        {
+          "seed": 1000,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/da8d8cff748d90589ea6f0a2ab4f1cd725b278c694f328d2d4edd5e5172e7271.glb",
+              "bytes": 261884,
+              "sha256": "da8d8cff748d90589ea6f0a2ab4f1cd725b278c694f328d2d4edd5e5172e7271",
+              "tris": 3176
+            },
+            "full": {
+              "file": "realistic-v2/5cf7aaf5372ae821d556e6814effdd40513048222ec893ffd51390cadaa32481.glb",
+              "bytes": 126084,
+              "sha256": "5cf7aaf5372ae821d556e6814effdd40513048222ec893ffd51390cadaa32481",
+              "tris": 1538
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

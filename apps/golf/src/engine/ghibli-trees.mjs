@@ -10,7 +10,19 @@ export { GHIBLI_SPECIES, GHIBLI_COLOURS, GHIBLI_FOLIAGE_REVISION, VISBY_PINE_REV
 import { bakeCrownDepth } from './crown-depth.mjs';
 import { bakePuffNormals, CROWN_PUFFS } from './crown-puffs.mjs';
 
-/* Hero is 4,032-4,500 triangles a tree and Full 1,620-1,700. */
+/* THE REALISTIC CATALOGUE (treeset v2, 3 November; owner request: trees as realistic as the new
+   grass): the same five species grown in Blender from branching trunks, crowns of many small
+   sprig cards from leaf atlases drawn from real leaf shapes, fitted to the approved catalogue's
+   heights and radii (tools/blender-tree-study/realistic/). ?treeset=v2 draws it; the coastal
+   pine of Visby keeps its own catalogue. */
+export const REALISTIC_TREE_REVISION = 'realistic-v2-2026-11-03';
+export const PLAYER_TREE_SETS = Object.freeze(['v1', 'v2']);
+/** The catalogue a visit draws: ?treeset=v2 the realistic one, anything else the approved painted one. */
+export function playerTreeSet(search = '') {
+  return new URLSearchParams(search).get('treeset') === 'v2' ? 'v2' : 'v1';
+}
+
+/* Hero is 4,032-4,500 triangles a tree and Full 1,620-1,700 (v2: 2,568-3,708 and 1,060-1,556). */
 export const PLAYER_TREE_MESH_TIERS = Object.freeze(['hero', 'full']);
 
 /** The mesh tier a visit draws: low quality takes Full, high quality Hero.
@@ -25,19 +37,22 @@ export function playerTreeMeshTier(search = '', lowQuality = false) {
    (crown-depth.mjs); false is the before, flat crown colours. */
 /* puffs leans each crown's normals toward the masses it is made of
    (crown-puffs.mjs, the painted canopy): the spruce's masses are its tiers. */
-export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false } = {}) {
+export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1' } = {}) {
   if (!PLAYER_TREE_MESH_TIERS.includes(tier)) throw new Error(`Ghibli trees: the player draws no ${tier} tier`);
   const coastalPine = courseSlug === 'visby';
+  const realistic = treeset === 'v2' && !coastalPine;
   const base = `${baseUrl}models/trees/`;
-  const catalogue = coastalPine ? 'ghibli-visby.json' : 'ghibli-fluffy.json';
-  const revision = coastalPine ? VISBY_PINE_REVISION : GHIBLI_FOLIAGE_REVISION;
+  const catalogue = coastalPine ? 'ghibli-visby.json' : realistic ? 'realistic-v2.json' : 'ghibli-fluffy.json';
+  const revision = coastalPine ? VISBY_PINE_REVISION : realistic ? REALISTIC_TREE_REVISION : GHIBLI_FOLIAGE_REVISION;
+  /* the realistic crowns carry their soft normals from the bake: the painted canopy's puffs would lean them again */
+  if (realistic) puffs = false;
   const res = await fetchImpl(`${base}${catalogue}?v=${revision}`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`Ghibli tree manifest: HTTP ${res.status}`);
   const manifest = await res.json();
   if (manifest?.schemaVersion !== 1 || manifest.kind !== 'ghibli-trees') throw new Error('Ghibli tree manifest: unknown schema');
   const byKey = Object.fromEntries(manifest.species.map(s => [s.key, s]));
   const out = { manifest, species: [], colours: GHIBLI_COLOURS, foliage: true,
-    summary: { design: manifest.design || 'fluffy', revision: manifest.revision || null,
+    summary: { design: manifest.design || 'fluffy', revision: manifest.revision || null, treeset: realistic ? 'v2' : 'v1',
       variants, tier, hero: tier === 'hero', files: 0, bytes: 0 } };
   const jobs = [];
   const species = [];
@@ -46,7 +61,8 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
     if (!entry) throw new Error(`Ghibli tree manifest lacks ${key}`);
     if (!entry.foliage?.key) throw new Error(`Ghibli tree manifest lacks painted foliage for ${key}`);
     validateAsset(entry.foliage.atlas, 'png');
-    const foliage = { key: entry.foliage.key, map: null };
+    /* `realistic`: the material reads the sprigs' own leaf colours (ghibli-foliage-material.mjs) */
+    const foliage = { key: entry.foliage.key, map: null, realistic };
     jobs.push(async () => { foliage.map = await loadFoliageAtlas(base, entry.foliage.atlas, fetchImpl); });
     out.summary.files++; out.summary.bytes += entry.foliage.atlas.bytes;
     const list = [];
