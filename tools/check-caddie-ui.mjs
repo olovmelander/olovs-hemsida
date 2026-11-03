@@ -91,8 +91,13 @@ if (process.env.BANVY_CADDIE_SHOT) {
    was a 640 px card over the fairway and every data gate passed. */
 await page.setViewportSize({ width: 390, height: 844 });
 /* the follow camera is a hole view: the player and the green both in frame */
+/* the view is set, then two frames are drawn before it is measured: the camera
+   takes its new look and its matrices in the frame, so a projection in the same
+   task read the previous pose (mid-glide, and the glides arc since 2 November) */
+await page.evaluate(() => window.V3D.gpsFocus(true));
+await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
 const framed = await page.evaluate(() => {
-  const V = window.V3D; V.gpsFocus(true);
+  const V = window.V3D;
   const c = V.caddie(), h = V.HOLES[0], g = h.green.c, p = c.gps.point;
   const me = V.toScreen(p[0], V.terrainH(p[0], p[1]) + 1, p[1]), green = V.toScreen(g[0], V.terrainH(g[0], g[1]), g[1]);
   const inside = s => s.z < 1 && s.x > 0 && s.x < 390 && s.y > 0 && s.y < 844;
