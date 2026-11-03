@@ -26,33 +26,50 @@ All of it rebuilds from `tools/blender-tree-study/realistic/`:
   so mipmaps don't darken the leaves' edges.
 - **`realistic_trees.py`** runs in Blender through the MCP, in its own scene
   `BanvyTreesV2`, with the data API only. Each tree grows from:
-  - a trunk leaning toward its crown;
+  - a trunk leaning toward its crown; the oak's bole is short and splits into
+    great limbs that carry the rest;
   - limbs set by the golden angle at the species' angles and lengths;
-  - twigs off the limbs, with the card budget spread over them.
-
-  Each card faces out of the crown in 3D, so from outside a crown is a shell of
-  leaves seen face on. Pointing sprigs along their twigs put the card's plane
-  through the crown's radius, and the crown read as streaks. Cards are rolled
-  at random about their face, and their normals are soft (crown, limb cluster
-  and face). The wood is tapered tubes with bark per vertex:
-  - pine: grey-brown below, orange above;
+  - twigs off the limbs.
+- **The leaf clusters** (the owner's review, 3 November: fuller, fluffier
+  crowns, denser spruces, variation):
+  - A crown is many puffs of 6-12 sprig cards seated round a centre at every
+    twig and limb tip, after SpeedTree's and the Odyssey forest's clusters.
+    Each puff faces out of itself and out of the crown, so it shades as its own
+    soft ball, with sky between the puffs.
+  - The pine's puffs are flattened into pads.
+  - The spruce lays its sprays along each branch from the trunk to the tip,
+    flat and in hanging curtains, so the stem is hidden as a spruce hides it.
+    Its limbs are three-sided, and its triangles go to the foliage.
+  - No card reaches the ground.
+  - Normals are soft (crown, puff and face), and cards are rolled at random
+    about their face.
+- **The wood** is tapered tubes, about 1.6 times thicker than the first cut,
+  with bark per vertex:
+  - pine: grey-brown below and orange above, on a bowed trunk;
   - birch: white with dark lenticels and a dark foot.
-
-  Each tree is grown iteratively until its own box, cards and all, matches the
-  approved tree's, so the loader's fit stays near 1 on both axes.
+- **Three variants a species**, each from its own seed: the crown's centre and
+  base, the limbs' count and angles, and the trunk's bow are turned, so
+  neighbours of a species differ. Each variant is grown iteratively until its
+  own box, cards and all, matches the approved tree's. The engine already draws
+  each species' variants hashed by position (`main.js` `TEMPLATES`), and the
+  impostors bake from the first.
 - **`pack_catalogue.mjs`** writes hash-named GLBs (`crown` and `trunk` nodes)
   and atlases under `models/trees/realistic-v2/`, plus `realistic-v2.json` in
-  the approved schema. The manifest uses the approved template heights and
-  radii, so every v2 tree stands as tall and wide as the tree it replaces, and
+  the approved schema. Every variant uses the approved template height and
+  radius, so v2 trees stand as tall and wide as the ones they replace, and
   placements and shadows match.
 
-| species | hero tris, v1 → v2 | full tris, v1 → v2 |
+| species | hero tris, v1 → v2 (3 variants) | full tris, v1 → v2 |
 |---|---|---|
-| pine | 4448 → 3276 | 1620 → 1256 |
-| spruce | 4500 → 3708 | 1700 → 1556 |
-| birch | 4500 → 3472 | 1700 → 1340 |
-| alder | 4032 → 3000 | 1700 → 1280 |
-| oak | 4500 → 3176 | 1700 → 1538 |
+| Scots pine | 4448 → 4574-4862 | 1620 → 1542-1578 |
+| Norway spruce | 4500 → 6284-6428 | 1700 → 2476-2512 |
+| Silver birch | 4500 → 4844-5242 | 1700 → 1826-1880 |
+| Grey alder | 4032 → 4480-4578 | 1700 → 2004-2040 |
+| Pasture oak | 4500 → 5024-5124 | 1700 → 1874-1928 |
+
+The first cut (2.6-3.7k hero triangles, one variant) read as young, sparse
+trees with pole-thin trunks in close portraits. It was cheaper, but these
+replace it at about the approved budget.
 
 ## In the engine
 
@@ -69,18 +86,22 @@ All of it rebuilds from `tools/blender-tree-study/realistic/`:
   realistic crowns' mask from the atlas's full resolution, as the mesh's own
   shadow does. At a 96 px frame the mipmapped alpha of fine leaves and needles
   averaged under half, and the impostors kept only 0.6–0.7 of the meshes'
-  shadow. The impostors' canopy flag follows the meshes'.
+  shadow. Their frames are 128 px, against 96 for the painted crowns
+  (`REALISTIC_IMPOSTOR_FRAME`): at 96 the pine's lacy pads lost their outline,
+  and its impostor shadow strayed from the mesh's under a low sun. The
+  impostors' canopy flag follows the meshes'.
 
 ## Gates
 
 All on the RTX 5080; reports in `tools/goldens/gfx/gates/` (local).
 
-- **`tools/check-tree-shadows.mjs`**, WebGL2 (`--treeset v2`, new): passes for
-  hero and full (80 match, 100 thin, 8 fade). On the way there:
+- **`tools/check-tree-shadows.mjs`**, WebGL2 (`--treeset v2`, new): the final
+  catalogue passes for hero and full (80 match, 100 thin, 8 fade each). On the
+  way there:
   - the bake's mip-0 mask lifted the thin rows from 0.6 to above 0.75;
-  - the pine's tufts and pads were made fuller to reach the fine-texel band's
-    IoU of 0.8 (0.773 → 0.807);
-  - the oak's full tier took 540 cards (IoU 0.797 → pass).
+  - the 128 px frames lifted the alder's full tier;
+  - the pine's full tier keeps its pads solid (fewer, whole-area cards), which
+    lifted its low-sun IoU from 0.77 to above 0.8.
   - The `--backend webgpu` run of this harness returned empty readbacks for
     some rows (areas of 0); WebGL2, the harness's default, is the evidence.
 - **`tools/check-tree-tier-capacity.mjs`** (`--treeset v2`): passes.
@@ -90,14 +111,23 @@ All on the RTX 5080; reports in `tools/goldens/gfx/gates/` (local).
   on v1 too: 9,598 impostors on Puttom, 17 on its default Visby run. That
   failure predates this branch.
 - **Crown coverage rules:** unchanged (`crown-coverage.test.mjs`).
-- **GPU time:** interleaved A/B, two rounds, vsync lifted (`ab-time.mjs`):
-  - Puttom 5 green: 12.85 ms (v1) → 11.05 ms (v2), −14%; v1's full tier
-    measured 8.20 ms in the same run;
-  - Veckefjärden 13 tee: 9.95 → 8.95 ms, −10%.
+- **GPU time:** interleaved A/B, two rounds, vsync lifted (`ab-time.mjs`), for
+  the final catalogue:
+  - Puttom 5 green: 13.00 ms (v1) → 13.75 ms (v2), +5.8%;
+  - Veckefjärden 13 tee: 9.75 → 10.75 ms, +10.3%.
+
+  The first, sparser cut was 10-14% cheaper than v1.
+- **Download:** a v2 visit fetches three variants' meshes of its tier and five
+  1024 px atlases: about 7.7 MB at high quality, against about 3.8 MB for v1.
+
+**Photographs:** `tools/goldens/gfx/tree-photos.mjs` takes the nearest clear
+tree of each species from 1.7 m, and `tree-sheet.mjs` sets old against new at
+noon and golden hour (Ängsö 1).
 
 ## Status
 
 v2 stays opt-in. Every gate passes except the hero/impostor check's forced-Lite
-step, which also fails on v1. The look is a large change from the painted
+step, which also fails on v1, and the GPU time sits at the edge of the ~10%
+budget. The look is a large change from the painted
 style, so it should be the owner's decision by screenshot. Flipping the default
 is `playerTreeSet()`'s fallback.

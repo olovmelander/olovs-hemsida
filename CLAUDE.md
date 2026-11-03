@@ -374,11 +374,13 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
   - **Realistic trees, `?treeset=v2`** (3 November; opt-in; see [the
     realistic trees](docs/visual-trees-realistic-2026-11-03.md)): the five
     species grown in Blender (`tools/blender-tree-study/realistic/`, its own
-    scene `BanvyTreesV2`, data API only), crowns of many sprig cards facing out
-    of the crown from procedurally drawn leaf atlases, fitted to the approved
-    templates' heights and radii, 25-30% fewer hero triangles. The crowns read
-    the atlas's own leaf colours without the painted bands, and the impostor
-    bake cuts their mask at mip 0 as the mesh shadow does. Rebuild the meshes
+    scene `BanvyTreesV2`, data API only), three variants a species, crowns of
+    leaf clusters (puffs of sprig cards; the spruce's sprays laid along its
+    branches) from procedurally drawn leaf atlases, every variant fitted to the
+    approved template's height and radius, at about the approved hero
+    budget. The crowns read the atlas's own leaf colours without the painted
+    bands, and the impostor bake cuts their mask at mip 0, as the mesh shadow
+    does, in 128 px frames. Rebuild the meshes
     by running `realistic_trees.py` through the MCP, then `pack_catalogue.mjs`.
     The tree harnesses take `--treeset v2`.
   - **Power lines** (3 November): towers are a Blender-built lattice pylon

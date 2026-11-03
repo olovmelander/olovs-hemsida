@@ -72,10 +72,14 @@ for (const old of approved.species) {
   const atlasBytes = fs.readFileSync(path.join(atlasDir, `${key}.png`));
   if (sha(atlasBytes) !== a.sha256) throw new Error(`atlas ${key} does not match its record`);
   const atlas = write(atlasBytes, 'png');
+  /* every variant stands in the approved template's box: the engine draws each species' variants
+     at the species template's height and radius (main.js TEMPLATES, ky = kxz = 1) */
   const variant = old.variants[0];
+  const variants = [];
+  for (let v = 0; fs.existsSync(path.join(treeDir, `${key}-hero-${v}.json`)); v++) {
   const tiers = {};
   for (const tier of ['hero', 'full']) {
-    const t = JSON.parse(fs.readFileSync(path.join(treeDir, `${key}-${tier}.json`)));
+    const t = JSON.parse(fs.readFileSync(path.join(treeDir, `${key}-${tier}-${v}.json`)));
     const crownCount = t.crown.position.length / 3, trunkCount = t.trunk.position.length / 3;
     const bytes = glb([
       { name: 'crown', attributes: { POSITION: [Float32Array.from(t.crown.position), 'VEC3'], NORMAL: [Float32Array.from(t.crown.normal), 'VEC3'],
@@ -86,13 +90,15 @@ for (const old of approved.species) {
     tiers[tier] = { ...write(bytes, 'glb'), tris: (t.crown.index.length + t.trunk.index.length) / 3 };
     void trunkCount;
   }
-  species.push({ key, name: old.name, foliage: { key: old.foliage.key, atlas, mean: a.mean },
-    variants: [{ seed: variant.seed, templateHeight: variant.templateHeight, templateRadius: variant.templateRadius, tiers }] });
+  variants.push({ seed: variant.seed + 101 * v, templateHeight: variant.templateHeight, templateRadius: variant.templateRadius, tiers });
+  }
+  if (!variants.length) throw new Error(`no trees for ${key}`);
+  species.push({ key, name: old.name, foliage: { key: old.foliage.key, atlas, mean: a.mean }, variants });
 }
 const manifest = { schemaVersion: 1, kind: 'ghibli-trees', design: 'realistic-v2', revision: REVISION,
-  budgets: { hero: Math.max(...species.map(s => s.variants[0].tiers.hero.tris)), full: Math.max(...species.map(s => s.variants[0].tiers.full.tris)) },
+  budgets: { hero: Math.max(...species.flatMap(s => s.variants.map(v => v.tiers.hero.tris))), full: Math.max(...species.flatMap(s => s.variants.map(v => v.tiers.full.tris))) },
   source: { geometry: 'tools/blender-tree-study/realistic/realistic_trees.py', atlas: 'tools/blender-tree-study/realistic/make_leaf_atlas.mjs',
     pack: 'tools/blender-tree-study/realistic/pack_catalogue.mjs', fittedTo: 'ghibli-fluffy.json (approved hero heights and radii)' },
   species };
 fs.writeFileSync(path.join(root, 'realistic-v2.json'), JSON.stringify(manifest, null, 2) + '\n');
-for (const s of species) console.log(s.key, Object.entries(s.variants[0].tiers).map(([t, r]) => `${t} ${r.tris} tris ${r.bytes} B`).join(', '), 'atlas', s.foliage.atlas.bytes, 'B');
+for (const s of species) console.log(s.key, s.variants.map(v => Object.entries(v.tiers).map(([t, r]) => `${t} ${r.tris}`).join('/')).join('  '), 'atlas', s.foliage.atlas.bytes, 'B');

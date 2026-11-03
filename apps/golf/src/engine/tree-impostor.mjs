@@ -176,8 +176,12 @@ function viewBasisNode(view) {
  * framed with: a square of half-size `radius` centred `centreY` above the
  * base, which is exactly the quad the impostor draws.
  */
-export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = 96 } = {}) {
+/* the realistic crowns' frames (treeset v2): their lacy needle pads and leaf clusters kept too little
+   of their shape at 96 px, and the impostors' shadows strayed from the meshes' under a low sun */
+export const REALISTIC_IMPOSTOR_FRAME = 128;
+export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = null } = {}) {
   if (!renderer || !crown || !trunk) throw new TypeError('bakeImpostorAtlas needs the renderer and both template geometries');
+  frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;
   crown.computeBoundingBox(); trunk.computeBoundingBox();
   const box = new THREE.Box3().union(crown.boundingBox).union(trunk.boundingBox);
   const height = box.max.y, radiusXZ = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);

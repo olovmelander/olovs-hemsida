@@ -4,8 +4,8 @@
   "design": "realistic-v2",
   "revision": "realistic-v2-2026-11-03",
   "budgets": {
-    "hero": 3708,
-    "full": 1556
+    "hero": 6428,
+    "full": 2512
   },
   "source": {
     "geometry": "tools/blender-tree-study/realistic/realistic_trees.py",
@@ -20,14 +20,14 @@
       "foliage": {
         "key": "tall",
         "atlas": {
-          "file": "realistic-v2/769f17f1be908567bc62c5e5cfe1da4291b8e195de5ae9eb0eca039692b7d404.png",
-          "bytes": 486361,
-          "sha256": "769f17f1be908567bc62c5e5cfe1da4291b8e195de5ae9eb0eca039692b7d404"
+          "file": "realistic-v2/7574aa9d877a9061f39ae04498ff6c65f173ef7736cdf0de4c123d5682917f86.png",
+          "bytes": 613387,
+          "sha256": "7574aa9d877a9061f39ae04498ff6c65f173ef7736cdf0de4c123d5682917f86"
         },
         "mean": [
-          0.776,
-          0.8031,
-          0.7362
+          0.7664,
+          0.7914,
+          0.7251
         ]
       },
       "variants": [
@@ -37,16 +37,54 @@
           "templateRadius": 10.910284042358398,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/c70a1983bd77a166111b45b9daa876e15b556dee7d13c2b4d0e07d0b406422f0.glb",
-              "bytes": 284948,
-              "sha256": "c70a1983bd77a166111b45b9daa876e15b556dee7d13c2b4d0e07d0b406422f0",
-              "tris": 3276
+              "file": "realistic-v2/ba38126f78f3362593f91e049c318207f60c04879bdf82a92b355972e9b658fb.glb",
+              "bytes": 393468,
+              "sha256": "ba38126f78f3362593f91e049c318207f60c04879bdf82a92b355972e9b658fb",
+              "tris": 4814
             },
             "full": {
-              "file": "realistic-v2/0b0f1ed2ea13868717a37888a017b87d8340cac6b2ec5c5adf7c70e6b715ffa9.glb",
-              "bytes": 105736,
-              "sha256": "0b0f1ed2ea13868717a37888a017b87d8340cac6b2ec5c5adf7c70e6b715ffa9",
-              "tris": 1256
+              "file": "realistic-v2/64c73531d186bc4d9a197c993d2fd1f67506075db5cb0d63a2cfb0f968627b16.glb",
+              "bytes": 135256,
+              "sha256": "64c73531d186bc4d9a197c993d2fd1f67506075db5cb0d63a2cfb0f968627b16",
+              "tris": 1578
+            }
+          }
+        },
+        {
+          "seed": 9101,
+          "templateHeight": 18.9271240234375,
+          "templateRadius": 10.910284042358398,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/e77687fe236e8f008d3a92096acc607637c25e148a05aabbeeac94bbed58d165.glb",
+              "bytes": 384324,
+              "sha256": "e77687fe236e8f008d3a92096acc607637c25e148a05aabbeeac94bbed58d165",
+              "tris": 4574
+            },
+            "full": {
+              "file": "realistic-v2/9fd22ca5c7b6fb6a712aaf3b834f36e618959ba41dc2807d74b969de6f443e3d.glb",
+              "bytes": 135252,
+              "sha256": "9fd22ca5c7b6fb6a712aaf3b834f36e618959ba41dc2807d74b969de6f443e3d",
+              "tris": 1578
+            }
+          }
+        },
+        {
+          "seed": 9202,
+          "templateHeight": 18.9271240234375,
+          "templateRadius": 10.910284042358398,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/d9fa77a66e172a6049997045ebccf2b7b0f546ca8b3b82108d30c0bbc8c83d50.glb",
+              "bytes": 389724,
+              "sha256": "d9fa77a66e172a6049997045ebccf2b7b0f546ca8b3b82108d30c0bbc8c83d50",
+              "tris": 4862
+            },
+            "full": {
+              "file": "realistic-v2/9b4871ff72063e9187db6e082bd9b39ad4771a66187be1ff6ca4c61dd71bac36.glb",
+              "bytes": 133956,
+              "sha256": "9b4871ff72063e9187db6e082bd9b39ad4771a66187be1ff6ca4c61dd71bac36",
+              "tris": 1542
             }
           }
         }
@@ -75,16 +113,54 @@
           "templateRadius": 6.940996170043945,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/168ef23ab3db37b264cb35d06c789c0b744f03eb3a2ab62a5e28672610b25802.glb",
-              "bytes": 281312,
-              "sha256": "168ef23ab3db37b264cb35d06c789c0b744f03eb3a2ab62a5e28672610b25802",
-              "tris": 3708
+              "file": "realistic-v2/e82ec87d2ef2d6b07c1de1eea276df5b02bc62c5e91e02c4d2498581b31e353b.glb",
+              "bytes": 521252,
+              "sha256": "e82ec87d2ef2d6b07c1de1eea276df5b02bc62c5e91e02c4d2498581b31e353b",
+              "tris": 6284
             },
             "full": {
-              "file": "realistic-v2/87ad7c8adc298154cc71ec0415f94426b45a5b82cb40453eb87bdae6dc5740d9.glb",
-              "bytes": 112700,
-              "sha256": "87ad7c8adc298154cc71ec0415f94426b45a5b82cb40453eb87bdae6dc5740d9",
-              "tris": 1556
+              "file": "realistic-v2/0f8ae718c6c133fd0710e3580f427c5faa3f6a1d77172f4332029d7779be8023.glb",
+              "bytes": 193184,
+              "sha256": "0f8ae718c6c133fd0710e3580f427c5faa3f6a1d77172f4332029d7779be8023",
+              "tris": 2476
+            }
+          }
+        },
+        {
+          "seed": 10101,
+          "templateHeight": 19.44489097595215,
+          "templateRadius": 6.940996170043945,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/24010856d1a5e3aa53b5ae2e69c62a31641b51d8743b9c0050ae8c39592ca45e.glb",
+              "bytes": 526436,
+              "sha256": "24010856d1a5e3aa53b5ae2e69c62a31641b51d8743b9c0050ae8c39592ca45e",
+              "tris": 6428
+            },
+            "full": {
+              "file": "realistic-v2/4359f0ca5ea122afb6775aacc282611cfe099b700f50ad6b753862be0fded794.glb",
+              "bytes": 194476,
+              "sha256": "4359f0ca5ea122afb6775aacc282611cfe099b700f50ad6b753862be0fded794",
+              "tris": 2512
+            }
+          }
+        },
+        {
+          "seed": 10202,
+          "templateHeight": 19.44489097595215,
+          "templateRadius": 6.940996170043945,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/f44f7d7abeabe41fd39288e7dea1413cbb0608dd81e9065109bae4269b8f2bbe.glb",
+              "bytes": 526436,
+              "sha256": "f44f7d7abeabe41fd39288e7dea1413cbb0608dd81e9065109bae4269b8f2bbe",
+              "tris": 6428
+            },
+            "full": {
+              "file": "realistic-v2/3c6df14f428b8bd5f86a5a112434b1bf3e834574712935b2b288c728728db94d.glb",
+              "bytes": 193188,
+              "sha256": "3c6df14f428b8bd5f86a5a112434b1bf3e834574712935b2b288c728728db94d",
+              "tris": 2476
             }
           }
         }
@@ -113,16 +189,54 @@
           "templateRadius": 5.4486470222473145,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/6ecf8a58c7aa2d97273834c3eb6074e5134a989db5fe3484b66ad3de04b6e106.glb",
-              "bytes": 271128,
-              "sha256": "6ecf8a58c7aa2d97273834c3eb6074e5134a989db5fe3484b66ad3de04b6e106",
-              "tris": 3472
+              "file": "realistic-v2/f1efefb39257c4512f40e8a9cf5e3296ca644a9356e35c591b82163223825dcd.glb",
+              "bytes": 415100,
+              "sha256": "f1efefb39257c4512f40e8a9cf5e3296ca644a9356e35c591b82163223825dcd",
+              "tris": 5000
             },
             "full": {
-              "file": "realistic-v2/dd579238bddd53203f9103612a98dcfa72857abf7e3b76e733c1c489ef5a7ec1.glb",
-              "bytes": 104924,
-              "sha256": "dd579238bddd53203f9103612a98dcfa72857abf7e3b76e733c1c489ef5a7ec1",
-              "tris": 1340
+              "file": "realistic-v2/24ae432a2920e373a39c8b9e9c579bc13a2a08f2313fa5a0b3d5830ee9f3cf56.glb",
+              "bytes": 158924,
+              "sha256": "24ae432a2920e373a39c8b9e9c579bc13a2a08f2313fa5a0b3d5830ee9f3cf56",
+              "tris": 1880
+            }
+          }
+        },
+        {
+          "seed": 5101,
+          "templateHeight": 14.886198043823242,
+          "templateRadius": 5.4486470222473145,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/211c8e17453c17925b0f1a6357e14f48ddd51048162e327318d6249280312722.glb",
+              "bytes": 406796,
+              "sha256": "211c8e17453c17925b0f1a6357e14f48ddd51048162e327318d6249280312722",
+              "tris": 4844
+            },
+            "full": {
+              "file": "realistic-v2/c582a7e8c0f49856e6d53757d85b62bb7df4747f38d256bb22fbdff37e969d55.glb",
+              "bytes": 157628,
+              "sha256": "c582a7e8c0f49856e6d53757d85b62bb7df4747f38d256bb22fbdff37e969d55",
+              "tris": 1844
+            }
+          }
+        },
+        {
+          "seed": 5202,
+          "templateHeight": 14.886198043823242,
+          "templateRadius": 5.4486470222473145,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/6746b05cec151d8ed584bedb3f4f81969e4bc786b4c298b6ebc8e66e603bddff.glb",
+              "bytes": 430852,
+              "sha256": "6746b05cec151d8ed584bedb3f4f81969e4bc786b4c298b6ebc8e66e603bddff",
+              "tris": 5242
+            },
+            "full": {
+              "file": "realistic-v2/977309679ab367b6af82b6dd161a13f1e1be3c9f906b4f72023d34c8fd53fb61.glb",
+              "bytes": 156984,
+              "sha256": "977309679ab367b6af82b6dd161a13f1e1be3c9f906b4f72023d34c8fd53fb61",
+              "tris": 1826
             }
           }
         }
@@ -151,16 +265,54 @@
           "templateRadius": 4.740936279296875,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/8a2c2ae75eb944d6153adbf5c004e7a7a69163a3b7fa6e97d2f541994fd93afd.glb",
-              "bytes": 243152,
-              "sha256": "8a2c2ae75eb944d6153adbf5c004e7a7a69163a3b7fa6e97d2f541994fd93afd",
-              "tris": 3000
+              "file": "realistic-v2/e834095abda3371768ba57be9e4875c12ddca4fcfa0ce91c9a174af93998f992.glb",
+              "bytes": 395964,
+              "sha256": "e834095abda3371768ba57be9e4875c12ddca4fcfa0ce91c9a174af93998f992",
+              "tris": 4578
             },
             "full": {
-              "file": "realistic-v2/3275b1c9ed30f4952cfea91c71397fa04065f863c85896b0eb4f16b16432238f.glb",
-              "bytes": 98920,
-              "sha256": "3275b1c9ed30f4952cfea91c71397fa04065f863c85896b0eb4f16b16432238f",
-              "tris": 1280
+              "file": "realistic-v2/f6cf77eaa7a198bd9b77f73499f06e6866819a5894e62f4d56f26982bd484e61.glb",
+              "bytes": 174928,
+              "sha256": "f6cf77eaa7a198bd9b77f73499f06e6866819a5894e62f4d56f26982bd484e61",
+              "tris": 2040
+            }
+          }
+        },
+        {
+          "seed": 7101,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/682621992b2d67ef0a0b9ccf093dd36322f818054375f8af07bea39298ceb857.glb",
+              "bytes": 392504,
+              "sha256": "682621992b2d67ef0a0b9ccf093dd36322f818054375f8af07bea39298ceb857",
+              "tris": 4482
+            },
+            "full": {
+              "file": "realistic-v2/eeca1d2633a83dc932b562464926db6f8c1175c0d2b9a73257ae4bac5d713536.glb",
+              "bytes": 173632,
+              "sha256": "eeca1d2633a83dc932b562464926db6f8c1175c0d2b9a73257ae4bac5d713536",
+              "tris": 2004
+            }
+          }
+        },
+        {
+          "seed": 7202,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/f387a4644c5bba5c42e808512bd0bffdaf65bc58579c0afa9049dfaa4b285d93.glb",
+              "bytes": 379632,
+              "sha256": "f387a4644c5bba5c42e808512bd0bffdaf65bc58579c0afa9049dfaa4b285d93",
+              "tris": 4480
+            },
+            "full": {
+              "file": "realistic-v2/33a2108e619c53bd63179a1cac3684d5f3d1f8b622332407dd300d3f37c4aa84.glb",
+              "bytes": 174284,
+              "sha256": "33a2108e619c53bd63179a1cac3684d5f3d1f8b622332407dd300d3f37c4aa84",
+              "tris": 2022
             }
           }
         }
@@ -189,16 +341,54 @@
           "templateRadius": 9.593546867370605,
           "tiers": {
             "hero": {
-              "file": "realistic-v2/da8d8cff748d90589ea6f0a2ab4f1cd725b278c694f328d2d4edd5e5172e7271.glb",
-              "bytes": 261884,
-              "sha256": "da8d8cff748d90589ea6f0a2ab4f1cd725b278c694f328d2d4edd5e5172e7271",
-              "tris": 3176
+              "file": "realistic-v2/6a1d22d282e9c61b138c3fa12e8caaea8ff5f0a927cc461fbee0b905612885f3.glb",
+              "bytes": 426896,
+              "sha256": "6a1d22d282e9c61b138c3fa12e8caaea8ff5f0a927cc461fbee0b905612885f3",
+              "tris": 5072
             },
             "full": {
-              "file": "realistic-v2/5cf7aaf5372ae821d556e6814effdd40513048222ec893ffd51390cadaa32481.glb",
-              "bytes": 126084,
-              "sha256": "5cf7aaf5372ae821d556e6814effdd40513048222ec893ffd51390cadaa32481",
-              "tris": 1538
+              "file": "realistic-v2/aa51e7f60b0863fa689dc191ef8a98427d620e36d37c7adc9eeba0ae6f009d23.glb",
+              "bytes": 163168,
+              "sha256": "aa51e7f60b0863fa689dc191ef8a98427d620e36d37c7adc9eeba0ae6f009d23",
+              "tris": 1928
+            }
+          }
+        },
+        {
+          "seed": 1101,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/5ca479219ca3ed3b46689677ecb0891e28fcad639440e80108d26d3f2e6e4cad.glb",
+              "bytes": 426764,
+              "sha256": "5ca479219ca3ed3b46689677ecb0891e28fcad639440e80108d26d3f2e6e4cad",
+              "tris": 5124
+            },
+            "full": {
+              "file": "realistic-v2/cd4464a5756ba5d7d4dfe63cfdd9658ac62feb3533d494c022df6905b8759222.glb",
+              "bytes": 163164,
+              "sha256": "cd4464a5756ba5d7d4dfe63cfdd9658ac62feb3533d494c022df6905b8759222",
+              "tris": 1928
+            }
+          }
+        },
+        {
+          "seed": 1202,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/891d106f5a72bd14f463def61e2eee063c2a5eceac53d670b6a018cb698cf77c.glb",
+              "bytes": 425316,
+              "sha256": "891d106f5a72bd14f463def61e2eee063c2a5eceac53d670b6a018cb698cf77c",
+              "tris": 5024
+            },
+            "full": {
+              "file": "realistic-v2/362256bc4f1d470f519536a91b11be093f306328431baef77664f11f3ec4c738.glb",
+              "bytes": 161220,
+              "sha256": "362256bc4f1d470f519536a91b11be093f306328431baef77664f11f3ec4c738",
+              "tris": 1874
             }
           }
         }

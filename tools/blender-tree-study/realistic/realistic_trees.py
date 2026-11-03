@@ -61,34 +61,39 @@ TIERS = ('hero', 'full')
 # The approved crowns' boxes (ghibli-fluffy.json, hero tier): height, crown base, centre (x, z) and half-widths (x, z).
 SPECIES = {
     'björk': dict(name='Silver birch', seed=4101, height=14.9, base=4.5, centre=(0.1, 0.05), half=(5.3, 5.35),
-                  trunk=dict(r=0.22, top=0.93, sides=(10, 6), wobble=0.10, fork=0.0),
+                  trunk=dict(r=0.34, top=0.93, sides=(10, 6), wobble=0.10, fork=0.0),
                   limbs=dict(count=(34, 22), start=0.30, end=0.96, rise=(30, 64), curve=0.10, droop=0.45, reach=(0.5, 1.0), r=0.32),
                   twigs=dict(spacing=0.55, length=(0.9, 1.7), angle=55, droop=0.55, r=0.25),
-                  cards=dict(count=(1150, 430), size=1.1, hang=0.55, outward=0.45, along=(0.25, 1.0)),
+                  cards=dict(count=(1900, 700), size=0.92, hang=0.55, outward=0.45, along=(0.25, 1.0)),
+                  puff=dict(r=(0.6, 0.55), outward=0.8, up=0.15, mid=0.55),
                   shape='ovoid', bark='birch'),
     'ek': dict(name='Pasture oak', seed=4203, height=16.5, base=5.1, centre=(-0.35, -0.4), half=(8.45, 9.2),
-               trunk=dict(r=0.42, top=0.36, sides=(12, 7), wobble=0.18, fork=4),
+               trunk=dict(r=0.62, top=0.04, sides=(12, 7), wobble=0.18, fork=5),
                limbs=dict(count=(30, 20), start=0.36, end=0.95, rise=(22, 58), curve=0.18, droop=0.10, reach=(0.55, 1.0), r=0.36),
                twigs=dict(spacing=0.6, length=(1.2, 2.4), angle=60, droop=0.15, r=0.28),
-               cards=dict(count=(1150, 540), size=1.5, hang=0.15, outward=0.6, along=(0.35, 1.0)),
+               cards=dict(count=(1900, 720), size=1.25, hang=0.15, outward=0.6, along=(0.35, 1.0)),
+               puff=dict(r=(0.95, 0.75), outward=0.9, up=0.3, mid=0.65),
                shape='dome', bark='oak'),
     'al': dict(name='Grey alder', seed=4307, height=12.2, base=2.4, centre=(-0.35, -1.4), half=(2.85, 3.3),
-               trunk=dict(r=0.15, top=0.95, sides=(9, 6), wobble=0.06, fork=0.0),
+               trunk=dict(r=0.26, top=0.95, sides=(9, 6), wobble=0.10, fork=0.0),
                limbs=dict(count=(36, 22), start=0.22, end=0.97, rise=(40, 62), curve=0.08, droop=0.12, reach=(0.7, 1.0), r=0.3),
                twigs=dict(spacing=0.45, length=(0.6, 1.2), angle=55, droop=0.2, r=0.25),
-               cards=dict(count=(1050, 400), size=1.15, hang=0.25, outward=0.55, along=(0.2, 1.0)),
+               cards=dict(count=(1800, 780), size=0.98, hang=0.25, outward=0.55, along=(0.2, 1.0)),
+               puff=dict(r=(0.65, 0.6), outward=0.8, up=0.2, mid=0.55),
                shape='ovoid', bark='alder'),
     'tall': dict(name='Scots pine', seed=4409, height=18.9, base=10.4, centre=(2.0, -0.75), half=(8.9, 7.35),
-                 trunk=dict(r=0.26, top=0.9, sides=(10, 6), wobble=0.16, fork=0.0),
+                 trunk=dict(r=0.36, top=0.9, sides=(10, 6), wobble=0.55, fork=0.0),
                  limbs=dict(count=(20, 14), start=0.02, end=0.9, rise=(4, 30), curve=0.16, droop=0.0, reach=(0.6, 1.0), r=0.42),
                  twigs=dict(spacing=0.5, length=(1.0, 2.2), angle=62, droop=-0.1, r=0.32),
-                 cards=dict(count=(1300, 460), size=2.2, hang=-0.35, outward=0.25, along=(0.62, 1.0)),
+                 cards=dict(count=(1700, 600), size=1.6, hang=-0.35, outward=0.25, along=(0.62, 1.0)),
+                 puff=dict(r=(1.15, 0.42), outward=0.3, up=1.4, mid=0.45),
                  shape='umbrella', bark='pine'),
     'gran': dict(name='Norway spruce', seed=4511, height=19.4, base=0.9, centre=(0.35, -0.3), half=(6.55, 6.5),
-                 trunk=dict(r=0.25, top=1.0, sides=(10, 6), wobble=0.03, fork=0.0),
-                 limbs=dict(count=(60, 34), start=0.05, end=0.985, rise=(-18, 8), curve=-0.05, droop=0.35, reach=(0.85, 1.0), r=0.22),
+                 trunk=dict(r=0.34, top=1.0, sides=(10, 6), wobble=0.03, fork=0.0),
+                 limbs=dict(count=(78, 44), start=0.05, end=0.985, rise=(-18, 8), curve=-0.05, droop=0.35, reach=(0.85, 1.0), r=0.22),
                  twigs=dict(spacing=0.42, length=(0.5, 1.1), angle=70, droop=0.65, r=0.22),
-                 cards=dict(count=(1150, 430), size=1.6, hang=0.45, outward=0.25, along=(0.1, 1.0)),
+                 cards=dict(count=(2300, 800), size=1.45, hang=0.45, outward=0.25, along=(0.1, 1.0)),
+                 puff=dict(spacing=0.2),
                  shape='cone', bark='spruce'),
 }
 
@@ -121,7 +126,7 @@ def bark_colour(kind, h, height, rnd, theta):
         return (0.085 * n * f, 0.075 * n * f, 0.062 * n * f)
     if kind == 'alder':
         return (0.13 * n, 0.12 * n, 0.105 * n)
-    return (0.11 * n, 0.08 * n, 0.06 * n)       # spruce
+    return (0.06 * n, 0.045 * n, 0.035 * n)     # spruce
 
 class Wood:
     def __init__(self): self.P, self.N, self.C, self.I = [], [], [], []
@@ -158,10 +163,29 @@ def polyline(start, direction, length, segs, curve, droop, rnd, wobble):
         pts.append(p)
     return pts
 
-def grow(key, tier, k=(1.0, 1.0)):
+VARIANTS = 3
+
+def variant_params(key, variant):
+    """The species' parameters for one variant: the first as written, the others turned by their own
+    seed -- the crown's centre and base, its limbs' count and angles, the trunk's bow -- so no two
+    neighbours of a species stand alike, each still fitted to the approved box (fitted())."""
+    import copy
+    S = copy.deepcopy(SPECIES[key])
+    if variant == 0: return S
+    j = random.Random(S['seed'] * 31 + variant * 7919)
+    S['seed'] = S['seed'] + 101 * variant
+    S['centre'] = (S['centre'][0] + S['half'][0] * j.uniform(-0.14, 0.14), S['centre'][1] + S['half'][1] * j.uniform(-0.14, 0.14))
+    S['base'] = S['base'] * j.uniform(0.85, 1.15)
+    L = S['limbs']
+    L['count'] = tuple(max(6, round(c * j.uniform(0.85, 1.18))) for c in L['count'])
+    d = j.uniform(-6, 6); L['rise'] = (L['rise'][0] + d, L['rise'][1] + d)
+    S['trunk']['wobble'] = S['trunk']['wobble'] * j.uniform(0.6, 1.7)
+    return S
+
+def grow(key, tier, k=(1.0, 1.0), variant=0):
     """`k`: the box's correction (half-widths, heights) so the grown tree, cards and all, fills the
     approved box and the loader's fit stays near 1 on both axes (see fitted())."""
-    S = SPECIES[key]
+    S = variant_params(key, variant)
     hero = tier == 'hero'
     rnd = random.Random(S['seed'])
     H, B = S['height'] * k[1], S['base'] * k[1]
@@ -183,7 +207,7 @@ def grow(key, tier, k=(1.0, 1.0)):
         p = Vector((lean.x * t + bow * math.cos(S['seed']), y, lean.z * t + bow * math.sin(S['seed'])))
         trunk_pts.append(p)
         flare = 1 + 0.6 * max(0.0, 1 - y / 0.9) ** 2
-        trunk_r.append(T['r'] * (1 - 0.82 * t) * flare)
+        trunk_r.append(T['r'] * (1 - 0.68 * t) * flare)
     rings = 1 if not hero or S['bark'] != 'birch' else 2   # a birch's lenticels need more rings
     if rings > 1:
         dense, dr = [], []
@@ -210,6 +234,14 @@ def grow(key, tier, k=(1.0, 1.0)):
         f = L['start'] + (L['end'] - L['start']) * (i + rnd.uniform(0.1, 0.9)) / n_limbs
         y = B * 0.92 + (H - B * 0.92) * f if key not in ('gran', 'tall') else B + (H - B) * f
         root, r_here = trunk_at(min(y, top_y))
+        # an oak's bole ends low and its great limbs (the fork) carry every other limb
+        if T['fork'] and i >= T['fork'] and len(limbs) >= T['fork']:
+            gpts, gradii, _ = limbs[rnd.randrange(T['fork'])]
+            u = rnd.uniform(0.35, 0.95)
+            seg = min(int(u * (len(gpts) - 1)), len(gpts) - 2)
+            root = gpts[seg].lerp(gpts[seg + 1], u * (len(gpts) - 1) - seg)
+            r_here = gradii[seg] * 1.4
+            y = root.y
         t_crown = (y - B) / (H - B)
         az = az0 + i * golden + rnd.uniform(-0.25, 0.25)
         dirh = Vector((math.cos(az), 0.0, math.sin(az)))
@@ -222,7 +254,7 @@ def grow(key, tier, k=(1.0, 1.0)):
         d = (dirh * math.cos(rise) + UP * math.sin(rise)).normalized()
         length = reach / max(0.3, math.cos(rise))
         if key == 'ek' and i < T['fork']:   # the oak's bole splits into its great limbs
-            d = (dirh * 0.55 + UP * 0.85).normalized(); length = (H - y) * 0.72
+            d = (dirh * 0.8 + UP * 0.6).normalized(); length = (H - y) * 0.75
         pts = polyline(root, d, length, 3, L['curve'], L['droop'], rnd, 0.08)
         # no limb reaches past the crown's top: its tip and the half card on it stay under H
         ceiling = H - Cd['size'] * 0.55
@@ -230,10 +262,11 @@ def grow(key, tier, k=(1.0, 1.0)):
             f = max(0.2, (ceiling - root.y) / (pts[-1].y - root.y))
             pts = [root + (q - root) * f for q in pts]
             length *= f
-        r0 = max(0.025, r_here * L['r'] * (1.35 if (key == 'ek' and i < T['fork']) else 1.0))
+        r0 = max(0.025, r_here * (0.62 if (T['fork'] and i < T['fork']) else L['r']))
         radii = [r0 * (1 - 0.8 * k / (len(pts) - 1)) for k in range(len(pts))]
         limbs.append((pts, radii, length))
-        sides = (6 if r0 > 0.14 else 5 if r0 > 0.09 else 4 if r0 > 0.045 else 3) if hero else (4 if r0 > 0.07 else 3)
+        # a spruce's limbs are hidden in its sprays: three sides are enough, and the triangles go to the foliage
+        sides = 3 if key == 'gran' else (6 if r0 > 0.14 else 5 if r0 > 0.09 else 4 if r0 > 0.045 else 3) if hero else (4 if r0 > 0.07 else 3)
         wood.tube(pts, radii, sides, S['bark'], H, rnd)
 
     # THE TWIGS AND THEIR CARDS: the twigs first, then the card budget spread over them
@@ -255,77 +288,111 @@ def grow(key, tier, k=(1.0, 1.0)):
             tw = polyline(at, td, tl, 2, 0.0, W['droop'], rnd, 0.12)
             r_t = max(0.008, radii[seg] * W['r'])
             # only the stoutest twigs are drawn as wood: the rest are the sprigs' own stems
-            if hero and r_t > 0.02:
+            if hero and r_t > 0.02 and key != 'gran':
                 wood.tube(tw, [r_t, r_t * 0.4, r_t * 0.15], 3, S['bark'], H, rnd)
             twigs.append((tw, centroid, li))
         twigs.append(([pts[-2], pts[-1]], centroid, li))
 
-    # the hero's card count spread over every twig; the full tier keeps a share of the same cards, larger
-    hero_count = Cd['count'][0]
-    per = max(1, math.ceil(hero_count / max(1, len(twigs))))
+    # THE LEAF CLUSTERS (owner, 3 November: fuller, fluffier crowns). A crown is many puffs of leaves --
+    # SpeedTree's and the Odyssey forest's leaf clusters -- each a few sprig cards seated round a centre at a
+    # twig's or a limb's tip, facing out of the puff and out of the crown, so every puff shades as its own
+    # soft ball and the sky shows between them. The spruce lays its sprays along each branch instead, flat
+    # and hanging in curtains; the pine's puffs are flattened into pads.
+    P_ = S['puff']
+    clusters = []
+    if key == 'gran':
+        for li, (pts, radii, length) in enumerate(limbs):
+            n_sp = max(3, int(length / P_['spacing']))
+            for k in range(n_sp):
+                # from the trunk itself out to the tip, so the stem is hidden as a spruce hides it
+                u = 0.02 + 0.98 * (k + rnd.random()) / n_sp
+                seg = min(int(u * (len(pts) - 1)), len(pts) - 2)
+                at = pts[seg].lerp(pts[seg + 1], u * (len(pts) - 1) - seg)
+                ld = (pts[seg + 1] - pts[seg]).normalized()
+                clusters.append(('spray', at, ld, li))
+    else:
+        for (tw, centroid, li) in twigs:
+            clusters.append(('puff', tw[-1], (tw[-1] - tw[0]).normalized(), li))
+            if len(tw) > 2 and rnd.random() < P_['mid']:
+                clusters.append(('puff', tw[1], (tw[-1] - tw[0]).normalized(), li))
+    rnd.shuffle(clusters)
+    hero_count, keep = Cd['count'][0], Cd['count'][0 if hero else 1]
+    per = max(2, round(hero_count / max(1, len(clusters))))
     candidates = []
-    for (tw, centroid, li) in twigs:
-        for c in range(per):
-            v = Cd['along'][0] + (Cd['along'][1] - Cd['along'][0]) * (c + rnd.random()) / per
-            p = tw[0].lerp(tw[-1], v)
-            candidates.append((p, (tw[-1] - tw[0]).normalized(), centroid, li))
-    rnd.shuffle(candidates)
+    for (kind, c, ld, li) in clusters:
+        for j in range(per):
+            if kind == 'spray':
+                # along the branch, a little below it; every third a curtain hanging from it
+                along = ld * rnd.uniform(-0.15, 0.15)
+                p = c + along - UP * rnd.uniform(0.0, 0.2)
+                candidates.append((kind, p, ld, c, li, j % 3 == 2))
+            else:
+                g = Vector((rnd.gauss(0, 1), rnd.gauss(0, 1), rnd.gauss(0, 1))).normalized()
+                radial = Vector(((c.x - cx) / hx, (c.y - crown_centre.y) / ((H - B) * 0.5), (c.z - cz) / hz))
+                radial = radial.normalized() if radial.length > 1e-3 else UP
+                d = (g + radial * P_['outward'] + UP * P_['up']).normalized()
+                r = rnd.uniform(0.25, 1.0)
+                p = c + Vector((d.x * P_['r'][0], d.y * P_['r'][1], d.z * P_['r'][0])) * r
+                candidates.append((kind, p, d, c, li, False))
+    # no card reaching the ground: the spruce's lowest sprays dragged on it as streaks
+    candidates = [q for q in candidates if q[1].y > Cd['size'] * 0.75 + 0.3]
     candidates = candidates[:hero_count]
-    keep = Cd['count'][0 if hero else 1]
     chosen = candidates[:keep]
     # the full tier's fewer cards are larger, so the crown keeps its area
-    grow_k = math.sqrt(len(candidates) / max(1, len(chosen))) * (1.0 if hero else 0.92)
+    # (the pine's full tier keeps the whole area: its pads must stay solid to agree with its impostor's shadow)
+    grow_k = math.sqrt(len(candidates) / max(1, len(chosen))) * (1.0 if hero or key == 'tall' else 0.92)
     crown = dict(P=[], N=[], U=[], I=[])
-    for (p, twig_dir, centroid, li) in chosen:
+    for (kind, p, d, centre, li, curtain) in chosen:
         size = Cd['size'] * rnd.uniform(0.8, 1.2) * grow_k
-        out = Vector((p.x - cx, 0.0, p.z - cz))
-        out = out.normalized() if out.length > 1e-3 else Vector((1.0, 0.0, 0.0))
-        # THE CARD FACES OUT OF THE CROWN: its normal is the crown's own outward direction in 3D (the
-        # tops face up, the skirt down), jittered, so from outside a crown is a shell of leaves seen
-        # face on and only its silhouette shows cards edge on. (Pointing each sprig out along its
-        # twig put the card's plane through the crown's radius: seen from outside, edge on, as streaks.)
         radial = Vector(((p.x - cx) / hx, (p.y - crown_centre.y) / ((H - B) * 0.5), (p.z - cz) / hz))
-        radial = radial.normalized() if radial.length > 1e-3 else out
-        jitter = Vector((rnd.uniform(-1, 1), rnd.uniform(-1, 1), rnd.uniform(-1, 1))) * Cd['outward']
-        face = (radial + UP * 0.2 + jitter).normalized()
-        # in that plane the sprig points along its twig and hangs by the species' own share
-        want = twig_dir - UP * Cd['hang']
+        radial = radial.normalized() if radial.length > 1e-3 else UP
+        jitter = Vector((rnd.uniform(-1, 1), rnd.uniform(-1, 1), rnd.uniform(-1, 1)))
+        out = Vector((p.x - cx, 0.0, p.z - cz)); out = out.normalized() if out.length > 1e-3 else Vector((1.0, 0.0, 0.0))
+        if kind == 'spray':
+            if curtain:   # hanging from the branch, facing out
+                face = (out + jitter * 0.25).normalized()
+                want = -UP + d * 0.3
+            else:         # laid along the branch, facing up and out
+                face = (UP * 0.9 + out * 0.5 + jitter * 0.25).normalized()
+                want = d
+        else:
+            face = (d * 0.7 + radial * 0.3 + jitter * 0.15).normalized()
+            want = Vector((rnd.uniform(-1, 1), rnd.uniform(-0.3, 0.3), rnd.uniform(-1, 1))) - UP * Cd['hang']
         up_dir = want - face * want.dot(face)
         if up_dir.length < 1e-3:
-            up_dir = face.cross(Vector((rnd.uniform(-1, 1), 0.0, rnd.uniform(-1, 1)))) 
+            up_dir = face.cross(Vector((rnd.uniform(-1, 1), 0.0, rnd.uniform(-1, 1))))
         up_dir = up_dir.normalized()
-        # and turned at random about its face, so neighbouring sprigs do not hatch the crown in one direction
-        roll = rnd.uniform(-1.0, 1.0)
+        roll = rnd.uniform(-0.6, 0.6) if kind == 'spray' else rnd.uniform(-1.0, 1.0)
         side_dir = face.cross(up_dir).normalized()
         up_dir = (up_dir * math.cos(roll) + side_dir * math.sin(roll)).normalized()
         right = up_dir.cross(face).normalized()
         cell = rnd.randrange(4); mirror = rnd.random() < 0.5
         u0, v0 = (cell % 2) * 0.5, (cell // 2) * 0.5
-        # pine tufts sit on the shoot's end: the brush's base lies a third up the cell
-        back = 0.32 if key == 'tall' else 0.05
+        # a broadleaf sprig and a pine's tufts are centred on their place; a spruce spray starts at its branch
+        back = 0.08 if kind == 'spray' else 0.5
         o = p - up_dir * size * back
         corners = [(-0.5, 0.0), (0.5, 0.0), (0.5, 1.0), (-0.5, 1.0)]
         base = len(crown['P'])
         for (a, b) in corners:
             q = o + right * (a * size) + up_dir * (b * size)
-            radial = Vector(((q.x - cx) / hx, (q.y - crown_centre.y) / ((H - B) * 0.5), (q.z - cz) / hz)).normalized()
-            cluster = (q - centroid).normalized() if (q - centroid).length > 1e-3 else radial
-            soft = (radial * 0.6 + cluster * 0.25 + face * 0.15).normalized()
+            rq = Vector(((q.x - cx) / hx, (q.y - crown_centre.y) / ((H - B) * 0.5), (q.z - cz) / hz)).normalized()
+            pq = (q - centre).normalized() if (q - centre).length > 1e-3 else rq
+            soft = (rq * 0.45 + pq * 0.4 + face * 0.15).normalized()
             crown['P'].append(q); crown['N'].append(soft)
             uu = (0.5 - a) if mirror else (a + 0.5)
             # glTF uv: v from the image's top; the sprig's base is the cell's lower edge
             crown['U'].append((u0 + 0.5 * (0.02 + 0.96 * uu), v0 + 0.5 * (1.0 - (0.02 + 0.96 * b))))
         crown['I'] += [base, base + 1, base + 2, base, base + 2, base + 3]
     return dict(key=key, tier=tier, crown=crown, trunk=dict(P=wood.P, N=wood.N, C=wood.C, I=wood.I),
-                stats=dict(cards=len(chosen), candidates=len(candidates), crownTris=len(crown['I']) // 3, trunkTris=len(wood.I) // 3))
+                stats=dict(cards=len(chosen), candidates=len(candidates), clusters=len(clusters), crownTris=len(crown['I']) // 3, trunkTris=len(wood.I) // 3))
 
-def fitted(key, tier):
+def fitted(key, tier, variant=0):
     """Grow until the tree's own box matches the approved one (the loader fits radius and height
     separately, so a crown whose cards overhang its box would be squashed and shrunk)."""
     S = SPECIES[key]
     k = [1.0, 1.0]
     for _ in range(4):
-        tree = grow(key, tier, tuple(k))
+        tree = grow(key, tier, tuple(k), variant)
         P = tree['crown']['P'] + tree['trunk']['P']
         r = max(max(abs(p[0]) for p in P), max(abs(p[2]) for p in P))
         top = max(p[1] for p in P)
@@ -341,12 +408,12 @@ def flat(vs, n):
         for i in range(n): out.append(round(float(v[i]), 5))
     return out
 
-def preview(scene, tree, offset):
+def preview(scene, tree, offset, row=0.0):
     """Link the tree into the scene (Blender Z-up) for a look; nothing outside the scene is touched."""
     for part in ('trunk', 'crown'):
         d = tree[part]
-        me = bpy.data.meshes.new(f"v2-{tree['key']}-{tree['tier']}-{part}")
-        verts = [(p[0] + offset, -p[2], p[1]) for p in d['P']]
+        me = bpy.data.meshes.new(f"v2-{tree['key']}-{tree['tier']}-{int(row // 24)}-{part}")
+        verts = [(p[0] + offset, -p[2] + row, p[1]) for p in d['P']]
         faces = [tuple(d['I'][i:i + 3]) for i in range(0, len(d['I']), 3)]
         me.from_pydata(verts, [], faces)
         me.update()
@@ -364,13 +431,14 @@ def build_catalogue(outdir, with_preview=True):
                 if me and me.users == 0: bpy.data.meshes.remove(me)
     report = {}
     for i, key in enumerate(SPECIES):
+      for v in range(VARIANTS):
         for tier in TIERS:
-            tree = fitted(key, tier)
+            tree = fitted(key, tier, v)
             rec = dict(key=key, tier=tier, name=SPECIES[key]['name'],
                        crown=dict(position=flat(tree['crown']['P'], 3), normal=flat(tree['crown']['N'], 3), uv=flat(tree['crown']['U'], 2), index=tree['crown']['I']),
                        trunk=dict(position=flat(tree['trunk']['P'], 3), normal=flat(tree['trunk']['N'], 3), color=flat(tree['trunk']['C'], 3), index=tree['trunk']['I']))
-            with open(os.path.join(outdir, f"{key}-{tier}.json"), 'w', encoding='utf-8') as f:
+            with open(os.path.join(outdir, f"{key}-{tier}-{v}.json"), 'w', encoding='utf-8') as f:
                 json.dump(rec, f, ensure_ascii=False)
-            report[f"{key}-{tier}"] = tree['stats']
-            if scene is not None and tier == 'hero': preview(scene, tree, i * 24.0)
+            report[f"{key}-{tier}-{v}"] = tree['stats']
+            if scene is not None and tier == 'hero': preview(scene, tree, i * 24.0, v * 24.0)
     return report

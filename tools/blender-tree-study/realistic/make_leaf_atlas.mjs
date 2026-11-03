@@ -149,24 +149,31 @@ function broadleafSprig(c, key, rnd) {
   }
 }
 
-/* pine: shoots radiating from the cell's centre, each a brush of paired needles round its end */
+/* pine: a cluster of shoots, each a brush of paired needles round its end, so a card reads as
+   several tufts and not as one fan (a single fan a card read as a broad disc from the tee) */
 function pineSprig(c, rnd) {
-  const n = c.n, k = n / 512, cx = n * 0.5, cy = n * 0.55;
-  const shoots = 10 + Math.floor(rnd() * 3);
+  const n = c.n;
+  const tufts = [[0.5, 0.62, 0.62], [0.27, 0.5, 0.48], [0.73, 0.48, 0.5], [0.42, 0.3, 0.44], [0.62, 0.27, 0.42]];
+  for (const [x, y, s] of tufts) pineTuft(c, rnd, n * (x + (rnd() - 0.5) * 0.06), n * (y + (rnd() - 0.5) * 0.06), s * (0.9 + rnd() * 0.2));
+}
+function pineTuft(c, rnd, cx, cy, size) {
+  /* lengths at the tuft's own size, widths at the cell's: smaller tufts keep their needles as thick */
+  const n = c.n * size, k = n / 512, kw = c.n / 512 * 0.85;
+  const shoots = 9 + Math.floor(rnd() * 3);
   for (let s = 0; s < shoots; s++) {
     const a = -Math.PI / 2 + (s / (shoots - 1) - 0.5) * 2.6 + (rnd() - 0.5) * 0.3;
     const L = n * (0.2 + rnd() * 0.12);
     const ex = cx + Math.cos(a) * L, ey = cy + Math.sin(a) * L;
-    stroke(c, cx, cy + n * 0.08, ex, ey, 5 * k, 3 * k, twigColour(0.95));
+    stroke(c, cx, cy + n * 0.08, ex, ey, 4 * kw, 2.4 * kw, twigColour(0.95));
     /* needles: from along the shoot's outer half, swept forward */
-    const needles = 220 + Math.floor(rnd() * 40);
+    const needles = 95 + Math.floor(rnd() * 20);
     for (let i = 0; i < needles; i++) {
       const t = 0.35 + 0.65 * Math.pow(rnd(), 0.7);
       const px = cx + (ex - cx) * t, py = cy + n * 0.08 * (1 - t) + (ey - cy - n * 0.08 * (1 - t)) * t;
       const na = a + (rnd() - 0.5) * 1.9 * (0.45 + 0.55 * t);
       const nl = n * (0.11 + rnd() * 0.07);
       const tone = 0.86 + rnd() * 0.3;
-      stroke(c, px, py, px + Math.cos(na) * nl, py + Math.sin(na) * nl, 4.4 * k, 2.0 * k,
+      stroke(c, px, py, px + Math.cos(na) * nl, py + Math.sin(na) * nl, 4.0 * kw, 1.8 * kw,
         u => [MEAN * NEEDLE[0] * tone * (0.92 + 0.12 * u), MEAN * NEEDLE[1] * tone * (0.92 + 0.12 * u), MEAN * NEEDLE[2] * tone * (0.9 + 0.1 * u)]);
     }
   }
