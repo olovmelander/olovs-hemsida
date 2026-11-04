@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { ATMOSPHERE_PRESETS } from '../engine/atmosphere-presets.mjs';
 import { AUTUMN_FOLIAGE } from '../engine/painted-world-palette.mjs';
 import {
-  AUTUMN_RAMPS, blendLights, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS, seasonAt, solarPosition, sunDirection,
+  AUTUMN_RAMPS, blendLights, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS, seasonAt, SIMULATOR_LIGHTS, solarPosition, sunDirection,
 } from './map-light.mjs';
 
 const DEGREES = Math.PI / 180;
@@ -54,6 +54,21 @@ describe('the seasons', () => {
     expect(seasonAt(at('2026-01-15T12:00:00Z')).autumn).toBe(0);
   });
 
+  it('brings the leaves down by November and back by May', () => {
+    expect(seasonAt(at('2026-11-20T12:00:00Z')).bare).toBe(1);
+    expect(seasonAt(at('2026-02-01T12:00:00Z')).bare).toBe(1);
+    expect(seasonAt(at('2026-06-01T12:00:00Z')).bare).toBe(0);
+    expect(seasonAt(at('2026-11-20T12:00:00Z')).autumn).toBe(0);
+  });
+
+  it('lays snow in midwinter, longer the further north', () => {
+    expect(seasonAt(at('2026-01-15T12:00:00Z'), 63).snow).toBe(1);
+    expect(seasonAt(at('2026-07-01T12:00:00Z'), 63).snow).toBe(0);
+    expect(seasonAt(at('2026-10-05T12:00:00Z'), 63).snow).toBe(0);
+    const march = at('2026-03-22T12:00:00Z');
+    expect(seasonAt(march, 63.3).snow).toBeGreaterThan(seasonAt(march, 57.4).snow);
+  });
+
   it('lays the grass pale from late autumn until spring', () => {
     expect(seasonAt(at('2026-07-01T12:00:00Z')).dormant).toBe(0);
     expect(seasonAt(at('2026-02-01T12:00:00Z')).dormant).toBe(1);
@@ -64,7 +79,7 @@ describe('the seasons', () => {
 
 describe('the named lights', () => {
   it('are the simulator\'s nine, with its sun and its sky', () => {
-    expect(MAP_LIGHTS.length).toBe(Object.keys(ATMOSPHERE_PRESETS).length);
+    expect(SIMULATOR_LIGHTS.length).toBe(Object.keys(ATMOSPHERE_PRESETS).length);
     const direction = lightByKey('sommar').sun;
     const authored = ATMOSPHERE_PRESETS.summer.dir, length = Math.hypot(...authored);
     direction.forEach((n, i) => expect(n).toBeCloseTo(authored[i] / length));
@@ -99,6 +114,11 @@ describe('the named lights', () => {
 
   it('turn the leaves only under Höst', () => {
     expect(MAP_LIGHTS.filter(light => light.autumn > 0).map(light => light.key)).toEqual(['host']);
+  });
+
+  it('have one winter of their own, bare and under snow', () => {
+    expect(MAP_LIGHTS.filter(light => light.snow > 0).map(light => light.key)).toEqual(['vinter']);
+    expect(lightByKey('vinter')).toMatchObject({ bare: 1, snow: 1, autumn: 0 });
   });
 
   it('do not know a light they were never given', () => {
@@ -136,6 +156,12 @@ describe('Nu', () => {
     expect(light.elevationDegrees).toBeLessThan(0);
     expect(light.grade[1]).toBeGreaterThan(0.5);
     expect(light.sun[1]).toBeGreaterThan(0.09);
+  });
+
+  it('is winter in January, with the birches bare', () => {
+    const light = now('2026-01-15T10:00:00Z');
+    expect(light.snow).toBe(1);
+    expect(light.bare).toBe(1);
   });
 
   it('holds through a whole night, in every hour of the year', () => {

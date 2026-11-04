@@ -88,10 +88,23 @@ function buildLight(entry) {
     saturation: entry.saturation ?? 1,
     autumn: entry.autumn ?? 0,
     dormant: 0,
+    bare: 0,
+    snow: 0,
   };
 }
 
-export const MAP_LIGHTS = Object.freeze(LIGHT_TABLE.map(buildLight));
+/* The simulator has no winter, so this one light is the map's own: the clear low
+   sun of a January day over snow, on the bones of its noon light. */
+const WINTER = Object.freeze({
+  ...buildLight({ key: 'vinter', preset: 'noon', label: 'Vinter', direct: 0.8, exposure: 1 }),
+  sun: raised(normalize([-0.42, 0.26, 0.86]), LOWEST_LIGHT),
+  shadowSun: raised(normalize([-0.42, 0.26, 0.86]), SHADOW_HEIGHT),
+  bare: 1,
+  snow: 1,
+});
+
+export const SIMULATOR_LIGHTS = Object.freeze(LIGHT_TABLE.map(buildLight));
+export const MAP_LIGHTS = Object.freeze([...SIMULATOR_LIGHTS, WINTER]);
 export const DEFAULT_LIGHT = 'sommar';
 export const lightByKey = key => MAP_LIGHTS.find(light => light.key === key) ?? null;
 
@@ -148,13 +161,18 @@ export const sunDirection = ({ elevation, azimuth }) => [
 
 const dayOfYear = date => Math.floor((Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) - Date.UTC(date.getUTCFullYear(), 0, 0)) / 86400000);
 
-/* Swedish seasons, by day of the year: leaves turn from September, and the grass
-   lies pale from the first hard frosts until it greens in spring. */
-export function seasonAt(date) {
+/* Swedish seasons, by day of the year: leaves turn from September and are down by
+   mid-November, the grass lies pale from the first hard frosts until it greens in
+   spring, and snow lies from December to March, a few days longer for every degree
+   north. This is what the season usually is, not what the weather is today. */
+export function seasonAt(date, latitude = 60) {
   const day = dayOfYear(date);
-  const autumn = smooth(250, 275, day) * (1 - 0.7 * smooth(300, 325, day));
+  const bare = Math.max(smooth(295, 320, day), 1 - smooth(110, 135, day));
+  const autumn = day < 200 ? 0 : smooth(250, 275, day) * (1 - bare);
   const dormant = Math.max(smooth(300, 325, day), 1 - smooth(95, 130, day));
-  return { autumn: day > 340 || day < 100 ? 0 : autumn, dormant };
+  const north = (latitude - 60) * 4;
+  const snow = Math.max(smooth(335 - north, 350 - north, day), 1 - smooth(70 + north, 92 + north, day));
+  return { autumn, dormant, bare, snow };
 }
 
 export const compassName = azimuth => ['norr', 'nordost', 'öster', 'sydost', 'söder', 'sydväst', 'väster', 'nordväst'][Math.round(azimuth / (Math.PI / 4)) % 8];
@@ -164,7 +182,7 @@ export function lightNow(date, latitude, longitude) {
   const position = solarPosition(date, latitude, longitude);
   const degrees = position.elevation / DEGREES;
   const morning = position.azimuth < Math.PI;
-  const { autumn, dormant } = seasonAt(date);
+  const { autumn, dormant, bare, snow } = seasonAt(date, latitude);
   const summer = dormant < 0.5 && autumn < 0.5;
   const day = lightByKey(summer ? 'sommar' : 'dag');
   const low = lightByKey(morning ? 'gryning' : 'kvall');
@@ -179,8 +197,10 @@ export function lightNow(date, latitude, longitude) {
     label: 'Nu',
     sun: raised(direction, LOWEST_LIGHT),
     shadowSun: raised(direction, SHADOW_HEIGHT),
-    autumn: Math.max(autumn, 0),
+    autumn,
     dormant,
+    bare,
+    snow,
     elevationDegrees: degrees,
     azimuth: position.azimuth,
   };

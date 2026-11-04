@@ -14,6 +14,7 @@ import { loadMapCourse } from './map-course.mjs';
 import { createGps, createScreenLock, downloadCourse, isDownloaded, offlineBytes, offlineTiles } from './map-field.mjs';
 import { createMapRenderer } from './map-gl.mjs';
 import { attachGestures } from './map-gestures.mjs';
+import { SHADE_BELOW_SUN } from './map-horizon.mjs';
 import { AUTUMN_RAMPS, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS } from './map-light.mjs';
 import { bearingOf, contourInterval, elevationProfile, greenNumbers, hazardsAhead, placeOnProfile, playedPath, principalBearing, stripX, windWords, shotReading } from './map-measure.mjs';
 import { createOverlay } from './map-overlay.mjs';
@@ -865,6 +866,10 @@ async function start() {
   addEventListener('orientationchange', resize);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') invalidate(); });
 
+  /* Lakes freeze; the sea at Visby does not. */
+  const frozenWater = !course.features.water.some(item => item.sea);
+  let shadesWaiting = 0;
+
   function frame(time) {
     raf = 0;
     const started = performance.now();
@@ -924,6 +929,10 @@ async function start() {
       const wide = clamp(Math.log2(distance / 350) / 3, 0, 1);
       const blend = (near, far) => near + (far - near) * wide;
       const treeReach = pixelsPerRadian * pixelRatio() / 2.6;
+      /* A low sun throws the land's own shadow, tile by tile, nearest first. */
+      const lowSun = state.light.sun[1] < SHADE_BELOW_SUN && params.get('hillshade') !== '0';
+      if (lowSun) shadesWaiting = store.bakeHillShades(selection.patches, state.light.sun, state.exaggeration, store.root.maxY * state.exaggeration);
+      else shadesWaiting = 0;
       const metresPerPixel = distance / pixelsPerRadian;
       const interval = contourInterval(metresPerPixel);
       const drawn = renderer.draw(selection.patches, {
@@ -935,6 +944,8 @@ async function start() {
            the screen: lit only from below, the eye reads hills as hollows. */
         ...state.light,
         ramps: AUTUMN_RAMPS,
+        ice: frozenWater ? state.light.snow : 0,
+        hillDark: lowSun ? 0.46 * state.light.sunShare : 0,
         turn: bearing / (Math.PI * 2),
         fill: [Math.sin(fillBearing) * 0.6, 0.8, -Math.cos(fillBearing) * 0.6],
         closeness: clamp(1.5 - distance / 900, 0, 1),
@@ -968,7 +979,7 @@ async function start() {
     });
 
     state.stats.lastDrawMs = performance.now() - started;
-    if (state.flight || backlog > 0 || Math.abs(shown(camera.state.x, camera.state.z) - camera.state.y) > 0.05) invalidate();
+    if (state.flight || backlog > 0 || shadesWaiting > 0 || Math.abs(shown(camera.state.x, camera.state.z) - camera.state.y) > 0.05) invalidate();
     if (store.stats().busy === 0 && !state.flight) refreshProfile();
   }
 

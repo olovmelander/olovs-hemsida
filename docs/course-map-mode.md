@@ -80,6 +80,21 @@ which pull in three.js. The three species rules the map needs are copied into
 - Mowing stripes are concentric strokes about the hole's line, so they bend with it.
 - Fairway outlines are softened for drawing only. No distance reads a painted edge.
 
+## On the course
+
+- **Hazard distances** (`hazardsAhead`): the five nearest ahead of the ball, on the map
+  where they are, as reach and carry. Bunkers side by side count as one, and only those
+  within 45 m of the hole's line. Water the line crosses has a carry; water beside it
+  only a reach, and none at all within 30 m of the player. Meny turns them off.
+- **Wind** is the player's own reading (`engine/weather.js`): an arrow that turns with
+  the map, and the plays-like numbers take the head wind and the temperature, as the
+  simulator's Kikaren does. A reading over three hours old is not used.
+- **The scorecard** (`map-score.mjs`, the Score button) keeps strokes and putts per
+  hole on the phone, per course, until "Ny runda". With a playing handicap it adds up
+  Stableford, strokes falling by the holes' indexes. A card without indexes, as the
+  korthålsbana's, has no points. It is a personal card, not a registered round: that
+  stays with Min Golf. One player for now.
+
 ## The lights
 
 `map-light.mjs` builds the map's lights from the simulator's nine presets, so their
@@ -91,13 +106,27 @@ reaches the ground, or a low sun turns the grass to olive. Höst turns the broad
 by the simulator's `AUTUMN_FOLIAGE` ramps and the forest in stands.
 
 Every light is a set of shader values, so switching is instant and draws one frame.
-Shadows are cast from no lower than about 20°: the ground under them is taken as level,
-and a longer shadow would lie across hills it cannot follow. Hills cast no shadows yet.
+Tree shadows are cast from no lower than about 20°: the ground under them is taken as
+level, and a longer shadow would lie across hills it cannot follow.
+
+**Hills throw shadows** when the sun stands under about 30° (`map-horizon.mjs`). Each
+tile keeps a 33 x 33 picture of what stands between it and the sun, walked out through
+the height data and reckoned once for each sun, one or two tiles a frame. A high sun
+pays nothing, and neither does a still map. Swedish courses are too gentle to throw much
+under a true evening sun (about 1% of the picture on three courses), so these shadows
+are cast at `SHADOW_REACH` times the relief, which took that to 12-45%. No sun casts
+them lower than an evening's, or a dawn drowns the course. `?hillshade=0` is the before.
+
+**Vinter** is the map's own tenth light: the simulator has no winter. Snow settles over
+everything, leaving the course just visible under it, broadleaves go bare to a trunk
+and a scatter of twigs, conifers carry snow on what faces the sky, and lakes freeze
+(the sea does not: `frozenWater`). In Nu the season follows the date: bare from
+November to May, snow from about December to March, longer the further north. That is
+what the season usually is, not today's weather.
 
 **Nu** is the real sun over the course: NOAA's solar equations, held to the almanac in
 `map-light.test.mjs`. Its height chooses the sky between the named lights and the date
-chooses the season: leaves turn from September, and the grass lies pale from November
-until spring. It refreshes once a minute, and only draws if the sun has moved.
+chooses the season. It refreshes once a minute, and only draws if the sun has moved.
 `?ljus=<key>` and `?nu=1` open a light; `V3DMap.setClock(date)` stands at any moment.
 
 ## What a golfer can trust

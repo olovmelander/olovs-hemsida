@@ -9,12 +9,14 @@ import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/deco
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
 import { bakeTileRelief, decodeTileHeights, sampleTile } from './map-height.mjs';
 import { buildTileTree, TILE_SAMPLES } from './map-lod.mjs';
+import { bakeHillShade, shadeKey } from './map-horizon.mjs';
 import { raiseHouses } from './map-houses.mjs';
 import { plantTile } from './map-trees.mjs';
 
 export const MAP_OFFLINE_CACHE = 'banvy-map-offline-v1';
 const MAX_FETCHES = 6;
 const UPLOADS_PER_FRAME = 2;
+const SHADES_PER_FRAME = 2;
 /* At most about 2.7 MB of GPU memory a tile, on a 1 m tile; this keeps the map's
    textures under 130 MB however long the round. */
 const MAX_RESIDENT_TILES = 48;
@@ -49,7 +51,6 @@ export async function fetchTileBytes(url, { signal } = {}) {
 export function createTileStore({ ground, baseHref, renderer, painter, rules, structures = [], onChange }) {
   const { nodes, root } = buildTileTree(ground);
   const datum = ground.frame.origin.heightRH2000;
-  const finest = [...nodes.values()].sort((a, b) => a.lod - b.lod);
   const pending = new Map();      /* wanted, by node id, this view's order */
   const uploads = [];             /* decoded and waiting for their turn */
   let active = 0, clock = 0, disposed = false, bytesFetched = 0, failures = 0;
@@ -133,6 +134,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       node.stand = null;
       node.trees = null;
       node.houses = null;
+      node.shadeKey = null;
       node.state = null;
     }
   }
@@ -179,14 +181,35 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       evict(keep);
     },
 
-    /* The height at a point, from the finest tile in memory. */
+    /* The height at a point, from the finest tile in memory: a walk down the tree,
+       because a hill's shadow asks this thousands of times a tile. */
     heightAt(x, z) {
-      for (const node of finest) {
-        if (node.state !== 'ready' || !node.decoded) continue;
+      let node = root, best = null;
+      while (node) {
         const u = (x - node.x0) / node.size, v = (z - node.z0) / node.size;
-        if (u >= 0 && u <= 1 && v >= 0 && v <= 1) return sampleTile(node.decoded.heights, u, v, TILE_SAMPLES);
+        if (!(u >= 0 && u <= 1 && v >= 0 && v <= 1)) break;
+        if (node.state === 'ready' && node.decoded) best = node;
+        node = node.children[(v >= 0.5 ? 2 : 0) + (u >= 0.5 ? 1 : 0)];
       }
-      return NaN;
+      if (!best) return NaN;
+      return sampleTile(best.decoded.heights, (x - best.x0) / best.size, (z - best.z0) / best.size, TILE_SAMPLES);
+    },
+
+    /* One or two tiles' hill shadows a frame, the nearest first. Returns how many
+       are still waiting, so a low sun fills in without a pause. */
+    bakeHillShades(patches, sun, exaggeration, ceiling) {
+      const key = shadeKey(sun, exaggeration);
+      let baked = 0, waiting = 0;
+      const seen = new Set();
+      for (const { node } of patches) {
+        if (seen.has(node) || node.shadeKey === key) continue;
+        seen.add(node);
+        if (baked >= SHADES_PER_FRAME) { waiting++; continue; }
+        renderer.uploadShade(node, bakeHillShade({ node, sun, heightAt: this.heightAt, exaggeration, ceiling }));
+        node.shadeKey = key;
+        baked++;
+      }
+      return waiting;
     },
 
     stats: () => ({
@@ -205,6 +228,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       for (const node of nodes.values()) {
         if (node.state === 'ready' || node.state === 'failed') node.state = null;
         node.gpu = null;
+        node.shadeKey = null;
       }
     },
 

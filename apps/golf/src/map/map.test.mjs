@@ -15,6 +15,7 @@ import treeCatalogues from '../../public/models/map-trees.json';
 import { softened } from './map-paint.mjs';
 import { createCamera, createFlight } from './map-camera.mjs';
 import { createDetailTexture } from './map-detail.mjs';
+import { bakeHillShade, SHADE_SIZE, shadeKey, SHADOW_REACH } from './map-horizon.mjs';
 import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
 import { newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokesReceived } from './map-score.mjs';
 import { buildMapCourse } from './map-course.mjs';
@@ -698,6 +699,59 @@ describe('the camera', () => {
     expect(flight.at(1000).distance).toBeCloseTo(400);
     expect(flight.done(100)).toBe(true);
     expect(createFlight({ x: 0, y: 0, z: 0, distance: 1, bearing: 0, tilt: 0 }, { x: 5, y: 0, z: 0, distance: 1, bearing: 0, tilt: 0 }, 0).at(0).x).toBe(5);
+  });
+});
+
+describe('the shadows of hills', () => {
+  const node = { x0: 0, z0: 0, size: 256, spacing: 1 };
+  const sunFromWest = [-0.97, 0.24, 0];
+  const lit = (input = {}) => bakeHillShade({ node, sun: sunFromWest, exaggeration: 1, ceiling: 100, heightAt: () => 0, ...input });
+  const at = (pixels, i, j) => pixels[j * SHADE_SIZE + i];
+  /* a wall running north and south, 80 m west of the tile's middle */
+  const ridge = height => (x) => (x > 40 && x < 56 ? height : 0);
+
+  it('leaves level ground in the sun', () => {
+    expect(lit().every(value => value === 255)).toBe(true);
+  });
+
+  it('lays a ridge\'s shadow behind it, away from the sun, and none before it', () => {
+    const shade = lit({ heightAt: ridge(20) });
+    const row = (SHADE_SIZE - 1) / 2;
+    const behind = Math.round(90 / 256 * (SHADE_SIZE - 1)), before = Math.round(10 / 256 * (SHADE_SIZE - 1));
+    expect(at(shade, behind, row)).toBeLessThan(40);
+    expect(at(shade, before, row)).toBe(255);
+  });
+
+  it('ends the shadow, at the reach the map draws its relief with', () => {
+    const plateau = x => (x < 56 ? 10 : 0);
+    const shade = lit({ heightAt: plateau });
+    const row = (SHADE_SIZE - 1) / 2;
+    /* 10 m high under this sun reaches 40 m past the edge, and SHADOW_REACH times that */
+    const end = 56 + 40 * SHADOW_REACH;
+    expect(at(shade, Math.round((end - 30) / 256 * (SHADE_SIZE - 1)), row)).toBeLessThan(128);
+    expect(at(shade, Math.round((end + 30) / 256 * (SHADE_SIZE - 1)), row)).toBe(255);
+  });
+
+  it('casts no longer under a dawn sun than an evening one', () => {
+    const plateau = x => (x < 56 ? 10 : 0);
+    const count = pixels => pixels.filter(value => value < 128).length;
+    const evening = lit({ heightAt: plateau, sun: [-0.98, 0.2, 0] });
+    const dawn = lit({ heightAt: plateau, sun: [-0.995, 0.1, 0] });
+    expect(count(dawn)).toBe(count(evening));
+  });
+
+  it('draws longer shadows when the relief is drawn taller', () => {
+    const count = pixels => pixels.filter(value => value < 128).length;
+    expect(count(lit({ heightAt: ridge(10), exaggeration: 2 }))).toBeGreaterThan(count(lit({ heightAt: ridge(10), exaggeration: 1 })));
+  });
+
+  it('asks no more of unknown ground than to skip it', () => {
+    expect(lit({ heightAt: () => NaN }).every(value => value === 255)).toBe(true);
+  });
+
+  it('keys a bake by the sun and the height it was drawn at', () => {
+    expect(shadeKey([0.5, 0.2, 0.1], 2)).not.toBe(shadeKey([0.5, 0.2, 0.1], 3));
+    expect(shadeKey([0.5, 0.2, 0.1], 2)).toBe(shadeKey([0.501, 0.2, 0.1], 2));
   });
 });
 
