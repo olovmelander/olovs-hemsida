@@ -94,6 +94,10 @@ SPECIES = {
                  twigs=dict(spacing=0.42, length=(0.5, 1.1), angle=70, droop=0.65, r=0.22),
                  cards=dict(count=(2300, 800), size=1.45, hang=0.45, outward=0.25, along=(0.1, 1.0)),
                  puff=dict(spacing=0.2),
+                 # the crest (owner review, 4 November: the tops felt chopped off): from `start` up the crown the limbs sweep up
+                 # by `rise` degrees and the sprays shrink by `shrink`, the last `spire` of the stem narrows to a point, and
+                 # `leader` small upright shoots stand round its last metres
+                 crest=dict(start=0.72, spire=0.24, rise=62, shrink=0.82, leader=(36, 20), tuft=4.4),
                  shape='cone', bark='spruce'),
     # THE KRONHOLMEN COASTAL PINE (Visby; owner request, 4 November). The three growth forms the owner kept in
     # September (ghibli-visby.json, docs/graphics/visby-coastal-pine-2026-09-16): wind leaning, forked and sheltered,
@@ -130,6 +134,13 @@ def envelope(shape, t):
     if shape == 'umbrella':
         return max(0.08, math.sin(math.pi * (0.25 + 0.75 * t)) ** 0.6)
     return max(0.05, math.sin(math.pi * t ** 0.85) ** 0.75)   # ovoid
+
+def crest_share(S, t):
+    """How far into a spruce's crest a height t up the crown stands: 0 below it, 1 at the tip."""
+    C = S.get('crest')
+    if not C: return 0.0
+    u = min(1.0, max(0.0, (t - C['start']) / (1 - C['start'])))
+    return u * u * (3 - 2 * u)
 
 def bark_colour(kind, h, height, rnd, theta):
     """Linear bark colour at height h: per-vertex, with a little noise."""
@@ -314,7 +325,10 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
             p = Vector((lean.x * t + bow * math.cos(S['seed']), y, lean.z * t + bow * math.sin(S['seed'])))
             trunk_pts.append(p)
             flare = 1 + 0.6 * max(0.0, 1 - y / 0.9) ** 2
-            trunk_r.append(T['r'] * (1 - 0.68 * t) * flare)
+            r = T['r'] * (1 - 0.68 * t) * flare
+            # a spruce's stem narrows to its leader's point: ended at a third of its width, it stood as a sawn-off pole
+            if 'crest' in S: r *= 0.05 + 0.95 * min(1.0, (1 - t) / S['crest']['spire']) ** 0.8
+            trunk_r.append(r)
         rings = 1 if not hero or S['bark'] != 'birch' else 2   # a birch's lenticels need more rings
         if rings > 1:
             dense, dr = [], []
@@ -358,11 +372,13 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
             span = Vector((edge.x - root.x, 0.0, edge.z - root.z))
             reach = max(0.6, span.dot(dirh)) * rnd.uniform(*L['reach'])
             rise = math.radians(rnd.uniform(*L['rise']))
+            crest = crest_share(S, t_crown)
+            if crest: rise += math.radians(S['crest']['rise']) * crest
             d = (dirh * math.cos(rise) + UP * math.sin(rise)).normalized()
-            length = reach / max(0.3, math.cos(rise))
+            length = reach / max(0.75 if crest else 0.3, math.cos(rise))
             if key == 'ek' and i < T['fork']:   # the oak's bole splits into its great limbs
                 d = (dirh * 0.8 + UP * 0.6).normalized(); length = (H - y) * 0.75
-            pts = polyline(root, d, length, 3, L['curve'], L['droop'], rnd, 0.08)
+            pts = polyline(root, d, length, 3, L['curve'], L['droop'] * (1 - crest), rnd, 0.08)
             # no limb reaches past the crown's top: its tip and the half card on it stay under H
             ceiling = H - Cd['size'] * 0.55
             if pts[-1].y > ceiling and pts[-1].y > root.y + 1e-3:
@@ -452,19 +468,30 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
     # (the pine's full tier keeps the whole area: its pads must stay solid to agree with its impostor's shadow;
     # so does the birch's: with the modelled sprigs its lighter crown kept 0.66 of its shadow at a 2.25 m texel)
     grow_k = math.sqrt(len(candidates) / max(1, len(chosen))) * (1.0 if hero or key in ('tall', 'björk', 'kust') else 0.92)
+    if 'crest' in S:
+        # the leader: small shoots standing round the stem's last metres, so a spruce ends in needles and not in wood
+        lead = random.Random(S['seed'] + 91)
+        count = S['crest']['leader'][0 if hero else 1]
+        for i in range(count):
+            u = (i + lead.random()) / count
+            at, _ = trunk_at(H - S['crest']['tuft'] * (1 - u) - 0.05)
+            az = i * math.radians(137.508) + lead.uniform(-0.3, 0.3)
+            out = Vector((math.cos(az), 0.0, math.sin(az)))
+            chosen.append(('spray', at, (out * (0.42 - 0.36 * u) + UP).normalized(), at, 0, False))
     crown = dict(P=[], N=[], U=[], I=[])
     for (kind, p, d, centre, li, curtain) in chosen:
-        size = Cd['size'] * rnd.uniform(0.8, 1.2) * grow_k
+        crest = crest_share(S, (p.y - B) / (H - B))
+        size = Cd['size'] * rnd.uniform(0.8, 1.2) * grow_k * (1 - S['crest']['shrink'] * crest if crest else 1)
         radial = Vector(((p.x - cx) / hx, (p.y - crown_centre.y) / ((H - B) * 0.5), (p.z - cz) / hz))
         radial = radial.normalized() if radial.length > 1e-3 else UP
         jitter = Vector((rnd.uniform(-1, 1), rnd.uniform(-1, 1), rnd.uniform(-1, 1)))
         out = Vector((p.x - cx, 0.0, p.z - cz)); out = out.normalized() if out.length > 1e-3 else Vector((1.0, 0.0, 0.0))
         if kind == 'spray':
-            if curtain:   # hanging from the branch, facing out
+            if curtain and crest < 0.35:   # hanging from the branch, facing out
                 face = (out + jitter * 0.25).normalized()
                 want = -UP + d * 0.3
-            else:         # laid along the branch, facing up and out
-                face = (UP * 0.9 + out * 0.5 + jitter * 0.25).normalized()
+            else:         # laid along the branch, facing up and out; in the crest it stands as the branch does
+                face = (UP * 0.9 * (1 - crest) + out * (0.5 + 0.6 * crest) + jitter * 0.25).normalized()
                 want = d
         else:
             face = (d * 0.7 + radial * 0.3 + jitter * 0.15).normalized()

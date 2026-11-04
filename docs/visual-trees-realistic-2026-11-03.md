@@ -238,8 +238,8 @@ The owner chose the realistic trees, so they are now every course's default.
   stand in the same places, with the same exclusions round the buildings. The
   vista and scatter bakes came out byte for byte as before, so `treeset` and
   `treerelief` are display-only for the prepared data. The spruce's crown top
-  is 1.2% lower than the painted one's (0.6% in the full tier), which measured
-  trees take up in their scale.
+  was 1.2% lower than the painted one's (0.6% in the full tier), which measured
+  trees took up in their scale, until the spruce's top was remade below.
 - **Phones:** low quality (`full` tier) keeps the models and the leaves' colours
   and leaves out the relief (`relief` in `loadGhibliTrees`). That is the leaf
   normals and the bark maps: 7.3 MB and fifteen textures. `?treerelief=1` is the
@@ -321,6 +321,30 @@ inner half, and a broad crown of dense needle pads held out over open sky.
 The oak's and alder's bark takes more relief (`reliefBy`: 2.4 and 2.2, others
 1): their dark even colour showed almost none. It now reads as fine grain.
 More would need lighter trunks in the models.
+
+## The spruce's top (4 November)
+
+The owner's review: the spruces felt chopped off at the top. Three things did it.
+The stem ended at a third of its width, 22 cm across at 19.4 m, and stood 25 cm
+above the foliage as a sawn-off pole. The top sprays were as large as the bottom
+ones, so the tree ended in a clump. And the top limbs stayed flat.
+
+The spruce now has a crest (`crest` in `realistic_trees.py`):
+
+- the last quarter of the stem narrows to a point;
+- from 72% up the crown the limbs sweep up, by as much as 62°, and stop drooping;
+- the sprays shrink toward the tip, to under a fifth, and stand as the branch does;
+- small shoots stand round the last 4.4 m of stem, leaning in as they climb, so the
+  tree ends in needles.
+
+The spruce's six models changed and nothing else did: the other species came out
+byte for byte the same, with their own random numbers, and the atlases are the same
+files. The hero tier is 6,356-6,500 triangles and the full tier 2,516-2,552. Visby
+takes the same spruces.
+
+The crown now reaches the template's height, where it had stopped 1.2% under the
+stem. So a measured spruce's scale matches the painted one's exactly, and plantings,
+exclusions and the prepared vista all hold on every course without a new bake.
 
 ## Status
 
