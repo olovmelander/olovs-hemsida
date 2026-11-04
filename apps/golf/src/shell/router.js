@@ -48,6 +48,11 @@ export function courseUrl(slug, search = (typeof location !== 'undefined' ? loca
   return '?' + to.toString();
 }
 
+/* The light 3D map for a real round, beside the detailed course. */
+export function mapUrl(slug) {
+  return `?bana=${encodeURIComponent(slug)}&karta=1`;
+}
+
 export function goToCourse(slug) {
   location.search = courseUrl(slug, location.search);
 }

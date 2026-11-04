@@ -12,6 +12,9 @@ if (supportedSearch !== location.search) {
 const legacy = legacyTarget(location.pathname, location.search);
 if (legacy) {
   location.replace(legacy + location.hash);
+} else if (new URLSearchParams(location.search).has('karta')) {
+  /* The light map for a real round: its own small program, with no 3D engine. */
+  await import('./map/map-app.js');
 } else if (coursePreview(new URLSearchParams(location.search).get('bana'))) {
   await import('./course-preview.js');
 } else if (location.search === '' && /(?:\/|\/index\.html)$/.test(location.pathname)) {

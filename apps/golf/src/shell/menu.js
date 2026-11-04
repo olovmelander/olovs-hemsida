@@ -5,6 +5,7 @@
    =========================================================================== */
 
 import { ICONS } from './icons.js';
+import { mapUrl } from './router.js';
 import { SHORTCUT_ROWS } from '../engine/keyboard-shortcuts.mjs';
 
 /* One row per shortcut, from the same table the keyboard handler is tested
@@ -158,6 +159,13 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
                 <div class="dt-desc">Följ din boll och uppdatera caddien live</div>
               </div>
             </button>
+            <a class="d-tool-btn" id="dMapBtn" href="${mapUrl(current)}">
+              <span class="dt-icon">${ICONS.compass(18)}</span>
+              <div class="dt-text">
+                <div class="dt-name">Kartläge</div>
+                <div class="dt-desc">Lätt 3D-karta för spel på banan med GPS</div>
+              </div>
+            </a>
             <button class="d-tool-btn" id="dStrategyBtn">
               <span class="dt-icon">${ICONS.flag(18)}</span>
               <div class="dt-text">

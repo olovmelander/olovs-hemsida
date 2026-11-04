@@ -18,6 +18,7 @@
    =========================================================================== */
 import '../styles/shell.css';
 import { ICONS } from './icons.js';
+import { mapUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 
 /* `places` is search vocabulary only, never shown: the placeholder promises
@@ -221,6 +222,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                       </div>
                     </div>
                   </button>
+                  ${c.status === 'mapping' ? '' : `<a class="card-map" href="${mapUrl(c.slug)}" aria-label="${esc(c.name)} som karta för spel med GPS">Karta</a>`}
                 </li>
               `;
             }).join('')}

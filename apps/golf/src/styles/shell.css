@@ -371,7 +371,25 @@
 .card-item {
   display: block;
   min-width: 0;
+  position: relative;
 }
+/* The way into the light map, on top of the card rather than inside it: a card
+   is one button, and a link cannot live in a button. */
+.card-map {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  padding: 7px 13px;
+  border-radius: 999px;
+  background: rgba(10, 22, 16, .9);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.card-map:hover, .card-map:focus-visible { background: #1f8a4c; }
+a.d-tool-btn { text-decoration: none; color: inherit; }
 
 .card {
   position: relative;
