@@ -8,9 +8,25 @@
 import { inflate } from '../engine/codec.js';
 import { decodeLandcover } from '../engine/landcover.mjs';
 import { resolvePublishedGraph } from '../engine/v2-graph-source.mjs';
-import { fetchLandcover, fetchPack, packRequestUrl } from '../loader/pack.js';
+import { fetchLandcover, fetchPack, fetchSidecar, packRequestUrl } from '../loader/pack.js';
 import { createMapFrame } from './map-frames.mjs';
 import { groupBunkers, waterShape } from './map-measure.mjs';
+import { outlineOverLand } from './map-land.mjs';
+
+/* Traced ground, by the layer the map paints it in. */
+const TRACED_SURFACES = Object.freeze({
+  practice_green: 'otherGreens', practice_bunker: 'otherBunkers', range_bunker: 'otherBunkers',
+  mown_approach: 'otherFairways', range_tee_pad: 'otherTees', range_mat: 'mats', range_target_surface: 'grass',
+  paved_path: 'paved', terrace: 'paved', non_turf_island: 'bare', sports_court: 'courts',
+  clubhouse_roof_section: 'roofs', roof_solar: 'solar',
+});
+/* Norrfällsviken's source traces that reached no other list. */
+const TRACED_SOURCES = Object.freeze({
+  'lm-practice-green': 'practice_green', 'lm-range-field': 'range_target_surface',
+  'lm-range-shelter': 'clubhouse_roof_section', 'lm-practice-shed': 'clubhouse_roof_section',
+});
+/* The surroundings record's roads carry a class, not a width. */
+const ROAD_WIDTHS = Object.freeze({ trunk: 10, secondary: 8, tertiary: 7, unclassified: 5, residential: 5, living_street: 4, pedestrian: 3 });
 
 const ringOf = item => (Array.isArray(item) ? item : item?.ring);
 const isPoint = point => Array.isArray(point) && Number.isFinite(point[0]) && Number.isFinite(point[1]);
@@ -41,7 +57,18 @@ export function greensAreGeneric(rings) {
   return rings.every(ring => ring.length === rings[0].length && Math.abs(span(ring) - first) < 0.15);
 }
 
-export function buildMapCourse({ meta, geo, vectors, ground, course, landcover = null, mown = null }) {
+/* The record main.js accepts, and only that: a half-written one must not take the
+   map down with it. */
+export const validSurroundings = record => (record?.version === 1 && Array.isArray(record.buildings) && record.box && record.inner ? record : null);
+
+/* The box a far building is published as: centre, half sizes and turn. */
+function buildingCorners([cx, cz, halfWidth, halfDepth, turn]) {
+  const c = Math.cos(turn), s = Math.sin(turn);
+  return [[-halfWidth, -halfDepth], [halfWidth, -halfDepth], [halfWidth, halfDepth], [-halfWidth, halfDepth]]
+    .map(([u, v]) => [cx + u * c - v * s, cz + u * s + v * c]);
+}
+
+export function buildMapCourse({ meta, geo, vectors, ground, course, landcover = null, mown = null, surroundings = null }) {
   const frame = createMapFrame(ground.groundId, ground.frame);
   const place = point => frame.toWorld(point[0], point[1]);
   const placeAll = points => points.map(place);
@@ -67,37 +94,83 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     tileIds: course.holes?.find(entry => entry.number === hole.n)?.tileIds ?? [],
   }));
 
-  const { scenery = {}, veg = {}, infra = {} } = vectors;
+  const { scenery = {}, veg = {}, infra = {}, surround = {} } = vectors;
   const lines = items => (items ?? [])
     .filter(item => validRing(item?.line, 2))
     .map(item => ({ line: placeAll(item.line), width: Number.isFinite(item.w) ? item.w : null, kind: item.kind ?? null }));
+  const far = validSurroundings(surroundings);
+  /* A yard or a hayfield is published as one ring, a clear-fell as a list of them. */
+  const ringOrRings = value => (isPoint(value?.[0]) ? rings([value]) : rings(value));
+  const traced = Object.fromEntries(Object.values(TRACED_SURFACES).map(name => [name, []]));
+  const tracedLines = [];
+  const named = (scenery.sourceFeatures ?? []).filter(item => TRACED_SOURCES[item.id]).map(item => ({ ...item, kind: TRACED_SOURCES[item.id] }));
+  for (const item of [...(scenery.mappedFeatures ?? []), ...named]) {
+    if (item.kind === 'ditch') tracedLines.push(item);
+    const layer = traced[TRACED_SURFACES[item.kind]];
+    if (layer) layer.push(...(item.rings ?? (item.ring ? [item.ring] : [])));
+  }
+  const power = [infra.power, far?.power];
+  const allBuildings = [...(infra.farB ?? []), ...(far?.buildings ?? [])].filter(box => box.length >= 5 && box.slice(0, 5).every(Number.isFinite));
 
   const features = {
-    landuse: (infra.landuse ?? []).filter(item => validRing(item?.ring))
+    landuse: [...(infra.landuse ?? []), ...(far?.landuse ?? [])].filter(item => validRing(item?.ring))
       .map(item => ({ ring: placeAll(item.ring), kind: item.kind ?? null })),
     forest: rings([...(veg.forest ?? []), ...(veg.wood ?? [])]),
     scrub: rings(veg.scrub),
     wetland: rings(veg.wetland),
     openSand: rings(veg.sand),
     rock: rings(veg.rock),
-    water: (vectors.water ?? []).filter(item => validRing(item?.ring))
-      .map(item => ({ ring: placeAll(item.ring), sea: Boolean(item.isSea) })),
+    water: [...(vectors.water ?? []), ...(far?.water ?? []).filter(item => Number.isFinite(item.level))]
+      .filter(item => validRing(item?.ring))
+      .map(item => ({ ring: placeAll(item.ring), sea: Boolean(item.isSea), overLand: outlineOverLand(ground.groundId, item.ring) })),
     streams: lines(vectors.streams),
-    roads: lines(infra.roads),
+    roads: lines([...(infra.roads ?? []), ...(far?.roads ?? []).map(road => ({ ...road, w: ROAD_WIDTHS[road.kind] ?? 5 }))]),
     tracks: lines(infra.tracks),
     paths: lines(infra.paths),
     parking: rings(infra.parking),
-    buildings: rings(infra.buildings),
-    structures: (infra.buildings ?? []).filter(item => validRing(item?.ring))
+    buildings: rings([...(infra.buildings ?? []), ...(far?.landmarks ?? [])]),
+    /* Everything beyond the extract: thousands of boxes, kept as bare corners. */
+    farBuildings: allBuildings.map(box => placeAll(buildingCorners(box))),
+    structures: [...(infra.buildings ?? []), ...(far?.landmarks ?? [])].filter(item => validRing(item?.ring))
       .map(item => ({ ring: placeAll(item.ring), height: Number.isFinite(item.h) ? item.h : null })),
     range: rings(scenery.range),
     /* The other layouts on a shared ground are real grass on the same land, and
        a short layout's bunkers are only here: the 9-hole records carry none. */
-    otherGreens: rings([...(scenery.greens ?? []), ...(scenery.practiceGreens ?? [])]),
-    otherFairways: rings(scenery.fairways),
-    otherTees: rings(scenery.tees),
-    otherBunkers: rings(scenery.bunkers),
-    grass: rings(scenery.grass),
+    otherGreens: rings([...(scenery.greens ?? []), ...(scenery.practiceGreens ?? []), ...traced.otherGreens]),
+    otherFairways: rings([...(scenery.fairways ?? []), ...traced.otherFairways]),
+    otherTees: rings([...(scenery.tees ?? []), ...traced.otherTees]),
+    otherBunkers: rings([...(scenery.bunkers ?? []), ...traced.otherBunkers]),
+    grass: rings([...(scenery.grass ?? []), ...traced.grass]),
+    /* What the simulator stands on the ground besides the course. */
+    hayfields: ringOrRings(surround.hayfields),
+    yards: ringOrRings(surround.yard),
+    clearfells: ringOrRings(surround.clearfells),
+    shallows: ringOrRings(surround.shallows),
+    basins: rings(infra.basins),
+    bridges: rings(infra.bridges),
+    drains: lines([...(infra.drainage ?? []), ...tracedLines]),
+    railways: lines([...(infra.railway ?? []), ...(far?.railway ?? [])]),
+    piers: lines([...(infra.piers ?? []), ...(far?.piers ?? [])]),
+    barriers: lines(infra.barriers),
+    lifts: lines(far?.lifts),
+    powerLines: power.flatMap(each => lines(each?.lines)),
+    masts: [...power.flatMap(each => (each?.towers ?? [])), ...(far?.towers ?? []).map(item => item.c),
+      ...(infra.mappedPoints ?? []).filter(item => item.tags?.man_made === 'mast').map(item => item.c)].filter(isPoint).map(place),
+    poles: power.flatMap(each => (each?.poles ?? []).filter(isPoint)).map(place),
+    pitches: [...(infra.pitches ?? []), ...(far?.sports ?? [])].filter(item => validRing(item?.ring))
+      .map(item => ({ ring: placeAll(item.ring), court: /tennis|padel/.test(item.sport ?? '') || item.kind === 'track' })),
+    pistes: rings(far?.pistes),
+    mats: rings([...traced.mats, ...(scenery.rangeFacilities?.bays ?? []).filter(isPoint).map(([x, z]) => [[x - 1.2, z - 1.2], [x + 1.2, z - 1.2], [x + 1.2, z + 1.2], [x - 1.2, z + 1.2]])]),
+    paved: rings(traced.paved),
+    bareGround: rings(traced.bare),
+    courts: rings(traced.courts),
+    roofs: rings(traced.roofs),
+    solar: rings(traced.solar),
+    nets: (scenery.rangeFacilities?.nets ?? []).filter(line => validRing(line, 2)).map(placeAll),
+    cartParks: scenery.cartPark && validRing(scenery.cartPark.line, 2) ? [placeAll(scenery.cartPark.line)] : [],
+    /* Out of bounds and penalty areas, stake by stake as they stand. */
+    stakes: (vectors.marking ?? []).flatMap(item => (item.pts ?? []).filter(isPoint).map(point => ({ point: place(point), colour: item.c }))),
+    outOfBounds: (vectors.outOfBounds?.lines ?? []).filter(item => item.virtual === true && validRing(item.line, 2)).map(item => placeAll(item.line)),
   };
 
   const played = holes.flatMap(hole => [...hole.line, ...hole.green.ring]);
@@ -139,22 +212,23 @@ export async function loadMapCourse(slug) {
   if (!meta) throw new Error(`banan ${slug} finns inte`);
   /* Land cover is an appearance record: without it the forest falls back to its
      mapped outlines and the course still opens. */
-  const raster = async record => {
+  const sidecar = async (record, read, what) => {
     if (!record?.url) return null;
     try {
-      const url = `${import.meta.env.BASE_URL}${record.url}?v=${record.sha256.slice(0, 16)}`;
-      return await decodeLandcover(await fetchLandcover(url, record.sha256), inflate);
+      return await read(`${import.meta.env.BASE_URL}${record.url}?v=${record.sha256.slice(0, 16)}`, record.sha256);
     } catch (error) {
-      console.warn('landcover:', error.message);
+      console.warn(`${what}:`, error.message);
       return null;
     }
   };
-  const [pack, graph, landcover, mown] = await Promise.all([
+  const raster = record => sidecar(record, async (url, sha) => decodeLandcover(await fetchLandcover(url, sha), inflate), 'landcover');
+  const [pack, graph, landcover, mown, surroundings] = await Promise.all([
     fetchPack(packRequestUrl(meta), meta.sha256),
     resolvePublishedGraph({ slug, packMeta: meta }),
     raster(meta.landcover),
     raster(meta.mownSurface),
+    sidecar(meta.surroundings, (url, sha) => fetchSidecar(url, sha, 'surroundings'), 'surroundings'),
   ]);
   const vectors = JSON.parse(new TextDecoder().decode(await inflate(pack.sv)));
-  return buildMapCourse({ meta, geo: pack.H.GEO, vectors, ground: graph.ground, course: graph.course, landcover, mown });
+  return buildMapCourse({ meta, geo: pack.H.GEO, vectors, ground: graph.ground, course: graph.course, landcover, mown, surroundings });
 }

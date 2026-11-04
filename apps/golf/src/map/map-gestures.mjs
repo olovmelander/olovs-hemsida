@@ -21,6 +21,7 @@ export function attachGestures(element, handlers) {
     if (pointers.size === 1) {
       start = { ...point, time: performance.now() };
       moved = false;
+      handlers.onPress?.(point);
     } else {
       moved = true;
       pair = null;

@@ -17,11 +17,13 @@ import { createCamera, createFlight } from './map-camera.mjs';
 import { createDetailTexture } from './map-detail.mjs';
 import { bakeHillShade, SHADE_SIZE, shadeKey, SHADOW_REACH } from './map-horizon.mjs';
 import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
-import { newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokesReceived } from './map-score.mjs';
-import { buildMapCourse } from './map-course.mjs';
+import { hitGreen, newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokeKeys, strokesReceived } from './map-score.mjs';
+import { buildMapCourse, validSurroundings } from './map-course.mjs';
+import { buildGreenGrid, GRID_VERTEX_FLOATS, PULSE_FLOATS, slopeAt, slopeColor } from './map-greengrid.mjs';
+import { landRecord, outlineOverLand } from './map-land.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
 import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, principalBearing, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, sideOfPlay, principalBearing, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
 import { species as angsoSpecies } from '../engine/scenery/angso.js';
 import { species as veckefjardenSpecies } from '../engine/scenery/veckefjarden.js';
@@ -47,7 +49,8 @@ function courseFor(slug) {
   const course = readJson(entry.manifest.url);
   const ground = readJson(course.groundManifest.url);
   const { header, vectors } = packFor(meta);
-  return buildMapCourse({ meta, geo: header.GEO, vectors, ground, course });
+  const surroundings = meta.surroundings ? readJson(meta.surroundings.url) : null;
+  return buildMapCourse({ meta, geo: header.GEO, vectors, ground, course, surroundings });
 }
 
 /* A small ground of the published shape: a 1024 m root over two levels. */
@@ -282,10 +285,18 @@ describe('planting trees', () => {
     for (let k = 0; k < clear.length; k += TREE_FLOATS) expect(clear[k]).toBeGreaterThanOrEqual(128);
   });
 
-  it('paints no canopy from a cell the laser did not measure', () => {
-    const alpha = canopyAlpha({ payload: new Uint8Array([255, 0, 0, 0, 255, 0, 0, 1]), width: 2, height: 1 });
-    expect(alpha[3]).toBe(0);
+  it('takes a cell the laser did not measure from what else is known of it', () => {
+    const payload = new Uint8Array([255, 0, 0, 0, 255, 0, 0, 1]);
+    expect(canopyAlpha({ payload, width: 2, height: 1 })[3]).toBe(0);
+    const alpha = canopyAlpha({ payload, width: 2, height: 1, unmeasured: (column, row) => (column === 0 && row === 0 ? 150 : 0) });
+    expect(alpha[3]).toBe(150);
     expect(alpha[7]).toBeGreaterThan(200);
+  });
+
+  it('leaves a cell the course has excluded empty, whatever else is known', () => {
+    const alpha = canopyAlpha({ payload: new Uint8Array([255, 0, 0, 5, 255, 0, 0, 4]), width: 2, height: 1, unmeasured: () => 255 });
+    expect(alpha[3]).toBe(0);
+    expect(alpha[7]).toBe(0);
   });
 
   it('keeps each course\'s species rule exactly as the simulator has it', () => {
@@ -569,6 +580,13 @@ describe('hazards ahead', () => {
     expect(found[1].at).toEqual([20, -300]);
   });
 
+  it('names the side each lies on, facing the green', () => {
+    const found = ahead({ bunkers: bunkers([square(20, -300), square(-20, -200), square(0, -120)]) });
+    expect(found.map(hazard => hazard.side)).toEqual(['mitt', 'vänster', 'höger']);
+    expect(sideOfPlay([30, -50], path)).toBe('höger');
+    expect(sideOfPlay([30, -50], [...path].reverse())).toBe('vänster');
+  });
+
   it('counts a cluster of bunkers as one hazard', () => {
     expect(ahead({ bunkers: bunkers([square(20, -300), square(30, -300), square(20, -200)]) }).length).toBe(2);
   });
@@ -755,9 +773,93 @@ describe('the shadows of hills', () => {
   });
 });
 
+describe('the greengrid', () => {
+  const mainSource = fs.readFileSync(path.resolve(HERE, '../main.js'), 'utf8');
+  const ring = [[-12, -12], [12, -12], [12, 12], [-12, 12]];
+  const tilted = x => x * 0.02;
+
+  it('takes its heat colours from the simulator, number for number', () => {
+    const body = mainSource.match(/function slopeColor\(s\) \{[\s\S]*?\n\}/)[0];
+    const original = new Function('clampf', `${body}; return slopeColor;`)((value, low, high) => Math.max(low, Math.min(high, value)));
+    for (let s = 0; s < 0.13; s += 0.0007) {
+      slopeColor(s).forEach((channel, k) => expect(channel).toBeCloseTo(original(s)[k], 9));
+    }
+  });
+
+  it('moves its pulses by the simulator\'s rules', () => {
+    for (const rule of ['const delta = 0.45;', 'speed: clampf(s * 14.0 + 0.35, 0.38, 1.6)', 'baseScale: clampf(0.85 + s * 5.0, 0.80, 1.30)',
+      'travelDist: Math.min(dx, dz) * 1.15', 'const elevCycle = (curY * 1.35) % 1.0;', 'const fallLineCoord = ((cx * dirX + cz * dirZ) * 0.22) % 1.0;',
+      'const envelope = Math.pow(sinU, 1.6);', 'if (s >= 0.003) {', 'const CELL = 1.0;', 'const SUB = 2;']) {
+      expect(mainSource, `main.js changed: ${rule}`).toContain(rule);
+    }
+  });
+
+  it('reads a slope in the sim\'s terms: downhill, and how steep', () => {
+    const { s, dirX, dirZ } = slopeAt(3, 4, tilted);
+    expect(s).toBeCloseTo(0.02);
+    expect(dirX).toBeCloseTo(-1);
+    expect(dirZ).toBeCloseTo(0);
+  });
+
+  it('lays a pulse in every readable metre of a green, all running downhill', () => {
+    const grid = buildGreenGrid({ ring, heightAt: tilted });
+    const count = grid.pulses.length / PULSE_FLOATS;
+    expect(count).toBeGreaterThan(400);
+    expect(count).toBeLessThanOrEqual(26 * 26);
+    for (let k = 0; k < count; k++) {
+      const pulse = grid.pulses.subarray(k * PULSE_FLOATS, (k + 1) * PULSE_FLOATS);
+      expect(pulse[4]).toBeCloseTo(-1);
+      expect(pulse[3]).toBeCloseTo(0.02);
+      expect(pulse[7]).toBeGreaterThanOrEqual(0);
+      expect(pulse[7]).toBeLessThan(1);
+    }
+    expect(grid.mean).toBeCloseTo(0.02);
+    expect(grid.max).toBeCloseTo(0.02);
+  });
+
+  it('feathers out at the green\'s edge and draws nothing past it', () => {
+    const grid = buildGreenGrid({ ring, heightAt: tilted });
+    expect(grid.indices.length).toBeGreaterThan(0);
+    const fades = [];
+    for (let k = 6; k < grid.mesh.length; k += GRID_VERTEX_FLOATS) fades.push(grid.mesh[k]);
+    expect(Math.max(...fades)).toBe(1);
+    expect(Math.min(...fades)).toBe(0);
+    const far = Math.max(...grid.indices);
+    expect(far * GRID_VERTEX_FLOATS).toBeLessThan(grid.mesh.length);
+  });
+
+  it('has nothing to pulse on level ground, and no grid on ground that is not there', () => {
+    const level = buildGreenGrid({ ring, heightAt: () => 12 });
+    expect(level.pulses.length).toBe(0);
+    expect(level.max).toBe(0);
+    expect(buildGreenGrid({ ring, heightAt: () => NaN })).toBeNull();
+  });
+});
+
 describe('the scorecard', () => {
   const holes = Array.from({ length: 18 }, (_, i) => ({ n: i + 1, par: 4, index: i + 1 }));
   const hole = n => holes[n - 1];
+
+  it('offers its keys around par, and keeps a higher score on the row', () => {
+    expect(strokeKeys(4)).toEqual([2, 3, 4, 5, 6, 7]);
+    expect(strokeKeys(3)).toEqual([1, 2, 3, 4, 5, 6]);
+    expect(strokeKeys(5, 6)).toEqual([3, 4, 5, 6, 7, 8]);
+    expect(strokeKeys(4, 11)).toEqual([2, 3, 4, 5, 6, 11]);
+  });
+
+  it('counts fairways and greens in regulation from what was entered', () => {
+    expect(hitGreen({ strokes: 4, putts: 2 }, 4)).toBe(true);
+    expect(hitGreen({ strokes: 5, putts: 2 }, 4)).toBe(false);
+    expect(hitGreen({ strokes: 4 }, 4)).toBe(false);
+    const round = { ...newRound(), scores: {
+      1: { strokes: 4, putts: 2, fairway: 'hit' },
+      2: { strokes: 6, putts: 3, fairway: 'left' },
+      3: { strokes: 5 },
+    } };
+    expect(roundTotals(round, holes)).toMatchObject({ fairways: 1, fairwaysTried: 2, greens: 1, greensTried: 2 });
+    const short = holes.map(each => ({ ...each, par: 3 }));
+    expect(roundTotals(round, short).fairwaysTried).toBe(0);
+  });
 
   it('gives strokes on the hardest holes first', () => {
     expect(strokesReceived(18, hole(18), holes)).toBe(1);
@@ -804,7 +906,7 @@ describe('the scorecard', () => {
 
   it('adds a round up as it goes, with a struck hole worth nothing', () => {
     const round = { ...newRound(), handicap: 18, scores: { 1: { strokes: 5, putts: 2 }, 2: { strokes: 4, putts: 1 }, 3: { picked: true } } };
-    expect(roundTotals(round, holes)).toEqual({ played: 3, strokes: 9, par: 8, putts: 3, points: 5, toPar: 1 });
+    expect(roundTotals(round, holes)).toMatchObject({ played: 3, strokes: 9, par: 8, putts: 3, points: 5, toPar: 1 });
   });
 
   it('adds strokes but no points without a handicap', () => {
@@ -816,6 +918,61 @@ describe('the scorecard', () => {
     const round = { ...newRound(), scores: { 4: { strokes: 3 } } };
     expect(parseRound(JSON.stringify(round)).scores[4].strokes).toBe(3);
     for (const bad of [null, '', 'nonsense', '{"version":9}', '{"version":1,"scores":null}']) expect(parseRound(bad)).toBeNull();
+  });
+});
+
+describe('what covers the ground', () => {
+  const grounds = [...new Set(index.map(entry => entry.groundId))];
+
+  it('has a picture of each ground, read from the ground as published', () => {
+    for (const groundId of grounds) {
+      const record = landRecord(groundId);
+      expect(record, `${groundId}: rerun tools/bake-map-land.mjs`).toBeTruthy();
+      const { groundManifest } = readJson(index.find(entry => entry.groundId === groundId).manifest.url);
+      const ground = readJson(groundManifest.url);
+      expect(record.terrain, `${groundId}: its terrain was republished, rerun tools/bake-map-land.mjs`).toBe(groundManifest.sha256);
+      expect(record.ground).toBe(ground.frame.fingerprint);
+      for (const picture of [record.water, record.forest]) {
+        const bytes = fs.readFileSync(path.join(PUBLIC, picture.file));
+        expect(bytes.length).toBe(picture.bytes);
+        expect(createHash('sha256').update(bytes).digest('hex')).toBe(picture.sha256);
+        expect(bytes.length, 'a picture stays small enough for a phone').toBeLessThan(260 * 1024);
+      }
+    }
+  });
+
+  it('does not paint Norrfällsviken\'s sea ring, which closes across the land south of the course', () => {
+    const flagged = grounds.filter(groundId => landRecord(groundId).dry.length);
+    expect(flagged).toEqual(['norrfallsviken']);
+    const course = courseFor('norrfallsviken');
+    const dry = course.features.water.filter(item => item.overLand);
+    expect(dry.length).toBe(1);
+    expect(dry[0].sea).toBe(true);
+    expect(outlineOverLand('norrfallsviken', [[1, 2], [3, 4], [5, 6]])).toBe(false);
+    expect(outlineOverLand('visby', [[1, 2], [3, 4], [5, 6]])).toBe(false);
+  });
+
+  it('draws what stands on the ground beside the course', () => {
+    const veckefjarden = courseFor('veckefjarden');
+    expect(veckefjarden.features.farBuildings.length).toBeGreaterThan(7000);
+    expect(veckefjarden.features.railways.length).toBeGreaterThan(10);
+    expect(veckefjarden.features.pitches.length).toBeGreaterThan(30);
+    expect(veckefjarden.features.hayfields.length).toBe(1);
+    expect(veckefjarden.features.stakes.length).toBeGreaterThan(500);
+    expect(new Set(veckefjarden.features.stakes.map(stake => stake.colour)).size).toBeGreaterThan(1);
+    for (const corners of veckefjarden.features.farBuildings.slice(0, 50)) {
+      expect(corners.length).toBe(4);
+      expect(corners.flat().every(Number.isFinite)).toBe(true);
+    }
+    expect(courseFor('lidingo').features.outOfBounds.length).toBe(6);
+    expect(courseFor('upsala').features.bridges.length).toBe(4);
+    expect(courseFor('ribbingsfors').features.clearfells.length).toBeGreaterThan(0);
+  });
+
+  it('refuses a surroundings record the simulator would refuse', () => {
+    expect(validSurroundings({ version: 2, buildings: [], box: {}, inner: {} })).toBeNull();
+    expect(validSurroundings({ version: 1, buildings: [] })).toBeNull();
+    expect(validSurroundings(null)).toBeNull();
   });
 });
 

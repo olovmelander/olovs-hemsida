@@ -2,6 +2,7 @@
    and numbers stay crisp at any tilt and cost nothing on the frames the ground
    does not move. Lines follow the ground by being carried through its heights. */
 const DISTANCE_RINGS = [100, 150, 200, 250];
+const PIN_RINGS = [{ radius: 1, opacity: 0.78 }, { radius: 2, opacity: 0.5 }, { radius: 3, opacity: 0.32 }];
 const FONT = 'Outfit,ui-sans-serif,system-ui,sans-serif';
 
 function along(line, step) {
@@ -52,7 +53,7 @@ export function createOverlay(canvas) {
     },
 
     draw(scene) {
-      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [] } = scene;
+      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false } = scene;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.clearRect(0, 0, width, height);
       hits.length = 0;
@@ -143,6 +144,28 @@ export function createOverlay(canvas) {
             : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });
         }
 
+        /* The greengrid's rings round the cup, each a metre further. */
+        if (pinRings) {
+          const [px, pz] = hole.pin;
+          PIN_RINGS.forEach(({ radius, opacity }, ring) => {
+            const circle = [];
+            for (let k = 0; k <= 48; k++) {
+              const a = k / 48 * Math.PI * 2;
+              circle.push([px + Math.cos(a) * radius, pz + Math.sin(a) * radius]);
+            }
+            trace(circle);
+            ctx.strokeStyle = `rgba(232,240,255,${opacity})`;
+            ctx.lineWidth = 1.4;
+            ctx.stroke();
+            if (ring) return;
+            for (let k = 0; k < 4; k++) {
+              const a = k / 4 * Math.PI * 2;
+              trace([[px + Math.cos(a) * (radius - 0.15), pz + Math.sin(a) * (radius - 0.15)], [px + Math.cos(a) * (radius + 0.15), pz + Math.sin(a) * (radius + 0.15)]]);
+              ctx.stroke();
+            }
+          });
+        }
+
         /* The flag stands on the ground and rises off it, so it reads as 3D. */
         const pin = at(hole.pin[0], hole.pin[1]);
         if (Number.isFinite(pin.x)) {
@@ -196,6 +219,20 @@ export function createOverlay(canvas) {
           const first = mid(origin, target), second = mid(target, hole.green.c);
           if (Number.isFinite(first.x)) pill(first.x, first.y, label(origin, target), { fill: '#ffd23f', ink: '#10201a' });
           if (Number.isFinite(second.x)) pill(second.x, second.y, label(target, hole.green.c));
+        }
+      }
+
+      if (shotFrom && player) {
+        cased([shotFrom, player.point], '#fff', 2.2, [2, 6]);
+        const s = at(shotFrom[0], shotFrom[1]);
+        if (Number.isFinite(s.x)) {
+          ctx.fillStyle = '#fff';
+          ctx.strokeStyle = 'rgba(10,24,16,.7)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, 5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
         }
       }
 

@@ -123,6 +123,16 @@ function box(ring) {
 }
 export const waterShape = box;
 
+/* Which side of the line of play a thing lies on, facing the green. World z runs
+   south, so a positive cross product is to the right. */
+const ON_THE_LINE_METRES = 6;
+export function sideOfPlay(point, path) {
+  const hit = nearestPointOnLine(point, path);
+  if (hit.distance < ON_THE_LINE_METRES) return 'mitt';
+  const a = pointAlongLine(path, Math.max(hit.along - 2, 0)), b = pointAlongLine(path, Math.min(hit.along + 2, hit.total));
+  return (b[0] - a[0]) * (point[1] - a[1]) - (b[1] - a[1]) * (point[0] - a[0]) > 0 ? 'höger' : 'vänster';
+}
+
 /* What lies ahead on this hole, nearest first: the distance to reach each hazard
    and to carry it, from where the ball is. Water beside the line can be reached but
    needs no carrying, so it has no carry. */
@@ -134,7 +144,7 @@ export function hazardsAhead({ origin, path, bunkers, waters, limit = 5 }) {
     const hit = nearestPointOnLine(group.c, path);
     if (hit.distance > CORRIDOR_METRES || hit.along <= start + 8) continue;
     const reaches = group.points.map(point => groundDistance(origin, point));
-    found.push({ kind: 'bunker', at: group.c, front: Math.min(...reaches), carry: Math.max(...reaches) });
+    found.push({ kind: 'bunker', at: group.c, front: Math.min(...reaches), carry: Math.max(...reaches), side: sideOfPlay(group.c, path) });
   }
 
   const total = nearestPointOnLine(path.at(-1), path).total;
@@ -156,7 +166,7 @@ export function hazardsAhead({ origin, path, bunkers, waters, limit = 5 }) {
     if (!first || (!wet && groundDistance(origin, first) < WATER_WORTH_METRES)) continue;
     const spot = wet ?? last;
     const shore = wet ? spot : water.ring.reduce((best, point) => (groundDistance(spot, point) < groundDistance(spot, best) ? point : best));
-    found.push({ kind: 'water', at: shore, front: groundDistance(origin, first), carry: wet ? groundDistance(origin, wet) : null });
+    found.push({ kind: 'water', at: shore, front: groundDistance(origin, first), carry: wet ? groundDistance(origin, wet) : null, side: sideOfPlay(shore, path) });
   }
 
   return found.sort((a, b) => a.front - b.front).slice(0, limit);

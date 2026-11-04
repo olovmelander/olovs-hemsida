@@ -14,6 +14,7 @@
      Stencil lets each pixel darken once, so a wood's shadows join instead of
      stacking up into black;
    - buildings, then trees, then the sky behind what is left. */
+import { GRID_VERTEX_FLOATS, PULSE_FLOATS } from './map-greengrid.mjs';
 import { SLOPE_LIMIT } from './map-height.mjs';
 import { SHADE_SIZE } from './map-horizon.mjs';
 import { PATCH_GRIDS, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
@@ -523,6 +524,83 @@ uniform vec3 uShadow;
 out vec4 colour;
 void main() { colour = vec4(uShadow, 1.0); }`;
 
+/* The greengrid: the simulator's 1 m wireframe and its pulses. The lines are cut in the
+   fragment shader, a pixel or so wide at any zoom, where GL's own would be a third of
+   a CSS pixel on a phone. Depth stays out of it, as for shadows: the ground's mesh
+   is coarser than this one. */
+const GREEN_LINES_VERTEX = `#version 300 es
+precision highp float;
+layout(location = 0) in vec3 aPlace;
+layout(location = 1) in vec3 aColour;
+layout(location = 2) in float aEdge;
+layout(location = 3) in vec2 aCell;
+uniform mat4 uClip;
+uniform float uExaggeration;
+out vec3 vColour;
+out float vEdge;
+out vec2 vCell;
+void main() {
+  vColour = aColour;
+  vEdge = aEdge;
+  vCell = aCell;
+  gl_Position = uClip * vec4(aPlace.x, aPlace.y * uExaggeration, aPlace.z, 1.0);
+}`;
+
+const GREEN_LINES_FRAGMENT = `#version 300 es
+precision highp float;
+in vec3 vColour;
+in float vEdge;
+in vec2 vCell;
+out vec4 colour;
+void main() {
+  vec2 across = fwidth(vCell);
+  vec2 near = abs(fract(vCell - 0.5) - 0.5) / across;
+  float line = 1.0 - smoothstep(0.7, 1.7, min(near.x, near.y));
+  /* Cells too small to tell apart close up into a tint, not a moire. */
+  float room = 1.0 - smoothstep(0.22, 0.45, max(across.x, across.y));
+  line *= room;
+  /* The map's greens are painted paler than the simulator's lit turf, and its colours
+     wash out on them: a shade under the lines gives them the same ground to read on. */
+  colour = vec4(mix(vec3(0.03, 0.16, 0.09), vColour, line), mix(0.3, 0.86, line) * vEdge);
+}`;
+
+const GREEN_PULSE_VERTEX = `#version 300 es
+precision highp float;
+layout(location = 0) in vec2 aCorner;
+layout(location = 1) in vec4 aPlace;   /* x, height, z, slope */
+layout(location = 2) in vec4 aFall;    /* fall x, fall z, speed, phase */
+layout(location = 3) in vec2 aRun;     /* travel, scale */
+layout(location = 4) in vec3 aColour;
+uniform mat4 uClip;
+uniform float uExaggeration;
+uniform float uTime;
+uniform float uScale;
+out vec3 vColour;
+out vec2 vCorner;
+void main() {
+  float u = fract(uTime * aFall.z + aFall.w);
+  float s = pow(sin(u * 3.14159265), 1.6) * aRun.y * uScale;
+  float travel = (u - 0.5) * aRun.x;
+  vec2 fall = aFall.xy, side = vec2(fall.y, -fall.x);
+  /* The simulator's flattened sphere of 0.062 m, drawn out along the fall line. */
+  vec2 place = aPlace.xz + fall * travel
+    + fall * aCorner.y * 0.124 * s * (1.8 + aPlace.w * 14.0)
+    + side * aCorner.x * 0.124 * s * 0.72;
+  vColour = aColour;
+  vCorner = aCorner * 2.0;
+  gl_Position = uClip * vec4(place.x, (aPlace.y - aPlace.w * travel) * uExaggeration, place.y, 1.0);
+}`;
+
+const GREEN_PULSE_FRAGMENT = `#version 300 es
+precision highp float;
+in vec3 vColour;
+in vec2 vCorner;
+out vec4 colour;
+void main() {
+  float d = length(vCorner);
+  colour = vec4(mix(vColour, vec3(1.0), 0.25 * (1.0 - d)), (1.0 - smoothstep(0.55, 1.0, d)) * 0.94);
+}`;
+
 function compile(gl, vertex, fragment) {
   const program = gl.createProgram();
   for (const [kind, source] of [[gl.VERTEX_SHADER, vertex], [gl.FRAGMENT_SHADER, fragment]]) {
@@ -594,6 +672,8 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
 
   let ground, sky, tree, shadow, contact, house, houseShadow, grids, anisotropy, anisotropyLimit, cornerBuffer, detailTexture;
   let atlases = null, atlasSource = null, detailSource = null, noShade = null;
+
+  let greenLines = null, greenPulses = null, gridGpu = null, gridSource = null;
 
   function texture(unit, internal, width, height, filter, levels = 1) {
     const handle = gl.createTexture();
@@ -667,6 +747,8 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     contact = compile(gl, CONTACT_VERTEX, CONTACT_FRAGMENT);
     house = compile(gl, HOUSE_VERTEX, HOUSE_FRAGMENT);
     houseShadow = compile(gl, HOUSE_SHADOW_VERTEX, HOUSE_SHADOW_FRAGMENT);
+    greenLines = compile(gl, GREEN_LINES_VERTEX, GREEN_LINES_FRAGMENT);
+    greenPulses = compile(gl, GREEN_PULSE_VERTEX, GREEN_PULSE_FRAGMENT);
     grids = new Map(PATCH_GRIDS.map(n => [n, createGrid(gl, n)]));
     cornerBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, cornerBuffer);
@@ -698,6 +780,45 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     noShade = whiteTexture();
     if (detailSource) uploadDetail(detailSource);
     if (atlasSource) uploadAtlases(atlasSource);
+    gridGpu = null;
+    if (gridSource) uploadGreenGrid(gridSource);
+  }
+
+  /* One hole's grid at a time; null takes it away. Kept, so a lost context gets it back. */
+  function uploadGreenGrid(source) {
+    if (gridGpu) {
+      gl.deleteVertexArray(gridGpu.lines);
+      gl.deleteVertexArray(gridGpu.pulses);
+      for (const buffer of gridGpu.buffers) gl.deleteBuffer(buffer);
+      gridGpu = null;
+    }
+    gridSource = source;
+    if (!source) return;
+    const meshBuffer = gl.createBuffer(), indexBuffer = gl.createBuffer(), pulseBuffer = gl.createBuffer();
+    const lines = gl.createVertexArray();
+    gl.bindVertexArray(lines);
+    gl.bindBuffer(gl.ARRAY_BUFFER, meshBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, source.mesh, gl.STATIC_DRAW);
+    [[3, 0], [3, 12], [1, 24], [2, 28]].forEach(([size, offset], location) => {
+      gl.enableVertexAttribArray(location);
+      gl.vertexAttribPointer(location, size, gl.FLOAT, false, GRID_VERTEX_FLOATS * 4, offset);
+    });
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, source.indices, gl.STATIC_DRAW);
+    const pulses = gl.createVertexArray();
+    gl.bindVertexArray(pulses);
+    gl.bindBuffer(gl.ARRAY_BUFFER, cornerBuffer);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, pulseBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, source.pulses, gl.STATIC_DRAW);
+    [[4, 0], [4, 16], [2, 32], [3, 40]].forEach(([size, offset], k) => {
+      gl.enableVertexAttribArray(k + 1);
+      gl.vertexAttribPointer(k + 1, size, gl.FLOAT, false, PULSE_FLOATS * 4, offset);
+      gl.vertexAttribDivisor(k + 1, 1);
+    });
+    gl.bindVertexArray(null);
+    gridGpu = { lines, pulses, buffers: [meshBuffer, indexBuffer, pulseBuffer], count: source.indices.length, pulseCount: source.pulses.length / PULSE_FLOATS };
   }
 
   build();
@@ -765,6 +886,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     gl,
     uploadDetail,
     uploadAtlases,
+    uploadGreenGrid,
     resize(width, height) {
       canvas.width = width;
       canvas.height = height;
@@ -931,6 +1053,18 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         gl.drawArrays(gl.TRIANGLES, 0, node.gpu.houses.count);
       }
       gl.disable(gl.STENCIL_TEST);
+      if (gridGpu && view.greenGrid) {
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        setShared(greenLines, view);
+        gl.bindVertexArray(gridGpu.lines);
+        gl.drawElements(gl.TRIANGLES, gridGpu.count, gl.UNSIGNED_INT, 0);
+        setShared(greenPulses, view);
+        gl.uniform1f(greenPulses.u.uTime, view.greenGrid.time);
+        gl.uniform1f(greenPulses.u.uScale, view.greenGrid.scale);
+        gl.bindVertexArray(gridGpu.pulses);
+        gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, gridGpu.pulseCount);
+        triangles += gridGpu.count / 3 + gridGpu.pulseCount * 2;
+      }
       gl.disable(gl.BLEND);
       gl.enable(gl.DEPTH_TEST);
       gl.depthMask(true);

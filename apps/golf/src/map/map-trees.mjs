@@ -9,7 +9,7 @@ import { hash2, ringSD } from '../engine/geom.js';
 import { LANDCOVER, landcoverSampler } from '../engine/landcover.mjs';
 import { planV2Vegetation, SPECIES_INDEX } from '../engine/v2-vegetation.mjs';
 import { createWoodlandContextSampler, woodlandSpeciesPrior } from '../engine/woodland-context.mjs';
-import { decodeStandField, STAND_FLAG_EXCLUDED, STAND_FLAG_MEASURED } from '../../../../packages/course-v2/stand-field.mjs';
+import { decodeStandField } from '../../../../packages/course-v2/stand-field.mjs';
 import { sampleTile } from './map-height.mjs';
 import catalogues from '../../public/models/map-trees.json';
 
@@ -141,17 +141,7 @@ export function plantTile({ node, heights, stand, objects, ground, rules }) {
   return out;
 }
 
-/* Where a tile's canopy lies, as alpha, from the same raster. */
-export function canopyAlpha({ payload, width, height }) {
-  const out = new Uint8ClampedArray(width * height * 4);
-  for (let k = 0; k < width * height; k++) {
-    const flags = payload[k * 4 + 3];
-    if (!(flags & STAND_FLAG_MEASURED) || flags & STAND_FLAG_EXCLUDED) continue;
-    /* Thin canopy is ground with a few trees on it, not forest. */
-    out[k * 4 + 3] = Math.min(255, Math.max(0, payload[k * 4] - 26) * 1.5);
-  }
-  return out;
-}
+export { canopyAlpha } from './map-canopy.mjs';
 
 /* The baked pictures: colour and normals per species, as bitmaps a texture array
    takes. A tree that fails to load leaves the map its painted canopy. */

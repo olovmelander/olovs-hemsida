@@ -46,13 +46,25 @@ export function stablefordPoints(par, strokes, received) {
   return Math.max(0, 2 + par + received - strokes);
 }
 
+/* The keys a score is picked from: two under par, par, and on up. A score past them
+   takes the last key's place, so what was entered is always on the row. */
+export function strokeKeys(par, current = null) {
+  const first = Math.max(1, par - 2);
+  const keys = Array.from({ length: 6 }, (_, k) => first + k);
+  if (Number.isFinite(current) && current > keys.at(-1)) keys[keys.length - 1] = current;
+  return keys;
+}
+
+/* A green in regulation: on it with two putts left for par. */
+export const hitGreen = (score, par) => Number.isFinite(score?.strokes) && Number.isFinite(score?.putts) && score.strokes - score.putts <= par - 2;
+
 const SCORE_NAMES = Object.freeze({ '-3': 'Albatross', '-2': 'Eagle', '-1': 'Birdie', 0: 'Par', 1: 'Bogey', 2: 'Dubbelbogey', 3: 'Trippelbogey' });
 export const scoreName = (strokes, par) => (strokes === 1 ? 'Hole in one' : SCORE_NAMES[strokes - par] ?? `+${strokes - par}`);
 
 /* What the round adds up to so far. A struck hole scores no points and has no
    strokes to add, so it leaves the stroke total and counts toward the points. */
 export function roundTotals(round, holes) {
-  const totals = { played: 0, strokes: 0, par: 0, putts: 0, points: 0 };
+  const totals = { played: 0, strokes: 0, par: 0, putts: 0, points: 0, fairways: 0, fairwaysTried: 0, greens: 0, greensTried: 0 };
   const scoring = Number.isFinite(round.handicap) && difficultyRanks(holes) !== null;
   for (const hole of holes) {
     const score = round.scores[hole.n];
@@ -63,6 +75,14 @@ export function roundTotals(round, holes) {
     totals.strokes += score.strokes;
     totals.par += hole.par;
     totals.putts += score.putts ?? 0;
+    if (hole.par >= 4 && score.fairway) {
+      totals.fairwaysTried++;
+      if (score.fairway === 'hit') totals.fairways++;
+    }
+    if (Number.isFinite(score.putts)) {
+      totals.greensTried++;
+      if (hitGreen(score, hole.par)) totals.greens++;
+    }
     if (scoring) totals.points += stablefordPoints(hole.par, score.strokes, strokesReceived(round.handicap, hole, holes));
   }
   return { ...totals, toPar: totals.strokes - totals.par, points: scoring ? totals.points : null };

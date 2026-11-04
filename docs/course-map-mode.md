@@ -21,9 +21,48 @@ thing on the strip; on a plain whole-hole strip the last 60 m of a 400 m hole, t
 approach, would be a sliver at the edge. A measured point stands on it in yellow. Its
 words give the climb from where the ball is, straight to the green, as the numbers do.
 
-The buttons are GPS, Ljus, Nu and Meny. Meny holds the hole's tip from the course
-guide, every hole, the tee, the height exaggeration, the contours and saving the
-course. Ljus's and Meny's sheets rest above the buttons, so the map stays in view.
+## The screen
+
+What a player reaches for during a round is one thumb away; what is set once lives in
+Meny (owner request, 4 November). This was drawn from the three apps the owner named:
+front, middle and back numbers, a keypad around par and shot measuring are common to
+them; swiping between holes is Caddee's on the watch, and the fairway and green figures
+are Golf i Sverige's and GameBook's. What they do not have, as far as their listings
+say, is the green in 3D with its fall drawn on it.
+
+- **Always on screen:** the hole in the header, the three distances, the wind, the
+  height strip, and the buttons GPS, Hålet, Score and Meny. Score shows how the round
+  stands (`Score +2`).
+- **Header.** ‹ and › or a sideways swipe change hole. A tap opens Hålet.
+- **Hålet:** the hole's tip, the hazards ahead in words with their side, reach and
+  carry, and every hole a tap away.
+- **The distances are a button.** A tap opens the green close to, along the line it is
+  played, under the simulator's own Greengrid (owner request, 4 November): the 1 m
+  wireframe in its heat colours, pulses gliding down the fall line in contour-tier
+  ripples, and rings round the pin, with the mean and steepest slope in the header and
+  the colours where the strip was. `map-greengrid.mjs` holds main.js's numbers, and
+  `map.test.mjs` compares them with main.js's text. On Veckefjärden's 3rd both read a
+  mean of 6.1% (steepest 11.7% here, 13.0% there). Three things differ: the lines are cut
+  in a shader, a pixel or so wide; a shade lies under them, since the map's greens are
+  painted paler than the simulator's lit turf; and a pulse is never under 2.6 CSS px wide, since the
+  simulator's are under a pixel from here. The pulses run at about 30 frames a second
+  for a minute after the last touch, then hold; reduced motion holds them still. It is
+  the only part of the map that draws on its own. It reads the ground, not today's
+  speed or pin.
+- **Back to the shot:** the round button appears as soon as the view has left it, and
+  returns to the player or the hole. Without it a panned map had no way back.
+- **Measuring.** A tap sets the point, a drag on it moves it, its × clears it.
+- **Mät slag**, with a player on the course: a tap at the ball, and the distance counts
+  up on the walk until the next tap.
+- **Score** is a row of keys around par, a row of putts and, on a par 4 or 5, the
+  fairway. Green in regulation follows from the strokes and putts. When a player moves
+  on to the next hole mid-round with none entered, the map asks for the one left behind
+  above the strip, in one tap, and lets it go after 40 s.
+- **Meny** holds Ljus (and Nu in its picker), the tee, the height, the layers, saving
+  the course, the detailed 3D and all courses.
+- **A lost tab** comes back to the same hole, with the GPS on if it was and the
+  permission stands, for six hours.
+- Sheets rest above the buttons, so the map stays in view, and go when pulled down.
 
 The map is a separate program: `apps/golf/src/map`, about 180 KB of script, with no
 three.js and nothing from `main.js`. It draws one frame when something changes and
@@ -36,14 +75,60 @@ The map copies no course data and has no bake of its own for terrain.
 | What | Where it comes from |
 | --- | --- |
 | Heights | The published v2 terrain tiles, down to the 1 m core, verified by the same code as the player |
-| Holes, greens, tees, fairways, bunkers, water | The GPK1 pack |
+| Holes, greens, tees, fairways, bunkers, surveyed water | The GPK1 pack |
+| Water past the outlines, and forest | One small picture per ground, baked by `tools/bake-map-land.mjs` |
+| Everything else on the ground | The pack and, where a course has one, its surroundings record |
 | Where each tree stands, its size and species | `planV2Vegetation`, on the same stand and object tiles, with main.js's rules |
 | How each tree looks | The player's own impostors, baked by `tools/bake-map-trees.mjs` |
-| Forest away from the camera | Canopy stamped from those impostors, masked by the stands (1 m tiles) or the land cover (coarser) |
+| Forest away from the camera | Canopy stamped from those impostors, masked by the stands (1 m tiles) or the ground's forest picture (coarser) |
 | Colours | Read off the simulator's summer light |
 
-A republished course reaches the map by itself. A changed tree catalogue does not:
-**rerun `tools/bake-map-trees.mjs`**, on the owner's GPU against a dev server.
+A republished course reaches the map by itself, but for two things. A changed tree
+catalogue needs **`tools/bake-map-trees.mjs`**, on the owner's GPU against a dev
+server. Republished terrain or stands need **`tools/bake-map-land.mjs`**, which needs
+no GPU; `map.test.mjs` fails until it has run.
+
+## What is on the map
+
+The owner's rule (4 November): nothing that is supposed to be there may be left out. An
+audit of every pack against the painter found the map was missing a great deal, and two
+things were wrong, so `map-course.mjs` now carries all of this:
+
+- **Water.** Pack outlines stop at their extract's box, so the sea at Norrfällsviken and
+  Visby ended in straight lines with land behind them, and lakes further out were not
+  there. `bake-map-land.mjs` runs the simulator's own detector (`engine/v2-flat-water.mjs`,
+  water is level to 5 cm, land is not) over each ground's 8 m ring, and closes the seams
+  an old shoreline leaves in the laser's sea. The record's WATER class is never used: it
+  is a colour verdict on imagery.
+- **Land drawn as sea.** Norrfällsviken's sea ring closes across the land south of the
+  course, 428 ha of forest up to 40 m high. The rule is main.js's: wet is inside a ring
+  and at its level. The bake finds any outline with over 4% of its area above its water
+  (that one, of every ring on every layout), lists it in the record's `dry`, and the
+  picture takes its place. `hazardsAhead` keeps the ring: the coast it traces is true,
+  and no hole's line reaches the part that is not.
+- **Forest.** The laser's stands cover the 1 m core and stop. Inside it the forest picture
+  is the laser's canopy at every zoom, so a wood no longer changes as a tile refines.
+  Outside it is the land cover, which imagery can get badly wrong: at Norrfällsviken a
+  whole rectangle of forest is classed as water. Water or unknown cells the ground does
+  not bear out take main.js's land rule, forest unless mapped as open. Cells the laser
+  did not measure on a 1 m tile take the land cover: 0.8% of Visby's played tiles were
+  forest, most of the rest is water. They get a painted canopy, not 3D trees: the
+  simulator plants none there either.
+- **The surroundings record** (Veckefjärden and its korthålsbana): 7,690 houses, roads,
+  railways, lakes, the harbour, pitches, ski slopes and lifts.
+- **The rest:** far buildings, railways, power lines and masts, piers, basins, bridges,
+  ditches, fences and hedges, hayfields, yards, clear-fells, a lake's silt margin (inside
+  it only), pitches, the range's mats, nets and targets, the cart park, practice greens
+  and bunkers, terraces, roofs, and two more kinds of land use. Penalty and out-of-bounds
+  stakes stand where the simulator stands them; Lidingö's reviewed OB lines are dashed.
+
+Left out on purpose: nature reserves, which are lines on a register and not on the
+ground; the 456 mapped trees at Uppsala, whose stands the laser already has; and small
+street furniture. `stroke(holes, rough)` still lays rough over a mapped field where a
+hole is played: that is the course, not a loss. `?land=0` is the before for the water and
+forest pictures.
+
+The pictures add about 150-230 KB a ground and 16 MB each of decoded memory on the phone.
 
 Keep out of `apps/golf/src/engine`, `loader` and `packages/course-v2`: those are what
 `courseSourceRevision` hashes, so an edit there turns the player's prepared startup
@@ -89,8 +174,8 @@ which pull in three.js. The three species rules the map needs are copied into
 - **Wind** is the player's own reading (`engine/weather.js`): an arrow that turns with
   the map, and the plays-like numbers take the head wind and the temperature, as the
   simulator's Kikaren does. A reading over three hours old is not used.
-- **The scorecard** (`map-score.mjs`, the Score button) keeps strokes and putts per
-  hole on the phone, per course, until "Ny runda". With a playing handicap it adds up
+- **The scorecard** (`map-score.mjs`, the Score button) keeps strokes, putts and the
+  fairway per hole on the phone, per course, until "Ny runda". With a playing handicap it adds up
   Stableford, strokes falling by the holes' indexes. A card without indexes, as the
   korthålsbana's, has no points. It is a personal card, not a registered round: that
   stays with Min Golf. One player for now.
@@ -145,7 +230,7 @@ played tee's own position, or the player. Three limits are the data's:
 
 ## Offline
 
-"Spara" keeps a course's tiles and tree pictures in the map's own cache,
+"Spara" keeps a course's tiles and its tree, water and forest pictures in the map's own cache,
 `banvy-map-offline-v1`. Not the shared `banvy-v2-graph`: that holds 256 entries, and
 the player's streaming could push a saved course out mid-round.
 
@@ -160,7 +245,8 @@ BANVY_GPU=1 node tools/map-gallery.mjs --label a --url http://localhost:8620/
 BANVY_GPU=1 node tools/map-timing.mjs --url http://localhost:8620/
 ```
 
-`check-map-field` walks a hole on fake GPS, measures, changes hole, loses the graphics
+`check-map-field` walks a hole on fake GPS, measures, drags the point, opens every sheet,
+pans away and back, reads a green, enters a score, changes hole, loses the graphics
 context and reopens with no signal. It found the worst bug so far: tapping the next
 hole with GPS on, from close in, left every point behind the camera and blanked the
 map. Run it on more than one course: it took Visby's holes to show that.
