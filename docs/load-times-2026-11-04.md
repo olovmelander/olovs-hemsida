@@ -133,9 +133,35 @@ A boot costs about 0.05 s more, and 1.1 MB. `tree-flight.test.mjs` holds that no
 tree changes tier in flight with it on. The gallery's worst views differ in up to
 9% of pixels, at leaf level, in trees past 90 m from any hole.
 
-Raising the 24 px threshold made the frame slower (11.95 to about 15 ms at 48 px):
-more trees on impostors cost more than the meshes they replace, so impostors look
-expensive per pixel. That is the next thing to explain.
+What each part of the scene costs a frame, switched off and on inside one running
+page (local: `tools/goldens/gfx/perf/toggle-cost.mjs`), which drifting load on the
+machine falls on alike. Puttom 5 green, with the bands on:
+
+| Part | Instances | Triangles | ms a frame |
+|---|---:|---:|---:|
+| Hero trees (band A) | 2,338 | 6.3 M | 3.6 |
+| Full trees (band B) | 3,320 | 3.2 M | 1.4 |
+| Terrain | 26 tiles | 3.5 M | 1.0 |
+| Lake mist | 3 | 0.2 M | 0.4 |
+| Far forest (vista) | 596,718 | 1.2 M | 0.2 |
+| Tree impostors | 51,614 | 0.1 M | 0.2 |
+
+Impostors are very cheap. `?distanthero=` takes only 16 and 24 as thresholds, and
+any other value turns the 24 px rule off, which is the before. So a frame near 15
+ms at `distanthero=48` is every corridor tree at Hero, and shows what the rule saves.
+
+**For the owner to decide:** the threshold itself. A local build taking 32 and 48
+as real values gave, with another GPU app running, so as a direction only:
+
+| View | 24 px (approved) | 32 px | 48 px |
+|---|---:|---:|---:|
+| Puttom 5 green | 11.85 ms | 9.65 ms | 6.95 ms |
+| Puttom 1 tee | 12.30 ms | 6.55 ms | 6.60 ms |
+| Veckefjärden 13 tee | 8.45 ms | 7.45 ms | 8.50 ms |
+
+It is the one place detail goes by distance, and the owner approved 24 px after
+seeing it, so it has not been changed. A higher value needs clean timing and a look
+at the crossfade in motion. The review values are not in the build.
 
 ## Measuring
 
