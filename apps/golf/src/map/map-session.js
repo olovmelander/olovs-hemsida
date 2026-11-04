@@ -14,7 +14,7 @@ import { createGps, createScreenLock, downloadCourse, isDownloaded, offlineBytes
 import { createMapRenderer } from './map-gl.mjs';
 import { attachGestures } from './map-gestures.mjs';
 import { AUTUMN_RAMPS, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS } from './map-light.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, principalBearing, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, placeOnProfile, playedPath, principalBearing, stripX, shotReading } from './map-measure.mjs';
 import { createOverlay } from './map-overlay.mjs';
 import { createDetailTexture } from './map-detail.mjs';
 import { createMapPainter } from './map-paint.mjs';
@@ -43,6 +43,8 @@ const LIGHT_KEY = 'banvy-map-light-v1';
 const CONTOUR_KEY = 'banvy-map-contours-v1';
 const NOW_REFRESH_MS = 60000;
 const OFF_COURSE_METRES = 450, FOLLOW_HOLE_METRES = 120;
+/* Further than this from a hole's line, a player is not on that hole. */
+const ON_THE_STRIP_METRES = 150;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
@@ -79,7 +81,9 @@ root.innerHTML = `
   <section class="map-bottom">
     <div class="map-reading" data-reading hidden></div>
     <div class="map-profile" data-profile>
-      <svg viewBox="0 0 300 44" preserveAspectRatio="none" aria-hidden="true"><path data-profile-fill fill="rgba(120,205,120,.32)"/><path data-profile-line fill="none" stroke="#a6efa0" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+      <svg viewBox="0 0 300 44" preserveAspectRatio="none" aria-hidden="true"><path data-profile-fill fill="rgba(120,205,120,.32)"/><path data-profile-line fill="none" stroke="#a6efa0" stroke-width="2" vector-effect="non-scaling-stroke"/><rect data-profile-walked y="0" width="0" height="44" fill="rgba(12,24,18,.62)"/></svg>
+      <i class="map-mark map-mark-aim" data-profile-aim hidden></i>
+      <i class="map-mark map-mark-you" data-profile-you hidden></i>
       <span data-profile-text></span><span class="map-plays" data-profile-plays></span>
     </div>
     <div class="map-tools">
@@ -126,6 +130,7 @@ const ui = {
   download: $('[data-download]'), full: $('[data-full]'),
   overview: $('[data-overview]'), green: $('[data-green]'),
   profile: $('[data-profile]'), profileLine: $('[data-profile-line]'), profileFill: $('[data-profile-fill]'), profileText: $('[data-profile-text]'), profilePlays: $('[data-profile-plays]'),
+  profileWalked: $('[data-profile-walked]'), profileYou: $('[data-profile-you]'), profileAim: $('[data-profile-aim]'),
 };
 
 let statusTimer = 0;
@@ -249,7 +254,7 @@ async function start() {
     const { width, height } = camera.state;
     return width > height
       ? { top: 74, bottom: 96, left: 40, right: 138 }
-      : { top: 96, bottom: 196, left: 34, right: 96 };
+      : { top: 96, bottom: 204, left: 34, right: 96 };
   }
 
   function flyTo(view, duration = 800) {
@@ -324,22 +329,53 @@ async function start() {
     refreshProfile();
   }
 
+  /* The whole hole, tee to green, so it keeps its shape all the way round and the
+     player can move along it. */
   function refreshProfile() {
     if (state.mode !== 'hole') return;
     const from = origin(), green = hole().green.c;
-    const line = elevationProfile(from, green, store.heightAt);
+    const path = playedPath(hole(), teePoint());
+    /* Dense enough that the last stretch still draws a true curve when it has
+       spread across most of the strip. */
+    const line = elevationProfile(path, store.heightAt, 180);
     if (!line) return;
-    const range = Math.max(line.high - line.low, 4);
-    const y = value => 40 - (value - line.low) / range * 34;
-    const step = 300 / (line.points.length - 1);
-    const path = line.points.map((value, i) => `${i ? 'L' : 'M'}${(i * step).toFixed(1)} ${y(value).toFixed(1)}`).join(' ');
-    ui.profileLine.setAttribute('d', path);
-    ui.profileFill.setAttribute('d', `${path} L300 44 L0 44 Z`);
-    const word = Math.abs(line.rise) < 0.5 ? 'plant' : line.rise > 0 ? 'uppför' : 'nedför';
-    const plays = shotReading(from, green, store.heightAt).plays;
-    const climb = Math.abs(line.rise) < 0.5 ? '' : `${Math.abs(line.rise).toFixed(1).replace('.', ',')} m`;
-    ui.profileText.textContent = `${word} ${climb}`.trim();
+    const you = state.player?.onCourse ? placeOnProfile(state.player.point, path, line, ON_THE_STRIP_METRES) : null;
+    const walked = you?.share ?? 0;
+    const shareOf = i => i / (line.points.length - 1);
+
+    /* The height scale belongs to the ground still to come, so a rise before the
+       green reads as one however big the hole's hills were. Ground already walked
+       may run past it, and rests against the strip's edges. */
+    const ahead = line.points.filter((_, i) => shareOf(i) >= walked);
+    const low = Math.min(...ahead), high = Math.max(...ahead);
+    const range = Math.max(high - low, 3);
+    const y = value => clamp(35 - (value - low) / range * 29, 4, 38);
+    const curve = line.points.map((value, i) => `${i ? 'L' : 'M'}${(stripX(shareOf(i), walked) * 300).toFixed(1)} ${y(value).toFixed(1)}`).join(' ');
+    ui.profileLine.setAttribute('d', curve);
+    ui.profileFill.setAttribute('d', `${curve} L300 44 L0 44 Z`);
+
+    const mark = (element, place) => {
+      element.hidden = !place;
+      if (!place) return;
+      element.dataset.share = place.share.toFixed(4);
+      element.style.setProperty('--x', stripX(place.share, walked).toFixed(4));
+      element.style.setProperty('--y', (y(place.height) / 44).toFixed(4));
+    };
+    const aim = state.target ? placeOnProfile(state.target, path, line) : null;
+    mark(ui.profileYou, you);
+    mark(ui.profileAim, aim);
+    /* What is behind the player is done with, and steps back. */
+    ui.profileWalked.setAttribute('width', (stripX(walked, walked) * 300).toFixed(1));
+
+    const { rise, plays } = shotReading(from, green, store.heightAt);
+    const flat = rise === null || Math.abs(rise) < 0.5;
+    const word = flat ? 'plant' : rise > 0 ? 'uppför' : 'nedför';
+    const climb = flat ? '' : `${Math.abs(rise).toFixed(1).replace('.', ',')} m`;
+    ui.profileText.textContent = `${word} ${climb} ${you && !flat ? 'kvar' : ''}`.replace(/\s+/g, ' ').trim();
     ui.profilePlays.textContent = plays ? `spelas ${metres(plays)} m` : '';
+    ui.profile.setAttribute('aria-label', you
+      ? `Höjdprofil. Du är ${Math.round(you.along)} av ${Math.round(line.distance)} meter in på hålet.`
+      : `Höjdprofil över hålet, ${Math.round(line.distance)} meter.`);
   }
 
   function goHole(number, { fly = true } = {}) {

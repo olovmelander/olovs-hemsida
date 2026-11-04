@@ -1,6 +1,7 @@
 /* What a golfer reads off the map, in the map's world (metres, x east, z
    south). The ground rules stay in rangefinder.js and caddie.js: this only
    carries them to a hole in the world frame. Pure. */
+import { nearestPointOnLine } from '../engine/caddie.js';
 import { greenDistances, playsLike } from '../engine/rangefinder.js';
 
 export const groundDistance = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
@@ -10,20 +11,59 @@ export function greenNumbers(origin, green) {
   return { front, centre, back };
 }
 
-/* A straight line's ground heights from a to b, for the strip under the map. */
-export function elevationProfile(a, b, heightAt, samples = 64) {
+/* The way a hole is played: from the tee in use, along its line, to the middle of
+   the green. A forward tee joins the line where it stands, so a tee past a dogleg
+   does not walk back to the bend. */
+export function playedPath(hole, tee) {
+  const { segment = 0 } = nearestPointOnLine(tee, hole.line);
+  const path = [tee, ...hole.line.slice(segment + 1)];
+  return groundDistance(path.at(-1), hole.green.c) > 1 ? [...path, hole.green.c] : path;
+}
+
+/* The ground along a path, evenly spaced, for the strip under the map. */
+export function elevationProfile(path, heightAt, samples = 72) {
+  const lengths = path.slice(1).map((point, i) => groundDistance(path[i], point));
+  const distance = lengths.reduce((sum, length) => sum + length, 0);
   const points = [];
-  let low = Infinity, high = -Infinity;
-  const distance = groundDistance(a, b);
+  let low = Infinity, high = -Infinity, segment = 0, walked = 0;
   for (let i = 0; i < samples; i++) {
-    const t = i / (samples - 1);
-    const y = heightAt(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t);
+    const wanted = distance * i / (samples - 1);
+    while (segment < lengths.length - 1 && walked + lengths[segment] < wanted) walked += lengths[segment++];
+    const t = lengths[segment] > 0 ? Math.min(1, (wanted - walked) / lengths[segment]) : 0;
+    const [ax, az] = path[segment], [bx, bz] = path[segment + 1];
+    const y = heightAt(ax + (bx - ax) * t, az + (bz - az) * t);
     if (!Number.isFinite(y)) return null;
     points.push(y);
     if (y < low) low = y;
     if (y > high) high = y;
   }
   return { distance, points, low, high, rise: points.at(-1) - points[0] };
+}
+
+/* Where a share of the hole sits across the strip. The player walks along it at
+   first; then they stay at `rest`, what is behind them closes up to the left and
+   what is ahead spreads out to fill the rest. So the whole hole is always there, and
+   the shot in hand is always the largest thing on it: on a 400 m hole the last 60 m,
+   the approach, would otherwise be a sliver at the right-hand edge. */
+export const STRIP_REST = 0.22;
+export function stripX(share, you = 0, rest = STRIP_REST) {
+  const at = Math.min(you, rest);
+  if (you >= 1) return share >= 1 ? 1 : share * at;
+  return share <= you
+    ? (you > 0 ? share / you * at : 0)
+    : at + (share - you) / (1 - you) * (1 - at);
+}
+
+/* Where a point falls on that strip: how far along the path, and the ground there.
+   A point further off the path than `reach` is not on this hole at all. */
+export function placeOnProfile(point, path, profile, reach = Infinity) {
+  const hit = nearestPointOnLine(point, path);
+  if (!hit.point || hit.distance > reach || !(hit.total > 0)) return null;
+  const share = Math.min(1, hit.along / hit.total);
+  const at = share * (profile.points.length - 1);
+  const i = Math.min(Math.floor(at), profile.points.length - 2);
+  const height = profile.points[i] + (profile.points[i + 1] - profile.points[i]) * (at - i);
+  return { share, height, along: hit.along, off: hit.distance };
 }
 
 /* How far, how much up or down, and what that plays like. */

@@ -12,6 +12,15 @@ the detailed course on a phone, and `karta=0` stays when a phone changes course
 there. See `shell/map-default.mjs`. A course card's pill and Meny's "Detaljerad 3D"
 offer the other mode, and the player's menu links to the map.
 
+The strip under the map is the whole hole, tee to green along its line. The player
+stands on it in blue, once within 150 m of the line. They walk along it at first, then
+hold a fifth of the way across (`stripX`): what is behind them closes up to the left
+and dims, and what is ahead spreads out to fill the rest, on a height scale of its own.
+So a player can always see where they are, and the shot in hand is always the largest
+thing on the strip; on a plain whole-hole strip the last 60 m of a 400 m hole, the
+approach, would be a sliver at the edge. A measured point stands on it in yellow. Its
+words give the climb from where the ball is, straight to the green, as the numbers do.
+
 The buttons are GPS, Ljus, Nu and Meny. Meny holds the hole's tip from the course
 guide, every hole, the tee, the height exaggeration, the contours and saving the
 course. Ljus's and Meny's sheets rest above the buttons, so the map stays in view.

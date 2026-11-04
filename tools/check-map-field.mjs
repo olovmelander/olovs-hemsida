@@ -96,10 +96,19 @@ const midNumber = () => page.evaluate(() => Number(document.querySelector('[data
 await note(page, 'before fix');
 await fixAt(0.25);
 await note(page, 'fix 1');
+const strip = () => page.evaluate(() => {
+  const you = document.querySelector('[data-profile-you]');
+  return { shown: !you.hidden, x: Number(you.style.getPropertyValue('--x')), share: Number(you.dataset.share), text: document.querySelector('[data-profile-text]').textContent };
+});
+const stripEarly = await strip();
 const quarter = await midNumber(), wantQuarter = await expected(0.25);
 expect(Math.abs(quarter - wantQuarter) <= 1, `distance to the green follows the fix (${quarter} m, expected ${wantQuarter.toFixed(1)} m)`);
 await fixAt(0.75);
 await note(page, 'fix 2');
+const stripLate = await strip();
+expect(stripEarly.shown && stripLate.shown, 'the player stands on the height strip');
+expect(stripLate.share > stripEarly.share + 0.2 && stripEarly.share > 0.05, `and moves along the hole (${stripEarly.share} to ${stripLate.share} of it)`);
+expect(stripEarly.x <= 0.2201 && stripLate.x <= 0.2201, `holding its place while the ground ahead spreads out (at ${stripLate.x})`);
 const late = await midNumber(), wantLate = await expected(0.75);
 expect(Math.abs(late - wantLate) <= 1, `and keeps following it (${late} m, expected ${wantLate.toFixed(1)} m)`);
 expect(late < quarter, 'the number falls as the player walks to the green');
@@ -113,6 +122,7 @@ await page.waitForTimeout(500);
 const reading = await page.textContent('[data-reading]');
 expect(/\d+ m/.test(reading) && /kvar/.test(reading), `a tap reads the shot: ${reading}`);
 await note(page, 'measured');
+expect(await page.evaluate(() => !document.querySelector('[data-profile-aim]').hidden), 'the measured point stands on the strip too');
 await shot(page, 'measure');
 
 /* ---- the next hole, the whole course ---- */

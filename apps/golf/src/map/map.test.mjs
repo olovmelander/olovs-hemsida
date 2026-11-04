@@ -19,7 +19,7 @@ import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
 import { buildMapCourse } from './map-course.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
 import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, principalBearing, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, placeOnProfile, playedPath, principalBearing, STRIP_REST, stripX, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
 import { species as angsoSpecies } from '../engine/scenery/angso.js';
 import { species as veckefjardenSpecies } from '../engine/scenery/veckefjarden.js';
@@ -442,10 +442,73 @@ describe('what a golfer reads', () => {
     expect(shotReading([0, 0], [100, 0], () => NaN)).toEqual({ distance: 100, rise: null, plays: null });
   });
 
-  it('profiles the ground between two points', () => {
-    const line = elevationProfile([0, 0], [90, 0], x => Math.abs(x - 45), 10);
-    expect(line).toMatchObject({ distance: 90, low: 5, high: 45, rise: 0 });
-    expect(elevationProfile([0, 0], [1, 0], () => NaN)).toBeNull();
+  it('profiles the ground along a path, evenly round a bend', () => {
+    const straight = elevationProfile([[0, 0], [90, 0]], x => Math.abs(x - 45), 10);
+    expect(straight).toMatchObject({ distance: 90, low: 5, high: 45, rise: 0 });
+    const bent = elevationProfile([[0, 0], [100, 0], [100, 100]], (x, z) => x + z, 5);
+    expect(bent.distance).toBe(200);
+    expect(bent.points).toEqual([0, 50, 100, 150, 200]);
+    expect(elevationProfile([[0, 0], [1, 0]], () => NaN)).toBeNull();
+  });
+
+  it('plays a hole from the tee in use to the middle of the green', () => {
+    const hole = { line: [[0, 0], [0, -200], [100, -300]], green: { c: [130, -330] } };
+    expect(playedPath(hole, [0, 0])).toEqual([[0, 0], [0, -200], [100, -300], [130, -330]]);
+    /* a forward tee past the bend joins the line beyond it */
+    expect(playedPath(hole, [40, -240])).toEqual([[40, -240], [100, -300], [130, -330]]);
+    /* a line that already ends on the green gains nothing */
+    expect(playedPath({ line: [[0, 0], [130, -330]], green: { c: [130, -330] } }, [0, 0]).length).toBe(2);
+  });
+
+  it('places a player on the strip, on the curve, wherever they stand beside the line', () => {
+    const path = [[0, 0], [100, 0], [100, 100]];
+    const profile = elevationProfile(path, (x, z) => (x + z) / 10, 21);
+    const halfway = placeOnProfile([100, 0], path, profile);
+    expect(halfway.share).toBeCloseTo(0.5);
+    expect(halfway.height).toBeCloseTo(10);
+    expect(halfway.along).toBeCloseTo(100);
+    const inTheRough = placeOnProfile([50, 30], path, profile);
+    expect(inTheRough.share).toBeCloseTo(0.25);
+    expect(inTheRough.off).toBeCloseTo(30);
+  });
+
+  it('leaves the strip as it is on the tee and while the player walks up to its rest', () => {
+    for (const share of [0, 0.1, 0.5, 1]) expect(stripX(share, 0)).toBeCloseTo(share);
+    for (const share of [0, 0.1, 0.5, 1]) expect(stripX(share, STRIP_REST / 2)).toBeCloseTo(share);
+  });
+
+  it('holds the player at its rest and gives the rest of the strip to the ground ahead', () => {
+    for (const you of [0.3, 0.6, 0.85]) {
+      expect(stripX(you, you)).toBeCloseTo(STRIP_REST);
+      expect(stripX(0, you)).toBe(0);
+      expect(stripX(1, you)).toBeCloseTo(1);
+      /* what is left always has at least its share of the hole */
+      expect(1 - stripX(you, you)).toBeGreaterThanOrEqual(1 - you);
+    }
+    /* the last 60 m of a 400 m hole, nearly four fifths of the strip */
+    const you = 340 / 400;
+    expect(stripX(1, you) - stripX(you, you)).toBeCloseTo(1 - STRIP_REST);
+  });
+
+  it('never folds the strip back on itself', () => {
+    for (const you of [0, 0.05, STRIP_REST, 0.5, 0.97, 1]) {
+      let last = -1;
+      for (let i = 0; i <= 200; i++) {
+        const x = stripX(i / 200, you);
+        expect(Number.isFinite(x)).toBe(true);
+        expect(x).toBeGreaterThanOrEqual(last);
+        last = x;
+      }
+    }
+  });
+
+  it('keeps a player off the strip of a hole they are not on, and on it at both ends', () => {
+    const path = [[0, 0], [200, 0]];
+    const profile = elevationProfile(path, () => 0);
+    expect(placeOnProfile([100, 400], path, profile, 150)).toBeNull();
+    expect(placeOnProfile([100, 100], path, profile, 150)).not.toBeNull();
+    expect(placeOnProfile([-40, 0], path, profile).share).toBe(0);
+    expect(placeOnProfile([260, 0], path, profile).share).toBe(1);
   });
 
   it('turns the map so play runs up the screen', () => {

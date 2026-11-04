@@ -105,23 +105,46 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-reading b { font-size: 21px; color: #ffd23f; font-weight: 700; }
 .map-profile {
   position: relative;
-  height: 52px;
+  height: 60px;
   border-radius: 14px;
   background: rgba(12, 24, 18, .86);
   overflow: hidden;
   pointer-events: none;
 }
 .map-profile[hidden] { display: none; }
-.map-profile svg { position: absolute; inset: 4px 0 0; width: 100%; height: calc(100% - 4px); }
+/* The words have a row of their own: the curve never runs through them. */
+.map-profile svg { position: absolute; left: 0; right: 0; bottom: 0; top: 22px; width: 100%; height: calc(100% - 22px); }
 .map-profile span {
   position: absolute;
   left: 10px;
-  top: 6px;
+  top: 4px;
   font-size: 13px;
   font-weight: 600;
   text-shadow: 0 1px 2px #0009;
 }
 .map-profile .map-plays { left: auto; right: 10px; color: #ffd23f; }
+/* A place along the hole: a dot on the curve, in the colour the same thing has on
+   the map. --x is the share of the hole, --y the height. */
+.map-mark {
+  position: absolute;
+  top: 22px;
+  bottom: 0;
+  left: calc(var(--x, 0) * 100%);
+}
+.map-mark[hidden] { display: none; }
+.map-mark::after {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: calc((100%) * var(--y, 0.5) - 6px);
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: currentColor;
+}
+.map-mark-you { color: #2e86ff; }
+.map-mark-aim { color: #ffd23f; }
 .map-tools { display: flex; gap: 6px; }
 .map-tool {
   flex: 1;
