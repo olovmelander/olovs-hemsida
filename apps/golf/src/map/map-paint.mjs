@@ -238,7 +238,7 @@ export function createMapPainter(course, atlases = null, land = null) {
     wetCtx.globalCompositeOperation = 'source-over';
     wetCtx.clearRect(0, 0, size, size);
     wetCtx.imageSmoothingEnabled = true;
-    wetCtx.imageSmoothingQuality = 'high';
+    wetCtx.imageSmoothingQuality = 'low';
     drawShare(wetCtx, land.water, node, size);
     wetCtx.globalCompositeOperation = 'source-in';
     wetCtx.fillStyle = colour;
@@ -257,7 +257,7 @@ export function createMapPainter(course, atlases = null, land = null) {
     treeCtx.globalCompositeOperation = 'source-over';
     treeCtx.clearRect(0, 0, size, size);
     treeCtx.imageSmoothingEnabled = true;
-    treeCtx.imageSmoothingQuality = 'high';
+    treeCtx.imageSmoothingQuality = 'low';
     if (stand) {
       small.width = stand.section.width;
       small.height = stand.section.height;

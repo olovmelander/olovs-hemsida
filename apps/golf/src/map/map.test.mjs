@@ -19,6 +19,7 @@ import { bakeHillShade, SHADE_SIZE, shadeKey, SHADOW_REACH } from './map-horizon
 import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
 import { hitGreen, newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokeKeys, strokesReceived } from './map-score.mjs';
 import { buildMapCourse, validSurroundings } from './map-course.mjs';
+import { createTeeWatch, nextHole, TEE_DWELL_MS } from './map-follow.mjs';
 import { buildGreenGrid, GRID_VERTEX_FLOATS, PULSE_FLOATS, slopeAt, slopeColor } from './map-greengrid.mjs';
 import { landRecord, outlineOverLand } from './map-land.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
@@ -999,6 +1000,36 @@ describe('every layout', () => {
       expect(bunkers, 'a short layout keeps its bunkers in the scenery').toBeGreaterThan(0);
     });
   }
+
+  it('changes hole on every tee of every next hole, on every layout', () => {
+    for (const { slug } of index) {
+      const { holes } = courseFor(slug);
+      for (const hole of holes) {
+        const next = holes[nextHole(hole.n, holes.length) - 1];
+        for (const tee of next.tees) {
+          const watch = createTeeWatch();
+          const at = (point, now) => watch.update({ point, accuracy: 5, now, holes, shown: hole.n, playing: hole.n });
+          at(hole.green.c, 0);
+          at(tee.point, 1);
+          expect(at(tee.point, TEE_DWELL_MS + 2), `${slug}: from hole ${hole.n} on to its next tee`).toBe(next.n);
+        }
+      }
+    }
+  });
+
+  it('stays on a hole while the player waits on its own tee, on every layout', () => {
+    for (const { slug } of index) {
+      const { holes } = courseFor(slug);
+      for (const hole of holes) {
+        for (const tee of hole.tees) {
+          const watch = createTeeWatch();
+          const at = now => watch.update({ point: tee.point, accuracy: 5, now, holes, shown: hole.n, playing: hole.n });
+          at(0);
+          expect(at(TEE_DWELL_MS * 4), `${slug}: waiting on the tee of hole ${hole.n}`).toBeNull();
+        }
+      }
+    }
+  });
 
   it('reaches every 1 m tile a hole names', () => {
     for (const { slug } of index) {

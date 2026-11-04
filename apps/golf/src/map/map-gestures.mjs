@@ -61,6 +61,7 @@ export function attachGestures(element, handlers) {
     if (!pointers.has(event.pointerId)) return;
     pointers.delete(event.pointerId);
     pair = null;
+    if (!pointers.size) handlers.onRelease?.();
     if (pointers.size || !start) return;
     const point = localPoint(event);
     const time = performance.now();

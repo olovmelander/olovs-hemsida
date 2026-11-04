@@ -51,6 +51,12 @@ say, is the green in 3D with its fall drawn on it.
   speed or pin.
 - **Back to the shot:** the round button appears as soon as the view has left it, and
   returns to the player or the hole. Without it a panned map had no way back.
+- **Quick views** (owner request, 5 November): Hela hålet, Bakom, Ovanifrån and Green,
+  under the numbers in the column every hole is framed clear of, so they never cover the
+  player or a reading. The first three frame the same thing, from the ball or the tee to the
+  green with play up the screen, at three leans: the map, the golfer's eye and straight
+  down. They keep following the player, the choice is remembered, and a tap brings back
+  a view a finger has moved. One and two fingers work as before.
 - **Measuring.** A tap sets the point, a drag on it moves it, its × clears it.
 - **Mät slag**, with a player on the course: a tap at the ball, and the distance counts
   up on the walk until the next tap.
@@ -83,7 +89,8 @@ The map copies no course data and has no bake of its own for terrain.
 | Forest away from the camera | Canopy stamped from those impostors, masked by the stands (1 m tiles) or the ground's forest picture (coarser) |
 | Colours | Read off the simulator's summer light |
 
-A republished course reaches the map by itself, but for two things. A changed tree
+A tile that fails is asked for again after 15 s, since signal comes and goes on a golf
+course. A republished course reaches the map by itself, but for two things. A changed tree
 catalogue needs **`tools/bake-map-trees.mjs`**, on the owner's GPU against a dev
 server. Republished terrain or stands need **`tools/bake-map-land.mjs`**, which needs
 no GPU; `map.test.mjs` fails until it has run.
@@ -167,6 +174,28 @@ which pull in three.js. The three species rules the map needs are copied into
 
 ## On the course
 
+- **The hole follows the player** (`map-follow.mjs`, owner request, 5 November): it
+  changes when the player stands on the next tee in order of play, within 14 m of any
+  colour's tee for 20 s. Those 20 s are what tell standing from walking through.
+  `map.test.mjs` stands on every tee of every next hole on all 13 layouts. Nothing else
+  moves it, which ended the nearest line's jumps to a neighbouring fairway. It waits for a
+  fix better than ±20 m, while the green being played is nearer than the tee (some tees
+  touch the last green), and until the player has been off the tee of the hole being
+  played (some holes share one: Lidingö's 2nd and 4th, 15th and 17th). A tee stood on while
+  a sheet or the green is open is kept and taken when that closes.
+
+  Three things keep one missed tee from leaving the map behind for the round: the tee
+  after next counts too; the first good fix of a session finds the hole by the nearest
+  line, so a map opened mid-round lands on it; and so does the first good fix after a gap
+  of over a minute, which is a locked phone, but only up to four holes forward and never
+  over a hole chosen by hand. The first tee counts from any hole until the first change,
+  so a round can start from where the map happened to be.
+
+  A hole chosen by hand stays chosen until the player has left that tee, and the tee after
+  the hole on screen counts as well as the ones after the hole last played, so a player
+  can look ahead or skip a hole. The tee played is never detected: it is the player's own
+  choice in Meny. A hole is asked for its score when the tee is reached, not on a tap of ›
+  with the GPS on, which only looks ahead.
 - **Hazard distances** (`hazardsAhead`): the five nearest ahead of the ball, on the map
   where they are, as reach and carry. Bunkers side by side count as one, and only those
   within 45 m of the hole's line. Water the line crosses has a carry; water beside it
@@ -252,11 +281,11 @@ hole with GPS on, from close in, left every point behind the camera and blanked 
 map. Run it on more than one course: it took Visby's holes to show that.
 
 The timing tool is the phone proxy of `docs/load-times-2026-11-04.md` (4x CPU, 20 Mbps,
-80 ms) on this GPU. On Veckefjärden, 4 November, with the land pictures and the
-surroundings record in: first picture 3.8 s cold and 2.9 s on reopen with nothing
-downloaded, all 1 m ground at 5.4 s and 4.3 s, against 40 s and 8 s for the player. That
-is over a second more than before them, and which part costs what has not been split
-out. It says nothing of a phone's graphics.
+80 ms) on this GPU. On Veckefjärden, 5 November: first picture 4.0 s cold and 2.5 s on
+reopen with nothing downloaded, all 1 m ground at 5.5 s and 3.7 s, against 40 s and 8 s
+for the player. Before the land pictures and the surroundings record those were 2.4, 1.5,
+3.3 and 2.5 s. High-quality canvas smoothing of the land pictures cost about a second of
+that, so they are drawn with the plain kind. It says nothing of a phone's graphics.
 
 On a real phone the owner reports it "very snappy" (4 November, model not recorded).
 That is the only evidence so far: frame rate and battery use are unmeasured.

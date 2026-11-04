@@ -176,6 +176,44 @@ await page.click('[data-recentre]');
 await settled(page);
 expect(await page.evaluate(() => V3DMap.state.follow && !V3DMap.state.viewMoved), 'and it follows the player again');
 
+/* ---- the quick views ---- */
+const framing = () => page.evaluate(() => {
+  const { tilt, bearing } = V3DMap.camera.state;
+  const { state, course } = V3DMap;
+  const green = course.holes[state.hole - 1].green.c, from = state.player.point;
+  const wanted = Math.atan2(green[0] - from[0], -(green[1] - from[1]));
+  return { tilt, off: Math.abs(Math.atan2(Math.sin(bearing - wanted), Math.cos(bearing - wanted))), pressed: document.querySelector('[data-views] [aria-pressed="true"]').dataset.view };
+});
+await page.click('[data-view="behind"]');
+await settled(page);
+const behind = await framing();
+expect(behind.tilt > 1.1 && behind.off < 0.01 && behind.pressed === 'behind', `Bakom stands low behind the player, facing the green (tilt ${behind.tilt.toFixed(2)})`);
+await shot(page, 'behind');
+await fixAt(0.5);
+const walked = await framing();
+expect(walked.tilt > 1.1 && walked.off < 0.01, 'and stays lined up as the player walks');
+await page.click('[data-view="above"]');
+await settled(page);
+const above = await framing();
+expect(above.tilt < 0.1 && above.off < 0.01 && above.pressed === 'above', 'Ovan looks straight down, with play up the screen');
+await shot(page, 'above');
+await page.mouse.move(200, 420);
+await page.mouse.down();
+await page.mouse.move(120, 300, { steps: 8 });
+await page.mouse.up();
+await page.waitForTimeout(250);
+await page.click('[data-view="hole"]');
+await settled(page);
+const framed = await framing();
+expect(framed.tilt > 0.8 && framed.tilt < 1 && framed.off < 0.01, 'Hål brings a moved view back, and fingers still move it');
+expect(await page.evaluate(() => localStorage.getItem('banvy-map-view-v1')) === 'hole', 'the view chosen is remembered');
+await page.click('[data-view="green"]');
+await settled(page);
+expect(await page.evaluate(() => V3DMap.state.greenView), 'Green opens the green');
+await page.click('[data-view="hole"]');
+await settled(page);
+await fixAt(0.75);
+
 /* ---- the green, close to ---- */
 await page.click('[data-green]');
 await settled(page);
@@ -183,7 +221,7 @@ await page.waitForTimeout(300);
 const green = await page.evaluate(() => ({ view: V3DMap.state.greenView, distance: V3DMap.camera.state.distance, pulses: (V3DMap.state.greenGrid?.pulses.length ?? 0) / 13, lines: V3DMap.state.greenGrid?.indices.length ?? 0, marked: document.querySelector('[data-green]').getAttribute('aria-pressed') }));
 expect(green.view && green.distance < 250 && green.marked === 'true', `the numbers open the green (from ${Math.round(green.distance)} m)`);
 expect(green.lines > 100 && green.pulses > 20, `and lay the greengrid over it, ${Math.round(green.pulses)} pulses`);
-expect(/Lutning snitt/.test(await page.textContent('[data-hole-facts]')) && await page.isVisible('[data-legend]'), `with its slopes in words: ${await page.textContent('[data-hole-facts]')}`);
+expect(/^Snitt \d/.test(await page.textContent('[data-hole-facts]')) && await page.isVisible('[data-legend]'), `with its slopes in words: ${await page.textContent('[data-hole-facts]')}`);
 const gridFrames = (await page.evaluate(() => V3DMap.stats().frames));
 await page.waitForTimeout(1000);
 const gridRate = (await page.evaluate(() => V3DMap.stats().frames)) - gridFrames;
@@ -220,6 +258,57 @@ expect(scoreStored?.includes('"strokes"'), 'and keeps them on the phone');
 expect(/poäng/.test(await page.textContent('[data-score-sum]')), 'and adds up Stableford with a handicap');
 expect((await page.textContent('[data-score-label]')).includes('+1'), 'the Score button shows how the round stands');
 await page.click('[data-score]');
+
+/* ---- the next tee ---- */
+const onPoint = async point => {
+  const [lat, lon] = await page.evaluate(([x, z]) => {
+    const { origin, mPerLon } = V3DMap.course.geo;
+    let latitude = origin.lat, longitude = origin.lon;
+    for (let i = 0; i < 40; i++) {
+      const at = V3DMap.worldOf(latitude, longitude);
+      longitude += (x - at[0]) / mPerLon;
+      latitude -= (z - at[1]) / 111320;
+    }
+    return [latitude, longitude];
+  }, point);
+  await page.evaluate(([a, b]) => V3DMap.fix(a, b, 5), [lat, lon]);
+};
+const played = await page.evaluate(() => V3DMap.state.hole);
+const nextTee = await page.evaluate(n => V3DMap.course.holes[n].tees[0].point, played);
+await onPoint(nextTee);
+expect(await page.evaluate(() => V3DMap.state.hole) === played, 'walking onto the next tee changes nothing yet');
+await page.evaluate(() => V3DMap.skipTime(21000));
+await onPoint(nextTee);
+await settled(page);
+expect(await page.evaluate(() => V3DMap.state.hole) === played + 1, 'standing on it turns to that hole');
+await page.click('[data-prev]');
+await settled(page);
+await page.evaluate(() => V3DMap.skipTime(21000));
+await onPoint(nextTee);
+await page.evaluate(() => V3DMap.skipTime(21000));
+await onPoint(nextTee);
+await settled(page);
+expect(await page.evaluate(() => V3DMap.state.hole) === played, 'and a hole chosen by hand stays chosen');
+const midNext = await page.evaluate(n => { const { line } = V3DMap.course.holes[n]; return line[Math.floor(line.length / 2)]; }, played);
+await page.evaluate(() => V3DMap.skipTime(70000));
+await onPoint(midNext);
+await settled(page);
+expect(await page.evaluate(() => V3DMap.state.hole) === played, 'a hole chosen by hand survives a phone put away');
+await fixAt(0.75);
+await page.click('[data-recentre]');
+await settled(page);
+expect(await page.evaluate(() => V3DMap.state.playing) === played, 'the round button settles which hole is being played');
+await page.evaluate(() => V3DMap.skipTime(70000));
+await onPoint(midNext);
+await settled(page);
+expect(await page.evaluate(() => V3DMap.state.hole) === played + 1, 'a phone put away over a tee finds the hole again when it wakes');
+await page.click('[data-prev]');
+await settled(page);
+await fixAt(0.75);
+await page.click('[data-recentre]');
+await settled(page);
+const [stillLat, stillLon] = await toLatLon(0.75);
+expect(await page.evaluate(([a, b]) => { V3DMap.fix(a, b, 5); return !V3DMap.state.flight; }, [stillLat, stillLon]), 'a player standing still does not move the map');
 
 /* ---- the next hole, the whole course ---- */
 const hole = await page.evaluate(() => V3DMap.state.hole);
