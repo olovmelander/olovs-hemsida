@@ -125,6 +125,26 @@ await note(page, 'measured');
 expect(await page.evaluate(() => !document.querySelector('[data-profile-aim]').hidden), 'the measured point stands on the strip too');
 await shot(page, 'measure');
 
+/* ---- what lies ahead, the air, the card ---- */
+const hazards = await page.evaluate(() => V3DMap.state.hazards);
+expect(hazards.length > 0 && hazards.every(hazard => hazard.front > 0), `hazards ahead carry their distances (${hazards.length})`);
+await page.evaluate(() => V3DMap.setWeather({ windFromDeg: 0, windMs: 6, gustMs: 9, tempC: 12, code: 2, fetchedAt: Date.now(), source: 'test' }));
+await page.waitForTimeout(250);
+expect(await page.isVisible('[data-wind]'), 'the wind shows, with its arrow');
+const windy = await page.textContent('[data-reading]');
+expect(/spelas/.test(windy), `and the shot reads it: ${windy}`);
+await page.click('[data-score]');
+await page.click('[data-strokes-more]');
+await page.click('[data-strokes-more]');
+await page.click('[data-putts-more]');
+await page.click('[data-handicap-more]');
+const card = await page.evaluate(() => ({ round: V3DMap.round(), hole: V3DMap.state.hole, par: V3DMap.course.holes[V3DMap.state.hole - 1].par }));
+expect(card.round.scores[card.hole].strokes === card.par + 1, 'the card takes a score from par');
+const scoreStored = await page.evaluate(slug => localStorage.getItem(`banvy-map-round-v1:${slug}`), SLUG);
+expect(scoreStored?.includes('"strokes"'), 'and keeps it on the phone');
+expect(/poäng/.test(await page.textContent('[data-score-sum]')), 'and adds up Stableford with a handicap');
+await page.click('[data-score]');
+
 /* ---- the next hole, the whole course ---- */
 const hole = await page.evaluate(() => V3DMap.state.hole);
 await page.click('[data-next]');
@@ -241,7 +261,7 @@ await desktopContext.close();
 console.log(refused.length ? `requests refused: ${[...new Set(refused)].slice(0, 8).join(' ')}` : 'no requests refused');
 /* The service worker's own loader is not in its precache; by then the worker is
    running, so this one refusal offline changes nothing. Any other still fails. */
-const harmless = refused.length > 0 && refused.every(url => url.endsWith('/registerSW.js'));
+const harmless = refused.length > 0 && refused.every(url => url.endsWith('/registerSW.js') || url.includes('api.open-meteo.com'));
 if (harmless) problems.splice(0, problems.length, ...problems.filter(text => !text.includes('ERR_INTERNET_DISCONNECTED')));
 expect(!problems.length, `no console errors${problems.length ? `: ${problems.slice(0, 4).join(' | ')}` : ''}`);
 await browser.close();

@@ -52,7 +52,7 @@ export function createOverlay(canvas) {
     },
 
     draw(scene) {
-      const { camera, ground, course, mode, hole, origin, player, target, tee } = scene;
+      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [] } = scene;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.clearRect(0, 0, width, height);
       hits.length = 0;
@@ -127,6 +127,20 @@ export function createOverlay(canvas) {
           ctx.setLineDash([]);
           const end = at(arc[3][0], arc[3][1]);
           if (Number.isFinite(end.x)) pill(end.x, end.y, String(metres), { size: 11, weight: 600 });
+        }
+
+        /* Reach and carry, where the hazard is. Two pills never sit on each other: the
+           nearer hazard is the one that matters. */
+        const placed = [];
+        for (const hazard of hazards) {
+          const s = at(hazard.at[0], hazard.at[1]);
+          if (!Number.isFinite(s.x) || s.x < 8 || s.x > width - 8 || s.y < 8 || s.y > height - 8) continue;
+          if (placed.some(other => Math.hypot(other.x - s.x, other.y - s.y) < 34)) continue;
+          placed.push(s);
+          const words = hazard.carry === null ? String(Math.round(hazard.front)) : `${Math.round(hazard.front)}–${Math.round(hazard.carry)}`;
+          pill(s.x, s.y, words, hazard.kind === 'water'
+            ? { fill: 'rgba(20,92,140,.94)', size: 11.5 }
+            : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });
         }
 
         /* The flag stands on the ground and rises off it, so it reads as 3D. */

@@ -10,6 +10,7 @@ import { decodeLandcover } from '../engine/landcover.mjs';
 import { resolvePublishedGraph } from '../engine/v2-graph-source.mjs';
 import { fetchLandcover, fetchPack, packRequestUrl } from '../loader/pack.js';
 import { createMapFrame } from './map-frames.mjs';
+import { groupBunkers, waterShape } from './map-measure.mjs';
 
 const ringOf = item => (Array.isArray(item) ? item : item?.ring);
 const isPoint = point => Array.isArray(point) && Number.isFinite(point[0]) && Number.isFinite(point[1]);
@@ -114,6 +115,10 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     ground,
     holes,
     features,
+    hazards: {
+      bunkers: groupBunkers([...holes.flatMap(hole => hole.bunkers), ...features.otherBunkers]),
+      waters: features.water.map(item => waterShape(item.ring)),
+    },
     landcover,
     mown,
     woodland: scenery.woodlandContext ?? null,

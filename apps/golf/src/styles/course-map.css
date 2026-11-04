@@ -60,11 +60,36 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-hole-text b { display: block; font-size: 20px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .map-hole-text span { display: block; font-size: 13px; color: #c9d8cf; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-.map-green {
+.map-side {
   position: absolute;
   top: calc(env(safe-area-inset-top, 0px) + 76px);
   right: calc(env(safe-area-inset-right, 0px) + 10px);
   width: 76px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  pointer-events: none;
+}
+.map-wind {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: center;
+  column-gap: 2px;
+  padding: 5px 6px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(12, 24, 18, .9);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.map-wind[hidden] { display: none; }
+.map-wind svg { grid-row: span 2; color: #9fd8ff; transition: transform .2s; }
+.map-wind b { font-size: 13.5px; font-weight: 700; line-height: 1.1; white-space: nowrap; }
+.map-wind span { font-size: 12px; line-height: 1.1; color: #c9d8cf; }
+.map-green {
   padding: 6px 0 5px;
   border-radius: 14px;
   background: rgba(12, 24, 18, .9);
@@ -145,7 +170,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 }
 .map-mark-you { color: #2e86ff; }
 .map-mark-aim { color: #ffd23f; }
-.map-tools { display: flex; gap: 6px; }
+.map-tools { display: flex; gap: 5px; }
 .map-tool {
   flex: 1;
   min-width: 0;
@@ -163,7 +188,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-tool[data-now][aria-pressed="true"] { background: #e8a33d; color: #1c1405; }
 .map-tool[aria-expanded="true"] { background: #1f8a4c; }
 .map-tool:disabled { opacity: .7; }
-.map-key:focus-visible, .map-tool:focus-visible, .map-hole button:focus-visible, .map-chip:focus-visible, .map-action:focus-visible, .map-sheet-close:focus-visible { outline: 3px solid #ffd23f; outline-offset: 2px; }
+.map-key:focus-visible, .map-tool:focus-visible, .map-hole button:focus-visible, .map-chip:focus-visible, .map-action:focus-visible, .map-sheet-close:focus-visible, .map-wind:focus-visible, .map-stepper button:focus-visible, .map-card button:focus-visible { outline: 3px solid #ffd23f; outline-offset: 2px; }
 
 .map-status {
   position: absolute;
@@ -183,7 +208,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   .map-profile { display: none; }
   .map-bottom { right: calc(env(safe-area-inset-right, 0px) + 96px); }
   .map-tool { height: 44px; }
-  .map-green { top: calc(env(safe-area-inset-top, 0px) + 74px); }
+  .map-side { top: calc(env(safe-area-inset-top, 0px) + 74px); }
   .map-green-mid b { font-size: 30px; }
 }
 
@@ -264,3 +289,50 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   cursor: pointer;
 }
 .map-action:disabled { opacity: .7; }
+
+/* The scorecard: thumbs first, with gloves on and the sun on the screen. */
+.map-steppers { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.map-stepper {
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  grid-template-rows: auto 52px;
+  align-items: center;
+  gap: 2px 4px;
+  text-align: center;
+}
+.map-stepper > span { grid-column: 1 / -1; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #c9d8cf; }
+.map-stepper button {
+  height: 52px;
+  border: 0;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, .12);
+  color: inherit;
+  font: inherit;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+.map-stepper output { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.map-score-word { min-height: 20px; margin: 8px 0 0; font-size: 15px; font-weight: 600; color: #ffd23f; text-align: center; }
+.map-score-sum { margin: 2px 0 8px; font-size: 14px; color: #e6eee9; text-align: center; }
+.map-card { display: grid; gap: 8px; margin-bottom: 10px; }
+.map-card-row { display: grid; grid-template-columns: 34px repeat(9, 1fr) 30px; align-items: center; font-size: 13px; text-align: center; }
+.map-card-row + .map-card-row { border-top: 1px solid rgba(255, 255, 255, .1); }
+.map-card-row > span { color: #c9d8cf; font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.map-card-row button {
+  height: 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.map-card-row button.is-now { background: rgba(255, 210, 63, .2); }
+.map-card-head button { color: #c9d8cf; font-size: 11.5px; }
+.map-card-score button { font-size: 14.5px; font-weight: 700; }
+.map-card-score button.is-under { color: #7fe39a; }
+.map-card-score button.is-over { color: #ffb48a; }
+.map-handicap { margin: 2px 0 8px; }

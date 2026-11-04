@@ -16,10 +16,11 @@ import { softened } from './map-paint.mjs';
 import { createCamera, createFlight } from './map-camera.mjs';
 import { createDetailTexture } from './map-detail.mjs';
 import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
+import { newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokesReceived } from './map-score.mjs';
 import { buildMapCourse } from './map-course.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
 import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, placeOnProfile, playedPath, principalBearing, STRIP_REST, stripX, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, principalBearing, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
 import { species as angsoSpecies } from '../engine/scenery/angso.js';
 import { species as veckefjardenSpecies } from '../engine/scenery/veckefjarden.js';
@@ -438,8 +439,28 @@ describe('what a golfer reads', () => {
 
   it('adds a climb to what a shot plays', () => {
     const uphill = shotReading([0, 0], [100, 0], (x) => x / 20);
-    expect(uphill).toEqual({ distance: 100, rise: 5, plays: 105 });
-    expect(shotReading([0, 0], [100, 0], () => NaN)).toEqual({ distance: 100, rise: null, plays: null });
+    expect(uphill).toMatchObject({ distance: 100, rise: 5, plays: 105 });
+    expect(shotReading([0, 0], [100, 0], () => NaN)).toMatchObject({ distance: 100, rise: null, plays: null });
+  });
+
+  it('plays a headwind long, a tailwind short and cold air long', () => {
+    const north = [[0, 0], [0, -150]], level = () => 0;
+    const still = shotReading(...north, level);
+    const against = shotReading(...north, level, { windFromDeg: 0, windMs: 5, tempC: 21 });
+    const behind = shotReading(...north, level, { windFromDeg: 180, windMs: 5, tempC: 21 });
+    const cold = shotReading(...north, level, { windFromDeg: 0, windMs: 0, tempC: 5 });
+    expect(against.head).toBeCloseTo(5);
+    expect(against.plays).toBeGreaterThan(still.plays);
+    expect(behind.plays).toBeLessThan(still.plays);
+    expect(cold.plays).toBeGreaterThan(still.plays);
+  });
+
+  it('says what the wind does to a shot', () => {
+    expect(windWords({ head: 4.2, cross: 0.3 })).toEqual(['motvind 4 m/s']);
+    expect(windWords({ head: -3, cross: 0 })).toEqual(['medvind 3 m/s']);
+    expect(windWords({ head: 0.4, cross: 2.6 })).toEqual(['3 m/s från höger']);
+    expect(windWords({ head: 2, cross: -2 })).toEqual(['motvind 2 m/s', '2 m/s från vänster']);
+    expect(windWords({ head: 0, cross: 0 })).toEqual([]);
   });
 
   it('profiles the ground along a path, evenly round a bend', () => {
@@ -532,6 +553,67 @@ describe('what a golfer reads', () => {
   });
 });
 
+describe('hazards ahead', () => {
+  const square = (x, z, half = 5) => [[x - half, z - half], [x + half, z - half], [x + half, z + half], [x - half, z + half]];
+  const path = [[0, 0], [0, -400]];
+  const bunkers = rings => groupBunkers(rings);
+  const ahead = input => hazardsAhead({ origin: [0, 0], path, bunkers: [], waters: [], ...input });
+
+  it('gives a bunker its reach and its carry, nearest first', () => {
+    const found = ahead({ bunkers: bunkers([square(20, -300), square(-20, -200)]) });
+    expect(found.map(hazard => hazard.kind)).toEqual(['bunker', 'bunker']);
+    expect(found[0].front).toBeGreaterThan(190);
+    expect(found[0].front).toBeLessThan(200);
+    expect(found[0].carry).toBeGreaterThan(205);
+    expect(found[1].at).toEqual([20, -300]);
+  });
+
+  it('counts a cluster of bunkers as one hazard', () => {
+    expect(ahead({ bunkers: bunkers([square(20, -300), square(30, -300), square(20, -200)]) }).length).toBe(2);
+  });
+
+  it('forgets what the ball has passed and what is off on another hole', () => {
+    const found = hazardsAhead({ origin: [0, -250], path, waters: [], bunkers: bunkers([square(20, -200), square(20, -320), square(200, -320)]) });
+    expect(found.length).toBe(1);
+    expect(found[0].at).toEqual([20, -320]);
+  });
+
+  it('stops at the five nearest', () => {
+    const many = Array.from({ length: 9 }, (_, i) => square(25, -60 - i * 40));
+    expect(ahead({ bunkers: bunkers(many) }).length).toBe(5);
+  });
+
+  it('gives water across the line a carry, and water beside it none', () => {
+    const across = waterShape([[-80, -200], [80, -200], [80, -260], [-80, -260]]);
+    const crossing = ahead({ waters: [across] });
+    expect(crossing.length).toBe(1);
+    expect(crossing[0].kind).toBe('water');
+    expect(crossing[0].front).toBeGreaterThan(175);
+    expect(crossing[0].front).toBeLessThan(200);
+    expect(crossing[0].carry).toBeGreaterThan(250);
+    expect(crossing[0].carry).toBeLessThan(265);
+    const beside = waterShape([[12, -200], [80, -200], [80, -260], [12, -260]]);
+    expect(ahead({ waters: [beside] })[0].carry).toBeNull();
+  });
+
+  it('says nothing of water at the player\'s feet that needs no carrying', () => {
+    const beside = waterShape([[10, 20], [80, 20], [80, -12], [10, -12]]);
+    expect(ahead({ waters: [beside] })).toEqual([]);
+  });
+
+  it('finds a pond halfway along a long straight hole', () => {
+    const long = [[0, 0], [0, -900]];
+    const pond = waterShape([[-30, -430], [30, -430], [30, -470], [-30, -470]]);
+    const found = hazardsAhead({ origin: [0, 0], path: long, bunkers: [], waters: [pond] });
+    expect(found.length).toBe(1);
+    expect(found[0].carry).toBeGreaterThan(460);
+  });
+
+  it('leaves water that is nowhere near the hole out of it', () => {
+    expect(ahead({ waters: [waterShape(square(900, -200, 40))] })).toEqual([]);
+  });
+});
+
 describe('the camera', () => {
   const camera = () => {
     const made = createCamera();
@@ -616,6 +698,70 @@ describe('the camera', () => {
     expect(flight.at(1000).distance).toBeCloseTo(400);
     expect(flight.done(100)).toBe(true);
     expect(createFlight({ x: 0, y: 0, z: 0, distance: 1, bearing: 0, tilt: 0 }, { x: 5, y: 0, z: 0, distance: 1, bearing: 0, tilt: 0 }, 0).at(0).x).toBe(5);
+  });
+});
+
+describe('the scorecard', () => {
+  const holes = Array.from({ length: 18 }, (_, i) => ({ n: i + 1, par: 4, index: i + 1 }));
+  const hole = n => holes[n - 1];
+
+  it('gives strokes on the hardest holes first', () => {
+    expect(strokesReceived(18, hole(18), holes)).toBe(1);
+    expect(strokesReceived(10, hole(10), holes)).toBe(1);
+    expect(strokesReceived(10, hole(11), holes)).toBe(0);
+    expect(strokesReceived(20, hole(2), holes)).toBe(2);
+    expect(strokesReceived(20, hole(3), holes)).toBe(1);
+    expect(strokesReceived(54, hole(1), holes)).toBe(3);
+    expect(strokesReceived(0, hole(1), holes)).toBe(0);
+  });
+
+  it('takes a plus handicap back on the easiest holes', () => {
+    expect(strokesReceived(-2, hole(18), holes)).toBe(-1);
+    expect(strokesReceived(-2, hole(17), holes)).toBe(-1);
+    expect(strokesReceived(-2, hole(16), holes)).toBe(0);
+  });
+
+  it('ranks a nine-hole card among its own holes', () => {
+    const nine = [{ n: 1, par: 4, index: 3 }, { n: 2, par: 3, index: 17 }, { n: 3, par: 5, index: 9 }];
+    expect(strokesReceived(1, nine[0], nine)).toBe(1);
+    expect(strokesReceived(1, nine[2], nine)).toBe(0);
+  });
+
+  it('has no strokes to give without an index or a handicap', () => {
+    const unrated = [{ n: 1, par: 3, index: null }, { n: 2, par: 3, index: null }];
+    expect(strokesReceived(10, unrated[0], unrated)).toBeNull();
+    expect(strokesReceived(null, hole(1), holes)).toBeNull();
+  });
+
+  it('scores Stableford, and never below nil', () => {
+    expect(stablefordPoints(4, 4, 0)).toBe(2);
+    expect(stablefordPoints(4, 3, 0)).toBe(3);
+    expect(stablefordPoints(4, 5, 1)).toBe(2);
+    expect(stablefordPoints(4, 9, 0)).toBe(0);
+  });
+
+  it('names a score', () => {
+    expect(scoreName(3, 4)).toBe('Birdie');
+    expect(scoreName(4, 4)).toBe('Par');
+    expect(scoreName(5, 4)).toBe('Bogey');
+    expect(scoreName(1, 3)).toBe('Hole in one');
+    expect(scoreName(9, 4)).toBe('+5');
+  });
+
+  it('adds a round up as it goes, with a struck hole worth nothing', () => {
+    const round = { ...newRound(), handicap: 18, scores: { 1: { strokes: 5, putts: 2 }, 2: { strokes: 4, putts: 1 }, 3: { picked: true } } };
+    expect(roundTotals(round, holes)).toEqual({ played: 3, strokes: 9, par: 8, putts: 3, points: 5, toPar: 1 });
+  });
+
+  it('adds strokes but no points without a handicap', () => {
+    const round = { ...newRound(), scores: { 1: { strokes: 4 } } };
+    expect(roundTotals(round, holes)).toMatchObject({ strokes: 4, toPar: 0, points: null });
+  });
+
+  it('comes back from storage, or starts afresh from anything else', () => {
+    const round = { ...newRound(), scores: { 4: { strokes: 3 } } };
+    expect(parseRound(JSON.stringify(round)).scores[4].strokes).toBe(3);
+    for (const bad of [null, '', 'nonsense', '{"version":9}', '{"version":1,"scores":null}']) expect(parseRound(bad)).toBeNull();
   });
 });
 

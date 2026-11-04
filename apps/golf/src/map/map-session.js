@@ -6,6 +6,7 @@
    in a pocket between shots spends nothing on the map. */
 import '../styles/course-map.css';
 import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag, recommendClub } from '../engine/caddie.js';
+import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { detailedUrl } from '../shell/router.js';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, MAX_DISTANCE, MAX_TILT, MIN_DISTANCE, MIN_TILT } from './map-camera.mjs';
@@ -14,8 +15,9 @@ import { createGps, createScreenLock, downloadCourse, isDownloaded, offlineBytes
 import { createMapRenderer } from './map-gl.mjs';
 import { attachGestures } from './map-gestures.mjs';
 import { AUTUMN_RAMPS, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS } from './map-light.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, placeOnProfile, playedPath, principalBearing, stripX, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, hazardsAhead, placeOnProfile, playedPath, principalBearing, stripX, windWords, shotReading } from './map-measure.mjs';
 import { createOverlay } from './map-overlay.mjs';
+import { MAX_HANDICAP, MIN_HANDICAP, newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokesReceived } from './map-score.mjs';
 import { createDetailTexture } from './map-detail.mjs';
 import { createMapPainter } from './map-paint.mjs';
 import { createTileStore, fetchKeptFile } from './map-tiles.mjs';
@@ -42,6 +44,12 @@ const TEE_KEY = 'banvy-map-tee-v1';
 const LIGHT_KEY = 'banvy-map-light-v1';
 const CONTOUR_KEY = 'banvy-map-contours-v1';
 const NOW_REFRESH_MS = 60000;
+const HAZARD_KEY = 'banvy-map-hazards-v1';
+const ROUND_KEY = 'banvy-map-round-v1';
+const HANDICAP_KEY = 'banvy-map-handicap-v1';
+const WEATHER_REFRESH_MS = 10 * 60 * 1000;
+/* Older than this, a wind reading is history and has no business in a plays-like. */
+const WEATHER_TRUSTED_MS = 3 * 60 * 60 * 1000;
 const OFF_COURSE_METRES = 450, FOLLOW_HOLE_METRES = 120;
 /* Further than this from a hole's line, a player is not on that hole. */
 const ON_THE_STRIP_METRES = 150;
@@ -72,12 +80,18 @@ root.innerHTML = `
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 18l6-13 5 8 3-4 4 9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
     </button>
   </header>
-  <aside class="map-green" data-green aria-label="Avstånd till greenen">
-    <div><span>Bak</span><b data-back-number>–</b></div>
-    <div class="map-green-mid"><span>Mitt</span><b data-mid-number>–</b></div>
-    <div><span>Fram</span><b data-front-number>–</b></div>
-    <small data-from></small>
-  </aside>
+  <div class="map-side">
+    <aside class="map-green" data-green aria-label="Avstånd till greenen">
+      <div><span>Bak</span><b data-back-number>–</b></div>
+      <div class="map-green-mid"><span>Mitt</span><b data-mid-number>–</b></div>
+      <div><span>Fram</span><b data-front-number>–</b></div>
+      <small data-from></small>
+    </aside>
+    <button class="map-wind" data-wind hidden aria-label="Vind och väder">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" data-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
+      <b data-wind-speed></b><span data-wind-temp></span>
+    </button>
+  </div>
   <section class="map-bottom">
     <div class="map-reading" data-reading hidden></div>
     <div class="map-profile" data-profile>
@@ -90,7 +104,23 @@ root.innerHTML = `
       <button class="map-tool" data-gps aria-pressed="false">GPS</button>
       <button class="map-tool" data-light aria-expanded="false">Ljus</button>
       <button class="map-tool" data-now aria-pressed="false" aria-label="Ljuset just nu på banan">Nu</button>
+      <button class="map-tool" data-score aria-expanded="false">Score</button>
       <button class="map-tool" data-menu aria-expanded="false">Meny</button>
+    </div>
+  </section>
+  <section class="map-sheet" data-score-sheet hidden aria-label="Scorekort">
+    <div class="map-sheet-head"><b data-score-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
+    <div class="map-steppers">
+      <div class="map-stepper"><span>Slag</span><button data-strokes-less aria-label="Ett slag färre">−</button><output data-strokes>–</output><button data-strokes-more aria-label="Ett slag till">+</button></div>
+      <div class="map-stepper"><span>Putt</span><button data-putts-less aria-label="En putt färre">−</button><output data-putts>–</output><button data-putts-more aria-label="En putt till">+</button></div>
+    </div>
+    <p class="map-score-word" data-score-word></p>
+    <p class="map-score-sum" data-score-sum></p>
+    <div class="map-card" data-card></div>
+    <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-handicap-less aria-label="Sänk spelhandicap">−</button><output data-handicap>–</output><button data-handicap-more aria-label="Höj spelhandicap">+</button></div>
+    <div class="map-actions">
+      <button class="map-action" data-pick-up>Stryk hålet</button>
+      <button class="map-action" data-new-round>Ny runda</button>
     </div>
   </section>
   <section class="map-sheet" data-light-sheet hidden aria-label="Ljus">
@@ -109,6 +139,7 @@ root.innerHTML = `
     <h3>Höjd</h3>
     <div class="map-chips" data-reliefs></div>
     <label class="map-row"><span>Höjdkurvor</span><input type="checkbox" data-contours></label>
+    <label class="map-row"><span>Hinderavstånd</span><input type="checkbox" data-hazards></label>
     <div class="map-actions">
       <button class="map-action" data-download>Spara banan</button>
       <a class="map-action" data-full>Detaljerad 3D</a>
@@ -123,7 +154,11 @@ const ui = {
   hole: $('[data-hole-title]'), facts: $('[data-hole-facts]'),
   back: $('[data-back-number]'), mid: $('[data-mid-number]'), front: $('[data-front-number]'), from: $('[data-from]'),
   reading: $('[data-reading]'), status: $('[data-status]'),
-  gps: $('[data-gps]'), light: $('[data-light]'), now: $('[data-now]'), menu: $('[data-menu]'),
+  gps: $('[data-gps]'), light: $('[data-light]'), now: $('[data-now]'), menu: $('[data-menu]'), score: $('[data-score]'),
+  scoreSheet: $('[data-score-sheet]'), scoreTitle: $('[data-score-title]'), strokes: $('[data-strokes]'), putts: $('[data-putts]'),
+  scoreWord: $('[data-score-word]'), scoreSum: $('[data-score-sum]'), card: $('[data-card]'), handicap: $('[data-handicap]'),
+  pickUp: $('[data-pick-up]'), newRound: $('[data-new-round]'), hazards: $('[data-hazards]'),
+  wind: $('[data-wind]'), windArrow: $('[data-wind-arrow]'), windSpeed: $('[data-wind-speed]'), windTemp: $('[data-wind-temp]'),
   lightSheet: $('[data-light-sheet]'), menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
   menuTitle: $('[data-menu-title]'), note: $('[data-note]'), holes: $('[data-holes]'),
   teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'),
@@ -231,6 +266,11 @@ async function start() {
     light: null,
     lightClock: null,
     contours: savedText(CONTOUR_KEY, '1') !== '0',
+    showHazards: savedText(HAZARD_KEY, '1') !== '0',
+    hazards: [],
+    weather: null,
+    windTurn: null,
+    scoreHole: null,
     pace: { last: 0, samples: [] },
     stats: { triangles: 0, trees: 0, patches: 0, frames: 0, lastDrawMs: 0 },
   };
@@ -294,8 +334,17 @@ async function start() {
     flyTo(view, duration);
   }
 
+  /* Live air, while it can be trusted. */
+  const air = () => {
+    const reading = state.weather;
+    return reading && Date.now() - (reading.fetchedAt ?? 0) < WEATHER_TRUSTED_MS ? reading : null;
+  };
+
   function refreshNumbers() {
     const h = hole(), from = origin();
+    state.hazards = state.mode === 'hole'
+      ? hazardsAhead({ origin: from, path: playedPath(h, teePoint()), ...course.hazards })
+      : [];
     const { front, centre, back } = greenNumbers(from, h.green);
     /* A placeholder green has a middle but no real edge, so its front and back
        are marked as the estimates they are. */
@@ -315,11 +364,12 @@ async function start() {
     ui.overview.setAttribute('aria-pressed', String(state.mode === 'course'));
 
     if (state.target && state.mode === 'hole') {
-      const shot = shotReading(from, state.target, store.heightAt);
-      const rest = shotReading(state.target, h.green.c, store.heightAt);
+      const shot = shotReading(from, state.target, store.heightAt, air());
+      const rest = shotReading(state.target, h.green.c, store.heightAt, air());
       const advice = recommendClub(shot.plays ?? shot.distance, bag);
       const parts = [`<b>${metres(shot.distance)} m</b>`];
       if (shot.rise !== null) parts.push(signed(shot.rise), `spelas ${metres(shot.plays)} m`);
+      parts.push(...windWords(shot));
       if (advice?.club) parts.push(advice.club.name);
       parts.push(`${metres(rest.distance)} m kvar`);
       ui.reading.innerHTML = parts.map(part => `<span>${part}</span>`).join('');
@@ -367,7 +417,7 @@ async function start() {
     /* What is behind the player is done with, and steps back. */
     ui.profileWalked.setAttribute('width', (stripX(walked, walked) * 300).toFixed(1));
 
-    const { rise, plays } = shotReading(from, green, store.heightAt);
+    const { rise, plays } = shotReading(from, green, store.heightAt, air());
     const flat = rise === null || Math.abs(rise) < 0.5;
     const word = flat ? 'plant' : rise > 0 ? 'uppför' : 'nedför';
     const climb = flat ? '' : `${Math.abs(rise).toFixed(1).replace('.', ',')} m`;
@@ -380,6 +430,8 @@ async function start() {
 
   function goHole(number, { fly = true } = {}) {
     state.hole = clamp(number, 1, course.holes.length);
+    state.scoreHole = null;
+    if (!ui.scoreSheet.hidden) refreshScore();
     state.mode = 'hole';
     state.target = null;
     /* The tiles for this hole, ahead of need: the flight lands on 1 m ground
@@ -460,7 +512,7 @@ async function start() {
     if (state.mode === 'course') { state.follow = Boolean(state.player); goHole(state.hole); } else showCourse();
   };
   /* ---- the sheets ---- */
-  const sheets = [[ui.lightSheet, ui.light], [ui.menuSheet, ui.menu]];
+  const sheets = [[ui.lightSheet, ui.light], [ui.menuSheet, ui.menu], [ui.scoreSheet, ui.score]];
   function showSheet(sheet) {
     for (const [each, button] of sheets) {
       const open = each === sheet && each.hidden;
@@ -470,6 +522,7 @@ async function start() {
   }
   ui.light.onclick = () => showSheet(ui.lightSheet);
   ui.menu.onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
+  ui.score.onclick = () => { refreshScore(); showSheet(ui.scoreSheet); };
   for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => showSheet(null);
   document.addEventListener('keydown', event => { if (event.key === 'Escape') showSheet(null); });
 
@@ -509,11 +562,120 @@ async function start() {
       invalidate();
     })));
     ui.contours.checked = state.contours;
+    ui.hazards.checked = state.showHazards;
   }
   ui.contours.onchange = () => {
     state.contours = ui.contours.checked;
     remember(CONTOUR_KEY, state.contours ? '1' : '0');
     invalidate();
+  };
+
+  ui.hazards.onchange = () => {
+    state.showHazards = ui.hazards.checked;
+    remember(HAZARD_KEY, state.showHazards ? '1' : '0');
+    invalidate();
+  };
+
+  /* ---- the card ---- */
+  const roundKey = `${ROUND_KEY}:${course.slug}`;
+  let round = parseRound(savedText(roundKey, null)) ?? newRound();
+  if (!Number.isFinite(round.handicap)) {
+    const known = Number(savedText(HANDICAP_KEY, ''));
+    if (savedText(HANDICAP_KEY, '') !== '' && Number.isFinite(known)) round.handicap = known;
+  }
+  const scoredHole = () => course.holes[(state.scoreHole ?? state.hole) - 1];
+  const saveRound = () => remember(roundKey, JSON.stringify(round));
+
+  function setScore(change) {
+    const h = scoredHole();
+    round.scores[h.n] = { ...round.scores[h.n], ...change };
+    saveRound();
+    refreshScore();
+  }
+
+  function cardRows(holes) {
+    const sum = pick => holes.reduce((total, each) => total + (pick(each) ?? 0), 0);
+    const score = each => round.scores[each.n];
+    const shown = each => (score(each)?.picked ? '–' : score(each)?.strokes ?? '');
+    const kind = each => {
+      const strokes = score(each)?.strokes;
+      if (!Number.isFinite(strokes)) return '';
+      return strokes < each.par ? 'is-under' : strokes > each.par ? 'is-over' : '';
+    };
+    const cell = (each, text, extra = '') => `<button data-card-hole="${each.n}" class="${extra} ${each.n === scoredHole().n ? 'is-now' : ''}" aria-label="Hål ${each.n}">${text}</button>`;
+    return `<div class="map-card-row map-card-head"><span>Hål</span>${holes.map(each => cell(each, each.n)).join('')}<span>Σ</span></div>
+      <div class="map-card-row"><span>Par</span>${holes.map(each => cell(each, each.par)).join('')}<span>${sum(each => each.par)}</span></div>
+      <div class="map-card-row map-card-score"><span>Slag</span>${holes.map(each => cell(each, shown(each), kind(each))).join('')}<span>${sum(each => score(each)?.strokes) || ''}</span></div>`;
+  }
+
+  function refreshScore() {
+    const h = scoredHole(), own = round.scores[h.n] ?? {};
+    ui.scoreTitle.textContent = [`Hål ${h.n}`, `Par ${h.par}`, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
+    ui.strokes.textContent = own.picked ? '–' : own.strokes ?? '–';
+    ui.putts.textContent = own.putts ?? '–';
+    ui.handicap.textContent = Number.isFinite(round.handicap) ? String(round.handicap) : '–';
+    const received = strokesReceived(round.handicap, h, course.holes);
+    const name = Number.isFinite(own.strokes) && !own.picked ? scoreName(own.strokes, h.par) : own.picked ? 'Struket' : '';
+    const points = received === null ? null : own.picked ? 0 : Number.isFinite(own.strokes) ? stablefordPoints(h.par, own.strokes, received) : null;
+    ui.scoreWord.textContent = [name, points === null ? null : `${points} poäng`,
+      received ? `${received} erhållna slag` : null].filter(Boolean).join(' · ');
+    const totals = roundTotals(round, course.holes);
+    const toPar = totals.toPar === 0 ? 'E' : `${totals.toPar > 0 ? '+' : '−'}${Math.abs(totals.toPar)}`;
+    ui.scoreSum.textContent = totals.played
+      ? [`${totals.strokes} slag`, totals.strokes ? toPar : null, totals.points === null ? null : `${totals.points} poäng`, totals.putts ? `${totals.putts} putt` : null].filter(Boolean).join(' · ')
+      : 'Rundan har inte börjat';
+    const nines = [course.holes.slice(0, 9), course.holes.slice(9)].filter(part => part.length);
+    ui.card.innerHTML = nines.map(cardRows).join('');
+  }
+
+  ui.card.onclick = event => {
+    const target = event.target.closest('[data-card-hole]');
+    if (!target) return;
+    state.scoreHole = Number(target.dataset.cardHole);
+    refreshScore();
+  };
+  $('[data-strokes-more]').onclick = () => {
+    const { strokes } = round.scores[scoredHole().n] ?? {};
+    setScore({ strokes: Number.isFinite(strokes) ? strokes + 1 : scoredHole().par, picked: false });
+  };
+  $('[data-strokes-less]').onclick = () => {
+    const { strokes } = round.scores[scoredHole().n] ?? {};
+    setScore({ strokes: Number.isFinite(strokes) ? Math.max(1, strokes - 1) : scoredHole().par, picked: false });
+  };
+  $('[data-putts-more]').onclick = () => {
+    const { putts } = round.scores[scoredHole().n] ?? {};
+    setScore({ putts: Number.isFinite(putts) ? putts + 1 : 2 });
+  };
+  $('[data-putts-less]').onclick = () => {
+    const { putts } = round.scores[scoredHole().n] ?? {};
+    setScore({ putts: Number.isFinite(putts) ? Math.max(0, putts - 1) : 2 });
+  };
+  ui.pickUp.onclick = () => setScore({ strokes: null, putts: null, picked: true });
+  const setHandicap = value => {
+    round.handicap = clamp(value, MIN_HANDICAP, MAX_HANDICAP);
+    remember(HANDICAP_KEY, String(round.handicap));
+    saveRound();
+    refreshScore();
+  };
+  $('[data-handicap-more]').onclick = () => setHandicap(Number.isFinite(round.handicap) ? round.handicap + 1 : 18);
+  $('[data-handicap-less]').onclick = () => setHandicap(Number.isFinite(round.handicap) ? round.handicap - 1 : 18);
+
+  /* A whole round is one stray tap from gone, so it takes a second tap to clear. */
+  let clearing = 0;
+  ui.newRound.onclick = () => {
+    if (!clearing) {
+      ui.newRound.textContent = 'Säker? Tryck igen';
+      clearing = setTimeout(() => { clearing = 0; ui.newRound.textContent = 'Ny runda'; }, 4000);
+      return;
+    }
+    clearTimeout(clearing);
+    clearing = 0;
+    const { handicap } = round;
+    round = { ...newRound(), handicap };
+    state.scoreHole = 1;
+    ui.newRound.textContent = 'Ny runda';
+    saveRound();
+    refreshScore();
   };
 
   /* ---- the light ---- */
@@ -552,6 +714,36 @@ async function start() {
       : 'Solen har gått ner');
   };
   setInterval(() => { if (state.lightKey === 'nu' && !document.hidden) refreshLight(); }, NOW_REFRESH_MS);
+
+  /* ---- the wind ---- */
+  function applyWeather(reading) {
+    state.weather = reading;
+    const trusted = air();
+    ui.wind.hidden = !trusted;
+    if (trusted) {
+      ui.windSpeed.textContent = `${Math.round(trusted.windMs)} m/s`;
+      ui.windTemp.textContent = Number.isFinite(trusted.tempC) ? `${Math.round(trusted.tempC)}°` : '';
+    }
+    state.windTurn = null;
+    refreshNumbers();
+    invalidate();
+  }
+  async function refreshWeather() {
+    if (document.hidden) return;
+    const reading = await fetchWeather(latitude, longitude).catch(() => null);
+    if (reading) applyWeather(reading);
+  }
+  ui.wind.onclick = () => {
+    const reading = air();
+    if (!reading) return;
+    const gusts = Number.isFinite(reading.gustMs) ? `, byar ${Math.round(reading.gustMs)}` : '';
+    const degrees = Number.isFinite(reading.tempC) ? ` · ${Math.round(reading.tempC)}°` : '';
+    status(`${weatherWord(reading.code)} · vind från ${windCompass(reading.windFromDeg)} ${Math.round(reading.windMs)} m/s${gusts}${degrees}`);
+  };
+  setInterval(refreshWeather, WEATHER_REFRESH_MS);
+  document.addEventListener('visibilitychange', refreshWeather);
+  refreshWeather();
+
   document.addEventListener('visibilitychange', () => { if (!document.hidden && state.lightKey === 'nu') refreshLight(); });
   refreshLight();
 
@@ -717,6 +909,15 @@ async function start() {
       selection.patches.sort((a, b) => a.reach - b.reach);
       const { distance, bearing } = camera.state;
       const fillBearing = bearing - Math.PI / 4;
+      /* The arrow turns with the map, so it points the way the wind blows on it. */
+      const blowing = air();
+      if (blowing) {
+        const turn = Math.round(blowing.windFromDeg + 180 - bearing * 180 / Math.PI);
+        if (turn !== state.windTurn) {
+          state.windTurn = turn;
+          ui.windArrow.style.transform = `rotate(${turn}deg)`;
+        }
+      }
       /* Close up the map colours carry the surface and the light only models it;
          over a whole course the light has to do the work, since a hole's slopes
          are too gentle to read at that size. */
@@ -763,6 +964,7 @@ async function start() {
       tee: state.player?.onCourse ? null : teePoint(),
       player: state.player,
       target: state.mode === 'hole' ? state.target : null,
+      hazards: state.showHazards ? state.hazards : [],
     });
 
     state.stats.lastDrawMs = performance.now() - started;
@@ -785,6 +987,8 @@ async function start() {
     showCourse,
     invalidate,
     setLight,
+    setWeather: applyWeather,
+    round: () => round,
     /* A fixed moment for Nu, so a harness can stand at any hour of the year. */
     setClock(date) { state.lightClock = date; refreshLight(); },
     heightAt: store.heightAt,
