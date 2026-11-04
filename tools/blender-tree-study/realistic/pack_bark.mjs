@@ -9,6 +9,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { decodePNG } from '../../../geobuild/png.mjs';
 import { encodeRGBA } from './make_leaf_atlas.mjs';
+import { encodePNG } from './tree-png.mjs';
 
 const [renders, out] = process.argv.slice(2);
 fs.mkdirSync(out, { recursive: true });
@@ -24,7 +25,12 @@ for (const key of ['björk', 'ek', 'al', 'tall', 'gran']) {
     for (let k = 0; k < 3; k++) { colour[i * 4 + k] = c.data[i * c.channels + k]; normal[i * 4 + k] = n.data[i * n.channels + k]; mean[k] += lin(c.data[i * c.channels + k]); }
     colour[i * 4 + 3] = 255; normal[i * 4 + 3] = 255;
   }
-  const cb = encodeRGBA(W, H, colour), nb = encodeRGBA(W, H, normal);
+  /* the relief at half size (2.3 mm a texel on a 0.6 m tile), as the sprigs' normals; its colour keeps its size */
+  const W2 = W >> 1, H2 = H >> 1, small = new Uint8Array(W2 * H2 * 4);
+  for (let y = 0; y < H2; y++) for (let x = 0; x < W2; x++) for (let k = 0; k < 4; k++) {
+    let s = 2; for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) s += normal[((y * 2 + dy) * W + x * 2 + dx) * 4 + k];
+    small[(y * W2 + x) * 4 + k] = s >> 2; }
+  const cb = encodeRGBA(W, H, colour), nb = encodePNG(W2, H2, small, { opaque: true });
   fs.writeFileSync(path.join(out, `bark-${key}.png`), cb);
   fs.writeFileSync(path.join(out, `bark-${key}-normal.png`), nb);
   record.species[key] = { colour: { bytes: cb.length, sha256: sha(cb) }, normal: { bytes: nb.length, sha256: sha(nb) },

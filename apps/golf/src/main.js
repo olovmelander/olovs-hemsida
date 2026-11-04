@@ -145,6 +145,7 @@ import { createRain } from './engine/rain.mjs';
 import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
+import { warmFramePipelines } from './engine/warm-pipelines.mjs';
 import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
@@ -1982,6 +1983,38 @@ const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !
    the crown's depth, its clumps and each tree move, with a warm cap on every
    up-and-sunward mass. ?canopy=0 is the before, the smooth wrap. */
 const CANOPY_ON = new URLSearchParams(location.search).get('canopy') !== '0';
+/* Load the approved five-species Blender catalogue for the near meshes
+   and the distant impostor bake. Placement and measured sizes
+   retain their existing rules; missing catalogue assets report a loading error. */
+/* The download starts here, as the terrain stage begins, rather than when the forest stage reaches it: with
+   the terrain's packs in, the line is free and the CPU stages run on regardless. At 50 Mbps the forest stage
+   otherwise sat 2.4 s waiting for files that could have been on their way for five seconds. The failure is
+   reported where the forest stage awaits it. ?treehoist=0 is the before. */
+const startGhibliLoad = async () => {
+  try {
+    const { loadGhibliTrees, playerTreeMeshTier, playerTreeSet } = await import('./engine/ghibli-trees.mjs');
+    /* One mesh tier near the course, and it supplies the distant impostor
+       too: Hero at high quality, the same catalogue's Full model at low
+       quality -- every phone -- at about 40% of Hero's triangles, fitted to
+       the same height and radius. ?treemesh=hero|full overrides for
+       comparison; old ?hero=0 links change nothing. No Lite downloads. */
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
+      tier: playerTreeMeshTier(location.search, LOWQ),
+      /* the realistic catalogue (engine/ghibli-trees.mjs); ?treeset=v1 is the before, the painted one */
+      treeset: playerTreeSet(location.search),
+      /* low quality -- every phone -- keeps its models and leaf colours and leaves out the relief:
+         7.3 MB of maps, fifteen textures and their per-pixel normals. ?treerelief=1 is the before */
+      relief: !LOWQ || new URLSearchParams(location.search).get('treerelief') === '1',
+      /* ?crowndepth=0 is the before: every card of a crown one flat colour */
+      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
+      /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
+      puffs: CANOPY_ON && new URLSearchParams(location.search).get('puffs') !== '0' });
+    console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
+    return loaded;
+  } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
+};
+const GHIBLI_LOADING = new URLSearchParams(location.search).get('treehoist') !== '0' ? startGhibliLoad() : null;
+GHIBLI_LOADING?.catch(() => {});
 /* the leaves' flutter near a crown (leafFlutter, below); ?leafflutter=0 is the before */
 const LEAF_FLUTTER_ON = new URLSearchParams(location.search).get('leafflutter') !== '0';
 /* The mesh crowns' leaf cards are cut through the MSAA samples, as the
@@ -4675,35 +4708,10 @@ function mergeGeos(list) {
   out.setIndex(new THREE.BufferAttribute(idx, 1));
   return out;
 }
-/* Load the approved five-species Blender catalogue for the near meshes
-   and the distant impostor bake. Placement and measured sizes
-   retain their existing rules; missing catalogue assets report a loading error. */
-const GHIBLI_STARTED = performance.now();
-const GHIBLI = await (async () => {
-  try {
-    const { loadGhibliTrees, playerTreeMeshTier, playerTreeSet } = await import('./engine/ghibli-trees.mjs');
-    /* One mesh tier near the course, and it supplies the distant impostor
-       too: Hero at high quality, the same catalogue's Full model at low
-       quality -- every phone -- at about 40% of Hero's triangles, fitted to
-       the same height and radius. ?treemesh=hero|full overrides for
-       comparison; old ?hero=0 links change nothing. No Lite downloads. */
-    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
-      tier: playerTreeMeshTier(location.search, LOWQ),
-      /* the realistic catalogue (engine/ghibli-trees.mjs); ?treeset=v1 is the before, the painted one */
-      treeset: playerTreeSet(location.search),
-      /* low quality -- every phone -- keeps its models and leaf colours and leaves out the relief:
-         7.3 MB of maps, fifteen textures and their per-pixel normals. ?treerelief=1 is the before */
-      relief: !LOWQ || new URLSearchParams(location.search).get('treerelief') === '1',
-      /* ?crowndepth=0 is the before: every card of a crown one flat colour */
-      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
-      /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
-      puffs: CANOPY_ON && new URLSearchParams(location.search).get('puffs') !== '0' });
-    console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
-    return loaded;
-  } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
-})();
+const GHIBLI_WAIT_STARTED = performance.now();
+const GHIBLI = await (GHIBLI_LOADING ?? startGhibliLoad());
 // Preserve the placement scales used before authored templates became mandatory.
-span('tree models (download + decode)', GHIBLI_STARTED);
+span('tree models (waiting for them)', GHIBLI_WAIT_STARTED);
 /* The drawn template is also the one placement asks about (its crown's
    underside keeps trees out of the authored buildings), so a Full crown,
    which hangs lower than Hero's, is tested as the crown it is. */
@@ -12125,6 +12133,16 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     throw new Error(retryMessage, { cause: error });
   }
   span('GPU startup: compile opening scene', started);
+  /* what only a frame reaches, the shadow pass and the post passes, built in parallel behind the cover
+     (engine/warm-pipelines.mjs); the render half of a frame, so no clock moves. ?warmframe=0 is the before */
+  if (BOOTQ.get('warmframe') !== '0') {
+    const warmStarted = performance.now();
+    sun.shadow.needsUpdate = true;
+    BOOT_PERF.warmFrame = await warmFramePipelines(renderer, renderActivePipeline);
+    /* its draws were skipped, so the map it was asked for is empty */
+    sun.shadow.needsUpdate = true;
+    span('GPU startup: warm frame', warmStarted, BOOT_PERF.warmFrame);
+  }
 }
 let resolveFirstSceneFrame, rejectFirstSceneFrame;
 const firstSceneFrameReady = new Promise((resolve, reject) => {

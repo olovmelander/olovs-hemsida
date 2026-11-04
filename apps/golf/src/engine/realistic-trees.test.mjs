@@ -77,6 +77,29 @@ describe('the realistic catalogue (treeset v2)', () => {
     for (const f of ['realistic-v2', 'realistic-visby']) expect(headers).toContain(`/models/trees/${f}.json\n  Cache-Control: no-cache`);
     expect(v2.species[0].foliage.atlas.file.startsWith('realistic-v2/')).toBe(true);
   });
+  it('publishes its meshes quantized, which three reads without a decoder', () => {
+    const json = rec => { const b = read(rec.file); return JSON.parse(b.subarray(20, 20 + b.readUInt32LE(12)).toString()); };
+    for (const s of v2.species) for (const t of [s.variants[0].tiers.hero, s.variants[0].tiers.full]) {
+      const g = json(t), crown = g.meshes.find(m => m.name === 'crown').primitives[0], trunk = g.meshes.find(m => m.name === 'trunk').primitives[0];
+      expect(g.extensionsRequired).toEqual(['KHR_mesh_quantization']);
+      expect(g.accessors[crown.attributes.POSITION]).toMatchObject({ componentType: 5122, normalized: true });
+      expect(g.accessors[crown.attributes.NORMAL]).toMatchObject({ componentType: 5120, normalized: true });
+      /* a crown's colour is white, and the loader's default (ghibli-tree-assets.mjs toGeometry) */
+      expect(crown.attributes.COLOR_0).toBeUndefined();
+      expect(g.accessors[crown.indices].componentType).toBe(5123);
+      /* the bark's uvs repeat past 1, so they stay floats */
+      expect(g.accessors[trunk.attributes.TEXCOORD_0].componentType).toBe(5126);
+      /* one scale on all three axes: the loader carries the node's matrix into the normals */
+      for (const n of g.nodes) expect(new Set(n.scale).size).toBe(1);
+    }
+    /* normals at half size and without their unread alpha; the colours keep theirs */
+    const size = rec => { const b = read(rec.file); return [b.readUInt32BE(16), b[25]]; };
+    for (const s of v2.species) {
+      expect(size(s.foliage.atlas)).toEqual([1024, 6]);
+      expect(size(s.foliage.normals)).toEqual([512, 2]);
+      expect(size(s.bark.normals)).toEqual([256, 2]);
+    }
+  });
   it('gives Visby its coastal pine in the kept growth forms, and every other tree as the other courses have it', () => {
     const coast = JSON.parse(read('realistic-visby.json')), kept = JSON.parse(read('ghibli-visby.json'));
     expect(coast.revision).toBe(REALISTIC_VISBY_REVISION);

@@ -11,7 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { glb } from './tree-glb.mjs';
+import { treeGlb } from './tree-glb.mjs';
 
 const [treeDir, atlasDir, barkDir = null] = process.argv.slice(2);
 /* the modelled bark (bark_atlas.py, pack_bark.mjs), if given */
@@ -52,16 +52,8 @@ for (const old of approved.species) {
   const tiers = {};
   for (const tier of ['hero', 'full']) {
     const t = JSON.parse(fs.readFileSync(path.join(treeDir, `${key}-${tier}-${v}.json`)));
-    const crownCount = t.crown.position.length / 3, trunkCount = t.trunk.position.length / 3;
-    const bytes = glb([
-      { name: 'crown', attributes: { POSITION: [Float32Array.from(t.crown.position), 'VEC3'], NORMAL: [Float32Array.from(t.crown.normal), 'VEC3'],
-        TEXCOORD_0: [Float32Array.from(t.crown.uv), 'VEC2'], COLOR_0: [new Float32Array(crownCount * 3).fill(1), 'VEC3'] }, index: Uint32Array.from(t.crown.index) },
-      { name: 'trunk', attributes: { POSITION: [Float32Array.from(t.trunk.position), 'VEC3'], NORMAL: [Float32Array.from(t.trunk.normal), 'VEC3'],
-        COLOR_0: [Float32Array.from(t.trunk.color), 'VEC3'], ...(t.trunk.uv ? { TEXCOORD_0: [Float32Array.from(t.trunk.uv), 'VEC2'] } : {}) },
-        index: Uint32Array.from(t.trunk.index) },
-    ]);
+    const bytes = treeGlb(t);
     tiers[tier] = { ...write(bytes, 'glb'), tris: (t.crown.index.length + t.trunk.index.length) / 3 };
-    void trunkCount;
   }
   variants.push({ seed: variant.seed + 101 * v, templateHeight: variant.templateHeight, templateRadius: variant.templateRadius, tiers });
   }

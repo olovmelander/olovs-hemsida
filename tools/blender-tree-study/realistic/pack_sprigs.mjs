@@ -11,6 +11,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { decodePNG, encodePNG } from '../../../geobuild/png.mjs';
 import { encodeRGBA } from './make_leaf_atlas.mjs';
+import { encodePNG as encodeFiltered } from './tree-png.mjs';
 
 const [renders, out] = process.argv.slice(2);
 const preview = process.argv.includes('--preview');
@@ -19,6 +20,13 @@ fs.mkdirSync(out, { recursive: true });
 const keysAt = process.argv.indexOf('--keys');
 const KEYS = keysAt > 0 ? process.argv[keysAt + 1].split(',') : ['björk', 'ek', 'al', 'tall', 'gran'];
 const sha = b => createHash('sha256').update(b).digest('hex');
+/* The normals light a leaf; they do not outline it. A half-size atlas is 6 mm a texel on a 1.2 m sprig, finer than a
+   pixel past 10 m, and a fifth of the bytes and a quarter of the memory. Nothing reads their alpha, so it goes. */
+const half = (px, w, h) => { const W = w >> 1, H = h >> 1, o = new Uint8Array(W * H * 4);
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { for (let k = 0; k < 3; k++) {
+    let s = 2; for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]]) s += px[((y * 2 + dy) * w + x * 2 + dx) * 4 + k];
+    o[(y * W + x) * 4 + k] = s >> 2; } o[(y * W + x) * 4 + 3] = 255; }
+  return o; };
 const lin = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
 
 /* colour into the clear texels: a few passes of the covered neighbours' mean, then the mean */
@@ -61,7 +69,7 @@ for (const key of KEYS) {
   }
   for (let k = 0; k < 3; k++) mean[k] /= Math.max(1, leaves);
   bleed(colour, W, H);
-  const colourPng = encodeRGBA(W, H, colour), normalPng = encodeRGBA(W, H, normal);
+  const colourPng = encodeRGBA(W, H, colour), normalPng = encodeFiltered(W >> 1, H >> 1, half(normal, W, H), { opaque: true });
   fs.writeFileSync(path.join(out, `${key}.png`), colourPng);
   fs.writeFileSync(path.join(out, `${key}-normal.png`), normalPng);
   record[key] = { bytes: colourPng.length, sha256: sha(colourPng), mean: mean.map(v => +v.toFixed(4)),
