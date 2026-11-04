@@ -1,7 +1,7 @@
 /* Blender architecture in the pack's horizontal frame and absolute RH2000.
  * Only a fully verified asset can replace the corresponding source buildings. */
 import footprints from './veckefjarden-facility-footprints.json' with { type: 'json' };
-import { ringSD } from '../geom.js';
+import { withinRing } from '../geom.js';
 import { applyFacilityGroundMaterials } from './veckefjarden-ground-materials.mjs';
 import { buildParkingCars } from './veckefjarden-parking.mjs';
 
@@ -10,7 +10,7 @@ export const FACILITY_IDS = Object.freeze([
   ...Array.from({ length: 8 }, (_, i) => `S${String(i + 1).padStart(2, '0')}`),
 ]);
 export const facilityFootprints = footprints;
-export const isFacilityInterior = (x, z, margin = .2) => footprints.some(f => ringSD(x, z, f.ring) <= margin);
+export const isFacilityInterior = (x, z, margin = .2) => footprints.some(f => withinRing(x, z, f.ring, margin));
 const SLUGS = ['veckefjarden', 'veckefjarden-korthalsbanan'];
 const assert = (ok, message) => { if (!ok) throw new Error(message); };
 const pair = p => Array.isArray(p) && p.length === 2 && p.every(Number.isFinite);

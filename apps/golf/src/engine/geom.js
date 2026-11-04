@@ -78,6 +78,25 @@ function centroidOf(r) {
   return [cx / (3 * a), cz / (3 * a)];
 }
 
+/* ringSD(x, z, ring) <= margin, the same answer through the ring's box first. The ring lies inside its box, so a
+   point past the box by more than the margin is past the ring by more than it, and for a negative margin a point
+   that near the box's edge cannot lie that deep inside. Every tree on a course asks this of every facility, which
+   walked each footprint's edges for 155,342 trees: 373 ms of a boot at Veckefjärden. */
+const RING_BOXES = new WeakMap();
+function ringBox(ring) {
+  let box = RING_BOXES.get(ring);
+  if (!box) {
+    box = { x0: Infinity, z0: Infinity, x1: -Infinity, z1: -Infinity };
+    for (const p of ring) { box.x0 = Math.min(box.x0, p[0]); box.x1 = Math.max(box.x1, p[0]); box.z0 = Math.min(box.z0, p[1]); box.z1 = Math.max(box.z1, p[1]); }
+    RING_BOXES.set(ring, box);
+  }
+  return box;
+}
+export function withinRing(x, z, ring, margin) {
+  const b = ringBox(ring);
+  return x >= b.x0 - margin && x <= b.x1 + margin && z >= b.z0 - margin && z <= b.z1 + margin && ringSD(x, z, ring) <= margin;
+}
+
 /* deterministic noise: one hash, three octaves, no texture fetch */
 function hash2(x, z) {
   let h = Math.imul(x | 0, 374761393) ^ Math.imul(z | 0, 668265263);

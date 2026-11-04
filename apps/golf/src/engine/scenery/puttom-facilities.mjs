@@ -1,7 +1,7 @@
 /* Puttom's authored mesh uses legacy course X/Z and absolute RH2000 heights.
  * Validate the whole asset before publishing any replacement or exclusion;
  * missing, stale, or cancelled assets retain the ordinary course buildings. */
-import { ringSD } from '../geom.js';
+import { withinRing } from '../geom.js';
 
 export const PUTTOM_CLUBHOUSE_SOURCE_ID = 'trace-clubhouse-main';
 const ASSET_PATH = 'models/puttom/facilities-v1.glb';
@@ -192,7 +192,7 @@ export async function loadPuttomFacilities({ THREE, scene, courseSlug, buildings
     facilityFootprints.length = 0;
   };
   const current = () => assert(!controller.signal.aborted && isCurrentCourse(), 'Facilities load was cancelled');
-  const isFacilityInterior = (x, z, margin = .2) => facilityFootprints.some(f => ringSD(x, z, f.ring) <= margin);
+  const isFacilityInterior = (x, z, margin = .2) => facilityFootprints.some(f => withinRing(x, z, f.ring, margin));
   try {
     current();
     assert(courseSlug === 'puttom', 'Facilities belong to another course');

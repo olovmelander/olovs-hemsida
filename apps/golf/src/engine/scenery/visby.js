@@ -4,7 +4,7 @@
    and remaining estimates: [visbybuild/facilities/README.md](../../../../../visbybuild/facilities/README.md). */
 import roofReview from '../../../../../visbybuild/mapping/building-roof-review-2026.json';
 import facilitiesManifest from '../../../public/models/visby/facilities-v1.json';
-import { ringSD } from '../geom.js';
+import { withinRing } from '../geom.js';
 
 /* Newly traced roof structures are absent from the original OSM exclusion map.
    Their measured plan interiors suppress display vegetation only. Mat strips
@@ -14,7 +14,7 @@ export const facilityFootprints = facilitiesManifest.facilities
     && !/(?:mats|net)/.test(f.sourceFeatureId) && f.footprintLocal)
   .map(f => ({ id: f.id, ring: f.footprintLocal }));
 export const isFacilityInterior = (x, z, margin = .2) =>
-  facilityFootprints.some(f => ringSD(x, z, f.ring) <= margin);
+  facilityFootprints.some(f => withinRing(x, z, f.ring, margin));
 
 /* Visby GK / Kronholmen — the things about this place that are not data.
 

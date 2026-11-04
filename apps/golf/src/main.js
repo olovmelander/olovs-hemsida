@@ -3977,15 +3977,16 @@ function buildRoad(runs, asphalt) {
         const h = draped ? terrainH(x, z) + measuredLift
                     : verge ? terrainH(x, z) + 0.03
                             : hs[i] + Math.max(0, crown) + lift;
-        const ao = horizonAO(x, z, h);
+        /* twelve terrain samples, so only the branches that shade by it pay for them: gravel takes no AO */
         let cc;
         if (verge && run.tone && !asphalt) {
           cc = run.tone.map(v => v * 0.98);
         } else if (verge) {
           const g = groundAt(x, z, h);
+          const ao = horizonAO(x, z, h);
           cc = g.col.map((v, k2) => lerp(v, C.hard[k2], 0.3) * ao);
         } else if (asphalt) {
-          const n2 = fbm(x * 0.09, z * 0.09, 2);
+          const n2 = fbm(x * 0.09, z * 0.09, 2), ao = horizonAO(x, z, h);
           cc = run.tone.map(v => v * (1 + n2 * 0.10) * ao);
         } else if (run.tone) {
           /* compacted gravel is the palest ground there is, and it is never
@@ -3998,7 +3999,7 @@ function buildRoad(runs, asphalt) {
              read as the same gravel, so no lift and only the grain */
           cc = run.tone.map(v => v * (0.97 + n2 * 0.06));
         } else {
-          const n2 = fbm(x * 0.22, z * 0.22, 2);
+          const n2 = fbm(x * 0.22, z * 0.22, 2), ao = horizonAO(x, z, h);
           cc = C.path.map(v => v * (0.94 + n2 * 0.10) * ao);
         }
         pos.push(x, h, z);
