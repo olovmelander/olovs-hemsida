@@ -250,6 +250,9 @@ The owner chose the realistic trees, so they are now every course's default.
   | high quality | 2.1 MB | 16.6 MB |
   | low quality | 1.3 MB | 5.2 MB (12.5 MB with the relief) |
 
+  Later the same day the files came down to 7.4 and 3.7 MB, with the same
+  pictures (docs/load-times-2026-11-04.md).
+
   **No phone has run this.** The frame time below is the RTX 5080's at low
   quality, not a phone's.
 - **Frame time:** interleaved, two rounds, Puttom 5 green at golden hour.

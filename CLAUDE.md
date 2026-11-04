@@ -97,6 +97,15 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
 - Preserve explicit dirty-range buffer uploads, on-demand shadow updates and
   instanced furniture. Do not mark manually managed attributes DynamicDrawUsage
   without checking the pinned Three implementation and measuring upload traffic.
+- Load times (see [the first batch](docs/load-times-2026-11-04.md)): the opening's
+  shadow and post pipelines are built in parallel by a frame behind the cover
+  (`warm-pipelines.mjs`, `?warmframe=0`), and the trees start downloading as the
+  terrain stage begins (`?treehoist=0`). The realistic catalogues' meshes are
+  `KHR_mesh_quantization` (`tree-glb.mjs`). Any engine edit turns the prepared
+  data off until the next bake, so compare boots on one build, in both orders,
+  and put a new before switch on `preparedTintAllowed`'s display-only list. The
+  live host is GitHub Pages: PNG is not gzipped, `_headers` is ignored, and a
+  returning visitor's caching is the service worker's.
 - Use the existing camera clamp; do not add a second clamp or snap to terrain.
   Preserve snapped shadow bounds and the renderer's reversed-depth conventions.
   See [the tree LOD measurements](docs/tree-lod-plan.md) for the failure cases.
