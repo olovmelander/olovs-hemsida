@@ -25,10 +25,13 @@ this guide or the current production workflow.
 - GPK1 still transports routing, card, placement and compatibility height data.
   Reviewed adapters, class/pair surface representations and diagnostic fixtures
   remain dependencies. Do not remove them merely because their names say legacy.
-- Player trees use one approved mesh tier plus Impostors: Hero at high quality,
-  and the same catalogue's lighter Full model at low quality, which every phone
-  uses (owner request, 24 September). Both are fitted to the same height and
-  radius. The drawn tier also bakes the impostors and answers the facility
+- Player trees use one mesh tier plus Impostors: Hero at high quality, and the
+  same catalogue's lighter Full model at low quality, which every phone uses
+  (owner request, 24 September). Both are fitted to the same height and radius.
+  The catalogue is the realistic one (owner request, 4 November; `?treeset=v1`
+  is the painted before), and Visby keeps its own painted one. Low quality
+  leaves out its relief, the leaf normals and bark maps (`?treerelief=1`).
+  The drawn tier also bakes the impostors and answers the facility
   clearance test; `?treemesh=hero|full` compares the two. Geographic zones
   select the base tier; zone A/B mesh trees use their own baked impostors below
   the owner-approved 24 px projected whole-tree threshold, with hysteresis,
@@ -290,7 +293,7 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     Bildfrekvens). `?fps=0` lifts it, `det=1` stays uncapped and timing tools
     pass `fps=0`.
   - **The painted canopy** (`ghibli-foliage-material.mjs` `CANOPY`,
-    `crown-puffs.mjs`):
+    `crown-puffs.mjs`), on the painted catalogues only (Visby and `?treeset=v1`):
     - banded crown tones whose edges, never the colour, move with openness,
       clumps and tree;
     - puff normals baked at load, which the impostor bake inherits;
@@ -371,23 +374,24 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     sun's road is still added last. The copy splits the scene's render pass, so
     `V3D.gpuTime` under-reads with it on: time it by frame intervals.
     `?waterreflect=0` is the before.
-  - **Realistic trees, `?treeset=v2`** (3 November; opt-in; see [the
+  - **Realistic trees** (3 November, the default since the 4th; `?treeset=v1`
+    is the painted before; see [the
     realistic trees](docs/visual-trees-realistic-2026-11-03.md)): the five
     species grown in Blender (`tools/blender-tree-study/realistic/`, its own
     scene `BanvyTreesV2`, data API only), three variants a species, crowns of
     leaf clusters (puffs of sprig cards; the spruce's sprays laid along its
-    branches) from procedurally drawn leaf atlases, every variant fitted to the
-    approved template's height and radius, at about the approved hero
-    budget. The crowns read the atlas's own leaf colours without the painted
-    bands, and the impostor bake cuts their mask at mip 0, as the mesh shadow
-    does, in 128 px frames. Rebuild the meshes
+    branches), every variant fitted to the painted template's height and
+    radius, at about the painted hero budget. The crowns read the atlas's own
+    leaf colours without the painted bands, and the impostor bake cuts their
+    mask at mip 0, as the mesh shadow does, in 128 px frames. Rebuild the meshes
     by running `realistic_trees.py` through the MCP, then `pack_catalogue.mjs`.
     The sprigs are modelled in 3D and rendered on the CPU (`sprig_atlas.py`,
     `pack_sprigs.mjs`) into colour and normal/light-through atlases, and the
     crowns light each leaf by its own normal (`leafNormal`, a screen-derivative
     frame; `?leafnormals=0`), and the bark the same way (`bark_atlas.py`,
     `pack_bark.mjs`, UVs on the trunks, `barkSurface`; `?bark=0`). The tree
-    harnesses take `--treeset v2`.
+    harnesses take `--treeset v1` for the before. The two catalogues plant the
+    same trees, so `treeset` is display-only for the prepared data.
   - **Trees culled on the GPU, `?treecull=gpu`** (3 November; opt-in until
     measured; see [the GPU tree cull](docs/tree-gpu-cull-2026-11-03.md)):
     - A compute pass per hero tier frustum-culls each drawn tree into a copy

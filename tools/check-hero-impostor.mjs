@@ -16,9 +16,9 @@ const flag = (name, fallback) => args.includes(`--${name}`) ? args[args.indexOf(
 const course = flag('course', 'visby'), quality = flag('q', 'lo');
 const base = flag('url', 'http://127.0.0.1:8620');
 const out = path.resolve(flag('out', 'output/hero-impostor-review'));
-/* --treeset v2: the realistic catalogue (Visby keeps its coastal pine) */
+/* --treeset v1: the painted catalogue; without it, the player's (Visby keeps its own) */
 const treeset = flag('treeset', null);
-const catalogueFile = course === 'visby' ? 'ghibli-visby.json' : treeset === 'v2' ? 'realistic-v2.json' : 'ghibli-fluffy.json';
+const catalogueFile = course === 'visby' ? 'ghibli-visby.json' : treeset === 'v1' ? 'ghibli-fluffy.json' : 'realistic-v2.json';
 const catalogue = JSON.parse(fs.readFileSync(`apps/golf/public/models/trees/${catalogueFile}`));
 const treeMesh = flag('treemesh', null);
 const tier = treeMesh ?? (quality === 'lo' ? 'full' : 'hero');

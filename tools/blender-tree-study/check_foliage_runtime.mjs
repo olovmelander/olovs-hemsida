@@ -19,7 +19,7 @@ try{
   page.on('pageerror',e=>report.errors.push(String(e)));
   page.on('console',m=>{if(m.type()==='error'||/ghibli trees unavailable/i.test(m.text()))report.errors.push(m.text());});
   const course=['puttom','ribbingsfors','angso'].includes(scenario)?scenario:'upsala';
-  const url=`http://localhost:5173/?bana=${course}&ghibli=${natural?0:1}&hal=${course==='puttom'?1:2}&vy=${course==='puttom'?'fritt':'tee'}&ljus=kvall&det=1&q=${low?'lo':'hi'}&qualitylock=1${low?'&hero=0':''}`;
+  const url=`http://localhost:5173/?bana=${course}&ghibli=${natural?0:1}&hal=${course==='puttom'?1:2}&vy=${course==='puttom'?'fritt':'tee'}&ljus=kvall&det=1&q=${low?'lo':'hi'}&qualitylock=1&treeset=v1${low?'&hero=0':''}`;
   console.log(`Loading production ${scenario}.`);
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:240000});
   await page.waitForFunction(()=>window.V3D?.settled(),undefined,{timeout:240000});

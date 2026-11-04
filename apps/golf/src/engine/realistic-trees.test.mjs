@@ -10,11 +10,12 @@ const approved = JSON.parse(read('ghibli-fluffy.json'));
 const v2 = JSON.parse(read('realistic-v2.json'));
 
 describe('the realistic catalogue (treeset v2)', () => {
-  it('is drawn only when asked for: ?treeset=v2', () => {
+  it('is the default, and ?treeset=v1 is the before', () => {
     expect(PLAYER_TREE_SETS).toEqual(['v1', 'v2']);
-    expect(playerTreeSet('')).toBe('v1');
+    expect(playerTreeSet('')).toBe('v2');
     expect(playerTreeSet('?treeset=v2')).toBe('v2');
-    expect(playerTreeSet('?treeset=v3')).toBe('v1');
+    expect(playerTreeSet('?treeset=v3')).toBe('v2');
+    expect(playerTreeSet('?treeset=v1')).toBe('v1');
     expect(v2.revision).toBe(REALISTIC_TREE_REVISION);
     expect(v2).toMatchObject({ schemaVersion: 1, kind: 'ghibli-trees', design: 'realistic-v2' });
   });
@@ -59,6 +60,19 @@ describe('the realistic catalogue (treeset v2)', () => {
     }
     expect(v2.source.geometry).toBe('tools/blender-tree-study/realistic/realistic_trees.py');
     expect(v2.source.atlas).toContain('sprig_atlas.py');
+  });
+  it('leaves the relief out at low quality, and works offline', () => {
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toContain("relief: !LOWQ || new URLSearchParams(location.search).get('treerelief') === '1',");
+    const loader = fs.readFileSync(new URL('./ghibli-trees.mjs', import.meta.url), 'utf8');
+    expect(loader).toContain('if (realistic && relief && entry.bark) {');
+    expect(loader).toContain('if (realistic && relief && entry.foliage.normals) {');
+    /* the service worker keeps what the default visit draws, as it keeps the painted catalogue */
+    const worker = fs.readFileSync(new URL('../../vite.config.js', import.meta.url), 'utf8');
+    const rule = worker.match(/\/\\\/models\\\/trees\\\/\(ghibli-fluffy\|ghibli-visby\|realistic-v2\)\\\.json\$\//);
+    expect(rule).not.toBeNull();
+    expect(worker).toContain('(ghibli-fluffy|visby-pine|realistic-v2)');
+    expect(v2.species[0].foliage.atlas.file.startsWith('realistic-v2/')).toBe(true);
   });
   it('keeps the meshes and impostors in agreement: no painted bands on either, the bake cut at the meshes\' own resolution', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');

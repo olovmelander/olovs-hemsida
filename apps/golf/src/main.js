@@ -4689,8 +4689,11 @@ const GHIBLI = await (async () => {
        comparison; old ?hero=0 links change nothing. No Lite downloads. */
     const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
       tier: playerTreeMeshTier(location.search, LOWQ),
-      /* ?treeset=v2: the realistic catalogue (engine/ghibli-trees.mjs); the painted one is the before */
+      /* the realistic catalogue (engine/ghibli-trees.mjs); ?treeset=v1 is the before, the painted one */
       treeset: playerTreeSet(location.search),
+      /* low quality -- every phone -- keeps its models and leaf colours and leaves out the relief:
+         7.3 MB of maps, fifteen textures and their per-pixel normals. ?treerelief=1 is the before */
+      relief: !LOWQ || new URLSearchParams(location.search).get('treerelief') === '1',
       /* ?crowndepth=0 is the before: every card of a crown one flat colour */
       crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
       /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */

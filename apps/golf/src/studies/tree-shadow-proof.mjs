@@ -16,7 +16,7 @@
 import * as THREE from 'three/webgpu';
 import { color, float, vec3, uniform } from 'three/tsl';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } from '../engine/tree-impostor.mjs';
-import { loadGhibliTrees } from '../engine/ghibli-trees.mjs';
+import { loadGhibliTrees, playerTreeSet } from '../engine/ghibli-trees.mjs';
 import { makeGhibliFoliageMaterial } from '../engine/ghibli-foliage-material.mjs';
 import { createSunShadowFilter } from '../engine/sun-shadow.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute } from '../engine/tree-fade.mjs';
@@ -45,8 +45,8 @@ renderer.shadowMap.type = THREE.PCFShadowMap;
 result.backend = renderer.backend.isWebGPUBackend ? 'webgpu' : 'webgl2';
 result.reversedDepth = renderer.reversedDepthBuffer === true;
 
-/* ?treeset=v2: the realistic catalogue (ghibli-trees.mjs), proved the same way */
-const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: 1, tier, treeset: q.get('treeset') || 'v1' });
+/* the player's catalogue (ghibli-trees.mjs), and ?treeset=v1 the painted one, proved the same way */
+const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: 1, tier, treeset: playerTreeSet(location.search) });
 result.treeset = GHIBLI.summary.treeset;
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
 const scene = new THREE.Scene();

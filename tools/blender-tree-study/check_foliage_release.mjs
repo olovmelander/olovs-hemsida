@@ -46,7 +46,7 @@ const server=http.createServer((req,res)=>{
 });
 await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
 const origin=`http://127.0.0.1:${server.address().port}`;
-const appUrl=origin+'/?bana=norrfallsviken&hal=1&vy=tee&ljus=kvall';
+const appUrl=origin+'/?bana=norrfallsviken&hal=1&vy=tee&ljus=kvall&treeset=v1';
 const browser=await chromium.launch({channel:'chrome',args:['--no-sandbox','--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist']});
 try{
   const page=await browser.newPage({viewport:{width:1600,height:1000},deviceScaleFactor:1});

@@ -1,5 +1,5 @@
-/* The player requires the approved painted catalogue and draws ONE of its
- * mesh tiers near the course: Hero at high quality, the same catalogue's Full
+/* The player requires one tree catalogue, the realistic one unless a course or
+ * ?treeset=v1 says otherwise, and draws ONE of its mesh tiers near the course: Hero at high quality, the same catalogue's Full
  * model at low quality (every phone). Both are fitted to the variant's height
  * and radius, so a tree stands exactly as tall and wide in either; the tier
  * drawn also supplies its impostors. Failure reports a loading error.
@@ -12,17 +12,17 @@ import { bakePuffNormals, CROWN_PUFFS } from './crown-puffs.mjs';
 
 /* THE REALISTIC CATALOGUE (treeset v2, 3 November; owner request: trees as realistic as the new
    grass): the same five species grown in Blender from branching trunks, crowns of many small
-   sprig cards from leaf atlases drawn from real leaf shapes, fitted to the approved catalogue's
-   heights and radii (tools/blender-tree-study/realistic/). ?treeset=v2 draws it; the coastal
-   pine of Visby keeps its own catalogue. */
+   sprig cards from modelled leaves, fitted to the painted catalogue's heights and radii
+   (tools/blender-tree-study/realistic/). The default since 4 November (owner request);
+   ?treeset=v1 is the before, the painted catalogue. Visby keeps its own, with its coastal pine. */
 export const REALISTIC_TREE_REVISION = 'realistic-v2-2026-11-03';
 export const PLAYER_TREE_SETS = Object.freeze(['v1', 'v2']);
-/** The catalogue a visit draws: ?treeset=v2 the realistic one, anything else the approved painted one. */
+/** The catalogue a visit draws: the realistic one, or ?treeset=v1 the painted one; any other value is ignored. */
 export function playerTreeSet(search = '') {
-  return new URLSearchParams(search).get('treeset') === 'v2' ? 'v2' : 'v1';
+  return new URLSearchParams(search).get('treeset') === 'v1' ? 'v1' : 'v2';
 }
 
-/* Hero is 4,032-4,500 triangles a tree and Full 1,620-1,700 (v2: 2,568-3,708 and 1,060-1,556). */
+/* Hero is 4,032-4,500 triangles a tree and Full 1,620-1,700 (v2: 4,480-6,428 and 1,542-2,512). */
 export const PLAYER_TREE_MESH_TIERS = Object.freeze(['hero', 'full']);
 
 /** The mesh tier a visit draws: low quality takes Full, high quality Hero.
@@ -37,7 +37,9 @@ export function playerTreeMeshTier(search = '', lowQuality = false) {
    (crown-depth.mjs); false is the before, flat crown colours. */
 /* puffs leans each crown's normals toward the masses it is made of
    (crown-puffs.mjs, the painted canopy): the spruce's masses are its tiers. */
-export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1' } = {}) {
+/* relief loads the realistic catalogue's leaf normals and bark maps; false leaves them out and
+   draws what ?leafnormals=0&bark=0 draws, the models and the leaves' own colours. */
+export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1', relief = true } = {}) {
   if (!PLAYER_TREE_MESH_TIERS.includes(tier)) throw new Error(`Ghibli trees: the player draws no ${tier} tier`);
   const coastalPine = courseSlug === 'visby';
   const realistic = treeset === 'v2' && !coastalPine;
@@ -67,14 +69,14 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
     jobs.push(async () => { foliage.map = await loadFoliageAtlas(base, entry.foliage.atlas, fetchImpl); });
     out.summary.files++; out.summary.bytes += entry.foliage.atlas.bytes;
     /* the modelled bark (bark_atlas.py): its colour and relief, wrapping round the trunk */
-    if (realistic && entry.bark) {
+    if (realistic && relief && entry.bark) {
       validateAsset(entry.bark.atlas, 'png'); validateAsset(entry.bark.normals, 'png');
       foliage.bark = { map: null, normals: null, mean: entry.bark.mean };
       jobs.push(async () => { foliage.bark.map = await loadFoliageAtlas(base, entry.bark.atlas, fetchImpl, { repeat: true }); });
       jobs.push(async () => { foliage.bark.normals = await loadFoliageAtlas(base, entry.bark.normals, fetchImpl, { linear: true, repeat: true }); });
       out.summary.files += 2; out.summary.bytes += entry.bark.atlas.bytes + entry.bark.normals.bytes;
     }
-    if (realistic && entry.foliage.normals) {
+    if (realistic && relief && entry.foliage.normals) {
       validateAsset(entry.foliage.normals, 'png');
       jobs.push(async () => { foliage.normals = await loadFoliageAtlas(base, entry.foliage.normals, fetchImpl, { linear: true }); });
       out.summary.files++; out.summary.bytes += entry.foliage.normals.bytes;
