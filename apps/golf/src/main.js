@@ -1990,6 +1990,15 @@ const CANOPY_ON = new URLSearchParams(location.search).get('canopy') !== '0';
    the terrain's packs in, the line is free and the CPU stages run on regardless. At 50 Mbps the forest stage
    otherwise sat 2.4 s waiting for files that could have been on their way for five seconds. The failure is
    reported where the forest stage awaits it. ?treehoist=0 is the before. */
+/* THE TREES BY PLACE (load times and frame rate, 4 November). The owner's rule is that detail is set by where a
+   tree stands, never by how far the camera is. At high quality every tree within 300 m of a hole line drew the
+   Hero model, and those were 15 of a frame's 20 million triangles at Puttom 5: the mesh tier was the frame's largest
+   cost by far. So, as the rule first had it, band A (90 m) stays Hero and band B (90-300 m) draws the same
+   catalogue's Full model, fitted to the same height and radius, with the Hero's own materials, so it costs no
+   pipeline. Fixed for the visit, like every band. ?treebands=0 is the before, and an explicit ?treemesh=
+   compares one tier throughout. */
+const TREE_BANDS = !LOWQ && new URLSearchParams(location.search).get('treebands') !== '0'
+  && !new URLSearchParams(location.search).has('treemesh') && new URLSearchParams(location.search).get('treeset') !== 'v1';
 const startGhibliLoad = async () => {
   try {
     const { loadGhibliTrees, playerTreeMeshTier, playerTreeSet } = await import('./engine/ghibli-trees.mjs');
@@ -2005,6 +2014,7 @@ const startGhibliLoad = async () => {
       /* low quality -- every phone -- keeps its models and leaf colours and leaves out the relief:
          7.3 MB of maps, fifteen textures and their per-pixel normals. ?treerelief=1 is the before */
       relief: !LOWQ || new URLSearchParams(location.search).get('treerelief') === '1',
+      bandTier: TREE_BANDS ? 'full' : null,
       /* ?crowndepth=0 is the before: every card of a crown one flat colour */
       crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
       /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
@@ -5299,7 +5309,7 @@ const TREE_LOD = {
      The same geographic policy applies to both quality profiles. Keep the
      four diagnostic indices (1 Hero, 4 Impostor); 2/3 never allocate meshes. */
   lodMode: LODMODE,
-  zoneTiers: [1, 1, 4, 4],
+  zoneTiers: [1, TREE_BANDS ? 2 : 1, 4, 4],
   /* 24 px by default; ?distanthero=0 restores geographic detail, 16 compares
      the conservative threshold. Only zone A/B Hero trees may demote. */
   distantHeroPx: distantHeroReviewPixels(location.search),
@@ -5447,7 +5457,7 @@ const TREE_LOD = {
       const g = vars[v];
       TEMPLATES.push({ s, v, nv: vars.length, name: `${SPECIES_NAMES[s]}${v}`,
         spec: { ...SPECIES[s], crown: g.mesh.crown, trunk: g.mesh.trunk },
-        hr: { crown: g.mesh.crown, trunk: g.mesh.trunk },
+        hr: { crown: g.mesh.crown, trunk: g.mesh.trunk }, band: g.band,
         ky: SPECIES[s].templateHeight / g.templateHeight, kxz: SPECIES[s].templateRadius / g.templateRadius });
     }
   }
@@ -5514,7 +5524,7 @@ const TREE_LOD = {
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
     /* which course zone each tree stands in (0 beyond, 1 A, 2 B, 3 C): in zone mode it IS the tier, in screen mode the floor */
     const zone = new Uint8Array(n);
-    const templateBox = treeTemplateBounds([tpl.hr.crown, tpl.hr.trunk]);
+    const templateBox = treeTemplateBounds([tpl.hr.crown, tpl.hr.trunk, ...(tpl.band ? [tpl.band.crown, tpl.band.trunk] : [])]);
     for (let j = 0; j < n; j++) {
       const k = ks[j];
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
@@ -5579,7 +5589,7 @@ const TREE_LOD = {
                tint: meshes.map(im => im.geometry.getAttribute('aTint')).filter(Boolean),
                slots: new Int32Array(meshes.length ? initialCapacity : 0), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
     };
-    const hr = tpl.hr;
+    const hr = tpl.hr, crownMat = crownMaterial(s, true), trunkMat = trunkMaterial(spec.tc, true, s);
     const rec = {
       n, treeH, treeCY, zone, species: s, variant: tpl.v,
       where: new Int32Array(n).fill(-1),
@@ -5590,10 +5600,11 @@ const TREE_LOD = {
       fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
       t: [null,
         /* the bark texture needs the procedural trunk's UVs; an authored trunk has none and carries its colour instead */
-        tier([['crown', hr.crown, crownMaterial(s, true)], ['trunk', hr.trunk, trunkMaterial(spec.tc, true, s)]], 't0'),
-        // Reserved counters keep existing captures/tools readable, with zero
-        // geometry, materials or instance buffers for the removed mesh tiers.
-        tier([], 'reserved-full'),
+        tier([['crown', hr.crown, crownMat], ['trunk', hr.trunk, trunkMat]], 't0'),
+        /* band B's Full model, in the Hero's materials (TREE_BANDS) */
+        tier(tpl.band ? [['crown', tpl.band.crown, crownMat], ['trunk', tpl.band.trunk, trunkMat]] : [], 'band'),
+        // A reserved counter keeps existing captures/tools readable, with zero
+        // geometry, materials or instance buffers for the removed mesh tier.
         tier([], 'reserved-lite'),
         impostorBatch(s, initialCapacity, 't3')],
     };
@@ -5879,11 +5890,11 @@ function updateTreeTiers() {
         if (force) want = force;
         else if (zoneMode) {
           want = ZT[Z[k] ? Z[k] - 1 : 3];
-          if (distantHeroPx && want === 1 && Z[k] > 0 && Z[k] <= 2) {
+          if (distantHeroPx && want < 4 && Z[k] > 0 && Z[k] <= 2) {
             // Reuse the current tier's 10% hysteresis, six-frame dwell and
             // complementary fade below. Fresh/reset trees use the threshold.
-            const band = reset || !was ? 1 : was === 1 ? 1 - hy : 1 + hy;
-            want = px < distantHeroPx * band ? 4 : 1;
+            const band = reset || !was ? 1 : was < 4 ? 1 - hy : 1 + hy;
+            if (px < distantHeroPx * band) want = 4;
           }
         }
         else if (!was || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
@@ -5900,9 +5911,9 @@ function updateTreeTiers() {
           const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
           if (want > fl) want = fl;
         }
-        // Old review URLs and screen-mode floors may still request 2/3.
-        // Resolve every mesh request to Hero before touching drawable slots.
-        want = want === 4 ? 4 : 1;
+        // Old review URLs and screen-mode floors may still request 2/3. Resolve every
+        // mesh request to Hero before touching drawable slots, but for band B's Full.
+        want = want === 4 ? 4 : want === 2 && zoneMode && !force && TREE_BANDS ? 2 : 1;
         if (want !== cur) {
           /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
              the new tier has to be wanted for dwell frames running */

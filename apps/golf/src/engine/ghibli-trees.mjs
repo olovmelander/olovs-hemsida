@@ -41,7 +41,8 @@ export function playerTreeMeshTier(search = '', lowQuality = false) {
    (crown-puffs.mjs, the painted canopy): the spruce's masses are its tiers. */
 /* relief loads the realistic catalogue's leaf normals and bark maps; false leaves them out and
    draws what ?leafnormals=0&bark=0 draws, the models and the leaves' own colours. */
-export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1', relief = true } = {}) {
+/* bandTier also loads that tier's meshes as `band`, for the trees further from the holes (main.js TREE_BANDS) */
+export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1', relief = true, bandTier = null } = {}) {
   if (!PLAYER_TREE_MESH_TIERS.includes(tier)) throw new Error(`Ghibli trees: the player draws no ${tier} tier`);
   const coastalPine = courseSlug === 'visby';
   const realistic = treeset === 'v2';
@@ -92,7 +93,7 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
          under the tier's own name, so a Full visit carries no `hero` */
       const item = { key, variant: v, seed: variant.seed, foliage, tier,
         templateHeight: variant.templateHeight, templateRadius: variant.templateRadius,
-        trunkMean: null, mesh: null,
+        trunkMean: null, mesh: null, band: null,
         tris: Object.fromEntries(Object.entries(variant.tiers).map(([t, r]) => [t, r.tris])) };
       list.push(item);
       jobs.push(async () => {
@@ -105,6 +106,17 @@ export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl =
           : { puffs: CROWN_PUFFS.puffs[tier] ?? CROWN_PUFFS.puffs.full });
         item.mesh = mesh; item[tier] = mesh; item.trunkMean = mesh.trunkMean;
       });
+      const bandRec = bandTier && bandTier !== tier ? variant.tiers[bandTier] : null;
+      if (bandRec) {
+        validateAsset(bandRec, 'glb');
+        out.summary.files++; out.summary.bytes += bandRec.bytes;
+        jobs.push(async () => {
+          const mesh = await fetchGlb(`${base}${bandRec.file}`, bandRec, fetchImpl);
+          fitFoliageTier(mesh, variant.templateHeight, variant.templateRadius);
+          if (crownDepth) bakeCrownDepth(mesh.crown);
+          item.band = mesh;
+        });
+      }
     }
     if (!list.length) throw new Error(`Ghibli tree manifest: ${key} has no variants`);
     species.push(list);

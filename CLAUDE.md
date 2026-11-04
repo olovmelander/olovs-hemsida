@@ -25,9 +25,14 @@ this guide or the current production workflow.
 - GPK1 still transports routing, card, placement and compatibility height data.
   Reviewed adapters, class/pair surface representations and diagnostic fixtures
   remain dependencies. Do not remove them merely because their names say legacy.
-- Player trees use one mesh tier plus Impostors: Hero at high quality, and the
-  same catalogue's lighter Full model at low quality, which every phone uses
-  (owner request, 24 September). Both are fitted to the same height and radius.
+- Player trees use Hero at high quality and the same catalogue's lighter Full
+  model at low quality, which every phone uses (owner request, 24 September),
+  plus Impostors. Both are fitted to the same height and radius. At high
+  quality band A (90 m from a hole line) draws Hero and band B (to 300 m) Full,
+  in the Hero's materials (`TREE_BANDS`, `?treebands=0`). The owner's rule is that
+  detail goes by where a tree stands, never by how far the camera is, so never
+  add a distance ladder: tree meshes are the frame's largest cost, and a tier by
+  place keeps every tree still in flight (`tree-flight.test.mjs` holds it).
   The catalogue is the realistic one (owner request, 4 November; `?treeset=v1`
   is the painted before), and Visby has its own of each, for its coastal pine.
   Low quality

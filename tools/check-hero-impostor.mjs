@@ -22,7 +22,9 @@ const catalogueFile = treeset === 'v1' ? (course === 'visby' ? 'ghibli-visby.jso
 const catalogue = JSON.parse(fs.readFileSync(`apps/golf/public/models/trees/${catalogueFile}`));
 const treeMesh = flag('treemesh', null);
 const tier = treeMesh ?? (quality === 'lo' ? 'full' : 'hero');
-const expectedModels = catalogue.species.flatMap(s => s.variants.map(v => v.tiers[tier].file)).sort();
+/* high quality draws the Full model in band B too (main.js TREE_BANDS) */
+const bands = !treeMesh && treeset !== 'v1' && quality !== 'lo';
+const expectedModels = catalogue.species.flatMap(s => s.variants.flatMap(v => [v.tiers[tier].file, ...(bands ? [v.tiers.full.file] : [])])).sort();
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ ...(process.env.CHROME ? { executablePath: process.env.CHROME } : { channel: 'chrome' }), args: browserArgs() });
 const page = await browser.newPage({ viewport: quality === 'lo' ? { width: 390, height: 844 } : { width: 960, height: 600 },
@@ -56,7 +58,8 @@ const snapshot = () => page.evaluate(() => {
 });
 const verify = record => {
   assert(record.audit.ok, 'Tree slots must retain one owner');
-  assert.equal(record.tiers.tier1, 0); assert.equal(record.tiers.tier2, 0);
+  if (!bands) assert.equal(record.tiers.tier1, 0);
+  assert.equal(record.tiers.tier2, 0);
   assert(!record.inventory.some(m => /-t[12]$/.test(m.name)), 'Full/Lite must not allocate drawable meshes');
 };
 try {

@@ -16,7 +16,7 @@ export function preparedTintAllowed(search) {
   const displayOnly = new Set(['bana', 'hal', 'vy', 'ljus', 'tee', 'skylt', 'ren', 'q', 'det',
     'ghibli', 'gl', 'rdepth', 'hero', 'trees', 'look', 'qualitylock', 'startup', 'v2', 'kiosk',
     'distanthero', 'treemesh', 'treeset', 'treerelief', // drawable tree detail does not change prepared planting/color inputs
-    'warmframe', 'treehoist', // nor does when the opening's pipelines and trees are fetched and built
+    'warmframe', 'treehoist', 'treebands', // nor does when the opening's pipelines and trees are fetched and built
     'impostorshadow', 'foliageshadow', 'shadowreach', 'offscreenshadow', // nor does what casts into the sun's shadow map
     'offcourse', // nor does drawn terrain detail: CPU heights come from the 1 m source
     // nor do the visual fixes' before switches: shading, textures and draw order only

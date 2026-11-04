@@ -153,3 +153,16 @@ describe('the bark and the shadow-only trees', () => {
     expect(main).toContain('TREE_LOD.stats.shadowTrees = shadowTrees;');
   });
 });
+
+describe('the trees by place', () => {
+  it('draws band B in the Full model at high quality, fixed by where a tree stands, in the Hero\'s materials', () => {
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toContain("get('treebands') !== '0'");
+    expect(main).toContain('zoneTiers: [1, TREE_BANDS ? 2 : 1, 4, 4],');
+    /* the owner's rule: a band's tier comes from the zone map, never from screen size or distance */
+    expect(main).toContain('want = want === 4 ? 4 : want === 2 && zoneMode && !force && TREE_BANDS ? 2 : 1;');
+    expect(main).toContain("tier(tpl.band ? [['crown', tpl.band.crown, crownMat], ['trunk', tpl.band.trunk, trunkMat]] : [], 'band'),");
+    expect(main).toContain("bandTier: TREE_BANDS ? 'full' : null,");
+    expect(fs.readFileSync(new URL('./prepared-ground-tint.mjs', import.meta.url), 'utf8')).toContain("'treebands'");
+  });
+});
