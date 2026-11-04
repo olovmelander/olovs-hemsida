@@ -42,10 +42,20 @@ export function courseUrl(slug, search = (typeof location !== 'undefined' ? loca
   const from = new URLSearchParams(search);
   const to = new URLSearchParams();
   to.set('bana', slug);
-  for (const k of ['hero', 'gl', 'q', 'det']) {
+  for (const k of ['hero', 'gl', 'q', 'det', 'karta']) {
     if (from.has(k)) to.set(k, from.get(k));
   }
   return '?' + to.toString();
+}
+
+/* The light 3D map for a real round, beside the detailed course. */
+export function mapUrl(slug) {
+  return `?bana=${encodeURIComponent(slug)}&karta=1`;
+}
+
+/* The detailed course, on a device that would open the map by default. */
+export function detailedUrl(slug) {
+  return `?bana=${encodeURIComponent(slug)}&karta=0`;
 }
 
 export function goToCourse(slug) {

@@ -1,0 +1,227 @@
+{
+ "schemaVersion": 1,
+ "catalogues": {
+  "realistic": {
+   "grounds": null,
+   "species": [
+    {
+     "species": 0,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 12.184768787828515,
+     "centreY": 9.722445487976074,
+     "height": 19.44489097595215,
+     "templateHeight": 19.44489097595215,
+     "templateRadius": 6.940996170043945,
+     "colour": {
+      "file": "models/map-trees/eee603ab7c1dbe233b88b5647a19636193bb7134c72da180a731c494ed85a4e4.webp",
+      "bytes": 139136,
+      "sha256": "eee603ab7c1dbe233b88b5647a19636193bb7134c72da180a731c494ed85a4e4"
+     },
+     "normal": {
+      "file": "models/map-trees/f6a1e9a309f9db3981cf47af116fe9229d9a52db4034c0c69f6c24d7b4b53214.webp",
+      "bytes": 72990,
+      "sha256": "f6a1e9a309f9db3981cf47af116fe9229d9a52db4034c0c69f6c24d7b4b53214"
+     }
+    },
+    {
+     "species": 1,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 14.73161475567101,
+     "centreY": 9.46356201171875,
+     "height": 18.9271240234375,
+     "templateHeight": 18.9271240234375,
+     "templateRadius": 10.910284042358398,
+     "colour": {
+      "file": "models/map-trees/405e6c5b52436e98bf8a1ba7e3a25c98292c8b7a16da84d75ecc466543b4b20c.webp",
+      "bytes": 129210,
+      "sha256": "405e6c5b52436e98bf8a1ba7e3a25c98292c8b7a16da84d75ecc466543b4b20c"
+     },
+     "normal": {
+      "file": "models/map-trees/d94db5e76783bdfd9d566f03c98c38fab49d0109ec3895a675bd0ec4260d0eaa.webp",
+      "bytes": 40492,
+      "sha256": "d94db5e76783bdfd9d566f03c98c38fab49d0109ec3895a675bd0ec4260d0eaa"
+     }
+    },
+    {
+     "species": 2,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 9.408773114009952,
+     "centreY": 7.443099021911621,
+     "height": 14.886198043823242,
+     "templateHeight": 14.886198043823242,
+     "templateRadius": 5.4486470222473145,
+     "colour": {
+      "file": "models/map-trees/e7ec4ffbdebe2414355d6719192e081664cd143be654e6d9a46b886b1f25a641.webp",
+      "bytes": 135682,
+      "sha256": "e7ec4ffbdebe2414355d6719192e081664cd143be654e6d9a46b886b1f25a641"
+     },
+     "normal": {
+      "file": "models/map-trees/fee23467abb4b8501fc3f693119eb72f081e687fe1144f83cd9d1917924f4b19.webp",
+      "bytes": 45826,
+      "sha256": "fee23467abb4b8501fc3f693119eb72f081e687fe1144f83cd9d1917924f4b19"
+     }
+    },
+    {
+     "species": 3,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 7.900023296327586,
+     "centreY": 6.124575138092041,
+     "height": 12.249150276184082,
+     "templateHeight": 12.249150276184082,
+     "templateRadius": 4.740936279296875,
+     "colour": {
+      "file": "models/map-trees/36e021b6d5ff7052c85574335d10a1b56580c75a37821cdd083c9d7badfe3b36.webp",
+      "bytes": 84052,
+      "sha256": "36e021b6d5ff7052c85574335d10a1b56580c75a37821cdd083c9d7badfe3b36"
+     },
+     "normal": {
+      "file": "models/map-trees/23209e8ad4810e10494d6eba813a4a3bca54a5f1af4b79c2b16b0b38d24934ec.webp",
+      "bytes": 40182,
+      "sha256": "23209e8ad4810e10494d6eba813a4a3bca54a5f1af4b79c2b16b0b38d24934ec"
+     }
+    },
+    {
+     "species": 4,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 12.92167131460768,
+     "centreY": 8.27344036102295,
+     "height": 16.5468807220459,
+     "templateHeight": 16.5468807220459,
+     "templateRadius": 9.593546867370605,
+     "colour": {
+      "file": "models/map-trees/a6bff02771899bd6c82abf81aab5905ee3fb5938457419c3f2337f1d6249df09.webp",
+      "bytes": 174252,
+      "sha256": "a6bff02771899bd6c82abf81aab5905ee3fb5938457419c3f2337f1d6249df09"
+     },
+     "normal": {
+      "file": "models/map-trees/806b1379b241d8436e8086d47b3ede9bcb0dc01de1ea4d1428bb91c30d929e60.webp",
+      "bytes": 64136,
+      "sha256": "806b1379b241d8436e8086d47b3ede9bcb0dc01de1ea4d1428bb91c30d929e60"
+     }
+    }
+   ]
+  },
+  "visby": {
+   "grounds": [
+    "visby"
+   ],
+   "species": [
+    {
+     "species": 0,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 12.184768787828515,
+     "centreY": 9.722445487976074,
+     "height": 19.44489097595215,
+     "templateHeight": 19.44489097595215,
+     "templateRadius": 6.940996170043945,
+     "colour": {
+      "file": "models/map-trees/eee603ab7c1dbe233b88b5647a19636193bb7134c72da180a731c494ed85a4e4.webp",
+      "bytes": 139136,
+      "sha256": "eee603ab7c1dbe233b88b5647a19636193bb7134c72da180a731c494ed85a4e4"
+     },
+     "normal": {
+      "file": "models/map-trees/f6a1e9a309f9db3981cf47af116fe9229d9a52db4034c0c69f6c24d7b4b53214.webp",
+      "bytes": 72990,
+      "sha256": "f6a1e9a309f9db3981cf47af116fe9229d9a52db4034c0c69f6c24d7b4b53214"
+     }
+    },
+    {
+     "species": 1,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 10.892312857521391,
+     "centreY": 4.81591796875,
+     "height": 9.6318359375,
+     "templateHeight": 9.6318359375,
+     "templateRadius": 9.531126976013184,
+     "colour": {
+      "file": "models/map-trees/7123abf572cbf68fc0df6ee6ec4c9a44d22ea9f03852047826b51c28356d6aee.webp",
+      "bytes": 98328,
+      "sha256": "7123abf572cbf68fc0df6ee6ec4c9a44d22ea9f03852047826b51c28356d6aee"
+     },
+     "normal": {
+      "file": "models/map-trees/3e4e869cf7374906090f09fdb17c264d65bc05bfb3943f51c13e4c011cdf5931.webp",
+      "bytes": 37964,
+      "sha256": "3e4e869cf7374906090f09fdb17c264d65bc05bfb3943f51c13e4c011cdf5931"
+     }
+    },
+    {
+     "species": 2,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 9.408773114009952,
+     "centreY": 7.443099021911621,
+     "height": 14.886198043823242,
+     "templateHeight": 14.886198043823242,
+     "templateRadius": 5.4486470222473145,
+     "colour": {
+      "file": "models/map-trees/e7ec4ffbdebe2414355d6719192e081664cd143be654e6d9a46b886b1f25a641.webp",
+      "bytes": 135682,
+      "sha256": "e7ec4ffbdebe2414355d6719192e081664cd143be654e6d9a46b886b1f25a641"
+     },
+     "normal": {
+      "file": "models/map-trees/fee23467abb4b8501fc3f693119eb72f081e687fe1144f83cd9d1917924f4b19.webp",
+      "bytes": 45826,
+      "sha256": "fee23467abb4b8501fc3f693119eb72f081e687fe1144f83cd9d1917924f4b19"
+     }
+    },
+    {
+     "species": 3,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 7.900023296327586,
+     "centreY": 6.124575138092041,
+     "height": 12.249150276184082,
+     "templateHeight": 12.249150276184082,
+     "templateRadius": 4.740936279296875,
+     "colour": {
+      "file": "models/map-trees/36e021b6d5ff7052c85574335d10a1b56580c75a37821cdd083c9d7badfe3b36.webp",
+      "bytes": 84052,
+      "sha256": "36e021b6d5ff7052c85574335d10a1b56580c75a37821cdd083c9d7badfe3b36"
+     },
+     "normal": {
+      "file": "models/map-trees/23209e8ad4810e10494d6eba813a4a3bca54a5f1af4b79c2b16b0b38d24934ec.webp",
+      "bytes": 40182,
+      "sha256": "23209e8ad4810e10494d6eba813a4a3bca54a5f1af4b79c2b16b0b38d24934ec"
+     }
+    },
+    {
+     "species": 4,
+     "frameSize": 192,
+     "framesPerSide": 8,
+     "size": 1536,
+     "radius": 12.92167131460768,
+     "centreY": 8.27344036102295,
+     "height": 16.5468807220459,
+     "templateHeight": 16.5468807220459,
+     "templateRadius": 9.593546867370605,
+     "colour": {
+      "file": "models/map-trees/a6bff02771899bd6c82abf81aab5905ee3fb5938457419c3f2337f1d6249df09.webp",
+      "bytes": 174252,
+      "sha256": "a6bff02771899bd6c82abf81aab5905ee3fb5938457419c3f2337f1d6249df09"
+     },
+     "normal": {
+      "file": "models/map-trees/806b1379b241d8436e8086d47b3ede9bcb0dc01de1ea4d1428bb91c30d929e60.webp",
+      "bytes": 64136,
+      "sha256": "806b1379b241d8436e8086d47b3ede9bcb0dc01de1ea4d1428bb91c30d929e60"
+     }
+    }
+   ]
+  }
+ }
+}
