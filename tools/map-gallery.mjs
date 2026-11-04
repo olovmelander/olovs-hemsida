@@ -63,7 +63,7 @@ for (const view of views) {
   page.on('console', message => { if (message.type() === 'error') problems.push(message.text()); });
   page.on('pageerror', error => problems.push(error.message));
   const started = Date.now();
-  const query = `?bana=${view.slug}&karta=1${view.hole ? `&hal=${view.hole}` : ''}${view.course ? '&vy=bana' : ''}`;
+  const query = `?bana=${view.slug}&karta=1${view.hole ? `&hal=${view.hole}` : ''}${view.course ? '&vy=bana' : ''}${flag('query', '')}`;
   await page.goto(`${URL_BASE}${query}`, { waitUntil: 'domcontentloaded' });
   try {
     await page.waitForFunction(() => globalThis.V3DMap?.stats().frames > 0, null, { timeout: 60000 });

@@ -15,11 +15,15 @@ import treeCatalogues from '../../public/models/map-trees.json';
 import { softened } from './map-paint.mjs';
 import { createCamera, createFlight } from './map-camera.mjs';
 import { createDetailTexture } from './map-detail.mjs';
+import { bakeHillShade, SHADE_SIZE, shadeKey, SHADOW_REACH } from './map-horizon.mjs';
 import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
-import { buildMapCourse } from './map-course.mjs';
+import { hitGreen, newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokeKeys, strokesReceived } from './map-score.mjs';
+import { buildMapCourse, validSurroundings } from './map-course.mjs';
+import { buildGreenGrid, GRID_VERTEX_FLOATS, PULSE_FLOATS, slopeAt, slopeColor } from './map-greengrid.mjs';
+import { landRecord, outlineOverLand } from './map-land.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
 import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, principalBearing, shotReading } from './map-measure.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, sideOfPlay, principalBearing, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
 import { species as angsoSpecies } from '../engine/scenery/angso.js';
 import { species as veckefjardenSpecies } from '../engine/scenery/veckefjarden.js';
@@ -45,7 +49,8 @@ function courseFor(slug) {
   const course = readJson(entry.manifest.url);
   const ground = readJson(course.groundManifest.url);
   const { header, vectors } = packFor(meta);
-  return buildMapCourse({ meta, geo: header.GEO, vectors, ground, course });
+  const surroundings = meta.surroundings ? readJson(meta.surroundings.url) : null;
+  return buildMapCourse({ meta, geo: header.GEO, vectors, ground, course, surroundings });
 }
 
 /* A small ground of the published shape: a 1024 m root over two levels. */
@@ -280,10 +285,18 @@ describe('planting trees', () => {
     for (let k = 0; k < clear.length; k += TREE_FLOATS) expect(clear[k]).toBeGreaterThanOrEqual(128);
   });
 
-  it('paints no canopy from a cell the laser did not measure', () => {
-    const alpha = canopyAlpha({ payload: new Uint8Array([255, 0, 0, 0, 255, 0, 0, 1]), width: 2, height: 1 });
-    expect(alpha[3]).toBe(0);
+  it('takes a cell the laser did not measure from what else is known of it', () => {
+    const payload = new Uint8Array([255, 0, 0, 0, 255, 0, 0, 1]);
+    expect(canopyAlpha({ payload, width: 2, height: 1 })[3]).toBe(0);
+    const alpha = canopyAlpha({ payload, width: 2, height: 1, unmeasured: (column, row) => (column === 0 && row === 0 ? 150 : 0) });
+    expect(alpha[3]).toBe(150);
     expect(alpha[7]).toBeGreaterThan(200);
+  });
+
+  it('leaves a cell the course has excluded empty, whatever else is known', () => {
+    const alpha = canopyAlpha({ payload: new Uint8Array([255, 0, 0, 5, 255, 0, 0, 4]), width: 2, height: 1, unmeasured: () => 255 });
+    expect(alpha[3]).toBe(0);
+    expect(alpha[7]).toBe(0);
   });
 
   it('keeps each course\'s species rule exactly as the simulator has it', () => {
@@ -438,14 +451,97 @@ describe('what a golfer reads', () => {
 
   it('adds a climb to what a shot plays', () => {
     const uphill = shotReading([0, 0], [100, 0], (x) => x / 20);
-    expect(uphill).toEqual({ distance: 100, rise: 5, plays: 105 });
-    expect(shotReading([0, 0], [100, 0], () => NaN)).toEqual({ distance: 100, rise: null, plays: null });
+    expect(uphill).toMatchObject({ distance: 100, rise: 5, plays: 105 });
+    expect(shotReading([0, 0], [100, 0], () => NaN)).toMatchObject({ distance: 100, rise: null, plays: null });
   });
 
-  it('profiles the ground between two points', () => {
-    const line = elevationProfile([0, 0], [90, 0], x => Math.abs(x - 45), 10);
-    expect(line).toMatchObject({ distance: 90, low: 5, high: 45, rise: 0 });
-    expect(elevationProfile([0, 0], [1, 0], () => NaN)).toBeNull();
+  it('plays a headwind long, a tailwind short and cold air long', () => {
+    const north = [[0, 0], [0, -150]], level = () => 0;
+    const still = shotReading(...north, level);
+    const against = shotReading(...north, level, { windFromDeg: 0, windMs: 5, tempC: 21 });
+    const behind = shotReading(...north, level, { windFromDeg: 180, windMs: 5, tempC: 21 });
+    const cold = shotReading(...north, level, { windFromDeg: 0, windMs: 0, tempC: 5 });
+    expect(against.head).toBeCloseTo(5);
+    expect(against.plays).toBeGreaterThan(still.plays);
+    expect(behind.plays).toBeLessThan(still.plays);
+    expect(cold.plays).toBeGreaterThan(still.plays);
+  });
+
+  it('says what the wind does to a shot', () => {
+    expect(windWords({ head: 4.2, cross: 0.3 })).toEqual(['motvind 4 m/s']);
+    expect(windWords({ head: -3, cross: 0 })).toEqual(['medvind 3 m/s']);
+    expect(windWords({ head: 0.4, cross: 2.6 })).toEqual(['3 m/s från höger']);
+    expect(windWords({ head: 2, cross: -2 })).toEqual(['motvind 2 m/s', '2 m/s från vänster']);
+    expect(windWords({ head: 0, cross: 0 })).toEqual([]);
+  });
+
+  it('profiles the ground along a path, evenly round a bend', () => {
+    const straight = elevationProfile([[0, 0], [90, 0]], x => Math.abs(x - 45), 10);
+    expect(straight).toMatchObject({ distance: 90, low: 5, high: 45, rise: 0 });
+    const bent = elevationProfile([[0, 0], [100, 0], [100, 100]], (x, z) => x + z, 5);
+    expect(bent.distance).toBe(200);
+    expect(bent.points).toEqual([0, 50, 100, 150, 200]);
+    expect(elevationProfile([[0, 0], [1, 0]], () => NaN)).toBeNull();
+  });
+
+  it('plays a hole from the tee in use to the middle of the green', () => {
+    const hole = { line: [[0, 0], [0, -200], [100, -300]], green: { c: [130, -330] } };
+    expect(playedPath(hole, [0, 0])).toEqual([[0, 0], [0, -200], [100, -300], [130, -330]]);
+    /* a forward tee past the bend joins the line beyond it */
+    expect(playedPath(hole, [40, -240])).toEqual([[40, -240], [100, -300], [130, -330]]);
+    /* a line that already ends on the green gains nothing */
+    expect(playedPath({ line: [[0, 0], [130, -330]], green: { c: [130, -330] } }, [0, 0]).length).toBe(2);
+  });
+
+  it('places a player on the strip, on the curve, wherever they stand beside the line', () => {
+    const path = [[0, 0], [100, 0], [100, 100]];
+    const profile = elevationProfile(path, (x, z) => (x + z) / 10, 21);
+    const halfway = placeOnProfile([100, 0], path, profile);
+    expect(halfway.share).toBeCloseTo(0.5);
+    expect(halfway.height).toBeCloseTo(10);
+    expect(halfway.along).toBeCloseTo(100);
+    const inTheRough = placeOnProfile([50, 30], path, profile);
+    expect(inTheRough.share).toBeCloseTo(0.25);
+    expect(inTheRough.off).toBeCloseTo(30);
+  });
+
+  it('leaves the strip as it is on the tee and while the player walks up to its rest', () => {
+    for (const share of [0, 0.1, 0.5, 1]) expect(stripX(share, 0)).toBeCloseTo(share);
+    for (const share of [0, 0.1, 0.5, 1]) expect(stripX(share, STRIP_REST / 2)).toBeCloseTo(share);
+  });
+
+  it('holds the player at its rest and gives the rest of the strip to the ground ahead', () => {
+    for (const you of [0.3, 0.6, 0.85]) {
+      expect(stripX(you, you)).toBeCloseTo(STRIP_REST);
+      expect(stripX(0, you)).toBe(0);
+      expect(stripX(1, you)).toBeCloseTo(1);
+      /* what is left always has at least its share of the hole */
+      expect(1 - stripX(you, you)).toBeGreaterThanOrEqual(1 - you);
+    }
+    /* the last 60 m of a 400 m hole, nearly four fifths of the strip */
+    const you = 340 / 400;
+    expect(stripX(1, you) - stripX(you, you)).toBeCloseTo(1 - STRIP_REST);
+  });
+
+  it('never folds the strip back on itself', () => {
+    for (const you of [0, 0.05, STRIP_REST, 0.5, 0.97, 1]) {
+      let last = -1;
+      for (let i = 0; i <= 200; i++) {
+        const x = stripX(i / 200, you);
+        expect(Number.isFinite(x)).toBe(true);
+        expect(x).toBeGreaterThanOrEqual(last);
+        last = x;
+      }
+    }
+  });
+
+  it('keeps a player off the strip of a hole they are not on, and on it at both ends', () => {
+    const path = [[0, 0], [200, 0]];
+    const profile = elevationProfile(path, () => 0);
+    expect(placeOnProfile([100, 400], path, profile, 150)).toBeNull();
+    expect(placeOnProfile([100, 100], path, profile, 150)).not.toBeNull();
+    expect(placeOnProfile([-40, 0], path, profile).share).toBe(0);
+    expect(placeOnProfile([260, 0], path, profile).share).toBe(1);
   });
 
   it('turns the map so play runs up the screen', () => {
@@ -466,6 +562,74 @@ describe('what a golfer reads', () => {
     expect(contourInterval(1.5)).toBe(10);
     expect(contourInterval(4)).toBe(20);
     expect(contourInterval(20)).toBe(50);
+  });
+});
+
+describe('hazards ahead', () => {
+  const square = (x, z, half = 5) => [[x - half, z - half], [x + half, z - half], [x + half, z + half], [x - half, z + half]];
+  const path = [[0, 0], [0, -400]];
+  const bunkers = rings => groupBunkers(rings);
+  const ahead = input => hazardsAhead({ origin: [0, 0], path, bunkers: [], waters: [], ...input });
+
+  it('gives a bunker its reach and its carry, nearest first', () => {
+    const found = ahead({ bunkers: bunkers([square(20, -300), square(-20, -200)]) });
+    expect(found.map(hazard => hazard.kind)).toEqual(['bunker', 'bunker']);
+    expect(found[0].front).toBeGreaterThan(190);
+    expect(found[0].front).toBeLessThan(200);
+    expect(found[0].carry).toBeGreaterThan(205);
+    expect(found[1].at).toEqual([20, -300]);
+  });
+
+  it('names the side each lies on, facing the green', () => {
+    const found = ahead({ bunkers: bunkers([square(20, -300), square(-20, -200), square(0, -120)]) });
+    expect(found.map(hazard => hazard.side)).toEqual(['mitt', 'vänster', 'höger']);
+    expect(sideOfPlay([30, -50], path)).toBe('höger');
+    expect(sideOfPlay([30, -50], [...path].reverse())).toBe('vänster');
+  });
+
+  it('counts a cluster of bunkers as one hazard', () => {
+    expect(ahead({ bunkers: bunkers([square(20, -300), square(30, -300), square(20, -200)]) }).length).toBe(2);
+  });
+
+  it('forgets what the ball has passed and what is off on another hole', () => {
+    const found = hazardsAhead({ origin: [0, -250], path, waters: [], bunkers: bunkers([square(20, -200), square(20, -320), square(200, -320)]) });
+    expect(found.length).toBe(1);
+    expect(found[0].at).toEqual([20, -320]);
+  });
+
+  it('stops at the five nearest', () => {
+    const many = Array.from({ length: 9 }, (_, i) => square(25, -60 - i * 40));
+    expect(ahead({ bunkers: bunkers(many) }).length).toBe(5);
+  });
+
+  it('gives water across the line a carry, and water beside it none', () => {
+    const across = waterShape([[-80, -200], [80, -200], [80, -260], [-80, -260]]);
+    const crossing = ahead({ waters: [across] });
+    expect(crossing.length).toBe(1);
+    expect(crossing[0].kind).toBe('water');
+    expect(crossing[0].front).toBeGreaterThan(175);
+    expect(crossing[0].front).toBeLessThan(200);
+    expect(crossing[0].carry).toBeGreaterThan(250);
+    expect(crossing[0].carry).toBeLessThan(265);
+    const beside = waterShape([[12, -200], [80, -200], [80, -260], [12, -260]]);
+    expect(ahead({ waters: [beside] })[0].carry).toBeNull();
+  });
+
+  it('says nothing of water at the player\'s feet that needs no carrying', () => {
+    const beside = waterShape([[10, 20], [80, 20], [80, -12], [10, -12]]);
+    expect(ahead({ waters: [beside] })).toEqual([]);
+  });
+
+  it('finds a pond halfway along a long straight hole', () => {
+    const long = [[0, 0], [0, -900]];
+    const pond = waterShape([[-30, -430], [30, -430], [30, -470], [-30, -470]]);
+    const found = hazardsAhead({ origin: [0, 0], path: long, bunkers: [], waters: [pond] });
+    expect(found.length).toBe(1);
+    expect(found[0].carry).toBeGreaterThan(460);
+  });
+
+  it('leaves water that is nowhere near the hole out of it', () => {
+    expect(ahead({ waters: [waterShape(square(900, -200, 40))] })).toEqual([]);
   });
 });
 
@@ -553,6 +717,262 @@ describe('the camera', () => {
     expect(flight.at(1000).distance).toBeCloseTo(400);
     expect(flight.done(100)).toBe(true);
     expect(createFlight({ x: 0, y: 0, z: 0, distance: 1, bearing: 0, tilt: 0 }, { x: 5, y: 0, z: 0, distance: 1, bearing: 0, tilt: 0 }, 0).at(0).x).toBe(5);
+  });
+});
+
+describe('the shadows of hills', () => {
+  const node = { x0: 0, z0: 0, size: 256, spacing: 1 };
+  const sunFromWest = [-0.97, 0.24, 0];
+  const lit = (input = {}) => bakeHillShade({ node, sun: sunFromWest, exaggeration: 1, ceiling: 100, heightAt: () => 0, ...input });
+  const at = (pixels, i, j) => pixels[j * SHADE_SIZE + i];
+  /* a wall running north and south, 80 m west of the tile's middle */
+  const ridge = height => (x) => (x > 40 && x < 56 ? height : 0);
+
+  it('leaves level ground in the sun', () => {
+    expect(lit().every(value => value === 255)).toBe(true);
+  });
+
+  it('lays a ridge\'s shadow behind it, away from the sun, and none before it', () => {
+    const shade = lit({ heightAt: ridge(20) });
+    const row = (SHADE_SIZE - 1) / 2;
+    const behind = Math.round(90 / 256 * (SHADE_SIZE - 1)), before = Math.round(10 / 256 * (SHADE_SIZE - 1));
+    expect(at(shade, behind, row)).toBeLessThan(40);
+    expect(at(shade, before, row)).toBe(255);
+  });
+
+  it('ends the shadow, at the reach the map draws its relief with', () => {
+    const plateau = x => (x < 56 ? 10 : 0);
+    const shade = lit({ heightAt: plateau });
+    const row = (SHADE_SIZE - 1) / 2;
+    /* 10 m high under this sun reaches 40 m past the edge, and SHADOW_REACH times that */
+    const end = 56 + 40 * SHADOW_REACH;
+    expect(at(shade, Math.round((end - 30) / 256 * (SHADE_SIZE - 1)), row)).toBeLessThan(128);
+    expect(at(shade, Math.round((end + 30) / 256 * (SHADE_SIZE - 1)), row)).toBe(255);
+  });
+
+  it('casts no longer under a dawn sun than an evening one', () => {
+    const plateau = x => (x < 56 ? 10 : 0);
+    const count = pixels => pixels.filter(value => value < 128).length;
+    const evening = lit({ heightAt: plateau, sun: [-0.98, 0.2, 0] });
+    const dawn = lit({ heightAt: plateau, sun: [-0.995, 0.1, 0] });
+    expect(count(dawn)).toBe(count(evening));
+  });
+
+  it('draws longer shadows when the relief is drawn taller', () => {
+    const count = pixels => pixels.filter(value => value < 128).length;
+    expect(count(lit({ heightAt: ridge(10), exaggeration: 2 }))).toBeGreaterThan(count(lit({ heightAt: ridge(10), exaggeration: 1 })));
+  });
+
+  it('asks no more of unknown ground than to skip it', () => {
+    expect(lit({ heightAt: () => NaN }).every(value => value === 255)).toBe(true);
+  });
+
+  it('keys a bake by the sun and the height it was drawn at', () => {
+    expect(shadeKey([0.5, 0.2, 0.1], 2)).not.toBe(shadeKey([0.5, 0.2, 0.1], 3));
+    expect(shadeKey([0.5, 0.2, 0.1], 2)).toBe(shadeKey([0.501, 0.2, 0.1], 2));
+  });
+});
+
+describe('the greengrid', () => {
+  const mainSource = fs.readFileSync(path.resolve(HERE, '../main.js'), 'utf8');
+  const ring = [[-12, -12], [12, -12], [12, 12], [-12, 12]];
+  const tilted = x => x * 0.02;
+
+  it('takes its heat colours from the simulator, number for number', () => {
+    const body = mainSource.match(/function slopeColor\(s\) \{[\s\S]*?\n\}/)[0];
+    const original = new Function('clampf', `${body}; return slopeColor;`)((value, low, high) => Math.max(low, Math.min(high, value)));
+    for (let s = 0; s < 0.13; s += 0.0007) {
+      slopeColor(s).forEach((channel, k) => expect(channel).toBeCloseTo(original(s)[k], 9));
+    }
+  });
+
+  it('moves its pulses by the simulator\'s rules', () => {
+    for (const rule of ['const delta = 0.45;', 'speed: clampf(s * 14.0 + 0.35, 0.38, 1.6)', 'baseScale: clampf(0.85 + s * 5.0, 0.80, 1.30)',
+      'travelDist: Math.min(dx, dz) * 1.15', 'const elevCycle = (curY * 1.35) % 1.0;', 'const fallLineCoord = ((cx * dirX + cz * dirZ) * 0.22) % 1.0;',
+      'const envelope = Math.pow(sinU, 1.6);', 'if (s >= 0.003) {', 'const CELL = 1.0;', 'const SUB = 2;']) {
+      expect(mainSource, `main.js changed: ${rule}`).toContain(rule);
+    }
+  });
+
+  it('reads a slope in the sim\'s terms: downhill, and how steep', () => {
+    const { s, dirX, dirZ } = slopeAt(3, 4, tilted);
+    expect(s).toBeCloseTo(0.02);
+    expect(dirX).toBeCloseTo(-1);
+    expect(dirZ).toBeCloseTo(0);
+  });
+
+  it('lays a pulse in every readable metre of a green, all running downhill', () => {
+    const grid = buildGreenGrid({ ring, heightAt: tilted });
+    const count = grid.pulses.length / PULSE_FLOATS;
+    expect(count).toBeGreaterThan(400);
+    expect(count).toBeLessThanOrEqual(26 * 26);
+    for (let k = 0; k < count; k++) {
+      const pulse = grid.pulses.subarray(k * PULSE_FLOATS, (k + 1) * PULSE_FLOATS);
+      expect(pulse[4]).toBeCloseTo(-1);
+      expect(pulse[3]).toBeCloseTo(0.02);
+      expect(pulse[7]).toBeGreaterThanOrEqual(0);
+      expect(pulse[7]).toBeLessThan(1);
+    }
+    expect(grid.mean).toBeCloseTo(0.02);
+    expect(grid.max).toBeCloseTo(0.02);
+  });
+
+  it('feathers out at the green\'s edge and draws nothing past it', () => {
+    const grid = buildGreenGrid({ ring, heightAt: tilted });
+    expect(grid.indices.length).toBeGreaterThan(0);
+    const fades = [];
+    for (let k = 6; k < grid.mesh.length; k += GRID_VERTEX_FLOATS) fades.push(grid.mesh[k]);
+    expect(Math.max(...fades)).toBe(1);
+    expect(Math.min(...fades)).toBe(0);
+    const far = Math.max(...grid.indices);
+    expect(far * GRID_VERTEX_FLOATS).toBeLessThan(grid.mesh.length);
+  });
+
+  it('has nothing to pulse on level ground, and no grid on ground that is not there', () => {
+    const level = buildGreenGrid({ ring, heightAt: () => 12 });
+    expect(level.pulses.length).toBe(0);
+    expect(level.max).toBe(0);
+    expect(buildGreenGrid({ ring, heightAt: () => NaN })).toBeNull();
+  });
+});
+
+describe('the scorecard', () => {
+  const holes = Array.from({ length: 18 }, (_, i) => ({ n: i + 1, par: 4, index: i + 1 }));
+  const hole = n => holes[n - 1];
+
+  it('offers its keys around par, and keeps a higher score on the row', () => {
+    expect(strokeKeys(4)).toEqual([2, 3, 4, 5, 6, 7]);
+    expect(strokeKeys(3)).toEqual([1, 2, 3, 4, 5, 6]);
+    expect(strokeKeys(5, 6)).toEqual([3, 4, 5, 6, 7, 8]);
+    expect(strokeKeys(4, 11)).toEqual([2, 3, 4, 5, 6, 11]);
+  });
+
+  it('counts fairways and greens in regulation from what was entered', () => {
+    expect(hitGreen({ strokes: 4, putts: 2 }, 4)).toBe(true);
+    expect(hitGreen({ strokes: 5, putts: 2 }, 4)).toBe(false);
+    expect(hitGreen({ strokes: 4 }, 4)).toBe(false);
+    const round = { ...newRound(), scores: {
+      1: { strokes: 4, putts: 2, fairway: 'hit' },
+      2: { strokes: 6, putts: 3, fairway: 'left' },
+      3: { strokes: 5 },
+    } };
+    expect(roundTotals(round, holes)).toMatchObject({ fairways: 1, fairwaysTried: 2, greens: 1, greensTried: 2 });
+    const short = holes.map(each => ({ ...each, par: 3 }));
+    expect(roundTotals(round, short).fairwaysTried).toBe(0);
+  });
+
+  it('gives strokes on the hardest holes first', () => {
+    expect(strokesReceived(18, hole(18), holes)).toBe(1);
+    expect(strokesReceived(10, hole(10), holes)).toBe(1);
+    expect(strokesReceived(10, hole(11), holes)).toBe(0);
+    expect(strokesReceived(20, hole(2), holes)).toBe(2);
+    expect(strokesReceived(20, hole(3), holes)).toBe(1);
+    expect(strokesReceived(54, hole(1), holes)).toBe(3);
+    expect(strokesReceived(0, hole(1), holes)).toBe(0);
+  });
+
+  it('takes a plus handicap back on the easiest holes', () => {
+    expect(strokesReceived(-2, hole(18), holes)).toBe(-1);
+    expect(strokesReceived(-2, hole(17), holes)).toBe(-1);
+    expect(strokesReceived(-2, hole(16), holes)).toBe(0);
+  });
+
+  it('ranks a nine-hole card among its own holes', () => {
+    const nine = [{ n: 1, par: 4, index: 3 }, { n: 2, par: 3, index: 17 }, { n: 3, par: 5, index: 9 }];
+    expect(strokesReceived(1, nine[0], nine)).toBe(1);
+    expect(strokesReceived(1, nine[2], nine)).toBe(0);
+  });
+
+  it('has no strokes to give without an index or a handicap', () => {
+    const unrated = [{ n: 1, par: 3, index: null }, { n: 2, par: 3, index: null }];
+    expect(strokesReceived(10, unrated[0], unrated)).toBeNull();
+    expect(strokesReceived(null, hole(1), holes)).toBeNull();
+  });
+
+  it('scores Stableford, and never below nil', () => {
+    expect(stablefordPoints(4, 4, 0)).toBe(2);
+    expect(stablefordPoints(4, 3, 0)).toBe(3);
+    expect(stablefordPoints(4, 5, 1)).toBe(2);
+    expect(stablefordPoints(4, 9, 0)).toBe(0);
+  });
+
+  it('names a score', () => {
+    expect(scoreName(3, 4)).toBe('Birdie');
+    expect(scoreName(4, 4)).toBe('Par');
+    expect(scoreName(5, 4)).toBe('Bogey');
+    expect(scoreName(1, 3)).toBe('Hole in one');
+    expect(scoreName(9, 4)).toBe('+5');
+  });
+
+  it('adds a round up as it goes, with a struck hole worth nothing', () => {
+    const round = { ...newRound(), handicap: 18, scores: { 1: { strokes: 5, putts: 2 }, 2: { strokes: 4, putts: 1 }, 3: { picked: true } } };
+    expect(roundTotals(round, holes)).toMatchObject({ played: 3, strokes: 9, par: 8, putts: 3, points: 5, toPar: 1 });
+  });
+
+  it('adds strokes but no points without a handicap', () => {
+    const round = { ...newRound(), scores: { 1: { strokes: 4 } } };
+    expect(roundTotals(round, holes)).toMatchObject({ strokes: 4, toPar: 0, points: null });
+  });
+
+  it('comes back from storage, or starts afresh from anything else', () => {
+    const round = { ...newRound(), scores: { 4: { strokes: 3 } } };
+    expect(parseRound(JSON.stringify(round)).scores[4].strokes).toBe(3);
+    for (const bad of [null, '', 'nonsense', '{"version":9}', '{"version":1,"scores":null}']) expect(parseRound(bad)).toBeNull();
+  });
+});
+
+describe('what covers the ground', () => {
+  const grounds = [...new Set(index.map(entry => entry.groundId))];
+
+  it('has a picture of each ground, read from the ground as published', () => {
+    for (const groundId of grounds) {
+      const record = landRecord(groundId);
+      expect(record, `${groundId}: rerun tools/bake-map-land.mjs`).toBeTruthy();
+      const { groundManifest } = readJson(index.find(entry => entry.groundId === groundId).manifest.url);
+      const ground = readJson(groundManifest.url);
+      expect(record.terrain, `${groundId}: its terrain was republished, rerun tools/bake-map-land.mjs`).toBe(groundManifest.sha256);
+      expect(record.ground).toBe(ground.frame.fingerprint);
+      for (const picture of [record.water, record.forest]) {
+        const bytes = fs.readFileSync(path.join(PUBLIC, picture.file));
+        expect(bytes.length).toBe(picture.bytes);
+        expect(createHash('sha256').update(bytes).digest('hex')).toBe(picture.sha256);
+        expect(bytes.length, 'a picture stays small enough for a phone').toBeLessThan(260 * 1024);
+      }
+    }
+  });
+
+  it('does not paint Norrfällsviken\'s sea ring, which closes across the land south of the course', () => {
+    const flagged = grounds.filter(groundId => landRecord(groundId).dry.length);
+    expect(flagged).toEqual(['norrfallsviken']);
+    const course = courseFor('norrfallsviken');
+    const dry = course.features.water.filter(item => item.overLand);
+    expect(dry.length).toBe(1);
+    expect(dry[0].sea).toBe(true);
+    expect(outlineOverLand('norrfallsviken', [[1, 2], [3, 4], [5, 6]])).toBe(false);
+    expect(outlineOverLand('visby', [[1, 2], [3, 4], [5, 6]])).toBe(false);
+  });
+
+  it('draws what stands on the ground beside the course', () => {
+    const veckefjarden = courseFor('veckefjarden');
+    expect(veckefjarden.features.farBuildings.length).toBeGreaterThan(7000);
+    expect(veckefjarden.features.railways.length).toBeGreaterThan(10);
+    expect(veckefjarden.features.pitches.length).toBeGreaterThan(30);
+    expect(veckefjarden.features.hayfields.length).toBe(1);
+    expect(veckefjarden.features.stakes.length).toBeGreaterThan(500);
+    expect(new Set(veckefjarden.features.stakes.map(stake => stake.colour)).size).toBeGreaterThan(1);
+    for (const corners of veckefjarden.features.farBuildings.slice(0, 50)) {
+      expect(corners.length).toBe(4);
+      expect(corners.flat().every(Number.isFinite)).toBe(true);
+    }
+    expect(courseFor('lidingo').features.outOfBounds.length).toBe(6);
+    expect(courseFor('upsala').features.bridges.length).toBe(4);
+    expect(courseFor('ribbingsfors').features.clearfells.length).toBeGreaterThan(0);
+  });
+
+  it('refuses a surroundings record the simulator would refuse', () => {
+    expect(validSurroundings({ version: 2, buildings: [], box: {}, inner: {} })).toBeNull();
+    expect(validSurroundings({ version: 1, buildings: [] })).toBeNull();
+    expect(validSurroundings(null)).toBeNull();
   });
 });
 

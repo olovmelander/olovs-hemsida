@@ -6,6 +6,7 @@
    in a pocket between shots spends nothing on the map. */
 import '../styles/course-map.css';
 import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag, recommendClub } from '../engine/caddie.js';
+import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { detailedUrl } from '../shell/router.js';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, MAX_DISTANCE, MAX_TILT, MIN_DISTANCE, MIN_TILT } from './map-camera.mjs';
@@ -13,30 +14,31 @@ import { loadMapCourse } from './map-course.mjs';
 import { createGps, createScreenLock, downloadCourse, isDownloaded, offlineBytes, offlineTiles } from './map-field.mjs';
 import { createMapRenderer } from './map-gl.mjs';
 import { attachGestures } from './map-gestures.mjs';
-import { bearingOf, contourInterval, elevationProfile, greenNumbers, principalBearing, shotReading } from './map-measure.mjs';
+import { SHADE_BELOW_SUN } from './map-horizon.mjs';
+import { AUTUMN_RAMPS, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS } from './map-light.mjs';
+import { bearingOf, contourInterval, elevationProfile, greenNumbers, hazardsAhead, placeOnProfile, playedPath, principalBearing, stripX, windWords, shotReading } from './map-measure.mjs';
 import { createOverlay } from './map-overlay.mjs';
+import { hitGreen, MAX_HANDICAP, MIN_HANDICAP, newRound, parseRound, roundTotals, scoreName, stablefordPoints, strokeKeys, strokesReceived } from './map-score.mjs';
 import { createDetailTexture } from './map-detail.mjs';
 import { createMapPainter } from './map-paint.mjs';
 import { createTileStore, fetchKeptFile } from './map-tiles.mjs';
 import { catalogueFor, createTreeRules, loadTreeAtlases, speciesCount } from './map-trees.mjs';
+import { buildGreenGrid, slopeColor, SLOPE_STEPS } from './map-greengrid.mjs';
+import { landRecord, loadLandPictures } from './map-land.mjs';
 
 const params = new URLSearchParams(location.search);
 const slug = params.get('bana');
 const BASE = import.meta.env.BASE_URL;
 const HOLE_TILT = 0.9, COURSE_TILT = 0.72;
+/* As low as the simulator's fly-in over a green: 26 m back and 21 m up. */
+const GREEN_TILT = 0.89;
 const RELIEF_STEPS = [1, 1.5, 2, 3];
-/* The afternoon sun: south-west, about 40 degrees up. High enough to light the
-   whole course, low enough that a tree's shadow shows its height. */
-const SUN = (() => {
-  const v = [-0.5, 0.64, 0.58], l = Math.hypot(...v);
-  return v.map(n => n / l);
-})();
 /* What a device that cannot hold the pace gives up, in order: distant trees first,
    then sharpness. A map that moves smoothly is worth more than one that is sharp
    and stutters. A step down is remembered, so the next round starts there. */
 const QUALITY_STEPS = Object.freeze([
-  { trees: 14000, pixelRatio: 2 },
-  { trees: 9000, pixelRatio: 2 },
+  { trees: 20000, pixelRatio: 2 },
+  { trees: 12000, pixelRatio: 2 },
   { trees: 5000, pixelRatio: 1.6 },
   { trees: 2500, pixelRatio: 1.3 },
 ]);
@@ -44,12 +46,37 @@ const QUALITY_KEY = 'banvy-map-quality-v1';
 const SLOW_FRAME_MS = 36, PACE_SAMPLES = 24;
 const BAG_KEY = 'banvy-caddie-bag-v1';
 const TEE_KEY = 'banvy-map-tee-v1';
+const LIGHT_KEY = 'banvy-map-light-v1';
+const CONTOUR_KEY = 'banvy-map-contours-v1';
+const NOW_REFRESH_MS = 60000;
+const HAZARD_KEY = 'banvy-map-hazards-v1';
+const ROUND_KEY = 'banvy-map-round-v1';
+const HANDICAP_KEY = 'banvy-map-handicap-v1';
+const HOLE_KEY = 'banvy-map-hole-v1';
+const GPS_KEY = 'banvy-map-gps-v1';
+const HINT_KEY = 'banvy-map-hint-v1';
+/* A tab killed in the pocket comes back to the same hole, with the GPS on. A round
+   is over by the time this has passed. */
+const RESUME_MS = 6 * 60 * 60 * 1000;
+const PROMPT_MS = 40000;
+const WEATHER_REFRESH_MS = 10 * 60 * 1000;
+/* Older than this, a wind reading is history and has no business in a plays-like. */
+const WEATHER_TRUSTED_MS = 3 * 60 * 60 * 1000;
+/* The pulses run at about 30 frames a second, and only while the green is being
+   looked at: a phone left on this view in a golf bag soon goes back to no frames. */
+const GRID_FRAME_MS = 33, GRID_AWAKE_MS = 60000;
+/* The simulator's pulse is 9 cm wide, under a pixel from where a phone sees a green. */
+const PULSE_WIDTH_METRES = 0.0893, PULSE_LEAST_PIXELS = 2.6;
 const OFF_COURSE_METRES = 450, FOLLOW_HOLE_METRES = 120;
+const GRAB_PIXELS = 28;
+/* Further than this from a hole's line, a player is not on that hole. */
+const ON_THE_STRIP_METRES = 150;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const metres = value => (Number.isFinite(value) ? `${Math.round(value)}` : '–');
 const signed = value => `${value >= 0 ? '+' : '−'}${Math.abs(value).toFixed(1).replace('.', ',')} m`;
+const toParText = value => (value === 0 ? 'E' : `${value > 0 ? '+' : '−'}${Math.abs(value)}`);
 
 document.body.classList.add('course-map');
 const boot = document.getElementById('boot');
@@ -63,33 +90,106 @@ root.innerHTML = `
   <canvas class="map-marks" aria-hidden="true"></canvas>
   <header class="map-top">
     <a class="map-key" data-back href="${BASE}" aria-label="Alla banor">‹</a>
-    <div class="map-hole">
+    <div class="map-hole" data-hole-bar>
       <button data-prev aria-label="Föregående hål">‹</button>
-      <div class="map-hole-text"><b data-hole-title></b><span data-hole-facts></span></div>
+      <button class="map-hole-text" data-hole-text aria-label="Om hålet"><b data-hole-title></b><span data-hole-facts></span></button>
       <button data-next aria-label="Nästa hål">›</button>
     </div>
     <button class="map-key" data-overview aria-label="Hela banan" aria-pressed="false">
       <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 18l6-13 5 8 3-4 4 9z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
     </button>
   </header>
-  <aside class="map-green" data-green aria-label="Avstånd till greenen">
-    <div><span>Bak</span><b data-back-number>–</b></div>
-    <div class="map-green-mid"><span>Mitt</span><b data-mid-number>–</b></div>
-    <div><span>Fram</span><b data-front-number>–</b></div>
-    <small data-from></small>
-  </aside>
+  <div class="map-side">
+    <button class="map-green" data-green aria-label="Avstånd till greenen. Tryck för att se greenen nära." aria-pressed="false">
+      <span class="map-green-row"><i>Bak</i><b data-back-number>–</b></span>
+      <span class="map-green-row map-green-mid"><i>Mitt</i><b data-mid-number>–</b></span>
+      <span class="map-green-row"><i>Fram</i><b data-front-number>–</b></span>
+      <small data-from></small>
+    </button>
+    <button class="map-wind" data-wind hidden aria-label="Vind och väder">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" data-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
+      <b data-wind-speed></b><span data-wind-temp></span>
+    </button>
+  </div>
   <section class="map-bottom">
-    <div class="map-reading" data-reading hidden></div>
+    <div class="map-float">
+      <button class="map-shot" data-shot hidden aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 20 20 4M7 13l2.5 2.5M11 9l2.5 2.5M15 5l2.5 2.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-shot-label>Mät slag</span></button>
+      <button class="map-recentre" data-recentre hidden aria-label="Tillbaka till hålet"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2v3.5M12 18.5V22M2 12h3.5M18.5 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+    <div class="map-prompt" data-prompt hidden>
+      <div class="map-prompt-head"><b data-prompt-title></b><button data-prompt-more>Fler val</button><button class="map-sheet-close" data-prompt-close aria-label="Inte nu">×</button></div>
+      <div class="map-keys" data-prompt-keys></div>
+    </div>
+    <div class="map-reading" data-reading hidden>
+      <div class="map-reading-text" data-reading-text></div>
+      <button class="map-sheet-close" data-reading-close aria-label="Ta bort mätpunkten">×</button>
+    </div>
     <div class="map-profile" data-profile>
-      <svg viewBox="0 0 300 44" preserveAspectRatio="none" aria-hidden="true"><path data-profile-fill fill="rgba(120,205,120,.32)"/><path data-profile-line fill="none" stroke="#a6efa0" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>
+      <svg viewBox="0 0 300 44" preserveAspectRatio="none" aria-hidden="true"><path data-profile-fill fill="rgba(120,205,120,.32)"/><path data-profile-line fill="none" stroke="#a6efa0" stroke-width="2" vector-effect="non-scaling-stroke"/><rect data-profile-walked y="0" width="0" height="44" fill="rgba(12,24,18,.62)"/></svg>
+      <i class="map-mark map-mark-aim" data-profile-aim hidden></i>
+      <i class="map-mark map-mark-you" data-profile-you hidden></i>
       <span data-profile-text></span><span class="map-plays" data-profile-plays></span>
     </div>
+    <div class="map-legend" data-legend hidden aria-label="Greenens lutning i procent">
+      <span>Lutning %</span><div data-legend-steps></div>
+    </div>
     <div class="map-tools">
-      <button class="map-tool" data-gps aria-pressed="false">GPS</button>
-      <button class="map-tool" data-tee aria-label="Byt tee"></button>
-      <button class="map-tool" data-relief aria-label="Höjdförstärkning">Höjd 2×</button>
-      <button class="map-tool" data-download>Spara</button>
-      <a class="map-tool" data-full aria-label="Öppna den detaljerade 3D-banan">3D</a>
+      <button class="map-tool" data-gps aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2.4" fill="currentColor"/></svg><span data-gps-label>GPS</span></button>
+      <button class="map-tool" data-hole aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 21V4l11 4.5L7 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></svg><span>Hålet</span></button>
+      <button class="map-tool" data-score aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 9h6M9 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-score-label>Score</span></button>
+      <button class="map-tool" data-menu aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>Meny</span></button>
+    </div>
+  </section>
+  <section class="map-sheet" data-score-sheet hidden aria-label="Scorekort">
+    <div class="map-sheet-head">
+      <button class="map-sheet-close" data-score-prev aria-label="Hålet före">‹</button>
+      <b data-score-title></b>
+      <button class="map-sheet-close" data-score-next aria-label="Hålet efter">›</button>
+      <button class="map-sheet-close" data-close aria-label="Stäng">×</button>
+    </div>
+    <div class="map-keys map-keys-strokes" data-stroke-keys aria-label="Slag"></div>
+    <p class="map-score-word" data-score-word></p>
+    <div class="map-key-row"><span>Putt</span><div class="map-keys" data-putt-keys aria-label="Puttar"></div></div>
+    <div class="map-key-row" data-fairway-row><span>Fairway</span><div class="map-keys" data-fairway-keys aria-label="Fairway"></div></div>
+    <button class="map-action map-action-next" data-score-done></button>
+    <p class="map-score-sum" data-score-sum></p>
+    <p class="map-score-stats" data-score-stats></p>
+    <div class="map-card" data-card></div>
+    <div class="map-stepper map-handicap"><span>Spelhandicap</span><button data-handicap-less aria-label="Sänk spelhandicap">−</button><output data-handicap>–</output><button data-handicap-more aria-label="Höj spelhandicap">+</button></div>
+    <div class="map-actions">
+      <button class="map-action" data-pick-up>Stryk hålet</button>
+      <button class="map-action" data-new-round>Ny runda</button>
+    </div>
+  </section>
+  <section class="map-sheet" data-light-sheet hidden aria-label="Ljus">
+    <div class="map-sheet-head"><button class="map-sheet-close" data-light-back aria-label="Tillbaka till menyn">‹</button><b>Ljus</b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
+    <div class="map-lights" data-lights></div>
+  </section>
+  <section class="map-sheet" data-hole-sheet hidden aria-label="Hålet">
+    <div class="map-sheet-head"><b data-hole-sheet-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
+    <p class="map-note" data-note hidden></p>
+    <div data-hazard-section>
+      <h3>Hinder framåt</h3>
+      <ul class="map-hazards" data-hazard-list></ul>
+    </div>
+    <h3>Alla hål</h3>
+    <div class="map-holes" data-holes></div>
+  </section>
+  <section class="map-sheet map-menu" data-menu-sheet hidden aria-label="Meny">
+    <div class="map-sheet-head"><b data-menu-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
+    <button class="map-row map-row-next" data-light aria-expanded="false"><span>Ljus</span><span class="map-row-value" data-light-name></span></button>
+    <div data-tee-section>
+      <h3>Tee</h3>
+      <div class="map-chips" data-tees></div>
+    </div>
+    <h3>Höjd</h3>
+    <div class="map-chips" data-reliefs></div>
+    <label class="map-row"><span>Höjdkurvor</span><input type="checkbox" data-contours></label>
+    <label class="map-row"><span>Hinderavstånd</span><input type="checkbox" data-hazards></label>
+    <div class="map-actions">
+      <button class="map-action" data-download>Spara banan</button>
+      <a class="map-action" data-full>Detaljerad 3D</a>
+      <a class="map-action" href="${BASE}">Alla banor</a>
     </div>
   </section>
   <div class="map-status" data-status hidden role="status"></div>`;
@@ -100,9 +200,24 @@ const ui = {
   hole: $('[data-hole-title]'), facts: $('[data-hole-facts]'),
   back: $('[data-back-number]'), mid: $('[data-mid-number]'), front: $('[data-front-number]'), from: $('[data-from]'),
   reading: $('[data-reading]'), status: $('[data-status]'),
-  gps: $('[data-gps]'), tee: $('[data-tee]'), relief: $('[data-relief]'), download: $('[data-download]'), full: $('[data-full]'),
+  gps: $('[data-gps]'), gpsLabel: $('[data-gps-label]'), light: $('[data-light]'), lightName: $('[data-light-name]'), menu: $('[data-menu]'),
+  score: $('[data-score]'), scoreLabel: $('[data-score-label]'), holeTool: $('[data-hole]'), holeText: $('[data-hole-text]'), holeBar: $('[data-hole-bar]'),
+  holeSheet: $('[data-hole-sheet]'), holeSheetTitle: $('[data-hole-sheet-title]'), hazardSection: $('[data-hazard-section]'), hazardList: $('[data-hazard-list]'),
+  recentre: $('[data-recentre]'), shot: $('[data-shot]'), shotLabel: $('[data-shot-label]'),
+  prompt: $('[data-prompt]'), promptTitle: $('[data-prompt-title]'), promptKeys: $('[data-prompt-keys]'),
+  readingText: $('[data-reading-text]'), legend: $('[data-legend]'),
+  scoreSheet: $('[data-score-sheet]'), scoreTitle: $('[data-score-title]'), strokeKeys: $('[data-stroke-keys]'), puttKeys: $('[data-putt-keys]'),
+  fairwayRow: $('[data-fairway-row]'), fairwayKeys: $('[data-fairway-keys]'), scoreDone: $('[data-score-done]'), scoreStats: $('[data-score-stats]'),
+  scoreWord: $('[data-score-word]'), scoreSum: $('[data-score-sum]'), card: $('[data-card]'), handicap: $('[data-handicap]'),
+  pickUp: $('[data-pick-up]'), newRound: $('[data-new-round]'), hazards: $('[data-hazards]'),
+  wind: $('[data-wind]'), windArrow: $('[data-wind-arrow]'), windSpeed: $('[data-wind-speed]'), windTemp: $('[data-wind-temp]'),
+  lightSheet: $('[data-light-sheet]'), menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
+  menuTitle: $('[data-menu-title]'), note: $('[data-note]'), holes: $('[data-holes]'),
+  teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'),
+  download: $('[data-download]'), full: $('[data-full]'),
   overview: $('[data-overview]'), green: $('[data-green]'),
   profile: $('[data-profile]'), profileLine: $('[data-profile-line]'), profileFill: $('[data-profile-fill]'), profileText: $('[data-profile-text]'), profilePlays: $('[data-profile-plays]'),
+  profileWalked: $('[data-profile-walked]'), profileYou: $('[data-profile-you]'), profileAim: $('[data-profile-aim]'),
 };
 
 let statusTimer = 0;
@@ -117,6 +232,22 @@ function savedQuality() {
   const asked = Number(params.get('mapquality'));
   if (params.has('mapquality') && QUALITY_STEPS[asked]) return asked;
   try { return Math.min(QUALITY_STEPS.length - 1, Number(localStorage.getItem(QUALITY_KEY)) || 0); } catch { return 0; }
+}
+
+function savedText(key, fallback) {
+  try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; }
+}
+
+function remember(key, value) {
+  try { localStorage.setItem(key, value); } catch { /* it holds for this visit */ }
+}
+
+/* A value that holds only as long as a round could still be going on. */
+function savedFresh(key) {
+  try {
+    const { value, at } = JSON.parse(localStorage.getItem(key));
+    return Date.now() - at < RESUME_MS ? value : null;
+  } catch { return null; }
 }
 
 function savedTee(course) {
@@ -151,11 +282,13 @@ async function start() {
   const rules = createTreeRules(course);
   const treeFiles = rules.catalogue.species.slice(0, speciesCount(slug)).flatMap(entry => [entry.colour, entry.normal])
     .map(entry => ({ ...entry, href: assetUrl(entry.file) }));
-  const atlases = await treesLoaded;
+  const landFiles = landRecord(course.ground.groundId);
+  const landExtras = landFiles ? [landFiles.water, landFiles.forest].map(entry => ({ ...entry, href: assetUrl(entry.file) })) : [];
+  const [atlases, land] = await Promise.all([treesLoaded, params.get('land') === '0' ? null : loadLandPictures(landFiles, file => fetchKeptFile(assetUrl(file)))]);
 
   const groundCanvas = $('.map-ground');
   let store = null;
-  const painter = createMapPainter(course, atlases);
+  const painter = createMapPainter(course, atlases, land);
   const renderer = createMapRenderer(groundCanvas, {
     onLost: () => store?.forgetGpu(),
     onRestored: () => invalidate(),
@@ -179,18 +312,35 @@ async function start() {
 
   const state = {
     mode: 'hole',
-    hole: clamp(Number(params.get('hal')) || 1, 1, course.holes.length),
+    hole: clamp(Number(params.get('hal')) || savedFresh(`${HOLE_KEY}:${course.slug}`) || 1, 1, course.holes.length),
     exaggeration: 2,
     tee: savedTee(course),
     player: null,
     target: null,
     follow: true,
+    /* The player has moved the view off the framed hole, or stands looking at a green. */
+    viewMoved: false,
+    greenView: false,
+    greenGrid: null,
+    gridAwake: 0,
+    draggingTarget: false,
+    numbersDirty: false,
+    shotFrom: null,
     flight: null,
     flightStart: 0,
     /* The first view waits for the root tile: framing a hole on heights that
        have not arrived put the green under the header. */
     opening: true,
     quality: savedQuality(),
+    lightKey: params.get('nu') === '1' ? 'nu' : params.get('ljus') ?? savedText(LIGHT_KEY, DEFAULT_LIGHT),
+    light: null,
+    lightClock: null,
+    contours: savedText(CONTOUR_KEY, '1') !== '0',
+    showHazards: savedText(HAZARD_KEY, '1') !== '0',
+    hazards: [],
+    weather: null,
+    windTurn: null,
+    scoreHole: null,
     pace: { last: 0, samples: [] },
     stats: { triangles: 0, trees: 0, patches: 0, frames: 0, lastDrawMs: 0 },
   };
@@ -214,7 +364,7 @@ async function start() {
     const { width, height } = camera.state;
     return width > height
       ? { top: 74, bottom: 96, left: 40, right: 138 }
-      : { top: 96, bottom: 196, left: 34, right: 96 };
+      : { top: 96, bottom: 204, left: 34, right: 96 };
   }
 
   function flyTo(view, duration = 800) {
@@ -226,7 +376,17 @@ async function start() {
 
   /* Frames the shot in hand: from where the ball is to the green, whichever way
      that points, with play running up the screen. */
+  let gridTimer = 0;
+  function leaveGreen() {
+    state.greenView = false;
+    state.greenGrid = null;
+    clearTimeout(gridTimer);
+    renderer.uploadGreenGrid(null);
+  }
+
   function frameHole(duration = 800) {
+    state.viewMoved = false;
+    leaveGreen();
     const h = hole(), from = origin();
     const rest = state.player?.onCourse ? [from] : [from, ...h.line.slice(1)];
     const points = [...rest, ...h.green.ring.filter((_, i) => i % 3 === 0), h.green.c].map(lifted);
@@ -243,7 +403,25 @@ async function start() {
     flyTo(view, duration);
   }
 
+  /* The green close to, on the line it is played along, for the greengrid to read. */
+  function frameGreen(duration = 700) {
+    const h = hole(), from = origin();
+    leaveGreen();
+    state.greenView = true;
+    state.viewMoved = false;
+    state.follow = false;
+    const points = [...h.green.ring, h.green.c].map(lifted);
+    const saved = { ...camera.state };
+    const view = camera.fit(points, { bearing: bearingOf(from, h.green.c), tilt: GREEN_TILT, insets: insets(), minDistance: 60, pivot: shown });
+    Object.assign(camera.state, saved);
+    camera.update();
+    flyTo(view, duration);
+    refreshNumbers();
+  }
+
   function frameCourse(duration = 900) {
+    state.viewMoved = false;
+    leaveGreen();
     const points = course.holes.flatMap(each => [each.line[0], each.green.c]);
     const saved = { ...camera.state };
     const view = camera.fit(points.map(lifted), {
@@ -254,8 +432,17 @@ async function start() {
     flyTo(view, duration);
   }
 
+  /* Live air, while it can be trusted. */
+  const air = () => {
+    const reading = state.weather;
+    return reading && Date.now() - (reading.fetchedAt ?? 0) < WEATHER_TRUSTED_MS ? reading : null;
+  };
+
   function refreshNumbers() {
     const h = hole(), from = origin();
+    state.hazards = state.mode === 'hole'
+      ? hazardsAhead({ origin: from, path: playedPath(h, teePoint()), ...course.hazards })
+      : [];
     const { front, centre, back } = greenNumbers(from, h.green);
     /* A placeholder green has a middle but no real edge, so its front and back
        are marked as the estimates they are. */
@@ -266,50 +453,109 @@ async function start() {
     ui.from.textContent = state.player?.onCourse ? 'från dig' : 'från tee';
     ui.hole.textContent = state.mode === 'course' ? course.name : `Hål ${h.n}`;
     const length = tee().metres ?? h.lengths[0];
-    ui.tee.textContent = `Tee ${course.tees?.names?.[state.tee] ?? ''}`.trim();
-    ui.tee.hidden = (course.tees?.names?.length ?? 0) < 2 || state.mode === 'course';
-    ui.facts.textContent = state.mode === 'course'
+    if (!ui.menuSheet.hidden) refreshMenu();
+    if (!ui.holeSheet.hidden) refreshHole();
+    const percent = value => `${(value * 100).toFixed(1).replace('.', ',')} %`;
+    ui.facts.textContent = state.greenGrid
+      ? `Lutning snitt ${percent(state.greenGrid.mean)} · max ${percent(state.greenGrid.max)}`
+      : state.mode === 'course'
       ? `${course.holes.length} hål · par ${course.par}`
       : [`Par ${h.par}`, length ? `${length} m` : null, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
     ui.green.hidden = state.mode === 'course';
-    ui.profile.hidden = state.mode === 'course';
+    ui.profile.hidden = state.mode === 'course' || state.greenView;
+    ui.legend.hidden = !state.greenView;
     ui.overview.setAttribute('aria-pressed', String(state.mode === 'course'));
+    ui.green.setAttribute('aria-pressed', String(state.greenView));
 
     if (state.target && state.mode === 'hole') {
-      const shot = shotReading(from, state.target, store.heightAt);
-      const rest = shotReading(state.target, h.green.c, store.heightAt);
+      const shot = shotReading(from, state.target, store.heightAt, air());
+      const rest = shotReading(state.target, h.green.c, store.heightAt, air());
       const advice = recommendClub(shot.plays ?? shot.distance, bag);
       const parts = [`<b>${metres(shot.distance)} m</b>`];
-      if (shot.rise !== null) parts.push(signed(shot.rise), `spelas ${metres(shot.plays)} m`);
-      if (advice?.club) parts.push(advice.club.name);
+      if (shot.rise !== null) parts.push(`spelas ${metres(shot.plays)} m`);
+      if (advice?.club) parts.push(`<em>${advice.club.name}</em>`);
       parts.push(`${metres(rest.distance)} m kvar`);
-      ui.reading.innerHTML = parts.map(part => `<span>${part}</span>`).join('');
+      if (shot.rise !== null) parts.push(signed(shot.rise));
+      parts.push(...windWords(shot));
+      ui.readingText.innerHTML = parts.map(part => `<span>${part}</span>`).join('');
       ui.reading.hidden = false;
     } else ui.reading.hidden = true;
 
     refreshProfile();
+    refreshFloat();
   }
 
+  /* The two buttons over the map's corner: back to the shot, and a shot walked off. */
+  function refreshFloat() {
+    const walking = gps.active;
+    ui.recentre.hidden = state.mode !== 'hole' || !(state.viewMoved || state.greenView || (walking && !state.follow));
+    ui.recentre.setAttribute('aria-label', walking ? 'Tillbaka till min position' : 'Tillbaka till hålet');
+    ui.shot.hidden = state.mode !== 'hole' || !state.player?.onCourse;
+    ui.shot.setAttribute('aria-pressed', String(Boolean(state.shotFrom)));
+    const walked = state.shotFrom && state.player
+      ? `${metres(Math.hypot(state.player.point[0] - state.shotFrom[0], state.player.point[1] - state.shotFrom[1]))} m`
+      : 'Mät slag';
+    if (ui.shotLabel.textContent !== walked) ui.shotLabel.textContent = walked;
+  }
+
+  /* The whole hole, tee to green, so it keeps its shape all the way round and the
+     player can move along it. */
   function refreshProfile() {
     if (state.mode !== 'hole') return;
     const from = origin(), green = hole().green.c;
-    const line = elevationProfile(from, green, store.heightAt);
+    const path = playedPath(hole(), teePoint());
+    /* Dense enough that the last stretch still draws a true curve when it has
+       spread across most of the strip. */
+    const line = elevationProfile(path, store.heightAt, 180);
     if (!line) return;
-    const range = Math.max(line.high - line.low, 4);
-    const y = value => 40 - (value - line.low) / range * 34;
-    const step = 300 / (line.points.length - 1);
-    const path = line.points.map((value, i) => `${i ? 'L' : 'M'}${(i * step).toFixed(1)} ${y(value).toFixed(1)}`).join(' ');
-    ui.profileLine.setAttribute('d', path);
-    ui.profileFill.setAttribute('d', `${path} L300 44 L0 44 Z`);
-    const word = Math.abs(line.rise) < 0.5 ? 'plant' : line.rise > 0 ? 'uppför' : 'nedför';
-    const plays = shotReading(from, green, store.heightAt).plays;
-    const climb = Math.abs(line.rise) < 0.5 ? '' : `${Math.abs(line.rise).toFixed(1).replace('.', ',')} m`;
-    ui.profileText.textContent = `${word} ${climb}`.trim();
+    const you = state.player?.onCourse ? placeOnProfile(state.player.point, path, line, ON_THE_STRIP_METRES) : null;
+    const walked = you?.share ?? 0;
+    const shareOf = i => i / (line.points.length - 1);
+
+    /* The height scale belongs to the ground still to come, so a rise before the
+       green reads as one however big the hole's hills were. Ground already walked
+       may run past it, and rests against the strip's edges. */
+    const ahead = line.points.filter((_, i) => shareOf(i) >= walked);
+    const low = Math.min(...ahead), high = Math.max(...ahead);
+    const range = Math.max(high - low, 3);
+    const y = value => clamp(35 - (value - low) / range * 29, 4, 38);
+    const curve = line.points.map((value, i) => `${i ? 'L' : 'M'}${(stripX(shareOf(i), walked) * 300).toFixed(1)} ${y(value).toFixed(1)}`).join(' ');
+    ui.profileLine.setAttribute('d', curve);
+    ui.profileFill.setAttribute('d', `${curve} L300 44 L0 44 Z`);
+
+    const mark = (element, place) => {
+      element.hidden = !place;
+      if (!place) return;
+      element.dataset.share = place.share.toFixed(4);
+      element.style.setProperty('--x', stripX(place.share, walked).toFixed(4));
+      element.style.setProperty('--y', (y(place.height) / 44).toFixed(4));
+    };
+    const aim = state.target ? placeOnProfile(state.target, path, line) : null;
+    mark(ui.profileYou, you);
+    mark(ui.profileAim, aim);
+    /* What is behind the player is done with, and steps back. */
+    ui.profileWalked.setAttribute('width', (stripX(walked, walked) * 300).toFixed(1));
+
+    const { rise, plays } = shotReading(from, green, store.heightAt, air());
+    const flat = rise === null || Math.abs(rise) < 0.5;
+    const word = flat ? 'plant' : rise > 0 ? 'uppför' : 'nedför';
+    const climb = flat ? '' : `${Math.abs(rise).toFixed(1).replace('.', ',')} m`;
+    ui.profileText.textContent = `${word} ${climb} ${you && !flat ? 'kvar' : ''}`.replace(/\s+/g, ' ').trim();
     ui.profilePlays.textContent = plays ? `spelas ${metres(plays)} m` : '';
+    ui.profile.setAttribute('aria-label', you
+      ? `Höjdprofil. Du är ${Math.round(you.along)} av ${Math.round(line.distance)} meter in på hålet.`
+      : `Höjdprofil över hålet, ${Math.round(line.distance)} meter.`);
   }
 
   function goHole(number, { fly = true } = {}) {
+    const left = state.hole;
     state.hole = clamp(number, 1, course.holes.length);
+    state.scoreHole = null;
+    leaveGreen();
+    remember(`${HOLE_KEY}:${course.slug}`, JSON.stringify({ value: state.hole, at: Date.now() }));
+    /* On to the next hole, in a round: the one left behind still wants its score. */
+    if (state.hole === left + 1 && (gps.active || roundTotals(round, course.holes).played)) askScore(left);
+    if (!ui.scoreSheet.hidden) refreshScore();
     state.mode = 'hole';
     state.target = null;
     /* The tiles for this hole, ahead of need: the flight lands on 1 m ground
@@ -338,6 +584,7 @@ async function start() {
       const onCourse = Boolean(nearby) && nearby.distance <= OFF_COURSE_METRES;
       const first = !state.player?.onCourse;
       state.player = { point, accuracy: clamp(accuracy, 3, 60), onCourse };
+      if (onCourse) remember(`${GPS_KEY}:${course.slug}`, JSON.stringify({ value: true, at: Date.now() }));
       if (!onCourse) {
         status(nearby ? `${Math.round(nearby.distance)} m från närmaste hål` : 'Positionen ligger utanför banan');
         refreshNumbers();
@@ -350,7 +597,7 @@ async function start() {
         refreshNumbers();
         if (state.follow) frameHole(first ? 900 : 500);
       }
-      ui.gps.textContent = `±${Math.max(1, Math.round(accuracy))} m`;
+      ui.gpsLabel.textContent = `±${Math.max(1, Math.round(accuracy))} m`;
       invalidate();
   }
   const gps = createGps({
@@ -365,50 +612,432 @@ async function start() {
     gps.stop();
     screenLock.release();
     state.player = null;
-    ui.gps.textContent = 'GPS';
+    state.shotFrom = null;
+    ui.gpsLabel.textContent = 'GPS';
     ui.gps.setAttribute('aria-pressed', 'false');
     refreshNumbers();
     invalidate();
   }
 
-  ui.gps.onclick = () => {
-    if (gps.active) { stopGps(); return; }
+  function startGps() {
     gps.start();
     screenLock.hold();
     state.follow = true;
-    ui.gps.textContent = 'Söker…';
+    ui.gpsLabel.textContent = 'Söker…';
     ui.gps.setAttribute('aria-pressed', 'true');
+  }
+
+  ui.gps.onclick = () => {
+    if (gps.active) {
+      stopGps();
+      remember(`${GPS_KEY}:${course.slug}`, '');
+      return;
+    }
+    startGps();
+  };
+
+  /* Back to the shot in hand: to where the player is, or to the hole. */
+  function recentre() {
+    state.follow = true;
+    if (state.player?.onCourse) {
+      const nearby = nearestHole(state.player.point, course.holes, state.hole);
+      if (nearby && nearby.distance <= FOLLOW_HOLE_METRES && nearby.hole !== state.hole) { goHole(nearby.hole); return; }
+    }
+    frameHole(500);
+    refreshNumbers();
+  }
+  ui.recentre.onclick = recentre;
+
+  $('[data-legend-steps]').replaceChildren(...SLOPE_STEPS.map(({ label, slope }) => {
+    const step = document.createElement('span');
+    step.textContent = label;
+    step.style.background = `rgb(${slopeColor(slope).map(channel => Math.round(channel * 255))})`;
+    return step;
+  }));
+
+  ui.green.onclick = () => {
+    if (state.mode !== 'hole') return;
+    if (state.greenView) recentre(); else frameGreen();
+  };
+
+  ui.shot.onclick = () => {
+    if (!state.shotFrom) {
+      state.shotFrom = state.player?.point ?? null;
+      status('Gå till bollen och tryck igen');
+    } else {
+      const [x, z] = state.shotFrom;
+      const length = state.player ? Math.hypot(state.player.point[0] - x, state.player.point[1] - z) : 0;
+      state.shotFrom = null;
+      status(`Slaget var ${Math.round(length)} m`, 6000);
+    }
+    refreshFloat();
+    invalidate();
   };
 
   /* ---- controls ---- */
   let bag = DEFAULT_BAG;
   try { bag = parseBag(localStorage.getItem(BAG_KEY)) ?? DEFAULT_BAG; } catch { bag = DEFAULT_BAG; }
 
-  $('[data-prev]').onclick = () => { state.follow = false; goHole(state.hole > 1 ? state.hole - 1 : course.holes.length); };
-  $('[data-next]').onclick = () => { state.follow = false; goHole(state.hole < course.holes.length ? state.hole + 1 : 1); };
+  const stepHole = direction => {
+    state.follow = false;
+    goHole(((state.hole - 1 + direction + course.holes.length) % course.holes.length) + 1);
+  };
+  $('[data-prev]').onclick = () => stepHole(-1);
+  $('[data-next]').onclick = () => stepHole(1);
+  /* A sideways swipe along the header turns the page, as on a watch. */
+  let swipeFrom = null, swiped = false;
+  ui.holeBar.addEventListener('pointerdown', event => { swipeFrom = event.clientX; swiped = false; });
+  ui.holeBar.addEventListener('pointerup', event => {
+    if (swipeFrom === null) return;
+    const travel = event.clientX - swipeFrom;
+    swipeFrom = null;
+    if (Math.abs(travel) < 44) return;
+    swiped = true;
+    stepHole(travel < 0 ? 1 : -1);
+  });
+  ui.holeBar.addEventListener('pointercancel', () => { swipeFrom = null; });
+  ui.holeBar.addEventListener('click', event => {
+    if (!swiped) return;
+    swiped = false;
+    event.stopPropagation();
+    event.preventDefault();
+  }, true);
   ui.overview.onclick = () => {
     if (state.mode === 'course') { state.follow = Boolean(state.player); goHole(state.hole); } else showCourse();
   };
-  ui.tee.onclick = () => {
-    state.tee = (state.tee + 1) % course.tees.names.length;
-    try { localStorage.setItem(`${TEE_KEY}:${course.slug}`, String(state.tee)); } catch { /* a private window keeps it for this visit */ }
-    state.target = null;
-    refreshNumbers();
-    if (state.mode === 'hole') frameHole(500);
-    invalidate();
+  /* ---- the sheets ---- */
+  const sheets = [[ui.lightSheet, ui.menu], [ui.menuSheet, ui.menu], [ui.scoreSheet, ui.score], [ui.holeSheet, ui.holeTool]];
+  function showSheet(sheet) {
+    for (const [each] of sheets) each.hidden = !(each === sheet && each.hidden);
+    for (const [, button] of sheets) button.setAttribute('aria-expanded', String(sheets.some(([each, owner]) => owner === button && !each.hidden)));
+  }
+  ui.light.onclick = () => showSheet(ui.lightSheet);
+  $('[data-light-back]').onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
+  ui.menu.onclick = () => { refreshMenu(); showSheet(ui.lightSheet.hidden ? ui.menuSheet : ui.lightSheet); };
+  ui.score.onclick = () => { refreshScore(); showSheet(ui.scoreSheet); };
+  const openHole = () => { refreshHole(); showSheet(ui.holeSheet); };
+  ui.holeTool.onclick = openHole;
+  ui.holeText.onclick = openHole;
+  for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => showSheet(null);
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') showSheet(null); });
+
+  /* A sheet goes back down the way it came. Only by its head: its body scrolls. */
+  const DISMISS_PIXELS = 56;
+  for (const [sheet] of sheets) {
+    const head = sheet.querySelector('.map-sheet-head');
+    let from = null;
+    const settle = () => { from = null; sheet.style.transform = ''; };
+    head.addEventListener('pointerdown', event => {
+      if (event.target.closest('button')) return;
+      from = event.clientY;
+      head.setPointerCapture(event.pointerId);
+    });
+    head.addEventListener('pointermove', event => {
+      if (from !== null) sheet.style.transform = `translateY(${Math.max(0, event.clientY - from)}px)`;
+    });
+    head.addEventListener('pointerup', event => {
+      if (from === null) return;
+      const pulled = event.clientY - from;
+      settle();
+      if (pulled > DISMISS_PIXELS) showSheet(null);
+    });
+    head.addEventListener('pointercancel', settle);
+  }
+
+  const chip = (label, pressed, onClick, extra = '') => {
+    const button = document.createElement('button');
+    button.className = `map-chip ${extra}`.trim();
+    button.textContent = label;
+    button.setAttribute('aria-pressed', String(pressed));
+    button.onclick = onClick;
+    return button;
   };
-  ui.relief.onclick = () => {
-    const next = RELIEF_STEPS[(RELIEF_STEPS.indexOf(state.exaggeration) + 1) % RELIEF_STEPS.length];
-    camera.state.y *= next / state.exaggeration;
-    state.exaggeration = next;
-    ui.relief.textContent = `Höjd ${String(next).replace('.', ',')}×`;
+
+  /* The hole in words: its tip, what lies ahead, and the way to any other hole. */
+  function refreshHole() {
+    const h = hole(), hasHole = state.mode === 'hole';
+    ui.holeSheetTitle.textContent = hasHole ? [`Hål ${h.n}`, h.name].filter(Boolean).join(' · ') : course.name;
+    ui.note.textContent = hasHole ? h.note ?? '' : '';
+    ui.note.hidden = !ui.note.textContent;
+    ui.hazardSection.hidden = !hasHole || !state.hazards.length;
+    ui.hazardList.replaceChildren(...state.hazards.map(hazard => {
+      const row = document.createElement('li');
+      const name = hazard.kind === 'water' ? 'Vatten' : 'Bunker';
+      const where = hazard.side === 'mitt' ? 'mitt i' : hazard.side;
+      const carry = hazard.carry === null ? '' : `<small>över ${Math.round(hazard.carry)}</small>`;
+      row.innerHTML = `<i class="map-dot is-${hazard.kind}"></i><span>${name}, ${where}</span><b>${Math.round(hazard.front)}</b>${carry}`;
+      return row;
+    }));
+    ui.holes.replaceChildren(...course.holes.map(each => chip(String(each.n), hasHole && each.n === h.n, () => {
+      state.follow = false;
+      showSheet(null);
+      goHole(each.n);
+    })));
+  }
+
+  function refreshMenu() {
+    const hasHole = state.mode === 'hole';
+    ui.menuTitle.textContent = course.name;
+    ui.lightName.textContent = state.lightKey === 'nu' ? 'Nu' : lightByKey(state.lightKey)?.label ?? '';
+    const names = course.tees?.names ?? [];
+    ui.teeSection.hidden = names.length < 2 || !hasHole;
+    ui.tees.replaceChildren(...names.map((name, index) => chip(name, index === state.tee, () => {
+      state.tee = index;
+      remember(`${TEE_KEY}:${course.slug}`, String(index));
+      state.target = null;
+      refreshNumbers();
+      if (state.mode === 'hole') frameHole(500);
+      invalidate();
+    })));
+    ui.reliefs.replaceChildren(...RELIEF_STEPS.map(step => chip(`${String(step).replace('.', ',')}×`, step === state.exaggeration, () => {
+      camera.state.y *= step / state.exaggeration;
+      state.exaggeration = step;
+      refreshMenu();
+      invalidate();
+    })));
+    ui.contours.checked = state.contours;
+    ui.hazards.checked = state.showHazards;
+  }
+  ui.contours.onchange = () => {
+    state.contours = ui.contours.checked;
+    remember(CONTOUR_KEY, state.contours ? '1' : '0');
     invalidate();
   };
 
+  ui.hazards.onchange = () => {
+    state.showHazards = ui.hazards.checked;
+    remember(HAZARD_KEY, state.showHazards ? '1' : '0');
+    invalidate();
+  };
+
+  /* ---- the card ---- */
+  const roundKey = `${ROUND_KEY}:${course.slug}`;
+  let round = parseRound(savedText(roundKey, null)) ?? newRound();
+  if (!Number.isFinite(round.handicap)) {
+    const known = Number(savedText(HANDICAP_KEY, ''));
+    if (savedText(HANDICAP_KEY, '') !== '' && Number.isFinite(known)) round.handicap = known;
+  }
+  const scoredHole = () => course.holes[(state.scoreHole ?? state.hole) - 1];
+  const saveRound = () => remember(roundKey, JSON.stringify(round));
+
+  function setScore(change, number = scoredHole().n) {
+    round.scores[number] = { ...round.scores[number], ...change };
+    saveRound();
+    refreshScore();
+  }
+
+  /* The next tee is the moment a golfer has the score in their head: one tap, and
+     the rest can wait. */
+  let promptTimer = 0;
+  const closePrompt = () => { clearTimeout(promptTimer); ui.prompt.hidden = true; };
+  function askScore(number) {
+    const h = course.holes[number - 1];
+    if (!h || round.scores[h.n]) return;
+    ui.prompt.dataset.hole = String(h.n);
+    ui.promptTitle.textContent = `Hål ${h.n} · par ${h.par}`;
+    ui.promptKeys.replaceChildren(...strokeKeys(h.par).map(value => {
+      const key = chip(String(value), false, () => { setScore({ strokes: value, picked: false }, h.n); closePrompt(); }, value === h.par ? 'is-par' : '');
+      key.dataset.promptKey = String(value);
+      return key;
+    }));
+    ui.prompt.hidden = false;
+    clearTimeout(promptTimer);
+    promptTimer = setTimeout(closePrompt, PROMPT_MS);
+  }
+  $('[data-prompt-close]').onclick = closePrompt;
+  $('[data-prompt-more]').onclick = () => {
+    state.scoreHole = Number(ui.prompt.dataset.hole);
+    closePrompt();
+    refreshScore();
+    showSheet(ui.scoreSheet);
+  };
+
+  function cardRows(holes) {
+    const sum = pick => holes.reduce((total, each) => total + (pick(each) ?? 0), 0);
+    const score = each => round.scores[each.n];
+    const shown = each => (score(each)?.picked ? '–' : score(each)?.strokes ?? '');
+    const kind = each => {
+      const strokes = score(each)?.strokes;
+      if (!Number.isFinite(strokes)) return '';
+      return strokes < each.par ? 'is-under' : strokes > each.par ? 'is-over' : '';
+    };
+    const cell = (each, text, extra = '') => `<button data-card-hole="${each.n}" class="${extra} ${each.n === scoredHole().n ? 'is-now' : ''}" aria-label="Hål ${each.n}">${text}</button>`;
+    return `<div class="map-card-row map-card-head"><span>Hål</span>${holes.map(each => cell(each, each.n)).join('')}<span>Σ</span></div>
+      <div class="map-card-row"><span>Par</span>${holes.map(each => cell(each, each.par)).join('')}<span>${sum(each => each.par)}</span></div>
+      <div class="map-card-row map-card-score"><span>Slag</span>${holes.map(each => cell(each, shown(each), kind(each))).join('')}<span>${sum(each => score(each)?.strokes) || ''}</span></div>`;
+  }
+
+  function refreshScore() {
+    const h = scoredHole(), own = round.scores[h.n] ?? {};
+    ui.scoreTitle.textContent = [`Hål ${h.n}`, `Par ${h.par}`, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
+    const stroke = value => {
+      const key = chip(String(value), !own.picked && own.strokes === value, () => setScore({ strokes: value, picked: false }), value === h.par ? 'is-par' : '');
+      key.dataset.strokeKey = String(value);
+      return key;
+    };
+    const keys = strokeKeys(h.par, own.picked ? null : own.strokes);
+    const more = chip('+', false, () => setScore({ strokes: Math.max(own.strokes ?? 0, keys.at(-1)) + 1, picked: false }));
+    more.dataset.strokeMore = '';
+    more.setAttribute('aria-label', 'Fler slag');
+    ui.strokeKeys.replaceChildren(...keys.map(stroke), more);
+    ui.puttKeys.replaceChildren(...[0, 1, 2, 3, 4].map(value => {
+      const key = chip(String(value), own.putts === value, () => setScore({ putts: own.putts === value ? null : value }));
+      key.dataset.puttKey = String(value);
+      return key;
+    }));
+    ui.fairwayRow.hidden = h.par < 4;
+    ui.fairwayKeys.replaceChildren(...[['left', '← Vänster'], ['hit', 'Träff'], ['right', 'Höger →']].map(([value, label]) => {
+      const key = chip(label, own.fairway === value, () => setScore({ fairway: own.fairway === value ? null : value }));
+      key.dataset.fairwayKey = value;
+      return key;
+    }));
+    const last = h.n === course.holes.length;
+    ui.scoreDone.textContent = last ? 'Klart' : `Vidare till hål ${h.n + 1} ›`;
+    ui.handicap.textContent = Number.isFinite(round.handicap) ? String(round.handicap) : '–';
+    const received = strokesReceived(round.handicap, h, course.holes);
+    const name = Number.isFinite(own.strokes) && !own.picked ? scoreName(own.strokes, h.par) : own.picked ? 'Struket' : '';
+    const points = received === null ? null : own.picked ? 0 : Number.isFinite(own.strokes) ? stablefordPoints(h.par, own.strokes, received) : null;
+    ui.scoreWord.textContent = [name, points === null ? null : `${points} poäng`,
+      received ? `${received} erhållna slag` : null].filter(Boolean).join(' · ');
+    const totals = roundTotals(round, course.holes);
+    const toPar = toParText(totals.toPar);
+    ui.scoreLabel.textContent = totals.strokes ? `Score ${toPar}` : 'Score';
+    ui.scoreSum.textContent = totals.played
+      ? [`${totals.strokes} slag`, totals.strokes ? toPar : null, totals.points === null ? null : `${totals.points} poäng`, totals.putts ? `${totals.putts} putt` : null].filter(Boolean).join(' · ')
+      : 'Rundan har inte börjat';
+    ui.scoreStats.textContent = [totals.fairwaysTried ? `Fairway ${totals.fairways}/${totals.fairwaysTried}` : null,
+      totals.greensTried ? `Green i regulation ${totals.greens}/${totals.greensTried}` : null,
+      hitGreen(own, h.par) ? 'Green i regulation här' : null].filter(Boolean).join(' · ');
+    const nines = [course.holes.slice(0, 9), course.holes.slice(9)].filter(part => part.length);
+    ui.card.innerHTML = nines.map(cardRows).join('');
+  }
+
+  ui.card.onclick = event => {
+    const target = event.target.closest('[data-card-hole]');
+    if (!target) return;
+    state.scoreHole = Number(target.dataset.cardHole);
+    refreshScore();
+  };
+  const stepScored = direction => {
+    const count = course.holes.length;
+    state.scoreHole = ((scoredHole().n - 1 + direction + count) % count) + 1;
+    refreshScore();
+  };
+  $('[data-score-prev]').onclick = () => stepScored(-1);
+  $('[data-score-next]').onclick = () => stepScored(1);
+  ui.scoreDone.onclick = () => {
+    const next = scoredHole().n + 1;
+    showSheet(null);
+    if (next > course.holes.length) return;
+    if (state.hole !== next) { state.follow = false; goHole(next); }
+  };
+  ui.pickUp.onclick = () => setScore({ strokes: null, putts: null, picked: true });
+  const setHandicap = value => {
+    round.handicap = clamp(value, MIN_HANDICAP, MAX_HANDICAP);
+    remember(HANDICAP_KEY, String(round.handicap));
+    saveRound();
+    refreshScore();
+  };
+  $('[data-handicap-more]').onclick = () => setHandicap(Number.isFinite(round.handicap) ? round.handicap + 1 : 18);
+  $('[data-handicap-less]').onclick = () => setHandicap(Number.isFinite(round.handicap) ? round.handicap - 1 : 18);
+
+  /* A whole round is one stray tap from gone, so it takes a second tap to clear. */
+  let clearing = 0;
+  ui.newRound.onclick = () => {
+    if (!clearing) {
+      ui.newRound.textContent = 'Säker? Tryck igen';
+      clearing = setTimeout(() => { clearing = 0; ui.newRound.textContent = 'Ny runda'; }, 4000);
+      return;
+    }
+    clearTimeout(clearing);
+    clearing = 0;
+    const { handicap } = round;
+    round = { ...newRound(), handicap };
+    state.scoreHole = 1;
+    closePrompt();
+    ui.newRound.textContent = 'Ny runda';
+    saveRound();
+    refreshScore();
+  };
+
+  /* ---- the light ---- */
+  const { lat: latitude, lon: longitude } = course.geo.origin;
+  const lightSwatch = light => `linear-gradient(180deg, rgb(${light.zenith.map(n => Math.round(n * 255))}), rgb(${light.horizon.map(n => Math.round(n * 255))}) 62%, rgb(${light.grade.map(n => Math.round(Math.min(n, 1) * 120))}) 62%)`;
+  const nowChip = chip('Nu', false, () => pickNow(), 'map-light-chip');
+  nowChip.dataset.now = '';
+  nowChip.dataset.key = 'nu';
+  nowChip.setAttribute('aria-label', 'Ljuset just nu på banan');
+  nowChip.style.setProperty('--swatch', lightSwatch(lightNow(new Date(), latitude, longitude)));
+  ui.lights.replaceChildren(nowChip, ...MAP_LIGHTS.map(light => {
+    const button = chip(light.label, false, () => setLight(light.key), 'map-light-chip');
+    button.dataset.key = light.key;
+    button.style.setProperty('--swatch', lightSwatch(light));
+    return button;
+  }));
+
+  function refreshLight() {
+    const clock = state.lightClock ?? new Date();
+    const next = state.lightKey === 'nu' ? lightNow(clock, latitude, longitude) : lightByKey(state.lightKey) ?? lightByKey(DEFAULT_LIGHT);
+    const changed = !state.light || state.light.key !== next.key
+      || Math.abs((state.light.elevationDegrees ?? 0) - (next.elevationDegrees ?? 0)) > 0.05;
+    state.light = next;
+    for (const button of ui.lights.children) button.setAttribute('aria-pressed', String(button.dataset.key === state.lightKey));
+    if (changed) invalidate();
+  }
+
+  function setLight(key) {
+    state.lightKey = key;
+    remember(LIGHT_KEY, key);
+    refreshLight();
+  }
+
+  function pickNow() {
+    if (state.lightKey === 'nu') { setLight(DEFAULT_LIGHT); return; }
+    setLight('nu');
+    const { elevationDegrees, azimuth } = state.light;
+    status(elevationDegrees > 0
+      ? `Solen står ${Math.round(elevationDegrees)}° över horisonten i ${compassName(azimuth)}`
+      : 'Solen har gått ner');
+  }
+  setInterval(() => { if (state.lightKey === 'nu' && !document.hidden) refreshLight(); }, NOW_REFRESH_MS);
+
+  /* ---- the wind ---- */
+  function applyWeather(reading) {
+    state.weather = reading;
+    const trusted = air();
+    ui.wind.hidden = !trusted;
+    if (trusted) {
+      ui.windSpeed.textContent = `${Math.round(trusted.windMs)} m/s`;
+      ui.windTemp.textContent = Number.isFinite(trusted.tempC) ? `${Math.round(trusted.tempC)}°` : '';
+    }
+    state.windTurn = null;
+    refreshNumbers();
+    invalidate();
+  }
+  async function refreshWeather() {
+    if (document.hidden) return;
+    const reading = await fetchWeather(latitude, longitude).catch(() => null);
+    if (reading) applyWeather(reading);
+  }
+  ui.wind.onclick = () => {
+    const reading = air();
+    if (!reading) return;
+    const gusts = Number.isFinite(reading.gustMs) ? `, byar ${Math.round(reading.gustMs)}` : '';
+    const degrees = Number.isFinite(reading.tempC) ? ` · ${Math.round(reading.tempC)}°` : '';
+    status(`${weatherWord(reading.code)} · vind från ${windCompass(reading.windFromDeg)} ${Math.round(reading.windMs)} m/s${gusts}${degrees}`);
+  };
+  setInterval(refreshWeather, WEATHER_REFRESH_MS);
+  document.addEventListener('visibilitychange', refreshWeather);
+  refreshWeather();
+
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.lightKey === 'nu') refreshLight(); });
+  refreshLight();
+
   const tiles = offlineTiles(store, course);
-  const offlineExtras = treeFiles;
+  const offlineExtras = [...treeFiles, ...landExtras];
   const megabytes = bytes => `${(bytes / 1048576).toFixed(1).replace('.', ',')} MB`;
-  if (isDownloaded(course)) ui.download.textContent = 'Sparad';
+  const saveLabel = `Spara banan · ${megabytes(offlineBytes(tiles, offlineExtras))}`;
+  ui.download.textContent = isDownloaded(course) ? 'Sparad' : saveLabel;
   ui.download.onclick = async () => {
     if (isDownloaded(course) || ui.download.disabled) return;
     if (!globalThis.caches) { status('Webbläsaren kan inte spara banan'); return; }
@@ -421,16 +1050,38 @@ async function start() {
       ui.download.textContent = 'Sparad';
       status(`Banan är sparad · ${megabytes(result.bytes)} · fungerar utan täckning`);
     } catch (error) {
-      ui.download.textContent = 'Spara';
+      ui.download.textContent = saveLabel;
       status(`Kunde inte spara: ${error.message}`);
     } finally { ui.download.disabled = false; }
   };
-  ui.download.title = `Spara banan för spel utan täckning (${megabytes(offlineBytes(tiles, offlineExtras))})`;
+  ui.download.title = 'Spara banan för spel utan täckning';
 
   attachGestures($('.map-marks'), {
-    onTouched() { state.flight = null; },
+    onTouched() {
+      state.flight = null;
+      state.gridAwake = performance.now() + GRID_AWAKE_MS;
+      showSheet(null);
+      if (state.greenGrid) invalidate();
+    },
+    /* A press on the measuring point takes hold of it. */
+    onPress(point) {
+      state.draggingTarget = false;
+      if (!state.target || state.mode !== 'hole') return;
+      const s = camera.project(...lifted(state.target));
+      state.draggingTarget = Math.hypot(s.x - point.x, s.y - point.y) < GRAB_PIXELS;
+    },
     onPan(from, to) {
+      if (state.draggingTarget) {
+        const hit = camera.pick(to.x, to.y, store.heightAt, state.exaggeration);
+        if (hit) {
+          state.target = hit;
+          state.numbersDirty = true;
+          invalidate();
+        }
+        return;
+      }
       state.follow = false;
+      state.viewMoved = true;
       const a = camera.onPlane(from.x, from.y), b = camera.onPlane(to.x, to.y);
       if (!a || !b) return;
       camera.state.x += a[0] - b[0];
@@ -439,6 +1090,7 @@ async function start() {
     },
     onTwoFingers({ centre, from, zoom, turn, lean }) {
       state.follow = false;
+      state.viewMoved = true;
       const before = camera.onPlane(from.x, from.y);
       camera.state.distance = clamp(camera.state.distance * zoom, MIN_DISTANCE, MAX_DISTANCE);
       camera.state.bearing -= turn;
@@ -453,12 +1105,14 @@ async function start() {
     },
     onTurn(turn, lean) {
       state.follow = false;
+      state.viewMoved = true;
       camera.state.bearing += turn;
       camera.state.tilt = clamp(camera.state.tilt + lean, MIN_TILT, MAX_TILT);
       invalidate();
     },
     onDoubleTap(point) {
       state.follow = false;
+      state.viewMoved = true;
       const hit = camera.pick(point.x, point.y, store.heightAt, state.exaggeration);
       if (!hit) return;
       const { bearing, tilt, distance } = camera.state;
@@ -486,6 +1140,12 @@ async function start() {
       invalidate();
     },
   });
+
+  $('[data-reading-close]').onclick = () => {
+    state.target = null;
+    refreshNumbers();
+    invalidate();
+  };
 
   const pixelRatio = () => Math.min(devicePixelRatio || 1, QUALITY_STEPS[state.quality].pixelRatio);
 
@@ -522,10 +1182,19 @@ async function start() {
   addEventListener('orientationchange', resize);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') invalidate(); });
 
+  /* Lakes freeze; the sea at Visby does not. */
+  const frozenWater = !course.features.water.some(item => item.sea);
+  let shadesWaiting = 0;
+
   function frame(time) {
     raf = 0;
     const started = performance.now();
-    if (time !== undefined) notePace(time);
+    if (time !== undefined && !state.greenGrid) notePace(time);
+    /* A dragged point reads its numbers once a frame, not once a pointer event. */
+    if (state.numbersDirty) {
+      state.numbersDirty = false;
+      refreshNumbers();
+    }
     if (state.flight) {
       const elapsed = (time ?? started) - state.flightStart;
       Object.assign(camera.state, state.flight.at(elapsed));
@@ -566,12 +1235,25 @@ async function start() {
       selection.patches.sort((a, b) => a.reach - b.reach);
       const { distance, bearing } = camera.state;
       const fillBearing = bearing - Math.PI / 4;
+      /* The arrow turns with the map, so it points the way the wind blows on it. */
+      const blowing = air();
+      if (blowing) {
+        const turn = Math.round(blowing.windFromDeg + 180 - bearing * 180 / Math.PI);
+        if (turn !== state.windTurn) {
+          state.windTurn = turn;
+          ui.windArrow.style.transform = `rotate(${turn}deg)`;
+        }
+      }
       /* Close up the map colours carry the surface and the light only models it;
          over a whole course the light has to do the work, since a hole's slopes
          are too gentle to read at that size. */
       const wide = clamp(Math.log2(distance / 350) / 3, 0, 1);
       const blend = (near, far) => near + (far - near) * wide;
       const treeReach = pixelsPerRadian * pixelRatio() / 2.6;
+      /* A low sun throws the land's own shadow, tile by tile, nearest first. */
+      const lowSun = state.light.sun[1] < SHADE_BELOW_SUN && params.get('hillshade') !== '0';
+      if (lowSun) shadesWaiting = store.bakeHillShades(selection.patches, state.light.sun, state.exaggeration, store.root.maxY * state.exaggeration);
+      else shadesWaiting = 0;
       const metresPerPixel = distance / pixelsPerRadian;
       const interval = contourInterval(metresPerPixel);
       const drawn = renderer.draw(selection.patches, {
@@ -581,18 +1263,24 @@ async function start() {
         /* One sun over the whole course, so shadows lie one way and a tree's falls
            where it would. A fill turns with the map, always from the top left of
            the screen: lit only from below, the eye reads hills as hollows. */
-        sun: SUN,
+        ...state.light,
+        ramps: AUTUMN_RAMPS,
+        ice: frozenWater ? state.light.snow : 0,
+        hillDark: lowSun ? 0.46 * state.light.sunShare : 0,
+        turn: bearing / (Math.PI * 2),
         fill: [Math.sin(fillBearing) * 0.6, 0.8, -Math.cos(fillBearing) * 0.6],
-        shadow: [0.56, 0.6, 0.68],
         closeness: clamp(1.5 - distance / 900, 0, 1),
         slopeGain: blend(1.25, 1.9) * Math.sqrt(state.exaggeration),
         shading: [blend(-0.24, -0.36), blend(0.18, 0.26), blend(0.1, 0.14), blend(0.08, 0.14)],
         treeFade: [treeReach * 0.72, treeReach],
         treeBudget: QUALITY_STEPS[state.quality].trees,
         fog: [distance * 2.2, Math.max(distance * 14, 9000)],
-        haze: [0.71, 0.84, 0.9],
-        zenith: [0.2, 0.47, 0.78],
-        contour: [interval, blend(0.42, 0.2), 5],
+        /* The greengrid reads the green by itself, as it does in the simulator. */
+        contour: [interval, state.contours && !state.greenGrid ? blend(0.42, 0.2) : 0, 5],
+        greenGrid: state.greenGrid && {
+          time: reducedMotion ? 0 : (performance.now() / 1000) % 3600,
+          scale: Math.max(1, PULSE_LEAST_PIXELS * metresPerPixel / PULSE_WIDTH_METRES),
+        },
         tint: [course.heightLow, course.heightHigh],
       });
       state.stats.triangles = drawn.triangles;
@@ -603,6 +1291,8 @@ async function start() {
       if (boot && !boot.classList.contains('done')) boot.classList.add('done');
     }
 
+    /* A view moved by hand reaches the buttons here: gestures only ask for a frame. */
+    refreshFloat();
     overlay.draw({
       camera,
       ground: shown,
@@ -613,17 +1303,47 @@ async function start() {
       tee: state.player?.onCourse ? null : teePoint(),
       player: state.player,
       target: state.mode === 'hole' ? state.target : null,
+      hazards: state.showHazards && !state.greenView ? state.hazards : [],
+      shotFrom: state.shotFrom,
+      pinRings: Boolean(state.greenGrid),
     });
 
     state.stats.lastDrawMs = performance.now() - started;
-    if (state.flight || backlog > 0 || Math.abs(shown(camera.state.x, camera.state.z) - camera.state.y) > 0.05) invalidate();
-    if (store.stats().busy === 0 && !state.flight) refreshProfile();
+    if (state.flight || backlog > 0 || shadesWaiting > 0 || Math.abs(shown(camera.state.x, camera.state.z) - camera.state.y) > 0.05) invalidate();
+    if (store.stats().busy === 0 && !state.flight) {
+      refreshProfile();
+      /* Read once the 1 m ground under the green is in. */
+      if (state.greenView && !state.greenGrid) {
+        state.greenGrid = buildGreenGrid({ ring: hole().green.ring, heightAt: store.heightAt });
+        renderer.uploadGreenGrid(state.greenGrid);
+        state.gridAwake = performance.now() + GRID_AWAKE_MS;
+        refreshNumbers();
+        invalidate();
+      }
+    }
+    if (state.greenGrid && !reducedMotion && performance.now() < state.gridAwake) {
+      clearTimeout(gridTimer);
+      gridTimer = setTimeout(invalidate, GRID_FRAME_MS);
+    }
   }
 
   resize();
   say('hämtar terrängen');
   refreshNumbers();
+  refreshScore();
   if (course.greensApproximate) status('Greenernas form är ungefärlig på den här banan', 6000);
+  else if (!savedText(HINT_KEY, '')) {
+    status('Tryck på kartan för att mäta ett slag', 6000);
+    remember(HINT_KEY, '1');
+  }
+
+  /* A round that was going on when the tab was lost picks up where it was. Only with
+     the permission already given: the prompt belongs to a tap on the button. */
+  if (savedFresh(`${GPS_KEY}:${course.slug}`)) {
+    navigator.permissions?.query({ name: 'geolocation' }).then(result => {
+      if (result.state === 'granted' && !gps.active) startGps();
+    }).catch(() => {});
+  }
 
   /* The harness's handle: a fake position stands in for a walk across a course. */
   globalThis.V3DMap = {
@@ -634,6 +1354,11 @@ async function start() {
     goHole,
     showCourse,
     invalidate,
+    setLight,
+    setWeather: applyWeather,
+    round: () => round,
+    /* A fixed moment for Nu, so a harness can stand at any hour of the year. */
+    setClock(date) { state.lightClock = date; refreshLight(); },
     heightAt: store.heightAt,
     stats: () => ({ ...state.stats, ...store.stats(), camera: { ...camera.state } }),
     fix: (latitude, longitude, accuracy = 4) => receiveFix({ latitude, longitude, accuracy }),

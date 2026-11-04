@@ -1,0 +1,215 @@
+{
+ "version": 1,
+ "lod": 3,
+ "grounds": {
+  "angso": {
+   "water": {
+    "file": "models/map-land/angso-water-63b27d61b08408aa.png",
+    "sha256": "63b27d61b08408aa87613f31dee02eb453dd23a7d2ebf0bb7c0c7a57f61a863a",
+    "bytes": 19119
+   },
+   "forest": {
+    "file": "models/map-land/angso-forest-67a63926e140b2cd.png",
+    "sha256": "67a63926e140b2cd89c6ee1630b1d202d9d1c384970723c7301c8c3b4ff58113",
+    "bytes": 145296
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318",
+   "terrain": "0327367adaf0561e23b19292aa549e92dc53c880f39bee8fc10d2524a4dc67ec"
+  },
+  "johannesberg": {
+   "water": {
+    "file": "models/map-land/johannesberg-water-1ba437f8d8f060c1.png",
+    "sha256": "1ba437f8d8f060c16d3647f8bc9581b631d6e34505315fa9212994196e535454",
+    "bytes": 7945
+   },
+   "forest": {
+    "file": "models/map-land/johannesberg-forest-1c03e2c600823e04.png",
+    "sha256": "1c03e2c600823e042bbc54bb67473f04cecdf084dae91ba991a276d37f858eb8",
+    "bytes": 169141
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
+   "terrain": "fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd"
+  },
+  "lidingo": {
+   "water": {
+    "file": "models/map-land/lidingo-water-d33faf007c3b40db.png",
+    "sha256": "d33faf007c3b40dbfe6e9196a928a560e6c456b603d7337173cf91dd8006578e",
+    "bytes": 32621
+   },
+   "forest": {
+    "file": "models/map-land/lidingo-forest-1eb7c8b6442636c7.png",
+    "sha256": "1eb7c8b6442636c7f08a8b38dbc8ca111c0fd45657a00166f8e22952f6cc02ce",
+    "bytes": 198620
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "8b9f61aba7ef3d78a14219d10ba79ce09322ac947c52a4f1551acc9c4447a7d6",
+   "terrain": "f7a0d942d5e91b3f30578403ff28211a5cee3b20458734b476009dd8e2a415aa"
+  },
+  "norrfallsviken": {
+   "water": {
+    "file": "models/map-land/norrfallsviken-water-5550b8e524231939.png",
+    "sha256": "5550b8e524231939b1c6d451c2004296a3f9020635d54e4bfde26d3da1c80c8b",
+    "bytes": 25933
+   },
+   "forest": {
+    "file": "models/map-land/norrfallsviken-forest-8098c8cd70c1bd9d.png",
+    "sha256": "8098c8cd70c1bd9d6ed940bd8a1ec8c3d4863fc678b9022d2409b9fcf655cfcc",
+    "bytes": 85661
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [
+    {
+     "points": 480,
+     "first": [
+      -3357.4,
+      1369.9
+     ],
+     "landHectares": 428
+    }
+   ],
+   "ground": "f3c5d5b875eb5d4b75726bdaf1a0ba30583a7227dcd2ab854bb469040d3f758a",
+   "terrain": "6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171"
+  },
+  "puttom": {
+   "water": {
+    "file": "models/map-land/puttom-water-28e3a762eace8321.png",
+    "sha256": "28e3a762eace8321377cbdf081845097f6e838bcf924952eca99ce00b2cd8f95",
+    "bytes": 24000
+   },
+   "forest": {
+    "file": "models/map-land/puttom-forest-7f757f3eb978a580.png",
+    "sha256": "7f757f3eb978a580774714d11852d38fa792c245db5477d0dd8d4b052b3cf782",
+    "bytes": 178060
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
+   "terrain": "fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803"
+  },
+  "ribbingsfors": {
+   "water": {
+    "file": "models/map-land/ribbingsfors-water-df50a38a5ff10faf.png",
+    "sha256": "df50a38a5ff10faf464cb05b6325ec984c6afc5f68937c13372278c22697a100",
+    "bytes": 30634
+   },
+   "forest": {
+    "file": "models/map-land/ribbingsfors-forest-fc5823713ef78daa.png",
+    "sha256": "fc5823713ef78daa6cde9012de73bb69254af056be8dd52f1fa5759fcace2de4",
+    "bytes": 133205
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "5d616311e246c109899b52223af5ed4a68f372f9b923787d6c0354b33b2c968f",
+   "terrain": "45c8d0edb7e6fd1c66106caee027d7f52636de594b24995588f1500097489d54"
+  },
+  "tortuna": {
+   "water": {
+    "file": "models/map-land/tortuna-water-703c5d96e9263387.png",
+    "sha256": "703c5d96e92633876aae79374b14f72e403c49a334cf5faf640b87124678ee60",
+    "bytes": 5361
+   },
+   "forest": {
+    "file": "models/map-land/tortuna-forest-4b89fd69bd3892a7.png",
+    "sha256": "4b89fd69bd3892a7b05b6ab292904a5c32f86bade6a0c7babd167001aaaba900",
+    "bytes": 81507
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "37b54e5fe18ad889e656639aa7fb4c5166899875029c72d6d624694b319c287f",
+   "terrain": "29bbfb05ea74fb0e0ab9f6347d4df4b80a2b12e44316f40fae8c9270cd92f44a"
+  },
+  "upsala": {
+   "water": {
+    "file": "models/map-land/upsala-water-220e9b325658f97c.png",
+    "sha256": "220e9b325658f97c10a5173ad00f9c3629a98fe2a56be8f8d4da671f2a2fac39",
+    "bytes": 6757
+   },
+   "forest": {
+    "file": "models/map-land/upsala-forest-efa75dbdfb8a7b6a.png",
+    "sha256": "efa75dbdfb8a7b6ad19f103f2b8a03bbe65e175f75046b8b01110b56795a2ff4",
+    "bytes": 195780
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
+   "terrain": "a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434"
+  },
+  "veckefjarden": {
+   "water": {
+    "file": "models/map-land/veckefjarden-water-1478b86286b83139.png",
+    "sha256": "1478b86286b8313952087a8fd3be33df69505ea860a72396a1d8f203207548f1",
+    "bytes": 18374
+   },
+   "forest": {
+    "file": "models/map-land/veckefjarden-forest-5403db95828a5847.png",
+    "sha256": "5403db95828a5847a47fc5b212409f6ab9b3931ca2eec2ad93fc7193db69647a",
+    "bytes": 181943
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
+   "terrain": "2ca0c550716833617d657cf4242b2c96825036c83bf34fe317fd3a8ab27fbe83"
+  },
+  "visby": {
+   "water": {
+    "file": "models/map-land/visby-water-666eee853b9ef106.png",
+    "sha256": "666eee853b9ef1067ef0faeb2af79516693728a61f672bda6741fed2ff822443",
+    "bytes": 9828
+   },
+   "forest": {
+    "file": "models/map-land/visby-forest-985468529c81f394.png",
+    "sha256": "985468529c81f3948b56c14ce5f8aee8c03b54b2c392e8dedc071cd6bf731f6b",
+    "bytes": 68359
+   },
+   "width": 2049,
+   "height": 2049,
+   "spacing": 8,
+   "x0": -8192,
+   "z0": -8192,
+   "dry": [],
+   "ground": "d7631b5ee1a936044fc4f03d7ee13971438b65653cc23a4dd9676b563123f511",
+   "terrain": "61515d2112e97be03a3909f604303499b0902f170ce262070ab3e722476e9a8c"
+  }
+ }
+}

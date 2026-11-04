@@ -81,10 +81,16 @@ Phones open a plain course link as a light 3D map for a real round (owner reques
 4 November; `shell/map-default.mjs`, and `karta=0` is the detailed course there).
 `?bana=<slug>&karta=1` opens it anywhere. It is a separate small program in
 `apps/golf/src/map` with no three.js. It reads the same 1 m tiles and plants the same
-trees as the simulator, and draws them as the player's own impostors, so rerun
+trees as the simulator, takes its nine lights from the same presets, and draws the
+trees as the player's own impostors, so rerun
 `tools/bake-map-trees.mjs` when a tree catalogue changes. Never import `engine/scenery/*`
 there (it brings three.js), and keep its work out of the folders the source revision
-hashes. Run `tools/check-map-field.mjs` on more than one course. See
+hashes. Run `tools/check-map-field.mjs` on more than one course. Nothing that is supposed to be
+on the ground may be left off the map (owner request, 4 November): a new feature in a pack
+needs painting too. The map's water and forest beyond the outlines are one picture each per
+ground; rerun `tools/bake-map-land.mjs` when terrain or stands are republished, and paint
+no outline whose inside the ground does not bear out (Norrfällsviken's sea ring). The
+land cover's WATER class is a colour verdict: never paint from it. See
 [the map mode](docs/course-map-mode.md).
 
 ## Course data and sources

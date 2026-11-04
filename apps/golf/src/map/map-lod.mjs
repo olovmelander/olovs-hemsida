@@ -121,7 +121,7 @@ const loadOrder = (a, b) => b.node.lod - a.node.lod || a.distance - b.distance;
 
 export function selectPatches({
   root, isReady, eye, planes, pixelsPerRadian, exaggeration = 1,
-  texelPixels = 2.6, vertexPixels = 28, maxPatches = 96,
+  texelPixels = 2.6, vertexPixels = 22, maxPatches = 96,
 }) {
   const view = { root, isReady, eye, planes, pixelsPerRadian, exaggeration, vertexPixels };
   let limit = texelPixels, result = selectOnce(view, limit);
