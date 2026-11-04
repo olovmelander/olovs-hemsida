@@ -38,6 +38,7 @@ import {
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
   normalMap, bumpMap, hash as tslHash, mrt, output, velocity,
+  cameraViewMatrix, transformNormalByViewMatrix,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
@@ -64,7 +65,7 @@ import { TAU, clampf, hyp, lerp, smooth, rightOf, polyLen, alongLine, lineBearin
    and stops paying for an answer it would not use. */
 import { ringSDIndexed as ringSD, distToLineIndexed as distToLine } from './engine/ring-index.mjs';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry, impostorDebugMode, impostorBend } from './engine/tree-impostor.mjs';
-import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack } from './engine/ghibli-foliage-material.mjs';
+import { makeGhibliFoliageMaterial, makeGhibliBirchBarkMaterial, setFoliageLighting, foliageBack, barkSurface } from './engine/ghibli-foliage-material.mjs';
 import { treeTemplateBounds, includeTreeBounds } from './engine/tree-bounds.mjs';
 import { drawOutOfBoundsOverlay } from './engine/ob-map-overlay.mjs';
 import { persistDevOverlay, readDevOverlay, terrainBadgeVisible } from './engine/dev-overlay.mjs';
@@ -117,6 +118,9 @@ import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWate
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } from './engine/building-paint.mjs';
 import { waterShading } from './engine/water-shading.mjs';
+import { createWaterReflection } from './engine/water-reflection.mjs';
+import { createGpuGrass } from './engine/gpu-grass.mjs';
+import { createTreeGpuCull, storageInstanceAttribute } from './engine/tree-gpu-cull.mjs';
 import { setWaterRoadPreset, waterReliefSun } from './engine/water-road.mjs';
 import { setWaterAbovePreset, waterCloudShade } from './engine/water-above.mjs';
 import { waitForGpuFrame } from './engine/first-frame-ready.mjs';
@@ -141,6 +145,7 @@ import { createRain } from './engine/rain.mjs';
 import { puffyBushGeometry, roundedStoneGeometry } from './engine/cover-shapes.mjs';
 import { cirrusFor } from './engine/painted-sky.mjs';
 import { guardParallelCompile } from './engine/webgl-compile-guard.mjs';
+import { warmFramePipelines } from './engine/warm-pipelines.mjs';
 import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, frameCapLabel, FRAME_CAP_KEY } from './engine/frame-pacer.mjs';
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
@@ -1978,6 +1983,48 @@ const CROWN_BACK_LIGHT = new URLSearchParams(location.search).get('backlight') !
    the crown's depth, its clumps and each tree move, with a warm cap on every
    up-and-sunward mass. ?canopy=0 is the before, the smooth wrap. */
 const CANOPY_ON = new URLSearchParams(location.search).get('canopy') !== '0';
+/* Load the approved five-species Blender catalogue for the near meshes
+   and the distant impostor bake. Placement and measured sizes
+   retain their existing rules; missing catalogue assets report a loading error. */
+/* The download starts here, as the terrain stage begins, rather than when the forest stage reaches it: with
+   the terrain's packs in, the line is free and the CPU stages run on regardless. At 50 Mbps the forest stage
+   otherwise sat 2.4 s waiting for files that could have been on their way for five seconds. The failure is
+   reported where the forest stage awaits it. ?treehoist=0 is the before. */
+/* THE TREES BY PLACE (load times and frame rate, 4 November). The owner's rule is that detail is set by where a
+   tree stands, never by how far the camera is. At high quality every tree within 300 m of a hole line drew the
+   Hero model, and those were 15 of a frame's 20 million triangles at Puttom 5: the mesh tier was the frame's largest
+   cost by far. So, as the rule first had it, band A (90 m) stays Hero and band B (90-300 m) draws the same
+   catalogue's Full model, fitted to the same height and radius, with the Hero's own materials, so it costs no
+   pipeline. Fixed for the visit, like every band. ?treebands=0 is the before, and an explicit ?treemesh=
+   compares one tier throughout. */
+const TREE_BANDS = !LOWQ && new URLSearchParams(location.search).get('treebands') !== '0'
+  && !new URLSearchParams(location.search).has('treemesh') && new URLSearchParams(location.search).get('treeset') !== 'v1';
+const startGhibliLoad = async () => {
+  try {
+    const { loadGhibliTrees, playerTreeMeshTier, playerTreeSet } = await import('./engine/ghibli-trees.mjs');
+    /* One mesh tier near the course, and it supplies the distant impostor
+       too: Hero at high quality, the same catalogue's Full model at low
+       quality -- every phone -- at about 40% of Hero's triangles, fitted to
+       the same height and radius. ?treemesh=hero|full overrides for
+       comparison; old ?hero=0 links change nothing. No Lite downloads. */
+    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
+      tier: playerTreeMeshTier(location.search, LOWQ),
+      /* the realistic catalogue (engine/ghibli-trees.mjs); ?treeset=v1 is the before, the painted one */
+      treeset: playerTreeSet(location.search),
+      /* low quality -- every phone -- keeps its models and leaf colours and leaves out the relief:
+         7.3 MB of maps, fifteen textures and their per-pixel normals. ?treerelief=1 is the before */
+      relief: !LOWQ || new URLSearchParams(location.search).get('treerelief') === '1',
+      bandTier: TREE_BANDS ? 'full' : null,
+      /* ?crowndepth=0 is the before: every card of a crown one flat colour */
+      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
+      /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
+      puffs: CANOPY_ON && new URLSearchParams(location.search).get('puffs') !== '0' });
+    console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
+    return loaded;
+  } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
+};
+const GHIBLI_LOADING = new URLSearchParams(location.search).get('treehoist') !== '0' ? startGhibliLoad() : null;
+GHIBLI_LOADING?.catch(() => {});
 /* the leaves' flutter near a crown (leafFlutter, below); ?leafflutter=0 is the before */
 const LEAF_FLUTTER_ON = new URLSearchParams(location.search).get('leafflutter') !== '0';
 /* The mesh crowns' leaf cards are cut through the MSAA samples, as the
@@ -2080,6 +2127,13 @@ const OPEN_SEA_ON = new URLSearchParams(location.search).get('opensea') !== '0';
    looks down on them (?waterlanes=0 shows them in the ripples alone). */
 const WATER_CLOUD_ON = new URLSearchParams(location.search).get('watercloud') !== '0';
 const WATER_LANES_ON = new URLSearchParams(location.search).get('waterlanes') !== '0';
+/* WATER THAT MIRRORS ITS SHORES (engine/water-reflection.mjs): each water pixel marches its
+   reflected ray through a copy of the opaque world's depth and reads the trees, banks and hills
+   it finds, falling back to the painted sky's reflection off screen. It copies the scene pass's
+   own single-sample target, so it runs with the temporal AA (high quality); MSAA, the runtime
+   drop and det=1 harnesses keep the before. ?waterreflect=0 is the before. */
+const WATER_REFLECTION = TEMPORAL_AA && new URLSearchParams(location.search).get('waterreflect') !== '0'
+  ? createWaterReflection({ reversedDepth: renderer.reversedDepthBuffer === true }) : null;
 const sun = new THREE.DirectionalLight(0xfff2de, 3.0);
 sun.castShadow = true;
 sun.shadow.mapSize.set(LOWQ ? 1024 : 2048, LOWQ ? 1024 : 2048);
@@ -3933,15 +3987,16 @@ function buildRoad(runs, asphalt) {
         const h = draped ? terrainH(x, z) + measuredLift
                     : verge ? terrainH(x, z) + 0.03
                             : hs[i] + Math.max(0, crown) + lift;
-        const ao = horizonAO(x, z, h);
+        /* twelve terrain samples, so only the branches that shade by it pay for them: gravel takes no AO */
         let cc;
         if (verge && run.tone && !asphalt) {
           cc = run.tone.map(v => v * 0.98);
         } else if (verge) {
           const g = groundAt(x, z, h);
+          const ao = horizonAO(x, z, h);
           cc = g.col.map((v, k2) => lerp(v, C.hard[k2], 0.3) * ao);
         } else if (asphalt) {
-          const n2 = fbm(x * 0.09, z * 0.09, 2);
+          const n2 = fbm(x * 0.09, z * 0.09, 2), ao = horizonAO(x, z, h);
           cc = run.tone.map(v => v * (1 + n2 * 0.10) * ao);
         } else if (run.tone) {
           /* compacted gravel is the palest ground there is, and it is never
@@ -3954,7 +4009,7 @@ function buildRoad(runs, asphalt) {
              read as the same gravel, so no lift and only the grain */
           cc = run.tone.map(v => v * (0.97 + n2 * 0.06));
         } else {
-          const n2 = fbm(x * 0.22, z * 0.22, 2);
+          const n2 = fbm(x * 0.22, z * 0.22, 2), ao = horizonAO(x, z, h);
           cc = C.path.map(v => v * (0.94 + n2 * 0.10) * ao);
         }
         pos.push(x, h, z);
@@ -4165,7 +4220,8 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false } =
     road: WATER_ROAD_ON, mirror: WATER_MIRROR_ON, relief: WATER_RELIEF_ON, sea: sea && OPEN_SEA_ON,
     cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON,
     /* the bank's reflection and shade inside the waterline (engine/water-shading.mjs WATER_BANK); ?waterbank=0 is the before */
-    bank: new URLSearchParams(location.search).get('waterbank') !== '0' });
+    bank: new URLSearchParams(location.search).get('waterbank') !== '0',
+    reflection: WATER_REFLECTION, lightScale: paintedWaterLight });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
@@ -4663,30 +4719,10 @@ function mergeGeos(list) {
   out.setIndex(new THREE.BufferAttribute(idx, 1));
   return out;
 }
-/* Load the approved five-species Blender catalogue for the near meshes
-   and the distant impostor bake. Placement and measured sizes
-   retain their existing rules; missing catalogue assets report a loading error. */
-const GHIBLI_STARTED = performance.now();
-const GHIBLI = await (async () => {
-  try {
-    const { loadGhibliTrees, playerTreeMeshTier } = await import('./engine/ghibli-trees.mjs');
-    /* One mesh tier near the course, and it supplies the distant impostor
-       too: Hero at high quality, the same catalogue's Full model at low
-       quality -- every phone -- at about 40% of Hero's triangles, fitted to
-       the same height and radius. ?treemesh=hero|full overrides for
-       comparison; old ?hero=0 links change nothing. No Lite downloads. */
-    const loaded = await loadGhibliTrees({ baseUrl: import.meta.env.BASE_URL, courseSlug: CMETA.slug,
-      tier: playerTreeMeshTier(location.search, LOWQ),
-      /* ?crowndepth=0 is the before: every card of a crown one flat colour */
-      crownDepth: new URLSearchParams(location.search).get('crowndepth') !== '0',
-      /* the painted canopy's masses (engine/crown-puffs.mjs); ?canopy=0 or ?puffs=0 is the before */
-      puffs: CANOPY_ON && new URLSearchParams(location.search).get('puffs') !== '0' });
-    console.info(`ghibli trees: ${loaded.summary.revision || loaded.summary.design}, ${loaded.summary.tier} meshes, ${loaded.summary.files} assets, ${(loaded.summary.bytes / 1024).toFixed(0)} kB`);
-    return loaded;
-  } catch (err) { throw new Error('banans träd kunde inte läsas. Kontrollera anslutningen och ladda om.', { cause: err }); }
-})();
+const GHIBLI_WAIT_STARTED = performance.now();
+const GHIBLI = await (GHIBLI_LOADING ?? startGhibliLoad());
 // Preserve the placement scales used before authored templates became mandatory.
-span('tree models (download + decode)', GHIBLI_STARTED);
+span('tree models (waiting for them)', GHIBLI_WAIT_STARTED);
 /* The drawn template is also the one placement asks about (its crown's
    underside keeps trees out of the authored buildings), so a Full crown,
    which hangs lower than Hero's, is tested as the crown it is. */
@@ -5253,6 +5289,11 @@ const LODPX = (() => {
   const q = new URLSearchParams(location.search).get('lodpx'), v = q ? q.split(',').map(Number) : null;
   return v && v.length === 3 && v.every(x => x > 0) ? { hero: v[0], full: v[1], impostor: v[2] } : null;
 })();
+/* THE TREES CULLED ON THE GPU (engine/tree-gpu-cull.mjs; ?treecull=gpu, WebGPU at high quality, opt-in until
+   measured): each hero tree tested against the frustum in a compute pass, the colour pass drawing the survivors
+   by indirect draws; the tiers' own meshes draw the shadows */
+const TREE_GPU_CULL = IS_GPU && !LOWQ && new URLSearchParams(location.search).get('treecull') === 'gpu';
+let treeGpuCull = null;
 const TREE_LOD = {
   cell: 128, cells: [], tiers: [], mats: [], imp: [], tint: [], atlases: [], ready: false,
   /* Screen-size and distant-Hero review modes may change detail in flight.
@@ -5268,8 +5309,8 @@ const TREE_LOD = {
      The same geographic policy applies to both quality profiles. Keep the
      four diagnostic indices (1 Hero, 4 Impostor); 2/3 never allocate meshes. */
   lodMode: LODMODE,
-  zoneTiers: [1, 1, 4, 4],
-  /* 24 px by default; ?distanthero=0 restores geographic detail, 16 compares
+  zoneTiers: [1, TREE_BANDS ? 2 : 1, 4, 4],
+  /* 48 px by default; ?distanthero=24 is the before, 0 restores geographic detail, 16 compares
      the conservative threshold. Only zone A/B Hero trees may demote. */
   distantHeroPx: distantHeroReviewPixels(location.search),
   /* frames a tree must want its new tier for before it switches: a fast camera
@@ -5299,17 +5340,28 @@ const TREE_LOD = {
       noisePerPixel: new URLSearchParams(location.search).get('foliagenoise') === 'pixel',
       /* ?foliageshadow=mip is the before: the cards' shadow cut on the mip the shadow map picks */
       mipShadow: new URLSearchParams(location.search).get('foliageshadow') === 'mip',
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON,
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, coverage: CROWN_COVERAGE_ON, canopy: CANOPY_ON, realistic: foliage.realistic === true,
+      /* the modelled sprigs' normals and light through, and the atlas's own leaf mean (engine/ghibli-foliage-material.mjs); ?leafnormals=0 is the before */
+      normals: new URLSearchParams(location.search).get('leafnormals') !== '0' ? foliage.normals ?? null : null, mean: foliage.mean ?? null,
       /* ?canopybands=vertex is the before: the canopy's bands per vertex, which blew up near a low sun */
       bandsPerVertex: new URLSearchParams(location.search).get('canopybands') === 'vertex' });
     if (sway) { mat.positionNode = windSway(true); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
   const trunkMaterial = (hex, sway, s) => {
-    const birch = GHIBLI.species[s].foliage.key === 'bjork';
+    /* the realistic birch carries its bark, lenticels and dark foot per vertex like every other trunk */
+    const birch = GHIBLI.species[s].foliage.key === 'bjork' && !GHIBLI.species[s].foliage.realistic;
     const mat = birch ? makeGhibliBirchBarkMaterial() : new THREE.MeshStandardNodeMaterial({ color: new THREE.Color(hex), roughness: 0.95, metalness: 0, flatShading: false });
     /* an authored trunk carries its bark colour per vertex (a pine is grey below and orange above) */
     if (!birch) mat.colorNode = color(hex).mul(attribute('color', 'vec3'));
+    /* the modelled bark (engine/ghibli-foliage-material.mjs barkSurface): its colour round the per-height tone and its
+       relief in the light; ?bark=0 is the before */
+    const bark = GHIBLI.species[s].foliage.bark;
+    if (bark?.map && bark.normals && new URLSearchParams(location.search).get('bark') !== '0') {
+      const surface = barkSurface({ bark, key: GHIBLI.species[s].foliage.key });
+      mat.colorNode = mat.colorNode.mul(surface.pigment);
+      mat.normalNode = transformNormalByViewMatrix(surface.normal, cameraViewMatrix);
+    }
     if (sway) { mat.positionNode = windSway(false); mat.castShadowPositionNode = positionLocal; }
     return attachTreeFade(mat);
   };
@@ -5379,7 +5431,7 @@ const TREE_LOD = {
     const mat = createImpostorMaterial(TREE_LOD.atlases[s], {
       /* the authored birches turn to deep amber, so their impostors take the preset's gold darkened to match */
       crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, fade: true,
-      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON,
+      backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON && !GHIBLI.species[s].foliage.realistic,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.castShadow = IMPOSTOR_SHADOWS;
@@ -5405,7 +5457,7 @@ const TREE_LOD = {
       const g = vars[v];
       TEMPLATES.push({ s, v, nv: vars.length, name: `${SPECIES_NAMES[s]}${v}`,
         spec: { ...SPECIES[s], crown: g.mesh.crown, trunk: g.mesh.trunk },
-        hr: { crown: g.mesh.crown, trunk: g.mesh.trunk },
+        hr: { crown: g.mesh.crown, trunk: g.mesh.trunk }, band: g.band,
         ky: SPECIES[s].templateHeight / g.templateHeight, kxz: SPECIES[s].templateRadius / g.templateRadius });
     }
   }
@@ -5472,7 +5524,7 @@ const TREE_LOD = {
     const treeH = new Float32Array(n), treeCY = new Float32Array(n);
     /* which course zone each tree stands in (0 beyond, 1 A, 2 B, 3 C): in zone mode it IS the tier, in screen mode the floor */
     const zone = new Uint8Array(n);
-    const templateBox = treeTemplateBounds([tpl.hr.crown, tpl.hr.trunk]);
+    const templateBox = treeTemplateBounds([tpl.hr.crown, tpl.hr.trunk, ...(tpl.band ? [tpl.band.crown, tpl.band.trunk] : [])]);
     for (let j = 0; j < n; j++) {
       const k = ks[j];
       pos.set(T[k * 6], T[k * 6 + 1], T[k * 6 + 2]);
@@ -5514,10 +5566,13 @@ const TREE_LOD = {
         geo = geo.clone();
         /* the crossfade's per-instance (start time, mask code); a fifth
            vertex buffer at most, against WebGPU's eight */
-        geo.setAttribute('aFade', createFadeAttribute(initialCapacity));
+        geo.setAttribute('aFade', TREE_GPU_CULL ? storageInstanceAttribute(initialCapacity, 2) : createFadeAttribute(initialCapacity));
         /* the authored crowns take a per-tree tint: a sixth vertex buffer, not dynamic, dirty ranges like the rest */
-        if (name === 'crown') geo.setAttribute('aTint', new THREE.InstancedBufferAttribute(new Float32Array(initialCapacity * 4), 4));
+        if (name === 'crown') geo.setAttribute('aTint', TREE_GPU_CULL ? storageInstanceAttribute(initialCapacity, 4)
+          : new THREE.InstancedBufferAttribute(new Float32Array(initialCapacity * 4), 4));
         const im = new THREE.InstancedMesh(geo, mat, initialCapacity);
+        /* culled on the GPU (engine/tree-gpu-cull.mjs): the tier's buffers are storage buffers too */
+        if (TREE_GPU_CULL) im.instanceMatrix = storageInstanceAttribute(initialCapacity, 16);
         im.count = 0;
         im.castShadow = true;
         im.receiveShadow = name === 'trunk';
@@ -5534,7 +5589,7 @@ const TREE_LOD = {
                tint: meshes.map(im => im.geometry.getAttribute('aTint')).filter(Boolean),
                slots: new Int32Array(meshes.length ? initialCapacity : 0), count: 0, dirtyM: [], dirtyF: [], idx: 0 };
     };
-    const hr = tpl.hr;
+    const hr = tpl.hr, crownMat = crownMaterial(s, true), trunkMat = trunkMaterial(spec.tc, true, s);
     const rec = {
       n, treeH, treeCY, zone, species: s, variant: tpl.v,
       where: new Int32Array(n).fill(-1),
@@ -5545,10 +5600,11 @@ const TREE_LOD = {
       fadeT0: new Float32Array(n), fadeCode: new Uint8Array(n),
       t: [null,
         /* the bark texture needs the procedural trunk's UVs; an authored trunk has none and carries its colour instead */
-        tier([['crown', hr.crown, crownMaterial(s, true)], ['trunk', hr.trunk, trunkMaterial(spec.tc, true, s)]], 't0'),
-        // Reserved counters keep existing captures/tools readable, with zero
-        // geometry, materials or instance buffers for the removed mesh tiers.
-        tier([], 'reserved-full'),
+        tier([['crown', hr.crown, crownMat], ['trunk', hr.trunk, trunkMat]], 't0'),
+        /* band B's Full model, in the Hero's materials (TREE_BANDS) */
+        tier(tpl.band ? [['crown', tpl.band.crown, crownMat], ['trunk', tpl.band.trunk, trunkMat]] : [], 'band'),
+        // A reserved counter keeps existing captures/tools readable, with zero
+        // geometry, materials or instance buffers for the removed mesh tier.
         tier([], 'reserved-lite'),
         impostorBatch(s, initialCapacity, 't3')],
     };
@@ -5561,6 +5617,14 @@ const TREE_LOD = {
     c.lists = c.lists.map(l => Int32Array.from(l));
   }
   TREE_LOD.stats.cells = TREE_LOD.cells.length;
+  /* the hero tiers culled per tree on the GPU before each frame (engine/tree-gpu-cull.mjs) */
+  if (TREE_GPU_CULL) {
+    treeGpuCull = createTreeGpuCull({ renderer, scene, sun });
+    for (const rec of TREE_LOD.tiers) {
+      const hero = rec?.t[1], atlas = rec ? TREE_LOD.atlases[rec.species] : null;
+      if (hero?.parts.length === 2 && atlas) treeGpuCull.register(hero, { centreY: atlas.centreY, halfHeight: atlas.height / 2, radius: atlas.radius });
+    }
+  }
   TREE_LOD.ready = true;
 }
 
@@ -5770,7 +5834,7 @@ function updateTreeTiers() {
   const cells = TREE_LOD.cells;
   /* set by placeSun; absent, only the trees in view are drawn */
   const sweep = TREE_LOD.shadowSweep;
-  let visible = 0, shadowCells = 0;
+  let visible = 0, shadowCells = 0, shadowTrees = 0;
   for (let ci = 0; ci < cells.length; ci++) {
     const c = cells[ci];
     if (!TREE_FRUSTUM.intersectsBox(c.box)) {
@@ -5779,6 +5843,7 @@ function updateTreeTiers() {
            a crossfade would only dither a shadow the two agree on */
         if (!c.shadowOnly) { cellToImpostors(c); c.visible = false; c.shadowOnly = true; changed = true; }
         shadowCells++;
+        shadowTrees += c.treeCount ??= c.lists.reduce((n, list) => n + list.length, 0);
         continue;
       }
       if (c.visible || c.shadowOnly) {
@@ -5825,11 +5890,11 @@ function updateTreeTiers() {
         if (force) want = force;
         else if (zoneMode) {
           want = ZT[Z[k] ? Z[k] - 1 : 3];
-          if (distantHeroPx && want === 1 && Z[k] > 0 && Z[k] <= 2) {
+          if (distantHeroPx && want < 4 && Z[k] > 0 && Z[k] <= 2) {
             // Reuse the current tier's 10% hysteresis, six-frame dwell and
             // complementary fade below. Fresh/reset trees use the threshold.
-            const band = reset || !was ? 1 : was === 1 ? 1 - hy : 1 + hy;
-            want = px < distantHeroPx * band ? 4 : 1;
+            const band = reset || !was ? 1 : was < 4 ? 1 - hy : 1 + hy;
+            if (px < distantHeroPx * band) want = 4;
           }
         }
         else if (!was || reset) { want = 1; while (want < 4 && px < thr[want - 1]) want++; }
@@ -5846,9 +5911,9 @@ function updateTreeTiers() {
           const fl = Z[k] === 1 ? (d < rH ? floorA : d < rF ? floorAFar : 4) : (d < rF ? floorB : 4);
           if (want > fl) want = fl;
         }
-        // Old review URLs and screen-mode floors may still request 2/3.
-        // Resolve every mesh request to Hero before touching drawable slots.
-        want = want === 4 ? 4 : 1;
+        // Old review URLs and screen-mode floors may still request 2/3. Resolve every
+        // mesh request to Hero before touching drawable slots, but for band B's Full.
+        want = want === 4 ? 4 : want === 2 && zoneMode && !force && TREE_BANDS ? 2 : 1;
         if (want !== cur) {
           /* a tree entering the frustum, a reset or a forced tier switches at once; otherwise
              the new tier has to be wanted for dwell frames running */
@@ -5867,6 +5932,7 @@ function updateTreeTiers() {
   TREE_LOD.resetPending = false;
   TREE_LOD.stats.cellsVisible = visible;
   TREE_LOD.stats.shadowCells = shadowCells;
+  TREE_LOD.stats.shadowTrees = shadowTrees;
   TREE_LOD.stats.fading = TREE_LOD.queue.length - TREE_LOD.qHead;
   TREE_LOD.stats.updateMs = performance.now() - tStart;
   if (!changed) return;
@@ -6278,7 +6344,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
       const list = perSpecies[s];
       if (!list.length) continue;
       const geo = createImpostorGeometry(list.length);
-      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON });
+      const mat = createImpostorMaterial(TREE_LOD.atlases[s], { crownBase: s === 2 ? mix(uLeaf, uLeaf.mul(0.7), uAutumn) : color(SPECIES[s].cc), sunDirection: uSun, autumn: uAutumn, debug: TREE_LOD.debug, backLight: CROWN_BACK_LIGHT, sunlit: SUNLIT, canopy: CANOPY_ON && !GHIBLI.species[s].foliage.realistic });
       const posA = geo.getAttribute('aImpostorPos'), parA = geo.getAttribute('aImpostorParam');
       const th = SPECIES[s].templateHeight || 13;
       const tr = SPECIES[s].templateRadius || 4;
@@ -6606,7 +6672,14 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
     }
     return typeof terrainV2.isFlatWaterAt === 'function' && terrainV2.isFlatWaterAt(x, z);
   };
-  nearGrass = createNearGrass({
+  /* THE GRASS GROWN ON THE GPU (engine/gpu-grass.mjs): on WebGPU at high quality with the tour turf a
+     compute pass grows the blades round the eye out to some 60 m and two indirect draws draw them; the
+     rings below stay for WebGL2, low quality and phones. ?grass=rings is the before. */
+  const gpuGrass = IS_GPU && !LOWQ && TOUR_TURF_ON && new URLSearchParams(location.search).get('grass') !== 'rings';
+  nearGrass = (gpuGrass ? createGpuGrass : createNearGrass)({
+    renderer, fields: { texF: exact.texF, lateralStepMetres: exact.lateralStepMetres },
+    /* the mown turf's short blades laid along the mowing; ?grassmown=0 grows none */
+    mown: new URLSearchParams(location.search).get('grassmown') !== '0',
     atlas: { bounds: groundAtlas.bounds, texSdf: exact.texSdf, channels: exact.channels },
     tint: GROUND_TINT, DETAIL, C, SHADE, cutTone: CUT_TONE_STRENGTH, uSun, sunThrough: uSunThrough, sunlit: SUNLIT,
     /* the tour grade, as the ground under the blades takes it (turf-look.mjs) */
@@ -6621,7 +6694,8 @@ if (NEAR_GRASS_ON && M.infra.vegetationPlacement !== 'measured-only' && groundAt
   });
   scene.add(nearGrass.mesh);
   stats.draws++;
-  Object.assign(stats.nearGrass, { instances: nearGrass.layout.instances, blades: nearGrass.layout.bladesTotal, rings: nearGrass.layout.rings.length });
+  Object.assign(stats.nearGrass, gpuGrass ? { kind: 'gpu', candidates: nearGrass.layout.candidates, rings: nearGrass.layout.rings.length }
+    : { instances: nearGrass.layout.instances, blades: nearGrass.layout.bladesTotal, rings: nearGrass.layout.rings.length });
   /* Meadow flowers in the rough (engine/meadow-flowers.mjs, after serenity-blocks'
      Odyssey meadow life): drifts of oxeye daisy, buttercup, harebell, red clover and
      wood cranesbill on the rough round the eye, on the grass's own class fields and
@@ -8663,6 +8737,8 @@ if (!LOWQ && new URLSearchParams(location.search).get('post') !== '0') {
   if (TEMPORAL_AA) {
     worldVelocity = createWorldVelocity();
     scenePass.setMRT(mrt({ output, velocity: worldVelocity.velocity }));
+    /* the water's mirror copies this pass's own target, and no other (engine/water-reflection.mjs) */
+    WATER_REFLECTION?.setTarget(scenePass.renderTarget);
   }
   openingScenePass = scenePass;
   const rawSceneColor = scenePass.getTextureNode('output');
@@ -8723,6 +8799,10 @@ function renderActivePipeline() {
   }
   /* the world-static velocity's matrices, unjittered (TRAA jitters only inside the pipeline) */
   if (!lowfx) worldVelocity?.update(camera);
+  /* the runtime drop draws straight to the canvas: no copy to mirror from */
+  WATER_REFLECTION?.setActive(!lowfx);
+  /* the hero trees in view, culled per tree (engine/tree-gpu-cull.mjs) */
+  treeGpuCull?.update(camera);
   renderPipeline(renderer, scene, camera, lowfx);
 }
 
@@ -12065,6 +12145,16 @@ if (!['0', 'unprepared-gpu'].includes(BOOTQ.get('startup'))) {
     throw new Error(retryMessage, { cause: error });
   }
   span('GPU startup: compile opening scene', started);
+  /* what only a frame reaches, the shadow pass and the post passes, built in parallel behind the cover
+     (engine/warm-pipelines.mjs); the render half of a frame, so no clock moves. ?warmframe=0 is the before */
+  if (BOOTQ.get('warmframe') !== '0') {
+    const warmStarted = performance.now();
+    sun.shadow.needsUpdate = true;
+    BOOT_PERF.warmFrame = await warmFramePipelines(renderer, renderActivePipeline);
+    /* its draws were skipped, so the map it was asked for is empty */
+    sun.shadow.needsUpdate = true;
+    span('GPU startup: warm frame', warmStarted, BOOT_PERF.warmFrame);
+  }
 }
 let resolveFirstSceneFrame, rejectFirstSceneFrame;
 const firstSceneFrameReady = new Promise((resolve, reject) => {
@@ -12240,6 +12330,24 @@ window.V3D = {
      V3D.devOverlay() reports, V3D.devOverlay(true) turns it on. */
   devOverlay: (on) => (on === undefined ? devOverlay : setDevOverlay(on)),
   treeCatalogue: () => ({ look: 'painted', loaded: true, ...GHIBLI.summary }),
+  /* the harness's tree photographs: the nearest tree of species `s` to (x, z) that has no other tree within
+     `gap` metres, so it stands clear in the picture; its base, scale and drawn height */
+  treeNear: (s, x, z, gap = 8, minHeight = 0) => {
+    const list = trees[s] ?? [], found = [];
+    for (let i = 0; i < list.length; i += 6) found.push([Math.hypot(list[i] - x, list[i + 2] - z), i]);
+    found.sort((a, b) => a[0] - b[0]);
+    for (const [, i] of found.slice(0, 3000)) {
+      const tx = list[i], tz = list[i + 2];
+      if (SPECIES[s].templateHeight * list[i + 3] < minHeight) continue;
+      const crowded = trees.some((other, k) => {
+        for (let j = 0; j < other.length; j += 6) if ((k !== s || j !== i) && Math.hypot(other[j] - tx, other[j + 2] - tz) < gap) return true;
+        return false;
+      });
+      if (!crowded) return { x: tx, y: list[i + 1], z: tz, scale: list[i + 3], height: SPECIES[s].templateHeight * list[i + 3],
+        radius: SPECIES[s].templateRadius * list[i + 3], key: GHIBLI.species[s].key };
+    }
+    return null;
+  },
   stats: { verts: stats.verts | 0, tris: stats.tris | 0, trees: stats.trees, vista: stats.vista | 0,
            vistaSpecies: stats.vistaSpecies ?? null,
            environmentWater: stats.environmentWater ?? null,
@@ -12601,6 +12709,11 @@ window.V3D = {
   cover: () => structuredClone(stats.cover),
   /* the grass round the ball: its layout, whether it is drawn, and its ground grid */
   nearGrass: () => (nearGrass ? { ...structuredClone(stats.nearGrass), ...nearGrass.stats() } : structuredClone(stats.nearGrass ?? null)),
+  /* the GPU grass's two draws' blade counts, read back (engine/gpu-grass.mjs), or null for the rings */
+  grassCounts: async () => (nearGrass?.counts ? nearGrass.counts() : null),
+  /* the GPU tree cull's tiers and passes, and each tier's drawn and kept trees (engine/tree-gpu-cull.mjs) */
+  treeCull: () => treeGpuCull?.stats() ?? null,
+  treeCullCounts: async () => (treeGpuCull ? treeGpuCull.counts() : null),
   waterLevels: () => M.water.filter(w => !w.stream).map(w => ({
     id: w.id ?? null, name: w.name ?? null, level: w.level, isLake: !!w.isLake, isSea: !!w.isSea, surroundings: !!w.surr, points: w.ring?.length ?? 0,
     bb: w.ring?.length ? ringBBox(w.ring) : null,
@@ -12704,7 +12817,7 @@ window.V3D = {
   /* the tier boundaries in projected pixels, changeable at run time for a
      sweep; reset re-tiers every visible tree with no hysteresis */
   setTreeLodPx: (o = {}) => {
-    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['hysteresis', 'hysteresis'], ['dwell', 'dwell']]) {
+    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['distantHero', 'distantHeroPx'], ['hysteresis', 'hysteresis'], ['dwell', 'dwell']]) {
       if (Number.isFinite(o[key])) TREE_LOD[prop] = +o[key];
     }
     if (o.mode === 'zone' || o.mode === 'screen') TREE_LOD.lodMode = o.mode;
@@ -12774,6 +12887,7 @@ window.V3D = {
   grassShells: () => grassShells?.stats() ?? null,
   waterLilies: () => waterLilies ? { pads: waterLilies.count, flowers: waterLilies.flowers } : null,
   godRays: () => godRays?.snapshot() ?? (godRaysPending ? { pending: true } : null),
+  waterReflection: () => WATER_REFLECTION?.snapshot() ?? { on: false },
   atmosphere: () => ({ ...atmosphereState(skyMesh),
     preset: presetName, aerialPerspective: aerialPerspective.snapshot(),
     /* the lighting batch (docs/visual-lighting-2026-09-25.md): null where its before is asked for */

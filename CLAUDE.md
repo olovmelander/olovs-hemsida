@@ -25,13 +25,23 @@ this guide or the current production workflow.
 - GPK1 still transports routing, card, placement and compatibility height data.
   Reviewed adapters, class/pair surface representations and diagnostic fixtures
   remain dependencies. Do not remove them merely because their names say legacy.
-- Player trees use one approved mesh tier plus Impostors: Hero at high quality,
-  and the same catalogue's lighter Full model at low quality, which every phone
-  uses (owner request, 24 September). Both are fitted to the same height and
-  radius. The drawn tier also bakes the impostors and answers the facility
+- Player trees use Hero at high quality and the same catalogue's lighter Full
+  model at low quality, which every phone uses (owner request, 24 September),
+  plus Impostors. Both are fitted to the same height and radius. At high
+  quality band A (90 m from a hole line) draws Hero and band B (to 300 m) Full,
+  in the Hero's materials (`TREE_BANDS`, `?treebands=0`). The owner's rule is that
+  detail goes by where a tree stands, never by how far the camera is, so never
+  add a distance ladder: tree meshes are the frame's largest cost, and a tier by
+  place keeps every tree still in flight (`tree-flight.test.mjs` holds it).
+  The catalogue is the realistic one (owner request, 4 November; `?treeset=v1`
+  is the painted before), and Visby has its own of each, for its coastal pine.
+  Low quality
+  leaves out its relief, the leaf normals and bark maps (`?treerelief=1`).
+  The drawn tier also bakes the impostors and answers the facility
   clearance test; `?treemesh=hero|full` compares the two. Geographic zones
   select the base tier; zone A/B mesh trees use their own baked impostors below
-  the owner-approved 24 px projected whole-tree threshold, with hysteresis,
+  the owner-approved 48 px projected whole-tree threshold (4 November;
+  `?distanthero=24` is the before), with hysteresis,
   dwell and crossfade. Outer-zone trees remain impostors. `?distanthero=0`
   restores geographic-only detail; `16` retains the measured comparison
   threshold. Lite and alternative catalogues belong to isolated studies.
@@ -93,6 +103,15 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
 - Preserve explicit dirty-range buffer uploads, on-demand shadow updates and
   instanced furniture. Do not mark manually managed attributes DynamicDrawUsage
   without checking the pinned Three implementation and measuring upload traffic.
+- Load times (see [the first batch](docs/load-times-2026-11-04.md)): the opening's
+  shadow and post pipelines are built in parallel by a frame behind the cover
+  (`warm-pipelines.mjs`, `?warmframe=0`), and the trees start downloading as the
+  terrain stage begins (`?treehoist=0`). The realistic catalogues' meshes are
+  `KHR_mesh_quantization` (`tree-glb.mjs`). Any engine edit turns the prepared
+  data off until the next bake, so compare boots on one build, in both orders,
+  and put a new before switch on `preparedTintAllowed`'s display-only list. The
+  live host is GitHub Pages: PNG is not gzipped, `_headers` is ignored, and a
+  returning visitor's caching is the service worker's.
 - Use the existing camera clamp; do not add a second clamp or snap to terrain.
   Preserve snapped shadow bounds and the renderer's reversed-depth conventions.
   See [the tree LOD measurements](docs/tree-lod-plan.md) for the failure cases.
@@ -290,7 +309,7 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     Bildfrekvens). `?fps=0` lifts it, `det=1` stays uncapped and timing tools
     pass `fps=0`.
   - **The painted canopy** (`ghibli-foliage-material.mjs` `CANOPY`,
-    `crown-puffs.mjs`):
+    `crown-puffs.mjs`), on the painted catalogues only (`?treeset=v1`):
     - banded crown tones whose edges, never the colour, move with openness,
       clumps and tree;
     - puff normals baked at load, which the impostor bake inherits;
@@ -360,6 +379,67 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     used by the ring path now as by the fixed frontier) or the bed stays a hand
     under the sheet and the lake reads as brown silt from above. The CPU
     sampler is rebuilt after carving.
+  - **Water that mirrors its shores** (3 November; see [the water
+    reflections](docs/visual-water-reflections-2026-11-03.md)): the water's own
+    material marches its reflected ray through a copy of the opaque world's
+    depth and reads the trees, banks and hills it finds
+    (`water-reflection.mjs`). The copy is gated to the scene pass's
+    single-sample target, so it runs only with the temporal AA; MSAA, `det=1`
+    and the runtime drop keep the before. What it finds replaces the painted
+    sky's reflection by its weight, under 40% of the sky's sun glow, and the
+    sun's road is still added last. The copy splits the scene's render pass, so
+    `V3D.gpuTime` under-reads with it on: time it by frame intervals.
+    `?waterreflect=0` is the before.
+  - **Realistic trees** (3 November, the default since the 4th; `?treeset=v1`
+    is the painted before; see [the
+    realistic trees](docs/visual-trees-realistic-2026-11-03.md)): the five
+    species grown in Blender (`tools/blender-tree-study/realistic/`, its own
+    scene `BanvyTreesV2`, data API only), three variants a species, crowns of
+    leaf clusters (puffs of sprig cards; the spruce's sprays laid along its
+    branches), every variant fitted to the painted template's height and
+    radius, at about the painted hero budget. The crowns read the atlas's own
+    leaf colours without the painted bands, and the impostor bake cuts their
+    mask at mip 0, as the mesh shadow does, in 128 px frames. Rebuild the meshes
+    by running `realistic_trees.py` through the MCP, then `pack_catalogue.mjs`.
+    The sprigs are modelled in 3D and rendered on the CPU (`sprig_atlas.py`,
+    `pack_sprigs.mjs`) into colour and normal/light-through atlases, and the
+    crowns light each leaf by its own normal (`leafNormal`, a screen-derivative
+    frame; `?leafnormals=0`), and the bark the same way (`bark_atlas.py`,
+    `pack_bark.mjs`, UVs on the trunks, `barkSurface`; `?bark=0`). The tree
+    harnesses take `--treeset v1` for the before. The two catalogues plant the
+    same trees, so `treeset` is display-only for the prepared data.
+    - **Visby's coastal pine** (`kust` in `realistic_trees.py`, its wood in
+      `coastal_wood`, its sprig `coastal_sprig`, `pack_coastal.mjs`,
+      `realistic-visby.json`): the three growth forms the owner kept in
+      September, in their boxes and with the `tall` palette. The owner declined
+      two darker, more windswept proposals then, so keep to these forms. Its
+      cards stand upright and its pads are thick: laid flat they read as leaf
+      plates, and thin pads fail the low-sun shadow proof. Its crown's underside
+      answers the facility test, so check the plantings if it moves. Its proof
+      is `check-tree-shadows --course visby --species 1` (species 0 is the
+      spruce). The tree builds need no open scene: they run in
+      `blender --background --factory-startup`.
+  - **Trees culled on the GPU, `?treecull=gpu`** (3 November; opt-in until
+    measured; see [the GPU tree cull](docs/tree-gpu-cull-2026-11-03.md)):
+    - A compute pass per hero tier frustum-culls each drawn tree into a copy
+      drawn by indirect draws (`tree-gpu-cull.mjs`).
+    - The tier's own meshes draw the shadows, on a layer only the sun's shadow
+      camera sees.
+    - Its instance buffers are storage buffers, and keep their class when the
+      tier grows.
+  - **The grass grown on the GPU** (3 November; see [the GPU
+    grass](docs/visual-gpu-grass-2026-11-03.md)):
+    - On WebGPU at high quality, a compute pass grows the blades on nested
+      world-anchored rings round the eye, culls them, colours them from the
+      ground's own functions and appends the survivors by an atomic counter.
+    - Two indirect draws (Bézier strips, four and two segments) draw them
+      (`gpu-grass.mjs`), with the rough real out to about 60 m.
+    - A compute dispatch has no camera: pass the eye in a uniform, never
+      `cameraPosition`.
+    - The rings (`near-grass.mjs`) stay unchanged for WebGL2, low quality and
+      phones. `?grass=rings` is the before; `?grassmown=0` drops the short
+      mown blades, the main source of flicker.
+    - About 0.2 ms against the rings' 1 ms.
   - **Power lines** (3 November): towers are a Blender-built lattice pylon
     (`tools/blender-props/pylon.py`, `PYLON_ASSET`, its three phases on its
     insulators), crossarms turned square to the line, wires and lift cables

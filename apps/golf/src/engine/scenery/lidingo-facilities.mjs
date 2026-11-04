@@ -1,7 +1,7 @@
 /* Lidingö's Blender mesh uses EPSG:3006 local X/Z and absolute RH2000 heights.
  * Validate the whole asset before publishing any replacement or exclusion;
  * missing, stale, or cancelled assets retain the ordinary course buildings. */
-import { ringSD } from '../geom.js';
+import { withinRing } from '../geom.js';
 
 export const LIDINGO_PRIMARY_BUILDING_IDS = Object.freeze([
   'way/32262183', 'way/32262176', 'way/32262169', 'way/26408210', 'way/26408211',
@@ -163,7 +163,7 @@ export async function loadLidingoFacilities({ THREE, scene, courseSlug, building
     Object.assign(report, { status: 'disposed', replacedBuildingIds: [], replacesRangeFacilities: false, replacesCourtyard: false });
   };
   const current = () => assert(!controller.signal.aborted && isCurrentCourse(), 'Facilities load was cancelled');
-  const isFacilityInterior = (x, z, margin = .2) => facilityFootprints.some(f => ringSD(x, z, f.ring) <= margin);
+  const isFacilityInterior = (x, z, margin = .2) => facilityFootprints.some(f => withinRing(x, z, f.ring, margin));
   try {
     current();
     assert(courseSlug === 'lidingo', 'Facilities belong to another course');

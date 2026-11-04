@@ -195,7 +195,7 @@ export default defineConfig(({ mode }) => {
             },
           },
           {
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/ghibli-(fluffy|visby)\.json$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|ghibli-visby|realistic-v2|realistic-visby)\.json$/.test(url.pathname),
             handler: 'NetworkFirst',
             options: { cacheName: 'banvy-ghibli-foliage-manifest', networkTimeoutSeconds: 4,
               expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },
@@ -217,7 +217,7 @@ export default defineConfig(({ mode }) => {
               expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },
           },
           {
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|visby-pine)\/[a-f0-9]{64}\.(glb|png)$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|visby-pine|realistic-v2)\/[a-f0-9]{64}\.(glb|png)$/.test(url.pathname),
             handler: 'CacheFirst',
             options: { cacheName: 'banvy-ghibli-foliage-assets',
               expiration: { maxEntries: 80, maxAgeSeconds: 60 * 60 * 24 * 365 }, cacheableResponse: { statuses: [200] } },

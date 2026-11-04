@@ -1,0 +1,513 @@
+{
+  "schemaVersion": 1,
+  "kind": "ghibli-trees",
+  "design": "realistic-v2",
+  "revision": "realistic-v2-2026-11-03",
+  "budgets": {
+    "hero": 6428,
+    "full": 2512
+  },
+  "source": {
+    "geometry": "tools/blender-tree-study/realistic/realistic_trees.py",
+    "atlas": "tools/blender-tree-study/realistic/sprig_atlas.py (Blender, Cycles on the CPU) + pack_sprigs.mjs",
+    "pack": "tools/blender-tree-study/realistic/pack_catalogue.mjs",
+    "fittedTo": "ghibli-fluffy.json (approved hero heights and radii)"
+  },
+  "species": [
+    {
+      "key": "tall",
+      "name": "Scots pine",
+      "foliage": {
+        "key": "tall",
+        "atlas": {
+          "file": "realistic-v2/df72c6e944d54376250233b6ebb7ff87f4622d2f045851f0602c5e8aa6618e72.png",
+          "bytes": 529134,
+          "sha256": "df72c6e944d54376250233b6ebb7ff87f4622d2f045851f0602c5e8aa6618e72"
+        },
+        "normals": {
+          "file": "realistic-v2/e54b2e579bad9811b8da88f511d0ae25916c83d94ca61ac1287997f5463f2f1e.png",
+          "bytes": 191370,
+          "sha256": "e54b2e579bad9811b8da88f511d0ae25916c83d94ca61ac1287997f5463f2f1e"
+        },
+        "mean": [
+          0.8179,
+          0.8506,
+          0.8084
+        ]
+      },
+      "bark": {
+        "atlas": {
+          "file": "realistic-v2/3b41e08f7c71c7a1015eaf8fb14b62f55bca30a8029cfa53ce85350fc6c96a11.png",
+          "bytes": 179971,
+          "sha256": "3b41e08f7c71c7a1015eaf8fb14b62f55bca30a8029cfa53ce85350fc6c96a11"
+        },
+        "normals": {
+          "file": "realistic-v2/adda1b86c366e6b38692d6e9847e0bfd9cc82dfe971588f2b034fb15cd4b319a.png",
+          "bytes": 85231,
+          "sha256": "adda1b86c366e6b38692d6e9847e0bfd9cc82dfe971588f2b034fb15cd4b319a"
+        },
+        "mean": [
+          0.7293,
+          0.7074,
+          0.6709
+        ],
+        "tileMetres": 0.6
+      },
+      "variants": [
+        {
+          "seed": 9000,
+          "templateHeight": 18.9271240234375,
+          "templateRadius": 10.910284042358398,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/0358f4f0b25e4ed079384f25dddb0e31049ab79c74d59d24f8cb2c7135d58c60.glb",
+              "bytes": 174024,
+              "sha256": "0358f4f0b25e4ed079384f25dddb0e31049ab79c74d59d24f8cb2c7135d58c60",
+              "tris": 4814
+            },
+            "full": {
+              "file": "realistic-v2/ed964ac4675a0616b8b7c2dd6099c473252d642ec189911fe672dd4f20871e92.glb",
+              "bytes": 58736,
+              "sha256": "ed964ac4675a0616b8b7c2dd6099c473252d642ec189911fe672dd4f20871e92",
+              "tris": 1578
+            }
+          }
+        },
+        {
+          "seed": 9101,
+          "templateHeight": 18.9271240234375,
+          "templateRadius": 10.910284042358398,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/ab80fbc08a68646d091c6b902ab1f603eaa46913e57b88b6919a9cfaf41b9850.glb",
+              "bytes": 166216,
+              "sha256": "ab80fbc08a68646d091c6b902ab1f603eaa46913e57b88b6919a9cfaf41b9850",
+              "tris": 4574
+            },
+            "full": {
+              "file": "realistic-v2/3a7789b822cfafc3b0d34c9cf5b2261c6f7a52e71a75731793f617db2af4b0ac.glb",
+              "bytes": 58756,
+              "sha256": "3a7789b822cfafc3b0d34c9cf5b2261c6f7a52e71a75731793f617db2af4b0ac",
+              "tris": 1578
+            }
+          }
+        },
+        {
+          "seed": 9202,
+          "templateHeight": 18.9271240234375,
+          "templateRadius": 10.910284042358398,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/7df5ae64f003137165b1d5d0fa4138679a4c55a80e19bdf49649e6c24049eb0d.glb",
+              "bytes": 175024,
+              "sha256": "7df5ae64f003137165b1d5d0fa4138679a4c55a80e19bdf49649e6c24049eb0d",
+              "tris": 4862
+            },
+            "full": {
+              "file": "realistic-v2/038da4242f12b60c1e621fd68c7908360679185a5a92159dd558ab758c7065a5.glb",
+              "bytes": 57592,
+              "sha256": "038da4242f12b60c1e621fd68c7908360679185a5a92159dd558ab758c7065a5",
+              "tris": 1542
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "gran",
+      "name": "Norway spruce",
+      "foliage": {
+        "key": "gran",
+        "atlas": {
+          "file": "realistic-v2/77ec9a013321a0860604a8e03b8b29ba29ef522ef5591ef3a5284d87fce886e0.png",
+          "bytes": 768631,
+          "sha256": "77ec9a013321a0860604a8e03b8b29ba29ef522ef5591ef3a5284d87fce886e0"
+        },
+        "normals": {
+          "file": "realistic-v2/673a40929b2c3dc1cde579d5e8b396c24d0d54f010ec47a0a8551b7159b91623.png",
+          "bytes": 258047,
+          "sha256": "673a40929b2c3dc1cde579d5e8b396c24d0d54f010ec47a0a8551b7159b91623"
+        },
+        "mean": [
+          0.7843,
+          0.8141,
+          0.7727
+        ]
+      },
+      "bark": {
+        "atlas": {
+          "file": "realistic-v2/5e8c655b58ddc80d3381e7a2fe43cec793f88f6f85dd9f2316c824b2b20b4cce.png",
+          "bytes": 189030,
+          "sha256": "5e8c655b58ddc80d3381e7a2fe43cec793f88f6f85dd9f2316c824b2b20b4cce"
+        },
+        "normals": {
+          "file": "realistic-v2/ff07508338527101295772ca1d3e5805c1dfc847833fa6a68f4c780b0e924b39.png",
+          "bytes": 122640,
+          "sha256": "ff07508338527101295772ca1d3e5805c1dfc847833fa6a68f4c780b0e924b39"
+        },
+        "mean": [
+          0.7286,
+          0.714,
+          0.6921
+        ],
+        "tileMetres": 0.6
+      },
+      "variants": [
+        {
+          "seed": 10000,
+          "templateHeight": 19.44489097595215,
+          "templateRadius": 6.940996170043945,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/b3bd00030726c07110d17c11a5e6aa33a88ebcebbfe2efbabe974c42f216f9b7.glb",
+              "bytes": 226740,
+              "sha256": "b3bd00030726c07110d17c11a5e6aa33a88ebcebbfe2efbabe974c42f216f9b7",
+              "tris": 6284
+            },
+            "full": {
+              "file": "realistic-v2/04c3047712707ad758982663f85ba053eb8624ef948ee2e282526b0ec7377ed5.glb",
+              "bytes": 89592,
+              "sha256": "04c3047712707ad758982663f85ba053eb8624ef948ee2e282526b0ec7377ed5",
+              "tris": 2476
+            }
+          }
+        },
+        {
+          "seed": 10101,
+          "templateHeight": 19.44489097595215,
+          "templateRadius": 6.940996170043945,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/3d4bda85074c9d5d95a4ca03fe7bde9959417097ec1706474b14e10dfde28121.glb",
+              "bytes": 231188,
+              "sha256": "3d4bda85074c9d5d95a4ca03fe7bde9959417097ec1706474b14e10dfde28121",
+              "tris": 6428
+            },
+            "full": {
+              "file": "realistic-v2/9cd3ff089b2803383210cdd60cc56e68aeac2b8865bc62263c0bb9e8f86b1754.glb",
+              "bytes": 90708,
+              "sha256": "9cd3ff089b2803383210cdd60cc56e68aeac2b8865bc62263c0bb9e8f86b1754",
+              "tris": 2512
+            }
+          }
+        },
+        {
+          "seed": 10202,
+          "templateHeight": 19.44489097595215,
+          "templateRadius": 6.940996170043945,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/d5251dc798da1cf34d9b5220180bf12bbfbe3e2d4680d835221a94a0d1757c17.glb",
+              "bytes": 231216,
+              "sha256": "d5251dc798da1cf34d9b5220180bf12bbfbe3e2d4680d835221a94a0d1757c17",
+              "tris": 6428
+            },
+            "full": {
+              "file": "realistic-v2/fcf60681d3f1ad186f005f36f2ae86079632619628a7e4ed0b8d8fac1a7c935e.glb",
+              "bytes": 89612,
+              "sha256": "fcf60681d3f1ad186f005f36f2ae86079632619628a7e4ed0b8d8fac1a7c935e",
+              "tris": 2476
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "björk",
+      "name": "Silver birch",
+      "foliage": {
+        "key": "bjork",
+        "atlas": {
+          "file": "realistic-v2/19bfb13acf5884b755df5ca5e3215f70cf6d9f3ebb04d246f1f814c5f6a89e21.png",
+          "bytes": 464929,
+          "sha256": "19bfb13acf5884b755df5ca5e3215f70cf6d9f3ebb04d246f1f814c5f6a89e21"
+        },
+        "normals": {
+          "file": "realistic-v2/54d9ea2eedf96eb7c16b5ac548056d27202363b6666965d4eccae2794f4bbbe1.png",
+          "bytes": 123210,
+          "sha256": "54d9ea2eedf96eb7c16b5ac548056d27202363b6666965d4eccae2794f4bbbe1"
+        },
+        "mean": [
+          0.8112,
+          0.8101,
+          0.8081
+        ]
+      },
+      "bark": {
+        "atlas": {
+          "file": "realistic-v2/8499ba2bb79a534c20affafc0b32b5f2a22c33b4724513d26810634ac64b4c19.png",
+          "bytes": 151654,
+          "sha256": "8499ba2bb79a534c20affafc0b32b5f2a22c33b4724513d26810634ac64b4c19"
+        },
+        "normals": {
+          "file": "realistic-v2/77ab3fb9a21db9fda4487bd4100f4d46e74ff5983499a8b73bce12d05f0340cd.png",
+          "bytes": 57440,
+          "sha256": "77ab3fb9a21db9fda4487bd4100f4d46e74ff5983499a8b73bce12d05f0340cd"
+        },
+        "mean": [
+          0.7628,
+          0.7552,
+          0.7247
+        ],
+        "tileMetres": 0.6
+      },
+      "variants": [
+        {
+          "seed": 5000,
+          "templateHeight": 14.886198043823242,
+          "templateRadius": 5.4486470222473145,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/1f596bc00c1f046ac24637a65a42980601206941542f9f5620f9f09c3d271d7c.glb",
+              "bytes": 177072,
+              "sha256": "1f596bc00c1f046ac24637a65a42980601206941542f9f5620f9f09c3d271d7c",
+              "tris": 5000
+            },
+            "full": {
+              "file": "realistic-v2/64081b7f77ed815933a5bd51227b9cf2502ac3c0e0a43b81af00b43b5ee60ff7.glb",
+              "bytes": 69784,
+              "sha256": "64081b7f77ed815933a5bd51227b9cf2502ac3c0e0a43b81af00b43b5ee60ff7",
+              "tris": 1880
+            }
+          }
+        },
+        {
+          "seed": 5101,
+          "templateHeight": 14.886198043823242,
+          "templateRadius": 5.4486470222473145,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/73c13a36cf2b743f2283b484e3f07d4e998561b1424a5059f944e6ac86882ab0.glb",
+              "bytes": 172108,
+              "sha256": "73c13a36cf2b743f2283b484e3f07d4e998561b1424a5059f944e6ac86882ab0",
+              "tris": 4844
+            },
+            "full": {
+              "file": "realistic-v2/aecc7b2f9dd9328e6aefd7f7151ddaa978ce34b2f55c1661663fb1981d62318e.glb",
+              "bytes": 68668,
+              "sha256": "aecc7b2f9dd9328e6aefd7f7151ddaa978ce34b2f55c1661663fb1981d62318e",
+              "tris": 1844
+            }
+          }
+        },
+        {
+          "seed": 5202,
+          "templateHeight": 14.886198043823242,
+          "templateRadius": 5.4486470222473145,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/83aa00bc3b3abf5ba9ce52203e54bd60c4f4bc53f3e7a650aedde18f3aef6316.glb",
+              "bytes": 185184,
+              "sha256": "83aa00bc3b3abf5ba9ce52203e54bd60c4f4bc53f3e7a650aedde18f3aef6316",
+              "tris": 5242
+            },
+            "full": {
+              "file": "realistic-v2/5b21d2123ff7e37804b2ef302ba89a8550b9386f3ae5a07824b686e69d2e1995.glb",
+              "bytes": 68092,
+              "sha256": "5b21d2123ff7e37804b2ef302ba89a8550b9386f3ae5a07824b686e69d2e1995",
+              "tris": 1826
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "al",
+      "name": "Grey alder",
+      "foliage": {
+        "key": "al",
+        "atlas": {
+          "file": "realistic-v2/7591b31b7392e781c6c86bbd6e7832f8b07e18a8515686bb307704b5082006f5.png",
+          "bytes": 430012,
+          "sha256": "7591b31b7392e781c6c86bbd6e7832f8b07e18a8515686bb307704b5082006f5"
+        },
+        "normals": {
+          "file": "realistic-v2/2d2ffea9bbf0649035892083782b33e20d5251fc6b9b5bf06b67634861d786cc.png",
+          "bytes": 109224,
+          "sha256": "2d2ffea9bbf0649035892083782b33e20d5251fc6b9b5bf06b67634861d786cc"
+        },
+        "mean": [
+          0.81,
+          0.808,
+          0.8044
+        ]
+      },
+      "bark": {
+        "atlas": {
+          "file": "realistic-v2/a8c7d1f407f22caae02914bdc2ee1c958ad33537546f7fbf49b8f40152fbe307.png",
+          "bytes": 119728,
+          "sha256": "a8c7d1f407f22caae02914bdc2ee1c958ad33537546f7fbf49b8f40152fbe307"
+        },
+        "normals": {
+          "file": "realistic-v2/c5299f5342c99b50aed7785bc23a6728256e4fee6f35181173f3662fa3f458ed.png",
+          "bytes": 48372,
+          "sha256": "c5299f5342c99b50aed7785bc23a6728256e4fee6f35181173f3662fa3f458ed"
+        },
+        "mean": [
+          0.7624,
+          0.7471,
+          0.7319
+        ],
+        "tileMetres": 0.6
+      },
+      "variants": [
+        {
+          "seed": 7000,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/f90ef7e0b741cca84997254de052709e9f8225411330738d82358bec36e43324.glb",
+              "bytes": 166728,
+              "sha256": "f90ef7e0b741cca84997254de052709e9f8225411330738d82358bec36e43324",
+              "tris": 4578
+            },
+            "full": {
+              "file": "realistic-v2/21c82e13562b75247c130feb6a43e04286019113ac3c5407738d49846b22c1d5.glb",
+              "bytes": 75872,
+              "sha256": "21c82e13562b75247c130feb6a43e04286019113ac3c5407738d49846b22c1d5",
+              "tris": 2040
+            }
+          }
+        },
+        {
+          "seed": 7101,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/4cd9413716e88a1d3f641b1f2aec610098a2174248bdc5e56583b3d5ac8c58bd.glb",
+              "bytes": 163772,
+              "sha256": "4cd9413716e88a1d3f641b1f2aec610098a2174248bdc5e56583b3d5ac8c58bd",
+              "tris": 4482
+            },
+            "full": {
+              "file": "realistic-v2/aad509d40b329ca7f73d274833241b1b57382971661ef241d3da34ce8b868b9c.glb",
+              "bytes": 74772,
+              "sha256": "aad509d40b329ca7f73d274833241b1b57382971661ef241d3da34ce8b868b9c",
+              "tris": 2004
+            }
+          }
+        },
+        {
+          "seed": 7202,
+          "templateHeight": 12.249150276184082,
+          "templateRadius": 4.740936279296875,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/aa408eed696c729ea17ef1c83b98106995353d7849fab839dc1d82b42638130e.glb",
+              "bytes": 162188,
+              "sha256": "aa408eed696c729ea17ef1c83b98106995353d7849fab839dc1d82b42638130e",
+              "tris": 4480
+            },
+            "full": {
+              "file": "realistic-v2/5ff74d5ae279089805436aac7e153d21756195cbd9718f1fe3c05dcdfdd11a1f.glb",
+              "bytes": 75280,
+              "sha256": "5ff74d5ae279089805436aac7e153d21756195cbd9718f1fe3c05dcdfdd11a1f",
+              "tris": 2022
+            }
+          }
+        }
+      ]
+    },
+    {
+      "key": "ek",
+      "name": "Pasture oak",
+      "foliage": {
+        "key": "ek",
+        "atlas": {
+          "file": "realistic-v2/301b9bdc120ea680f1124e451b181da64f29fc3889e3f18255b625c5ec677924.png",
+          "bytes": 425264,
+          "sha256": "301b9bdc120ea680f1124e451b181da64f29fc3889e3f18255b625c5ec677924"
+        },
+        "normals": {
+          "file": "realistic-v2/e744a90169f06d365c34ff7404d0388ba968ba056862aee95964ee600efa72a8.png",
+          "bytes": 110493,
+          "sha256": "e744a90169f06d365c34ff7404d0388ba968ba056862aee95964ee600efa72a8"
+        },
+        "mean": [
+          0.8138,
+          0.8092,
+          0.8009
+        ]
+      },
+      "bark": {
+        "atlas": {
+          "file": "realistic-v2/4addac40dafba9e4869cccaedc8c5ffe23a33b8c1968e7741ee22448b9d935e1.png",
+          "bytes": 191518,
+          "sha256": "4addac40dafba9e4869cccaedc8c5ffe23a33b8c1968e7741ee22448b9d935e1"
+        },
+        "normals": {
+          "file": "realistic-v2/60113644735d050e7b7b24059b6c586e3ae3b369333cc3789f3cd4825642e0ae.png",
+          "bytes": 102879,
+          "sha256": "60113644735d050e7b7b24059b6c586e3ae3b369333cc3789f3cd4825642e0ae"
+        },
+        "mean": [
+          0.7265,
+          0.7047,
+          0.6756
+        ],
+        "tileMetres": 0.6
+      },
+      "variants": [
+        {
+          "seed": 1000,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/27b0cad09c724fb7bbfc391a75b4419ecd7cf4a4de5d3fc8b00085048b09e7ab.glb",
+              "bytes": 182940,
+              "sha256": "27b0cad09c724fb7bbfc391a75b4419ecd7cf4a4de5d3fc8b00085048b09e7ab",
+              "tris": 5072
+            },
+            "full": {
+              "file": "realistic-v2/9d5fc99eb79639efc41a06ab9bec7d776d4ad652b9012f1e55bed5253bdf3bcd.glb",
+              "bytes": 71208,
+              "sha256": "9d5fc99eb79639efc41a06ab9bec7d776d4ad652b9012f1e55bed5253bdf3bcd",
+              "tris": 1928
+            }
+          }
+        },
+        {
+          "seed": 1101,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/04fbbc18f4431be746463bd5aa0509164af581049a35f930424c85f95279f330.glb",
+              "bytes": 184244,
+              "sha256": "04fbbc18f4431be746463bd5aa0509164af581049a35f930424c85f95279f330",
+              "tris": 5124
+            },
+            "full": {
+              "file": "realistic-v2/3cdd22eb035bbee6c177229f2e41e7b7125d0d26c2eefeca1c1d3201d3824f4a.glb",
+              "bytes": 71208,
+              "sha256": "3cdd22eb035bbee6c177229f2e41e7b7125d0d26c2eefeca1c1d3201d3824f4a",
+              "tris": 1928
+            }
+          }
+        },
+        {
+          "seed": 1202,
+          "templateHeight": 16.5468807220459,
+          "templateRadius": 9.593546867370605,
+          "tiers": {
+            "hero": {
+              "file": "realistic-v2/df73a96d06741227e1a8206e7fc576d085d3f7e9d4affec1df937594a66e5803.glb",
+              "bytes": 181852,
+              "sha256": "df73a96d06741227e1a8206e7fc576d085d3f7e9d4affec1df937594a66e5803",
+              "tris": 5024
+            },
+            "full": {
+              "file": "realistic-v2/01f374e478892df38b3ead7e292d1f233e332947db4fffcc9837571e1ec7284e.glb",
+              "bytes": 69548,
+              "sha256": "01f374e478892df38b3ead7e292d1f233e332947db4fffcc9837571e1ec7284e",
+              "tris": 1874
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

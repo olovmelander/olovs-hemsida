@@ -16,7 +16,7 @@
 import * as THREE from 'three/webgpu';
 import { color, float, vec3, uniform } from 'three/tsl';
 import { bakeImpostorAtlas, createImpostorMaterial, createImpostorGeometry } from '../engine/tree-impostor.mjs';
-import { loadGhibliTrees } from '../engine/ghibli-trees.mjs';
+import { loadGhibliTrees, playerTreeSet } from '../engine/ghibli-trees.mjs';
 import { makeGhibliFoliageMaterial } from '../engine/ghibli-foliage-material.mjs';
 import { createSunShadowFilter } from '../engine/sun-shadow.mjs';
 import { treeFadeClock, treeFadeDuration, attachTreeFade, createFadeAttribute } from '../engine/tree-fade.mjs';
@@ -45,7 +45,9 @@ renderer.shadowMap.type = THREE.PCFShadowMap;
 result.backend = renderer.backend.isWebGPUBackend ? 'webgpu' : 'webgl2';
 result.reversedDepth = renderer.reversedDepthBuffer === true;
 
-const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: 1, tier });
+/* the player's catalogue (ghibli-trees.mjs), ?treeset=v1 the painted one and ?course=visby its own, proved the same way */
+const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: 1, tier, treeset: playerTreeSet(location.search), courseSlug: q.get('course') });
+result.treeset = GHIBLI.summary.treeset;
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x000000);
@@ -64,7 +66,8 @@ const rt = new THREE.RenderTarget(W, W, { type: THREE.UnsignedByteType, depthBuf
 const species = GHIBLI.species.map((sp, s) => {
   const near = sp.mesh;
   const atlas = bakeImpostorAtlas(renderer, { crown: near.crown, trunk: near.trunk, trunkColor: new THREE.Color(...sp.trunkMean), foliage: sp.foliage });
-  const crownOptions = { key: sp.foliage.key, map: sp.foliage.map, sunDirection: uSun, tint: vec3(1), seed: float(0.5), autumn: float(0) };
+  const crownOptions = { key: sp.foliage.key, map: sp.foliage.map, sunDirection: uSun, tint: vec3(1), seed: float(0.5), autumn: float(0),
+    ...(sp.foliage.realistic ? { realistic: true } : {}) };
   const crownMat = makeGhibliFoliageMaterial(crownOptions), crownRef = REF_FOLIAGE.makeGhibliFoliageMaterial(crownOptions);
   const crown = new THREE.Mesh(near.crown, crownMat), trunk = new THREE.Mesh(near.trunk, new THREE.MeshStandardNodeMaterial({ color: 0x806040 }));
   const mesh = new THREE.Group();

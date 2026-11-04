@@ -86,7 +86,7 @@ describe('the water from above', () => {
     expect(road).toMatch(/return \(rough \? tilt\.mul\(rough\) : tilt\)\.mul\(gain\)\.clamp\(-cap, cap\)\.mul\(sunlit \? waterReliefSun\.mul\(sunlit\) : waterReliefSun\)\.add\(1\);/);
     const shading = fs.readFileSync(new URL('./water-shading.mjs', import.meta.url), 'utf8');
     expect(shading).toMatch(/const bodySun = cloudShade && sunlit \? bodySunlit\(\{ sunlit, V, sunUp: uSun\.y, long: longShadows \}\) : null;/);
-    expect(shading).toMatch(/cloudShade = false, lanes = false, longShadows = false(, bank = false)? \}\) \{/);
+    expect(shading).toMatch(/cloudShade = false, lanes = false, longShadows = false(, bank = false)?(,\s*reflection = null, lightScale = null)? \}\) \{/);
     expect(shading).toMatch(/const rough = lanes && patchChop \? waterRoughness\(\{ chop: patchChop, V \}\) : null;/);
     expect(shading).toMatch(/if \(relief\) body = body\.mul\(bodyRelief\(\{ N, sun: uSun, sunlit: bodySun, rough \}\)\);/);
     expect(shading).toMatch(/if \(shade\) body = body\.mul\(shade\);\n\s+if \(rough\) body = body\.mul\(waterLanes\(\{ chop: patchChop, V \}\)\);/);

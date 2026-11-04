@@ -12,7 +12,7 @@ const out = path.resolve(process.argv[3] || 'tools/reference/gpu-startup-courses
 await fs.mkdir(out, { recursive: true });
 const catalog = await (await fetch(`${base}/courses/index.json`)).json();
 const revision = await (await fetch(`${base}/course-startup-build.json`)).json();
-const treeCatalog = await (await fetch(`${base}/models/trees/ghibli-fluffy.json`)).json();
+const treeCatalog = await (await fetch(`${base}/models/trees/realistic-v2.json`)).json();
 const onlyIndex = process.argv.indexOf('--only');
 const only = onlyIndex < 0 ? [] : process.argv[onlyIndex + 1].split(',');
 assert.ok(only.every(slug => catalog.courses.some(course => course.slug === slug)), 'unknown course');

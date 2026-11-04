@@ -13,12 +13,14 @@ const defaultMode = main.match(/const LODMODE = ([^\n]+);/)[1];
 
 describe('trees during a rapid camera flight', () => {
   for (const low of [false, true]) for (const coordinateSystem of [THREE.WebGLCoordinateSystem, THREE.WebGPUCoordinateSystem])
-  for (const mode of ['zone', 'screen']) for (const force of [0, 2, 3, 4]) {
-    it(`uses only Hero/Impostor through exits/reentries (${low ? 'low' : 'high'}, ${coordinateSystem}, ${mode}, override ${force})`, () => {
-      const zoneTiers = runInNewContext(defaultTiers, { LOWQ: low });
+  for (const mode of ['zone', 'screen']) for (const force of [0, 2, 3, 4]) for (const bands of low ? [false] : [false, true]) {
+    it(`uses only its bands' tiers through exits/reentries (${low ? 'low' : 'high'}, ${coordinateSystem}, ${mode}, override ${force}${bands ? ', bands' : ''})`, () => {
+      const zoneTiers = runInNewContext(defaultTiers, { LOWQ: low, TREE_BANDS: bands });
       const lodMode = runInNewContext(defaultMode, { URLSearchParams, location: { search: mode === 'zone' ? '' : '?lodmode=screen' } });
       expect(lodMode).toBe(mode);
-      expect(Array.from(zoneTiers)).toEqual([1, 1, 4, 4]);
+      expect(Array.from(zoneTiers)).toEqual([1, bands ? 2 : 1, 4, 4]);
+      /* band B's Full model is by place: only the zone rule asks for it, and no override or screen review does */
+      const fullDrawn = bands && mode === 'zone' && !force;
       const zone = new Uint8Array([1, 2, 3, 0]), tierOf = new Uint8Array(4);
       const imp = new Float32Array(24);
       const cells = Array.from({ length: 4 }, (_, i) => {
@@ -39,7 +41,7 @@ describe('trees during a rapid camera flight', () => {
       camera._reversedDepth = coordinateSystem === THREE.WebGPUCoordinateSystem;
       camera.updateProjectionMatrix();
       const moves = [];
-      const context = createContext({ TREE_LOD: lod, camera, renderer: { coordinateSystem }, performance,
+      const context = createContext({ TREE_LOD: lod, TREE_BANDS: bands, camera, renderer: { coordinateSystem }, performance,
         TREE_PROJ: new THREE.Matrix4(), TREE_FRUSTUM: new THREE.Frustum(),
         renderResolution: { detailHeight: () => low ? 450 : 900 },
         rebaseFadeClock() {}, drainTreeFades: () => false, flushRanges() {},
@@ -57,12 +59,14 @@ describe('trees during a rapid camera flight', () => {
         camera.lookAt(x, 12, 0); camera.updateMatrixWorld(true);
         context.FRAME_NO++; context.updateTreeTiers();
         for (let k = 0; k < 4; k++) if (tierOf[k]) {
-          expect([1, 4]).toContain(tierOf[k]);
+          expect(fullDrawn ? [1, 2, 4] : [1, 4]).toContain(tierOf[k]);
           if (force) expect(tierOf[k]).toBe(force === 4 ? 4 : 1);
           else if (mode === 'zone') expect(tierOf[k]).toBe(zoneTiers[k]);
         }
-        expect(sp.t[2].count).toBe(0); expect(sp.t[3].count).toBe(0);
+        if (!fullDrawn) expect(sp.t[2].count).toBe(0);
+        expect(sp.t[3].count).toBe(0);
       }
+      /* the owner's rule: in zone mode no tree changes its detail in flight, whatever the camera does */
       if (mode === 'zone' || force) expect(moves.filter(m => m.from && m.to)).toEqual([]);
       expect(moves.filter(m => m.to === 0).length).toBeGreaterThan(4);
       for (let k = 0; k < 4; k++) expect(moves.filter(m => m.k === k && m.to > 0).length).toBeGreaterThan(1);

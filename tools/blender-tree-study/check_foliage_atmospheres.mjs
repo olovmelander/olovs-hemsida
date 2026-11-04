@@ -25,7 +25,7 @@ try{
  await page.addInitScript(()=>{const Socket=window.WebSocket;window.WebSocket=class extends Socket{constructor(url,protocols){super(url,protocols);if(protocols==='vite-hmr')this.addEventListener('message',e=>{try{if(['update','full-reload'].includes(JSON.parse(e.data).type))e.stopImmediatePropagation();}catch{}},true);}};});
  page.on('pageerror',e=>report.errors.push(String(e)));
  page.on('console',m=>{if(m.type()==='error'||/ghibli trees unavailable/i.test(m.text()))report.errors.push(m.text());});
- const url=`http://localhost:5173/?bana=${course}&ghibli=${natural?0:1}&hal=${option('hole')||(course==='puttom'?1:2)}&vy=${option('view')||(course==='puttom'?'fritt':'tee')}&ljus=${option('initial')||'host'}&det=1&q=${low?'lo':'hi'}&qualitylock=1`;
+ const url=`http://localhost:5173/?bana=${course}&ghibli=${natural?0:1}&hal=${option('hole')||(course==='puttom'?1:2)}&vy=${option('view')||(course==='puttom'?'fritt':'tee')}&ljus=${option('initial')||'host'}&det=1&q=${low?'lo':'hi'}&qualitylock=1&treeset=v1`;
  console.log(`Loading ${course}, ${phase}.`);
  await page.goto(url,{waitUntil:'domcontentloaded',timeout:240000});
  await page.waitForFunction(()=>window.V3D?.settled()&&document.querySelector('#boot')?.classList.contains('done'),undefined,{timeout:240000});

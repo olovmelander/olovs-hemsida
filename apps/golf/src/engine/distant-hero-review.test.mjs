@@ -34,20 +34,22 @@ function fixture(threshold, detailHeight, coordinateSystem) {
 }
 
 describe('distant Hero policy', () => {
-  it('defaults ordinary course URLs to the measured 24 px policy', () => {
+  it('defaults ordinary course URLs to the measured 48 px policy', () => {
     for (const search of ['', '?bana=puttom&q=hi', '?bana=veckefjarden&q=lo&gl=1'])
-      expect(distantHeroReviewPixels(search)).toBe(24);
+      expect(distantHeroReviewPixels(search)).toBe(48);
   });
   it('retains the geographic opt-out and measured review overrides', () => {
-    for (const search of ['?distanthero=0', '?distanthero=', '?distanthero=32', '?distanthero=NaN'])
+    for (const search of ['?distanthero=0', '?distanthero=', '?distanthero=33', '?distanthero=NaN'])
       expect(distantHeroReviewPixels(search)).toBe(0);
     expect(distantHeroReviewPixels('?distanthero=1')).toBe(24);
     expect(distantHeroReviewPixels('?distanthero=24')).toBe(24);
     expect(distantHeroReviewPixels('?distanthero=16')).toBe(16);
+    expect(distantHeroReviewPixels('?distanthero=32')).toBe(32);
+    expect(distantHeroReviewPixels('?distanthero=48')).toBe(48);
   });
   it('keeps the independent prepared startup paths eligible during review', () => {
     for (const allowed of [preparedTintAllowed, preparedWaterAllowed, preparedVistaAllowed, preparedScatterAllowed])
-      for (const value of ['0', '16', '24']) expect(allowed(`?bana=puttom&distanthero=${value}`)).toBe(true);
+      for (const value of ['0', '16', '24', '32', '48']) expect(allowed(`?bana=puttom&distanthero=${value}`)).toBe(true);
   });
   for (const backend of [THREE.WebGLCoordinateSystem, THREE.WebGPUCoordinateSystem]) for (const height of [450, 1080]) {
     it(`keeps explicit opt-out geographic detail at every distance (${backend}, ${height})`, () => {

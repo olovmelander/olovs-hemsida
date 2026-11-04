@@ -17,7 +17,10 @@
    the waves' relief from above, and the open sea, which has no far shore to
    mirror. `cloudShade` and `lanes` are the water from above's (water-above.mjs):
    the body in a cloud's shade as level ground is, and the calm and gusty patches
-   seen from above. */
+   seen from above. `reflection` is the water that mirrors its shores
+   (water-reflection.mjs): the opaque world's own pixels along the reflected ray,
+   laid over the sky reflection where the march finds them; `lightScale` is the
+   factor the caller multiplies the colour by (the found pixels are already lit). */
 import { attribute, cameraPosition, color, float, mix, normalize, oneMinus, positionWorld, pow, reflect, saturate, smoothstep, texture, time, vec2, vec3 } from 'three/tsl';
 import { paintedWaterShallow, paintedWaterDeep, paintedWaterSparkle } from './painted-world-lighting.mjs';
 import { NORDIC_WATER, SLOPE_SCALE, expectedGlitter, reflectedSunGlow, treeLineShare, waterSun, waterSkyGlow, waterTreeLine,
@@ -29,7 +32,8 @@ import { bodySunlit, bodyCloudShade, waterRoughness, waterLanes } from './water-
 export const WATER_BANK = Object.freeze({ reach: Object.freeze([0.3, 3.2]), share: 0.62, tint: Object.freeze([0.5, 0.72, 0.46]) });
 
 export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, cloud = null, ocean = false, showBed = true, nordic = false, wind = false,
-  road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false, bank = false }) {
+  road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false, bank = false,
+  reflection = null, lightScale = null }) {
   const uSun = sun, uWaterGlint = glint, uWaterChop = chop;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
@@ -88,6 +92,24 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
     }
   }
 
+  /* THE WORLD IN THE WATER (water-reflection.mjs): the shores, trees, banks and hills the reflected ray
+     finds on screen, read off a calmer surface than the chop's (its own share of the wave slope, less far
+     off), laid over the sky's reflection by the share it found; where it finds the world, the water
+     mirrors more of its Fresnel than the painted sky did; the sun's glow and road stay on top */
+  let found = null;
+  if (reflection) {
+    const { tilt, tiltMetres } = reflection.params;
+    const k = mix(float(tilt[0]), float(tilt[1]), smoothstep(tiltMetres[0], tiltMetres[1], cd)).mul(waveSlope);
+    const Rm = reflect(V.negate(), normalize(vec3(ripple.x.mul(k), float(1), ripple.y.mul(k))));
+    const hit = reflection.trace(positionWorld, normalize(vec3(Rm.x, Rm.y.max(0.02), Rm.z)));
+    found = hit.a;
+    /* what the calm ray finds stands in front of the sky's sun glow, as the far shore's band did; the
+       ripples' steeper facets still mirror some of the bright sky round a low sun past it, so a share of
+       the glow (`glowOver`) lies over what is found and the road's glitter path keeps its light */
+    const world = lightScale ? hit.rgb.div(lightScale.max(0.05)) : hit.rgb;
+    skyC = mix(skyC, glowShare ? mix(world, waterSkyGlow, glowShare.mul(reflection.params.glowOver)) : world, found);
+  }
+
   /* depth: the bed falls away from the bank, so the shallows keep their own colour.
      The ramp is the water's own scale -- 30 m of shallows suits a fjord, but on a
      pond whose whole radius is ten metres it kept every pixel pale */
@@ -130,7 +152,8 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   if (shade) body = body.mul(shade);
   if (rough) body = body.mul(waterLanes({ chop: patchChop, V }));
   /* toward a low sun the water mirrors more of its glowing sky (water-road.mjs) */
-  let c = mix(body, skyC, mirror && glowShare ? mirrorShare({ fres, glow: glowShare }) : fres.mul(0.42));
+  const skyShare = mirror && glowShare ? mirrorShare({ fres, glow: glowShare }) : fres.mul(0.42);
+  let c = mix(body, skyC, found ? mix(skyShare, fres.mul(reflection.params.strength).max(skyShare), found) : skyShare);
   /* the sun's own reflection -- the single thing that says a surface is moving */
   const H = normalize(V.add(uSun));
   /* painted sparkle: dabs of white where the ripple faces the sun, not a pinpoint glint */

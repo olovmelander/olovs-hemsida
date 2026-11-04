@@ -24,7 +24,7 @@ import {
   transformNormalToView, positionWorld, normalWorldGeometry,
 } from 'three/tsl';
 import { treeFadeMask, createFadeAttribute } from './tree-fade.mjs';
-import { paintedFoliageColour, foliageLight, foliageSurfacePigment, foliageFacingSun, IMPOSTOR_BACK_EDGE } from './ghibli-foliage-material.mjs';
+import { paintedFoliageColour, foliageLight, foliageSurfacePigment, foliageFacingSun, leafNormal, IMPOSTOR_BACK_EDGE } from './ghibli-foliage-material.mjs';
 import { coverOpaqueBackdrop } from './msaa-coverage.mjs';
 
 /** The harness's debug switch for materials built with `debug: true`:
@@ -176,8 +176,12 @@ function viewBasisNode(view) {
  * framed with: a square of half-size `radius` centred `centreY` above the
  * base, which is exactly the quad the impostor draws.
  */
-export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = 96 } = {}) {
+/* the realistic crowns' frames (treeset v2): their lacy needle pads and leaf clusters kept too little
+   of their shape at 96 px, and the impostors' shadows strayed from the meshes' under a low sun */
+export const REALISTIC_IMPOSTOR_FRAME = 128;
+export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = null } = {}) {
   if (!renderer || !crown || !trunk) throw new TypeError('bakeImpostorAtlas needs the renderer and both template geometries');
+  frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;
   crown.computeBoundingBox(); trunk.computeBoundingBox();
   const box = new THREE.Box3().union(crown.boundingBox).union(trunk.boundingBox);
   const height = box.max.y, radiusXZ = Math.max(Math.abs(box.min.x), box.max.x, Math.abs(box.min.z), box.max.z);
@@ -225,12 +229,17 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
   crownNormal.opacityNode = float(1);
   if (foliage) {
     if (!crown.getAttribute('uv') || !foliage.map) throw new Error('Foliage impostor bake needs UVs and its shared atlas');
-    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(foliageSurfacePigment(texture(foliage.map)));
+    crownAlbedo.colorNode = crownAlbedo.colorNode.mul(foliageSurfacePigment(texture(foliage.map), foliage.realistic === true, foliage.mean ?? null));
+    /* the realistic sprigs (treeset v2) are cut from the atlas's full resolution, as the mesh's own
+       shadow cuts them (maskShadowNode): at a 96 px frame their fine leaves and needles average under
+       half on the mipmaps, and the impostors' shadows kept only 0.6-0.7 of the meshes' */
+    const mask = foliage.realistic === true ? texture(foliage.map).level(0).a : texture(foliage.map).a;
     for (const mat of [crownAlbedo, crownNormal]) {
       mat.side = THREE.DoubleSide;
-      mat.maskNode = texture(foliage.map).a.greaterThan(.5);
+      mat.maskNode = mask.greaterThan(.5);
     }
-    crownNormal.colorNode = normalWorldGeometry.mul(.5).add(.5);
+    /* the modelled sprigs' leaves tilt the baked normal as they tilt the mesh's light */
+    crownNormal.colorNode = (foliage.realistic === true && foliage.normals ? leafNormal({ normals: foliage.normals }) : normalWorldGeometry).mul(.5).add(.5);
   }
   const trunkNormal = new THREE.MeshBasicNodeMaterial();
   trunkNormal.colorNode = faceNormal;

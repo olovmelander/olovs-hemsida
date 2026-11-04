@@ -16,10 +16,15 @@ const flag = (name, fallback) => args.includes(`--${name}`) ? args[args.indexOf(
 const course = flag('course', 'visby'), quality = flag('q', 'lo');
 const base = flag('url', 'http://127.0.0.1:8620');
 const out = path.resolve(flag('out', 'output/hero-impostor-review'));
-const catalogue = JSON.parse(fs.readFileSync(`apps/golf/public/models/trees/ghibli-${course === 'visby' ? 'visby' : 'fluffy'}.json`));
+/* --treeset v1: the painted catalogue; without it, the player's (Visby has its own of each) */
+const treeset = flag('treeset', null);
+const catalogueFile = treeset === 'v1' ? (course === 'visby' ? 'ghibli-visby.json' : 'ghibli-fluffy.json') : course === 'visby' ? 'realistic-visby.json' : 'realistic-v2.json';
+const catalogue = JSON.parse(fs.readFileSync(`apps/golf/public/models/trees/${catalogueFile}`));
 const treeMesh = flag('treemesh', null);
 const tier = treeMesh ?? (quality === 'lo' ? 'full' : 'hero');
-const expectedModels = catalogue.species.flatMap(s => s.variants.map(v => v.tiers[tier].file)).sort();
+/* high quality draws the Full model in band B too (main.js TREE_BANDS) */
+const bands = !treeMesh && treeset !== 'v1' && quality !== 'lo';
+const expectedModels = catalogue.species.flatMap(s => s.variants.flatMap(v => [v.tiers[tier].file, ...(bands ? [v.tiers.full.file] : [])])).sort();
 fs.mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ ...(process.env.CHROME ? { executablePath: process.env.CHROME } : { channel: 'chrome' }), args: browserArgs() });
 const page = await browser.newPage({ viewport: quality === 'lo' ? { width: 390, height: 844 } : { width: 960, height: 600 },
@@ -53,13 +58,14 @@ const snapshot = () => page.evaluate(() => {
 });
 const verify = record => {
   assert(record.audit.ok, 'Tree slots must retain one owner');
-  assert.equal(record.tiers.tier1, 0); assert.equal(record.tiers.tier2, 0);
+  if (!bands) assert.equal(record.tiers.tier1, 0);
+  assert.equal(record.tiers.tier2, 0);
   assert(!record.inventory.some(m => /-t[12]$/.test(m.name)), 'Full/Lite must not allocate drawable meshes');
 };
 try {
   // Deliberately include the former downgrade flag: it must change nothing.
   const override = flag('distanthero', null);
-  const url = `${base}/?bana=${course}&v2=require&ghibli=1&hero=0&q=${quality}&qualitylock=1&gl=${flag('gl', '1')}&det=1&hal=1&vy=tee&ljus=middag${override === null ? '' : `&distanthero=${encodeURIComponent(override)}`}${treeMesh === null ? '' : `&treemesh=${treeMesh}`}`;
+  const url = `${base}/?bana=${course}&v2=require&ghibli=1&hero=0&q=${quality}&qualitylock=1&gl=${flag('gl', '1')}&det=1&hal=1&vy=tee&ljus=middag${override === null ? '' : `&distanthero=${encodeURIComponent(override)}`}${treeMesh === null ? '' : `&treemesh=${treeMesh}`}${treeset ? `&treeset=${treeset}` : ''}${flag('query', null) ? `&${flag('query', '')}` : ''}`;
   console.log(`Opening ${course} / ${quality}`);
   await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 120000 });
   await page.waitForFunction(() => window.V3D?.settled(), null, { timeout: 360000, polling: 500 });
@@ -69,7 +75,7 @@ try {
   verify(report.views[0]);
   assert.equal(report.views[0].tier, tier, `${quality} quality draws the ${tier} mesh`);
   assert.equal(report.views[0].backend, flag('gl', '1') === '1' ? 'webgl2' : 'webgpu');
-  if (override === null) assert.equal(report.views[0].policy.distantHero, 24, 'Ordinary visits use the approved 24 px policy');
+  if (override === null) assert.equal(report.views[0].policy.distantHero, 48, 'Ordinary visits use the approved 48 px policy');
   assert(report.views[0].tiers.tier0 > 0, `Expected ${tier} trees by the playing line`);
   await page.evaluate(() => V3D.prepareCapture());
   await page.screenshot({ path: path.join(out, `${course}-${quality}-tee.png`), timeout: 120000 });
@@ -87,7 +93,8 @@ try {
   await page.evaluate(() => V3D.setTreeLod(3));
   await settle();
   report.override = await snapshot(); verify(report.override);
-  assert.equal(report.override.tiers.tier3, 0);
+  /* every tree in view is the near mesh: the only impostors left are the out-of-view cells kept for their shadows */
+  assert.equal(report.override.tiers.tier3, report.override.tiers.shadowTrees, 'Under the forced link only shadow-only cells may keep impostors');
   assert(report.override.tiers.tier0 > 0);
   assert.deepEqual(report.errors, []);
   report.ok = true;

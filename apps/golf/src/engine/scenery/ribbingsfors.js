@@ -33,7 +33,7 @@ export const clubhouse = {
    leaves every retained building standing, and the appearance above is then
    the clubhouse's fallback. */
 import facilitiesManifest from '../../../public/models/ribbingsfors/facilities-v1.json';
-import { ringSD } from '../geom.js';
+import { withinRing } from '../geom.js';
 
 /* Roof footprints of the NEW structures exclude display vegetation; the mats,
    dividers and picnic table must never clear a woodland. Replaced source
@@ -42,7 +42,7 @@ export const facilityFootprints = facilitiesManifest.facilities
   .filter(f => f.sourceFeatureId && f.kind === 'roof' && f.footprintLocal)
   .map(f => ({ id: f.id, ring: f.footprintLocal }));
 export const isFacilityInterior = (x, z, margin = .2) =>
-  facilityFootprints.some(f => ringSD(x, z, f.ring) <= margin);
+  facilityFootprints.some(f => withinRing(x, z, f.ring, margin));
 
 // The verified Blender asset installs before parking and vegetation are batched,
 // so its footprints take part in every exclusion the generic buildings do.
