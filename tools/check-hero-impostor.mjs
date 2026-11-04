@@ -75,7 +75,7 @@ try {
   verify(report.views[0]);
   assert.equal(report.views[0].tier, tier, `${quality} quality draws the ${tier} mesh`);
   assert.equal(report.views[0].backend, flag('gl', '1') === '1' ? 'webgl2' : 'webgpu');
-  if (override === null) assert.equal(report.views[0].policy.distantHero, 24, 'Ordinary visits use the approved 24 px policy');
+  if (override === null) assert.equal(report.views[0].policy.distantHero, 48, 'Ordinary visits use the approved 48 px policy');
   assert(report.views[0].tiers.tier0 > 0, `Expected ${tier} trees by the playing line`);
   await page.evaluate(() => V3D.prepareCapture());
   await page.screenshot({ path: path.join(out, `${course}-${quality}-tee.png`), timeout: 120000 });
