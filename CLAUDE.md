@@ -419,6 +419,10 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
       is `check-tree-shadows --course visby --species 1` (species 0 is the
       spruce). The tree builds need no open scene: they run in
       `blender --background --factory-startup`.
+    - **The spruce's crest** (`crest` in `realistic_trees.py`, 4 November): the
+      stem narrows to a point, the top limbs sweep up, the sprays shrink toward
+      the tip and upright shoots stand round the leader. Ended at a third of its
+      width the stem stood above the foliage as a sawn-off pole.
   - **Trees culled on the GPU, `?treecull=gpu`** (3 November; opt-in until
     measured; see [the GPU tree cull](docs/tree-gpu-cull-2026-11-03.md)):
     - A compute pass per hero tier frustum-culls each drawn tree into a copy

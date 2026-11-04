@@ -77,6 +77,13 @@ describe('the realistic catalogue (treeset v2)', () => {
     for (const f of ['realistic-v2', 'realistic-visby']) expect(headers).toContain(`/models/trees/${f}.json\n  Cache-Control: no-cache`);
     expect(v2.species[0].foliage.atlas.file.startsWith('realistic-v2/')).toBe(true);
   });
+  it('ends every spruce in its leader\'s needles, not in a sawn-off stem', () => {
+    const top = (rec, name) => { const b = read(rec.file), g = JSON.parse(b.subarray(20, 20 + b.readUInt32LE(12)).toString());
+      const node = g.nodes.find(n => n.name === name), position = g.accessors[g.meshes[node.mesh].primitives[0].attributes.POSITION];
+      return position.max[1] / 32767 * node.scale[1] + node.translation[1]; };
+    for (const v of v2.species.find(s => s.key === 'gran').variants) for (const rec of [v.tiers.hero, v.tiers.full])
+      expect(top(rec, 'crown')).toBeGreaterThan(top(rec, 'trunk'));
+  });
   it('publishes its meshes quantized, which three reads without a decoder', () => {
     const json = rec => { const b = read(rec.file); return JSON.parse(b.subarray(20, 20 + b.readUInt32LE(12)).toString()); };
     for (const s of v2.species) for (const t of [s.variants[0].tiers.hero, s.variants[0].tiers.full]) {
