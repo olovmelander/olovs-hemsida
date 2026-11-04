@@ -51,11 +51,27 @@ each.
   - Veckefjärden 13 tee: 9.00 → 8.70 ms (-0.30 ms, -3.3%).
 
   Every round agreed to 0.1 ms.
+- The same A/B on the morning of the 4th, the GPU not confirmed idle:
+
+  | view | v2 | v2 + cull | painted | painted + cull |
+  |---|---|---|---|---|
+  | Puttom 5 green | 12.70 ms | 12.15 ms | 11.35 ms | 12.45 ms |
+  | Veckefjärden 13 tee | 9.05 ms | 9.25 ms | 7.95 ms | 8.70 ms |
+
+  That does not repeat the night's saving at Veckefjärden, and the painted trees
+  lose by it. The gallery's GPU timer, not interleaved, shows 11 of 12 views
+  faster, by up to 2.5 ms. These disagree, so the cull's cost is not settled.
+- `check-hero-impostor` passes with the cull on.
+- The picture: the gallery's deterministic views differ from the CPU path in up
+  to 5% of pixels, all thin edges of crowns that are there. No tree is missing.
+  The cull renumbers the instances, which is the likely cause.
+- `check-tree-tier-capacity` with the cull on fails its image step, but so does
+  the same harness at high quality without the cull. It is built for low quality.
+- `check-tree-shadows` proves one tree in an isolated scene, so it cannot run the
+  cull. The picture above is the evidence for the shadows.
 
 ## Still to do
 
-- The A/B with the v1 trees.
-- `check-tree-shadows`, `check-tree-tier-capacity` and `check-hero-impostor`
-  with the cull on.
+- Settle the cost on a clean A/B: frame intervals and GPU time together.
 - Next step if it pays: cull the impostor tier the same way, and pick the tier
   on the GPU too.

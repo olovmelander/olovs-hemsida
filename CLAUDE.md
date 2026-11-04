@@ -29,7 +29,8 @@ this guide or the current production workflow.
   same catalogue's lighter Full model at low quality, which every phone uses
   (owner request, 24 September). Both are fitted to the same height and radius.
   The catalogue is the realistic one (owner request, 4 November; `?treeset=v1`
-  is the painted before), and Visby keeps its own painted one. Low quality
+  is the painted before), and Visby has its own of each, for its coastal pine.
+  Low quality
   leaves out its relief, the leaf normals and bark maps (`?treerelief=1`).
   The drawn tier also bakes the impostors and answers the facility
   clearance test; `?treemesh=hero|full` compares the two. Geographic zones
@@ -293,7 +294,7 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     Bildfrekvens). `?fps=0` lifts it, `det=1` stays uncapped and timing tools
     pass `fps=0`.
   - **The painted canopy** (`ghibli-foliage-material.mjs` `CANOPY`,
-    `crown-puffs.mjs`), on the painted catalogues only (Visby and `?treeset=v1`):
+    `crown-puffs.mjs`), on the painted catalogues only (`?treeset=v1`):
     - banded crown tones whose edges, never the colour, move with openness,
       clumps and tree;
     - puff normals baked at load, which the impostor bake inherits;
@@ -392,6 +393,17 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
     `pack_bark.mjs`, UVs on the trunks, `barkSurface`; `?bark=0`). The tree
     harnesses take `--treeset v1` for the before. The two catalogues plant the
     same trees, so `treeset` is display-only for the prepared data.
+    - **Visby's coastal pine** (`kust` in `realistic_trees.py`, its wood in
+      `coastal_wood`, its sprig `coastal_sprig`, `pack_coastal.mjs`,
+      `realistic-visby.json`): the three growth forms the owner kept in
+      September, in their boxes and with the `tall` palette. The owner declined
+      two darker, more windswept proposals then, so keep to these forms. Its
+      cards stand upright and its pads are thick: laid flat they read as leaf
+      plates, and thin pads fail the low-sun shadow proof. Its crown's underside
+      answers the facility test, so check the plantings if it moves. Its proof
+      is `check-tree-shadows --course visby --species 1` (species 0 is the
+      spruce). The tree builds need no open scene: they run in
+      `blender --background --factory-startup`.
   - **Trees culled on the GPU, `?treecull=gpu`** (3 November; opt-in until
     measured; see [the GPU tree cull](docs/tree-gpu-cull-2026-11-03.md)):
     - A compute pass per hero tier frustum-culls each drawn tree into a copy

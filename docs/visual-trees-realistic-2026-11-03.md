@@ -5,8 +5,8 @@ realistic (tour turf, clumped blades, temporal AA), but the trees were stylised
 painted crowns with chunky leaf cards and looked like a different game.
 
 A new catalogue of the same five species, the default since 4 November (owner
-request). `?treeset=v1` is the before, the painted catalogue. Visby keeps its
-own painted catalogue, with its coastal pine, for all five species.
+request). `?treeset=v1` is the before, the painted catalogue. Visby has its own,
+with a realistic coastal pine: see [its section](#visbys-coastal-pine-4-november).
 
 ## The catalogue
 
@@ -228,8 +228,8 @@ noon and golden hour (Ängsö 1).
 
 ## The default (4 November)
 
-The owner chose the realistic trees, so they are now every course's default but
-Visby's. `?treeset=v1` is the before; reports are in `tools/goldens/gfx/flip/`
+The owner chose the realistic trees, so they are now every course's default.
+`?treeset=v1` is the before; reports are in `tools/goldens/gfx/flip/`
 (local).
 
 - **Plantings:** a course's tree test asks the drawn crown's underside about the
@@ -237,7 +237,7 @@ Visby's. `?treeset=v1` is the before; reports are in `tools/goldens/gfx/flip/`
   planted. It did not: over all 13 courses at both qualities, 2,479,147 trees
   stand in the same places, with the same exclusions round the buildings. The
   vista and scatter bakes came out byte for byte as before, so `treeset` and
-  `treerelief` are display-only for the prepared data. The pine's crown top
+  `treerelief` are display-only for the prepared data. The spruce's crown top
   is 1.2% lower than the painted one's (0.6% in the full tier), which measured
   trees take up in their scale.
 - **Phones:** low quality (`full` tier) keeps the models and the leaves' colours
@@ -271,16 +271,65 @@ Visby's. `?treeset=v1` is the before; reports are in `tools/goldens/gfx/flip/`
   `aa=traa`: 26 at high quality, 26 at low, 26 at high with `treeset=v1`, and 4
   at low with `treerelief=1`, all clean.
 
+## Visby's coastal pine (4 November)
+
+Visby's pine is its own tree, so its catalogue stayed painted when the others
+changed. The owner asked for it to be remade too. The target is the three
+growth forms the owner kept in September (`ghibli-visby.json`:
+wind leaning, forked, sheltered), not the darker, windswept "märtall" proposals
+declined then. Photograph 465 of [that study](graphics/visby-coastal-pine-2026-09-16/research.md)
+gives the form: a thick leaning trunk that forks low, long limbs bare on their
+inner half, and a broad crown of dense needle pads held out over open sky.
+
+- **Its wood** (`coastal_wood`, the species `kust`): a curved trunk, great limbs
+  that fork from each other, and outer limbs that alone carry the foliage. The
+  skeleton has its own random numbers, so the two tiers share every branch. The
+  other five species are byte for byte as they were.
+- **Its sprig** (`coastal_sprig`): tapered shoots standing up from one low base,
+  the needles swept forward and gathered to a point. The inland pine's round
+  fans turn to blobs with brown spots at a distance, and laid flat they read as
+  leaf plates. The new shoots keep their spikes in the mipmaps. The inland pine
+  still has the old sprig and shows the same fault.
+- **Its crown:** upright cards in thick pads on 28 limbs. Smaller cards read as
+  little green hands, so larger overlapping ones carry it.
+- **The catalogue** (`pack_coastal.mjs`, `realistic-visby.json`): the pine's boxes,
+  seeds and `tall` palette are the kept ones, its bark is the inland pine's, and
+  the other four species are the same records as `realistic-v2.json`.
+  `?treeset=v1` is the painted catalogue. Hero 5,476-5,514 triangles (painted
+  4,500), full 2,516-2,556 (1,700). High quality 16.6 MB, low 5.4 MB.
+- **Plantings:** the crown's underside (3.47 m, kept 3.53 m) answers the facility
+  test. 51,119 trees at high quality and 34,944 at low stand as before, with the
+  same 25 and 17 exclusions.
+- **Shadows** (`check-tree-shadows --course visby --species 1`). This proof had
+  never run on Visby's pine; the painted one does not pass it either.
+
+  | | coverage rows failing | low-sun agreement (gate 0.80) |
+  |---|---|---|
+  | kept painted pine | 3 | 0.83, 0.85 |
+  | coastal pine | 0 | 0.795, 0.785 |
+
+  The low-sun row is the 9.4° sun, between two of the impostor's view angles,
+  where a small mismatch slides a pad's long thin shadow aside. Frames of 192 px
+  did not move it; thicker pads did (0.75 to 0.79). It stands as a known gap.
+- **Frame time**, Visby 1 tee at golden hour: 4.25 → 4.30 ms at high quality,
+  3.60 → 2.55 ms at low.
+- **Offline:** Visby at low quality boots offline with all its trees.
+
+The oak's and alder's bark takes more relief (`reliefBy`: 2.4 and 2.2, others
+1): their dark even colour showed almost none. It now reads as fine grain.
+More would need lighter trunks in the models.
+
 ## Status
 
-The default. Every gate passes except two, neither new:
-- the hero/impostor check's forced-Lite step, which also fails on the painted
-  trees;
+The default. The hero/impostor check passes since 4 November: it now compares
+the impostors left under the forced link with the shadow-only trees the engine
+counts (`stats.shadowTrees`). Every other gate passes except these known gaps:
+- Visby's pine at a low sun, above;
 - one full-tier birch shadow row, its impostor at 0.748 against 0.75. Cards 4%
   larger made it worse (0.606, 0.665 and 0.728 in three rows), which shows
   these rows measure how a sparse crown lands on a coarse grid. So they were put
   back rather than tuned further. The row is a low sun on the 1024 map at an
   850 m box, on the tier phones draw.
 
-Still open: a real phone, and the GPU tree cull, which would take a little of
-the cost back and stays opt-in (docs/tree-gpu-cull-2026-11-03.md).
+Still open: a real phone, the GPU tree cull (opt-in, docs/tree-gpu-cull-2026-11-03.md),
+and the inland pine's old sprig.

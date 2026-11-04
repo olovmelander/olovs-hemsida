@@ -71,6 +71,10 @@ describe('the realistic catalogue (treeset v2)', () => {
     const worker = fs.readFileSync(new URL('../../vite.config.js', import.meta.url), 'utf8');
     expect(worker).toContain('(ghibli-fluffy|ghibli-visby|realistic-v2|realistic-visby)');
     expect(worker).toContain('(ghibli-fluffy|visby-pine|realistic-v2)');
+    /* and the host keeps its hash-named files for good, and revalidates the catalogues that name them */
+    const headers = fs.readFileSync(new URL('../../public/_headers', import.meta.url), 'utf8');
+    expect(headers).toMatch(/\/models\/trees\/realistic-v2\/\*\n  Cache-Control: public, max-age=31536000, immutable/);
+    for (const f of ['realistic-v2', 'realistic-visby']) expect(headers).toContain(`/models/trees/${f}.json\n  Cache-Control: no-cache`);
     expect(v2.species[0].foliage.atlas.file.startsWith('realistic-v2/')).toBe(true);
   });
   it('gives Visby its coastal pine in the kept growth forms, and every other tree as the other courses have it', () => {
