@@ -100,6 +100,43 @@ Candidates, by what they would need:
 - **Fewer pipelines.** The 25 s run below suggests compile matters more on a first
   ever visit than these numbers show.
 
+## The frame
+
+Timing every GPU pass (local: `tools/goldens/gfx/perf/pass-timing.mjs`, timestamp
+queries and a counter on every draw) gives Puttom 5 green at about 12 ms:
+
+- **The post passes**, GTAO, temporal AA, bloom, god rays and sharpen, are under
+  1 ms together. The temporal AA is 3.7 ms cheaper than MSAA.
+- **The scene pass is about 90% of the frame.**
+- **Of its 20 million triangles, trees are 15 million**, and over a quarter of
+  that is trunks. Terrain is 3.5 million. Nearly 2,800 trees drew at Hero, about
+  5,000 triangles each.
+
+Drawing every tree in the Full model takes the frame from 11.95 to 7.05 ms there,
+and from 9.20 to 5.95 ms at Puttom 1 tee. The owner's rule (5 September, see
+[the tree LOD plan](tree-lod-plan.md)) is that detail goes by where a tree stands,
+never by how far the camera is, so a distance ladder is out. The rule's own first
+form is the answer: **band A (90 m from a hole line) stays Hero and band B (to
+300 m) draws Full**, fixed for the visit (`TREE_BANDS`, `?treebands=0`). It shares
+the Hero's materials, so it adds no pipeline. High quality only; low quality
+already draws Full, and the painted trees are unchanged.
+
+Interleaved, two rounds, the GPU idle:
+
+| View | Before | After | |
+|---|---:|---:|---:|
+| Puttom 5 green | 11.85 ms | 9.70 ms | -18% |
+| Puttom 1 tee | 9.40 ms | 7.00 ms | -26% |
+| Veckefjärden 13 tee | 8.70 ms | 7.65 ms | -12% |
+
+A boot costs about 0.05 s more, and 1.1 MB. `tree-flight.test.mjs` holds that no
+tree changes tier in flight with it on. The gallery's worst views differ in up to
+9% of pixels, at leaf level, in trees past 90 m from any hole.
+
+Raising the 24 px threshold made the frame slower (11.95 to about 15 ms at 48 px):
+more trees on impostors cost more than the meshes they replace, so impostors look
+expensive per pixel. That is the next thing to explain.
+
 ## Measuring
 
 - Every engine edit changes the source revision and turns the prepared data off
@@ -108,6 +145,8 @@ Candidates, by what they would need:
   `tools/goldens/gfx/perf/vite.prof.config.mjs`).
 - Add a new before switch to `preparedTintAllowed`'s display-only list, or the A/B
   turns the prepared data off on one side.
+- Check that the machine is quiet. The last baseline of the day ran with the GPU at
+  10-20% and 40 unrelated Python processes, and its numbers were thrown away.
 - Run both orders. A first run right after a rebuild measured 25 s where three
   repeats gave 18 s, and the gain looked like 9 s where it was 2.6 s. That run was
   never repeated, and the likely cause is a cold driver shader cache, which a real
