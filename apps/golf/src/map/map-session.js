@@ -6,6 +6,7 @@
    in a pocket between shots spends nothing on the map. */
 import '../styles/course-map.css';
 import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag, recommendClub } from '../engine/caddie.js';
+import { detailedUrl } from '../shell/router.js';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, MAX_DISTANCE, MAX_TILT, MIN_DISTANCE, MIN_TILT } from './map-camera.mjs';
 import { loadMapCourse } from './map-course.mjs';
@@ -145,7 +146,7 @@ async function start() {
   });
   const course = await loadMapCourse(slug);
   document.title = `${course.name} — Karta | Banvy`;
-  ui.full.href = `${BASE}?bana=${encodeURIComponent(slug)}`;
+  ui.full.href = `${BASE}${detailedUrl(slug)}`;
 
   const rules = createTreeRules(course);
   const treeFiles = rules.catalogue.species.slice(0, speciesCount(slug)).flatMap(entry => [entry.colour, entry.normal])

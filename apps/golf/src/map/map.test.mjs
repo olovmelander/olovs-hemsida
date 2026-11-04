@@ -608,6 +608,6 @@ describe('a separate, small program', () => {
 
   it('enters through its own import call, so the chooser never pays for it', () => {
     const entry = fs.readFileSync(path.resolve(HERE, '../entry.js'), 'utf8');
-    expect(entry).toMatch(/has\('karta'\)[\s\S]*?await import\('\.\/map\/map-app\.js'\)/);
+    expect(entry).toMatch(/opensMap\(location\.search, isPhone\(\)\)[\s\S]*?await import\('\.\/map\/map-app\.js'\)/);
   });
 });

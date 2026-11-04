@@ -18,7 +18,8 @@
    =========================================================================== */
 import '../styles/shell.css';
 import { ICONS } from './icons.js';
-import { mapUrl } from './router.js';
+import { isPhone } from './map-default.mjs';
+import { detailedUrl, mapUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 
 /* `places` is search vocabulary only, never shown: the placeholder promises
@@ -83,6 +84,10 @@ function rememberCourse(slug) {
 }
 
 export function buildRail({ courses, current, last = null, onPick, onIntent, isInitialBoot = false }) {
+  const phone = isPhone();
+  const otherMode = c => (phone
+    ? `<a class="card-map" href="${detailedUrl(c.slug)}" aria-label="${esc(c.name)} som detaljerad 3D-bana">3D</a>`
+    : `<a class="card-map" href="${mapUrl(c.slug)}" aria-label="${esc(c.name)} som karta för spel med GPS">Karta</a>`);
   courses = [...courses, ...COURSE_PREVIEWS.filter(p => !courses.some(c => c.slug === p.slug))];
   /* A named course is a chosen course. A bare visit to the player boots the
      manifest's first entry, which nobody chose, so that one is not remembered. */
@@ -222,7 +227,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                       </div>
                     </div>
                   </button>
-                  ${c.status === 'mapping' ? '' : `<a class="card-map" href="${mapUrl(c.slug)}" aria-label="${esc(c.name)} som karta för spel med GPS">Karta</a>`}
+                  ${c.status === 'mapping' ? '' : otherMode(c)}
                 </li>
               `;
             }).join('')}

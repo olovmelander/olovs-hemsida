@@ -1,8 +1,16 @@
 # The map mode
 
 Every course as a light 3D map for a real round on a phone, beside the detailed
-course. `?bana=<slug>&karta=1`, optionally `&hal=<n>` and `&vy=bana`. The chooser's
-course cards and the player's menu link to it, and its 3D button links back.
+course. `?bana=<slug>&karta=1`, optionally `&hal=<n>` and `&vy=bana`.
+
+**Phones open it by default** (owner request, 4 November). A plain course link, with
+only `bana` and perhaps `hal`, opens the map on a phone, by the player's own test for
+one: a touch-first screen with a short side of 768 px or less. Tablets, computers
+and any link that says more (a shared view, a harness's `det=1`, a bookmark with its
+camera) open the detailed course. `karta=1` is the map on any device and `karta=0`
+the detailed course on a phone, and `karta=0` stays when a phone changes course
+there. See `shell/map-default.mjs`. A course card's pill and the map's 3D button
+offer the other mode, and the player's menu links to the map.
 
 The map is a separate program: `apps/golf/src/map`, about 180 KB of script, with no
 three.js and nothing from `main.js`. It draws one frame when something changes and

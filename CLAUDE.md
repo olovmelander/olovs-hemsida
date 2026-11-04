@@ -77,7 +77,9 @@ See [v2 + Ghibli scope](docs/v2-ghibli-only.md),
 
 ## The map mode
 
-`?bana=<slug>&karta=1` is a light 3D map for a real round, a separate small program in
+Phones open a plain course link as a light 3D map for a real round (owner request,
+4 November; `shell/map-default.mjs`, and `karta=0` is the detailed course there).
+`?bana=<slug>&karta=1` opens it anywhere. It is a separate small program in
 `apps/golf/src/map` with no three.js. It reads the same 1 m tiles and plants the same
 trees as the simulator, and draws them as the player's own impostors, so rerun
 `tools/bake-map-trees.mjs` when a tree catalogue changes. Never import `engine/scenery/*`

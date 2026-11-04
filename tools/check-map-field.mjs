@@ -173,6 +173,35 @@ if (worker) {
   await context.setOffline(false);
 } else console.log('skip offline check: no service worker on this server');
 
+/* ---- what a course link opens ---- */
+const isMap = target => target.evaluate(() => document.body.classList.contains('course-map'));
+const phone = await context.newPage();
+await phone.goto(`${BASE}?bana=${SLUG}`, { waitUntil: 'domcontentloaded' });
+await phone.waitForFunction(() => document.body.classList.contains('course-map') || Boolean(globalThis.V3D), null, { timeout: 60000 });
+expect(await isMap(phone), 'a plain course link opens the map on a phone');
+await phone.waitForSelector('[data-full][href]', { state: 'attached', timeout: 60000 });
+const detailed = new URL(await phone.getAttribute('[data-full]', 'href'), BASE).href;
+expect(detailed.includes(`bana=${SLUG}`) && detailed.includes('karta=0'), `the 3D button says so: ${detailed}`);
+await phone.goto(detailed, { waitUntil: 'domcontentloaded' });
+await phone.waitForFunction(() => document.body.classList.contains('course-map') || globalThis.V3D, null, { timeout: 120000 });
+expect(!(await isMap(phone)) && await phone.evaluate(() => Boolean(globalThis.V3D)), 'the 3D button opens the detailed course on a phone, and stays there');
+await phone.goto(`${BASE}?bana=${SLUG}&det=1&gl=1`, { waitUntil: 'domcontentloaded' });
+await phone.waitForFunction(() => document.body.classList.contains('course-map') || globalThis.V3D, null, { timeout: 120000 });
+expect(!(await isMap(phone)), 'a link that asks for the player still gets it on a phone');
+await phone.goto(BASE, { waitUntil: 'domcontentloaded' });
+await phone.waitForSelector('.card-map', { timeout: 60000, state: 'attached' });
+expect((await phone.textContent('.card-map')) === '3D', 'the chooser offers a phone the detailed course');
+await phone.close();
+const desktopContext = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+const desktop = await desktopContext.newPage();
+await desktop.goto(`${BASE}?bana=${SLUG}`, { waitUntil: 'domcontentloaded' });
+await desktop.waitForFunction(() => document.body.classList.contains('course-map') || globalThis.V3D, null, { timeout: 120000 });
+expect(!(await isMap(desktop)), 'a computer still opens the detailed course');
+await desktop.goto(BASE, { waitUntil: 'domcontentloaded' });
+await desktop.waitForSelector('.card-map', { timeout: 60000, state: 'attached' });
+expect((await desktop.textContent('.card-map')) === 'Karta', 'and its chooser offers the map');
+await desktopContext.close();
+
 console.log(refused.length ? `requests refused: ${[...new Set(refused)].slice(0, 8).join(' ')}` : 'no requests refused');
 /* The service worker's own loader is not in its precache; by then the worker is
    running, so this one refusal offline changes nothing. Any other still fails. */

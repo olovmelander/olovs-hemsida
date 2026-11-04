@@ -1,5 +1,6 @@
 /* Keep the bare course chooser off the 3D engine's critical path. Deep links and
    historical URLs still enter the player directly. */
+import { isPhone, opensMap } from './shell/map-default.mjs';
 import { legacyTarget } from './shell/router.js';
 import { coursePreview } from './course-previews.mjs';
 import { supportedVisualSearch } from './engine/look-mode.mjs';
@@ -12,7 +13,7 @@ if (supportedSearch !== location.search) {
 const legacy = legacyTarget(location.pathname, location.search);
 if (legacy) {
   location.replace(legacy + location.hash);
-} else if (new URLSearchParams(location.search).has('karta')) {
+} else if (opensMap(location.search, isPhone())) {
   /* The light map for a real round: its own small program, with no 3D engine. */
   await import('./map/map-app.js');
 } else if (coursePreview(new URLSearchParams(location.search).get('bana'))) {
