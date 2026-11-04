@@ -252,9 +252,11 @@ hole with GPS on, from close in, left every point behind the camera and blanked 
 map. Run it on more than one course: it took Visby's holes to show that.
 
 The timing tool is the phone proxy of `docs/load-times-2026-11-04.md` (4x CPU, 20 Mbps,
-80 ms) on this GPU. On Veckefjärden, 4 November: first picture 2.8 s cold and 1.8 s on
-reopen with nothing downloaded, all 1 m ground at 4.1 s and 3.0 s, against 40 s and
-8 s for the player. It says nothing of a phone's graphics.
+80 ms) on this GPU. On Veckefjärden, 4 November, with the land pictures and the
+surroundings record in: first picture 3.8 s cold and 2.9 s on reopen with nothing
+downloaded, all 1 m ground at 5.4 s and 4.3 s, against 40 s and 8 s for the player. That
+is over a second more than before them, and which part costs what has not been split
+out. It says nothing of a phone's graphics.
 
 On a real phone the owner reports it "very snappy" (4 November, model not recorded).
 That is the only evidence so far: frame rate and battery use are unmeasured.
