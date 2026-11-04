@@ -40,7 +40,8 @@ this guide or the current production workflow.
   The drawn tier also bakes the impostors and answers the facility
   clearance test; `?treemesh=hero|full` compares the two. Geographic zones
   select the base tier; zone A/B mesh trees use their own baked impostors below
-  the owner-approved 24 px projected whole-tree threshold, with hysteresis,
+  the owner-approved 48 px projected whole-tree threshold (4 November;
+  `?distanthero=24` is the before), with hysteresis,
   dwell and crossfade. Outer-zone trees remain impostors. `?distanthero=0`
   restores geographic-only detail; `16` retains the measured comparison
   threshold. Lite and alternative catalogues belong to isolated studies.

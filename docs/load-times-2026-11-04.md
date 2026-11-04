@@ -150,18 +150,35 @@ Impostors are very cheap. `?distanthero=` takes only 16 and 24 as thresholds, an
 any other value turns the 24 px rule off, which is the before. So a frame near 15
 ms at `distanthero=48` is every corridor tree at Hero, and shows what the rule saves.
 
-**For the owner to decide:** the threshold itself. A local build taking 32 and 48
-as real values gave, with another GPU app running, so as a direction only:
+**The threshold is now 48 px** (owner decision, 4 November; `?distanthero=24`, the
+value approved on 23 September, is the before). Measured inside one running page,
+every fade drained before each sample, six rounds, since another GPU app was open
+(local: `tools/goldens/gfx/perf/threshold-cost.mjs`):
 
-| View | 24 px (approved) | 32 px | 48 px |
+| View | 24 px | 32 px | 48 px |
 |---|---:|---:|---:|
-| Puttom 5 green | 11.85 ms | 9.65 ms | 6.95 ms |
-| Puttom 1 tee | 12.30 ms | 6.55 ms | 6.60 ms |
-| Veckefjärden 13 tee | 8.45 ms | 7.45 ms | 8.50 ms |
+| Puttom 5 green | 11.5 ms | 10.5 ms | 9.5 ms (-17%) |
+| Puttom 1 tee | 8.8 ms | 9.0 ms | 7.0 ms (-20%) |
+| Veckefjärden 13 tee | 7.9 ms | 7.4 ms | 8.3 ms (+5%) |
+| Ribbingsfors 3 tee | 10.2 ms | 9.8 ms | 8.9 ms (-13%) |
 
-It is the one place detail goes by distance, and the owner approved 24 px after
-seeing it, so it has not been changed. A higher value needs clean timing and a look
-at the crossfade in motion. The review values are not in the build.
+A first run reading these while the fades were still draining put 32 px above 24,
+and a rough page-reload run suggested 40%. Neither stands. Drawing a tree in a
+crossfade means drawing it twice, so wait for `treeTiers().fading` to reach 0.
+
+In motion, `tree-pop-meter.mjs` dollies as in September (1600 x 900, `det=1`, 180
+steps of 0.25 m), the median share of pixels changing by tiering alone per frame:
+
+| Dolly | 24 px | 48 px | Worst frame, 24 px | 48 px |
+|---|---:|---:|---:|---:|
+| Puttom 5 tee | 0.37% | 0.39% | 0.95% | 0.86% |
+| Puttom 1 tee | 0.71% | 0.76% | 2.44% | 3.17% |
+| Puttom 13 tee | 1.87% | 1.89% | 4.77% | 4.76% |
+
+Every frame changes now, as it did not in September, since the grass and water move
+under the meter, so these read only against each other. The Puttom 1 worst frame is
+the one rise. Stills at Puttom 1 and 5 look the same but for a slightly softer far
+tree line. This has not been reviewed in a full tour, nor on a phone.
 
 ## Measuring
 

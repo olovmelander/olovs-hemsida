@@ -5310,7 +5310,7 @@ const TREE_LOD = {
      four diagnostic indices (1 Hero, 4 Impostor); 2/3 never allocate meshes. */
   lodMode: LODMODE,
   zoneTiers: [1, TREE_BANDS ? 2 : 1, 4, 4],
-  /* 24 px by default; ?distanthero=0 restores geographic detail, 16 compares
+  /* 48 px by default; ?distanthero=24 is the before, 0 restores geographic detail, 16 compares
      the conservative threshold. Only zone A/B Hero trees may demote. */
   distantHeroPx: distantHeroReviewPixels(location.search),
   /* frames a tree must want its new tier for before it switches: a fast camera
@@ -12817,7 +12817,7 @@ window.V3D = {
   /* the tier boundaries in projected pixels, changeable at run time for a
      sweep; reset re-tiers every visible tree with no hysteresis */
   setTreeLodPx: (o = {}) => {
-    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['hysteresis', 'hysteresis'], ['dwell', 'dwell']]) {
+    for (const [key, prop] of [['hero', 'heroPx'], ['full', 'switchPx'], ['impostor', 'impostorPx'], ['distantHero', 'distantHeroPx'], ['hysteresis', 'hysteresis'], ['dwell', 'dwell']]) {
       if (Number.isFinite(o[key])) TREE_LOD[prop] = +o[key];
     }
     if (o.mode === 'zone' || o.mode === 'screen') TREE_LOD.lodMode = o.mode;
