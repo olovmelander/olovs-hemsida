@@ -24,6 +24,9 @@ const MAX_RESIDENT_TILES = 48;
 /* The tree pictures are one small download shared by a whole course, and addressed
    by content, so the first visit keeps them: no later visit, and no bad signal, has
    to fetch them again. */
+/* How long a tile that could not be had waits before it is asked for again. */
+const RETRY_MS = 15000;
+
 export async function fetchKeptFile(url) {
   const cache = globalThis.caches ? await caches.open(MAP_OFFLINE_CACHE).catch(() => null) : null;
   const held = await cache?.match(url).catch(() => null);
@@ -103,7 +106,10 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       uploads.push(node);
     } catch (error) {
       failures++;
+      /* Signal comes and goes on a golf course: look for it again shortly. */
       node.state = 'failed';
+      node.failedAt = performance.now();
+      setTimeout(onChange, RETRY_MS);
       console.warn(`map tile ${node.id}: ${error.message}`);
     } finally {
       active--;
@@ -112,11 +118,13 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     }
   }
 
+  const wanting = node => !node.state || (node.state === 'failed' && performance.now() - node.failedAt >= RETRY_MS);
+
   function pump() {
     while (active < MAX_FETCHES && pending.size) {
       const [id, node] = pending.entries().next().value;
       pending.delete(id);
-      if (node.state) continue;
+      if (!wanting(node)) continue;
       active++;
       loadTile(node);
     }
@@ -139,6 +147,17 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     }
   }
 
+  function finestAt(x, z) {
+    let node = root, best = null;
+    while (node) {
+      const u = (x - node.x0) / node.size, v = (z - node.z0) / node.size;
+      if (!(u >= 0 && u <= 1 && v >= 0 && v <= 1)) break;
+      if (node.state === 'ready' && node.decoded) best = node;
+      node = node.children[(v >= 0.5 ? 2 : 0) + (u >= 0.5 ? 1 : 0)];
+    }
+    return best;
+  }
+
   return {
     nodes,
     root,
@@ -149,11 +168,11 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
        dropped before they start, so a fast swipe spends nothing on them. */
     request(wanted) {
       pending.clear();
-      for (const { node } of wanted) if (!node.state) pending.set(node.id, node);
+      for (const { node } of wanted) if (wanting(node)) pending.set(node.id, node);
       pump();
     },
     prefetch(tileNodes) {
-      for (const node of tileNodes) if (!node.state && !pending.has(node.id)) pending.set(node.id, node);
+      for (const node of tileNodes) if (wanting(node) && !pending.has(node.id)) pending.set(node.id, node);
       pump();
     },
 
@@ -184,16 +203,13 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
     /* The height at a point, from the finest tile in memory: a walk down the tree,
        because a hill's shadow asks this thousands of times a tile. */
     heightAt(x, z) {
-      let node = root, best = null;
-      while (node) {
-        const u = (x - node.x0) / node.size, v = (z - node.z0) / node.size;
-        if (!(u >= 0 && u <= 1 && v >= 0 && v <= 1)) break;
-        if (node.state === 'ready' && node.decoded) best = node;
-        node = node.children[(v >= 0.5 ? 2 : 0) + (u >= 0.5 ? 1 : 0)];
-      }
+      const best = finestAt(x, z);
       if (!best) return NaN;
       return sampleTile(best.decoded.heights, (x - best.x0) / best.size, (z - best.z0) / best.size, TILE_SAMPLES);
     },
+
+    /* Whether every point stands on 1 m ground that is in memory yet. */
+    onMetreGround: points => points.every(([x, z]) => finestAt(x, z)?.lod === 0),
 
     /* One or two tiles' hill shadows a frame, the nearest first. Returns how many
        are still waiting, so a low sun fills in without a pause. */
@@ -224,9 +240,12 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
        the simplest correct thing is to stream the view again. */
     forgetGpu() {
       pending.clear();
+      /* A tile waiting its turn to upload is lost with the queue, or it stays
+         "loading" for good and its ground never comes back. */
+      const queued = new Set(uploads);
       uploads.length = 0;
       for (const node of nodes.values()) {
-        if (node.state === 'ready' || node.state === 'failed') node.state = null;
+        if (node.state === 'ready' || node.state === 'failed' || queued.has(node)) node.state = null;
         node.gpu = null;
         node.shadeKey = null;
       }

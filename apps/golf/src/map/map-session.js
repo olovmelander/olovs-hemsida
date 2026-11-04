@@ -13,6 +13,7 @@ import { createCamera, createFlight, MAX_DISTANCE, MAX_TILT, MIN_DISTANCE, MIN_T
 import { loadMapCourse } from './map-course.mjs';
 import { createGps, createScreenLock, downloadCourse, isDownloaded, offlineBytes, offlineTiles } from './map-field.mjs';
 import { createMapRenderer } from './map-gl.mjs';
+import { createTeeWatch } from './map-follow.mjs';
 import { attachGestures } from './map-gestures.mjs';
 import { SHADE_BELOW_SUN } from './map-horizon.mjs';
 import { AUTUMN_RAMPS, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS } from './map-light.mjs';
@@ -29,7 +30,13 @@ import { landRecord, loadLandPictures } from './map-land.mjs';
 const params = new URLSearchParams(location.search);
 const slug = params.get('bana');
 const BASE = import.meta.env.BASE_URL;
-const HOLE_TILT = 0.9, COURSE_TILT = 0.72;
+const COURSE_TILT = 0.72;
+/* The quick views of a hole. Each runs from where the ball is to the green, whichever
+   way that points, so the picture stays lined up with the player as they walk. They
+   differ in how far the camera leans: the hole as a map, the golfer's own eye behind
+   the ball, and straight down. */
+const QUICK_VIEWS = Object.freeze({ hole: { tilt: 0.9 }, behind: { tilt: 1.24 }, above: { tilt: 0.06 } });
+const VIEW_KEY = 'banvy-map-view-v1';
 /* As low as the simulator's fly-in over a green: 26 m back and 21 m up. */
 const GREEN_TILT = 0.89;
 const RELIEF_STEPS = [1, 1.5, 2, 3];
@@ -68,6 +75,15 @@ const GRID_FRAME_MS = 33, GRID_AWAKE_MS = 60000;
 /* The simulator's pulse is 9 cm wide, under a pixel from where a phone sees a green. */
 const PULSE_WIDTH_METRES = 0.0893, PULSE_LEAST_PIXELS = 2.6;
 const OFF_COURSE_METRES = 450, FOLLOW_HOLE_METRES = 120;
+/* A gap this long means the phone was away, and any number of tees may have gone by. */
+const FIX_GAP_MS = 60000, LOST_HOLES_AT_MOST = 4;
+/* A loose first fix must not choose a hole: nothing would correct it afterwards. */
+const PLACING_ACCURACY_METRES = 20;
+/* GPS wanders a few metres at a standstill. The picture stays put under that, or a
+   player standing still would keep the map flying, and the battery with it. */
+const REFRAME_METRES = 5;
+/* A player standing still may send no fixes at all, so a tee is looked at again. */
+const TEE_RECHECK_MS = 4000;
 const GRAB_PIXELS = 28;
 /* Further than this from a hole's line, a player is not on that hole. */
 const ON_THE_STRIP_METRES = 150;
@@ -110,6 +126,12 @@ root.innerHTML = `
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" data-wind-arrow><path d="M12 3l6 9h-4v9h-4v-9H6z" fill="currentColor"/></svg>
       <b data-wind-speed></b><span data-wind-temp></span>
     </button>
+    <div class="map-views" data-views role="group" aria-label="Kameravy">
+      <button data-view="hole" aria-pressed="true">Hela hålet</button>
+      <button data-view="behind" aria-pressed="false" aria-label="Bakom bollen, mot greenen">Bakom</button>
+      <button data-view="above" aria-pressed="false">Ovanifrån</button>
+      <button data-view="green" aria-pressed="false" aria-label="Greenen nära">Green</button>
+    </div>
   </div>
   <section class="map-bottom">
     <div class="map-float">
@@ -205,7 +227,7 @@ const ui = {
   holeSheet: $('[data-hole-sheet]'), holeSheetTitle: $('[data-hole-sheet-title]'), hazardSection: $('[data-hazard-section]'), hazardList: $('[data-hazard-list]'),
   recentre: $('[data-recentre]'), shot: $('[data-shot]'), shotLabel: $('[data-shot-label]'),
   prompt: $('[data-prompt]'), promptTitle: $('[data-prompt-title]'), promptKeys: $('[data-prompt-keys]'),
-  readingText: $('[data-reading-text]'), legend: $('[data-legend]'),
+  readingText: $('[data-reading-text]'), legend: $('[data-legend]'), views: $('[data-views]'),
   scoreSheet: $('[data-score-sheet]'), scoreTitle: $('[data-score-title]'), strokeKeys: $('[data-stroke-keys]'), puttKeys: $('[data-putt-keys]'),
   fairwayRow: $('[data-fairway-row]'), fairwayKeys: $('[data-fairway-keys]'), scoreDone: $('[data-score-done]'), scoreStats: $('[data-score-stats]'),
   scoreWord: $('[data-score-word]'), scoreSum: $('[data-score-sum]'), card: $('[data-card]'), handicap: $('[data-handicap]'),
@@ -291,7 +313,11 @@ async function start() {
   const painter = createMapPainter(course, atlases, land);
   const renderer = createMapRenderer(groundCanvas, {
     onLost: () => store?.forgetGpu(),
-    onRestored: () => invalidate(),
+    /* A tile that arrived while the context was gone went nowhere. */
+    onRestored: () => {
+      store?.forgetGpu();
+      invalidate();
+    },
   });
   renderer.uploadDetail(createDetailTexture());
   if (atlases) renderer.uploadAtlases(atlases);
@@ -318,10 +344,26 @@ async function start() {
     player: null,
     target: null,
     follow: true,
+    view: QUICK_VIEWS[savedText(VIEW_KEY, 'hole')] ? savedText(VIEW_KEY, 'hole') : 'hole',
+    /* The hole being played, which stays put while a player looks at another. */
+    playing: null,
+    /* A tee change of this session, which ends the first tee's special case. */
+    started: false,
+    /* A hole stood on while the player was busy with something else. */
+    owed: null,
+    located: false,
+    /* The fixes stopped, and the next good one has to say where the player went. */
+    lost: false,
+    /* The player chose this hole. A phone waking up does not overrule that. */
+    handPicked: false,
+    lastFixAt: 0,
+    framedFrom: null,
+    clockAhead: 0,
     /* The player has moved the view off the framed hole, or stands looking at a green. */
     viewMoved: false,
     greenView: false,
     greenGrid: null,
+    gridRead: false,
     gridAwake: 0,
     draggingTarget: false,
     numbersDirty: false,
@@ -344,6 +386,7 @@ async function start() {
     pace: { last: 0, samples: [] },
     stats: { triangles: 0, trees: 0, patches: 0, frames: 0, lastDrawMs: 0 },
   };
+  state.playing = state.hole;
   const hole = () => course.holes[state.hole - 1];
   /* The tee played, by its colour's place in the course's list; a hole short of
      that many tees falls back as the player does. */
@@ -380,6 +423,7 @@ async function start() {
   function leaveGreen() {
     state.greenView = false;
     state.greenGrid = null;
+    state.gridRead = false;
     clearTimeout(gridTimer);
     renderer.uploadGreenGrid(null);
   }
@@ -387,6 +431,7 @@ async function start() {
   function frameHole(duration = 800) {
     state.viewMoved = false;
     leaveGreen();
+    state.framedFrom = origin();
     const h = hole(), from = origin();
     const rest = state.player?.onCourse ? [from] : [from, ...h.line.slice(1)];
     const points = [...rest, ...h.green.ring.filter((_, i) => i % 3 === 0), h.green.c].map(lifted);
@@ -394,7 +439,7 @@ async function start() {
     points.push([h.pin[0], shown(h.pin[0], h.pin[1]) + camera.state.distance * 0.03, h.pin[1]]);
     const saved = { ...camera.state };
     const view = camera.fit(points, {
-      bearing: bearingOf(from, h.green.c), tilt: HOLE_TILT, insets: insets(),
+      bearing: bearingOf(from, h.green.c), tilt: QUICK_VIEWS[state.view].tilt, insets: insets(),
       minDistance: state.player?.onCourse ? 150 : 200,
       pivot: shown,
     });
@@ -457,7 +502,7 @@ async function start() {
     if (!ui.holeSheet.hidden) refreshHole();
     const percent = value => `${(value * 100).toFixed(1).replace('.', ',')} %`;
     ui.facts.textContent = state.greenGrid
-      ? `Lutning snitt ${percent(state.greenGrid.mean)} · max ${percent(state.greenGrid.max)}`
+      ? `Snitt ${percent(state.greenGrid.mean)} · max ${percent(state.greenGrid.max)}`
       : state.mode === 'course'
       ? `${course.holes.length} hål · par ${course.par}`
       : [`Par ${h.par}`, length ? `${length} m` : null, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
@@ -488,10 +533,20 @@ async function start() {
   /* The two buttons over the map's corner: back to the shot, and a shot walked off. */
   function refreshFloat() {
     const walking = gps.active;
-    ui.recentre.hidden = state.mode !== 'hole' || !(state.viewMoved || state.greenView || (walking && !state.follow));
-    ui.recentre.setAttribute('aria-label', walking ? 'Tillbaka till min position' : 'Tillbaka till hålet');
+    const say = (element, value) => { if (element.ariaLabel !== value) element.setAttribute('aria-label', value); };
+    /* Looking at another hole counts as well: a quick view follows the player, but
+       on the hole on screen. */
+    const elsewhere = state.player?.onCourse && state.hole !== state.playing;
+    ui.recentre.hidden = state.mode !== 'hole' || !(state.viewMoved || state.greenView || elsewhere || (walking && !state.follow));
+    say(ui.recentre, walking ? 'Tillbaka till min position' : 'Tillbaka till hålet');
     ui.shot.hidden = state.mode !== 'hole' || !state.player?.onCourse;
-    ui.shot.setAttribute('aria-pressed', String(Boolean(state.shotFrom)));
+    ui.views.hidden = state.mode !== 'hole';
+    const shownView = state.greenView ? 'green' : state.view;
+    for (const button of ui.views.children) {
+      const pressed = String(button.dataset.view === shownView);
+      if (button.getAttribute('aria-pressed') !== pressed) button.setAttribute('aria-pressed', pressed);
+    }
+    if (ui.shot.getAttribute('aria-pressed') !== String(Boolean(state.shotFrom))) ui.shot.setAttribute('aria-pressed', String(Boolean(state.shotFrom)));
     const walked = state.shotFrom && state.player
       ? `${metres(Math.hypot(state.player.point[0] - state.shotFrom[0], state.player.point[1] - state.shotFrom[1]))} m`
       : 'Mät slag';
@@ -553,8 +608,9 @@ async function start() {
     state.scoreHole = null;
     leaveGreen();
     remember(`${HOLE_KEY}:${course.slug}`, JSON.stringify({ value: state.hole, at: Date.now() }));
-    /* On to the next hole, in a round: the one left behind still wants its score. */
-    if (state.hole === left + 1 && (gps.active || roundTotals(round, course.holes).played)) askScore(left);
+    /* On to the next hole by hand, in a round: the one left behind still wants its
+       score. With the GPS on a tap only looks ahead, and the tee does the asking. */
+    if (state.hole === left + 1 && !gps.active && roundTotals(round, course.holes).played) askScore(left);
     if (!ui.scoreSheet.hidden) refreshScore();
     state.mode = 'hole';
     state.target = null;
@@ -576,6 +632,44 @@ async function start() {
 
   /* ---- position ---- */
   const screenLock = createScreenLock();
+  const teeWatch = createTeeWatch();
+  let teeTimer = 0;
+  /* Mid-sentence on the card, or looking at something else: the tee can wait. */
+  const busyElsewhere = () => state.mode === 'course' || state.greenView || sheets.some(([sheet]) => !sheet.hidden);
+
+  function moveOn(number) {
+    const begun = state.started;
+    state.follow = true;
+    state.playing = number;
+    state.started = true;
+    state.owed = null;
+    state.handPicked = false;
+    goHole(number);
+    /* The hole just before this tee is the one a score is owed for. */
+    if (begun) askScore(number === 1 ? course.holes.length : number - 1);
+    status(`Hål ${number}`, 2500);
+  }
+
+  function checkTee() {
+    clearTimeout(teeTimer);
+    const { player } = state;
+    if (!player?.onCourse) return;
+    const number = teeWatch.update({
+      point: player.point,
+      accuracy: player.accuracy,
+      now: performance.now() + state.clockAhead,
+      holes: course.holes,
+      shown: state.hole,
+      playing: state.playing,
+      fresh: !state.started && !roundTotals(round, course.holes).played,
+    });
+    if (teeWatch.standingOn(state.hole)) state.playing = state.hole;
+    if (number !== null) state.owed = number;
+    if (teeWatch.waiting || state.owed !== null) teeTimer = setTimeout(checkTee, TEE_RECHECK_MS);
+    if (state.owed === null || busyElsewhere()) return;
+    moveOn(state.owed);
+  }
+
   function receiveFix(coords) {
       const [x, z] = gpsToLocal(coords, course.geo);
       const point = course.frame.toWorld(x, z);
@@ -583,6 +677,10 @@ async function start() {
       const accuracy = Number.isFinite(coords.accuracy) ? coords.accuracy : 0;
       const onCourse = Boolean(nearby) && nearby.distance <= OFF_COURSE_METRES;
       const first = !state.player?.onCourse;
+      const now = performance.now() + state.clockAhead;
+      const known = state.located;
+      if (now - state.lastFixAt > FIX_GAP_MS) state.lost = true;
+      state.lastFixAt = now;
       state.player = { point, accuracy: clamp(accuracy, 3, 60), onCourse };
       if (onCourse) remember(`${GPS_KEY}:${course.slug}`, JSON.stringify({ value: true, at: Date.now() }));
       if (!onCourse) {
@@ -591,12 +689,32 @@ async function start() {
         invalidate();
         return;
       }
-      const moved = nearby.distance <= FOLLOW_HOLE_METRES && nearby.hole !== state.hole;
-      if (state.follow && moved) goHole(nearby.hole);
-      else {
-        refreshNumbers();
-        if (state.follow) frameHole(first ? 900 : 500);
+      /* The first good fix finds the hole, so a map opened mid-round lands on it, and so
+         does the first after the phone was put away. Between those only the next tee
+         moves it (map-follow.mjs). */
+      const placing = (!state.located || state.lost) && accuracy <= PLACING_ACCURACY_METRES;
+      const count = course.holes.length;
+      /* After a gap only forward, and a few holes at most: the ball can be in another
+         hole's fairway as easily as the player can have walked there. */
+      const onward = (nearby.hole - state.playing + count) % count;
+      const allowed = known ? onward >= 1 && onward <= LOST_HOLES_AT_MOST && !state.handPicked : state.follow;
+      if (placing) {
+        state.located = true;
+        state.lost = false;
       }
+      if (placing && nearby.hole === state.hole) state.playing = state.hole;
+      if (placing && allowed && nearby.distance <= FOLLOW_HOLE_METRES && nearby.hole !== state.hole) {
+        if (state.started) moveOn(nearby.hole);
+        else {
+          state.playing = nearby.hole;
+          goHole(nearby.hole);
+        }
+      } else {
+        refreshNumbers();
+        const from = state.framedFrom;
+        if (state.follow && (!from || Math.hypot(point[0] - from[0], point[1] - from[1]) > REFRAME_METRES)) frameHole(first ? 900 : 500);
+      }
+      checkTee();
       ui.gpsLabel.textContent = `±${Math.max(1, Math.round(accuracy))} m`;
       invalidate();
   }
@@ -613,6 +731,7 @@ async function start() {
     screenLock.release();
     state.player = null;
     state.shotFrom = null;
+    state.owed = null;
     ui.gpsLabel.textContent = 'GPS';
     ui.gps.setAttribute('aria-pressed', 'false');
     refreshNumbers();
@@ -639,9 +758,16 @@ async function start() {
   /* Back to the shot in hand: to where the player is, or to the hole. */
   function recentre() {
     state.follow = true;
+    /* The hole being played, unless the player has plainly walked onto the one on
+       screen, as after skipping a hole and choosing it by hand. */
+    state.handPicked = false;
     if (state.player?.onCourse) {
-      const nearby = nearestHole(state.player.point, course.holes, state.hole);
-      if (nearby && nearby.distance <= FOLLOW_HOLE_METRES && nearby.hole !== state.hole) { goHole(nearby.hole); return; }
+      const nearer = nearestHole(state.player.point, [course.holes[state.playing - 1], hole()], state.playing).hole;
+      state.playing = nearer;
+      if (nearer !== state.hole) {
+        goHole(nearer);
+        return;
+      }
     }
     frameHole(500);
     refreshNumbers();
@@ -654,6 +780,24 @@ async function start() {
     step.style.background = `rgb(${slopeColor(slope).map(channel => Math.round(channel * 255))})`;
     return step;
   }));
+
+  /* A tap also brings the view back after a finger has moved it, as the round button
+     does, and it keeps following the player from then on. */
+  for (const button of ui.views.children) {
+    button.onclick = () => {
+      const { view } = button.dataset;
+      if (view === 'green') {
+        if (!state.greenView) frameGreen();
+        return;
+      }
+      state.view = view;
+      remember(VIEW_KEY, view);
+      /* The same hole from another angle: a view never changes the hole. */
+      state.follow = true;
+      frameHole(500);
+      refreshNumbers();
+    };
+  }
 
   ui.green.onclick = () => {
     if (state.mode !== 'hole') return;
@@ -678,10 +822,15 @@ async function start() {
   let bag = DEFAULT_BAG;
   try { bag = parseBag(localStorage.getItem(BAG_KEY)) ?? DEFAULT_BAG; } catch { bag = DEFAULT_BAG; }
 
-  const stepHole = direction => {
+  /* A hole chosen by hand is the player's say, whatever tee they stand on. */
+  const pickHole = number => {
     state.follow = false;
-    goHole(((state.hole - 1 + direction + course.holes.length) % course.holes.length) + 1);
+    state.handPicked = true;
+    teeWatch.manual();
+    state.owed = null;
+    goHole(number);
   };
+  const stepHole = direction => pickHole(((state.hole - 1 + direction + course.holes.length) % course.holes.length) + 1);
   $('[data-prev]').onclick = () => stepHole(-1);
   $('[data-next]').onclick = () => stepHole(1);
   /* A sideways swipe along the header turns the page, as on a watch. */
@@ -714,7 +863,12 @@ async function start() {
   ui.light.onclick = () => showSheet(ui.lightSheet);
   $('[data-light-back]').onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
   ui.menu.onclick = () => { refreshMenu(); showSheet(ui.lightSheet.hidden ? ui.menuSheet : ui.lightSheet); };
-  ui.score.onclick = () => { refreshScore(); showSheet(ui.scoreSheet); };
+  /* It opens on the hole being played: a hole picked on the card last time is not. */
+  ui.score.onclick = () => {
+    state.scoreHole = null;
+    refreshScore();
+    showSheet(ui.scoreSheet);
+  };
   const openHole = () => { refreshHole(); showSheet(ui.holeSheet); };
   ui.holeTool.onclick = openHole;
   ui.holeText.onclick = openHole;
@@ -769,9 +923,8 @@ async function start() {
       return row;
     }));
     ui.holes.replaceChildren(...course.holes.map(each => chip(String(each.n), hasHole && each.n === h.n, () => {
-      state.follow = false;
       showSheet(null);
-      goHole(each.n);
+      pickHole(each.n);
     })));
   }
 
@@ -818,6 +971,8 @@ async function start() {
     if (savedText(HANDICAP_KEY, '') !== '' && Number.isFinite(known)) round.handicap = known;
   }
   const scoredHole = () => course.holes[(state.scoreHole ?? state.hole) - 1];
+  /* An earlier hole being put right: nothing to move on from. */
+  const fillingIn = () => state.scoreHole !== null && state.scoreHole !== state.hole;
   const saveRound = () => remember(roundKey, JSON.stringify(round));
 
   function setScore(change, number = scoredHole().n) {
@@ -832,7 +987,8 @@ async function start() {
   const closePrompt = () => { clearTimeout(promptTimer); ui.prompt.hidden = true; };
   function askScore(number) {
     const h = course.holes[number - 1];
-    if (!h || round.scores[h.n]) return;
+    const own = round.scores[number];
+    if (!h || Number.isFinite(own?.strokes) || own?.picked) return;
     ui.prompt.dataset.hole = String(h.n);
     ui.promptTitle.textContent = `Hål ${h.n} · par ${h.par}`;
     ui.promptKeys.replaceChildren(...strokeKeys(h.par).map(value => {
@@ -891,8 +1047,7 @@ async function start() {
       key.dataset.fairwayKey = value;
       return key;
     }));
-    const last = h.n === course.holes.length;
-    ui.scoreDone.textContent = last ? 'Klart' : `Vidare till hål ${h.n + 1} ›`;
+    ui.scoreDone.textContent = h.n === course.holes.length || fillingIn() ? 'Klart' : `Vidare till hål ${h.n + 1} ›`;
     ui.handicap.textContent = Number.isFinite(round.handicap) ? String(round.handicap) : '–';
     const received = strokesReceived(round.handicap, h, course.holes);
     const name = Number.isFinite(own.strokes) && !own.picked ? scoreName(own.strokes, h.par) : own.picked ? 'Struket' : '';
@@ -926,10 +1081,13 @@ async function start() {
   $('[data-score-prev]').onclick = () => stepScored(-1);
   $('[data-score-next]').onclick = () => stepScored(1);
   ui.scoreDone.onclick = () => {
-    const next = scoredHole().n + 1;
+    const next = scoredHole().n + 1, filling = fillingIn();
+    state.scoreHole = null;
     showSheet(null);
-    if (next > course.holes.length) return;
-    if (state.hole !== next) { state.follow = false; goHole(next); }
+    if (filling || next > course.holes.length || state.hole === next) return;
+    pickHole(next);
+    state.playing = next;
+    state.follow = true;
   };
   ui.pickUp.onclick = () => setScore({ strokes: null, putts: null, picked: true });
   const setHandicap = value => {
@@ -1057,6 +1215,7 @@ async function start() {
   ui.download.title = 'Spara banan för spel utan täckning';
 
   attachGestures($('.map-marks'), {
+    onRelease() { state.draggingTarget = false; },
     onTouched() {
       state.flight = null;
       state.gridAwake = performance.now() + GRID_AWAKE_MS;
@@ -1121,7 +1280,13 @@ async function start() {
     onTap(point) {
       if (state.mode === 'course') {
         const tapped = overlay.holeAt(point.x, point.y);
-        if (tapped) { state.follow = Boolean(state.player); goHole(tapped); }
+        if (tapped) {
+          state.handPicked = true;
+          teeWatch.manual();
+          state.owed = null;
+          state.follow = Boolean(state.player);
+          goHole(tapped);
+        }
         return;
       }
       if (state.target) {
@@ -1313,7 +1478,8 @@ async function start() {
     if (store.stats().busy === 0 && !state.flight) {
       refreshProfile();
       /* Read once the 1 m ground under the green is in. */
-      if (state.greenView && !state.greenGrid) {
+      if (state.greenView && !state.gridRead && store.onMetreGround(hole().green.ring)) {
+        state.gridRead = true;
         state.greenGrid = buildGreenGrid({ ring: hole().green.ring, heightAt: store.heightAt });
         renderer.uploadGreenGrid(state.greenGrid);
         state.gridAwake = performance.now() + GRID_AWAKE_MS;
@@ -1362,6 +1528,8 @@ async function start() {
     heightAt: store.heightAt,
     stats: () => ({ ...state.stats, ...store.stats(), camera: { ...camera.state } }),
     fix: (latitude, longitude, accuracy = 4) => receiveFix({ latitude, longitude, accuracy }),
+    /* Time on a tee passes faster on a harness than on a course. */
+    skipTime(milliseconds) { state.clockAhead += milliseconds; },
     worldOf: (latitude, longitude) => course.frame.toWorld(...gpsToLocal({ latitude, longitude }, course.geo)),
   };
 }

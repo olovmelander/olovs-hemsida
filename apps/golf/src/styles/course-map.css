@@ -133,6 +133,33 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   pointer-events: none;
 }
 .map-float > * { pointer-events: auto; }
+/* Under the numbers, in the column every hole is framed clear of, so a view button
+   never covers the player, the line or a reading. */
+.map-views {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 14px;
+  background: rgba(12, 24, 18, .9);
+  pointer-events: auto;
+}
+.map-views[hidden] { display: none; }
+.map-views button {
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 11px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.map-views button[aria-pressed="true"] { background: #ffd23f; color: #10201a; }
+.map-views button:focus-visible { outline: 3px solid #ffd23f; outline-offset: 1px; }
 .map-recentre, .map-shot {
   height: 48px;
   border: 0;
@@ -252,7 +279,16 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-status[hidden] { display: none; }
 
 @media (orientation: landscape) and (max-height: 520px) {
-  .map-profile { display: none; }
+  .map-profile, .map-legend { display: none; }
+  /* The column has no height to spare here, and a reading takes the foot: they lie
+     along the header instead. */
+  .map-views {
+    position: fixed;
+    left: calc(env(safe-area-inset-left, 0px) + 10px);
+    top: calc(env(safe-area-inset-top, 0px) + 74px);
+    flex-direction: row;
+  }
+  .map-views button { padding: 0 10px; height: 36px; }
   .map-bottom { right: calc(env(safe-area-inset-right, 0px) + 96px); }
   .map-tool { height: 44px; }
   .map-side { top: calc(env(safe-area-inset-top, 0px) + 74px); }
