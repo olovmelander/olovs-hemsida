@@ -4,8 +4,9 @@ Owner request: trees as realistic as the new grass. The grass is now close to
 realistic (tour turf, clumped blades, temporal AA), but the trees were stylised
 painted crowns with chunky leaf cards and looked like a different game.
 
-`?treeset=v2` draws a new catalogue of the same five species. The approved
-painted catalogue stays the default. Visby keeps its own coastal pine.
+A new catalogue of the same five species, the default since 4 November (owner
+request). `?treeset=v1` is the before, the painted catalogue. Visby keeps its
+own painted catalogue, with its coastal pine, for all five species.
 
 ## The catalogue
 
@@ -133,7 +134,7 @@ the GPU session (the owner asked to keep the GPU and fans cool on the 3rd).
 
 ## In the engine
 
-- **`ghibli-trees.mjs`:** `playerTreeSet()` reads `?treeset=v2`, and the loader
+- **`ghibli-trees.mjs`:** `playerTreeSet()` reads `?treeset`, and the loader
   takes the realistic manifest. Puffs are off, since the soft normals are baked.
   The crown-depth AO is kept.
 - **`ghibli-foliage-material.mjs`:** with `realistic`, the crowns have no painted
@@ -177,8 +178,7 @@ All on the RTX 5080; reports in `tools/goldens/gfx/gates/` (local).
   - Veckefjärden 13 tee: 9.75 → 10.75 ms, +10.3%.
 
   The first, sparser cut was 10-14% cheaper than v1.
-- **Download:** a v2 visit fetches three variants' meshes of its tier and five
-  1024 px atlases: about 7.7 MB at high quality, against about 3.8 MB for v1.
+- **Download:** see [the default](#the-default-4-november).
 
 ### Re-gated with the modelled sprigs and bark (night of 3 November)
 
@@ -226,14 +226,61 @@ Reports in `tools/goldens/gfx/session/` (local).
 tree of each species from 1.7 m, and `tree-sheet.mjs` sets old against new at
 noon and golden hour (Ängsö 1).
 
+## The default (4 November)
+
+The owner chose the realistic trees, so they are now every course's default but
+Visby's. `?treeset=v1` is the before; reports are in `tools/goldens/gfx/flip/`
+(local).
+
+- **Plantings:** a course's tree test asks the drawn crown's underside about the
+  authored buildings (`main.js`), so a new catalogue could have changed what is
+  planted. It did not: over all 13 courses at both qualities, 2,479,147 trees
+  stand in the same places, with the same exclusions round the buildings. The
+  vista and scatter bakes came out byte for byte as before, so `treeset` and
+  `treerelief` are display-only for the prepared data. The pine's crown top
+  is 1.2% lower than the painted one's (0.6% in the full tier), which measured
+  trees take up in their scale.
+- **Phones:** low quality (`full` tier) keeps the models and the leaves' colours
+  and leaves out the relief (`relief` in `loadGhibliTrees`). That is the leaf
+  normals and the bark maps: 7.3 MB and fifteen textures. `?treerelief=1` is the
+  before.
+
+  | tree data | painted | v2 |
+  |---|---|---|
+  | high quality | 2.1 MB | 16.6 MB |
+  | low quality | 1.3 MB | 5.2 MB (12.5 MB with the relief) |
+
+  **No phone has run this.** The frame time below is the RTX 5080's at low
+  quality, not a phone's.
+- **Frame time:** interleaved, two rounds, Puttom 5 green at golden hour.
+
+  | quality | painted | v2 | v2 with the relief |
+  |---|---|---|---|
+  | high | 9.90 ms | 11.40 ms (+15.2%) | |
+  | low | 4.30 ms | 4.85 ms (+12.8%) | 5.40 ms (+25.6%) |
+
+  The same view measured +11.7% in the night, when the GPU was confirmed idle.
+  It was not checked this time, so read the cost as about 12-15%, over the ~10%
+  budget. The owner chose the trees knowing that.
+- **Boot:** over the 13 courses, 9.8 s against 10.0 s at high quality and 8.7 s
+  against 9.2 s at low. The files came from this machine, so a real download
+  will take longer than the table's sizes suggest.
+- **Offline:** the service worker keeps the catalogue as it keeps the painted
+  one. Ängsö at low quality booted offline with all 57,752 trees.
+- **Clean boots** on the build that ships, 13 courses on both backends with
+  `aa=traa`: 26 at high quality, 26 at low, 26 at high with `treeset=v1`, and 4
+  at low with `treerelief=1`, all clean.
+
 ## Status
 
-v2 stays opt-in. Every gate passes except two:
-- the hero/impostor check's forced-Lite step, which also fails on v1;
-- one full-tier birch shadow row: 0.748 against 0.75, with the modelled sprigs.
+The default. Every gate passes except two, neither new:
+- the hero/impostor check's forced-Lite step, which also fails on the painted
+  trees;
+- one full-tier birch shadow row, its impostor at 0.748 against 0.75. Cards 4%
+  larger made it worse (0.606, 0.665 and 0.728 in three rows), which shows
+  these rows measure how a sparse crown lands on a coarse grid. So they were put
+  back rather than tuned further. The row is a low sun on the 1024 map at an
+  850 m box, on the tier phones draw.
 
-With the modelled sprigs and bark, the GPU time is over the ~10% budget:
-+11.7% at Puttom 5 green and +15.4% at Veckefjärden 13 tee (+8% and +12% with
-the GPU cull). The look is a large change from the painted style, so it should
-be the owner's decision by screenshot. Flipping the default
-is `playerTreeSet()`'s fallback.
+Still open: a real phone, and the GPU tree cull, which would take a little of
+the cost back and stays opt-in (docs/tree-gpu-cull-2026-11-03.md).
