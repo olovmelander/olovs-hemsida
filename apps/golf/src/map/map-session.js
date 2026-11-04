@@ -13,6 +13,7 @@ import { loadMapCourse } from './map-course.mjs';
 import { createGps, createScreenLock, downloadCourse, isDownloaded, offlineBytes, offlineTiles } from './map-field.mjs';
 import { createMapRenderer } from './map-gl.mjs';
 import { attachGestures } from './map-gestures.mjs';
+import { AUTUMN_RAMPS, compassName, DEFAULT_LIGHT, lightByKey, lightNow, MAP_LIGHTS } from './map-light.mjs';
 import { bearingOf, contourInterval, elevationProfile, greenNumbers, principalBearing, shotReading } from './map-measure.mjs';
 import { createOverlay } from './map-overlay.mjs';
 import { createDetailTexture } from './map-detail.mjs';
@@ -25,18 +26,12 @@ const slug = params.get('bana');
 const BASE = import.meta.env.BASE_URL;
 const HOLE_TILT = 0.9, COURSE_TILT = 0.72;
 const RELIEF_STEPS = [1, 1.5, 2, 3];
-/* The afternoon sun: south-west, about 40 degrees up. High enough to light the
-   whole course, low enough that a tree's shadow shows its height. */
-const SUN = (() => {
-  const v = [-0.5, 0.64, 0.58], l = Math.hypot(...v);
-  return v.map(n => n / l);
-})();
 /* What a device that cannot hold the pace gives up, in order: distant trees first,
    then sharpness. A map that moves smoothly is worth more than one that is sharp
    and stutters. A step down is remembered, so the next round starts there. */
 const QUALITY_STEPS = Object.freeze([
-  { trees: 14000, pixelRatio: 2 },
-  { trees: 9000, pixelRatio: 2 },
+  { trees: 20000, pixelRatio: 2 },
+  { trees: 12000, pixelRatio: 2 },
   { trees: 5000, pixelRatio: 1.6 },
   { trees: 2500, pixelRatio: 1.3 },
 ]);
@@ -44,6 +39,9 @@ const QUALITY_KEY = 'banvy-map-quality-v1';
 const SLOW_FRAME_MS = 36, PACE_SAMPLES = 24;
 const BAG_KEY = 'banvy-caddie-bag-v1';
 const TEE_KEY = 'banvy-map-tee-v1';
+const LIGHT_KEY = 'banvy-map-light-v1';
+const CONTOUR_KEY = 'banvy-map-contours-v1';
+const NOW_REFRESH_MS = 60000;
 const OFF_COURSE_METRES = 450, FOLLOW_HOLE_METRES = 120;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -86,10 +84,31 @@ root.innerHTML = `
     </div>
     <div class="map-tools">
       <button class="map-tool" data-gps aria-pressed="false">GPS</button>
-      <button class="map-tool" data-tee aria-label="Byt tee"></button>
-      <button class="map-tool" data-relief aria-label="Höjdförstärkning">Höjd 2×</button>
-      <button class="map-tool" data-download>Spara</button>
-      <a class="map-tool" data-full aria-label="Öppna den detaljerade 3D-banan">3D</a>
+      <button class="map-tool" data-light aria-expanded="false">Ljus</button>
+      <button class="map-tool" data-now aria-pressed="false" aria-label="Ljuset just nu på banan">Nu</button>
+      <button class="map-tool" data-menu aria-expanded="false">Meny</button>
+    </div>
+  </section>
+  <section class="map-sheet" data-light-sheet hidden aria-label="Ljus">
+    <div class="map-sheet-head"><b>Ljus</b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
+    <div class="map-lights" data-lights></div>
+  </section>
+  <section class="map-sheet map-menu" data-menu-sheet hidden aria-label="Meny">
+    <div class="map-sheet-head"><b data-menu-title></b><button class="map-sheet-close" data-close aria-label="Stäng">×</button></div>
+    <p class="map-note" data-note hidden></p>
+    <h3>Hål</h3>
+    <div class="map-holes" data-holes></div>
+    <div data-tee-section>
+      <h3>Tee</h3>
+      <div class="map-chips" data-tees></div>
+    </div>
+    <h3>Höjd</h3>
+    <div class="map-chips" data-reliefs></div>
+    <label class="map-row"><span>Höjdkurvor</span><input type="checkbox" data-contours></label>
+    <div class="map-actions">
+      <button class="map-action" data-download>Spara banan</button>
+      <a class="map-action" data-full>Detaljerad 3D</a>
+      <a class="map-action" href="${BASE}">Alla banor</a>
     </div>
   </section>
   <div class="map-status" data-status hidden role="status"></div>`;
@@ -100,7 +119,11 @@ const ui = {
   hole: $('[data-hole-title]'), facts: $('[data-hole-facts]'),
   back: $('[data-back-number]'), mid: $('[data-mid-number]'), front: $('[data-front-number]'), from: $('[data-from]'),
   reading: $('[data-reading]'), status: $('[data-status]'),
-  gps: $('[data-gps]'), tee: $('[data-tee]'), relief: $('[data-relief]'), download: $('[data-download]'), full: $('[data-full]'),
+  gps: $('[data-gps]'), light: $('[data-light]'), now: $('[data-now]'), menu: $('[data-menu]'),
+  lightSheet: $('[data-light-sheet]'), menuSheet: $('[data-menu-sheet]'), lights: $('[data-lights]'),
+  menuTitle: $('[data-menu-title]'), note: $('[data-note]'), holes: $('[data-holes]'),
+  teeSection: $('[data-tee-section]'), tees: $('[data-tees]'), reliefs: $('[data-reliefs]'), contours: $('[data-contours]'),
+  download: $('[data-download]'), full: $('[data-full]'),
   overview: $('[data-overview]'), green: $('[data-green]'),
   profile: $('[data-profile]'), profileLine: $('[data-profile-line]'), profileFill: $('[data-profile-fill]'), profileText: $('[data-profile-text]'), profilePlays: $('[data-profile-plays]'),
 };
@@ -117,6 +140,14 @@ function savedQuality() {
   const asked = Number(params.get('mapquality'));
   if (params.has('mapquality') && QUALITY_STEPS[asked]) return asked;
   try { return Math.min(QUALITY_STEPS.length - 1, Number(localStorage.getItem(QUALITY_KEY)) || 0); } catch { return 0; }
+}
+
+function savedText(key, fallback) {
+  try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; }
+}
+
+function remember(key, value) {
+  try { localStorage.setItem(key, value); } catch { /* it holds for this visit */ }
 }
 
 function savedTee(course) {
@@ -191,6 +222,10 @@ async function start() {
        have not arrived put the green under the header. */
     opening: true,
     quality: savedQuality(),
+    lightKey: params.get('nu') === '1' ? 'nu' : params.get('ljus') ?? savedText(LIGHT_KEY, DEFAULT_LIGHT),
+    light: null,
+    lightClock: null,
+    contours: savedText(CONTOUR_KEY, '1') !== '0',
     pace: { last: 0, samples: [] },
     stats: { triangles: 0, trees: 0, patches: 0, frames: 0, lastDrawMs: 0 },
   };
@@ -266,8 +301,7 @@ async function start() {
     ui.from.textContent = state.player?.onCourse ? 'från dig' : 'från tee';
     ui.hole.textContent = state.mode === 'course' ? course.name : `Hål ${h.n}`;
     const length = tee().metres ?? h.lengths[0];
-    ui.tee.textContent = `Tee ${course.tees?.names?.[state.tee] ?? ''}`.trim();
-    ui.tee.hidden = (course.tees?.names?.length ?? 0) < 2 || state.mode === 'course';
+    refreshMenu();
     ui.facts.textContent = state.mode === 'course'
       ? `${course.holes.length} hål · par ${course.par}`
       : [`Par ${h.par}`, length ? `${length} m` : null, h.index ? `Index ${h.index}` : null].filter(Boolean).join(' · ');
@@ -389,26 +423,107 @@ async function start() {
   ui.overview.onclick = () => {
     if (state.mode === 'course') { state.follow = Boolean(state.player); goHole(state.hole); } else showCourse();
   };
-  ui.tee.onclick = () => {
-    state.tee = (state.tee + 1) % course.tees.names.length;
-    try { localStorage.setItem(`${TEE_KEY}:${course.slug}`, String(state.tee)); } catch { /* a private window keeps it for this visit */ }
-    state.target = null;
-    refreshNumbers();
-    if (state.mode === 'hole') frameHole(500);
+  /* ---- the sheets ---- */
+  const sheets = [[ui.lightSheet, ui.light], [ui.menuSheet, ui.menu]];
+  function showSheet(sheet) {
+    for (const [each, button] of sheets) {
+      const open = each === sheet && each.hidden;
+      each.hidden = !open;
+      button.setAttribute('aria-expanded', String(open));
+    }
+  }
+  ui.light.onclick = () => showSheet(ui.lightSheet);
+  ui.menu.onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
+  for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => showSheet(null);
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') showSheet(null); });
+
+  const chip = (label, pressed, onClick, extra = '') => {
+    const button = document.createElement('button');
+    button.className = `map-chip ${extra}`.trim();
+    button.textContent = label;
+    button.setAttribute('aria-pressed', String(pressed));
+    button.onclick = onClick;
+    return button;
+  };
+
+  function refreshMenu() {
+    const h = hole(), hasHole = state.mode === 'hole';
+    ui.menuTitle.textContent = hasHole ? [`Hål ${h.n}`, h.name].filter(Boolean).join(' · ') : course.name;
+    ui.note.textContent = hasHole ? h.note ?? '' : '';
+    ui.note.hidden = !ui.note.textContent;
+    ui.holes.replaceChildren(...course.holes.map(each => chip(String(each.n), hasHole && each.n === h.n, () => {
+      state.follow = false;
+      showSheet(null);
+      goHole(each.n);
+    })));
+    const names = course.tees?.names ?? [];
+    ui.teeSection.hidden = names.length < 2 || !hasHole;
+    ui.tees.replaceChildren(...names.map((name, index) => chip(name, index === state.tee, () => {
+      state.tee = index;
+      remember(`${TEE_KEY}:${course.slug}`, String(index));
+      state.target = null;
+      refreshNumbers();
+      if (state.mode === 'hole') frameHole(500);
+      invalidate();
+    })));
+    ui.reliefs.replaceChildren(...RELIEF_STEPS.map(step => chip(`${String(step).replace('.', ',')}×`, step === state.exaggeration, () => {
+      camera.state.y *= step / state.exaggeration;
+      state.exaggeration = step;
+      refreshMenu();
+      invalidate();
+    })));
+    ui.contours.checked = state.contours;
+  }
+  ui.contours.onchange = () => {
+    state.contours = ui.contours.checked;
+    remember(CONTOUR_KEY, state.contours ? '1' : '0');
     invalidate();
   };
-  ui.relief.onclick = () => {
-    const next = RELIEF_STEPS[(RELIEF_STEPS.indexOf(state.exaggeration) + 1) % RELIEF_STEPS.length];
-    camera.state.y *= next / state.exaggeration;
-    state.exaggeration = next;
-    ui.relief.textContent = `Höjd ${String(next).replace('.', ',')}×`;
-    invalidate();
+
+  /* ---- the light ---- */
+  const { lat: latitude, lon: longitude } = course.geo.origin;
+  const lightSwatch = light => `linear-gradient(180deg, rgb(${light.zenith.map(n => Math.round(n * 255))}), rgb(${light.horizon.map(n => Math.round(n * 255))}) 62%, rgb(${light.grade.map(n => Math.round(Math.min(n, 1) * 120))}) 62%)`;
+  ui.lights.replaceChildren(...MAP_LIGHTS.map(light => {
+    const button = chip(light.label, false, () => setLight(light.key), 'map-light-chip');
+    button.dataset.key = light.key;
+    button.style.setProperty('--swatch', lightSwatch(light));
+    return button;
+  }));
+
+  function refreshLight() {
+    const clock = state.lightClock ?? new Date();
+    const next = state.lightKey === 'nu' ? lightNow(clock, latitude, longitude) : lightByKey(state.lightKey) ?? lightByKey(DEFAULT_LIGHT);
+    const changed = !state.light || state.light.key !== next.key
+      || Math.abs((state.light.elevationDegrees ?? 0) - (next.elevationDegrees ?? 0)) > 0.05;
+    state.light = next;
+    ui.now.setAttribute('aria-pressed', String(state.lightKey === 'nu'));
+    for (const button of ui.lights.children) button.setAttribute('aria-pressed', String(button.dataset.key === state.lightKey));
+    if (changed) invalidate();
+  }
+
+  function setLight(key) {
+    state.lightKey = key;
+    remember(LIGHT_KEY, key);
+    refreshLight();
+  }
+
+  ui.now.onclick = () => {
+    if (state.lightKey === 'nu') { setLight(DEFAULT_LIGHT); return; }
+    setLight('nu');
+    const { elevationDegrees, azimuth } = state.light;
+    status(elevationDegrees > 0
+      ? `Solen står ${Math.round(elevationDegrees)}° över horisonten i ${compassName(azimuth)}`
+      : 'Solen har gått ner');
   };
+  setInterval(() => { if (state.lightKey === 'nu' && !document.hidden) refreshLight(); }, NOW_REFRESH_MS);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && state.lightKey === 'nu') refreshLight(); });
+  refreshLight();
 
   const tiles = offlineTiles(store, course);
   const offlineExtras = treeFiles;
   const megabytes = bytes => `${(bytes / 1048576).toFixed(1).replace('.', ',')} MB`;
-  if (isDownloaded(course)) ui.download.textContent = 'Sparad';
+  const saveLabel = `Spara banan · ${megabytes(offlineBytes(tiles, offlineExtras))}`;
+  ui.download.textContent = isDownloaded(course) ? 'Sparad' : saveLabel;
   ui.download.onclick = async () => {
     if (isDownloaded(course) || ui.download.disabled) return;
     if (!globalThis.caches) { status('Webbläsaren kan inte spara banan'); return; }
@@ -421,14 +536,14 @@ async function start() {
       ui.download.textContent = 'Sparad';
       status(`Banan är sparad · ${megabytes(result.bytes)} · fungerar utan täckning`);
     } catch (error) {
-      ui.download.textContent = 'Spara';
+      ui.download.textContent = saveLabel;
       status(`Kunde inte spara: ${error.message}`);
     } finally { ui.download.disabled = false; }
   };
-  ui.download.title = `Spara banan för spel utan täckning (${megabytes(offlineBytes(tiles, offlineExtras))})`;
+  ui.download.title = 'Spara banan för spel utan täckning';
 
   attachGestures($('.map-marks'), {
-    onTouched() { state.flight = null; },
+    onTouched() { state.flight = null; showSheet(null); },
     onPan(from, to) {
       state.follow = false;
       const a = camera.onPlane(from.x, from.y), b = camera.onPlane(to.x, to.y);
@@ -581,18 +696,17 @@ async function start() {
         /* One sun over the whole course, so shadows lie one way and a tree's falls
            where it would. A fill turns with the map, always from the top left of
            the screen: lit only from below, the eye reads hills as hollows. */
-        sun: SUN,
+        ...state.light,
+        ramps: AUTUMN_RAMPS,
+        turn: bearing / (Math.PI * 2),
         fill: [Math.sin(fillBearing) * 0.6, 0.8, -Math.cos(fillBearing) * 0.6],
-        shadow: [0.56, 0.6, 0.68],
         closeness: clamp(1.5 - distance / 900, 0, 1),
         slopeGain: blend(1.25, 1.9) * Math.sqrt(state.exaggeration),
         shading: [blend(-0.24, -0.36), blend(0.18, 0.26), blend(0.1, 0.14), blend(0.08, 0.14)],
         treeFade: [treeReach * 0.72, treeReach],
         treeBudget: QUALITY_STEPS[state.quality].trees,
         fog: [distance * 2.2, Math.max(distance * 14, 9000)],
-        haze: [0.71, 0.84, 0.9],
-        zenith: [0.2, 0.47, 0.78],
-        contour: [interval, blend(0.42, 0.2), 5],
+        contour: [interval, state.contours ? blend(0.42, 0.2) : 0, 5],
         tint: [course.heightLow, course.heightHigh],
       });
       state.stats.triangles = drawn.triangles;
@@ -634,6 +748,9 @@ async function start() {
     goHole,
     showCourse,
     invalidate,
+    setLight,
+    /* A fixed moment for Nu, so a harness can stand at any hour of the year. */
+    setClock(date) { state.lightClock = date; refreshLight(); },
     heightAt: store.heightAt,
     stats: () => ({ ...state.stats, ...store.stats(), camera: { ...camera.state } }),
     fix: (latitude, longitude, accuracy = 4) => receiveFix({ latitude, longitude, accuracy }),

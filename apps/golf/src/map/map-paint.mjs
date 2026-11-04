@@ -25,7 +25,7 @@ export const MAP_COLOURS = Object.freeze({
   forestFloor: '#2f5428',
   forest: '#3a6a2e',
   scrub: '#587f3b',
-  wetland: '#6f9160',
+  wetland: '#638550',
   water: '#1f6383',
   shallows: '#3d8f97',
   sand: '#efe6c6',
@@ -188,6 +188,9 @@ export function createMapPainter(course, atlases = null) {
   const maskCanvas = document.createElement('canvas');
   maskCanvas.width = maskCanvas.height = MASK_SIZE;
   const maskCtx = maskCanvas.getContext('2d', { alpha: false });
+  const canopyMask = document.createElement('canvas');
+  canopyMask.width = canopyMask.height = MASK_SIZE;
+  const canopyMaskCtx = canopyMask.getContext('2d');
   const f = course.features;
 
   /* Forest from what was measured there: the laser's canopy on a 1 m tile, the
@@ -253,12 +256,23 @@ export function createMapPainter(course, atlases = null) {
   };
   const mown = [...holes.flatMap(hole => hole.rings), ...layers.otherFairways, ...layers.otherTees, ...layers.otherGreens, ...layers.tees, ...layers.greens];
 
-  function paintMask(node) {
+  function paintMask(node, canopySource) {
     const scale = MASK_SIZE / node.size;
     const touches = item => item.x1 >= node.x0 && item.x0 <= node.x0 + node.size && item.z1 >= node.z0 && item.z0 <= node.z0 + node.size;
     maskCtx.setTransform(1, 0, 0, 1, 0, 0);
     maskCtx.fillStyle = '#000';
     maskCtx.fillRect(0, 0, MASK_SIZE, MASK_SIZE);
+    if (canopySource) {
+      /* The canopy just painted, as white: all three channels at once. */
+      canopyMaskCtx.setTransform(1, 0, 0, 1, 0, 0);
+      canopyMaskCtx.globalCompositeOperation = 'source-over';
+      canopyMaskCtx.clearRect(0, 0, MASK_SIZE, MASK_SIZE);
+      canopyMaskCtx.drawImage(canopySource, 0, 0, MASK_SIZE, MASK_SIZE);
+      canopyMaskCtx.globalCompositeOperation = 'source-in';
+      canopyMaskCtx.fillStyle = '#fff';
+      canopyMaskCtx.fillRect(0, 0, MASK_SIZE, MASK_SIZE);
+      maskCtx.drawImage(canopyMask, 0, 0);
+    }
     maskCtx.setTransform(scale, 0, 0, scale, -node.x0 * scale, -node.z0 * scale);
     maskCtx.fillStyle = '#0f0';
     for (const item of mown) if (touches(item)) maskCtx.fill(item.path, 'evenodd');
@@ -310,7 +324,8 @@ export function createMapPainter(course, atlases = null) {
       stroke(holes, MAP_COLOURS.rough, () => 96);
       fill(layers.wetland, MAP_COLOURS.wetland);
       fill(layers.scrub, MAP_COLOURS.scrub);
-      if (node.lod > 3 || !paintCanopy(node, scale, size)) fill(layers.forest, MAP_COLOURS.forest);
+      const canopied = node.lod <= 3 && paintCanopy(node, scale, size);
+      if (!canopied) fill(layers.forest, MAP_COLOURS.forest);
       fill(layers.rock, MAP_COLOURS.rock);
       fill(layers.openSand, MAP_COLOURS.sand);
 
@@ -363,6 +378,20 @@ export function createMapPainter(course, atlases = null) {
         stroke(set, MAP_COLOURS.collar, () => 5);
         fill(set, MAP_COLOURS.green);
       }
+      /* A green is cut both ways: a fine check only the 1 m tiles can show. */
+      if (node.lod === 0) {
+        for (const set of [layers.otherGreens, layers.greens]) {
+          for (const item of set) {
+            if (!touches(item)) continue;
+            ctx.save();
+            ctx.clip(item.path, 'evenodd');
+            ctx.fillStyle = 'rgba(255,255,255,.055)';
+            for (let band = Math.floor(x0 / 6) * 6; band < x1; band += 6) ctx.fillRect(band, z0, 3, z1 - z0);
+            for (let band = Math.floor(z0 / 6) * 6; band < z1; band += 6) ctx.fillRect(x0, band, x1 - x0, 3);
+            ctx.restore();
+          }
+        }
+      }
 
       for (const set of [layers.otherBunkers, layers.bunkers]) {
         stroke(set, MAP_COLOURS.sandEdge, () => 1.4);
@@ -370,7 +399,7 @@ export function createMapPainter(course, atlases = null) {
       }
 
       fill(layers.buildings, MAP_COLOURS.building);
-      return { colour: canvas, mask: paintMask(node) };
+      return { colour: canvas, mask: paintMask(node, canopied ? surface(size).trees : null) };
     },
   };
 }

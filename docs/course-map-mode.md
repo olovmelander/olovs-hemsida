@@ -9,8 +9,12 @@ one: a touch-first screen with a short side of 768 px or less. Tablets, computer
 and any link that says more (a shared view, a harness's `det=1`, a bookmark with its
 camera) open the detailed course. `karta=1` is the map on any device and `karta=0`
 the detailed course on a phone, and `karta=0` stays when a phone changes course
-there. See `shell/map-default.mjs`. A course card's pill and the map's 3D button
+there. See `shell/map-default.mjs`. A course card's pill and Meny's "Detaljerad 3D"
 offer the other mode, and the player's menu links to the map.
+
+The buttons are GPS, Ljus, Nu and Meny. Meny holds the hole's tip from the course
+guide, every hole, the tee, the height exaggeration, the contours and saving the
+course. Ljus's and Meny's sheets rest above the buttons, so the map stays in view.
 
 The map is a separate program: `apps/golf/src/map`, about 180 KB of script, with no
 three.js and nothing from `main.js`. It draws one frame when something changes and
@@ -51,19 +55,41 @@ which pull in three.js. The three species rules the map needs are copied into
 - **A tree is two triangles.** The 3 or 5 species' atlases are about 175 KB each.
 - **A slow device steps itself down** (`QUALITY_STEPS`): far trees first, then
   sharpness. The step is remembered. `?mapquality=0..3` pins one. Proven on slowed
-  frames on this GPU, where it fell through all three steps; no real phone has
-  triggered it.
+  frames on this GPU, where it fell through all three steps.
 
 ## Light and surfaces
 
-- One sun, south-west at about 40°, so shadows fall one way. A weaker fill turns with
-  the map, from the top left of the screen, so slopes read from any direction.
+- One sun at a time, so shadows fall one way. A weaker fill turns with the map, from
+  the top left of the screen, so slopes read from any direction.
 - Tree and building shadows are their pictures laid along the sun's rays. Stencil
   lets a pixel darken once, so a wood's shadows join instead of stacking up.
 - Level ground keeps its painted colour exactly; light only departs from it.
-- A small mask says what each surface is (water, mown turf, sand) for its own finish.
+- A small mask says what each surface is, for its own finish: red water, green mown
+  turf, blue sand and white forest. Forest is the three at once because a filtered
+  blend of two pure colours still splits back into its two classes.
+- Water's depth comes from a wide mip of that mask: shallows by the shore, deep beyond.
 - Mowing stripes are concentric strokes about the hole's line, so they bend with it.
 - Fairway outlines are softened for drawing only. No distance reads a painted edge.
+
+## The lights
+
+`map-light.mjs` builds the map's lights from the simulator's nine presets, so their
+sun, sky, haze, water and clouds are its own and follow any change to them. Only each
+light's share of direct sun and its exposure are set there, because the map's lighting
+is a simpler sum. Sommar is the neutral: its ground colours are the painted ones
+exactly, every other light is measured against it, and only part of a light's colour
+reaches the ground, or a low sun turns the grass to olive. Höst turns the broadleaves
+by the simulator's `AUTUMN_FOLIAGE` ramps and the forest in stands.
+
+Every light is a set of shader values, so switching is instant and draws one frame.
+Shadows are cast from no lower than about 20°: the ground under them is taken as level,
+and a longer shadow would lie across hills it cannot follow. Hills cast no shadows yet.
+
+**Nu** is the real sun over the course: NOAA's solar equations, held to the almanac in
+`map-light.test.mjs`. Its height chooses the sky between the named lights and the date
+chooses the season: leaves turn from September, and the grass lies pale from November
+until spring. It refreshes once a minute, and only draws if the sun has moved.
+`?ljus=<key>` and `?nu=1` open a light; `V3DMap.setClock(date)` stands at any moment.
 
 ## What a golfer can trust
 
@@ -104,5 +130,7 @@ map. Run it on more than one course: it took Visby's holes to show that.
 The timing tool is the phone proxy of `docs/load-times-2026-11-04.md` (4x CPU, 20 Mbps,
 80 ms) on this GPU. On Veckefjärden, 4 November: first picture 2.8 s cold and 1.8 s on
 reopen with nothing downloaded, all 1 m ground at 4.1 s and 3.0 s, against 40 s and
-8 s for the player. It says nothing of a phone's graphics. **No real phone has run the
-map yet**, and its frame rate and battery use are unmeasured.
+8 s for the player. It says nothing of a phone's graphics.
+
+On a real phone the owner reports it "very snappy" (4 November, model not recorded).
+That is the only evidence so far: frame rate and battery use are unmeasured.

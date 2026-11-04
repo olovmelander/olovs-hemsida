@@ -129,6 +129,31 @@ await note(page, 'overview');
 await shot(page, 'overview');
 await note(page, 'overview shot');
 
+/* ---- the light ---- */
+const lightState = () => page.evaluate(() => ({ key: V3DMap.state.lightKey, light: V3DMap.state.light.key, sun: V3DMap.state.light.sun, autumn: V3DMap.state.light.autumn, pressed: document.querySelector('[data-now]').getAttribute('aria-pressed') }));
+await page.click('[data-light]');
+expect(await page.isVisible('[data-light-sheet]'), 'Ljus opens its picker');
+expect(await page.locator('[data-lights] button').count() === 9, 'with the simulator\'s nine lights');
+await page.click('[data-lights] [data-key="host"]');
+await page.waitForTimeout(250);
+const autumn = await lightState();
+expect(autumn.key === 'host' && autumn.autumn === 1, 'Höst turns the leaves');
+await page.click('[data-close]');
+await page.click('[data-now]');
+await page.waitForTimeout(250);
+const sunNow = await lightState();
+expect(sunNow.key === 'nu' && sunNow.pressed === 'true', `Nu takes the sun of this moment ${JSON.stringify(sunNow.sun.map(n => +n.toFixed(2)))}`);
+await page.click('[data-now]');
+await page.waitForTimeout(250);
+expect((await lightState()).pressed === 'false', 'and lets it go again');
+await page.click('[data-menu]');
+expect(await page.isVisible('[data-menu-sheet]'), 'Meny opens');
+expect(await page.locator('[data-holes] button').count() === await page.evaluate(() => V3DMap.course.holes.length), 'with every hole in it');
+await page.click('[data-menu]');
+const stillDrawing = await page.evaluate(() => V3DMap.stats().frames);
+await page.waitForTimeout(1500);
+expect((await page.evaluate(() => V3DMap.stats().frames)) === stillDrawing, 'a light costs nothing while nothing moves');
+
 /* ---- a lost graphics context comes back ---- */
 await page.evaluate(() => {
   const gl = document.querySelector('.map-ground').getContext('webgl2');
@@ -152,6 +177,7 @@ expect(['x', 'y', 'z', 'distance', 'bearing', 'tilt'].every(key => Number.isFini
 /* ---- no signal ---- */
 await page.click('[data-overview]');
 await settled(page);
+await page.click('[data-menu]');
 const saved = page.waitForFunction(() => document.querySelector('[data-download]').textContent === 'Sparad', null, { timeout: 120000 });
 await page.click('[data-download]');
 await saved;

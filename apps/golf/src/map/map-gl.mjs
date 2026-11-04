@@ -51,7 +51,7 @@ in vec2 vSample;
 in vec3 vWorld;
 in vec3 vShown;
 uniform sampler2D uPaint;
-uniform sampler2D uMask;     /* water, mown turf, sand */
+uniform sampler2D uMask;     /* water, mown turf, sand; all three is forest */
 uniform sampler2D uRelief;
 uniform sampler2D uHeights;
 uniform sampler2D uDetail;
@@ -67,6 +67,16 @@ uniform vec3 uContour;    /* interval, strength, index every Nth */
 uniform vec2 uTint;       /* the course's height range, for the broad tint */
 uniform vec4 uShading;    /* darkest, brightest, near relief, broad relief */
 uniform float uCloseness; /* 0 from afar, 1 close enough to see the turf */
+uniform vec3 uGrade;      /* the light's exposure and colour */
+uniform vec3 uWarm;       /* what sunlit ground takes on */
+uniform vec3 uCool;       /* and shaded ground */
+uniform float uSunShare;  /* how much of the shaping light is direct sun */
+uniform vec2 uCloud;      /* how much sky is cloud, how much sun its shade takes */
+uniform vec3 uWaterNear;
+uniform vec3 uWaterFar;
+uniform float uSaturation;
+uniform float uAutumn;
+uniform float uDormant;
 out vec4 colour;
 
 const float SLOPE_LIMIT = ${SLOPE_LIMIT.toFixed(1)};
@@ -79,14 +89,30 @@ void main() {
   vec4 broad = texture(uDetail, vWorld.xz / 187.0);
   float blades = texture(uDetail, vWorld.xz / 4.7).r;
 
-  float water = kind.r, turf = kind.g * (1.0 - water), sand = kind.b * (1.0 - water);
-  float wild = max(1.0 - water - turf - sand, 0.0);
+  /* White is forest. The classes stay separate through the texture's filtering,
+     because a blend of two pure colours is still a sum of the two. */
+  float forest = min(kind.r, min(kind.g, kind.b));
+  float water = kind.r - forest;
+  float turf = (kind.g - forest) * (1.0 - water), sand = (kind.b - forest) * (1.0 - water);
+  float wild = max(1.0 - water - turf - sand - forest, 0.0);
 
   /* The surface itself: rough in clumps, mown turf nearly even, sand grained. */
   ground *= 1.0
     + wild * ((broad.g - 0.5) * 0.13 + ((fine.g - 0.5) * 0.3 + (blades - 0.5) * 0.28) * uCloseness)
     + turf * ((broad.b - 0.5) * 0.04 + (blades - 0.5) * 0.09 * uCloseness)
     + sand * (blades - 0.5) * 0.08 * uCloseness;
+
+  /* The seasons: broadleaves turn in stands, the rough goes to straw. */
+  if (uAutumn > 0.0) {
+    float stand = smoothstep(0.42, 0.6, broad.g + (fine.g - 0.5) * 0.3);
+    ground = mix(ground, ground * vec3(1.9, 1.16, 0.5), forest * stand * uAutumn * 0.62);
+    ground = mix(ground, ground * vec3(1.13, 1.02, 0.8), wild * uAutumn * 0.42);
+  }
+  if (uDormant > 0.0) {
+    float grey = dot(ground, vec3(0.3, 0.59, 0.11));
+    vec3 straw = grey * vec3(1.12, 1.0, 0.72);
+    ground = mix(ground, straw, (wild * 0.62 + turf * 0.3) * uDormant);
+  }
 
   vec2 e = baked.rg * 2.0 - 1.0;
   vec2 slope = sign(e) * e * e * SLOPE_LIMIT * uSlopeGain;
@@ -96,7 +122,7 @@ void main() {
      so a green is the same green on every hole. The fill comes from the top left
      of the screen and turns with the map, so slopes still read when the sun is
      behind the view. */
-  float lit = (dot(normal, uSun) - uSun.y) * 1.25 + (dot(normal, uFill) - uFill.y) * 0.5;
+  float lit = (dot(normal, uSun) - uSun.y) * 1.25 * uSunShare + (dot(normal, uFill) - uFill.y) * 0.5;
   /* Sand is bright and takes less from the light than grass does: a bunker's
      face should read as a slope, not as a grey stain. */
   float shade = 1.0 + clamp(lit, uShading.x, uShading.y) * (1.0 - 0.45 * sand);
@@ -108,9 +134,15 @@ void main() {
   float rise = clamp((vWorld.y - uTint.x) / max(uTint.y - uTint.x, 1.0), 0.0, 1.0);
   shade *= 0.95 + 0.1 * rise;
 
+  /* Cloud shade drifting over the land, the largest scale the eye reads as air. */
+  if (uCloud.y > 0.0) {
+    float cloud = smoothstep(0.62 - uCloud.x, 0.84 - uCloud.x, texture(uDetail, vWorld.xz / 2600.0).g);
+    shade *= 1.0 - cloud * uCloud.y * 0.34;
+  }
+
   vec3 shown = ground * shade;
   /* Sunlit ground warms and shaded ground cools, as it does outdoors. */
-  shown *= mix(vec3(1.02, 1.0, 0.96), vec3(0.93, 0.98, 1.07), clamp(0.5 + (1.0 - shade) * 1.8, 0.0, 1.0));
+  shown *= mix(uWarm, uCool, clamp(0.5 + (1.0 - shade) * 1.8, 0.0, 1.0)) * uGrade;
 
   if (water > 0.01) {
     vec3 toEye = normalize(uEye - vShown);
@@ -121,7 +153,12 @@ void main() {
     vec3 reflected = reflect(-toEye, surface);
     vec3 sky = mix(uHaze, uZenith, pow(clamp(reflected.y, 0.0, 1.0), 0.65));
     float glint = pow(max(dot(reflected, uSun), 0.0), 260.0) * 1.2;
-    shown = mix(shown, mix(ground, sky, clamp(fresnel * 1.6 + 0.16, 0.0, 1.0)) + glint, clamp(water * 1.4, 0.0, 1.0));
+    /* How far from the shore, read off a wide mip of the mask: shallows run teal
+       and the open water deep. */
+    vec3 wide = textureLod(uMask, vUv, 4.0).rgb;
+    float open = smoothstep(0.45, 0.98, wide.r - min(wide.g, wide.b));
+    vec3 body = mix(uWaterNear, uWaterFar, open);
+    shown = mix(shown, mix(body, sky, clamp(fresnel * 1.6 + 0.16, 0.0, 1.0)) + glint, clamp(water * 1.4, 0.0, 1.0));
   }
 
   float height = texture(uHeights, vSample).r + uBaseHeight;
@@ -139,6 +176,7 @@ void main() {
   float fog = smoothstep(uFog.x, uFog.y, reach);
   /* Blue scatters first, so distance goes blue before it goes pale. */
   shown = mix(shown, uHaze, pow(vec3(fog), vec3(1.5, 1.2, 0.9)));
+  shown = mix(vec3(dot(shown, vec3(0.3, 0.59, 0.11))), shown, uSaturation);
   colour = vec4(shown, 1.0);
 }`;
 
@@ -154,10 +192,18 @@ precision mediump float;
 in vec2 vClip;
 uniform vec3 uHaze;
 uniform vec3 uZenith;
+uniform vec3 uHorizon;
+uniform sampler2D uDetail;
+uniform vec2 uClouds;     /* how much cloud, how far the map has turned */
 out vec4 colour;
 void main() {
   float up = clamp(vClip.y * 0.5 + 0.5, 0.0, 1.0);
-  colour = vec4(mix(uHaze, uZenith, up * up), 1.0);
+  vec3 sky = mix(uHorizon, uZenith, up * up);
+  /* Soft clouds near the horizon, turning with the view. */
+  vec2 place = vec2(vClip.x * 0.22 + uClouds.y, 0.2 + up * 0.46);
+  float cloud = smoothstep(0.5, 0.74, texture(uDetail, place).g) * uClouds.x;
+  sky = mix(sky, mix(uHaze, vec3(1.0), 0.7), cloud * (1.0 - up * up));
+  colour = vec4(sky, 1.0);
 }`;
 
 /* The impostor's mapping, in GLSL. engine/tree-impostor.mjs holds it in JS and TSL;
@@ -252,6 +298,12 @@ uniform sampler2DArray uColours;
 uniform sampler2DArray uNormals;
 uniform vec3 uSun;
 uniform vec3 uHaze;
+uniform vec3 uSunLight;
+uniform vec3 uSkyLight;
+uniform float uAutumn;
+uniform vec3 uRamps[27];
+uniform vec2 uBreaks[3];
+uniform float uSaturation;
 out vec4 colour;
 const float FRAMES = 8.0;
 vec4 picture(sampler2DArray atlas, vec2 frame, vec2 p) {
@@ -275,13 +327,26 @@ void main() {
   vec3 normal = normalize(vec3(local.x * c + local.z * s, local.y, -local.x * s + local.z * c));
 
   /* Sunlit needles are warm and the crown's far side takes the sky. */
+  /* Broadleaves turn by the simulator's own ramps. A birch's white trunk has no
+     green in it and keeps its colour. */
+  if (uAutumn > 0.0 && vTree.x > 1.5) {
+    int family = vTree.x < 2.5 ? 0 : vTree.x < 3.5 ? 2 : 1;
+    vec2 breaks = uBreaks[family];
+    int ramp = vTree.y < breaks.x ? 0 : vTree.y < breaks.y ? 1 : 2;
+    vec3 c0 = uRamps[family * 9 + ramp * 3], c1 = uRamps[family * 9 + ramp * 3 + 1], c2 = uRamps[family * 9 + ramp * 3 + 2];
+    float level = clamp(dot(skin, vec3(0.3, 0.59, 0.11)) * 1.9, 0.0, 1.0);
+    vec3 turned = level < 0.5 ? mix(c0, c1, level * 2.0) : mix(c1, c2, level * 2.0 - 1.0);
+    skin = mix(skin, turned, uAutumn * smoothstep(0.0, 0.05, skin.g - skin.b));
+  }
+
   float sun = clamp(dot(normal, uSun) * 0.62 + 0.42, 0.0, 1.0);
-  vec3 light = mix(vec3(0.58, 0.66, 0.76), vec3(1.34, 1.26, 1.06), sun);
+  vec3 light = mix(uSkyLight, uSunLight, sun);
   /* A stand's lower crowns sit in each other's shade. */
   light *= mix(0.66, 1.08, smoothstep(0.08, 0.72, vLevel.x));
   vec3 tone = mix(vec3(0.9, 0.95, 0.84), vec3(1.1, 1.06, 0.94), vTree.y);
   vec3 lit = skin * tone * light;
-  colour = vec4(mix(lit, uHaze, vLevel.y * vLevel.y), cut);
+  vec3 shown = mix(lit, uHaze, vLevel.y * vLevel.y);
+  colour = vec4(mix(vec3(dot(shown, vec3(0.3, 0.59, 0.11))), shown, uSaturation), cut);
 }`;
 
 /* A tree's shadow is its picture as the sun sees it, laid along the sun's rays. */
@@ -339,6 +404,38 @@ void main() {
   colour = vec4(uShadow, cut);
 }`;
 
+/* The dark at a tree's foot, whichever way the sun falls: what stands it on the
+   ground instead of floating over it. */
+const CONTACT_VERTEX = `#version 300 es
+precision highp float;
+layout(location = 0) in vec2 aCorner;
+layout(location = 1) in vec4 aTree;
+layout(location = 2) in vec4 aSize;
+uniform mat4 uClip;
+uniform float uExaggeration;
+uniform vec3 uEye;
+uniform vec2 uFade;
+uniform vec3 uShapes[6];
+out vec2 vSpot;
+void main() {
+  float reach = distance(vec2(aTree.x, aTree.z), uEye.xz);
+  float grown = 1.0 - smoothstep(uFade.x, uFade.y, reach);
+  float size = uShapes[int(aSize.z)].x * aSize.x * 1.15 * max(grown, 0.0001);
+  vec3 place = vec3(aTree.x + aCorner.x * size, aTree.y * uExaggeration, aTree.z + aCorner.y * size);
+  vSpot = aCorner * 2.0;
+  gl_Position = uClip * vec4(place, 1.0);
+}`;
+const CONTACT_FRAGMENT = `#version 300 es
+precision mediump float;
+in vec2 vSpot;
+out vec4 colour;
+void main() {
+  float d = dot(vSpot, vSpot);
+  if (d >= 1.0) discard;
+  float dark = (1.0 - d) * (1.0 - d);
+  colour = vec4(mix(vec3(1.0), vec3(0.62, 0.68, 0.66), dark), 1.0);
+}`;
+
 const HOUSE_VERTEX = `#version 300 es
 precision highp float;
 layout(location = 0) in vec3 aPlace;    /* x, height above its ground, z */
@@ -352,13 +449,15 @@ uniform vec2 uFade;
 uniform vec2 uFog;
 uniform vec3 uSun;
 uniform vec3 uHaze;
+uniform vec3 uSunLight;
+uniform vec3 uSkyLight;
 out vec3 vColour;
 void main() {
   float reach = distance(aPlace.xz, uEye.xz);
   float grown = 1.0 - smoothstep(uFade.x, uFade.y, reach);
   vec3 world = vec3(aPlace.x, aGround * uExaggeration + aPlace.y * grown, aPlace.z);
   float sun = max(dot(aNormal, uSun), 0.0);
-  vec3 lit = aColour * (vec3(0.62, 0.68, 0.76) + vec3(0.72, 0.68, 0.58) * sun);
+  vec3 lit = aColour * (uSkyLight + uSunLight * 0.56 * sun);
   float fog = smoothstep(uFog.x, uFog.y, reach);
   vColour = mix(lit, uHaze, fog * fog);
   gl_Position = uClip * vec4(world, 1.0);
@@ -455,7 +554,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
   const gl = canvas.getContext('webgl2', options);
   if (!gl) throw new Error('den här webbläsaren saknar WebGL2');
 
-  let ground, sky, tree, shadow, house, houseShadow, grids, anisotropy, anisotropyLimit, cornerBuffer, detailTexture;
+  let ground, sky, tree, shadow, contact, house, houseShadow, grids, anisotropy, anisotropyLimit, cornerBuffer, detailTexture;
   let atlases = null, atlasSource = null, detailSource = null;
 
   function texture(unit, internal, width, height, filter, levels = 1) {
@@ -516,6 +615,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     sky = compile(gl, SKY_VERTEX, SKY_FRAGMENT);
     tree = compile(gl, TREE_VERTEX, TREE_FRAGMENT);
     shadow = compile(gl, SHADOW_VERTEX, SHADOW_FRAGMENT);
+    contact = compile(gl, CONTACT_VERTEX, CONTACT_FRAGMENT);
     house = compile(gl, HOUSE_VERTEX, HOUSE_FRAGMENT);
     houseShadow = compile(gl, HOUSE_SHADOW_VERTEX, HOUSE_SHADOW_FRAGMENT);
     grids = new Map(PATCH_GRIDS.map(n => [n, createGrid(gl, n)]));
@@ -535,6 +635,8 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     gl.uniform1i(tree.u.uNormals, 6);
     gl.useProgram(shadow.program);
     gl.uniform1i(shadow.u.uColours, 5);
+    gl.useProgram(sky.program);
+    gl.uniform1i(sky.u.uDetail, 4);
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
     gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
     gl.enable(gl.DEPTH_TEST);
@@ -596,6 +698,14 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
     if (u.uFade) gl.uniform2f(u.uFade, view.treeFade[0], view.treeFade[1]);
     if (u.uShadow) gl.uniform3fv(u.uShadow, view.shadow);
     if (u.uShapes && atlases) gl.uniform3fv(u.uShapes, atlases.shapes);
+    if (u.uSunLight) gl.uniform3fv(u.uSunLight, view.treeSun);
+    if (u.uSkyLight) gl.uniform3fv(u.uSkyLight, view.treeSky);
+    if (u.uAutumn) gl.uniform1f(u.uAutumn, view.autumn);
+    if (u.uSaturation) gl.uniform1f(u.uSaturation, view.saturation);
+    if (u.uRamps) {
+      gl.uniform3fv(u.uRamps, view.ramps.colours);
+      gl.uniform2fv(u.uBreaks, view.ramps.breaks);
+    }
   };
 
   return {
@@ -667,6 +777,14 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       gl.uniform2f(u.uTint, view.tint[0], view.tint[1]);
       gl.uniform4fv(u.uShading, view.shading);
       gl.uniform1f(u.uCloseness, view.closeness);
+      gl.uniform3fv(u.uGrade, view.grade);
+      gl.uniform3fv(u.uWarm, view.warm);
+      gl.uniform3fv(u.uCool, view.cool);
+      gl.uniform1f(u.uSunShare, view.sunShare);
+      gl.uniform2f(u.uCloud, view.cloud[0], view.cloud[1]);
+      gl.uniform3fv(u.uWaterNear, view.waterNear);
+      gl.uniform3fv(u.uWaterFar, view.waterFar);
+      gl.uniform1f(u.uDormant, view.dormant);
       gl.activeTexture(gl.TEXTURE4);
       gl.bindTexture(gl.TEXTURE_2D, detailTexture);
 
@@ -724,7 +842,15 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       gl.stencilFunc(gl.EQUAL, 0, 255);
       gl.stencilOp(gl.KEEP, gl.KEEP, gl.INCR);
       if (lists.length) {
+        setShared(contact, view);
+        gl.disable(gl.STENCIL_TEST);
+        for (const { vao, count } of lists) {
+          gl.bindVertexArray(vao);
+          gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, 4, count);
+        }
+        gl.enable(gl.STENCIL_TEST);
         setShared(shadow, view);
+        gl.uniform3fv(shadow.u.uSun, view.shadowSun);
         gl.enable(gl.SAMPLE_ALPHA_TO_COVERAGE);
         for (const { vao, count } of lists) {
           gl.bindVertexArray(vao);
@@ -733,6 +859,7 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         gl.disable(gl.SAMPLE_ALPHA_TO_COVERAGE);
       }
       setShared(houseShadow, view);
+      gl.uniform3fv(houseShadow.u.uSun, view.shadowSun);
       for (const node of planted.keys()) {
         if (!node.gpu.houses) continue;
         gl.bindVertexArray(node.gpu.houses.vao);
@@ -764,6 +891,10 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       gl.useProgram(sky.program);
       gl.uniform3fv(sky.u.uHaze, view.haze);
       gl.uniform3fv(sky.u.uZenith, view.zenith);
+      gl.uniform3fv(sky.u.uHorizon, view.horizon);
+      gl.uniform2f(sky.u.uClouds, view.skyClouds, view.turn);
+      gl.activeTexture(gl.TEXTURE4);
+      gl.bindTexture(gl.TEXTURE_2D, detailTexture);
       gl.depthMask(false);
       gl.bindVertexArray(null);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
