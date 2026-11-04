@@ -15,7 +15,9 @@ import { encodeRGBA } from './make_leaf_atlas.mjs';
 const [renders, out] = process.argv.slice(2);
 const preview = process.argv.includes('--preview');
 fs.mkdirSync(out, { recursive: true });
-const KEYS = ['björk', 'ek', 'al', 'tall', 'gran'];
+/* --keys kust: only those (Visby's coastal pine is packed on its own) */
+const keysAt = process.argv.indexOf('--keys');
+const KEYS = keysAt > 0 ? process.argv[keysAt + 1].split(',') : ['björk', 'ek', 'al', 'tall', 'gran'];
 const sha = b => createHash('sha256').update(b).digest('hex');
 const lin = v => { v /= 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
 

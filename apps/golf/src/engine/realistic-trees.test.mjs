@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { createHash } from 'node:crypto';
-import { PLAYER_TREE_SETS, REALISTIC_TREE_REVISION, playerTreeSet } from './ghibli-trees.mjs';
-import { REALISTIC_LEAVES } from './ghibli-foliage-material.mjs';
+import { PLAYER_TREE_SETS, REALISTIC_TREE_REVISION, REALISTIC_VISBY_REVISION, playerTreeSet } from './ghibli-trees.mjs';
+import { REALISTIC_BARK, REALISTIC_LEAVES } from './ghibli-foliage-material.mjs';
 
 const root = new URL('../../public/models/trees/', import.meta.url);
 const read = f => fs.readFileSync(new URL(f, root));
@@ -69,10 +69,38 @@ describe('the realistic catalogue (treeset v2)', () => {
     expect(loader).toContain('if (realistic && relief && entry.foliage.normals) {');
     /* the service worker keeps what the default visit draws, as it keeps the painted catalogue */
     const worker = fs.readFileSync(new URL('../../vite.config.js', import.meta.url), 'utf8');
-    const rule = worker.match(/\/\\\/models\\\/trees\\\/\(ghibli-fluffy\|ghibli-visby\|realistic-v2\)\\\.json\$\//);
-    expect(rule).not.toBeNull();
+    expect(worker).toContain('(ghibli-fluffy|ghibli-visby|realistic-v2|realistic-visby)');
     expect(worker).toContain('(ghibli-fluffy|visby-pine|realistic-v2)');
     expect(v2.species[0].foliage.atlas.file.startsWith('realistic-v2/')).toBe(true);
+  });
+  it('gives Visby its coastal pine in the kept growth forms, and every other tree as the other courses have it', () => {
+    const coast = JSON.parse(read('realistic-visby.json')), kept = JSON.parse(read('ghibli-visby.json'));
+    expect(coast.revision).toBe(REALISTIC_VISBY_REVISION);
+    expect(coast).toMatchObject({ schemaVersion: 1, kind: 'ghibli-trees', design: 'realistic-visby', course: 'visby' });
+    expect(coast.species.map(s => s.key)).toEqual(v2.species.map(s => s.key));
+    for (const s of coast.species) {
+      if (s.key !== 'tall') { expect(s).toEqual(v2.species.find(o => o.key === s.key)); continue; }
+      const painted = kept.species.find(o => o.key === 'tall'), inland = v2.species.find(o => o.key === 'tall');
+      expect(s.name).toBe(painted.name);
+      /* its own sprig in the kept palette, the inland pine's bark, in the painted pine's boxes and seeds, a hero budget's triangles */
+      expect(s.foliage.key).toBe(painted.foliage.key);
+      expect(s.foliage.atlas.sha256).not.toBe(inland.foliage.atlas.sha256);
+      for (const rec of [s.foliage.atlas, s.foliage.normals]) expect(createHash('sha256').update(read(rec.file)).digest('hex')).toBe(rec.sha256);
+      expect(s.bark).toEqual(inland.bark);
+      expect(s.variants.length).toBe(painted.variants.length);
+      for (const [i, v] of s.variants.entries()) {
+        const p = painted.variants[i];
+        expect([v.seed, v.templateHeight, v.templateRadius]).toEqual([p.seed, p.templateHeight, p.templateRadius]);
+        expect(v.tiers.hero.tris).toBeLessThan(p.tiers.hero.tris * 1.5);
+        expect(v.tiers.full.tris).toBeLessThan(v.tiers.hero.tris / 2);
+        for (const rec of [v.tiers.hero, v.tiers.full]) {
+          const bytes = read(rec.file);
+          expect(bytes.length).toBe(rec.bytes);
+          expect(createHash('sha256').update(bytes).digest('hex')).toBe(rec.sha256);
+          expect(rec.file).toMatch(/^realistic-v2\/[a-f0-9]{64}\.glb$/);
+        }
+      }
+    }
   });
   it('keeps the meshes and impostors in agreement: no painted bands on either, the bake cut at the meshes\' own resolution', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
@@ -86,5 +114,15 @@ describe('the realistic catalogue (treeset v2)', () => {
     expect(main).toContain("normals: new URLSearchParams(location.search).get('leafnormals') !== '0' ? foliage.normals ?? null : null, mean: foliage.mean ?? null,");
     expect(main).toContain("if (bark?.map && bark.normals && new URLSearchParams(location.search).get('bark') !== '0') {");
     expect(impostor).toContain("frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;");
+  });
+});
+
+describe('the bark and the shadow-only trees', () => {
+  it('gives the dark even barks their own relief, and counts the trees kept only for their shadows', () => {
+    expect(REALISTIC_BARK.reliefBy.ek).toBeGreaterThan(REALISTIC_BARK.relief);
+    expect(REALISTIC_BARK.reliefBy.al).toBeGreaterThan(REALISTIC_BARK.relief);
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toContain('barkSurface({ bark, key: GHIBLI.species[s].foliage.key })');
+    expect(main).toContain('TREE_LOD.stats.shadowTrees = shadowTrees;');
   });
 });

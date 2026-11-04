@@ -14,8 +14,10 @@ import { bakePuffNormals, CROWN_PUFFS } from './crown-puffs.mjs';
    grass): the same five species grown in Blender from branching trunks, crowns of many small
    sprig cards from modelled leaves, fitted to the painted catalogue's heights and radii
    (tools/blender-tree-study/realistic/). The default since 4 November (owner request);
-   ?treeset=v1 is the before, the painted catalogue. Visby keeps its own, with its coastal pine. */
+   ?treeset=v1 is the before, the painted catalogue. Visby has its own of each, with its coastal
+   pine: the same growth forms and boxes as the painted one the owner kept. */
 export const REALISTIC_TREE_REVISION = 'realistic-v2-2026-11-03';
+export const REALISTIC_VISBY_REVISION = 'realistic-visby-2026-11-04';
 export const PLAYER_TREE_SETS = Object.freeze(['v1', 'v2']);
 /** The catalogue a visit draws: the realistic one, or ?treeset=v1 the painted one; any other value is ignored. */
 export function playerTreeSet(search = '') {
@@ -42,10 +44,10 @@ export function playerTreeMeshTier(search = '', lowQuality = false) {
 export async function loadGhibliTrees({ baseUrl = '/', variants = 4, fetchImpl = fetch, courseSlug = null, tier = 'hero', crownDepth = true, puffs = false, treeset = 'v1', relief = true } = {}) {
   if (!PLAYER_TREE_MESH_TIERS.includes(tier)) throw new Error(`Ghibli trees: the player draws no ${tier} tier`);
   const coastalPine = courseSlug === 'visby';
-  const realistic = treeset === 'v2' && !coastalPine;
+  const realistic = treeset === 'v2';
   const base = `${baseUrl}models/trees/`;
-  const catalogue = coastalPine ? 'ghibli-visby.json' : realistic ? 'realistic-v2.json' : 'ghibli-fluffy.json';
-  const revision = coastalPine ? VISBY_PINE_REVISION : realistic ? REALISTIC_TREE_REVISION : GHIBLI_FOLIAGE_REVISION;
+  const catalogue = realistic ? (coastalPine ? 'realistic-visby.json' : 'realistic-v2.json') : coastalPine ? 'ghibli-visby.json' : 'ghibli-fluffy.json';
+  const revision = realistic ? (coastalPine ? REALISTIC_VISBY_REVISION : REALISTIC_TREE_REVISION) : coastalPine ? VISBY_PINE_REVISION : GHIBLI_FOLIAGE_REVISION;
   /* the realistic crowns carry their soft normals from the bake: the painted canopy's puffs would lean them again */
   if (realistic) puffs = false;
   const res = await fetchImpl(`${base}${catalogue}?v=${revision}`, { cache: 'no-cache' });

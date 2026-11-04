@@ -5339,7 +5339,7 @@ const TREE_LOD = {
        relief in the light; ?bark=0 is the before */
     const bark = GHIBLI.species[s].foliage.bark;
     if (bark?.map && bark.normals && new URLSearchParams(location.search).get('bark') !== '0') {
-      const surface = barkSurface({ bark });
+      const surface = barkSurface({ bark, key: GHIBLI.species[s].foliage.key });
       mat.colorNode = mat.colorNode.mul(surface.pigment);
       mat.normalNode = transformNormalByViewMatrix(surface.normal, cameraViewMatrix);
     }
@@ -5814,7 +5814,7 @@ function updateTreeTiers() {
   const cells = TREE_LOD.cells;
   /* set by placeSun; absent, only the trees in view are drawn */
   const sweep = TREE_LOD.shadowSweep;
-  let visible = 0, shadowCells = 0;
+  let visible = 0, shadowCells = 0, shadowTrees = 0;
   for (let ci = 0; ci < cells.length; ci++) {
     const c = cells[ci];
     if (!TREE_FRUSTUM.intersectsBox(c.box)) {
@@ -5823,6 +5823,7 @@ function updateTreeTiers() {
            a crossfade would only dither a shadow the two agree on */
         if (!c.shadowOnly) { cellToImpostors(c); c.visible = false; c.shadowOnly = true; changed = true; }
         shadowCells++;
+        shadowTrees += c.treeCount ??= c.lists.reduce((n, list) => n + list.length, 0);
         continue;
       }
       if (c.visible || c.shadowOnly) {
@@ -5911,6 +5912,7 @@ function updateTreeTiers() {
   TREE_LOD.resetPending = false;
   TREE_LOD.stats.cellsVisible = visible;
   TREE_LOD.stats.shadowCells = shadowCells;
+  TREE_LOD.stats.shadowTrees = shadowTrees;
   TREE_LOD.stats.fading = TREE_LOD.queue.length - TREE_LOD.qHead;
   TREE_LOD.stats.updateMs = performance.now() - tStart;
   if (!changed) return;

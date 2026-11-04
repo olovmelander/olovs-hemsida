@@ -45,8 +45,8 @@ renderer.shadowMap.type = THREE.PCFShadowMap;
 result.backend = renderer.backend.isWebGPUBackend ? 'webgpu' : 'webgl2';
 result.reversedDepth = renderer.reversedDepthBuffer === true;
 
-/* the player's catalogue (ghibli-trees.mjs), and ?treeset=v1 the painted one, proved the same way */
-const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: 1, tier, treeset: playerTreeSet(location.search) });
+/* the player's catalogue (ghibli-trees.mjs), ?treeset=v1 the painted one and ?course=visby its own, proved the same way */
+const GHIBLI = await loadGhibliTrees({ baseUrl: '/', variants: 1, tier, treeset: playerTreeSet(location.search), courseSlug: q.get('course') });
 result.treeset = GHIBLI.summary.treeset;
 const uSun = uniform(new THREE.Vector3(-0.42, 0.46, 0.78).normalize());
 const scene = new THREE.Scene();

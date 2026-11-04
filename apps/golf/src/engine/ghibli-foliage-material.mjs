@@ -161,11 +161,12 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
 // The impostor bake uses the same correction; alpha still defines the silhouette.
 /* THE MODELLED BARK (bark_atlas.py): the trunk's per-height tone (its vertex colour) times the bark's own near-neutral
    colour over its mean, and the trunk's normal tilted by the bark's relief in the uv's frame, as the leaves' are */
-export const REALISTIC_BARK=Object.freeze({share:.9,relief:1});
-export function barkSurface({bark}){
+/* relief: the tilt the bark's normals give the light; reliefBy, the dark even barks, whose colour shows less of it */
+export const REALISTIC_BARK=Object.freeze({share:.9,relief:1,reliefBy:Object.freeze({ek:2.4,al:2.2})});
+export function barkSurface({bark,key=null}){
   const t=texture(bark.normals);
   const pigment=mix(vec3(1),texture(bark.map).rgb.div(vec3(...(bark.mean??[.8,.8,.8]))),REALISTIC_BARK.share);
-  return {pigment,normal:leafNormal({normals:bark.normals,texel:t,strength:REALISTIC_BARK.relief})};
+  return {pigment,normal:leafNormal({normals:bark.normals,texel:t,strength:REALISTIC_BARK.reliefBy[key]??REALISTIC_BARK.relief})};
 }
 export function foliageSurfacePigment(texel,realistic=false,mean=null){
   if(realistic)return realisticLeafPigment(texel,mean);

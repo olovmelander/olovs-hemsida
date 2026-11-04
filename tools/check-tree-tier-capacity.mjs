@@ -25,8 +25,9 @@ try {
       if (['warning', 'error'].includes(message.type()) && /GL_INVALID|validation error|GPUValidationError|shader.*error|pipeline.*error|buffer.*destroyed/i.test(message.text())) errors.push(message.text());
     });
     try {
-      const query = new URLSearchParams({ bana: flag('course', 'veckefjarden'), q: 'lo', ghibli: flag('look', '1'),
-        startup, gl: backend === 'webgl2' ? '1' : '0', det: '1', qualitylock: '1', v2: 'require', hal: '1', vy: 'tee', ren: '1', ...(flag('treeset', null) ? { treeset: flag('treeset') } : {}) });
+      const query = new URLSearchParams({ bana: flag('course', 'veckefjarden'), q: flag('q', 'lo'), ghibli: flag('look', '1'),
+        startup, gl: backend === 'webgl2' ? '1' : '0', det: '1', qualitylock: '1', v2: 'require', hal: '1', vy: 'tee', ren: '1', ...(flag('treeset', null) ? { treeset: flag('treeset') } : {}),
+        ...Object.fromEntries(new URLSearchParams(flag('query', ''))) });
       await page.goto(`${base}/?${query}`, { waitUntil: 'domcontentloaded', timeout: 120000 });
       await page.waitForSelector('#boot.done', { timeout: 180000 });
       assert.equal(await page.evaluate(() => V3D.v2Terrain().backend), backend);

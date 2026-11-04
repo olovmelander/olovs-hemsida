@@ -195,7 +195,7 @@ export default defineConfig(({ mode }) => {
             },
           },
           {
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|ghibli-visby|realistic-v2)\.json$/.test(url.pathname),
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/models\/trees\/(ghibli-fluffy|ghibli-visby|realistic-v2|realistic-visby)\.json$/.test(url.pathname),
             handler: 'NetworkFirst',
             options: { cacheName: 'banvy-ghibli-foliage-manifest', networkTimeoutSeconds: 4,
               expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 }, cacheableResponse: { statuses: [200] } },

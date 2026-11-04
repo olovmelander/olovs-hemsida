@@ -95,6 +95,29 @@ SPECIES = {
                  cards=dict(count=(2300, 800), size=1.45, hang=0.45, outward=0.25, along=(0.1, 1.0)),
                  puff=dict(spacing=0.2),
                  shape='cone', bark='spruce'),
+    # THE KRONHOLMEN COASTAL PINE (Visby; owner request, 4 November). The three growth forms the owner kept in
+    # September (ghibli-visby.json, docs/graphics/visby-coastal-pine-2026-09-16): wind leaning, forked and sheltered,
+    # in their boxes. From photograph 465 there: a thick leaning trunk that forks low, a few long limbs bare on their
+    # inner half, and a broad flat crown of dense needle pads held out on them, with sky beneath it. A great limb
+    # is (end across the crown's box in x, in z, up its height, the limb it forks from).
+    'kust': dict(name='Kronholmen coastal Scots pine', seed=16000, height=9.63, base=3.55,
+                 twigs=dict(spacing=0.4, length=(0.7, 1.4), angle=58, droop=0.05, r=0.22),
+                 cards=dict(count=(2000, 860), size=1.2, hang=-1.3, outward=0.2, along=(0.62, 1.0)),
+                 puff=dict(r=(0.8, 0.5), outward=0.45, up=0.35, mid=0.5),
+                 shape='umbrella', bark='coastal',
+                 trunk=dict(r=0.36, fork=0.40, lean=2.0, side=0.25, bend=0.1, limb=0.56, sides=(12, 7)),
+                 limbs=dict(count=(28, 24), great=None, arch=0.2, from_=0.42, reach=(1.3, 2.9), rise=(-10, 20), r=0.5),
+                 habits=(
+                     dict(height=9.63, radius=9.53, base=3.97, centre=(2.77, -0.15), half=(6.76, 4.85),
+                          lean=2.0, fork=0.36, great=((0.96, 0.06, 0.12, None), (0.16, -0.12, 0.9, None), (0.74, 0.66, 0.42, 0), (0.62, -0.66, 0.46, 0),
+                                                      (-0.74, 0.3, 0.64, 1), (0.58, -0.2, 0.84, 1), (-0.1, 0.86, 0.6, 1), (-0.1, -0.86, 0.56, 1))),
+                     dict(height=10.17, radius=8.63, base=4.45, centre=(1.89, -0.13), half=(6.74, 4.84),
+                          lean=0.75, fork=0.25, great=((0.42, 0.25, 0.1, None), (-0.15, -0.3, 0.3, None), (0.9, 0.42, 0.42, 0), (0.55, -0.72, 0.62, 0),
+                                                       (0.12, 0.82, 0.68, 0), (-0.72, 0.28, 0.62, 1), (-0.25, -0.78, 0.78, 1), (0.2, 0.05, 0.94, 1))),
+                     dict(height=11.06, radius=8.01, base=4.58, centre=(1.13, 0.0), half=(6.88, 4.85),
+                          lean=0.8, fork=0.56, great=((0.86, 0.12, 0.2, None), (0.42, 0.8, 0.42, None), (-0.34, 0.76, 0.58, None), (-0.82, -0.05, 0.3, None),
+                                                      (-0.3, -0.8, 0.46, None), (0.48, -0.74, 0.62, None), (0.1, 0.0, 0.95, None))),
+                 )),
 }
 
 def envelope(shape, t):
@@ -117,6 +140,10 @@ def bark_colour(kind, h, height, rnd, theta):
             return (0.07 * n, 0.065 * n, 0.06 * n)
         w = 0.78 * n * (1 - 0.75 * foot)
         return (w, w * 0.985, w * 0.93)
+    if kind == 'coastal':   # the study's subdued grey-brown below and ochre above, on a tree a third as tall
+        up = min(1.0, max(0.0, (h / height - 0.3) / 0.4))
+        lo, hi = (0.095, 0.08, 0.07), (0.27, 0.15, 0.085)
+        return tuple((lo[i] + (hi[i] - lo[i]) * up) * n for i in range(3))
     if kind == 'pine':
         up = min(1.0, max(0.0, (h / height - 0.42) / 0.22))
         lo, hi = (0.11, 0.085, 0.07), (0.42, 0.17, 0.065)
@@ -184,6 +211,12 @@ def variant_params(key, variant):
     neighbours of a species stand alike, each still fitted to the approved box (fitted())."""
     import copy
     S = copy.deepcopy(SPECIES[key])
+    if 'habits' in S:   # authored growth forms, not one form turned
+        h = S['habits'][variant]
+        S.update(height=h['height'], radius=h['radius'], base=h['base'], centre=h['centre'], half=h['half'], seed=S['seed'] + 100 * variant)
+        S['trunk'].update(lean=h['lean'], fork=h['fork'])
+        S['limbs']['great'] = h['great']
+        return S
     if variant == 0: return S
     j = random.Random(S['seed'] * 31 + variant * 7919)
     S['seed'] = S['seed'] + 101 * variant
@@ -194,6 +227,64 @@ def variant_params(key, variant):
     d = j.uniform(-6, 6); L['rise'] = (L['rise'][0] + d, L['rise'][1] + d)
     S['trunk']['wobble'] = S['trunk']['wobble'] * j.uniform(0.6, 1.7)
     return S
+
+def bezier(a, b, c, n):
+    return [a * ((1 - t) ** 2) + b * (2 * t * (1 - t)) + c * (t * t) for t in (i / n for i in range(n + 1))]
+
+def coastal_wood(S, hero, H, B, cx, cz, hx, hz, wood):
+    """A coastal pine's wood, drawn into `wood`, and the limbs that carry its foliage. Its own random numbers
+    and a skeleton at the hero's resolution, so the two tiers share every branch and the full tier is the same
+    tree with fewer rings and fewer outer limbs. The great limbs carry no foliage of their own: it is held on
+    the outer limbs, which leaves their inner half and the trunk bare against the sky."""
+    T, L = S['trunk'], S['limbs']
+    rs, rb = random.Random(S['seed'] + 77), random.Random(S['seed'] + 78)
+    def thin(q): return q if hero else (q[::2] if (len(q) - 1) % 2 == 0 else q[::2] + q[-1:])
+    def jitter(a): return Vector((rs.uniform(-a, a), rs.uniform(-a, a), rs.uniform(-a, a)))
+    # the trunk: leaning from the foot, its curve steepening into the fork
+    F = Vector((T['lean'], H * T['fork'], T['side']))
+    pts = bezier(Vector((0.0, -0.2, 0.0)), Vector((T['lean'] * T['bend'], H * T['fork'] * 0.62, -T['side'])), F, 12)
+    radii = [T['r'] * (1 - 0.42 * i / 12) * (1 + 0.6 * max(0.0, 1 - (p.y + 0.2) / 0.9) ** 2) for i, p in enumerate(pts)]
+    wood.tube(thin(pts), thin(radii), T['sides'][0 if hero else 1], S['bark'], H, rb)
+    # the great limbs, from the fork or from each other
+    great = []
+    for (ex, ez, ey, parent) in L['great']:
+        E = Vector((cx + hx * ex, B + (H - B) * ey, cz + hz * ez))
+        if parent is None:
+            root, r0 = pts[-2].lerp(F, 0.4), T['r'] * T['limb']
+        else:
+            gp, gr = great[parent]
+            root, r0 = gp[4], gr[4] * 0.82
+        along = Vector((E.x - root.x, 0.0, E.z - root.z))
+        C = root + along * 0.45 + UP * max(0.25, (E.y - root.y) * 0.9 + along.length * L['arch'])
+        p = bezier(root, C, E, 8)
+        p = [q + jitter(0.16) * math.sin(math.pi * i / 8) for i, q in enumerate(p)]
+        r = [r0 * (1 - 0.74 * i / 8) for i in range(9)]
+        great.append((p, r))
+        wood.tube(thin(p), thin(r), 8 if hero else 5, S['bark'], H, rb)
+    lengths = [sum((p[i + 1] - p[i]).length for i in range(8)) for (p, r) in great]
+    # the outer limbs: out of a great limb's outer reach, kept inside the crown's ellipse and under its top
+    limbs = []
+    for i in range(L['count'][0]):
+        gp, gr = rs.choices(great, weights=lengths)[0]
+        u = rs.uniform(L['from_'], 1.0) * 8
+        seg = min(int(u), 7)
+        root, r_here = gp[seg].lerp(gp[seg + 1], u - seg), gr[seg]
+        tan = (gp[seg + 1] - gp[seg]).normalized()
+        az, rise = rs.uniform(0, 2 * math.pi), math.radians(rs.uniform(*L['rise']))
+        d = (tan * 0.55 + Vector((math.cos(az), 0.0, math.sin(az))) * 0.8 * math.cos(rise) + UP * math.sin(rise)).normalized()
+        length = rs.uniform(*L['reach'])
+        end = root + d * length
+        e = math.hypot((end.x - cx) / hx, (end.z - cz) / hz)
+        if e > 0.97:
+            end = root.lerp(end, max(0.35, 1 - (e - 0.97) * 1.6))
+        end = Vector((end.x, min(max(end.y, B + 0.5), H - S['cards']['size'] * 0.5), end.z))
+        p = bezier(root, root.lerp(end, 0.5) + UP * 0.12 + jitter(0.14), end, 3)
+        r1 = max(0.03, r_here * L['r'])
+        r = [r1 * (1 - 0.8 * q / 3) for q in range(4)]
+        if i < L['count'][0 if hero else 1]:
+            limbs.append((p, r, (end - root).length))
+            wood.tube(p, r, (5 if r1 > 0.09 else 4 if r1 > 0.05 else 3) if hero else 3, S['bark'], H, rb)
+    return limbs
 
 def grow(key, tier, k=(1.0, 1.0), variant=0):
     """`k`: the box's correction (half-widths, heights) so the grown tree, cards and all, fills the
@@ -208,79 +299,82 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
     sides_t = T['sides'][0 if hero else 1]
     crown_centre = Vector((cx, B + (H - B) * 0.5, cz))
 
-    # THE TRUNK: from the ground toward the crown's centre, a little bowed
-    top_y = B + (H - B) * T['top']
-    segs = 14 if hero else 7
-    trunk_pts, trunk_r = [], []
-    lean = Vector((cx, 0.0, cz)) * 0.85
-    for i in range(segs + 1):
-        t = i / segs
-        y = -0.2 + (top_y + 0.2) * t
-        bow = math.sin(math.pi * t) * T['wobble']
-        p = Vector((lean.x * t + bow * math.cos(S['seed']), y, lean.z * t + bow * math.sin(S['seed'])))
-        trunk_pts.append(p)
-        flare = 1 + 0.6 * max(0.0, 1 - y / 0.9) ** 2
-        trunk_r.append(T['r'] * (1 - 0.68 * t) * flare)
-    rings = 1 if not hero or S['bark'] != 'birch' else 2   # a birch's lenticels need more rings
-    if rings > 1:
-        dense, dr = [], []
-        for i in range(len(trunk_pts) - 1):
-            for k in range(rings):
-                dense.append(trunk_pts[i].lerp(trunk_pts[i + 1], k / rings)); dr.append(trunk_r[i] + (trunk_r[i + 1] - trunk_r[i]) * k / rings)
-        dense.append(trunk_pts[-1]); dr.append(trunk_r[-1])
-        trunk_pts, trunk_r = dense, dr
-    wood.tube(trunk_pts, trunk_r, sides_t, S['bark'], H, rnd)
+    if key == 'kust':
+        limbs = coastal_wood(S, hero, H, B, cx, cz, hx, hz, wood)
+    else:
+        # THE TRUNK: from the ground toward the crown's centre, a little bowed
+        top_y = B + (H - B) * T['top']
+        segs = 14 if hero else 7
+        trunk_pts, trunk_r = [], []
+        lean = Vector((cx, 0.0, cz)) * 0.85
+        for i in range(segs + 1):
+            t = i / segs
+            y = -0.2 + (top_y + 0.2) * t
+            bow = math.sin(math.pi * t) * T['wobble']
+            p = Vector((lean.x * t + bow * math.cos(S['seed']), y, lean.z * t + bow * math.sin(S['seed'])))
+            trunk_pts.append(p)
+            flare = 1 + 0.6 * max(0.0, 1 - y / 0.9) ** 2
+            trunk_r.append(T['r'] * (1 - 0.68 * t) * flare)
+        rings = 1 if not hero or S['bark'] != 'birch' else 2   # a birch's lenticels need more rings
+        if rings > 1:
+            dense, dr = [], []
+            for i in range(len(trunk_pts) - 1):
+                for k in range(rings):
+                    dense.append(trunk_pts[i].lerp(trunk_pts[i + 1], k / rings)); dr.append(trunk_r[i] + (trunk_r[i + 1] - trunk_r[i]) * k / rings)
+            dense.append(trunk_pts[-1]); dr.append(trunk_r[-1])
+            trunk_pts, trunk_r = dense, dr
+        wood.tube(trunk_pts, trunk_r, sides_t, S['bark'], H, rnd)
 
-    def trunk_at(y):
-        for i in range(len(trunk_pts) - 1):
-            if trunk_pts[i + 1].y >= y:
-                t = (y - trunk_pts[i].y) / max(trunk_pts[i + 1].y - trunk_pts[i].y, 1e-6)
-                return trunk_pts[i].lerp(trunk_pts[i + 1], t), trunk_r[i] + (trunk_r[i + 1] - trunk_r[i]) * t
-        return trunk_pts[-1], trunk_r[-1]
+        def trunk_at(y):
+            for i in range(len(trunk_pts) - 1):
+                if trunk_pts[i + 1].y >= y:
+                    t = (y - trunk_pts[i].y) / max(trunk_pts[i + 1].y - trunk_pts[i].y, 1e-6)
+                    return trunk_pts[i].lerp(trunk_pts[i + 1], t), trunk_r[i] + (trunk_r[i + 1] - trunk_r[i]) * t
+            return trunk_pts[-1], trunk_r[-1]
 
-    # THE LIMBS: by the golden angle up the crown, each as long as the crown's envelope there reaches
-    n_limbs = L['count'][0 if hero else 1]
-    limbs = []
-    golden = math.radians(137.508)
-    az0 = rnd.uniform(0, 2 * math.pi)
-    for i in range(n_limbs):
-        f = L['start'] + (L['end'] - L['start']) * (i + rnd.uniform(0.1, 0.9)) / n_limbs
-        y = B * 0.92 + (H - B * 0.92) * f if key not in ('gran', 'tall') else B + (H - B) * f
-        root, r_here = trunk_at(min(y, top_y))
-        # an oak's bole ends low and its great limbs (the fork) carry every other limb
-        if T['fork'] and i >= T['fork'] and len(limbs) >= T['fork']:
-            gpts, gradii, _ = limbs[rnd.randrange(T['fork'])]
-            u = rnd.uniform(0.35, 0.95)
-            seg = min(int(u * (len(gpts) - 1)), len(gpts) - 2)
-            root = gpts[seg].lerp(gpts[seg + 1], u * (len(gpts) - 1) - seg)
-            r_here = gradii[seg] * 1.4
-            y = root.y
-        t_crown = (y - B) / (H - B)
-        az = az0 + i * golden + rnd.uniform(-0.25, 0.25)
-        dirh = Vector((math.cos(az), 0.0, math.sin(az)))
-        # reach to the crown's elliptical edge at this height, from the limb's own root
-        er = envelope(S['shape'], t_crown)
-        edge = Vector((cx + dirh.x * hx * er, y, cz + dirh.z * hz * er))
-        span = Vector((edge.x - root.x, 0.0, edge.z - root.z))
-        reach = max(0.6, span.dot(dirh)) * rnd.uniform(*L['reach'])
-        rise = math.radians(rnd.uniform(*L['rise']))
-        d = (dirh * math.cos(rise) + UP * math.sin(rise)).normalized()
-        length = reach / max(0.3, math.cos(rise))
-        if key == 'ek' and i < T['fork']:   # the oak's bole splits into its great limbs
-            d = (dirh * 0.8 + UP * 0.6).normalized(); length = (H - y) * 0.75
-        pts = polyline(root, d, length, 3, L['curve'], L['droop'], rnd, 0.08)
-        # no limb reaches past the crown's top: its tip and the half card on it stay under H
-        ceiling = H - Cd['size'] * 0.55
-        if pts[-1].y > ceiling and pts[-1].y > root.y + 1e-3:
-            f = max(0.2, (ceiling - root.y) / (pts[-1].y - root.y))
-            pts = [root + (q - root) * f for q in pts]
-            length *= f
-        r0 = max(0.025, r_here * (0.62 if (T['fork'] and i < T['fork']) else L['r']))
-        radii = [r0 * (1 - 0.8 * k / (len(pts) - 1)) for k in range(len(pts))]
-        limbs.append((pts, radii, length))
-        # a spruce's limbs are hidden in its sprays: three sides are enough, and the triangles go to the foliage
-        sides = 3 if key == 'gran' else (6 if r0 > 0.14 else 5 if r0 > 0.09 else 4 if r0 > 0.045 else 3) if hero else (4 if r0 > 0.07 else 3)
-        wood.tube(pts, radii, sides, S['bark'], H, rnd)
+        # THE LIMBS: by the golden angle up the crown, each as long as the crown's envelope there reaches
+        n_limbs = L['count'][0 if hero else 1]
+        limbs = []
+        golden = math.radians(137.508)
+        az0 = rnd.uniform(0, 2 * math.pi)
+        for i in range(n_limbs):
+            f = L['start'] + (L['end'] - L['start']) * (i + rnd.uniform(0.1, 0.9)) / n_limbs
+            y = B * 0.92 + (H - B * 0.92) * f if key not in ('gran', 'tall') else B + (H - B) * f
+            root, r_here = trunk_at(min(y, top_y))
+            # an oak's bole ends low and its great limbs (the fork) carry every other limb
+            if T['fork'] and i >= T['fork'] and len(limbs) >= T['fork']:
+                gpts, gradii, _ = limbs[rnd.randrange(T['fork'])]
+                u = rnd.uniform(0.35, 0.95)
+                seg = min(int(u * (len(gpts) - 1)), len(gpts) - 2)
+                root = gpts[seg].lerp(gpts[seg + 1], u * (len(gpts) - 1) - seg)
+                r_here = gradii[seg] * 1.4
+                y = root.y
+            t_crown = (y - B) / (H - B)
+            az = az0 + i * golden + rnd.uniform(-0.25, 0.25)
+            dirh = Vector((math.cos(az), 0.0, math.sin(az)))
+            # reach to the crown's elliptical edge at this height, from the limb's own root
+            er = envelope(S['shape'], t_crown)
+            edge = Vector((cx + dirh.x * hx * er, y, cz + dirh.z * hz * er))
+            span = Vector((edge.x - root.x, 0.0, edge.z - root.z))
+            reach = max(0.6, span.dot(dirh)) * rnd.uniform(*L['reach'])
+            rise = math.radians(rnd.uniform(*L['rise']))
+            d = (dirh * math.cos(rise) + UP * math.sin(rise)).normalized()
+            length = reach / max(0.3, math.cos(rise))
+            if key == 'ek' and i < T['fork']:   # the oak's bole splits into its great limbs
+                d = (dirh * 0.8 + UP * 0.6).normalized(); length = (H - y) * 0.75
+            pts = polyline(root, d, length, 3, L['curve'], L['droop'], rnd, 0.08)
+            # no limb reaches past the crown's top: its tip and the half card on it stay under H
+            ceiling = H - Cd['size'] * 0.55
+            if pts[-1].y > ceiling and pts[-1].y > root.y + 1e-3:
+                f = max(0.2, (ceiling - root.y) / (pts[-1].y - root.y))
+                pts = [root + (q - root) * f for q in pts]
+                length *= f
+            r0 = max(0.025, r_here * (0.62 if (T['fork'] and i < T['fork']) else L['r']))
+            radii = [r0 * (1 - 0.8 * k / (len(pts) - 1)) for k in range(len(pts))]
+            limbs.append((pts, radii, length))
+            # a spruce's limbs are hidden in its sprays: three sides are enough, and the triangles go to the foliage
+            sides = 3 if key == 'gran' else (6 if r0 > 0.14 else 5 if r0 > 0.09 else 4 if r0 > 0.045 else 3) if hero else (4 if r0 > 0.07 else 3)
+            wood.tube(pts, radii, sides, S['bark'], H, rnd)
 
     # THE TWIGS AND THEIR CARDS: the twigs first, then the card budget spread over them
     twigs = []
@@ -348,13 +442,16 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
                 p = c + Vector((d.x * P_['r'][0], d.y * P_['r'][1], d.z * P_['r'][0])) * r
                 candidates.append((kind, p, d, c, li, False))
     # no card reaching the ground: the spruce's lowest sprays dragged on it as streaks
-    candidates = [q for q in candidates if q[1].y > Cd['size'] * 0.75 + 0.3]
+    # (the coastal pine's crown keeps the kept pine's underside in either tier, whose larger cards hang further:
+    # the underside answers the facility test)
+    floor = B + Cd['size'] * 0.55 * math.sqrt(hero_count / keep) if key == 'kust' else Cd['size'] * 0.75 + 0.3
+    candidates = [q for q in candidates if q[1].y > floor]
     candidates = candidates[:hero_count]
     chosen = candidates[:keep]
     # the full tier's fewer cards are larger, so the crown keeps its area
     # (the pine's full tier keeps the whole area: its pads must stay solid to agree with its impostor's shadow;
     # so does the birch's: with the modelled sprigs its lighter crown kept 0.66 of its shadow at a 2.25 m texel)
-    grow_k = math.sqrt(len(candidates) / max(1, len(chosen))) * (1.0 if hero or key in ('tall', 'björk') else 0.92)
+    grow_k = math.sqrt(len(candidates) / max(1, len(chosen))) * (1.0 if hero or key in ('tall', 'björk', 'kust') else 0.92)
     crown = dict(P=[], N=[], U=[], I=[])
     for (kind, p, d, centre, li, curtain) in chosen:
         size = Cd['size'] * rnd.uniform(0.8, 1.2) * grow_k
@@ -376,14 +473,16 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
         if up_dir.length < 1e-3:
             up_dir = face.cross(Vector((rnd.uniform(-1, 1), 0.0, rnd.uniform(-1, 1))))
         up_dir = up_dir.normalized()
-        roll = rnd.uniform(-0.6, 0.6) if kind == 'spray' else rnd.uniform(-1.0, 1.0)
+        # (a coastal pine's shoots stand up off their branch: laid flat, as the inland pine's pads are, a crown seen
+        # from under it is flat fans with the shoots' brown bases in them, and reads as leaves)
+        roll = rnd.uniform(-0.6, 0.6) if kind == 'spray' else rnd.uniform(-1.0, 1.0) * (0.45 if key == 'kust' else 1.0)
         side_dir = face.cross(up_dir).normalized()
         up_dir = (up_dir * math.cos(roll) + side_dir * math.sin(roll)).normalized()
         right = up_dir.cross(face).normalized()
         cell = rnd.randrange(4); mirror = rnd.random() < 0.5
         u0, v0 = (cell % 2) * 0.5, (cell // 2) * 0.5
         # a broadleaf sprig and a pine's tufts are centred on their place; a spruce spray starts at its branch
-        back = 0.08 if kind == 'spray' else 0.5
+        back = 0.08 if kind == 'spray' else 0.28 if key == 'kust' else 0.5
         o = p - up_dir * size * back
         corners = [(-0.5, 0.0), (0.5, 0.0), (0.5, 1.0), (-0.5, 1.0)]
         base = len(crown['P'])
@@ -403,14 +502,14 @@ def grow(key, tier, k=(1.0, 1.0), variant=0):
 def fitted(key, tier, variant=0):
     """Grow until the tree's own box matches the approved one (the loader fits radius and height
     separately, so a crown whose cards overhang its box would be squashed and shrunk)."""
-    S = SPECIES[key]
+    S = variant_params(key, variant) if 'habits' in SPECIES[key] else SPECIES[key]
     k = [1.0, 1.0]
     for _ in range(4):
         tree = grow(key, tier, tuple(k), variant)
         P = tree['crown']['P'] + tree['trunk']['P']
         r = max(max(abs(p[0]) for p in P), max(abs(p[2]) for p in P))
         top = max(p[1] for p in P)
-        target_r = max(abs(S['centre'][0]) + S['half'][0], abs(S['centre'][1]) + S['half'][1])
+        target_r = S.get('radius') or max(abs(S['centre'][0]) + S['half'][0], abs(S['centre'][1]) + S['half'][1])
         k[0] = min(1.8, max(0.6, k[0] * target_r / r))
         k[1] = min(1.4, max(0.6, k[1] * S['height'] / top))
     tree['stats']['box'] = dict(radius=round(r, 2), top=round(top, 2), k=[round(v, 3) for v in k])

@@ -86,7 +86,7 @@ try{
   const page=await context.newPage();watch(page);
   const pattern='**/models/trees/ghibli-visby.json*';
   await page.route(pattern,r=>r.fulfill({status:200,contentType:'application/json',body:JSON.stringify(original)}));
-  const url=origin+'/?bana=visby&hal=1&vy=tee&ghibli=1&ljus=dag&skylt=0&ren=1&q=hi&qualitylock=1&det=1&vind=270,6,8';
+  const url=origin+'/?bana=visby&hal=1&vy=tee&ghibli=1&ljus=dag&skylt=0&ren=1&q=hi&qualitylock=1&det=1&vind=270,6,8&treeset=v1';
   await page.goto(url,{waitUntil:'domcontentloaded'});await settled(page);
   const before=await state(page);
   console.log('Baseline loaded:',before.total,'trees');

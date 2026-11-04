@@ -32,7 +32,7 @@ from mathutils import Matrix, Vector
 SCENE = 'BanvyTreesV2Sprigs'
 MEAN = 0.8
 SIZE = 1024
-SEEDS = {'björk': 5101, 'ek': 5203, 'al': 5307, 'tall': 5409, 'gran': 5511}
+SEEDS = {'björk': 5101, 'ek': 5203, 'al': 5307, 'tall': 5409, 'gran': 5511, 'kust': 5613}
 
 # broadleaf outlines (the drawn atlas's): length range (cell units), width share, leaves a sprig,
 # the half-width profile along the midrib, the margin, the stalk share, the droop
@@ -247,6 +247,29 @@ def pine_sprig(sp, rnd):
                 needle(sp, p, q, 0.0068, (MEAN * 0.98 * tone, MEAN * 1.02 * tone, MEAN * 0.97 * tone), rnd)
 
 
+def coastal_sprig(sp, rnd):
+    """A coastal pine's shoots (Visby): tapered brushes standing up and out of one low base. The needles sweep
+    forward and gather to each shoot's point, so the outline keeps its spikes in the mipmaps, where the inland
+    pine's round fans turn to blobs; the stems are needle-coloured and covered from the foot, so no spots show."""
+    stem = tuple(MEAN * c * 0.6 for c in (0.95, 1.0, 0.9))
+    shoots = 8 + int(rnd.random() * 2)
+    for k in range(shoots):
+        f = k / (shoots - 1) - 0.5
+        a = math.pi / 2 - f * 1.68 + (rnd.random() - 0.5) * 0.16
+        L = (0.8 - abs(f) * 0.7) * (0.84 + rnd.random() * 0.16)
+        root = Vector((0.5 + f * 0.14, 0.04, 0.0))
+        end = root + Vector((math.cos(a) * L, math.sin(a) * L, rnd.uniform(0, 0.03)))
+        sp.tube([root, end], [0.008, 0.002], stem, sides=4)
+        for i in range(150):
+            t = 0.04 + 0.96 * math.pow(rnd.random(), 0.8)
+            p = root.lerp(end, t)
+            na = a + rnd.uniform(-1, 1) * (0.62 * math.pow(1 - t, 0.6) + 0.1)
+            nl = L * (0.16 + 0.1 * rnd.random()) * (1 - 0.35 * t)
+            q = p + Vector((math.cos(na) * nl, math.sin(na) * nl, rnd.uniform(-0.2, 0.4) * nl))
+            tone = 0.86 + rnd.random() * 0.3
+            needle(sp, p, q, 0.009, (MEAN * 0.98 * tone, MEAN * 1.02 * tone, MEAN * 0.97 * tone), rnd)
+
+
 def spruce_sprig(sp, rnd):
     twig_col = tuple(MEAN * c * 0.85 for c in TWIG)
     x, y, ang = 0.5, 0.03, math.pi / 2 + (rnd.random() - 0.5) * 0.15
@@ -285,6 +308,7 @@ def build_species(sc, key):
     for cell in range(4):
         sp = Sprig()
         if key == 'tall': pine_sprig(sp, rnd)
+        elif key == 'kust': coastal_sprig(sp, rnd)
         elif key == 'gran': spruce_sprig(sp, rnd)
         else: broadleaf_sprig(sp, key, rnd)
         cx, cy = cell % 2, cell // 2
