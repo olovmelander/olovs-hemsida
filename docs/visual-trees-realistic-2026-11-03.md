@@ -172,7 +172,7 @@ All on the RTX 5080; reports in `tools/goldens/gfx/gates/` (local).
   failure predates this branch.
 - **Crown coverage rules:** unchanged (`crown-coverage.test.mjs`).
 - **GPU time:** interleaved A/B, two rounds, vsync lifted (`ab-time.mjs`), for
-  the final catalogue:
+  the catalogue before the modelled sprigs and bark (re-measured below):
   - Puttom 5 green: 13.00 ms (v1) → 13.75 ms (v2), +5.8%;
   - Veckefjärden 13 tee: 9.75 → 10.75 ms, +10.3%.
 
@@ -200,7 +200,27 @@ Reports in `tools/goldens/gfx/session/` (local).
     is left for the owner's review rather than tuned against.
 - **Capacity:** passes.
 - **Hero/impostor:** as above. Every step passes up to the forced-Lite one,
-  which fails as on main.
+  which fails as on main. The cause:
+  - That step expects no impostors at all (21 September).
+  - Since 83263bcc (24 September), out-of-view cells whose shadows reach the
+    view keep their trees as impostors.
+  - On Puttom under the forced link, every tree in the 28 visible cells is
+    Hero (4,342), and the 9,598 impostors are the 45 shadow-only cells' trees.
+
+  The check needs a count of shadow-only trees (an engine hook) and is a
+  separate fix.
+- **GPU time** (4 November, 01:35-01:45, the GPU otherwise idle): interleaved
+  A/B, two rounds, vsync lifted (`ab-time.mjs`), on the build that ships.
+  Compare within one session only: v1's own times are lower than in the
+  earlier session.
+
+  | view | v1 | v2 | `leafnormals=0` | `bark=0` |
+  |---|---|---|---|---|
+  | Puttom 5 green | 10.30 ms | 11.50 ms (+11.7%) | 11.10 ms | 11.40 ms |
+  | Veckefjärden 13 tee | 7.80 ms | 9.00 ms (+15.4%) | | |
+
+  The leaf normals cost 0.4 ms and the bark 0.1 ms. With the cull
+  (`treecull=gpu`), v2 is 11.10 and 8.70 ms (docs/tree-gpu-cull-2026-11-03.md).
 
 **Photographs:** `tools/goldens/gfx/tree-photos.mjs` takes the nearest clear
 tree of each species from 1.7 m, and `tree-sheet.mjs` sets old against new at
@@ -212,6 +232,8 @@ v2 stays opt-in. Every gate passes except two:
 - the hero/impostor check's forced-Lite step, which also fails on v1;
 - one full-tier birch shadow row: 0.748 against 0.75, with the modelled sprigs.
 
-The GPU time sits at the edge of the ~10% budget. The look is a large change from the painted
-style, so it should be the owner's decision by screenshot. Flipping the default
+With the modelled sprigs and bark, the GPU time is over the ~10% budget:
++11.7% at Puttom 5 green and +15.4% at Veckefjärden 13 tee (+8% and +12% with
+the GPU cull). The look is a large change from the painted style, so it should
+be the owner's decision by screenshot. Flipping the default
 is `playerTreeSet()`'s fallback.

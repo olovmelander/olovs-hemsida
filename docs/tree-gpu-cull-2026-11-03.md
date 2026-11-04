@@ -1,8 +1,7 @@
 # The trees culled on the GPU (3 November 2026)
 
-`?treecull=gpu`, WebGPU at high quality. Opt-in until it is measured: the owner
-asked to keep the GPU cool on the 3rd, so the performance A/B waits for a
-full-speed session.
+`?treecull=gpu`, WebGPU at high quality. Opt-in: the A/B with the v2 trees was
+measured on the night of 3-4 November, and the owner decides the default.
 
 ## Why
 
@@ -44,11 +43,18 @@ each.
   the wiring.
 - Clean boots (night of 3 November): all 13 courses on WebGPU at high quality
   with `aa=traa&treeset=v2&treecull=gpu`, at most 14 vertex outputs.
+- GPU time (4 November, the GPU otherwise idle): interleaved A/B
+  (`tools/goldens/gfx/ab-time.mjs`), two rounds, vsync lifted, 1920 x 1080,
+  `treeset=v2`:
+  - Puttom 5 green: 11.50 ms without the cull, 11.10 ms with it (-0.40 ms,
+    -3.5%);
+  - Veckefjärden 13 tee: 9.00 → 8.70 ms (-0.30 ms, -3.3%).
+
+  Every round agreed to 0.1 ms.
 
 ## Still to do
 
-- Interleaved A/B (`tools/goldens/gfx/ab-time.mjs`) at Puttom 5 green and
-  Veckefjärden 13 tee, `treecull=gpu` against none, with v1 and v2 trees.
+- The A/B with the v1 trees.
 - `check-tree-shadows`, `check-tree-tier-capacity` and `check-hero-impostor`
   with the cull on.
 - Next step if it pays: cull the impostor tier the same way, and pick the tier

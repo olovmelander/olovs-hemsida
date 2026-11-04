@@ -59,7 +59,8 @@ The rings stay exactly as they were for WebGL2, low quality and phones.
 - **GPU cost**, Veckefjärden 13 tee, three interleaved rounds, vsync lifted
   (`ab-time.mjs`): no grass 9.10 ms; the rings 10.13 ms (+1.03); the GPU grass
   9.30 ms (+0.20). Between 31k (near) and 26-31k (far) blades survive in the
-  Veckefjärden tee views.
+  Veckefjärden tee views. Re-measured on the build that ships (4 November, two
+  rounds): the GPU grass 7.80 ms, the rings (`grass=rings`) 8.30 ms.
 - **Shimmer**: with reduced motion (the wind held still) and the temporal AA,
   the mean frame-to-frame difference over the ground, frames 7 apart
   (`flicker.mjs`), Veckefjärden 13 tee:

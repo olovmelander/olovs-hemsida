@@ -65,6 +65,11 @@ quality. Use `--query aa=traa` to see it in `det=1` captures.
 - **Cost.** Interleaved A/B, two rounds, vsync lifted, `fps=0`
   (`tools/goldens/gfx/ab-time.mjs`): Johannesberg 1 with the pond across half
   the screen, 6.70 ms before and 7.10 ms after (+0.4 ms).
+  - On the build that ships (4 November): Johannesberg 1, 4.90 ms before and
+    5.30 ms after (+0.4 ms again).
+  - Veckefjärden 13 tee is the other way round: 8.07 ms before and 7.77 ms
+    after (-0.3 ms) in three rounds with the before timed first, and 8.15 and
+    7.80 ms in two rounds with it timed last. The cause is not known.
   - The timestamp sum (`V3D.gpuTime`) under-reads with the reflection on. The
     copy ends and restarts the scene's render pass, and only the second half
     keeps its queries. Time this feature by frame intervals, not by that sum.
