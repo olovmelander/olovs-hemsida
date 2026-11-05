@@ -100,6 +100,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   align-items: center;
   justify-content: center;
   gap: 2px;
+  min-height: 44px;
   padding: 6px 4px;
   border: 0;
   border-radius: 12px;
@@ -233,6 +234,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 }
 .map-green[hidden] { display: none; }
 .map-green.is-on .map-green-row:not(.map-green-mid), .map-green.is-on i, .map-green.is-on small { display: none; }
+.map-green.is-on:not([hidden]) { display: grid; place-items: center; min-height: 44px; padding: 0; }
 .map-green.is-on .map-green-mid b { font-size: 16px; line-height: 1.2; }
 .map-green-row { display: block; padding: 2px 0; line-height: 1; }
 .map-green i { display: block; font-size: 11px; font-style: normal; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-soft); }
@@ -416,10 +418,12 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-status {
   position: absolute;
   z-index: 2;
-  left: 50%;
+  left: calc(env(safe-area-inset-left, 0px) + 10px);
+  right: calc(env(safe-area-inset-right, 0px) + var(--side-width) + 18px);
   top: calc(env(safe-area-inset-top, 0px) + 76px);
-  transform: translateX(-50%);
-  max-width: min(92vw, 420px);
+  width: fit-content;
+  max-width: 420px;
+  margin-inline: auto;
   padding: 9px 14px;
   border-radius: 12px;
   background: var(--panel);
@@ -434,7 +438,7 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   .map-profile, .map-legend { display: none; }
   /* The column has no height to spare here, and a reading takes the foot: they lie
      along the header instead. */
-  .map-views button { height: 34px; }
+  .map-views button { height: 40px; }
   /* The numbers fill the side here: the wheel takes the other one. */
   .map-wheel {
     position: fixed;
@@ -444,7 +448,8 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
     --rows: 5;
   }
   .map-wheel-hint { display: none; }
-  .map-bottom { left: calc(env(safe-area-inset-left, 0px) + 94px); right: calc(env(safe-area-inset-right, 0px) + 96px); }
+  .map-bottom { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 20px); right: calc(env(safe-area-inset-right, 0px) + var(--side-width) + 20px); }
+  .map-status { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 20px); right: calc(env(safe-area-inset-right, 0px) + var(--side-width) + 20px); }
   .map-tool { height: 44px; }
   .map-side { top: calc(env(safe-area-inset-top, 0px) + 74px); }
   .map-green-mid b { font-size: 30px; }
@@ -760,9 +765,47 @@ button.map-shot[aria-expanded="true"]::after { margin-top: 3px; transform: rotat
   .is-sun .map-green b { font-size: 22px; }
 }
 
+/* The narrowest phones give up the buttons' icons before their words. */
+@media (max-width: 340px) {
+  .map-tool { gap: 0; font-size: 13.5px; }
+  .map-tool svg { display: none; }
+  .map-views { grid-template-columns: repeat(6, minmax(44px, auto)); gap: 0; }
+}
+/* A question is answered first: the way back steps aside until it is. */
+#courseMap:has([data-prompt]:not([hidden])) .map-float, #courseMap:has([data-same]:not([hidden])) .map-float { visibility: hidden; }
+
+/* ---- fitted to a short screen (fitLayout in map-session.js) ---- */
+.is-compact .map-side { gap: 4px; }
+.is-compact .map-green { padding: 3px 0; }
+.is-compact .map-green-row { padding: 1px 0; }
+.is-compact .map-green small { display: none; }
+.is-compact .map-green b { font-size: 21px; }
+.is-compact .map-green-mid b { font-size: 32px; }
+.is-sun.is-compact .map-green b { font-size: 24px; }
+.is-sun.is-compact .map-green:not(.is-on) .map-green-mid b { font-size: 36px; }
+.is-compact .map-wind { min-height: 40px; padding: 3px 4px; }
+/* The walk's length stands beside the wheel, on the map, not under it. */
+.is-compact .map-wheel-hint { position: absolute; right: calc(100% + 6px); bottom: 0; min-width: 62px; padding: 5px 8px; }
+.is-stripless .map-profile { display: none; }
+/* What a player reads while turning the wheel stands beside it, and the way back moves
+   to the free corner. A question fills the width: it is answered before anything else. */
+.is-tight .map-float { right: auto; left: 0; }
+.is-tight .map-reading, .is-tight .map-locked:not(.map-same) { margin-right: calc(var(--side-width) + 8px); }
+.is-tight .map-locked:not(.map-same) { flex-wrap: wrap; padding: 6px; }
+.is-tight .map-locked:not(.map-same) b { flex: 1 0 100%; padding: 2px 6px; white-space: normal; }
+.is-tight .map-locked:not(.map-same) button { flex: 1; }
+/* One thing to read at a time on a short screen. The distance comes back when the note goes,
+   and the walked length stays out of the reading's way. */
+.is-tight .map-locked:not([hidden]) ~ .map-reading { display: none; }
+.is-compact:has([data-reading]:not([hidden])) .map-wheel-hint { display: none; }
+
 /* ---- the wheel by the other hand ---- */
 .is-left .map-side { right: auto; left: calc(env(safe-area-inset-left, 0px) + 10px); }
 .is-left .map-float { right: auto; left: 0; }
+.is-left.is-tight .map-float { right: 0; left: auto; }
+.is-left.is-tight .map-reading, .is-left.is-tight .map-locked:not(.map-same) { margin-right: 0; margin-left: calc(var(--side-width) + 8px); }
+.is-left .map-status { left: calc(env(safe-area-inset-left, 0px) + var(--side-width) + 18px); right: calc(env(safe-area-inset-right, 0px) + 10px); }
+.is-left.is-compact .map-wheel-hint { right: auto; left: calc(100% + 6px); }
 @media (orientation: landscape) and (max-height: 520px) {
   .is-left .map-wheel { left: auto; right: calc(env(safe-area-inset-right, 0px) + 10px); }
 }

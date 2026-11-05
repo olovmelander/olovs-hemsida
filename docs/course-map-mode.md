@@ -310,6 +310,27 @@ Meny → Visning. Each choice is kept, and until one is made the phone's setting
   a paper card does, so colour never says it alone.
 - Nothing a finger must hit on a sheet is under 44 px.
 
+## The HUD on every phone
+
+A phone's height says little. A notch and a home bar take over 90 px from a screen that
+looks tall, and the first measurement found the flag under the header and the wheel in the
+height strip on a 390 x 844 iPhone, the most common size there is. So nothing assumes a
+height any more (`fitLayout` in `map-session.js`, on every resize and display change):
+
+- The column is measured against what is left above the strip, and gives way a step at a
+  time: five wheel rows, three, a tighter column with the walking length beside the wheel,
+  and last the height strip, as on a phone on its side.
+- Where a note would still reach the column, the note and the distance reading stand beside
+  it, since the wheel is in use just then, and the way-back button moves to the free corner.
+  A question (score, putts, same spot) keeps the full width and lies over the wheel: it is
+  answered first, and its keys need the room. The way-back button waits until it has been.
+- The framing reads the header and foot off the screen, with room for the strip and one note
+  under the shot in hand, so a passing note never lies on the player's own dot.
+
+`tools/check-map-hud.mjs` drives every state on ten screens, with and without a notch, in
+each display setting. Run it after any change to the HUD. Build at the root path first:
+`check-basepath` leaves a build the map cannot boot from there.
+
 ## The test round's log
 
 `map-diary.mjs` keeps a short log on the phone for a round played to test the map: position
@@ -343,6 +364,7 @@ pnpm exec vitest run apps/golf/src/map
 node packages/course-v2/check-app-build.mjs
 node tools/serve.mjs apps/golf/dist 8620
 BANVY_GPU=1 node tools/check-map-field.mjs --url http://localhost:8620/ --slug visby
+BANVY_GPU=1 node tools/check-map-hud.mjs --url http://localhost:8620/
 BANVY_GPU=1 node tools/map-gallery.mjs --label a --url http://localhost:8620/
 BANVY_GPU=1 node tools/map-timing.mjs --url http://localhost:8620/
 ```
