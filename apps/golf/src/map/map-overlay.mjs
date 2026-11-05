@@ -18,12 +18,13 @@ function along(line, step) {
 
 export function createOverlay(canvas) {
   const ctx = canvas.getContext('2d');
-  let width = 1, height = 1, ratio = 1;
+  let width = 1, height = 1, ratio = 1, emphasis = 1;
   const hits = [];
 
   function pill(x, y, text, { fill = 'rgba(12,24,18,.86)', ink = '#fff', size = 13, weight = 700 } = {}) {
-    ctx.font = `${weight} ${size}px ${FONT}`;
-    const w = ctx.measureText(text).width + 14, h = size + 9;
+    const tall = size * emphasis;
+    ctx.font = `${emphasis > 1 ? 800 : weight} ${tall}px ${FONT}`;
+    const w = ctx.measureText(text).width + 14, h = tall + 9;
     ctx.fillStyle = fill;
     ctx.beginPath();
     ctx.roundRect(x - w / 2, y - h / 2, w, h, h / 2);
@@ -54,6 +55,8 @@ export function createOverlay(canvas) {
 
     draw(scene) {
       const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true } = scene;
+      /* In the sun's look the lines and numbers are drawn heavier. */
+      emphasis = scene.emphasis ?? 1;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.clearRect(0, 0, width, height);
       hits.length = 0;
@@ -74,10 +77,10 @@ export function createOverlay(canvas) {
         ctx.lineCap = ctx.lineJoin = 'round';
         ctx.setLineDash(dash);
         ctx.strokeStyle = 'rgba(10,24,16,.55)';
-        ctx.lineWidth = wide + 2.5;
+        ctx.lineWidth = wide * emphasis + 2.5;
         ctx.stroke();
         ctx.strokeStyle = colour;
-        ctx.lineWidth = wide;
+        ctx.lineWidth = wide * emphasis;
         ctx.stroke();
         ctx.setLineDash([]);
       };
@@ -107,7 +110,7 @@ export function createOverlay(canvas) {
         ctx.closePath();
         ctx.lineJoin = 'round';
         ctx.strokeStyle = 'rgba(255,255,255,.95)';
-        ctx.lineWidth = 1.6;
+        ctx.lineWidth = 1.6 * emphasis;
         ctx.stroke();
 
         /* Carry arcs from where the ball is now. */
@@ -122,8 +125,8 @@ export function createOverlay(canvas) {
             arc.push([origin[0] + Math.sin(a) * metres, origin[1] - Math.cos(a) * metres]);
           }
           trace(arc);
-          ctx.strokeStyle = 'rgba(255,255,255,.72)';
-          ctx.lineWidth = 1.2;
+          ctx.strokeStyle = `rgba(255,255,255,${emphasis > 1 ? 0.95 : 0.72})`;
+          ctx.lineWidth = 1.2 * emphasis;
           ctx.setLineDash([3, 4]);
           ctx.stroke();
           ctx.setLineDash([]);
@@ -214,7 +217,7 @@ export function createOverlay(canvas) {
         for (const hazard of hazards) {
           const s = at(hazard.at[0], hazard.at[1]);
           if (!Number.isFinite(s.x) || s.x < 8 || s.x > width - 8 || s.y < 8 || s.y > height - 8) continue;
-          if (placed.some(other => Math.hypot(other.x - s.x, other.y - s.y) < 34)) continue;
+          if (placed.some(other => Math.abs(other.x - s.x) < 66 * emphasis && Math.abs(other.y - s.y) < 26 * emphasis)) continue;
           placed.push(s);
           const words = hazard.carry === null ? String(Math.round(hazard.front)) : `${Math.round(hazard.front)}–${Math.round(hazard.carry)}`;
           pill(s.x, s.y, words, hazard.kind === 'water'

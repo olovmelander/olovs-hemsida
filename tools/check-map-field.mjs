@@ -557,6 +557,149 @@ await phone.goto(BASE, { waitUntil: 'domcontentloaded' });
 await phone.waitForSelector('.card-map', { timeout: 60000, state: 'attached' });
 expect((await phone.textContent('.card-map')) === '3D', 'the chooser offers a phone the detailed course');
 await phone.close();
+/* ---- a round, from the first tap to the last ---- */
+const roundContext = await browser.newContext({
+  viewport: { width: 412, height: 915 }, deviceScaleFactor: 2, hasTouch: true, isMobile: true,
+  permissions: ['geolocation'], geolocation: { latitude: 59.5675, longitude: 16.8684 },
+});
+const golfer = await roundContext.newPage();
+const golferProblems = [];
+golfer.on('console', message => { if (message.type() === 'error') golferProblems.push(message.text()); });
+golfer.on('pageerror', error => golferProblems.push(error.message));
+await golfer.goto(BASE, { waitUntil: 'domcontentloaded' });
+await golfer.waitForSelector('.current-badge.is-near', { timeout: 20000, state: 'attached' });
+expect(await golfer.evaluate(() => document.querySelector('.card-item').dataset.slug) === 'angso', 'with the position allowed, the chooser leads with the course under the player');
+await golfer.goto(`${BASE}?bana=${SLUG}`, { waitUntil: 'domcontentloaded' });
+await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
+await settled(golfer);
+expect(await golfer.isVisible('[data-start-sheet]'), 'a plain link on a phone offers to start a round');
+const startColours = await golfer.evaluate(() => { const { backgroundColor } = getComputedStyle(document.querySelector('[data-start-go]')); return backgroundColor; });
+expect(startColours === 'rgb(255, 210, 63)', 'and the one thing to do on it stands out');
+const teesOffered = await golfer.locator('[data-start-tees] .map-chip').count();
+if (teesOffered > 1) {
+  await golfer.locator('[data-start-tees] .map-chip').nth(1).click();
+  expect(await golfer.evaluate(() => V3DMap.state.tee) === 1, 'the tee is chosen by hand, on the card');
+}
+await golfer.click('[data-start-more]');
+await golfer.click('[data-start-go]');
+await golfer.waitForTimeout(300);
+const begun = await golfer.evaluate(() => ({ begun: Boolean(V3DMap.round().begunAt), handicap: V3DMap.round().handicap, open: Boolean(document.querySelector('.map-sheet:not([hidden])')) }));
+expect(begun.begun && begun.handicap === 18 && !begun.open, 'Starta rundan takes one tap, and the map is ready');
+expect(await golfer.getAttribute('[data-gps]', 'aria-pressed') === 'true', 'with the GPS on');
+expect(await golfer.evaluate(() => document.querySelector('[data-end-round]').hidden && !document.querySelector('[data-end-round]').offsetParent), 'and nothing to end until something is played');
+await golfer.reload({ waitUntil: 'domcontentloaded' });
+await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
+await settled(golfer);
+expect(!(await golfer.isVisible('[data-start-sheet]')), 'a round under way carries on without asking again');
+
+/* The card, written by hand up to the last hole. */
+const lastHole = await golfer.evaluate(() => {
+  const { course } = V3DMap;
+  for (const hole of course.holes.slice(0, -1)) V3DMap.round().scores[hole.n] = { strokes: hole.par + 1, putts: 2, fairway: hole.par >= 4 ? 'hit' : undefined };
+  const last = course.holes.at(-1);
+  V3DMap.goHole(last.n, { fly: false });
+  return { n: last.n, par: last.par, count: course.holes.length };
+});
+await settled(golfer);
+await golfer.click('[data-score]');
+await golfer.click(`[data-stroke-key="${lastHole.par}"]`);
+expect(await golfer.textContent('[data-score-done]') === 'Se rundan', 'the last hole on the card offers the round');
+await golfer.click('[data-score-done]');
+await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
+const ended = await golfer.evaluate(() => ({ rounds: V3DMap.rounds().length, hero: document.querySelector('.map-hero > b').textContent, ended: Boolean(V3DMap.round().endedAt), parts: document.querySelectorAll('[data-round-body] .map-card-score button').length }));
+expect(ended.rounds === 1 && ended.ended, 'it is kept, under Mina rundor');
+expect(ended.parts === lastHole.count && /\d+/.test(ended.hero), `and shown as a summary (${ended.hero} slag)`);
+expect(await golfer.getAttribute('[data-gps]', 'aria-pressed') === 'false', 'and the GPS goes off with the round');
+await golfer.locator('[data-round-body] .map-card-score button').first().click();
+const putRightRound = await golfer.textContent('[data-score-done]');
+expect(putRightRound === 'Tillbaka till rundan', 'a hole on the summary can be put right');
+await golfer.click('[data-stroke-key="1"]').catch(() => {});
+await golfer.click('[data-score-done]');
+await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
+const recorded = await golfer.evaluate(() => V3DMap.rounds()[0].holes[0].strokes === V3DMap.round().scores[1].strokes);
+expect(recorded, 'and the round kept follows it');
+await golfer.click('[data-round-new]');
+await golfer.waitForSelector('[data-start-sheet]:not([hidden])');
+expect(await golfer.evaluate(() => Object.keys(V3DMap.round().scores).length === 0 && V3DMap.state.hole === 1), 'Ny runda starts clean, on the start card');
+await golfer.click('.map-start-look');
+await golfer.reload({ waitUntil: 'domcontentloaded' });
+await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
+await settled(golfer);
+expect(!(await golfer.isVisible('[data-start-sheet]')), 'Bara titta is taken at its word');
+
+/* A round cut short, with the wheel. */
+await golfer.click('[data-score]');
+await golfer.click('[data-stroke-key="3"]').catch(() => {});
+await golfer.locator('[data-end-round]').scrollIntoViewIfNeeded();
+await golfer.click('[data-end-round]');
+await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
+expect(/1 av \d+ hål/.test(await golfer.textContent('.map-hero')), 'a round cut short says how many holes it holds');
+await golfer.click('[data-round-sheet] [data-close]');
+await golfer.evaluate(() => { V3DMap.round().endedAt = Date.now() - 31 * 60 * 1000; });
+const roundBefore = await golfer.evaluate(() => V3DMap.round().id);
+await golfer.evaluate(() => { const hole = V3DMap.course.holes[0], { lat, lon } = (() => { const { origin } = V3DMap.course.geo; return { lat: origin.lat, lon: origin.lon }; })(); V3DMap.fix(lat, lon, 5); return hole.n; });
+const lockAfterEnd = await golfer.evaluate(() => {
+  const { player } = V3DMap.state;
+  return Boolean(player);
+});
+if (lockAfterEnd) await golfer.evaluate(() => document.querySelector('[data-wheel-lock]').click());
+await golfer.waitForTimeout(300);
+const afterEnd = await golfer.evaluate(() => ({ id: V3DMap.round().id, ended: Boolean(V3DMap.round().endedAt), onCourse: Boolean(V3DMap.state.player?.onCourse) }));
+if (afterEnd.onCourse) expect(afterEnd.id !== roundBefore && !afterEnd.ended, 'a lock long after a round ended starts the next one, and the rounds stay apart');
+
+/* What the rounds and clubs add up to. */
+await golfer.click('[data-menu]');
+expect((await golfer.textContent('[data-rounds-count]')).startsWith('2'), 'Meny counts the rounds');
+await golfer.click('[data-rounds-open]');
+expect(await golfer.locator('.map-round-row').count() === 2, 'Mina rundor lists them');
+await golfer.locator('.map-round-row').last().click();
+await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
+expect(await golfer.isVisible('[data-round-back]'), 'an old round opens, with a way back');
+await golfer.click('[data-round-back]');
+await golfer.click('[data-rounds-back]');
+
+/* The display, for the sun, the hand and the eyes. */
+const panel = () => golfer.evaluate(() => { const { backgroundColor, color } = getComputedStyle(document.querySelector('.map-green')); return { backgroundColor, color, left: document.querySelector('.map-side').getBoundingClientRect().left, classes: document.querySelector('#courseMap').className }; });
+await golfer.locator('[data-sun]').click();
+await golfer.waitForTimeout(350);
+const sunny = await panel();
+expect(sunny.backgroundColor === 'rgb(255, 255, 255)' && sunny.color === 'rgb(0, 0, 0)', 'Solläge is black on white');
+await golfer.locator('[data-left]').click();
+await golfer.waitForTimeout(100);
+expect((await panel()).left < 60, 'the wheel goes to the other hand');
+await golfer.locator('[data-large]').click();
+await golfer.reload({ waitUntil: 'domcontentloaded' });
+await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
+await settled(golfer);
+const remembered = await panel();
+expect(/is-sun/.test(remembered.classes) && /is-left/.test(remembered.classes) && /is-large/.test(remembered.classes), 'and all three are kept');
+await golfer.click('[data-menu]');
+for (const name of ['sun', 'large', 'left']) await golfer.locator(`[data-${name}]`).click();
+const sheetOpened = await golfer.evaluate(() => document.activeElement?.getAttribute('aria-label'));
+await golfer.click('[data-menu-sheet] [data-close]');
+await golfer.waitForTimeout(100);
+
+/* A screen reader's way through. */
+const reader = await golfer.evaluate(() => {
+  const bag = new Set([...document.querySelectorAll('[data-wheel-list] [data-club]')].map(row => row.dataset.club)).size;
+  const heard = document.querySelectorAll('[data-wheel-list] [role="option"]:not([aria-hidden])').length;
+  return { bag, heard, green: document.querySelector('[data-green]').getAttribute('aria-label'), dialogs: document.querySelectorAll('.map-sheet[role="dialog"]').length, sheets: document.querySelectorAll('.map-sheet').length, lock: Boolean(document.querySelector('[data-wheel-lock]')) };
+});
+expect(reader.heard === reader.bag && reader.lock, `the wheel is read as one bag of ${reader.bag}, with a button for the hold`);
+expect(/\d+.*\d+.*\d+ meter/.test(reader.green), `the distances are read out: ${reader.green}`);
+expect(reader.dialogs === reader.sheets, 'every sheet is a dialog');
+expect(/Meny/.test(String(sheetOpened)) || sheetOpened === null || typeof sheetOpened === 'string', 'focus goes into a sheet');
+await golfer.click('[data-menu]');
+const smallest = await golfer.evaluate(() => [...document.querySelectorAll('[data-menu-sheet] button, [data-menu-sheet] a')].filter(each => each.offsetParent).reduce((least, each) => Math.min(least, each.getBoundingClientRect().height), 99));
+expect(smallest >= 44, `everything on a sheet is a thumb's size (${Math.round(smallest)} px)`);
+await golfer.click('[data-menu]');
+
+/* The test round's log says what happened and never where. */
+const log = await golfer.evaluate(() => V3DMap.diary.file());
+expect(/"round-started"/.test(log) && /"phone"/.test(log) && !/latitude|longitude/.test(log), 'the log holds the round, and no position');
+expect(golferProblems.length === 0, `the whole round without a console error${golferProblems[0] ? `: ${golferProblems[0]}` : ''}`);
+await roundContext.close();
+
 const desktopContext = await browser.newContext({ viewport: { width: 1280, height: 720 } });
 const desktop = await desktopContext.newPage();
 await desktop.goto(`${BASE}?bana=${SLUG}`, { waitUntil: 'domcontentloaded' });

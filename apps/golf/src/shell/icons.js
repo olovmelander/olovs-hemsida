@@ -135,6 +135,10 @@ export const ICONS = {
     </svg>
   `,
 
+  pin: (s = 18, sw = 2) => `
+    <svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="${sw}" aria-hidden="true">
+      <path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z"/><circle cx="12" cy="9" r="2.4" fill="currentColor"/>
+    </svg>`,
   search: (s = 16, sw = 2) => `
     <svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"></circle>

@@ -256,6 +256,62 @@ what the season usually is, not today's weather.
 chooses the season. It refreshes once a minute, and only draws if the sun has moved.
 `?ljus=<key>` and `?nu=1` open a light; `V3DMap.setClock(date)` stands at any moment.
 
+## A round from start to end
+
+Owner request, 5 November: the map should carry a round from the first tap to the last.
+
+- **Start.** A plain link on a phone opens the start card: the course, its length from the
+  tee, Tee, Spelhandicap and Starta rundan, all filled in from last time, so a returning
+  player needs one tap. That tap also starts the GPS, which is what lets the phone ask for
+  the position. Tee colour stays the player's own choice. Bara titta leaves the map open
+  and is not asked again for six hours. A link with `hal`, a round under way or a GPS
+  resuming skips the card.
+- **Finding the course.** On a phone the chooser has a pin in its search field. It sorts the
+  courses by distance and leads with the nearest, and does so by itself where the position
+  is already allowed. The places live in `shell/course-places.mjs`, apart from Leaflet.
+- **End.** The summary opens when the last score goes in, or from Avsluta rundan on the
+  card. It holds the score, putts, fairways, GIR, the card, the best hole, the longest shot
+  and the day's clubs, and it can be shared as text. A hole on it can still be put right.
+  The GPS and the awake screen stop with the round. A lock within 30 minutes plays on, and
+  a later one starts the next round, so two rounds of a day never run together.
+- **Kept.** `map-rounds.mjs` copies each round to `banvy-map-rounds-v1`, with every hole's
+  par, so an old round reads without its course. A round left to expire is kept too. The
+  shots stay in the shot log under the same round id.
+
+## Over time
+
+- **Mina rundor** sets the last five rounds against the ones before, draws the score
+  against par per 18 holes, so a nine sits beside a full round, and lists every round.
+- **Mina klubbor** draws each club's spread on one axis for the whole bag: the bar is where
+  its earnest shots end up, without the one in ten that flew furthest, and the tick is its
+  typical length. The words beside it say the same.
+- **Så brukar du spela hålet** in Hålet appears from two rounds: average, best, usual tee
+  club and length, fairway and usual miss, putts and penalties.
+
+## For the sun, the hand and the eyes
+
+Meny → Visning. Each choice is kept, and until one is made the phone's settings decide.
+
+- **Solläge** is black on white. A dark panel in direct sun only mirrors the sky, and white
+  is what a phone can make brightest. Numbers grow, the column widens, map lines and labels
+  are drawn 1.3 times as heavy, and the ground takes a little more contrast. Every colour in
+  `course-map.css` is a token, so both looks share one set of rules.
+  `prefers-contrast: more` turns it on by default.
+- **Större text** enlarges sheets, prompts and notes by 18%. A large iOS text size turns it
+  on by default, read through the `-apple-system-body` font keyword.
+- **Hjulet till vänster** moves the column, and the framing leaves its room on that side.
+- **Screen readers.** The distances and wind are read in words, the wheel is one bag and not
+  three copies, a hidden button stands in for the hold, sheets are dialogs that take the
+  focus and give it back, and the card marks a birdie with a ring and a bogey with a box, as
+  a paper card does, so colour never says it alone.
+- Nothing a finger must hit on a sheet is under 44 px.
+
+## The test round's log
+
+`map-diary.mjs` keeps a short log on the phone for a round played to test the map: position
+quality once a minute, locks, slips, waits, hole changes, sheets and battery. It never holds
+a position. Meny → Spara provrundans logg hands it over. See [the test round](provrunda.md).
+
 ## What a golfer can trust
 
 Distances are horizontal, measured in the map's world (EPSG:3006 metres) from the
