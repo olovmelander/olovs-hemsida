@@ -53,7 +53,7 @@ export function createOverlay(canvas) {
     },
 
     draw(scene) {
-      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false } = scene;
+      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [] } = scene;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.clearRect(0, 0, width, height);
       hits.length = 0;
@@ -128,20 +128,6 @@ export function createOverlay(canvas) {
           ctx.setLineDash([]);
           const end = at(arc[3][0], arc[3][1]);
           if (Number.isFinite(end.x)) pill(end.x, end.y, String(metres), { size: 11, weight: 600 });
-        }
-
-        /* Reach and carry, where the hazard is. Two pills never sit on each other: the
-           nearer hazard is the one that matters. */
-        const placed = [];
-        for (const hazard of hazards) {
-          const s = at(hazard.at[0], hazard.at[1]);
-          if (!Number.isFinite(s.x) || s.x < 8 || s.x > width - 8 || s.y < 8 || s.y > height - 8) continue;
-          if (placed.some(other => Math.hypot(other.x - s.x, other.y - s.y) < 34)) continue;
-          placed.push(s);
-          const words = hazard.carry === null ? String(Math.round(hazard.front)) : `${Math.round(hazard.front)}–${Math.round(hazard.carry)}`;
-          pill(s.x, s.y, words, hazard.kind === 'water'
-            ? { fill: 'rgba(20,92,140,.94)', size: 11.5 }
-            : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });
         }
 
         /* The greengrid's rings round the cup, each a metre further. */
@@ -219,6 +205,37 @@ export function createOverlay(canvas) {
           const first = mid(origin, target), second = mid(target, hole.green.c);
           if (Number.isFinite(first.x)) pill(first.x, first.y, label(origin, target), { fill: '#ffd23f', ink: '#10201a' });
           if (Number.isFinite(second.x)) pill(second.x, second.y, label(target, hole.green.c));
+        }
+
+        /* Reach and carry, where the hazard is. Two pills never sit on each other: the
+           nearer hazard is the one that matters. */
+        const placed = [];
+        for (const hazard of hazards) {
+          const s = at(hazard.at[0], hazard.at[1]);
+          if (!Number.isFinite(s.x) || s.x < 8 || s.x > width - 8 || s.y < 8 || s.y > height - 8) continue;
+          if (placed.some(other => Math.hypot(other.x - s.x, other.y - s.y) < 34)) continue;
+          placed.push(s);
+          const words = hazard.carry === null ? String(Math.round(hazard.front)) : `${Math.round(hazard.front)}–${Math.round(hazard.carry)}`;
+          pill(s.x, s.y, words, hazard.kind === 'water'
+            ? { fill: 'rgba(20,92,140,.94)', size: 11.5 }
+            : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });
+        }
+      }
+
+      /* The hole so far: every shot locked, from where it was struck to where it lay. */
+      if (mode === 'hole') {
+        for (const shot of trail) {
+          cased([shot.from, shot.to], 'rgba(255,255,255,.9)', 2);
+          const s = at((shot.from[0] + shot.to[0]) / 2, (shot.from[1] + shot.to[1]) / 2);
+          if (Number.isFinite(s.x)) pill(s.x, s.y, `${Math.round(Math.hypot(shot.to[0] - shot.from[0], shot.to[1] - shot.from[1]))} m`, { size: 11, weight: 600 });
+          for (const [x, z] of [shot.from, shot.to]) {
+            const end = at(x, z);
+            if (!Number.isFinite(end.x)) continue;
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(end.x, end.y, 3.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
       }
 

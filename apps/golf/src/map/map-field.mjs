@@ -22,6 +22,10 @@ export function createGps({ onFix, onFailure }) {
       if (watch !== null) navigator.geolocation.clearWatch(watch);
       watch = null;
     },
+    /* A player standing still may get no fixes from the watch: ask for one now. */
+    ask() {
+      navigator.geolocation?.getCurrentPosition(position => onFix(position.coords), () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 8000 });
+    },
   };
 }
 

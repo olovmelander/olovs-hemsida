@@ -85,7 +85,11 @@ function gridFor(patchPixels, vertexPixels, maxSegments) {
 
 function selectOnce(view, texelPixels) {
   const { root, isReady, eye, planes, pixelsPerRadian, exaggeration, vertexPixels } = view;
-  const patches = [], wanted = [];
+  /* Every ready tile the walk went through, whether or not it drew anything. A parent
+     tests a quadrant with its own wide height range and a child with its tight one, so
+     a child can be wanted, arrive, and turn out to show nothing: it still has to stay,
+     or the parent wants it straight back, for ever. */
+  const patches = [], wanted = [], visited = [];
   const yLow = node => node.minY * exaggeration, yHigh = node => node.maxY * exaggeration;
 
   const emit = (node, u0, v0, span, distance) => {
@@ -95,6 +99,7 @@ function selectOnce(view, texelPixels) {
   };
 
   const visit = node => {
+    visited.push(node);
     const x1 = node.x0 + node.size, z1 = node.z0 + node.size;
     const distance = boxDistance(eye, node.x0, yLow(node), node.z0, x1, yHigh(node), z1);
     const samplePixels = node.spacing * pixelsPerRadian / Math.max(distance, 1);
@@ -112,7 +117,7 @@ function selectOnce(view, texelPixels) {
     }
   };
   if (isReady(root)) visit(root); else wanted.push({ node: root, distance: 0 });
-  return { patches, wanted };
+  return { patches, wanted, visited };
 }
 
 /* Coarse before fine: a missing parent costs more of the picture than a

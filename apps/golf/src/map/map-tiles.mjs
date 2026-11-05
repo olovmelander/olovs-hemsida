@@ -190,11 +190,17 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       return uploads.length;
     },
 
-    markUsed(patches) {
+    /* All the view went through stays, drawn or not, or a tile thrown out as soon as it
+       arrives is asked for again, for ever: a still map at full speed, fetching 4 MB a
+       second, on a view that needs more tiles than the budget. */
+    markUsed({ patches, wanted, visited }) {
       clock++;
-      const keep = new Set();
+      const keep = new Set(visited);
       for (const { node } of patches) {
         node.used = clock;
+        for (let at = node; at; at = at.parent) keep.add(at);
+      }
+      for (const { node } of wanted) {
         for (let at = node; at; at = at.parent) keep.add(at);
       }
       evict(keep);

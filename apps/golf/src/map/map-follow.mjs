@@ -32,6 +32,8 @@ export function createTeeWatch() {
   const refused = new Set();
   return {
     get waiting() { return waitingFor !== null; },
+    /* A lock on this tee settles it at once: the player has plainly started the hole. */
+    get candidate() { return waitingFor; },
     standingOn: number => standing.includes(number),
 
     /* The player chose a hole by hand: the tees they stand on say nothing more until

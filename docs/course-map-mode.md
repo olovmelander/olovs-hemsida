@@ -31,8 +31,9 @@ are Golf i Sverige's and GameBook's. What they do not have, as far as their list
 say, is the green in 3D with its fall drawn on it.
 
 - **Always on screen:** the hole in the header, the three distances, the wind, the
-  height strip, and the buttons GPS, Hålet, Score and Meny. Score shows how the round
-  stands (`Score +2`).
+  club wheel, the height strip, the views, and the buttons GPS, Hålet, Score and Meny.
+  Score shows how the round stands (`Score +2`). Yellow is what is chosen, green what is
+  on or locked. On the green the strip goes and the numbers say "På green".
 - **Header.** ‹ and › or a sideways swipe change hole. A tap opens Hålet.
 - **Hålet:** the hole's tip, the hazards ahead in words with their side, reach and
   carry, and every hole a tap away.
@@ -52,14 +53,12 @@ say, is the green in 3D with its fall drawn on it.
 - **Back to the shot:** the round button appears as soon as the view has left it, and
   returns to the player or the hole. Without it a panned map had no way back.
 - **Quick views** (owner request, 5 November): Hela hålet, Bakom, Ovanifrån and Green,
-  under the numbers in the column every hole is framed clear of, so they never cover the
-  player or a reading. The first three frame the same thing, from the ball or the tee to the
+  in a row with Banan, above the buttons where the thumb already is. The first three frame the same thing, from the ball or the tee to the
   green with play up the screen, at three leans: the map, the golfer's eye and straight
   down. They keep following the player, the choice is remembered, and a tap brings back
   a view a finger has moved. One and two fingers work as before.
 - **Measuring.** A tap sets the point, a drag on it moves it, its × clears it.
-- **Mät slag**, with a player on the course: a tap at the ball, and the distance counts
-  up on the walk until the next tap.
+- **The club wheel** stands under the numbers, always: see [the club wheel](club-wheel.md).
 - **Score** is a row of keys around par, a row of putts and, on a par 4 or 5, the
   fairway. Green in regulation follows from the strokes and putts. When a player moves
   on to the next hole mid-round with none entered, the map asks for the one left behind
