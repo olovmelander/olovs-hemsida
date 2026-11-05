@@ -57,6 +57,8 @@ export function createOverlay(canvas) {
       const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true } = scene;
       /* In the sun's look the lines and numbers are drawn heavier. */
       emphasis = scene.emphasis ?? 1;
+      /* The column's side: a label stays clear of it. */
+      const labelAt = scene.mirrored ? 15 : 3;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.clearRect(0, 0, width, height);
       hits.length = 0;
@@ -113,6 +115,17 @@ export function createOverlay(canvas) {
         ctx.lineWidth = 1.6 * emphasis;
         ctx.stroke();
 
+        /* Two pills never sit on each other, and a hazard's comes first: its number is the
+           one that matters, and the nearer hazard of two. */
+        const clash = (a, b, wide) => Math.abs(a.x - b.x) < wide * emphasis && Math.abs(a.y - b.y) < 26 * emphasis;
+        const placed = [];
+        for (const hazard of hazards) {
+          const s = at(hazard.at[0], hazard.at[1]);
+          if (!Number.isFinite(s.x) || s.x < 8 || s.x > width - 8 || s.y < 8 || s.y > height - 8) continue;
+          if (placed.some(other => clash(other, s, 66))) continue;
+          placed.push({ x: s.x, y: s.y, hazard });
+        }
+
         /* Carry arcs from where the ball is now. */
         const bearing = Math.atan2(hole.green.c[0] - origin[0], -(hole.green.c[1] - origin[1]));
         const toGreen = Math.hypot(hole.green.c[0] - origin[0], hole.green.c[1] - origin[1]);
@@ -130,8 +143,10 @@ export function createOverlay(canvas) {
           ctx.setLineDash([3, 4]);
           ctx.stroke();
           ctx.setLineDash([]);
-          const end = at(arc[3][0], arc[3][1]);
-          if (Number.isFinite(end.x)) pill(end.x, end.y, String(metres), { size: 11, weight: 600 });
+          const end = at(arc[labelAt][0], arc[labelAt][1]);
+          if (!Number.isFinite(end.x) || placed.some(other => clash(other, end, 50))) continue;
+          placed.push({ x: end.x, y: end.y });
+          pill(end.x, end.y, String(metres), { size: 11, weight: 600 });
         }
 
         /* The greengrid's rings round the cup, each a metre further. */
@@ -211,16 +226,11 @@ export function createOverlay(canvas) {
           if (Number.isFinite(second.x)) pill(second.x, second.y, label(target, hole.green.c));
         }
 
-        /* Reach and carry, where the hazard is. Two pills never sit on each other: the
-           nearer hazard is the one that matters. */
-        const placed = [];
-        for (const hazard of hazards) {
-          const s = at(hazard.at[0], hazard.at[1]);
-          if (!Number.isFinite(s.x) || s.x < 8 || s.x > width - 8 || s.y < 8 || s.y > height - 8) continue;
-          if (placed.some(other => Math.abs(other.x - s.x) < 66 * emphasis && Math.abs(other.y - s.y) < 26 * emphasis)) continue;
-          placed.push(s);
+        /* Reach and carry, where the hazard is. */
+        for (const { x, y, hazard } of placed) {
+          if (!hazard) continue;
           const words = hazard.carry === null ? String(Math.round(hazard.front)) : `${Math.round(hazard.front)}–${Math.round(hazard.carry)}`;
-          pill(s.x, s.y, words, hazard.kind === 'water'
+          pill(x, y, words, hazard.kind === 'water'
             ? { fill: 'rgba(20,92,140,.94)', size: 11.5 }
             : { fill: 'rgba(240,229,194,.96)', ink: '#2a2415', size: 11.5 });
         }

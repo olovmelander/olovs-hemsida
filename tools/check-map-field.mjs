@@ -635,6 +635,8 @@ await golfer.click('[data-end-round]');
 await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
 expect(/1 av \d+ hål/.test(await golfer.textContent('.map-hero')), 'a round cut short says how many holes it holds');
 await golfer.click('[data-round-sheet] [data-close]');
+const farAway = await golfer.evaluate(() => { V3DMap.fix(62.5, 18, 5); return document.querySelector('[data-status]').textContent; });
+expect(/\d+ km från närmaste hål/.test(farAway), `far from the course it says kilometres: ${farAway}`);
 await golfer.evaluate(() => { V3DMap.round().endedAt = Date.now() - 31 * 60 * 1000; });
 const roundBefore = await golfer.evaluate(() => V3DMap.round().id);
 await golfer.evaluate(() => { const hole = V3DMap.course.holes[0], { lat, lon } = (() => { const { origin } = V3DMap.course.geo; return { lat: origin.lat, lon: origin.lon }; })(); V3DMap.fix(lat, lon, 5); return hole.n; });
@@ -650,12 +652,20 @@ if (afterEnd.onCourse) expect(afterEnd.id !== roundBefore && !afterEnd.ended, 'a
 /* What the rounds and clubs add up to. */
 await golfer.click('[data-menu]');
 expect((await golfer.textContent('[data-rounds-count]')).startsWith('2'), 'Meny counts the rounds');
+const cardButtons = await golfer.evaluate(() => { const h = V3DMap.course.holes.length; return document.querySelectorAll('[data-card] button').length === h; });
+expect(cardButtons, 'the card has one button a hole');
 await golfer.click('[data-rounds-open]');
 expect(await golfer.locator('.map-round-row').count() === 2, 'Mina rundor lists them');
 await golfer.locator('.map-round-row').last().click();
 await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
 expect(await golfer.isVisible('[data-round-back]'), 'an old round opens, with a way back');
-await golfer.click('[data-round-back]');
+expect(await golfer.isVisible('[data-round-drop]') && !(await golfer.isVisible('[data-round-new]')), 'an old round offers to go, and no new round');
+await golfer.click('[data-round-drop]');
+expect(await golfer.textContent('[data-round-drop]') === 'Säker? Tryck igen', 'taking one out asks first');
+const roundsHeld = await golfer.evaluate(() => V3DMap.rounds().length);
+await golfer.click('[data-round-drop]');
+await golfer.waitForSelector('[data-rounds-sheet]:not([hidden])');
+expect(await golfer.evaluate(() => V3DMap.rounds().length) === roundsHeld - 1 && await golfer.locator('.map-round-row').count() === roundsHeld - 1, 'and then it is gone from the list');
 await golfer.click('[data-rounds-back]');
 
 /* The display, for the sun, the hand and the eyes. */

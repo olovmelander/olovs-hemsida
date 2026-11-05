@@ -12,6 +12,9 @@ const MAX_STORED_ROUNDS = 300;
 /* A hole's history starts here: one round is only a memory of that round. */
 export const LEAST_ROUNDS = 2;
 const FULL_ROUND_HOLES = 18;
+/* Off the last green with this few holes unscored, the round is over all the same. */
+const MISSING_AT_THE_END = 3;
+const HALF_ROUND_HOLES = 9;
 
 export function parseRounds(text) {
   try {
@@ -24,6 +27,22 @@ export const storeRounds = rounds => JSON.stringify({ version: ROUNDS_VERSION, r
 const scored = score => Boolean(score?.picked) || Number.isFinite(score?.strokes);
 export const holesScored = (round, holes) => holes.filter(hole => scored(round.scores[hole.n])).length;
 export const isRoundComplete = (round, holes) => holes.length > 0 && holesScored(round, holes) === holes.length;
+
+/* Is this round over, now that this hole has its score? Every hole has one, or the last
+   hole is done with only a few left blank. A round begun on the 10th is not over on the
+   18th: half its card is still to come. */
+export function roundIsOver(round, holes, number) {
+  const missing = holes.length - holesScored(round, holes);
+  return missing === 0 || (number === holes.length && missing <= MISSING_AT_THE_END);
+}
+
+/* Nine holes done on an 18-hole course, which many a round is. */
+export const atTheTurn = (round, holes, number) => holes.length === FULL_ROUND_HOLES && number === HALF_ROUND_HOLES
+  && holesScored(round, holes) === HALF_ROUND_HOLES;
+
+/* A round is taken out with its shots, or a club's lengths would still count them. */
+export const dropRound = (rounds, record) => rounds.filter(each => !(each.id === record.id && each.course === record.course));
+export const dropRoundShots = (shots, record) => shots.filter(shot => !(shot.round === record.id && shot.course === record.course));
 
 /* A round as it is kept. Holes the player never reached stay out of it. */
 export function roundRecord(round, course, { tee = null, at = Date.now() } = {}) {
@@ -64,6 +83,16 @@ const SCORE_KINDS = Object.freeze([
 
 const ownShots = (record, shots) => shots.filter(shot => shot.course === record.course && shot.round === record.id);
 
+/* Each hole's shots in the order they were played, with its putts from the card. */
+function shotsByHole(record, own) {
+  const strokes = own.filter(shot => !isPutt(shot));
+  return [...new Set(strokes.map(shot => shot.hole))].sort((a, b) => a - b).map(n => ({
+    n,
+    shots: strokes.filter(shot => shot.hole === n).map(shot => ({ club: shot.club, out: shot.outcome === 'out', metres: shotLength(shot), suspect: Boolean(shot.suspect) })),
+    putts: record.holes.find(hole => hole.n === n)?.putts ?? null,
+  }));
+}
+
 /* What the player sees when the round is over. */
 export function roundSummary(record, shots = []) {
   const played = record.holes.filter(hole => !hole.picked && Number.isFinite(hole.strokes));
@@ -81,6 +110,7 @@ export function roundSummary(record, shots = []) {
     kinds,
     logged: own.filter(shot => !isPutt(shot)).length,
     clubs: [...clubStats(own)].map(([club, stat]) => ({ club, ...stat })).sort((a, b) => b.typical - a.typical),
+    byHole: shotsByHole(record, own),
     longest: longest ? { club: longest.club, metres: shotLength(longest), hole: longest.hole } : null,
     bestHole: best && best.strokes < best.par ? { n: best.n, name: scoreName(best.strokes, best.par) } : null,
     penalties: own.reduce((sum, shot) => sum + shot.penalty, 0),
@@ -158,9 +188,9 @@ export function roundTrend(rounds, recent = 5) {
 const toParWords = value => (value === 0 ? '±0' : `${value > 0 ? '+' : '−'}${Math.abs(value)}`);
 
 /* The round in words, for a message to a friend. */
-export function roundText(record, summary) {
+export function roundText(record, summary, when = record.date) {
   const { totals } = summary;
-  const lines = [`${record.courseName}, ${record.date}`];
+  const lines = [`${record.courseName}, ${when}`];
   lines.push([`${totals.strokes} slag (${toParWords(totals.toPar)})`, totals.points === null ? null : `${totals.points} poäng`, totals.putts ? `${totals.putts} puttar` : null].filter(Boolean).join(' · '));
   const stats = [totals.fairwaysTried ? `Fairway ${totals.fairways}/${totals.fairwaysTried}` : null, totals.greensTried ? `Green ${totals.greens}/${totals.greensTried}` : null];
   if (stats.some(Boolean)) lines.push(stats.filter(Boolean).join(' · '));

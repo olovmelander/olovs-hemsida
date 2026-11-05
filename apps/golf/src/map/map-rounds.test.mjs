@@ -1,6 +1,6 @@
 /* The rounds a player keeps, and what they add up to. */
 import { describe, expect, it } from 'vitest';
-import { courseLength, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
+import { atTheTurn, courseLength, dropRound, dropRoundShots, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundIsOver, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
 import { closeHole, lockShot } from './map-shots.mjs';
 
 const holes = [{ n: 1, par: 4, index: 1 }, { n: 2, par: 3, index: 3 }, { n: 3, par: 5, index: 2 }];
@@ -51,6 +51,46 @@ describe('a round kept', () => {
   });
 });
 
+describe('when a round is over', () => {
+  const eighteen = Array.from({ length: 18 }, (_, k) => ({ n: k + 1, par: 4 }));
+  const card = numbers => round(Object.fromEntries(numbers.map(n => [n, { strokes: 4 }])));
+  const range = (from, to) => Array.from({ length: to - from + 1 }, (_, k) => from + k);
+
+  it('is over with every hole scored', () => {
+    expect(roundIsOver(card(range(1, 18)), eighteen, 7)).toBe(true);
+  });
+
+  it('is over off the last green with a few holes blank', () => {
+    expect(roundIsOver(card(range(1, 18).filter(n => n !== 7)), eighteen, 18)).toBe(true);
+    expect(roundIsOver(card(range(4, 18)), eighteen, 18)).toBe(true);
+  });
+
+  it('is not over at the 18th of a round begun on the 10th', () => {
+    expect(roundIsOver(card(range(10, 18)), eighteen, 18)).toBe(false);
+  });
+
+  it('is not over on any other hole', () => {
+    expect(roundIsOver(card(range(1, 17)), eighteen, 17)).toBe(false);
+  });
+
+  it('offers nine holes as a round at the turn, and only then', () => {
+    expect(atTheTurn(card(range(1, 9)), eighteen, 9)).toBe(true);
+    expect(atTheTurn(card(range(1, 8)), eighteen, 9)).toBe(false);
+    expect(atTheTurn(card(range(1, 9)), eighteen, 10)).toBe(false);
+    expect(atTheTurn(card(range(1, 9)), eighteen.slice(0, 9), 9)).toBe(false);
+  });
+});
+
+describe('a round taken out', () => {
+  it('goes with its shots, and leaves other rounds and courses alone', () => {
+    const record = { id: 7, course: 'bana' };
+    const rounds = [{ id: 7, course: 'bana' }, { id: 7, course: 'annan' }, { id: 8, course: 'bana' }];
+    expect(dropRound(rounds, record)).toEqual([{ id: 7, course: 'annan' }, { id: 8, course: 'bana' }]);
+    const shots = [{ round: 7, course: 'bana' }, { round: 7, course: 'annan' }, { round: 8, course: 'bana' }];
+    expect(dropRoundShots(shots, record).length).toBe(2);
+  });
+});
+
 describe('the summary', () => {
   const record = roundRecord(round({ 1: { strokes: 3, putts: 1, fairway: 'hit' }, 2: { strokes: 5, putts: 3 }, 3: { strokes: 5 } }), course);
 
@@ -78,6 +118,17 @@ describe('the summary', () => {
     expect(summary.logged).toBe(3);
   });
 
+  it('tells each hole shot by shot, with its putts from the card', () => {
+    let shots = lock([], driver, [0, 0]);
+    shots = lock(shots, seven, [0, 230]);
+    shots = lock(shots, { id: 'putter', carry: 0 }, [0, 370]);
+    const { byHole } = roundSummary(record, shots);
+    expect(byHole).toEqual([{ n: 1, putts: 1, shots: [
+      { club: 'driver', out: false, metres: 230, suspect: false },
+      { club: 'iron-7', out: false, metres: 140, suspect: false },
+    ] }]);
+  });
+
   it('adds the penalties up', () => {
     const shots = [{ ...lock([], seven, [0, 0])[0], penalty: 2 }];
     expect(roundSummary(record, shots).penalties).toBe(2);
@@ -86,6 +137,7 @@ describe('the summary', () => {
   it('writes the round for a message', () => {
     const text = roundText(record, roundSummary(record));
     expect(text).toContain('Banan, 2026-11-05');
+    expect(roundText(record, roundSummary(record), '5 nov. 2026')).toContain('Banan, 5 nov. 2026');
     expect(text).toContain('13 slag (+1)');
     expect(text).toContain('3 5 5');
   });

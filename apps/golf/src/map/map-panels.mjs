@@ -86,12 +86,14 @@ export function renderRound(element, { record, summary, clubName, onHole = null 
   );
   parts.push(tiles);
   if (kinds.length) parts.push(node('p', 'map-round-kinds', kinds.map(kind => `${kind.count} ${kind.label.toLowerCase()}`).join(' · ')));
-  const cardHoles = fullCard(record);
+  /* A nine played is a nine: the half never reached is not a gap in the card. */
+  const cardHoles = fullCard(record), scoredOn = hole => hole.picked || Number.isFinite(hole.strokes);
+  const halves = [cardHoles.slice(0, 9), cardHoles.slice(9)].filter(half => half.some(scoredOn));
+  const shownHalves = halves.length ? halves : [cardHoles.slice(0, 9)];
   const card = node('div', 'map-card');
-  card.append(cardPart(cardHoles.slice(0, 9), onHole));
-  if (cardHoles.length > 9) card.append(cardPart(cardHoles.slice(9), onHole));
+  card.append(...shownHalves.map(half => cardPart(half, onHole)));
   parts.push(card);
-  if (missing && onHole) parts.push(node('p', 'map-shots-hint', 'Saknas ett resultat? Tryck på hålet.'));
+  if (onHole && shownHalves.flat().some(hole => !scoredOn(hole))) parts.push(node('p', 'map-shots-hint', 'Saknas ett resultat? Tryck på hålet.'));
   const highlights = node('ul', 'map-facts');
   if (bestHole) highlights.append(factRow(`Bästa hålet`, `${bestHole.name} på ${bestHole.n}`));
   if (longest) highlights.append(factRow('Längsta slaget', `${clubName(longest.club)} ${Math.round(longest.metres)} m`));
@@ -102,6 +104,13 @@ export function renderRound(element, { record, summary, clubName, onHole = null 
     parts.push(heading('Dagens klubbor'));
     const list = node('ul', 'map-facts');
     list.append(...clubs.map(club => factRow(`${clubName(club.club)}${club.shots > 1 ? ` · ${club.shots} slag` : ''}`, `${Math.round(club.typical)} m`)));
+    parts.push(list);
+  }
+  if (summary.byHole.length) {
+    parts.push(heading('Slag för slag'));
+    const list = node('ul', 'map-facts map-facts-long');
+    const said = shot => (shot.out ? `${clubName(shot.club)} omslag` : shot.metres === null ? clubName(shot.club) : `${clubName(shot.club)} ${Math.round(shot.metres)}${shot.suspect ? '?' : ''}`);
+    list.append(...summary.byHole.map(({ n, shots, putts }) => factRow(`Hål ${n}`, [...shots.map(said), putts ? `${putts} putt` : null].filter(Boolean).join(' · '))));
     parts.push(list);
   }
   element.replaceChildren(...parts);

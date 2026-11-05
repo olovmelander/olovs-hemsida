@@ -8,6 +8,7 @@ import '../styles/course-map.css';
 import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag, recommendClub } from '../engine/caddie.js';
 import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { isPhone } from '../shell/map-default.mjs';
+import { distanceText } from '../shell/nearest-course.mjs';
 import { detailedUrl } from '../shell/router.js';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, EYE_FOV_DEGREES, MAX_DISTANCE, MAX_EYE_FOV_DEGREES, MAX_TILT, MIN_DISTANCE, MIN_EYE_FOV_DEGREES, MIN_TILT } from './map-camera.mjs';
@@ -18,8 +19,8 @@ import { addPenalty, changeClub, closeHole, clubStats, correctClub, holeTally, i
 import { createClubWheel } from './map-wheel.mjs';
 import { createDiary } from './map-diary.mjs';
 import { createDisplay } from './map-display.mjs';
-import { renderClubs, renderHoleHistory, renderRound, renderRounds } from './map-panels.mjs';
-import { courseLength, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
+import { dateText, renderClubs, renderHoleHistory, renderRound, renderRounds } from './map-panels.mjs';
+import { atTheTurn, courseLength, dropRound, dropRoundShots, holeHistory, holesScored, isRoundComplete, keepRound, parseRounds, roundIsOver, roundRecord, roundSummary, roundText, roundTrend, storeRounds } from './map-rounds.mjs';
 import { createTeeWatch } from './map-follow.mjs';
 import { attachGestures } from './map-gestures.mjs';
 import { SHADE_BELOW_SUN } from './map-horizon.mjs';
@@ -166,6 +167,7 @@ root.innerHTML = `
     <div class="map-locked" data-locked hidden role="status">
       <b data-locked-text></b>
       <button data-locked-edit hidden>Ändra</button>
+      <button data-locked-end hidden>Avsluta</button>
       <button data-locked-penalty>Plikt +1</button>
       <button data-locked-undo>Ångra</button>
     </div>
@@ -236,6 +238,7 @@ root.innerHTML = `
     <div class="map-actions">
       <button class="map-action map-action-next" data-round-new>Ny runda</button>
       <button class="map-action" data-round-share>Dela rundan</button>
+      <button class="map-action map-action-quiet" data-round-drop hidden>Ta bort rundan</button>
     </div>
   </section>
   <section class="map-sheet map-sheet-tall" data-rounds-sheet hidden aria-label="Mina rundor">
@@ -330,7 +333,7 @@ const ui = {
   fairwayRow: $('[data-fairway-row]'), fairwayKeys: $('[data-fairway-keys]'), scoreDone: $('[data-score-done]'), scoreStats: $('[data-score-stats]'),
   scoreWord: $('[data-score-word]'), scoreSum: $('[data-score-sum]'), card: $('[data-card]'), handicap: $('[data-handicap]'),
   pickUp: $('[data-pick-up]'), endRound: $('[data-end-round]'), hazards: $('[data-hazards]'),
-  roundSheet: $('[data-round-sheet]'), roundTitle: $('[data-round-title]'), roundBody: $('[data-round-body]'), roundBack: $('[data-round-back]'), roundNew: $('[data-round-new]'),
+  roundSheet: $('[data-round-sheet]'), roundTitle: $('[data-round-title]'), roundBody: $('[data-round-body]'), roundBack: $('[data-round-back]'), roundNew: $('[data-round-new]'), roundDrop: $('[data-round-drop]'), lockedEnd: $('[data-locked-end]'),
   roundsSheet: $('[data-rounds-sheet]'), roundsBody: $('[data-rounds-body]'), roundsCount: $('[data-rounds-count]'),
   startSheet: $('[data-start-sheet]'), startTitle: $('[data-start-title]'), startFacts: $('[data-start-facts]'), startTeeSection: $('[data-start-tee-section]'), startTees: $('[data-start-tees]'), startHandicap: $('[data-start-handicap]'),
   historySection: $('[data-history-section]'), history: $('[data-history]'),
@@ -858,7 +861,7 @@ async function start() {
       state.player = { point, accuracy: clamp(accuracy, 3, 60), onCourse, at: performance.now() + state.clockAhead };
       if (onCourse) remember(`${GPS_KEY}:${course.slug}`, JSON.stringify({ value: true, at: Date.now() }));
       if (!onCourse) {
-        status(nearby ? `${Math.round(nearby.distance)} m från närmaste hål` : 'Positionen ligger utanför banan');
+        status(nearby ? `${distanceText(nearby.distance)} från närmaste hål` : 'Positionen ligger utanför banan');
         refreshNumbers();
         invalidate();
         return;
@@ -1321,7 +1324,7 @@ async function start() {
       const key = chip(String(value), value === strokes, () => {
         setScore({ strokes: value, picked: false, logged: false }, h.n);
         closePrompt();
-        endIfComplete();
+        endIfOver(h.n);
       }, value === h.par ? 'is-par' : '');
       key.dataset.promptKey = String(value);
       return key;
@@ -1358,9 +1361,9 @@ async function start() {
     closePrompt();
     /* The total is said out loud, with a way to put it right: a lock can be missed. */
     ui.locked.dataset.asked = String(number);
-    note(byHand ? `Hål ${number}: kortet säger ${own.strokes}` : `Hål ${number}: ${strokes} · ${scoreName(strokes, course.holes[number - 1].par)}`, { edit: true });
+    note(byHand ? `Hål ${number}: kortet säger ${own.strokes}` : `Hål ${number}: ${strokes} · ${scoreName(strokes, course.holes[number - 1].par)}`, { edit: true, end: atTheTurn(round, course.holes, number) });
     refreshWheel();
-    endIfComplete();
+    endIfOver(number);
   }
 
   $('[data-prompt-close]').onclick = closePrompt;
@@ -1382,9 +1385,12 @@ async function start() {
       return strokes < each.par ? 'is-under' : strokes > each.par ? 'is-over' : '';
     };
     const words = each => [`Hål ${each.n}`, `par ${each.par}`, Number.isFinite(score(each)?.strokes) ? `${score(each).strokes} slag` : score(each)?.picked ? 'struket' : null].filter(Boolean).join(', ');
-    const cell = (each, text, extra = '') => `<button data-card-hole="${each.n}" class="${extra} ${each.n === scoredHole().n ? 'is-now' : ''}" aria-label="${words(each)}">${text}</button>`;
-    return `<div class="map-card-row map-card-head"><span>Hål</span>${holes.map(each => cell(each, each.n)).join('')}<span>Σ</span></div>
-      <div class="map-card-row"><span>Par</span>${holes.map(each => cell(each, each.par)).join('')}<span>${sum(each => each.par)}</span></div>
+    const here = each => (each.n === scoredHole().n ? 'is-now' : '');
+    const cell = (each, text, extra = '') => `<button data-card-hole="${each.n}" class="${extra} ${here(each)}" aria-label="${words(each)}">${text}</button>`;
+    /* The row a finger hits, once: a screen reader need not pass three buttons a hole. */
+    const label = (each, text) => `<span class="${here(each)}">${text}</span>`;
+    return `<div class="map-card-row map-card-head"><span>Hål</span>${holes.map(each => label(each, each.n)).join('')}<span>Σ</span></div>
+      <div class="map-card-row"><span>Par</span>${holes.map(each => label(each, each.par)).join('')}<span>${sum(each => each.par)}</span></div>
       <div class="map-card-row map-card-score"><span>Slag</span>${holes.map(each => cell(each, `<i>${shown(each)}</i>`, kind(each))).join('')}<span>${sum(each => score(each)?.strokes) || ''}</span></div>`;
   }
 
@@ -1429,8 +1435,8 @@ async function start() {
       ? [`${totals.strokes} slag`, totals.strokes ? toPar : null, totals.points === null ? null : `${totals.points} poäng`, totals.putts ? `${totals.putts} putt` : null].filter(Boolean).join(' · ')
       : 'Rundan har inte börjat';
     ui.scoreStats.textContent = [totals.fairwaysTried ? `Fairway ${totals.fairways}/${totals.fairwaysTried}` : null,
-      totals.greensTried ? `Green i regulation ${totals.greens}/${totals.greensTried}` : null,
-      hitGreen(own, h.par) ? 'Green i regulation här' : null].filter(Boolean).join(' · ');
+      totals.greensTried ? `GIR ${totals.greens}/${totals.greensTried}` : null,
+      hitGreen(own, h.par) ? 'GIR här' : null].filter(Boolean).join(' · ');
     const nines = [course.holes.slice(0, 9), course.holes.slice(9)].filter(part => part.length);
     ui.card.innerHTML = nines.map(cardRows).join('');
   }
@@ -1493,8 +1499,12 @@ async function start() {
     diary.add('round-ended', holesScored(round, course.holes));
     showRound(keepRecord(thisRecord()));
   }
-  const endIfComplete = () => { if (isRoundComplete(round, course.holes) && !round.endedAt) endRound(); };
+  const endIfOver = number => { if (!round.endedAt && roundIsOver(round, course.holes, number)) endRound(); };
   ui.endRound.onclick = endRound;
+  ui.lockedEnd.onclick = () => {
+    ui.locked.hidden = true;
+    endRound();
+  };
 
   function showRound(record, { back = false } = {}) {
     const own = record.id === round.id && record.course === course.slug;
@@ -1514,6 +1524,10 @@ async function start() {
     });
     ui.roundBack.hidden = !back;
     ui.roundNew.hidden = !own;
+    ui.roundDrop.hidden = own;
+    ui.roundDrop.textContent = 'Ta bort rundan';
+    clearTimeout(droppingTimer);
+    droppingTimer = 0;
     ui.roundSheet.scrollTop = 0;
     if (ui.roundSheet.hidden) showSheet(ui.roundSheet);
   }
@@ -1526,8 +1540,28 @@ async function start() {
     refreshStart();
     showSheet(ui.startSheet);
   };
+  /* Gone for good, and its lengths with it, so it takes a second tap. */
+  let droppingTimer = 0;
+  ui.roundDrop.onclick = () => {
+    if (!droppingTimer) {
+      ui.roundDrop.textContent = 'Säker? Tryck igen';
+      droppingTimer = setTimeout(() => { droppingTimer = 0; ui.roundDrop.textContent = 'Ta bort rundan'; }, 4000);
+      return;
+    }
+    clearTimeout(droppingTimer);
+    droppingTimer = 0;
+    const record = state.roundShown;
+    rounds = dropRound(rounds, record);
+    remember(ROUNDS_KEY, storeRounds(rounds));
+    shots = dropRoundShots(shots, record);
+    remember(SHOTS_KEY, storeHistory(shots));
+    undoPoint = null;
+    relearnBag();
+    diary.add('round-dropped');
+    openRounds();
+  };
   $('[data-round-share]').onclick = async () => {
-    const record = state.roundShown, text = roundText(record, roundSummary(record, shots));
+    const record = state.roundShown, text = roundText(record, roundSummary(record, shots), dateText(record.date));
     try {
       if (navigator.share) await navigator.share({ title: record.courseName, text });
       else {
@@ -1707,10 +1741,11 @@ async function start() {
   }
 
   let noteTimer = 0, sameTimer = 0, lockTimer = 0;
-  function note(text, { penalty = false, edit = false } = {}) {
+  function note(text, { penalty = false, edit = false, end = false } = {}) {
     ui.lockedText.textContent = text;
     ui.lockedPenalty.hidden = !penalty;
     ui.lockedEdit.hidden = !edit;
+    ui.lockedEnd.hidden = !end;
     ui.locked.hidden = false;
     clearTimeout(noteTimer);
     noteTimer = setTimeout(() => { ui.locked.hidden = true; }, NOTE_MS);
@@ -2229,6 +2264,7 @@ async function start() {
       player: state.atEye ? null : state.player,
       carryArcs: !state.atEye,
       emphasis: display.get('sun') ? 1.3 : 1,
+      mirrored: display.get('left'),
       target: state.mode === 'hole' ? state.target : null,
       hazards: state.showHazards && !state.greenView ? state.hazards : [],
       shotFrom: state.mode === 'hole' ? trailFrom : null,
