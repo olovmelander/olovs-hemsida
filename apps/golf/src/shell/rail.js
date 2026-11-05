@@ -21,6 +21,8 @@ import { ICONS } from './icons.js';
 import { isPhone } from './map-default.mjs';
 import { detailedUrl, mapUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
+import { COURSE_LOCATIONS } from './course-places.mjs';
+import { coursesByDistance, distanceText } from './nearest-course.mjs';
 
 /* `places` is search vocabulary only, never shown: the placeholder promises
    "bana, ort eller par", and a promise on the front door has to be kept. It
@@ -169,6 +171,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                  spellcheck="false" enterkeyhint="search" />
           <kbd class="search-key" aria-hidden="true">/</kbd>
           <button class="search-clear" type="button" id="courseSearchClear" aria-label="Rensa sökningen" hidden>${ICONS.close(14)}</button>
+          ${phone ? `<button class="chooser-near" type="button" id="chooserNear" aria-pressed="false" aria-label="Visa banorna närmast mig först">${ICONS.pin(18)}</button>` : ''}
         </div>
 
         <div class="chooser-filters" id="chooserFilters" role="group" aria-label="Filtrera på bantyp">
@@ -277,6 +280,38 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
        that looks broken. */
     controls.classList.toggle('has-query', !!activeQuery);
     searchClear.hidden = !activeQuery;
+  }
+
+  /* On a course a golfer wants that course, without searching for it. The position is
+     asked for by a tap, and read by itself only where the phone has already said yes. */
+  const nearBtn = el.querySelector('#chooserNear');
+  if (nearBtn) {
+    const cardList = el.querySelector('#coursesCardList');
+    const showNearest = ({ coords }) => {
+      const items = new Map([...cardItems].map(item => [item.dataset.slug, item]));
+      const sorted = coursesByDistance(coords, COURSE_LOCATIONS).filter(({ slug }) => items.has(slug));
+      for (const { slug, metres } of sorted) {
+        const badges = items.get(slug).querySelector('.shot-badges');
+        badges.querySelector('.is-near')?.remove();
+        const badge = document.createElement('span');
+        badge.className = 'current-badge is-near';
+        badge.textContent = distanceText(metres);
+        badges.prepend(badge);
+      }
+      cardList.prepend(...sorted.map(({ slug }) => items.get(slug)));
+      cardItems.forEach(item => item.classList.toggle('is-lead', item === items.get(sorted[0]?.slug)));
+      nearBtn.classList.remove('is-busy');
+      nearBtn.setAttribute('aria-pressed', 'true');
+    };
+    const locate = () => {
+      nearBtn.classList.add('is-busy');
+      navigator.geolocation?.getCurrentPosition(showNearest, () => {
+        nearBtn.classList.remove('is-busy');
+        countEl.textContent = 'Positionen gick inte att läsa';
+      }, { timeout: 12000, maximumAge: 120000 });
+    };
+    nearBtn.addEventListener('click', locate);
+    if (!current) navigator.permissions?.query({ name: 'geolocation' }).then(answer => { if (answer.state === 'granted') locate(); }).catch(() => {});
   }
 
   /* How much of the bar stays on screen once it is pinned. On a phone its `top`

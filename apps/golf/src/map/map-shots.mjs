@@ -124,16 +124,17 @@ export function holeTally(shots, hole) {
   return { strokes: strokes + penalties, shots: strokes, penalties, putts };
 }
 
-const measured = shot => shot.outcome === 'played' && shot.to && !shot.inHazard && !shot.suspect
+export const isMeasured = shot => shot.outcome === 'played' && shot.to && !shot.inHazard && !shot.suspect
   && !isPutt(shot) && shot.fromAccuracy <= MEASURABLE_ACCURACY_METRES && shot.toAccuracy <= MEASURABLE_ACCURACY_METRES;
 
 /* A club's length is what it does when struck in earnest, and a log also holds every
    chip, top and punch-out with that club. So the lower third goes: a median of what
-   is left stands up to them without a player marking each one. */
+   is left stands up to them without a player marking each one. Its spread is where
+   those earnest shots land, without the one in ten that went furthest. */
 export function clubStats(shots) {
   const byClub = new Map();
   for (const shot of shots) {
-    if (!measured(shot)) continue;
+    if (!isMeasured(shot)) continue;
     if (!byClub.has(shot.club)) byClub.set(shot.club, []);
     byClub.get(shot.club).push(shotLength(shot));
   }
@@ -146,6 +147,7 @@ export function clubStats(shots) {
       typical: earnest[earnest.length >> 1],
       longest: sorted.at(-1),
       shortest: earnest[0],
+      reach: earnest[Math.ceil(earnest.length * 0.9) - 1],
       known: sorted.length >= LEAST_SHOTS,
     });
   }

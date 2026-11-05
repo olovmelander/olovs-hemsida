@@ -14,7 +14,7 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* What fits a thumb-sized row. */
 const shortName = name => name.replace(/^Lobwedge$/, 'Lob');
 
-export function createClubWheel(element, { onChoose, onLock }) {
+export function createClubWheel(element, { onChoose, onLock, onSlip = () => {} }) {
   const list = element.querySelector('[data-wheel-list]');
   let clubs = [], rows = [], centre = -1, settleTimer = 0, painting = false, touched = false;
   let hold = null, lastScroll = 0;
@@ -39,6 +39,7 @@ export function createClubWheel(element, { onChoose, onLock }) {
     if (now === centre) return;
     rows[centre]?.setAttribute('aria-selected', 'false');
     rows[now]?.setAttribute('aria-selected', 'true');
+    if (rows[now]) list.setAttribute('aria-activedescendant', rows[now].id);
     centre = now;
     /* A click of the wheel under the thumb, where the phone can. */
     if (touched) navigator.vibrate?.(5);
@@ -116,6 +117,7 @@ export function createClubWheel(element, { onChoose, onLock }) {
   });
   list.addEventListener('pointermove', event => {
     if (hold && Math.hypot(event.clientX - hold.x, event.clientY - hold.y) > MOVE_SLOP_PIXELS) {
+      onSlip('moved');
       stopHold();
       letGo();
     }
@@ -124,6 +126,7 @@ export function createClubWheel(element, { onChoose, onLock }) {
   list.addEventListener('pointerup', () => {
     if (!hold) { letGo(); return; }
     const club = clubAt(hold.row);
+    onSlip('released');
     stopHold();
     touched = false;
     show(indexOf(club.id));
@@ -156,12 +159,15 @@ export function createClubWheel(element, { onChoose, onLock }) {
       const held = count() ? clubAt(centreRow())?.id : null;
       clubs = next;
       const copies = Array.from({ length: COPIES }, () => clubs).flat();
-      list.replaceChildren(...copies.map(club => {
+      list.replaceChildren(...copies.map((club, k) => {
         const row = document.createElement('div');
         row.className = 'map-wheel-row';
         row.dataset.club = club.id;
+        row.id = `map-wheel-${k}`;
         row.setAttribute('role', 'option');
         row.setAttribute('aria-selected', 'false');
+        /* The bag once to a screen reader: the copies are only for the turning. */
+        if (k < clubs.length || k >= clubs.length * 2) row.setAttribute('aria-hidden', 'true');
         const name = document.createElement('b'), length = document.createElement('small');
         name.textContent = shortName(club.name);
         length.textContent = club.carry ? `${club.carry} m` : '';

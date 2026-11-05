@@ -162,6 +162,22 @@ describe('a club\'s length', () => {
   });
 });
 
+describe('a club\'s spread', () => {
+  const shoot = lengths => lengths.flatMap((length, k) => lock(lock([], seven, [k * 1000, 0]), driver, [k * 1000, length]).slice(0, 1));
+
+  it('runs from its earnest shots\' shortest to their furthest, with a few to go on', () => {
+    const stat = clubStats(shoot([60, 130, 135, 140, 150])).get('iron-7');
+    expect(stat).toMatchObject({ shortest: 130, reach: 150, typical: 140 });
+  });
+
+  it('leaves out the one in ten that flew furthest once it has enough', () => {
+    const lengths = Array.from({ length: 21 }, (_, k) => 100 + k);
+    const stat = clubStats(shoot(lengths)).get('iron-7');
+    expect(stat.longest).toBe(120);
+    expect(stat.reach).toBe(119);
+  });
+});
+
 describe('where a ball lies', () => {
   const square = (x, z, half) => [[x - half, z - half], [x + half, z - half], [x + half, z + half], [x - half, z + half]];
   const hole = { green: { ring: square(0, 0, 10) }, bunkers: [square(30, 0, 5)], teePads: [square(0, 300, 5)], fairways: [square(0, 150, 100)] };

@@ -94,11 +94,9 @@ over six hours is that day's: the same course played again starts a new round.
 
 ## Next
 
-- A club's spread, not only its typical length, and shots drawn as a landing area.
-- Per-hole history: how a hole has been played, and from where it is usually lost.
+- Shots drawn on the map as a landing area, beside the spread Mina klubbor already shows.
 - Shots gained, once there are enough rounds to compare with.
 - Taking height and wind out of the lengths with what is already stored.
-- A setting for left-handed use, which mirrors the wheel to the other edge.
 - Rounds kept off the phone.
 
 ## Where it lives

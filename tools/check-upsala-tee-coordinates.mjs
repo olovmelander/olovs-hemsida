@@ -195,7 +195,7 @@ export function loadUpsalaTeeSnapshot({ root = ROOT, extraReviews = {}, siteRevi
   const packIndex = json('apps/golf/public/courses/index.json');
   const standaloneSource = read('upsala3d.html').toString('utf8');
   const appSource = read('apps/golf/src/main.js').toString('utf8');
-  const landingMapSource = read('apps/golf/src/shell/map.js').toString('utf8');
+  const landingMapSource = read('apps/golf/src/shell/course-places.mjs').toString('utf8');
   const storaBuilder = read('upsalabuild/ground-mapping.mjs').toString('utf8');
   const mellanBuilder = json('upsalabuild/mellanbanan.json');
   const configuredSiteReviews = {

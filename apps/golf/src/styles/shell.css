@@ -278,6 +278,26 @@
 .chooser-search-box input::placeholder {
   color: var(--faint);
 }
+/* Finds the course under a phone's feet. */
+.chooser-near {
+  position: absolute;
+  right: 2px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--turf);
+  cursor: pointer;
+}
+.chooser-near[aria-pressed="true"] { color: #04140a; }
+.chooser-near[aria-pressed="true"]::before { content: ''; position: absolute; inset: 7px; z-index: -1; border-radius: 8px; background: var(--turf); }
+.chooser-near { isolation: isolate; }
+.chooser-near.is-busy { opacity: .5; }
+.chooser-near:focus-visible { outline: 2px solid var(--turf); outline-offset: -2px; }
+.chooser-controls.has-query .chooser-near { display: none; }
 .search-key {
   position: absolute;
   right: 10px;
@@ -536,6 +556,9 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   text-transform: uppercase;
   white-space: nowrap;
 }
+.current-badge.is-near { background: rgba(7, 13, 10, 0.78); color: #fff; text-transform: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+/* The distance takes the card's one free corner beside the 3D button. */
+.shot-badges:has(.is-near) .cat-badge { display: none; }
 /* "Senast spelad" is a memory, not a state: quieter than "Aktiv bana". */
 .current-badge.is-last {
   background: rgba(7, 13, 10, 0.78);
