@@ -269,14 +269,18 @@ Owner request, 5 November: the map should carry a round from the first tap to th
 - **Finding the course.** On a phone the chooser has a pin in its search field. It sorts the
   courses by distance and leads with the nearest, and does so by itself where the position
   is already allowed. The places live in `shell/course-places.mjs`, apart from Leaflet.
-- **End.** The summary opens when the last score goes in, or from Avsluta rundan on the
-  card. It holds the score, putts, fairways, GIR, the card, the best hole, the longest shot
-  and the day's clubs, and it can be shared as text. A hole on it can still be put right.
+- **End.** The summary opens when the last score goes in, off the last green with up to three
+  holes blank, or from Avsluta rundan on the card. A round begun on the 10th is not over on
+  the 18th. Nine holes done on an 18-hole course offer Avsluta beside the score. The summary
+  holds the score, putts, fairways, GIR, the card, the best hole, the longest shot, the
+  day's clubs and every hole shot by shot, and it can be shared as text. A hole on it can
+  still be put right.
   The GPS and the awake screen stop with the round. A lock within 30 minutes plays on, and
   a later one starts the next round, so two rounds of a day never run together.
 - **Kept.** `map-rounds.mjs` copies each round to `banvy-map-rounds-v1`, with every hole's
   par, so an old round reads without its course. A round left to expire is kept too. The
-  shots stay in the shot log under the same round id.
+  shots stay in the shot log under the same round id. An old round can be taken out with two
+  taps, and its shots go with it, or a club's lengths would still count them.
 
 ## Over time
 
