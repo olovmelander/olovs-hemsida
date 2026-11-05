@@ -350,6 +350,44 @@ const ui = {
 
 const display = createDisplay(root, { read: key => savedText(key, null), write: remember });
 
+/* The column and the foot, fitted to this phone. A phone's height says little by itself:
+   a notch and a home bar take over 90 px from a screen that looks tall. So the column is
+   measured against what is really left above the strip, and gives way a step at a time:
+   fewer rows on the wheel, a tighter column with the walking hint beside it, then the
+   height strip. Where a note and the way-back button would reach the column they stand beside it,
+   since the wheel is what a player is using just then. */
+const STRIP_PIXELS = 68, HINT_PIXELS = 60, TWO_ROWS_PIXELS = 118;
+const sideways = matchMedia('(orientation: landscape) and (max-height: 520px)');
+function fitLayout() {
+  root.classList.remove('is-compact', 'is-stripless', 'is-tight');
+  ui.wheel.style.removeProperty('--rows');
+  if (sideways.matches) return;
+  /* Fitted for the column at its fullest, not as it is this moment: the wind arrives after
+     the first picture, and the numbers go on a green and over the whole course. */
+  const onGreen = ui.green.classList.contains('is-on');
+  const held = [[ui.wind, ui.wind.hidden], [ui.green, ui.green.hidden]];
+  for (const [element] of held) element.hidden = false;
+  ui.green.classList.remove('is-on');
+  const room = () => {
+    const compact = root.classList.contains('is-compact');
+    const strip = root.classList.contains('is-stripless') ? 0 : STRIP_PIXELS;
+    return ui.views.getBoundingClientRect().top - 8 - strip - ui.wheel.getBoundingClientRect().bottom - (compact ? 6 : HINT_PIXELS);
+  };
+  const steps = [
+    () => ui.wheel.style.setProperty('--rows', '5'),
+    () => ui.wheel.style.setProperty('--rows', '3'),
+    () => root.classList.add('is-compact'),
+    () => root.classList.add('is-stripless'),
+  ];
+  for (const step of steps) {
+    step();
+    if (room() >= 0) break;
+  }
+  root.classList.toggle('is-tight', room() < TWO_ROWS_PIXELS);
+  for (const [element, hidden] of held) element.hidden = hidden;
+  ui.green.classList.toggle('is-on', onGreen);
+}
+
 let statusTimer = 0;
 function status(text, hold = 3200, low = false) {
   ui.status.textContent = text;
@@ -525,9 +563,14 @@ async function start() {
 
   function insets() {
     const { width, height } = camera.state;
+    /* Read off the screen: a notch and a home bar move all of these. */
+    const under = $('.map-top').getBoundingClientRect().bottom;
+    const foot = height - ui.views.getBoundingClientRect().top;
     const room = width > height
-      ? { top: 74, bottom: 150, left: 100, right: 138 }
-      : { top: 78, bottom: 250, left: 34, right: display.get('sun') ? 106 : 96 };
+      ? { top: Math.max(74, under + 8), bottom: Math.max(150, foot + 76), left: 100, right: 138 }
+      /* Room for the strip and one note under the shot in hand, so a passing note never
+         lies on the player's own dot. */
+      : { top: Math.max(78, under + 12), bottom: Math.max(250, foot + 150), left: 34, right: display.get('sun') ? 106 : 96 };
     return display.get('left') ? { ...room, left: room.right, right: room.left } : room;
   }
 
@@ -1223,6 +1266,7 @@ async function start() {
     ui[name].checked = display.get(name);
     ui[name].onchange = () => {
       display.set(name, ui[name].checked);
+      fitLayout();
       diary.add('display', [name, ui[name].checked]);
       if (state.mode === 'hole' && state.follow) frameHole(300);
       invalidate();
@@ -2120,6 +2164,7 @@ async function start() {
   }
 
   function resize() {
+    fitLayout();
     const box = root.getBoundingClientRect();
     /* Two device pixels per CSS pixel is as sharp as a map gets at arm's length,
        and a 3x phone would otherwise fill more than twice as many. */
