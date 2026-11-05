@@ -17,7 +17,7 @@
 import { GRID_VERTEX_FLOATS, PULSE_FLOATS } from './map-greengrid.mjs';
 import { SLOPE_LIMIT } from './map-height.mjs';
 import { SHADE_SIZE } from './map-horizon.mjs';
-import { PATCH_GRIDS, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
+import { PATCH_GRIDS, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
 
 const GROUND_VERTEX = `#version 300 es
 precision highp float;
@@ -929,6 +929,14 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       }
     },
 
+    /* A tile's trees alone: the forest stands on tiles the view has no need to load. */
+    uploadForest(trees) {
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, trees, gl.STATIC_DRAW);
+      return { vao: instanceVao(buffer), buffer, count: trees.length / 8 };
+    },
+
     uploadShade(node, pixels) {
       if (!node.gpu) return;
       if (!node.gpu.shadeTexture) node.gpu.shadeTexture = texture(7, gl.R8, SHADE_SIZE, SHADE_SIZE, gl.LINEAR);
@@ -999,24 +1007,21 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
         triangles += mesh.count / 3;
       }
 
-      /* The nearest tiles' trees, as many as the budget holds. Each tile's list is
-         shuffled, so a thinner wood far off is the same wood with fewer trees. */
+      /* The trees of the 1 m tiles in view, and of the forest beyond them. */
       const planted = new Map();
       for (const { node, reach } of patches) {
         if (!node.gpu.trees && !node.gpu.houses) continue;
         if (reach < view.treeFade[1] && !planted.has(node)) planted.set(node, reach);
       }
-      let trees = 0;
-      const lists = [];
+      let trees = 0, lists = [];
       if (atlases) {
-        for (const [node, reach] of planted) {
-          if (!node.gpu.trees) continue;
-          const share = 1 - Math.min(1, Math.max(0, reach / view.treeFade[1])) * 0.55;
-          const count = Math.min(Math.round(node.gpu.trees.count * share), Math.max(0, view.treeBudget - trees));
-          if (!count) break;
-          lists.push({ vao: node.gpu.trees.vao, count });
-          trees += count;
+        const sources = [...planted].filter(([node]) => node.gpu.trees)
+          .map(([node, reach]) => ({ vao: node.gpu.trees.vao, count: node.gpu.trees.count, reach }));
+        for (const { node, reach } of view.forest ?? []) {
+          if (!planted.has(node) && reach < view.treeFade[1]) sources.push({ vao: node.forestGpu.vao, count: node.forestGpu.count, reach });
         }
+        lists = shareTrees(sources.sort((a, b) => a.reach - b.reach), view.treeBudget, view.treeFade[1]);
+        trees = lists.reduce((sum, list) => sum + list.count, 0);
       }
 
       /* Shadows sit on the ground, so depth stays out of it: the ground is already

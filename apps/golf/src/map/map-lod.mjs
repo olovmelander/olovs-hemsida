@@ -122,6 +122,23 @@ function selectOnce(view, texelPixels) {
 
 /* Coarse before fine: a missing parent costs more of the picture than a
    missing child, and a tile's children are only reachable through it. */
+/* How many of each tile's trees to draw. The nearest are all there; past them a wood
+   thins evenly as the budget runs out, and thins a little with distance anyway, so a
+   wide view keeps every wood instead of drawing the near ones and none of the rest.
+   Each tile's list is shuffled, so a thinner wood is the same wood with fewer trees. */
+const ALL_TREES_WITHIN_METRES = 400;
+export function shareTrees(sources, budget, reach) {
+  const wants = sources.map(source => source.count * (1 - Math.min(1, Math.max(0, source.reach / reach)) * 0.55));
+  let left = budget, wanting = wants.reduce((sum, want) => sum + want, 0);
+  return sources.map((source, k) => {
+    const ratio = source.reach < ALL_TREES_WITHIN_METRES ? 1 : Math.min(1, left / Math.max(wanting, 1));
+    const count = Math.min(Math.round(wants[k] * ratio), left);
+    wanting -= wants[k];
+    left -= count;
+    return { ...source, count };
+  }).filter(source => source.count > 0);
+}
+
 const loadOrder = (a, b) => b.node.lod - a.node.lod || a.distance - b.distance;
 
 export function selectPatches({

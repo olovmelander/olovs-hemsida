@@ -25,6 +25,8 @@ export const isPutter = club => club?.carry === 0 || club?.id === PUTTER_ID || c
 export const isPutt = shot => shot.putt === true || shot.club === PUTTER_ID;
 const metresBetween = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 export const shotLength = shot => (shot.to ? metresBetween(shot.from, shot.to) : null);
+/* Past this a club cannot have gone: a lock was missed on the way. */
+export const reachOf = club => (club?.carry ? club.carry * 1.4 + 20 : Infinity);
 export const openShot = shots => {
   const last = shots.at(-1);
   return last && !last.to && last.outcome === 'open' ? last : null;
@@ -60,6 +62,17 @@ export const changeClub = (shots, club) => {
   const open = openShot(shots);
   return open ? [...shots.slice(0, -1), { ...open, club: club.id }] : shots;
 };
+
+/* The wrong club found out later, on any shot of the round. The length stands, since
+   GPS measured it, and is now this club's, so the check for a missed lock is made again.
+   A putt is counted rather than measured, and has no club to put right. */
+export function correctClub(shots, shot, club) {
+  const index = shots.indexOf(shot);
+  if (index < 0 || isPutt(shot) || isPutter(club)) return shots;
+  const list = shots.slice();
+  list[index] = { ...shot, club: club.id, ...(shot.to ? { suspect: shotLength(shot) > reachOf(club) } : {}) };
+  return list;
+}
 
 /* Out of bounds or lost: the ball goes again from the same place, one stroke on. The
    shot stays a stroke and leaves the clubs' lengths, since it has no end. */

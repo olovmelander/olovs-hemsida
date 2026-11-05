@@ -53,7 +53,7 @@ export function createOverlay(canvas) {
     },
 
     draw(scene) {
-      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [] } = scene;
+      const { camera, ground, course, mode, hole, origin, player, target, tee, hazards = [], shotFrom = null, pinRings = false, trail = [], carryArcs = true } = scene;
       ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
       ctx.clearRect(0, 0, width, height);
       hits.length = 0;
@@ -114,7 +114,8 @@ export function createOverlay(canvas) {
         const bearing = Math.atan2(hole.green.c[0] - origin[0], -(hole.green.c[1] - origin[1]));
         const toGreen = Math.hypot(hole.green.c[0] - origin[0], hole.green.c[1] - origin[1]);
         for (const metres of DISTANCE_RINGS) {
-          if (metres > toGreen + 15) continue;
+          /* Seen from the ground they all fall in a heap on the horizon. */
+          if (!carryArcs || metres > toGreen + 15) continue;
           const arc = [];
           for (let k = -9; k <= 9; k++) {
             const a = bearing + k * 0.045;

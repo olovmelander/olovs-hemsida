@@ -9,11 +9,11 @@ import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag, recommendClub } from '.
 import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { detailedUrl } from '../shell/router.js';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
-import { createCamera, createFlight, MAX_DISTANCE, MAX_TILT, MIN_DISTANCE, MIN_TILT } from './map-camera.mjs';
+import { createCamera, createFlight, EYE_FOV_DEGREES, MAX_DISTANCE, MAX_EYE_FOV_DEGREES, MAX_TILT, MIN_DISTANCE, MIN_EYE_FOV_DEGREES, MIN_TILT } from './map-camera.mjs';
 import { loadMapCourse } from './map-course.mjs';
 import { createGps, createScreenLock, downloadCourse, isDownloaded, offlineBytes, offlineTiles } from './map-field.mjs';
 import { createMapRenderer } from './map-gl.mjs';
-import { addPenalty, changeClub, closeHole, clubStats, holeTally, isPutt, isPutter, LEAST_SHOTS, learnedBag, lockShot, MEASURABLE_ACCURACY_METRES, openShot, parseHistory, retakeShot, SAME_SPOT_METRES, setPutts, shotLength, storeHistory, surfaceAt } from './map-shots.mjs';
+import { addPenalty, changeClub, closeHole, clubStats, correctClub, holeTally, isPutt, isPutter, LEAST_SHOTS, learnedBag, lockShot, MEASURABLE_ACCURACY_METRES, openShot, parseHistory, reachOf, retakeShot, SAME_SPOT_METRES, setPutts, shotLength, storeHistory, surfaceAt } from './map-shots.mjs';
 import { createClubWheel } from './map-wheel.mjs';
 import { createTeeWatch } from './map-follow.mjs';
 import { attachGestures } from './map-gestures.mjs';
@@ -37,8 +37,13 @@ const COURSE_TILT = 0.72;
    way that points, so the picture stays lined up with the player as they walk. They
    differ in how far the camera leans: the hole as a map, the golfer's own eye behind
    the ball, and straight down. */
-const QUICK_VIEWS = Object.freeze({ hole: { tilt: 0.9 }, behind: { tilt: 1.24 }, above: { tilt: 0.06 } });
+const QUICK_VIEWS = Object.freeze({ hole: { tilt: 0.9 }, behind: { tilt: 1.24 }, above: { tilt: 0.06 }, eye: { tilt: 1.5 } });
+/* Min vy: standing at the ball, at a golfer's height, on the ground as it really is.
+   The relief is drawn at its true height here: raised, a gentle rise becomes a wall. */
+const TREE_REACH_PER_DISTANCE = 2.4, MOST_TREE_REACH_METRES = 6000, EYE_TREE_REACH_METRES = 3000;
+const EYE_HEIGHT_METRES = 1.8, EYE_LOOK_METRES = 120, EYE_PITCH = 0.04, EYE_PITCH_LIMIT = 0.5;
 const VIEW_KEY = 'banvy-map-view-v1';
+const EYE_FOG_METRES = 700;
 /* As low as the simulator's fly-in over a green: 26 m back and 21 m up. */
 const GREEN_TILT = 0.89;
 const RELIEF_STEPS = [1, 1.5, 2, 3];
@@ -183,6 +188,7 @@ root.innerHTML = `
       <button data-view="hole" aria-pressed="true">Hela hålet</button>
       <button data-view="behind" aria-pressed="false" aria-label="Bakom bollen, mot greenen">Bakom</button>
       <button data-view="above" aria-pressed="false">Ovanifrån</button>
+      <button data-view="eye" aria-pressed="false" aria-label="Min vy, från ögonhöjd mot greenen">Min vy</button>
       <button data-view="green" aria-pressed="false" aria-label="Greenen nära">Green</button>
     </div>
     <div class="map-tools">
@@ -226,6 +232,7 @@ root.innerHTML = `
     <div data-shots-section hidden>
       <h3>Dina slag</h3>
       <ol class="map-shots" data-shots></ol>
+      <p class="map-shots-hint" data-shots-hint hidden>Fel klubba? Tryck på slaget.</p>
     </div>
     <p class="map-note is-clamped" data-note hidden></p>
     <button class="map-note-more" data-note-more hidden>Läs mer</button>
@@ -274,7 +281,7 @@ const ui = {
   wheel: $('[data-wheel]'), wheelHint: $('[data-wheel-hint]'), hintNote: $('[data-hint-note]'), hintMetres: $('[data-hint-metres]'),
   promptMore: $('[data-prompt-more]'), holeNoteMore: $('[data-note-more]'), locked: $('[data-locked]'), lockedText: $('[data-locked-text]'), lockedPenalty: $('[data-locked-penalty]'), lockedEdit: $('[data-locked-edit]'), same: $('[data-same]'),
   clubsSheet: $('[data-clubs-sheet]'), clubs: $('[data-clubs]'), clubsNote: $('[data-clubs-note]'), clubsCount: $('[data-clubs-count]'),
-  shotsSection: $('[data-shots-section]'), shotList: $('[data-shots]'),
+  shotsSection: $('[data-shots-section]'), shotList: $('[data-shots]'), shotsHint: $('[data-shots-hint]'),
   scoreSheet: $('[data-score-sheet]'), scoreTitle: $('[data-score-title]'), strokeKeys: $('[data-stroke-keys]'), puttKeys: $('[data-putt-keys]'),
   fairwayRow: $('[data-fairway-row]'), fairwayKeys: $('[data-fairway-keys]'), scoreDone: $('[data-score-done]'), scoreStats: $('[data-score-stats]'),
   scoreWord: $('[data-score-word]'), scoreSum: $('[data-score-sum]'), card: $('[data-card]'), handicap: $('[data-handicap]'),
@@ -393,6 +400,11 @@ async function start() {
     target: null,
     follow: true,
     view: QUICK_VIEWS[savedText(VIEW_KEY, 'hole')] ? savedText(VIEW_KEY, 'hole') : 'hole',
+    /* Standing in Min vy, with the relief the map was using and where the eye is turned. */
+    atEye: false,
+    mapRelief: null,
+    eyeTurn: 0,
+    eyePitch: EYE_PITCH,
     /* The hole being played, which stays put while a player looks at another. */
     playing: null,
     /* A tee change of this session, which ends the first tee's special case. */
@@ -463,8 +475,8 @@ async function start() {
   }
 
   function flyTo(view, duration = 800) {
-    const { x, y, z, distance, bearing, tilt } = camera.state;
-    state.flight = createFlight({ x, y, z, distance, bearing, tilt }, view, reducedMotion ? 0 : duration);
+    const { x, y, z, distance, bearing, tilt, fov } = camera.state;
+    state.flight = createFlight({ x, y, z, distance, bearing, tilt, fov }, view, reducedMotion ? 0 : duration);
     state.flightStart = performance.now();
     invalidate();
   }
@@ -480,10 +492,56 @@ async function start() {
     renderer.uploadGreenGrid(null);
   }
 
+  /* Into or out of Min vy, which is the one view that changes more than the camera. */
+  function standAtEye(wanted) {
+    if (wanted === state.atEye) return;
+    state.atEye = wanted;
+    const relief = wanted ? 1 : state.mapRelief;
+    if (wanted) state.mapRelief = state.exaggeration;
+    camera.state.y *= relief / state.exaggeration;
+    state.exaggeration = relief;
+    camera.setLens(camera.state.fov, wanted);
+    if (!wanted) state.mapRelief = null;
+  }
+
+  /* The view from a point: the camera orbits a point straight ahead of the eye, on the
+     line of sight, so the eye itself stands exactly where it should. */
+  function eyeView(from, bearing, pitch, fov = EYE_FOV_DEGREES) {
+    const look = EYE_LOOK_METRES;
+    const y = groundY(from[0], from[1]) * state.exaggeration + EYE_HEIGHT_METRES - Math.tan(pitch) * look;
+    return {
+      x: from[0] + Math.sin(bearing) * look,
+      y,
+      z: from[1] - Math.cos(bearing) * look,
+      distance: look / Math.cos(pitch),
+      bearing,
+      tilt: Math.PI / 2 - pitch,
+      fov,
+    };
+  }
+  const eyeBearing = from => bearingOf(from, hole().green.c) + state.eyeTurn;
+  /* Look around from where the player stands. */
+  function lookAround(turn, lean) {
+    state.eyeTurn += turn;
+    state.eyePitch = clamp(state.eyePitch + lean, -EYE_PITCH_LIMIT, EYE_PITCH_LIMIT);
+    state.viewMoved = true;
+    Object.assign(camera.state, eyeView(origin(), eyeBearing(origin()), state.eyePitch, camera.state.fov));
+    camera.update();
+    invalidate();
+  }
+
   function frameHole(duration = 800) {
     state.viewMoved = false;
     leaveGreen();
     state.framedFrom = origin();
+    standAtEye(state.view === 'eye');
+    if (state.atEye) {
+      state.eyeTurn = 0;
+      state.eyePitch = EYE_PITCH;
+      flyTo(eyeView(origin(), eyeBearing(origin()), EYE_PITCH), duration);
+      return;
+    }
+    camera.setLens();
     const h = hole(), from = origin();
     const rest = state.player?.onCourse ? [from] : [from, ...h.line.slice(1)];
     const points = [...rest, ...h.green.ring.filter((_, i) => i % 3 === 0), h.green.c].map(lifted);
@@ -504,6 +562,8 @@ async function start() {
   function frameGreen(duration = 700) {
     const h = hole(), from = origin();
     leaveGreen();
+    standAtEye(false);
+    camera.setLens();
     state.greenView = true;
     state.viewMoved = false;
     state.follow = false;
@@ -519,6 +579,8 @@ async function start() {
   function frameCourse(duration = 900) {
     state.viewMoved = false;
     leaveGreen();
+    standAtEye(false);
+    camera.setLens();
     const points = course.holes.flatMap(each => [each.line[0], each.green.c]);
     const saved = { ...camera.state };
     const view = camera.fit(points.map(lifted), {
@@ -552,8 +614,9 @@ async function start() {
     ui.from.textContent = state.player?.onCourse ? 'från dig' : 'från tee';
     ui.hole.textContent = state.mode === 'course' ? course.name : `Hål ${h.n}`;
     const length = tee().metres ?? h.lengths[0];
-    if (!ui.menuSheet.hidden) refreshMenu();
-    if (!ui.holeSheet.hidden) refreshHole();
+    /* A fix redraws an open sheet, and a button replaced under a finger loses its tap. */
+    if (!ui.menuSheet.hidden && !state.pressingSheet) refreshMenu();
+    if (!ui.holeSheet.hidden && !state.pressingSheet) refreshHole();
     const percent = value => `${(value * 100).toFixed(1).replace('.', ',')} %`;
     ui.facts.textContent = state.greenGrid
       ? `Snitt ${percent(state.greenGrid.mean)} · max ${percent(state.greenGrid.max)}`
@@ -899,9 +962,13 @@ async function start() {
   /* ---- the sheets ---- */
   const sheets = [[ui.lightSheet, ui.menu], [ui.menuSheet, ui.menu], [ui.clubsSheet, ui.menu], [ui.scoreSheet, ui.score], [ui.holeSheet, ui.holeTool]];
   function showSheet(sheet) {
+    /* A tip by the thumb is about the map, and would lie across the sheet. */
+    if (sheet && ui.status.classList.contains('is-low')) ui.status.hidden = true;
     for (const [each] of sheets) each.hidden = !(each === sheet && each.hidden);
     for (const [, button] of sheets) button.setAttribute('aria-expanded', String(sheets.some(([each, owner]) => owner === button && !each.hidden)));
   }
+  root.addEventListener('pointerdown', event => { state.pressingSheet = Boolean(event.target.closest('.map-sheet')); }, true);
+  for (const type of ['pointerup', 'pointercancel']) window.addEventListener(type, () => { state.pressingSheet = false; }, true);
   ui.light.onclick = () => showSheet(ui.lightSheet);
   $('[data-light-back]').onclick = () => { refreshMenu(); showSheet(ui.menuSheet); };
   ui.menu.onclick = () => {
@@ -921,7 +988,11 @@ async function start() {
     ui.note.classList.remove('is-clamped');
     ui.holeNoteMore.hidden = true;
   };
-  const openHole = () => { refreshHole(); showSheet(ui.holeSheet); };
+  const openHole = () => {
+    state.correcting = null;
+    refreshHole();
+    showSheet(ui.holeSheet);
+  };
   ui.holeTool.onclick = openHole;
   ui.holeText.onclick = openHole;
   for (const button of root.querySelectorAll('[data-close]')) button.onclick = () => showSheet(null);
@@ -969,18 +1040,9 @@ async function start() {
     ui.holeNoteMore.hidden = ui.note.textContent.length < NOTE_CLAMP_LETTERS;
     const played = hasHole ? roundShots().filter(shot => shot.hole === h.n) : [];
     ui.shotsSection.hidden = !played.length;
-    const row = (name, value) => {
-      const item = document.createElement('li');
-      item.innerHTML = '<span></span><b></b>';
-      item.firstChild.textContent = name;
-      item.lastChild.textContent = value;
-      return item;
-    };
-    const putts = played.filter(isPutt).length;
-    ui.shotList.replaceChildren(...played.filter(shot => !isPutt(shot)).map(shot => {
-      const length = shotLength(shot);
-      return row(clubName(shot.club), shot.outcome === 'out' ? 'Omslag' : length === null ? '–' : `${Math.round(length)} m`);
-    }), ...(putts ? [row('Puttar', String(putts))] : []));
+    const strokes = played.filter(shot => !isPutt(shot)), putts = played.length - strokes.length;
+    ui.shotsHint.hidden = !strokes.length;
+    ui.shotList.replaceChildren(...strokes.map(shotRow), ...(putts ? [puttsRow(putts)] : []));
     ui.hazardSection.hidden = !hasHole || !state.hazards.length;
     ui.hazardList.replaceChildren(...state.hazards.map(hazard => {
       const row = document.createElement('li');
@@ -994,6 +1056,61 @@ async function start() {
       showSheet(null);
       pickHole(each.n);
     })));
+  }
+
+  function puttsRow(count) {
+    const item = document.createElement('li');
+    item.innerHTML = '<div class="map-shot"><i></i><span>Puttar</span><b></b></div>';
+    item.querySelector('b').textContent = String(count);
+    return item;
+  }
+
+  /* The whole row is the way in, and the bag opens right under it. */
+  function shotRow(shot, index) {
+    const item = document.createElement('li'), button = document.createElement('button');
+    const name = clubName(shot.club), length = shotLength(shot), open = state.correcting === shot;
+    const result = shot.outcome === 'out' ? 'Omslag' : length === null ? '–' : `${Math.round(length)} m${shot.suspect ? '?' : ''}`;
+    button.className = 'map-shot';
+    button.innerHTML = '<i></i><span></span><b></b>';
+    button.children[0].textContent = String(index + 1);
+    button.children[1].textContent = name;
+    button.children[2].textContent = result;
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', `Slag ${index + 1}, ${name}, ${result === '–' ? 'ingen längd än' : result}. Rätta klubban.`);
+    button.onclick = () => {
+      state.correcting = open ? null : shot;
+      refreshHole();
+      const row = ui.shotList.children[index];
+      row.firstChild.focus({ preventScroll: true });
+      row.scrollIntoView({ block: 'nearest' });
+    };
+    item.append(button);
+    if (open) {
+      const clubs = document.createElement('div');
+      clubs.className = 'map-chips map-shot-clubs';
+      clubs.setAttribute('role', 'group');
+      clubs.setAttribute('aria-label', `Rätt klubba för slag ${index + 1}`);
+      clubs.replaceChildren(...wheelClubs(bag).filter(club => club.carry > 0).map(club => chip(club.name, club.id === shot.club, () => correctShot(shot, club, index))));
+      item.append(clubs);
+    }
+    return item;
+  }
+
+  function correctShot(shot, club, index) {
+    const underWay = shot === openShot(shots);
+    state.correcting = null;
+    if (club.id !== shot.club) {
+      markUndo();
+      shots = correctClub(shots, shot, club);
+      saveShots();
+      relearnBag();
+      /* The wheel shows what is locked. */
+      if (underWay) wheel.rest(club.id);
+      refreshWheel();
+      invalidate();
+    }
+    refreshHole();
+    ui.shotList.children[index].firstChild.focus({ preventScroll: true });
   }
 
   function refreshMenu() {
@@ -1012,7 +1129,13 @@ async function start() {
       if (state.mode === 'hole') frameHole(500);
       invalidate();
     })));
-    ui.reliefs.replaceChildren(...RELIEF_STEPS.map(step => chip(`${String(step).replace('.', ',')}×`, step === state.exaggeration, () => {
+    /* Min vy stands on the true ground: the choice waits for the map's own views. */
+    ui.reliefs.replaceChildren(...RELIEF_STEPS.map(step => chip(`${String(step).replace('.', ',')}×`, step === (state.mapRelief ?? state.exaggeration), () => {
+      if (state.atEye) {
+        state.mapRelief = step;
+        refreshMenu();
+        return;
+      }
       camera.state.y *= step / state.exaggeration;
       state.exaggeration = step;
       refreshMenu();
@@ -1383,9 +1506,8 @@ async function start() {
     const before = open?.hole === h.n ? open : null;
     const lie = surfaceAt(point, h, course.features.water);
     const rise = before ? store.heightAt(point[0], point[1]) - store.heightAt(before.from[0], before.from[1]) : null;
-    const carried = before && bag.find(each => each.id === before.club)?.carry;
     markUndo();
-    shots = lockShot(shots, { hole: h.n, club, point, accuracy, at: Date.now(), lie, rise, farthest: carried ? carried * 1.4 + 20 : Infinity, meta: { course: course.slug, round: round.id } });
+    shots = lockShot(shots, { hole: h.n, club, point, accuracy, at: Date.now(), lie, rise, farthest: reachOf(before && bag.find(each => each.id === before.club)), meta: { course: course.slug, round: round.id } });
     saveShots();
     state.justLocked = true;
     const closed = before ? shots.at(-2) : null;
@@ -1585,6 +1707,13 @@ async function start() {
       state.draggingTarget = Math.hypot(s.x - point.x, s.y - point.y) < GRAB_PIXELS;
     },
     onPan(from, to) {
+      if (state.atEye && !state.draggingTarget) {
+        /* A finger on the view turns the head, one to one with the ground under it. */
+        const perPixel = camera.state.fov * Math.PI / 180 / camera.state.height;
+        state.follow = false;
+        lookAround((from.x - to.x) * perPixel, (from.y - to.y) * perPixel);
+        return;
+      }
       if (state.draggingTarget) {
         const hit = camera.pick(to.x, to.y, store.heightAt, state.exaggeration);
         if (hit) {
@@ -1603,6 +1732,13 @@ async function start() {
       invalidate();
     },
     onTwoFingers({ centre, from, zoom, turn, lean }) {
+      if (state.atEye) {
+        /* Two fingers bring the far end closer, as binoculars do. */
+        state.follow = false;
+        camera.state.fov = clamp(camera.state.fov * zoom, MIN_EYE_FOV_DEGREES, MAX_EYE_FOV_DEGREES);
+        lookAround(0, 0);
+        return;
+      }
       state.follow = false;
       state.viewMoved = true;
       const before = camera.onPlane(from.x, from.y);
@@ -1618,6 +1754,7 @@ async function start() {
       invalidate();
     },
     onTurn(turn, lean) {
+      if (state.atEye) return;
       state.follow = false;
       state.viewMoved = true;
       camera.state.bearing += turn;
@@ -1625,6 +1762,7 @@ async function start() {
       invalidate();
     },
     onDoubleTap(point) {
+      if (state.atEye) return;
       state.follow = false;
       state.viewMoved = true;
       const hit = camera.pick(point.x, point.y, store.heightAt, state.exaggeration);
@@ -1721,8 +1859,8 @@ async function start() {
       if (state.flight.done(elapsed)) state.flight = null;
     } else {
       /* Stand the pivot on the ground as finer heights arrive, gently: a jump
-         here would shake the whole picture. */
-      const want = shown(camera.state.x, camera.state.z);
+         here would shake the whole picture. At eye level it is the eye that stands. */
+      const want = state.atEye ? eyeView(origin(), camera.state.bearing, state.eyePitch).y : shown(camera.state.x, camera.state.z);
       camera.state.y += (want - camera.state.y) * 0.25;
     }
     camera.update();
@@ -1736,11 +1874,12 @@ async function start() {
       camera.update();
     }
     const { eye, clip, pixelsPerRadian } = camera.derived;
+    const planes = frustumPlanes(clip);
     const selection = selectPatches({
       root: store.root,
       isReady: store.isReady,
       eye,
-      planes: frustumPlanes(clip),
+      planes,
       pixelsPerRadian: pixelsPerRadian * pixelRatio(),
       exaggeration: state.exaggeration,
     });
@@ -1769,7 +1908,10 @@ async function start() {
          are too gentle to read at that size. */
       const wide = clamp(Math.log2(distance / 350) / 3, 0, 1);
       const blend = (near, far) => near + (far - near) * wide;
-      const treeReach = pixelsPerRadian * pixelRatio() / 2.6;
+      /* A tree still reads well past where the 1 m ground ends, so it stands as far as a
+         wide view of a hole reaches. Beyond that the painted canopy takes over. */
+      const treeReach = state.atEye ? EYE_TREE_REACH_METRES : clamp(distance * TREE_REACH_PER_DISTANCE, pixelsPerRadian * pixelRatio() / 2.6, MOST_TREE_REACH_METRES);
+      const forest = store.forest({ planes, eye, reach: treeReach, exaggeration: state.exaggeration });
       /* A low sun throws the land's own shadow, tile by tile, nearest first. */
       const lowSun = state.light.sun[1] < SHADE_BELOW_SUN && params.get('hillshade') !== '0';
       if (lowSun) shadesWaiting = store.bakeHillShades(selection.patches, state.light.sun, state.exaggeration, store.root.maxY * state.exaggeration);
@@ -1792,11 +1934,13 @@ async function start() {
         closeness: clamp(1.5 - distance / 900, 0, 1),
         slopeGain: blend(1.25, 1.9) * Math.sqrt(state.exaggeration),
         shading: [blend(-0.24, -0.36), blend(0.18, 0.26), blend(0.1, 0.14), blend(0.08, 0.14)],
-        treeFade: [treeReach * 0.72, treeReach],
+        treeFade: [treeReach * 0.8, treeReach],
+        forest,
         treeBudget: QUALITY_STEPS[state.quality].trees,
-        fog: [distance * 2.2, Math.max(distance * 14, 9000)],
+        /* From the ground the air starts well out, whatever the map's own reach. */
+        fog: state.atEye ? [EYE_FOG_METRES, 9000] : [distance * 2.2, Math.max(distance * 14, 9000)],
         /* The greengrid reads the green by itself, as it does in the simulator. */
-        contour: [interval, state.contours && !state.greenGrid ? blend(0.42, 0.2) : 0, 5],
+        contour: [interval, state.contours && !state.greenGrid && !state.atEye ? blend(0.42, 0.2) : 0, 5],
         greenGrid: state.greenGrid && {
           time: reducedMotion ? 0 : (performance.now() / 1000) % 3600,
           scale: Math.max(1, PULSE_LEAST_PIXELS * metresPerPixel / PULSE_WIDTH_METRES),
@@ -1821,7 +1965,9 @@ async function start() {
       hole: hole(),
       origin: origin(),
       tee: state.player?.onCourse ? null : teePoint(),
-      player: state.player,
+      /* The player is the eye here, with nothing to mark. */
+      player: state.atEye ? null : state.player,
+      carryArcs: !state.atEye,
       target: state.mode === 'hole' ? state.target : null,
       hazards: state.showHazards && !state.greenView ? state.hazards : [],
       shotFrom: state.mode === 'hole' ? trailFrom : null,
@@ -1830,7 +1976,8 @@ async function start() {
     });
 
     state.stats.lastDrawMs = performance.now() - started;
-    if (state.flight || backlog > 0 || shadesWaiting > 0 || Math.abs(shown(camera.state.x, camera.state.z) - camera.state.y) > 0.05) invalidate();
+    const settlingOn = state.atEye ? eyeView(origin(), camera.state.bearing, state.eyePitch).y : shown(camera.state.x, camera.state.z);
+    if (state.flight || backlog > 0 || shadesWaiting > 0 || Math.abs(settlingOn - camera.state.y) > 0.05) invalidate();
     if (store.stats().busy === 0 && !state.flight) {
       refreshProfile();
       /* Read once the 1 m ground under the green is in. */

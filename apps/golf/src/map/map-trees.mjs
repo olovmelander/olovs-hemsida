@@ -107,7 +107,7 @@ export function createTreeRules(course) {
 
 /* One tile's trees, in the map's world, packed for the GPU: x, ground, z, yaw, then
    crown scale, height scale, species and tone. */
-export function plantTile({ node, heights, stand, objects, ground, rules }) {
+export function plantTile({ node, heights, stand, objects, ground, rules, groundAt = null }) {
   const { easting, northing } = ground.frame.origin;
   const loaded = {
     tiles: [{
@@ -119,7 +119,7 @@ export function plantTile({ node, heights, stand, objects, ground, rules }) {
   };
   const { instances } = planV2Vegetation(loaded, {
     mapper: { toWorld: (e, n) => [e - easting, northing - n] },
-    groundHeightAt: (x, z) => sampleTile(heights, (x - node.x0) / node.size, (z - node.z0) / node.size),
+    groundHeightAt: groundAt ?? ((x, z) => sampleTile(heights, (x - node.x0) / node.size, (z - node.z0) / node.size)),
     shoreDistanceAt: rules.shoreDistanceAt,
     species: rules.species,
     defaultSpecies: rules.defaultSpecies,
