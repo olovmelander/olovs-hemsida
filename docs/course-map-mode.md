@@ -52,6 +52,12 @@ say, is the green in 3D with its fall drawn on it.
   speed or pin.
 - **Back to the shot:** the round button appears as soon as the view has left it, and
   returns to the player or the hole. Without it a panned map had no way back.
+- **Min vy** (owner request, 5 November): the first person view. The camera stands 1.8 m
+  above the ground at the player, or the tee, facing the green, with a 52° lens. The
+  relief is drawn at its true height here, whatever Höjdskala says, since a gentle rise
+  raised twice is a wall. The carry arcs and contours go, since they heap up on the horizon,
+  and the air starts 700 m out. One finger turns the head, two zoom, as binoculars do, and
+  a tap still measures. The round button faces the green again.
 - **Quick views** (owner request, 5 November): Hela hålet, Bakom, Ovanifrån and Green,
   in a row with Banan, above the buttons where the thumb already is. The first three frame the same thing, from the ball or the tee to the
   green with play up the screen, at three leans: the map, the golfer's eye and straight
@@ -152,6 +158,14 @@ which pull in three.js. The three species rules the map needs are copied into
 - **A view reads only what it can show.** Tiles are chosen by how large a sample
   lands on screen. An overview uses no 1 m tiles; a hole uses the 5-10 under it.
   A missing child is drawn as its parent's quadrant, so the ground never opens.
+- **The forest loads apart from the ground** (owner request, 5 November: trees went
+  missing round a hole when zooming out). The stands and objects of a 1 m tile are about
+  7 KB against its ground's 50, so a wide view fetches only those for tiles the 1 m ground
+  has not reached, plants them on the coarser ground in memory, and keeps them for the
+  visit (`store.forest`). Trees stand out to 2.4 times the camera's distance, at most 6 km,
+  and thin evenly when the budget runs short (`shareTrees`). Past that the painted canopy
+  takes over. Tiles outside a saved course's holes are not saved, so offline a wood there
+  stays painted.
 - **A tree is two triangles.** The 3 or 5 species' atlases are about 175 KB each.
 - **A slow device steps itself down** (`QUALITY_STEPS`): far trees first, then
   sharpness. The step is remembered. `?mapquality=0..3` pins one. Proven on slowed

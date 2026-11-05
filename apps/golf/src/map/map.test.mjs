@@ -13,7 +13,7 @@ import { inRing, ringSD } from '../engine/geom.js';
 import { planV2Vegetation } from '../engine/v2-vegetation.mjs';
 import treeCatalogues from '../../public/models/map-trees.json';
 import { softened } from './map-paint.mjs';
-import { createCamera, createFlight } from './map-camera.mjs';
+import { createCamera, createFlight, EYE_FOV_DEGREES } from './map-camera.mjs';
 import { createDetailTexture } from './map-detail.mjs';
 import { bakeHillShade, SHADE_SIZE, shadeKey, SHADOW_REACH } from './map-horizon.mjs';
 import { HOUSE_FLOATS, raiseHouses } from './map-houses.mjs';
@@ -23,7 +23,7 @@ import { createTeeWatch, nextHole, TEE_DWELL_MS } from './map-follow.mjs';
 import { buildGreenGrid, GRID_VERTEX_FLOATS, PULSE_FLOATS, slopeAt, slopeColor } from './map-greengrid.mjs';
 import { landRecord, outlineOverLand } from './map-land.mjs';
 import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT } from './map-height.mjs';
-import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
+import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
 import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, sideOfPlay, principalBearing, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
 import { species as angsoSpecies } from '../engine/scenery/angso.js';
@@ -153,6 +153,28 @@ describe('choosing tiles', () => {
     const planes = frustumPlanes(camera.derived.clip);
     expect(boxInFrustum(planes, -5, -5, -5, 5, 5, 5)).toBe(true);
     expect(boxInFrustum(planes, 9000, -5, 9000, 9010, 5, 9010)).toBe(false);
+  });
+});
+
+describe('sharing out the trees', () => {
+  const tiles = (count, reach) => Array.from({ length: count }, (_, k) => ({ id: k, count: 1000, reach }));
+
+  it('draws the nearest in full, and a far wood thinner', () => {
+    const [near, far] = shareTrees([{ count: 1000, reach: 100 }, { count: 1000, reach: 2000 }], 20000, 2000);
+    expect(near.count).toBeGreaterThan(900);
+    expect(far.count).toBeCloseTo(450, -1);
+  });
+
+  it('thins every wood when the budget runs short, rather than dropping the far ones', () => {
+    const shared = shareTrees(tiles(100, 1000), 5000, 3000);
+    expect(shared.length).toBe(100);
+    expect(shared.at(-1).count).toBeGreaterThan(20);
+    expect(shared.reduce((sum, tile) => sum + tile.count, 0)).toBeLessThanOrEqual(5000);
+  });
+
+  it('stays within the budget, however near everything is', () => {
+    const shared = shareTrees(tiles(50, 100), 3000, 3000);
+    expect(shared.reduce((sum, tile) => sum + tile.count, 0)).toBeLessThanOrEqual(3000);
   });
 });
 
@@ -650,6 +672,36 @@ describe('hazards ahead', () => {
 
   it('leaves water that is nowhere near the hole out of it', () => {
     expect(ahead({ waters: [waterShape(square(900, -200, 40))] })).toEqual([]);
+  });
+});
+
+describe('the camera at eye level', () => {
+  it('keeps the map\'s lens until asked, and goes back to it', () => {
+    const camera = createCamera();
+    expect(camera.state.fov).toBe(30);
+    camera.setLens(EYE_FOV_DEGREES, true);
+    expect(camera.state).toMatchObject({ fov: EYE_FOV_DEGREES, atEyeLevel: true });
+    camera.setLens();
+    expect(camera.state).toMatchObject({ fov: 30, atEyeLevel: false });
+  });
+
+  it('widens with the lens, so a point stays where the eye expects it', () => {
+    const camera = createCamera();
+    Object.assign(camera.state, { width: 400, height: 800, distance: 120, tilt: 1.5, x: 0, y: 0, z: 0 });
+    camera.update();
+    const narrow = camera.derived.pixelsPerRadian;
+    camera.setLens(EYE_FOV_DEGREES, true);
+    camera.update();
+    expect(camera.derived.pixelsPerRadian).toBeLessThan(narrow);
+  });
+
+  it('flies the lens with the view, and leaves it alone when a view has none', () => {
+    const from = { x: 0, y: 0, z: 0, distance: 100, bearing: 0, tilt: 1, fov: 30 };
+    const flight = createFlight(from, { ...from, fov: 50 }, 100);
+    expect(flight.at(100).fov).toBeCloseTo(50);
+    const { fov, ...plain } = from;
+    expect(createFlight(from, plain, 100).at(100).fov).toBeUndefined();
+    expect(fov).toBe(30);
   });
 });
 

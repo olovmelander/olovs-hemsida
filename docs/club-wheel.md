@@ -49,6 +49,7 @@ The Mät slag button is gone: the wheel does its job.
 | On the next tee, inside the tee's 20 s | Holds the club | The new hole begins at once, and the lock is its first shot |
 | Second lock within 12 m | Chooses Byt klubba, Nytt slag or Omslag +1 | Changed club, a duffed shot, or stroke and distance |
 | Slip of the thumb | Ångra | One step back, whatever the last step was |
+| The wrong club, found out later | Taps the shot under Dina slag in Hålet, then the right club in the bag that opens there | The club changes on any shot of the round, a shot under way too. The length stands and counts for the new club, and the check for a missed lock runs again against it. Putts are counted, so they stay out of this |
 | Ball in water or a penalty area | Plikt +1 after the next lock | A stroke on the shot that went in, which leaves the lengths |
 | Out of bounds or lost, played again from the spot | Omslag +1 | The shot stays a stroke and leaves the lengths; a new one opens at the same spot |
 | On the green | Holds the putter once, taps the number of putts | The approach ends here, and the hole's score is written: shots, penalties and putts |

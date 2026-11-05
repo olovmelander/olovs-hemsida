@@ -1,7 +1,7 @@
 /* The shot log: two fixes and a club make a shot, and the awkward cases stay honest. */
 import { describe, expect, it } from 'vitest';
 import {
-  addPenalty, changeClub, closeHole, clubStats, holeTally, isPutter, learnedBag, lockShot, openShot, parseHistory, retakeShot, setPutts, shotLength, storeHistory, surfaceAt,
+  addPenalty, changeClub, closeHole, clubStats, correctClub, holeTally, isPutter, learnedBag, lockShot, openShot, parseHistory, reachOf, retakeShot, setPutts, shotLength, storeHistory, surfaceAt,
 } from './map-shots.mjs';
 
 const seven = { id: 'iron-7', carry: 140 }, driver = { id: 'driver', carry: 210 }, putter = { id: 'putter', carry: 0 };
@@ -31,6 +31,39 @@ describe('a shot', () => {
     const list = setPutts(lock(lock([], seven, [0, 0]), own, [0, 150]), 1, 2);
     expect(holeTally(list, 1)).toMatchObject({ strokes: 3, putts: 2 });
     expect(clubStats(list).get('my-blade')).toBeUndefined();
+  });
+
+  it('puts a club right afterwards: the length stands and is the new club\'s', () => {
+    const list = lock(lock([], seven, [0, 0]), seven, [0, 150]);
+    const fixed = correctClub(list, list[0], driver);
+    expect(fixed[0].club).toBe('driver');
+    expect(shotLength(fixed[0])).toBe(150);
+    expect(fixed[1]).toBe(list[1]);
+    expect(list[0].club).toBe('iron-7');
+  });
+
+  it('asks again whether a lock was missed, against the right club', () => {
+    const list = lock(lock([], seven, [0, 0]), seven, [0, 260], { farthest: reachOf(seven) });
+    expect(list[0].suspect).toBe(true);
+    const fixed = correctClub(list, list[0], driver);
+    expect(fixed[0].suspect).toBe(false);
+    expect(clubStats(fixed).get('driver').shots).toBe(1);
+    expect(correctClub(fixed, fixed[0], seven)[0].suspect).toBe(true);
+  });
+
+  it('puts right a shot still under way, and one played again, without a verdict on either', () => {
+    const open = lock([], seven, [0, 0]);
+    expect(correctClub(open, open[0], driver)[0]).toMatchObject({ club: 'driver', outcome: 'open' });
+    expect(correctClub(open, open[0], driver)[0].suspect).toBeUndefined();
+    const out = retakeShot(open, { club: seven, at: 2000 });
+    expect(correctClub(out, out[0], driver).map(shot => shot.club)).toEqual(['driver', 'iron-7']);
+  });
+
+  it('leaves putts, the putter and a shot from another list alone', () => {
+    const list = lock(lock([], seven, [0, 0]), putter, [0, 150]);
+    expect(correctClub(list, list[1], driver)).toBe(list);
+    expect(correctClub(list, list[0], putter)).toBe(list);
+    expect(correctClub(list, { ...list[0] }, driver)).toBe(list);
   });
 
   it('takes a change of mind before the swing without a new stroke', () => {

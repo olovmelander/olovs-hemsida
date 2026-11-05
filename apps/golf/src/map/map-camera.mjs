@@ -3,6 +3,10 @@
 
    World: x east, y up, z south. Bearing 0 has north up the screen. */
 const FOV_DEGREES = 30;
+/* Standing on the ground: what a golfer sees, and a near plane that lets a tree beside
+   them stay whole. */
+export const EYE_FOV_DEGREES = 52, MIN_EYE_FOV_DEGREES = 14, MAX_EYE_FOV_DEGREES = 62;
+const EYE_NEAR_METRES = 1;
 export const MIN_TILT = 0.03, MAX_TILT = 1.32;
 export const MIN_DISTANCE = 45, MAX_DISTANCE = 16000;
 
@@ -19,11 +23,11 @@ function multiply(a, b) {
 }
 
 export function createCamera() {
-  const state = { x: 0, y: 0, z: 0, distance: 1000, bearing: 0, tilt: 0.9, width: 1, height: 1 };
+  const state = { x: 0, y: 0, z: 0, distance: 1000, bearing: 0, tilt: 0.9, fov: FOV_DEGREES, atEyeLevel: false, width: 1, height: 1 };
   const derived = { eye: [0, 0, 0], clip: new Float32Array(16), pixelsPerRadian: 1, right: [1, 0, 0], up: [0, 1, 0], forward: [0, 0, -1] };
 
   function update() {
-    const { x, y, z, distance, bearing, tilt, width, height } = state;
+    const { x, y, z, distance, bearing, tilt, fov, atEyeLevel, width, height } = state;
     const ground = [Math.sin(bearing), 0, -Math.cos(bearing)];
     const eye = [
       x - ground[0] * distance * Math.sin(tilt),
@@ -41,8 +45,8 @@ export function createCamera() {
     ]);
     /* Near grows with the view: depth precision is spent on the ground in
        front of the camera and the 16 km horizon still fits. */
-    const near = Math.max(4, distance * 0.08), far = Math.max(distance * 40, 42000);
-    const f = 1 / Math.tan(FOV_DEGREES * Math.PI / 360);
+    const near = atEyeLevel ? EYE_NEAR_METRES : Math.max(4, distance * 0.08), far = Math.max(distance * 40, 42000);
+    const f = 1 / Math.tan(fov * Math.PI / 360);
     const projection = new Float32Array([
       f / (width / height), 0, 0, 0,
       0, f, 0, 0,
@@ -68,7 +72,7 @@ export function createCamera() {
   }
 
   function ray(sx, sy) {
-    const f = 1 / Math.tan(FOV_DEGREES * Math.PI / 360);
+    const f = 1 / Math.tan(state.fov * Math.PI / 360);
     const nx = (sx / state.width * 2 - 1) * (state.width / state.height) / f;
     const ny = (1 - sy / state.height * 2) / f;
     const { forward, right, up, eye } = derived;
@@ -98,7 +102,8 @@ export function createCamera() {
       return origin[1] + direction[1] * t - (Number.isFinite(h) ? h * exaggeration : state.y);
     };
     let t = 0, step = Math.max(2, state.distance / 90);
-    const limit = state.distance * 8;
+    /* From eye level a tap can land a long way off along the ground. */
+    const limit = state.atEyeLevel ? 1500 : state.distance * 8;
     while (t < limit && above(t + step) > 0) t += step;
     if (t >= limit) return onPlane(sx, sy);
     let low = t, high = t + step;
@@ -156,8 +161,14 @@ export function createCamera() {
     return { x: state.x, y: state.y, z: state.z, distance: state.distance, bearing, tilt };
   }
 
+  /* The lens and the near plane of a view: the map's own without an argument. */
+  function setLens(fov = FOV_DEGREES, atEyeLevel = false) {
+    state.fov = fov;
+    state.atEyeLevel = atEyeLevel;
+  }
+
   update();
-  return { state, derived, update, project, ray, onPlane, pick, fit };
+  return { state, derived, update, project, ray, onPlane, pick, fit, setLens };
 }
 
 const ease = t => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
@@ -181,6 +192,7 @@ export function createFlight(from, to, duration) {
         distance: from.distance * Math.exp(scale * k),
         bearing: from.bearing + turn * k,
         tilt: from.tilt + (to.tilt - from.tilt) * k,
+        ...(Number.isFinite(to.fov) ? { fov: from.fov + (to.fov - from.fov) * k } : {}),
       };
     },
     done: t => t >= duration,

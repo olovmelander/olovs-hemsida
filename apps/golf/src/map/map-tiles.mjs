@@ -8,7 +8,7 @@
 import { verifyChunkAssetWeb } from '../../../../packages/course-v2/runtime/decode-web.mjs';
 import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.mjs';
 import { bakeTileRelief, decodeTileHeights, sampleTile } from './map-height.mjs';
-import { buildTileTree, TILE_SAMPLES } from './map-lod.mjs';
+import { boxInFrustum, buildTileTree, TILE_SAMPLES } from './map-lod.mjs';
 import { bakeHillShade, shadeKey } from './map-horizon.mjs';
 import { raiseHouses } from './map-houses.mjs';
 import { plantTile } from './map-trees.mjs';
@@ -21,11 +21,15 @@ const SHADES_PER_FRAME = 2;
    textures under 130 MB however long the round. */
 const MAX_RESIDENT_TILES = 48;
 
+/* How long a tile that could not be had waits before it is asked for again. */
+const RETRY_MS = 15000;
+/* The forest beyond the 1 m ground: a tile's trees are about 7 KB against its ground's
+   50, so a wide view can keep them without loading the ground under them. */
+const FOREST_FETCHES = 3, FOREST_PLANTS_PER_FRAME = 2;
+
 /* The tree pictures are one small download shared by a whole course, and addressed
    by content, so the first visit keeps them: no later visit, and no bad signal, has
    to fetch them again. */
-/* How long a tile that could not be had waits before it is asked for again. */
-const RETRY_MS = 15000;
 
 export async function fetchKeptFile(url) {
   const cache = globalThis.caches ? await caches.open(MAP_OFFLINE_CACHE).catch(() => null) : null;
@@ -56,20 +60,26 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
   const datum = ground.frame.origin.heightRH2000;
   const pending = new Map();      /* wanted, by node id, this view's order */
   const uploads = [];             /* decoded and waiting for their turn */
+  const forestWanted = new Map(); /* tiles whose trees this view could use */
+  const forestPlanting = [];      /* their records in, waiting to be planted */
+  const metreTiles = [...nodes.values()].filter(node => node.lod === 0 && node.layers.stands);
+  let forestActive = 0;
   let active = 0, clock = 0, disposed = false, bytesFetched = 0, failures = 0;
 
   const isReady = node => node.state === 'ready';
   const fileUrl = file => resolveV2AssetUrl(file.url, baseHref);
 
+  const readLayer = async reference => {
+    if (!reference) return null;
+    const bytes = await fetchTileBytes(fileUrl(reference));
+    bytesFetched += bytes.byteLength;
+    return verifyChunkAssetWeb(reference, bytes);
+  };
+
   /* The vegetation on a 1 m tile is an extra, a few kilobytes: if it fails the
      tile is still the right ground. */
   async function loadVegetation(node, heights) {
-    const read = async reference => {
-      if (!reference) return null;
-      const bytes = await fetchTileBytes(fileUrl(reference));
-      bytesFetched += bytes.byteLength;
-      return verifyChunkAssetWeb(reference, bytes);
-    };
+    const read = readLayer;
     try {
       const [stands, objects] = await Promise.all([read(node.layers.stands), read(node.layers.objects)]);
       const stand = stands && { payload: stands.payload, section: stands.header.standField };
@@ -115,6 +125,36 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       active--;
       pump();
       onChange();
+    }
+  }
+
+  /* Only a tile's trees, on whatever ground is in memory. They stay for the visit:
+     a whole ground's are a few megabytes. A wood is a nicety: one that cannot be had
+     waits its turn again, as a tile does. */
+  async function loadForest(node) {
+    node.forest = 'loading';
+    try {
+      const [stands, objects] = await Promise.all([readLayer(node.layers.stands), readLayer(node.layers.objects)]);
+      node.forestRecords = { stand: stands && { payload: stands.payload, section: stands.header.standField }, objects: objects?.content?.records };
+      forestPlanting.push(node);
+    } catch (error) {
+      node.forest = 'failed';
+      node.failedAt = performance.now();
+      setTimeout(onChange, RETRY_MS);
+      console.warn(`map forest ${node.id}: ${error.message}`);
+    } finally {
+      forestActive--;
+      pumpForest();
+      onChange();
+    }
+  }
+
+  function pumpForest() {
+    while (forestActive < FOREST_FETCHES && forestWanted.size) {
+      const [id, node] = forestWanted.entries().next().value;
+      forestWanted.delete(id);
+      forestActive++;
+      loadForest(node);
     }
   }
 
@@ -187,7 +227,31 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
         node.state = 'ready';
         node.used = ++clock;
       }
-      return uploads.length;
+      for (let i = 0; i < FOREST_PLANTS_PER_FRAME && forestPlanting.length; i++) {
+        const node = forestPlanting.shift();
+        const { stand, objects } = node.forestRecords;
+        const trees = plantTile({ node, stand, objects: objects ?? null, ground, rules, groundAt: this.heightAt });
+        node.forestRecords = null;
+        node.forestGpu = trees.length ? renderer.uploadForest(trees) : null;
+        node.forest = 'ready';
+      }
+      return uploads.length + forestPlanting.length;
+    },
+
+    /* The forest in view, as far as a tree still reads. Its tiles are asked for nearest
+       first, and those a 1 m tile already plants are left to it. */
+    forest({ planes, eye, reach, exaggeration }) {
+      const standing = [], missing = [];
+      for (const node of metreTiles) {
+        const away = Math.hypot(node.x0 + node.size / 2 - eye[0], node.z0 + node.size / 2 - eye[2]) - node.size;
+        if (away > reach || !boxInFrustum(planes, node.x0, node.minY * exaggeration, node.z0, node.x0 + node.size, node.maxY * exaggeration, node.z0 + node.size)) continue;
+        if (node.forestGpu) standing.push({ node, reach: away });
+        else if (!node.gpu?.trees && (!node.forest || (node.forest === 'failed' && performance.now() - node.failedAt >= RETRY_MS))) missing.push({ node, away });
+      }
+      forestWanted.clear();
+      for (const { node } of missing.sort((a, b) => a.away - b.away)) forestWanted.set(node.id, node);
+      pumpForest();
+      return standing;
     },
 
     /* All the view went through stays, drawn or not, or a tile thrown out as soon as it
@@ -239,7 +303,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       metreTiles: [...nodes.values()].filter(node => node.lod === 0 && isReady(node)).length,
       bytesFetched,
       failures,
-      busy: active + pending.size + uploads.length,
+      busy: active + pending.size + uploads.length + forestActive + forestWanted.size + forestPlanting.length,
     }),
 
     /* After a lost context nothing on the GPU survives; decoded heights do, but
@@ -250,8 +314,12 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
          "loading" for good and its ground never comes back. */
       const queued = new Set(uploads);
       uploads.length = 0;
+      forestWanted.clear();
+      forestPlanting.length = 0;
       for (const node of nodes.values()) {
         if (node.state === 'ready' || node.state === 'failed' || queued.has(node)) node.state = null;
+        node.forestGpu = null;
+        if (node.forest !== 'loading') node.forest = null;
         node.gpu = null;
         node.shadeKey = null;
       }
