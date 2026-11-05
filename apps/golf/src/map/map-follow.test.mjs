@@ -48,6 +48,7 @@ describe('the next tee', () => {
     expect(watch.waiting).toBe(false);
     at(teeOf(4), 0);
     expect(watch.waiting).toBe(true);
+    expect(watch.candidate).toBe(4);
   });
 
   it('counts a player who has walked on through as never having stood there', () => {

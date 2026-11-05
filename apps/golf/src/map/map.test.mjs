@@ -156,6 +156,25 @@ describe('choosing tiles', () => {
   });
 });
 
+describe('tiles that show nothing', () => {
+  it('reports a tile it passed through, or eviction would make the map reload it for ever', () => {
+    const { root, nodes } = buildTileTree(miniGround());
+    root.minY = 0;
+    root.maxY = 100;
+    const child = nodes.get('m00');
+    child.minY = 90;
+    child.maxY = 100;
+    for (const node of nodes.values()) if (node !== root && node !== child) { node.minY = 0; node.maxY = 1; }
+    /* Everything up to 50 m in view: the parent's range reaches it, the child's does not. */
+    const planes = [[0, -1, 0, 50], ...everyPlane().slice(1)];
+    const ready = new Set([root, child]);
+    const { patches, visited, wanted } = selectPatches({ root, isReady: node => ready.has(node), eye: [256, 200, 256], planes, pixelsPerRadian: 4000 });
+    expect(visited).toContain(child);
+    expect(patches.some(patch => patch.node === child)).toBe(false);
+    expect(wanted.some(item => item.node === child)).toBe(false);
+  });
+});
+
 describe('reading a tile', () => {
   const grid = { width: 3, height: 2, heightOffsetMetres: 10, heightScaleMetres: 0.01, noDataValue: 65535, rowOrder: 'north-to-south', columnOrder: 'west-to-east' };
   const payload = values => new Uint8Array(new Uint16Array(values).buffer);

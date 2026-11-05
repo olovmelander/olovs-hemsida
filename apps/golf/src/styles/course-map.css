@@ -37,16 +37,19 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   text-decoration: none;
 }
 .map-key {
-  flex: 0 0 46px;
+  flex: 0 0 56px;
   height: 56px;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   border-radius: 14px;
   background: rgba(12, 24, 18, .9);
-  font-size: 24px;
+  font-size: 11.5px;
+  font-weight: 600;
   line-height: 1;
 }
-.map-key[aria-pressed="true"] { background: #1f8a4c; }
 .map-hole {
   flex: 1;
   min-width: 0;
@@ -72,11 +75,11 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   pointer-events: none;
 }
 .map-wind {
-  display: grid;
-  grid-template-columns: 22px 1fr;
+  display: flex;
   align-items: center;
-  column-gap: 2px;
-  padding: 5px 6px;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 4px;
   border: 0;
   border-radius: 12px;
   background: rgba(12, 24, 18, .9);
@@ -87,9 +90,113 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   pointer-events: auto;
 }
 .map-wind[hidden] { display: none; }
-.map-wind svg { grid-row: span 2; color: #9fd8ff; transition: transform .2s; }
-.map-wind b { font-size: 13.5px; font-weight: 700; line-height: 1.1; white-space: nowrap; }
-.map-wind span { font-size: 12px; line-height: 1.1; color: #c9d8cf; }
+.map-wind svg { flex: none; color: #9fd8ff; transition: transform .2s; }
+.map-wind b { font-size: 14px; font-weight: 700; line-height: 1.1; white-space: nowrap; }
+/* The club wheel: the one thing always under the thumb. */
+.map-wheel {
+  --rows: 5;
+  position: relative;
+  isolation: isolate;
+  height: calc(var(--rows) * 50px);
+  flex: none;
+  border-radius: 14px;
+  background: rgba(12, 24, 18, .92);
+  overflow: hidden;
+  pointer-events: auto;
+  touch-action: pan-y;
+  -webkit-touch-callout: none;
+}
+@media (max-height: 820px) { .map-wheel { --rows: 3; } }
+.map-wheel.is-away { visibility: hidden; }
+.map-wheel-list {
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  padding-block: calc((var(--rows) - 1) * 25px);
+  overflow-y: scroll;
+  overscroll-behavior: contain;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  outline: none;
+}
+.map-wheel-list::-webkit-scrollbar { display: none; }
+.map-wheel-row {
+  position: relative;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  line-height: 1.1;
+  cursor: grab;
+}
+.map-wheel-row.is-held { background: rgba(255, 210, 63, .28); }
+.map-wheel-row b { font-size: 15px; font-weight: 600; white-space: nowrap; }
+.map-wheel-row small { font-size: 12px; color: #e6eee9; font-variant-numeric: tabular-nums; }
+.map-wheel-row[aria-selected="true"] b { font-size: 16.5px; font-weight: 700; color: #ffd23f; }
+.map-wheel-row[aria-selected="true"] small { color: #fff; }
+.map-wheel.is-holding .map-wheel-row[aria-selected="true"] b { color: #fff; }
+/* The suggestion, wherever the wheel is turned to. */
+.map-wheel-row.is-suggested::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: #ffd23f;
+}
+.map-wheel-band {
+  position: absolute;
+  z-index: 1;
+  left: 2px;
+  right: 2px;
+  top: calc(50% - 25px);
+  height: 50px;
+  box-sizing: border-box;
+  border: 2px solid #ffd23f;
+  border-radius: 12px;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* The hold, filling across the club until it locks. */
+.map-wheel-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 210, 63, .42);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.map-wheel.is-holding .map-wheel-band::before { transform: scaleX(1); transition: transform .9s linear; }
+.map-wheel::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border: 3px solid #ffd23f;
+  border-radius: 14px;
+  opacity: 0;
+  pointer-events: none;
+}
+.map-wheel.is-holding::after { opacity: 1; transition: opacity .9s ease-in; }
+.map-wheel.is-locked .map-wheel-band { border-color: #35d07f; background: rgba(53, 208, 127, .2); }
+.map-wheel-hint {
+  margin: 0;
+  padding: 5px 2px;
+  border-radius: 12px;
+  background: rgba(12, 24, 18, .9);
+  line-height: 1.1;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.map-wheel-hint small { display: block; font-size: 12px; font-weight: 600; color: #e6eee9; white-space: nowrap; }
+.map-wheel-hint b { display: block; font-size: 22px; font-weight: 700; color: #ffd23f; }
+.map-wheel-hint b:empty { display: none; }
+.map-wheel-hint[hidden] { display: none; }
 .map-green {
   display: block;
   width: 100%;
@@ -104,7 +211,8 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   pointer-events: auto;
 }
 .map-green[hidden] { display: none; }
-.map-green[aria-pressed="true"] { box-shadow: inset 0 0 0 2px #ffd23f; }
+.map-green.is-on .map-green-row:not(.map-green-mid), .map-green.is-on i, .map-green.is-on small { display: none; }
+.map-green.is-on .map-green-mid b { font-size: 16px; line-height: 1.2; }
 .map-green-row { display: block; padding: 2px 0; line-height: 1; }
 .map-green i { display: block; font-size: 11px; font-style: normal; letter-spacing: .04em; text-transform: uppercase; color: #c9d8cf; }
 .map-green b { display: block; font-size: 23px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 1px; }
@@ -133,21 +241,33 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   pointer-events: none;
 }
 .map-float > * { pointer-events: auto; }
-/* Under the numbers, in the column every hole is framed clear of, so a view button
-   never covers the player, the line or a reading. */
+/* Above the buttons, where the thumb already is. */
 .map-views {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
   gap: 2px;
   padding: 3px;
   border-radius: 14px;
   background: rgba(12, 24, 18, .9);
-  pointer-events: auto;
 }
 .map-views[hidden] { display: none; }
+/* Everything a finger presses answers at once: gloves hide the feel of a tap. */
+.map-tool:active, .map-chip:active, .map-action:active, .map-key:active, .map-hole button:active, .map-views button:active,
+.map-recentre:active, .map-locked button:active, .map-green:active, .map-stepper button:active, .map-sheet-close:active,
+.map-wind:active, .map-row-next:active, .map-prompt-head button:active, .map-card button:active {
+  filter: brightness(1.3);
+  transform: scale(.97);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .map-sheet:not([hidden]), .map-locked:not([hidden]), .map-prompt:not([hidden]), .map-reading:not([hidden]) { animation: map-rise .18s ease-out; }
+  .map-status:not([hidden]) { animation: map-fall .18s ease-out; }
+  .map-tool, .map-chip, .map-action, .map-views button, .map-green, .map-key { transition: background-color .14s, color .14s, transform .08s, filter .08s; }
+}
+@keyframes map-rise { from { opacity: 0; transform: translateY(12px); } }
+@keyframes map-fall { from { opacity: 0; margin-top: -8px; } }
 .map-views button {
   height: 40px;
-  padding: 0;
+  padding: 0 4px;
   border: 0;
   border-radius: 11px;
   background: none;
@@ -159,8 +279,9 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   cursor: pointer;
 }
 .map-views button[aria-pressed="true"] { background: #ffd23f; color: #10201a; }
+@media (max-width: 380px) { .map-views button { padding: 0 2px; font-size: 12px; } }
 .map-views button:focus-visible { outline: 3px solid #ffd23f; outline-offset: 1px; }
-.map-recentre, .map-shot {
+.map-recentre {
   height: 48px;
   border: 0;
   background: rgba(12, 24, 18, .9);
@@ -169,9 +290,15 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   cursor: pointer;
 }
 .map-recentre { width: 48px; display: grid; place-items: center; border-radius: 50%; color: #9fd8ff; }
-.map-shot { display: flex; align-items: center; gap: 6px; padding: 0 14px; border-radius: 24px; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.map-shot[aria-pressed="true"] { background: #fff; color: #10201a; }
-.map-recentre[hidden], .map-shot[hidden] { display: none; }
+.map-recentre[hidden] { display: none; }
+.map-locked { display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 12px; border-radius: 14px; background: #0c1812; box-shadow: 0 6px 22px rgba(0, 0, 0, .35); }
+.map-locked[hidden] { display: none; }
+.map-locked b { flex: 1; min-width: 0; font-size: 17px; font-weight: 700; color: #ffd23f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.map-locked button { min-height: 42px; padding: 0 10px; border: 0; border-radius: 11px; background: rgba(255, 255, 255, .12); color: inherit; font: inherit; font-size: 13.5px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.map-locked button[hidden] { display: none; }
+.map-same { flex-wrap: wrap; padding: 8px 8px 8px; }
+.map-same b { flex: 1 0 100%; padding-left: 4px; font-size: 15px; color: #fff; }
+.map-same div { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
 .map-prompt { padding: 8px 10px 10px; border-radius: 14px; background: #0c1812; box-shadow: 0 6px 22px rgba(0, 0, 0, .35); }
 .map-prompt[hidden] { display: none; }
 .map-prompt-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
@@ -259,13 +386,15 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 }
 .map-tool svg { flex: none; }
 .map-tool[hidden] { display: none; }
-.map-tool[aria-pressed="true"] { background: #2e86ff; }
-.map-tool[aria-expanded="true"] { background: #1f8a4c; }
+/* Yellow is what is chosen, green what is on or locked. */
+.map-tool[aria-pressed="true"] { background: #1f8a4c; }
+.map-tool[aria-expanded="true"] { background: #ffd23f; color: #10201a; }
 .map-tool:disabled { opacity: .7; }
-.map-key:focus-visible, .map-tool:focus-visible, .map-hole button:focus-visible, .map-chip:focus-visible, .map-action:focus-visible, .map-sheet-close:focus-visible, .map-wind:focus-visible, .map-stepper button:focus-visible, .map-card button:focus-visible, .map-green:focus-visible, .map-recentre:focus-visible, .map-shot:focus-visible, .map-row-next:focus-visible, .map-prompt-head button:focus-visible { outline: 3px solid #ffd23f; outline-offset: 2px; }
+.map-key:focus-visible, .map-tool:focus-visible, .map-hole button:focus-visible, .map-chip:focus-visible, .map-action:focus-visible, .map-sheet-close:focus-visible, .map-wind:focus-visible, .map-stepper button:focus-visible, .map-card button:focus-visible, .map-green:focus-visible, .map-recentre:focus-visible, .map-locked button:focus-visible, .map-wheel-list:focus-visible, .map-row-next:focus-visible, .map-prompt-head button:focus-visible { outline: 3px solid #ffd23f; outline-offset: 2px; }
 
 .map-status {
   position: absolute;
+  z-index: 2;
   left: 50%;
   top: calc(env(safe-area-inset-top, 0px) + 76px);
   transform: translateX(-50%);
@@ -277,19 +406,24 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   text-align: center;
 }
 .map-status[hidden] { display: none; }
+/* A tip belongs by the thumb, not over the flag. */
+.map-status.is-low { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 186px); }
 
 @media (orientation: landscape) and (max-height: 520px) {
   .map-profile, .map-legend { display: none; }
   /* The column has no height to spare here, and a reading takes the foot: they lie
      along the header instead. */
-  .map-views {
+  .map-views button { height: 34px; }
+  /* The numbers fill the side here: the wheel takes the other one. */
+  .map-wheel {
     position: fixed;
     left: calc(env(safe-area-inset-left, 0px) + 10px);
-    top: calc(env(safe-area-inset-top, 0px) + 74px);
-    flex-direction: row;
+    top: calc(env(safe-area-inset-top, 0px) + 76px);
+    width: 76px;
+    --rows: 5;
   }
-  .map-views button { padding: 0 10px; height: 36px; }
-  .map-bottom { right: calc(env(safe-area-inset-right, 0px) + 96px); }
+  .map-wheel-hint { display: none; }
+  .map-bottom { left: calc(env(safe-area-inset-left, 0px) + 94px); right: calc(env(safe-area-inset-right, 0px) + 96px); }
   .map-tool { height: 44px; }
   .map-side { top: calc(env(safe-area-inset-top, 0px) + 74px); }
   .map-green-mid b { font-size: 30px; }
@@ -336,11 +470,24 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
 .map-sheet h3 { margin: 14px 0 6px; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #c9d8cf; }
 .map-note { margin: 0 0 2px; font-size: 14.5px; line-height: 1.42; color: #e6eee9; }
 .map-note[hidden] { display: none; }
+.map-note.is-clamped { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
+.map-note.is-clamped[hidden] { display: none; }
+.map-note { margin-top: 12px; }
+.map-note-more { min-height: 38px; padding: 0; border: 0; background: none; color: #9fd8ff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.map-note-more[hidden] { display: none; }
 [data-hazard-section][hidden], .map-key-row[hidden] { display: none; }
 .map-hazards { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
 .map-hazards li { display: grid; grid-template-columns: 14px 1fr auto 76px; align-items: baseline; gap: 8px; min-height: 30px; font-size: 15px; }
 .map-hazards b { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
 .map-hazards small { color: #c9d8cf; font-size: 13px; font-variant-numeric: tabular-nums; }
+.map-shots { display: grid; gap: 2px; margin: 0; padding: 0 0 0 20px; font-size: 15px; }
+.map-shots li > * { vertical-align: baseline; }
+.map-shots b { float: right; font-variant-numeric: tabular-nums; }
+.map-clubs { display: grid; gap: 2px; margin: 8px 0 0; padding: 0; list-style: none; }
+.map-clubs li { display: grid; grid-template-columns: 1fr auto 62px; align-items: baseline; gap: 8px; min-height: 30px; font-size: 15px; }
+.map-clubs b { font-size: 18px; font-variant-numeric: tabular-nums; }
+.map-clubs .is-bag b { color: #8ea097; font-weight: 500; }
+.map-clubs small { color: #c9d8cf; font-size: 13px; text-align: right; font-variant-numeric: tabular-nums; }
 .map-dot { width: 12px; height: 12px; border-radius: 50%; align-self: center; }
 .map-dot.is-water { background: #3c97d6; }
 .map-dot.is-bunker { background: #f0e5c2; }
@@ -378,13 +525,42 @@ html:has(body.course-map), body.course-map { height: 100%; overflow: hidden; ove
   text-shadow: 0 1px 3px rgba(0, 0, 0, .75);
 }
 .map-light-chip[aria-pressed="true"] { background: var(--swatch); color: #fff; outline: 3px solid #ffd23f; outline-offset: -3px; }
-.map-row { display: flex; align-items: center; justify-content: space-between; min-height: 46px; margin-top: 8px; font-size: 15px; font-weight: 600; }
-.map-row input { width: 24px; height: 24px; accent-color: #1f8a4c; }
+.map-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 46px; font-size: 15px; font-weight: 600; }
+/* A switch, not a form's checkbox. */
+.map-row input {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex: none;
+  width: 48px;
+  height: 28px;
+  margin: 0;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .2);
+  cursor: pointer;
+  transition: background-color .14s;
+}
+.map-row input::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform .14s;
+}
+.map-row input:checked { background: #1f8a4c; }
+.map-row input:checked::after { transform: translateX(20px); }
+.map-row input:focus-visible { outline: 3px solid #ffd23f; outline-offset: 2px; }
+.map-row .map-chips { flex-wrap: nowrap; }
+.map-row .map-chip { min-height: 38px; padding: 0 10px; font-size: 14px; }
 .map-row-next { width: 100%; border: 0; background: none; color: inherit; font-family: inherit; cursor: pointer; margin-top: 0; padding: 0; text-align: left; }
 .map-row-value { color: #c9d8cf; font-weight: 500; }
 .map-row-value::after { content: ' ›'; }
 .map-actions { display: grid; gap: 7px; margin-top: 8px; }
-.map-action-next { width: 100%; margin-top: 9px; background: #1f8a4c; }
+.map-action-next { width: 100%; margin-top: 9px; background: #ffd23f; color: #10201a; }
 .map-action {
   display: grid;
   place-items: center;
