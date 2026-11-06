@@ -54,7 +54,7 @@ export const AIR_MOTES = Object.freeze({
   /* each light's air: [pollen, down], 0 to 1 */
   presets: Object.freeze({
     golden: [0.9, 0.6], noon: [0.45, 0.3], summer: [0.8, 0.7], dawn: [0.5, 0.3], midnight: [0.7, 0.5],
-    bluehour: [0.12, 0.08], storm: [0, 0], mist: [0, 0], host: [0.2, 0.55],
+    bluehour: [0.12, 0.08], storm: [0, 0], mist: [0, 0], host: [0.2, 0.55], winter: [0, 0],
   }),
 });
 

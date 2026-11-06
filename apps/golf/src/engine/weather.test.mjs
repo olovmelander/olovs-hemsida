@@ -16,7 +16,13 @@ describe('openMeteoUrl', () => {
 
 describe('parseOpenMeteo', () => {
   it('keeps the fields the card uses', () => {
-    expect(parseOpenMeteo(payload)).toEqual({ tempC: 15.1, windMs: 1.6, windFromDeg: 283, gustMs: 4.8, code: 0, time: '2026-09-03T19:00' });
+    expect(parseOpenMeteo(payload)).toEqual({ tempC: 15.1, windMs: 1.6, windFromDeg: 283, gustMs: 4.8, code: 0, time: '2026-09-03T19:00',
+      cloudPct: null, precipMm: null, snowDepthM: null, visibilityM: null });
+  });
+  it('keeps the sky Nu reads: cloud, rain, the snow on the ground and how far one sees', () => {
+    const sky = { current: { ...payload.current, cloud_cover: 88, precipitation: 0.4, snow_depth: 0.12, visibility: 9000 } };
+    expect(parseOpenMeteo(sky)).toMatchObject({ cloudPct: 88, precipMm: 0.4, snowDepthM: 0.12, visibilityM: 9000 });
+    expect(openMeteoUrl(63.3, 18.9)).toContain('cloud_cover%2Cprecipitation%2Csnow_depth%2Cvisibility');
   });
   it('refuses a payload without wind', () => {
     expect(parseOpenMeteo({ current: { temperature_2m: 10 } })).toBeNull();

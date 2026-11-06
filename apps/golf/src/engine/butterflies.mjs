@@ -34,7 +34,7 @@ export const BUTTERFLIES = Object.freeze({
   beatHz: Object.freeze([9, 13]),
   /* brimstone, cabbage white, common blue, small tortoiseshell: upper side, linear-ish */
   colours: Object.freeze([[1.0, 0.86, 0.22], [0.96, 0.95, 0.9], [0.42, 0.62, 1.0], [0.98, 0.5, 0.16]]),
-  presets: Object.freeze({ golden: 0.8, noon: 1, summer: 1, dawn: 0.5, midnight: 0.6, host: 0.25, bluehour: 0, storm: 0, mist: 0 }),
+  presets: Object.freeze({ golden: 0.8, noon: 1, summer: 1, dawn: 0.5, midnight: 0.6, host: 0.25, bluehour: 0, storm: 0, mist: 0, winter: 0 }),
 });
 
 export const butterfliesFor = presetName => BUTTERFLIES.presets[presetName] ?? 0;

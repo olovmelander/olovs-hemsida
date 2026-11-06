@@ -36,6 +36,8 @@ export const BIRDS = Object.freeze({
   /* each light's sky: 1 full, 0 none */
   presets: Object.freeze({
     golden: 1, noon: 0.85, summer: 1, dawn: 0.7, midnight: 0.8, host: 0.9, bluehour: 0, storm: 0, mist: 0,
+    /* a clear winter day keeps a few flocks: crows and finches, not swallows */
+    winter: 0.35,
   }),
 });
 

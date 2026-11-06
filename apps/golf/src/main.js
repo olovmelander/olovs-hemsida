@@ -38,13 +38,14 @@ import {
   floor, step, exp, sqrt, length, cross, saturate, oneMinus, select, luminance, fwidth,
   mx_noise_float, mx_fractal_noise_float, pass, screenUV, positionView, reflect,
   normalMap, bumpMap, hash as tslHash, mrt, output, velocity,
-  cameraViewMatrix, transformNormalByViewMatrix,
+  cameraViewMatrix, transformNormalByViewMatrix, materialColor,
 } from 'three/tsl';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { createAtmosphericSky, setAtmospherePreset, setSkyGroundHaze, atmosphereState } from './engine/atmospheric-sky.mjs';
 import { ATMOSPHERE_PRESETS as PRESETS } from './engine/atmosphere-presets.mjs';
 import { paintedGroundPalette, PAINTED_SCENERY, paintedAtmosphere } from './engine/painted-world-palette.mjs';
 import { setPaintedWorldLighting, paintedWaterShallow, paintedWaterDeep, paintedWaterLight, paintedWaterSparkle } from './engine/painted-world-lighting.mjs';
+import { setSnowDrawn, isBroadleaf, iceColour, lakeFrozen } from './engine/snow.mjs';
 import { createAerialPerspective, SPECTRAL_HAZE, valleyMistBase, VALLEY_MIST } from './engine/aerial-perspective.mjs';
 import { createAirMotes } from './engine/air-motes.mjs';
 import { createGodRays } from './engine/god-rays.mjs';
@@ -116,7 +117,7 @@ import { createAir, stepAir, applyAir, swayOnWind, treeSwing, reedSwing, skyDrif
 import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
-import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope } from './engine/building-paint.mjs';
+import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope, roofSnowColour } from './engine/building-paint.mjs';
 import { waterShading } from './engine/water-shading.mjs';
 import { createWaterReflection } from './engine/water-reflection.mjs';
 import { createGpuGrass } from './engine/gpu-grass.mjs';
@@ -177,7 +178,8 @@ import {
   pointAlongLine, recommendClub, strategyForHole,
 } from './engine/caddie.js';
 import { createShotEnvironment } from './engine/shot-planner.mjs';
-import { fetchWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
+import { fetchWeather, cachedWeather, compassName, weatherWord, WEATHER_TTL_MS } from './engine/weather.js';
+import { lightNow, sameLight, NU } from './engine/light-now.mjs';
 import { decodeFlagCloth, sampleFlagCloth, flagClothHang } from './engine/flag-cloth.mjs';
 import { FLAG_CLOTH_ASSET } from './engine/flag-cloth-asset.mjs';
 import { FLAG_DEFAULT_MS, createFlagMotion, stepFlagMotion, flagBandBlend, flagWindYaw, poseDrawnFlag, turnFlagCloth } from './engine/flag-motion.mjs';
@@ -2071,6 +2073,11 @@ const TEMPORAL_AA = !LOWQ && new URLSearchParams(location.search).get('post') !=
 /* the wind on the grass: the air's gusts cross the turf as laid, paler patches
    (engine/one-wind.mjs windSheenAt), the ground and the blades round the ball alike; ?windsheen=0 is the before */
 setWindSheen(new URLSearchParams(location.search).get('windsheen') !== '0');
+/* WINTER (engine/snow.mjs, docs/visual-winter-2026-11-06.md): snow on the ground, the conifers'
+   tops and the lakes, and the broadleaves bare, in Vinter and in Nu when the snow lies. ?snow=0
+   is the before: no snow and no bare trees in any light. Set before any material is made. */
+const SNOW_ON = new URLSearchParams(location.search).get('snow') !== '0';
+setSnowDrawn(SNOW_ON);
 /* THE TOUR TURF (turf-detail.mjs, turf-look.mjs; owner request 3 November): the turf's own grain,
    its bump, stronger stripes that swap as you turn, and grass lit as grass. ?turf=painted is the before */
 const TOUR_TURF_ON = new URLSearchParams(location.search).get('turf') !== 'painted';
@@ -2273,14 +2280,22 @@ const LJUS2P = {
   midnattssol: 'midnight', midnatt: 'midnight', midnight: 'midnight',
   blatimmen: 'bluehour', bla: 'bluehour', bluehour: 'bluehour',
   ovader: 'storm', storm: 'storm',
+  vinter: 'winter', winter: 'winter',
 };
-const INITIAL_PRESET = LJUS2P[(new URLSearchParams(location.search).get('ljus') || '').toLowerCase()] || 'golden';
+/* NU (engine/light-now.mjs): the real sun over the course, the season, and the weather now. It
+   boots under the last reading kept for the course, so the first bake is the light it draws. */
+const LJUS_ASKED = (new URLSearchParams(location.search).get('ljus') || '').toLowerCase();
+/* ?klocka=2026-01-15T11:00 stands Nu at that moment (a link, a harness); under det it reads no kept weather */
+const NU_CLOCK_ASKED = (() => { const t = Date.parse(new URLSearchParams(location.search).get('klocka') || ''); return Number.isFinite(t) ? new Date(t) : null; })();
+const INITIAL_NU = LJUS_ASKED === 'nu' && GEO.origin
+  ? lightNow(NU_CLOCK_ASKED ?? new Date(), GEO.origin.lat, GEO.origin.lon, DET ? null : cachedWeather(GEO.origin.lat, GEO.origin.lon)) : null;
+const INITIAL_PRESET = INITIAL_NU?.preset ?? (LJUS2P[LJUS_ASKED] || 'golden');
 /* THE NINE LIGHTS AFTER THE AUDIT (docs/visual-lights-2026-09-25.md): the blue
    hour's luminous sky over a dark, cool land, golden hour's lighter shade, a
    storm's heavy deck, wet course and gale, the land in dawn's rose and the
    midnight sun's gold, noon's Swedish sun. ?lights=before is each as it was. */
 const LIGHTS_BEFORE_ON = new URLSearchParams(location.search).get('lights') === 'before';
-const INITIAL_ATMOSPHERE = paintedAtmosphere(INITIAL_PRESET, PRESETS[INITIAL_PRESET], { before: LIGHTS_BEFORE_ON });
+const INITIAL_ATMOSPHERE = { ...paintedAtmosphere(INITIAL_PRESET, PRESETS[INITIAL_PRESET], { before: LIGHTS_BEFORE_ON }), ...INITIAL_NU?.overrides };
 /* A glow where the light comes from in every sky with a low sun -- dawn, the
    midnight sun and autumn -- not in golden hour's alone.
    ?sunglow=0 is the before. */
@@ -2304,16 +2319,49 @@ const lightingEnvironment = createLightingEnvironment(renderer, scene, {
   enabled: GRAPHICS_POLISH,
   onBake: ({ preset: name, started }) => span('PMREM environment', started, { preset: name }),
 });
-lightingEnvironment.setPreset(INITIAL_PRESET, INITIAL_ATMOSPHERE);
+lightingEnvironment.setPreset(INITIAL_NU ? `${INITIAL_PRESET}:${JSON.stringify(INITIAL_NU.overrides)}` : INITIAL_PRESET, INITIAL_ATMOSPHERE);
+
+/* WINTER ON THE SCENE (engine/snow.mjs): what the snow covers is hidden under it -- the grass round
+   the ball and the tussocks -- and what lives on a frozen lake goes; the broadleaves' crowns are not
+   drawn and their impostors are baked again from the wood alone, at the next frame, so a bake never
+   runs inside a compile (applyBareTrees). The ice on a lake takes the light level snow takes. */
+const WINTER = { snow: false, bare: false, bareDrawn: false, rebake: false, rebakes: 0, rebakeMs: 0,
+  crowns: [], cover: [], water: [], impostors: [] };
+const uIceLight = uniform(new THREE.Color(1, 1, 1));
+function applyWinter(p) {
+  WINTER.snow = SNOW_ON && (p.snow ?? 0) > 0.5;
+  WINTER.bare = SNOW_ON && (p.bare ?? 0) > 0.5;
+  for (const o of WINTER.cover) o.visible = !WINTER.snow;
+  for (const o of WINTER.water) o.visible = !WINTER.snow;
+  if (WINTER.bare !== WINTER.bareDrawn) WINTER.rebake = true;
+  /* level ground's light, for the ice: the sun on it and the sky over it, as the lit ground takes them */
+  const sunUp = Math.max(0, new THREE.Vector3(...p.dir).normalize().y);
+  uIceLight.value.copy(sun.color).multiplyScalar(sun.intensity * sunUp)
+    .add(hemi.color.clone().multiplyScalar(hemi.intensity)).multiplyScalar(1 / Math.PI);
+}
+function applyBareTrees() {
+  if (!WINTER.rebake || !TREE_LOD.ready) return;
+  WINTER.rebake = false;
+  const started = performance.now(), bare = WINTER.bare;
+  for (const im of WINTER.crowns) im.visible = !bare;
+  for (const { atlas, args } of WINTER.impostors) bakeImpostorAtlas(renderer, { ...args, into: atlas, bare });
+  WINTER.bareDrawn = bare;
+  WINTER.rebakes++;
+  WINTER.rebakeMs = Math.round(performance.now() - started);
+}
 
 let presetName = 'golden';
-function setPreset(name, overrides = null) {
-  // Optional overrides let the visual review harness tune the live uniforms.
+/* what the player chose: one of the ten lights, or 'nu', which draws one of them (chooseLight) */
+let lightChoice = 'golden';
+function setPreset(name, overrides = null, choice = null) {
+  // Optional overrides let the visual review harness tune the live uniforms,
+  // and Nu lay the real sun and the season over the light it chose.
   // Normal UI/URL selection always uses the authored preset unchanged.
   const base = PRESETS[name] || PRESETS.golden;
   const p = { ...paintedAtmosphere(PRESETS[name] ? name : 'golden', base, { before: LIGHTS_BEFORE_ON }), ...overrides };
   preset = p;
   presetName = PRESETS[name] ? name : 'golden';
+  lightChoice = choice ?? presetName;
   lightingEnvironment.setPreset(overrides ? `${presetName}:${JSON.stringify(overrides)}` : presetName, p);
   waterLighting.setPreset(p);
   sun.color.setHex(p.sun); sun.intensity = p.int;
@@ -2333,9 +2381,11 @@ function setPreset(name, overrides = null) {
   renderer.toneMappingExposure = p.exp;
   setAtmospherePreset(skyMesh, skyPreset(p, presetName));
   uLeaf.value.setHex(p.leaf ?? 0x5f8944);
-  uAutumn.value = presetName === 'host' ? 1 : 0;
+  /* the leaves turn in the autumn light, and under Nu in autumn (engine/light-now.mjs) */
+  uAutumn.value = p.autumn ?? (presetName === 'host' ? 1 : 0);
   setFoliageLighting(p);
   setPaintedWorldLighting(p, presetName);
+  applyWinter(p);
   /* Cooler distance and soft reflected fill support the painted pigments. */
   fog.color.lerp(new THREE.Color(p.paintedFog), 0.22);
   fog.density *= 0.9;
@@ -2365,9 +2415,44 @@ function setPreset(name, overrides = null) {
   /* and so does the threshold: a low sun's is lowered to just above its sky's paint (engine/glow.mjs) */
   if (renderer.__bloomNode) renderer.__bloomNode.threshold.value = GLOW_THRESHOLD_ON ? glowThresholdOf(p) : GLOW.threshold;
   placeSun();
-  document.querySelectorAll('[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === name));
-  if (window.__navDrawer) window.__navDrawer.updateActivePreset(presetName);
+  document.querySelectorAll('[data-preset]').forEach(b => b.classList.toggle('on', b.dataset.preset === lightChoice));
+  if (window.__navDrawer) window.__navDrawer.updateActivePreset(lightChoice);
   syncURL();
+}
+
+/* NU: the light of this moment (engine/light-now.mjs). It looks again every minute and when a new
+   weather reading comes, and draws again only when the light, the season or the sun has moved. A
+   harness stands it at any moment and under any sky: V3D.setNuClock(date), V3D.setNuWeather(reading). */
+const NU_STATE = { light: INITIAL_NU, clock: NU_CLOCK_ASKED, weather: null, applied: 0 };
+const nuWeather = () => NU_STATE.weather ?? (DET ? null : kikWx ?? (GEO.origin ? cachedWeather(GEO.origin.lat, GEO.origin.lon) : null));
+const nuNow = () => (GEO.origin ? lightNow(NU_STATE.clock ?? new Date(), GEO.origin.lat, GEO.origin.lon, nuWeather()) : null);
+function applyNu(force = false) {
+  const light = nuNow();
+  if (!light) { setPreset('golden'); return null; }
+  if (force || lightChoice !== 'nu' || !sameLight(light, NU_STATE.light)) {
+    NU_STATE.light = light; NU_STATE.applied++;
+    setPreset(light.preset, light.overrides, 'nu');
+  }
+  const button = document.querySelector('#rail [data-preset="nu"]');
+  if (button) button.title = nuSummary(light);
+  return light;
+}
+/* what Nu drew, in words: the light, the sky, and where the sun stands */
+function nuSummary(light) {
+  const w = nuWeather();
+  const sky = w && Number.isFinite(w.code)
+    ? `${weatherWord(w.code)}${Number.isFinite(w.tempC) ? `, ${Math.round(w.tempC)} °C` : ''}` : 'inget väder ännu';
+  const degrees = Math.round(light.elevation);
+  const sun = degrees >= 0 ? `solen ${degrees}° över horisonten i ${compassName(light.azimuth * 180 / Math.PI)}`
+    : `solen ${-degrees}° under horisonten`;
+  return `Nu · ${PRESETS[light.preset].label} · ${sky} · ${sun}${light.snow ? ' · snö' : ''}`;
+}
+function chooseLight(name) {
+  if (name !== 'nu') { setPreset(name); return; }
+  /* never under det or in an automated browser: a golden must not depend on the weather (kikWeather) */
+  if (!DET && !navigator.webdriver) kikWeather();
+  const light = applyNu(true);
+  if (light) toast(nuSummary(light), 4200);
 }
 
 /* ------------------------------------------------------------- materials */
@@ -2445,6 +2530,8 @@ const stats = { verts: 0, tris: 0, trees: 0, draws: 0, surfaceOverlays: 0 };
 stats.cover = { light: COVER_LIGHT_ON, shadow: COVER_SHADOW_ON, colour: COVER_COLOUR_ON, seat: COVER_SEAT_ON,
   reedLakes: REED_LAKES_ON, populations: {} };
 const coverDrawn = (name, im, extra = {}) => {
+  /* the tussocks and the bushes lie under the snow: green bushes dotted it (6 November) */
+  if (name === 'tufts' || name === 'edgeTufts' || name === 'bushes') { WINTER.cover.push(im); im.visible = !WINTER.snow; }
   stats.cover.populations[name] = { count: im.count, castShadow: im.castShadow, receiveShadow: im.receiveShadow,
     bladeNormal: !!im.material.normalNode, ...extra };
 };
@@ -4206,7 +4293,7 @@ await tick('fyller vattnet', 0.52);
    surface runs out into foam -- and writes the answer. */
 /* probe gains: the sun glint and the fine chop, each 1 unless a harness turns it down (V3D.water) */
 const uWaterGlint = uniform(1), uWaterChop = uniform(1);
-function makeWater({ mask = null, showBed = true, ocean = false, sea = false } = {}) {
+function makeWater({ mask = null, showBed = true, ocean = false, sea = false, freezes = !ocean && !sea } = {}) {
   /* no bed to see through to -> nothing to be see-through for (see the policy) */
   const opaque = waterSheetIsOpaque({ ocean, showBed });
   const m = new THREE.MeshBasicNodeMaterial({ transparent: !opaque, side: THREE.DoubleSide });
@@ -4226,6 +4313,12 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false } =
   // terrain. Applying it here too bleaches the water twice at long range.
   m.colorNode = colour.mul(paintedWaterLight);
   let opacity = sheetOpacity;
+  /* winter: a lake frozen and snowed over, opaque, in level ground's light; the sea stays open (engine/snow.mjs) */
+  if (freezes && SNOW_ON) {
+    const frozen = lakeFrozen();
+    m.colorNode = mix(m.colorNode, iceColour({ light: uIceLight, blotch: texture(DETAIL, wp.mul(0.021)).g }), frozen);
+    opacity = mix(opacity, float(1), frozen);
+  }
   if (mask) {
     /* the sheet over water the ground found: its extent is the mask, read in
        the tile lattice's own space through the bridge's linear part */
@@ -5420,8 +5513,11 @@ const TREE_LOD = {
          instead (engine/ghibli-trees.mjs). Without it every impostor pine drew
          a white pole. */
       const bakeTrunk = new THREE.Color(...GHIBLI.species[s].trunkMean).multiply(new THREE.Color(SPECIES[s].tc));
-      TREE_LOD.atlases.push(bakeImpostorAtlas(renderer, { crown: near[s].crown, trunk: near[s].trunk, trunkColor: bakeTrunk,
-        foliage: GHIBLI.species[s].foliage }));
+      const bakeArgs = { crown: near[s].crown, trunk: near[s].trunk, trunkColor: bakeTrunk, foliage: GHIBLI.species[s].foliage };
+      const atlas = bakeImpostorAtlas(renderer, bakeArgs);
+      TREE_LOD.atlases.push(atlas);
+      /* a broadleaf's impostors are baked again from its wood alone when winter takes its leaves (applyBareTrees) */
+      if (isBroadleaf(GHIBLI.species[s].foliage.key)) WINTER.impostors.push({ atlas, args: bakeArgs });
     }
     TREE_LOD.stats.bakeMs = Math.round(performance.now() - bakeStarted);
     span(`tree impostor atlases (${SPECIES.length} species, 64 views each)`, bakeStarted);
@@ -5581,6 +5677,8 @@ const TREE_LOD = {
         /* NOT DynamicDrawUsage: three's WebGPU path re-uploads such an attribute whole every frame; the tiers upload their dirty ranges through needsUpdate (flushRanges) */
         im.userData.tag = 'trees';
         im.name = `trees-${tpl.name}-${name}-${label}`;
+        /* winter takes a broadleaf's leaves: its crown is not drawn, and the wood is (applyBareTrees) */
+        if (name === 'crown' && isBroadleaf(GHIBLI.species[s].foliage.key)) WINTER.crowns.push(im);
         scene.add(im);
         stats.draws++;
         return im;
@@ -7958,6 +8056,11 @@ if (M.infra.objectPlacement === 'mapped-only') {
     stats.buildingPaint.stampMs += performance.now() - started;
     buildingMaterial.colorNode = wallFootColour(BUILDING_PAINT.foot.batch);
   }
+  /* winter's snow on the roofs, over the batch's vertex colours, which it takes in itself (engine/building-paint.mjs) */
+  if (SNOW_ON) {
+    buildingMaterial.colorNode = roofSnowColour(buildingMaterial.colorNode ?? materialColor, { vertexColours: true });
+    buildingMaterial.vertexColors = false;
+  }
   const m = new THREE.Mesh(g, buildingMaterial);
   m.castShadow = true; m.receiveShadow = true;
   scene.add(m);
@@ -8058,6 +8161,8 @@ const GOLF_CART_LOADING = PROPS_ON && M.scenery?.cartPark?.line?.length >= 2
     /* the swans move by their instance matrices: three's own object velocity is right for them (temporal AA) */
     if (TEMPORAL_AA) for (const mesh of swans.group.children) mesh.material.mrtNode = mrt({ velocity });
     scene.add(swans.group);
+    /* a frozen lake has no swans (applyWinter) */
+    WINTER.water.push(swans.group); swans.group.visible = !WINTER.snow;
   }
 }
 /* Herons in the shallows (engine/herons.mjs, the heron built in Blender): one to a
@@ -8088,7 +8193,9 @@ if (new URLSearchParams(location.search).get('herons') !== '0') {
     const up = new THREE.Vector3(0, 1, 0), one = new THREE.Vector3(1, 1, 1), white = new THREE.Color(0.95, 0.95, 0.95);
     const items = plan.map(h => ({ colour: white,
       matrix: new THREE.Matrix4().compose(new THREE.Vector3(h.x, h.y, h.z), new THREE.Quaternion().setFromAxisAngle(up, h.yaw), one) }));
-    scene.add(placePaintedProp(parts, items, { name: 'herons', tag: 'herons', roughness: 0.8 }));
+    const herons = placePaintedProp(parts, items, { name: 'herons', tag: 'herons', roughness: 0.8 });
+    scene.add(herons);
+    WINTER.water.push(herons); herons.visible = !WINTER.snow;
     heronCount = items.length;
   }
 }
@@ -8105,6 +8212,7 @@ if (new URLSearchParams(location.search).get('lilies') !== '0') {
   if (plan.length) {
     waterLilies = createWaterLilies(plan);
     scene.add(waterLilies.group);
+    WINTER.water.push(waterLilies.group); waterLilies.group.visible = !WINTER.snow;
   }
 }
 {
@@ -9175,14 +9283,14 @@ const VY2CAM = { tee: 'tee', green: 'green', fritt: 'orbit', ovan: 'top' };
 const CAM2VY = { tee: 'tee', green: 'green', orbit: 'fritt', top: 'ovan' };
 const P2LJUS = {
   golden: 'kvall', noon: 'dag', summer: 'sommar', mist: 'dis', dawn: 'gryning', host: 'host',
-  midnight: 'midnattssol', bluehour: 'blatimmen', storm: 'ovader',
+  midnight: 'midnattssol', bluehour: 'blatimmen', storm: 'ovader', winter: 'vinter',
 };
 function syncURL() {
   try {
     const sp = new URLSearchParams(location.search);
     sp.set('hal', hole);
     sp.set('vy', CAM2VY[camMode] || 'fritt');
-    sp.set('ljus', P2LJUS[presetName] || 'kvall');
+    sp.set('ljus', lightChoice === 'nu' ? 'nu' : P2LJUS[presetName] || 'kvall');
     if (teeIdx !== DEF_TEE) sp.set('tee', teeIdx + 1); else sp.delete('tee');
     if (CMETA.slug !== COURSE.all[0].slug) sp.set('bana', CMETA.slug); else sp.delete('bana');
     if (skyState !== skyMax) sp.set('skylt', skyState); else sp.delete('skylt');
@@ -9200,7 +9308,7 @@ function toast(msg, ms = 2600) {
 }
 
 document.querySelectorAll('[data-cam]').forEach(b => b.onclick = () => setCam(b.dataset.cam));
-document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => setPreset(b.dataset.preset));
+document.querySelectorAll('[data-preset]').forEach(b => b.onclick = () => chooseLight(b.dataset.preset));
 /* on a phone the rail is a sheet behind the Vy · Ljus button; choosing anything
    closes it so the scene comes straight back */
 {
@@ -10656,6 +10764,8 @@ function kikWeather() {
       if (!w || w === kikWx) return;
       kikWx = w;
       if (FLAG_WIND.source !== 'url') setFlagWind(w.windFromDeg, w.windMs, w.stale ? 'stale' : w.source, w.gustMs);
+      /* a new reading may change Nu's sky */
+      if (lightChoice === 'nu') applyNu();
       if (kik) kikRender();
     })
     .catch(() => { kikWxBusy = false; });
@@ -11276,10 +11386,10 @@ const shortcutKeys = createShortcutKeys({ holes: NHOLES, onAction: ({ type, hole
   else if (type === 'camera') { leaveFlightForKey(); setCam(nextInCycle(CAMERA_CYCLE, camMode)); }
   else if (type === 'light') {
     const order = [...document.querySelectorAll('#rail [data-preset]')].map(b => b.dataset.preset);
-    const next = nextInCycle(order, presetName);
+    const next = nextInCycle(order, lightChoice);
     if (next) {
-      setPreset(next);
-      toast(document.querySelector(`#rail [data-preset="${next}"]`)?.textContent.trim() || next);
+      chooseLight(next);
+      if (next !== 'nu') toast(document.querySelector(`#rail [data-preset="${next}"]`)?.textContent.trim() || next);
     }
   }
   else if (type === 'flight') document.getElementById('flyBtn').click();
@@ -11821,7 +11931,7 @@ const navDrawer = buildNavDrawer({
   devOverlay,
   onAction: (type, val) => {
     if (type === 'cam') setCam(val);
-    if (type === 'preset') setPreset(val);
+    if (type === 'preset') chooseLight(val);
     if (type === 'clean') setClean(true);
     if (type === 'devOverlay') setDevOverlay(val === undefined ? !devOverlay : val === true);
     if (type === 'frameCap') setFrameCap(nextFrameCap(frameCap));
@@ -11946,6 +12056,8 @@ function frame() {
     BOOT_PERF.doneAtMs > 0 && !document.hidden && !captureRenderLocked && (frameCap === 0 || frameCap >= 50));
   /* Morph state remains current before the ground clamp samples terrain. */
   terrainV2.tick(now);
+  /* winter's bare broadleaves, once the boot's compiles are done (applyBareTrees) */
+  if (WINTER.rebake && BOOT_PERF.doneAtMs > 0) applyBareTrees();
   if (__GOLFER_LAB__) courseGolfer?.update(dt);
   if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
 
@@ -12020,6 +12132,8 @@ function frame() {
   meadowFlowers?.update(camera, nearGrass?.mesh.visible, renderer.domElement.height);
   grassCards?.update(camera, nearGrass?.mesh.visible);
   grassShells?.update(camera, nearGrass?.mesh.visible);
+  /* under winter's snow no blade stands (applyWinter) */
+  if (nearGrass && WINTER.snow) nearGrass.mesh.visible = false;
   airMotes?.update({ dt, air: AIR, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   birds?.update({ dt, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
   butterflies?.update({ dt, camera, groundY: terrainH(camera.position.x, camera.position.z), still: cameraMotionPreference.matches });
@@ -12052,7 +12166,10 @@ if (VALLEY_MIST_ON) {
   aerialPerspective.setMistBase(valleyMistBase(heights));
 }
 {
-  setPreset(LJUS2P[(BOOTQ.get('ljus') || '').toLowerCase()] || 'golden');
+  /* Nu boots under the light it baked at the start (INITIAL_NU), and looks again from there */
+  if (INITIAL_NU) setPreset(INITIAL_NU.preset, INITIAL_NU.overrides, 'nu');
+  else if (LJUS_ASKED === 'nu') chooseLight('nu');
+  else setPreset(LJUS2P[(BOOTQ.get('ljus') || '').toLowerCase()] || 'golden');
   const ti = parseInt(BOOTQ.get('tee'), 10);
   if (ti >= 1 && ti <= 6) teeIdx = ti - 1;
   const n = parseInt(BOOTQ.get('hal'), 10);
@@ -12326,6 +12443,16 @@ async function pixelDelta(threshold = 24, sinceMark = false, band = null) {
 /* published before the boot marker, not after: anything waiting on the marker acts
    the instant it appears, and an interface that is not there yet fails silently */
 window.V3D = {
+  /* Nu (engine/light-now.mjs): what it drew and why, and a fixed moment and sky for a harness */
+  nu: () => ({ choice: lightChoice, light: NU_STATE.light, weather: nuWeather(), applied: NU_STATE.applied,
+    summary: NU_STATE.light ? nuSummary(NU_STATE.light) : null }),
+  setNuClock(date) { NU_STATE.clock = date ? new Date(date) : null; if (lightChoice === 'nu') applyNu(); },
+  setNuWeather(reading) { NU_STATE.weather = reading ?? null; if (lightChoice === 'nu') applyNu(); },
+  chooseLight: name => chooseLight(name),
+  /* winter on the scene: whether snow lies and the broadleaves are bare, and their impostors' last bake (applyWinter) */
+  winter: () => ({ on: SNOW_ON, snow: WINTER.snow, bare: WINTER.bare, bareDrawn: WINTER.bareDrawn, pending: WINTER.rebake,
+    rebakes: WINTER.rebakes, rebakeMs: WINTER.rebakeMs, crowns: WINTER.crowns.length, impostors: WINTER.impostors.length,
+    cover: WINTER.cover.length, water: WINTER.water.length }),
   /* Read and drive the developer overlay from a harness or the console:
      V3D.devOverlay() reports, V3D.devOverlay(true) turns it on. */
   devOverlay: (on) => (on === undefined ? devOverlay : setDevOverlay(on)),
@@ -13120,6 +13247,8 @@ if (!DET && !navigator.webdriver && FLAG_WIND.source !== 'url') {
   kikWeather();
   setInterval(kikWeather, WEATHER_TTL_MS + 1000);
 }
+/* Nu follows the sun as it moves (engine/light-now.mjs NU.refreshMs); a harness moves its clock instead */
+if (!DET) setInterval(() => { if (lightChoice === 'nu' && !document.hidden) applyNu(); }, NU.refreshMs);
 
 /* Ten seconds of honest measurement, then a decision: a phone crawling at the
    full treatment gets its pixel ratio and bloom dropped on the fly, and the

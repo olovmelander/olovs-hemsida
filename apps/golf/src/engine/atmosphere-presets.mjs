@@ -109,4 +109,21 @@ export const ATMOSPHERE_PRESETS = {
     paintedFog: 0xb7b8bc, paintedFill: 1.12, grade: 0.85,
     leaf: 0xc8842e, reed: 0xa88a3e,
   },
+  /* A CLEAR JANUARY DAY OVER SNOW (docs/visual-winter-2026-11-06.md): the map's
+     Vinter on the simulator. A low sun 15 degrees up in the south-south-west, as
+     it stands at noon in a Swedish January, pale and a little warm; a cold, clear
+     blue sky with a few thin clouds; and the snow's own light thrown back up into
+     the shade, so the ground's fill is the brightest of the ten. */
+  winter: {
+    label: 'Vinter', feeling: 'Låg januarisol, kall klar luft och snö över banan.',
+    sun: 0xfff0dc, int: 2.4, dir: [-0.42, 0.26, 0.86],
+    hemiS: 0xc4d6ee, hemiG: 0xc8ced6, hemiI: 1.7,
+    fog: 0xa9bccf, dens: 0.00022, hazeMax: 0.76, exp: 0.98, bloom: 0.02,
+    turb: 2.2, ray: 2.4, mie: 0.0024, mieG: 0.76,
+    cloud: 0.28, cloudDensity: 0.5, cloudScale: 0.0003, cloudElevation: 0.4, cloudSpeed: 0.000012,
+    skyRadiance: 0.24, skyTint: 0xffffff, skyPalette: 0,
+    environment: { ground: 0xc6ccd4, horizon: 0xcfdbe8, zenith: 0x6f9bd0 }, environmentIntensity: 0.6,
+    paintedFog: 0xc4d4e4, paintedFill: 1.06, grade: 0.85,
+    reed: 0xb59a62,
+  },
 };

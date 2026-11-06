@@ -13,7 +13,8 @@ describe('the back-lit crown', () => {
     for (const name of Object.keys(ATMOSPHERE_PRESETS)) {
       const p = paintedAtmosphere(name, ATMOSPHERE_PRESETS[name]);
       setFoliageLighting(p);
-      const lit = ['golden', 'midnight', 'dawn', 'host'].includes(name);
+      /* winter's low January sun rims the pines as well */
+      const lit = ['golden', 'midnight', 'dawn', 'host', 'winter'].includes(name);
       expect(foliageBack.value.getHex() > 0, name).toBe(lit);
       if (lit) {
         const sun = new Color(p.sun);

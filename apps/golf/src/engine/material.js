@@ -4,6 +4,7 @@ import { float, vec3, texture, mix, smoothstep, saturate, normalWorld, oneMinus 
 import { windSheenAt, WIND_SHEEN } from './one-wind.mjs';
 import { paintedDirect, paintedSeason, paintedTurfStrength, paintedGrassSheen, paintedWet } from './painted-world-lighting.mjs';
 import { makeGround as makeGroundCore, createV2GroundMaterialDecorator as createV2DecoratorCore } from './ground-material-core.mjs';
+import { snowOnGround } from './snow.mjs';
 export { groundSurfaceAlbedo, classStyle, surfaceDebugColour, createGroundStyleData, SURFACE_PAIR_GUARD, surfacePairGuardMetres, surfacePairWeight } from './ground-material-core.mjs';
 
 /* A fairway's gloss in SHADE: the sheen every turf took before surfaces had their own */
@@ -66,6 +67,8 @@ export function paintedGround({ base, wp, DETAIL, uSun, mow = float(0), turf = f
   // Broad grass reflections use the standard light/shadow response, so the
   // sun catches the turf at grazing angles and tree shadows still occlude it.
   // Reuse the existing blotch/mowing samples; no glints, normal map or pass.
+  /* winter's snow over all of it, thinner on mown turf and steep faces (snow.mjs) */
+  c = snowOnGround({ colour: c, normal: normalWorld, turf, gloss, blotch: blotchA });
   const sheenRoughness = float(.59).add(blotchA.mul(.12)).sub(mow.mul(.35)).clamp(.52,.68);
   const sheen = glossy ? paintedGrassSheen.mul(turf).mul(glossy) : paintedGrassSheen.mul(turf);
   return { colorNode: c, roughnessNode: mix(float(.96),sheenRoughness,sheen) };

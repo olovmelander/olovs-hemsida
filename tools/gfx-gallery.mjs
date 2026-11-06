@@ -65,8 +65,8 @@ if (flag('compare', null)) {
   process.exit(0);
 }
 
-/* --lights: one view (--views id) under all nine lights instead of the fixed set */
-const LIGHTS = ['kvall', 'dag', 'sommar', 'gryning', 'midnatt', 'host', 'bla', 'dis', 'ovader'];
+/* --lights: one view (--views id) under all ten lights instead of the fixed set */
+const LIGHTS = ['kvall', 'dag', 'sommar', 'gryning', 'midnatt', 'host', 'bla', 'dis', 'ovader', 'vinter'];
 const LABEL = flag('label', 'gallery');
 const QUERY = flag('query', '');
 const BASE = flag('base', 'http://127.0.0.1:8620').replace(/\/$/, '');

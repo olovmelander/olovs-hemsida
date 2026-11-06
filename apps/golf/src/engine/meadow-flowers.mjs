@@ -52,7 +52,7 @@ export const MEADOW_FLOWERS = Object.freeze({
   /* a flower takes another species than its drift's this often */
   mixed: 0.22,
   /* each light's share: autumn keeps a few late ones; the storm's flowers stand, bowed */
-  presets: Object.freeze({ host: 0.22 }),
+  presets: Object.freeze({ host: 0.22, winter: 0 }),
   hideAboveMetres: 40,
 });
 
