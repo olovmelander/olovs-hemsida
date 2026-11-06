@@ -32,7 +32,8 @@ describe('distant landscape haze', () => {
       warm.setPreset(p); plain.setPreset(p);
       const { glow, glowStrength } = warm.snapshot();
       expect(glowStrength, name).toBeCloseTo((p.skySunGlowStrength ?? 0) * (p.hazeGlow ?? 0), 6);
-      expect(glowStrength > 0, name).toBe(['golden', 'dawn', 'midnight', 'host'].includes(name));
+      /* winter's low January sun warms its haze too */
+      expect(glowStrength > 0, name).toBe(['golden', 'dawn', 'midnight', 'host', 'winter'].includes(name));
       /* never the sky's full glow: the haze takes a share of it */
       expect(glowStrength, name).toBeLessThan(0.5);
       if (glowStrength) expect(glow, name).toBe(p.skySunGlow);

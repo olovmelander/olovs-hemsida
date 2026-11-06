@@ -179,8 +179,12 @@ function viewBasisNode(view) {
 /* the realistic crowns' frames (treeset v2): their lacy needle pads and leaf clusters kept too little
    of their shape at 96 px, and the impostors' shadows strayed from the meshes' under a low sun */
 export const REALISTIC_IMPOSTOR_FRAME = 128;
-export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = null } = {}) {
+/* `into`: an atlas this bake made before, baked again in place -- the same targets, framing and
+   textures, so every material that reads it follows. `bare`: the wood alone, no crown (a broadleaf
+   in winter, engine/snow.mjs); its frames keep the leafy tree's framing, so a billboard keeps its size. */
+export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage = null, framesPerSide = 8, frameSize = null, into = null, bare = false } = {}) {
   if (!renderer || !crown || !trunk) throw new TypeError('bakeImpostorAtlas needs the renderer and both template geometries');
+  if (into) ({ framesPerSide, frameSize } = into);
   frameSize ??= foliage?.realistic === true ? REALISTIC_IMPOSTOR_FRAME : 96;
   crown.computeBoundingBox(); trunk.computeBoundingBox();
   const box = new THREE.Box3().union(crown.boundingBox).union(trunk.boundingBox);
@@ -210,7 +214,7 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
     rt.texture.name = `impostor-${kind}`;
     return rt;
   };
-  const albedoTarget = target('albedo'), normalTarget = target('normal');
+  const albedoTarget = into ? into.targets[0] : target('albedo'), normalTarget = into ? into.targets[1] : target('normal');
 
   const scene = new THREE.Scene();
   const crownAlbedo = new THREE.MeshBasicNodeMaterial();
@@ -251,6 +255,7 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
   for (const m of [crownAlbedo, trunkAlbedo, crownNormal, trunkNormal]) m.blending = THREE.NoBlending;
   const crownMesh = new THREE.Mesh(crown, crownAlbedo), trunkMesh = new THREE.Mesh(trunk, trunkAlbedo);
   crownMesh.frustumCulled = trunkMesh.frustumCulled = false;
+  crownMesh.visible = !bare;
   scene.add(crownMesh, trunkMesh);
 
   const camera = new THREE.OrthographicCamera(-radius, radius, radius, -radius, 0.1, radius * 4);
@@ -312,6 +317,7 @@ export function bakeImpostorAtlas(renderer, { crown, trunk, trunkColor, foliage 
   renderer.toneMapping = previous.toneMapping;
   crownAlbedo.dispose(); trunkAlbedo.dispose(); crownNormal.dispose(); trunkNormal.dispose();
 
+  if (into) return into;
   return Object.freeze({
     albedo: albedoTarget.texture, normal: normalTarget.texture,
     targets: [albedoTarget, normalTarget],

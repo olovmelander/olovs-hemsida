@@ -182,6 +182,22 @@ export const PAINTED_ATMOSPHERES = {
     leaf:0xd6a442, reed:0xbe9855,
     shadowSky:.11, cloudShadow:{cover:.32,opacity:.60}, skyCloudGlow:.27, skyCloudSun:1, skyCloudBase:0x9da3bd,
   },
+  // A clear January day over snow (docs/visual-winter-2026-11-06.md): a deep cold
+  // blue overhead over a pale, icy horizon, a low pale-gold sun, and blue shade,
+  // which is what snow's shadows are: the sky's light alone. `snow` is how much of
+  // the ground, the conifers' tops and the lakes it covers, and `bare` takes the
+  // broadleaves' leaves (snow.mjs); the sea stays open.
+  winter:{ sun:0xffe9cf, int:2.6, hemiS:0xb2c9e8, hemiG:0xc3c9d0, hemiI:1.30,
+    fog:0xaec3d6, paintedFog:0xb4c8dc, exp:.96, paintedFill:1.0,
+    skyPalette:.20, skyZenith:0x2c6cb8, skyHorizon:0xc6d9ea, skyRadiance:.12, paintedSkyExposure:.95, cloud:.20,
+    /* the clouds' lit paint under the glow's 0.86 with its margin: snow-white clouds glowed */
+    skyCloudLit:0xf0ebe4, skyCloudShade:0x9fb0c8,
+    skySunGlow:0xffe2b8, skySunGlowStrength:.45, hazeGlow:.3,
+    environment:{ground:0xd2d8de,horizon:0xd0dce8,zenith:0x5f92c8},
+    foliage:{strength:1.0,direct:.9,back:.30}, water:[0x3a7d8c,0x1f4f7e], waterLight:.92, sparkle:.30,
+    shadowSky:.16, cloudShadow:{cover:.20,opacity:.5}, skyCloudSun:1, skyCloudBase:0x9aa4bc,
+    snow:1, bare:1,
+  },
 };
 
 /* THE NINE LIGHTS BEFORE THE AUDIT (?lights=before): each changed value as it

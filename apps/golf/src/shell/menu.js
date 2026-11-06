@@ -101,6 +101,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
         <div class="drawer-section">
           <div class="drawer-sec-title">Ljus & Atmosfär</div>
           <div class="drawer-btn-grid cols-3">
+            <button class="d-btn" data-preset="nu">Nu</button>
             <button class="d-btn active" data-preset="golden">Kväll</button>
             <button class="d-btn" data-preset="noon">Dag</button>
             <button class="d-btn" data-preset="summer">Sommar</button>
@@ -110,6 +111,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
             <button class="d-btn" data-preset="storm">Oväder</button>
             <button class="d-btn" data-preset="mist">Dis</button>
             <button class="d-btn" data-preset="host">Höst</button>
+            <button class="d-btn" data-preset="winter">Vinter</button>
           </div>
         </div>
 

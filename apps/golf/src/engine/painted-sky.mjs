@@ -51,7 +51,7 @@ export const CLOUD_SUN=Object.freeze({
    colour. Each light's share in CIRRUS; none in the storm and the mist, and
    none in the cloudless summer day. ?cirrus=0 is the before. */
 export const CIRRUS=Object.freeze({
-  presets:Object.freeze({golden:.75,noon:.55,summer:0,dawn:.8,midnight:.65,host:.5,bluehour:.35,storm:0,mist:0}),
+  presets:Object.freeze({golden:.75,noon:.55,summer:0,dawn:.8,midnight:.65,host:.5,bluehour:.35,storm:0,mist:0,winter:.45}),
   /* the streaks: long along the drift, narrow across; the plane, higher than the clouds' */
   stretch:Object.freeze([1.1,8]),patch:1.5,cut:Object.freeze([.12,.5]),plane:.55,
   /* at most this share of the sky's colour, toward the layer's paint */

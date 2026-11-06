@@ -6,7 +6,7 @@ import { createAtmosphericSky, setAtmospherePreset, atmosphereState } from './at
 const luminance = hex => { const c = new Color(hex); return c.r * 0.2126 + c.g * 0.7152 + c.b * 0.0722; };
 const fill = p => luminance(p.hemiS) * p.hemiI;
 
-describe('nine atmosphere identities', () => {
+describe('ten atmosphere identities', () => {
   it('uses an overcast, weakly sunlit storm and a brighter diffuse mist', () => {
     expect(presets.storm.cloud).toBeGreaterThanOrEqual(0.95);
     expect(presets.storm.cloudDensity).toBeGreaterThan(presets.noon.cloudDensity);
@@ -28,8 +28,8 @@ describe('nine atmosphere identities', () => {
     expect(fill(p)).toBeGreaterThan(fill(presets.noon) * 0.7);
     expect(p.environmentIntensity).toBeGreaterThan(presets.noon.environmentIntensity);
   });
-  it('gives all nine modes distinct cloud settings and valid physical inputs', () => {
-    expect(Object.keys(presets)).toHaveLength(9);
+  it('gives all ten modes distinct cloud settings and valid physical inputs', () => {
+    expect(Object.keys(presets)).toHaveLength(10);
     const cloudProfiles = new Set();
     for (const p of Object.values(presets)) {
       cloudProfiles.add(JSON.stringify([p.cloud, p.cloudDensity, p.cloudScale, p.cloudElevation]));
@@ -42,7 +42,7 @@ describe('nine atmosphere identities', () => {
       expect(p.exp).toBeGreaterThan(0);
       expect(p.dir.every(Number.isFinite)).toBe(true);
     }
-    expect(cloudProfiles.size).toBe(9);
+    expect(cloudProfiles.size).toBe(10);
   });
   it('keeps the summer day cloudless, its sun high over the afternoon and its air clearer than noon\'s', () => {
     const p = presets.summer, elevation = Math.asin(p.dir[1] / Math.hypot(...p.dir)) * 180 / Math.PI;

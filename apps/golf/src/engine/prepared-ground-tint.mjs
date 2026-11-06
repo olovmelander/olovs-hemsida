@@ -40,6 +40,8 @@ export function preparedTintAllowed(search) {
     'watercloud', 'waterlanes',
     // nor does the lights audit's: the lights' colours, the glaze on the land and the storm's wind are drawn
     'lights',
+    // nor does winter's snow, nor Nu's moment: snow, bare broadleaves, ice and the sun's place are drawn
+    'snow', 'klocka',
     // nor do the clouds batch's: the clouds' light and their shadows' stretch are drawn
     'cloudlight', 'cloudstretch',
     // nor do the ground batch's: the class edges, the stripes' reach, the hard ground's finish, and the

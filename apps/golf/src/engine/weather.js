@@ -1,4 +1,5 @@
-/* Live conditions for the rangefinder, from Open-Meteo (free, no key, CORS open).
+/* Live conditions for the rangefinder and for the light called Nu (light-now.mjs),
+   from Open-Meteo (free, no key, CORS open).
    One reading per course, cached for half an hour so a round does not fetch on
    every tap; offline returns the last reading it has, marked stale, or null so
    the card can say so. Nothing here touches the DOM. */
@@ -7,7 +8,8 @@ export const WEATHER_TTL_MS = 30 * 60 * 1000;
 export function openMeteoUrl(lat, lon) {
   const p = new URLSearchParams({
     latitude: lat.toFixed(4), longitude: lon.toFixed(4),
-    current: 'temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,weather_code',
+    /* the card's wind and temperature, and Nu's sky: its cloud, rain, snow on the ground and how far one sees */
+    current: 'temperature_2m,wind_speed_10m,wind_direction_10m,wind_gusts_10m,weather_code,cloud_cover,precipitation,snow_depth,visibility',
     wind_speed_unit: 'ms', timezone: 'auto',
   });
   return `https://api.open-meteo.com/v1/forecast?${p}`;
@@ -20,7 +22,8 @@ export function parseOpenMeteo(json) {
   const c = json && json.current;
   if (!c) return null;
   const r = { tempC: num(c.temperature_2m), windMs: num(c.wind_speed_10m), windFromDeg: num(c.wind_direction_10m),
-              gustMs: num(c.wind_gusts_10m), code: num(c.weather_code), time: typeof c.time === 'string' ? c.time : null };
+              gustMs: num(c.wind_gusts_10m), code: num(c.weather_code), time: typeof c.time === 'string' ? c.time : null,
+              cloudPct: num(c.cloud_cover), precipMm: num(c.precipitation), snowDepthM: num(c.snow_depth), visibilityM: num(c.visibility) };
   return r.windMs !== null && r.windFromDeg !== null ? r : null;
 }
 
@@ -46,6 +49,15 @@ export async function fetchWeather(lat, lon, { ttlMs = WEATHER_TTL_MS, storage =
     } catch { /* offline or the API is down: fall through to the last reading */ }
   }
   return cached ? { ...cached, source: 'cache', stale: true } : null;
+}
+
+/* the last reading kept for this course, at once and without the network: what Nu boots under */
+export function cachedWeather(lat, lon, { storage = null } = {}) {
+  const store = storage || (typeof localStorage !== 'undefined' ? localStorage : null);
+  try {
+    const raw = store && store.getItem(`banvy-weather:${lat.toFixed(3)},${lon.toFixed(3)}`);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
 }
 
 /* SMHI's eight-point compass, the way a Swedish forecast prints it */

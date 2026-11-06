@@ -79,7 +79,8 @@ describe('the seasons', () => {
 
 describe('the named lights', () => {
   it('are the simulator\'s nine, with its sun and its sky', () => {
-    expect(SIMULATOR_LIGHTS.length).toBe(Object.keys(ATMOSPHERE_PRESETS).length);
+    /* the simulator's winter is not among them: the map keeps its own Vinter (map-light.mjs WINTER) */
+    expect(SIMULATOR_LIGHTS.length).toBe(Object.keys(ATMOSPHERE_PRESETS).filter(name => name !== 'winter').length);
     const direction = lightByKey('sommar').sun;
     const authored = ATMOSPHERE_PRESETS.summer.dir, length = Math.hypot(...authored);
     direction.forEach((n, i) => expect(n).toBeCloseTo(authored[i] / length));

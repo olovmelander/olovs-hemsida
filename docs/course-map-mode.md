@@ -244,7 +244,8 @@ under a true evening sun (about 1% of the picture on three courses), so these sh
 are cast at `SHADOW_REACH` times the relief, which took that to 12-45%. No sun casts
 them lower than an evening's, or a dawn drowns the course. `?hillshade=0` is the before.
 
-**Vinter** is the map's own tenth light: the simulator has no winter. Snow settles over
+**Vinter** is the map's own tenth light, kept as it was when the simulator took a winter of its own
+([the winter and Nu](visual-winter-2026-11-06.md)). Snow settles over
 everything, leaving the course just visible under it, broadleaves go bare to a trunk
 and a scatter of twigs, conifers carry snow on what faces the sky, and lakes freeze
 (the sea does not: `frozenWater`). In Nu the season follows the date: bare from

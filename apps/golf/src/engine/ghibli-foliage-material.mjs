@@ -3,6 +3,7 @@ import {abs,cameraPosition,color,dot,float,fract,mix,mx_noise_float,normalize,no
 import {CROWN_DEPTH} from './crown-depth.mjs';
 import {FOLIAGE_PALETTES,AUTUMN_FOLIAGE} from './painted-world-palette.mjs';
 import {coverOpaqueBackdrop,centredCoverageCut} from './msaa-coverage.mjs';
+import {snowOnCrown} from './snow.mjs';
 export {FOLIAGE_PALETTES} from './painted-world-palette.mjs';
 
 export const foliageLight=uniform(new Color(0xffffff));
@@ -146,13 +147,15 @@ export function paintedFoliageColour({key,normal,sunDirection,position=null,tint
     lightTint=mix(foliageShadow,foliageSun,bands.x);
   }
   const cloudShade=sunlit?mix(foliageCloudShade,float(1),sunlit):null;
-  if(!backLight){const plain=body.mul(pigment).mul(tint).mul(lighting).mul(lightTint);return cloudShade?plain.mul(cloudShade):plain;}
+  /* winter's snow on what faces the sky, in a conifer's crown (snow.mjs) */
+  const snowed=c=>snowOnCrown({colour:c,normal,light:lightTint.mul(lighting),key,dabs});
+  if(!backLight){const plain=snowed(body.mul(pigment).mul(tint).mul(lighting).mul(lightTint));return cloudShade?plain.mul(cloudShade):plain;}
   // the leaf's brightest pigment, lit from behind in the sun's colour
   const glow=shades[2].mul(foliageBack).mul(backLight);
   let through=(sunlit?glow.mul(sunlit):glow).toVertexStage();
   /* the modelled sprigs: the light passes through the leaves and needles, never the twig */
   if(throughScale)through=through.mul(throughScale);
-  const colour=body.mul(lightTint).add(through).mul(pigment).mul(tint).mul(lighting);
+  const colour=snowed(body.mul(lightTint).add(through).mul(pigment).mul(tint).mul(lighting));
   return cloudShade?colour.mul(cloudShade):colour;
 }
 

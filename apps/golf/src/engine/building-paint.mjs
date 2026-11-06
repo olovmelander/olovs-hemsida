@@ -14,7 +14,8 @@
      and lightens in a band along its ridge, baked into the vertex colours.
    The distant town is left as it is: a kilometre of haze would take it all. */
 import { BufferAttribute } from 'three/webgpu';
-import { float, materialColor, mix, normalWorld, positionWorld, smoothstep, attribute, vec3, vec4 } from 'three/tsl';
+import { float, materialColor, mix, normalWorld, positionWorld, smoothstep, attribute, vec3, vec4, vertexColor } from 'three/tsl';
+import { snowOnRoof, snowDrawn } from './snow.mjs';
 
 export const BUILDING_PAINT = Object.freeze({
   /* the wall's foot: this share of its colour at the ground line, all of it this high above */
@@ -44,6 +45,13 @@ export function wallFootColour(shade) {
   const steep = float(1).sub(smoothstep(BUILDING_PAINT.steep[0], BUILDING_PAINT.steep[1], normalWorld.y.abs()));
   const foot = mix(float(shade.floor), float(1), smoothstep(0, shade.metres, above));
   return materialColor.mul(vec4(vec3(mix(float(1), foot, steep)), 1));
+}
+
+/** Winter's snow on whatever is built and faces the sky (snow.mjs), over a colour node. Three multiplies
+    a material's vertex colours in AFTER its colorNode, which left the snow the roof's own dark slate: with
+    `vertexColours` they are taken in here first, and the caller turns the material's own pass off. */
+export function roofSnowColour(colour, { vertexColours = false } = {}) {
+  return snowOnRoof(vertexColours ? colour.mul(vec4(vertexColor().rgb, 1)) : colour, normalWorld);
 }
 
 /** A ground sampler that reads each small cell once: vertices crowd the same spots. */
@@ -86,6 +94,8 @@ export function groundModel(root, groundAt, shade = BUILDING_PAINT.foot.model) {
   if (!root) return report;
   root.updateMatrixWorld(true);
   const colour = wallFootColour(shade), materialsHere = new Set();
+  /* and winter's snow on the roofs, the models' vertex colours taken in first (roofSnowColour) */
+  const snowed = snowDrawn() ? roofSnowColour(colour) : colour, snowedVertex = snowDrawn() ? roofSnowColour(colour, { vertexColours: true }) : null;
   root.traverse(mesh => {
     if (!mesh.isMesh) return;
     const materials = [mesh.material].flat().filter(Boolean);
@@ -99,7 +109,11 @@ export function groundModel(root, groundAt, shade = BUILDING_PAINT.foot.model) {
     STAMPED.add(mesh.geometry);
     /* a standard material is converted to a node material as each shader is built, colorNode and all */
     for (const m of materials) {
-      if (!PAINTED.has(m)) { m.colorNode = colour; m.needsUpdate = true; PAINTED.add(m); }
+      if (!PAINTED.has(m)) {
+        if (snowedVertex && m.vertexColors) { m.colorNode = snowedVertex; m.vertexColors = false; }
+        else m.colorNode = snowed;
+        m.needsUpdate = true; PAINTED.add(m);
+      }
       materialsHere.add(m);
     }
     report.meshes++;

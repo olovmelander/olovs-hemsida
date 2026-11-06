@@ -120,6 +120,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
     nearGrass: { settled: true, seen: [], update(cam, height) { calls.push('grass'); this.seen.push({ position: cam.position.toArray(), height }); } },
     /* the air's motes (?airmotes=1, off by default): optional, and drawn round the eye after the camera has moved */
     airMotes: null, birds: null, butterflies: null, fallingLeaves: null, rain: null, swans: null, meadowFlowers: null, grassCards: null, grassShells: null, lakeMist: null,
+    /* winter (engine/snow.mjs): no snow and nothing to re-bake, so the frame is the frame it was */
+    WINTER: { rebake: false, snow: false }, applyBareTrees() {},
     /* the god rays (?godrays=0): optional; they take the shadow box's size once a frame */
     godRays: null, SUN_BASIS: { R: 600 },
     captureRenderLocked: false,

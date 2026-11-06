@@ -166,6 +166,21 @@ land cover's WATER class is a colour verdict: never paint from it. See
   paints some), and a light without a `cloudShadow` casts none. Keep every
   other light's values when tuning it (`check-isolated.mjs` compares them with
   main's). See [the summer day](docs/visual-summer-2026-09-25.md).
+- Vinter (`?ljus=vinter`) and Nu (`?ljus=nu`) join the nine (owner request,
+  6 November). Winter is drawn from one uniform (`paintedSnow`, `snow.mjs`):
+  - snow on the ground's finish, the conifers' crown tops (meshes and
+    impostors alike), roofs and lakes, never the sea;
+  - the broadleaves' crowns are not drawn, and their impostors are re-baked in
+    place from the wood (`bakeImpostorAtlas` `into`/`bare`) at a frame after the
+    boot, never inside a compile;
+  - the grass, tussocks, bushes and lake life hide under it.
+
+  Nu (`light-now.mjs`, pure) chooses one of the ten lights from the real sun
+  (`solar.mjs`, shared with the map), the season and Open-Meteo's weather now.
+  The weather is never read under `det=1` or webdriver. `?klocka=` and
+  `V3D.setNuClock`/`setNuWeather` fix the moment and the sky. `?snow=0` is the
+  before. The map keeps its own Vinter. See
+  [the winter and Nu](docs/visual-winter-2026-11-06.md).
 - A light may lay a glaze on the land (`glaze` in `painted-world-palette.mjs`):
   the aerial perspective's fog step gives a share of every fogged colour to the
   glaze's tint at its own brightness, and gives way over bright colours, so lamps

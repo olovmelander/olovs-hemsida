@@ -50,6 +50,8 @@ export const GOD_RAYS = Object.freeze({
   presets: Object.freeze({
     golden: 0.5, dawn: 0.45, midnight: 0.45, host: 0.35, summer: 0.25, noon: 0.2,
     bluehour: 0, storm: 0, mist: 0,
+    /* the low January sun through the pines */
+    winter: 0.35,
   }),
 });
 
