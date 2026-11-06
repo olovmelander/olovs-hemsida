@@ -131,3 +131,12 @@ The photographs show the snow, the bare broadleaves, the frozen water and the ro
 are drawn, and that the boot is clean. In software, re-baking the broadleaves'
 impostors took 27-130 s. It does not establish how they look on the owner's GPU, at high
 quality or on WebGPU. Review them there with `tools/gfx-gallery.mjs --light vinter`.
+
+## Deploy
+
+Merged on 6 November (#128). The first Pages deployment of that commit timed out
+at GitHub ("updating_pages" for ten minutes) and was cancelled. Pages names a
+deployment after its commit and hands the cancelled one back to every later try,
+so neither a re-run nor a fresh run of `pages.yml` could publish that commit. A
+re-run in the same run also fails at once, finding two `github-pages` artifacts.
+A new commit on main deploys. This note is that commit.
