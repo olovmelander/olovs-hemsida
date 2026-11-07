@@ -122,7 +122,9 @@ export function buildMapCourse({ meta, geo, vectors, ground, course, landcover =
     rock: rings(veg.rock),
     water: [...(vectors.water ?? []), ...(far?.water ?? []).filter(item => Number.isFinite(item.level))]
       .filter(item => validRing(item?.ring))
-      .map(item => ({ ring: placeAll(item.ring), sea: Boolean(item.isSea), overLand: outlineOverLand(ground.groundId, item.ring) })),
+      .map(item => ({ ring: placeAll(item.ring), sea: Boolean(item.isSea), overLand: outlineOverLand(ground.groundId, item.ring),
+        /* a pack's own body, known by its outline as the shores were baked from it */
+        shoreKey: vectors.water?.includes(item) ? { points: item.ring.length, first: item.ring[0] } : null })),
     streams: lines(vectors.streams),
     roads: lines([...(infra.roads ?? []), ...(far?.roads ?? []).map(road => ({ ...road, w: ROAD_WIDTHS[road.kind] ?? 5 }))]),
     tracks: lines(infra.tracks),

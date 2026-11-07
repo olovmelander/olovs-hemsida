@@ -11,6 +11,23 @@ export function outlineOverLand(groundId, ring) {
   return (landRecord(groundId)?.dry ?? []).some(({ points, first }) => ring.length === points && ring[0][0] === first[0] && ring[0][1] === first[1]);
 }
 
+/* Every lake the simulator draws out to its ground's own shore, read by the same rule
+   (map-shores.mjs): one sheet of pictures and where each lake is on it. Without them
+   the lakes stop at their outlines, as they did. */
+export async function loadShores(record, fetchFile) {
+  if (!record?.shores) return null;
+  try {
+    const [picture, lakes] = await Promise.all([
+      fetchFile(record.shores.picture.file).then(bytes => createImageBitmap(new Blob([bytes], { type: 'image/png' }), { colorSpaceConversion: 'none' })),
+      fetchFile(record.shores.lakes.file).then(bytes => JSON.parse(new TextDecoder().decode(bytes))),
+    ]);
+    return { picture, lakes };
+  } catch (error) {
+    console.warn('map shores:', error.message);
+    return null;
+  }
+}
+
 /* Without them the map still opens, on its outlines and land cover. */
 export async function loadLandPictures(record, fetchFile) {
   if (!record) return null;

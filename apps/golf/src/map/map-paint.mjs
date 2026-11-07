@@ -7,6 +7,7 @@
    picture says what each surface is (water, mown turf, sand), so the shader can
    give each its own finish. */
 import { LANDCOVER, landcoverSampler } from '../engine/landcover.mjs';
+import { drawShores, shoreSprites } from './map-shores.mjs';
 import { canopyAlpha } from './map-trees.mjs';
 
 /* A third of a metre to the pixel on the 1 m tiles, where a green's edge and a
@@ -195,8 +196,9 @@ function landcoverMask(course) {
   return { canvas: mask, matrix: [ax - ox, az - oz, bx - ox, bz - oz, ox, oz] };
 }
 
-/* `land` is the ground's pictures of its water and forest (map-land.mjs), or null. */
-export function createMapPainter(course, atlases = null, land = null) {
+/* `land` is the ground's pictures of its water and forest, and `shores` its lakes'
+   shores (map-land.mjs), or null. */
+export function createMapPainter(course, atlases = null, land = null, shores = null) {
   const surfaces = new Map();
   const surface = size => {
     if (!surfaces.has(size)) {
@@ -232,14 +234,25 @@ export function createMapPainter(course, atlases = null, land = null) {
       -margin * k, -margin * k, span * k, span * k);
   }
 
+  /* The water read off the ground: the ground's picture, and each lake out to its
+     own shore over it (map-shores.mjs). Null where there is none. */
   function waterPicture(node, size, colour) {
+    const touching = item => item.x1 >= node.x0 && item.x0 <= node.x0 + node.size && item.z1 >= node.z0 && item.z0 <= node.z0 + node.size;
+    const reaching = lakeShores.filter(touching);
+    if (!land && !reaching.length) return null;
     const { wet, wetCtx } = surface(size);
     wetCtx.setTransform(1, 0, 0, 1, 0, 0);
     wetCtx.globalCompositeOperation = 'source-over';
     wetCtx.clearRect(0, 0, size, size);
     wetCtx.imageSmoothingEnabled = true;
     wetCtx.imageSmoothingQuality = 'low';
-    drawShare(wetCtx, land.water, node, size);
+    if (land) drawShare(wetCtx, land.water, node, size);
+    if (reaching.length) {
+      const scale = size / node.size;
+      wetCtx.setTransform(scale, 0, 0, scale, -node.x0 * scale, -node.z0 * scale);
+      drawShores(wetCtx, shores.picture, reaching);
+      wetCtx.setTransform(1, 0, 0, 1, 0, 0);
+    }
     wetCtx.globalCompositeOperation = 'source-in';
     wetCtx.fillStyle = colour;
     wetCtx.fillRect(0, 0, size, size);
@@ -288,6 +301,11 @@ export function createMapPainter(course, atlases = null, land = null) {
     return true;
   }
 
+  /* The lakes drawn out to their ground's shore, and the outlines they were read from. */
+  const reached = shores ? shoreSprites(course, shores.lakes) : [];
+  const lakeShores = reached.map(entry => entry.sprite);
+  const reachedWater = new Set(reached.map(entry => entry.item));
+
   const landuse = f.landuse.filter(item => LANDUSE_COLOURS[item.kind])
     .map(item => ({ ...shape(item.ring, ringPath(item.ring)), colour: LANDUSE_COLOURS[item.kind] }));
   const plainLines = (items, pad = 4) => items.map(line => shape(line, linePath(line), pad));
@@ -303,7 +321,7 @@ export function createMapPainter(course, atlases = null, land = null) {
     openSand: polygons(f.openSand),
     rock: polygons(f.rock),
     /* Only the ground's own picture can tell the sea from the land inside such a ring. */
-    water: f.water.filter(item => !(land && item.overLand)).map(item => shape(item.ring, ringPath(item.ring), 10)),
+    water: f.water.filter(item => !(land && item.overLand)).map(item => ({ ...shape(item.ring, ringPath(item.ring), 10), reached: reachedWater.has(item) })),
     hayfields: polygons(f.hayfields),
     yards: polygons(f.yards),
     clearfells: polygons(f.clearfells),
@@ -341,6 +359,7 @@ export function createMapPainter(course, atlases = null, land = null) {
     greens: polygons(course.holes.map(hole => hole.green.ring), 8),
     bunkers: polygons(course.holes.flatMap(hole => hole.bunkers), 3),
   };
+  const unreachedWater = layers.water.filter(item => !item.reached);
   let allWater = null;
   const waterPath = () => {
     if (!allWater) {
@@ -369,7 +388,8 @@ export function createMapPainter(course, atlases = null, land = null) {
       maskCtx.drawImage(canopyMask, 0, 0);
     }
     /* Under the surfaces, as it is in the picture: a played one is never water. */
-    if (land) maskCtx.drawImage(waterPicture(node, MASK_SIZE, '#f00'), 0, 0);
+    const wetGround = waterPicture(node, MASK_SIZE, '#f00');
+    if (wetGround) maskCtx.drawImage(wetGround, 0, 0);
     maskCtx.setTransform(scale, 0, 0, scale, -node.x0 * scale, -node.z0 * scale);
     maskCtx.fillStyle = '#0f0';
     for (const item of mown) if (touches(item)) maskCtx.fill(item.path, 'evenodd');
@@ -429,14 +449,18 @@ export function createMapPainter(course, atlases = null, land = null) {
       fill(layers.rock, MAP_COLOURS.rock);
       fill(layers.openSand, MAP_COLOURS.sand);
 
-      stroke(layers.water, MAP_COLOURS.shallows, () => 7);
+      /* A pale rim round an outline, but not round a lake drawn to its own shore,
+         where it would lie on the bank in the outline's straight lines. */
+      stroke(unreachedWater, MAP_COLOURS.shallows, () => 7);
       fill(layers.water, MAP_COLOURS.water);
       fill(layers.basins, MAP_COLOURS.water);
-      /* Lakes past the outlines, and the open sea, read off the laser's ground. */
-      if (land) {
+      /* Lakes past the outlines, the open sea and each lake out to its shore, read
+         off the laser's ground. */
+      const wetGround = waterPicture(node, size, MAP_COLOURS.water);
+      if (wetGround) {
         ctx.save();
         ctx.setTransform(1, 0, 0, 1, 0, 0);
-        ctx.drawImage(waterPicture(node, size, MAP_COLOURS.water), 0, 0);
+        ctx.drawImage(wetGround, 0, 0);
         ctx.restore();
       }
       /* A lake's silt margin lies under its water: traced coarsely, it only counts

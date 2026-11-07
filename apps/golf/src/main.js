@@ -151,6 +151,8 @@ import { createFramePacer, shouldRenderFrame, resolveFrameCap, nextFrameCap, fra
 import { createWaterReflectionLighting } from './engine/water-lighting.mjs';
 import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, MEASURED_WATER_CLEARANCE_METRES } from './engine/water-render-policy.mjs';
 import { waterShoreDistance } from './engine/water-shore.mjs';
+import { waterReach, refineNearShore, growFlatWaterMask, shoreWetness, SHORE_DAMP, WATER_REACH } from './engine/water-reach.mjs';
+import { laserPlateLevel, LASER_PLATE_COURSES } from './engine/water-plate-level.mjs';
 import { waterFetch, waterMeshStep } from './engine/water-fetch.mjs';
 import { fillWaterNormalPixels } from './engine/water-normal-texture.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
@@ -811,6 +813,49 @@ for (const h of HOLES) {
   }
 }
 
+/* THE WATER ENDS WHERE THE GROUND RISES OUT OF IT (engine/water-reach.mjs, 7 November;
+   owner: "i dont want these straight and sharp lines on the water"). Each lake is read
+   off its own uncarved ground before the beds are carved: its sheet's outline runs under
+   the bank so the terrain draws the waterline, its bank distances fade the sheet in, and
+   the strip its ring left dry is carved as water. The sea, a cut ring, a reviewed pond's
+   exact polygon and the measured-only grounds keep theirs. ?waterreach=0 is the before. */
+const WATER_REACH_ON = new URLSearchParams(location.search).get('waterreach') !== '0';
+/* the bank damp above those lakes and their shallows' bed silt, in the near tint; ?shoredamp=0 */
+const SHORE_DAMP_ON = WATER_REACH_ON && new URLSearchParams(location.search).get('shoredamp') !== '0';
+/* a lake at the laser's own surface where the course asks for it (engine/water-plate-level.mjs);
+   ?waterlevel=before is the ring-percentile rule with its quarter metre */
+const PLATE_LEVELS = LASER_PLATE_COURSES.has(CMETA.slug) && new URLSearchParams(location.search).get('waterlevel') !== 'before';
+const reachableWater = w => WATER_REACH_ON && !w.stream && w.ring?.length >= 3 && !w.isSea && !w.shoreline
+  && !(w.artificialCutEdgeCount > 0) && !w.surr && !w.exactShore && M.infra.terrainPlacement !== 'measured-only';
+function reachWaters(bodies, heightAt, near = null) {
+  if (!near) {
+    /* the played ground and 180 m round it, as the shore curves use */
+    let x0 = Infinity, x1 = -Infinity, z0 = Infinity, z1 = -Infinity;
+    for (const h of HOLES) for (const p of h.line) {
+      x0 = Math.min(x0, p[0]); x1 = Math.max(x1, p[0]); z0 = Math.min(z0, p[1]); z1 = Math.max(z1, p[1]);
+    }
+    near = p => p[0] > x0 - 180 && p[0] < x1 + 180 && p[1] > z0 - 180 && p[1] < z1 + 180;
+  }
+  const started = performance.now();
+  let reached = 0, samples = 0, outside = 0;
+  const height = (x, z) => { const p = heightAt(x, z); return Number.isFinite(p) ? p : p?.height; };
+  /* the far water the ground found, which the flat sheet draws (and a cut lake runs on as) */
+  const otherWater = typeof terrainV2.isFlatWaterAt === 'function' ? (x, z) => terrainV2.isFlatWaterAt(x, z) : null;
+  for (const w of bodies) {
+    if (w.reach !== undefined || !reachableWater(w)) continue;
+    /* the laser's own surface inside the lake caps how high its water may reach */
+    const surface = w.levelEvidence?.surfaceMetres ?? laserPlateLevel(w.ring, height)?.surfaceMetres ?? NaN;
+    w.reach = waterReach({ ring: w.ring, level: w.level, surface, heightAt: height, near: (x, z) => near([x, z]), otherWater }) ?? null;
+    if (!w.reach) continue;
+    reached++; samples += w.reach.stats.samples; outside += w.reach.stats.outsideWetSquareMetres;
+  }
+  if (!reached) return;
+  const total = BOOT_PERF.waterReach ?? { bodies: 0, samples: 0, outsideWetHectares: 0 };
+  BOOT_PERF.waterReach = { bodies: total.bodies + reached, samples: total.samples + samples,
+    outsideWetHectares: +(total.outsideWetHectares + outside / 1e4).toFixed(2) };
+  span('water: reach the ground\'s shores', started, { bodies: reached, samples });
+}
+
 /* A SHORELINE IS A CURVE, AND THE TRACE IS A POLYGON -- smoothShore lives in
    engine/ring-smoothing.mjs now, because the v2 surface compiler has to
    rasterise exactly the rings this boot draws, and it once did not. */
@@ -882,6 +927,14 @@ for (const h of HOLES) {
         w.exactShore = true;
         continue;
       }
+      /* the lake's own surface, where the ground reads as one (engine/water-plate-level.mjs) */
+      const plate = PLATE_LEVELS ? laserPlateLevel(w.ring, groundProbe) : null;
+      if (plate) {
+        if (plate.level !== w.level) remeasured.push(`${w.name || w.id || 'vatten'} ${w.level}->${plate.level} (laser plate ${plate.surfaceMetres})`);
+        w.level = plate.level;
+        w.levelEvidence = plate;
+        continue;
+      }
       const heights = [];
       for (const p of w.ring) {
         const probe = groundProbe(p[0], p[1]);
@@ -946,8 +999,13 @@ for (const h of HOLES) {
          and before the GPU decodes a single tile -- so the water has depth
          where a lake has it, and the sheet has metres of clearance instead
          of a hand's width. */
+      /* THE WATER THE GROUND HOLDS (engine/water-reach.mjs): each lake read off its own
+         uncarved ground, before the carve below -- the sheet's outline, its bank
+         distances and the bed under the strip its ring left dry. */
+      if (typeof terrainV2.carveWaterBeds === 'function') reachWaters(M.water, (x, z) => terrainV2.worldHeightAt(x, z), near);
       if (typeof terrainV2.carveWaterBeds === 'function') {
-        const bed = terrainV2.carveWaterBeds({}, restoreWater ? preparedWater.waterBed : null);
+        const bed = terrainV2.carveWaterBeds({}, restoreWater ? preparedWater.waterBed : null,
+          { reaches: M.water.map(w => w.reach).filter(Boolean) });
         console.info(`v2 water beds: ${bed.hectares} ha carved to ${bed.maximumDepthMetres} m, ` +
           `${bed.carvedSamples} samples in ${bed.carvedTiles} ring tiles, ${bed.milliseconds} ms ` +
           `(field ${bed.fieldMilliseconds} ms: ${Object.entries(bed.fieldTimings || {}).map(([k, v]) => `${k} ${v}`).join(', ')})`);
@@ -2779,14 +2837,16 @@ const COASTAL_WATER = (() => {
   } : sourceBounds;
   const start = performance.now();
   const field = buildCoastalWater({ bounds, sourceBounds, bodies: M.water,
-    seaLevel: GEO.seaLevel, tolerance: VISTA_SEA_BAND,
+    seaLevel: GEO.seaLevel, tolerance: VISTA_SEA_BAND, growCoast: WATER_REACH_ON,
     heightAt: (x, z) => terrainV2.worldHeightAt?.(x, z) ?? null });
-  span('coastal water: connected extension', start, { cells: field.cells, quads: field.quads });
+  span('coastal water: connected extension', start, { cells: field.cells, grown: field.grownCells, quads: field.quads });
   return field;
 })();
 /* the bed under a lake the DTM shows: dark, so a sheet above it reads as water
    and a flat the sheet misses never reads as a pale plate */
 const FLAT_WATER_TINT = L(0x396f80);
+/* the silt a lake's shallows show through their faded edge (engine/water-reach.mjs SHORE_DAMP) */
+const SHORE_BED = L(0x6e6650);
 /* THE GROUND TO THE HORIZON, by what it is. One rule for the far tint raster
    and the legacy FAR mesh's vertex colours, so the two ground paths cannot
    drift apart again. Where the land-cover record speaks, the class decides
@@ -2943,12 +3003,17 @@ function fillGroundTintTextures(tint, heightAt) {
     for (let k = 0; k < n * n; k++) data[k * 4 + 3] = relief[k];
     texture.needsUpdate = true;
   };
+  /* the bank damp and the shallows' bed silt beside every lake read off its ground (engine/water-reach.mjs) */
+  const reaches = SHORE_DAMP_ON ? M.water.filter(w => w.reach).map(w => w.reach) : [];
   fill(tint.near, (x, z, h = H(x, z)) => {
     if(CONTINUOUS_OCEAN?.isSeaAt(x,z))return SEA_TINT;
     if(CONTINUOUS_OCEAN?.isIslandAt?.(x,z)&&h<SEA_WORLD_LEVEL+3)return C.rock;
     /* this raster colours only the classes the ground material does not own */
     const base=groundAt(x,z,h,{surfacesOwned:true}).col,sand=OCEAN_SOURCE?.surfaces.sandWeight(x,z)??0;
-    return sand>0?base.map((v,k)=>lerp(v,C.sand[k]*(.93+.05*fbm(x*.08,z*.08,2)),sand)):base;
+    const col = sand>0?base.map((v,k)=>lerp(v,C.sand[k]*(.93+.05*fbm(x*.08,z*.08,2)),sand)):base;
+    const shore = reaches.length ? shoreWetness(reaches, x, z, h) : null;
+    if (!shore) return col;
+    return col.map((v, k) => lerp(v, SHORE_BED[k], shore.under * SHORE_DAMP.bedShare) * (1 - SHORE_DAMP.darken * shore.damp));
   });
   const vistaColourAt = (x, z, h = H(x, z)) => {
     if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(x, z) : h < VISTA_SEA_LEVEL) return SEA_TINT;
@@ -3464,6 +3529,9 @@ if (TERRAIN_PREVIEW.ready) {
     }));
   }
   if (preparation.ok && GROUND_TINT) {
+    /* a ground whose beds were not carved from the rings at boot (a fixed frontier) reads its
+       lakes now, off the ground as drawn, so the bank's colour below knows them too */
+    reachWaters(M.water, (x, z) => terrainH(x, z));
     const tintStarted = performance.now();
     const restored = applyPreparedGroundTint(GROUND_TINT, await PREPARED_TINT_LOADING);
     if (!restored) fillGroundTintTextures(GROUND_TINT, (x, z) => terrainV2.constructionHeightAt(x, z));
@@ -4308,6 +4376,8 @@ function makeWater({ mask = null, showBed = true, ocean = false, sea = false, fr
     cloudShade: WATER_CLOUD_ON, lanes: WATER_LANES_ON, longShadows: CLOUD_STRETCH_ON,
     /* the bank's reflection and shade inside the waterline (engine/water-shading.mjs WATER_BANK); ?waterbank=0 is the before */
     bank: new URLSearchParams(location.search).get('waterbank') !== '0',
+    /* in from nothing at the shore (engine/water-shading.mjs WATER_SHORE_FADE); ?shorefade=0 is the before */
+    shoreFade: new URLSearchParams(location.search).get('shorefade') !== '0',
     reflection: WATER_REFLECTION, lightScale: paintedWaterLight });
   // MeshBasicNodeMaterial applies scene fog in setupOutput, just like the
   // terrain. Applying it here too bleaches the water twice at long range.
@@ -4387,17 +4457,27 @@ if (SEA_WINDOW) for (const w of M.water) {
 
 /* ?pondfetch=lake is the before: every body the pack flags a lake gets a lake's chop, wash and mesh */
 const POND_FETCH_LEGACY = new URLSearchParams(location.search).get('pondfetch') === 'lake';
+/* a ground whose beds were not carved from the rings at boot (a fixed frontier) reads
+   its lakes here, off the ground as drawn: the sheets still reach the bank */
+reachWaters(M.water, (x, z) => terrainH(x, z));
 for (const w of M.water) {
   if (CONTINUOUS_OCEAN && w.isSea) continue;
   if (w.ring.length < 3) continue;
-  const faces = triangulate(w.ring);
+  /* the outline the ground draws the waterline from (engine/water-reach.mjs) */
+  const reach = w.reach ?? null;
+  const outline = reach ? reach.outline : w.ring;
+  const faces = triangulate(outline);
   if (!faces.length) continue;
   /* big water needs interior vertices for the wave normal to vary across; ponds
      need them for aShore -- at 26 m nearly every pond vertex sat ON the outline
      where aShore is zero, so the depth ramp never left the shallows */
   /* a lake's chop and wash only where the wind has room (engine/water-fetch.mjs) */
   const lakeFetch = waterFetch(w, { legacy: POND_FETCH_LEGACY });
-  const { V, F } = subdivide(w.ring, faces, waterMeshStep(w, lakeFetch));
+  let { V, F } = subdivide(outline, faces, waterMeshStep(w, lakeFetch));
+  /* fine near the bank, so the sheet fades in by the shore and not by a 20 m triangle */
+  /* (beside the course only: a far lake's fade is a few pixels wide however it is drawn) */
+  if (reach && reach.cell <= WATER_REACH.nearCellMetres) ({ V, F } = refineNearShore(V, F, (x, z) => reach.bankAt(x, z),
+    { maxEdge: reach.cell * 1.5, within: Math.max(6, reach.cell * 4) }));
   if (SEA_WINDOW && w.shoreline?.windowCutsOmitted) {
     /* every vertex this sheet puts on the window's edge, for the weld outside */
     for (const [x, z] of V) {
@@ -4415,7 +4495,10 @@ for (const w of M.water) {
   const foamy = lakeFetch;
   for (const [x, z] of V) {
     pos.push(x, w.level, z);
-    sh.push(waterShoreDistance(x, z, w));
+    /* metres to the bank the ground draws, where the lake was read; else to its ring. The
+       waterline lies between the last wet node and the first dry one, so the distance is
+       counted from the last wet node: the sheet has faded out before the bank cuts it */
+    sh.push(reach ? Math.max(0, reach.bankAt(x, z) - reach.cell) : waterShoreDistance(x, z, w));
     fm.push(foamy);
     /* how much water actually stands over the carved bed: the fjärd is a regulated
        lake and its wide pale margins are silt bottom UNDER water, so the shallows
@@ -4500,7 +4583,17 @@ const FLAT_WATER = terrainV2.flatWater ?? null;
 if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
   const bridge = TERRAIN_PREVIEW.bridge;
   const [ax, cx] = bridge.toGrid(1, 0), [bx, dx] = bridge.toGrid(0, 1); /* gx = ax·x + bx·z, gz = cx·x + dx·z */
-  const maskTexture = new THREE.DataTexture(Uint8Array.from(FLAT_WATER.mask, value => value ? 255 : 0), FLAT_WATER.width, FLAT_WATER.height, THREE.RedFormat, THREE.UnsignedByteType);
+  /* each far lake the model does not know grown one cell under its bank, so the terrain
+     draws its shore and not the mask's 8 m cells (engine/water-reach.mjs); never over a
+     ring or a lake's reach, which have their own sheets. ?waterreach=0 is the before */
+  const reached = M.water.filter(w => w.reach);
+  const flatBytes = WATER_REACH_ON ? growFlatWaterMask({ ...FLAT_WATER, blocked: (column, row) => {
+    const [lx, lz] = bridge.toLegacy(FLAT_WATER.x0 + (column + 0.5) * FLAT_WATER.spacing, FLAT_WATER.z0 + (row + 0.5) * FLAT_WATER.spacing);
+    if (WI.at(lx, lz).some(w => !w.stream && ringSD(lx, lz, w.ring, FLAT_WATER.spacing + 1) < FLAT_WATER.spacing)) return true;
+    return reached.some(w => { const b = w.reach.bounds; return lx >= b.x0 && lx <= b.x1 && lz >= b.z0 && lz <= b.z1 && w.reach.wetAt(lx, lz) > 0; });
+  } }) : { bytes: Uint8Array.from(FLAT_WATER.mask, value => value ? 255 : 0), grown: 0 };
+  stats.flatWaterGrownCells = flatBytes.grown;
+  const maskTexture = new THREE.DataTexture(flatBytes.bytes, FLAT_WATER.width, FLAT_WATER.height, THREE.RedFormat, THREE.UnsignedByteType);
   maskTexture.minFilter = THREE.LinearFilter;
   maskTexture.magFilter = THREE.LinearFilter;
   maskTexture.wrapS = THREE.ClampToEdgeWrapping;
@@ -4518,7 +4611,10 @@ if (FLAT_WATER?.components.some(c => c.uncoveredCells > 0)) {
     if (c.uncoveredCells === 0) continue;
     /* meeting a modelled body at ITS level, so the two sheets are one plane */
     const y = c.knownCells > 0 ? c.level : c.level + 0.15;
-    const corners = [[c.bounds.x0, c.bounds.z0], [c.bounds.x1, c.bounds.z0], [c.bounds.x1, c.bounds.z1], [c.bounds.x0, c.bounds.z1]];
+    /* a cell wider than the lake's box, for the cell it was grown by */
+    const pad = WATER_REACH_ON ? FLAT_WATER.spacing : 0;
+    const corners = [[c.bounds.x0 - pad, c.bounds.z0 - pad], [c.bounds.x1 + pad, c.bounds.z0 - pad],
+      [c.bounds.x1 + pad, c.bounds.z1 + pad], [c.bounds.x0 - pad, c.bounds.z1 + pad]];
     const base = pos.length / 3;
     for (const [gx, gz] of corners) {
       const [lx, lz] = bridge.toLegacy(gx, gz);
@@ -4551,7 +4647,8 @@ if (COASTAL_WATER?.indices.length) {
   const g = new THREE.BufferGeometry();
   const count = COASTAL_WATER.positions.length / 3;
   g.setAttribute('position', new THREE.Float32BufferAttribute(COASTAL_WATER.positions, 3));
-  g.setAttribute('aShore', new THREE.Float32BufferAttribute(CONTINUOUS_OCEAN?.shorelineDistances ?? new Float32Array(count).fill(60), 1));
+  /* the extension's own distance to the coast (engine/coastal-water.mjs), so the window's shallows run on across its edge */
+  g.setAttribute('aShore', new THREE.Float32BufferAttribute(CONTINUOUS_OCEAN?.shorelineDistances ?? COASTAL_WATER.shoreDistances ?? new Float32Array(count).fill(60), 1));
   g.setAttribute('aFoam', new THREE.Float32BufferAttribute(new Float32Array(count).fill(1), 1));
   g.setAttribute('aDepth', new THREE.Float32BufferAttribute(new Float32Array(count).fill(3), 1));
   g.setIndex(COASTAL_WATER.indices);
@@ -6202,7 +6299,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
     }
     const h = terrainH(px, pz);
     if (!replay) {
-    if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < VISTA_SEA_LEVEL) return;
+    if (COASTAL_WATER ? (COASTAL_WATER.isWaterAt?.(px, pz, h) ?? COASTAL_WATER.isSeaAt(px, pz)) : h < VISTA_SEA_LEVEL) return;
     if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)return;
     if (inWater(px, pz, h)) return;
     }
@@ -6295,7 +6392,7 @@ if (!MEASURED_ONLY || LANDCOVER_REC) {
     }
     const h = terrainH(px, pz);
     if (!replay) {
-    if (COASTAL_WATER ? COASTAL_WATER.isSeaAt(px, pz) : h < GEO.seaLevel + 1.5) return;
+    if (COASTAL_WATER ? (COASTAL_WATER.isWaterAt?.(px, pz, h) ?? COASTAL_WATER.isSeaAt(px, pz)) : h < GEO.seaLevel + 1.5) return;
     if(CONTINUOUS_OCEAN?.isIslandAt?.(px,pz)&&h<SEA_WORLD_LEVEL+3)return;
     if (inWater(px, pz, h)) return;
     // Calibrated landcover can call this closed canopy even beside an open
@@ -12791,6 +12888,9 @@ window.V3D = {
       cover: typeof coverAt === 'function' ? coverAt(x, z) : null,
     };
   },
+  /* each lake read off its ground (engine/water-reach.mjs): its lattice and what it found */
+  waterReaches: () => M.water.filter(w => w.reach).map(w => ({ level: w.level, levelEvidence: w.levelEvidence ?? null,
+    bounds: w.reach.bounds, ...w.reach.stats })),
   flatWater: () => (terrainV2.flatWater
     ? { spacing: terrainV2.flatWater.spacing, width: terrainV2.flatWater.width, height: terrainV2.flatWater.height,
         bounds: { x0: terrainV2.flatWater.x0, z0: terrainV2.flatWater.z0,
@@ -12803,7 +12903,7 @@ window.V3D = {
     geometry: CONTINUOUS_OCEAN?.kind, sourceAsset:OCEAN_SOURCE?.asset,
     sourceIslands:CONTINUOUS_OCEAN?.sourceIslands, sourceGaps:CONTINUOUS_OCEAN?.sourceGaps,
     bounds: COASTAL_WATER.bounds, sourceBounds: COASTAL_WATER.sourceBounds,
-    spacingMetres: COASTAL_WATER.spacing, cells: COASTAL_WATER.cells, quads: COASTAL_WATER.quads,
+    spacingMetres: COASTAL_WATER.spacing, cells: COASTAL_WATER.cells, grownCells: COASTAL_WATER.grownCells ?? 0, quads: COASTAL_WATER.quads,
     sourceSheetDisplayLiftMetres: MEASURED_WATER_CLEARANCE_METRES, extensionDisplayLiftMetres: CONTINUOUS_OCEAN ? OCEAN_DISPLAY_LIFT : VISTA_SEA_BAND + 0.01,
     depthTest: oceanMat.depthTest, polygonOffset: oceanMat.polygonOffset,
     depthFunc: oceanMat.depthFunc,
