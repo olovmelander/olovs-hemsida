@@ -74,7 +74,11 @@ this guide or the current production workflow.
   Statistik counts the map's own records (`stats-model.mjs`). Both modes use the
   posters from `tools/make-posters.mjs`, which also writes each course's
   `backdrop.webp`. Run `tools/check-chooser-ui.mjs` after any change there. See
-  [the start menu](docs/start-menu.md).
+  [the start menu](docs/start-menu.md). A course card opens the course's own page
+  (`course-sheet.js`): tee, start hole, handicap or light, then the round; the map
+  begins it at `runda=1`. The detailed course's drawer (`menu.js`) is three tabs that
+  click the panel's own buttons; keep its `open` class and API, which `main.js`
+  reads. See [the UI audit of 8 November](docs/ui-audit-2026-11-08.md).
 - All seven historical public HTML URLs redirect to the app with their course
   and supported view settings. Vite generates these redirects. Root HTML sources
   remain course-pack validation inputs; never copy them over the built redirects.
