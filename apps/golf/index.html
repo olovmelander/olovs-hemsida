@@ -160,6 +160,11 @@ canvas{display:block;position:fixed;inset:0}
   body.rail-folded #rail>:not(.rail-hole-summary){display:none}
   body.rail-folded #rail .rail-hole-summary{margin:0;border:0;padding-bottom:0}
   body.rail-folded .rail-fold-btn{transform:rotate(180deg)}
+/* Folded, the panel names what it holds: the hole card above already says the
+   hole, its par, length and index, and saying it twice was clutter (8 November).
+   What only the panel says -- how the hole plays, up or down -- stays. */
+body.rail-folded #rail .rhs-main{display:none}
+body.rail-folded #rail .rail-hole-summary::before{content:'Vy · ljus · verktyg';display:block;font:700 11.5px/1.2 Outfit,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--turf)}
   #note.folded #ntx{display:none}
   #note.folded .panel-head-bar{margin-bottom:0}
   #note.folded{cursor:pointer}
