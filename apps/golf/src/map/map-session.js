@@ -34,7 +34,7 @@ import { createMapPainter } from './map-paint.mjs';
 import { createTileStore, fetchKeptFile } from './map-tiles.mjs';
 import { catalogueFor, createTreeRules, loadTreeAtlases, speciesCount } from './map-trees.mjs';
 import { buildGreenGrid, slopeColor, SLOPE_STEPS } from './map-greengrid.mjs';
-import { landRecord, loadLandPictures } from './map-land.mjs';
+import { landRecord, loadLandPictures, loadShores } from './map-land.mjs';
 
 const params = new URLSearchParams(location.search);
 const slug = params.get('bana');
@@ -459,12 +459,17 @@ async function start() {
   const treeFiles = rules.catalogue.species.slice(0, speciesCount(slug)).flatMap(entry => [entry.colour, entry.normal])
     .map(entry => ({ ...entry, href: assetUrl(entry.file) }));
   const landFiles = landRecord(course.ground.groundId);
-  const landExtras = landFiles ? [landFiles.water, landFiles.forest].map(entry => ({ ...entry, href: assetUrl(entry.file) })) : [];
-  const [atlases, land] = await Promise.all([treesLoaded, params.get('land') === '0' ? null : loadLandPictures(landFiles, file => fetchKeptFile(assetUrl(file)))]);
+  /* Each lake out to its ground's own shore (map-shores.mjs); ?waterreach=0 is the before. */
+  const shoresWanted = params.get('waterreach') !== '0';
+  const landExtras = landFiles ? [landFiles.water, landFiles.forest, ...(shoresWanted && landFiles.shores ? [landFiles.shores.picture, landFiles.shores.lakes] : [])]
+    .map(entry => ({ ...entry, href: assetUrl(entry.file) })) : [];
+  const [atlases, land, shores] = await Promise.all([treesLoaded,
+    params.get('land') === '0' ? null : loadLandPictures(landFiles, file => fetchKeptFile(assetUrl(file))),
+    shoresWanted ? loadShores(landFiles, file => fetchKeptFile(assetUrl(file))) : null]);
 
   const groundCanvas = $('.map-ground');
   let store = null;
-  const painter = createMapPainter(course, atlases, land);
+  const painter = createMapPainter(course, atlases, land, shores);
   const renderer = createMapRenderer(groundCanvas, {
     onLost: () => store?.forgetGpu(),
     /* A tile that arrived while the context was gone went nowhere. */

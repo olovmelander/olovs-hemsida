@@ -38,6 +38,9 @@ export function preparedTintAllowed(search) {
     'waterroad', 'watermirror', 'waterrelief', 'opensea',
     // nor do the water from above's: the water's cloud shade and its patches seen from above are drawn
     'watercloud', 'waterlanes',
+    // nor does the shores' fade: the sheet's opacity is drawn (waterreach, waterlevel and
+    // shoredamp move the beds and the bank's colour, so they are not on this list)
+    'shorefade',
     // nor does the lights audit's: the lights' colours, the glaze on the land and the storm's wind are drawn
     'lights',
     // nor does winter's snow, nor Nu's moment: snow, bare broadleaves, ice and the sun's place are drawn

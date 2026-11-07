@@ -15,10 +15,15 @@
  * land cover says of water that the ground does not bear out: land, and in this
  * country forest unless it is mapped as something open.
  *
+ * Shores. Each lake the simulator reaches out to its ground's own shore
+ * (engine/water-reach.mjs), read here on the 1 m tiles by the same rule and level
+ * (map-shores-bake.mjs): its wet ground and the bank beside it, one sheet per ground.
+ *
  *   node tools/bake-map-land.mjs
  *
- * Rerun it when a ground's terrain or stands are republished: map.test.mjs compares
- * each record with the ground it was read from, so a stale one fails. It writes
+ * Rerun it when a ground's terrain or stands are republished, a layout's pack is, or
+ * the reach's rules change: map.test.mjs and map-shores.test.mjs compare each record
+ * with the ground, packs and rules it was read from, so a stale one fails. It writes
  * apps/golf/public/models/map-land/ and map-land.json, replacing the set. */
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
@@ -28,8 +33,13 @@ import { parseChunkEnvelope } from '../packages/course-v2/chunk.mjs';
 import { ringSD } from '../apps/golf/src/engine/geom.js';
 import { decodeLandcover, isTreeClass, LANDCOVER, landcoverSampler } from '../apps/golf/src/engine/landcover.mjs';
 import { detectFlatWater, rasterFromRingTiles } from '../apps/golf/src/engine/v2-flat-water.mjs';
+/* the one scenery water review there is: tools may read it, the map may not */
+import * as johannesbergWater from '../apps/golf/src/engine/scenery/johannesberg-water.mjs';
 import { canopyAlpha } from '../apps/golf/src/map/map-canopy.mjs';
 import { createMapFrame } from '../apps/golf/src/map/map-frames.mjs';
+import { decodeTileHeights, sampleTile } from '../apps/golf/src/map/map-height.mjs';
+import { buildTileTree } from '../apps/golf/src/map/map-lod.mjs';
+import { bakeShores, packShores, shoreRuleHash } from './map-shores-bake.mjs';
 
 const PUBLIC = path.resolve('apps/golf/public');
 const OUT = path.join(PUBLIC, 'models/map-land');
@@ -184,6 +194,34 @@ function coreCanopy(ground, raster) {
   return { sum, count };
 }
 
+/* The ground in a pack's frame and datum, from the finest tile at each point: the
+   1 m core where there is one, then the coarser rings, as the simulator reads it. */
+function packGround(ground, frame) {
+  const { root } = buildTileTree(ground);
+  const decoded = new Map();
+  const heightsOf = node => {
+    if (!decoded.has(node.id)) {
+      const { header, payload } = chunkOf(node.layers.terrain);
+      decoded.set(node.id, decodeTileHeights(payload, header.grid, 0).heights);
+    }
+    return decoded.get(node.id);
+  };
+  return (packX, packZ) => {
+    const [x, z] = frame.toWorld(packX, packZ);
+    let node = root, finest = null;
+    while (node) {
+      const u = (x - node.x0) / node.size, v = (z - node.z0) / node.size;
+      if (!(u >= 0 && u <= 1 && v >= 0 && v <= 1)) break;
+      finest = node;
+      node = node.children[(v >= 0.5 ? 2 : 0) + (u >= 0.5 ? 1 : 0)];
+    }
+    if (!finest) return NaN;
+    return sampleTile(heightsOf(finest), (x - finest.x0) / finest.size, (z - finest.z0) / finest.size) + frame.verticalDatumOffsetMetres;
+  };
+}
+const WATER_REVIEWS = { johannesberg: johannesbergWater, 'johannesberg-9': johannesbergWater };
+const RULES = shoreRuleHash();
+
 const seen = new Map();
 const layouts = json('courses/index.json').courses;
 for (const entry of json('courses/v2-index.json').courses) {
@@ -193,9 +231,9 @@ for (const entry of json('courses/v2-index.json').courses) {
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 
-const publish = (name, bytes) => {
+const publish = (name, bytes, extension = 'png') => {
   const sha256 = createHash('sha256').update(bytes).digest('hex');
-  const file = `models/map-land/${name}-${sha256.slice(0, 16)}.png`;
+  const file = `models/map-land/${name}-${sha256.slice(0, 16)}.${extension}`;
   fs.writeFileSync(path.join(PUBLIC, file), bytes);
   return { file, sha256, bytes: bytes.length };
 };
@@ -218,6 +256,7 @@ for (const [groundId, entries] of [...seen].sort(([a], [b]) => a.localeCompare(b
   const open = new Uint8Array(width * height);
   const known = { raster: { x0, z0, spacing, width, height } };
   let cover = null;
+  const shoreLayouts = [];
   for (const { slug } of entries) {
     const meta = layouts.find(course => course.slug === slug);
     const pack = fs.readFileSync(path.join(PUBLIC, meta.packUrl));
@@ -226,6 +265,8 @@ for (const [groundId, entries] of [...seen].sort(([a], [b]) => a.localeCompare(b
     const start = 8 + headerBytes + header.HF0.bytes + header.HF1.bytes;
     const vectors = JSON.parse(zlib.inflateRawSync(pack.subarray(start, start + header.VEC.bytes)).toString());
     const far = meta.surroundings ? json(meta.surroundings.url) : null;
+    const review = WATER_REVIEWS[slug] ? { ...WATER_REVIEWS[slug], datum: frame.verticalDatumOffsetMetres } : null;
+    shoreLayouts.push({ slug, vectors, geo: header.GEO, review, pack: meta.sha256 });
     for (const water of [...(vectors.water ?? []), ...(far?.water ?? [])]) {
       if (water.stream || !(water.ring?.length >= 3)) continue;
       const outline = readOutline(water.ring, raster, closed, frame);
@@ -276,6 +317,24 @@ for (const [groundId, entries] of [...seen].sort(([a], [b]) => a.localeCompare(b
   const hectares = cells => (cells * spacing ** 2 / 10000).toFixed(0);
   const water = publish(`${groundId}-water`, encodePicture(closed, width, height, [0, 255]));
   const wood = publish(`${groundId}-forest`, encodePicture(forest, width, height, FOREST_LEVELS));
+
+  /* Shores: every lake the simulator reaches, read off the 1 m ground. */
+  const shoreStarted = Date.now();
+  const reached = bakeShores({ layouts: shoreLayouts, probe: packGround(ground, frame) });
+  let shores = null;
+  if (reached.length) {
+    const sheet = packShores(reached);
+    /* the lakes' places on the sheet go beside it, not into this record: the map's
+       script carries this record for every ground */
+    shores = {
+      picture: publish(`${groundId}-shores`, encodePicture(sheet.values, sheet.width, sheet.height, [0, 255])),
+      lakes: publish(`${groundId}-shores`, Buffer.from(`${JSON.stringify(sheet.lakes)}\n`), 'json'),
+      rules: RULES,
+      packs: Object.fromEntries(shoreLayouts.map(({ slug, pack }) => [slug, pack])),
+    };
+    const outside = reached.reduce((sum, lake) => sum + lake.outsideWetSquareMetres, 0);
+    console.log(`${groundId.padEnd(15)} shores: ${reached.length} lakes, ${(outside / 10000).toFixed(2)} ha past their rings, ${sheet.width} x ${sheet.height}, ${((shores.picture.bytes + shores.lakes.bytes) / 1024).toFixed(0)} KB, ${((Date.now() - shoreStarted) / 1000).toFixed(1)} s`);
+  }
   grounds[groundId] = {
     water,
     forest: wood,
@@ -285,6 +344,7 @@ for (const [groundId, entries] of [...seen].sort(([a], [b]) => a.localeCompare(b
     x0,
     z0,
     dry: [...dry.values()],
+    ...(shores ? { shores } : {}),
     ground: ground.frame.fingerprint,
     terrain: groundManifest.sha256,
   };

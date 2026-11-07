@@ -31,9 +31,18 @@ import { bodySunlit, bodyCloudShade, waterRoughness, waterLanes } from './water-
 /* the bank's reflection and shade inside the waterline (waterShading's `bank`) */
 export const WATER_BANK = Object.freeze({ reach: Object.freeze([0.3, 3.2]), share: 0.62, tint: Object.freeze([0.5, 0.72, 0.46]) });
 
+/* THE WATERLINE, SOFT (7 November, owner request: no sharp lines where the water meets
+   the ground). The sheet stood at 62-97% opacity right up to its edge, so wherever it
+   ended -- its ring, or the bank cutting it -- it ended in a line. It now comes in from
+   nothing over the first metres from the shore (aShore: the bank the ground draws,
+   water-reach.mjs, or the ring's own shore), so the shallows show their bed, the bank
+   meets clear water, and the terrain cuts the sheet where it is already transparent.
+   ?shorefade=0 is the before. */
+export const WATER_SHORE_FADE = Object.freeze({ metres: 2.5 });
+
 export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, cloud = null, ocean = false, showBed = true, nordic = false, wind = false,
   road = false, mirror = false, relief = false, sea = false, cloudShade = false, lanes = false, longShadows = false, bank = false,
-  reflection = null, lightScale = null }) {
+  reflection = null, lightScale = null, shoreFade = false }) {
   const uSun = sun, uWaterGlint = glint, uWaterChop = chop;
   const aSh = attribute('aShore', 'float');
   const aFoam = attribute('aFoam', 'float');
@@ -186,8 +195,10 @@ export function waterShading({ WATERN, DETAIL, sun, waterLighting, glint, chop, 
   c = mix(c, shade ? color(0xdfeeee).mul(shade) : color(0xdfeeee), foam.mul(ocean ? 0.4 : 0.24));
 
   /* a pond bed a metre down should be a hint, not the picture: ponds start denser */
-  const opacity = mix(mix(float(0.86), float(0.97), depth),
+  let opacity = mix(mix(float(0.86), float(0.97), depth),
                       mix(float(0.62), float(0.97), depth), aFoam)
                     .add(foam.mul(0.2)).sub(bed.mul(0.28)).clamp(0.4, 1);
+  /* in from nothing at the shore (WATER_SHORE_FADE) */
+  if (shoreFade) opacity = opacity.mul(smoothstep(0, WATER_SHORE_FADE.metres, aSh));
   return { colour: c, opacity, wp };
 }

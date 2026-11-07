@@ -20,6 +20,7 @@ import { resolveV2AssetUrl } from '../../../../packages/course-v2/runtime/http.m
 import { detectFlatWater, rasterFromRingTiles, waterRingTiles } from './v2-flat-water.mjs';
 import { buildWaterBedField, carveDecodedTerrainTile, carveTerrainTile } from './v2-water-bed.mjs';
 import { refineMappedWaterBeds } from './mapped-water-bed.mjs';
+import { refineReachedWaterBeds } from './water-reach.mjs';
 
 const EPSILON = 1e-6;
 
@@ -436,7 +437,7 @@ export class V2GraphTerrainAdapter {
    * rewritten in place now, and every tile the GPU decodes from here on is
    * carved by the same field, so the sampler and the picture agree.
    */
-  carveWaterBeds(options = {}, preparedField = null) {
+  carveWaterBeds(options = {}, preparedField = null, { reaches = [] } = {}) {
     if (!this.flatWater) throw new Error('flat water must be detected before the beds are carved');
     if (this.waterBed) return this.waterBedSummary;
     const started = this.clock();
@@ -447,7 +448,11 @@ export class V2GraphTerrainAdapter {
       toGrid: (x, z) => this.bridge.toGrid(x, z),
       ...options,
     });
-    const field = refineMappedWaterBeds(coarseField, this.knownBodies, (x, z) => this.bridge.toGrid(x, z));
+    /* the reviewed ponds' exact polygons, then the water each lake's own ground holds
+       (water-reach.mjs): both own their ground, and the broad field answers elsewhere */
+    const field = refineReachedWaterBeds(
+      refineMappedWaterBeds(coarseField, this.knownBodies, (x, z) => this.bridge.toGrid(x, z)),
+      reaches, (x, z) => this.bridge.toLegacy(x, z));
     const fieldMilliseconds = Math.round(this.clock() - started);
     /* THE BED BELOW THE TILE'S FLOOR (3 November). A tile is quantised from its own lowest
        height, and over a lake that is the laser's water surface: a carve clamped at q = 0
@@ -482,6 +487,7 @@ export class V2GraphTerrainAdapter {
       fieldMilliseconds,
       fieldTimings: field.timings,
       refinedBodies: field.refinedBodies ?? 0,
+      reachedBodies: field.reachedBodies ?? 0,
     });
     this.waterBed = field;
     this.waterBedSummary = summary;

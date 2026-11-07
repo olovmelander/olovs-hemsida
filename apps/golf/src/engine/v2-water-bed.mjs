@@ -230,6 +230,8 @@ export function carveTerrainTile(tile, field, { legacyOrigin, verticalDatumOffse
   const tileZ0 = legacyOrigin.northing - bounds.maxNorthing, tileZ1 = legacyOrigin.northing - bounds.minNorthing;
   const fieldX1 = field.x0 + field.width * field.spacing, fieldZ1 = field.z0 + field.height * field.spacing;
   if (tileX1 < field.x0 || tileX0 > fieldX1 || tileZ1 < field.z0 || tileZ0 > fieldZ1) return 0;
+  /* a refined field hands a tile its lakes don't touch the broad field itself (water-reach.mjs) */
+  if (typeof field.within === 'function') field = field.within(tileX0, tileZ0, tileX1, tileZ1);
   /* the bilinear depth is zero more than half a field cell past the field's
      edge, so a coarse tile that reaches beyond it walks only the rows and
      columns the field can touch */
@@ -237,22 +239,31 @@ export function carveTerrainTile(tile, field, { legacyOrigin, verticalDatumOffse
   const rowEnd = Math.min(height - 1, Math.ceil((fieldZ1 + field.spacing - tileZ0) / spacing));
   const columnStart = Math.max(0, Math.floor((field.x0 - field.spacing - tileX0) / spacing));
   const columnEnd = Math.min(width - 1, Math.ceil((fieldX1 + field.spacing - tileX0) / spacing));
-  const nearWater = typeof field.nearWater === 'function' ? field.nearWater : () => true;
+  /* a field that knows its banks (water-reach.mjs) answers only across the span of a row
+     its lakes own, and says how far above the level it may still carve there; elsewhere
+     the broad field answers, with the half metre that keeps a loose ring's banks */
+  const wide = field.inner ?? field;
   let carved = 0;
   for (let row = rowStart; row <= rowEnd; row++) {
     const gz = tileZ0 + row * spacing;
+    const runs = wide !== field ? field.rowSpan(gz) : null;
+    let run = 0;
     for (let column = columnStart; column <= columnEnd; column++) {
       const gx = tileX0 + column * spacing;
-      if (!nearWater(gx, gz)) continue;
-      const depth = field.depthAt(gx, gz);
+      /* the run this column is in or before (columns only advance along a row) */
+      if (runs) while (run < runs.length && gx >= runs[run + 1]) run += 2;
+      const f = runs && run < runs.length && gx >= runs[run] ? field : wide;
+      if (typeof f.nearWater === 'function' && !f.nearWater(gx, gz)) continue;
+      const depth = f.depthAt(gx, gz);
       if (!(depth > 0)) continue;
-      const level = field.levelAt(gx, gz);
+      const level = f.levelAt(gx, gz);
       if (!Number.isFinite(level)) continue;
       const offset = (row * width + column) * 2;
       const q = payload[offset] | payload[offset + 1] << 8;
       if (q === noData) continue;
       const legacyHeight = heightOffsetMetres + q * heightScaleMetres + verticalDatumOffsetMetres;
-      if (legacyHeight > level + surfaceToleranceMetres) continue;
+      const tolerance = f !== wide ? f.toleranceAt(gx, gz) ?? surfaceToleranceMetres : surfaceToleranceMetres;
+      if (legacyHeight > level + tolerance) continue;
       const target = Math.max(0, Math.round((level - depth - verticalDatumOffsetMetres - heightOffsetMetres) / heightScaleMetres));
       if (target >= q) continue;
       payload[offset] = target & 0xff;
@@ -343,15 +354,24 @@ export function carveDecodedTerrainTile(decoded, field, { legacyOrigin, vertical
   /* the deepest bed this tile is asked for, and whether it is below the floor */
   const tileX0 = header.bounds.minEasting - legacyOrigin.easting, tileZ0 = legacyOrigin.northing - header.bounds.maxNorthing;
   const { width, height, sampleSpacingMetres: spacing } = grid;
+  if (typeof field.within === 'function') {
+    field = field.within(tileX0, tileZ0, tileX0 + (width - 1) * spacing, tileZ0 + (height - 1) * spacing);
+  }
+  const wide = field.inner ?? field;
   let deepest = Infinity;
   for (let row = 0; row < height; row++) {
     const gz = tileZ0 + row * spacing;
+    const runs = wide !== field ? field.rowSpan(gz) : null;
+    let run = 0;
     for (let column = 0; column < width; column++) {
       const gx = tileX0 + column * spacing;
-      if (!field.nearWater(gx, gz)) continue;
-      const depth = field.depthAt(gx, gz);
+      /* the run this column is in or before (columns only advance along a row) */
+      if (runs) while (run < runs.length && gx >= runs[run + 1]) run += 2;
+      const f = runs && run < runs.length && gx >= runs[run] ? field : wide;
+      if (!f.nearWater(gx, gz)) continue;
+      const depth = f.depthAt(gx, gz);
       if (!(depth > 0)) continue;
-      const level = field.levelAt(gx, gz);
+      const level = f.levelAt(gx, gz);
       if (!Number.isFinite(level)) continue;
       const q = payload[(row * width + column) * 2] | payload[(row * width + column) * 2 + 1] << 8;
       if (q === noData) continue;
