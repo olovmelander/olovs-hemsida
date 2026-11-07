@@ -13,8 +13,8 @@ import { DISPLAY_KEY } from '../map/map-display.mjs';
 import { opensMap } from './map-default.mjs';
 import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
-  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
-  readFrameCap, readSettings, rememberLaunch, settingsSummary, withSettings, writeSettings,
+  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
+  readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
 } from './settings-store.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -55,6 +55,27 @@ describe('launchUrl', () => {
   it('carries each detailed setting in the grammar the player reads', () => {
     const url = launchUrl('angso', 'detailed', { settings: { quality: 'hi', renderer: 'webgl', light: 'nu', view: 'green' } });
     expect(q(url)).toEqual({ bana: 'angso', q: 'hi', gl: '1', ljus: 'nu', vy: 'green' });
+  });
+
+  it('carries a round planned on the course page', () => {
+    const settings = { quality: 'auto', renderer: 'auto', light: 'dag', view: 'fritt' };
+    /* the tee is an index; main.js reads ?tee= from 1; the plan's light wins over the setting */
+    expect(q(launchUrl('visby', 'detailed', { settings, plan: { tee: 2, hole: 10, light: 'nu' } })))
+      .toEqual({ bana: 'visby', ljus: 'nu', tee: '3', hal: '10' });
+    /* choosing the player's own default light takes the setting's word out of the link */
+    expect(q(launchUrl('visby', 'detailed', { settings, plan: { tee: 0, hole: 1, light: 'kvall' } }))).toEqual({ bana: 'visby', tee: '1' });
+    expect(q(launchUrl('visby', 'map', { plan: { tee: 2, hole: 10, round: true } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '10' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: false } }))).toEqual({ bana: 'visby', karta: '1' });
+    expect(q(launchUrl('visby', 'detailed', { plan: { tee: 9, hole: 0, light: 'disco' } }))).toEqual({ bana: 'visby' });
+  });
+
+  it('keeps the tee where the map reads it, and falls back on the course\'s own', () => {
+    const course = { slug: 'visby', tees: { names: ['63', '59', '55'], def: 2 } };
+    expect(savedTee(memory(), course)).toBe(2);
+    expect(savedTee(memory({ [`${TEE_KEY}:visby`]: '1' }), course)).toBe(1);
+    expect(savedTee(memory({ [`${TEE_KEY}:visby`]: '7' }), course)).toBe(2);
+    expect(source('../map/map-session.js')).toContain(`const TEE_KEY = '${TEE_KEY}'`);
+    expect(teeColour(16053486)).toBe('#f4f4ee');
   });
 
   it('leaves out what is the player\'s own default', () => {

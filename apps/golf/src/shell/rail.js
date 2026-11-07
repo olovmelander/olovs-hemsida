@@ -70,6 +70,9 @@ const LINES = {
   visby: 'Seaside med linkskaraktär på Kronholmen vid Västergarn, spelad sedan 1958 och rankad som Sveriges bästa bana av Svensk Golf 2020; Östersjön ligger några tiotal meter från de flesta greenerna, greenerna ombyggda av Pierre Fulke.',
 };
 
+/* the course page (course-sheet.js) tells the same story under its posters */
+export const COURSE_LINES = LINES;
+
 const TEE_WORD = n => `${n} tees`;
 
 /* The resting poster. The first cards are what the visitor sees before anything

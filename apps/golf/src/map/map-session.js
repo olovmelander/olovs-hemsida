@@ -2355,9 +2355,33 @@ async function start() {
   refreshNumbers();
   refreshScore();
   if (course.greensApproximate) status('Greenernas form är ungefärlig på den här banan', 6000);
+  /* A round set up on the course's own page in the start menu (?runda=1): the tee and
+     the handicap were chosen and kept there, so it begins here without the start card,
+     and the position is asked for at once. A round already under way on this course
+     carries on instead. The word leaves the address, so a reload does not begin
+     another. */
+  const planned = params.get('runda') === '1';
+  if (planned) {
+    if (!roundUnderWay()) {
+      if (round.endedAt || holesScored(round, course.holes) > 0) freshRound();
+      const known = savedText(HANDICAP_KEY, '');
+      round.handicap = known !== '' && Number.isFinite(Number(known)) ? Number(known) : null;
+      round.begunAt = Date.now();
+      saveRound();
+      diary.add('round-started', teeName());
+      state.follow = true;
+      refreshScore();
+      status(`Rundan är igång från tee ${teeName() ?? ''}`.trim(), 3200);
+    }
+    if (!gps.active) startGps();
+    try {
+      params.delete('runda');
+      globalThis.history.replaceState(globalThis.history.state, '', `${location.pathname}?${params.toString()}${location.hash}`);
+    } catch { /* the word stays; a round under way carries on all the same */ }
+  }
   /* A plain link on a phone means a round may be about to start. Any other link was
      written to show something, and a round under way carries straight on. */
-  if (isPhone() && !params.has('hal') && !roundUnderWay() && !savedFresh(LOOK_KEY) && !savedFresh(`${GPS_KEY}:${course.slug}`)) {
+  if (!planned && isPhone() && !params.has('hal') && !roundUnderWay() && !savedFresh(LOOK_KEY) && !savedFresh(`${GPS_KEY}:${course.slug}`)) {
     refreshStart();
     showSheet(ui.startSheet);
   } else firstTip();

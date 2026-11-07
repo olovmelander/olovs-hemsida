@@ -112,17 +112,40 @@ export function detailedParams(settings) {
    the map by default (map-default.mjs), so a phone asking for the detailed
    course has to say karta=0; elsewhere the plain link already means it. The
    map always says karta=1, as mapUrl has since the map arrived. */
-export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS } = {}) {
+/* `plan` is what the course page sets up before a round: a tee (an index into
+   the course's tees), the hole to start on, a light for this visit, and for the
+   map whether the round begins at once (runda=1, map-session.js). */
+export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS, plan = null } = {}) {
   const params = new URLSearchParams();
   params.set('bana', slug);
+  const hole = Number(plan?.hole);
   if (mode === 'map') {
     params.set('karta', '1');
+    if (plan?.round) params.set('runda', '1');
+    if (Number.isInteger(hole) && hole > 1) params.set('hal', String(hole));
     return '?' + params.toString();
   }
   if (phone) params.set('karta', '0');
   for (const [key, value] of detailedParams(settings)) params.set(key, value);
+  /* main.js reads ?tee= from 1 to 6 and ?hal= as the hole to open on */
+  const tee = Number(plan?.tee);
+  if (Number.isInteger(tee) && tee >= 0 && tee < 6) params.set('tee', String(tee + 1));
+  if (Number.isInteger(hole) && hole > 1) params.set('hal', String(hole));
+  if (plan?.light && playerLights.has(plan.light)) {
+    if (plan.light === PLAYER_DEFAULT_LIGHT) params.delete('ljus'); else params.set('ljus', plan.light);
+  }
   return '?' + params.toString();
 }
+
+/* The tee a player last chose on a course, shared with the map (map-session.js TEE_KEY). */
+export const TEE_KEY = 'banvy-map-tee-v1';
+export function savedTee(storage, course) {
+  const fallback = course?.tees?.def ?? 0;
+  const text = readText(storage, `${TEE_KEY}:${course?.slug}`, null);
+  const index = Number(text);
+  return text !== null && Number.isInteger(index) && index >= 0 && index < (course?.tees?.names?.length ?? 0) ? index : fallback;
+}
+export const teeColour = value => `#${(Number(value) >>> 0).toString(16).padStart(6, '0').slice(-6)}`;
 
 /* Switching course inside the player keeps that visit's own q and gl (router
    courseUrl) and adds the start settings only where the link is silent. */
