@@ -3,6 +3,9 @@ import { fileURLToPath } from 'node:url';
 
 const assets = new URL('./assets/', import.meta.url);
 const files = ['golfer.json', 'golfer-male.json', 'banvy-golfer.glb', 'banvy-golfer-male.glb'];
+// Revision 3 (7 November) is served by default. The dev server serves the
+// September golfers (assets/v1) to a page opened with ?golferset=v1.
+const before = new URL('./assets/v1/', import.meta.url);
 
 /** The character assets belong to the lab, never the app's public directory. */
 export function golferLabPlugin(enabled) {
@@ -27,7 +30,8 @@ export function golferLabPlugin(enabled) {
         const name = path.slice('/models/golfer/'.length);
         if (!files.includes(name)) { response.statusCode = 404; response.end(); return; }
         try {
-          const data = readFileSync(new URL(name, assets));
+          const page = request.headers.referer ? new URL(request.headers.referer).searchParams : new URLSearchParams();
+          const data = readFileSync(new URL(name, page.get('golferset') === 'v1' ? before : assets));
           response.setHeader('Content-Type', name.endsWith('.glb') ? 'model/gltf-binary' : 'application/json');
           response.setHeader('Cache-Control', 'no-store');
           response.setHeader('Content-Length', data.length);

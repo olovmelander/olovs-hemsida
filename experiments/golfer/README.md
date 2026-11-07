@@ -1,5 +1,7 @@
 # Golfer development handoff
 
+**2026-11-07: revision 3.** Both golfers are rebuilt with realistic CC0 anatomy, a fitted rig, new original outfits and a kinematic-sequence swing. See [the revision 3 README](../../docs/graphics/golfer-2026-11-07/README.md). They now ship under the lab's canonical asset names (`assets/`). The September golfers are kept in `assets/v1` and return with `?golferset=v1` on the dev server. Rebuild with `tools/blender-golfer/v3/build_v3.py`. The September builders and audits below write to the September folder and assume its rig.
+
 **2026-09-16: preserve the prototype and continue developing it separately. Full app integration is deferred at the user's request.**
 
 ## Resume the lab
