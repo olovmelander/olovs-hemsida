@@ -193,7 +193,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     }
     for (const panel of drawer.querySelectorAll('[data-panel]')) panel.hidden = panel.dataset.panel !== name;
     $('.nd-scroll').scrollTop = 0;
-    try { sessionStorage.setItem(TAB_KEY, name); } catch { /* the first tab next time */ }
+    try { window.sessionStorage.setItem(TAB_KEY, name); } catch { /* the first tab next time */ }
   };
   tabs.forEach(tab => tab.addEventListener('click', () => selectTab(tab.dataset.tab)));
   $('.nd-tabs').addEventListener('keydown', e => {
@@ -202,7 +202,7 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
     const i = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
     selectTab(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].dataset.tab, true);
   });
-  try { const kept = sessionStorage.getItem(TAB_KEY); if (kept && tabs.some(t => t.dataset.tab === kept)) selectTab(kept); } catch { /* Spela */ }
+  try { const kept = window.sessionStorage.getItem(TAB_KEY); if (kept && tabs.some(t => t.dataset.tab === kept)) selectTab(kept); } catch { /* Spela */ }
 
   /* ------------------------------------------------------------ tools
      Each tile clicks the panel's own button, so the course has one behaviour
