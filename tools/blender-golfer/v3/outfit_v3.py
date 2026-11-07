@@ -21,10 +21,10 @@ from body_v3 import FS, FINGERS, TOES, FOREFOOT
 PALETTE = {
     # Vivid on the green: a coral-red polo with royal navy and a teal accent for her,
     # cobalt with Swedish-yellow tipping for him.
-    'female': dict(skin='#ECC0A4', polo='#F2503A', trim='#FBF9F4', navy='#1C3A86', hair='#7E5A36', hair_hi='#C29560',
+    'female': dict(skin='#ECC0A4', polo='#F2503A', trim='#FBF9F4', navy='#1C3A86', hair='#4E3019', hair_hi='#A26B3D',
                    shoe='#FBFAF6', accent='#F2503A', sole='#FBF9F4', outsole='#1C3A86', lip='#D8645A', iris='#2F8FB5',
                    headwear='#FBFAF6', bill_under='#11A7A1', trousers='#1C3A86', belt='#11A7A1', tie='#11A7A1'),
-    'male': dict(skin='#A86E4F', polo='#1F5FD6', trim='#F7C93C', navy='#16357F', hair='#2B1D15', hair_hi='#54392A',
+    'male': dict(skin='#A86E4F', polo='#1F5FD6', trim='#F7C93C', navy='#16357F', hair='#1E1511', hair_hi='#3C2B21',
                  shoe='#FBFAF6', accent='#1F5FD6', sole='#F4F1EA', outsole='#B9844C', trousers='#E6DAC0', belt='#A65A24',
                  lip='#AE5E4C', iris='#5B381F', headwear='#FBFAF6', bill_under='#1F5FD6', tie='#F7C93C'),
 }
@@ -197,6 +197,14 @@ class Outfit:
                     hidden[i] = False
         self.hide |= hidden
         self.collar(); self.placket(); self.sleeve_bands()
+        bvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+        chest = J['shoulder_L'].lerp(J['shoulder_R'], .5)
+        o = V((.085 * k, -.5, J['shoulder_L'].z - .085 * k))
+        hit = bvh.ray_cast(o, V((0, 1, 0)), 1)
+        if hit[0] is not None:
+            self.emblem(f'Golfer_v3_{self.v}_ChestFlag', hit[0], hit[1], .017,
+                        '#FBF9F4' if self.v == 'female' else P['trim'], '#FBF9F4' if self.v == 'female' else P['trim'],
+                        weights_from=ob)
 
     def tuck(self, ob):
         """Tucked in: snug under the waistband, bloused a little just above it.
@@ -266,6 +274,26 @@ class Outfit:
         C.set_coords(me, co)
         C.smooth(me, 1, .25, pin=C.boundary_vertices(me))
         self.keep_off_body(ob, .0042 * k)
+
+    def emblem(self, name, q, normal, size, staff_col, flag_col, weights_from=None, bone=None):
+        """The Banvy flag, embroidered: a staff and a pennant lying on a surface at q."""
+        k = self.k
+        up = V((0, 0, 1)); n = V(normal).normalized()
+        side = up.cross(n).normalized() if up.cross(n).length > 1e-6 else V((1, 0, 0))
+        up = n.cross(side).normalized()
+        if side.x < 0:
+            side = -side
+        q = V(q) + n * .0008
+        h = size * k
+        staff = C.tube(name + 'Staff', [q - up * h, q + up * h], [(.11 * h, .03 * h)] * 2, self.col, 6)
+        pennant = C.tube(name + 'Pennant', [q + up * h + side * .03 * h, q + up * h * .62 + side * h * 1.05],
+                         [(.36 * h, .03 * h), (.04 * h, .02 * h)], self.col, 4)
+        for ob, col in ((staff, staff_col), (pennant, flag_col)):
+            if weights_from is not None:
+                C.transfer_weights(ob, weights_from)
+            else:
+                C.rigid(ob, bone)
+            self.finish(ob, self.mat('emblem ' + col, col, .7), weights=weights_from is not None)
 
     def _cut_arm(self, ob, side, point, normal):
         me = ob.data
@@ -574,7 +602,6 @@ class Outfit:
             C.set_coords(me, co)
         self.keep_off_body(ob, (.008 if shorts else .012) * k)
         self.clamp_drift(ob, used, .06 * k)
-        import time as _t; _t0 = _t.time()
         # The waistband closes on the tucked shirt: no opening shows above the belt.
         polo = getattr(self, 'polo_ob', None)
         if polo is not None:
@@ -592,7 +619,6 @@ class Outfit:
                 target = hit[0] + hit[1] * .0032 * k
                 co[i] = co[i] * (1 - w) + np.array(target) * w
             C.set_coords(me, co)
-        print(f'OUTFIT   waist hug {_t.time() - _t0:.1f}s')
         C.cut_plane(ob, (0, 0, top), (0, 0, -1), keep_positive=True)
         # The hem breaks a little lower at the back over the shoe.
         C.cut_plane(ob, (0, .0, hem_z), V((0, -.18, 1)).normalized(), keep_positive=True)
@@ -600,7 +626,7 @@ class Outfit:
         twill = self.textures.normal('twill')
         TX.cylinder_uv(ob, (0, 0, 0), (0, 0, 1), 34)
         self.finish(ob, self.mat('trousers', P['trousers'], .86, normal_image=twill, normal_strength=.22), None)
-        _t1 = _t.time(); C.smooth_weights(ob, 5, .35); print(f'OUTFIT   trouser weights {_t.time() - _t1:.1f}s')
+        C.smooth_weights(ob, 5, .35)
         self.trouser_ob = ob
         self.hide |= C.shrink_mask(self.me, m & np.array([hem_z + .02 < c.z < top - .01 for c in self.centre]), 2)
         self.belt(top)
@@ -684,7 +710,7 @@ class Outfit:
                 w = (xmax - xmin) / 2 + .0085 * k
                 w *= 1 - .45 * end_heel ** 2 - .55 * end_toe ** 2.2
                 top = min(ztop + .008 * k, ankle.z + .02 * k)
-                top = top * (1 - .15 * end_toe) + sole * .15 * end_toe
+                top = top * (1 - .32 * end_toe ** 1.4) + sole * .32 * end_toe ** 1.4
                 if t > .96:
                     top = mix(top, sole + .012 * k, (t - .96) / .04)
                     w *= 1 - (t - .96) / .04 * .7
@@ -695,9 +721,9 @@ class Outfit:
                 for j in range(ring_n):
                     th = 2 * math.pi * j / ring_n
                     cx = math.cos(th); sz = math.sin(th)
-                    x = xm + w * math.copysign(abs(cx) ** .55, cx)
+                    x = xm + w * math.copysign(abs(cx) ** .68, cx)
                     if sz >= 0:
-                        z = sole + (top - sole) * abs(sz) ** .5
+                        z = sole + (top - sole) * abs(sz) ** .72
                     else:
                         z = sole * (1 - abs(sz) ** .35 * .9)
                     verts.append((x, y, z))
@@ -713,21 +739,20 @@ class Outfit:
             for p in me.polygons:
                 p.use_smooth = True
             C.smooth(me, 7, .4)
+            bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.to_mesh(me); bm.free()
             # The collar of the shoe opens below the ankle bone.
-            C.cut_plane(ob, (ankle.x, ankle.y, ankle.z - .012 * k), V((0, -.42, 1)).normalized(), keep_positive=False)
+            C.cut_plane(ob, (ankle.x, ankle.y + .012 * k, ankle.z - .004 * k), V((0, .3, 1)).normalized(), keep_positive=False)
             C.solidify(ob, .0028 * k, -1)
             C.transfer_weights(ob, self.body)
             leather = self.textures.normal('leather')
             TX.scale_uv_box(ob, 30)
-            upper = self.mat('shoe leather', P['shoe'], .42, normal_image=leather, normal_strength=.25, coat=.15)
+            upper = self.mat('shoe leather', P['shoe'], .48, normal_image=leather, normal_strength=.2, specular=.35)
             accent = self.mat('shoe accent', P['accent'], .5)
             ob.data.materials.clear(); ob.data.materials.append(upper); ob.data.materials.append(accent)
             for p in ob.data.polygons:
                 c = p.center
-                if c.y > y0 - .035 * k and c.z > .03 * k:
-                    p.material_index = 1                         # heel counter
-                if c.y < y1 + .045 * k and c.z < sole + .012 * k:
-                    p.material_index = 1                         # toe bumper
+                if c.y > y0 - .016 * k and c.z > .042 * k:
+                    p.material_index = 1                         # heel tab
             C.smooth_weights(ob, 2)
             ob.parent = self.rig; mod = ob.modifiers.new('Golfer rig', 'ARMATURE'); mod.object = self.rig
             self.parts.append(ob)
@@ -775,7 +800,7 @@ class Outfit:
             lj = C.join(laces, f'Golfer_v3_{self.v}_Laces_{side}')
             if lj:
                 C.transfer_weights(lj, self.body)
-                self.finish(lj, self.mat('laces', '#FBFAF6', .7))
+                self.finish(lj, self.mat('laces', P['accent'] if self.v == 'male' else P['navy'], .7))
             self.hide |= self.mask({FS['foot_' + side], FOREFOOT[side]} | TOES[side])
             if self.v == 'female':
                 self.sock(side, ankle.z - .012 * k)
@@ -1138,6 +1163,10 @@ class Outfit:
             self.finish(ob, cloth, .0028 * k, weights=False)
             C.rigid(ob, 'Head')
             self.bill(f'Golfer_v3_{self.v}_Bill', edge, c, .072, half_angle=.95, pitch=11, curve=.010)
+            vbvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+            hit = vbvh.ray_cast(V((0, -.5, front_z + .0145 * k)), V((0, 1, 0)), 1)
+            if hit[0] is not None:
+                self.emblem(f'Golfer_v3_{self.v}_VisorFlag', hit[0], hit[1], .0085, P['navy'], P['polo'], bone='Head')
             return
         # A structured six-panel cap: the crown rises steeply from the band (the front
         # panels stand up off the forehead), rounds over a low top and is buttoned there.

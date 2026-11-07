@@ -33,18 +33,33 @@ def height_to_normal(h, strength):
 
 
 def to_image(name, rgb, alpha=None, non_color=False):
+    """A packed image from an array.
+
+    Data images are created as data (Non-Color) before their pixels are written:
+    switching a generated image's colour space afterwards regenerates it, which
+    blanked every fabric normal map to black until 8 November.
+    """
     h, w = rgb.shape[:2]
     img = bpy.data.images.get(name)
-    if img is None or tuple(img.size) != (w, h):
-        img = bpy.data.images.new(name, w, h, alpha=False)
+    if img is not None:
+        bpy.data.images.remove(img)
+    img = bpy.data.images.new(name, w, h, alpha=False, is_data=non_color)
+    if non_color:
+        img.colorspace_settings.name = 'Non-Color'
+    if not non_color:
+        # Colour arrays are linear; the image stores sRGB bytes (as glTF reads them).
+        c = np.clip(rgb, 0, 1)
+        rgb = np.where(c <= .0031308, 12.92 * c, 1.055 * np.power(c, 1 / 2.4) - .055)
     px = np.ones((h, w, 4), dtype=np.float32)
     px[..., :3] = rgb
     if alpha is not None:
         px[..., 3] = alpha
     img.pixels.foreach_set(px.ravel())
-    if non_color:
-        img.colorspace_settings.name = 'Non-Color'
+    img.update()
     img.pack()
+    check = np.array(img.pixels[:]).reshape(-1, 4)[:, :3].mean(0)
+    if not np.allclose(check, rgb.reshape(-1, 3).mean(0), atol=.02):
+        raise RuntimeError(f'{name}: packed pixels {check} differ from the array')
     return img
 
 
