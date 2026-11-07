@@ -9,7 +9,8 @@ import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag, recommendClub } from '.
 import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { isPhone } from '../shell/map-default.mjs';
 import { distanceText } from '../shell/nearest-course.mjs';
-import { detailedUrl } from '../shell/router.js';
+import { detailedUrl, hubUrl } from '../shell/router.js';
+import { MODES, rememberLaunch } from '../shell/settings-store.mjs';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, EYE_FOV_DEGREES, MAX_DISTANCE, MAX_EYE_FOV_DEGREES, MAX_TILT, MIN_DISTANCE, MIN_EYE_FOV_DEGREES, MIN_TILT } from './map-camera.mjs';
 import { loadMapCourse } from './map-course.mjs';
@@ -308,7 +309,7 @@ root.innerHTML = `
       <button class="map-action" data-download>Spara banan</button>
       <button class="map-action" data-diary>Spara provrundans logg</button>
       <a class="map-action" data-full>Detaljerad 3D</a>
-      <a class="map-action" href="${BASE}">Alla banor</a>
+      <a class="map-action" href="${hubUrl(MODES.map.route)}">Alla banor</a>
     </div>
   </section>
   <div class="map-status" data-status hidden role="status"></div>`;
@@ -403,6 +404,10 @@ function savedQuality() {
   try { return Math.min(QUALITY_STEPS.length - 1, Number(localStorage.getItem(QUALITY_KEY)) || 0); } catch { return 0; }
 }
 
+function localStorageOrNull() {
+  try { return localStorage; } catch { return null; }
+}
+
 function savedText(key, fallback) {
   try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; }
 }
@@ -447,6 +452,8 @@ async function start() {
   const course = await loadMapCourse(slug);
   document.title = `${course.name} — Karta | Banvy`;
   ui.full.href = `${BASE}${detailedUrl(slug)}`;
+  /* the start menu's "Fortsätt" brings the golfer back here, in this mode */
+  rememberLaunch(localStorageOrNull(), slug, 'map');
 
   const rules = createTreeRules(course);
   const treeFiles = rules.catalogue.species.slice(0, speciesCount(slug)).flatMap(entry => [entry.colour, entry.normal])

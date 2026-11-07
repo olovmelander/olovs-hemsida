@@ -66,6 +66,15 @@ this guide or the current production workflow.
   (`body.hub`), and the menu's shortcut list renders from
   `keyboard-shortcuts.mjs`: add a key there, with its test. See
   [the r187 upgrade](docs/three-r187-upgrade-2026-11-02.md).
+- The bare route is the start menu (`hub.js`, 7 November): Detaljerad 3D, Lätt 3D,
+  Statistik and Inställningar as cards, with the course list for a mode at `#3d`
+  or `#karta`, `#statistik` and `#installningar`. A launch says its mode in the URL
+  (`settings-store.mjs launchUrl`). Settings reach the detailed course only as
+  the URL grammar or storage keys it already reads, never by editing `main.js`.
+  Statistik counts the map's own records (`stats-model.mjs`). Both modes use the
+  posters from `tools/make-posters.mjs`, which also writes each course's
+  `backdrop.webp`. Run `tools/check-chooser-ui.mjs` after any change there. See
+  [the start menu](docs/start-menu.md).
 - All seven historical public HTML URLs redirect to the app with their course
   and supported view settings. Vite generates these redirects. Root HTML sources
   remain course-pack validation inputs; never copy them over the built redirects.

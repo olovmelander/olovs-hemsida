@@ -33,7 +33,7 @@ const MAP_REGIONS = [
   { id: 'vastragotaland', label: 'Västra Götaland', regions: ['Västra Götaland'] },
 ];
 
-export function createSwedenMap({ container, courses, current, lead = null, onPickCourse }) {
+export function createSwedenMap({ container, courses, current, lead = null, onPickCourse, ctaFor = null }) {
   const mapEl = document.createElement('div');
   mapEl.id = 'swedenMap';
   mapEl.className = 'sweden-map-container';
@@ -117,10 +117,10 @@ export function createSwedenMap({ container, courses, current, lead = null, onPi
             <span>Par <b>${course.par}</b></span>
             <span><b>${course.holes}</b> hål</span>
             <span><b>${course.tees.names.length}</b> tees</span>
-            <span class="mpp-tag">${course.status === 'mapping' ? 'Under kartläggning' : '3D'}</span>
+            ${course.status === 'mapping' ? '<span class="mpp-tag">Under kartläggning</span>' : ''}
           </div>
           <button class="mpp-play-btn" id="mppPlayBtn">
-            <span>${course.status === 'mapping' ? 'Visa bankarta' : isCurrent ? 'Fortsätt spela' : 'Starta banan i 3D'}</span>
+            <span>${esc(ctaFor ? ctaFor(course) : course.status === 'mapping' ? 'Visa bankarta' : isCurrent ? 'Fortsätt spela' : 'Starta banan i 3D')}</span>
             <span class="mpp-arrow">→</span>
           </button>
         </div>

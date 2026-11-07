@@ -264,10 +264,11 @@ canvas{display:block;position:fixed;inset:0}
 .m-hud-btn.primary{background:rgba(95,208,122,.14);border-color:rgba(95,208,122,.35);color:var(--turf);font-weight:700}
 .m-hud-btn:active{transform:scale(.95)}
 
-/* The bare chooser route (hub.js) never loads the player: keep only the chooser,
-   the boot cover and the toast, so no placeholder HUD shows through the glass
-   or takes keyboard focus behind it. */
-body.hub>:not(#chooser):not(#boot):not(#toast):not(script){display:none!important}
+/* The bare chooser route (hub.js) never loads the player: keep only its own
+   screens (the start menu, the chooser and the settings), the bag editor the
+   settings open, the boot cover and the toast, so no placeholder HUD shows
+   through the glass or takes keyboard focus behind it. */
+body.hub>:not(#home):not(#chooser):not(#settings):not(#stats):not(#bagDialog):not(#boot):not(#toast):not(script){display:none!important}
 
 /* ren vy: everything fades, the landscape stays. The ghost button brings it back. */
 .panel,#hint,#uiToggle,#courseNav,.holes-wrap,.mobile-hud-cluster,#gpsStatus{transition:opacity .35s}

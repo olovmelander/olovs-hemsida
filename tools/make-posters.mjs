@@ -42,14 +42,23 @@
    so no HUD or marker sprite is baked into a picture. ?det=1 makes a re-shoot
    of the same recipe the same picture.
 
-   THE LOOK IS PINNED IN THE URL (2026-09-16): ?ghibli=1 (the painted look),
-   ?q=hi&qualitylock=1 (full quality, never the phone or slow-visit tier) and
-   ?v2=require (the 1 m ring ground, failing closed -- a v2 source that failed
-   would otherwise fall back to GPK1 silently and the poster would be a picture
-   of a ground no visitor sees). Every shot also waits for the terrain stream
-   to go idle, because a tile landing between two frames is a different
-   picture. Run with BANVY_GPU=1: SwiftShader takes minutes a course and a
-   poster wants the real renderer anyway. */
+   THE LOOK IS PINNED IN THE URL. ?q=hi&qualitylock=1 (full quality, never
+   the phone or slow-visit tier) and ?v2=require (the 1 m ring ground, failing
+   closed -- a v2 source that failed would otherwise fall back to GPK1 silently
+   and the poster would be a picture of a ground no visitor sees). Since the
+   recapture of 7 November also ?aa=traa: det=1 keeps MSAA on its own, and the
+   temporal AA is what a desktop visitor sees and what the water's reflections
+   of its shores ride on (main.js WATER_REFLECTION), so without it every lake
+   on a poster would be the before. The painted look's ?ghibli=1 is retired
+   (look-mode.mjs strips it); the realistic trees are the default. Every shot
+   also waits for the terrain stream to go idle, because a tile landing between
+   two frames is a different picture. Run with BANVY_GPU=1: SwiftShader takes
+   minutes a course and a poster wants the real renderer anyway.
+
+   THE BACKDROP. hero-1 is also written whole, 1600 px wide, as backdrop.webp:
+   the start menu lays it under everything, and the card's 800 px poster
+   stretched to a desktop screen is a blur. Same still, a second encode, no
+   second boot. */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -81,10 +90,11 @@ const EXTRA = (flag('extra', '') || '').split(',').filter(Boolean).map((spec, i)
   return { id: 9 + i, hole: +hole, cam, preset, literal: true,
            what: `extra · hål ${hole} · ${cam} · ${preset}` };
 });
-const LOOK = '&ghibli=1&q=hi&qualitylock=1&v2=require';
+const LOOK = '&q=hi&qualitylock=1&v2=require&aa=traa';
 const shotUrl = slug => `${BASE}/?bana=${slug}&det=1&ren=1&skylt=0${LOOK}`;
 const WIDTH = 800;      /* 2x the ~400 px card; the card is never shown larger */
 const QUALITY = 0.90;   /* the knee of the curve above */
+const BACKDROP_WIDTH = 1600, BACKDROP_QUALITY = 0.86;
 
 /* signature hole, then two more the club's notes single out as scenic */
 const PLAN = {
@@ -463,6 +473,11 @@ async function writeChosen(slug) {
     fs.writeFileSync(to, webp);
     total += webp.length;
     console.log(`    hero-${i + 1}  ${describe(r)}  ${(webp.length / 1024).toFixed(0)} kB`);
+    if (i === 0) {
+      const wide = await encodeWebp(page, png, BACKDROP_WIDTH, BACKDROP_QUALITY);
+      fs.writeFileSync(path.join(dest, 'backdrop.webp'), wide);
+      console.log(`    backdrop  ${(wide.length / 1024).toFixed(0)} kB`);
+    }
   }
   await page.close();
   /* stale posters from a shorter set would keep being fetched by a card that no
