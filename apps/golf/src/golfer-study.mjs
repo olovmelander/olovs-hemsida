@@ -1,5 +1,6 @@
 import * as THREE from 'three/webgpu';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { loadGolfer, GOLFER_CHARACTERS, characterFromUrl, transferGolferState } from './engine/golfer.mjs';
 
 const $ = id => document.getElementById(id);
@@ -10,10 +11,15 @@ try {
   await renderer.init();
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.12;
+  // Neutral tone mapping keeps the outfits' hues and saturation (ACES bleached them).
+  renderer.toneMapping = THREE.NeutralToneMapping; renderer.toneMappingExposure = 1.0;
   stage.prepend(renderer.domElement);
   const scene = new THREE.Scene(); scene.background = new THREE.Color('#d7dfc9'); scene.fog = new THREE.Fog('#d7dfc9', 12, 55);
-  const hemi = new THREE.HemisphereLight('#f0f2e7', '#73845b', 2.5); scene.add(hemi);
+  // A soft room environment gives fabric, leather, skin and steel their highlights;
+  // the hemisphere's ground light is a neutral warm grey, not green.
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), .04).texture; scene.environmentIntensity = .55;
+  const hemi = new THREE.HemisphereLight('#f4f3ec', '#9a9583', 1.6); scene.add(hemi);
   const sun = new THREE.DirectionalLight('#fff1d8', 3.3); sun.position.set(-3, 7, 5); sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: .1, far: 25 }); sun.shadow.normalBias = .012; scene.add(sun); scene.add(sun.target);
   const fill = new THREE.DirectionalLight('#d5e9f0', .65); fill.position.set(4, 2, -3); scene.add(fill);
@@ -86,7 +92,7 @@ try {
   $('pause').onclick = () => { golfer.paused = !golfer.paused; $('pause').textContent = golfer.paused ? 'Resume' : 'Pause'; $('pause').setAttribute('aria-pressed', String(golfer.paused)); };
   $('speed').onchange = () => { golfer.rate = Number($('speed').value); };
   $('timeline').oninput = () => { golfer.paused = true; $('pause').textContent = 'Resume'; $('pause').setAttribute('aria-pressed', 'true'); golfer.seek(Number($('timeline').value) * golfer.duration); };
-  $('light').onchange = () => { const warm = $('light').value === 'evening'; sun.color.set(warm ? '#ffcb87' : '#fff1d8'); sun.position.set(-3, warm ? 2.4 : 7, 5); hemi.intensity = warm ? 1.85 : 2.5; scene.background.set(warm ? '#e5d8b8' : '#d7dfc9'); scene.fog.color.copy(scene.background); };
+  $('light').onchange = () => { const warm = $('light').value === 'evening'; sun.color.set(warm ? '#ffcb87' : '#fff1d8'); sun.position.set(-3, warm ? 2.4 : 7, 5); hemi.intensity = warm ? 1.2 : 1.6; scene.background.set(warm ? '#e5d8b8' : '#d7dfc9'); scene.fog.color.copy(scene.background); };
   const keys = new Set();
   addEventListener('keydown', e => { if (/INPUT|SELECT|BUTTON|TEXTAREA/.test(e.target.tagName)) return; if ('wasd'.includes(e.key.toLowerCase()) || e.key === 'Shift') { keys.add(e.key.toLowerCase()); e.preventDefault(); } });
   addEventListener('keyup', e => keys.delete(e.key.toLowerCase()));

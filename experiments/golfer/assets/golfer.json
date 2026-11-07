@@ -6,7 +6,7 @@
   "file": "banvy-golfer.glb",
   "height": 1.68,
   "forward": "+Z",
-  "bones": 64,
+  "bones": 66,
   "clips": [
     {
       "name": "Idle",
@@ -244,7 +244,7 @@
     },
     {
       "name": "Celebrate",
-      "duration": 2.2,
+      "duration": 2.6,
       "loop": false,
       "club": "Iron"
     }
@@ -271,8 +271,8 @@
       "length": 0.876
     }
   ],
-  "bytes": 13667960,
-  "sha256": "194a0daacf57b68ff13f44d8bdd56117669583a7f54a9a12a5a9dfb04a760ea8",
+  "bytes": 14751376,
+  "sha256": "a5f43ff8dfd654fa53866bd5f42eed317153b5264cd4c7a92f463a6a4620bc40",
   "vertices": 26256,
   "triangles": 51828,
   "grip": {
@@ -868,14 +868,14 @@
         "leg_gap_m": 0
       },
       "Celebrate": {
-        "reach_gap_m": 0,
+        "reach_gap_m": 0.0438,
         "leg_gap_m": 0
       }
     },
     "validation": {
       "sampleHz": 120,
       "clips": 20,
-      "verifiedAt": "2026-11-07T16:29:12.940Z"
+      "verifiedAt": "2026-11-07T23:41:59.136Z"
     }
   },
   "design": "Original designs for Banvy's courses (no likeness of any existing game's\ncharacter):\n  female -- coral pique polo with a white collar and sleeve bands, navy\n            tailored golf shorts with a white belt, white visor, dark-blonde\n            hair pulled back into a braid, white glove, white golf shoes with\n            coral heel tabs.\n  male   -- navy pique polo with white tipping, stone tailored trousers and a\n            cognac belt, white cap, short dark hair, white glove, white shoes\n            on gum soles.",

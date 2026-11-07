@@ -36,6 +36,8 @@ def build(variant, collection, level=1, with_clubs=True):
         p.use_smooth = True
     body.parent = rig
     mod = body.modifiers.new('Golfer rig', 'ARMATURE'); mod.object = rig
+    lids = body_v3.lid_weights(body, J, (eye_l, eye_r))
+    print('LIDS', lids)
     for side, eye in (('L', eye_l), ('R', eye_r)):
         eye.name = f'Golfer_v3_{variant}_Eye_{side}'
         rigid_weights(eye, rig, 'Eye_' + side)

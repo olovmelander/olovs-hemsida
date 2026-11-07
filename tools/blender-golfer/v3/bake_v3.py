@@ -108,6 +108,38 @@ class Braid:
         return poses
 
 
+def blink_curve(t, starts):
+    """0 open .. 1 closed: a quick close, a short hold, a slower opening."""
+    v = 0.0
+    for s0 in starts:
+        u = t - s0
+        if 0 <= u < .075:
+            v = max(v, smooth(u / .075))
+        elif .075 <= u < .105:
+            v = 1.0
+        elif .105 <= u < .27:
+            v = max(v, 1 - smooth((u - .105) / .165))
+    return v
+
+
+def blink_times(name, duration):
+    """When each clip blinks: with head turns, at rest and in the held finish; the
+    short locomotion loops never blink (once a stride would read as a twitch)."""
+    if name == 'Idle':
+        return [.9, 3.32, 3.66, 5.55]
+    if name.startswith('Address'):
+        return [.86, 2.42]
+    if name.startswith('Turn'):
+        return [.04]
+    if name == 'ClubChange':
+        return [.28]
+    if name == 'Celebrate':
+        return [.06, duration - .75]
+    if name in ('SwingDriver', 'SwingWood', 'SwingIron', 'ChipWedge', 'Putt'):
+        return [.12, duration - .95]
+    return []
+
+
 def bake_all(G, scene, names=None):
     rig = G['rig']; skel = G['skel']
     rig.animation_data_create(); rig.animation_data.action = None
@@ -122,11 +154,14 @@ def bake_all(G, scene, names=None):
         frames = round(duration * FPS); duration = frames / FPS
         G['bodypose'].max_reach_gap = 0; G['bodypose'].max_leg_gap = 0
         poses = []
+        blinks = blink_times(name, duration)
         for f in range(frames + 1):
             t = min(f / FPS, duration)
             if loop and f == frames:
                 t = 0.0
+            G['bodypose'].blink = blink_curve(t, blinks)
             poses.append(clip.pose(t))
+        G['bodypose'].blink = 0.0
         poses = braid.run(poses, loop)
         basis = [skel.basis(p) for p in poses]
         action = bpy.data.actions.new(f'{G["variant"].title()} v3 | {name}')

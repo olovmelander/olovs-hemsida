@@ -364,6 +364,11 @@ def skin_shader(G, P, variant, target_image):
         stub = N.math('MULTIPLY', beard, N.smoothstep(dots.outputs['Fac'], .42, .6))
         col = N.mixc(col, rgba('#2C2420'), N.math('MULTIPLY', stub, .55))
         col = N.mixc(col, tuple(c * .86 for c in base[:3]) + (1,), N.math('MULTIPLY', beard, .3))
+    if variant == 'male':
+        # A short crop's fade: dense dots darkening the scalp above the hairline.
+        crop = N.math('MULTIPLY', N.attr('scalp_mask'), N.smoothstep(dots.outputs['Fac'], .32, .52))
+        col = N.mixc(col, rgba('#1E1612'), N.math('MULTIPLY', crop, .9))
+        col = N.mixc(col, tuple(c * .72 for c in base[:3]) + (1,), N.math('MULTIPLY', N.attr('scalp_mask'), .45))
     # Nails.
     col = N.mixc(col, rgba('#F0D3C8' if variant == 'female' else '#D9B4A4'), N.math('MULTIPLY', N.attr('nail_mask'), .7))
     nt.links.new(col, emit.inputs['Color'])
@@ -464,10 +469,15 @@ def bake_eyes(G, P, variant):
     iris = rgba(P['iris']); deep = tuple(x * .45 for x in iris[:3]) + (1,)
     fib = nt.nodes.new('ShaderNodeTexNoise'); fib.inputs['Scale'].default_value = 60; fib.inputs['Detail'].default_value = 6
     nt.links.new(N.vmath('MULTIPLY', d, (1, .1, 1)), fib.inputs['Vector'])
-    col = N.mixc(rgba('#F2EEE8'), rgba('#E8CFC8'), N.smoothstep(ang, .9, 1.4))
-    col = N.mixc(N.mixc(deep, iris, fib.outputs['Fac']), col, N.smoothstep(ang, .40, .44))
-    col = N.mixc(col, rgba('#2A2A2E'), N.math('MULTIPLY', N.smoothstep(ang, .33, .40), N.math('SUBTRACT', 1.0, N.smoothstep(ang, .40, .44))))
-    col = N.mixc(rgba('#08090B'), col, N.smoothstep(ang, .14, .17))
+    # A human iris spans about 29 degrees of the eyeball's radius: larger than drawn
+    # before, so the eye no longer stares. A warm sclera darkens toward the corners.
+    col = N.mixc(rgba('#EDE6DC'), rgba('#D9B9AE'), N.smoothstep(ang, .75, 1.35))
+    ring = N.smoothstep(ang, .38, .50)
+    bright = tuple(min(1.0, x * 1.35) for x in iris[:3]) + (1,)
+    inner = N.mixc(bright, iris, N.smoothstep(ang, .17, .30))
+    col = N.mixc(N.mixc(deep, inner, fib.outputs['Fac']), col, N.smoothstep(ang, .49, .53))
+    col = N.mixc(col, rgba('#22252B'), N.math('MULTIPLY', N.math('MULTIPLY', ring, .8), N.math('SUBTRACT', 1.0, N.smoothstep(ang, .49, .53))))
+    col = N.mixc(rgba('#060709'), col, N.smoothstep(ang, .15, .18))
     nt.links.new(col, emit.inputs['Color'])
     t = nt.nodes.new('ShaderNodeTexImage'); t.image = img; nt.nodes.active = t
     keep = list(eye.data.materials)
