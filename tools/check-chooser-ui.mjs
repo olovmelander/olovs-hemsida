@@ -24,6 +24,15 @@
      - the hover warm-up asks for the pack by the SAME url the player will, and a
        finger landing on a card to scroll fetches nothing
 
+   THE START MENU (7 November). The bare route is now a menu -- the two ways
+   to play and the settings -- and the list is one step in, at #3d or #karta,
+   so the measurements above are taken there. The menu has gates of its own:
+   all three cards whole on screen on a phone and a laptop, the mode each
+   device is best at marked, every launch URL saying the mode it was picked in
+   (karta=0 on a phone for the detailed course, karta=1 for the map) with the
+   settings' launch values, settings that land in the keys the programs read,
+   a reset that leaves the bag alone, and back and Escape that walk the screens.
+
    --player also boots one course (BANVY_GPU=1 makes that seconds, not minutes)
    and proves that letters typed into the chooser's search do not steer the
    course behind it. Measured key by key on the build before the guard: "n"
@@ -59,6 +68,8 @@ const LINUX_CHROME = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome';
 const CHROME = fs.existsSync(LINUX_CHROME) ? LINUX_CHROME : undefined;
 const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, 'apps/golf/public/courses/index.json'), 'utf8'));
 const LAST_KEY = 'banvy-last-course';
+/* the course list, one step in from the start menu */
+const LIST = '/#3d';
 if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
 
 let bad = 0;
@@ -74,9 +85,11 @@ const browser = await chromium.launch({
   args: browserArgs(),
 });
 
-async function open({ width, height, touch = false, last = null, url = '/' }) {
+async function open({ width, height, touch = false, last = null, url = LIST, blockWorker = false }) {
   const ctx = await browser.newContext({
     viewport: { width, height }, deviceScaleFactor: 1, isMobile: touch, hasTouch: touch,
+    /* a navigation the service worker answers never reaches page.route */
+    ...(blockWorker ? { serviceWorkers: 'block' } : {}),
   });
   if (last) await ctx.addInitScript(([k, v]) => { try { localStorage.setItem(k, v); } catch {} }, [LAST_KEY, last]);
   const page = await ctx.newPage();
@@ -288,7 +301,7 @@ await section('phone posters', async () => {
   const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
   const page = await ctx.newPage();
   const seen = posterLog(page);
-  await page.goto(BASE + '/', { waitUntil: 'load', timeout: 120000 });
+  await page.goto(BASE + LIST, { waitUntil: 'load', timeout: 120000 });
   await page.waitForSelector('#chooser .card', { timeout: 60000 });
   /* which still each on-screen card SHOWS, once a second: 1 is the resting
      poster, 2-5 the crossfaded extras */
@@ -328,7 +341,7 @@ await section('desktop weight', async () => {
   const ctx = await browser.newContext({ viewport: { width: 1366, height: 768 }, serviceWorkers: 'block' });
   const page = await ctx.newPage();
   const seen = posterLog(page);
-  await page.goto(BASE + '/', { waitUntil: 'load', timeout: 120000 });
+  await page.goto(BASE + LIST, { waitUntil: 'load', timeout: 120000 });
   await page.waitForSelector('#chooser .card', { timeout: 60000 });
   await page.waitForTimeout(4000);
   const first = seen.filter(n => n === 1).length, extras = seen.length - first;
@@ -409,6 +422,219 @@ await section('map', async () => {
   await page.waitForTimeout(300);
   gate(await page.evaluate(() => [...document.querySelectorAll('#chooser .card')].filter(c => c.offsetParent).length > 0
     && !!document.getElementById('chooserControls').offsetParent), 'and the cards come back');
+  await ctx.close();
+});
+
+/* -------------------------------------------------------- the start menu */
+console.log('start menu');
+/* Every course link the hub opens is caught and aborted, so a launch is read
+   off its URL without booting the player. */
+async function catchLaunch(page) {
+  const seen = [];
+  await page.route(url => url.searchParams.has('bana'), route => {
+    seen.push(route.request().url());
+    return route.abort();
+  });
+  return seen;
+}
+const paramsOf = url => Object.fromEntries(new URL(url).searchParams);
+
+for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false, 'desktop'], [1366, 768, false, 'laptop']]) {
+  await section(`start menu ${w}x${h}`, async () => {
+    const { ctx, page, errs } = await open({ width: w, height: h, touch, last: manifest.courses[3].slug, url: '/' });
+    await page.waitForSelector('#home .mode-card', { timeout: 60000 });
+    await page.waitForTimeout(900);
+    const m = await page.evaluate(() => {
+      const cards = [...document.querySelectorAll('#home .mode-card')].map(c => ({ mode: c.dataset.mode, r: c.getBoundingClientRect(),
+        badge: !!c.querySelector('.mc-badge') }));
+      const home = document.getElementById('home');
+      const small = [...home.querySelectorAll('a, button')].filter(e => e.offsetParent)
+        .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.width < 44 || x.b.height < 44)
+        .map(x => `${x.e.className || x.e.tagName} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
+      return { cards: cards.map(c => ({ mode: c.mode, top: Math.round(c.r.top), bottom: Math.round(c.r.bottom), badge: c.badge })),
+        resume: document.querySelector('#home [data-resume]')?.textContent.replace(/\s+/g, ' ').trim() ?? null,
+        chooser: !!document.getElementById('chooser') && !document.getElementById('chooser').hidden,
+        sideways: home.scrollWidth > home.clientWidth + 1, small, vh: innerHeight };
+    });
+    if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `home-${w}x${h}.png`) });
+    const tag = `${name} ${w}x${h}`;
+    gate(m.cards.map(c => c.mode).join(',') === 'detailed,map,stats,settings', `${tag}: four cards, Detaljerad 3D, Lätt 3D, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
+    gate(m.cards.every(c => c.top >= 0 && c.bottom <= m.vh), `${tag}: all four whole on screen without scrolling (${m.cards.map(c => `${c.top}-${c.bottom}`).join(', ')} of ${m.vh})`);
+    const marked = m.cards.filter(c => c.badge).map(c => c.mode);
+    gate(marked.length === 1 && marked[0] === (touch ? 'map' : 'detailed'), `${tag}: the mode this device is best at is marked (${marked.join(', ') || 'none'})`);
+    gate(!!m.resume && m.resume.includes(manifest.courses[3].name), `${tag}: Fortsätt offers the last course: "${m.resume}"`);
+    gate(!m.chooser && !m.sideways && m.small.length === 0, `${tag}: the list waits behind the menu, nothing sideways, every target 44 px${m.small.length ? ' -- ' + m.small.join(', ') : ''}`);
+    gate(errs.length === 0, `${tag}: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
+    await ctx.close();
+  });
+}
+
+await section('launch urls', async () => {
+  const slug = manifest.courses[0].slug;
+  /* a phone: the detailed course must say karta=0, the map karta=1 */
+  {
+    const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: '/', blockWorker: true });
+    const seen = await catchLaunch(page);
+    await page.waitForSelector('#home .mode-card');
+    await page.click('#home .mode-card[data-mode="detailed"]');
+    await page.waitForSelector('#chooser:not([hidden]) .card');
+    gate(await page.evaluate(() => location.hash) === '#3d', 'phone: Detaljerad 3D opens the list at #3d');
+    await page.click(`#chooser .card[data-slug="${slug}"]`);
+    await page.waitForTimeout(500);
+    gate(seen.length === 1 && paramsOf(seen[0]).karta === '0' && paramsOf(seen[0]).bana === slug,
+      `phone: a card in Detaljerad 3D opens ${seen[0]?.replace(BASE, '')} -- karta=0, or the phone would open the map`);
+    /* an aborted navigation leaves the tab on the browser's error page */
+    seen.length = 0;
+    await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+    await page.waitForSelector('#chooser:not([hidden]) .card');
+    const cta = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .sha-text`)?.textContent, slug);
+    gate(/kartan|Fortsätt/.test(cta || ''), `phone: in Lätt 3D the card says what it opens: "${cta}"`);
+    await page.click(`#chooser .card[data-slug="${slug}"]`);
+    await page.waitForTimeout(500);
+    gate(seen.length === 1 && paramsOf(seen[0]).karta === '1', `phone: a card in Lätt 3D opens ${seen[0]?.replace(BASE, '')} -- karta=1`);
+    await page.goto(BASE + '/', { waitUntil: 'load' });
+    const remembered = await page.evaluate(() => [localStorage.getItem('banvy-last-course'), localStorage.getItem('banvy-last-mode')]);
+    gate(remembered[0] === slug && remembered[1] === 'map', `and the menu will offer it again: ${remembered.join(', ')}`);
+    await ctx.close();
+  }
+  /* a desktop, with settings: they ride on the detailed course's link */
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, serviceWorkers: 'block' });
+    await ctx.addInitScript(() => { try { localStorage.setItem('banvy-settings-v1', JSON.stringify({ quality: 'hi', renderer: 'webgl', light: 'nu', view: 'tee' })); } catch {} });
+    const page = await ctx.newPage();
+    const seen = await catchLaunch(page);
+    await page.goto(BASE + LIST, { waitUntil: 'load' });
+    await page.waitForSelector('#chooser .card');
+    await page.click(`#chooser .card[data-slug="${slug}"]`);
+    await page.waitForTimeout(500);
+    const p = seen[0] ? paramsOf(seen[0]) : {};
+    gate(p.bana === slug && !('karta' in p) && p.q === 'hi' && p.gl === '1' && p.ljus === 'nu' && p.vy === 'tee',
+      `desktop: the settings ride on the link the player reads: ${seen[0]?.replace(BASE, '')}`);
+    await ctx.close();
+  }
+});
+
+await section('mode switch and the way back', async () => {
+  const { ctx, page } = await open({ width: 1440, height: 900, url: '/' });
+  await page.waitForSelector('#home .mode-card');
+  await page.keyboard.press('1');
+  await page.waitForSelector('#chooser:not([hidden]) .card');
+  gate(await page.evaluate(() => location.hash) === '#3d', 'the key 1 opens Detaljerad 3D');
+  await page.click('.c-mode-btn[data-mode="map"]');
+  await page.waitForTimeout(400);
+  const after = await page.evaluate(() => ({ hash: location.hash, checked: document.querySelector('.c-mode-btn[aria-checked="true"]')?.dataset.mode,
+    cta: document.querySelector('#chooser .card-item .sha-text')?.textContent, title: document.title }));
+  gate(after.hash === '#karta' && after.checked === 'map' && /kartan|Fortsätt/.test(after.cta) && /Lätt 3D/.test(after.title),
+    `switching to Lätt 3D in place: ${after.hash}, "${after.cta}", "${after.title}"`);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(500);
+  gate(await page.evaluate(() => !document.getElementById('home').hidden && document.getElementById('chooser').hidden && location.hash === ''),
+    'Escape goes back to the start menu (the switch replaced its step, so one back is enough)');
+  await page.click('#home [data-settings]');
+  await page.waitForSelector('#settings:not([hidden])');
+  await page.goBack();
+  await page.waitForTimeout(500);
+  gate(await page.evaluate(() => !document.getElementById('home').hidden && document.getElementById('settings').hidden), 'the browser\'s back walks the screens');
+  await ctx.close();
+});
+
+await section('settings', async () => {
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const bag = JSON.stringify({ version: 3, clubs: [{ id: 'driver', name: 'Driver', carry: 230 }, { id: 'iron-7', name: 'Järn 7', carry: 150 }, { id: 'putter', name: 'Putter', carry: 0 }] });
+  await ctx.addInitScript(b => { try { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('banvy-caddie-bag-v1', b); sessionStorage.setItem('seeded', '1'); } } catch {} }, bag);
+  const page = await ctx.newPage();
+  const errs = [];
+  page.on('pageerror', e => errs.push(String(e).slice(0, 140)));
+  await page.goto(BASE + '/#installningar', { waitUntil: 'load' });
+  await page.waitForSelector('#settings:not([hidden]) .set-panel');
+  await page.waitForTimeout(400);
+  const layout = await page.evaluate(() => {
+    const el = document.getElementById('settings');
+    const small = [...el.querySelectorAll('button, .seg-opt, .swatch, .set-switch')].filter(e => e.offsetParent)
+      .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.height < 40 || x.b.width < 40)
+      .map(x => `${String(x.e.className).split(' ')[0]} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
+    return { sideways: el.scrollWidth > el.clientWidth + 1, small, ladder: el.querySelectorAll('.bag-ladder li').length };
+  });
+  if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'settings-390x844.png') });
+  gate(!layout.sideways && layout.small.length === 0, `settings at 390 px: nothing sideways, every target 40 px${layout.small.length ? ' -- ' + layout.small.join(', ') : ''}`);
+  gate(layout.ladder === 3, `the bag shows as its carry ladder (${layout.ladder} clubs)`);
+  await page.click('.seg[data-name="quality"] .seg-opt:has(input[value="hi"])');
+  await page.click('.swatches[data-name="maplight"] .swatch:has(input[value="dis"])');
+  await page.click('.set-switch:has([data-switch="sun"])');
+  await page.click('.seg[data-name="fps"] .seg-opt:has(input[value="30"])');
+  const stored = await page.evaluate(() => ({ s: JSON.parse(localStorage.getItem('banvy-settings-v1') || '{}'), light: localStorage.getItem('banvy-map-light-v1'),
+    display: JSON.parse(localStorage.getItem('banvy-map-display-v1') || '{}'), fps: localStorage.getItem('banvy-fps'),
+    saved: document.querySelector('[data-saved]').classList.contains('is-on') }));
+  gate(stored.s.quality === 'hi' && stored.light === 'dis' && stored.display.sun === true && stored.fps === '30' && stored.saved,
+    `each choice lands in the key its program reads, and says so (q ${stored.s.quality}, map light ${stored.light}, sun ${stored.display.sun}, fps ${stored.fps})`);
+  await page.click('[data-reset]');
+  await page.click('[data-reset]');
+  await page.waitForTimeout(300);
+  const reset = await page.evaluate(() => ({ s: localStorage.getItem('banvy-settings-v1'), light: localStorage.getItem('banvy-map-light-v1'), bag: localStorage.getItem('banvy-caddie-bag-v1'),
+    checked: document.querySelector('.seg[data-name="quality"] input:checked')?.value }));
+  gate(reset.s === null && reset.light === null && reset.bag === bag && reset.checked === 'auto', 'Återställ clears the preferences, shows the defaults, and leaves the bag alone');
+  gate(errs.length === 0, `settings: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
+  await ctx.close();
+});
+
+/* ------------------------------------------------------------ statistics
+   With no rounds the page says how they are made and offers an example; the
+   example is labelled, draws every chart, and every chart has its table. A
+   round kept by the map shows at once, without the example's label. */
+console.log('statistics');
+for (const [w, h, touch] of [[390, 844, true], [1440, 900, false]]) {
+  await section(`statistics ${w}x${h}`, async () => {
+    const { ctx, page, errs } = await open({ width: w, height: h, touch, url: '/#statistik' });
+    await page.waitForSelector('#stats:not([hidden]) [data-example]', { timeout: 60000 });
+    const empty = await page.evaluate(() => ({ play: !!document.querySelector('#stats [data-play]'), title: document.querySelector('#stats h2')?.textContent }));
+    gate(empty.play, `${w}x${h}: with no rounds the page says how they are made: "${empty.title}"`);
+    await page.click('#stats [data-example]');
+    await page.waitForSelector('#stats .st-hero-figure');
+    await page.waitForTimeout(500);
+    const m = await page.evaluate(() => {
+      const el = document.getElementById('stats');
+      const small = [...el.querySelectorAll('button, select, .seg-opt, summary')].filter(e => e.offsetParent)
+        .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.height < 40)
+        .map(x => `${String(x.e.className).split(' ')[0] || x.e.tagName} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
+      return { hero: el.querySelector('.st-hero-figure').textContent, banner: !!el.querySelector('.st-banner'),
+        dots: el.querySelectorAll('[data-plot="trend"] .st-dot').length, rounds: Number(el.querySelector('.st-tile dd').textContent),
+        clubs: el.querySelectorAll('.gap-row').length, cards: el.querySelectorAll('.st-round').length,
+        sideways: el.scrollWidth > el.clientWidth + 1, small };
+    });
+    if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `stats-${w}x${h}.png`), fullPage: false });
+    gate(m.banner && /^[+−±]/.test(m.hero), `${w}x${h}: the example is labelled as one, and leads with one figure (${m.hero})`);
+    gate(m.dots === m.rounds && m.cards === m.rounds && m.clubs >= 10, `${w}x${h}: the trend has a dot per round (${m.dots}/${m.rounds}), the history a card per round, and the bag ${m.clubs} rows`);
+    gate(!m.sideways && m.small.length === 0, `${w}x${h}: nothing sideways, every control 40 px${m.small.length ? ' -- ' + m.small.join(', ') : ''}`);
+    await page.click('#stats [data-view="trend"]');
+    await page.waitForTimeout(300);
+    const rows = await page.evaluate(() => document.querySelectorAll('#stats [data-card="trend"] .st-table tbody tr').length);
+    gate(rows === m.rounds, `${w}x${h}: the trend's table has every round (${rows})`);
+    await page.click('#stats .seg-opt:has(input[value="90"])');
+    await page.waitForTimeout(300);
+    const narrowed = await page.evaluate(() => Number(document.querySelector('#stats .st-tile dd').textContent));
+    gate(narrowed > 0 && narrowed < m.rounds, `${w}x${h}: 90 dagar narrows every figure (${narrowed} of ${m.rounds} rounds)`);
+    gate(errs.length === 0, `${w}x${h}: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
+    await ctx.close();
+  });
+}
+await section('statistics from a kept round', async () => {
+  const pars = [4, 4, 3, 5, 4, 4, 3, 4, 5];
+  const strokes = [5, 4, 3, 6, 4, 5, 4, 4, 5];
+  const record = { id: 1, course: manifest.courses[0].slug, courseName: manifest.courses[0].name, date: '2026-11-01', endedAt: Date.parse('2026-11-01T14:00:00Z'),
+    tee: null, handicap: null, holeCount: 9, pars, holes: pars.map((par, i) => ({ n: i + 1, par, strokes: strokes[i], putts: 2, fairway: par >= 4 ? 'hit' : null, picked: false })),
+    totals: { played: 9, strokes: 40, par: 36, putts: 18, points: null, fairways: 7, fairwaysTried: 7, greens: 4, greensTried: 9, toPar: 4 } };
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  await ctx.addInitScript(r => { try { localStorage.setItem('banvy-map-rounds-v1', JSON.stringify({ version: 1, rounds: [r] })); } catch {} }, record);
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/#statistik', { waitUntil: 'load' });
+  await page.waitForSelector('#stats .st-hero-figure', { timeout: 60000 });
+  const m = await page.evaluate(() => ({ hero: document.querySelector('#stats .st-hero-figure').textContent, banner: !!document.querySelector('#stats .st-banner'),
+    sub: document.querySelector('#stats [data-sub]').textContent }));
+  gate(!m.banner && m.hero === '+8,0', `a round the map kept is on the page at once, scaled to 18 holes (${m.hero}, "${m.sub}")`);
+  await page.goto(BASE + '/', { waitUntil: 'load' });
+  await page.waitForSelector('#home [data-stats-summary]');
+  const summary = await page.evaluate(() => document.querySelector('#home [data-stats-summary]').textContent);
+  gate(/1 runda/.test(summary), `and the menu's Statistik card counts it: "${summary}"`);
   await ctx.close();
 });
 

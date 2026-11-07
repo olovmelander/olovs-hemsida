@@ -453,11 +453,12 @@ export default defineConfig(({ mode }) => {
             /* Posters are decoration and are NOT content-addressed, so they get
                the same treatment as in _headers: serve what we have, refresh
                behind. A re-render reaches people without a cache-busting trick. */
-            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/hero-1\.webp$/.test(url.pathname),
+            /* ... and the start menu's backdrop, so it opens offline as itself */
+            urlPattern: ({ url, sameOrigin }) => sameOrigin && /\/courses\/[^/]+\/(?:hero-1|backdrop)\.webp$/.test(url.pathname),
             handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'banvy-posters',
-              expiration: { maxEntries: 12, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              expiration: { maxEntries: 28, maxAgeSeconds: 60 * 60 * 24 * 30 },
             },
           },
         ],

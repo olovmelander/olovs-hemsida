@@ -194,15 +194,94 @@
   white-space: nowrap;
 }
 
+/* The way back to the start menu, and to the settings: square, beside the
+   brand and the view switch, the size of every other control in the bar. */
+.chooser-back,
+.chooser-settings {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.chooser-back:focus-visible,
+.chooser-settings:focus-visible { outline: 2px solid var(--turf); outline-offset: 2px; }
+
 .chooser-head {
   padding: clamp(12px, 2.2vh, 24px) 0 clamp(4px, 1vh, 10px);
+}
+.chooser-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 8px;
 }
 
 .chooser-main-title {
   font: 800 clamp(26px, 3.4vw, 38px)/1.1 Outfit, sans-serif;
   letter-spacing: -0.03em;
   color: #ffffff;
-  margin-bottom: 4px;
+}
+
+/* WHICH WAY THE CARDS OPEN. The mode is the first thing on the list, a
+   two-way switch, because it changes what every card below it does. */
+.chooser-modes {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.c-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 18px 0 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--dim);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.cm-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  transition: background-color 0.2s, color 0.2s;
+}
+.cm-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cm-text b { font: 700 15px/1.1 Outfit, sans-serif; color: inherit; white-space: nowrap; }
+.cm-text small { font: 500 11.5px/1.1 Outfit, sans-serif; color: var(--faint); white-space: nowrap; }
+.c-mode-btn[aria-checked="true"] {
+  background: rgba(95, 208, 122, 0.13);
+  border-color: rgba(95, 208, 122, 0.5);
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+.c-mode-btn[aria-checked="true"] .cm-icon { background: var(--turf); color: #04140a; }
+.c-mode-btn[aria-checked="true"] small { color: var(--turf); }
+.c-mode-btn:focus-visible { outline: 2px solid var(--turf); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .chooser-back:hover, .chooser-settings:hover { background: rgba(255, 255, 255, 0.12); border-color: rgba(95, 208, 122, 0.4); }
+  .c-mode-btn:not([aria-checked="true"]):hover { background: rgba(255, 255, 255, 0.05); color: var(--ink); }
 }
 
 .chooser-subtitle {
@@ -393,22 +472,6 @@
   min-width: 0;
   position: relative;
 }
-/* The way into the light map, on top of the card rather than inside it: a card
-   is one button, and a link cannot live in a button. */
-.card-map {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 3;
-  padding: 7px 13px;
-  border-radius: 999px;
-  background: rgba(10, 22, 16, .9);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-}
-.card-map:hover, .card-map:focus-visible { background: #1f8a4c; }
 a.d-tool-btn { text-decoration: none; color: inherit; }
 
 .card {
@@ -1381,6 +1444,12 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(95, 208, 122, 0.2);
 }
+/* the way out to the start menu: a link, quieter than switching course */
+a.drawer-main-btn { text-decoration: none; }
+.drawer-main-btn + .drawer-main-btn { margin-top: 10px; }
+.drawer-main-btn.is-quiet { background: rgba(255, 255, 255, 0.04); border-color: rgba(255, 255, 255, 0.12); box-shadow: none; }
+.drawer-main-btn.is-quiet .dmb-icon { background: rgba(95, 208, 122, 0.16); color: var(--turf); }
+.drawer-main-btn.is-quiet:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(95, 208, 122, 0.45); box-shadow: none; }
 .dmb-icon {
   width: 38px;
   height: 38px;
@@ -1697,16 +1766,26 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
     --ctl-pad: 8px;
   }
   .chooser-top-bar { padding-top: 10px; min-height: 52px; }
+  .chooser-brand { gap: 10px; }
   .wordmark { font-size: 23px; }
-  .hub-pill { display: none; }
   .cv-long, .cf-long { display: none; }
   .cv-short, .cf-short { display: inline; }
   .c-view-btn { min-height: 40px; padding: 0 12px; font-size: 12.5px; }
+  .chooser-top-actions { gap: 8px; }
   /* the course's name is on the card under it; here the button is its cross */
   .chooser-resume-btn { width: 42px; min-height: 42px; padding: 0; justify-content: center; border-radius: 50%; }
   .chooser-resume-btn span { display: none; }
-  .chooser-head { padding: 10px 0 2px; }
-  .chooser-main-title { font-size: 24px; margin-bottom: 2px; }
+  .chooser-head { padding: 8px 0 2px; }
+  /* the switch IS the title on a phone: two halves of the width, said once */
+  .chooser-main-title {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  }
+  .chooser-head-row { margin-bottom: 6px; }
+  .chooser-modes { flex: 1 1 100%; }
+  .c-mode-btn { flex: 1 1 0; min-height: 46px; padding: 0 10px 0 6px; gap: 8px; }
+  .cm-icon { width: 30px; height: 30px; border-radius: 9px; }
+  .cm-text b { font-size: 14px; }
+  .cm-text small { display: none; }
   .chooser-subtitle { font-size: 12.5px; line-height: 1.4; }
   /* 16 px, not 13: below it iOS Safari zooms the whole page into the field on
      focus and leaves the visitor to pinch their way back out */
@@ -1747,10 +1826,13 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
 }
 
 /* The smallest phones still in use (320 px): the chips give up their icons so
-   that all four stay on the row. */
+   that all four stay on the row, and the bar its wordmark so the way back, the
+   view switch and the settings still fit beside each other. */
 @media (max-width: 350px) {
   .c-filter-btn svg { display: none; }
   .c-filter-btn { padding: 0 6px; }
+  .chooser-brand .brand-crest { display: none; }
+  .cm-icon { display: none; }
 }
 
 @media (max-width: 600px) {
@@ -1784,9 +1866,15 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   .chooser-filters { flex: 0 0 auto; }
   .cf-long { display: none; }
   .cf-short { display: inline; }
-  .chooser-top-bar { padding-top: 10px; min-height: 48px; }
-  .chooser-head { padding: 6px 0 0; }
+  #chooser { --ctl-pad: 6px; }
+  .chooser-top-bar { padding-top: 6px; min-height: 46px; }
+  .chooser-head { padding: 2px 0 0; }
+  .chooser-head-row { margin-bottom: 0; flex-wrap: nowrap; }
   .chooser-main-title { font-size: 20px; margin-bottom: 0; }
+  .chooser-modes { padding: 3px; }
+  .c-mode-btn { min-height: 40px; }
+  .cm-icon { width: 28px; height: 28px; }
+  .cm-text small { display: none; }
   .chooser-subtitle { display: none; }
   .card .line { display: none; }
   .card .body { padding: 9px 12px 10px; gap: 0; }

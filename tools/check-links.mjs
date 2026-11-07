@@ -30,7 +30,9 @@ const DEFAULT_SLUG = manifest.courses[0].slug;
 
 /* url -> what the view must be. `rail` says whether the chooser should be open. */
 const CASES = [
-  { url: '/', want: { slug: null, rail: true, lightweight: true }, why: 'a bare visit opens the lightweight chooser without booting a course' },
+  /* since 7 November a bare visit is the start menu, and the list one step in (docs/start-menu.md) */
+  { url: '/', want: { slug: null, menu: true, rail: false, lightweight: true }, why: 'a bare visit opens the start menu without booting a course' },
+  { url: '/#3d', want: { slug: null, menu: false, rail: true, lightweight: true }, why: 'and the course list is one step in, still without a course' },
   { url: '/?bana=puttom', want: { slug: 'puttom', rail: false }, why: 'naming a course goes straight to it' },
   { url: '/?bana=veckefjarden&hal=14&vy=green&ljus=host', want: { slug: 'veckefjarden', hole: 14, cam: 'green', preset: 'host', rail: false }, why: 'the full view grammar' },
   { url: '/?bana=upsala&tee=6', want: { slug: 'upsala', tee: 5, rail: false }, why: 'the sixth tee on a six-tee card' },
@@ -73,6 +75,7 @@ for (const c of CASES) {
       const V = window.V3D;
       if (!V) return {
         slug: null,
+        menu: !!document.getElementById('home') && !document.getElementById('home').hidden,
         rail: !!document.getElementById('chooser') && !document.getElementById('chooser').hidden,
         lightweight: true,
       };

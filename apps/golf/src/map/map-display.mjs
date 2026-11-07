@@ -4,7 +4,8 @@
    more contrast asked of the system is the sun's look, and a large iOS text size is
    large text here. Reading that size takes the Apple system font's own keyword, which
    any other browser ignores. See docs/course-map-mode.md. */
-const KEY = 'banvy-map-display-v1';
+export const DISPLAY_KEY = 'banvy-map-display-v1';
+const KEY = DISPLAY_KEY;
 /* Above this a player has turned the size up: the system's default is 17 px. */
 const LARGE_SYSTEM_TEXT_PX = 19;
 const CHOICES = Object.freeze(['sun', 'large', 'left']);
@@ -20,6 +21,10 @@ export function displayChoices(savedText, system) {
   };
 }
 
+/* The start menu's Inställningar reads the same answer, so its switches show
+   what the map will really do before a choice is made. */
+export const systemDisplay = () => ({ contrast: matchMedia('(prefers-contrast: more)').matches, textPixels: systemTextPixels() });
+
 function systemTextPixels() {
   const probe = document.createElement('span');
   probe.style.font = '-apple-system-body';
@@ -31,7 +36,7 @@ function systemTextPixels() {
 }
 
 export function createDisplay(root, { read, write }) {
-  const system = { contrast: matchMedia('(prefers-contrast: more)').matches, textPixels: systemTextPixels() };
+  const system = systemDisplay();
   const choices = displayChoices(read(KEY), system);
   const apply = () => { for (const name of CHOICES) root.classList.toggle(CLASS_OF[name], choices[name]); };
   apply();

@@ -15,14 +15,23 @@
              every control at least 40 px tall
 
    tools/check-chooser-ui.mjs holds those numbers as a gate.
+
+   ONE LIST, TWO MODES (7 November). The start menu asks first how the visitor
+   wants to play -- the detailed course or the light map for a real round -- and
+   this list is the courses FOR that mode. It used to decide by device without
+   saying so: a card opened the map on a phone and the detailed course on a
+   desktop, and a small "Karta" or "3D" chip on each card was the only way to
+   the other. Now the mode is named at the top, switches in place, and every
+   card and call to action says what it opens.
    =========================================================================== */
 import '../styles/shell.css';
 import { ICONS } from './icons.js';
 import { isPhone } from './map-default.mjs';
-import { detailedUrl, mapUrl } from './router.js';
+import { hubUrl, mapUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
+import { LAST_COURSE_KEY, MODES, rememberLaunch } from './settings-store.mjs';
 
 /* `places` is search vocabulary only, never shown: the placeholder promises
    "bana, ort eller par", and a promise on the front door has to be kept. It
@@ -77,23 +86,34 @@ const posterAttr = (c, index) => {
    last, so it leads the list. Written by the player (buildRail is its boot-time
    call), read by the bare hub. Storage can be absent or refuse -- private
    windows, blocked site data -- and the chooser is exactly as usable without. */
-const LAST_KEY = 'banvy-last-course';
 export function lastCourse() {
-  try { return localStorage.getItem(LAST_KEY); } catch { return null; }
+  try { return localStorage.getItem(LAST_COURSE_KEY); } catch { return null; }
 }
-function rememberCourse(slug) {
-  try { localStorage.setItem(LAST_KEY, slug); } catch { /* the list just keeps its own order */ }
-}
+const storage = () => { try { return localStorage; } catch { return null; } };
 
-export function buildRail({ courses, current, last = null, onPick, onIntent, isInitialBoot = false }) {
+/* What each mode promises, under the switch. */
+const MODE_LINES = {
+  detailed: n => `${n} banor i full 3D-grafik. Flyg längs hålen, läs greenerna och mät varje slag.`,
+  map: n => `${n} banor som snabb 3D-karta för rundan: GPS-avstånd, klubbhjulet och scorekortet.`,
+};
+const MODE_ICON = {
+  detailed: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>',
+  map: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>',
+};
+const MODE_SUB = { detailed: 'Full grafik · hemma', map: 'GPS · på banan' };
+
+/* `context` is where the list lives: 'hub', the start menu's own page, or
+   'player', the glass over a running course (main.js). `mode` is which way the
+   cards open, and setMode() changes it in place. */
+export function buildRail({ courses, current, last = null, onPick, onIntent, isInitialBoot = false,
+  context = 'player', mode: initialMode = 'detailed', onModeChange = null, onHome = null, onSettings = null }) {
   const phone = isPhone();
-  const otherMode = c => (phone
-    ? `<a class="card-map" href="${detailedUrl(c.slug)}" aria-label="${esc(c.name)} som detaljerad 3D-bana">3D</a>`
-    : `<a class="card-map" href="${mapUrl(c.slug)}" aria-label="${esc(c.name)} som karta för spel med GPS">Karta</a>`);
+  let mode = MODES[initialMode] ? initialMode : 'detailed';
   courses = [...courses, ...COURSE_PREVIEWS.filter(p => !courses.some(c => c.slug === p.slug))];
-  /* A named course is a chosen course. A bare visit to the player boots the
-     manifest's first entry, which nobody chose, so that one is not remembered. */
-  if (current && !isInitialBoot) rememberCourse(current);
+  /* A named course is a chosen course, and the player is the detailed one. A
+     bare visit to the player boots the manifest's first entry, which nobody
+     chose, so that one is not remembered. */
+  if (current && !isInitialBoot) rememberLaunch(storage(), current, 'detailed');
 
   const el = document.createElement('div');
   el.id = 'chooser';
@@ -115,9 +135,18 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   const nPlayable = courses.filter(c => c.status !== 'mapping').length;
   const nMapping = courses.length - nPlayable;
   /* ...and the same goes for the sentence: it used to promise "nya banor under
-     kartläggning" on a list that had none. */
-  const subtitle = `Utforska ${nPlayable} svenska golfbanor i 3D` +
-    (nMapping ? ` och följ ${nMapping} ${nMapping === 1 ? 'bana' : 'banor'} under kartläggning.` : ', byggda ur verklig terräng.');
+     kartläggning" on a list that had none. A course still being mapped has no
+     light map, so it is only counted where it can be opened. */
+  const subtitleFor = m => MODE_LINES[m](nPlayable) +
+    (nMapping && m === 'detailed' ? ` Följ också ${nMapping} ${nMapping === 1 ? 'bana' : 'banor'} under kartläggning.` : '');
+  const ctaFor = (c, m = mode) => (c.status === 'mapping' ? 'Visa bankarta'
+    : c.slug === current && m === 'detailed' ? 'Fortsätt spela'
+    : c.slug === leadSlug ? 'Fortsätt' : MODES[m].cta);
+  const cardLabel = (c, m = mode) =>
+    `${c.name}${c.club && c.club !== c.name ? `, ${c.club}` : ''}. Par ${c.par}, ${c.holes} hål. ${ctaFor(c, m)}${c.status === 'mapping' ? '' : ` i ${MODES[m].label}`}.`;
+  const back = context === 'hub'
+    ? `<button class="chooser-back" type="button" id="chooserBack" aria-label="Till startmenyn">${ICONS.chevronLeft(20, 2.4)}</button>`
+    : `<a class="chooser-back" id="chooserBack" href="${hubUrl()}" aria-label="Startmenyn" title="Startmenyn">${ICONS.chevronLeft(20, 2.4)}</a>`;
 
   const filterBtn = (id, long, short, n, icon = '') => `
     <button class="c-filter-btn${id === 'all' ? ' active' : ''}" type="button" data-filter="${id}" aria-pressed="${id === 'all'}">
@@ -129,11 +158,11 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
     <div class="chooser-inner">
       <div class="chooser-top-bar">
         <div class="chooser-brand">
+          ${back}
           <div class="brand-crest">
             <span class="crest-dot"></span>
             <span class="wordmark">Ban<i>v</i>y</span>
           </div>
-          <span class="hub-pill">3D Golf Experience</span>
         </div>
 
         <div class="chooser-top-actions">
@@ -148,6 +177,10 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
             </button>
           </div>
 
+          ${context === 'hub' ? `
+            <button class="chooser-settings" type="button" id="chooserSettings" aria-label="Inställningar" title="Inställningar">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>
+            </button>` : ''}
           ${!isInitialBoot && currentCourse ? `
             <button class="chooser-resume-btn" type="button" id="chooserResumeBtn"
                     aria-label="Återgå till ${esc(currentCourse.name)}" title="Återgå till ${esc(currentCourse.name)} (Esc)">
@@ -159,8 +192,17 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
       </div>
 
       <div class="chooser-head">
-        <h1 class="chooser-main-title">Välj golfbana</h1>
-        <p class="chooser-subtitle">${subtitle}</p>
+        <div class="chooser-head-row">
+          <h1 class="chooser-main-title">Välj bana</h1>
+          <div class="chooser-modes" id="chooserModes" role="radiogroup" aria-label="Spela i">
+            ${Object.entries(MODES).map(([key, m]) => `
+              <button class="c-mode-btn" type="button" role="radio" data-mode="${key}" aria-checked="${key === mode}">
+                <span class="cm-icon">${MODE_ICON[key]}</span>
+                <span class="cm-text"><b>${m.label}</b><small>${MODE_SUB[key]}</small></span>
+              </button>`).join('')}
+          </div>
+        </div>
+        <p class="chooser-subtitle" id="chooserSubtitle">${subtitleFor(mode)}</p>
       </div>
 
       <div class="chooser-controls" id="chooserControls">
@@ -195,13 +237,12 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
               /* "Place · kind". The icon already says the kind, so a narrow card
                  keeps the place and lets the rest go. */
               const [place, ...kind] = String(cat.label || '').split(' · ');
-              const cta = c.status === 'mapping' ? 'Visa bankarta' : isCurrent ? 'Fortsätt spela' : isLead ? 'Fortsätt' : 'Starta bana';
               const search = [c.name, c.club, c.tag, cat.label, cat.places, `par ${c.par}`, `${c.holes} hål`, LINES[c.slug]]
                 .filter(Boolean).join(' ').toLowerCase();
               return `
-                <li class="card-item${isLead ? ' is-lead' : ''}" data-slug="${c.slug}" data-category="${cat.id}" data-search="${esc(search)}">
+                <li class="card-item${isLead ? ' is-lead' : ''}" data-slug="${c.slug}" data-category="${cat.id}" data-status="${esc(c.status || 'playable')}" data-search="${esc(search)}">
                   <button class="card ${isCurrent ? 'is-current' : ''}" type="button" data-slug="${c.slug}"
-                          aria-label="${esc(`${c.name}${c.club && c.club !== c.name ? `, ${c.club}` : ''}. Par ${c.par}, ${c.holes} hål. ${cta}.`)}">
+                          aria-label="${esc(cardLabel(c))}">
                     <div class="shot" data-slug="${c.slug}" data-photos="${c.photos || 0}" ${posterAttr(c, index)}>
                       <span class="shot-frames" aria-hidden="true"></span>
                       <div class="shot-badges">
@@ -215,7 +256,7 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                         <h2>${esc(c.name)}</h2>
                       </div>
                       <div class="shot-hover-action">
-                        <span>${cta}</span>
+                        <span class="sha-text">${ctaFor(c)}</span>
                         <span class="sha-arrow">→</span>
                       </div>
                     </div>
@@ -225,12 +266,11 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                         <div class="fact-item"><span class="f-lbl">Par</span> <b class="f-val">${c.par}</b></div>
                         <div class="fact-item"><span class="f-lbl">Hål</span> <b class="f-val">${c.holes}</b></div>
                         <div class="fact-item fact-tees"><span class="f-lbl">Utslag</span> <b class="f-val">${TEE_WORD(c.tees.names.length)}</b></div>
-                        <div class="fact-item fact-tag"><b>${c.status === 'mapping' ? 'Bankarta' : '3D'}</b></div>
+                        <div class="fact-item fact-tag"><b>${c.status === 'mapping' ? 'Bankarta' : mode === 'map' ? 'GPS' : '3D'}</b></div>
                         <span class="fact-go" aria-hidden="true">${ICONS.chevronRight(14, 2.4)}</span>
                       </div>
                     </div>
                   </button>
-                  ${c.status === 'mapping' ? '' : otherMode(c)}
                 </li>
               `;
             }).join('')}
@@ -264,17 +304,20 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
 
   function applyFilters() {
     let visibleCount = 0;
+    let openable = 0;
     cardItems.forEach(item => {
+      const matchMode = mode !== 'map' || item.dataset.status !== 'mapping';
       const matchCat = activeFilter === 'all' || item.dataset.category === activeFilter;
       const matchQuery = !activeQuery || item.dataset.search.includes(activeQuery);
-      item.hidden = !(matchCat && matchQuery);
+      if (matchMode) openable++;
+      item.hidden = !(matchMode && matchCat && matchQuery);
       if (!item.hidden) visibleCount++;
     });
     noMsg.hidden = visibleCount !== 0;
     const narrowed = activeFilter !== 'all' || !!activeQuery;
     countEl.textContent = narrowed
-      ? `${visibleCount} av ${cardItems.length} banor`
-      : `${cardItems.length} banor`;
+      ? `${visibleCount} av ${openable} banor`
+      : `${openable} banor`;
     /* An active query keeps the search field pinned beside the chips (see
        shell.css): a list narrowed by words you can no longer see is a list
        that looks broken. */
@@ -398,12 +441,19 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
 
   applyFilters();
 
-  // Course Pick Handler
+  /* A pick opens the course in the mode on the switch. Over a running course
+     the detailed pick is main.js's (the same course just closes the glass); a
+     light-map pick is a plain navigation wherever the list lives. */
+  const pick = slug => {
+    if (mode === 'map' && context !== 'hub') {
+      rememberLaunch(storage(), slug, 'map');
+      location.search = mapUrl(slug);
+      return;
+    }
+    onPick(slug, mode);
+  };
   el.querySelectorAll('.card').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const slug = btn.dataset.slug;
-      onPick(slug);
-    });
+    btn.addEventListener('click', () => pick(btn.dataset.slug));
     if (onIntent) {
       let hinted = false;
       const hint = () => { if (!hinted) { hinted = true; onIntent(btn.dataset.slug); } };
@@ -569,10 +619,11 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
       const { createSwedenMap } = await import('./map.js');
       swedenMapInstance = createSwedenMap({
         container: mapWrap,
-        courses,
+        courses: courses.filter(c => mode !== 'map' || c.status !== 'mapping'),
         current,
         lead: leadSlug,
-        onPickCourse: onPick,
+        onPickCourse: pick,
+        ctaFor: c => (c.status === 'mapping' ? 'Visa bankarta' : `${ctaFor(c)} · ${MODES[mode].label}`),
       });
     }
     swedenMapInstance.invalidateSize();
@@ -581,6 +632,50 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   viewGridBtn.addEventListener('click', () => switchView('grid'));
   viewMapBtn.addEventListener('click', () => switchView('map'));
 
+  /* ------------------------------------------------------------ the mode */
+  const modeBtns = [...el.querySelectorAll('.c-mode-btn')];
+  const subtitleEl = el.querySelector('#chooserSubtitle');
+  function setMode(next) {
+    if (!MODES[next]) return;
+    mode = next;
+    el.dataset.mode = mode;
+    modeBtns.forEach(b => b.setAttribute('aria-checked', String(b.dataset.mode === mode)));
+    subtitleEl.textContent = subtitleFor(mode);
+    for (const c of courses) {
+      const item = el.querySelector(`.card-item[data-slug="${c.slug}"]`);
+      if (!item) continue;
+      item.querySelector('.card').setAttribute('aria-label', cardLabel(c));
+      item.querySelector('.sha-text').textContent = ctaFor(c);
+      const tag = item.querySelector('.fact-tag b');
+      if (tag && c.status !== 'mapping') tag.textContent = mode === 'map' ? 'GPS' : '3D';
+    }
+    applyFilters();
+    /* the map's pins were placed for the other mode's list; it rebuilds on next open */
+    if (swedenMapInstance) { swedenMapInstance.map.remove(); swedenMapInstance.el.remove(); swedenMapInstance = null; }
+    if (el.classList.contains('map-mode')) switchView('map');
+  }
+  el.dataset.mode = mode;
+  modeBtns.forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.mode === mode) return;
+    if (onModeChange) onModeChange(b.dataset.mode); else setMode(b.dataset.mode);
+  }));
+  /* the radio group's own keys: an arrow moves the choice, as in any radio group */
+  el.querySelector('#chooserModes').addEventListener('keydown', e => {
+    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const i = modeBtns.findIndex(b => b.dataset.mode === mode);
+    const next = modeBtns[(i + (e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? modeBtns.length - 1 : 1)) % modeBtns.length];
+    next.click();
+    next.focus();
+  });
+  if (context === 'hub') {
+    el.querySelector('#chooserBack')?.addEventListener('click', () => onHome?.());
+    el.querySelector('#chooserSettings')?.addEventListener('click', () => onSettings?.());
+  }
+
+  el.setMode = setMode;
+  el.getMode = () => mode;
   return el;
 }
 
