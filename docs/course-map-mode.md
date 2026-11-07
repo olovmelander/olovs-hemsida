@@ -88,6 +88,7 @@ The map copies no course data and has no bake of its own for terrain.
 | Heights | The published v2 terrain tiles, down to the 1 m core, verified by the same code as the player |
 | Holes, greens, tees, fairways, bunkers, surveyed water | The GPK1 pack |
 | Water past the outlines, and forest | One small picture per ground, baked by `tools/bake-map-land.mjs` |
+| Each lake out to its own shore | The simulator's reach, read once per ground by the same bake |
 | Everything else on the ground | The pack and, where a course has one, its surroundings record |
 | Where each tree stands, its size and species | `planV2Vegetation`, on the same stand and object tiles, with main.js's rules |
 | How each tree looks | The player's own impostors, baked by `tools/bake-map-trees.mjs` |
@@ -95,10 +96,12 @@ The map copies no course data and has no bake of its own for terrain.
 | Colours | Read off the simulator's summer light |
 
 A tile that fails is asked for again after 15 s, since signal comes and goes on a golf
-course. A republished course reaches the map by itself, but for two things. A changed tree
+course. A republished course reaches the map by itself, but for a few things. A changed tree
 catalogue needs **`tools/bake-map-trees.mjs`**, on the owner's GPU against a dev
 server. Republished terrain or stands need **`tools/bake-map-land.mjs`**, which needs
-no GPU; `map.test.mjs` fails until it has run.
+no GPU; `map.test.mjs` fails until it has run. So does a republished pack, or any change to the
+simulator's reach (`engine/water-reach.mjs`, `engine/water-plate-level.mjs`):
+`map-shores.test.mjs` compares the record with all three.
 
 ## What is on the map
 
@@ -112,6 +115,23 @@ things were wrong, so `map-course.mjs` now carries all of this:
   water is level to 5 cm, land is not) over each ground's 8 m ring, and closes the seams
   an old shoreline leaves in the laser's sea. The record's WATER class is never used: it
   is a colour verdict on imagery.
+- **Lakes to their shores** (7 November, owner request: no straight, sharp lines on the
+  water). A traced lake is a sketch inside the real shore: Puttom's outlines run 30-90 m
+  between points, and the laser's ground stays flat at the lake's level 2-10 m past them.
+  The simulator draws each lake out to where its ground rises above it
+  (`engine/water-reach.mjs`), and the map paints the same reach: the same lakes (not the
+  sea, a reviewed pond's exact shore or a measured-only ground), the same re-measured level
+  (Puttom's laser plates), the same lattice, on the 1 m tiles. A lake's whole shore is more
+  ground than a view streams, 0.5-4 MB of 2 m tiles a course beyond the holes' own, so
+  `bake-map-land.mjs` reads it once per ground (`tools/map-shores-bake.mjs`): a sheet of
+  each lake's wet ground and the dry bank beside it, about 3-20 KB a ground. The map paints
+  the wet ground as water under the course's surfaces, softened as the ground's other water
+  is, and takes that 8 m picture's water off the bank, where its filtering reached a few
+  metres up the slope. A lake drawn to its shore loses the pale rim its outline had, which
+  lay on the bank in the outline's straight lines. The outline stays every other reader's
+  water: hazards, carries and the frozen lake. `?waterreach=0` is the before. Where the
+  simulator's flat-water sheet already draws a cut lake running on, the map's reach floods
+  it too, since the map has no terrain to hide the 8 m picture's edge.
 - **Land drawn as sea.** Norrfällsviken's sea ring closes across the land south of the
   course, 428 ha of forest up to 40 m high. The rule is main.js's: wet is inside a ring
   and at its level. The bake finds any outline with over 4% of its area above its water
@@ -138,9 +158,10 @@ Left out on purpose: nature reserves, which are lines on a register and not on t
 ground; the 456 mapped trees at Uppsala, whose stands the laser already has; and small
 street furniture. `stroke(holes, rough)` still lays rough over a mapped field where a
 hole is played: that is the course, not a loss. `?land=0` is the before for the water and
-forest pictures.
+forest pictures, `?waterreach=0` for the lakes' shores.
 
 The pictures add about 150-230 KB a ground and 16 MB each of decoded memory on the phone.
+The shores' sheet adds 3-20 KB and at most 7.4 MB decoded (Veckefjärden's, 1024 x 1804).
 
 Keep out of `apps/golf/src/engine`, `loader` and `packages/course-v2`: those are what
 `courseSourceRevision` hashes, so an edit there turns the player's prepared startup

@@ -19,6 +19,22 @@
    "x0": -8192,
    "z0": -8192,
    "dry": [],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/angso-shores-62fa83c69c27dfa0.png",
+     "sha256": "62fa83c69c27dfa03b799e359be5ef99ff1ee7fe1a84e2d36875db41abc931c8",
+     "bytes": 9027
+    },
+    "lakes": {
+     "file": "models/map-land/angso-shores-888cb0f0930b1d53.json",
+     "sha256": "888cb0f0930b1d5364849933207d8cbfbd76c14824af779ae460ea7b28f4bd2d",
+     "bytes": 3231
+    },
+    "rules": "cdbe1f238f84871fea9e50264e9e5945814c446ee659a221246b692e2bb059d9",
+    "packs": {
+     "angso": "778f8b2933599fbf9145f57d8ab2608c222ce501b275a39c913aadbe1e504c09"
+    }
+   },
    "ground": "bfc6a0f04badb8e31cd874bc28e58ed679dd591164d8cb9a96ca9a96209b9318",
    "terrain": "0327367adaf0561e23b19292aa549e92dc53c880f39bee8fc10d2524a4dc67ec"
   },
@@ -39,6 +55,23 @@
    "x0": -8192,
    "z0": -8192,
    "dry": [],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/johannesberg-shores-80d47f5503914dca.png",
+     "sha256": "80d47f5503914dcaf70348c4bd4f44e668d6f0010420fd189e51570c694ca7d5",
+     "bytes": 2423
+    },
+    "lakes": {
+     "file": "models/map-land/johannesberg-shores-9256dd0921a61348.json",
+     "sha256": "9256dd0921a61348866df66fd7040db3cabd6b41a03d71a16482be8afa933682",
+     "bytes": 678
+    },
+    "rules": "cdbe1f238f84871fea9e50264e9e5945814c446ee659a221246b692e2bb059d9",
+    "packs": {
+     "johannesberg": "2295c1340c6e1b98c8374464df257facfc76739b26739322eece6c9bfec9d12b",
+     "johannesberg-9": "3bb71cc0f11f5c41705ed64bf2ea0cd32c890434e5e249b2e166a3f628c0f300"
+    }
+   },
    "ground": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
    "terrain": "fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd"
   },
@@ -88,6 +121,22 @@
      "landHectares": 428
     }
    ],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/norrfallsviken-shores-05d059ed0ba294a0.png",
+     "sha256": "05d059ed0ba294a09f5975d53490ecdc8109f09598fa27457e1816fda6bf4d3a",
+     "bytes": 3396
+    },
+    "lakes": {
+     "file": "models/map-land/norrfallsviken-shores-e4e029b1ac137a22.json",
+     "sha256": "e4e029b1ac137a220efd84ce40143f9571634c38bee0e57f1e5fa876be8e5993",
+     "bytes": 1899
+    },
+    "rules": "cdbe1f238f84871fea9e50264e9e5945814c446ee659a221246b692e2bb059d9",
+    "packs": {
+     "norrfallsviken": "783b0169550a652a6e54e4e981ab706d929634806bf2e552c1cae4e94fba1b6b"
+    }
+   },
    "ground": "f3c5d5b875eb5d4b75726bdaf1a0ba30583a7227dcd2ab854bb469040d3f758a",
    "terrain": "6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171"
   },
@@ -108,6 +157,22 @@
    "x0": -8192,
    "z0": -8192,
    "dry": [],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/puttom-shores-fafe785e1583c012.png",
+     "sha256": "fafe785e1583c012e8b35448a1750ccf9d82541d06e8c4df7bb77b59e576648c",
+     "bytes": 14131
+    },
+    "lakes": {
+     "file": "models/map-land/puttom-shores-97a47e561b27fd8e.json",
+     "sha256": "97a47e561b27fd8e2e672027cb2f0eaaf618c49b4bda91bc8c58226ef7ac41a8",
+     "bytes": 2738
+    },
+    "rules": "cdbe1f238f84871fea9e50264e9e5945814c446ee659a221246b692e2bb059d9",
+    "packs": {
+     "puttom": "2e07d11db74efe05ad92959bd6b7acae97cb8f55e8b526ca8058315ee6077475"
+    }
+   },
    "ground": "07385de7aae61f2e4399e3e18e1df931c86f2bdff4ec233319bfd2d3f03377c8",
    "terrain": "fe68ef6aa152e6d6bcf835c6c6e7b069de75684013c651ac06e8304b12a2c803"
   },
@@ -128,6 +193,22 @@
    "x0": -8192,
    "z0": -8192,
    "dry": [],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/ribbingsfors-shores-122ddbfd95dd7777.png",
+     "sha256": "122ddbfd95dd7777ac33ddd9929cce34d45f31e5e912481a12a0b227e9081820",
+     "bytes": 4491
+    },
+    "lakes": {
+     "file": "models/map-land/ribbingsfors-shores-3f1507616561c6d1.json",
+     "sha256": "3f1507616561c6d1f1410f8faa0ffaa04539b602d36bf2be65ae4a8756b66552",
+     "bytes": 2723
+    },
+    "rules": "cdbe1f238f84871fea9e50264e9e5945814c446ee659a221246b692e2bb059d9",
+    "packs": {
+     "ribbingsfors": "2e14128bfce9f1e5bd8e7b939e8e4d0c917915713e5547f78fe90c63200faeb1"
+    }
+   },
    "ground": "5d616311e246c109899b52223af5ed4a68f372f9b923787d6c0354b33b2c968f",
    "terrain": "45c8d0edb7e6fd1c66106caee027d7f52636de594b24995588f1500097489d54"
   },
@@ -168,6 +249,23 @@
    "x0": -8192,
    "z0": -8192,
    "dry": [],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/upsala-shores-0d67cfbd04794887.png",
+     "sha256": "0d67cfbd04794887cbb54e8f82a0a26fbd71ed7dc89f498bcc39da5880398c3c",
+     "bytes": 7036
+    },
+    "lakes": {
+     "file": "models/map-land/upsala-shores-754d50391ae1cf11.json",
+     "sha256": "754d50391ae1cf11de20bf96c26eb6ba4e2f3e0331c7a3a33dff99cb245667be",
+     "bytes": 6954
+    },
+    "rules": "cdbe1f238f84871fea9e50264e9e5945814c446ee659a221246b692e2bb059d9",
+    "packs": {
+     "upsala": "a64156be29be9aacd4df2108c388733ba9852fd148a9443389c77b5b82d977dd",
+     "upsala-mellanbanan": "d76a1c1a76ce9c6758fdb6a3e853fcccaf565441d0ac12f9d9e107a2377f4675"
+    }
+   },
    "ground": "628d86e3e5bf35bd79500173488c31a31fe101c06d1acad56033d089d2846d86",
    "terrain": "a4bda01ea991a499c817ca40f03e2518a2fb2d206bc2c444ecbc2c608d185434"
   },
@@ -188,6 +286,23 @@
    "x0": -8192,
    "z0": -8192,
    "dry": [],
+   "shores": {
+    "picture": {
+     "file": "models/map-land/veckefjarden-shores-d0e62e2a5d77c2d4.png",
+     "sha256": "d0e62e2a5d77c2d43fb4a6a595914d7a432193ca95dabfbc8c76dadff38173f8",
+     "bytes": 14899
+    },
+    "lakes": {
+     "file": "models/map-land/veckefjarden-shores-340ddc9c30112a62.json",
+     "sha256": "340ddc9c30112a62f6b051f6e9fa4e09fdb43f40814b5bb15040b636cfa67e4c",
+     "bytes": 5659
+    },
+    "rules": "cdbe1f238f84871fea9e50264e9e5945814c446ee659a221246b692e2bb059d9",
+    "packs": {
+     "veckefjarden": "d6cb9ae771ac069c3a59788606a30de5aa7bf37822111ed977ded6abefba69cd",
+     "veckefjarden-korthalsbanan": "b08bb0dda4c51ae01fa2117d474d45ef4708f4bdd5aac76d1fc860be6f855e77"
+    }
+   },
    "ground": "2e56c2fd7f8cbb04b684fb0222d2a0890201ccb23f635d068302be0569760fa6",
    "terrain": "2ca0c550716833617d657cf4242b2c96825036c83bf34fe317fd3a8ab27fbe83"
   },

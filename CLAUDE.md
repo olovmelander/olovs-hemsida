@@ -223,6 +223,18 @@ land cover's WATER class is a colour verdict: never paint from it. See
   calm/gusty patches drift with the one wind. See [the water batch](docs/visual-water-2026-09-25.md),
   [the water road pass](docs/visual-water-road-2026-09-25.md) and
   [the water from above](docs/visual-water-above-2026-09-25.md).
+- The water ends where the ground rises out of it (owner request, 7 November;
+  `water-reach.mjs`). Each lake is read off its uncarved ground at boot: its
+  sheet's outline runs under the bank so the terrain draws the waterline, the
+  sheet fades in over its first 2.5 m from that bank (`WATER_SHORE_FADE`), the
+  strip the ring left dry is carved as water, and the near tint darkens the bank
+  by height. The ring stays the hazard and every other reader's water; a reach
+  never rises above the laser's own surface plus 8 cm, never floods water another
+  sheet draws, and never lowers a bank. Far lakes grow one mask cell under their
+  banks, and Visby's coast one 32 m cell, masked by height. Puttom's lakes stand
+  at the laser's surface plus the measured-water 6 cm (`LASER_PLATE_COURSES`).
+  `?waterreach=0`, `?shorefade=0`, `?shoredamp=0` and `?waterlevel=before` are the
+  befores. See [the water's shores](docs/visual-water-shores-2026-11-07.md).
 - The glow's threshold is per preset (`glow.mjs`). A low sun's sits just above
   its broad sky, cloud and haze paint (`skyPaintCeiling`), so none of that
   glows. Toward the sun the clouds' thick centres shine past it in the sun
