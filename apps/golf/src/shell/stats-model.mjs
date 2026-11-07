@@ -155,7 +155,12 @@ export function playerStats({ rounds = [], shots = [], bag = [], filter = {}, no
     };
   }).sort((a, b) => b.rounds - a.rounds || a.name.localeCompare(b.name, 'sv'));
 
+  /* ------------------------------------------------------- hole by hole
+     Only for one course: a hole's number means nothing across two. */
+  const byHoleNumber = filter.course && filter.course !== 'all' ? perHole(list) : null;
+
   const stat = {
+    byHoleNumber,
     rounds: list.length, holes: holes.length, strokes: sum(holes.map(hole => hole.strokes)),
     average: mean(averages), recent: mean(recent), before: before.length ? mean(before) : null,
     delta: before.length && recent.length ? mean(recent) - mean(before) : null,
@@ -169,6 +174,31 @@ export function playerStats({ rounds = [], shots = [], bag = [], filter = {}, no
   };
   stat.insights = insights(stat);
   return stat;
+}
+
+/* Each hole of one course across the rounds kept: how it is usually played.
+   A hole needs a score in at least one round to be in it. */
+export function perHole(rounds) {
+  const byNumber = new Map();
+  for (const record of rounds) {
+    for (const hole of playedHoles(record)) {
+      if (!byNumber.has(hole.n)) byNumber.set(hole.n, { n: hole.n, par: hole.par, scores: [], putts: [], fairways: [] });
+      const entry = byNumber.get(hole.n);
+      entry.scores.push(hole.strokes);
+      if (Number.isFinite(hole.putts)) entry.putts.push(hole.putts);
+      if (hole.par >= 4 && hole.fairway) entry.fairways.push(hole.fairway);
+    }
+  }
+  return [...byNumber.values()].sort((a, b) => a.n - b.n).map(entry => ({
+    n: entry.n,
+    par: entry.par,
+    rounds: entry.scores.length,
+    average: mean(entry.scores),
+    toPar: mean(entry.scores) - entry.par,
+    best: Math.min(...entry.scores),
+    putts: entry.putts.length ? mean(entry.putts) : null,
+    fairway: entry.fairways.length ? entry.fairways.filter(side => side === 'hit').length / entry.fairways.length : null,
+  }));
 }
 
 const signed = (value, digits = 1) => `${value > 0 ? '+' : value < 0 ? '−' : '±'}${Math.abs(value).toFixed(digits).replace('.', ',')}`;

@@ -31,7 +31,7 @@ import { hubUrl, mapUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
-import { LAST_COURSE_KEY, MODES, rememberLaunch } from './settings-store.mjs';
+import { LAST_COURSE_KEY, MODES, liveRound, rememberLaunch } from './settings-store.mjs';
 
 /* `places` is search vocabulary only, never shown: the placeholder promises
    "bana, ort eller par", and a promise on the front door has to be kept. It
@@ -117,6 +117,8 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
      bare visit to the player boots the manifest's first entry, which nobody
      chose, so that one is not remembered. */
   if (current && !isInitialBoot) rememberLaunch(storage(), current, 'detailed');
+  /* a round under way in the map, marked on its course's card */
+  const live = liveRound(storage(), courses);
 
   const el = document.createElement('div');
   el.id = 'chooser';
@@ -250,7 +252,8 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
                       <span class="shot-frames" aria-hidden="true"></span>
                       <div class="shot-badges">
                         <span class="cat-badge">${iconSvg}<span class="cat-text"><span class="cat-place">${esc(place)}</span>${kind.length ? `<span class="cat-kind"> · ${esc(kind.join(' · '))}</span>` : ''}</span></span>
-                        ${isCurrent ? '<span class="current-badge">Aktiv bana</span>' : isLead ? '<span class="current-badge is-last">Senast spelad</span>' : ''}
+                        ${live?.course.slug === c.slug ? '<span class="current-badge is-live">Runda pågår</span>'
+                          : isCurrent ? '<span class="current-badge">Aktiv bana</span>' : isLead ? '<span class="current-badge is-last">Senast spelad</span>' : ''}
                         ${c.status === 'mapping' ? '<span class="current-badge">Under kartläggning</span>' : ''}
                         ${c.status === 'provisional' ? '<span class="current-badge">Preliminär 3D</span>' : ''}
                       </div>

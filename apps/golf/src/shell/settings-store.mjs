@@ -171,6 +171,31 @@ export function lastLaunch(storage, courses) {
   return { course, mode: MODES[mode] ? mode : 'detailed' };
 }
 
+/* A round under way in the map: begun and not ended, and touched within the
+   map's own resume window (map-session.js RESUME_MS, six hours). The freshest
+   wins. The start menu offers it before anything else. */
+export const ROUND_KEY = 'banvy-map-round-v1';
+export const HOLE_KEY = 'banvy-map-hole-v1';
+const RESUME_MS = 6 * 60 * 60 * 1000;
+export function liveRound(storage, courses, now = Date.now()) {
+  let best = null;
+  for (const course of courses) {
+    let round = null, hole = null;
+    try { round = JSON.parse(storage?.getItem(`${ROUND_KEY}:${course.slug}`) ?? 'null'); } catch { round = null; }
+    if (!round || round.endedAt || typeof round.scores !== 'object' || round.scores === null) continue;
+    const played = Object.values(round.scores).filter(score => score && (score.picked || Number.isFinite(score.strokes)));
+    if (!round.begunAt && !played.length) continue;
+    try { hole = JSON.parse(storage?.getItem(`${HOLE_KEY}:${course.slug}`) ?? 'null'); } catch { hole = null; }
+    const touched = Math.max(Number(round.begunAt) || 0, Number(hole?.at) || 0);
+    if (!touched || now - touched > RESUME_MS) continue;
+    if (!best || touched > best.touched) {
+      best = { course, touched, hole: Number(hole?.value) || null, holes: played.length,
+        strokes: played.reduce((sum, score) => sum + (Number.isFinite(score.strokes) ? score.strokes : 0), 0) };
+    }
+  }
+  return best;
+}
+
 /* ------------------------------------------------------------ the light map
    The map's own keys and formats (map-session.js, map-display.mjs). */
 export const MAP_KEYS = Object.freeze({

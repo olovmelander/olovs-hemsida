@@ -549,6 +549,39 @@ await section('launch urls', async () => {
   }
 });
 
+/* A round under way in the map is what the golfer is standing in: the menu
+   offers it first, its card says so, and it resumes without a new round. */
+await section('a round under way', async () => {
+  const course = manifest.courses.find(c => c.holes === 18) || manifest.courses[0];
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+  await ctx.addInitScript(slug => {
+    try {
+      const now = Date.now();
+      localStorage.setItem(`banvy-map-round-v1:${slug}`, JSON.stringify({ version: 1, startedAt: '2026-11-08', handicap: 18, begunAt: now - 3600e3, scores: { 1: { strokes: 5, putts: 2 }, 2: { strokes: 4, putts: 2 } } }));
+      localStorage.setItem(`banvy-map-hole-v1:${slug}`, JSON.stringify({ value: 3, at: now - 300e3 }));
+    } catch {}
+  }, course.slug);
+  const page = await ctx.newPage();
+  const seen = await catchLaunch(page);
+  await page.goto(BASE + '/', { waitUntil: 'load' });
+  await page.waitForSelector('#home [data-resume]');
+  const card = await page.evaluate(() => {
+    const b = document.querySelector('#home [data-resume]');
+    return { live: b.classList.contains('is-live'), text: b.textContent.replace(/\s+/g, ' ').trim() };
+  });
+  gate(card.live && /Runda pågår/.test(card.text) && card.text.includes(course.name) && /Hål 3/.test(card.text) && /9 slag/.test(card.text),
+    `the menu offers the round under way first: "${card.text}"`);
+  await page.click('#home [data-resume]');
+  await page.waitForTimeout(500);
+  const p = seen[0] ? paramsOf(seen[0]) : {};
+  gate(p.bana === course.slug && p.karta === '1' && !('runda' in p), `and resumes it in the map, without beginning another: ${seen[0]?.replace(BASE, '')}`);
+  await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+  await page.waitForSelector('#chooser:not([hidden]) .card');
+  const badge = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .current-badge.is-live`)?.textContent, course.slug);
+  gate(badge === 'Runda pågår', `its course's card says so too: "${badge}"`);
+  await ctx.close();
+});
+
 await section('mode switch and the way back', async () => {
   const { ctx, page } = await open({ width: 1440, height: 900, url: '/' });
   await page.waitForSelector('#home .mode-card');
@@ -648,6 +681,21 @@ for (const [w, h, touch] of [[390, 844, true], [1440, 900, false]]) {
     await page.waitForTimeout(300);
     const narrowed = await page.evaluate(() => Number(document.querySelector('#stats .st-tile dd').textContent));
     gate(narrowed > 0 && narrowed < m.rounds, `${w}x${h}: 90 dagar narrows every figure (${narrowed} of ${m.rounds} rounds)`);
+    /* hole by hole: offered course by course, drawn a column a hole, with its table */
+    await page.click('#stats .seg-opt:has(input[value="all"])');
+    await page.waitForTimeout(300);
+    const picks = await page.evaluate(() => document.querySelectorAll('#stats [data-pick-course]').length);
+    await page.click('#stats [data-pick-course]');
+    await page.waitForTimeout(400);
+    const holes = await page.evaluate(() => ({ cols: document.querySelectorAll('#stats .shb-col').length,
+      labels: [...document.querySelectorAll('#stats .shb-col em')].map(e => e.textContent),
+      sideways: document.getElementById('stats').scrollWidth > document.getElementById('stats').clientWidth + 1 }));
+    gate(picks > 0 && holes.cols === 18 && holes.labels.length >= 1 && holes.labels.length <= 2 && !holes.sideways,
+      `${w}x${h}: hole by hole offers ${picks} courses and draws a column a hole (${holes.cols}), labelling only the extremes (${holes.labels.join(', ')})`);
+    await page.click('#stats [data-view="holes"]');
+    await page.waitForTimeout(300);
+    const holeRows = await page.evaluate(() => document.querySelectorAll('#stats [data-card="holes"] .st-table tbody tr').length);
+    gate(holeRows === 18, `${w}x${h}: and its table has every hole (${holeRows})`);
     gate(errs.length === 0, `${w}x${h}: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
     await ctx.close();
   });
