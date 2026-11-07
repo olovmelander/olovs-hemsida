@@ -339,10 +339,26 @@ def skin_shader(G, P, variant, target_image):
     liner = rgba('#3A2A26' if variant == 'female' else '#5A3C30')
     lid_line = N.math('MULTIPLY', lid, N.smoothstep(N.vmath('DOT_PRODUCT', pos, (0, 0, 1)), eye.z + .002 * k, eye.z + .009 * k))
     col = N.mixc(col, liner, N.math('MULTIPLY', lid_line, .55 if variant == 'female' else .3))
-    # Lips.
-    col = N.mixc(col, rgba(P['lip']), N.math('MULTIPLY', N.attr('lip_mask'), .85))
+    # Lips: the mouth face set holds only the upper lip (and the philtrum above it);
+    # the lower lip belongs to the chin set. Paint both lips as a soft ellipse on the
+    # measured mouth line instead, with a darker line where they meet.
+    co = np.array([v.co[:] for v in me.vertices])
+    mouth_ids = set()
+    for poly, f in zip(me.polygons, fsets):
+        if f == FS['mouth']:
+            mouth_ids.update(poly.vertices)
+    m_ids = np.array(sorted(mouth_ids))
+    mp = co[m_ids]
+    front = mp[(np.abs(mp[:, 0]) < .006 * k)]
+    y_front = float(front[:, 1].min()) if len(front) else eye.y - .035
+    z_line = float(front[:, 2].min()) if len(front) else eye.z - .068 * k
+    lips = ellipsoid(N, pos, (0, y_front + .006, z_line + .0005), (.0245 * k, .016, .0108 * k), soft=.42)
+    lip_col = rgba(P['lip'])
+    col = N.mixc(col, lip_col, N.math('MULTIPLY', lips, .78 if variant == 'female' else .5))
+    seam = ellipsoid(N, pos, (0, y_front + .006, z_line + .0005), (.022 * k, .016, .0016 * k), soft=.2)
+    col = N.mixc(col, tuple(c * .55 for c in lip_col[:3]) + (1,), N.math('MULTIPLY', seam, .45))
     # Brows: an arched band above each eye, broken into hairs.
-    brow_col = rgba('#6B4E33' if variant == 'female' else '#2A1E18')
+    brow_col = rgba('#4E3622' if variant == 'female' else '#221813')
     hairs = nt.nodes.new('ShaderNodeTexNoise'); hairs.inputs['Scale'].default_value = 900
     stretch = N.vmath('MULTIPLY', pos, (1.0, 1.0, 6.0))
     nt.links.new(stretch, hairs.inputs['Vector'])
@@ -350,8 +366,8 @@ def skin_shader(G, P, variant, target_image):
         cx = s * .036 * k
         arch = (.0065 if variant == 'female' else .004) * k
         m1 = ellipsoid(N, pos, (cx - s * .006 * k, eye.y - .004, eye.z + .021 * k + arch * .5),
-                       (.026 * k, .03 * k, (.0042 if variant == 'female' else .0062) * k), soft=.35)
-        col = N.mixc(col, brow_col, N.math('MULTIPLY', m1, N.math('ADD', .45, N.math('MULTIPLY', hairs.outputs['Fac'], .6))))
+                       (.026 * k, .03 * k, (.0042 if variant == 'female' else .0062) * k), soft=.55)
+        col = N.mixc(col, brow_col, N.math('MULTIPLY', m1, N.math('ADD', .55, N.math('MULTIPLY', hairs.outputs['Fac'], .5))))
     if variant == 'male':
         # Close-cut stubble on the jaw, chin and upper lip.
         beard = N.math('MAXIMUM', N.attr('beard_mask'),

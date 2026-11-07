@@ -17,7 +17,7 @@ ASSET = ROOT / 'experiments/golfer/assets'
 class Braid:
     """A damped verlet chain hanging from the head, kept off the head and back."""
 
-    def __init__(self, skel):
+    def __init__(self, skel, body=None):
         self.s = skel
         self.names = [n for n in skel.order if n.startswith('Braid')]
         self.on = bool(self.names)
@@ -32,6 +32,23 @@ class Braid:
         h3 = skel.rest3['Head']
         self.root_dir = (h3.transposed() @ (self.rest_pts[1] - self.rest_pts[0])).normalized()
         self.root_frame = h3.transposed() @ skel.rest3[self.names[0]]
+        # The back as a collider: its rest profile (the farthest-back skin near the
+        # spine, every centimetre of height), carried by the posed chest.
+        self.back = None
+        if body is not None:
+            import numpy as np
+            co = np.array([v.co[:] for v in body.data.vertices])
+            mid = co[np.abs(co[:, 0]) < .07]
+            z0 = skel.head['Spine'].z; z1 = skel.head['Neck'].z + .02
+            zs = np.arange(z0, z1, .01)
+            ys = []
+            for z in zs:
+                band = mid[np.abs(mid[:, 2] - z) < .008]
+                ys.append(float(band[:, 1].max()) if len(band) else np.nan)
+            ys = np.array(ys); ok = ~np.isnan(ys)
+            if ok.sum() > 4:
+                self.back = (zs[ok], ys[ok])
+        self.clear = .028      # polo, its ease and the braid's own radius
 
     def run(self, poses, loop):
         if not self.on:
@@ -51,6 +68,8 @@ class Braid:
             result = []
             for f in frames:
                 tgt, centre, chest = targets(poses[f])
+                C_pose = poses[f]['Chest']; C_rest = self.s.rest['Chest']
+                to_rest = C_rest @ C_pose.inverted(); from_rest = C_pose @ C_rest.inverted()
                 for _ in range(sub):
                     for i in range(1, len(x)):
                         v = (x[i] - xp[i]) * .952
@@ -68,6 +87,13 @@ class Braid:
                             r = x[i] - centre
                             if r.length < .118:
                                 x[i] = centre + r.normalized() * .118
+                            if self.back is not None:
+                                q = to_rest @ x[i]
+                                if self.back[0][0] - .05 < q.z < self.back[0][-1]:
+                                    import numpy as np
+                                    by = float(np.interp(q.z, self.back[0], self.back[1])) + self.clear
+                                    if q.y < by:
+                                        q.y = by; x[i] = from_rest @ q
                         # A braid bends, it does not fold: at most 32 degrees per joint.
                         for i in range(2, len(x)):
                             prev = x[i - 1] - x[i - 2]; d = x[i] - x[i - 1]
@@ -145,7 +171,7 @@ def bake_all(G, scene, names=None):
     rig.animation_data_create(); rig.animation_data.action = None
     for track in list(rig.animation_data.nla_tracks):
         rig.animation_data.nla_tracks.remove(track)
-    braid = Braid(skel)
+    braid = Braid(skel, G.get('cage'))
     actions = []; clips = []; report = {}
     scene.render.fps = FPS
     for name in names or clips_v3.CLIP_ORDER:

@@ -151,6 +151,7 @@ class Outfit:
         self.keep_off_body(ob, (.005 if self.v == 'female' else .0055) * k)
         self.clamp_drift(ob, used, .045 * k)
         self.tuck(ob)
+        self.folds(ob, sleeve)
         # Hem and sleeve cuts.
         C.cut_plane(ob, (0, 0, hem), (0, 0, 1), keep_positive=True)
         for side in 'LR':
@@ -161,9 +162,17 @@ class Outfit:
         co = C.coords(me); n = C.normals(me)
         bnd = C.boundary_vertices(me)
         add = np.zeros(len(co))
+        for side in 'LR':
+            sh, el = self.arm_frame(side); ax = el - sh; L = ax.length; ax.normalize()
+            for i, p in enumerate(co):
+                t = (V(p) - sh).dot(ax) / L
+                radial = (V(p) - (sh + ax * t * L)).length
+                if t > .05 and radial < .1 * k:
+                    # The sleeve eases toward its opening: cloth, not a band.
+                    add[i] = max(add[i], .0085 * k * smooth_np((t - (sleeve - .32)) / .3))
         for i, p in enumerate(co):
             if abs(p[0]) > .17 * k and i in bnd:
-                add[i] = .004 * k
+                add[i] = max(add[i], .004 * k)
         C.inflate(me, add)
         self.polo_ob = ob
         loops = self._loops(ob)
@@ -217,6 +226,46 @@ class Outfit:
             g = mix(gap, .0035 * k, tuck) + (.0075 if self.v == 'male' else .0062) * k * blouse * (.55 + .9 * gather)
             co[i] = np.array(loc + nrm * g)
         C.set_coords(me, co)
+
+    def folds(self, ob, sleeve):
+        """Soft cloth folds a few millimetres deep: radiating from each armpit, rings on
+        the sleeves and a low drape between the chest and the belt."""
+        k = self.k; J = self.J; me = ob.data
+        co = C.coords(me); nrm = C.normals(me)
+        disp = np.zeros(len(co))
+        fem = self.v == 'female'
+        for side, sgn in (('L', 1), ('R', -1)):
+            shj = J['shoulder_' + side]
+            A = V((shj.x - sgn * .035 * k, shj.y + .005, shj.z - .085 * k))     # the armpit
+            sh, el = self.arm_frame(side); ax = el - sh; L = ax.length; ax.normalize()
+            for i, p in enumerate(co):
+                P = V(p)
+                t = (P - sh).dot(ax) / L
+                radial = (P - (sh + ax * t * L)).length
+                if t > .06 and radial < .1 * k and sgn * p[0] > abs(A.x) - .01:
+                    # Sleeve rings, fading out at the shoulder and the opening.
+                    env = math.sin(math.pi * min(1.0, max(0.0, (t - .06) / (sleeve - .06)))) ** 1.2
+                    disp[i] += .0027 * k * math.sin(2 * math.pi * t * L / (.032 * k) + .8 * math.sin(7 * t)) * env
+                    continue
+                r = P - A; d = r.length
+                if sgn * p[0] > 0 and .015 * k < d < .17 * k:
+                    th = math.atan2(r.z, r.y)
+                    bump = math.sin(math.pi * (d - .015 * k) / (.155 * k)) ** 1.3
+                    disp[i] += (.0042 if not fem else .0029) * k * math.sin(5 * th + 1.1 * sgn) * bump
+        waist = self.waist_z
+        for i, p in enumerate(co):
+            if abs(p[0]) > .17 * k:
+                continue
+            z = p[2]
+            a = math.atan2(p[0], -p[1])
+            band = math.sin(math.pi * min(1.0, max(0.0, (z - (waist + .015 * k)) / (.19 * k))))
+            front = .6 + .4 * math.cos(a)
+            disp[i] += (.0034 if not fem else .0023) * k * band * front * math.sin(
+                2 * math.pi * (z - waist) / (.058 * k) + 1.6 * math.sin(2.3 * a) + .9 * math.sin(5 * a))
+        co = co + nrm * disp[:, None]
+        C.set_coords(me, co)
+        C.smooth(me, 1, .25, pin=C.boundary_vertices(me))
+        self.keep_off_body(ob, .0042 * k)
 
     def _cut_arm(self, ob, side, point, normal):
         me = ob.data
@@ -576,7 +625,7 @@ class Outfit:
 
     def belt(self, top):
         P = self.P; k = self.k
-        z = top - .016 * k
+        z = top - .0175 * k
         band = [c for c, f in zip(self.centre, self.fs) if abs(c[2] - z) < .01 and f in (FS['pelvis'], FS['belly'], FS['torso'])]
         band = np.array(band)
         hull = C.hull2d([tuple(np.round(p[:2], 5)) for p in band]); cen = band[:, :2].mean(axis=0)
@@ -588,7 +637,7 @@ class Outfit:
             o = V((cen[0], cen[1], z))
             hit = tbvh.ray_cast(o + d * .4, -d, .4)
             if hit[0] is not None:
-                pts.append(V((hit[0].x, hit[0].y, z)) + d * .0042 * k)
+                pts.append(V((hit[0].x, hit[0].y, z)) + d * .0026 * k)
             else:
                 q = C.project_to_hull(cen + np.array([d.x, d.y]) * .5, hull, cen)
                 q = q + (q - cen) / np.linalg.norm(q - cen) * .0105 * k
@@ -596,14 +645,14 @@ class Outfit:
         # A belt is a smooth band: relax the ring.
         for _ in range(6):
             pts = [pts[i] * .5 + (pts[i - 1] + pts[(i + 1) % len(pts)]) * .25 for i in range(len(pts))]
-        b = C.tube(f'Golfer_v3_{self.v}_Belt', pts, [(.0035 * k, .016 * k)] * len(pts), self.col, 8, closed=True, caps=False)
+        b = C.tube(f'Golfer_v3_{self.v}_Belt', pts, [(.0165 * k, .0026 * k)] * len(pts), self.col, 12, closed=True, caps=False)
         C.transfer_weights(b, self.trouser_ob)
         leather = self.textures.normal('leather')
         self.finish(b, self.mat('belt', P['belt'], .45, normal_image=leather, normal_strength=.3))
         self.belt_ob = b
         front = min(pts, key=lambda p: p.y)
-        buckle = C.tube(f'Golfer_v3_{self.v}_Buckle', [front + V((-.018 * k, -.004, 0)), front + V((.018 * k, -.004, 0))],
-                        [(.014 * k, .003), (.014 * k, .003)], self.col, 4)
+        buckle = C.tube(f'Golfer_v3_{self.v}_Buckle', [front + V((-.019 * k, -.0035 * k, 0)), front + V((.019 * k, -.0035 * k, 0))],
+                        [(.0175 * k, .0022 * k), (.0175 * k, .0022 * k)], self.col, 4)
         C.transfer_weights(buckle, self.trouser_ob)
         self.finish(buckle, self.mat('buckle', '#C9CCCF', .25, metal=1.0))
 
