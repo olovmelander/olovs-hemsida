@@ -21,10 +21,10 @@ from body_v3 import FS, FINGERS, TOES, FOREFOOT
 PALETTE = {
     'female': dict(skin='#E9C2A4', polo='#E2735C', trim='#F4F1EA', navy='#1F2C47', hair='#86643F', hair_hi='#B08A5B',
                    shoe='#F3F1EC', accent='#E2735C', sole='#F1EEE6', outsole='#1F2C47', lip='#C07A6E', iris='#5B7A8C',
-                   headwear='#F4F2EC', bill_under='#1F2C47', trousers='#1F2C47', belt='#F4F1EA'),
+                   headwear='#F4F2EC', bill_under='#C8C5BB', trousers='#1F2C47', belt='#F4F1EA'),
     'male': dict(skin='#B47856', polo='#22304C', trim='#F2EFE8', navy='#22304C', hair='#2E241E', hair_hi='#4A3A2E',
                  shoe='#F3F1EC', accent='#22304C', sole='#C9935F', outsole='#A8743F', trousers='#CDC2A9', belt='#8A5A35',
-                 lip='#9C6250', iris='#5E4430', headwear='#F2F0EA', bill_under='#22304C'),
+                 lip='#9C6250', iris='#5E4430', headwear='#F2F0EA', bill_under='#5F6A63'),
 }
 
 
@@ -440,7 +440,7 @@ class Outfit:
                       lambda c: hem_z - .03 < c.z < top + .02)
         ob, used = C.extract(self.body, m, f'Golfer_v3_{self.v}_Trousers', self.col)
         me = ob.data
-        C.inflate(me, .010 * k)
+        C.inflate(me, (.009 if shorts else .015) * k)
         co = C.coords(me)
         for side, sgn in (('L', 1), ('R', -1)):
             hip = J['hip_L' if side == 'L' else 'hip_R']; ankle = J['ankle_' + side]
@@ -457,7 +457,7 @@ class Outfit:
                 if sgn * p[0] > .012 and p[2] < knee.z:
                     t = (knee.z - p[2]) / (knee.z - ankle.z)
                     cx = mix(knee.x, ankle.x, t); cy = mix(knee.y, ankle.y + .006, t)
-                    r = mix(.066, .057, t) * k
+                    r = mix(.074, .063, t) * k
                     d = np.array([p[0] - cx, p[1] - cy]); n = np.linalg.norm(d)
                     if n > 1e-6:
                         q = np.array([cx, cy]) + d / n * max(r, n * .4 + r * .6)
@@ -477,8 +477,8 @@ class Outfit:
                             co[i] = np.array(V(p) + d.normalized() * .012 * k * w)
         C.set_coords(me, co)
         C.smooth(me, 16, .5, pin=C.boundary_vertices(me))
-        self.keep_off_body(ob, .008 * k)
-        self.clamp_drift(ob, used, .05 * k)
+        self.keep_off_body(ob, (.008 if shorts else .012) * k)
+        self.clamp_drift(ob, used, .06 * k)
         C.cut_plane(ob, (0, 0, top), (0, 0, -1), keep_positive=True)
         # The hem breaks a little lower at the back over the shoe.
         C.cut_plane(ob, (0, .0, hem_z), V((0, -.18, 1)).normalized(), keep_positive=True)
@@ -822,12 +822,15 @@ class Outfit:
             return mix(front_z, J['ears'].z + .028 * k, smooth_np(u / .5)) if u < .5 else mix(J['ears'].z + .028 * k, J['ears'].z - .004 * k, smooth_np((u - .5) / .5))
         if self.v == 'female':
             hair_lift = .0105 * k
-            c, verts, faces = self.head_dome(edge, lambda a: edge(a) + .034 * k, lambda a, e: hair_lift, rows=4)
+            c, verts, faces = self.head_dome(edge, lambda a: edge(a) + .027 * k, lambda a, e: hair_lift, rows=4)
             name = 'Visor'
         else:
             hair_lift = .0070 * k
             def lift(a, e):
-                return hair_lift + .006 * k * max(0.0, math.sin(e))   # a little crown height
+                # A structured cap: the front panels stand up off the forehead, the crown
+                # rises, the back follows the head.
+                front = max(0.0, math.cos(a)) ** 1.5
+                return hair_lift + .007 * k * max(0.0, math.sin(e)) + .013 * k * front * max(0.0, math.cos(e - .7)) ** 2
             c, verts, faces = self.head_dome(edge, None, lift, rows=16)
             name = 'Cap'
         me = bpy.data.meshes.new(f'Golfer_v3_{self.v}_{name}'); me.from_pydata([tuple(v) for v in verts], [], faces); me.update()
@@ -850,14 +853,18 @@ class Outfit:
         for r in range(rows + 1):
             t = r / rows
             for cc in range(cols):
-                a = mix(-.92, .92, cc / (cols - 1))
+                a = mix(-.88, .88, cc / (cols - 1))
                 dir_ = V((math.sin(a), -math.cos(a), 0))
-                z0 = edge(a) + .003 * k
+                z0 = edge(a) + .007 * k
                 hit = bvh.ray_cast(V((c.x, c.y, z0)) + dir_ * .3, -dir_, .35)
                 base = hit[0] if hit[0] is not None else V((c.x, c.y, z0)) + dir_ * .1 * k
-                reach = (.074 if self.v == 'male' else .070) * k * math.cos(a * .66) ** 1.3
-                p = base + dir_ * (reach * t - .002)
-                p.z -= (.012 * k) * t ** 1.5 + .004 * k * (a / .92) ** 2 * t
+                # A D-shaped bill: long at the centre, rounding off to nothing at the sides,
+                # pitched down a little and curved across.
+                u = abs(a) / .88
+                reach = (.080 if self.v == 'male' else .070) * k * (.14 + .86 * max(0.0, 1 - u ** 2.2) ** .55)
+                fwd = V((0, -1, 0)).lerp(dir_, .55).normalized()
+                p = base + fwd * (reach * t - .004) + dir_ * .0015 * (1 - t)
+                p.z -= reach * t * math.tan(math.radians(13)) + .010 * k * u ** 2 * t
                 verts.append(tuple(p))
         faces = []
         for r in range(rows):
@@ -870,7 +877,7 @@ class Outfit:
             p.use_smooth = True
         C.solidify(bill, .0034 * k, 0)
         bill.data.materials.append(self.mat('headwear', P['headwear'], .75))
-        bill.data.materials.append(self.mat('bill under', P['bill_under'], .8))
+        bill.data.materials.append(self.mat('bill under', P['bill_under'], .85))
         for p in bill.data.polygons:
             if p.normal.z < -.3:
                 p.material_index = 1
@@ -888,7 +895,7 @@ class Outfit:
                 pennant = C.tube(f'Golfer_v3_{self.v}_CapPennant', [q + V((0, 0, .011 * k)), q + V((.011 * k, 0, .007 * k))],
                                  [(.0035 * k, .0007), (.0005, .0005)], self.col, 4)
                 emb = C.join([flag, pennant], f'Golfer_v3_{self.v}_CapEmblem')
-                C.rigid(emb, 'Head'); self.finish(emb, self.mat('emblem', P['bill_under'], .7), weights=False)
+                C.rigid(emb, 'Head'); self.finish(emb, self.mat('emblem', P['navy'], .7), weights=False)
 
     def earrings(self):
         k = self.k

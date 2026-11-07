@@ -17,7 +17,7 @@ from body_pose import FINGER_NAMES
 
 DEFAULT = dict(
     lead=dict(along=.046, alpha=math.radians(58), beta=math.radians(30), y=.55, z=-.026, x=.0),
-    trail=dict(alpha=math.radians(52), gamma=math.radians(14), y=.80, z=-.022, x=0.0, gap=.004),
+    trail=dict(alpha=math.radians(61), gamma=math.radians(-40), y=.72, z=-.022, x=0.0, gap=.004),
 )
 
 

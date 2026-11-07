@@ -85,7 +85,12 @@ class Carry:
 
     def __init__(self, G):
         self.G = G; self.b = G['bodypose']; self.s = G['skel']; self.J = G['joints']
-        self.grip = G['grips']['Iron']
+        # Carrying a club over the shoulder is not a golf grip: the shaft crosses the
+        # palm at the angle that lets the wrist stay neutral.
+        import grip_v3
+        P = {'lead': dict(grip_v3.DEFAULT['lead']),
+             'trail': dict(grip_v3.DEFAULT['trail'], alpha=math.radians(37), gamma=math.radians(-10), y=.74)}
+        self.grip = grip_v3.Grip(self.b, P)
         self.k = max(self.J['head_top'].z, 1.0) / 1.70
         self.GR = self.grip.hand_frame('R')
         self.GRi = self.GR.inverted()

@@ -44,7 +44,7 @@ Every joint is read from the boundary between two face sets: the wrist from fore
 
 ## Motion
 
-The motion is authored as code in `tools/blender-golfer/v3` and baked at 60 fps.
+The motion is authored as code in `tools/blender-golfer/v3` and baked at 60 fps. The second round's changes are listed under Verification.
 
 ### Full swing
 
@@ -109,26 +109,37 @@ node tools/blender-golfer/v3/check_directions_v3.mjs
 
 These are copies of the September audits with the same thresholds. They read the grip positions each manifest records (`grip`), and write to `animation-audit/` here. The originals still write to the September folder, so do not run them against revision 3.
 
-## Verification (7 November)
+## Verification (7 November, second round)
 
-- **Course directions:** `check_directions_v3.mjs` passes for both golfers. It covers camera-relative movement, turns, eight aim headings, and ball contact, face and flight with all five clubs on Puttom.
-- **Motion audit:** sampled at 120 Hz, `audit_motion_v3.mjs` passes for:
+- **Motion audit:** `audit_motion_v3.mjs` passes every check for both golfers and all 20 clips, sampled at 120 Hz:
+  - wrist bend at most 68.6° (female) and 69.5° (male), against the 70° limit;
+  - hands within 7 mm of the grip;
+  - no joint step over 24.6°;
+  - soles never below −0.4 mm;
   - impact contact, ball height, strike and face direction;
-  - loop seams;
-  - feet above ground and planted feet;
-  - elbow and knee directions;
-  - arm/leg opposition;
-  - joint continuity, except as listed below.
-- **Still failing** (see `animation-audit/measurements.json`):
-  - **Wrists:** the 70° limit is exceeded at the top and through impact of the full swings (79–93°). The shoulder carry exceeds it too (73–81°), its wrist extended as a real carry is.
-  - **Grip:** one transient 1.9 cm trail-hand gap in the male's iron swing.
-  - **Braid:** one 37° step in the female's iron swing.
-- **Repository checks:** the production build passes and contains no golfer file or code. `check-app-build` passes, as does `vitest run apps/golf` (213 files, 1,741 tests).
+  - loop seams, planted feet, elbows, knees and arm/leg opposition.
+- **Course directions:** `check_directions_v3.mjs` passes for both golfers.
 - **Runtime:** both golfers load in three.js on WebGPU with no console errors.
+
+### What the second round changed
+
+- **Grip:** the trail hand sits in line with its forearm, about 30° at address instead of 55°, as in a real overlapping grip. Every swing's wrist path follows from it.
+- **Carry:** the shoulder carry has its own grip, with the shaft across the palm, so the wrist stays neutral.
+- **Admiring the shot:** after the held finish the full swings stand a little taller and the trail heel settles. The trail hand lets go and falls to the side, its fingers opening, while the lead hand keeps the club behind the neck and the eyes stay on the ball. The manifest records the release time (`trailRelease`), and the audit stops checking the trail grip after it.
+- **Swing solve:**
+  - A solved key between P9 and P10 keeps both hands on the club as it rises into the finish.
+  - The solver aims for a 61° wrist, inside the 70° limit.
+  - Limb segments share one hinge axis, so a deep bend can't flip the forearm.
+  - The forearm twist bone stays continuous through ±180°.
+- **Braid:** it bends at most 32° per joint, its frames carry down the chain from a root that turns by the least rotation, and it is lightly filtered.
+- **Clothes:**
+  - The cap has a structured front and a D-shaped bill pitched down 13°.
+  - The visor band is slimmer.
+  - Both bills have a quiet underside.
+  - The male's trousers have an easier, straighter leg.
 
 ## Known limits
 
-- **Skinning only:** there's no cloth simulation, so a trouser fold can show a light speck in extreme poses.
+- **Skinning only:** there's no cloth simulation, so a trouser fold can show a light speck in extreme poses. The female wears tailored shorts because a skinned skirt tears in golf poses.
 - **Assets:** each GLB is about 13 MB, mostly 2048² PNG skin maps and the five clubs. There are no LODs, and phone performance is unmeasured.
 - **Ball flight:** in the lab it is illustrative, as before.
-- **Wrist extension:** the full swings' trail wrist is more extended than September's 65° clamp allowed.

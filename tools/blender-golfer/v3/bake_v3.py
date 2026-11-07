@@ -29,6 +29,9 @@ class Braid:
         self.local = [hr @ p for p in self.rest_pts]
         self.head_c_local = hr @ (skel.head['Head'] + V((0, .01, .09)))
         self.stiff = [1.0, .14, .045, .018, .009, .005, .003]
+        h3 = skel.rest3['Head']
+        self.root_dir = (h3.transposed() @ (self.rest_pts[1] - self.rest_pts[0])).normalized()
+        self.root_frame = h3.transposed() @ skel.rest3[self.names[0]]
 
     def run(self, poses, loop):
         if not self.on:
@@ -50,7 +53,7 @@ class Braid:
                 tgt, centre, chest = targets(poses[f])
                 for _ in range(sub):
                     for i in range(1, len(x)):
-                        v = (x[i] - xp[i]) * .965
+                        v = (x[i] - xp[i]) * .952
                         xp[i] = x[i].copy()
                         x[i] = x[i] + v + g * h * h
                     x[0] = tgt[0].copy(); xp[0] = tgt[0].copy()
@@ -93,7 +96,10 @@ class Braid:
             # The root takes its roll from the head; each further bone carries the
             # previous bone's frame down the chain (parallel transport), so no
             # bone's roll depends on how the braid happens to hang.
-            z = H.col[0].normalized().cross((pts[1] - pts[0]).normalized())
+            # The root turns from its rest frame (relative to the head) by the least rotation.
+            d_local = (H.transposed() @ (pts[1] - pts[0])).normalized()
+            q = self.root_dir.rotation_difference(d_local)
+            z = H @ (q.to_matrix() @ self.root_frame).col[2]
             for i, name in enumerate(self.names):
                 d = (pts[i + 1] - pts[i]).normalized()
                 F = frame(d, z)
@@ -143,6 +149,8 @@ def bake_all(G, scene, names=None):
             n = sp['club'].to_3x3() @ sw.data['normal']
             entry.update(impact=sw.impact, contact=[ball.x, ball.z, -ball.y], shotDirection=[1, 0, 0],
                          faceDirection=[n.x, n.z, -n.y])
+            if sw.has_release:
+                entry['trailRelease'] = sw.table['t'][-3]   # the trail hand lets go after the held finish
             report[name] = dict(impact_error=[round(v, 5) for v in sw.impact_error], goals=sw.goal_report)
         report.setdefault(name, {})['reach_gap_m'] = round(G['bodypose'].max_reach_gap, 4)
         report[name]['leg_gap_m'] = round(G['bodypose'].max_leg_gap, 4)

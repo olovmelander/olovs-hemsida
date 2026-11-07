@@ -23,26 +23,26 @@ D = math.radians
 
 # Keyframes: (time s, value). Shared P-position timings per swing family.
 FULL = dict(
-    # P1 addr, settle, P2, P3, P4 top, P5, P6, P7 impact, P8, P9, P10 finish, hold
-    t=[0.0, .22, .52, .74, 1.02, 1.15, 1.23, 1.30, 1.36, 1.45, 1.78, 2.6],
-    pelvis_yaw=[0, 0, -12, -28, -46, -22, 8, 38, 54, 68, 92, 94],
-    thorax_yaw=[0, 0, -28, -60, -98, -70, -38, 16, 52, 78, 112, 114],
-    pelvis_x=[0, 0, -.010, -.016, -.020, .030, .062, .085, .098, .108, .125, .125],
-    pelvis_z=[0, 0, 0, .003, .006, -.026, -.032, -.012, .004, .016, .036, .038],
-    pelvis_y=[0, 0, 0, .004, .010, .012, .010, .004, -.004, -.012, -.030, -.030],
-    tilt=[0, 0, 0, 1, 2, 2, 1, 0, -6, -14, -30, -31],
-    side=[0, 0, 1, 0, -4, 2, 8, 12, 10, 6, -6, -6],
-    lift=[0, 0, 6, 38, 78, 46, 18, 1, 22, 60, 116, 118],
-    across=[0, 0, 10, 24, 34, 18, 6, -10, -52, -78, -92, -93],
-    hinge=[0, 0, 12, 72, 92, 96, 80, 8, -18, 30, 78, 80],
-    flex=[0, 0, 0, -4, -10, -12, -10, -8, 0, 10, 24, 24],
-    roll=[0, 0, 28, 38, 40, 38, 32, 0, -62, -96, -118, -120],
-    elbow=[3, 3, 3, 4, 8, 6, 4, 2, 6, 34, 96, 98],
-    trail_roll=[0, 0, 0, 0, 0, 0, 0, 14, 38, 58, 76, 76],
-    trail_yaw=[0, 0, 0, 0, 0, 0, 0, 6, 16, 26, 38, 38],
-    lead_roll=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -4, -4],
-    clav_lead=[(0, 0)] * 2 + [(0, 6), (2, 12), (4, 16), (2, 10), (0, 4), (-2, 0), (-1, -8), (4, -14), (10, -16), (10, -16)],
-    clav_trail=[(0, 0)] * 2 + [(2, -4), (5, -8), (8, -10), (3, -2), (-2, 6), (-6, 14), (-6, 20), (-2, 18), (6, 8), (6, 8)],
+    # P1 addr, settle, P2, P3, P4 top, P5, P6, P7 impact, P8, P9, rising, P10 finish, hold, relax, rest
+    t=[0.0, .22, .52, .74, 1.02, 1.15, 1.23, 1.30, 1.36, 1.45, 1.6, 1.78, 2.5, 3.05, 3.45],
+    pelvis_yaw=[0, 0, -12, -28, -46, -22, 8, 38, 54, 68, 80.0, 92, 94, 86, 84],
+    thorax_yaw=[0, 0, -28, -60, -98, -70, -38, 16, 52, 78, 95.0, 112, 114, 96, 92],
+    pelvis_x=[0, 0, -.010, -.016, -.020, .030, .062, .085, .098, .108, 0.1165, .125, .125, .105, .100],
+    pelvis_z=[0, 0, 0, .003, .006, -.026, -.032, -.012, .004, .016, 0.026, .036, .038, .030, .030],
+    pelvis_y=[0, 0, 0, .004, .010, .012, .010, .004, -.004, -.012, -0.021, -.030, -.030, -.024, -.022],
+    tilt=[0, 0, 0, 1, 2, 2, 1, 0, -6, -14, -22.0, -30, -31, -33, -34],
+    side=[0, 0, 1, 0, -4, 2, 8, 12, 10, 6, 0.0, -6, -6, -4, -4],
+    lift=[0, 0, 6, 38, 78, 46, 18, 1, 22, 60, 88.0, 116, 118, 40, 30],
+    across=[0, 0, 10, 24, 34, 18, 6, -10, -52, -78, -85.0, -92, -93, -60, -55],
+    hinge=[0, 0, 12, 72, 92, 96, 80, 8, -18, 30, 54.0, 78, 80, 30, 20],
+    flex=[0, 0, 0, -4, -10, -12, -10, -8, 0, 10, 17.0, 24, 24, 8, 4],
+    roll=[0, 0, 28, 38, 40, 38, 32, 0, -62, -96, -107.0, -118, -120, -80, -70],
+    elbow=[3, 3, 3, 4, 8, 6, 4, 2, 6, 34, 65.0, 96, 98, 40, 30],
+    trail_roll=[0, 0, 0, 0, 0, 0, 0, 14, 38, 58, 67.0, 76, 76, 30, 12],
+    trail_yaw=[0, 0, 0, 0, 0, 0, 0, 6, 16, 26, 32.0, 38, 38, 34, 32],
+    lead_roll=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -2.0, -4, -4, -2, 0],
+    clav_lead=[(0, 0)] * 2 + [(0, 6), (2, 12), (4, 16), (2, 10), (0, 4), (-2, 0), (-1, -8), (4, -14), (7, -15), (10, -16), (10, -16), (2, -6), (0, -4)],
+    clav_trail=[(0, 0)] * 2 + [(2, -4), (5, -8), (8, -10), (3, -2), (-2, 6), (-6, 14), (-6, 20), (-2, 18), (2, 13), (6, 8), (6, 8), (0, 8), (0, 6)],
 )
 
 
@@ -89,8 +89,9 @@ FULL_GOALS = {
     6: dict(u=(-.62, -.33, -.71), s=(-1, .05, .04), toe=(0, -.3, .95)),     # P6: shaft parallel, deep lag
     8: dict(u=(.40, -.40, -.82), s=(1, -.02, .02), toe=(0, .1, 1)),        # P8: shaft parallel past impact, toe up
     9: dict(u=(.78, -.30, .10), s=(-.05, .40, .92)),    # P9: trail arm parallel, club up
-    10: dict(u=(.22, .32, .92), s=(-.72, .42, -.55)),                      # P10: finish, club behind the neck
-    11: dict(u=(.22, .32, .92), s=(-.72, .42, -.55)),
+    10: dict(u=(.56, .02, .83), s=(-.45, .50, .74)),    # rising into the finish, both hands on
+    11: dict(u=(.22, .32, .92), s=(-.72, .42, -.55)),                      # P10: finish, club behind the neck
+    12: dict(u=(.22, .32, .92), s=(-.72, .42, -.55)),                      # ... held while the ball flies
 }
 CHIP_GOALS = {
     2: dict(u=(-.22, -.36, -.90), s=(-.86, -.30, -.40)),
@@ -101,9 +102,9 @@ CHIP_GOALS = {
 }
 
 SWINGS = {
-    'Driver': dict(table=scaled(FULL, t=1.06, pelvis_x=1.15, thorax_yaw=1.04, pelvis_yaw=1.02), impact_index=7, goals=FULL_GOALS),
-    'Wood': dict(table=scaled(FULL, t=1.03, pelvis_x=1.06), impact_index=7, goals=FULL_GOALS),
-    'Iron': dict(table=FULL, impact_index=7, goals=FULL_GOALS),
+    'Driver': dict(table=scaled(FULL, t=1.06, pelvis_x=1.15, thorax_yaw=1.04, pelvis_yaw=1.02), impact_index=7, goals=FULL_GOALS, release=True),
+    'Wood': dict(table=scaled(FULL, t=1.03, pelvis_x=1.06), impact_index=7, goals=FULL_GOALS, release=True),
+    'Iron': dict(table=FULL, impact_index=7, goals=FULL_GOALS, release=True),
     'Wedge': dict(table=CHIP, impact_index=4, goals=CHIP_GOALS),
 }
 
@@ -161,10 +162,19 @@ class Swing:
         self.base_tilt = st.P['tilt']; self.base_side = st.P['side']
         self.correction = None
         self.impact_index = spec['impact_index']
+        self.has_release = spec.get('release', False)
         self.table = {k: list(v) for k, v in self.table.items()}
         self.goal_report = {}
         for key, goal in sorted(spec.get('goals', {}).items()):
             self.goal_report[key] = self._solve_key(key, goal)
+        if self.has_release:
+            # Admiring the shot: the lead hand keeps the club in the finish while the
+            # body stands taller and the trail hand lets go (the last three keys are
+            # the held finish, the relax and the rest).
+            n = len(self.table['t'])
+            for name in ('lift', 'across', 'hinge', 'flex', 'roll', 'elbow'):
+                for i in (n - 2, n - 1):
+                    self._set(name, i, self.table[name][n - 3])
         self._solve_impact()
 
     # -- channels -------------------------------------------------------------
@@ -238,11 +248,56 @@ class Swing:
         # The trail elbow hangs toward the ground through the whole stroke (toward the hip
         # at address, under the club at the top, tucked in the downswing, down at the finish).
         elbow_r = ((T @ V((.35, .9, -.5))).normalized() * .45 + V((0, .15, -1)).normalized() * .55).normalized()
+        release = self.release(t)
+        if release > 0:
+            # After the held finish the trail hand lets go and falls to the side.
+            from rig_math import two_bone
+            sh_r = probe['UpperArm_R'].translation
+            k = self.k
+            l1, l2 = self.s.length['UpperArm_R'], self.s.length['Forearm_R']
+            wrist = sh_r + T @ (V((-.03, -.06, -.47)) * k)
+            # A hanging arm's elbow points back, never along the arm.
+            elbow_r = elbow_r.slerp((T @ V((-.25, 1, -.1))).normalized(), release)
+            hint = elbow_r
+            # Where the grip hand's wrist will travel, the forearm it will sit on.
+            path = hand_r.translation.lerp(wrist, release)
+            elbow, _ = two_bone(sh_r, path, l1, l2, hint)
+            fore = (path - elbow).normalized()
+            # The hand turns by the least rotation that lines it up with its forearm,
+            # then twists a little toward a natural hang; it never rolls half a turn.
+            R0 = hand_r.to_3x3()
+            y_old = R0.col[1].normalized()
+            y_new = y_old.slerp(fore, release) if y_old.angle(fore) < 3.0 else y_old
+            R1 = y_old.rotation_difference(y_new).to_matrix() @ R0
+            natural = (T @ V((-1, .1, 0))); natural = (natural - y_new * natural.dot(y_new)).normalized()
+            z = R1.col[2]; z = (z - y_new * z.dot(y_new)).normalized()
+            phi = math.atan2(y_new.dot(z.cross(natural)), z.dot(natural))
+            phi *= .5 * release * release * clamp((3.0 - abs(phi)) / .6)
+            hand_r = mat4(rot_axis(y_new, phi) @ R1, path)
+            self._release_hint = hint
         look, eyes = self.gaze(t)
+        fingers = {side: self.grip.fingers(side, club) for side in 'LR'}
+        if release > 0:
+            held = fingers['R']; w = smooth((release - .1) / .6)
+            def opening(hand_m, held=held, w=w):
+                a = held(hand_m); r = self.b.relaxed_fingers(hand_m, 'R', amount=.4)
+                out = {}
+                for name, m in a.items():
+                    q0 = m.to_quaternion(); q1 = r[name].to_quaternion()
+                    if q0.dot(q1) < 0:
+                        q1.negate()
+                    out[name] = mat4(q0.slerp(q1, w).to_matrix(), m.translation.lerp(r[name].translation, w))
+                return out
+            fingers['R'] = opening
         return dict(pelvis_pos=pos, pelvis_rot=prot, thorax_rot=T, feet=feet, clavicle=clav,
                     hands={'L': hand_l, 'R': hand_r}, elbow={'L': elbow_l, 'R': elbow_r},
-                    club=club, look=look, eyes=eyes, level=.25,
-                    fingers={side: self.grip.fingers(side, club) for side in 'LR'})
+                    club=club, look=look, eyes=eyes, level=.25, fingers=fingers)
+
+    def release(self, t):
+        """0 while both hands hold the club; rises to 1 as the trail hand lets go after the finish."""
+        if not self.has_release:
+            return 0.0
+        return smooth((t - self.table['t'][-3]) / .45)
 
     def gaze(self, t):
         """On the ball until just after impact, then out along the ball's flight."""
@@ -268,6 +323,7 @@ class Swing:
         self.ch[name] = Spline(list(zip(T, self.table[name])))
 
     def _measure(self, t):
+        self._release_now = self.release(t)
         sp = self.spec(t)
         club = sp['club']
         probe = self.b.solve(dict(pelvis_pos=sp['pelvis_pos'], pelvis_rot=sp['pelvis_rot'], thorax_rot=sp['thorax_rot'],
@@ -283,7 +339,9 @@ class Swing:
         return u, s, club
 
     def _trail_penalty(self):
-        limit = math.radians(70)
+        limit = math.radians(61)   # aim a little inside the 70-degree anatomical limit
+        if self._release_now > 0:
+            return [0.0, 4.5 * max(0.0, self.wrist['L'] - limit), 0.0]
         return [6.0 * max(0.0, self.trail_reach - .965),
                 4.5 * max(0.0, self.wrist['L'] - limit), 4.5 * max(0.0, self.wrist['R'] - limit)]
 
