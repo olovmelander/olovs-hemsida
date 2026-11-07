@@ -469,8 +469,20 @@ for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false,
   });
 }
 
+/* A card opens the course's own page (course-sheet.js), where the round is set
+   up; its button starts it. `choose` picks a tee and a starting hole first. */
+async function startFromSheet(page, slug, { tee = null, hole = null, look = false } = {}) {
+  await page.click(`#chooser .card[data-slug="${slug}"]`);
+  await page.waitForSelector('#courseSheet[open] [data-go]');
+  if (tee !== null) await page.click(`#courseSheet .cs-tee:has(input[value="${tee}"])`);
+  if (hole !== null) await page.click(`#courseSheet .seg-opt:has(input[name="cs-hole"][value="${hole}"])`);
+  await page.click(look ? '#courseSheet [data-look]' : '#courseSheet [data-go]');
+  await page.waitForTimeout(500);
+}
+
 await section('launch urls', async () => {
-  const slug = manifest.courses[0].slug;
+  const course = manifest.courses.find(c => c.holes === 18 && (c.tees?.names?.length ?? 0) > 2) || manifest.courses[0];
+  const slug = course.slug;
   /* a phone: the detailed course must say karta=0, the map karta=1 */
   {
     const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: '/', blockWorker: true });
@@ -480,21 +492,45 @@ await section('launch urls', async () => {
     await page.waitForSelector('#chooser:not([hidden]) .card');
     gate(await page.evaluate(() => location.hash) === '#3d', 'phone: Detaljerad 3D opens the list at #3d');
     await page.click(`#chooser .card[data-slug="${slug}"]`);
-    await page.waitForTimeout(500);
-    gate(seen.length === 1 && paramsOf(seen[0]).karta === '0' && paramsOf(seen[0]).bana === slug,
-      `phone: a card in Detaljerad 3D opens ${seen[0]?.replace(BASE, '')} -- karta=0, or the phone would open the map`);
+    await page.waitForSelector('#courseSheet[open]');
+    await page.waitForTimeout(700); /* it slides up into place */
+    const sheet = await page.evaluate(() => {
+      const d = document.getElementById('courseSheet');
+      const small = [...d.querySelectorAll('button, .cs-tee span, .cs-mode, .seg-opt')].filter(e => e.offsetParent)
+        .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.height < 40)
+        .map(x => `${String(x.e.className).split(' ')[0] || x.e.tagName} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
+      const go = d.querySelector('[data-go]').getBoundingClientRect();
+      return { title: d.querySelector('#csTitle').textContent, tees: d.querySelectorAll('.cs-tee').length, go: go.bottom <= innerHeight && go.top >= 0,
+        mode: d.querySelector('input[name="cs-mode"]:checked')?.value, small };
+    });
+    if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'course-sheet-390x844.png') });
+    gate(sheet.title === course.name && sheet.tees === course.tees.names.length && sheet.mode === 'detailed',
+      `phone: a card opens its course's page first (${sheet.title}, ${sheet.tees} tees, mode ${sheet.mode})`);
+    gate(sheet.go && sheet.small.length === 0, `phone: its start button is on screen and every choice is a 40 px target${sheet.small.length ? ' -- ' + sheet.small.join(', ') : ''}`);
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(300);
+    gate(await page.evaluate(() => !document.getElementById('courseSheet').open && location.hash === '#3d'), 'Escape closes the course page and stays on the list');
+    await startFromSheet(page, slug, { tee: 0, hole: 10 });
+    const d = seen[0] ? paramsOf(seen[0]) : {};
+    gate(seen.length === 1 && d.karta === '0' && d.bana === slug && d.tee === '1' && d.hal === '10',
+      `phone: Spela i 3D opens ${seen[0]?.replace(BASE, '')} -- karta=0, the tee and the hole chosen`);
     /* an aborted navigation leaves the tab on the browser's error page */
     seen.length = 0;
     await page.goto(BASE + '/#karta', { waitUntil: 'load' });
     await page.waitForSelector('#chooser:not([hidden]) .card');
     const cta = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .sha-text`)?.textContent, slug);
     gate(/kartan|Fortsätt/.test(cta || ''), `phone: in Lätt 3D the card says what it opens: "${cta}"`);
-    await page.click(`#chooser .card[data-slug="${slug}"]`);
-    await page.waitForTimeout(500);
-    gate(seen.length === 1 && paramsOf(seen[0]).karta === '1', `phone: a card in Lätt 3D opens ${seen[0]?.replace(BASE, '')} -- karta=1`);
+    await startFromSheet(page, slug, { tee: 1 });
+    const m = seen[0] ? paramsOf(seen[0]) : {};
+    gate(seen.length === 1 && m.karta === '1' && m.runda === '1', `phone: Starta rundan opens ${seen[0]?.replace(BASE, '')} -- karta=1 and the round begun`);
+    seen.length = 0;
+    await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+    await page.waitForSelector('#chooser:not([hidden]) .card');
+    await startFromSheet(page, slug, { look: true });
+    gate(seen.length === 1 && paramsOf(seen[0]).karta === '1' && !('runda' in paramsOf(seen[0])), `phone: Bara titta opens the map without a round: ${seen[0]?.replace(BASE, '')}`);
     await page.goto(BASE + '/', { waitUntil: 'load' });
-    const remembered = await page.evaluate(() => [localStorage.getItem('banvy-last-course'), localStorage.getItem('banvy-last-mode')]);
-    gate(remembered[0] === slug && remembered[1] === 'map', `and the menu will offer it again: ${remembered.join(', ')}`);
+    const remembered = await page.evaluate(s => [localStorage.getItem('banvy-last-course'), localStorage.getItem('banvy-last-mode'), localStorage.getItem(`banvy-map-tee-v1:${s}`)], slug);
+    gate(remembered[0] === slug && remembered[1] === 'map' && remembered[2] === '1', `and the menu will offer it again, with the tee kept for the map: ${remembered.join(', ')}`);
     await ctx.close();
   }
   /* a desktop, with settings: they ride on the detailed course's link */
@@ -505,11 +541,10 @@ await section('launch urls', async () => {
     const seen = await catchLaunch(page);
     await page.goto(BASE + LIST, { waitUntil: 'load' });
     await page.waitForSelector('#chooser .card');
-    await page.click(`#chooser .card[data-slug="${slug}"]`);
-    await page.waitForTimeout(500);
+    await startFromSheet(page, slug);
     const p = seen[0] ? paramsOf(seen[0]) : {};
-    gate(p.bana === slug && !('karta' in p) && p.q === 'hi' && p.gl === '1' && p.ljus === 'nu' && p.vy === 'tee',
-      `desktop: the settings ride on the link the player reads: ${seen[0]?.replace(BASE, '')}`);
+    gate(p.bana === slug && !('karta' in p) && p.q === 'hi' && p.gl === '1' && p.ljus === 'nu' && p.vy === 'tee' && p.tee === String((course.tees.def ?? 0) + 1),
+      `desktop: the settings and the course's own tee ride on the link the player reads: ${seen[0]?.replace(BASE, '')}`);
     await ctx.close();
   }
 });

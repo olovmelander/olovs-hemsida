@@ -1,0 +1,266 @@
+/* ===========================================================================
+   A course, before the round (shell/course-sheet.js). A native dialog: on a
+   desktop a two-column card -- the course in its posters to the left, the
+   round's few choices and one button to the right -- and on a phone the whole
+   screen, posters on top, the button pinned under the thumb.
+   =========================================================================== */
+.cs {
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --cs-surface: #08120d;
+  --cs-line: rgba(160, 230, 185, 0.14);
+  --cs-ink-2: #b7c8bc;
+  --cs-ink-3: #7f9587;
+  width: min(1080px, 94vw);
+  height: min(720px, 90vh);
+  max-width: none;
+  max-height: none;
+  /* the page's reset (index.html: * { margin: 0 }) takes the dialog's own centring */
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow: visible;
+}
+.cs::backdrop { background: rgba(2, 6, 4, 0.74); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.cs[open] { animation: cs-in 0.42s var(--ease) both; }
+.cs[open]::backdrop { animation: cs-fade 0.3s ease both; }
+@keyframes cs-in { from { opacity: 0; transform: translateY(18px) scale(0.985); } }
+@keyframes cs-fade { from { opacity: 0; } }
+
+.cs-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  height: 100%;
+  border-radius: 26px;
+  overflow: hidden;
+  background: var(--cs-surface);
+  border: 1px solid var(--cs-line);
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6);
+}
+
+/* -------------------------------------------------------------- posters */
+.cs-media { position: relative; min-height: 0; background: #0b1610; overflow: hidden; }
+.cs-slides i {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 0.9s ease, transform 6s ease-out;
+}
+.cs-slides i.is-on { opacity: 1; transform: scale(1.08); }
+.cs-media-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4, 9, 7, 0.45) 0%, rgba(4, 9, 7, 0) 26%, rgba(4, 9, 7, 0.15) 52%, rgba(4, 9, 7, 0.94) 100%);
+}
+.cs-slide-nav { position: absolute; top: 18px; left: 18px; display: flex; align-items: center; gap: 10px; }
+.cs-round-btn, .cs-close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(5, 12, 9, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+.cs-close { position: absolute; top: 16px; right: 16px; z-index: 3; }
+.cs-dots { display: flex; align-items: center; gap: 5px; }
+.cs-dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(255, 255, 255, 0.45); transition: width 0.3s var(--ease), background-color 0.3s; }
+.cs-dots i.is-on { width: 18px; background: var(--turf); }
+.cs-media-text { position: absolute; left: 28px; right: 28px; bottom: 26px; }
+.cs-where { font: 700 12px/1.3 Outfit, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: var(--turf); }
+.cs-title { margin-top: 6px; font: 800 clamp(30px, 3.2vw, 46px)/1 Outfit, sans-serif; letter-spacing: -0.04em; color: #fff; text-wrap: balance; }
+.cs-facts { display: flex; gap: 22px; margin: 16px 0 0; }
+.cs-facts div { display: flex; flex-direction: column-reverse; gap: 5px; padding-left: 12px; border-left: 2px solid rgba(95, 208, 122, 0.55); }
+.cs-facts dd { margin: 0; font: 600 26px/1 'JetBrains Mono', monospace; color: #fff; letter-spacing: -0.03em; }
+.cs-facts dt { font: 700 10px/1 Outfit, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+
+/* ---------------------------------------------------------------- form */
+.cs-form { display: flex; flex-direction: column; min-height: 0; }
+.cs-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 30px 30px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+/* a scrolling column: its children keep their height (a clamped line has none of its own) */
+.cs-scroll > * { flex-shrink: 0; }
+.cs-line { font: 400 14.5px/1.55 Outfit, sans-serif; color: var(--cs-ink-2); padding-right: 40px; }
+.cs-past { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.cs-past div { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 14px; background: rgba(80, 150, 234, 0.08); border: 1px solid rgba(80, 150, 234, 0.22); }
+.cs-past span { font: 600 11.5px/1.2 Outfit, sans-serif; color: var(--cs-ink-3); }
+.cs-past b { font: 700 22px/1 Outfit, sans-serif; color: #fff; letter-spacing: -0.02em; }
+.cs-past small { font: 700 12px/1 Outfit, sans-serif; color: #a9cdf6; }
+
+.cs-field { margin: 0; padding: 0; border: 0; min-width: 0; }
+.cs-field[hidden] { display: none; }
+.cs-field legend { padding: 0; margin-bottom: 10px; font: 700 11px/1 Outfit, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cs-ink-3); }
+
+.cs-modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.cs-mode {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.cs-mode input, .cs-tee input, .cs-light input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.cs-mode-icon { display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; border-radius: 12px; background: rgba(255, 255, 255, 0.06); color: var(--cs-ink-2); transition: background-color 0.2s, color 0.2s; }
+.cs-mode-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.cs-mode-text b { font: 700 15.5px/1.15 Outfit, sans-serif; color: #fff; }
+.cs-mode-text small { font: 500 12px/1.3 Outfit, sans-serif; color: var(--cs-ink-3); }
+.cs-mode:has(input:checked) { border-color: var(--turf); background: rgba(95, 208, 122, 0.1); box-shadow: 0 0 0 1px var(--turf); }
+.cs-mode:has(input:checked) .cs-mode-icon { background: var(--turf); color: #04140a; }
+.cs-mode:has(input:focus-visible) { outline: 2px solid #fff; outline-offset: 2px; }
+
+.cs-tees { display: flex; flex-wrap: wrap; gap: 8px; }
+.cs-tee { position: relative; }
+.cs-tee span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  min-width: 72px;
+  padding: 0 16px;
+  border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  font: 600 16px/1 'JetBrains Mono', monospace;
+  color: var(--cs-ink-2);
+  pointer-events: none;
+  transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+}
+.cs-tee i { width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25); }
+.cs-tee:has(input:checked) span { border-color: var(--turf); background: rgba(95, 208, 122, 0.12); color: #fff; box-shadow: 0 0 0 1px var(--turf); }
+.cs-tee:has(input:focus-visible) span { outline: 2px solid #fff; outline-offset: 2px; }
+
+.cs-seg { display: flex; width: 100%; }
+.cs-seg .seg-opt { flex: 1 1 0; }
+.cs-seg .seg-opt span { flex: 1 1 auto; }
+
+.cs-hcp { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 18px; }
+.cs-note { flex: 1 1 200px; font: 400 12.5px/1.45 Outfit, sans-serif; color: var(--cs-ink-3); }
+
+.cs-lights { display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px 6px; scrollbar-width: none; }
+.cs-lights::-webkit-scrollbar { display: none; }
+.cs-light { position: relative; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 7px; width: 70px; padding: 6px 0; border-radius: 14px; font: 600 11.5px/1.15 Outfit, sans-serif; color: var(--cs-ink-2); text-align: center; cursor: pointer; }
+.cs-light-sky { width: 46px; height: 46px; border-radius: 50%; background: linear-gradient(180deg, var(--z) 0%, var(--h) 64%, var(--g) 100%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15); pointer-events: none; transition: box-shadow 0.2s; }
+.cs-light.is-now .cs-light-sky { background: conic-gradient(from 200deg, #294885, #8295ba, #d3b89a, #568bc6, #294885); }
+.cs-light span:last-child { pointer-events: none; }
+.cs-light:has(input:checked) { color: #fff; }
+.cs-light:has(input:checked) .cs-light-sky { box-shadow: 0 0 0 2px var(--cs-surface), 0 0 0 4px var(--turf); }
+.cs-light:has(input:focus-visible) { outline: 2px solid #fff; outline-offset: 1px; }
+
+/* ------------------------------------------------------------- actions */
+.cs-actions {
+  display: grid;
+  gap: 8px;
+  padding: 16px 30px 22px;
+  border-top: 1px solid var(--cs-line);
+  background: var(--cs-surface);
+}
+.cs-actions [hidden] { display: none; }
+.cs-go {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 58px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #78e595, #4bc46b);
+  color: #04140a;
+  font: 800 17px/1 Outfit, sans-serif;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  box-shadow: 0 14px 34px rgba(95, 208, 122, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+.cs-ghost {
+  min-height: 46px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  color: var(--cs-ink-2);
+  font: 600 14.5px/1 Outfit, sans-serif;
+  cursor: pointer;
+}
+.cs-hint { font: 400 12px/1.4 Outfit, sans-serif; color: var(--cs-ink-3); text-align: center; }
+.cs-go:focus-visible, .cs-ghost:focus-visible, .cs-round-btn:focus-visible, .cs-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.cs-go:active { transform: scale(0.985); }
+
+@media (hover: hover) and (pointer: fine) {
+  .cs-go:hover { filter: brightness(1.06); box-shadow: 0 18px 40px rgba(95, 208, 122, 0.4); }
+  .cs-ghost:hover { background: rgba(255, 255, 255, 0.06); color: #fff; }
+  .cs-mode:not(:has(input:checked)):hover, .cs-tee:not(:has(input:checked)):hover span { border-color: rgba(255, 255, 255, 0.24); background: rgba(255, 255, 255, 0.06); }
+  .cs-round-btn:hover, .cs-close:hover { background: rgba(255, 255, 255, 0.16); }
+}
+
+/* --------------------------------------------------------------- phone */
+@media (max-width: 760px), (max-height: 520px) {
+  .cs { width: 100vw; height: 100dvh; margin: 0; }
+  .cs[open] { animation-name: cs-up; }
+  @keyframes cs-up { from { transform: translateY(40px); opacity: 0; } }
+  .cs-shell { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(210px, 34dvh) minmax(0, 1fr); border-radius: 0; border: 0; }
+  .cs-close { top: max(12px, env(safe-area-inset-top, 0px)); right: 12px; }
+  .cs-slide-nav { top: max(12px, env(safe-area-inset-top, 0px)); left: 12px; }
+  .cs-media-text { left: 18px; right: 18px; bottom: 16px; }
+  .cs-title { font-size: 30px; }
+  .cs-facts { gap: 16px; margin-top: 10px; }
+  .cs-facts dd { font-size: 21px; }
+  .cs-scroll { padding: 16px 16px 8px; gap: 18px; }
+  /* the choices come first on a phone: the story keeps two lines */
+  .cs-line {
+    padding-right: 0;
+    font-size: 13.5px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+  .cs-past { gap: 6px; }
+  .cs-past div { padding: 9px 10px; gap: 3px; }
+  .cs-past b { font-size: 18px; }
+  .cs-modes { gap: 8px; }
+  .cs-mode { gap: 10px; min-height: 64px; padding: 10px; }
+  .cs-mode-icon { width: 34px; height: 34px; border-radius: 10px; }
+  .cs-mode-icon svg { width: 19px; height: 19px; }
+  .cs-mode-text b { font-size: 14.5px; }
+  .cs-mode-text small { font-size: 11.5px; }
+  .cs-tee span { min-width: 64px; padding: 0 13px; }
+  .cs-actions { gap: 6px; padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
+  .cs-go { min-height: 54px; }
+  .cs-ghost { min-height: 44px; }
+  .cs-hint { display: none; }
+}
+/* a phone on its side: posters beside the choices again */
+@media (max-height: 520px) and (min-width: 600px) {
+  .cs-shell { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); grid-template-rows: none; }
+  .cs-line, .cs-hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cs[open], .cs[open]::backdrop { animation: none; }
+  .cs-slides i { transition: none; transform: none; }
+}

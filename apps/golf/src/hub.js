@@ -11,8 +11,9 @@
    The hash keeps entry.js's rule intact -- a bare search is this page -- and
    this route still never loads the 3D engine. A course opens as a navigation
    with everything the visit needs in its URL (settings-store.mjs launchUrl). */
-import { buildRail, lastCourse } from './shell/rail.js';
+import { buildRail, lastCourse, COURSE_LINES } from './shell/rail.js';
 import { buildHome } from './shell/home.js';
+import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
 import { packRequestUrl } from './loader/pack.js';
 import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch } from './shell/settings-store.mjs';
@@ -46,10 +47,12 @@ try {
 
   /* A course opens in the mode it was picked in, with the settings' launch
      values, and is remembered so the start menu can offer it again. */
-  const launch = (slug, mode) => {
+  const launch = (slug, mode, plan = null) => {
     rememberLaunch(storage(), slug, mode);
-    location.assign(launchUrl(slug, mode, { phone: isPhone(), settings: readSettings(storage()) }));
+    location.assign(launchUrl(slug, mode, { phone: isPhone(), settings: readSettings(storage()), plan }));
   };
+  /* A course card opens the course's own page, where the round is set up. */
+  const sheet = createCourseSheet({ courses, lines: COURSE_LINES, onLaunch: launch });
 
   /* Did this visit reach the current screen from inside the hub? Then the
      page's own back button is the browser's back; a screen opened by a link
@@ -80,7 +83,7 @@ try {
       isInitialBoot: true,
       context: 'hub',
       mode,
-      onPick: launch,
+      onPick: (slug, pickedMode) => sheet.open(slug, pickedMode),
       /* switching mode in place is not a new step back */
       onModeChange: next => {
         history.replaceState(history.state, '', `#${MODES[next].route}`);
@@ -129,6 +132,8 @@ try {
   let current = null;
   const PAGES = { installningar: 'settings', statistik: 'stats' };
   async function show() {
+    /* the course page belongs to the list it was opened from; any other step closes it */
+    if (sheet.isOpen()) sheet.close();
     const route = location.hash.replace(/^#\/?/, '');
     const mode = modeOfRoute(route);
     const key = mode || PAGES[route] || 'home';

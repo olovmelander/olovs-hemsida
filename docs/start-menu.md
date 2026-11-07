@@ -54,6 +54,31 @@ still loads no 3D engine.
   **Startmenyn** (a link). The map's **Alla banor** opens the Lätt 3D list, and the
   map records its course for Fortsätt.
 
+## A course, before the round (8 November)
+
+The owner asked to start a round as other golf apps do: choose the tee and the
+rest first, then play. In the start menu a course card no longer launches at
+once. It opens the course's own page (`shell/course-sheet.js`, a native
+`<dialog>`), with:
+- the course in its posters, rolling, with its par, holes and tees;
+- how you have played it before (rounds, best, average per 18), from the map's
+  records;
+- **Spela i**: Detaljerad 3D or Lätt 3D, preselected from the list's mode;
+- **Tee**: chips in the tee's own colour, preselected from the tee last played
+  there. It is kept under the map's own key (`banvy-map-tee-v1:<slug>`), so
+  both programs start on the same tee;
+- **Starta på**: hole 1 or 10 on an eighteen;
+- for Lätt 3D, the **playing handicap** (kept as the map's handicap), and for
+  Detaljerad 3D, the **light** for this visit (the settings' light preselected).
+
+**Starta rundan** opens the map with `runda=1`. The map then begins the round at
+once, with no start card, and asks for the position; the word leaves the address,
+so a reload does not begin another round. A round already under way on that course
+carries on. **Bara titta på banan** opens the map without a round, and **Spela i
+3D** opens the detailed course with `tee=` and `hal=`. Escape, the close button,
+the backdrop or any change of screen closes the page. On a phone it fills the
+screen, posters on top and the button under the thumb.
+
 ## Settings: one home for each value
 
 `main.js`, `engine/`, `loader/` and `packages/course-v2` feed the prepared startup
