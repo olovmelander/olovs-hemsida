@@ -95,37 +95,37 @@
     },
     {
       "name": "AddressDriver",
-      "duration": 4.0,
+      "duration": 4,
       "loop": true,
       "club": "Driver"
     },
     {
       "name": "AddressWood",
-      "duration": 4.0,
+      "duration": 4,
       "loop": true,
       "club": "Wood"
     },
     {
       "name": "AddressIron",
-      "duration": 4.0,
+      "duration": 4,
       "loop": true,
       "club": "Iron"
     },
     {
       "name": "AddressWedge",
-      "duration": 4.0,
+      "duration": 4,
       "loop": true,
       "club": "Wedge"
     },
     {
       "name": "AddressPutter",
-      "duration": 4.0,
+      "duration": 4,
       "loop": true,
       "club": "Putter"
     },
     {
       "name": "SwingDriver",
-      "duration": 2.75,
+      "duration": 3.65,
       "loop": false,
       "club": "Driver",
       "impact": 1.3833333333333333,
@@ -142,12 +142,13 @@
       "faceDirection": [
         0.9873509407043457,
         0.1585504114627838,
-        1.6551464796066284e-05
-      ]
+        0.000016551464796066284
+      ],
+      "trailRelease": 2.65
     },
     {
       "name": "SwingWood",
-      "duration": 2.683333333333333,
+      "duration": 3.55,
       "loop": false,
       "club": "Wood",
       "impact": 1.3333333333333333,
@@ -164,12 +165,13 @@
       "faceDirection": [
         0.9802393913269043,
         0.19781528413295746,
-        1.7756596207618713e-05
-      ]
+        0.000017756596207618713
+      ],
+      "trailRelease": 2.566666666666667
     },
     {
       "name": "SwingIron",
-      "duration": 2.6,
+      "duration": 3.45,
       "loop": false,
       "club": "Iron",
       "impact": 1.3,
@@ -186,12 +188,13 @@
       "faceDirection": [
         0.8972469568252563,
         0.44152894616127014,
-        7.484108209609985e-06
-      ]
+        0.000007484108209609985
+      ],
+      "trailRelease": 2.5
     },
     {
       "name": "ChipWedge",
-      "duration": 2.0,
+      "duration": 2,
       "loop": false,
       "club": "Wedge",
       "impact": 0.8,
@@ -208,7 +211,7 @@
       "faceDirection": [
         0.6377182602882385,
         0.7702696919441223,
-        1.6011297702789307e-05
+        0.000016011297702789307
       ]
     },
     {
@@ -220,7 +223,7 @@
       "contact": [
         0.03176470473408699,
         0.02135000005364418,
-        0.5383254885673523
+        0.512881338596344
       ],
       "shotDirection": [
         1,
@@ -228,9 +231,9 @@
         0
       ],
       "faceDirection": [
-        0.9994620680809021,
-        0.03279375657439232,
-        -1.2960328604094684e-05
+        0.9994480609893799,
+        0.03322124481201172,
+        -0.000003646026016213
       ]
     },
     {
@@ -268,8 +271,8 @@
       "length": 0.906
     }
   ],
-  "bytes": 12073392,
-  "sha256": "ec6b1f703a56f18a33808cc8081ef3c5802236dfc7a08fa445676baf1481baa8",
+  "bytes": 12299512,
+  "sha256": "9f65af9f08677bf787467cccc3087b73830db9c49b603686541ef657ec93caae",
   "vertices": 22988,
   "triangles": 45406,
   "grip": {
@@ -334,91 +337,91 @@
       },
       "SwingDriver": {
         "impact_error": [
-          -0.0,
-          -5e-05,
-          -5e-05,
-          -1e-05,
+          0,
+          -0.00005,
+          -0.00005,
+          -0.00001,
           -0.00027
         ],
         "goals": {
           "2": {
-            "lift": 9.6,
-            "across": -9.5,
-            "hinge": 32.8,
-            "roll": 96.9,
-            "arm_err_deg": 11.3,
-            "shaft_err_deg": 2.0,
-            "trail_reach": 0.967,
+            "lift": 15,
+            "across": 2,
+            "hinge": 22.8,
+            "roll": 82.1,
+            "arm_err_deg": 18.4,
+            "shaft_err_deg": 5.3,
+            "trail_reach": 0.94,
             "wrist_deg": {
-              "L": 38.2,
-              "R": 66.2
+              "L": 26.1,
+              "R": 61.1
             },
-            "toe_err_deg": 39.7
+            "toe_err_deg": 33.8
           },
           "3": {
-            "lift": 74.5,
-            "across": -2.2,
-            "hinge": 58.7,
-            "roll": 68.9,
-            "arm_err_deg": 14.2,
-            "shaft_err_deg": 0.4,
-            "trail_reach": 0.97,
+            "lift": 76.9,
+            "across": 4,
+            "hinge": 50.6,
+            "roll": 62.9,
+            "arm_err_deg": 20,
+            "shaft_err_deg": 7.2,
+            "trail_reach": 0.962,
             "wrist_deg": {
-              "L": 56.0,
-              "R": 68.2
+              "L": 47,
+              "R": 61.3
             }
           },
           "4": {
-            "lift": 103.9,
-            "across": 30.0,
-            "hinge": 66.0,
-            "roll": 92.0,
-            "arm_err_deg": 11.9,
-            "shaft_err_deg": 7.6,
-            "trail_reach": 0.74,
+            "lift": 91.1,
+            "across": 43.1,
+            "hinge": 52.9,
+            "roll": 109.4,
+            "arm_err_deg": 18.7,
+            "shaft_err_deg": 14.1,
+            "trail_reach": 0.606,
             "wrist_deg": {
-              "L": 70.4,
-              "R": 67.2
+              "L": 61.6,
+              "R": 61.1
             }
           },
           "5": {
-            "lift": 70.5,
-            "across": -6.0,
-            "hinge": 63.9,
-            "roll": 61.9,
-            "arm_err_deg": 23.2,
-            "shaft_err_deg": 5.8,
-            "trail_reach": 0.964,
+            "lift": 69,
+            "across": -1,
+            "hinge": 60.9,
+            "roll": 51.8,
+            "arm_err_deg": 27.7,
+            "shaft_err_deg": 18.2,
+            "trail_reach": 0.955,
             "wrist_deg": {
-              "L": 61.6,
-              "R": 70.5
+              "L": 56.3,
+              "R": 61.4
             }
           },
           "6": {
             "lift": 33.2,
             "across": 1.6,
             "hinge": 13.1,
-            "roll": 62.0,
+            "roll": 62,
             "arm_err_deg": 10.3,
             "shaft_err_deg": 3.6,
-            "trail_reach": 0.774,
+            "trail_reach": 0.833,
             "wrist_deg": {
               "L": 24.5,
-              "R": 58.9
+              "R": 36.4
             },
             "toe_err_deg": 42.8
           },
           "8": {
             "lift": -0.7,
-            "across": 10.0,
+            "across": 10,
             "hinge": 37.2,
             "roll": -38.1,
             "arm_err_deg": 1.1,
             "shaft_err_deg": 0.2,
-            "trail_reach": 0.752,
+            "trail_reach": 0.773,
             "wrist_deg": {
-              "L": 26.0,
-              "R": 49.0
+              "L": 26,
+              "R": 38.2
             },
             "toe_err_deg": 5.8
           },
@@ -427,131 +430,144 @@
             "across": -9.6,
             "hinge": 60.6,
             "roll": -16.9,
-            "arm_err_deg": 0.0,
-            "shaft_err_deg": 0.0,
-            "trail_reach": 0.807,
+            "arm_err_deg": 0,
+            "shaft_err_deg": 0,
+            "trail_reach": 0.863,
             "wrist_deg": {
-              "L": 40.0,
-              "R": 16.7
+              "L": 40,
+              "R": 43.4
             }
           },
           "10": {
-            "lift": 126.7,
-            "across": -27.2,
-            "hinge": 83.4,
-            "roll": -47.4,
-            "arm_err_deg": 12.3,
-            "shaft_err_deg": 4.7,
-            "trail_reach": 0.918,
+            "lift": 95.8,
+            "across": -7.4,
+            "hinge": 26.6,
+            "roll": -49.9,
+            "arm_err_deg": 10.5,
+            "shaft_err_deg": 0.9,
+            "trail_reach": 0.969,
             "wrist_deg": {
-              "L": 70.2,
-              "R": 66.8
+              "L": 13.1,
+              "R": 25.9
             }
           },
           "11": {
-            "lift": 127.1,
-            "across": -25.6,
-            "hinge": 84.1,
-            "roll": -48.4,
-            "arm_err_deg": 11.4,
-            "shaft_err_deg": 4.1,
-            "trail_reach": 0.91,
+            "lift": 129.1,
+            "across": -15.2,
+            "hinge": 66.8,
+            "roll": -40.1,
+            "arm_err_deg": 17.3,
+            "shaft_err_deg": 6.5,
+            "trail_reach": 0.925,
             "wrist_deg": {
-              "L": 70.2,
-              "R": 66.8
+              "L": 61.3,
+              "R": 57.7
+            }
+          },
+          "12": {
+            "lift": 129,
+            "across": -13.7,
+            "hinge": 67.6,
+            "roll": -41.6,
+            "arm_err_deg": 16.2,
+            "shaft_err_deg": 5.8,
+            "trail_reach": 0.92,
+            "wrist_deg": {
+              "L": 61.3,
+              "R": 56.9
             }
           }
         },
-        "reach_gap_m": 0.0014,
+        "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "SwingWood": {
         "impact_error": [
-          -3e-05,
+          -0.00003,
           -0.00012,
           -0.00013,
-          -1e-05,
+          -0.00001,
           -0.00074
         ],
         "goals": {
           "2": {
-            "lift": 13.2,
-            "across": -9.0,
-            "hinge": 30.1,
-            "roll": 96.3,
-            "arm_err_deg": 15.1,
-            "shaft_err_deg": 2.5,
-            "trail_reach": 0.969,
+            "lift": 18.6,
+            "across": 2.1,
+            "hinge": 18.4,
+            "roll": 81.9,
+            "arm_err_deg": 22,
+            "shaft_err_deg": 6.2,
+            "trail_reach": 0.95,
             "wrist_deg": {
-              "L": 34.5,
-              "R": 63.2
+              "L": 21.5,
+              "R": 61.2
             },
-            "toe_err_deg": 40.7
+            "toe_err_deg": 34.8
           },
           "3": {
-            "lift": 78.2,
-            "across": -2.7,
-            "hinge": 56.5,
-            "roll": 67.8,
-            "arm_err_deg": 12.0,
-            "shaft_err_deg": 0.4,
-            "trail_reach": 0.97,
+            "lift": 79.9,
+            "across": 3.5,
+            "hinge": 48.5,
+            "roll": 56.4,
+            "arm_err_deg": 17.8,
+            "shaft_err_deg": 13.3,
+            "trail_reach": 0.966,
             "wrist_deg": {
-              "L": 54.9,
-              "R": 69.1
+              "L": 45,
+              "R": 61.2
             }
           },
           "4": {
-            "lift": 101.1,
-            "across": 33.1,
-            "hinge": 66.9,
-            "roll": 89.6,
-            "arm_err_deg": 11.4,
-            "shaft_err_deg": 6.9,
-            "trail_reach": 0.668,
+            "lift": 90.7,
+            "across": 43.6,
+            "hinge": 55.6,
+            "roll": 103.9,
+            "arm_err_deg": 17.2,
+            "shaft_err_deg": 13.4,
+            "trail_reach": 0.564,
             "wrist_deg": {
-              "L": 70.3,
-              "R": 63.9
+              "L": 61.6,
+              "R": 61.1
             }
           },
           "5": {
-            "lift": 74.2,
-            "across": -6.3,
-            "hinge": 60.9,
-            "roll": 60.1,
-            "arm_err_deg": 21.8,
-            "shaft_err_deg": 6.2,
-            "trail_reach": 0.963,
+            "lift": 75.4,
+            "across": -0.3,
+            "hinge": 53.8,
+            "roll": 52.4,
+            "arm_err_deg": 27.8,
+            "shaft_err_deg": 15.8,
+            "trail_reach": 0.948,
             "wrist_deg": {
-              "L": 59.7,
-              "R": 70.5
+              "L": 51.7,
+              "R": 61.5
             }
           },
           "6": {
             "lift": 35.2,
-            "across": -0.5,
+            "across": -0.6,
             "hinge": 11.5,
             "roll": 65.4,
             "arm_err_deg": 11.1,
             "shaft_err_deg": 4.1,
-            "trail_reach": 0.801,
+            "trail_reach": 0.87,
             "wrist_deg": {
               "L": 22.3,
-              "R": 53.8
+              "R": 39.6
             },
             "toe_err_deg": 45.7
           },
           "8": {
             "lift": 5.5,
             "across": 5.6,
-            "hinge": 35.0,
+            "hinge": 35,
             "roll": -42.4,
             "arm_err_deg": 0.6,
             "shaft_err_deg": 0.1,
-            "trail_reach": 0.766,
+            "trail_reach": 0.783,
             "wrist_deg": {
               "L": 26.3,
-              "R": 50.8
+              "R": 43
             },
             "toe_err_deg": 3.3
           },
@@ -560,249 +576,275 @@
             "across": -14.9,
             "hinge": 56.5,
             "roll": -24.1,
-            "arm_err_deg": 0.0,
-            "shaft_err_deg": 0.0,
-            "trail_reach": 0.885,
+            "arm_err_deg": 0,
+            "shaft_err_deg": 0,
+            "trail_reach": 0.94,
             "wrist_deg": {
               "L": 40.7,
-              "R": 9.9
+              "R": 38
             }
           },
           "10": {
-            "lift": 126.1,
-            "across": -31.8,
-            "hinge": 89.4,
-            "roll": -51.8,
-            "arm_err_deg": 17.3,
-            "shaft_err_deg": 11.7,
-            "trail_reach": 0.923,
+            "lift": 98.5,
+            "across": -10.3,
+            "hinge": 33.9,
+            "roll": -55.4,
+            "arm_err_deg": 16.2,
+            "shaft_err_deg": 1.4,
+            "trail_reach": 0.971,
             "wrist_deg": {
-              "L": 70.4,
-              "R": 70.0
+              "L": 18.6,
+              "R": 25.6
             }
           },
           "11": {
-            "lift": 126.7,
-            "across": -30.0,
-            "hinge": 90.4,
-            "roll": -52.7,
-            "arm_err_deg": 16.7,
-            "shaft_err_deg": 10.9,
-            "trail_reach": 0.913,
+            "lift": 132.9,
+            "across": -20.9,
+            "hinge": 70.1,
+            "roll": -43.8,
+            "arm_err_deg": 23,
+            "shaft_err_deg": 12.2,
+            "trail_reach": 0.896,
             "wrist_deg": {
-              "L": 70.3,
-              "R": 70.1
+              "L": 61.4,
+              "R": 61.1
+            }
+          },
+          "12": {
+            "lift": 132.6,
+            "across": -19.2,
+            "hinge": 71.2,
+            "roll": -44.8,
+            "arm_err_deg": 21.9,
+            "shaft_err_deg": 11.5,
+            "trail_reach": 0.889,
+            "wrist_deg": {
+              "L": 61.4,
+              "R": 60.9
             }
           }
         },
-        "reach_gap_m": 0.0049,
+        "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "SwingIron": {
         "impact_error": [
           -0.00011,
           -0.00015,
-          -9e-05,
-          -1e-05,
+          -0.00009,
+          -0.00001,
           -0.00089
         ],
         "goals": {
           "2": {
-            "lift": 12.0,
-            "across": -4.8,
-            "hinge": 24.1,
-            "roll": 93.9,
-            "arm_err_deg": 22.6,
-            "shaft_err_deg": 2.6,
+            "lift": 13.9,
+            "across": 2.5,
+            "hinge": 18.3,
+            "roll": 85.3,
+            "arm_err_deg": 28.6,
+            "shaft_err_deg": 4.1,
             "trail_reach": 0.971,
             "wrist_deg": {
-              "L": 29.0,
-              "R": 55.9
+              "L": 22.8,
+              "R": 61.1
             },
-            "toe_err_deg": 29.3
+            "toe_err_deg": 24.2
           },
           "3": {
-            "lift": 70.9,
-            "across": -0.0,
-            "hinge": 54.9,
-            "roll": 80.6,
-            "arm_err_deg": 11.0,
-            "shaft_err_deg": 3.8,
-            "trail_reach": 0.962,
+            "lift": 67.4,
+            "across": 11.2,
+            "hinge": 48.4,
+            "roll": 81.1,
+            "arm_err_deg": 20.2,
+            "shaft_err_deg": 7.6,
+            "trail_reach": 0.89,
             "wrist_deg": {
-              "L": 52.6,
-              "R": 70.2
+              "L": 47,
+              "R": 61.4
             }
           },
           "4": {
-            "lift": 65.5,
-            "across": 44.6,
-            "hinge": 63.3,
-            "roll": 110.4,
-            "arm_err_deg": 15.0,
-            "shaft_err_deg": 8.4,
-            "trail_reach": 0.439,
+            "lift": 65.7,
+            "across": 51.5,
+            "hinge": 53.1,
+            "roll": 111.9,
+            "arm_err_deg": 21.3,
+            "shaft_err_deg": 12.2,
+            "trail_reach": 0.415,
             "wrist_deg": {
-              "L": 70.4,
-              "R": 43.2
+              "L": 61.6,
+              "R": 48.5
             }
           },
           "5": {
-            "lift": 65.0,
-            "across": -2.1,
-            "hinge": 56.7,
-            "roll": 78.2,
-            "arm_err_deg": 24.7,
-            "shaft_err_deg": 6.3,
-            "trail_reach": 0.939,
+            "lift": 63.8,
+            "across": 7.6,
+            "hinge": 47.8,
+            "roll": 79,
+            "arm_err_deg": 33.3,
+            "shaft_err_deg": 8.7,
+            "trail_reach": 0.879,
             "wrist_deg": {
-              "L": 56.7,
-              "R": 70.4
+              "L": 49.6,
+              "R": 61.3
             }
           },
           "6": {
-            "lift": 27.5,
-            "across": -9.0,
-            "hinge": 16.4,
-            "roll": 77.0,
-            "arm_err_deg": 9.5,
-            "shaft_err_deg": 3.2,
-            "trail_reach": 0.949,
+            "lift": 27.4,
+            "across": -5.2,
+            "hinge": 13.8,
+            "roll": 72.8,
+            "arm_err_deg": 12.7,
+            "shaft_err_deg": 3.6,
+            "trail_reach": 0.966,
             "wrist_deg": {
-              "L": 28.5,
-              "R": 51.3
+              "L": 27,
+              "R": 49.4
             },
-            "toe_err_deg": 42.1
+            "toe_err_deg": 37.6
           },
           "8": {
-            "lift": 8.4,
-            "across": 10.4,
-            "hinge": 37.6,
-            "roll": -53.3,
-            "arm_err_deg": 2.0,
-            "shaft_err_deg": 0.4,
-            "trail_reach": 0.723,
+            "lift": 6.2,
+            "across": 8.1,
+            "hinge": 36.1,
+            "roll": -50.4,
+            "arm_err_deg": 1.7,
+            "shaft_err_deg": 0.3,
+            "trail_reach": 0.766,
             "wrist_deg": {
-              "L": 32.2,
-              "R": 67.7
+              "L": 30,
+              "R": 61
             },
-            "toe_err_deg": 10.5
+            "toe_err_deg": 12.5
           },
           "9": {
-            "lift": 42.6,
-            "across": -15.6,
-            "hinge": 62.1,
-            "roll": -37.6,
-            "arm_err_deg": 2.4,
-            "shaft_err_deg": 0.4,
-            "trail_reach": 0.967,
+            "lift": 41.2,
+            "across": -11.4,
+            "hinge": 66.6,
+            "roll": -36.4,
+            "arm_err_deg": 6.7,
+            "shaft_err_deg": 0.9,
+            "trail_reach": 0.968,
             "wrist_deg": {
-              "L": 47.0,
-              "R": 11.3
+              "L": 50.5,
+              "R": 44.8
             }
           },
           "10": {
-            "lift": 104.1,
-            "across": -41.8,
-            "hinge": 85.2,
-            "roll": -48.3,
-            "arm_err_deg": 22.4,
-            "shaft_err_deg": 19.3,
-            "trail_reach": 0.966,
+            "lift": 76.9,
+            "across": -8.2,
+            "hinge": 51.9,
+            "roll": -54.2,
+            "arm_err_deg": 30.3,
+            "shaft_err_deg": 2.5,
+            "trail_reach": 0.975,
             "wrist_deg": {
-              "L": 70.7,
-              "R": 70.1
+              "L": 35.6,
+              "R": 39.1
             }
           },
           "11": {
-            "lift": 103.9,
-            "across": -40.4,
-            "hinge": 87.0,
-            "roll": -50.3,
-            "arm_err_deg": 21.3,
-            "shaft_err_deg": 18.8,
-            "trail_reach": 0.958,
+            "lift": 110.2,
+            "across": -35.2,
+            "hinge": 71.8,
+            "roll": -44.5,
+            "arm_err_deg": 28.3,
+            "shaft_err_deg": 22.9,
+            "trail_reach": 0.936,
             "wrist_deg": {
-              "L": 70.7,
-              "R": 70.1
+              "L": 61.9,
+              "R": 61.1
+            }
+          },
+          "12": {
+            "lift": 110.7,
+            "across": -32.6,
+            "hinge": 73,
+            "roll": -45.8,
+            "arm_err_deg": 28,
+            "shaft_err_deg": 21.8,
+            "trail_reach": 0.923,
+            "wrist_deg": {
+              "L": 61.8,
+              "R": 61.2
             }
           }
         },
-        "reach_gap_m": 0.0197,
+        "reach_gap_m": 0,
         "leg_gap_m": 0
       },
       "ChipWedge": {
         "impact_error": [
           -0.00017,
           -0.00011,
-          -2e-05,
-          -2e-05,
+          -0.00002,
+          -0.00002,
           -0.00115
         ],
         "goals": {
           "2": {
-            "lift": 14.2,
-            "across": -5.7,
-            "hinge": 3.9,
-            "roll": 77.4,
-            "arm_err_deg": 19.6,
-            "shaft_err_deg": 1.1,
+            "lift": 14.7,
+            "across": -0.6,
+            "hinge": 0.6,
+            "roll": 66.8,
+            "arm_err_deg": 24.3,
+            "shaft_err_deg": 1.7,
             "trail_reach": 0.971,
             "wrist_deg": {
-              "L": 20.9,
-              "R": 39.0
+              "L": 22.1,
+              "R": 35.4
             }
           },
           "3": {
-            "lift": 15.7,
-            "across": -8.5,
-            "hinge": 44.4,
-            "roll": 87.4,
-            "arm_err_deg": 22.7,
-            "shaft_err_deg": 1.0,
-            "trail_reach": 0.972,
+            "lift": 14.5,
+            "across": -1.1,
+            "hinge": 37.5,
+            "roll": 76.1,
+            "arm_err_deg": 29.8,
+            "shaft_err_deg": 7.1,
+            "trail_reach": 0.954,
             "wrist_deg": {
-              "L": 43.0,
-              "R": 68.5
+              "L": 33.2,
+              "R": 61.4
             }
           },
           "5": {
             "lift": 10.3,
-            "across": -0.1,
-            "hinge": 20.0,
-            "roll": -55.0,
-            "arm_err_deg": 8.2,
-            "shaft_err_deg": 1.1,
+            "across": -0.8,
+            "hinge": 18.7,
+            "roll": -54.7,
+            "arm_err_deg": 7.5,
+            "shaft_err_deg": 1.3,
             "trail_reach": 0.968,
             "wrist_deg": {
-              "L": 18.1,
-              "R": 54.8
+              "L": 17.1,
+              "R": 46.2
             }
           },
           "6": {
-            "lift": 7.4,
-            "across": -2.6,
-            "hinge": 75.5,
-            "roll": -38.9,
-            "arm_err_deg": 0.0,
-            "shaft_err_deg": 0.0,
-            "trail_reach": 0.864,
+            "lift": 8,
+            "across": -3.9,
+            "hinge": 73.5,
+            "roll": -38.5,
+            "arm_err_deg": 1.4,
+            "shaft_err_deg": 0.7,
+            "trail_reach": 0.954,
             "wrist_deg": {
-              "L": 63.2,
-              "R": 18.7
+              "L": 61,
+              "R": 39.3
             }
           },
           "7": {
-            "lift": 7.4,
-            "across": -2.6,
-            "hinge": 75.5,
-            "roll": -38.9,
-            "arm_err_deg": 0.0,
-            "shaft_err_deg": 0.0,
-            "trail_reach": 0.864,
+            "lift": 8,
+            "across": -3.9,
+            "hinge": 73.5,
+            "roll": -38.5,
+            "arm_err_deg": 1.4,
+            "shaft_err_deg": 0.7,
+            "trail_reach": 0.954,
             "wrist_deg": {
-              "L": 63.2,
-              "R": 18.7
+              "L": 61,
+              "R": 39.3
             }
           }
         },
@@ -811,11 +853,11 @@
       },
       "Putt": {
         "impact_error": [
-          -2e-05,
-          -3e-05,
-          -8e-05,
-          1e-05,
-          -0.0
+          0,
+          -0.00001,
+          -0.00002,
+          0,
+          0
         ],
         "goals": {},
         "reach_gap_m": 0,
@@ -829,6 +871,11 @@
         "reach_gap_m": 0.0026,
         "leg_gap_m": 0
       }
+    },
+    "validation": {
+      "sampleHz": 120,
+      "clips": 20,
+      "verifiedAt": "2026-11-07T16:29:12.955Z"
     }
   },
   "design": "Original designs for Banvy's courses (no likeness of any existing game's\ncharacter):\n  female -- coral pique polo with a white collar and sleeve bands, navy\n            tailored golf shorts with a white belt, white visor, dark-blonde\n            hair pulled back into a braid, white glove, white golf shoes with\n            coral heel tabs.\n  male   -- navy pique polo with white tipping, stone tailored trousers and a\n            cognac belt, white cap, short dark hair, white glove, white shoes\n            on gum soles.",
@@ -838,5 +885,5 @@
     "license": "CC0",
     "url": "https://download.blender.org/demo/asset-bundles/human-base-meshes/"
   },
-  "status": "revision 3: realistic anatomy, fitted rig, kinematic-sequence motion"
+  "status": "Revision 3: all 20 clips verified at 120 Hz"
 }

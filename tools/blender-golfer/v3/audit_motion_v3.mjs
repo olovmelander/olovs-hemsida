@@ -62,6 +62,7 @@ try {
             const origin = pos('ClubGrip');
             const shaft = pos('ShaftAxis')?.sub(origin).normalize() || new THREE.Vector3(0, 1, 0).applyQuaternion(g.root.getObjectByName('ClubGrip').getWorldQuaternion(new THREE.Quaternion()));
             for (const side of ['L', 'R']) {
+              if (side === 'R' && data.trailRelease != null && t > data.trailRelease) continue; // the trail hand has let go
               const hand = pos(`Grip_${side}`).sub(origin); const along = hand.dot(shaft);
               const designed = g.manifest.grip?.[side] ?? (side === 'L' ? .066 : .142); // revision 3 records each golfer's grip positions
               const error = Math.max(hand.clone().addScaledVector(shaft, -along).length(), Math.abs(along - designed));
