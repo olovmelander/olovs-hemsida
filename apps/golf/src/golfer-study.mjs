@@ -41,10 +41,10 @@ try {
       for (const b of document.querySelectorAll('[data-motion]')) b.setAttribute('aria-pressed', String(b.dataset.motion === name));
     };
     golfer.onChange(golfer.current);
-    $('palette').textContent = GOLFER_CHARACTERS[golfer.character].palette;
+    $('palette').textContent = golfer.manifest.palette ?? GOLFER_CHARACTERS[golfer.character].palette;
     for (const b of $('characters').querySelectorAll('button')) b.setAttribute('aria-pressed', String(b.dataset.character === golfer.character));
     const url = new URL(location.href); url.searchParams.set('character', golfer.character); history.replaceState(null, '', url);
-    const course = new URL(document.querySelector('.toplink').href); course.searchParams.set('character', golfer.character); document.querySelector('.toplink').href = course.href;
+    const course = new URL(document.querySelector('.toplink').href); course.searchParams.set('character', golfer.character); if (new URLSearchParams(location.search).get('golferset') === 'v1') course.searchParams.set('golferset', 'v1'); document.querySelector('.toplink').href = course.href;
   }
   bindCharacter();
   let characterRequest = 0;
@@ -119,6 +119,21 @@ try {
     controls.update(); renderer.render(scene, camera);
     $('timeline').value = String(golfer.time / golfer.duration); $('time').textContent = `${golfer.time.toFixed(2)} / ${golfer.duration.toFixed(2)} s`;
   });
+  // Deep links: ?motion=<clip>&club=<Driver|Wood|Iron|Wedge|Putter>&speed=<0.1..2>&view=<front|side|back>
+  const params = new URLSearchParams(location.search);
+  const club = params.get('club');
+  if (club && golfer.clubMeshes.has(club)) $('clubs').querySelector(`[data-club="${club}"]`)?.click();
+  const speed = Number(params.get('speed'));
+  if (Number.isFinite(speed) && speed > 0) {
+    golfer.rate = Math.min(2, Math.max(.05, speed));
+    const select = $('speed');
+    if (![...select.options].some(o => Number(o.value) === golfer.rate)) select.add(new Option(`${golfer.rate}x`, String(golfer.rate)));
+    select.value = String(golfer.rate);
+  }
+  const motion = params.get('motion');
+  if (motion && golfer.actions.has(motion)) { golfer.play(motion, { fade: 0 }); resetBall(); }
+  const view = params.get('view');
+  if (view) $('views').querySelector(`[data-view="${view}"]`)?.click();
   status.textContent = 'Ready for a round';
   window.GOLFER_STUDY = { get golfer() { return golfer; }, scene, camera, renderer, controls, ball, resetBall, selectCharacter };
 } catch (error) {
