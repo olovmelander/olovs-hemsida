@@ -80,6 +80,10 @@
 /courses/*/hero-*.webp
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
+# The start menu's backdrop: the lead poster whole, re-rendered with it.
+/courses/*/backdrop.webp
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
 # The opt-in v2 pilot descriptors may advance after a reviewed pilot build, so
 # they revalidate for the same reason /courses/index.json does. Their BVCH
 # children are immutable full-SHA URLs, verified again after download, and are

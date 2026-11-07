@@ -5,7 +5,7 @@
    =========================================================================== */
 
 import { ICONS } from './icons.js';
-import { mapUrl } from './router.js';
+import { hubUrl, mapUrl } from './router.js';
 import { SHORTCUT_ROWS } from '../engine/keyboard-shortcuts.mjs';
 
 /* One row per shortcut, from the same table the keyboard handler is tested
@@ -50,14 +50,24 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
         <div class="drawer-section">
           <button class="drawer-main-btn" id="drawerStartBtn">
             <div class="dmb-icon">
-              ${ICONS.home(22)}
+              ${ICONS.gridCards(22)}
             </div>
             <div class="dmb-content">
-              <div class="dmb-title">Tillbaka till Start / Välj bana</div>
-              <div class="dmb-sub">Öppna startmenyn och utforska alla ${courses.length} banor</div>
+              <div class="dmb-title">Byt bana</div>
+              <div class="dmb-sub">Välj bland alla ${courses.length} banor, i detaljerad 3D eller som karta</div>
             </div>
             <div class="dmb-arrow">→</div>
           </button>
+          <a class="drawer-main-btn is-quiet" id="drawerHomeLink" href="${hubUrl()}">
+            <div class="dmb-icon">
+              ${ICONS.home(22)}
+            </div>
+            <div class="dmb-content">
+              <div class="dmb-title">Startmenyn</div>
+              <div class="dmb-sub">Lägen och inställningar: grafik, ljus, bag och handicap</div>
+            </div>
+            <div class="dmb-arrow">→</div>
+          </a>
         </div>
 
         <!-- Quick Switch Courses -->

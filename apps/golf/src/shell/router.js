@@ -20,6 +20,7 @@
 const BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/';
 
 import { LEGACY_PAGES, VIEW_KEYS, mapLegacyLocation } from './legacy-links.mjs';
+import { readSettings, withSettings } from './settings-store.mjs';
 export { LEGACY_PAGES, VIEW_KEYS } from './legacy-links.mjs';
 
 /* The mount belongs to this build, so a GitHub Pages bookmark never escapes
@@ -58,6 +59,15 @@ export function detailedUrl(slug) {
   return `?bana=${encodeURIComponent(slug)}&karta=0`;
 }
 
+/* The start menu's settings ride along where the running link says nothing:
+   the next course opens in the light and view the player chose there. */
 export function goToCourse(slug) {
-  location.search = courseUrl(slug, location.search);
+  let storage = null;
+  try { storage = localStorage; } catch { /* the plain link is still right */ }
+  location.search = withSettings(courseUrl(slug, location.search), readSettings(storage));
+}
+
+/* The start menu, and the mode or settings page inside it, from anywhere. */
+export function hubUrl(route = '') {
+  return `${BASE}${route ? `#${route}` : ''}`;
 }
