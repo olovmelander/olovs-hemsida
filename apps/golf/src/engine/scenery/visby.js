@@ -5,6 +5,16 @@
 import roofReview from '../../../../../visbybuild/mapping/building-roof-review-2026.json';
 import facilitiesManifest from '../../../public/models/visby/facilities-v1.json';
 import { withinRing } from '../geom.js';
+import roofColours from './visby-roof-colours.json' with { type: 'json' };
+
+/* The houses on Visby's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The ground is mapped-only: no porch, balcony or chimney is guessed onto a mapped wall. The roofs
+   reviewed in building-roof-review-2026.json keep their reviewed colours.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0) unless this module states it; the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
 
 /* Newly traced roof structures are absent from the original OSM exclusion map.
    Their measured plan interiors suppress display vegetation only. Mat strips

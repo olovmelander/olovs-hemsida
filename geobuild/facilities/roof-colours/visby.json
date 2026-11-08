@@ -1,0 +1,68 @@
+{
+ "schemaVersion": 1,
+ "groundId": "visby",
+ "kind": "roof-colours-from-orthophoto",
+ "source": {
+  "collection": "orto-2026",
+  "resolutionMetres": 0.16,
+  "horizontalCrs": "EPSG:3006",
+  "assets": [
+   {
+    "id": "o63700_6850_25_mr26",
+    "collection": "2026_F2"
+   },
+   {
+    "id": "o63700_6875_25_mr26",
+    "collection": "2026_F2"
+   }
+  ],
+  "attribution": "Ortofoto Nedladdning © Lantmäteriet, bearbetad information, CC BY 4.0."
+ },
+ "method": "Footprints registered to the photograph: the one shift for the course, within 4 m, under which the most of every footprint (shrunk by 1 m) lies on open roof (NDVI < 0.18), taken only when it gains at least 3 points over no shift. Then the median sRGB of the footprint shrunk by 1 m, leaving out NDVI >= 0.18 (overhanging crowns) and the darkest and brightest 5% of what remains. Pixels are read in place and never stored.",
+ "registration": {
+  "searchMetres": 4.0,
+  "offsetMetres": [
+   0.0,
+   0.0
+  ],
+  "axes": "east, north",
+  "openRoofGain": 0.005,
+  "accepted": false,
+  "acceptAbove": 0.03
+ },
+ "packSha256": "e208634f942ec862b96c772fc00e3d7bbfa5be425495195def507be3e6da0651",
+ "buildings": [
+  {"index":0,"ringCheck":"7c15e96e","kind":"house","pixels":2992,"kept":2695,"vegetation":0.0,"roof":"#dae3e0","spread":2.4},
+  {"index":1,"ringCheck":"a99325bb","kind":"house","pixels":30357,"kept":27322,"vegetation":0.0,"roof":"#394a53","spread":7.9},
+  {"index":2,"ringCheck":"6d53232e","kind":"house","pixels":780,"kept":702,"vegetation":0.0,"roof":"#394b52","spread":1.9},
+  {"index":3,"ringCheck":"0f4d46e4","kind":"house","pixels":5278,"kept":4756,"vegetation":0.0,"roof":"#3f525a","spread":25.3},
+  {"index":4,"ringCheck":"cf1c1557","kind":"house","pixels":21826,"kept":19611,"vegetation":0.002,"roof":"#465f6b","spread":21.8},
+  {"index":5,"ringCheck":"78761876","kind":"house","pixels":3050,"kept":2128,"vegetation":0.226,"roof":"#626d6d","spread":29.4},
+  {"index":6,"ringCheck":"8af68175","kind":"house","pixels":1999,"kept":1799,"vegetation":0.001,"roof":"#5b6660","spread":33.9},
+  {"index":7,"ringCheck":"69713eba","kind":"house","pixels":4398,"kept":3963,"vegetation":0.0,"roof":"#283746","spread":5.2},
+  {"index":8,"ringCheck":"759798ef","kind":"house","pixels":12298,"kept":11092,"vegetation":0.0,"roof":"#2a3847","spread":7.8},
+  {"index":9,"ringCheck":"375da212","kind":"house","pixels":6226,"kept":5603,"vegetation":0.0,"roof":"#7c959d","spread":9.1},
+  {"index":10,"ringCheck":"e1f3cb33","kind":"house","pixels":4701,"kept":4232,"vegetation":0.0,"roof":"#857a73","spread":9.0},
+  {"index":11,"ringCheck":"3ecf24ea","kind":"house","pixels":1944,"kept":1750,"vegetation":0.0,"roof":"#434447","spread":23.8},
+  {"index":12,"ringCheck":"bee09db9","kind":"house","pixels":2997,"kept":2703,"vegetation":0.0,"roof":"#31424c","spread":17.2},
+  {"index":13,"ringCheck":"5190d8ad","kind":"house","pixels":4590,"kept":4136,"vegetation":0.0,"roof":"#31444f","spread":5.6},
+  {"index":14,"ringCheck":"53751595","kind":"house","pixels":4084,"kept":3470,"vegetation":0.056,"roof":"#aa8076","spread":16.3},
+  {"index":15,"ringCheck":"b279cd75","kind":"house","pixels":254,"kept":228,"vegetation":0.0,"roof":"#7e8881","spread":6.0},
+  {"index":16,"ringCheck":"4582332c","kind":"house","pixels":379,"kept":341,"vegetation":0.0,"roof":"#a1a297","spread":3.9},
+  {"index":17,"ringCheck":"9698b4a4","kind":"house","pixels":756,"kept":682,"vegetation":0.0,"roof":"#aab2ae","spread":29.2},
+  {"index":18,"ringCheck":"ff37e73a","kind":"house","pixels":745,"kept":670,"vegetation":0.0,"roof":"#495659","spread":8.4},
+  {"index":19,"ringCheck":"74ab4477","kind":"house","pixels":558,"kept":502,"vegetation":0.0,"roof":"#7c7f73","spread":19.4},
+  {"index":20,"ringCheck":"6b7755a3","kind":"house","pixels":3255,"kept":2934,"vegetation":0.0,"roof":"#bb887e","spread":3.5},
+  {"index":21,"ringCheck":"5f5abc8e","kind":"house","pixels":1370,"kept":1232,"vegetation":0.0,"roof":"#3e4f57","spread":14.6},
+  {"index":22,"ringCheck":"a977afbb","kind":"house","pixels":1996,"kept":1796,"vegetation":0.0,"roof":"#554948","spread":23.4},
+  {"index":23,"ringCheck":"e8630db3","kind":"house","pixels":2594,"kept":2336,"vegetation":0.001,"roof":"#213341","spread":3.8},
+  {"index":24,"ringCheck":"952e894a","kind":"house","pixels":1134,"kept":1023,"vegetation":0.0,"roof":"#5f757c","spread":4.7},
+  {"index":25,"ringCheck":"02aa4b7a","kind":"house","pixels":1126,"kept":1009,"vegetation":0.003,"roof":"#2f414a","spread":6.1},
+  {"index":26,"ringCheck":"a7660293","kind":"house","pixels":2534,"kept":2198,"vegetation":0.037,"roof":"#4a5a61","spread":25.8},
+  {"index":27,"ringCheck":"aaaf39ed","kind":"house","pixels":2124,"kept":1913,"vegetation":0.0,"roof":"#223342","spread":2.1},
+  {"index":28,"ringCheck":"8fb9199b","kind":"house","pixels":3072,"kept":2771,"vegetation":0.0,"roof":"#253542","spread":5.3},
+  {"index":29,"ringCheck":"10aa9d93","kind":"house","roof":null,"pixels":9,"reason":"too small"},
+  {"index":30,"ringCheck":"fddfdedf","kind":"house","pixels":3131,"kept":2824,"vegetation":0.0,"roof":"#d8e6e7","spread":4.8},
+  {"index":31,"ringCheck":"06a0963b","kind":"house","pixels":740,"kept":573,"vegetation":0.141,"roof":"#414f53","spread":2.3}
+ ]
+}

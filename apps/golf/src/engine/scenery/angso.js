@@ -9,6 +9,15 @@
    courtyard when authored geometry is unavailable or source view is selected. */
 import { ringSD } from '../geom.js';
 
+import roofColours from './angso-roof-colours.json' with { type: 'json' };
+/* The houses on Ängsö's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The courtyard's facilities keep their models.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0); the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
+
 let installedFacilities = null;
 export const loadFacilitiesBeforeSurfaces = true;
 export const replacesRangeFacilities = true;
