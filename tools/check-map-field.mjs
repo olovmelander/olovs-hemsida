@@ -711,6 +711,12 @@ expect(/Meny/.test(String(sheetOpened)) || sheetOpened === null || typeof sheetO
 await golfer.click('[data-menu]');
 const smallest = await golfer.evaluate(() => [...document.querySelectorAll('[data-menu-sheet] button, [data-menu-sheet] a')].filter(each => each.offsetParent).reduce((least, each) => Math.min(least, each.getBoundingClientRect().height), 99));
 expect(smallest >= 44, `everything on a sheet is a thumb's size (${Math.round(smallest)} px)`);
+/* with the round kept, the menu leads to this course in Statistik */
+const courseStats = await golfer.evaluate(() => {
+  const row = document.querySelector('[data-course-stats]');
+  return row && row.offsetParent ? { href: row.getAttribute('href'), text: row.textContent.replace(/\s+/g, ' ').trim() } : null;
+});
+expect(courseStats?.href?.endsWith(`#statistik/${SLUG}`) && /hål för hål/.test(courseStats.text), `and the menu leads to this course in Statistik (${courseStats?.href}, "${courseStats?.text}")`);
 await golfer.click('[data-menu]');
 
 /* The test round's log says what happened and never where. */

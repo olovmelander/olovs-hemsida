@@ -297,6 +297,7 @@ root.innerHTML = `
     <button class="map-row map-row-next" data-rounds-open><span>Mina rundor</span><span class="map-row-value" data-rounds-count></span></button>
     <button class="map-row map-row-next" data-clubs-open><span>Mina klubbor</span><span class="map-row-value" data-clubs-count></span></button>
     <a class="map-row map-row-next" href="${hubUrl('statistik')}"><span>Statistik</span><span class="map-row-value">Hela ditt spel</span></a>
+    <a class="map-row map-row-next" data-course-stats style="display:none" href="${hubUrl('statistik')}"><span data-course-stats-name></span><span class="map-row-value" data-course-stats-count></span></a>
     <h3>Visning</h3>
     <label class="map-row"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
     <label class="map-row"><span>Större text</span><input type="checkbox" role="switch" data-large></label>
@@ -1294,6 +1295,15 @@ async function start() {
     const logged = shots.filter(shot => shot.to && !isPutt(shot)).length;
     ui.clubsCount.textContent = logged ? `${logged} slag` : '';
     ui.roundsCount.textContent = rounds.length ? `${rounds.length} ${rounds.length === 1 ? 'runda' : 'rundor'}` : '';
+    /* with rounds kept on this course, a way to it in Statistik, hole by hole */
+    const here = rounds.filter(record => record.course === course.slug).length;
+    const courseStats = document.querySelector('[data-course-stats]');
+    if (courseStats) {
+      courseStats.style.display = here ? '' : 'none';
+      courseStats.href = hubUrl(`statistik/${encodeURIComponent(course.slug)}`);
+      courseStats.querySelector('[data-course-stats-name]').textContent = `${course.name}, hål för hål`;
+      courseStats.querySelector('[data-course-stats-count]').textContent = here === 1 ? 'Din runda här' : `${here} rundor här`;
+    }
     const names = course.tees?.names ?? [];
     ui.teeSection.hidden = names.length < 2 || !hasHole;
     ui.tees.replaceChildren(...teeChips());
