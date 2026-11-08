@@ -1,0 +1,277 @@
+{
+  "schemaVersion": 1,
+  "kind": "inner-ring-tree-candidates",
+  "state": "candidate, not published",
+  "groundId": "johannesberg",
+  "innerWindowEpsg3006": [
+    678403.5,
+    6624276.5,
+    680451.5,
+    6626324.5
+  ],
+  "detectorLockSha256": {
+    "parameters": {
+      "type": {
+        "ndviThreshold": 0.12,
+        "coniferShare": 0.35,
+        "radiusBaseMetres": 1.5,
+        "radiusSlope": 0.15
+      },
+      "conifer": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 1.5,
+        "windowSlope": 0.05,
+        "windowMinimumMetres": 1,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 0,
+        "prominenceFraction": 0,
+        "position": "centroid"
+      },
+      "broadleaf": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 2,
+        "windowSlope": 0.12,
+        "windowMinimumMetres": 1,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 3,
+        "prominenceMetres": 0.5,
+        "prominenceFraction": 0,
+        "position": "centroid"
+      },
+      "shared": {
+        "seedFraction": 0.45,
+        "crownFraction": 0.55,
+        "maximumCrownRadiusMetres": 10,
+        "extentFraction": 0.2,
+        "minimumCrownAreaSquareMetres": 0.25
+      },
+      "split": {
+        "areaFactor": 0,
+        "allometryBaseMetres": 1,
+        "allometrySlope": 0.1,
+        "fineSigmaMetres": 0.25,
+        "windowMetres": 1.25,
+        "minimumSeparationMetres": 2,
+        "seedFraction": 0.6
+      }
+    },
+    "refine": {
+      "types": [
+        "conifer",
+        "broadleaf"
+      ],
+      "minimumDipMetres": 1.25,
+      "minimumSeparationMetres": 2.5,
+      "apex": {
+        "minimumReturns": 3
+      },
+      "photo": {
+        "campaigns": [
+          "presence"
+        ],
+        "combine": "any",
+        "fraction": 0.75,
+        "minimumValley": 0.1
+      }
+    },
+    "calibration": {
+      "f1": 0.896,
+      "precision": 0.926,
+      "recall": 0.868,
+      "iou": 0.629,
+      "offset": 0.91,
+      "tp": 112,
+      "missed": 17,
+      "extra": 9
+    }
+  },
+  "publishedGroundManifest": "grounds/johannesberg/ground-v2-0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f.json",
+  "today": {
+    "individualRecords": 26249,
+    "standTreesHighQuality": 35,
+    "total": 26284
+  },
+  "notPlacedOrRemovedByReview": {
+    "remove:felled after 2021": 2,
+    "not-placed:felled after 2021": 11,
+    "not-placed:not a tree": 20,
+    "remove:not a tree": 6
+  },
+  "candidates": {
+    "total": 27558,
+    "byDecision": {
+      "retain": 23595,
+      "adjust": 2569,
+      "hold": 238,
+      "add": 1077,
+      "remove": 8,
+      "not-placed": 31,
+      "merge": 40
+    },
+    "placedTrees": 27241,
+    "placedByType": {
+      "conifer": 20818,
+      "unknown": 3733,
+      "broadleaf": 2690
+    },
+    "placedBySource": {
+      "detector": 27078,
+      "sparse-laser-recovery": 163
+    },
+    "holdByReason": {
+      "on water, road or path": 25,
+      "on a mapped building": 78,
+      "no June 2025 vegetation (unreviewed)": 68,
+      "crown over a played surface": 3,
+      "structure suspect": 16,
+      "felling screen": 13,
+      "pole-like crown": 32,
+      "record without crown": 3
+    }
+  },
+  "fellingScreen": {
+    "screened": 57,
+    "byVerdict": {
+      "absent": 13,
+      "unclear": 14,
+      "structure": 14,
+      "present": 16
+    }
+  },
+  "poleScreen": {
+    "rule": {
+      "maximumRadiusMetres": 1,
+      "minimumHeightMetres": 5
+    },
+    "screened": 206,
+    "byVerdict": {
+      "not-tree": 12,
+      "tree": 162,
+      "unclear": 32
+    }
+  },
+  "playTypeDecision": {
+    "woodland|conifer": {
+      "retain": 14298,
+      "adjust": 1680,
+      "hold": 11,
+      "add": 627,
+      "remove": 3,
+      "not-placed": 1
+    },
+    "near|conifer": {
+      "retain": 3292,
+      "adjust": 596,
+      "add": 325,
+      "remove": 1,
+      "hold": 7,
+      "not-placed": 2
+    },
+    "woodland|unknown": {
+      "retain": 2689,
+      "adjust": 157,
+      "hold": 42,
+      "add": 56,
+      "not-placed": 2,
+      "merge": 28
+    },
+    "near|unknown": {
+      "retain": 755,
+      "add": 25,
+      "adjust": 51,
+      "remove": 1,
+      "hold": 10,
+      "not-placed": 2,
+      "merge": 12
+    },
+    "woodland|broadleaf": {
+      "retain": 1905,
+      "adjust": 53,
+      "add": 31,
+      "hold": 131,
+      "not-placed": 22,
+      "remove": 2
+    },
+    "near|broadleaf": {
+      "retain": 656,
+      "adjust": 32,
+      "hold": 37,
+      "add": 13,
+      "not-placed": 2,
+      "remove": 1
+    }
+  },
+  "typeModel": {
+    "feature": "share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the April 2021 crown disc (crown radius + 0.3 h + 1 m)",
+    "fit": "logistic, round-1 calibration examples only",
+    "w0": -5.8044,
+    "w1": 13.1841,
+    "examples": 67,
+    "unknownBelowConfidence": 0.6,
+    "broadleafBelowAprilShare": 0.2,
+    "unknownTypeConfidence": null
+  },
+  "playZone": {
+    "rule": "near = within 90 m of any hole tee-to-green line of either routing (the app zone A) or of the driving range / practice greens; woodland otherwise",
+    "holeLines": 27,
+    "practiceRings": 4
+  },
+  "identity": {
+    "matchedWithin15m": 25834,
+    "matchedWithin3m": 372,
+    "newIds": 1278,
+    "nextSequence": 40355,
+    "previousGenerationRecords": 2417,
+    "previousGenerationLineageCarried": 592
+  },
+  "presence": {
+    "referenceFloor": 0.625,
+    "scale": {
+      "vegetatedShare": 0.9880465555206039,
+      "nirTexture": 6.269547325102881,
+      "darkShare": 0.0944055944055944
+    }
+  },
+  "unresolved": {
+    "sparseLaserWithoutPhotoCrown": 66,
+    "photoOnlyCanopy": 292
+  },
+  "elapsedSeconds": 41.8,
+  "typeCheck": {
+    "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, used-holdout and evaluation were not",
+    "calibration": {
+      "matched": 108,
+      "typed": 99,
+      "correct": 96,
+      "accuracyOfTyped": 0.97,
+      "unknown": 9,
+      "confidence80": {
+        "n": 95,
+        "accuracy": 0.979
+      }
+    },
+    "used-holdout": {
+      "matched": 73,
+      "typed": 58,
+      "correct": 55,
+      "accuracyOfTyped": 0.948,
+      "unknown": 15,
+      "confidence80": {
+        "n": 51,
+        "accuracy": 0.961
+      }
+    },
+    "evaluation": {
+      "matched": 74,
+      "typed": 48,
+      "correct": 43,
+      "accuracyOfTyped": 0.896,
+      "unknown": 26,
+      "confidence80": {
+        "n": 46,
+        "accuracy": 0.913
+      }
+    }
+  }
+}

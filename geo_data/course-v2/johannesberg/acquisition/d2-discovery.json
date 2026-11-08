@@ -8,7 +8,7 @@
     "johannesberg",
     "johannesberg-9"
   ],
-  "observedOn": "2026-09-04",
+  "observedOn": "2026-11-08",
   "state": "discovery-evidence-only",
   "aoi": {
     "bboxWgs84": [
@@ -92,7 +92,7 @@
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613 (RH 2000)",
     "resolutionMetres": 1,
-    "fullSourceCompressedBytes": 603428397,
+    "fullSourceCompressedBytes": 603428448,
     "captureRange": {
       "first": "2021-04-17T00:00:00Z",
       "last": "2025-06-13T00:00:00Z"
@@ -133,8 +133,8 @@
               "data"
             ],
             "bytes": 172032,
-            "stacChecksum": "1220d9b3dea23887fa70c980c88cbbd3d2201110d8ff0aa6b4bae32d6183ce13418e",
-            "sha256": "d9b3dea23887fa70c980c88cbbd3d2201110d8ff0aa6b4bae32d6183ce13418e",
+            "stacChecksum": "12208d60b949ff34d7be3f54109fef50af4c8be925eab1519e7128844bf83047d7aa",
+            "sha256": "8d60b949ff34d7be3f54109fef50af4c8be925eab1519e7128844bf83047d7aa",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -146,9 +146,9 @@
             "roles": [
               "data"
             ],
-            "bytes": 316420657,
-            "stacChecksum": "1220903595f07858f02a9ed3162aedbb15d239436fecf76831a56161353eb2402ff2",
-            "sha256": "903595f07858f02a9ed3162aedbb15d239436fecf76831a56161353eb2402ff2",
+            "bytes": 316420633,
+            "stacChecksum": "12201c5930d3c765bf431e08ca82ea6d3db77b928b3794984f45c54d35a8e54b023e",
+            "sha256": "1c5930d3c765bf431e08ca82ea6d3db77b928b3794984f45c54d35a8e54b023e",
             "projCode": "EPSG:5845",
             "projBbox": [
               670000,
@@ -182,9 +182,9 @@
             "roles": [
               "metadata"
             ],
-            "bytes": 10800,
-            "stacChecksum": "12206387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
-            "sha256": "6387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
+            "bytes": 9252,
+            "stacChecksum": "1220e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
+            "sha256": "e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -226,8 +226,8 @@
               "data"
             ],
             "bytes": 380928,
-            "stacChecksum": "1220bf5383a37006fccbba9af1dc59a301f6a856ae9662785458aec46d2aba9f1891",
-            "sha256": "bf5383a37006fccbba9af1dc59a301f6a856ae9662785458aec46d2aba9f1891",
+            "stacChecksum": "122074a276bba34ff3fb3bb744f4dbd28ccde356442e4cb7c97aca1d95fc974f681c",
+            "sha256": "74a276bba34ff3fb3bb744f4dbd28ccde356442e4cb7c97aca1d95fc974f681c",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -239,9 +239,9 @@
             "roles": [
               "data"
             ],
-            "bytes": 287007740,
-            "stacChecksum": "122009e2d304f7d8778c9c1e1a099d4ab0733860a218ebaccfded2e167a6675a2632",
-            "sha256": "09e2d304f7d8778c9c1e1a099d4ab0733860a218ebaccfded2e167a6675a2632",
+            "bytes": 287007815,
+            "stacChecksum": "122052b8ab1b229c4eb45acbf783f74a5be183bd86cc88a1acf79c4785210dd198c6",
+            "sha256": "52b8ab1b229c4eb45acbf783f74a5be183bd86cc88a1acf79c4785210dd198c6",
             "projCode": "EPSG:5845",
             "projBbox": [
               680000,
@@ -275,9 +275,9 @@
             "roles": [
               "metadata"
             ],
-            "bytes": 33915,
-            "stacChecksum": "1220001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
-            "sha256": "001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
+            "bytes": 32367,
+            "stacChecksum": "1220df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
+            "sha256": "df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -302,7 +302,7 @@
   },
   "laser": {
     "collection": "dsm-skoglig-copc",
-    "itemCount": 2,
+    "itemCount": 12,
     "coverage": {
       "requiredSquareMetres": 39244543.571,
       "coveredSquareMetres": 39244543.571,
@@ -313,28 +313,28 @@
     "compoundCrs": "EPSG:5845",
     "horizontalCrs": "EPSG:3006",
     "verticalCrs": "EPSG:5613 (RH 2000)",
-    "fullSourceCompressedBytes": 1920605537,
-    "advertisedPointCount": 399362644,
+    "fullSourceCompressedBytes": 977884848,
+    "advertisedPointCount": 196175045,
     "captureRange": {
       "first": "2021-04-17T00:00:00Z",
       "last": "2021-04-17T00:00:00Z"
     },
     "items": [
       {
-        "id": "21c039-662_67",
+        "id": "21c039-66200_6750_25",
         "collection": "dsm-skoglig-copc",
         "bboxWgs84": [
           18.108347389324592,
-          59.6790033168147,
-          18.205573658319057,
-          59.770798709980674
+          59.680076559471104,
+          18.154783871348595,
+          59.7035509928014
         ],
         "projCode": "EPSG:5845",
         "projBbox": [
           675000,
           6620000,
-          680000,
-          6630000
+          677500,
+          6622500
         ],
         "capturedAt": "2021-04-17T00:00:00Z",
         "captureStart": "2021-04-17T00:00:00Z",
@@ -344,38 +344,38 @@
         "horizontalUncertaintyMetres": null,
         "verticalUncertaintyMetres": null,
         "pointDensityPerSquareMetre": 1.2,
-        "pointCount": 131413725,
+        "pointCount": 15083429,
         "spectralType": null,
         "assets": {
           "data": {
-            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/m21c039-662_67.copc.laz",
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66200_6750_25.copc.laz",
             "type": "application/vnd.laszip+copc",
-            "title": "m21c039-662_67.copc.laz",
+            "title": "y21c039-66200_6750_25.copc.laz",
             "roles": [
               "data"
             ],
-            "bytes": 566814119,
-            "stacChecksum": "1220bafd8ff1effbc5a4d033e9fc3ce56231410c40433acab8c6817fd7e1fb690aaa",
-            "sha256": "bafd8ff1effbc5a4d033e9fc3ce56231410c40433acab8c6817fd7e1fb690aaa",
+            "bytes": 70807683,
+            "stacChecksum": "1220a3dfe79035d224109d2b05a958ad55d0152739dedbcd4ae856c149458deb622b",
+            "sha256": "a3dfe79035d224109d2b05a958ad55d0152739dedbcd4ae856c149458deb622b",
             "projCode": "EPSG:5845",
             "projBbox": [
               675000,
               6620000,
-              680000,
-              6630000
+              677500,
+              6622500
             ],
             "projShape": null
           },
           "info": {
-            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/m21c039-662_67_info.json",
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66200_6750_25_info.json",
             "type": "application/json",
-            "title": "m21c039-662_67_info.json",
+            "title": "y21c039-66200_6750_25_info.json",
             "roles": [
               "metadata"
             ],
-            "bytes": 22905,
-            "stacChecksum": "12205815b69d292bff6563163d21a076c6d3f1d686096ffda656b1d7f66b87174c1c",
-            "sha256": "5815b69d292bff6563163d21a076c6d3f1d686096ffda656b1d7f66b87174c1c",
+            "bytes": 23253,
+            "stacChecksum": "12202d2b92ede921fda1b0c2d4e3f741f5229cceaf781e3ea7ef4057c3a6c069dae4",
+            "sha256": "2d2b92ede921fda1b0c2d4e3f741f5229cceaf781e3ea7ef4057c3a6c069dae4",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -383,19 +383,515 @@
         }
       },
       {
-        "id": "21c039-662_68",
+        "id": "21c039-66200_6775_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.15267469762718,
+          59.6790033168147,
+          18.199137413389195,
+          59.70249176206158
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          677500,
+          6620000,
+          680000,
+          6622500
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 16224285,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66200_6775_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66200_6775_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 72121460,
+            "stacChecksum": "122030d8a459f13bdd595b6a87d85848c9d6e9ce750faaac4cee825cf01a3e9f6e17",
+            "sha256": "30d8a459f13bdd595b6a87d85848c9d6e9ce750faaac4cee825cf01a3e9f6e17",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              677500,
+              6620000,
+              680000,
+              6622500
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66200_6775_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66200_6775_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23069,
+            "stacChecksum": "12200ade80b7d450749e328c7df0c33d5db3d7a66fb25063c97a2c89f8f2c063cb4b",
+            "sha256": "0ade80b7d450749e328c7df0c33d5db3d7a66fb25063c97a2c89f8f2c063cb4b",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66200_6800_25",
         "collection": "dsm-skoglig-copc",
         "bboxWgs84": [
           18.19699870888521,
-          59.67456081361523,
-          18.383309114050746,
-          59.768659546901986
+          59.67791511860702,
+          18.243487605116226,
+          59.70141756021512
         ],
         "projCode": "EPSG:5845",
         "projBbox": [
           680000,
           6620000,
-          690000,
+          682500,
+          6622500
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 13514631,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66200_6800_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66200_6800_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 68403625,
+            "stacChecksum": "1220c7204ec8c6faddc85a0fac665dc663e199a733afdef17dcb1b1507705e4c3fc0",
+            "sha256": "c7204ec8c6faddc85a0fac665dc663e199a733afdef17dcb1b1507705e4c3fc0",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              680000,
+              6620000,
+              682500,
+              6622500
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66200_6800_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66200_6800_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23150,
+            "stacChecksum": "1220ed08d9425695fbda21b27407e1d56a12c136cf172bc639c22f95447fcc8ff06d",
+            "sha256": "ed08d9425695fbda21b27407e1d56a12c136cf172bc639c22f95447fcc8ff06d",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66225_6750_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.110427025012193,
+          59.70249176206158,
+          18.1568963493694,
+          59.72596701994369
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          675000,
+          6622500,
+          677500,
+          6625000
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 19813178,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66225_6750_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66225_6750_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 93818412,
+            "stacChecksum": "1220cb6d42ea85ea0c303f0ed9b1464fd0a62eb656b2789e3d7c82cd4a1cd834fd04",
+            "sha256": "cb6d42ea85ea0c303f0ed9b1464fd0a62eb656b2789e3d7c82cd4a1cd834fd04",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              675000,
+              6622500,
+              677500,
+              6625000
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66225_6750_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66225_6750_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23154,
+            "stacChecksum": "1220923571f11cc431b9bb2961d0df8f540396d985bb86535540f9a1202b29960cd2",
+            "sha256": "923571f11cc431b9bb2961d0df8f540396d985bb86535540f9a1202b29960cd2",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66225_6775_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.154783871348595,
+          59.70141756021512,
+          18.201279468210366,
+          59.72490684205952
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          677500,
+          6622500,
+          680000,
+          6625000
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 23174899,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66225_6775_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66225_6775_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 119110224,
+            "stacChecksum": "1220e58c6a540584ef2fff803b6e36d670ade02838e96528682ef62dbcd242e88fd6",
+            "sha256": "e58c6a540584ef2fff803b6e36d670ade02838e96528682ef62dbcd242e88fd6",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              677500,
+              6622500,
+              680000,
+              6625000
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66225_6775_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66225_6775_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23167,
+            "stacChecksum": "12209af19a70ef53669b279fa68ce503081c30d2768ced2a4afcc73fb73d9d26b14a",
+            "sha256": "9af19a70ef53669b279fa68ce503081c30d2768ced2a4afcc73fb73d9d26b14a",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66225_6800_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.199137413389195,
+          59.700328389514006,
+          18.245659229364545,
+          59.72383167974311
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          680000,
+          6622500,
+          682500,
+          6625000
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 22463192,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66225_6800_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66225_6800_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 127872656,
+            "stacChecksum": "1220e65aa031d25874dbdfb95dc8381e8452b06b269c4064835a555462a3f4231f80",
+            "sha256": "e65aa031d25874dbdfb95dc8381e8452b06b269c4064835a555462a3f4231f80",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              680000,
+              6622500,
+              682500,
+              6625000
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66225_6800_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66225_6800_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23167,
+            "stacChecksum": "1220db041cde7bd8c1a920e379aca108a46a08b2a100e36555173e3e06fcf3faf6af",
+            "sha256": "db041cde7bd8c1a920e379aca108a46a08b2a100e36555173e3e06fcf3faf6af",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66250_6750_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.11250991895991,
+          59.72490684205952,
+          18.159012138962318,
+          59.74838292569157
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          675000,
+          6625000,
+          677500,
+          6627500
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 12690847,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66250_6750_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66250_6750_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 54757995,
+            "stacChecksum": "1220bede547239b2808de09ab7f28f197fda8c772470afe01c4877af98a05dff7928",
+            "sha256": "bede547239b2808de09ab7f28f197fda8c772470afe01c4877af98a05dff7928",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              675000,
+              6625000,
+              677500,
+              6627500
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66250_6750_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66250_6750_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23156,
+            "stacChecksum": "12202634399be8d306416655202c97de4d54c2825e951fed981bb971e3522ca26770",
+            "sha256": "2634399be8d306416655202c97de4d54c2825e951fed981bb971e3522ca26770",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66250_6775_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.1568963493694,
+          59.72383167974311,
+          18.20342488072196,
+          59.747321799397895
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          677500,
+          6625000,
+          680000,
+          6627500
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 13547322,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66250_6775_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66250_6775_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 54098051,
+            "stacChecksum": "1220e18907b6a04a7477beef7da751141620de5f13fc1179c0097665d1a3522bd3b9",
+            "sha256": "e18907b6a04a7477beef7da751141620de5f13fc1179c0097665d1a3522bd3b9",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              677500,
+              6625000,
+              680000,
+              6627500
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66250_6775_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66250_6775_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23174,
+            "stacChecksum": "1220d49960dad6e3ba5b92224a6e33dd84d1a82f80a2394c856ddc3bf6d2286f5448",
+            "sha256": "d49960dad6e3ba5b92224a6e33dd84d1a82f80a2394c856ddc3bf6d2286f5448",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66250_6800_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.201279468210366,
+          59.72274153525102,
+          18.247834257399756,
+          59.74624567532875
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          680000,
+          6625000,
+          682500,
+          6627500
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 14616531,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66250_6800_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66250_6800_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 80767072,
+            "stacChecksum": "1220d93de71a1652a17ad18b4c67c6a84997f98124fc86191e9865884966b4d3cf52",
+            "sha256": "d93de71a1652a17ad18b4c67c6a84997f98124fc86191e9865884966b4d3cf52",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              680000,
+              6625000,
+              682500,
+              6627500
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66250_6800_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66250_6800_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23181,
+            "stacChecksum": "1220e29d0979b77a9a8dffca45d058ed4618890d7a6c49da6cc63266dbac803f11d3",
+            "sha256": "e29d0979b77a9a8dffca45d058ed4618890d7a6c49da6cc63266dbac803f11d3",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66275_6750_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.114596078339886,
+          59.747321799397895,
+          18.16113124742163,
+          59.770798709980674
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          675000,
+          6627500,
+          677500,
           6630000
         ],
         "capturedAt": "2021-04-17T00:00:00Z",
@@ -406,38 +902,162 @@
         "horizontalUncertaintyMetres": null,
         "verticalUncertaintyMetres": null,
         "pointDensityPerSquareMetre": 1.2,
-        "pointCount": 267948919,
+        "pointCount": 13644655,
         "spectralType": null,
         "assets": {
           "data": {
-            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/m21c039-662_68.copc.laz",
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66275_6750_25.copc.laz",
             "type": "application/vnd.laszip+copc",
-            "title": "m21c039-662_68.copc.laz",
+            "title": "y21c039-66275_6750_25.copc.laz",
             "roles": [
               "data"
             ],
-            "bytes": 1353791418,
-            "stacChecksum": "1220ae9cf37884d50129ebcebbc7657e6e80155fa86f45198572a67e71f58aa74624",
-            "sha256": "ae9cf37884d50129ebcebbc7657e6e80155fa86f45198572a67e71f58aa74624",
+            "bytes": 70687385,
+            "stacChecksum": "12205e9864f6076c966ada367fe9d9bd9382535951ef9eb457707bcda6eb56c3dd36",
+            "sha256": "5e9864f6076c966ada367fe9d9bd9382535951ef9eb457707bcda6eb56c3dd36",
             "projCode": "EPSG:5845",
             "projBbox": [
-              680000,
-              6620000,
-              690000,
+              675000,
+              6627500,
+              677500,
               6630000
             ],
             "projShape": null
           },
           "info": {
-            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/m21c039-662_68_info.json",
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66275_6750_25_info.json",
             "type": "application/json",
-            "title": "m21c039-662_68_info.json",
+            "title": "y21c039-66275_6750_25_info.json",
             "roles": [
               "metadata"
             ],
-            "bytes": 23421,
-            "stacChecksum": "1220a270efe8078e985f44e59777ba84f81a91919b13caf78cfc205acf5a6136e2cd",
-            "sha256": "a270efe8078e985f44e59777ba84f81a91919b13caf78cfc205acf5a6136e2cd",
+            "bytes": 23350,
+            "stacChecksum": "122014e212a7f49699c43d948ccd567d4a5e3ab56d86570e301d1bb8c66ad6bd41f9",
+            "sha256": "14e212a7f49699c43d948ccd567d4a5e3ab56d86570e301d1bb8c66ad6bd41f9",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66275_6775_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.159012138962318,
+          59.74624567532875,
+          18.205573658319057,
+          59.769736634009504
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          677500,
+          6627500,
+          680000,
+          6630000
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 17235110,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66275_6775_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66275_6775_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 88711992,
+            "stacChecksum": "1220b022763797d33052b335b49caa79b13e1b84c454d3cfb2d827e168b6a49691dd",
+            "sha256": "b022763797d33052b335b49caa79b13e1b84c454d3cfb2d827e168b6a49691dd",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              677500,
+              6627500,
+              680000,
+              6630000
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66275_6775_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66275_6775_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 23170,
+            "stacChecksum": "1220edeaeb511fa26f0f04c2a4926e31cc45aaf707115009b3de97d9bb31d8fc8d75",
+            "sha256": "edeaeb511fa26f0f04c2a4926e31cc45aaf707115009b3de97d9bb31d8fc8d75",
+            "projCode": null,
+            "projBbox": null,
+            "projShape": null
+          }
+        }
+      },
+      {
+        "id": "21c039-66275_6800_25",
+        "collection": "dsm-skoglig-copc",
+        "bboxWgs84": [
+          18.20342488072196,
+          59.7451545557453,
+          18.250012696717658,
+          59.768659546901986
+        ],
+        "projCode": "EPSG:5845",
+        "projBbox": [
+          680000,
+          6627500,
+          682500,
+          6630000
+        ],
+        "capturedAt": "2021-04-17T00:00:00Z",
+        "captureStart": "2021-04-17T00:00:00Z",
+        "captureEnd": "2021-04-17T00:00:00Z",
+        "modifiedAt": "2021-11-16T00:00:00Z",
+        "resolutionMetres": null,
+        "horizontalUncertaintyMetres": null,
+        "verticalUncertaintyMetres": null,
+        "pointDensityPerSquareMetre": 1.2,
+        "pointCount": 14166966,
+        "spectralType": null,
+        "assets": {
+          "data": {
+            "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/21c039/y21c039-66275_6800_25.copc.laz",
+            "type": "application/vnd.laszip+copc",
+            "title": "y21c039-66275_6800_25.copc.laz",
+            "roles": [
+              "data"
+            ],
+            "bytes": 76728293,
+            "stacChecksum": "122040c3445965400a660c4247f50db904b7cf7808b3fb5d368aa8279c8d14854a5e",
+            "sha256": "40c3445965400a660c4247f50db904b7cf7808b3fb5d368aa8279c8d14854a5e",
+            "projCode": "EPSG:5845",
+            "projBbox": [
+              680000,
+              6627500,
+              682500,
+              6630000
+            ],
+            "projShape": null
+          },
+          "info": {
+            "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66275_6800_25_info.json",
+            "type": "application/json",
+            "title": "y21c039-66275_6800_25_info.json",
+            "roles": [
+              "metadata"
+            ],
+            "bytes": 24080,
+            "stacChecksum": "1220398f4d652edd6b0182d752e7d11de0472c5fd0e37bb93f121013f89342bf79ee",
+            "sha256": "398f4d652edd6b0182d752e7d11de0472c5fd0e37bb93f121013f89342bf79ee",
             "projCode": null,
             "projBbox": null,
             "projShape": null
@@ -1341,7 +1961,7 @@
       "expectedSha256": "107671f6edaa3193d301a80fea0875f9bf5b46330bcafbb5a6cdd3c7a2397188",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 101.987
+      "elapsedMilliseconds": 115.068
     },
     {
       "itemId": "662_67",
@@ -1349,13 +1969,13 @@
       "asset": "metadata",
       "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/66_6/m662_67_ursprung.json",
       "status": "verified",
-      "bytes": 10800,
-      "expectedBytes": 10800,
-      "sha256": "6387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
-      "expectedSha256": "6387a5f56fdb596c03d3325adfbcced11b2c377414a2665afcdd0bf66b805b86",
+      "bytes": 9252,
+      "expectedBytes": 9252,
+      "sha256": "e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
+      "expectedSha256": "e2ff23014cf19e4d71c77d3fb1b7d28881d62bf24379d113118c8671d887f18a",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 110.014
+      "elapsedMilliseconds": 112.234
     },
     {
       "itemId": "662_68",
@@ -1369,7 +1989,7 @@
       "expectedSha256": "96e755365a3f6d7faaf880e1f184780301fe4f8a405edd0014d0a1ea6fc7107d",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 104.019
+      "elapsedMilliseconds": 110.128
     },
     {
       "itemId": "662_68",
@@ -1377,41 +1997,181 @@
       "asset": "metadata",
       "href": "https://dl1.lantmateriet.se/hojd/pub/grid/mhm/66_6/m662_68_ursprung.json",
       "status": "verified",
-      "bytes": 33915,
-      "expectedBytes": 33915,
-      "sha256": "001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
-      "expectedSha256": "001812a6a835edd5565fd8f3459f371a4be4bc9edefc99e3ce9dd0c2f7e638e7",
+      "bytes": 32367,
+      "expectedBytes": 32367,
+      "sha256": "df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
+      "expectedSha256": "df2585575ac47dc77e5ec22ab17edded7f8d0ed61969d5ca72483411653bfed3",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 113.878
+      "elapsedMilliseconds": 105.191
     },
     {
-      "itemId": "21c039-662_67",
+      "itemId": "21c039-66200_6750_25",
       "collection": "dsm-skoglig-copc",
       "asset": "info",
-      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/m21c039-662_67_info.json",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66200_6750_25_info.json",
       "status": "verified",
-      "bytes": 22905,
-      "expectedBytes": 22905,
-      "sha256": "5815b69d292bff6563163d21a076c6d3f1d686096ffda656b1d7f66b87174c1c",
-      "expectedSha256": "5815b69d292bff6563163d21a076c6d3f1d686096ffda656b1d7f66b87174c1c",
+      "bytes": 23253,
+      "expectedBytes": 23253,
+      "sha256": "2d2b92ede921fda1b0c2d4e3f741f5229cceaf781e3ea7ef4057c3a6c069dae4",
+      "expectedSha256": "2d2b92ede921fda1b0c2d4e3f741f5229cceaf781e3ea7ef4057c3a6c069dae4",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 115.479
+      "elapsedMilliseconds": 108.701
     },
     {
-      "itemId": "21c039-662_68",
+      "itemId": "21c039-66200_6775_25",
       "collection": "dsm-skoglig-copc",
       "asset": "info",
-      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/m21c039-662_68_info.json",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66200_6775_25_info.json",
       "status": "verified",
-      "bytes": 23421,
-      "expectedBytes": 23421,
-      "sha256": "a270efe8078e985f44e59777ba84f81a91919b13caf78cfc205acf5a6136e2cd",
-      "expectedSha256": "a270efe8078e985f44e59777ba84f81a91919b13caf78cfc205acf5a6136e2cd",
+      "bytes": 23069,
+      "expectedBytes": 23069,
+      "sha256": "0ade80b7d450749e328c7df0c33d5db3d7a66fb25063c97a2c89f8f2c063cb4b",
+      "expectedSha256": "0ade80b7d450749e328c7df0c33d5db3d7a66fb25063c97a2c89f8f2c063cb4b",
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 109.558
+      "elapsedMilliseconds": 109.24
+    },
+    {
+      "itemId": "21c039-66200_6800_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66200_6800_25_info.json",
+      "status": "verified",
+      "bytes": 23150,
+      "expectedBytes": 23150,
+      "sha256": "ed08d9425695fbda21b27407e1d56a12c136cf172bc639c22f95447fcc8ff06d",
+      "expectedSha256": "ed08d9425695fbda21b27407e1d56a12c136cf172bc639c22f95447fcc8ff06d",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 79.943
+    },
+    {
+      "itemId": "21c039-66225_6750_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66225_6750_25_info.json",
+      "status": "verified",
+      "bytes": 23154,
+      "expectedBytes": 23154,
+      "sha256": "923571f11cc431b9bb2961d0df8f540396d985bb86535540f9a1202b29960cd2",
+      "expectedSha256": "923571f11cc431b9bb2961d0df8f540396d985bb86535540f9a1202b29960cd2",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 37.827
+    },
+    {
+      "itemId": "21c039-66225_6775_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66225_6775_25_info.json",
+      "status": "verified",
+      "bytes": 23167,
+      "expectedBytes": 23167,
+      "sha256": "9af19a70ef53669b279fa68ce503081c30d2768ced2a4afcc73fb73d9d26b14a",
+      "expectedSha256": "9af19a70ef53669b279fa68ce503081c30d2768ced2a4afcc73fb73d9d26b14a",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 36.689
+    },
+    {
+      "itemId": "21c039-66225_6800_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66225_6800_25_info.json",
+      "status": "verified",
+      "bytes": 23167,
+      "expectedBytes": 23167,
+      "sha256": "db041cde7bd8c1a920e379aca108a46a08b2a100e36555173e3e06fcf3faf6af",
+      "expectedSha256": "db041cde7bd8c1a920e379aca108a46a08b2a100e36555173e3e06fcf3faf6af",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 73.406
+    },
+    {
+      "itemId": "21c039-66250_6750_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66250_6750_25_info.json",
+      "status": "verified",
+      "bytes": 23156,
+      "expectedBytes": 23156,
+      "sha256": "2634399be8d306416655202c97de4d54c2825e951fed981bb971e3522ca26770",
+      "expectedSha256": "2634399be8d306416655202c97de4d54c2825e951fed981bb971e3522ca26770",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 38.855
+    },
+    {
+      "itemId": "21c039-66250_6775_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66250_6775_25_info.json",
+      "status": "verified",
+      "bytes": 23174,
+      "expectedBytes": 23174,
+      "sha256": "d49960dad6e3ba5b92224a6e33dd84d1a82f80a2394c856ddc3bf6d2286f5448",
+      "expectedSha256": "d49960dad6e3ba5b92224a6e33dd84d1a82f80a2394c856ddc3bf6d2286f5448",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 53.72
+    },
+    {
+      "itemId": "21c039-66250_6800_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66250_6800_25_info.json",
+      "status": "verified",
+      "bytes": 23181,
+      "expectedBytes": 23181,
+      "sha256": "e29d0979b77a9a8dffca45d058ed4618890d7a6c49da6cc63266dbac803f11d3",
+      "expectedSha256": "e29d0979b77a9a8dffca45d058ed4618890d7a6c49da6cc63266dbac803f11d3",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 34.122
+    },
+    {
+      "itemId": "21c039-66275_6750_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66275_6750_25_info.json",
+      "status": "verified",
+      "bytes": 23350,
+      "expectedBytes": 23350,
+      "sha256": "14e212a7f49699c43d948ccd567d4a5e3ab56d86570e301d1bb8c66ad6bd41f9",
+      "expectedSha256": "14e212a7f49699c43d948ccd567d4a5e3ab56d86570e301d1bb8c66ad6bd41f9",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 32.597
+    },
+    {
+      "itemId": "21c039-66275_6775_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66275_6775_25_info.json",
+      "status": "verified",
+      "bytes": 23170,
+      "expectedBytes": 23170,
+      "sha256": "edeaeb511fa26f0f04c2a4926e31cc45aaf707115009b3de97d9bb31d8fc8d75",
+      "expectedSha256": "edeaeb511fa26f0f04c2a4926e31cc45aaf707115009b3de97d9bb31d8fc8d75",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 49.165
+    },
+    {
+      "itemId": "21c039-66275_6800_25",
+      "collection": "dsm-skoglig-copc",
+      "asset": "info",
+      "href": "https://dl1.lantmateriet.se/hojd/pub/pointcloud/sls/21c039/y21c039-66275_6800_25_info.json",
+      "status": "verified",
+      "bytes": 24080,
+      "expectedBytes": 24080,
+      "sha256": "398f4d652edd6b0182d752e7d11de0472c5fd0e37bb93f121013f89342bf79ee",
+      "expectedSha256": "398f4d652edd6b0182d752e7d11de0472c5fd0e37bb93f121013f89342bf79ee",
+      "sizeVerified": true,
+      "checksumVerified": true,
+      "elapsedMilliseconds": 40.555
     },
     {
       "itemId": "o66200_6750_25_mr25",
@@ -1425,7 +2185,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 123.357
+      "elapsedMilliseconds": 48.931
     },
     {
       "itemId": "o66200_6775_25_mr25",
@@ -1439,7 +2199,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 67.223
+      "elapsedMilliseconds": 59.751
     },
     {
       "itemId": "o66200_6800_25_mr25",
@@ -1453,7 +2213,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 60.53
+      "elapsedMilliseconds": 588.173
     },
     {
       "itemId": "o66225_6750_25_mr25",
@@ -1467,7 +2227,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 76.616
+      "elapsedMilliseconds": 54.792
     },
     {
       "itemId": "o66225_6775_25_mr25",
@@ -1481,7 +2241,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 76.998
+      "elapsedMilliseconds": 65.186
     },
     {
       "itemId": "o66225_6800_25_mr25",
@@ -1495,7 +2255,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 64.518
+      "elapsedMilliseconds": 77.017
     },
     {
       "itemId": "o66250_6750_25_mr25",
@@ -1509,7 +2269,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 53.903
+      "elapsedMilliseconds": 73.728
     },
     {
       "itemId": "o66250_6775_25_mr25",
@@ -1523,7 +2283,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 48.226
+      "elapsedMilliseconds": 70.939
     },
     {
       "itemId": "o66250_6800_25_mr25",
@@ -1537,7 +2297,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 39.428
+      "elapsedMilliseconds": 70.208
     },
     {
       "itemId": "o66275_6750_25_mr25",
@@ -1551,7 +2311,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 63.139
+      "elapsedMilliseconds": 62.008
     },
     {
       "itemId": "o66275_6775_25_mr25",
@@ -1565,7 +2325,7 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 46.973
+      "elapsedMilliseconds": 52.822
     },
     {
       "itemId": "o66275_6800_25_mr25",
@@ -1579,17 +2339,17 @@
       "expectedSha256": null,
       "sizeVerified": true,
       "checksumVerified": true,
-      "elapsedMilliseconds": 35.891
+      "elapsedMilliseconds": 49.532
     }
   ],
   "measurements": {
-    "discoveryElapsedMilliseconds": 842.16,
-    "metadataFetchElapsedMilliseconds": 257.809,
+    "discoveryElapsedMilliseconds": 1387.195,
+    "metadataFetchElapsedMilliseconds": 773.967,
     "metadata": {
-      "requestedAssets": 18,
-      "verifiedAssets": 18,
-      "downloadedBytes": 994768,
-      "elapsedMilliseconds": 1411.737,
+      "requestedAssets": 28,
+      "verifiedAssets": 28,
+      "downloadedBytes": 1224417,
+      "elapsedMilliseconds": 2410.528,
       "complete": true
     },
     "decodedAoiBudgets": {

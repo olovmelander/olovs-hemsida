@@ -31,7 +31,8 @@ test('both real profiles wire six stages and include every sibling and campaign'
     assert.equal(Object.keys(w.stages).length, 6);
     assert(Object.values(w.stages).every(s => s.command.includes('packages/course-workflow/production.mjs')));
     for (const c of ctx.config.courses) assert(w.stages.sources.inputs.includes(c.model.path));
-    assert.equal(w.stages.sources.inputs.filter(p => /chm-.*\.f32$/.test(p)).length, 2);
+    /* one canopy raster per active laser item that reaches the ground's finest tiles */
+    assert.equal(w.stages.sources.inputs.filter(p => /chm-.*\.f32$/.test(p)).length, readPinned(REAL, ctx.config.vegetation.evidence).campaigns.length);
     assert(w.stages.vegetation.inputs.includes(`${ctx.stageRoot}/mapping`));
     assert(w.stages.assemble.inputs.includes(`${ctx.stageRoot}/terrain`));
     assert.equal(w.publicRoot.startsWith('output/'), true);

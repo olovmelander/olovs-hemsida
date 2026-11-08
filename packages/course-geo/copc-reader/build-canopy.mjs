@@ -218,7 +218,8 @@ for (const item of campaigns.items) {
     const sidecarPath = path.join(outDir, `${name}-${campaignDirName}.json`);
     fs.writeFileSync(dataPath, Buffer.from(values.buffer, values.byteOffset, values.byteLength));
     fs.writeFileSync(sidecarPath, JSON.stringify({ ...sidecar, layer: name }, null, 2) + '\n');
-    files[name] = { data: path.relative(ROOT, dataPath), sidecar: path.relative(ROOT, sidecarPath), sha256: sha256File(dataPath) };
+    /* POSIX separators: the evidence is committed and read on every platform */
+    files[name] = { data: path.relative(ROOT, dataPath).split(path.sep).join('/'), sidecar: path.relative(ROOT, sidecarPath).split(path.sep).join('/'), sha256: sha256File(dataPath) };
   }
   /* census equivalence over the census's own windows: exact counts against the area-weighted estimates */
   const censusChecks = [];
@@ -280,7 +281,7 @@ const evidence = {
   groundManifest: courseManifest.groundManifest.url,
   campaignsSha256: sha256File(path.join(dataDir, 'acquisition/laser-campaigns.json')),
   censusSha256: fs.existsSync(censusPath) ? sha256File(censusPath) : null,
-  rasterDirectory: path.relative(ROOT, path.resolve(outDir)),
+  rasterDirectory: path.relative(ROOT, path.resolve(outDir)).split(path.sep).join('/'),
   campaigns: campaignEvidence,
 };
 fs.mkdirSync(path.dirname(evidencePath), { recursive: true });

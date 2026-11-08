@@ -464,7 +464,7 @@
       "id": "d2-authoritative-source-discovery",
       "kind": "acquisition",
       "path": "geo_data/course-v2/johannesberg/acquisition/d2-discovery.json",
-      "sha256": "250d00ce12aca18d8cf96e85252283398944fc3cdee70b5229490c857684bbcb",
+      "sha256": "bf5df6dcee3d4ed8de220514597d33469d2eb5f749f9d4fbe5739650f0c05f1a",
       "derivedFrom": [
         "terrain-lm-1m",
         "imagery-lm-ortho",
@@ -501,7 +501,7 @@
       "id": "laser-campaign-inventory",
       "kind": "acquisition",
       "path": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns.json",
-      "sha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65",
+      "sha256": "9ab377a369556282725d1eb7a78e154f25db5adc2cafdf49385f3d9026d0ef2c",
       "derivedFrom": [
         "laser-lm-skog"
       ],
@@ -512,7 +512,7 @@
       "id": "copc-hierarchy-census",
       "kind": "acquisition",
       "path": "geo_data/course-v2/johannesberg/acquisition/copc-hierarchy-census.json",
-      "sha256": "002427d3f85c1bccdef70571963a74485af60ac8d5afc161093ffd806f13c359",
+      "sha256": "925a8d5b9cebeb127502ca474f38bfdd6622e5f8d8630d9270cb0c04c4431a04",
       "derivedFrom": [
         "laser-lm-skog"
       ],
@@ -523,7 +523,7 @@
       "id": "canopy-evidence",
       "kind": "canopy",
       "path": "geo_data/course-v2/johannesberg/vegetation/canopy-evidence.json",
-      "sha256": "3a970a6ac4f74a79a2fd93808caab329687c2cacbb44cb9c5653468136fe7a07",
+      "sha256": "bb3097c8e0b36f6d4d402b692b328ff7e892fb736509f2efba6f5479cb2a0998",
       "derivedFrom": [
         "laser-lm-skog",
         "terrain-lm-1m"

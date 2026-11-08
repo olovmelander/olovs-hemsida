@@ -1,0 +1,77 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "benchmark-score",
+ "groundId": "johannesberg",
+ "reviewId": "review-2026-11-08",
+ "round": "r3",
+ "ranAt": "2026-11-08T19:50:34.116Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/johannesberg/trees.json",
+  "bytes": 8448,
+  "sha256": "b0dcf5e5af3e38a690c4cf36f4dcb9d733421a81bb8279a1339531694a8543cc"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "3e561e3e04c24296dbbfe3b748f2cbeaed5d8412f192e1f86dbbd1e177ce1d56",
+  "tools/tree-pipeline/config.mjs": "05b787c3c40f680ba94d8dfa366497a7261d6c9d2edfc562c8872bdcef193018",
+  "tools/tree-pipeline/stages.mjs": "7d8dacd03d729319bcb1a7ffde60b4fa4f94587f884b87473e83f234eb9cc2cd",
+  "tools/tree-pipeline/gate.mjs": "bfb6bf946f3b7a52668a37cb2468de63485ddf66db30d2aa3e170740d0129364",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "73a758d5c5ddc8f88b8f59ebd1d3e8744d6165c9160b4817f074f165729c1dee",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "d439ca94bb2d7e93a6cf5609feb77bdb81ce5a84aa1bb68b7e59daaddb39c4b9",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "c89e0a6df9e10d67452b02ae661c3bdd7a2ec20edb2009a97977f002cf849e8a",
+  "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
+  "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
+  "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
+  "tools/tree-pipeline/benchmark.mjs": "e2a8af5123b505f6c0d21aae6069b3a379f88d630ecae98193f2cdf7f4d15bde",
+  "tools/tree-pipeline/candidates.mjs": "dc81b775227de0f74764aa80c3b9c6a8fab73410bebca791ec8e63f62a4ce241",
+  "tools/tree-pipeline/review.mjs": "924fcc405d62693d9bc0bf87a60f6ee85fe537fda7699c72291d689c4f6eff7e",
+  "tools/tree-pipeline/publish.mjs": "086d335c16c6649f44aaaf30db3eccbed1211f2ea7567156fff5c99fd87c980e",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "f4e5ab53dcc6875ee59ed3f1d97a56efeafd86d300c9f343f8dbdafc21eb3df7",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/detector-lock-r3.json",
+   "bytes": 5448,
+   "sha256": "2150688f66f09d70dd86691aef7d95c0e15be8814126590cf3633c2e7eb071b7"
+  },
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-lock-r3.json",
+   "bytes": 3421,
+   "sha256": "5e46a4b6f66985d540d931359452a32d785f84ab8862f509899e7c2899374810"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/chm-pitfree-050.bin",
+   "bytes": 75203584,
+   "sha256": "db3d556302bd139e69e86ac764a28aad46837686adc85567dab7298d3c487746"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/benchmark-r3.json",
+   "bytes": 222757,
+   "sha256": "295c03eceaf5d956b2603e97d5352942e84ea6353200a87385410284e52a7f25"
+  }
+ ],
+ "result": {
+  "evaluation": {
+   "tp": 61,
+   "missed": 28,
+   "extra": 1,
+   "precision": 0.984,
+   "recall": 0.685,
+   "f1": 0.808
+  }
+ }
+}

@@ -233,6 +233,40 @@ export const defaultSpeciesForHash = r =>
   (r < DEFAULT_SPECIES_MIX.pine ? SPECIES_INDEX.pine
     : r < DEFAULT_SPECIES_MIX.spruceThrough ? SPECIES_INDEX.spruce : SPECIES_INDEX.birch);
 
+/* A record that names its measured type (object-registry-tree-attributes-v1:
+   subtype conifer or broadleaf) draws a species OF THAT TYPE. The usual rule
+   (the course's own, the shore belt, the default mix) still chooses which
+   one when it already agrees with the type; when it does not, a conifer
+   becomes pine or spruce by its own hash in the default mix's proportion
+   (pine 0.58 : spruce 0.36) and a broadleaf becomes birch. A record without a
+   type keeps today's rule untouched. Spruce and pine are the conifers of
+   SPECIES_INDEX; every other index is a broadleaf. */
+export const CONIFER_PINE_SHARE = DEFAULT_SPECIES_MIX.pine / DEFAULT_SPECIES_MIX.spruceThrough;
+export const isConiferSpecies = index => index === SPECIES_INDEX.spruce || index === SPECIES_INDEX.pine;
+/* the subtypes a record may carry from a measurement: a type, or a measured conifer species */
+const MEASURED_TREE_SUBTYPES = new Set(['conifer', 'broadleaf', 'pine', 'spruce']);
+export function speciesForType(type, ruleSpecies, typeHash) {
+  /* a measured conifer species (object-registry-tree-species-v1) is drawn as itself */
+  if (type === 'pine') return SPECIES_INDEX.pine;
+  if (type === 'spruce') return SPECIES_INDEX.spruce;
+  if (type === 'conifer') {
+    if (isConiferSpecies(ruleSpecies)) return ruleSpecies;
+    return typeHash < CONIFER_PINE_SHARE ? SPECIES_INDEX.pine : SPECIES_INDEX.spruce;
+  }
+  if (type === 'broadleaf') return Number.isInteger(ruleSpecies) && !isConiferSpecies(ruleSpecies) && ruleSpecies >= 0 ? ruleSpecies : SPECIES_INDEX.birch;
+  return ruleSpecies;
+}
+
+/* A record marked play 'woodland' (further than the app's zone A from any
+   hole line or practice area) is thinned on a low-quality device by its own
+   id, at the stand field's keep share, so a phone carries about the budget the
+   stand trees it replaced cost. 'near' records and records without the field
+   are always drawn. Deterministic: the same records stay on every visit. */
+export function keepWoodlandRecord(record, lowQuality, keep = STAND_PLANTING.lowQualityKeep) {
+  if (!lowQuality || record.play !== 'woodland') return true;
+  return stringHash(`${record.id}:lq`) / 4294967296 <= keep;
+}
+
 function chooseSpecies(r, shoreDistance, background = defaultSpeciesForHash) {
   if (shoreDistance !== null && shoreDistance < 28 && r < 0.7) return SPECIES_INDEX.birch;
   return background(r);
@@ -283,6 +317,7 @@ export function planV2Vegetation(loaded, {
   let cellsPlanted = 0;
   let cellsSkipped = 0;
   let excludedByGround = 0;
+  let woodlandThinned = 0;
   for (const tile of loaded.tiles) {
     for (const record of tile.objects || []) {
       if (record.class !== 'tree') continue;
@@ -290,6 +325,7 @@ export function planV2Vegetation(loaded, {
       const y = groundHeightAt(x, z);
       if (!Number.isFinite(y)) continue;
       if (excludeAt && excludeAt(x, z)) { excludedByGround++; continue; }
+      if (!keepWoodlandRecord(record, lowQuality, planting.lowQualityKeep)) { woodlandThinned++; continue; }
       mismatches.push(Math.abs(y - (record.heightRH2000 + verticalDatumOffsetMetres)));
       const r = stringHash(record.id) / 4294967296;
       instances.push({
@@ -297,7 +333,9 @@ export function planV2Vegetation(loaded, {
         height: record.objectHeightMetres,
         radius: record.radiusMetres,
         rotation: (record.headingDegrees / 180) * Math.PI,
-        species: pickSpecies(r, x, y, z),
+        species: MEASURED_TREE_SUBTYPES.has(record.subtype)
+          ? speciesForType(record.subtype, pickSpecies(r, x, y, z), stringHash(`${record.id}:type`) / 4294967296)
+          : pickSpecies(r, x, y, z),
         kind: 'individual',
         id: record.id,
       });
@@ -363,6 +401,8 @@ export function planV2Vegetation(loaded, {
       speciesSource: species ? 'course' : 'default',
       /* refused because the course's own orthophoto says that ground is mown */
       excludedByGround,
+      /* woodland records a low-quality device left out (keepWoodlandRecord) */
+      woodlandThinned,
       baseMismatch: Object.freeze({
         samples: mismatches.length,
         meanAbsMetres: mean === null ? null : Math.round(mean * 1000) / 1000,

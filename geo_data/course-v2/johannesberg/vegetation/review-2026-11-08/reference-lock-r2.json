@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "kind": "reference-lock",
+  "frozenAt": "2026-11-08T16:30:37.118Z",
+  "history": [],
+  "refreezeNote": "round 2: the round-1 calibration and held-out annotations are carried unchanged; the round-1 held-out windows are now 'used-holdout'; a new held-out sample (H1, H3, H4, H5) is frozen before any round-2 scoring",
+  "interpreter": "agent-led interpretation (Claude), not a survey or human approval",
+  "evidence": "pit-free CHM 0.5 m (2021-04-17 laser), 2025-06-14 RGBI (CIR and natural colour), 2021-04-18 RGBI (leaf-off natural colour); numbered over-segmentation candidates only save typing positions",
+  "matchingRule": {
+    "kind": "one-to-one, closest pairs first",
+    "radiusMetres": 4,
+    "declaredBeforeScoring": true
+  },
+  "minimumScoredHeightMetres": 3,
+  "counts": {
+    "calibration": {
+      "scored": 94,
+      "window": 94,
+      "margin": 51,
+      "ambiguous": 0,
+      "smallUnder3m": 0
+    },
+    "used-holdout": {
+      "scored": 38,
+      "window": 40,
+      "margin": 19,
+      "ambiguous": 0,
+      "smallUnder3m": 2
+    },
+    "evaluation": {
+      "scored": 52,
+      "window": 54,
+      "margin": 49,
+      "ambiguous": 1,
+      "smallUnder3m": 2
+    }
+  },
+  "hashes": {
+    "windows": "e5b09752c06106f0fafff54252e9370928eb65883dadf18c17a6f5ef06c937ef",
+    "annotations": "bd0480bece2050f45e4d44e38920ff97582ea134e0a3a7edc3be0cef34fc72e4",
+    "reference": "aa782f430dc03e0aebf584ed4abe4c24a7354ea5835acb44b770e671b8f036d4",
+    "chm": "db3d556302bd139e69e86ac764a28aad46837686adc85567dab7298d3c487746",
+    "candidates": {
+      "C1-h10-south": "aff72ebdf3ac1c080cd7ac6a86c6a13a5698743125215ccc9bb4765cc8f7c286",
+      "C2-h11-edge": "fb60198ed0f517212e04421b0c3b20f92c697766b3cb7b19435b0bfd73cf5490",
+      "C3-h4-meadow": "3dc49fa03c88dae3be2afc3a6d1eafec2cea2528ee89fa4e7b35ac0e62a5ab73",
+      "C4-h16-spruce-edge": "71cddbee3d9daaa5ffe2dbec325ac3e64c859704d439861878ad05d9f0b8ea9d",
+      "C5-h17-18": "42eeea88cb10de828e312b561bf5c953c0f2b732ef7a866c2eb9f4873e4cf88c",
+      "C6-h3-isolated": "0671e11ecf94791522bd9f42cc8660a56d37546e7a2610f11e5ed8bdbb5fef0e",
+      "E2-h1-2": "46ddce1cd358f6f9935517bed7465b04cc38122aab73393df68f4a5f0658c09d",
+      "E3-h13": "e911f6c13506af39a43b625e5ba91046c36b12b116ac85ef291d0d7be67f8d23",
+      "E4-n9-5-6": "244de3270b100ada5adec7a36b1fa7877bd039408789fb8de3fd7d39bb4a600f",
+      "H1-n9": "572dfc646ff5652e5aa8c5681f9da43fefc6c006dbda66eadb05c6d19b0e4551",
+      "H3-h7-mixed": "78ad43e60a3724eebcee7dad9ac8fa63aa91a13cf611f0c62b83ec65791728d1",
+      "H4-h8-spruce": "21b96ad7ba085bd65ad5eaa6fae88e5e37814bf52343a446539f968b9a2bb6ae",
+      "H5-h9-edge": "a3d06020e3d3bf77486bc3a815f835ece4b82cbf9b889e3e6159b602e23efff6"
+    }
+  }
+}

@@ -118,7 +118,7 @@ import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope, roofSnowColour } from './engine/building-paint.mjs';
-import { houseKitAllowed, loadHouseKit, buildHouseKitMeshes, classifyBuilding, housePalette, planHouse, seedOf, ringArea as houseArea, inside as insideRing, nearestRoadDirection, measuredRoofs, measuredRoofFor, measuredRoofsAllowed, PARTS_REACH, partAt, allPartsEverywhere, orientedBox, genericHouseTag } from './engine/house-kit.mjs';
+import { houseKitAllowed, loadHouseKit, buildHouseKitMeshes, classifyBuilding, housePalette, planHouse, seedOf, ringArea as houseArea, inside as insideRing, nearestRoadDirection, measuredRoofs, measuredRoofFor, measuredRoofsAllowed, PARTS_REACH, partAt, allPartsEverywhere, orientedBox, genericHouseTag, blockCompany } from './engine/house-kit.mjs';
 import { waterShading } from './engine/water-shading.mjs';
 import { createWaterReflection } from './engine/water-reflection.mjs';
 import { createGpuGrass } from './engine/gpu-grass.mjs';
@@ -7832,7 +7832,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
     ? loadHouseKit({ baseUrl: import.meta.env.BASE_URL }).catch(error => { stats.houseKit.error = String(error?.message || error); return null; })
     : null;
   stats.houseKit = { asked: !!SCENERY?.houseKit, allowed: houseKitAllowed(), status: houseKitLoading ? 'loading' : 'off',
-    houses: 0, inferred: 0, stated: 0, nearHouses: 0, partsReach: allPartsEverywhere() ? null : LOWQ ? 0 : PARTS_REACH, treeBlocked: 0, treeIndexMs: 0, measuredRoofs: 0, byType: {}, shellTriangles: 0, parts: 0, instances: 0, partTriangles: 0, draws: 0, error: null };
+    houses: 0, inferred: 0, stated: 0, loneBlocks: 0, nearHouses: 0, partsReach: allPartsEverywhere() ? null : LOWQ ? 0 : PARTS_REACH, treeBlocked: 0, treeIndexMs: 0, measuredRoofs: 0, byType: {}, shellTriangles: 0, parts: 0, instances: 0, partTriangles: 0, draws: 0, error: null };
   // Authored GLB replacements must be ready before the shared generic batch is
   // emitted. A failed/cancelled load leaves every source building in that batch.
   await installFacilityArchitecture();
@@ -7875,15 +7875,30 @@ if (M.infra.objectPlacement === 'mapped-only') {
       for (const q of PI.at(x + i * CELL, z + j * CELL)) if (!seen.has(q)) { seen.add(q); lines.push(q.line); }
     return lines;
   };
-  /* draw one footprint with the kit: its type from its tags, size and land use; its colours
-     the ones the batch would have given it; its front toward the nearest road or path */
-  function kitHouse(ring, { kind = 'yes', name = null, subtype = null, amenity = null, wall, roof, inferred = false, override = null, measured = false }) {
-    const [cx, cz] = centroidOf(ring), area = houseArea(ring), seed = seedOf(cx, cz);
+  /* the house type of one footprint, from its tags, size and land use, and the would-be blocks near it */
+  function kitType(ring, { kind = 'yes', name = null, subtype = null, amenity = null }, company) {
+    const [cx, cz] = centroidOf(ring);
     const lu = houseKitLanduse.find(q => cx > q.bb.x0 && cx < q.bb.x1 && cz > q.bb.z0 && cz < q.bb.z1 && insideRing(cx, cz, q.ring));
     const box = orientedBox(ring);
-    const type = override?.type ?? (inferred ? 'villa' : classifyBuilding({ kind: houseKitGenericHouse && kind === 'house' ? 'yes' : kind,
-      name, area, landuse: lu?.kind ?? null, seed, subtype, amenity, depth: box ? 2 * box.hd : null }));
+    return classifyBuilding({ kind: houseKitGenericHouse && kind === 'house' ? 'yes' : kind, name, area: houseArea(ring),
+      landuse: lu?.kind ?? null, seed: seedOf(cx, cz), subtype, amenity, depth: box ? 2 * box.hd : null, company });
+  }
+  /* a block of flats stands among blocks of flats: the centres of the footprints that would be blocks on
+     their own tags, and a footprint is drawn as one only with another of them near (house-kit.mjs BLOCK_COMPANY) */
+  const houseKitBlockSites = houseKit ? M.infra.buildings.flatMap(b => {
+    if (b.ring.length < 3) return [];
+    const c = centroidOf(b.ring);
+    return houseKitInner(c[0], c[1]) && kitType(b.ring, { kind: b.kind, name: b.name, subtype: b.municipalSubtype ?? null,
+      amenity: b.amenity ?? null }, null) === 'block' ? [[c[0], c[1], b.ring]] : [];
+  }) : [];
+  /* draw one footprint with the kit: its type from its tags, size, land use and company; its colours
+     the ones the batch would have given it; its front toward the nearest road or path */
+  function kitHouse(ring, { kind = 'yes', name = null, subtype = null, amenity = null, wall, roof, inferred = false, override = null, measured = false }) {
+    const [cx, cz] = centroidOf(ring), seed = seedOf(cx, cz);
+    const type = override?.type ?? (inferred ? 'villa'
+      : kitType(ring, { kind, name, subtype, amenity }, blockCompany(houseKitBlockSites, cx, cz)));
     if (!type) return null;                       /* a church keeps the batch's drawing */
+    if (type !== 'block' && houseKitBlockSites.some(site => site[2] === ring)) stats.houseKit.loneBlocks++;
     const { base, skirt } = houseBase(ring);
     const palette = housePalette(type, { wall: override?.wall != null ? L(override.wall) : wall,
       roof: override?.roof != null ? L(override.roof) : roof, trim: override?.trim != null ? L(override.trim) : TRIM, seed });

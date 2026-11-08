@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "reviewId": "review-2026-11-08",
+  "state": "frozen-windows",
+  "crs": "EPSG:3006",
+  "note": "Scoring rectangles chosen from the pit-free CHM and the 2025/2021 orthophoto overviews only, before any detector under test was run. Evaluation windows (held-out) lie on four different holes, none adjacent to a calibration window. Five draft rectangles were moved or trimmed after their first source panels showed mostly fairway, no trees, or an inseparable stand interior; still before any detector under test was run. C1 is the owner's example rectangle and is kept although almost all of it is ambiguous closed broadleaf canopy: that is itself a finding.",
+  "windows": [
+    {
+      "id": "C1-h10-south",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/10"
+      ],
+      "bbox": [
+        679382,
+        6624478,
+        679429,
+        6624523
+      ],
+      "setting": "mixed wood south of the 10th tee: the owner's example rectangle, as given"
+    },
+    {
+      "id": "C2-h11-edge",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/11",
+        "johannesberg/12"
+      ],
+      "bbox": [
+        679270,
+        6624815,
+        679330,
+        6624860
+      ],
+      "setting": "north edge of the large wood between holes 11/12 and 10 (edge row and the first crowns behind it)"
+    },
+    {
+      "id": "C3-h4-meadow",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/4",
+        "johannesberg/16"
+      ],
+      "bbox": [
+        679700,
+        6625250,
+        679760,
+        6625310
+      ],
+      "setting": "scattered trees and bushes on the rocky meadow between 16 and 4"
+    },
+    {
+      "id": "C4-h16-spruce-edge",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/16",
+        "johannesberg/3"
+      ],
+      "bbox": [
+        679440,
+        6625340,
+        679500,
+        6625372
+      ],
+      "setting": "south edge band of the conifer block between 3 and 16"
+    },
+    {
+      "id": "C5-h17-18",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/17",
+        "johannesberg/18"
+      ],
+      "bbox": [
+        679230,
+        6625620,
+        679290,
+        6625680
+      ],
+      "setting": "tree line between 17 and 18; part of the owner's example area"
+    },
+    {
+      "id": "C6-h3-isolated",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/3",
+        "johannesberg/16"
+      ],
+      "bbox": [
+        679540,
+        6625410,
+        679600,
+        6625470
+      ],
+      "setting": "small separate crowns north of the conifer block by the 3rd fairway (60 m cell with the most separate 8-150 m² canopy components near play)"
+    },
+    {
+      "id": "E2-h1-2",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/1",
+        "johannesberg/2"
+      ],
+      "bbox": [
+        679330,
+        6625830,
+        679390,
+        6625890
+      ],
+      "setting": "trees by the 1st green and 2nd tee"
+    },
+    {
+      "id": "E3-h13",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/13"
+      ],
+      "bbox": [
+        679700,
+        6624945,
+        679760,
+        6625005
+      ],
+      "setting": "groups by the 13th tee"
+    },
+    {
+      "id": "E4-n9-5-6",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg-9/5",
+        "johannesberg-9/6"
+      ],
+      "bbox": [
+        678850,
+        6626095,
+        678910,
+        6626155
+      ],
+      "setting": "trees between the 9-hole course's 5th and 6th"
+    }
+  ],
+  "matchingRule": {
+    "kind": "one-to-one, closest pairs first",
+    "radiusMetres": 4,
+    "declaredBeforeScoring": true
+  },
+  "minimumScoredHeightMetres": 3,
+  "dropped": [
+    {
+      "id": "E1-h8-edge",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/8"
+      ],
+      "bbox": [
+        679620,
+        6624530,
+        679680,
+        6624580
+      ],
+      "setting": "woodland edge along the 8th fairway (south-east side)",
+      "reason": "dropped before any scoring: after the move its rectangle was closed 20-25 m leaf-off broadleaf canopy whose crowns could not be interpreted one by one; an all-ambiguous window adds nothing to the score"
+    }
+  ]
+}

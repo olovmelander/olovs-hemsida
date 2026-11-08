@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "kind": "pilot-canopy-rasters",
+  "groundId": "johannesberg",
+  "reviewId": "review-2026-11-08",
+  "builtFrom": {
+    "laserCampaigns": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns-2026-11-08.json",
+    "laserCampaignsSha256": "9ab377a369556282725d1eb7a78e154f25db5adc2cafdf49385f3d9026d0ef2c",
+    "items": [
+      {
+        "itemId": "21c039-66225_6775_25",
+        "sha256": "e58c6a540584ef2fff803b6e36d670ade02838e96528682ef62dbcd242e88fd6",
+        "windowEpsg3006": [
+          678343.5,
+          6624216.5,
+          680000,
+          6625000
+        ],
+        "nodes": 127,
+        "decodedPoints": 3928832,
+        "pointsInWindow": 3013980,
+        "firstReturns": 2394840,
+        "byClass": {
+          "1": 1120476,
+          "2": 1892424,
+          "7": 756,
+          "9": 324
+        },
+        "headerPointCount": 23174899
+      },
+      {
+        "itemId": "21c039-66225_6800_25",
+        "sha256": "e65aa031d25874dbdfb95dc8381e8452b06b269c4064835a555462a3f4231f80",
+        "windowEpsg3006": [
+          680000,
+          6624216.5,
+          680511.5,
+          6625000
+        ],
+        "nodes": 111,
+        "decodedPoints": 1437563,
+        "pointsInWindow": 892352,
+        "firstReturns": 622512,
+        "byClass": {
+          "1": 435950,
+          "2": 456179,
+          "7": 223
+        },
+        "headerPointCount": 22463192
+      },
+      {
+        "itemId": "21c039-66250_6775_25",
+        "sha256": "e18907b6a04a7477beef7da751141620de5f13fc1179c0097665d1a3522bd3b9",
+        "windowEpsg3006": [
+          678343.5,
+          6625000,
+          680000,
+          6626384.5
+        ],
+        "nodes": 151,
+        "decodedPoints": 4913525,
+        "pointsInWindow": 4440943,
+        "firstReturns": 4178546,
+        "byClass": {
+          "1": 622023,
+          "2": 3787812,
+          "7": 345,
+          "9": 30672,
+          "17": 43,
+          "18": 48
+        },
+        "headerPointCount": 13547322
+      },
+      {
+        "itemId": "21c039-66250_6800_25",
+        "sha256": "d93de71a1652a17ad18b4c67c6a84997f98124fc86191e9865884966b4d3cf52",
+        "windowEpsg3006": [
+          680000,
+          6625000,
+          680511.5,
+          6626384.5
+        ],
+        "nodes": 178,
+        "decodedPoints": 1927632,
+        "pointsInWindow": 1455625,
+        "firstReturns": 1095656,
+        "byClass": {
+          "1": 556488,
+          "2": 898837,
+          "7": 300
+        },
+        "headerPointCount": 14616531
+      }
+    ]
+  },
+  "windowEpsg3006": [
+    678343.5,
+    6624216.5,
+    680511.5,
+    6626384.5
+  ],
+  "innerWindowEpsg3006": [
+    678403.5,
+    6624276.5,
+    680451.5,
+    6626324.5
+  ],
+  "points": {
+    "total": 9802900,
+    "noiseDropped": 1672,
+    "clippedAbove60m": 0,
+    "unreferenced": 0
+  },
+  "innerDensity": {
+    "cells": 16777216,
+    "squareMetres": 4194304,
+    "allReturnsPerSquareMetre": 2.092,
+    "firstReturnsPerSquareMetre": 1.777,
+    "emptyCellFraction050": 0.6169,
+    "voidFractionAfterPitFree": 0.00635,
+    "emptyCellFraction100": 0.1224
+  },
+  "pitFree": {
+    "parameters": {
+      "thresholdsMetres": [
+        0,
+        2,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "radiusMetres": 1.5,
+      "groundRadiusMetres": 2,
+      "minimumQuadrants": 3,
+      "pit": {
+        "minimumHeightMetres": 2,
+        "absoluteMetres": 1.5,
+        "relativeFraction": 0.25,
+        "passes": 2
+      }
+    },
+    "layers": [
+      {
+        "thresholdMetres": 0,
+        "radiusMetres": 2,
+        "seedCells": 7232760,
+        "filledCells": 11452068,
+        "cellsRaised": 0
+      },
+      {
+        "thresholdMetres": 2,
+        "radiusMetres": 1.5,
+        "seedCells": 1513348,
+        "filledCells": 2463972,
+        "cellsRaised": 1629386
+      },
+      {
+        "thresholdMetres": 5,
+        "radiusMetres": 1.5,
+        "seedCells": 1287184,
+        "filledCells": 2130850,
+        "cellsRaised": 379224
+      },
+      {
+        "thresholdMetres": 10,
+        "radiusMetres": 1.5,
+        "seedCells": 909509,
+        "filledCells": 1561933,
+        "cellsRaised": 440264
+      },
+      {
+        "thresholdMetres": 15,
+        "radiusMetres": 1.5,
+        "seedCells": 476723,
+        "filledCells": 851240,
+        "cellsRaised": 377568
+      },
+      {
+        "thresholdMetres": 20,
+        "radiusMetres": 1.5,
+        "seedCells": 105130,
+        "filledCells": 177988,
+        "cellsRaised": 108308
+      },
+      {
+        "thresholdMetres": 25,
+        "radiusMetres": 1.5,
+        "seedCells": 4411,
+        "filledCells": 5189,
+        "cellsRaised": 4039
+      },
+      {
+        "thresholdMetres": 30,
+        "radiusMetres": 1.5,
+        "seedCells": 2,
+        "filledCells": 0,
+        "cellsRaised": 0
+      }
+    ],
+    "pitCellsFilled": 489659,
+    "emptyCells050": 11568136,
+    "voidCells050": 114551
+  },
+  "groundCheck": {
+    "statement": "cloud ground (mean of class 2/9 returns per 1 m cell, measured cells only) minus the published RH2000 terrain the app draws, inner window, every measured cell",
+    "publishedGroundManifest": "grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
+    "samples": 3345873,
+    "medianMetres": 0,
+    "meanMetres": 0,
+    "p05Metres": -0.065,
+    "p95Metres": 0.07,
+    "absoluteMedianMetres": 0.015,
+    "absoluteP95Metres": 0.1,
+    "absoluteP99Metres": 0.188
+  },
+  "files": {
+    "chmPitFree": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/chm-pitfree-050.bin",
+      "sha256": "db3d556302bd139e69e86ac764a28aad46837686adc85567dab7298d3c487746"
+    },
+    "chmHighest": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/chm-highest-050.bin",
+      "sha256": "0d9be7d8e045ce056f30f35164eecc79ee9611706e160ca0125500aebb41f323"
+    },
+    "returnsAll": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/returns-all-050.bin",
+      "sha256": "5f49cd780ea5ecd8cba0f576632115099e3c6f8929cae57096d7326c0deaade1"
+    },
+    "returnsFirst": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/returns-first-050.bin",
+      "sha256": "75d6736d18272e1aca043a1256a07c0ef13e13ea377d900af69a8ad581138210"
+    },
+    "returnsGround": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/returns-ground-050.bin",
+      "sha256": "6b0e552567df352ac14f105f5717439119c4853fd9ae6edae77487d8b7478daa"
+    },
+    "emptyCells": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/empty-050.bin",
+      "sha256": "1f5dff17554aaa2c72b25910f574f72241e4a0091db29ddfe2f4f04c169dfc10"
+    },
+    "groundCloud": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/ground-cloud-100.bin",
+      "sha256": "79bcb3954ba6c116a35c9eedef6a59936cd4514f2ca63aa4f584d5db90840211"
+    },
+    "groundFillDistance": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/ground-fill-100.bin",
+      "sha256": "580de3dc9b69b3726da1230fb9705aab3a819d5cd83b0e49644076128d81f29b"
+    },
+    "chmLegacy": {
+      "file": "johannesbergbuild/cache/trees-2026-11-08/rasters/chm-legacy-100.bin",
+      "sha256": "8fe0bcb61912a2b3000f71ac71132fa24fb966ab604443cd28149f05f09e36b1"
+    }
+  },
+  "elapsedSeconds": 37
+}

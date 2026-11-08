@@ -9,7 +9,7 @@
    deterministic rendering choice derived from the id and is not a measured
    property.                                                                  */
 import { assetReferenceForChunk, writeCanonicalJsonChunk } from '../chunk-node.mjs';
-import { validateObjectRegistry } from '../object-registry.mjs';
+import { TREE_ATTRIBUTES_FEATURE, TREE_SPECIES, TREE_SPECIES_FEATURE, validateObjectRegistry } from '../object-registry.mjs';
 import { CROWN_PARAMETERS } from './crown-detect.mjs';
 
 const FIELD_ORDER = [
@@ -56,6 +56,9 @@ export function treeRecord({
      resolves which and hands it over) */
   easting = candidate.centroid?.easting,
   northing = candidate.centroid?.northing,
+  /* tree attributes (object-registry-tree-attributes-v1): both or neither */
+  typeConfidence = undefined,
+  play = undefined,
 }) {
   if (!Number.isFinite(baseHeightRH2000)) throw new TypeError(`${id}: baseHeightRH2000 must be sampled from the published DTM`);
   const record = {
@@ -79,7 +82,12 @@ export function treeRecord({
     truthZone,
     placementMethod,
   };
-  return Object.fromEntries(FIELD_ORDER.map(field => [field, record[field]]));
+  const out = Object.fromEntries(FIELD_ORDER.map(field => [field, record[field]]));
+  if (play !== undefined) {
+    out.typeConfidence = Number.isFinite(typeConfidence) ? round(typeConfidence) : null;
+    out.play = play;
+  }
+  return out;
 }
 
 /**
@@ -146,7 +154,10 @@ export function compileObjectChunks({ groundId, tiles, records, directory = `gro
       owner: { type: 'ground', id: groundId },
       bounds: { ...tile.bounds },
       payloadFormat: 'json-canonical-v1',
-      requiredFeatures: ['chunk-envelope-v2', 'object-registry-json-v1'],
+      requiredFeatures: sorted.some(record => Object.hasOwn(record, 'play'))
+        ? ['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE,
+          ...(sorted.some(record => TREE_SPECIES.includes(record.subtype)) ? [TREE_SPECIES_FEATURE] : [])]
+        : ['chunk-envelope-v2', 'object-registry-json-v1'],
       records: { content: 'object-registry', count: sorted.length },
     };
     const errors = validateObjectRegistry(value, header);

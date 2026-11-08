@@ -1,0 +1,155 @@
+{
+ "legend": {
+  "today": "blue circle = published individual record at its radius; orange dot = runtime stand tree",
+  "candidate": "green retain, yellow adjust, cyan add, orange hold, red cross remove, purple cross merge, grey cross not placed; square = conifer, dot = broadleaf/unknown; circle = crown radius"
+ },
+ "spots": [
+  {
+   "id": "hole10-south",
+   "title": "south of the 10th tee (owner example)",
+   "bbox": [
+    679372,
+    6624468,
+    679439,
+    6624533
+   ],
+   "laserPanel": "review/hole10-south.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole10-south-photo.png",
+   "today": {
+    "records": 83,
+    "standTrees": 0
+   },
+   "candidates": {
+    "retain": 78,
+    "add": 3,
+    "adjust": 5
+   }
+  },
+  {
+   "id": "holes17-18",
+   "title": "holes 17-18 (owner example)",
+   "bbox": [
+    679200,
+    6625560,
+    679360,
+    6625720
+   ],
+   "laserPanel": "review/holes17-18.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/holes17-18-photo.png",
+   "today": {
+    "records": 169,
+    "standTrees": 0
+   },
+   "candidates": {
+    "retain": 148,
+    "adjust": 20,
+    "add": 5,
+    "hold": 4
+   }
+  },
+  {
+   "id": "hole16-spruce-edge",
+   "title": "conifer edge between 3 and 16",
+   "bbox": [
+    679420,
+    6625320,
+    679520,
+    6625420
+   ],
+   "laserPanel": "review/hole16-spruce-edge.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole16-spruce-edge-photo.png",
+   "today": {
+    "records": 134,
+    "standTrees": 1
+   },
+   "candidates": {
+    "adjust": 14,
+    "retain": 118,
+    "add": 10,
+    "merge": 2
+   }
+  },
+  {
+   "id": "hole4-meadow",
+   "title": "scattered trees between 16 and 4",
+   "bbox": [
+    679680,
+    6625230,
+    679800,
+    6625350
+   ],
+   "laserPanel": "review/hole4-meadow.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole4-meadow-photo.png",
+   "today": {
+    "records": 6,
+    "standTrees": 0
+   },
+   "candidates": {
+    "retain": 6,
+    "not-placed": 1
+   }
+  },
+  {
+   "id": "hole2-tee",
+   "title": "groups by the 1st green and 2nd tee",
+   "bbox": [
+    679310,
+    6625810,
+    679410,
+    6625910
+   ],
+   "laserPanel": "review/hole2-tee.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole2-tee-photo.png",
+   "today": {
+    "records": 44,
+    "standTrees": 0
+   },
+   "candidates": {
+    "retain": 42,
+    "adjust": 2,
+    "hold": 1
+   }
+  },
+  {
+   "id": "nine5-6",
+   "title": "9-hole course 5th/6th",
+   "bbox": [
+    678830,
+    6626075,
+    678930,
+    6626175
+   ],
+   "laserPanel": "review/nine5-6.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/nine5-6-photo.png",
+   "today": {
+    "records": 7,
+    "standTrees": 0
+   },
+   "candidates": {
+    "retain": 7
+   }
+  },
+  {
+   "id": "hole1",
+   "title": "the 1st hole, tee to green",
+   "bbox": [
+    679240,
+    6625770,
+    679420,
+    6626075
+   ],
+   "laserPanel": "review/hole1.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole1-photo.png",
+   "today": {
+    "records": 121,
+    "standTrees": 0
+   },
+   "candidates": {
+    "retain": 109,
+    "adjust": 12,
+    "hold": 4,
+    "add": 3
+   }
+  }
+ ]
+}

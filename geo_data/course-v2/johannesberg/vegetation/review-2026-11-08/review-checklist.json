@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "kind": "tree-review-checklist",
+  "groundId": "johannesberg",
+  "reviewId": "review-2026-11-08",
+  "round": "r3",
+  "howToMark": "person and owner items: set status to done (with by, on and evidence or a note) or not-applicable with a reason; only the owner marks owner items. Automatic items are recomputed on every review run.",
+  "items": [
+    {
+      "id": "reference-frozen",
+      "who": "auto",
+      "question": "The round's reference sample is frozen and its lock matches (who interpreted it is recorded in the lock).",
+      "status": "done",
+      "by": "agent-led interpretation (Claude) of the pit-free CHM and the 2021 and 2025 RGBI photos at native 0.16 m moved onto the canopy; not a survey or human approval",
+      "on": "2026-11-08",
+      "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-lock-r3.json"
+    },
+    {
+      "id": "held-out-gate",
+      "who": "auto",
+      "question": "The 90% held-out gate passed, or the owner recorded an exception pinning this benchmark in trees.json.",
+      "status": "excepted",
+      "by": "owner",
+      "on": "2026-11-08",
+      "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md",
+      "note": "held-out gate FAILED (recall 0.685 is below 0.9); published only under the owner's exception of 2026-11-08 (geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md)"
+    },
+    {
+      "id": "felling-screen-reviewed",
+      "who": "auto",
+      "question": "Every felling-screened crown has a verdict in felling-review.json.",
+      "status": "done",
+      "on": "2026-11-08",
+      "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/felling-review.json",
+      "note": "{\"absent\":13,\"unclear\":14,\"structure\":14,\"present\":16}"
+    },
+    {
+      "id": "felled-list-confirmed",
+      "who": "owner",
+      "question": "The owner confirmed the trees decided felled or not a tree since the laser (removals and not placed).",
+      "status": "open",
+      "by": null,
+      "on": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "pole-like-reviewed",
+      "who": "auto",
+      "question": "Every pole-like crown (holds.poleLike) has a verdict in pole-review.json, or the hold is switched off and recorded as such.",
+      "status": "done",
+      "on": "2026-11-08",
+      "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/pole-review.json",
+      "note": "{\"not-tree\":12,\"tree\":162,\"unclear\":32}"
+    },
+    {
+      "id": "species-spot-check-photos",
+      "who": "person",
+      "question": "The broadleaf calls near play were checked on the leaf-off and presence photos (type-panels chips); tally of verdicts recorded in the note.",
+      "status": "done",
+      "by": "agent-led review (Claude), not the owner",
+      "on": "2026-11-08",
+      "evidence": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole{1,17}-broadleaf-{1,2}.png (cache only)",
+      "note": "Round 3 keeps the round-2 type rule, so the 24 sampled broadleaf calls near holes 1 and 17 are all round-2 records (retained). Verdicts: 21 broadleaf (bare grey April crown, green June crown; 2 uncertain, several birches with white stems by hole 17), 2 conifer (hole 1 nos. 7 and 8: red in the April colour infrared, one uncertain), 1 mixed crown (hole 17 no. 6). No pole or structure among them."
+    },
+    {
+      "id": "species-mix-flags",
+      "who": "auto",
+      "question": "No hole is flagged for a high broadleaf share near play (species-mix.json), or the owner accepted each flag.",
+      "status": "open",
+      "note": "flagged for the owner: johannesberg hole 4: 50 of 123 near-play records typed broadleaf (41%); johannesberg hole 5: 121 of 384 near-play records typed broadleaf (32%); johannesberg hole 6: 96 of 165 near-play records typed broadleaf (58%); johannesberg hole 15: 11 of 19 near-play records typed broadleaf (58%); johannesberg-9 hole 1: 82 of 125 near-play records typed broadleaf (66%); johannesberg-9 hole 2: 34 of 58 near-play records typed broadleaf (59%); johannesberg-9 hole 3: 15 of 26 near-play records typed broadleaf (58%); johannesberg-9 hole 4: 52 of 67 near-play records typed broadleaf (78%); johannesberg-9 hole 5: 28 of 51 near-play records typed broadleaf (55%); johannesberg-9 hole 6: 50 of 69 near-play records typed broadleaf (73%); johannesberg-9 hole 8: 28 of 50 near-play records typed broadleaf (56%); johannesberg-9 hole 9: 44 of 70 near-play records typed broadleaf (63%)"
+    },
+    {
+      "id": "species-mix-screenshots",
+      "who": "owner",
+      "question": "The owner compared before/after screenshots of the app on the GPU (holes near play) and the species mix reads right.",
+      "status": "open",
+      "by": null,
+      "on": null,
+      "evidence": null,
+      "note": null
+    },
+    {
+      "id": "runtime-cost-measured",
+      "who": "owner",
+      "question": "Frame times before/after were measured on the owner's GPU (interleaved runs, high and low quality) and accepted.",
+      "status": "open",
+      "by": null,
+      "on": null,
+      "evidence": null,
+      "note": null
+    }
+  ]
+}

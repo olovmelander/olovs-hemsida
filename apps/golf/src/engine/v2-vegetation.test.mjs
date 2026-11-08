@@ -12,8 +12,11 @@ import {
   crownRadiusForHeight,
   defaultSpeciesForHash,
   hash01,
+  isConiferSpecies,
+  keepWoodlandRecord,
   loadV2Vegetation,
   planV2Vegetation,
+  speciesForType,
 } from './v2-vegetation.mjs';
 
 const BASE = 'https://banvy.test/app/';
@@ -228,5 +231,63 @@ describe('planning', () => {
     expect(hash01(1, 2)).toBe(hash01(1, 2));
     expect(hash01(1, 2)).not.toBe(hash01(2, 1));
     for (let i = 0; i < 100; i++) { const v = hash01(i, i * 7, 3); expect(v).toBeGreaterThanOrEqual(0); expect(v).toBeLessThan(1); }
+  });
+});
+
+describe('measured tree types and the woodland thinning', () => {
+  const tile = records => ({ tiles: [{ id: 't', objects: records, stands: null, bounds: { minEasting: 0, maxNorthing: 0 } }] });
+  const plan = (records, options = {}) => planV2Vegetation(tile(records), {
+    mapper: { toWorld: (e, n) => [e, -n] }, groundHeightAt: () => 1, ...options,
+  });
+  const record = (i, extra = {}) => ({ id: `tree-g-${String(i).padStart(6, '0')}`, class: 'tree', easting: i, northing: 0, heightRH2000: 1,
+    objectHeightMetres: 12, radiusMetres: 3, headingDegrees: 0, ...extra });
+
+  it('a conifer record draws a conifer and a broadleaf record a broadleaf, whatever the background rule says', () => {
+    const records = Array.from({ length: 400 }, (_, i) => record(i, { subtype: i % 2 ? 'conifer' : 'broadleaf', play: 'near', typeConfidence: 0.9 }));
+    const { instances } = plan(records, { defaultSpecies: () => SPECIES_INDEX.birch });
+    for (const [k, instance] of instances.entries()) {
+      if (records[k].subtype === 'conifer') expect(isConiferSpecies(instance.species)).toBe(true);
+      else expect(isConiferSpecies(instance.species)).toBe(false);
+    }
+    const conifers = instances.filter((_, k) => records[k].subtype === 'conifer');
+    const pines = conifers.filter(instance => instance.species === SPECIES_INDEX.pine).length / conifers.length;
+    expect(pines).toBeGreaterThan(0.45);
+    expect(pines).toBeLessThan(0.78);
+  });
+
+  it("a rule that already agrees with the type keeps its choice, and an untyped record keeps today's rule", () => {
+    expect(speciesForType('conifer', SPECIES_INDEX.spruce, 0.01)).toBe(SPECIES_INDEX.spruce);
+    expect(speciesForType('broadleaf', 4, 0.5)).toBe(4);
+    expect(speciesForType('broadleaf', SPECIES_INDEX.pine, 0.5)).toBe(SPECIES_INDEX.birch);
+    expect(speciesForType(null, SPECIES_INDEX.pine, 0.5)).toBe(SPECIES_INDEX.pine);
+  });
+
+  it('a measured pine or spruce draws as that species, whatever the rule or the hash says', () => {
+    for (const rule of [SPECIES_INDEX.pine, SPECIES_INDEX.spruce, SPECIES_INDEX.birch, 4]) {
+      for (const hash of [0.01, 0.5, 0.99]) {
+        expect(speciesForType('pine', rule, hash)).toBe(SPECIES_INDEX.pine);
+        expect(speciesForType('spruce', rule, hash)).toBe(SPECIES_INDEX.spruce);
+      }
+    }
+    const measured = plan([record(1, { subtype: 'spruce', typeConfidence: 0.9, play: 'near' }), record(2, { subtype: 'pine', typeConfidence: 0.9, play: 'near' })], { defaultSpecies: () => SPECIES_INDEX.birch });
+    expect(measured.instances.map(i => i.species)).toEqual([SPECIES_INDEX.spruce, SPECIES_INDEX.pine]);
+    const untyped = plan([record(1)], { defaultSpecies: () => SPECIES_INDEX.birch });
+    expect(untyped.instances[0].species).toBe(SPECIES_INDEX.birch);
+  });
+
+  it('a phone thins woodland records by id at the stand keep share, draws every near record, and keeps the same ones', () => {
+    const records = Array.from({ length: 2000 }, (_, i) => record(i, { subtype: 'conifer', typeConfidence: 0.8, play: i < 500 ? 'near' : 'woodland' }));
+    const high = plan(records);
+    const low = plan(records, { lowQuality: true });
+    expect(high.instances.length).toBe(2000);
+    expect(high.stats.woodlandThinned).toBe(0);
+    const keptNear = low.instances.filter(instance => Number(instance.id.slice(-6)) < 500).length;
+    expect(keptNear).toBe(500);
+    const keptWoodland = low.instances.length - keptNear;
+    expect(keptWoodland / 1500).toBeGreaterThan(STAND_PLANTING.lowQualityKeep - 0.05);
+    expect(keptWoodland / 1500).toBeLessThan(STAND_PLANTING.lowQualityKeep + 0.05);
+    expect(low.stats.woodlandThinned).toBe(1500 - keptWoodland);
+    expect(plan(records, { lowQuality: true }).instances.map(instance => instance.id)).toEqual(low.instances.map(instance => instance.id));
+    expect(keepWoodlandRecord(record(3), true)).toBe(true);
   });
 });

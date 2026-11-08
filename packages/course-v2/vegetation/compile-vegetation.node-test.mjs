@@ -290,3 +290,68 @@ test('extra exclusion features a ground carries beyond its model exclude a maxim
   const refused = await compilePair(pairRaster(5, 11), { approvals: [{ key: noRadius.key, promote: true }] });
   assert.equal(refused.records.length, 0);
 });
+
+test('the reviewed import publishes decided trees with their type and play zone, tops up only residual canopy and keeps tiles outside its scope', async () => {
+  const { compileReviewedVegetation, parseCandidateCsv } = await import('./compile-vegetation.mjs');
+  const { TREE_ATTRIBUTES_FEATURE } = await import('../object-registry.mjs');
+  const csv = [
+    'id,decision,play,easting,northing,heightRH2000,objectHeightMetres,radiusMetres,type,typeConfidence,source,reason',
+    'tree-synthetic-ground-000101,add,near,650180.5,6640060.5,21,22,4,conifer,0.93,detector,',
+    'tree-synthetic-ground-000102,adjust,woodland,650210.5,6640110.5,21,9,2,broadleaf,0.71,detector,',
+    'tree-synthetic-ground-000103,add,woodland,650200.5,6640020.5,21,6,1.5,unknown,0.55,sparse-laser-recovery,',
+    'tree-synthetic-ground-000104,hold,near,650150.5,6640050.5,21,7,2,conifer,0.8,detector,"on a mapped building, held"',
+  ].join('\n') + '\n';
+  const rows = parseCandidateCsv(csv);
+  assert.equal(rows.length, 4);
+  assert.equal(rows[3].reason, 'on a mapped building, held');
+  const raster = canopy();
+  const labels = new Int32Array(raster.values.length).fill(-1);
+  for (let row = 0; row < raster.height; row++) for (let column = 0; column < raster.width; column++) {
+    const e = 650000 + column + 0.5, n = 6640256 - row - 0.5;
+    if (Math.hypot(e - 650180.5, n - 6640060.5) <= 3) labels[row * raster.width + column] = 1;
+  }
+  const result = await compileReviewedVegetation({
+    groundId: 'synthetic-ground', observedOn: '2026-11-08', campaigns: CAMPAIGNS, rows,
+    scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset,
+    review: 'reviewed candidates (test)',
+  });
+  assert.deepEqual(result.records.map(record => record.id), ['tree-synthetic-ground-000101', 'tree-synthetic-ground-000102', 'tree-synthetic-ground-000103']);
+  const [conifer, broadleaf, unknown] = result.records;
+  assert.equal(conifer.subtype, 'conifer');
+  assert.equal(conifer.play, 'near');
+  assert.equal(conifer.typeConfidence, 0.93);
+  assert.equal(broadleaf.subtype, 'broadleaf');
+  assert.equal(unknown.subtype, null);
+  assert.equal(unknown.confidence, 0.6);
+  assert.equal(conifer.sourceId, 'laser-lm-skog-24f001-650-66');
+  const scoped = result.compiled.chunks.find(chunk => chunk.tileId === 'l0/1/0');
+  assert.ok(readChunk(scoped.bytes).header.requiredFeatures.includes(TREE_ATTRIBUTES_FEATURE));
+  const kept = result.compiled.chunks.find(chunk => chunk.tileId === 'l0/0/0');
+  const published = ground.tiles.find(tile => tile.id === 'l0/0/0').layers.objects;
+  assert.equal(kept.reference.sha256, published.sha256, 'the tile outside the scope keeps its published chunk');
+  assert.ok(result.stands.chunks.some(chunk => chunk.tileId === 'l0/1/0'));
+  assert.ok(result.evidence.residualCanopy.claimedByCrownsSquareMetres > 0);
+  assert.ok(result.evidence.residualCanopy.residualSquareMetres > 0);
+  assert.equal(result.evidence.rows.byDecision.hold, 1);
+  await assert.rejects(() => compileReviewedVegetation({
+    groundId: 'synthetic-ground', observedOn: '2026-11-08', campaigns: CAMPAIGNS,
+    rows: parseCandidateCsv(csv.replace('650180.5,6640060.5', '650020.5,6640060.5')),
+    scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset, review: 'test',
+  }), /outside the reviewed scope/);
+  /* an optional species column: a measured pine or spruce refines a conifer, and the chunk says so */
+  const { TREE_SPECIES_FEATURE } = await import('../object-registry.mjs');
+  const withSpecies = csv.split('\n').map((line, i) => (i === 0 ? `${line},species` : line ? `${line},${i === 1 ? 'pine' : ''}` : line)).join('\n');
+  const measured = await compileReviewedVegetation({
+    groundId: 'synthetic-ground', observedOn: '2026-11-08', campaigns: CAMPAIGNS, rows: parseCandidateCsv(withSpecies),
+    scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset, review: 'reviewed candidates (test)',
+  });
+  assert.equal(measured.records[0].subtype, 'pine');
+  assert.equal(measured.records[1].subtype, 'broadleaf');
+  assert.ok(readChunk(measured.compiled.chunks.find(chunk => chunk.tileId === 'l0/1/0').bytes).header.requiredFeatures.includes(TREE_SPECIES_FEATURE));
+  assert.ok(!readChunk(scoped.bytes).header.requiredFeatures.includes(TREE_SPECIES_FEATURE), 'no species column, no species feature');
+  await assert.rejects(() => compileReviewedVegetation({
+    groundId: 'synthetic-ground', observedOn: '2026-11-08', campaigns: CAMPAIGNS,
+    rows: parseCandidateCsv(withSpecies.replace(',broadleaf,0.71,detector,', ',broadleaf,0.71,detector,').replace(/(tree-synthetic-ground-000102[^\n]*,)$/m, '$1spruce')),
+    scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset, review: 'test',
+  }), /species spruce on a broadleaf row/);
+});

@@ -19,8 +19,8 @@
     "verticalCrs": "EPSG:5613"
   },
   "baselineGround": {
-    "path": "apps/golf/public/grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
-    "sha256": "fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd"
+    "path": "apps/golf/public/grounds/johannesberg/ground-v2-4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c.json",
+    "sha256": "4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c"
   },
   "terrain": {
     "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-ground-rings",
@@ -34,15 +34,36 @@
     "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-vegetation",
     "campaigns": {
       "path": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns.json",
-      "sha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65"
+      "sha256": "9ab377a369556282725d1eb7a78e154f25db5adc2cafdf49385f3d9026d0ef2c"
     },
     "evidence": {
       "path": "geo_data/course-v2/johannesberg/vegetation/canopy-evidence.json",
-      "sha256": "3a970a6ac4f74a79a2fd93808caab329687c2cacbb44cb9c5653468136fe7a07"
+      "sha256": "bb3097c8e0b36f6d4d402b692b328ff7e892fb736509f2efba6f5479cb2a0998"
     },
-    "reviewMode": "machine-v1",
-    "observedOn": "2026-09-11",
-    "reviewNote": "Replay the existing machine-v1 method as a provisional candidate. This is not human approval; evaluate against RGBI and held-out references before release."
+    "reviewMode": "reviewed-candidates-v1",
+    "observedOn": "2026-11-08",
+    "reviewNote": "Round 3 of review-2026-11-08, accepted by the owner on 2026-11-08 below the 90% target (\"Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2.\"; benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764): the refined detector (the round-2 type-aware settings, then suppressed tops taken back on their laser cone and apex and a separate crown in the June 2025 photo) and reviewed pole-like crowns. Every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
+    "reviewed": {
+      "candidates": {
+        "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
+        "sha256": "944aad9cefd2e68629e76498222ecc0b37566f8d5d48e11fb1c50443b3328ff3"
+      },
+      "residualChm": {
+        "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin",
+        "sha256": "4ffe2e5bc6c1e33df430f929707980635e44f3cb941084c00b69a4b22c0bfd4f"
+      },
+      "residualLabels": {
+        "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-labels-050.bin",
+        "sha256": "77e70e3e2e86a714988f6da29559f7c0a37f4503f8ed1e1b20de34a2401aced2"
+      },
+      "scope": [
+        678403.5,
+        6624276.5,
+        680451.5,
+        6626324.5
+      ],
+      "review": "reviewed candidates, review-2026-11-08 round 3, accepted by the owner on 2026-11-08 below the 90% target (\"Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2.\") with benchmark-r3 at P 0.984 / R 0.685 on 89 unseen crowns (round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764): the refined detector (the round-2 type-aware settings, then suppressed tops taken back on their laser cone and apex and a separate crown in the June 2025 photo), agent-led reference benchmark, gate not met (closed and edge stands); pole-like crowns reviewed on the photos (12 poles and structures not placed, 32 held); broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review"
+    }
   },
   "courses": [
     {

@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "kind": "reference-lock",
+  "frozenAt": "2026-11-08T15:59:38.052Z",
+  "history": [
+    {
+      "frozenAt": "2026-11-08T15:46:46.033Z",
+      "reference": "3d54c1540907106d5eb6c872118257e2c80cb7b68b83e74098bbdc962be63caf",
+      "annotations": "701304ccbeeef7a737b9ea1bdc113603aa65d0ae63493962a30b73c2be1b41da"
+    },
+    {
+      "frozenAt": "2026-11-08T15:50:45.316Z",
+      "reference": "f142353d781cb86d88d9b91bfde9a319fac6b8a87b3726e1200201a8adf652c1",
+      "annotations": "701304ccbeeef7a737b9ea1bdc113603aa65d0ae63493962a30b73c2be1b41da"
+    }
+  ],
+  "refreezeNote": "re-frozen a second time: reference crown segments (used only for crown IoU) were grown tallest-first, so taller references swallowed their neighbours' seeds and many got no segment; now grown simultaneously and extended to 0.2 of the apex. Positions, types and strata unchanged; still only calibration windows scored",
+  "interpreter": "agent-led interpretation (Claude), not a survey or human approval",
+  "evidence": "pit-free CHM 0.5 m (2021-04-17 laser), 2025-06-14 RGBI (CIR and natural colour), 2021-04-18 RGBI (leaf-off natural colour); numbered over-segmentation candidates only save typing positions",
+  "matchingRule": {
+    "kind": "one-to-one, closest pairs first",
+    "radiusMetres": 4,
+    "declaredBeforeScoring": true
+  },
+  "minimumScoredHeightMetres": 3,
+  "counts": {
+    "calibration": {
+      "scored": 94,
+      "window": 94,
+      "margin": 51,
+      "ambiguous": 0,
+      "smallUnder3m": 0
+    },
+    "evaluation": {
+      "scored": 38,
+      "window": 40,
+      "margin": 19,
+      "ambiguous": 0,
+      "smallUnder3m": 2
+    }
+  },
+  "hashes": {
+    "windows": "3324aea3c57aa6b7ba0abb06753380bd2a54bb4e752469a73e922191aba6e8c1",
+    "annotations": "701304ccbeeef7a737b9ea1bdc113603aa65d0ae63493962a30b73c2be1b41da",
+    "reference": "2a3e78d17e25f83449c483a45755306fee1b4bc7cdc016e24669e2e27b576005",
+    "chm": "db3d556302bd139e69e86ac764a28aad46837686adc85567dab7298d3c487746",
+    "candidates": {
+      "C1-h10-south": "aff72ebdf3ac1c080cd7ac6a86c6a13a5698743125215ccc9bb4765cc8f7c286",
+      "C2-h11-edge": "fb60198ed0f517212e04421b0c3b20f92c697766b3cb7b19435b0bfd73cf5490",
+      "C3-h4-meadow": "3dc49fa03c88dae3be2afc3a6d1eafec2cea2528ee89fa4e7b35ac0e62a5ab73",
+      "C4-h16-spruce-edge": "71cddbee3d9daaa5ffe2dbec325ac3e64c859704d439861878ad05d9f0b8ea9d",
+      "C5-h17-18": "42eeea88cb10de828e312b561bf5c953c0f2b732ef7a866c2eb9f4873e4cf88c",
+      "C6-h3-isolated": "0671e11ecf94791522bd9f42cc8660a56d37546e7a2610f11e5ed8bdbb5fef0e",
+      "E2-h1-2": "46ddce1cd358f6f9935517bed7465b04cc38122aab73393df68f4a5f0658c09d",
+      "E3-h13": "e911f6c13506af39a43b625e5ba91046c36b12b116ac85ef291d0d7be67f8d23",
+      "E4-n9-5-6": "244de3270b100ada5adec7a36b1fa7877bd039408789fb8de3fd7d39bb4a600f"
+    }
+  }
+}

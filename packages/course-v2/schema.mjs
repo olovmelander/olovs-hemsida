@@ -10,6 +10,8 @@ export const V2_SUPPORTED_FEATURES = Object.freeze([
   'chunk-envelope-v2',
   'course-routing-json-v1',
   'object-registry-json-v1',
+  'object-registry-tree-attributes-v1',
+  'object-registry-tree-species-v1',
   'stand-field-u8-v1',
   'surface-grid-u8-i16-v1',
   'surface-sdf-u8-v1',

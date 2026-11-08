@@ -1,0 +1,93 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "verify-relief",
+ "groundId": "johannesberg",
+ "reviewId": "review-2026-11-08",
+ "round": null,
+ "ranAt": "2026-11-08T19:45:01.673Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/johannesberg/trees.json",
+  "bytes": 8446,
+  "sha256": "5cbbec9a0b85096a2272f9fc97da1e46e14b0ef5ffe59bbd96b3a0880f64e72e"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "3e561e3e04c24296dbbfe3b748f2cbeaed5d8412f192e1f86dbbd1e177ce1d56",
+  "tools/tree-pipeline/config.mjs": "b11c7585ae209512dc02640bad1ff4bb9d40195687bee8a93d689009bee6e96a",
+  "tools/tree-pipeline/stages.mjs": "7d8dacd03d729319bcb1a7ffde60b4fa4f94587f884b87473e83f234eb9cc2cd",
+  "tools/tree-pipeline/gate.mjs": "bfb6bf946f3b7a52668a37cb2468de63485ddf66db30d2aa3e170740d0129364",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "73a758d5c5ddc8f88b8f59ebd1d3e8744d6165c9160b4817f074f165729c1dee",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "2ded127e8be5e0d25c2f6ca98d1e69471c2281f72b785e3caee63d1990ae9c84",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "d439ca94bb2d7e93a6cf5609feb77bdb81ce5a84aa1bb68b7e59daaddb39c4b9",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "c89e0a6df9e10d67452b02ae661c3bdd7a2ec20edb2009a97977f002cf849e8a",
+  "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
+  "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
+  "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
+  "tools/tree-pipeline/benchmark.mjs": "3c423d5e3047c120a61b4846e8e3246294eb4c2b53a2659c0654cec0bc06363b",
+  "tools/tree-pipeline/candidates.mjs": "dc81b775227de0f74764aa80c3b9c6a8fab73410bebca791ec8e63f62a4ce241",
+  "tools/tree-pipeline/review.mjs": "924fcc405d62693d9bc0bf87a60f6ee85fe537fda7699c72291d689c4f6eff7e",
+  "tools/tree-pipeline/publish.mjs": "086d335c16c6649f44aaaf30db3eccbed1211f2ea7567156fff5c99fd87c980e",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "f4e5ab53dcc6875ee59ed3f1d97a56efeafd86d300c9f343f8dbdafc21eb3df7",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/chm-pitfree-050.bin",
+   "bytes": 75203584,
+   "sha256": "db3d556302bd139e69e86ac764a28aad46837686adc85567dab7298d3c487746"
+  },
+  {
+   "path": "../trees-johannesberg/johannesbergbuild/cache/trees-2026-11-08/ortho/2025/mosaic-2025-032.rgbi",
+   "bytes": 183656704,
+   "sha256": "e29d72ec295c8960ccabb87a7a554f9811fd18b76a725e28133de1823504edd3"
+  },
+  {
+   "path": "../trees-johannesberg/johannesbergbuild/cache/trees-2026-11-08/ortho/2021/mosaic-2021-032.rgbi",
+   "bytes": 183656704,
+   "sha256": "5c562fe66cc57a76cd318b8e0f3c398e599e1a501de22d283598d471c65dee5f"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/relief-displacement.json",
+   "bytes": 254047,
+   "sha256": "51a9b643db31b10c0af3727148f8b98adc33b8fcf316530a31dc0913eb0ce99e"
+  }
+ ],
+ "result": {
+  "2021": {
+   "states": {
+    "none": 149,
+    "filled": 377,
+    "measured": 630
+   },
+   "magnitude": {
+    "p10": 0.233,
+    "median": 0.37,
+    "p90": 0.562
+   }
+  },
+  "2025": {
+   "states": {
+    "none": 113,
+    "filled": 393,
+    "measured": 650
+   },
+   "magnitude": {
+    "p10": 0.26,
+    "median": 0.422,
+    "p90": 0.675
+   }
+  }
+ }
+}
