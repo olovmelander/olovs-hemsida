@@ -31,10 +31,12 @@ export async function loadShores(record, fetchFile) {
 /* Without them the map still opens, on its outlines and land cover. */
 export async function loadLandPictures(record, fetchFile) {
   if (!record) return null;
-  const picture = async ({ file }) => createImageBitmap(new Blob([await fetchFile(file)], { type: 'image/png' }), { colorSpaceConversion: 'none' });
+  const picture = bytes => createImageBitmap(new Blob([bytes], { type: 'image/png' }), { colorSpaceConversion: 'none' });
   try {
-    const [water, forest] = await Promise.all([picture(record.water), picture(record.forest)]);
-    return { water, forest, x0: record.x0, z0: record.z0, spacing: record.spacing };
+    const [waterBytes, forestBytes] = await Promise.all([fetchFile(record.water.file), fetchFile(record.forest.file)]);
+    const [water, forest] = await Promise.all([picture(waterBytes), picture(forestBytes)]);
+    /* The forest's own bytes too: the far wood reads its samples (map-far-forest.mjs). */
+    return { water, forest, forestBytes, x0: record.x0, z0: record.z0, spacing: record.spacing };
   } catch (error) {
     console.warn('map land:', error.message);
     return null;

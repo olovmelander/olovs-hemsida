@@ -183,14 +183,33 @@ which pull in three.js. The three species rules the map needs are copied into
   missing round a hole when zooming out). The stands and objects of a 1 m tile are about
   7 KB against its ground's 50, so a wide view fetches only those for tiles the 1 m ground
   has not reached, plants them on the coarser ground in memory, and keeps them for the
-  visit (`store.forest`). Trees stand out to 2.4 times the camera's distance, at most 6 km,
-  and thin evenly when the budget runs short (`shareTrees`). Past that the painted canopy
-  takes over. Tiles outside a saved course's holes are not saved, so offline a wood there
-  stays painted.
+  visit (`store.forest`). Tiles outside a saved course's holes are not saved, so offline a
+  wood there stays painted.
+- **Trees stand about as far as the air lets the ground be seen** (owner request,
+  8 November: the woods ended a kilometre or two out). That is twelve times the camera's
+  distance, at most 12 km, and 9 km from Min vy; they thin evenly when the budget of
+  40,000 runs short (`shareTrees`). Past the reach the painted canopy takes over.
+  `?treereach=before` is the old 2.4 times, 6 km and 3 km with the old budgets, and no
+  far wood.
+- **The far wood** (`map-far-forest.mjs`). The 1 m tiles' stands stop at a 4 km square
+  (2 km at Lidingö), and the ground runs to 16 km. Past them the map plants the ground's
+  own forest picture, as the simulator dresses its far ring
+  (`engine/far-ring-calibration.mjs`): one tree a 10 m cell for 1,800 m, then one a 15 m
+  cell, each a tree of the measured population on the 1 m tiles (its species, height and
+  crown), grown to cover the stems it stands for (at most 2.2 times, never above the
+  tallest measured tree). None stands on a far house, road or railway. Cells of 512 m are
+  culled with the view, planted on the main thread for at most 3 ms a frame (a cell takes
+  about 0.5 ms here, 2-4 ms with the CPU slowed four times), planted again when finer
+  ground arrives under them, and given back farthest first past 300,000 trees. The
+  picture is read as the bake packs it (palette, two bits, no row filters), inflated off
+  the main thread; a picture written otherwise leaves the canopy painted.
+  `?farforest=0` is the before.
 - **A tree is two triangles.** The 3 or 5 species' atlases are about 175 KB each.
 - **A slow device steps itself down** (`QUALITY_STEPS`): far trees first, then
-  sharpness. The step is remembered. `?mapquality=0..3` pins one. Proven on slowed
-  frames on this GPU, where it fell through all three steps.
+  sharpness. Each step draws fewer trees and stands them less far (40,000 at full reach,
+  then 20,000 at 60%, 6,000 at 40% and 3,000 at 25%). The step is remembered.
+  `?mapquality=0..3` pins one. Proven on slowed frames on this GPU, where it fell
+  through all three steps.
 
 ## Light and surfaces
 

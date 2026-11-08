@@ -937,6 +937,11 @@ export function createMapRenderer(canvas, { onLost, onRestored } = {}) {
       return { vao: instanceVao(buffer), buffer, count: trees.length / 8 };
     },
 
+    releaseForest(set) {
+      gl.deleteVertexArray(set.vao);
+      gl.deleteBuffer(set.buffer);
+    },
+
     uploadShade(node, pixels) {
       if (!node.gpu) return;
       if (!node.gpu.shadeTexture) node.gpu.shadeTexture = texture(7, gl.R8, SHADE_SIZE, SHADE_SIZE, gl.LINEAR);

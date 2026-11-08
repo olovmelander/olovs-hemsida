@@ -118,7 +118,11 @@ Phones open a plain course link as a light 3D map for a real round (owner reques
 `apps/golf/src/map` with no three.js. It reads the same 1 m tiles and plants the same
 trees as the simulator, takes its nine lights from the same presets, and draws the
 trees as the player's own impostors, so rerun
-`tools/bake-map-trees.mjs` when a tree catalogue changes. Never import `engine/scenery/*`
+`tools/bake-map-trees.mjs` when a tree catalogue changes. Trees stand twelve times the
+camera's distance, at most 12 km, 9 km from Min vy (owner request, 8 November), and past
+the 1 m tiles it plants a far wood from its forest picture, drawn from the measured trees
+(`map-far-forest.mjs`, off houses and roads); `?treereach=before` and `?farforest=0` are
+the befores. Never import `engine/scenery/*`
 there (it brings three.js), and keep its work out of the folders the source revision
 hashes. Run `tools/check-map-field.mjs` on more than one course. Nothing that is supposed to be
 on the ground may be left off the map (owner request, 4 November): a new feature in a pack

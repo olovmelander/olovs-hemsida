@@ -26,6 +26,7 @@ import { bakeTileRelief, decodeSlope, decodeTileHeights, sampleTile, SLOPE_LIMIT
 import { boxInFrustum, buildTileTree, frustumPlanes, PATCH_GRIDS, selectPatches, shareTrees, TILE_SAMPLES, TILE_SEGMENTS } from './map-lod.mjs';
 import { bearingOf, contourInterval, elevationProfile, greenNumbers, groupBunkers, hazardsAhead, placeOnProfile, playedPath, sideOfPlay, principalBearing, STRIP_REST, stripX, waterShape, windWords, shotReading } from './map-measure.mjs';
 import { canopyAlpha, catalogueFor, createTreeRules, plantTile, SPECIES_RULES, speciesCount, TREE_FLOATS } from './map-trees.mjs';
+import { createFarBlocker, createFarSample, FAR_FOREST, farForestCells, farSpacing, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
 import { species as angsoSpecies } from '../engine/scenery/angso.js';
 import { species as veckefjardenSpecies } from '../engine/scenery/veckefjarden.js';
 import { species as visbySpecies } from '../engine/scenery/visby.js';
@@ -176,6 +177,130 @@ describe('sharing out the trees', () => {
     const shared = shareTrees(tiles(50, 100), 3000, 3000);
     expect(shared.reduce((sum, tile) => sum + tile.count, 0)).toBeLessThanOrEqual(3000);
   });
+});
+
+describe('the wood past the 1 m tiles', () => {
+  const templates = [{ templateRadius: 7, templateHeight: 20 }, { templateRadius: 10, templateHeight: 18 }, { templateRadius: 5, templateHeight: 15 }];
+  /* A measured wood as plantTile packs it: pines of 10-20 m, a crown a third of their height. */
+  const measured = count => {
+    const out = new Float32Array(count * TREE_FLOATS);
+    for (let k = 0; k < count; k++) {
+      const height = 10 + (k % 11);
+      out.set([k, 0, k, 0, height / 3 / 7, height / 20, 0, 0.5], k * TREE_FLOATS);
+    }
+    return out;
+  };
+  const core = [-1024, -1024, 1024, 1024];
+  const covered = (x, z) => x >= core[0] && x < core[2] && z >= core[1] && z < core[3];
+  const sampled = (forestAt = () => 1) => {
+    const sample = createFarSample({ templates });
+    for (let k = 0; k < 4; k++) sample.add({ x0: k * 256 - 1024, z0: 0, size: 256 }, measured(400));
+    sample.stemArea(forestAt);
+    return sample;
+  };
+  const plant = (input = {}) => plantFarCell({
+    cell: { x0: 1024, z0: 0, size: 512 }, core, covered, forestAt: () => 1, heightAt: () => 42,
+    sample: sampled(), templates, ...input,
+  });
+  const each = (trees, visit) => {
+    for (let k = 0; k < trees.length / TREE_FLOATS; k++) visit(trees.subarray(k * TREE_FLOATS, (k + 1) * TREE_FLOATS));
+  };
+
+  it('covers every cell of the ground no 1 m tile with stands covers, and none that one does', () => {
+    for (const slug of ['veckefjarden', 'lidingo']) {
+      const entry = index.find(item => item.slug === slug);
+      const ground = readJson(readJson(entry.manifest.url).groundManifest.url);
+      const { root, nodes } = buildTileTree(ground);
+      const metre = [...nodes.values()].filter(node => node.lod === 0 && node.layers.stands);
+      const { cells, core: box } = farForestCells(root, metre);
+      const coreCells = ((box[2] - box[0]) / FAR_FOREST.cellMetres) * ((box[3] - box[1]) / FAR_FOREST.cellMetres);
+      expect(cells.length, slug).toBe((root.size / FAR_FOREST.cellMetres) ** 2 - coreCells);
+      for (const cell of cells) {
+        expect(cell.x0 >= box[2] || cell.x0 + cell.size <= box[0] || cell.z0 >= box[3] || cell.z0 + cell.size <= box[1], `${slug} ${cell.id}`).toBe(true);
+        expect(cell.maxY).toBeGreaterThanOrEqual(cell.minY);
+      }
+    }
+  });
+
+  it('stands a tree only where the forest picture has a wood, and never inside the 1 m tiles', () => {
+    const trees = plant({ cell: { x0: 768, z0: 0, size: 512 }, forestAt: x => (x < 1180 ? 1 : 0) });
+    expect(trees.length).toBeGreaterThan(0);
+    each(trees, ([x, y]) => {
+      expect(x).toBeGreaterThanOrEqual(1024);
+      expect(x).toBeLessThan(1180);
+      expect(y).toBe(42);
+    });
+    expect(plant({ forestAt: () => 0 }).length).toBe(0);
+  });
+
+  it('keeps the trees off the houses and roads drawn out there', () => {
+    const blocker = createFarBlocker({
+      buildings: [[[1100, 100], [1140, 100], [1140, 140], [1100, 140]]],
+      lines: [{ line: [[1024, 300], [1536, 300]], width: 6 }],
+    });
+    const cell = { x0: 1024, z0: 0, size: 512 };
+    const trees = plant({ cell, blocked: blocker(cell) });
+    let near = 0;
+    each(trees, ([x, , z]) => {
+      expect(x >= 1098 && x <= 1142 && z >= 98 && z <= 142, `a tree on the house at ${x}, ${z}`).toBe(false);
+      expect(Math.abs(z - 300), `a tree on the road at ${x}, ${z}`).toBeGreaterThanOrEqual(5);
+      if (Math.abs(z - 300) < 12) near++;
+    });
+    expect(near, 'the wood still meets the road').toBeGreaterThan(0);
+    expect(blocker({ x0: 4096, z0: 4096, size: 512 })(4200, 4200)).toBe(false);
+  });
+
+  it('draws its trees from the measured wood, grown to cover the stems they stand for and no taller than the tallest', () => {
+    const trees = plant();
+    const shapes = new Set();
+    each(measured(11), tree => shapes.add((tree[4] / tree[5]).toFixed(4)));
+    each(trees, ([, , , , crown, height, species]) => {
+      expect(species).toBe(0);
+      expect(shapes.has((crown / height).toFixed(4)), "a measured tree's own shape").toBe(true);
+      expect(height * 20).toBeLessThanOrEqual(20 + 1e-3);
+      expect(height * 20).toBeGreaterThanOrEqual(10 - 1e-3);
+    });
+    expect(Array.from(plant())).toEqual(Array.from(trees));
+  });
+
+  it("thins with distance from the measured trees, as the simulator's far ring does", () => {
+    expect(farSpacing(0)).toBe(10);
+    expect(farSpacing(5000)).toBe(15);
+    const near = plant().length, far = plant({ cell: { x0: 4096, z0: 0, size: 512 } }).length;
+    expect(far / near).toBeCloseTo(100 / 225, 1);
+  });
+
+  it('waits for enough measured trees to draw from', () => {
+    const sample = createFarSample({ templates });
+    sample.add({ x0: 0, z0: 0, size: 256 }, measured(200));
+    expect(sample.count).toBe(200);
+    expect(sample.stemArea(() => 1)).toBeNull();
+    expect(sampled().count).toBeGreaterThanOrEqual(FAR_FOREST.minimumSamples);
+  });
+
+  it("reads every ground's forest picture as the bake writes it", async () => {
+    for (const groundId of [...new Set(index.map(entry => entry.groundId))]) {
+      const record = landRecord(groundId);
+      const picture = await readForestPicture(new Uint8Array(fs.readFileSync(path.join(PUBLIC, record.forest.file))));
+      expect(picture.width, groundId).toBe(2049);
+      const at = pictureSampler({ picture, x0: record.x0, z0: record.z0, spacing: record.spacing });
+      let wood = 0, samples = 0;
+      const levels = new Set();
+      for (let z = -8000; z <= 8000; z += 97) {
+        for (let x = -8000; x <= 8000; x += 97) {
+          const cover = at(x, z);
+          levels.add(Math.round(cover * 255));
+          wood += cover > 0;
+          samples++;
+        }
+      }
+      for (const level of levels) expect([0, 85, 170, 255], groundId).toContain(level);
+      expect(wood / samples, groundId).toBeGreaterThan(0.2);
+      expect(wood / samples, groundId).toBeLessThan(0.9);
+      expect(at(-9000, 0)).toBe(0);
+    }
+    await expect(readForestPicture(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]))).rejects.toThrow();
+  }, 30000);
 });
 
 describe('tiles that show nothing', () => {
