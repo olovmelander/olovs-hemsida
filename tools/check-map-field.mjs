@@ -553,9 +553,11 @@ expect(!(await isMap(phone)) && await phone.evaluate(() => Boolean(globalThis.V3
 await phone.goto(`${BASE}?bana=${SLUG}&det=1&gl=1`, { waitUntil: 'domcontentloaded' });
 await phone.waitForFunction(() => document.body.classList.contains('course-map') || globalThis.V3D, null, { timeout: 120000 });
 expect(!(await isMap(phone)), 'a link that asks for the player still gets it on a phone');
+/* Since 7 November the start menu offers a phone the detailed course as a mode of its
+   own, in place of a "3D" chip on every card. */
 await phone.goto(BASE, { waitUntil: 'domcontentloaded' });
-await phone.waitForSelector('.card-map', { timeout: 60000, state: 'attached' });
-expect((await phone.textContent('.card-map')) === '3D', 'the chooser offers a phone the detailed course');
+await phone.waitForSelector('#home .mode-card[data-mode="detailed"]', { timeout: 60000 });
+expect(await phone.evaluate(() => Boolean(document.querySelector('#home .mode-card[data-mode="map"] .mc-badge'))), 'the start menu offers a phone the detailed course, and marks the map as its best');
 await phone.close();
 /* ---- a round, from the first tap to the last ---- */
 const roundContext = await browser.newContext({
@@ -566,9 +568,14 @@ const golfer = await roundContext.newPage();
 const golferProblems = [];
 golfer.on('console', message => { if (message.type() === 'error') golferProblems.push(message.text()); });
 golfer.on('pageerror', error => golferProblems.push(error.message));
+/* Since 7-8 November the bare route is the start menu: standing at a course, with the
+   position allowed, it offers that course's round, and the map's list leads with it. */
 await golfer.goto(BASE, { waitUntil: 'domcontentloaded' });
+await golfer.waitForSelector('#home [data-near]', { timeout: 20000 });
+expect(await golfer.evaluate(() => document.querySelector('#home [data-near]').dataset.slug) === 'angso', 'with the position allowed, the start menu offers the round on the course under the player');
+await golfer.goto(`${BASE}#karta`, { waitUntil: 'domcontentloaded' });
 await golfer.waitForSelector('.current-badge.is-near', { timeout: 20000, state: 'attached' });
-expect(await golfer.evaluate(() => document.querySelector('.card-item').dataset.slug) === 'angso', 'with the position allowed, the chooser leads with the course under the player');
+expect(await golfer.evaluate(() => document.querySelector('.card-item').dataset.slug) === 'angso', 'and the map\'s list leads with it');
 await golfer.goto(`${BASE}?bana=${SLUG}`, { waitUntil: 'domcontentloaded' });
 await golfer.waitForFunction(() => globalThis.V3DMap, null, { timeout: 60000 });
 await settled(golfer);
@@ -715,9 +722,15 @@ const desktop = await desktopContext.newPage();
 await desktop.goto(`${BASE}?bana=${SLUG}`, { waitUntil: 'domcontentloaded' });
 await desktop.waitForFunction(() => document.body.classList.contains('course-map') || globalThis.V3D, null, { timeout: 120000 });
 expect(!(await isMap(desktop)), 'a computer still opens the detailed course');
+/* Since 7 November the start menu offers the map as a mode of its own (Lätt 3D),
+   whose list's cards open it, in place of a "Karta" chip on every card. */
 await desktop.goto(BASE, { waitUntil: 'domcontentloaded' });
-await desktop.waitForSelector('.card-map', { timeout: 60000, state: 'attached' });
-expect((await desktop.textContent('.card-map')) === 'Karta', 'and its chooser offers the map');
+await desktop.waitForSelector('#home .mode-card[data-mode="map"]', { timeout: 60000 });
+await desktop.goto(`${BASE}#karta`, { waitUntil: 'domcontentloaded' });
+await desktop.waitForSelector('#chooser:not([hidden]) .card', { timeout: 60000 });
+/* the course just visited leads with "Fortsätt"; the others say what they open */
+const ctas = await desktop.$$eval('#chooser .card-item .sha-text', each => each.map(el => el.textContent));
+expect(ctas.filter(text => /kartan/.test(text)).length >= ctas.length - 1, `and its start menu offers the map: Lätt 3D, whose cards open it (${ctas.slice(0, 2).join(', ')})`);
 await desktopContext.close();
 
 console.log(refused.length ? `requests refused: ${[...new Set(refused)].slice(0, 8).join(' ')}` : 'no requests refused');

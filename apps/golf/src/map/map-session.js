@@ -239,6 +239,7 @@ root.innerHTML = `
     <div class="map-actions">
       <button class="map-action map-action-next" data-round-new>Ny runda</button>
       <button class="map-action" data-round-share>Dela rundan</button>
+      <a class="map-action" href="${hubUrl('statistik')}">Se statistik</a>
       <button class="map-action map-action-quiet" data-round-drop hidden>Ta bort rundan</button>
     </div>
   </section>
@@ -295,6 +296,7 @@ root.innerHTML = `
     <h3>Spel</h3>
     <button class="map-row map-row-next" data-rounds-open><span>Mina rundor</span><span class="map-row-value" data-rounds-count></span></button>
     <button class="map-row map-row-next" data-clubs-open><span>Mina klubbor</span><span class="map-row-value" data-clubs-count></span></button>
+    <a class="map-row map-row-next" href="${hubUrl('statistik')}"><span>Statistik</span><span class="map-row-value">Hela ditt spel</span></a>
     <h3>Visning</h3>
     <label class="map-row"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
     <label class="map-row"><span>Större text</span><input type="checkbox" role="switch" data-large></label>
@@ -1618,6 +1620,14 @@ async function start() {
   };
   $('[data-round-share]').onclick = async () => {
     const record = state.roundShown, text = roundText(record, roundSummary(record, shots), dateText(record.date));
+    /* the round as its picture, with its words beside it (shell/round-card.mjs); the
+       words alone, as before, where a picture cannot be made */
+    try {
+      const { shareRoundCard } = await import('../shell/round-card.mjs');
+      const done = await shareRoundCard(record, { poster: `${BASE}courses/${record.course}/hero-1.webp`, text });
+      if (done === 'saved') status('Bilden av rundan är sparad');
+      if (done !== 'failed') return;
+    } catch { /* the words alone */ }
     try {
       if (navigator.share) await navigator.share({ title: record.courseName, text });
       else {
@@ -2355,9 +2365,33 @@ async function start() {
   refreshNumbers();
   refreshScore();
   if (course.greensApproximate) status('Greenernas form är ungefärlig på den här banan', 6000);
+  /* A round set up on the course's own page in the start menu (?runda=1): the tee and
+     the handicap were chosen and kept there, so it begins here without the start card,
+     and the position is asked for at once. A round already under way on this course
+     carries on instead. The word leaves the address, so a reload does not begin
+     another. */
+  const planned = params.get('runda') === '1';
+  if (planned) {
+    if (!roundUnderWay()) {
+      if (round.endedAt || holesScored(round, course.holes) > 0) freshRound();
+      const known = savedText(HANDICAP_KEY, '');
+      round.handicap = known !== '' && Number.isFinite(Number(known)) ? Number(known) : null;
+      round.begunAt = Date.now();
+      saveRound();
+      diary.add('round-started', teeName());
+      state.follow = true;
+      refreshScore();
+      status(`Rundan är igång från tee ${teeName() ?? ''}`.trim(), 3200);
+    }
+    if (!gps.active) startGps();
+    try {
+      params.delete('runda');
+      globalThis.history.replaceState(globalThis.history.state, '', `${location.pathname}?${params.toString()}${location.hash}`);
+    } catch { /* the word stays; a round under way carries on all the same */ }
+  }
   /* A plain link on a phone means a round may be about to start. Any other link was
      written to show something, and a round under way carries straight on. */
-  if (isPhone() && !params.has('hal') && !roundUnderWay() && !savedFresh(LOOK_KEY) && !savedFresh(`${GPS_KEY}:${course.slug}`)) {
+  if (!planned && isPhone() && !params.has('hal') && !roundUnderWay() && !savedFresh(LOOK_KEY) && !savedFresh(`${GPS_KEY}:${course.slug}`)) {
     refreshStart();
     showSheet(ui.startSheet);
   } else firstTip();

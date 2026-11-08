@@ -622,6 +622,7 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
 .current-badge.is-near { background: rgba(7, 13, 10, 0.78); color: #fff; text-transform: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
 /* The distance takes the card's one free corner beside the 3D button. */
 .shot-badges:has(.is-near) .cat-badge { display: none; }
+.current-badge.is-live { background: #ff6a4d; color: #fff; }
 /* "Senast spelad" is a memory, not a state: quieter than "Aktiv bana". */
 .current-badge.is-last {
   background: rgba(7, 13, 10, 0.78);

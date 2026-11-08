@@ -66,6 +66,9 @@
   transition: background-color 0.2s, border-color 0.2s;
 }
 .hub-back { padding: 0 14px 0 8px; }
+.hub-top-actions { display: flex; align-items: center; gap: 8px; }
+.hub-install { padding: 0 14px 0 11px; border-color: rgba(95, 208, 122, 0.55); color: var(--turf); }
+.hub-install[hidden] { display: none; }
 .hub-brand:focus-visible, .hub-icon-btn:focus-visible, .hub-back:focus-visible { outline: 2px solid var(--turf); outline-offset: 3px; }
 
 /* ===================================================================== HOME */
@@ -210,6 +213,16 @@
 .hr-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 auto; }
 .hr-kicker { font: 700 10.5px/1 Outfit, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: var(--turf); }
 .hr-name { font: 700 18px/1.15 Outfit, sans-serif; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hr-sub { font: 500 12.5px/1.2 Outfit, sans-serif; color: var(--dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* at a course: the card offers its round */
+.home-resume.is-near .hr-kicker { display: inline-flex; align-items: center; gap: 6px; }
+.home-resume.is-near .hr-kicker svg { width: 13px; height: 13px; }
+/* a round under way: the card is live, and says so before anything else */
+.home-resume.is-live { border-color: rgba(255, 120, 96, 0.5); background: rgba(24, 10, 8, 0.66); }
+.home-resume.is-live .hr-kicker { display: inline-flex; align-items: center; gap: 7px; color: #ff9a85; }
+.hr-live { width: 8px; height: 8px; border-radius: 50%; background: #ff6a4d; box-shadow: 0 0 0 0 rgba(255, 106, 77, 0.6); animation: hr-pulse 1.8s ease-out infinite; }
+@keyframes hr-pulse { 70% { box-shadow: 0 0 0 8px rgba(255, 106, 77, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 106, 77, 0); } }
+@media (prefers-reduced-motion: reduce) { .hr-live { animation: none; } }
 .hr-mode {
   display: inline-flex;
   align-items: center;
@@ -876,6 +889,12 @@
   text-decoration: none;
 }
 .set-link:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+button.set-link { cursor: pointer; }
+.set-backup .set-inline { flex-wrap: wrap; }
+.set-confirm { display: grid; gap: 10px; padding: 14px; border-radius: 14px; border: 1px solid rgba(240, 162, 58, 0.45); background: rgba(240, 162, 58, 0.08); }
+.set-confirm[hidden] { display: none; }
+.set-confirm p { font: 500 13.5px/1.45 Outfit, sans-serif; color: #ffe0b8; }
+.set-confirm [hidden] { display: none; }
 
 @media (hover: hover) and (pointer: fine) {
   .set-nav button:not([aria-current="true"]):hover { background: rgba(255, 255, 255, 0.05); color: var(--ink); }

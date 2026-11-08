@@ -236,6 +236,37 @@ function clubRows(clubs) {
     <div class="gap-axis" aria-hidden="true"><span class="gr-icon"></span><span class="gr-name"></span><span class="gr-track">${ticks.map(v => `<i style="left:${at(v)}">${v}</i>`).join('')}</span><span class="gr-val">m</span></div>`;
 }
 
+/* ---------------------------------------------------------- hole by hole
+   Each hole's average against its par, from a par line: up is over par,
+   down under. Only the costliest and the kindest hole carry a label. */
+function holeChart(holes) {
+  /* one scale for both sides: the plot's height is shared out by the longest bar
+     each way, so a course played mostly over par does not keep an empty half */
+  const maxUp = Math.max(0, ...holes.map(h => h.toPar)), maxDown = Math.max(0, ...holes.map(h => -h.toPar));
+  const span = Math.max(0.5, maxUp + maxDown);
+  const upShare = Math.max(0.12, maxUp / span), downShare = Math.max(0.06, maxDown / span);
+  const reachOf = v => (v >= 0 ? Math.max(maxUp, 0.25) : Math.max(maxDown, 0.25));
+  const worst = holes.reduce((a, b) => (b.toPar > a.toPar ? b : a));
+  const best = holes.reduce((a, b) => (b.toPar < a.toPar ? b : a));
+  const colour = v => (v > 0.05 ? SCORE_KINDS[3].colour : v < -0.05 ? SCORE_KINDS[1].colour : SCORE_KINDS[2].colour);
+  return `<div class="shb" role="img" style="--up:${upShare.toFixed(3)};--down:${downShare.toFixed(3)}" aria-label="${esc(`Snitt mot par per hål. Dyrast: hål ${worst.n}, ${signed(worst.toPar, 2)}. Snällast: hål ${best.n}, ${signed(best.toPar, 2)}.`)}">
+    <div class="shb-plot">${holes.map(h => {
+      const share = Math.min(1, Math.abs(h.toPar) / reachOf(h.toPar));
+      const up = h.toPar >= 0;
+      /* the costliest hole's label rides on its bar; the kindest's sits on the par line */
+      const marked = h === worst || (h === best && best !== worst);
+      const label = marked ? `<em style="bottom:${up ? `calc(${(share * 100).toFixed(1)}% + 4px)` : '4px'}">${signed(h.toPar, 1)}</em>` : '';
+      return `<button type="button" class="shb-col" data-tip="${esc(JSON.stringify([`Hål ${h.n} · ${signed(h.toPar, 2)}`, `Par ${h.par} · snitt ${dec(h.average, 2)} · bästa ${h.best}`, `${h.rounds} ${h.rounds === 1 ? 'runda' : 'rundor'}${h.putts !== null ? ` · ${dec(h.putts, 1)} puttar` : ''}${h.fairway !== null ? ` · fairway ${Math.round(h.fairway * 100)} %` : ''}`]))}"
+        aria-label="${esc(`Hål ${h.n}, par ${h.par}: ${signed(h.toPar, 2)} i snitt`)}">
+        <span class="shb-half is-up">${up ? `<i style="height:${(share * 100).toFixed(1)}%;background:${colour(h.toPar)}"></i>` : ''}${label}</span>
+        <span class="shb-half is-down">${!up ? `<i style="height:${(share * 100).toFixed(1)}%;background:${colour(h.toPar)}"></i>` : ''}</span>
+        <span class="shb-n">${h.n}</span><span class="shb-par">${h.par}</span>
+      </button>`;
+    }).join('')}</div>
+    <div class="shb-axis" aria-hidden="true"><span>Hål</span><span>Par</span></div>
+  </div>`;
+}
+
 /* --------------------------------------------------------- a round's card */
 function scorecard(record) {
   const holes = record.holes;
@@ -433,6 +464,14 @@ export function buildStats({ courses, onBack, onPlay }) {
           : `<ul class="st-legend gap-legend"><li><i class="lg-range"></i>Spridning</li><li><i class="lg-typ"></i>Typisk längd</li><li><i class="lg-carry"></i>Bagens carry</li></ul>${clubRows(stat.clubs)}`}
       </section>
 
+      <section class="st-card st-holes" data-card="holes" aria-labelledby="stHolesH">
+        <header class="st-card-head"><div><h2 id="stHolesH">Hål för hål</h2><p>${stat.byHoleNumber ? `Ditt snitt mot par på varje hål, ${esc(all.playedCourses.find(c => c.slug === state.course)?.name ?? '')}` : 'Välj en bana för att se vilka hål som kostar mest'}</p></div>${stat.byHoleNumber ? tableToggle('holes') : ''}</header>
+        ${!stat.byHoleNumber ? `<div class="st-pick">${all.playedCourses.map(c => `<button type="button" class="st-ghost" data-pick-course="${esc(c.slug)}">${esc(c.name)}</button>`).join('')}</div>`
+          : showTable('holes') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Hål</th><th>Par</th><th>Snitt</th><th>Mot par</th><th>Bästa</th><th>Puttar</th><th>Fairway</th><th>Rundor</th></tr></thead><tbody>
+            ${stat.byHoleNumber.map(h => `<tr><td>${h.n}</td><td>${h.par}</td><td>${dec(h.average, 2)}</td><td>${signed(h.toPar, 2)}</td><td>${h.best}</td><td>${h.putts !== null ? dec(h.putts, 1) : '–'}</td><td>${h.fairway !== null ? `${Math.round(h.fairway * 100)} %` : '–'}</td><td>${h.rounds}</td></tr>`).join('')}</tbody></table></div>`
+          : holeChart(stat.byHoleNumber)}
+      </section>
+
       <section class="st-split">
         <div class="st-card">
           <header class="st-card-head"><div><h2>Banor</h2><p>Där du har spelat</p></div></header>
@@ -453,7 +492,7 @@ export function buildStats({ courses, onBack, onPlay }) {
                 <span class="sr-name"><b>${esc(row.courseName ?? row.course)}</b><small>${row.holes} hål${row.points !== null ? ` · ${row.points} p` : ''} · ${row.putts} puttar</small></span>
                 <span class="sr-score"><b>${row.strokes}</b><small class="${row.toPar < 0 ? 'is-under' : row.toPar > 0 ? 'is-over' : ''}">${signedInt(row.toPar)}</small></span>
               </summary>
-              <div class="sr-card">${record ? scorecard(record) : ''}</div>
+              <div class="sr-card">${record ? `${scorecard(record)}<button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>` : ''}</div>
             </details>`;
           }).join('')}</div>
         </div>
@@ -478,6 +517,33 @@ export function buildStats({ courses, onBack, onPlay }) {
     draw();
     bindSegments(body);
     bindClubs(body);
+    /* a round, shared as its picture (round-card.mjs) */
+    for (const btn of body.querySelectorAll('[data-share-round]')) btn.addEventListener('click', async () => {
+      const [course, id] = btn.dataset.shareRound.split('|');
+      const record = data.rounds.find(r => r.course === course && String(r.id) === id);
+      if (!record) return;
+      btn.disabled = true;
+      const { shareRoundCard } = await import('./round-card.mjs');
+      const done = await shareRoundCard(record, { poster: poster(record.course), text: `${record.courseName ?? record.course}, ${dateText(record.date, true)}` });
+      btn.disabled = false;
+      btn.textContent = done === 'saved' ? 'Bilden är sparad' : done === 'failed' ? 'Bilden gick inte att göra' : 'Dela rundan som bild';
+    });
+    /* the hole chart's readouts, and a course picked from its own card */
+    const holesCard = body.querySelector('[data-card="holes"]');
+    if (holesCard) {
+      const tip = tipFor(holesCard);
+      for (const col of holesCard.querySelectorAll('.shb-col')) {
+        hoverOrTap(col, () => {
+          const box = col.getBoundingClientRect(), cardBox = holesCard.getBoundingClientRect();
+          tip.show(JSON.parse(col.dataset.tip).map(text => [text]), box.left - cardBox.left + box.width / 2, box.top - cardBox.top + 20);
+        }, () => tip.hide());
+      }
+      for (const btn of holesCard.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
+        state.course = btn.dataset.pickCourse;
+        render();
+        body.querySelector('[data-card="holes"]')?.scrollIntoView({ block: 'start', behavior: REDUCED ? 'auto' : 'smooth' });
+      });
+    }
     observe(draw);
   }
 

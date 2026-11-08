@@ -13,8 +13,8 @@ import { DISPLAY_KEY } from '../map/map-display.mjs';
 import { opensMap } from './map-default.mjs';
 import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
-  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
-  readFrameCap, readSettings, rememberLaunch, settingsSummary, withSettings, writeSettings,
+  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, exportBackup, readBackup, restoreBackup, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
+  readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
 } from './settings-store.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -55,6 +55,27 @@ describe('launchUrl', () => {
   it('carries each detailed setting in the grammar the player reads', () => {
     const url = launchUrl('angso', 'detailed', { settings: { quality: 'hi', renderer: 'webgl', light: 'nu', view: 'green' } });
     expect(q(url)).toEqual({ bana: 'angso', q: 'hi', gl: '1', ljus: 'nu', vy: 'green' });
+  });
+
+  it('carries a round planned on the course page', () => {
+    const settings = { quality: 'auto', renderer: 'auto', light: 'dag', view: 'fritt' };
+    /* the tee is an index; main.js reads ?tee= from 1; the plan's light wins over the setting */
+    expect(q(launchUrl('visby', 'detailed', { settings, plan: { tee: 2, hole: 10, light: 'nu' } })))
+      .toEqual({ bana: 'visby', ljus: 'nu', tee: '3', hal: '10' });
+    /* choosing the player's own default light takes the setting's word out of the link */
+    expect(q(launchUrl('visby', 'detailed', { settings, plan: { tee: 0, hole: 1, light: 'kvall' } }))).toEqual({ bana: 'visby', tee: '1' });
+    expect(q(launchUrl('visby', 'map', { plan: { tee: 2, hole: 10, round: true } }))).toEqual({ bana: 'visby', karta: '1', runda: '1', hal: '10' });
+    expect(q(launchUrl('visby', 'map', { plan: { round: false } }))).toEqual({ bana: 'visby', karta: '1' });
+    expect(q(launchUrl('visby', 'detailed', { plan: { tee: 9, hole: 0, light: 'disco' } }))).toEqual({ bana: 'visby' });
+  });
+
+  it('keeps the tee where the map reads it, and falls back on the course\'s own', () => {
+    const course = { slug: 'visby', tees: { names: ['63', '59', '55'], def: 2 } };
+    expect(savedTee(memory(), course)).toBe(2);
+    expect(savedTee(memory({ [`${TEE_KEY}:visby`]: '1' }), course)).toBe(1);
+    expect(savedTee(memory({ [`${TEE_KEY}:visby`]: '7' }), course)).toBe(2);
+    expect(source('../map/map-session.js')).toContain(`const TEE_KEY = '${TEE_KEY}'`);
+    expect(teeColour(16053486)).toBe('#f4f4ee');
   });
 
   it('leaves out what is the player\'s own default', () => {
@@ -113,6 +134,51 @@ describe('the last way played', () => {
   it('offers nothing for a course that no longer exists, and the detailed course for an unknown mode', () => {
     expect(lastLaunch(memory({ 'banvy-last-course': 'gone' }), courses)).toBeNull();
     expect(lastLaunch(memory({ 'banvy-last-course': 'visby', 'banvy-last-mode': 'vr' }), courses).mode).toBe('detailed');
+  });
+});
+
+describe('the backup', () => {
+  it('takes Banvy\'s own keys out, and only those', () => {
+    const st = memory({ 'banvy-map-rounds-v1': '{"version":1,"rounds":[]}', 'banvy:dev-overlay': '1', 'banvy-fps': '30', 'someone-else': 'x' });
+    const backup = exportBackup(st, new Date('2026-11-08T01:00:00Z'));
+    expect(backup).toMatchObject({ kind: 'banvy-backup', version: 1, exportedAt: '2026-11-08T01:00:00.000Z' });
+    expect(Object.keys(backup.data).sort()).toEqual(['banvy-fps', 'banvy-map-rounds-v1', 'banvy:dev-overlay']);
+  });
+  it('reads its own file back and refuses anything else', () => {
+    const file = JSON.stringify(exportBackup(memory({ 'banvy-fps': '30', 'banvy-caddie-bag-v1': '{}' })));
+    const read = readBackup(file);
+    expect(read.ok).toBe(true);
+    const st = memory();
+    expect(restoreBackup(st, read.entries)).toBe(2);
+    expect(st.getItem('banvy-fps')).toBe('30');
+    expect(readBackup('not json').ok).toBe(false);
+    expect(readBackup(JSON.stringify({ kind: 'other', version: 1, data: {} })).ok).toBe(false);
+    expect(readBackup(JSON.stringify({ kind: 'banvy-backup', version: 1, data: { 'evil': 'x', 'banvy-x': 5 } })).ok).toBe(false);
+  });
+});
+
+describe('a round under way', () => {
+  const courses = [{ slug: 'visby', name: 'Visby GK' }, { slug: 'puttom', name: 'Puttom' }];
+  const NOW = Date.parse('2026-11-08T12:00:00Z');
+  const round = (extra) => JSON.stringify({ version: 1, startedAt: '2026-11-08', handicap: 18, scores: {}, ...extra });
+  it('finds the freshest begun round, with where it stands', () => {
+    const st = memory({
+      [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 3600e3, scores: { 1: { strokes: 5 }, 2: { strokes: 4 }, 3: { picked: true } } }),
+      [`${HOLE_KEY}:visby`]: JSON.stringify({ value: 4, at: NOW - 600e3 }),
+      [`${ROUND_KEY}:puttom`]: round({ begunAt: NOW - 7200e3 }),
+    });
+    expect(liveRound(st, courses, NOW)).toMatchObject({ course: courses[0], hole: 4, holes: 3, strokes: 9 });
+  });
+  it('leaves out an ended round, a stale one, and a card never begun', () => {
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 600e3, endedAt: NOW - 60e3 }) }), courses, NOW)).toBeNull();
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 7 * 3600e3 }) }), courses, NOW)).toBeNull();
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({}) }), courses, NOW)).toBeNull();
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: '{broken' }), courses, NOW)).toBeNull();
+  });
+  it('names the keys the map writes', () => {
+    expect(source('../map/map-session.js')).toContain(`const ROUND_KEY = '${ROUND_KEY}'`);
+    expect(source('../map/map-session.js')).toContain(`const HOLE_KEY = '${HOLE_KEY}'`);
+    expect(source('../map/map-session.js')).toContain('const RESUME_MS = 6 * 60 * 60 * 1000');
   });
 });
 

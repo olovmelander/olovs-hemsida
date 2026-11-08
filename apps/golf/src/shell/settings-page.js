@@ -17,6 +17,7 @@ import {
   FRAME_CAP_CHOICES, FRAME_CAP_KEY, DEV_OVERLAY_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_DETAIL, MAP_KEYS,
   NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PREFERENCE_KEYS, QUALITY, RENDERERS, START_VIEWS, BAG_KEY,
   mapDetail, mapLight, mapSwitch, readFrameCap, readSettings, readText, writeSettings, writeText,
+  exportBackup, readBackup, restoreBackup,
 } from './settings-store.mjs';
 import { displayChoices, systemDisplay } from '../map/map-display.mjs';
 import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
@@ -147,6 +148,18 @@ export function buildSettings({ courses, onBack }) {
             <div class="set-panel">
               <div class="set-row"><div class="set-label"><b>Sparade rundor</b><small>Allt de räknas till finns under Statistik, och varje runda under Meny, Mina rundor, i kartan.</small></div><div class="set-control set-inline"><span class="set-metric" data-rounds>0</span><a class="set-link" href="#statistik">Statistik</a></div></div>
               <div class="set-row"><div class="set-label"><b>Banor sparade för spel utan nät</b><small data-offline-names>Spara en bana under Meny i kartan.</small></div><div class="set-control"><span class="set-metric" data-offline>0</span></div></div>
+              <div class="set-row is-stacked set-backup">
+                <div class="set-label"><b>Säkerhetskopia</b><small>Rundor, slag, bag, handicap och inställningar finns bara i den här webbläsaren. Spara dem i en fil, och läs in filen igen på en ny telefon eller efter att webbläsarens data rensats.</small></div>
+                <div class="set-inline">
+                  <button class="set-primary" type="button" data-backup-save>Spara fil</button>
+                  <button class="set-link" type="button" data-backup-load>Läs in fil</button>
+                  <input type="file" accept="application/json,.json" data-backup-file hidden>
+                </div>
+                <div class="set-confirm" data-backup-confirm hidden role="alert">
+                  <p data-backup-text></p>
+                  <div class="set-inline"><button class="set-danger" type="button" data-backup-apply>Läs in och ersätt</button><button class="set-link" type="button" data-backup-cancel>Avbryt</button></div>
+                </div>
+              </div>
               <div class="set-row"><div class="set-label"><b>Återställ inställningar</b><small>Ställer tillbaka alla val på den här sidan. Bagen, handicapet och rundorna påverkas inte.</small></div>
                 <div class="set-control"><button class="set-danger" type="button" data-reset>Återställ</button></div></div>
             </div>
@@ -281,6 +294,51 @@ export function buildSettings({ courses, onBack }) {
       $('[data-offline-names]').textContent = offline.map(slug => courses.find(c => c.slug === slug)?.name || slug).join(', ');
     }
   }
+
+  /* ------------------------------------------------------------- backup
+     Out as a file named by its day; in only after saying what it holds and
+     what it replaces. */
+  $('[data-backup-save]').addEventListener('click', () => {
+    const backup = exportBackup(storage());
+    const blob = new Blob([JSON.stringify(backup, null, 1)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `banvy-${backup.exportedAt.slice(0, 10)}.json`;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(link.href), 4000);
+    saved(`Sparade ${Object.keys(backup.data).length} poster`);
+  });
+  const fileInput = $('[data-backup-file]'), confirmBox = $('[data-backup-confirm]');
+  let pending = null;
+  $('[data-backup-load]').addEventListener('click', () => { fileInput.value = ''; fileInput.click(); });
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+    const read = readBackup(await file.text());
+    confirmBox.hidden = false;
+    if (!read.ok) {
+      pending = null;
+      $('[data-backup-text]').textContent = read.reason;
+      $('[data-backup-apply]').hidden = true;
+      return;
+    }
+    pending = read.entries;
+    const day = read.exportedAt ? new Date(read.exportedAt).toLocaleDateString('sv-SE', { day: 'numeric', month: 'long', year: 'numeric' }) : 'okänt datum';
+    const rounds = parseRounds(read.entries.find(([key]) => key === MAP_KEYS.rounds)?.[1] ?? null).length;
+    $('[data-backup-text]').textContent = `Kopian från ${day} har ${rounds} ${rounds === 1 ? 'runda' : 'rundor'} och ${read.entries.length} poster. Det som finns här med samma namn ersätts.`;
+    $('[data-backup-apply]').hidden = false;
+  });
+  $('[data-backup-cancel]').addEventListener('click', () => { pending = null; confirmBox.hidden = true; });
+  $('[data-backup-apply]').addEventListener('click', () => {
+    if (!pending) return;
+    const written = restoreBackup(storage(), pending);
+    pending = null;
+    confirmBox.hidden = true;
+    sync();
+    saved(`Läste in ${written} poster`);
+  });
 
   /* Two steps, because it cannot be undone: the first press asks, the second
      within four seconds does it. */

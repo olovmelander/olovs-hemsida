@@ -112,17 +112,40 @@ export function detailedParams(settings) {
    the map by default (map-default.mjs), so a phone asking for the detailed
    course has to say karta=0; elsewhere the plain link already means it. The
    map always says karta=1, as mapUrl has since the map arrived. */
-export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS } = {}) {
+/* `plan` is what the course page sets up before a round: a tee (an index into
+   the course's tees), the hole to start on, a light for this visit, and for the
+   map whether the round begins at once (runda=1, map-session.js). */
+export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS, plan = null } = {}) {
   const params = new URLSearchParams();
   params.set('bana', slug);
+  const hole = Number(plan?.hole);
   if (mode === 'map') {
     params.set('karta', '1');
+    if (plan?.round) params.set('runda', '1');
+    if (Number.isInteger(hole) && hole > 1) params.set('hal', String(hole));
     return '?' + params.toString();
   }
   if (phone) params.set('karta', '0');
   for (const [key, value] of detailedParams(settings)) params.set(key, value);
+  /* main.js reads ?tee= from 1 to 6 and ?hal= as the hole to open on */
+  const tee = Number(plan?.tee);
+  if (Number.isInteger(tee) && tee >= 0 && tee < 6) params.set('tee', String(tee + 1));
+  if (Number.isInteger(hole) && hole > 1) params.set('hal', String(hole));
+  if (plan?.light && playerLights.has(plan.light)) {
+    if (plan.light === PLAYER_DEFAULT_LIGHT) params.delete('ljus'); else params.set('ljus', plan.light);
+  }
   return '?' + params.toString();
 }
+
+/* The tee a player last chose on a course, shared with the map (map-session.js TEE_KEY). */
+export const TEE_KEY = 'banvy-map-tee-v1';
+export function savedTee(storage, course) {
+  const fallback = course?.tees?.def ?? 0;
+  const text = readText(storage, `${TEE_KEY}:${course?.slug}`, null);
+  const index = Number(text);
+  return text !== null && Number.isInteger(index) && index >= 0 && index < (course?.tees?.names?.length ?? 0) ? index : fallback;
+}
+export const teeColour = value => `#${(Number(value) >>> 0).toString(16).padStart(6, '0').slice(-6)}`;
 
 /* Switching course inside the player keeps that visit's own q and gl (router
    courseUrl) and adds the start settings only where the link is silent. */
@@ -146,6 +169,63 @@ export function lastLaunch(storage, courses) {
   const course = courses.find(c => c.slug === slug);
   if (!course) return null;
   return { course, mode: MODES[mode] ? mode : 'detailed' };
+}
+
+/* A backup of everything Banvy keeps on this device: settings, the bag, the
+   handicap, every round and shot, and what the map remembers. Rounds live in
+   this browser only, so clearing its data or changing phone loses them; a file
+   the player keeps is the way across. Only Banvy's own keys go out and come in. */
+export const BACKUP_KIND = 'banvy-backup';
+const OWN_KEY = /^banvy[-:]/;
+export function exportBackup(storage, now = new Date()) {
+  const data = {};
+  try {
+    for (let i = 0; i < (storage?.length ?? 0); i++) {
+      const key = storage.key(i);
+      if (key && OWN_KEY.test(key)) data[key] = storage.getItem(key);
+    }
+  } catch { /* what could be read */ }
+  return { kind: BACKUP_KIND, version: 1, exportedAt: now.toISOString(), data };
+}
+export function readBackup(text) {
+  let backup;
+  try { backup = JSON.parse(text); } catch { return { ok: false, reason: 'Filen är inte en Banvy-säkerhetskopia.' }; }
+  if (backup?.kind !== BACKUP_KIND || backup.version !== 1 || typeof backup.data !== 'object' || backup.data === null) {
+    return { ok: false, reason: 'Filen är inte en Banvy-säkerhetskopia.' };
+  }
+  const entries = Object.entries(backup.data).filter(([key, value]) => OWN_KEY.test(key) && typeof value === 'string');
+  if (!entries.length) return { ok: false, reason: 'Säkerhetskopian är tom.' };
+  return { ok: true, entries, exportedAt: backup.exportedAt ?? null };
+}
+export function restoreBackup(storage, entries) {
+  let written = 0;
+  for (const [key, value] of entries) if (writeText(storage, key, value)) written++;
+  return written;
+}
+
+/* A round under way in the map: begun and not ended, and touched within the
+   map's own resume window (map-session.js RESUME_MS, six hours). The freshest
+   wins. The start menu offers it before anything else. */
+export const ROUND_KEY = 'banvy-map-round-v1';
+export const HOLE_KEY = 'banvy-map-hole-v1';
+const RESUME_MS = 6 * 60 * 60 * 1000;
+export function liveRound(storage, courses, now = Date.now()) {
+  let best = null;
+  for (const course of courses) {
+    let round = null, hole = null;
+    try { round = JSON.parse(storage?.getItem(`${ROUND_KEY}:${course.slug}`) ?? 'null'); } catch { round = null; }
+    if (!round || round.endedAt || typeof round.scores !== 'object' || round.scores === null) continue;
+    const played = Object.values(round.scores).filter(score => score && (score.picked || Number.isFinite(score.strokes)));
+    if (!round.begunAt && !played.length) continue;
+    try { hole = JSON.parse(storage?.getItem(`${HOLE_KEY}:${course.slug}`) ?? 'null'); } catch { hole = null; }
+    const touched = Math.max(Number(round.begunAt) || 0, Number(hole?.at) || 0);
+    if (!touched || now - touched > RESUME_MS) continue;
+    if (!best || touched > best.touched) {
+      best = { course, touched, hole: Number(hole?.value) || null, holes: played.length,
+        strokes: played.reduce((sum, score) => sum + (Number.isFinite(score.strokes) ? score.strokes : 0), 0) };
+    }
+  }
+  return best;
 }
 
 /* ------------------------------------------------------------ the light map

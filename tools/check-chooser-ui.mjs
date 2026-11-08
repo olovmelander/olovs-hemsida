@@ -469,8 +469,20 @@ for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false,
   });
 }
 
+/* A card opens the course's own page (course-sheet.js), where the round is set
+   up; its button starts it. `choose` picks a tee and a starting hole first. */
+async function startFromSheet(page, slug, { tee = null, hole = null, look = false } = {}) {
+  await page.click(`#chooser .card[data-slug="${slug}"]`);
+  await page.waitForSelector('#courseSheet[open] [data-go]');
+  if (tee !== null) await page.click(`#courseSheet .cs-tee:has(input[value="${tee}"])`);
+  if (hole !== null) await page.click(`#courseSheet .seg-opt:has(input[name="cs-hole"][value="${hole}"])`);
+  await page.click(look ? '#courseSheet [data-look]' : '#courseSheet [data-go]');
+  await page.waitForTimeout(500);
+}
+
 await section('launch urls', async () => {
-  const slug = manifest.courses[0].slug;
+  const course = manifest.courses.find(c => c.holes === 18 && (c.tees?.names?.length ?? 0) > 2) || manifest.courses[0];
+  const slug = course.slug;
   /* a phone: the detailed course must say karta=0, the map karta=1 */
   {
     const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: '/', blockWorker: true });
@@ -480,21 +492,45 @@ await section('launch urls', async () => {
     await page.waitForSelector('#chooser:not([hidden]) .card');
     gate(await page.evaluate(() => location.hash) === '#3d', 'phone: Detaljerad 3D opens the list at #3d');
     await page.click(`#chooser .card[data-slug="${slug}"]`);
-    await page.waitForTimeout(500);
-    gate(seen.length === 1 && paramsOf(seen[0]).karta === '0' && paramsOf(seen[0]).bana === slug,
-      `phone: a card in Detaljerad 3D opens ${seen[0]?.replace(BASE, '')} -- karta=0, or the phone would open the map`);
+    await page.waitForSelector('#courseSheet[open]');
+    await page.waitForTimeout(700); /* it slides up into place */
+    const sheet = await page.evaluate(() => {
+      const d = document.getElementById('courseSheet');
+      const small = [...d.querySelectorAll('button, .cs-tee span, .cs-mode, .seg-opt')].filter(e => e.offsetParent)
+        .map(e => ({ e, b: e.getBoundingClientRect() })).filter(x => x.b.height < 40)
+        .map(x => `${String(x.e.className).split(' ')[0] || x.e.tagName} ${Math.round(x.b.width)}x${Math.round(x.b.height)}`);
+      const go = d.querySelector('[data-go]').getBoundingClientRect();
+      return { title: d.querySelector('#csTitle').textContent, tees: d.querySelectorAll('.cs-tee').length, go: go.bottom <= innerHeight && go.top >= 0,
+        mode: d.querySelector('input[name="cs-mode"]:checked')?.value, small };
+    });
+    if (SHOTS) await page.screenshot({ path: path.join(SHOTS, 'course-sheet-390x844.png') });
+    gate(sheet.title === course.name && sheet.tees === course.tees.names.length && sheet.mode === 'detailed',
+      `phone: a card opens its course's page first (${sheet.title}, ${sheet.tees} tees, mode ${sheet.mode})`);
+    gate(sheet.go && sheet.small.length === 0, `phone: its start button is on screen and every choice is a 40 px target${sheet.small.length ? ' -- ' + sheet.small.join(', ') : ''}`);
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(300);
+    gate(await page.evaluate(() => !document.getElementById('courseSheet').open && location.hash === '#3d'), 'Escape closes the course page and stays on the list');
+    await startFromSheet(page, slug, { tee: 0, hole: 10 });
+    const d = seen[0] ? paramsOf(seen[0]) : {};
+    gate(seen.length === 1 && d.karta === '0' && d.bana === slug && d.tee === '1' && d.hal === '10',
+      `phone: Spela i 3D opens ${seen[0]?.replace(BASE, '')} -- karta=0, the tee and the hole chosen`);
     /* an aborted navigation leaves the tab on the browser's error page */
     seen.length = 0;
     await page.goto(BASE + '/#karta', { waitUntil: 'load' });
     await page.waitForSelector('#chooser:not([hidden]) .card');
     const cta = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .sha-text`)?.textContent, slug);
     gate(/kartan|Fortsätt/.test(cta || ''), `phone: in Lätt 3D the card says what it opens: "${cta}"`);
-    await page.click(`#chooser .card[data-slug="${slug}"]`);
-    await page.waitForTimeout(500);
-    gate(seen.length === 1 && paramsOf(seen[0]).karta === '1', `phone: a card in Lätt 3D opens ${seen[0]?.replace(BASE, '')} -- karta=1`);
+    await startFromSheet(page, slug, { tee: 1 });
+    const m = seen[0] ? paramsOf(seen[0]) : {};
+    gate(seen.length === 1 && m.karta === '1' && m.runda === '1', `phone: Starta rundan opens ${seen[0]?.replace(BASE, '')} -- karta=1 and the round begun`);
+    seen.length = 0;
+    await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+    await page.waitForSelector('#chooser:not([hidden]) .card');
+    await startFromSheet(page, slug, { look: true });
+    gate(seen.length === 1 && paramsOf(seen[0]).karta === '1' && !('runda' in paramsOf(seen[0])), `phone: Bara titta opens the map without a round: ${seen[0]?.replace(BASE, '')}`);
     await page.goto(BASE + '/', { waitUntil: 'load' });
-    const remembered = await page.evaluate(() => [localStorage.getItem('banvy-last-course'), localStorage.getItem('banvy-last-mode')]);
-    gate(remembered[0] === slug && remembered[1] === 'map', `and the menu will offer it again: ${remembered.join(', ')}`);
+    const remembered = await page.evaluate(s => [localStorage.getItem('banvy-last-course'), localStorage.getItem('banvy-last-mode'), localStorage.getItem(`banvy-map-tee-v1:${s}`)], slug);
+    gate(remembered[0] === slug && remembered[1] === 'map' && remembered[2] === '1', `and the menu will offer it again, with the tee kept for the map: ${remembered.join(', ')}`);
     await ctx.close();
   }
   /* a desktop, with settings: they ride on the detailed course's link */
@@ -505,13 +541,45 @@ await section('launch urls', async () => {
     const seen = await catchLaunch(page);
     await page.goto(BASE + LIST, { waitUntil: 'load' });
     await page.waitForSelector('#chooser .card');
-    await page.click(`#chooser .card[data-slug="${slug}"]`);
-    await page.waitForTimeout(500);
+    await startFromSheet(page, slug);
     const p = seen[0] ? paramsOf(seen[0]) : {};
-    gate(p.bana === slug && !('karta' in p) && p.q === 'hi' && p.gl === '1' && p.ljus === 'nu' && p.vy === 'tee',
-      `desktop: the settings ride on the link the player reads: ${seen[0]?.replace(BASE, '')}`);
+    gate(p.bana === slug && !('karta' in p) && p.q === 'hi' && p.gl === '1' && p.ljus === 'nu' && p.vy === 'tee' && p.tee === String((course.tees.def ?? 0) + 1),
+      `desktop: the settings and the course's own tee ride on the link the player reads: ${seen[0]?.replace(BASE, '')}`);
     await ctx.close();
   }
+});
+
+/* A round under way in the map is what the golfer is standing in: the menu
+   offers it first, its card says so, and it resumes without a new round. */
+await section('a round under way', async () => {
+  const course = manifest.courses.find(c => c.holes === 18) || manifest.courses[0];
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+  await ctx.addInitScript(slug => {
+    try {
+      const now = Date.now();
+      localStorage.setItem(`banvy-map-round-v1:${slug}`, JSON.stringify({ version: 1, startedAt: '2026-11-08', handicap: 18, begunAt: now - 3600e3, scores: { 1: { strokes: 5, putts: 2 }, 2: { strokes: 4, putts: 2 } } }));
+      localStorage.setItem(`banvy-map-hole-v1:${slug}`, JSON.stringify({ value: 3, at: now - 300e3 }));
+    } catch {}
+  }, course.slug);
+  const page = await ctx.newPage();
+  const seen = await catchLaunch(page);
+  await page.goto(BASE + '/', { waitUntil: 'load' });
+  await page.waitForSelector('#home [data-resume]');
+  const card = await page.evaluate(() => {
+    const b = document.querySelector('#home [data-resume]');
+    return { live: b.classList.contains('is-live'), text: b.textContent.replace(/\s+/g, ' ').trim() };
+  });
+  gate(card.live && /Runda pågår/.test(card.text) && card.text.includes(course.name) && /Hål 3/.test(card.text) && /9 slag/.test(card.text),
+    `the menu offers the round under way first: "${card.text}"`);
+  await page.click('#home [data-resume]');
+  await page.waitForTimeout(500);
+  const p = seen[0] ? paramsOf(seen[0]) : {};
+  gate(p.bana === course.slug && p.karta === '1' && !('runda' in p), `and resumes it in the map, without beginning another: ${seen[0]?.replace(BASE, '')}`);
+  await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+  await page.waitForSelector('#chooser:not([hidden]) .card');
+  const badge = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .current-badge.is-live`)?.textContent, course.slug);
+  gate(badge === 'Runda pågår', `its course's card says so too: "${badge}"`);
+  await ctx.close();
 });
 
 await section('mode switch and the way back', async () => {
@@ -573,6 +641,21 @@ await section('settings', async () => {
   const reset = await page.evaluate(() => ({ s: localStorage.getItem('banvy-settings-v1'), light: localStorage.getItem('banvy-map-light-v1'), bag: localStorage.getItem('banvy-caddie-bag-v1'),
     checked: document.querySelector('.seg[data-name="quality"] input:checked')?.value }));
   gate(reset.s === null && reset.light === null && reset.bag === bag && reset.checked === 'auto', 'Återställ clears the preferences, shows the defaults, and leaves the bag alone');
+  /* the backup: out as a file, everything wiped, and back in after it says what it holds */
+  await page.evaluate(() => localStorage.setItem('banvy-map-rounds-v1', JSON.stringify({ version: 1, rounds: [{ id: 1, course: 'x', holes: [], totals: {} }] })));
+  const [download] = await Promise.all([page.waitForEvent('download'), page.click('[data-backup-save]')]);
+  const file = path.join(fs.mkdtempSync(path.join(process.env.TEMP || process.env.TMPDIR || '/tmp', 'banvy-backup-')), download.suggestedFilename());
+  await download.saveAs(file);
+  const saved = JSON.parse(fs.readFileSync(file, 'utf8'));
+  await page.evaluate(() => { for (const key of Object.keys(localStorage)) if (key.startsWith('banvy')) localStorage.removeItem(key); });
+  await page.setInputFiles('[data-backup-file]', file);
+  await page.waitForSelector('[data-backup-confirm]:not([hidden])');
+  const said = await page.evaluate(() => document.querySelector('[data-backup-text]').textContent);
+  await page.click('[data-backup-apply]');
+  await page.waitForTimeout(300);
+  const back = await page.evaluate(() => ({ bag: localStorage.getItem('banvy-caddie-bag-v1'), rounds: JSON.parse(localStorage.getItem('banvy-map-rounds-v1') || '{}').rounds?.length ?? 0 }));
+  gate(saved.kind === 'banvy-backup' && /^banvy-\d{4}-\d\d-\d\d\.json$/.test(download.suggestedFilename()) && /1 runda/.test(said) && back.bag === bag && back.rounds === 1,
+    `the backup goes out as ${download.suggestedFilename()} and comes back after saying what it holds ("${said.slice(0, 60)}…")`);
   gate(errs.length === 0, `settings: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
   await ctx.close();
 });
@@ -613,6 +696,21 @@ for (const [w, h, touch] of [[390, 844, true], [1440, 900, false]]) {
     await page.waitForTimeout(300);
     const narrowed = await page.evaluate(() => Number(document.querySelector('#stats .st-tile dd').textContent));
     gate(narrowed > 0 && narrowed < m.rounds, `${w}x${h}: 90 dagar narrows every figure (${narrowed} of ${m.rounds} rounds)`);
+    /* hole by hole: offered course by course, drawn a column a hole, with its table */
+    await page.click('#stats .seg-opt:has(input[value="all"])');
+    await page.waitForTimeout(300);
+    const picks = await page.evaluate(() => document.querySelectorAll('#stats [data-pick-course]').length);
+    await page.click('#stats [data-pick-course]');
+    await page.waitForTimeout(400);
+    const holes = await page.evaluate(() => ({ cols: document.querySelectorAll('#stats .shb-col').length,
+      labels: [...document.querySelectorAll('#stats .shb-col em')].map(e => e.textContent),
+      sideways: document.getElementById('stats').scrollWidth > document.getElementById('stats').clientWidth + 1 }));
+    gate(picks > 0 && holes.cols === 18 && holes.labels.length >= 1 && holes.labels.length <= 2 && !holes.sideways,
+      `${w}x${h}: hole by hole offers ${picks} courses and draws a column a hole (${holes.cols}), labelling only the extremes (${holes.labels.join(', ')})`);
+    await page.click('#stats [data-view="holes"]');
+    await page.waitForTimeout(300);
+    const holeRows = await page.evaluate(() => document.querySelectorAll('#stats [data-card="holes"] .st-table tbody tr').length);
+    gate(holeRows === 18, `${w}x${h}: and its table has every hole (${holeRows})`);
     gate(errs.length === 0, `${w}x${h}: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
     await ctx.close();
   });
@@ -664,6 +762,21 @@ if (PLAYER) {
     const after = await page.evaluate(() => ({ hole: document.getElementById('cno').textContent, clean: document.body.classList.contains('clean'), sky: window.V3D.skyState() }));
     gate(JSON.stringify(before) === JSON.stringify(after),
       `letters in the search do not steer the course behind it (hole ${before.hole}->${after.hole}, clean ${before.clean}->${after.clean}, markers ${before.sky}->${after.sky})`);
+    /* another course, picked over the running one, opens its own page; Escape closes
+       the page and leaves the list open behind it */
+    {
+      const other = manifest.courses.find(c => c.slug !== slug).slug;
+      await page.evaluate(() => { const i = document.getElementById('courseSearchInput'); i.value = ''; i.dispatchEvent(new Event('input')); });
+      await page.click(`#chooser .card[data-slug="${other}"]`);
+      await page.waitForSelector('#courseSheet[open]', { timeout: 20000 });
+      const styled = await page.evaluate(() => getComputedStyle(document.querySelector('#courseSheet .seg') || document.body).display);
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(300);
+      const after = await page.evaluate(() => ({ sheet: document.getElementById('courseSheet').open, list: document.body.classList.contains('choosing') }));
+      gate(styled === 'flex' && !after.sheet && after.list, `in the player another course opens its own page, styled (${styled}); Escape closes it and keeps the list`);
+      await page.click('#courseSearchInput');
+      await page.keyboard.type('npm h', { delay: 30 });
+    }
     await page.keyboard.press('Escape');
     await page.waitForTimeout(200);
     const e1 = await page.evaluate(() => ({ q: document.getElementById('courseSearchInput').value, open: document.body.classList.contains('choosing') }));

@@ -72,6 +72,25 @@ describe('what the rounds add up to', () => {
   });
 });
 
+describe('hole by hole', () => {
+  const rounds = [
+    played(nine, 1, '2026-09-01', [[5, 2, 'hit'], [4, 2, 'left'], [3, 1], [7, 3, 'right'], [4, 2, 'hit'], [6, 2, 'right'], [2, 1], [4, 2, 'hit'], [5, 2, 'hit']]),
+    played(nine, 2, '2026-09-08', [[4, 2, 'hit'], [5, 2, 'right'], [3, 2], [6, 2, 'right'], [4, 1, 'hit'], [5, 3, 'right'], [4, 2], [4, 2, 'hit'], [5, 2, 'hit']]),
+  ];
+  it('is drawn for one course only', () => {
+    expect(playerStats({ rounds, now: NOW }).byHoleNumber).toBeNull();
+    const holes = playerStats({ rounds, filter: { course: 'nian' }, now: NOW }).byHoleNumber;
+    expect(holes).toHaveLength(9);
+  });
+  it('averages each hole against its own par, with its best and its fairways', () => {
+    const holes = playerStats({ rounds, filter: { course: 'nian' }, now: NOW }).byHoleNumber;
+    const fourth = holes.find(h => h.n === 4);
+    expect(fourth).toMatchObject({ par: 5, rounds: 2, average: 6.5, toPar: 1.5, best: 6, putts: 2.5, fairway: 0 });
+    expect(holes.find(h => h.n === 1).fairway).toBe(1);
+    expect(holes.find(h => h.n === 3).fairway).toBeNull();
+  });
+});
+
 describe('the clubs', () => {
   it('takes their lengths from the measured shots, and names them from the bag', () => {
     let shots = [];

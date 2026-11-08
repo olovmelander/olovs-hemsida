@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import fs from 'node:fs';
 import { lightNow, sameLight, skyOf, snowLies, NU } from './light-now.mjs';
 import { ATMOSPHERE_PRESETS } from './atmosphere-presets.mjs';
+import { LIGHTS } from '../shell/settings-store.mjs';
 
 /* Upsala GK, and Veckefjärden in Jämtland, further north */
 const UPPSALA = [59.839, 17.4952], VECKEFJARDEN = [63.2845, 18.6735];
@@ -90,7 +91,12 @@ describe('Nu: the light of this moment', () => {
     const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
     const html = fs.readFileSync(new URL('../../index.html', import.meta.url), 'utf8');
     const menu = fs.readFileSync(new URL('../shell/menu.js', import.meta.url), 'utf8');
-    for (const text of [html, menu]) for (const key of ['nu', 'winter']) expect(text).toContain(`data-preset="${key}"`);
+    for (const key of ['nu', 'winter']) expect(html).toContain(`data-preset="${key}"`);
+    /* the menu (8 November) draws Nu by hand and the ten lights from the shared table,
+       the same one Inställningar draws its skies from: Vinter is among them */
+    expect(menu).toContain('data-preset="nu"');
+    expect(menu).toMatch(/LIGHTS\.map\(light => `<button class="nd-light" type="button" data-preset="\$\{light\.preset\}"/);
+    expect(LIGHTS.map(light => light.preset)).toEqual(expect.arrayContaining(['winter', 'golden', 'noon', 'summer', 'dawn', 'midnight', 'bluehour', 'storm', 'mist', 'host']));
     expect(main).toMatch(/document\.querySelectorAll\('\[data-preset\]'\)\.forEach\(b => b\.onclick = \(\) => chooseLight\(b\.dataset\.preset\)\);/);
     expect(main).toMatch(/sp\.set\('ljus', lightChoice === 'nu' \? 'nu' :/);
     /* never fetched under det or by an automated browser */
