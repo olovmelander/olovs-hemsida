@@ -11,6 +11,7 @@ import { bakeTileRelief, decodeTileHeights, sampleTile } from './map-height.mjs'
 import { boxInFrustum, buildTileTree, TILE_SAMPLES } from './map-lod.mjs';
 import { bakeHillShade, shadeKey } from './map-horizon.mjs';
 import { raiseHouses } from './map-houses.mjs';
+import { createFarBlocker, createFarSample, farForestCells, FAR_FOREST, pictureSampler, plantFarCell, readForestPicture } from './map-far-forest.mjs';
 import { plantTile } from './map-trees.mjs';
 
 export const MAP_OFFLINE_CACHE = 'banvy-map-offline-v1';
@@ -26,6 +27,12 @@ const RETRY_MS = 15000;
 /* The forest beyond the 1 m ground: a tile's trees are about 7 KB against its ground's
    50, so a wide view can keep them without loading the ground under them. */
 const FOREST_FETCHES = 3, FOREST_PLANTS_PER_FRAME = 2;
+/* A far cell is planted on the main thread from pictures already in memory, about
+   half a millisecond a cell here and 2-4 ms with the CPU slowed four times: cells are
+   planted until this much of a frame is spent, at least one. A whole ground's far wood is about a million trees,
+   32 MB: past this many the cells farthest from the eye give theirs back, and are
+   planted again if the view comes back. */
+const FAR_PLANTING_MS = 3, FAR_RESIDENT_TREES = 300000;
 
 /* The tree pictures are one small download shared by a whole course, and addressed
    by content, so the first visit keeps them: no later visit, and no bad signal, has
@@ -55,7 +62,7 @@ export async function fetchTileBytes(url, { signal } = {}) {
   return new Uint8Array(await response.arrayBuffer());
 }
 
-export function createTileStore({ ground, baseHref, renderer, painter, rules, structures = [], onChange }) {
+export function createTileStore({ ground, baseHref, renderer, painter, rules, structures = [], farForest = null, onChange }) {
   const { nodes, root } = buildTileTree(ground);
   const datum = ground.frame.origin.heightRH2000;
   const pending = new Map();      /* wanted, by node id, this view's order */
@@ -65,6 +72,29 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
   const metreTiles = [...nodes.values()].filter(node => node.lod === 0 && node.layers.stands);
   let forestActive = 0;
   let active = 0, clock = 0, disposed = false, bytesFetched = 0, failures = 0;
+  /* Past the 1 m tiles, the forest picture's wood (map-far-forest.mjs), once its
+     samples are read: until then, and if they cannot be, the painted canopy alone. */
+  const templates = rules.catalogue.species;
+  const far = farForest?.land?.forestBytes ? farForestCells(root, metreTiles) : { cells: [] };
+  const farSample = createFarSample({ templates });
+  let farWanted = [], farResident = 0, farEye = [0, 0, 0], farView = 0;
+  let forestAt = null, blockerFor = null;
+  if (far.cells.length) {
+    const { land } = farForest;
+    readForestPicture(land.forestBytes).then(picture => {
+      if (disposed) return;
+      forestAt = pictureSampler({ picture, x0: land.x0, z0: land.z0, spacing: land.spacing });
+      blockerFor = createFarBlocker(farForest);
+      onChange();
+    }).catch(error => console.warn('map far forest:', error.message));
+  }
+  const releaseFar = cell => {
+    if (!cell.forestGpu) return;
+    farResident -= cell.forestGpu.count;
+    renderer.releaseForest(cell.forestGpu);
+    cell.forestGpu = null;
+    cell.groundLod = undefined;
+  };
 
   const isReady = node => node.state === 'ready';
   const fileUrl = file => resolveV2AssetUrl(file.url, baseHref);
@@ -85,6 +115,7 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       const stand = stands && { payload: stands.payload, section: stands.header.standField };
       node.stand = stand;
       node.trees = plantTile({ node, heights, stand, objects: objects?.content?.records, ground, rules });
+      farSample.add(node, node.trees);
     } catch (error) {
       node.stand = null;
       node.trees = null;
@@ -232,10 +263,28 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
         const { stand, objects } = node.forestRecords;
         const trees = plantTile({ node, stand, objects: objects ?? null, ground, rules, groundAt: this.heightAt });
         node.forestRecords = null;
+        farSample.add(node, trees);
         node.forestGpu = trees.length ? renderer.uploadForest(trees) : null;
         node.forest = 'ready';
       }
-      return uploads.length + forestPlanting.length;
+      const planting = performance.now();
+      while (farWanted.length && performance.now() - planting < FAR_PLANTING_MS) {
+        const cell = farWanted.shift();
+        const trees = plantFarCell({ cell, core: far.core, covered: far.covered, forestAt, blocked: blockerFor(cell), heightAt: this.heightAt, sample: farSample, templates });
+        releaseFar(cell);
+        cell.forestGpu = trees.length ? renderer.uploadForest(trees) : null;
+        cell.groundLod = finestAt(cell.x0 + cell.size / 2, cell.z0 + cell.size / 2)?.lod ?? Infinity;
+        farResident += cell.forestGpu?.count ?? 0;
+      }
+      if (farResident > FAR_RESIDENT_TREES) {
+        const away = cell => Math.hypot(cell.x0 + cell.size / 2 - farEye[0], cell.z0 + cell.size / 2 - farEye[2]);
+        const spare = far.cells.filter(cell => cell.forestGpu && cell.seen !== farView).sort((a, b) => away(b) - away(a));
+        for (const cell of spare) {
+          if (farResident <= FAR_RESIDENT_TREES) break;
+          releaseFar(cell);
+        }
+      }
+      return uploads.length + forestPlanting.length + farWanted.length;
     },
 
     /* The forest in view, as far as a tree still reads. Its tiles are asked for nearest
@@ -251,6 +300,23 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       forestWanted.clear();
       for (const { node } of missing.sort((a, b) => a.away - b.away)) forestWanted.set(node.id, node);
       pumpForest();
+      /* The far wood waits for enough measured trees to be drawn from, and is planted
+         again when finer ground arrives under it, so it stands on what is drawn. */
+      const farMissing = [];
+      farEye = eye;
+      farView++;
+      if (forestAt && farSample.count >= FAR_FOREST.minimumSamples) {
+        for (const cell of far.cells) {
+          const away = Math.max(0, Math.hypot(cell.x0 + cell.size / 2 - eye[0], cell.z0 + cell.size / 2 - eye[2]) - cell.size * 0.71);
+          if (away > reach || !boxInFrustum(planes, cell.x0, cell.minY * exaggeration, cell.z0, cell.x0 + cell.size, (cell.maxY + 40) * exaggeration, cell.z0 + cell.size)) continue;
+          cell.seen = farView;
+          if (cell.forestGpu) standing.push({ node: cell, reach: away });
+          const lod = finestAt(cell.x0 + cell.size / 2, cell.z0 + cell.size / 2)?.lod;
+          if (lod !== undefined && !(cell.groundLod <= lod)) farMissing.push({ cell, away });
+        }
+      }
+      farWanted = farMissing.sort((a, b) => a.away - b.away).map(({ cell }) => cell);
+      if (farWanted.length) onChange();
       return standing;
     },
 
@@ -303,7 +369,8 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       metreTiles: [...nodes.values()].filter(node => node.lod === 0 && isReady(node)).length,
       bytesFetched,
       failures,
-      busy: active + pending.size + uploads.length + forestActive + forestWanted.size + forestPlanting.length,
+      busy: active + pending.size + uploads.length + forestActive + forestWanted.size + forestPlanting.length + farWanted.length,
+      farTrees: far.cells.reduce((sum, cell) => sum + (cell.forestGpu?.count ?? 0), 0),
     }),
 
     /* After a lost context nothing on the GPU survives; decoded heights do, but
@@ -316,6 +383,12 @@ export function createTileStore({ ground, baseHref, renderer, painter, rules, st
       uploads.length = 0;
       forestWanted.clear();
       forestPlanting.length = 0;
+      farWanted = [];
+      farResident = 0;
+      for (const cell of far.cells) {
+        cell.forestGpu = null;
+        cell.groundLod = undefined;
+      }
       for (const node of nodes.values()) {
         if (node.state === 'ready' || node.state === 'failed' || queued.has(node)) node.state = null;
         node.forestGpu = null;
