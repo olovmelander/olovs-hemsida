@@ -1627,7 +1627,17 @@ the 9-hole course), with shares within two points of round 3's.
 - **The views read alike.** The added trees stand inside the woods. These timings are
   single passes, not interleaved frame-time runs, so the owner's frame-time item stays
   open.
-- **CPU checks:** see the commit that records them.
+- **CPU checks** (after the merge of `trees-round3`):
+  - `pnpm exec vitest run apps/golf`: 1,933 of 1,933 passed in 228 files.
+  - Node tests (the `pnpm test` list): first 524 passed, 1 failed, 3 skipped. The failure
+    was the stale `course-workflows/johannesberg/workflow.json`; after regenerating it
+    with `production.mjs --configure`, a rerun passed 525 of 528, with 3 skipped and none
+    failed.
+  - `lint-app`: clean.
+  - `check-app-build`: passes for all 13 published graphs.
+  - `check:course-workflow`: passes.
+  - `check-prepared-startup --public apps/golf/dist`: passes for every course.
+  - Pipeline tests: 31 of 31.
 
 ### Reproduce round 4b
 
