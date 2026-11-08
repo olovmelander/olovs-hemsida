@@ -285,7 +285,7 @@ class Outfit:
             side = -side
         q = V(q) + n * .0008
         h = size * k
-        staff = C.tube(name + 'Staff', [q - up * h, q + up * h], [(.11 * h, .03 * h)] * 2, self.col, 6)
+        staff = C.tube(name + 'Staff', [q - up * h, q + up * h], [(.07 * h, .02 * h)] * 2, self.col, 6)
         pennant = C.tube(name + 'Pennant', [q + up * h + side * .03 * h, q + up * h * .62 + side * h * 1.05],
                          [(.36 * h, .03 * h), (.04 * h, .02 * h)], self.col, 4)
         for ob, col in ((staff, staff_col), (pennant, flag_col)):
@@ -380,11 +380,12 @@ class Outfit:
             aa = a if a <= math.pi else a - 2 * math.pi
             out = V((math.sin(aa), -math.cos(aa), 0))
             front = max(0.0, 1 - abs(aa) / math.radians(60))
-            stand_h = (.020 - .004 * front) * k
+            fem = self.v == 'female'
+            stand_h = ((.017 if fem else .020) - .004 * front) * k
             q0 = p + V((0, 0, -.003))
             q1 = p + V((0, 0, stand_h)) + out * .0015
             q2 = q1 + out * .0055 * k + V((0, 0, .001))
-            leaf = (.029 + .021 * front ** 1.6) * k
+            leaf = ((.023 if fem else .029) + (.015 if fem else .021) * front ** 1.6) * k
             q3 = q2 + out * leaf * .46 + V((0, 0, -leaf * .88)) + V((0, -.008 * front, 0))
             rows.append([q0, q1, q2, q3])
         verts = [tuple(v) for r in rows for v in r]; faces = []; cols = 4
@@ -631,6 +632,19 @@ class Outfit:
         self.hide |= C.shrink_mask(self.me, m & np.array([hem_z + .02 < c.z < top - .01 for c in self.centre]), 2)
         self.belt(top)
 
+    def box(self, name, c, ax_w, ax_h, ax_d, w, h, d):
+        """A small box on explicit axes (half sizes w, h, d), bevel-free."""
+        verts = []
+        for sz in (-1, 1):
+            for sy in (-1, 1):
+                for sx in (-1, 1):
+                    verts.append(tuple(V(c) + ax_w * (sx * w) + ax_h * (sy * h) + ax_d * (sz * d)))
+        faces = [(0, 2, 3, 1), (4, 5, 7, 6), (0, 1, 5, 4), (2, 6, 7, 3), (0, 4, 6, 2), (1, 3, 7, 5)]
+        me = bpy.data.meshes.new(name); me.from_pydata(verts, [], faces); me.update()
+        bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.to_mesh(me); bm.free()
+        ob = bpy.data.objects.new(name, me); self.col.objects.link(ob)
+        return ob
+
     def fly(self, ob, top, J):
         """The fly: a stitched J-curve on the front of the trousers or shorts."""
         k = self.k
@@ -676,6 +690,20 @@ class Outfit:
         leather = self.textures.normal('leather')
         self.finish(b, self.mat('belt', P['belt'], .45, normal_image=leather, normal_strength=.3))
         self.belt_ob = b
+        # Belt loops: small tabs of trouser cloth over the belt.
+        loops = []
+        n = len(pts)
+        for deg in (28, -28, 72, -72, 140, -140, 180):
+            a = math.radians(deg)
+            i = int(round((a % (2 * math.pi)) / (2 * math.pi) * n)) % n
+            p = pts[i]; t = (pts[(i + 1) % n] - pts[i - 1]).normalized()
+            out = V((p.x - cen[0], p.y - cen[1], 0)).normalized()
+            loops.append(self.box(f'Golfer_v3_{self.v}_BeltLoop', p + out * .0030 * k, t, V((0, 0, 1)), out,
+                                  .0052 * k, .0205 * k, .0011 * k))
+        lj = C.join(loops, f'Golfer_v3_{self.v}_BeltLoops')
+        if lj:
+            C.transfer_weights(lj, self.trouser_ob)
+            self.finish(lj, self.mat('trousers', P['trousers'], .86, normal_image=self.textures.normal('twill'), normal_strength=.22))
         front = min(pts, key=lambda p: p.y)
         buckle = C.tube(f'Golfer_v3_{self.v}_Buckle', [front + V((-.019 * k, -.0035 * k, 0)), front + V((.019 * k, -.0035 * k, 0))],
                         [(.0175 * k, .0022 * k), (.0175 * k, .0022 * k)], self.col, 4)
@@ -897,7 +925,7 @@ class Outfit:
         hair_col = self.textures.hair_color(P['hair'], P['hair_hi'])
         mat = self.mat('hair', P['hair'], .52, normal_image=strands, normal_strength=.8, color_image=hair_col, specular=.38)
         if self.v == 'female':
-            under = tuple(c * .62 for c in C.hexrgb(P['hair']))
+            under = tuple(c * .8 for c in C.hexrgb(P['hair']))
             shell = self.mat('hair under', '#%02X%02X%02X' % tuple(int(c * 255) for c in under), .6,
                              normal_image=strands, normal_strength=.6, specular=.2)
         else:
@@ -921,7 +949,7 @@ class Outfit:
         objs = []
         import random
         rng = random.Random(7)
-        n = 72
+        n = 116
         for i in range(n):
             a = -math.pi * .92 + 2 * math.pi * .92 * i / (n - 1) + rng.uniform(-.03, .03)
             u = abs(a) / math.pi
@@ -941,16 +969,15 @@ class Outfit:
                 lift = (.0008 + .0016 * math.sin(math.pi * t) + rng.uniform(0, .0005)) * k
                 pts.append(p + (p - c).normalized() * lift)
             pts[-1] = pts[-1].lerp(root, .6)
-            w = (.0074 + rng.uniform(-.0012, .0012)) * k
-            radii = [(w * (.55 + .45 * math.sin(math.pi * min(1.0, .15 + .85 * j / steps))), .0011 * k) for j in range(steps + 1)]
-            objs.append(self.ribbon(f'Golfer_v3_{self.v}_Strand', pts, radii, c))
+            w = (.0056 + rng.uniform(-.0011, .0011)) * k
+            radii = [(w * (.55 + .45 * math.sin(math.pi * min(1.0, .15 + .85 * j / steps))), .0008 * k) for j in range(steps + 1)]
+            objs.append(self.ribbon(f'Golfer_v3_{self.v}_Strand', pts, radii, c, u0=rng.random()))
         sj = C.join(objs, f'Golfer_v3_{self.v}_HairStrands')
         if sj:
-            TX.scale_uv_box(sj, 18)
             C.rigid(sj, 'Head')
             self.finish(sj, mat, None, weights=False)
 
-    def ribbon(self, name, pts, radii, centre, sides=6):
+    def ribbon(self, name, pts, radii, centre, sides=6, u0=0.0):
         """A flattened tube lying on the head: wide along the scalp, thin off it."""
         verts = []; faces = []; n = len(pts)
         for i, p in enumerate(pts):
@@ -967,6 +994,18 @@ class Outfit:
                 faces.append((a, b2, b2 + sides, a + sides))
         faces.append(tuple(reversed(range(sides)))); faces.append(tuple((n - 1) * sides + j for j in range(sides)))
         me = bpy.data.meshes.new(name); me.from_pydata(verts, [], faces); me.update()
+        # UVs run along the strand (U, the hair texture's streak direction).
+        acc = [0.0]
+        for i in range(1, n):
+            acc.append(acc[-1] + (pts[i] - pts[i - 1]).length)
+        uv = me.uv_layers.new(name='UVMap')
+        for poly in me.polygons:
+            for li in poly.loop_indices:
+                vi = me.loops[li].vertex_index
+                if vi >= n * sides:
+                    uv.data[li].uv = (0.0, u0); continue
+                i, j = divmod(vi, sides)
+                uv.data[li].uv = (acc[i] * 3.0, u0 + .3 * j / sides)
         ob = bpy.data.objects.new(name, me); self.col.objects.link(ob)
         for poly in me.polygons:
             poly.use_smooth = True

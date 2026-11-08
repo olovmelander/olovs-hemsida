@@ -90,7 +90,8 @@ class Library:
             h = .5 + .5 * np.sin(2 * np.pi * x * 20) + .1 * tileable_noise(n, 2, 5)
             s = 6
         elif kind == 'hair':
-            # Strands run along V: fine stripes across U, long and slightly wavy.
+            # Strands run along U (the noise is stretched along the image rows):
+            # fine stripes across V, long and slightly wavy.
             base = tileable_noise(n, 1.2, 6, aniso=(1.0, .02))
             wave = tileable_noise(n, 2.5, 7, aniso=(1.0, .08))
             h = .7 * base + .3 * wave
