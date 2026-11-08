@@ -21,6 +21,9 @@
    A native <dialog>: the browser keeps the focus inside, Escape closes it, and
    the page under it is inert.
    =========================================================================== */
+/* the segmented choices and the stepper are the settings page's; over a running
+   course (the player's list) they are not loaded yet */
+import '../styles/hub.css';
 import '../styles/course-sheet.css';
 import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
@@ -236,8 +239,10 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   const outside = e => e.target === dialog;
   dialog.addEventListener('pointerdown', e => { downOutside = outside(e); });
   dialog.addEventListener('click', e => { if (downOutside && outside(e)) close(); downOutside = false; });
-  /* keys typed here are not the page's: the hub's own Escape and 1-4 stay out */
-  dialog.addEventListener('keydown', e => { if (e.key !== 'Escape') e.stopPropagation(); });
+  /* keys typed here are not the page's: the hub's 1-4, a running course's own keys,
+     and an Escape that would close the list behind it all stay out. The dialog's own
+     Escape still closes it: that is the browser's, not a listener's. */
+  dialog.addEventListener('keydown', e => e.stopPropagation());
 
   return {
     open(slug, mode = 'detailed') {

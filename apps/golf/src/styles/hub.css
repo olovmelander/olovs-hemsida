@@ -66,6 +66,9 @@
   transition: background-color 0.2s, border-color 0.2s;
 }
 .hub-back { padding: 0 14px 0 8px; }
+.hub-top-actions { display: flex; align-items: center; gap: 8px; }
+.hub-install { padding: 0 14px 0 11px; border-color: rgba(95, 208, 122, 0.55); color: var(--turf); }
+.hub-install[hidden] { display: none; }
 .hub-brand:focus-visible, .hub-icon-btn:focus-visible, .hub-back:focus-visible { outline: 2px solid var(--turf); outline-offset: 3px; }
 
 /* ===================================================================== HOME */
@@ -211,6 +214,9 @@
 .hr-kicker { font: 700 10.5px/1 Outfit, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: var(--turf); }
 .hr-name { font: 700 18px/1.15 Outfit, sans-serif; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .hr-sub { font: 500 12.5px/1.2 Outfit, sans-serif; color: var(--dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* at a course: the card offers its round */
+.home-resume.is-near .hr-kicker { display: inline-flex; align-items: center; gap: 6px; }
+.home-resume.is-near .hr-kicker svg { width: 13px; height: 13px; }
 /* a round under way: the card is live, and says so before anything else */
 .home-resume.is-live { border-color: rgba(255, 120, 96, 0.5); background: rgba(24, 10, 8, 0.66); }
 .home-resume.is-live .hr-kicker { display: inline-flex; align-items: center; gap: 7px; color: #ff9a85; }

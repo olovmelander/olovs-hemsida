@@ -31,7 +31,7 @@ import { hubUrl, mapUrl } from './router.js';
 import { COURSE_PREVIEWS } from '../course-previews.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { coursesByDistance, distanceText } from './nearest-course.mjs';
-import { LAST_COURSE_KEY, MODES, liveRound, rememberLaunch } from './settings-store.mjs';
+import { LAST_COURSE_KEY, MODES, launchUrl, liveRound, readSettings, rememberLaunch } from './settings-store.mjs';
 
 /* `places` is search vocabulary only, never shown: the placeholder promises
    "bana, ort eller par", and a promise on the front door has to be kept. It
@@ -450,13 +450,28 @@ export function buildRail({ courses, current, last = null, onPick, onIntent, isI
   /* A pick opens the course in the mode on the switch. Over a running course
      the detailed pick is main.js's (the same course just closes the glass); a
      light-map pick is a plain navigation wherever the list lives. */
-  const pick = slug => {
-    if (mode === 'map' && context !== 'hub') {
-      rememberLaunch(storage(), slug, 'map');
-      location.search = mapUrl(slug);
-      return;
+  /* Over a running course (8 November) a pick opens the course's own page too, so a
+     round is set up the same way from anywhere; the running course itself, picked in
+     its own mode, just closes the glass. A harness's det and hero ride along. */
+  let sheet = null;
+  const pick = async slug => {
+    if (context === 'hub' || (slug === current && mode === 'detailed')) { onPick(slug, mode); return; }
+    try {
+      if (!sheet) {
+        const { createCourseSheet } = await import('./course-sheet.js');
+        sheet = createCourseSheet({ courses, lines: LINES, onLaunch: (s, m, plan) => {
+          rememberLaunch(storage(), s, m);
+          const params = new URLSearchParams(launchUrl(s, m, { phone, settings: readSettings(storage()), plan }).slice(1));
+          const from = new URLSearchParams(location.search);
+          for (const key of ['det', 'hero', 'q', 'gl']) if (from.has(key) && !params.has(key)) params.set(key, from.get(key));
+          location.search = `?${params}`;
+        } });
+      }
+      sheet.open(slug, mode);
+    } catch {
+      /* the page could not load: go as the list always did */
+      if (mode === 'map') { rememberLaunch(storage(), slug, 'map'); location.search = mapUrl(slug); } else onPick(slug, mode);
     }
-    onPick(slug, mode);
   };
   el.querySelectorAll('.card').forEach(btn => {
     btn.addEventListener('click', () => pick(btn.dataset.slug));
