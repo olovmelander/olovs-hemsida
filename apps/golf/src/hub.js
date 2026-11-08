@@ -103,7 +103,8 @@ try {
          (214-730 kB) nobody ever reads (see packRequestUrl). Low priority: it
          must never compete with the posters. */
       onIntent: slug => {
-        if (prefetched.has(slug)) return;
+        /* a device asking to save data fetches a pack only when it is opened */
+        if (prefetched.has(slug) || navigator.connection?.saveData) return;
         prefetched.add(slug);
         const course = courses.find(c => c.slug === slug);
         if (course?.packUrl) fetch(packRequestUrl(course), { priority: 'low' }).catch(() => {});
@@ -128,7 +129,8 @@ try {
   const getStats = async () => {
     if (stats) return stats;
     const { buildStats } = await import('./shell/stats-page.js');
-    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route) });
+    /* the rounds are the map's, so a course is played next in the map */
+    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route), onCourse: slug => sheet.open(slug, 'map') });
     stats.hidden = true;
     document.body.append(stats);
     return stats;
@@ -140,12 +142,15 @@ try {
   async function show() {
     /* the course page belongs to the list it was opened from; any other step closes it */
     if (sheet.isOpen()) sheet.close();
-    const route = location.hash.replace(/^#\/?/, '');
+    /* a screen and what it opens on: #statistik/<course> is one course's statistics */
+    const [route, detail = ''] = location.hash.replace(/^#\/?/, '').split('/');
     const mode = modeOfRoute(route);
     const key = mode || PAGES[route] || 'home';
     const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : home;
     if (mode && screen.getMode() !== mode) screen.setMode(mode);
-    if (key !== 'detailed' && key !== 'map') screen.refresh?.();
+    const course = key === 'stats' && detail ? decodeURIComponent(detail) : null;
+    if (course) screen.showCourse(course);
+    else if (key !== 'detailed' && key !== 'map') screen.refresh?.();
     const swap = () => {
       for (const other of [home, chooser, settings, stats]) if (other && other !== screen) other.hidden = true;
       screen.hidden = false;
@@ -162,8 +167,10 @@ try {
     document.documentElement.classList.add('hub-ready');
     /* where a keyboard and a screen reader land: the screen's own heading */
     if (!first) (screen.querySelector('h1[tabindex]') || screen.querySelector('h1'))?.focus({ preventScroll: true });
+    if (course) screen.revealCourse();
   }
-  addEventListener('hashchange', show);
+  /* a link inside the hub (the course page's statistics) is a step walked here too */
+  addEventListener('hashchange', () => { walked = true; show(); });
 
   /* Escape is the way back from a list or the settings. The search field and
      the bag editor take it first when they have something to close. */

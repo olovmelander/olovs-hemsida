@@ -62,8 +62,11 @@ once. It opens the course's own page (`shell/course-sheet.js`, a native
 `<dialog>`), with:
 - the course in its posters, rolling, with its par, holes and the length from the
   chosen tee;
+- the weather on the course now (temperature, sky, wind and gusts), from the
+  reading the app keeps half an hour per course, never under `det=1` or a
+  webdriver;
 - how you have played it before (rounds, best, average per 18), from the map's
-  records;
+  records, with a link to that course in Statistik;
 - **Spela i**: Detaljerad 3D or Lätt 3D, preselected from the list's mode;
 - **Tee**: chips in the tee's own colour, preselected from the tee last played
   there. It is kept under the map's own key (`banvy-map-tee-v1:<slug>`), so
@@ -135,6 +138,8 @@ finished on the course is on the page the moment it opens. The page has:
 - courses, and every round with its scorecard (circles under par, squares over).
 
 Period and course filters scope every figure. Every chart has a table view.
+`#statistik/<course>` opens the page on one course, at Hål för hål. The course
+page links there from its history, and each row under Banor opens its course.
 
 The score scale is diverging (blue under par, grey par, orange over). It was
 validated with the dataviz validator against the cards' surface `#0f1d16`:
@@ -170,4 +175,11 @@ adds:
 - launch URLs per mode and device, with settings;
 - the mode switch, Escape and the browser's back;
 - settings landing in the right keys, and a reset that leaves the bag alone;
-- the statistics page empty, with the example and from a kept round.
+- the statistics page empty, with the example and from a kept round;
+- since 8 November: the course page (its scorecard from the pack, the length and
+  card following the tee, the guide, your Snitt row and averages), the link from
+  it to `#statistik/<course>` and back, Banor rows and Spela, a round under way,
+  a course kept offline, and the backup round trip.
+
+`tools/check-map-field.mjs` checks the start menu's mode cards and the near-course
+card, the round started from a plain link, and a finished round's Se statistik.

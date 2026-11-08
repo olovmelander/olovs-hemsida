@@ -616,6 +616,8 @@ await golfer.waitForSelector('[data-round-sheet]:not([hidden])');
 const ended = await golfer.evaluate(() => ({ rounds: V3DMap.rounds().length, hero: document.querySelector('.map-hero > b').textContent, ended: Boolean(V3DMap.round().endedAt), parts: document.querySelectorAll('[data-round-body] .map-card-score button').length }));
 expect(ended.rounds === 1 && ended.ended, 'it is kept, under Mina rundor');
 expect(ended.parts === lastHole.count && /\d+/.test(ended.hero), `and shown as a summary (${ended.hero} slag)`);
+const statsLink = await golfer.getAttribute('[data-round-stats]', 'href');
+expect(statsLink?.endsWith(`#statistik/${SLUG}`), `and its Se statistik opens this course in Statistik (${statsLink})`);
 expect(await golfer.getAttribute('[data-gps]', 'aria-pressed') === 'false', 'and the GPS goes off with the round');
 await golfer.locator('[data-round-body] .map-card-score button').first().click();
 const putRightRound = await golfer.textContent('[data-score-done]');
