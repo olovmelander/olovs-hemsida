@@ -17,12 +17,14 @@ import fs from 'node:fs';
 import { squaredDistanceTransform } from '../packages/course-v2/distance-transform.mjs';
 import { waterReach } from '../apps/golf/src/engine/water-reach.mjs';
 import { laserPlateLevel, LASER_PLATE_COURSES } from '../apps/golf/src/engine/water-plate-level.mjs';
+import { shoreLevel } from '../apps/golf/src/engine/water-level.mjs';
 
 /* The rules the bake follows: when either changes, the map's shores are stale
    (map.test.mjs compares this with the record). */
 export const SHORE_RULE_FILES = Object.freeze([
   'apps/golf/src/engine/water-reach.mjs',
   'apps/golf/src/engine/water-plate-level.mjs',
+  'apps/golf/src/engine/water-level.mjs',
 ]);
 export function shoreRuleHash(root = '.') {
   const hash = createHash('sha256');
@@ -115,8 +117,11 @@ export function bakeShores({ layouts, probe }) {
       if (water.stream || !(water.ring?.length >= 3)) continue;
       if (review?.reviewedWaterLevel?.(water, probe, review.datum)) water.exactShore = true;
       if (!reachableInSimulator(water, infra)) continue;
-      const { level, evidence } = simulatorLevel({ ring: water.ring, level: water.level, probe, plate: LASER_PLATE_COURSES.has(slug) });
-      const surface = evidence?.surfaceMetres ?? laserPlateLevel(water.ring, probe)?.surfaceMetres ?? NaN;
+      /* main.js's one level rule (engine/water-level.mjs), and its older rules where that cannot read the ground */
+      const shore = shoreLevel({ ring: water.ring, heightAt: probe, near });
+      const { level, evidence } = shore ? { level: shore.level, evidence: shore }
+        : simulatorLevel({ ring: water.ring, level: water.level, probe, plate: LASER_PLATE_COURSES.has(slug) });
+      const surface = evidence?.shoreMetres ?? evidence?.surfaceMetres ?? laserPlateLevel(water.ring, probe)?.surfaceMetres ?? NaN;
       const reach = waterReach({ ring: water.ring, level, surface, heightAt: probe, near });
       if (!reach) continue;
       const masks = shoreMasks(reach);

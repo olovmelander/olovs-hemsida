@@ -274,6 +274,14 @@ land cover's WATER class is a colour verdict: never paint from it. See
   sheet draws, and never lowers a bank. Far lakes grow one mask cell under their
   banks, and Visby's coast one 32 m cell, masked by height. Puttom's lakes stand
   at the laser's surface plus the measured-water 6 cm (`LASER_PLATE_COURSES`).
+  Since 8 November one rule stands every lake, pond and waterhole (`water-level.mjs`
+  `shoreLevel`, the boot and the map's bake alike): the shore at which the water over
+  the laser's ground covers its traced outline best, never below the laser's surface,
+  a large flat measured lake within 10 cm of it, an outline that misses its basin at
+  its own ground. Ditches and streams take water in their cut channels
+  (`stream-water.mjs`; Tortuna's stay centrelines). `tools/audit-water-levels.mjs`
+  measures every course on the CPU. `?waterlevel=before` and `?ditches=0`; see
+  [one way to stand the water](docs/visual-water-levels-2026-11-08.md).
   `?waterreach=0`, `?shorefade=0`, `?shoredamp=0` and `?waterlevel=before` are the
   befores. See [the water's shores](docs/visual-water-shores-2026-11-07.md).
 - The glow's threshold is per preset (`glow.mjs`). A low sun's sits just above

@@ -55,7 +55,9 @@ describe('the simulator\'s rules, copied for the bake', () => {
     expect(MAIN).toContain('const plate = PLATE_LEVELS ? laserPlateLevel(w.ring, groundProbe) : null;');
     expect(MAIN).toContain(`const reachableWater = w => WATER_REACH_ON && !w.stream && w.ring?.length >= 3 && !w.isSea && !w.shoreline
   && !(w.artificialCutEdgeCount > 0) && !w.surr && !w.exactShore && M.infra.terrainPlacement !== 'measured-only';`);
-    expect(MAIN).toContain('const surface = w.levelEvidence?.surfaceMetres ?? laserPlateLevel(w.ring, height)?.surfaceMetres ?? NaN;');
+    expect(MAIN).toContain('const surface = w.levelEvidence?.shoreMetres ?? w.levelEvidence?.surfaceMetres ?? laserPlateLevel(w.ring, height)?.surfaceMetres ?? NaN;');
+    /* the one level rule comes first, and the bake reads the same */
+    expect(MAIN).toContain('const shore = SHORE_LEVELS ? shoreLevel({ ring: w.ring, heightAt: groundProbe, near: (x, z) => near([x, z]) }) : null;');
     expect(MAIN).toContain('near = p => p[0] > x0 - 180 && p[0] < x1 + 180 && p[1] > z0 - 180 && p[1] < z1 + 180;');
   });
 
@@ -87,7 +89,8 @@ describe('a lake read to its shore', () => {
 
   it('runs over the flat to the rise, with the bank beside it', () => {
     const [lake] = bakeShores({ layouts: [layout], probe: basin });
-    expect(lake).toMatchObject({ layouts: ['test'], points: 4, first: [-50, -50], level: 10.25, surface: 10, cell: 1.5 });
+    /* the one level rule: a large flat lake stands at its laser surface plus the display clearance */
+    expect(lake).toMatchObject({ layouts: ['test'], points: 4, first: [-50, -50], level: 10.06, surface: 10, cell: 1.5 });
     const at = (x, z, mask) => mask[Math.round((z - lake.z0) / lake.cell) * lake.cols + Math.round((x - lake.x0) / lake.cell)];
     expect(at(0, 0, lake.wet)).toBe(1);
     expect(at(58, 0, lake.wet), '8 m past the ring is still the basin').toBe(1);
@@ -215,11 +218,12 @@ describe('the shores as published', () => {
     }
   });
 
-  it('draws Puttom\'s Stor-Rössjön at its laser surface, past its traced outline', () => {
+  it('draws Puttom\'s Stor-Rössjön within a decimetre of its laser surface, past its traced outline', () => {
     const lakes = lakesOf(landRecord('puttom'));
-    const stor = lakes.find(lake => Math.abs(lake.surface - 62.73) < 0.02);
+    /* the one level rule (water-level.mjs): a large flat lake's shore within 0.1 m of the laser's 62.73 m */
+    const stor = lakes.find(lake => lake.surface >= 62.73 - 1e-9 && lake.surface <= 62.83 + 1e-9 && lake.cell === 1.5);
     expect(stor, 'puttombuild/laser-features.json: Stor-Rössjön 62.73 m').toBeTruthy();
-    expect(stor.level).toBeCloseTo(62.79, 2);
+    expect(stor.level).toBeCloseTo(stor.surface + 0.06, 1);
     expect(stor.cell, 'beside the course, on the fine lattice').toBe(1.5);
     expect(stor.outsideWetSquareMetres).toBeGreaterThan(3000);
   });

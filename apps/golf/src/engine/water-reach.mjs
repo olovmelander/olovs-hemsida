@@ -43,6 +43,8 @@ export const WATER_REACH = Object.freeze({
   farCellMetres: 5,
   maximumSamples: 100000,
   maximumNodes: 300000,
+  /* how far above the laser's own surface a fitted shore may stand */
+  fitRangeMetres: 1.5,
   /* the bed is the lattice's only this far from the bank: deeper, under more than a metre
      of water that shows no bed (water-shading.mjs), the broad field carves it, and the
      boot does not walk every lake's open water through the lattice */
@@ -186,9 +188,9 @@ function simplifyRing(ring, tolerance) {
  * beside the played ground, which earns it the fine lattice.
  * Returns null when the ring is degenerate or nothing could be sampled.
  */
-export function waterReach({ ring, level, heightAt, near = () => true, surface = NaN, otherWater = null, options = {} } = {}) {
+export function waterReach({ ring, level, heightAt, near = () => true, surface = NaN, otherWater = null, fit = false, options = {} } = {}) {
   const o = { ...WATER_REACH, ...options };
-  if (!Array.isArray(ring) || ring.length < 3 || !Number.isFinite(level) || typeof heightAt !== 'function') return null;
+  if (!Array.isArray(ring) || ring.length < 3 || (!fit && !Number.isFinite(level)) || typeof heightAt !== 'function') return null;
   /* the highest ground that is still the lake's: its level, and never above the laser's
      own surface inside it (water-plate-level.mjs) by more than the tolerance -- a level
      lifted clear of that surface would otherwise flood a gentle bank, or a fairway */
@@ -238,26 +240,28 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
     }
   }
   if (!samples) return null;
-  /* a pond too small (or too wooded) for the plate reading has no surface given: its own
-     inside's lower quartile is its water, and the level's lift never floods its banks */
-  if (!Number.isFinite(surface) && insideHeights.length) {
-    insideHeights.sort((a, b) => a - b);
-    surface = insideHeights[Math.floor(insideHeights.length * 0.25)];
+  if (insideHeights.length) insideHeights.sort((a, b) => a - b);
+  /* THE SPILL: every node's lowest water level that reaches it from the ring's inside --
+     the inside's own ground, then outward the lowest pass over the ground between
+     (a priority flood). Water at level L covers exactly the nodes whose spill is at most
+     L, connected by construction; the level fit below and the reach both read it. */
+  const spill = spillFrom(heights, inside, kind, cols, rows);
+  let fitted = null;
+  if (fit) {
+    fitted = fitShoreLevel({ spill, inside, kind, n, surface, insideHeights, maximumRise: o.fitRangeMetres });
+    if (!fitted) return null;
+    level = fitted.level;
+    ceiling = fitted.shore + o.wetToleranceMetres;
+  } else {
+    /* a pond too small (or too wooded) for the plate reading has no surface given: its own
+       inside's lower quartile is its water, and the level's lift never floods its banks */
+    if (!Number.isFinite(surface) && insideHeights.length) surface = insideHeights[Math.floor(insideHeights.length * 0.25)];
+    ceiling = Math.min(level, Number.isFinite(surface) ? surface : Infinity) + o.wetToleranceMetres;
   }
-  ceiling = Math.min(level, Number.isFinite(surface) ? surface : Infinity) + o.wetToleranceMetres;
   for (let i = 0; i < n; i++) if (kind[i] === 1 && Number.isFinite(heights[i]) && heights[i] <= ceiling) kind[i] = 2;
-  /* the water: from the ring's own wet inside, across connected low ground */
+  /* the water: every node the level reaches from the ring's inside */
   const wet = new Uint8Array(n);
-  const queue = new Int32Array(n);
-  let head = 0, tail = 0;
-  for (let i = 0; i < n; i++) if (inside[i] && kind[i] === 2) { wet[i] = 1; queue[tail++] = i; }
-  while (head < tail) {
-    const i = queue[head++], c = i % cols;
-    for (const j of [c ? i - 1 : -1, c + 1 < cols ? i + 1 : -1, i - cols, i + cols]) {
-      if (j < 0 || j >= n || wet[j] || kind[j] !== 2) continue;
-      wet[j] = 1; queue[tail++] = j;
-    }
-  }
+  for (let i = 0; i < n; i++) if ((kind[i] === 1 || kind[i] === 2) && spill[i] <= ceiling) wet[i] = 1;
   const dry = squaredDistanceTransform(cols, rows, i => wet[i] === 0 && kind[i] !== 3);
   const bank = new Float32Array(n);
   let outsideWet = 0, farthest = 0;
@@ -284,9 +288,111 @@ export function waterReach({ ring, level, heightAt, near = () => true, surface =
   const outline = traceMaskOutline(sheet, cols, rows, x0, z0, cell);
   if (!outline) return null;
   return makeReach({
-    level, ceiling, x0, z0, cell, cols, rows, wet, bank, kind, outline,
+    level, ceiling, fitted, x0, z0, cell, cols, rows, wet, bank, kind, outline,
     stats: { cell, samples, nodes: n, outsideWetSquareMetres: Math.round(outsideWet * cell * cell),
       farthestOutsideMetres: +farthest.toFixed(1), outlinePoints: outline.length, ringPoints: ring.length },
+  });
+}
+
+/* The lowest water level that reaches each node from the ring's inside (Infinity where
+   none can: beyond the reach, another sheet's water, no ground). A binary-heap priority
+   flood seeded with every inside node at its own height. */
+function spillFrom(heights, inside, kind, cols, rows) {
+  const n = cols * rows;
+  const spill = new Float32Array(n).fill(Infinity);
+  const heapI = new Int32Array(n), heapV = new Float32Array(n);
+  let size = 0;
+  const push = (i, v) => {
+    let k = size++;
+    while (k > 0) {
+      const p = (k - 1) >> 1;
+      if (heapV[p] <= v) break;
+      heapI[k] = heapI[p]; heapV[k] = heapV[p]; k = p;
+    }
+    heapI[k] = i; heapV[k] = v;
+  };
+  const pop = () => {
+    const top = heapI[0], last = heapI[--size], lastV = heapV[size];
+    let k = 0;
+    for (;;) {
+      let child = 2 * k + 1;
+      if (child >= size) break;
+      if (child + 1 < size && heapV[child + 1] < heapV[child]) child++;
+      if (heapV[child] >= lastV) break;
+      heapI[k] = heapI[child]; heapV[k] = heapV[child]; k = child;
+    }
+    heapI[k] = last; heapV[k] = lastV;
+    return top;
+  };
+  const open = i => (kind[i] === 1 || kind[i] === 2) && Number.isFinite(heights[i]);
+  for (let i = 0; i < n; i++) if (inside[i] && open(i)) { spill[i] = heights[i]; push(i, heights[i]); }
+  const done = new Uint8Array(n);
+  while (size) {
+    const i = pop();
+    if (done[i]) continue;
+    done[i] = 1;
+    const c = i % cols, v = spill[i];
+    for (const j of [c ? i - 1 : -1, c + 1 < cols ? i + 1 : -1, i - cols, i + cols]) {
+      if (j < 0 || j >= n || done[j] || !open(j)) continue;
+      const w = Math.max(heights[j], v);
+      if (w < spill[j]) { spill[j] = w; push(j, w); }
+    }
+  }
+  return spill;
+}
+
+/* THE LEVEL A TRACED SHORE AND ITS GROUND AGREE ON (8 November, owner request: "one
+   solid way to place the water correctly on the golf courses"; Upsala's first ponds
+   felt too low). A water outline is traced off summer aerials: it is where the water
+   stands. The laser caught the same water's surface on one day of one campaign, often
+   lower, and a level read off either alone was wrong somewhere: the outline's ground
+   plus a quarter metre flooded banks, and the laser's surface left Upsala's ponds a
+   metre down their banks inside their own outlines.
+
+   So the level is the one at which the water, rising over the laser's ground from the
+   outline's inside, covers the outline best: the most overlap (intersection over
+   union) between the water and the traced polygon, the lowest such level within half
+   a percent, never below the laser's own surface inside (the water was at least that
+   high when it was measured) and at most `maximumRise` above it. The sheet stands the
+   measured-water display clearance above that shore. */
+export function fitShoreLevel({ spill, inside, kind, n, surface = NaN, insideHeights = [], maximumRise = 1.5,
+  clearance = 0.06, step = 0.01 }) {
+  const insideSpill = [], outsideSpill = [];
+  for (let i = 0; i < n; i++) {
+    if (!(kind[i] === 1 || kind[i] === 2) || !Number.isFinite(spill[i])) continue;
+    (inside[i] ? insideSpill : outsideSpill).push(spill[i]);
+  }
+  /* the inside's ground the lattice could read: the polygon's own area in nodes */
+  let insideTotal = 0;
+  for (let i = 0; i < n; i++) if (inside[i] && (kind[i] === 1 || kind[i] === 2)) insideTotal++;
+  if (!insideSpill.length || !insideTotal) return null;
+  insideSpill.sort((a, b) => a - b); outsideSpill.sort((a, b) => a - b);
+  const below = (sorted, v) => { let lo = 0, hi = sorted.length; while (lo < hi) { const m = (lo + hi) >> 1; if (sorted[m] <= v) lo = m + 1; else hi = m; } return lo; };
+  const floor = Number.isFinite(surface) ? surface : insideHeights[Math.floor(insideHeights.length * 0.1)];
+  const top = floor + maximumRise;
+  let best = -1, bestLevel = floor;
+  const scores = [];
+  for (let L = floor; L <= top + 1e-9; L += step) {
+    const iou = below(insideSpill, L) / (insideTotal + below(outsideSpill, L));
+    scores.push([L, iou]);
+    if (iou > best) { best = iou; bestLevel = L; }
+  }
+  /* the middle of the run of levels within half a percent of the best round it: a
+     lattice node stands for a band of the bank, so the outline's own level lies inside
+     that run, not at its foot (the foot was 0.1 m low on a 1:10 bank at 1.5 m) */
+  const at = scores.findIndex(([L]) => L === bestLevel);
+  let lo = at, hi = at;
+  while (lo > 0 && scores[lo - 1][1] >= best - 0.005) lo--;
+  while (hi + 1 < scores.length && scores[hi + 1][1] >= best - 0.005) hi++;
+  /* ...unless the run reaches down to the laser's own surface: the measured water already
+     covers the outline, and the water stands there */
+  const shore = lo === 0 ? scores[0][0] : (scores[lo][0] + scores[hi][0]) / 2;
+  return Object.freeze({
+    shore: Math.round(shore * 1000) / 1000,
+    level: Math.round((shore + clearance) * 100) / 100,
+    overlap: +best.toFixed(3),
+    surface: Number.isFinite(surface) ? surface : null,
+    method: 'shore-fit',
   });
 }
 

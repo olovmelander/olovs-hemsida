@@ -153,6 +153,8 @@ import { configureWaterRenderPasses, configureWaterDepth, waterSheetIsOpaque, ME
 import { waterShoreDistance } from './engine/water-shore.mjs';
 import { waterReach, refineNearShore, growFlatWaterMask, shoreWetness, SHORE_DAMP, WATER_REACH } from './engine/water-reach.mjs';
 import { laserPlateLevel, LASER_PLATE_COURSES } from './engine/water-plate-level.mjs';
+import { shoreLevel } from './engine/water-level.mjs';
+import { buildStreamWater } from './engine/stream-water.mjs';
 import { waterFetch, waterMeshStep } from './engine/water-fetch.mjs';
 import { fillWaterNormalPixels } from './engine/water-normal-texture.mjs';
 import { fillGroundDetailPixels } from './engine/ground-detail-texture.mjs';
@@ -825,6 +827,9 @@ const SHORE_DAMP_ON = WATER_REACH_ON && new URLSearchParams(location.search).get
 /* a lake at the laser's own surface where the course asks for it (engine/water-plate-level.mjs);
    ?waterlevel=before is the ring-percentile rule with its quarter metre */
 const PLATE_LEVELS = LASER_PLATE_COURSES.has(CMETA.slug) && new URLSearchParams(location.search).get('waterlevel') !== 'before';
+/* every lake, pond and waterhole at the shore its traced outline and its laser ground agree
+   on (engine/water-level.mjs); ?waterlevel=before is the rules as they were */
+const SHORE_LEVELS = new URLSearchParams(location.search).get('waterlevel') !== 'before';
 const reachableWater = w => WATER_REACH_ON && !w.stream && w.ring?.length >= 3 && !w.isSea && !w.shoreline
   && !(w.artificialCutEdgeCount > 0) && !w.surr && !w.exactShore && M.infra.terrainPlacement !== 'measured-only';
 function reachWaters(bodies, heightAt, near = null) {
@@ -844,7 +849,7 @@ function reachWaters(bodies, heightAt, near = null) {
   for (const w of bodies) {
     if (w.reach !== undefined || !reachableWater(w)) continue;
     /* the laser's own surface inside the lake caps how high its water may reach */
-    const surface = w.levelEvidence?.surfaceMetres ?? laserPlateLevel(w.ring, height)?.surfaceMetres ?? NaN;
+    const surface = w.levelEvidence?.shoreMetres ?? w.levelEvidence?.surfaceMetres ?? laserPlateLevel(w.ring, height)?.surfaceMetres ?? NaN;
     w.reach = waterReach({ ring: w.ring, level: w.level, surface, heightAt: height, near: (x, z) => near([x, z]), otherWater }) ?? null;
     if (!w.reach) continue;
     reached++; samples += w.reach.stats.samples; outside += w.reach.stats.outsideWetSquareMetres;
@@ -925,6 +930,14 @@ function reachWaters(bodies, heightAt, near = null) {
         w.level = reviewed.level;
         w.levelEvidence = reviewed;
         w.exactShore = true;
+        continue;
+      }
+      /* THE ONE LEVEL RULE (engine/water-level.mjs): the shore its outline and its ground agree on */
+      const shore = SHORE_LEVELS ? shoreLevel({ ring: w.ring, heightAt: groundProbe, near: (x, z) => near([x, z]) }) : null;
+      if (shore) {
+        if (shore.level !== w.level) remeasured.push(`${w.name || w.id || 'vatten'} ${w.level}->${shore.level} (${shore.method} ${shore.shoreMetres})`);
+        w.level = shore.level;
+        w.levelEvidence = shore;
         continue;
       }
       /* the lake's own surface, where the ground reads as one (engine/water-plate-level.mjs) */
@@ -4523,6 +4536,44 @@ for (const w of M.water) {
   scene.add(m);
   WATER_MESHES.push(m);
   stats.draws++;
+}
+
+/* WATER IN THE DITCHES AND STREAMS (engine/stream-water.mjs, 8 November): a ribbon at the
+   floor of every cut channel the laser shows, dry at its culverts, one draw for the course.
+   A stream whose review keeps its centreline only (Tortuna's: contextOnly, "no new water
+   plane") stays without water. ?ditches=0 is the before. */
+let STREAM_RIBBONS = null;
+if (new URLSearchParams(location.search).get('ditches') !== '0' && M.streams?.length) {
+  const started = performance.now();
+  const streams = M.streams.filter(s => !s.contextOnly && !/no new water plane/i.test(s.waterSurfaceStatus ?? ''));
+  /* where a lake's water and carved bed are (the bed field), a ditch is the lake's */
+  const bed = terrainV2.waterBed ?? null, toGrid = TERRAIN_PREVIEW.bridge?.toGrid;
+  const inLake = bed && typeof toGrid === 'function'
+    ? (x, z) => { const [gx, gz] = toGrid(x, z); return bed.inWater(gx, gz) || bed.depthAt(gx, gz) > 0; } : null;
+  const ribbons = buildStreamWater(streams, (x, z) => terrainH(x, z), {}, inLake);
+  if (ribbons.indices.length) {
+    const count = ribbons.positions.length / 3;
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(ribbons.positions, 3));
+    g.setAttribute('aShore', new THREE.Float32BufferAttribute(ribbons.shore, 1));
+    g.setAttribute('aFoam', new THREE.Float32BufferAttribute(new Float32Array(count), 1));
+    /* a ditch's water is a hand deep, but it reads as water -- dark, mirroring the sky --
+       not as the silt the lakes' shallows let through (water-shading.mjs reads its bed
+       under 1.1 m): the ribbons carry a depth past that */
+    g.setAttribute('aDepth', new THREE.Float32BufferAttribute(new Float32Array(count).fill(1.5), 1));
+    g.setIndex(new THREE.BufferAttribute(ribbons.indices, 1));
+    g.computeVertexNormals();
+    const m = new THREE.Mesh(g, waterMat);
+    m.name = 'stream-water';
+    m.renderOrder = 6;
+    m.userData.tag = 'water-stream';
+    scene.add(m);
+    WATER_MESHES.push(m);
+    stats.draws++;
+  }
+  stats.streamWater = { streams: streams.length, metres: ribbons.metres, runs: ribbons.runs };
+  STREAM_RIBBONS = ribbons;
+  span('water: ditches and streams', started, stats.streamWater);
 }
 
 if (LIDINGO_WATER_LOADING) {
@@ -12893,6 +12944,8 @@ window.V3D = {
     };
   },
   /* each lake read off its ground (engine/water-reach.mjs): its lattice and what it found */
+  /* the ditches' water (engine/stream-water.mjs): its vertices, for a harness to set against the ground */
+  streamWater: () => (STREAM_RIBBONS ? { positions: Array.from(STREAM_RIBBONS.positions), metres: STREAM_RIBBONS.metres, runs: STREAM_RIBBONS.runs } : null),
   waterReaches: () => M.water.filter(w => w.reach).map(w => ({ level: w.level, levelEvidence: w.levelEvidence ?? null,
     bounds: w.reach.bounds, ...w.reach.stats })),
   flatWater: () => (terrainV2.flatWater
