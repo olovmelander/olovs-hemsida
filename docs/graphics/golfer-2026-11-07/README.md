@@ -178,7 +178,7 @@ These are copies of the September audits with the same thresholds. They read the
   - Blinks are a quick close, a short hold and a slower opening. They come with head turns, at rest and in the held finish. The short locomotion loops don't blink.
   - Clumped, curled lashes sit on the lid margin, found by casting rays against the eyeball.
   - The iris is drawn at human size, and the lids' soft shading is baked into the eye.
-- **Faces:** both lips on the measured mouth line (the paint reaches the lower lip, which belongs to the chin's face set), with a darker lip line; tapered, arched brows.
+- **Faces:** her skin is warmer, with a sun flush across the nose and cheeks; both lips on the measured mouth line (the paint reaches the lower lip, which belongs to the chin's face set), with a darker lip line; tapered, arched brows.
 - **Hair:**
   - Her hair is combed back into the braid by 116 strand ribbons lying on the scalp over a darker underlayer. Each ribbon has its own UVs along the strand.
   - His neckline is squared and fades into the scalp through the skin bake.

@@ -22,7 +22,7 @@ from body_v3 import FS, FINGERS, TOES, FOREFOOT
 PALETTE = {
     # Vivid on the green: a coral-red polo with royal navy and a teal accent for her,
     # cobalt with Swedish-yellow tipping for him.
-    'female': dict(skin='#ECC0A4', polo='#F2503A', trim='#FBF9F4', navy='#1C3A86', hair='#4A301E', hair_hi='#946A45',
+    'female': dict(skin='#E9B898', polo='#F2503A', trim='#FBF9F4', navy='#1C3A86', hair='#4A301E', hair_hi='#946A45',
                    shoe='#FBFAF6', accent='#F2503A', sole='#FBF9F4', outsole='#1C3A86', lip='#C9504C', iris='#2F8FB5',
                    headwear='#FBFAF6', bill_under='#11A7A1', trousers='#1C3A86', belt='#11A7A1', tie='#11A7A1'),
     'male': dict(skin='#A86E4F', polo='#1F5FD6', trim='#F7C93C', navy='#16357F', hair='#1E1511', hair_hi='#3C2B21',
