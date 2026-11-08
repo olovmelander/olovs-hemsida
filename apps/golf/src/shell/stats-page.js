@@ -496,7 +496,10 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
                 <span class="sr-name"><b>${esc(row.courseName ?? row.course)}</b><small>${row.holes} hål${row.points !== null ? ` · ${row.points} p` : ''} · ${row.putts} puttar</small></span>
                 <span class="sr-score"><b>${row.strokes}</b><small class="${row.toPar < 0 ? 'is-under' : row.toPar > 0 ? 'is-over' : ''}">${signedInt(row.toPar)}</small></span>
               </summary>
-              <div class="sr-card">${record ? `${scorecard(record)}<button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>` : ''}</div>
+              <div class="sr-card">${record ? `${scorecard(record)}<div class="sr-actions">
+                <button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>
+                ${onCourse && courses.some(c => c.slug === record.course) ? `<button type="button" class="st-ghost" data-play-course="${esc(record.course)}">Spela banan igen <span aria-hidden="true">→</span></button>` : ''}
+              </div>` : ''}</div>
             </details>`;
           }).join('')}</div>
         </div>
@@ -544,7 +547,7 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
       }
     }
     /* the course in view, played next: its own page, where the round is set up */
-    body.querySelector('[data-play-course]')?.addEventListener('click', e => onCourse?.(e.currentTarget.dataset.playCourse));
+    for (const btn of body.querySelectorAll('[data-play-course]')) btn.addEventListener('click', () => onCourse?.(btn.dataset.playCourse));
     /* a course picked from the holes card or from Banor: that course, hole by hole */
     for (const btn of body.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
       state.course = btn.dataset.pickCourse;
