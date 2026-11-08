@@ -20,7 +20,7 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const CONFIG_KIND = 'banvy-tree-pipeline-ground';
-export const DETECTORS = Object.freeze(['v2', 'typed', 'refined']);
+export const DETECTORS = Object.freeze(['v2', 'typed', 'refined', 'fused']);
 export const configPath = groundId => `course-workflows/${groundId}/trees.json`;
 
 const ID = /^[a-z0-9][a-z0-9-]*$/;
@@ -164,7 +164,8 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     if (r.startFrom !== undefined && r.startFrom !== null) {
       p.check(roundIds.includes(r.startFrom), `${label}.startFrom must name an earlier round`);
       const from = rounds.find(o => o.id === r.startFrom);
-      if (from && r.detector === 'refined') p.check(from.detector === 'typed', `${label}.startFrom must be a typed round (a refined round keeps its typed settings and searches only the recovery)`);
+      if (from && r.detector === 'fused') p.check(from.detector === 'refined', `${label}.startFrom must be a refined round (a fused round keeps its laser lock and adds the photo crown detector)`);
+      else if (from && r.detector === 'refined') p.check(from.detector === 'typed', `${label}.startFrom must be a typed round (a refined round keeps its typed settings and searches only the recovery)`);
       else if (from) p.check(from.detector === 'v2', `${label}.startFrom must be a v2 round (its lock seeds the typed descent)`);
     }
     p.check(typeof r.methodName === 'string' && r.methodName.length > 0, `${label}.methodName must name the round's detector in its benchmark`);

@@ -66,6 +66,12 @@
       "methodName": "round3-detector",
       "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
       "note": "round 3 (owner request of 2026-11-08: reach the 90% gate if the data allow): a new unseen held-out sample (Q1-Q5) frozen before any round-3 detector ran; two closed calibration squares (K1, K2) added; the round-1 and round-2 held-out windows are used-holdout"
+    },
+    {
+      "id": "r4", "sampleSuffix": "-r4", "detector": "fused", "startFrom": "r3",
+      "methodName": "round4-detector",
+      "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
+      "note": "round 4 (owner request of 2026-11-08: reach 90% with the learned crown detector on the GPU, reading the June 2025 photo): the round-3 laser lock fused with DeepForest crowns from the 2025 photo, moved back to their trunks by the relief field; a new unseen held-out sample (W1-W5) frozen before any detector ran near it; the round-1, round-2 and round-3 held-out windows are used-holdout"
     }
   ],
   "activeRound": "r3",
