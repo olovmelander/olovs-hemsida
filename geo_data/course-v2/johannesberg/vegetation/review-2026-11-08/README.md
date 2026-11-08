@@ -4,7 +4,7 @@
 
 **Round 3 (branch `trees-round3`, accepted by the owner on 2026-11-08):** the photo-refereed detector replaces round 2 in the inner frontier. It reaches P 0.984 / R 0.685 on a new unseen sample drawn from the strata near play (round 2 0.984 / 0.674, round 1 0.971 / 0.764), so the gate is still not met. The owner chose: "Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2." Pine/spruce was measured but not published, and the pole-like crowns were reviewed. See Round 3.
 
-**Round 4 (branch `trees-round4`, scored 2026-11-08, not published):** a learned crown detector (DeepForest) on the June 2025 photo confirms suppressed laser tops. On a new unseen sample of 132 crowns it reaches P 0.935 / R 0.758 / F1 0.837, against round 3’s 0.966 / 0.644 / 0.773. It beats round 3 on F1 and recall but misses the owner’s precision floor of 0.95, so the trees stay at round 3. See Round 4.
+**Round 4 (branch `trees-round4`, published 2026-11-09 under the owner’s answer "The best round go!"):** On its own sample: a learned crown detector (DeepForest) on the June 2025 photo confirms suppressed laser tops. On a new unseen sample of 132 crowns it reaches P 0.935 / R 0.758 / F1 0.837, against round 3’s 0.966 / 0.644 / 0.773. It beats round 3 on F1 and recall but misses the owner’s precision floor of 0.95, so it was not published on that sample. Round 4b then drew a second unseen sample (X1-X5, 126 crowns) and declared its rule before scoring. There round 4 as locked reaches P 0.971 / R 0.810 / F1 0.883 against round 3’s 0.976 / 0.643 / 0.775 and round 4b’s 0.978 / 0.714 / 0.826, so round 4 is published (32,073 placed, +4,832), gate not met (recall), under the owner exception pinned to benchmark-r4b. See Round 4 and Round 4b.
 
 The sections from Evidence ledger to What Stage B needs record **Stage A (round 1)**
 as it stood before publication: there, nothing was published, and the round-1 held-out
@@ -1168,10 +1168,11 @@ node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage review --r
 node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage publish --execute --pending-owner --raw $RAW   # the gate passes under the owner's exception; --pending-owner only while his checklist items (screenshots, frame time, the felled list) are open
 ```
 
-## Round 4: a learned photo crown detector on the GPU (not published)
+## Round 4: a learned photo crown detector on the GPU (missed the floor on its own sample; published by round 4b’s rule)
 
-**Status: scored once on 2026-11-08, branch `trees-round4`. Not published; the trees
-stay at round 3.** On a new unseen sample of 132 crowns, the fused detector beats
+**Status: scored once on 2026-11-08, branch `trees-round4`. On its own sample it was not
+published (below). On round 4b’s second sample it qualified under the rule declared there, and it is published:
+see Round 4b.** On a new unseen sample of 132 crowns, the fused detector beats
 round 3 on F1 (0.837 against 0.773) and on recall (0.758 against 0.644). Its precision
 of 0.935 is below the owner's floor of 0.95. The 90% gate fails too (R 0.758).
 
@@ -1440,6 +1441,211 @@ node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage photo-dete
 node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage benchmark --tune --raw $RAW   # calibration only
 node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage benchmark --score --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage benchmark --gate --raw $RAW
+```
+
+## Round 4b: a second unseen sample, and round 4 published
+
+**Status: published on branch `trees-round4` under the owner's answer of 2026-11-08,
+"The best round go!".** Round 4 had missed the owner's precision floor on its own
+sample. The main session (23:43) then asked for one more attempt aimed at precision,
+round 4b, judged on a second fresh sample.
+
+### The rule, declared before scoring
+
+[`reference-windows-r4b.json`](reference-windows-r4b.json), `declaredBeforeScoring.rule`,
+committed before any round-4b code ran:
+
+- Score round 3, round 4 (as locked) and round 4b once each on the new sample X1-X5.
+- Publish the candidate with the highest F1 among those that beat round 3 on X1-X5 on
+  both F1 and recall, with precision at least 0.95.
+- If none qualifies, the trees stay at round 3.
+
+### The second sample, X1-X5 (frozen before any round-4b code ran)
+
+[`reference-annotations-r4b.json`](reference-annotations-r4b.json),
+[`reference-r4b.geojson`](reference-r4b.geojson),
+[`reference-lock-r4b.json`](reference-lock-r4b.json). It was committed as `6bbb1a02`, by
+the same rules and interpretation method as W1-W5.
+
+| Window | Place | Scored crowns |
+|---|---|---|
+| X1 | closed stand in the wood west of the 8th fairway (25 m) | 29 |
+| X2 | closed stand north-west of the 9th green, round a gap (25 m) | 26 |
+| X3 | woodland edge south of the 12th fairway (40 × 35 m) | 25 |
+| X4 | woodland edge north of the 5th fairway (40 × 35 m) | 35 |
+| X5 | groups and edges between the 9-hole course's 2nd and 4th (50 m) | 11 |
+
+- **126 scored crowns.** Strata: closed 66, edge 49, group 9, isolated 2. Types: 96
+  conifer, 22 broadleaf, 8 unknown. Heights: 3-8 m 9, 8-15 m 31, 15 m+ 86.
+- Six X2 crowns on a gap inside the stand were changed from closed to edge.
+- **A window dropped before freezing.** The first X3 (by the 7th green) was dropped
+  before any detector ran on it: the June 2025 photo shows the stand felled after the
+  2021 laser. X3-h12-edge replaced it.
+- **X5 has young growth.** It lies by a stand that has grown up since 2021; only crowns
+  with 2021 laser height are reference crowns.
+- **The W1-W5 limitation holds here too:** in closed stands the reference reads the same
+  photo the detector reads.
+
+### Round 4b: aimed at precision (calibration only)
+
+[`detector-lock-r4b.json`](detector-lock-r4b.json), [`photo-detect-r4b.json`](photo-detect-r4b.json).
+
+- **Where round 4's extras came from, on calibration.** Only 2 of the 29 tops the photo
+  confirmed inside calibration windows were extras themselves (13 lay in ambiguity
+  boxes). The rest of the extra count came from regrowth: an added seed moves a
+  neighbour's crown, and a broadleaf crown's centroid moves furthest.
+- **Tiling-averaged sources.** Each region was tiled twice, from two origins half a stride
+  apart, and the boxes merged by NMS (`offsets: 2`). Pretrained, 50 and 64 m patches.
+- **An apex test for confirmed tops.** At least `minimumApexReturns` first returns within
+  0.75 m reach within 1.5 m of the top's height, as round 3's referee asks.
+- **Tuned on the scored detections.** The tuning read the whole-window detections that
+  the score reads, not a separate calibration run. That removes round 4's tuning/scoring
+  mismatch.
+- **A precision floor.** The best calibration F1 among settings whose calibration
+  precision is at least round 3's (0.926), as `photoDetect.tuning.r4b` declares.
+- **Locked:** pretrained, 64 m patches, two offsets; `projectionFraction` 0.5, match
+  2.5 m, score ≥ 0.4, separation 2 m, no dip test, apex ≥ 2 returns, both types.
+  Calibration P 0.928 / R 0.899 / F1 0.913, against round 3's 0.926 / 0.868 / 0.896.
+
+### Benchmark on X1-X5
+
+[`benchmark-r4b.json`](benchmark-r4b.json) (SHA-256 `baf3630f0c3beb3280e9d1def532f88d453d65dd4e95b646dd1653d59210e29f`),
+scored once.
+
+| Detector | **X1-X5 (126) P / R / F1** | W1-W5 (132, used) P / R / F1 | Q1-Q5 (89, used) P / R / F1 | Calibration (129) P / R / F1 |
+|---|---|---|---|---|
+| Round 1 | 0.964 / 0.643 / 0.771 | 0.978 / 0.674 / 0.798 | 0.971 / 0.764 / 0.855 | 0.905 / 0.814 / 0.857 |
+| Round 2 | 0.974 / 0.595 / 0.739 | 0.977 / 0.636 / 0.771 | 0.984 / 0.674 / 0.800 | 0.946 / 0.814 / 0.875 |
+| Round 3 | 0.976 / 0.643 / 0.775 | 0.966 / 0.644 / 0.773 | 0.984 / 0.685 / 0.808 | 0.926 / 0.868 / 0.896 |
+| **Round 4 (as locked)** | **0.971 / 0.810 / 0.883** | 0.935 / 0.758 / 0.837 | 0.932 / 0.775 / 0.847 | 0.880 / 0.907 / 0.893 |
+| Round 4b | 0.978 / 0.714 / 0.826 | 0.968 / 0.682 / 0.800 | 0.940 / 0.708 / 0.808 | 0.928 / 0.899 / 0.913 |
+
+- **Both round 4 and round 4b qualify** under the declared rule. **Round 4 has the
+  highest F1**, so its lock is published. On X1-X5 it finds 102 of 126, with 3 extras.
+- **The gate result is FAIL** (R 0.810). Wilson 95% intervals: P 0.92-0.99, R 0.73-0.87.
+- **Round 4's W1-W5 numbers reproduce exactly** in this benchmark.
+- **Round 4b bought precision with recall.** Its apex test keeps out the confirmed tops
+  in closed spruce that the leaf-off scan gives few returns: on X1 18 → 20 crowns
+  against round 4's 27.
+
+**Recall by stratum on X1-X5:**
+
+| | Round 3 | **Round 4** | Round 4b |
+|---|---|---|---|
+| Closed | 42/66 | **59/66** | 47/66 |
+| Edge | 32/49 | **35/49** | 35/49 |
+| Group | 6/9 | **7/9** | 7/9 |
+| Isolated | 1/2 | **1/2** | 1/2 |
+| Conifer | 65/96 | **84/96** | 71/96 |
+| Broadleaf | 12/22 | **12/22** | 13/22 |
+| Unknown | 4/8 | **6/8** | 6/8 |
+| 3-8 m | 5/9 | **5/9** | 5/9 |
+| 8-15 m | 18/31 | **21/31** | 18/31 |
+| 15 m+ | 58/86 | **76/86** | 67/86 |
+
+**By window, hits / misses / extras:**
+
+| Window | Round 3 | **Round 4** | Round 4b |
+|---|---|---|---|
+| X1 | 18/11/0 | **27/2/1** | 20/9/0 |
+| X2 | 18/8/0 | **25/1/0** | 21/5/0 |
+| X3 | 17/8/2 | **19/6/2** | 19/6/2 |
+| X4 | 23/12/0 | **26/9/0** | 25/10/0 |
+| X5 | 5/6/0 | **5/6/0** | 5/6/0 |
+
+**Reading the two samples together.**
+
+- **Round 4's precision differs between the samples:** 0.935 on W1-W5 and 0.971 on
+  X1-X5. Its extras sat in W3's leafless broadleaf edge and W5's groups. X1-X5 is more
+  coniferous (96 of 126), and there the photo confirms real tops.
+- **Recall rises on every sample:** +0.114 on W1-W5, +0.167 on X1-X5 and +0.090 on Q1-Q5,
+  all against round 3.
+- **Closed conifer stands gain most:** on X, closed recall goes from 42/66 to 59/66.
+- **Broadleaves do not gain** (12/22 on X).
+- **The owner's floor** was met on the sample the rule named (X1-X5), not on W1-W5. Both
+  are recorded.
+
+### What is published on this branch (round 4, by round 4b's rule)
+
+- **The owner exception.** It is recorded in `course-workflows/johannesberg/trees.json`
+  under `ownerExceptions` (round `r4b`, gate method `round4-detector`). It quotes the
+  main session's question, "if round 4 beats round 3 but stays under 90%, should I
+  publish it under the same kind of exception as round 3?", and the owner's answer,
+  "The best round go!". It is pinned to benchmark-r4b (`baf3630f…`) and restates
+  P 0.971 / R 0.81.
+- **Round 4b's config `publishes: r4`.** The gate and the candidates stage therefore
+  read the round-4 lock on round 4b's sample. `activeRound` is `r4b`.
+- **Candidates** ([`candidates.csv`](candidates.csv), SHA-256 `2c856dfd…`) start from
+  the round-3 generation (`ground-v2-4f2d022d…`), so its IDs carry forward.
+- **The screens, decided on the compact chips**
+  ([`photo/record-screen-review-r4.mjs`](../../../../../tools/tree-pipeline/photo/record-screen-review-r4.mjs)):
+  - 447 new pole-like crowns: 439 trees and 8 unclear (held). Almost all are narrow
+    tops the photo confirmed inside stands. The 8 unclear stand at lawn and meadow
+    edges or in pre-2021 clear-cuts.
+  - 9 new felling-screened crowns: 4 present, 3 absent (not placed), 2 unclear (held).
+  - The chips are in the cache's review-panels (compact-poles-01 to 19, compact-felling-01).
+- **Staging.** `--stage publish --execute --pending-owner` staged the generation. Its
+  owner checklist items stay open: the felled list, the species-mix flags, and
+  screenshots and frame time on his GPU. Result: `ground-v2-79b72b1d…`, 44,409 tree
+  records, integrity true. It was adopted into `apps/golf/public` for both routings,
+  and `production.json` re-pins the ground, `candidates.csv` and the residual rasters.
+- **Synced with `trees-round3`'s re-bake** of every course (`db795d67`, revision
+  `0bda108d`), by a merge (no rebase).
+- **Re-baked for Johannesberg only** (the source revision is unchanged): the prepared
+  tints, water, far vista and scatter for both routings, and the map's forest picture
+  (`bake-map-land`). `check-prepared-startup` passes for every course.
+
+| | Round 3 (published before) | Round 4 (now) |
+|---|---|---|
+| Placed records, inner frontier | 27,241 | 32,073 (+4,832) |
+| retain / adjust / add (vs the previous generation) | 23,595 / 2,569 / 1,077 | 21,783 / 5,377 / 4,913 |
+| Hold / merge / remove / not placed | 238 / 40 / 8 / 31 | 255 / 64 / 3 / 39 |
+| Conifer / broadleaf / unknown | 20,818 / 2,690 / 3,733 | 24,943 / 2,918 / 4,212 |
+| Near play: records, broadleaf share | 5,745, 12.2% | 6,590, 11.4% |
+| Tree records, whole 4,096 m level zero | 39,577 | 44,409 |
+
+The added trees are mostly tops recovered in closed conifer stands. Near play, records
+rise by 15%. The species-mix flags are the same holes as before (4, 5, 6, 15 and most of
+the 9-hole course), with shares within two points of round 3's.
+
+### Screenshots, boots and checks (round 4)
+
+- **Clean boots.** `check-gpu-clean-boot` on johannesberg and johannesberg-9, WebGPU and
+  WebGL2, high and low quality: 8 of 8 boots clean, at most 14 vertex outputs.
+- **Screenshots.** `gfx-gallery --adhoc` at 1920 × 1080, Dag. Views: holes 1, 6, 8, 10
+  and 12 from the tee, the 17th green and the 9-hole course's 5th tee. Before is the
+  round-3 public root on this build. They are in the ignored
+  `tools/goldens/gfx/jb-r4-before-vs-jb-r4-after/` of the `trees-round4` worktree.
+- **GPU time per view (timestamp queries), before → after:**
+  - hole 1: 4.33 → 4.19 ms
+  - hole 6: 3.87 → 3.87 ms
+  - hole 8: 10.55 → 11.47 ms
+  - hole 10: 8.13 → 6.95 ms
+  - hole 12: 8.32 → 9.04 ms
+  - 17th green: 4.00 → 4.59 ms
+  - 9-hole 5th: 3.80 → 3.80 ms
+- **The views read alike.** The added trees stand inside the woods. These timings are
+  single passes, not interleaved frame-time runs, so the owner's frame-time item stays
+  open.
+- **CPU checks:** see the commit that records them.
+
+### Reproduce round 4b
+
+```sh
+RAW=<the pilot cache with copc/ and ortho/>
+node tools/tree-pipeline.mjs --ground johannesberg --round r4b --stage reference --prepare --native --only X1-h8-closed,X2-h9-closed,X3-h12-edge,X4-h5-edge,X5-n9-2-4-groups --raw $RAW
+node tools/tree-pipeline/photo/reference-draft.mjs --raw $RAW --round r4b --only X
+node tools/tree-pipeline/photo/reference-annotate-r4b.mjs
+node tools/tree-pipeline.mjs --ground johannesberg --round r4b --stage reference --freeze --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r4b --stage photo-detect --only pre-p50-x2,pre-p64-x2 --raw $RAW   # GPU; the other sources are reused from round 4
+node tools/tree-pipeline.mjs --ground johannesberg --round r4b --stage benchmark --tune --raw $RAW    # calibration only, precision floor
+node tools/tree-pipeline.mjs --ground johannesberg --round r4b --stage benchmark --score --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage benchmark --gate --raw $RAW      # round 4 lock, owner exception
+node tools/tree-pipeline.mjs --ground johannesberg --stage candidates --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage review --only screens --raw $RAW
+node tools/tree-pipeline/photo/record-screen-review-r4.mjs && node tools/tree-pipeline.mjs --ground johannesberg --stage candidates --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage review --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage publish --execute --pending-owner --raw $RAW
 ```
 
 ## Reproduce

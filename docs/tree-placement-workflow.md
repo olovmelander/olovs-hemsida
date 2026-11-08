@@ -100,6 +100,18 @@ photo never places a seed of its own. A round may declare its own tuning
 (`photoDetect.tuning`): which sources, tuning on the scored whole-window detections, and a
 precision floor.
 
+**Round 4 (2026-11-08/09, published under the owner's answer "The best round go!").**
+The fused detector (round 3 plus DeepForest crowns from the June 2025 photo confirming
+suppressed laser tops) beat round 3 on two fresh samples:
+
+- W1-W5 (132 crowns): P 0.935 / R 0.758, against round 3's 0.966 / 0.644. This missed
+  the owner's 0.95 precision floor.
+- X1-X5 (126 crowns): P 0.971 / R 0.810, against 0.976 / 0.643. Here it was chosen by
+  the rule declared before scoring, ahead of a precision-tuned round 4b (0.978 / 0.714).
+
+The gate is still not met (recall). Recall rises most in closed conifer stands; touching
+broadleaves do not gain. Details: the review README's Round 4 and Round 4b.
+
 **Still manual.** Choosing and interpreting reference windows; the felling,
 pole and species reviews on the photo chips; the owner's screenshots of the app
 and frame-time measurements on his GPU; owner exceptions; and the promotion of a

@@ -263,6 +263,27 @@ ignored cache is evidence by itself; its hashes are.
 - **Tune the fusion jointly.** A greedy coordinate descent from defaults raises the
   score threshold first and ends at "no photo seeds" (round 3 again). Search a joint grid
   per photo source, then polish.
+- **Tune on the detections you score.** Round 4 was tuned on photo crowns detected
+  window by window and scored on the whole-window run. Its 50 m tiles fell differently
+  there, and calibration F1 went from 0.913 in tuning to 0.893 in scoring. Read the
+  scored run (`photoDetect.tuning.<round>.crowns: "all"`), and average the tiling
+  (`offsets: 2`, two tile grids merged by NMS).
+- **One sample is not the photo detector's precision.** Round 4 scored P 0.935 on W1-W5
+  (a leafless broadleaf edge and groups) and 0.971 on X1-X5 (mostly conifers). Its
+  extras sit in broadleaf crowns, where one tree has several tops a box can confirm.
+  Report every sample, and declare which one decides before scoring.
+- **A precision floor costs recall in closed spruce.** Round 4b's apex test (first returns
+  at the top) kept calibration precision at round 3's. But a leaf-off scan at 1.8
+  returns/m2 gives few returns at a squeezed spruce top, so it dropped most of round 4's
+  closed-stand gains (X1 27 → 20 of 29).
+- **A round may publish an earlier lock.** When a second sample decides between locks,
+  the new round names the winner (`publishes`): the gate and the candidates stage read
+  that lock on the new round's sample, and the owner exception pins that round's
+  benchmark.
+- **A detector that splits crowns makes pole-like holds.** Round 4 raised 447 new
+  pole-like crowns, almost all narrow tops the photo confirmed inside stands; 439 were
+  trees on the chips. Budget the chip review (about a minute per sheet of 24) before
+  publication.
 
 ## Report
 
