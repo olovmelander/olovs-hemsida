@@ -1,0 +1,125 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "publish",
+ "groundId": "johannesberg",
+ "reviewId": "review-2026-11-08",
+ "round": null,
+ "ranAt": "2026-11-08T20:14:36.671Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/johannesberg/trees.json",
+  "bytes": 10103,
+  "sha256": "b39778332c1c024f5db3e330e871ddfc1f10ac9d52933221a6666c5c8b411d25"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "b4f610a91aac4be853058e79fddaaff7ffa0e99f6793142ad8ce710b16bde703",
+  "tools/tree-pipeline/config.mjs": "95bfdfe4da674244debbdf3d2b820462195559c477522d7adbc082aefd922a98",
+  "tools/tree-pipeline/stages.mjs": "7d8dacd03d729319bcb1a7ffde60b4fa4f94587f884b87473e83f234eb9cc2cd",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "73a758d5c5ddc8f88b8f59ebd1d3e8744d6165c9160b4817f074f165729c1dee",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "d439ca94bb2d7e93a6cf5609feb77bdb81ce5a84aa1bb68b7e59daaddb39c4b9",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "c89e0a6df9e10d67452b02ae661c3bdd7a2ec20edb2009a97977f002cf849e8a",
+  "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
+  "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
+  "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
+  "tools/tree-pipeline/benchmark.mjs": "067b2f5e1186fdd407583f571fa957db011e07e9213c24c10f84f066939a544a",
+  "tools/tree-pipeline/candidates.mjs": "a32441bf3cc30e59e1100bb31768ad5153243c137c43c52e41e2953e4f0b2056",
+  "tools/tree-pipeline/review.mjs": "866f1f19ed528033ec403ed1697953ddcbeb611d514e45e4a3b69b6cd9bca3dc",
+  "tools/tree-pipeline/publish.mjs": "dd8b5f3ff34545f07ad021bd861c7d7568ca722313acc56d1139c6a005b1ee96",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
+   "bytes": 3296574,
+   "sha256": "944aad9cefd2e68629e76498222ecc0b37566f8d5d48e11fb1c50443b3328ff3"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin",
+   "bytes": 67108864,
+   "sha256": "4ffe2e5bc6c1e33df430f929707980635e44f3cb941084c00b69a4b22c0bfd4f"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-labels-050.bin",
+   "bytes": 67108864,
+   "sha256": "77e70e3e2e86a714988f6da29559f7c0a37f4503f8ed1e1b20de34a2401aced2"
+  },
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review-checklist.json",
+   "bytes": 5085,
+   "sha256": "fdfae3bc8d1d5ab6c3009e448131c1ca6a6e40baca4035518606575503e2916f"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "output/course-workflow/johannesberg/reviewed-compile/staging-verification.json",
+   "bytes": 2599,
+   "sha256": "2db951b7d0855dae2e44eb6ffe2ebcfa4649e9e5d309e7e579e921aad235d836"
+  }
+ ],
+ "result": {
+  "gate": {
+   "allowed": false,
+   "gate": "FAIL",
+   "note": "held-out gate FAILED (recall 0.685 is below 0.9). Stop and ask the owner: improve the method with a new round and a new unseen sample, or record an owner exception in trees.json pinning this benchmark."
+  },
+  "ownerApproval": {
+   "status": "pending-owner-approval",
+   "record": {
+    "gate": "held-out-precision-recall",
+    "round": "r3",
+    "status": "pending-owner-approval",
+    "recordedOn": "2026-11-08",
+    "recordedBy": "agent (Claude), round-3 run; the owner has not seen these numbers",
+    "benchmark": {
+     "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/benchmark-r3.json",
+     "sha256": "295c03eceaf5d956b2603e97d5352942e84ea6353200a87385410284e52a7f25"
+    },
+    "measured": {
+     "precision": 0.984,
+     "recall": 0.685
+    },
+    "comparison": "on the same 89 unseen crowns: round 2 P 0.984 R 0.674, round 1 P 0.971 R 0.764",
+    "statement": "pending owner approval (round 3, benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764). The round-3 detector beats round 2 by the declared F1 (0.808 against 0.800) but fails the 90% gate; it is staged on branch trees-round3 for the owner to judge, not approved. The owner exception of 2026-11-08 covers round 2 only.",
+    "record": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md"
+   },
+   "pending": [
+    "held-out gate FAILED (recall 0.685 is below 0.9). Stop and ask the owner: improve the method with a new round and a new unseen sample, or record an owner exception in trees.json pinning this benchmark. PENDING OWNER APPROVAL (2026-11-08, geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md)",
+    "checklist held-out-gate [auto] is open",
+    "checklist felled-list-confirmed [owner] is open",
+    "checklist species-mix-flags [auto] is open",
+    "checklist species-mix-screenshots [owner] is open",
+    "checklist runtime-cost-measured [owner] is open"
+   ]
+  },
+  "integrity": true,
+  "counts": {
+   "trees": 39577,
+   "typed": {
+    "conifer": 20818,
+    "broadleaf": 2690,
+    "null": 16069
+   },
+   "play": {
+    "near": 5745,
+    "woodland": 21496,
+    "none": 12336
+   },
+   "objectTiles": 233,
+   "standTiles": 256,
+   "attributeTiles": 60
+  }
+ }
+}

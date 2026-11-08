@@ -7,7 +7,7 @@
     "johannesberg",
     "johannesberg-9"
   ],
-  "groundManifestSha256": "0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f",
+  "groundManifestSha256": "4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c",
   "courses": [
     {
       "schemaVersion": 1,
@@ -16,25 +16,25 @@
       "groundId": "johannesberg",
       "slug": "johannesberg",
       "observedOn": "2026-11-08",
-      "review": "reviewed candidates, review-2026-11-08 round 2: agent-led reference benchmark (held-out P 0.953 R 0.788, gate not met: closed stands) and the owner's decisions of 2026-11-08 to publish with the round-2 detector; broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review",
+      "review": "reviewed candidates, review-2026-11-08 round 3, PENDING OWNER APPROVAL (round 3, benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764): the refined detector (the round-2 type-aware settings, then suppressed tops taken back on their laser cone and apex and a separate crown in the June 2025 photo), agent-led reference benchmark, gate not met (closed and edge stands); pole-like crowns reviewed on the photos (12 poles and structures not placed, 32 held); broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review",
       "activeRoot": {
         "url": "courses/v2-index.json",
         "bytes": 6993,
-        "sha256": "6cc7b7bdf84597f73eb399ae0c21192fe056905e72bae69bf8007c77b0ce022f"
+        "sha256": "9599136328e35af9d960268615c1357eb3b8de84bf0e5c7639bd9066e3f46273"
       },
       "graph": {
         "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
         "courseManifest": {
-          "url": "courses/johannesberg/course-v2-fe3511b6ba43492b7d14de0b29601fbafe6dd220ccea983282e19a921f2c67b7.json",
+          "url": "courses/johannesberg/course-v2-5817441870ca79c138bc4724987acec7c021e1799701e64596c07377a7c88f36.json",
           "mediaType": "application/vnd.banvy.course-manifest-v2+json",
           "bytes": 3881,
-          "sha256": "fe3511b6ba43492b7d14de0b29601fbafe6dd220ccea983282e19a921f2c67b7"
+          "sha256": "5817441870ca79c138bc4724987acec7c021e1799701e64596c07377a7c88f36"
         },
         "groundManifest": {
-          "url": "grounds/johannesberg/ground-v2-0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f.json",
+          "url": "grounds/johannesberg/ground-v2-4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c.json",
           "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
           "bytes": 571614,
-          "sha256": "0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f"
+          "sha256": "4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c"
         },
         "routing": {
           "kind": "routing",
@@ -61,18 +61,18 @@
         "finestTiles": 256,
         "shellBytes": 70428,
         "chunks": 960,
-        "encodedChunkBytes": 34158555,
-        "decodedChunkBytes": 85579532
+        "encodedChunkBytes": 34189357,
+        "decodedChunkBytes": 86089264
       },
       "vegetation": {
         "objectTiles": 233,
         "standTiles": 256,
         "records": {
-          "inScope": 26249,
+          "inScope": 27241,
           "retainedOutsideScope": 12336,
           "baseHeightMisses": [],
-          "replacedPublishedInScope": 2458,
-          "publishedIdsKeptInScope": 2222
+          "replacedPublishedInScope": 26249,
+          "publishedIdsKeptInScope": 26164
         },
         "stands": {
           "cellMetres": 4,
@@ -89,25 +89,25 @@
       "groundId": "johannesberg",
       "slug": "johannesberg-9",
       "observedOn": "2026-11-08",
-      "review": "reviewed candidates, review-2026-11-08 round 2: agent-led reference benchmark (held-out P 0.953 R 0.788, gate not met: closed stands) and the owner's decisions of 2026-11-08 to publish with the round-2 detector; broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review",
+      "review": "reviewed candidates, review-2026-11-08 round 3, PENDING OWNER APPROVAL (round 3, benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764): the refined detector (the round-2 type-aware settings, then suppressed tops taken back on their laser cone and apex and a separate crown in the June 2025 photo), agent-led reference benchmark, gate not met (closed and edge stands); pole-like crowns reviewed on the photos (12 poles and structures not placed, 32 held); broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review",
       "activeRoot": {
         "url": "courses/v2-index.json",
         "bytes": 6993,
-        "sha256": "b66bf06124179267da608a69f90b411aeb0526e7b905ab65e9245237d535b3c8"
+        "sha256": "38b8879ea629383376ca416e450e9638f2fe4e40c8e6034b5c20a99c09508734"
       },
       "graph": {
         "frameFingerprint": "3b6db48a9134351129c33ee0e167aa1f5a295f9724f1e3a42ab797a2153209d4",
         "courseManifest": {
-          "url": "courses/johannesberg-9/course-v2-729dba556d98a62eec4e695deb1ff450c03ed539c7023804f4bd031aa0bf172a.json",
+          "url": "courses/johannesberg-9/course-v2-d58bf2e4cee99f5ef48850b43d9375b36a70c83f05fbbeebcc62749aac9b4bc5.json",
           "mediaType": "application/vnd.banvy.course-manifest-v2+json",
           "bytes": 2472,
-          "sha256": "729dba556d98a62eec4e695deb1ff450c03ed539c7023804f4bd031aa0bf172a"
+          "sha256": "d58bf2e4cee99f5ef48850b43d9375b36a70c83f05fbbeebcc62749aac9b4bc5"
         },
         "groundManifest": {
-          "url": "grounds/johannesberg/ground-v2-0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f.json",
+          "url": "grounds/johannesberg/ground-v2-4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c.json",
           "mediaType": "application/vnd.banvy.ground-manifest-v2+json",
           "bytes": 571614,
-          "sha256": "0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f"
+          "sha256": "4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c"
         },
         "routing": {
           "kind": "routing",
@@ -134,18 +134,18 @@
         "finestTiles": 256,
         "shellBytes": 70428,
         "chunks": 960,
-        "encodedChunkBytes": 34157716,
-        "decodedChunkBytes": 85577497
+        "encodedChunkBytes": 34188518,
+        "decodedChunkBytes": 86087229
       },
       "vegetation": {
         "objectTiles": 233,
         "standTiles": 256,
         "records": {
-          "inScope": 26249,
+          "inScope": 27241,
           "retainedOutsideScope": 12336,
           "baseHeightMisses": [],
-          "replacedPublishedInScope": 2458,
-          "publishedIdsKeptInScope": 2222
+          "replacedPublishedInScope": 26249,
+          "publishedIdsKeptInScope": 26164
         },
         "stands": {
           "cellMetres": 4,

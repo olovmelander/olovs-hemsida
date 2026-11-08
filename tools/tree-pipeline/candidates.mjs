@@ -44,7 +44,7 @@ import { createGroundHeightLookup } from '../../packages/course-v2/vegetation/gr
 import { courseExclusionFeatures, rasterizeExclusions } from '../../packages/course-v2/vegetation/semantic-exclusions.mjs';
 import { parseTreeId, treeId } from '../../packages/course-v2/vegetation/registry-identity.mjs';
 import { crownOutlines, crownReturnMetrics, detectTreesTyped, detectTreesV2, matchOneToOne, typeMapFromPhoto } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
-import { detectTreesRefined } from '../../packages/course-v2/vegetation/tree-refine.mjs';
+import { detectTreesRefined } from './tree-refine.mjs';
 import { refereeFor, refereeInputs } from './benchmark.mjs';
 import { loadMosaic, loadRaster } from './panels.mjs';
 import { closedness, displacementAllowance, loadPointsFor, openGroundBrightness, photoDisc, photoEvidenceKey, photoLabel, shadowEvidenceKey, shadowProbe } from './crown-evidence.mjs';
@@ -109,7 +109,9 @@ export function buildCandidates(ctx) {
   if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered`);
   const position = c => (typed ? c.position : lock.selected.position === 'centroid' ? c.centroid : c.apex);
   const positionWord = typed ? 'per-type position (conifer and broadleaf: crown centroid)' : lock.selected.position;
-  const crowns = detected.crowns.filter(c => inInner(position(c).easting, position(c).northing));
+  /* owned by the inner window as the table records it (2 decimals): a crown
+     a hair inside the edge must not round onto it */
+  const crowns = detected.crowns.filter(c => inInner(round(position(c).easting, 2), round(position(c).northing, 2)));
   console.log(`detector: ${detected.maxima.length} maxima, ${detected.crowns.length} crowns, ${crowns.length} owned by the inner window`);
   /* 2. evidence */
   const points = loadPointsFor(ctx, grid);

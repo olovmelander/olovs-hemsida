@@ -98,7 +98,7 @@
     "observedOn": "2026-11-08",
     "stagingRoot": "output/course-workflow/johannesberg/staging-public",
     "compileOut": "output/course-workflow/johannesberg/reviewed-compile",
-    "reviewStatement": "reviewed candidates, review-2026-11-08 round 2: agent-led reference benchmark (held-out P 0.953 R 0.788, gate not met: closed stands) and the owner's decisions of 2026-11-08 to publish with the round-2 detector; broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review"
+    "reviewStatement": "reviewed candidates, review-2026-11-08 round 3, PENDING OWNER APPROVAL (round 3, benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764): the refined detector (the round-2 type-aware settings, then suppressed tops taken back on their laser cone and apex and a separate crown in the June 2025 photo), agent-led reference benchmark, gate not met (closed and edge stands); pole-like crowns reviewed on the photos (12 poles and structures not placed, 32 held); broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review"
   },
   "ownerExceptions": [
     {
@@ -114,6 +114,9 @@
       "decision": "Publish although the 90% precision and recall gate is not met on the unseen held-out sample. The shortfall is closed stands, where touching spruces in the 2021 leaf-off scan (1.8 first returns/m2) share one maximum (recall 17/23): a limit of the data. Isolated trees (13/15), groups (4/4), broadleaves (21/25) and conifers (17/23) meet or approach the gate. The exception, the stratified numbers, the holds and the unresolved lists stay recorded.",
       "record": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md"
     }
+  ],
+  "pendingOwnerApprovals": [
+    {"gate":"held-out-precision-recall","round":"r3","status":"pending-owner-approval","recordedOn":"2026-11-08","recordedBy":"agent (Claude), round-3 run; the owner has not seen these numbers","benchmark":{"path":"geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/benchmark-r3.json","sha256":"295c03eceaf5d956b2603e97d5352942e84ea6353200a87385410284e52a7f25"},"measured":{"precision":0.984,"recall":0.685},"comparison":"on the same 89 unseen crowns: round 2 P 0.984 R 0.674, round 1 P 0.971 R 0.764","statement":"pending owner approval (round 3, benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764). The round-3 detector beats round 2 by the declared F1 (0.808 against 0.800) but fails the 90% gate; it is staged on branch trees-round3 for the owner to judge, not approved. The owner exception of 2026-11-08 covers round 2 only.","record":"geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md"}
   ],
   "ownerDecisions": [
     { "decidedOn": "2026-11-08", "decision": "Use the round-2 (type-aware) detector, for fewer false trees on open ground: a post-evaluation owner choice, not the declared F1 ranking (round 1 F1 0.869 against round 2's 0.863).", "record": "geo_data/course-v2/johannesberg/vegetation/RUN" },

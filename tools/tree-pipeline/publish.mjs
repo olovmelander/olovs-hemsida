@@ -29,19 +29,30 @@ import { gateReport } from './benchmark.mjs';
 import { changedOutputs, readReceipt, writeReceipt } from './receipts.mjs';
 import { openItems } from './review.mjs';
 
-/** Every reason publication may not go ahead (empty when it may). */
-export function publicationBlockers(ctx, { gate, checklist, candidatesReceipt, changed }) {
+/* checklist items only the owner can close (the held-out gate's exception and
+   the species-mix flags he accepts are his too) */
+const OWNER_ITEMS = new Set(['held-out-gate', 'species-mix-flags']);
+
+/**
+ * Every reason publication may not go ahead (empty when it may). With
+ * pendingOwner, the reasons that are the owner's own decisions -- a failed
+ * gate covered by a pendingOwnerApprovals record, and owner checklist items --
+ * are returned separately as `pending`, so a round can be STAGED for him to
+ * judge; they are never cleared or relabelled as decided.
+ */
+export function publicationBlockers(ctx, { gate, checklist, candidatesReceipt, changed }, { pendingOwner = false } = {}) {
   const blockers = [];
+  const pending = [];
   if (!gate || gate.error) blockers.push(`no gate result: ${gate?.error || 'run --stage benchmark'}`);
-  else if (!gate.verdict.allowed) blockers.push(gate.verdict.note);
+  else if (!gate.verdict.allowed) (pendingOwner && gate.pending ? pending : blockers).push(gate.pending ? `${gate.verdict.note} PENDING OWNER APPROVAL (${gate.pending.recordedOn}, ${gate.pending.record})` : gate.verdict.note);
   if (!checklist) blockers.push('no review checklist: run --stage review');
-  else for (const item of openItems(checklist)) blockers.push(`checklist ${item.id} [${item.who}] is ${item.status}${item.who !== 'auto' && item.status === 'done' ? ' without who and when' : ''}`);
+  else for (const item of openItems(checklist)) (pendingOwner && (item.who === 'owner' || OWNER_ITEMS.has(item.id)) ? pending : blockers).push(`checklist ${item.id} [${item.who}] is ${item.status}${item.who !== 'auto' && item.status === 'done' ? ' without who and when' : ''}`);
   if (!candidatesReceipt) blockers.push('no candidates receipt: run --stage candidates (a candidate table without a receipt cannot be shown to be the stage\'s own output)');
   else if (candidatesReceipt.result?.round && candidatesReceipt.result.round !== ctx.round.id) blockers.push(`the candidates were built for round ${candidatesReceipt.result.round}, not ${ctx.round.id}`);
   for (const c of changed) blockers.push(`${c.path} ${c.why}`);
   const live = path.resolve(ctx.root, ctx.config.published.publicDir);
   if (path.resolve(ctx.root, ctx.config.publication.stagingRoot) === live) blockers.push('the staging root is the live public root');
-  return blockers;
+  return pendingOwner ? { blockers, pending } : blockers;
 }
 
 /** The staged commands, one at a time, as argument arrays (no shell). */
@@ -94,16 +105,20 @@ export async function run(ctx, options) {
   const checklist = fs.existsSync(checklistPath) ? JSON.parse(fs.readFileSync(checklistPath, 'utf8')) : null;
   const candidatesReceipt = readReceipt(ctx, 'candidates');
   const changed = candidatesReceipt ? changedOutputs(ctx, candidatesReceipt) : [];
-  const blockers = publicationBlockers(ctx, { gate, checklist, candidatesReceipt, changed });
-  const gateLine = gate?.gate ? `held-out gate ${gate.gate.status}${gate.gate.status === 'FAIL' && gate.verdict.allowed ? ` (owner exception of ${gate.verdict.ownerException.decidedOn})` : ''}` : 'held-out gate: no result';
+  const pendingOwner = Boolean(options['pending-owner']);
+  const checked = publicationBlockers(ctx, { gate, checklist, candidatesReceipt, changed }, { pendingOwner });
+  const blockers = pendingOwner ? checked.blockers : checked;
+  const pending = pendingOwner ? checked.pending : [];
+  const gateLine = gate?.gate ? `held-out gate ${gate.gate.status}${gate.gate.status === 'FAIL' && gate.verdict.allowed ? ` (owner exception of ${gate.verdict.ownerException.decidedOn})` : ''}${pending.length ? '; STAGED PENDING OWNER APPROVAL' : ''}` : 'held-out gate: no result';
   if (blockers.length) {
     return { status: gate?.gate && !gate.verdict.allowed ? 'gate-fail' : 'stop', message: `${gateLine}\nPUBLICATION BLOCKED:\n${blockers.map(b => `  - ${b}`).join('\n')}` };
   }
   const plan = publicationPlan(ctx);
   const planText = plan.map((step, i) => `  ${i + 1}. ${step.what}: node ${step.command.slice(1).map(a => (/[\s"]/.test(a) ? JSON.stringify(a) : a)).join(' ')}`).join('\n');
   const staging = ctx.config.publication.stagingRoot;
+  const pendingText = pending.length ? `\nPENDING THE OWNER (not decided; staged for his review only):\n${pending.map(b => `  - ${b}`).join('\n')}` : '';
   if (!options.execute) {
-    return { status: 'stop', message: `${gateLine}; checklist closed; receipts unchanged.\nPLAN (staging only; the live root is never written):\n  0. copy ${ctx.config.published.publicDir} to ${staging} if it is not there\n${planText}\n  then verify the staged graph and its tree records.\nThe owner authorises the run: --stage publish --execute. Promotion into ${ctx.config.published.publicDir} follows the course production workflow.` };
+    return { status: 'stop', message: `${gateLine}; ${pending.length ? 'every other check passes' : 'checklist closed'}; receipts unchanged.${pendingText}\nPLAN (staging only; the live root is never written):\n  0. copy ${ctx.config.published.publicDir} to ${staging} if it is not there\n${planText}\n  then verify the staged graph and its tree records.\nThe owner authorises the run: --stage publish --execute. Promotion into ${ctx.config.published.publicDir} follows the course production workflow.` };
   }
   const stagingAbs = path.resolve(ctx.root, staging);
   if (!fs.existsSync(stagingAbs)) {
@@ -119,8 +134,9 @@ export async function run(ctx, options) {
   console.log(JSON.stringify(verified, null, 1));
   const reportPath = path.join(ctx.root, ctx.config.publication.compileOut, 'staging-verification.json');
   fs.mkdirSync(path.dirname(reportPath), { recursive: true });
-  fs.writeFileSync(reportPath, JSON.stringify({ ...verified, gate: gate.verdict, verifiedAt: new Date().toISOString() }, null, 1) + '\n');
-  writeReceipt(ctx, 'publish', { inputs: [ctx.reviewFile('candidates.csv'), path.join(ctx.paths.rasters, 'residual-chm-050.bin'), path.join(ctx.paths.rasters, 'residual-labels-050.bin'), checklistPath], outputs: [reportPath], result: { gate: gate.verdict, integrity: verified.integrity, counts: verified.counts } });
+  const ownerApproval = pending.length ? { status: 'pending-owner-approval', record: gate.pending ?? null, pending } : { status: gate.verdict.allowed ? (gate.gate.status === 'PASS' ? 'not-needed' : 'owner-exception') : 'none' };
+  fs.writeFileSync(reportPath, JSON.stringify({ ...verified, gate: gate.verdict, ownerApproval, verifiedAt: new Date().toISOString() }, null, 1) + '\n');
+  writeReceipt(ctx, 'publish', { inputs: [ctx.reviewFile('candidates.csv'), path.join(ctx.paths.rasters, 'residual-chm-050.bin'), path.join(ctx.paths.rasters, 'residual-labels-050.bin'), checklistPath], outputs: [reportPath], result: { gate: gate.verdict, ownerApproval, integrity: verified.integrity, counts: verified.counts } });
   if (!verified.integrity) return { status: 'error', message: 'the staged graph does not verify' };
   return { status: 'done', message: `staged and verified: ${verified.counts.trees} tree records in ${staging}. Next (owner-authorised, course production workflow): review the staged root on the GPU, adopt it into ${ctx.config.published.publicDir}, re-pin production.json (vegetation.reviewMode reviewed-candidates-v1: candidates.csv and the residual rasters) with record-artifact-checksum, re-bake prepared data and map trees, and record it in the review README.` };
 }

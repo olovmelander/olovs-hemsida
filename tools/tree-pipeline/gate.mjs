@@ -66,6 +66,21 @@ export function ownerExceptionFor(config, gateResult, benchmarkSha256) {
   return null;
 }
 
+/**
+ * A pending-owner-approval record for this failed gate, or null: it pins the
+ * same benchmark and restates the same numbers, but it is NOT an exception
+ * (publicationVerdict never accepts it). The publish stage may stage a
+ * pending round only when asked to (--pending-owner), and labels it so.
+ */
+export function pendingApprovalFor(config, gateResult, benchmarkSha256) {
+  for (const x of (config.pendingOwnerApprovals || []).filter(y => y.gate === gateResult.gate && y.round === gateResult.round)) {
+    if (x.status !== 'pending-owner-approval' || x.benchmark?.sha256 !== benchmarkSha256 || !gateResult.measured) continue;
+    if (round3(x.measured.precision) !== round3(gateResult.measured.precision) || round3(x.measured.recall) !== round3(gateResult.measured.recall)) continue;
+    return x;
+  }
+  return null;
+}
+
 /** Why each recorded exception for this gate does not apply (for the report). */
 export function staleExceptions(config, gateResult, benchmarkSha256) {
   return (config.ownerExceptions || []).filter(x => x.gate === gateResult.gate && x.round === gateResult.round).map(x => ({

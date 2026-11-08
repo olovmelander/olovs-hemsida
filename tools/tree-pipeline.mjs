@@ -24,6 +24,8 @@
      benchmark  --tune | --types | --score | --gate   (none: whatever is missing, then the gate)
      review     --only spots|types|screens|mix
      publish    --execute (compile into the staging root; never the live public root)
+                [--pending-owner] (stage a round whose remaining blockers are the owner's own decisions, covered by a
+                pendingOwnerApprovals record: labelled pending everywhere, never an exception)
 
    Exit codes: 0 done, 1 error, 2 usage, 3 stopped for a person (review or an
    owner decision), 4 held-out gate failed with no owner exception.
@@ -39,7 +41,7 @@ import { ROOT, configPath, configTemplate, loadGroundConfig } from './tree-pipel
 import { STAGES, STAGE_NAMES, firstIncompleteStage, missingPrerequisites, nextStage } from './tree-pipeline/stages.mjs';
 
 const EXIT = Object.freeze({ done: 0, error: 1, usage: 2, stop: 3, 'gate-fail': 4 });
-const BOOLEAN = new Set(['list', 'help', 'init', 'status', 'fetch', 'decide-only', 'prepare', 'freeze', 'tune', 'types', 'score', 'gate', 'execute', 'force', 'native', 'relief']);
+const BOOLEAN = new Set(['list', 'help', 'init', 'status', 'fetch', 'decide-only', 'prepare', 'freeze', 'tune', 'types', 'score', 'gate', 'execute', 'force', 'native', 'relief', 'pending-owner']);
 
 export function parseArgs(argv) {
   const options = {};

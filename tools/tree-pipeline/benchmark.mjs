@@ -33,10 +33,10 @@ import {
   TREE_DETECT_V2_DEFAULTS, TYPED_DEFAULTS, TYPE_BROADLEAF, TYPE_CONIFER, circleIoU, crownReturnMetrics, detectTreesTyped, detectTreesV2,
   detectionScores, matchOneToOne, typeMapFromPhoto,
 } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
-import { REFINE_DEFAULTS, keptTops, overSegmentedTops, recoverTops, suppressedTops } from '../../packages/course-v2/vegetation/tree-refine.mjs';
+import { REFINE_DEFAULTS, detectTreesTypedWithSeeds, keptTops, overSegmentedTops, recoverTops, suppressedTops } from './tree-refine.mjs';
 import { displacementAllowance, firstReturnIndex, loadPointsFor, photoDisc } from './crown-evidence.mjs';
 import { nativeBrightness, photoValley } from './relief.mjs';
-import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, publicationVerdict, staleExceptions } from './gate.mjs';
+import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, pendingApprovalFor, publicationVerdict, staleExceptions } from './gate.mjs';
 import { loadMosaic, loadRaster, openCampaignPacks } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
@@ -45,7 +45,7 @@ const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).di
 const round = (v, d = 3) => (Number.isFinite(v) ? Math.round(v * 10 ** d) / 10 ** d : null);
 const quantile = (values, q) => { if (!values.length) return null; const s = [...values].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * (s.length - 1)))]; };
 const CROP_MARGIN = 25;
-const DETECTOR_CODE = ['packages/course-v2/vegetation/tree-detect-v2.mjs', 'packages/course-v2/vegetation/tree-refine.mjs', 'packages/course-v2/vegetation/pit-free-chm.mjs', 'packages/course-v2/vegetation/crown-detect.mjs', 'tools/tree-pipeline/relief.mjs', 'tools/tree-pipeline/benchmark.mjs'];
+const DETECTOR_CODE = ['packages/course-v2/vegetation/tree-detect-v2.mjs', 'tools/tree-pipeline/tree-refine.mjs', 'packages/course-v2/vegetation/pit-free-chm.mjs', 'packages/course-v2/vegetation/crown-detect.mjs', 'tools/tree-pipeline/relief.mjs', 'tools/tree-pipeline/benchmark.mjs'];
 
 const lockPathOf = (ctx, roundId) => ctx.reviewFile(ctx.sampleFile('detector-lock', 'json', roundId));
 const benchmarkPathOf = (ctx, roundId) => ctx.reviewFile(ctx.sampleFile('benchmark', 'json', roundId));
@@ -226,7 +226,7 @@ export function prepareRefined(entry, typedParameters, inputs, fractions = REFIN
 export function refinedFromPrepared(entry, typedParameters, prepared, refine) {
   const { grid, values } = entry.cropped;
   const recovered = recoverTops(prepared.suppressed, { apexReturns: t => t.apexCount, photoValley: (role, t, o, f) => t.valleys?.[role]?.[f] ?? null }, refine);
-  const { crowns } = detectTreesTyped(grid, values, prepared.typeMap, typedParameters, { surfaces: prepared.surfaces, extraMaxima: recovered });
+  const { crowns } = detectTreesTypedWithSeeds(grid, values, prepared.typeMap, typedParameters, { surfaces: prepared.surfaces, extraMaxima: recovered });
   return crowns.map(c => ({ easting: c.position.easting, northing: c.position.northing, radius: c.equivalentRadiusMetres, height: c.heightMetres, type: c.type, recovered: Boolean(c.recovered) }));
 }
 
@@ -658,7 +658,8 @@ export function gateReport(ctx) {
   const exception = gate.status === 'PASS' ? null : ownerExceptionFor(ctx.config, gate, benchmarkSha256);
   const verdict = publicationVerdict(gate, exception);
   const stale = gate.status === 'PASS' || exception ? [] : staleExceptions(ctx.config, gate, benchmarkSha256);
-  return { gate, verdict, benchmark: { path: ctx.rel(file), sha256: benchmarkSha256 }, staleExceptions: stale, recallBy: benchmark.results[ctx.round.methodName]?.[ctx.round.evaluationRole]?.recallBy ?? null };
+  const pending = gate.status === 'PASS' || exception ? null : pendingApprovalFor(ctx.config, gate, benchmarkSha256);
+  return { gate, verdict, pending, benchmark: { path: ctx.rel(file), sha256: benchmarkSha256 }, staleExceptions: stale, recallBy: benchmark.results[ctx.round.methodName]?.[ctx.round.evaluationRole]?.recallBy ?? null };
 }
 
 export async function run(ctx, options) {

@@ -519,26 +519,13 @@ export const TYPED_DEFAULTS = Object.freeze({
  * sweep: { [TYPE_CONIFER]: Float32Array, [TYPE_BROADLEAF]: Float32Array }.
  * Crowns carry `type` and `position` (the type's apex or centroid).
  */
-export function detectTreesTyped(grid, chm, typeMap, parameters = TYPED_DEFAULTS, { surfaces = null, excludeMask = null, extraMaxima = null } = {}) {
+export function detectTreesTyped(grid, chm, typeMap, parameters = TYPED_DEFAULTS, { surfaces = null, excludeMask = null } = {}) {
   const byType = { [TYPE_CONIFER]: parameters.conifer, [TYPE_BROADLEAF]: parameters.broadleaf };
   const smooth = surfaces || {
     [TYPE_CONIFER]: smoothChm(grid, chm, parameters.conifer.smoothingSigmaMetres),
     [TYPE_BROADLEAF]: smoothChm(grid, chm, parameters.broadleaf.smoothingSigmaMetres),
   };
   const maxima = detectTreetopsTyped(grid, smooth, typeMap, byType, { excludeMask, raw: chm });
-  /* tops recovered by a referee (tree-refine.mjs) join before growth, so every
-     crown is grown from the full set of seeds at once */
-  if (extraMaxima) {
-    const taken = new Set(maxima.map(m => m.index));
-    for (const extra of extraMaxima) {
-      if (taken.has(extra.index)) continue;
-      const t = typeMap[extra.index] === TYPE_BROADLEAF ? TYPE_BROADLEAF : TYPE_CONIFER;
-      const height = smooth[t][extra.index];
-      if (!(height > 0)) continue;
-      taken.add(extra.index);
-      maxima.push(Object.freeze({ column: extra.column, row: extra.row, index: extra.index, height, windowRadiusMetres: 0, type: t, recovered: true }));
-    }
-  }
   /* one growth surface: each cell from its own type's smoothing */
   const surface = new Float32Array(chm.length);
   for (let i = 0; i < chm.length; i++) surface[i] = typeMap[i] === TYPE_BROADLEAF ? smooth[TYPE_BROADLEAF][i] : smooth[TYPE_CONIFER][i];
@@ -556,7 +543,7 @@ export function detectTreesTyped(grid, chm, typeMap, parameters = TYPED_DEFAULTS
   const crowns = statistics.filter(c => c.areaSquareMetres >= shared.minimumCrownAreaSquareMetres).map(c => {
     const t = maxima[c.id].type;
     const at = byType[t].position === 'centroid' ? c.centroid : { easting: c.apex.easting, northing: c.apex.northing };
-    return Object.freeze({ ...c, type: t === TYPE_CONIFER ? 'conifer' : 'broadleaf', position: Object.freeze({ easting: at.easting, northing: at.northing }), ...(maxima[c.id].recovered ? { recovered: true } : {}) });
+    return Object.freeze({ ...c, type: t === TYPE_CONIFER ? 'conifer' : 'broadleaf', position: Object.freeze({ easting: at.easting, northing: at.northing }) });
   });
   return { maxima, labels, crowns, surface, merged, split };
 }

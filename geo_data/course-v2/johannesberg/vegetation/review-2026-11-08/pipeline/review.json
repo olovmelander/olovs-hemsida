@@ -5,26 +5,23 @@
  "groundId": "johannesberg",
  "reviewId": "review-2026-11-08",
  "round": null,
- "ranAt": "2026-11-08T20:02:18.498Z",
+ "ranAt": "2026-11-08T20:13:25.314Z",
  "node": "v24.20.0",
  "config": {
   "path": "course-workflows/johannesberg/trees.json",
-  "bytes": 8772,
-  "sha256": "9786031da1456697d11445267266092a57fb5a7f38632e743e4736db862eab7d"
+  "bytes": 9796,
+  "sha256": "ec59e7656898fec731f9df1a5e5e0664a7742559851842d397b251f2e778c44c"
  },
  "options": {
   "only": [
-   "spots",
-   "types",
-   "screens",
    "mix"
   ]
  },
  "code": {
-  "tools/tree-pipeline.mjs": "3e561e3e04c24296dbbfe3b748f2cbeaed5d8412f192e1f86dbbd1e177ce1d56",
-  "tools/tree-pipeline/config.mjs": "dc2e17e37c271aa79d1a8b6522d7c1e916faf25393b97bd6ec887f6d04652b7e",
+  "tools/tree-pipeline.mjs": "b4f610a91aac4be853058e79fddaaff7ffa0e99f6793142ad8ce710b16bde703",
+  "tools/tree-pipeline/config.mjs": "95bfdfe4da674244debbdf3d2b820462195559c477522d7adbc082aefd922a98",
   "tools/tree-pipeline/stages.mjs": "7d8dacd03d729319bcb1a7ffde60b4fa4f94587f884b87473e83f234eb9cc2cd",
-  "tools/tree-pipeline/gate.mjs": "bfb6bf946f3b7a52668a37cb2468de63485ddf66db30d2aa3e170740d0129364",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
   "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
   "tools/tree-pipeline/receipts.mjs": "73a758d5c5ddc8f88b8f59ebd1d3e8744d6165c9160b4817f074f165729c1dee",
   "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
@@ -37,12 +34,12 @@
   "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
   "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
   "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
-  "tools/tree-pipeline/benchmark.mjs": "e2a8af5123b505f6c0d21aae6069b3a379f88d630ecae98193f2cdf7f4d15bde",
-  "tools/tree-pipeline/candidates.mjs": "9d120895828ef2baf69fe10da3aa0d3ef6e25b8b1825bcd20a056f8b01e1ec82",
+  "tools/tree-pipeline/benchmark.mjs": "067b2f5e1186fdd407583f571fa957db011e07e9213c24c10f84f066939a544a",
+  "tools/tree-pipeline/candidates.mjs": "a32441bf3cc30e59e1100bb31768ad5153243c137c43c52e41e2953e4f0b2056",
   "tools/tree-pipeline/review.mjs": "866f1f19ed528033ec403ed1697953ddcbeb611d514e45e4a3b69b6cd9bca3dc",
-  "tools/tree-pipeline/publish.mjs": "086d335c16c6649f44aaaf30db3eccbed1211f2ea7567156fff5c99fd87c980e",
+  "tools/tree-pipeline/publish.mjs": "dd8b5f3ff34545f07ad021bd861c7d7568ca722313acc56d1139c6a005b1ee96",
   "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
-  "packages/course-v2/vegetation/tree-detect-v2.mjs": "f4e5ab53dcc6875ee59ed3f1d97a56efeafd86d300c9f343f8dbdafc21eb3df7",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
   "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
   "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
   "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
@@ -50,425 +47,25 @@
  "inputs": [
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/candidates/candidates-full.json",
-   "bytes": 32111328,
-   "sha256": "d360920650a8b08f6091c01984d2d08f58426fea508d8114c9e3b7586d61248d"
+   "bytes": 32110599,
+   "sha256": "3dccd5debace203582185ec2ba186228d8939a488fddc36678720d994b99d739"
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
-   "bytes": 3296465,
-   "sha256": "5c994ff4c2623b41b40f9fbdea4000aa8cdced37dfcaa41608273b329444b315"
+   "bytes": 3296574,
+   "sha256": "944aad9cefd2e68629e76498222ecc0b37566f8d5d48e11fb1c50443b3328ff3"
   }
  ],
  "outputs": [
   {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/spots.json",
-   "bytes": 3291,
-   "sha256": "aefcc6018f781d0c008b11a60dcfc3895ab69cc7c062879a780bc80db6570fd9"
-  },
-  {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/hole10-south.png",
-   "bytes": 171256,
-   "sha256": "0ad84d7ab32e701e979e3d787a46a1b9c20537640ce2acc2124823dc39b3ed4e"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole10-south-photo.png",
-   "bytes": 2282858,
-   "sha256": "24a34509d3cc49c4d2145aa19a1cd22eb20ea5817ab4f5d9a30012fc60fb830c"
-  },
-  {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/holes17-18.png",
-   "bytes": 298633,
-   "sha256": "5652392767bc7ce59ff75e6f004fa35ca570c49934c7e90e70edaa02edcf9b66"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/holes17-18-photo.png",
-   "bytes": 3026670,
-   "sha256": "139f4d63a0975893dedb2c8671838d04d647a7c867305467d89df65b88237ffe"
-  },
-  {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/hole16-spruce-edge.png",
-   "bytes": 251289,
-   "sha256": "938f3070b8587af625df974ad699296d6309ad2107ebc71aa261d8e2e8884bd8"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole16-spruce-edge-photo.png",
-   "bytes": 2835922,
-   "sha256": "0126dd0f4b55b3f77915777ed851d185625935300f34e28b489d7bbdbf6e0164"
-  },
-  {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/hole4-meadow.png",
-   "bytes": 36587,
-   "sha256": "4973ab08cffd4f3cb6f1bffe4cf8e31602b670722148c04ba58d918536fc0a03"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole4-meadow-photo.png",
-   "bytes": 2572810,
-   "sha256": "9a8718ec3cf1c0c6703004a5fc4b91524845f9422c15be3885aa457656692981"
-  },
-  {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/hole2-tee.png",
-   "bytes": 100093,
-   "sha256": "7d928492ebf68ca625a45ab5f48c18c6e2e7f7f57cb2af295d0802a954107d06"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole2-tee-photo.png",
-   "bytes": 2691786,
-   "sha256": "66f16bfafa3ae1dec6b73bee62e8ab2bc0e65e3bdaeebe70b740a96726a6779f"
-  },
-  {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/nine5-6.png",
-   "bytes": 31605,
-   "sha256": "0bf6386b171491dc8601d1d7d19257ebf4d0e9ac2e7add504ea3c124e7e01bd5"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/nine5-6-photo.png",
-   "bytes": 2504345,
-   "sha256": "351d9938734e4c604e4b2aedc8c2b89ba2dcaf2ad5aa18598836eea399e77f36"
-  },
-  {
-   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review/hole1.png",
-   "bytes": 159506,
-   "sha256": "727b176fa45b84d9cc16501004654ff9a2f809ae32f0f926ab40d76df7d0a23b"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole1-photo.png",
-   "bytes": 1793230,
-   "sha256": "436f8c95cbe57224424cd35b5ef1f9207514934de8c75da92cac69c01c6be6ce"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/type-sample.json",
-   "bytes": 9108,
-   "sha256": "9486156ee4973f3ca993ca99be665cb8d0e9e273fd10956f738666dd842ffae4"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole1-overview.png",
-   "bytes": 1573015,
-   "sha256": "6f8285c6a45e9d44bda12c178387d3c564d573443a610f3024ca83e652026390"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole1-broadleaf-1.png",
-   "bytes": 2500534,
-   "sha256": "c04d1073f9137a9e618a05874a8912f3c6df24c4c0a717282d9e7799c59a05f3"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole1-broadleaf-2.png",
-   "bytes": 2440545,
-   "sha256": "5bf64571377f3c3e7223494afe00d49ddfee259eeabdf3e70a7d6b990d318e1b"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole17-overview.png",
-   "bytes": 3057921,
-   "sha256": "0f4a8ee9210fc910ccafc5d1b169ac7690e5a788c98c546de69e4bfd4a77bdc2"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole17-broadleaf-1.png",
-   "bytes": 2453416,
-   "sha256": "0ba1828893a074b3b0ac569aceee23f1430273afbc747cd4523d8ae91928ba52"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole17-broadleaf-2.png",
-   "bytes": 2463971,
-   "sha256": "be2036b0928e3bc3ad6c3f519908d257098e18e7388ae6e1a8942425c9e3fec9"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-01-1.png",
-   "bytes": 2203904,
-   "sha256": "b2652c075253beb8983aa5fb1ebe11f80123faa512a7bb09a547fc513ec5f9ea"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-01-2.png",
-   "bytes": 2329053,
-   "sha256": "91ea6d8519ac06312bb8a9654abe6e351fd6735a210d601f262fabae0e88181a"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-02-1.png",
-   "bytes": 2392665,
-   "sha256": "e9252f1a48d1ec27ed0d26c8eaba6e8e3315dd9030ed6cc83af2d62d19125cf7"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-02-2.png",
-   "bytes": 2333641,
-   "sha256": "9e9e8a1b9e780effda6dfa6b85149b2b95fa31e266f85cabe581ced35421f2e4"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-03-1.png",
-   "bytes": 2358303,
-   "sha256": "1293f2e35459c3c6cddf810cc648f36dbb9d64c0f1ad0ea77b44388e42b2db62"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-03-2.png",
-   "bytes": 2390917,
-   "sha256": "315b06dfc088c5aeb4e55b3eca991f051217e4d0b472996e0c06d927846eef19"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-04-1.png",
-   "bytes": 2484785,
-   "sha256": "cc9d88a2ef3e7a3133ca12f2dc020013c4cc59fef28031b7fec39a254bc5209d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-04-2.png",
-   "bytes": 2393670,
-   "sha256": "cbf342dad2862a120f4eaea25b08e2b270d77dfcb28f448ca9a9441085bcddef"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-05-1.png",
-   "bytes": 2075807,
-   "sha256": "c0a329c1630b2c4450e3cc4ccb2de3266e2ac76007d5a0c09ded6dd2228af01d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-felling-05-2.png",
-   "bytes": 1519330,
-   "sha256": "04977bc6ef1128c92f0554a5ad85479c46a7208f3cf741cc39a71cef99bef60d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-felling-01.png",
-   "bytes": 3072129,
-   "sha256": "48ffe7fe36a9604e4a15ccfbd896a2028b3bc28bd602d55f6094c418ede001bb"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-felling-02.png",
-   "bytes": 3225150,
-   "sha256": "360577ef2916618198a12196f74ebfb805cbe2fd09401960c848c023b9908d0d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-felling-03.png",
-   "bytes": 1200728,
-   "sha256": "8db3b8b12178b962613b150a374baa3cfde5beedd7769d4feb3bb285b72917e0"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-01-1.png",
-   "bytes": 2428910,
-   "sha256": "73acd61596dae42773ef91cbd052ecb2406035896ab14dbd19633fa5543b8be3"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-01-2.png",
-   "bytes": 2526518,
-   "sha256": "daf73f8def3e080664a8276ec2208990a91cf399cd7af607065c5b7fbf839a4f"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-02-1.png",
-   "bytes": 2577059,
-   "sha256": "c3e7cae855ca22ce600bbf7a48317d316c206e72a6164ff09dbdeb43263291bf"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-02-2.png",
-   "bytes": 2357669,
-   "sha256": "6b784d22f838276a267b4616f8c8211a3c289d2464189f87aacfb21491238423"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-03-1.png",
-   "bytes": 2282072,
-   "sha256": "87018e2115398abad30ad77330640c2a67bb358c05283bcb1c7c3f701b4f862a"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-03-2.png",
-   "bytes": 2342240,
-   "sha256": "807e7e55a744ad068a937a2ac51649713bdac957b28e4187f89b886ea77ee21f"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-04-1.png",
-   "bytes": 2317500,
-   "sha256": "4a11f7991bc76f787acb14f47d78e71c35f42bbaeb47068ac0d1b395b90624c5"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-04-2.png",
-   "bytes": 2107447,
-   "sha256": "3ba8155233a19e674fabba6a9e9b6cc1e25caf0036681526456f5bb27017d48d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-05-1.png",
-   "bytes": 2244708,
-   "sha256": "0fb8af98dcc9cabf9a1690b3cad7cfb059218c0e1d801456339a2473f45f1cb2"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-05-2.png",
-   "bytes": 2240402,
-   "sha256": "062c9ce8ab260356c3b9f12984481627abaa148cc6765bdd05c221ce318ad486"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-06-1.png",
-   "bytes": 2271325,
-   "sha256": "d1614210f8e7bcd1a4667e704065a0da492ef7f31dbbf972d6a89fb9918b1624"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-06-2.png",
-   "bytes": 2357124,
-   "sha256": "78f89669a6f77ece24ca9674f5e106fa19890fff2d43a53bc30df8f371ee67e5"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-07-1.png",
-   "bytes": 2241075,
-   "sha256": "d64d8aada333f317a5bdf237be752b7b5aaf450945db0210198158df2303145d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-07-2.png",
-   "bytes": 2009086,
-   "sha256": "d883db6270e21c6f77d34b98d93338dc6315458d0f6c7851844e5df855af20dd"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-08-1.png",
-   "bytes": 2124849,
-   "sha256": "c380eadc5b7f1f71a3cd34551d2310490e777751ed7da22f234e495de06633d9"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-08-2.png",
-   "bytes": 2255950,
-   "sha256": "eaf3c94e282d02f7357094de14e923b09e9033ea8e79433524db1248f285239e"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-09-1.png",
-   "bytes": 2412243,
-   "sha256": "638120ae8423a3adf217e19c62d9df4173ceded1ef9f01ee0e56acc6229ed9b7"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-09-2.png",
-   "bytes": 2400212,
-   "sha256": "872fcb6a26eed7c1afab68225333939ea7607248702c774ecd8723dfcc44d391"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-10-1.png",
-   "bytes": 2443318,
-   "sha256": "49e68d288e065a7ad86d1d37785dbddfdef5dc47fc16ac0525470684d2fb47b6"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-10-2.png",
-   "bytes": 2219222,
-   "sha256": "5cbf9dd9ebbac0f96f18779706e50928d068c9e7487425e9f5113beb290674cb"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-11-1.png",
-   "bytes": 2326568,
-   "sha256": "e2ff7dc3d26a38633afd3ab9d4bd40a231ef7bb471293ec1804754f1ef334948"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-11-2.png",
-   "bytes": 2340914,
-   "sha256": "a60a1397c4433401d14c9eb91122e88172f34c20117ff0f898fa402a11dbb75c"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-12-1.png",
-   "bytes": 2287741,
-   "sha256": "547f7e70842cc4eac1d412453a9f862f0eb3662d6668b30ea7089062aff61379"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-12-2.png",
-   "bytes": 2409718,
-   "sha256": "e8bb3f520929b9672ccec662d4be749a7ca80242a10f728840296347ea2e2e38"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-13-1.png",
-   "bytes": 2361050,
-   "sha256": "fec8771c4baade9d981cd4c96dfb9ecc5747a42a7da696eb90b86b25d2d560a7"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-13-2.png",
-   "bytes": 2401276,
-   "sha256": "0d01ca76106e68559bf20e37a56ec6b47e46adb59a8df48017148647731e6a5e"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-14-1.png",
-   "bytes": 2308411,
-   "sha256": "472064a678f3d1a67d8f5fe7970cadc1f2bf8455d4d186e014a3eed5b8e13d75"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-14-2.png",
-   "bytes": 2357913,
-   "sha256": "4d3bd5cd72862a2ae5b8f5dde80e75865278904eb5c3c12e53a2e81d9dac6c0d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-15-1.png",
-   "bytes": 2321924,
-   "sha256": "1b322c728c6c98781d9d2dfad03e9d59a25337dcd1bfd1de3277805e07bf7823"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-15-2.png",
-   "bytes": 2406225,
-   "sha256": "a5e11f68e467a471b7680e116832bb8a488bbe6664138147aa02bfa1615441e2"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-16-1.png",
-   "bytes": 2366744,
-   "sha256": "9a4deaa962390c540bfcf0b3c5603485f03aed3b0a1ea430cf5097e8e872c66f"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-16-2.png",
-   "bytes": 2436322,
-   "sha256": "8dd2d622ccf56ab9ddf41212b142c5726aa38cc01a01f951587858dbf8c0a4d5"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-17-1.png",
-   "bytes": 2489970,
-   "sha256": "6fca5e419031f1a7e9217a45d503dce854d3ea55b409106ccb339ab16c7568aa"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-17-2.png",
-   "bytes": 2484845,
-   "sha256": "2ab5c2fb194fd782f46afe878c56129390cb0524766390e54434a6963316d3db"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-18-1.png",
-   "bytes": 376576,
-   "sha256": "542f047007f9967ba50705f8835871310a5797274ee6503e4890dbb7c7c80c6f"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/screens-poles-18-2.png",
-   "bytes": 419455,
-   "sha256": "d6983a8357da51c009429526a8718eeb4d3f1648253a34732d358d9fdbfa86d8"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-01.png",
-   "bytes": 3262075,
-   "sha256": "3ed841bc2f41aaeb82ae416b163928931ad0a40703364058bca585ff12d8a43d"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-02.png",
-   "bytes": 3082110,
-   "sha256": "eaa80f785f67ffd819a1773f5b04ea275ce5d02a1a77fb75e83bd1cdf76a2e54"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-03.png",
-   "bytes": 3049442,
-   "sha256": "e6dae6a64e022f9522633a40d2cb0b1cea6f8b61b46c957e65364133b92733b0"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-04.png",
-   "bytes": 2872181,
-   "sha256": "afd9cd898e5c055d8f57ff3eb8d0505020d000577bd718dbc0c5f5bb1e6c2c83"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-05.png",
-   "bytes": 3181601,
-   "sha256": "0fb4d241ade3d948ec5675ea84a273a0150c8305cb8de9e96263b48d521ca5fb"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-06.png",
-   "bytes": 3105713,
-   "sha256": "1242174ea7f26863a618be3f50db05e7745e4e28d333be5211dbb090daf4a7a3"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-07.png",
-   "bytes": 3098934,
-   "sha256": "bb14b9cf868558bef6a4b62316bd966326d1cc0ddd6d98c9986dce3bdb91eee1"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-08.png",
-   "bytes": 3193341,
-   "sha256": "b19a2f7563d9f3f94efed62d87b4980526fa03a2a20383df6ff7eef2b5f9abfe"
-  },
-  {
-   "path": "johannesbergbuild/cache/trees-2026-11-08/review-panels/compact-poles-09.png",
-   "bytes": 1943583,
-   "sha256": "7ff856835253827144777f52aee39ee445e5731b531ab543bb928935e229d323"
-  },
-  {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/species-mix.json",
    "bytes": 5774,
-   "sha256": "00bdd89e22924dea3dbb5a156251568abcb6fd99233940c135ed7f6592c4968f"
+   "sha256": "e18a9c59fbc296f81e0c6b5eb4059e40e740549113b5ee1590897bc82a0a50b4"
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review-checklist.json",
-   "bytes": 4538,
-   "sha256": "b85e2b966dece6da300fc48a6baef7a1ca91a38ab2ad03be30f68bfdb716e1a7"
+   "bytes": 5085,
+   "sha256": "fdfae3bc8d1d5ab6c3009e448131c1ca6a6e40baca4035518606575503e2916f"
   }
  ],
  "result": {
@@ -489,7 +86,6 @@
   "open": [
    "held-out-gate",
    "felled-list-confirmed",
-   "species-spot-check-photos",
    "species-mix-flags",
    "species-mix-screenshots",
    "runtime-cost-measured"

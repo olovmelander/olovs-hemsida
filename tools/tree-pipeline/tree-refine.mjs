@@ -29,10 +29,61 @@
    in as callbacks so that this module stays free of file access; the
    coefficients are chosen on calibration windows only (the tree pipeline's
    benchmark), never assumed universal.                                     */
-import { createRaster } from './canopy-fields.mjs';
-import { detectLocalMaxima } from './crown-detect.mjs';
-import { smoothChm } from './pit-free-chm.mjs';
-import { TYPE_BROADLEAF, TYPE_CONIFER, detectTreesTyped } from './tree-detect-v2.mjs';
+import { createRaster } from '../../packages/course-v2/vegetation/canopy-fields.mjs';
+import { crownStatistics, detectLocalMaxima } from '../../packages/course-v2/vegetation/crown-detect.mjs';
+import { smoothChm } from '../../packages/course-v2/vegetation/pit-free-chm.mjs';
+import {
+  TYPE_BROADLEAF, TYPE_CONIFER, detectTreetopsTyped, growCrownsSimultaneous, mergeShallowCrowns, splitOversizedCrowns,
+} from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
+
+/* This module lives with the pipeline, not in packages/course-v2: that folder
+   is part of the source revision every prepared startup record is keyed by,
+   and an offline detector must not expire them. */
+
+/**
+ * detectTreesTyped (tree-detect-v2.mjs) with extra seeds: the same steps on
+ * the same surfaces, the `extraMaxima` joining the detected tops before
+ * growth so that every crown is grown from the full set at once. With no
+ * extra seeds it returns exactly what detectTreesTyped returns (tested).
+ */
+export function detectTreesTypedWithSeeds(grid, chm, typeMap, parameters, { surfaces = null, excludeMask = null, extraMaxima = null } = {}) {
+  const byType = { [TYPE_CONIFER]: parameters.conifer, [TYPE_BROADLEAF]: parameters.broadleaf };
+  const smooth = surfaces || {
+    [TYPE_CONIFER]: smoothChm(grid, chm, parameters.conifer.smoothingSigmaMetres),
+    [TYPE_BROADLEAF]: smoothChm(grid, chm, parameters.broadleaf.smoothingSigmaMetres),
+  };
+  const maxima = detectTreetopsTyped(grid, smooth, typeMap, byType, { excludeMask, raw: chm });
+  if (extraMaxima) {
+    const taken = new Set(maxima.map(m => m.index));
+    for (const extra of extraMaxima) {
+      if (taken.has(extra.index)) continue;
+      const t = typeMap[extra.index] === TYPE_BROADLEAF ? TYPE_BROADLEAF : TYPE_CONIFER;
+      const height = smooth[t][extra.index];
+      if (!(height > 0)) continue;
+      taken.add(extra.index);
+      maxima.push(Object.freeze({ column: extra.column, row: extra.row, index: extra.index, height, windowRadiusMetres: 0, type: t, recovered: true }));
+    }
+  }
+  const surface = new Float32Array(chm.length);
+  for (let i = 0; i < chm.length; i++) surface[i] = typeMap[i] === TYPE_BROADLEAF ? smooth[TYPE_BROADLEAF][i] : smooth[TYPE_CONIFER][i];
+  const shared = parameters.shared;
+  const labels = growCrownsSimultaneous(grid, surface, maxima, { seedFraction: shared.seedFraction, crownFraction: shared.crownFraction, maximumCrownRadiusMetres: shared.maximumCrownRadiusMetres, minimumHeightMetres: 2, excludeMask });
+  const threshold = lower => { const p = byType[lower.type]; return Math.max(p.prominenceMetres, p.prominenceFraction * lower.height); };
+  const anyMerge = [parameters.conifer, parameters.broadleaf].some(p => p.prominenceMetres > 0 || p.prominenceFraction > 0);
+  const merged = anyMerge ? mergeShallowCrowns(grid, surface, labels, maxima, threshold) : 0;
+  const split = parameters.split && parameters.split.areaFactor > 0
+    ? splitOversizedCrowns(grid, smoothChm(grid, chm, parameters.split.fineSigmaMetres), labels, maxima, { type: TYPE_CONIFER, ...parameters.split })
+    : 0;
+  if (shared.extentFraction > 0) growCrownsSimultaneous(grid, surface, maxima, { seedFraction: shared.extentFraction, crownFraction: 0, maximumCrownRadiusMetres: shared.maximumCrownRadiusMetres, minimumHeightMetres: 2, excludeMask, initialLabels: labels });
+  const heights = createRaster({ width: grid.width, height: grid.height, sampleSpacingMetres: grid.sampleSpacingMetres, originEasting: grid.minEasting, originNorthing: grid.maxNorthing, values: chm });
+  const statistics = crownStatistics(heights, labels, maxima);
+  const crowns = statistics.filter(c => c.areaSquareMetres >= shared.minimumCrownAreaSquareMetres).map(c => {
+    const t = maxima[c.id].type;
+    const at = byType[t].position === 'centroid' ? c.centroid : { easting: c.apex.easting, northing: c.apex.northing };
+    return Object.freeze({ ...c, type: t === TYPE_CONIFER ? 'conifer' : 'broadleaf', position: Object.freeze({ easting: at.easting, northing: at.northing }), ...(maxima[c.id].recovered ? { recovered: true } : {}) });
+  });
+  return { maxima, labels, crowns, surface, merged, split };
+}
 
 export const REFINE_DEFAULTS = Object.freeze({
   candidateSigmaMetres: 0.3,
@@ -155,7 +206,7 @@ export function recoverTops(suppressed, { apexReturns, photoValley }, parameters
  * extra seeds (every crown regrown from the full set at once).
  */
 export function detectTreesRefined(grid, chm, typeMap, typedParameters, refineParameters, referee, { surfaces = null, excludeMask = null, trace = null } = {}) {
-  const first = detectTreesTyped(grid, chm, typeMap, typedParameters, { surfaces, excludeMask });
+  const first = detectTreesTypedWithSeeds(grid, chm, typeMap, typedParameters, { surfaces, excludeMask });
   const p = { ...REFINE_DEFAULTS, ...refineParameters };
   const smooth = smoothChm(grid, chm, p.candidateSigmaMetres);
   const tops = overSegmentedTops(grid, chm, { sigmaMetres: p.candidateSigmaMetres, windowMetres: p.candidateWindowMetres, minimumHeightMetres: p.minimumHeightMetres, smoothed: smooth });
@@ -166,6 +217,6 @@ export function detectTreesRefined(grid, chm, typeMap, typedParameters, refinePa
   const suppressed = suppressedTops(grid, smooth, tops, kept, typeMap, p).filter(t => !excludeMask || !excludeMask[t.index])
     .sort((a, b) => { const [ar, ac] = tileOf(a), [br, bc] = tileOf(b); return ar - br || ac - bc || a.index - b.index; });
   const recovered = recoverTops(suppressed, referee, p, trace);
-  const second = detectTreesTyped(grid, chm, typeMap, typedParameters, { surfaces, excludeMask, extraMaxima: recovered });
+  const second = detectTreesTypedWithSeeds(grid, chm, typeMap, typedParameters, { surfaces, excludeMask, extraMaxima: recovered });
   return { ...second, first, suppressed: suppressed.length, recovered: recovered.length };
 }

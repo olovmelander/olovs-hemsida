@@ -19,8 +19,8 @@
     "verticalCrs": "EPSG:5613"
   },
   "baselineGround": {
-    "path": "apps/golf/public/grounds/johannesberg/ground-v2-0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f.json",
-    "sha256": "0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f"
+    "path": "apps/golf/public/grounds/johannesberg/ground-v2-4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c.json",
+    "sha256": "4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c"
   },
   "terrain": {
     "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-ground-rings",
@@ -42,11 +42,11 @@
     },
     "reviewMode": "reviewed-candidates-v1",
     "observedOn": "2026-11-08",
-    "reviewNote": "Owner decisions of 2026-11-08: publish the round-2 (type-aware) reviewed candidates of review-2026-11-08 although the held-out gate is not met (closed stands); every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
+    "reviewNote": "Round 3 of review-2026-11-08, staged on branch trees-round3 PENDING OWNER APPROVAL (round 3, benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764): the refined detector (the round-2 type-aware settings, then suppressed tops taken back on their laser cone and apex and a separate crown in the June 2025 photo) and reviewed pole-like crowns. The held-out gate is not met and the owner exception of 2026-11-08 covers round 2 only. Every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
     "reviewed": {
       "candidates": {
         "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
-        "sha256": "9bddbfc55c5e398bcc66851622bd8b45ce38ec65b717a1a80591e1dabe5be302"
+        "sha256": "944aad9cefd2e68629e76498222ecc0b37566f8d5d48e11fb1c50443b3328ff3"
       },
       "residualChm": {
         "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin",
@@ -54,7 +54,7 @@
       },
       "residualLabels": {
         "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-labels-050.bin",
-        "sha256": "c0c612bc660317e9972f7aa859fc7f3f71c8ef9fc35eb4fb0a8584e3823716f9"
+        "sha256": "77e70e3e2e86a714988f6da29559f7c0a37f4503f8ed1e1b20de34a2401aced2"
       },
       "scope": [
         678403.5,
@@ -62,7 +62,7 @@
         680451.5,
         6626324.5
       ],
-      "review": "reviewed candidates, review-2026-11-08 round 2: agent-led reference benchmark (held-out P 0.953 R 0.788, gate not met: closed stands) and the owner's decisions of 2026-11-08 to publish with the round-2 detector; broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review"
+      "review": "reviewed candidates, review-2026-11-08 round 3, PENDING OWNER APPROVAL (round 3, benchmark-r3: P 0.984 / R 0.685 on 89 unseen crowns; round 2 on the same sample 0.984 / 0.674, round 1 0.971 / 0.764): the refined detector (the round-2 type-aware settings, then suppressed tops taken back on their laser cone and apex and a separate crown in the June 2025 photo), agent-led reference benchmark, gate not met (closed and edge stands); pole-like crowns reviewed on the photos (12 poles and structures not placed, 32 held); broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review"
     }
   },
   "courses": [

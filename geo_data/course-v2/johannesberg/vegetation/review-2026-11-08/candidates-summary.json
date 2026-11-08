@@ -102,21 +102,21 @@
     "total": 27558,
     "byDecision": {
       "retain": 23595,
-      "adjust": 2570,
+      "adjust": 2569,
       "hold": 238,
       "add": 1077,
       "remove": 8,
       "not-placed": 31,
-      "merge": 39
+      "merge": 40
     },
-    "placedTrees": 27242,
+    "placedTrees": 27241,
     "placedByType": {
-      "conifer": 20819,
+      "conifer": 20818,
       "unknown": 3733,
       "broadleaf": 2690
     },
     "placedBySource": {
-      "detector": 27079,
+      "detector": 27078,
       "sparse-laser-recovery": 163
     },
     "holdByReason": {
@@ -154,7 +154,7 @@
   "playTypeDecision": {
     "woodland|conifer": {
       "retain": 14298,
-      "adjust": 1681,
+      "adjust": 1680,
       "hold": 11,
       "add": 627,
       "remove": 3,
@@ -174,7 +174,7 @@
       "hold": 42,
       "add": 56,
       "not-placed": 2,
-      "merge": 27
+      "merge": 28
     },
     "near|unknown": {
       "retain": 755,
@@ -218,7 +218,7 @@
     "practiceRings": 4
   },
   "identity": {
-    "matchedWithin15m": 25835,
+    "matchedWithin15m": 25834,
     "matchedWithin3m": 372,
     "newIds": 1278,
     "nextSequence": 40355,
@@ -237,7 +237,7 @@
     "sparseLaserWithoutPhotoCrown": 66,
     "photoOnlyCanopy": 292
   },
-  "elapsedSeconds": 39.2,
+  "elapsedSeconds": 39.9,
   "typeCheck": {
     "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, used-holdout and evaluation were not",
     "calibration": {

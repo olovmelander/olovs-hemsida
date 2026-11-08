@@ -27,7 +27,7 @@ const ID = /^[a-z0-9][a-z0-9-]*$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const TOP_KEYS = ['$comment', 'schemaVersion', 'kind', 'groundId', 'courseSlugs', 'provider', 'reviewId', 'reviewDir', 'cacheDir', 'geometryDir',
   'window', 'laser', 'orthophotos', 'registration', 'published', 'playZone', 'rounds', 'activeRound', 'typeRule', 'holds', 'review',
-  'publication', 'ownerExceptions', 'ownerDecisions'];
+  'publication', 'ownerExceptions', 'pendingOwnerApprovals', 'ownerDecisions'];
 
 class ConfigProblems {
   constructor() { this.list = []; }
@@ -231,6 +231,22 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     p.check(typeof x.decision === 'string' && x.decision.length > 40, `${label}.decision must state the owner's decision and its reason`);
     repoPath(p, x.record, `${label}.record`);
   });
+  /* a round staged for the owner before he has decided: never an exception */
+  const pending = config.pendingOwnerApprovals ?? [];
+  p.check(Array.isArray(pending), 'pendingOwnerApprovals must be a list (empty when none)');
+  (Array.isArray(pending) ? pending : []).forEach((x, i) => {
+    const label = `pendingOwnerApprovals[${i}]`;
+    if (!keys(p, x, ['gate', 'round', 'status', 'recordedOn', 'recordedBy', 'benchmark', 'measured', 'comparison', 'statement', 'record'], label)) return;
+    p.check(x.gate === 'held-out-precision-recall', `${label}.gate must be held-out-precision-recall`);
+    p.check(roundIds.includes(x.round), `${label}.round must name a declared round`);
+    p.check(x.status === 'pending-owner-approval', `${label}.status must be pending-owner-approval: it records that the owner has NOT decided`);
+    p.check(typeof x.recordedBy === 'string' && x.recordedBy !== 'owner', `${label}.recordedBy names who staged it (not the owner; his decision goes in ownerExceptions)`);
+    p.check(DATE.test(x.recordedOn || ''), `${label}.recordedOn must be YYYY-MM-DD`);
+    p.check(isObject(x.benchmark) && typeof x.benchmark.path === 'string' && /^[a-f0-9]{64}$/.test(x.benchmark.sha256 || ''), `${label}.benchmark must pin the scored benchmark file and its SHA-256`);
+    p.check(isObject(x.measured) && finite(x.measured.precision) && finite(x.measured.recall), `${label}.measured must restate the failed precision and recall`);
+    p.check(typeof x.statement === 'string' && x.statement.length > 40, `${label}.statement must say what is pending and why`);
+    repoPath(p, x.record, `${label}.record`);
+  });
   if (config.ownerDecisions !== undefined) {
     p.check(Array.isArray(config.ownerDecisions) && config.ownerDecisions.every(d => isObject(d) && DATE.test(d.decidedOn || '') && typeof d.decision === 'string'),
       'ownerDecisions must list { decidedOn, decision, record }');
@@ -358,6 +374,7 @@ export function configTemplate(groundId) {
     review: { spots: [], typePanels: [{ course: 'TODO', holes: [1] }], typePanelSample: 12, nearBroadleafShareFlag: 0.3 },
     publication: { scope: ['TODO', 'TODO', 'TODO', 'TODO'], observedOn: 'TODO', stagingRoot: `output/course-workflow/${groundId}/staging-public`, compileOut: `output/course-workflow/${groundId}/reviewed-compile`, reviewStatement: 'TODO the review statement (pinned again in production.json)' },
     ownerExceptions: [],
+    pendingOwnerApprovals: [],
     ownerDecisions: [],
   };
 }
