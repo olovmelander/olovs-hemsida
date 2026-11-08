@@ -85,15 +85,13 @@ const browser = await chromium.launch({
   args: browserArgs(),
 });
 
-async function open({ width, height, touch = false, last = null, url = LIST, blockWorker = false, seed = null }) {
+async function open({ width, height, touch = false, last = null, url = LIST, blockWorker = false }) {
   const ctx = await browser.newContext({
     viewport: { width, height }, deviceScaleFactor: 1, isMobile: touch, hasTouch: touch,
     /* a navigation the service worker answers never reaches page.route */
     ...(blockWorker ? { serviceWorkers: 'block' } : {}),
   });
   if (last) await ctx.addInitScript(([k, v]) => { try { localStorage.setItem(k, v); } catch {} }, [LAST_KEY, last]);
-  /* other keys to hold before the page loads, as { key: value } */
-  if (seed) await ctx.addInitScript(entries => { try { for (const [k, v] of Object.entries(entries)) if (localStorage.getItem(k) === null) localStorage.setItem(k, v); } catch {} }, seed);
   const page = await ctx.newPage();
   const errs = [];
   page.on('pageerror', e => errs.push(String(e).slice(0, 140)));
@@ -845,12 +843,7 @@ await section('statistics from a kept round', async () => {
 if (PLAYER) {
   console.log('player');
   const slug = manifest.courses[0].slug;
-  /* one round kept on the course, so the drawer offers that course's statistics */
-  const kept = { id: 1, course: slug, courseName: manifest.courses[0].name, date: '2026-11-01', endedAt: 1, tee: 1, handicap: 18, holeCount: 9, pars: Array(9).fill(4),
-    holes: Array.from({ length: 9 }, (_, i) => ({ n: i + 1, par: 4, strokes: 5, putts: 2, fairway: 'hit', picked: false })),
-    totals: { played: 9, strokes: 45, par: 36, putts: 18, points: 18, fairways: 9, fairwaysTried: 9, greens: 2, greensTried: 9, toPar: 9 } };
-  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&q=lo&hal=3`,
-    seed: { 'banvy-map-rounds-v1': JSON.stringify({ version: 1, rounds: [kept] }) } });
+  const { ctx, page } = await open({ width: 390, height: 844, touch: true, url: `/?bana=${slug}&q=lo&hal=3` });
   try {
     await page.waitForSelector('#boot.done', { timeout: BOOT_TIMEOUT });
     await page.evaluate(() => document.getElementById('bytBtn').click());
@@ -927,12 +920,6 @@ if (PLAYER) {
     await page.waitForTimeout(500);
     const listed = await page.evaluate(() => [...document.querySelectorAll('#navDrawer .sc-row')].map(r => r.textContent.replace(/\s+/g, ' ').trim()));
     gate(listed.some(t => t.includes('Byt kameravy')) && listed.some(t => t.includes('Hål 10')), `the menu lists the working keys (${listed.length} rows)`);
-    const courseStats = await page.evaluate(() => {
-      const a = document.getElementById('dCourseStats');
-      return a ? { href: a.getAttribute('href'), text: a.textContent.replace(/\s+/g, ' ').trim() } : null;
-    });
-    gate(courseStats?.href?.endsWith(`#statistik/${slug}`) && /Din runda här/.test(courseStats.text),
-      `with a round kept here, the menu leads to this course in Statistik (${courseStats?.href}, "${courseStats?.text}")`);
     const inMenu = (await read()).hole;
     await page.keyboard.press('5');
     await page.waitForTimeout(300);

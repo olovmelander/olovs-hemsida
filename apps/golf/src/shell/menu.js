@@ -28,14 +28,7 @@ import '../styles/drawer.css';
 import { ICONS } from './icons.js';
 import { hubUrl, mapUrl } from './router.js';
 import { SHORTCUT_ROWS } from '../engine/keyboard-shortcuts.mjs';
-import { LIGHTS, MAP_KEYS, readText } from './settings-store.mjs';
-import { parseRounds } from '../map/map-rounds.mjs';
-
-/* The rounds kept on one course (the map's records), for the drawer's way to its statistics. */
-function roundsOn(slug) {
-  try { return parseRounds(readText(globalThis.localStorage, MAP_KEYS.rounds, null)).filter(r => r.course === slug).length; }
-  catch { return 0; }
-}
+import { LIGHTS } from './settings-store.mjs';
 
 const BASE = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.BASE_URL) || '/';
 
@@ -74,7 +67,6 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
   drawer.setAttribute('aria-label', 'Meny');
 
   const course = courses.find(c => c.slug === current) || courses[0];
-  const played = roundsOn(course.slug);
   const poster = course.photos ? `${BASE}courses/${course.slug}/hero-1.webp` : '';
   const tile = (id, key, name, sub = '') => `
     <button class="nd-tile" type="button" id="${id}" data-tool="${key}">
@@ -172,11 +164,6 @@ export function buildNavDrawer({ courses, current, onBackToStart, onSwitchCourse
               <span class="nd-row-text"><b>Statistik</b><small>Dina rundor, slag och klubbor</small></span>
               <span class="nd-row-go" aria-hidden="true">${ICONS.chevronRight(16, 2.4)}</span>
             </a>
-            ${played ? `<a class="nd-row" id="dCourseStats" href="${hubUrl(`statistik/${encodeURIComponent(course.slug)}`)}">
-              <span class="nd-row-icon">${svg('<path d="M5 21V4"/><path d="M5 4h11l-2.5 3.5L16 11H5"/>', 18)}</span>
-              <span class="nd-row-text"><b>${esc(course.name)}, hål för hål</b><small>${played === 1 ? 'Din runda här' : `Dina ${played} rundor här`}</small></span>
-              <span class="nd-row-go" aria-hidden="true">${ICONS.chevronRight(16, 2.4)}</span>
-            </a>` : ''}
           </div>
           <h3 class="nd-h">Kortkommandon</h3>
           <div class="drawer-shortcuts">${shortcutRows()}</div>
