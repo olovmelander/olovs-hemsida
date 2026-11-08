@@ -24,6 +24,7 @@ import { smoothChm } from '../../packages/course-v2/vegetation/pit-free-chm.mjs'
 import { readCampaigns } from './acquire.mjs';
 import { laserPolicyProblems, orthoPolicyProblems } from './source-policy.mjs';
 import { sha256File, writeReceipt } from './receipts.mjs';
+import { displacementField } from './relief.mjs';
 
 /* pairs: moving[:band]@reference[:band]; reference 'laser' is the near-ground intensity */
 export function parsePairs(list) {
@@ -262,7 +263,48 @@ export function sourceInventory(ctx) {
   };
 }
 
+/**
+ * The relief displacement of the canopy in every photo campaign (relief.mjs),
+ * as a field of 64 m blocks over the halo window: where each photo draws a
+ * crown top of a given height. Registration above aligns the ground; this
+ * aligns the canopy, which the photo-referee detector and per-crown photo
+ * evidence need. Written to relief-displacement.json (evidence: k per block,
+ * its correlation and state; no pixels).
+ */
+export function reliefDisplacement(ctx) {
+  const chm = loadRaster(ctx, 'chm-pitfree-050');
+  const H = ctx.haloWindow;
+  const bbox = [H.minEasting, H.minNorthing, H.maxEasting, H.maxNorthing];
+  const campaigns = {};
+  for (const c of ctx.config.orthophotos.campaigns) {
+    const mosaic = loadMosaic(ctx, c.key);
+    const field = displacementField(chm, mosaic, c.sun, bbox);
+    const states = field.blocks.reduce((a, b) => ((a[b.state] = (a[b.state] || 0) + 1), a), {});
+    const measured = field.blocks.filter(b => b.state === 'measured');
+    const q = (v, f) => { const s = [...v].sort((a, b) => a - b); return s.length ? Math.round(s[Math.floor(f * (s.length - 1))] * 1000) / 1000 : null; };
+    const magnitude = measured.map(b => Math.hypot(b.kx, b.ky));
+    campaigns[c.key] = { date: c.date, collection: c.collection, sun: c.sun, states, magnitude: { p10: q(magnitude, 0.1), median: q(magnitude, 0.5), p90: q(magnitude, 0.9) }, field };
+    console.log(`relief ${c.key}: ${JSON.stringify(states)}; |k| median ${q(magnitude, 0.5)} (p10 ${q(magnitude, 0.1)}, p90 ${q(magnitude, 0.9)})`);
+  }
+  const out = {
+    schemaVersion: 1,
+    kind: 'canopy-relief-displacement',
+    groundId: ctx.groundId,
+    note: 'Where each orthophoto draws a crown top: k (metres of horizontal displacement per metre of height above ground; the photo shows a top of height h at E + kx h, N + ky h), per 64 m block, from the photo correlated with a hillshade of the pit-free CHM lit from the flight’s own sun over canopy cells (relief.mjs). Ground registration (registration.json) cannot see this; standard orthophotos are rectified on the ground model.',
+    chmSha256: chm.sidecar.sha256,
+    campaigns,
+  };
+  const file = ctx.reviewFile('relief-displacement.json');
+  fs.writeFileSync(file, `${JSON.stringify(out)}\n`);
+  return { file, out };
+}
+
 export async function run(ctx, options) {
+  if (options.relief) {
+    const { file, out } = reliefDisplacement(ctx);
+    writeReceipt(ctx, 'verify-relief', { inputs: [path.join(ctx.paths.rasters, 'chm-pitfree-050.bin'), ...ctx.config.orthophotos.campaigns.map(c => path.join(ctx.paths.ortho, c.key, `mosaic-${c.key}-032.rgbi`))], outputs: [file], result: Object.fromEntries(Object.entries(out.campaigns).map(([k, v]) => [k, { states: v.states, magnitude: v.magnitude }])) });
+    return { status: 'done', message: `relief displacement written: ${ctx.rel(file)}` };
+  }
   const file = ctx.reviewFile('registration.json');
   let result;
   if (options['decide-only']) {

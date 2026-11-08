@@ -33,9 +33,11 @@ import {
   TREE_DETECT_V2_DEFAULTS, TYPED_DEFAULTS, TYPE_BROADLEAF, TYPE_CONIFER, circleIoU, crownReturnMetrics, detectTreesTyped, detectTreesV2,
   detectionScores, matchOneToOne, typeMapFromPhoto,
 } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
-import { displacementAllowance, loadPointsFor, photoDisc } from './crown-evidence.mjs';
+import { REFINE_DEFAULTS, keptTops, overSegmentedTops, recoverTops, suppressedTops } from '../../packages/course-v2/vegetation/tree-refine.mjs';
+import { displacementAllowance, firstReturnIndex, loadPointsFor, photoDisc } from './crown-evidence.mjs';
+import { nativeBrightness, photoValley } from './relief.mjs';
 import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, publicationVerdict, staleExceptions } from './gate.mjs';
-import { loadMosaic, loadRaster } from './panels.mjs';
+import { loadMosaic, loadRaster, openCampaignPacks } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
 
@@ -43,7 +45,7 @@ const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).di
 const round = (v, d = 3) => (Number.isFinite(v) ? Math.round(v * 10 ** d) / 10 ** d : null);
 const quantile = (values, q) => { if (!values.length) return null; const s = [...values].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * (s.length - 1)))]; };
 const CROP_MARGIN = 25;
-const DETECTOR_CODE = ['packages/course-v2/vegetation/tree-detect-v2.mjs', 'packages/course-v2/vegetation/pit-free-chm.mjs', 'packages/course-v2/vegetation/crown-detect.mjs', 'tools/tree-pipeline/benchmark.mjs'];
+const DETECTOR_CODE = ['packages/course-v2/vegetation/tree-detect-v2.mjs', 'packages/course-v2/vegetation/tree-refine.mjs', 'packages/course-v2/vegetation/pit-free-chm.mjs', 'packages/course-v2/vegetation/crown-detect.mjs', 'tools/tree-pipeline/relief.mjs', 'tools/tree-pipeline/benchmark.mjs'];
 
 const lockPathOf = (ctx, roundId) => ctx.reviewFile(ctx.sampleFile('detector-lock', 'json', roundId));
 const benchmarkPathOf = (ctx, roundId) => ctx.reviewFile(ctx.sampleFile('benchmark', 'json', roundId));
@@ -168,6 +170,144 @@ export function typedPredictions(entry, parameters, typeCache = new Map()) {
   const surfaces = { [TYPE_CONIFER]: smooth(parameters.conifer.smoothingSigmaMetres), [TYPE_BROADLEAF]: smooth(parameters.broadleaf.smoothingSigmaMetres) };
   const { crowns } = detectTreesTyped(cropped.grid, cropped.values, typeMap, parameters, { surfaces });
   return crowns.map(c => ({ easting: c.position.easting, northing: c.position.northing, radius: c.equivalentRadiusMetres, height: c.heightMetres, type: c.type }));
+}
+
+/* ---------- the refined detector (typed + photo-refereed recovery) ---------- */
+
+/** The referee's inputs: first returns, the relief displacement fields and the native photos, keyed by role (presence, leafOff). */
+export function refereeInputs(ctx, chmGrid) {
+  const reliefPath = ctx.reviewFile('relief-displacement.json');
+  if (!fs.existsSync(reliefPath)) throw new Error(`no ${ctx.rel(reliefPath)}: run --stage verify --relief first`);
+  const relief = JSON.parse(fs.readFileSync(reliefPath, 'utf8'));
+  const points = loadPointsFor(ctx, chmGrid);
+  const index = firstReturnIndex(points, chmGrid);
+  const photos = {};
+  for (const [role, campaign] of [['presence', ctx.presence], ['leafOff', ctx.leafOff]]) {
+    photos[role] = { key: campaign.key, field: relief.campaigns[campaign.key].field, brightness: nativeBrightness(openCampaignPacks(ctx, campaign.key)) };
+  }
+  return { index, photos, reliefSha256: sha(reliefPath) };
+}
+
+/** Callbacks for tree-refine.mjs recoverTops from the referee's inputs. */
+export function refereeFor(inputs, refine = REFINE_DEFAULTS) {
+  const apex = { ...REFINE_DEFAULTS.apex, ...(refine.apex || {}) };
+  return {
+    apexReturns: top => inputs.index.apexReturns(top.easting, top.northing, apex.radiusMetres, top.height - apex.depthMetres),
+    photoValley: (role, top, other, fraction) => (inputs.photos[role] ? photoValley(inputs.photos[role].field, inputs.photos[role].brightness, top, other, fraction) : null),
+  };
+}
+
+export const REFINE_FRACTIONS = Object.freeze([0.6, 0.75, 0.9]);
+
+/** The first (typed) pass of a window and its suppressed tops with every referee measure cached, so a search only reruns the second pass. */
+export function prepareRefined(entry, typedParameters, inputs, fractions = REFINE_FRACTIONS) {
+  const { grid, values } = entry.cropped;
+  const typeMap = typeMapFromPhoto(grid, values, entry.m21, typedParameters.type).type;
+  const smoothed = sigma => { if (!entry.sigmaCache.has(sigma)) entry.sigmaCache.set(sigma, smoothChm(grid, values, sigma)); return entry.sigmaCache.get(sigma); };
+  const surfaces = { [TYPE_CONIFER]: smoothed(typedParameters.conifer.smoothingSigmaMetres), [TYPE_BROADLEAF]: smoothed(typedParameters.broadleaf.smoothingSigmaMetres) };
+  const first = detectTreesTyped(grid, values, typeMap, typedParameters, { surfaces });
+  const smooth = smoothed(REFINE_DEFAULTS.candidateSigmaMetres);
+  const tops = overSegmentedTops(grid, values, { sigmaMetres: REFINE_DEFAULTS.candidateSigmaMetres, windowMetres: REFINE_DEFAULTS.candidateWindowMetres, minimumHeightMetres: REFINE_DEFAULTS.minimumHeightMetres, smoothed: smooth });
+  const suppressed = suppressedTops(grid, smooth, tops, keptTops(grid, first), typeMap, REFINE_DEFAULTS);
+  const live = refereeFor(inputs);
+  for (const t of suppressed) {
+    t.apexCount = live.apexReturns(t);
+    t.valleys = {};
+    if (!t.nearestTaller) continue;
+    for (const role of Object.keys(inputs.photos)) {
+      t.valleys[role] = {};
+      for (const f of fractions) t.valleys[role][f] = live.photoValley(role, t, t.nearestTaller, f);
+    }
+  }
+  return { typeMap, surfaces, suppressed };
+}
+
+/** Predictions of the refined detector from a prepared window. */
+export function refinedFromPrepared(entry, typedParameters, prepared, refine) {
+  const { grid, values } = entry.cropped;
+  const recovered = recoverTops(prepared.suppressed, { apexReturns: t => t.apexCount, photoValley: (role, t, o, f) => t.valleys?.[role]?.[f] ?? null }, refine);
+  const { crowns } = detectTreesTyped(grid, values, prepared.typeMap, typedParameters, { surfaces: prepared.surfaces, extraMaxima: recovered });
+  return crowns.map(c => ({ easting: c.position.easting, northing: c.position.northing, radius: c.equivalentRadiusMetres, height: c.heightMetres, type: c.type, recovered: Boolean(c.recovered) }));
+}
+
+/* the refined coordinate descent; the apex radius (0.75 m) and depth (1.5 m) and the candidate filter are fixed */
+export const REFINE_SEARCH = Object.freeze([
+  ['types', [['conifer'], ['conifer', 'broadleaf']]],
+  ['minimumDipMetres', [0.5, 0.75, 1, 1.25, 1.5, 2]],
+  ['minimumSeparationMetres', [1.5, 2, 2.5, 3]],
+  ['apex.minimumReturns', [0, 2, 3, 4, 5]],
+  ['photo.campaigns', [[], ['presence'], ['leafOff'], ['presence', 'leafOff']]],
+  ['photo.combine', ['any', 'all']],
+  ['photo.fraction', [...REFINE_FRACTIONS]],
+  ['photo.minimumValley', [0, 0.05, 0.1, 0.15, 0.2, 0.3]],
+]);
+/* where the descent starts: a calibration-only exploration of the same measures (README, round 3) */
+export const REFINE_START = Object.freeze({ types: ['conifer', 'broadleaf'], minimumDipMetres: 1, minimumSeparationMetres: 2.5, apex: { minimumReturns: 3 }, photo: { campaigns: ['presence'], combine: 'any', fraction: 0.75, minimumValley: 0.1 } });
+
+function tuneRefined(ctx, reference) {
+  const startRound = ctx.round.startFrom;
+  if (!startRound) throw new Error('a refined round needs startFrom: the typed round whose lock it refines');
+  const startLock = JSON.parse(fs.readFileSync(lockPathOf(ctx, startRound), 'utf8'));
+  const typedParameters = startLock.selected.parameters;
+  const chm = loadRaster(ctx, 'chm-pitfree-050');
+  const m21 = loadMosaic(ctx, ctx.leafOff.key);
+  const calibration = reference.windows.windows.filter(w => w.role === 'calibration');
+  const entries = prepareWindows(calibration, chm, m21);
+  const inputs = refereeInputs(ctx, chm.grid);
+  const prepared = new Map(entries.map(e => [e.window.id, prepareRefined(e, typedParameters, inputs)]));
+  const evaluate = refine => {
+    const predictions = new Map(entries.map(e => [e.window.id, refinedFromPrepared(e, typedParameters, prepared.get(e.window.id), refine)]));
+    const s = scoreWindows(reference, predictions, calibration.map(w => w.id));
+    return { f1: s.f1, precision: s.precision, recall: s.recall, iou: s.crownIoUMean, offset: s.centreOffsetMedianMetres, tp: s.tp, missed: s.missed, extra: s.extra };
+  };
+  const withoutRecovery = (() => {
+    const predictions = new Map(entries.map(e => [e.window.id, typedPredictions(e, typedParameters)]));
+    const s = scoreWindows(reference, predictions, calibration.map(w => w.id));
+    return { f1: s.f1, precision: s.precision, recall: s.recall, tp: s.tp, missed: s.missed, extra: s.extra };
+  })();
+  const get = (o, key) => key.split('.').reduce((a, k) => a[k], o);
+  const put = (o, key, value) => { const copy = JSON.parse(JSON.stringify(o)); const parts = key.split('.'); let t = copy; for (const k of parts.slice(0, -1)) t = t[k]; t[parts.at(-1)] = value; return copy; };
+  let current = JSON.parse(JSON.stringify(REFINE_START));
+  let best = evaluate(current);
+  const trajectory = [{ step: 'start (REFINE_START)', ...best }];
+  let evaluations = 1;
+  for (let pass = 1; pass <= 4; pass++) {
+    let changed = false;
+    for (const [key, values] of REFINE_SEARCH) {
+      for (const value of values) {
+        if (JSON.stringify(get(current, key)) === JSON.stringify(value)) continue;
+        const candidate = put(current, key, value);
+        const score = evaluate(candidate);
+        evaluations++;
+        if (better(score, best)) { current = candidate; best = score; changed = true; trajectory.push({ step: `pass ${pass}: ${key} = ${JSON.stringify(value)}`, ...score }); }
+      }
+    }
+    if (!changed) break;
+  }
+  const suppressedCount = [...prepared.values()].reduce((a, p) => a + p.suppressed.length, 0);
+  return {
+    schemaVersion: 1,
+    kind: 'detector-lock',
+    round: ctx.round.id,
+    detector: 'refined',
+    method: `refined detector: the ${startRound} type-aware lock, then the tops it suppressed taken back only where the laser shows their own cone and apex and the photo shows a separate crown (tree-refine.mjs; relief displacement from relief-displacement.json)`,
+    frozenAt: new Date().toISOString(),
+    referenceLockSha256: reference.lockSha256,
+    chmSha256: chm.sidecar.sha256,
+    reliefSha256: inputs.reliefSha256,
+    startLockSha256: sha(lockPathOf(ctx, startRound)),
+    code: codeHashes(ctx),
+    selection: `calibration windows only; the ${startRound} typed settings fixed; coordinate descent over REFINE_SEARCH from REFINE_START, ranked by F1, then mean crown IoU, then median centre offset; ties keep the current value`,
+    search: Object.fromEntries(REFINE_SEARCH),
+    fixed: { candidateSigmaMetres: REFINE_DEFAULTS.candidateSigmaMetres, candidateWindowMetres: REFINE_DEFAULTS.candidateWindowMetres, minimumHeightMetres: REFINE_DEFAULTS.minimumHeightMetres, keptRadiusMetres: REFINE_DEFAULTS.keptRadiusMetres, neighbourRadiusMetres: REFINE_DEFAULTS.neighbourRadiusMetres, apex: { radiusMetres: REFINE_DEFAULTS.apex.radiusMetres, depthMetres: REFINE_DEFAULTS.apex.depthMetres } },
+    suppressedTopsOnCalibration: suppressedCount,
+    withoutRecovery,
+    evaluations,
+    selected: { parameters: typedParameters, refine: current, calibration: best },
+    trajectory,
+    windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
+    photoDetector: 'none: a classical photo test (a brightness valley between two displaced tops); no learned model, no GPU',
+  };
 }
 
 /* ---------- tuning ---------- */
@@ -442,7 +582,14 @@ function classifyTypes(ctx) {
 
 /* ---------- scoring ---------- */
 
-function predictorFor(ctx, roundConfig, lock, { chm, entries }) {
+function predictorFor(ctx, roundConfig, lock, { chm, entries, referee }) {
+  if (roundConfig.detector === 'refined') {
+    return w => {
+      const entry = entries.get(w.id);
+      const fractions = [...new Set([...REFINE_FRACTIONS, lock.selected.refine.photo?.fraction ?? REFINE_DEFAULTS.photo.fraction])];
+      return refinedFromPrepared(entry, lock.selected.parameters, prepareRefined(entry, lock.selected.parameters, referee(), fractions), lock.selected.refine);
+    };
+  }
   return roundConfig.detector === 'typed'
     ? w => typedPredictions(entries.get(w.id), lock.selected.parameters)
     : w => newDetector(crop(chm, w.bbox), lock.selected.parameters, { position: lock.selected.position });
@@ -457,6 +604,8 @@ function score(ctx, reference, lock, lockSha256) {
   const published = publishedPopulation(ctx, { bbox: all, groundManifestUrl: ctx.config.published.baselineGroundManifest });
   const byWindow = fn => new Map(windows.map(w => [w.id, fn(w)]));
   const entries = new Map(prepareWindows(windows, chm, m21).map(e => [e.window.id, e]));
+  let inputs = null;
+  const referee = () => (inputs ||= refereeInputs(ctx, chm.grid));
   const methods = {
     'published-individuals': byWindow(() => published.records.map(r => ({ easting: r.easting, northing: r.northing, radius: r.radiusMetres, height: r.objectHeightMetres }))),
     'published-individuals+stands': byWindow(() => [...published.records, ...published.standTrees].map(r => ({ easting: r.easting, northing: r.northing, radius: r.radiusMetres, height: r.objectHeightMetres }))),
@@ -468,9 +617,9 @@ function score(ctx, reference, lock, lockSha256) {
   for (const r of earlier) {
     const earlierLock = JSON.parse(fs.readFileSync(lockPathOf(ctx, r.id), 'utf8'));
     comparedLocks[r.id] = sha(lockPathOf(ctx, r.id));
-    methods[r.comparedAs || r.methodName] = byWindow(predictorFor(ctx, r, earlierLock, { chm, entries }));
+    methods[r.comparedAs || r.methodName] = byWindow(predictorFor(ctx, r, earlierLock, { chm, entries, referee }));
   }
-  methods[ctx.round.methodName] = byWindow(predictorFor(ctx, ctx.round, lock, { chm, entries }));
+  methods[ctx.round.methodName] = byWindow(predictorFor(ctx, ctx.round, lock, { chm, entries, referee }));
   const roles = Object.fromEntries(ctx.round.roles.map(role => [role, windows.filter(w => w.role === role).map(w => w.id)]));
   const out = { schemaVersion: 1, kind: 'tree-benchmark', round: ctx.round.id, scoredAt: new Date().toISOString(), referenceLock: reference.lock.hashes, detectorLockSha256: lockSha256, comparedLocks, publishedGroundManifest: published.groundManifestUrl, matchingRule: reference.windows.matchingRule,
     gate: { precision: HELD_OUT_GATE.precision, recall: HELD_OUT_GATE.recall, minimumScoredCrowns: HELD_OUT_GATE.minimumScoredCrowns, on: `${ctx.round.evaluationRole} (unseen held-out)`, method: ctx.round.methodName }, roles, results: {} };
@@ -524,7 +673,7 @@ export async function run(ctx, options) {
     if (step === 'tune') {
       assertHeldOutUnseen({ action: 'tune', existing: readJsonIf(benchmarkPath), roundId: ctx.round.id });
       const reference = loadReference(ctx);
-      const lock = ctx.round.detector === 'typed' ? tuneTyped(ctx, reference) : tuneV2(ctx, reference);
+      const lock = ctx.round.detector === 'refined' ? tuneRefined(ctx, reference) : ctx.round.detector === 'typed' ? tuneTyped(ctx, reference) : tuneV2(ctx, reference);
       fs.writeFileSync(lockPath, JSON.stringify(lock, null, 2) + '\n');
       writeReceipt(ctx, 'benchmark-tune', { inputs: [ctx.reviewFile(ctx.sampleFile('reference-lock')), path.join(ctx.paths.rasters, 'chm-pitfree-050.bin')], outputs: [lockPath], perRound: true, result: { detector: ctx.round.detector, calibration: lock.selected.calibration } });
       messages.push(`tuned ${ctx.round.detector} on calibration windows only: ${JSON.stringify(lock.selected.calibration)}`);

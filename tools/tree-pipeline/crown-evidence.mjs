@@ -174,3 +174,44 @@ export function photoEvidenceKey(campaign) {
 export function shadowEvidenceKey(campaign, other = null) {
   return other && other.date.slice(0, 4) === campaign.date.slice(0, 4) ? `shadow${photoEvidenceKey(campaign)}` : `shadow${campaign.date.slice(0, 4)}`;
 }
+
+/**
+ * First returns of at least `minimumHag` bucketed into 1 m cells over a grid
+ * (typed arrays, no per-point objects): apexReturns(easting, northing,
+ * radius, minimumHeight) counts those within `radius` metres reaching
+ * `minimumHeight`. The refined detector's point test of a treetop.
+ */
+export function firstReturnIndex(points, grid, { minimumHag = 1, cellMetres = 1 } = {}) {
+  const width = Math.ceil((grid.width * grid.sampleSpacingMetres) / cellMetres), height = Math.ceil((grid.height * grid.sampleSpacingMetres) / cellMetres);
+  const cellOf = i => {
+    const c = Math.floor((points.easting[i] - grid.minEasting) / cellMetres), r = Math.floor((grid.maxNorthing - points.northing[i]) / cellMetres);
+    return c < 0 || r < 0 || c >= width || r >= height ? -1 : r * width + c;
+  };
+  const counts = new Uint32Array(width * height + 1);
+  for (let i = 0; i < points.count; i++) {
+    if (points.returnNumber[i] !== 1 || !(points.hag[i] >= minimumHag)) continue;
+    const k = cellOf(i); if (k >= 0) counts[k + 1]++;
+  }
+  for (let k = 1; k < counts.length; k++) counts[k] += counts[k - 1];
+  const fill = counts.slice(0, -1);
+  const order = new Uint32Array(counts[counts.length - 1]);
+  for (let i = 0; i < points.count; i++) {
+    if (points.returnNumber[i] !== 1 || !(points.hag[i] >= minimumHag)) continue;
+    const k = cellOf(i); if (k >= 0) order[fill[k]++] = i;
+  }
+  return {
+    apexReturns(easting, northing, radius, minimumHeight) {
+      const c0 = Math.floor((easting - radius - grid.minEasting) / cellMetres), c1 = Math.floor((easting + radius - grid.minEasting) / cellMetres);
+      const r0 = Math.floor((grid.maxNorthing - northing - radius) / cellMetres), r1 = Math.floor((grid.maxNorthing - northing + radius) / cellMetres);
+      let n = 0;
+      for (let r = Math.max(0, r0); r <= Math.min(height - 1, r1); r++) for (let c = Math.max(0, c0); c <= Math.min(width - 1, c1); c++) {
+        const k = r * width + c;
+        for (let j = counts[k]; j < counts[k + 1]; j++) {
+          const i = order[j];
+          if (points.hag[i] >= minimumHeight && Math.hypot(points.easting[i] - easting, points.northing[i] - northing) <= radius) n++;
+        }
+      }
+      return n;
+    },
+  };
+}

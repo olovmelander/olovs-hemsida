@@ -92,7 +92,8 @@ export function estimateDisplacement(grid, chm, photo, sun, { minimumCells = 400
     if (value > best.correlation) best = { kx, ky, correlation: value };
   }
   const centre = { ...best };
-  const fineSteps = Math.round(coarse / fine);
+  /* refine over +-half a coarse step (at least +-0.05) */
+  const fineSteps = Math.round(Math.max(coarse / 2, 0.05) / fine);
   for (let a = -fineSteps; a <= fineSteps; a++) for (let b = -fineSteps; b <= fineSteps; b++) {
     const kx = centre.kx + a * fine, ky = centre.ky + b * fine;
     const value = correlate(kx, ky);
@@ -113,4 +114,105 @@ export function medianCanopyHeight(grid, chm, bbox, minimum = 3, quantile = 0.5)
   }
   values.sort((a, b) => a - b);
   return values.length ? values[Math.floor(quantile * (values.length - 1))] : null;
+}
+
+/* ---------- the field over a whole window, and the photo valley ---------- */
+
+/**
+ * k per square block over `bbox` (EPSG:3006) from a photo mosaic (any
+ * resolution; the 0.32 m analysis mosaic suffices for k). Each block is
+ * matched over itself plus `marginMetres`. A block is `measured` when its
+ * peak correlation is at least `minimumCorrelation` and leads the k = 0
+ * correlation by at least `minimumLead`; a block that is not takes the
+ * nearest measured block within `fillBlocks` (Chebyshev; recorded as
+ * `filled`), else it has no k and the photo cannot referee there.
+ */
+export function displacementField(chm, mosaic, sun, bbox, {
+  blockMetres = 64, marginMetres = 16, minimumCells = 400, minimumCorrelation = 0.2, minimumLead = 0.1, fillBlocks = 2, coarse = 0.1, stride = 2,
+} = {}) {
+  const g = chm.grid, s = g.sampleSpacingMetres;
+  const columns = Math.ceil((bbox[2] - bbox[0]) / blockMetres), rows = Math.ceil((bbox[3] - bbox[1]) / blockMetres);
+  const blocks = [];
+  for (let j = 0; j < rows; j++) for (let i = 0; i < columns; i++) {
+    const e0 = bbox[0] + i * blockMetres - marginMetres, n1 = bbox[3] - j * blockMetres + marginMetres;
+    const e1 = e0 + blockMetres + 2 * marginMetres, n0 = n1 - blockMetres - 2 * marginMetres;
+    const c0 = Math.max(0, Math.floor((e0 - g.minEasting) / s)), c1 = Math.min(g.width, Math.ceil((e1 - g.minEasting) / s));
+    const r0 = Math.max(0, Math.floor((g.maxNorthing - n1) / s)), r1 = Math.min(g.height, Math.ceil((g.maxNorthing - n0) / s));
+    const width = c1 - c0, height = r1 - r0;
+    const values = new Float32Array(width * height);
+    for (let r = 0; r < height; r++) for (let c = 0; c < width; c++) values[r * width + c] = chm.values[(r0 + r) * g.width + c0 + c];
+    const grid = { minEasting: g.minEasting + c0 * s, maxNorthing: g.maxNorthing - r0 * s, width, height, sampleSpacingMetres: s };
+    const k = estimateDisplacement(grid, values, mosaic, sun, { minimumCells: Math.ceil(minimumCells / (stride * stride)), coarse, stride });
+    const measured = k.kx !== null && k.correlation >= minimumCorrelation && k.correlation - k.zeroCorrelation >= minimumLead;
+    blocks.push({ i, j, ...k, measured });
+  }
+  for (const b of blocks) {
+    if (b.measured) continue;
+    let best = null;
+    for (const o of blocks) {
+      if (!o.measured) continue;
+      const d = Math.max(Math.abs(o.i - b.i), Math.abs(o.j - b.j));
+      if (d > fillBlocks) continue;
+      const dd = Math.hypot(o.i - b.i, o.j - b.j);
+      if (!best || dd < best.dd) best = { o, dd };
+    }
+    b.filled = best ? { kx: best.o.kx, ky: best.o.ky, from: [best.o.i, best.o.j] } : null;
+  }
+  return {
+    bbox, blockMetres, marginMetres, columns, rows,
+    rule: { minimumCorrelation, minimumLead, fillBlocks, coarse, stride, minimumCells },
+    blocks: blocks.map(b => ({ i: b.i, j: b.j, kx: b.measured ? b.kx : b.filled?.kx ?? null, ky: b.measured ? b.ky : b.filled?.ky ?? null, correlation: b.correlation, zeroCorrelation: b.zeroCorrelation, cells: b.cells, state: b.measured ? 'measured' : b.filled ? 'filled' : 'none' })),
+  };
+}
+
+/** k at a point from a field (its block's, or null). */
+export function fieldAt(field, easting, northing) {
+  const i = Math.floor((easting - field.bbox[0]) / field.blockMetres), j = Math.floor((field.bbox[3] - northing) / field.blockMetres);
+  if (i < 0 || j < 0 || i >= field.columns || j >= field.rows) return null;
+  const b = field.blocks[j * field.columns + i];
+  return b && b.kx !== null ? { kx: b.kx, ky: b.ky } : null;
+}
+
+/** Brightness (relief.mjs photoBrightness) at a point from open orthophoto packs at their native resolution, as the mean of a 3 x 3 pixel patch. */
+export function nativeBrightness(packs) {
+  const p = packs[0].layout.pixelMetres;
+  const pixel = (e, n) => {
+    for (const pack of packs) {
+      const l = pack.layout;
+      const v = pack.pixel(Math.floor((e - l.originEasting) / p), Math.floor((l.originNorthing - n) / p));
+      if (v) return v[3] + (v[0] + v[1] + v[2]) / 6;
+    }
+    return Number.NaN;
+  };
+  return (e, n) => {
+    let sum = 0, count = 0;
+    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+      const v = pixel(e + dx * p, n + dy * p);
+      if (!Number.isNaN(v)) { sum += v; count++; }
+    }
+    return count ? sum / count : Number.NaN;
+  };
+}
+
+/**
+ * The relative brightness valley between two tops in one photo: each top is
+ * seen at its position plus k x fraction x its height (relief displacement);
+ * the photo is sampled along the straight line between the two from 20% to
+ * 80% of the way, and the valley is (dimmer top - darkest sample) / dimmer
+ * top. Null where the field has no k.
+ */
+export function photoValley(field, brightness, top, other, fraction) {
+  const k = fieldAt(field, top.easting, top.northing);
+  if (!k) return null;
+  const a = [top.easting + k.kx * fraction * top.height, top.northing + k.ky * fraction * top.height];
+  const b = [other.easting + k.kx * fraction * other.height, other.northing + k.ky * fraction * other.height];
+  const ba = brightness(a[0], a[1]), bb = brightness(b[0], b[1]);
+  if (Number.isNaN(ba) || Number.isNaN(bb)) return null;
+  let low = Infinity;
+  for (let t = 0.2; t <= 0.8001; t += 0.05) {
+    const v = brightness(a[0] + t * (b[0] - a[0]), a[1] + t * (b[1] - a[1]));
+    if (v < low) low = v;
+  }
+  const dim = Math.min(ba, bb);
+  return (dim - low) / Math.max(1, dim);
 }
