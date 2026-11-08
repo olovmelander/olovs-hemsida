@@ -175,4 +175,11 @@ adds:
 - launch URLs per mode and device, with settings;
 - the mode switch, Escape and the browser's back;
 - settings landing in the right keys, and a reset that leaves the bag alone;
-- the statistics page empty, with the example and from a kept round.
+- the statistics page empty, with the example and from a kept round;
+- since 8 November: the course page (its scorecard from the pack, the length and
+  card following the tee, the guide, your Snitt row and averages), the link from
+  it to `#statistik/<course>` and back, Banor rows and Spela, a round under way,
+  a course kept offline, and the backup round trip.
+
+`tools/check-map-field.mjs` checks the start menu's mode cards and the near-course
+card, the round started from a plain link, and a finished round's Se statistik.

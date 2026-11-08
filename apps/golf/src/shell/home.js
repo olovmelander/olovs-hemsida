@@ -17,7 +17,9 @@
    - the mode a device is best at says so, but both are always offered;
    - the settings card states what a launch will use, so nobody has to open it
      to find out.
-   Keys 1, 2 and 3 open the cards on a keyboard.
+   - a round under way, or the course a phone stands on, leads instead;
+   - each course opens its own page (course-sheet.js) before the round.
+   Keys 1 to 4 open the cards on a keyboard.
    =========================================================================== */
 import '../styles/hub.css';
 import { isPhone } from './map-default.mjs';
