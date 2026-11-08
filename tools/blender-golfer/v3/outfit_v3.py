@@ -518,9 +518,11 @@ class Outfit:
         for side in 'LR':
             sh, el = self.arm_frame(side); ax = (el - sh); centre = sh + ax * sleeve; ax.normalize()
             # Follow the sleeve's real opening: its loop's centre and plane, not the bone's.
-            loops = [L for L in getattr(self, 'sleeve_pts', []) if (sum(L, V()) / len(L) - centre).length < .08 * k]
+            loops = [j for j, L in enumerate(getattr(self, 'sleeve_pts', [])) if (sum(L, V()) / len(L) - centre).length < .08 * k]
+            open_ids = []
             if loops:
-                L = min(loops, key=lambda L: (sum(L, V()) / len(L) - centre).length)
+                j = min(loops, key=lambda j: (sum(self.sleeve_pts[j], V()) / len(self.sleeve_pts[j]) - centre).length)
+                L = self.sleeve_pts[j]; open_ids = list(self.sleeve_loops[j])
                 c2 = sum(L, V()) / len(L)
                 # Plane normal by the loop's area vector, oriented along the arm.
                 nrm = V()
@@ -565,6 +567,20 @@ class Outfit:
             for p in me.polygons:
                 p.use_smooth = True
             C.transfer_weights(ob, self.polo_ob)
+            if open_ids:
+                # Each band vertex takes the weights of the nearest point of the opening it
+                # hems, so it moves exactly with the sleeve's edge (nearest-surface weights
+                # gave its underside the torso's, and it flared out with the arm akimbo).
+                pv = self.polo_ob.data.vertices
+                gname = {g.index: g.name for g in self.polo_ob.vertex_groups}
+                src = {i: {gname[ge.group]: ge.weight for ge in pv[i].groups if ge.weight > 1e-4} for i in open_ids}
+                at = {i: pv[i].co.copy() for i in open_ids}
+                for g in list(ob.vertex_groups):
+                    ob.vertex_groups.remove(g)
+                for v in ob.data.vertices:
+                    i = min(open_ids, key=lambda i: (at[i] - v.co).length_squared)
+                    for name, w in src[i].items():
+                        (ob.vertex_groups.get(name) or ob.vertex_groups.new(name=name)).add([v.index], w, 'REPLACE')
             self.finish(ob, self.mat('sleeve band', P['trim'], .8, specular=.2), .0016 * k, offset=0)
 
     # -- skort -------------------------------------------------------------------------
