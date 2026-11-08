@@ -103,7 +103,8 @@ try {
          (214-730 kB) nobody ever reads (see packRequestUrl). Low priority: it
          must never compete with the posters. */
       onIntent: slug => {
-        if (prefetched.has(slug)) return;
+        /* a device asking to save data fetches a pack only when it is opened */
+        if (prefetched.has(slug) || navigator.connection?.saveData) return;
         prefetched.add(slug);
         const course = courses.find(c => c.slug === slug);
         if (course?.packUrl) fetch(packRequestUrl(course), { priority: 'low' }).catch(() => {});

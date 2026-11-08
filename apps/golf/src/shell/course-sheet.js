@@ -253,9 +253,24 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
       el.hidden = false;
     });
 
-    /* the card comes from the course's pack, which the round reads next */
+    /* the card comes from the course's pack, which the round reads next. A phone
+       asking to save data fetches it only when asked, and is told its size. */
     card = null;
     guideShown = false;
+    if (globalThis.navigator?.connection?.saveData) {
+      const kb = Math.max(1, Math.round((c.bytes || 0) / 1024));
+      dialog.querySelector('[data-card]').innerHTML = `<button type="button" class="cs-ghost cs-card-load" data-card-load>Hämta scorekort och banguide · ${kb} kB</button>`;
+      const length = dialog.querySelector('[data-length]');
+      length.textContent = '–';
+      length.classList.remove('is-wait');
+      dialog.querySelector('[data-card-load]').addEventListener('click', () => {
+        dialog.querySelector('[data-card]').innerHTML = '<p class="cs-card-note">Hämtar scorekortet …</p>';
+        fetchCard(c);
+      });
+    } else fetchCard(c);
+  }
+
+  function fetchCard(c) {
     loadScorecard(c).then(
       loaded => { if (course === c) { card = loaded; paintCard(); } },
       () => {

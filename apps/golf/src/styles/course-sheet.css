@@ -158,6 +158,7 @@
 
 /* the scorecard: a nine a table, the chosen tee's lengths in its own colour */
 .cs-card { display: grid; gap: 8px; }
+.cs-card-load { width: 100%; }
 .cs-card-note { padding: 14px; border: 1px dashed var(--cs-line); border-radius: 12px; font: 400 12.5px/1.4 Outfit, sans-serif; color: var(--cs-ink-3); }
 .cs-sc {
   width: 100%;

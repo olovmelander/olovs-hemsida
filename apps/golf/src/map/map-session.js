@@ -239,7 +239,7 @@ root.innerHTML = `
     <div class="map-actions">
       <button class="map-action map-action-next" data-round-new>Ny runda</button>
       <button class="map-action" data-round-share>Dela rundan</button>
-      <a class="map-action" href="${hubUrl('statistik')}">Se statistik</a>
+      <a class="map-action" href="${hubUrl('statistik')}" data-round-stats>Se statistik</a>
       <button class="map-action map-action-quiet" data-round-drop hidden>Ta bort rundan</button>
     </div>
   </section>
@@ -1568,6 +1568,9 @@ async function start() {
     const own = record.id === round.id && record.course === course.slug;
     state.roundShown = record;
     ui.roundTitle.textContent = record.courseName;
+    /* the round's own course in Statistik, hole by hole (#statistik/<course>) */
+    const stats = ui.roundSheet.querySelector('[data-round-stats]');
+    if (stats) stats.href = hubUrl(record.course ? `statistik/${encodeURIComponent(record.course)}` : 'statistik');
     renderRound(ui.roundBody, {
       record,
       summary: roundSummary(record, shots),
