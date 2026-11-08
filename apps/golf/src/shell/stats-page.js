@@ -492,7 +492,7 @@ export function buildStats({ courses, onBack, onPlay }) {
                 <span class="sr-name"><b>${esc(row.courseName ?? row.course)}</b><small>${row.holes} hål${row.points !== null ? ` · ${row.points} p` : ''} · ${row.putts} puttar</small></span>
                 <span class="sr-score"><b>${row.strokes}</b><small class="${row.toPar < 0 ? 'is-under' : row.toPar > 0 ? 'is-over' : ''}">${signedInt(row.toPar)}</small></span>
               </summary>
-              <div class="sr-card">${record ? scorecard(record) : ''}</div>
+              <div class="sr-card">${record ? `${scorecard(record)}<button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>` : ''}</div>
             </details>`;
           }).join('')}</div>
         </div>
@@ -517,6 +517,17 @@ export function buildStats({ courses, onBack, onPlay }) {
     draw();
     bindSegments(body);
     bindClubs(body);
+    /* a round, shared as its picture (round-card.mjs) */
+    for (const btn of body.querySelectorAll('[data-share-round]')) btn.addEventListener('click', async () => {
+      const [course, id] = btn.dataset.shareRound.split('|');
+      const record = data.rounds.find(r => r.course === course && String(r.id) === id);
+      if (!record) return;
+      btn.disabled = true;
+      const { shareRoundCard } = await import('./round-card.mjs');
+      const done = await shareRoundCard(record, { poster: poster(record.course), text: `${record.courseName ?? record.course}, ${dateText(record.date, true)}` });
+      btn.disabled = false;
+      btn.textContent = done === 'saved' ? 'Bilden är sparad' : done === 'failed' ? 'Bilden gick inte att göra' : 'Dela rundan som bild';
+    });
     /* the hole chart's readouts, and a course picked from its own card */
     const holesCard = body.querySelector('[data-card="holes"]');
     if (holesCard) {

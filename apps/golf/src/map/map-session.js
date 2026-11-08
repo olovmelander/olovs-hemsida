@@ -239,6 +239,7 @@ root.innerHTML = `
     <div class="map-actions">
       <button class="map-action map-action-next" data-round-new>Ny runda</button>
       <button class="map-action" data-round-share>Dela rundan</button>
+      <a class="map-action" href="${hubUrl('statistik')}">Se statistik</a>
       <button class="map-action map-action-quiet" data-round-drop hidden>Ta bort rundan</button>
     </div>
   </section>
@@ -295,6 +296,7 @@ root.innerHTML = `
     <h3>Spel</h3>
     <button class="map-row map-row-next" data-rounds-open><span>Mina rundor</span><span class="map-row-value" data-rounds-count></span></button>
     <button class="map-row map-row-next" data-clubs-open><span>Mina klubbor</span><span class="map-row-value" data-clubs-count></span></button>
+    <a class="map-row map-row-next" href="${hubUrl('statistik')}"><span>Statistik</span><span class="map-row-value">Hela ditt spel</span></a>
     <h3>Visning</h3>
     <label class="map-row"><span>Solläge<small>Ljusa paneler för starkt solljus</small></span><input type="checkbox" role="switch" data-sun></label>
     <label class="map-row"><span>Större text</span><input type="checkbox" role="switch" data-large></label>
@@ -1618,6 +1620,14 @@ async function start() {
   };
   $('[data-round-share]').onclick = async () => {
     const record = state.roundShown, text = roundText(record, roundSummary(record, shots), dateText(record.date));
+    /* the round as its picture, with its words beside it (shell/round-card.mjs); the
+       words alone, as before, where a picture cannot be made */
+    try {
+      const { shareRoundCard } = await import('../shell/round-card.mjs');
+      const done = await shareRoundCard(record, { poster: `${BASE}courses/${record.course}/hero-1.webp`, text });
+      if (done === 'saved') status('Bilden av rundan är sparad');
+      if (done !== 'failed') return;
+    } catch { /* the words alone */ }
     try {
       if (navigator.share) await navigator.share({ title: record.courseName, text });
       else {

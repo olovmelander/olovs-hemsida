@@ -13,7 +13,7 @@ import { DISPLAY_KEY } from '../map/map-display.mjs';
 import { opensMap } from './map-default.mjs';
 import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
-  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
+  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, exportBackup, readBackup, restoreBackup, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
   readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
 } from './settings-store.mjs';
 
@@ -134,6 +134,26 @@ describe('the last way played', () => {
   it('offers nothing for a course that no longer exists, and the detailed course for an unknown mode', () => {
     expect(lastLaunch(memory({ 'banvy-last-course': 'gone' }), courses)).toBeNull();
     expect(lastLaunch(memory({ 'banvy-last-course': 'visby', 'banvy-last-mode': 'vr' }), courses).mode).toBe('detailed');
+  });
+});
+
+describe('the backup', () => {
+  it('takes Banvy\'s own keys out, and only those', () => {
+    const st = memory({ 'banvy-map-rounds-v1': '{"version":1,"rounds":[]}', 'banvy:dev-overlay': '1', 'banvy-fps': '30', 'someone-else': 'x' });
+    const backup = exportBackup(st, new Date('2026-11-08T01:00:00Z'));
+    expect(backup).toMatchObject({ kind: 'banvy-backup', version: 1, exportedAt: '2026-11-08T01:00:00.000Z' });
+    expect(Object.keys(backup.data).sort()).toEqual(['banvy-fps', 'banvy-map-rounds-v1', 'banvy:dev-overlay']);
+  });
+  it('reads its own file back and refuses anything else', () => {
+    const file = JSON.stringify(exportBackup(memory({ 'banvy-fps': '30', 'banvy-caddie-bag-v1': '{}' })));
+    const read = readBackup(file);
+    expect(read.ok).toBe(true);
+    const st = memory();
+    expect(restoreBackup(st, read.entries)).toBe(2);
+    expect(st.getItem('banvy-fps')).toBe('30');
+    expect(readBackup('not json').ok).toBe(false);
+    expect(readBackup(JSON.stringify({ kind: 'other', version: 1, data: {} })).ok).toBe(false);
+    expect(readBackup(JSON.stringify({ kind: 'banvy-backup', version: 1, data: { 'evil': 'x', 'banvy-x': 5 } })).ok).toBe(false);
   });
 });
 
