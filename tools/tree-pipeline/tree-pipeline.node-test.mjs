@@ -24,14 +24,16 @@ test('Johannesberg config validates and gives the published review frame', () =>
   const config = johannesberg();
   assert.deepEqual(validateGroundConfig(config, { groundId: 'johannesberg' }), []);
   const ctx = loadGroundConfig(ROOT, 'johannesberg');
-  assert.equal(ctx.round.id, 'r3');
-  assert.equal(ctx.round.detector, 'refined');
+  assert.equal(ctx.round.id, 'r4b');
+  assert.equal(ctx.round.detector, 'fused');
+  assert.equal(ctx.round.publishes, 'r4');
+  assert.equal(ctx.roundOf('r3').detector, 'refined');
   assert.equal(ctx.roundOf('r2').detector, 'typed');
   assert.equal(ctx.leafOff.date, '2021-04-18');
   assert.equal(ctx.presence.date, '2025-06-14');
   assert.deepEqual(haloWindow(config), { minEasting: 678343.5, minNorthing: 6624216.5, maxEasting: 680511.5, maxNorthing: 6626384.5 });
   assert.deepEqual({ ...chmGrid(config) }, { minEasting: 678343.5, maxNorthing: 6626384.5, width: 4336, height: 4336, sampleSpacingMetres: 0.5 });
-  assert.equal(ctx.sampleFile('benchmark'), 'benchmark-r3.json');
+  assert.equal(ctx.sampleFile('benchmark'), 'benchmark-r4b.json');
   assert.equal(ctx.sampleFile('benchmark', 'json', 'r2'), 'benchmark-r2.json');
   assert.equal(ctx.sampleFile('detector-lock', 'json', 'r1'), 'detector-lock.json');
   assert.equal(ctx.sampleFile('reference', 'geojson', 'r2'), 'reference-r2.geojson');
@@ -103,7 +105,7 @@ test('rounds: unique suffixes, a typed round starts from an earlier v2 round', (
 /* ---------------- stage ordering ---------------- */
 
 test('the stages run in the declared order', () => {
-  assert.deepEqual(STAGE_NAMES, ['acquire', 'canopy', 'detect', 'verify', 'reference', 'benchmark', 'candidates', 'review', 'publish']);
+  assert.deepEqual(STAGE_NAMES, ['acquire', 'canopy', 'detect', 'verify', 'reference', 'photo-detect', 'benchmark', 'candidates', 'review', 'publish']);
   assert.equal(stageIndex('acquire'), 0);
   assert.equal(nextStage('candidates').name, 'review');
   assert.equal(nextStage('publish'), null);
@@ -206,7 +208,7 @@ test('Johannesberg: the round-2 gate fails and the owner exception of 2026-11-08
 });
 
 test('Johannesberg: the round-3 gate fails and the owner accepted round 3 on 2026-11-08, pinned to its benchmark', () => {
-  const ctx = loadGroundConfig(ROOT, 'johannesberg');
+  const ctx = loadGroundConfig(ROOT, 'johannesberg', { round: 'r3' });
   assert.equal(ctx.round.id, 'r3');
   const file = ctx.reviewFile(ctx.sampleFile('benchmark'));
   const gate = evaluateGate(JSON.parse(fs.readFileSync(file, 'utf8')), ctx.round);
@@ -428,4 +430,90 @@ test('pine/spruce: a rule is published only when held-out conifers agree, and ca
   const model = fitLogistic(examples.filter(e => e.role === 'calibration').map(e => ({ x: e.features, y: e.subtype === 'pine' ? 1 : 0 })), ['a']);
   assert.ok(logisticProbability(model, { a: 1.2 }) > 0.9 && logisticProbability(model, { a: -1.2 }) < 0.1);
   assert.equal(logisticProbability(model, { a: null }), null);
+});
+
+/* ---------------- round 4: the photo crown detector and the confirm fusion ---------------- */
+
+test('photo-detect: optional per ground, required by a fused round, its settings checked', async () => {
+  const { photoDetectProblems } = await import('./photo-detect.mjs');
+  const config = johannesberg();
+  assert.deepEqual(photoDetectProblems(config), []);
+  const ctx = loadGroundConfig(ROOT, 'johannesberg', { round: 'r4' });
+  assert.equal(ctx.round.detector, 'fused');
+  const stage = STAGES.find(s => s.name === 'photo-detect');
+  assert.equal(stage.produces(ctx).length, 1);
+  assert.ok(STAGES.find(s => s.name === 'benchmark').needs(ctx).some(f => /photo-detect-r4\.json$/.test(f)));
+  /* an earlier round and a ground without the detector skip it */
+  assert.deepEqual(stage.produces(loadGroundConfig(ROOT, 'johannesberg', { round: 'r3' })), []);
+  const without = johannesberg();
+  delete without.photoDetect;
+  assert.ok(validateGroundConfig(without).some(p => /round r4 is fused: photoDetect.rounds must name it/.test(p)));
+  without.rounds = without.rounds.filter(r => r.detector !== 'fused');
+  without.activeRound = 'r3';
+  without.ownerExceptions = without.ownerExceptions.filter(x => without.rounds.some(r => r.id === x.round));
+  assert.deepEqual(validateGroundConfig(without, { groundId: 'johannesberg' }), []);
+  const bad = johannesberg();
+  bad.photoDetect.python = 'C:/Python/python.exe';
+  bad.photoDetect.sources[0].weights = 'magic';
+  bad.photoDetect.extra = 1;
+  const problems = photoDetectProblems(bad);
+  assert.ok(problems.some(p => /python/.test(p)));
+  assert.ok(problems.some(p => /weights must be pretrained or finetuned/.test(p)));
+  assert.ok(problems.some(p => /photoDetect.extra/.test(p)));
+});
+
+test('confirm fusion: a photo crown takes back only a suppressed laser top with its own crown, never a seed of its own', async () => {
+  const { confirmTops } = await import('./photo-fusion.mjs');
+  /* a flat 20 m canopy with two tops 3 m apart and a 1.5 m saddle between them */
+  const grid = { minEasting: 0, maxNorthing: 20, width: 40, height: 40, sampleSpacingMetres: 0.5 };
+  const smooth = new Float32Array(grid.width * grid.height).fill(18);
+  const at = (e, n) => Math.floor((grid.maxNorthing - n) / 0.5) * grid.width + Math.floor(e / 0.5);
+  for (let i = 0; i < smooth.length; i++) {
+    const e = (i % grid.width) * 0.5 + 0.25, n = grid.maxNorthing - Math.floor(i / grid.width) * 0.5 - 0.25;
+    smooth[i] = Math.max(18, 20 - 1.3 * Math.hypot(e - 8, n - 10), 19.5 - 1.3 * Math.hypot(e - 11, n - 10));
+  }
+  const kept = [{ easting: 8, northing: 10, height: 20 }];
+  const suppressed = [{ index: at(11, 10), easting: 11, northing: 10, height: 19.5, type: 'conifer' }];
+  /* the photo draws a top of height h at k x h: k = (0.5, 0) everywhere */
+  const field = { bbox: [-100, -100, 100, 100], blockMetres: 200, columns: 1, rows: 1, blocks: [{ kx: 0.5, ky: 0 }] };
+  const f = 0.8;
+  const drawn = t => ({ easting: t.easting + f * 0.5 * t.height, northing: t.northing, score: 0.6 });
+  const fuse = { projectionFraction: f, matchRadiusMetres: 1.5, minimumScore: 0.3, minimumSeparationMetres: 2, minimumDipMetres: 0.5, types: ['conifer', 'broadleaf'] };
+  /* a box where the photo draws each top: the suppressed one is confirmed */
+  let got = confirmTops(kept, suppressed, [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, fuse);
+  assert.equal(got.length, 1);
+  assert.equal(got[0].easting, 11);
+  /* only the kept top's box: it claims it, nothing new */
+  got = confirmTops(kept, suppressed, [drawn(kept[0])], field, smooth, grid, fuse);
+  assert.equal(got.length, 0);
+  /* a box over no laser top places nothing */
+  got = confirmTops(kept, suppressed, [drawn(kept[0]), { easting: 40, northing: 3, score: 0.9 }], field, smooth, grid, fuse);
+  assert.equal(got.length, 0);
+  /* a weak box, a too-close top, or no dip refuse it */
+  assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), { ...drawn(suppressed[0]), score: 0.2 }], field, smooth, grid, fuse).length, 0);
+  assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumSeparationMetres: 3.5 }).length, 0);
+  assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumDipMetres: 3 }).length, 0);
+  /* round 4b: its own apex in the points */
+  assert.equal(confirmTops(kept, [{ ...suppressed[0], apexCount: 2 }], [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumApexReturns: 3 }).length, 0);
+  assert.equal(confirmTops(kept, [{ ...suppressed[0], apexCount: 3 }], [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumApexReturns: 3 }).length, 1);
+  /* the type gate */
+  assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, types: ['broadleaf'] }).length, 0);
+});
+
+test('Johannesberg: round 4b publishes the round-4 lock, gated on X1-X5 under the owner exception pinned to benchmark-r4b', async () => {
+  const { gateReport } = await import('./benchmark.mjs');
+  const ctx = loadGroundConfig(ROOT, 'johannesberg');
+  const report = gateReport(ctx);
+  assert.equal(report.gate.status, 'FAIL');
+  assert.equal(report.gate.method, 'round4-detector', 'the published detector is the round-4 lock');
+  assert.equal(report.gate.measured.scored, 126);
+  assert.equal(report.verdict.allowed, true);
+  assert.equal(report.verdict.gate, 'FAIL', 'a FAIL is never relabelled');
+  assert.match(report.verdict.ownerException.record, /README\.md$/);
+  const exception = ctx.config.ownerExceptions.find(x => x.round === 'r4b');
+  assert.match(exception.decision, /The best round go!/);
+  assert.equal(exception.benchmark.sha256, report.benchmark.sha256);
+  /* round 4 on its own sample missed the owner's precision floor and is not covered there */
+  const r4 = loadGroundConfig(ROOT, 'johannesberg', { round: 'r4' });
+  assert.equal(gateReport(r4).verdict.allowed, false);
 });

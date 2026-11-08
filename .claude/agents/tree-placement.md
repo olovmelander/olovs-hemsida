@@ -29,8 +29,10 @@ config, `course-workflows/johannesberg/trees.json`, is the worked example.
   (in a worktree, that path in the main checkout). Never print, log, echo, copy or
   commit them, never read the .env file yourself, and never put them in a command
   line. Only `--stage acquire --fetch` needs them.
-- **No GPU work at all**: no browser, no Playwright, no screenshots, no deep-learning
-  detector, no CUDA or PyTorch. Screenshots of the app are the owner's step on his GPU.
+- **No GPU work** (no browser, no Playwright, no screenshots, no CUDA or PyTorch), with
+  one exception: the `photo-detect` stage (a learned crown detector), and only when the
+  owner or the main session has said the GPU is yours. Screenshots of the app are the
+  owner's step on his GPU.
 - **Keep the CPU quiet**: one heavy node process at a time, no parallel workers, no
   background jobs racing each other. The owner wants the fans calm.
 - **Download only what a stage needs.** Raw laser, photo pixels and derived rasters
@@ -235,6 +237,53 @@ ignored cache is evidence by itself; its hashes are.
   the source revision every prepared startup record is keyed by; an edit there
   expires the prepared data of every course. Pipeline-only code lives in
   `tools/tree-pipeline/`.
+
+### Round 4 (Johannesberg, 2026-11-08): a learned photo crown detector on the GPU
+
+- **The photo-detect stage is the only GPU work, and only when the owner allows it.**
+  It is optional per ground (`photoDetect` in trees.json) and serves `fused` rounds.
+  Run it only when the owner has said the GPU is free. The rest of these rules (no
+  browser, a quiet CPU) stand.
+- **Patch size is the scale.** DeepForest's RetinaNet resizes every patch to 800 px, so
+  the patch's ground size (not the photo's pixel size) sets how large a crown looks to
+  it. 40 m matches its 10 cm training. Swedish crowns at 0.16 m read better in larger
+  patches (smaller in the network); try 40-80 m on calibration.
+- **Never teach an unannotated crown as background.** The earlier calibration windows
+  use large ambiguity boxes. Fine-tuning on them unmasked taught the model that trees
+  are background: cross-fitted recall fell from 0.85 to 0.33. Black out the ambiguity
+  boxes, and move each reference box onto the visible crown the pretrained model drew
+  when one is near.
+- **Cross-fit before you trust a fine-tune.** Train on half the calibration windows and
+  detect on the other half. A model scored on its own training windows says nothing.
+- **Match in photo space, not trunk space.** Moving a photo box back to its trunk
+  (x + f k h(x) = p) is too coarse for crowns 2.5 m apart and double-counts crowns
+  already found. Instead move each laser top forward by its own height and pair tops
+  with boxes one to one. Then a box can only confirm a laser maximum, and the photo
+  never places a tree of its own.
+- **Tune the fusion jointly.** A greedy coordinate descent from defaults raises the
+  score threshold first and ends at "no photo seeds" (round 3 again). Search a joint grid
+  per photo source, then polish.
+- **Tune on the detections you score.** Round 4 was tuned on photo crowns detected
+  window by window and scored on the whole-window run. Its 50 m tiles fell differently
+  there, and calibration F1 went from 0.913 in tuning to 0.893 in scoring. Read the
+  scored run (`photoDetect.tuning.<round>.crowns: "all"`), and average the tiling
+  (`offsets: 2`, two tile grids merged by NMS).
+- **One sample is not the photo detector's precision.** Round 4 scored P 0.935 on W1-W5
+  (a leafless broadleaf edge and groups) and 0.971 on X1-X5 (mostly conifers). Its
+  extras sit in broadleaf crowns, where one tree has several tops a box can confirm.
+  Report every sample, and declare which one decides before scoring.
+- **A precision floor costs recall in closed spruce.** Round 4b's apex test (first returns
+  at the top) kept calibration precision at round 3's. But a leaf-off scan at 1.8
+  returns/m2 gives few returns at a squeezed spruce top, so it dropped most of round 4's
+  closed-stand gains (X1 27 → 20 of 29).
+- **A round may publish an earlier lock.** When a second sample decides between locks,
+  the new round names the winner (`publishes`): the gate and the candidates stage read
+  that lock on the new round's sample, and the owner exception pins that round's
+  benchmark.
+- **A detector that splits crowns makes pole-like holds.** Round 4 raised 447 new
+  pole-like crowns, almost all narrow tops the photo confirmed inside stands; 439 were
+  trees on the chips. Budget the chip review (about a minute per sheet of 24) before
+  publication.
 
 ## Report
 

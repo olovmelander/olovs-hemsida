@@ -1,0 +1,220 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "reference",
+ "groundId": "johannesberg",
+ "reviewId": "review-2026-11-08",
+ "round": "r4",
+ "ranAt": "2026-11-08T21:49:51.856Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/johannesberg/trees.json",
+  "bytes": 11529,
+  "sha256": "5695654b47817c8abafd457f900d4e5d8a4a9340ad22d80561dbcbe72e44df4d"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "c419a6413f86669ed13333ca3ddc67255c3fae77d5d6da5f9616384fc3f58d3b",
+  "tools/tree-pipeline/config.mjs": "611b52ed180982e8e53af4e27bcae8511505a51b1453373ed1c4c49e2ec148c1",
+  "tools/tree-pipeline/stages.mjs": "7d8dacd03d729319bcb1a7ffde60b4fa4f94587f884b87473e83f234eb9cc2cd",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "5a39a00b0abecb6be297d492ccbe3adec66c69cf0b8b4bc961606bebe138ecdf",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "d439ca94bb2d7e93a6cf5609feb77bdb81ce5a84aa1bb68b7e59daaddb39c4b9",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "c89e0a6df9e10d67452b02ae661c3bdd7a2ec20edb2009a97977f002cf849e8a",
+  "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
+  "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
+  "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
+  "tools/tree-pipeline/benchmark.mjs": "4769bcba236740da844c88969f646479edbc5cb8fa01b638ee64632c1ca58c44",
+  "tools/tree-pipeline/candidates.mjs": "b26eea9846253009dac4b7229f77463f1b3b103a6ac859ffcbedbc06e548c733",
+  "tools/tree-pipeline/review.mjs": "866f1f19ed528033ec403ed1697953ddcbeb611d514e45e4a3b69b6cd9bca3dc",
+  "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
+  "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+  "tools/tree-pipeline/tree-refine.mjs": "abcfad3d065eedaed2838885a55b82ef8b7e71a6f75f7e479334464befe1652c",
+  "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-windows-r4.json",
+   "bytes": 13335,
+   "sha256": "60df21b7c75b1a722fec93e098f78174b3270bdd580e8eefe89607ecf2e84003"
+  },
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-annotations-r4.json",
+   "bytes": 131298,
+   "sha256": "6970fba25c480c400fc6a2ff726e80461e07f63d7f0dfd82760b06c9522e4e4d"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/C1-h10-south.candidates.json",
+   "bytes": 15533,
+   "sha256": "aff72ebdf3ac1c080cd7ac6a86c6a13a5698743125215ccc9bb4765cc8f7c286"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/C2-h11-edge.candidates.json",
+   "bytes": 15577,
+   "sha256": "fb60198ed0f517212e04421b0c3b20f92c697766b3cb7b19435b0bfd73cf5490"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/C3-h4-meadow.candidates.json",
+   "bytes": 2328,
+   "sha256": "3dc49fa03c88dae3be2afc3a6d1eafec2cea2528ee89fa4e7b35ac0e62a5ab73"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/C4-h16-spruce-edge.candidates.json",
+   "bytes": 8700,
+   "sha256": "71cddbee3d9daaa5ffe2dbec325ac3e64c859704d439861878ad05d9f0b8ea9d"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/C5-h17-18.candidates.json",
+   "bytes": 9791,
+   "sha256": "42eeea88cb10de828e312b561bf5c953c0f2b732ef7a866c2eb9f4873e4cf88c"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/C6-h3-isolated.candidates.json",
+   "bytes": 7734,
+   "sha256": "0671e11ecf94791522bd9f42cc8660a56d37546e7a2610f11e5ed8bdbb5fef0e"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/E2-h1-2.candidates.json",
+   "bytes": 6684,
+   "sha256": "46ddce1cd358f6f9935517bed7465b04cc38122aab73393df68f4a5f0658c09d"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/E3-h13.candidates.json",
+   "bytes": 6764,
+   "sha256": "e911f6c13506af39a43b625e5ba91046c36b12b116ac85ef291d0d7be67f8d23"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/E4-n9-5-6.candidates.json",
+   "bytes": 2827,
+   "sha256": "244de3270b100ada5adec7a36b1fa7877bd039408789fb8de3fd7d39bb4a600f"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/H1-n9.candidates.json",
+   "bytes": 7611,
+   "sha256": "572dfc646ff5652e5aa8c5681f9da43fefc6c006dbda66eadb05c6d19b0e4551"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/H3-h7-mixed.candidates.json",
+   "bytes": 5090,
+   "sha256": "78ad43e60a3724eebcee7dad9ac8fa63aa91a13cf611f0c62b83ec65791728d1"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/H4-h8-spruce.candidates.json",
+   "bytes": 6150,
+   "sha256": "21b96ad7ba085bd65ad5eaa6fae88e5e37814bf52343a446539f968b9a2bb6ae"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/H5-h9-edge.candidates.json",
+   "bytes": 6285,
+   "sha256": "a3d06020e3d3bf77486bc3a815f835ece4b82cbf9b889e3e6159b602e23efff6"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/K1-h10-spruce.candidates.json",
+   "bytes": 6405,
+   "sha256": "c0f6d783b05452d6017fd9a3acdb080e9bc2c490264f4cf4c0ecda8524581212"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/K2-h9-mixed.candidates.json",
+   "bytes": 6169,
+   "sha256": "cbf664adece4fdb2fe3eef0cba32243921ffdeb6c052ac2aa143c56fbdd0e5ac"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/Q1-h5-closed.candidates.json",
+   "bytes": 6332,
+   "sha256": "cea4baf4a6d303de5781a1f6f6b2aaf8fe19ff881cc7ac561a6c297e5f2abd13"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/Q2-h5-edge.candidates.json",
+   "bytes": 8773,
+   "sha256": "1b959d7d05827592f3795dd46655dcb8156cecc616ca62157fb28ccf0a2a9a79"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/Q3-h18-2-band.candidates.json",
+   "bytes": 4883,
+   "sha256": "cb0aa5a5ae2847b9cce8c60fffd12a26cd8435a9f357b9e02b7a01deaea79c77"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/Q4-h4-grove.candidates.json",
+   "bytes": 8811,
+   "sha256": "895d57e0354ff15b329a2f54adf51966124323efb2470c53b2f25853fa0cad30"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/Q5-h6-closed.candidates.json",
+   "bytes": 6604,
+   "sha256": "fe4e4d440634b700200e852b79dfaaf1264845252bc12d0af69c08c4234dc63f"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/W1-h8-closed.candidates.json",
+   "bytes": 10058,
+   "sha256": "fc72e12fb0775883e7463eaf53418f4f77abdc5187e9330cfbf06792ed350983"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/W2-h11-closed.candidates.json",
+   "bytes": 6167,
+   "sha256": "d92edd337440bf4965c7cc09d67a714f7921f805c4b4bcdd2f5d572138ae7eb4"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/W3-h7-edge.candidates.json",
+   "bytes": 10740,
+   "sha256": "3c34b39f91a2199ceff8f0d7a3be8d2f5aadee141d0ed9697fff2f730575ebe7"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/W4-h8-9-edge.candidates.json",
+   "bytes": 8077,
+   "sha256": "2093bc11b3cc4ac3c93ffb4e4df6b99265c0098e16f4da426a2da305c41d2281"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/reference-panels/W5-n9-1-4-groups.candidates.json",
+   "bytes": 3980,
+   "sha256": "00e2f9b367660c2127c1fd8363e7a192a43905f6dbebaf6894433c207ca16d21"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-r4.geojson",
+   "bytes": 684965,
+   "sha256": "4a5d69fb27d3ad6fc39d3c5e9d75d9c69aa81854ad9db209ccbde379ef8fe928"
+  },
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-lock-r4.json",
+   "bytes": 3941,
+   "sha256": "b471a2015c2a7a7011359611c87bdd7ecb0eba69674715e6f56a660fba120f67"
+  }
+ ],
+ "result": {
+  "counts": {
+   "calibration": {
+    "scored": 129,
+    "window": 129,
+    "margin": 127,
+    "ambiguous": 0,
+    "smallUnder3m": 0
+   },
+   "used-holdout": {
+    "scored": 179,
+    "window": 185,
+    "margin": 218,
+    "ambiguous": 1,
+    "smallUnder3m": 6
+   },
+   "evaluation": {
+    "scored": 132,
+    "window": 137,
+    "margin": 156,
+    "ambiguous": 0,
+    "smallUnder3m": 5
+   }
+  }
+ }
+}

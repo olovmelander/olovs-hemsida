@@ -1415,9 +1415,9 @@
     "sha256": "7b245169bcf2f8dbd7a630446e41dbf8f88f31dc62ffbeeabcde7837133c0ff0"
    },
    "startup": {
-    "url": "grounds/johannesberg/startup/manifest-4b4ee6bb7b037654b57d189f97b09d6c1d4003dc871e30a8966ee36064d05baa.json",
-    "bytes": 173001,
-    "sha256": "4b4ee6bb7b037654b57d189f97b09d6c1d4003dc871e30a8966ee36064d05baa"
+    "url": "grounds/johannesberg/startup/manifest-70b820f3e178811f7047c70676ecb4bb7b4d670f3911d7381821a98beed0361b.json",
+    "bytes": 173004,
+    "sha256": "70b820f3e178811f7047c70676ecb4bb7b4d670f3911d7381821a98beed0361b"
    },
    "preparedTint": {
     "natural-hi": {
@@ -1489,7 +1489,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "9a06e080f71df54b347d1103d2b4ff9f2545561089629c2e6873de4bd2a529d7",
+     "identity": "7b66abbde845e547247609c547d7c69bbf138768253ac2ed79b1b3b201a97e1c",
      "url": "courses/johannesberg/prepared/tint-3aef3c0f4824b3d95acd1138af03c3d20acb62c9fc819917fb0a38ab38304e66.bin",
      "bytes": 1409958,
      "decodedBytes": 2951560,
@@ -1523,7 +1523,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "79d0932d88fb00b4ee753d28c54de17412698d20ef611fd286a271db849544e9",
+     "identity": "e758f9f8809a02373d8ebb7f47bee82b1a718d62027964aaedb60bd889bbbfff",
      "url": "courses/johannesberg/prepared/tint-3aef3c0f4824b3d95acd1138af03c3d20acb62c9fc819917fb0a38ab38304e66.bin",
      "bytes": 1409958,
      "decodedBytes": 2951560,
@@ -1558,44 +1558,44 @@
     }
    },
    "preparedWater": {
-    "identity": "434b27b25edf8afd603903c116d40322ea8063542a8ce160b2d320dc36fdc809",
-    "url": "courses/johannesberg/prepared/water-0ea03f57616f5cac37d7eee23a0ced365be7b5e4685aefce09334ba6eb083db7.bin",
-    "bytes": 572251,
+    "identity": "82a48db1af47c8839b4a0e4954ad41ac7d6e95d13a3c2cc0fb94d8401a21bc41",
+    "url": "courses/johannesberg/prepared/water-d6f1d4e9fd693fda0e4ccdb28cde1e058f77f7198894e14e979be848039d17c7.bin",
+    "bytes": 572252,
     "decodedBytes": 63062969,
-    "sha256": "0ea03f57616f5cac37d7eee23a0ced365be7b5e4685aefce09334ba6eb083db7",
-    "decodedSha256": "be391de798efbcf65720f10383e6ba1c839107ecc0eb8a2603046bbf75c427c1"
+    "sha256": "d6f1d4e9fd693fda0e4ccdb28cde1e058f77f7198894e14e979be848039d17c7",
+    "decodedSha256": "11d175f18426679536ac36a643c3bcb7cb45939311196aa1bc655096dac83b33"
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "f250186529285ddc037e660645fb763d59c12af3c67e7ff427f3bb890e210e30",
+     "identity": "064abc3fb6868525c81d08d7d9fcc49f0c8a7f0bb519bb56add5ffa1db58af6b",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/johannesberg/prepared/vista-9902bd49a25459030452ee553df2656297e828f318ea272290c0d0f0811a351a.bin",
-     "bytes": 174881,
+     "url": "courses/johannesberg/prepared/vista-5c5eb8303b614c04e49a7185eda04a190e2e9ca5530bc3424b63e54594c624ac.bin",
+     "bytes": 174888,
      "decodedBytes": 359471,
-     "sha256": "9902bd49a25459030452ee553df2656297e828f318ea272290c0d0f0811a351a",
-     "decodedSha256": "60d64c885f6314be83be40828a55f8afc05732c393aa88aaab6257c80075aaa6",
+     "sha256": "5c5eb8303b614c04e49a7185eda04a190e2e9ca5530bc3424b63e54594c624ac",
+     "decodedSha256": "97614a144626260fbb5e5116dd21eefecffeb59218ba7220f9d9c777595e24fb",
      "candidates": 2875761,
-     "digest": "f117daf6f38f26b95d2cb596762fd6b85e943427a386ede6219e0526a0ef992e",
-     "skipped": 186368,
-     "points": 542024
+     "digest": "6f8eeafeae0ba827dec06a6768faca2d1a4c00c1754ec3eafab7fb4c409a0675",
+     "skipped": 186344,
+     "points": 542056
     },
     "vista-lo": {
-     "identity": "d0318391b1d6bbf6c011438ad8433044a1495fa2cb741989103bee3fb5c57845",
+     "identity": "d85696834caefd98ab4981c7493b74be959e95b00059171007cc516786e1597a",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/johannesberg/prepared/vista-a53e7d56fa14690be90ba806b5d1cecd99b3099f1f53cecf71a10b00de4dd6af.bin",
-     "bytes": 99905,
+     "url": "courses/johannesberg/prepared/vista-8f3fd558d6085a49b0397ec15377791dd3f095b9bb21bdd40acf6b228658f77f.bin",
+     "bytes": 99872,
      "decodedBytes": 199738,
-     "sha256": "a53e7d56fa14690be90ba806b5d1cecd99b3099f1f53cecf71a10b00de4dd6af",
-     "decodedSha256": "9d027286690c6dc00f7ffbe8c270ee1ca3ce97ce0b435230bc697a7304a450cb",
+     "sha256": "8f3fd558d6085a49b0397ec15377791dd3f095b9bb21bdd40acf6b228658f77f",
+     "decodedSha256": "51bb3182481cde6414b35bc166ab1b2567316d5cf957e5cf9e0b700bb4f7df8c",
      "candidates": 1597898,
-     "digest": "e3703f4de445624cb242a0afb679d2da9f3fcb457c7bb2ddaab7c77490335818",
-     "skipped": 103888,
-     "points": 299249
+     "digest": "2365871c03c46de21641242f5d3d8247a6924b99d22adce3747e614bb4e4c964",
+     "skipped": 103874,
+     "points": 299188
     }
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "467a494bae2a130e30f966ae4a5e067b81aaedda5fbe1cd2920f9853937ad44c",
+     "identity": "d21c7b77bdf787db4ac24381306a694cdefa5f6f899d44b3d19fd1cb21823643",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/johannesberg/prepared/scatter-525e1a486d45e19873bd49c135ebefcd0395b667a28cdcaf072c08092c91f0cf.bin",
      "bytes": 18186,
@@ -1626,7 +1626,7 @@
      }
     },
     "scatter-lo": {
-     "identity": "72f00f365c8ded4f4b4be11a5be509fe76fdf4ec14bfc248f0f8ebab619a8c94",
+     "identity": "5b10cfc266729d44435f10b750a63e35346b510c15429bd7f005f8f657e9ab8b",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/johannesberg/prepared/scatter-0a0fbd00a971aeadcad8e8e7cc14209c3eca98001c29649c08e0b4df6f9c3f8e.bin",
      "bytes": 19981,
@@ -1690,9 +1690,9 @@
     "sha256": "7b245169bcf2f8dbd7a630446e41dbf8f88f31dc62ffbeeabcde7837133c0ff0"
    },
    "startup": {
-    "url": "grounds/johannesberg/startup/manifest-4b4ee6bb7b037654b57d189f97b09d6c1d4003dc871e30a8966ee36064d05baa.json",
-    "bytes": 173001,
-    "sha256": "4b4ee6bb7b037654b57d189f97b09d6c1d4003dc871e30a8966ee36064d05baa"
+    "url": "grounds/johannesberg/startup/manifest-70b820f3e178811f7047c70676ecb4bb7b4d670f3911d7381821a98beed0361b.json",
+    "bytes": 173004,
+    "sha256": "70b820f3e178811f7047c70676ecb4bb7b4d670f3911d7381821a98beed0361b"
    },
    "preparedTint": {
     "natural-hi": {
@@ -1764,7 +1764,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "8e4aec95be868ce67b44619432deff06077a91d38a7891e9ebb3ca7e79b8200a",
+     "identity": "84fbded3f17461e23f85155138c1d8c8f56aa2b24de58a0269265627246314da",
      "url": "courses/johannesberg-9/prepared/tint-9529712792afa3b5e0dca0d1306bd49d47051047c2eb651307e40a6ac4b2094a.bin",
      "bytes": 1400834,
      "decodedBytes": 2951560,
@@ -1798,7 +1798,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "29f2f9cc4f4ce34d0a07b61b1520e97b99b4882528a0ea1d0e96a80b522ddcd0",
+     "identity": "97947e78463065eb99329549c2a5ad6ce2b580ee6b54310677191af99f78fc3f",
      "url": "courses/johannesberg-9/prepared/tint-9529712792afa3b5e0dca0d1306bd49d47051047c2eb651307e40a6ac4b2094a.bin",
      "bytes": 1400834,
      "decodedBytes": 2951560,
@@ -1833,44 +1833,44 @@
     }
    },
    "preparedWater": {
-    "identity": "eff5338373ae7bae8bac7b6fcec0eb306a426b524d947c28ff84a617142d88a1",
-    "url": "courses/johannesberg-9/prepared/water-f17b37d6a59cec65b35863435ffba75f0899177732e68fa1ca96ea1eaa217f4c.bin",
+    "identity": "38efe0b05cad438cab2f57fd310105e4d6bbdeffbbe68aa60631a5737f8e3ce9",
+    "url": "courses/johannesberg-9/prepared/water-3997ddfc1bbe252128d148e64fc3a969ebf94b786194dec1983c21884b21a9f0.bin",
     "bytes": 572255,
     "decodedBytes": 63062969,
-    "sha256": "f17b37d6a59cec65b35863435ffba75f0899177732e68fa1ca96ea1eaa217f4c",
-    "decodedSha256": "e4dfdb18276e5df4b2295a1d2650d1a41ed2e019678b39d11a15e7a15d9c17d7"
+    "sha256": "3997ddfc1bbe252128d148e64fc3a969ebf94b786194dec1983c21884b21a9f0",
+    "decodedSha256": "c94f2c5adb902c40ab69fdfbced6388156e1130f8ae468f113085bf5dd3dc960"
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "fffac850eb03de436107d5cfe4ad681796f6c7f3ecaf0bfa3def123f1469d195",
+     "identity": "41aaa626baaf4e8b66391163f7e5ff59fd383de19f5d4f7ed9ee6b573b642678",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/johannesberg-9/prepared/vista-9902bd49a25459030452ee553df2656297e828f318ea272290c0d0f0811a351a.bin",
-     "bytes": 174881,
+     "url": "courses/johannesberg-9/prepared/vista-5c5eb8303b614c04e49a7185eda04a190e2e9ca5530bc3424b63e54594c624ac.bin",
+     "bytes": 174888,
      "decodedBytes": 359471,
-     "sha256": "9902bd49a25459030452ee553df2656297e828f318ea272290c0d0f0811a351a",
-     "decodedSha256": "60d64c885f6314be83be40828a55f8afc05732c393aa88aaab6257c80075aaa6",
+     "sha256": "5c5eb8303b614c04e49a7185eda04a190e2e9ca5530bc3424b63e54594c624ac",
+     "decodedSha256": "97614a144626260fbb5e5116dd21eefecffeb59218ba7220f9d9c777595e24fb",
      "candidates": 2875761,
-     "digest": "f117daf6f38f26b95d2cb596762fd6b85e943427a386ede6219e0526a0ef992e",
-     "skipped": 186368,
-     "points": 542024
+     "digest": "6f8eeafeae0ba827dec06a6768faca2d1a4c00c1754ec3eafab7fb4c409a0675",
+     "skipped": 186344,
+     "points": 542056
     },
     "vista-lo": {
-     "identity": "cd8698769249f131da537844904c0d5a0a68c43681851396a98641ed54a49380",
+     "identity": "e7cde1022b2179d9b4800caa7143ee07efde8462c8260dca2ea82531eec21219",
      "inputs": "{\"flags\":{\"coastal\":false,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":false,\"ocean\":false,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/johannesberg-9/prepared/vista-a53e7d56fa14690be90ba806b5d1cecd99b3099f1f53cecf71a10b00de4dd6af.bin",
-     "bytes": 99905,
+     "url": "courses/johannesberg-9/prepared/vista-8f3fd558d6085a49b0397ec15377791dd3f095b9bb21bdd40acf6b228658f77f.bin",
+     "bytes": 99872,
      "decodedBytes": 199738,
-     "sha256": "a53e7d56fa14690be90ba806b5d1cecd99b3099f1f53cecf71a10b00de4dd6af",
-     "decodedSha256": "9d027286690c6dc00f7ffbe8c270ee1ca3ce97ce0b435230bc697a7304a450cb",
+     "sha256": "8f3fd558d6085a49b0397ec15377791dd3f095b9bb21bdd40acf6b228658f77f",
+     "decodedSha256": "51bb3182481cde6414b35bc166ab1b2567316d5cf957e5cf9e0b700bb4f7df8c",
      "candidates": 1597898,
-     "digest": "e3703f4de445624cb242a0afb679d2da9f3fcb457c7bb2ddaab7c77490335818",
-     "skipped": 103888,
-     "points": 299249
+     "digest": "2365871c03c46de21641242f5d3d8247a6924b99d22adce3747e614bb4e4c964",
+     "skipped": 103874,
+     "points": 299188
     }
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "e5b55b62747101e232ff6eea3763a596376966008f671a5b833410d283617777",
+     "identity": "dd3b393b516e9110907f80bec0b945a5da50a2e7d863728a00e4fe2086b532cf",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/johannesberg-9/prepared/scatter-60bd85f0242e03241bb5d4ddf53ad78bc4a298f25ba2b95c9931a78f1758669f.bin",
      "bytes": 9164,
@@ -1901,7 +1901,7 @@
      }
     },
     "scatter-lo": {
-     "identity": "d0370664c6f18b0d67a7d2114415a6157d631e0d11d6853a1f19eea36491e905",
+     "identity": "b621f2bdecf25fcd0cc8e42954cab9816a4542acd127e4a3c3f6975c5ac75294",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":false,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":false,\"ocean\":false,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/johannesberg-9/prepared/scatter-5db1e461841948a943d751cd1eca0b529cb60a21a70d689e120c5d481eba9251.bin",
      "bytes": 9042,

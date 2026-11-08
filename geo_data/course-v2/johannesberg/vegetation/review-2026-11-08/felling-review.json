@@ -11,10 +11,10 @@
   "unclear": "held"
  },
  "counts": {
-  "unclear": 17,
-  "absent": 16,
+  "unclear": 19,
+  "absent": 19,
   "structure": 25,
-  "present": 22
+  "present": 26
  },
  "decisions": {
   "679888.0_6624715.0": {
@@ -672,7 +672,98 @@
    "northing": 6624911.12,
    "heightMetres": 8.01,
    "round": "r3"
+  },
+  "678659.4_6626293.8": {
+   "index": 1,
+   "verdict": "present",
+   "note": "a shrub or small tree by the ditch, green in June 2025 (round 4)",
+   "easting": 678659.4,
+   "northing": 6626293.77,
+   "heightMetres": 3.91,
+   "round": "r4"
+  },
+  "678690.6_6624763.2": {
+   "index": 2,
+   "verdict": "present",
+   "note": "a small green crown in June 2025 (round 4)",
+   "easting": 678690.59,
+   "northing": 6624763.23,
+   "heightMetres": 6.3,
+   "round": "r4"
+  },
+  "679234.5_6625671.0": {
+   "index": 3,
+   "verdict": "absent",
+   "note": "lawn by the path in June 2025; nothing stands there (round 4)",
+   "easting": 679234.53,
+   "northing": 6625671,
+   "heightMetres": 3.23,
+   "round": "r4"
+  },
+  "679288.9_6625649.5": {
+   "index": 4,
+   "verdict": "present",
+   "note": "a dark crown in June 2025 (round 4)",
+   "easting": 679288.9,
+   "northing": 6625649.51,
+   "heightMetres": 8.58,
+   "round": "r4"
+  },
+  "679443.6_6625461.5": {
+   "index": 5,
+   "verdict": "unclear",
+   "note": "a brownish, partly dead-looking crown in June 2025 (round 4)",
+   "easting": 679443.57,
+   "northing": 6625461.45,
+   "heightMetres": 7.63,
+   "round": "r4"
+  },
+  "679510.2_6624888.9": {
+   "index": 6,
+   "verdict": "absent",
+   "note": "lawn by the path in June 2025; the 2021 crown is gone (round 4)",
+   "easting": 679510.18,
+   "northing": 6624888.94,
+   "heightMetres": 10.8,
+   "round": "r4"
+  },
+  "679831.3_6626322.3": {
+   "index": 7,
+   "verdict": "unclear",
+   "note": "a 3 m crown in garden scrub; not decidable (round 4)",
+   "easting": 679831.25,
+   "northing": 6626322.25,
+   "heightMetres": 3.28,
+   "round": "r4"
+  },
+  "679899.3_6625155.8": {
+   "index": 8,
+   "verdict": "absent",
+   "note": "lawn in June 2025 where a leafless 17 m crown stood in April 2021: felled (round 4)",
+   "easting": 679899.28,
+   "northing": 6625155.76,
+   "heightMetres": 16.83,
+   "round": "r4"
+  },
+  "680222.4_6626114.4": {
+   "index": 9,
+   "verdict": "present",
+   "note": "a dark crown in June 2025 (round 4)",
+   "easting": 680222.38,
+   "northing": 6626114.41,
+   "heightMetres": 8.87,
+   "round": "r4"
   }
  },
- "note": "Round 1 reviewed 64 screened crowns at round-1 positions; round 2 (the owner-chosen detector) adds 13 screened crowns at new positions. A verdict applies to the crown whose position is within 2 m. Round 3 (the refined detector) adds 3 screened crowns at new positions, reviewed on compact native chips at the displaced top: 2 absent, 1 present."
+ "note": "Round 1 reviewed 64 screened crowns at round-1 positions; round 2 (the owner-chosen detector) adds 13 screened crowns at new positions. A verdict applies to the crown whose position is within 2 m. Round 3 (the refined detector) adds 3 screened crowns at new positions, reviewed on compact native chips at the displaced top: 2 absent, 1 present.",
+ "round4": {
+  "reviewedAt": "2026-11-08T23:07:07.504Z",
+  "reviewer": "agent-led visual review (Claude) of compact chips (June 2025 colour, April 2021 colour infrared, native 0.16 m, centred between the laser base and the displaced top); not a field check",
+  "screen": "the round-4 candidates: compact-felling-01, chips 1-9",
+  "added": {
+   "present": 4,
+   "absent": 3,
+   "unclear": 2
+  }
+ }
 }

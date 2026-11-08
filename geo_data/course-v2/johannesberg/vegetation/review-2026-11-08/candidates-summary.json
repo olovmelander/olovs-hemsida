@@ -75,68 +75,90 @@
         "minimumValley": 0.1
       }
     },
+    "photo": {
+      "source": "pre-p50",
+      "model": {
+        "id": "weecology/deepforest-tree",
+        "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+        "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8",
+        "licence": "MIT"
+      },
+      "allCrownsSha256": "3495cea2deb903b846f68736f5780d61d41e8be20289b5c1f2a6d9074606c424",
+      "calibrationCrownsSha256": "412e3fc5297c9200d808bfeba79388529119885c7706a1d230eebbfb7cbafe41"
+    },
+    "fuse": {
+      "mode": "confirm",
+      "projectionFraction": 0.6,
+      "matchRadiusMetres": 3,
+      "minimumScore": 0.3,
+      "minimumSeparationMetres": 1.5,
+      "minimumDipMetres": 0,
+      "types": [
+        "conifer",
+        "broadleaf"
+      ]
+    },
     "calibration": {
-      "f1": 0.896,
-      "precision": 0.926,
-      "recall": 0.868,
-      "iou": 0.629,
-      "offset": 0.91,
-      "tp": 112,
-      "missed": 17,
-      "extra": 9
+      "f1": 0.913,
+      "precision": 0.896,
+      "recall": 0.93,
+      "iou": 0.601,
+      "offset": 0.89,
+      "tp": 120,
+      "missed": 9,
+      "extra": 14
     }
   },
-  "publishedGroundManifest": "grounds/johannesberg/ground-v2-0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f.json",
+  "publishedGroundManifest": "grounds/johannesberg/ground-v2-4f2d022d6130d29d138d00f1ce6e9f043e5290cd161b06ba0f43bf4a4dc02a4c.json",
   "today": {
-    "individualRecords": 26249,
-    "standTreesHighQuality": 35,
-    "total": 26284
+    "individualRecords": 27241,
+    "standTreesHighQuality": 33,
+    "total": 27274
   },
   "notPlacedOrRemovedByReview": {
-    "remove:felled after 2021": 2,
-    "not-placed:felled after 2021": 11,
-    "not-placed:not a tree": 20,
-    "remove:not a tree": 6
+    "not-placed:felled after 2021": 13,
+    "remove:felled after 2021": 3,
+    "not-placed:not a tree": 26
   },
   "candidates": {
-    "total": 27558,
+    "total": 32434,
     "byDecision": {
-      "retain": 23595,
-      "adjust": 2569,
-      "hold": 238,
-      "add": 1077,
-      "remove": 8,
-      "not-placed": 31,
-      "merge": 40
+      "adjust": 5377,
+      "retain": 21783,
+      "add": 4913,
+      "hold": 255,
+      "not-placed": 39,
+      "remove": 3,
+      "merge": 64
     },
-    "placedTrees": 27241,
+    "placedTrees": 32073,
     "placedByType": {
-      "conifer": 20818,
-      "unknown": 3733,
-      "broadleaf": 2690
+      "conifer": 24943,
+      "unknown": 4212,
+      "broadleaf": 2918
     },
     "placedBySource": {
-      "detector": 27078,
-      "sparse-laser-recovery": 163
+      "detector": 31966,
+      "sparse-laser-recovery": 107
     },
     "holdByReason": {
-      "on water, road or path": 25,
-      "on a mapped building": 78,
-      "no June 2025 vegetation (unreviewed)": 68,
-      "crown over a played surface": 3,
+      "on water, road or path": 23,
+      "on a mapped building": 79,
+      "no June 2025 vegetation (unreviewed)": 71,
+      "crown over a played surface": 4,
       "structure suspect": 16,
-      "felling screen": 13,
-      "pole-like crown": 32,
-      "record without crown": 3
+      "felling screen": 16,
+      "pole-like crown": 40,
+      "record without crown": 6
     }
   },
   "fellingScreen": {
-    "screened": 57,
+    "screened": 67,
     "byVerdict": {
-      "absent": 13,
-      "unclear": 14,
+      "absent": 16,
+      "unclear": 17,
       "structure": 14,
-      "present": 16
+      "present": 20
     }
   },
   "poleScreen": {
@@ -144,62 +166,59 @@
       "maximumRadiusMetres": 1,
       "minimumHeightMetres": 5
     },
-    "screened": 206,
+    "screened": 639,
     "byVerdict": {
       "not-tree": 12,
-      "tree": 162,
-      "unclear": 32
+      "tree": 587,
+      "unclear": 40
     }
   },
   "playTypeDecision": {
     "woodland|conifer": {
-      "retain": 14298,
-      "adjust": 1680,
-      "hold": 11,
-      "add": 627,
-      "remove": 3,
-      "not-placed": 1
+      "adjust": 3629,
+      "retain": 12957,
+      "add": 3431,
+      "hold": 13,
+      "not-placed": 4
     },
     "near|conifer": {
-      "retain": 3292,
-      "adjust": 596,
-      "add": 325,
-      "remove": 1,
-      "hold": 7,
-      "not-placed": 2
+      "retain": 3244,
+      "adjust": 956,
+      "add": 726,
+      "not-placed": 3,
+      "hold": 9
     },
     "woodland|unknown": {
-      "retain": 2689,
-      "adjust": 157,
-      "hold": 42,
-      "add": 56,
+      "adjust": 433,
+      "retain": 2455,
+      "hold": 46,
+      "add": 410,
       "not-placed": 2,
-      "merge": 28
+      "merge": 47
     },
     "near|unknown": {
-      "retain": 755,
-      "add": 25,
-      "adjust": 51,
+      "retain": 732,
+      "adjust": 101,
+      "add": 81,
+      "not-placed": 3,
+      "hold": 12,
       "remove": 1,
-      "hold": 10,
-      "not-placed": 2,
-      "merge": 12
+      "merge": 17
     },
     "woodland|broadleaf": {
-      "retain": 1905,
-      "adjust": 53,
-      "add": 31,
-      "hold": 131,
-      "not-placed": 22,
-      "remove": 2
+      "retain": 1769,
+      "adjust": 194,
+      "add": 205,
+      "hold": 137,
+      "not-placed": 24
     },
     "near|broadleaf": {
-      "retain": 656,
-      "adjust": 32,
-      "hold": 37,
-      "add": 13,
-      "not-placed": 2,
-      "remove": 1
+      "retain": 626,
+      "adjust": 64,
+      "add": 60,
+      "remove": 2,
+      "hold": 38,
+      "not-placed": 3
     }
   },
   "typeModel": {
@@ -218,59 +237,59 @@
     "practiceRings": 4
   },
   "identity": {
-    "matchedWithin15m": 25834,
-    "matchedWithin3m": 372,
-    "newIds": 1278,
-    "nextSequence": 40355,
+    "matchedWithin15m": 26007,
+    "matchedWithin3m": 1164,
+    "newIds": 5154,
+    "nextSequence": 45548,
     "previousGenerationRecords": 2417,
-    "previousGenerationLineageCarried": 592
+    "previousGenerationLineageCarried": 589
   },
   "presence": {
-    "referenceFloor": 0.625,
+    "referenceFloor": 0.626,
     "scale": {
-      "vegetatedShare": 0.9880465555206039,
-      "nirTexture": 6.269547325102881,
-      "darkShare": 0.0944055944055944
+      "vegetatedShare": 0.9876404494382023,
+      "nirTexture": 6.692546583850931,
+      "darkShare": 0.11850311850311851
     }
   },
   "unresolved": {
-    "sparseLaserWithoutPhotoCrown": 66,
-    "photoOnlyCanopy": 292
+    "sparseLaserWithoutPhotoCrown": 61,
+    "photoOnlyCanopy": 255
   },
-  "elapsedSeconds": 41.8,
+  "elapsedSeconds": 47.6,
   "typeCheck": {
     "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, used-holdout and evaluation were not",
     "calibration": {
-      "matched": 108,
-      "typed": 99,
+      "matched": 107,
+      "typed": 100,
       "correct": 96,
-      "accuracyOfTyped": 0.97,
-      "unknown": 9,
+      "accuracyOfTyped": 0.96,
+      "unknown": 7,
       "confidence80": {
         "n": 95,
         "accuracy": 0.979
       }
     },
     "used-holdout": {
-      "matched": 73,
-      "typed": 58,
-      "correct": 55,
-      "accuracyOfTyped": 0.948,
-      "unknown": 15,
+      "matched": 411,
+      "typed": 353,
+      "correct": 341,
+      "accuracyOfTyped": 0.966,
+      "unknown": 58,
       "confidence80": {
-        "n": 51,
-        "accuracy": 0.961
+        "n": 339,
+        "accuracy": 0.976
       }
     },
     "evaluation": {
-      "matched": 74,
-      "typed": 48,
-      "correct": 43,
-      "accuracyOfTyped": 0.896,
-      "unknown": 26,
+      "matched": 226,
+      "typed": 186,
+      "correct": 182,
+      "accuracyOfTyped": 0.978,
+      "unknown": 40,
       "confidence80": {
-        "n": 46,
-        "accuracy": 0.913
+        "n": 177,
+        "accuracy": 0.977
       }
     }
   }

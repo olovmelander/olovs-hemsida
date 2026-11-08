@@ -41,12 +41,14 @@ import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, pe
 import { loadMosaic, loadRaster, openCampaignPacks } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
+import { CONFIRM_DEFAULTS, CONFIRM_SEARCH, CONFIRM_TUNE_GRID, CONFIRM_TUNE_GRID_PRECISION, centresNear, combinations, confirmedFromPrepared, loadPhotoCrowns, photoCentres } from './photo-fusion.mjs';
+import { crownsFile, photoRecordPath } from './photo-detect.mjs';
 
 const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const round = (v, d = 3) => (Number.isFinite(v) ? Math.round(v * 10 ** d) / 10 ** d : null);
 const quantile = (values, q) => { if (!values.length) return null; const s = [...values].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(q * (s.length - 1)))]; };
 const CROP_MARGIN = 25;
-const DETECTOR_CODE = ['packages/course-v2/vegetation/tree-detect-v2.mjs', 'tools/tree-pipeline/tree-refine.mjs', 'packages/course-v2/vegetation/pit-free-chm.mjs', 'packages/course-v2/vegetation/crown-detect.mjs', 'tools/tree-pipeline/relief.mjs', 'tools/tree-pipeline/benchmark.mjs'];
+const DETECTOR_CODE = ['packages/course-v2/vegetation/tree-detect-v2.mjs', 'tools/tree-pipeline/tree-refine.mjs', 'packages/course-v2/vegetation/pit-free-chm.mjs', 'packages/course-v2/vegetation/crown-detect.mjs', 'tools/tree-pipeline/relief.mjs', 'tools/tree-pipeline/benchmark.mjs', 'tools/tree-pipeline/photo-fusion.mjs'];
 
 const lockPathOf = (ctx, roundId) => ctx.reviewFile(ctx.sampleFile('detector-lock', 'json', roundId));
 const benchmarkPathOf = (ctx, roundId) => ctx.reviewFile(ctx.sampleFile('benchmark', 'json', roundId));
@@ -220,7 +222,7 @@ export function prepareRefined(entry, typedParameters, inputs, fractions = REFIN
       for (const f of fractions) t.valleys[role][f] = live.photoValley(role, t, t.nearestTaller, f);
     }
   }
-  return { typeMap, surfaces, suppressed };
+  return { typeMap, surfaces, suppressed, first, smoothCandidates: smooth };
 }
 
 /** Predictions of the refined detector from a prepared window. */
@@ -308,6 +310,102 @@ function tuneRefined(ctx, reference) {
     trajectory,
     windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
     photoDetector: 'none: a classical photo test (a brightness valley between two displaced tops); no learned model, no GPU',
+  };
+}
+
+
+/* ---------- the fused detector (round 4: refined + learned photo crowns) ---------- */
+
+/** The photo detector record of a fused round and its relief field (presence photo). */
+function fusedInputs(ctx, roundId = ctx.round.id) {
+  const recordPath = ctx.reviewFile(ctx.sampleFile('photo-detect', 'json', roundId));
+  if (!fs.existsSync(recordPath)) throw new Error(`no ${ctx.rel(recordPath)}: run --stage photo-detect first`);
+  const record = JSON.parse(fs.readFileSync(recordPath, 'utf8'));
+  const relief = JSON.parse(fs.readFileSync(ctx.reviewFile('relief-displacement.json'), 'utf8'));
+  return { record, recordPath, field: relief.campaigns[ctx.presence.key].field };
+}
+
+/** Photo centres of one source part, checked against the record's sha256. */
+function sourceCentres(ctx, record, source, part) {
+  const file = crownsFile(ctx, source, part);
+  const expected = record.sources[source]?.[part]?.sha256;
+  if (!fs.existsSync(file) || sha(file) !== expected) throw new Error(`${ctx.rel(file)} is missing or differs from photo-detect's record: rerun --stage photo-detect`);
+  return photoCentres(loadPhotoCrowns(file).crowns);
+}
+
+function tuneFused(ctx, reference) {
+  const startRound = ctx.round.startFrom;
+  const startLock = JSON.parse(fs.readFileSync(lockPathOf(ctx, startRound), 'utf8'));
+  if (!startLock.selected?.refine) throw new Error('a fused round needs startFrom: a refined round whose lock it extends');
+  const typedParameters = startLock.selected.parameters, refine = startLock.selected.refine;
+  const chm = loadRaster(ctx, 'chm-pitfree-050');
+  const m21 = loadMosaic(ctx, ctx.leafOff.key);
+  const calibration = reference.windows.windows.filter(w => w.role === 'calibration');
+  const ids = calibration.map(w => w.id);
+  const entries = prepareWindows(calibration, chm, m21);
+  const inputs = refereeInputs(ctx, chm.grid);
+  const fractions = [...new Set([...REFINE_FRACTIONS, refine.photo?.fraction ?? REFINE_DEFAULTS.photo.fraction])];
+  const prepared = new Map(entries.map(e => [e.window.id, prepareRefined(e, typedParameters, inputs, fractions)]));
+  const { record, recordPath, field } = fusedInputs(ctx);
+  /* a round may declare its own tuning (photoDetect.tuning.<round>): which sources, which detections (the scored whole-window run or the calibration run), and a precision floor */
+  const tuning = ctx.config.photoDetect?.tuning?.[ctx.round.id] || null;
+  const summary = s => ({ f1: s.f1, precision: s.precision, recall: s.recall, iou: s.crownIoUMean, offset: s.centreOffsetMedianMetres, tp: s.tp, missed: s.missed, extra: s.extra });
+  const startScore = summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, refinedFromPrepared(e, typedParameters, prepared.get(e.window.id), refine)])), ids));
+  let evaluations = 0;
+  const perSource = {};
+  let best = null;
+  const floor = tuning?.precisionAtLeastStart ? startScore.precision : -Infinity;
+  const ok = s => s.precision >= floor;
+  const grid = tuning ? CONFIRM_TUNE_GRID_PRECISION : CONFIRM_TUNE_GRID;
+  for (const source of Object.keys(record.sources).filter(id => !tuning?.sources || tuning.sources.includes(id))) {
+    const centres = sourceCentres(ctx, record, source, tuning?.crowns || 'calibration');
+    const near = new Map(entries.map(e => [e.window.id, centresNear(centres, e.cropped.grid)]));
+    const evaluate = fuse => { evaluations++; return summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, confirmedFromPrepared(e, typedParameters, prepared.get(e.window.id), refine, near.get(e.window.id), field, fuse)])), ids)); };
+    let current = null, score = null;
+    for (const fuse of combinations(grid, CONFIRM_DEFAULTS)) {
+      const s = evaluate(fuse);
+      if (!ok(s)) continue;
+      if (!score || better(s, score)) { current = fuse; score = s; }
+    }
+    if (!score) { perSource[source] = { fuse: null, calibration: null, note: 'no setting kept the precision floor' }; continue; }
+    const trajectory = [{ step: 'best of CONFIRM_TUNE_GRID', fuse: current, ...score }];
+    for (let pass = 1; pass <= 3; pass++) {
+      let changed = false;
+      for (const [key, values] of CONFIRM_SEARCH) for (const value of values) {
+        if (JSON.stringify(current[key]) === JSON.stringify(value)) continue;
+        const candidate = { ...current, [key]: value };
+        const s = evaluate(candidate);
+        if (ok(s) && better(s, score)) { current = candidate; score = s; changed = true; trajectory.push({ step: `pass ${pass}: ${key} = ${JSON.stringify(value)}`, ...s }); }
+      }
+      if (!changed) break;
+    }
+    perSource[source] = { fuse: current, calibration: score, trajectory };
+    console.log(`${source.padEnd(8)} calibration P ${score.precision} R ${score.recall} F1 ${score.f1} (tp ${score.tp} miss ${score.missed} extra ${score.extra}) ${JSON.stringify(current)}`);
+    if (!best || better(score, best.calibration)) best = { source, fuse: current, calibration: score };
+  }
+  return {
+    schemaVersion: 1,
+    kind: 'detector-lock',
+    round: ctx.round.id,
+    detector: 'fused',
+    method: `fused detector: the ${startRound} refined lock (type-aware detector, then laser- and photo-refereed recovery), then the suppressed laser tops a learned photo crown confirms (DeepForest on the ${ctx.presence.date} photo; photo-fusion.mjs, confirm mode): tops moved to where the photo draws them by the relief field, paired one-to-one with photo boxes, and taken back only when their box scores high enough and the laser shows their own crown; the photo never places a seed of its own`,
+    frozenAt: new Date().toISOString(),
+    referenceLockSha256: reference.lockSha256,
+    chmSha256: chm.sidecar.sha256,
+    reliefSha256: inputs.reliefSha256,
+    startLockSha256: sha(lockPathOf(ctx, startRound)),
+    photoDetectSha256: sha(recordPath),
+    code: codeHashes(ctx),
+    tuning: tuning || null,
+    selection: `${tuning ? `round tuning ${JSON.stringify({ sources: tuning.sources, crowns: tuning.crowns, precisionFloor: tuning.precisionAtLeastStart ? startScore.precision : null })}; ` : ''}calibration windows only; the ${startRound} typed and refine settings fixed; per photo source (photo-detect's calibration crowns, cross-fitted for fine-tuned weights) the joint CONFIRM_TUNE_GRID, then a coordinate polish over CONFIRM_SEARCH; the source and settings with the best calibration F1 (then mean crown IoU, then median centre offset) are locked`,
+    grid,
+    search: Object.fromEntries(CONFIRM_SEARCH),
+    withoutPhoto: startScore,
+    evaluations,
+    perSource,
+    selected: { parameters: typedParameters, refine, photo: { source: best.source, model: record.model, allCrownsSha256: record.sources[best.source].all.sha256, calibrationCrownsSha256: record.sources[best.source].calibration.sha256, tunedOn: tuning?.crowns || 'calibration' }, fuse: best.fuse, calibration: best.calibration },
+    windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
+    photoDetector: `learned: ${record.model.id} at ${record.model.revision.slice(0, 12)} (weights sha256 ${record.model.sha256.slice(0, 12)}...), source ${best.source}, on the GPU (photo-detect stage)`,
   };
 }
 
@@ -628,6 +726,16 @@ function classifyTypes(ctx) {
 /* ---------- scoring ---------- */
 
 function predictorFor(ctx, roundConfig, lock, { chm, entries, referee }) {
+  if (roundConfig.detector === 'fused') {
+    const { record, field } = fusedInputs(ctx, roundConfig.id);
+    if (record.sources[lock.selected.photo.source]?.all?.sha256 !== lock.selected.photo.allCrownsSha256) throw new Error('the photo crowns the fused lock names are not the ones photo-detect recorded');
+    const centres = sourceCentres(ctx, record, lock.selected.photo.source, 'all');
+    return w => {
+      const entry = entries.get(w.id);
+      const fractions = [...new Set([...REFINE_FRACTIONS, lock.selected.refine.photo?.fraction ?? REFINE_DEFAULTS.photo.fraction])];
+      return confirmedFromPrepared(entry, lock.selected.parameters, prepareRefined(entry, lock.selected.parameters, referee(), fractions), lock.selected.refine, centresNear(centres, entry.cropped.grid), field, lock.selected.fuse);
+    };
+  }
   if (roundConfig.detector === 'refined') {
     return w => {
       const entry = entries.get(w.id);
@@ -699,12 +807,14 @@ export function gateReport(ctx) {
   const file = benchmarkPathOf(ctx, ctx.round.id);
   const benchmark = JSON.parse(fs.readFileSync(file, 'utf8'));
   const benchmarkSha256 = sha(file);
-  const gate = evaluateGate(benchmark, ctx.round);
+  /* a round whose selection published an earlier round's lock is gated on that detector, scored on this round's sample */
+  const published = ctx.round.publishes ? ctx.config.rounds.find(r => r.id === ctx.round.publishes) : null;
+  const gate = evaluateGate(benchmark, published ? { ...ctx.round, methodName: published.comparedAs || published.methodName } : ctx.round);
   const exception = gate.status === 'PASS' ? null : ownerExceptionFor(ctx.config, gate, benchmarkSha256);
   const verdict = publicationVerdict(gate, exception);
   const stale = gate.status === 'PASS' || exception ? [] : staleExceptions(ctx.config, gate, benchmarkSha256);
   const pending = gate.status === 'PASS' || exception ? null : pendingApprovalFor(ctx.config, gate, benchmarkSha256);
-  return { gate, verdict, pending, benchmark: { path: ctx.rel(file), sha256: benchmarkSha256 }, staleExceptions: stale, recallBy: benchmark.results[ctx.round.methodName]?.[ctx.round.evaluationRole]?.recallBy ?? null };
+  return { gate, verdict, pending, benchmark: { path: ctx.rel(file), sha256: benchmarkSha256 }, staleExceptions: stale, recallBy: benchmark.results[gate.method]?.[ctx.round.evaluationRole]?.recallBy ?? null };
 }
 
 export async function run(ctx, options) {
@@ -719,7 +829,7 @@ export async function run(ctx, options) {
     if (step === 'tune') {
       assertHeldOutUnseen({ action: 'tune', existing: readJsonIf(benchmarkPath), roundId: ctx.round.id });
       const reference = loadReference(ctx);
-      const lock = ctx.round.detector === 'refined' ? tuneRefined(ctx, reference) : ctx.round.detector === 'typed' ? tuneTyped(ctx, reference) : tuneV2(ctx, reference);
+      const lock = ctx.round.detector === 'fused' ? tuneFused(ctx, reference) : ctx.round.detector === 'refined' ? tuneRefined(ctx, reference) : ctx.round.detector === 'typed' ? tuneTyped(ctx, reference) : tuneV2(ctx, reference);
       fs.writeFileSync(lockPath, JSON.stringify(lock, null, 2) + '\n');
       writeReceipt(ctx, 'benchmark-tune', { inputs: [ctx.reviewFile(ctx.sampleFile('reference-lock')), path.join(ctx.paths.rasters, 'chm-pitfree-050.bin')], outputs: [lockPath], perRound: true, result: { detector: ctx.round.detector, calibration: lock.selected.calibration } });
       messages.push(`tuned ${ctx.round.detector} on calibration windows only: ${JSON.stringify(lock.selected.calibration)}`);
@@ -763,7 +873,7 @@ export async function run(ctx, options) {
     } else if (step === 'gate') {
       const report = gateReport(ctx);
       const m = report.gate.measured;
-      const line = `HELD-OUT GATE ${report.gate.status} (round ${ctx.round.id}, ${ctx.round.methodName} on ${ctx.round.evaluationRole}): ${m ? `P ${m.precision} R ${m.recall} over ${m.scored} scored crowns (TP ${m.tp}, miss ${m.missed}, extra ${m.extra})` : 'no score'}; thresholds P >= ${HELD_OUT_GATE.precision}, R >= ${HELD_OUT_GATE.recall}, >= ${HELD_OUT_GATE.minimumScoredCrowns} crowns`;
+      const line = `HELD-OUT GATE ${report.gate.status} (round ${ctx.round.id}, ${report.gate.method} on ${ctx.round.evaluationRole}): ${m ? `P ${m.precision} R ${m.recall} over ${m.scored} scored crowns (TP ${m.tp}, miss ${m.missed}, extra ${m.extra})` : 'no score'}; thresholds P >= ${HELD_OUT_GATE.precision}, R >= ${HELD_OUT_GATE.recall}, >= ${HELD_OUT_GATE.minimumScoredCrowns} crowns`;
       messages.push(line);
       if (report.recallBy) messages.push(`recall by stratum: ${Object.entries(report.recallBy).map(([k, v]) => `${k} ${v.tp}/${v.tp + v.missed}`).join(', ')}`);
       if (report.gate.status === 'FAIL') {

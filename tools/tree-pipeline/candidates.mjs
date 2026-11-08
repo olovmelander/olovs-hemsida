@@ -44,7 +44,11 @@ import { createGroundHeightLookup } from '../../packages/course-v2/vegetation/gr
 import { courseExclusionFeatures, rasterizeExclusions } from '../../packages/course-v2/vegetation/semantic-exclusions.mjs';
 import { parseTreeId, treeId } from '../../packages/course-v2/vegetation/registry-identity.mjs';
 import { crownOutlines, crownReturnMetrics, detectTreesTyped, detectTreesV2, matchOneToOne, typeMapFromPhoto } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
-import { detectTreesRefined } from './tree-refine.mjs';
+import { REFINE_DEFAULTS, detectTreesRefined, overSegmentedTops, suppressedTops } from './tree-refine.mjs';
+import { smoothChm } from '../../packages/course-v2/vegetation/pit-free-chm.mjs';
+import { detectTreesFused, loadPhotoCrowns, photoCentres } from './photo-fusion.mjs';
+import { crownsFile, photoRecordPath } from './photo-detect.mjs';
+import crypto from 'node:crypto';
 import { refereeFor, refereeInputs, subtypeRulePath } from './benchmark.mjs';
 import { crownSubtypeFeatures, packPixel, subtypeCall } from './subtype.mjs';
 import { openCampaignPacks } from './panels.mjs';
@@ -88,7 +92,8 @@ export function buildCandidates(ctx) {
   const W = ctx.innerWindow;
   const inInner = (e, n) => e >= W.minEasting && e < W.maxEasting && n >= W.minNorthing && n < W.maxNorthing;
   const { broadleafMaximumAprilShare: BROADLEAF_MAXIMUM_APRIL_SHARE, unknownBelowConfidence } = ctx.config.typeRule;
-  const lockPath = ctx.reviewFile(ctx.sampleFile('detector-lock'));
+  /* the published detector: the round's own lock, or the earlier lock its selection chose (round.publishes) */
+  const lockPath = ctx.reviewFile(ctx.sampleFile('detector-lock', 'json', ctx.round.publishes || ctx.round.id));
   const typeRulePath = ctx.reviewFile(ctx.sampleFile('type-rule', 'json', ctx.config.typeRule.round));
   const lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
   const typeRule = JSON.parse(fs.readFileSync(typeRulePath, 'utf8'));
@@ -103,12 +108,25 @@ export function buildCandidates(ctx) {
      refereed by the laser apex and the photos (tree-refine.mjs) */
   const refined = Boolean(lock.selected?.refine);
   const typeMapEarly = typed ? typeMapFromPhoto(grid, chm.values, m21early, lock.selected.parameters.type).type : null;
-  const detected = refined
+  /* a fused lock (round 4): the refined detector, then the suppressed tops a
+     learned photo crown confirms (photo-fusion.mjs) */
+  const fused = Boolean(lock.selected?.fuse);
+  const fusedPhoto = () => {
+    const record = JSON.parse(fs.readFileSync(photoRecordPath(ctx), 'utf8'));
+    const file = crownsFile(ctx, lock.selected.photo.source, 'all');
+    const digest = crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+    if (digest !== lock.selected.photo.allCrownsSha256 || record.sources[lock.selected.photo.source].all.sha256 !== digest) throw new Error(`${ctx.rel(file)} is not the photo crowns the fused lock names`);
+    const relief = JSON.parse(fs.readFileSync(ctx.reviewFile('relief-displacement.json'), 'utf8'));
+    return { centres: photoCentres(loadPhotoCrowns(file).crowns), field: relief.campaigns[ctx.presence.key].field };
+  };
+  const detected = fused
+    ? (() => { const photo = fusedPhoto(); return detectTreesFused(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine), photo.centres, photo.field, lock.selected.fuse, { smoothChmFn: smoothChm, overSegmentedTops, suppressedTops, REFINE_DEFAULTS }); })()
+    : refined
     ? detectTreesRefined(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine))
     : typed
       ? detectTreesTyped(grid, chm.values, typeMapEarly, lock.selected.parameters)
       : detectTreesV2(grid, chm.values, { parameters: lock.selected.parameters });
-  if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered`);
+  if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered${fused ? `, ${detected.confirmed} confirmed by a photo crown` : ''}`);
   const position = c => (typed ? c.position : lock.selected.position === 'centroid' ? c.centroid : c.apex);
   const positionWord = typed ? 'per-type position (conifer and broadleaf: crown centroid)' : lock.selected.position;
   /* owned by the inner window as the table records it (2 decimals): a crown
@@ -609,7 +627,7 @@ export function typeCheck(ctx, full, summaryPath) {
 }
 
 export async function run(ctx) {
-  for (const [what, file] of [['detector lock', ctx.reviewFile(ctx.sampleFile('detector-lock'))], ['type rule', ctx.reviewFile(ctx.sampleFile('type-rule', 'json', ctx.config.typeRule.round))], ['frozen reference', ctx.reviewFile(ctx.sampleFile('reference', 'geojson'))]]) {
+  for (const [what, file] of [['detector lock', ctx.reviewFile(ctx.sampleFile('detector-lock', 'json', ctx.round.publishes || ctx.round.id))], ['type rule', ctx.reviewFile(ctx.sampleFile('type-rule', 'json', ctx.config.typeRule.round))], ['frozen reference', ctx.reviewFile(ctx.sampleFile('reference', 'geojson'))]]) {
     if (!fs.existsSync(file)) return { status: 'stop', message: `no ${what} (${ctx.rel(file)}): run the reference and benchmark stages first` };
   }
   const built = await buildCandidates(ctx);

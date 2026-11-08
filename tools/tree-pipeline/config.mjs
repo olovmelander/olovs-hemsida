@@ -16,18 +16,19 @@
    write another without touching the first.                                 */
 import fs from 'node:fs';
 import path from 'node:path';
+import { photoDetectProblems } from './photo-detect.mjs';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 export const CONFIG_KIND = 'banvy-tree-pipeline-ground';
-export const DETECTORS = Object.freeze(['v2', 'typed', 'refined']);
+export const DETECTORS = Object.freeze(['v2', 'typed', 'refined', 'fused']);
 export const configPath = groundId => `course-workflows/${groundId}/trees.json`;
 
 const ID = /^[a-z0-9][a-z0-9-]*$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const TOP_KEYS = ['$comment', 'schemaVersion', 'kind', 'groundId', 'courseSlugs', 'provider', 'reviewId', 'reviewDir', 'cacheDir', 'geometryDir',
   'window', 'laser', 'orthophotos', 'registration', 'published', 'playZone', 'rounds', 'activeRound', 'typeRule', 'holds', 'review',
-  'publication', 'ownerExceptions', 'pendingOwnerApprovals', 'ownerDecisions'];
+  'publication', 'ownerExceptions', 'pendingOwnerApprovals', 'ownerDecisions', 'photoDetect'];
 
 class ConfigProblems {
   constructor() { this.list = []; }
@@ -156,7 +157,9 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
   const roundIds = [];
   rounds.forEach((r, i) => {
     const label = `rounds[${i}]`;
-    if (!keys(p, r, ['id', 'sampleSuffix', 'detector', 'startFrom', 'methodName', 'comparedAs', 'roles', 'evaluationRole', 'note'], label)) return;
+    if (!keys(p, r, ['id', 'sampleSuffix', 'detector', 'startFrom', 'methodName', 'comparedAs', 'roles', 'evaluationRole', 'note', 'publishes'], label)) return;
+    /* publishes: the earlier round whose lock this round's pre-declared selection chose (scored on this round's sample) */
+    if (r.publishes !== undefined) p.check(roundIds.includes(r.publishes), `${label}.publishes must name an earlier round`);
     p.check(typeof r.id === 'string' && ID.test(r.id) && !roundIds.includes(r.id), `${label}.id must be a unique id`);
     p.check(typeof r.sampleSuffix === 'string' && /^(-[a-z0-9]+)?$/.test(r.sampleSuffix) && !rounds.slice(0, i).some(o => o.sampleSuffix === r.sampleSuffix),
       `${label}.sampleSuffix must be '' or -<word>, unique per round`);
@@ -164,7 +167,8 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     if (r.startFrom !== undefined && r.startFrom !== null) {
       p.check(roundIds.includes(r.startFrom), `${label}.startFrom must name an earlier round`);
       const from = rounds.find(o => o.id === r.startFrom);
-      if (from && r.detector === 'refined') p.check(from.detector === 'typed', `${label}.startFrom must be a typed round (a refined round keeps its typed settings and searches only the recovery)`);
+      if (from && r.detector === 'fused') p.check(from.detector === 'refined', `${label}.startFrom must be a refined round (a fused round keeps its laser lock and adds the photo crown detector)`);
+      else if (from && r.detector === 'refined') p.check(from.detector === 'typed', `${label}.startFrom must be a typed round (a refined round keeps its typed settings and searches only the recovery)`);
       else if (from) p.check(from.detector === 'v2', `${label}.startFrom must be a v2 round (its lock seeds the typed descent)`);
     }
     p.check(typeof r.methodName === 'string' && r.methodName.length > 0, `${label}.methodName must name the round's detector in its benchmark`);
@@ -173,6 +177,8 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     roundIds.push(r.id);
   });
   p.check(roundIds.includes(config.activeRound), 'activeRound must name a declared round');
+  for (const problem of photoDetectProblems(config)) p.check(false, problem);
+  for (const r of rounds.filter(o => o.detector === 'fused')) p.check(Boolean(config.photoDetect?.rounds?.includes(r.id)), `round ${r.id} is fused: photoDetect.rounds must name it`);
 
   if (keys(p, config.typeRule, ['round', 'broadleafMaximumAprilShare', 'unknownBelowConfidence', 'note'], 'typeRule')) {
     const t = config.typeRule;

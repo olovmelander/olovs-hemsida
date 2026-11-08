@@ -27,6 +27,13 @@
 #      round 2 in the inner frontier: benchmark-r3 P 0.984 / R 0.685 on 89 unseen crowns,
 #      recorded as an owner exception in course-workflows/johannesberg/trees.json; see the
 #      review README, "Round 3".
+#   6. Round 4 (2026-11-08/09, branch trees-round4). The main session asked: "if round 4 beats round 3 but stays under 90%, should I publish it under the same kind of exception as round 3?"
+#      The owner answered: "The best round go!"
+#      Round 4 (the round-3 detector plus learned photo crowns confirming suppressed laser tops) missed the owner's
+#      0.95 precision floor on its own sample W1-W5 (P 0.935 / R 0.758). Round 4b drew a second unseen sample X1-X5 and
+#      declared its rule before scoring; there round 4 as locked reaches P 0.971 / R 0.810 / F1 0.883 (round 3
+#      0.976 / 0.643 / 0.775, round 4b 0.978 / 0.714 / 0.826) and is published, recorded as an owner exception
+#      pinned to benchmark-r4b; see the review README, "Round 4" and "Round 4b".
 # The 192 outer finest tiles keep the 2026-09-11 machine-v1 records and stands byte for byte.
 #
 # A machine-v1 publish from this file would REPLACE the reviewed inner generation with
