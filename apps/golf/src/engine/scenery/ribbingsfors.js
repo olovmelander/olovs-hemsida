@@ -34,6 +34,15 @@ export const clubhouse = {
    the clubhouse's fallback. */
 import facilitiesManifest from '../../../public/models/ribbingsfors/facilities-v1.json';
 import { withinRing } from '../geom.js';
+import roofColours from './ribbingsfors-roof-colours.json' with { type: 'json' };
+
+/* The houses on Ribbingsfors' ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The facility asset's own buildings keep their models.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0) unless this module states it; the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
 
 /* Roof footprints of the NEW structures exclude display vegetation; the mats,
    dividers and picnic table must never clear a woodland. Replaced source

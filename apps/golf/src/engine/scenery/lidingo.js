@@ -1,5 +1,15 @@
 import { buildingArchitecture, courtyardArchitecture } from './lidingo-architecture.js';
 import { createPracticeSurfaceFeatures, isPracticeSurfaceInterior } from './lidingo-practice-surfaces.mjs';
+import roofColours from './lidingo-roof-colours.json' with { type: 'json' };
+
+/* The houses on Lidingö's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The ground is mapped-only: no porch, balcony or chimney is guessed onto a mapped wall, and the
+   measured roofs keep their own architecture.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0) unless this module states it; the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
 
 // Use the retained canopy raster for floor appearance; maintained surfaces win.
 export const canopyFloor = true;

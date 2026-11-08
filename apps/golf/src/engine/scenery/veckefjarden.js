@@ -9,10 +9,18 @@
    L() converts an sRGB literal into the linear working space, and stats is the
    draw counter the harness reads back.                                       */
 import { hash2 } from '../geom.js';
+import roofColours from './veckefjarden-roof-colours.json' with { type: 'json' };
 export { loadFacilities, facilityFootprints, isFacilityInterior } from './veckefjarden-facilities.mjs';
 export { loadLandmarks, isReplacedLandmarkBox, isReplacedLandmarkRail, isLandmarkTreeObstruction } from './veckefjarden-landmarks.mjs';
 export const loadFacilitiesBeforeSurfaces = true;
 export const replacesRangeFacilities = true;
+/* The houses in the course's own extract are drawn with the house kit (engine/house-kit.mjs,
+   8 November): a plinth, eaves and gables, and windows, doors, porches and chimneys modelled
+   in Blender, laid on each mapped footprint. The town beyond the extract keeps its boxes. */
+export const houseKit = true;
+/* Each mapped roof's colour, read off Lantmäteriet's 2024 orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0). An orthophoto cannot see a wall, so the walls keep the palette. */
+export { roofColours };
 
 /* The island 14th is armoured in granite riprap -- the collar of pale boulders at
    the waterline is the first thing every photograph of the hole leads with, and

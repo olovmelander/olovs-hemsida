@@ -2,6 +2,42 @@ import { renderReviewedClubhouse, renderReviewedFacilities } from './norrfallsvi
 import { authoredSiteHeights } from './norrfallsviken-facilities.mjs';
 import { isReviewedRangeFeature, prepareRangeScenery, renderRangeDetails } from './norrfallsviken-range.mjs';
 export { loadFacilities, facilityFootprints, isFacilityInterior, isFacilityTreeObstruction, architectureStatus } from './norrfallsviken-facilities.mjs';
+import roofColours from './norrfallsviken-roof-colours.json' with { type: 'json' };
+
+/* The houses on Norrfällsviken's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The club's reviewed facilities and the chapel keep their own drawing.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0) unless this module states it; the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
+/* What this ground knows of single buildings, where the kit's guess was wrong (engine/house-kit.mjs
+   houseKitBuildings; owner request, 8 November: "this is the hotel at norrfällsviken, not the big white
+   building we currently show").
+
+   Norrfällsvikens hotell (Norrfällsvikens Rum & Kök, Lostigen 12): OSM w1206117854, tagged only as a
+   restaurant, which the kit drew as a white block of flats. It is one storey of falu-red wood with white
+   trim (the owner, from the press and booking photographs, 8 November) under orange-red tiled gable roofs:
+   three wings in a U round the pool, the west and east wings north-south, the middle one at about 28
+   degrees, joined at the north-east by a short link. The wings are traced off Lantmäteriet's 2024
+   orthophoto (o69875_6775_25_mr24, 16 cm; Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0) in this course's
+   metres: their ridges' ends and their widths wall to wall. The OSM footprint sits 2-5 m south-west of the
+   roofs, so the hotel is drawn where the photograph shows it; the footprint stays the data the rest reads.
+   The glazed lean-tos along the west wing's outer side and the east wing's courtyard side are the white
+   verandas in the photographs, and the reception's white gabled porch faces the car park. */
+export const houseKitBuildings = {
+  w1206117854: {
+    type: 'villa', storeys: 1, pitch: 27, wall: 0xb44830, roof: 0xa04a36, trim: 0xf0ead7,
+    wings: [
+      { from: [-592.6, 443.5], to: [-594.6, 480.0], width: 8.2 },
+      { from: [-542.9, 439.0], to: [-545.0, 476.6], width: 8.45 },
+      { from: [-593.6, 462.5], to: [-551.5, 442.2], width: 8.4, ends: [false, false] },
+      { from: [-554.7, 442.3], to: [-543.2, 443.0], width: 8.2, ends: [true, false] },
+    ],
+    entrance: [-584.9, 454.3],
+    verandas: [{ from: [-598.0, 460.2], to: [-598.9, 475.4] }, { from: [-548.8, 461.3], to: [-549.7, 476.5] }],
+  },
+};
 export const renderClubhouse = renderReviewedClubhouse;
 
 /* THE DRIVING RANGE, read off the 2024 orthophoto and the club's 2025 range

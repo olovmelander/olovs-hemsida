@@ -34,6 +34,8 @@ export function preparedTintAllowed(search) {
     'glowthreshold', 'cloudglow',
     // nor do the buildings batch's: a wall's foot and a roof's ridge are drawn
     'wallbase', 'roofridge',
+    // nor does the house kit: the houses' shells, their Blender parts and their measured roofs are drawn
+    'houses', 'roofs', 'houseparts',
     // nor do the water road pass's: the sun's road, the water's mirror, the waves' relief and the open sea are drawn
     'waterroad', 'watermirror', 'waterrelief', 'opensea',
     // nor do the water from above's: the water's cloud shade and its patches seen from above are drawn

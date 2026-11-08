@@ -384,6 +384,39 @@ land cover's WATER class is a colour verdict: never paint from it. See
   take a lighter, lower foot through `groundModel`, which keeps their colours,
   leaves self-painting materials alone and gives shared geometry its own copy.
   Stamp a new building mesh the same way. See [the buildings batch](docs/visual-buildings-2026-09-25.md).
+- Every course's houses but Johannesberg's, in their own extract (a surroundings
+  record's `inner` box, else the whole pack), are drawn with the house kit (`house-kit.mjs`, owner request, 8 November).
+  Each footprint gets a shell in the batch: a plinth, a thick roof with eaves,
+  barge boards and gutters, and a cross gable on an L. The Blender-modelled
+  parts are instanced on its walls (`tools/blender-props/house_kit.py`, published
+  by `publish-house-kit.mjs`; one draw per part and channel; tint and ground per
+  instance, never an instance colour, which would tint the snow).
+  - Roofs take Lantmäteriet's orthophoto colour
+    (`geobuild/facilities/roof-colours.py`, CC BY 4.0, eased by `roofAlbedo`),
+    tied to each footprint by `ringCheck`. The player imports only the compact
+    `[index, ringCheck, colour]` file; the review record lives in
+    `geobuild/facilities/roof-colours/`.
+  - Walls keep the palette: an orthophoto cannot see them.
+  - Within `PARTS_REACH` (800 m of a hole line, as the trees' bands measure)
+    a house takes every part as modelled; further out, and on every house at low
+    quality, its windows and doors are the kit's flat plates (`FAR_PART`). Never a
+    distance ladder. A porch or canopy gives way to a measured trunk in its strip
+    (`clearOfTrees`).
+  - A course opts in with `houseKit` and `roofColours` on its scenery module
+    (`roof-colours.py --course <slug>`: the pack's own frame, the ground's flights
+    from its discovery records, one registration shift per course). Johannesberg
+    waits (owner request).
+  - A pack that calls every building `house` (`genericHouseTag`) is typed by
+    size, shape (a barn is deep) and land use.
+  - A mapped-only ground (Upsala) takes no porch, balcony, chimney or canopy
+    (`MAPPED_ONLY_LEAVES`); a church keeps the batch's drawing.
+  - Where the kit guesses wrong, a course states the building
+    (`houseKitBuildings` by id: type, storeys, colours, wings traced off the
+    orthophoto, an entrance, verandas) and it is drawn from its wings as a display
+    revision; Norrfällsviken's hotel is the first.
+  - `?houses=before`, `?roofs=palette` and `?houseparts=all` are the befores.
+
+  See [the houses](docs/visual-houses-2026-11-08.md).
 
 - Three techniques come from serenity-blocks (same three/TSL stack): the sun's
   shadow is read through a fixed grid of compares (`sun-shadow.mjs`, nine taps
