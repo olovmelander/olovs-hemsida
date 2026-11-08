@@ -45,9 +45,17 @@ const COURSE_TILT = 0.72;
    differ in how far the camera leans: the hole as a map, the golfer's own eye behind
    the ball, and straight down. */
 const QUICK_VIEWS = Object.freeze({ hole: { tilt: 0.9 }, behind: { tilt: 1.24 }, above: { tilt: 0.06 }, eye: { tilt: 1.5 } });
+/* How far the trees stand: twelve times the camera's distance, at most 12 km, and
+   9 km from Min vy, about where the air has taken the ground (owner request,
+   8 November: the woods ended a kilometre or two out). Past the 1 m tiles they are
+   the far wood (map-far-forest.mjs). ?treereach=before is 2.4 times, 6 km and 3 km,
+   with the budgets as they were. */
+const TREE_REACH_BEFORE = params.get('treereach') === 'before';
+const TREE_REACH = TREE_REACH_BEFORE
+  ? Object.freeze({ perDistance: 2.4, most: 6000, eye: 3000 })
+  : Object.freeze({ perDistance: 12, most: 12000, eye: 9000 });
 /* Min vy: standing at the ball, at a golfer's height, on the ground as it really is.
    The relief is drawn at its true height here: raised, a gentle rise becomes a wall. */
-const TREE_REACH_PER_DISTANCE = 2.4, MOST_TREE_REACH_METRES = 6000, EYE_TREE_REACH_METRES = 3000;
 const EYE_HEIGHT_METRES = 1.8, EYE_LOOK_METRES = 120, EYE_PITCH = 0.04, EYE_PITCH_LIMIT = 0.5;
 const VIEW_KEY = 'banvy-map-view-v1';
 const EYE_FOG_METRES = 700;
@@ -56,12 +64,18 @@ const GREEN_TILT = 0.89;
 const RELIEF_STEPS = [1, 1.5, 2, 3];
 /* What a device that cannot hold the pace gives up, in order: distant trees first,
    then sharpness. A map that moves smoothly is worth more than one that is sharp
-   and stutters. A step down is remembered, so the next round starts there. */
-const QUALITY_STEPS = Object.freeze([
-  { trees: 20000, pixelRatio: 2 },
-  { trees: 12000, pixelRatio: 2 },
-  { trees: 5000, pixelRatio: 1.6 },
-  { trees: 2500, pixelRatio: 1.3 },
+   and stutters. A step down is remembered, so the next round starts there. Each step
+   draws fewer trees and stands them less far (`reach`, a share of TREE_REACH). */
+const QUALITY_STEPS = Object.freeze(TREE_REACH_BEFORE ? [
+  { trees: 20000, reach: 1, pixelRatio: 2 },
+  { trees: 12000, reach: 1, pixelRatio: 2 },
+  { trees: 5000, reach: 1, pixelRatio: 1.6 },
+  { trees: 2500, reach: 1, pixelRatio: 1.3 },
+] : [
+  { trees: 40000, reach: 1, pixelRatio: 2 },
+  { trees: 20000, reach: 0.6, pixelRatio: 2 },
+  { trees: 6000, reach: 0.4, pixelRatio: 1.6 },
+  { trees: 3000, reach: 0.25, pixelRatio: 1.3 },
 ]);
 const QUALITY_KEY = 'banvy-map-quality-v1';
 const SLOW_FRAME_MS = 36, PACE_SAMPLES = 24;
@@ -495,6 +509,9 @@ async function start() {
     painter,
     rules,
     structures: course.features.structures,
+    /* The wood past the 1 m tiles (map-far-forest.mjs); ?farforest=0 is the before. */
+    farForest: land && !TREE_REACH_BEFORE && params.get('farforest') !== '0'
+      ? { land, buildings: course.features.farBuildings, lines: [...course.features.roads, ...course.features.railways] } : null,
     onChange: invalidate,
   });
 
@@ -2283,9 +2300,12 @@ async function start() {
          are too gentle to read at that size. */
       const wide = clamp(Math.log2(distance / 350) / 3, 0, 1);
       const blend = (near, far) => near + (far - near) * wide;
-      /* A tree still reads well past where the 1 m ground ends, so it stands as far as a
-         wide view of a hole reaches. Beyond that the painted canopy takes over. */
-      const treeReach = state.atEye ? EYE_TREE_REACH_METRES : clamp(distance * TREE_REACH_PER_DISTANCE, pixelsPerRadian * pixelRatio() / 2.6, MOST_TREE_REACH_METRES);
+      /* A tree still reads far past where the 1 m ground ends, so it stands about as far
+         as the air lets the ground be seen. Beyond that the painted canopy takes over. */
+      const step = QUALITY_STEPS[state.quality];
+      const treeReach = step.reach * (state.atEye ? TREE_REACH.eye
+        : clamp(distance * TREE_REACH.perDistance, pixelsPerRadian * pixelRatio() / 2.6, TREE_REACH.most));
+      state.stats.treeReach = treeReach;
       const forest = store.forest({ planes, eye, reach: treeReach, exaggeration: state.exaggeration });
       /* A low sun throws the land's own shadow, tile by tile, nearest first. */
       const lowSun = state.light.sun[1] < SHADE_BELOW_SUN && params.get('hillshade') !== '0';
@@ -2311,7 +2331,7 @@ async function start() {
         shading: [blend(-0.24, -0.36), blend(0.18, 0.26), blend(0.1, 0.14), blend(0.08, 0.14)],
         treeFade: [treeReach * 0.8, treeReach],
         forest,
-        treeBudget: QUALITY_STEPS[state.quality].trees,
+        treeBudget: step.trees,
         /* From the ground the air starts well out, whatever the map's own reach. */
         fog: state.atEye ? [EYE_FOG_METRES, 9000] : [distance * 2.2, Math.max(distance * 14, 9000)],
         /* The greengrid reads the green by itself, as it does in the simulator. */
