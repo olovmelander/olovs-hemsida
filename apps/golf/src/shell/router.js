@@ -59,6 +59,16 @@ export function detailedUrl(slug) {
   return `?bana=${encodeURIComponent(slug)}&karta=0`;
 }
 
+/* Spela: the detailed course as a game (apps/golf/src/play) */
+export function playUrl(slug) {
+  return `${detailedUrl(slug)}&spela=1`;
+}
+
+/* Återupplev: a round the map kept, replayed on the detailed course */
+export function reliveUrl(slug, roundId) {
+  return `${detailedUrl(slug)}&aterupplev=${encodeURIComponent(roundId)}`;
+}
+
 /* The start menu's settings ride along where the running link says nothing:
    the next course opens in the light and view the player chose there. */
 export function goToCourse(slug) {

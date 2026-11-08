@@ -12146,6 +12146,8 @@ function updateFrameVisibility(now, dt) {
 }
 
 let courseGolfer = null;
+/* Spela and Återupplev (apps/golf/src/play), mounted at the end of this file */
+let playMode = null;
 function frame() {
   const now = performance.now(), dt = Math.min(0.1, (now - last) / 1000);
   /* a 30 fps cap's idle time is not slowness: the resolution holds still under it */
@@ -12156,6 +12158,7 @@ function frame() {
   /* winter's bare broadleaves, once the boot's compiles are done (applyBareTrees) */
   if (WINTER.rebake && BOOT_PERF.doneAtMs > 0) applyBareTrees();
   if (__GOLFER_LAB__) courseGolfer?.update(dt);
+  playMode?.update(dt);
   if (!GRAPHICS_POLISH) updateFrameVisibility(now, dt);
 
   if (camTween.on) {
@@ -12202,7 +12205,8 @@ function frame() {
   }
   poseFlagCloths(dt);
   stepOneAir(dt);
-  if (flying === 0) {
+  /* a game in play owns the camera: it follows the ball itself and keeps it above the ground */
+  if (flying === 0 && !playMode?.ownsCamera) {
     controls.update();
     /* never underground, and never so close to it that the near plane clips through -- eased, see groundClamp */
     groundClamp.step(camera.position, dt);
@@ -13400,6 +13404,35 @@ if (__GOLFER_LAB__ && new URLSearchParams(location.search).get('golfer') === '1'
       getGreen: () => HOLES[hole - 1].green.c, getHole: () => hole, kindAt: kikKindAt });
     window.BANVY_GOLFER = courseGolfer;
   }).catch(error => { console.error('Golfer preview:', error); toast('Golfaren kunde inte laddas.', 6000); });
+}
+
+/* Spela (?spela=1) plays the course as a game; Återupplev (?aterupplev=<round>)
+   replays a round recorded with the map. Both live in apps/golf/src/play,
+   outside the hashed runtime: this handle is everything they read or drive here,
+   so the game can grow without expiring the prepared startup data again. */
+{
+  const query = new URLSearchParams(location.search);
+  if (query.get('spela') === '1' || query.has('aterupplev')) {
+    import('./play/play-mode.mjs').then(async ({ mountPlay }) => {
+      playMode = await mountPlay({
+        scene, camera, controls, renderer, slug: rawBana, courseName: CMETA.name,
+        /* the ground the map records shots in (map/map-frames.mjs carries them into this course's frame) */
+        ground: V2_SELECTION.graph ? { groundId: V2_SELECTION.graph.groundId, frame: V2_SELECTION.graph.ground.frame } : null,
+        holes: HOLES, hole: () => hole, tee: () => teeIdx, goHole,
+        heightAt: renderedGroundH, lieAt: kikLie, classify,
+        cups: () => FURN.cups,
+        trees: () => ({ lists: trees, species: SPECIES.map(s => ({ height: s.templateHeight, radius: s.templateRadius })) }),
+        boundaries: () => [...(M.marking || []).filter(m => m.c === 'w').map(m => m.pts), ...(M.outOfBounds?.lines || []).map(l => l.line)],
+        wind: () => ({ x: AIR.x, z: AIR.z, fromDeg: FLAG_WIND.fromDeg, ms: FLAG_WIND.ms }),
+        bag: () => playerBag,
+        releaseCamera: () => { if (tour) endTour({ preserveView: true }); stopFlight({ preserveView: true }); camTween.on = false; },
+        /* the course's own aids step aside for a game (not saved: the player's preferences stay theirs) */
+        quietCourse: () => { strategyOn = false; if (strategyGroup) strategyGroup.visible = false; if (kik) setKik(false, true); },
+        setClean, toast, groundHit,
+      });
+      window.BANVY_PLAY = playMode;
+    }).catch(error => { console.error('Spela:', error); toast('Spelläget kunde inte starta.', 6000); });
+  }
 }
 
 /* The same ten seconds, the other way round: a visit that is only in LOWQ

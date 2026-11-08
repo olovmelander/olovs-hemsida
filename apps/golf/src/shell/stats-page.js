@@ -24,6 +24,7 @@ import { clubAssetKey, clubIcon } from '../engine/club-design.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { parseHistory } from '../map/map-shots.mjs';
 import { BAG_KEY, MAP_KEYS, readText } from './settings-store.mjs';
+import { reliveUrl } from './router.js';
 import { exampleData, kindOf, PERIODS, playerStats, SCORE_KINDS } from './stats-model.mjs';
 
 const BASE = import.meta.env.BASE_URL;
@@ -499,6 +500,8 @@ export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
               <div class="sr-card">${record ? `${scorecard(record)}<div class="sr-actions">
                 <button type="button" class="st-ghost sr-share" data-share-round="${esc(`${record.course}|${record.id}`)}">Dela rundan som bild</button>
                 ${onCourse && courses.some(c => c.slug === record.course) ? `<button type="button" class="st-ghost" data-play-course="${esc(record.course)}">Spela banan igen <span aria-hidden="true">→</span></button>` : ''}
+                ${!state.example && courses.some(c => c.slug === record.course) && data.shots.some(s => s.course === record.course && s.round === record.id && Array.isArray(s.from))
+                  ? `<a class="st-ghost" href="${import.meta.env.BASE_URL}${reliveUrl(record.course, record.id)}">Återupplev i 3D <span aria-hidden="true">→</span></a>` : ''}
               </div>` : ''}</div>
             </details>`;
           }).join('')}</div>

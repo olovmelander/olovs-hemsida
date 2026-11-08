@@ -14,10 +14,15 @@ async function files(directory, prefix = '') {
   return result;
 }
 const normalFiles = await files(production), labFiles = await files(lab);
-assert.deepEqual(normalFiles.filter(path => /golfer/i.test(path)), [], 'Normal build must omit the studio and all golfer assets/chunks');
+/* Since Spela (apps/golf/src/play, 8 November) a normal build publishes the four
+   golfer files, loaded only when a game starts; the studio and the lab's own
+   course mount (?golfer=1) stay out of it. */
+const MODELS = ['golfer.json', 'golfer-male.json', 'banvy-golfer.glb', 'banvy-golfer-male.glb'].map(n => `models/golfer/${n}`);
+assert.deepEqual(normalFiles.filter(path => /^models\/golfer\//.test(path)).sort(), [...MODELS].sort(), 'Normal build publishes exactly the four golfer files for Spela');
+assert(!normalFiles.includes('golfer-study.html'), 'Normal build must omit the studio');
 for (const path of normalFiles.filter(path => /\.(js|html)$/.test(path))) {
   const source = await readFile(`${production}/${path}`, 'utf8');
-  assert(!/BANVY_GOLFER|banvy-golfer|\/models\/golfer\/|Golfer preview/.test(source), `${path}: golfer code must be compiled out`);
+  assert(!/BANVY_GOLFER|Golfer preview|golfer-course/.test(source), `${path}: the lab's course mount must be compiled out`);
 }
 assert(labFiles.includes('golfer-study.html'));
 assert(!labFiles.includes('sw.js') && !labFiles.includes('registerSW.js'), 'The lab must not install a service worker');
@@ -26,7 +31,7 @@ for (const name of ['golfer.json', 'golfer-male.json', 'banvy-golfer.glb', 'banv
   const source = await readFile(`experiments/golfer/assets/${name}`);
   assert.deepEqual(await readFile(`${lab}/models/golfer/${name}`), source, `${name}: lab build must preserve the export`);
   hashes[name] = createHash('sha256').update(source).digest('hex');
-  assert.equal((await fetch(`http://127.0.0.1:5173/models/golfer/${name}`)).status, 404, `${name}: normal dev server must not expose the lab models`);
+  assert.equal((await fetch(`http://127.0.0.1:5173/models/golfer/${name}`)).status, 200, `${name}: the normal dev server serves the models Spela plays with`);
 }
 assert.equal((await fetch('http://127.0.0.1:5173/golfer-study.html')).status, 404);
 assert.equal((await fetch('http://127.0.0.1:5180/golfer-study.html')).status, 200);
@@ -44,7 +49,7 @@ try {
   await page.waitForFunction(() => window.V3D && document.querySelector('#boot')?.classList.contains('done'), undefined, { timeout:180000 });
   assert(await page.evaluate(() => !window.BANVY_GOLFER && !document.querySelector('.golfer-course')));
   assert.deepEqual(requests, []);assert.deepEqual(errors, []);
-  const report = { passed:true, verifiedAt:new Date().toISOString(), productionGolferFiles:0, productionGolferRequests:requests, productionPanel:false, oldQueryCannotEnableGolfer:true, labStudio:true, labServiceWorker:false, assetHashes:hashes, errors };
+  const report = { passed:true, verifiedAt:new Date().toISOString(), productionGolferFiles:MODELS.length, productionGolferFilesFor:'Spela, loaded only when a game starts', productionGolferRequests:requests, productionPanel:false, oldQueryCannotEnableGolfer:true, labStudio:true, labServiceWorker:false, assetHashes:hashes, errors };
   await writeFile('docs/graphics/golfer-2026-09-16/isolation-verification.json', JSON.stringify(report,null,2));
   console.log(JSON.stringify(report,null,2));
 } finally { await browser.close(); }

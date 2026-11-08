@@ -86,6 +86,8 @@ function fixture({ polish = true, graph = true, active = true, coordinateSystem 
        built with mode !== 'golfer', so false is what production runs -- which
        also means `courseGolfer` is never reached and needs no stub here. */
     __GOLFER_LAB__: false,
+    /* Spela and Återupplev (apps/golf/src/play): no game on, so the frame is the course's own */
+    playMode: null,
     cameraBreathing: createCameraBreathing(), cameraMotionPreference: { matches: true },
     cameraInteracting: false, camMode: 'orbit',
     TREE_LOD: { clockDriven: false, fadeClock: 0, fadeS: 0.3, queue: [], qHead: 0 },

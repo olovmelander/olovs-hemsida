@@ -9,7 +9,7 @@ import { DEFAULT_BAG, gpsToLocal, nearestHole, parseBag, recommendClub } from '.
 import { compassName as windCompass, fetchWeather, weatherWord } from '../engine/weather.js';
 import { isPhone } from '../shell/map-default.mjs';
 import { distanceText } from '../shell/nearest-course.mjs';
-import { detailedUrl, hubUrl } from '../shell/router.js';
+import { detailedUrl, hubUrl, playUrl, reliveUrl } from '../shell/router.js';
 import { MODES, rememberLaunch } from '../shell/settings-store.mjs';
 import { frustumPlanes, selectPatches } from './map-lod.mjs';
 import { createCamera, createFlight, EYE_FOV_DEGREES, MAX_DISTANCE, MAX_EYE_FOV_DEGREES, MAX_TILT, MIN_DISTANCE, MIN_EYE_FOV_DEGREES, MIN_TILT } from './map-camera.mjs';
@@ -240,6 +240,7 @@ root.innerHTML = `
       <button class="map-action map-action-next" data-round-new>Ny runda</button>
       <button class="map-action" data-round-share>Dela rundan</button>
       <a class="map-action" href="${hubUrl('statistik')}" data-round-stats>Se statistik</a>
+      <a class="map-action" data-round-relive hidden>Återupplev i 3D</a>
       <button class="map-action map-action-quiet" data-round-drop hidden>Ta bort rundan</button>
     </div>
   </section>
@@ -311,6 +312,7 @@ root.innerHTML = `
     <div class="map-actions">
       <button class="map-action" data-download>Spara banan</button>
       <button class="map-action" data-diary>Spara provrundans logg</button>
+      <a class="map-action" data-play>Spela banan</a>
       <a class="map-action" data-full>Detaljerad 3D</a>
       <a class="map-action" href="${hubUrl(MODES.map.route)}">Alla banor</a>
     </div>
@@ -455,6 +457,7 @@ async function start() {
   const course = await loadMapCourse(slug);
   document.title = `${course.name} — Karta | Banvy`;
   ui.full.href = `${BASE}${detailedUrl(slug)}`;
+  $('[data-play]').href = `${BASE}${playUrl(slug)}`;
   /* the start menu's "Fortsätt" brings the golfer back here, in this mode */
   rememberLaunch(localStorageOrNull(), slug, 'map');
 
@@ -1581,6 +1584,11 @@ async function start() {
     /* the round's own course in Statistik, hole by hole (#statistik/<course>) */
     const stats = ui.roundSheet.querySelector('[data-round-stats]');
     if (stats) stats.href = hubUrl(record.course ? `statistik/${encodeURIComponent(record.course)}` : 'statistik');
+    /* a kept round with shots that were located can be watched again on the detailed course */
+    const relive = ui.roundSheet.querySelector('[data-round-relive]');
+    const located = record.course && shots.some(s => s.course === record.course && s.round === record.id && Array.isArray(s.from));
+    relive.hidden = !located || record.id === round.id && !record.endedAt;
+    if (located) relive.href = `${BASE}${reliveUrl(record.course, record.id)}`;
     renderRound(ui.roundBody, {
       record,
       summary: roundSummary(record, shots),

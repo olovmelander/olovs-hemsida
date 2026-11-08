@@ -67,8 +67,8 @@ this guide or the current production workflow.
   `keyboard-shortcuts.mjs`: add a key there, with its test. See
   [the r187 upgrade](docs/three-r187-upgrade-2026-11-02.md).
 - The bare route is the start menu (`hub.js`, 7 November): Detaljerad 3D, Lätt 3D,
-  Statistik and Inställningar as cards, with the course list for a mode at `#3d`
-  or `#karta`, `#statistik` and `#installningar`. A launch says its mode in the URL
+  Spela, Statistik and Inställningar as cards, with the course list for a mode at `#3d`,
+  `#karta` or `#spela`, `#statistik` and `#installningar`. A launch says its mode in the URL
   (`settings-store.mjs launchUrl`). Settings reach the detailed course only as
   the URL grammar or storage keys it already reads, never by editing `main.js`.
   Statistik counts the map's own records (`stats-model.mjs`). Both modes use the
@@ -79,6 +79,14 @@ this guide or the current production workflow.
   begins it at `runda=1`. The detailed course's drawer (`menu.js`) is three tabs that
   click the panel's own buttons; keep its `open` class and API, which `main.js`
   reads. See [the UI audit of 8 November](docs/ui-audit-2026-11-08.md).
+- Spela (`?spela=1`, 8 November) plays the detailed course as a game, and Återupplev
+  (`?aterupplev=<round>`) replays a round the map recorded. Both live in
+  `apps/golf/src/play`, outside the hashed folders: `main.js` hands them one handle at
+  its end and calls their `update`, and they own the camera while a game is on. Grow the
+  game there, never in `main.js`. Played rounds keep their own key
+  (`banvy-play-rounds-v1`) and never reach the map's records or the club statistics.
+  Every build publishes the golfer models for it (loaded only when a game starts,
+  never precached). See [Spela and Återupplev](docs/play-mode.md).
 - All seven historical public HTML URLs redirect to the app with their course
   and supported view settings. Vite generates these redirects. Root HTML sources
   remain course-pack validation inputs; never copy them over the built redirects.

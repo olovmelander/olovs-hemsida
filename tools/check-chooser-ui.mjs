@@ -460,8 +460,8 @@ for (const [w, h, touch, name] of [[390, 844, true, 'phone'], [1440, 900, false,
     });
     if (SHOTS) await page.screenshot({ path: path.join(SHOTS, `home-${w}x${h}.png`) });
     const tag = `${name} ${w}x${h}`;
-    gate(m.cards.map(c => c.mode).join(',') === 'detailed,map,stats,settings', `${tag}: four cards, Detaljerad 3D, Lätt 3D, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
-    gate(m.cards.every(c => c.top >= 0 && c.bottom <= m.vh), `${tag}: all four whole on screen without scrolling (${m.cards.map(c => `${c.top}-${c.bottom}`).join(', ')} of ${m.vh})`);
+    gate(m.cards.map(c => c.mode).join(',') === 'detailed,map,play,stats,settings', `${tag}: five cards, Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar (${m.cards.map(c => c.mode).join(', ')})`);
+    gate(m.cards.every(c => c.top >= 0 && c.bottom <= m.vh), `${tag}: all five whole on screen without scrolling (${m.cards.map(c => `${c.top}-${c.bottom}`).join(', ')} of ${m.vh})`);
     const marked = m.cards.filter(c => c.badge).map(c => c.mode);
     gate(marked.length === 1 && marked[0] === (touch ? 'map' : 'detailed'), `${tag}: the mode this device is best at is marked (${marked.join(', ') || 'none'})`);
     gate(!!m.resume && m.resume.includes(manifest.courses[3].name), `${tag}: Fortsätt offers the last course: "${m.resume}"`);

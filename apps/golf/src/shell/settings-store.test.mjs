@@ -53,6 +53,16 @@ describe('launchUrl', () => {
     }
   });
 
+  it('opens Spela on the detailed course on every device, with its golfer and the plan, never a start view', () => {
+    for (const phone of [true, false]) {
+      const url = launchUrl('visby', 'play', { phone, settings: { quality: 'hi', renderer: 'auto', light: 'dag', view: 'tee' },
+        plan: { tee: 1, hole: 10, light: 'kvall', character: 'male' } });
+      expect(q(url)).toEqual({ bana: 'visby', karta: '0', spela: '1', golfare: 'male', q: 'hi', tee: '2', hal: '10' });
+      expect(opensMap(url, phone)).toBe(false);
+    }
+    expect(q(launchUrl('visby', 'play', { plan: { character: 'robot' } }))).toEqual({ bana: 'visby', karta: '0', spela: '1' });
+  });
+
   it('carries each detailed setting in the grammar the player reads', () => {
     const url = launchUrl('angso', 'detailed', { settings: { quality: 'hi', renderer: 'webgl', light: 'nu', view: 'green' } });
     expect(q(url)).toEqual({ bana: 'angso', q: 'hi', gl: '1', ljus: 'nu', vy: 'green' });
