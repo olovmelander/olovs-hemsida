@@ -23,6 +23,8 @@ try {
   const sun = new THREE.DirectionalLight('#fff1d8', 3.3); sun.position.set(-3, 7, 5); sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048); Object.assign(sun.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: .1, far: 25 }); sun.shadow.normalBias = .012; scene.add(sun); scene.add(sun.target);
   const fill = new THREE.DirectionalLight('#d5e9f0', .65); fill.position.set(4, 2, -3); scene.add(fill);
+  // A warm rim from behind draws the silhouette out of the pale background.
+  const rim = new THREE.DirectionalLight('#ffe4bf', 1.7); rim.position.set(-2.6, 3.4, -5.2); scene.add(rim);
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardNodeMaterial({ color: '#d7dfc9', roughness: 1 })); ground.rotation.x = -Math.PI / 2; ground.position.y = -.004; ground.receiveShadow = true; scene.add(ground);
   const pad = new THREE.Mesh(new THREE.CylinderGeometry(1.8, 1.8, .014, 96), new THREE.MeshStandardNodeMaterial({ color: '#afbf93', roughness: 1 })); pad.position.y = -.009; pad.receiveShadow = true; scene.add(pad);
   // A few quiet grass clumps give the studio floor a link to the landscape.

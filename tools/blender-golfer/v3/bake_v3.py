@@ -4,6 +4,7 @@ Run headless from the repository root:
   blender --background --factory-startup --python tools/blender-golfer/v3/build_v3.py -- female
 """
 import bpy, json, math, hashlib, struct
+import numpy as np
 from pathlib import Path
 from mathutils import Vector as V, Matrix
 from rig_math import bake_action, frame, mat4, clamp, smooth
@@ -65,8 +66,9 @@ class Braid:
         warm = [0] * (FPS if not loop else 0)
         for pas in range(passes):
             frames = (warm if pas == 0 else []) + seq
+            n_warm = len(warm) if pas == 0 else 0
             result = []
-            for f in frames:
+            for idx, f in enumerate(frames):
                 tgt, centre, chest = targets(poses[f])
                 C_pose = poses[f]['Chest']; C_rest = self.s.rest['Chest']
                 to_rest = C_rest @ C_pose.inverted(); from_rest = C_pose @ C_rest.inverted()
@@ -89,11 +91,16 @@ class Braid:
                                 x[i] = centre + r.normalized() * .118
                             if self.back is not None:
                                 q = to_rest @ x[i]
-                                if self.back[0][0] - .05 < q.z < self.back[0][-1]:
-                                    import numpy as np
+                                # Continuous everywhere below the neck (np.interp holds the
+                                # lowest measured line below the profile): a collider that
+                                # switched off at an edge snapped the braid's tip.
+                                if q.z < self.back[0][-1]:
                                     by = float(np.interp(q.z, self.back[0], self.back[1])) + self.clear
                                     if q.y < by:
-                                        q.y = by; x[i] = from_rest @ q
+                                        # Only behind the back: the profile is measured near
+                                        # the spine, so it fades out toward the sides and front.
+                                        w = smooth((.13 - abs(q.x)) / .05) * smooth((q.y - (by - .09)) / .03)
+                                        q.y += (by - q.y) * .5 * w; x[i] = from_rest @ q
                         # A braid bends, it does not fold: at most 32 degrees per joint.
                         for i in range(2, len(x)):
                             prev = x[i - 1] - x[i - 2]; d = x[i] - x[i - 1]
@@ -102,10 +109,13 @@ class Braid:
                                 if ang > .56:
                                     d = prev.normalized().slerp(d.normalized(), .56 / ang) * d.length
                                     x[i] = x[i - 1] + d
-                if f in seq and (pas == passes - 1):
+                # Record the clip's own frames only: the warm-up repeats frame 0, and
+                # recording it delayed the braid by a second on every one-shot clip.
+                if idx >= n_warm and pas == passes - 1:
                     result.append([p.copy() for p in x])
             if pas == passes - 1:
                 out = result
+        assert len(out) == n, (len(out), n)
         # Two passes of a light temporal filter remove the last flutter.
         for _ in range(2):
             out = [[(out[max(f - 1, 0)][i] + out[f][i] * 2 + out[min(f + 1, n - 1)][i]) * .25 for i in range(len(out[f]))]

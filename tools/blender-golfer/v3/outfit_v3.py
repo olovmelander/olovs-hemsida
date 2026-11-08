@@ -2,13 +2,14 @@
 
 Original designs for Banvy's courses (no likeness of any existing game's
 character):
-  female -- coral pique polo with a white collar and sleeve bands, navy
-            tailored golf shorts with a white belt, white visor, dark-blonde
-            hair pulled back into a braid, white glove, white golf shoes with
-            coral heel tabs.
-  male   -- navy pique polo with white tipping, stone tailored trousers and a
-            cognac belt, white cap, short dark hair, white glove, white shoes
-            on gum soles.
+  female -- vivid coral pique polo with a white collar, sleeve bands and flag,
+            royal-blue tailored golf shorts with a teal belt, a white visor with
+            a teal underbill, chestnut hair combed back into a braid, a white
+            glove, and white golf shoes with navy laces and outsoles.
+  male   -- cobalt pique polo with sunny-yellow tipping and flag, stone tailored
+            trousers with belt loops and a cognac belt, a structured white
+            six-panel cap with a cobalt underbill, a close crop, a white glove,
+            and white shoes on gum soles.
 """
 import bpy, bmesh, math
 import numpy as np
@@ -21,7 +22,7 @@ from body_v3 import FS, FINGERS, TOES, FOREFOOT
 PALETTE = {
     # Vivid on the green: a coral-red polo with royal navy and a teal accent for her,
     # cobalt with Swedish-yellow tipping for him.
-    'female': dict(skin='#ECC0A4', polo='#F2503A', trim='#FBF9F4', navy='#1C3A86', hair='#4E3019', hair_hi='#A26B3D',
+    'female': dict(skin='#ECC0A4', polo='#F2503A', trim='#FBF9F4', navy='#1C3A86', hair='#4A301E', hair_hi='#946A45',
                    shoe='#FBFAF6', accent='#F2503A', sole='#FBF9F4', outsole='#1C3A86', lip='#D8645A', iris='#2F8FB5',
                    headwear='#FBFAF6', bill_under='#11A7A1', trousers='#1C3A86', belt='#11A7A1', tie='#11A7A1'),
     'male': dict(skin='#A86E4F', polo='#1F5FD6', trim='#F7C93C', navy='#16357F', hair='#1E1511', hair_hi='#3C2B21',
@@ -561,6 +562,12 @@ class Outfit:
         co = C.coords(me)
         seat = [i for i, p in enumerate(co) if p[2] > J['hip_L'].z - .09 * k]
         C.bridge_slices(me, (0, 0, 0), (0, 0, 1), .8, step=.012, select=seat)
+        # The seat drapes: across the back, cloth spans the cleft and falls from the
+        # seat's fullest point instead of following each cheek.
+        co = C.coords(me)
+        back = [i for i, p in enumerate(co) if p[1] > J['hip_L'].y and J['hip_L'].z - .075 * k < p[2] < J['hip_L'].z + .06 * k]
+        if back:
+            C.bridge_slices(me, (0, 0, 0), (0, 0, 1), .97, step=.012, select=back)
         # Below the knee the leg falls straight: blend each ring toward a slim tube.
         co = C.coords(me)
         for side, sgn in (('L', 1), ('R', -1)):
@@ -587,6 +594,33 @@ class Outfit:
                         if d.length > 1e-6:
                             w = smooth_np((hem_z + .07 * k - p[2]) / (.08 * k))
                             co[i] = np.array(V(p) + d.normalized() * .012 * k * w)
+        C.set_coords(me, co)
+        # Cloth falls from the seat's fullest point: below it, the back of each leg is
+        # held out to a line dropping almost straight down (no tuck under the cheeks).
+        co = C.coords(me); hipz = J['hip_L'].z
+        for sgn in (1, -1):
+            leg = [i for i, p in enumerate(co) if sgn * p[0] > .005 and p[1] > J['hip_L'].y - .01]
+            if not leg:
+                continue
+            LP = co[leg]
+            bins = {}
+            for i, p in zip(leg, LP):
+                if hipz - .11 * k < p[2] < hipz + .03 * k:
+                    b = int(p[0] / (.02 * k))
+                    if b not in bins or p[1] > bins[b][0]:
+                        bins[b] = (p[1], p[2])
+            for i, p in zip(leg, LP):
+                b = int(p[0] / (.02 * k))
+                if b not in bins:
+                    continue
+                ymax, zmax = bins[b]
+                if hipz - (.32 if not shorts else .2) * k < p[2] < zmax:
+                    drop = zmax - p[2]
+                    target = ymax - .06 * drop - .45 * drop * drop / k
+                    if co[i][1] < target:
+                        reach = (.32 if not shorts else .2) * k
+                        w = smooth_np((reach - drop) / (reach * .5))
+                        co[i][1] = co[i][1] + (target - co[i][1]) * w
         C.set_coords(me, co)
         C.smooth(me, 16, .5, pin=C.boundary_vertices(me))
         # The front rise drapes straight from the hips: smooth the crotch hard, so the
@@ -624,6 +658,7 @@ class Outfit:
         # The hem breaks a little lower at the back over the shoe.
         C.cut_plane(ob, (0, .0, hem_z), V((0, -.18, 1)).normalized(), keep_positive=True)
         self.fly(ob, top, J)
+        self.tailoring(ob, top, hem_z, J)
         twill = self.textures.normal('twill')
         TX.cylinder_uv(ob, (0, 0, 0), (0, 0, 1), 34)
         self.finish(ob, self.mat('trousers', P['trousers'], .86, normal_image=twill, normal_strength=.22), None)
@@ -631,6 +666,45 @@ class Outfit:
         self.trouser_ob = ob
         self.hide |= C.shrink_mask(self.me, m & np.array([hem_z + .02 < c.z < top - .01 for c in self.centre]), 2)
         self.belt(top)
+
+    def tailoring(self, ob, top, hem_z, J):
+        """Side seams down each leg and welt back pockets under the belt."""
+        k = self.k
+        bvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+        dark = tuple(max(0.0, c * .8) for c in C.hexrgb(self.P['trousers']))
+        seam_mat = self.mat('fly seam', '#%02X%02X%02X' % tuple(int(c * 255) for c in dark), .9)
+        parts = []
+        for side, sgn in (('L', 1), ('R', -1)):
+            hip = J['hip_' + side]; knee = J['knee_' + side]; ankle = J['ankle_' + side]
+            pts = []
+            steps = 24
+            for i in range(steps + 1):
+                z = mix(top - .045 * k, hem_z + .006 * k, i / steps)
+                # The leg's centre at this height, then a ray in from the outside.
+                if z > knee.z:
+                    t = (hip.z - z) / max(hip.z - knee.z, 1e-4); cx = mix(hip.x, knee.x, max(0.0, t)); cy = mix(hip.y, knee.y, max(0.0, t))
+                else:
+                    t = (knee.z - z) / max(knee.z - ankle.z, 1e-4); cx = mix(knee.x, ankle.x, t); cy = mix(knee.y, ankle.y, t)
+                o = V((cx + sgn * .4, cy + .004, z))
+                hit = bvh.ray_cast(o, V((-sgn, 0, 0)), .5)
+                if hit[0] is not None:
+                    pts.append(hit[0] + hit[1] * .0008)
+            if len(pts) > 6:
+                parts.append(C.tube(f'Golfer_v3_{self.v}_SideSeam', pts, [.0010 * k] * len(pts), self.col, 5))
+            # A welt pocket across the seat, under the belt.
+            row = []
+            for j in range(7):
+                x = sgn * mix(.035, .105, j / 6) * k
+                z = top - .07 * k - .006 * k * (j / 6)
+                hit = bvh.ray_cast(V((x, .6, z)), V((0, -1, 0)), 1)
+                if hit[0] is not None:
+                    row.append(hit[0] + hit[1] * .0009)
+            if len(row) > 4:
+                parts.append(C.tube(f'Golfer_v3_{self.v}_Welt', row, [(.0022 * k, .0008)] * len(row), self.col, 5))
+        sj = C.join(parts, f'Golfer_v3_{self.v}_Tailoring')
+        if sj:
+            C.transfer_weights(sj, ob)
+            self.finish(sj, seam_mat)
 
     def box(self, name, c, ax_w, ax_h, ax_d, w, h, d):
         """A small box on explicit axes (half sizes w, h, d), bevel-free."""
@@ -688,7 +762,7 @@ class Outfit:
         b = C.tube(f'Golfer_v3_{self.v}_Belt', pts, [(.0165 * k, .0026 * k)] * len(pts), self.col, 12, closed=True, caps=False)
         C.transfer_weights(b, self.trouser_ob)
         leather = self.textures.normal('leather')
-        self.finish(b, self.mat('belt', P['belt'], .45, normal_image=leather, normal_strength=.3))
+        self.finish(b, self.mat('belt', P['belt'], .45, normal_image=leather, normal_strength=.15))
         self.belt_ob = b
         # Belt loops: small tabs of trouser cloth over the belt.
         loops = []
@@ -774,7 +848,7 @@ class Outfit:
             C.transfer_weights(ob, self.body)
             leather = self.textures.normal('leather')
             TX.scale_uv_box(ob, 30)
-            upper = self.mat('shoe leather', P['shoe'], .48, normal_image=leather, normal_strength=.2, specular=.35)
+            upper = self.mat('shoe leather', P['shoe'], .48, normal_image=leather, normal_strength=.1, specular=.35)
             accent = self.mat('shoe accent', P['accent'], .5)
             ob.data.materials.clear(); ob.data.materials.append(upper); ob.data.materials.append(accent)
             for p in ob.data.polygons:
@@ -856,8 +930,23 @@ class Outfit:
         C.inflate(ob.data, .0011 * k)
         C.cut_plane(ob, wrist - ax * .022 * k, ax, keep_positive=True)
         leather = self.textures.normal('leather')
-        self.finish(ob, self.mat('glove', '#F8F7F3', .55, normal_image=leather, normal_strength=.35), .0008 * k)
+        self.finish(ob, self.mat('glove', '#F8F7F3', .55, normal_image=leather, normal_strength=.12), .0008 * k)
         self.hide |= C.shrink_mask(self.me, m & np.array([(V(c) - wrist).dot(ax) > -.012 * k for c in self.centre]), 1)
+        # The closure tab across the back of the hand, in the outfit's accent.
+        knuck = (J['Index1_L'] + J['Pinky1_L']) / 2
+        hd = (knuck - wrist).normalized()
+        wd = (J['Index1_L'] - J['Pinky1_L']).normalized()
+        wd = (wd - hd * hd.dot(wd)).normalized()
+        dd = hd.cross(wd).normalized()
+        if dd.x < 0:
+            dd = -dd
+        gb = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+        o = wrist + hd * .022 * k + dd * .1
+        hit = gb.ray_cast(o, -dd, .2)
+        if hit[0] is not None:
+            tab = self.box(f'Golfer_v3_{self.v}_GloveTab', hit[0] + dd * .0012 * k, hd, wd, dd, .0085 * k, .0135 * k, .0011 * k)
+            C.transfer_weights(tab, ob)
+            self.finish(tab, self.mat('glove tab', P['accent'], .6))
 
     # -- head: hair, visor or cap, braid --------------------------------------------------------
     def head_frame(self):
@@ -874,7 +963,9 @@ class Outfit:
         u = abs(a) / math.pi
         if u < .5:
             return mix(front, side, smooth_np(u / .5))
-        return mix(side, nape, smooth_np((u - .5) / .5))
+        # His nape is rounded and nearly level across the back, not a point.
+        span = .5 if self.v == 'female' else .3
+        return mix(side, nape, smooth_np(min(1.0, (u - .5) / span)))
 
     def hairline(self, c, eye, centre):
         """True above the hairline (front: forehead, sides: above the ears, back: the nape)."""
@@ -1375,7 +1466,7 @@ class Outfit:
             if abs(a) < math.pi * .38:
                 continue                       # no fade on the forehead
             h = self.hairline_z(a, eye)
-            v[i] = smooth_np((c.z - (h - .015 * k)) / (.015 * k))
+            v[i] = smooth_np((c.z - (h - .024 * k)) / (.024 * k))
         attr = me.attributes.get('scalp_mask') or me.attributes.new('scalp_mask', 'FLOAT', 'POINT')
         attr.data.foreach_set('value', v)
         print('SCALP', int((v > .05).sum()), 'vertices')

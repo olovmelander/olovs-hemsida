@@ -44,7 +44,7 @@ actions, clips, report = bake_v3.bake_all(G, scene, clip_names)
 # the September golfers live on in experiments/golfer/assets/v1 (?golferset=v1).
 stem = 'banvy-golfer' if variant == 'female' else 'banvy-golfer-male'
 manifest = bake_v3.export(G, scene, actions, clips, report, stem, 'golfer.json' if variant == 'female' else 'golfer-male.json',
-                          dict(design=G.get('design', ''), palette='Coral & navy' if variant == 'female' else 'Navy & stone',
+                          dict(design=G.get('design', ''), palette='Coral & royal blue' if variant == 'female' else 'Cobalt & stone',
                                source=dict(asset=f'Blender Studio Human Base Meshes v1.4.1 - realistic {variant}',
                                            license='CC0', url='https://download.blender.org/demo/asset-bundles/human-base-meshes/'),
                                status='revision 3: realistic anatomy, fitted rig, kinematic-sequence motion'))

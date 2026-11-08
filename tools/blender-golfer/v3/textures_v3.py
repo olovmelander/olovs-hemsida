@@ -13,6 +13,10 @@ from mathutils import Vector as V
 import cloth_v3 as C
 
 
+def mix(a, b, t):
+    return a + (b - a) * t
+
+
 def tileable_noise(n, scale, seed, aniso=(1.0, 1.0)):
     rng = np.random.default_rng(seed)
     white = rng.standard_normal((n, n))
@@ -374,16 +378,24 @@ def skin_shader(G, P, variant, target_image):
     seam = ellipsoid(N, pos, (0, y_front + .006, z_line + .0005), (.022 * k, .016, .0016 * k), soft=.2)
     col = N.mixc(col, tuple(c * .55 for c in lip_col[:3]) + (1,), N.math('MULTIPLY', seam, .45))
     # Brows: an arched band above each eye, broken into hairs.
-    brow_col = rgba('#4E3622' if variant == 'female' else '#221813')
+    brow_col = rgba('#3B2717' if variant == 'female' else '#1C1410')
     hairs = nt.nodes.new('ShaderNodeTexNoise'); hairs.inputs['Scale'].default_value = 900
     stretch = N.vmath('MULTIPLY', pos, (1.0, 1.0, 6.0))
     nt.links.new(stretch, hairs.inputs['Vector'])
     for s in (-1, 1):
-        cx = s * .036 * k
-        arch = (.0065 if variant == 'female' else .004) * k
-        m1 = ellipsoid(N, pos, (cx - s * .006 * k, eye.y - .004, eye.z + .021 * k + arch * .5),
-                       (.026 * k, .03 * k, (.0042 if variant == 'female' else .0062) * k), soft=.55)
-        col = N.mixc(col, brow_col, N.math('MULTIPLY', m1, N.math('ADD', .55, N.math('MULTIPLY', hairs.outputs['Fac'], .5))))
+        # A tapered arch: fuller at the inner end, peaking two thirds out, a thin tail.
+        fem = variant == 'female'
+        brow = None
+        for i in range(17):
+            t = i / 16
+            x = s * mix(.014, .058, t) * k
+            z = eye.z + (.0185 + (.0068 if fem else .0045) * math.sin(math.pi * min(1.0, t / .72) * .5 + (0 if t < .72 else 0))
+                         - (.006 if fem else .004) * max(0.0, (t - .72) / .28) ** 1.6) * k
+            hz = ((.0054 if fem else .0070) * (1 - .5 * t ** 1.3)) * k
+            hx = .0095 * k
+            m = ellipsoid(N, pos, (x, eye.y - .004, z), (hx, .03 * k, hz), soft=.2)
+            brow = m if brow is None else N.math('MAXIMUM', brow, m)
+        col = N.mixc(col, brow_col, N.math('MULTIPLY', brow, N.math('ADD', .68, N.math('MULTIPLY', hairs.outputs['Fac'], .4))))
     if variant == 'male':
         # Close-cut stubble on the jaw, chin and upper lip.
         beard = N.math('MAXIMUM', N.attr('beard_mask'),
@@ -450,9 +462,9 @@ def bake_skin(G, P, variant, size=2048):
     ntx = nt.nodes.new('ShaderNodeTexImage'); ntx.image = normal; nt.links.new(uvn.outputs['UV'], ntx.inputs['Vector'])
     nm = nt.nodes.new('ShaderNodeNormalMap'); nm.uv_map = 'SkinAtlas'; nm.inputs['Strength'].default_value = .9
     nt.links.new(ntx.outputs['Color'], nm.inputs['Color']); nt.links.new(nm.outputs['Normal'], b.inputs['Normal'])
-    b.inputs['Roughness'].default_value = .52
+    b.inputs['Roughness'].default_value = .47
     if 'Specular IOR Level' in b.inputs:
-        b.inputs['Specular IOR Level'].default_value = .42
+        b.inputs['Specular IOR Level'].default_value = .46
     mat.diffuse_color = rgba(P['skin'])
     # The UDIM layout stays only as a second UV set for the garments that were cut from it.
     me.uv_layers.active = layer
@@ -503,13 +515,20 @@ def bake_eyes(G, P, variant):
     nt.links.new(N.vmath('MULTIPLY', d, (1, .1, 1)), fib.inputs['Vector'])
     # A human iris spans about 29 degrees of the eyeball's radius: larger than drawn
     # before, so the eye no longer stares. A warm sclera darkens toward the corners.
-    col = N.mixc(rgba('#EDE6DC'), rgba('#D9B9AE'), N.smoothstep(ang, .75, 1.35))
+    col = N.mixc(rgba('#E8E0D5'), rgba('#D6B3A8'), N.smoothstep(ang, .7, 1.3))
     ring = N.smoothstep(ang, .38, .50)
     bright = tuple(min(1.0, x * 1.35) for x in iris[:3]) + (1,)
     inner = N.mixc(bright, iris, N.smoothstep(ang, .17, .30))
     col = N.mixc(N.mixc(deep, inner, fib.outputs['Fac']), col, N.smoothstep(ang, .49, .53))
     col = N.mixc(col, rgba('#22252B'), N.math('MULTIPLY', N.math('MULTIPLY', ring, .8), N.math('SUBTRACT', 1.0, N.smoothstep(ang, .49, .53))))
     col = N.mixc(rgba('#060709'), col, N.smoothstep(ang, .15, .18))
+    # Eye occlusion: the upper lid shades the top of the eyeball (and a little the
+    # bottom), as the lids would in a soft-shadowed render. Without it the white stares.
+    up = N.vmath('DOT_PRODUCT', d, (0, 0, 1))
+    shade_top = N.smoothstep(up, .05, .62)
+    shade_bot = N.smoothstep(N.math('MULTIPLY', up, -1.0), .25, .8)
+    occl = N.math('ADD', N.math('MULTIPLY', shade_top, .42), N.math('MULTIPLY', shade_bot, .18))
+    col = N.mixc(col, rgba('#6E5A52'), occl)
     nt.links.new(col, emit.inputs['Color'])
     t = nt.nodes.new('ShaderNodeTexImage'); t.image = img; nt.nodes.active = t
     keep = list(eye.data.materials)

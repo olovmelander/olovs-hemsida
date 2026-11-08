@@ -1,6 +1,6 @@
 {
   "female": {
-    "sha256": "a5f43ff8dfd654fa53866bd5f42eed317153b5264cd4c7a92f463a6a4620bc40",
+    "sha256": "211248c7973fb32888395fe183df76f311bb13c8a6dba1eb4f61e8ff3643f982",
     "motions": [
       {
         "name": "Idle",
@@ -142,9 +142,9 @@
       {
         "name": "AddressDriver",
         "loopSeamMetres": 7.979156932778697e-8,
-        "maxJointStepDegrees": 17.756265301579297,
+        "maxJointStepDegrees": 17.761015811564548,
         "worstJoint": "Braid6",
-        "worstTime": 0.6041666666666666,
+        "worstTime": 0.2791666666666667,
         "gripTime": 0.7645833333333333,
         "minElbowBackMetres": 0.04142525705254241,
         "minKneeForwardMetres": 0.06496384284407603,
@@ -157,9 +157,9 @@
       {
         "name": "AddressWood",
         "loopSeamMetres": 7.98014519764957e-8,
-        "maxJointStepDegrees": 18.876219941131712,
+        "maxJointStepDegrees": 16.500119872716414,
         "worstJoint": "Braid6",
-        "worstTime": 0.6041666666666666,
+        "worstTime": 0.2791666666666667,
         "gripTime": 0.7645833333333333,
         "minElbowBackMetres": 0.04573129391265268,
         "minKneeForwardMetres": 0.06329040535897684,
@@ -172,9 +172,9 @@
       {
         "name": "AddressIron",
         "loopSeamMetres": 1.0394661902233452e-7,
-        "maxJointStepDegrees": 15.15236760375787,
-        "worstJoint": "Braid5",
-        "worstTime": 0.6,
+        "maxJointStepDegrees": 23.55578406114501,
+        "worstJoint": "Braid6",
+        "worstTime": 0.2708333333333333,
         "gripTime": 0.76875,
         "minElbowBackMetres": 0.056776742748820185,
         "minKneeForwardMetres": 0.06382118201326845,
@@ -187,9 +187,9 @@
       {
         "name": "AddressWedge",
         "loopSeamMetres": 8.953197572420408e-8,
-        "maxJointStepDegrees": 15.931225581535797,
+        "maxJointStepDegrees": 16.38965553272321,
         "worstJoint": "Braid5",
-        "worstTime": 0.6,
+        "worstTime": 0.2708333333333333,
         "gripTime": 0.76875,
         "minElbowBackMetres": 0.056994965017680255,
         "minKneeForwardMetres": 0.07157698395729892,
@@ -202,9 +202,9 @@
       {
         "name": "AddressPutter",
         "loopSeamMetres": 1.1785807649588017e-8,
-        "maxJointStepDegrees": 13.545895798933424,
-        "worstJoint": "Braid5",
-        "worstTime": 0.6,
+        "maxJointStepDegrees": 22.70327418407384,
+        "worstJoint": "Braid6",
+        "worstTime": 0.275,
         "gripTime": 0.23333333333333334,
         "minElbowBackMetres": 0.05487322984020673,
         "minKneeForwardMetres": 0.052725719323435796,
@@ -217,9 +217,9 @@
       {
         "name": "SwingDriver",
         "loopSeamMetres": 0,
-        "maxJointStepDegrees": 24.59416891660196,
-        "worstJoint": "Braid6",
-        "worstTime": 0.680365296803653,
+        "maxJointStepDegrees": 19.623747318228823,
+        "worstJoint": "ClubGrip",
+        "worstTime": 0.38584474885844755,
         "gripTime": 0.38584474885844755,
         "minElbowBackMetres": -0.15909567442979572,
         "minKneeForwardMetres": 0.003401885604781517,
@@ -247,9 +247,9 @@
       {
         "name": "SwingWood",
         "loopSeamMetres": 0,
-        "maxJointStepDegrees": 16.115897924316087,
+        "maxJointStepDegrees": 18.825942907771303,
         "worstJoint": "Braid6",
-        "worstTime": 0.7253521126760564,
+        "worstTime": 0.4014084507042254,
         "gripTime": 0.31690140845070425,
         "minElbowBackMetres": -0.16307258807991012,
         "minKneeForwardMetres": 0.0013624123339240624,
@@ -277,9 +277,9 @@
       {
         "name": "SwingIron",
         "loopSeamMetres": 0,
-        "maxJointStepDegrees": 15.377919540981768,
-        "worstJoint": "ClubGrip",
-        "worstTime": 0.3695652173913043,
+        "maxJointStepDegrees": 15.410940733580025,
+        "worstJoint": "Braid6",
+        "worstTime": 0.42995169082125606,
         "gripTime": 0.40821256038647347,
         "minElbowBackMetres": -0.11739501243736394,
         "minKneeForwardMetres": -0.002813239268271435,
@@ -307,9 +307,9 @@
       {
         "name": "ChipWedge",
         "loopSeamMetres": 0,
-        "maxJointStepDegrees": 8.754479731713905,
-        "worstJoint": "ClubGrip",
-        "worstTime": 0.42083333333333334,
+        "maxJointStepDegrees": 12.001294032881274,
+        "worstJoint": "Braid6",
+        "worstTime": 0.5958333333333333,
         "gripTime": 0.42916666666666664,
         "minElbowBackMetres": 0.04245272495814868,
         "minKneeForwardMetres": 0.03999284765639171,
@@ -337,9 +337,9 @@
       {
         "name": "Putt",
         "loopSeamMetres": 0,
-        "maxJointStepDegrees": 11.457290545772164,
-        "worstJoint": "Braid5",
-        "worstTime": 0.8505747126436782,
+        "maxJointStepDegrees": 15.578345532026738,
+        "worstJoint": "Braid6",
+        "worstTime": 0.5258620689655172,
         "gripTime": 0.38505747126436785,
         "minElbowBackMetres": 0.05186189202279495,
         "minKneeForwardMetres": 0.0537462368002154,
@@ -367,9 +367,9 @@
       {
         "name": "ClubChange",
         "loopSeamMetres": 0,
-        "maxJointStepDegrees": 7.890126151459547,
-        "worstJoint": "ClubGrip",
-        "worstTime": 0.5297619047619048,
+        "maxJointStepDegrees": 10.81596983948555,
+        "worstJoint": "Braid5",
+        "worstTime": 0.5952380952380953,
         "gripTime": 0,
         "minElbowBackMetres": -0.01697177022189056,
         "minKneeForwardMetres": 0.07459255062456913,
@@ -397,7 +397,7 @@
     ]
   },
   "male": {
-    "sha256": "b7151218cc4dad216747456118612b7917da49d3a7cf2782d34909dcf3c4a2af",
+    "sha256": "2173f6ea3def2c0d97e53e23835b9243881be29907ed7d8223214223ce946821",
     "motions": [
       {
         "name": "Idle",
