@@ -332,6 +332,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
           <div class="cs-hole-head">
             <p class="cs-hole-name">${esc(h.name || `Hål ${h.n}`)}</p>
             <p class="cs-hole-facts">Par ${h.par}${Number.isFinite(h.lengths[tee]) ? ` · ${h.lengths[tee]} m` : ''}${h.index !== null ? ` · index ${h.index}` : ''}</p>
+            ${mine?.holes.get(h.n) ? `<p class="cs-hole-mine">Ditt snitt <b${tone(mine.holes.get(h.n).toPar)}>${decimal(mine.holes.get(h.n).average)}</b></p>` : ''}
           </div>
         </div>
         ${h.note ? `<p class="cs-hole-note">${esc(h.note)}</p>` : ''}

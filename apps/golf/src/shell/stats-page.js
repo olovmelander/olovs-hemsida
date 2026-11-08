@@ -300,7 +300,7 @@ function scorecard(record) {
 }
 
 /* =============================================================== the page */
-export function buildStats({ courses, onBack, onPlay }) {
+export function buildStats({ courses, onBack, onPlay, onCourse = null }) {
   const el = document.createElement('div');
   el.id = 'stats';
   el.className = 'hub-screen';
@@ -470,6 +470,9 @@ export function buildStats({ courses, onBack, onPlay }) {
           : showTable('holes') ? `<div class="st-table-wrap"><table class="st-table"><thead><tr><th>Hål</th><th>Par</th><th>Snitt</th><th>Mot par</th><th>Bästa</th><th>Puttar</th><th>Fairway</th><th>Rundor</th></tr></thead><tbody>
             ${stat.byHoleNumber.map(h => `<tr><td>${h.n}</td><td>${h.par}</td><td>${dec(h.average, 2)}</td><td>${signed(h.toPar, 2)}</td><td>${h.best}</td><td>${h.putts !== null ? dec(h.putts, 1) : '–'}</td><td>${h.fairway !== null ? `${Math.round(h.fairway * 100)} %` : '–'}</td><td>${h.rounds}</td></tr>`).join('')}</tbody></table></div>`
           : holeChart(stat.byHoleNumber)}
+        ${stat.byHoleNumber && onCourse && courses.some(c => c.slug === state.course) ? `<div class="st-holes-foot">
+          <button type="button" class="st-ghost" data-play-course="${esc(state.course)}">Spela ${esc(courses.find(c => c.slug === state.course).name)} <span aria-hidden="true">→</span></button>
+        </div>` : ''}
       </section>
 
       <section class="st-split">
@@ -540,6 +543,8 @@ export function buildStats({ courses, onBack, onPlay }) {
         }, () => tip.hide());
       }
     }
+    /* the course in view, played next: its own page, where the round is set up */
+    body.querySelector('[data-play-course]')?.addEventListener('click', e => onCourse?.(e.currentTarget.dataset.playCourse));
     /* a course picked from the holes card or from Banor: that course, hole by hole */
     for (const btn of body.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
       state.course = btn.dataset.pickCourse;

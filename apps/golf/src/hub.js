@@ -129,7 +129,8 @@ try {
   const getStats = async () => {
     if (stats) return stats;
     const { buildStats } = await import('./shell/stats-page.js');
-    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route) });
+    /* the rounds are the map's, so a course is played next in the map */
+    stats = buildStats({ courses, onBack: back, onPlay: () => go(MODES.map.route), onCourse: slug => sheet.open(slug, 'map') });
     stats.hidden = true;
     document.body.append(stats);
     return stats;

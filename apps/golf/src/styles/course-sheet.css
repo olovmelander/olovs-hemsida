@@ -233,6 +233,10 @@
 .cs-hole-name { font: 700 15px/1.2 Outfit, sans-serif; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cs-hole-facts { margin-top: 4px; font: 500 12px/1.2 'JetBrains Mono', monospace; color: var(--cs-ink-3); }
 .cs-hole-note { font: 400 13px/1.5 Outfit, sans-serif; color: var(--cs-ink-2); }
+.cs-hole-mine { margin-top: 4px; font: 600 12px/1.2 Outfit, sans-serif; color: #a9cdf6; }
+.cs-hole-mine b { font: 700 12.5px/1 'JetBrains Mono', monospace; color: #fff; }
+.cs-hole-mine b.is-under { color: #5096ea; }
+.cs-hole-mine b.is-over { color: #e26a32; }
 
 .cs-modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .cs-mode {
