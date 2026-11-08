@@ -4,6 +4,8 @@
 
 **Round 3 (branch `trees-round3`, accepted by the owner on 2026-11-08):** the photo-refereed detector replaces round 2 in the inner frontier. It reaches P 0.984 / R 0.685 on a new unseen sample drawn from the strata near play (round 2 0.984 / 0.674, round 1 0.971 / 0.764), so the gate is still not met. The owner chose: "Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2." Pine/spruce was measured but not published, and the pole-like crowns were reviewed. See Round 3.
 
+**Round 4 (branch `trees-round4`, scored 2026-11-08, not published):** a learned crown detector (DeepForest) on the June 2025 photo confirms suppressed laser tops. On a new unseen sample of 132 crowns it reaches P 0.935 / R 0.758 / F1 0.837, against round 3’s 0.966 / 0.644 / 0.773. It beats round 3 on F1 and recall but misses the owner’s precision floor of 0.95, so the trees stay at round 3. See Round 4.
+
 The sections from Evidence ledger to What Stage B needs record **Stage A (round 1)**
 as it stood before publication: there, nothing was published, and the round-1 held-out
 precision of 0.82 missed the 90% gate. Their candidate counts are round 1's; the published
@@ -1164,6 +1166,280 @@ node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage benchmark 
 node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage candidates --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage review --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage publish --execute --pending-owner --raw $RAW   # the gate passes under the owner's exception; --pending-owner only while his checklist items (screenshots, frame time, the felled list) are open
+```
+
+## Round 4: a learned photo crown detector on the GPU (not published)
+
+**Status: scored once on 2026-11-08, branch `trees-round4`. Not published; the trees
+stay at round 3.** On a new unseen sample of 132 crowns, the fused detector beats
+round 3 on F1 (0.837 against 0.773) and on recall (0.758 against 0.644). Its precision
+of 0.935 is below the owner's floor of 0.95. The 90% gate fails too (R 0.758).
+
+**The owner's rule** for this round, as the main session relayed it from his answer of
+2026-11-08 ("The best round go!"): round 4 is published only if, on the fresh sample,
+it beats round 3's lock on F1 and on recall, with precision of at least 0.95. The rule
+was written into
+[`reference-windows-r4.json`](reference-windows-r4.json) before scoring
+(`declaredBeforeScoring.beatsRoundThree`). It is not met, so no owner exception is
+recorded and nothing was staged, adopted or re-baked.
+
+**Why a learned detector.** The owner asked to "continue improving the tree work to reach 90% with ...
+the learned crown detector on the GPU ... It reads the 2025 photo the way a person
+does". Round 3's misses were touching broadleaves and flat or rounded pine crowns with
+no sharp top in the leaf-off laser. Nothing newer exists: the laser is still 2021-04-17
+and the newest photo `orto-o2-2025` (2025-06-14, 0.16 m RGBI).
+
+### The new sample (frozen before any photo detector ran)
+
+[`reference-windows-r4.json`](reference-windows-r4.json),
+[`reference-annotations-r4.json`](reference-annotations-r4.json),
+[`reference-r4.geojson`](reference-r4.geojson),
+[`reference-lock-r4.json`](reference-lock-r4.json). Frozen and committed (`0ec810b0`)
+before the photo detector ran anywhere.
+
+The windows lie in parts of the inner area no earlier round used. They were chosen from
+the detector-neutral apex census of the CHM and the play-zone distance only
+([`photo/window-scan.mjs`](../../../../../tools/tree-pipeline/photo/window-scan.mjs)).
+
+| Window | Place | Scored crowns |
+|---|---|---|
+| W1 | closed conifer square in the wood by the 8th tee (25 m) | 33 |
+| W2 | closed stand between the 11th green and the 12th tee, on an opening (25 m) | 19 |
+| W3 | woodland edge east of the 7th fairway, broadleaf-rich (40 × 35 m) | 35 |
+| W4 | woodland edge round a gap by the 8th green and 9th tee (40 × 35 m) | 26 |
+| W5 | groups and single trees between the 9-hole course's 1st and 4th (50 m) | 19 |
+
+- **132 scored crowns.** Strata: closed 60, edge 52, group 14, isolated 6 (45/39/11/5%;
+  the census near play is 53/32/10/5%). Types: 91 conifer, 40 broadleaf, 1 unknown.
+  Heights: 3-8 m 13, 8-15 m 16, 15 m+ 103.
+- **How it was interpreted.** Agent-led (Claude), not a survey. Each window was first
+  drafted by the round-3 protocol's written grouping rule
+  ([`photo/reference-draft.mjs`](../../../../../tools/tree-pipeline/photo/reference-draft.mjs):
+  a numbered top within 2 m of a taller one, or less than 0.6 m above the dip toward a
+  taller one within 3 m, is part of that crown; 3.5 m for a crown leafless in April
+  2021). Each draft crown got a type from the April photo at its displaced position and
+  a stratum from the census rule. Every window was then checked on large single panels
+  at 0.06 m: the CHM hillshade, June 2025 colour and colour infrared, and April 2021
+  colour, each photo moved onto the canopy. Four W2 crowns on its opening were changed
+  from closed to edge. Unlike earlier rounds, no ambiguity boxes were drawn: every
+  crown the rule and the panels gave is scored, the closed squares included.
+- **Limitation, stated before scoring.** In closed stands the reference reads the same
+  June 2025 photo the round-4 photo detector reads, and the same laser every detector
+  reads. Where touching crowns share one laser maximum and one photo blob, the split is
+  a judgement that may favour the photo detector. A field check of W1 and W2 would
+  settle it.
+- **A tree felled after the laser** (logs on the ground in June 2025, as in W3) stays a
+  reference crown when the April 2021 photo and the laser show it.
+- **"Beats round 3" was declared in the windows file before scoring**, as the owner's
+  rule: higher F1 AND higher recall than the round-3 lock on W1-W5, with precision at
+  least 0.95.
+- Every earlier held-out window (round 1 E, round 2 H, round 3 Q) is `used-holdout`:
+  never tuned on and never shown to the detector in training.
+
+### The photo crown detector
+
+- **Model.** DeepForest 2.1.0 (weecology, MIT licence): a RetinaNet (ResNet-50 FPN)
+  trained on 10 cm RGB airborne imagery. Weights `weecology/deepforest-tree` from
+  Hugging Face at commit `cc21436bc5d572dde8ff5f93c1e71a32f563cace`,
+  `model.safetensors` SHA-256 `d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8`.
+  Neither weights nor imagery are committed.
+- **Environment.** Python 3.14.7, torch 2.11.0+cu128, torchvision 0.26.0+cu128, on the
+  owner's RTX 5080 laptop GPU (sm_120). Pinned in
+  [`photo/requirements-photo.txt`](../../../../../tools/tree-pipeline/photo/requirements-photo.txt).
+- **Input.** The June 2025 photo (`orto-o2-2025`) at its native 0.16 m, RGB, exported
+  over the inner window plus 64 m into the ignored cache.
+- **Scale.** The network resizes every patch to 800 px, so the ground size of a patch
+  sets the scale a crown reaches it at. A 40 m patch gives the 20 px/m the model was
+  trained at (400 px at 0.1 m, resized to 800). Upsampling the photo to 0.10 m first
+  therefore changes nothing but the interpolation; the scales tried are the patch
+  sizes 25-80 m.
+- **Fine-tuning** used calibration windows only. Reference crowns became boxes at
+  their relief-displaced position in the photo (0.8 × k × h from the laser crown), of
+  half-size max(1.2 m, crown radius) + 0.1 × |k| × h. A box was moved onto the visible
+  crown the pretrained model drew within 2.5 m, when there was one. The ambiguity boxes
+  (canopy the interpreters could not split) were blacked out, so they were never taught
+  as background. AdamW at 5 × 10⁻⁵, 12 epochs, random 40 or 64 m patches with flips and
+  quarter turns. Each run took about 25 s on the GPU.
+- **Cross-fitting.** For tuning, a fine-tuned source is trained on one half of the
+  calibration windows and run on the other, and back (folds C1, C3, C5, K1 and C2, C4,
+  C6, K2). The fusion is therefore tuned on crowns the detector did not train on. The
+  scoring and candidates use weights trained on all eight.
+- **Stage.** `--stage photo-detect` ([`photo-detect.mjs`](../../../../../tools/tree-pipeline/photo-detect.mjs),
+  [`photo/crowns.py`](../../../../../tools/tree-pipeline/photo/crowns.py)) runs every
+  declared source over the calibration windows and the whole inner window. It records
+  the files' hashes in [`photo-detect-r4.json`](photo-detect-r4.json). It is optional
+  per ground (`photoDetect` in trees.json) and is the only GPU stage.
+
+### The fusion: photo crowns confirm laser tops
+
+[`photo-fusion.mjs`](../../../../../tools/tree-pipeline/photo-fusion.mjs) (confirm mode).
+
+- The round-3 lock runs unchanged: the type-aware detector, then the laser- and
+  photo-refereed recovery.
+- Every over-segmented laser top (a 1 m maximum of the CHM smoothed by 0.3 m, at least
+  3 m tall) is moved forward to where the photo draws it, by its own height ×
+  `projectionFraction` × the block's k. Photo boxes and tops are paired one to one,
+  closest first, within `matchRadiusMetres`.
+- A box claimed by a kept top confirms nothing new. A **suppressed** top whose box
+  scores at least `minimumScore` is taken back only when it stands
+  `minimumSeparationMetres` from every seed and `minimumDipMetres` above the lowest point
+  toward the nearest taller seed within 6 m (its own crown in the laser).
+- Every crown is regrown from the full set of seeds, so positions, radii and heights
+  stay the laser's.
+- **The photo never places a seed of its own.** Every seed is a laser maximum, so a
+  photo crown over no laser canopy is never placed. This covers the brief's three uses:
+  - a laser crown holding two photo crowns is split at its second top;
+  - a suppressed top the photo confirms is recovered;
+  - a tree is added only on laser canopy of its own height.
+- **The first design moved each photo crown back to its trunk** (solving x + f k h(x) = p)
+  and snapped it to the CHM. On calibration it never beat round 3: the mapping is too
+  coarse for 2.5 m spacing, and it double-counted crowns already found. Matching in
+  photo space with the laser tops' own heights does not have that problem.
+
+### Tuning (calibration only)
+
+[`detector-lock-r4.json`](detector-lock-r4.json), [`photo-detect-r4.json`](photo-detect-r4.json).
+
+The round-3 lock's settings are kept. For each photo source, the fusion searched a
+joint grid (576 settings) and then a coordinate polish: 3,652 evaluations in all, on
+the 129 calibration crowns.
+
+| Photo source | Boxes on calibration / whole window | Best calibration P / R / F1 |
+|---|---|---|
+| none (round 3) | | 0.926 / 0.868 / 0.896 |
+| pretrained, 40 m patches | 2,443 / 112,788 | 0.919 / 0.884 / 0.901 |
+| **pretrained, 50 m patches (locked)** | 1,634 / 73,471 | **0.896 / 0.930 / 0.913** |
+| pretrained, 64 m patches | 1,026 / 47,176 | 0.914 / 0.907 / 0.911 |
+| pretrained, 80 m patches | 675 / 32,193 | 0.927 / 0.884 / 0.905 |
+| fine-tuned, 40 m (cross-fitted) | 1,843 / 93,530 | 0.926 / 0.876 / 0.900 |
+| fine-tuned, 64 m (cross-fitted) | 1,038 / 52,975 | 0.927 / 0.884 / 0.905 |
+
+- **Locked settings:** `projectionFraction` 0.6, `matchRadiusMetres` 3, `minimumScore`
+  0.3, `minimumSeparationMetres` 1.5, `minimumDipMetres` 0, both types.
+- **Fine-tuning did not beat the pretrained model.** On calibration it never did better
+  once cross-fitted. Its first trial left the ambiguity boxes unmasked, so it learned
+  trees as background, and photo-only recall fell from 0.85 to 0.33. With 129 crowns in
+  eight windows, about 100 boxes per fold, there is too little to fine-tune on.
+- **On its own the photo detector is far below the laser.** Matched to the trunk by the
+  relief field, its best photo-only F1 on calibration was 0.71 (P 0.78, R 0.66, 64 m
+  patches). Its value is as a referee of laser tops.
+
+### Benchmark
+
+[`benchmark-r4.json`](benchmark-r4.json) (SHA-256 `5d6a5434552db3f4260be416261568af88b2f28dd57e1ad71353e895fd1a483c`):
+one-to-one matching within 4 m, scored once.
+
+| Detector | Calibration (129) P / R / F1 | Used held-out E+H (90) P / R | Round 3's sample Q1-Q5 (89) P / R / F1 | **New sample W1-W5 (132) P / R / F1** |
+|---|---|---|---|---|
+| Published individuals + stand trees (round 2) | 0.93 / 0.78 / 0.85 | | | 0.977 / 0.636 / 0.771 |
+| Current 1 m detector | 0.90 / 0.34 / 0.49 | | | 0.94 / 0.24 / 0.39 |
+| Round 1 | 0.905 / 0.814 / 0.857 | 0.870 / 0.889 | 0.971 / 0.764 / 0.855 | 0.978 / 0.674 / 0.798 |
+| Round 2 | 0.946 / 0.814 / 0.875 | 0.927 / 0.844 | 0.984 / 0.674 / 0.800 | 0.977 / 0.636 / 0.771 |
+| Round 3 (published) | 0.926 / 0.868 / 0.896 | 0.929 / 0.878 | 0.984 / 0.685 / 0.808 | 0.966 / 0.644 / 0.773 |
+| **Round 4 (fused)** | **0.880 / 0.907 / 0.893** | **0.878 / 0.878** | **0.932 / 0.775 / 0.847** | **0.935 / 0.758 / 0.837** |
+
+- **Rounds 1-3 reproduce** their recorded Q1-Q5 numbers exactly.
+- **On W1-W5** round 4 finds 100 of 132 (32 missed, 7 extra). Round 3 finds 85, with
+  3 extra. Wilson 95% intervals: P 0.87-0.97, R 0.68-0.82.
+- **The gate result is FAIL** (R 0.758 < 0.9).
+- **The owner's publish rule is not met:** F1 and recall improved, but P is 0.935, not
+  0.95.
+
+**Recall by stratum on W1-W5, round 3 → round 4** (round 2, round 1 for reference):
+
+| | Round 1 | Round 2 | Round 3 | **Round 4** |
+|---|---|---|---|---|
+| Closed | 39/60 | 39/60 | 39/60 | **48/60** |
+| Edge | 35/52 | 29/52 | 30/52 | **36/52** |
+| Group | 11/14 | 10/14 | 10/14 | **10/14** |
+| Isolated | 4/6 | 6/6 | 6/6 | **6/6** |
+| Conifer | 61/91 | 59/91 | 60/91 | **71/91** |
+| Broadleaf | 28/40 | 25/40 | 25/40 | **29/40** |
+| Unknown | 0/1 | 0/1 | 0/1 | **0/1** |
+| 3-8 m | 8/13 | 8/13 | 8/13 | **8/13** |
+| 8-15 m | 7/16 | 7/16 | 7/16 | **12/16** |
+| 15 m+ | 74/103 | 69/103 | 70/103 | **80/103** |
+
+**By window, hits / misses / extras, round 3 → round 4:**
+
+| Window | Round 3 | Round 4 |
+|---|---|---|
+| W1 (closed conifer square) | 18/15/0 | 27/6/1 |
+| W2 | 14/5/0 | 15/4/0 |
+| W3 (broadleaf edge) | 20/15/2 | 25/10/4 |
+| W4 | 18/8/0 | 18/8/0 |
+| W5 | 15/4/1 | 15/4/2 |
+
+### What it shows
+
+1. **The photo moves recall where the laser could not.** Closed crowns go from 39/60 to
+   48/60, almost all in W1's dense spruce, and broadleaves from 25/40 to 29/40 in W3's
+   edge. The secondary sample gives the same picture: on Q1-Q5 recall goes from 0.685
+   to 0.775 (Q3's mixed band from 11 to 15 of 17).
+2. **It pays for that in precision.** Every crown the photo confirms is a real laser top,
+   but in a leafless broadleaf crown or a broad spruce with several tops, a box can
+   confirm a second top of the same tree. W3 gains 5 crowns and 2 extras. On the
+   secondary sample precision falls from 0.984 to 0.932. A precision floor of 0.95 is
+   exactly what this costs.
+3. **The calibration choice was noisier than it looked.** The fusion was tuned on photo
+   crowns detected window by window. The scored run used the whole-window detection,
+   whose tiles fall differently. Scored with it, calibration gives 0.880 / 0.907 / 0.893
+   against 0.896 / 0.930 / 0.913 in tuning (and round 3's 0.896). The detector's boxes
+   depend on where the 50 m tiles fall, by a few crowns per window. **Lesson:** tune on
+   the same detection run that is scored, and average out the tiling (overlapping tile
+   offsets or flips) before trusting a 2-crown difference.
+4. **90% is still out of reach** with these data. Even the best round finds 0.76 of a
+   sample drawn from the canopy near play, and the misses left are closed and edge
+   crowns of 15 m+ (23 of 32).
+
+### Model provenance and reproducibility
+
+- **The model and environment** are in the photo crown detector section above; the
+  environment is also in `photo-detect-r4.json`. Model:
+  `weecology/deepforest-tree`, Hugging Face commit `cc21436b…`, weights SHA-256
+  `d37a7af0…`, MIT licence.
+- **The photo raster** exported for the detector has SHA-256 in `photo-detect-r4.json`;
+  every crowns file's SHA-256 is there too, and the lock pins the scored one
+  (`3495cea2…`).
+- **What stays in the cache:** the photo pixels, crops, weights and crowns files. They
+  are photo-derived and are not redistributed.
+- **GPU use** was tonight only, after the main session freed the GPU. The photo-detect
+  stage took 951 s; tuning and scoring are CPU.
+
+### What changed in the pipeline
+
+- **`photo-detect` stage** ([`photo-detect.mjs`](../../../../../tools/tree-pipeline/photo-detect.mjs)):
+  optional, configured by `photoDetect` in trees.json, and the only GPU stage.
+- **`fused` detector kind** ([`photo-fusion.mjs`](../../../../../tools/tree-pipeline/photo-fusion.mjs)):
+  benchmark tuning and scoring, and the candidates stage (not run, since the round is not
+  published).
+- **The Python** in [`tools/tree-pipeline/photo/`](../../../../../tools/tree-pipeline/photo/)
+  with its pinned requirements.
+- **Tests** for the config and for the fusion's laser-only placement.
+- **Unchanged:** nothing in `apps/golf/src`, `packages/course-v2` or the published data,
+  so the source revision is the same.
+
+### Open for the owner
+
+1. **Round 4 is not published under his rule** (P 0.935 < 0.95). He may still choose it,
+   for its recall (0.758 against 0.644), as an exception pinned to benchmark-r4
+   (`5d6a5434…`). Nothing of that is recorded here.
+2. **A round 5 could address the extras**: tune on the scored detection run, average the
+   tiling, and confirm a top only when its box is not also claimed by a taller crown's
+   other tops. It would need a new unseen sample.
+
+### Reproduce round 4
+
+```sh
+RAW=<the pilot cache with copc/ and ortho/>
+node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage reference --prepare --native --only W1-h8-closed,W2-h11-closed,W3-h7-edge,W4-h8-9-edge,W5-n9-1-4-groups --raw $RAW
+node tools/tree-pipeline/photo/reference-draft.mjs --raw $RAW --only W           # drafts and 0.06 m panels (cache)
+node tools/tree-pipeline/photo/reference-annotate-r4.mjs                        # the annotations file, with the checked edits
+node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage reference --freeze --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage photo-detect --raw $RAW   # GPU, ~16 min
+node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage benchmark --tune --raw $RAW   # calibration only
+node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage benchmark --score --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r4 --stage benchmark --gate --raw $RAW
 ```
 
 ## Reproduce
