@@ -86,6 +86,20 @@ under `object-registry-tree-species-v1`, and is drawn as that species. The pole-
 owner has not decided can be staged for him with `publish --execute
 --pending-owner` under a `pendingOwnerApprovals` record, never as an exception.
 
+**Round 4 additions (2026-11-08).** An optional GPU stage, `photo-detect`
+([`photo-detect.mjs`](../tools/tree-pipeline/photo-detect.mjs), configured by
+`photoDetect` in trees.json), runs a learned crown detector (DeepForest, MIT) on the
+presence photo through [`photo/crowns.py`](../tools/tree-pipeline/photo/crowns.py):
+pretrained sources at several patch sizes (the patch's ground size sets the scale the
+network sees), tiling-averaged sources, and fine-tuned sources that are cross-fitted on
+the calibration windows. A `fused` round
+([`photo-fusion.mjs`](../tools/tree-pipeline/photo-fusion.mjs)) keeps a refined lock and
+takes back a suppressed laser top only when a photo crown, matched one to one in photo
+space after the relief displacement, confirms it and the laser shows its own crown; the
+photo never places a seed of its own. A round may declare its own tuning
+(`photoDetect.tuning`): which sources, tuning on the scored whole-window detections, and a
+precision floor.
+
 **Still manual.** Choosing and interpreting reference windows; the felling,
 pole and species reviews on the photo chips; the owner's screenshots of the app
 and frame-time measurements on his GPU; owner exceptions; and the promotion of a

@@ -94,8 +94,18 @@
       { "id": "pre-p64", "patchMetres": 64, "weights": "pretrained" },
       { "id": "pre-p80", "patchMetres": 80, "weights": "pretrained" },
       { "id": "ft-p40", "patchMetres": 40, "weights": "finetuned", "epochs": 12, "lr": 0.00005, "perCrop": 6, "seed": 7, "snapTo": "pre-p40" },
-      { "id": "ft-p64", "patchMetres": 64, "weights": "finetuned", "epochs": 12, "lr": 0.00005, "perCrop": 6, "seed": 7, "snapTo": "pre-p64" }
-    ]
+      { "id": "ft-p64", "patchMetres": 64, "weights": "finetuned", "epochs": 12, "lr": 0.00005, "perCrop": 6, "seed": 7, "snapTo": "pre-p64" },
+      { "id": "pre-p50-x2", "patchMetres": 50, "weights": "pretrained", "offsets": 2 },
+      { "id": "pre-p64-x2", "patchMetres": 64, "weights": "pretrained", "offsets": 2 }
+    ],
+    "tuning": {
+      "r4b": {
+        "$comment": "main session, 2026-11-08 23:43: round 4b aims at precision. Tuned on calibration only, on the whole-window detections the score reads (the same tiling), pretrained sources only; the best calibration F1 among settings whose calibration precision is at least the round-3 lock's (0.926).",
+        "sources": ["pre-p50", "pre-p64", "pre-p50-x2", "pre-p64-x2"],
+        "crowns": "all",
+        "precisionAtLeastStart": true
+      }
+    }
   },
   "activeRound": "r3",
   "typeRule": {

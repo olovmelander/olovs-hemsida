@@ -41,7 +41,7 @@ import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, pe
 import { loadMosaic, loadRaster, openCampaignPacks } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
-import { CONFIRM_DEFAULTS, CONFIRM_SEARCH, CONFIRM_TUNE_GRID, centresNear, combinations, confirmedFromPrepared, loadPhotoCrowns, photoCentres } from './photo-fusion.mjs';
+import { CONFIRM_DEFAULTS, CONFIRM_SEARCH, CONFIRM_TUNE_GRID, CONFIRM_TUNE_GRID_PRECISION, centresNear, combinations, confirmedFromPrepared, loadPhotoCrowns, photoCentres } from './photo-fusion.mjs';
 import { crownsFile, photoRecordPath } from './photo-detect.mjs';
 
 const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -317,8 +317,8 @@ function tuneRefined(ctx, reference) {
 /* ---------- the fused detector (round 4: refined + learned photo crowns) ---------- */
 
 /** The photo detector record of a fused round and its relief field (presence photo). */
-function fusedInputs(ctx) {
-  const recordPath = photoRecordPath(ctx);
+function fusedInputs(ctx, roundId = ctx.round.id) {
+  const recordPath = ctx.reviewFile(ctx.sampleFile('photo-detect', 'json', roundId));
   if (!fs.existsSync(recordPath)) throw new Error(`no ${ctx.rel(recordPath)}: run --stage photo-detect first`);
   const record = JSON.parse(fs.readFileSync(recordPath, 'utf8'));
   const relief = JSON.parse(fs.readFileSync(ctx.reviewFile('relief-displacement.json'), 'utf8'));
@@ -347,20 +347,27 @@ function tuneFused(ctx, reference) {
   const fractions = [...new Set([...REFINE_FRACTIONS, refine.photo?.fraction ?? REFINE_DEFAULTS.photo.fraction])];
   const prepared = new Map(entries.map(e => [e.window.id, prepareRefined(e, typedParameters, inputs, fractions)]));
   const { record, recordPath, field } = fusedInputs(ctx);
+  /* a round may declare its own tuning (photoDetect.tuning.<round>): which sources, which detections (the scored whole-window run or the calibration run), and a precision floor */
+  const tuning = ctx.config.photoDetect?.tuning?.[ctx.round.id] || null;
   const summary = s => ({ f1: s.f1, precision: s.precision, recall: s.recall, iou: s.crownIoUMean, offset: s.centreOffsetMedianMetres, tp: s.tp, missed: s.missed, extra: s.extra });
   const startScore = summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, refinedFromPrepared(e, typedParameters, prepared.get(e.window.id), refine)])), ids));
   let evaluations = 0;
   const perSource = {};
   let best = null;
-  for (const source of Object.keys(record.sources)) {
-    const centres = sourceCentres(ctx, record, source, 'calibration');
+  const floor = tuning?.precisionAtLeastStart ? startScore.precision : -Infinity;
+  const ok = s => s.precision >= floor;
+  const grid = tuning ? CONFIRM_TUNE_GRID_PRECISION : CONFIRM_TUNE_GRID;
+  for (const source of Object.keys(record.sources).filter(id => !tuning?.sources || tuning.sources.includes(id))) {
+    const centres = sourceCentres(ctx, record, source, tuning?.crowns || 'calibration');
     const near = new Map(entries.map(e => [e.window.id, centresNear(centres, e.cropped.grid)]));
     const evaluate = fuse => { evaluations++; return summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, confirmedFromPrepared(e, typedParameters, prepared.get(e.window.id), refine, near.get(e.window.id), field, fuse)])), ids)); };
     let current = null, score = null;
-    for (const fuse of combinations(CONFIRM_TUNE_GRID, CONFIRM_DEFAULTS)) {
+    for (const fuse of combinations(grid, CONFIRM_DEFAULTS)) {
       const s = evaluate(fuse);
+      if (!ok(s)) continue;
       if (!score || better(s, score)) { current = fuse; score = s; }
     }
+    if (!score) { perSource[source] = { fuse: null, calibration: null, note: 'no setting kept the precision floor' }; continue; }
     const trajectory = [{ step: 'best of CONFIRM_TUNE_GRID', fuse: current, ...score }];
     for (let pass = 1; pass <= 3; pass++) {
       let changed = false;
@@ -368,7 +375,7 @@ function tuneFused(ctx, reference) {
         if (JSON.stringify(current[key]) === JSON.stringify(value)) continue;
         const candidate = { ...current, [key]: value };
         const s = evaluate(candidate);
-        if (better(s, score)) { current = candidate; score = s; changed = true; trajectory.push({ step: `pass ${pass}: ${key} = ${JSON.stringify(value)}`, ...s }); }
+        if (ok(s) && better(s, score)) { current = candidate; score = s; changed = true; trajectory.push({ step: `pass ${pass}: ${key} = ${JSON.stringify(value)}`, ...s }); }
       }
       if (!changed) break;
     }
@@ -389,13 +396,14 @@ function tuneFused(ctx, reference) {
     startLockSha256: sha(lockPathOf(ctx, startRound)),
     photoDetectSha256: sha(recordPath),
     code: codeHashes(ctx),
-    selection: `calibration windows only; the ${startRound} typed and refine settings fixed; per photo source (photo-detect's calibration crowns, cross-fitted for fine-tuned weights) the joint CONFIRM_TUNE_GRID, then a coordinate polish over CONFIRM_SEARCH; the source and settings with the best calibration F1 (then mean crown IoU, then median centre offset) are locked`,
-    grid: CONFIRM_TUNE_GRID,
+    tuning: tuning || null,
+    selection: `${tuning ? `round tuning ${JSON.stringify({ sources: tuning.sources, crowns: tuning.crowns, precisionFloor: tuning.precisionAtLeastStart ? startScore.precision : null })}; ` : ''}calibration windows only; the ${startRound} typed and refine settings fixed; per photo source (photo-detect's calibration crowns, cross-fitted for fine-tuned weights) the joint CONFIRM_TUNE_GRID, then a coordinate polish over CONFIRM_SEARCH; the source and settings with the best calibration F1 (then mean crown IoU, then median centre offset) are locked`,
+    grid,
     search: Object.fromEntries(CONFIRM_SEARCH),
     withoutPhoto: startScore,
     evaluations,
     perSource,
-    selected: { parameters: typedParameters, refine, photo: { source: best.source, model: record.model, allCrownsSha256: record.sources[best.source].all.sha256, calibrationCrownsSha256: record.sources[best.source].calibration.sha256 }, fuse: best.fuse, calibration: best.calibration },
+    selected: { parameters: typedParameters, refine, photo: { source: best.source, model: record.model, allCrownsSha256: record.sources[best.source].all.sha256, calibrationCrownsSha256: record.sources[best.source].calibration.sha256, tunedOn: tuning?.crowns || 'calibration' }, fuse: best.fuse, calibration: best.calibration },
     windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
     photoDetector: `learned: ${record.model.id} at ${record.model.revision.slice(0, 12)} (weights sha256 ${record.model.sha256.slice(0, 12)}...), source ${best.source}, on the GPU (photo-detect stage)`,
   };
@@ -719,7 +727,7 @@ function classifyTypes(ctx) {
 
 function predictorFor(ctx, roundConfig, lock, { chm, entries, referee }) {
   if (roundConfig.detector === 'fused') {
-    const { record, field } = fusedInputs(ctx);
+    const { record, field } = fusedInputs(ctx, roundConfig.id);
     if (record.sources[lock.selected.photo.source]?.all?.sha256 !== lock.selected.photo.allCrownsSha256) throw new Error('the photo crowns the fused lock names are not the ones photo-detect recorded');
     const centres = sourceCentres(ctx, record, lock.selected.photo.source, 'all');
     return w => {

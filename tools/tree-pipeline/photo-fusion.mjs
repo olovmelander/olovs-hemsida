@@ -201,6 +201,7 @@ export const CONFIRM_DEFAULTS = Object.freeze({
   minimumScore: 0.2,
   minimumSeparationMetres: 2,
   minimumDipMetres: 0.5,
+  minimumApexReturns: 0,
   types: Object.freeze(['conifer', 'broadleaf']),
 });
 
@@ -219,7 +220,7 @@ export function photoCentres(crowns) {
 }
 
 /** The suppressed tops a photo crown confirms (see above). `kept` and `suppressed` carry easting, northing, height. */
-export function confirmTops(kept, suppressed, centres, field, smooth, grid, parameters = CONFIRM_DEFAULTS) {
+export function confirmTops(kept, suppressed, centres, field, smooth, grid, parameters = CONFIRM_DEFAULTS, { apexReturns = t => t.apexCount } = {}) {
   const p = { ...CONFIRM_DEFAULTS, ...parameters };
   const forward = t => { const k = fieldAt(field, t.easting, t.northing) || { kx: 0, ky: 0 }; return [t.easting + p.projectionFraction * k.kx * t.height, t.northing + p.projectionFraction * k.ky * t.height]; };
   const tops = [...kept.map(t => ({ t, kept: true })), ...suppressed.filter(t => p.types.includes(t.type)).map(t => ({ t, kept: false }))];
@@ -256,6 +257,8 @@ export function confirmTops(kept, suppressed, centres, field, smooth, grid, para
       if (o.height >= top.height && d <= 6 && d < nd) { nd = d; nearest = o; }
     }
     if (tooClose) continue;
+    /* its own apex in the points (round 4b): first returns near its height */
+    if (p.minimumApexReturns > 0 && !(apexReturns(top) >= p.minimumApexReturns)) continue;
     if (nearest && p.minimumDipMetres > 0) {
       let low = Infinity;
       for (let f = 0; f <= 1.0001; f += 0.04) { const v = sample(top.easting + f * (nearest.easting - top.easting), top.northing + f * (nearest.northing - top.northing)); if (v < low) low = v; }
@@ -296,12 +299,23 @@ export const CONFIRM_TUNE_GRID = Object.freeze({
   minimumDipMetres: [0, 0.5],
   types: [['conifer'], ['conifer', 'broadleaf']],
 });
+/* round 4b (precision): the apex test joins the grid; the match radius and dip keep their round-4 range */
+export const CONFIRM_TUNE_GRID_PRECISION = Object.freeze({
+  projectionFraction: [0.5, 0.6, 0.8],
+  minimumScore: [0.2, 0.3, 0.4, 0.5],
+  matchRadiusMetres: [2.5, 3],
+  minimumSeparationMetres: [1.5, 2, 2.5, 3],
+  minimumDipMetres: [0, 0.5],
+  minimumApexReturns: [0, 2, 3, 4],
+  types: [['conifer'], ['conifer', 'broadleaf']],
+});
 export const CONFIRM_SEARCH = Object.freeze([
   ['projectionFraction', [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]],
   ['minimumScore', [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5]],
   ['matchRadiusMetres', [1.5, 2, 2.5, 3, 3.5]],
   ['minimumSeparationMetres', [1.5, 2, 2.5, 3, 3.5]],
   ['minimumDipMetres', [0, 0.25, 0.5, 0.75, 1]],
+  ['minimumApexReturns', [0, 1, 2, 3, 4, 5]],
   ['types', [['conifer'], ['broadleaf'], ['conifer', 'broadleaf']]],
 ]);
 
@@ -328,7 +342,7 @@ export function detectTreesFused(grid, chm, typeMap, typedParameters, refinePara
   const recovered = recoverTops(suppressed, referee, p);
   const recoveredSet = new Set(recovered.map(t => t.index));
   const seeds = [...kept, ...recovered.map(t => ({ easting: t.easting, northing: t.northing, height: t.height }))];
-  const confirmed = confirmTops(seeds, suppressed.filter(t => !recoveredSet.has(t.index)), centres, field, smooth, grid, fuse);
+  const confirmed = confirmTops(seeds, suppressed.filter(t => !recoveredSet.has(t.index)), centres, field, smooth, grid, fuse, { apexReturns: t => referee.apexReturns(t) });
   const second = detectTreesTypedWithSeeds(grid, chm, typeMap, typedParameters, { surfaces, extraMaxima: [...recovered, ...confirmed] });
   return { ...second, first, suppressed: suppressed.length, recovered: recovered.length, confirmed: confirmed.length };
 }

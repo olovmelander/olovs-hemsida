@@ -30,7 +30,7 @@ export function photoDetectProblems(config) {
   const p = config.photoDetect;
   if (p === undefined) return [];
   const problems = [];
-  const allowed = ['$comment', 'rounds', 'python', 'requirements', 'model', 'sources', 'folds', 'halo'];
+  const allowed = ['$comment', 'rounds', 'python', 'requirements', 'model', 'sources', 'folds', 'halo', 'tuning'];
   for (const key of Object.keys(p || {})) if (!allowed.includes(key)) problems.push(`photoDetect.${key} is not a known setting`);
   if (!Array.isArray(p?.rounds) || !p.rounds.length) problems.push('photoDetect.rounds must list the fused rounds it serves');
   if (typeof p?.python !== 'string' || !/(^|\/)cache\//.test(p.python)) problems.push('photoDetect.python must be a Python inside an ignored cache');
@@ -84,15 +84,19 @@ export async function run_(ctx, options) {
   const only = (options.only || '').split(',').filter(Boolean);
   const record = { schemaVersion: 1, kind: 'photo-crown-detection', round: ctx.round.id, madeAt: new Date().toISOString(), model: p.model, campaign: { key: ctx.presence.key, date: ctx.presence.date }, raster: JSON.parse(fs.readFileSync(raster, 'utf8')).sha256, train: { file: path.basename(train), sha256: sha(train), referenceLockSha256: trainDoc.referenceLockSha256, windows: calibrationIds }, folds: p.folds, sources: {} };
   const previous = fs.existsSync(photoRecordPath(ctx)) ? JSON.parse(fs.readFileSync(photoRecordPath(ctx), 'utf8')) : null;
+  /* a source this run does not redo keeps the detections an earlier record (this round's, or another round's of the same calibration windows) made, when their files are unchanged */
+  const earlier = [previous, ...ctx.config.rounds.filter(r => r.id !== ctx.round.id).map(r => ctx.reviewFile(ctx.sampleFile('photo-detect', 'json', r.id))).filter(f => fs.existsSync(f)).map(f => JSON.parse(fs.readFileSync(f, 'utf8')))].filter(Boolean);
+  const reusable = id => earlier.map(r => r.sources?.[id]).find(e => e && ['calibration', 'all'].every(part => fs.existsSync(crownsFile(ctx, id, part)) && sha(crownsFile(ctx, id, part)) === e[part].sha256));
   for (const source of p.sources) {
-    if (only.length && !only.includes(source.id)) { if (previous?.sources?.[source.id]) record.sources[source.id] = previous.sources[source.id]; continue; }
+    if (only.length && !only.includes(source.id)) { const kept = reusable(source.id); if (kept) record.sources[source.id] = { ...kept, reused: true }; continue; }
     const common = ['--raster', raster, '--patch-metres', String(source.patchMetres)];
+    const tiling = source.offsets > 1 ? ['--offsets', String(source.offsets)] : [];
     const cal = crownsFile(ctx, source.id, 'calibration');
     const all = crownsFile(ctx, source.id, 'all');
     const entry = { ...source };
     if (source.weights === 'pretrained') {
-      log.push(run(python, ['-I', script, 'detect', ...common, '--regions', allRegions, '--out', cal], ctx));
-      log.push(run(python, ['-I', script, 'detect', ...common, '--region-size', '256', '--out', all], ctx));
+      log.push(run(python, ['-I', script, 'detect', ...common, ...tiling, '--regions', allRegions, '--out', cal], ctx));
+      log.push(run(python, ['-I', script, 'detect', ...common, ...tiling, '--region-size', '256', '--out', all], ctx));
     } else {
       const snap = source.snapTo ? ['--snap-to', crownsFile(ctx, source.snapTo, 'calibration')] : [];
       const trainArgs = ['--train', train, '--epochs', String(source.epochs ?? 12), '--lr', String(source.lr ?? 5e-5), '--per-crop', String(source.perCrop ?? 6), '--seed', String(source.seed ?? 7), ...snap];

@@ -446,7 +446,7 @@ test('photo-detect: optional per ground, required by a fused round, its settings
   const without = johannesberg();
   delete without.photoDetect;
   assert.ok(validateGroundConfig(without).some(p => /round r4 is fused: photoDetect.rounds must name it/.test(p)));
-  without.rounds = without.rounds.filter(r => r.id !== 'r4');
+  without.rounds = without.rounds.filter(r => r.detector !== 'fused');
   assert.deepEqual(validateGroundConfig(without, { groundId: 'johannesberg' }), []);
   const bad = johannesberg();
   bad.photoDetect.python = 'C:/Python/python.exe';
@@ -489,6 +489,9 @@ test('confirm fusion: a photo crown takes back only a suppressed laser top with 
   assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), { ...drawn(suppressed[0]), score: 0.2 }], field, smooth, grid, fuse).length, 0);
   assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumSeparationMetres: 3.5 }).length, 0);
   assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumDipMetres: 3 }).length, 0);
+  /* round 4b: its own apex in the points */
+  assert.equal(confirmTops(kept, [{ ...suppressed[0], apexCount: 2 }], [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumApexReturns: 3 }).length, 0);
+  assert.equal(confirmTops(kept, [{ ...suppressed[0], apexCount: 3 }], [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, minimumApexReturns: 3 }).length, 1);
   /* the type gate */
   assert.equal(confirmTops(kept, suppressed, [drawn(kept[0]), drawn(suppressed[0])], field, smooth, grid, { ...fuse, types: ['broadleaf'] }).length, 0);
 });

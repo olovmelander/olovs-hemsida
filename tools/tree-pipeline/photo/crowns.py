@@ -63,9 +63,9 @@ def build_model(weights=None, device="cuda", score=0.05, nms=0.2):
     return net.to(device), m
 
 
-def tiles_for(width, height, patch, stride):
-    xs = list(range(0, max(1, width - patch) + 1, stride))
-    ys = list(range(0, max(1, height - patch) + 1, stride))
+def tiles_for(width, height, patch, stride, offset=0):
+    xs = sorted(set([0] + list(range(offset, max(1, width - patch) + 1, stride))))
+    ys = sorted(set([0] + list(range(offset, max(1, height - patch) + 1, stride))))
     if xs[-1] + patch < width:
         xs.append(max(0, width - patch))
     if ys[-1] + patch < height:
@@ -74,7 +74,7 @@ def tiles_for(width, height, patch, stride):
 
 
 @torch.no_grad()
-def detect_region(net, meta, data, bbox, patch_metres, overlap, device, batch=16):
+def detect_region(net, meta, data, bbox, patch_metres, overlap, device, batch=16, offsets=1):
     p = meta["pixelMetres"]
     c0, r0, c1, r1 = window_pixels(meta, bbox)
     region = np.asarray(data[r0:r1, c0:c1, :])
@@ -82,7 +82,8 @@ def detect_region(net, meta, data, bbox, patch_metres, overlap, device, batch=16
     patch = int(round(patch_metres / p))
     stride = max(1, int(round(patch * (1 - overlap))))
     boxes, scores = [], []
-    tl = tiles_for(w, h, patch, stride)
+    # offsets > 1: the same region tiled again from shifted origins, merged by NMS, so a crown does not depend on where one tile grid falls
+    tl = [t for k in range(offsets) for t in tiles_for(w, h, patch, stride, (k * stride) // offsets)]
     net.eval()
     for i in range(0, len(tl), batch):
         chunk = tl[i:i + batch]
@@ -147,7 +148,7 @@ def cmd_detect(a):
         regions = [{"id": "all", "bbox": [meta["minEasting"], meta["maxNorthing"] - meta["height"] * meta["pixelMetres"], meta["minEasting"] + meta["width"] * meta["pixelMetres"], meta["maxNorthing"]]}]
     t = time.time()
     result = {"kind": "photo-crowns", "model": MODEL_NAME, "revision": MODEL_REVISION, "weights": a.weights or "pretrained", "weightsSha256": sha256_of(a.weights) if a.weights else None,
-              "raster": {k: meta[k] for k in ("campaign", "date", "pixelMetres", "sha256")}, "patchMetres": a.patch_metres, "overlap": a.overlap, "scoreThreshold": a.score, "nms": a.nms,
+              "raster": {k: meta[k] for k in ("campaign", "date", "pixelMetres", "sha256")}, "patchMetres": a.patch_metres, "offsets": a.offsets, "overlap": a.overlap, "scoreThreshold": a.score, "nms": a.nms,
               "space": "photo (EPSG:3006 where the orthophoto draws the crown; relief displacement not removed)", "columns": ["minE", "minN", "maxE", "maxN", "score"], "regions": []}
     if a.region_size and not a.regions:
         bb = regions[0]["bbox"]
@@ -162,7 +163,7 @@ def cmd_detect(a):
             e += step
     total = 0
     for reg in regions:
-        crowns = detect_region(net, meta, data, reg["bbox"], a.patch_metres, a.overlap, a.device)
+        crowns = detect_region(net, meta, data, reg["bbox"], a.patch_metres, a.overlap, a.device, offsets=a.offsets)
         if "core" in reg:
             c = reg["core"]
             crowns = [b for b in crowns if c[0] <= (b[0] + b[2]) / 2 < c[2] and c[1] <= (b[1] + b[3]) / 2 < c[3]]
@@ -313,6 +314,7 @@ def main():
     d.add_argument("--score", type=float, default=0.05)
     d.add_argument("--nms", type=float, default=0.2)
     d.add_argument("--device", default="cuda")
+    d.add_argument("--offsets", type=int, default=1)
     t = sub.add_parser("train")
     t.add_argument("--raster", required=True)
     t.add_argument("--train", required=True)
