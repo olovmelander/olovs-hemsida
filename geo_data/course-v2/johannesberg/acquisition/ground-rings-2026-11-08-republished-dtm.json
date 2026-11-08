@@ -1,0 +1,576 @@
+{
+  "kind": "ground-rings",
+  "groundId": "johannesberg",
+  "observedOn": "2026-11-08",
+  "provider": {
+    "name": "Lantmäteriet",
+    "collection": "dtm-cog",
+    "authenticated": true,
+    "credentialsSerialized": false,
+    "licence": "CC BY 4.0",
+    "attribution": "Markhöjdmodell Nedladdning, © Lantmäteriet, bearbetad, CC BY 4.0"
+  },
+  "tileSegments": 256,
+  "levels": [
+    {
+      "lod": 0,
+      "sampleSpacingMetres": 1,
+      "tilesPerSide": 16,
+      "extent": {
+        "minEasting": 677379.5,
+        "maxEasting": 681475.5,
+        "maxNorthing": 6627348.5,
+        "minNorthing": 6623252.5,
+        "spanMetres": 4096,
+        "size": 4097
+      },
+      "source": {
+        "kind": "published-and-dtm",
+        "factor": 1,
+        "subsample": 1
+      },
+      "items": [
+        "662_67",
+        "662_68"
+      ],
+      "samples": 16785409,
+      "finite": 16785409,
+      "minimumHeightRH2000": 9.528240203857422,
+      "maximumHeightRH2000": 48.69599914550781,
+      "requests": 81,
+      "bytes": 46085695,
+      "elapsedSeconds": 6.946,
+      "rasterSha256": "6155cee17eb0a43d86133c2c035c34f459a09234f4175b2c94250b29f1359ce4",
+      "publishedAgreement": {
+        "tiles": 256,
+        "samples": 16908544,
+        "withinQuantum": 16907056,
+        "outsideQuantum": 1488,
+        "outsideQuantumFraction": 0.00008800284637163318,
+        "meanAbsoluteDifferenceMetres": 0.002379950391841777,
+        "rootMeanSquareDifferenceMetres": 0.0028128712775808604,
+        "maximumDifferenceMetres": 0.18419456481933594,
+        "thresholdExceedances": {
+          "1": 0,
+          "2": 0,
+          "0.011": 39,
+          "0.05": 8,
+          "0.1": 1,
+          "0.25": 0,
+          "0.5": 0
+        },
+        "worstSample": {
+          "tileId": "l0/1/6",
+          "row": 216,
+          "column": 195,
+          "easting": 677830.5,
+          "northing": 6625596.5,
+          "baselineHeightRH2000": 13.670000076293945,
+          "candidateHeightRH2000": 13.48580551147461,
+          "differenceMetres": 0.18419456481933594
+        }
+      }
+    },
+    {
+      "lod": 1,
+      "sampleSpacingMetres": 2,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 677379.5,
+        "maxEasting": 681475.5,
+        "maxNorthing": 6627348.5,
+        "minNorthing": 6623252.5,
+        "spanMetres": 4096,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 1,
+        "subsample": 2
+      },
+      "items": [
+        "662_67",
+        "662_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 9.528240203857422,
+      "maximumHeightRH2000": 48.69599914550781,
+      "requests": 81,
+      "bytes": 46085695,
+      "elapsedSeconds": 4.654,
+      "rasterSha256": "7bc50871e4688c44119171fb20e3df96c3450bf5667175b95d489fd8edf33e15"
+    },
+    {
+      "lod": 2,
+      "sampleSpacingMetres": 4,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 675331.5,
+        "maxEasting": 683523.5,
+        "maxNorthing": 6629396.5,
+        "minNorthing": 6621204.5,
+        "spanMetres": 8192,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 4,
+        "subsample": 1
+      },
+      "items": [
+        "662_67",
+        "662_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 5.2994065284729,
+      "maximumHeightRH2000": 53.378746032714844,
+      "requests": 25,
+      "bytes": 15258164,
+      "elapsedSeconds": 1.644,
+      "rasterSha256": "931efd544e596b85f2c6c4d2eb262a9994604c42e2036d353dd0c6656f45542d"
+    },
+    {
+      "lod": 3,
+      "sampleSpacingMetres": 8,
+      "tilesPerSide": 8,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 2049
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 8,
+        "subsample": 1
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 4198401,
+      "finite": 4198401,
+      "minimumHeightRH2000": 4.665797710418701,
+      "maximumHeightRH2000": 64.14753723144531,
+      "requests": 30,
+      "bytes": 14502393,
+      "elapsedSeconds": 3.385,
+      "rasterSha256": "9126f104170d1ecd93859389a18486c8cccc625704f75f67ea1ca43f3385617c"
+    },
+    {
+      "lod": 4,
+      "sampleSpacingMetres": 16,
+      "tilesPerSide": 4,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 1025
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 16,
+        "subsample": 1
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 1050625,
+      "finite": 1050625,
+      "minimumHeightRH2000": 4.883655548095703,
+      "maximumHeightRH2000": 63.31707763671875,
+      "requests": 15,
+      "bytes": 5488124,
+      "elapsedSeconds": 1.807,
+      "rasterSha256": "b0f1b027a09ab68b478e788453452d17e6b24660560bc392033bc4df36cdfd08"
+    },
+    {
+      "lod": 5,
+      "sampleSpacingMetres": 32,
+      "tilesPerSide": 2,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 513
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 1
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 263169,
+      "finite": 263169,
+      "minimumHeightRH2000": 4.908384323120117,
+      "maximumHeightRH2000": 61.9971923828125,
+      "requests": 6,
+      "bytes": 1736359,
+      "elapsedSeconds": 1.172,
+      "rasterSha256": "cae1e1b4fc1b7008c39630081019d2cc477205e3f60cfd53714a4fd3e2875cd8"
+    },
+    {
+      "lod": 6,
+      "sampleSpacingMetres": 64,
+      "tilesPerSide": 1,
+      "extent": {
+        "minEasting": 671235.5,
+        "maxEasting": 687619.5,
+        "maxNorthing": 6633492.5,
+        "minNorthing": 6617108.5,
+        "spanMetres": 16384,
+        "size": 257
+      },
+      "source": {
+        "kind": "dtm",
+        "factor": 32,
+        "subsample": 2
+      },
+      "items": [
+        "661_67",
+        "661_68",
+        "662_67",
+        "662_68",
+        "663_67",
+        "663_68"
+      ],
+      "samples": 66049,
+      "finite": 66049,
+      "minimumHeightRH2000": 4.935780048370361,
+      "maximumHeightRH2000": 61.87405014038086,
+      "requests": 6,
+      "bytes": 1736359,
+      "elapsedSeconds": 1.152,
+      "rasterSha256": "081aeb19f527d15ed3ab9cc3f6078130e7722c4b30d20c072ca9cb8fa051efc8"
+    }
+  ],
+  "items": [
+    {
+      "id": "662_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_67.tif",
+      "etag": "\"ed727add1ffedad69d26ccd7d97234f8\"",
+      "contentLength": 316420633,
+      "lastModified": "Mon, 14 Sep 2026 21:02:45 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 6630000,
+        "maxEasting": 680000,
+        "minNorthing": 6620000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "662_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m662_68.tif",
+      "etag": "\"b3c69910950b29287031a1d6467307ae\"",
+      "contentLength": 287007815,
+      "lastModified": "Mon, 14 Sep 2026 21:02:18 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 6630000,
+        "maxEasting": 690000,
+        "minNorthing": 6620000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 0,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 1,
+          "overviewFactor": 1
+        },
+        {
+          "lod": 2,
+          "overviewFactor": 4
+        },
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "661_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m661_67.tif",
+      "etag": "\"37bfd062fffa7183088c357f235e5416\"",
+      "contentLength": 319431375,
+      "lastModified": "Mon, 14 Sep 2026 20:51:34 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 6620000,
+        "maxEasting": 680000,
+        "minNorthing": 6610000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "661_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m661_68.tif",
+      "etag": "\"d4b388f09abe2b56999c51427c0ea5b6\"",
+      "contentLength": 315970682,
+      "lastModified": "Mon, 14 Sep 2026 20:51:00 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 6620000,
+        "maxEasting": 690000,
+        "minNorthing": 6610000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "663_67",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_67.tif",
+      "etag": "\"a1f03290a2ae1df8a01d820f8b82ccfe\"",
+      "contentLength": 315995042,
+      "lastModified": "Mon, 14 Sep 2026 21:12:57 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 670000,
+        "maxNorthing": 6640000,
+        "maxEasting": 680000,
+        "minNorthing": 6630000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    },
+    {
+      "id": "663_68",
+      "href": "https://dl1.lantmateriet.se/hojd/data/grid/mhm/66_6/m663_68.tif",
+      "etag": "\"b295b5f4f547b6c9eb3371d04cb2c33e\"",
+      "contentLength": 282640282,
+      "lastModified": "Mon, 14 Sep 2026 21:12:12 GMT",
+      "overviews": [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32
+      ],
+      "noData": -9999,
+      "publishedExtent": {
+        "minEasting": 680000,
+        "maxNorthing": 6640000,
+        "maxEasting": 690000,
+        "minNorthing": 6630000
+      },
+      "croppedFromSquareMetres": {
+        "west": 0,
+        "east": 0,
+        "north": 0,
+        "south": 0
+      },
+      "levelsUsed": [
+        {
+          "lod": 3,
+          "overviewFactor": 8
+        },
+        {
+          "lod": 4,
+          "overviewFactor": 16
+        },
+        {
+          "lod": 5,
+          "overviewFactor": 32
+        },
+        {
+          "lod": 6,
+          "overviewFactor": 32
+        }
+      ]
+    }
+  ],
+  "seaFillRule": "not declared for this ground; every sample comes from the height model",
+  "overviewResampling": "the COG overviews are block averages (measured: 2x overview vs 1 m block mean, mean |diff| 0.08 m), so level 1 is subsampled from the 1 m data and levels 2 and up read the overviews",
+  "elapsedSeconds": 21.55
+}

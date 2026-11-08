@@ -215,3 +215,23 @@ test('stand fields aggregate canopy fraction and heights per campaign', () => {
   assert.equal(summary.mixedCells, 2);
   assert.throws(() => standField(raster, { voids: new Uint8Array(3) }), /must match/);
 });
+
+test('tree attributes travel under their own feature: type in subtype, typeConfidence and play', async () => {
+  const { TREE_ATTRIBUTES_FEATURE, validateObjectRegistry } = await import('../object-registry.mjs');
+  const { treeRecord } = await import('./object-compiler.mjs');
+  const candidate = { centroid: { easting: 10, northing: 20 }, heightMetres: 14, radiusMetres: 3 };
+  const base = { groundId: 'g', candidate, baseHeightRH2000: 5, sourceId: 'laser', capturedAt: '2021-04-17', truthZone: 'B', confidence: 0.9 };
+  const plain = treeRecord({ ...base, id: 'tree-g-000001' });
+  assert.ok(!Object.hasOwn(plain, 'play'), 'records without attributes keep the old shape');
+  const typed = treeRecord({ ...base, id: 'tree-g-000002', subtype: 'conifer', typeConfidence: 0.912, play: 'woodland' });
+  assert.equal(typed.subtype, 'conifer');
+  assert.equal(typed.typeConfidence, 0.912);
+  assert.equal(typed.play, 'woodland');
+  const header = features => ({ kind: 'objects', id: 't', owner: { type: 'ground', id: 'g' }, requiredFeatures: features, records: { content: 'object-registry', count: 1 } });
+  const registry = record => ({ schemaVersion: 1, groundId: 'g', tileId: 't', records: [record] });
+  assert.deepEqual(validateObjectRegistry(registry(typed), header(['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE])), []);
+  assert.ok(validateObjectRegistry(registry(typed), header(['chunk-envelope-v2', 'object-registry-json-v1'])).some(e => /unknown field/.test(e)), 'attributes need the feature');
+  assert.ok(validateObjectRegistry(registry(plain), header(['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE])).some(e => /is required/.test(e)), 'the feature needs the attributes');
+  assert.ok(validateObjectRegistry(registry({ ...typed, play: 'fairway' }), header(['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE])).some(e => /near or woodland/.test(e)));
+  assert.ok(validateObjectRegistry(registry({ ...typed, subtype: 'oak' }), header(['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE])).some(e => /conifer, broadleaf or null/.test(e)));
+});

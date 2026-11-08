@@ -6,7 +6,8 @@ import { verifyChunkAsset } from '../course-v2/chunk-node.mjs';
 import { emitGroundGraph, writeGroundGraphFiles } from '../course-v2/emit-ground-graph-node.mjs';
 import { verifyAssetGraph } from '../course-v2/graph-node.mjs';
 import { V2_SUPPORTED_FEATURES } from '../course-v2/schema.mjs';
-import { compileVegetation, writeCompilation, readRawRaster, mergeCourseGeometries, MACHINE_REVIEW_RULES } from '../course-v2/vegetation/compile-vegetation.mjs';
+import { compileReviewedVegetation, compileVegetation, writeCompilation, readRawRaster, mergeCourseGeometries, parseCandidateCsv, MACHINE_REVIEW_RULES } from '../course-v2/vegetation/compile-vegetation.mjs';
+import { createRaster } from '../course-v2/vegetation/canopy-fields.mjs';
 import { createGroundHeightLookup } from '../course-v2/vegetation/ground-sampler.mjs';
 import { compileObjectChunks } from '../course-v2/vegetation/object-compiler.mjs';
 import { publishStartupPacks } from '../../tools/build-startup-packs.mjs';
@@ -91,7 +92,38 @@ async function terrain(ctx, out) {
   return { tiles: compiled.tiles.length, ...comparison };
 }
 
+/* reviewed-candidates-v1: the decided candidate table and its residual
+   canopy, against the rebuilt terrain; tiles outside the reviewed scope keep
+   the baseline generation's object and stand chunks */
+async function reviewedVegetation(ctx, out) {
+  const ground = terrainState(ctx), c = ctx.config.vegetation, r = c.reviewed;
+  const baseline = readPinned(ctx.root, ctx.config.baselineGround);
+  const binary = (ref, Type) => {
+    const bytes = fs.readFileSync(pinned(ctx.root, ref));
+    return { sidecar: readJson(ctx.root, ref.path.replace(/\.bin$/, '.json')), values: new Type(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)) };
+  };
+  const chm = binary(r.residualChm, Float32Array), labels = binary(r.residualLabels, Int32Array);
+  for (const key of ['width', 'height', 'sampleSpacingMetres', 'originEasting', 'originNorthing']) assert.equal(chm.sidecar[key], labels.sidecar[key], `residual rasters differ in ${key}`);
+  const raster = createRaster({ width: chm.sidecar.width, height: chm.sidecar.height, sampleSpacingMetres: chm.sidecar.sampleSpacingMetres,
+    originEasting: chm.sidecar.originEasting, originNorthing: chm.sidecar.originNorthing, values: chm.values });
+  const geometry = mergeCourseGeometries(ctx.config.courses.map(course =>
+    readJson(ctx.root, `${ctx.stageRoot}/mapping/models/${course.slug}.epsg3006.json`).geometry));
+  /* the rebuilt terrain carries no object or stand layers: the retained and
+     replaced records are the baseline generation's, on the same lattice */
+  const target = { ...ground, tiles: ground.tiles.map(tile => ({ ...tile, layers: { ...tile.layers, objects: baseline.tiles.find(t => t.id === tile.id)?.layers.objects ?? null, stands: baseline.tiles.find(t => t.id === tile.id)?.layers.stands ?? null } })) };
+  const result = await compileReviewedVegetation({ groundId: ctx.groundId, observedOn: c.observedOn,
+    campaigns: readPinned(ctx.root, c.campaigns), rows: parseCandidateCsv(fs.readFileSync(pinned(ctx.root, r.candidates), 'utf8')),
+    scope: r.scope, residual: { raster, labels: labels.values }, geometry, ground: target,
+    readAsset: async url => ground.resources.get(url) ?? asset(ctx, 'apps/golf/public', url), review: r.review });
+  assert.equal(result.evidence.records.baseHeightMisses.length, 0, 'candidate tree bases missing terrain');
+  writeCompilation(safePath(ctx.root, out), result);
+  writeJson(ctx.root, `${out}/review-status.json`, { geographicApproval: false, mode: c.reviewMode, notes: c.reviewNote,
+    review: r.review, independentCanopyEvaluation: 'review-2026-11-08 benchmark (held-out gate not met; owner decision to publish)', humanZoneAReview: 'pending' });
+  return { records: result.records.length, standTiles: result.stands.chunks.length, geographicApproval: false };
+}
+
 async function vegetation(ctx, out) {
+  if (ctx.config.vegetation.reviewMode === 'reviewed-candidates-v1') return reviewedVegetation(ctx, out);
   const ground = terrainState(ctx), c = ctx.config.vegetation;
   assert.equal(c.reviewMode, 'machine-v1', 'unsupported review mode; implement its recorded approval adapter explicitly');
   const baseline = readPinned(ctx.root, ctx.config.baselineGround);

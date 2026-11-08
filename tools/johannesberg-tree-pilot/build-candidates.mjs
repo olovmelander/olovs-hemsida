@@ -37,7 +37,7 @@ import { loadGroundCourseGeometries, mergeCourseGeometries } from '../../package
 import { createGroundHeightLookup } from '../../packages/course-v2/vegetation/ground-sampler.mjs';
 import { courseExclusionFeatures, rasterizeExclusions } from '../../packages/course-v2/vegetation/semantic-exclusions.mjs';
 import { parseTreeId, treeId } from '../../packages/course-v2/vegetation/registry-identity.mjs';
-import { convexHull, crownOutlines, crownReturnMetrics, detectTreesV2, matchOneToOne } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
+import { convexHull, crownOutlines, crownReturnMetrics, detectTreesTyped, detectTreesV2, matchOneToOne, typeMapFromPhoto } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
 import { PILOT, sampleFile } from './pilot-config.mjs';
 import { ROOT, loadMosaic, loadRaster } from './panels.mjs';
 import { PHOTO_SUN, closedness, displacementAllowance, loadPointsFor, openGroundBrightness, photoDisc, shadowProbe } from './crown-evidence.mjs';
@@ -47,6 +47,8 @@ const reviewDir = path.join(ROOT, PILOT.reviewDir);
 const round = (v, d = 2) => (Number.isFinite(v) ? Math.round(v * 10 ** d) / 10 ** d : null);
 const W = PILOT.innerWindow;
 const inInner = (e, n) => e >= W.minEasting && e < W.maxEasting && n >= W.minNorthing && n < W.maxNorthing;
+
+export const BROADLEAF_MAXIMUM_APRIL_SHARE = 0.2;
 
 function ruleFrom(typeRule) {
   const term = ({ name, dir, t }) => f => (Number.isFinite(f[name]) ? (dir === '>=' ? f[name] >= t : f[name] < t) : null);
@@ -70,13 +72,19 @@ export function presenceScore(june, scale) {
 async function main() {
   const started = performance.now();
   const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('detector-lock')), 'utf8'));
-  const typeRule = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('type-rule')), 'utf8'));
+  const typeRule = JSON.parse(fs.readFileSync(path.join(reviewDir, 'type-rule.json'), 'utf8'));
   const isConifer = ruleFrom(typeRule);
   const chm = loadRaster('chm-pitfree-050');
   const grid = chm.grid;
-  /* 1. detection over the whole halo window */
-  const detected = detectTreesV2(grid, chm.values, { parameters: lock.selected.parameters });
-  const position = c => (lock.selected.position === 'centroid' ? c.centroid : c.apex);
+  /* 1. detection over the whole halo window: round 2's type-aware detector
+     when its lock is given (PILOT_SAMPLE=-r2), else round 1's */
+  const typed = lock.round === 2;
+  const m21early = typed ? loadMosaic('2021') : null;
+  const detected = typed
+    ? detectTreesTyped(grid, chm.values, typeMapFromPhoto(grid, chm.values, m21early, lock.selected.parameters.type).type, lock.selected.parameters)
+    : detectTreesV2(grid, chm.values, { parameters: lock.selected.parameters });
+  const position = c => (typed ? c.position : lock.selected.position === 'centroid' ? c.centroid : c.apex);
+  const positionWord = typed ? 'per-type position (conifer and broadleaf: crown centroid)' : lock.selected.position;
   const crowns = detected.crowns.filter(c => inInner(position(c).easting, position(c).northing));
   console.log(`detector: ${detected.maxima.length} maxima, ${detected.crowns.length} crowns, ${crowns.length} owned by the inner window`);
   /* 2. evidence */
@@ -86,7 +94,7 @@ async function main() {
   const m25 = loadMosaic('2025');
   const outlines = crownOutlines(grid, detected.labels, crowns.map(c => c.id));
   const publicDir = path.join(ROOT, PILOT.publicDir);
-  const { ground } = publishedGround();
+  const { ground } = publishedGround(PILOT.previousGroundManifest);
   const lookup = await createGroundHeightLookup(ground, async url => fs.readFileSync(path.join(publicDir, url)));
   const groundCourses = loadGroundCourseGeometries(path.join(ROOT, 'geo_data/course-v2/johannesberg'), 'johannesberg');
   const geometry = mergeCourseGeometries(groundCourses.map(c => c.geometry));
@@ -101,14 +109,26 @@ async function main() {
   }).filter(r => Array.isArray(r) && r.length >= 3);
   const playOf = (e, n) => nearPlay(e, n, holeLines, practiceRings, 90) ? 'near' : 'woodland';
   /* conifer probability from the April vegetated share: a logistic fit on the
-     round-1 CALIBRATION examples only; confidence = max(p, 1 - p) */
-  const typeExamplesAll = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('type-rule')), 'utf8')).examplesTable;
+     round-1 CALIBRATION examples only; confidence = max(p, 1 - p).
+     A BROADLEAF CALL NEEDS A CLEARLY LEAFLESS APRIL CROWN (share below
+     BROADLEAF_MAXIMUM_APRIL_SHARE). Between that and the conifer call the
+     crown is 'unknown' and the runtime's own species mix chooses. The
+     logistic alone called broadleaf up to a share of 0.41, and a spot check of
+     24 such calls within 90 m of holes 1 and 17 (type-panels.mjs) found 8
+     shaded or edge conifers (3 uncertain), all with shares of 0.26-0.40: in leaf-off April
+     a conifer in its neighbour's shadow, or a narrow one whose disc takes in
+     brown ground, reads as partly leafless. Below 0.2 lie 17 of the 35
+     reference broadleaves and none of the 60 reference conifers, and none of
+     the 11 spot-checked calls there was a conifer (owner-requested species
+     check, 2026-11-08). */
+  const typeExamplesAll = typeRule.examplesTable;
   const logistic = fitLogistic(typeExamplesAll.filter(x => x.role === 'calibration' && Number.isFinite(x.features.aprilVegetatedShare)).map(x => [x.features.aprilVegetatedShare, x.type === 'conifer' ? 1 : 0]));
   const typeOf = share => {
     if (!Number.isFinite(share)) return { type: 'unknown', typeConfidence: null, coniferProbability: null };
     const pc = 1 / (1 + Math.exp(-(logistic.w0 + logistic.w1 * share)));
     const confidence = Math.max(pc, 1 - pc);
-    return { type: confidence >= 0.6 ? (pc >= 0.5 ? 'conifer' : 'broadleaf') : 'unknown', typeConfidence: round(confidence, 3), coniferProbability: round(pc, 3) };
+    const type = confidence >= 0.6 && pc >= 0.5 ? 'conifer' : confidence >= 0.6 && share < BROADLEAF_MAXIMUM_APRIL_SHARE ? 'broadleaf' : 'unknown';
+    return { type, typeConfidence: type === 'unknown' ? null : round(confidence, 3), coniferProbability: round(pc, 3) };
   };
   /* semantic surfaces at 1 m with no buffers beyond the surface itself
      (buildings 0.5 m): these are where a crown's BASE would be, not overhang */
@@ -257,8 +277,8 @@ async function main() {
     photoOnly.push({ easting: round(g1.minEasting + se / queue.length + 0.5, 1), northing: round(g1.maxNorthing - sn / queue.length - 0.5, 1), areaSquareMetres: queue.length, reason: 'tree-like canopy in the June 2025 photo with no laser return >= 2 m within 3 m: photo-only, never placed' });
   }
   /* 4. identities */
-  const population = publishedPopulation({ bbox: [W.minEasting, W.minNorthing, W.maxEasting, W.maxNorthing] });
-  const allRecords = publishedPopulation({}).records;
+  const population = publishedPopulation({ bbox: [W.minEasting, W.minNorthing, W.maxEasting, W.maxNorthing], groundManifestUrl: PILOT.previousGroundManifest });
+  const allRecords = publishedPopulation({ groundManifestUrl: PILOT.previousGroundManifest }).records;
   let sequence = allRecords.reduce((max, r) => Math.max(max, parseTreeId(r.id)?.sequence || 0), 0);
   const records = population.records;
   const pass1 = matchOneToOne(records, trees, 1.5);
@@ -294,7 +314,7 @@ async function main() {
     let felled = false;
     if (tree.evidence.fellingScreen) {
       const key = keyOf(tree.easting, tree.northing);
-      const verdict = fellingReview.decisions[key];
+      const verdict = reviewedVerdict(fellingReview, tree.easting, tree.northing);
       screened.push({ key, easting: tree.easting, northing: tree.northing, heightMetres: tree.heightMetres, radiusMetres: tree.radiusMetres, verdict: verdict?.verdict ?? 'unreviewed' });
       if (!verdict) holdReasons.push('felling screen: own shadow in April 2021, none in June 2025; not yet reviewed');
       else if (verdict.verdict === 'absent' || verdict.verdict === 'structure') felled = verdict.verdict;
@@ -306,7 +326,7 @@ async function main() {
     if (!felled && !tree.evidence.fellingScreen && tree.source === 'detector' && (tree.evidence.june2025?.vegetatedShare ?? 1) < 0.15) {
       holdReasons.push('no vegetation in the June 2025 crown disc (roof, vehicle, heap or felled?): unreviewed');
     }
-    const notTree = felled ? (felled === 'structure' ? `not a tree: ${fellingReview.decisions[keyOf(tree.easting, tree.northing)].note}` : `felled after 2021: ${fellingReview.decisions[keyOf(tree.easting, tree.northing)].note}`) : null;
+    const notTree = felled ? (felled === 'structure' ? `not a tree: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}` : `felled after 2021: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}`) : null;
     let decision, id, before = null;
     if (match) {
       id = match.record.id;
@@ -325,7 +345,7 @@ async function main() {
     out.push({
       id, decision, ...(holdReasons.length ? { reasons: holdReasons } : {}),
       play: playOf(tree.easting, tree.northing), typeConfidence: typed.typeConfidence, coniferProbability: typed.coniferProbability,
-      easting: tree.easting, northing: tree.northing, positionSemantics: tree.source === 'detector' ? `${lock.selected.position} of the laser crown segment (not a surveyed stem)` : 'highest leaf-off return (not a surveyed stem)',
+      easting: tree.easting, northing: tree.northing, positionSemantics: tree.source === 'detector' ? `${positionWord} of the laser crown segment (not a surveyed stem)` : 'highest leaf-off return (not a surveyed stem)',
       heightRH2000: Number.isFinite(base) ? round(base, 3) : null,
       objectHeightMetres: tree.heightMetres, radiusMetres: tree.radiusMetres, type: typed.type, typeRule1: tree.type, source: tree.source,
       ...(before ? { before } : {}),
@@ -383,7 +403,7 @@ async function main() {
       for (const t of out) { const key = `${t.play}|${t.type}`; table[key] = table[key] || {}; table[key][t.decision] = (table[key][t.decision] || 0) + 1; }
       return table;
     })(),
-    typeModel: { feature: 'share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the April 2021 crown disc (crown radius + 0.3 h + 1 m)', fit: 'logistic, round-1 calibration examples only', w0: round(logistic.w0, 4), w1: round(logistic.w1, 4), examples: logistic.n, unknownBelowConfidence: 0.6 },
+    typeModel: { feature: 'share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the April 2021 crown disc (crown radius + 0.3 h + 1 m)', fit: 'logistic, round-1 calibration examples only', w0: round(logistic.w0, 4), w1: round(logistic.w1, 4), examples: logistic.n, unknownBelowConfidence: 0.6, broadleafBelowAprilShare: BROADLEAF_MAXIMUM_APRIL_SHARE, unknownTypeConfidence: null },
     playZone: { rule: 'near = within 90 m of any hole tee-to-green line of either routing (the app zone A) or of the driving range / practice greens; woodland otherwise', holeLines: holeLines.length, practiceRings: practiceRings.length },
     identity: { matchedWithin15m: pass1.matches.length, matchedWithin3m: pass2.matches.length, newIds: out.filter(t => t.decision === 'add' || (t.decision === 'hold' && t.source !== 'published-record' && !t.before)).length, nextSequence: sequence + 1, previousGenerationRecords: previous.length, previousGenerationLineageCarried: out.filter(t => t.lineage).length },
     presence: { referenceFloor: round(presenceFloor, 3), scale },
@@ -405,6 +425,37 @@ async function main() {
   fs.mkdirSync(path.join(ROOT, PILOT.cacheDir, 'candidates'), { recursive: true });
   fs.writeFileSync(path.join(ROOT, PILOT.cacheDir, 'candidates', 'candidates-full.json'), JSON.stringify(out));
   fs.writeFileSync(path.join(ROOT, PILOT.cacheDir, 'candidates', 'felling-screen.json'), JSON.stringify(screened, null, 1));
+  /* the residual inputs of the reviewed import, cropped to the inner window:
+     the pit-free CHM, and every cell a detected crown (placed or not) or a
+     sparse-laser recovery (a disc of its radius) claims */
+  {
+    const s = grid.sampleSpacingMetres;
+    const c0 = Math.round((W.minEasting - grid.minEasting) / s), r0 = Math.round((grid.maxNorthing - W.maxNorthing) / s);
+    const width = Math.round((W.maxEasting - W.minEasting) / s), height = Math.round((W.maxNorthing - W.minNorthing) / s);
+    const chmOut = new Float32Array(width * height);
+    const labelOut = new Int32Array(width * height).fill(-1);
+    for (let r = 0; r < height; r++) for (let c = 0; c < width; c++) {
+      const i = (r0 + r) * grid.width + c0 + c;
+      chmOut[r * width + c] = chm.values[i];
+      labelOut[r * width + c] = detected.labels[i] >= 0 ? detected.labels[i] : -1;
+    }
+    let recoveredCells = 0;
+    for (const t of out.filter(x => x.source === 'sparse-laser-recovery')) {
+      const reach = Math.ceil(t.radiusMetres / s);
+      const cc = Math.floor((t.easting - W.minEasting) / s), rr = Math.floor((W.maxNorthing - t.northing) / s);
+      for (let dy = -reach; dy <= reach; dy++) for (let dx = -reach; dx <= reach; dx++) {
+        const r = rr + dy, c = cc + dx;
+        if (r < 0 || c < 0 || r >= height || c >= width || (dx * dx + dy * dy) * s * s > t.radiusMetres ** 2) continue;
+        if (labelOut[r * width + c] < 0) { labelOut[r * width + c] = 1 << 30; recoveredCells++; }
+      }
+    }
+    const sidecar = { width, height, sampleSpacingMetres: s, originEasting: W.minEasting, originNorthing: W.maxNorthing, crs: 'EPSG:3006 / RH2000' };
+    const dir = path.join(ROOT, PILOT.rasterDir);
+    fs.writeFileSync(path.join(dir, 'residual-chm-050.bin'), Buffer.from(chmOut.buffer));
+    fs.writeFileSync(path.join(dir, 'residual-chm-050.json'), JSON.stringify({ ...sidecar, layer: 'pit-free CHM, inner window', dtype: 'float32' }, null, 2) + '\n');
+    fs.writeFileSync(path.join(dir, 'residual-labels-050.bin'), Buffer.from(labelOut.buffer));
+    fs.writeFileSync(path.join(dir, 'residual-labels-050.json'), JSON.stringify({ ...sidecar, layer: 'crown claims: detected crown id, 1<<30 for a sparse-laser recovery disc, -1 none', dtype: 'int32', recoveredCells }, null, 2) + '\n');
+  }
   console.log(JSON.stringify(summary, null, 1));
 }
 
@@ -447,4 +498,16 @@ export function fitLogistic(rows) {
     if (Math.abs(d0) + Math.abs(d1) < 1e-9) break;
   }
   return { w0, w1, n: rows.length };
+}
+
+/** The interpreter's verdict for a screened crown: exact key first, else the nearest reviewed position within 2 m. */
+export function reviewedVerdict(review, easting, northing) {
+  const exact = review.decisions[`${easting.toFixed(1)}_${northing.toFixed(1)}`];
+  if (exact) return exact;
+  let best = null, distance = 2;
+  for (const verdict of Object.values(review.decisions)) {
+    const d = Math.hypot(verdict.easting - easting, verdict.northing - northing);
+    if (d <= distance) { distance = d; best = verdict; }
+  }
+  return best;
 }

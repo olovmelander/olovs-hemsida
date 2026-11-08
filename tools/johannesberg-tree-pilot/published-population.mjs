@@ -14,17 +14,19 @@ import { STAND_PLANTING, crownRadiusForHeight, hash01 } from '../../apps/golf/sr
 import { PILOT } from './pilot-config.mjs';
 import { ROOT } from './panels.mjs';
 
-export function publishedGround() {
+/** The ground the root serves now, or a named earlier generation (kept on disk for rollback). */
+export function publishedGround(groundManifestUrl = null) {
   const publicDir = path.join(ROOT, PILOT.publicDir);
   const rootIndex = JSON.parse(fs.readFileSync(path.join(publicDir, 'courses/v2-index.json'), 'utf8'));
   const entry = rootIndex.courses.find(course => course.groundId === PILOT.groundId);
   const course = JSON.parse(fs.readFileSync(path.join(publicDir, entry.manifest.url), 'utf8'));
-  const ground = JSON.parse(fs.readFileSync(path.join(publicDir, course.groundManifest.url), 'utf8'));
-  return { publicDir, groundManifestUrl: course.groundManifest.url, ground };
+  const url = groundManifestUrl || course.groundManifest.url;
+  const ground = JSON.parse(fs.readFileSync(path.join(publicDir, url), 'utf8'));
+  return { publicDir, groundManifestUrl: url, ground };
 }
 
-export function publishedPopulation({ bbox = null } = {}) {
-  const { publicDir, groundManifestUrl, ground } = publishedGround();
+export function publishedPopulation({ bbox = null, groundManifestUrl: requested = null } = {}) {
+  const { publicDir, groundManifestUrl, ground } = publishedGround(requested);
   const inside = (e, n) => !bbox || (e >= bbox[0] && e < bbox[2] && n >= bbox[1] && n < bbox[3]);
   const records = [];
   const standTrees = [];

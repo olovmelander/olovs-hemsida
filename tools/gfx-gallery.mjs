@@ -3,6 +3,7 @@
  *
  * node tools/serve.mjs apps/golf/dist 8620
  * BANVY_GPU=1 node tools/gfx-gallery.mjs --label before [--query a=b&c=d] [--views id,id] [--gl] [--light name]
+ *   [--adhoc slug:hole:vy:ljus,...]   (views outside the fixed set, e.g. johannesberg:17:green:dag)
  * node tools/gfx-gallery.mjs --compare before,after      (side-by-side sheets, no browser)
  *
  * Each view boots its course on its own page (vsync-locked, 1920 x 1080, det=1),
@@ -72,6 +73,8 @@ const QUERY = flag('query', '');
 const BASE = flag('base', 'http://127.0.0.1:8620').replace(/\/$/, '');
 const pick = flag('views', null)?.split(',');
 let views = pick ? GALLERY.filter(v => pick.includes(v.id) || pick.includes(v.slug)) : GALLERY;
+/* --adhoc slug:hole:vy:ljus[,...]: views outside the fixed set, in place of it */
+if (flag('adhoc', null)) views = flag('adhoc').split(',').map(spec => { const [slug, hole, vy, ljus] = spec.split(':'); return { id: `${slug}-h${hole}-${vy}-${ljus}`, slug, hole: Number(hole), vy, ljus }; });
 /* --light <name>: every view under that one light */
 if (flag('light', null)) views = views.map(v => ({ ...v, ljus: flag('light'), id: `${v.id.replace(/-[a-z]+$/, '')}-${flag('light')}` }));
 if (args.includes('--lights')) views = (flag('only-lights', null)?.split(',') ?? LIGHTS).map(ljus => ({ ...views[0], ljus, id: `${views[0].id.replace(/-[a-z]+$/, '')}-${ljus}` }));

@@ -20,10 +20,20 @@ export function loadProduction(root, groundId) {
   const config = readJson(root, configPath);
   keys(config, ['schemaVersion', 'groundId', 'visualSetup', 'frame', 'baselineGround', 'terrain', 'vegetation', 'courses', 'mappingEvidence', 'review'], configPath);
   keys(config.terrain, ['directory', 'evidence', 'maximumBaselineDifferenceMetres'], 'terrain');
-  keys(config.vegetation, ['directory', 'campaigns', 'evidence', 'reviewMode', 'observedOn', 'reviewNote'], 'vegetation');
+  /* two vegetation decision adapters: machine-v1 re-detects and machine-reviews
+     the canopy rasters; reviewed-candidates-v1 imports a reviewed candidate
+     table (docs/tree-placement-workflow.md) with its residual-canopy rasters */
+  const reviewed = config.vegetation?.reviewMode === 'reviewed-candidates-v1';
+  keys(config.vegetation, ['directory', 'campaigns', 'evidence', 'reviewMode', 'observedOn', 'reviewNote', ...(reviewed ? ['reviewed'] : [])], 'vegetation');
+  if (reviewed) {
+    keys(config.vegetation.reviewed, ['candidates', 'residualChm', 'residualLabels', 'scope', 'review'], 'vegetation.reviewed');
+    const scope = config.vegetation.reviewed.scope;
+    assert(Array.isArray(scope) && scope.length === 4 && scope.every(Number.isFinite) && scope[0] < scope[2] && scope[1] < scope[3], 'vegetation.reviewed.scope must be [minE, minN, maxE, maxN]');
+    assert(typeof config.vegetation.reviewed.review === 'string' && config.vegetation.reviewed.review.length > 20, 'vegetation.reviewed.review must state the review');
+  }
   keys(config.review, ['sourceDirectory', 'captureBackend', 'captureQuality', 'capturePresets', 'notes', 'acquisition'], 'review');
   assert(Number.isFinite(config.terrain.maximumBaselineDifferenceMetres) && config.terrain.maximumBaselineDifferenceMetres >= 0);
-  assert.equal(config.vegetation.reviewMode, 'machine-v1', 'implement and review any different vegetation decision adapter explicitly');
+  assert(['machine-v1', 'reviewed-candidates-v1'].includes(config.vegetation.reviewMode), 'implement and review any different vegetation decision adapter explicitly');
   assert(/^\d{4}-\d{2}-\d{2}$/.test(config.vegetation.observedOn));
   for (const [field, allowed] of [['captureBackend', ['webgpu', 'webgl2']], ['captureQuality', ['hi', 'lo']],
     ['capturePresets', ['noon', 'golden', 'mist', 'dawn', 'host']]]) {
@@ -68,7 +78,9 @@ export function readPinned(root, reference) { return JSON.parse(fs.readFileSync(
 
 export function inputReferences(ctx) {
   const c = ctx.config;
-  return [c.baselineGround, c.terrain.evidence, c.vegetation.campaigns, c.vegetation.evidence,
+  const reviewed = c.vegetation.reviewMode === 'reviewed-candidates-v1'
+    ? [c.vegetation.reviewed.candidates, c.vegetation.reviewed.residualChm, c.vegetation.reviewed.residualLabels] : [];
+  return [c.baselineGround, c.terrain.evidence, c.vegetation.campaigns, c.vegetation.evidence, ...reviewed,
     ...c.courses.flatMap(x => [x.model, x.card, x.heightfields, x.cover, ...Object.values(x.sidecars)].filter(Boolean)),
     ...c.mappingEvidence, c.review.acquisition];
 }
@@ -89,8 +101,16 @@ export function rasterInputs(ctx) {
   assert.equal(canopy.groundId, ctx.groundId);
   assert.equal(canopy.frameFingerprint, c.frame.fingerprint);
   assert.equal(canopy.campaignsSha256, c.vegetation.campaigns.sha256);
-  assert.deepEqual(canopy.campaigns.map(x => x.campaignId).sort(), [...campaigns.activeItemIds].sort(),
-    'every active canopy campaign needs evidence; explicitly adapt partial coverage');
+  /* an active item that reaches no finest tile of the ground (a 2.5 km
+     re-tiling lists neighbours that only touch the AOI) has no canopy to
+     measure; every item that does reach the ground needs evidence */
+  const finest = c.baselineGround ? readPinned(ctx.root, c.baselineGround).tiles.filter(tile => tile.lod === 0) : null;
+  const reaches = item => !finest || !item?.projBbox || finest.some(tile => tile.bounds.minEasting < item.projBbox[2] &&
+    tile.bounds.maxEasting > item.projBbox[0] && tile.bounds.minNorthing < item.projBbox[3] && tile.bounds.maxNorthing > item.projBbox[1]);
+  const items = new Map((campaigns.items || []).map(item => [item.id, item]));
+  const expected = campaigns.activeItemIds.filter(id => reaches(items.get(id)));
+  assert.deepEqual(canopy.campaigns.map(x => x.campaignId).sort(), expected.sort(),
+    'every active canopy campaign that reaches the ground needs evidence; explicitly adapt partial coverage');
   for (const row of canopy.campaigns) {
     const stem = row.campaignId.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
     result.push({ path: `${c.vegetation.directory}/chm-${stem}.f32`, sha256: row.files.chm.sha256,

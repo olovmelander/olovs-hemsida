@@ -19,8 +19,8 @@
     "verticalCrs": "EPSG:5613"
   },
   "baselineGround": {
-    "path": "apps/golf/public/grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
-    "sha256": "fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd"
+    "path": "apps/golf/public/grounds/johannesberg/ground-v2-0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f.json",
+    "sha256": "0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f"
   },
   "terrain": {
     "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-ground-rings",
@@ -34,15 +34,36 @@
     "directory": "packages/course-geo/toolchain/.cache/acquisition/johannesberg-vegetation",
     "campaigns": {
       "path": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns.json",
-      "sha256": "c7401cc7f4372329b10c66a1b2672e889f22d78aa101444d35e1d3e02d1a6f65"
+      "sha256": "9ab377a369556282725d1eb7a78e154f25db5adc2cafdf49385f3d9026d0ef2c"
     },
     "evidence": {
       "path": "geo_data/course-v2/johannesberg/vegetation/canopy-evidence.json",
-      "sha256": "3a970a6ac4f74a79a2fd93808caab329687c2cacbb44cb9c5653468136fe7a07"
+      "sha256": "bb3097c8e0b36f6d4d402b692b328ff7e892fb736509f2efba6f5479cb2a0998"
     },
-    "reviewMode": "machine-v1",
-    "observedOn": "2026-09-11",
-    "reviewNote": "Replay the existing machine-v1 method as a provisional candidate. This is not human approval; evaluate against RGBI and held-out references before release."
+    "reviewMode": "reviewed-candidates-v1",
+    "observedOn": "2026-11-08",
+    "reviewNote": "Owner decisions of 2026-11-08: publish the round-2 (type-aware) reviewed candidates of review-2026-11-08 although the held-out gate is not met (closed stands); every placed tree is a record with type and play zone, broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); residual canopy only as stands; tiles outside the inner 2,048 m frontier keep the 2026-09-11 machine-v1 generation.",
+    "reviewed": {
+      "candidates": {
+        "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
+        "sha256": "9bddbfc55c5e398bcc66851622bd8b45ce38ec65b717a1a80591e1dabe5be302"
+      },
+      "residualChm": {
+        "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin",
+        "sha256": "4ffe2e5bc6c1e33df430f929707980635e44f3cb941084c00b69a4b22c0bfd4f"
+      },
+      "residualLabels": {
+        "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-labels-050.bin",
+        "sha256": "c0c612bc660317e9972f7aa859fc7f3f71c8ef9fc35eb4fb0a8584e3823716f9"
+      },
+      "scope": [
+        678403.5,
+        6624276.5,
+        680451.5,
+        6626324.5
+      ],
+      "review": "reviewed candidates, review-2026-11-08 round 2: agent-led reference benchmark (held-out P 0.953 R 0.788, gate not met: closed stands) and the owner's decisions of 2026-11-08 to publish with the round-2 detector; broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review"
+    }
   },
   "courses": [
     {

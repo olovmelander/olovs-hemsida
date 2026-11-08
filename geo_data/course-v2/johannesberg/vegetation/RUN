@@ -1,13 +1,30 @@
-# First RUN file for this ground. Johannesberg's 2026-09-04 generation was compiled with the generic
-# tools run locally (build-canopy -> compile-vegetation -> publish-vegetation) over the reviewed
-# 2,048 m window, and it was never on a RUN file only because nobody pushed one; the workflow already
-# names this ground in its census re-pin step. The standard ring graph now carries 1 m tiles over
-# 4,096 m and the widening carried the published vegetation onto the wider lattice, so measured trees
-# stand on 64 of the 256 finest tiles and the surrounding 192 carry none.
+# Johannesberg vegetation control file.
 #
-# Both items of the one April 2021 campaign are pinned active and both are needed: the widened level
-# zero spans E 677380-681476, either side of the E 680000 item seam that measured smaller than the
-# terrain's own roughness. LEAF-OFF, so the deciduous under-detection caveat applies -- this ground is
-# the one where audit-canopy-sources settled that the thinning was a correction and not a loss.
-publish=true
-observed_on=2026-09-11
+# 2026-11-08 -- the inner 2,048 m frontier now carries the REVIEWED generation of
+# review-2026-11-08 (vegetation/review-2026-11-08/README.md), published through the
+# compiler's reviewed-candidates import (compile-vegetation.mjs --reviewed), not by the
+# machine-v1 chain this file used to drive. OWNER DECISIONS of 2026-11-08, recorded here
+# and in the review README:
+#   1. Publish although the workflow's 90% precision/recall gate is not met on the unseen
+#      held-out sample (round 2: P 0.953, R 0.788). The shortfall is closed stands
+#      (touching spruces in the 2021 leaf-off scan, 17/23), a data limit; isolated trees,
+#      groups and broadleaves meet or approach the gate. Holds and unresolved cases stay
+#      listed in the review.
+#   2. Use the ROUND-2 (type-aware) detector -- a post-evaluation owner choice for fewer
+#      false trees on open ground, not the declared F1 ranking (round 1 F1 0.869 vs 0.863).
+#   3. Every placed tree stands on its own detected crown; 'near' trees (zone A of a hole
+#      line or practice area) and 'woodland' trees are both individual records, woodland
+#      ones thinned by id at low quality; only canopy no crown claims is topped up as a
+#      stand field.
+#   4. Owner species check (same day): the first publication typed 24% of the records near
+#      play broadleaf, many of them shaded or edge conifers. A broadleaf call now needs a clearly
+#      leafless April 2021 crown (vegetated share below 0.2); between that and the conifer call
+#      the type is unknown and the runtime's background mix chooses. See the review README,
+#      "Species check".
+# The 192 outer finest tiles keep the 2026-09-11 machine-v1 records and stands byte for byte.
+#
+# A machine-v1 publish from this file would REPLACE the reviewed inner generation with
+# re-detected trees, so publish stays false: re-run the inner ring only through the
+# reviewed import (tools/johannesberg-tree-pilot + compile-vegetation.mjs --reviewed).
+publish=false
+observed_on=2026-11-08

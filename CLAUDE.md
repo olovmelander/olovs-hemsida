@@ -45,6 +45,21 @@ this guide or the current production workflow.
   dwell and crossfade. Outer-zone trees remain impostors. `?distanthero=0`
   restores geographic-only detail; `16` retains the measured comparison
   threshold. Lite and alternative catalogues belong to isolated studies.
+- Measured tree types (owner request, 8 November). A v2 object chunk that
+  requires `object-registry-tree-attributes-v1` carries, on every tree record:
+  - `subtype`: conifer, broadleaf or null;
+  - `typeConfidence`;
+  - `play`: `near` (within 90 m of a hole line or practice area) or `woodland`.
+
+  A typed record draws a species of its own type (`speciesForType` in
+  `v2-vegetation.mjs`), and an untyped record keeps today's rule. A broadleaf
+  call needs a clearly leafless April crown: shaded conifers read as broadleaf
+  otherwise (owner species check, 8 November). Low quality
+  thins `woodland` records by id at the stand keep share
+  (`keepWoodlandRecord`, 0.55). `near` records are always drawn. Johannesberg's
+  inner frontier is the first such generation; see
+  [its review](geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md)
+  and [the tree placement workflow](docs/tree-placement-workflow.md).
 - Terrain detail is the same on every device and backend (owner request,
   24 September): native tile grids and a 128-tile budget. The playable course
   -- every hole's tiles, within 80-90 m of each tee-to-green line, and the

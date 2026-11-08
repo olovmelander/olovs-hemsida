@@ -20,7 +20,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assetReferenceForChunk, writeChunk } from '../chunk-node.mjs';
+import { assetReferenceForChunk, readChunk, writeChunk } from '../chunk-node.mjs';
 import { STAND_FIELD_FEATURE, STAND_FIELD_FORMAT, encodeStandField, inspectStandFieldPayload } from '../stand-field.mjs';
 import {
   cellOf,
@@ -34,7 +34,7 @@ import {
 import { CROWN_PARAMETERS, crownConfidence, deriveCrownCandidates } from './crown-detect.mjs';
 import { courseExclusionFeatures, rasterizeExclusions } from './semantic-exclusions.mjs';
 import { mergeTileStandFields, standField, standFieldSummary, tileStandField } from './stand-fields.mjs';
-import { assignStableIds, registryDiff } from './registry-identity.mjs';
+import { assignStableIds, parseTreeId, registryDiff } from './registry-identity.mjs';
 import { compileObjectChunks, objectCompilationSummary, treeRecord } from './object-compiler.mjs';
 import { createGroundHeightLookup, createGroundSampler } from './ground-sampler.mjs';
 import { GROUND_RINGS } from '../ground-rings-registry.mjs';
@@ -517,6 +517,201 @@ function countBy(list, key) {
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => a.localeCompare(b)));
 }
 
+
+/* ---------------------------------------------------------------------------
+   The reviewed-candidates import path. compileVegetation re-detects crowns
+   from a 1 m raster and machine-reviews them; a ground that has been through
+   a reviewed tree-placement pass (docs/tree-placement-workflow.md) instead
+   hands in its decided candidate table: every row a tree with its stable id,
+   decision, position, height, crown radius, measured type and confidence, and
+   play zone. Rows decided retain / adjust / add become records; the rest
+   (hold, merge, remove, not-placed) do not. Inside the reviewed scope the
+   stand field is rebuilt from the RESIDUAL canopy only -- canopy at least
+   `canopyThresholdMetres` tall that no detected crown claims -- so a closed
+   wood the detector merged is topped up without doubling the trees it placed.
+   Tiles outside the scope keep their published object and stand chunks byte
+   for byte. Nothing is re-detected here. */
+
+export const REVIEWED_IMPORT_VERSION = 1;
+export const REVIEWED_PLACED_DECISIONS = Object.freeze(['retain', 'adjust', 'add']);
+/* record confidence by source: the round-2 detector's held-out precision
+   (0.95) rounded down for laser crowns; a sparse leaf-off recovery has no
+   crown structure and the photo only confirms it */
+export const REVIEWED_CONFIDENCE = Object.freeze({ detector: 0.9, 'sparse-laser-recovery': 0.6 });
+
+/** A minimal RFC 4180 reader for the committed candidate table. */
+export function parseCandidateCsv(text) {
+  const rows = [];
+  let field = '', row = [], quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else field += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ',') { row.push(field); field = ''; }
+    else if (ch === '\n' || ch === '\r') {
+      if (ch === '\r' && text[i + 1] === '\n') i++;
+      row.push(field); field = '';
+      if (row.length > 1 || row[0] !== '') rows.push(row);
+      row = [];
+    } else field += ch;
+  }
+  if (field !== '' || row.length) { row.push(field); rows.push(row); }
+  const [header, ...body] = rows;
+  const number = value => (value === '' ? null : Number(value));
+  return body.map(cells => {
+    const raw = Object.fromEntries(header.map((name, k) => [name, cells[k] ?? '']));
+    return {
+      ...raw,
+      easting: number(raw.easting), northing: number(raw.northing),
+      objectHeightMetres: number(raw.objectHeightMetres), radiusMetres: number(raw.radiusMetres),
+      typeConfidence: number(raw.typeConfidence),
+    };
+  });
+}
+
+function sourceIdFor(campaigns, easting, northing) {
+  const owner = (campaigns.items || []).find(item => item.role === 'active' &&
+    easting >= item.projBbox[0] && easting < item.projBbox[2] && northing >= item.projBbox[1] && northing < item.projBbox[3]);
+  if (!owner) throw new Error(`no active laser item owns ${easting}, ${northing}`);
+  return { sourceId: `laser-lm-skog-${owner.id.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`, capturedAt: (owner.captureEnd || owner.capturedAt).slice(0, 10) };
+}
+
+/**
+ * `rows` from parseCandidateCsv; `scope` [minE, minN, maxE, maxN] on finest
+ * tile edges; `residual` { raster (createRaster, the canopy model the review
+ * used), labels (Int32Array, >= 0 where a detected or recovered crown claims
+ * the cell) }.
+ */
+export async function compileReviewedVegetation({
+  groundId, observedOn, campaigns, rows, scope, residual, geometry, ground, readAsset,
+  review, zones = PROVISIONAL_ZONES, standCellMetres = STAND_CELL_METRES, canopyThresholdMetres = 3,
+}) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(observedOn || '')) throw new Error('observedOn must be YYYY-MM-DD');
+  if (!review || /^HARNESS/.test(review)) throw new Error('a reviewed import needs its review statement');
+  const [sx0, sy0, sx1, sy1] = scope;
+  const finest = ground.tiles.filter(tile => tile.lod === 0);
+  const inScope = tile => tile.bounds.minEasting >= sx0 && tile.bounds.maxEasting <= sx1 && tile.bounds.minNorthing >= sy0 && tile.bounds.maxNorthing <= sy1;
+  const outScope = tile => tile.bounds.maxEasting <= sx0 || tile.bounds.minEasting >= sx1 || tile.bounds.maxNorthing <= sy0 || tile.bounds.minNorthing >= sy1;
+  for (const tile of finest) if (!inScope(tile) && !outScope(tile)) throw new Error(`tile ${tile.id} straddles the reviewed scope; align the scope to finest tile edges`);
+  const scopeTiles = finest.filter(inScope);
+  const sampler = await createGroundSampler(ground, readAsset);
+  const groundLookup = await createGroundHeightLookup(ground, readAsset);
+  /* the published records the scope replaces, and the ones it must not collide with */
+  const retainedRecords = [];
+  const replacedRecords = [];
+  for (const tile of finest) {
+    if (!tile.layers.objects) continue;
+    const records = readChunk(await readAsset(tile.layers.objects.url)).content.records;
+    (inScope(tile) ? replacedRecords : retainedRecords).push(...records);
+  }
+  const retainedIds = new Set(retainedRecords.map(record => record.id));
+  const seen = new Set();
+  const records = [];
+  const baseHeightMisses = [];
+  const counts = { rows: rows.length, placed: 0, byDecision: {}, byType: {}, byPlay: {} };
+  for (const row of rows) {
+    counts.byDecision[row.decision] = (counts.byDecision[row.decision] || 0) + 1;
+    if (!REVIEWED_PLACED_DECISIONS.includes(row.decision)) continue;
+    if (!parseTreeId(row.id) || parseTreeId(row.id).groundId !== groundId) throw new Error(`row ${row.id} is not a ${groundId} tree id`);
+    if (seen.has(row.id) || retainedIds.has(row.id)) throw new Error(`tree id ${row.id} is used twice`);
+    seen.add(row.id);
+    if (!(row.easting >= sx0 && row.easting < sx1 && row.northing >= sy0 && row.northing < sy1)) throw new Error(`${row.id} lies outside the reviewed scope`);
+    if (!['near', 'woodland'].includes(row.play)) throw new Error(`${row.id}: play must be near or woodland`);
+    if (!['conifer', 'broadleaf', 'unknown'].includes(row.type)) throw new Error(`${row.id}: type must be conifer, broadleaf or unknown`);
+    const base = await sampler.sample(row.easting, row.northing);
+    if (!base || base.nodata) { baseHeightMisses.push(row.id); continue; }
+    const zone = provisionalZone(row.easting, row.northing, geometry.holes || [], zones);
+    const { sourceId, capturedAt } = sourceIdFor(campaigns, row.easting, row.northing);
+    const confidence = REVIEWED_CONFIDENCE[row.source];
+    if (!Number.isFinite(confidence)) throw new Error(`${row.id}: unknown source ${row.source}`);
+    records.push(treeRecord({
+      id: row.id, groundId,
+      candidate: { heightMetres: row.objectHeightMetres, radiusMetres: row.radiusMetres },
+      easting: row.easting, northing: row.northing,
+      baseHeightRH2000: base.heightRH2000, sourceId, capturedAt, truthZone: zone.zone, confidence, accuracyTier: 'C',
+      subtype: row.type === 'unknown' ? null : row.type,
+      typeConfidence: Number.isFinite(row.typeConfidence) ? row.typeConfidence : null,
+      play: row.play,
+    }));
+    counts.placed++;
+    counts.byType[row.type] = (counts.byType[row.type] || 0) + 1;
+    counts.byPlay[row.play] = (counts.byPlay[row.play] || 0) + 1;
+  }
+  records.sort((a, b) => a.id.localeCompare(b.id));
+  const compiledNew = compileObjectChunks({ groundId, tiles: scopeTiles, records });
+  /* the residual stand field over the scope */
+  const raster = residual.raster;
+  if (residual.labels.length !== raster.values.length) throw new Error('residual labels must match the residual raster');
+  const voids = new Uint8Array(raster.values.length);
+  for (let i = 0; i < voids.length; i++) voids[i] = Number.isNaN(raster.values[i]) ? 1 : 0;
+  const exclusions = rasterizeExclusions(raster, courseExclusionFeatures(geometry), { groundHeightAt: groundLookup.heightAt });
+  const residualStats = { canopyCells: 0, claimedCells: 0, excludedCells: 0, residualCells: 0, cellSquareMetres: raster.sampleSpacingMetres ** 2 };
+  for (let row = 0; row < raster.height; row++) {
+    const northing = raster.originNorthing - (row + 0.5) * raster.sampleSpacingMetres;
+    if (northing < sy0 || northing >= sy1) continue;
+    for (let column = 0; column < raster.width; column++) {
+      const easting = raster.originEasting + (column + 0.5) * raster.sampleSpacingMetres;
+      if (easting < sx0 || easting >= sx1) continue;
+      const i = row * raster.width + column;
+      if (!(raster.values[i] >= canopyThresholdMetres)) continue;
+      residualStats.canopyCells++;
+      if (residual.labels[i] >= 0) residualStats.claimedCells++;
+      else if (exclusions.mask[i]) residualStats.excludedCells++;
+      else residualStats.residualCells++;
+    }
+  }
+  const standNew = compileStandChunks({
+    groundId, tiles: scopeTiles, cellMetres: standCellMetres, canopyThresholdMetres,
+    campaignFields: [{ extent: scope, raster, voids, excludeMask: exclusions.mask, extentLabels: residual.labels, north: 0 }],
+  });
+  /* everything outside the scope, kept as published */
+  const retained = { objects: [], stands: [] };
+  for (const tile of finest.filter(outScope)) {
+    for (const kind of ['objects', 'stands']) {
+      const reference = tile.layers[kind];
+      if (!reference) continue;
+      retained[kind].push(Object.freeze({ tileId: tile.id, bytes: await readAsset(reference.url), reference, records: kind === 'objects' ? null : undefined }));
+    }
+  }
+  const compiled = { chunks: [...compiledNew.chunks, ...retained.objects], layers: new Map([...compiledNew.layers, ...retained.objects.map(c => [c.tileId, c.reference])]), recordCount: records.length + retainedRecords.length };
+  const stands = { chunks: [...standNew.chunks, ...retained.stands], layers: new Map([...standNew.layers, ...retained.stands.map(c => [c.tileId, c.reference])]) };
+  const replacedIds = new Set(replacedRecords.map(record => record.id));
+  const keptIds = records.filter(record => replacedIds.has(record.id)).length;
+  const square = residualStats.cellSquareMetres;
+  const evidence = {
+    schemaVersion: VEGETATION_COMPILER_VERSION,
+    importVersion: REVIEWED_IMPORT_VERSION,
+    groundId,
+    observedOn,
+    frameFingerprint: sampler.frameFingerprint,
+    attribution: campaigns.terms?.attribution || null,
+    review,
+    mode: 'reviewed-candidates',
+    scopeEpsg3006: scope,
+    zones: { ...zones, note: 'truthZone: distance to the nearest hole line of either routing' },
+    rows: counts,
+    records: { inScope: records.length, retainedOutsideScope: retainedRecords.length, baseHeightMisses, replacedPublishedInScope: replacedRecords.length, publishedIdsKeptInScope: keptIds },
+    residualCanopy: {
+      thresholdMetres: canopyThresholdMetres,
+      canopySquareMetres: Math.round(residualStats.canopyCells * square),
+      claimedByCrownsSquareMetres: Math.round(residualStats.claimedCells * square),
+      excludedSquareMetres: Math.round(residualStats.excludedCells * square),
+      residualSquareMetres: Math.round(residualStats.residualCells * square),
+      residualShareOfCanopy: residualStats.canopyCells ? Math.round((residualStats.residualCells / residualStats.canopyCells) * 1e4) / 1e4 : 0,
+    },
+    stands: { cellMetres: standCellMetres, scopeTiles: standNew.chunks.length, retainedTiles: retained.stands.length },
+    objects: { scopeTiles: compiledNew.chunks.length, retainedTiles: retained.objects.length },
+  };
+  return Object.freeze({
+    candidates: [], standFields: [], records, compiled, stands, evidence,
+    identity: { matched: [], moved: [], added: [], missing: [], nextSequence: null },
+    diff: registryDiff(replacedRecords, records),
+  });
+}
+
 /** Raw little-endian Float32 raster with a JSON sidecar, the shape `gdal_translate -of ENVI -ot Float32` produces. */
 export function readRawRaster(dataPath, sidecarPath) {
   const sidecar = JSON.parse(fs.readFileSync(sidecarPath, 'utf8'));
@@ -614,6 +809,39 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const outDir = flag('out');
   const observedOn = flag('observed-on', new Date().toISOString().slice(0, 10));
   const rasterArgs = args.flatMap((arg, i) => (arg === '--raster' ? [args[i + 1]] : []));
+  if (groundId && outDir && flag('reviewed')) {
+    /* the reviewed import: --reviewed <candidates.csv> --scope minE,minN,maxE,maxN
+       --residual-chm <float32.bin> --residual-labels <int32.bin> (each with a .json
+       sidecar beside it) --review "<statement>" [--campaigns <inventory>] */
+    const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
+    const dataDir = path.join(root, 'geo_data/course-v2', groundId);
+    const campaigns = JSON.parse(fs.readFileSync(path.resolve(root, flag('campaigns', path.join(dataDir, 'acquisition/laser-campaigns.json'))), 'utf8'));
+    const publicDir = path.resolve(root, flag('public', 'apps/golf/public'));
+    const { ground } = readActivePublishedGround(publicDir, groundId);
+    const readAsset = async url => fs.readFileSync(path.join(publicDir, url));
+    const readBinary = (file, Type) => {
+      const sidecar = JSON.parse(fs.readFileSync(file.replace(/.bin$/, '.json'), 'utf8'));
+      const bytes = fs.readFileSync(file);
+      return { sidecar, values: new Type(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength)) };
+    };
+    const chm = readBinary(path.resolve(root, flag('residual-chm')), Float32Array);
+    const labels = readBinary(path.resolve(root, flag('residual-labels')), Int32Array);
+    for (const key of ['width', 'height', 'sampleSpacingMetres', 'originEasting', 'originNorthing']) {
+      if (chm.sidecar[key] !== labels.sidecar[key]) throw new Error(`residual chm and labels differ in ${key}`);
+    }
+    const raster = createRaster({ width: chm.sidecar.width, height: chm.sidecar.height, sampleSpacingMetres: chm.sidecar.sampleSpacingMetres, originEasting: chm.sidecar.originEasting, originNorthing: chm.sidecar.originNorthing, values: chm.values });
+    const result = await compileReviewedVegetation({
+      groundId, observedOn, campaigns,
+      rows: parseCandidateCsv(fs.readFileSync(path.resolve(root, flag('reviewed')), 'utf8')),
+      scope: flag('scope').split(',').map(Number),
+      residual: { raster, labels: labels.values },
+      geometry: loadGroundGeometry(dataDir, groundId), ground, readAsset,
+      review: flag('review'),
+    });
+    writeCompilation(outDir, result);
+    console.log(JSON.stringify(result.evidence, null, 2));
+    process.exit(0);
+  }
   if (!groundId || !outDir || !rasterArgs.length) {
     console.error('usage: compile-vegetation.mjs --ground <id> --out <dir> --raster <campaignId>=<data.f32>:<sidecar.json> [...] [--approvals file | --approve-all-individuals | --machine-review] [--previous registry.json]');
     process.exit(2);

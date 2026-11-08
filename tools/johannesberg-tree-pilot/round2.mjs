@@ -154,7 +154,7 @@ function score(reference) {
   const m21 = loadMosaic('2021');
   const windows = reference.windows.windows;
   const all = windows.map(w => w.bbox).reduce((a, b) => [Math.min(a[0], b[0]) - 10, Math.min(a[1], b[1]) - 10, Math.max(a[2], b[2]) + 10, Math.max(a[3], b[3]) + 10]);
-  const published = publishedPopulation({ bbox: all });
+  const published = publishedPopulation({ bbox: all, groundManifestUrl: PILOT.previousGroundManifest });
   const byWindow = fn => new Map(windows.map(w => [w.id, fn(w)]));
   const entries = new Map(prepareWindows(windows, chm, m21).map(e => [e.window.id, e]));
   const methods = {

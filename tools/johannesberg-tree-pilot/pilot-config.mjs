@@ -29,6 +29,8 @@ export const PILOT = Object.freeze({
   /* the published terrain trees stand on */
   publicDir: 'apps/golf/public',
   auditCarryForward: null,
+  /* the generation the review compared against, before the 2026-11-08 publication */
+  previousGroundManifest: 'grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json',
 });
 
 export function haloWindow(config = PILOT) {

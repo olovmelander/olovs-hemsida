@@ -25,6 +25,17 @@ const CLASSES = new Set(OBJECT_REGISTRY_CLASSES);
 const PLACEMENT_METHODS = new Set(OBJECT_PLACEMENT_METHODS);
 const TRUTH_ZONES = new Set(['A', 'B', 'C']);
 
+/* A chunk that requires this feature carries two more fields on every record:
+   typeConfidence (the measured conifer/broadleaf call's confidence, 0-1, or
+   null) and play ('near': within the app's zone A of a hole line or practice
+   area; 'woodland': further out, which a low-quality device may thin). Its
+   tree records name their type in subtype: conifer, broadleaf or null. */
+export const TREE_ATTRIBUTES_FEATURE = 'object-registry-tree-attributes-v1';
+export const TREE_PLAY_ZONES = Object.freeze(['near', 'woodland']);
+export const TREE_TYPES = Object.freeze(['conifer', 'broadleaf']);
+const PLAY = new Set(TREE_PLAY_ZONES);
+const TREE_TYPE_SET = new Set(TREE_TYPES);
+
 function object(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -78,10 +89,23 @@ export function validateObjectRegistry(value, header = null) {
     'accuracyTier', 'horizontalAccuracyMetres', 'verticalAccuracyMetres', 'confidence',
     'reviewStatus', 'truthZone', 'placementMethod',
   ]);
+  /* with a header the feature decides; without one (an offline check of bare
+     content) a registry may carry the attributes on all records or on none */
+  const attributes = header
+    ? Array.isArray(header.requiredFeatures) && header.requiredFeatures.includes(TREE_ATTRIBUTES_FEATURE)
+    : value.records.length > 0 && object(value.records[0]) && Object.hasOwn(value.records[0], 'play');
+  const recordFields = attributes ? new Set([...fields, 'typeConfidence', 'play']) : fields;
   value.records.forEach((record, index) => {
     const at = `objects.records[${index}]`;
     if (!object(record)) { fail(at, 'must be an object'); return; }
-    exactKeys(record, fields, at, fail);
+    exactKeys(record, recordFields, at, fail);
+    if (attributes) {
+      if (record.typeConfidence !== null) finite(record.typeConfidence, `${at}.typeConfidence`, fail, 0, 1);
+      if (!PLAY.has(record.play)) fail(`${at}.play`, 'must be near or woodland');
+      if (record.class === 'tree' && record.subtype !== null && !TREE_TYPE_SET.has(record.subtype)) {
+        fail(`${at}.subtype`, 'a tree with attributes must be conifer, broadleaf or null');
+      }
+    }
     if (!ID.test(record.id || '')) fail(`${at}.id`, 'must be a lowercase kebab-case id');
     if (previousId !== null && previousId >= record.id) {
       fail('objects.records', 'must be sorted by id and contain no duplicates');

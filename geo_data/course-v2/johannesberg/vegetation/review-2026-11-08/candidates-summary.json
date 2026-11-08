@@ -11,26 +11,60 @@
   ],
   "detectorLockSha256": {
     "parameters": {
-      "smoothingSigmaMetres": 0.4,
-      "windowBaseMetres": 1.5,
-      "windowSlope": 0.05,
-      "windowMinimumMetres": 1,
-      "windowMaximumMetres": 3,
-      "minimumCandidateHeightMetres": 3,
-      "seedFraction": 0.45,
-      "crownFraction": 0.55,
-      "maximumCrownRadiusMetres": 10,
-      "minimumCrownAreaSquareMetres": 0.25,
-      "minimumProminenceMetres": 0,
-      "extentFraction": 0.2
+      "type": {
+        "ndviThreshold": 0.12,
+        "coniferShare": 0.35,
+        "radiusBaseMetres": 1.5,
+        "radiusSlope": 0.15
+      },
+      "conifer": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 1.5,
+        "windowSlope": 0.05,
+        "windowMinimumMetres": 1,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 0,
+        "prominenceFraction": 0,
+        "position": "centroid"
+      },
+      "broadleaf": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 2,
+        "windowSlope": 0.12,
+        "windowMinimumMetres": 1,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 3,
+        "prominenceMetres": 0.5,
+        "prominenceFraction": 0,
+        "position": "centroid"
+      },
+      "shared": {
+        "seedFraction": 0.45,
+        "crownFraction": 0.55,
+        "maximumCrownRadiusMetres": 10,
+        "extentFraction": 0.2,
+        "minimumCrownAreaSquareMetres": 0.25
+      },
+      "split": {
+        "areaFactor": 0,
+        "allometryBaseMetres": 1,
+        "allometrySlope": 0.1,
+        "fineSigmaMetres": 0.25,
+        "windowMetres": 1.25,
+        "minimumSeparationMetres": 2,
+        "seedFraction": 0.6
+      }
     },
-    "position": "centroid",
     "calibration": {
-      "f1": 0.859,
-      "precision": 0.878,
+      "f1": 0.888,
+      "precision": 0.94,
       "recall": 0.84,
-      "crownIoUMean": 0.633,
-      "centreOffsetMedianMetres": 0.92
+      "iou": 0.629,
+      "offset": 0.94,
+      "tp": 79,
+      "missed": 15,
+      "extra": 5
     }
   },
   "publishedGroundManifest": "grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
@@ -41,92 +75,94 @@
   },
   "notPlacedOrRemovedByReview": {
     "remove:felled after 2021": 1,
-    "not-placed:not a tree": 18,
-    "not-placed:felled after 2021": 12
+    "not-placed:not a tree": 14,
+    "not-placed:felled after 2021": 11
   },
   "candidates": {
-    "total": 27384,
+    "total": 26709,
     "byDecision": {
-      "add": 24573,
-      "adjust": 1725,
-      "hold": 333,
-      "retain": 536,
+      "add": 24027,
+      "adjust": 1662,
+      "hold": 211,
+      "retain": 560,
       "remove": 1,
-      "not-placed": 30,
-      "merge": 186
+      "not-placed": 25,
+      "merge": 223
     },
-    "placedTrees": 26834,
+    "placedTrees": 26249,
     "placedByType": {
-      "conifer": 19278,
-      "unknown": 1110,
-      "broadleaf": 6446
+      "conifer": 19896,
+      "unknown": 3668,
+      "broadleaf": 2685
     },
     "placedBySource": {
-      "detector": 26533,
-      "sparse-laser-recovery": 301
+      "detector": 26071,
+      "sparse-laser-recovery": 178
     },
     "holdByReason": {
-      "on water, road or path": 24,
-      "on a mapped building": 175,
-      "structure suspect": 41,
-      "no June 2025 vegetation (unreviewed)": 74,
-      "crown over a played surface": 5,
+      "on water, road or path": 25,
+      "on a mapped building": 77,
+      "no June 2025 vegetation (unreviewed)": 68,
+      "crown over a played surface": 3,
+      "structure suspect": 22,
       "felling screen": 13,
-      "record without crown": 1
+      "record without crown": 3
     }
   },
   "fellingScreen": {
-    "screened": 64,
+    "screened": 56,
     "byVerdict": {
       "unclear": 14,
-      "absent": 13,
-      "structure": 18,
-      "present": 19
+      "absent": 12,
+      "structure": 14,
+      "present": 16
     }
   },
   "playTypeDecision": {
     "woodland|conifer": {
-      "add": 14527,
-      "adjust": 726,
-      "hold": 6,
-      "retain": 154,
+      "add": 15126,
+      "adjust": 713,
+      "hold": 11,
+      "retain": 163,
       "not-placed": 1
     },
     "near|conifer": {
-      "add": 3673,
-      "adjust": 158,
-      "retain": 40,
+      "add": 3694,
+      "adjust": 162,
+      "retain": 38,
       "hold": 7,
-      "not-placed": 1
+      "not-placed": 2
     },
     "woodland|unknown": {
-      "add": 765,
-      "hold": 5,
-      "adjust": 104,
-      "retain": 12,
-      "merge": 144
-    },
-    "woodland|broadleaf": {
-      "add": 3961,
-      "adjust": 590,
-      "hold": 251,
-      "retain": 265,
-      "not-placed": 25
+      "add": 2355,
+      "hold": 38,
+      "adjust": 368,
+      "retain": 133,
+      "not-placed": 2,
+      "merge": 178
     },
     "near|unknown": {
-      "add": 202,
-      "adjust": 21,
-      "retain": 6,
-      "hold": 1,
-      "merge": 42
+      "add": 701,
+      "adjust": 76,
+      "retain": 35,
+      "hold": 9,
+      "remove": 1,
+      "not-placed": 1,
+      "merge": 45
+    },
+    "woodland|broadleaf": {
+      "add": 1543,
+      "retain": 156,
+      "adjust": 281,
+      "hold": 119,
+      "not-placed": 17
     },
     "near|broadleaf": {
-      "add": 1445,
-      "retain": 59,
-      "adjust": 126,
-      "hold": 63,
-      "remove": 1,
-      "not-placed": 3
+      "add": 608,
+      "retain": 35,
+      "adjust": 62,
+      "hold": 27,
+      "not-placed": 2
     }
   },
   "typeModel": {
@@ -135,7 +171,9 @@
     "w0": -5.8044,
     "w1": 13.1841,
     "examples": 67,
-    "unknownBelowConfidence": 0.6
+    "unknownBelowConfidence": 0.6,
+    "broadleafBelowAprilShare": 0.2,
+    "unknownTypeConfidence": null
   },
   "playZone": {
     "rule": "near = within 90 m of any hole tee-to-green line of either routing (the app zone A) or of the driving range / practice greens; woodland otherwise",
@@ -143,58 +181,58 @@
     "practiceRings": 4
   },
   "identity": {
-    "matchedWithin15m": 1445,
-    "matchedWithin3m": 826,
-    "newIds": 24896,
-    "nextSequence": 39721,
+    "matchedWithin15m": 1409,
+    "matchedWithin3m": 823,
+    "newIds": 24226,
+    "nextSequence": 39046,
     "previousGenerationRecords": 2417,
     "previousGenerationLineageCarried": 2394
   },
   "presence": {
-    "referenceFloor": 0.628,
+    "referenceFloor": 0.632,
     "scale": {
-      "vegetatedShare": 0.9779179810725552,
-      "nirTexture": 5.9259697256386,
-      "darkShare": 0.015252357182473655
+      "vegetatedShare": 0.9855316285329744,
+      "nirTexture": 5.949251637043966,
+      "darkShare": 0.03443708609271523
     }
   },
   "unresolved": {
-    "sparseLaserWithoutPhotoCrown": 71,
-    "photoOnlyCanopy": 317
+    "sparseLaserWithoutPhotoCrown": 64,
+    "photoOnlyCanopy": 316
   },
-  "elapsedSeconds": 31.3,
+  "elapsedSeconds": 33.4,
   "typeCheck": {
     "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, used-holdout and evaluation were not",
     "calibration": {
-      "matched": 71,
-      "typed": 66,
-      "correct": 61,
-      "accuracyOfTyped": 0.924,
-      "unknown": 5,
+      "matched": 70,
+      "typed": 62,
+      "correct": 59,
+      "accuracyOfTyped": 0.952,
+      "unknown": 8,
       "confidence80": {
-        "n": 59,
+        "n": 58,
         "accuracy": 0.966
       }
     },
     "used-holdout": {
-      "matched": 28,
-      "typed": 25,
-      "correct": 22,
-      "accuracyOfTyped": 0.88,
-      "unknown": 3,
+      "matched": 27,
+      "typed": 18,
+      "correct": 16,
+      "accuracyOfTyped": 0.889,
+      "unknown": 9,
       "confidence80": {
-        "n": 22,
-        "accuracy": 0.864
+        "n": 16,
+        "accuracy": 0.875
       }
     },
     "evaluation": {
-      "matched": 47,
-      "typed": 45,
-      "correct": 42,
-      "accuracyOfTyped": 0.933,
-      "unknown": 2,
+      "matched": 45,
+      "typed": 40,
+      "correct": 39,
+      "accuracyOfTyped": 0.975,
+      "unknown": 5,
       "confidence80": {
-        "n": 38,
+        "n": 34,
         "accuracy": 1
       }
     }

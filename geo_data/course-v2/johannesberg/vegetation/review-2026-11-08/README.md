@@ -1,11 +1,11 @@
-# Johannesberg tree placement, Stage A (review 2026-11-08)
+# Johannesberg tree placement (review 2026-11-08)
 
-**Status (round 2):** local pilot, evidence and a candidate set only. Round 2 (below) tried a type-aware detector against a new held-out sample; the gate is still not met and the round-1 candidate set stands. Nothing here is
-published, and the accepted generation (`ground-v2-fd6ebbe8…`), its pins and
-its assets are unchanged. **The 90% precision and recall gate is not met.** The
-new method misses fewer trees and places them better than either today's
-published population or the current detector, but its held-out precision is
-0.82.
+**Status (2026-11-08, published):** the inner 2,048 m frontier now carries the round-2 reviewed generation, published by the owner's decisions below although the held-out gate is not met, with broadleaf calls narrowed by the owner's species check (see Publication). Round 2 itself is described further down.
+
+The sections from Evidence ledger to What Stage B needs record **Stage A (round 1)**
+as it stood before publication: there, nothing was published, and the round-1 held-out
+precision of 0.82 missed the 90% gate. Their candidate counts are round 1's; the published
+set is round 2's (Publication).
 
 Scope: one physical ground, two routings (`johannesberg`, `johannesberg-9`).
 The inner 2,048 m frontier is E 678403.5–680451.5, N 6624276.5–6626324.5, and
@@ -187,7 +187,7 @@ a stem.
   of the 8 held-out extras split broad broadleaf crowns, chiefly in the 9-hole
   5/6 clump, where the reference itself is a judgement.
 
-## Candidate tree set, inner ring
+## Candidate tree set, inner ring (round 1; superseded by the published round-2 set)
 
 Summary: [`candidates-summary.json`](candidates-summary.json). The full table
 is [`candidates.csv`](candidates.csv): a QGIS delimited-text layer in
@@ -413,7 +413,296 @@ above 0.9 recall.
 **What could move it:** a leaf-on or denser laser, field checks of closed
 stands, or the photo-based crown referee that was deferred.
 
-## Per-tree play zone and type (for publishing)
+## Publication (Stage B, 2026-11-08)
+
+### Owner decisions of 2026-11-08
+
+These are recorded here and in [`../RUN`](../RUN).
+
+1. **Publish even though the gate is missed.** The workflow's 90% precision and
+   recall gate is not met on the unseen held-out sample: round 2 reaches
+   P 0.953 and R 0.788. The shortfall is in closed stands, where touching
+   spruces in the 2021 leaf-off scan give recall 17/23. This is a limit of the
+   data. Isolated trees (13/15), groups (4/4), broadleaves (21/25) and conifers
+   (17/23) meet or approach the gate. The exception, the stratified numbers
+   (Round 2 above), the holds and the unresolved lists stay recorded.
+2. **Use the round-2 (type-aware) detector.** The owner chose it after the
+   held-out scoring, for fewer false trees on open ground. This is a
+   post-evaluation owner choice, not the declared F1 ranking, under which
+   round 1 scored 0.869 against round 2's 0.863.
+3. **Every placed tree stands on its own detected treetop as a record.**
+   - `near` trees and `woodland` trees are both individual records.
+   - Low quality thins the woodland records by id, at the stand field's keep
+     share of 0.55.
+   - Only canopy that no crown claims is topped up as a stand field.
+
+### What was published
+
+The candidate set was regenerated with the round-2 detector, using the same
+decision rules and ID carry-forward as round 1, plus the new `play` and type
+fields. That changes it from round 1's set:
+
+- **More screened crowns were reviewed.** 13 felling-screened crowns appeared
+  at new positions and were reviewed in [`felling-review.json`](felling-review.json),
+  which now covers 77 screened crowns.
+- **New published ground:** `ground-v2-0af708ff…` for both routings. (A first
+  publication, `ground-v2-700fcf2d…`, was never committed: the owner's species
+  check below replaced it the same day.)
+- **Content:** `compile-vegetation.mjs --reviewed candidates.csv` with residual
+  canopy, then `publish-vegetation`. It was published first to a staging copy of
+  the public root (verified with `verify-staging.mjs`) and then adopted. The
+  live root is identical to staging.
+- **Prepared startup data** was re-baked for all 13 layouts (the engine
+  changed), and Johannesberg's two routings again after the species check.
+
+Inner 2,048 m frontier: 26,249 placed records.
+
+| Placed records | Conifer | Broadleaf | Unknown | Total |
+|---|---|---|---|---|
+| near | 3,894 | 705 | 812 | 5,411 |
+| woodland | 16,002 | 1,980 | 2,856 | 20,838 |
+| **Total** | **19,896** | **2,685** | **3,668** | **26,249** |
+
+A broadleaf call needs a clearly leafless April crown (Species check below).
+
+Of the placed records, 24,027 are added, 1,662 adjusted (ID kept) and 560
+retained (ID kept). Other decisions:
+
+| Decision | Count |
+|---|---|
+| Hold | 211 |
+| Merge (ID retired into a neighbouring crown) | 223 |
+| Remove (felled) | 1 |
+| Not placed (reviewed felled or not a tree) | 25 |
+
+Holds by reason:
+
+| Reason | Count |
+|---|---|
+| On a building | 77 |
+| No June 2025 vegetation, unreviewed | 68 |
+| Water, road or path | 25 |
+| Structure suspect | 22 |
+| Felling unclear | 13 |
+| Over a played surface | 3 |
+| Record without a crown | 3 |
+
+ID carry-forward: 2,222 of the 2,458 published IDs are kept. The previous
+generation's IDs remain as lineage (2,394). New IDs start after
+`tree-johannesberg-014794`.
+
+- **Residual canopy:** of 92.6 ha of canopy at least 3 m tall in the frontier,
+  crowns claim 91.96 ha and exclusions 0.11 ha. The remaining 0.51 ha (0.55%)
+  becomes a 4 m stand field: 35 stand trees at high quality.
+- **Outside the frontier:** the 192 outer finest tiles keep the 2026-09-11
+  records (12,336) and stands byte for byte.
+
+| Trees drawn | High quality before | High quality after | Low quality before | Low quality after |
+|---|---|---|---|---|
+| Inner 2,048 m frontier | 18,730 | 26,284 | ~10,755 | ~16,892 |
+| Whole 4,096 m level zero | 112,768 | 120,322 (+6.7%) | ~64,646 | ~70,783 (+9.5%) |
+
+These counts are before the runtime's played-surface refusal. Low-quality
+counts use the planter's own hashes.
+
+**Runtime.** A conifer record draws pine or spruce, keeping the course rule's
+choice when it is already a conifer. A broadleaf record draws the rule's
+broadleaf or birch. An untyped record (unknown, or any other ground) keeps
+today's rule. At Johannesberg, which has no species rule of its own, that is
+the engine's background mix (58% pine, 36% spruce, 6% birch), with birch at 70%
+within 28 m of water. The stand field (residual canopy and the outer tiles)
+takes the same rule. Nothing falls back to broadleaf.
+
+### Species check (owner request, 2026-11-08)
+
+In the owner's before/after screenshots of the first publication, the
+play-area trees and hole 17's far edge had turned mostly birch. On hole 1,
+birches stood left of the fairway where spruces had stood. Johannesberg
+(Gottröra, Uppland) should read as a conifer/broadleaf mix. Three questions
+were checked.
+
+**(a) Counts.** These are what the app plants: high quality, the
+`johannesberg` routing, from `runtime-trees.mjs`. Zone A is within 90 m of a
+hole line, B within 300 m, and C is beyond. Conifer means pine plus spruce.
+"First publication" is the uncommitted `ground-v2-700fcf2d…`.
+
+| Conifer / broadleaf (broadleaf share) | Before (main) | First publication | Published |
+|---|---|---|---|
+| Individual records, zone A (near play) | 391 / 21 (5.1%) | 4,016 / 1,078 (21.2%) | 4,523 / 571 (11.2%) |
+| Individual records, zone B | 1,068 / 64 (5.7%) | 7,005 / 1,709 (19.6%) | 7,728 / 986 (11.3%) |
+| Individual records, zone C | 12,553 / 683 (5.2%) | 21,540 / 3,127 (12.7%) | 22,722 / 1,945 (7.9%) |
+| Stand field (fill), zones A and B | 9,083 / 459 (4.8%) | 549 / 36 (6.2%) | 549 / 36 (6.2%) |
+| Stand field (fill), zone C | 83,841 / 4,490 (5.1%) | 76,991 / 4,111 (5.1%) | 76,991 / 4,111 (5.1%) |
+| **All trees** | 106,936 / 5,717 (5.1%) | 110,101 / 10,061 (8.4%) | 112,513 / 7,649 (6.4%) |
+
+The stand field never changed species: its broadleaf share is the background
+rule's ~5% before and after. On the 9-hole routing, zone A goes from
+155 / 43 (21.7%) to 64 / 178 (73.6%). There
+the April photo shows leafless groves (grey crowns casting long shadows, all
+in leaf in June), so these are real broadleaves, not shaded conifers.
+
+**(b) Spot check on the photos.** Within 90 m of hole 1's line, the first
+publication typed 74 of 125 placed crowns broadleaf; within 90 m of hole 17's,
+it typed 111 of 256. `type-panels.mjs` drew a deterministic sample of 12
+broadleaf calls per hole. Each was drawn on four images: April 2021 colour
+infrared, April 2021 natural colour, June 2025 natural colour and June 2025
+colour infrared. The panels are kept in the ignored cache only.
+
+| Verdict on the photos | Calls | April vegetated share |
+|---|---|---|
+| Broadleaf: grey, leafless April crown, light June crown | 10 (3 uncertain) | 0–0.37 |
+| Conifer: red in April colour infrared, in a neighbour's shadow or at an edge | 8 (3 uncertain) | 0.26–0.40 |
+| Not a tree: a pole by the road or path (crown radius 0.28 and 0.75 m) | 2 | 0 |
+| Unclear or mixed crown | 4 | 0.04–0.41 |
+
+Below a share of 0.2, none of the 11 sampled calls was a conifer. Between 0.2
+and the logistic's broadleaf limit of 0.41, 8 of 13 were conifers.
+
+**(c) Where the fill gets its species.** The stand field (the residual canopy
+inside the frontier, and every stand outside it) and every unknown record take
+the engine's background rule: 58% pine, 36% spruce and 6% birch, with birch at
+70% within 28 m of water. Nothing falls back to broadleaf. The extra birch came
+from the classifier's broadleaf calls alone.
+
+**The fix.** A broadleaf call now needs a clearly leafless April crown, a share
+below 0.2 (`BROADLEAF_MAXIMUM_APRIL_SHARE` in `build-candidates.mjs`). This is
+an owner-requested, post-evaluation change. The evidence for it:
+
+- the spot check above;
+- 17 of the 35 reference broadleaves lie below 0.2;
+- none of the 60 reference conifers lies below 0.27.
+
+Between 0.2 and the conifer call the type is now `unknown`, with no
+`typeConfidence`, so the background mix chooses. That moves 2,591 rows from
+broadleaf to unknown: 2,551 placed, 37 held, and 3 removed or not placed. No
+position, height, radius, decision or ID changed. The residual rasters and the
+stand fields are byte-identical to the first publication, and every placed
+tree stands where it stood.
+
+The type check against the references now reads:
+
+| Sample | Correct of typed (unknown), after | Before |
+|---|---|---|
+| Calibration | 59 of 62 (8) | 60 of 64 (6) |
+| Used held-out | 16 of 18 (9) | 22 of 25 (2) |
+| New held-out (evaluation) | 39 of 40 (5) | 44 of 45 (0) |
+
+The references were sampled across closed, edge, group and isolated
+windows, and there the mid-share calls were mostly right. Near the holes they
+were mostly shaded conifers. Calling them unknown loses some true
+broadleaves to the conifer-led background, about 6% birch. That error is the
+safer one.
+
+**Still open.** 138 placed crowns are under 1 m in crown radius yet at least
+5 m tall; 35 of them are near play. Two of the 24 sampled were poles. A
+radius-and-photo hold for pole-like crowns is the next rule to test against
+the references.
+
+### Runtime cost
+
+These were measured on the owner's RTX 5080 laptop GPU, with `BANVY_GPU=1`,
+WebGPU and `tools/frame-time.mjs` at 1920 × 1080 with the frame cap lifted.
+Each side had three runs of 240 frames each, interleaved before/after at each
+quality. Before is main's build (`ground-v2-fd6ebbe8…`); after is this one.
+The table gives the median over runs of each run's median frame interval, in
+milliseconds.
+
+| View | High quality, before | High quality, after | High p95, before → after | Low quality, before | Low quality, after | Low p95, before → after |
+|---|---|---|---|---|---|---|
+| Hole 1 tee | 3.6 | 4.2 | 5.1 → 5.2 | 3.7 | 3.3 | 6.4 → 5.8 |
+| Hole 12 tee | 5.8 | 7.6 | 8.4 → 12.9 | 3.7 | 5.7 | 5.0 → 7.1 |
+| Hole 14 tee | 4.4 | 5.6 | 5.5 → 7.7 | 1.0 | 1.2 | 3.4 → 4.6 |
+| Hole 7 from above | 4.2 | 5.3 | 5.9 → 9.1 | 2.3 | 3.4 | 4.1 → 6.1 |
+| Hole 12 orbit | 6.5 | 9.3 | 9.0 → 15.1 | 1.2 | 1.2 | 6.2 → 9.4 |
+| Hole 5 tee | 4.6 | 5.5 | 8.0 → 12.2 | 3.3 | 3.9 | 5.2 → 7.6 |
+| Hole 1 walk (moving) | 4.7 | 4.8 | 10.1 → 11.7 | 3.9 | 3.8 | 6.2 → 7.0 |
+
+- **Trees drawn.** At high quality, 112,653 → 120,162; at low quality,
+  64,578 → 70,666. Triangles rise most where the frontier's woods face the
+  camera: hole 12 at high quality goes from 10.5 M to 15.2 M.
+- **Repeatability.** The three runs of each side agree within 0.8 ms.
+- **The cost.** The heaviest view, hole 12's orbit at high quality, goes from
+  6.5 to 9.3 ms median and 9.0 to 15.1 ms p95. That is still inside the 60 fps
+  budget of 16.7 ms, but with little room to spare.
+- **Not measured.** Phones and the WebGL2 backend have no timing here.
+
+### Checks
+
+- `corepack pnpm test`: Vitest 2,161 of 2,161 passed in 260 files; Node 493 passed, 0 failed, 3 skipped.
+- `node tools/lint-app.mjs`: clean.
+- `node packages/course-v2/check-app-build.mjs`: passes, with all 13 published graphs.
+- `corepack pnpm check:course-workflow`: passes.
+- `node tools/check-prepared-startup.mjs --public apps/golf/dist`: passes after
+  the Johannesberg re-bake.
+- `tools/check-gpu-clean-boot.mjs`, both routings, WebGPU and WebGL2, at high
+  and at low quality: all 8 boots clean (6.0–7.7 s; at most 14 vertex outputs).
+- `verify-staging.mjs`, on both the staging and the live root: integrity true,
+  38,585 tree records (19,896 conifer, 2,685 broadleaf, 16,004 untyped).
+- `production.mjs --inspect`: every pinned input verifies except the seven
+  ring rasters (see The republished terrain).
+- `check-tree-shadows` was not run: no tree shader, catalogue or shadow code
+  changed.
+- `bake-map-trees` was not needed: the catalogue is unchanged. Map land was
+  re-baked; its forest picture is unchanged, since the stands did not change.
+- **Screenshots.** `tools/gfx-gallery.mjs --adhoc` took before/after shots at
+  1920 × 1080 under the Dag light, waiting for `loadingTiles === 0` and two
+  more frames. Views: hole 1 from the tee and from above, hole 17 from the tee
+  and the green, hole 18 from the tee, and the 9-hole course's 5th. They are
+  in the ignored `tools/goldens/gfx/jb-trees-before-vs-jb-trees-after/`.
+
+### Pins adopted
+
+The dated pins replace the accepted records, with no hand-edited hashes:
+
+- `acquisition/laser-campaigns.json`: 12 re-tiled items;
+- `copc-hierarchy-census.json`;
+- `d2-discovery.json`;
+- `vegetation/canopy-evidence.json`: rebuilt by `build-canopy` from the 6 items
+  that reach the ground.
+
+Each is re-pinned in `source-manifest.json` by `record-artifact-checksum.mjs`.
+`course-workflows/johannesberg/production.json` changes:
+
+- `baselineGround`: the new generation, `ground-v2-0af708ff…`;
+- `vegetation.reviewMode`: `reviewed-candidates-v1`, pinning `candidates.csv`
+  and the residual rasters;
+- `workflow.json`: re-configured.
+
+### The republished terrain
+
+The two republished DTM files were reviewed by
+`build-ground-rings.mjs`, recorded in
+[`../../acquisition/ground-rings-2026-11-08-republished-dtm.json`](../../acquisition/ground-rings-2026-11-08-republished-dtm.json).
+
+**Level 0 differs from the published terrain** over the 4,096 m level zero.
+
+| Measure | Value |
+|---|---|
+| Mean absolute difference | 2.4 mm |
+| Maximum difference | 0.18 m |
+| Samples beyond the 0.011 m baseline tolerance | 39 |
+| Samples beyond 5 cm | 8 |
+| Worst sample | E 677830, outside the frontier |
+
+**The published terrain is kept.** Adopting the republished DTM is a separate
+terrain source revision.
+
+**This blocks the production workflow's terrain stage.** `production.mjs
+--inspect` now verifies every pinned input except the seven ring rasters,
+which can no longer be rebuilt from the republished source. So
+`pnpm course run` cannot rebuild the ground from source until a terrain
+revision is reviewed. The vegetation was published through the ground
+vegetation chain (`publish-vegetation`, staging first), which
+the workflow's `reviewed-candidates-v1` adapter reproduces from the same pins.
+
+### Review images
+
+- **Per routing:** `../review/johannesberg-hole-NN.png` and
+  `../review/johannesberg-9-hole-NN.png`. Names no longer collide; the old
+  `hole-NN.png` files are removed.
+- **Spots:** `review/*.png` here, before against after, including `hole1`.
+
+## Per-tree play zone and type (introduced on the round-1 set; the published round-2 counts are under Publication)
 
 These are columns in [`candidates.csv`](candidates.csv); the counts are in
 [`candidates-summary.json`](candidates-summary.json) under `playTypeDecision`.
@@ -427,6 +716,8 @@ These are columns in [`candidates.csv`](candidates.csv); the counts are in
   - It agrees with the interpreter on 42 of 45 typed new held-out crowns
     (2 unknown), and on 38 of 38 at confidence 0.8 or more.
   - On the used held-out sample it agrees on 22 of 25.
+  - Since the species check of 2026-11-08 (Publication), a broadleaf call also
+    needs an April share below 0.2, and an unknown carries no confidence.
 
 Decisions are unchanged from round 1. The type column now carries the
 confidence-gated type.
@@ -461,8 +752,15 @@ PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/reference-panels.mjs --windo
 PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/freeze-reference.mjs
 PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/round2.mjs --tune   # calibration only
 PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/round2.mjs --score
-node tools/johannesberg-tree-pilot/build-candidates.mjs   # round-1 lock; adds play and type confidence
+PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/build-candidates.mjs   # round-2 lock: the published set and the residual rasters
 node tools/johannesberg-tree-pilot/type-check.mjs
+node tools/johannesberg-tree-pilot/type-panels.mjs --holes 1,17   # species spot check (cache)
+# publication (staging first; see Publication)
+node packages/course-v2/vegetation/compile-vegetation.mjs --ground johannesberg --observed-on 2026-11-08 --out output/course-workflow/johannesberg/reviewed-compile --public <staging root> --reviewed geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv --scope 678403.5,6624276.5,680451.5,6626324.5 --residual-chm johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin --residual-labels johannesbergbuild/cache/trees-2026-11-08/rasters/residual-labels-050.bin --review "<the review statement pinned in production.json>"
+node packages/course-v2/vegetation/publish-vegetation.mjs --ground johannesberg --compile output/course-workflow/johannesberg/reviewed-compile --public <staging root>
+node tools/build-startup-packs.mjs <staging root>
+node tools/johannesberg-tree-pilot/verify-staging.mjs --public <staging root>
+BANVY_GPU=1 node tools/johannesberg-tree-pilot/runtime-trees.mjs --base <served build>   # species by planter and zone
 ```
 
 Re-pin tools (dated outputs, accepted pins untouched):

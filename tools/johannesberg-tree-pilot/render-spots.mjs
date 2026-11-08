@@ -60,7 +60,7 @@ async function main() {
     const { bbox } = spot;
     const size = Math.max(bbox[2] - bbox[0], bbox[3] - bbox[1]);
     const mpp = Math.max(0.1, size / 600);
-    const population = publishedPopulation({ bbox: [bbox[0] - 8, bbox[1] - 8, bbox[2] + 8, bbox[3] + 8] });
+    const population = publishedPopulation({ bbox: [bbox[0] - 8, bbox[1] - 8, bbox[2] + 8, bbox[3] + 8], groundManifestUrl: PILOT.previousGroundManifest });
     const local = candidates.filter(t => t.easting >= bbox[0] - 8 && t.easting < bbox[2] + 8 && t.northing >= bbox[1] - 8 && t.northing < bbox[3] + 8);
     const panel = (kind, mosaic, overlay, label) => {
       const c = kind === 'hill' ? renderLayer({ kind: 'hill', raster: chm, bbox, metresPerPixel: mpp }) : renderLayer({ kind, mosaic, bbox, metresPerPixel: mpp });
@@ -69,13 +69,13 @@ async function main() {
       c.text(4, c.height - 14, label, [255, 255, 255], 2);
       return c;
     };
-    const old = panel('hill', null, c => overlayOld(c, bbox, mpp, population), 'TODAY');
-    const neu = panel('hill', null, c => overlayNew(c, bbox, mpp, local), 'CANDIDATE');
+    const old = panel('hill', null, c => overlayOld(c, bbox, mpp, population), 'BEFORE');
+    const neu = panel('hill', null, c => overlayNew(c, bbox, mpp, local), 'AFTER');
     const sheet = new Canvas(old.width * 2 + 6, old.height, [40, 40, 40]);
     sheet.blit(old, 0, 0); sheet.blit(neu, old.width + 6, 0);
     fs.writeFileSync(path.join(committedDir, `${spot.id}.png`), sheet.png());
     const cir = panel('cir', m25, c => overlayNew(c, bbox, mpp, local), 'CIR 2025 CANDIDATE');
-    const rgbOld = panel('rgb', m25, c => overlayOld(c, bbox, mpp, population), 'RGB 2025 TODAY');
+    const rgbOld = panel('rgb', m25, c => overlayOld(c, bbox, mpp, population), 'RGB 2025 BEFORE');
     const apr = panel('rgb', m21, c => overlayNew(c, bbox, mpp, local), 'RGB 2021 APR CANDIDATE');
     const photo = new Canvas(old.width * 2 + 6, old.height * 2 + 6, [40, 40, 40]);
     photo.blit(rgbOld, 0, 0); photo.blit(cir, old.width + 6, 0); photo.blit(neu, 0, old.height + 6); photo.blit(apr, old.width + 6, old.height + 6);
