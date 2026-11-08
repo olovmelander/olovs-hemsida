@@ -669,6 +669,14 @@ await section('your own card on the course page', async () => {
   gate(again.title === course.name && again.mode === 'map', `and its Spela opens the course's page in Lätt 3D (${again.title}, ${again.mode})`);
   await page.keyboard.press('Escape');
   await page.waitForTimeout(300);
+  /* a kept round, opened, plays its course again */
+  await page.click('#stats .st-round summary');
+  await page.click('#stats .sr-actions [data-play-course]');
+  await page.waitForSelector('#courseSheet[open]');
+  const fromRound = await page.evaluate(() => document.getElementById('csTitle').textContent);
+  gate(fromRound === course.name, `and a kept round's "Spela banan igen" opens its course's page (${fromRound})`);
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
   await page.click('#stats [data-back]');
   await page.waitForTimeout(600);
   gate(await page.evaluate(() => location.hash) === '#karta', 'and Tillbaka returns to the list it came from');

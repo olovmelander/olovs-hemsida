@@ -369,7 +369,10 @@
 
 /* --------------------------------------------------------------- rounds */
 .st-round-list { display: grid; gap: 6px; max-height: 560px; overflow-y: auto; margin-right: -6px; padding-right: 6px; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.16) transparent; }
-.st-round { border-radius: 14px; background: rgba(255, 255, 255, 0.025); }
+/* one column the list's width: an opened round's scorecard scrolls inside its card
+   (.sr-card) instead of widening the round past the list and cutting its score off */
+.st-round-list { grid-template-columns: minmax(0, 1fr); }
+.st-round { min-width: 0; border-radius: 14px; background: rgba(255, 255, 255, 0.025); }
 .st-round[open] { background: rgba(255, 255, 255, 0.045); }
 .st-round summary {
   display: grid;
@@ -407,7 +410,9 @@
 .sr-score small.is-under { color: #8fbcf2; }
 .sr-score small.is-over { color: #ffb48a; }
 .sr-card { padding: 4px 10px 12px; overflow-x: auto; }
-.sr-share { margin-top: 12px; }
+.sr-share { margin-top: 0; }
+/* a kept round's two ways on: share it, or play its course again */
+.sr-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
 
 /* The scorecard, as a golfer reads one: under par in a circle, over par in a
    square, two of each for two strokes -- the shape carries it as well as the
