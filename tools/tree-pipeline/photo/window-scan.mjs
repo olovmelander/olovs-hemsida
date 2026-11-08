@@ -11,7 +11,7 @@ const chm = loadRaster(ctx, 'chm-pitfree-050');
 const g = chm.grid;
 const at = (e, n) => { const c = Math.floor((e - g.minEasting) / 0.5), r = Math.floor((g.maxNorthing - n) / 0.5); return chm.values[r * g.width + c]; };
 const share = (e, n) => { let k = 0, t = 0; for (let y = -8; y < 8; y += 1) for (let x = -8; x < 8; x += 1) { t++; if (at(e + x, n + y) >= 3) k++; } return k / t; };
-const prev = JSON.parse(fs.readFileSync(ctx.reviewFile('reference-windows-r3.json'))).windows;
+const prev = [...JSON.parse(fs.readFileSync(ctx.reviewFile(process.env.PREV_WINDOWS || 'reference-windows-r3.json'))).windows, ...JSON.parse(fs.readFileSync(ctx.reviewFile('reference-windows-r3.json'))).dropped];
 const ov = (a, b, m) => a[0] < b[2] + m && a[2] > b[0] - m && a[1] < b[3] + m && a[3] > b[1] - m;
 const cells = JSON.parse(process.argv[3]);
 const sizes = JSON.parse(process.argv[4]);

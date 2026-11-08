@@ -71,12 +71,18 @@
       "id": "r4", "sampleSuffix": "-r4", "detector": "fused", "startFrom": "r3",
       "methodName": "round4-detector",
       "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
-      "note": "round 4 (owner request of 2026-11-08: reach 90% with the learned crown detector on the GPU, reading the June 2025 photo): the round-3 laser lock fused with DeepForest crowns from the 2025 photo, moved back to their trunks by the relief field; a new unseen held-out sample (W1-W5) frozen before any detector ran near it; the round-1, round-2 and round-3 held-out windows are used-holdout"
+      "note": "round 4 (owner request of 2026-11-08: reach 90% with the learned crown detector on the GPU, reading the June 2025 photo): the round-3 laser lock fused with DeepForest crowns from the 2025 photo, confirming suppressed laser tops matched in photo space after the relief displacement; a new unseen held-out sample (W1-W5) frozen before any detector ran near it; the round-1, round-2 and round-3 held-out windows are used-holdout"
+    },
+    {
+      "id": "r4b", "sampleSuffix": "-r4b", "detector": "fused", "startFrom": "r3",
+      "methodName": "round4b-detector",
+      "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
+      "note": "round 4b (main session, 2026-11-08 23:43, after round 4 missed the owner's 0.95 precision floor): the fused detector re-tuned for precision on calibration only; a second new unseen held-out sample (X1-X5) frozen before any round-4b code ran; W1-W5 and every earlier held-out window are used-holdout; round 3, round 4 (as locked) and round 4b are each scored once on X1-X5"
     }
   ],
   "photoDetect": {
     "$comment": "Round 4 (owner request of 2026-11-08): the learned crown detector on the June 2025 photo, run by --stage photo-detect on the GPU. DeepForest (weecology, MIT licence) through photo/crowns.py; pretrained sources at four patch sizes and fine-tuned sources (calibration windows only, cross-fitted by the two folds for tuning). The benchmark's fused tuning chooses one source and the fusion settings on calibration only.",
-    "rounds": ["r4"],
+    "rounds": ["r4", "r4b"],
     "python": "johannesbergbuild/cache/venv-photo/Scripts/python.exe",
     "requirements": "tools/tree-pipeline/photo/requirements-photo.txt",
     "model": { "id": "weecology/deepforest-tree", "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace", "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8", "licence": "MIT" },
