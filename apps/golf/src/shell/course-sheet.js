@@ -30,7 +30,7 @@ import { parseRounds } from '../map/map-rounds.mjs';
 import {
   LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, TEE_KEY, readSettings, readText, savedTee, teeColour, writeText,
 } from './settings-store.mjs';
-import { perEighteen } from './stats-model.mjs';
+import { perEighteen, perHole } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { loadScorecard } from './course-scorecard.mjs';
 
@@ -56,7 +56,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   dialog.setAttribute('aria-labelledby', 'csTitle');
   document.body.append(dialog);
 
-  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false;
+  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false, mine = null;
 
   function history(slug) {
     const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null)).filter(r => r.course === slug);
@@ -69,6 +69,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
       average: scores.length ? scores.reduce((s, v) => s + v, 0) / scores.length : null,
       best: best ? { strokes: best.totals.strokes, toPar: best.totals.toPar } : null,
       last: rounds.map(r => r.date).sort().at(-1),
+      /* each hole as you usually play it: the scorecard's own row */
+      holes: perHole(rounds),
     };
   }
 
@@ -78,6 +80,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     const tees = c.tees?.names ?? [];
     const photos = Math.max(1, c.photos || 1);
     const past = history(c.slug);
+    mine = past?.holes?.length ? { holes: new Map(past.holes.map(h => [h.n, h])), rounds: past.rounds } : null;
     const settings = readSettings(storage());
     const hcpText = readText(storage(), MAP_KEYS.handicap, '');
     plan.handicap = hcpText !== '' && Number.isFinite(Number(hcpText)) ? Number(hcpText) : null;
@@ -257,6 +260,17 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     const value = v => (v === null || v === undefined ? '–' : v);
     const row = (label, cells, sum, extra = '', cell = 'td') =>
       `<tr${extra}><th scope="row">${label}</th>${cells.map(v => `<${cell}>${value(v)}</${cell}>`).join('')}<${cell} class="cs-sc-sum">${sum === '' ? '' : value(sum)}</${cell}></tr>`;
+    /* your own average on each hole, under par blue and over it orange (the
+       statistics' diverging scale); the figure itself carries the meaning */
+    const decimal = v => v.toFixed(1).replace('.', ',');
+    const tone = d => (d <= -0.2 ? ' class="is-under"' : d >= 0.2 ? ' class="is-over"' : '');
+    const mineRow = nine => {
+      if (!mine) return '';
+      const played = nine.holes.map(h => mine.holes.get(h.n));
+      const cells = played.map(m => (m ? `<td${tone(m.toPar)}>${decimal(m.average)}</td>` : '<td>–</td>')).join('');
+      const sum = played.every(Boolean) ? decimal(played.reduce((s, m) => s + m.average, 0)) : '';
+      return `<tr class="cs-sc-mine"><th scope="row">Snitt</th>${cells}<td class="cs-sc-sum">${sum}</td></tr>`;
+    };
     dialog.querySelector('[data-card]').innerHTML = card.nines.map(nine => `
       <table class="cs-sc" aria-label="Hål ${nine.holes[0].n}–${nine.holes.at(-1).n}, ${esc(name)} tee">
         <thead>${row('Hål', nine.holes.map(h => h.n), nine.label, '', 'th')}</thead>
@@ -264,8 +278,9 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
           ${row('Par', nine.holes.map(h => h.par), nine.par)}
           ${card.indexed ? row('Index', nine.holes.map(h => h.index), '') : ''}
           ${row(`${dot}${esc(name)}`, nine.holes.map(h => h.lengths[tee]), nine.lengths[tee], ' class="cs-sc-len"')}
+          ${mineRow(nine)}
         </tbody>
-      </table>`).join('');
+      </table>`).join('') + (mine ? `<p class="cs-card-key">Snitt är dina slag per hål på ${mine.rounds} ${mine.rounds === 1 ? 'runda' : 'rundor'} här: <b class="is-under">blått</b> under par, <b class="is-over">orange</b> över.</p>` : '');
     const length = dialog.querySelector('[data-length]');
     const total = card.lengths[tee];
     length.textContent = Number.isFinite(total) ? total.toLocaleString('sv-SE') : '–';

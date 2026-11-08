@@ -627,6 +627,28 @@ await section('a course kept for offline play', async () => {
   await ctx.close();
 });
 
+/* With rounds kept on a course, its page's scorecard carries the golfer's own
+   average on each hole (stats-model perHole), coloured against par. */
+await section('your own card on the course page', async () => {
+  const course = manifest.courses.find(c => c.holes === 18 && c.status !== 'mapping') || manifest.courses[0];
+  const holes = Array.from({ length: course.holes }, (_, i) => ({ n: i + 1, par: 4, strokes: i === 0 ? 3 : i === 1 ? 6 : 4, putts: 2, fairway: 'hit', picked: false }));
+  const strokes = holes.reduce((s, h) => s + h.strokes, 0);
+  const round = { id: 1, course: course.slug, courseName: course.name, date: '2026-11-01', endedAt: 1, tee: 1, handicap: 18, holeCount: course.holes,
+    pars: holes.map(h => h.par), holes, totals: { played: course.holes, strokes, par: 4 * course.holes, putts: 36, points: 36, fairways: 14, fairwaysTried: 14, greens: 9, greensTried: 18, toPar: strokes - 4 * course.holes } };
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+  await ctx.addInitScript(r => { try { localStorage.setItem('banvy-map-rounds-v1', JSON.stringify({ version: 1, rounds: [r] })); } catch {} }, round);
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+  await page.waitForSelector(`#chooser .card[data-slug="${course.slug}"]`);
+  await page.click(`#chooser .card[data-slug="${course.slug}"]`);
+  await page.waitForSelector('#courseSheet .cs-sc-mine', { timeout: 20000 });
+  const mine = await page.$$eval('#courseSheet .cs-sc-mine', rows => rows.map(r => [...r.querySelectorAll('td')].map(td => ({ text: td.textContent, tone: td.className }))));
+  const first = mine[0] ?? [];
+  gate(mine.length === 2 && first.length === 10 && first[0].text === '3,0' && /is-under/.test(first[0].tone) && first[1].text === '6,0' && /is-over/.test(first[1].tone) && first[2].tone === '',
+    `the scorecard has a Snitt row a nine, under par blue and over orange (${first.slice(0, 3).map(c => c.text).join(' ')})`);
+  await ctx.close();
+});
+
 await section('mode switch and the way back', async () => {
   const { ctx, page } = await open({ width: 1440, height: 900, url: '/' });
   await page.waitForSelector('#home .mode-card');

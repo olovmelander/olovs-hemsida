@@ -72,7 +72,8 @@ once. It opens the course's own page (`shell/course-sheet.js`, a native
 - for Lätt 3D, the **playing handicap** (kept as the map's handicap), and for
   Detaljerad 3D, the **light** for this visit (the settings' light preselected);
 - the **Scorekort**: par, index and the chosen tee's length, nine by nine with Ut
-  and In;
+  and In, and with rounds kept there a **Snitt** row of your own average per hole
+  (blue under par, orange over);
 - the **Banguide**: each hole in the course's own name and note, one card at a
   time, brought to the starting hole.
 

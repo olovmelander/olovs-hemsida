@@ -149,6 +149,12 @@
 .cs-sc .cs-sc-sum { width: 48px; color: #fff; font-weight: 700; background: rgba(95, 208, 122, 0.08); }
 .cs-sc-len th i { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.25); }
 .cs-sc-len td { color: #fff; }
+/* your average per hole: the statistics' diverging scale (stats.css), on this surface */
+.cs-sc-mine > * { background: rgba(80, 150, 234, 0.05); }
+.cs-sc-mine th[scope="row"] { color: #a9cdf6; }
+.cs-sc .is-under, .cs-card-key .is-under { color: #5096ea; font-weight: 700; }
+.cs-sc .is-over, .cs-card-key .is-over { color: #e26a32; font-weight: 700; }
+.cs-card-key { font: 400 12px/1.45 Outfit, sans-serif; color: var(--cs-ink-3); }
 
 /* the hole guide: one row of hole cards, swiped on a phone and stepped on a computer */
 .cs-guide-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
