@@ -6,7 +6,7 @@
   "file": "banvy-golfer.glb",
   "height": 1.68,
   "forward": "+Z",
-  "bones": 64,
+  "bones": 66,
   "clips": [
     {
       "name": "Idle",
@@ -95,31 +95,31 @@
     },
     {
       "name": "AddressDriver",
-      "duration": 4,
+      "duration": 4.0,
       "loop": true,
       "club": "Driver"
     },
     {
       "name": "AddressWood",
-      "duration": 4,
+      "duration": 4.0,
       "loop": true,
       "club": "Wood"
     },
     {
       "name": "AddressIron",
-      "duration": 4,
+      "duration": 4.0,
       "loop": true,
       "club": "Iron"
     },
     {
       "name": "AddressWedge",
-      "duration": 4,
+      "duration": 4.0,
       "loop": true,
       "club": "Wedge"
     },
     {
       "name": "AddressPutter",
-      "duration": 4,
+      "duration": 4.0,
       "loop": true,
       "club": "Putter"
     },
@@ -142,7 +142,7 @@
       "faceDirection": [
         0.9836797118186951,
         0.17992739379405975,
-        0.000009579584002494812
+        9.579584002494812e-06
       ],
       "trailRelease": 2.65
     },
@@ -165,7 +165,7 @@
       "faceDirection": [
         0.9683489799499512,
         0.24960070848464966,
-        0.0000253431499004364
+        2.53431499004364e-05
       ],
       "trailRelease": 2.566666666666667
     },
@@ -188,13 +188,13 @@
       "faceDirection": [
         0.8974993824958801,
         0.44101569056510925,
-        0.000013044103980064392
+        1.3044103980064392e-05
       ],
       "trailRelease": 2.5
     },
     {
       "name": "ChipWedge",
-      "duration": 2,
+      "duration": 2.0,
       "loop": false,
       "club": "Wedge",
       "impact": 0.8,
@@ -211,7 +211,7 @@
       "faceDirection": [
         0.6364946961402893,
         0.7712810635566711,
-        -0.00004887208342552185
+        -4.887208342552185e-05
       ]
     },
     {
@@ -233,7 +233,7 @@
       "faceDirection": [
         0.9995119571685791,
         0.031242744997143745,
-        -0.0000047668436309322715
+        -4.7668436309322715e-06
       ]
     },
     {
@@ -244,7 +244,7 @@
     },
     {
       "name": "Celebrate",
-      "duration": 2.2,
+      "duration": 2.6,
       "loop": false,
       "club": "Iron"
     }
@@ -271,8 +271,8 @@
       "length": 0.876
     }
   ],
-  "bytes": 13667960,
-  "sha256": "194a0daacf57b68ff13f44d8bdd56117669583a7f54a9a12a5a9dfb04a760ea8",
+  "bytes": 15847656,
+  "sha256": "85b14b4acaf758b31e64f069782d761790fd651931153bbc1bebcb2dfb17ca4a",
   "vertices": 26256,
   "triangles": 51828,
   "grip": {
@@ -337,11 +337,11 @@
       },
       "SwingDriver": {
         "impact_error": [
-          0,
-          -0.00003,
-          -0.00002,
-          -0.00001,
-          0
+          -0.0,
+          -3e-05,
+          -2e-05,
+          -1e-05,
+          -0.0
         ],
         "goals": {
           "2": {
@@ -402,7 +402,7 @@
             "across": 8.4,
             "hinge": 20.3,
             "roll": 56.7,
-            "arm_err_deg": 6,
+            "arm_err_deg": 6.0,
             "shaft_err_deg": 1.9,
             "trail_reach": 0.814,
             "wrist_deg": {
@@ -414,7 +414,7 @@
           "8": {
             "lift": -12.7,
             "across": 27.4,
-            "hinge": 50,
+            "hinge": 50.0,
             "roll": -43.7,
             "arm_err_deg": 3.2,
             "shaft_err_deg": 0.3,
@@ -430,8 +430,8 @@
             "across": 0.4,
             "hinge": 78.4,
             "roll": -12.4,
-            "arm_err_deg": 0,
-            "shaft_err_deg": 0,
+            "arm_err_deg": 0.0,
+            "shaft_err_deg": 0.0,
             "trail_reach": 0.845,
             "wrist_deg": {
               "L": 39.4,
@@ -443,11 +443,11 @@
             "across": -5.8,
             "hinge": 14.5,
             "roll": -24.4,
-            "arm_err_deg": 1,
+            "arm_err_deg": 1.0,
             "shaft_err_deg": 0.1,
             "trail_reach": 0.966,
             "wrist_deg": {
-              "L": 11,
+              "L": 11.0,
               "R": 45.5
             }
           },
@@ -470,7 +470,7 @@
             "hinge": 73.9,
             "roll": -61.1,
             "arm_err_deg": 7.1,
-            "shaft_err_deg": 7,
+            "shaft_err_deg": 7.0,
             "trail_reach": 0.912,
             "wrist_deg": {
               "L": 61.1,
@@ -485,9 +485,9 @@
         "impact_error": [
           -0.00019,
           -0.00021,
-          -0.00005,
-          -0.00002,
-          -0.00008
+          -5e-05,
+          -2e-05,
+          -8e-05
         ],
         "goals": {
           "2": {
@@ -495,12 +495,12 @@
             "across": -0.2,
             "hinge": 33.1,
             "roll": 88.8,
-            "arm_err_deg": 9,
+            "arm_err_deg": 9.0,
             "shaft_err_deg": 1.3,
             "trail_reach": 0.968,
             "wrist_deg": {
               "L": 45.5,
-              "R": 60
+              "R": 60.0
             },
             "toe_err_deg": 21.9
           },
@@ -520,7 +520,7 @@
           "4": {
             "lift": 80.4,
             "across": 51.6,
-            "hinge": 41,
+            "hinge": 41.0,
             "roll": 103.9,
             "arm_err_deg": 14.5,
             "shaft_err_deg": 23.9,
@@ -545,11 +545,11 @@
           },
           "6": {
             "lift": 19.1,
-            "across": 7,
+            "across": 7.0,
             "hinge": 20.5,
             "roll": 58.6,
             "arm_err_deg": 6.1,
-            "shaft_err_deg": 2,
+            "shaft_err_deg": 2.0,
             "trail_reach": 0.829,
             "wrist_deg": {
               "L": 38.4,
@@ -558,7 +558,7 @@
             "toe_err_deg": 28.5
           },
           "8": {
-            "lift": -10,
+            "lift": -10.0,
             "across": 20.9,
             "hinge": 49.5,
             "roll": -42.3,
@@ -566,7 +566,7 @@
             "shaft_err_deg": 0.3,
             "trail_reach": 0.838,
             "wrist_deg": {
-              "L": 32,
+              "L": 32.0,
               "R": 51.8
             },
             "toe_err_deg": 19.3
@@ -575,9 +575,9 @@
             "lift": 31.9,
             "across": -4.4,
             "hinge": 75.4,
-            "roll": -16,
-            "arm_err_deg": 0,
-            "shaft_err_deg": 0,
+            "roll": -16.0,
+            "arm_err_deg": 0.0,
+            "shaft_err_deg": 0.0,
             "trail_reach": 0.901,
             "wrist_deg": {
               "L": 39.9,
@@ -586,7 +586,7 @@
           },
           "10": {
             "lift": 81.4,
-            "across": -7,
+            "across": -7.0,
             "hinge": 21.5,
             "roll": -30.1,
             "arm_err_deg": 6.2,
@@ -613,7 +613,7 @@
           "12": {
             "lift": 102.9,
             "across": -44.8,
-            "hinge": 78,
+            "hinge": 78.0,
             "roll": -74.8,
             "arm_err_deg": 6.7,
             "shaft_err_deg": 12.2,
@@ -631,18 +631,18 @@
         "impact_error": [
           -0.00014,
           -0.00016,
-          -0.00007,
-          -0.00001,
+          -7e-05,
+          -1e-05,
           -0.00089
         ],
         "goals": {
           "2": {
-            "lift": 11,
+            "lift": 11.0,
             "across": 2.1,
             "hinge": 26.9,
             "roll": 83.4,
             "arm_err_deg": 15.2,
-            "shaft_err_deg": 2,
+            "shaft_err_deg": 2.0,
             "trail_reach": 0.97,
             "wrist_deg": {
               "L": 37.8,
@@ -668,12 +668,12 @@
             "across": 51.3,
             "hinge": 45.3,
             "roll": 100.3,
-            "arm_err_deg": 17,
+            "arm_err_deg": 17.0,
             "shaft_err_deg": 17.8,
             "trail_reach": 0.652,
             "wrist_deg": {
               "L": 61.9,
-              "R": 46
+              "R": 46.0
             }
           },
           "5": {
@@ -690,7 +690,7 @@
             }
           },
           "6": {
-            "lift": 30,
+            "lift": 30.0,
             "across": 4.2,
             "hinge": 15.2,
             "roll": 58.7,
@@ -722,8 +722,8 @@
             "across": -6.6,
             "hinge": 70.8,
             "roll": -23.7,
-            "arm_err_deg": 0,
-            "shaft_err_deg": 0,
+            "arm_err_deg": 0.0,
+            "shaft_err_deg": 0.0,
             "trail_reach": 0.917,
             "wrist_deg": {
               "L": 40.6,
@@ -744,9 +744,9 @@
             }
           },
           "11": {
-            "lift": 112,
+            "lift": 112.0,
             "across": -46.6,
-            "hinge": 85,
+            "hinge": 85.0,
             "roll": -84.1,
             "arm_err_deg": 8.9,
             "shaft_err_deg": 20.2,
@@ -758,7 +758,7 @@
           },
           "12": {
             "lift": 113.1,
-            "across": -45,
+            "across": -45.0,
             "hinge": 85.6,
             "roll": -85.4,
             "arm_err_deg": 8.5,
@@ -777,8 +777,8 @@
         "impact_error": [
           -0.00049,
           -0.00017,
-          0.00007,
-          0.00005,
+          7e-05,
+          5e-05,
           -0.00112
         ],
         "goals": {
@@ -798,10 +798,10 @@
           "3": {
             "lift": 12.8,
             "across": -3.1,
-            "hinge": 46,
+            "hinge": 46.0,
             "roll": 76.7,
             "arm_err_deg": 15.5,
-            "shaft_err_deg": 4,
+            "shaft_err_deg": 4.0,
             "trail_reach": 0.967,
             "wrist_deg": {
               "L": 48.4,
@@ -809,11 +809,11 @@
             }
           },
           "5": {
-            "lift": 7,
+            "lift": 7.0,
             "across": 5.9,
             "hinge": 28.1,
             "roll": -50.5,
-            "arm_err_deg": 6,
+            "arm_err_deg": 6.0,
             "shaft_err_deg": 0.9,
             "trail_reach": 0.968,
             "wrist_deg": {
@@ -826,8 +826,8 @@
             "across": 2.6,
             "hinge": 85.5,
             "roll": -31.3,
-            "arm_err_deg": 0,
-            "shaft_err_deg": 0,
+            "arm_err_deg": 0.0,
+            "shaft_err_deg": 0.0,
             "trail_reach": 0.916,
             "wrist_deg": {
               "L": 60.8,
@@ -839,8 +839,8 @@
             "across": 2.6,
             "hinge": 85.5,
             "roll": -31.3,
-            "arm_err_deg": 0,
-            "shaft_err_deg": 0,
+            "arm_err_deg": 0.0,
+            "shaft_err_deg": 0.0,
             "trail_reach": 0.916,
             "wrist_deg": {
               "L": 60.8,
@@ -853,11 +853,11 @@
       },
       "Putt": {
         "impact_error": [
-          0,
-          -0.00001,
-          -0.00002,
-          0,
-          0
+          -0.0,
+          -1e-05,
+          -2e-05,
+          0.0,
+          -0.0
         ],
         "goals": {},
         "reach_gap_m": 0,
@@ -868,22 +868,17 @@
         "leg_gap_m": 0
       },
       "Celebrate": {
-        "reach_gap_m": 0,
+        "reach_gap_m": 0.0438,
         "leg_gap_m": 0
       }
-    },
-    "validation": {
-      "sampleHz": 120,
-      "clips": 20,
-      "verifiedAt": "2026-11-07T16:29:12.940Z"
     }
   },
-  "design": "Original designs for Banvy's courses (no likeness of any existing game's\ncharacter):\n  female -- coral pique polo with a white collar and sleeve bands, navy\n            tailored golf shorts with a white belt, white visor, dark-blonde\n            hair pulled back into a braid, white glove, white golf shoes with\n            coral heel tabs.\n  male   -- navy pique polo with white tipping, stone tailored trousers and a\n            cognac belt, white cap, short dark hair, white glove, white shoes\n            on gum soles.",
-  "palette": "Coral & navy",
+  "design": "Original designs for Banvy's courses (no likeness of any existing game's\ncharacter):\n  female -- vivid coral pique polo with a white collar, sleeve bands and flag,\n            royal-blue tailored golf shorts with a teal belt, a white visor with\n            a teal underbill, chestnut hair combed back into a braid, a white\n            glove, and white golf shoes with navy laces and outsoles.\n  male   -- cobalt pique polo with sunny-yellow tipping and flag, stone tailored\n            trousers with belt loops and a cognac belt, a structured white\n            six-panel cap with a cobalt underbill, a close crop, a white glove,\n            and white shoes on gum soles.",
+  "palette": "Coral & royal blue",
   "source": {
     "asset": "Blender Studio Human Base Meshes v1.4.1 - realistic female",
     "license": "CC0",
     "url": "https://download.blender.org/demo/asset-bundles/human-base-meshes/"
   },
-  "status": "Revision 3: all 20 clips verified at 120 Hz"
+  "status": "revision 3: realistic anatomy, fitted rig, kinematic-sequence motion"
 }

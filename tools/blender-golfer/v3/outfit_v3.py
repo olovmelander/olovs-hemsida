@@ -2,13 +2,14 @@
 
 Original designs for Banvy's courses (no likeness of any existing game's
 character):
-  female -- coral pique polo with a white collar and sleeve bands, navy
-            tailored golf shorts with a white belt, white visor, dark-blonde
-            hair pulled back into a braid, white glove, white golf shoes with
-            coral heel tabs.
-  male   -- navy pique polo with white tipping, stone tailored trousers and a
-            cognac belt, white cap, short dark hair, white glove, white shoes
-            on gum soles.
+  female -- vivid coral pique polo with a white collar, sleeve bands and flag,
+            royal-blue tailored golf shorts with a teal belt, a white visor with
+            a teal underbill, chestnut hair combed back into a braid, a white
+            glove, and white golf shoes with navy laces and outsoles.
+  male   -- cobalt pique polo with sunny-yellow tipping and flag, stone tailored
+            trousers with belt loops and a cognac belt, a structured white
+            six-panel cap with a cobalt underbill, a close crop, a white glove,
+            and white shoes on gum soles.
 """
 import bpy, bmesh, math
 import numpy as np
@@ -19,13 +20,16 @@ import textures_v3 as TX
 from body_v3 import FS, FINGERS, TOES, FOREFOOT
 
 PALETTE = {
-    'female': dict(skin='#E9C2A4', polo='#E2735C', trim='#F4F1EA', navy='#1F2C47', hair='#86643F', hair_hi='#B08A5B',
-                   shoe='#F3F1EC', accent='#E2735C', sole='#F1EEE6', outsole='#1F2C47', lip='#C07A6E', iris='#5B7A8C',
-                   headwear='#F4F2EC', bill_under='#C8C5BB', trousers='#1F2C47', belt='#F4F1EA'),
-    'male': dict(skin='#B47856', polo='#22304C', trim='#F2EFE8', navy='#22304C', hair='#2E241E', hair_hi='#4A3A2E',
-                 shoe='#F3F1EC', accent='#22304C', sole='#C9935F', outsole='#A8743F', trousers='#CDC2A9', belt='#8A5A35',
-                 lip='#9C6250', iris='#5E4430', headwear='#F2F0EA', bill_under='#5F6A63'),
+    # Vivid on the green: a coral-red polo with royal navy and a teal accent for her,
+    # cobalt with Swedish-yellow tipping for him.
+    'female': dict(skin='#ECC0A4', polo='#F2503A', trim='#FBF9F4', navy='#1C3A86', hair='#4A301E', hair_hi='#946A45',
+                   shoe='#FBFAF6', accent='#F2503A', sole='#FBF9F4', outsole='#1C3A86', lip='#D8645A', iris='#2F8FB5',
+                   headwear='#FBFAF6', bill_under='#11A7A1', trousers='#1C3A86', belt='#11A7A1', tie='#11A7A1'),
+    'male': dict(skin='#A86E4F', polo='#1F5FD6', trim='#F7C93C', navy='#16357F', hair='#1E1511', hair_hi='#3C2B21',
+                 shoe='#FBFAF6', accent='#1F5FD6', sole='#F4F1EA', outsole='#B9844C', trousers='#E6DAC0', belt='#A65A24',
+                 lip='#AE5E4C', iris='#5B381F', headwear='#FBFAF6', bill_under='#1F5FD6', tie='#F7C93C'),
 }
+
 
 
 def material(name, rgb, rough=.6, metal=0.0):
@@ -102,6 +106,7 @@ class Outfit:
 
     def mat(self, key, color, rough=.7, **kw):
         name = f'Golfer v3 {self.v} | {key}'
+        kw.setdefault('specular', .26)        # cloth and leather: a soft, low highlight
         if name not in self.mats:
             self.mats[name] = C.material(name, color, rough, **kw)
         return self.mats[name]
@@ -130,11 +135,11 @@ class Outfit:
                         m[i] = False
         ob, used = C.extract(self.body, m, f'Golfer_v3_{self.v}_Polo', self.col)
         me = ob.data
-        C.inflate(me, (.006 if self.v == 'female' else .009) * k)
+        C.inflate(me, (.0095 if self.v == 'female' else .010) * k)
         # Bridge the hollows of the trunk (not the arms).
         co = C.coords(me)
         trunk = [i for i, p in enumerate(co) if abs(p[0]) < .145 * k or p[2] > J['shoulder_L'].z - .03]
-        C.bridge_slices(me, (0, 0, 0), (0, 0, 1), .88, step=.012, select=trunk)
+        C.bridge_slices(me, (0, 0, 0), (0, 0, 1), .96 if self.v == 'female' else .9, step=.012, select=trunk)
         for side in 'LR':
             sh, el = self.arm_frame(side); ax = (el - sh).normalized()
             co = C.coords(me)
@@ -142,10 +147,12 @@ class Outfit:
             if arm:
                 C.bridge_slices(me, sh, ax, .7, step=.012, select=arm)
         C.smooth(me, 26, .5, pin=C.boundary_vertices(me))
-        self.keep_off_body(ob, (.0045 if self.v == 'female' else .007) * k)
+        self.keep_off_body(ob, (.0065 if self.v == 'female' else .0075) * k)
         C.smooth(me, 6, .35, pin=C.boundary_vertices(me))
-        self.keep_off_body(ob, (.0035 if self.v == 'female' else .005) * k)
+        self.keep_off_body(ob, (.005 if self.v == 'female' else .0055) * k)
         self.clamp_drift(ob, used, .045 * k)
+        self.tuck(ob)
+        self.folds(ob, sleeve)
         # Hem and sleeve cuts.
         C.cut_plane(ob, (0, 0, hem), (0, 0, 1), keep_positive=True)
         for side in 'LR':
@@ -156,9 +163,17 @@ class Outfit:
         co = C.coords(me); n = C.normals(me)
         bnd = C.boundary_vertices(me)
         add = np.zeros(len(co))
+        for side in 'LR':
+            sh, el = self.arm_frame(side); ax = el - sh; L = ax.length; ax.normalize()
+            for i, p in enumerate(co):
+                t = (V(p) - sh).dot(ax) / L
+                radial = (V(p) - (sh + ax * t * L)).length
+                if t > .05 and radial < .1 * k:
+                    # The sleeve eases toward its opening: cloth, not a band.
+                    add[i] = max(add[i], .0085 * k * smooth_np((t - (sleeve - .32)) / .3))
         for i, p in enumerate(co):
             if abs(p[0]) > .17 * k and i in bnd:
-                add[i] = .004 * k
+                add[i] = max(add[i], .004 * k)
         C.inflate(me, add)
         self.polo_ob = ob
         loops = self._loops(ob)
@@ -172,7 +187,7 @@ class Outfit:
         self.sleeve_loops = [L for L in loops if L is not neck and np.mean([abs(C.coords(me)[i][0]) for i in L]) > .15 * k]
         self.sleeve_pts = [[V(C.coords(me)[i]) for i in L] for L in self.sleeve_loops]
         pique = self.textures.normal('pique')
-        polo_mat = self.mat('polo pique', P['polo'], .82, sheen=.35, normal_image=pique, normal_strength=.45)
+        polo_mat = self.mat('polo pique', P['polo'], .86, normal_image=pique, normal_strength=.45, specular=.18)
         TX.cylinder_uv(ob, (0, 0, 0), (0, 0, 1), 55)
         self.finish(ob, polo_mat, None)
         hidden = C.shrink_mask(self.me, m & np.array([c.z > hem + .015 for c in self.centre]), 2)
@@ -183,6 +198,103 @@ class Outfit:
                     hidden[i] = False
         self.hide |= hidden
         self.collar(); self.placket(); self.sleeve_bands()
+        bvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+        chest = J['shoulder_L'].lerp(J['shoulder_R'], .5)
+        o = V((.085 * k, -.5, J['shoulder_L'].z - .085 * k))
+        hit = bvh.ray_cast(o, V((0, 1, 0)), 1)
+        if hit[0] is not None:
+            self.emblem(f'Golfer_v3_{self.v}_ChestFlag', hit[0], hit[1], .017,
+                        '#FBF9F4' if self.v == 'female' else P['trim'], '#FBF9F4' if self.v == 'female' else P['trim'],
+                        weights_from=ob)
+
+    def tuck(self, ob):
+        """Tucked in: snug under the waistband, bloused a little just above it.
+
+        The blouse overhangs the trousers' top edge, so from above no gap between
+        the shirt and the waistband shows.
+        """
+        k = self.k; me = ob.data
+        top = self.waist_z + .005 * k                       # the trousers' top edge
+        co = C.coords(me)
+        for i, p in enumerate(co):
+            z = p[2]
+            if z > top + .07 * k or abs(p[0]) > .2 * k:
+                continue
+            hit = self.bvh.find_nearest(V(p))
+            if hit[0] is None:
+                continue
+            loc, nrm = hit[0], hit[1]
+            gap = (V(p) - loc).dot(nrm)
+            flat = V((nrm.x, nrm.y, 0))
+            flat = flat.normalized() if flat.length > 1e-6 else nrm
+            tuck = smooth_np((top - .004 * k - z) / (.02 * k))
+            blouse = smooth_np((z - (top - .008 * k)) / (.014 * k)) * (1 - smooth_np((z - (top + .018 * k)) / (.05 * k)))
+            a = math.atan2(p[0], -p[1])
+            # Gathered: soft vertical folds where the fabric bunches over the band.
+            gather = .55 + .45 * math.sin(11 * a + 1.7 * math.sin(3 * a)) * math.sin(7 * a + .6)
+            g = mix(gap, .0035 * k, tuck) + (.0075 if self.v == 'male' else .0062) * k * blouse * (.55 + .9 * gather)
+            co[i] = np.array(loc + nrm * g)
+        C.set_coords(me, co)
+
+    def folds(self, ob, sleeve):
+        """Soft cloth folds a few millimetres deep: radiating from each armpit, rings on
+        the sleeves and a low drape between the chest and the belt."""
+        k = self.k; J = self.J; me = ob.data
+        co = C.coords(me); nrm = C.normals(me)
+        disp = np.zeros(len(co))
+        fem = self.v == 'female'
+        for side, sgn in (('L', 1), ('R', -1)):
+            shj = J['shoulder_' + side]
+            A = V((shj.x - sgn * .035 * k, shj.y + .005, shj.z - .085 * k))     # the armpit
+            sh, el = self.arm_frame(side); ax = el - sh; L = ax.length; ax.normalize()
+            for i, p in enumerate(co):
+                P = V(p)
+                t = (P - sh).dot(ax) / L
+                radial = (P - (sh + ax * t * L)).length
+                if t > .06 and radial < .1 * k and sgn * p[0] > abs(A.x) - .01:
+                    # Sleeve rings, fading out at the shoulder and the opening.
+                    env = math.sin(math.pi * min(1.0, max(0.0, (t - .06) / (sleeve - .06)))) ** 1.2
+                    disp[i] += .0027 * k * math.sin(2 * math.pi * t * L / (.032 * k) + .8 * math.sin(7 * t)) * env
+                    continue
+                r = P - A; d = r.length
+                if sgn * p[0] > 0 and .015 * k < d < .17 * k:
+                    th = math.atan2(r.z, r.y)
+                    bump = math.sin(math.pi * (d - .015 * k) / (.155 * k)) ** 1.3
+                    disp[i] += (.0042 if not fem else .0029) * k * math.sin(5 * th + 1.1 * sgn) * bump
+        waist = self.waist_z
+        for i, p in enumerate(co):
+            if abs(p[0]) > .17 * k:
+                continue
+            z = p[2]
+            a = math.atan2(p[0], -p[1])
+            band = math.sin(math.pi * min(1.0, max(0.0, (z - (waist + .015 * k)) / (.19 * k))))
+            front = .6 + .4 * math.cos(a)
+            disp[i] += (.0034 if not fem else .0023) * k * band * front * math.sin(
+                2 * math.pi * (z - waist) / (.058 * k) + 1.6 * math.sin(2.3 * a) + .9 * math.sin(5 * a))
+        co = co + nrm * disp[:, None]
+        C.set_coords(me, co)
+        C.smooth(me, 1, .25, pin=C.boundary_vertices(me))
+        self.keep_off_body(ob, .0042 * k)
+
+    def emblem(self, name, q, normal, size, staff_col, flag_col, weights_from=None, bone=None):
+        """The Banvy flag, embroidered: a staff and a pennant lying on a surface at q."""
+        k = self.k
+        up = V((0, 0, 1)); n = V(normal).normalized()
+        side = up.cross(n).normalized() if up.cross(n).length > 1e-6 else V((1, 0, 0))
+        up = n.cross(side).normalized()
+        if side.x < 0:
+            side = -side
+        q = V(q) + n * .0008
+        h = size * k
+        staff = C.tube(name + 'Staff', [q - up * h, q + up * h], [(.07 * h, .02 * h)] * 2, self.col, 6)
+        pennant = C.tube(name + 'Pennant', [q + up * h + side * .03 * h, q + up * h * .62 + side * h * 1.05],
+                         [(.36 * h, .03 * h), (.04 * h, .02 * h)], self.col, 4)
+        for ob, col in ((staff, staff_col), (pennant, flag_col)):
+            if weights_from is not None:
+                C.transfer_weights(ob, weights_from)
+            else:
+                C.rigid(ob, bone)
+            self.finish(ob, self.mat('emblem ' + col, col, .7), weights=weights_from is not None)
 
     def _cut_arm(self, ob, side, point, normal):
         me = ob.data
@@ -269,12 +381,13 @@ class Outfit:
             aa = a if a <= math.pi else a - 2 * math.pi
             out = V((math.sin(aa), -math.cos(aa), 0))
             front = max(0.0, 1 - abs(aa) / math.radians(60))
-            stand_h = (.022 - .004 * front) * k
+            fem = self.v == 'female'
+            stand_h = ((.017 if fem else .020) - .004 * front) * k
             q0 = p + V((0, 0, -.003))
-            q1 = p + V((0, 0, stand_h)) + out * .002
-            q2 = q1 + out * .008 * k + V((0, 0, .0015))
-            leaf = (.034 + .026 * front ** 1.6) * k
-            q3 = q2 + out * leaf * .55 + V((0, 0, -leaf * .82)) + V((0, -.010 * front, 0))
+            q1 = p + V((0, 0, stand_h)) + out * .0015
+            q2 = q1 + out * .0055 * k + V((0, 0, .001))
+            leaf = ((.023 if fem else .029) + (.015 if fem else .021) * front ** 1.6) * k
+            q3 = q2 + out * leaf * .46 + V((0, 0, -leaf * .88)) + V((0, -.008 * front, 0))
             rows.append([q0, q1, q2, q3])
         verts = [tuple(v) for r in rows for v in r]; faces = []; cols = 4
         for i in range(len(rows) - 1):
@@ -286,13 +399,13 @@ class Outfit:
         for p in me.polygons:
             p.use_smooth = True
         C.transfer_weights(ob, self.polo_ob)
-        trim = self.mat('collar', P['trim'] if self.v == 'female' else P['polo'], .78, sheen=.3)
-        self.finish(ob, trim, .0026 * k, offset=0)
+        trim = self.mat('collar', P['trim'] if self.v == 'female' else P['polo'], .82, specular=.2)
+        self.finish(ob, trim, .0018 * k, offset=0)
         if self.v == 'male':
             edge = [r[3] for r in rows]
             t = C.tube(f'Golfer_v3_{self.v}_CollarTipping', edge, [.0016 * k] * len(edge), self.col, 6)
             C.transfer_weights(t, self.polo_ob)
-            self.finish(t, self.mat('tipping', P['trim'], .7))
+            self.finish(t, self.mat('tipping', P['trim'], .55))
 
     def placket(self):
         P = self.P; k = self.k
@@ -348,7 +461,7 @@ class Outfit:
             for p in me.polygons:
                 p.use_smooth = True
             C.transfer_weights(ob, self.polo_ob)
-            self.finish(ob, self.mat('sleeve band', P['trim'], .78, sheen=.3), .0016 * k, offset=0)
+            self.finish(ob, self.mat('sleeve band', P['trim'], .8, specular=.2), .0016 * k, offset=0)
 
     # -- skort -------------------------------------------------------------------------
     def skort(self):
@@ -449,6 +562,12 @@ class Outfit:
         co = C.coords(me)
         seat = [i for i, p in enumerate(co) if p[2] > J['hip_L'].z - .09 * k]
         C.bridge_slices(me, (0, 0, 0), (0, 0, 1), .8, step=.012, select=seat)
+        # The seat drapes: across the back, cloth spans the cleft and falls from the
+        # seat's fullest point instead of following each cheek.
+        co = C.coords(me)
+        back = [i for i, p in enumerate(co) if p[1] > J['hip_L'].y and J['hip_L'].z - .075 * k < p[2] < J['hip_L'].z + .06 * k]
+        if back:
+            C.bridge_slices(me, (0, 0, 0), (0, 0, 1), .97, step=.012, select=back)
         # Below the knee the leg falls straight: blend each ring toward a slim tube.
         co = C.coords(me)
         for side, sgn in (('L', 1), ('R', -1)):
@@ -476,12 +595,70 @@ class Outfit:
                             w = smooth_np((hem_z + .07 * k - p[2]) / (.08 * k))
                             co[i] = np.array(V(p) + d.normalized() * .012 * k * w)
         C.set_coords(me, co)
+        # Cloth falls from the seat's fullest point: below it, the back of each leg is
+        # held out to a line dropping almost straight down (no tuck under the cheeks).
+        co = C.coords(me); hipz = J['hip_L'].z
+        for sgn in (1, -1):
+            leg = [i for i, p in enumerate(co) if sgn * p[0] > .005 and p[1] > J['hip_L'].y - .01]
+            if not leg:
+                continue
+            LP = co[leg]
+            bins = {}
+            for i, p in zip(leg, LP):
+                if hipz - .11 * k < p[2] < hipz + .03 * k:
+                    b = int(p[0] / (.02 * k))
+                    if b not in bins or p[1] > bins[b][0]:
+                        bins[b] = (p[1], p[2])
+            for i, p in zip(leg, LP):
+                b = int(p[0] / (.02 * k))
+                if b not in bins:
+                    continue
+                ymax, zmax = bins[b]
+                if hipz - (.32 if not shorts else .2) * k < p[2] < zmax:
+                    drop = zmax - p[2]
+                    target = ymax - .06 * drop - .45 * drop * drop / k
+                    if co[i][1] < target:
+                        reach = (.32 if not shorts else .2) * k
+                        w = smooth_np((reach - drop) / (reach * .5))
+                        co[i][1] = co[i][1] + (target - co[i][1]) * w
+        C.set_coords(me, co)
         C.smooth(me, 16, .5, pin=C.boundary_vertices(me))
+        # The front rise drapes straight from the hips: smooth the crotch hard, so the
+        # cloth spans the hollows instead of following the anatomy.
+        co = C.coords(me); hipz = J['hip_L'].z
+        rise = {i for i, p in enumerate(co) if abs(p[0]) < .075 * k and hipz - .17 * k < p[2] < hipz + .03 * k}
+        if rise:
+            pin = set(range(len(co))) - rise
+            C.smooth(me, 30, .5, pin=pin | C.boundary_vertices(me))
+            co = C.coords(me)
+            for i in rise:
+                if co[i][1] < J['hip_L'].y and abs(co[i][0]) < .045 * k:
+                    co[i][1] -= .004 * k * smooth_np(1 - abs(co[i][0]) / (.045 * k))
+            C.set_coords(me, co)
         self.keep_off_body(ob, (.008 if shorts else .012) * k)
         self.clamp_drift(ob, used, .06 * k)
+        # The waistband closes on the tucked shirt: no opening shows above the belt.
+        polo = getattr(self, 'polo_ob', None)
+        if polo is not None:
+            pbvh = BVHTree.FromObject(polo, bpy.context.evaluated_depsgraph_get())
+            hem = self.waist_z - (.035 if self.v == 'female' else .025) * k
+            z_lo = max(top - .045 * k, hem + .012 * k)
+            co = C.coords(me)
+            for i, p in enumerate(co):
+                if p[2] < z_lo or p[2] > top + .03 * k:
+                    continue
+                hit = pbvh.find_nearest(V(p))
+                if hit[0] is None:
+                    continue
+                w = smooth_np((p[2] - z_lo) / max(top - z_lo, 1e-4))
+                target = hit[0] + hit[1] * .0032 * k
+                co[i] = co[i] * (1 - w) + np.array(target) * w
+            C.set_coords(me, co)
         C.cut_plane(ob, (0, 0, top), (0, 0, -1), keep_positive=True)
         # The hem breaks a little lower at the back over the shoe.
         C.cut_plane(ob, (0, .0, hem_z), V((0, -.18, 1)).normalized(), keep_positive=True)
+        self.fly(ob, top, J)
+        self.tailoring(ob, top, hem_z, J)
         twill = self.textures.normal('twill')
         TX.cylinder_uv(ob, (0, 0, 0), (0, 0, 1), 34)
         self.finish(ob, self.mat('trousers', P['trousers'], .86, normal_image=twill, normal_strength=.22), None)
@@ -490,26 +667,120 @@ class Outfit:
         self.hide |= C.shrink_mask(self.me, m & np.array([hem_z + .02 < c.z < top - .01 for c in self.centre]), 2)
         self.belt(top)
 
+    def tailoring(self, ob, top, hem_z, J):
+        """Side seams down each leg and welt back pockets under the belt."""
+        k = self.k
+        bvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+        dark = tuple(max(0.0, c * .8) for c in C.hexrgb(self.P['trousers']))
+        seam_mat = self.mat('fly seam', '#%02X%02X%02X' % tuple(int(c * 255) for c in dark), .9)
+        parts = []
+        for side, sgn in (('L', 1), ('R', -1)):
+            hip = J['hip_' + side]; knee = J['knee_' + side]; ankle = J['ankle_' + side]
+            pts = []
+            steps = 24
+            for i in range(steps + 1):
+                z = mix(top - .045 * k, hem_z + .006 * k, i / steps)
+                # The leg's centre at this height, then a ray in from the outside.
+                if z > knee.z:
+                    t = (hip.z - z) / max(hip.z - knee.z, 1e-4); cx = mix(hip.x, knee.x, max(0.0, t)); cy = mix(hip.y, knee.y, max(0.0, t))
+                else:
+                    t = (knee.z - z) / max(knee.z - ankle.z, 1e-4); cx = mix(knee.x, ankle.x, t); cy = mix(knee.y, ankle.y, t)
+                o = V((cx + sgn * .4, cy + .004, z))
+                hit = bvh.ray_cast(o, V((-sgn, 0, 0)), .5)
+                if hit[0] is not None:
+                    pts.append(hit[0] + hit[1] * .0008)
+            if len(pts) > 6:
+                parts.append(C.tube(f'Golfer_v3_{self.v}_SideSeam', pts, [.0010 * k] * len(pts), self.col, 5))
+            # A welt pocket across the seat, under the belt.
+            row = []
+            for j in range(7):
+                x = sgn * mix(.035, .105, j / 6) * k
+                z = top - .07 * k - .006 * k * (j / 6)
+                hit = bvh.ray_cast(V((x, .6, z)), V((0, -1, 0)), 1)
+                if hit[0] is not None:
+                    row.append(hit[0] + hit[1] * .0009)
+            if len(row) > 4:
+                parts.append(C.tube(f'Golfer_v3_{self.v}_Welt', row, [(.0022 * k, .0008)] * len(row), self.col, 5))
+        sj = C.join(parts, f'Golfer_v3_{self.v}_Tailoring')
+        if sj:
+            C.transfer_weights(sj, ob)
+            self.finish(sj, seam_mat)
+
+    def box(self, name, c, ax_w, ax_h, ax_d, w, h, d):
+        """A small box on explicit axes (half sizes w, h, d), bevel-free."""
+        verts = []
+        for sz in (-1, 1):
+            for sy in (-1, 1):
+                for sx in (-1, 1):
+                    verts.append(tuple(V(c) + ax_w * (sx * w) + ax_h * (sy * h) + ax_d * (sz * d)))
+        faces = [(0, 2, 3, 1), (4, 5, 7, 6), (0, 1, 5, 4), (2, 6, 7, 3), (0, 4, 6, 2), (1, 3, 7, 5)]
+        me = bpy.data.meshes.new(name); me.from_pydata(verts, [], faces); me.update()
+        bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.to_mesh(me); bm.free()
+        ob = bpy.data.objects.new(name, me); self.col.objects.link(ob)
+        return ob
+
+    def fly(self, ob, top, J):
+        """The fly: a stitched J-curve on the front of the trousers or shorts."""
+        k = self.k
+        bvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+        pts = []
+        for i in range(12):
+            t = i / 11
+            z = top - .03 * k - t * .135 * k
+            x = .018 * k * math.sin(math.pi / 2 * min(1.0, t * 1.25)) if t < .8 else .018 * k * (1 - (t - .8) / .2 * .9)
+            hit = bvh.ray_cast(V((x, -.6, z)), V((0, 1, 0)), 1)
+            if hit[0] is not None:
+                pts.append(hit[0] + V((0, -.0009, 0)))
+        if len(pts) > 5:
+            t = C.tube(f'Golfer_v3_{self.v}_Fly', pts, [(.0011 * k, .0005)] * len(pts), self.col, 5)
+            C.transfer_weights(t, ob)
+            dark = tuple(max(0.0, c * .78) for c in C.hexrgb(self.P['trousers']))
+            self.finish(t, self.mat('fly seam', '#%02X%02X%02X' % tuple(int(c * 255) for c in dark), .9))
+
     def belt(self, top):
         P = self.P; k = self.k
-        z = top - .016 * k
+        z = top - .0175 * k
         band = [c for c, f in zip(self.centre, self.fs) if abs(c[2] - z) < .01 and f in (FS['pelvis'], FS['belly'], FS['torso'])]
         band = np.array(band)
         hull = C.hull2d([tuple(np.round(p[:2], 5)) for p in band]); cen = band[:, :2].mean(axis=0)
         pts = []
+        tbvh = BVHTree.FromObject(self.trouser_ob, bpy.context.evaluated_depsgraph_get())
         for i in range(96):
             a = 2 * math.pi * i / 96
-            q = C.project_to_hull(cen + np.array([math.sin(a), -math.cos(a)]) * .5, hull, cen)
-            q = cen + (q - cen) * 1.0 + (q - cen) / np.linalg.norm(q - cen) * .0105 * k
-            pts.append(V((q[0], q[1], z)))
-        b = C.tube(f'Golfer_v3_{self.v}_Belt', pts, [(.0035 * k, .016 * k)] * len(pts), self.col, 8, closed=True, caps=False)
+            d = V((math.sin(a), -math.cos(a), 0))
+            o = V((cen[0], cen[1], z))
+            hit = tbvh.ray_cast(o + d * .4, -d, .4)
+            if hit[0] is not None:
+                pts.append(V((hit[0].x, hit[0].y, z)) + d * .0026 * k)
+            else:
+                q = C.project_to_hull(cen + np.array([d.x, d.y]) * .5, hull, cen)
+                q = q + (q - cen) / np.linalg.norm(q - cen) * .0105 * k
+                pts.append(V((q[0], q[1], z)))
+        # A belt is a smooth band: relax the ring.
+        for _ in range(6):
+            pts = [pts[i] * .5 + (pts[i - 1] + pts[(i + 1) % len(pts)]) * .25 for i in range(len(pts))]
+        b = C.tube(f'Golfer_v3_{self.v}_Belt', pts, [(.0165 * k, .0026 * k)] * len(pts), self.col, 12, closed=True, caps=False)
         C.transfer_weights(b, self.trouser_ob)
         leather = self.textures.normal('leather')
-        self.finish(b, self.mat('belt', P['belt'], .45, normal_image=leather, normal_strength=.3))
+        self.finish(b, self.mat('belt', P['belt'], .45, normal_image=leather, normal_strength=.15))
         self.belt_ob = b
+        # Belt loops: small tabs of trouser cloth over the belt.
+        loops = []
+        n = len(pts)
+        for deg in (28, -28, 72, -72, 140, -140, 180):
+            a = math.radians(deg)
+            i = int(round((a % (2 * math.pi)) / (2 * math.pi) * n)) % n
+            p = pts[i]; t = (pts[(i + 1) % n] - pts[i - 1]).normalized()
+            out = V((p.x - cen[0], p.y - cen[1], 0)).normalized()
+            loops.append(self.box(f'Golfer_v3_{self.v}_BeltLoop', p + out * .0030 * k, t, V((0, 0, 1)), out,
+                                  .0052 * k, .0205 * k, .0011 * k))
+        lj = C.join(loops, f'Golfer_v3_{self.v}_BeltLoops')
+        if lj:
+            C.transfer_weights(lj, self.trouser_ob)
+            self.finish(lj, self.mat('trousers', P['trousers'], .86, normal_image=self.textures.normal('twill'), normal_strength=.22))
         front = min(pts, key=lambda p: p.y)
-        buckle = C.tube(f'Golfer_v3_{self.v}_Buckle', [front + V((-.018 * k, -.004, 0)), front + V((.018 * k, -.004, 0))],
-                        [(.014 * k, .003), (.014 * k, .003)], self.col, 4)
+        buckle = C.tube(f'Golfer_v3_{self.v}_Buckle', [front + V((-.019 * k, -.0035 * k, 0)), front + V((.019 * k, -.0035 * k, 0))],
+                        [(.0175 * k, .0022 * k), (.0175 * k, .0022 * k)], self.col, 4)
         C.transfer_weights(buckle, self.trouser_ob)
         self.finish(buckle, self.mat('buckle', '#C9CCCF', .25, metal=1.0))
 
@@ -541,7 +812,7 @@ class Outfit:
                 w = (xmax - xmin) / 2 + .0085 * k
                 w *= 1 - .45 * end_heel ** 2 - .55 * end_toe ** 2.2
                 top = min(ztop + .008 * k, ankle.z + .02 * k)
-                top = top * (1 - .15 * end_toe) + sole * .15 * end_toe
+                top = top * (1 - .32 * end_toe ** 1.4) + sole * .32 * end_toe ** 1.4
                 if t > .96:
                     top = mix(top, sole + .012 * k, (t - .96) / .04)
                     w *= 1 - (t - .96) / .04 * .7
@@ -552,9 +823,9 @@ class Outfit:
                 for j in range(ring_n):
                     th = 2 * math.pi * j / ring_n
                     cx = math.cos(th); sz = math.sin(th)
-                    x = xm + w * math.copysign(abs(cx) ** .55, cx)
+                    x = xm + w * math.copysign(abs(cx) ** .68, cx)
                     if sz >= 0:
-                        z = sole + (top - sole) * abs(sz) ** .5
+                        z = sole + (top - sole) * abs(sz) ** .72
                     else:
                         z = sole * (1 - abs(sz) ** .35 * .9)
                     verts.append((x, y, z))
@@ -570,21 +841,20 @@ class Outfit:
             for p in me.polygons:
                 p.use_smooth = True
             C.smooth(me, 7, .4)
+            bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.to_mesh(me); bm.free()
             # The collar of the shoe opens below the ankle bone.
-            C.cut_plane(ob, (ankle.x, ankle.y, ankle.z - .012 * k), V((0, -.42, 1)).normalized(), keep_positive=False)
+            C.cut_plane(ob, (ankle.x, ankle.y + .012 * k, ankle.z - .004 * k), V((0, .3, 1)).normalized(), keep_positive=False)
             C.solidify(ob, .0028 * k, -1)
             C.transfer_weights(ob, self.body)
             leather = self.textures.normal('leather')
             TX.scale_uv_box(ob, 30)
-            upper = self.mat('shoe leather', P['shoe'], .42, normal_image=leather, normal_strength=.25, coat=.15)
+            upper = self.mat('shoe leather', P['shoe'], .48, normal_image=leather, normal_strength=.1, specular=.35)
             accent = self.mat('shoe accent', P['accent'], .5)
             ob.data.materials.clear(); ob.data.materials.append(upper); ob.data.materials.append(accent)
             for p in ob.data.polygons:
                 c = p.center
-                if c.y > y0 - .035 * k and c.z > .03 * k:
-                    p.material_index = 1                         # heel counter
-                if c.y < y1 + .045 * k and c.z < sole + .012 * k:
-                    p.material_index = 1                         # toe bumper
+                if c.y > y0 - .016 * k and c.z > .042 * k:
+                    p.material_index = 1                         # heel tab
             C.smooth_weights(ob, 2)
             ob.parent = self.rig; mod = ob.modifiers.new('Golfer rig', 'ARMATURE'); mod.object = self.rig
             self.parts.append(ob)
@@ -632,7 +902,7 @@ class Outfit:
             lj = C.join(laces, f'Golfer_v3_{self.v}_Laces_{side}')
             if lj:
                 C.transfer_weights(lj, self.body)
-                self.finish(lj, self.mat('laces', '#FBFAF6', .7))
+                self.finish(lj, self.mat('laces', P['accent'] if self.v == 'male' else P['navy'], .7))
             self.hide |= self.mask({FS['foot_' + side], FOREFOOT[side]} | TOES[side])
             if self.v == 'female':
                 self.sock(side, ankle.z - .012 * k)
@@ -660,8 +930,23 @@ class Outfit:
         C.inflate(ob.data, .0011 * k)
         C.cut_plane(ob, wrist - ax * .022 * k, ax, keep_positive=True)
         leather = self.textures.normal('leather')
-        self.finish(ob, self.mat('glove', '#F8F7F3', .55, normal_image=leather, normal_strength=.35), .0008 * k)
+        self.finish(ob, self.mat('glove', '#F8F7F3', .55, normal_image=leather, normal_strength=.12), .0008 * k)
         self.hide |= C.shrink_mask(self.me, m & np.array([(V(c) - wrist).dot(ax) > -.012 * k for c in self.centre]), 1)
+        # The closure tab across the back of the hand, in the outfit's accent.
+        knuck = (J['Index1_L'] + J['Pinky1_L']) / 2
+        hd = (knuck - wrist).normalized()
+        wd = (J['Index1_L'] - J['Pinky1_L']).normalized()
+        wd = (wd - hd * hd.dot(wd)).normalized()
+        dd = hd.cross(wd).normalized()
+        if dd.x < 0:
+            dd = -dd
+        gb = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+        o = wrist + hd * .022 * k + dd * .1
+        hit = gb.ray_cast(o, -dd, .2)
+        if hit[0] is not None:
+            tab = self.box(f'Golfer_v3_{self.v}_GloveTab', hit[0] + dd * .0012 * k, hd, wd, dd, .0085 * k, .0135 * k, .0011 * k)
+            C.transfer_weights(tab, ob)
+            self.finish(tab, self.mat('glove tab', P['accent'], .6))
 
     # -- head: hair, visor or cap, braid --------------------------------------------------------
     def head_frame(self):
@@ -670,18 +955,39 @@ class Outfit:
         centre = V((0, J['ears'].y + .01, J['ears'].z + .03 * self.k))
         return eye, centre
 
-    def hairline(self, c, eye, centre):
-        """True above the hairline (front: forehead, sides: above the ears, back: the nape)."""
-        a = math.atan2(c[0] - centre.x, -(c[1] - centre.y))        # 0 front, +-pi back
+    def hairline_z(self, a, eye):
+        """The hairline's height at an azimuth (0 front, +-pi back)."""
         front = eye.z + .062 * self.k
         side = self.J['ears'].z + (.004 if self.v == 'female' else .022) * self.k
         nape = self.J['ears'].z - (.075 if self.v == 'female' else .055) * self.k
         u = abs(a) / math.pi
         if u < .5:
-            h = mix(front, side, smooth_np(u / .5))
-        else:
-            h = mix(side, nape, smooth_np((u - .5) / .5))
-        return c[2] > h
+            return mix(front, side, smooth_np(u / .5))
+        # His nape is rounded and nearly level across the back, not a point.
+        span = .5 if self.v == 'female' else .3
+        return mix(side, nape, smooth_np(min(1.0, (u - .5) / span)))
+
+    def hairline(self, c, eye, centre):
+        """True above the hairline (front: forehead, sides: above the ears, back: the nape)."""
+        a = math.atan2(c[0] - centre.x, -(c[1] - centre.y))        # 0 front, +-pi back
+        return c[2] > self.hairline_z(a, eye)
+
+    def snap_hairline(self, ob, eye, centre):
+        """Move the cut's sawtooth boundary onto the smooth hairline curve on the scalp."""
+        me = ob.data; co = C.coords(me)
+        bnd = sorted(C.boundary_vertices(me))
+        for i in bnd:
+            p = co[i]
+            a = math.atan2(p[0] - centre.x, -(p[1] - centre.y))
+            z = self.hairline_z(a, eye)
+            d = V((math.sin(a), -math.cos(a), 0))
+            o = V((centre.x, centre.y, z))
+            hit = self.bvh.ray_cast(o + d * .3, -d, .3)
+            if hit[0] is not None and abs(z - p[2]) < .03 * self.k:
+                co[i] = np.array(hit[0])
+        C.set_coords(me, co)
+        # Relax the first rows inside the edge so the snap leaves no crease.
+        C.smooth(me, 3, .5, pin=set(bnd))
 
     def hair(self):
         P = self.P; k = self.k
@@ -690,27 +996,111 @@ class Outfit:
         m = self.mask({FS['head']}, lambda c: self.hairline(c, eye, centre)) & ~np.isin(self.fs, list(excluded))
         ob, used = C.extract(self.body, m, f'Golfer_v3_{self.v}_Hair', self.col)
         me = ob.data
+        self.snap_hairline(ob, eye, centre)
         co = C.coords(me)
         bnd = C.boundary_vertices(me)
         thick = np.zeros(len(co))
         for i, p in enumerate(co):
             h = p[2] - (eye.z + .03 * k)
-            base = (.0085 if self.v == 'female' else .0045) * k
+            base = (.0085 if self.v == 'female' else .0032) * k
             thick[i] = base * (.35 + .65 * smooth_np(h / (.07 * k)))
             if self.v == 'female' and p[1] > centre.y and p[2] < centre.z:
                 thick[i] += .004 * k * smooth_np((p[1] - centre.y) / .06)
         # Fade to the skin at the hairline.
         dist_edge = self._edge_distance(me, bnd)
-        thick *= np.clip(dist_edge / (.012 * k), .15, 1.0)
+        thick *= np.clip(dist_edge / ((.012 if self.v == 'female' else .02) * k), .15 if self.v == 'female' else 0.0, 1.0)
         C.inflate(me, thick)
         C.smooth(me, 4, .4, pin=bnd)
         TX.hair_uv(ob, centre, (V((0, .55, -.83)) if self.v == 'female' else V((0, .25, -.97))))
         strands = self.textures.normal('hair')
         hair_col = self.textures.hair_color(P['hair'], P['hair_hi'])
-        mat = self.mat('hair', P['hair'], .5, normal_image=strands, normal_strength=.8, color_image=hair_col, specular=.6)
-        self.finish(ob, mat, None)
+        mat = self.mat('hair', P['hair'], .52, normal_image=strands, normal_strength=.8, color_image=hair_col, specular=.38)
+        if self.v == 'female':
+            under = tuple(c * .8 for c in C.hexrgb(P['hair']))
+            shell = self.mat('hair under', '#%02X%02X%02X' % tuple(int(c * 255) for c in under), .6,
+                             normal_image=strands, normal_strength=.6, specular=.2)
+        else:
+            shell = mat
+        self.finish(ob, shell, None)
         if self.v == 'female':
             self.braid(centre)
+            self.strands(ob, eye, centre, mat)
+
+    def strands(self, hair_ob, eye, centre, mat):
+        """Clumps of combed-back hair from the visor line and the nape into the braid's root."""
+        k = self.k; J = self.J
+        bones = [b for b in self.rig.data.bones if b.name.startswith('Braid')]
+        root = bones[0].head_local.copy() + V((0, -.004, .004))
+        hbvh = BVHTree.FromObject(hair_ob, bpy.context.evaluated_depsgraph_get())
+        c = V((0, J['ears'].y + .01, J['ears'].z + .03 * k))
+        def surface(d):
+            hit = hbvh.ray_cast(c + d * .3, -d, .3)
+            return hit[0] if hit[0] is not None else c + d * .1 * k
+        rd = (root - c).normalized()
+        objs = []
+        import random
+        rng = random.Random(7)
+        n = 116
+        for i in range(n):
+            a = -math.pi * .92 + 2 * math.pi * .92 * i / (n - 1) + rng.uniform(-.03, .03)
+            u = abs(a) / math.pi
+            if u < .62:
+                z0 = self.hairline_z(a, eye) + .03 * k        # above the visor band
+            else:
+                z0 = self.hairline_z(a, eye) + .006 * k       # the nape, swept up
+            d0 = V((math.sin(a), -math.cos(a), 0)) * .09 * k + V((0, 0, z0 - c.z))
+            d0 = d0.normalized()
+            pts = []
+            steps = 18
+            for j in range(steps + 1):
+                t = j / steps
+                d = d0.slerp(rd, t) if d0.angle(rd) > 1e-3 else d0
+                # Over the crown the path bows up a little (the hair is full there).
+                p = surface(d.normalized())
+                lift = (.0008 + .0016 * math.sin(math.pi * t) + rng.uniform(0, .0005)) * k
+                pts.append(p + (p - c).normalized() * lift)
+            pts[-1] = pts[-1].lerp(root, .6)
+            w = (.0056 + rng.uniform(-.0011, .0011)) * k
+            radii = [(w * (.55 + .45 * math.sin(math.pi * min(1.0, .15 + .85 * j / steps))), .0008 * k) for j in range(steps + 1)]
+            objs.append(self.ribbon(f'Golfer_v3_{self.v}_Strand', pts, radii, c, u0=rng.random()))
+        sj = C.join(objs, f'Golfer_v3_{self.v}_HairStrands')
+        if sj:
+            C.rigid(sj, 'Head')
+            self.finish(sj, mat, None, weights=False)
+
+    def ribbon(self, name, pts, radii, centre, sides=6, u0=0.0):
+        """A flattened tube lying on the head: wide along the scalp, thin off it."""
+        verts = []; faces = []; n = len(pts)
+        for i, p in enumerate(pts):
+            t = (pts[min(i + 1, n - 1)] - pts[max(i - 1, 0)]).normalized()
+            nrm = (p - centre); nrm = (nrm - t * t.dot(nrm)).normalized()
+            b = t.cross(nrm).normalized()
+            rx, ry = radii[i]
+            for j in range(sides):
+                a = 2 * math.pi * j / sides
+                verts.append(tuple(p + b * (rx * math.cos(a)) + nrm * (ry * math.sin(a))))
+        for i in range(n - 1):
+            for j in range(sides):
+                a = i * sides + j; b2 = i * sides + (j + 1) % sides
+                faces.append((a, b2, b2 + sides, a + sides))
+        faces.append(tuple(reversed(range(sides)))); faces.append(tuple((n - 1) * sides + j for j in range(sides)))
+        me = bpy.data.meshes.new(name); me.from_pydata(verts, [], faces); me.update()
+        # UVs run along the strand (U, the hair texture's streak direction).
+        acc = [0.0]
+        for i in range(1, n):
+            acc.append(acc[-1] + (pts[i] - pts[i - 1]).length)
+        uv = me.uv_layers.new(name='UVMap')
+        for poly in me.polygons:
+            for li in poly.loop_indices:
+                vi = me.loops[li].vertex_index
+                if vi >= n * sides:
+                    uv.data[li].uv = (0.0, u0); continue
+                i, j = divmod(vi, sides)
+                uv.data[li].uv = (acc[i] * 3.0, u0 + .3 * j / sides)
+        ob = bpy.data.objects.new(name, me); self.col.objects.link(ob)
+        for poly in me.polygons:
+            poly.use_smooth = True
+        return ob
 
     def _edge_distance(self, me, boundary):
         nb = C.neighbours(me); co = C.coords(me)
@@ -783,11 +1173,11 @@ class Outfit:
         TX.scale_uv_box(braid, 18)
         strands = self.textures.normal('hair')
         hair_col = self.textures.hair_color(P['hair'], P['hair_hi'])
-        self.finish(braid, self.mat('hair', P['hair'], .5, normal_image=strands, normal_strength=.8, color_image=hair_col, specular=.6), None, weights=False)
+        self.finish(braid, self.mat('hair', P['hair'], .52, normal_image=strands, normal_strength=.8, color_image=hair_col, specular=.38), None, weights=False)
         tie_p, d, seg = at(total * .86)
         tie = C.tube(f'Golfer_v3_{self.v}_BraidTie', [tie_p - d * .006, tie_p + d * .006], [.0085 * k, .0085 * k], self.col, 14)
         C.rigid(tie, bones[seg].name)
-        self.finish(tie, self.mat('tie', P['accent'], .6), None, weights=False)
+        self.finish(tie, self.mat('tie', P['tie'], .5), None, weights=False)
 
     def head_dome(self, z_lo, z_hi, lift, rows=14, cols=72, front_only=None):
         """A shell over the head between two edge heights (functions of azimuth)."""
@@ -813,89 +1203,240 @@ class Outfit:
                 faces.append((a_, b_, b_ + cols, a_ + cols))
         return c, verts, faces
 
+    def band(self, edge, lift, cols=72):
+        """The headwear's band line: the head surface at the edge height, lifted off it."""
+        J = self.J; k = self.k
+        c = V((0, J['ears'].y + .008, J['ears'].z + .02 * k))
+        pts = []
+        for j in range(cols):
+            a = -math.pi + 2 * math.pi * j / cols
+            d = V((math.sin(a), -math.cos(a), 0))
+            z = edge(a)
+            hit = self.bvh.ray_cast(V((c.x, c.y, z)) + d * .3, -d, .3)
+            base = hit[0] if hit[0] is not None else V((c.x, c.y, z)) + d * .09 * k
+            pts.append(base + d * lift)
+        return c, pts
+
+    def bill(self, name, edge, c, reach_c, half_angle=.92, pitch=9.0, curve=.012, thick=.0036):
+        """A curved, D-shaped bill built as top, underside and rim (materials by construction)."""
+        P = self.P; k = self.k
+        rows = 9; cols = 35
+        top = []
+        for r in range(rows + 1):
+            t = r / rows
+            row = []
+            for cc in range(cols):
+                a = mix(-half_angle, half_angle, cc / (cols - 1))
+                dir_ = V((math.sin(a), -math.cos(a), 0))
+                z0 = edge(a) + .004 * k
+                hit = self.bvh.ray_cast(V((c.x, c.y, z0)) + dir_ * .3, -dir_, .35)
+                base = hit[0] if hit[0] is not None else V((c.x, c.y, z0)) + dir_ * .09 * k
+                base = base + dir_ * .0075 * k
+                u = abs(a) / half_angle
+                reach = reach_c * k * (.10 + .90 * max(0.0, 1 - u ** 2.4) ** .6)
+                fwd = V((0, -1, 0)).lerp(dir_, .6).normalized()
+                p = base + fwd * reach * t
+                # Pitched down and curved across: the sides fall away from the centre.
+                p.z -= reach * t * math.tan(math.radians(pitch)) + curve * k * (u ** 2) * (.35 + .65 * t)
+                row.append(p)
+            top.append(row)
+        nb = V((0, math.sin(math.radians(pitch)), math.cos(math.radians(pitch))))
+        T = thick * k
+        verts = []; faces = []; mats = []
+        idx_top = {}; idx_bot = {}
+        for r in range(rows + 1):
+            for cc in range(cols):
+                idx_top[r, cc] = len(verts); verts.append(tuple(top[r][cc]))
+        for r in range(rows + 1):
+            for cc in range(cols):
+                idx_bot[r, cc] = len(verts); verts.append(tuple(top[r][cc] - nb * T))
+        for r in range(rows):
+            for cc in range(cols - 1):
+                faces.append((idx_top[r, cc], idx_top[r, cc + 1], idx_top[r + 1, cc + 1], idx_top[r + 1, cc])); mats.append(0)
+                faces.append((idx_bot[r, cc], idx_bot[r + 1, cc], idx_bot[r + 1, cc + 1], idx_bot[r, cc + 1])); mats.append(1)
+        # Rim: the two side ends and the outer edge.
+        ring = [(r, 0) for r in range(rows + 1)] + [(rows, cc) for cc in range(1, cols)] + [(r, cols - 1) for r in range(rows - 1, -1, -1)]
+        for (a1, b1), (a2, b2) in zip(ring[:-1], ring[1:]):
+            faces.append((idx_top[a1, b1], idx_bot[a1, b1], idx_bot[a2, b2], idx_top[a2, b2])); mats.append(0)
+        me = bpy.data.meshes.new(name); me.from_pydata(verts, [], faces); me.update()
+        for p, m in zip(me.polygons, mats):
+            p.material_index = m; p.use_smooth = True
+        bm = bmesh.new(); bm.from_mesh(me); bmesh.ops.recalc_face_normals(bm, faces=bm.faces); bm.to_mesh(me); bm.free()
+        me.update()
+        ob = bpy.data.objects.new(name, me); self.col.objects.link(ob)
+        ob.data.materials.append(self.mat('headwear', P['headwear'], .78, normal_image=self.textures.normal('twill'), normal_strength=.25))
+        ob.data.materials.append(self.mat('bill under', P['bill_under'], .85))
+        TX.scale_uv_box(ob, 40)
+        C.rigid(ob, 'Head')
+        ob.parent = self.rig; mod = ob.modifiers.new('Golfer rig', 'ARMATURE'); mod.object = self.rig
+        self.parts.append(ob)
+        return ob
+
     def headwear(self):
         P = self.P; k = self.k; J = self.J
         eye, centre = self.head_frame()
-        front_z = eye.z + .040 * k
+        front_z = eye.z + (.040 if self.v == 'female' else .044) * k
         def edge(a):
             u = abs(a) / math.pi
             return mix(front_z, J['ears'].z + .028 * k, smooth_np(u / .5)) if u < .5 else mix(J['ears'].z + .028 * k, J['ears'].z - .004 * k, smooth_np((u - .5) / .5))
+        twill = self.textures.normal('twill')
+        cloth = self.mat('headwear', P['headwear'], .78, normal_image=twill, normal_strength=.25)
         if self.v == 'female':
             hair_lift = .0105 * k
             c, verts, faces = self.head_dome(edge, lambda a: edge(a) + .027 * k, lambda a, e: hair_lift, rows=4)
-            name = 'Visor'
-        else:
-            hair_lift = .0070 * k
-            def lift(a, e):
-                # A structured cap: the front panels stand up off the forehead, the crown
-                # rises, the back follows the head.
+            me = bpy.data.meshes.new(f'Golfer_v3_{self.v}_Visor'); me.from_pydata([tuple(v) for v in verts], [], faces); me.update()
+            ob = bpy.data.objects.new(me.name, me); self.col.objects.link(ob)
+            for p in me.polygons:
+                p.use_smooth = True
+            C.smooth(me, 4, .4, pin=C.boundary_vertices(me))
+            TX.cylinder_uv(ob, c, (0, 0, 1), 40, .1)
+            self.finish(ob, cloth, .0028 * k, weights=False)
+            C.rigid(ob, 'Head')
+            self.bill(f'Golfer_v3_{self.v}_Bill', edge, c, .072, half_angle=.95, pitch=11, curve=.010)
+            vbvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
+            hit = vbvh.ray_cast(V((0, -.5, front_z + .0145 * k)), V((0, 1, 0)), 1)
+            if hit[0] is not None:
+                self.emblem(f'Golfer_v3_{self.v}_VisorFlag', hit[0], hit[1], .0085, P['navy'], P['polo'], bone='Head')
+            return
+        # A structured six-panel cap: the crown rises steeply from the band (the front
+        # panels stand up off the forehead), rounds over a low top and is buttoned there.
+        lift = .0062 * k
+        c, band = self.band(edge, lift)
+        top_z = J['head_top'].z + .010 * k
+        axis = V((c.x, c.y + .006 * k, 0))
+        rows = 20; cols = len(band)
+        verts = []
+        for r in range(rows + 1):
+            th = (math.pi / 2) * (r / rows)
+            for j, B in enumerate(band):
+                a = -math.pi + 2 * math.pi * j / cols
                 front = max(0.0, math.cos(a)) ** 1.5
-                return hair_lift + .007 * k * max(0.0, math.sin(e)) + .013 * k * front * max(0.0, math.cos(e - .7)) ** 2
-            c, verts, faces = self.head_dome(edge, None, lift, rows=16)
-            name = 'Cap'
-        me = bpy.data.meshes.new(f'Golfer_v3_{self.v}_{name}'); me.from_pydata([tuple(v) for v in verts], [], faces); me.update()
+                pexp = 2.6 + 1.2 * front                  # squarer at the structured front
+                rvec = V((B.x - axis.x, B.y - axis.y, 0))
+                r0 = rvec.length; dirh = rvec.normalized()
+                H = top_z - B.z
+                ct, st = math.cos(th), math.sin(th)
+                rr = r0 * (abs(ct) ** (2 / pexp)) if r < rows else 0.0
+                zz = B.z + H * (abs(st) ** (2 / pexp))
+                verts.append(axis + dirh * rr + V((0, 0, zz)))
+        faces = []
+        for r in range(rows):
+            for j in range(cols):
+                a_ = r * cols + j; b_ = r * cols + (j + 1) % cols
+                faces.append((a_, b_, b_ + cols, a_ + cols))
+        me = bpy.data.meshes.new(f'Golfer_v3_{self.v}_Cap'); me.from_pydata([tuple(v) for v in verts], [], faces); me.update()
+        bm = bmesh.new(); bm.from_mesh(me)
+        bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=.0008 * k)
+        bm.to_mesh(me); bm.free()
         ob = bpy.data.objects.new(me.name, me); self.col.objects.link(ob)
         for p in me.polygons:
             p.use_smooth = True
-        C.smooth(me, 4, .4, pin=C.boundary_vertices(me))
-        if self.v == 'male':
-            # Merge the pole into a button-topped crown.
-            bm = bmesh.new(); bm.from_mesh(me)
-            bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=.004 * k)
-            bm.to_mesh(me); bm.free()
+        # Never inside the head: keep a felt's gap off the skull everywhere.
+        self.keep_off_body(ob, .0055 * k)
+        C.smooth(me, 3, .35, pin=C.boundary_vertices(me))
+        self.keep_off_body(ob, .005 * k)
         TX.cylinder_uv(ob, c, (0, 0, 1), 40, .1)
-        cotton = self.textures.normal('twill')
-        self.finish(ob, self.mat('headwear', P['headwear'], .75, sheen=.2, normal_image=cotton, normal_strength=.3), .0028 * k, weights=False)
+        self.finish(ob, cloth, .0026 * k, weights=False)
         C.rigid(ob, 'Head')
-        # The bill, from the front of the lower edge, curved across and down.
-        bvh = BVHTree.FromObject(ob, bpy.context.evaluated_depsgraph_get())
-        rows = 8; cols = 33; verts = []
-        for r in range(rows + 1):
-            t = r / rows
-            for cc in range(cols):
-                a = mix(-.88, .88, cc / (cols - 1))
-                dir_ = V((math.sin(a), -math.cos(a), 0))
-                z0 = edge(a) + .007 * k
-                hit = bvh.ray_cast(V((c.x, c.y, z0)) + dir_ * .3, -dir_, .35)
-                base = hit[0] if hit[0] is not None else V((c.x, c.y, z0)) + dir_ * .1 * k
-                # A D-shaped bill: long at the centre, rounding off to nothing at the sides,
-                # pitched down a little and curved across.
-                u = abs(a) / .88
-                reach = (.080 if self.v == 'male' else .070) * k * (.14 + .86 * max(0.0, 1 - u ** 2.2) ** .55)
-                fwd = V((0, -1, 0)).lerp(dir_, .55).normalized()
-                p = base + fwd * (reach * t - .004) + dir_ * .0015 * (1 - t)
-                p.z -= reach * t * math.tan(math.radians(13)) + .010 * k * u ** 2 * t
-                verts.append(tuple(p))
-        faces = []
-        for r in range(rows):
-            for cc in range(cols - 1):
-                a_ = r * cols + cc
-                faces.append((a_, a_ + 1, a_ + 1 + cols, a_ + cols))
-        bme = bpy.data.meshes.new(f'Golfer_v3_{self.v}_Bill'); bme.from_pydata(verts, [], faces); bme.update()
-        bill = bpy.data.objects.new(bme.name, bme); self.col.objects.link(bill)
-        for p in bme.polygons:
-            p.use_smooth = True
-        C.solidify(bill, .0034 * k, 0)
-        bill.data.materials.append(self.mat('headwear', P['headwear'], .75))
-        bill.data.materials.append(self.mat('bill under', P['bill_under'], .85))
-        for p in bill.data.polygons:
-            if p.normal.z < -.3:
-                p.material_index = 1
-        C.rigid(bill, 'Head')
-        bill.parent = self.rig; mod = bill.modifiers.new('Golfer rig', 'ARMATURE'); mod.object = self.rig
-        self.parts.append(bill)
-        if self.v == 'male':
-            top = V((c.x, c.y, max(v.co.z for v in ob.data.vertices)))
-            btn = C.tube(f'Golfer_v3_{self.v}_CapButton', [top - V((0, 0, .002)), top + V((0, 0, .004))], [.0065 * k, .005 * k], self.col, 12)
-            C.rigid(btn, 'Head'); self.finish(btn, self.mat('headwear', P['headwear'], .75), weights=False)
-            hit = bvh.ray_cast(V((0, -.5, front_z + .034 * k)), V((0, 1, 0)), 1)
-            if hit[0] is not None:
-                q = hit[0] + V((0, -.0012, 0))
-                flag = C.tube(f'Golfer_v3_{self.v}_CapFlag', [q - V((0, 0, .011 * k)), q + V((0, 0, .011 * k))], [.0012 * k] * 2, self.col, 6)
-                pennant = C.tube(f'Golfer_v3_{self.v}_CapPennant', [q + V((0, 0, .011 * k)), q + V((.011 * k, 0, .007 * k))],
-                                 [(.0035 * k, .0007), (.0005, .0005)], self.col, 4)
-                emb = C.join([flag, pennant], f'Golfer_v3_{self.v}_CapEmblem')
-                C.rigid(emb, 'Head'); self.finish(emb, self.mat('emblem', P['navy'], .7), weights=False)
+        crown = ob
+        # Panel seams and the top button.
+        cbvh = BVHTree.FromObject(crown, bpy.context.evaluated_depsgraph_get())
+        seams = []
+        top = V((axis.x, axis.y, top_z))
+        for deg in (30, 90, 150, -30, -90, -150):
+            a = math.radians(deg)
+            d = V((math.sin(a), -math.cos(a), 0))
+            pts = []
+            for i in range(14):
+                el = math.radians(4 + 82 * i / 13)
+                ray = V((math.cos(el) * d.x, math.cos(el) * d.y, math.sin(el)))
+                o = V((axis.x, axis.y, edge(a) + .01 * k)) + ray * .25
+                hit = cbvh.ray_cast(o, -ray, .3)
+                if hit[0] is not None:
+                    pts.append(hit[0] + hit[1] * .0007)
+            if len(pts) > 4:
+                seams.append(C.tube(f'Golfer_v3_{self.v}_CapSeam', pts, [.0011 * k] * len(pts), self.col, 5))
+        sj = C.join(seams, f'Golfer_v3_{self.v}_CapSeams')
+        if sj:
+            C.rigid(sj, 'Head'); self.finish(sj, self.mat('cap seam', '#E4E1D8', .8), weights=False)
+        hit = cbvh.ray_cast(top + V((0, 0, .1)), V((0, 0, -1)), .2)
+        tp = hit[0] if hit[0] is not None else top
+        btn = C.tube(f'Golfer_v3_{self.v}_CapButton', [tp - V((0, 0, .001)), tp + V((0, 0, .0032 * k)), tp + V((0, 0, .0042 * k))],
+                     [.0068 * k, .0062 * k, .002 * k], self.col, 14)
+        C.rigid(btn, 'Head'); self.finish(btn, cloth, weights=False)
+        # The sweatband edge: a soft rolled rim along the band.
+        rim = C.tube(f'Golfer_v3_{self.v}_CapRim', [p + (p - V((axis.x, axis.y, p.z))).normalized() * .0012 for p in band],
+                     [.0022 * k] * len(band), self.col, 6, closed=True, caps=False)
+        C.rigid(rim, 'Head'); self.finish(rim, cloth, weights=False)
+        self.bill(f'Golfer_v3_{self.v}_Bill', edge, c, .080, half_angle=.98, pitch=9, curve=.024)
+        # The embroidered flag: a cobalt staff and a sunny pennant on the front panels.
+        hit = cbvh.ray_cast(V((0, -.5, front_z + .036 * k)), V((0, 1, 0)), 1)
+        if hit[0] is not None:
+            q = hit[0] + V((0, -.0010, 0))
+            flag = C.tube(f'Golfer_v3_{self.v}_CapFlag', [q - V((0, 0, .012 * k)), q + V((0, 0, .012 * k))], [(.0013 * k, .0005)] * 2, self.col, 6)
+            C.rigid(flag, 'Head'); self.finish(flag, self.mat('emblem', P['polo'], .7), weights=False)
+            pennant = C.tube(f'Golfer_v3_{self.v}_CapPennant', [q + V((.0006, -.0002, .012 * k)), q + V((.0125 * k, -.0004, .008 * k))],
+                             [(.0045 * k, .0005), (.0006, .0004)], self.col, 4)
+            C.rigid(pennant, 'Head'); self.finish(pennant, self.mat('emblem flag', P['trim'], .7), weights=False)
+
+    def lashes(self):
+        """Upper lashes: clumped, curled blades along each lid margin, on the lid bones.
+
+        The margin is found by rays from in front of the eye: scanning down, the
+        first height at which the eyeball is nearer than the skin is the opening;
+        the last skin hit above it is the margin.
+        """
+        k = self.k; fem = self.v == 'female'
+        objs = []
+        dg = bpy.context.evaluated_depsgraph_get()
+        for side, eye in (('L', self.G['eyes'][0]), ('R', self.G['eyes'][1])):
+            c = sum((v.co for v in eye.data.vertices), V()) / len(eye.data.vertices)
+            ebvh = BVHTree.FromObject(eye, dg)
+            margin = []
+            for i in range(49):
+                x = c.x + (-.0165 + .033 * i / 48)
+                prev = None
+                for j in range(110):
+                    z = c.z + .016 - j * .0002
+                    o = V((x, c.y - .06, z)); d = V((0, 1, 0))
+                    hb = self.bvh.ray_cast(o, d, .1); he = ebvh.ray_cast(o, d, .1)
+                    on_eye = he[0] is not None and (hb[0] is None or he[3] < hb[3] - 1e-5)
+                    if on_eye:
+                        if prev is not None:
+                            margin.append(prev)
+                        break
+                    prev = hb[0].copy() if hb[0] is not None else None
+            if len(margin) < 6:
+                continue
+            outer = 1 if side == 'L' else -1          # +x is the left eye's outer corner
+            n = 30 if fem else 22
+            xs = [p.x for p in margin]; x0, x1 = min(xs), max(xs)
+            up = V((0, 0, 1)); fwd = V((0, -1, 0))
+            for i in range(n):
+                u = (i + .5) / n
+                x = mix(x0, x1, u)
+                p = min(margin, key=lambda q: abs(q.x - x))
+                o = u if outer > 0 else 1 - u                # 0 inner corner .. 1 outer corner
+                L = (.0046 if fem else .0032) * (.45 + .55 * math.sin(math.pi * min(1.0, .1 + o * .8)) ** .6) * (1 + (.25 if fem else .08) * o)
+                lat = V((outer, 0, 0)) * (o - .45) * .6
+                d0 = (fwd * .85 + up * .30 + lat).normalized()
+                d1 = (fwd * .30 + up * .95 + lat * 1.2).normalized()
+                root = p + fwd * .0002 + up * .0001
+                pts = []
+                for t in (0, .33, .66, 1.0):
+                    d = d0.lerp(d1, t).normalized()
+                    pts.append(root + d0 * L * t * .5 + d * L * t * .5)
+                w0 = .00075 if fem else .0006
+                blade = C.tube(f'Golfer_v3_{self.v}_Lash', pts, [(w0, .00016), (w0 * .8, .00014), (w0 * .5, .00011), (.00007, .00005)],
+                               self.col, 4)
+                C.rigid(blade, 'Lid_' + side)
+                objs.append(blade)
+        if not objs:
+            return
+        lashes = C.join(objs, f'Golfer_v3_{self.v}_Lashes')
+        m = self.mat('lashes', '#1B1512' if fem else '#1E1813', .55)
+        m.use_backface_culling = False
+        self.finish(lashes, m, None, weights=False)
 
     def earrings(self):
         k = self.k
@@ -907,8 +1448,33 @@ class Outfit:
             C.rigid(e, 'Head'); self.finish(e, self.mat('gold', '#D9B35E', .25, metal=1.0), weights=False)
 
     # -- body skin and eyes -----------------------------------------------------------------------
+    def scalp_mask(self):
+        """Float attribute for the skin bake: 1 above the hairline, fading over 1.5 cm below it."""
+        eye, centre = self.head_frame()
+        me = self.me; k = self.k
+        low = self.J['ears'].z - .12 * k
+        face = {FS['mouth'], FS['chin'], FS['jaw'], FS['eyelid_L'], FS['eyelid_R'], FS['ear_L'], FS['ear_R']}
+        skip = set()
+        for p, f in zip(me.polygons, self.fs):
+            if f in face:
+                skip.update(p.vertices)
+        head = [i for i, vv in enumerate(me.vertices) if vv.co.z > low and i not in skip and abs(vv.co.x) < .12 * k]
+        v = np.zeros(len(me.vertices), dtype=np.float32)
+        for i in head:
+            c = me.vertices[i].co
+            a = math.atan2(c.x - centre.x, -(c.y - centre.y))
+            if abs(a) < math.pi * .38:
+                continue                       # no fade on the forehead
+            h = self.hairline_z(a, eye)
+            v[i] = smooth_np((c.z - (h - .024 * k)) / (.024 * k))
+        attr = me.attributes.get('scalp_mask') or me.attributes.new('scalp_mask', 'FLOAT', 'POINT')
+        attr.data.foreach_set('value', v)
+        print('SCALP', int((v > .05).sum()), 'vertices')
+
     def skin(self):
         P = self.P
+        if self.v == 'male':
+            self.scalp_mask()
         tex = TX.bake_skin(self.G, self.P, self.v)
         self.body.data.materials.clear()
         self.body.data.materials.append(tex['material'])
@@ -924,20 +1490,25 @@ def smooth_np(x):
 
 
 def dress(G, collection):
+    import os, time
     O = Outfit(G, collection)
-    O.polo()
+    clock = [time.time()]
+    def lap(name):
+        now = time.time(); print(f'OUTFIT {name} {now - clock[0]:.1f}s'); clock[0] = now
+    O.polo(); lap('polo')
     # Tailored shorts for her, trousers for him: both follow each leg cleanly
     # through every swing (a pleated skirt needs cloth simulation to do that).
-    O.trousers(shorts=O.v == 'female')
-    O.shoes(); O.glove()
-    O.hair(); O.headwear()
+    O.trousers(shorts=O.v == 'female'); lap('trousers')
+    O.shoes(); O.glove(); lap('shoes+glove')
+    O.hair(); lap('hair')
+    O.headwear(); lap('headwear')
+    O.lashes(); lap('lashes')
     if O.v == 'female':
         O.earrings()
-    import os
     if os.environ.get('GOLFER_FAST'):
         plain_materials(G)
     else:
-        O.skin()
+        O.skin(); lap('skin bake')
     C.delete_body_faces(O.body, O.hide)
     G['outfit'] = O.parts
     G['design'] = __doc__.split('\n\n')[1].strip() if __doc__ else ''

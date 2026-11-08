@@ -4,6 +4,7 @@ Run headless from the repository root:
   blender --background --factory-startup --python tools/blender-golfer/v3/build_v3.py -- female
 """
 import bpy, json, math, hashlib, struct
+import numpy as np
 from pathlib import Path
 from mathutils import Vector as V, Matrix
 from rig_math import bake_action, frame, mat4, clamp, smooth
@@ -17,7 +18,7 @@ ASSET = ROOT / 'experiments/golfer/assets'
 class Braid:
     """A damped verlet chain hanging from the head, kept off the head and back."""
 
-    def __init__(self, skel):
+    def __init__(self, skel, body=None):
         self.s = skel
         self.names = [n for n in skel.order if n.startswith('Braid')]
         self.on = bool(self.names)
@@ -32,6 +33,23 @@ class Braid:
         h3 = skel.rest3['Head']
         self.root_dir = (h3.transposed() @ (self.rest_pts[1] - self.rest_pts[0])).normalized()
         self.root_frame = h3.transposed() @ skel.rest3[self.names[0]]
+        # The back as a collider: its rest profile (the farthest-back skin near the
+        # spine, every centimetre of height), carried by the posed chest.
+        self.back = None
+        if body is not None:
+            import numpy as np
+            co = np.array([v.co[:] for v in body.data.vertices])
+            mid = co[np.abs(co[:, 0]) < .07]
+            z0 = skel.head['Spine'].z; z1 = skel.head['Neck'].z + .02
+            zs = np.arange(z0, z1, .01)
+            ys = []
+            for z in zs:
+                band = mid[np.abs(mid[:, 2] - z) < .008]
+                ys.append(float(band[:, 1].max()) if len(band) else np.nan)
+            ys = np.array(ys); ok = ~np.isnan(ys)
+            if ok.sum() > 4:
+                self.back = (zs[ok], ys[ok])
+        self.clear = .028      # polo, its ease and the braid's own radius
 
     def run(self, poses, loop):
         if not self.on:
@@ -48,9 +66,12 @@ class Braid:
         warm = [0] * (FPS if not loop else 0)
         for pas in range(passes):
             frames = (warm if pas == 0 else []) + seq
+            n_warm = len(warm) if pas == 0 else 0
             result = []
-            for f in frames:
+            for idx, f in enumerate(frames):
                 tgt, centre, chest = targets(poses[f])
+                C_pose = poses[f]['Chest']; C_rest = self.s.rest['Chest']
+                to_rest = C_rest @ C_pose.inverted(); from_rest = C_pose @ C_rest.inverted()
                 for _ in range(sub):
                     for i in range(1, len(x)):
                         v = (x[i] - xp[i]) * .952
@@ -68,6 +89,18 @@ class Braid:
                             r = x[i] - centre
                             if r.length < .118:
                                 x[i] = centre + r.normalized() * .118
+                            if self.back is not None:
+                                q = to_rest @ x[i]
+                                # Continuous everywhere below the neck (np.interp holds the
+                                # lowest measured line below the profile): a collider that
+                                # switched off at an edge snapped the braid's tip.
+                                if q.z < self.back[0][-1]:
+                                    by = float(np.interp(q.z, self.back[0], self.back[1])) + self.clear
+                                    if q.y < by:
+                                        # Only behind the back: the profile is measured near
+                                        # the spine, so it fades out toward the sides and front.
+                                        w = smooth((.13 - abs(q.x)) / .05) * smooth((q.y - (by - .09)) / .03)
+                                        q.y += (by - q.y) * .5 * w; x[i] = from_rest @ q
                         # A braid bends, it does not fold: at most 32 degrees per joint.
                         for i in range(2, len(x)):
                             prev = x[i - 1] - x[i - 2]; d = x[i] - x[i - 1]
@@ -76,10 +109,13 @@ class Braid:
                                 if ang > .56:
                                     d = prev.normalized().slerp(d.normalized(), .56 / ang) * d.length
                                     x[i] = x[i - 1] + d
-                if f in seq and (pas == passes - 1):
+                # Record the clip's own frames only: the warm-up repeats frame 0, and
+                # recording it delayed the braid by a second on every one-shot clip.
+                if idx >= n_warm and pas == passes - 1:
                     result.append([p.copy() for p in x])
             if pas == passes - 1:
                 out = result
+        assert len(out) == n, (len(out), n)
         # Two passes of a light temporal filter remove the last flutter.
         for _ in range(2):
             out = [[(out[max(f - 1, 0)][i] + out[f][i] * 2 + out[min(f + 1, n - 1)][i]) * .25 for i in range(len(out[f]))]
@@ -108,12 +144,44 @@ class Braid:
         return poses
 
 
+def blink_curve(t, starts):
+    """0 open .. 1 closed: a quick close, a short hold, a slower opening."""
+    v = 0.0
+    for s0 in starts:
+        u = t - s0
+        if 0 <= u < .075:
+            v = max(v, smooth(u / .075))
+        elif .075 <= u < .105:
+            v = 1.0
+        elif .105 <= u < .27:
+            v = max(v, 1 - smooth((u - .105) / .165))
+    return v
+
+
+def blink_times(name, duration):
+    """When each clip blinks: with head turns, at rest and in the held finish; the
+    short locomotion loops never blink (once a stride would read as a twitch)."""
+    if name == 'Idle':
+        return [.9, 3.32, 3.66, 5.55]
+    if name.startswith('Address'):
+        return [.86, 2.42]
+    if name.startswith('Turn'):
+        return [.04]
+    if name == 'ClubChange':
+        return [.28]
+    if name == 'Celebrate':
+        return [.06, duration - .75]
+    if name in ('SwingDriver', 'SwingWood', 'SwingIron', 'ChipWedge', 'Putt'):
+        return [.12, duration - .95]
+    return []
+
+
 def bake_all(G, scene, names=None):
     rig = G['rig']; skel = G['skel']
     rig.animation_data_create(); rig.animation_data.action = None
     for track in list(rig.animation_data.nla_tracks):
         rig.animation_data.nla_tracks.remove(track)
-    braid = Braid(skel)
+    braid = Braid(skel, G.get('cage'))
     actions = []; clips = []; report = {}
     scene.render.fps = FPS
     for name in names or clips_v3.CLIP_ORDER:
@@ -122,11 +190,14 @@ def bake_all(G, scene, names=None):
         frames = round(duration * FPS); duration = frames / FPS
         G['bodypose'].max_reach_gap = 0; G['bodypose'].max_leg_gap = 0
         poses = []
+        blinks = blink_times(name, duration)
         for f in range(frames + 1):
             t = min(f / FPS, duration)
             if loop and f == frames:
                 t = 0.0
+            G['bodypose'].blink = blink_curve(t, blinks)
             poses.append(clip.pose(t))
+        G['bodypose'].blink = 0.0
         poses = braid.run(poses, loop)
         basis = [skel.basis(p) for p in poses]
         action = bpy.data.actions.new(f'{G["variant"].title()} v3 | {name}')

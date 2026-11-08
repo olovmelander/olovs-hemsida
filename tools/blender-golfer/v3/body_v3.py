@@ -282,6 +282,8 @@ def build_rig(variant, me, joints, collection, braid=False):
     for side, eye in (('L', 'eye_L'), ('R', 'eye_R')):
         c = J[eye]
         bone('Eye_' + side, c, c + V((0, -.03, 0)), 'Head', z=UP)
+        # The upper lid pivots about the eye's centre: it closes over the eyeball.
+        bone('Lid_' + side, c, c + V((0, -.025, 0)), 'Head', z=UP)
     if braid:
         start = V((0, J['head_top'].y + .085, J['ears'].z - .005))
         pts = [start + V((0, .012 * i, -.062 * i)) for i in range(7)]
@@ -296,7 +298,7 @@ def build_rig(variant, me, joints, collection, braid=False):
     return rig
 
 
-NON_DEFORM_FOR_HEAT = ('Root', 'ClubGrip', 'Eye_', 'Braid')
+NON_DEFORM_FOR_HEAT = ('Root', 'ClubGrip', 'Eye_', 'Lid_', 'Braid')
 
 
 def heat_weights(cage, rig):
@@ -356,3 +358,54 @@ def copy_groups(src, dst):
     for v in src.data.vertices:
         for g in v.groups:
             made[g.group].add([v.index], g.weight, 'REPLACE')
+
+
+def lid_weights(body, joints, eyes):
+    """Weight each upper eyelid to its Lid bone.
+
+    The lid set's vertices above the eye are measured by their angle about the
+    eye's lateral axis: the margin (lowest angle at each x) follows the bone
+    fully, the skin toward the brow less and less, so a blink slides the lid
+    over the eyeball and the crease above it folds gently.
+    """
+    import numpy as np
+    me = body.data
+    fsets = face_sets(me)
+    per_vertex = set_vertices(me, fsets)
+    head = body.vertex_groups.get('Head')
+    out = {}
+    for side, setid, eye in (('L', FS['eyelid_L'], eyes[0]), ('R', FS['eyelid_R'], eyes[1])):
+        c = sum((v.co for v in eye.data.vertices), V()) / len(eye.data.vertices)
+        ids = sorted(per_vertex[setid])
+        co = np.array([me.vertices[i].co[:] for i in ids])
+        rel = co - np.array(c[:])
+        phi = np.degrees(np.arctan2(rel[:, 2], -rel[:, 1]))          # 0 ahead, +90 up
+        upper = rel[:, 2] > -.0015
+        # The visible lid lies in front of the eye; the lid's lining folds back into the
+        # socket behind the eyeball's front and simply follows the lid (it stays hidden).
+        front = rel[:, 1] < -.006
+        xs = rel[:, 0]
+        margin = np.empty(len(ids))
+        for j in range(len(ids)):
+            near = upper & front & (np.abs(xs - xs[j]) < .0018)
+            margin[j] = phi[near].min() if near.any() else 90.0
+        span = 46.0
+        t = np.clip((phi - margin) / span, 0, 1)
+        w = np.where(front, 1 - t * t * (3 - 2 * t), 1.0)
+        # Fade out toward the corners so the canthi stay put.
+        half = max(np.abs(xs[upper]).max(), 1e-4)
+        corner = np.clip((half - np.abs(xs)) / (half * .35), 0, 1)
+        w = w * (corner * corner * (3 - 2 * corner)) * upper
+        g = body.vertex_groups.get('Lid_' + side) or body.vertex_groups.new(name='Lid_' + side)
+        n = 0
+        for i, wi in zip(ids, w):
+            if wi < 1e-3:
+                continue
+            v = me.vertices[i]
+            # Scale the existing influences down and give the lid its share.
+            for ge in v.groups:
+                ge.weight *= (1 - wi)
+            g.add([i], float(wi), 'REPLACE')
+            n += 1
+        out[side] = dict(vertices=n, margin_deg=round(float(np.median(margin[upper & front])), 1))
+    return out

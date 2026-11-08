@@ -239,9 +239,16 @@ class Idle(Carry):
         pitch = -8 * math.sin(PI * clamp((t - 5.1) / 1.0)) ** 2
         eye = V((0, -.06, 1.58)) * self.k
         look = eye + rot_axis(UP, D(yaw)) @ (rot_axis(LEFT, D(pitch - 3)) @ V((0, -6, 0)))
+        # A stretch: a deep breath lifts and rolls the shoulders back (about 2 s in).
+        stretch = math.sin(PI * clamp((t - 1.85) / 1.05)) ** 2
+        trot = rot_axis(LEFT, D(-2.5 * stretch)) @ trot
+        # A fidget: the club bounces twice on the shoulder (about 4.3 s in).
+        tap = sum(math.sin(PI * clamp((t - t0) / .30)) ** 2 for t0 in (4.28, 4.62))
         lead = self.lead_on_hip(trot, t)
-        spec = self.base(pel, prot, trot, feet, look, clav={'L': (D(1.5 * breath), D(-4)), 'R': (D(4 + 1.5 * breath), D(6))},
-                         lead_hand=lead[0:2], lead_fingers=lead[2])
+        spec = self.base(pel, prot, trot, feet, look,
+                         clav={'L': (D(1.5 * breath + 5 * stretch), D(-4 - 3 * stretch)),
+                               'R': (D(4 + 1.5 * breath + 4 * stretch), D(6 - 2 * stretch))},
+                         lead_hand=lead[0:2], lead_fingers=lead[2], club_lift=-11 * tap, club_bob=.004 * self.k * tap)
         return b.solve(spec)
 
     def lead_on_hip(self, T, t):
@@ -334,34 +341,45 @@ class Gait(Carry):
     def pose(self, t):
         b = self.b; d = self.duration; p = t / d
         jog = self.kind == 'Jog'; strafe = self.kind.startswith('Strafe'); back = self.kind == 'WalkBackward'
+        fwd_walk = not (strafe or back)
         feet = {'L': self.foot('L', p % 1), 'R': self.foot('R', (p + .5) % 1)}
         # Pelvis: lowest at double support (walk) / mid-stance (jog), sway over the stance leg.
         if jog:
-            bob = -.045 * self.k * math.cos(TAU * 2 * (p - .20))
-            base_drop = -.035 * self.k
+            bob = -.05 * self.k * math.cos(TAU * 2 * (p - .20))
+            base_drop = -.036 * self.k
         else:
-            bob = .022 * self.k * math.cos(TAU * 2 * (p - .27))
+            bob = .024 * self.k * math.cos(TAU * 2 * (p - .27))
             base_drop = -.026 * self.k
-        sway = (.018 if not jog else .012) * self.k * math.sin(TAU * (p - .06))
-        fwd = 0.0
-        pel = self.hips0 + V((sway if not strafe else .0, fwd, base_drop + bob))
-        lean = 9 if jog else 3 if not back else -2
-        yaw = (5 if not jog else 7) * math.cos(TAU * p) * (0 if strafe else 1) * (-1 if back else 1)
-        drop = (3.5 if not jog else 2) * math.sin(TAU * (p - .06))
+        sway = (.020 if not jog else .013) * self.k * math.sin(TAU * (p - .06))
+        pel = self.hips0 + V((sway if not strafe else .0, 0.0, base_drop + bob))
+        lean = 8 if jog else 4 if not back else -2
+        # The pelvis turns with the forward leg; the chest counter-turns with the free arm.
+        yaw = (6.5 if not jog else 8) * math.cos(TAU * p) * (0 if strafe else 1) * (-1 if back else 1)
+        drop = (4.5 if not jog else 3) * math.sin(TAU * (p - .06))
+        # A small forward pitch of the chest on each push-off.
+        push = (1.2 if not jog else 2.2) * math.cos(TAU * 2 * (p - .1)) * (1 if fwd_walk else 0)
         prot = rot_axis(UP, D(-yaw)) @ rot_axis(FWD, D(drop)) @ rot_axis(LEFT, D(lean * .6))
-        trot = rot_axis(UP, D(yaw * .7)) @ rot_axis(LEFT, D(lean)) @ rot_axis(FWD, D(-drop * .3))
+        trot = rot_axis(UP, D(yaw * .85)) @ rot_axis(LEFT, D(lean + push)) @ rot_axis(FWD, D(-drop * .45))
         if strafe:
-            prot = rot_axis(FWD, D(drop * .5)); trot = rot_axis(LEFT, D(2))
-        # The free arm swings against the left leg; the carrying hand sways a little against the right.
+            prot = rot_axis(FWD, D(drop * .6)); trot = rot_axis(LEFT, D(2)) @ rot_axis(FWD, D(-drop * .3))
+        # The free arm swings against the left leg (forward with the right foot), bending
+        # as it comes through; the carrying hand bobs and sways a little.
         lead_fwd = self.travel['L']            # +1 = left foot forward
-        arm = (-24 if not jog else -34) * lead_fwd * (0 if strafe else 1)
+        swing_amp = (-27 if not jog else -30) * (0 if strafe else 1)
+        arm = swing_amp * lead_fwd
         if back:
-            arm *= -.6        # walking backward the foot moves the other way along the stride
-        sway = (.022 if not jog else .03) * (1.6 if back else 1) * self.k * (-self.travel['R']) * (0 if strafe else 1) * (-1 if back else 1)
-        elbow = (16 if not jog else 82) + (10 if not jog else 8) * max(0, -math.cos(TAU * p))
+            arm *= -.55      # walking backward the foot moves the other way along the stride
+        forward_share = clamp((arm / (abs(swing_amp) or 1)) * .5 + .5)
+        elbow = (16 + 17 * forward_share ** 1.6) if not jog else (84 + 16 * forward_share)
+        sway_c = (.024 if not jog else .032) * (1.6 if back else 1) * self.k * (-self.travel['R']) * (0 if strafe else 1) * (-1 if back else 1)
+        # The shoulders ride the arm swing: the lead clavicle lifts as its arm comes forward.
+        clav_l = (D(2.5 * forward_share), D(-3 + 6 * forward_share)) if fwd_walk else (0.0, 0.0)
         look = V((0, -8, 1.55 * self.k)) if not strafe else V((0, -8, 1.52 * self.k))
-        spec = self.base(pel, prot, trot, feet, look, lead_swing=arm + (8 if jog else 2), lead_elbow=elbow,
-                         club_bob=(-.004 if jog else 0) * math.cos(TAU * 2 * p), club_sway=sway)
+        club_bob = ((-.009 * math.cos(TAU * 2 * (p - .08))) if jog else (-.003 * math.cos(TAU * 2 * (p - .3)))) * self.k
+        loose_fist = (lambda hand_m: b.fist(hand_m, 'L', .5)) if jog else None
+        spec = self.base(pel, prot, trot, feet, look, lead_swing=arm + (2 if jog else 1), lead_elbow=elbow,
+                         club_bob=club_bob, club_sway=sway_c, lead_fingers=loose_fist,
+                         clav={'L': clav_l, 'R': (D(4 + (1.5 if jog else .8) * math.cos(TAU * 2 * (p - .1))), D(6))})
         return b.solve(spec)
 
 
@@ -430,37 +448,85 @@ class ClubChange(Carry):
 
 
 class Celebrate(Carry):
-    """A fist pump: a little crouch, the lead fist drives down to the hip, then a proud stand."""
-    duration = 2.2
+    """A big moment: an anticipation crouch, the fist punched overhead with a hop off
+    the toes, a soft landing, two fist pumps, then a proud stand that turns to the
+    gallery. The club stays on the trail shoulder throughout."""
+    duration = 2.6
+
+    # Lead-hand key poses in chest coordinates (wrist offset from the shoulder,
+    # forearm direction, fist closure).
+    ARM = {
+        'rest': ((.05, .03, -.50), (0, 0, -1), .30),
+        'wind': ((.10, .12, -.40), (0, .35, -1), .95),
+        'rise': ((.27, -.24, .02), (.1, -.35, 1), 1.0),
+        'high': ((.05, -.05, .53), (0, -.08, 1), 1.0),
+        'out':  ((.12, -.38, .16), (0, -.35, 1), 1.0),
+        'up':   ((.07, -.27, .07), (0, -.22, 1), 1.0),
+        'down': ((.08, -.19, -.31), (0, -.62, .22), 1.0),
+    }
+    ARM_KEYS = [(0, 'rest'), (.20, 'wind'), (.32, 'rise'), (.43, 'high'), (.66, 'high'), (.76, 'out'), (.88, 'down'), (1.02, 'up'),
+                (1.18, 'down'), (1.58, 'down'), (2.18, 'rest'), (2.6, 'rest')]
+
+    def __init__(self, G):
+        super().__init__(G)
+        A = self.ARM
+        self.wrist = Spline([(t, A[n][0]) for t, n in self.ARM_KEYS])
+        self.fore = Spline([(t, A[n][1]) for t, n in self.ARM_KEYS])
+        self.fist_s = Spline([(t, A[n][2]) for t, n in self.ARM_KEYS])
+        # Body channels: pelvis height (x k), hop height (x k), heel roll, chest pitch,
+        # chest yaw, look pitch, look yaw, club lift.
+        self.crouch = Spline([(0, 0), (.22, -.075), (.36, 0), (.44, .018), (.66, .01), (.74, -.062), (.88, -.05),
+                              (1.02, -.022), (1.18, -.056), (1.58, -.03), (2.18, -.012), (2.6, -.012)])
+        self.hop = Spline([(0, 0), (.40, 0), (.50, .052), (.58, .05), (.68, 0), (2.6, 0)])
+        self.heel = Spline([(0, 0), (.24, 0), (.38, 34), (.50, 24), (.62, 16), (.70, 4), (.76, 0), (2.6, 0)])
+        self.pitch = Spline([(0, 0), (.22, 16), (.40, -9), (.62, -6), (.76, 11), (.88, 14), (1.02, 6), (1.18, 14),
+                             (1.58, 7), (2.18, 1.5), (2.6, 1.5)])
+        self.yaw = Spline([(0, 0), (.88, 7), (1.18, 7), (1.6, 3), (2.05, -9), (2.6, -4)])
+        self.look_p = Spline([(0, -4), (.22, -14), (.42, 16), (.66, 10), (.88, -6), (1.18, -8), (1.6, 2), (2.6, 0)])
+        self.look_y = Spline([(0, 0), (1.6, 0), (2.05, 34), (2.6, 18)])
+        self.lift = Spline([(0, 0), (.22, 6), (.42, -16), (.66, -10), (.9, 0), (2.6, 0)])
 
     def pose(self, t):
         b = self.b; k = self.k
         plants = upright_feet(self, .12)
-        crouch = math.sin(PI * clamp((t - .30) / .70)) ** 2
-        feet = {s: b.foot_pose(s, plants[s], D(7) if s == 'L' else D(-7)) for s in 'LR'}
-        pel = self.hips0 + V((.01 * crouch, .012 * crouch, -(.012 + .045 * crouch) * k))
-        prot = rot_axis(LEFT, D(9 * crouch)) @ rot_axis(UP, D(6 * crouch))
-        trot = rot_axis(LEFT, D(13 * crouch)) @ rot_axis(UP, D(10 * crouch))
-        # Raise the fist in front (forearm up), drive it down to the hip, hold, relax.
-        up = smooth(t / .28) * (1 - smooth((t - 1.55) / .55))
-        pump = smooth((t - .42) / .22) * (1 - .25 * smooth((t - .85) / .4))
+        hop = self.hop.scalar(t) * k; heel = D(self.heel.scalar(t))
+        feet = {s: b.foot_pose(s, plants[s], D(7) if s == 'L' else D(-7), roll=heel, lift=V((0, 0, hop)))
+                for s in 'LR'}
+        crouch = self.crouch.scalar(t)
+        pitch = self.pitch.scalar(t); yaw = self.yaw.scalar(t)
+        # On the toes the ankles rise with the heels: the pelvis rides up with them.
+        toe_rise = .045 * k * math.sin(heel) if heel > 0 else 0.0
+        pel = self.hips0 + V((.004, .010 * max(0.0, pitch) / 16, crouch * k + hop + toe_rise))
+        prot = rot_axis(LEFT, D(pitch * .45)) @ rot_axis(UP, D(yaw * .5))
+        trot = rot_axis(LEFT, D(pitch)) @ rot_axis(UP, D(yaw))
         probe = b.solve(dict(pelvis_pos=pel, pelvis_rot=prot, thorax_rot=trot, feet=feet,
                              clavicle={'L': (0, 0), 'R': (D(4), D(6))}))
         sh = probe['UpperArm_L'].translation
         T = trot
-        rest = sh + T @ V((.05, .03, -.50)) * k
-        high = sh + T @ V((.05, -.24, .10)) * k         # fist raised above the shoulder
-        low = sh + T @ V((.06, -.20, -.34)) * k         # fist driven down to the hip
-        wrist = rest.lerp(high.lerp(low, pump), up)
-        fore_up = (T @ V((0, -.15, 1))).normalized(); fore_down = (T @ V((0, -.55, .2))).normalized()
-        hang = T @ V((0, 0, -1))
-        d = hang.slerp(fore_up.slerp(fore_down, pump), up).normalized()
+        wrist = sh + T @ V(self.wrist(t)) * k
+        # The hand follows the solved forearm, bent toward the keyed direction by at
+        # most 20 degrees (interpolating directions directly can pass through zero).
+        from rig_math import two_bone
+        hint = T @ V((1, .25, -.45))          # outward and back: valid along the whole path
+        el, wr = two_bone(sh, wrist, self.s.length['UpperArm_L'], self.s.length['Forearm_L'], hint)
+        fore = (wr - el).normalized()
+        want = T @ V(self.fore(t))
+        if want.length > 1e-4:
+            want.normalize()
+            ang = fore.angle(want)
+            d = fore.slerp(want, min(1.0, math.radians(20) / ang)) if ang > 1e-4 else fore
+        else:
+            d = fore
         H = frame(d, T @ V((1, .25, 0)))
+        fist = clamp(self.fist_s.scalar(t))
         def fingers(hand_m):
-            return b.fist(hand_m, 'L', .25 + .75 * up)
-        look = V((.0, -8, (1.62 + .6 * crouch) * k))
-        spec = self.base(pel, prot, trot, feet, look, lead_hand=(mat4(H, wrist), T @ V((.4, .3, -1))), lead_fingers=fingers,
-                         clav={'L': (D(6 * up - 6 * pump), D(6 * up)), 'R': (D(4), D(6))})
+            return b.fist(hand_m, 'L', fist)
+        raise_ = clamp((self.wrist(t)[2] + .3) / .8)
+        eye = V((0, -.06, 1.58)) * k
+        look = eye + rot_axis(UP, D(self.look_y.scalar(t))) @ (rot_axis(LEFT, D(self.look_p.scalar(t))) @ V((0, -6, 0)))
+        spec = self.base(pel, prot, trot, feet, look, lead_hand=(mat4(H, wrist), hint), lead_fingers=fingers,
+                         clav={'L': (D(14 * raise_), D(4 * raise_)), 'R': (D(4 + 5 * raise_), D(6))},
+                         club_lift=self.lift.scalar(t))
         return b.solve(spec)
 
 

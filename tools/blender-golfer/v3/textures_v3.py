@@ -13,6 +13,10 @@ from mathutils import Vector as V
 import cloth_v3 as C
 
 
+def mix(a, b, t):
+    return a + (b - a) * t
+
+
 def tileable_noise(n, scale, seed, aniso=(1.0, 1.0)):
     rng = np.random.default_rng(seed)
     white = rng.standard_normal((n, n))
@@ -33,18 +37,33 @@ def height_to_normal(h, strength):
 
 
 def to_image(name, rgb, alpha=None, non_color=False):
+    """A packed image from an array.
+
+    Data images are created as data (Non-Color) before their pixels are written:
+    switching a generated image's colour space afterwards regenerates it, which
+    blanked every fabric normal map to black until 8 November.
+    """
     h, w = rgb.shape[:2]
     img = bpy.data.images.get(name)
-    if img is None or tuple(img.size) != (w, h):
-        img = bpy.data.images.new(name, w, h, alpha=False)
+    if img is not None:
+        bpy.data.images.remove(img)
+    img = bpy.data.images.new(name, w, h, alpha=False, is_data=non_color)
+    if non_color:
+        img.colorspace_settings.name = 'Non-Color'
+    if not non_color:
+        # Colour arrays are linear; the image stores sRGB bytes (as glTF reads them).
+        c = np.clip(rgb, 0, 1)
+        rgb = np.where(c <= .0031308, 12.92 * c, 1.055 * np.power(c, 1 / 2.4) - .055)
     px = np.ones((h, w, 4), dtype=np.float32)
     px[..., :3] = rgb
     if alpha is not None:
         px[..., 3] = alpha
     img.pixels.foreach_set(px.ravel())
-    if non_color:
-        img.colorspace_settings.name = 'Non-Color'
+    img.update()
     img.pack()
+    check = np.array(img.pixels[:]).reshape(-1, 4)[:, :3].mean(0)
+    if not np.allclose(check, rgb.reshape(-1, 3).mean(0), atol=.02):
+        raise RuntimeError(f'{name}: packed pixels {check} differ from the array')
     return img
 
 
@@ -75,7 +94,8 @@ class Library:
             h = .5 + .5 * np.sin(2 * np.pi * x * 20) + .1 * tileable_noise(n, 2, 5)
             s = 6
         elif kind == 'hair':
-            # Strands run along V: fine stripes across U, long and slightly wavy.
+            # Strands run along U (the noise is stretched along the image rows):
+            # fine stripes across V, long and slightly wavy.
             base = tileable_noise(n, 1.2, 6, aniso=(1.0, .02))
             wave = tileable_noise(n, 2.5, 7, aniso=(1.0, .08))
             h = .7 * base + .3 * wave
@@ -339,19 +359,43 @@ def skin_shader(G, P, variant, target_image):
     liner = rgba('#3A2A26' if variant == 'female' else '#5A3C30')
     lid_line = N.math('MULTIPLY', lid, N.smoothstep(N.vmath('DOT_PRODUCT', pos, (0, 0, 1)), eye.z + .002 * k, eye.z + .009 * k))
     col = N.mixc(col, liner, N.math('MULTIPLY', lid_line, .55 if variant == 'female' else .3))
-    # Lips.
-    col = N.mixc(col, rgba(P['lip']), N.math('MULTIPLY', N.attr('lip_mask'), .85))
+    # Lips: the mouth face set holds only the upper lip (and the philtrum above it);
+    # the lower lip belongs to the chin set. Paint both lips as a soft ellipse on the
+    # measured mouth line instead, with a darker line where they meet.
+    co = np.array([v.co[:] for v in me.vertices])
+    mouth_ids = set()
+    for poly, f in zip(me.polygons, fsets):
+        if f == FS['mouth']:
+            mouth_ids.update(poly.vertices)
+    m_ids = np.array(sorted(mouth_ids))
+    mp = co[m_ids]
+    front = mp[(np.abs(mp[:, 0]) < .006 * k)]
+    y_front = float(front[:, 1].min()) if len(front) else eye.y - .035
+    z_line = float(front[:, 2].min()) if len(front) else eye.z - .068 * k
+    lips = ellipsoid(N, pos, (0, y_front + .006, z_line + .0005), (.0245 * k, .016, .0108 * k), soft=.42)
+    lip_col = rgba(P['lip'])
+    col = N.mixc(col, lip_col, N.math('MULTIPLY', lips, .78 if variant == 'female' else .5))
+    seam = ellipsoid(N, pos, (0, y_front + .006, z_line + .0005), (.022 * k, .016, .0016 * k), soft=.2)
+    col = N.mixc(col, tuple(c * .55 for c in lip_col[:3]) + (1,), N.math('MULTIPLY', seam, .45))
     # Brows: an arched band above each eye, broken into hairs.
-    brow_col = rgba('#6B4E33' if variant == 'female' else '#2A1E18')
+    brow_col = rgba('#3B2717' if variant == 'female' else '#1C1410')
     hairs = nt.nodes.new('ShaderNodeTexNoise'); hairs.inputs['Scale'].default_value = 900
     stretch = N.vmath('MULTIPLY', pos, (1.0, 1.0, 6.0))
     nt.links.new(stretch, hairs.inputs['Vector'])
     for s in (-1, 1):
-        cx = s * .036 * k
-        arch = (.0065 if variant == 'female' else .004) * k
-        m1 = ellipsoid(N, pos, (cx - s * .006 * k, eye.y - .004, eye.z + .021 * k + arch * .5),
-                       (.026 * k, .03 * k, (.0042 if variant == 'female' else .0062) * k), soft=.35)
-        col = N.mixc(col, brow_col, N.math('MULTIPLY', m1, N.math('ADD', .45, N.math('MULTIPLY', hairs.outputs['Fac'], .6))))
+        # A tapered arch: fuller at the inner end, peaking two thirds out, a thin tail.
+        fem = variant == 'female'
+        brow = None
+        for i in range(17):
+            t = i / 16
+            x = s * mix(.014, .058, t) * k
+            z = eye.z + (.0185 + (.0068 if fem else .0045) * math.sin(math.pi * min(1.0, t / .72) * .5 + (0 if t < .72 else 0))
+                         - (.006 if fem else .004) * max(0.0, (t - .72) / .28) ** 1.6) * k
+            hz = ((.0054 if fem else .0070) * (1 - .5 * t ** 1.3)) * k
+            hx = .0095 * k
+            m = ellipsoid(N, pos, (x, eye.y - .004, z), (hx, .03 * k, hz), soft=.2)
+            brow = m if brow is None else N.math('MAXIMUM', brow, m)
+        col = N.mixc(col, brow_col, N.math('MULTIPLY', brow, N.math('ADD', .68, N.math('MULTIPLY', hairs.outputs['Fac'], .4))))
     if variant == 'male':
         # Close-cut stubble on the jaw, chin and upper lip.
         beard = N.math('MAXIMUM', N.attr('beard_mask'),
@@ -364,6 +408,11 @@ def skin_shader(G, P, variant, target_image):
         stub = N.math('MULTIPLY', beard, N.smoothstep(dots.outputs['Fac'], .42, .6))
         col = N.mixc(col, rgba('#2C2420'), N.math('MULTIPLY', stub, .55))
         col = N.mixc(col, tuple(c * .86 for c in base[:3]) + (1,), N.math('MULTIPLY', beard, .3))
+    if variant == 'male':
+        # A short crop's fade: dense dots darkening the scalp above the hairline.
+        crop = N.math('MULTIPLY', N.attr('scalp_mask'), N.smoothstep(dots.outputs['Fac'], .32, .52))
+        col = N.mixc(col, rgba('#1E1612'), N.math('MULTIPLY', crop, .9))
+        col = N.mixc(col, tuple(c * .72 for c in base[:3]) + (1,), N.math('MULTIPLY', N.attr('scalp_mask'), .45))
     # Nails.
     col = N.mixc(col, rgba('#F0D3C8' if variant == 'female' else '#D9B4A4'), N.math('MULTIPLY', N.attr('nail_mask'), .7))
     nt.links.new(col, emit.inputs['Color'])
@@ -413,9 +462,9 @@ def bake_skin(G, P, variant, size=2048):
     ntx = nt.nodes.new('ShaderNodeTexImage'); ntx.image = normal; nt.links.new(uvn.outputs['UV'], ntx.inputs['Vector'])
     nm = nt.nodes.new('ShaderNodeNormalMap'); nm.uv_map = 'SkinAtlas'; nm.inputs['Strength'].default_value = .9
     nt.links.new(ntx.outputs['Color'], nm.inputs['Color']); nt.links.new(nm.outputs['Normal'], b.inputs['Normal'])
-    b.inputs['Roughness'].default_value = .52
+    b.inputs['Roughness'].default_value = .47
     if 'Specular IOR Level' in b.inputs:
-        b.inputs['Specular IOR Level'].default_value = .42
+        b.inputs['Specular IOR Level'].default_value = .46
     mat.diffuse_color = rgba(P['skin'])
     # The UDIM layout stays only as a second UV set for the garments that were cut from it.
     me.uv_layers.active = layer
@@ -464,10 +513,22 @@ def bake_eyes(G, P, variant):
     iris = rgba(P['iris']); deep = tuple(x * .45 for x in iris[:3]) + (1,)
     fib = nt.nodes.new('ShaderNodeTexNoise'); fib.inputs['Scale'].default_value = 60; fib.inputs['Detail'].default_value = 6
     nt.links.new(N.vmath('MULTIPLY', d, (1, .1, 1)), fib.inputs['Vector'])
-    col = N.mixc(rgba('#F2EEE8'), rgba('#E8CFC8'), N.smoothstep(ang, .9, 1.4))
-    col = N.mixc(N.mixc(deep, iris, fib.outputs['Fac']), col, N.smoothstep(ang, .40, .44))
-    col = N.mixc(col, rgba('#2A2A2E'), N.math('MULTIPLY', N.smoothstep(ang, .33, .40), N.math('SUBTRACT', 1.0, N.smoothstep(ang, .40, .44))))
-    col = N.mixc(rgba('#08090B'), col, N.smoothstep(ang, .14, .17))
+    # A human iris spans about 29 degrees of the eyeball's radius: larger than drawn
+    # before, so the eye no longer stares. A warm sclera darkens toward the corners.
+    col = N.mixc(rgba('#E8E0D5'), rgba('#D6B3A8'), N.smoothstep(ang, .7, 1.3))
+    ring = N.smoothstep(ang, .38, .50)
+    bright = tuple(min(1.0, x * 1.35) for x in iris[:3]) + (1,)
+    inner = N.mixc(bright, iris, N.smoothstep(ang, .17, .30))
+    col = N.mixc(N.mixc(deep, inner, fib.outputs['Fac']), col, N.smoothstep(ang, .49, .53))
+    col = N.mixc(col, rgba('#22252B'), N.math('MULTIPLY', N.math('MULTIPLY', ring, .8), N.math('SUBTRACT', 1.0, N.smoothstep(ang, .49, .53))))
+    col = N.mixc(rgba('#060709'), col, N.smoothstep(ang, .15, .18))
+    # Eye occlusion: the upper lid shades the top of the eyeball (and a little the
+    # bottom), as the lids would in a soft-shadowed render. Without it the white stares.
+    up = N.vmath('DOT_PRODUCT', d, (0, 0, 1))
+    shade_top = N.smoothstep(up, .05, .62)
+    shade_bot = N.smoothstep(N.math('MULTIPLY', up, -1.0), .25, .8)
+    occl = N.math('ADD', N.math('MULTIPLY', shade_top, .42), N.math('MULTIPLY', shade_bot, .18))
+    col = N.mixc(col, rgba('#6E5A52'), occl)
     nt.links.new(col, emit.inputs['Color'])
     t = nt.nodes.new('ShaderNodeTexImage'); t.image = img; nt.nodes.active = t
     keep = list(eye.data.materials)

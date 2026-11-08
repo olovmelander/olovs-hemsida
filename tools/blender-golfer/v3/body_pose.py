@@ -11,6 +11,11 @@ from rig_math import (frame, mat4, rot_axis, two_bone, swing_twist, clamp, mix, 
 
 FINGER_NAMES = ('Index', 'Middle', 'Ring', 'Pinky')
 SIDES = (('L', 1), ('R', -1))
+# Upper lids (radians about the head's lateral axis, + closes): a relaxed droop over
+# the top of the iris, a share of the gaze's downward pitch, and closed for a blink.
+LID_DROOP = math.radians(13)
+LID_FOLLOW = .55
+LID_CLOSED = math.radians(60)
 
 
 def limb_axis(bend, hint, axis, length):
@@ -40,6 +45,7 @@ class Body:
         self.s = skel
         self.j = joints
         self.finger_radius = finger_radius
+        self.blink = 0.0            # set per frame by the bake
         s = skel
         self.hip_offset = {side: s.head['Thigh_' + side] - s.head['Hips'] for side, _ in SIDES}
         self.lengths = {n: s.length[n] for n in s.order}
@@ -300,6 +306,21 @@ class Body:
                 pose[e] = mat4(frame(d, hf @ UP), base.translation)
             else:
                 pose[e] = base
+            # The upper lid: a relaxed droop over the iris, following the gaze down
+            # (and a little up), and the blink closing it over the eyeball.
+            lid = 'Lid_' + side
+            if lid in s.rest:
+                hf = pose['Head'].to_3x3() @ s.rest3['Head'].transposed()
+                gaze = pose[e].to_3x3() @ s.rest3[e].transposed() @ FWD
+                local = hf.transposed() @ gaze
+                pitch = math.atan2(local.z, -local.y)
+                open_a = LID_DROOP + LID_FOLLOW * max(0.0, -pitch) - .35 * max(0.0, pitch)
+                blink = spec.get('blink', self.blink)
+                a = open_a + (LID_CLOSED - open_a) * blink
+                lbase = pose['Head'] @ s.rest['Head'].inverted() @ s.rest[lid]
+                rot = hf @ Matrix.Rotation(a, 3, 'X') @ hf.transposed()
+                push = hf @ V((0, -.0009 * blink, 0))
+                pose[lid] = mat4(rot @ lbase.to_3x3(), lbase.translation + push)
         if 'club' in spec:
             pose['ClubGrip'] = root @ spec['club']
         for name, m in spec.get('extra', {}).items():
