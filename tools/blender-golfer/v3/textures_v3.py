@@ -372,9 +372,9 @@ def skin_shader(G, P, variant, target_image):
     front = mp[(np.abs(mp[:, 0]) < .006 * k)]
     y_front = float(front[:, 1].min()) if len(front) else eye.y - .035
     z_line = float(front[:, 2].min()) if len(front) else eye.z - .068 * k
-    lips = ellipsoid(N, pos, (0, y_front + .006, z_line + .0005), (.0245 * k, .016, .0108 * k), soft=.42)
+    lips = ellipsoid(N, pos, (0, y_front + .007, z_line - .0022 * k), (.0245 * k, .018, .0128 * k), soft=.42)
     lip_col = rgba(P['lip'])
-    col = N.mixc(col, lip_col, N.math('MULTIPLY', lips, .78 if variant == 'female' else .5))
+    col = N.mixc(col, lip_col, N.math('MULTIPLY', lips, .86 if variant == 'female' else .5))
     seam = ellipsoid(N, pos, (0, y_front + .006, z_line + .0005), (.022 * k, .016, .0016 * k), soft=.2)
     col = N.mixc(col, tuple(c * .55 for c in lip_col[:3]) + (1,), N.math('MULTIPLY', seam, .45))
     # Brows: an arched band above each eye, broken into hairs.
