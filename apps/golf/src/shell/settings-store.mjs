@@ -171,6 +171,38 @@ export function lastLaunch(storage, courses) {
   return { course, mode: MODES[mode] ? mode : 'detailed' };
 }
 
+/* A backup of everything Banvy keeps on this device: settings, the bag, the
+   handicap, every round and shot, and what the map remembers. Rounds live in
+   this browser only, so clearing its data or changing phone loses them; a file
+   the player keeps is the way across. Only Banvy's own keys go out and come in. */
+export const BACKUP_KIND = 'banvy-backup';
+const OWN_KEY = /^banvy[-:]/;
+export function exportBackup(storage, now = new Date()) {
+  const data = {};
+  try {
+    for (let i = 0; i < (storage?.length ?? 0); i++) {
+      const key = storage.key(i);
+      if (key && OWN_KEY.test(key)) data[key] = storage.getItem(key);
+    }
+  } catch { /* what could be read */ }
+  return { kind: BACKUP_KIND, version: 1, exportedAt: now.toISOString(), data };
+}
+export function readBackup(text) {
+  let backup;
+  try { backup = JSON.parse(text); } catch { return { ok: false, reason: 'Filen är inte en Banvy-säkerhetskopia.' }; }
+  if (backup?.kind !== BACKUP_KIND || backup.version !== 1 || typeof backup.data !== 'object' || backup.data === null) {
+    return { ok: false, reason: 'Filen är inte en Banvy-säkerhetskopia.' };
+  }
+  const entries = Object.entries(backup.data).filter(([key, value]) => OWN_KEY.test(key) && typeof value === 'string');
+  if (!entries.length) return { ok: false, reason: 'Säkerhetskopian är tom.' };
+  return { ok: true, entries, exportedAt: backup.exportedAt ?? null };
+}
+export function restoreBackup(storage, entries) {
+  let written = 0;
+  for (const [key, value] of entries) if (writeText(storage, key, value)) written++;
+  return written;
+}
+
 /* A round under way in the map: begun and not ended, and touched within the
    map's own resume window (map-session.js RESUME_MS, six hours). The freshest
    wins. The start menu offers it before anything else. */

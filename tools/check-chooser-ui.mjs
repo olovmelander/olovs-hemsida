@@ -641,6 +641,21 @@ await section('settings', async () => {
   const reset = await page.evaluate(() => ({ s: localStorage.getItem('banvy-settings-v1'), light: localStorage.getItem('banvy-map-light-v1'), bag: localStorage.getItem('banvy-caddie-bag-v1'),
     checked: document.querySelector('.seg[data-name="quality"] input:checked')?.value }));
   gate(reset.s === null && reset.light === null && reset.bag === bag && reset.checked === 'auto', 'Återställ clears the preferences, shows the defaults, and leaves the bag alone');
+  /* the backup: out as a file, everything wiped, and back in after it says what it holds */
+  await page.evaluate(() => localStorage.setItem('banvy-map-rounds-v1', JSON.stringify({ version: 1, rounds: [{ id: 1, course: 'x', holes: [], totals: {} }] })));
+  const [download] = await Promise.all([page.waitForEvent('download'), page.click('[data-backup-save]')]);
+  const file = path.join(fs.mkdtempSync(path.join(process.env.TEMP || process.env.TMPDIR || '/tmp', 'banvy-backup-')), download.suggestedFilename());
+  await download.saveAs(file);
+  const saved = JSON.parse(fs.readFileSync(file, 'utf8'));
+  await page.evaluate(() => { for (const key of Object.keys(localStorage)) if (key.startsWith('banvy')) localStorage.removeItem(key); });
+  await page.setInputFiles('[data-backup-file]', file);
+  await page.waitForSelector('[data-backup-confirm]:not([hidden])');
+  const said = await page.evaluate(() => document.querySelector('[data-backup-text]').textContent);
+  await page.click('[data-backup-apply]');
+  await page.waitForTimeout(300);
+  const back = await page.evaluate(() => ({ bag: localStorage.getItem('banvy-caddie-bag-v1'), rounds: JSON.parse(localStorage.getItem('banvy-map-rounds-v1') || '{}').rounds?.length ?? 0 }));
+  gate(saved.kind === 'banvy-backup' && /^banvy-\d{4}-\d\d-\d\d\.json$/.test(download.suggestedFilename()) && /1 runda/.test(said) && back.bag === bag && back.rounds === 1,
+    `the backup goes out as ${download.suggestedFilename()} and comes back after saying what it holds ("${said.slice(0, 60)}…")`);
   gate(errs.length === 0, `settings: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
   await ctx.close();
 });
