@@ -13,7 +13,7 @@ import { DISPLAY_KEY } from '../map/map-display.mjs';
 import { opensMap } from './map-default.mjs';
 import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
-  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
+  PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
   readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
 } from './settings-store.mjs';
 
@@ -134,6 +134,31 @@ describe('the last way played', () => {
   it('offers nothing for a course that no longer exists, and the detailed course for an unknown mode', () => {
     expect(lastLaunch(memory({ 'banvy-last-course': 'gone' }), courses)).toBeNull();
     expect(lastLaunch(memory({ 'banvy-last-course': 'visby', 'banvy-last-mode': 'vr' }), courses).mode).toBe('detailed');
+  });
+});
+
+describe('a round under way', () => {
+  const courses = [{ slug: 'visby', name: 'Visby GK' }, { slug: 'puttom', name: 'Puttom' }];
+  const NOW = Date.parse('2026-11-08T12:00:00Z');
+  const round = (extra) => JSON.stringify({ version: 1, startedAt: '2026-11-08', handicap: 18, scores: {}, ...extra });
+  it('finds the freshest begun round, with where it stands', () => {
+    const st = memory({
+      [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 3600e3, scores: { 1: { strokes: 5 }, 2: { strokes: 4 }, 3: { picked: true } } }),
+      [`${HOLE_KEY}:visby`]: JSON.stringify({ value: 4, at: NOW - 600e3 }),
+      [`${ROUND_KEY}:puttom`]: round({ begunAt: NOW - 7200e3 }),
+    });
+    expect(liveRound(st, courses, NOW)).toMatchObject({ course: courses[0], hole: 4, holes: 3, strokes: 9 });
+  });
+  it('leaves out an ended round, a stale one, and a card never begun', () => {
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 600e3, endedAt: NOW - 60e3 }) }), courses, NOW)).toBeNull();
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({ begunAt: NOW - 7 * 3600e3 }) }), courses, NOW)).toBeNull();
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: round({}) }), courses, NOW)).toBeNull();
+    expect(liveRound(memory({ [`${ROUND_KEY}:visby`]: '{broken' }), courses, NOW)).toBeNull();
+  });
+  it('names the keys the map writes', () => {
+    expect(source('../map/map-session.js')).toContain(`const ROUND_KEY = '${ROUND_KEY}'`);
+    expect(source('../map/map-session.js')).toContain(`const HOLE_KEY = '${HOLE_KEY}'`);
+    expect(source('../map/map-session.js')).toContain('const RESUME_MS = 6 * 60 * 60 * 1000');
   });
 });
 

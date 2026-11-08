@@ -294,6 +294,48 @@
 .gap-axis .gr-track i { position: absolute; top: 0; transform: translateX(-50%); font: 500 11px/1 Outfit, sans-serif; font-style: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .gap-axis .gr-val { font: 500 11px/1 Outfit, sans-serif; color: var(--ink-3); }
 
+/* --------------------------------------------------------- hole by hole
+   A par line through the middle; each hole's average grows up (over par) or
+   down (under), square at the line and rounded at its tip, never thicker
+   than 22 px. */
+.st-holes { margin-bottom: 14px; }
+.st-pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.st-pick .st-ghost { min-height: 42px; }
+.shb { position: relative; }
+.shb-plot { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 2px; }
+.shb-col {
+  display: grid;
+  grid-template-rows: calc(var(--plot, 170px) * var(--up, .55)) calc(var(--plot, 170px) * var(--down, .45)) auto auto;
+  justify-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  transition: background-color 0.15s;
+}
+.shb-col:hover, .shb-col:focus-visible, .shb-col.is-tipped { background: rgba(255, 255, 255, 0.04); }
+.shb-col:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.shb-half { position: relative; display: flex; justify-content: center; width: 100%; }
+.shb-half.is-up { align-items: flex-end; border-bottom: 1px solid var(--axis); }
+.shb-half.is-down { align-items: flex-start; }
+.shb-half i { display: block; width: min(22px, 64%); min-height: 2px; }
+.shb-half.is-up i { border-radius: 4px 4px 0 0; }
+.shb-half.is-down i { border-radius: 0 0 4px 4px; }
+.shb-half em { position: absolute; left: 50%; transform: translateX(-50%); font: 700 11.5px/1 Outfit, sans-serif; font-style: normal; color: #fff; white-space: nowrap; }
+.shb-plot { padding-top: 16px; }
+.shb-n { margin-top: 8px; font: 700 13px/1 Outfit, sans-serif; color: #fff; font-variant-numeric: tabular-nums; }
+.shb-par { margin: 4px 0 6px; font: 500 11px/1 Outfit, sans-serif; color: var(--ink-3); }
+.shb-axis { display: flex; flex-direction: column; gap: 6px; position: absolute; left: -2px; bottom: 6px; font: 600 9.5px/1 Outfit, sans-serif; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); pointer-events: none; display: none; }
+@media (max-width: 600px) {
+  .shb { --plot: 130px; }
+  .shb-n { font-size: 11.5px; }
+  .shb-par { font-size: 10px; }
+  .shb-half em { font-size: 10.5px; }
+}
+
 /* -------------------------------------------------------------- courses */
 .st-courses { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .st-courses li {

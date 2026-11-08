@@ -22,7 +22,7 @@
 import '../styles/hub.css';
 import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
-import { MAP_KEYS, MODES, lastLaunch, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
+import { MAP_KEYS, MODES, lastLaunch, liveRound, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
 import { perEighteen } from './stats-model.mjs';
 
 const BASE = import.meta.env.BASE_URL;
@@ -205,9 +205,29 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume }) {
 
   function refresh() {
     const last = lastLaunch(storage(), playable);
-    paintBackdrop(last?.course.slug || DEFAULT_BACKDROP);
+    /* A round under way comes first: it is what the golfer is standing in. */
+    const live = liveRound(storage(), playable);
+    paintBackdrop(live?.course.slug || last?.course.slug || DEFAULT_BACKDROP);
     summaryEl.textContent = settingsSummary(readSettings(storage()), readFrameCap(storage()));
     statsSummaryEl.textContent = statsSummary();
+    if (live) {
+      const where = [live.hole ? `Hål ${live.hole}` : null, `${live.holes} hål spelade`, live.strokes ? `${live.strokes} slag` : null].filter(Boolean).join(' · ');
+      resumeSlot.innerHTML = `
+        <button class="home-resume is-live" type="button" data-resume>
+          <span class="hr-thumb" style="background-image:url('${poster(live.course.slug)}')" aria-hidden="true"></span>
+          <span class="hr-text">
+            <span class="hr-kicker"><i class="hr-live" aria-hidden="true"></i>Runda pågår</span>
+            <span class="hr-name">${esc(live.course.name)}</span>
+            <span class="hr-sub">${esc(where)}</span>
+          </span>
+          <span class="hr-mode">${PIN}${MODES.map.label}</span>
+          <span class="hr-go" aria-hidden="true">${ARROW}</span>
+        </button>`;
+      const btn = resumeSlot.querySelector('[data-resume]');
+      btn.setAttribute('aria-label', `Fortsätt rundan på ${live.course.name}: ${where}`);
+      btn.addEventListener('click', () => onResume(live.course.slug, 'map'));
+      return;
+    }
     if (!last) { resumeSlot.innerHTML = ''; return; }
     const { course, mode } = last;
     resumeSlot.innerHTML = `

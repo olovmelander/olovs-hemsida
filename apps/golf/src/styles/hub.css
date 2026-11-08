@@ -210,6 +210,13 @@
 .hr-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 auto; }
 .hr-kicker { font: 700 10.5px/1 Outfit, sans-serif; letter-spacing: 0.16em; text-transform: uppercase; color: var(--turf); }
 .hr-name { font: 700 18px/1.15 Outfit, sans-serif; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hr-sub { font: 500 12.5px/1.2 Outfit, sans-serif; color: var(--dim); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* a round under way: the card is live, and says so before anything else */
+.home-resume.is-live { border-color: rgba(255, 120, 96, 0.5); background: rgba(24, 10, 8, 0.66); }
+.home-resume.is-live .hr-kicker { display: inline-flex; align-items: center; gap: 7px; color: #ff9a85; }
+.hr-live { width: 8px; height: 8px; border-radius: 50%; background: #ff6a4d; box-shadow: 0 0 0 0 rgba(255, 106, 77, 0.6); animation: hr-pulse 1.8s ease-out infinite; }
+@keyframes hr-pulse { 70% { box-shadow: 0 0 0 8px rgba(255, 106, 77, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 106, 77, 0); } }
+@media (prefers-reduced-motion: reduce) { .hr-live { animation: none; } }
 .hr-mode {
   display: inline-flex;
   align-items: center;
