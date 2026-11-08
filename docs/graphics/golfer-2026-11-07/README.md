@@ -198,7 +198,7 @@ These are copies of the September audits with the same thresholds. They read the
   - shoulder and side seams on the polos;
   - a sports watch on each trail wrist: his white with a cobalt bezel, hers slimmer with a coral bezel;
   - her braid's lobes rebuilt as smooth, curved plaits with rounded ends;
-  - sleeve openings hemmed round, with their bands fitted to the opening's real plane.
+  - sleeve openings hemmed round. Each band sits on its opening's real plane and takes the weights of the hem it covers, so it stays closed with the arm akimbo. Nearest-surface weights had given its underside the torso's weights.
 
 ### Motion
 
@@ -222,7 +222,6 @@ These are copies of the September audits with the same thresholds. They read the
 
 ## Known limits
 
-- **Sleeve band:** with her lead hand on the hip, a small notch of the sleeve shows through the band's underside at close range.
 - **Skinning only:** there's no cloth simulation, so a trouser fold can show a light speck in extreme poses. The female wears tailored shorts because a skinned skirt tears in golf poses.
 - **Assets:** each GLB is 14–16 MB, mostly 2048² PNG skin maps and the five clubs. There are no LODs, and phone performance is unmeasured.
 - **Ball flight:** in the lab it is illustrative, as before.
