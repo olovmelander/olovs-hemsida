@@ -25,6 +25,15 @@ export function treeIndex({ lists, species }) {
   });
   return {
     count,
+    /** Every tree whose trunk stands inside a box. */
+    within(minX, maxX, minZ, maxZ) {
+      const out = [];
+      for (let i = Math.floor(minX / CELL); i <= Math.floor(maxX / CELL); i++) for (let k = Math.floor(minZ / CELL); k <= Math.floor(maxZ / CELL); k++) {
+        const cell = cells.get(`${i},${k}`);
+        if (cell) for (const tree of cell) if (tree.x >= minX && tree.x <= maxX && tree.z >= minZ && tree.z <= maxZ) out.push(tree);
+      }
+      return out;
+    },
     near(x, z, r) {
       const out = [];
       const x0 = Math.floor((x - r) / CELL), x1 = Math.floor((x + r) / CELL);
@@ -62,11 +71,15 @@ export function createPlayWorld(handle) {
     const hole = handle.holes[n - 1];
     return [hole.pin[0], hole.pin[1], heightAt(hole.pin[0], hole.pin[1])];
   };
+  /* The day's ground (conditions.mjs groundWith), set when the light or the weather changes. */
+  let ground = null, plug = 0;
   return {
     trees, heightAt, surfaceAt, inCourse, cupOf, boundaries,
+    setGround(next, plugChance = 0) { ground = next; plug = plugChance; },
     /** The world a stroke from `from` plays in (its out-of-bounds test looks from there). */
     forStroke(from, cup) {
-      return { heightAt, surfaceAt, trees, cup: cup ? [cup[0], cup[1]] : null, isOut: outTest({ lines: boundaries, from, inCourse }) };
+      return { heightAt, surfaceAt, trees, cup: cup ? [cup[0], cup[1]] : null, isOut: outTest({ lines: boundaries, from, inCourse }),
+        ...(ground ? { ground, plug } : {}) };
     },
   };
 }

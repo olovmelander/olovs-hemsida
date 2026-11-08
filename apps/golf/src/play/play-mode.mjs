@@ -11,16 +11,35 @@
    that is read (lie %, slope), the aim shows where it lands and how far it may
    stray, the green's slope is drawn for a putt, the swing's tempo counts, and
    after it come its numbers, its sound and an instant replay. A game
-   controller plays it as well as the keys, the mouse or a finger. */
+   controller plays it as well as the keys, the mouse or a finger.
+
+   From the course's other modes it takes their best, made for a game:
+   - the lights (all eleven, Nu with the real sun and weather), which set the
+     day's conditions too: a storm's wet turf, summer's firm ground, winter's snow
+     and the air's temperature (conditions.mjs);
+   - the course guide's page for each hole, during the flyover and behind the
+     hole card;
+   - the minimap, as a hole map with the ball, the aim, the spread and the pin,
+     where a tap aims and measures;
+   - the rangefinder's green (front, middle and back), the hazards on the line
+     and a tapped point's distance as it plays;
+   - the map's handicap scoring (strokes given by index, Stableford points) and
+     its round figures (fairways, greens, putts);
+   - the course's camera views (the green, a free look round) and its clean view. */
 import * as THREE from 'three/webgpu';
 import { loadGolfer, GOLF_SWINGS, GOLFER_CHARACTERS } from '../engine/golfer.mjs';
-import { playsLike } from '../engine/rangefinder.js';
+import { playsLike, greenDistances, lineHazards } from '../engine/rangefinder.js';
+import { GROUND_WETNESS } from '../engine/painted-world-lighting.mjs';
+import { LIGHTS, NOW_LIGHT, MAP_KEYS, readText } from '../shell/settings-store.mjs';
 import { launchState, simulateShot, seeded, BALL } from './ball-physics.mjs';
 import {
   playBag, launchFor, puttRangeFor, powerFor, flatShot, LIE_NAME, DIFFICULTY, SHOT_TYPES, SHAPES, HEIGHTS, SPINS, STOCK_SETUP,
   shotTypesFor, shapeable, swingFor, fitSetup, lieQuality, slopeLie, slopeWords, suggestShot, puttPlaysLike,
 } from './shot-model.mjs';
-import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, savePlayedRound, dropPoint, PLAY_KEYS } from './play-rules.mjs';
+import { createRound, addStroke, addPenalty, holeCard, roundTotals, nextHole, scoreName, savePlayedRound, dropPoint, PLAY_KEYS,
+  receivedOn, pointsOn, roundStats } from './play-rules.mjs';
+import { conditionsFor, groundWith, strokeWind } from './conditions.mjs';
+import { createHoleMap } from './hole-map.mjs';
 import { createPlayWorld } from './play-world.mjs';
 import { createPlayCamera } from './play-camera.mjs';
 import { standAtBall, fitFeet, restoreLegs } from './golfer-rig.mjs';
@@ -42,17 +61,27 @@ export async function mountPlay(handle) {
 }
 
 const ON_OFF = Object.freeze({ on: 'På', off: 'Av' });
-function readSettings() {
-  try {
-    const s = JSON.parse(localStorage.getItem(PLAY_KEYS.settings) || '{}');
-    return { difficulty: DIFFICULTY[s.difficulty] ? s.difficulty : 'normal', method: SWING_METHODS[s.method] ? s.method : 'drag',
-      sound: s.sound !== false, flyover: s.flyover !== false };
-  } catch { return { difficulty: 'normal', method: 'drag', sound: true, flyover: true }; }
+/* The player's handicap where the course page and the map keep it (read, never written here). */
+function mapHandicap() {
+  const text = readText(globalThis.localStorage, MAP_KEYS.handicap, '');
+  return text !== '' && Number.isFinite(Number(text)) ? Number(text) : null;
 }
-function saveSettings(settings) { try { localStorage.setItem(PLAY_KEYS.settings, JSON.stringify(settings)); } catch {} }
+function readSettings() {
+  let s = {};
+  try { s = JSON.parse(localStorage.getItem(PLAY_KEYS.settings) || '{}') || {}; } catch { s = {}; }
+  return { difficulty: DIFFICULTY[s.difficulty] ? s.difficulty : 'normal', method: SWING_METHODS[s.method] ? s.method : 'drag',
+    sound: s.sound !== false, flyover: s.flyover !== false, bigMap: s.bigMap };
+}
+function saveSettings({ difficulty, method, sound, flyover, bigMap }) {
+  try { localStorage.setItem(PLAY_KEYS.settings, JSON.stringify({ difficulty, method, sound, flyover, bigMap })); } catch {}
+}
 
-const KEY_HELP = 'Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z C · Repris R · Översikt O';
-const PAD_HELP = 'Vänster spak siktar · höger spak svingar · LB RB klubba · X slag · ←→ form · ↑↓ höjd · LT RT spinn · Y översikt · Back repris';
+const KEY_HELP = 'Sikta ← → · Klubba ↑ ↓ · Slag T · Form Q E · Höjd W S · Spinn Z C · Repris R · Kamera V · Ljus L · Guide G · Karta M';
+const PAD_HELP = 'Vänster spak siktar · höger spak svingar · LB RB klubba · X slag · ←→ form · ↑↓ höjd · LT RT spinn · Y kamera · Back repris';
+/* The lights, as the course's drawer shows them: Nu first, each as its own sky. */
+const NOW_SKY = 'conic-gradient(from 200deg, #294885, #8295ba, #d3b89a, #568bc6, #294885)';
+const LIGHT_LABEL = Object.freeze({ nu: NOW_LIGHT.label, ...Object.fromEntries(LIGHTS.map(l => [l.preset, l.label])) });
+const VIEWS = Object.freeze([['bakom', 'Bakom'], ['oversikt', 'Översikt'], ['green', 'Greenen'], ['fri', 'Fri']]);
 const TYPE_LABELS = Object.freeze(Object.fromEntries(Object.entries(SHOT_TYPES).map(([k, v]) => [k, v.label])));
 const SETUP_LABELS = Object.freeze({ type: TYPE_LABELS, shape: SHAPES, height: HEIGHTS, spin: SPINS });
 
@@ -88,9 +117,10 @@ async function startPlay(h, query) {
   const hud = createPlayHud({
     onMenu: () => openMenu(),
     onClub: d => changeClub(d),
-    onOverview: () => setOverview(!overview),
+    onView: () => cycleView(),
     onSetup: (key, value) => changeSetup(key, value),
     onReplay: () => startReplay(),
+    onClearTarget: () => clearTarget(),
   });
   hud.banner('Laddar golfaren…', '', '', 0);
   const golfer = await loadGolfer(import.meta.env.BASE_URL, characterId);
@@ -104,7 +134,8 @@ async function startPlay(h, query) {
     },
   });
 
-  const ballMesh = new THREE.Mesh(new THREE.SphereGeometry(BALL.radius, 20, 14), new THREE.MeshStandardNodeMaterial({ color: '#fbfaf3', roughness: .42, emissive: '#5a5a52' }));
+  const ballMaterial = new THREE.MeshStandardNodeMaterial({ color: '#fbfaf3', roughness: .42, emissive: '#5a5a52' });
+  const ballMesh = new THREE.Mesh(new THREE.SphereGeometry(BALL.radius, 20, 14), ballMaterial);
   ballMesh.renderOrder = 0;
   h.scene.add(ballMesh);
   // A soft round glow (a small data texture; the sprite's quad is otherwise a square).
@@ -133,16 +164,22 @@ async function startPlay(h, query) {
   dots.renderOrder = 3; dots.count = 0; dots.frustumCulled = false; h.scene.add(dots);
   const tracer = createRibbonTracer({ scene: h.scene, camera: h.camera });
   const greenRead = createGreenRead({ scene: h.scene, heightAt });
+  hud.help(KEY_HELP);
+  const holeMap = createHoleMap({ parent: hud.mapSlot, surfaceAt: world.surfaceAt, heightAt, trees: world.trees,
+    onAim: (x, z) => setTarget(x, z), small: settings.bigMap === undefined ? narrow() : !settings.bigMap });
 
   const cam = createPlayCamera({ camera: h.camera, heightAt });
   const round = createRound({ slug: h.slug, courseName: h.courseName, holes: h.holes, startHole: h.hole(), tee: h.tee(),
     character: characterId, difficulty: settings.difficulty });
+  // The handicap the course page set (the map's own key); the menu changes it for this round only.
+  round.handicap = mapHandicap();
   const ball = new THREE.Vector3();
   let state = 'loading', lie = 'tee', yaw = 0, clubIndex = 0, cup = [0, 0, 0], puttRange = 10;
-  let shot = null, flightT = 0, fast = 1, airTime = 1, waitFor = 0, after = null, overview = false;
+  let shot = null, flightT = 0, fast = 1, airTime = 1, waitFor = 0, after = null;
   let strokeFrom = [0, 0], pending = null, planned = 1, eventIdx = 0, clock = 0;
   let setup = { ...STOCK_SETUP }, quality = null, slope = null, nextPlugged = false;
   let backTween = null, last = null, replay = null, fly = null;
+  let targetDist = null, view = 'bakom', conditions = null, clean = false, mapMarks = null, flightMarks = [], mapClock = 0, menuTab = 'game';
   const club = () => bag[clubIndex];
   const hole = () => h.holes[round.current - 1];
   const toCup = () => Math.hypot(cup[0] - ball.x, cup[1] - ball.z);
@@ -171,6 +208,118 @@ async function startPlay(h, query) {
     if (state === 'swinging') launch();
     else if (state === 'replay' && replay?.phase === 'swing') replayLaunch();
   };
+
+  /* -- the light and the day's conditions --------------------------------------- */
+  /** The light on the course (Nu's own choice when Nu is on) and, under Nu, its weather. */
+  function lightNow() {
+    const nu = globalThis.V3D?.nu?.();
+    if (!nu) return { choice: null, preset: 'golden', weather: null };
+    return { choice: nu.choice, preset: nu.choice === 'nu' ? nu.light?.preset || 'golden' : nu.choice, weather: nu.weather, summary: nu.summary };
+  }
+  function refreshConditions() {
+    const light = lightNow();
+    conditions = conditionsFor({ preset: light.preset, wetness: GROUND_WETNESS[light.preset] ?? null,
+      snow: Boolean(globalThis.V3D?.winter?.().snow), weather: light.choice === 'nu' ? light.weather : null });
+    conditions.gustMs = Number.isFinite(light.weather?.gustMs) ? light.weather.gustMs : null;
+    world.setGround(groundWith(conditions), conditions.plug);
+    ballMaterial.color.set(conditions.ball);
+    audio.wind(Math.hypot(...wind()));
+  }
+  function chooseLight(name) {
+    if (!globalThis.V3D?.chooseLight) return;
+    globalThis.V3D.chooseLight(name);
+    // The light's snow and Nu's choice settle within a frame.
+    setTimeout(() => {
+      refreshConditions();
+      const light = lightNow();
+      hud.banner(LIGHT_LABEL[name] || name, name === 'nu' && light.summary ? light.summary.replace(/^Nu · /, '') : conditions.label, '', 2200);
+      if (state === 'address') { plan(); showHud(); preview(); }
+    }, 60);
+  }
+  function cycleLight() {
+    const order = [...document.querySelectorAll('#rail [data-preset]')].map(b => b.dataset.preset);
+    const list = order.length ? order : [...LIGHTS.map(l => l.preset), 'nu'];
+    const current = lightNow().choice;
+    chooseLight(list[(list.indexOf(current) + 1) % list.length]);
+  }
+
+  /* -- the course guide ----------------------------------------------------------- */
+  const holeLength = H => H.t?.[Math.min(round.tee, (H.t?.length || 1) - 1)] ?? Math.round(H.lineLen || 0);
+  function fillGuide() {
+    const n = round.current, H = hole(), received = receivedOn(round, h.holes, n);
+    const elev = H.elev && Number.isFinite(H.elev.tee) && Number.isFinite(H.elev.green)
+      ? ` · tee ${Math.round(H.elev.tee)} m, green ${Math.round(H.elev.green)} m ö.h.` : '';
+    hud.guide({
+      title: `Hål ${n}${H.name ? ` · ${H.name}` : ''}`,
+      sub: `Par ${H.par} · ${holeLength(H)} m${Number.isFinite(H.idx) ? ` · index ${H.idx}` : ''}${received ? ` · ${received} extraslag` : ''}`,
+      note: H.note || H.shape || '',
+      facts: `Banguide från ${h.courseName}${elev}`,
+    });
+  }
+
+  /* -- a target: a tapped point on the course or the map (the rangefinder's) --------- */
+  const targetPoint = () => (targetDist == null ? null : [ball.x + Math.sin(yaw) * targetDist, ball.z + Math.cos(yaw) * targetDist]);
+  function playsTo(point) {
+    const d = Math.hypot(point[0] - ball.x, point[1] - ball.z), dh = heightAt(point[0], point[1]) - (ball.y - BALL.radius);
+    if (putting()) return { dist: d, total: puttPlaysLike(d, dh, conditions.greenRoll) };
+    const [wx, wz] = wind(), bearing = Math.atan2(point[0] - ball.x, point[1] - ball.z);
+    return { dist: d, ...playsLike({ dist: d, dh, head: -(wx * Math.sin(bearing) + wz * Math.cos(bearing)), tempC: conditions.tempC }) };
+  }
+  function setTarget(x, z) {
+    if (state !== 'address') return;
+    const d = Math.hypot(x - ball.x, z - ball.z);
+    if (!(d > 1)) return;
+    yaw = Math.atan2(x - ball.x, z - ball.z);
+    targetDist = d;
+    if (!putting() && lie !== 'green') {
+      // The caddie's club for the target, as it plays from this lie.
+      const pick = suggestShot(bag, playsTo([x, z]).total / Math.max(.6, quality?.speed ?? 1), lie);
+      clubIndex = Math.max(0, bag.indexOf(pick.club));
+      setup = fitSetup(club(), { ...STOCK_SETUP, type: pick.type });
+    }
+    reAddress();
+  }
+  function clearTarget() {
+    if (targetDist == null) return;
+    targetDist = null;
+    if (state === 'address') { plan(); showHud(); preview(); }
+  }
+
+  /* -- the camera's views (the course's Tee, Green, Fri) ------------------------------ */
+  function frameView() {
+    const pin = new THREE.Vector3(cup[0], cup[2], cup[1]);
+    if (view === 'oversikt') cam.overview(ball, aimPoint(), yaw);
+    else if (view === 'green') cam.greenView(ball, pin);
+    else if (view !== 'fri') cam.address(ball, yaw, { putt: putting(), distance: Math.min(toCup(), club().carry || toCup()) });
+  }
+  function setView(next) {
+    if (state !== 'address' || next === view) return;
+    const leaving = view;
+    view = next;
+    hud.view(VIEWS.find(v => v[0] === view)[1]);
+    if (view === 'fri') {
+      // The course's own orbit controls, round the ball: main.js runs them while the game lets go of the camera.
+      h.controls.target?.copy(ball);
+      h.controls.enabled = true;
+      hud.flash('Fri kamera · dra för att se dig om', '', 1800);
+    } else if (leaving === 'fri') {
+      h.controls.enabled = false;
+      cam.adopt();
+    }
+    frameView();
+  }
+  const cycleView = () => setView(VIEWS[(VIEWS.findIndex(v => v[0] === view) + 1) % VIEWS.length][0]);
+  function setClean(on) {
+    clean = on;
+    hud.clean(on);
+    if (on) { hideAids(); hud.toggleSetup(false); hud.toggleGuide(false); } else if (state === 'address') { preview(); showGreenRead(); }
+  }
+
+  /* -- the hole map's marks ------------------------------------------------------------ */
+  function updateMap(extra = {}) {
+    mapMarks = { ball: [ball.x, ball.z], pin: [cup[0], cup[1]], strokes: holeCard(round, round.current).shots, target: targetPoint(), ...extra };
+    holeMap.marks(mapMarks);
+  }
 
   /* -- the hole and the lie ------------------------------------------------- */
   function aimYaw(distance) {
@@ -203,10 +352,10 @@ async function startPlay(h, query) {
   /** The pin's distance as it plays: the rise, the wind along it (and for a putt, the rise on the green's pace). */
   function playsNow(putt = putting()) {
     const d = toCup(), dh = cup[2] - (ball.y - BALL.radius);
-    if (putt) return { total: puttPlaysLike(d, dh), dh, wind: 0 };
+    if (putt) return { total: puttPlaysLike(d, dh, conditions.greenRoll), dh, wind: 0 };
     const [wx, wz] = wind(), bearing = Math.atan2(cup[0] - ball.x, cup[1] - ball.z);
     const head = -(wx * Math.sin(bearing) + wz * Math.cos(bearing));
-    return { ...playsLike({ dist: d, dh, head }), dh };
+    return { ...playsLike({ dist: d, dh, head, tempC: conditions.tempC }), dh };
   }
   /** How the ball lies here: its surface, how it sits (seeded per stroke) and a plugged ball in sand. */
   function readLie() {
@@ -223,22 +372,24 @@ async function startPlay(h, query) {
   const reachOf = () => (putting() ? toCup() : setup.type === 'full' ? club().carry : flatShot(club(), 1, 'fairway', { type: setup.type }).total);
   /** The share of a full swing that reaches the target (the pin, or the club's lay-up point). */
   function plan() {
-    const c = club(), easy = settings.difficulty === 'latt';
+    const c = club(), easy = settings.difficulty === 'latt', aimAt = targetPoint();
+    // The goal: a set target, or the pin. Lätt plans for how it plays; otherwise the line is the flat distance and the chips say the rest.
+    const goal = aimAt ? (easy ? playsTo(aimAt).total : targetDist) : (easy ? playsNow().total : toCup());
     if (c.cat === 'putter') {
-      // Lätt plans for the rise as well; otherwise the line is the flat distance and the chip says the rest.
-      planned = Math.min(1.1, (easy ? playsNow().total : toCup()) / puttRange);
+      planned = Math.min(1.1, goal / puttRange);
     } else {
-      const target = easy ? playsNow().total : toCup();
-      const reach = Math.min(target, c.carry * 1.3);
-      const landOn = reach >= toCup() * .85 && world.surfaceAt(cup[0], cup[1]) === 'green' ? 'green' : 'fairway';
+      const reach = Math.min(goal, c.carry * 1.3);
+      const end = aimAt || [cup[0], cup[1]];
+      const landOn = (aimAt || reach >= toCup() * .85) && world.surfaceAt(end[0], end[1]) === 'green' ? 'green' : 'fairway';
       planned = powerFor(c, reach, lie, setup, quality, landOn) ?? 1;
     }
     pad.target(planned);
   }
   function showHud() {
     const n = round.current, card = holeCard(round, n), H = hole();
-    const length = H.t?.[Math.min(round.tee, (H.t?.length || 1) - 1)] ?? Math.round(H.lineLen || 0);
-    hud.hole({ n, par: H.par, length, strokes: card.strokes, name: '' });
+    const totals = roundTotals(round), points = roundStats(round, h.holes).points;
+    hud.hole({ n, par: H.par, length: holeLength(H), strokes: card.strokes, name: H.name || '', index: Number.isFinite(H.idx) ? H.idx : null,
+      received: receivedOn(round, h.holes, n) || 0, toPar: totals.played ? totals.toPar : null, points });
     const [wx, wz] = wind(), ms = Math.hypot(wx, wz);
     // The arrow points where the wind blows, relative to the aim (up = with you).
     const rel = (Math.atan2(wx, wz) - yaw) * 180 / Math.PI;
@@ -247,16 +398,31 @@ async function startPlay(h, query) {
     let plays = '', playsTitle = '';
     if (putt) {
       const cm = Math.round(Math.abs(pl.dh) * 100);
-      plays = cm >= 2 ? `${pl.dh > 0 ? 'Uppför' : 'Nedför'} <b>${cm} cm</b> · som <b>${metres(pl.total)} m</b>` : 'Plant';
+      plays = cm >= 2 ? `${pl.dh > 0 ? 'Uppför' : 'Nedför'} <b>${cm} cm</b> · spelas <b>${metres(pl.total)} m</b>` : 'Plant till hålet';
       playsTitle = 'Höjdskillnaden till hålet, och puttens längd som den spelar på en plan green';
     } else if (toCup() > 15) {
-      plays = `Spelas som <b>${Math.round(pl.total)} m</b>`;
+      plays = `Spelas som <b>${Math.round(pl.total)}</b> m`;
       playsTitle = `Höjd ${signed(pl.slope)} m · vind ${signed(pl.wind)} m`;
     }
     const words = putt ? '' : slopeWords(slope || {});
+    // The rangefinder's green (front, middle, back), from off it.
+    const green = !putt && H.green && toCup() > 25 ? greenDistances([ball.x, ball.z], H.green) : null;
+    // A set target, and the water and sand on the line to where the shot is going.
+    const aimAt = targetPoint();
+    const target = aimAt ? (() => { const t = playsTo(aimAt); return { dist: t.dist, plays: putt ? null : t.total }; })() : null;
+    let hazards = [];
+    if (!putt && state === 'address') {
+      const reach = Math.min(toCup() + 10, targetDist ?? reachOf() * 1.1);
+      const end = [ball.x + Math.sin(yaw) * reach, ball.z + Math.cos(yaw) * reach];
+      hazards = lineHazards([ball.x, ball.z], end, (x, z) => { const k = world.surfaceAt(x, z); return k === 'water' ? 'vatten' : k === 'sand' ? 'bunker' : null; }, 2, 4)
+        .filter(z => z.to > 8);
+    }
+    const gust = conditions.gustMs ?? ms * conditions.gust;
     hud.shot({ toPin: toCup(), lie: LIE_NAME[lie] || lie, liePct: putt ? null : quality?.pct, slope: words,
-      lieTitle: [quality?.label, words].filter(Boolean).join(' · '), plays, playsTitle,
-      windMs: ms, windDeg: -rel, windLabel: `Vind ${ms.toFixed(1)} m/s, ${along}` });
+      lieTitle: [quality?.label, words].filter(Boolean).join(' · '), plays, playsTitle, green, target, hazards,
+      cond: { label: conditions.label, note: conditions.note },
+      windMs: ms, windDeg: -rel, windWord: ms > .2 ? `${along[0].toUpperCase()}${along.slice(1)}${gust > ms + 1.5 ? ` · byar ${Math.round(gust)}` : ''}` : 'Stilla',
+      windLabel: `Vind ${ms.toFixed(1)} m/s, ${along}${gust > ms + 1.5 ? `, byar till ${Math.round(gust)} m/s` : ''}. Pilen visar vart vinden blåser; upp är mot målet.` });
     hud.club({ name: club().name, carry: reachOf(), putt, range: puttRange });
     hud.setup({ types: shotTypesFor(club()), labels: SETUP_LABELS, current: setup, shapeable: shapeable(setup.type), putt });
   }
@@ -266,6 +432,10 @@ async function startPlay(h, query) {
   }
 
   function address(snap = false) {
+    refreshConditions();
+    targetDist = null;
+    if (view === 'fri') h.controls.enabled = false;
+    view = 'bakom'; hud.view('Bakom');
     readLie();
     // The caddie's choice: the club and shot for the distance as it plays, from this lie.
     const asPlays = lie === 'green' ? toCup() : playsNow(false).total;
@@ -276,10 +446,9 @@ async function startPlay(h, query) {
     yaw = aimYaw(reachOf());
     readSlope();
     stand(true);
-    cam.address(ball, yaw, { putt: putting(), distance: Math.min(toCup(), club().carry || toCup()) });
-    if (snap) cam.snap();
-    overview = false; hud.overview(false);
     state = 'address';
+    frameView();
+    if (snap) cam.snap();
     pad.setEnabled(true);
     plan(); showHud(); preview(); showGreenRead();
     hud.replay(Boolean(last));
@@ -289,7 +458,7 @@ async function startPlay(h, query) {
     state = 'address';
     ballMesh.position.copy(ball); ballMesh.visible = true;
     stand(true);
-    cam.address(ball, yaw, { putt: putting(), distance: Math.min(toCup(), club().carry || toCup()) });
+    frameView();
     cam.snap();
     pad.setEnabled(true);
     plan(); showHud(); preview(); showGreenRead();
@@ -306,7 +475,7 @@ async function startPlay(h, query) {
     puttRange = puttRangeFor(putting() ? Math.max(toCup(), playsNow().total) : toCup());
     readSlope();
     stand();
-    cam.address(ball, yaw, { putt: putting(), distance: Math.min(toCup(), club().carry || toCup()) });
+    frameView();
     plan(); showHud(); preview(); showGreenRead();
   }
   function changeClub(d) {
@@ -337,32 +506,29 @@ async function startPlay(h, query) {
     yaw -= degrees * Math.PI / 180;            // positive turns the aim to the right
     standAtBall(golfer, ball, yaw, swingName(), heightAt);
     readSlope();
-    if (overview) cam.overview(ball, aimPoint(), yaw);
-    else cam.address(ball, yaw, { putt: putting(), distance: Math.min(toCup(), club().carry || toCup()) });
-    showHud(); preview();
+    frameView();
+    plan(); showHud(); preview();
   }
   function aimPoint() {
-    const reach = putting() ? Math.min(toCup(), puttRange) : Math.min(toCup() + 5, reachOf());
+    const reach = targetDist ?? (putting() ? Math.min(toCup(), puttRange) : Math.min(toCup() + 5, reachOf()));
     return new THREE.Vector3(ball.x + Math.sin(yaw) * reach, 0, ball.z + Math.cos(yaw) * reach).setY(heightAt(ball.x + Math.sin(yaw) * reach, ball.z + Math.cos(yaw) * reach));
   }
-  function setOverview(on) {
-    if (state !== 'address') return;
-    overview = on; hud.overview(on);
-    if (on) cam.overview(ball, aimPoint(), yaw);
-    else cam.address(ball, yaw, { putt: putting(), distance: Math.min(toCup(), club().carry || toCup()) });
-  }
+  const setOverview = on => setView(on ? 'oversikt' : 'bakom');
 
   /* -- what the aid shows ahead (by difficulty) ------------------------------ */
   function simulateLaunch(L, windNow) {
     const { velocity, spin } = launchState({ speed: L.speed, launchDeg: L.launchDeg, yaw: L.yaw, spinRpm: L.spinRpm, axisDeg: L.axisDeg });
-    return simulateShot(world.forStroke([ball.x, ball.z], cup), { start: [ball.x, ball.y, ball.z], velocity, spin, wind: windNow, roll: L.roll }, { every: 6 });
+    return simulateShot(world.forStroke([ball.x, ball.z], cup), { start: [ball.x, ball.y, ball.z], velocity, spin, wind: windNow, roll: L.roll, rho: conditions.rho }, { every: 6 });
   }
   function preview() {
     const level = DIFFICULTY[settings.difficulty] || DIFFICULTY.normal;
     marker.visible = false; dots.count = 0; spread.visible = false;
-    if (level.preview === 'none' || state !== 'address') return;
+    if (state !== 'address') return;
     const putt = putting();
-    const base = { club: club(), power: planned, yaw, lie, difficulty: settings.difficulty, puttRange, setup, quality, slope };
+    // Svår shows nothing ahead: the map has only the aim line.
+    const aimEnd = targetPoint() || [ball.x + Math.sin(yaw) * Math.min(toCup(), putt ? toCup() : reachOf()), ball.z + Math.cos(yaw) * Math.min(toCup(), putt ? toCup() : reachOf())];
+    if (level.preview === 'none' || clean) { updateMap({ aim: aimEnd }); return; }
+    const base = { club: club(), power: planned, yaw, lie, difficulty: settings.difficulty, puttRange, setup, quality, slope, greenRoll: conditions.greenRoll };
     const windNow = level.preview === 'full' ? wind() : [0, 0];
     const result = simulateLaunch(launchFor(base), windNow);
     const m = new THREE.Matrix4();
@@ -377,6 +543,7 @@ async function startPlay(h, query) {
         lastDot = q; m.makeTranslation(q[1], heightAt(q[1], q[3]) + .02, q[3]); dots.setMatrixAt(k++, m);
       }
       dots.count = k; dots.instanceMatrix.needsUpdate = true;
+      updateMap({ aim: [result.rest[0], result.rest[2]], landing: [result.rest[0], result.rest[2]] });
       return;
     }
     const land = result.landing || result.rest;
@@ -393,6 +560,8 @@ async function startPlay(h, query) {
     spread.position.set((la[0] + lb[0] + land[0]) / 3, heightAt(land[0], land[2]) + .06, (la[2] + lb[2] + land[2]) / 3);
     spread.rotation.y = Math.atan2(land[0] - ball.x, land[2] - ball.z);
     spread.scale.set(half, 1, depth); spread.visible = true;
+    updateMap({ aim: [land[0], land[2]], landing: [land[0], land[2]],
+      spread: { centre: [spread.position.x, spread.position.z], dir: [Math.sin(spread.rotation.y), Math.cos(spread.rotation.y)], half, depth } });
     if (level.preview === 'full') {
       const air = result.path.filter(p => p[4] === 'air');
       const step = Math.max(1, Math.floor(air.length / DOTS));
@@ -418,7 +587,9 @@ async function startPlay(h, query) {
   }
   function strike(input) {
     if (state !== 'address') return;
-    hud.toggleSetup(false);
+    if (view !== 'bakom') { setView('bakom'); cam.snap(); }
+    if (clean) setClean(false);
+    hud.toggleSetup(false); hud.toggleGuide(false);
     pending = input;
     state = 'swinging';
     pad.setEnabled(false); hud.power(''); hideAids(); hud.stats(null); hud.replay(false);
@@ -439,13 +610,17 @@ async function startPlay(h, query) {
     golfer.rate = 1;
     const c = club(), input = pending || { power: 1, face: 0, path: 0 };
     const L = launchFor({ club: c, power: input.power, face: input.face, path: input.path, lie, yaw, difficulty: settings.difficulty, puttRange,
-      setup, quality, slope, tempo: input.tempo });
+      setup, quality, slope, tempo: input.tempo, greenRoll: conditions.greenRoll });
     const { velocity, spin } = launchState({ speed: L.speed, launchDeg: L.launchDeg, yaw: L.yaw, spinRpm: L.spinRpm, axisDeg: L.axisDeg });
     const teed = lie === 'tee' && c.cat !== 'putter' ? .025 : 0;
     const start = [ball.x, ball.y + teed, ball.z];
     strokeFrom = [ball.x, ball.z];
-    shot = simulateShot(world.forStroke(strokeFrom, cup), { start, velocity, spin, wind: wind(), roll: L.roll,
-      seed: round.id + (holeCard(round, round.current).strokes + 1) * 7919 + round.current * 104729 });
+    const seed = round.id + (holeCard(round, round.current).strokes + 1) * 7919 + round.current * 104729;
+    // The shot meets the wind as it is at that moment: the mean, or a gust.
+    const gustRand = seeded(seed + 17); gustRand();
+    const met = strokeWind(wind(), { gustMs: conditions.gustMs, share: conditions.gust }, gustRand);
+    shot = simulateShot(world.forStroke(strokeFrom, cup), { start, velocity, spin, wind: met.wind, roll: L.roll, rho: conditions.rho, seed });
+    shot.windMs = met.ms; shot.gust = met.gust;
     addStroke(round, { club: c.id, putt: c.cat === 'putter', from: strokeFrom, to: [shot.rest[0], shot.rest[2]], lie,
       result: shot.outcome, distance: Math.round(shot.total * 10) / 10 });
     const tempo = input.tempo;
@@ -457,7 +632,7 @@ async function startPlay(h, query) {
     const firstGround = shot.path.find(p => p[4] !== 'air');
     airTime = firstGround ? firstGround[0] : shot.time;
     flightT = 0; fast = 1; eventIdx = 0;
-    tracer.reset();
+    tracer.reset(); flightMarks = []; targetDist = null;
     cam.launch();
     state = 'flight';
     showHud();
@@ -477,6 +652,14 @@ async function startPlay(h, query) {
     if (p[4] === 'air' || tracer.count < 2) tracer.push(p[1], p[2], p[3]);
     while (eventIdx < played.events.length && played.events[eventIdx].t <= flightT) playEvent(played.events[eventIdx++]);
     audio.roll(p[4] === 'roll' && !s.done ? Math.hypot(s.v[0], s.v[2]) : 0);
+    // The hole map follows the ball, a few times a second.
+    mapClock += dt;
+    if (mapClock > .12 || s.done) {
+      mapClock = 0;
+      const lastMark = flightMarks.at(-1);
+      if (!lastMark || Math.hypot(p[1] - lastMark[0], p[3] - lastMark[1]) > 1) flightMarks.push([p[1], p[3]]);
+      holeMap.marks({ ...mapMarks, ball: [p[1], p[3]], aim: null, landing: null, spread: null, target: null, flight: flightMarks });
+    }
     return s;
   }
 
@@ -504,6 +687,7 @@ async function startPlay(h, query) {
       return pause(2.2, () => { setBall(strokeFrom[0], strokeFrom[1]); nextShot(); });
     }
     setBall(restXZ[0], restXZ[1]);
+    updateMap({ flight: flightMarks });
     showStats();
     const surface = shot.surface || world.surfaceAt(ball.x, ball.z);
     const putt = putting();
@@ -531,7 +715,7 @@ async function startPlay(h, query) {
     const tempo = input.tempo;
     const dx = s.rest[0] - last.from[0], dz = s.rest[2] - last.from[1];
     const right = dx * -Math.cos(last.yaw) + dz * Math.sin(last.yaw);
-    const side = Math.abs(right) < .5 ? 'rakt' : `${metres(Math.abs(right))} m ${right > 0 ? 'höger' : 'vänster'}`;
+    const side = Math.abs(right) < .5 ? 'rakt' : `${metres(Math.abs(right))} m ${right > 0 ? 'hö' : 'vä'}`;
     const faceTotal = input.face * (tempo?.errorMul ?? 1) + (tempo?.faceAdd ?? 0), pathTotal = input.path * (tempo?.errorMul ?? 1) + (tempo?.pathAdd ?? 0);
     const faceWord = Math.abs(faceTotal) < .12 ? 'rak' : faceTotal > 0 ? 'öppen' : 'stängd';
     const pathWord = Math.abs(pathTotal) < .12 ? 'neutral' : pathTotal > 0 ? 'utifrån-in' : 'inifrån-ut';
@@ -539,10 +723,11 @@ async function startPlay(h, query) {
     const title = graded ? `${tempo.label} · ${tempo.ratio.toFixed(1).replace('.', ',')}:1` : 'Slagdata';
     const tone = !graded ? '' : tempo.grade === 'perfect' || tempo.grade === 'good' ? 'good' : 'bad';
     const rows = last.putt
-      ? [['Längd', `${metres(s.total)} m`], ['Bollfart', `${(L.speed * 3.6).toFixed(1).replace('.', ',')} km/h`], ['Spelades som', `${metres(last.plays.total)} m`], ['Sida', side]]
+      ? [['Längd', `${metres(s.total)} m`], ['Bollfart', `${(L.speed * 3.6).toFixed(1).replace('.', ',')} km/h`], ['Spelades', `${metres(last.plays.total)} m`], ['Sida', side]]
       : [['Carry', `${Math.round(s.carry)} m`], ['Totalt', `${Math.round(s.total)} m`], ['Bollfart', `${Math.round(L.speed * 3.6)} km/h`],
-        ['Utgångsvinkel', `${L.launchDeg.toFixed(1).replace('.', ',')}°`], ['Spinn', `${Math.round(L.spinRpm / 50) * 50} rpm`],
-        ['Höjd', `${Math.round(s.apex)} m`], ['Sida', side]];
+        ['Utgång', `${L.launchDeg.toFixed(1).replace('.', ',')}°`], ['Spinn', `${Math.round(L.spinRpm / 50) * 50} rpm`],
+        ['Höjd', `${Math.round(s.apex)} m`], ['Sida', side],
+        ...(s.windMs > .5 ? [[s.gust > 1 ? 'Vind (by)' : 'Vind', `${s.windMs.toFixed(1).replace('.', ',')} m/s`]] : [])];
     hud.stats({ title, tone, note: `${last.club.name}${last.putt ? '' : ` · ${TYPE_LABELS[last.setup.type]}`} · kraft ${Math.round(input.power * 100)} % · träff ${faceWord} · bana ${pathWord}`, rows },
       narrow() ? 4500 : 0);
   }
@@ -563,8 +748,12 @@ async function startPlay(h, query) {
     hideAids(); pad.setEnabled(false);
     replay = { then, phase: 'address', wait: .7 };
     state = 'replay';
-    document.body.classList.add('pl-cinema');
-    hud.banner('Repris', 'Tryck för att hoppa över', '', 1600);
+    hud.hideBanner();
+    hud.cinema('replay', { live: 'Repris' });
+    const shotNo = holeCard(round, round.current).shots.findIndex(x => x.from?.[0] === last.from[0] && x.from?.[1] === last.from[1]) + 1;
+    hud.third({ kicker: `Slag ${shotNo || ''} · ${last.club.name}${last.putt ? '' : ` · ${TYPE_LABELS[last.setup.type]}`}`.replace('Slag  · ', ''),
+      title: last.putt ? `${metres(last.shot.total)} m putt` : `${Math.round(last.shot.carry)} m i luften · ${Math.round(last.shot.total)} m totalt`,
+      sub: last.input.tempo && last.input.tempo.grade !== 'none' ? `${last.input.tempo.label} · ${last.input.tempo.ratio.toFixed(1).replace('.', ',')}:1` : '' });
     const from = new THREE.Vector3(last.from[0], last.fromY, last.from[1]);
     ballMesh.position.copy(from); ballMesh.visible = true;
     tracer.reset();
@@ -585,7 +774,7 @@ async function startPlay(h, query) {
     const then = replay.then;
     replay = null; backTween = null; state = 'loading';
     audio.roll(0);
-    document.body.classList.remove('pl-cinema');
+    hud.cinema(null);
     hud.fade(true);
     setTimeout(() => {
       tracer.reset(); golfer.rate = 1;
@@ -599,18 +788,20 @@ async function startPlay(h, query) {
     const H = hole(), line = H.line || [[ball.x, ball.z], [cup[0], cup[1]]];
     fly = { t: 0, dur: flyoverSeconds(lineLength(line)), line, pin: cup.slice() };
     state = 'flyover';
-    document.body.classList.add('pl-cinema');
     pad.setEnabled(false); hideAids();
-    const length = H.t?.[Math.min(round.tee, (H.t?.length || 1) - 1)] ?? Math.round(H.lineLen || lineLength(line));
-    hud.banner(`Hål ${n} · par ${H.par}`, `${length} m · tryck för att hoppa över`, '', 0);
+    hud.hideBanner();
+    hud.cinema('flyover');
+    const received = receivedOn(round, h.holes, n);
+    hud.third({ kicker: `Hål ${n} · par ${H.par} · ${holeLength(H)} m${Number.isFinite(H.idx) ? ` · index ${H.idx}` : ''}${received ? ` · ${received} extraslag` : ''}`,
+      title: H.name || `Hål ${n}`, sub: h.courseName, body: H.note || H.shape || '' });
     const pose = flyoverPose(fly.line, fly.pin, 0, heightAt);
     cam.frame(new THREE.Vector3(...pose.eye), new THREE.Vector3(...pose.look), 10); cam.snap();
   }
   function endFlyover() {
     if (state !== 'flyover') return;
     fly = null; state = 'loading';
-    document.body.classList.remove('pl-cinema');
-    hud.hideBanner(); hud.fade(true);
+    hud.cinema(null);
+    hud.fade(true);
     setTimeout(() => { restoreAddress(); hud.fade(false); }, 340);
   }
 
@@ -630,15 +821,25 @@ async function startPlay(h, query) {
   }
   function holeSheet() {
     const card = holeCard(round, round.current), par = hole().par, next = nextHole(round);
-    const totals = roundTotals(round);
-    const toPar = totals.toPar === 0 ? 'E' : totals.toPar > 0 ? `+${totals.toPar}` : String(totals.toPar);
+    const totals = roundTotals(round), stats = roundStats(round, h.holes), points = pointsOn(round, h.holes, round.current);
+    const toPar = totals.toPar === 0 ? 'E' : totals.toPar > 0 ? `+${totals.toPar}` : `−${-totals.toPar}`;
+    const tone = card.picked ? 'bad' : card.strokes < par ? 'good' : card.strokes > par ? 'bad' : '';
+    const H = hole();
+    const tile = (label, value, unit = '') => `<div class="pl-tile"><span class="pl-k">${label}</span><b>${value}${unit ? `<small> ${unit}</small>` : ''}</b></div>`;
     const box = hud.openSheet(`
-      <h2>Hål ${round.current} · ${card.picked ? 'Plockad' : scoreName(card.strokes, par)}</h2>
-      <p class="pl-sub">${card.picked ? 'Bollen togs upp' : `${card.strokes} slag, ${card.putts} puttar`}${card.penalties ? `, ${card.penalties} pliktslag` : ''} · Par ${par}</p>
-      ${scorecardHtml(round, h.holes)}
-      <p class="pl-sub">Totalt ${totals.strokes} slag på ${totals.played} hål · <b>${toPar}</b></p>
+      <header class="pl-hero ${tone}">
+        <span class="pl-k">Hål ${round.current}${H.name ? ` · ${H.name}` : ''} · par ${par}</span>
+        <h2>${card.picked ? 'Plockad' : scoreName(card.strokes, par)}</h2>
+        <p>${card.picked ? 'Bollen togs upp' : `<b>${card.strokes}</b> slag · <b>${card.putts}</b> puttar`}${card.penalties ? ` · ${card.penalties} pliktslag` : ''}${points != null ? ` · <b>${points}</b> poäng` : ''}</p>
+      </header>
+      <section>
+        <div class="pl-tiles">${tile('Totalt', toPar, `${totals.strokes} slag`)}${stats.points != null ? tile('Poäng', stats.points) : ''}
+          ${stats.fairwaysTried ? tile('Fairwayträffar', `${stats.fairways}/${stats.fairwaysTried}`) : ''}${stats.greensTried ? tile('Greenträffar', `${stats.greens}/${stats.greensTried}`) : ''}
+          ${stats.greensTried ? tile('Puttar', stats.putts) : ''}</div>
+        ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}
+      </section>
       <div class="pl-actions">${next ? `<button class="pl-btn pl-primary" data-next type="button">Nästa hål · ${next}</button>` : ''}
-      ${last && card.holed ? '<button class="pl-btn pl-ghost" data-replay-last type="button">Se sista slaget igen</button>' : ''}
+      ${last && card.holed ? `<button class="pl-btn pl-ghost" data-replay-last type="button">${'Se sista slaget igen'}</button>` : ''}
       <button class="pl-btn ${next ? 'pl-ghost' : 'pl-primary'}" data-end type="button">${next ? 'Avsluta rundan' : 'Klar · tillbaka'}</button></div>`);
     box.querySelector('[data-next]')?.addEventListener('click', () => { hud.closeSheet(); startHole(next); });
     box.querySelector('[data-replay-last]')?.addEventListener('click', () => {
@@ -664,10 +865,12 @@ async function startPlay(h, query) {
     cup = world.cupOf(n);
     setBall(mark.c[0], mark.c[1]);
     strokeFrom = mark.c.slice();
-    last = null; nextPlugged = false; hud.stats(null);
-    tracer.reset();
+    last = null; nextPlugged = false; hud.stats(null); hud.toggleGuide(false);
+    tracer.reset(); flightMarks = [];
     audio.wind(Math.hypot(...wind()));
+    holeMap.setHole({ line: H.line || [mark.c, [cup[0], cup[1]]], boundaries: world.boundaries });
     address(true);
+    fillGuide();
     if (settings.flyover && !still) startFlyover(n);
     else hud.banner(`Hål ${n}`, `Par ${H.par}${H.name ? ` · ${H.name}` : ''}`, '', 2200);
   }
@@ -677,15 +880,32 @@ async function startPlay(h, query) {
     hud.toggleSetup(false);
     const seg = (key, options, current) => `<div class="pl-seg" role="group" data-seg="${key}">${Object.entries(options).map(([id, o]) =>
       `<button type="button" data-v="${id}" aria-pressed="${id === current}">${o.label || o}</button>`).join('')}</div>`;
+    const tab = menuTab;
     const box = hud.openSheet(`
-      <h2>${h.courseName}</h2><p class="pl-sub">Spela · hål ${round.current}</p>
-      <div class="pl-menu">
+      <header class="pl-hero"><span class="pl-k">Spela · hål ${round.current}</span><h2>${h.courseName}</h2></header>
+      <div class="pl-tabs" role="tablist" aria-label="Menyns delar">
+        <button type="button" role="tab" data-tab="game" aria-selected="${tab === 'game'}">Spelet</button>
+        <button type="button" role="tab" data-tab="light" aria-selected="${tab === 'light'}">Ljus</button>
+        <button type="button" role="tab" data-tab="card" aria-selected="${tab === 'card'}">Scorekort</button>
+      </div>
+      <section class="pl-menu" data-panel="light" ${tab === 'light' ? '' : 'hidden'}>
+        <div class="pl-lights" role="group" aria-label="Ljus">${[['nu', NOW_SKY], ...LIGHTS.map(l => [l.preset, `linear-gradient(180deg, ${l.sky[0]} 0%, ${l.sky[1]} 64%, ${l.sky[2]} 100%)`])].map(([id, sky]) =>
+          `<button class="pl-light" type="button" data-light="${id}" aria-pressed="${id === lightNow().choice}" title="${id === 'nu' ? 'Solen och vädret just nu' : LIGHT_LABEL[id]}"><i style="background:${sky}"></i>${LIGHT_LABEL[id]}</button>`).join('')}</div>
+        <p class="pl-note" data-cond-note>${conditions.note}</p>
+      </section>
+      <section class="pl-menu" data-panel="game" ${tab === 'game' ? '' : 'hidden'}>
         <div class="pl-row"><span>Svårighet</span>${seg('difficulty', DIFFICULTY, settings.difficulty)}</div>
         <div class="pl-row"><span>Sving</span>${seg('method', SWING_METHODS, settings.method)}</div>
+        <div class="pl-row"><span>Spelhandicap</span><div class="pl-stepper" role="group" aria-label="Spelhandicap">
+          <button type="button" data-hcp="-1" aria-label="Sänk spelhandicap">−</button><output data-hcp-value>${round.handicap ?? '–'}</output>
+          <button type="button" data-hcp="1" aria-label="Höj spelhandicap">+</button></div></div>
         <div class="pl-row"><span>Ljud</span>${seg('sound', ON_OFF, settings.sound ? 'on' : 'off')}</div>
         <div class="pl-row"><span>Hålöverflygning</span>${seg('flyover', ON_OFF, settings.flyover ? 'on' : 'off')}</div>
-      </div>
-      ${scorecardHtml(round, h.holes)}
+        <div class="pl-row"><span>Ren vy</span><button class="pl-btn pl-ghost" type="button" data-clean>Dölj panelerna (H)</button></div>
+      </section>
+      <section class="pl-menu" data-panel="card" ${tab === 'card' ? '' : 'hidden'}>
+        ${scorecardHtml(round, h.holes, n => pointsOn(round, h.holes, n))}
+      </section>
       <div class="pl-actions"><button class="pl-btn pl-primary" data-resume type="button">Fortsätt</button>
       <button class="pl-btn pl-ghost" data-end type="button">Avsluta rundan</button></div>`);
     for (const group of box.querySelectorAll('[data-seg]')) {
@@ -701,9 +921,28 @@ async function startPlay(h, query) {
         if (state === 'address') { plan(); preview(); }
       });
     }
+    for (const t of box.querySelectorAll('[data-tab]')) t.addEventListener('click', () => {
+      menuTab = t.dataset.tab;
+      for (const x of box.querySelectorAll('[data-tab]')) x.setAttribute('aria-selected', String(x === t));
+      for (const panel of box.querySelectorAll('[data-panel]')) panel.hidden = panel.dataset.panel !== menuTab;
+    });
+    for (const b of box.querySelectorAll('[data-light]')) b.addEventListener('click', () => {
+      for (const x of box.querySelectorAll('[data-light]')) x.setAttribute('aria-pressed', String(x === b));
+      chooseLight(b.dataset.light);
+      setTimeout(() => { const note = box.querySelector('[data-cond-note]'); if (note) note.textContent = conditions.note; }, 120);
+    });
+    for (const b of box.querySelectorAll('[data-hcp]')) b.addEventListener('click', () => {
+      const next = Math.max(-10, Math.min(54, (round.handicap ?? 18) + Number(b.dataset.hcp)));
+      round.handicap = next;
+      box.querySelector('[data-hcp-value]').textContent = String(next);
+      showHud(); fillGuide();
+    });
+    box.querySelector('[data-clean]').addEventListener('click', () => { hud.closeSheet(); setClean(true); });
     box.querySelector('[data-resume]').addEventListener('click', () => hud.closeSheet());
     box.querySelector('[data-end]').addEventListener('click', endRound);
-    box.querySelector('[data-resume]').focus();
+    // Open at the top (the lights), with the way back ready under the keyboard.
+    box.querySelector('[data-resume]').focus({ preventScroll: true });
+    box.scrollTop = 0;
   }
 
   /* -- input: keys first in line, a drag on the course to aim, a controller -- */
@@ -719,7 +958,10 @@ async function startPlay(h, query) {
     if (hud.sheetOpen) { if (key === 'Escape' && state !== 'holed') { hud.closeSheet(); e.preventDefault(); } return; }
     if (state === 'flyover') { if (key === ' ' || key === 'Enter' || key === 'Escape') { e.preventDefault(); endFlyover(); } return; }
     if (state === 'replay') { if (key === ' ' || key === 'Enter' || key === 'Escape' || lower === 'r') { e.preventDefault(); endReplay(); } return; }
+    if (clean) { if (key === 'Escape' || lower === 'h') { setClean(false); e.preventDefault(); } return; }
     if (key === 'Escape' && hud.setupOpen) { hud.toggleSetup(false); e.preventDefault(); return; }
+    if (key === 'Escape' && hud.guideOpen) { hud.toggleGuide(false); e.preventDefault(); return; }
+    if (key === 'Backspace' && targetDist != null) { clearTarget(); e.preventDefault(); return; }
     if (key === 'ArrowLeft' || key === 'ArrowRight') { turn((key === 'ArrowRight' ? 1 : -1) * (e.shiftKey ? .2 : 1)); e.preventDefault(); }
     else if (key === 'ArrowUp' || key === 'ArrowDown') { changeClub(key === 'ArrowUp' ? -1 : 1); e.preventDefault(); }
     else if (key === ' ') {
@@ -727,7 +969,7 @@ async function startPlay(h, query) {
       if (state === 'flight') fast = fast > 1 ? 1 : 4;
       else if (state === 'rest') { waitFor = 0; }
       else pad.key();
-    } else if (lower === 'o') setOverview(!overview);
+    } else if (lower === 'o') setOverview(view !== 'oversikt');
     else if (lower === 't') cycleType();
     else if (lower === 'q') stepSetup('shape', -1);
     else if (lower === 'e') stepSetup('shape', 1);
@@ -736,6 +978,11 @@ async function startPlay(h, query) {
     else if (lower === 'z') stepSetup('spin', -1);
     else if (lower === 'c') stepSetup('spin', 1);
     else if (lower === 'r') startReplay();
+    else if (lower === 'v') cycleView();
+    else if (lower === 'l') cycleLight();
+    else if (lower === 'g') hud.toggleGuide();
+    else if (lower === 'm') { holeMap.setSmall(!holeMap.small); settings.bigMap = !holeMap.small; saveSettings(settings); }
+    else if (lower === 'h') setClean(true);
     else if (key === 'Escape') openMenu();
   }, { capture: true, signal: abort.signal });
   const canvas = h.renderer.domElement;
@@ -745,17 +992,26 @@ async function startPlay(h, query) {
     if (state === 'replay') { endReplay(); return; }
     if (state === 'flight') { fast = fast > 1 ? 1 : 4; return; }
     if (state === 'rest') { waitFor = 0; return; }
-    if (state !== 'address') return;
+    if (state !== 'address' || view === 'fri') return;
     hud.toggleSetup(false);
-    aiming = { id: e.pointerId, x: e.clientX }; canvas.setPointerCapture(e.pointerId);
+    aiming = { id: e.pointerId, x: e.clientX, x0: e.clientX, y0: e.clientY, t0: performance.now(), moved: false }; canvas.setPointerCapture(e.pointerId);
   }, { signal: abort.signal });
   canvas.addEventListener('pointermove', e => {
     if (!aiming || e.pointerId !== aiming.id) return;
+    if (!aiming.moved && Math.hypot(e.clientX - aiming.x0, e.clientY - aiming.y0) < 6) return;
+    aiming.moved = true;
     const dx = e.clientX - aiming.x; aiming.x = e.clientX;
     if (dx) turn(dx * (putting() ? .05 : .12));
   }, { signal: abort.signal });
   const stopAim = e => { if (aiming && e.pointerId === aiming.id) aiming = null; };
-  canvas.addEventListener('pointerup', stopAim, { signal: abort.signal });
+  canvas.addEventListener('pointerup', e => {
+    // A tap (no drag) on the ground sets a target there, as the rangefinder measures a tapped point.
+    if (aiming && e.pointerId === aiming.id && !aiming.moved && performance.now() - aiming.t0 < 450 && state === 'address') {
+      const hit = h.groundHit?.(e.clientX, e.clientY);
+      if (hit && Number.isFinite(hit[0])) setTarget(hit[0], hit[1]);
+    }
+    stopAim(e);
+  }, { signal: abort.signal });
   canvas.addEventListener('pointercancel', stopAim, { signal: abort.signal });
 
   function moveFocus(d) {
@@ -781,13 +1037,18 @@ async function startPlay(h, query) {
     if (state !== 'address') return;
     if (p.has('start')) { openMenu(); return; }
     if (p.has('b') && hud.setupOpen) hud.toggleSetup(false);
+    if (p.has('b') && hud.guideOpen) hud.toggleGuide(false);
+    if (p.has('b') && clean) { setClean(false); return; }
+    if (p.has('b') && targetDist != null) clearTarget();
     if (g.lx) turn(g.lx * Math.abs(g.lx) * dt * (putting() ? 9 : 35));
     pad.stick(g.rx, g.ry);
     if (state !== 'address') return;            // the stick may have struck
     if (p.has('lb')) changeClub(-1);
     if (p.has('rb')) changeClub(1);
     if (p.has('x')) cycleType();
-    if (p.has('y')) setOverview(!overview);
+    if (p.has('y')) cycleView();
+    if (p.has('ls')) hud.toggleGuide();
+    if (p.has('rs')) holeMap.setSmall(!holeMap.small);
     if (p.has('left')) stepSetup('shape', -1);
     if (p.has('right')) stepSetup('shape', 1);
     if (p.has('up')) stepSetup('height', 1);
@@ -801,7 +1062,8 @@ async function startPlay(h, query) {
   startHole(round.current);
 
   const controller = {
-    get ownsCamera() { return true; },
+    /** The free view hands the camera to the course's own orbit controls. */
+    get ownsCamera() { return !(view === 'fri' && state === 'address'); },
     /** For harnesses: the ground the map records in (to build a recorded round). */
     get ground() { return h.ground; },
     update(dt) {
@@ -819,6 +1081,9 @@ async function startPlay(h, query) {
       fitFeet(golfer.root, heightAt);
       pad.step(dt);
       greenRead.update(clock, still);
+      if (!holeMap.ready) holeMap.step(state === 'flyover' ? 6 : 2.5);
+      // In the free view the orbit controls hold the camera; the trace still turns to it.
+      if (view === 'fri' && state === 'address') tracer.update(h.renderer.domElement.clientHeight || innerHeight);
       if (state === 'flight' && shot) {
         const s = playback(dt, shot);
         const landing = shot.landing ? new THREE.Vector3(shot.landing[0], shot.landing[1], shot.landing[2]) : new THREE.Vector3(shot.rest[0], shot.rest[1], shot.rest[2]);
@@ -856,13 +1121,16 @@ async function startPlay(h, query) {
       const flying = state === 'flight' || (state === 'replay' && replay?.phase === 'flight');
       halo.visible = flying && !(state === 'flight' ? putting() : last?.putt) && d > 6;
       if (halo.visible) { halo.position.copy(ballMesh.position); halo.scale.setScalar(d * .016); }
-      cam.update(dt);
-      tracer.update(h.renderer.domElement.clientHeight || innerHeight);
+      if (!(view === 'fri' && state === 'address')) {
+        cam.update(dt);
+        tracer.update(h.renderer.domElement.clientHeight || innerHeight);
+      }
     },
     state: () => ({ state, hole: round.current, strokes: holeCard(round, round.current).strokes, ball: ball.toArray(), lie,
       club: club().id, yaw, toCup: toCup(), planned, setup: { ...setup }, quality, slope, plays: state === 'address' ? playsNow() : null,
       shot: shot ? { outcome: shot.outcome, carry: shot.carry, total: shot.total, plugged: shot.plugged, events: shot.events.map(e => e.surface || e.type) } : null,
-      greenArrows: greenRead.visible, round }),
+      greenArrows: greenRead.visible, round, view, targetDist, conditions, light: lightNow(), mapReady: holeMap.ready,
+      guideOpen: hud.guideOpen, clean }),
     /** For a harness: swing without the pad. back/down (seconds) time the tempo. */
     swing(input = { power: 1, face: 0, path: 0 }) {
       const tempo = input.back && input.down ? tempoOf({ back: input.back, down: input.down, power: input.power }) : input.tempo;
@@ -871,6 +1139,9 @@ async function startPlay(h, query) {
     aim(degrees) { turn(degrees); },
     /** For a harness: the shot's setup (type, shape, height, spin). */
     setup(key, value) { changeSetup(key, value); },
+    light(name) { chooseLight(name); },
+    view(name) { setView(name); },
+    target(x, z) { setTarget(x, z); },
     replay() { startReplay(); },
     /** For a harness: skip a flyover or a replay. */
     skip() { if (state === 'flyover') endFlyover(); else if (state === 'replay') endReplay(); },
@@ -880,7 +1151,7 @@ async function startPlay(h, query) {
     look(eye, target) { cam.frame(new THREE.Vector3(...eye), new THREE.Vector3(...target)); cam.snap(); },
     club(id) { const i = bag.findIndex(c => c.id === id); if (i >= 0 && state === 'address') { clubIndex = i; changeClub(0); } },
     dispose() {
-      abort.abort(); pad.dispose(); hud.dispose(); golfer.dispose(); audio.dispose(); tracer.dispose(); greenRead.dispose();
+      abort.abort(); pad.dispose(); holeMap.dispose(); hud.dispose(); golfer.dispose(); audio.dispose(); tracer.dispose(); greenRead.dispose();
       glow.dispose();
       for (const o of [ballMesh, marker, dots, halo, spreadFill, spreadEdge]) { o.parent?.remove(o); o.geometry.dispose(); o.material.dispose(); }
       h.scene.remove(spread);

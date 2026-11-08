@@ -94,14 +94,14 @@ export function launchState({ speed, launchDeg, yaw, spinRpm, axisDeg = 0 }) {
   return { velocity, spin: mul(norm(axis), spinRpm * RPM) };
 }
 
-function acceleration(p, vel, spin, wind10) {
+function acceleration(p, vel, spin, wind10, rho = BALL.rho) {
   const rel = sub(vel, windAt(wind10, p[1]));
   const speed = len(rel);
   const accel = [0, -BALL.g, 0];
   if (speed < 1e-6) return accel;
   const omega = len(spin);
   const { cd, cl } = aeroCoefficients(BALL.radius * omega / speed);
-  const q = .5 * BALL.rho * AREA * speed / BALL.mass;
+  const q = .5 * rho * AREA * speed / BALL.mass;
   const drag = mul(rel, -q * cd);
   let lift = [0, 0, 0];
   if (omega > 1e-6) {
@@ -127,8 +127,11 @@ export function groundNormal(heightAt, x, z, h = .25) {
  * Simulate a shot from a lie to its rest.
  *
  * world: { heightAt(x, z), surfaceAt(x, z) -> SURFACES key, cup: [x, z] | null,
- *          isOut(x, z) -> boolean, trees: { near(x, z, r) -> [{ x, y, z, height, radius, trunk }] } | null }
- * shot:  { start: [x, y, z], velocity, spin (rad/s vector), wind: [wx, wz] at 10 m, seed }
+ *          isOut(x, z) -> boolean, trees: { near(x, z, r) -> [{ x, y, z, height, radius, trunk }] } | null,
+ *          ground(kind) -> a surface (the day's: wet, firm, snow; SURFACES when left out),
+ *          plug: 0..1 how much likelier a ball buries itself in sand (a wet day) }
+ * shot:  { start: [x, y, z], velocity, spin (rad/s vector), wind: [wx, wz] at 10 m, seed,
+ *          rho: the air's density (kg/m3; BALL.rho when left out: colder air is thicker) }
  * Returns { path: [[t, x, y, z, phase]], rest: [x, y, z], outcome, carry, total, apex, landing, ... }.
  * outcome: 'rest' | 'holed' | 'water' | 'out'. For water, `entry` is where it crossed into the water.
  */
@@ -137,6 +140,7 @@ export function simulateShot(world, shot, options = {}) {
   const record = options.record !== false, every = options.every ?? 4;
   const rand = seeded(shot.seed ?? 7);
   const { heightAt, surfaceAt } = world;
+  const groundOf = world.ground || surfaceOf, plugBonus = world.plug || 0, rho = shot.rho ?? BALL.rho;
   const cup = world.cup || null;
   let p = shot.start.slice(), vel = shot.velocity.slice(), spin = shot.spin.slice();
   const wind = shot.wind || [0, 0];
@@ -172,13 +176,13 @@ export function simulateShot(world, shot, options = {}) {
   while (t < maxTime) {
     if (phase === 'air') {
       // RK4 through the air.
-      const a1 = acceleration(p, vel, spin, wind);
+      const a1 = acceleration(p, vel, spin, wind, rho);
       const p2 = add(p, mul(vel, dt / 2)), v2 = add(vel, mul(a1, dt / 2));
-      const a2 = acceleration(p2, v2, spin, wind);
+      const a2 = acceleration(p2, v2, spin, wind, rho);
       const p3 = add(p, mul(v2, dt / 2)), v3 = add(vel, mul(a2, dt / 2));
-      const a3 = acceleration(p3, v3, spin, wind);
+      const a3 = acceleration(p3, v3, spin, wind, rho);
       const p4 = add(p, mul(v3, dt)), v4 = add(vel, mul(a3, dt));
-      const a4 = acceleration(p4, v4, spin, wind);
+      const a4 = acceleration(p4, v4, spin, wind, rho);
       const prev = p;
       p = add(p, mul(add(add(vel, mul(add(v2, v3), 2)), v4), dt / 6));
       vel = add(vel, mul(add(add(a1, mul(add(a2, a3), 2)), a4), dt / 6));
@@ -224,11 +228,12 @@ export function simulateShot(world, shot, options = {}) {
           return finish('holed');
         }
         if (kind === 'water') return finish('water', { entry: entry || lastDry });
-        const s = surfaceOf(kind);
+        const s = groundOf(kind);
         const n = groundNormal(heightAt, p[0], p[2]);
         const vn = dot(vel, n);
-        // A steep, fast first landing in sand buries the ball where it lands: a plugged lie.
-        if (kind === 'sand' && bounces === 0 && -vn > 11 && rand() < clamp((-vn - 11) / 10, 0, .85)) {
+        // A steep, fast first landing in sand buries the ball where it lands: a plugged lie
+        // (likelier in wet sand).
+        if (kind === 'sand' && bounces === 0 && -vn > 11 - 4 * plugBonus && rand() < clamp((-vn - 11) / 10 + .4 * plugBonus, 0, .85)) {
           plugged = true; vel = [0, 0, 0]; phase = 'roll'; bounces++;
           events.push({ t, type: 'bounce', surface: kind, speed: -vn });
           push();
@@ -266,7 +271,7 @@ export function simulateShot(world, shot, options = {}) {
       const kind = surfaceAt(p[0], p[2]);
       if (kind === 'water') return finish('water', { entry: entry || lastDry });
       lastDry = [p[0], p[2]];
-      const s = surfaceOf(kind);
+      const s = groundOf(kind);
       const e = .3, hx = (heightAt(p[0] + e, p[2]) - heightAt(p[0] - e, p[2])) / (2 * e);
       const hz = (heightAt(p[0], p[2] + e) - heightAt(p[0], p[2] - e)) / (2 * e);
       const slope = [-hx * BALL.g * 5 / 7, -hz * BALL.g * 5 / 7];

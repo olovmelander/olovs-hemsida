@@ -89,7 +89,17 @@ this guide or the current production workflow.
   never precached). Its tour-game layer (tempo, a game controller, shot types and
   shaping, the lie %, the green's read, sound, replay and flyover) is in its own
   modules there. The physics records what a listener hears (`events`), and the sound
-  plays those, so a new ground reaction needs an event as well. See
+  plays those, so a new ground reaction needs an event as well. It takes the other
+  modes' best without touching `main.js`:
+  - the lights through `window.V3D` (`chooseLight`, `nu()`, `winter()`), which set
+    the day's conditions (`conditions.mjs`: wet, firm or snowy turf, the air's
+    temperature, gusts);
+  - the course guide, the hole map (`hole-map.mjs`), the rangefinder's green and
+    hazards, and a tapped target;
+  - the map's handicap rules (`map/map-score.mjs`);
+  - a free view on the course's own orbit controls (`ownsCamera` false).
+
+  Its screen is a broadcast layout in the course's language (`play-hud.mjs`). See
   [Spela and Återupplev](docs/play-mode.md).
 - All seven historical public HTML URLs redirect to the app with their course
   and supported view settings. Vite generates these redirects. Root HTML sources

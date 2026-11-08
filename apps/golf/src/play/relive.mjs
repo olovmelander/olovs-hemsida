@@ -18,17 +18,35 @@ import { standAtBall, fitFeet, restoreLegs } from './golfer-rig.mjs';
 import { createPlayHud, scorecardHtml } from './play-hud.mjs';
 import { createRibbonTracer } from './ribbon-tracer.mjs';
 import { createPlayAudio } from './play-audio.mjs';
+import { createPlayWorld } from './play-world.mjs';
+import { createHoleMap } from './hole-map.mjs';
 import { scoreName, PLAY_KEYS } from './play-rules.mjs';
 
 const MAP_LIE = { green: 'green', bunker: 'sand', tee: 'tee', fairway: 'fairway', water: 'water', rough: 'rough' };
 const CSS = `
-body.pl-relive .pl-clubs,body.pl-relive .pl-help,body.pl-relive .pl-setup-btn,body.pl-relive .pl-setup-panel,body.pl-relive .pl-stats{display:none!important}
-.pl-rv-bar{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:5px}
-.pl-rv-bar button{min-width:48px;min-height:48px;border:0;border-radius:12px;background:transparent;color:var(--ink,#eaf3ec);font:600 18px Outfit,system-ui,sans-serif;cursor:pointer}
+body.pl-relive .pl-dock,body.pl-relive .pl-swing,body.pl-relive .pl-help,body.pl-relive .pl-setup-panel,body.pl-relive .pl-stats,body.pl-relive .pl-cond{display:none!important}
+body.pl-relive .pl-live{top:max(14px,env(safe-area-inset-top));background:rgba(9,18,14,.78);border:1px solid rgba(160,230,185,.15)}
+body.pl-relive .pl-third{bottom:calc(max(16px,env(safe-area-inset-bottom)) + 104px);border-left-color:#4bb4d8}
+body.pl-relive .pl-third-kicker{color:#9fdcf2}
+.pl-rv-bar{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);display:grid;gap:8px;padding:10px 12px 8px;border-radius:20px}
+.pl-rv-line{display:flex;align-items:center;gap:10px;padding:0 4px}
+.pl-rv-line .pl-k{white-space:nowrap}
+.pl-rv-dots{display:flex;align-items:center;gap:6px;flex:1;justify-content:center}
+.pl-rv-dots i{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(234,243,236,.45);transition:background .25s,transform .25s}
+.pl-rv-dots i.done{background:rgba(234,243,236,.55);border-color:transparent}
+.pl-rv-dots i.now{background:#4bb4d8;border-color:#4bb4d8;transform:scale(1.3);box-shadow:0 0 10px rgba(75,180,216,.7)}
+.pl-rv-dots i.putt{border-radius:3px}
+.pl-rv-buttons{display:flex;align-items:center;justify-content:center;gap:4px}
+.pl-rv-bar button{min-width:48px;min-height:48px;border:0;border-radius:13px;background:transparent;color:var(--ink,#eaf3ec);font:600 17px Outfit,system-ui,sans-serif;cursor:pointer}
+.pl-rv-bar button:hover{background:rgba(255,255,255,.06)}
 .pl-rv-bar button:focus-visible{outline:2px solid var(--turf,#5fd07a);outline-offset:1px}
-.pl-rv-bar [data-play]{background:var(--turf,#5fd07a);color:#0b1a13;min-width:64px}
+.pl-rv-bar [data-play]{background:linear-gradient(160deg,#6fe08a,#3fae5d);color:#07170d;min-width:66px}
 .pl-rv-bar [data-speed]{font:600 13px 'JetBrains Mono',monospace;min-width:52px}
-.pl-rv-tag{position:absolute;right:max(14px,env(safe-area-inset-right));top:calc(max(14px,env(safe-area-inset-top)) + 58px);padding:6px 11px;border-radius:999px;font-size:12px;color:var(--dim,#9db3a5)}
+@media (max-width:640px){
+  body.pl-relive .pl-live{top:auto;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 112px);font-size:10px}
+  body.pl-relive .pl-third{bottom:calc(max(16px,env(safe-area-inset-bottom)) + 156px)}
+  .pl-rv-bar{width:calc(100vw - 20px)}
+}
 `;
 /** Where a swing clip's backswing tops out. */
 const lieOf = lie => MAP_LIE[lie] || 'fairway';
@@ -117,18 +135,21 @@ export async function mountRelive(h, roundId) {
   h.controls.enabled = false;
   document.body.classList.add('pl-on', 'pl-relive');
   const style = document.createElement('style'); style.textContent = CSS; document.head.append(style);
-  const hud = createPlayHud({ onMenu: () => openSheet(), onClub: () => {}, onOverview: () => {} });
-  hud.root.querySelector('[data-overview]').remove();
+  const hud = createPlayHud({ onMenu: () => openSheet(), onClub: () => {}, onView: () => {} });
+  hud.root.querySelector('[data-view]').remove();
   const bar = document.createElement('div'); bar.className = 'pl-rv-bar pl-glass'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Uppspelning');
-  bar.innerHTML = `<button type="button" data-prev aria-label="Förra slaget">⏮</button><button type="button" data-play aria-label="Pausa">❚❚</button>
-    <button type="button" data-next aria-label="Nästa slag">⏭</button><button type="button" data-hole aria-label="Nästa hål">Hål ›</button>
-    <button type="button" data-speed aria-label="Hastighet">1×</button>`;
+  bar.innerHTML = `<div class="pl-rv-line"><span class="pl-k" data-rv-hole>Hål</span><span class="pl-rv-dots" data-rv-dots></span><span class="pl-k" data-rv-count></span></div>
+    <div class="pl-rv-buttons"><button type="button" data-prev aria-label="Förra slaget" title="Förra slaget (←)">⏮</button><button type="button" data-play aria-label="Pausa" title="Pausa (mellanslag)">❚❚</button>
+    <button type="button" data-next aria-label="Nästa slag" title="Nästa slag (→)">⏭</button><button type="button" data-hole aria-label="Nästa hål" title="Nästa hål (N)">Hål ›</button>
+    <button type="button" data-speed aria-label="Hastighet">1×</button></div>`;
   hud.root.append(bar);
-  const tag = document.createElement('span'); tag.className = 'pl-rv-tag pl-glass';
   const date = new Date(`${round.date}T12:00:00`);
-  tag.textContent = round.example ? 'Exempel · Återupplev'
-    : `Återupplev · ${Number.isFinite(date.getTime()) ? date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' }) : round.date}`;
-  hud.root.append(tag);
+  // The broadcast bug: what is being watched, and when it was played.
+  hud.live(round.example ? 'Exempel · Återupplev'
+    : `Återupplev · ${Number.isFinite(date.getTime()) ? date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' }) : round.date}`);
+  // The hole map, with the round's own shots drawn on it.
+  const world = createPlayWorld(h);
+  const holeMap = createHoleMap({ parent: hud.mapSlot, surfaceAt: world.surfaceAt, heightAt, trees: world.trees, small: matchMedia('(max-width: 640px)').matches });
   hud.banner('Laddar golfaren…', '', '', 0);
   const golfer = await loadGolfer(import.meta.env.BASE_URL, character);
   h.scene.add(golfer.root);
@@ -148,11 +169,22 @@ export async function mountRelive(h, roundId) {
 
   function card() {
     const H = h.holes[hole().n - 1], s = stroke();
-    hud.hole({ n: hole().n, par: hole().par, length: H.t?.[0] ?? Math.round(H.lineLen || 0), strokes: strokeIndex, name: '' });
+    const length = H.t?.[0] ?? Math.round(H.lineLen || 0);
+    hud.hole({ n: hole().n, par: hole().par, length, strokes: strokeIndex, name: H.name || '', index: Number.isFinite(H.idx) ? H.idx : null });
+    // The course guide's page for the hole, behind the hole card as in Spela.
+    hud.guide({ title: `Hål ${hole().n}${H.name ? ` · ${H.name}` : ''}`, sub: `Par ${hole().par} · ${length} m${Number.isFinite(H.idx) ? ` · index ${H.idx}` : ''}`,
+      note: H.note || H.shape || '', facts: `Banguide från ${h.courseName}` });
     const from = s?.from || cup();
     const left = Math.hypot(cup()[0] - from[0], cup()[1] - from[1]);
     hud.shot({ toPin: left, lie: s ? LIE_NAME[lieOf(s.fromLie)] || 'Fairway' : 'Green', windMs: 0, windDeg: 0, windLabel: 'Inspelad runda' });
-    hud.root.querySelector('[data-wind]').style.display = 'none';
+    // The hole's shots as the timeline's dots: played, playing, to come (a putt is square).
+    const plays = hole().plays;
+    bar.querySelector('[data-rv-hole]').textContent = `Hål ${hole().n}`;
+    bar.querySelector('[data-rv-count]').textContent = `Slag ${Math.min(strokeIndex + 1, plays.length)}/${plays.length}`;
+    bar.querySelector('[data-rv-dots]').innerHTML = plays.map((p, i) => `<i class="${i < strokeIndex ? 'done' : i === strokeIndex ? 'now' : ''}${p.putt ? ' putt' : ''}"></i>`).join('');
+    // And on the hole map: the shots so far, and the ball.
+    const done = plays.slice(0, strokeIndex).map(p => ({ from: p.from, to: p.to || cup() }));
+    holeMap.marks({ ball: from, pin: cup(), strokes: done, aim: s ? (s.to || cup()) : null });
   }
   function address() {
     const s = stroke();
@@ -168,8 +200,10 @@ export async function mountRelive(h, roundId) {
     cam.address(ballMesh.position, yaw, { putt: s.putt, distance: s.distance ?? 20 });
     tracer.reset();
     const n = strokeIndex + 1;
-    hud.banner(s.putt ? `Putt · slag ${n}` : `Slag ${n} · ${club.name}`,
-      s.putt ? (!round.example && s.counted && strokeIndex === hole().plays.findIndex(p => p.putt) ? 'Puttarna är räknade, inte inmätta' : '') : LIE_NAME[lieOf(s.fromLie)] || '', '', 1600);
+    const length = Math.hypot(to[0] - s.from[0], to[1] - s.from[1]);
+    hud.third({ kicker: `Hål ${hole().n} · slag ${n} av ${hole().plays.length}`, title: s.putt ? 'Putt' : club.name,
+      sub: `${length < 10 ? length.toFixed(1).replace('.', ',') : Math.round(length)} m · ${LIE_NAME[lieOf(s.fromLie)] || 'Fairway'} → ${s.holed ? 'i hålet' : LIE_NAME[lieOf(s.toLie)] || 'Green'}`,
+      body: s.putt && !round.example && s.counted && strokeIndex === hole().plays.findIndex(p => p.putt) ? 'Puttarna är räknade, inte inmätta: de rullas från första puttens plats.' : '' });
     card();
     state = 'address'; timer = 1.1;
     flight = reconstructFlight({ club, from: s.from, to, putt: s.putt, heightAt, lie: lieOf(s.fromLie), landLie: lieOf(s.toLie) });
@@ -205,12 +239,16 @@ export async function mountRelive(h, roundId) {
     const name = H.picked ? 'Plockad' : scoreName(H.strokes, H.par);
     hud.banner(`Hål ${H.n} · ${name}`, H.picked ? '' : `${H.strokes} slag · ${H.putts ?? 0} puttar`, !H.picked && H.strokes <= H.par ? 'good' : '', 2600);
     if (!H.picked && H.strokes <= H.par) golfer.play('Celebrate', { fade: .25 });
+    hud.third(null);
+    holeMap.marks({ pin: cup(), strokes: H.plays.map(p => ({ from: p.from, to: p.to || cup() })) });
     state = 'holeEnd'; timer = 2.8;
   }
   function startHole(i) {
     holeIndex = Math.max(0, Math.min(playable.length - 1, i)); strokeIndex = 0;
     if (h.hole() !== hole().n) h.goHole(hole().n, false, true);
     h.releaseCamera(); h.quietCourse?.();
+    const H = h.holes[hole().n - 1];
+    holeMap.setHole({ line: H.line || [hole().plays[0].from, cup()], boundaries: world.boundaries });
     hud.fade(true);
     setTimeout(() => { address(); cam.snap(); hud.fade(false); }, 300);
     state = 'idle';
@@ -269,6 +307,7 @@ export async function mountRelive(h, roundId) {
       golfer.update(dt);
       fitFeet(golfer.root, heightAt);
       const step = paused ? 0 : dt * speed;
+      if (!holeMap.ready) holeMap.step(3);
       if (state === 'address' || state === 'rest' || state === 'holeEnd') {
         timer -= step;
         if (timer <= 0) {
@@ -298,7 +337,7 @@ export async function mountRelive(h, roundId) {
     },
     state: () => ({ state, hole: hole()?.n, stroke: strokeIndex, holes: playable.length, paused, ball: ballMesh.position.toArray() }),
     dispose() {
-      abort.abort(); hud.dispose(); style.remove(); golfer.dispose(); tracer.dispose(); audio.dispose();
+      abort.abort(); holeMap.dispose(); hud.dispose(); style.remove(); golfer.dispose(); tracer.dispose(); audio.dispose();
       h.scene.remove(ballMesh); ballMesh.geometry.dispose(); ballMesh.material.dispose();
       document.body.classList.remove('pl-on', 'pl-relive'); h.controls.enabled = true;
     },

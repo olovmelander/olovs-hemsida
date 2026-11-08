@@ -151,7 +151,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
               <div class="seg cs-seg">${[1, 10].map(n => `<label class="seg-opt"><input type="radio" name="cs-hole" value="${n}"${plan.hole === n ? ' checked' : ''}><span>Hål ${n}</span></label>`).join('')}</div>
             </fieldset>` : ''}
 
-            <fieldset class="cs-field" data-only="map">
+            <fieldset class="cs-field" data-only="map play">
               <legend>Spelhandicap</legend>
               <div class="cs-hcp">
                 <div class="stepper" role="group" aria-label="Spelhandicap">
@@ -376,7 +376,8 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   function launch(round) {
     /* the choices are kept where the map reads them, so both programs agree */
     writeText(storage(), `${TEE_KEY}:${course.slug}`, plan.tee);
-    if (plan.mode === 'map') writeText(storage(), MAP_KEYS.handicap, plan.handicap ?? null);
+    /* the player's handicap is theirs in both: the map's card and the game's points */
+    if (plan.mode === 'map' || plan.mode === 'play') writeText(storage(), MAP_KEYS.handicap, plan.handicap ?? null);
     if (plan.mode === 'play') { try { storage()?.setItem(CHARACTER_KEY, plan.character); } catch {} }
     close();
     onLaunch(course.slug, plan.mode, { tee: plan.tee, hole: plan.hole, light: plan.light, character: plan.character, round: plan.mode === 'map' && round });

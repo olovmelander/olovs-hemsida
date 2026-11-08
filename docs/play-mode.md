@@ -21,6 +21,12 @@ the owner asked what would bring the game closer to PGA Tour 2K25:
 
 The section [The tour-game layer](#the-tour-game-layer) describes them.
 
+The owner then asked for the best features and UX of the course's other modes
+in the game, made to work for it: the lights, the course guide, and the rest.
+They also asked for a screen that is visually stunning and right for a game and
+for a replay. [From the other modes](#from-the-other-modes) and
+[The screen](#the-screen) describe them.
+
 ## Where it starts
 
 - **The start menu:** a third mode card, **Spela** (key 3). Statistik and
@@ -313,6 +319,107 @@ punches are shaped.
   holds it there. Either way the downswing starts from the matching point, so
   a chip or a putt is a short stroke.
 
+## From the other modes
+
+None of this touches `main.js`. The lights are chosen through `window.V3D`
+(`chooseLight`, `nu()` for Nu's choice and weather, `winter()` for snow). The
+camera's free view hands the camera to the course's own orbit controls by
+letting `ownsCamera` go false.
+
+- **The lights** (the detailed course's Visning tab): all eleven, Nu first, as
+  their own skies in the menu's Ljus tab, and L steps through them.
+- **The day's conditions** (`conditions.mjs`): each light plays as it looks.
+
+  | Light | Ground | Air without a reading |
+  | --- | --- | --- |
+  | Oväder | wet (the ground finish's `GROUND_WETNESS` 1) | 12 °C, gustier |
+  | Dis | wet (0.6) | 10 °C |
+  | Gryning | dew (0.3) | 11 °C |
+  | Sommar | firm and fast | 24 °C |
+  | Vinter | snow: the ball stops almost where it lands, and it is orange | −3 °C |
+
+  - **Wet turf:** the bounce and the run are lower, a ball plugs in sand more
+    often, and the greens are slower. The putt meter stays in metres on today's
+    green (`greenRoll`), and "spelas" counts the slower pace.
+  - **The air:** its temperature sets its density (`airDensity`), so cold air
+    carries a ball less far. "Spelas som" counts it too, as the rangefinder
+    does. Under Nu the temperature is the real reading; otherwise it is the
+    light's own.
+  - **The wind:** it is the course's own air, which follows the real weather and
+    a storm's gale. Each stroke meets a gust drawn for it (`strokeWind`, seeded),
+    so the aid shows the mean and the shot can be caught by a gust. The stats
+    strip says what it met.
+- **The course guide (Banguide):**
+  - each hole's name, index and note during the flyover, as its lower third;
+  - in the scorebug, which opens the guide's page (G);
+  - in Återupplev too.
+- **The hole map** (`hole-map.mjs`, the Minikarta made for a game):
+  - the hole turned to run up the map, drawn from the lies and heights the ball
+    plays on, shaded by their relief, with the course's trees and white stakes;
+  - over it the ball, the aim, the landing spread, the pin, the hole's shots
+    and the ball's flight as it flies;
+  - a tap aims there (M makes it bigger or smaller).
+- **The rangefinder** (Kikaren):
+  - the green's back, middle and front (`greenDistances`);
+  - the water and bunkers on the line to where the shot is going
+    (`lineHazards`: "Vatten · kort om 128 · bär 146 m");
+  - a tapped point on the course or the map becomes a **target**. The aim turns
+    to it, the caddie hands over the club for it, the power line plans for it,
+    and the panel says how far it plays. Backspace or × clears it.
+- **Handicap** (the map's own rules, `map/map-score.mjs`):
+  - the course page now offers the handicap for Spela too;
+  - strokes given show as dots by the hole's name;
+  - the card counts Stableford points;
+  - the hole card shows the round's fairway hits, green hits, putts and points.
+- **The camera's views** (V or Y cycles them): behind the ball, the overview,
+  the green (over it for a putt or a chip, from short of it otherwise) and a free
+  look round on the course's own orbit controls.
+- **Ren vy** (H): only the course, for a picture.
+
+## The screen
+
+A broadcast's layout, drawn in the detailed course's language: its glass, small
+spaced capitals for labels, JetBrains Mono for every number, and turf green,
+amber and water blue (`play-hud.mjs`).
+
+- **Top left, the scorebug:**
+  - the hole number on turf green;
+  - par, length and index, and the hole's name with the guide's way in;
+  - the stroke and the round so far (to par, or points with a handicap).
+- **Under it, the distance panel:**
+  - the pin's distance in large figures, and how it plays;
+  - the green's back, middle and front, as the rangefinder's ladder;
+  - a target, and the hazards on the line.
+- **Top right:**
+  - the buttons;
+  - the conditions card: a wind dial turned to the aim (up is with you), the lie
+    with its % on a bar and the slope, and the weather and the ground;
+  - the hole map.
+- **Bottom:**
+  - the club and the shot's setup on the left, and the swing on the right;
+  - after a shot, its numbers between them as one strip (the tempo's verdict,
+    carry, total, ball speed, launch, spin, apex, side and the wind it met).
+- **The flyover and the replays are letterboxed**, with a lower third:
+  - the hole and the guide's note;
+  - or, for a replay, the stroke and what it did, under a "● Repris" bug.
+- **The hole card** after a hole:
+  - the score's name large, green under par and amber over it;
+  - tiles for the total, points, fairway hits, green hits and putts;
+  - the scorecard, nine holes to a row with their sums, birdies circled and
+    bogeys boxed.
+- **The menu** in three tabs, as the course's drawer: Spelet, Ljus, Scorekort.
+- **Återupplev** shares it:
+  - the scorebug with the course guide, and the distance panel;
+  - the hole map with the round's own shots on it;
+  - a lower third per stroke (club, length, from and to);
+  - a "● Återupplev · <date>" bug;
+  - a transport bar with the hole's strokes as a timeline (a putt is square).
+- **On a phone:**
+  - the scorebug, panels and map shrink, the map starts small, and the buttons
+    are icons;
+  - the strip stands above the club;
+  - the swing pad steps aside between shots.
+
 ## The camera (`play-camera.mjs`)
 
 - **At address:** behind the ball, looking down the aim. On a portrait screen it
@@ -396,7 +503,10 @@ it plays the same every time. The screen says it is an example
   - `shot-setup.test.mjs`: tempo, the timed drag and stick, the controller's
     reading, shot types and swings, shaping that lands on the aim, height, chips
     and flops, the caddie, the lie %, slopes, plugged sand, putts' rise, the
-    flyover's path and the green's arrows.
+    flyover's path and the green's arrows;
+  - `conditions.test.mjs`: wet, firm and snowy ground, the air's temperature,
+    today's putt meter, gusts, the hole map's frame, handicap strokes,
+    Stableford points and the round's figures.
 - **The start menu:** `tools/check-chooser-ui.mjs` now expects five cards
   (Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar), all whole on screen
   at every size it tests. On a phone the hero's numbers give way, and the lead
@@ -408,6 +518,16 @@ it plays the same every time. The screen says it is an example
   - a pulled 3-wood into Puttom 3's lake, shown with its penalty and drop;
   - the drag swing and the tap meter on a 390 × 844 phone;
   - Återupplev of a recorded two-hole round, with no console errors.
+
+  For the other modes' features and the screen (`modes.mjs`, `tour.mjs` at
+  1440 × 900 and 390 × 844, `example.mjs`):
+  - the lights from the menu (Oväder's wet turf, Vinter's snow and orange ball);
+  - the course guide in the flyover and the scorebug;
+  - the hole map with a tapped target;
+  - the green view and the free view;
+  - the clean view;
+  - every state of the screen on both sizes;
+  - the hole card with points.
 
   For the tour-game layer (`feel.mjs`, `padphone.mjs`, `tapchip.mjs`,
   `holeout.mjs`):

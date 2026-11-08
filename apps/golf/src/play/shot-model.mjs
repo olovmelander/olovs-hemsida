@@ -187,9 +187,10 @@ export function suggestClub(clubs, distance, lie = 'fairway') {
  *   quality   lieQuality() of the lie, or none for a clean one
  *   slope     slopeLie() at the ball, or none for level ground
  *   tempo     tempoOf() of the swing, or none
+ *   greenRoll the green's rolling resistance today (a putt's meter is metres on this green)
  */
 export function launchFor({ club, power, face = 0, path = 0, lie = 'fairway', yaw, difficulty = 'normal', puttRange = 10,
-  setup = STOCK_SETUP, quality = null, slope = null, tempo = null, compensate = true }) {
+  setup = STOCK_SETUP, quality = null, slope = null, tempo = null, compensate = true, greenRoll = SURFACES.green.roll }) {
   const level = DIFFICULTY[difficulty] || DIFFICULTY.normal;
   const p = Math.max(0, Math.min(1.1, power));
   const t = tempo || {};
@@ -199,7 +200,7 @@ export function launchFor({ club, power, face = 0, path = 0, lie = 'fairway', ya
     const faceTotal = face * (t.errorMul ?? 1) + (t.faceAdd ?? 0) * .6;
     const startError = faceTotal * level.error * 1.2 * Math.PI / 180;
     const powerMul = 1 - (1 - (t.powerMul ?? 1)) * .5;
-    return { speed: puttSpeedFor(p * puttRange * powerMul), launchDeg: 0, spinRpm: 0, yaw: yaw + startError, axisDeg: 0, roll: true, error: level.error };
+    return { speed: puttSpeedFor(p * puttRange * powerMul, greenRoll), launchDeg: 0, spinRpm: 0, yaw: yaw + startError, axisDeg: 0, roll: true, error: level.error };
   }
   const spec = CLUB_LAUNCH[club.cat] || CLUB_LAUNCH.iron7;
   const effect = LIE_EFFECT[lie] || LIE_EFFECT.fairway;
@@ -311,6 +312,6 @@ export function suggestShot(clubs, distance, lie = 'fairway') {
 }
 
 /** A putt's length as it plays: a rise of h metres adds (5/7) h / roll of flat green. */
-export function puttPlaysLike(distance, rise) {
-  return Math.max(.3, distance + rise * 5 / 7 / SURFACES.green.roll);
+export function puttPlaysLike(distance, rise, roll = SURFACES.green.roll) {
+  return Math.max(.3, distance + rise * 5 / 7 / roll);
 }

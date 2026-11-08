@@ -81,6 +81,28 @@ export function createPlayCamera({ camera, heightAt }) {
       goalLook.copy(ball).addScaledVector(d, 6);
       stiffness = 2.2;
     },
+    /** The green: from over it for a putt or a chip (to read its slope), from short of it otherwise. */
+    greenView(ball, pin) {
+      const d = new THREE.Vector3(pin.x - ball.x, 0, pin.z - ball.z);
+      const dist = d.length();
+      if (dist < 1e-3) d.set(0, 0, 1); else d.multiplyScalar(1 / dist);
+      const side = new THREE.Vector3(-d.z, 0, d.x);
+      if (dist < 35) {
+        const mid = ball.clone().lerp(pin, .5);
+        goalEye.copy(mid).addScaledVector(d, -(dist * .35 + 3)).addScaledVector(UP, dist * .85 + 5).addScaledVector(side, 1.5);
+        goalLook.copy(mid);
+      } else {
+        goalEye.copy(pin).addScaledVector(d, -18).addScaledVector(UP, 10).addScaledVector(side, 5);
+        goalLook.copy(pin);
+      }
+      keepAbove(goalEye, 1.5);
+      stiffness = 2.6;
+    },
+    /** Take the camera from wherever it was left (the free view), and ease on from there. */
+    adopt() {
+      eye.copy(camera.position);
+      camera.getWorldDirection(look); look.multiplyScalar(20).add(eye);
+    },
     /** The replay's swing: face on, from the far side of the ball, the golfer filling the frame. */
     replaySwing(ball, yaw, { putt = false } = {}) {
       const d = dirOf(yaw), right = new THREE.Vector3(-d.z, 0, d.x);
