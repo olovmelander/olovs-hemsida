@@ -1,0 +1,398 @@
+{
+ "schemaVersion": 1,
+ "kind": "photo-crown-detection",
+ "round": "r4",
+ "madeAt": "2026-11-08T22:22:40.427Z",
+ "model": {
+  "id": "weecology/deepforest-tree",
+  "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+  "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8",
+  "licence": "MIT"
+ },
+ "campaign": {
+  "key": "2025",
+  "date": "2025-06-14"
+ },
+ "raster": "d8737e8c4c6300b03a5b1823e3138c4ef4a0d325b712e227dd92d369b0b38fd6",
+ "train": {
+  "file": "train-r4.json",
+  "sha256": "bc4a31610c459818e11516c2538e2e635d49f98d706b2bb0abcc83c3b4f86cd4",
+  "referenceLockSha256": "b471a2015c2a7a7011359611c87bdd7ecb0eba69674715e6f56a660fba120f67",
+  "windows": [
+   "C1-h10-south",
+   "C2-h11-edge",
+   "C3-h4-meadow",
+   "C4-h16-spruce-edge",
+   "C5-h17-18",
+   "C6-h3-isolated",
+   "K1-h10-spruce",
+   "K2-h9-mixed"
+  ]
+ },
+ "folds": [
+  [
+   "C1-h10-south",
+   "C3-h4-meadow",
+   "C5-h17-18",
+   "K1-h10-spruce"
+  ],
+  [
+   "C2-h11-edge",
+   "C4-h16-spruce-edge",
+   "C6-h3-isolated",
+   "K2-h9-mixed"
+  ]
+ ],
+ "sources": {
+  "pre-p40": {
+   "id": "pre-p40",
+   "patchMetres": 40,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p40-calibration.json",
+    "sha256": "eb4cc43d8cdbd5940aa20ce6101d23630a28b74aefb8370ce432f64e1abba645",
+    "boxes": 2443
+   },
+   "all": {
+    "file": "crowns-pre-p40-all.json",
+    "sha256": "6f651bb225f4daa7ab4c1527c7a55a0fe16df1144e792f4cf3de093a0992f096",
+    "boxes": 112788
+   }
+  },
+  "pre-p50": {
+   "id": "pre-p50",
+   "patchMetres": 50,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p50-calibration.json",
+    "sha256": "412e3fc5297c9200d808bfeba79388529119885c7706a1d230eebbfb7cbafe41",
+    "boxes": 1634
+   },
+   "all": {
+    "file": "crowns-pre-p50-all.json",
+    "sha256": "3495cea2deb903b846f68736f5780d61d41e8be20289b5c1f2a6d9074606c424",
+    "boxes": 73471
+   }
+  },
+  "pre-p64": {
+   "id": "pre-p64",
+   "patchMetres": 64,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p64-calibration.json",
+    "sha256": "56f543cc7c237635371773883518627166aac5467bf9b3773a9b6498659f8f0c",
+    "boxes": 1026
+   },
+   "all": {
+    "file": "crowns-pre-p64-all.json",
+    "sha256": "7fa0882f15bb3a4f0909152a8b92c5dfbd3720491ffacc1eabe8f1ddc9af3459",
+    "boxes": 47176
+   }
+  },
+  "pre-p80": {
+   "id": "pre-p80",
+   "patchMetres": 80,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p80-calibration.json",
+    "sha256": "55243c410e0999588e492a15d2c64182bad0d2e43933924b40e632688c1785d5",
+    "boxes": 675
+   },
+   "all": {
+    "file": "crowns-pre-p80-all.json",
+    "sha256": "d7ef520062d4c70c76c6ce9130004457fe0085fb31f9d63ce160e87f7236b9b8",
+    "boxes": 32193
+   }
+  },
+  "ft-p40": {
+   "id": "ft-p40",
+   "patchMetres": 40,
+   "weights": "finetuned",
+   "epochs": 12,
+   "lr": 0.00005,
+   "perCrop": 6,
+   "seed": 7,
+   "snapTo": "pre-p40",
+   "fold0Weights": {
+    "windows": [
+     "C1-h10-south",
+     "C3-h4-meadow",
+     "C5-h17-18",
+     "K1-h10-spruce"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 40,
+    "seed": 7,
+    "loss": [
+     1.2962,
+     0.9513,
+     1.1238,
+     0.9321,
+     0.7706,
+     0.6936,
+     0.7053,
+     0.6308,
+     0.6548,
+     0.6367,
+     0.6505,
+     0.5135
+    ],
+    "snapTo": "crowns-pre-p40-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "db34db76f30a6b888de073ca82d9571374353d9a46da6fe79f297e84c6c0d84e",
+    "train": "train-r4.json",
+    "trainSha256": "bc4a31610c459818e11516c2538e2e635d49f98d706b2bb0abcc83c3b4f86cd4"
+   },
+   "fold1Weights": {
+    "windows": [
+     "C2-h11-edge",
+     "C4-h16-spruce-edge",
+     "C6-h3-isolated",
+     "K2-h9-mixed"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 40,
+    "seed": 7,
+    "loss": [
+     0.9063,
+     0.844,
+     0.7583,
+     0.749,
+     0.6964,
+     0.6794,
+     0.6675,
+     0.6826,
+     0.626,
+     0.5778,
+     0.5626,
+     0.5456
+    ],
+    "snapTo": "crowns-pre-p40-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "0cd025ab2603e1f0e7d56b6fb5932f3b94d83f44a301e110d8be1a2fb8c3a11b",
+    "train": "train-r4.json",
+    "trainSha256": "bc4a31610c459818e11516c2538e2e635d49f98d706b2bb0abcc83c3b4f86cd4"
+   },
+   "allWeights": {
+    "windows": [
+     "C1-h10-south",
+     "C2-h11-edge",
+     "C3-h4-meadow",
+     "C4-h16-spruce-edge",
+     "C5-h17-18",
+     "C6-h3-isolated",
+     "K1-h10-spruce",
+     "K2-h9-mixed"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 40,
+    "seed": 7,
+    "loss": [
+     0.9971,
+     0.948,
+     0.7892,
+     0.7994,
+     0.7331,
+     0.6683,
+     0.6929,
+     0.6207,
+     0.5941,
+     0.5569,
+     0.5739,
+     0.5524
+    ],
+    "snapTo": "crowns-pre-p40-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "cb2fe7cc87ad302d167dddc546889975d09757266d79f1991521402f6285cb0d",
+    "train": "train-r4.json",
+    "trainSha256": "bc4a31610c459818e11516c2538e2e635d49f98d706b2bb0abcc83c3b4f86cd4"
+   },
+   "calibration": {
+    "file": "crowns-ft-p40-calibration.json",
+    "sha256": "982de2eecf2ef801f5c09e14f6be0def609ab90bb0d7f78f95ad8d5f0041c35d",
+    "boxes": 1843
+   },
+   "all": {
+    "file": "crowns-ft-p40-all.json",
+    "sha256": "0e366299773278daa063d2fbb0cee69a9603cafeb73bbf3c9ed2c199380acd32",
+    "boxes": 93530
+   }
+  },
+  "ft-p64": {
+   "id": "ft-p64",
+   "patchMetres": 64,
+   "weights": "finetuned",
+   "epochs": 12,
+   "lr": 0.00005,
+   "perCrop": 6,
+   "seed": 7,
+   "snapTo": "pre-p64",
+   "fold0Weights": {
+    "windows": [
+     "C1-h10-south",
+     "C3-h4-meadow",
+     "C5-h17-18",
+     "K1-h10-spruce"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 64,
+    "seed": 7,
+    "loss": [
+     1.1044,
+     0.831,
+     0.7415,
+     0.689,
+     0.5935,
+     0.5765,
+     0.5226,
+     0.5278,
+     0.4863,
+     0.5057,
+     0.477,
+     0.4609
+    ],
+    "snapTo": "crowns-pre-p64-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "1403891595361962fc823278ed30735a14e958b643814797322f781be4b30454",
+    "train": "train-r4.json",
+    "trainSha256": "bc4a31610c459818e11516c2538e2e635d49f98d706b2bb0abcc83c3b4f86cd4"
+   },
+   "fold1Weights": {
+    "windows": [
+     "C2-h11-edge",
+     "C4-h16-spruce-edge",
+     "C6-h3-isolated",
+     "K2-h9-mixed"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 64,
+    "seed": 7,
+    "loss": [
+     0.9169,
+     0.8038,
+     0.7424,
+     0.698,
+     0.6447,
+     0.593,
+     0.5577,
+     0.5146,
+     0.4891,
+     0.4605,
+     0.4136,
+     0.3923
+    ],
+    "snapTo": "crowns-pre-p64-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "e2be784d4acbf01097645b750da70f75a35b7fb7edbeaf5a510c8c09ae41aa12",
+    "train": "train-r4.json",
+    "trainSha256": "bc4a31610c459818e11516c2538e2e635d49f98d706b2bb0abcc83c3b4f86cd4"
+   },
+   "allWeights": {
+    "windows": [
+     "C1-h10-south",
+     "C2-h11-edge",
+     "C3-h4-meadow",
+     "C4-h16-spruce-edge",
+     "C5-h17-18",
+     "C6-h3-isolated",
+     "K1-h10-spruce",
+     "K2-h9-mixed"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 64,
+    "seed": 7,
+    "loss": [
+     0.9677,
+     0.7988,
+     0.7518,
+     0.7036,
+     0.6482,
+     0.6081,
+     0.5615,
+     0.5331,
+     0.5308,
+     0.5268,
+     0.4939,
+     0.4358
+    ],
+    "snapTo": "crowns-pre-p64-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "4502880d17cf680177344634bbb12039a53e22d0f4fed3249318147ee7c030d3",
+    "train": "train-r4.json",
+    "trainSha256": "bc4a31610c459818e11516c2538e2e635d49f98d706b2bb0abcc83c3b4f86cd4"
+   },
+   "calibration": {
+    "file": "crowns-ft-p64-calibration.json",
+    "sha256": "3e416778a77c72e606db0594eee70061083d281fd857df2482056fa8334f07b8",
+    "boxes": 1038
+   },
+   "all": {
+    "file": "crowns-ft-p64-all.json",
+    "sha256": "845c3cc7baa10600411103458bebff4ea6f03116a7481b58c86552bc64ea4ebe",
+    "boxes": 52975
+   }
+  }
+ },
+ "environment": {
+  "python": "3.14.7",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "deepforest": "2.1.0",
+  "cudaAvailable": true,
+  "device": "NVIDIA GeForce RTX 5080 Laptop GPU",
+  "capability": [
+   12,
+   0
+  ],
+  "model": {
+   "id": "weecology/deepforest-tree",
+   "sha": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+   "files": [
+    {
+     "name": ".gitattributes",
+     "size": 1519,
+     "sha256": null
+    },
+    {
+     "name": "NEON.pt",
+     "size": 129127473,
+     "sha256": "6d2194194daa694ce99c3daff8d53a95722d5856337466263e9a1bd23f8d282a"
+    },
+    {
+     "name": "README.md",
+     "size": 779,
+     "sha256": null
+    },
+    {
+     "name": "config.json",
+     "size": 235,
+     "sha256": null
+    },
+    {
+     "name": "model.safetensors",
+     "size": 129049980,
+     "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8"
+    }
+   ]
+  }
+ }
+}

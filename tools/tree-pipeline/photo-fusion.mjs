@@ -322,7 +322,9 @@ export function detectTreesFused(grid, chm, typeMap, typedParameters, refinePara
   const smooth = smoothChmFn(grid, chm, p.candidateSigmaMetres);
   const tops = overSegmentedTops(grid, chm, { sigmaMetres: p.candidateSigmaMetres, windowMetres: p.candidateWindowMetres, minimumHeightMetres: p.minimumHeightMetres, smoothed: smooth });
   const kept = keptTops(grid, first);
-  const suppressed = suppressedTops(grid, smooth, tops, kept, typeMap, p);
+  /* in 80 m tiles, as detectTreesRefined does, so the referee's photo reads stay local; decisions do not depend on the order */
+  const tileOf = t => [Math.floor(t.row * grid.sampleSpacingMetres / 80), Math.floor(t.column * grid.sampleSpacingMetres / 80)];
+  const suppressed = suppressedTops(grid, smooth, tops, kept, typeMap, p).sort((a, b) => { const [ar, ac] = tileOf(a), [br, bc] = tileOf(b); return ar - br || ac - bc || a.index - b.index; });
   const recovered = recoverTops(suppressed, referee, p);
   const recoveredSet = new Set(recovered.map(t => t.index));
   const seeds = [...kept, ...recovered.map(t => ({ easting: t.easting, northing: t.northing, height: t.height }))];
