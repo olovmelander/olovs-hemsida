@@ -1,6 +1,6 @@
 # Johannesberg tree placement, Stage A (review 2026-11-08)
 
-**Status:** local pilot, evidence and a candidate set only. Nothing here is
+**Status (round 2):** local pilot, evidence and a candidate set only. Round 2 (below) tried a type-aware detector against a new held-out sample; the gate is still not met and the round-1 candidate set stands. Nothing here is
 published, and the accepted generation (`ground-v2-fd6ebbe8…`), its pins and
 its assets are unchanged. **The 90% precision and recall gate is not met.** The
 new method misses fewer trees and places them better than either today's
@@ -199,7 +199,7 @@ are in the cache (`candidates/`).
 |---|---|
 | Today: published individual records | 2,458 |
 | Today: stand trees, high quality, at hashed positions | 16,272 (8,297 at low quality) |
-| **Candidate: placed individual crowns** | **26,834** (18,647 conifer, 8,187 broadleaf) |
+| **Candidate: placed individual crowns** | **26,834** (round 2 typing: 19,278 conifer, 6,446 broadleaf, 1,110 unknown; 5,730 near play, 21,104 woodland) |
 | – add | 24,573 (24,272 detector + 301 sparse-laser recovery) |
 | – adjust (ID kept) | 1,725 |
 | – retain (ID kept) | 536 |
@@ -226,6 +226,7 @@ remove/merge/not placed; a square marks a conifer). The legend is in
 - [4/16 meadow](review/hole4-meadow.png)
 - [1/2 groups](review/hole2-tee.png)
 - [9-hole 5/6](review/nine5-6.png)
+- [hole 1, tee to green](review/hole1.png)
 
 The same spots over the 2025 colour infrared and the 2021 natural-colour
 photos are in `johannesbergbuild/cache/trees-2026-11-08/review-panels/`.
@@ -278,6 +279,165 @@ redistribution review is still `pending`.
 5. **Decide the 333 holds and the unresolved lists.** Keep the current IDs;
    the old generation's IDs are lineage only.
 
+## Round 2: type-aware detection and a new held-out sample
+
+**Gate: not met.** The 90% precision and recall gate is still missed on a new
+unseen held-out sample: round 2 reaches P 0.95 but R 0.79. Round 2 also does
+not beat round 1 on that sample (F1 0.863 against 0.869), so it does not earn
+its place. **The candidate set stays round 1's**; round 2 only adds the `play`
+and type-confidence fields.
+
+The photo-based crown detector (DeepForest on the GPU) was **not run**: the
+owner deferred it. No GPU work, CUDA or PyTorch was used or installed.
+
+### What changed in the method
+
+Code: `tree-detect-v2.mjs` (`typeMapFromPhoto`, `detectTreetopsTyped`,
+`detectTreesTyped`, `splitOversizedCrowns`) and `round2.mjs`. All of it is
+tested.
+
+1. **A conifer/broadleaf map before detection.** For every CHM cell of at
+   least 2 m, it takes the share of vegetated pixels in the 2021-04-18 photo
+   (the day after the laser) in a box of half-size 1.5 + 0.15·h m. A cell is
+   conifer when that share is at least 0.35.
+2. **Per-type detector settings.** Each type has its own smoothing, treetop
+   window, minimum height, merge threshold and position. The minimum height
+   is tested on the unsmoothed CHM, so smoothing no longer drops young trees
+   below it.
+3. **Broadleaf merge.** A broadleaf top less than 0.5 m above the saddle to a
+   taller neighbour is merged into it (the valley-depth / crown-shape test).
+4. **Oversized-conifer split.** Conifer segments much larger than a spruce of
+   their height are re-searched for touching tops. This was implemented and
+   tested, but calibration never selected it.
+5. **Tuning.** 1,149 settings were tried by coordinate descent on the
+   calibration windows only, starting from the round-1 lock and ranked by F1,
+   then IoU, then offset ([`detector-lock-r2.json`](detector-lock-r2.json)).
+   The selected settings:
+
+   | Setting | Conifer | Broadleaf |
+   |---|---|---|
+   | Smoothing σ | 0.4 m | 0.4 m |
+   | Treetop window radius | `clamp(1.5 + 0.05·h, 1, 3)` | `clamp(2 + 0.12·h, 1, 3)` |
+   | Minimum height | 2 m | 3 m |
+   | Merge into neighbour | — | top < 0.5 m above the saddle |
+   | Position | centroid | centroid |
+
+### The new held-out sample
+
+Files: [`reference-windows-r2.json`](reference-windows-r2.json),
+[`reference-annotations-r2.json`](reference-annotations-r2.json),
+[`reference-r2.geojson`](reference-r2.geojson),
+[`reference-lock-r2.json`](reference-lock-r2.json).
+
+- **Frozen before any round-2 scoring.** The matching rule (4 m one-to-one)
+  and the ambiguity boxes were declared at the same time.
+- **The round-1 held-out windows are now `used-holdout`.** Their scores had
+  been seen.
+- **52 scored crowns on holes not used before:**
+
+  | Window | Place | Contents |
+  |---|---|---|
+  | H1 | 9-hole course, 9th tee / 1st green | young broadleaves |
+  | H3 | 7th green | closed mixed stand, 25 m square |
+  | H4 | between the 8th and 12th | closed mature spruce, 25 m square |
+  | H5 | 9th | woodland edge |
+
+- **Strata:** 23 closed, 10 edge, 15 isolated, 4 group; 23 conifer,
+  25 broadleaf.
+- **Dropped before any scoring.** A clear-cut window whose regrowth is younger
+  than the laser, and a young dense pine stand whose 2 m crowns are finer than
+  the scan resolves.
+- **Now used.** The new sample has been scored once, so any further tuning
+  needs another unseen sample.
+
+### Benchmark
+
+From [`benchmark-r2.json`](benchmark-r2.json): one-to-one matching within
+4 m; P = precision, R = recall.
+
+| | Calibration (94) P / R / F1 | Used held-out (38) P / R / F1 | **New held-out (52)** P / R / F1 |
+|---|---|---|---|
+| Published individuals + stand trees | 0.55 / 0.62 / 0.58 | 0.68 / 0.68 / 0.68 | 0.75 / 0.58 / 0.65 |
+| Current detector (1 m), all crowns | 0.89 / 0.43 / 0.58 | 1.00 / 0.61 / 0.75 | 1.00 / 0.44 / 0.61 |
+| Round-1 detector | 0.88 / 0.84 / 0.86 | 0.82 / 0.97 / 0.89 | **0.92 / 0.83 / 0.87** |
+| Round-2 detector | 0.94 / 0.84 / 0.89 | 0.90 / 0.92 / 0.91 | **0.95 / 0.79 / 0.86** |
+
+**New held-out recall by stratum** (round 1 → round 2):
+
+| Stratum | Round 1 | Round 2 |
+|---|---|---|
+| Isolated | 13/15 | 13/15 |
+| Group | 4/4 | 4/4 |
+| Edge | 8/10 | 7/10 |
+| **Closed** | **18/23** | **17/23** |
+| Conifer | 17/23 | 17/23 |
+| Broadleaf | 22/25 | 21/25 |
+
+**By window**, as hits / misses / extras, round 2:
+
+| Window | Hits | Misses | Extras |
+|---|---|---|---|
+| H1 young broadleaves | 17 | 1 | 0 |
+| H3 closed mixed | 7 | 2 | 1 |
+| H4 closed spruce | 10 | 4 | 1 |
+| H5 edge | 7 | 4 | 0 |
+
+The published population gets 10/23 closed crowns, and stand-tree centres lie
+2.07 m from the crowns they match.
+
+**Paired geometry, new held-out:**
+
+| Comparison | Shared crowns | Median offset | p95 offset | IoU |
+|---|---|---|---|---|
+| Round 1 → round 2 | 39 | 0.79 → 0.78 m | 2.17 → 2.30 m | 0.57 → 0.57 |
+| Published individuals + stand trees → round 2 | 26 | 2.07 → 0.77 m | — | 0.35 → 0.57 |
+
+### Why the gate fails
+
+The failure is **closed stands**: 17/23. Of these, the closed spruce reaches
+10/14 and the closed mixed stand 7/9, with the edge at H5 7/11.
+
+Touching spruces 2.5–3 m apart at 14–20 m height usually share one maximum on
+a leaf-off scan of 1.8 first returns/m². Every way of seeing more tops added
+false trees as fast as real ones on calibration:
+
+- smaller conifer windows;
+- less smoothing;
+- splitting by crown size.
+
+For example, a conifer window base of 1.0 instead of 1.5 m gained 4 trees and
+added 7 false ones. The reference in closed stands is itself interpretation
+of the same data. Isolated trees, groups and broadleaves are close to or
+above 0.9 recall.
+
+**What could move it:** a leaf-on or denser laser, field checks of closed
+stands, or the photo-based crown referee that was deferred.
+
+## Per-tree play zone and type (for publishing)
+
+These are columns in [`candidates.csv`](candidates.csv); the counts are in
+[`candidates-summary.json`](candidates-summary.json) under `playTypeDecision`.
+
+- **`play`** is `near` within 90 m of any hole's tee-to-green line of either
+  routing (the app's zone A, `LEGACY_ZONE_A_METRES`), or of the driving range
+  and practice greens. Otherwise it is `woodland`.
+- **`type`** comes from a logistic fit of conifer probability on the April
+  vegetated share, fitted on round-1 calibration examples only.
+  `typeConfidence = max(p, 1 − p)`, and the type is `unknown` below 0.6.
+  - It agrees with the interpreter on 42 of 45 typed new held-out crowns
+    (2 unknown), and on 38 of 38 at confidence 0.8 or more.
+  - On the used held-out sample it agrees on 22 of 25.
+
+Decisions are unchanged from round 1. The type column now carries the
+confidence-gated type.
+
+| Placed (retain / adjust / add) | Conifer | Broadleaf | Unknown | Total |
+|---|---|---|---|---|
+| near | 3,871 | 1,630 | 229 | 5,730 |
+| woodland | 15,407 | 4,816 | 881 | 21,104 |
+
+The holds split 71 near and 262 woodland. Merges: 42 near, 144 woodland.
+
 ## Reproduce
 
 Run from the repository root, with Lantmäteriet credentials in an env file
@@ -296,6 +456,13 @@ node tools/johannesberg-tree-pilot/benchmark.mjs --score
 node tools/johannesberg-tree-pilot/build-candidates.mjs
 node tools/johannesberg-tree-pilot/render-spots.mjs
 node tools/johannesberg-tree-pilot/source-inventory.mjs
+# round 2
+PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/reference-panels.mjs --windows geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-windows-r2.json
+PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/freeze-reference.mjs
+PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/round2.mjs --tune   # calibration only
+PILOT_SAMPLE=-r2 node tools/johannesberg-tree-pilot/round2.mjs --score
+node tools/johannesberg-tree-pilot/build-candidates.mjs   # round-1 lock; adds play and type confidence
+node tools/johannesberg-tree-pilot/type-check.mjs
 ```
 
 Re-pin tools (dated outputs, accepted pins untouched):

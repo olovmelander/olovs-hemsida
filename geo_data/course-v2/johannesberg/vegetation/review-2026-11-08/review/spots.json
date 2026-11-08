@@ -134,6 +134,29 @@
     "adjust": 1,
     "add": 10
    }
+  },
+  {
+   "id": "hole1",
+   "title": "the 1st hole, tee to green",
+   "bbox": [
+    679240,
+    6625770,
+    679420,
+    6626075
+   ],
+   "laserPanel": "review/hole1.png",
+   "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole1-photo.png",
+   "today": {
+    "records": 10,
+    "standTrees": 117
+   },
+   "candidates": {
+    "add": 120,
+    "adjust": 6,
+    "retain": 3,
+    "hold": 7,
+    "merge": 1
+   }
   }
  ]
 }

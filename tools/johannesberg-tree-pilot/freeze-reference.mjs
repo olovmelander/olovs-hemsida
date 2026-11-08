@@ -14,7 +14,7 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { PILOT } from './pilot-config.mjs';
+import { PILOT, sampleFile } from './pilot-config.mjs';
 import { ROOT, loadRaster } from './panels.mjs';
 import { createRaster } from '../../packages/course-v2/vegetation/canopy-fields.mjs';
 import { crownStatistics } from '../../packages/course-v2/vegetation/crown-detect.mjs';
@@ -58,8 +58,8 @@ export function referenceSegments(chm, crowns, margin = 14) {
 }
 
 async function main() {
-  const windowsPath = path.join(reviewDir, 'reference-windows.json');
-  const annotationsPath = path.join(reviewDir, 'reference-annotations.json');
+  const windowsPath = path.join(reviewDir, sampleFile('reference-windows'));
+  const annotationsPath = path.join(reviewDir, sampleFile('reference-annotations'));
   const windows = JSON.parse(fs.readFileSync(windowsPath, 'utf8'));
   const annotations = JSON.parse(fs.readFileSync(annotationsPath, 'utf8'));
   const chm = loadRaster('chm-pitfree-050');
@@ -114,9 +114,9 @@ async function main() {
     features.push({ type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[we, wn], [ee, wn], [ee, en], [we, en], [we, wn]]] }, properties: { scoringWindow: window.id, role: window.role, holes: window.holes } });
   }
   const geojson = { type: 'FeatureCollection', name: 'johannesberg-reference-2026-11-08', crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::3006' } }, features };
-  const referencePath = path.join(reviewDir, 'reference.geojson');
+  const referencePath = path.join(reviewDir, sampleFile('reference', 'geojson'));
   fs.writeFileSync(referencePath, JSON.stringify(geojson, null, 1) + '\n');
-  const previous = fs.existsSync(path.join(reviewDir, 'reference-lock.json')) ? JSON.parse(fs.readFileSync(path.join(reviewDir, 'reference-lock.json'), 'utf8')) : null;
+  const previous = fs.existsSync(path.join(reviewDir, sampleFile('reference-lock'))) ? JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('reference-lock')), 'utf8')) : null;
   const lock = {
     schemaVersion: 1,
     kind: 'reference-lock',
@@ -130,7 +130,7 @@ async function main() {
     counts,
     hashes: { windows: sha(windowsPath), annotations: sha(annotationsPath), reference: sha(referencePath), chm: loadRaster('chm-pitfree-050').sidecar.sha256, candidates: candidateHashes },
   };
-  fs.writeFileSync(path.join(reviewDir, 'reference-lock.json'), JSON.stringify(lock, null, 2) + '\n');
+  fs.writeFileSync(path.join(reviewDir, sampleFile('reference-lock')), JSON.stringify(lock, null, 2) + '\n');
   console.log(JSON.stringify(counts, null, 1));
 }
 

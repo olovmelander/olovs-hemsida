@@ -188,7 +188,8 @@ export function detectTreesV2(grid, chm, { parameters = TREE_DETECT_V2_DEFAULTS,
 
 /**
  * Merge a crown into its neighbour when its apex stands less than
- * `prominenceMetres` above the highest saddle between them (the h-maxima /
+ * `prominenceMetres` (a number, or a function of the lower and the taller
+ * maximum) above the highest saddle between them (the h-maxima /
  * "dynamics" rule of watershed segmentation): a bump on a broad crown is a
  * branch, while two trees have a real dip between their tops. Lowest crowns
  * are merged first, into the neighbour across the highest saddle, and saddles
@@ -224,7 +225,9 @@ export function mergeShallowCrowns(grid, surface, labels, maxima, prominenceMetr
       if (maxima[root].height < maxima[k].height || (maxima[root].height === maxima[k].height && root > k)) continue;
       if (saddle > best) { best = saddle; into = root; }
     }
-    if (into < 0 || maxima[k].height - best >= prominenceMetres) continue;
+    if (into < 0) continue;
+    const threshold = typeof prominenceMetres === 'function' ? prominenceMetres(maxima[k], maxima[into]) : prominenceMetres;
+    if (maxima[k].height - best >= threshold) continue;
     parent[k] = into;
     mergedCount++;
     for (const [other, saddle] of saddles[k]) {
@@ -390,4 +393,229 @@ export function detectionScores(tp, extra, missed) {
   const f1 = precision && recall ? (2 * precision * recall) / (precision + recall) : 0;
   const r = v => (v === null ? null : Math.round(v * 1000) / 1000);
   return { tp, extra, missed, precision: r(precision), recall: r(recall), f1: r(f1), precisionInterval95: wilson(tp, tp + extra), recallInterval95: wilson(tp, tp + missed) };
+}
+
+/* ---------------------------------------------------------------------------
+   Round 2: type-aware detection. Evergreen conifers and bare broadleaves need
+   different treetop windows on a leaf-off scan: a spruce has one sharp top and
+   touches its neighbours, a wide broadleaf crown has several bumps. A per-cell
+   conifer/broadleaf map is built BEFORE detection from the April orthophoto
+   taken the day after the laser (evergreen needles are vegetated in April,
+   bare twigs are not), and each type gets its own smoothing, window, merge
+   threshold and position (apex or crown centroid).                          */
+
+export const TYPE_NONE = 0;
+export const TYPE_CONIFER = 1;
+export const TYPE_BROADLEAF = 2;
+
+/**
+ * Conifer share per CHM cell: the share of vegetated photo pixels ((NIR - red)
+ * / (NIR + red) > ndviThreshold) in a square of half-size base + slope x h
+ * around the cell (the relief displacement of a crown grows with its height).
+ * Cells below minimumHeightMetres get TYPE_NONE. The photo is a north-up RGBI
+ * mosaic { minEasting, maxNorthing, pixelMetres, width, height, data }.
+ */
+export function typeMapFromPhoto(grid, chm, mosaic, {
+  ndviThreshold = 0.12, coniferShare = 0.5, radiusBaseMetres = 1.5, radiusSlope = 0.15, minimumHeightMetres = 2,
+} = {}) {
+  const { width: mw, height: mh, data } = mosaic;
+  /* integral image of the vegetated indicator */
+  const iw = mw + 1;
+  const integral = new Float64Array(iw * (mh + 1));
+  for (let r = 0; r < mh; r++) {
+    let row = 0;
+    for (let c = 0; c < mw; c++) {
+      const o = (r * mw + c) * 4;
+      const red = data[o], nir = data[o + 3];
+      row += nir + red > 0 && (nir - red) / (nir + red) > ndviThreshold ? 1 : 0;
+      integral[(r + 1) * iw + c + 1] = integral[r * iw + c + 1] + row;
+    }
+  }
+  const p = mosaic.pixelMetres;
+  const boxShare = (e, n, half) => {
+    const c0 = Math.max(0, Math.floor((e - half - mosaic.minEasting) / p)), c1 = Math.min(mw, Math.ceil((e + half - mosaic.minEasting) / p));
+    const r0 = Math.max(0, Math.floor((mosaic.maxNorthing - n - half) / p)), r1 = Math.min(mh, Math.ceil((mosaic.maxNorthing - n + half) / p));
+    const area = (c1 - c0) * (r1 - r0);
+    if (area <= 0) return Number.NaN;
+    return (integral[r1 * iw + c1] - integral[r0 * iw + c1] - integral[r1 * iw + c0] + integral[r0 * iw + c0]) / area;
+  };
+  const size = grid.width * grid.height;
+  const share = new Float32Array(size).fill(Number.NaN);
+  const type = new Uint8Array(size);
+  const spacing = grid.sampleSpacingMetres;
+  for (let row = 0; row < grid.height; row++) {
+    const n = grid.maxNorthing - (row + 0.5) * spacing;
+    for (let column = 0; column < grid.width; column++) {
+      const i = row * grid.width + column;
+      const h = chm[i];
+      if (!(h >= minimumHeightMetres)) continue;
+      const value = boxShare(grid.minEasting + (column + 0.5) * spacing, n, radiusBaseMetres + radiusSlope * h);
+      share[i] = value;
+      if (Number.isFinite(value)) type[i] = value >= coniferShare ? TYPE_CONIFER : TYPE_BROADLEAF;
+    }
+  }
+  return { type, share };
+}
+
+/** Local maxima where each cell is tested on its own type's surface and window.
+    The minimum height is tested on the unsmoothed CHM (`raw`) when given, so
+    smoothing never drops a narrow young crown below it. */
+export function detectTreetopsTyped(grid, surfaces, type, byType, { excludeMask = null, raw = null } = {}) {
+  const { width, height, sampleSpacingMetres: spacing } = grid;
+  const maxima = [];
+  for (let row = 0; row < height; row++) {
+    for (let column = 0; column < width; column++) {
+      const index = row * width + column;
+      const t = type[index];
+      if (t === TYPE_NONE) continue;
+      if (excludeMask && excludeMask[index]) continue;
+      const p = byType[t];
+      const surface = surfaces[t];
+      const value = surface[index];
+      if (!((raw ? Math.max(value, raw[index]) : value) >= p.minimumCandidateHeightMetres)) continue;
+      const radiusMetres = Math.min(p.windowMaximumMetres, Math.max(p.windowMinimumMetres, p.windowBaseMetres + p.windowSlope * value));
+      const radiusCells = radiusMetres / spacing;
+      const reach = Math.ceil(radiusCells);
+      let isMaximum = true;
+      for (let dy = -reach; dy <= reach && isMaximum; dy++) {
+        const r = row + dy;
+        if (r < 0 || r >= height) continue;
+        for (let dx = -reach; dx <= reach; dx++) {
+          if (!dx && !dy) continue;
+          if (dx * dx + dy * dy > radiusCells * radiusCells) continue;
+          const c = column + dx;
+          if (c < 0 || c >= width) continue;
+          const other = surface[r * width + c];
+          if (Number.isNaN(other)) continue;
+          if (other > value || (other === value && (r < row || (r === row && c < column)))) { isMaximum = false; break; }
+        }
+      }
+      if (isMaximum) maxima.push({ column, row, index, height: value, windowRadiusMetres: radiusMetres, type: t });
+    }
+  }
+  maxima.sort((a, b) => b.height - a.height || a.index - b.index);
+  /* where a conifer and a broadleaf maximum meet at a type boundary inside
+     either one's window, the taller one stands */
+  const kept = [];
+  for (const m of maxima) {
+    const clash = kept.some(k => k.type !== m.type && Math.hypot(k.column - m.column, k.row - m.row) * spacing <= Math.max(k.windowRadiusMetres, m.windowRadiusMetres));
+    if (!clash) kept.push(Object.freeze(m));
+  }
+  return kept;
+}
+
+export const TYPED_DEFAULTS = Object.freeze({
+  type: Object.freeze({ ndviThreshold: 0.12, coniferShare: 0.5, radiusBaseMetres: 1.5, radiusSlope: 0.15 }),
+  conifer: Object.freeze({ smoothingSigmaMetres: 0.3, windowBaseMetres: 1.0, windowSlope: 0.05, windowMinimumMetres: 1, windowMaximumMetres: 3, minimumCandidateHeightMetres: 3, prominenceMetres: 0, prominenceFraction: 0, position: 'apex' }),
+  broadleaf: Object.freeze({ smoothingSigmaMetres: 0.6, windowBaseMetres: 1.5, windowSlope: 0.08, windowMinimumMetres: 1.5, windowMaximumMetres: 4, minimumCandidateHeightMetres: 3, prominenceMetres: 1, prominenceFraction: 0.1, position: 'centroid' }),
+  shared: Object.freeze({ seedFraction: 0.45, crownFraction: 0.55, maximumCrownRadiusMetres: 10, extentFraction: 0.2, minimumCrownAreaSquareMetres: 0.25 }),
+  /* oversized conifer crowns re-searched for touching tops (0 = off) */
+  split: Object.freeze({ areaFactor: 0, allometryBaseMetres: 1, allometrySlope: 0.1, fineSigmaMetres: 0.25, windowMetres: 1.25, minimumSeparationMetres: 2, seedFraction: 0.6 }),
+});
+
+/**
+ * The type-aware detector. `typeMap` is typeMapFromPhoto(...).type (or any
+ * per-cell TYPE_ array). `surfaces` may be passed to reuse smoothing across a
+ * sweep: { [TYPE_CONIFER]: Float32Array, [TYPE_BROADLEAF]: Float32Array }.
+ * Crowns carry `type` and `position` (the type's apex or centroid).
+ */
+export function detectTreesTyped(grid, chm, typeMap, parameters = TYPED_DEFAULTS, { surfaces = null, excludeMask = null } = {}) {
+  const byType = { [TYPE_CONIFER]: parameters.conifer, [TYPE_BROADLEAF]: parameters.broadleaf };
+  const smooth = surfaces || {
+    [TYPE_CONIFER]: smoothChm(grid, chm, parameters.conifer.smoothingSigmaMetres),
+    [TYPE_BROADLEAF]: smoothChm(grid, chm, parameters.broadleaf.smoothingSigmaMetres),
+  };
+  const maxima = detectTreetopsTyped(grid, smooth, typeMap, byType, { excludeMask, raw: chm });
+  /* one growth surface: each cell from its own type's smoothing */
+  const surface = new Float32Array(chm.length);
+  for (let i = 0; i < chm.length; i++) surface[i] = typeMap[i] === TYPE_BROADLEAF ? smooth[TYPE_BROADLEAF][i] : smooth[TYPE_CONIFER][i];
+  const shared = parameters.shared;
+  const labels = growCrownsSimultaneous(grid, surface, maxima, { seedFraction: shared.seedFraction, crownFraction: shared.crownFraction, maximumCrownRadiusMetres: shared.maximumCrownRadiusMetres, minimumHeightMetres: 2, excludeMask });
+  const threshold = lower => { const p = byType[lower.type]; return Math.max(p.prominenceMetres, p.prominenceFraction * lower.height); };
+  const anyMerge = [parameters.conifer, parameters.broadleaf].some(p => p.prominenceMetres > 0 || p.prominenceFraction > 0);
+  const merged = anyMerge ? mergeShallowCrowns(grid, surface, labels, maxima, threshold) : 0;
+  const split = parameters.split && parameters.split.areaFactor > 0
+    ? splitOversizedCrowns(grid, smoothChm(grid, chm, parameters.split.fineSigmaMetres), labels, maxima, { type: TYPE_CONIFER, ...parameters.split })
+    : 0;
+  if (shared.extentFraction > 0) growCrownsSimultaneous(grid, surface, maxima, { seedFraction: shared.extentFraction, crownFraction: 0, maximumCrownRadiusMetres: shared.maximumCrownRadiusMetres, minimumHeightMetres: 2, excludeMask, initialLabels: labels });
+  const heights = createRaster({ width: grid.width, height: grid.height, sampleSpacingMetres: grid.sampleSpacingMetres, originEasting: grid.minEasting, originNorthing: grid.maxNorthing, values: chm });
+  const statistics = crownStatistics(heights, labels, maxima);
+  const crowns = statistics.filter(c => c.areaSquareMetres >= shared.minimumCrownAreaSquareMetres).map(c => {
+    const t = maxima[c.id].type;
+    const at = byType[t].position === 'centroid' ? c.centroid : { easting: c.apex.easting, northing: c.apex.northing };
+    return Object.freeze({ ...c, type: t === TYPE_CONIFER ? 'conifer' : 'broadleaf', position: Object.freeze({ easting: at.easting, northing: at.northing }) });
+  });
+  return { maxima, labels, crowns, surface, merged, split };
+}
+
+/**
+ * Split oversized conifer crowns. Touching spruces in a closed stand often
+ * share one smoothed maximum; their joint segment is then far larger than a
+ * spruce of that height carries (radius about base + slope x height). Inside
+ * such a segment only, maxima are sought again on the less-smoothed `fine`
+ * surface with a small window; seeds at least `minimumSeparationMetres` apart
+ * and above seedFraction of the crown's apex become crowns of their own, and
+ * the segment's cells go to the nearest seed. Labels and maxima are updated
+ * in place; returns the number of crowns added.
+ */
+export function splitOversizedCrowns(grid, fine, labels, maxima, {
+  type = TYPE_CONIFER, areaFactor = 2, allometryBaseMetres = 1, allometrySlope = 0.1,
+  windowMetres = 1.25, minimumSeparationMetres = 2, seedFraction = 0.6,
+} = {}) {
+  if (!(areaFactor > 0)) return 0;
+  const { width, height, sampleSpacingMetres: s } = grid;
+  const cellArea = s * s;
+  const cellsOf = new Map();
+  for (let i = 0; i < labels.length; i++) {
+    const k = labels[i];
+    if (k < 0 || maxima[k].type !== type) continue;
+    let list = cellsOf.get(k);
+    if (!list) { list = []; cellsOf.set(k, list); }
+    list.push(i);
+  }
+  const reach = Math.ceil(windowMetres / s);
+  const r2 = (windowMetres / s) ** 2;
+  let added = 0;
+  for (const [k, cells] of cellsOf) {
+    const apex = maxima[k];
+    const expected = allometryBaseMetres + allometrySlope * apex.height;
+    if (cells.length * cellArea <= areaFactor * Math.PI * expected * expected) continue;
+    const inCrown = new Set(cells);
+    const candidates = [];
+    for (const i of cells) {
+      const v = fine[i];
+      if (!(v >= seedFraction * apex.height)) continue;
+      const row = Math.floor(i / width), column = i - row * width;
+      let isMax = true;
+      for (let dy = -reach; dy <= reach && isMax; dy++) for (let dx = -reach; dx <= reach; dx++) {
+        if ((!dx && !dy) || dx * dx + dy * dy > r2) continue;
+        const r = row + dy, c = column + dx;
+        if (r < 0 || c < 0 || r >= height || c >= width) continue;
+        const j = r * width + c;
+        if (!inCrown.has(j)) continue;
+        if (fine[j] > v || (fine[j] === v && j < i)) { isMax = false; break; }
+      }
+      if (isMax) candidates.push({ index: i, row, column, height: v });
+    }
+    candidates.sort((a, b) => b.height - a.height);
+    const seeds = [{ k, row: apex.row, column: apex.column }];
+    for (const c of candidates) {
+      if (seeds.some(seed => Math.hypot(seed.row - c.row, seed.column - c.column) * s < minimumSeparationMetres)) continue;
+      const id = maxima.length;
+      maxima.push(Object.freeze({ column: c.column, row: c.row, index: c.index, height: c.height, windowRadiusMetres: windowMetres, type, splitFrom: k }));
+      seeds.push({ k: id, row: c.row, column: c.column });
+      added++;
+    }
+    if (seeds.length < 2) continue;
+    for (const i of cells) {
+      const row = Math.floor(i / width), column = i - row * width;
+      let best = Infinity, owner = k;
+      for (const seed of seeds) {
+        const d = (seed.row - row) ** 2 + (seed.column - column) ** 2;
+        if (d < best) { best = d; owner = seed.k; }
+      }
+      labels[i] = owner;
+    }
+  }
+  return added;
 }

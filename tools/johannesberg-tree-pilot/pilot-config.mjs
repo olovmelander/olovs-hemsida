@@ -48,3 +48,10 @@ export function chmGrid(config = PILOT) {
     sampleSpacingMetres: cell,
   });
 }
+
+/* A reference sample round: '' for round 1, '-r2' for round 2 (PILOT_SAMPLE).
+   Each round's windows, annotations, frozen reference and its lock, detector
+   lock, benchmark and type rule live side by side; nothing of an earlier
+   round is rewritten. */
+export const SAMPLE = process.env.PILOT_SAMPLE || '';
+export const sampleFile = (stem, extension = 'json') => `${stem}${SAMPLE}.${extension}`;

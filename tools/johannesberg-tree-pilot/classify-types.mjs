@@ -18,7 +18,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { PILOT } from './pilot-config.mjs';
+import { PILOT, sampleFile } from './pilot-config.mjs';
 import { ROOT, loadMosaic, loadRaster } from './panels.mjs';
 import { loadReference, newDetector } from './benchmark.mjs';
 import { displacementAllowance, loadPointsFor, photoDisc } from './crown-evidence.mjs';
@@ -74,7 +74,7 @@ function balancedAccuracy(examples, rule) {
 
 async function main() {
   const reference = loadReference();
-  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, 'detector-lock.json'), 'utf8'));
+  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('detector-lock')), 'utf8'));
   const chm = loadRaster('chm-pitfree-050');
   const points = loadPointsFor(chm.grid);
   const m21 = loadMosaic('2021');
@@ -131,7 +131,7 @@ async function main() {
     singleFeatureBest: bestByFeature.map(c => ({ rule: c.text, calibration: balancedAccuracy(calibration, c.rule), evaluation: balancedAccuracy(evaluation, c.rule) })),
     examplesTable: examples,
   };
-  fs.writeFileSync(path.join(reviewDir, 'type-rule.json'), JSON.stringify(out, null, 1) + '\n');
+  fs.writeFileSync(path.join(reviewDir, sampleFile('type-rule')), JSON.stringify(out, null, 1) + '\n');
   console.log(JSON.stringify({ chosen: out.chosen, singleFeatureBest: out.singleFeatureBest }, null, 1));
 }
 

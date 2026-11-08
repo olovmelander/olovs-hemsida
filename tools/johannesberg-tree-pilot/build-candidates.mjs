@@ -38,7 +38,7 @@ import { createGroundHeightLookup } from '../../packages/course-v2/vegetation/gr
 import { courseExclusionFeatures, rasterizeExclusions } from '../../packages/course-v2/vegetation/semantic-exclusions.mjs';
 import { parseTreeId, treeId } from '../../packages/course-v2/vegetation/registry-identity.mjs';
 import { convexHull, crownOutlines, crownReturnMetrics, detectTreesV2, matchOneToOne } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
-import { PILOT } from './pilot-config.mjs';
+import { PILOT, sampleFile } from './pilot-config.mjs';
 import { ROOT, loadMosaic, loadRaster } from './panels.mjs';
 import { PHOTO_SUN, closedness, displacementAllowance, loadPointsFor, openGroundBrightness, photoDisc, shadowProbe } from './crown-evidence.mjs';
 import { publishedGround, publishedPopulation } from './published-population.mjs';
@@ -69,8 +69,8 @@ export function presenceScore(june, scale) {
 
 async function main() {
   const started = performance.now();
-  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, 'detector-lock.json'), 'utf8'));
-  const typeRule = JSON.parse(fs.readFileSync(path.join(reviewDir, 'type-rule.json'), 'utf8'));
+  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('detector-lock')), 'utf8'));
+  const typeRule = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('type-rule')), 'utf8'));
   const isConifer = ruleFrom(typeRule);
   const chm = loadRaster('chm-pitfree-050');
   const grid = chm.grid;
@@ -88,7 +88,28 @@ async function main() {
   const publicDir = path.join(ROOT, PILOT.publicDir);
   const { ground } = publishedGround();
   const lookup = await createGroundHeightLookup(ground, async url => fs.readFileSync(path.join(publicDir, url)));
-  const geometry = mergeCourseGeometries(loadGroundCourseGeometries(path.join(ROOT, 'geo_data/course-v2/johannesberg'), 'johannesberg').map(c => c.geometry));
+  const groundCourses = loadGroundCourseGeometries(path.join(ROOT, 'geo_data/course-v2/johannesberg'), 'johannesberg');
+  const geometry = mergeCourseGeometries(groundCourses.map(c => c.geometry));
+  /* play zone: the app's zone A (main.js LEGACY_ZONE_A_METRES = 90 m from a
+     hole's tee-to-green line), both routings, plus the practice areas
+     (driving range and practice greens) by the same 90 m */
+  const holeLines = groundCourses.flatMap(c => (c.geometry.holes || []).map(h => h.line).filter(l => Array.isArray(l) && l.length >= 2));
+  const practiceRings = groundCourses.flatMap(c => {
+    const sc = c.geometry.scenery || {};
+    const range = Array.isArray(sc.range?.[0]?.[0]) ? sc.range : Array.isArray(sc.range) && sc.range.length ? [sc.range] : [];
+    return [...range, ...(sc.practiceGreens || [])];
+  }).filter(r => Array.isArray(r) && r.length >= 3);
+  const playOf = (e, n) => nearPlay(e, n, holeLines, practiceRings, 90) ? 'near' : 'woodland';
+  /* conifer probability from the April vegetated share: a logistic fit on the
+     round-1 CALIBRATION examples only; confidence = max(p, 1 - p) */
+  const typeExamplesAll = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('type-rule')), 'utf8')).examplesTable;
+  const logistic = fitLogistic(typeExamplesAll.filter(x => x.role === 'calibration' && Number.isFinite(x.features.aprilVegetatedShare)).map(x => [x.features.aprilVegetatedShare, x.type === 'conifer' ? 1 : 0]));
+  const typeOf = share => {
+    if (!Number.isFinite(share)) return { type: 'unknown', typeConfidence: null, coniferProbability: null };
+    const pc = 1 / (1 + Math.exp(-(logistic.w0 + logistic.w1 * share)));
+    const confidence = Math.max(pc, 1 - pc);
+    return { type: confidence >= 0.6 ? (pc >= 0.5 ? 'conifer' : 'broadleaf') : 'unknown', typeConfidence: round(confidence, 3), coniferProbability: round(pc, 3) };
+  };
   /* semantic surfaces at 1 m with no buffers beyond the surface itself
      (buildings 0.5 m): these are where a crown's BASE would be, not overhang */
   const ex1 = createRaster({ width: Math.round(W.maxEasting - W.minEasting), height: Math.round(W.maxNorthing - W.minNorthing), sampleSpacingMetres: 1, originEasting: W.minEasting, originNorthing: W.maxNorthing });
@@ -102,7 +123,7 @@ async function main() {
   };
   /* presence scale from the reference crowns' June statistics (all present) */
   const typeExamples = typeRule.examplesTable;
-  const reference = JSON.parse(fs.readFileSync(path.join(reviewDir, 'reference.geojson'), 'utf8')).features.filter(f => f.properties.scored);
+  const reference = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('reference', 'geojson')), 'utf8')).features.filter(f => f.properties.scored);
   const refJune = reference.map(f => photoDisc(m25, f.properties.easting, f.properties.northing, (f.properties.segment?.equivalentRadiusMetres || 2) + displacementAllowance(f.properties.heightMetres))).filter(Boolean);
   const median = values => { const s = [...values].sort((a, b) => a - b); return s[Math.floor(s.length / 2)]; };
   const scale = { vegetatedShare: median(refJune.map(j => j.vegetatedShare)), nirTexture: median(refJune.map(j => j.nirTexture)), darkShare: median(refJune.map(j => j.darkShare)) };
@@ -194,7 +215,7 @@ async function main() {
     const june = photoDisc(m25, e, n, disc);
     const april = photoDisc(m21, e, n, disc);
     const presence = presenceScore(june, scale);
-    const entry = { easting: round(e, 2), northing: round(n, 2), heightMetres: round(h, 2), tallReturns: count, cells, june2025: june ? { vegetatedShare: round(june.vegetatedShare, 3), nirTexture: round(june.nirTexture, 1), presence } : null, april2021: april ? { contrastP90: round(april.contrastP90, 3) } : null, surface: surfaceAt(e, n) };
+    const entry = { easting: round(e, 2), northing: round(n, 2), heightMetres: round(h, 2), tallReturns: count, cells, june2025: june ? { vegetatedShare: round(june.vegetatedShare, 3), nirTexture: round(june.nirTexture, 1), presence } : null, april2021: april ? { contrastP90: round(april.contrastP90, 3), vegetatedShare: round(april.vegetatedShare, 3) } : null, surface: surfaceAt(e, n) };
     if (presence !== null && presence >= presenceFloor && june.vegetatedShare >= 0.5) recovered.push(entry);
     else sparseUnresolved.push({ ...entry, reason: 'laser returns >= 3 m without a crown in the June 2025 photo' });
   }
@@ -300,11 +321,13 @@ async function main() {
       decision = felled ? 'not-placed' : holdReasons.length ? 'hold' : 'add';
       if (felled) { holdReasons.length = 0; holdReasons.push(notTree); }
     }
+    const typed = typeOf(tree.evidence.april2021?.vegetatedShare);
     out.push({
       id, decision, ...(holdReasons.length ? { reasons: holdReasons } : {}),
+      play: playOf(tree.easting, tree.northing), typeConfidence: typed.typeConfidence, coniferProbability: typed.coniferProbability,
       easting: tree.easting, northing: tree.northing, positionSemantics: tree.source === 'detector' ? `${lock.selected.position} of the laser crown segment (not a surveyed stem)` : 'highest leaf-off return (not a surveyed stem)',
       heightRH2000: Number.isFinite(base) ? round(base, 3) : null,
-      objectHeightMetres: tree.heightMetres, radiusMetres: tree.radiusMetres, type: tree.type, source: tree.source,
+      objectHeightMetres: tree.heightMetres, radiusMetres: tree.radiusMetres, type: typed.type, typeRule1: tree.type, source: tree.source,
       ...(before ? { before } : {}),
       ...(match && lineage.has(match.record.id) ? { lineage: { previousGenerationId: lineage.get(match.record.id), previousGeneration: 'ground-v2-1f0f72bb' } } : {}),
       evidence: tree.evidence,
@@ -335,6 +358,7 @@ async function main() {
       id: r.id, decision: noCanopy ? 'remove' : merge ? 'merge' : 'hold',
       reasons: [noCanopy ? `no canopy >= 2 m within 2 m in the 2021 laser (max ${round(maxChm, 2)} m) and no tree-like crown in June 2025 (presence ${presence})` : merge ? `canopy (max ${round(maxChm, 2)} m) carried by crown ${host.id} ${round(hostDistance, 2)} m away; ID retired into it` : `canopy present (max ${round(maxChm, 2)} m within 2 m) but no placed crown within 6 m`],
       ...(merge ? { mergedInto: host.id } : {}),
+      play: playOf(r.easting, r.northing), typeConfidence: null, coniferProbability: null,
       easting: r.easting, northing: r.northing, heightRH2000: r.heightRH2000, objectHeightMetres: r.objectHeightMetres, radiusMetres: r.radiusMetres, type: 'unknown', source: 'published-record',
       ...(lineage.has(r.id) ? { lineage: { previousGenerationId: lineage.get(r.id), previousGeneration: 'ground-v2-1f0f72bb' } } : {}),
     });
@@ -354,6 +378,13 @@ async function main() {
     notPlacedOrRemovedByReview: count(out.filter(t => t.decision === 'not-placed' || (t.decision === 'remove' && /felled|not a tree/.test((t.reasons || [''])[0]))), t => `${t.decision}:${/felled/.test(t.reasons[0]) ? 'felled after 2021' : 'not a tree'}`),
     candidates: { total: out.length, byDecision: count(out, t => t.decision), placedTrees: placed.length, placedByType: count(placed, t => t.type), placedBySource: count(placed, t => t.source), holdByReason: count(out.filter(t => t.decision === 'hold'), t => { const r = (t.reasons || ['?'])[0]; return /June 2025 crown disc/.test(r) ? 'no June 2025 vegetation (unreviewed)' : /played surface/.test(r) ? 'crown over a played surface' : /building/.test(r) ? 'on a mapped building' : /structure/.test(r) ? 'structure suspect' : /felling/.test(r) ? 'felling screen' : /mapped (water|road|path|railway)/.test(r) ? 'on water, road or path' : /no placed crown/.test(r) ? 'record without crown' : 'other'; }) },
     fellingScreen: { screened: screened.length, byVerdict: count(screened, t => t.verdict) },
+    playTypeDecision: (() => {
+      const table = {};
+      for (const t of out) { const key = `${t.play}|${t.type}`; table[key] = table[key] || {}; table[key][t.decision] = (table[key][t.decision] || 0) + 1; }
+      return table;
+    })(),
+    typeModel: { feature: 'share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the April 2021 crown disc (crown radius + 0.3 h + 1 m)', fit: 'logistic, round-1 calibration examples only', w0: round(logistic.w0, 4), w1: round(logistic.w1, 4), examples: logistic.n, unknownBelowConfidence: 0.6 },
+    playZone: { rule: 'near = within 90 m of any hole tee-to-green line of either routing (the app zone A) or of the driving range / practice greens; woodland otherwise', holeLines: holeLines.length, practiceRings: practiceRings.length },
     identity: { matchedWithin15m: pass1.matches.length, matchedWithin3m: pass2.matches.length, newIds: out.filter(t => t.decision === 'add' || (t.decision === 'hold' && t.source !== 'published-record' && !t.before)).length, nextSequence: sequence + 1, previousGenerationRecords: previous.length, previousGenerationLineageCarried: out.filter(t => t.lineage).length },
     presence: { referenceFloor: round(presenceFloor, 3), scale },
     unresolved: { sparseLaserWithoutPhotoCrown: sparseUnresolved.length, photoOnlyCanopy: photoOnly.length },
@@ -363,9 +394,9 @@ async function main() {
   /* committed: a compact CSV (a QGIS delimited-text layer in EPSG:3006);
      ignored cache: the full records with evidence and crown outlines, and
      the same layer as GeoJSON with outlines */
-  const csvColumns = ['id', 'decision', 'easting', 'northing', 'heightRH2000', 'objectHeightMetres', 'radiusMetres', 'type', 'source', 'previousGenerationId', 'mergedInto', 'moveMetres', 'beforeHeightMetres', 'beforeRadiusMetres', 'reason'];
+  const csvColumns = ['id', 'decision', 'play', 'easting', 'northing', 'heightRH2000', 'objectHeightMetres', 'radiusMetres', 'type', 'typeConfidence', 'source', 'previousGenerationId', 'mergedInto', 'moveMetres', 'beforeHeightMetres', 'beforeRadiusMetres', 'reason'];
   const csvValue = value => (value === null || value === undefined ? '' : /[",\n]/.test(String(value)) ? `"${String(value).replaceAll('"', '""')}"` : String(value));
-  const csvRows = out.map(t => [t.id, t.decision, t.easting, t.northing, t.heightRH2000, t.objectHeightMetres, t.radiusMetres, t.type, t.source, t.lineage?.previousGenerationId, t.mergedInto, t.before?.moveMetres, t.before?.heightMetres, t.before?.radiusMetres, t.reasons?.[0]].map(csvValue).join(','));
+  const csvRows = out.map(t => [t.id, t.decision, t.play, t.easting, t.northing, t.heightRH2000, t.objectHeightMetres, t.radiusMetres, t.type, t.typeConfidence, t.source, t.lineage?.previousGenerationId, t.mergedInto, t.before?.moveMetres, t.before?.heightMetres, t.before?.radiusMetres, t.reasons?.[0]].map(csvValue).join(','));
   fs.writeFileSync(path.join(reviewDir, 'candidates.csv'), `${csvColumns.join(',')}\n${csvRows.join('\n')}\n`);
   const geojson = { type: 'FeatureCollection', name: 'johannesberg-candidates-2026-11-08', crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::3006' } }, features: out.map(t => ({ type: 'Feature', geometry: t.outline ? { type: 'Polygon', coordinates: [t.outline] } : { type: 'Point', coordinates: [t.easting, t.northing] }, properties: { id: t.id, decision: t.decision, type: t.type, easting: t.easting, northing: t.northing, h: t.objectHeightMetres, r: t.radiusMetres, src: t.source, base: t.heightRH2000, reason: t.reasons?.[0] ?? null, prev: t.lineage?.previousGenerationId ?? null, move: t.before?.moveMetres ?? null } })) };
   fs.mkdirSync(path.join(ROOT, PILOT.cacheDir, 'candidates'), { recursive: true });
@@ -378,3 +409,42 @@ async function main() {
 }
 
 main().catch(error => { console.error(error.stack || error.message); process.exitCode = 1; });
+
+/** Is a point within `reach` metres of a polyline or inside / within reach of a ring? */
+export function nearPlay(e, n, lines, rings, reach) {
+  const segment = (ax, ay, bx, by) => {
+    const dx = bx - ax, dy = by - ay, l2 = dx * dx + dy * dy || 1;
+    const t = Math.max(0, Math.min(1, ((e - ax) * dx + (n - ay) * dy) / l2));
+    return Math.hypot(ax + dx * t - e, ay + dy * t - n);
+  };
+  for (const line of lines) for (let i = 1; i < line.length; i++) if (segment(line[i - 1][0], line[i - 1][1], line[i][0], line[i][1]) <= reach) return true;
+  for (const ring of rings) {
+    let inside = false;
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+      const [xi, yi] = ring[i], [xj, yj] = ring[j];
+      if ((yi > n) !== (yj > n) && e < ((xj - xi) * (n - yi)) / (yj - yi) + xi) inside = !inside;
+      if (segment(xi, yi, xj, yj) <= reach) return true;
+    }
+    if (inside) return true;
+  }
+  return false;
+}
+
+/** One-feature logistic regression by Newton's method: [[x, y]] -> { w0, w1, n }. */
+export function fitLogistic(rows) {
+  let w0 = 0, w1 = 0;
+  for (let iteration = 0; iteration < 50; iteration++) {
+    let g0 = 0, g1 = 0, h00 = 1e-6, h01 = 0, h11 = 1e-6;
+    for (const [x, y] of rows) {
+      const p = 1 / (1 + Math.exp(-(w0 + w1 * x)));
+      g0 += y - p; g1 += (y - p) * x;
+      const w = p * (1 - p);
+      h00 += w; h01 += w * x; h11 += w * x * x;
+    }
+    const det = h00 * h11 - h01 * h01;
+    const d0 = (h11 * g0 - h01 * g1) / det, d1 = (h00 * g1 - h01 * g0) / det;
+    w0 += d0; w1 += d1;
+    if (Math.abs(d0) + Math.abs(d1) < 1e-9) break;
+  }
+  return { w0, w1, n: rows.length };
+}

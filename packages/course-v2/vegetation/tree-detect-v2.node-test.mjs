@@ -168,3 +168,67 @@ test('a shallow bump on a broad crown merges, a real neighbour with a dip stays'
   assert.ok(!labels.includes(2), 'the bump no longer owns cells');
   assert.ok(labels.includes(1), 'the separate crown keeps its cells');
 });
+
+test('the April photo types a vegetated (evergreen) crown conifer and a bare one broadleaf', async () => {
+  const { typeMapFromPhoto, TYPE_CONIFER, TYPE_BROADLEAF, TYPE_NONE } = await import('./tree-detect-v2.mjs');
+  const g = grid(40, 20);
+  const chm = new Float32Array(g.width * g.height).fill(10);
+  chm[0] = 1;
+  /* 0.25 m photo over the same 20 x 10 m: west half NIR >> red, east half bare */
+  const mosaic = { minEasting: 0, maxNorthing: 10, pixelMetres: 0.25, width: 80, height: 40, data: new Uint8Array(80 * 40 * 4) };
+  for (let r = 0; r < 40; r++) for (let c = 0; c < 80; c++) {
+    const o = (r * 80 + c) * 4;
+    mosaic.data[o] = c < 40 ? 40 : 90; mosaic.data[o + 3] = c < 40 ? 160 : 95;
+  }
+  const { type } = typeMapFromPhoto(g, chm, mosaic, { radiusBaseMetres: 1, radiusSlope: 0 });
+  assert.equal(type[10 * g.width + 5], TYPE_CONIFER);
+  assert.equal(type[10 * g.width + 35], TYPE_BROADLEAF);
+  assert.equal(type[0], TYPE_NONE);
+});
+
+test('type-aware detection keeps two touching conifers and merges a bumpy broadleaf crown', async () => {
+  const { detectTreesTyped, TYPED_DEFAULTS, TYPE_CONIFER, TYPE_BROADLEAF } = await import('./tree-detect-v2.mjs');
+  const g = grid(80, 30);
+  const chm = new Float32Array(g.width * g.height);
+  const type = new Uint8Array(g.width * g.height);
+  for (let r = 0; r < g.height; r++) for (let c = 0; c < g.width; c++) {
+    const e = (c + 0.5) * 0.5, n = g.maxNorthing - (r + 0.5) * 0.5;
+    let v = 0;
+    /* two 15 m spruce cones 2.6 m apart */
+    for (const k of [{ e: 6, n: 7.5 }, { e: 8.6, n: 7.5 }]) { const d = Math.hypot(e - k.e, n - k.n); if (d < 2) v = Math.max(v, 15 - 6 * d); }
+    /* a broad 12 m broadleaf crown with a shallow second bump 3.5 m from its top */
+    const d = Math.hypot(e - 28, n - 7.5);
+    if (d < 6) v = Math.max(v, 12 - 0.6 * d);
+    const bump = Math.hypot(e - 31.5, n - 7.5);
+    if (bump < 1.2) v = Math.max(v, 12 - 0.6 * 3.5 + 0.6 * (1.2 - bump));
+    chm[r * g.width + c] = v;
+    if (v >= 2) type[r * g.width + c] = e < 18 ? TYPE_CONIFER : TYPE_BROADLEAF;
+  }
+  const parameters = {
+    ...TYPED_DEFAULTS,
+    conifer: { ...TYPED_DEFAULTS.conifer, smoothingSigmaMetres: 0, windowBaseMetres: 1, windowSlope: 0, windowMinimumMetres: 1, windowMaximumMetres: 1, position: 'apex' },
+    broadleaf: { ...TYPED_DEFAULTS.broadleaf, smoothingSigmaMetres: 0.25, windowBaseMetres: 1, windowSlope: 0, windowMinimumMetres: 1, windowMaximumMetres: 1, prominenceMetres: 1, prominenceFraction: 0 },
+  };
+  const { crowns } = detectTreesTyped(g, chm, type, parameters);
+  const conifers = crowns.filter(c => c.type === 'conifer');
+  const broadleaves = crowns.filter(c => c.type === 'broadleaf');
+  assert.equal(conifers.length, 2, 'both spruce tops survive');
+  assert.equal(broadleaves.length, 1, 'the shallow bump merges into its crown');
+});
+
+test('an oversized conifer segment with two separate tops is split in two', async () => {
+  const { splitOversizedCrowns, TYPE_CONIFER } = await import('./tree-detect-v2.mjs');
+  const g = grid(30, 16);
+  const fine = new Float32Array(g.width * g.height);
+  for (let r = 0; r < g.height; r++) for (let c = 0; c < g.width; c++) {
+    const e = (c + 0.5) * 0.5, n = g.maxNorthing - (r + 0.5) * 0.5;
+    fine[r * g.width + c] = Math.max(0, 14 - 3 * Math.hypot(e - 5, n - 4), 13.5 - 3 * Math.hypot(e - 9, n - 4));
+  }
+  const labels = new Int32Array(fine.length).fill(-1);
+  for (let i = 0; i < fine.length; i++) if (fine[i] >= 6) labels[i] = 0;
+  const top = fine.indexOf(Math.max(...fine));
+  const maxima = [{ column: top % g.width, row: Math.floor(top / g.width), index: top, height: fine[top], type: TYPE_CONIFER }];
+  const added = splitOversizedCrowns(g, fine, labels, maxima, { areaFactor: 1, allometryBaseMetres: 1, allometrySlope: 0.05, windowMetres: 1, minimumSeparationMetres: 2, seedFraction: 0.6 });
+  assert.equal(added, 1);
+  assert.equal(new Set(Array.from(labels).filter(l => l >= 0)).size, 2);
+});

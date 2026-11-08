@@ -17,7 +17,8 @@
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
-import { PILOT } from './pilot-config.mjs';
+import { fileURLToPath } from 'node:url';
+import { PILOT, sampleFile } from './pilot-config.mjs';
 import { ROOT, loadRaster } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { createRaster, fillSingleCellVoids, medianFilter3x3 } from '../../packages/course-v2/vegetation/canopy-fields.mjs';
@@ -33,12 +34,12 @@ const quantile = (values, q) => { if (!values.length) return null; const s = [..
 const CROP_MARGIN = 25;
 
 export function loadReference() {
-  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, 'reference-lock.json'), 'utf8'));
-  for (const [name, file] of [['windows', 'reference-windows.json'], ['annotations', 'reference-annotations.json'], ['reference', 'reference.geojson']]) {
+  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('reference-lock')), 'utf8'));
+  for (const [name, file] of [['windows', sampleFile('reference-windows')], ['annotations', sampleFile('reference-annotations')], ['reference', sampleFile('reference', 'geojson')]]) {
     if (sha(path.join(reviewDir, file)) !== lock.hashes[name]) throw new Error(`${file} changed after the reference was frozen`);
   }
-  const windows = JSON.parse(fs.readFileSync(path.join(reviewDir, 'reference-windows.json'), 'utf8'));
-  const geojson = JSON.parse(fs.readFileSync(path.join(reviewDir, 'reference.geojson'), 'utf8'));
+  const windows = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('reference-windows')), 'utf8'));
+  const geojson = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('reference', 'geojson')), 'utf8'));
   const crowns = geojson.features.filter(f => f.properties.heightMetres !== undefined).map(f => ({ ...f.properties, radius: f.properties.segment?.equivalentRadiusMetres || 1 }));
   const ambiguity = geojson.features.filter(f => f.properties.ambiguity).map(f => ({ window: f.properties.window, ring: f.geometry.coordinates[0] }));
   return { lock, windows, crowns, ambiguity };
@@ -101,7 +102,7 @@ export function scoreWindows(reference, predictionsByWindow, windowIds, { radius
 }
 
 /* ---------- croppers and methods ---------- */
-function crop(raster, bbox, margin = CROP_MARGIN) {
+export function crop(raster, bbox, margin = CROP_MARGIN) {
   const g = raster.grid;
   const s = g.sampleSpacingMetres;
   const c0 = Math.max(0, Math.floor((bbox[0] - margin - g.minEasting) / s));
@@ -171,7 +172,7 @@ function tune(reference) {
     schemaVersion: 1,
     kind: 'detector-lock',
     frozenAt: new Date().toISOString(),
-    referenceLockSha256: sha(path.join(reviewDir, 'reference-lock.json')),
+    referenceLockSha256: sha(path.join(reviewDir, sampleFile('reference-lock'))),
     chmSha256: pitFree.sidecar.sha256,
     code: Object.fromEntries(['packages/course-v2/vegetation/tree-detect-v2.mjs', 'packages/course-v2/vegetation/pit-free-chm.mjs', 'packages/course-v2/vegetation/crown-detect.mjs', 'tools/johannesberg-tree-pilot/benchmark.mjs'].map(f => [f, sha(path.join(ROOT, f))])),
     selection: 'calibration windows only; ranked by F1, then mean crown IoU, then median centre offset',
@@ -181,14 +182,14 @@ function tune(reference) {
     windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
     top10: results.slice(0, 10).map(r => ({ ...r.parameters, position: r.position, f1: r.f1, precision: r.precision, recall: r.recall, iou: r.iou, offset: r.offset })),
   };
-  fs.writeFileSync(path.join(reviewDir, 'detector-lock.json'), JSON.stringify(lock, null, 2) + '\n');
+  fs.writeFileSync(path.join(reviewDir, sampleFile('detector-lock')), JSON.stringify(lock, null, 2) + '\n');
   console.log(JSON.stringify(lock.selected, null, 1));
   console.log(lock.top10.slice(0, 5).map(r => JSON.stringify(r)).join('\n'));
 }
 
 function score(reference) {
-  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, 'detector-lock.json'), 'utf8'));
-  if (lock.referenceLockSha256 !== sha(path.join(reviewDir, 'reference-lock.json'))) throw new Error('detector lock belongs to another reference');
+  const lock = JSON.parse(fs.readFileSync(path.join(reviewDir, sampleFile('detector-lock')), 'utf8'));
+  if (lock.referenceLockSha256 !== sha(path.join(reviewDir, sampleFile('reference-lock')))) throw new Error('detector lock belongs to another reference');
   const pitFree = loadRaster('chm-pitfree-050');
   const legacy = loadRaster('chm-legacy-100');
   const windows = reference.windows.windows;
@@ -202,7 +203,7 @@ function score(reference) {
   methods['current-detector-individuals'] = byWindow(w => currentDetector(crop(legacy, w.bbox), { individualsOnly: true }));
   methods['new-detector'] = byWindow(w => newDetector(crop(pitFree, w.bbox), lock.selected.parameters, { position: lock.selected.position }));
   const roles = { calibration: windows.filter(w => w.role === 'calibration').map(w => w.id), evaluation: windows.filter(w => w.role === 'evaluation').map(w => w.id) };
-  const out = { schemaVersion: 1, kind: 'tree-benchmark', scoredAt: new Date().toISOString(), referenceLock: reference.lock.hashes, detectorLockSha256: sha(path.join(reviewDir, 'detector-lock.json')), publishedGroundManifest: published.groundManifestUrl, matchingRule: reference.windows.matchingRule, gate: { precision: 0.9, recall: 0.9 }, results: {} };
+  const out = { schemaVersion: 1, kind: 'tree-benchmark', scoredAt: new Date().toISOString(), referenceLock: reference.lock.hashes, detectorLockSha256: sha(path.join(reviewDir, sampleFile('detector-lock'))), publishedGroundManifest: published.groundManifestUrl, matchingRule: reference.windows.matchingRule, gate: { precision: 0.9, recall: 0.9 }, results: {} };
   for (const [name, predictions] of Object.entries(methods)) {
     out.results[name] = {};
     for (const [role, ids] of Object.entries(roles)) {
@@ -222,13 +223,15 @@ function score(reference) {
       out.paired[`${role}:${baseline}-vs-new`] = { references: both.length, baseline: stat(a), candidate: stat(b), ids: both };
     }
   }
-  fs.writeFileSync(path.join(reviewDir, 'benchmark.json'), JSON.stringify(out, null, 1) + '\n');
+  fs.writeFileSync(path.join(reviewDir, sampleFile('benchmark')), JSON.stringify(out, null, 1) + '\n');
   for (const [name, r] of Object.entries(out.results)) for (const role of Object.keys(roles)) {
     const s = r[role];
     console.log(`${name.padEnd(30)} ${role.padEnd(11)} TP ${String(s.tp).padStart(3)} miss ${String(s.missed).padStart(3)} extra ${String(s.extra).padStart(3)}  P ${s.precision} R ${s.recall} F1 ${s.f1}  off ${s.centreOffsetMedianMetres}/${s.centreOffsetP95Metres}  IoU ${s.crownIoUMean}`);
   }
 }
 
-const reference = loadReference();
-if (args.includes('--tune')) tune(reference);
-if (args.includes('--score')) score(reference);
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const reference = loadReference();
+  if (args.includes('--tune')) tune(reference);
+  if (args.includes('--score')) score(reference);
+}

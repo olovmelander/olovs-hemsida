@@ -26,6 +26,7 @@ export const SPOTS = Object.freeze([
   { id: 'hole4-meadow', title: 'scattered trees between 16 and 4', bbox: [679680, 6625230, 679800, 6625350] },
   { id: 'hole2-tee', title: 'groups by the 1st green and 2nd tee', bbox: [679310, 6625810, 679410, 6625910] },
   { id: 'nine5-6', title: '9-hole course 5th/6th', bbox: [678830, 6626075, 678930, 6626175] },
+  { id: 'hole1', title: 'the 1st hole, tee to green', bbox: [679240, 6625770, 679420, 6626075] },
 ]);
 
 const COLOURS = { retain: [60, 220, 60], adjust: [255, 230, 40], add: [0, 230, 255], hold: [255, 140, 0], remove: [255, 40, 40], merge: [190, 120, 255], 'not-placed': [160, 160, 160] };

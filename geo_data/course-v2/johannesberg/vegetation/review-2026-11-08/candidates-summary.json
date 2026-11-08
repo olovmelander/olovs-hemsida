@@ -57,8 +57,9 @@
     },
     "placedTrees": 26834,
     "placedByType": {
-      "conifer": 18647,
-      "broadleaf": 8187
+      "conifer": 19278,
+      "unknown": 1110,
+      "broadleaf": 6446
     },
     "placedBySource": {
       "detector": 26533,
@@ -83,6 +84,64 @@
       "present": 19
     }
   },
+  "playTypeDecision": {
+    "woodland|conifer": {
+      "add": 14527,
+      "adjust": 726,
+      "hold": 6,
+      "retain": 154,
+      "not-placed": 1
+    },
+    "near|conifer": {
+      "add": 3673,
+      "adjust": 158,
+      "retain": 40,
+      "hold": 7,
+      "not-placed": 1
+    },
+    "woodland|unknown": {
+      "add": 765,
+      "hold": 5,
+      "adjust": 104,
+      "retain": 12,
+      "merge": 144
+    },
+    "woodland|broadleaf": {
+      "add": 3961,
+      "adjust": 590,
+      "hold": 251,
+      "retain": 265,
+      "not-placed": 25
+    },
+    "near|unknown": {
+      "add": 202,
+      "adjust": 21,
+      "retain": 6,
+      "hold": 1,
+      "merge": 42
+    },
+    "near|broadleaf": {
+      "add": 1445,
+      "retain": 59,
+      "adjust": 126,
+      "hold": 63,
+      "remove": 1,
+      "not-placed": 3
+    }
+  },
+  "typeModel": {
+    "feature": "share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the April 2021 crown disc (crown radius + 0.3 h + 1 m)",
+    "fit": "logistic, round-1 calibration examples only",
+    "w0": -5.8044,
+    "w1": 13.1841,
+    "examples": 67,
+    "unknownBelowConfidence": 0.6
+  },
+  "playZone": {
+    "rule": "near = within 90 m of any hole tee-to-green line of either routing (the app zone A) or of the driving range / practice greens; woodland otherwise",
+    "holeLines": 27,
+    "practiceRings": 4
+  },
   "identity": {
     "matchedWithin15m": 1445,
     "matchedWithin3m": 826,
@@ -103,5 +162,41 @@
     "sparseLaserWithoutPhotoCrown": 71,
     "photoOnlyCanopy": 317
   },
-  "elapsedSeconds": 26.3
+  "elapsedSeconds": 31.3,
+  "typeCheck": {
+    "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, used-holdout and evaluation were not",
+    "calibration": {
+      "matched": 71,
+      "typed": 66,
+      "correct": 61,
+      "accuracyOfTyped": 0.924,
+      "unknown": 5,
+      "confidence80": {
+        "n": 59,
+        "accuracy": 0.966
+      }
+    },
+    "used-holdout": {
+      "matched": 28,
+      "typed": 25,
+      "correct": 22,
+      "accuracyOfTyped": 0.88,
+      "unknown": 3,
+      "confidence80": {
+        "n": 22,
+        "accuracy": 0.864
+      }
+    },
+    "evaluation": {
+      "matched": 47,
+      "typed": 45,
+      "correct": 42,
+      "accuracyOfTyped": 0.933,
+      "unknown": 2,
+      "confidence80": {
+        "n": 38,
+        "accuracy": 1
+      }
+    }
+  }
 }
