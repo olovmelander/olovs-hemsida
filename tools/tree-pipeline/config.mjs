@@ -135,7 +135,7 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     'registration.pairs must be moving[:band]@reference[:band] strings');
   }
 
-  if (keys(p, config.published, ['publicDir', 'baselineGroundManifest', 'lineage'], 'published')) {
+  if (keys(p, config.published, ['publicDir', 'baselineGroundManifest', 'baselineNote', 'lineage'], 'published')) {
     repoPath(p, config.published.publicDir, 'published.publicDir');
     p.check(typeof config.published.baselineGroundManifest === 'string' && config.published.baselineGroundManifest.startsWith(`grounds/${config.groundId}/ground-v2-`),
       'published.baselineGroundManifest must pin the ground generation the review starts from (grounds/<ground>/ground-v2-<sha>.json)');

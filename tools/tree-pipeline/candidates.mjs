@@ -44,6 +44,8 @@ import { createGroundHeightLookup } from '../../packages/course-v2/vegetation/gr
 import { courseExclusionFeatures, rasterizeExclusions } from '../../packages/course-v2/vegetation/semantic-exclusions.mjs';
 import { parseTreeId, treeId } from '../../packages/course-v2/vegetation/registry-identity.mjs';
 import { crownOutlines, crownReturnMetrics, detectTreesTyped, detectTreesV2, matchOneToOne, typeMapFromPhoto } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
+import { detectTreesRefined } from '../../packages/course-v2/vegetation/tree-refine.mjs';
+import { refereeFor, refereeInputs } from './benchmark.mjs';
 import { loadMosaic, loadRaster } from './panels.mjs';
 import { closedness, displacementAllowance, loadPointsFor, openGroundBrightness, photoDisc, photoEvidenceKey, photoLabel, shadowEvidenceKey, shadowProbe } from './crown-evidence.mjs';
 import { nearPlay, playGeometry } from './geometry.mjs';
@@ -95,9 +97,16 @@ export function buildCandidates(ctx) {
      typed lock (per-type settings), else detector v2 */
   const typed = Boolean(lock.selected?.parameters?.conifer);
   const m21early = typed ? loadMosaic(ctx, ctx.leafOff.key) : null;
-  const detected = typed
-    ? detectTreesTyped(grid, chm.values, typeMapFromPhoto(grid, chm.values, m21early, lock.selected.parameters.type).type, lock.selected.parameters)
-    : detectTreesV2(grid, chm.values, { parameters: lock.selected.parameters });
+  /* a refined lock (round 3 on): the typed detector, then its suppressed tops
+     refereed by the laser apex and the photos (tree-refine.mjs) */
+  const refined = Boolean(lock.selected?.refine);
+  const typeMapEarly = typed ? typeMapFromPhoto(grid, chm.values, m21early, lock.selected.parameters.type).type : null;
+  const detected = refined
+    ? detectTreesRefined(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine))
+    : typed
+      ? detectTreesTyped(grid, chm.values, typeMapEarly, lock.selected.parameters)
+      : detectTreesV2(grid, chm.values, { parameters: lock.selected.parameters });
+  if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered`);
   const position = c => (typed ? c.position : lock.selected.position === 'centroid' ? c.centroid : c.apex);
   const positionWord = typed ? 'per-type position (conifer and broadleaf: crown centroid)' : lock.selected.position;
   const crowns = detected.crowns.filter(c => inInner(position(c).easting, position(c).northing));
@@ -206,6 +215,7 @@ export function buildCandidates(ctx) {
         structureSuspect: Boolean(structure),
         closedness: round(closed, 2), [shadowLeafOffKey]: round(shadow21, 3), [shadowPresenceKey]: round(shadow25, 3),
         fellingScreen,
+        ...(crown.recovered ? { recoveredTop: 'a top the type-aware detector suppressed, taken back on its laser cone and apex and a separate crown in the photo' } : {}),
       },
       source: 'detector',
     };

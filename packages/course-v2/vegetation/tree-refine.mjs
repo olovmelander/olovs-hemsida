@@ -160,7 +160,11 @@ export function detectTreesRefined(grid, chm, typeMap, typedParameters, refinePa
   const smooth = smoothChm(grid, chm, p.candidateSigmaMetres);
   const tops = overSegmentedTops(grid, chm, { sigmaMetres: p.candidateSigmaMetres, windowMetres: p.candidateWindowMetres, minimumHeightMetres: p.minimumHeightMetres, smoothed: smooth });
   const kept = keptTops(grid, first);
-  const suppressed = suppressedTops(grid, smooth, tops, kept, typeMap, p).filter(t => !excludeMask || !excludeMask[t.index]);
+  /* in 80 m tiles, row by row, so that a photo read through a tile cache
+     stays local; the decisions do not depend on the order */
+  const tileOf = t => [Math.floor(t.row * grid.sampleSpacingMetres / 80), Math.floor(t.column * grid.sampleSpacingMetres / 80)];
+  const suppressed = suppressedTops(grid, smooth, tops, kept, typeMap, p).filter(t => !excludeMask || !excludeMask[t.index])
+    .sort((a, b) => { const [ar, ac] = tileOf(a), [br, bc] = tileOf(b); return ar - br || ac - bc || a.index - b.index; });
   const recovered = recoverTops(suppressed, referee, p, trace);
   const second = detectTreesTyped(grid, chm, typeMap, typedParameters, { surfaces, excludeMask, extraMaxima: recovered });
   return { ...second, first, suppressed: suppressed.length, recovered: recovered.length };

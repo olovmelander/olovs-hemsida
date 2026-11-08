@@ -28,7 +28,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { photoEvidenceKey, photoLabel } from './crown-evidence.mjs';
 import { lineDistance, playGeometry } from './geometry.mjs';
-import { Canvas, drawGrid, loadMosaic, loadRaster, renderLayer, toPixel } from './panels.mjs';
+import { Canvas, drawGrid, loadMosaic, loadNativeMosaic, loadRaster, openCampaignPacks, renderLayer, toPixel } from './panels.mjs';
+import { fieldAt } from './relief.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
 
@@ -190,6 +191,53 @@ function renderTypePanels(ctx, candidates) {
   return [samplePath, ...written];
 }
 
+/**
+ * Compact chips at the photos' native 0.16 m, four crowns to a row and 24 to
+ * a sheet: the presence photo in natural colour and the leaf-off photo in
+ * colour infrared, 16 m square, centred between the laser base and where
+ * the photo draws the top (relief-displacement.json). Yellow circle = laser
+ * crown at its radius; cyan cross = the displaced top. A pole or mast is a
+ * thin line ending in a dot at the cross with a long thin shadow; a tree is a
+ * crown there.
+ */
+function renderCompactChips(ctx, list, name, outDir) {
+  const reliefPath = ctx.reviewFile('relief-displacement.json');
+  const relief = fs.existsSync(reliefPath) ? JSON.parse(fs.readFileSync(reliefPath, 'utf8')) : null;
+  const roles = [['presence', ctx.presence, 'rgb'], ['leafOff', ctx.leafOff, 'cir']];
+  const packs = Object.fromEntries(roles.map(([role, c]) => [role, openCampaignPacks(ctx, c.key)]));
+  const size = 16, mpp = 0.1, px = Math.round(size / mpp), cols = 4, perSheet = 24;
+  const written = [];
+  for (let start = 0; start < list.length; start += perSheet) {
+    const page = list.slice(start, start + perSheet);
+    const rows = Math.ceil(page.length / cols);
+    const cellW = 2 * px + 3, cellH = px + 14;
+    const sheet = new Canvas(cols * (cellW + 8), rows * cellH, [20, 20, 20]);
+    page.forEach((t, i) => {
+      const x0 = (i % cols) * (cellW + 8), y0 = Math.floor(i / cols) * cellH;
+      roles.forEach(([role, campaign, kind], j) => {
+        const k = relief ? fieldAt(relief.campaigns[campaign.key].field, t.easting, t.northing) : null;
+        const top = k ? [t.easting + k.kx * t.heightMetres, t.northing + k.ky * t.heightMetres] : [t.easting, t.northing];
+        const ce = (t.easting + top[0]) / 2, cn = (t.northing + top[1]) / 2;
+        const box = [ce - size / 2, cn - size / 2, ce + size / 2, cn + size / 2];
+        const mosaic = loadNativeMosaic(ctx, campaign.key, [box[0] - 1, box[1] - 1, box[2] + 1, box[3] + 1], { packs: packs[role] });
+        const chip = renderLayer({ kind, mosaic, bbox: box, metresPerPixel: mpp });
+        const [bx, by] = toPixel(box, mpp, t.easting, t.northing);
+        chip.circle(bx, by, Math.max(2, (t.radiusMetres || 1) / mpp), [255, 230, 40], { alpha: 0.8 });
+        const [tx, ty] = toPixel(box, mpp, top[0], top[1]);
+        chip.cross(tx, ty, 4, [0, 255, 255]);
+        chip.text(2, 2, `${monthTag(campaign)} ${kind.toUpperCase()}`, [255, 255, 255], 1);
+        sheet.blit(chip, x0 + j * (px + 3), y0);
+      });
+      sheet.text(x0 + 2, y0 + px + 3, `${start + i + 1} H${t.heightMetres} R${t.radiusMetres} ${String(t.verdict).toUpperCase().slice(0, 10)}`, [230, 230, 230], 1);
+    });
+    const out = path.join(outDir, `compact-${name}-${String(start / perSheet + 1).padStart(2, '0')}.png`);
+    fs.writeFileSync(out, sheet.png());
+    written.push(out);
+  }
+  for (const p of Object.values(packs)) for (const pack of p) pack.close();
+  return written;
+}
+
 /** Chips of every felling-screened and pole-like crown (cache only). */
 function renderScreens(ctx) {
   const mosaics = { leafOff: loadMosaic(ctx, ctx.leafOff.key), presence: loadMosaic(ctx, ctx.presence.key) };
@@ -205,6 +253,8 @@ function renderScreens(ctx) {
       const rows = page.map((t, k) => chipRow(ctx, mosaics, { ...t, radiusMetres: t.radiusMetres || 2 }, start + k, `${start + k + 1} ${t.key} H${t.heightMetres} R${t.radiusMetres} VERDICT ${String(t.verdict).toUpperCase()}`, colour));
       written.push(...writeSheets(rows, path.join(outDir, `screens-${name}-${String(start / 12 + 1).padStart(2, '0')}.png`)));
     }
+    /* the same crowns, numbered alike, as compact native chips with the displaced top */
+    written.push(...renderCompactChips(ctx, screened, name, outDir));
     console.log(`${name}: ${screened.length} screened, ${screened.filter(t => t.verdict === 'unreviewed').length} unreviewed`);
   }
   return written;

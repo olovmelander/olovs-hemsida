@@ -40,7 +40,8 @@
   "registration": { "pairs": ["2021:nir@laser", "2025:nir@laser", "2025:bright@2021:bright", "2025:red@2021:red"] },
   "published": {
     "publicDir": "apps/golf/public",
-    "baselineGroundManifest": "grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
+    "baselineGroundManifest": "grounds/johannesberg/ground-v2-0af708ffd00109862e6a51f4a6b35642123c7143492dc1b774423e4aca1a854f.json",
+    "baselineNote": "round 3 starts from the round-2 generation published on 2026-11-08 (ground-v2-0af708ff), so its record IDs carry forward; rounds 1-2 started from ground-v2-fd6ebbe8, the generation before them, which their benchmarks pin",
     "lineage": {
       "groundManifest": "grounds/johannesberg/ground-v2-1f0f72bbbac45925e255ee312e9632628f355048110c744be7a04750136709aa.json",
       "label": "ground-v2-1f0f72bb"
@@ -75,8 +76,8 @@
     "note": "owner species check of 2026-11-08: a broadleaf call needs a clearly leafless April crown (vegetated share below 0.2); 17 of 35 reference broadleaves and none of 60 reference conifers lie below it"
   },
   "holds": {
-    "poleLike": null,
-    "note": "Johannesberg was published without the pole-like hold (radius under 1 m, height 5 m or more): 138 such placed crowns, 35 near play, are an open item in the review README. Null here reproduces the publication; new grounds enable it."
+    "poleLike": { "maximumRadiusMetres": 1, "minimumHeightMetres": 5 },
+    "note": "On since round 3 (owner request of 2026-11-08 relayed in the round-3 brief: poles and masts must not be drawn as trees). Round 2 was published without it (138 such placed crowns, 35 near play). Every held crown is decided on the photo chips in pole-review.json."
   },
   "review": {
     "spots": [
