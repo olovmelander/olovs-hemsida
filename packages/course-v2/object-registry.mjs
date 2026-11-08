@@ -33,8 +33,15 @@ const TRUTH_ZONES = new Set(['A', 'B', 'C']);
 export const TREE_ATTRIBUTES_FEATURE = 'object-registry-tree-attributes-v1';
 export const TREE_PLAY_ZONES = Object.freeze(['near', 'woodland']);
 export const TREE_TYPES = Object.freeze(['conifer', 'broadleaf']);
+/* A chunk that also requires this feature may name a MEASURED conifer
+   species in subtype: pine or spruce (each a conifer). Only a review whose
+   pine/spruce rule passed its held-out check writes them; a runtime without
+   the feature refuses the chunk instead of drawing it by another rule. */
+export const TREE_SPECIES_FEATURE = 'object-registry-tree-species-v1';
+export const TREE_SPECIES = Object.freeze(['pine', 'spruce']);
 const PLAY = new Set(TREE_PLAY_ZONES);
 const TREE_TYPE_SET = new Set(TREE_TYPES);
+const TREE_TYPE_OR_SPECIES_SET = new Set([...TREE_TYPES, ...TREE_SPECIES]);
 
 function object(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -94,6 +101,7 @@ export function validateObjectRegistry(value, header = null) {
   const attributes = header
     ? Array.isArray(header.requiredFeatures) && header.requiredFeatures.includes(TREE_ATTRIBUTES_FEATURE)
     : value.records.length > 0 && object(value.records[0]) && Object.hasOwn(value.records[0], 'play');
+  const species = attributes && Array.isArray(header?.requiredFeatures) && header.requiredFeatures.includes(TREE_SPECIES_FEATURE);
   const recordFields = attributes ? new Set([...fields, 'typeConfidence', 'play']) : fields;
   value.records.forEach((record, index) => {
     const at = `objects.records[${index}]`;
@@ -102,8 +110,8 @@ export function validateObjectRegistry(value, header = null) {
     if (attributes) {
       if (record.typeConfidence !== null) finite(record.typeConfidence, `${at}.typeConfidence`, fail, 0, 1);
       if (!PLAY.has(record.play)) fail(`${at}.play`, 'must be near or woodland');
-      if (record.class === 'tree' && record.subtype !== null && !TREE_TYPE_SET.has(record.subtype)) {
-        fail(`${at}.subtype`, 'a tree with attributes must be conifer, broadleaf or null');
+      if (record.class === 'tree' && record.subtype !== null && !(species ? TREE_TYPE_OR_SPECIES_SET : TREE_TYPE_SET).has(record.subtype)) {
+        fail(`${at}.subtype`, species ? 'a tree with species must be conifer, broadleaf, pine, spruce or null' : 'a tree with attributes must be conifer, broadleaf or null');
       }
     }
     if (!ID.test(record.id || '')) fail(`${at}.id`, 'must be a lowercase kebab-case id');

@@ -133,10 +133,121 @@ export function searchSubtypeRule(examples, { heldOutRoles }) {
   };
 }
 
+/* The confident subset (declared 2026-11-08, after the threshold rule above
+   failed SUBTYPE_PUBLICATION and before this model saw a held-out conifer):
+   a call is published only where the model's confidence reaches the cut
+   chosen on calibration, and only if, on the held-out conifers, the confident
+   calls number at least 20, are at least 90% right, and hold both kinds. This
+   is a second look at the same held-out conifers, so even a pass is weaker
+   evidence than the first rule's would have been, and is reported as such. */
+export const CONFIDENT_SUBTYPE_PUBLICATION = Object.freeze({ minimumHeldOut: 20, minimumAccuracy: 0.9, minimumBalancedAccuracy: 0.85, calibrationAccuracy: 0.95, minimumCalibrationCoverage: 0.25, features: 6, ridge: 1 });
+
+/** Ridge logistic regression by Newton steps on standardised features; returns { w, b, mean, sd, names }. */
+export function fitLogistic(rows, names, ridge = 1) {
+  const mean = names.map(n => rows.reduce((a, r) => a + r.x[n], 0) / rows.length);
+  const sd = names.map((n, j) => Math.sqrt(rows.reduce((a, r) => a + (r.x[n] - mean[j]) ** 2, 0) / rows.length) || 1);
+  const X = rows.map(r => [1, ...names.map((n, j) => (r.x[n] - mean[j]) / sd[j])]);
+  const y = rows.map(r => r.y);
+  const k = names.length + 1;
+  let w = new Array(k).fill(0);
+  for (let iter = 0; iter < 50; iter++) {
+    const g = new Array(k).fill(0), H = Array.from({ length: k }, () => new Array(k).fill(0));
+    X.forEach((x, i) => {
+      const p = 1 / (1 + Math.exp(-x.reduce((a, v, j) => a + v * w[j], 0)));
+      for (let a = 0; a < k; a++) { g[a] += (p - y[i]) * x[a]; for (let b = 0; b < k; b++) H[a][b] += p * (1 - p) * x[a] * x[b]; }
+    });
+    for (let a = 1; a < k; a++) { g[a] += ridge * w[a]; H[a][a] += ridge; }
+    /* solve H d = g (Gauss-Jordan) */
+    const M = H.map((row, a) => [...row, g[a]]);
+    for (let c = 0; c < k; c++) {
+      let p = c; for (let r = c + 1; r < k; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+      [M[c], M[p]] = [M[p], M[c]];
+      for (let r = 0; r < k; r++) if (r !== c) { const f = M[r][c] / M[c][c]; for (let j = c; j <= k; j++) M[r][j] -= f * M[c][j]; }
+    }
+    const d = M.map((row, a) => row[k] / row[a]);
+    w = w.map((v, a) => v - d[a]);
+    if (Math.max(...d.map(Math.abs)) < 1e-8) break;
+  }
+  return { w, mean, sd, names };
+}
+
+export const logisticProbability = (model, features) => {
+  if (model.names.some(n => !Number.isFinite(features[n]))) return null;
+  const z = model.w[0] + model.names.reduce((a, n, j) => a + model.w[j + 1] * (features[n] - model.mean[j]) / model.sd[j], 0);
+  return 1 / (1 + Math.exp(-z));
+};
+
+/** The confident-subset model: features ranked and fitted on calibration only; the cut chosen on calibration; reported on held-out. */
+export function confidentSubtypeModel(examples, { heldOutRoles, rule = CONFIDENT_SUBTYPE_PUBLICATION }) {
+  const calibration = examples.filter(e => e.role === 'calibration');
+  const heldOut = examples.filter(e => heldOutRoles.includes(e.role));
+  const names = [...new Set(examples.flatMap(e => Object.keys(e.features)))].sort();
+  /* rank features by their best single-threshold balanced accuracy on calibration */
+  const ranked = names.map(name => {
+    const values = [...new Set(calibration.map(e => e.features[name]).filter(Number.isFinite))];
+    let best = 0;
+    for (const t of values) for (const dir of [1, -1]) best = Math.max(best, balanced(calibration, f => (Number.isFinite(f[name]) ? (dir > 0 ? f[name] >= t : f[name] < t) : null)).balanced);
+    return { name, best };
+  }).sort((a, b) => b.best - a.best || a.name.localeCompare(b.name));
+  const chosen = ranked.filter(r => calibration.every(e => Number.isFinite(e.features[r.name]))).slice(0, rule.features).map(r => r.name);
+  const rows = calibration.map(e => ({ x: e.features, y: e.subtype === 'pine' ? 1 : 0 }));
+  const model = fitLogistic(rows, chosen, rule.ridge);
+  const scoreOf = e => { const p = logisticProbability(model, e.features); return p === null ? null : { p, confidence: Math.max(p, 1 - p), call: p >= 0.5 ? 'pine' : 'spruce' }; };
+  const tally = (list, cut) => {
+    const called = list.map(e => ({ e, s: scoreOf(e) })).filter(({ s }) => s && s.confidence >= cut);
+    const right = called.filter(({ e, s }) => s.call === e.subtype).length;
+    const kinds = k => ({ right: called.filter(({ e, s }) => e.subtype === k && s.call === k).length, of: called.filter(({ e }) => e.subtype === k).length });
+    const pine = kinds('pine'), spruce = kinds('spruce');
+    return { called: called.length, of: list.length, coverage: Math.round(1000 * called.length / Math.max(1, list.length)) / 1000, accuracy: called.length ? Math.round(1000 * right / called.length) / 1000 : null,
+      balanced: pine.of && spruce.of ? Math.round(1000 * (pine.right / pine.of + spruce.right / spruce.of) / 2) / 1000 : null, pine: `${pine.right}/${pine.of}`, spruce: `${spruce.right}/${spruce.of}` };
+  };
+  /* the lowest cut whose calibration calls reach the accuracy, keeping the coverage */
+  const cuts = [...new Set(calibration.map(e => scoreOf(e)?.confidence).filter(Number.isFinite))].sort((a, b) => a - b);
+  let cut = null;
+  for (const c of [0.5, ...cuts]) {
+    const t = tally(calibration, c);
+    if (t.accuracy !== null && t.accuracy >= rule.calibrationAccuracy && t.coverage >= rule.minimumCalibrationCoverage) { cut = c; break; }
+  }
+  const calibrationResult = cut === null ? null : tally(calibration, cut);
+  const held = cut === null ? null : tally(heldOut, cut);
+  const publish = Boolean(held && held.called >= rule.minimumHeldOut && held.accuracy >= rule.minimumAccuracy && held.balanced !== null && held.balanced >= rule.minimumBalancedAccuracy);
+  return {
+    rule, features: chosen, featureRanking: ranked.slice(0, 10), model: { w: model.w.map(v => Math.round(v * 1e4) / 1e4), mean: model.mean, sd: model.sd },
+    cut: cut === null ? null : Math.round(cut * 1000) / 1000, calibration: calibrationResult, heldOut: held,
+    byRole: cut === null ? null : Object.fromEntries(heldOutRoles.map(r => [r, tally(examples.filter(e => e.role === r), cut)])), publish,
+  };
+}
+
+/**
+ * The published call for one crown's features from a subtype-rule document:
+ * 'pine', 'spruce' or null (no published rule, a missing feature, or below
+ * the confident cut). Only a document whose `publish` is true calls anything.
+ */
+export function subtypeCall(ruleDoc, features) {
+  if (!ruleDoc?.publish) return null;
+  if (ruleDoc.publishedBy === 'threshold rule') {
+    const values = ruleDoc.chosen.terms.map(({ name, dir, t }) => (Number.isFinite(features[name]) ? (dir === '>=' ? features[name] >= t : features[name] < t) : null));
+    if (values.some(v => v === null)) return null;
+    const pine = ruleDoc.chosen.op === 'OR' ? values.some(Boolean) : values.every(Boolean);
+    return pine ? 'pine' : 'spruce';
+  }
+  if (ruleDoc.publishedBy === 'confident subset') {
+    const c = ruleDoc.confident;
+    const p = logisticProbability({ w: c.model.w, mean: c.model.mean, sd: c.model.sd, names: c.features }, features);
+    if (p === null || Math.max(p, 1 - p) < c.cut) return null;
+    return p >= 0.5 ? 'pine' : 'spruce';
+  }
+  return null;
+}
+
 /** Write subtype-rule<suffix>.json from crown examples. */
 export function writeSubtypeRule(file, examples, meta) {
   const roles = [...new Set(examples.map(e => e.role))].filter(r => r !== 'calibration');
   const result = searchSubtypeRule(examples, { heldOutRoles: roles });
+  const confident = confidentSubtypeModel(examples, { heldOutRoles: roles });
+  result.confident = confident;
+  result.publishedBy = result.publish ? 'threshold rule' : confident.publish ? 'confident subset' : null;
+  result.publish = result.publish || confident.publish;
   const out = {
     schemaVersion: 1, kind: 'pine-spruce-rule', ...meta,
     method: 'detected crowns (the round’s own detector) matched one-to-one within 4 m to reference conifers the interpreter called pine or spruce; single thresholds and AND/OR pairs searched on calibration conifers by balanced accuracy; reported on the held-out conifers; published only when SUBTYPE_PUBLICATION is met there',

@@ -45,7 +45,9 @@ import { courseExclusionFeatures, rasterizeExclusions } from '../../packages/cou
 import { parseTreeId, treeId } from '../../packages/course-v2/vegetation/registry-identity.mjs';
 import { crownOutlines, crownReturnMetrics, detectTreesTyped, detectTreesV2, matchOneToOne, typeMapFromPhoto } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
 import { detectTreesRefined } from './tree-refine.mjs';
-import { refereeFor, refereeInputs } from './benchmark.mjs';
+import { refereeFor, refereeInputs, subtypeRulePath } from './benchmark.mjs';
+import { crownSubtypeFeatures, packPixel, subtypeCall } from './subtype.mjs';
+import { openCampaignPacks } from './panels.mjs';
 import { loadMosaic, loadRaster } from './panels.mjs';
 import { closedness, displacementAllowance, loadPointsFor, openGroundBrightness, photoDisc, photoEvidenceKey, photoLabel, shadowEvidenceKey, shadowProbe } from './crown-evidence.mjs';
 import { nearPlay, playGeometry } from './geometry.mjs';
@@ -463,9 +465,16 @@ export function buildCandidates(ctx) {
   /* committed: a compact CSV (a QGIS delimited-text layer in EPSG:3006);
      ignored cache: the full records with evidence and crown outlines, and
      the same layer as GeoJSON with outlines */
-  const csvColumns = ['id', 'decision', 'play', 'easting', 'northing', 'heightRH2000', 'objectHeightMetres', 'radiusMetres', 'type', 'typeConfidence', 'source', 'previousGenerationId', 'mergedInto', 'moveMetres', 'beforeHeightMetres', 'beforeRadiusMetres', 'reason'];
+  /* pine or spruce: only when the round's pine/spruce rule passed its
+     held-out check (subtype-rule<suffix>.json publish: true); then a placed
+     conifer crown the rule calls gets a 'species' column, which the compiler
+     carries as a measured subtype. Otherwise the table keeps its columns. */
+  const subtypeRule = fs.existsSync(subtypeRulePath(ctx)) ? JSON.parse(fs.readFileSync(subtypeRulePath(ctx), 'utf8')) : null;
+  if (subtypeRule?.publish) assignSpecies(ctx, { out, trees, detected, grid, chm, points });
+  const withSpecies = out.some(t => t.species);
+  const csvColumns = ['id', 'decision', 'play', 'easting', 'northing', 'heightRH2000', 'objectHeightMetres', 'radiusMetres', 'type', 'typeConfidence', 'source', 'previousGenerationId', 'mergedInto', 'moveMetres', 'beforeHeightMetres', 'beforeRadiusMetres', 'reason', ...(withSpecies ? ['species'] : [])];
   const csvValue = value => (value === null || value === undefined ? '' : /[",\n]/.test(String(value)) ? `"${String(value).replaceAll('"', '""')}"` : String(value));
-  const csvRows = out.map(t => [t.id, t.decision, t.play, t.easting, t.northing, t.heightRH2000, t.objectHeightMetres, t.radiusMetres, t.type, t.typeConfidence, t.source, t.lineage?.previousGenerationId, t.mergedInto, t.before?.moveMetres, t.before?.heightMetres, t.before?.radiusMetres, t.reasons?.[0]].map(csvValue).join(','));
+  const csvRows = out.map(t => [t.id, t.decision, t.play, t.easting, t.northing, t.heightRH2000, t.objectHeightMetres, t.radiusMetres, t.type, t.typeConfidence, t.source, t.lineage?.previousGenerationId, t.mergedInto, t.before?.moveMetres, t.before?.heightMetres, t.before?.radiusMetres, t.reasons?.[0], ...(withSpecies ? [t.species] : [])].map(csvValue).join(','));
   fs.writeFileSync(files.csv, `${csvColumns.join(',')}\n${csvRows.join('\n')}\n`);
   const geojson = { type: 'FeatureCollection', name: `${ctx.groundId}-candidates-${ctx.reviewDate}`, crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:EPSG::3006' } }, features: out.map(t => ({ type: 'Feature', geometry: t.outline ? { type: 'Polygon', coordinates: [t.outline] } : { type: 'Point', coordinates: [t.easting, t.northing] }, properties: { id: t.id, decision: t.decision, type: t.type, easting: t.easting, northing: t.northing, h: t.objectHeightMetres, r: t.radiusMetres, src: t.source, base: t.heightRH2000, reason: t.reasons?.[0] ?? null, prev: t.lineage?.previousGenerationId ?? null, move: t.before?.moveMetres ?? null } })) };
   fs.mkdirSync(ctx.paths.candidates, { recursive: true });
@@ -510,6 +519,33 @@ export function buildCandidates(ctx) {
 }
 
 /** One-feature logistic regression by Newton's method: [[x, y]] -> { w0, w1, n }. */
+/** Measured pine/spruce on placed conifer crowns from the published rule (subtype.mjs). */
+function assignSpecies(ctx, { out, trees, detected, grid, chm, points }) {
+  const rule = JSON.parse(fs.readFileSync(subtypeRulePath(ctx), 'utf8'));
+  const relief = JSON.parse(fs.readFileSync(ctx.reviewFile('relief-displacement.json'), 'utf8'));
+  const photos = Object.fromEntries([['presence', ctx.presence], ['leafOff', ctx.leafOff]].map(([role, c]) => [role, { field: relief.campaigns[c.key].field, pixel: packPixel(openCampaignPacks(ctx, c.key)) }]));
+  const cellsOf = new Map(), returnsOf = new Map();
+  for (let i = 0; i < detected.labels.length; i++) { const k = detected.labels[i]; if (k < 0) continue; if (!cellsOf.has(k)) cellsOf.set(k, []); cellsOf.get(k).push(i); }
+  for (let i = 0; i < points.count; i++) {
+    const c = points.column[i], r = points.row[i];
+    if (c < 0 || r < 0 || c >= grid.width || r >= grid.height) continue;
+    const k = detected.labels[r * grid.width + c]; if (k < 0) continue;
+    if (!returnsOf.has(k)) returnsOf.set(k, []);
+    returnsOf.get(k).push({ hag: points.hag[i], first: points.returnNumber[i] === 1, intensity: points.intensity[i] });
+  }
+  const crownsById = new Map(detected.crowns.map(c => [c.id, c]));
+  let called = 0;
+  out.forEach((row, index) => {
+    const tree = trees[index];
+    if (!tree || row.type !== 'conifer' || !['retain', 'adjust', 'add'].includes(row.decision) || tree.crownId === null) return;
+    const crown = crownsById.get(tree.crownId);
+    if (!crown) return;
+    const species = subtypeCall(rule, crownSubtypeFeatures({ grid, values: chm.values, crown, cells: cellsOf.get(crown.id) || [], returns: returnsOf.get(crown.id) || [], photos }));
+    if (species) { row.species = species; called++; }
+  });
+  console.log(`pine/spruce (${rule.publishedBy}): ${called} placed conifers called`);
+}
+
 export function fitLogistic(rows) {
   let w0 = 0, w1 = 0;
   for (let iteration = 0; iteration < 50; iteration++) {

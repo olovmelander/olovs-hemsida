@@ -632,7 +632,9 @@ export async function compileReviewedVegetation({
       candidate: { heightMetres: row.objectHeightMetres, radiusMetres: row.radiusMetres },
       easting: row.easting, northing: row.northing,
       baseHeightRH2000: base.heightRH2000, sourceId, capturedAt, truthZone: zone.zone, confidence, accuracyTier: 'C',
-      subtype: row.type === 'unknown' ? null : row.type,
+      /* a measured species (an optional 'species' column, pine or spruce, written
+         only when the review's pine/spruce rule passed) refines a conifer */
+      subtype: row.species === 'pine' || row.species === 'spruce' ? (row.type === 'conifer' ? row.species : (() => { throw new Error(`${row.id}: species ${row.species} on a ${row.type} row`); })()) : row.type === 'unknown' ? null : row.type,
       typeConfidence: Number.isFinite(row.typeConfidence) ? row.typeConfidence : null,
       play: row.play,
     }));

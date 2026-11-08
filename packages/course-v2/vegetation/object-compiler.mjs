@@ -9,7 +9,7 @@
    deterministic rendering choice derived from the id and is not a measured
    property.                                                                  */
 import { assetReferenceForChunk, writeCanonicalJsonChunk } from '../chunk-node.mjs';
-import { TREE_ATTRIBUTES_FEATURE, validateObjectRegistry } from '../object-registry.mjs';
+import { TREE_ATTRIBUTES_FEATURE, TREE_SPECIES, TREE_SPECIES_FEATURE, validateObjectRegistry } from '../object-registry.mjs';
 import { CROWN_PARAMETERS } from './crown-detect.mjs';
 
 const FIELD_ORDER = [
@@ -155,7 +155,8 @@ export function compileObjectChunks({ groundId, tiles, records, directory = `gro
       bounds: { ...tile.bounds },
       payloadFormat: 'json-canonical-v1',
       requiredFeatures: sorted.some(record => Object.hasOwn(record, 'play'))
-        ? ['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE]
+        ? ['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE,
+          ...(sorted.some(record => TREE_SPECIES.includes(record.subtype)) ? [TREE_SPECIES_FEATURE] : [])]
         : ['chunk-envelope-v2', 'object-registry-json-v1'],
       records: { content: 'object-registry', count: sorted.length },
     };

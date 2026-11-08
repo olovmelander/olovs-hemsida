@@ -288,3 +288,121 @@ test('every module the receipts hash exists', async () => {
   for (const file of PIPELINE_CODE) assert.ok(fs.existsSync(path.join(ROOT, file)), file);
   assert.deepEqual(without([], /x/), []);
 });
+
+/* ---------------- round 3: relief displacement, recovery, pending owner, pine/spruce ---------------- */
+
+test('relief displacement: a synthetic photo drawn k x h away is found again', async () => {
+  const { estimateDisplacement, fieldAt, photoValley } = await import('./relief.mjs');
+  const s = 0.5, width = 80, height = 80;
+  const grid = { minEasting: 1000, maxNorthing: 2040, width, height, sampleSpacingMetres: s };
+  const chm = new Float32Array(width * height);
+  const cones = [];
+  /* an irregular stand (a lattice would alias the shift by one spacing) */
+  let seed = 7; const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  for (let i = 0; i < 22; i++) cones.push([1003 + 34 * rand(), 2003 + 34 * rand(), 9 + 8 * rand()]);
+  for (let r = 0; r < height; r++) for (let c = 0; c < width; c++) {
+    const e = grid.minEasting + (c + 0.5) * s, n = grid.maxNorthing - (r + 0.5) * s;
+    let h = 0; for (const [ce, cn, ch] of cones) h = Math.max(h, ch - 1.5 * Math.hypot(e - ce, n - cn));
+    chm[r * width + c] = h;
+  }
+  /* the photo: brightness of the sunlit flank of each cone, drawn at (E + k h, N + k h) */
+  const k = { kx: -0.4, ky: 0.1 };
+  const p = 0.16, pw = 400, ph = 400;
+  const photo = { minEasting: 990, maxNorthing: 2050, pixelMetres: p, width: pw, height: ph, data: new Uint8Array(pw * ph * 4) };
+  const sun = { azimuthDegrees: 135, elevationDegrees: 35 };
+  for (let r = 0; r < ph; r++) for (let c = 0; c < pw; c++) {
+    const e = photo.minEasting + (c + 0.5) * p, n = photo.maxNorthing - (r + 0.5) * p;
+    let best = 0, light = 0;
+    for (const [ce, cn, ch] of cones) {
+      /* the surface point (x, y) of height z is drawn at (x + kx z, y + ky z): solve z = cone(e - kx z, n - ky z) */
+      let z = ch;
+      for (let it = 0; it < 30; it++) z = Math.max(0, ch - 1.5 * Math.hypot(e - k.kx * z - ce, n - k.ky * z - cn));
+      if (z > best) { best = z; light = ((e - k.kx * z - ce) * Math.sin(Math.PI * 0.75) + (n - k.ky * z - cn) * Math.cos(Math.PI * 0.75)) > 0 ? 200 : 60; }
+    }
+    const o = (r * pw + c) * 4;
+    const v = best > 3 ? light : 100;
+    photo.data[o] = v / 2; photo.data[o + 1] = v / 2; photo.data[o + 2] = v / 2; photo.data[o + 3] = v;
+  }
+  const found = estimateDisplacement(grid, chm, photo, sun, { minimumCells: 100 });
+  assert.ok(Math.abs(found.kx - k.kx) <= 0.06 && Math.abs(found.ky - k.ky) <= 0.06, JSON.stringify(found));
+  assert.ok(found.correlation > found.zeroCorrelation + 0.1);
+  const field = { bbox: [990, 1990, 1050, 2050], blockMetres: 60, columns: 1, rows: 1, blocks: [{ kx: found.kx, ky: found.ky }] };
+  assert.deepEqual(fieldAt(field, 1000, 2000), { kx: found.kx, ky: found.ky });
+  assert.equal(fieldAt(field, 900, 2000), null);
+  assert.equal(photoValley({ ...field, blocks: [{ kx: null, ky: null }] }, () => 1, { easting: 1000, northing: 2000, height: 10 }, { easting: 1003, northing: 2000, height: 12 }, 0.75), null);
+});
+
+test('recovery: with no extra seeds the refined detector is the typed detector, and the referee needs cone, apex and photo', async () => {
+  const { detectTreesTyped, TYPED_DEFAULTS, TYPE_CONIFER } = await import('../../packages/course-v2/vegetation/tree-detect-v2.mjs');
+  const { detectTreesTypedWithSeeds, recoverTops, REFINE_DEFAULTS } = await import('./tree-refine.mjs');
+  const s = 0.5, width = 60, height = 60;
+  const grid = { minEasting: 0, maxNorthing: 30, width, height, sampleSpacingMetres: s };
+  const chm = new Float32Array(width * height), type = new Uint8Array(width * height).fill(TYPE_CONIFER);
+  for (let r = 0; r < height; r++) for (let c = 0; c < width; c++) {
+    const e = (c + 0.5) * s, n = 30 - (r + 0.5) * s;
+    chm[r * width + c] = Math.max(0, 18 - 2.5 * Math.hypot(e - 12, n - 15), 15 - 2.5 * Math.hypot(e - 15, n - 15));
+  }
+  const plain = detectTreesTyped(grid, chm, type, TYPED_DEFAULTS);
+  const same = detectTreesTypedWithSeeds(grid, chm, type, TYPED_DEFAULTS);
+  assert.deepEqual(same.crowns.map(c => [c.id, c.heightMetres, c.areaSquareMetres]), plain.crowns.map(c => [c.id, c.heightMetres, c.areaSquareMetres]));
+  const index = Math.floor((30 - 15) / s) * width + Math.floor(15 / s);
+  const seeded = detectTreesTypedWithSeeds(grid, chm, type, TYPED_DEFAULTS, { extraMaxima: [{ index, row: Math.floor(index / width), column: index % width }] });
+  assert.equal(seeded.crowns.length, plain.crowns.length + 1);
+  assert.ok(seeded.crowns.some(c => c.recovered));
+  const taller = { easting: 12, northing: 15, height: 18 };
+  const top = (over = {}) => ({ easting: 15, northing: 15, height: 15, type: 'conifer', minimumDipMetres: 2, nearestTallerMetres: 3, nearestTaller: taller, ...over });
+  const referee = (apex, valley) => ({ apexReturns: () => apex, photoValley: () => valley });
+  const verdicts = list => { const trace = []; recoverTops(list, referee(5, 0.2), REFINE_DEFAULTS, trace); return trace.map(t => t.verdict); };
+  assert.deepEqual(verdicts([top()]), ['recovered']);
+  assert.deepEqual(verdicts([top({ minimumDipMetres: 0.2 })]), ['kept-out:dip']);
+  assert.deepEqual(verdicts([top({ nearestTallerMetres: 1 })]), ['kept-out:separation']);
+  assert.deepEqual(verdicts([top({ nearestTaller: null, nearestTallerMetres: Infinity })]), ['kept-out:alone']);
+  assert.equal(recoverTops([top()], referee(0, 0.2)).length, 0, 'no laser apex, no tree');
+  assert.equal(recoverTops([top()], referee(5, 0.01)).length, 0, 'no gap in the photo, no tree');
+  assert.equal(recoverTops([top()], referee(5, null)).length, 0, 'a photo that cannot judge never recovers');
+});
+
+test('a pending owner approval stages a failed round only on request, labelled, and is never an exception', async () => {
+  const { pendingApprovalFor } = await import('./gate.mjs');
+  const config = johannesberg();
+  const pending = config.pendingOwnerApprovals.find(x => x.round === 'r3');
+  assert.equal(pending.status, 'pending-owner-approval');
+  const gate = { gate: 'held-out-precision-recall', status: 'FAIL', round: 'r3', reasons: ['recall 0.685 is below 0.9'], measured: { precision: 0.984, recall: 0.685 } };
+  assert.equal(ownerExceptionFor(config, gate, pending.benchmark.sha256), null, 'a pending record is not an exception');
+  assert.equal(publicationVerdict(gate, null).allowed, false);
+  assert.equal(pendingApprovalFor(config, gate, pending.benchmark.sha256), pending);
+  assert.equal(pendingApprovalFor(config, gate, '0'.repeat(64)), null, 'it pins the benchmark it describes');
+  assert.ok(validateGroundConfig({ ...config, pendingOwnerApprovals: [{ ...pending, recordedBy: 'owner' }] }).some(p => /not the owner/.test(p)));
+  assert.ok(validateGroundConfig({ ...config, pendingOwnerApprovals: [{ ...pending, status: 'approved' }] }).some(p => /pending-owner-approval/.test(p)));
+  const ctx = loadGroundConfig(ROOT, 'johannesberg', { round: 'r3' });
+  const report = { gate: { status: 'FAIL' }, verdict: { allowed: false, note: 'held-out gate FAILED' }, pending };
+  const checklist = { items: [{ id: 'held-out-gate', who: 'auto', status: 'open' }, { id: 'species-mix-screenshots', who: 'owner', status: 'open' }, { id: 'species-spot-check-photos', who: 'person', status: 'open' }] };
+  const strict = publicationBlockers(ctx, { gate: report, checklist, candidatesReceipt: { result: {} }, changed: [] });
+  assert.ok(strict.some(b => /FAILED/.test(b)), 'without --pending-owner it still refuses');
+  const staged = publicationBlockers(ctx, { gate: report, checklist, candidatesReceipt: { result: {} }, changed: [] }, { pendingOwner: true });
+  assert.deepEqual(staged.blockers, ['checklist species-spot-check-photos [person] is open'], 'a person item still blocks');
+  assert.equal(staged.pending.length, 3);
+  assert.ok(staged.pending[0].includes('PENDING OWNER APPROVAL'));
+});
+
+test('pine/spruce: a rule is published only when held-out conifers agree, and calls nothing otherwise', async () => {
+  const { searchSubtypeRule, confidentSubtypeModel, subtypeCall, fitLogistic, logisticProbability } = await import('./subtype.mjs');
+  const example = (role, subtype, a, b) => ({ role, subtype, features: { a, b } });
+  const examples = [];
+  for (let i = 0; i < 40; i++) {
+    const role = i < 20 ? 'calibration' : 'evaluation';
+    examples.push(example(role, 'pine', 1 + (i % 5) * 0.1, i % 3), example(role, 'spruce', -1 - (i % 5) * 0.1, i % 3));
+  }
+  const good = searchSubtypeRule(examples, { heldOutRoles: ['evaluation'] });
+  assert.equal(good.publish, true);
+  assert.equal(subtypeCall({ ...good, publish: true, publishedBy: 'threshold rule' }, { a: 2, b: 0 }), 'pine');
+  assert.equal(subtypeCall({ ...good, publish: true, publishedBy: 'threshold rule' }, { a: -2, b: 0 }), 'spruce');
+  assert.equal(subtypeCall({ ...good, publish: false }, { a: 2, b: 0 }), null, 'an unpublished rule calls nothing');
+  /* a held-out sample that disagrees keeps the rule unpublished */
+  const flipped = examples.map(e => (e.role === 'evaluation' ? { ...e, subtype: e.subtype === 'pine' ? 'spruce' : 'pine' } : e));
+  assert.equal(searchSubtypeRule(flipped, { heldOutRoles: ['evaluation'] }).publish, false);
+  assert.equal(confidentSubtypeModel(flipped, { heldOutRoles: ['evaluation'] }).publish, false);
+  const model = fitLogistic(examples.filter(e => e.role === 'calibration').map(e => ({ x: e.features, y: e.subtype === 'pine' ? 1 : 0 })), ['a']);
+  assert.ok(logisticProbability(model, { a: 1.2 }) > 0.9 && logisticProbability(model, { a: -1.2 }) < 0.1);
+  assert.equal(logisticProbability(model, { a: null }), null);
+});

@@ -243,7 +243,12 @@ export const defaultSpeciesForHash = r =>
    SPECIES_INDEX; every other index is a broadleaf. */
 export const CONIFER_PINE_SHARE = DEFAULT_SPECIES_MIX.pine / DEFAULT_SPECIES_MIX.spruceThrough;
 export const isConiferSpecies = index => index === SPECIES_INDEX.spruce || index === SPECIES_INDEX.pine;
+/* the subtypes a record may carry from a measurement: a type, or a measured conifer species */
+const MEASURED_TREE_SUBTYPES = new Set(['conifer', 'broadleaf', 'pine', 'spruce']);
 export function speciesForType(type, ruleSpecies, typeHash) {
+  /* a measured conifer species (object-registry-tree-species-v1) is drawn as itself */
+  if (type === 'pine') return SPECIES_INDEX.pine;
+  if (type === 'spruce') return SPECIES_INDEX.spruce;
   if (type === 'conifer') {
     if (isConiferSpecies(ruleSpecies)) return ruleSpecies;
     return typeHash < CONIFER_PINE_SHARE ? SPECIES_INDEX.pine : SPECIES_INDEX.spruce;
@@ -328,7 +333,7 @@ export function planV2Vegetation(loaded, {
         height: record.objectHeightMetres,
         radius: record.radiusMetres,
         rotation: (record.headingDegrees / 180) * Math.PI,
-        species: record.subtype === 'conifer' || record.subtype === 'broadleaf'
+        species: MEASURED_TREE_SUBTYPES.has(record.subtype)
           ? speciesForType(record.subtype, pickSpecies(r, x, y, z), stringHash(`${record.id}:type`) / 4294967296)
           : pickSpecies(r, x, y, z),
         kind: 'individual',

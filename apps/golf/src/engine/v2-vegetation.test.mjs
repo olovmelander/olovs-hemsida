@@ -260,6 +260,17 @@ describe('measured tree types and the woodland thinning', () => {
     expect(speciesForType('broadleaf', 4, 0.5)).toBe(4);
     expect(speciesForType('broadleaf', SPECIES_INDEX.pine, 0.5)).toBe(SPECIES_INDEX.birch);
     expect(speciesForType(null, SPECIES_INDEX.pine, 0.5)).toBe(SPECIES_INDEX.pine);
+  });
+
+  it('a measured pine or spruce draws as that species, whatever the rule or the hash says', () => {
+    for (const rule of [SPECIES_INDEX.pine, SPECIES_INDEX.spruce, SPECIES_INDEX.birch, 4]) {
+      for (const hash of [0.01, 0.5, 0.99]) {
+        expect(speciesForType('pine', rule, hash)).toBe(SPECIES_INDEX.pine);
+        expect(speciesForType('spruce', rule, hash)).toBe(SPECIES_INDEX.spruce);
+      }
+    }
+    const measured = plan([record(1, { subtype: 'spruce', typeConfidence: 0.9, play: 'near' }), record(2, { subtype: 'pine', typeConfidence: 0.9, play: 'near' })], { defaultSpecies: () => SPECIES_INDEX.birch });
+    expect(measured.instances.map(i => i.species)).toEqual([SPECIES_INDEX.spruce, SPECIES_INDEX.pine]);
     const untyped = plan([record(1)], { defaultSpecies: () => SPECIES_INDEX.birch });
     expect(untyped.instances[0].species).toBe(SPECIES_INDEX.birch);
   });

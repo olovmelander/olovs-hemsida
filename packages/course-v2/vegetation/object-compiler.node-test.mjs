@@ -235,3 +235,24 @@ test('tree attributes travel under their own feature: type in subtype, typeConfi
   assert.ok(validateObjectRegistry(registry({ ...typed, play: 'fairway' }), header(['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE])).some(e => /near or woodland/.test(e)));
   assert.ok(validateObjectRegistry(registry({ ...typed, subtype: 'oak' }), header(['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE])).some(e => /conifer, broadleaf or null/.test(e)));
 });
+
+test('a measured pine or spruce needs the species feature, and the compiler adds it only when a tree carries one', async () => {
+  const { TREE_ATTRIBUTES_FEATURE, TREE_SPECIES_FEATURE, validateObjectRegistry } = await import('../object-registry.mjs');
+  const { treeRecord, compileObjectChunks } = await import('./object-compiler.mjs');
+  const candidate = { centroid: { easting: 10, northing: 20 }, heightMetres: 14, radiusMetres: 3 };
+  const base = { groundId: 'g', candidate, baseHeightRH2000: 5, sourceId: 'laser', capturedAt: '2021-04-17', truthZone: 'B', confidence: 0.9, typeConfidence: 0.9, play: 'near' };
+  const pine = treeRecord({ ...base, id: 'tree-g-000003', subtype: 'pine' });
+  const header = features => ({ kind: 'objects', id: 't', owner: { type: 'ground', id: 'g' }, requiredFeatures: features, records: { content: 'object-registry', count: 1 } });
+  const registry = record => ({ schemaVersion: 1, groundId: 'g', tileId: 't', records: [record] });
+  const attributes = ['chunk-envelope-v2', 'object-registry-json-v1', TREE_ATTRIBUTES_FEATURE];
+  assert.ok(validateObjectRegistry(registry(pine), header(attributes)).some(e => /conifer, broadleaf or null/.test(e)), 'pine without the species feature is refused');
+  assert.deepEqual(validateObjectRegistry(registry(pine), header([...attributes, TREE_SPECIES_FEATURE])), []);
+  assert.deepEqual(validateObjectRegistry(registry({ ...pine, subtype: 'spruce' }), header([...attributes, TREE_SPECIES_FEATURE])), []);
+  assert.ok(validateObjectRegistry(registry({ ...pine, subtype: 'larch' }), header([...attributes, TREE_SPECIES_FEATURE])).some(e => /pine, spruce or null/.test(e)));
+  const tile = { id: 'l0/0/0', lod: 0, bounds: { minEasting: 0, minNorthing: 0, maxEasting: 64, maxNorthing: 64, minHeightRH2000: 0, maxHeightRH2000: 50 } };
+  const featuresOf = records => compileObjectChunks({ groundId: 'g', tiles: [tile], records, directory: 'grounds/g/objects' }).chunks[0];
+  const conifer = treeRecord({ ...base, id: 'tree-g-000004', subtype: 'conifer' });
+  const { readChunk } = await import('../chunk-node.mjs');
+  assert.ok(!readChunk(featuresOf([conifer]).bytes).header.requiredFeatures.includes(TREE_SPECIES_FEATURE), 'no species feature without a measured species');
+  assert.ok(readChunk(featuresOf([conifer, pine]).bytes).header.requiredFeatures.includes(TREE_SPECIES_FEATURE));
+});

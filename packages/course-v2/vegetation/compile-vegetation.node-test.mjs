@@ -338,4 +338,20 @@ test('the reviewed import publishes decided trees with their type and play zone,
     rows: parseCandidateCsv(csv.replace('650180.5,6640060.5', '650020.5,6640060.5')),
     scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset, review: 'test',
   }), /outside the reviewed scope/);
+  /* an optional species column: a measured pine or spruce refines a conifer, and the chunk says so */
+  const { TREE_SPECIES_FEATURE } = await import('../object-registry.mjs');
+  const withSpecies = csv.split('\n').map((line, i) => (i === 0 ? `${line},species` : line ? `${line},${i === 1 ? 'pine' : ''}` : line)).join('\n');
+  const measured = await compileReviewedVegetation({
+    groundId: 'synthetic-ground', observedOn: '2026-11-08', campaigns: CAMPAIGNS, rows: parseCandidateCsv(withSpecies),
+    scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset, review: 'reviewed candidates (test)',
+  });
+  assert.equal(measured.records[0].subtype, 'pine');
+  assert.equal(measured.records[1].subtype, 'broadleaf');
+  assert.ok(readChunk(measured.compiled.chunks.find(chunk => chunk.tileId === 'l0/1/0').bytes).header.requiredFeatures.includes(TREE_SPECIES_FEATURE));
+  assert.ok(!readChunk(scoped.bytes).header.requiredFeatures.includes(TREE_SPECIES_FEATURE), 'no species column, no species feature');
+  await assert.rejects(() => compileReviewedVegetation({
+    groundId: 'synthetic-ground', observedOn: '2026-11-08', campaigns: CAMPAIGNS,
+    rows: parseCandidateCsv(withSpecies.replace(',broadleaf,0.71,detector,', ',broadleaf,0.71,detector,').replace(/(tree-synthetic-ground-000102[^\n]*,)$/m, '$1spruce')),
+    scope: [650128, 6640000, 650256, 6640128], residual: { raster, labels }, geometry: GEOMETRY, ground, readAsset, review: 'test',
+  }), /species spruce on a broadleaf row/);
 });
