@@ -82,6 +82,9 @@ owner exception": both mean stop and report.
    `strata.png` in the cache). Read its warnings and its suggested cells.
 4. **verify**: photos registered against the laser on open ground, never on
    treetops; source inventory. A shift under 0.25 m is recorded, not applied.
+   Then `--relief`: the canopy's relief displacement in every photo
+   (relief-displacement.json), which the refined detector, the native panels, the
+   pine/spruce rule and the compact chips read.
 5. **reference** (human review): write `reference-windows<suffix>.json` (matching rule
    one-to-one within 4 m and a 3 m minimum height, declared before anything is
    scored; calibration windows and spatially separate held-out windows on other
@@ -91,7 +94,10 @@ owner exception": both mean stop and report.
    `reference-annotations<suffix>.json`; drop a window that cannot be interpreted crown
    by crown *before* scoring and say why; then `--freeze`.
 6. **benchmark** (gate): `--tune` (calibration only), `--types` (the type round),
-   `--score`, `--gate`. Report the stratified recall, not just the totals.
+   `--score`, `--gate`, then `--subtypes` (pine/spruce, published only if the
+   held-out conifers meet SUBTYPE_PUBLICATION). Report the stratified recall, not
+   just the totals. A `refined` round starts from a typed round (`startFrom`) and
+   searches only the recovery.
 7. **candidates**: the locked detector over the window, evidence, stable IDs
    (1.5 m, then 3 m; new IDs after the ground's highest sequence; lineage kept),
    decisions and holds, residual rasters. Stops while felling-screened or
@@ -104,7 +110,9 @@ owner exception": both mean stop and report.
 9. **publish** (gate): checks the gate (or the owner exception), the checklist and the
    receipts, prints the staging plan and stops. `--execute` only after the owner
    says so: it compiles into `publication.stagingRoot`, never the live root, and
-   verifies the staged graph.
+   verifies the staged graph. When the owner has asked for a round to be staged for
+   his review before he decides, `--execute --pending-owner` stages it under a
+   `pendingOwnerApprovals` record and labels everything pending.
 
 ## Stop and ask the owner when
 
@@ -170,6 +178,63 @@ ignored cache is evidence by itself; its hashes are.
   that is the safe side.
 - Owner choices made after the held-out scoring (the round-2 detector, the 0.2
   rule) are recorded as such, not dressed up as the declared ranking.
+
+### Round 3 (Johannesberg, 2026-11-08)
+
+- **Measure the photos' relief displacement before any photo test.** Standard
+  orthophotos are rectified on the ground, so a crown top of height h is drawn at
+  k x h from its laser apex. At Johannesberg |k| is 0.23-0.75 (a 20 m spruce 5-15 m
+  away), it grows away from each image's nadir line and flips sign at mosaic seams.
+  The old 0.3 x h + 1 m disc allowance is too small in half the window.
+  `--stage verify --relief` measures k per 64 m block (relief-displacement.json);
+  every photo-reading step reads the photo where it draws each top.
+- **Interpret at the photos' native 0.16 m, moved onto the canopy**
+  (`--stage reference --prepare --native`): six panels, the photo shifted by the
+  window's k x its upper-canopy height. Without the shift a closed stand's photo
+  crowns sit beside the wrong laser crowns.
+- **A photo referee helps closed conifers on calibration, not on a fresh sample.**
+  The refined detector (`detector: "refined"`, tree-refine.mjs) takes back a top
+  the typed detector suppressed only on its own laser cone (dip), its own apex
+  (first returns) and a darker gap between the two crowns in the photo. Calibration
+  recall 0.814 -> 0.868 (closed 42/56 -> 48/56); the earlier held-out samples
+  0.844 -> 0.878; the new unseen sample only 0.674 -> 0.685. The new sample's misses
+  were touching broadleaves, edge crowns and mid-height trees the referee does not
+  reach. Expect the gate to fail where closed and edge canopy dominate near play.
+- **Draw the held-out sample from the strata near play, not from easy windows.**
+  Near play at Johannesberg is 53% closed and 32% edge (detect census); round 2's
+  sample had 29% isolated crowns and round 3's 3%. The same round-2 detector scored
+  R 0.788 on the first and 0.674 on the second: report which sample a number is from.
+- **Declare "beats the previous round" before scoring** (in the windows file:
+  F1 on the new sample, precision at least 0.9), and compare every earlier round's
+  lock on the same sample. Round 1 had the best recall on round 3's sample; that is a
+  held-out observation and never a reason to switch detectors.
+- **Pine or spruce is not measurable here.** `--subtypes` fits a rule on
+  calibration conifers (balanced 0.87) that reaches 0.63 balanced on held-out
+  conifers. Its confident-subset model, at a cut 95% right on calibration, is right
+  on 11 of 19 held-out calls: every call in the old windows, and none of the 8 in a
+  new flight strip. Photo colour does not carry across strips, and a leaf-off scan
+  at 1.8 first returns/m2 has too few returns per crown for crown shape. A rule is
+  published only when SUBTYPE_PUBLICATION (or the confident bar) holds on held-out
+  conifers; then the candidates gain a `species` column, the chunks
+  `object-registry-tree-species-v1`, and the runtime draws that species.
+- **Calibration must hold every kind of crown the round can change.** Round 2's
+  broadleaf merge won on calibration (fewer extras) because calibration had no
+  scored closed broadleaf crown; on a sample with a grove it lost 3 closed and 7
+  broadleaf crowns to round 1. Put interpretable closed broadleaves (leaf-on helps)
+  in calibration before tuning broadleaf settings, and never "fix" a detector from
+  its held-out score.
+- **Pole-like crowns are mostly narrow trees in closed stands** (162 of 206), with
+  12 poles, lamps, roof ridges and snags in the open by buildings and lawns, and 32
+  unclear (thinned or cleared since the laser). Keep the hold; decide each on the
+  compact native chips (review stage), which mark the laser base and the displaced top.
+- **Never write an owner exception for a round the owner has not seen.** Record it
+  under `pendingOwnerApprovals` (status pending-owner-approval, the benchmark pinned)
+  and stage it with `--stage publish --execute --pending-owner`, which labels the
+  staging verification and receipt pending and never counts as an exception.
+- **Keep offline detector code out of `packages/course-v2`.** That folder is part of
+  the source revision every prepared startup record is keyed by; an edit there
+  expires the prepared data of every course. Pipeline-only code lives in
+  `tools/tree-pipeline/`.
 
 ## Report
 

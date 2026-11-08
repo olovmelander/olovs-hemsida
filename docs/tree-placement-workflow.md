@@ -72,6 +72,20 @@ computed record is
 The pilot scripts in `tools/johannesberg-tree-pilot/` stay as that review's dated
 record (its detector locks pin their hashes); new grounds use the pipeline.
 
+**Round 3 additions (2026-11-08).** `verify --relief` measures where each
+orthophoto draws a crown top (relief displacement k per 64 m block; standard
+orthophotos are rectified on the ground, and at Johannesberg a 20 m crown is drawn
+5-15 m from its laser apex). `reference --prepare --native` draws the panels at the
+photos' 0.16 m, moved onto the canopy. A `refined` round
+([`tree-refine.mjs`](../tools/tree-pipeline/tree-refine.mjs)) keeps a typed round's
+settings and takes back a suppressed top only on its own laser cone and apex and a
+separate crown in the photo; the photo never places a tree. `benchmark --subtypes`
+fits a pine/spruce rule on calibration conifers and publishes it only when held-out
+conifers agree; a published call travels as a `species` column, a record subtype
+under `object-registry-tree-species-v1`, and is drawn as that species. The pole-like hold is decided on compact native chips. A round the
+owner has not decided can be staged for him with `publish --execute
+--pending-owner` under a `pendingOwnerApprovals` record, never as an exception.
+
 **Still manual.** Choosing and interpreting reference windows; the felling,
 pole and species reviews on the photo chips; the owner's screenshots of the app
 and frame-time measurements on his GPU; owner exceptions; and the promotion of a
@@ -110,6 +124,8 @@ The [Johannesberg review of 2026-11-08](../geo_data/course-v2/johannesberg/veget
 | Round 2, type-aware (the one published) | 0.95 | 0.79 |
 
 **The 90% gate was missed on closed stands only.** There, touching spruces share one maximum in a 1.8 pulse/m² leaf-off scan. The owner chose to publish anyway, and the exception is recorded.
+
+**Round 3 (2026-11-08, pending the owner).** A new unseen sample drawn from the strata near play (89 crowns: closed 50, edge 30, group 6, isolated 3) scores the photo-refereed refined detector at P 0.984, R 0.685 (round 2 0.984 / 0.674, round 1 0.971 / 0.764 on the same crowns). It gains on calibration (R 0.814 → 0.868, closed 42/56 → 48/56) and on the earlier held-out windows (0.844 → 0.878), but the new sample's misses are touching broadleaves, edge crowns and mid-height trees. The gate is not met; pine/spruce could not be measured reliably (held-out balanced accuracy 0.63) and is not published. Details: the review README's Round 3.
 
 | Tree placement | Published trees (inner frontier) |
 |---|---|

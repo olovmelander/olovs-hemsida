@@ -2,6 +2,8 @@
 
 **Status (2026-11-08, published):** the inner 2,048 m frontier now carries the round-2 reviewed generation, published by the owner's decisions below although the held-out gate is not met, with broadleaf calls narrowed by the owner's species check (see Publication). Round 2 itself is described further down.
 
+**Round 3 (branch `trees-round3`, pending owner approval):** a photo-refereed detector staged for the owner's decision. It reaches P 0.984 / R 0.685 on a new unseen sample drawn from the strata near play (round 2 0.984 / 0.674, round 1 0.971 / 0.764), so the gate is still not met. Pine/spruce was measured but not published, and the pole-like crowns were reviewed. See Round 3.
+
 The sections from Evidence ledger to What Stage B needs record **Stage A (round 1)**
 as it stood before publication: there, nothing was published, and the round-1 held-out
 precision of 0.82 missed the 90% gate. Their candidate counts are round 1's; the published
@@ -728,6 +730,431 @@ confidence-gated type.
 | woodland | 15,407 | 4,816 | 881 | 21,104 |
 
 The holds split 71 near and 262 woodland. Merges: 42 near, 144 woodland.
+
+## Round 3: a photo referee, a sample from the strata near play (pending the owner)
+
+**Status: staged on branch `trees-round3`, pending owner approval.** The round-3
+detector beats round 2 by the declared F1 on a new unseen sample, so it was staged
+as the brief asked, but it does **not** meet the 90% gate. The owner exception of
+2026-11-08 covers round 2 only; round 3 is recorded under `pendingOwnerApprovals`
+in `course-workflows/johannesberg/trees.json`, not as an exception.
+
+The owner's question was whether recall can reach 0.9 with precision at least 0.9,
+on the newest Lantmäteriet data, with CPU-only methods. On a sample drawn from the
+canopy near play it cannot: recall is 0.685.
+
+### Data: still the newest available
+
+Checked on the STAC catalogues on 2026-11-08 (metadata only):
+
+| Source | Newest over the window |
+|---|---|
+| Laser, stac-hojd | `dsm-skoglig-copc`, scan 21C039 of 2021-04-17. The catalogue's only other collection is `dtm-cog`, whose `662_68` item says a 2023-05-16 capture east of E 680000 exists, but its point cloud is not offered. |
+| Orthophotos, stac-bild | `orto-o2-2025` (2025-06-14), still used. Of the 90 collections from 2023 on, only it covers the window. `orto-o2-2023` (2023-05-10) exists and was not needed. No 2026 collection covers Johannesberg yet: `a2`, `b2`, `f2`, `g2`, `j2` and `n2` 2026 do not. |
+
+Nothing newer or denser can be fetched. A denser or leaf-on laser would need a new
+Lantmäteriet campaign over Gottröra.
+
+### The photos are not where the trees are
+
+Standard orthophotos are rectified on the ground model, so a crown top of height h
+is drawn at **k × h** from its laser apex. The new `verify --relief` step measures k
+for every 64 m block ([`relief-displacement.json`](relief-displacement.json)). It
+correlates the photo with a hillshade of the CHM lit from the flight's own sun.
+
+- The median |k| is 0.42 for June 2025 (p10 0.26, p90 0.68) and 0.37 for April
+  2021 (0.23-0.56).
+- k grows away from each image's nadir line and flips sign at the mosaic seams, so
+  a 20 m spruce is drawn 5-15 m from its laser apex.
+- The earlier evidence disc allowed 0.3 × h + 1 m, which is too small for about half
+  the window. Rounds 1-2 did not use the photo to place anything, so their
+  positions are unaffected.
+
+Every round-3 photo reading uses this field: the panels, the referee, the
+pine/spruce features and the chips.
+
+### The new sample (frozen before any round-3 detector ran)
+
+[`reference-windows-r3.json`](reference-windows-r3.json),
+[`reference-annotations-r3.json`](reference-annotations-r3.json),
+[`reference-r3.geojson`](reference-r3.geojson),
+[`reference-lock-r3.json`](reference-lock-r3.json).
+
+The windows were drawn by round 2's rules on holes that no earlier window used. The
+strata follow the detect census **near play** ([`strata.json`](strata.json)):
+53% closed, 32% edge, 10% group and 5% isolated apexes within 90 m of a hole line.
+Round 2's sample had 29% isolated crowns; this one has 3%.
+
+| Window | Place | Scored crowns |
+|---|---|---|
+| Q1 | closed conifer square in the wood south of the 5th green | 17 |
+| Q2 | woodland edge along the 5th, with trees standing out from it | 21 |
+| Q3 | the mixed tree band between the 18th and the 2nd | 17 |
+| Q4 | the broadleaf grove north of the 4th green (touching crowns) | 26 |
+| Q5 | closed mixed square by the 6th tee | 8 |
+
+- **Strata:** 50 closed, 30 edge, 6 group, 3 isolated. **Types:** 44 conifer,
+  39 broadleaf, 6 unknown. **Heights:** 3-8 m 9, 8-15 m 45, 15 m+ 35.
+- **Calibration** keeps C1-C6 and adds two closed squares in the southern wood: K1
+  (22 spruces between the 10th and 11th) and K2 (13 conifers north of the 9th
+  green). It now has 129 scored crowns.
+- The round-1 (E2-E4) and round-2 (H1, H3-H5) held-out windows are
+  `used-holdout`: never tuned on, reported for comparison.
+- **"Beats round 2"** was declared in the windows file before scoring: higher F1
+  on Q1-Q5, with precision at least 0.9.
+- **Interpretation** is agent-led (Claude), not a survey. It used the CHM and both
+  photos at their native 0.16 m, moved onto the canopy (`reference --prepare
+  --native`). The C, E and H windows keep their round-2 crowns verbatim; round 3
+  added only pine/spruce calls.
+
+**Limitation.** In closed stands the reference interprets the same laser and the
+same photos the detectors read. Where touching crowns share one laser maximum and
+one photo blob, the interpreter's split is a judgement. A field check of Q1, Q5, K1
+and K2 would settle it.
+
+### The method: photo-refereed recovery
+
+[`tree-refine.mjs`](../../../../../tools/tree-pipeline/tree-refine.mjs),
+[`detector-lock-r3.json`](detector-lock-r3.json).
+
+The refined detector keeps round 2's type-aware settings. It then looks again at
+every top the type-aware detector suppressed: a maximum of the CHM smoothed by
+0.3 m in a 1 m window, at least 3 m. Such a top is taken back as a tree only when:
+
+- **its own cone:** it stands at least 1.25 m above the lowest point toward every
+  taller kept top within 6 m, and at least 2.5 m from the nearest one;
+- **its own apex in the points:** at least 3 first returns within 0.75 m reach
+  within 1.5 m of its height;
+- **a separate crown in the June 2025 photo:** read where the photo draws each top
+  (0.75 × k × h), the photo is at least 10% darker between the two tops than at the
+  dimmer one.
+
+Every crown is then regrown from the full set of seeds at once. The laser decides
+where there is canopy and how tall each tree is; the photo never places a tree.
+
+The settings came from a coordinate descent on calibration only (49 evaluations).
+Before it, an exploration on calibration windows compared a laser-only rule, a
+point-apex rule and photo valleys from April and June. The April photo and an AND of
+both photos did worse than June alone. A laser-only recovery (dip and apex, no
+photo) reached calibration recall 0.915 but precision 0.868.
+
+### Benchmark
+
+[`benchmark-r3.json`](benchmark-r3.json): one-to-one matching within 4 m.
+
+| Detector | Calibration (129) P / R / F1 | Used held-out (90) P / R / F1 | **New held-out (89)** P / R / F1 |
+|---|---|---|---|
+| Published individuals + stand trees (before round 2) | 0.57 / 0.52 / 0.54 | 0.72 / 0.62 / 0.67 | 0.77 / 0.52 / 0.62 |
+| Current 1 m detector | 0.90 / 0.34 / 0.49 | 1.00 / 0.51 / 0.68 | 0.96 / 0.28 / 0.44 |
+| Round 1 | 0.905 / 0.814 / 0.857 | 0.870 / 0.889 / 0.879 | 0.971 / 0.764 / 0.855 |
+| Round 2 (published) | 0.946 / 0.814 / 0.875 | 0.927 / 0.844 / 0.884 | 0.984 / 0.674 / 0.800 |
+| **Round 3 (refined)** | **0.926 / 0.868 / 0.896** | **0.929 / 0.878 / 0.903** | **0.984 / 0.685 / 0.808** |
+
+The gate result is **FAIL**: recall 0.685 against 0.9, over 89 scored crowns
+(61 found, 28 missed, 1 extra). Wilson 95% intervals: P 0.91-1.00, R 0.58-0.77.
+These are purposive samples, so the intervals describe the sample only.
+
+**Recall by stratum, round 2 → round 3:**
+
+| | New held-out | Used held-out (rounds 1-2) | Calibration |
+|---|---|---|---|
+| Closed | 35/50 → 35/50 | 17/23 → 19/23 | 42/56 → 48/56 |
+| Edge | 20/30 → 21/30 | 12/15 → 13/15 | 34/40 → 35/40 |
+| Group | 2/6 → 2/6 | 27/30 → 27/30 | 15/19 → 15/19 |
+| Isolated | 3/3 → 3/3 | 20/22 → 20/22 | 14/14 → 14/14 |
+| Conifer | 30/44 → 30/44 | 28/34 → 30/34 | 69/86 → 76/86 |
+| Broadleaf | 24/39 → 25/39 | 35/41 → 36/41 | 19/19 → 19/19 |
+| 3-8 m | 4/9 → 4/9 | 26/29 → 26/29 | 16/22 → 16/22 |
+| 8-15 m | 29/45 → 29/45 | 35/44 → 39/44 | 34/40 → 36/40 |
+| 15 m+ | 27/35 → 28/35 | 15/17 → 14/17 | 55/67 → 60/67 |
+
+**By window, new sample, round 3 (hits / misses / extras):** Q1 13/4/0, Q2 13/8/1,
+Q3 11/6/0, Q4 20/6/0, Q5 4/4/0.
+
+**Round 2's old sample (H1, H3-H5):** round 3 finds 44/52 with 2 extras (P 0.957,
+R 0.846), against round 2's 41/52 with 2 extras (P 0.953, R 0.788). The closed
+spruce square H4 goes from 10/14 to 12/14.
+
+### Why 90% is still out of reach here
+
+1. **The referee works where the reference is spruce in closed stands.** On
+   calibration, closed recall rises from 42/56 to 48/56 and K1's 22 spruces are all
+   found. On the old held-out windows, closed rises from 17/23 to 19/23.
+2. **The new sample's misses are mostly something else.** This is a tally made
+   after scoring, labelled as such; nothing was tuned on it.
+   - Of 28 misses, 15 are closed, 9 edge and 4 group, and 16 are 8-15 m tall.
+   - 14 are broadleaves: Q2's edge and group trees, the grove of Q4 and the young
+     mixed crowns of Q5. On the leaf-off CHM, bare twigs return few points, so
+     touching broadleaf crowns merge with no sharp top to recover.
+   - 14 are conifers, and 10 of those are crowns the interpreter called pine, in
+     Q1, Q3 and Q4. A pine's rounded or flat crown, touching its neighbours, has no
+     apex for the referee's point test; the referee was built on spruce, and
+     calibration holds 16 pines against 47 spruces.
+3. **Why round 1 finds more trees in closed stands on the new sample (38/50
+   against 35/50), from calibration data only.**
+   - **Closed spruce: the same.** On calibration, rounds 1 and 2 find exactly the
+     same closed crowns (42/56) and the same 105 references overall (recall 0.814
+     each). Round 2's conifer settings are round 1's.
+   - **Broadleaves: where they differ.** Round 2 has a wider treetop window
+     (`clamp(2 + 0.12 h, 1, 3)` against `clamp(1.5 + 0.05 h, 1, 3)`) and merges a
+     broadleaf top less than 0.5 m above the saddle into a taller neighbour.
+   - **How many broadleaf crowns each places.** Counted over the calibration
+     windows by the leaf-off type at each crown:
+     - round 1 places 55 broadleaf crowns, round 2 44 and round 3 43;
+     - inside the calibration ambiguity boxes, which are mostly C1's closed
+       broadleaf canopy of 22-29 m, round 1 places 26 broadleaf crowns and round 2
+       20.
+   - **What calibration can score.** It removed 5 extras (11 → 6) at a cost of 2
+     edge crowns (36/40 → 34/40). The 19 scored calibration broadleaves are all
+     isolated, group or edge trees, and both rounds find them all.
+   - **What calibration cannot score.** Calibration holds **no scored closed
+     broadleaf crown**: C1's are an ambiguity box because they could not be
+     interpreted crown by crown. So calibration rewards the merge for its fewer
+     extras and cannot weigh what it costs among touching broadleaves. The new
+     sample's closed crowns include Q4's grove and Q5, which are just that.
+   - **No calibration-only fix exists.** Every scored calibration signal favours
+     round 2's broadleaf settings. Changing them now would be choosing by the
+     held-out score, which the protocol forbids, so nothing was changed.
+   - **What would fix it:** a round 4 with calibration windows of interpretable
+     closed broadleaf crowns (a grove photographed leaf-on, say), the broadleaf
+     settings re-tuned there, and a fresh unseen sample to trust the result.
+     No detector was chosen by its held-out score.
+4. **Literature.**
+   - Kaartinen et al. (2012, *Remote Sensing* 4:950) found the extraction method
+     mattered far more than point density, at 2-8 points/m² in southern Finland's
+     spruce/pine/birch.
+   - Eysn et al. (2015, *Forests* 6:1721) matched 47% of trees overall in Alpine
+     plots, 35% in multi-layer conifer and 38% in multi-layer mixed stands. Below
+     15 m, 14-32%. This held even at high densities.
+   - Wang et al. (2016, *IEEE TGRS* 54:5011) found dominant trees detectable and
+     intermediate or suppressed trees mostly missed.
+
+   The interpreted reference here is mostly dominant and codominant crowns. Its 0.69
+   recall in closed and edge canopy is in that published range, not beyond it.
+5. **What would close the gap:**
+   - a field check of the closed windows (Q1, Q5, K1, K2, H3, H4) to settle the
+     reference;
+   - a leaf-on or denser laser campaign (Lantmäteriet has none here yet);
+   - the photo-based crown detector the owner deferred;
+   - a reference sample with more broadleaf edge and grove crowns in calibration, so
+     the broadleaf merge can be weighed there.
+
+### Pine or spruce: measured, not published
+
+[`subtype-rule-r3.json`](subtype-rule-r3.json), `benchmark --subtypes`.
+
+The interpreter called 123 of the 163 reference conifers pine or spruce on chips of
+both photos. Spruce reads dark, dense, pointed and regular; pine reads lighter and
+loose, with a bare stem. These calls read the same photos the rule reads, so they
+are not a field identification.
+
+- **Features per detected crown:**
+  - laser: radius over height, return-height quantiles, upper-crown share, apex
+    sharpness and intensity;
+  - photo, at the displaced crown: colour and NIR texture.
+- **Chosen on 63 calibration conifers (16 pine, 47 spruce):** pine when April blue
+  ≥ 64 AND radius/height ≥ 0.194. Balanced accuracy 0.873.
+- **On 49 held-out conifers:** accuracy 0.694, balanced 0.628 (pine 27/33, spruce
+  7/16). The new sample alone gives 21/26 pine and 0/1 spruce.
+- **The publication rule, declared first,** needed 30+ held-out conifers, accuracy
+  ≥ 0.9 and balanced ≥ 0.85. **Not met.**
+- **Second look: a confident subset.** The bar for it was declared before it saw a
+  held-out conifer.
+  - A ridge logistic over the six best calibration features. The cut was chosen on
+    calibration, where it kept 40 of 63 conifers at 95%.
+  - On held-out it called 19 of 49, and 11 were right (balanced 0.556). On the old
+    held-out windows all 11 were right (10 spruces, 1 pine); on the new sample all
+    8 were wrong, pines called spruce.
+  - The April photo's colour does not carry from one flight strip to the next.
+  - **Not met either.**
+- **So no subtype is published.** Every conifer keeps the runtime's pine/spruce mix
+  (pine 0.58 : spruce 0.36 by hash). Pine/spruce drawn before and after: unchanged
+  in proportion. The +992 records are mostly conifers, so the drawn pines and
+  spruces grow by about that share.
+
+**The plumbing is in place for a ground where the rule passes:**
+
+- `object-registry-tree-species-v1` lets a record's `subtype` name a measured
+  pine or spruce. A chunk carries the feature only when one of its trees does, and
+  a runtime without the feature refuses the chunk.
+- The compiler takes an optional `species` column.
+- The runtime draws a measured pine or spruce as that species (`speciesForType`).
+- The candidates stage writes the column only from a published rule.
+- Tests cover all four.
+
+Today's published chunks are unchanged. The engine and package edit does change the
+source revision, so every course's prepared startup data is stale until the
+combined re-bake.
+
+At about 1.8 first returns/m² a crown holds too few returns for shape. Photo colour
+changes with the flight strip and the light, and the ALS-only accuracies of 90-95% in
+the literature (Holmgren & Persson 2004) used far denser scans.
+
+### Pole-like crowns: reviewed
+
+[`pole-review.json`](pole-review.json). The hold is on (`holds.poleLike`: radius
+under 1 m, 5 m or taller). It held 206 placed crowns, and each was decided on
+compact chips. The chips show June 2025 colour and April 2021 colour infrared at
+0.16 m, centred between the laser base and the displaced top.
+
+| Verdict | Crowns | What they are |
+|---|---|---|
+| Tree | 162 | narrow trees squeezed between neighbours in closed stands (many are recovered tops), regrowth and edges |
+| Not a tree | 12 | 7 on roofs (ridges, a chimney, an edge), a flagpole, a lamp post, a power pole, a pole on a lawn, and a bare snag in the open; not placed |
+| Unclear | 32 | held: 9 in a broadleaf band by the 6th tee thinned after the 2021 laser, 16 retention trees or snags in clear-cuts made before it, 7 others |
+
+The two poles found in the earlier sample of 24 were of the same kind. Poles and
+masts stand in the open by buildings, lawns and roads.
+
+Three new felling-screened crowns were also reviewed
+([`felling-review.json`](felling-review.json)): two conifers south of the 8th tee
+are gone by June 2025, and one is present.
+
+**An unresolved site.** The band of tall broadleaves between the 6th tee and the
+5th green, about 70 × 100 m, was thinned or partly cleared after April 2021. June
+2025 shows forwarder ruts and young growth there. The laser of 2021 still carries
+its canopy, so most of its records stand, 9 pole-like ones are held, and the stand
+is listed for the owner. Its 2021 crowns are visible to the felling screen only
+where they stood outside the closed canopy.
+
+### What was staged and adopted on this branch
+
+- **Candidates** ([`candidates.csv`](candidates.csv)) start from the published
+  round-2 generation (`ground-v2-0af708ff…`), so its IDs carry forward. 26,164 of
+  26,249 published IDs are kept in scope.
+- **Staging:** `--stage publish --execute --pending-owner` compiled, published and
+  verified it in `output/course-workflow/johannesberg/staging-public`. Integrity is
+  true, with 39,577 tree records. The staging verification and the publish receipt
+  say `ownerApproval: pending-owner-approval`.
+- **Adoption** into `apps/golf/public` on this branch: `ground-v2-4f2d022d…` for
+  both routings.
+- **production.json** pins it, together with `candidates.csv` (`944aad9c…`) and the
+  residual rasters. Its note says pending owner approval.
+
+| | Round 2 (published) | Round 3 (staged) |
+|---|---|---|
+| Placed records, inner frontier | 26,249 | 27,241 (+992) |
+| retain / adjust / add | 560 / 1,662 / 24,027 (vs the 2026-09-11 generation) | 23,595 / 2,569 / 1,077 (vs round 2) |
+| Hold / merge / remove / not placed | 211 / 223 / 1 / 25 | 238 / 40 / 8 / 31 |
+| Conifer / broadleaf / unknown | 19,896 / 2,685 / 3,668 | 20,818 / 2,690 / 3,733 |
+| Near play: records, broadleaf share | 5,411, 13.0% | 5,745, 12.2% |
+| Residual canopy as stand field | 0.55% | 0.54% |
+| Tree records, whole 4,096 m level zero | 38,585 | 39,577 |
+
+The added trees stand in the conifer woods by holes 8, 10 and 12. Near-play records
+there go up by 8%, 10% and 9% respectively. The broadleaf share near each hole
+changes by at most two points from round 2. The species-mix flags are holes 4, 5, 6
+and 15 and eight holes of the 9-hole course, where the April photos show leafless
+groves; their shares are within two points of round 2's.
+
+**Re-baked** (on the GPU, before the owner turned it off): the prepared ground tints,
+water and far vista/scatter for both Johannesberg routings, and the map land record.
+`check-prepared-startup` then passed for every course, and the map's forest picture
+is unchanged.
+
+The later pine/spruce plumbing edits `apps/golf/src/engine/v2-vegetation.mjs` and
+`packages/course-v2`, which are part of the source revision. So **every course's
+prepared startup data on this branch is now stale** until one combined re-bake.
+That re-bake is to run after #156 and this branch are synced with main, where #157
+and #158 re-baked every course. The offline detector itself lives in
+`tools/tree-pipeline/` and expires nothing.
+
+### Screenshots and frame time
+
+Taken on the owner's RTX 5080 laptop GPU before he turned the GPU off. Before is
+PR #156's public root (b9df07df) on this branch's code; no app, engine or package
+source differed at the time.
+
+**Screenshots:** `tools/gfx-gallery.mjs`, 1920 × 1080, Dag light, waiting for
+`loadingTiles === 0` and two frames. Views: hole 1 from the tee and from above,
+hole 6, 8, 10 and 12 tees, the 17th green and the 9-hole course's 5th tee. They are
+in the ignored `tools/goldens/gfx/jb-r3-before-vs-jb-r3-after/` of the
+tree-pipeline worktree.
+
+The views read alike. The changes are recovered trees inside the closed woods and a
+handful of poles by buildings. GPU time per view (timestamp queries) moved by -1.1
+to +0.3 ms.
+
+**Frame time:** `tools/frame-time.mjs`, WebGPU, 1920 × 1080, frame cap lifted,
+240 frames, interleaved before/after. Values are milliseconds of rAF interval.
+
+| View | High: median before → after | High: p95 before → after | Low: median before → after | Low: p95 before → after |
+|---|---|---|---|---|
+| Hole 1 tee | 4.2 → 4.3 | 5.0 → 5.3 | 3.4 → 3.3 | 6.4 → 6.6 |
+| Hole 12 tee | 7.8 → 7.7 | 12.9 → 13.1 | 5.0 → 5.2 | 7.3 → 8.4 |
+| Hole 14 tee | 5.9 → 6.2 | 8.1 → 8.6 | 1.1 → 1.1 | 4.8 → 4.9 |
+| Hole 7 from above | 5.4 → 5.4 | 9.5 → 10.3 | 3.1 → 3.2 | 6.8 → 7.3 |
+| Hole 12 orbit | 9.5 → 9.8 | 14.8 → 15.7 | 1.3 → 1.3 | 9.1 → 9.4 |
+| Hole 5 tee | 5.7 → 5.6 | 12.9 → 13.1 | 3.8 → 4.0 | 7.7 → 8.4 |
+
+- **High quality:** the median over three runs per side. Runs of one side agree
+  within 0.5 ms.
+- **Low quality:** the mean of two runs per side. The third pair was stopped when
+  the owner turned the GPU off.
+- **Trees drawn:** 120,162 → 121,146 at high quality and 70,666 → 71,336 at low.
+  Triangles at hole 12 rise from 15.2 M to 15.8 M.
+- **The cost** is within the run-to-run spread for medians and up to about 1 ms at
+  p95. The heaviest view, hole 12's orbit at high quality, stays at 9.8 ms median
+  and 15.7 ms p95, inside 16.7 ms.
+
+These were taken before the pine/spruce runtime edit, which does not change what is
+drawn while no record carries a species. Phones and WebGL2 have no timing here.
+
+### Checks
+
+Final runs, after the pine/spruce plumbing, on the CPU only. Each ran one at a time
+at low priority on two cores.
+
+- `pnpm exec vitest run apps/golf --maxWorkers=2`: 1,892 of 1,892 passed in 227
+  files.
+- Node tests (the `pnpm test` list, `--test-concurrency=1`): 521 passed, 0
+  failed, 3 skipped. This includes the new round-3 pipeline tests and the registry
+  and compiler species tests.
+- `node tools/lint-app.mjs`: clean.
+- `node packages/course-v2/check-app-build.mjs`: passes, all 13 published graphs
+  (vite build at low priority).
+- `pnpm check:course-workflow`: passes.
+- `check-prepared-startup --public apps/golf/dist`: **fails, as expected** ("stale
+  tint", first for angso). The runtime edit changed the source revision, so every
+  course's prepared data waits for the combined re-bake. Before that edit it passed
+  for every course.
+- `check-gpu-clean-boot`, both routings, WebGPU and WebGL2, high and low quality:
+  all 8 boots clean (6.0-7.8 s; at most 14 vertex outputs). This ran before the
+  pine/spruce runtime edit and before the owner turned the GPU off; it must run
+  again after the combined re-bake.
+- **Reproduction:** re-scoring after the detector moved to `tools/` reproduced
+  benchmark-r3 for every role. `candidates.csv` and the residual rasters rebuilt
+  byte for byte.
+
+### Open for the owner
+
+1. **The held-out gate** (round 3: P 0.984 / R 0.685 on 89 unseen crowns). Accept
+   round 3 under an exception like round 2's, or keep round 2. The record is in
+   `pendingOwnerApprovals`.
+2. **The felled and not-a-tree list:** 8 removals and 31 not placed, including the
+   12 poles and structures.
+3. **The species-mix flags**, unchanged from round 2.
+4. **Screenshots and frame time** on his own view of the app.
+5. **The thinned band by the 6th tee:** confirm it, or ask for a newer laser.
+6. **The browser and GPU steps still to run** after #156 and this branch are synced
+   with main: one combined prepared-data re-bake, the clean boots and new
+   screenshots and timing. The owner turned the GPU off before them.
+
+### Reproduce round 3
+
+```sh
+RAW=<the pilot cache with copc/ and ortho/>
+node tools/tree-pipeline.mjs --ground johannesberg --stage detect --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage verify --relief --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage reference --prepare --native --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage reference --freeze --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage benchmark --tune --raw $RAW   # calibration only
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage benchmark --score --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage benchmark --subtypes --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage candidates --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage review --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage publish --execute --pending-owner --raw $RAW
+```
 
 ## Reproduce
 
