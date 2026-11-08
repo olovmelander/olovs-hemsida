@@ -11,16 +11,18 @@ import { DEFAULT_BAG, parseBag } from '../engine/caddie.js';
 import { exampleData } from '../shell/stats-model.mjs';
 import { createMapFrame } from '../map/map-frames.mjs';
 import { BALL, launchState, simulateShot, puttSpeedFor, SURFACES, CLUB_LAUNCH } from './ball-physics.mjs';
-import { clubCategory, launchFor, powerFor, flatShot, LIE_NAME } from './shot-model.mjs';
+import { clubCategory, launchFor, powerFor, LIE_NAME } from './shot-model.mjs';
 import { reliveRound, exampleRound, EXAMPLE_PREFIX } from './relive-model.mjs';
 import { createPlayCamera } from './play-camera.mjs';
 import { standAtBall, fitFeet, restoreLegs } from './golfer-rig.mjs';
 import { createPlayHud, scorecardHtml } from './play-hud.mjs';
-import { scoreName } from './play-rules.mjs';
+import { createRibbonTracer } from './ribbon-tracer.mjs';
+import { createPlayAudio } from './play-audio.mjs';
+import { scoreName, PLAY_KEYS } from './play-rules.mjs';
 
 const MAP_LIE = { green: 'green', bunker: 'sand', tee: 'tee', fairway: 'fairway', water: 'water', rough: 'rough' };
 const CSS = `
-body.pl-relive .pl-clubs,body.pl-relive .pl-help{display:none}
+body.pl-relive .pl-clubs,body.pl-relive .pl-help,body.pl-relive .pl-setup-btn,body.pl-relive .pl-setup-panel,body.pl-relive .pl-stats{display:none!important}
 .pl-rv-bar{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:4px;padding:5px}
 .pl-rv-bar button{min-width:48px;min-height:48px;border:0;border-radius:12px;background:transparent;color:var(--ink,#eaf3ec);font:600 18px Outfit,system-ui,sans-serif;cursor:pointer}
 .pl-rv-bar button:focus-visible{outline:2px solid var(--turf,#5fd07a);outline-offset:1px}
@@ -32,7 +34,7 @@ body.pl-relive .pl-clubs,body.pl-relive .pl-help{display:none}
 const lieOf = lie => MAP_LIE[lie] || 'fairway';
 
 /** The flight of a recorded shot: the club's own, laid onto from -> to. */
-export function reconstructFlight({ club, from, to, putt, heightAt, lie = 'fairway' }) {
+export function reconstructFlight({ club, from, to, putt, heightAt, lie = 'fairway', landLie = 'fairway' }) {
   const d = Math.hypot(to[0] - from[0], to[1] - from[1]);
   const yaw = Math.atan2(to[0] - from[0], to[1] - from[1]);
   const dir = [Math.sin(yaw), Math.cos(yaw)], side = [Math.cos(yaw), -Math.sin(yaw)];
@@ -45,7 +47,7 @@ export function reconstructFlight({ club, from, to, putt, heightAt, lie = 'fairw
       const x = from[0] + dir[0] * s, z = from[1] + dir[1] * s;
       path.push([t, x, heightAt(x, z) + BALL.radius, z, 'roll']);
     }
-    return { path, landing: null, time: T };
+    return { path, landing: null, time: T, events: [] };
   }
   const power = Math.min(1.1, powerFor(club, d, lie) ?? 1);
   const L = launchFor({ club, power, yaw: 0, lie, difficulty: 'normal' });
@@ -64,7 +66,9 @@ export function reconstructFlight({ club, from, to, putt, heightAt, lie = 'fairw
   }
   const last = path.at(-1);
   path.push([last[0] + .05, to[0], heightAt(to[0], to[1]) + BALL.radius, to[1], 'roll']);
-  return { path, landing, time: last[0] + .05 };
+  // Its bounces, heard on the surface the map recorded it finishing on.
+  const events = flat.events.map(e => (e.type === 'bounce' ? { ...e, surface: landLie } : e));
+  return { path, landing, time: last[0] + .05, events };
 }
 
 function sample(path, t) {
@@ -132,13 +136,11 @@ export async function mountRelive(h, roundId) {
 
   const ballMesh = new THREE.Mesh(new THREE.SphereGeometry(BALL.radius, 20, 14), new THREE.MeshStandardNodeMaterial({ color: '#fbfaf3', roughness: .42, emissive: '#5a5a52' }));
   h.scene.add(ballMesh);
-  const TRACE = 600, traceGeometry = new THREE.BufferGeometry();
-  traceGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(TRACE * 3), 3)); traceGeometry.setDrawRange(0, 0);
-  const tracer = new THREE.Line(traceGeometry, new THREE.LineBasicNodeMaterial({ color: '#fff6d8', transparent: true, opacity: .9, depthWrite: false }));
-  tracer.renderOrder = 3; tracer.frustumCulled = false; h.scene.add(tracer);
+  const tracer = createRibbonTracer({ scene: h.scene, camera: h.camera });
+  const audio = createPlayAudio({ enabled: (() => { try { return JSON.parse(localStorage.getItem(PLAY_KEYS.settings) || '{}').sound !== false; } catch { return true; } })() });
   const cam = createPlayCamera({ camera: h.camera, heightAt });
 
-  let holeIndex = 0, strokeIndex = 0, state = 'idle', timer = 0, paused = false, speed = 1, flight = null, flightT = 0, traced = 0;
+  let holeIndex = 0, strokeIndex = 0, state = 'idle', timer = 0, paused = false, speed = 1, flight = null, flightT = 0, eventIdx = 0;
   const hole = () => playable[holeIndex];
   const stroke = () => hole().plays[strokeIndex];
   const cup = () => cupOf(hole().n);
@@ -164,25 +166,31 @@ export async function mountRelive(h, roundId) {
     standAtBall(golfer, ballMesh.position, yaw, club.swing, heightAt);
     golfer.play(`Address${club.swing}`, { fade: .2 });
     cam.address(ballMesh.position, yaw, { putt: s.putt, distance: s.distance ?? 20 });
-    traceGeometry.setDrawRange(0, 0); traced = 0;
+    tracer.reset();
     const n = strokeIndex + 1;
     hud.banner(s.putt ? `Putt · slag ${n}` : `Slag ${n} · ${club.name}`,
       s.putt ? (!round.example && s.counted && strokeIndex === hole().plays.findIndex(p => p.putt) ? 'Puttarna är räknade, inte inmätta' : '') : LIE_NAME[lieOf(s.fromLie)] || '', '', 1600);
     card();
     state = 'address'; timer = 1.1;
-    flight = reconstructFlight({ club, from: s.from, to, putt: s.putt, heightAt, lie: lieOf(s.fromLie) });
+    flight = reconstructFlight({ club, from: s.from, to, putt: s.putt, heightAt, lie: lieOf(s.fromLie), landLie: lieOf(s.toLie) });
   }
   function swing() {
     const club = clubOf(stroke().club);
     state = 'swing';
     golfer.play(GOLF_SWINGS[club.swing], { fade: .1 });
   }
-  golfer.onImpact = () => { if (state === 'swing') { state = 'flight'; flightT = 0; cam.launch(); } };
+  golfer.onImpact = () => {
+    if (state !== 'swing') return;
+    state = 'flight'; flightT = 0; eventIdx = 0; cam.launch();
+    const club = clubOf(stroke().club);
+    audio.strike(club.cat === 'putter' || stroke().putt ? 'putter' : club.cat === 'driver' ? 'driver' : /wood|hybrid/.test(club.cat) ? 'wood' : /^(pw|gw|sw|lw)$/.test(club.cat) ? 'wedge' : 'iron',
+      { pure: .7, power: .9, lie: lieOf(stroke().fromLie) });
+  };
   function landed() {
     const s = stroke(), d = s.distance;
     if (s.outcome === 'out') hud.banner('Out of bounds', 'Pliktslag · slogs om från samma plats', 'bad', 2200);
     else if (s.inHazard) hud.banner('Pliktområde', `${s.penalty ? `+${s.penalty} pliktslag` : 'Plikt'}`, 'bad', 2200);
-    else if (s.holed) hud.banner('I hålet', d != null ? `${d < 10 ? d.toFixed(1) : Math.round(d)} m` : '', 'good', 1800);
+    else if (s.holed) { hud.banner('I hålet', d != null ? `${d < 10 ? d.toFixed(1) : Math.round(d)} m` : '', 'good', 1800); audio.cup(); }
     else hud.banner(d != null ? `${d < 10 ? d.toFixed(1) : Math.round(d)} m` : 'Slag', LIE_NAME[lieOf(s.toLie)] || '', '', 1600);
     if (s.holed) ballMesh.visible = false;
     cam.rest(ballMesh.position, new THREE.Vector3(cup()[0], heightAt(...cup()), cup()[1]));
@@ -240,9 +248,11 @@ export async function mountRelive(h, roundId) {
   bar.querySelector('[data-hole]').onclick = nextHole;
   bar.querySelector('[data-speed]').onclick = e => { speed = speed === 1 ? 2 : speed === 2 ? .5 : 1; e.target.textContent = `${speed}×`; if (!paused) golfer.rate = speed; };
   const abort = new AbortController();
+  addEventListener('pointerdown', () => audio.unlock(), { capture: true, signal: abort.signal });
   addEventListener('keydown', e => {
     if (/INPUT|SELECT|TEXTAREA/.test(e.target.tagName) || e.metaKey || e.ctrlKey || e.altKey) return;
     e.stopImmediatePropagation();
+    audio.unlock();
     if (hud.sheetOpen) { if (e.key === 'Escape') { hud.closeSheet(); setPaused(false); } return; }
     if (e.key === ' ') { setPaused(!paused); e.preventDefault(); }
     else if (e.key === 'ArrowRight') bar.querySelector('[data-next]').click();
@@ -270,7 +280,11 @@ export async function mountRelive(h, roundId) {
         flightT += step;
         const s = sample(flight.path, flightT), p = s.p;
         ballMesh.position.set(p[1], p[2], p[3]);
-        if (traced < TRACE && !stroke().putt) { traceGeometry.attributes.position.setXYZ(traced++, p[1], p[2], p[3]); traceGeometry.attributes.position.needsUpdate = true; traceGeometry.setDrawRange(0, traced); }
+        if (!stroke().putt && (p[4] === 'air' || tracer.count < 2)) tracer.push(p[1], p[2], p[3]);
+        while (eventIdx < flight.events.length && flight.events[eventIdx].t <= flightT) {
+          const e = flight.events[eventIdx++];
+          if (e.type === 'bounce') audio.bounce(e.surface, e.speed);
+        }
         const s0 = stroke(), to = s0.to || cup();
         const landing = flight.landing ? new THREE.Vector3(...flight.landing) : new THREE.Vector3(to[0], heightAt(to[0], to[1]), to[1]);
         cam.flight(ballMesh.position, new THREE.Vector3(...s.v), { landing, start: new THREE.Vector3(s0.from[0], heightAt(...s0.from), s0.from[1]),
@@ -280,11 +294,12 @@ export async function mountRelive(h, roundId) {
       const d = h.camera.position.distanceTo(ballMesh.position);
       ballMesh.scale.setScalar(Math.max(1, d * .085));
       cam.update(dt);
+      tracer.update(h.renderer.domElement.clientHeight || innerHeight);
     },
     state: () => ({ state, hole: hole()?.n, stroke: strokeIndex, holes: playable.length, paused, ball: ballMesh.position.toArray() }),
     dispose() {
-      abort.abort(); hud.dispose(); style.remove(); golfer.dispose();
-      for (const o of [ballMesh, tracer]) { h.scene.remove(o); o.geometry.dispose(); o.material.dispose(); }
+      abort.abort(); hud.dispose(); style.remove(); golfer.dispose(); tracer.dispose(); audio.dispose();
+      h.scene.remove(ballMesh); ballMesh.geometry.dispose(); ballMesh.material.dispose();
       document.body.classList.remove('pl-on', 'pl-relive'); h.controls.enabled = true;
     },
   };

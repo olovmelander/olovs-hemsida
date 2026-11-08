@@ -9,8 +9,17 @@ course. Their plan had three phases:
 2. Feel: sound, the ball's trace, replays, the celebration and difficulty levels.
 3. Social: a ghost of your best round, challenges and shared cards.
 
-Phase 1 is built, and so is Återupplev. Some of phase 2 came with it: the
-ball's trace, the celebration after a par or better, and three difficulty levels.
+Phase 1 is built, and so is Återupplev. Phase 2 followed the same day, after
+the owner asked what would bring the game closer to PGA Tour 2K25:
+
+- the swing's tempo, a game controller and the swing's numbers after each shot;
+- shot types and shaping;
+- reading aids: the spread, "plays like" and the green's slope;
+- lies: a lie %, slopes and plugged balls;
+- sound, a thick tracer, an instant replay and the hole's flyover;
+- partial swings that match the shot.
+
+The section [The tour-game layer](#the-tour-game-layer) describes them.
 
 ## Where it starts
 
@@ -142,14 +151,167 @@ own plantings).
   (how far is the power), then push straight back up through the start line to
   strike. Drifting sideways on the way up opens or closes the face and bends the
   path. Letting go before the strike cancels the swing. The golfer's backswing
-  follows the pull.
+  follows the pull. The swing is timed (see Tempo below).
 - **Tryck** (the accessible one, and Space): tap to start the meter, tap again
   to set the power, then tap a third time as the marker passes the line. Nothing
   needs a steady drag.
+- **A game controller:** the right stick swings as the pad is dragged (see
+  below).
 - **Aiming:** drag on the course, or press ← and →. Shift turns 0.2° at a time.
 - **Other keys:** ↑ and ↓ change the club, O is the overview, Esc is the menu.
-  Space or a tap speeds up a flight four times and skips a pause.
+  T, Q E, W S and Z C set up the shot, and R is the replay. Space or a tap
+  speeds up a flight four times and skips a pause.
 - While a game is on, the course's own shortcuts stay out of it.
+
+## The tour-game layer
+
+### Tempo (`swing-input.mjs` `tempoOf`)
+
+The drag and the controller's stick time the backswing (from the touch to the
+top) and the downswing (from the top to the strike).
+
+| Backswing : downswing | Verdict | What it does |
+| --- | --- | --- |
+| 2.6-3.8 : 1 (tour tempo is about 3 : 1) | Perfekt tempo | The drift's error is halved |
+| 2.2-2.6 or 3.8-4.4 : 1 | Bra tempo | 80% of the error |
+| under 2.2 : 1 | För långsamt genom bollen | Up to 16% shorter, the face open and the path out-to-in (a slice) |
+| over 4.4 : 1 | För snabbt från toppen | The face closed and the path in-to-out (a pull or hook) |
+
+A backswing hurried for its size (under 0.28-0.6 s) also spreads the miss
+("Stressad baksving").
+
+The verdict shows by the pad at the strike. The golfer's downswing on screen
+follows the player's own pace (`golfer.rate`). The tap meter is not timed.
+
+### A game controller (`gamepad-input.mjs`)
+
+The Gamepad API's standard mapping. The browser reports a controller only after
+one of its buttons is pressed on the page, and a banner then says it is
+connected and the help line changes.
+
+| Control | What it does |
+| --- | --- |
+| Right stick | The swing: pull back, then push through |
+| Left stick | Aims |
+| LB / RB | The club |
+| X | The shot type |
+| D-pad ← → | Shape (draw to fade) |
+| D-pad ↑ ↓ | Height |
+| LT / RT | Spin |
+| A | Tap meter; speeds a flight on; skips a flyover |
+| B | Back; closes a sheet |
+| Y | Overview |
+| Back | Replay |
+| Start | Menu |
+
+On a sheet, the D-pad moves between its buttons and A presses one. A pure
+strike rumbles. Letting the stick go to the middle cancels a swing.
+
+### The shot's setup (`shot-model.mjs`)
+
+The shot is set up from the button beside the club ("Slag") or with the keys.
+Each new shot starts from the caddie's choice.
+
+**Types** scale the club's full launch:
+
+| Type | Clubs | Speed | Launch | Spin | Swing |
+| --- | --- | --- | --- | --- | --- |
+| Full | all | 1 | 1 | 1 | the club's |
+| Punch | irons, hybrids, wedges | .92 | .7 | .85 | the club's |
+| Pitch | wedges | .76 | 1.1 | 1.02 | short game |
+| Chip | wedges | .32 | .72 | .6 | short game |
+| Flopp | GW, SW, LW | .56 | 1.6 | 1.12 | short game |
+| Bump & run | 7-9 irons | .23 | .5 | .3 | short game |
+
+With the default bag:
+- a punch with the 7-iron carries 116 m and runs to 146 m (a full one: 140/154);
+- the PW's chip runs about 28 m and the LW's 10 m;
+- the LW's flop lands about where it stops.
+
+Full wedge shots now take the iron swing, and the short game takes the chip
+swing (`swingFor`).
+
+**Shape:** Stor draw, Draw, Rak, Fade or Stor fade. Each step tilts the spin
+axis by 3.5° for a wedge up to 7° for the driver. A draw comes out a little
+lower with less spin, and a fade the opposite. The start line is opened
+(`shapeAim`, solved once on flat ground and remembered), so the shot still lands
+on the aim line: a big draw with the driver starts 5° right. Only full shots and
+punches are shaped.
+
+**Height:** Låg, Normal or Hög (launch ×.78 or ×1.18). **Spin:** Toppspinn
+(×.55), Normal or Bakspinn (×1.3).
+
+**The caddie** (`suggestShot`):
+- the putter on the green;
+- within 40 m and outside sand, the chip that reaches with the least loft;
+- within 95 m, a pitch;
+- otherwise the shortest club that carries the distance as it plays (with the
+  lie % counted in).
+
+### Reading the shot
+
+- **The spread:** an ellipse round the landing marker (Lätt and Normal). It is
+  two more simulated shots with a typical miss each way (a third of the pad's
+  width), and a depth from the strike's pace.
+- **Spelas som:** the pin's distance with the rise and the wind along it
+  (`playsLike` from the rangefinder). Lätt plans its power line on it.
+- **For putts:** "Uppför 24 cm · som 10 m". A rise of h on the green adds
+  (5/7) h / 0.06 of flat green (`puttPlaysLike`).
+- **The green's read** (`green-read.mjs`): within 30 m of the cup, arrows lie on
+  the green every 0.9 m round the line and drift slowly downhill. They are faster
+  and warmer (pale blue to amber to red) where the green is steeper, and still
+  under reduced motion. They read the same drawn heights the ball rolls on.
+
+### The lie
+
+- **The lie %** (`lieQuality`, seeded per stroke so a replay is the same):
+  - fairway, tee and green are 100%;
+  - the rough is 93% (sitting up), 88% or 76% (sitting down, with less spin and
+    more error);
+  - the forest is 76% or 67%;
+  - sand is 84% or 78%.
+- **Slopes** (`slopeLie`):
+  - uphill adds 0.85° of launch a degree;
+  - a ball above the feet starts left and hooks, and below them the opposite;
+  - every degree spreads the miss.
+  The lie chip says so ("uppför 3°, boll över fötterna").
+- **Plugged:** a steep, fast first landing in sand can bury the ball where it
+  lands (`plugged` in the physics). The next shot is then at 56%, with little
+  spin.
+
+### Presentation
+
+- **Sound** (`play-audio.mjs`): made on the spot with Web Audio, with no files.
+  - the strike, by club and lie, brighter when pure;
+  - the swing's whoosh, timed to impact;
+  - each bounce by its surface, from the physics' recorded `events`;
+  - a trunk's knock and the leaves;
+  - the cup's rattle and plunk, and a splash;
+  - a putt's roll, the wind by its speed, and a chime for par or better.
+
+  It starts on the first touch or key, pauses while the tab is hidden, and the
+  menu turns it off (Ljud).
+- **The tracer** (`ribbon-tracer.mjs`): a ribbon about five pixels wide at any
+  distance, turned to the eye each frame, soft at its edges and fading toward the
+  tee. Återupplev draws it too.
+- **The shot's numbers:** after each shot, a card with the tempo's verdict and
+  ratio, the club, type, power, face and path. Then carry, total, ball speed,
+  launch, spin, apex and how far offline. A putt's card shows its length, speed
+  and how long it played. On a phone it hides after 4.5 s.
+- **Instant replay** (Repris, R, Back on a controller, and "Se sista slaget
+  igen" on a holed hole's card):
+  - the golfer swings again at the old spot, filmed face on;
+  - the flight is followed from the side as it climbs, then from beyond the
+    landing;
+  - a putt is seen from low behind the cup.
+- **The hole's flyover** (`flyover.mjs`): before each hole's first shot, the
+  camera flies from behind the tee along the hole's line and settles over the
+  green looking at the flag. It takes 3.6-9 s and is skipped by a tap, Space or A.
+  It is off under reduced motion, and in the menu (Hålöverflygning).
+- **Partial swings:** a tap-meter swing, a replay or a harness plays the
+  backswing to its power before the downswing (`swingFrom`). A drag or a stick
+  holds it there. Either way the downswing starts from the matching point, so
+  a chip or a putt is a short stroke.
 
 ## The camera (`play-camera.mjs`)
 
@@ -224,10 +386,17 @@ it plays the same every time. The screen says it is an example
 
 ## Checks
 
-- **Unit tests:** `pnpm exec vitest run apps/golf/src/play`. They cover the
-  flight's calibration, the bounce and roll by surface, the cup, putting break,
-  trees, water and out of bounds; the bag mapping and planned power; the rules
-  and the card's storage; and the relive model, including the frame conversion.
+- **Unit tests:** `pnpm exec vitest run apps/golf/src/play`. They cover:
+  - the flight's calibration, the bounce and roll by surface, the cup, putting
+    break, trees, water and out of bounds;
+  - the recorded sound events and plugged lies;
+  - the bag mapping and planned power;
+  - the rules and the card's storage;
+  - the relive model, including the frame conversion;
+  - `shot-setup.test.mjs`: tempo, the timed drag and stick, the controller's
+    reading, shot types and swings, shaping that lands on the aim, height, chips
+    and flops, the caddie, the lie %, slopes, plugged sand, putts' rise, the
+    flyover's path and the green's arrows.
 - **The start menu:** `tools/check-chooser-ui.mjs` now expects five cards
   (Detaljerad 3D, Lätt 3D, Spela, Statistik, Inställningar), all whole on screen
   at every size it tests. On a phone the hero's numbers give way, and the lead
@@ -239,14 +408,28 @@ it plays the same every time. The screen says it is an example
   - a pulled 3-wood into Puttom 3's lake, shown with its penalty and drop;
   - the drag swing and the tap meter on a 390 × 844 phone;
   - Återupplev of a recorded two-hole round, with no console errors.
+
+  For the tour-game layer (`feel.mjs`, `padphone.mjs`, `tapchip.mjs`,
+  `holeout.mjs`):
+  - the flyover, the setup panel, a drawn drive at a 3 : 1 tempo, the stats
+    card, the replay and the green's read on Puttom 1;
+  - a stubbed standard controller on a phone: A skipped the flyover, RB and the
+    D-pad set up the shot, and the stick swung;
+  - a tap-meter putt;
+  - a hole holed for par, then its holing putt replayed from the card;
+  - Statistik's example round in Återupplev with the new tracer.
+
+  None had a console error.
 - **The card art:** `node tools/make-play-art.mjs <server>` re-shoots it.
 
 ## Still open
 
-- **Phase 2:** sound, replays and a thicker tracer. The trace is a one-pixel
-  line, and the ball has a halo.
 - **Phase 3:** a ghost of the best round, challenges and shared cards.
-- **The real rough's lie:** sitting down or sitting up. Wind gusts.
+- **Not yet built:** wind gusts; a tempo guide on the pad; and an animation per
+  shot type beyond the chip swing (a flop's open stance, a punch's held finish).
+- **Sound:** has been heard only through the code; its levels want the owner's
+  ears.
+- **A physical controller:** only a stubbed one has been tried.
 - **A real phone:** its frame rate in a game has not been measured. Only an
   emulated phone was used.
 - **Re-tuning:** the game's feel (swing sensitivity, the camera's timing) has

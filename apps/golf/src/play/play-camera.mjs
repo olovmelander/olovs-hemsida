@@ -81,6 +81,36 @@ export function createPlayCamera({ camera, heightAt }) {
       goalLook.copy(ball).addScaledVector(d, 6);
       stiffness = 2.2;
     },
+    /** The replay's swing: face on, from the far side of the ball, the golfer filling the frame. */
+    replaySwing(ball, yaw, { putt = false } = {}) {
+      const d = dirOf(yaw), right = new THREE.Vector3(-d.z, 0, d.x);
+      goalEye.copy(ball).addScaledVector(right, putt ? 2.4 : 3.4).addScaledVector(d, putt ? .2 : .5).addScaledVector(UP, putt ? .8 : 1.15);
+      keepAbove(goalEye, .7);
+      goalLook.copy(ball).addScaledVector(right, -.55).addScaledVector(UP, putt ? .55 : .85);
+      stiffness = 6;
+    },
+    /** The replay's flight: from the side as it climbs, then from beyond the landing, looking back at it coming in. */
+    replay(ball, { start, landing, progress, putt = false, cup = null }) {
+      const line = new THREE.Vector3().subVectors(landing, start).setY(0);
+      if (line.lengthSq() < 1e-6) line.set(0, 0, 1);
+      const length = line.length(); line.normalize();
+      const side = new THREE.Vector3(-line.z, 0, line.x);
+      if (putt) {
+        // Low behind the cup, the ball rolling toward the eye.
+        const at = cup || landing;
+        goalEye.copy(at).addScaledVector(line, 2.2).addScaledVector(side, .7).addScaledVector(UP, .5);
+        keepAbove(goalEye, .35); goalLook.copy(ball); stiffness = 3.5; return;
+      }
+      if (progress < .55) {
+        goalEye.copy(start).addScaledVector(side, 9 + length * .05).addScaledVector(line, Math.min(40, length * .18)).addScaledVector(UP, 2.2 + length * .02);
+        stiffness = 3;
+      } else {
+        goalEye.copy(landing).addScaledVector(line, 10 + length * .04).addScaledVector(side, -5).addScaledVector(UP, 2.4);
+        stiffness = 2.4;
+      }
+      keepAbove(goalEye, 1.2);
+      goalLook.copy(ball);
+    },
     /** Looking at a point from a given spot (a cut). */
     frame(eyeAt, lookAt, k = 3) { goalEye.copy(eyeAt); goalLook.copy(lookAt); stiffness = k; },
     update(dt) {

@@ -141,15 +141,19 @@ export function simulateShot(world, shot, options = {}) {
   let p = shot.start.slice(), vel = shot.velocity.slice(), spin = shot.spin.slice();
   const wind = shot.wind || [0, 0];
   const path = [];
+  /* What a listener would hear: every bounce and branch, the cup, the water. */
+  const events = [];
   let t = 0, phase = shot.roll ? 'roll' : 'air', step = 0, bounces = 0, apex = p[1], landing = null, treeHits = 0;
-  let lastDry = [p[0], p[2]], entry = null;
+  let lastDry = [p[0], p[2]], entry = null, plugged = false;
   const startXZ = [p[0], p[2]];
   const push = () => { if (record) path.push([t, p[0], p[1], p[2], phase]); };
   push();
   const finish = (outcome, extra = {}) => {
     if (record) path.push([t, p[0], p[1], p[2], phase]);
     const total = Math.hypot(p[0] - startXZ[0], p[2] - startXZ[1]);
-    return { path, rest: p, outcome, total, apex: apex - shot.start[1], landing, bounces, treeHits, time: t,
+    if (outcome === 'holed') events.push({ t, type: 'cup' });
+    if (outcome === 'water') events.push({ t, type: 'water' });
+    return { path, events, rest: p, outcome, total, apex: apex - shot.start[1], landing, bounces, treeHits, time: t, plugged,
       carry: landing ? Math.hypot(landing[0] - startXZ[0], landing[2] - startXZ[1]) : total, ...extra };
   };
   const holeCheck = (a, b, speed) => {
@@ -191,7 +195,7 @@ export function simulateShot(world, shot, options = {}) {
           if (h < crownBase + .4 && horizontal < tree.trunk + BALL.radius) {
             const nx = rx / (horizontal || 1), nz = rz / (horizontal || 1);
             const vn = vel[0] * nx + vel[2] * nz;
-            if (vn < 0) { vel = [vel[0] - 1.45 * vn * nx, vel[1], vel[2] - 1.45 * vn * nz]; vel = mul(vel, .55); treeHits++; }
+            if (vn < 0) { vel = [vel[0] - 1.45 * vn * nx, vel[1], vel[2] - 1.45 * vn * nz]; vel = mul(vel, .55); treeHits++; events.push({ t, type: 'trunk' }); }
             continue;
           }
           const ex = horizontal / crownR, ey = (h - crownMid) / (crownH * .5);
@@ -202,7 +206,7 @@ export function simulateShot(world, shot, options = {}) {
               const speed = len(vel) * (.25 + .25 * rand());
               const out = norm([rand() - .5, -.4 - rand() * .6, rand() - .5]);
               vel = mul(norm(add(mul(norm(vel), .35), out)), speed);
-              spin = mul(spin, .3); treeHits++;
+              spin = mul(spin, .3); treeHits++; events.push({ t, type: 'leaves' });
             }
           }
         }
@@ -223,6 +227,13 @@ export function simulateShot(world, shot, options = {}) {
         const s = surfaceOf(kind);
         const n = groundNormal(heightAt, p[0], p[2]);
         const vn = dot(vel, n);
+        // A steep, fast first landing in sand buries the ball where it lands: a plugged lie.
+        if (kind === 'sand' && bounces === 0 && -vn > 11 && rand() < clamp((-vn - 11) / 10, 0, .85)) {
+          plugged = true; vel = [0, 0, 0]; phase = 'roll'; bounces++;
+          events.push({ t, type: 'bounce', surface: kind, speed: -vn });
+          push();
+          continue;
+        }
         let vt = sub(vel, mul(n, vn));
         const tangentSpeed = len(vt);
         // Backspin bites: it takes tangential speed off in proportion to the
@@ -239,6 +250,7 @@ export function simulateShot(world, shot, options = {}) {
         vel = add(vt, mul(n, -vn * e));
         spin = mul(spin, .35);
         bounces++;
+        events.push({ t, type: 'bounce', surface: kind, speed: Math.abs(vn) });
         if (Math.abs(vn) * e < .7 || bounces > 6 || kind === 'sand') {
           phase = 'roll';
           vel = sub(vel, mul(n, dot(vel, n)));

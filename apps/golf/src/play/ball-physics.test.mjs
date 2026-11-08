@@ -115,3 +115,27 @@ describe('putting', () => {
     expect(SURFACES.green.roll).toBeLessThan(SURFACES.fairway.roll);
   });
 });
+
+describe('what a listener hears, and a plugged lie', () => {
+  it('records each bounce with its surface, and the cup', () => {
+    const shot = shoot(flat(), { speed: 40, launchDeg: 20, spinRpm: 6000 });
+    const bounces = shot.events.filter(e => e.type === 'bounce');
+    expect(bounces.length).toBeGreaterThan(0);
+    expect(bounces[0].surface).toBe('fairway');
+    expect(bounces.every((e, i) => i === 0 || e.t >= bounces[i - 1].t)).toBe(true);
+    const putt = shoot(flat('green', { cup: [0, 3] }), { speed: puttSpeedFor(3.3), launchDeg: 0, spinRpm: 0 });
+    expect(putt.outcome).toBe('holed');
+    expect(putt.events.at(-1).type).toBe('cup');
+  });
+  it('a steep, fast landing in sand can bury the ball where it lands', () => {
+    let plugged = 0;
+    for (let seed = 1; seed <= 20; seed++) {
+      const { velocity, spin } = launchState({ speed: 45, launchDeg: 38, yaw: 0, spinRpm: 9000 });
+      const shot = simulateShot(flat('sand'), { start: [0, BALL.radius, 0], velocity, spin, seed });
+      if (shot.plugged) { plugged++; expect(shot.total - shot.carry).toBeLessThan(.01); }
+    }
+    expect(plugged).toBeGreaterThan(0);
+    const { velocity, spin } = launchState({ speed: 12, launchDeg: 10, yaw: 0, spinRpm: 3000 });
+    expect(simulateShot(flat('sand'), { start: [0, BALL.radius, 0], velocity, spin }).plugged).toBe(false);
+  });
+});

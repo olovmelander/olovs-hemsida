@@ -10,25 +10,59 @@
    to set the power, and a third time as the marker passes the line to set the
    accuracy. Nothing needs a steady drag or a precise gesture.
 
+   Spak: a game controller's right stick swings as the pad does -- pull it
+   back, push it through -- and is timed the same way.
+
+   Tempo (the drag and the stick): the backswing, the turn at the top and the
+   downswing are timed. A tour swing's backswing takes about three times its
+   downswing (the "3:1" of tour tempo studies): near that the strike is pure
+   and the drift's error is halved; a downswing that dawdles decelerates through
+   the ball (shorter, open, a slice); one snatched from the top closes the face
+   (a pull or a hook); a hurried backswing spreads every miss.
+
    Pure state machines with a small DOM view; the play mode decides what a
    strike does. */
 
 export const SWING_METHODS = Object.freeze({ drag: 'Dra', tap: 'Tryck' });
 const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const now = () => (globalThis.performance?.now?.() ?? Date.now()) / 1000;
+
+/** What a swing's timing does to the strike. back and down in seconds. */
+export function tempoOf({ back, down, power = 1 } = {}) {
+  if (!(back > 0) || !(down > 0)) return { ratio: null, grade: 'none', label: '', powerMul: 1, faceAdd: 0, pathAdd: 0, errorMul: 1 };
+  const ratio = back / down;
+  let grade = 'perfect', label = 'Perfekt tempo', powerMul = 1, faceAdd = 0, pathAdd = 0, errorMul = .5;
+  if (ratio < 2.2) {
+    const k = Math.min(1, (2.2 - ratio) / 1.4);
+    grade = 'slow'; label = 'För långsamt genom bollen'; powerMul = 1 - .16 * k; faceAdd = .35 * k; pathAdd = .3 * k; errorMul = 1;
+  } else if (ratio > 4.4) {
+    const k = Math.min(1, (ratio - 4.4) / 3);
+    grade = 'fast'; label = 'För snabbt från toppen'; powerMul = 1 - .04 * k; faceAdd = -.4 * k; pathAdd = -.45 * k; errorMul = 1.15;
+  } else if (ratio < 2.6 || ratio > 3.8) {
+    grade = 'good'; label = 'Bra tempo'; errorMul = .8;
+  }
+  // A backswing hurried for its size spreads the miss, whatever the ratio.
+  const least = .28 + .32 * Math.min(1, power);
+  if (back < least) {
+    if (grade === 'perfect') grade = 'good';
+    label = 'Stressad baksving'; errorMul *= 1.3; faceAdd -= .12;
+  }
+  return { ratio, grade, label, powerMul, faceAdd, pathAdd, errorMul, back, down };
+}
 
 /** The drag swing's arithmetic, from pointer positions (px, y grows downward). */
 export function dragSwing({ height, width }) {
-  let state = 'idle', x0 = 0, y0 = 0, deepest = 0, xTop = 0, power = 0;
+  let state = 'idle', x0 = 0, y0 = 0, deepest = 0, xTop = 0, power = 0, t0 = 0, tTop = 0, tTurn = 0;
   return {
     get state() { return state; },
     get power() { return power; },
-    down(x, y) { state = 'back'; x0 = x; y0 = y; deepest = y; xTop = x; power = 0; },
-    move(x, y) {
+    down(x, y, t = now()) { state = 'back'; x0 = x; y0 = y; deepest = y; xTop = x; power = 0; t0 = t; tTop = t; },
+    move(x, y, t = now()) {
       if (state === 'back') {
-        if (y > deepest) { deepest = y; xTop = x; }
+        if (y > deepest) { deepest = y; xTop = x; tTop = t; }
         power = clamp((deepest - y0) / height, 0, 1.1);
         // A clear turn upward after a real backswing starts the downswing.
-        if (deepest - y > Math.max(10, height * .06) && power > .04) state = 'down';
+        if (deepest - y > Math.max(10, height * .06) && power > .04) { state = 'down'; tTurn = tTop; }
         return { phase: 'back', power };
       }
       if (state === 'down') {
@@ -36,13 +70,55 @@ export function dragSwing({ height, width }) {
           state = 'idle';
           const face = clamp((x - x0) / (width * .38), -1, 1);
           const path = clamp((x - xTop) / (width * .5), -1, 1);
-          return { phase: 'strike', power, face, path };
+          const tempo = tempoOf({ back: tTop - t0, down: t - tTurn, power });
+          return { phase: 'strike', power, face, path, tempo };
         }
         return { phase: 'down', power, drift: (x - x0) / (width * .38) };
       }
       return null;
     },
     up() { const was = state; state = 'idle'; return was === 'idle' ? null : { phase: 'cancel' }; },
+  };
+}
+
+/**
+ * A game controller's stick as the swing: y > 0 is pulled back (toward the
+ * player), y < 0 pushed through. The backswing starts past a dead zone, power is
+ * how far back it went, the strike comes when the stick is pushed through the
+ * top; a stick let go to the middle (or left at the top) cancels.
+ */
+export function stickSwing() {
+  let state = 'idle', deepest = 0, xTop = 0, power = 0, t0 = 0, tTop = 0, tTurn = 0, still = 0, last = 0;
+  return {
+    get state() { return state; },
+    get power() { return power; },
+    feed(x, y, t = now()) {
+      const dt = last ? t - last : 0; last = t;
+      if (state === 'idle') {
+        if (y > .22) { state = 'back'; deepest = y; xTop = x; t0 = t; tTop = t; power = 0; still = 0; }
+        return null;
+      }
+      if (state === 'back') {
+        if (y > deepest) { deepest = y; xTop = x; tTop = t; }
+        power = clamp((deepest - .22) / .72, 0, 1);
+        if (deepest - y > .28 && power > .04) { state = 'down'; tTurn = tTop; still = 0; return { phase: 'back', power }; }
+        if (t - tTop > 2.5) { state = 'idle'; return { phase: 'cancel' }; }
+        return { phase: 'back', power };
+      }
+      if (state === 'down') {
+        if (y < -.55) {
+          state = 'idle';
+          const face = clamp(x / .55, -1, 1), path = clamp((x - xTop) / .8, -1, 1);
+          return { phase: 'strike', power, face, path, tempo: tempoOf({ back: tTop - t0, down: t - tTurn, power }) };
+        }
+        // Let go: the stick sits in the middle instead of going through.
+        still = Math.abs(y) < .2 ? still + dt : 0;
+        if (still > .3 || t - tTurn > 1.4) { state = 'idle'; return { phase: 'cancel' }; }
+        return { phase: 'down', power, drift: x / .55 };
+      }
+      return null;
+    },
+    cancel() { state = 'idle'; },
   };
 }
 
@@ -84,7 +160,8 @@ export function tapMeter({ rise = 1.05, fall = 1.4 } = {}) {
 
 /**
  * The swing pad's view and its event wiring.
- * callbacks: onBack(power) while pulling back, onStrike({ power, face, path }), onCancel().
+ * callbacks: onBack(power, source) while pulling back (source: drag, stick or tap),
+ * onStrike({ power, face, path, tempo }), onCancel().
  */
 export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCancel }) {
   const el = document.createElement('div');
@@ -100,6 +177,7 @@ export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCa
   const meter = el.querySelector('.pl-meter'), meterFill = el.querySelector('.pl-meter-fill'), marker = el.querySelector('.pl-meter-marker');
   const tapButton = el.querySelector('.pl-tap'), hint = el.querySelector('.pl-swing-hint');
   let drag = null, meterState = tapMeter(), enabled = true, pointer = null;
+  const stick = stickSwing();
   const showPower = p => {
     fill.style.setProperty('--p', Math.min(1.1, p).toFixed(3));
     knob.style.setProperty('--p', Math.min(1.1, p).toFixed(3));
@@ -122,7 +200,7 @@ export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCa
     if (!drag || e.pointerId !== pointer) return;
     const out = drag.move(e.clientX, e.clientY);
     if (!out) return;
-    if (out.phase === 'back') { showPower(out.power); onBack?.(out.power); }
+    if (out.phase === 'back') { showPower(out.power); onBack?.(out.power, 'drag'); }
     if (out.phase === 'down') el.style.setProperty('--drift', out.drift.toFixed(3));
     if (out.phase === 'strike') { el.classList.remove('active'); drag = null; onStrike(out); }
   });
@@ -136,7 +214,7 @@ export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCa
     if (!enabled || method !== 'tap') return;
     const out = meterState.tap();
     if (out?.phase === 'start') el.classList.add('active');
-    if (out?.phase === 'power') onBack?.(out.power);
+    if (out?.phase === 'power') onBack?.(out.power, 'tap');
     if (out?.phase === 'strike') { el.classList.remove('active'); onStrike(out); }
   };
   tapButton.addEventListener('click', tap);
@@ -152,9 +230,19 @@ export function createSwingPad({ parent, method = 'drag', onBack, onStrike, onCa
       const m = meterState.marker;
       meterFill.style.setProperty('--p', Math.max(0, meterState.state === 'accuracy' ? meterState.power : m).toFixed(3));
       marker.style.setProperty('--m', m.toFixed(3));
-      if (out?.phase === 'power') onBack?.(m);
+      if (out?.phase === 'power') onBack?.(m, 'tap');
       if (out?.phase === 'cancel') { el.classList.remove('active'); onCancel?.(); }
       if (out?.phase === 'strike' && out.power) { el.classList.remove('active'); onStrike(out); }
+    },
+    /** A controller's right stick (x, y in -1..1): swings in any method. */
+    stick(x, y) {
+      if (!enabled) { stick.cancel(); return; }
+      const out = stick.feed(x, y);
+      if (!out) return;
+      if (out.phase === 'back') { showPower(out.power); el.classList.add('active'); onBack?.(out.power, 'stick'); }
+      if (out.phase === 'down') el.style.setProperty('--drift', clamp(out.drift, -1.5, 1.5).toFixed(3));
+      if (out.phase === 'strike') { el.classList.remove('active'); showPower(0); el.style.setProperty('--drift', 0); onStrike(out); }
+      if (out.phase === 'cancel') { el.classList.remove('active'); showPower(0); el.style.setProperty('--drift', 0); onCancel?.(); }
     },
     /** The planned power (0..1) as a line to pull to; null hides it. */
     target(power) {

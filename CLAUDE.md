@@ -86,7 +86,11 @@ this guide or the current production workflow.
   game there, never in `main.js`. Played rounds keep their own key
   (`banvy-play-rounds-v1`) and never reach the map's records or the club statistics.
   Every build publishes the golfer models for it (loaded only when a game starts,
-  never precached). See [Spela and Återupplev](docs/play-mode.md).
+  never precached). Its tour-game layer (tempo, a game controller, shot types and
+  shaping, the lie %, the green's read, sound, replay and flyover) is in its own
+  modules there. The physics records what a listener hears (`events`), and the sound
+  plays those, so a new ground reaction needs an event as well. See
+  [Spela and Återupplev](docs/play-mode.md).
 - All seven historical public HTML URLs redirect to the app with their course
   and supported view settings. Vite generates these redirects. Root HTML sources
   remain course-pack validation inputs; never copy them over the built redirects.
