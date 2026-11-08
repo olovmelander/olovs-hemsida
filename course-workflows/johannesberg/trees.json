@@ -74,6 +74,23 @@
       "note": "round 4 (owner request of 2026-11-08: reach 90% with the learned crown detector on the GPU, reading the June 2025 photo): the round-3 laser lock fused with DeepForest crowns from the 2025 photo, moved back to their trunks by the relief field; a new unseen held-out sample (W1-W5) frozen before any detector ran near it; the round-1, round-2 and round-3 held-out windows are used-holdout"
     }
   ],
+  "photoDetect": {
+    "$comment": "Round 4 (owner request of 2026-11-08): the learned crown detector on the June 2025 photo, run by --stage photo-detect on the GPU. DeepForest (weecology, MIT licence) through photo/crowns.py; pretrained sources at four patch sizes and fine-tuned sources (calibration windows only, cross-fitted by the two folds for tuning). The benchmark's fused tuning chooses one source and the fusion settings on calibration only.",
+    "rounds": ["r4"],
+    "python": "johannesbergbuild/cache/venv-photo/Scripts/python.exe",
+    "requirements": "tools/tree-pipeline/photo/requirements-photo.txt",
+    "model": { "id": "weecology/deepforest-tree", "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace", "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8", "licence": "MIT" },
+    "halo": 64,
+    "folds": [["C1-h10-south", "C3-h4-meadow", "C5-h17-18", "K1-h10-spruce"], ["C2-h11-edge", "C4-h16-spruce-edge", "C6-h3-isolated", "K2-h9-mixed"]],
+    "sources": [
+      { "id": "pre-p40", "patchMetres": 40, "weights": "pretrained" },
+      { "id": "pre-p50", "patchMetres": 50, "weights": "pretrained" },
+      { "id": "pre-p64", "patchMetres": 64, "weights": "pretrained" },
+      { "id": "pre-p80", "patchMetres": 80, "weights": "pretrained" },
+      { "id": "ft-p40", "patchMetres": 40, "weights": "finetuned", "epochs": 12, "lr": 0.00005, "perCrop": 6, "seed": 7, "snapTo": "pre-p40" },
+      { "id": "ft-p64", "patchMetres": 64, "weights": "finetuned", "epochs": 12, "lr": 0.00005, "perCrop": 6, "seed": 7, "snapTo": "pre-p64" }
+    ]
+  },
   "activeRound": "r3",
   "typeRule": {
     "round": "r1",

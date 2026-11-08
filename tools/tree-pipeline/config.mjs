@@ -16,6 +16,7 @@
    write another without touching the first.                                 */
 import fs from 'node:fs';
 import path from 'node:path';
+import { photoDetectProblems } from './photo-detect.mjs';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -27,7 +28,7 @@ const ID = /^[a-z0-9][a-z0-9-]*$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const TOP_KEYS = ['$comment', 'schemaVersion', 'kind', 'groundId', 'courseSlugs', 'provider', 'reviewId', 'reviewDir', 'cacheDir', 'geometryDir',
   'window', 'laser', 'orthophotos', 'registration', 'published', 'playZone', 'rounds', 'activeRound', 'typeRule', 'holds', 'review',
-  'publication', 'ownerExceptions', 'pendingOwnerApprovals', 'ownerDecisions'];
+  'publication', 'ownerExceptions', 'pendingOwnerApprovals', 'ownerDecisions', 'photoDetect'];
 
 class ConfigProblems {
   constructor() { this.list = []; }
@@ -174,6 +175,8 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     roundIds.push(r.id);
   });
   p.check(roundIds.includes(config.activeRound), 'activeRound must name a declared round');
+  for (const problem of photoDetectProblems(config)) p.check(false, problem);
+  for (const r of rounds.filter(o => o.detector === 'fused')) p.check(Boolean(config.photoDetect?.rounds?.includes(r.id)), `round ${r.id} is fused: photoDetect.rounds must name it`);
 
   if (keys(p, config.typeRule, ['round', 'broadleafMaximumAprilShare', 'unknownBelowConfidence', 'note'], 'typeRule')) {
     const t = config.typeRule;

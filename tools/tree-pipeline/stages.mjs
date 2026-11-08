@@ -41,9 +41,15 @@ export const STAGES = Object.freeze([
     produces: ctx => [ctx.reviewFile(ctx.sampleFile('reference', 'geojson')), ctx.reviewFile(ctx.sampleFile('reference-lock'))],
   }),
   Object.freeze({
+    name: 'photo-detect', kind: 'automatic', gpu: 'CUDA',
+    summary: 'optional (photoDetect in trees.json, fused rounds only): the learned crown detector on the presence photo, cross-fitted on calibration windows and run over the whole window (the only GPU stage)',
+    needs: ctx => (ctx.config.photoDetect?.rounds?.includes(ctx.round.id) ? [ctx.reviewFile(ctx.sampleFile('reference-lock'))] : []),
+    produces: ctx => (ctx.config.photoDetect?.rounds?.includes(ctx.round.id) ? [ctx.reviewFile(ctx.sampleFile('photo-detect'))] : []),
+  }),
+  Object.freeze({
     name: 'benchmark', kind: 'gate',
     summary: 'tune on calibration windows only, calibrate the type rule, score every method on every role, evaluate the 90% held-out gate',
-    needs: ctx => [ctx.reviewFile(ctx.sampleFile('reference-lock'))],
+    needs: ctx => [ctx.reviewFile(ctx.sampleFile('reference-lock')), ...(ctx.round.detector === 'fused' ? [ctx.reviewFile(ctx.sampleFile('photo-detect'))] : [])],
     produces: ctx => [ctx.reviewFile(ctx.sampleFile('detector-lock')), ctx.reviewFile(ctx.sampleFile('benchmark'))],
   }),
   Object.freeze({
