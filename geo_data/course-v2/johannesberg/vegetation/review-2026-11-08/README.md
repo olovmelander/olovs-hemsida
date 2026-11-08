@@ -2,7 +2,7 @@
 
 **Status (2026-11-08, published):** the inner 2,048 m frontier now carries the round-2 reviewed generation, published by the owner's decisions below although the held-out gate is not met, with broadleaf calls narrowed by the owner's species check (see Publication). Round 2 itself is described further down.
 
-**Round 3 (branch `trees-round3`, pending owner approval):** a photo-refereed detector staged for the owner's decision. It reaches P 0.984 / R 0.685 on a new unseen sample drawn from the strata near play (round 2 0.984 / 0.674, round 1 0.971 / 0.764), so the gate is still not met. Pine/spruce was measured but not published, and the pole-like crowns were reviewed. See Round 3.
+**Round 3 (branch `trees-round3`, accepted by the owner on 2026-11-08):** the photo-refereed detector replaces round 2 in the inner frontier. It reaches P 0.984 / R 0.685 on a new unseen sample drawn from the strata near play (round 2 0.984 / 0.674, round 1 0.971 / 0.764), so the gate is still not met. The owner chose: "Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2." Pine/spruce was measured but not published, and the pole-like crowns were reviewed. See Round 3.
 
 The sections from Evidence ledger to What Stage B needs record **Stage A (round 1)**
 as it stood before publication: there, nothing was published, and the round-1 held-out
@@ -731,13 +731,18 @@ confidence-gated type.
 
 The holds split 71 near and 262 woodland. Merges: 42 near, 144 woodland.
 
-## Round 3: a photo referee, a sample from the strata near play (pending the owner)
+## Round 3: a photo referee, a sample from the strata near play (accepted by the owner)
 
-**Status: staged on branch `trees-round3`, pending owner approval.** The round-3
-detector beats round 2 by the declared F1 on a new unseen sample, so it was staged
-as the brief asked, but it does **not** meet the 90% gate. The owner exception of
-2026-11-08 covers round 2 only; round 3 is recorded under `pendingOwnerApprovals`
-in `course-workflows/johannesberg/trees.json`, not as an exception.
+**Status: accepted by the owner on 2026-11-08, on branch `trees-round3`.** The
+round-3 detector beats round 2 by the declared F1 on a new unseen sample, but it
+does **not** meet the 90% gate.
+
+The owner was asked: "Johannesberg trees: round 3 still misses the 90% target (finds 69% vs round 2’s 67% on 89 new hand-checked trees, both 98% right), but removes 12 roofs/poles drawn as trees and 2 felled trees, and adds 992 real ones. Which should go live?" He chose: "Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2."
+
+His exception is recorded in `course-workflows/johannesberg/trees.json` under
+`ownerExceptions`, pinned to benchmark-r3 (SHA-256 `295c03ec…`) and restating
+P 0.984 and R 0.685. It sits beside round 2's exception and does not replace it.
+Until his decision the round was staged under `pendingOwnerApprovals`, now empty.
 
 The owner's question was whether recall can reach 0.9 with precision at least 0.9,
 on the newest Lantmäteriet data, with CPU-only methods. On a sample drawn from the
@@ -1017,19 +1022,24 @@ its canopy, so most of its records stand, 9 pole-like ones are held, and the sta
 is listed for the owner. Its 2021 crowns are visible to the felling screen only
 where they stood outside the closed canopy.
 
-### What was staged and adopted on this branch
+### What is published on this branch
 
 - **Candidates** ([`candidates.csv`](candidates.csv)) start from the published
   round-2 generation (`ground-v2-0af708ff…`), so its IDs carry forward. 26,164 of
   26,249 published IDs are kept in scope.
-- **Staging:** `--stage publish --execute --pending-owner` compiled, published and
-  verified it in `output/course-workflow/johannesberg/staging-public`. Integrity is
-  true, with 39,577 tree records. The staging verification and the publish receipt
-  say `ownerApproval: pending-owner-approval`.
+- **Staging:** `--stage publish --execute` compiled, published and verified it in
+  `output/course-workflow/johannesberg/staging-public`. Integrity is true, with
+  39,577 tree records.
+  - It was first staged pending the owner. After his decision it was staged again
+    under his exception, with the approved review statement.
+  - The ground generation is the same, `ground-v2-4f2d022d…`: the statement lives
+    only in the published vegetation report, not in the graph.
+  - The publish receipt records the gate as passed by the owner's exception. It
+    lists the owner checklist items that need the GPU as still open.
 - **Adoption** into `apps/golf/public` on this branch: `ground-v2-4f2d022d…` for
   both routings.
 - **production.json** pins it, together with `candidates.csv` (`944aad9c…`) and the
-  residual rasters. Its note says pending owner approval.
+  residual rasters. Its note quotes the owner's decision.
 
 | | Round 2 (published) | Round 3 (staged) |
 |---|---|---|
@@ -1102,35 +1112,35 @@ drawn while no record carries a species. Phones and WebGL2 have no timing here.
 
 ### Checks
 
-Final runs, after the pine/spruce plumbing, on the CPU only. Each ran one at a time
-at low priority on two cores.
+Final runs, after merging main (#157, #158) and recording the owner's decision. All
+ran on the CPU only, one at a time, at low priority on two cores.
 
-- `pnpm exec vitest run apps/golf --maxWorkers=2`: 1,892 of 1,892 passed in 227
+- `pnpm exec vitest run apps/golf --maxWorkers=2`: 1,929 of 1,929 passed in 228
   files.
-- Node tests (the `pnpm test` list, `--test-concurrency=1`): 521 passed, 0
-  failed, 3 skipped. This includes the new round-3 pipeline tests and the registry
-  and compiler species tests.
+- Node tests (the `pnpm test` list, `--test-concurrency=1`): 522 passed, 0
+  failed, 3 skipped. This includes the round-3 pipeline tests and the registry and
+  compiler species tests.
 - `node tools/lint-app.mjs`: clean.
 - `node packages/course-v2/check-app-build.mjs`: passes, all 13 published graphs
   (vite build at low priority).
 - `pnpm check:course-workflow`: passes.
-- `check-prepared-startup --public apps/golf/dist`: **fails, as expected** ("stale
-  tint", first for angso). The runtime edit changed the source revision, so every
-  course's prepared data waits for the combined re-bake. Before that edit it passed
-  for every course.
-- `check-gpu-clean-boot`, both routings, WebGPU and WebGL2, high and low quality:
-  all 8 boots clean (6.0-7.8 s; at most 14 vertex outputs). This ran before the
-  pine/spruce runtime edit and before the owner turned the GPU off; it must run
-  again after the combined re-bake.
-- **Reproduction:** re-scoring after the detector moved to `tools/` reproduced
-  benchmark-r3 for every role. `candidates.csv` and the residual rasters rebuilt
-  byte for byte.
+- `check-prepared-startup --public apps/golf/dist`: **fails, as expected**.
+  - The species runtime edit, together with main's changes, gives source revision
+    `818ce1af…`. Against it, all 13 layouts are stale on every prepared record:
+    both tints, the water, and the vista and scatter at both qualities.
+  - They wait for one combined re-bake.
+  - Before the runtime edit this check passed for every course.
+- **The republish under the owner's exception** changed one published file only,
+  `johannesberg-vegetation-graph-report.json`, which carries the review statement.
+  The graph is byte for byte the same (`ground-v2-4f2d022d…`, 39,577 tree records,
+  integrity true).
+- **No map-land bake was needed:** the tree data did not change, and the map land
+  record already names `4f2d022d…`.
 
 ### Open for the owner
 
-1. **The held-out gate** (round 3: P 0.984 / R 0.685 on 89 unseen crowns). Accept
-   round 3 under an exception like round 2's, or keep round 2. The record is in
-   `pendingOwnerApprovals`.
+1. ~~**The held-out gate** (round 3: P 0.984 / R 0.685 on 89 unseen crowns).~~
+   **Decided 2026-11-08:** "Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2."
 2. **The felled and not-a-tree list:** 8 removals and 31 not placed, including the
    12 poles and structures.
 3. **The species-mix flags**, unchanged from round 2.
@@ -1153,7 +1163,7 @@ node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage benchmark 
 node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage benchmark --subtypes --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage candidates --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage review --raw $RAW
-node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage publish --execute --pending-owner --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r3 --stage publish --execute --pending-owner --raw $RAW   # the gate passes under the owner's exception; --pending-owner only while his checklist items (screenshots, frame time, the felled list) are open
 ```
 
 ## Reproduce

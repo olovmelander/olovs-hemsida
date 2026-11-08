@@ -19,8 +19,11 @@
       "id": "held-out-gate",
       "who": "auto",
       "question": "The 90% held-out gate passed, or the owner recorded an exception pinning this benchmark in trees.json.",
-      "status": "open",
-      "note": "held-out gate FAILED (recall 0.685 is below 0.9). Stop and ask the owner: improve the method with a new round and a new unseen sample, or record an owner exception in trees.json pinning this benchmark."
+      "status": "excepted",
+      "by": "owner",
+      "on": "2026-11-08",
+      "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md",
+      "note": "held-out gate FAILED (recall 0.685 is below 0.9); published only under the owner's exception of 2026-11-08 (geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md)"
     },
     {
       "id": "felling-screen-reviewed",

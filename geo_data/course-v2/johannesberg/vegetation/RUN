@@ -21,6 +21,12 @@
 #      leafless April 2021 crown (vegetated share below 0.2); between that and the conifer call
 #      the type is unknown and the runtime's background mix chooses. See the review README,
 #      "Species check".
+#   5. Round 3 (same day, branch trees-round3). Asked: "Johannesberg trees: round 3 still misses the 90% target (finds 69% vs round 2’s 67% on 89 new hand-checked trees, both 98% right), but removes 12 roofs/poles drawn as trees and 2 felled trees, and adds 992 real ones. Which should go live?"
+#      The owner chose: "Round 3 (Recommended): Accept round 3 below the 90% target, as you did for round 2."
+#      Round 3 (the photo-refereed refined detector, pole-like crowns reviewed) replaces
+#      round 2 in the inner frontier: benchmark-r3 P 0.984 / R 0.685 on 89 unseen crowns,
+#      recorded as an owner exception in course-workflows/johannesberg/trees.json; see the
+#      review README, "Round 3".
 # The 192 outer finest tiles keep the 2026-09-11 machine-v1 records and stands byte for byte.
 #
 # A machine-v1 publish from this file would REPLACE the reviewed inner generation with

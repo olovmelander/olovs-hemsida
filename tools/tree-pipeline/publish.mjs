@@ -109,14 +109,19 @@ export async function run(ctx, options) {
   const checked = publicationBlockers(ctx, { gate, checklist, candidatesReceipt, changed }, { pendingOwner });
   const blockers = pendingOwner ? checked.blockers : checked;
   const pending = pendingOwner ? checked.pending : [];
-  const gateLine = gate?.gate ? `held-out gate ${gate.gate.status}${gate.gate.status === 'FAIL' && gate.verdict.allowed ? ` (owner exception of ${gate.verdict.ownerException.decidedOn})` : ''}${pending.length ? '; STAGED PENDING OWNER APPROVAL' : ''}` : 'held-out gate: no result';
+  /* what stays the owner's: the gate itself only while a pendingOwnerApprovals
+     record covers it, and his checklist items (screenshots, frame time, the
+     felled list) until he marks them */
+  const gatePending = pending.some(b => /PENDING OWNER APPROVAL/.test(b));
+  const openOwnerItems = pending.filter(b => /^checklist /.test(b));
+  const gateLine = gate?.gate ? `held-out gate ${gate.gate.status}${gate.gate.status === 'FAIL' && gate.verdict.allowed ? ` (owner exception of ${gate.verdict.ownerException.decidedOn})` : ''}${gatePending ? '; STAGED PENDING OWNER APPROVAL' : openOwnerItems.length ? `; staged with ${openOwnerItems.length} owner checklist item(s) open` : ''}` : 'held-out gate: no result';
   if (blockers.length) {
     return { status: gate?.gate && !gate.verdict.allowed ? 'gate-fail' : 'stop', message: `${gateLine}\nPUBLICATION BLOCKED:\n${blockers.map(b => `  - ${b}`).join('\n')}` };
   }
   const plan = publicationPlan(ctx);
   const planText = plan.map((step, i) => `  ${i + 1}. ${step.what}: node ${step.command.slice(1).map(a => (/[\s"]/.test(a) ? JSON.stringify(a) : a)).join(' ')}`).join('\n');
   const staging = ctx.config.publication.stagingRoot;
-  const pendingText = pending.length ? `\nPENDING THE OWNER (not decided; staged for his review only):\n${pending.map(b => `  - ${b}`).join('\n')}` : '';
+  const pendingText = pending.length ? `\nPENDING THE OWNER (not decided by him yet; staged, never marked done):\n${pending.map(b => `  - ${b}`).join('\n')}` : '';
   if (!options.execute) {
     return { status: 'stop', message: `${gateLine}; ${pending.length ? 'every other check passes' : 'checklist closed'}; receipts unchanged.${pendingText}\nPLAN (staging only; the live root is never written):\n  0. copy ${ctx.config.published.publicDir} to ${staging} if it is not there\n${planText}\n  then verify the staged graph and its tree records.\nThe owner authorises the run: --stage publish --execute. Promotion into ${ctx.config.published.publicDir} follows the course production workflow.` };
   }
@@ -134,7 +139,12 @@ export async function run(ctx, options) {
   console.log(JSON.stringify(verified, null, 1));
   const reportPath = path.join(ctx.root, ctx.config.publication.compileOut, 'staging-verification.json');
   fs.mkdirSync(path.dirname(reportPath), { recursive: true });
-  const ownerApproval = pending.length ? { status: 'pending-owner-approval', record: gate.pending ?? null, pending } : { status: gate.verdict.allowed ? (gate.gate.status === 'PASS' ? 'not-needed' : 'owner-exception') : 'none' };
+  const ownerApproval = {
+    gate: gate.gate.status === 'PASS' ? 'not-needed' : gate.verdict.allowed ? 'owner-exception' : gatePending ? 'pending-owner-approval' : 'none',
+    ...(gate.verdict.ownerException ? { exception: gate.verdict.ownerException } : {}),
+    ...(gatePending ? { pendingRecord: gate.pending } : {}),
+    openOwnerItems,
+  };
   fs.writeFileSync(reportPath, JSON.stringify({ ...verified, gate: gate.verdict, ownerApproval, verifiedAt: new Date().toISOString() }, null, 1) + '\n');
   writeReceipt(ctx, 'publish', { inputs: [ctx.reviewFile('candidates.csv'), path.join(ctx.paths.rasters, 'residual-chm-050.bin'), path.join(ctx.paths.rasters, 'residual-labels-050.bin'), checklistPath], outputs: [reportPath], result: { gate: gate.verdict, ownerApproval, integrity: verified.integrity, counts: verified.counts } });
   if (!verified.integrity) return { status: 'error', message: 'the staged graph does not verify' };

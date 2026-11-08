@@ -24,15 +24,17 @@ test('Johannesberg config validates and gives the published review frame', () =>
   const config = johannesberg();
   assert.deepEqual(validateGroundConfig(config, { groundId: 'johannesberg' }), []);
   const ctx = loadGroundConfig(ROOT, 'johannesberg');
-  assert.equal(ctx.round.id, 'r2');
-  assert.equal(ctx.round.detector, 'typed');
+  assert.equal(ctx.round.id, 'r3');
+  assert.equal(ctx.round.detector, 'refined');
+  assert.equal(ctx.roundOf('r2').detector, 'typed');
   assert.equal(ctx.leafOff.date, '2021-04-18');
   assert.equal(ctx.presence.date, '2025-06-14');
   assert.deepEqual(haloWindow(config), { minEasting: 678343.5, minNorthing: 6624216.5, maxEasting: 680511.5, maxNorthing: 6626384.5 });
   assert.deepEqual({ ...chmGrid(config) }, { minEasting: 678343.5, maxNorthing: 6626384.5, width: 4336, height: 4336, sampleSpacingMetres: 0.5 });
-  assert.equal(ctx.sampleFile('benchmark'), 'benchmark-r2.json');
+  assert.equal(ctx.sampleFile('benchmark'), 'benchmark-r3.json');
+  assert.equal(ctx.sampleFile('benchmark', 'json', 'r2'), 'benchmark-r2.json');
   assert.equal(ctx.sampleFile('detector-lock', 'json', 'r1'), 'detector-lock.json');
-  assert.equal(ctx.sampleFile('reference', 'geojson'), 'reference-r2.geojson');
+  assert.equal(ctx.sampleFile('reference', 'geojson', 'r2'), 'reference-r2.geojson');
   assert.equal(ctx.rel(ctx.paths.rasters), 'johannesbergbuild/cache/trees-2026-11-08/rasters');
   assert.equal(ctx.reviewDate, '2026-11-08');
 });
@@ -191,7 +193,7 @@ test('a scored held-out sample is never tuned on, nor rescored with another lock
 });
 
 test('Johannesberg: the round-2 gate fails and the owner exception of 2026-11-08 covers that benchmark', () => {
-  const ctx = loadGroundConfig(ROOT, 'johannesberg');
+  const ctx = loadGroundConfig(ROOT, 'johannesberg', { round: 'r2' });
   const file = ctx.reviewFile(ctx.sampleFile('benchmark'));
   const gate = evaluateGate(JSON.parse(fs.readFileSync(file, 'utf8')), ctx.round);
   assert.equal(gate.status, 'FAIL');
@@ -201,6 +203,22 @@ test('Johannesberg: the round-2 gate fails and the owner exception of 2026-11-08
   const exception = ownerExceptionFor(ctx.config, gate, sha256File(file));
   assert.equal(exception?.decidedOn, '2026-11-08');
   assert.ok(fs.existsSync(path.join(ROOT, exception.record)));
+});
+
+test('Johannesberg: the round-3 gate fails and the owner accepted round 3 on 2026-11-08, pinned to its benchmark', () => {
+  const ctx = loadGroundConfig(ROOT, 'johannesberg');
+  assert.equal(ctx.round.id, 'r3');
+  const file = ctx.reviewFile(ctx.sampleFile('benchmark'));
+  const gate = evaluateGate(JSON.parse(fs.readFileSync(file, 'utf8')), ctx.round);
+  assert.equal(gate.status, 'FAIL');
+  assert.equal(gate.measured.precision, 0.984);
+  assert.equal(gate.measured.recall, 0.685);
+  assert.equal(gate.measured.scored, 89);
+  const exception = ownerExceptionFor(ctx.config, gate, sha256File(file));
+  assert.equal(exception?.decidedBy, 'owner');
+  assert.match(exception.decision, /Accept round 3 below the 90% target, as you did for round 2/);
+  assert.equal(publicationVerdict(gate, exception).allowed, true);
+  assert.equal(publicationVerdict(gate, exception).gate, 'FAIL', 'a FAIL is never relabelled');
 });
 
 /* ---------------- sources ---------------- */
@@ -279,7 +297,7 @@ test('publication is blocked by a failed gate, an open checklist or a hand-edite
   assert.ok(blockers.some(b => /no review checklist/.test(b)));
   assert.ok(blockers.some(b => /no candidates receipt/.test(b)));
   assert.ok(blockers.some(b => /changed after the stage wrote it/.test(b)));
-  const clean = publicationBlockers(ctx, { gate: { gate: { status: 'PASS' }, verdict: { allowed: true } }, checklist: { items: [] }, candidatesReceipt: { result: { round: 'r2' } }, changed: [] });
+  const clean = publicationBlockers(ctx, { gate: { gate: { status: 'PASS' }, verdict: { allowed: true } }, checklist: { items: [] }, candidatesReceipt: { result: { round: ctx.round.id } }, changed: [] });
   assert.deepEqual(clean, []);
 });
 
@@ -364,17 +382,22 @@ test('recovery: with no extra seeds the refined detector is the typed detector, 
 
 test('a pending owner approval stages a failed round only on request, labelled, and is never an exception', async () => {
   const { pendingApprovalFor } = await import('./gate.mjs');
-  const config = johannesberg();
-  const pending = config.pendingOwnerApprovals.find(x => x.round === 'r3');
-  assert.equal(pending.status, 'pending-owner-approval');
+  const decided = johannesberg();
+  const exception = decided.ownerExceptions.find(x => x.round === 'r3');
+  assert.equal(exception.decidedBy, 'owner', 'round 3 was accepted by the owner on 2026-11-08');
+  assert.deepEqual(decided.pendingOwnerApprovals, []);
+  /* the record as it stood before his decision */
+  const pending = { gate: exception.gate, round: 'r3', status: 'pending-owner-approval', recordedOn: '2026-11-08', recordedBy: 'agent (test)', benchmark: exception.benchmark, measured: exception.measured, statement: 'pending owner approval of round 3 (a test of the record before the decision)', record: exception.record };
+  const config = { ...decided, ownerExceptions: decided.ownerExceptions.filter(x => x.round !== 'r3'), pendingOwnerApprovals: [pending] };
   const gate = { gate: 'held-out-precision-recall', status: 'FAIL', round: 'r3', reasons: ['recall 0.685 is below 0.9'], measured: { precision: 0.984, recall: 0.685 } };
   assert.equal(ownerExceptionFor(config, gate, pending.benchmark.sha256), null, 'a pending record is not an exception');
   assert.equal(publicationVerdict(gate, null).allowed, false);
   assert.equal(pendingApprovalFor(config, gate, pending.benchmark.sha256), pending);
+  assert.ok(ownerExceptionFor(decided, gate, exception.benchmark.sha256), 'after the decision the same benchmark is covered by his exception');
   assert.equal(pendingApprovalFor(config, gate, '0'.repeat(64)), null, 'it pins the benchmark it describes');
   assert.ok(validateGroundConfig({ ...config, pendingOwnerApprovals: [{ ...pending, recordedBy: 'owner' }] }).some(p => /not the owner/.test(p)));
   assert.ok(validateGroundConfig({ ...config, pendingOwnerApprovals: [{ ...pending, status: 'approved' }] }).some(p => /pending-owner-approval/.test(p)));
-  const ctx = loadGroundConfig(ROOT, 'johannesberg', { round: 'r3' });
+  const ctx = createContext(ROOT, config, { round: 'r3' });
   const report = { gate: { status: 'FAIL' }, verdict: { allowed: false, note: 'held-out gate FAILED' }, pending };
   const checklist = { items: [{ id: 'held-out-gate', who: 'auto', status: 'open' }, { id: 'species-mix-screenshots', who: 'owner', status: 'open' }, { id: 'species-spot-check-photos', who: 'person', status: 'open' }] };
   const strict = publicationBlockers(ctx, { gate: report, checklist, candidatesReceipt: { result: {} }, changed: [] });

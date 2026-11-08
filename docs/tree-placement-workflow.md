@@ -125,7 +125,7 @@ The [Johannesberg review of 2026-11-08](../geo_data/course-v2/johannesberg/veget
 
 **The 90% gate was missed on closed stands only.** There, touching spruces share one maximum in a 1.8 pulse/m² leaf-off scan. The owner chose to publish anyway, and the exception is recorded.
 
-**Round 3 (2026-11-08, pending the owner).** A new unseen sample drawn from the strata near play (89 crowns: closed 50, edge 30, group 6, isolated 3) scores the photo-refereed refined detector at P 0.984, R 0.685 (round 2 0.984 / 0.674, round 1 0.971 / 0.764 on the same crowns). It gains on calibration (R 0.814 → 0.868, closed 42/56 → 48/56) and on the earlier held-out windows (0.844 → 0.878), but the new sample's misses are touching broadleaves, edge crowns and mid-height trees. The gate is not met; pine/spruce could not be measured reliably (held-out balanced accuracy 0.63) and is not published. Details: the review README's Round 3.
+**Round 3 (2026-11-08, accepted by the owner below the 90% target, as round 2 was).** A new unseen sample drawn from the strata near play (89 crowns: closed 50, edge 30, group 6, isolated 3) scores the photo-refereed refined detector at P 0.984, R 0.685 (round 2 0.984 / 0.674, round 1 0.971 / 0.764 on the same crowns). It gains on calibration (R 0.814 → 0.868, closed 42/56 → 48/56) and on the earlier held-out windows (0.844 → 0.878), but the new sample's misses are touching broadleaves, edge crowns and mid-height trees. The gate is not met; pine/spruce could not be measured reliably (held-out balanced accuracy 0.63) and is not published. Details: the review README's Round 3.
 
 | Tree placement | Published trees (inner frontier) |
 |---|---|
