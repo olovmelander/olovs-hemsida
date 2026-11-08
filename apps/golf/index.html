@@ -558,6 +558,10 @@ body.gps-on #v2TerrainBadge{top:118px}
   #leftStack #note.mobile-open .panel-close-btn{display:flex;width:26px;height:26px;font-size:15px}
 }
 
+/* the phone's tee strip edges (below): registered so a scroll timeline can move them */
+@property --tees-l{syntax:'<length>';inherits:false;initial-value:0px}
+@property --tees-r{syntax:'<length>';inherits:false;initial-value:0px}
+@keyframes tees-edges{0%{--tees-l:0px;--tees-r:22px}10%{--tees-l:16px}90%{--tees-r:22px}100%{--tees-l:16px;--tees-r:0px}}
 @media(max-width:768px){
   /* Top HUD: Never collide #courseNav and #card. The reserve is the nav's own
      width plus both margins and a gap: #menuToggle is capped at 144 px, it sits
@@ -574,6 +578,14 @@ body.gps-on #v2TerrainBadge{top:118px}
   #tees .tee{flex:0 0 auto;padding:2px 6px;min-width:38px;border-radius:6px}
   #tees .tee b{font-size:11px}
   #tees .tee i{font-size:7.5px}
+  /* The strip is swiped: an edge where more tees wait fades out, so a cut chip reads
+     as "more this way", not as a broken card. Driven by the strip's own scroll, so a
+     strip that fits (or a browser without scroll timelines) shows no fade at all. */
+  #tees{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--tees-l),#000 calc(100% - var(--tees-r)),transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 var(--tees-l),#000 calc(100% - var(--tees-r)),transparent 100%)}
+  @supports (animation-timeline:scroll()){
+    #tees{animation:tees-edges linear both;animation-timeline:scroll(self inline)}
+  }
 
   /* Mobile Sheet for Rail */
   #rail{display:none}
