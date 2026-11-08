@@ -507,6 +507,29 @@ await section('launch urls', async () => {
     gate(sheet.title === course.name && sheet.tees === course.tees.names.length && sheet.mode === 'detailed',
       `phone: a card opens its course's page first (${sheet.title}, ${sheet.tees} tees, mode ${sheet.mode})`);
     gate(sheet.go && sheet.small.length === 0, `phone: its start button is on screen and every choice is a 40 px target${sheet.small.length ? ' -- ' + sheet.small.join(', ') : ''}`);
+    /* the scorecard, from the course's own pack, in the tee chosen on the page */
+    await page.waitForSelector('#courseSheet .cs-sc', { timeout: 20000 });
+    const card = await page.evaluate(() => {
+      const tables = [...document.querySelectorAll('#courseSheet .cs-sc')];
+      return {
+        holes: tables.flatMap(t => [...t.querySelectorAll('thead th')].slice(1, -1).map(th => Number(th.textContent))),
+        par: tables.reduce((sum, t) => sum + Number(t.querySelector('tbody td.cs-sc-sum').textContent), 0),
+        tee: Number(document.querySelector('#courseSheet input[name="cs-tee"]:checked')?.value ?? 0),
+        length: document.querySelector('#courseSheet [data-length]').textContent,
+        guide: [...document.querySelectorAll('#courseSheet .cs-hole')].filter(li => li.querySelector('.cs-hole-note')).length,
+      };
+    });
+    gate(card.holes.length === course.holes && card.holes.every((n, i) => n === i + 1) && card.par === course.par,
+      `phone: the page shows the course's scorecard (${card.holes.length} holes, par ${card.par})`);
+    gate(card.guide === course.holes, `phone: and its guide has each hole in the course's own words (${card.guide})`);
+    const otherTee = card.tee === 0 ? 1 : 0;
+    await page.click(`#courseSheet .cs-tee:has(input[value="${otherTee}"])`);
+    const swapped = await page.evaluate(() => ({
+      label: document.querySelector('#courseSheet .cs-sc-len th').textContent.trim(),
+      length: document.querySelector('#courseSheet [data-length]').textContent,
+    }));
+    gate(swapped.label === course.tees.names[otherTee] && swapped.length !== card.length && /\d/.test(swapped.length),
+      `phone: the card and the length follow the tee (${card.length} -> ${swapped.length} m, ${swapped.label})`);
     await page.keyboard.press('Escape');
     await page.waitForTimeout(300);
     gate(await page.evaluate(() => !document.getElementById('courseSheet').open && location.hash === '#3d'), 'Escape closes the course page and stays on the list');
@@ -579,6 +602,50 @@ await section('a round under way', async () => {
   await page.waitForSelector('#chooser:not([hidden]) .card');
   const badge = await page.evaluate(s => document.querySelector(`#chooser .card-item[data-slug="${s}"] .current-badge.is-live`)?.textContent, course.slug);
   gate(badge === 'Runda pågår', `its course's card says so too: "${badge}"`);
+  await ctx.close();
+});
+
+/* A course the map downloaded (map-field.mjs downloadCourse's key) is marked in
+   the Lätt 3D list, where it matters on a course with no signal, and nowhere else. */
+await section('a course kept for offline play', async () => {
+  const course = manifest.courses.find(c => c.status !== 'mapping') || manifest.courses[0];
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+  await ctx.addInitScript(slug => { try { localStorage.setItem(`banvy-map-offline:${slug}`, '1'); } catch {} }, course.slug);
+  const page = await ctx.newPage();
+  const read = () => page.evaluate(s => {
+    const shown = [...document.querySelectorAll('#chooser .saved-badge')].filter(b => getComputedStyle(b).display !== 'none');
+    return { shown: shown.map(b => b.closest('.card-item').dataset.slug), label: document.querySelector(`#chooser .card[data-slug="${s}"]`).getAttribute('aria-label') };
+  }, course.slug);
+  await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+  await page.waitForSelector('#chooser:not([hidden]) .card');
+  const map = await read();
+  gate(map.shown.length === 1 && map.shown[0] === course.slug && /Nedladdad/.test(map.label), `the Lätt 3D list marks the downloaded course, and says so: ${map.shown.join(', ')}`);
+  await page.click('.c-mode-btn[data-mode="detailed"]');
+  await page.waitForTimeout(300);
+  const detailed = await read();
+  gate(detailed.shown.length === 0 && !/Nedladdad/.test(detailed.label), 'and the detailed list, which streams, does not');
+  await ctx.close();
+});
+
+/* With rounds kept on a course, its page's scorecard carries the golfer's own
+   average on each hole (stats-model perHole), coloured against par. */
+await section('your own card on the course page', async () => {
+  const course = manifest.courses.find(c => c.holes === 18 && c.status !== 'mapping') || manifest.courses[0];
+  const holes = Array.from({ length: course.holes }, (_, i) => ({ n: i + 1, par: 4, strokes: i === 0 ? 3 : i === 1 ? 6 : 4, putts: 2, fairway: 'hit', picked: false }));
+  const strokes = holes.reduce((s, h) => s + h.strokes, 0);
+  const round = { id: 1, course: course.slug, courseName: course.name, date: '2026-11-01', endedAt: 1, tee: 1, handicap: 18, holeCount: course.holes,
+    pars: holes.map(h => h.par), holes, totals: { played: course.holes, strokes, par: 4 * course.holes, putts: 36, points: 36, fairways: 14, fairwaysTried: 14, greens: 9, greensTried: 18, toPar: strokes - 4 * course.holes } };
+  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, serviceWorkers: 'block' });
+  await ctx.addInitScript(r => { try { localStorage.setItem('banvy-map-rounds-v1', JSON.stringify({ version: 1, rounds: [r] })); } catch {} }, round);
+  const page = await ctx.newPage();
+  await page.goto(BASE + '/#karta', { waitUntil: 'load' });
+  await page.waitForSelector(`#chooser .card[data-slug="${course.slug}"]`);
+  await page.click(`#chooser .card[data-slug="${course.slug}"]`);
+  await page.waitForSelector('#courseSheet .cs-sc-mine', { timeout: 20000 });
+  const mine = await page.$$eval('#courseSheet .cs-sc-mine', rows => rows.map(r => [...r.querySelectorAll('td')].map(td => ({ text: td.textContent, tone: td.className }))));
+  const first = mine[0] ?? [];
+  gate(mine.length === 2 && first.length === 10 && first[0].text === '3,0' && /is-under/.test(first[0].tone) && first[1].text === '6,0' && /is-over/.test(first[1].tone) && first[2].tone === '',
+    `the scorecard has a Snitt row a nine, under par blue and over orange (${first.slice(0, 3).map(c => c.text).join(' ')})`);
   await ctx.close();
 });
 

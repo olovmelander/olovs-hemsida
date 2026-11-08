@@ -632,6 +632,30 @@ a.d-tool-btn { text-decoration: none; color: inherit; }
   -webkit-backdrop-filter: blur(10px);
 }
 
+/* A course the map has kept for play without a signal, marked in the map's list
+   only: the detailed course streams and has no such copy. It joins the right
+   corner, after any state badge. */
+.saved-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: rgba(7, 13, 10, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--turf);
+  font: 700 10.5px/1 Outfit, sans-serif;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.saved-badge span { color: #fff; }
+.shot-badges:has(.saved-badge) .current-badge { margin-left: auto; }
+.current-badge + .saved-badge { margin-left: 0; }
+#chooser:not([data-mode="map"]) .saved-badge { display: none; }
+
 .card .shot .on-shot {
   position: absolute;
   left: 16px;
@@ -1804,6 +1828,9 @@ a.drawer-main-btn { text-decoration: none; }
   .shot-badges { top: 8px; left: 8px; right: 8px; gap: 4px; }
   .cat-badge { padding: 4px 7px; font-size: 9.5px; border-radius: 7px; }
   .current-badge { padding: 4px 6px; font-size: 8.5px; border-radius: 6px; }
+  /* a narrow poster keeps the mark and lets the word go (the card's label says it) */
+  .saved-badge { padding: 3px 5px; border-radius: 6px; }
+  .saved-badge span { display: none; }
   .card .shot .on-shot { left: 10px; right: 10px; bottom: 8px; }
   .card h2 { font-size: 14.5px; line-height: 1.18; }
   .card .body { padding: 8px 10px 9px; gap: 0; }

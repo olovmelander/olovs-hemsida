@@ -244,6 +244,18 @@ export const MAP_KEYS = Object.freeze({
 export const MAP_DETAIL = Object.freeze([
   { value: 0, label: 'Full' }, { value: 1, label: 'Hög' }, { value: 2, label: 'Medel' }, { value: 3, label: 'Låg' },
 ]);
+/* map-field.mjs downloadCourse marks a course kept for play without a signal */
+export const OFFLINE_PREFIX = 'banvy-map-offline:';
+export function offlineCourses(storage) {
+  const slugs = [];
+  try {
+    for (let i = 0; i < (storage?.length ?? 0); i++) {
+      const key = storage.key(i);
+      if (key?.startsWith(OFFLINE_PREFIX)) slugs.push(key.slice(OFFLINE_PREFIX.length));
+    }
+  } catch { /* nothing to read */ }
+  return slugs;
+}
 export const BAG_KEY = 'banvy-caddie-bag-v1';
 export const FRAME_CAP_KEY = 'banvy-fps';
 export const DEV_OVERLAY_KEY = 'banvy:dev-overlay';

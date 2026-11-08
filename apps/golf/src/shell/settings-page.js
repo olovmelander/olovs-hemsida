@@ -17,7 +17,7 @@ import {
   FRAME_CAP_CHOICES, FRAME_CAP_KEY, DEV_OVERLAY_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_DETAIL, MAP_KEYS,
   NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PREFERENCE_KEYS, QUALITY, RENDERERS, START_VIEWS, BAG_KEY,
   mapDetail, mapLight, mapSwitch, readFrameCap, readSettings, readText, writeSettings, writeText,
-  exportBackup, readBackup, restoreBackup,
+  exportBackup, readBackup, restoreBackup, offlineCourses,
 } from './settings-store.mjs';
 import { displayChoices, systemDisplay } from '../map/map-display.mjs';
 import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
@@ -281,14 +281,7 @@ export function buildSettings({ courses, onBack }) {
   /* ----------------------------------------------------------------- data */
   function showData() {
     $('[data-rounds]').textContent = String(parseRounds(readText(storage(), MAP_KEYS.rounds, null)).length);
-    const offline = [];
-    try {
-      const st = storage();
-      for (let i = 0; i < (st?.length ?? 0); i++) {
-        const key = st.key(i);
-        if (key?.startsWith('banvy-map-offline:')) offline.push(key.slice('banvy-map-offline:'.length));
-      }
-    } catch { /* nothing to count */ }
+    const offline = offlineCourses(storage());
     $('[data-offline]').textContent = String(offline.length);
     if (offline.length) {
       $('[data-offline-names]').textContent = offline.map(slug => courses.find(c => c.slug === slug)?.name || slug).join(', ');

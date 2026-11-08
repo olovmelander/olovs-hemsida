@@ -60,7 +60,8 @@ The owner asked to start a round as other golf apps do: choose the tee and the
 rest first, then play. In the start menu a course card no longer launches at
 once. It opens the course's own page (`shell/course-sheet.js`, a native
 `<dialog>`), with:
-- the course in its posters, rolling, with its par, holes and tees;
+- the course in its posters, rolling, with its par, holes and the length from the
+  chosen tee;
 - how you have played it before (rounds, best, average per 18), from the map's
   records;
 - **Spela i**: Detaljerad 3D or Lätt 3D, preselected from the list's mode;
@@ -69,7 +70,18 @@ once. It opens the course's own page (`shell/course-sheet.js`, a native
   both programs start on the same tee;
 - **Starta på**: hole 1 or 10 on an eighteen;
 - for Lätt 3D, the **playing handicap** (kept as the map's handicap), and for
-  Detaljerad 3D, the **light** for this visit (the settings' light preselected).
+  Detaljerad 3D, the **light** for this visit (the settings' light preselected);
+- the **Scorekort**: par, index and the chosen tee's length, nine by nine with Ut
+  and In, and with rounds kept there a **Snitt** row of your own average per hole
+  (blue under par, orange over);
+- the **Banguide**: each hole in the course's own name and note, one card at a
+  time, brought to the starting hole.
+
+The card and the guide are read from the course's own pack (`course-scorecard.mjs`),
+by the one URL the round asks for next, so nothing is copied into the manifest and
+the round reads the pack from the cache. `course-scorecard.test.mjs` holds every
+published pack's card against its manifest's holes and par, with a length for every
+tee.
 
 **Starta rundan** opens the map with `runda=1`. The map then begins the round at
 once, with no start card, and asks for the position; the word leaves the address,

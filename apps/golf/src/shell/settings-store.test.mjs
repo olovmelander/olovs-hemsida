@@ -15,6 +15,7 @@ import {
   DEV_OVERLAY_KEY, FRAME_CAP_CHOICES, FRAME_CAP_KEY, LIGHTS, MAP_DEFAULT_LIGHT, MAP_KEYS, MODES, NOW_LIGHT,
   PREFERENCE_KEYS, BAG_KEY, SETTINGS_KEY, TEE_KEY, ROUND_KEY, HOLE_KEY, liveRound, exportBackup, readBackup, restoreBackup, detailedParams, lastLaunch, launchUrl, mapDetail, mapLight, modeOfRoute,
   readFrameCap, readSettings, rememberLaunch, savedTee, settingsSummary, teeColour, withSettings, writeSettings,
+  OFFLINE_PREFIX, offlineCourses,
 } from './settings-store.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -250,6 +251,13 @@ describe('the keys are the ones the programs read', () => {
     for (const kept of [BAG_KEY, MAP_KEYS.handicap, MAP_KEYS.rounds, 'banvy-map-shots-v1', 'banvy-last-course']) {
       expect(PREFERENCE_KEYS).not.toContain(kept);
     }
+  });
+
+  it('lists the courses the map kept for play without a signal, by the key it writes', () => {
+    expect(source('../map/map-field.mjs')).toContain(`\`${OFFLINE_PREFIX}\${course.slug}\``);
+    const kept = memory({ [`${OFFLINE_PREFIX}angso`]: 'abc', [`${OFFLINE_PREFIX}visby`]: '1', [BAG_KEY]: '[]' });
+    expect(offlineCourses(kept).sort()).toEqual(['angso', 'visby']);
+    expect(offlineCourses(null)).toEqual([]);
   });
 });
 

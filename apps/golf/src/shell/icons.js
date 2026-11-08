@@ -135,6 +135,12 @@ export const ICONS = {
     </svg>
   `,
 
+  /* a course kept on the phone: a cloud with a tick */
+  saved: (s = 14, sw = 2.2) => `
+    <svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M7 18.5h10.5a4 4 0 0 0 .6-7.95A6 6 0 0 0 6.6 9.1 4.75 4.75 0 0 0 7 18.5z"/><path d="m9.4 13.6 2 2 3.6-3.8"/>
+    </svg>`,
+
   pin: (s = 18, sw = 2) => `
     <svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="${sw}" aria-hidden="true">
       <path d="M12 21s7-6.4 7-12a7 7 0 1 0-14 0c0 5.6 7 12 7 12z"/><circle cx="12" cy="9" r="2.4" fill="currentColor"/>
