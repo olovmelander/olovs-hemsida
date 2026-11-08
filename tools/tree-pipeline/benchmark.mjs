@@ -36,6 +36,7 @@ import {
 import { REFINE_DEFAULTS, detectTreesTypedWithSeeds, keptTops, overSegmentedTops, recoverTops, suppressedTops } from './tree-refine.mjs';
 import { displacementAllowance, firstReturnIndex, loadPointsFor, photoDisc } from './crown-evidence.mjs';
 import { nativeBrightness, photoValley } from './relief.mjs';
+import { crownSubtypeFeatures, packPixel, writeSubtypeRule } from './subtype.mjs';
 import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, pendingApprovalFor, publicationVerdict, staleExceptions } from './gate.mjs';
 import { loadMosaic, loadRaster, openCampaignPacks } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
@@ -308,6 +309,50 @@ function tuneRefined(ctx, reference) {
     windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
     photoDetector: 'none: a classical photo test (a brightness valley between two displaced tops); no learned model, no GPU',
   };
+}
+
+/* ---------- pine or spruce (subtype.mjs) ---------- */
+
+export const subtypeRulePath = ctx => ctx.reviewFile(ctx.sampleFile('subtype-rule'));
+
+/** Pine/spruce examples: the round's detector on every window, matched to the interpreter's pine/spruce calls. */
+function subtypeExamples(ctx, reference, lock) {
+  const chm = loadRaster(ctx, 'chm-pitfree-050');
+  const m21 = loadMosaic(ctx, ctx.leafOff.key);
+  const inputs = refereeInputs(ctx, chm.grid);
+  const points = loadPointsFor(ctx, chm.grid);
+  const relief = JSON.parse(fs.readFileSync(ctx.reviewFile('relief-displacement.json'), 'utf8'));
+  const photos = Object.fromEntries([['presence', ctx.presence], ['leafOff', ctx.leafOff]].map(([role, c]) => [role, { field: relief.campaigns[c.key].field, pixel: packPixel(openCampaignPacks(ctx, c.key)) }]));
+  const refined = Boolean(lock.selected.refine);
+  const examples = [];
+  for (const w of reference.windows.windows) {
+    const refs = reference.crowns.filter(c => c.window === w.id && c.scored && c.type === 'conifer' && (c.subtype === 'pine' || c.subtype === 'spruce'));
+    if (!refs.length) continue;
+    const [entry] = prepareWindows([w], chm, m21);
+    const { grid, values } = entry.cropped;
+    const typed = lock.selected.parameters;
+    const prepared = prepareRefined(entry, typed, inputs);
+    const recovered = refined ? recoverTops(prepared.suppressed, { apexReturns: t => t.apexCount, photoValley: (r, t, o, f) => t.valleys?.[r]?.[f] ?? null }, lock.selected.refine) : [];
+    const det = detectTreesTypedWithSeeds(grid, values, prepared.typeMap, typed, { surfaces: prepared.surfaces, extraMaxima: recovered });
+    const cellsOf = new Map();
+    for (let i = 0; i < det.labels.length; i++) { const k = det.labels[i]; if (k < 0) continue; if (!cellsOf.has(k)) cellsOf.set(k, []); cellsOf.get(k).push(i); }
+    const s = grid.sampleSpacingMetres;
+    const returnsOf = new Map();
+    for (let i = 0; i < points.count; i++) {
+      const c = Math.floor((points.easting[i] - grid.minEasting) / s), r = Math.floor((grid.maxNorthing - points.northing[i]) / s);
+      if (c < 0 || r < 0 || c >= grid.width || r >= grid.height) continue;
+      const k = det.labels[r * grid.width + c]; if (k < 0) continue;
+      if (!returnsOf.has(k)) returnsOf.set(k, []);
+      returnsOf.get(k).push({ hag: points.hag[i], first: points.returnNumber[i] === 1, intensity: points.intensity[i] });
+    }
+    const predicted = det.crowns.map(c => ({ easting: c.position.easting, northing: c.position.northing, crown: c }));
+    const { matches } = matchOneToOne(refs, predicted, reference.windows.matchingRule?.radiusMetres ?? 4);
+    for (const m of matches) {
+      const crown = predicted[m.pi].crown;
+      examples.push({ ref: refs[m.ri].id, role: w.role, subtype: refs[m.ri].subtype, heightMetres: round(crown.heightMetres, 2), features: crownSubtypeFeatures({ grid, values, crown, cells: cellsOf.get(crown.id) || [], returns: returnsOf.get(crown.id) || [], photos }) });
+    }
+  }
+  return examples;
 }
 
 /* ---------- tuning ---------- */
@@ -665,9 +710,9 @@ export function gateReport(ctx) {
 export async function run(ctx, options) {
   const lockPath = lockPathOf(ctx, ctx.round.id);
   const benchmarkPath = benchmarkPathOf(ctx, ctx.round.id);
-  const explicit = options.tune || options.types || options.score || options.gate;
+  const explicit = options.tune || options.types || options.subtypes || options.score || options.gate;
   const steps = explicit
-    ? ['tune', 'types', 'score', 'gate'].filter(s => options[s])
+    ? ['tune', 'types', 'subtypes', 'score', 'gate'].filter(s => options[s])
     : [...(fs.existsSync(lockPath) ? [] : ['tune']), ...(ctx.config.typeRule.round === ctx.round.id && !fs.existsSync(typeRulePath(ctx)) ? ['types'] : []), ...(fs.existsSync(benchmarkPath) ? [] : ['score']), 'gate'];
   const messages = [];
   for (const step of steps) {
@@ -684,6 +729,15 @@ export async function run(ctx, options) {
       fs.writeFileSync(typeRulePath(ctx), JSON.stringify(rule, null, 1) + '\n');
       writeReceipt(ctx, 'benchmark-types', { inputs: [lockPath, ctx.reviewFile(ctx.sampleFile('reference', 'geojson'))], outputs: [typeRulePath(ctx)], perRound: true, result: { chosen: rule.chosen.rule, calibration: rule.chosen.calibration.balanced, evaluation: rule.chosen.evaluation.balanced } });
       messages.push(`type rule: ${rule.chosen.rule}; balanced accuracy ${round(rule.chosen.calibration.balanced)} calibration, ${round(rule.chosen.evaluation.balanced)} held-out`);
+    } else if (step === 'subtypes') {
+      if (!fs.existsSync(benchmarkPath)) throw new Error('score the round first: the pine/spruce rule is reported on held-out conifers of a round whose detector is locked');
+      const reference = loadReference(ctx);
+      const lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
+      const examples = subtypeExamples(ctx, reference, lock);
+      const file = subtypeRulePath(ctx);
+      const rule = writeSubtypeRule(file, examples, { round: ctx.round.id, detectorLockSha256: sha(lockPath), referenceLockSha256: reference.lockSha256 });
+      writeReceipt(ctx, 'benchmark-subtypes', { inputs: [lockPath, ctx.reviewFile(ctx.sampleFile('reference', 'geojson')), ctx.reviewFile('relief-displacement.json')], outputs: [file], perRound: true, result: { chosen: rule.chosen.rule, calibration: rule.chosen.calibration, heldOut: rule.chosen.heldOut, publish: rule.publish } });
+      messages.push(`pine/spruce rule: ${rule.chosen.rule}; calibration balanced ${rule.chosen.calibration.balanced} (${rule.chosen.calibration.pine} pine, ${rule.chosen.calibration.spruce} spruce); held-out accuracy ${rule.chosen.heldOut.accuracy}, balanced ${rule.chosen.heldOut.balanced} (${rule.chosen.heldOut.pine} pine, ${rule.chosen.heldOut.spruce} spruce); ${rule.publish ? 'PUBLISHED as record subtypes' : 'NOT published: every conifer keeps the runtime mix'}`);
     } else if (step === 'score') {
       const reference = loadReference(ctx);
       if (!fs.existsSync(lockPath)) throw new Error(`no detector lock for round ${ctx.round.id}: run --tune first`);
