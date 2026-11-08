@@ -1,10 +1,19 @@
 import { loadUpsalaArchitecture } from './upsala-architecture.mjs';
+import roofColours from './upsala-roof-colours.json' with { type: 'json' };
 
 // Vite emits an optional hashed mesh chunk; unavailable or invalid assets keep
 // every original building. Authored triangles join the existing scenery batch.
 const architecture = await loadUpsalaArchitecture(() => import('./upsala-authored-meshes.json'));
 export const renderClubhouse = architecture.render;
 export const architectureStatus = architecture.status;
+
+/* The houses on Upsala's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The ground is mapped-only: no porch, balcony or chimney is guessed onto a mapped wall.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0); the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
 
 /* Upsala GK's course-specific scenery.
 

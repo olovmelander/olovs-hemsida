@@ -118,6 +118,7 @@ import { createCloudShadow } from './engine/cloud-shadow.mjs';
 import { setNordicWaterPreset, waterSun, waterSkyGlow, waterTreeLine, createWaterMotion, stepWaterMotion, applyWaterMotion } from './engine/nordic-water.mjs';
 import { GLOW, glowThresholdOf } from './engine/glow.mjs';
 import { BUILDING_PAINT, wallFootColour, groundCache, stampGround, groundModel, roofSlope, roofSnowColour } from './engine/building-paint.mjs';
+import { houseKitAllowed, loadHouseKit, buildHouseKitMeshes, classifyBuilding, housePalette, planHouse, seedOf, ringArea as houseArea, inside as insideRing, nearestRoadDirection, measuredRoofs, measuredRoofFor, measuredRoofsAllowed, PARTS_REACH, partAt, allPartsEverywhere, orientedBox, genericHouseTag } from './engine/house-kit.mjs';
 import { waterShading } from './engine/water-shading.mjs';
 import { createWaterReflection } from './engine/water-reflection.mjs';
 import { createGpuGrass } from './engine/gpu-grass.mjs';
@@ -7823,9 +7824,82 @@ if (M.infra.objectPlacement === 'mapped-only') {
   stats.sourceBuildingBatchIds = [];
   stats.sourceBuildingBatchIndices = [];
   const sourceBuildingView = new URLSearchParams(location.search).get('buildingGeometry') === 'source';
+  /* THE HOUSE KIT (engine/house-kit.mjs): a course that asks for it draws the houses in
+     its own extract as houses -- a plinth, a roof with eaves and gables, and the parts
+     modelled in Blender on their walls. The kit is fetched while the facilities load;
+     if it fails, every house is drawn as before. ?houses=before is the before. */
+  const houseKitLoading = SCENERY?.houseKit && !sourceBuildingView && houseKitAllowed()
+    ? loadHouseKit({ baseUrl: import.meta.env.BASE_URL }).catch(error => { stats.houseKit.error = String(error?.message || error); return null; })
+    : null;
+  stats.houseKit = { asked: !!SCENERY?.houseKit, allowed: houseKitAllowed(), status: houseKitLoading ? 'loading' : 'off',
+    houses: 0, inferred: 0, nearHouses: 0, partsReach: allPartsEverywhere() ? null : LOWQ ? 0 : PARTS_REACH, treeBlocked: 0, treeIndexMs: 0, measuredRoofs: 0, byType: {}, shellTriangles: 0, parts: 0, instances: 0, partTriangles: 0, draws: 0, error: null };
   // Authored GLB replacements must be ready before the shared generic batch is
   // emitted. A failed/cancelled load leaves every source building in that batch.
   await installFacilityArchitecture();
+  const houseKit = houseKitLoading ? await houseKitLoading : null;
+  stats.houseKit.status = houseKitLoading ? (houseKit ? 'loaded' : 'fallback') : 'off';
+  if (houseKitLoading && !houseKit) console.warn(`House kit uses the batch's houses: ${stats.houseKit.error}`);
+  const houseKitParts = [], houseKitAllParts = allPartsEverywhere();
+  /* at low quality every house takes the kit's flat windows and doors, as the trees take their lighter model */
+  const houseKitReach = LOWQ ? -1 : PARTS_REACH;
+  /* the trunks round the houses, indexed once in 8 m cells, so a porch is not built round a measured tree */
+  let houseKitTreeCells = null;
+  const houseKitTreesNear = (x, z, r) => {
+    if (!houseKitTreeCells) {
+      const started = performance.now();
+      houseKitTreeCells = new Map();
+      for (const T of trees) for (let k = 0; k < T.length; k += 6) {
+        const key = (Math.floor(T[k] / 8) + 65536) * 131072 + Math.floor(T[k + 2] / 8) + 65536;
+        (houseKitTreeCells.get(key) || houseKitTreeCells.set(key, []).get(key)).push([T[k], T[k + 2]]);
+      }
+      stats.houseKit.treeIndexMs = +(performance.now() - started).toFixed(1);
+    }
+    const out = [], i0 = Math.floor((x - r) / 8), i1 = Math.floor((x + r) / 8), j0 = Math.floor((z - r) / 8), j1 = Math.floor((z + r) / 8);
+    for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) {
+      const cell = houseKitTreeCells.get((i + 65536) * 131072 + j + 65536);
+      if (cell) for (const t of cell) out.push(t);
+    }
+    return out;
+  };
+  /* a pack that calls every building a house says nothing by it: judge those by size, shape and land use */
+  const houseKitGenericHouse = genericHouseTag(M.infra.buildings);
+  /* the inner ring: the course's own extract (the surroundings record's inner box), not the town beyond it */
+  const houseKitInner = (x, z) => !SURR || (x > SURR.inner.x0 && x < SURR.inner.x1 && z > SURR.inner.z0 && z < SURR.inner.z1);
+  const houseKitLanduse = (M.infra.landuse || []).filter(q => !q.surr).map(q => ({ kind: q.kind, ring: q.ring, bb: ringBBox(q.ring) }));
+  const houseKitGround = groundCache(terrainH);
+  /* the roofs' real colours, read off Lantmäteriet's orthophoto (scenery/<course>-roof-colours.json); ?roofs=palette is the before */
+  const houseKitRoofs = houseKit && measuredRoofsAllowed() ? measuredRoofs(SCENERY?.roofColours) : new Map();
+  const houseKitRoads = (x, z) => {
+    const seen = new Set(), lines = [];
+    for (let j = -2; j <= 2; j++) for (let i = -2; i <= 2; i++)
+      for (const q of PI.at(x + i * CELL, z + j * CELL)) if (!seen.has(q)) { seen.add(q); lines.push(q.line); }
+    return lines;
+  };
+  /* draw one footprint with the kit: its type from its tags, size and land use; its colours
+     the ones the batch would have given it; its front toward the nearest road or path */
+  function kitHouse(ring, { kind = 'yes', name = null, subtype = null, wall, roof, inferred = false }) {
+    const [cx, cz] = centroidOf(ring), area = houseArea(ring), seed = seedOf(cx, cz);
+    const lu = houseKitLanduse.find(q => cx > q.bb.x0 && cx < q.bb.x1 && cz > q.bb.z0 && cz < q.bb.z1 && insideRing(cx, cz, q.ring));
+    const box = orientedBox(ring);
+    const type = inferred ? 'villa' : classifyBuilding({ kind: houseKitGenericHouse && kind === 'house' ? 'yes' : kind,
+      name, area, landuse: lu?.kind ?? null, seed, subtype, depth: box ? 2 * box.hd : null });
+    if (!type) return null;                       /* a church keeps the batch's drawing */
+    const { base, skirt } = houseBase(ring);
+    const plan = planHouse({ ring, type, base, skirt, seed, palette: housePalette(type, { wall, roof, trim: TRIM, seed }),
+      front: nearestRoadDirection(cx, cz, houseKitRoads(cx, cz), 70), groundAt: houseKitGround,
+      emit: { tri, quad, slope, triangulate }, mappedOnly: M.infra.objectPlacement === 'mapped-only', treesNear: houseKitTreesNear });
+    stats.houseKit.treeBlocked += plan.treeBlocked || 0;
+    /* every part as modelled near the holes; further out, flat windows and doors (house-kit.mjs PARTS_REACH) */
+    const fromHoles = HOLES.reduce((best, h) => Math.min(best, distToLine(cx, cz, h.line)), Infinity);
+    const near = houseKitAllParts || fromHoles <= houseKitReach;
+    for (const p of plan.parts) houseKitParts.push(near ? p : partAt(p, fromHoles, houseKitReach));
+    const k = stats.houseKit;
+    k.houses++; if (inferred) k.inferred++;
+    if (near) k.nearHouses++;
+    k.byType[type] = (k.byType[type] || 0) + 1;
+    k.shellTriangles += plan.triangles;
+    return plan;
+  }
   /* Per-building authored models, loaded the same way and for the same reason:
      the descriptors are data on the course's scenery module, the module is
      imported only where one exists, and a course without them pays nothing. */
@@ -7914,6 +7988,17 @@ if (M.infra.objectPlacement === 'mapped-only') {
        where the generic hashed palette would guess */
     const look = (SCENERY && SCENERY.buildingLooks && b.id && SCENERY.buildingLooks[b.id]) || null;
     stats.genericRoofBuildings++;
+    if (houseKit && !isClub && houseKitInner(cx, cz)) {
+      /* a carport is a roof on posts, as a mapped shelter is */
+      if (b.kind === 'carport') { canopy(b.ring, b.h || 2.6); continue; }
+      const measured = measuredRoofFor(houseKitRoofs, buildingIndex, b.ring);
+      if (kitHouse(b.ring, { kind: b.kind, name: b.name, subtype: b.municipalSubtype ?? null,
+        wall: look?.wall ? L(look.wall) : wallOf(cx, cz, b.kind, b.name),
+        roof: look?.roof ? L(look.roof) : measured ?? roofOf(cx, cz) })) {
+        if (measured) stats.houseKit.measuredRoofs++;
+        continue;
+      }
+    }
     house(b.ring, hgt, isClub ? L(CLUB_LOOK.wall) : look?.wall ? L(look.wall) : wallOf(cx, cz, b.kind, b.name),
           isClub ? L(CLUB_LOOK.roof) : look?.roof ? L(look.roof) : roofOf(cx, cz), isClub && !CLUB_LOOK.gable);
     let glazedEdge = -1;
@@ -8184,7 +8269,8 @@ if (M.infra.objectPlacement === 'mapped-only') {
       const cs = Math.cos(yaw), sn = Math.sin(yaw);
       const ring = [[-hw, -hd], [hw, -hd], [hw, hd], [-hw, hd]]
         .map(([u, v]) => [px + u * cs - v * sn, pz + u * sn + v * cs]);
-      house(ring, 3.0, wallOf(px, pz, 'house', null), roofOf(px, pz));
+      if (houseKit && !q.surr && houseKitInner(px, pz)) kitHouse(ring, { wall: wallOf(px, pz, 'house', null), roof: roofOf(px, pz), inferred: true });
+      else house(ring, 3.0, wallOf(px, pz, 'house', null), roofOf(px, pz));
       stats.inferredBuildings++;
       const qq = { ring, bb: ringBBox(ring) };
       II.add(qq, qq.bb, 10);
@@ -8214,6 +8300,13 @@ if (M.infra.objectPlacement === 'mapped-only') {
   scene.add(m);
   stats.draws++; stats.tris += V.length / 9;
   stats.buildingPaint.batchTriangles = V.length / 9;
+  /* the kit's parts on the walls: one instanced draw per part and colour channel */
+  if (houseKit && houseKitParts.length) {
+    const { group, report } = buildHouseKitMeshes(houseKit, houseKitParts, { wallFoot: WALL_BASE_ON, snow: SNOW_ON });
+    scene.add(group);
+    Object.assign(stats.houseKit, { parts: report.parts, instances: report.instances, partTriangles: report.triangles, draws: report.draws });
+    stats.draws += report.draws; stats.tris += report.triangles;
+  }
 
   /* the distant town: each far building is its oriented box, roof-grey on top,
      read through a kilometre of haze */
@@ -12641,6 +12734,7 @@ window.V3D = {
            architecturalBuildings: stats.architecturalBuildings | 0,
            architecturalTriangles: stats.architecturalTriangles | 0,
            buildingPaint: stats.buildingPaint,
+           houseKit: stats.houseKit ?? null,
            authoredBuildingModels: stats.authoredBuildingModels | 0,
            authoredBuildingMeshes: stats.authoredBuildingMeshes | 0,
            authoredBuildingTriangles: stats.authoredBuildingTriangles | 0,

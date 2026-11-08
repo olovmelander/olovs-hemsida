@@ -3,6 +3,15 @@
    photographs, orthophotos and laser evidence. Source notes and uncertainty:
    puttombuild/facilities/models-2026-09-10/. The older appearance settings below
    provide a fallback if the complete authored asset cannot be validated. */
+import roofColours from './puttom-roof-colours.json' with { type: 'json' };
+/* The houses on Puttom's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The facility asset's own buildings keep their models, and the traced looks below their colours.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0); the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
+
 export const buildingLooks = {
   'trace-annex-a': { wall: 0x8b3a2c, roof: 0x4a4d50, windows: true },
   'trace-annex-b': { wall: 0x8b3a2c, roof: 0x4a4d50 },

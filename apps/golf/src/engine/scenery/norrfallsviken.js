@@ -2,6 +2,15 @@ import { renderReviewedClubhouse, renderReviewedFacilities } from './norrfallsvi
 import { authoredSiteHeights } from './norrfallsviken-facilities.mjs';
 import { isReviewedRangeFeature, prepareRangeScenery, renderRangeDetails } from './norrfallsviken-range.mjs';
 export { loadFacilities, facilityFootprints, isFacilityInterior, isFacilityTreeObstruction, architectureStatus } from './norrfallsviken-facilities.mjs';
+import roofColours from './norrfallsviken-roof-colours.json' with { type: 'json' };
+
+/* The houses on Norrfällsviken's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The club's reviewed facilities and the chapel keep their own drawing.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0) unless this module states it; the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
 export const renderClubhouse = renderReviewedClubhouse;
 
 /* THE DRIVING RANGE, read off the 2024 orthophoto and the club's 2025 range

@@ -2,6 +2,16 @@ import { authoredBuildings as clubhouseBuildings } from './tortuna-architecture.
 import { facilityBuildings } from './tortuna-facilities.js';
 export const authoredBuildings = [...clubhouseBuildings, ...facilityBuildings];
 import { isReviewedRangeFeature, prepareRangeScenery, renderRangeDetails } from './tortuna-range.mjs';
+import roofColours from './tortuna-roof-colours.json' with { type: 'json' };
+
+/* The houses on Tortuna's ground are drawn with the house kit (engine/house-kit.mjs, 8 November): a plinth,
+   eaves and gables, and windows, doors and the rest modelled in Blender on each mapped footprint.
+   The ground is mapped-only: no porch, balcony or chimney is guessed onto a mapped wall, and the
+   eight authored buildings keep their models.
+   Each roof takes its colour from Lantmäteriet's orthophoto (geobuild/facilities/roof-colours.py;
+   Ortofoto Nedladdning © Lantmäteriet, CC BY 4.0) unless this module states it; the walls keep the palette. */
+export const houseKit = true;
+export { roofColours };
 
 /* THE DRIVING RANGE, measured off the retained 2026 native orthophoto
    (apps/golf/src/engine/scenery/tortuna-range-site.json): twenty-two hitting

@@ -1,0 +1,217 @@
+{
+  "schemaVersion": 1,
+  "kind": "banvy-prop-kit",
+  "id": "house-kit",
+  "asset": {
+    "url": "models/props/house-kit-59385b210791dc9caab2361e20ac9cdd1dad91380be7e1b56e707a66fcaf5fb1.glb",
+    "sha256": "59385b210791dc9caab2361e20ac9cdd1dad91380be7e1b56e707a66fcaf5fb1",
+    "bytes": 157756
+  },
+  "meshes": {
+    "balcony__accent": {
+      "triangles": 24,
+      "channel": "accent"
+    },
+    "balcony__fixed": {
+      "triangles": 40,
+      "channel": "fixed"
+    },
+    "barn_door__fixed": {
+      "triangles": 2,
+      "channel": "fixed"
+    },
+    "barn_door__trim": {
+      "triangles": 130,
+      "channel": "trim"
+    },
+    "barn_door__wall": {
+      "triangles": 2,
+      "channel": "wall"
+    },
+    "chimney__fixed": {
+      "triangles": 66,
+      "channel": "fixed"
+    },
+    "chimney_brick__fixed": {
+      "triangles": 66,
+      "channel": "fixed"
+    },
+    "corner__trim": {
+      "triangles": 8,
+      "channel": "trim"
+    },
+    "door__accent": {
+      "triangles": 82,
+      "channel": "accent"
+    },
+    "door__fixed": {
+      "triangles": 26,
+      "channel": "fixed"
+    },
+    "door__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "door__trim": {
+      "triangles": 38,
+      "channel": "trim"
+    },
+    "door_board__fixed": {
+      "triangles": 8,
+      "channel": "fixed"
+    },
+    "door_board__trim": {
+      "triangles": 56,
+      "channel": "trim"
+    },
+    "door_board__wall": {
+      "triangles": 2,
+      "channel": "wall"
+    },
+    "door_far__accent": {
+      "triangles": 2,
+      "channel": "accent"
+    },
+    "door_far__trim": {
+      "triangles": 2,
+      "channel": "trim"
+    },
+    "door_plain__accent": {
+      "triangles": 2,
+      "channel": "accent"
+    },
+    "door_plain__fixed": {
+      "triangles": 44,
+      "channel": "fixed"
+    },
+    "downpipe__fixed": {
+      "triangles": 16,
+      "channel": "fixed"
+    },
+    "entrance__fixed": {
+      "triangles": 84,
+      "channel": "fixed"
+    },
+    "entrance__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "garage_door__fixed": {
+      "triangles": 10,
+      "channel": "fixed"
+    },
+    "garage_door__trim": {
+      "triangles": 42,
+      "channel": "trim"
+    },
+    "porch__fixed": {
+      "triangles": 40,
+      "channel": "fixed"
+    },
+    "porch__roof": {
+      "triangles": 8,
+      "channel": "roof"
+    },
+    "porch__trim": {
+      "triangles": 146,
+      "channel": "trim"
+    },
+    "porch__wall": {
+      "triangles": 1,
+      "channel": "wall"
+    },
+    "porch_low__fixed": {
+      "triangles": 40,
+      "channel": "fixed"
+    },
+    "porch_low__roof": {
+      "triangles": 4,
+      "channel": "roof"
+    },
+    "porch_low__trim": {
+      "triangles": 124,
+      "channel": "trim"
+    },
+    "roller_door__fixed": {
+      "triangles": 126,
+      "channel": "fixed"
+    },
+    "shopfront__fixed": {
+      "triangles": 40,
+      "channel": "fixed"
+    },
+    "shopfront__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window__trim": {
+      "triangles": 90,
+      "channel": "trim"
+    },
+    "window_far__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window_far__trim": {
+      "triangles": 4,
+      "channel": "trim"
+    },
+    "window_far_alu__fixed": {
+      "triangles": 2,
+      "channel": "fixed"
+    },
+    "window_far_alu__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window_modern__fixed": {
+      "triangles": 40,
+      "channel": "fixed"
+    },
+    "window_modern__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window_small__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window_small__trim": {
+      "triangles": 78,
+      "channel": "trim"
+    },
+    "window_strip__fixed": {
+      "triangles": 52,
+      "channel": "fixed"
+    },
+    "window_strip__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window_tall__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window_tall__trim": {
+      "triangles": 84,
+      "channel": "trim"
+    },
+    "window_wide__glass": {
+      "triangles": 2,
+      "channel": "glass"
+    },
+    "window_wide__trim": {
+      "triangles": 96,
+      "channel": "trim"
+    }
+  },
+  "triangles": 1749,
+  "axes": "each part: x along the wall, y up, z out of the wall (its face at z = 0); metres",
+  "channels": "wall, trim, roof and accent are white and take the house's colour per instance; fixed keeps its own; glass is the panes",
+  "source": "tools/blender-props/house_kit.py, Blender 5.2.2 LTS, built headless (blender --background --factory-startup) on 8 November 2026",
+  "notes": "Painted vertex colours. Laid on each footprint of the inner ring by apps/golf/src/engine/house-kit.mjs."
+}
