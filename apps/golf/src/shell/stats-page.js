@@ -476,6 +476,7 @@ export function buildStats({ courses, onBack, onPlay }) {
         <div class="st-card">
           <header class="st-card-head"><div><h2>Banor</h2><p>Där du har spelat</p></div></header>
           <ul class="st-courses">${stat.courses.map(c => `<li>
+            ${state.course === 'all' ? `<button type="button" class="sc-pick" data-pick-course="${esc(c.slug)}" aria-label="${esc(c.name)}: hål för hål"></button>` : ''}
             <span class="sc-thumb" style="${poster(c.slug) ? `background-image:url('${poster(c.slug)}')` : ''}" aria-hidden="true"></span>
             <span class="sc-name"><b>${esc(c.name)}</b><small>${c.rounds} ${c.rounds === 1 ? 'runda' : 'rundor'} · senast ${esc(dateText(c.last))}</small></span>
             <span class="sc-num"><small>Snitt</small><b>${c.average !== null ? signed(c.average) : '–'}</b></span>
@@ -538,12 +539,13 @@ export function buildStats({ courses, onBack, onPlay }) {
           tip.show(JSON.parse(col.dataset.tip).map(text => [text]), box.left - cardBox.left + box.width / 2, box.top - cardBox.top + 20);
         }, () => tip.hide());
       }
-      for (const btn of holesCard.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
-        state.course = btn.dataset.pickCourse;
-        render();
-        body.querySelector('[data-card="holes"]')?.scrollIntoView({ block: 'start', behavior: REDUCED ? 'auto' : 'smooth' });
-      });
     }
+    /* a course picked from the holes card or from Banor: that course, hole by hole */
+    for (const btn of body.querySelectorAll('[data-pick-course]')) btn.addEventListener('click', () => {
+      state.course = btn.dataset.pickCourse;
+      render();
+      body.querySelector('[data-card="holes"]')?.scrollIntoView({ block: 'start', behavior: REDUCED ? 'auto' : 'smooth' });
+    });
     observe(draw);
   }
 
@@ -600,6 +602,16 @@ export function buildStats({ courses, onBack, onPlay }) {
   }
 
   el.refresh = () => render();
+  /* #statistik/<course>, from the course's page: that course, hole by hole */
+  el.showCourse = slug => {
+    state.example = false;
+    if (courses.some(c => c.slug === slug)) state.course = slug;
+    render();
+  };
+  el.revealCourse = () => {
+    const holes = body.querySelector('[data-card="holes"]');
+    if (holes) requestAnimationFrame(() => holes.scrollIntoView({ block: 'start', behavior: 'auto' }));
+  };
   render();
   return el;
 }

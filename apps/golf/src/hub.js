@@ -140,12 +140,15 @@ try {
   async function show() {
     /* the course page belongs to the list it was opened from; any other step closes it */
     if (sheet.isOpen()) sheet.close();
-    const route = location.hash.replace(/^#\/?/, '');
+    /* a screen and what it opens on: #statistik/<course> is one course's statistics */
+    const [route, detail = ''] = location.hash.replace(/^#\/?/, '').split('/');
     const mode = modeOfRoute(route);
     const key = mode || PAGES[route] || 'home';
     const screen = key === 'settings' ? await getSettings() : key === 'stats' ? await getStats() : mode ? getChooser(mode) : home;
     if (mode && screen.getMode() !== mode) screen.setMode(mode);
-    if (key !== 'detailed' && key !== 'map') screen.refresh?.();
+    const course = key === 'stats' && detail ? decodeURIComponent(detail) : null;
+    if (course) screen.showCourse(course);
+    else if (key !== 'detailed' && key !== 'map') screen.refresh?.();
     const swap = () => {
       for (const other of [home, chooser, settings, stats]) if (other && other !== screen) other.hidden = true;
       screen.hidden = false;
@@ -162,8 +165,10 @@ try {
     document.documentElement.classList.add('hub-ready');
     /* where a keyboard and a screen reader land: the screen's own heading */
     if (!first) (screen.querySelector('h1[tabindex]') || screen.querySelector('h1'))?.focus({ preventScroll: true });
+    if (course) screen.revealCourse();
   }
-  addEventListener('hashchange', show);
+  /* a link inside the hub (the course page's statistics) is a step walked here too */
+  addEventListener('hashchange', () => { walked = true; show(); });
 
   /* Escape is the way back from a list or the settings. The search field and
      the bag editor take it first when they have something to close. */

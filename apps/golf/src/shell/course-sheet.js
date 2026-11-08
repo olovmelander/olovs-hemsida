@@ -33,6 +33,8 @@ import {
 import { perEighteen, perHole } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
 import { loadScorecard } from './course-scorecard.mjs';
+import { hubUrl } from './router.js';
+import { courseWeather, weatherLine } from './course-weather.mjs';
 
 const BASE = import.meta.env.BASE_URL;
 const storage = () => { try { return localStorage; } catch { return null; } };
@@ -46,6 +48,8 @@ const ICON = {
   map: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>',
 };
 const SUB = { detailed: 'Hela banan i full grafik', map: 'GPS-avstånd, klubbhjul och score' };
+/* an arrow pointing north, turned to where the wind blows */
+const WIND = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4M6 10l6-6 6 6"/></svg>';
 
 const signed = value => (Math.abs(value) < 0.05 ? '±0' : `${value > 0 ? '+' : '−'}${Math.abs(value).toFixed(1).replace('.', ',')}`);
 
@@ -115,10 +119,12 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
         <div class="cs-form">
           <div class="cs-scroll">
             ${lines[c.slug] || c.description ? `<p class="cs-line">${esc(c.description || lines[c.slug])}</p>` : ''}
+            <p class="cs-weather" data-weather hidden></p>
             ${past ? `<div class="cs-past" aria-label="Dina rundor här">
               <div><span>Rundor här</span><b>${past.rounds}</b></div>
               <div><span>Bästa</span><b>${past.best ? `${past.best.strokes}` : '–'}</b>${past.best ? `<small>${past.best.toPar > 0 ? '+' : past.best.toPar < 0 ? '−' : '±'}${Math.abs(past.best.toPar)}</small>` : ''}</div>
               <div><span>Snitt per 18</span><b>${past.average !== null ? signed(past.average) : '–'}</b></div>
+              <a class="cs-past-more" href="${hubUrl(`statistik/${encodeURIComponent(c.slug)}`)}">Hål för hål i Statistik<span aria-hidden="true">→</span></a>
             </div>` : ''}
 
             <fieldset class="cs-field">
@@ -234,6 +240,18 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
       list.scrollBy({ left: Number(btn.dataset.guideStep) * step, behavior: REDUCED ? 'auto' : 'smooth' });
     });
     reflect();
+
+    /* the weather on the course now: the reading the app keeps half an hour */
+    courseWeather(place).then(reading => {
+      const line = course === c ? weatherLine(reading) : null;
+      const el = dialog.querySelector('[data-weather]');
+      if (!line || !el) return;
+      el.innerHTML = `<span class="cs-w-arrow" style="--to:${line.towardDeg}deg" aria-hidden="true">${WIND}</span>
+        <span class="cs-sr">Vädret på banan ${line.stale ? 'vid senaste avläsningen' : 'nu'}:</span>
+        <span class="cs-w-text">${line.temp ? `<b>${line.temp}</b>` : ''}<span>${esc(line.sky)}</span><span>${esc(line.wind)}</span></span>
+        <small aria-hidden="true">${line.stale ? 'Senast' : 'Nu'}</small>`;
+      el.hidden = false;
+    });
 
     /* the card comes from the course's pack, which the round reads next */
     card = null;

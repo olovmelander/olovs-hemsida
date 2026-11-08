@@ -646,6 +646,21 @@ await section('your own card on the course page', async () => {
   const first = mine[0] ?? [];
   gate(mine.length === 2 && first.length === 10 && first[0].text === '3,0' && /is-under/.test(first[0].tone) && first[1].text === '6,0' && /is-over/.test(first[1].tone) && first[2].tone === '',
     `the scorecard has a Snitt row a nine, under par blue and over orange (${first.slice(0, 3).map(c => c.text).join(' ')})`);
+  /* and the page leads on to that course in Statistik, hole by hole, clear of the header */
+  await page.click('#courseSheet .cs-past-more');
+  await page.waitForSelector('#stats:not([hidden]) [data-card="holes"] .shb-col', { timeout: 15000 });
+  await page.waitForTimeout(500);
+  const stats = await page.evaluate(() => ({
+    hash: location.hash,
+    columns: document.querySelectorAll('#stats .shb-col').length,
+    top: Math.round(document.querySelector('#stats [data-card="holes"]').getBoundingClientRect().top),
+    header: Math.round(document.querySelector('#stats .set-top').getBoundingClientRect().bottom),
+  }));
+  gate(stats.hash === `#statistik/${course.slug}` && stats.columns === course.holes && stats.top >= stats.header && stats.top < 400,
+    `its "Hål för hål i Statistik" opens that course's holes in view (${stats.hash}, ${stats.columns} holes, card at ${stats.top} px under a ${stats.header} px header)`);
+  await page.click('#stats [data-back]');
+  await page.waitForTimeout(600);
+  gate(await page.evaluate(() => location.hash) === '#karta', 'and Tillbaka returns to the list it came from');
   await ctx.close();
 });
 
@@ -778,6 +793,18 @@ for (const [w, h, touch] of [[390, 844, true], [1440, 900, false]]) {
     await page.waitForTimeout(300);
     const holeRows = await page.evaluate(() => document.querySelectorAll('#stats [data-card="holes"] .st-table tbody tr').length);
     gate(holeRows === 18, `${w}x${h}: and its table has every hole (${holeRows})`);
+    /* a row under Banor is a way in to its course too */
+    await page.selectOption('#stats [data-course]', 'all');
+    await page.waitForTimeout(300);
+    const rowName = await page.evaluate(() => document.querySelector('#stats .st-courses .sc-pick')?.getAttribute('aria-label') ?? '');
+    await page.click('#stats .st-courses .sc-pick');
+    await page.waitForTimeout(400);
+    /* the holes card keeps the table view chosen above: a column or a row a hole */
+    const viaRow = await page.evaluate(() => ({
+      cols: document.querySelectorAll('#stats .shb-col').length || document.querySelectorAll('#stats [data-card="holes"] .st-table tbody tr').length,
+      chosen: document.querySelector('#stats [data-course]')?.value,
+    }));
+    gate(viaRow.cols === 18 && viaRow.chosen && viaRow.chosen !== 'all', `${w}x${h}: a course under Banor opens it hole by hole (${rowName}, ${viaRow.chosen})`);
     gate(errs.length === 0, `${w}x${h}: no page errors${errs.length ? ' -- ' + errs[0] : ''}`);
     await ctx.close();
   });

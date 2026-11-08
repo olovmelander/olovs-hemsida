@@ -43,6 +43,8 @@
   box-shadow: 0 22px 54px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.035);
   padding: 20px 22px;
   min-width: 0;
+  /* a card scrolled to (a course picked, #statistik/<course>) clears the sticky header */
+  scroll-margin-top: 96px;
 }
 .st-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .st-card-head h2, .st-h2 { font: 800 19px/1.15 Outfit, sans-serif; letter-spacing: -0.02em; color: #fff; }
@@ -338,7 +340,15 @@
 
 /* -------------------------------------------------------------- courses */
 .st-courses { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+/* with every course in view, a row is a way in to that course: the whole row is its button */
+.sc-pick { position: absolute; inset: 0; z-index: 1; width: 100%; border: 0; border-radius: 14px; background: transparent; cursor: pointer; }
+.sc-pick:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.st-courses li:has(.sc-pick) { transition: background-color 0.2s; }
+@media (hover: hover) and (pointer: fine) {
+  .st-courses li:has(.sc-pick:hover) { background: rgba(255, 255, 255, 0.06); }
+}
 .st-courses li {
+  position: relative;
   display: grid;
   grid-template-columns: 64px minmax(0, 1fr) auto auto;
   align-items: center;
