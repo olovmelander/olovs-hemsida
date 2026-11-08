@@ -7832,7 +7832,7 @@ if (M.infra.objectPlacement === 'mapped-only') {
     ? loadHouseKit({ baseUrl: import.meta.env.BASE_URL }).catch(error => { stats.houseKit.error = String(error?.message || error); return null; })
     : null;
   stats.houseKit = { asked: !!SCENERY?.houseKit, allowed: houseKitAllowed(), status: houseKitLoading ? 'loading' : 'off',
-    houses: 0, inferred: 0, nearHouses: 0, partsReach: allPartsEverywhere() ? null : LOWQ ? 0 : PARTS_REACH, treeBlocked: 0, treeIndexMs: 0, measuredRoofs: 0, byType: {}, shellTriangles: 0, parts: 0, instances: 0, partTriangles: 0, draws: 0, error: null };
+    houses: 0, inferred: 0, stated: 0, nearHouses: 0, partsReach: allPartsEverywhere() ? null : LOWQ ? 0 : PARTS_REACH, treeBlocked: 0, treeIndexMs: 0, measuredRoofs: 0, byType: {}, shellTriangles: 0, parts: 0, instances: 0, partTriangles: 0, draws: 0, error: null };
   // Authored GLB replacements must be ready before the shared generic batch is
   // emitted. A failed/cancelled load leaves every source building in that batch.
   await installFacilityArchitecture();
@@ -7877,17 +7877,21 @@ if (M.infra.objectPlacement === 'mapped-only') {
   };
   /* draw one footprint with the kit: its type from its tags, size and land use; its colours
      the ones the batch would have given it; its front toward the nearest road or path */
-  function kitHouse(ring, { kind = 'yes', name = null, subtype = null, wall, roof, inferred = false }) {
+  function kitHouse(ring, { kind = 'yes', name = null, subtype = null, amenity = null, wall, roof, inferred = false, override = null, measured = false }) {
     const [cx, cz] = centroidOf(ring), area = houseArea(ring), seed = seedOf(cx, cz);
     const lu = houseKitLanduse.find(q => cx > q.bb.x0 && cx < q.bb.x1 && cz > q.bb.z0 && cz < q.bb.z1 && insideRing(cx, cz, q.ring));
     const box = orientedBox(ring);
-    const type = inferred ? 'villa' : classifyBuilding({ kind: houseKitGenericHouse && kind === 'house' ? 'yes' : kind,
-      name, area, landuse: lu?.kind ?? null, seed, subtype, depth: box ? 2 * box.hd : null });
+    const type = override?.type ?? (inferred ? 'villa' : classifyBuilding({ kind: houseKitGenericHouse && kind === 'house' ? 'yes' : kind,
+      name, area, landuse: lu?.kind ?? null, seed, subtype, amenity, depth: box ? 2 * box.hd : null }));
     if (!type) return null;                       /* a church keeps the batch's drawing */
     const { base, skirt } = houseBase(ring);
-    const plan = planHouse({ ring, type, base, skirt, seed, palette: housePalette(type, { wall, roof, trim: TRIM, seed }),
+    const palette = housePalette(type, { wall: override?.wall != null ? L(override.wall) : wall,
+      roof: override?.roof != null ? L(override.roof) : roof, trim: override?.trim != null ? L(override.trim) : TRIM, seed });
+    palette.roofMeasured = measured && override?.roof == null;
+    const plan = planHouse({ ring, type, base, skirt, seed, palette, override,
       front: nearestRoadDirection(cx, cz, houseKitRoads(cx, cz), 70), groundAt: houseKitGround,
       emit: { tri, quad, slope, triangulate }, mappedOnly: M.infra.objectPlacement === 'mapped-only', treesNear: houseKitTreesNear });
+    if (override) stats.houseKit.stated++;
     stats.houseKit.treeBlocked += plan.treeBlocked || 0;
     /* every part as modelled near the holes; further out, flat windows and doors (house-kit.mjs PARTS_REACH) */
     const fromHoles = HOLES.reduce((best, h) => Math.min(best, distToLine(cx, cz, h.line)), Infinity);
@@ -7992,9 +7996,10 @@ if (M.infra.objectPlacement === 'mapped-only') {
       /* a carport is a roof on posts, as a mapped shelter is */
       if (b.kind === 'carport') { canopy(b.ring, b.h || 2.6); continue; }
       const measured = measuredRoofFor(houseKitRoofs, buildingIndex, b.ring);
-      if (kitHouse(b.ring, { kind: b.kind, name: b.name, subtype: b.municipalSubtype ?? null,
+      if (kitHouse(b.ring, { kind: b.kind, name: b.name, subtype: b.municipalSubtype ?? null, amenity: b.amenity ?? null,
         wall: look?.wall ? L(look.wall) : wallOf(cx, cz, b.kind, b.name),
-        roof: look?.roof ? L(look.roof) : measured ?? roofOf(cx, cz) })) {
+        roof: look?.roof ? L(look.roof) : measured ?? roofOf(cx, cz), measured: !look?.roof && !!measured,
+        override: b.id != null ? SCENERY?.houseKitBuildings?.[b.id] ?? null : null })) {
         if (measured) stats.houseKit.measuredRoofs++;
         continue;
       }
