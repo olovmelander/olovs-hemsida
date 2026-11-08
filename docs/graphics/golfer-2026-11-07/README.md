@@ -205,7 +205,7 @@ These are copies of the September audits with the same thresholds. They read the
 
 - **Walk:** a freer arm swing driven from the elbow, stronger pelvis and chest counter-rotation, more hip drop, a push-off pitch, and shoulders that ride the swing.
 - **Jog:** the free arm bent at 90° with a loose fist, pumping at chest height, and a livelier club bounce.
-- **Idle:** a shoulder-rolling stretch with a deep breath, and a double tap of the club on the shoulder.
+- **Idle:** during the long look down the course, the free hand comes up flat under the bill's edge to shade the eyes (it travels on an outward arc, never across the face). Then come a shoulder-rolling stretch with a deep breath, and a double tap of the club on the shoulder.
 - **Celebrate:** rebuilt (see Off the course). The fist's path is routed around the shoulder, so the arm never folds through it.
 - **Braid timing:** for one-shot clips (turns, swings, the celebration) the bake recorded its one-second warm-up as the clip's start. The braid lagged the body by a second and lost the clip's last second. The bake now records only the clip's own frames.
 

@@ -239,16 +239,48 @@ class Idle(Carry):
         pitch = -8 * math.sin(PI * clamp((t - 5.1) / 1.0)) ** 2
         eye = V((0, -.06, 1.58)) * self.k
         look = eye + rot_axis(UP, D(yaw)) @ (rot_axis(LEFT, D(pitch - 3)) @ V((0, -6, 0)))
-        # A stretch: a deep breath lifts and rolls the shoulders back (about 2 s in).
-        stretch = math.sin(PI * clamp((t - 1.85) / 1.05)) ** 2
+        # A stretch: a deep breath lifts and rolls the shoulders back (about 3.4 s in).
+        stretch = math.sin(PI * clamp((t - 2.9) / 1.0)) ** 2
         trot = rot_axis(LEFT, D(-2.5 * stretch)) @ trot
         # A fidget: the club bounces twice on the shoulder (about 4.3 s in).
         tap = sum(math.sin(PI * clamp((t - t0) / .30)) ** 2 for t0 in (4.28, 4.62))
         lead = self.lead_on_hip(trot, t)
-        spec = self.base(pel, prot, trot, feet, look,
-                         clav={'L': (D(1.5 * breath + 5 * stretch), D(-4 - 3 * stretch)),
-                               'R': (D(4 + 1.5 * breath + 4 * stretch), D(6 - 2 * stretch))},
+        clav = {'L': (D(1.5 * breath + 5 * stretch), D(-4 - 3 * stretch)),
+                'R': (D(4 + 1.5 * breath + 4 * stretch), D(6 - 2 * stretch))}
+        spec = self.base(pel, prot, trot, feet, look, clav=clav,
                          lead_hand=lead[0:2], lead_fingers=lead[2], club_lift=-11 * tap, club_bob=.004 * self.k * tap)
+        # Shading the eyes: during the long look down the course the free hand comes up
+        # flat under the bill's edge (about 1.3-2.7 s in).
+        tug = smooth((t - 1.30) / .38) * (1 - smooth((t - 2.30) / .40))
+        if tug > 1e-4:
+            pose = b.solve(dict(spec))
+            Hm = pose['Head'] @ self.s.rest['Head'].inverted()
+            Hr = Hm.to_3x3()
+            J = self.J; k = self.k
+            eye_mid = (J['eye_L'] + J['eye_R']) / 2
+            pull = 0.0
+            # The hand comes from the side and pinches the bill's left edge between
+            # thumb and fingers, clear of the eyes.
+            pinch = Hm @ V((.072 * k, eye_mid.y - .080 * k, eye_mid.z + .044 * k - pull))
+            wrist_b = Hm @ V((.150 * k, eye_mid.y - .056 * k, eye_mid.z + .050 * k - pull))
+            hand_dir = (pinch - wrist_b).normalized()
+            Hb = frame(hand_dir, Hr @ V((.1, .1, 1)))
+            Ma, hint_a, fing_a = lead
+            qa = Ma.to_quaternion(); qb = Hb.to_quaternion()
+            if qa.dot(qb) < 0:
+                qb.negate()
+            # An outward arc, so the hand never passes in front of the face.
+            a_ = Ma.translation; c_ = wrist_b
+            ctrl = (a_ + c_) * .5 + trot @ V((.17 * k, -.07 * k, -.02 * k))
+            u = tug
+            pos = a_ * (1 - u) ** 2 + ctrl * (2 * u * (1 - u)) + c_ * (u * u)
+            M = mat4(qa.slerp(qb, smooth(tug)).to_matrix(), pos)
+            hint = V(hint_a).lerp(trot @ V((1, .1, -.7)), tug)
+            def fingers(hand_m, tug=tug):
+                pose_f = b.relaxed_fingers(hand_m, 'L', amount=.45 - .3 * tug, spread=.6 - .35 * tug)
+                return pose_f
+            spec = self.base(pel, prot, trot, feet, look, clav={'L': (clav['L'][0] + D(9) * tug, clav['L'][1] + D(4) * tug), 'R': clav['R']},
+                             lead_hand=(M, hint), lead_fingers=fingers, club_lift=-11 * tap, club_bob=.004 * self.k * tap)
         return b.solve(spec)
 
     def lead_on_hip(self, T, t):
