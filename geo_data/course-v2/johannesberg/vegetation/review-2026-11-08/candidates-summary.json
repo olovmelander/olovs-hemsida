@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "kind": "inner-ring-tree-candidates",
+  "state": "candidate, not published",
+  "groundId": "johannesberg",
+  "innerWindowEpsg3006": [
+    678403.5,
+    6624276.5,
+    680451.5,
+    6626324.5
+  ],
+  "detectorLockSha256": {
+    "parameters": {
+      "smoothingSigmaMetres": 0.4,
+      "windowBaseMetres": 1.5,
+      "windowSlope": 0.05,
+      "windowMinimumMetres": 1,
+      "windowMaximumMetres": 3,
+      "minimumCandidateHeightMetres": 3,
+      "seedFraction": 0.45,
+      "crownFraction": 0.55,
+      "maximumCrownRadiusMetres": 10,
+      "minimumCrownAreaSquareMetres": 0.25,
+      "minimumProminenceMetres": 0,
+      "extentFraction": 0.2
+    },
+    "position": "centroid",
+    "calibration": {
+      "f1": 0.859,
+      "precision": 0.878,
+      "recall": 0.84,
+      "crownIoUMean": 0.633,
+      "centreOffsetMedianMetres": 0.92
+    }
+  },
+  "publishedGroundManifest": "grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
+  "today": {
+    "individualRecords": 2458,
+    "standTreesHighQuality": 16272,
+    "total": 18730
+  },
+  "notPlacedOrRemovedByReview": {
+    "remove:felled after 2021": 1,
+    "not-placed:not a tree": 18,
+    "not-placed:felled after 2021": 12
+  },
+  "candidates": {
+    "total": 27384,
+    "byDecision": {
+      "add": 24573,
+      "adjust": 1725,
+      "hold": 333,
+      "retain": 536,
+      "remove": 1,
+      "not-placed": 30,
+      "merge": 186
+    },
+    "placedTrees": 26834,
+    "placedByType": {
+      "conifer": 18647,
+      "broadleaf": 8187
+    },
+    "placedBySource": {
+      "detector": 26533,
+      "sparse-laser-recovery": 301
+    },
+    "holdByReason": {
+      "on water, road or path": 24,
+      "on a mapped building": 175,
+      "structure suspect": 41,
+      "no June 2025 vegetation (unreviewed)": 74,
+      "crown over a played surface": 5,
+      "felling screen": 13,
+      "record without crown": 1
+    }
+  },
+  "fellingScreen": {
+    "screened": 64,
+    "byVerdict": {
+      "unclear": 14,
+      "absent": 13,
+      "structure": 18,
+      "present": 19
+    }
+  },
+  "identity": {
+    "matchedWithin15m": 1445,
+    "matchedWithin3m": 826,
+    "newIds": 24896,
+    "nextSequence": 39721,
+    "previousGenerationRecords": 2417,
+    "previousGenerationLineageCarried": 2394
+  },
+  "presence": {
+    "referenceFloor": 0.628,
+    "scale": {
+      "vegetatedShare": 0.9779179810725552,
+      "nirTexture": 5.9259697256386,
+      "darkShare": 0.015252357182473655
+    }
+  },
+  "unresolved": {
+    "sparseLaserWithoutPhotoCrown": 71,
+    "photoOnlyCanopy": 317
+  },
+  "elapsedSeconds": 26.3
+}

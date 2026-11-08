@@ -3,6 +3,7 @@
 
    usage: node packages/course-geo/acquisition/record-laser-campaigns.mjs
             --ground puttom [--write | --check] [--observed-on YYYY-MM-DD]
+            [--out <repo-relative path>] [--skip-scan-metadata]
 
    --write  queries the public catalogue, the public per-item metadata and
             Skogsstyrelsen's scan-area layer, and writes the pinned inventory to
@@ -13,6 +14,13 @@
             will trip it, which is the point: a re-fly must be adopted on
             purpose, never discovered by a screenshot.
    Without either flag the live inventory is printed and nothing is written.
+   --out    writes (or checks) a dated re-pin beside the accepted one instead
+            of acquisition/laser-campaigns.json, so a re-tiled catalogue can be
+            pinned for review without breaking the hashes the published
+            generation's evidence carries; adopting it is a publication step.
+   --skip-scan-metadata leaves out Skogsstyrelsen's scan-area layer (for a
+            Lantmäteriet-only run); the leaf state then comes from the item
+            metadata and the earlier pin.
 
    Nothing here needs credentials, and nothing here reads a point byte.       */
 import fs from 'node:fs';
@@ -39,6 +47,8 @@ const groundId = flag('ground');
 const write = args.includes('--write');
 const check = args.includes('--check');
 const observedOn = flag('observed-on', new Date().toISOString().slice(0, 10));
+const outFlag = flag('out');
+const skipScanMetadata = args.includes('--skip-scan-metadata');
 if (!ACQUISITION_GROUND_IDS.includes(groundId)) {
   console.error(`--ground must be one of ${ACQUISITION_GROUND_IDS.join(', ')}`);
   process.exit(2);
@@ -49,7 +59,7 @@ if (write && check) {
 }
 
 const groundDir = path.join(COURSE_DATA_DIR, groundId);
-const outputPath = path.join(groundDir, 'acquisition/laser-campaigns.json');
+const outputPath = outFlag ? path.resolve(outFlag) : path.join(groundDir, 'acquisition/laser-campaigns.json');
 const manifest = loadPilotManifest(groundId);
 const discovery = readJson(path.join(groundDir, 'acquisition/d2-discovery.json'));
 const aoi = {
@@ -104,7 +114,7 @@ for (const item of inventory.items) {
   points.push({ label: `centre-of-${item.id}`, easting: (x0 + x1) / 2, northing: (y0 + y1) / 2 });
 }
 const scanMetadata = [];
-for (const point of points) {
+for (const point of skipScanMetadata ? [] : points) {
   try {
     const entries = await fetchScanMetadata(point);
     scanMetadata.push({ point, entries });

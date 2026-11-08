@@ -3,6 +3,7 @@
 
    usage: node packages/course-geo/acquisition/run-copc-census.mjs
             --ground puttom [--write] [--full] [--items id,id] [--observed-on YYYY-MM-DD]
+            [--campaigns <pinned inventory>] [--out <census path>]
 
    Reads only the LAS header, the COPC info VLR and the hierarchy pages of
    every pinned item (superseded ones included, for comparison) over
@@ -30,13 +31,16 @@ const write = args.includes('--write');
 const full = args.includes('--full');
 const onlyItems = (flag('items', '') || '').split(',').filter(Boolean);
 const observedOn = flag('observed-on', new Date().toISOString().slice(0, 10));
+/* a dated re-pin is censused beside the accepted one, never over it */
+const campaignsFlag = flag('campaigns');
+const outFlag = flag('out');
 if (!ACQUISITION_GROUND_IDS.includes(groundId)) {
   console.error(`--ground must be one of ${ACQUISITION_GROUND_IDS.join(', ')}`);
   process.exit(2);
 }
 
 const groundDir = path.join(COURSE_DATA_DIR, groundId);
-const campaignsPath = path.join(groundDir, 'acquisition/laser-campaigns.json');
+const campaignsPath = campaignsFlag ? path.resolve(campaignsFlag) : path.join(groundDir, 'acquisition/laser-campaigns.json');
 if (!fs.existsSync(campaignsPath)) {
   console.error('no pinned campaign inventory; run record-laser-campaigns.mjs --write first');
   process.exit(1);
@@ -74,9 +78,21 @@ if (campaigns.origin) {
   const { easting, northing } = campaigns.origin;
   windows.push({ id: 'origin-1024', bboxEpsg3006: [easting - 512, northing - 512, easting + 512, northing + 512], role: 'legacy origin, straddles the seam' });
 }
+/* A re-tiled catalogue (2.5 km items) has one seam LINE made of several
+   item-pair segments that share an id; census each line once, on the segment
+   nearest the origin, with the window centre clamped into that segment so it
+   is never empty. */
+const seamCentre = seam => (campaigns.origin ? (seam.axis === 'northing' ? campaigns.origin.easting : campaigns.origin.northing) : (seam.from + seam.to) / 2);
+const seamGap = seam => Math.max(0, seam.from - seamCentre(seam), seamCentre(seam) - seam.to);
+const seamLines = new Map();
 for (const seam of campaigns.seams) {
-  const mid = campaigns.origin ? (seam.axis === 'northing' ? campaigns.origin.easting : campaigns.origin.northing) : (seam.from + seam.to) / 2;
+  const kept = seamLines.get(seam.id);
+  if (!kept || seamGap(seam) < seamGap(kept)) seamLines.set(seam.id, seam);
+}
+for (const seam of seamLines.values()) {
+  const mid = Math.min(seam.to, Math.max(seam.from, seamCentre(seam)));
   const along = [Math.max(seam.from, mid - 256), Math.min(seam.to, mid + 256)];
+  if (!(along[1] > along[0])) continue;
   if (seam.axis === 'northing') {
     windows.push({ id: `${seam.id}-north-512`, bboxEpsg3006: [along[0], seam.value, along[1], seam.value + 512], role: 'north of the seam' });
     windows.push({ id: `${seam.id}-south-512`, bboxEpsg3006: [along[0], seam.value - 512, along[1], seam.value], role: 'south of the seam' });
@@ -146,7 +162,7 @@ const report = {
   items: results,
 };
 if (write) {
-  const outputPath = path.join(groundDir, 'acquisition/copc-hierarchy-census.json');
+  const outputPath = outFlag ? path.resolve(outFlag) : path.join(groundDir, 'acquisition/copc-hierarchy-census.json');
   fs.writeFileSync(outputPath, JSON.stringify(report, null, 2) + '\n');
   console.log(`  wrote ${path.relative(process.cwd(), outputPath)} sha256 ${sha256File(outputPath)}`);
 }

@@ -339,10 +339,12 @@ export async function probeProviderAccess(report, {
 }
 
 function parseArguments(argv) {
-  const options = { groundId: 'puttom', json: false, providers: PROVIDER_IDS };
+  const options = { groundId: 'puttom', json: false, providers: PROVIDER_IDS, discovery: null };
   for (let index = 0; index < argv.length; index++) {
     if (argv[index] === '--ground') options.groundId = argv[++index];
     else if (argv[index] === '--json') options.json = true;
+    /* a dated discovery snapshot instead of the accepted one */
+    else if (argv[index] === '--discovery') options.discovery = argv[++index];
     else if (argv[index] === '--provider') {
       const provider = argv[++index];
       if (provider === 'all') options.providers = PROVIDER_IDS;
@@ -359,7 +361,7 @@ function parseArguments(argv) {
 
 async function main() {
   const options = parseArguments(process.argv.slice(2));
-  const file = path.join(COURSE_DATA_DIR, options.groundId, 'acquisition', 'd2-discovery.json');
+  const file = options.discovery ? path.resolve(options.discovery) : path.join(COURSE_DATA_DIR, options.groundId, 'acquisition', 'd2-discovery.json');
   const report = readJson(file);
   const errors = validateD2DiscoveryReport(report, loadPilotManifest(options.groundId));
   if (errors.length) throw new Error(`discovery snapshot is invalid:\n${errors.join('\n')}`);

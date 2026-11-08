@@ -1,0 +1,533 @@
+{
+ "schemaVersion": 1,
+ "kind": "felling-and-structure-review",
+ "reviewedAt": "2026-11-08T16:09:35.037Z",
+ "reviewer": "agent-led visual review (Claude) of CHM, 2021-04-18 and 2025-06-14 natural colour panels; not a field check",
+ "screen": "outside closed stands (closedness < 0.6): own shadow present in April 2021 (>= 0.25 dark share), absent in June 2025 (< 0.02), and a June presence score below the reference floor",
+ "verdicts": {
+  "absent": "the tree stood in 2021 and is gone in June 2025: remove the record / do not place",
+  "structure": "the CHM object is not a tree (roof, vehicle, heap): not placed",
+  "present": "kept",
+  "unclear": "held"
+ },
+ "counts": {
+  "unclear": 14,
+  "absent": 13,
+  "structure": 18,
+  "present": 19
+ },
+ "decisions": {
+  "679888.0_6624715.0": {
+   "index": 0,
+   "verdict": "unclear",
+   "note": "dense conifers in 2021; 2025 looks thinned but the crown cannot be confirmed either way",
+   "easting": 679887.97,
+   "northing": 6624714.97,
+   "heightMetres": 13.02
+  },
+  "679261.8_6626211.6": {
+   "index": 1,
+   "verdict": "absent",
+   "note": "leaf-off tree with its shadow beside the car park in April 2021; grass and path only in June 2025",
+   "easting": 679261.84,
+   "northing": 6626211.64,
+   "heightMetres": 12.82
+  },
+  "679892.8_6624717.4": {
+   "index": 2,
+   "verdict": "unclear",
+   "note": "dense conifers in 2021; 2025 looks thinned but the crown cannot be confirmed either way",
+   "easting": 679892.82,
+   "northing": 6624717.41,
+   "heightMetres": 12.61
+  },
+  "679355.6_6626170.7": {
+   "index": 3,
+   "verdict": "unclear",
+   "note": "beside a building under construction; mast or tree",
+   "easting": 679355.57,
+   "northing": 6626170.68,
+   "heightMetres": 11.53
+  },
+  "679885.2_6624683.8": {
+   "index": 4,
+   "verdict": "unclear",
+   "note": "stem at a 2021 logging track; 2025 grassy track, crown not resolvable",
+   "easting": 679885.16,
+   "northing": 6624683.84,
+   "heightMetres": 11.12
+  },
+  "678479.3_6624317.1": {
+   "index": 5,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678479.35,
+   "northing": 6624317.13,
+   "heightMetres": 9.6
+  },
+  "679189.1_6625952.5": {
+   "index": 6,
+   "verdict": "unclear",
+   "note": "shore tree; 2025 water level higher, crown not resolvable",
+   "easting": 679189.14,
+   "northing": 6625952.47,
+   "heightMetres": 9.6
+  },
+  "679256.0_6624429.5": {
+   "index": 7,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679256.03,
+   "northing": 6624429.51,
+   "heightMetres": 9.62
+  },
+  "679209.4_6625958.2": {
+   "index": 8,
+   "verdict": "unclear",
+   "note": "shore tree; 2025 water level higher, crown not resolvable",
+   "easting": 679209.36,
+   "northing": 6625958.2,
+   "heightMetres": 8.97
+  },
+  "678896.4_6624788.4": {
+   "index": 9,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 678896.38,
+   "northing": 6624788.38,
+   "heightMetres": 8.24
+  },
+  "678540.7_6624965.0": {
+   "index": 10,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678540.71,
+   "northing": 6624965,
+   "heightMetres": 8.1
+  },
+  "679191.6_6624456.2": {
+   "index": 11,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679191.62,
+   "northing": 6624456.16,
+   "heightMetres": 7.98
+  },
+  "679222.6_6626215.6": {
+   "index": 12,
+   "verdict": "absent",
+   "note": "small tree with shadow on the park lawn in 2021; lawn only in 2025",
+   "easting": 679222.55,
+   "northing": 6626215.61,
+   "heightMetres": 7.42
+  },
+  "679447.5_6625454.6": {
+   "index": 13,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679447.49,
+   "northing": 6625454.61,
+   "heightMetres": 7.54
+  },
+  "679202.8_6624460.4": {
+   "index": 14,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679202.8,
+   "northing": 6624460.39,
+   "heightMetres": 8.03
+  },
+  "679426.2_6626166.7": {
+   "index": 15,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679426.22,
+   "northing": 6626166.72,
+   "heightMetres": 7.11
+  },
+  "679391.5_6625707.2": {
+   "index": 16,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679391.52,
+   "northing": 6625707.18,
+   "heightMetres": 7.63
+  },
+  "679534.6_6624316.8": {
+   "index": 17,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679534.56,
+   "northing": 6624316.83,
+   "heightMetres": 8.76
+  },
+  "680332.7_6624504.8": {
+   "index": 18,
+   "verdict": "absent",
+   "note": "single standing stem in a 2021 clear-cut; regrowth only in 2025",
+   "easting": 680332.68,
+   "northing": 6624504.76,
+   "heightMetres": 11.58
+  },
+  "680105.9_6625931.8": {
+   "index": 19,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 680105.94,
+   "northing": 6625931.78,
+   "heightMetres": 7.05
+  },
+  "678539.4_6624968.1": {
+   "index": 20,
+   "verdict": "absent",
+   "note": "tree whose branches shaded the barn roof in April 2021; roof clear in June 2025",
+   "easting": 678539.39,
+   "northing": 6624968.1,
+   "heightMetres": 6.06
+  },
+  "678547.3_6624967.6": {
+   "index": 21,
+   "verdict": "absent",
+   "note": "tree whose branches shaded the barn roof in April 2021; roof clear in June 2025",
+   "easting": 678547.28,
+   "northing": 6624967.57,
+   "heightMetres": 6.21
+  },
+  "678833.1_6624880.8": {
+   "index": 22,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678833.14,
+   "northing": 6624880.76,
+   "heightMetres": 6.29
+  },
+  "678535.8_6624968.8": {
+   "index": 23,
+   "verdict": "absent",
+   "note": "tree whose branches shaded the barn roof in April 2021; roof clear in June 2025",
+   "easting": 678535.75,
+   "northing": 6624968.75,
+   "heightMetres": 5.65
+  },
+  "679380.5_6625733.0": {
+   "index": 24,
+   "verdict": "absent",
+   "note": "2021 crown at the slope top; bare excavated soil in 2025",
+   "easting": 679380.49,
+   "northing": 6625733.03,
+   "heightMetres": 6.2
+  },
+  "678534.3_6624970.8": {
+   "index": 25,
+   "verdict": "absent",
+   "note": "tree whose branches shaded the barn roof in April 2021; roof clear in June 2025",
+   "easting": 678534.25,
+   "northing": 6624970.75,
+   "heightMetres": 5.6
+  },
+  "678980.0_6624802.1": {
+   "index": 26,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678979.98,
+   "northing": 6624802.06,
+   "heightMetres": 5.5
+  },
+  "679060.8_6625944.6": {
+   "index": 27,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 679060.8,
+   "northing": 6625944.56,
+   "heightMetres": 5.79
+  },
+  "678981.1_6624798.0": {
+   "index": 28,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678981.06,
+   "northing": 6624798.03,
+   "heightMetres": 5.45
+  },
+  "679155.8_6624362.7": {
+   "index": 29,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679155.84,
+   "northing": 6624362.73,
+   "heightMetres": 6.14
+  },
+  "679760.9_6625181.9": {
+   "index": 30,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679760.89,
+   "northing": 6625181.86,
+   "heightMetres": 5.73
+  },
+  "679218.1_6624430.5": {
+   "index": 31,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679218.09,
+   "northing": 6624430.47,
+   "heightMetres": 5.5
+  },
+  "679173.7_6624454.3": {
+   "index": 32,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679173.69,
+   "northing": 6624454.31,
+   "heightMetres": 5.56
+  },
+  "679180.9_6624483.6": {
+   "index": 33,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679180.88,
+   "northing": 6624483.63,
+   "heightMetres": 6.42
+  },
+  "678873.0_6624722.0": {
+   "index": 34,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678873.01,
+   "northing": 6624721.98,
+   "heightMetres": 4.83
+  },
+  "678869.2_6624723.8": {
+   "index": 35,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678869.18,
+   "northing": 6624723.85,
+   "heightMetres": 4.82
+  },
+  "680135.3_6624947.4": {
+   "index": 36,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 680135.31,
+   "northing": 6624947.4,
+   "heightMetres": 5.31
+  },
+  "679901.6_6624359.7": {
+   "index": 37,
+   "verdict": "absent",
+   "note": "single standing stem in a 2021 clear-cut; regrowth only in 2025",
+   "easting": 679901.55,
+   "northing": 6624359.66,
+   "heightMetres": 8.69
+  },
+  "678961.8_6626224.3": {
+   "index": 38,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 678961.75,
+   "northing": 6626224.26,
+   "heightMetres": 4.51
+  },
+  "679703.8_6624414.9": {
+   "index": 39,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679703.79,
+   "northing": 6624414.92,
+   "heightMetres": 4.83
+  },
+  "678536.3_6624962.9": {
+   "index": 40,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678536.29,
+   "northing": 6624962.94,
+   "heightMetres": 4.48
+  },
+  "679579.2_6625997.7": {
+   "index": 41,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 679579.24,
+   "northing": 6625997.69,
+   "heightMetres": 7.11
+  },
+  "679164.6_6625926.3": {
+   "index": 42,
+   "verdict": "absent",
+   "note": "object on the dam between the ponds in 2021; nothing in 2025",
+   "easting": 679164.62,
+   "northing": 6625926.26,
+   "heightMetres": 4.74
+  },
+  "678911.9_6624663.9": {
+   "index": 43,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678911.9,
+   "northing": 6624663.9,
+   "heightMetres": 4.68
+  },
+  "679939.8_6624316.4": {
+   "index": 44,
+   "verdict": "absent",
+   "note": "small stem on rocky clear-cut in 2021; nothing in 2025",
+   "easting": 679939.84,
+   "northing": 6624316.43,
+   "heightMetres": 6.67
+  },
+  "678696.8_6624762.6": {
+   "index": 45,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 678696.85,
+   "northing": 6624762.58,
+   "heightMetres": 4.49
+  },
+  "679190.6_6625855.2": {
+   "index": 46,
+   "verdict": "absent",
+   "note": "bush at the pond edge in 2021; open water in 2025",
+   "easting": 679190.63,
+   "northing": 6625855.18,
+   "heightMetres": 4.33
+  },
+  "679529.2_6625399.2": {
+   "index": 47,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 679529.24,
+   "northing": 6625399.21,
+   "heightMetres": 5.03
+  },
+  "679568.5_6626056.6": {
+   "index": 48,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 679568.49,
+   "northing": 6626056.59,
+   "heightMetres": 4.47
+  },
+  "679434.8_6625464.7": {
+   "index": 49,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679434.82,
+   "northing": 6625464.66,
+   "heightMetres": 4.97
+  },
+  "679739.2_6625308.3": {
+   "index": 50,
+   "verdict": "structure",
+   "note": "heap / machinery in a field",
+   "easting": 679739.19,
+   "northing": 6625308.31,
+   "heightMetres": 4.14
+  },
+  "679169.1_6624386.0": {
+   "index": 51,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679169.12,
+   "northing": 6624386.02,
+   "heightMetres": 4.06
+  },
+  "678517.3_6624933.8": {
+   "index": 52,
+   "verdict": "structure",
+   "note": "parked vehicles, trailers or machinery in April 2021",
+   "easting": 678517.33,
+   "northing": 6624933.85,
+   "heightMetres": 5.03
+  },
+  "678574.8_6624796.4": {
+   "index": 53,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678574.81,
+   "northing": 6624796.37,
+   "heightMetres": 3.74
+  },
+  "679911.6_6624323.0": {
+   "index": 54,
+   "verdict": "unclear",
+   "note": "small crown in shrubland or field edge; 2025 vegetation not resolvable as the same crown",
+   "easting": 679911.64,
+   "northing": 6624322.99,
+   "heightMetres": 4.97
+  },
+  "679166.1_6624347.2": {
+   "index": 55,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679166.12,
+   "northing": 6624347.2,
+   "heightMetres": 4.72
+  },
+  "678761.1_6624774.1": {
+   "index": 56,
+   "verdict": "structure",
+   "note": "roof or roof edge on the CHM, not a tree",
+   "easting": 678761.13,
+   "northing": 6624774.12,
+   "heightMetres": 3.54
+  },
+  "678686.7_6625001.4": {
+   "index": 57,
+   "verdict": "structure",
+   "note": "parked vehicles, trailers or machinery in April 2021",
+   "easting": 678686.65,
+   "northing": 6625001.4,
+   "heightMetres": 3.31
+  },
+  "679198.6_6624457.1": {
+   "index": 58,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679198.55,
+   "northing": 6624457.13,
+   "heightMetres": 4.4
+  },
+  "678697.8_6624970.6": {
+   "index": 59,
+   "verdict": "absent",
+   "note": "small tree in the paddock in 2021; grass in 2025",
+   "easting": 678697.8,
+   "northing": 6624970.58,
+   "heightMetres": 3.78
+  },
+  "678688.4_6624996.6": {
+   "index": 60,
+   "verdict": "structure",
+   "note": "parked vehicles, trailers or machinery in April 2021",
+   "easting": 678688.39,
+   "northing": 6624996.61,
+   "heightMetres": 3.28
+  },
+  "678713.2_6624872.9": {
+   "index": 61,
+   "verdict": "structure",
+   "note": "parked vehicles, trailers or machinery in April 2021",
+   "easting": 678713.15,
+   "northing": 6624872.94,
+   "heightMetres": 3.18
+  },
+  "679194.1_6624428.9": {
+   "index": 62,
+   "verdict": "present",
+   "note": "crown visible in June 2025; the shadow probe fell on other canopy or shade",
+   "easting": 679194.05,
+   "northing": 6624428.9,
+   "heightMetres": 4.63
+  },
+  "679641.4_6626076.9": {
+   "index": 63,
+   "verdict": "structure",
+   "note": "parked vehicles, trailers or machinery in April 2021",
+   "easting": 679641.38,
+   "northing": 6626076.86,
+   "heightMetres": 3.1
+  }
+ }
+}

@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 /* Public STAC discovery for one ground, without the PROJ toolchain.
 
-   node packages/course-geo/acquisition/discover-ground.mjs --ground <id> [--write]
+   node packages/course-geo/acquisition/discover-ground.mjs --ground <id> [--write] [--out <path>]
+
+   --out writes a dated snapshot beside the accepted d2-discovery.json, whose
+   hash the source manifest and the orthophoto records pin.
 
    `discover-pilots.mjs` is the canonical entry point and projects its AOI
    bbox with PROJ's cs2cs, which is right: PROJ is this repository's
@@ -64,7 +67,7 @@ async function main() {
     `LiDAR ${(summary.laser.coverage * 100).toFixed(2)}%, ` +
     `${summary.orthophoto.campaign} ${(summary.orthophoto.coverage * 100).toFixed(2)}%`);
   if (process.argv.includes('--write')) {
-    const file = path.join(COURSE_DATA_DIR, groundId, 'acquisition', 'd2-discovery.json');
+    const file = arg('--out') ? path.resolve(arg('--out')) : path.join(COURSE_DATA_DIR, groundId, 'acquisition', 'd2-discovery.json');
     fs.mkdirSync(path.dirname(file), { recursive: true });
     fs.writeFileSync(file, `${JSON.stringify(report, null, 2)}\n`);
     console.log(`wrote ${path.relative(ROOT, file)}`);

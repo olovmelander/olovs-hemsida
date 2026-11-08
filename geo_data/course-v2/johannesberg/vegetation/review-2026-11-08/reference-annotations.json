@@ -1,0 +1,2001 @@
+{
+  "schemaVersion": 1,
+  "reviewId": "review-2026-11-08",
+  "interpreter": "agent-led interpretation (Claude) of the 0.5 m pit-free CHM, 2025-06-14 CIR and natural colour, and 2021-04-18 natural colour (leaf-off); not a survey and not human approval",
+  "protocol": [
+    "A reference crown is a tree whose crown is visible in the 2025 photo or the 2021 leaf-off photo AND has laser height support (a CHM blob or apex of at least 2 m). Its position is the interpreted crown centre on the laser (CHM) surface: the apex for a conical crown, the centre of the CHM blob for a broad or flat-topped crown. Photos are displaced by relief and only confirm and classify.",
+    "'from' lists the numbered candidate apexes that belong to one crown (the tallest gives the position); 'at' gives an explicit crown centre in metres east/north of the window's south-west corner.",
+    "type: conifer when dark green in the April 2021 photo and dark red in the 2025 CIR; broadleaf when bare grey in April 2021 and bright pink in CIR; unknown otherwise.",
+    "stratum: isolated (clear of other crowns), group (a small group of touching crowns in the open), edge (outer row of a stand), closed (inside a stand or clump, neighbours on most sides).",
+    "ambiguous boxes cover canopy whose crowns cannot be separated with confidence; neither references nor predictions inside them are scored. Crowns in the 6 m margin outside the window are listed so edge predictions can match them; they are not scored."
+  ],
+  "windows": [
+    {
+      "window": "C5-h17-18",
+      "crowns": [
+        {
+          "from": [
+            16,
+            19,
+            22,
+            23,
+            25
+          ],
+          "at": [
+            10.5,
+            45.5
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            24,
+            27
+          ],
+          "at": [
+            2,
+            41.8
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            13
+          ],
+          "type": "unknown",
+          "stratum": "isolated",
+          "note": "3.1 m shrub-sized"
+        },
+        {
+          "from": [
+            33
+          ],
+          "at": [
+            27,
+            37
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            5,
+            6,
+            7
+          ],
+          "at": [
+            26.2,
+            55.7
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            2
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            9,
+            11
+          ],
+          "at": [
+            35,
+            53
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            31,
+            32,
+            38
+          ],
+          "at": [
+            36.5,
+            36.5
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            43,
+            49
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            44
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            1
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            4
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            8
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            12
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            15,
+            17,
+            18,
+            20,
+            21
+          ],
+          "at": [
+            59,
+            47
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            26,
+            28,
+            29
+          ],
+          "at": [
+            59.5,
+            40
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            50,
+            51
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            52,
+            57
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            53,
+            54,
+            58
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            55
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            56,
+            59
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            63,
+            64,
+            65
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            66
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            68
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            62
+          ],
+          "type": "unknown",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            69
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            67,
+            70
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            71
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            76,
+            80,
+            81
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            73
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            72,
+            74,
+            75
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            78,
+            82
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            3
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            10,
+            14
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            37,
+            42
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            47
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            60,
+            61
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            83,
+            85
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            87
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            89
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            90
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            92,
+            93
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        }
+      ],
+      "rejected": {
+        "77": "lower canopy between crowns, not a separate apex"
+      },
+      "ambiguous": [
+        {
+          "box": [
+            -6,
+            28,
+            17,
+            41
+          ],
+          "reason": "broadleaf thicket of 3-10 m stems, crowns not separable on the leaf-off CHM"
+        },
+        {
+          "box": [
+            37,
+            4,
+            42,
+            9
+          ],
+          "reason": "lower canopy between three conifer crowns"
+        }
+      ]
+    },
+    {
+      "window": "C6-h3-isolated",
+      "crowns": [
+        {
+          "from": [
+            2,
+            3,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "at": [
+            46.5,
+            54.5
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated",
+          "note": "ring-shaped leaf-off CHM: one broad crown whose centre the pulses penetrated"
+        },
+        {
+          "from": [
+            14,
+            16,
+            18,
+            21
+          ],
+          "at": [
+            32,
+            38.5
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            48
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated",
+          "note": "sparse leaf-off returns under a full 2025 crown"
+        },
+        {
+          "from": [
+            56
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated",
+          "note": "sparse leaf-off returns under a full 2025 crown"
+        },
+        {
+          "from": [
+            58
+          ],
+          "type": "unknown",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            60
+          ],
+          "type": "unknown",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            62
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            67
+          ],
+          "type": "unknown",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            57
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            51,
+            52
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            63
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            61
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            64,
+            65
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            66
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            68
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            45
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            59
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            15
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            31
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            69
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            70
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            72
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": [
+        {
+          "box": [
+            -6,
+            18,
+            16,
+            43
+          ],
+          "reason": "broadleaf clump, crowns not separable"
+        },
+        {
+          "box": [
+            44,
+            13,
+            56,
+            21
+          ],
+          "reason": "6 m broadleaf clump, one or two crowns"
+        },
+        {
+          "box": [
+            58,
+            45,
+            66,
+            52
+          ],
+          "reason": "3 m shrubs at the window edge"
+        }
+      ]
+    },
+    {
+      "window": "C3-h4-meadow",
+      "crowns": [
+        {
+          "from": [
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ],
+          "at": [
+            48.5,
+            32.5
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated",
+          "note": "one broad crown; its shadow lies to the west in 2025"
+        },
+        {
+          "from": [
+            3
+          ],
+          "type": "unknown",
+          "stratum": "isolated",
+          "note": "4.1 m"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": [
+        {
+          "box": [
+            5,
+            45,
+            24,
+            63
+          ],
+          "reason": "clump of 5-11 m broadleaves, two to four crowns not separable on the leaf-off CHM"
+        }
+      ]
+    },
+    {
+      "window": "E2-h1-2",
+      "crowns": [
+        {
+          "from": [
+            25,
+            26,
+            27
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            24,
+            28
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            34,
+            35
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            41
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            16
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            17,
+            18,
+            22
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            29
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            11
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            13
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            14
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            12,
+            15
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            30,
+            32
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            31,
+            33,
+            36
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            39,
+            40
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            46,
+            47,
+            48,
+            49,
+            50
+          ],
+          "at": [
+            34,
+            31.5
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            52,
+            53
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            55,
+            56
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            60
+          ],
+          "type": "conifer",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            63
+          ],
+          "type": "conifer",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            21
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "4.9 m"
+        },
+        {
+          "from": [
+            6,
+            10
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            1,
+            2
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            7,
+            8,
+            9
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            19,
+            23
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            51
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        },
+        {
+          "from": [
+            54,
+            58
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "margin"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": [
+        {
+          "box": [
+            20,
+            43,
+            27,
+            47
+          ],
+          "reason": "shoulder between two conifer crowns"
+        },
+        {
+          "box": [
+            40,
+            50,
+            47,
+            57
+          ],
+          "reason": "low canopy between groups"
+        },
+        {
+          "box": [
+            42,
+            31,
+            53,
+            41
+          ],
+          "reason": "4 m shrubs along the path"
+        },
+        {
+          "box": [
+            45,
+            8,
+            53,
+            19
+          ],
+          "reason": "one or two 5-6 m stems"
+        }
+      ]
+    },
+    {
+      "window": "E3-h13",
+      "crowns": [
+        {
+          "from": [
+            16,
+            18,
+            19,
+            21
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            27
+          ],
+          "type": "unknown",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            49,
+            52
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            47
+          ],
+          "type": "unknown",
+          "stratum": "isolated",
+          "note": "4 m"
+        },
+        {
+          "from": [
+            55
+          ],
+          "type": "unknown",
+          "stratum": "isolated",
+          "note": "3.3 m"
+        },
+        {
+          "from": [
+            25
+          ],
+          "type": "unknown",
+          "stratum": "isolated",
+          "note": "2.9 m, below the scored height"
+        },
+        {
+          "from": [
+            8,
+            9,
+            11
+          ],
+          "at": [
+            55,
+            47.5
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            15
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            33
+          ],
+          "type": "unknown",
+          "stratum": "isolated",
+          "note": "sparse leaf-off returns"
+        },
+        {
+          "from": [
+            46
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            42,
+            45
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            51,
+            53,
+            56
+          ],
+          "type": "unknown",
+          "stratum": "isolated"
+        },
+        {
+          "from": [
+            14
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            7
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            10,
+            12,
+            13
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            17
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            26,
+            28
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            20,
+            22,
+            23
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            48,
+            54
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            57
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            58
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            1,
+            2
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            3,
+            4
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            62
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": [
+        {
+          "box": [
+            -1,
+            9,
+            17,
+            22.5
+          ],
+          "reason": "mixed thicket of 6-10 m stems"
+        },
+        {
+          "box": [
+            -1,
+            22.5,
+            6,
+            29
+          ],
+          "reason": "shoulder of a crown centred in the margin"
+        },
+        {
+          "box": [
+            38,
+            56,
+            60,
+            60
+          ],
+          "reason": "south fringe of crowns centred north of the window"
+        }
+      ]
+    },
+    {
+      "window": "E4-n9-5-6",
+      "crowns": [
+        {
+          "from": [
+            2,
+            3,
+            6,
+            7,
+            8
+          ],
+          "at": [
+            22.5,
+            41
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            10,
+            12,
+            13
+          ],
+          "at": [
+            28.5,
+            37
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            1,
+            4,
+            5,
+            9,
+            11,
+            14
+          ],
+          "at": [
+            33.5,
+            39.5
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            16,
+            19,
+            20
+          ],
+          "at": [
+            21.5,
+            30.5
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            17,
+            21,
+            22
+          ],
+          "at": [
+            35.8,
+            29
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            25
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            24
+          ],
+          "type": "conifer",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            18,
+            23
+          ],
+          "at": [
+            48,
+            29
+          ],
+          "type": "broadleaf",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            15
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "2.7 m, below the scored height"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": []
+    },
+    {
+      "window": "C4-h16-spruce-edge",
+      "crowns": [
+        {
+          "from": [
+            58
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            56
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            63
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            61,
+            64
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            65
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            59
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            67
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            69
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            52
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            71
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            72
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            76
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            74,
+            75
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            78
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            54,
+            55
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            60
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            66
+          ],
+          "type": "unknown",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            49
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "small tree in a gap"
+        },
+        {
+          "from": [
+            44
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "small tree in a gap"
+        },
+        {
+          "from": [
+            50
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "small tree in a gap"
+        },
+        {
+          "from": [
+            43
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            46
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            37
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            38,
+            40
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            42
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            47,
+            51
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            33,
+            39
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            35
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            36
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            41
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            32
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            34
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            29,
+            30
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            26
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            28
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            23,
+            25
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            24
+          ],
+          "type": "conifer",
+          "stratum": "closed"
+        },
+        {
+          "from": [
+            79
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            48
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            57
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            62
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            70
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            77
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            45
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            27
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            53
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            68
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            31
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            18
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            14
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            21
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            22
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            19
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            20
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            5
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            6,
+            9
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            12
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            13
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            4
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            11,
+            15
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            1,
+            2,
+            3
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        },
+        {
+          "from": [
+            7,
+            8,
+            10,
+            16,
+            17
+          ],
+          "type": "unknown",
+          "stratum": "closed",
+          "note": "margin"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": [
+        {
+          "box": [
+            44,
+            5,
+            47,
+            7.5
+          ],
+          "reason": "apex between three spruce crowns"
+        }
+      ]
+    },
+    {
+      "window": "C1-h10-south",
+      "crowns": [
+        {
+          "from": [
+            51
+          ],
+          "type": "broadleaf",
+          "stratum": "isolated",
+          "note": "the one crown standing alone in the gap"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": [
+        {
+          "box": [
+            -3,
+            -3,
+            25.5,
+            48
+          ],
+          "reason": "22-29 m closed broadleaf canopy, continuous on the leaf-off CHM; crowns visible in the 2025 photo cannot be tied to laser positions"
+        },
+        {
+          "box": [
+            32.5,
+            -3,
+            50,
+            48
+          ],
+          "reason": "as above"
+        },
+        {
+          "box": [
+            25.5,
+            31,
+            32.5,
+            48
+          ],
+          "reason": "as above"
+        },
+        {
+          "box": [
+            25.5,
+            -3,
+            32.5,
+            22.5
+          ],
+          "reason": "as above"
+        }
+      ]
+    },
+    {
+      "window": "C2-h11-edge",
+      "crowns": [
+        {
+          "from": [
+            15,
+            18
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            10
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "4.8 m"
+        },
+        {
+          "from": [
+            11
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "4.4 m"
+        },
+        {
+          "from": [
+            5,
+            8
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "4.3 m"
+        },
+        {
+          "from": [
+            12,
+            13,
+            16
+          ],
+          "type": "broadleaf",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            6,
+            7,
+            9
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            33
+          ],
+          "type": "unknown",
+          "stratum": "group",
+          "note": "3.1 m"
+        },
+        {
+          "from": [
+            35
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            38
+          ],
+          "type": "conifer",
+          "stratum": "edge"
+        },
+        {
+          "from": [
+            39,
+            40
+          ],
+          "type": "unknown",
+          "stratum": "group"
+        },
+        {
+          "from": [
+            3
+          ],
+          "type": "unknown",
+          "stratum": "isolated",
+          "note": "margin"
+        },
+        {
+          "from": [
+            20,
+            23
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            27
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            1,
+            2
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            4
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        },
+        {
+          "from": [
+            17
+          ],
+          "type": "unknown",
+          "stratum": "edge",
+          "note": "margin"
+        }
+      ],
+      "rejected": {},
+      "ambiguous": [
+        {
+          "box": [
+            43,
+            26,
+            56,
+            36
+          ],
+          "reason": "closed conifer group behind the front row"
+        },
+        {
+          "box": [
+            56,
+            19.5,
+            66,
+            36
+          ],
+          "reason": "closed stand at the window edge"
+        },
+        {
+          "box": [
+            -6,
+            -6,
+            66,
+            19.5
+          ],
+          "reason": "closed interior of the wood"
+        }
+      ]
+    }
+  ]
+}
