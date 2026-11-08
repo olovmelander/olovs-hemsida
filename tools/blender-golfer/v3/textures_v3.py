@@ -344,12 +344,12 @@ def skin_shader(G, P, variant, target_image):
     col = N.mixc(cool, warm, noise.outputs['Fac'])
     col = N.mixc(col, tuple(c * .93 for c in base[:3]) + (1,), N.math('MULTIPLY', fine.outputs['Fac'], .35))
     # Warmth: cheeks, nose, ears, lips, knuckles.
-    blush = rgba('#D88A7A' if variant == 'female' else '#A8664C')
+    blush = rgba('#DD7C6C' if variant == 'female' else '#A8664C')
     for s in (-1, 1):
         m = ellipsoid(N, pos, (s * .038 * k, eye.y - .004, eye.z - .030 * k), (.030 * k, .034 * k, .026 * k), soft=.0)
-        col = N.mixc(col, blush, N.math('MULTIPLY', m, .15 if variant == 'female' else .08))
+        col = N.mixc(col, blush, N.math('MULTIPLY', m, .24 if variant == 'female' else .08))
     nose = ellipsoid(N, pos, (0, eye.y - .028, eye.z - .045 * k), (.014 * k, .02 * k, .016 * k))
-    col = N.mixc(col, blush, N.math('MULTIPLY', nose, .22))
+    col = N.mixc(col, blush, N.math('MULTIPLY', nose, .28 if variant == 'female' else .22))
     col = N.mixc(col, blush, N.math('MULTIPLY', N.attr('ear_mask'), .28))
     # Under-eye shade and the upper-lid line.
     for s in (-1, 1):
