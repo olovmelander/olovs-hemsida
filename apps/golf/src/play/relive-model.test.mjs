@@ -59,3 +59,42 @@ describe('a recorded round', () => {
     expect(reliveRound(storage, 'bana', 99, { toCourse: id, cupOf: () => [0, 0] })).toBeNull();
   });
 });
+
+describe('an example round', async () => {
+  const { exampleHoleShots, exampleRound, projectOnLine } = await import('./relive-model.mjs');
+  const { exampleData } = await import('../shell/stats-model.mjs');
+  const { parseBag } = await import('../engine/caddie.js');
+  // A straight 400 m hole up +z, with two tees.
+  const hole = { par: 4, line: [[0, 0], [0, 200], [0, 400]], pin: [0, 400], tees: { marks: [{ c: [0, 0] }, { c: [0, 30] }] } };
+  it('starts on the real tee, follows the hole and finishes near the pin as the putts say', () => {
+    const shots = exampleHoleShots({ card: { n: 1, par: 4, strokes: 4, putts: 2, fairway: 'hit' },
+      lengths: [{ club: 'driver', metres: 215 }, { club: 'iron-8', metres: 125 }], hole, tee: 1, seed: 9 });
+    expect(shots).toHaveLength(4);
+    expect(shots[0].from).toEqual([0, 30]);
+    expect(Math.abs(shots[0].to[0])).toBeLessThan(5);                 // fairway hit: near the line
+    expect(projectOnLine(hole.line, shots[0].to)).toBeGreaterThan(150);
+    const leave = Math.hypot(shots[1].to[0] - 0, shots[1].to[1] - 400);
+    expect(leave).toBeGreaterThan(3); expect(leave).toBeLessThan(10);  // two putts: a lag
+    expect(shots.slice(2).every(s => s.putt && s.to === null)).toBe(true);
+  });
+  it('sends a missed fairway to its side', () => {
+    const left = exampleHoleShots({ card: { n: 2, par: 4, strokes: 4, putts: 2, fairway: 'left' }, lengths: [{ club: 'driver', metres: 210 }, { club: 'pw', metres: 100 }], hole, seed: 3 });
+    const right = exampleHoleShots({ card: { n: 2, par: 4, strokes: 4, putts: 2, fairway: 'right' }, lengths: [{ club: 'driver', metres: 210 }, { club: 'pw', metres: 100 }], hole, seed: 3 });
+    // Playing up +z, left is +x.
+    expect(left[0].to[0]).toBeGreaterThan(12);
+    expect(right[0].to[0]).toBeLessThan(-12);
+    expect(left[0].toLie).toBe('rough');
+  });
+  it('lays Statistik\'s own example round onto the course, the same every time', () => {
+    const courses = [{ slug: 'bana', name: 'Banan', par: 72, holes: 18, status: 'playable' }];
+    const example = exampleData({ courses, bag: parseBag(null) });
+    const holes = Array.from({ length: 18 }, () => hole);
+    const a = exampleRound(example, example.rounds[0].id, { holes }), b = exampleRound(example, example.rounds[0].id, { holes });
+    expect(a.example).toBe(true);
+    expect(a.holes).toHaveLength(18);
+    expect(a.holes.every(h => h.plays.length === h.strokes)).toBe(true);
+    expect(a.holes.every(h => h.plays.at(-1).holed)).toBe(true);
+    expect(JSON.stringify(a)).toBe(JSON.stringify(b));
+    expect(exampleRound(example, 'nope', { holes })).toBeNull();
+  });
+});

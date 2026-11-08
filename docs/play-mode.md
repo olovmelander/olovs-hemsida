@@ -208,6 +208,20 @@ and says so on screen ("Puttarna är räknade, inte inmätta").
 
 Nothing is written: a relived round changes no record and no statistic.
 
+**Statistik's example:** its sixteen rounds can be watched too
+(`?aterupplev=exempel-<id>`, from a round's card when the example is shown).
+Their shots have a club and a length but no place, so `exampleRound` lays each
+hole onto the real course:
+- from the real tee, each shot along the hole's own line, its length scaled to
+  the hole's real length;
+- a missed fairway goes to the side the card says;
+- the last full shot finishes on the green near the pin: closer after one putt,
+  a lag's length after two.
+
+The example is rebuilt from the same catalog and seed Statistik drew it from, so
+it plays the same every time. The screen says it is an example
+("Exempel · Återupplev").
+
 ## Checks
 
 - **Unit tests:** `pnpm exec vitest run apps/golf/src/play`. They cover the

@@ -7,11 +7,12 @@
    here writes anything: a relived round changes no record and no statistic. */
 import * as THREE from 'three/webgpu';
 import { loadGolfer, GOLF_SWINGS, GOLFER_CHARACTERS } from '../engine/golfer.mjs';
-import { DEFAULT_BAG } from '../engine/caddie.js';
+import { DEFAULT_BAG, parseBag } from '../engine/caddie.js';
+import { exampleData } from '../shell/stats-model.mjs';
 import { createMapFrame } from '../map/map-frames.mjs';
 import { BALL, launchState, simulateShot, puttSpeedFor, SURFACES, CLUB_LAUNCH } from './ball-physics.mjs';
 import { clubCategory, launchFor, powerFor, flatShot, LIE_NAME } from './shot-model.mjs';
-import { reliveRound } from './relive-model.mjs';
+import { reliveRound, exampleRound, EXAMPLE_PREFIX } from './relive-model.mjs';
 import { createPlayCamera } from './play-camera.mjs';
 import { standAtBall, fitFeet, restoreLegs } from './golfer-rig.mjs';
 import { createPlayHud, scorecardHtml } from './play-hud.mjs';
@@ -77,13 +78,25 @@ function sample(path, t) {
 
 export async function mountRelive(h, roundId) {
   const fail = message => { h.toast(message, 6000); return null; };
-  if (!h.ground) return fail('Den här banan saknar höjddata att återuppleva på.');
-  let frame;
-  try { frame = createMapFrame(h.ground.groundId, h.ground.frame); } catch (error) { return fail(`Kunde inte läsa banans ram: ${error.message}`); }
   const heightAt = (x, z) => { const y = h.heightAt(x, z); return Number.isFinite(y) ? y : 0; };
   const cupOf = n => { const cup = h.cups().find(c => c.hole === n); return cup ? [cup.x, cup.z] : h.holes[n - 1].pin.slice(); };
-  const round = reliveRound(localStorage, h.slug, roundId, { toCourse: ([x, z]) => frame.toPack(x, z), cupOf });
-  if (!round) return fail('Rundan finns inte på den här enheten.');
+  let round;
+  if (String(roundId).startsWith(EXAMPLE_PREFIX)) {
+    /* Statistik's example: rebuilt from the same catalog and seed it was drawn from,
+       and laid along this course's holes (relive-model.mjs exampleRound) */
+    try {
+      const catalog = await (await fetch(`${import.meta.env.BASE_URL}courses/index.json`)).json();
+      const example = exampleData({ courses: catalog.courses || [], bag: parseBag(null) });
+      round = exampleRound(example, String(roundId).slice(EXAMPLE_PREFIX.length), { holes: h.holes, tee: h.tee() });
+    } catch (error) { return fail(`Exemplet kunde inte läsas: ${error.message}`); }
+    if (!round || round.slug !== h.slug) return fail('Exemplet hör till en annan bana.');
+  } else {
+    if (!h.ground) return fail('Den här banan saknar höjddata att återuppleva på.');
+    let frame;
+    try { frame = createMapFrame(h.ground.groundId, h.ground.frame); } catch (error) { return fail(`Kunde inte läsa banans ram: ${error.message}`); }
+    round = reliveRound(localStorage, h.slug, roundId, { toCourse: ([x, z]) => frame.toPack(x, z), cupOf });
+    if (!round) return fail('Rundan finns inte på den här enheten.');
+  }
   const playable = round.holes.filter(hole => hole.plays.length);
   if (!playable.length) return fail('Rundan har inga inmätta slag att återuppleva.');
 
@@ -109,7 +122,8 @@ export async function mountRelive(h, roundId) {
   hud.root.append(bar);
   const tag = document.createElement('span'); tag.className = 'pl-rv-tag pl-glass';
   const date = new Date(`${round.date}T12:00:00`);
-  tag.textContent = `Återupplev · ${Number.isFinite(date.getTime()) ? date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' }) : round.date}`;
+  tag.textContent = round.example ? 'Exempel · Återupplev'
+    : `Återupplev · ${Number.isFinite(date.getTime()) ? date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'long' }) : round.date}`;
   hud.root.append(tag);
   hud.banner('Laddar golfaren…', '', '', 0);
   const golfer = await loadGolfer(import.meta.env.BASE_URL, character);
@@ -153,7 +167,7 @@ export async function mountRelive(h, roundId) {
     traceGeometry.setDrawRange(0, 0); traced = 0;
     const n = strokeIndex + 1;
     hud.banner(s.putt ? `Putt · slag ${n}` : `Slag ${n} · ${club.name}`,
-      s.putt ? (s.counted && strokeIndex === hole().plays.findIndex(p => p.putt) ? 'Puttarna är räknade, inte inmätta' : '') : LIE_NAME[lieOf(s.fromLie)] || '', '', 1600);
+      s.putt ? (!round.example && s.counted && strokeIndex === hole().plays.findIndex(p => p.putt) ? 'Puttarna är räknade, inte inmätta' : '') : LIE_NAME[lieOf(s.fromLie)] || '', '', 1600);
     card();
     state = 'address'; timer = 1.1;
     flight = reconstructFlight({ club, from: s.from, to, putt: s.putt, heightAt, lie: lieOf(s.fromLie) });
@@ -203,7 +217,9 @@ export async function mountRelive(h, roundId) {
     const box = hud.openSheet(`<h2>${round.courseName || h.courseName}</h2>
       <p class="pl-sub">Återupplev · ${round.date}${round.tee ? ` · ${round.tee} tee` : ''}${t ? ` · ${t.strokes} slag` : ''}</p>
       ${scorecardHtml(rec, h.holes)}
-      <p class="pl-sub">${playable.length} av ${round.holes.length} hål har inmätta slag. Puttar är räknade, inte inmätta. Inget i rundan ändras.</p>
+      <p class="pl-sub">${round.example
+        ? 'Ett exempel från Statistik: en påhittad spelares runda, med slagen lagda längs banans hål. Det är inte dina siffror.'
+        : `${playable.length} av ${round.holes.length} hål har inmätta slag. Puttar är räknade, inte inmätta. Inget i rundan ändras.`}</p>
       <div class="pl-actions">${finished ? `<button class="pl-btn pl-primary" data-again type="button">Spela upp igen</button>` : `<button class="pl-btn pl-primary" data-resume type="button">Fortsätt</button>`}
       <button class="pl-btn pl-ghost" data-back type="button">Tillbaka till statistiken</button></div>`);
     box.querySelector('[data-resume]')?.addEventListener('click', () => { hud.closeSheet(); setPaused(false); });
