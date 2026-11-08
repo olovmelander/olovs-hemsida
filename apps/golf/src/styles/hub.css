@@ -905,6 +905,9 @@ button.set-link { cursor: pointer; }
   .set-danger:not(.is-armed):hover { background: rgba(240, 120, 100, 0.16); }
 }
 
+@keyframes set-nav-end { 0%, 88% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes set-nav-start { 0% { opacity: 0; } 12%, 100% { opacity: 1; } }
+
 /* One column: the section list becomes a row of chips under the header. */
 @media (max-width: 820px) {
   .set-layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 0; }
@@ -926,6 +929,38 @@ button.set-link { cursor: pointer; }
   }
   .set-nav::-webkit-scrollbar { display: none; }
   .set-nav button { flex: 0 0 auto; min-height: 40px; padding: 0 12px; gap: 8px; font-size: 14px; border-color: rgba(255, 255, 255, 0.1); }
+  /* The row is swiped: where more sections wait, the chips fade into the bar, so a
+     cut chip reads as "more this way". A sticky end piece, shown by the row's own
+     scroll timeline: none when the row fits, none without scroll timelines. */
+  .set-nav::after {
+    content: '';
+    position: sticky;
+    /* a sticky inset counts from the row's padding: this reaches the bar's own edge */
+    right: calc(-1 * var(--pad));
+    flex: 0 0 40px;
+    align-self: stretch;
+    /* its own width and the row's 6 px gap: it takes no room in the row */
+    margin: -10px 0 -10px -46px;
+    background: linear-gradient(90deg, rgba(4, 9, 7, 0), rgba(4, 9, 7, 0.96));
+    pointer-events: none;
+    opacity: 0;
+  }
+  .set-nav::before {
+    content: '';
+    position: sticky;
+    left: calc(-1 * var(--pad));
+    z-index: 1;
+    flex: 0 0 40px;
+    align-self: stretch;
+    margin: -10px -46px -10px 0;
+    background: linear-gradient(270deg, rgba(4, 9, 7, 0), rgba(4, 9, 7, 0.96));
+    pointer-events: none;
+    opacity: 0;
+  }
+  @supports (animation-timeline: scroll()) {
+    .set-nav::after { animation: set-nav-end linear both; animation-timeline: scroll(nearest inline); }
+    .set-nav::before { animation: set-nav-start linear both; animation-timeline: scroll(nearest inline); }
+  }
   .sn-icon svg { width: 17px; height: 17px; }
   .set-section { scroll-margin-top: 130px; }
 }
