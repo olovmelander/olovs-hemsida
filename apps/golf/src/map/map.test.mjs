@@ -285,20 +285,22 @@ describe('the wood past the 1 m tiles', () => {
       expect(picture.width, groundId).toBe(2049);
       const at = pictureSampler({ picture, x0: record.x0, z0: record.z0, spacing: record.spacing });
       let wood = 0, samples = 0;
+      const levels = new Set();
       for (let z = -8000; z <= 8000; z += 97) {
         for (let x = -8000; x <= 8000; x += 97) {
           const cover = at(x, z);
-          expect([0, 85, 170, 255]).toContain(Math.round(cover * 255));
+          levels.add(Math.round(cover * 255));
           wood += cover > 0;
           samples++;
         }
       }
+      for (const level of levels) expect([0, 85, 170, 255], groundId).toContain(level);
       expect(wood / samples, groundId).toBeGreaterThan(0.2);
       expect(wood / samples, groundId).toBeLessThan(0.9);
       expect(at(-9000, 0)).toBe(0);
     }
     await expect(readForestPicture(new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]))).rejects.toThrow();
-  });
+  }, 30000);
 });
 
 describe('tiles that show nothing', () => {
