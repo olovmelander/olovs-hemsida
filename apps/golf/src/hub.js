@@ -34,6 +34,7 @@ const TITLES = {
   map: 'Lätt 3D med GPS — välj bana · Banvy',
   settings: 'Inställningar · Banvy',
   stats: 'Statistik · Banvy',
+  play: 'Spela — välj bana · Banvy',
 };
 
 try {

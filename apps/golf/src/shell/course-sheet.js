@@ -28,7 +28,7 @@ import '../styles/course-sheet.css';
 import { MAX_HANDICAP, MIN_HANDICAP } from '../map/map-score.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import {
-  LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, TEE_KEY, readSettings, readText, savedTee, teeColour, writeText,
+  LIGHTS, MAP_KEYS, MODES, NOW_LIGHT, PLAYER_DEFAULT_LIGHT, PLAY_CHARACTERS, TEE_KEY, readSettings, readText, savedTee, teeColour, writeText,
 } from './settings-store.mjs';
 import { perEighteen, perHole } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
@@ -44,10 +44,13 @@ const CLOSE = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" strok
 const PREV = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>';
 const NEXT = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>';
 const ICON = {
+  play: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20.5c3.2-1.6 10.8-1.6 14 0"/><path d="M15.5 3.5v13"/><path d="M15.5 3.8l4.6 1.9-4.6 1.9"/><circle cx="8.5" cy="16.6" r="1.6"/></svg>',
   detailed: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>',
   map: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>',
 };
-const SUB = { detailed: 'Hela banan i full grafik', map: 'GPS-avstånd, klubbhjul och score' };
+const SUB = { detailed: 'Hela banan i full grafik', map: 'GPS-avstånd, klubbhjul och score', play: 'Som ett golfspel, slag för slag' };
+/* Spela's golfer, kept for the next round (play/play-mode.mjs reads ?golfare=) */
+const CHARACTER_KEY = 'banvy-play-character';
 /* an arrow pointing north, turned to where the wind blows */
 const WIND = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V4M6 10l6-6 6 6"/></svg>';
 
@@ -148,7 +151,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
               <div class="seg cs-seg">${[1, 10].map(n => `<label class="seg-opt"><input type="radio" name="cs-hole" value="${n}"${plan.hole === n ? ' checked' : ''}><span>Hål ${n}</span></label>`).join('')}</div>
             </fieldset>` : ''}
 
-            <fieldset class="cs-field" data-only="map">
+            <fieldset class="cs-field" data-only="map play">
               <legend>Spelhandicap</legend>
               <div class="cs-hcp">
                 <div class="stepper" role="group" aria-label="Spelhandicap">
@@ -160,7 +163,12 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
               </div>
             </fieldset>
 
-            <fieldset class="cs-field" data-only="detailed">
+            <fieldset class="cs-field" data-only="play">
+              <legend>Golfare</legend>
+              <div class="seg cs-seg">${PLAY_CHARACTERS.map(c => `<label class="seg-opt"><input type="radio" name="cs-character" value="${c.id}"${plan.character === c.id ? ' checked' : ''}><span>${c.label}</span></label>`).join('')}</div>
+            </fieldset>
+
+            <fieldset class="cs-field" data-only="detailed play">
               <legend>Ljus</legend>
               <div class="cs-lights">
                 ${lightTile(NOW_LIGHT.player, 'Nu', null)}
@@ -227,6 +235,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
       if (name === 'cs-tee') { plan.tee = Number(value); paintCard(); }
       if (name === 'cs-hole') { plan.hole = Number(value); showHole(plan.hole); }
       if (name === 'cs-light') plan.light = value;
+      if (name === 'cs-character') plan.character = value;
     });
     dialog.querySelector('[data-close]').addEventListener('click', close);
     dialog.querySelector('[data-go]').addEventListener('click', () => launch(true));
@@ -352,22 +361,26 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   /* what changes with the mode: the choices that belong to it, and the button's words */
   function reflect() {
     dialog.dataset.mode = plan.mode;
-    for (const el of dialog.querySelectorAll('[data-only]')) el.hidden = el.dataset.only !== plan.mode;
+    for (const el of dialog.querySelectorAll('[data-only]')) el.hidden = !el.dataset.only.split(' ').includes(plan.mode);
     const go = dialog.querySelector('[data-go]');
     go.innerHTML = plan.mode === 'map'
       ? `${ICON.map}<span>Starta rundan</span>`
+      : plan.mode === 'play' ? `${ICON.play}<span>Till första tee</span>`
       : `${ICON.detailed}<span>Spela i 3D</span>`;
     dialog.querySelector('[data-hint]').textContent = plan.mode === 'map'
       ? 'Rundan startar direkt och GPS:en slås på. Du kan avsluta den när som helst.'
+      : plan.mode === 'play' ? 'Du står på tee med din egen bag. Spelade rundor hålls isär från dina riktiga.'
       : 'Banan laddas i full grafik. Tee och ljus går att byta på banan.';
   }
 
   function launch(round) {
     /* the choices are kept where the map reads them, so both programs agree */
     writeText(storage(), `${TEE_KEY}:${course.slug}`, plan.tee);
-    if (plan.mode === 'map') writeText(storage(), MAP_KEYS.handicap, plan.handicap ?? null);
+    /* the player's handicap is theirs in both: the map's card and the game's points */
+    if (plan.mode === 'map' || plan.mode === 'play') writeText(storage(), MAP_KEYS.handicap, plan.handicap ?? null);
+    if (plan.mode === 'play') { try { storage()?.setItem(CHARACTER_KEY, plan.character); } catch {} }
     close();
-    onLaunch(course.slug, plan.mode, { tee: plan.tee, hole: plan.hole, light: plan.light, round: plan.mode === 'map' && round });
+    onLaunch(course.slug, plan.mode, { tee: plan.tee, hole: plan.hole, light: plan.light, character: plan.character, round: plan.mode === 'map' && round });
   }
 
   function close() {
@@ -389,7 +402,9 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     open(slug, mode = 'detailed') {
       course = courses.find(c => c.slug === slug);
       if (!course) return;
-      plan = { mode: MODES[mode] ? mode : 'detailed', tee: savedTee(storage(), course), hole: 1, light: null };
+      let character = 'female';
+      try { character = PLAY_CHARACTERS.some(c => c.id === storage()?.getItem(CHARACTER_KEY)) ? storage().getItem(CHARACTER_KEY) : 'female'; } catch {}
+      plan = { mode: MODES[mode] ? mode : 'detailed', tee: savedTee(storage(), course), hole: 1, light: null, character };
       if (!readSettings(storage()).light) plan.light = PLAYER_DEFAULT_LIGHT;
       render();
       dialog.showModal();

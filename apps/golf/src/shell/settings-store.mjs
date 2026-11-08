@@ -16,12 +16,19 @@ export const SETTINGS_KEY = 'banvy-settings-v1';
 export const LAST_COURSE_KEY = 'banvy-last-course';
 export const LAST_MODE_KEY = 'banvy-last-mode';
 
-/* The two ways to play, as the start menu names them. `route` is the hub's
-   hash; `mode` is what a launch is asked for. */
+/* The ways to play, as the start menu names them. `route` is the hub's
+   hash; `mode` is what a launch is asked for. Spela is the detailed course
+   played as a game (apps/golf/src/play). */
 export const MODES = Object.freeze({
   detailed: Object.freeze({ route: '3d', label: 'Detaljerad 3D', short: 'Detaljerad', cta: 'Starta i 3D' }),
   map: Object.freeze({ route: 'karta', label: 'Lätt 3D', short: 'Lätt 3D', cta: 'Öppna kartan' }),
+  play: Object.freeze({ route: 'spela', label: 'Spela', short: 'Spela', cta: 'Spela banan' }),
 });
+/* The golfers Spela can play as (engine/golfer.mjs GOLFER_CHARACTERS) */
+export const PLAY_CHARACTERS = Object.freeze([
+  Object.freeze({ id: 'female', label: 'Kvinna' }),
+  Object.freeze({ id: 'male', label: 'Man' }),
+]);
 export const modeOfRoute = route => Object.keys(MODES).find(mode => MODES[mode].route === route) || null;
 
 /* ---------------------------------------------------------------- the lights
@@ -125,8 +132,16 @@ export function launchUrl(slug, mode, { phone = false, settings = DEFAULTS, plan
     if (Number.isInteger(hole) && hole > 1) params.set('hal', String(hole));
     return '?' + params.toString();
   }
-  if (phone) params.set('karta', '0');
+  /* Spela is the detailed course with the game on: karta=0 always, since a
+     plain course link on a phone opens the map */
+  if (phone || mode === 'play') params.set('karta', '0');
+  if (mode === 'play') {
+    params.set('spela', '1');
+    if (PLAY_CHARACTERS.some(c => c.id === plan?.character)) params.set('golfare', plan.character);
+  }
   for (const [key, value] of detailedParams(settings)) params.set(key, value);
+  /* a game is played from behind the golfer: the course's own start view does not apply */
+  if (mode === 'play') params.delete('vy');
   /* main.js reads ?tee= from 1 to 6 and ?hal= as the hole to open on */
   const tee = Number(plan?.tee);
   if (Number.isInteger(tee) && tee >= 0 && tee < 6) params.set('tee', String(tee + 1));

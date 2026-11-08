@@ -251,7 +251,8 @@
 /* ------------------------------------------------------------ the modes */
 .home-modes {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* three ways to play, then the side column of Statistik and Inställningar */
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, .92fr);
   gap: clamp(12px, 1.4vw, 22px);
 }
 .mode-card {
@@ -273,6 +274,7 @@
 }
 .mode-card:nth-child(2) { animation-delay: 0.07s; }
 .mode-card:nth-child(3) { animation-delay: 0.14s; }
+.mode-card:nth-child(4) { animation-delay: 0.21s; }
 .home-hero > * { animation: hub-rise 0.8s var(--ease) both; }
 .home-hero > :nth-child(2) { animation-delay: 0.04s; }
 .home-hero > :nth-child(3) { animation-delay: 0.08s; }
@@ -429,7 +431,8 @@
 .is-small .mc-key { position: absolute; top: 12px; right: 12px; }
 .is-small .mc-body { padding: 16px 78px 16px 16px; gap: 4px; }
 .is-small .mc-fig, .is-small .mc-feats { display: none; }
-.is-small .mc-title { font-size: clamp(22px, 1.8vw, 28px); }
+/* the side column is a quarter of the row beside three modes: the names keep to it */
+.is-small .mc-title { font-size: clamp(20px, 1.55vw, 28px); }
 .is-small .mc-go { top: 50%; bottom: auto; margin-top: -24px; width: 48px; height: 48px; }
 .mode-stats { background:
   radial-gradient(120% 100% at 100% 100%, rgba(80, 150, 234, 0.22), transparent 60%),
@@ -500,6 +503,10 @@
   .home-stats div { padding-left: 10px; }
   .home-stats dd { font-size: 24px; }
   .home-stats dt { font-size: 9.5px; letter-spacing: 0.16em; }
+  /* three ways to play and the two small cards stand whole above the fold first;
+     a returning player's Fortsätt takes the lead's place */
+  .home-stats { display: none; }
+  .home-inner:has(.home-resume) .home-lead { display: none; }
   .home-resume { width: 100%; gap: 11px; }
   .hr-thumb { width: 58px; height: 46px; }
   .hr-name { font-size: 16px; }
@@ -548,7 +555,7 @@
   .home-hero { flex: 0 0 auto; padding: 6px 0 12px; }
   .home-title { font-size: 30px; margin-top: 8px; }
   .home-lead, .home-stats { display: none; }
-  .home-modes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .home-modes { grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, .92fr); }
   .mode-card { min-height: 168px; justify-content: flex-end; }
   .mc-shade { background: linear-gradient(180deg, rgba(4, 9, 7, 0.2) 0%, rgba(4, 9, 7, 0.95) 80%); }
   .mc-art i { left: 0; }

@@ -98,12 +98,14 @@ const storage = () => { try { return localStorage; } catch { return null; } };
 const MODE_LINES = {
   detailed: n => `${n} banor i full 3D-grafik. Flyg längs hålen, läs greenerna och mät varje slag.`,
   map: n => `${n} banor som snabb 3D-karta för rundan: GPS-avstånd, klubbhjulet och scorekortet.`,
+  play: n => `${n} banor att spela slag för slag med din egen bag: bollfysik, vind och greenernas lutning.`,
 };
 const MODE_ICON = {
   detailed: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>',
   map: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>',
+  play: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20.5c3.2-1.6 10.8-1.6 14 0"/><path d="M15.5 3.5v13"/><path d="M15.5 3.8l4.6 1.9-4.6 1.9"/><circle cx="8.5" cy="16.6" r="1.6"/></svg>',
 };
-const MODE_SUB = { detailed: 'Full grafik · hemma', map: 'GPS · på banan' };
+const MODE_SUB = { detailed: 'Full grafik · hemma', map: 'GPS · på banan', play: 'Som ett golfspel' };
 
 /* `context` is where the list lives: 'hub', the start menu's own page, or
    'player', the glass over a running course (main.js). `mode` is which way the

@@ -40,6 +40,8 @@ const DEFAULT_BACKDROP = 'veckefjarden';
 /* The two modes' pictures. Both are the detailed course's own posters, as the
    cards in both lists are (owner, 7 November): the map is the same place. */
 const MODE_ART = { detailed: 'visby', map: 'puttom' };
+/* Spela's card: the game itself, from behind the golfer on the first tee */
+const PLAY_ART = `${BASE}play/spela-card.webp`;
 
 const storage = () => { try { return localStorage; } catch { return null; } };
 const esc = s => String(s ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
@@ -49,6 +51,7 @@ const GEAR = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke
 const CUBE = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>';
 const INSTALL = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>';
 const STATS = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 16v-4M12 16V7M17 16v-7"/></svg>';
+const GOLFER = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20.5c3.2-1.6 10.8-1.6 14 0"/><path d="M15.5 3.5v13"/><path d="M15.5 3.8l4.6 1.9-4.6 1.9"/><circle cx="8.5" cy="16.6" r="1.6"/></svg>';
 const PIN = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>';
 
 /* The light map's card carries what the map is for, drawn over the course: a
@@ -103,7 +106,7 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
       <span class="mc-top">
         <span class="mc-icon" aria-hidden="true">${icon}</span>
         ${key === recommended ? `<span class="mc-badge">${phone ? 'Bäst i mobilen' : 'Bäst på datorn'}</span>` : ''}
-        <kbd class="mc-key" aria-hidden="true">${{ detailed: 1, map: 2, stats: 3, settings: 4 }[key]}</kbd>
+        <kbd class="mc-key" aria-hidden="true">${{ detailed: 1, map: 2, play: 3, stats: 4, settings: 5 }[key]}</kbd>
       </span>
       <span class="mc-body">
         ${fig ? `<span class="mc-fig" aria-hidden="true">${fig}</span>` : ''}
@@ -132,7 +135,7 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
       <section class="home-hero">
         <p class="home-eyebrow">Svenska golfbanor i 3D</p>
         <h1 class="home-title" id="homeTitle" tabindex="-1">Från soffan till <em>första tee.</em></h1>
-        <p class="home-lead">${playable.length} banor byggda ur verklig terräng och mätta mot klubbarnas egna kort. Utforska dem i detaljerad 3D hemma, eller ta med kartan ut på rundan.</p>
+        <p class="home-lead">${playable.length} banor byggda ur verklig terräng och mätta mot klubbarnas egna kort. Spela dem, utforska dem i 3D eller ta med kartan ut på rundan.</p>
         <dl class="home-stats">
           <div><dt>Banor</dt><dd>${playable.length}</dd></div>
           <div><dt>Hål</dt><dd>${holes}</dd></div>
@@ -159,6 +162,14 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
           art: `<i style="background-image:url('${poster(MODE_ART.map)}')"></i>`,
           fig: GPS_ART,
           icon: PIN,
+        })}
+        ${card('play', {
+          kicker: 'Som ett golfspel',
+          title: MODES.play.label,
+          body: 'Slå varje slag själv med din egen bag: bollfysik, vind, greenernas lutning och scorekort.',
+          feats: ['Bollfysik', 'Puttning', 'Återupplev'],
+          art: `<i style="background-image:url('${PLAY_ART}')"></i>`,
+          icon: GOLFER,
         })}
         <div class="home-side">
           ${card('stats', {
@@ -313,13 +324,14 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPl
       if (key === 'settings') onSettings(); else if (key === 'stats') onStats(); else onMode(key);
     });
   }
-  /* 1 to 4 -- only while the menu is what is on screen, never out of a field */
+  /* 1 to 5 -- only while the menu is what is on screen, never out of a field */
   addEventListener('keydown', e => {
     if (el.hidden || e.metaKey || e.ctrlKey || e.altKey || e.target?.closest?.('input, textarea, select, [contenteditable], dialog')) return;
     if (e.key === '1') onMode('detailed');
     else if (e.key === '2') onMode('map');
-    else if (e.key === '3') onStats();
-    else if (e.key === '4') onSettings();
+    else if (e.key === '3') onMode('play');
+    else if (e.key === '4') onStats();
+    else if (e.key === '5') onSettings();
   });
 
   refresh();

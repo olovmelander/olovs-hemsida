@@ -7,7 +7,10 @@ const files = ['golfer.json', 'golfer-male.json', 'banvy-golfer.glb', 'banvy-gol
 // September golfers (assets/v1) to a page opened with ?golferset=v1.
 const before = new URL('./assets/v1/', import.meta.url);
 
-/** The character assets belong to the lab, never the app's public directory. */
+/** The character assets live with the lab, never in the app's public directory.
+    Since Spela (apps/golf/src/play) every build serves and publishes the models;
+    a player downloads one only when they play, and the service worker never
+    precaches them. The character studio itself stays a lab page. */
 export function golferLabPlugin(enabled) {
   let base = '/';
   return {
@@ -18,9 +21,10 @@ export function golferLabPlugin(enabled) {
         const pathname = new URL(request.url, 'http://localhost').pathname;
         const path = base !== '/' && pathname.startsWith(base) ? `/${pathname.slice(base.length)}` : pathname;
         const model = path.startsWith('/models/golfer/');
-        const studio = path === '/golfer-study.html' || path === '/src/golfer-study.mjs' || /^\/src\/engine\/golfer(?:-course)?\.mjs$/.test(path);
+        // The golfer runtime (engine/golfer.mjs) is Spela's too; only the lab's own pages stay closed.
+        const studio = path === '/golfer-study.html' || path === '/src/golfer-study.mjs' || path === '/src/engine/golfer-course.mjs';
         if (!model && !studio) return next();
-        if (!enabled) {
+        if (!enabled && !model) {
           response.statusCode = 404;
           response.setHeader('Content-Type', 'text/plain; charset=utf-8');
           response.end('The golfer is a separate development lab. Start it with npm run dev:golfer.');
@@ -40,7 +44,6 @@ export function golferLabPlugin(enabled) {
       });
     },
     generateBundle() {
-      if (!enabled) return;
       for (const name of files) {
         this.emitFile({ type: 'asset', fileName: `models/golfer/${name}`, source: readFileSync(fileURLToPath(new URL(name, assets))) });
       }

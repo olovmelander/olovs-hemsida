@@ -1807,11 +1807,14 @@ a.drawer-main-btn { text-decoration: none; }
   }
   .chooser-head-row { margin-bottom: 6px; }
   .chooser-modes { flex: 1 1 100%; }
-  .c-mode-btn { flex: 1 1 0; min-height: 46px; padding: 0 10px 0 6px; gap: 8px; }
+  .c-mode-btn { flex: 1 1 0; min-width: 0; min-height: 46px; padding: 0 10px 0 6px; gap: 8px; }
+  /* three ways to play on a narrow phone: the names alone, side by side */
+  .chooser-modes:has(.c-mode-btn:nth-child(3)) .c-mode-btn { padding: 0 6px; gap: 6px; }
   .cm-icon { width: 30px; height: 30px; border-radius: 9px; }
   .cm-text b { font-size: 14px; }
   .cm-text small { display: none; }
   .chooser-subtitle { font-size: 12.5px; line-height: 1.4; }
+  @media (max-width: 400px) { .chooser-modes:has(.c-mode-btn:nth-child(3)) .cm-icon { display: none; } .cm-text b { font-size: 13.5px; } }
   /* 16 px, not 13: below it iOS Safari zooms the whole page into the field on
      focus and leaves the visitor to pinch their way back out */
   .chooser-search-box input { font-size: 16px; padding-left: 40px; }
