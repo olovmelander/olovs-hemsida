@@ -162,6 +162,10 @@ land cover's WATER class is a colour verdict: never paint from it. See
   do not hand-edit derived hashes, weaken a gate or invent a passing report.
 - Imagery used for tracing is not automatically licensed for redistribution.
   Preserve the source register's restrictions and keep private caches private.
+- Place a ground's trees with the tree pipeline (`tools/tree-pipeline.mjs`,
+  configured in `course-workflows/<ground>/trees.json`) and its agent
+  (`.claude/agents/tree-placement.md`); see
+  [the tree placement workflow](docs/tree-placement-workflow.md).
 
 ## Rendering and performance verification
 

@@ -1,0 +1,116 @@
+{
+  "$comment": "Tree pipeline config for Johannesberg (tools/tree-pipeline.mjs, docs/tree-placement-workflow.md). It reproduces review-2026-11-08 as published: round 2, the type-aware detector, from the cached laser and orthophotos. The owner's exception to the failed held-out gate and the owner's decisions are recorded below and in the review README and vegetation/RUN.",
+  "schemaVersion": 1,
+  "kind": "banvy-tree-pipeline-ground",
+  "groundId": "johannesberg",
+  "courseSlugs": ["johannesberg", "johannesberg-9"],
+  "provider": "lantmateriet",
+  "reviewId": "review-2026-11-08",
+  "reviewDir": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08",
+  "cacheDir": "johannesbergbuild/cache/trees-2026-11-08",
+  "window": {
+    "inner": { "minEasting": 678403.5, "minNorthing": 6624276.5, "maxEasting": 680451.5, "maxNorthing": 6626324.5 },
+    "note": "the published ground's 2,048 m reviewed frontier (64 finest tiles)",
+    "haloMetres": 60,
+    "chmCellMetres": 0.5
+  },
+  "laser": {
+    "campaigns": "geo_data/course-v2/johannesberg/acquisition/laser-campaigns.json",
+    "items": ["21c039-66225_6775_25", "21c039-66225_6800_25", "21c039-66250_6775_25", "21c039-66250_6800_25"],
+    "label": "21C039 2021-04-17 leaf-off",
+    "campaign": "21C039",
+    "capturedOn": "2021-04-17",
+    "leafState": "leaf-off",
+    "note": "Laserdata Nedladdning, skog (dsm-skoglig-copc), re-tiled by Lantmäteriet into 2.5 km items (updated 2026-10-14); ALS80-HP, 1.8 first returns/m2 over the inner window"
+  },
+  "orthophotos": {
+    "stacSearchBboxWgs84": [18.145, 59.698, 18.24, 59.758],
+    "items": ["66225_6775_25", "66225_6800_25", "66250_6775_25", "66250_6800_25"],
+    "campaigns": [
+      { "key": "2025", "collection": "orto-o2-2025", "suffix": "mr25", "date": "2025-06-14", "season": "leaf-on", "sun": { "azimuthDegrees": 104.6, "elevationDegrees": 35.2 } },
+      { "key": "2021", "collection": "orto-o2-2021", "suffix": "mr21", "date": "2021-04-18", "season": "leaf-off", "sun": { "azimuthDegrees": 129.4, "elevationDegrees": 32.2 } }
+    ],
+    "leafOff": "2021",
+    "presence": "2025",
+    "notFetched": {
+      "orto-o2-2023": "2023-05-10 RGBI, HTTP 206 on all four items",
+      "orto-o2-2019": "2019-07-20 RGBI (leaf-on), HTTP 206 on all four items"
+    }
+  },
+  "registration": { "pairs": ["2021:nir@laser", "2025:nir@laser", "2025:bright@2021:bright", "2025:red@2021:red"] },
+  "published": {
+    "publicDir": "apps/golf/public",
+    "baselineGroundManifest": "grounds/johannesberg/ground-v2-fd6ebbe8c3d9a218bc09b620d2d34131875c30d7cd12d9743749c9f176dc17fd.json",
+    "lineage": {
+      "groundManifest": "grounds/johannesberg/ground-v2-1f0f72bbbac45925e255ee312e9632628f355048110c744be7a04750136709aa.json",
+      "label": "ground-v2-1f0f72bb"
+    }
+  },
+  "playZone": { "nearMetres": 90, "note": "the app zone A (main.js LEGACY_ZONE_A_METRES) from every hole line of both routings and the driving range and practice greens" },
+  "rounds": [
+    {
+      "id": "r1", "sampleSuffix": "", "detector": "v2", "startFrom": null,
+      "methodName": "new-detector", "comparedAs": "round1-detector",
+      "roles": ["calibration", "evaluation"], "evaluationRole": "evaluation",
+      "note": "round 1: detector v2 grid search; held-out P 0.82 R 0.97 (gate missed); its held-out windows became round 2's used-holdout"
+    },
+    {
+      "id": "r2", "sampleSuffix": "-r2", "detector": "typed", "startFrom": "r1",
+      "methodName": "round2-detector",
+      "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
+      "note": "round 2: the type-aware detector, tuned from the round-1 lock; a new unseen held-out sample (H1, H3, H4, H5) frozen before scoring"
+    }
+  ],
+  "activeRound": "r2",
+  "typeRule": {
+    "round": "r1",
+    "broadleafMaximumAprilShare": 0.2,
+    "unknownBelowConfidence": 0.6,
+    "note": "owner species check of 2026-11-08: a broadleaf call needs a clearly leafless April crown (vegetated share below 0.2); 17 of 35 reference broadleaves and none of 60 reference conifers lie below it"
+  },
+  "holds": {
+    "poleLike": null,
+    "note": "Johannesberg was published without the pole-like hold (radius under 1 m, height 5 m or more): 138 such placed crowns, 35 near play, are an open item in the review README. Null here reproduces the publication; new grounds enable it."
+  },
+  "review": {
+    "spots": [
+      { "id": "hole10-south", "title": "south of the 10th tee (owner example)", "bbox": [679372, 6624468, 679439, 6624533] },
+      { "id": "holes17-18", "title": "holes 17-18 (owner example)", "bbox": [679200, 6625560, 679360, 6625720] },
+      { "id": "hole16-spruce-edge", "title": "conifer edge between 3 and 16", "bbox": [679420, 6625320, 679520, 6625420] },
+      { "id": "hole4-meadow", "title": "scattered trees between 16 and 4", "bbox": [679680, 6625230, 679800, 6625350] },
+      { "id": "hole2-tee", "title": "groups by the 1st green and 2nd tee", "bbox": [679310, 6625810, 679410, 6625910] },
+      { "id": "nine5-6", "title": "9-hole course 5th/6th", "bbox": [678830, 6626075, 678930, 6626175] },
+      { "id": "hole1", "title": "the 1st hole, tee to green", "bbox": [679240, 6625770, 679420, 6626075] }
+    ],
+    "typePanels": [{ "course": "johannesberg", "holes": [1, 17] }],
+    "typePanelSample": 12,
+    "nearBroadleafShareFlag": 0.3
+  },
+  "publication": {
+    "scope": [678403.5, 6624276.5, 680451.5, 6626324.5],
+    "observedOn": "2026-11-08",
+    "stagingRoot": "output/course-workflow/johannesberg/staging-public",
+    "compileOut": "output/course-workflow/johannesberg/reviewed-compile",
+    "reviewStatement": "reviewed candidates, review-2026-11-08 round 2: agent-led reference benchmark (held-out P 0.953 R 0.788, gate not met: closed stands) and the owner's decisions of 2026-11-08 to publish with the round-2 detector; broadleaf only where the April 2021 crown is clearly leafless (owner species check of 2026-11-08); holds, merges, removals and unresolved cases listed in the review"
+  },
+  "ownerExceptions": [
+    {
+      "gate": "held-out-precision-recall",
+      "round": "r2",
+      "decidedOn": "2026-11-08",
+      "decidedBy": "owner",
+      "benchmark": {
+        "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/benchmark-r2.json",
+        "sha256": "f261fbe08329433400632b3570f63867bb02c7458c492750ef0e2720c3bcd469"
+      },
+      "measured": { "precision": 0.953, "recall": 0.788 },
+      "decision": "Publish although the 90% precision and recall gate is not met on the unseen held-out sample. The shortfall is closed stands, where touching spruces in the 2021 leaf-off scan (1.8 first returns/m2) share one maximum (recall 17/23): a limit of the data. Isolated trees (13/15), groups (4/4), broadleaves (21/25) and conifers (17/23) meet or approach the gate. The exception, the stratified numbers, the holds and the unresolved lists stay recorded.",
+      "record": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md"
+    }
+  ],
+  "ownerDecisions": [
+    { "decidedOn": "2026-11-08", "decision": "Use the round-2 (type-aware) detector, for fewer false trees on open ground: a post-evaluation owner choice, not the declared F1 ranking (round 1 F1 0.869 against round 2's 0.863).", "record": "geo_data/course-v2/johannesberg/vegetation/RUN" },
+    { "decidedOn": "2026-11-08", "decision": "Every placed tree stands on its own detected crown as a record, near and woodland alike (woodland thinned by id at low quality); only canopy no crown claims is topped up as a stand field.", "record": "geo_data/course-v2/johannesberg/vegetation/RUN" },
+    { "decidedOn": "2026-11-08", "decision": "Species check: a broadleaf call needs a clearly leafless April 2021 crown (vegetated share below 0.2); between that and the conifer call the type is unknown and the runtime's background mix chooses.", "record": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/README.md" }
+  ]
+}

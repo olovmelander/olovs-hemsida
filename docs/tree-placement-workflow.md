@@ -8,7 +8,76 @@ Updated 2026-11-08 (the improved method of the Johannesberg review). Use this fo
 
 Our recommended method is **LiDAR + RGB orthophotos + near-infrared imagery where available + visual review + an unseen evaluation sample**. Keep individual, play-relevant trees distinct from woodland represented by measured density. Keep the current tree assets while testing geography, then improve appearance separately.
 
-This is the reusable quality process we want across the app. It is not a claim that one detector is universally best, that every course has sufficient source data, or that this is already a one-command pipeline. lidR explicitly describes detection and segmentation as data-dependent; algorithm and canopy-model choices change the result. Select settings for each ground through a benchmark. [lidR method documentation](https://r-lidar.github.io/lidRbook/itd.html)
+This is the reusable quality process we want across the app. It now runs as a staged pipeline with an agent to drive it (next section), but it is not a claim that one detector is universally best, that every course has sufficient source data, or that a ground can be done in one command: its reference and review stages stop for a person, and its gates stop for the owner. lidR explicitly describes detection and segmentation as data-dependent; algorithm and canopy-model choices change the result. Select settings for each ground through a benchmark. [lidR method documentation](https://r-lidar.github.io/lidRbook/itd.html)
+
+## The pipeline and the agent (November 2026)
+
+The Johannesberg method is now one pipeline, run per ground and stage by stage:
+[`tools/tree-pipeline.mjs`](../tools/tree-pipeline.mjs) (modules in
+[`tools/tree-pipeline/`](../tools/tree-pipeline/)). Everything ground-specific
+lives in `course-workflows/<ground>/trees.json`: the inner window, the laser
+campaign and items, the orthophoto campaigns with their dates and the sun at
+each flight, the baseline generation, the play-zone distance, the reference
+rounds, the type-rule calibration, the pole-like hold and the owner's
+exceptions and decisions. [Johannesberg's](../course-workflows/johannesberg/trees.json)
+is the worked example. The agent
+[`.claude/agents/tree-placement.md`](../.claude/agents/tree-placement.md) runs it on
+a new course end to end, under the hard rules below, and stops for the owner.
+
+```sh
+node tools/tree-pipeline.mjs --list
+node tools/tree-pipeline.mjs --init --ground <id>        # a trees.json full of TODOs
+node tools/tree-pipeline.mjs --ground <id> --status
+node --env-file=<repository .env> tools/tree-pipeline.mjs --ground <id> --stage acquire --fetch
+node tools/tree-pipeline.mjs --ground <id> --stage <stage>
+```
+
+| Stage | Kind | What it does |
+|---|---|---|
+| `acquire` | network with `--fetch` | Lantmäteriet laser COPC and RGBI orthophotos into the ignored cache, verified against the pins; offline it re-verifies the cache. The source policy refuses anything else. |
+| `canopy` | automatic | Pit-free 0.5 m CHM, return rasters, the 1 m published-method CHM; cloud ground against the published terrain. Stops on a terrain disagreement. |
+| `detect` | automatic | A detector-neutral treetop census and strata (isolated, group, edge, closed; leaf-off type; near play) for choosing reference windows; warns when closed canopy dominates. |
+| `verify` | automatic | Photo registration on open ground; the credential-free source inventory. |
+| `reference` | person | Interpretation panels for the declared windows, then the frozen reference and its lock. |
+| `benchmark` | gate | Tuning on calibration windows only, the type rule, every method on every role, and the held-out gate. |
+| `candidates` | automatic, then person | Locked detector, per-tree evidence, stable IDs, decisions, holds and residual rasters. Stops while felling-screened or pole-like crowns are unreviewed. |
+| `review` | person and owner | Spot panels, the species spot check, screened-crown chips, `species-mix.json` and `review-checklist.json`. |
+| `publish` | gate | Gate PASS or the owner's recorded exception, a closed checklist and unchanged receipts; then a staging root, never the live one. |
+
+**Rules the pipeline enforces.**
+
+- Lantmäteriet only; never the surface model matched from aerial photos or
+  Skogsstyrelsen data. Credentials only through `node --env-file`, never printed.
+- No GPU, browser or deep-learning step. One heavy process at a time.
+- The held-out gate is fixed at 90% precision and recall on at least 30 unseen
+  crowns. A failed gate stays failed; publication needs an owner exception in
+  `trees.json` that pins the benchmark's SHA-256. A scored held-out sample is never
+  tuned on again: a changed detector needs a new round and a new sample.
+- Every stage writes a receipt with the hashes of what it read and wrote
+  (`<reviewDir>/pipeline/`); publication refuses outputs changed since.
+- Publication goes to a staging root. Adoption into `apps/golf/public`, the
+  `production.json` pins and the re-bakes stay the owner-authorised promotion of the
+  [course production workflow](course-production-workflow.md).
+
+**Johannesberg reproduces.** From the cached laser and photos alone, written into
+an empty cache, the stages rebuild review-2026-11-08 byte for byte: the canopy
+rasters and point file, the photo registration, the reference panels and the
+round-2 frozen reference, the type rule, the typed tune's selection (1,149
+evaluations, the same trajectory), the benchmark results, `candidates.csv`
+(`9bddbfc5…`) and the residual rasters (`4ffe2e5b…`, `c0c612bc…`) that
+`production.json` pins, `unresolved.json`, the cached candidate records and the
+spot panels. `candidates-summary.json` differs only in its elapsed time. The
+computed record is
+[`pipeline-reproduction.json`](../geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/pipeline-reproduction.json).
+The pilot scripts in `tools/johannesberg-tree-pilot/` stay as that review's dated
+record (its detector locks pin their hashes); new grounds use the pipeline.
+
+**Still manual.** Choosing and interpreting reference windows; the felling,
+pole and species reviews on the photo chips; the owner's screenshots of the app
+and frame-time measurements on his GPU; owner exceptions; and the promotion of a
+staged root. The sun position of each photo flight is entered in the config, not
+computed. Only Johannesberg has run through the pipeline: the next ground is its
+real test (see "Current tools" below).
 
 ## What Visby established
 
@@ -305,7 +374,8 @@ The coverage and issue files above are an offline evidence convention, not imple
 |---|---|---|
 | [COPC canopy builder](../packages/course-geo/copc-reader/build-canopy.mjs) | `--ground`, `--out`, campaign/tile selection, density/height evidence; optional `--tight-grid` | Registered ground, pinned campaigns and active ground graph required. Resolves the current public graph. Use explicit evidence/output locations and sufficient halo; verify the lattice for the chosen ground. |
 | [Detector v2](../packages/course-v2/vegetation/tree-detect-v2.mjs), [pit-free CHM](../packages/course-v2/vegetation/pit-free-chm.mjs) | Pit-free 0.5 m model, type map, type-aware treetops and simultaneous crown growth, matching and scores | Settings are per ground from a calibration benchmark; the Johannesberg lock is evidence, not a default. |
-| [Johannesberg tree pilot](../tools/johannesberg-tree-pilot/) | Worked adapter: COPC and RGBI caches, CHM, registration, reference panels/freeze, benchmark, type rule, candidates with IDs, review spots | Ground constants live in its pilot-config.mjs; a second ground needs its own config and its own reference sample. |
+| [Tree pipeline](../tools/tree-pipeline.mjs) and its [agent](../.claude/agents/tree-placement.md) | The Johannesberg method per ground: acquisition, CHM, strata, registration, reference panels/freeze, benchmark and gate, type rule, candidates with IDs and holds, review material and checklist, staged publication | Ground constants live in `course-workflows/<ground>/trees.json`; every ground needs its own reference sample. Proven by reproducing Johannesberg; not yet run on a second ground. |
+| [Johannesberg tree pilot](../tools/johannesberg-tree-pilot/) | The dated scripts of review-2026-11-08 | Kept as that review's record (its detector locks pin their hashes). Use the pipeline instead. |
 | [Node vegetation compiler](../packages/course-v2/vegetation/compile-vegetation.mjs) | Ground geometry, candidates, previous registry/IDs, approvals and standard stand output; `--reviewed` imports a decided candidate table with residual-canopy stands | Current CLI reads the active public ground; stock stand generation is 4 m. It does not consume the pilot correction catalogue or automatically provide near-play 1 m refinement. Do not equate machine approval with visual or survey verification. Use repository-relative `--raster` paths on Windows because of the colon parser. |
 | [Object compiler](../packages/course-v2/vegetation/object-compiler.mjs), [ground sampler](../packages/course-v2/vegetation/ground-sampler.mjs), [stand format](../packages/course-v2/stand-field.mjs) | Reusable library primitives for compatible records, terrain bases and variable-resolution fields | A reviewed ground adapter must supply validated decisions, coverage and cell geometry. |
 | [Vegetation publisher](../packages/course-v2/vegetation/publish-vegetation.mjs) | `assembleVegetationGraph` library; CLI supports a staged `--public` tree and all shared routings | CLI default is the real public tree; staging must already contain the referenced graph/resources. Protect unrelated object classes when assembling object layers. |
@@ -315,7 +385,7 @@ The coverage and issue files above are an offline evidence convention, not imple
 | [Visby pilot scripts](../tools/visby-tree-pilot/README.md) | Worked references for annotation, benchmark, correction catalogue, 1 m refinement, isolated graph, browser comparison and performance | Ground IDs, origin, scenes, capture list, source dates and paths are embedded. Parameterize/implement a new adapter and test it on the next ground; changing a directory name is insufficient. |
 | [Vegetation browser baseline](../tools/vegetation-baseline.mjs) | Population, source ownership and visual diagnostics | Supply fresh report/shot paths and the appropriate v2 label. Current provenance lookup has slug/ground assumptions; independently resolve the active root, especially for a shared routing. |
 
-A reusable description and reusable primitives are in place. A fully parameterized acquisition-to-review-to-publication command has **not** yet been implemented. The next ground should use a small explicit adapter around these primitives, exercising the same evidence gates. Do not copy the Visby compiler unchanged: its tree-only object assembly is not a general merge policy for grounds that already contain other object classes.
+A reusable description, reusable primitives and a parameterized pipeline (above) are in place. Its human review stages stay human. The next ground should run the pipeline with its own `trees.json`, exercising the same evidence gates. Do not copy the Visby compiler unchanged: its tree-only object assembly is not a general merge policy for grounds that already contain other object classes.
 
 Before calling an adapter reusable, exercise it on a second ground with different bounds/hole count. Make ground/frame, source dates and bands, coverage, review/evaluation regions, thresholds, cache/staging paths and routing list explicit inputs. Fail on missing metadata or frame mismatch instead of falling back to Visby constants. Verify identity preservation, seams, exclusions and non-tree objects on that second ground; document any remaining manual steps.
 
