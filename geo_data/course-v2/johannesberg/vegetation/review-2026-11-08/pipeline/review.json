@@ -5,22 +5,23 @@
  "groundId": "johannesberg",
  "reviewId": "review-2026-11-08",
  "round": null,
- "ranAt": "2026-11-08T21:25:05.988Z",
+ "ranAt": "2026-11-08T23:08:06.598Z",
  "node": "v24.20.0",
  "config": {
   "path": "course-workflows/johannesberg/trees.json",
-  "bytes": 10899,
-  "sha256": "e440b1d99a7296750db0fbe6d817d46cbf59e25594ea819a8c22a8e5542e5bb0"
+  "bytes": 16672,
+  "sha256": "8734b966330642fbb53085fc8de8477884ce5c1b824f094492f7bd594959fc2f"
  },
  "options": {
   "only": [
+   "types",
    "mix"
   ]
  },
  "code": {
   "tools/tree-pipeline.mjs": "c419a6413f86669ed13333ca3ddc67255c3fae77d5d6da5f9616384fc3f58d3b",
-  "tools/tree-pipeline/config.mjs": "95bfdfe4da674244debbdf3d2b820462195559c477522d7adbc082aefd922a98",
-  "tools/tree-pipeline/stages.mjs": "7d8dacd03d729319bcb1a7ffde60b4fa4f94587f884b87473e83f234eb9cc2cd",
+  "tools/tree-pipeline/config.mjs": "3611017508c4d67d577ec4090b87e597eb7a3ec52e47b1e69523a18ad38ac49c",
+  "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
   "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
   "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
   "tools/tree-pipeline/receipts.mjs": "5a39a00b0abecb6be297d492ccbe3adec66c69cf0b8b4bc961606bebe138ecdf",
@@ -34,8 +35,8 @@
   "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
   "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
   "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
-  "tools/tree-pipeline/benchmark.mjs": "4769bcba236740da844c88969f646479edbc5cb8fa01b638ee64632c1ca58c44",
-  "tools/tree-pipeline/candidates.mjs": "b26eea9846253009dac4b7229f77463f1b3b103a6ac859ffcbedbc06e548c733",
+  "tools/tree-pipeline/benchmark.mjs": "39cc660d8b09390aa63cedc7e65b182f702dabc249ffb529165902aaaef579bc",
+  "tools/tree-pipeline/candidates.mjs": "6fabf29fee58a69980b9cdede5b74cfbef65e2706561d4a3d220ac363ccce9fc",
   "tools/tree-pipeline/review.mjs": "866f1f19ed528033ec403ed1697953ddcbeb611d514e45e4a3b69b6cd9bca3dc",
   "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
   "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
@@ -50,41 +51,76 @@
  "inputs": [
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/candidates/candidates-full.json",
-   "bytes": 32110599,
-   "sha256": "3dccd5debace203582185ec2ba186228d8939a488fddc36678720d994b99d739"
+   "bytes": 37750795,
+   "sha256": "948e9177ed2797d192dcafb1f6e5511bcd0503c0dc9c48f01d65eaa6c42c4a0d"
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
-   "bytes": 3296574,
-   "sha256": "944aad9cefd2e68629e76498222ecc0b37566f8d5d48e11fb1c50443b3328ff3"
+   "bytes": 3824117,
+   "sha256": "2c856dfd5b6c1315a74ffc19cf39bd590b890c0ffb9c65ab95e61631a25b4bea"
   }
  ],
  "outputs": [
   {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/type-sample.json",
+   "bytes": 9181,
+   "sha256": "ef1b25d5226be1a828a2d38a6192e6cdc368fb1b8152f5b650b1ffe2480e91b5"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole1-overview.png",
+   "bytes": 1572825,
+   "sha256": "900d124cc9306b6c45be2beeaa17583afcc3cedbdafe4a338d0bc1ed285de92d"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole1-broadleaf-1.png",
+   "bytes": 2500534,
+   "sha256": "c04d1073f9137a9e618a05874a8912f3c6df24c4c0a717282d9e7799c59a05f3"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole1-broadleaf-2.png",
+   "bytes": 2451505,
+   "sha256": "3ff7ea7a90944da1d28e4c51bc9ec97b8fa25e9e6a1a9de6cb9c57e359c3f6f1"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole17-overview.png",
+   "bytes": 3057431,
+   "sha256": "f977b57e08f7a6df07a94bbb27a15e0260b48da11ebb8a84316e3827418f80ab"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole17-broadleaf-1.png",
+   "bytes": 2453363,
+   "sha256": "ec6f7f6743f27707db223385067e6b70a4aed0eda004c1c3ce6c2f50fc351e77"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/type-panels/johannesberg-hole17-broadleaf-2.png",
+   "bytes": 2473182,
+   "sha256": "2b1c946c50ecffbc9e1cced34080afe1a5c1e6c3d4518cba90a6f0d685e57746"
+  },
+  {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/species-mix.json",
-   "bytes": 5774,
-   "sha256": "e18a9c59fbc296f81e0c6b5eb4059e40e740549113b5ee1590897bc82a0a50b4"
+   "bytes": 5777,
+   "sha256": "6a48578a7598a8c7bf2e8c922be8e74f584624ed281a481543feb247acb19c9d"
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review-checklist.json",
-   "bytes": 5206,
-   "sha256": "ef780bed6e01b38dcf48a8e44d8a327bdde3d7b3132524d255faa1f11c5264bc"
+   "bytes": 5289,
+   "sha256": "8ba1dc92bde458c4d9c2132f0b28b4e286a8645ee797551c6272a790c49f0445"
   }
  ],
  "result": {
   "flagged": [
-   "johannesberg hole 4: 50 of 123 near-play records typed broadleaf (41%)",
-   "johannesberg hole 5: 121 of 384 near-play records typed broadleaf (32%)",
-   "johannesberg hole 6: 96 of 165 near-play records typed broadleaf (58%)",
+   "johannesberg hole 4: 53 of 135 near-play records typed broadleaf (39%)",
+   "johannesberg hole 5: 139 of 440 near-play records typed broadleaf (32%)",
+   "johannesberg hole 6: 112 of 190 near-play records typed broadleaf (59%)",
    "johannesberg hole 15: 11 of 19 near-play records typed broadleaf (58%)",
-   "johannesberg-9 hole 1: 82 of 125 near-play records typed broadleaf (66%)",
-   "johannesberg-9 hole 2: 34 of 58 near-play records typed broadleaf (59%)",
-   "johannesberg-9 hole 3: 15 of 26 near-play records typed broadleaf (58%)",
-   "johannesberg-9 hole 4: 52 of 67 near-play records typed broadleaf (78%)",
-   "johannesberg-9 hole 5: 28 of 51 near-play records typed broadleaf (55%)",
-   "johannesberg-9 hole 6: 50 of 69 near-play records typed broadleaf (73%)",
+   "johannesberg-9 hole 1: 90 of 135 near-play records typed broadleaf (67%)",
+   "johannesberg-9 hole 2: 36 of 61 near-play records typed broadleaf (59%)",
+   "johannesberg-9 hole 3: 16 of 27 near-play records typed broadleaf (59%)",
+   "johannesberg-9 hole 4: 53 of 70 near-play records typed broadleaf (76%)",
+   "johannesberg-9 hole 5: 28 of 53 near-play records typed broadleaf (53%)",
+   "johannesberg-9 hole 6: 50 of 70 near-play records typed broadleaf (71%)",
    "johannesberg-9 hole 8: 28 of 50 near-play records typed broadleaf (56%)",
-   "johannesberg-9 hole 9: 44 of 70 near-play records typed broadleaf (63%)"
+   "johannesberg-9 hole 9: 44 of 71 near-play records typed broadleaf (62%)"
   ],
   "open": [
    "felled-list-confirmed",

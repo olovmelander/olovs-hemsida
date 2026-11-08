@@ -807,12 +807,14 @@ export function gateReport(ctx) {
   const file = benchmarkPathOf(ctx, ctx.round.id);
   const benchmark = JSON.parse(fs.readFileSync(file, 'utf8'));
   const benchmarkSha256 = sha(file);
-  const gate = evaluateGate(benchmark, ctx.round);
+  /* a round whose selection published an earlier round's lock is gated on that detector, scored on this round's sample */
+  const published = ctx.round.publishes ? ctx.config.rounds.find(r => r.id === ctx.round.publishes) : null;
+  const gate = evaluateGate(benchmark, published ? { ...ctx.round, methodName: published.comparedAs || published.methodName } : ctx.round);
   const exception = gate.status === 'PASS' ? null : ownerExceptionFor(ctx.config, gate, benchmarkSha256);
   const verdict = publicationVerdict(gate, exception);
   const stale = gate.status === 'PASS' || exception ? [] : staleExceptions(ctx.config, gate, benchmarkSha256);
   const pending = gate.status === 'PASS' || exception ? null : pendingApprovalFor(ctx.config, gate, benchmarkSha256);
-  return { gate, verdict, pending, benchmark: { path: ctx.rel(file), sha256: benchmarkSha256 }, staleExceptions: stale, recallBy: benchmark.results[ctx.round.methodName]?.[ctx.round.evaluationRole]?.recallBy ?? null };
+  return { gate, verdict, pending, benchmark: { path: ctx.rel(file), sha256: benchmarkSha256 }, staleExceptions: stale, recallBy: benchmark.results[gate.method]?.[ctx.round.evaluationRole]?.recallBy ?? null };
 }
 
 export async function run(ctx, options) {
@@ -871,7 +873,7 @@ export async function run(ctx, options) {
     } else if (step === 'gate') {
       const report = gateReport(ctx);
       const m = report.gate.measured;
-      const line = `HELD-OUT GATE ${report.gate.status} (round ${ctx.round.id}, ${ctx.round.methodName} on ${ctx.round.evaluationRole}): ${m ? `P ${m.precision} R ${m.recall} over ${m.scored} scored crowns (TP ${m.tp}, miss ${m.missed}, extra ${m.extra})` : 'no score'}; thresholds P >= ${HELD_OUT_GATE.precision}, R >= ${HELD_OUT_GATE.recall}, >= ${HELD_OUT_GATE.minimumScoredCrowns} crowns`;
+      const line = `HELD-OUT GATE ${report.gate.status} (round ${ctx.round.id}, ${report.gate.method} on ${ctx.round.evaluationRole}): ${m ? `P ${m.precision} R ${m.recall} over ${m.scored} scored crowns (TP ${m.tp}, miss ${m.missed}, extra ${m.extra})` : 'no score'}; thresholds P >= ${HELD_OUT_GATE.precision}, R >= ${HELD_OUT_GATE.recall}, >= ${HELD_OUT_GATE.minimumScoredCrowns} crowns`;
       messages.push(line);
       if (report.recallBy) messages.push(`recall by stratum: ${Object.entries(report.recallBy).map(([k, v]) => `${k} ${v.tp}/${v.tp + v.missed}`).join(', ')}`);
       if (report.gate.status === 'FAIL') {

@@ -157,7 +157,9 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
   const roundIds = [];
   rounds.forEach((r, i) => {
     const label = `rounds[${i}]`;
-    if (!keys(p, r, ['id', 'sampleSuffix', 'detector', 'startFrom', 'methodName', 'comparedAs', 'roles', 'evaluationRole', 'note'], label)) return;
+    if (!keys(p, r, ['id', 'sampleSuffix', 'detector', 'startFrom', 'methodName', 'comparedAs', 'roles', 'evaluationRole', 'note', 'publishes'], label)) return;
+    /* publishes: the earlier round whose lock this round's pre-declared selection chose (scored on this round's sample) */
+    if (r.publishes !== undefined) p.check(roundIds.includes(r.publishes), `${label}.publishes must name an earlier round`);
     p.check(typeof r.id === 'string' && ID.test(r.id) && !roundIds.includes(r.id), `${label}.id must be a unique id`);
     p.check(typeof r.sampleSuffix === 'string' && /^(-[a-z0-9]+)?$/.test(r.sampleSuffix) && !rounds.slice(0, i).some(o => o.sampleSuffix === r.sampleSuffix),
       `${label}.sampleSuffix must be '' or -<word>, unique per round`);

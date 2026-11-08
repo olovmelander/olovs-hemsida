@@ -92,7 +92,8 @@ export function buildCandidates(ctx) {
   const W = ctx.innerWindow;
   const inInner = (e, n) => e >= W.minEasting && e < W.maxEasting && n >= W.minNorthing && n < W.maxNorthing;
   const { broadleafMaximumAprilShare: BROADLEAF_MAXIMUM_APRIL_SHARE, unknownBelowConfidence } = ctx.config.typeRule;
-  const lockPath = ctx.reviewFile(ctx.sampleFile('detector-lock'));
+  /* the published detector: the round's own lock, or the earlier lock its selection chose (round.publishes) */
+  const lockPath = ctx.reviewFile(ctx.sampleFile('detector-lock', 'json', ctx.round.publishes || ctx.round.id));
   const typeRulePath = ctx.reviewFile(ctx.sampleFile('type-rule', 'json', ctx.config.typeRule.round));
   const lock = JSON.parse(fs.readFileSync(lockPath, 'utf8'));
   const typeRule = JSON.parse(fs.readFileSync(typeRulePath, 'utf8'));
@@ -626,7 +627,7 @@ export function typeCheck(ctx, full, summaryPath) {
 }
 
 export async function run(ctx) {
-  for (const [what, file] of [['detector lock', ctx.reviewFile(ctx.sampleFile('detector-lock'))], ['type rule', ctx.reviewFile(ctx.sampleFile('type-rule', 'json', ctx.config.typeRule.round))], ['frozen reference', ctx.reviewFile(ctx.sampleFile('reference', 'geojson'))]]) {
+  for (const [what, file] of [['detector lock', ctx.reviewFile(ctx.sampleFile('detector-lock', 'json', ctx.round.publishes || ctx.round.id))], ['type rule', ctx.reviewFile(ctx.sampleFile('type-rule', 'json', ctx.config.typeRule.round))], ['frozen reference', ctx.reviewFile(ctx.sampleFile('reference', 'geojson'))]]) {
     if (!fs.existsSync(file)) return { status: 'stop', message: `no ${what} (${ctx.rel(file)}): run the reference and benchmark stages first` };
   }
   const built = await buildCandidates(ctx);
