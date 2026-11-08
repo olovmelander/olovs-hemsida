@@ -1,18 +1,18 @@
 {
   "female": {
-    "sha256": "fea245141d4a5cd4d822a326dc27ba747e0fa888c7060a6328708be5654a10ea",
+    "sha256": "5aac0f3dee16a5ef1bf677f6de034379ae37662c41c3909a42491e252188f20b",
     "motions": [
       {
         "name": "Idle",
         "loopSeamMetres": 2.3414423343906024e-8,
-        "maxJointStepDegrees": 7.690834500182702,
-        "worstJoint": "Lid_R",
-        "worstTime": 0.5247395833333333,
+        "maxJointStepDegrees": 12.135465742730595,
+        "worstJoint": "UpperArm_L",
+        "worstTime": 0.390625,
         "gripTime": 0,
-        "minElbowBackMetres": 0.11633447472607514,
+        "minElbowBackMetres": -0.009304998776157272,
         "minKneeForwardMetres": 0.054712793804631926,
         "gripErrorMetres": 0,
-        "maxWristBendDegrees": 58.34468852801658,
+        "maxWristBendDegrees": 59.93145728687252,
         "minSoleHeight": -0.00008980941384085375,
         "toeSlideMetres": 0,
         "minContactHeight": null
@@ -397,19 +397,19 @@
     ]
   },
   "male": {
-    "sha256": "cf639b35e7d97d629d396ff6723e860c7c9807234d21bb6e73fb32a4950eddc2",
+    "sha256": "dcf6c7ca8c1d9cf491d87c6ba0d20e6df89151193d09fa5b251ad7be7d5ebf3f",
     "motions": [
       {
         "name": "Idle",
         "loopSeamMetres": 2.1384268724142443e-8,
-        "maxJointStepDegrees": 7.690208487766272,
-        "worstJoint": "Lid_R",
-        "worstTime": 0.5260416666666666,
+        "maxJointStepDegrees": 13.515386405797544,
+        "worstJoint": "UpperArm_L",
+        "worstTime": 0.3880208333333333,
         "gripTime": 0,
-        "minElbowBackMetres": 0.10564015613844326,
+        "minElbowBackMetres": -0.03431600038289159,
         "minKneeForwardMetres": 0.06946181910873947,
         "gripErrorMetres": 0,
-        "maxWristBendDegrees": 62.63454382235297,
+        "maxWristBendDegrees": 68.55588988059316,
         "minSoleHeight": -0.00018110065822484882,
         "toeSlideMetres": 0,
         "minContactHeight": null
