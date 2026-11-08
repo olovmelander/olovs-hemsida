@@ -224,5 +224,5 @@ These are copies of the September audits with the same thresholds. They read the
 ## Known limits
 
 - **Skinning only:** there's no cloth simulation, so a trouser fold can show a light speck in extreme poses. The female wears tailored shorts because a skinned skirt tears in golf poses.
-- **Assets:** each GLB is 14–16 MB, mostly 2048² PNG skin maps and the five clubs. There are no LODs, and phone performance is unmeasured.
+- **Assets:** each GLB is 11–12 MB. Since 8 November its textures are WebP at quality 92 (`EXT_texture_webp`, which three's loader reads); that took about 4 MB off each, with no visible change. Most of what remains is the twenty clips baked at 60 fps. There are no LODs, and phone performance is unmeasured.
 - **Ball flight:** in the lab it is illustrative, as before.
