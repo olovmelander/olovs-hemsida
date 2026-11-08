@@ -433,8 +433,8 @@ async function startPlay(h, query) {
       audio.whoosh((clip.impact - topOf(clip)) * f / golfer.rate, f);
     } else swingFrom(clip, f);
   }
-  const soundKind = c => (c.cat === 'putter' ? 'putter' : c.cat === 'driver' ? 'driver' : c.cat === 'wood' || c.cat === 'hybrid' ? 'wood'
-    : SHOT_TYPES[setup.type].swing === 'Wedge' || /^(pw|gw|sw|lw)$/.test(c.cat) ? 'wedge' : 'iron');
+  const soundKind = (c, type = setup.type) => (c.cat === 'putter' ? 'putter' : c.cat === 'driver' ? 'driver' : c.cat === 'wood' || c.cat === 'hybrid' ? 'wood'
+    : SHOT_TYPES[type].swing === 'Wedge' || /^(pw|gw|sw|lw)$/.test(c.cat) ? 'wedge' : 'iron');
   function launch() {
     golfer.rate = 1;
     const c = club(), input = pending || { power: 1, face: 0, path: 0 };
@@ -453,7 +453,7 @@ async function startPlay(h, query) {
     audio.strike(soundKind(c), { pure, power: input.power, lie });
     if (pure > .85 && c.cat !== 'putter') pads.rumble(.55, 110); else pads.rumble(.3, 80);
     last = { shot, from: strokeFrom.slice(), fromY: start[1], yaw, swing: swingName(), power: input.power, putt: c.cat === 'putter',
-      club: c, setup: { ...setup }, L, input, plays: playsNow(), cup: cup.slice() };
+      club: c, setup: { ...setup }, L, input, plays: playsNow(), cup: cup.slice(), lie };
     const firstGround = shot.path.find(p => p[4] !== 'air');
     airTime = firstGround ? firstGround[0] : shot.time;
     flightT = 0; fast = 1; eventIdx = 0;
@@ -578,7 +578,7 @@ async function startPlay(h, query) {
     replay.phase = 'flight';
     flightT = 0; fast = 1; eventIdx = 0;
     const tempo = last.input.tempo;
-    audio.strike(soundKind(last.club), { pure: tempo?.grade === 'perfect' ? 1 : .7, power: last.power, lie: last.shot.path.length ? lie : 'fairway' });
+    audio.strike(soundKind(last.club, last.setup.type), { pure: tempo?.grade === 'perfect' ? 1 : .7, power: last.power, lie: last.lie });
   }
   function endReplay() {
     if (state !== 'replay') return;
