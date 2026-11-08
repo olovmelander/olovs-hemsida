@@ -32,6 +32,7 @@ import {
 } from './settings-store.mjs';
 import { perEighteen } from './stats-model.mjs';
 import { COURSE_LOCATIONS } from './course-places.mjs';
+import { loadScorecard } from './course-scorecard.mjs';
 
 const BASE = import.meta.env.BASE_URL;
 const storage = () => { try { return localStorage; } catch { return null; } };
@@ -55,7 +56,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
   dialog.setAttribute('aria-labelledby', 'csTitle');
   document.body.append(dialog);
 
-  let course = null, plan = null, slide = 0, slideTimer = 0;
+  let course = null, plan = null, slide = 0, slideTimer = 0, card = null, guideShown = false;
 
   function history(slug) {
     const rounds = parseRounds(readText(storage(), MAP_KEYS.rounds, null)).filter(r => r.course === slug);
@@ -102,7 +103,7 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
             <dl class="cs-facts">
               <div><dt>Par</dt><dd>${c.par}</dd></div>
               <div><dt>Hål</dt><dd>${c.holes}</dd></div>
-              <div><dt>Tees</dt><dd>${tees.length}</dd></div>
+              <div><dt>Meter</dt><dd class="is-wait" data-length>····</dd></div>
             </dl>
           </div>
         </div>
@@ -157,6 +158,22 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
                 ${LIGHTS.map(light => lightTile(light.player, light.label, light.sky)).join('')}
               </div>
             </fieldset>
+
+            <section class="cs-field" aria-labelledby="csCardTitle">
+              <h3 class="cs-legend" id="csCardTitle">Scorekort</h3>
+              <div class="cs-card" data-card><p class="cs-card-note">Hämtar scorekortet …</p></div>
+            </section>
+
+            <section class="cs-field" aria-labelledby="csGuideTitle" data-guide-wrap hidden>
+              <div class="cs-guide-head">
+                <h3 class="cs-legend" id="csGuideTitle">Banguide</h3>
+                <div class="cs-guide-nav">
+                  <button type="button" class="cs-round-btn" data-guide-step="-1" aria-label="Föregående hål">${PREV}</button>
+                  <button type="button" class="cs-round-btn" data-guide-step="1" aria-label="Nästa hål">${NEXT}</button>
+                </div>
+              </div>
+              <ol class="cs-guide" data-guide tabindex="0" aria-label="Hålen ett i taget"></ol>
+            </section>
           </div>
 
           <div class="cs-actions">
@@ -198,14 +215,89 @@ export function createCourseSheet({ courses, lines = {}, onLaunch }) {
     dialog.querySelector('form').addEventListener('change', e => {
       const { name, value } = e.target;
       if (name === 'cs-mode') { plan.mode = value; reflect(); }
-      if (name === 'cs-tee') plan.tee = Number(value);
-      if (name === 'cs-hole') plan.hole = Number(value);
+      if (name === 'cs-tee') { plan.tee = Number(value); paintCard(); }
+      if (name === 'cs-hole') { plan.hole = Number(value); showHole(plan.hole); }
       if (name === 'cs-light') plan.light = value;
     });
     dialog.querySelector('[data-close]').addEventListener('click', close);
     dialog.querySelector('[data-go]').addEventListener('click', () => launch(true));
     dialog.querySelector('[data-look]').addEventListener('click', () => launch(false));
+    /* scrolled, the column's top fades under the close button (course-sheet.css) */
+    const scroller = dialog.querySelector('.cs-scroll');
+    scroller.addEventListener('scroll', () => scroller.classList.toggle('is-scrolled', scroller.scrollTop > 6), { passive: true });
+    for (const btn of dialog.querySelectorAll('[data-guide-step]')) btn.addEventListener('click', () => {
+      const list = dialog.querySelector('[data-guide]');
+      const step = (list.firstElementChild?.offsetWidth ?? 260) + 10;
+      list.scrollBy({ left: Number(btn.dataset.guideStep) * step, behavior: REDUCED ? 'auto' : 'smooth' });
+    });
     reflect();
+
+    /* the card comes from the course's pack, which the round reads next */
+    card = null;
+    guideShown = false;
+    loadScorecard(c).then(
+      loaded => { if (course === c) { card = loaded; paintCard(); } },
+      () => {
+        if (course !== c) return;
+        dialog.querySelector('[data-card]').innerHTML = '<p class="cs-card-note">Scorekortet kunde inte hämtas just nu.</p>';
+        const length = dialog.querySelector('[data-length]');
+        length.textContent = '–';
+        length.classList.remove('is-wait');
+      },
+    );
+  }
+
+  /* the card in the tee chosen above: par, index and that tee's length, nine by nine */
+  function paintCard() {
+    if (!card) return;
+    const c = course;
+    const tee = Math.min(plan.tee, Math.max(0, (card.lengths.length || 1) - 1));
+    const name = c.tees?.names?.[tee] ?? 'Meter';
+    const dot = `<i style="background:${teeColour(c.tees?.cols?.[tee])}"></i>`;
+    const value = v => (v === null || v === undefined ? '–' : v);
+    const row = (label, cells, sum, extra = '', cell = 'td') =>
+      `<tr${extra}><th scope="row">${label}</th>${cells.map(v => `<${cell}>${value(v)}</${cell}>`).join('')}<${cell} class="cs-sc-sum">${sum === '' ? '' : value(sum)}</${cell}></tr>`;
+    dialog.querySelector('[data-card]').innerHTML = card.nines.map(nine => `
+      <table class="cs-sc" aria-label="Hål ${nine.holes[0].n}–${nine.holes.at(-1).n}, ${esc(name)} tee">
+        <thead>${row('Hål', nine.holes.map(h => h.n), nine.label, '', 'th')}</thead>
+        <tbody>
+          ${row('Par', nine.holes.map(h => h.par), nine.par)}
+          ${card.indexed ? row('Index', nine.holes.map(h => h.index), '') : ''}
+          ${row(`${dot}${esc(name)}`, nine.holes.map(h => h.lengths[tee]), nine.lengths[tee], ' class="cs-sc-len"')}
+        </tbody>
+      </table>`).join('');
+    const length = dialog.querySelector('[data-length]');
+    const total = card.lengths[tee];
+    length.textContent = Number.isFinite(total) ? total.toLocaleString('sv-SE') : '–';
+    length.classList.remove('is-wait');
+
+    /* the hole guide: each hole in the course's own words, from the same tee */
+    const wrap = dialog.querySelector('[data-guide-wrap]');
+    wrap.hidden = !card.described;
+    if (!card.described) return;
+    const list = dialog.querySelector('[data-guide]');
+    const keep = list.scrollLeft;
+    list.innerHTML = card.holes.map(h => `
+      <li class="cs-hole" data-hole="${h.n}">
+        <div class="cs-hole-top">
+          <span class="cs-hole-n">${h.n}</span>
+          <div class="cs-hole-head">
+            <p class="cs-hole-name">${esc(h.name || `Hål ${h.n}`)}</p>
+            <p class="cs-hole-facts">Par ${h.par}${Number.isFinite(h.lengths[tee]) ? ` · ${h.lengths[tee]} m` : ''}${h.index !== null ? ` · index ${h.index}` : ''}</p>
+          </div>
+        </div>
+        ${h.note ? `<p class="cs-hole-note">${esc(h.note)}</p>` : ''}
+      </li>`).join('');
+    list.scrollLeft = keep;
+    if (!guideShown) { guideShown = true; showHole(plan.hole, false); }
+  }
+
+  /* the guide follows the hole the round starts on (the list is the holes' offset parent) */
+  function showHole(n, smooth = true) {
+    const list = dialog.querySelector('[data-guide]');
+    const item = list?.querySelector(`[data-hole="${n}"]`);
+    if (!item) return;
+    list.scrollTo({ left: item.offsetLeft, behavior: smooth && !REDUCED ? 'smooth' : 'auto' });
   }
 
   /* what changes with the mode: the choices that belong to it, and the button's words */
