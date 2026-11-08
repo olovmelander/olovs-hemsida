@@ -3,9 +3,9 @@
   "kind": "banvy-prop-kit",
   "id": "house-kit",
   "asset": {
-    "url": "models/props/house-kit-59385b210791dc9caab2361e20ac9cdd1dad91380be7e1b56e707a66fcaf5fb1.glb",
-    "sha256": "59385b210791dc9caab2361e20ac9cdd1dad91380be7e1b56e707a66fcaf5fb1",
-    "bytes": 157756
+    "url": "models/props/house-kit-4f9baf652477184d0ac6cb352ad46a215c270d6e99c2921439cc4ef0b93f5bde.glb",
+    "sha256": "4f9baf652477184d0ac6cb352ad46a215c270d6e99c2921439cc4ef0b93f5bde",
+    "bytes": 168132
   },
   "meshes": {
     "balcony__accent": {
@@ -144,6 +144,26 @@
       "triangles": 2,
       "channel": "glass"
     },
+    "veranda__fixed": {
+      "triangles": 16,
+      "channel": "fixed"
+    },
+    "veranda__glass": {
+      "triangles": 4,
+      "channel": "glass"
+    },
+    "veranda__trim": {
+      "triangles": 54,
+      "channel": "trim"
+    },
+    "veranda_side__glass": {
+      "triangles": 4,
+      "channel": "glass"
+    },
+    "veranda_side__trim": {
+      "triangles": 22,
+      "channel": "trim"
+    },
     "window__glass": {
       "triangles": 2,
       "channel": "glass"
@@ -209,7 +229,7 @@
       "channel": "trim"
     }
   },
-  "triangles": 1749,
+  "triangles": 1849,
   "axes": "each part: x along the wall, y up, z out of the wall (its face at z = 0); metres",
   "channels": "wall, trim, roof and accent are white and take the house's colour per instance; fixed keeps its own; glass is the panes",
   "source": "tools/blender-props/house_kit.py, Blender 5.2.2 LTS, built headless (blender --background --factory-startup) on 8 November 2026",

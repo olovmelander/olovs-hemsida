@@ -356,3 +356,54 @@ describe('how much of each part', () => {
     expect(main).toMatch(/houseKitParts\.push\(near \? p : partAt\(p, fromHoles, houseKitReach\)\)/);
   });
 });
+
+describe('what a course knows of one building', () => {
+  it('draws a traced building from its wings: walls, roofs, and nothing hung on a wall inside another wing', () => {
+    const r = recorder();
+    /* an L of two wings, the second joining the first */
+    const override = { type: 'villa', storeys: 1, pitch: 27,
+      wings: [{ from: [0, 0], to: [30, 0], width: 8 }, { from: [26, 0], to: [26, 20], width: 8, ends: [false, true] }],
+      entrance: [10, -4.2], verandas: [{ from: [4, 4.1], to: [14, 4.1] }] };
+    const p = planHouse({ ring: rect(0, 0, 5, 5), type: 'villa', base: 0, skirt: 1, palette, seed: 5, front: [0, -1], emit: r.emit, override });
+    expect(p.frame).toBe('wings');
+    expect(p.storeys).toBe(1);
+    const roofs = r.tris.filter(t => t.col === palette.roof);
+    for (const t of roofs) expect(normal(t.p)[1]).toBeGreaterThan(0);
+    const insideWing = (x, z) => (Math.abs(z) < 3.95 && x > 0.05 && x < 29.95) || (Math.abs(x - 26) < 3.95 && z > 0.05 && z < 19.95);
+    for (const q of p.parts) if (!/^(chimney|corner|veranda)/.test(q.part)) expect(insideWing(q.x + q.nx * 0.6, q.z + q.nz * 0.6)).toBe(false);
+    /* the stated entrance: a door and its porch on the wall nearest the point */
+    const porch = p.parts.find(q => q.part === 'porch');
+    expect(porch).toBeDefined();
+    expect(porch.nz).toBeCloseTo(-1, 6); expect(porch.x).toBeCloseTo(10, 1);
+    /* the veranda: 10 m of bays along the south wall, a side panel at each end */
+    const bays = p.parts.filter(q => q.part === 'veranda'), sides = p.parts.filter(q => q.part === 'veranda_side');
+    expect(bays.length).toBe(4); expect(sides.length).toBe(2);
+    expect(bays.reduce((s, q) => s + q.sx * PART_SIZE.veranda[0], 0)).toBeCloseTo(10, 6);
+  });
+  it('calls Norrfällsviken\'s hotel what it is, by its OSM id, and a restaurant is never a barn', async () => {
+    const { houseKitBuildings } = await import('./scenery/norrfallsviken.js');
+    const hotel = houseKitBuildings.w1206117854;
+    expect(hotel.storeys).toBe(1);
+    expect(hotel.wings.length).toBe(4);
+    const { inflateRawSync } = await import('node:zlib');
+    const buf = fs.readFileSync(new URL('../../public/courses/norrfallsviken/pack.bin', import.meta.url));
+    const hl = buf.readUInt32LE(4), H = JSON.parse(buf.subarray(8, 8 + hl).toString('utf8')), at = 8 + hl + H.HF0.bytes + H.HF1.bytes;
+    const buildings = JSON.parse(inflateRawSync(buf.subarray(at, at + H.VEC.bytes)).toString('utf8')).infra.buildings;
+    const source = buildings.find(b => b.id === 'w1206117854');
+    expect(source.amenity).toBe('restaurant');
+    /* the traced wings stand within a few metres of the source footprint */
+    const cx = source.ring.reduce((s, q) => s + q[0], 0) / source.ring.length, cz = source.ring.reduce((s, q) => s + q[1], 0) / source.ring.length;
+    for (const w of hotel.wings) expect(Math.hypot((w.from[0] + w.to[0]) / 2 - cx, (w.from[1] + w.to[1]) / 2 - cz)).toBeLessThan(40);
+    expect(classifyBuilding({ kind: 'yes', area: 365, amenity: 'restaurant', depth: 14 })).toBe('villa');
+    expect(classifyBuilding({ kind: 'yes', area: 1196, amenity: 'restaurant', landuse: 'residential' })).toBe('villa');
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toContain('override: b.id != null ? SCENERY?.houseKitBuildings?.[b.id] ?? null : null');
+  });
+  it('gives a flat roof read off the orthophoto its own colour', () => {
+    const r = recorder();
+    const star = Array.from({ length: 10 }, (_, i) => [Math.cos(i * Math.PI / 5) * (i % 2 ? 4 : 9), Math.sin(i * Math.PI / 5) * (i % 2 ? 4 : 9)]);
+    const measured = { ...palette, roof: linear(0x8a6a5a), roofMeasured: true };
+    planHouse({ ring: star, type: 'store', base: 0, skirt: 1, palette: measured, seed: 2, emit: r.emit });
+    expect(r.tris.some(t => t.col === measured.roof && normal(t.p)[1] > 0)).toBe(true);
+  });
+});

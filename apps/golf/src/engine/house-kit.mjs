@@ -22,9 +22,9 @@ import { BUILDING_PAINT } from './building-paint.mjs';
 import { snowOnRoof } from './snow.mjs';
 
 export const HOUSE_KIT_ASSET = Object.freeze({
-  url: 'models/props/house-kit-59385b210791dc9caab2361e20ac9cdd1dad91380be7e1b56e707a66fcaf5fb1.glb',
-  sha256: '59385b210791dc9caab2361e20ac9cdd1dad91380be7e1b56e707a66fcaf5fb1',
-  bytes: 157756,
+  url: 'models/props/house-kit-4f9baf652477184d0ac6cb352ad46a215c270d6e99c2921439cc4ef0b93f5bde.glb',
+  sha256: '4f9baf652477184d0ac6cb352ad46a215c270d6e99c2921439cc4ef0b93f5bde',
+  bytes: 168132,
 });
 
 /* Each part's channels: `wall`, `trim`, `roof` and `accent` take the house's colours per
@@ -39,6 +39,8 @@ export const KIT_PARTS = Object.freeze({
   corner: ['trim'], downpipe: ['fixed'],
   /* a far house's windows and doors: flat plates, one metre square, stretched to the near part's size */
   window_far: ['glass', 'trim'], window_far_alu: ['fixed', 'glass'], door_far: ['accent', 'trim'],
+  /* a glazed lean-to veranda: bays along a wall, a side panel at each end */
+  veranda: ['fixed', 'glass', 'trim'], veranda_side: ['glass', 'trim'],
 });
 export const TINTED = Object.freeze(['wall', 'trim', 'roof', 'accent']);
 
@@ -48,10 +50,10 @@ export const PART_SIZE = Object.freeze({
   window_strip: [3.06, 0.78], shopfront: [2.86, 2.35], window_modern: [1.46, 1.45],
   door: [1.28, 2.38], door_plain: [1.12, 2.15], door_board: [1.3, 2.1], garage_door: [2.75, 2.3],
   barn_door: [3.7, 3.25], roller_door: [4.36, 4.75], entrance: [3.2, 3.75], porch: [2.84, 3.66],
-  porch_low: [2.9, 2.51], balcony: [3.35, 1.06],
+  porch_low: [2.9, 2.51], balcony: [3.35, 1.06], veranda: [2.5, 2.45],
 });
 /* the parts that cast a shadow worth drawing into the sun's map; a window's frame is too thin */
-export const SHADOW_PARTS = Object.freeze(['porch', 'porch_low', 'chimney', 'chimney_brick', 'balcony', 'entrance', 'roller_door']);
+export const SHADOW_PARTS = Object.freeze(['porch', 'porch_low', 'chimney', 'chimney_brick', 'balcony', 'entrance', 'roller_door', 'veranda']);
 
 export const HOUSE_KIT = Object.freeze({
   eaveOverhang: 0.45, gableOverhang: 0.35, roofThickness: 0.2, plinthOut: 0.035,
@@ -292,7 +294,7 @@ function orthogonalRects(ring, box) {
 /** The house type a footprint is drawn as, from its tags, its size and the land use round it, or null
     for a building the kit must not draw as a house (a church keeps the batch's drawing). Lantmäteriet's
     purpose (`municipalSubtype`, on a measured ground) comes before OpenStreetMap's tag where it exists. */
-export function classifyBuilding({ kind = 'yes', name = null, area, landuse = null, seed = 0, subtype = null, depth = null }) {
+export function classifyBuilding({ kind = 'yes', name = null, area, landuse = null, seed = 0, subtype = null, depth = null, amenity = null }) {
   /* a barn is deep; a farmhouse in the same yard is not (the short side of its oriented box) */
   const deep = depth == null ? rnd(seed, 1) < 0.5 : depth > 10.5;
   if (name && /kyrka|kapell|church|chapel|vattentorn|water tower/i.test(name)) return null;
@@ -301,6 +303,8 @@ export function classifyBuilding({ kind = 'yes', name = null, area, landuse = nu
   if (name && /hall(en)?\b|arena|ishall|fjärrvärme|värmeverk|heating/i.test(name)) return 'hall';
   if (name && /garbage|soprum|miljöhus/i.test(name)) return 'shed';
   if (name && /pump/i.test(name)) return 'outbuilding';
+  /* a restaurant, a café or a hotel is a house people come to, never a barn or a block of flats */
+  if (amenity && /^(restaurant|cafe|hotel|pub|bar|fast_food|guest_house)$/.test(amenity)) return area > 1500 ? 'store' : 'villa';
   if (subtype === 'Bostad') return area > 320 ? 'block' : 'villa';
   if (subtype === 'Komplementbyggnad') return area < 22 ? 'shed' : kind === 'garage' || area < 80 ? 'garage' : 'outbuilding';
   if (subtype === 'Samhällsfunktion') return area > 300 ? 'school' : 'villa';
@@ -397,32 +401,79 @@ function massing(type, frame, seed) {
   }
 }
 
+/* WHAT A COURSE KNOWS OF ONE BUILDING (scenery module `houseKitBuildings`, by the building's id; owner
+   request, 8 November: "this is the hotel at norrfällsviken, not the big white building we currently
+   show"). Where its evidence shows it, a course may state a building's type and storeys, its colours, and
+   the wings its roofs follow, traced off the orthophoto in the course's own metres (`from`, `to`: each
+   ridge's ends; `width`: wall to wall; `ends`: which ends are gables, the others joining a neighbour), an
+   entrance with its porch and glazed verandas (points by the walls they stand on). Such a building is a
+   display revision, as a facility's model is: it is drawn from its wings, and its source footprint stays
+   the data every other reader takes. */
+function wingFrames(wings) {
+  return wings.map(w => {
+    const [a, b] = [w.from, w.to], len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const f = rectFrame((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, Math.atan2(b[1] - a[1], b[0] - a[0]), len / 2, w.width / 2);
+    return { ...f, ends: w.ends ?? [true, true], ring: rectRing(f) };
+  });
+}
+function insideFrame(f, x, z, margin = 0) {
+  const dx = x - f.cx, dz = z - f.cz, u = dx * f.ax + dz * f.az, v = dx * f.bx + dz * f.bz;
+  return Math.abs(u) < f.hl - margin && Math.abs(v) < f.hs - margin;
+}
+/* each wall of a ring: its ends, its outward normal, its length */
+function edgesOf(walls, offset = 0) {
+  const ccw = signedArea(walls) > 0;
+  return walls.map((a, i) => {
+    const b = walls[(i + 1) % walls.length], dx = b[0] - a[0], dz = b[1] - a[1], len = Math.hypot(dx, dz) || 1;
+    let nx = dz / len, nz = -dx / len;
+    if (!ccw) { nx = -nx; nz = -nz; }
+    const mx = (a[0] + b[0]) / 2 + nx * 0.05, mz = (a[1] + b[1]) / 2 + nz * 0.05;
+    if (inside(mx, mz, walls)) { nx = -nx; nz = -nz; }
+    return { a, b, len, nx, nz, i: i + offset };
+  });
+}
+/* the wall nearest a point, and how far along it the point stands */
+function wallAt(edges, [x, z]) {
+  let best = null;
+  for (const e of edges) {
+    const ux = (e.b[0] - e.a[0]) / e.len, uz = (e.b[1] - e.a[1]) / e.len;
+    const t = Math.max(0, Math.min(e.len, (x - e.a[0]) * ux + (z - e.a[1]) * uz));
+    const d = Math.hypot(e.a[0] + ux * t - x, e.a[1] + uz * t - z);
+    if (!best || d < best.d) best = { e, t, d };
+  }
+  return best;
+}
+
 /** The plan of one house: its shell drawn through `emit` ({ tri, quad, slope }) and the kit parts it carries.
     `base` is where its floor's plinth starts (its highest corner), `skirt` how far the walls reach down. */
-export function planHouse({ ring, type, base, skirt, palette, seed, front = null, groundAt = null, emit, mappedOnly = false, treesNear = null }) {
-  const frame = footprintFrame(ring);
+export function planHouse({ ring, type, base, skirt, palette, seed, front = null, groundAt = null, emit, mappedOnly = false, treesNear = null, override = null }) {
+  const wings = override?.wings?.length ? wingFrames(override.wings) : null;
+  const frame = wings ? { kind: 'wings', area: wings.reduce((a, w) => a + 4 * w.hl * w.hs, 0), rects: wings, ring: wings[0].ring }
+    : footprintFrame(ring);
   const m = massing(type, frame, seed);
+  if (override?.storeys) Object.assign(m, override.storeys === 2 ? { storeys: 2, eave: 5.5 } : override.storeys === 1.5 ? { storeys: 1.5, eave: 3.4 } : { storeys: 1, eave: 2.7 });
+  if (override?.pitch) m.pitch = override.pitch;
+  if (wings) {
+    m.roof = 'gable';
+    /* a traced building stands on its own ground: its highest wing corner, its walls down past the lowest */
+    if (groundAt) {
+      const heights = wings.flatMap(w => w.ring.map(([x, z]) => groundAt(x, z))).filter(Number.isFinite);
+      if (heights.length) { base = Math.max(...heights) + 0.06; skirt = Math.max(1.2, Math.max(...heights) - Math.min(...heights) + 0.5); }
+    }
+  }
   if (frame.kind === 'complex' && m.roof !== 'flat') m.roof = 'flat';
   if (frame.kind === 'ortho' && !['gable', 'hip', 'gambrel', 'low'].includes(m.roof)) m.roof = 'flat';
   if (frame.kind === 'ortho' && m.roof !== 'flat') m.roof = 'gable';
   const plinth = HOUSE_KIT.plinth[type] ?? 0.3;
   const floor = base + plinth, E = floor + m.eave;
   const walls = frame.ring.length >= 3 ? frame.ring : ring;
-  const out = { type, frame: frame.kind, roof: m.roof, storeys: m.storeys, floor, eave: E, ridge: E, parts: [], triangles: 0 };
+  const out = { type, frame: frame.kind, roof: m.roof, storeys: m.storeys, floor, eave: E, ridge: E, parts: [], triangles: 0, base };
   const P = palette;
   const count = n => { out.triangles += n; };
   const E2 = { tri: (...a) => { emit.tri(...a); count(1); }, quad: (...a) => { emit.quad(...a); count(2); },
     slope: (pts, c, sh) => { emit.slope(pts, c, sh); count(pts.length === 4 ? 4 : 3); } };
-  const ccw = signedArea(walls) > 0;
-  /* each wall: its ends, its outward normal, its length */
-  const edges = walls.map((a, i) => {
-    const b = walls[(i + 1) % walls.length], dx = b[0] - a[0], dz = b[1] - a[1], len = Math.hypot(dx, dz) || 1;
-    let nx = dz / len, nz = -dx / len;
-    if (!ccw) { nx = -nx; nz = -nz; }
-    const mx = (a[0] + b[0]) / 2 + nx * 0.05, mz = (a[1] + b[1]) / 2 + nz * 0.05;
-    if (inside(mx, mz, walls)) { nx = -nx; nz = -nz; }
-    return { a, b, len, nx, nz, i };
-  });
+  /* each wall: its ends, its outward normal, its length (a traced building's are its wings') */
+  const edges = wings ? wings.flatMap((w, k) => edgesOf(w.ring, 4 * k)) : edgesOf(walls);
   const top = m.roof === 'flat' ? E + HOUSE_KIT.parapet : E;
   /* the walls and the plinth in front of them */
   const lowY = base - skirt;
@@ -437,7 +488,8 @@ export function planHouse({ ring, type, base, skirt, palette, seed, front = null
   }
   /* the roof */
   const roofs = [];
-  if (m.roof === 'flat') flatRoof(E2, walls, edges, E, P, emit.triangulate);
+  if (wings) for (const w of wings) roofs.push(roofOver(E2, w, E, m, P, { ends: w.ends }));
+  else if (m.roof === 'flat') flatRoof(E2, walls, edges, E, P, emit.triangulate);
   else if (frame.kind === 'rect') roofs.push(roofOver(E2, frame.rects[0], E, m, P, { ends: [true, true] }));
   else {
     /* the main block takes its own pitch; each wing reaches into its neighbour no higher than the main ridge */
@@ -461,6 +513,13 @@ export function planHouse({ ring, type, base, skirt, palette, seed, front = null
   }
   out.ridge = Math.max(E, ...roofs.map(r => r.ridge));
   out.parts = layParts({ type, m, frame, edges, base, floor, E, top, roofs, palette: P, seed, front, groundAt });
+  if (wings) {
+    /* a wall that runs inside another wing is not a wall anyone sees: nothing hangs on it */
+    const within = (x, z) => wings.some(w => insideFrame(w, x, z, 0.05));
+    out.parts = out.parts.filter(p => p.part === 'chimney' || p.part === 'chimney_brick' || (p.part === 'corner'
+      ? !within(p.x + (p.nx - p.nz) * 0.4, p.z + (p.nz + p.nx) * 0.4) && !within(p.x + (p.nx + p.nz) * 0.4, p.z + (p.nz - p.nx) * 0.4)
+      : !within(p.x + p.nx * 0.6, p.z + p.nz * 0.6)));
+  }
   if (mappedOnly) out.parts = out.parts.map(mappedOnlyPart).filter(Boolean);
   if (treesNear) {
     const kept = [];
@@ -472,7 +531,32 @@ export function planHouse({ ring, type, base, skirt, palette, seed, front = null
     }
     out.parts = kept;
   }
+  /* what the course knows stands there, from its own evidence: laid last, never thinned by the rules above */
+  if (override) out.parts.push(...statedParts(override, edges, floor, E, P, groundAt, base));
   return out;
+}
+
+function statedParts(override, edges, floor, E, palette, groundAt, base) {
+  const parts = [], ground = (x, z) => groundAt ? groundAt(x, z) : base;
+  const put = (part, e, t, y, extra = {}) => {
+    const ux = (e.b[0] - e.a[0]) / e.len, uz = (e.b[1] - e.a[1]) / e.len;
+    const x = e.a[0] + ux * t + e.nx * 0.001, z = e.a[1] + uz * t + e.nz * 0.001;
+    parts.push({ part, x, y, z, nx: e.nx, nz: e.nz, sx: 1, sy: 1, sz: 1, ground: ground(x, z), palette, ...extra });
+  };
+  if (override.entrance) {
+    const { e, t } = wallAt(edges, override.entrance);
+    put('door', e, t, floor);
+    put('porch', e, t, floor);
+  }
+  for (const v of override.verandas || []) {
+    const a = wallAt(edges, v.from), b = wallAt(edges, v.to);
+    if (a.e !== b.e) continue;
+    const t0 = Math.min(a.t, b.t), t1 = Math.max(a.t, b.t), n = Math.max(1, Math.round((t1 - t0) / PART_SIZE.veranda[0]));
+    const bay = (t1 - t0) / n, sy = Math.max(0.7, Math.min(1.2, (E - floor - 0.35) / 2.4));
+    for (let k = 0; k < n; k++) put('veranda', a.e, t0 + bay * (k + 0.5), floor, { sx: bay / PART_SIZE.veranda[0], sy });
+    for (const t of [t0, t1]) put('veranda_side', a.e, t, floor, { sy });
+  }
+  return parts;
 }
 
 /* is each end of a rectangle's long axis (-u, +u) on the footprint's outside? */
@@ -577,7 +661,8 @@ function gutter(E2, a, b, dir, ye, colour) {
 
 /* A flat roof behind a parapet: the membrane, the parapet's inner face, its coping. */
 function flatRoof(E2, walls, edges, E, P, triangulate) {
-  const K = HOUSE_KIT, top = E + K.parapet, inset = 0.25, membrane = linear(K.colours.membrane), coping = P.trim;
+  /* a roof read off the orthophoto is its own colour, flat or pitched; else the dark membrane */
+  const K = HOUSE_KIT, top = E + K.parapet, inset = 0.25, membrane = P.roofMeasured ? P.roof : linear(K.colours.membrane), coping = P.trim;
   if (triangulate) for (const [a, b, c] of triangulate(walls))
     orient(E2, [[walls[a][0], E + 0.05, walls[a][1]], [walls[b][0], E + 0.05, walls[b][1]], [walls[c][0], E + 0.05, walls[c][1]]], [0, 1, 0], membrane, false);
   for (const e of edges) {

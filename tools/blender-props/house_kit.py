@@ -480,8 +480,47 @@ def flat_door(name='door_far'):
     return p
 
 
+def veranda(name='veranda'):
+    """One bay of a glazed lean-to veranda (inglasad veranda), 2.5 m along the wall and 2.4 m out: a deck,
+    a white low wall and glazing in front, a glass roof sloping from the wall, white posts and rafters.
+    Bays stand side by side along a wall; `veranda_side` closes each end."""
+    p = Part(name)
+    hw, d, zw, zf = 1.25, 2.4, 2.4, 2.05
+    p.box('fixed', -hw, hw, 0, d, -0.18, 0, DECK, skip=('back',))
+    p.box('fixed', -hw + 0.03, hw - 0.03, 0, d - 0.03, -1.2, -0.18, CONCRETE_DARK, skip=('back', 'top', 'bottom'))
+    p.box('trim', -hw, hw, d - 0.09, d, 0, 0.55, WHITE, skip=('back', 'bottom'))
+    p.quad('glass', (-hw, d - 0.045, 0.55), (hw, d - 0.045, 0.55), (hw, d - 0.045, zf - 0.08), (-hw, d - 0.045, zf - 0.08), GLASS, shade=False)
+    for x in (-hw + 0.05, 0.0, hw - 0.05):
+        p.box('trim', x - 0.05, x + 0.05, d - 0.1, d, 0.55, zf - 0.08, WHITE, skip=('back', 'top', 'bottom'))
+    p.box('trim', -hw, hw, d - 0.12, d + 0.02, zf - 0.1, zf, WHITE, skip=('back',))
+    # the glass roof, from the wall down to the front beam, and its rafters
+    p.quad('glass', (-hw, d + 0.02, zf), (hw, d + 0.02, zf), (hw, 0, zw), (-hw, 0, zw), GLASS, shade=False)
+    for x in (-hw + 0.04, 0.0, hw - 0.04):
+        a, b = (x - 0.04, x + 0.04)
+        p.quad('trim', (a, d + 0.02, zf + 0.05), (b, d + 0.02, zf + 0.05), (b, 0, zw + 0.05), (a, 0, zw + 0.05), WHITE)
+        p.quad('trim', (a, 0, zw), (a, d + 0.02, zf), (a, d + 0.02, zf + 0.05), (a, 0, zw + 0.05), WHITE)
+        p.quad('trim', (b, d + 0.02, zf), (b, 0, zw), (b, 0, zw + 0.05), (b, d + 0.02, zf + 0.05), WHITE)
+    return p
+
+
+def veranda_side(name='veranda_side'):
+    """A veranda's end: a glazed side panel in a white frame, at x = 0, seen from either side."""
+    p = Part(name)
+    d, zw, zf = 2.4, 2.4, 2.05
+    for s in (1, -1):
+        x = 0.012 * s
+        pts = [(x, 0, 0.55), (x, d, 0.55), (x, d, zf - 0.1), (x, 0, zw - 0.1)]
+        p.face('glass', pts if s < 0 else pts[::-1], GLASS, shade=False)
+        low = [(x, 0, 0), (x, d, 0), (x, d, 0.55), (x, 0, 0.55)]
+        p.face('trim', low if s < 0 else low[::-1], WHITE)
+    p.box('trim', -0.04, 0.04, 0.0, 0.1, 0, zw, WHITE, skip=('bottom',))
+    p.box('trim', -0.04, 0.04, d / 2 - 0.05, d / 2 + 0.05, 0.55, (zw + zf) / 2, WHITE, skip=('bottom', 'top'))
+    return p
+
+
 def build_parts():
     return [
+        veranda(), veranda_side(),
         flat_window('window_far', 'trim', WHITE), flat_window('window_far_alu', 'fixed', ALU, glass=GLASS_DARK, bar=False),
         flat_door(),
         window('window', 1.12, 1.38, 2, rows=(0.66,)),

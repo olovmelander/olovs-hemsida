@@ -276,6 +276,49 @@ Planning the houses costs 0.4-24 ms of main-thread time per course
 The kit's 158 KB GLB downloads beside the facilities and is cached offline with
 the other props (`banvy-props`).
 
+## One building a course knows: Norrfällsviken's hotel (the same evening)
+
+**Owner report:** "this is the hotel at norrfällsviken, not the big white
+building we currently show", with the press and booking photographs.
+
+**What had gone wrong.** OSM's footprint (`w1206117854`) is tagged only as a
+restaurant. Its size and the residential land use made it a block of flats,
+and its diagonal middle wing defeated the roof planner, so it was drawn flat
+behind a parapet.
+
+**What it is.** One storey of falu-red wood with white trim (the owner, from
+the photographs), under orange-red tiled gable roofs. It is three wings in a U
+round a pool, joined at the north-east by a short link, with glazed lean-to
+verandas and a white gabled porch at the reception.
+
+**A course may now state a building** (`houseKitBuildings` on its scenery
+module, by the building's id):
+- its type, storeys, pitch and colours;
+- the wings its roofs follow, traced off the orthophoto in the course's metres
+  (each ridge's ends, the width wall to wall, which ends are gables);
+- an entrance with its porch, and glazed verandas, each given by a point beside
+  its wall.
+
+Such a building is drawn from its wings, as a facility's model is drawn from
+its file: walls, plinths and roofs per wing, nothing hung on a wall that runs
+inside another wing, the stated parts laid last. The source footprint stays the
+data that obstacles, trees and the map read.
+
+**The hotel's evidence.** The wings are traced off Lantmäteriet's 2024
+orthophoto (`o69875_6775_25_mr24`).
+- The roof pixels were picked by colour and profiled across each wing: the
+  side wings north-south, 9.3 m across their roofs, and the middle wing at 28°.
+- The OSM footprint sits 2-5 m south-west of the roofs, so the hotel now stands
+  where the photograph shows it.
+- The kit gained a glazed veranda bay (`veranda`) and its end (`veranda_side`),
+  instanced along a wall.
+
+**Two fixes for every course came out of it:**
+- A building tagged as a restaurant, café, pub or hotel is never a barn or a
+  block. Norrfällsviken's Fiskarfänget had been a barn.
+- A flat roof read off the orthophoto keeps its measured colour; it had fallen
+  back to the dark membrane.
+
 ## The befores
 
 - `?houses=before` draws every house as the batch did.

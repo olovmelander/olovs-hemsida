@@ -391,6 +391,10 @@ land cover's WATER class is a colour verdict: never paint from it. See
     size, shape (a barn is deep) and land use.
   - A mapped-only ground (Upsala) takes no porch, balcony, chimney or canopy
     (`MAPPED_ONLY_LEAVES`); a church keeps the batch's drawing.
+  - Where the kit guesses wrong, a course states the building
+    (`houseKitBuildings` by id: type, storeys, colours, wings traced off the
+    orthophoto, an entrance, verandas) and it is drawn from its wings as a display
+    revision; Norrfällsviken's hotel is the first.
   - `?houses=before`, `?roofs=palette` and `?houseparts=all` are the befores.
 
   See [the houses](docs/visual-houses-2026-11-08.md).
