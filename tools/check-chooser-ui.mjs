@@ -762,6 +762,21 @@ if (PLAYER) {
     const after = await page.evaluate(() => ({ hole: document.getElementById('cno').textContent, clean: document.body.classList.contains('clean'), sky: window.V3D.skyState() }));
     gate(JSON.stringify(before) === JSON.stringify(after),
       `letters in the search do not steer the course behind it (hole ${before.hole}->${after.hole}, clean ${before.clean}->${after.clean}, markers ${before.sky}->${after.sky})`);
+    /* another course, picked over the running one, opens its own page; Escape closes
+       the page and leaves the list open behind it */
+    {
+      const other = manifest.courses.find(c => c.slug !== slug).slug;
+      await page.evaluate(() => { const i = document.getElementById('courseSearchInput'); i.value = ''; i.dispatchEvent(new Event('input')); });
+      await page.click(`#chooser .card[data-slug="${other}"]`);
+      await page.waitForSelector('#courseSheet[open]', { timeout: 20000 });
+      const styled = await page.evaluate(() => getComputedStyle(document.querySelector('#courseSheet .seg') || document.body).display);
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(300);
+      const after = await page.evaluate(() => ({ sheet: document.getElementById('courseSheet').open, list: document.body.classList.contains('choosing') }));
+      gate(styled === 'flex' && !after.sheet && after.list, `in the player another course opens its own page, styled (${styled}); Escape closes it and keeps the list`);
+      await page.click('#courseSearchInput');
+      await page.keyboard.type('npm h', { delay: 30 });
+    }
     await page.keyboard.press('Escape');
     await page.waitForTimeout(200);
     const e1 = await page.evaluate(() => ({ q: document.getElementById('courseSearchInput').value, open: document.body.classList.contains('choosing') }));

@@ -24,6 +24,11 @@ import { isPhone } from './map-default.mjs';
 import { parseRounds } from '../map/map-rounds.mjs';
 import { MAP_KEYS, MODES, lastLaunch, liveRound, readSettings, readText, settingsSummary, readFrameCap } from './settings-store.mjs';
 import { perEighteen } from './stats-model.mjs';
+import { COURSE_LOCATIONS } from './course-places.mjs';
+import { coursesByDistance, distanceText } from './nearest-course.mjs';
+
+/* Within this, a phone is at the course or on its way there. */
+const NEAR_METRES = 5000;
 
 const BASE = import.meta.env.BASE_URL;
 const poster = (slug, n = 1) => `${BASE}courses/${slug}/hero-${n}.webp`;
@@ -40,6 +45,7 @@ const esc = s => String(s ?? '').replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': 
 const ARROW = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>';
 const GEAR = '<svg viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>';
 const CUBE = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8 20.5 7.5v9L12 21.2 3.5 16.5v-9z"/><path d="M3.8 7.6 12 12.2l8.2-4.6M12 12.2v8.8"/></svg>';
+const INSTALL = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>';
 const STATS = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 16v-4M12 16V7M17 16v-7"/></svg>';
 const PIN = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s6.5-5.9 6.5-11.2a6.5 6.5 0 1 0-13 0C5.5 15.1 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></svg>';
 
@@ -73,7 +79,7 @@ const SETTINGS_ART = `<svg class="mc-dials" viewBox="0 0 400 150" preserveAspect
   }).join('')}
 </svg>`;
 
-export function buildHome({ courses, onMode, onSettings, onStats, onResume }) {
+export function buildHome({ courses, onMode, onSettings, onStats, onResume, onPlan = null }) {
   const phone = isPhone();
   const playable = courses.filter(c => c.status !== 'mapping');
   const holes = playable.reduce((sum, c) => sum + (Number(c.holes) || 0), 0);
@@ -115,7 +121,10 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume }) {
         <a class="hub-brand" href="#" aria-label="Banvy, startmenyn">
           <span class="crest-dot"></span><span class="wordmark">Ban<i>v</i>y</span>
         </a>
-        <button class="hub-icon-btn" type="button" data-settings aria-label="Inställningar" title="Inställningar">${GEAR}</button>
+        <span class="hub-top-actions">
+          <button class="hub-icon-btn hub-install" type="button" data-install hidden>${INSTALL}<span>Installera</span></button>
+          <button class="hub-icon-btn" type="button" data-settings aria-label="Inställningar" title="Inställningar">${GEAR}</button>
+        </span>
       </header>
 
       <section class="home-hero">
@@ -228,6 +237,7 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume }) {
       btn.addEventListener('click', () => onResume(live.course.slug, 'map'));
       return;
     }
+    lookNear();
     if (!last) { resumeSlot.innerHTML = ''; return; }
     const { course, mode } = last;
     resumeSlot.innerHTML = `
@@ -245,7 +255,54 @@ export function buildHome({ courses, onMode, onSettings, onStats, onResume }) {
     btn.addEventListener('click', () => onResume(course.slug, mode));
   }
 
+  /* Standing at a course: the menu offers that course's round. Only where the phone has
+     already said yes to its position -- asking belongs to a tap, in the list -- and
+     never over a round under way, which refresh() has shown first. */
+  let nearAsked = false;
+  function lookNear() {
+    if (nearAsked || !onPlan || !navigator.permissions || !navigator.geolocation) return;
+    nearAsked = true;
+    navigator.permissions.query({ name: 'geolocation' }).then(answer => {
+      if (answer.state !== 'granted') return;
+      navigator.geolocation.getCurrentPosition(({ coords }) => {
+        const nearest = coursesByDistance(coords, COURSE_LOCATIONS).find(({ slug }) => playable.some(c => c.slug === slug));
+        if (!nearest || nearest.metres > NEAR_METRES || resumeSlot.querySelector('.is-live')) return;
+        const course = playable.find(c => c.slug === nearest.slug);
+        resumeSlot.innerHTML = `
+          <button class="home-resume is-near" type="button" data-near data-slug="${esc(course.slug)}">
+            <span class="hr-thumb" style="background-image:url('${poster(course.slug)}')" aria-hidden="true"></span>
+            <span class="hr-text">
+              <span class="hr-kicker">${PIN}${nearest.metres < 1500 ? 'Du är vid banan' : 'Nära dig'}</span>
+              <span class="hr-name">${esc(course.name)}</span>
+              <span class="hr-sub">${distanceText(nearest.metres)} bort · starta rundan med GPS</span>
+            </span>
+            <span class="hr-go" aria-hidden="true">${ARROW}</span>
+          </button>`;
+        const btn = resumeSlot.querySelector('[data-near]');
+        btn.setAttribute('aria-label', `Starta en runda på ${course.name}, ${distanceText(nearest.metres)} bort`);
+        btn.addEventListener('click', () => onPlan(course.slug, 'map'));
+      }, () => {}, { timeout: 10000, maximumAge: 120000 });
+    }).catch(() => {});
+  }
+
   el.querySelector('[data-settings]').addEventListener('click', () => onSettings());
+
+  /* Installed, Banvy opens from the home screen with no browser round it and works
+     without signal on a course it has seen: the menu offers it where the browser can,
+     and never once it is installed. */
+  const installBtn = el.querySelector('[data-install]');
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  const offerInstall = () => { installBtn.hidden = standalone || !globalThis.__banvyInstall; };
+  offerInstall();
+  addEventListener('banvy-installable', offerInstall);
+  addEventListener('appinstalled', () => { globalThis.__banvyInstall = null; offerInstall(); });
+  installBtn.addEventListener('click', async () => {
+    const prompt = globalThis.__banvyInstall;
+    if (!prompt) return;
+    globalThis.__banvyInstall = null;
+    offerInstall();
+    try { await prompt.prompt(); await prompt.userChoice; } catch { /* the browser said no */ }
+  });
   for (const link of el.querySelectorAll('.mode-card')) {
     link.addEventListener('click', e => {
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;

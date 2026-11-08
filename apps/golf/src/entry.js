@@ -5,6 +5,14 @@ import { legacyTarget } from './shell/router.js';
 import { coursePreview } from './course-previews.mjs';
 import { supportedVisualSearch } from './engine/look-mode.mjs';
 
+/* The browser offers to install the app once, early, before the start menu has
+   loaded: kept here, so the menu can offer it as its own "Installera". */
+addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  globalThis.__banvyInstall = event;
+  globalThis.dispatchEvent(new globalThis.Event('banvy-installable'));
+});
+
 const supportedSearch = supportedVisualSearch(location.search);
 if (supportedSearch !== location.search) {
   history.replaceState(history.state, '', location.pathname + supportedSearch + location.hash);

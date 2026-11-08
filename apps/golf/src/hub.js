@@ -16,7 +16,7 @@ import { buildHome } from './shell/home.js';
 import { createCourseSheet } from './shell/course-sheet.js';
 import { isPhone } from './shell/map-default.mjs';
 import { packRequestUrl } from './loader/pack.js';
-import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch } from './shell/settings-store.mjs';
+import { MODES, launchUrl, modeOfRoute, readSettings, rememberLaunch, savedTee } from './shell/settings-store.mjs';
 
 const boot = document.getElementById('boot');
 /* The bare route never loads the player, so its HUD is placeholder markup ("1",
@@ -69,7 +69,13 @@ try {
     onMode: mode => go(MODES[mode].route),
     onSettings: () => go('installningar'),
     onStats: () => go('statistik'),
-    onResume: launch,
+    /* at a course: its own page, in the map */
+    onPlan: (slug, mode) => sheet.open(slug, mode),
+    /* back on the tee last chosen there; the map reads it from its own key */
+    onResume: (slug, mode) => {
+      const course = courses.find(c => c.slug === slug);
+      launch(slug, mode, mode === 'detailed' && course ? { tee: savedTee(storage(), course) } : null);
+    },
   });
   document.body.append(home);
 
