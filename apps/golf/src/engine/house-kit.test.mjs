@@ -407,3 +407,66 @@ describe('what a course knows of one building', () => {
     expect(r.tris.some(t => t.col === measured.roof && normal(t.p)[1] > 0)).toBe(true);
   });
 });
+
+describe('a block of flats', () => {
+  it('stands among blocks of flats, unless it is tagged as flats', async () => {
+    const { blockCompany, BLOCK_COMPANY } = await import('./house-kit.mjs');
+    expect(classifyBuilding({ kind: 'residential', area: 600, company: 0 })).toBe('villa');
+    expect(classifyBuilding({ kind: 'residential', area: 600, company: 1 })).toBe('block');
+    expect(classifyBuilding({ kind: 'yes', area: 400, landuse: 'residential', company: 0 })).toBe('villa');
+    expect(classifyBuilding({ kind: 'yes', area: 400, landuse: 'residential', company: 2 })).toBe('block');
+    expect(classifyBuilding({ kind: 'yes', area: 400, subtype: 'Bostad', company: 0 })).toBe('villa');
+    expect(classifyBuilding({ kind: 'apartments', area: 400, company: 0 })).toBe('block');
+    /* the footprint itself is not its own company */
+    expect(blockCompany([[0, 0], [BLOCK_COMPANY - 1, 0], [BLOCK_COMPANY + 1, 0]], 0, 0)).toBe(1);
+    const main = fs.readFileSync(new URL('../main.js', import.meta.url), 'utf8');
+    expect(main).toContain('blockCompany(houseKitBlockSites, cx, cz)');
+  });
+  it('straightens a wall jog shallower than a wing, so the house keeps a pitched roof', async () => {
+    const { ringArea, HOUSE_KIT } = await import('./house-kit.mjs');
+    /* the house by Veckefjärden's tenth: four steps of 1.5-2.7 m that no three rectangles of 2.4 m part */
+    const tenth = [[16.6, -850.3], [19, -851.5], [22, -845.5], [23.8, -846.5], [26.2, -842.2], [24.2, -841.2], [27.2, -835.4],
+      [18.3, -830.8], [10.4, -846.2], [9.1, -845.5], [6, -851.2], [13.7, -855.5]];
+    const f = footprintFrame(tenth);
+    expect(f.kind).toBe('ortho');
+    expect(Math.abs(ringArea(f.ring) / ringArea(tenth) - 1)).toBeLessThan(0.12);
+    for (const r of f.rects) expect(2 * r.hs).toBeGreaterThanOrEqual(HOUSE_KIT.jog);
+    const r = recorder();
+    const plan = planHouse({ ring: tenth, type: 'villa', base: 0, skirt: 1, palette, seed: 3, emit: r.emit });
+    expect(plan.frame).toBe('ortho');
+    expect(plan.roof).toBe('gable');
+  });
+  /* owner report, 8 November: "no multiple floors apartment buildings close to the Veckefjärden course" */
+  it.each(['veckefjarden', 'veckefjarden-korthalsbanan'])('leaves none by the holes of %s, and keeps the estate in town', async slug => {
+    const { blockCompany, genericHouseTag, inside, orientedBox, ringArea, PARTS_REACH } = await import('./house-kit.mjs');
+    const { inflateRawSync } = await import('node:zlib');
+    const buf = fs.readFileSync(new URL(`../../public/courses/${slug}/pack.bin`, import.meta.url));
+    const hl = buf.readUInt32LE(4), H = JSON.parse(buf.subarray(8, 8 + hl).toString('utf8')), at = 8 + hl + H.HF0.bytes + H.HF1.bytes;
+    const V = JSON.parse(inflateRawSync(buf.subarray(at, at + H.VEC.bytes)).toString('utf8'));
+    const { inner } = JSON.parse(fs.readFileSync(new URL(`../../public/courses/${slug}/surroundings.json`, import.meta.url), 'utf8'));
+    /* as main.js types a footprint (kitType) */
+    const B = V.infra.buildings, generic = genericHouseTag(B), LU = (V.infra.landuse || []).filter(q => !q.surr);
+    const centre = r => r.reduce((s, p) => [s[0] + p[0] / r.length, s[1] + p[1] / r.length], [0, 0]);
+    const typeOf = (b, company) => {
+      const [x, z] = centre(b.ring), box = orientedBox(b.ring), lu = LU.find(q => inside(x, z, q.ring));
+      return classifyBuilding({ kind: generic && b.kind === 'house' ? 'yes' : b.kind, name: b.name, area: ringArea(b.ring),
+        landuse: lu?.kind ?? null, seed: seedOf(x, z), amenity: b.amenity ?? null, depth: box ? 2 * box.hd : null, company });
+    };
+    const drawn = B.filter(b => { const [x, z] = centre(b.ring); return x > inner.x0 && x < inner.x1 && z > inner.z0 && z < inner.z1; });
+    const sites = drawn.filter(b => typeOf(b, null) === 'block').map(b => centre(b.ring));
+    const fromHoles = ([x, z]) => Math.min(...V.holes.flatMap(h => h.line.slice(1).map((b, i) => {
+      const a = h.line[i], dx = b[0] - a[0], dz = b[1] - a[1];
+      const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / (dx * dx + dz * dz)));
+      return Math.hypot(a[0] + dx * t - x, a[1] + dz * t - z);
+    })));
+    const blocks = drawn.filter(b => { const [x, z] = centre(b.ring); return typeOf(b, blockCompany(sites, x, z)) === 'block'; });
+    /* Örnsköldsvik's three-storey slabs, over a kilometre off, are blocks; nothing within the parts' reach of a hole is */
+    expect(blocks.length).toBeGreaterThanOrEqual(6);
+    for (const b of blocks) expect(fromHoles(centre(b.ring))).toBeGreaterThan(PARTS_REACH);
+    /* the house with its garage by the tenth hole, tagged residential, is a villa */
+    const tenth = B.find(b => { const [x, z] = centre(b.ring); return Math.hypot(x - 18, z + 845) < 10; });
+    expect(tenth.kind).toBe('residential');
+    expect(typeOf(tenth, null)).toBe('block');
+    expect(typeOf(tenth, blockCompany(sites, ...centre(tenth.ring)))).toBe('villa');
+  });
+});
