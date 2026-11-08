@@ -59,6 +59,12 @@
       "methodName": "round2-detector",
       "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
       "note": "round 2: the type-aware detector, tuned from the round-1 lock; a new unseen held-out sample (H1, H3, H4, H5) frozen before scoring"
+    },
+    {
+      "id": "r3", "sampleSuffix": "-r3", "detector": "typed", "startFrom": null,
+      "methodName": "round3-detector",
+      "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
+      "note": "round 3 (owner request of 2026-11-08: reach the 90% gate if the data allow): a new unseen held-out sample (Q1-Q5) frozen before any round-3 detector ran; two closed calibration squares (K1, K2) added; the round-1 and round-2 held-out windows are used-holdout"
     }
   ],
   "activeRound": "r2",

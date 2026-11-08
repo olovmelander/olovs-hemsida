@@ -6,6 +6,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { encodePNG } from '../../geobuild/png.mjs';
+import { openPack, readMosaic } from './ortho-store.mjs';
 
 const TYPED = { float32: Float32Array, uint16: Uint16Array, uint8: Uint8Array, int32: Int32Array, float64: Float64Array };
 
@@ -27,6 +28,28 @@ export function loadMosaic(ctx, key) {
   const sidecar = JSON.parse(fs.readFileSync(path.join(dir, `mosaic-${key}-032.json`), 'utf8'));
   const data = new Uint8Array(fs.readFileSync(path.join(dir, `mosaic-${key}-032.rgbi`)));
   return { ...sidecar, data };
+}
+
+/** The packs (verified compressed tiles) of one campaign, opened for native reads. */
+export function openCampaignPacks(ctx, key) {
+  const dir = path.join(ctx.paths.ortho, key);
+  return fs.readdirSync(dir).filter(f => f.endsWith('.index.json')).sort().map(f => openPack(path.join(dir, f)));
+}
+
+/**
+ * A campaign's RGBI at its native 0.16 m over a bbox (the same shape as
+ * loadMosaic, so renderLayer, mosaicAt and photoDisc read it unchanged). The
+ * 0.32 m analysis mosaic halves the detail a crown top needs; this reads the
+ * cached tiles themselves. Pass `packs` to reuse open packs across calls.
+ */
+export function loadNativeMosaic(ctx, key, bbox, { packs = null, factor = 1 } = {}) {
+  const own = packs || openCampaignPacks(ctx, key);
+  try {
+    const m = readMosaic(own, bbox, { factor });
+    return { campaign: key, ...m };
+  } finally {
+    if (!packs) for (const p of own) p.close();
+  }
 }
 
 /** Bilinear RGBI at a point, with an optional registration shift (photo = laser + shift). */

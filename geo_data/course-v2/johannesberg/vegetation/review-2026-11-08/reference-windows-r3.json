@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "groundId": "johannesberg",
+  "reviewId": "review-2026-11-08 round 3",
+  "state": "frozen-windows",
+  "crs": "EPSG:3006",
+  "note": "Round 3. Calibration keeps C1-C6 and adds two closed-stand squares (K1, K2) in the southern wood, on holes already used for calibration. The round-1 (E2-E4) and round-2 (H1, H3-H5) held-out windows are used-holdout: scored before, never tuned on here, reported for comparison. A new held-out sample (Q1-Q5) on holes no earlier window used (18-hole 2, 4, 5, 6 and the north half of 18) is declared and frozen before any round-3 detector runs. Its strata follow the detect census near play (closed 53%, edge 32%, group 10%, isolated 5% of apexes within 90 m of a hole line): two closed squares, an edge, a mixed band and a broadleaf grove. Windows were placed on laser and photo previews only; no detector output was looked at inside them.",
+  "windows": [
+    {
+      "id": "C1-h10-south",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/10"
+      ],
+      "bbox": [
+        679382,
+        6624478,
+        679429,
+        6624523
+      ],
+      "setting": "mixed wood south of the 10th tee: the owner's example rectangle, as given"
+    },
+    {
+      "id": "C2-h11-edge",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/11",
+        "johannesberg/12"
+      ],
+      "bbox": [
+        679270,
+        6624815,
+        679330,
+        6624860
+      ],
+      "setting": "north edge of the large wood between holes 11/12 and 10 (edge row and the first crowns behind it)"
+    },
+    {
+      "id": "C3-h4-meadow",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/4",
+        "johannesberg/16"
+      ],
+      "bbox": [
+        679700,
+        6625250,
+        679760,
+        6625310
+      ],
+      "setting": "scattered trees and bushes on the rocky meadow between 16 and 4"
+    },
+    {
+      "id": "C4-h16-spruce-edge",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/16",
+        "johannesberg/3"
+      ],
+      "bbox": [
+        679440,
+        6625340,
+        679500,
+        6625372
+      ],
+      "setting": "south edge band of the conifer block between 3 and 16"
+    },
+    {
+      "id": "C5-h17-18",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/17",
+        "johannesberg/18"
+      ],
+      "bbox": [
+        679230,
+        6625620,
+        679290,
+        6625680
+      ],
+      "setting": "tree line between 17 and 18; part of the owner's example area"
+    },
+    {
+      "id": "C6-h3-isolated",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/3",
+        "johannesberg/16"
+      ],
+      "bbox": [
+        679540,
+        6625410,
+        679600,
+        6625470
+      ],
+      "setting": "small separate crowns north of the conifer block by the 3rd fairway (60 m cell with the most separate 8-150 m² canopy components near play)"
+    },
+    {
+      "id": "E2-h1-2",
+      "role": "used-holdout",
+      "holes": [
+        "johannesberg/1",
+        "johannesberg/2"
+      ],
+      "bbox": [
+        679330,
+        6625830,
+        679390,
+        6625890
+      ],
+      "setting": "trees by the 1st green and 2nd tee",
+      "note": "round-1 held-out; its scores were seen after round 1, so it is no longer unseen. Not tuned on in round 2."
+    },
+    {
+      "id": "E3-h13",
+      "role": "used-holdout",
+      "holes": [
+        "johannesberg/13"
+      ],
+      "bbox": [
+        679700,
+        6624945,
+        679760,
+        6625005
+      ],
+      "setting": "groups by the 13th tee",
+      "note": "round-1 held-out; its scores were seen after round 1, so it is no longer unseen. Not tuned on in round 2."
+    },
+    {
+      "id": "E4-n9-5-6",
+      "role": "used-holdout",
+      "holes": [
+        "johannesberg-9/5",
+        "johannesberg-9/6"
+      ],
+      "bbox": [
+        678850,
+        6626095,
+        678910,
+        6626155
+      ],
+      "setting": "trees between the 9-hole course's 5th and 6th",
+      "note": "round-1 held-out; its scores were seen after round 1, so it is no longer unseen. Not tuned on in round 2."
+    },
+    {
+      "id": "H1-n9",
+      "role": "used-holdout",
+      "holes": [
+        "johannesberg-9/9",
+        "johannesberg-9/1"
+      ],
+      "bbox": [
+        679075,
+        6625990,
+        679135,
+        6626035
+      ],
+      "setting": "trees and groups by the 9-hole course's 9th tee and 1st green",
+      "note": "round-2 held-out; scored once with the round-2 detector (2026-11-08), so no longer unseen. Not tuned on in round 3; reported for comparison only."
+    },
+    {
+      "id": "H3-h7-mixed",
+      "role": "used-holdout",
+      "holes": [
+        "johannesberg/7"
+      ],
+      "bbox": [
+        679937,
+        6624783,
+        679962,
+        6624808
+      ],
+      "setting": "closed mixed stand (conifers and broadleaves) by the 7th green, 25 m square",
+      "note": "round-2 held-out; scored once with the round-2 detector (2026-11-08), so no longer unseen. Not tuned on in round 3; reported for comparison only."
+    },
+    {
+      "id": "H4-h8-spruce",
+      "role": "used-holdout",
+      "holes": [
+        "johannesberg/8",
+        "johannesberg/12"
+      ],
+      "bbox": [
+        679630,
+        6624765,
+        679655,
+        6624790
+      ],
+      "setting": "closed mature spruce stand in the wood between the 8th and 12th, 25 m square",
+      "note": "round-2 held-out; scored once with the round-2 detector (2026-11-08), so no longer unseen. Not tuned on in round 3; reported for comparison only."
+    },
+    {
+      "id": "H5-h9-edge",
+      "role": "used-holdout",
+      "holes": [
+        "johannesberg/9"
+      ],
+      "bbox": [
+        679440,
+        6624528,
+        679490,
+        6624560
+      ],
+      "setting": "woodland edge west of the 9th",
+      "note": "round-2 held-out; scored once with the round-2 detector (2026-11-08), so no longer unseen. Not tuned on in round 3; reported for comparison only."
+    },
+    {
+      "id": "K1-h10-spruce",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/10",
+        "johannesberg/11"
+      ],
+      "bbox": [
+        679330,
+        6624700,
+        679355,
+        6624725
+      ],
+      "setting": "closed conifer interior of the wood between the 10th and 11th, 25 m square (added in round 3 for closed-stand tuning)"
+    },
+    {
+      "id": "K2-h9-mixed",
+      "role": "calibration",
+      "holes": [
+        "johannesberg/9",
+        "johannesberg/8"
+      ],
+      "bbox": [
+        679540,
+        6624640,
+        679565,
+        6624665
+      ],
+      "setting": "closed mixed stand north of the 9th green, 25 m square (added in round 3 for closed-stand tuning)"
+    },
+    {
+      "id": "Q1-h5-closed",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/5",
+        "johannesberg/6"
+      ],
+      "bbox": [
+        679990,
+        6625170,
+        680015,
+        6625195
+      ],
+      "setting": "closed stand inside the wood south of the 5th green, 25 m square"
+    },
+    {
+      "id": "Q2-h5-edge",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/5"
+      ],
+      "bbox": [
+        680020,
+        6625235,
+        680060,
+        6625270
+      ],
+      "setting": "woodland edge along the 5th fairway, with the trees standing out from it"
+    },
+    {
+      "id": "Q3-h18-2-band",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/18",
+        "johannesberg/2"
+      ],
+      "bbox": [
+        679262,
+        6625738,
+        679302,
+        6625778
+      ],
+      "setting": "the mixed tree band between the 18th and the 2nd"
+    },
+    {
+      "id": "Q4-h4-grove",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/4",
+        "johannesberg/5"
+      ],
+      "bbox": [
+        680168,
+        6625410,
+        680208,
+        6625450
+      ],
+      "setting": "the grove north of the 4th green (mostly broadleaf, touching crowns)"
+    },
+    {
+      "id": "Q5-h6-closed",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/6",
+        "johannesberg/7"
+      ],
+      "bbox": [
+        679878,
+        6625085,
+        679903,
+        6625110
+      ],
+      "setting": "closed mixed stand by the 6th tee, 25 m square"
+    }
+  ],
+  "matchingRule": {
+    "kind": "one-to-one, closest pairs first",
+    "radiusMetres": 4,
+    "declaredBeforeScoring": true
+  },
+  "minimumScoredHeightMetres": 3,
+  "declaredBeforeScoring": {
+    "beatsRoundTwo": "the round-3 detector beats round 2 when its F1 on the new evaluation sample (Q1-Q5) is higher than the round-2 detector's, with precision at least 0.9; only then may it be published",
+    "conifersSubtype": "pine/spruce accuracy is the share of evaluation conifers annotated pine or spruce whose published subtype agrees, and the share published (coverage); unannotated conifers are not scored",
+    "strata": "recall by stratum (isolated, group, edge, closed), by type and by height (3-8, 8-15, 15+ m) is reported with the totals"
+  },
+  "dropped": [
+    {
+      "id": "H2-n2-stand",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg-9/2",
+        "johannesberg-9/4"
+      ],
+      "bbox": [
+        678898,
+        6626200,
+        678943,
+        6626245
+      ],
+      "setting": "small closed mixed stand north of the 9-hole course's 2nd, in a 2021 clear-cut (regrowth around it is younger than the laser)",
+      "reason": "dropped before any round-2 scoring: a dense young stand inside a 2021 clear-cut whose regrowth is younger than the laser; the closed-stand strata are covered by H3 and H4"
+    },
+    {
+      "id": "H4-h6-conifer",
+      "role": "evaluation",
+      "holes": [
+        "johannesberg/6",
+        "johannesberg/5"
+      ],
+      "bbox": [
+        679962,
+        6625102,
+        679987,
+        6625127
+      ],
+      "setting": "closed conifer stand east of the 6th tee, 25 m square",
+      "reason": "dropped before any round-2 scoring: a young dense pine stand with 2 m crowns, finer than a 1.8 pulse/m2 scan can resolve; replaced by a mature spruce stand (H4-h8-spruce)"
+    }
+  ]
+}

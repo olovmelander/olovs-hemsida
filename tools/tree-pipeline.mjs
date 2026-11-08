@@ -20,7 +20,7 @@
    Stage options:
      acquire    --fetch [--only laser|ortho] [--campaigns k1,k2]   (network; run through node --env-file=<.env>)
      verify     --decide-only | --pairs a@b,...
-     reference  --prepare [--only w1,w2] [--mpp 0.12] | --freeze [--note text] [--interpreter text]
+     reference  --prepare [--only w1,w2] [--mpp 0.12] [--native] | --freeze [--note text] [--interpreter text]
      benchmark  --tune | --types | --score | --gate   (none: whatever is missing, then the gate)
      review     --only spots|types|screens|mix
      publish    --execute (compile into the staging root; never the live public root)
@@ -39,7 +39,7 @@ import { ROOT, configPath, configTemplate, loadGroundConfig } from './tree-pipel
 import { STAGES, STAGE_NAMES, firstIncompleteStage, missingPrerequisites, nextStage } from './tree-pipeline/stages.mjs';
 
 const EXIT = Object.freeze({ done: 0, error: 1, usage: 2, stop: 3, 'gate-fail': 4 });
-const BOOLEAN = new Set(['list', 'help', 'init', 'status', 'fetch', 'decide-only', 'prepare', 'freeze', 'tune', 'types', 'score', 'gate', 'execute', 'force']);
+const BOOLEAN = new Set(['list', 'help', 'init', 'status', 'fetch', 'decide-only', 'prepare', 'freeze', 'tune', 'types', 'score', 'gate', 'execute', 'force', 'native']);
 
 export function parseArgs(argv) {
   const options = {};

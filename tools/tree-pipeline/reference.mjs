@@ -19,7 +19,8 @@
       campaign's natural colour, with a 5 m grid labelled from the window's
       south-west corner. Then the stage stops.
    3. The interpreter writes reference-annotations<suffix>.json: per window,
-      crowns { from: [candidate numbers] | at: [dE, dN], type, stratum, note },
+      crowns { from: [candidate numbers] | at: [dE, dN], type, subtype
+      (optional: pine | spruce for a conifer the photos decide), stratum, note },
       rejected candidates and ambiguity boxes.
    4. --freeze writes every reference crown with its window, role, whether it
       is scored (inside the window, outside any ambiguity box, tall enough) or
@@ -34,8 +35,9 @@ import { createRaster } from '../../packages/course-v2/vegetation/canopy-fields.
 import { crownStatistics, detectLocalMaxima } from '../../packages/course-v2/vegetation/crown-detect.mjs';
 import { growCrownsSimultaneous } from '../../packages/course-v2/vegetation/tree-detect-v2.mjs';
 import { smoothChm } from '../../packages/course-v2/vegetation/pit-free-chm.mjs';
-import { Canvas, loadMosaic, loadRaster, renderLayer, toPixel } from './panels.mjs';
+import { Canvas, loadMosaic, loadNativeMosaic, loadRaster, openCampaignPacks, renderLayer, toPixel } from './panels.mjs';
 import { HELD_OUT_GATE } from './gate.mjs';
+import { estimateDisplacement, medianCanopyHeight } from './relief.mjs';
 import { writeReceipt } from './receipts.mjs';
 
 const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -83,14 +85,27 @@ export function overSegmentCandidates(chm, bbox, marginMetres = 6) {
 }
 
 
-export function preparePanels(ctx, { windowsPath, only = [], mpp = 0.12 }) {
+function cropChm(raster, bbox, margin) {
+  const g = raster.grid, s = g.sampleSpacingMetres;
+  const c0 = Math.max(0, Math.floor((bbox[0] - margin - g.minEasting) / s)), c1 = Math.min(g.width, Math.ceil((bbox[2] + margin - g.minEasting) / s));
+  const r0 = Math.max(0, Math.floor((g.maxNorthing - bbox[3] - margin) / s)), r1 = Math.min(g.height, Math.ceil((g.maxNorthing - bbox[1] + margin) / s));
+  const width = c1 - c0, height = r1 - r0, values = new Float32Array(width * height);
+  for (let r = 0; r < height; r++) for (let c = 0; c < width; c++) values[r * width + c] = raster.values[(r0 + r) * g.width + c0 + c];
+  return { grid: { minEasting: g.minEasting + c0 * s, maxNorthing: g.maxNorthing - r0 * s, width, height, sampleSpacingMetres: s }, values };
+}
+
+export function preparePanels(ctx, { windowsPath, only = [], mpp = 0.12, native = false }) {
   const declared = JSON.parse(fs.readFileSync(windowsPath, 'utf8'));
   const outDir = ctx.paths.referencePanels;
   fs.mkdirSync(outDir, { recursive: true });
   const chm = loadRaster(ctx, 'chm-pitfree-050');
   const presence = ctx.presence.key, leafOff = ctx.leafOff.key;
-  const m25 = loadMosaic(ctx, presence);
-  const m21 = loadMosaic(ctx, leafOff);
+  /* --native reads the photos at their own 0.16 m (cached tiles) and adds the
+     leaf-off colour infrared and a height-ramp panel: six panels, for closed
+     stands and the pine/spruce call. Otherwise the 0.32 m analysis mosaics. */
+  const packs = native ? { [presence]: openCampaignPacks(ctx, presence), [leafOff]: openCampaignPacks(ctx, leafOff) } : null;
+  const m25All = native ? null : loadMosaic(ctx, presence);
+  const m21All = native ? null : loadMosaic(ctx, leafOff);
   const registration = JSON.parse(fs.readFileSync(ctx.reviewFile('registration.json'), 'utf8'));
   const shiftOf = key => registration.applied?.[key] || null;
   const written = [];
@@ -101,20 +116,54 @@ export function preparePanels(ctx, { windowsPath, only = [], mpp = 0.12 }) {
     /* never renumber what an interpreter may already have annotated: a window
        carried into a later round keeps the panels and numbering it had */
     const existingPath = path.join(outDir, `${window.id}.candidates.json`);
-    if (fs.existsSync(existingPath)) {
+    const existed = fs.existsSync(existingPath);
+    if (existed) {
       const existing = JSON.parse(fs.readFileSync(existingPath, 'utf8'));
       if (JSON.stringify(existing.candidates) !== JSON.stringify(candidates)) {
         throw new Error(`panels for ${window.id} exist with other numbered candidates (${ctx.rel(existingPath)}); annotations may reference them. Declare a new window id instead of re-preparing this one.`);
       }
-      console.log(`${window.id}: ${candidates.length} candidates, panels kept (identical numbering)`);
-      written.push(path.join(outDir, `${window.id}.png`), existingPath);
-      continue;
+      if (!native) {
+        console.log(`${window.id}: ${candidates.length} candidates, panels kept (identical numbering)`);
+        written.push(path.join(outDir, `${window.id}.png`), existingPath);
+        continue;
+      }
     }
+    /* native sheets sit beside the 0.32 m ones and never replace them */
+    const sheetPath = path.join(outDir, `${window.id}${native ? '.native' : ''}.png`);
+    /* Native sheets show each photo moved onto the canopy: the window's own
+       relief displacement k (relief.mjs) times its upper-canopy height (80th
+       percentile of the cells of at least 3 m), so
+       crowns of about that height sit over their laser crowns (taller and
+       shorter ones keep k x their difference). The shift is drawn on the
+       panel and recorded beside the candidates; it is a registration aid,
+       not a detector. */
+    const pad = [bbox[0] - 24, bbox[1] - 24, bbox[2] + 24, bbox[3] + 24];
+    const m25 = native ? loadNativeMosaic(ctx, presence, pad, { packs: packs[presence] }) : m25All;
+    const m21 = native ? loadNativeMosaic(ctx, leafOff, pad, { packs: packs[leafOff] }) : m21All;
+    let shiftFor = shiftOf;
+    if (native) {
+      const cropped = cropChm(chm, window.bbox, 10);
+      /* the upper canopy: what a crown shows from above */
+      const hm = medianCanopyHeight(cropped.grid, cropped.values, window.bbox, 3, 0.8) ?? 0;
+      const relief = {};
+      for (const [key, photo] of [[presence, m25], [leafOff, m21]]) {
+        const k = estimateDisplacement(cropped.grid, cropped.values, photo, ctx.ortho(key).sun, { minimumCells: 150 });
+        const usable = k.kx !== null && k.correlation - k.zeroCorrelation >= 0.15;
+        relief[key] = { ...k, medianCanopyHeightMetres: hm, shift: usable ? { dE: Math.round(k.kx * hm * 100) / 100, dN: Math.round(k.ky * hm * 100) / 100 } : null };
+      }
+      shiftFor = key => relief[key].shift;
+      fs.writeFileSync(path.join(outDir, `${window.id}.relief.json`), JSON.stringify({ window: window.id, note: 'photo shift onto the canopy for the native panels: relief displacement k (m per m of height) x the 80th-percentile canopy height (field medianCanopyHeightMetres)', relief }, null, 1));
+    }
+    const label = key => (native && shiftFor(key) ? ` ON CANOPY ${shiftFor(key).dE.toFixed(1)} ${shiftFor(key).dN.toFixed(1)}` : '');
     const panels = [
       ['CHM', renderLayer({ kind: 'hill', raster: chm, bbox, metresPerPixel: mpp })],
-      [`CIR ${presence}`, renderLayer({ kind: 'cir', mosaic: m25, bbox, metresPerPixel: mpp, shift: shiftOf(presence) })],
-      [`RGB ${leafOff}`, renderLayer({ kind: 'rgb', mosaic: m21, bbox, metresPerPixel: mpp, shift: shiftOf(leafOff) })],
-      [`RGB ${presence}`, renderLayer({ kind: 'rgb', mosaic: m25, bbox, metresPerPixel: mpp, shift: shiftOf(presence) })],
+      [`CIR ${presence}${label(presence)}`, renderLayer({ kind: 'cir', mosaic: m25, bbox, metresPerPixel: mpp, shift: shiftFor(presence) })],
+      [`RGB ${leafOff}${label(leafOff)}`, renderLayer({ kind: 'rgb', mosaic: m21, bbox, metresPerPixel: mpp, shift: shiftFor(leafOff) })],
+      [`RGB ${presence}${label(presence)}`, renderLayer({ kind: 'rgb', mosaic: m25, bbox, metresPerPixel: mpp, shift: shiftFor(presence) })],
+      ...(native ? [
+        [`CIR ${leafOff}${label(leafOff)}`, renderLayer({ kind: 'cir', mosaic: m21, bbox, metresPerPixel: mpp, shift: shiftFor(leafOff) })],
+        ['HEIGHT', renderLayer({ kind: 'chm', raster: chm, bbox, metresPerPixel: mpp })],
+      ] : []),
     ];
     for (const [, canvas] of panels) {
       /* the scoring rectangle */
@@ -130,13 +179,15 @@ export function preparePanels(ctx, { windowsPath, only = [], mpp = 0.12 }) {
     }
     const w = panels[0][1].width;
     const h = panels[0][1].height;
-    const sheet = new Canvas(2 * w + 6, 2 * h + 6, [40, 40, 40]);
-    panels.forEach(([label, canvas], i) => { canvas.text(4, canvas.height - 14, label, [255, 255, 255], 2); sheet.blit(canvas, (i % 2) * (w + 6), Math.floor(i / 2) * (h + 6)); });
-    fs.writeFileSync(path.join(outDir, `${window.id}.png`), sheet.png());
-    fs.writeFileSync(path.join(outDir, `${window.id}.candidates.json`), JSON.stringify({ window, candidates }, null, 1));
-    console.log(`${window.id}: ${candidates.length} candidates -> ${ctx.rel(path.join(outDir, `${window.id}.png`))} (${sheet.width} x ${sheet.height})`);
-    written.push(path.join(outDir, `${window.id}.png`), path.join(outDir, `${window.id}.candidates.json`));
+    const columns = panels.length > 4 ? 3 : 2;
+    const sheet = new Canvas(columns * w + 6 * (columns - 1), 2 * h + 6, [40, 40, 40]);
+    panels.forEach(([label, canvas], i) => { canvas.text(4, canvas.height - 14, label, [255, 255, 255], 2); sheet.blit(canvas, (i % columns) * (w + 6), Math.floor(i / columns) * (h + 6)); });
+    fs.writeFileSync(sheetPath, sheet.png());
+    if (!existed) fs.writeFileSync(existingPath, JSON.stringify({ window, candidates }, null, 1));
+    console.log(`${window.id}: ${candidates.length} candidates -> ${ctx.rel(sheetPath)} (${sheet.width} x ${sheet.height})`);
+    written.push(sheetPath, existingPath);
   }
+  if (packs) for (const list of Object.values(packs)) for (const p of list) p.close();
   return written;
 }
 
@@ -229,7 +280,7 @@ export function freezeReference(ctx, { note = null, interpreter = null } = {}) {
       } else throw new Error(`${window.id}: crown ${i} has neither from nor at`);
       const inside = easting >= we && easting < ee && northing >= wn && northing < en;
       const ambiguous = (entry.ambiguous || []).some(a => easting >= we + a.box[0] && easting < we + a.box[2] && northing >= wn + a.box[1] && northing < wn + a.box[3]);
-      return { id: `${window.id}-${String(i + 1).padStart(2, '0')}`, window: window.id, role: window.role, easting: round(easting), northing: round(northing), heightMetres: round(height), type: crown.type, stratum: crown.stratum, source: crown.from ? { candidates: crown.from } : { placedRelative: crown.at }, scored: inside && !ambiguous && height >= windows.minimumScoredHeightMetres, zone: inside ? (ambiguous ? 'ambiguous' : 'window') : 'margin', note: crown.note || null };
+      return { id: `${window.id}-${String(i + 1).padStart(2, '0')}`, window: window.id, role: window.role, easting: round(easting), northing: round(northing), heightMetres: round(height), type: crown.type, ...(crown.subtype ? { subtype: crown.subtype } : {}), stratum: crown.stratum, source: crown.from ? { candidates: crown.from } : { placedRelative: crown.at }, scored: inside && !ambiguous && height >= windows.minimumScoredHeightMetres, zone: inside ? (ambiguous ? 'ambiguous' : 'window') : 'margin', note: crown.note || null };
     });
     const segments = crowns.length ? referenceSegments(chm, crowns) : [];
     crowns.forEach((crown, i) => {
@@ -283,7 +334,7 @@ export async function run(ctx, options) {
   if (problems.length) return { status: 'stop', message: `${ctx.rel(windowsPath)}: ${problems.join('; ')}` };
   const action = options.prepare ? 'prepare' : options.freeze ? 'freeze' : !fs.existsSync(annotationsPath) ? 'prepare' : !fs.existsSync(lockPath) ? 'freeze' : 'check';
   if (action === 'prepare') {
-    const written = preparePanels(ctx, { windowsPath, only: (options.only || '').split(',').filter(Boolean), mpp: Number(options.mpp || 0.12) });
+    const written = preparePanels(ctx, { windowsPath, only: (options.only || '').split(',').filter(Boolean), mpp: Number(options.mpp || 0.12), native: Boolean(options.native) });
     writeReceipt(ctx, 'reference-panels', { inputs: [windowsPath, path.join(ctx.paths.rasters, 'chm-pitfree-050.bin'), ctx.reviewFile('registration.json')], outputs: written, perRound: true, result: { windows: windows.windows.length } });
     return { status: 'stop', message: `interpretation panels for ${windows.windows.length} windows are in ${ctx.rel(ctx.paths.referencePanels)} (photo pixels: cache only).
 HUMAN REVIEW: interpret every window on its four panels and write ${ctx.rel(annotationsPath)}:
