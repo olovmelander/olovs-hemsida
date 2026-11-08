@@ -258,7 +258,7 @@ def export(G, scene, actions, clips, report, stem, manifest_name, extra):
                               export_def_bones=False, export_bake_animation=True, export_anim_single_armature=False,
                               export_anim_slide_to_zero=True, export_frame_range=False, export_cameras=False,
                               export_lights=False, export_extras=False, export_yup=True,
-                              export_image_format='AUTO', export_texcoords=True, export_normals=True,
+                              export_image_format='WEBP', export_image_quality=92, export_texcoords=True, export_normals=True,
                               export_tangents=False, export_skins=True, export_all_influences=False,
                               export_morph=False)
     data = path.read_bytes(); size, kind = struct.unpack_from('<II', data, 12)
