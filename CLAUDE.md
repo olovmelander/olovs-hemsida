@@ -54,7 +54,11 @@ this guide or the current production workflow.
   A typed record draws a species of its own type (`speciesForType` in
   `v2-vegetation.mjs`), and an untyped record keeps today's rule. A broadleaf
   call needs a clearly leafless April crown: shaded conifers read as broadleaf
-  otherwise (owner species check, 8 November). Low quality
+  otherwise (owner species check, 8 November). A chunk that also requires
+  `object-registry-tree-species-v1` may carry a measured `species` (pine or
+  spruce), drawn as that species; it is written only from a pine/spruce rule
+  that passed on held-out conifers, which Johannesberg's did not (round 3), so
+  no ground carries it yet. Low quality
   thins `woodland` records by id at the stand keep share
   (`keepWoodlandRecord`, 0.55). `near` records are always drawn. Johannesberg's
   inner frontier is the first such generation; see
