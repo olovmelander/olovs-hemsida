@@ -178,7 +178,7 @@ These are copies of the September audits with the same thresholds. They read the
   - Blinks are a quick close, a short hold and a slower opening. They come with head turns, at rest and in the held finish. The short locomotion loops don't blink.
   - Clumped, curled lashes sit on the lid margin, found by casting rays against the eyeball.
   - The iris is drawn at human size, and the lids' soft shading is baked into the eye.
-- **Faces:** both lips on the measured mouth line, with a darker lip line; tapered, arched brows.
+- **Faces:** both lips on the measured mouth line (the paint reaches the lower lip, which belongs to the chin's face set), with a darker lip line; tapered, arched brows.
 - **Hair:**
   - Her hair is combed back into the braid by 116 strand ribbons lying on the scalp over a darker underlayer. Each ribbon has its own UVs along the strand.
   - His neckline is squared and fades into the scalp through the skin bake.
@@ -190,6 +190,7 @@ These are copies of the September audits with the same thresholds. They read the
   - **Waist:** the polo is tucked and bloused with gathered folds, the waistband hugs it, and the belt lies on the trousers' real surface. The belt tube's radii had been swapped, making it 7 mm tall and 3 cm deep.
   - **Tailoring:** belt loops, side seams, welt back pockets and a fly.
   - **Polo:** sleeves eased toward their openings; soft folds at the armpits, sleeves and chest; matte piqué.
+  - **Collars:** pointed, as a golf polo's are. The leaf runs longer toward the front opening, and his tipping follows the points.
   - **Her fit:** a looser polo and a smaller collar.
 - **Shoes:** the collar cut rose the wrong way and opened the whole instep. It now closes over the instep, with visible laces, a rounder toe box and a heel tab. The midsoles are white; his sit on gum outsoles.
 - **Details:** an embroidered flag on each chest and on her visor, and a closure tab on each glove.
