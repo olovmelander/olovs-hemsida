@@ -418,6 +418,10 @@ land cover's WATER class is a colour verdict: never paint from it. See
     (`houseKitBuildings` by id: type, storeys, colours, wings traced off the
     orthophoto, an entrance, verandas) and it is drawn from its wings as a display
     revision; Norrfällsviken's hotel is the first.
+  - A block of flats stands among blocks of flats (owner report, 8 November: none
+    near Veckefjärden): unless tagged as flats, a residential footprint is a block
+    only with another would-be block within `BLOCK_COMPANY` (90 m). A wall jog
+    under `HOUSE_KIT.jog` (2.4 m) is straightened so the house keeps a pitched roof.
   - `?houses=before`, `?roofs=palette` and `?houseparts=all` are the befores.
 
   See [the houses](docs/visual-houses-2026-11-08.md).

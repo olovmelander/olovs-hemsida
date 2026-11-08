@@ -319,6 +319,53 @@ orthophoto (`o69875_6775_25_mr24`).
 - A flat roof read off the orthophoto keeps its measured colour; it had fallen
   back to the dark membrane.
 
+## A block of flats stands among blocks of flats (the same evening)
+
+**Owner report**, from a phone at Veckefjärden's tenth: "this house does not
+fit into Veckefjärden, no multiple floors apartment buildings close to the
+Veckefjärden course". It was a four-storey yellow block with balconies.
+
+**What had gone wrong.** The footprint is tagged `building=residential`, at
+244 m². The kit took any residential tag over 200 m² as a block of flats, and so
+any residential land use over 320 m², or Lantmäteriet's `Bostad`. The orthophoto
+shows a long house with its garage. A residential tag says only that people live
+there.
+
+**The rule.** Unless a footprint is tagged as flats (`apartments`, `block`), it
+is a block only where another footprint that would be one on its own tags stands
+within `BLOCK_COMPANY` (90 m) of its centre (`blockCompany`). Every footprint it
+changed was checked against the orthophoto, and all are houses:
+
+| Course | Footprint | Seen from above |
+| --- | --- | --- |
+| Veckefjärden | by the tenth, 244 m² | a house with its garage |
+| Veckefjärden | 1.3 km off, 483 m² | a low L among villas |
+| Ängsö | 223 m² | a villa |
+| Ribbingsfors | 389 m² | a long gabled outbuilding |
+| Tortuna | 422 m² | a two-storey house in the village |
+| Uppsala (both routings) | 394 and 567 m² | attached houses, a large house |
+| Lidingö | four of 324-352 m² | large villas by the water and in their gardens |
+
+The blocks kept are the real ones:
+- Veckefjärden's eight are Örnsköldsvik's three-storey slab blocks, over 1.1 km
+  from any hole.
+- Lidingö keeps 49 in its estates, among them two modern blocks that stand
+  as a pair and so keep each other company.
+
+`stats.houseKit.loneBlocks` counts the footprints turned to villas.
+
+**Shallow jogs.** The house by the tenth then drew flat behind a parapet. Its
+outline steps four times by 1.5-2.7 m, which no three rectangles at least 2.4 m
+wide can follow. A footprint that will not part at its mapped steps is now tried
+again with every step shallower than `HOUSE_KIT.jog` (2.4 m) straightened, as
+long as the outline keeps its area within 12%. That gives about 70 villas and
+barns pitched roofs where they had flat ones:
+- Norrfällsviken's row of holiday houses (19 villas were flat, 1 is now);
+- 20 at Lidingö and 13 at Uppsala;
+- 10 at Tortuna and 4 at Veckefjärden.
+
+The roofs were checked on the GPU at Veckefjärden, Norrfällsviken and Lidingö.
+
 ## The befores
 
 - `?houses=before` draws every house as the batch did.

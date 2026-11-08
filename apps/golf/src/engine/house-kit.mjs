@@ -61,6 +61,9 @@ export const HOUSE_KIT = Object.freeze({
   plinth: { villa: 0.45, shed: 0.15, garage: 0.1, outbuilding: 0.2, barn: 0.35, hall: 0.15, block: 0.6, store: 0.2, school: 0.4 },
   /* a footprint is a rectangle when it fills this share of its oriented box */
   rectCover: 0.9,
+  /* a step in a wall shallower than this is the wall's jog, not a wing: an orthogonal footprint that will
+     not part into rectangles at the mapped steps is tried again with these jogs straightened */
+  jog: 2.4,
   colours: { plinth: 0x8f8b84, gutter: 0x45494c, membrane: 0x3b3e40, steel: 0x5d6265, metalRoof: 0x5f666a,
     coping: 0x6b7073, doors: [0x2f4a3a, 0x24384f, 0x6e2e25, 0xf0ead7, 0x7a5434, 0x3a3d40, 0x8a7a5f],
     blockWalls: [0xc9a96e, 0x9a5038, 0xded4ac, 0xe3ded2, 0xa8aaa5], hallWalls: [0x9faeb0, 0xb9bdbf, 0x5f7d6a, 0x7d8c99, 0xa2483a],
@@ -210,7 +213,7 @@ export function footprintFrame(ring) {
     const f = rectFrame(box.cx, box.cz, box.ang, box.hw, box.hd);
     return { kind: 'rect', area, box, cover, rects: [f], ring: rectRing(f) };
   }
-  const ortho = orthogonalRects(ring, box);
+  const ortho = orthogonalRects(ring, box) ?? orthogonalRects(ring, box, HOUSE_KIT.jog);
   if (ortho) return { kind: 'ortho', area, box, cover, rects: ortho.rects, ring: ortho.ring, contacts: ortho.contacts };
   return { kind: 'complex', area, box, cover, rects: [], ring };
 }
@@ -224,8 +227,10 @@ function rectRing(f) {
 
 /* Orthogonal footprints (an L, a T, a stepped wing) into at most three rectangles: the
    ring in its box's frame, every edge along an axis, its coordinates snapped onto a grid,
-   and the largest rectangle of grid cells taken first. */
-function orthogonalRects(ring, box) {
+   and the largest rectangle of grid cells taken first. With `jog`, the grid's lines closer
+   than that from the first of their group are one line, at their mean, so a shallow step
+   is straightened (and the outline keeps its area within 12%). */
+function orthogonalRects(ring, box, jog = 0) {
   const c = Math.cos(box.ang), s = Math.sin(box.ang);
   const local = ring.map(([x, z]) => [(x - box.cx) * c + (z - box.cz) * s, -(x - box.cx) * s + (z - box.cz) * c]);
   for (let i = 0; i < local.length; i++) {
@@ -236,13 +241,14 @@ function orthogonalRects(ring, box) {
   }
   const snap = values => {
     const sorted = [...values].sort((p, q) => p - q), out = [];
-    for (const v of sorted) if (!out.length || v - out[out.length - 1].last > 0.45) out.push({ sum: v, n: 1, last: v });
+    for (const v of sorted) if (!out.length || (jog ? v - out[out.length - 1].first > jog : v - out[out.length - 1].last > 0.45)) out.push({ sum: v, n: 1, first: v, last: v });
     else { const g = out[out.length - 1]; g.sum += v; g.n++; g.last = v; }
     return out.map(g => g.sum / g.n);
   };
   const U = snap(local.map(p => p[0])), V = snap(local.map(p => p[1]));
   const near = (arr, v) => arr.reduce((best, w) => Math.abs(w - v) < Math.abs(best - v) ? w : best, arr[0]);
   const snapped = local.map(([u, v]) => [near(U, u), near(V, v)]);
+  if (jog && Math.abs(ringArea(snapped) - ringArea(local)) > 0.12 * ringArea(local)) return null;
   const cells = [];
   for (let i = 0; i < U.length - 1; i++) {
     cells.push([]);
@@ -294,9 +300,11 @@ function orthogonalRects(ring, box) {
 /** The house type a footprint is drawn as, from its tags, its size and the land use round it, or null
     for a building the kit must not draw as a house (a church keeps the batch's drawing). Lantmäteriet's
     purpose (`municipalSubtype`, on a measured ground) comes before OpenStreetMap's tag where it exists. */
-export function classifyBuilding({ kind = 'yes', name = null, area, landuse = null, seed = 0, subtype = null, depth = null, amenity = null }) {
+export function classifyBuilding({ kind = 'yes', name = null, area, landuse = null, seed = 0, subtype = null, depth = null, amenity = null, company = null }) {
   /* a barn is deep; a farmhouse in the same yard is not (the short side of its oriented box) */
   const deep = depth == null ? rnd(seed, 1) < 0.5 : depth > 10.5;
+  /* a block of flats stands among blocks of flats (BLOCK_COMPANY); `company` null is not known */
+  const among = company == null || company > 0;
   if (name && /kyrka|kapell|church|chapel|vattentorn|water tower/i.test(name)) return null;
   if (name && /förskola|preschool/i.test(name)) return 'villa';
   if (name && /skola|school|vittra/i.test(name)) return 'school';
@@ -305,7 +313,7 @@ export function classifyBuilding({ kind = 'yes', name = null, area, landuse = nu
   if (name && /pump/i.test(name)) return 'outbuilding';
   /* a restaurant, a café or a hotel is a house people come to, never a barn or a block of flats */
   if (amenity && /^(restaurant|cafe|hotel|pub|bar|fast_food|guest_house)$/.test(amenity)) return area > 1500 ? 'store' : 'villa';
-  if (subtype === 'Bostad') return area > 320 ? 'block' : 'villa';
+  if (subtype === 'Bostad') return area > 320 && among ? 'block' : 'villa';
   if (subtype === 'Komplementbyggnad') return area < 22 ? 'shed' : kind === 'garage' || area < 80 ? 'garage' : 'outbuilding';
   if (subtype === 'Samhällsfunktion') return area > 300 ? 'school' : 'villa';
   if (kind === 'industrial' || kind === 'warehouse') return area < 55 ? 'outbuilding' : 'hall';
@@ -320,12 +328,32 @@ export function classifyBuilding({ kind = 'yes', name = null, area, landuse = nu
   if (kind === 'house' || kind === 'detached' || kind === 'semidetached_house' || kind === 'farm') return area < 22 ? 'shed' : 'villa';
   if (area < 22) return 'shed';
   if (area < 58) return 'outbuilding';
-  if (kind === 'residential' || kind === 'apartments' || kind === 'block') return area > 200 ? 'block' : 'villa';
-  if (landuse === 'residential') return area > 320 ? 'block' : 'villa';
+  if (kind === 'apartments' || kind === 'block') return area > 200 ? 'block' : 'villa';
+  if (kind === 'residential') return area > 200 && among ? 'block' : 'villa';
+  if (landuse === 'residential') return area > 320 && among ? 'block' : 'villa';
   if (landuse === 'commercial' || landuse === 'retail') return 'store';
   if (landuse === 'industrial') return 'hall';
   if (landuse === 'farmland' || landuse === 'farmyard' || landuse === 'meadow') return area > 90 && deep ? 'barn' : 'villa';
   return area > 450 ? 'hall' : area > 110 && deep ? 'barn' : 'villa';
+}
+
+/* A BLOCK OF FLATS STANDS AMONG BLOCKS OF FLATS (owner report, 8 November: "no multiple floors apartment
+   buildings close to the Veckefjärden course"). A residential tag, Lantmäteriet's `Bostad` or the
+   residential land use round a footprint says only that people live there. A lone large one is a villa
+   with its garage, a farmhouse or a big house in its garden: Veckefjärden's by the tenth hole, Ängsö's,
+   Lidingö's villas, as the orthophoto shows them. So, unless it is tagged as flats, a footprint is a block
+   only where another footprint that would be one on its own tags stands within BLOCK_COMPANY metres of
+   its centre, as Örnsköldsvik's and Lidingö's estates do. */
+export const BLOCK_COMPANY = 90;
+/** How many of `sites` ([[x, z], ...]: the centres of the footprints that would be blocks with no company
+    asked) stand within BLOCK_COMPANY of (x, z), the footprint there itself not counted. */
+export function blockCompany(sites, x, z) {
+  let n = 0;
+  for (const [sx, sz] of sites) {
+    const d = Math.hypot(sx - x, sz - z);
+    if (d > 0.5 && d < BLOCK_COMPANY) n++;
+  }
+  return n;
 }
 
 /** Does a pack call (nearly) every building a house? Lidingö's, Tortuna's and Visby's do, from their
