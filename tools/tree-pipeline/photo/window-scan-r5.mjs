@@ -6,7 +6,8 @@
    window (and the dropped ones) and stay out of EXCLUDED: areas whose
    detector output the main session looked at before the sample was frozen.
 
-   node tools/tree-pipeline/photo/window-scan-r5.mjs --raw <cache> [--top 6]  */
+   node tools/tree-pipeline/photo/window-scan-r5.mjs --raw <cache> [--top 6] [--earlier reference-windows-r5.json]
+   (round 6 reads round 5's windows as the earlier ones)  */
 import fs from 'node:fs';
 import { parseArgs } from 'node:util';
 import { loadGroundConfig, ROOT } from '../config.mjs';
@@ -19,7 +20,7 @@ export const EXCLUDED = [
   { bbox: [679130, 6625620, 679330, 6626140], why: 'hole 18 by the water: the main session read the round-4 candidates and holds there on 2026-11-09 (the owner report of missing shore trees)' },
 ];
 
-const { values: args } = parseArgs({ options: { raw: { type: 'string' }, top: { type: 'string', default: '6' } } });
+const { values: args } = parseArgs({ options: { raw: { type: 'string' }, top: { type: 'string', default: '6' }, earlier: { type: 'string', default: 'reference-windows-r4b.json' } } });
 const ctx = loadGroundConfig(ROOT, 'johannesberg', { raw: args.raw, round: 'r4b' });
 const top = Number(args.top);
 const { groundCourses, geometry, holeLines, practiceRings } = playGeometry(ctx);
@@ -34,7 +35,7 @@ const share = (e, n) => {
   for (let y = -8; y < 8; y += 1) for (let x = -8; x < 8; x += 1) { t++; if (at(e + x + 0.5, n + y + 0.5) >= 3) k++; }
   return k / t;
 };
-const declared = JSON.parse(fs.readFileSync(ctx.reviewFile('reference-windows-r4b.json'), 'utf8'));
+const declared = JSON.parse(fs.readFileSync(ctx.reviewFile(args.earlier), 'utf8'));
 const earlier = [...declared.windows, ...(declared.dropped || [])];
 const overlaps = (a, b, m) => a[0] < b[2] + m && a[2] > b[0] - m && a[1] < b[3] + m && a[3] > b[1] - m;
 

@@ -24,16 +24,16 @@ test('Johannesberg config validates and gives the published review frame', () =>
   const config = johannesberg();
   assert.deepEqual(validateGroundConfig(config, { groundId: 'johannesberg' }), []);
   const ctx = loadGroundConfig(ROOT, 'johannesberg');
-  assert.equal(ctx.round.id, 'r4b');
+  assert.equal(ctx.round.id, 'r6');
   assert.equal(ctx.round.detector, 'fused');
-  assert.equal(ctx.round.publishes, 'r4');
+  assert.equal(ctx.round.publishes, undefined);
   assert.equal(ctx.roundOf('r3').detector, 'refined');
   assert.equal(ctx.roundOf('r2').detector, 'typed');
   assert.equal(ctx.leafOff.date, '2021-04-18');
   assert.equal(ctx.presence.date, '2025-06-14');
   assert.deepEqual(haloWindow(config), { minEasting: 678343.5, minNorthing: 6624216.5, maxEasting: 680511.5, maxNorthing: 6626384.5 });
   assert.deepEqual({ ...chmGrid(config) }, { minEasting: 678343.5, maxNorthing: 6626384.5, width: 4336, height: 4336, sampleSpacingMetres: 0.5 });
-  assert.equal(ctx.sampleFile('benchmark'), 'benchmark-r4b.json');
+  assert.equal(ctx.sampleFile('benchmark'), 'benchmark-r6.json');
   assert.equal(ctx.sampleFile('benchmark', 'json', 'r2'), 'benchmark-r2.json');
   assert.equal(ctx.sampleFile('detector-lock', 'json', 'r1'), 'detector-lock.json');
   assert.equal(ctx.sampleFile('reference', 'geojson', 'r2'), 'reference-r2.geojson');
@@ -502,7 +502,7 @@ test('confirm fusion: a photo crown takes back only a suppressed laser top with 
 
 test('Johannesberg: round 4b publishes the round-4 lock, gated on X1-X5 under the owner exception pinned to benchmark-r4b', async () => {
   const { gateReport } = await import('./benchmark.mjs');
-  const ctx = loadGroundConfig(ROOT, 'johannesberg');
+  const ctx = loadGroundConfig(ROOT, 'johannesberg', { round: 'r4b' });
   const report = gateReport(ctx);
   assert.equal(report.gate.status, 'FAIL');
   assert.equal(report.gate.method, 'round4-detector', 'the published detector is the round-4 lock');
@@ -551,7 +551,7 @@ test('width split: only a crown too wide for one tree of its height gives back i
   assert.equal(seed.protect, true);
 });
 
-test('Johannesberg: round 5 is scored once on Y1-Y8 and does not replace round 4 (precision under the declared 0.95)', () => {
+test('Johannesberg: round 5 is scored once on Y1-Y8 and did not replace round 4 (precision under the declared 0.95)', () => {
   const dir = 'geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/';
   const benchmark = JSON.parse(fs.readFileSync(path.join(ROOT, dir, 'benchmark-r5.json'), 'utf8'));
   const windows = JSON.parse(fs.readFileSync(path.join(ROOT, dir, 'reference-windows-r5.json'), 'utf8'));
@@ -560,9 +560,8 @@ test('Johannesberg: round 5 is scored once on Y1-Y8 and does not replace round 4
   assert.equal(r5.tp + r5.missed, 120);
   assert.ok(r5.f1 > r4.f1 && r5.recall > r4.recall, 'round 5 beats round 4 on F1 and recall');
   assert.ok(r5.precision < 0.95, 'but misses the precision floor');
-  const ctx = loadGroundConfig(ROOT, 'johannesberg');
-  assert.equal(ctx.round.id, 'r4b', 'so the trees stay at round 4 (r4b publishes the round-4 lock)');
-  assert.equal(ctx.round.publishes, 'r4');
+  /* round 5 was never published: round 6 replaced round 4 under the owner's exception */
+  assert.equal(loadGroundConfig(ROOT, 'johannesberg').config.ownerExceptions.some(x => x.round === 'r5'), false);
 });
 
 test('the bank rule: valid settings only, never buildings; the hold review matches within 0.5 m', async () => {
@@ -581,4 +580,42 @@ test('the bank rule: valid settings only, never buildings; the hold review match
   assert.equal(heldVerdict(review, { easting: 100.04, northing: 200.01 })?.verdict, 'bank');
   assert.equal(heldVerdict(review, { easting: 100.4, northing: 200.2 })?.verdict, 'bank');
   assert.equal(heldVerdict(review, { easting: 101, northing: 200 }), null, 'a neighbour 1 m away is another crown');
+});
+
+test('round 6: the width split never takes a top on a mapped building, and is published under the owner exception pinned to benchmark-r6', async () => {
+  const { buildingMask } = await import('./geometry.mjs');
+  const { splitWideCrowns, SPLIT_DEFAULTS } = await import('./photo-fusion.mjs');
+  const { gateReport } = await import('./benchmark.mjs');
+  /* the mask: a 4 m square footprint with a 0.5 m buffer, on 0.5 m cells */
+  const grid = { minEasting: 0, maxNorthing: 20, width: 40, height: 40, sampleSpacingMetres: 0.5 };
+  const mask = buildingMask(grid, [[[10, 8], [14, 8], [14, 12], [10, 12]]], 0.5);
+  const at = (e, n) => Math.floor((grid.maxNorthing - n) / 0.5) * grid.width + Math.floor(e / 0.5);
+  assert.equal(mask[at(12, 10)], 1, 'inside');
+  assert.equal(mask[at(14.3, 10)], 1, 'in the buffer');
+  assert.equal(mask[at(16, 10)], 0, 'outside');
+  /* a wide crown on a roof: round 5 split it; with excludeBuildings the split needs the mask and refuses the top */
+  const smooth = new Float32Array(grid.width * grid.height).fill(6);
+  const labels = new Int32Array(grid.width * grid.height).fill(0);
+  const detection = { labels, crowns: [{ id: 0, heightMetres: 6, equivalentRadiusMetres: 6, areaSquareMetres: Math.PI * 36 }] };
+  const top = { index: at(12, 10), easting: 12.25, northing: 9.75, height: 6, type: 'broadleaf' };
+  const split = { ...SPLIT_DEFAULTS, minimumDipMetres: 0, minimumSeparationMetres: 2 };
+  const typical = { a: 1, b: 0.1 };
+  const seeds = [{ easting: 4, northing: 4, height: 7 }];
+  assert.equal(splitWideCrowns(grid, detection, [top], seeds, smooth, new Map(), typical, split).length, 1);
+  assert.throws(() => splitWideCrowns(grid, detection, [top], seeds, smooth, new Map(), typical, { ...split, excludeBuildings: true }), /mask/);
+  assert.equal(splitWideCrowns(grid, detection, [top], seeds, smooth, new Map(), typical, { ...split, excludeBuildings: true }, { buildings: mask }).length, 0);
+  /* Johannesberg: round 6 is active, its lock keeps buildings out, the gate fails and the owner's exception covers it */
+  const ctx = loadGroundConfig(ROOT, 'johannesberg');
+  assert.equal(ctx.round.id, 'r6');
+  const lock = JSON.parse(fs.readFileSync(ctx.reviewFile('detector-lock-r6.json'), 'utf8'));
+  assert.equal(lock.selected.split.excludeBuildings, true);
+  assert.equal(lock.extendsLock.round, 'r4');
+  const report = gateReport(ctx);
+  assert.equal(report.gate.status, 'FAIL');
+  assert.equal(report.gate.method, 'round6-detector');
+  assert.equal(report.gate.measured.scored, 105);
+  assert.equal(report.verdict.allowed, true);
+  const exception = ctx.config.ownerExceptions.find(x => x.round === 'r6');
+  assert.match(exception.decision, /Yes, publish round 6 \(Recommended\)/);
+  assert.equal(exception.benchmark.sha256, report.benchmark.sha256);
 });

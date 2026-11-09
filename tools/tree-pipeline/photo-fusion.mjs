@@ -330,7 +330,7 @@ export function combinations(grid, base) {
  * suppressed tops a photo crown confirms, then every crown regrown from the
  * full set of seeds.
  */
-export function detectTreesFused(grid, chm, typeMap, typedParameters, refineParameters, referee, centres, field, fuse, { surfaces = null, smoothChmFn, overSegmentedTops, suppressedTops, REFINE_DEFAULTS, split = null, typical = null }) {
+export function detectTreesFused(grid, chm, typeMap, typedParameters, refineParameters, referee, centres, field, fuse, { surfaces = null, smoothChmFn, overSegmentedTops, suppressedTops, REFINE_DEFAULTS, split = null, typical = null, buildings = null }) {
   const first = detectTreesTypedWithSeeds(grid, chm, typeMap, typedParameters, { surfaces });
   const p = { ...REFINE_DEFAULTS, ...refineParameters };
   const smooth = smoothChmFn(grid, chm, p.candidateSigmaMetres);
@@ -347,7 +347,7 @@ export function detectTreesFused(grid, chm, typeMap, typedParameters, refinePara
   if (!split) return { ...second, first, suppressed: suppressed.length, recovered: recovered.length, confirmed: confirmed.length };
   /* round 5: the width split (below), then every crown regrown once more */
   const rest = suppressed.filter(t => !recoveredSet.has(t.index));
-  const added = splitStep(grid, second, seeds, confirmed, rest, centres, field, fuse, smooth, split, typical);
+  const added = splitStep(grid, second, seeds, confirmed, rest, centres, field, fuse, smooth, split, typical, buildings);
   const third = added.length ? detectTreesTypedWithSeeds(grid, chm, typeMap, typedParameters, { surfaces, extraMaxima: [...recovered, ...confirmed, ...added] }) : second;
   return { ...third, first, suppressed: suppressed.length, recovered: recovered.length, confirmed: confirmed.length, split: added.length };
 }
@@ -381,6 +381,8 @@ export const SPLIT_DEFAULTS = Object.freeze({
   maximumPerCrown: 3,
   protect: true,
   types: Object.freeze(['conifer', 'broadleaf']),
+  /* round 6: never a top on a mapped building or within 0.5 m of one (the caller passes the mask) */
+  excludeBuildings: false,
 });
 export const SPLIT_TUNE_GRID = Object.freeze({
   widthFactor: [1.2, 1.4, 1.7, 2],
@@ -448,14 +450,16 @@ export function pairedScores(tops, centres, field, { projectionFraction, matchRa
  * candidates' smoothed CHM on `grid`, `scores` the paired photo scores by
  * top index. Returns the accepted tops.
  */
-export function splitWideCrowns(grid, detection, candidates, seeds, smooth, scores, typical, parameters = SPLIT_DEFAULTS) {
+export function splitWideCrowns(grid, detection, candidates, seeds, smooth, scores, typical, parameters = SPLIT_DEFAULTS, { buildings = null } = {}) {
   const p = { ...SPLIT_DEFAULTS, ...parameters };
+  if (p.excludeBuildings && !buildings) throw new Error('the width split excludes buildings: pass their mask');
   const s = grid.sampleSpacingMetres;
   const sample = (e, n) => { const c = Math.floor((e - grid.minEasting) / s), r = Math.floor((grid.maxNorthing - n) / s); return c < 0 || r < 0 || c >= grid.width || r >= grid.height ? Number.NaN : smooth[r * grid.width + c]; };
   const all = seeds.map(t => ({ easting: t.easting, northing: t.northing, height: t.height }));
   const byCrown = new Map();
   for (const t of candidates) {
     if (!p.types.includes(t.type)) continue;
+    if (p.excludeBuildings && buildings[t.index]) continue;
     const label = detection.labels[t.index];
     if (!(label >= 0)) continue;
     if (!byCrown.has(label)) byCrown.set(label, []);
@@ -494,16 +498,16 @@ export function splitWideCrowns(grid, detection, candidates, seeds, smooth, scor
 }
 
 /** The split's inputs from a confirm detection: the tops not yet seeds, every seed, and their paired photo scores. */
-export function splitStep(grid, detection, kept, confirmed, suppressed, centres, field, fuse, smooth, split, typical) {
+export function splitStep(grid, detection, kept, confirmed, suppressed, centres, field, fuse, smooth, split, typical, buildings = null) {
   const confirmedSet = new Set(confirmed.map(t => t.index));
   const candidates = suppressed.filter(t => !confirmedSet.has(t.index));
   const seeds = [...kept, ...confirmed.map(t => ({ easting: t.easting, northing: t.northing, height: t.height }))];
   const scores = split.photoScore > 0 ? pairedScores([...kept, ...candidates], centres, field, fuse) : new Map();
-  return splitWideCrowns(grid, detection, candidates, seeds, smooth, scores, typical, split);
+  return splitWideCrowns(grid, detection, candidates, seeds, smooth, scores, typical, split, { buildings });
 }
 
 /** Round 5 on one prepared window: the confirm fused detector, then the width split, then every crown regrown. */
-export function splitFromPrepared(entry, typedParameters, prepared, refine, centres, field, fuse, split, typical) {
+export function splitFromPrepared(entry, typedParameters, prepared, refine, centres, field, fuse, split, typical, buildings = null) {
   const { grid, values } = entry.cropped;
   const recovered = recoverTops(prepared.suppressed, { apexReturns: t => t.apexCount, photoValley: (role, t, o, f) => t.valleys?.[role]?.[f] ?? null }, refine);
   const recoveredSet = new Set(recovered.map(t => t.index));
@@ -511,7 +515,7 @@ export function splitFromPrepared(entry, typedParameters, prepared, refine, cent
   const rest = prepared.suppressed.filter(t => !recoveredSet.has(t.index));
   const confirmed = confirmTops(kept, rest, centres, field, prepared.smoothCandidates, grid, fuse);
   const second = detectTreesTypedWithSeeds(grid, values, prepared.typeMap, typedParameters, { surfaces: prepared.surfaces, extraMaxima: [...recovered, ...confirmed] });
-  const added = splitStep(grid, second, kept, confirmed, rest, centres, field, fuse, prepared.smoothCandidates, split, typical);
+  const added = splitStep(grid, second, kept, confirmed, rest, centres, field, fuse, prepared.smoothCandidates, split, typical, buildings);
   const { crowns } = added.length ? detectTreesTypedWithSeeds(grid, values, prepared.typeMap, typedParameters, { surfaces: prepared.surfaces, extraMaxima: [...recovered, ...confirmed, ...added] }) : second;
   return crowns.map(c => ({ easting: c.position.easting, northing: c.position.northing, radius: c.equivalentRadiusMetres, height: c.heightMetres, type: c.type, recovered: Boolean(c.recovered) }));
 }
