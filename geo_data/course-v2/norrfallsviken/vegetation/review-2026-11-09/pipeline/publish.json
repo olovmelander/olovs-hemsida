@@ -1,0 +1,107 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "publish",
+ "groundId": "norrfallsviken",
+ "reviewId": "review-2026-11-09",
+ "round": null,
+ "ranAt": "2026-11-09T13:58:47.643Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/norrfallsviken/trees.json",
+  "bytes": 15471,
+  "sha256": "cc92004c9c983cff1e2afe8c9ad9a206c4045d2562d171a3f1efdd6971e07f89"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "902b5b9274dc934bafaa26fcd20a3149d70552ea0a94dc79891b8abe721b69b5",
+  "tools/tree-pipeline/config.mjs": "a876ddafc1f54d7fec2e5a894383f68d0edcd773ebbc9ae53003e96b18bbbffb",
+  "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "5a39a00b0abecb6be297d492ccbe3adec66c69cf0b8b4bc961606bebe138ecdf",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "08471353d981e22d7a473c5797c0c1196bb14c97f1747bd1a2875992593a07a2",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "c89e0a6df9e10d67452b02ae661c3bdd7a2ec20edb2009a97977f002cf849e8a",
+  "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
+  "tools/tree-pipeline/verify.mjs": "70b015064808fa3e3cf56a8274b1f47ea285d83f40a56822c6f88809c0dc8950",
+  "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
+  "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+  "tools/tree-pipeline/candidates.mjs": "63cc19e89ce02ba754f9fcaf1471090c762062e9c6facb3e3d262a23446daff6",
+  "tools/tree-pipeline/review.mjs": "9ec7d0288c7e77198e5b77dd7d1f08e7ad1dce817a2a6df4c7b191a8b46e014d",
+  "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
+  "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+  "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/candidates.csv",
+   "bytes": 4385741,
+   "sha256": "135b5156873524dc44243f3dc786da3533d4ca48910813a89d04b32861058eb3"
+  },
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/residual-chm-050.bin",
+   "bytes": 67108864,
+   "sha256": "dc79a623f85e6fe1fadad3a6c97fe44b26ba6e8b0dbbe3b91d67fb0ce54711d4"
+  },
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/residual-labels-050.bin",
+   "bytes": 67108864,
+   "sha256": "86098f908857dba2ec60f628ed56c5fb3db5518a69ae661b4585093dcffe6ce1"
+  },
+  {
+   "path": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/review-checklist.json",
+   "bytes": 4711,
+   "sha256": "76095e345563f571b05f0e260fd6370d366a6e8cd57dd25f362012ab7625df3d"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "output/course-workflow/norrfallsviken/reviewed-compile/staging-verification.json",
+   "bytes": 900,
+   "sha256": "0c09562653b72bb97b2e2324ed21b93db0dbb4dd7ce4e2a452506dd08f81d24f"
+  }
+ ],
+ "result": {
+  "gate": {
+   "allowed": true,
+   "gate": "PASS",
+   "note": "held-out gate passed"
+  },
+  "ownerApproval": {
+   "gate": "not-needed",
+   "openOwnerItems": [
+    "checklist felled-list-confirmed [owner] is open",
+    "checklist species-mix-screenshots [owner] is open",
+    "checklist runtime-cost-measured [owner] is open"
+   ]
+  },
+  "integrity": true,
+  "counts": {
+   "trees": 48254,
+   "typed": {
+    "conifer": 39168,
+    "broadleaf": 10,
+    "null": 9076
+   },
+   "play": {
+    "near": 6250,
+    "woodland": 33200,
+    "none": 8804
+   },
+   "objectTiles": 163,
+   "standTiles": 229,
+   "attributeTiles": 49
+  }
+ }
+}

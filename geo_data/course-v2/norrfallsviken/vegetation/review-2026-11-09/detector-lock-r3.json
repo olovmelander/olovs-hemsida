@@ -1,0 +1,750 @@
+{
+  "schemaVersion": 1,
+  "kind": "detector-lock",
+  "round": "r3",
+  "detector": "fused",
+  "method": "fused detector: the r2 refined lock (type-aware detector, then laser- and photo-refereed recovery), then the suppressed laser tops a learned photo crown confirms (DeepForest on the 2024-06-27 photo; photo-fusion.mjs, confirm mode): tops moved to where the photo draws them by the relief field, paired one-to-one with photo boxes, and taken back only when their box scores high enough and the laser shows their own crown; the photo never places a seed of its own",
+  "frozenAt": "2026-11-09T12:59:33.900Z",
+  "referenceLockSha256": "b4363e51fa65bad10b01b01a6c52f98732ac957376ae3ec603a804bc278a9db7",
+  "chmSha256": "72c6a5f6b8f9067844fa91864831f9d339880f16344f6a6f38f03439673f5cae",
+  "reliefSha256": "515cd152158931240627f3cb2bc06c909abec1c407f2ba96fbb52d56f9f4d054",
+  "startLockSha256": "c147c3b8b5d65bdd423730bcc7f340b74104db7b4e20b0b0b762f07e68de5e3a",
+  "photoDetectSha256": "ca6e949f57014c267faf813fd4ec8fd217b09d642ecac66ea7c7adf9172b3af9",
+  "code": {
+    "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+    "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+    "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+    "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+    "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+    "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+    "tools/tree-pipeline/photo-fusion.mjs": "7f7681260ea72d8a2171512a0db566f0df5303e5375f95d82674d5150edd85ae"
+  },
+  "tuning": null,
+  "selection": "calibration windows only; the r2 typed and refine settings fixed; per photo source (photo-detect's calibration crowns, cross-fitted for fine-tuned weights) the joint CONFIRM_TUNE_GRID, then a coordinate polish over CONFIRM_SEARCH; the source and settings with the best calibration F1 (then mean crown IoU, then median centre offset) are locked",
+  "grid": {
+    "projectionFraction": [
+      0.4,
+      0.5,
+      0.6,
+      0.8
+    ],
+    "minimumScore": [
+      0.2,
+      0.3,
+      0.4
+    ],
+    "matchRadiusMetres": [
+      2,
+      2.5,
+      3
+    ],
+    "minimumSeparationMetres": [
+      1.5,
+      2,
+      2.5,
+      3
+    ],
+    "minimumDipMetres": [
+      0,
+      0.5
+    ],
+    "types": [
+      [
+        "conifer"
+      ],
+      [
+        "conifer",
+        "broadleaf"
+      ]
+    ]
+  },
+  "search": {
+    "projectionFraction": [
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1
+    ],
+    "minimumScore": [
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.5
+    ],
+    "matchRadiusMetres": [
+      1.5,
+      2,
+      2.5,
+      3,
+      3.5
+    ],
+    "minimumSeparationMetres": [
+      1.5,
+      2,
+      2.5,
+      3,
+      3.5
+    ],
+    "minimumDipMetres": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "minimumApexReturns": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "types": [
+      [
+        "conifer"
+      ],
+      [
+        "broadleaf"
+      ],
+      [
+        "conifer",
+        "broadleaf"
+      ]
+    ]
+  },
+  "withoutPhoto": {
+    "f1": 0.946,
+    "precision": 0.966,
+    "recall": 0.928,
+    "iou": 0.817,
+    "offset": 0,
+    "tp": 168,
+    "missed": 13,
+    "extra": 6
+  },
+  "evaluations": 5071,
+  "perSource": {
+    "pre-p40": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 0.5,
+        "matchRadiusMetres": 2.5,
+        "minimumScore": 0.2,
+        "minimumSeparationMetres": 2,
+        "minimumDipMetres": 0,
+        "minimumApexReturns": 0,
+        "types": [
+          "conifer",
+          "broadleaf"
+        ]
+      },
+      "calibration": {
+        "f1": 0.949,
+        "precision": 0.966,
+        "recall": 0.934,
+        "iou": 0.829,
+        "offset": 0,
+        "tp": 169,
+        "missed": 12,
+        "extra": 6
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.5,
+            "matchRadiusMetres": 2.5,
+            "minimumScore": 0.2,
+            "minimumSeparationMetres": 2,
+            "minimumDipMetres": 0,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer",
+              "broadleaf"
+            ]
+          },
+          "f1": 0.949,
+          "precision": 0.966,
+          "recall": 0.934,
+          "iou": 0.829,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 6
+        }
+      ]
+    },
+    "pre-p50": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 0.4,
+        "matchRadiusMetres": 3,
+        "minimumScore": 0.2,
+        "minimumSeparationMetres": 2,
+        "minimumDipMetres": 0.5,
+        "minimumApexReturns": 0,
+        "types": [
+          "conifer"
+        ]
+      },
+      "calibration": {
+        "f1": 0.946,
+        "precision": 0.966,
+        "recall": 0.928,
+        "iou": 0.833,
+        "offset": 0,
+        "tp": 168,
+        "missed": 13,
+        "extra": 6
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.4,
+            "matchRadiusMetres": 3,
+            "minimumScore": 0.2,
+            "minimumSeparationMetres": 2,
+            "minimumDipMetres": 0.5,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer"
+            ]
+          },
+          "f1": 0.946,
+          "precision": 0.966,
+          "recall": 0.928,
+          "iou": 0.833,
+          "offset": 0,
+          "tp": 168,
+          "missed": 13,
+          "extra": 6
+        }
+      ]
+    },
+    "pre-p64": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 0.6,
+        "matchRadiusMetres": 2,
+        "minimumScore": 0.1,
+        "minimumSeparationMetres": 1.5,
+        "minimumDipMetres": 0,
+        "minimumApexReturns": 4,
+        "types": [
+          "conifer"
+        ]
+      },
+      "calibration": {
+        "f1": 0.955,
+        "precision": 0.966,
+        "recall": 0.945,
+        "iou": 0.808,
+        "offset": 0,
+        "tp": 171,
+        "missed": 10,
+        "extra": 6
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.6,
+            "matchRadiusMetres": 2,
+            "minimumScore": 0.3,
+            "minimumSeparationMetres": 1.5,
+            "minimumDipMetres": 0,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer"
+            ]
+          },
+          "f1": 0.947,
+          "precision": 0.96,
+          "recall": 0.934,
+          "iou": 0.829,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 7
+        },
+        {
+          "step": "pass 1: minimumApexReturns = 3",
+          "f1": 0.947,
+          "precision": 0.96,
+          "recall": 0.934,
+          "iou": 0.831,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 7
+        },
+        {
+          "step": "pass 1: minimumApexReturns = 4",
+          "f1": 0.949,
+          "precision": 0.966,
+          "recall": 0.934,
+          "iou": 0.822,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 6
+        },
+        {
+          "step": "pass 2: minimumScore = 0.1",
+          "f1": 0.955,
+          "precision": 0.966,
+          "recall": 0.945,
+          "iou": 0.808,
+          "offset": 0,
+          "tp": 171,
+          "missed": 10,
+          "extra": 6
+        }
+      ]
+    },
+    "pre-p80": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 0.6,
+        "matchRadiusMetres": 2,
+        "minimumScore": 0.2,
+        "minimumSeparationMetres": 3,
+        "minimumDipMetres": 0,
+        "minimumApexReturns": 0,
+        "types": [
+          "conifer"
+        ]
+      },
+      "calibration": {
+        "f1": 0.95,
+        "precision": 0.96,
+        "recall": 0.939,
+        "iou": 0.807,
+        "offset": 0,
+        "tp": 170,
+        "missed": 11,
+        "extra": 7
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.6,
+            "matchRadiusMetres": 2,
+            "minimumScore": 0.2,
+            "minimumSeparationMetres": 3,
+            "minimumDipMetres": 0,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer"
+            ]
+          },
+          "f1": 0.95,
+          "precision": 0.96,
+          "recall": 0.939,
+          "iou": 0.807,
+          "offset": 0,
+          "tp": 170,
+          "missed": 11,
+          "extra": 7
+        }
+      ]
+    },
+    "ft-p40": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 0.4,
+        "matchRadiusMetres": 3,
+        "minimumScore": 0.4,
+        "minimumSeparationMetres": 1.5,
+        "minimumDipMetres": 0,
+        "minimumApexReturns": 0,
+        "types": [
+          "conifer",
+          "broadleaf"
+        ]
+      },
+      "calibration": {
+        "f1": 0.95,
+        "precision": 0.96,
+        "recall": 0.939,
+        "iou": 0.819,
+        "offset": 0,
+        "tp": 170,
+        "missed": 11,
+        "extra": 7
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.4,
+            "matchRadiusMetres": 3,
+            "minimumScore": 0.4,
+            "minimumSeparationMetres": 1.5,
+            "minimumDipMetres": 0,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer",
+              "broadleaf"
+            ]
+          },
+          "f1": 0.95,
+          "precision": 0.96,
+          "recall": 0.939,
+          "iou": 0.819,
+          "offset": 0,
+          "tp": 170,
+          "missed": 11,
+          "extra": 7
+        }
+      ]
+    },
+    "ft-p64": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 0.8,
+        "matchRadiusMetres": 3,
+        "minimumScore": 0.3,
+        "minimumSeparationMetres": 2.5,
+        "minimumDipMetres": 0,
+        "minimumApexReturns": 4,
+        "types": [
+          "conifer",
+          "broadleaf"
+        ]
+      },
+      "calibration": {
+        "f1": 0.955,
+        "precision": 0.966,
+        "recall": 0.945,
+        "iou": 0.817,
+        "offset": 0,
+        "tp": 171,
+        "missed": 10,
+        "extra": 6
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.8,
+            "matchRadiusMetres": 3,
+            "minimumScore": 0.3,
+            "minimumSeparationMetres": 2.5,
+            "minimumDipMetres": 0,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer",
+              "broadleaf"
+            ]
+          },
+          "f1": 0.953,
+          "precision": 0.961,
+          "recall": 0.945,
+          "iou": 0.823,
+          "offset": 0,
+          "tp": 171,
+          "missed": 10,
+          "extra": 7
+        },
+        {
+          "step": "pass 1: minimumApexReturns = 3",
+          "f1": 0.955,
+          "precision": 0.966,
+          "recall": 0.945,
+          "iou": 0.812,
+          "offset": 0,
+          "tp": 171,
+          "missed": 10,
+          "extra": 6
+        },
+        {
+          "step": "pass 1: minimumApexReturns = 4",
+          "f1": 0.955,
+          "precision": 0.966,
+          "recall": 0.945,
+          "iou": 0.817,
+          "offset": 0,
+          "tp": 171,
+          "missed": 10,
+          "extra": 6
+        }
+      ]
+    },
+    "pre-p50-x2": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 0.6,
+        "matchRadiusMetres": 2,
+        "minimumScore": 0.4,
+        "minimumSeparationMetres": 1.5,
+        "minimumDipMetres": 1,
+        "minimumApexReturns": 4,
+        "types": [
+          "conifer"
+        ]
+      },
+      "calibration": {
+        "f1": 0.949,
+        "precision": 0.966,
+        "recall": 0.934,
+        "iou": 0.812,
+        "offset": 0,
+        "tp": 169,
+        "missed": 12,
+        "extra": 6
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.6,
+            "matchRadiusMetres": 2,
+            "minimumScore": 0.4,
+            "minimumSeparationMetres": 1.5,
+            "minimumDipMetres": 0.5,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer"
+            ]
+          },
+          "f1": 0.947,
+          "precision": 0.96,
+          "recall": 0.934,
+          "iou": 0.818,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 7
+        },
+        {
+          "step": "pass 1: minimumDipMetres = 0.75",
+          "f1": 0.947,
+          "precision": 0.96,
+          "recall": 0.934,
+          "iou": 0.82,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 7
+        },
+        {
+          "step": "pass 1: minimumApexReturns = 4",
+          "f1": 0.949,
+          "precision": 0.966,
+          "recall": 0.934,
+          "iou": 0.811,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 6
+        },
+        {
+          "step": "pass 2: minimumDipMetres = 1",
+          "f1": 0.949,
+          "precision": 0.966,
+          "recall": 0.934,
+          "iou": 0.812,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 6
+        }
+      ]
+    },
+    "pre-p64-x2": {
+      "fuse": {
+        "mode": "confirm",
+        "projectionFraction": 1,
+        "matchRadiusMetres": 2,
+        "minimumScore": 0.3,
+        "minimumSeparationMetres": 1.5,
+        "minimumDipMetres": 0,
+        "minimumApexReturns": 3,
+        "types": [
+          "conifer",
+          "broadleaf"
+        ]
+      },
+      "calibration": {
+        "f1": 0.949,
+        "precision": 0.966,
+        "recall": 0.934,
+        "iou": 0.819,
+        "offset": 0,
+        "tp": 169,
+        "missed": 12,
+        "extra": 6
+      },
+      "trajectory": [
+        {
+          "step": "best of CONFIRM_TUNE_GRID",
+          "fuse": {
+            "mode": "confirm",
+            "projectionFraction": 0.5,
+            "matchRadiusMetres": 2,
+            "minimumScore": 0.3,
+            "minimumSeparationMetres": 1.5,
+            "minimumDipMetres": 0,
+            "minimumApexReturns": 0,
+            "types": [
+              "conifer",
+              "broadleaf"
+            ]
+          },
+          "f1": 0.947,
+          "precision": 0.96,
+          "recall": 0.934,
+          "iou": 0.819,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 7
+        },
+        {
+          "step": "pass 1: projectionFraction = 1",
+          "f1": 0.947,
+          "precision": 0.96,
+          "recall": 0.934,
+          "iou": 0.822,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 7
+        },
+        {
+          "step": "pass 1: minimumApexReturns = 3",
+          "f1": 0.949,
+          "precision": 0.966,
+          "recall": 0.934,
+          "iou": 0.819,
+          "offset": 0,
+          "tp": 169,
+          "missed": 12,
+          "extra": 6
+        }
+      ]
+    }
+  },
+  "selected": {
+    "parameters": {
+      "type": {
+        "ndviThreshold": 0.12,
+        "coniferShare": 0.5,
+        "radiusBaseMetres": 1.5,
+        "radiusSlope": 0.05
+      },
+      "conifer": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 0.5,
+        "windowSlope": 0,
+        "windowMinimumMetres": 1,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 0,
+        "prominenceFraction": 0,
+        "position": "apex"
+      },
+      "broadleaf": {
+        "smoothingSigmaMetres": 0.6,
+        "windowBaseMetres": 3,
+        "windowSlope": 0.08,
+        "windowMinimumMetres": 1.5,
+        "windowMaximumMetres": 4,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 1,
+        "prominenceFraction": 0.1,
+        "position": "apex"
+      },
+      "shared": {
+        "seedFraction": 0.45,
+        "crownFraction": 0.55,
+        "maximumCrownRadiusMetres": 10,
+        "extentFraction": 0.2,
+        "minimumCrownAreaSquareMetres": 4
+      },
+      "split": {
+        "areaFactor": 3,
+        "allometryBaseMetres": 1,
+        "allometrySlope": 0.1,
+        "fineSigmaMetres": 0.25,
+        "windowMetres": 1.5,
+        "minimumSeparationMetres": 2,
+        "seedFraction": 0.7
+      }
+    },
+    "refine": {
+      "types": [
+        "conifer"
+      ],
+      "minimumDipMetres": 0.5,
+      "minimumSeparationMetres": 1.5,
+      "apex": {
+        "minimumReturns": 0
+      },
+      "photo": {
+        "campaigns": [
+          "presence"
+        ],
+        "combine": "any",
+        "fraction": 0.9,
+        "minimumValley": 0.05
+      }
+    },
+    "photo": {
+      "source": "ft-p64",
+      "model": {
+        "id": "weecology/deepforest-tree",
+        "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+        "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8",
+        "licence": "MIT"
+      },
+      "allCrownsSha256": "506a143d0a642dd1a1722f0b06c5135fed08fdab28bbf98545a86180872bd854",
+      "calibrationCrownsSha256": "5bcf1d2492cf3c7d989a0496a5355990d0ec4995eff7e705624853d3c72802d1",
+      "tunedOn": "calibration"
+    },
+    "fuse": {
+      "mode": "confirm",
+      "projectionFraction": 0.8,
+      "matchRadiusMetres": 3,
+      "minimumScore": 0.3,
+      "minimumSeparationMetres": 2.5,
+      "minimumDipMetres": 0,
+      "minimumApexReturns": 4,
+      "types": [
+        "conifer",
+        "broadleaf"
+      ]
+    },
+    "calibration": {
+      "f1": 0.955,
+      "precision": 0.966,
+      "recall": 0.945,
+      "iou": 0.817,
+      "offset": 0,
+      "tp": 171,
+      "missed": 10,
+      "extra": 6
+    }
+  },
+  "windowRadiusIs": "radius (not diameter) of the circular local-maximum window, metres",
+  "photoDetector": "learned: weecology/deepforest-tree at cc21436bc5d5 (weights sha256 d37a7af0b5ba...), source ft-p64, on the GPU (photo-detect stage)"
+}

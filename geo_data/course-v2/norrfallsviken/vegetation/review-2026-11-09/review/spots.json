@@ -1,0 +1,145 @@
+{
+ "legend": {
+  "today": "blue circle = published individual record at its radius; orange dot = runtime stand tree",
+  "candidate": "green retain, yellow adjust, cyan add, orange hold, red cross remove, purple cross merge, grey cross not placed; square = conifer, dot = broadleaf/unknown; circle = crown radius"
+ },
+ "spots": [
+  {
+   "id": "hole1",
+   "title": "the 1st hole, tee to green",
+   "bbox": [
+    678640,
+    6988330,
+    679000,
+    6988500
+   ],
+   "laserPanel": "review/hole1.png",
+   "photoPanelCache": "norrfallsvikenbuild/cache/trees-2026-11-09/review-panels/hole1-photo.png",
+   "today": {
+    "records": 99,
+    "standTrees": 51
+   },
+   "candidates": {
+    "retain": 39,
+    "adjust": 54,
+    "add": 128,
+    "hold": 7,
+    "merge": 5
+   }
+  },
+  {
+   "id": "clubhouse",
+   "title": "the clubhouse, the 9th and 18th greens and the 10th tee",
+   "bbox": [
+    678520,
+    6988380,
+    678700,
+    6988560
+   ],
+   "laserPanel": "review/clubhouse.png",
+   "photoPanelCache": "norrfallsvikenbuild/cache/trees-2026-11-09/review-panels/clubhouse-photo.png",
+   "today": {
+    "records": 38,
+    "standTrees": 109
+   },
+   "candidates": {
+    "add": 248,
+    "adjust": 27,
+    "retain": 11,
+    "hold": 1,
+    "not-placed": 2,
+    "merge": 1
+   }
+  },
+  {
+   "id": "hole14-lake",
+   "title": "the lake by the 14th green",
+   "bbox": [
+    678900,
+    6988900,
+    679060,
+    6989030
+   ],
+   "laserPanel": "review/hole14-lake.png",
+   "photoPanelCache": "norrfallsvikenbuild/cache/trees-2026-11-09/review-panels/hole14-lake-photo.png",
+   "today": {
+    "records": 26,
+    "standTrees": 32
+   },
+   "candidates": {
+    "adjust": 15,
+    "retain": 10,
+    "add": 99,
+    "hold": 2
+   }
+  },
+  {
+   "id": "hole6-coast",
+   "title": "the coast wood by the 6th",
+   "bbox": [
+    679280,
+    6988100,
+    679420,
+    6988240
+   ],
+   "laserPanel": "review/hole6-coast.png",
+   "photoPanelCache": "norrfallsvikenbuild/cache/trees-2026-11-09/review-panels/hole6-coast-photo.png",
+   "today": {
+    "records": 16,
+    "standTrees": 159
+   },
+   "candidates": {
+    "add": 300,
+    "adjust": 12,
+    "retain": 3,
+    "merge": 1
+   }
+  },
+  {
+   "id": "holes15-16",
+   "title": "the heath by the 15th green and the 16th tee",
+   "bbox": [
+    679100,
+    6988780,
+    679320,
+    6988920
+   ],
+   "laserPanel": "review/holes15-16.png",
+   "photoPanelCache": "norrfallsvikenbuild/cache/trees-2026-11-09/review-panels/holes15-16-photo.png",
+   "today": {
+    "records": 33,
+    "standTrees": 79
+   },
+   "candidates": {
+    "adjust": 25,
+    "add": 118,
+    "retain": 4,
+    "not-placed": 1,
+    "merge": 3
+   }
+  },
+  {
+   "id": "village",
+   "title": "the holiday village south of the practice ground",
+   "bbox": [
+    678540,
+    6988180,
+    678700,
+    6988300
+   ],
+   "laserPanel": "review/village.png",
+   "photoPanelCache": "norrfallsvikenbuild/cache/trees-2026-11-09/review-panels/village-photo.png",
+   "today": {
+    "records": 27,
+    "standTrees": 151
+   },
+   "candidates": {
+    "add": 303,
+    "adjust": 17,
+    "retain": 9,
+    "not-placed": 10,
+    "merge": 1
+   }
+  }
+ ]
+}

@@ -321,9 +321,9 @@
     "sha256": "6f56dba4dadc203ed95f3cd79f7a9a146c1e49272cdee2f2576505e7280180cb"
    },
    "startup": {
-    "url": "grounds/norrfallsviken/startup/manifest-d3499efc59cb303ec42979ed7526527a7dc2b57cc58176ac3126d8ba5192360f.json",
-    "bytes": 160417,
-    "sha256": "d3499efc59cb303ec42979ed7526527a7dc2b57cc58176ac3126d8ba5192360f"
+    "url": "grounds/norrfallsviken/startup/manifest-d24d341a2e479069c599a06671ce4b53177d804a15ee2b221686849279dfc8a0.json",
+    "bytes": 160472,
+    "sha256": "d24d341a2e479069c599a06671ce4b53177d804a15ee2b221686849279dfc8a0"
    },
    "preparedTint": {
     "natural-hi": {
@@ -395,7 +395,7 @@
      ]
     },
     "painted-hi": {
-     "identity": "6745aab20d75b3cc51819888975178edc7d8f1c9940d2eacfc147c7ed460694e",
+     "identity": "36d047f97d8f98c955a9151dbf270d87da45c1fd57f42b987e613b931c10950d",
      "url": "courses/norrfallsviken/prepared/tint-068ff28f3336583cfae1b6bb8ecc0c2d62ac3048ce10d649e08bf9bf1fb1c31a.bin",
      "bytes": 928846,
      "decodedBytes": 3213576,
@@ -429,7 +429,7 @@
      ]
     },
     "painted-lo": {
-     "identity": "172df3e6ba0076a155d378aa21407df5ef5c31d7a43c605fb55d7042b5da8144",
+     "identity": "4a2eaaac63b34b7f00ecb91dd94b117a7aff1ecab55cacf15beaf2ed77041c11",
      "url": "courses/norrfallsviken/prepared/tint-068ff28f3336583cfae1b6bb8ecc0c2d62ac3048ce10d649e08bf9bf1fb1c31a.bin",
      "bytes": 928846,
      "decodedBytes": 3213576,
@@ -464,44 +464,44 @@
     }
    },
    "preparedWater": {
-    "identity": "b16eaf2cf9d1acdeebf32a3135fe0e141a5ec970cbdd99866deaacaa04280d33",
-    "url": "courses/norrfallsviken/prepared/water-031cd4d9c4f1f54a81bb8b5495bdb5d3363d95868f78cabc16387e072f0e53b7.bin",
-    "bytes": 78475,
+    "identity": "e0b2609d77794d00571721615bf75dc17ccf034741b6089a156a8f4cfae750ad",
+    "url": "courses/norrfallsviken/prepared/water-0d7a42682ab70b9f59efcc2281f66f5a64c2ef377728a0037a16ba96f5572ac4.bin",
+    "bytes": 78471,
     "decodedBytes": 62983513,
-    "sha256": "031cd4d9c4f1f54a81bb8b5495bdb5d3363d95868f78cabc16387e072f0e53b7",
-    "decodedSha256": "953935aa137284a444544c6662968d14792b8dc30b71d9a7438f68bebbb0dbd2"
+    "sha256": "0d7a42682ab70b9f59efcc2281f66f5a64c2ef377728a0037a16ba96f5572ac4",
+    "decodedSha256": "caccb48005f5d559f1995439cecd1b5a890b5c2f6e322e100c1bb67b00181d77"
    },
    "preparedVista": {
     "vista-hi": {
-     "identity": "78247f2831b4dcd8f2400fac2b177de15e4846e550b680b679bc15c5a68378ef",
+     "identity": "0a70d45fbc6f34038b4a309fc5114ebef260718ceb2a921ab9a0f63cb041d872",
      "inputs": "{\"flags\":{\"coastal\":true,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":true,\"ocean\":true,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/norrfallsviken/prepared/vista-330938110053f32b93851c4bd990eaf134ea9ef89251d51072dcf8e0918766c4.bin",
-     "bytes": 64524,
-     "decodedBytes": 440526,
-     "sha256": "330938110053f32b93851c4bd990eaf134ea9ef89251d51072dcf8e0918766c4",
-     "decodedSha256": "b3c418e4f0e9fa8f62a4f457dd61c9f54c927f4dcb0668e3a3bf4b52b6b1937b",
-     "candidates": 3524208,
-     "digest": "9fce2dd1a8ead93edf34141e030775efa1782dba2c5f775167d22bbabdf308f1",
-     "skipped": 199919,
-     "points": 163387
+     "url": "courses/norrfallsviken/prepared/vista-0f4ab247f636395d6b09f276de8fe4510f50d321cb09f922436d7a72a5cb1071.bin",
+     "bytes": 65222,
+     "decodedBytes": 445668,
+     "sha256": "0f4ab247f636395d6b09f276de8fe4510f50d321cb09f922436d7a72a5cb1071",
+     "decodedSha256": "045c852c87fffc78ad813a16d1cbee09915812009a61096b4f2fb90c5203a98f",
+     "candidates": 3565337,
+     "digest": "040f4f65f0052de99ee5d9df3489116ad0e68f7398e6c2d56e3e705b2b6b58f9",
+     "skipped": 201724,
+     "points": 164241
     },
     "vista-lo": {
-     "identity": "faf05cc7acfe07c5dcd6d832f2a9dc9856e5e8df39e9a0d3cbcc4c2900886013",
+     "identity": "506e6fb8a112da232ef4c0e03d91601ab01320f2948d88cb78f66e4806535262",
      "inputs": "{\"flags\":{\"coastal\":true,\"coverage\":true,\"flatWater\":true,\"landcover\":true,\"legacyLattice\":0,\"mown\":true,\"ocean\":true,\"surroundings\":false,\"vegetation\":true},\"landmarks\":[]}",
-     "url": "courses/norrfallsviken/prepared/vista-194560dafed0d7a4cab6e25ddddcd865e0685848c46f22a37d25092e2b95f750.bin",
-     "bytes": 37162,
-     "decodedBytes": 244084,
-     "sha256": "194560dafed0d7a4cab6e25ddddcd865e0685848c46f22a37d25092e2b95f750",
-     "decodedSha256": "576537048dc1c282046f9ef9289b8baec54f2dd6c1656b9bfe49f08e5ece68cd",
-     "candidates": 1952667,
-     "digest": "8d1ec8408b7b62d81f73135c79d307f0ca00c7f44c2e1533f5b90459dd8e0f16",
-     "skipped": 110925,
-     "points": 89970
+     "url": "courses/norrfallsviken/prepared/vista-c5ccd8eaa6f7815aa8d0ad6ad3c731d6d93cea98e438d49f60da9c12c1f19c9f.bin",
+     "bytes": 37372,
+     "decodedBytes": 246868,
+     "sha256": "c5ccd8eaa6f7815aa8d0ad6ad3c731d6d93cea98e438d49f60da9c12c1f19c9f",
+     "decodedSha256": "336c48742d190fbe65061a6f99511a1c714a8c9dea59f8f74ad0ec894edadf76",
+     "candidates": 1974939,
+     "digest": "9d863b1fde399d569b37eb7ed0376ee4e8dc1cf4edb6442d0ffa35257012c6d8",
+     "skipped": 112284,
+     "points": 90221
     }
    },
    "preparedScatter": {
     "scatter-hi": {
-     "identity": "0bbb32b5a08e155d3af70cac3558e1d3a5c3e90f4df8d1da3402e179527681e2",
+     "identity": "45846bf5ed7786a8bb091f16db9b61d96e97c5179b283d0c301c6ee9f9b56e3d",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":true,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":true,\"ocean\":true,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/norrfallsviken/prepared/scatter-4b97fb9a1df565ef8d42ba31ef3df8457b7032d91d4a75d236b4d4fa7d5fed7f.bin",
      "bytes": 13266,
@@ -527,7 +527,7 @@
      }
     },
     "scatter-lo": {
-     "identity": "6638523f8619be7fa12ead345868e57104d5ade401ee747952760cdee3fe9ccb",
+     "identity": "777c7affa48e8a4b1d215101120d6ee5ea30c38d773f9e1f07977e6aa567733b",
      "inputs": "{\"flags\":{\"atlas\":true,\"coastal\":true,\"exactEdges\":true,\"flatWater\":true,\"landcover\":true,\"mown\":true,\"ocean\":true,\"surroundings\":false},\"landmarks\":[]}",
      "url": "courses/norrfallsviken/prepared/scatter-ce13269c582022168d2292fff4153f81341b11cb7e3986330246b5b1f4f64439.bin",
      "bytes": 17592,

@@ -1,0 +1,128 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "acquire",
+ "groundId": "norrfallsviken",
+ "reviewId": "review-2026-11-09",
+ "round": null,
+ "ranAt": "2026-11-09T11:28:15.003Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/norrfallsviken/trees.json",
+  "bytes": 5682,
+  "sha256": "40a74de6da0628e0112a8a80a600646969fa288dc950540c14d212affedd866e"
+ },
+ "options": {
+  "fetch": true
+ },
+ "code": {
+  "tools/tree-pipeline.mjs": "6741ca977bc20f03bdca549b88932961b3df00697c6b22d3397de536dd1219c5",
+  "tools/tree-pipeline/config.mjs": "1be739f53ccd6609513605df7fbd5e89bcb6c4348dd13367e19d32d3a678a933",
+  "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "5a39a00b0abecb6be297d492ccbe3adec66c69cf0b8b4bc961606bebe138ecdf",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "08471353d981e22d7a473c5797c0c1196bb14c97f1747bd1a2875992593a07a2",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "c89e0a6df9e10d67452b02ae661c3bdd7a2ec20edb2009a97977f002cf849e8a",
+  "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
+  "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
+  "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
+  "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+  "tools/tree-pipeline/candidates.mjs": "1d0002fa7d41e849c36815126c8e71668ab4b94c5d039a5e66e9a9abb8496aae",
+  "tools/tree-pipeline/review.mjs": "9ec7d0288c7e77198e5b77dd7d1f08e7ad1dce817a2a6df4c7b191a8b46e014d",
+  "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
+  "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+  "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/norrfallsviken/acquisition/laser-campaigns-trees-2026-11-09.json",
+   "bytes": 32820,
+   "sha256": "1f03049a4b2ce9349accc27406ccfe57054c0a0c764a47fcc0c8b70cf71b0182"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/copc/y25f014-69850_6775_25.copc.laz",
+   "bytes": 93260841,
+   "sha256": "d569309af291fdbecb5d7af8305910e38eec72cab8473b964d728db5a0a40265"
+  },
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/copc/y25f014-69850_6800_25.copc.laz",
+   "bytes": 35922738,
+   "sha256": "5ce925d47612226b51ab553bd76d100868e7c69023e0448243dea0722ba61df5"
+  },
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/copc/y25f014-69875_6775_25.copc.laz",
+   "bytes": 87018788,
+   "sha256": "0f37a21db1c7bdafa2b29887900533b9b74a76bf716159aaf69f39e3119f8c17"
+  },
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/ortho/ledger.json",
+   "bytes": 11234,
+   "sha256": "2aaad2d3f9d57b9c92ddce027bd0d46613a93b6c9b8f049a123e01c91b9e0022"
+  },
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/ortho/2020/mosaic-2020-032.rgbi",
+   "bytes": 183656704,
+   "sha256": "5be491f4da97426aea46ca34feb3eb9a9dcc92c7ae16b6003f089a7ad7a41e76"
+  },
+  {
+   "path": "norrfallsvikenbuild/cache/trees-2026-11-09/ortho/2024/mosaic-2024-032.rgbi",
+   "bytes": 183656704,
+   "sha256": "d6e71851f6eb6224e1f6fc7515d3a8a81552b8edd0fabf978d422289c3456378"
+  }
+ ],
+ "result": {
+  "ok": true,
+  "laser": [
+   {
+    "itemId": "25f014-69850_6775_25",
+    "bytes": 93260841,
+    "verified": true
+   },
+   {
+    "itemId": "25f014-69850_6800_25",
+    "bytes": 35922738,
+    "verified": true
+   },
+   {
+    "itemId": "25f014-69875_6775_25",
+    "bytes": 87018788,
+    "verified": true
+   }
+  ],
+  "ortho": [
+   {
+    "campaign": "2020",
+    "collection": "orto-u2-2020",
+    "date": "2020-05-22",
+    "items": 3,
+    "tiles": 758,
+    "badTiles": 0,
+    "mosaicVerified": true
+   },
+   {
+    "campaign": "2024",
+    "collection": "orto-u2-2024",
+    "date": "2024-06-27",
+    "items": 3,
+    "tiles": 758,
+    "badTiles": 0,
+    "mosaicVerified": true
+   }
+  ],
+  "problems": []
+ }
+}

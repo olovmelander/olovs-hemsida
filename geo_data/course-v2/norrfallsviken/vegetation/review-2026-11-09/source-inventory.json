@@ -1,0 +1,280 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-inventory",
+  "reviewId": "review-2026-11-09",
+  "groundId": "norrfallsviken",
+  "observedOn": "2026-11-09",
+  "frame": "EPSG:3006 horizontal, RH2000 (EPSG:5613) heights, compound EPSG:5845",
+  "windowEpsg3006": {
+    "inner": {
+      "minEasting": 677939.5,
+      "minNorthing": 6987439.5,
+      "maxEasting": 679987.5,
+      "maxNorthing": 6989487.5
+    },
+    "analysed": {
+      "minEasting": 677879.5,
+      "minNorthing": 6987379.5,
+      "maxEasting": 680047.5,
+      "maxNorthing": 6989547.5
+    }
+  },
+  "provider": "Lantmäteriet only (Skogsstyrelsen not used; the surface model matched from aerial photos not used)",
+  "sourcePolicy": {
+    "checked": "tools/tree-pipeline/source-policy.mjs",
+    "problems": []
+  },
+  "laser": {
+    "collection": "dsm-skoglig-copc",
+    "discovery": "https://api.lantmateriet.se/stac-hojd/v1/",
+    "campaign": "25F014",
+    "capturedOn": "2025-06-05",
+    "leafState": "leaf-on",
+    "label": "25F014 2025-06-05 leaf-on",
+    "note": "Laserdata Nedladdning, skog (dsm-skoglig-copc), re-tiled by Lantmäteriet into 2.5 km items; the newest campaign over the tree window (record-laser-campaigns --window, 97.9% of the halo window; the rest is open sea where 69875_6800 has no item). The ground's own terrain keeps its accepted laser pin (laser-campaigns.json); this inventory is the trees' only.",
+    "pin": {
+      "file": "geo_data/course-v2/norrfallsviken/acquisition/laser-campaigns-trees-2026-11-09.json",
+      "sha256": "1f03049a4b2ce9349accc27406ccfe57054c0a0c764a47fcc0c8b70cf71b0182"
+    },
+    "items": [
+      {
+        "id": "25f014-69850_6775_25",
+        "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/25f014/y25f014-69850_6775_25.copc.laz",
+        "bytes": 93260841,
+        "sha256": "d569309af291fdbecb5d7af8305910e38eec72cab8473b964d728db5a0a40265",
+        "projBbox": [
+          677500,
+          6985000,
+          680000,
+          6987500
+        ],
+        "pointCount": 15800150,
+        "allReturnDensityPerSquareMetre": 2.403,
+        "updatedAt": "2026-10-14T12:13:33Z"
+      },
+      {
+        "id": "25f014-69850_6800_25",
+        "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/25f014/y25f014-69850_6800_25.copc.laz",
+        "bytes": 35922738,
+        "sha256": "5ce925d47612226b51ab553bd76d100868e7c69023e0448243dea0722ba61df5",
+        "projBbox": [
+          680000,
+          6985000,
+          682500,
+          6987500
+        ],
+        "pointCount": 7264342,
+        "allReturnDensityPerSquareMetre": 1.103,
+        "updatedAt": "2026-10-14T12:13:33Z"
+      },
+      {
+        "id": "25f014-69875_6775_25",
+        "href": "https://dl1.lantmateriet.se/hojd/data/pointcloud/sls/25f014/y25f014-69875_6775_25.copc.laz",
+        "bytes": 87018788,
+        "sha256": "0f37a21db1c7bdafa2b29887900533b9b74a76bf716159aaf69f39e3119f8c17",
+        "projBbox": [
+          677500,
+          6987500,
+          680000,
+          6990000
+        ],
+        "pointCount": 15022677,
+        "allReturnDensityPerSquareMetre": 2.077,
+        "updatedAt": "2026-10-14T12:13:34Z"
+      }
+    ],
+    "licence": {
+      "documentId": "LM2026/077164",
+      "version": "1.0",
+      "effectiveFrom": "2026-06-01",
+      "licence": "CC-BY-4.0",
+      "attribution": "Laserdata Nedladdning, skog, © Lantmäteriet, bearbetad, CC BY 4.0",
+      "url": "https://www.lantmateriet.se/globalassets/geodata/geodataprodukter/anvandningsvillkor-for-laserdata-nedladdning-skog.pdf",
+      "personalData": "the licensee is data controller for the raw cloud; a registry of tree positions, heights and radii carries no personal data and the raw cloud is never published"
+    },
+    "measured": {
+      "cells": 16777216,
+      "squareMetres": 4194304,
+      "allReturnsPerSquareMetre": 2.381,
+      "firstReturnsPerSquareMetre": 1.854,
+      "emptyCellFraction050": 0.5783,
+      "voidFractionAfterPitFree": 0.02543,
+      "emptyCellFraction100": 0.1599
+    },
+    "groundCheck": {
+      "statement": "cloud ground (mean of class 2/9 returns per 1 m cell, measured cells only) minus the published RH2000 terrain the app draws, inner window, every measured cell",
+      "publishedGroundManifest": "grounds/norrfallsviken/ground-v2-6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171.json",
+      "samples": 3241857,
+      "medianMetres": 0.01,
+      "meanMetres": 0.036,
+      "p05Metres": -0.068,
+      "p95Metres": 0.223,
+      "absoluteMedianMetres": 0.032,
+      "absoluteP95Metres": 0.23,
+      "absoluteP99Metres": 0.36
+    }
+  },
+  "orthophotos": {
+    "2020": {
+      "collection": "orto-u2-2020",
+      "date": "2020-05-22",
+      "season": "leaf-off",
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near-infrared"
+      ],
+      "bandEvidence": "TIFF photometric RGB (2) with one unspecified extra sample (ExtraSamples 0, not alpha), 4 x 8 bit, pixel-interleaved",
+      "items": [
+        {
+          "id": "o69850_6775_25_mr20",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2020_U2/o69850_6775_25_mr20.tif",
+          "captureStart": "2020-05-22T10:32:49Z",
+          "captureEnd": "2020-05-22T10:39:28Z",
+          "sourceBytes": 638548193,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 54,
+          "tileHashDigest": "4d22e32aa948190b2247d15995fc85760e617316950c2c5f2af110bd68dc4c5a"
+        },
+        {
+          "id": "o69850_6800_25_mr20",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2020_U2/o69850_6800_25_mr20.tif",
+          "captureStart": "2020-05-22T10:39:11Z",
+          "captureEnd": "2020-05-22T10:59:59Z",
+          "sourceBytes": 448644212,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 2,
+          "tileHashDigest": "9fe44ed66ce9e2bf6b1e10485de20864fab357339ccca064468753f0d281b577"
+        },
+        {
+          "id": "o69875_6775_25_mr20",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2020_U2/o69875_6775_25_mr20.tif",
+          "captureStart": "2020-05-22T10:32:33Z",
+          "captureEnd": "2020-05-22T10:39:52Z",
+          "sourceBytes": 676838541,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 702,
+          "tileHashDigest": "d117830ec0f07e439a217ae3030b8442089719f443b9add5f47eebe49ed3948d"
+        }
+      ],
+      "windowEpsg3006": [
+        677879.5,
+        6987379.5,
+        680047.5,
+        6989547.5
+      ],
+      "mosaic": {
+        "pixelMetres": 0.32,
+        "width": 6776,
+        "height": 6776,
+        "validFraction": 0.9793734292432907,
+        "sha256": "5be491f4da97426aea46ca34feb3eb9a9dcc92c7ae16b6003f089a7ad7a41e76"
+      },
+      "registration": {
+        "dE": -0.219,
+        "dN": -0.444,
+        "via": "laser (11 patches, below 30, accepted by the owner on 2026-11-09)",
+        "patches": 11,
+        "residualMedian": 0.135,
+        "residualP90": 0.518,
+        "magnitude": 0.495
+      },
+      "applied": {
+        "dE": -0.219,
+        "dN": -0.444
+      }
+    },
+    "2024": {
+      "collection": "orto-u2-2024",
+      "date": "2024-06-27",
+      "season": "leaf-on",
+      "bands": [
+        "red",
+        "green",
+        "blue",
+        "near-infrared"
+      ],
+      "bandEvidence": "TIFF photometric RGB (2) with one unspecified extra sample (ExtraSamples 0, not alpha), 4 x 8 bit, pixel-interleaved",
+      "items": [
+        {
+          "id": "o69850_6775_25_mr24",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o69850_6775_25_mr24.tif",
+          "captureStart": "2024-06-27T13:41:51Z",
+          "captureEnd": "2024-06-27T14:03:28Z",
+          "sourceBytes": 628214405,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 54,
+          "tileHashDigest": "3a7704f110ca796414e1f6b6aceebe9742ab227101267b546c921d8d2c02023c"
+        },
+        {
+          "id": "o69850_6800_25_mr24",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o69850_6800_25_mr24.tif",
+          "captureStart": "2024-06-27T14:03:03Z",
+          "captureEnd": "2024-06-27T14:13:04Z",
+          "sourceBytes": 425224613,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 2,
+          "tileHashDigest": "9d5a8da30f83f19e879beb16e7955fd31d0b698c2d32e298bc408d0e4c01a975"
+        },
+        {
+          "id": "o69875_6775_25_mr24",
+          "href": "https://dl1.lantmateriet.se/bild/data/orto/se0_16m_sweref/2024_U2/o69875_6775_25_mr24.tif",
+          "captureStart": "2024-06-27T13:42:14Z",
+          "captureEnd": "2024-06-27T14:03:03Z",
+          "sourceBytes": 646553611,
+          "stacSha256": null,
+          "software": null,
+          "tilesCached": 702,
+          "tileHashDigest": "bfeb1f236992791021d9233761e58db5ad9f32296b70d0398461d5396a0f204f"
+        }
+      ],
+      "windowEpsg3006": [
+        677879.5,
+        6987379.5,
+        680047.5,
+        6989547.5
+      ],
+      "mosaic": {
+        "pixelMetres": 0.32,
+        "width": 6776,
+        "height": 6776,
+        "validFraction": 0.9793734292432907,
+        "sha256": "d6e71851f6eb6224e1f6fc7515d3a8a81552b8edd0fabf978d422289c3456378"
+      },
+      "registration": {
+        "dE": 0.139,
+        "dN": -0.274,
+        "via": "laser (19 patches, below 30, accepted by the owner on 2026-11-09)",
+        "patches": 19,
+        "residualMedian": 0.229,
+        "residualP90": 1.041,
+        "magnitude": 0.307
+      },
+      "applied": {
+        "dE": 0.139,
+        "dN": -0.274
+      }
+    }
+  },
+  "orthophotosAvailableNotFetched": {
+    "orto-u2-2022": "2022-07-12 RGBI 0.16 m, leaf-on, older than 2024",
+    "orto-u2-2018": "2018-05-28 0.25 m, colour and infrared as separate RGB and CIR files (fm18, im18), which the pipeline's RGBI reader does not take",
+    "orto-u2-2014 and older": "2014-06-02 and earlier, 0.25-0.5 m"
+  },
+  "terrain": {
+    "baselineGroundManifest": "grounds/norrfallsviken/ground-v2-6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171.json",
+    "note": "tree bases sample the published terrain the app draws (createGroundHeightLookup over the finest tiles)"
+  },
+  "rawCaches": {
+    "copc": "norrfallsvikenbuild/cache/trees-2026-11-09/copc",
+    "ortho": "norrfallsvikenbuild/cache/trees-2026-11-09/ortho",
+    "rasters": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters",
+    "note": "ignored by git; never committed"
+  }
+}

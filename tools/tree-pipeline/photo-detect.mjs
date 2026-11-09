@@ -87,8 +87,13 @@ export async function run_(ctx, options) {
   /* a source this run does not redo keeps the detections an earlier record (this round's, or another round's of the same calibration windows) made, when their files are unchanged */
   const earlier = [previous, ...ctx.config.rounds.filter(r => r.id !== ctx.round.id).map(r => ctx.reviewFile(ctx.sampleFile('photo-detect', 'json', r.id))).filter(f => fs.existsSync(f)).map(f => JSON.parse(fs.readFileSync(f, 'utf8')))].filter(Boolean);
   const reusable = id => earlier.map(r => r.sources?.[id]).find(e => e && ['calibration', 'all'].every(part => fs.existsSync(crownsFile(ctx, id, part)) && sha(crownsFile(ctx, id, part)) === e[part].sha256));
+  /* Which sources run. --only <ids> redoes those and keeps the rest; --redo-all redoes every source. By
+     default a source an earlier record (this round's or another round's) holds with its files unchanged is
+     kept, and only the others run: GPU training is not deterministic, so re-running a source a later round
+     extends would change the crowns its lock was tuned on (Norrfällsviken, 2026-11-09). */
+  const redo = id => (options['redo-all'] ? true : only.length ? only.includes(id) : !reusable(id));
   for (const source of p.sources) {
-    if (only.length && !only.includes(source.id)) { const kept = reusable(source.id); if (kept) record.sources[source.id] = { ...kept, reused: true }; continue; }
+    if (!redo(source.id)) { const kept = reusable(source.id); if (kept) { record.sources[source.id] = { ...kept, reused: true }; log.push(`${source.id}: kept (files unchanged since an earlier record)`); } continue; }
     const common = ['--raster', raster, '--patch-metres', String(source.patchMetres)];
     const tiling = source.offsets > 1 ? ['--offsets', String(source.offsets)] : [];
     const cal = crownsFile(ctx, source.id, 'calibration');

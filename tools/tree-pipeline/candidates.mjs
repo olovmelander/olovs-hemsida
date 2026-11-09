@@ -171,11 +171,17 @@ export function buildCandidates(ctx) {
      check, 2026-11-08). */
   const typeExamplesAll = typeRule.examplesTable;
   const logistic = fitLogistic(typeExamplesAll.filter(x => x.role === 'calibration' && Number.isFinite(x.features.aprilVegetatedShare)).map(x => [x.features.aprilVegetatedShare, x.type === 'conifer' ? 1 : 0]));
-  const typeOf = share => {
+  /* typeRule.broadleafMinimumPresenceShare (optional; Norrfällsviken, 2026-11-09): a broadleaf call also needs
+     a crown in leaf in the presence photo. A conifer in deep shadow is dark in both photos; a broadleaf is bare
+     in the leaf-off one and green in the leaf-on one. Without it, the shaded pines a hold review passed as
+     present were called broadleaf. */
+  const BROADLEAF_MINIMUM_PRESENCE_SHARE = ctx.config.typeRule.broadleafMinimumPresenceShare ?? null;
+  const typeOf = (share, presenceShare = null) => {
     if (!Number.isFinite(share)) return { type: 'unknown', typeConfidence: null, coniferProbability: null };
     const pc = 1 / (1 + Math.exp(-(logistic.w0 + logistic.w1 * share)));
     const confidence = Math.max(pc, 1 - pc);
-    const type = confidence >= unknownBelowConfidence && pc >= 0.5 ? 'conifer' : confidence >= unknownBelowConfidence && share < BROADLEAF_MAXIMUM_APRIL_SHARE ? 'broadleaf' : 'unknown';
+    const leafy = BROADLEAF_MINIMUM_PRESENCE_SHARE === null || (presenceShare ?? 0) >= BROADLEAF_MINIMUM_PRESENCE_SHARE;
+    const type = confidence >= unknownBelowConfidence && pc >= 0.5 ? 'conifer' : confidence >= unknownBelowConfidence && share < BROADLEAF_MAXIMUM_APRIL_SHARE && leafy ? 'broadleaf' : 'unknown';
     return { type, typeConfidence: type === 'unknown' ? null : round(confidence, 3), coniferProbability: round(pc, 3) };
   };
   /* semantic surfaces at 1 m with no buffers beyond the surface itself
@@ -479,6 +485,9 @@ export function buildCandidates(ctx) {
       else if (held?.verdict === 'absent') notTreeHeld = `felled after ${laserYear} (hold review): ${held.note || ''}`;
       else if (held?.verdict !== 'present') holdReasons.push(held ? `no vegetation in the ${presenceLabel} crown disc, reviewed ${held.verdict}: ${held.note || ''}` : `no vegetation in the ${presenceLabel} crown disc (roof, vehicle, heap or felled?): unreviewed`);
     }
+    /* a placed crown the review's spot checks found not to be a tree (hold-review.json, kind 'spot': a roof
+       the map lacks, among green surroundings no hold catches; Norrfällsviken, 2026-11-09) */
+    if (!felled && !notTreeHeld && held?.kind === 'spot' && (held.verdict === 'not-tree' || held.verdict === 'absent')) notTreeHeld = `${held.verdict === 'absent' ? `felled after ${laserYear}` : 'not a tree'} (spot check): ${held.note || ''}`;
     if (!felled && notTreeHeld) felled = 'held';
     const notTree = felled ? (felled === 'pole' ? notTreePole : felled === 'held' ? notTreeHeld : felled === 'structure' ? `not a tree: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}` : `felled after ${laserYear}: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}`) : null;
     let decision, id, before = null;
@@ -495,7 +504,7 @@ export function buildCandidates(ctx) {
       decision = felled ? 'not-placed' : holdReasons.length ? 'hold' : 'add';
       if (felled) { holdReasons.length = 0; holdReasons.push(notTree); }
     }
-    const typed = typeOf(tree.evidence[leafOffKey]?.vegetatedShare);
+    const typed = typeOf(tree.evidence[leafOffKey]?.vegetatedShare, tree.evidence[presenceKey]?.vegetatedShare);
     out.push({
       id, decision, ...(holdReasons.length ? { reasons: holdReasons } : {}),
       play: playOf(tree.easting, tree.northing), typeConfidence: typed.typeConfidence, coniferProbability: typed.coniferProbability,
@@ -560,7 +569,7 @@ export function buildCandidates(ctx) {
       for (const t of out) { const key = `${t.play}|${t.type}`; table[key] = table[key] || {}; table[key][t.decision] = (table[key][t.decision] || 0) + 1; }
       return table;
     })(),
-    typeModel: { feature: `share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the ${leafOffLabel} crown disc (crown radius + 0.3 h + 1 m)`, fit: `logistic, ${typeRoundLabel} calibration examples only`, w0: round(logistic.w0, 4), w1: round(logistic.w1, 4), examples: logistic.n, unknownBelowConfidence, broadleafBelowAprilShare: BROADLEAF_MAXIMUM_APRIL_SHARE, unknownTypeConfidence: null },
+    typeModel: { feature: `share of vegetated pixels ((NIR-red)/(NIR+red) > 0.12) in the ${leafOffLabel} crown disc (crown radius + 0.3 h + 1 m)`, fit: `logistic, ${typeRoundLabel} calibration examples only`, w0: round(logistic.w0, 4), w1: round(logistic.w1, 4), examples: logistic.n, unknownBelowConfidence, broadleafBelowAprilShare: BROADLEAF_MAXIMUM_APRIL_SHARE, ...(BROADLEAF_MINIMUM_PRESENCE_SHARE === null ? {} : { broadleafMinimumPresenceShare: BROADLEAF_MINIMUM_PRESENCE_SHARE }), unknownTypeConfidence: null },
     playZone: { rule: `near = within ${nearMetres} m of any hole tee-to-green line of ${ctx.config.courseSlugs.length === 2 ? 'either routing' : ctx.config.courseSlugs.length > 2 ? 'any routing' : 'the routing'} (the app zone A) or of the driving range / practice greens; woodland otherwise`, holeLines: holeLines.length, practiceRings: practiceRings.length },
     identity: { matchedWithin15m: pass1.matches.length, matchedWithin3m: pass2.matches.length, newIds: out.filter(t => t.decision === 'add' || (t.decision === 'hold' && t.source !== 'published-record' && !t.before)).length, nextSequence: sequence + 1, previousGenerationRecords: previous.length, previousGenerationLineageCarried: out.filter(t => t.lineage).length },
     presence: { referenceFloor: round(presenceFloor, 3), scale },

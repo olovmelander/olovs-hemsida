@@ -149,12 +149,35 @@ P 0.978 / R 0.829.
 Declare a floor relative to the live round, or score the decided candidates: an absolute
 floor rejects a round that is strictly better when the live one is below it too.
 
+**Norrfällsviken, the second ground (2026-11-09; gate passed, published after the owner saw the screenshots).**
+Norrfällsviken's laser is the leaf-on June 2025 scan, and its photos are June 2024 and May 2020. See the
+[review README](../geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/README.md).
+
+- **One sample for the whole stack.** The sample was frozen first: 11 calibration windows and 6 held-out
+  windows. Johannesberg's four steps (typed, refined, fused, split) were tuned in order on calibration
+  only. The selection rule was declared, and all four locks were scored once on the held-out windows
+  together. Rounds r2-r4 carry the sample verbatim.
+- **The simplest detector passed.** The typed detector reached P 0.938 / R 0.938 on 112 held-out
+  crowns, and the later steps added extras without finding more crowns. In a leaf-on scan of
+  separate pines, the closed-stand limit of Johannesberg's April scan does not arise.
+- **New options.**
+  - `registration.highPassMetres` correlates detail only: a leaf-on laser's ground is too smooth for
+    the raw correlation.
+  - `registration.ownerAccepted` pins an owner-accepted direct shift below 30 patches.
+  - `typeRule.broadleafMinimumPresenceShare`: a broadleaf call also needs a crown in leaf in the
+    presence photo, since shaded pines are dark in both photos.
+  - A `spot` verdict in hold-review.json removes a placed crown a spot check found not to be a tree.
+  - `photo-detect` keeps an earlier record's unchanged crowns by default, because GPU training is not
+    deterministic.
+  - `record-laser-campaigns --window` makes a tree-window laser inventory without touching the
+    ground's pin.
+  - `photo/window-measure.mjs` measures proposed windows and scans for shore and garden windows.
+
 **Still manual.** Choosing and interpreting reference windows; the felling, hold,
 pole and species reviews on the photo chips; the owner's screenshots of the app
 and frame-time measurements on his GPU; owner exceptions; and the promotion of a
 staged root. The sun position of each photo flight is entered in the config, not
-computed. Only Johannesberg has run through the pipeline: the next ground is its
-real test (see "Current tools" below).
+computed (`apps/golf/src/engine/solar.mjs` `solarPosition` gives it from the item's capture time).
 
 ## What Visby established
 

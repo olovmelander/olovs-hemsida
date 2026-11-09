@@ -12,8 +12,9 @@
    broadleaf, else unknown); stratum from the share of CHM >= 3 m in a 16 m
    square (the detect census rule).
 
-   node tools/tree-pipeline/photo/reference-draft.mjs --raw <cache> --round r4 --only W1,W2 [--mpp 0.06]
-   Writes <cache>/reference-panels/<id>.draft.json and <id>.draft-{chm,rgb25,cir25,rgb21}.png */
+   node tools/tree-pipeline/photo/reference-draft.mjs [--ground <id>] --raw <cache> --round r4 --only W1,W2 [--mpp 0.06]
+   Writes <cache>/reference-panels/<id>.draft.json and <id>.draft-{chm,rgbP,cirP,rgbL}.png, P and L the
+   last two digits of the presence and leaf-off photo years (Johannesberg: rgb25, cir25, rgb21). */
 import fs from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
@@ -22,8 +23,8 @@ import { Canvas, loadNativeMosaic, loadRaster, openCampaignPacks, rasterAt, rend
 import { photoDisc } from '../crown-evidence.mjs';
 import { smoothChm } from '../../../packages/course-v2/vegetation/pit-free-chm.mjs';
 
-const { values: args } = parseArgs({ options: { raw: { type: 'string' }, round: { type: 'string', default: 'r4' }, only: { type: 'string', default: '' }, mpp: { type: 'string', default: '0.06' } } });
-const ctx = loadGroundConfig(ROOT, 'johannesberg', { raw: args.raw, round: args.round });
+const { values: args } = parseArgs({ options: { ground: { type: 'string', default: 'johannesberg' }, raw: { type: 'string' }, round: { type: 'string', default: 'r4' }, only: { type: 'string', default: '' }, mpp: { type: 'string', default: '0.06' } } });
+const ctx = loadGroundConfig(ROOT, args.ground, { ...(args.raw ? { raw: args.raw } : {}), round: args.round });
 const mpp = Number(args.mpp);
 const windows = JSON.parse(fs.readFileSync(ctx.reviewFile(ctx.sampleFile('reference-windows')), 'utf8')).windows
   .filter(w => !args.only || args.only.split(',').some(p => w.id.startsWith(p)));
@@ -91,11 +92,12 @@ for (const window of windows) {
   const draft = crowns.map(k => ({ label: k.label, from: k.members.sort((a, b) => a - b), top: k.top.number, height: k.top.heightMetres, type: k.type, aprilShare: k.share === null ? null : Math.round(k.share * 100) / 100, stratum: k.stratum, inside: k.inside, at: [Math.round((k.top.easting - window.bbox[0]) * 10) / 10, Math.round((k.top.northing - window.bbox[1]) * 10) / 10] }));
   fs.writeFileSync(path.join(dir, `${window.id}.draft.json`), JSON.stringify({ window: window.id, rule: 'round-3 protocol grouping (2 m, 0.6 m dip within 3 m; leafless 3.5 m), April vegetated-share type, 16 m census stratum', crowns: draft }, null, 1));
   const shift = key => relief[key].shift;
+  const P = String(presence).slice(-2), L = String(leafOff).slice(-2);
   const layers = [
     ['chm', renderLayer({ kind: 'hill', raster: chm, bbox, metresPerPixel: mpp })],
-    ['rgb25', renderLayer({ kind: 'rgb', mosaic: m25, bbox, metresPerPixel: mpp, shift: shift(presence) })],
-    ['cir25', renderLayer({ kind: 'cir', mosaic: m25, bbox, metresPerPixel: mpp, shift: shift(presence) })],
-    ['rgb21', renderLayer({ kind: 'rgb', mosaic: m21, bbox, metresPerPixel: mpp, shift: shift(leafOff) })],
+    [`rgb${P}`, renderLayer({ kind: 'rgb', mosaic: m25, bbox, metresPerPixel: mpp, shift: shift(presence) })],
+    [`cir${P}`, renderLayer({ kind: 'cir', mosaic: m25, bbox, metresPerPixel: mpp, shift: shift(presence) })],
+    [`rgb${L}`, renderLayer({ kind: 'rgb', mosaic: m21, bbox, metresPerPixel: mpp, shift: shift(leafOff) })],
   ];
   for (const [name, canvas] of layers) {
     const [ax, ay] = toPixel(bbox, mpp, window.bbox[0], window.bbox[3]);

@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "kind": "pilot-canopy-rasters",
+  "groundId": "norrfallsviken",
+  "reviewId": "review-2026-11-09",
+  "builtFrom": {
+    "laserCampaigns": "geo_data/course-v2/norrfallsviken/acquisition/laser-campaigns-trees-2026-11-09.json",
+    "laserCampaignsSha256": "1f03049a4b2ce9349accc27406ccfe57054c0a0c764a47fcc0c8b70cf71b0182",
+    "items": [
+      {
+        "itemId": "25f014-69850_6775_25",
+        "sha256": "d569309af291fdbecb5d7af8305910e38eec72cab8473b964d728db5a0a40265",
+        "windowEpsg3006": [
+          677879.5,
+          6987379.5,
+          680000,
+          6987500
+        ],
+        "nodes": 87,
+        "decodedPoints": 1027067,
+        "pointsInWindow": 469233,
+        "firstReturns": 359256,
+        "byClass": {
+          "1": 153863,
+          "2": 203843,
+          "7": 6,
+          "9": 111520,
+          "18": 1
+        },
+        "headerPointCount": 15800150
+      },
+      {
+        "itemId": "25f014-69850_6800_25",
+        "sha256": "5ce925d47612226b51ab553bd76d100868e7c69023e0448243dea0722ba61df5",
+        "windowEpsg3006": [
+          680000,
+          6987379.5,
+          680047.5,
+          6987500
+        ],
+        "nodes": 5,
+        "decodedPoints": 116375,
+        "pointsInWindow": 7187,
+        "firstReturns": 7187,
+        "byClass": {
+          "2": 20,
+          "9": 7167
+        },
+        "headerPointCount": 7264342
+      },
+      {
+        "itemId": "25f014-69875_6775_25",
+        "sha256": "0f37a21db1c7bdafa2b29887900533b9b74a76bf716159aaf69f39e3119f8c17",
+        "windowEpsg3006": [
+          677879.5,
+          6987500,
+          680000,
+          6989547.5
+        ],
+        "nodes": 1022,
+        "decodedPoints": 11395449,
+        "pointsInWindow": 10380775,
+        "firstReturns": 8042489,
+        "byClass": {
+          "1": 3428879,
+          "2": 5079510,
+          "7": 18,
+          "9": 1872367,
+          "18": 1
+        },
+        "headerPointCount": 15022677
+      }
+    ]
+  },
+  "windowEpsg3006": [
+    677879.5,
+    6987379.5,
+    680047.5,
+    6989547.5
+  ],
+  "innerWindowEpsg3006": [
+    677939.5,
+    6987439.5,
+    679987.5,
+    6989487.5
+  ],
+  "points": {
+    "total": 10857195,
+    "noiseDropped": 26,
+    "clippedAbove60m": 0,
+    "unreferenced": 0
+  },
+  "innerDensity": {
+    "cells": 16777216,
+    "squareMetres": 4194304,
+    "allReturnsPerSquareMetre": 2.381,
+    "firstReturnsPerSquareMetre": 1.854,
+    "emptyCellFraction050": 0.5783,
+    "voidFractionAfterPitFree": 0.02543,
+    "emptyCellFraction100": 0.1599
+  },
+  "pitFree": {
+    "parameters": {
+      "thresholdsMetres": [
+        0,
+        2,
+        5,
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "radiusMetres": 1.5,
+      "groundRadiusMetres": 2,
+      "minimumQuadrants": 3,
+      "pit": {
+        "minimumHeightMetres": 2,
+        "absoluteMetres": 1.5,
+        "relativeFraction": 0.25,
+        "passes": 2
+      }
+    },
+    "layers": [
+      {
+        "thresholdMetres": 0,
+        "radiusMetres": 2,
+        "seedCells": 7677741,
+        "filledCells": 10211139,
+        "cellsRaised": 0
+      },
+      {
+        "thresholdMetres": 2,
+        "radiusMetres": 1.5,
+        "seedCells": 1784642,
+        "filledCells": 2011954,
+        "cellsRaised": 1317288
+      },
+      {
+        "thresholdMetres": 5,
+        "radiusMetres": 1.5,
+        "seedCells": 1459173,
+        "filledCells": 1627489,
+        "cellsRaised": 346900
+      },
+      {
+        "thresholdMetres": 10,
+        "radiusMetres": 1.5,
+        "seedCells": 808626,
+        "filledCells": 960279,
+        "cellsRaised": 405382
+      },
+      {
+        "thresholdMetres": 15,
+        "radiusMetres": 1.5,
+        "seedCells": 172931,
+        "filledCells": 226966,
+        "cellsRaised": 139643
+      },
+      {
+        "thresholdMetres": 20,
+        "radiusMetres": 1.5,
+        "seedCells": 7749,
+        "filledCells": 10193,
+        "cellsRaised": 7332
+      },
+      {
+        "thresholdMetres": 25,
+        "radiusMetres": 1.5,
+        "seedCells": 5,
+        "filledCells": 0,
+        "cellsRaised": 0
+      },
+      {
+        "thresholdMetres": 30,
+        "radiusMetres": 1.5,
+        "seedCells": 0,
+        "filledCells": 0,
+        "cellsRaised": 0
+      }
+    ],
+    "pitCellsFilled": 408865,
+    "emptyCells050": 11123155,
+    "voidCells050": 911378
+  },
+  "groundCheck": {
+    "statement": "cloud ground (mean of class 2/9 returns per 1 m cell, measured cells only) minus the published RH2000 terrain the app draws, inner window, every measured cell",
+    "publishedGroundManifest": "grounds/norrfallsviken/ground-v2-6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171.json",
+    "samples": 3241857,
+    "medianMetres": 0.01,
+    "meanMetres": 0.036,
+    "p05Metres": -0.068,
+    "p95Metres": 0.223,
+    "absoluteMedianMetres": 0.032,
+    "absoluteP95Metres": 0.23,
+    "absoluteP99Metres": 0.36
+  },
+  "files": {
+    "chmPitFree": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/chm-pitfree-050.bin",
+      "sha256": "72c6a5f6b8f9067844fa91864831f9d339880f16344f6a6f38f03439673f5cae"
+    },
+    "chmHighest": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/chm-highest-050.bin",
+      "sha256": "32bca17437d522e42847923224a28ec5b7dffca16581b23006438109f0f4a3c7"
+    },
+    "returnsAll": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/returns-all-050.bin",
+      "sha256": "f4d8d8c5e032eab46fefd3d38cbcf5b852302e9905393c30dc791e88ddf386e2"
+    },
+    "returnsFirst": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/returns-first-050.bin",
+      "sha256": "660981709774701576be61733b63c316072088c4f952bde265887cd4d0f7a93d"
+    },
+    "returnsGround": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/returns-ground-050.bin",
+      "sha256": "76c25d37c502fa63cf45292de19197b831d7035140d770cf7b4919b50814374a"
+    },
+    "emptyCells": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/empty-050.bin",
+      "sha256": "c2a205f7083299fa8bc228848e53177a4608de6b7f271963f0cbd786f9744cdf"
+    },
+    "groundCloud": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/ground-cloud-100.bin",
+      "sha256": "7428b4972232f4870effed86a0ac42978783168bd8982b984da537709eac7701"
+    },
+    "groundFillDistance": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/ground-fill-100.bin",
+      "sha256": "291342652df9fcc8a509cf8a0b07c063b23405b9ef3131c532700f8c1d3998c1"
+    },
+    "chmLegacy": {
+      "file": "norrfallsvikenbuild/cache/trees-2026-11-09/rasters/chm-legacy-100.bin",
+      "sha256": "9b207cbe76cb643ded0a07b485f455bcb8cd54319b32ed932b6083d372d730d0"
+    }
+  },
+  "elapsedSeconds": 38.3
+}

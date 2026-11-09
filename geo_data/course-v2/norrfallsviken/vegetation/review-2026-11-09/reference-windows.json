@@ -1,0 +1,266 @@
+{
+ "schemaVersion": 1,
+ "groundId": "norrfallsviken",
+ "reviewId": "review-2026-11-09",
+ "state": "frozen-windows",
+ "crs": "EPSG:3006",
+ "note": "Scoring rectangles chosen on 2026-11-09 from the pit-free CHM, the June 2024 photo overview and detector-neutral measurements (tools/tree-pipeline/photo/window-measure.mjs: apexes of the panels' over-segmenting filter by census stratum, May 2020 leaf-off class, play zone and distance to mapped water and buildings; window-measure.json), before any detector under test ran. Calibration lies in the west and south (holes 1-4, 7-13, 18), the held-out sample in the east and north-east (holes 5, 6, 14-17); no held-out window is within 15 m of a calibration window. Draft rectangles moved before declaration: two shore windows that touched no water, a garden window with no building and a closed window with 6 apexes. Strata: isolated (C1, C7, H2, H5), groups (C2, C6, C9, H1), edge (C7, C8, C9, H2), closed (C3, C10, H6), shore (C4, H4), gardens with houses (C5, C11, H3), broadleaves (C5, C11 and H3 hold most of the leafless May 2020 crowns), woodland outside the play zone (C3). The ground is pine-led: 94% of the census apexes are conifer-like in May 2020 (4% leafless, 2% mixed).",
+ "matchingRule": {
+  "kind": "one-to-one, closest pairs first",
+  "radiusMetres": 4,
+  "declaredBeforeScoring": true
+ },
+ "minimumScoredHeightMetres": 3,
+ "declaredBeforeScoring": {
+  "rule": "main session, 2026-11-09 (owner request of the same day: \"Can we try the brand new tree pipeline on a new course now, Norrfällsviken\"): Johannesberg's four detector steps are tuned in order on the calibration windows only: r1 typed (from TYPED_DEFAULTS), r2 refined (from r1), r3 fused (r2 plus learned photo crowns, DeepForest on the June 2024 photo, confirming suppressed laser tops; the GPU stage photo-detect), r4 the width split extending r3 with excludeBuildings fixed on. Every round reads this one sample (rounds r2-r4 carry it verbatim). No evaluation window is scored until all four locks exist; then round r4's benchmark scores every lock once on H1-H6. The published detector is the one with the highest held-out F1, passing over any round whose held-out precision is more than 0.03 below the best of the four (that one is then skipped for the next by F1); a tie goes to the earlier, simpler round. If it reaches precision and recall of at least 0.9 on at least 30 scored crowns the gate passes; otherwise it waits for the owner.",
+  "strata": "recall by stratum (isolated, group, edge, closed), by type and by height is reported with the totals; the garden (H3) and shore (H4) windows are also reported on their own",
+  "secondary": "the decided candidates (after the holds, the bank rule and the hold review) are scored on H1-H6 as a secondary number, which decides nothing; the published trees of 2026-09-04 (published-individuals+stands) and the 1 m detector are scored alongside and decide nothing"
+ },
+ "windows": [
+  {
+   "id": "C1-h1-isolated",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/1"
+   ],
+   "bbox": [
+    678755,
+    6988375,
+    678805,
+    6988425
+   ],
+   "setting": "single pines south of the 1st fairway"
+  },
+  {
+   "id": "C2-h18-groups",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/18",
+    "norrfallsviken/9"
+   ],
+   "bbox": [
+    678655,
+    6988465,
+    678705,
+    6988515
+   ],
+   "setting": "groups of pines between the 18th and the 9th green"
+  },
+  {
+   "id": "C3-h11-closed",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/11",
+    "norrfallsviken/12"
+   ],
+   "bbox": [
+    678470,
+    6988860,
+    678495,
+    6988885
+   ],
+   "setting": "closed pine wood west of the 12th tee, 25 m square, woodland (outside the play zone)"
+  },
+  {
+   "id": "C4-h8-shore",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/8"
+   ],
+   "bbox": [
+    679044.5,
+    6988074.5,
+    679084.5,
+    6988114.5
+   ],
+   "setting": "trees by the pond along the 8th"
+  },
+  {
+   "id": "C5-h9-garden",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/9",
+    "norrfallsviken/18",
+    "norrfallsviken/1"
+   ],
+   "bbox": [
+    678540,
+    6988400,
+    678590,
+    6988450
+   ],
+   "setting": "trees among the clubhouse buildings by the 9th green and the 1st tee, with broadleaves"
+  },
+  {
+   "id": "C6-h2-groups",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/2"
+   ],
+   "bbox": [
+    678860,
+    6988350,
+    678900,
+    6988390
+   ],
+   "setting": "groups of pines by the 2nd tee"
+  },
+  {
+   "id": "C7-h13-edge",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/13"
+   ],
+   "bbox": [
+    678790,
+    6988900,
+    678830,
+    6988940
+   ],
+   "setting": "scattered pines and a thin edge by the 13th"
+  },
+  {
+   "id": "C8-h10-edge",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/10"
+   ],
+   "bbox": [
+    678480,
+    6988450,
+    678520,
+    6988490
+   ],
+   "setting": "wood edge west of the 10th tee"
+  },
+  {
+   "id": "C9-h3-edge",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/3"
+   ],
+   "bbox": [
+    678800,
+    6988150,
+    678840,
+    6988190
+   ],
+   "setting": "groups at the wood edge by the 3rd"
+  },
+  {
+   "id": "C10-h7-closed",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/7"
+   ],
+   "bbox": [
+    679130,
+    6987880,
+    679155,
+    6987905
+   ],
+   "setting": "closed to edge wood south of the 7th green, 25 m square, the tallest trees in the sample"
+  },
+  {
+   "id": "C11-h1-village",
+   "role": "calibration",
+   "holes": [
+    "norrfallsviken/1",
+    "norrfallsviken/2"
+   ],
+   "bbox": [
+    678569.5,
+    6988209.5,
+    678609.5,
+    6988249.5
+   ],
+   "setting": "garden trees among the holiday village houses south of the practice ground (25 apexes within 6 m of a mapped building)"
+  },
+  {
+   "id": "H1-h5-groups",
+   "role": "evaluation",
+   "holes": [
+    "norrfallsviken/5"
+   ],
+   "bbox": [
+    679155,
+    6988355,
+    679205,
+    6988405
+   ],
+   "setting": "groups of pines along the 5th"
+  },
+  {
+   "id": "H2-h17-edge",
+   "role": "evaluation",
+   "holes": [
+    "norrfallsviken/17"
+   ],
+   "bbox": [
+    679000,
+    6988620,
+    679040,
+    6988660
+   ],
+   "setting": "single pines and groups west of the 17th fairway"
+  },
+  {
+   "id": "H3-h15-garden",
+   "role": "evaluation",
+   "holes": [
+    "norrfallsviken/13",
+    "norrfallsviken/15"
+   ],
+   "bbox": [
+    679019.5,
+    6989184.5,
+    679059.5,
+    6989224.5
+   ],
+   "setting": "garden trees among the houses north of the 13th and 15th tees (29 apexes within 6 m of a mapped building), at the play zone edge"
+  },
+  {
+   "id": "H4-h14-shore",
+   "role": "evaluation",
+   "holes": [
+    "norrfallsviken/14"
+   ],
+   "bbox": [
+    678959.5,
+    6988949.5,
+    678999.5,
+    6988989.5
+   ],
+   "setting": "trees on the shore of the lake by the 14th green (12 apexes within 6 m of the water outline)"
+  },
+  {
+   "id": "H5-h15-isolated",
+   "role": "evaluation",
+   "holes": [
+    "norrfallsviken/15"
+   ],
+   "bbox": [
+    679140,
+    6988850,
+    679200,
+    6988910
+   ],
+   "setting": "single pines on the heath before the 15th green"
+  },
+  {
+   "id": "H6-h6-coast",
+   "role": "evaluation",
+   "holes": [
+    "norrfallsviken/6"
+   ],
+   "bbox": [
+    679335,
+    6988155,
+    679365,
+    6988185
+   ],
+   "setting": "closed pine wood between the 6th and the sea, 30 m square"
+  }
+ ],
+ "dropped": []
+}

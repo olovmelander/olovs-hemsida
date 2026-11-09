@@ -1,0 +1,552 @@
+{
+ "schemaVersion": 1,
+ "kind": "reference-window-measure",
+ "groundId": "norrfallsviken",
+ "note": "detector-neutral measurements of the proposed windows (apexes of the reference panels' over-segmenting filter, not trees)",
+ "windows": [
+  {
+   "id": "C1-h1-isolated",
+   "role": "calibration",
+   "bbox": [
+    678755,
+    6988375,
+    678805,
+    6988425
+   ],
+   "size": [
+    50,
+    50
+   ],
+   "nearest": {
+    "d": 37,
+    "hole": "norrfallsviken/1"
+   },
+   "apexes": 12,
+   "isolated": 12,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 11,
+   "mixed": 1,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 12,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  },
+  {
+   "id": "C2-h18-groups",
+   "role": "calibration",
+   "bbox": [
+    678655,
+    6988465,
+    678705,
+    6988515
+   ],
+   "size": [
+    50,
+    50
+   ],
+   "nearest": {
+    "d": 1,
+    "hole": "norrfallsviken/9"
+   },
+   "apexes": 7,
+   "isolated": 2,
+   "group": 5,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 7,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 7,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  },
+  {
+   "id": "C3-h11-closed",
+   "role": "calibration",
+   "bbox": [
+    678470,
+    6988860,
+    678495,
+    6988885
+   ],
+   "size": [
+    25,
+    25
+   ],
+   "nearest": {
+    "d": 142,
+    "hole": "norrfallsviken/12"
+   },
+   "apexes": 30,
+   "isolated": 0,
+   "group": 0,
+   "edge": 3,
+   "closed": 27,
+   "conifer-like": 30,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 0,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 18,
+   "within15mOf": []
+  },
+  {
+   "id": "C4-h8-shore",
+   "role": "calibration",
+   "bbox": [
+    679044.5,
+    6988074.5,
+    679084.5,
+    6988114.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 33,
+    "hole": "norrfallsviken/8"
+   },
+   "apexes": 8,
+   "isolated": 0,
+   "group": 6,
+   "edge": 2,
+   "closed": 0,
+   "conifer-like": 8,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 8,
+   "byWater": 4,
+   "byBuilding": 0,
+   "tallest": 18,
+   "within15mOf": []
+  },
+  {
+   "id": "C5-h9-garden",
+   "role": "calibration",
+   "bbox": [
+    678540,
+    6988400,
+    678590,
+    6988450
+   ],
+   "size": [
+    50,
+    50
+   ],
+   "nearest": {
+    "d": 51,
+    "hole": "norrfallsviken/18"
+   },
+   "apexes": 39,
+   "isolated": 4,
+   "group": 19,
+   "edge": 16,
+   "closed": 0,
+   "conifer-like": 25,
+   "mixed": 0,
+   "leafless": 14,
+   "unknown": 0,
+   "near": 39,
+   "byWater": 0,
+   "byBuilding": 12,
+   "tallest": 15,
+   "within15mOf": []
+  },
+  {
+   "id": "C6-h2-groups",
+   "role": "calibration",
+   "bbox": [
+    678860,
+    6988350,
+    678900,
+    6988390
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 44,
+    "hole": "norrfallsviken/2"
+   },
+   "apexes": 23,
+   "isolated": 1,
+   "group": 22,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 23,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 23,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 16,
+   "within15mOf": []
+  },
+  {
+   "id": "C7-h13-edge",
+   "role": "calibration",
+   "bbox": [
+    678790,
+    6988900,
+    678830,
+    6988940
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 39,
+    "hole": "norrfallsviken/13"
+   },
+   "apexes": 19,
+   "isolated": 14,
+   "group": 5,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 14,
+   "mixed": 3,
+   "leafless": 2,
+   "unknown": 0,
+   "near": 19,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 11,
+   "within15mOf": []
+  },
+  {
+   "id": "C8-h10-edge",
+   "role": "calibration",
+   "bbox": [
+    678480,
+    6988450,
+    678520,
+    6988490
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 88,
+    "hole": "norrfallsviken/10"
+   },
+   "apexes": 47,
+   "isolated": 0,
+   "group": 14,
+   "edge": 30,
+   "closed": 3,
+   "conifer-like": 47,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 19,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  },
+  {
+   "id": "C9-h3-edge",
+   "role": "calibration",
+   "bbox": [
+    678800,
+    6988150,
+    678840,
+    6988190
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 67,
+    "hole": "norrfallsviken/3"
+   },
+   "apexes": 24,
+   "isolated": 2,
+   "group": 22,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 24,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 24,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 13,
+   "within15mOf": []
+  },
+  {
+   "id": "C10-h7-closed",
+   "role": "calibration",
+   "bbox": [
+    679130,
+    6987880,
+    679155,
+    6987905
+   ],
+   "size": [
+    25,
+    25
+   ],
+   "nearest": {
+    "d": 49,
+    "hole": "norrfallsviken/7"
+   },
+   "apexes": 27,
+   "isolated": 0,
+   "group": 4,
+   "edge": 13,
+   "closed": 10,
+   "conifer-like": 25,
+   "mixed": 2,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 27,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 21,
+   "within15mOf": []
+  },
+  {
+   "id": "C11-h1-village",
+   "role": "calibration",
+   "bbox": [
+    678569.5,
+    6988209.5,
+    678609.5,
+    6988249.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 180,
+    "hole": "norrfallsviken/1"
+   },
+   "apexes": 46,
+   "isolated": 0,
+   "group": 3,
+   "edge": 25,
+   "closed": 18,
+   "conifer-like": 29,
+   "mixed": 3,
+   "leafless": 14,
+   "unknown": 0,
+   "near": 37,
+   "byWater": 0,
+   "byBuilding": 25,
+   "tallest": 17,
+   "within15mOf": []
+  },
+  {
+   "id": "H1-h5-groups",
+   "role": "evaluation",
+   "bbox": [
+    679155,
+    6988355,
+    679205,
+    6988405
+   ],
+   "size": [
+    50,
+    50
+   ],
+   "nearest": {
+    "d": 19,
+    "hole": "norrfallsviken/5"
+   },
+   "apexes": 16,
+   "isolated": 3,
+   "group": 13,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 16,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 16,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 18,
+   "within15mOf": []
+  },
+  {
+   "id": "H2-h17-edge",
+   "role": "evaluation",
+   "bbox": [
+    679000,
+    6988620,
+    679040,
+    6988660
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 30,
+    "hole": "norrfallsviken/17"
+   },
+   "apexes": 16,
+   "isolated": 9,
+   "group": 6,
+   "edge": 1,
+   "closed": 0,
+   "conifer-like": 16,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 16,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 16,
+   "within15mOf": []
+  },
+  {
+   "id": "H3-h15-garden",
+   "role": "evaluation",
+   "bbox": [
+    679019.5,
+    6989184.5,
+    679059.5,
+    6989224.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 90,
+    "hole": "norrfallsviken/13"
+   },
+   "apexes": 47,
+   "isolated": 2,
+   "group": 15,
+   "edge": 24,
+   "closed": 6,
+   "conifer-like": 30,
+   "mixed": 4,
+   "leafless": 13,
+   "unknown": 0,
+   "near": 16,
+   "byWater": 0,
+   "byBuilding": 31,
+   "tallest": 15,
+   "within15mOf": []
+  },
+  {
+   "id": "H4-h14-shore",
+   "role": "evaluation",
+   "bbox": [
+    678959.5,
+    6988949.5,
+    678999.5,
+    6988989.5
+   ],
+   "size": [
+    40,
+    40
+   ],
+   "nearest": {
+    "d": 43,
+    "hole": "norrfallsviken/14"
+   },
+   "apexes": 24,
+   "isolated": 8,
+   "group": 12,
+   "edge": 4,
+   "closed": 0,
+   "conifer-like": 24,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 24,
+   "byWater": 12,
+   "byBuilding": 0,
+   "tallest": 16,
+   "within15mOf": []
+  },
+  {
+   "id": "H5-h15-isolated",
+   "role": "evaluation",
+   "bbox": [
+    679140,
+    6988850,
+    679200,
+    6988910
+   ],
+   "size": [
+    60,
+    60
+   ],
+   "nearest": {
+    "d": 37,
+    "hole": "norrfallsviken/15"
+   },
+   "apexes": 13,
+   "isolated": 13,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 13,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 13,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 15,
+   "within15mOf": []
+  },
+  {
+   "id": "H6-h6-coast",
+   "role": "evaluation",
+   "bbox": [
+    679335,
+    6988155,
+    679365,
+    6988185
+   ],
+   "size": [
+    30,
+    30
+   ],
+   "nearest": {
+    "d": 57,
+    "hole": "norrfallsviken/6"
+   },
+   "apexes": 44,
+   "isolated": 0,
+   "group": 6,
+   "edge": 6,
+   "closed": 32,
+   "conifer-like": 44,
+   "mixed": 0,
+   "leafless": 0,
+   "unknown": 0,
+   "near": 44,
+   "byWater": 0,
+   "byBuilding": 0,
+   "tallest": 14,
+   "within15mOf": []
+  }
+ ]
+}
