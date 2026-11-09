@@ -41,6 +41,7 @@ import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, pe
 import { loadMosaic, loadRaster, openCampaignPacks } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
+import { buildingMask, buildingRings, playGeometry } from './geometry.mjs';
 import { CONFIRM_DEFAULTS, CONFIRM_SEARCH, CONFIRM_TUNE_GRID, CONFIRM_TUNE_GRID_PRECISION, SPLIT_DEFAULTS, SPLIT_SEARCH, SPLIT_TUNE_GRID, centresNear, combinations, confirmedFromPrepared, loadPhotoCrowns, photoCentres, splitFromPrepared, typicalCrownRadius } from './photo-fusion.mjs';
 import { crownsFile, photoRecordPath } from './photo-detect.mjs';
 
@@ -337,6 +338,12 @@ function sourceCentres(ctx, record, source, part) {
    keeps its typed, refine, photo and confirm settings and searches only the width split
    (photo-fusion.mjs SPLIT_TUNE_GRID, then a coordinate polish over SPLIT_SEARCH), on
    calibration windows only. typical(h) is fitted on the calibration reference crowns. */
+/** Building masks (geometry.mjs buildingMask, 0.5 m) on each prepared window's cropped grid. */
+function windowBuildingMasks(ctx, entries) {
+  const rings = buildingRings(playGeometry(ctx).geometry);
+  return new Map(entries.map(e => [e.window.id, buildingMask(e.cropped.grid, rings, 0.5)]));
+}
+
 function tuneSplit(ctx, reference, tuning) {
   const baseRound = ctx.config.rounds.find(r => r.id === tuning.extends);
   if (!baseRound || baseRound.detector !== 'fused') throw new Error(`photoDetect.tuning.${ctx.round.id}.extends must name an earlier fused round`);
@@ -358,13 +365,16 @@ function tuneSplit(ctx, reference, tuning) {
   const near = new Map(entries.map(e => [e.window.id, centresNear(centres, e.cropped.grid)]));
   const calibrationCrowns = reference.crowns.filter(c => ids.includes(c.window) && c.scored);
   const typical = typicalCrownRadius(calibrationCrowns);
+  /* settings the round fixes (round 6: excludeBuildings), never searched */
+  const fixed = tuning.splitFixed || {};
+  const masks = fixed.excludeBuildings ? windowBuildingMasks(ctx, entries) : new Map();
   const summary = s => ({ f1: s.f1, precision: s.precision, recall: s.recall, iou: s.crownIoUMean, offset: s.centreOffsetMedianMetres, tp: s.tp, missed: s.missed, extra: s.extra });
   const startScore = summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, confirmedFromPrepared(e, typedParameters, prepared.get(e.window.id), refine, near.get(e.window.id), field, fuse)])), ids));
   const floor = tuning.precisionAtLeastStart ? startScore.precision : -Infinity;
   let evaluations = 0;
-  const evaluate = split => { evaluations++; return summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, splitFromPrepared(e, typedParameters, prepared.get(e.window.id), refine, near.get(e.window.id), field, fuse, split, typical)])), ids)); };
+  const evaluate = split => { evaluations++; return summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, splitFromPrepared(e, typedParameters, prepared.get(e.window.id), refine, near.get(e.window.id), field, fuse, { ...split, ...fixed }, typical, masks.get(e.window.id) || null)])), ids)); };
   let current = null, score = null;
-  for (const split of combinations(SPLIT_TUNE_GRID, SPLIT_DEFAULTS)) {
+  for (const split of combinations(SPLIT_TUNE_GRID, { ...SPLIT_DEFAULTS, ...fixed })) {
     const s = evaluate(split);
     if (s.precision < floor) continue;
     if (!score || better(s, score)) { current = split; score = s; }
@@ -403,7 +413,7 @@ function tuneSplit(ctx, reference, tuning) {
     withoutSplit: startScore,
     evaluations,
     trajectory,
-    selected: { parameters: typedParameters, refine, photo: base.selected.photo, fuse, split: current, typical, calibration: score },
+    selected: { parameters: typedParameters, refine, photo: base.selected.photo, fuse, split: { ...current, ...fixed }, typical, calibration: score },
     windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
     photoDetector: base.photoDetector,
   };
@@ -813,7 +823,7 @@ function predictorFor(ctx, roundConfig, lock, { chm, entries, referee }) {
       const fractions = [...new Set([...REFINE_FRACTIONS, lock.selected.refine.photo?.fraction ?? REFINE_DEFAULTS.photo.fraction])];
       const prepared = prepareRefined(entry, lock.selected.parameters, referee(), fractions);
       /* a round-5 lock adds the width split */
-      if (lock.selected.split) return splitFromPrepared(entry, lock.selected.parameters, prepared, lock.selected.refine, centresNear(centres, entry.cropped.grid), field, lock.selected.fuse, lock.selected.split, lock.selected.typical);
+      if (lock.selected.split) return splitFromPrepared(entry, lock.selected.parameters, prepared, lock.selected.refine, centresNear(centres, entry.cropped.grid), field, lock.selected.fuse, lock.selected.split, lock.selected.typical, lock.selected.split.excludeBuildings ? windowBuildingMasks(ctx, [entry]).get(w.id) : null);
       return confirmedFromPrepared(entry, lock.selected.parameters, prepared, lock.selected.refine, centresNear(centres, entry.cropped.grid), field, lock.selected.fuse);
     };
   }

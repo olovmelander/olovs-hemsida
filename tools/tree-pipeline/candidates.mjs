@@ -54,7 +54,7 @@ import { crownSubtypeFeatures, packPixel, subtypeCall } from './subtype.mjs';
 import { openCampaignPacks } from './panels.mjs';
 import { loadMosaic, loadRaster } from './panels.mjs';
 import { closedness, displacementAllowance, loadPointsFor, openGroundBrightness, photoDisc, photoEvidenceKey, photoLabel, shadowEvidenceKey, shadowProbe } from './crown-evidence.mjs';
-import { nearPlay, playGeometry } from './geometry.mjs';
+import { buildingMask, buildingRings, nearPlay, playGeometry } from './geometry.mjs';
 import { publishedGround, publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
 
@@ -120,7 +120,7 @@ export function buildCandidates(ctx) {
     return { centres: photoCentres(loadPhotoCrowns(file).crowns), field: relief.campaigns[ctx.presence.key].field };
   };
   const detected = fused
-    ? (() => { const photo = fusedPhoto(); return detectTreesFused(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine), photo.centres, photo.field, lock.selected.fuse, { smoothChmFn: smoothChm, overSegmentedTops, suppressedTops, REFINE_DEFAULTS, split: lock.selected.split || null, typical: lock.selected.typical || null }); })()
+    ? (() => { const photo = fusedPhoto(); return detectTreesFused(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine), photo.centres, photo.field, lock.selected.fuse, { smoothChmFn: smoothChm, overSegmentedTops, suppressedTops, REFINE_DEFAULTS, split: lock.selected.split || null, typical: lock.selected.typical || null, buildings: lock.selected.split?.excludeBuildings ? buildingMask(grid, buildingRings(playGeometry(ctx).geometry), 0.5) : null }); })()
     : refined
     ? detectTreesRefined(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine))
     : typed

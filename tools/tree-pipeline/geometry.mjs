@@ -47,3 +47,41 @@ export function lineDistance(e, n, line) {
   }
   return best;
 }
+
+/** Every mapped building footprint ring of the ground's routings (semantic exclusions' buildings). */
+export function buildingRings(geometry) {
+  return (geometry.infra?.buildings || []).map(b => b.ring).filter(r => Array.isArray(r) && r.length >= 3);
+}
+
+/**
+ * A mask over a grid (minEasting, maxNorthing, width, height,
+ * sampleSpacingMetres): 1 where a cell centre lies inside a building ring or
+ * within bufferMetres of its edge. Round 6's width split never takes a top
+ * there: the pit-free CHM keeps roofs as canopy.
+ */
+export function buildingMask(grid, rings, bufferMetres = 0.5) {
+  const s = grid.sampleSpacingMetres;
+  const mask = new Uint8Array(grid.width * grid.height);
+  const maxE = grid.minEasting + grid.width * s, minN = grid.maxNorthing - grid.height * s;
+  for (const ring of rings) {
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (const [x, y] of ring) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); }
+    x0 -= bufferMetres; y0 -= bufferMetres; x1 += bufferMetres; y1 += bufferMetres;
+    if (x1 < grid.minEasting || x0 > maxE || y1 < minN || y0 > grid.maxNorthing) continue;
+    const closed = [...ring, ring[0]];
+    const c0 = Math.max(0, Math.floor((x0 - grid.minEasting) / s)), c1 = Math.min(grid.width - 1, Math.floor((x1 - grid.minEasting) / s));
+    const r0 = Math.max(0, Math.floor((grid.maxNorthing - y1) / s)), r1 = Math.min(grid.height - 1, Math.floor((grid.maxNorthing - y0) / s));
+    for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+      const i = r * grid.width + c;
+      if (mask[i]) continue;
+      const e = grid.minEasting + (c + 0.5) * s, n = grid.maxNorthing - (r + 0.5) * s;
+      let inside = false;
+      for (let a = 0, b = ring.length - 1; a < ring.length; b = a++) {
+        const [xa, ya] = ring[a], [xb, yb] = ring[b];
+        if ((ya > n) !== (yb > n) && e < ((xb - xa) * (n - ya)) / (yb - ya) + xa) inside = !inside;
+      }
+      if (inside || lineDistance(e, n, closed) <= bufferMetres) mask[i] = 1;
+    }
+  }
+  return mask;
+}
