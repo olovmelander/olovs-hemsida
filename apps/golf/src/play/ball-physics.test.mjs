@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { BALL, CLUB_LAUNCH, SURFACES, CUP_RADIUS, launchState, simulateShot, flatCarry, speedForCarry, puttSpeedFor, windAt, aeroCoefficients } from './ball-physics.mjs';
+import { BALL, CLUB_LAUNCH, SURFACES, CUP_RADIUS, launchState, simulateShot, flatCarry, speedForCarry, puttSpeedFor, windAt, aeroCoefficients, skidToRoll } from './ball-physics.mjs';
 
 const flat = (surface = 'fairway', extra = {}) => ({ heightAt: () => 0, surfaceAt: () => surface, cup: null, ...extra });
 const shoot = (world, { speed, launchDeg, spinRpm, yaw = 0, axisDeg = 0, wind = [0, 0], start = [0, BALL.radius, 0] }) => {
@@ -84,6 +84,29 @@ describe('ground', () => {
     const shot = shoot(flat('fairway', { trees }), { speed: 40, launchDeg: 3, spinRpm: 3000 });
     expect(shot.treeHits).toBeGreaterThan(0);
     expect(shot.rest[2]).toBeLessThan(31);
+  });
+});
+
+describe('the skid from a landing into the roll', () => {
+  const up = [0, 1, 0];
+  it('a sliding ball with no spin rolls on at 5/7 of its speed', () => {
+    const v = skidToRoll([0, 0, 10], [0, 0, 0], up);
+    expect(v[2]).toBeCloseTo(50 / 7, 6);
+    expect(v[0]).toBeCloseTo(0, 9);
+  });
+  it('backspin left takes more; it never sends the ball back, nor topspin speeds it up', () => {
+    // backspin's axis for a ball going +z is -x (launchState's convention)
+    const back = skidToRoll([0, 0, 10], [-200, 0, 0], up), lots = skidToRoll([0, 0, 2], [-2000, 0, 0], up);
+    expect(back[2]).toBeLessThan(50 / 7);
+    expect(lots[2]).toBe(0);
+    expect(skidToRoll([0, 0, 10], [500, 0, 0], up)[2]).toBeLessThanOrEqual(10);
+  });
+  it('a ball that flew runs less than before; a putt along the ground is untouched', () => {
+    // a low, fast arrival: a half-swing long iron's
+    const low = shoot(flat(), { speed: 28.5, launchDeg: 15.7, spinRpm: 4800 });
+    expect(low.total - low.carry).toBeLessThan(35);
+    const putt = shoot(flat('green'), { speed: puttSpeedFor(6), launchDeg: 0, spinRpm: 0 });
+    expect(putt.total).toBeGreaterThan(5.5);
   });
 });
 

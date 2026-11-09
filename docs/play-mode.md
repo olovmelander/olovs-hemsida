@@ -116,6 +116,15 @@ rolling resistance (`SURFACES`):
 A rolling ball follows the real slopes of the drawn ground, at 5/7 g for a
 rolling sphere.
 
+**The skid** (`skidToRoll`): a ball coming down off its last bounce slides
+before it rolls. Friction slows it until it rolls at (5v + 2Rw) / 7, where w is
+the spin it has left in the rolling sense: 5/7 of its speed with none, less with
+backspin. A ball sent along the ground (a putt) is already rolling and skips
+this. Until 9 November the roll began at the full sliding speed. A ball coming
+in low and fast ran far further than a real one: a 50% 6-iron rolled 48 m after
+a 50 m carry, now 29 m. Full shots barely change (a 6-iron 15 m becomes 13 m, a
+driver 33 m becomes 25 m).
+
 **The cup** (108 mm across) takes a ball whose centre passes over it slowly
 enough. The faster the ball, the closer to the middle it must be, and above
 about 1.6 m/s it lips out.
@@ -146,22 +155,22 @@ own plantings).
   15% short.
 - **Planned power** (`planPower`): the share of a full swing a shot is planned
   at. The swing pad shows it as an amber line to pull to, and the aid's preview
-  and landing ring use it.
-  - A full swing or a punch **flies to the target**: it lands at the distance
-    less the roll a full one has on that ground, then runs on. The roll allowed
-    for is at most a tenth of the distance (4-15 m), since a wood or a punch runs
-    40 m and more on the flat model green. Every club's ring stands by the target,
-    a longer club's a few metres shorter because it runs further. A long club
-    swung softly runs on past the target, as it would.
-  - The short game is played to run, so a chip, pitch or bump and run is planned
-    by its whole run (`powerFor`).
-  - `powerFor` takes the strongest swing whose run reaches the distance. A softly
-    swung long club comes out low with little spin and skids a long way, so a
-    plain bisection could settle on a skid.
-  - Until 9 November every shot was planned by its whole run, with that
-    bisection. A 6-iron to a 140 m pin was planned at 42%, landing 36 m out,
-    while the 7-iron flew 130 m at 94%. The ring jumped short as the club got
-    longer.
+  draws its landing ring and its run.
+  - Every shot is planned to **stop at the target**. `powerFor` takes the
+    strongest swing whose run reaches the distance.
+  - Played to a green, the run is reckoned over a hole's shape (`flatShot` with
+    a pin): fairway in front, a green 15 m either side of the pin, rough behind.
+  - A softer swing lands shorter and runs up, as a real one does. At a 100 m pin
+    a 7-iron lands about 71 m out and a near-full 8-iron 90 m, and both stop at
+    the pin. On a realistic strip every club of the default bag stops within
+    3 m of it.
+  - History, all on 9 November:
+    - Planned by its whole run on a green with no end, a soft long iron skidded
+      100 m: a 6-iron to a 140 m pin was planned at 42%, landing 36 m out, while
+      the 7-iron flew 130 m.
+    - Next a full swing flew to the target less a capped roll, so a soft long
+      iron ran 6-31 m past.
+    - The skid and the hole's shape now give both the ring and the stop.
 - **The swing's errors:**
   - the face sets where the ball starts;
   - the path sets how it curves;
@@ -173,8 +182,8 @@ own plantings).
 
 | Level | Share of the swing's error | The aid |
 | --- | --- | --- |
-| Lätt | 35% | The whole flight and its landing, with the wind; the whole roll of a putt |
-| Normal | 75% | The landing without the wind; the first 40% of a putt's roll (its start line) |
+| Lätt | 35% | The whole flight, its landing and its run to the stop, with the wind; the whole roll of a putt |
+| Normal | 75% | The landing and its run to the stop, without the wind; the first 40% of a putt's roll (its start line) |
 | Svår | 120% | Nothing |
 
 ## The swing (`swing-input.mjs`)

@@ -143,33 +143,39 @@ describe('planned power', async () => {
     expect(p).toBeGreaterThan(.75);
     expect(flatShot(iron, p, 'fairway', undefined, null, 'green').carry).toBeGreaterThan(110);
   });
-  it('every club and shot type lands by the target, and no longer club\'s ring jumps short', async () => {
+  it('every club and shot type stops at the target, on the hole\'s shape round a green', async () => {
     const { shotTypesFor } = await import('./shot-model.mjs');
     const playing = clubs.filter(c => c.cat !== 'putter');
     for (const landOn of ['fairway', 'green']) {
       for (const type of ['full', 'punch', 'pitch', 'chip', 'flop', 'bump']) {
         const setup = { type, shape: 0, height: 0, spin: 0 };
         for (let pin = 20; pin <= 240; pin += 20) {
-          const rings = [];
           for (const c of playing.filter(club => shotTypesFor(club).includes(type))) {
-            if (flatShot(c, 1, 'fairway', setup, null, landOn).total < pin) continue;
+            const full = flatShot(c, 1, 'fairway', setup, null, landOn, pin);
+            if (full.total < pin) continue;
             const p = planPower(c, pin, 'fairway', setup, null, landOn);
-            const s = flatShot(c, p, 'fairway', setup, null, landOn);
-            const at = `${landOn} ${type} ${c.name} ${pin} m`;
-            if (type === 'full' || type === 'punch') {
-              // flown to the target, short of it by at most the capped roll
-              expect(s.carry, at).toBeLessThanOrEqual(pin + 1);
-              if (p < 1) expect(s.carry, at).toBeGreaterThan(pin - Math.max(4, Math.min(15, pin * .1)) - 2);
-              rings.push(s.carry);
-            } else if (p > .05) {
-              // the short game runs to it
-              expect(Math.abs(s.total - pin), at).toBeLessThanOrEqual(Math.max(2, pin * .04));
-            }
+            if (p <= .05) continue;                    // even the softest swing runs past: a wood by a green
+            const s = flatShot(c, p, 'fairway', setup, null, landOn, pin);
+            // within the pad's own step: a whole percent moves a softly swung wood 3-4 m
+            expect(Math.abs(s.total - pin), `${landOn} ${type} ${c.name} ${pin} m`).toBeLessThanOrEqual(Math.max(4, pin * .04));
+            expect(s.carry, `${landOn} ${type} ${c.name} ${pin} m`).toBeLessThanOrEqual(pin + 1);
           }
-          for (let i = 1; i < rings.length; i++) expect(rings[i] - rings[i - 1], `${landOn} ${type} ${pin}`).toBeLessThan(15);
         }
       }
     }
+  });
+  it('a softer swing lands shorter and runs up, rather than running past', () => {
+    // at a 100 m pin on a green: the near-full 8-iron flies further than the soft 7-iron,
+    // which flies further than the softer 6-iron, and all three stop at the pin
+    const land = cat => {
+      const c = by(cat), p = planPower(c, 100, 'fairway', undefined, null, 'green');
+      return flatShot(c, p, 'fairway', undefined, null, 'green', 100);
+    };
+    const [six, seven, eight] = ['iron6', 'iron7', 'iron8'].map(land);
+    expect(six.carry).toBeLessThan(seven.carry);
+    expect(seven.carry).toBeLessThan(eight.carry);
+    for (const s of [six, seven, eight]) expect(Math.abs(s.total - 100)).toBeLessThan(3);
+    expect(six.carry).toBeGreaterThan(50);                // short of the pin, not absurdly so
   });
   it('plans the short game by its whole run', () => {
     const pw = by('pw'), chip = { type: 'chip', shape: 0, height: 0, spin: 0 };
