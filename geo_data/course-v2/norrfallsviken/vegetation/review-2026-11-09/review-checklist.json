@@ -1,0 +1,104 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-review-checklist",
+ "groundId": "norrfallsviken",
+ "reviewId": "review-2026-11-09",
+ "round": "r4",
+ "howToMark": "person and owner items: set status to done (with by, on and evidence or a note) or not-applicable with a reason; only the owner marks owner items. Automatic items are recomputed on every review run.",
+ "items": [
+  {
+   "id": "reference-frozen",
+   "who": "auto",
+   "question": "The round's reference sample is frozen and its lock matches (who interpreted it is recorded in the lock).",
+   "status": "done",
+   "by": "agent-led interpretation (Claude), not a survey or human approval",
+   "on": "2026-11-09",
+   "evidence": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/reference-lock-r4.json"
+  },
+  {
+   "id": "held-out-gate",
+   "who": "auto",
+   "question": "The 90% held-out gate passed, or the owner recorded an exception pinning this benchmark in trees.json.",
+   "status": "done",
+   "on": "2026-11-09",
+   "evidence": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/benchmark-r4.json",
+   "note": "P 0.938 R 0.938"
+  },
+  {
+   "id": "felling-screen-reviewed",
+   "who": "auto",
+   "question": "Every felling-screened crown has a verdict in felling-review.json.",
+   "status": "done",
+   "on": "2026-11-09",
+   "evidence": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/felling-review.json",
+   "note": "{\"structure\":4}"
+  },
+  {
+   "id": "felled-list-confirmed",
+   "who": "owner",
+   "question": "The owner confirmed the trees decided felled or not a tree since the laser (removals and not placed).",
+   "status": "open",
+   "by": null,
+   "on": null,
+   "evidence": null,
+   "note": null
+  },
+  {
+   "id": "pole-like-reviewed",
+   "who": "auto",
+   "question": "Every pole-like crown (holds.poleLike) has a verdict in pole-review.json, or the hold is switched off and recorded as such.",
+   "status": "done",
+   "on": "2026-11-09",
+   "evidence": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/pole-review.json",
+   "note": "{}"
+  },
+  {
+   "id": "holds-reviewed",
+   "who": "auto",
+   "question": "Every crown held on a mapped building or with no presence vegetation has a verdict in hold-review.json (bank, present, absent, not-tree or unclear).",
+   "status": "done",
+   "on": "2026-11-09",
+   "evidence": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/hold-review.json",
+   "note": "{\"no-vegetation:present\":651,\"no-vegetation:not-tree\":182,\"building:not-tree\":115,\"no-vegetation:unclear\":14}"
+  },
+  {
+   "id": "species-spot-check-photos",
+   "who": "person",
+   "question": "The broadleaf calls near play were checked on the leaf-off and presence photos (type-panels chips); tally of verdicts recorded in the note.",
+   "status": "done",
+   "by": "agent-led review (Claude, main session), not the owner",
+   "on": "2026-11-09",
+   "evidence": "chips of every broadleaf call (June 2024 colour, May 2020 colour infrared; cache only); typeRule.note in course-workflows/norrfallsviken/trees.json",
+   "note": "All 22 broadleaf calls of the first candidates run were checked, the 2 near play among them: about 10 broadleaves (birch and bushes, bare in May 2020 and green in June 2024), 6 small pines in deep shadow, 2 roofs of unmapped houses, 4 unclear; both near-play calls were wrong (a pine at the 9th's edge, a roof behind the 1st green). The type rule now also needs a crown in leaf in June 2024 (broadleafMinimumPresenceShare 0.15), which drops every pine and one roof; the second roof is removed by a spot-check verdict and the other by the hold review. 10 broadleaf calls remain, all in the woodland: 9 of the checked broadleaves and 1 unclear. Near play: no broadleaf call."
+  },
+  {
+   "id": "species-mix-flags",
+   "who": "auto",
+   "question": "No hole is flagged for a high broadleaf share near play (species-mix.json), or the owner accepted each flag.",
+   "status": "done",
+   "on": "2026-11-09",
+   "evidence": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/species-mix.json",
+   "note": "near play: 6234 conifer, 0 broadleaf, 16 unknown"
+  },
+  {
+   "id": "species-mix-screenshots",
+   "who": "owner",
+   "question": "The owner compared before/after screenshots of the app on the GPU (holes near play) and the species mix reads right.",
+   "status": "open",
+   "by": null,
+   "on": null,
+   "evidence": null,
+   "note": null
+  },
+  {
+   "id": "runtime-cost-measured",
+   "who": "owner",
+   "question": "Frame times before/after were measured on the owner's GPU (interleaved runs, high and low quality) and accepted.",
+   "status": "open",
+   "by": null,
+   "on": null,
+   "evidence": null,
+   "note": null
+  }
+ ]
+}

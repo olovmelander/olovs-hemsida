@@ -1,0 +1,262 @@
+{
+  "schemaVersion": 1,
+  "kind": "detector-lock",
+  "round": "r2",
+  "detector": "refined",
+  "method": "refined detector: the r1 type-aware lock, then the tops it suppressed taken back only where the laser shows their own cone and apex and the photo shows a separate crown (tree-refine.mjs; relief displacement from relief-displacement.json)",
+  "frozenAt": "2026-11-09T12:00:13.787Z",
+  "referenceLockSha256": "a315c4e548f8482894a6cef12a6a2b0caab9b07280c8c71e733f8da0ed84cc0f",
+  "chmSha256": "72c6a5f6b8f9067844fa91864831f9d339880f16344f6a6f38f03439673f5cae",
+  "reliefSha256": "515cd152158931240627f3cb2bc06c909abec1c407f2ba96fbb52d56f9f4d054",
+  "startLockSha256": "775d61421e57b3334962b6afc6f1d2207618932f9811b28392d62ce22ca793c2",
+  "code": {
+    "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+    "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+    "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+    "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+    "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+    "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+    "tools/tree-pipeline/photo-fusion.mjs": "7f7681260ea72d8a2171512a0db566f0df5303e5375f95d82674d5150edd85ae"
+  },
+  "selection": "calibration windows only; the r1 typed settings fixed; coordinate descent over REFINE_SEARCH from REFINE_START, ranked by F1, then mean crown IoU, then median centre offset; ties keep the current value",
+  "search": {
+    "types": [
+      [
+        "conifer"
+      ],
+      [
+        "conifer",
+        "broadleaf"
+      ]
+    ],
+    "minimumDipMetres": [
+      0.5,
+      0.75,
+      1,
+      1.25,
+      1.5,
+      2
+    ],
+    "minimumSeparationMetres": [
+      1.5,
+      2,
+      2.5,
+      3
+    ],
+    "apex.minimumReturns": [
+      0,
+      2,
+      3,
+      4,
+      5
+    ],
+    "photo.campaigns": [
+      [],
+      [
+        "presence"
+      ],
+      [
+        "leafOff"
+      ],
+      [
+        "presence",
+        "leafOff"
+      ]
+    ],
+    "photo.combine": [
+      "any",
+      "all"
+    ],
+    "photo.fraction": [
+      0.6,
+      0.75,
+      0.9
+    ],
+    "photo.minimumValley": [
+      0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3
+    ]
+  },
+  "fixed": {
+    "candidateSigmaMetres": 0.3,
+    "candidateWindowMetres": 1,
+    "minimumHeightMetres": 3,
+    "keptRadiusMetres": 1,
+    "neighbourRadiusMetres": 6,
+    "apex": {
+      "radiusMetres": 0.75,
+      "depthMetres": 1.5
+    }
+  },
+  "suppressedTopsOnCalibration": 267,
+  "withoutRecovery": {
+    "f1": 0.935,
+    "precision": 0.959,
+    "recall": 0.912,
+    "tp": 165,
+    "missed": 16,
+    "extra": 7
+  },
+  "evaluations": 54,
+  "selected": {
+    "parameters": {
+      "type": {
+        "ndviThreshold": 0.12,
+        "coniferShare": 0.5,
+        "radiusBaseMetres": 1.5,
+        "radiusSlope": 0.05
+      },
+      "conifer": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 0.5,
+        "windowSlope": 0,
+        "windowMinimumMetres": 1,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 0,
+        "prominenceFraction": 0,
+        "position": "apex"
+      },
+      "broadleaf": {
+        "smoothingSigmaMetres": 0.6,
+        "windowBaseMetres": 3,
+        "windowSlope": 0.08,
+        "windowMinimumMetres": 1.5,
+        "windowMaximumMetres": 4,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 1,
+        "prominenceFraction": 0.1,
+        "position": "apex"
+      },
+      "shared": {
+        "seedFraction": 0.45,
+        "crownFraction": 0.55,
+        "maximumCrownRadiusMetres": 10,
+        "extentFraction": 0.2,
+        "minimumCrownAreaSquareMetres": 4
+      },
+      "split": {
+        "areaFactor": 3,
+        "allometryBaseMetres": 1,
+        "allometrySlope": 0.1,
+        "fineSigmaMetres": 0.25,
+        "windowMetres": 1.5,
+        "minimumSeparationMetres": 2,
+        "seedFraction": 0.7
+      }
+    },
+    "refine": {
+      "types": [
+        "conifer"
+      ],
+      "minimumDipMetres": 0.5,
+      "minimumSeparationMetres": 1.5,
+      "apex": {
+        "minimumReturns": 0
+      },
+      "photo": {
+        "campaigns": [
+          "presence"
+        ],
+        "combine": "any",
+        "fraction": 0.9,
+        "minimumValley": 0.05
+      }
+    },
+    "calibration": {
+      "f1": 0.946,
+      "precision": 0.966,
+      "recall": 0.928,
+      "iou": 0.817,
+      "offset": 0,
+      "tp": 168,
+      "missed": 13,
+      "extra": 6
+    }
+  },
+  "trajectory": [
+    {
+      "step": "start (REFINE_START)",
+      "f1": 0.932,
+      "precision": 0.954,
+      "recall": 0.912,
+      "iou": 0.81,
+      "offset": 0,
+      "tp": 165,
+      "missed": 16,
+      "extra": 8
+    },
+    {
+      "step": "pass 1: types = [\"conifer\"]",
+      "f1": 0.932,
+      "precision": 0.954,
+      "recall": 0.912,
+      "iou": 0.811,
+      "offset": 0,
+      "tp": 165,
+      "missed": 16,
+      "extra": 8
+    },
+    {
+      "step": "pass 1: minimumDipMetres = 0.5",
+      "f1": 0.938,
+      "precision": 0.965,
+      "recall": 0.912,
+      "iou": 0.814,
+      "offset": 0,
+      "tp": 165,
+      "missed": 16,
+      "extra": 6
+    },
+    {
+      "step": "pass 1: minimumSeparationMetres = 1.5",
+      "f1": 0.938,
+      "precision": 0.965,
+      "recall": 0.912,
+      "iou": 0.817,
+      "offset": 0,
+      "tp": 165,
+      "missed": 16,
+      "extra": 6
+    },
+    {
+      "step": "pass 1: apex.minimumReturns = 0",
+      "f1": 0.941,
+      "precision": 0.965,
+      "recall": 0.917,
+      "iou": 0.821,
+      "offset": 0,
+      "tp": 166,
+      "missed": 15,
+      "extra": 6
+    },
+    {
+      "step": "pass 1: photo.fraction = 0.9",
+      "f1": 0.944,
+      "precision": 0.965,
+      "recall": 0.923,
+      "iou": 0.814,
+      "offset": 0,
+      "tp": 167,
+      "missed": 14,
+      "extra": 6
+    },
+    {
+      "step": "pass 1: photo.minimumValley = 0.05",
+      "f1": 0.946,
+      "precision": 0.966,
+      "recall": 0.928,
+      "iou": 0.817,
+      "offset": 0,
+      "tp": 168,
+      "missed": 13,
+      "extra": 6
+    }
+  ],
+  "windowRadiusIs": "radius (not diameter) of the circular local-maximum window, metres",
+  "photoDetector": "none: a classical photo test (a brightness valley between two displaced tops); no learned model, no GPU"
+}

@@ -1,0 +1,456 @@
+{
+ "schemaVersion": 1,
+ "kind": "photo-crown-detection",
+ "round": "r4",
+ "madeAt": "2026-11-09T12:59:34.172Z",
+ "model": {
+  "id": "weecology/deepforest-tree",
+  "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+  "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8",
+  "licence": "MIT"
+ },
+ "campaign": {
+  "key": "2024",
+  "date": "2024-06-27"
+ },
+ "raster": "9a21dbddf2eba70e23c97808998ad5f2ecdf34f0053fcdde0f6340336392b904",
+ "train": {
+  "file": "train-r4.json",
+  "sha256": "e024040d6840f1a5cd0d04cc8ead98742222f0bd684cfde1b1605aa40e6b1c6b",
+  "referenceLockSha256": "f921c266bdb2cfaa0913d467f00ab61728dcce1e4218b54d849c6251746b1809",
+  "windows": [
+   "C1-h1-isolated",
+   "C2-h18-groups",
+   "C3-h11-closed",
+   "C4-h8-shore",
+   "C5-h9-garden",
+   "C6-h2-groups",
+   "C7-h13-edge",
+   "C8-h10-edge",
+   "C9-h3-edge",
+   "C10-h7-closed",
+   "C11-h1-village"
+  ]
+ },
+ "folds": [
+  [
+   "C1-h1-isolated",
+   "C3-h11-closed",
+   "C5-h9-garden",
+   "C7-h13-edge",
+   "C9-h3-edge",
+   "C11-h1-village"
+  ],
+  [
+   "C2-h18-groups",
+   "C4-h8-shore",
+   "C6-h2-groups",
+   "C8-h10-edge",
+   "C10-h7-closed"
+  ]
+ ],
+ "sources": {
+  "pre-p40": {
+   "id": "pre-p40",
+   "patchMetres": 40,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p40-calibration.json",
+    "sha256": "b69654692e99117d1dc9d8a796af2326c802ad462b353ba2e1a43a0c3d52887b",
+    "boxes": 2459
+   },
+   "all": {
+    "file": "crowns-pre-p40-all.json",
+    "sha256": "d25b0243fe3be5078fdc649d483a41b819bde1e63e56e1dceee93a1db9909b9a",
+    "boxes": 104682
+   },
+   "reused": true
+  },
+  "pre-p50": {
+   "id": "pre-p50",
+   "patchMetres": 50,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p50-calibration.json",
+    "sha256": "b49c86ae81df429e6f68793475771f784c20f9c1bad2bdfb96ea6b1c420de058",
+    "boxes": 1672
+   },
+   "all": {
+    "file": "crowns-pre-p50-all.json",
+    "sha256": "930a72ceaed35c3855fedc326f72568a678bdfbc4f63d781150116aab99f20d9",
+    "boxes": 71225
+   },
+   "reused": true
+  },
+  "pre-p64": {
+   "id": "pre-p64",
+   "patchMetres": 64,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p64-calibration.json",
+    "sha256": "599957e6220019170453026e4522397ddbf74fdf3326accff01df9a8b414f47f",
+    "boxes": 1099
+   },
+   "all": {
+    "file": "crowns-pre-p64-all.json",
+    "sha256": "5d0c6dbac83138e25f4e46055421b9d02831e5d52aa4c1203b66b2e2cccbd41c",
+    "boxes": 47053
+   },
+   "reused": true
+  },
+  "pre-p80": {
+   "id": "pre-p80",
+   "patchMetres": 80,
+   "weights": "pretrained",
+   "calibration": {
+    "file": "crowns-pre-p80-calibration.json",
+    "sha256": "2689cb7cb89c528857d334af69f2c2fd84ad0de5ec7f67074829777286f3c1d1",
+    "boxes": 855
+   },
+   "all": {
+    "file": "crowns-pre-p80-all.json",
+    "sha256": "6d85d2ddd905732395390b7a6c883bf96f9649aded44aefaba38091a1e076ca8",
+    "boxes": 33337
+   },
+   "reused": true
+  },
+  "ft-p40": {
+   "id": "ft-p40",
+   "patchMetres": 40,
+   "weights": "finetuned",
+   "epochs": 12,
+   "lr": 0.00005,
+   "perCrop": 6,
+   "seed": 7,
+   "snapTo": "pre-p40",
+   "fold0Weights": {
+    "windows": [
+     "C1-h1-isolated",
+     "C3-h11-closed",
+     "C5-h9-garden",
+     "C7-h13-edge",
+     "C9-h3-edge",
+     "C11-h1-village"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 40,
+    "seed": 7,
+    "loss": [
+     0.8852,
+     0.7726,
+     0.7111,
+     0.6674,
+     0.6227,
+     0.6108,
+     0.5796,
+     0.5539,
+     0.5274,
+     0.4881,
+     0.4732,
+     0.4214
+    ],
+    "snapTo": "crowns-pre-p40-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "86bbedc55728729adb85e3639f9eda5e3eb55f8921655834f29b3f5eb06a6435",
+    "train": "train-r4.json",
+    "trainSha256": "e024040d6840f1a5cd0d04cc8ead98742222f0bd684cfde1b1605aa40e6b1c6b"
+   },
+   "fold1Weights": {
+    "windows": [
+     "C2-h18-groups",
+     "C4-h8-shore",
+     "C6-h2-groups",
+     "C8-h10-edge",
+     "C10-h7-closed"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 40,
+    "seed": 7,
+    "loss": [
+     0.9607,
+     0.7979,
+     0.6987,
+     0.6947,
+     0.7248,
+     0.9644,
+     0.7926,
+     0.6912,
+     0.6381,
+     0.6229,
+     0.5784,
+     0.5607
+    ],
+    "snapTo": "crowns-pre-p40-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "b07461e2556662a1cbf701ec1b1ecec523d35c29b68dab054d52a8895852f55a",
+    "train": "train-r4.json",
+    "trainSha256": "e024040d6840f1a5cd0d04cc8ead98742222f0bd684cfde1b1605aa40e6b1c6b"
+   },
+   "allWeights": {
+    "windows": [
+     "C1-h1-isolated",
+     "C2-h18-groups",
+     "C3-h11-closed",
+     "C4-h8-shore",
+     "C5-h9-garden",
+     "C6-h2-groups",
+     "C7-h13-edge",
+     "C8-h10-edge",
+     "C9-h3-edge",
+     "C10-h7-closed",
+     "C11-h1-village"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 40,
+    "seed": 7,
+    "loss": [
+     0.9425,
+     0.8351,
+     0.9185,
+     0.769,
+     0.7236,
+     0.6815,
+     0.6257,
+     0.6007,
+     0.5662,
+     0.5278,
+     0.5048,
+     0.4969
+    ],
+    "snapTo": "crowns-pre-p40-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "f4d7e644fb552924c58b1885c7bb1c9a2fbf0002b90a94224427e3beb0f81deb",
+    "train": "train-r4.json",
+    "trainSha256": "e024040d6840f1a5cd0d04cc8ead98742222f0bd684cfde1b1605aa40e6b1c6b"
+   },
+   "calibration": {
+    "file": "crowns-ft-p40-calibration.json",
+    "sha256": "e5230dfd3a0852d51392963a099654920a34737a1a2df53e8f6395f2642ee74c",
+    "boxes": 2256
+   },
+   "all": {
+    "file": "crowns-ft-p40-all.json",
+    "sha256": "940dee581b3f9e8b80741d5c26c76148c40bfd104497f72ea08bac8baccb6a26",
+    "boxes": 101748
+   },
+   "reused": true
+  },
+  "ft-p64": {
+   "id": "ft-p64",
+   "patchMetres": 64,
+   "weights": "finetuned",
+   "epochs": 12,
+   "lr": 0.00005,
+   "perCrop": 6,
+   "seed": 7,
+   "snapTo": "pre-p64",
+   "fold0Weights": {
+    "windows": [
+     "C1-h1-isolated",
+     "C3-h11-closed",
+     "C5-h9-garden",
+     "C7-h13-edge",
+     "C9-h3-edge",
+     "C11-h1-village"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 64,
+    "seed": 7,
+    "loss": [
+     0.8597,
+     0.7139,
+     0.6484,
+     0.586,
+     0.5287,
+     0.49,
+     0.4332,
+     0.4167,
+     0.3689,
+     0.3275,
+     0.306,
+     0.2738
+    ],
+    "snapTo": "crowns-pre-p64-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "38a00bd6ade16f3fc51f1ec81237011acb1b3efedb894cf436748e18b756c03b",
+    "train": "train-r4.json",
+    "trainSha256": "e024040d6840f1a5cd0d04cc8ead98742222f0bd684cfde1b1605aa40e6b1c6b"
+   },
+   "fold1Weights": {
+    "windows": [
+     "C2-h18-groups",
+     "C4-h8-shore",
+     "C6-h2-groups",
+     "C8-h10-edge",
+     "C10-h7-closed"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 64,
+    "seed": 7,
+    "loss": [
+     0.8835,
+     0.734,
+     0.6714,
+     0.5864,
+     0.5221,
+     0.5027,
+     0.4547,
+     0.4095,
+     0.3617,
+     0.3245,
+     0.3028,
+     0.2885
+    ],
+    "snapTo": "crowns-pre-p64-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "5ea43390001279e906cdc5ae25c62c66754a88a0da3a97ca4129bb9a7935e792",
+    "train": "train-r4.json",
+    "trainSha256": "e024040d6840f1a5cd0d04cc8ead98742222f0bd684cfde1b1605aa40e6b1c6b"
+   },
+   "allWeights": {
+    "windows": [
+     "C1-h1-isolated",
+     "C2-h18-groups",
+     "C3-h11-closed",
+     "C4-h8-shore",
+     "C5-h9-garden",
+     "C6-h2-groups",
+     "C7-h13-edge",
+     "C8-h10-edge",
+     "C9-h3-edge",
+     "C10-h7-closed",
+     "C11-h1-village"
+    ],
+    "epochs": 12,
+    "lr": 0.00005,
+    "perCrop": 6,
+    "batch": 4,
+    "patchMetres": 64,
+    "seed": 7,
+    "loss": [
+     0.8174,
+     0.7026,
+     0.6238,
+     0.5632,
+     0.5265,
+     0.4681,
+     0.4111,
+     0.3693,
+     0.3498,
+     0.2986,
+     0.2637,
+     0.2339
+    ],
+    "snapTo": "crowns-pre-p64-calibration.json",
+    "snapMetres": 2.5,
+    "weightsSha256": "c385ab7a200ee99dc7793ed3fab3a3f73ea76e13f09588d325b75019f630f1b7",
+    "train": "train-r4.json",
+    "trainSha256": "e024040d6840f1a5cd0d04cc8ead98742222f0bd684cfde1b1605aa40e6b1c6b"
+   },
+   "calibration": {
+    "file": "crowns-ft-p64-calibration.json",
+    "sha256": "5bcf1d2492cf3c7d989a0496a5355990d0ec4995eff7e705624853d3c72802d1",
+    "boxes": 1135
+   },
+   "all": {
+    "file": "crowns-ft-p64-all.json",
+    "sha256": "506a143d0a642dd1a1722f0b06c5135fed08fdab28bbf98545a86180872bd854",
+    "boxes": 55355
+   },
+   "reused": true
+  },
+  "pre-p50-x2": {
+   "id": "pre-p50-x2",
+   "patchMetres": 50,
+   "weights": "pretrained",
+   "offsets": 2,
+   "calibration": {
+    "file": "crowns-pre-p50-x2-calibration.json",
+    "sha256": "85a24adcb10c451782de615473febffe78bdc24c74011d8ef8106427cb319d96",
+    "boxes": 1783
+   },
+   "all": {
+    "file": "crowns-pre-p50-x2-all.json",
+    "sha256": "ece526ace356d1ba59ad103d3ddb87c935461b453ae55193daa9af5f1a23594b",
+    "boxes": 79451
+   },
+   "reused": true
+  },
+  "pre-p64-x2": {
+   "id": "pre-p64-x2",
+   "patchMetres": 64,
+   "weights": "pretrained",
+   "offsets": 2,
+   "calibration": {
+    "file": "crowns-pre-p64-x2-calibration.json",
+    "sha256": "e2ff00a64aaaf2d4c949af2acae72958faaa5e08cf75d6c2525340ff866133ee",
+    "boxes": 1142
+   },
+   "all": {
+    "file": "crowns-pre-p64-x2-all.json",
+    "sha256": "504c891f609e54a753d598e3036f93d2c76bee4075337d2f69bdf6d941ec00ee",
+    "boxes": 51388
+   },
+   "reused": true
+  }
+ },
+ "environment": {
+  "python": "3.14.7",
+  "torch": "2.11.0+cu128",
+  "torchvision": "0.26.0+cu128",
+  "cuda": "12.8",
+  "deepforest": "2.1.0",
+  "cudaAvailable": true,
+  "device": "NVIDIA GeForce RTX 5080 Laptop GPU",
+  "capability": [
+   12,
+   0
+  ],
+  "model": {
+   "id": "weecology/deepforest-tree",
+   "sha": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+   "files": [
+    {
+     "name": ".gitattributes",
+     "size": 1519,
+     "sha256": null
+    },
+    {
+     "name": "NEON.pt",
+     "size": 129127473,
+     "sha256": "6d2194194daa694ce99c3daff8d53a95722d5856337466263e9a1bd23f8d282a"
+    },
+    {
+     "name": "README.md",
+     "size": 779,
+     "sha256": null
+    },
+    {
+     "name": "config.json",
+     "size": 235,
+     "sha256": null
+    },
+    {
+     "name": "model.safetensors",
+     "size": 129049980,
+     "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8"
+    }
+   ]
+  }
+ }
+}

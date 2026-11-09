@@ -130,10 +130,28 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     }
   }
 
-  if (keys(p, config.registration, ['pairs'], 'registration')) {
+  if (keys(p, config.registration, ['pairs', 'highPassMetres', 'ownerAccepted', 'note'], 'registration')) {
     p.check(Array.isArray(config.registration.pairs) && config.registration.pairs.length > 0 &&
       config.registration.pairs.every(x => typeof x === 'string' && /^[A-Za-z0-9]+(:[a-z]+)?@[A-Za-z0-9]+(:[a-z]+)?$/.test(x)),
     'registration.pairs must be moving[:band]@reference[:band] strings');
+    /* optional: both images minus a Gaussian of this sigma before the correlation (verify.mjs) */
+    if (config.registration.highPassMetres !== undefined) {
+      p.check(finite(config.registration.highPassMetres) && config.registration.highPassMetres > 0 && config.registration.highPassMetres <= 25, 'registration.highPassMetres must be in (0, 25] metres');
+    }
+    /* optional: the owner's acceptance of a direct laser pair below 30 patches, pinned to the pair and its measured count */
+    const accepted = config.registration.ownerAccepted;
+    if (accepted !== undefined) {
+      p.check(isObject(accepted), 'registration.ownerAccepted must map campaign keys to owner decisions');
+      if (isObject(accepted)) for (const [key, decision] of Object.entries(accepted)) {
+        const label = `registration.ownerAccepted.${key}`;
+        if (!keys(p, decision, ['pair', 'patches', 'decidedOn', 'ownerWords', 'note'], label)) continue;
+        p.check(typeof decision.pair === 'string' && decision.pair.startsWith(`${key}:`) && decision.pair.endsWith('@laser') && config.registration.pairs.includes(decision.pair),
+          `${label}.pair must be one of registration.pairs, this campaign against the laser`);
+        p.check(Number.isInteger(decision.patches) && decision.patches > 0, `${label}.patches must be the accepted patch count the owner saw`);
+        p.check(DATE.test(decision.decidedOn || ''), `${label}.decidedOn must be YYYY-MM-DD`);
+        p.check(typeof decision.ownerWords === 'string' && decision.ownerWords.length > 0, `${label}.ownerWords must quote the owner`);
+      }
+    }
   }
 
   if (keys(p, config.published, ['publicDir', 'baselineGroundManifest', 'baselineNote', 'lineage'], 'published')) {
@@ -180,12 +198,13 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
   for (const problem of photoDetectProblems(config)) p.check(false, problem);
   for (const r of rounds.filter(o => o.detector === 'fused')) p.check(Boolean(config.photoDetect?.rounds?.includes(r.id)), `round ${r.id} is fused: photoDetect.rounds must name it`);
 
-  if (keys(p, config.typeRule, ['round', 'broadleafMaximumAprilShare', 'unknownBelowConfidence', 'note'], 'typeRule')) {
+  if (keys(p, config.typeRule, ['round', 'broadleafMaximumAprilShare', 'broadleafMinimumPresenceShare', 'unknownBelowConfidence', 'note'], 'typeRule')) {
     const t = config.typeRule;
     p.check(rounds.some(r => r.id === t.round), 'typeRule.round must name the declared round whose reference crowns calibrate the type rule');
     p.check(finite(t.broadleafMaximumAprilShare) && t.broadleafMaximumAprilShare > 0 && t.broadleafMaximumAprilShare < 1,
       'typeRule.broadleafMaximumAprilShare must be in (0, 1): a broadleaf call needs a clearly leafless leaf-off crown');
     p.check(finite(t.unknownBelowConfidence) && t.unknownBelowConfidence >= 0.5 && t.unknownBelowConfidence < 1, 'typeRule.unknownBelowConfidence must be in [0.5, 1)');
+    if (t.broadleafMinimumPresenceShare !== undefined) p.check(finite(t.broadleafMinimumPresenceShare) && t.broadleafMinimumPresenceShare > 0 && t.broadleafMinimumPresenceShare < 1, 'typeRule.broadleafMinimumPresenceShare must be in (0, 1): a broadleaf call also needs a crown in leaf in the presence photo');
   }
 
   if (keys(p, config.holds, ['poleLike', 'bank', 'note'], 'holds')) {

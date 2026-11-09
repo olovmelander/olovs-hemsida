@@ -18,6 +18,11 @@
             of acquisition/laser-campaigns.json, so a re-tiled catalogue can be
             pinned for review without breaking the hashes the published
             generation's evidence carries; adopting it is a publication step.
+   --window minE,minN,maxE,maxN (EPSG:3006; needs --out) measures the inventory's areas and
+            its 95% coverage over that window instead of the ground's box: a tree review's
+            halo, the only ground its pipeline reads. A coastal ground's box takes in open
+            sea that Lantmäteriet publishes no item for (Norrfällsviken east of E 680000,
+            9 November 2026); the window must still be covered, by the same rule.
    --skip-scan-metadata leaves out Skogsstyrelsen's scan-area layer (for a
             Lantmäteriet-only run); the leaf state then comes from the item
             metadata and the earlier pin.
@@ -49,6 +54,16 @@ const check = args.includes('--check');
 const observedOn = flag('observed-on', new Date().toISOString().slice(0, 10));
 const outFlag = flag('out');
 const skipScanMetadata = args.includes('--skip-scan-metadata');
+const windowFlag = flag('window');
+const coverageWindow = windowFlag ? windowFlag.split(',').map(Number) : null;
+if (coverageWindow && (coverageWindow.length !== 4 || coverageWindow.some(v => !Number.isFinite(v)) || coverageWindow[0] >= coverageWindow[2] || coverageWindow[1] >= coverageWindow[3])) {
+  console.error('--window must be minE,minN,maxE,maxN in EPSG:3006');
+  process.exit(2);
+}
+if (coverageWindow && !outFlag) {
+  console.error('--window writes a window inventory: give --out, never the ground\x27s accepted pin');
+  process.exit(2);
+}
 if (!ACQUISITION_GROUND_IDS.includes(groundId)) {
   console.error(`--ground must be one of ${ACQUISITION_GROUND_IDS.join(', ')}`);
   process.exit(2);
@@ -64,7 +79,8 @@ const manifest = loadPilotManifest(groundId);
 const discovery = readJson(path.join(groundDir, 'acquisition/d2-discovery.json'));
 const aoi = {
   bboxWgs84: manifest.targetBboxWgs84,
-  bboxEpsg3006: discovery.aoi.bboxEpsg3006,
+  bboxEpsg3006: coverageWindow || discovery.aoi.bboxEpsg3006,
+  ...(coverageWindow ? { groundBboxEpsg3006: discovery.aoi.bboxEpsg3006, note: 'areas and coverage over a tree review window (--window), not the ground box' } : {}),
 };
 
 /* The legacy frame origin, projected by PROJ during migration, is the point

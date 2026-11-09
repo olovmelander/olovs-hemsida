@@ -1,0 +1,404 @@
+{
+  "$comment": "Tree pipeline config (docs/tree-placement-workflow.md, .claude/agents/tree-placement.md). Norrfällsviken is the pipeline's second ground (owner request of 2026-11-09: \"Can we try the brand new tree pipeline on a new course now, Norrfällsviken. So get the latest Lantmäteriet data from the api and start.\").",
+  "schemaVersion": 1,
+  "kind": "banvy-tree-pipeline-ground",
+  "groundId": "norrfallsviken",
+  "courseSlugs": [
+    "norrfallsviken"
+  ],
+  "provider": "lantmateriet",
+  "reviewId": "review-2026-11-09",
+  "reviewDir": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09",
+  "cacheDir": "norrfallsvikenbuild/cache/trees-2026-11-09",
+  "window": {
+    "inner": {
+      "minEasting": 677939.5,
+      "minNorthing": 6987439.5,
+      "maxEasting": 679987.5,
+      "maxNorthing": 6989487.5
+    },
+    "note": "a 2,048 m square on the published ground's 256 m finest-tile edges (28 and 30 tiles from the ground's south-west corner), holding every hole of the routing and its 90 m play zone",
+    "haloMetres": 60,
+    "chmCellMetres": 0.5
+  },
+  "laser": {
+    "campaigns": "geo_data/course-v2/norrfallsviken/acquisition/laser-campaigns-trees-2026-11-09.json",
+    "items": [
+      "25f014-69850_6775_25",
+      "25f014-69850_6800_25",
+      "25f014-69875_6775_25"
+    ],
+    "label": "25F014 2025-06-05 leaf-on",
+    "campaign": "25F014",
+    "capturedOn": "2025-06-05",
+    "leafState": "leaf-on",
+    "note": "Laserdata Nedladdning, skog (dsm-skoglig-copc), re-tiled by Lantmäteriet into 2.5 km items; the newest campaign over the tree window (record-laser-campaigns --window, 97.9% of the halo window; the rest is open sea where 69875_6800 has no item). The ground's own terrain keeps its accepted laser pin (laser-campaigns.json); this inventory is the trees' only."
+  },
+  "orthophotos": {
+    "stacSearchBboxWgs84": [
+      18.509,
+      62.971,
+      18.556,
+      62.993
+    ],
+    "items": [
+      "69850_6775_25",
+      "69850_6800_25",
+      "69875_6775_25"
+    ],
+    "campaigns": [
+      {
+        "key": "2020",
+        "collection": "orto-u2-2020",
+        "suffix": "mr20",
+        "date": "2020-05-22",
+        "season": "leaf-off",
+        "sun": {
+          "azimuthDegrees": 176.7,
+          "elevationDegrees": 47.5
+        }
+      },
+      {
+        "key": "2024",
+        "collection": "orto-u2-2024",
+        "suffix": "mr24",
+        "date": "2024-06-27",
+        "season": "leaf-on",
+        "sun": {
+          "azimuthDegrees": 236.6,
+          "elevationDegrees": 41
+        }
+      }
+    ],
+    "leafOff": "2020",
+    "presence": "2024",
+    "notFetched": {
+      "orto-u2-2022": "2022-07-12 RGBI 0.16 m, leaf-on, older than 2024",
+      "orto-u2-2018": "2018-05-28 0.25 m, colour and infrared as separate RGB and CIR files (fm18, im18), which the pipeline's RGBI reader does not take",
+      "orto-u2-2014 and older": "2014-06-02 and earlier, 0.25-0.5 m"
+    }
+  },
+  "registration": {
+    "pairs": [
+      "2020:nir@laser",
+      "2024:nir@laser",
+      "2024:bright@2020:bright",
+      "2024:red@2020:red"
+    ],
+    "highPassMetres": 6,
+    "ownerAccepted": {
+      "2020": {
+        "pair": "2020:nir@laser",
+        "patches": 11,
+        "decidedOn": "2026-11-09",
+        "ownerWords": "Apply measured shifts (Recommended)",
+        "note": "measured -0.219 m E, -0.444 m N (0.49 m), residual median 0.14 m"
+      },
+      "2024": {
+        "pair": "2024:nir@laser",
+        "patches": 19,
+        "decidedOn": "2026-11-09",
+        "ownerWords": "Apply measured shifts (Recommended)",
+        "note": "measured 0.139 m E, -0.274 m N (0.31 m), residual median 0.23 m"
+      }
+    },
+    "note": "The June 2025 leaf-on laser's near-ground intensity is too smooth over Norrfällsviken's open ground for the raw correlation: 2 and 3 patches of 111 and 74 were accepted, most peaks flat or on the search border. With both images high-passed (6 m; 1.5 m and 3 m gave the same shift for 2024 within 0.05 m) 19 (2024) and 11 (2020) laser patches are accepted, and the two photos agree on 37 (bright) and 40 (red) patches; the loop closes within 0.15 m (2024 minus 2020 against the laser 0.36 E, 0.17 N; photo against photo 0.48 E, 0.08 N). The owner accepted the direct laser shifts below 30 patches on 2026-11-09."
+  },
+  "published": {
+    "publicDir": "apps/golf/public",
+    "baselineGroundManifest": "grounds/norrfallsviken/ground-v2-6aeff2fa6939de7260400fbc3121342e4f4cd0954217ef7e3c04d9816f341171.json",
+    "baselineNote": "the ground generation the live course manifest (course-v2-0cf1f4a2) pins on 2026-11-09",
+    "lineage": null
+  },
+  "playZone": {
+    "nearMetres": 90,
+    "note": "the app zone A (main.js LEGACY_ZONE_A_METRES) from every hole line and practice area of the routing"
+  },
+  "rounds": [
+    {
+      "id": "r1",
+      "sampleSuffix": "",
+      "detector": "typed",
+      "startFrom": null,
+      "methodName": "r1-typed",
+      "roles": [
+        "calibration",
+        "evaluation"
+      ],
+      "evaluationRole": "evaluation",
+      "note": "round 1: the type-aware detector tuned from TYPED_DEFAULTS; one sample for all four rounds (reference-windows.json, carried verbatim by rounds r2-r4): calibration C1-C11, held-out H1-H6, frozen on 2026-11-09 before any detector ran; tuned in order on calibration only, and scored once, all four locks together, in round r4's benchmark under the rule declared in reference-windows.json"
+    },
+    {
+      "id": "r2",
+      "sampleSuffix": "-r2",
+      "detector": "refined",
+      "startFrom": "r1",
+      "methodName": "r2-refined",
+      "roles": [
+        "calibration",
+        "evaluation"
+      ],
+      "evaluationRole": "evaluation",
+      "note": "round 2: the refined detector (r1's settings; a suppressed top taken back only on its own laser cone and apex and a separate crown in the photo); the same sample"
+    },
+    {
+      "id": "r3",
+      "sampleSuffix": "-r3",
+      "detector": "fused",
+      "startFrom": "r2",
+      "methodName": "r3-fused",
+      "roles": [
+        "calibration",
+        "evaluation"
+      ],
+      "evaluationRole": "evaluation",
+      "note": "round 3: the fused detector (r2's lock, then suppressed laser tops a learned photo crown confirms: DeepForest on the June 2024 photo, matched in photo space after the relief displacement; the photo never places a tree); the same sample"
+    },
+    {
+      "id": "r4",
+      "sampleSuffix": "-r4",
+      "detector": "fused",
+      "startFrom": "r2",
+      "methodName": "r4-split",
+      "roles": [
+        "calibration",
+        "evaluation"
+      ],
+      "evaluationRole": "evaluation",
+      "note": "round 4: the width split extending r3 (suppressed laser tops taken back inside crowns too wide for one tree of their height, never on a mapped building), Johannesberg's round 6; the same sample, and the round whose benchmark scores all four locks once. Scored once on 2026-11-09 on H1-H6 (112 crowns), all four locks together: r1 typed P 0.938 R 0.938 F1 0.938, r2 refined 0.921 / 0.938 / 0.929, r3 fused 0.929 / 0.938 / 0.933, r4 split 0.929 / 0.938 / 0.933 (the published trees of 2026-09-04 with their stands 0.854 / 0.366 / 0.513). Under the rule declared in reference-windows.json the highest held-out F1 wins and none is passed over for precision (the best is r1's own 0.938), so this round publishes the round-1 lock (publishes: r1); it passes the 90% gate outright",
+      "publishes": "r1"
+    }
+  ],
+  "photoDetect": {
+    "$comment": "The learned crown detector on the June 2024 photo (rounds r3, r4), run by --stage photo-detect on the GPU as at Johannesberg: DeepForest (weecology, MIT licence) through photo/crowns.py; pretrained sources at several patch sizes and fine-tuned sources cross-fitted on the two calibration folds. The fused tuning chooses one source and the fusion settings on calibration only.",
+    "rounds": [
+      "r3",
+      "r4"
+    ],
+    "python": "johannesbergbuild/cache/venv-photo/Scripts/python.exe",
+    "requirements": "tools/tree-pipeline/photo/requirements-photo.txt",
+    "model": {
+      "id": "weecology/deepforest-tree",
+      "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+      "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8",
+      "licence": "MIT"
+    },
+    "halo": 64,
+    "folds": [
+      [
+        "C1-h1-isolated",
+        "C3-h11-closed",
+        "C5-h9-garden",
+        "C7-h13-edge",
+        "C9-h3-edge",
+        "C11-h1-village"
+      ],
+      [
+        "C2-h18-groups",
+        "C4-h8-shore",
+        "C6-h2-groups",
+        "C8-h10-edge",
+        "C10-h7-closed"
+      ]
+    ],
+    "sources": [
+      {
+        "id": "pre-p40",
+        "patchMetres": 40,
+        "weights": "pretrained"
+      },
+      {
+        "id": "pre-p50",
+        "patchMetres": 50,
+        "weights": "pretrained"
+      },
+      {
+        "id": "pre-p64",
+        "patchMetres": 64,
+        "weights": "pretrained"
+      },
+      {
+        "id": "pre-p80",
+        "patchMetres": 80,
+        "weights": "pretrained"
+      },
+      {
+        "id": "ft-p40",
+        "patchMetres": 40,
+        "weights": "finetuned",
+        "epochs": 12,
+        "lr": 0.00005,
+        "perCrop": 6,
+        "seed": 7,
+        "snapTo": "pre-p40"
+      },
+      {
+        "id": "ft-p64",
+        "patchMetres": 64,
+        "weights": "finetuned",
+        "epochs": 12,
+        "lr": 0.00005,
+        "perCrop": 6,
+        "seed": 7,
+        "snapTo": "pre-p64"
+      },
+      {
+        "id": "pre-p50-x2",
+        "patchMetres": 50,
+        "weights": "pretrained",
+        "offsets": 2
+      },
+      {
+        "id": "pre-p64-x2",
+        "patchMetres": 64,
+        "weights": "pretrained",
+        "offsets": 2
+      }
+    ],
+    "tuning": {
+      "r4": {
+        "$comment": "main session, 2026-11-09: round 4 keeps the round-3 lock and searches only the width split, with excludeBuildings fixed on, on calibration, on the whole-window detections the score reads; the best calibration F1 among settings whose calibration precision is at least the round-3 lock's on the same windows (Johannesberg round 6's tuning).",
+        "extends": "r3",
+        "crowns": "all",
+        "precisionAtLeastStart": true,
+        "splitFixed": {
+          "excludeBuildings": true
+        }
+      }
+    }
+  },
+  "activeRound": "r4",
+  "typeRule": {
+    "round": "r1",
+    "broadleafMaximumAprilShare": 0.08,
+    "broadleafMinimumPresenceShare": 0.15,
+    "unknownBelowConfidence": 0.6,
+    "note": "Johannesberg's rule (a broadleaf call needs a clearly leafless leaf-off crown), its threshold set the same way: below every reference conifer. The 22 May 2020 photo was flown as the birches came into leaf: 15 of the 16 reference broadleaves read vegetated there (shares 0.36-1.00; one at 0.13), and two reference conifers lie below 0.2 (an 18 m crown shaded in the closed wood C3 at 0.09, a 5 m pine at 0.15). At 0.2 the rule would call one broadleaf right and two conifers wrong; at 0.08 it calls none of the reference crowns broadleaf. So this photo gives (almost) no broadleaf calls: unknown records and the stand fill take the engine's conifer-led background mix, and garden birches are drawn by that mix. The fitted rule (type-rule.json, aprilVegetatedShare >= 0.739 conifer) reaches balanced accuracy 0.83 on calibration but 0.51 on the five held-out broadleaves. For the owner's species check (main session, 2026-11-09). Spot check of all 22 broadleaf calls on the photos (main session, 2026-11-09): about 10 broadleaves (birch and bushes, bare in May 2020 and green in June 2024), 6 small pines in deep shadow (dark in both photos: May 2020 share 0-0.024, June 2024 share 0-0.028), 2 roofs of houses the map lacks and 4 unclear; both calls near play were wrong (a pine and a roof). The leaf-off share cannot tell them apart (all below 0.025), the June share can: every broadleaf there is 0.27-1.0 and every pine below 0.03, so a broadleaf call also needs a crown in leaf in June 2024 (broadleafMinimumPresenceShare 0.15, the no-vegetation hold's own threshold)."
+  },
+  "holds": {
+    "poleLike": {
+      "maximumRadiusMetres": 1,
+      "minimumHeightMetres": 5
+    },
+    "bank": {
+      "surfaces": [
+        "water",
+        "path",
+        "road",
+        "railway",
+        "green",
+        "tee",
+        "bunker",
+        "fairway",
+        "practice"
+      ],
+      "insetMetres": 0.5,
+      "reachMetres": 1.5,
+      "groundReturnsForLand": 2,
+      "minimumPresenceVegetatedShare": 0.15,
+      "note": "Johannesberg's bank rule (round 5): a crown centroid over mapped water, a path, a road or a played surface gets a stem on its own laser crown's land side, never on a building"
+    },
+    "note": "the pole-like hold and the bank rule as at Johannesberg; held crowns are decided on the photo chips"
+  },
+  "review": {
+    "spots": [
+      {
+        "id": "hole1",
+        "title": "the 1st hole, tee to green",
+        "bbox": [
+          678640,
+          6988330,
+          679000,
+          6988500
+        ]
+      },
+      {
+        "id": "clubhouse",
+        "title": "the clubhouse, the 9th and 18th greens and the 10th tee",
+        "bbox": [
+          678520,
+          6988380,
+          678700,
+          6988560
+        ]
+      },
+      {
+        "id": "hole14-lake",
+        "title": "the lake by the 14th green",
+        "bbox": [
+          678900,
+          6988900,
+          679060,
+          6989030
+        ]
+      },
+      {
+        "id": "hole6-coast",
+        "title": "the coast wood by the 6th",
+        "bbox": [
+          679280,
+          6988100,
+          679420,
+          6988240
+        ]
+      },
+      {
+        "id": "holes15-16",
+        "title": "the heath by the 15th green and the 16th tee",
+        "bbox": [
+          679100,
+          6988780,
+          679320,
+          6988920
+        ]
+      },
+      {
+        "id": "village",
+        "title": "the holiday village south of the practice ground",
+        "bbox": [
+          678540,
+          6988180,
+          678700,
+          6988300
+        ]
+      }
+    ],
+    "typePanels": [
+      {
+        "course": "norrfallsviken",
+        "holes": [
+          1,
+          18
+        ]
+      }
+    ],
+    "typePanelSample": 12,
+    "nearBroadleafShareFlag": 0.3
+  },
+  "publication": {
+    "scope": [
+      677939.5,
+      6987439.5,
+      679987.5,
+      6989487.5
+    ],
+    "observedOn": "2026-11-09",
+    "stagingRoot": "output/course-workflow/norrfallsviken/staging-public",
+    "compileOut": "output/course-workflow/norrfallsviken/reviewed-compile",
+    "reviewStatement": "reviewed candidates, review-2026-11-09 round r4, publishing the round-1 lock under the rule declared before scoring: the type-aware laser detector (June 2025 leaf-on scan) tuned on calibration windows C1-C11, scored once with the refined, fused and split detectors on the unseen sample H1-H6 (112 crowns): P 0.938 / R 0.938, held-out gate passed; agent-led reference interpretation, not a survey; crowns leaning over mapped water, paths, roads and played surfaces given a stem on the bank inside their own laser crown (holds.bank); crowns held on buildings or without June 2024 vegetation decided on the photos (hold-review.json: roofs, sheds, decks and caravans not placed); broadleaf only where the May 2020 crown is bare and the June 2024 crown in leaf; holds, removals and unresolved cases listed in the review"
+  },
+  "ownerExceptions": [],
+  "pendingOwnerApprovals": [],
+  "ownerDecisions": [
+    {
+      "decidedOn": "2026-11-09",
+      "decision": "Photo registration: \"Apply measured shifts (Recommended)\": the high-passed direct laser shifts are applied although they rest on fewer than 30 patches (registration.ownerAccepted).",
+      "record": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/README.md"
+    },
+    {
+      "decidedOn": "2026-11-09",
+      "decision": "Publication: after the before/after screenshots taken on his GPU at his request (\"Grab some screenshots\"), the owner answered \"Commit and merge to main in the recommended way\". The round-4 benchmark passes the held-out gate on the round-1 lock, so no exception is needed; the trees were staged with --pending-owner, adopted into the public root and the course's prepared data re-baked. His checklist items (the not-placed list, the species mix in screenshots, the runtime cost) stay open for him to mark.",
+      "record": "geo_data/course-v2/norrfallsviken/vegetation/review-2026-11-09/README.md"
+    }
+  ]
+}

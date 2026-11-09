@@ -619,3 +619,53 @@ test('round 6: the width split never takes a top on a mapped building, and is pu
   assert.match(exception.decision, /Yes, publish round 6 \(Recommended\)/);
   assert.equal(exception.benchmark.sha256, report.benchmark.sha256);
 });
+
+test('registration: a direct laser pair below 30 patches counts only where the owner accepted that pair at that count', async () => {
+  const { decideShifts } = await import('./verify.mjs');
+  const pair = (campaign, patches, dE, dN, reference = { source: 'laser' }) => ({ moving: { campaign, band: 'nir' }, reference, patchesAccepted: patches, medianShift: { dE, dN }, residualAboutMedian: { median: 0.2, p90: 0.9 } });
+  const result = { pairs: { '2024:nir@laser': pair('2024', 19, 0.139, -0.274), '2020:nir@laser': pair('2020', 11, -0.219, -0.444) } };
+  assert.deepEqual(decideShifts(result).decisions, {}, 'below 30 patches and no owner decision: unregistered');
+  const owner = { 2024: { pair: '2024:nir@laser', patches: 19, decidedOn: '2026-11-09', ownerWords: 'Apply measured shifts (Recommended)' } };
+  const decided = decideShifts(result, owner);
+  assert.deepEqual(Object.keys(decided.decisions), ['2024']);
+  assert.match(decided.decisions['2024'].via, /accepted by the owner on 2026-11-09/);
+  assert.deepEqual(decided.applied['2024'], { dE: 0.139, dN: -0.274 });
+  /* a re-measurement with another count is not what the owner saw */
+  assert.deepEqual(decideShifts({ pairs: { '2024:nir@laser': pair('2024', 18, 0.1, -0.3) } }, owner).decisions, {});
+  /* Johannesberg's recorded decisions are unchanged */
+  const jb = JSON.parse(fs.readFileSync(path.join(ROOT, 'geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/registration.json'), 'utf8'));
+  const again = decideShifts(JSON.parse(JSON.stringify(jb)));
+  assert.deepEqual({ decisions: again.decisions, applied: again.applied, rule: again.rule }, { decisions: jb.decisions, applied: jb.applied, rule: jb.rule });
+  /* the config pins the pair and quotes the owner */
+  const config = johannesberg();
+  config.registration.ownerAccepted = { 2021: { pair: '2021:nir@laser', patches: 12, decidedOn: '2026-11-09', ownerWords: 'yes' } };
+  assert.deepEqual(validateGroundConfig(config), []);
+  config.registration.ownerAccepted = { 2021: { pair: '2025:nir@laser', patches: 12, decidedOn: '2026-11-09', ownerWords: '' } };
+  assert.equal(validateGroundConfig(config).filter(p => /ownerAccepted/.test(p)).length, 2);
+  config.registration.ownerAccepted = undefined;
+  config.registration.highPassMetres = 0;
+  assert.ok(validateGroundConfig(config).some(p => /highPassMetres/.test(p)));
+  /* Norrfällsviken: the owner's decision of 2026-11-09 registers both photos */
+  const norr = loadGroundConfig(ROOT, 'norrfallsviken');
+  assert.equal(norr.config.registration.highPassMetres, 6);
+  assert.equal(norr.config.registration.ownerAccepted['2024'].patches, 19);
+});
+
+test('type rule: a broadleaf call may also need a crown in leaf in the presence photo; Norrfällsviken passes its gate', async () => {
+  const config = johannesberg();
+  config.typeRule.broadleafMinimumPresenceShare = 0.15;
+  assert.deepEqual(validateGroundConfig(config), []);
+  config.typeRule.broadleafMinimumPresenceShare = 1.5;
+  assert.ok(validateGroundConfig(config).some(p => /broadleafMinimumPresenceShare/.test(p)));
+  /* Norrfällsviken: round r4 scored all four locks once on H1-H6 and publishes the round-1 lock, which passes */
+  const { gateReport } = await import('./benchmark.mjs');
+  const ctx = loadGroundConfig(ROOT, 'norrfallsviken');
+  assert.equal(ctx.round.id, 'r4');
+  assert.equal(ctx.round.publishes, 'r1');
+  assert.equal(ctx.config.typeRule.broadleafMinimumPresenceShare, 0.15);
+  const report = gateReport(ctx);
+  assert.equal(report.gate.status, 'PASS');
+  assert.equal(report.gate.method, 'r1-typed');
+  assert.equal(report.gate.measured.scored, 112);
+  assert.ok(report.gate.measured.precision >= 0.9 && report.gate.measured.recall >= 0.9);
+});

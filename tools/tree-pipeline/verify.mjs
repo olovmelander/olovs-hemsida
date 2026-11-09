@@ -94,10 +94,18 @@ function ncc(a, b, mask) {
  * through a photo-photo pair to a campaign that has one. A shift under
  * 0.25 m (half a CHM cell) is recorded but not applied.
  */
-export function decideShifts(result) {
+export function decideShifts(result, ownerAccepted = {}) {
   const pairs = Object.entries(result.pairs);
   const direct = new Map();
-  for (const [, pair] of pairs) if (pair.reference.source && pair.patchesAccepted >= 30) direct.set(pair.moving.campaign, { dE: pair.medianShift.dE, dN: pair.medianShift.dN, via: 'laser', patches: pair.patchesAccepted, residualMedian: pair.residualAboutMedian.median, residualP90: pair.residualAboutMedian.p90 });
+  for (const [text, pair] of pairs) {
+    if (!pair.reference.source) continue;
+    /* below 30 patches only by the owner's decision, pinned to this pair and the count he saw */
+    const owner = ownerAccepted[pair.moving.campaign];
+    const byOwner = pair.patchesAccepted < 30 && owner?.pair === text && owner.patches === pair.patchesAccepted;
+    if (pair.patchesAccepted >= 30 || byOwner) {
+      direct.set(pair.moving.campaign, { dE: pair.medianShift.dE, dN: pair.medianShift.dN, via: byOwner ? `laser (${pair.patchesAccepted} patches, below 30, accepted by the owner on ${owner.decidedOn})` : 'laser', patches: pair.patchesAccepted, residualMedian: pair.residualAboutMedian.median, residualP90: pair.residualAboutMedian.p90 });
+    }
+  }
   const decisions = {};
   for (const [, pair] of pairs) {
     const key = pair.moving.campaign;
@@ -113,26 +121,66 @@ export function decideShifts(result) {
     decision.dE = round(decision.dE); decision.dN = round(decision.dN);
     applied[key] = decision.magnitude >= 0.25 ? { dE: decision.dE, dN: decision.dN } : null;
   }
-  return { decisions, applied, rule: 'direct laser pair with >= 30 accepted patches, else chained through the photo-photo pair with most accepted patches; applied only when >= 0.25 m' };
+  const owned = Object.keys(ownerAccepted).length ? '; a direct laser pair below 30 patches counts only where the owner accepted that pair at that count (registration.ownerAccepted)' : '';
+  return { decisions, applied, rule: `direct laser pair with >= 30 accepted patches, else chained through the photo-photo pair with most accepted patches; applied only when >= 0.25 m${owned}` };
+}
+
+/* One band of a mosaic on its own lattice minus a Gaussian of sigma `metres` (no-data pixels NaN). */
+function highPassedBand(mosaic, bandName, metres) {
+  const n = mosaic.width * mosaic.height;
+  const image = new Float32Array(n);
+  const d = mosaic.data;
+  const px = new Float64Array(4);
+  for (let i = 0; i < n; i++) {
+    if (!d[i * 4] && !d[i * 4 + 1] && !d[i * 4 + 2] && !d[i * 4 + 3]) { image[i] = Number.NaN; continue; }
+    px[0] = d[i * 4]; px[1] = d[i * 4 + 1]; px[2] = d[i * 4 + 2]; px[3] = d[i * 4 + 3];
+    image[i] = BAND[bandName](px);
+  }
+  const low = smoothChm({ width: mosaic.width, height: mosaic.height, sampleSpacingMetres: mosaic.pixelMetres }, image, metres);
+  for (let i = 0; i < n; i++) image[i] -= low[i];
+  return { minEasting: mosaic.minEasting, maxNorthing: mosaic.maxNorthing, pixelMetres: mosaic.pixelMetres, width: mosaic.width, height: mosaic.height, image };
+}
+
+/* Bilinear in a single-band image from highPassedBand. */
+function bandAt(m, easting, northing) {
+  const fx = (easting - m.minEasting) / m.pixelMetres - 0.5;
+  const fy = (m.maxNorthing - northing) / m.pixelMetres - 0.5;
+  const c = Math.floor(fx), r = Math.floor(fy);
+  if (c < 0 || r < 0 || c + 1 >= m.width || r + 1 >= m.height) return Number.NaN;
+  const tx = fx - c, ty = fy - r, w = m.width, v = m.image;
+  return (v[r * w + c] * (1 - tx) + v[r * w + c + 1] * tx) * (1 - ty) + (v[(r + 1) * w + c] * (1 - tx) + v[(r + 1) * w + c + 1] * tx) * ty;
 }
 
 export function register(ctx, pairs) {
   const chm = loadRaster(ctx, 'chm-pitfree-050');
   const grid = chm.grid;
+  /* registration.highPassMetres (optional; Norrfällsviken, 2026-11-09): both images minus a Gaussian of
+     this sigma, so smooth brightness gradients cannot flatten the correlation or pull its peak to the
+     search border; the structure test is then left to the acceptance rule, which is unchanged */
+  const hp = ctx.config.registration.highPassMetres ?? null;
   const intensity = laserIntensityImage(ctx, grid);
+  if (hp) {
+    const low = smoothChm(grid, intensity, hp);
+    for (let i = 0; i < intensity.length; i++) intensity[i] -= low[i];
+  }
   const inner = ctx.innerWindow;
   const patch = 50;
   const step = 0.25;
   const reach = 4;
   const result = { schemaVersion: 1, kind: 'orthophoto-registration', method: 'patchwise NCC on open ground (pit-free CHM < 0.5 m on >= 85% of a 50 m patch, the rest masked; patches on a 100 m lattice), +-4 m search in 0.25 m steps, parabolic refinement. Reference either the laser near-ground intensity (HAG < 0.3 m, 0.5 m cells, gap-filled) or another orthophoto band; shift = moving position minus reference position. Accepted: peak r >= 0.35, >= 0.15 above the patch median, not on the search border.', pairs: {} };
+  if (hp) result.method += ` Both images high-passed: each minus a Gaussian of sigma ${hp} m (the laser on its 0.5 m lattice, each photo band on its 0.32 m mosaic, no-data pixels left out), and no structure test (the acceptance rule above stands).`;
   const mosaics = new Map();
   const mosaicOf = key => { if (!mosaics.has(key)) mosaics.set(key, loadMosaic(ctx, key)); return mosaics.get(key); };
-  for (const pair of pairs) {
+  const passed = new Map();
+  const passedOf = (key, bandName) => { const id = `${key}:${bandName}`; if (!passed.has(id)) passed.set(id, highPassedBand(mosaicOf(key), bandName, hp)); return passed.get(id); };
+  for (const [pairIndex, pair] of pairs.entries()) {
     const key = pair.key;
     const mosaic = mosaicOf(key);
     const band = BAND[pair.band];
     const refMosaic = pair.refKey === 'laser' ? null : mosaicOf(pair.refKey);
     const refBand = BAND[pair.refBand];
+    const moving = hp ? passedOf(key, pair.band) : null;
+    const movingRef = hp && refMosaic ? passedOf(pair.refKey, pair.refBand) : null;
     const patches = [];
     const px = new Float64Array(4);
     for (let e0 = inner.minEasting + 25; e0 + patch <= inner.maxEasting; e0 += 100) {
@@ -146,7 +194,9 @@ export function register(ctx, pairs) {
         for (let y = 0; y < w; y++) for (let x = 0; x < w; x++) {
           const index = (r0 + y) * grid.width + (c0 + x);
           const h = chm.values[index];
-          if (refMosaic) {
+          if (movingRef) {
+            a[y * w + x] = bandAt(movingRef, grid.minEasting + (c0 + x + 0.5) * grid.sampleSpacingMetres, grid.maxNorthing - (r0 + y + 0.5) * grid.sampleSpacingMetres);
+          } else if (refMosaic) {
             mosaicAt(refMosaic, grid.minEasting + (c0 + x + 0.5) * grid.sampleSpacingMetres, grid.maxNorthing - (r0 + y + 0.5) * grid.sampleSpacingMetres, px);
             a[y * w + x] = refBand(px);
           } else a[y * w + x] = intensity[index];
@@ -157,7 +207,7 @@ export function register(ctx, pairs) {
         let s1 = 0, s2 = 0, m = 0;
         for (let i = 0; i < a.length; i++) if (mask[i] && !Number.isNaN(a[i])) { s1 += a[i]; s2 += a[i] * a[i]; m++; }
         const sd = Math.sqrt(Math.max(0, s2 / m - (s1 / m) ** 2));
-        if (!(sd > 0) || sd / (s1 / m) < 0.08) continue;
+        if (!hp && (!(sd > 0) || sd / (s1 / m) < 0.08)) continue;
         const shifts = Math.round(reach / step);
         const surface = [];
         let best = { r: -Infinity };
@@ -170,8 +220,8 @@ export function register(ctx, pairs) {
               const n = grid.maxNorthing - (r0 + y + 0.5) * grid.sampleSpacingMetres;
               for (let x = 0; x < w; x++) {
                 const e = grid.minEasting + (c0 + x + 0.5) * grid.sampleSpacingMetres;
-                mosaicAt(mosaic, e + dE, n + dN, px);
-                b[y * w + x] = band(px);
+                if (moving) b[y * w + x] = bandAt(moving, e + dE, n + dN);
+                else { mosaicAt(mosaic, e + dE, n + dN, px); b[y * w + x] = band(px); }
               }
             }
             const { r } = ncc(a, b, mask);
@@ -210,6 +260,7 @@ export function register(ctx, pairs) {
       patches,
     };
     console.log(pair.text, JSON.stringify({ ...result.pairs[pair.text], patches: undefined }));
+    for (const id of [...passed.keys()]) if (!pairs.slice(pairIndex + 1).some(p => id === `${p.key}:${p.band}` || id === `${p.refKey}:${p.refBand}`)) passed.delete(id);
   }
   return result;
 }
@@ -312,7 +363,7 @@ export async function run(ctx, options) {
   } else {
     result = register(ctx, parsePairs(options.pairs ? options.pairs.split(',') : ctx.config.registration.pairs));
   }
-  Object.assign(result, decideShifts(result));
+  Object.assign(result, decideShifts(result, ctx.config.registration.ownerAccepted || {}));
   fs.writeFileSync(file, JSON.stringify(result, null, 1) + '\n');
   console.log(JSON.stringify({ decisions: result.decisions, applied: result.applied }, null, 1));
   const inventory = sourceInventory(ctx);

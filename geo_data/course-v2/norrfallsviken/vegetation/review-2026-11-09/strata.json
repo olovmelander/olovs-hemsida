@@ -1,0 +1,5305 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-strata-census",
+ "groundId": "norrfallsviken",
+ "reviewId": "review-2026-11-09",
+ "note": "detector-neutral: 1 m local maxima >= 3 m of the pit-free CHM smoothed by 0.3 m (the reference panels' numbering filter). Apexes, not trees; strata guide the choice of reference windows and are never scores.",
+ "innerWindowEpsg3006": [
+  677939.5,
+  6987439.5,
+  679987.5,
+  6989487.5
+ ],
+ "laser": {
+  "label": "25F014 2025-06-05 leaf-on",
+  "firstReturnsPerSquareMetre": 1.854,
+  "emptyCellFraction050": 0.5783
+ },
+ "leafOffPhoto": {
+  "campaign": "2020",
+  "date": "2020-05-22",
+  "daysFromLaser": 1840
+ },
+ "rules": {
+  "stratum": "share of CHM >= 3 m in a 16 m square round the apex: isolated < 0.2, group < 0.45, edge < 0.75, closed otherwise",
+  "leafOff": "vegetated share of the leaf-off crown disc (1.5 + 0.15 h m): conifer-like >= 0.5, leafless < 0.2, mixed between",
+  "play": "near within 90 m of any hole line or practice area of norrfallsviken"
+ },
+ "apexes": 48103,
+ "closedShare": 0.417,
+ "byStratum": {
+  "isolated": {
+   "apexes": 3958,
+   "near": 1804,
+   "conifer-like": 3240,
+   "mixed": 372,
+   "leafless": 346,
+   "unknown": 0
+  },
+  "group": {
+   "apexes": 9693,
+   "near": 2622,
+   "conifer-like": 8246,
+   "mixed": 495,
+   "leafless": 952,
+   "unknown": 0
+  },
+  "edge": {
+   "apexes": 14387,
+   "near": 1472,
+   "conifer-like": 13601,
+   "mixed": 275,
+   "leafless": 511,
+   "unknown": 0
+  },
+  "closed": {
+   "apexes": 20065,
+   "near": 1456,
+   "conifer-like": 20005,
+   "mixed": 26,
+   "leafless": 34,
+   "unknown": 0
+  }
+ },
+ "suggestions": {
+  "isolated": [
+   {
+    "bbox": [
+     678739.5,
+     6988339.5,
+     678839.5,
+     6988439.5
+    ],
+    "apexes": 22,
+    "isolated": 21,
+    "near": true,
+    "conifer": 20,
+    "leafless": 1
+   },
+   {
+    "bbox": [
+     679139.5,
+     6988839.5,
+     679239.5,
+     6988939.5
+    ],
+    "apexes": 32,
+    "isolated": 27,
+    "near": true,
+    "conifer": 28,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678639.5,
+     6988339.5,
+     678739.5,
+     6988439.5
+    ],
+    "apexes": 42,
+    "isolated": 34,
+    "near": true,
+    "conifer": 39,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678739.5,
+     6988939.5,
+     678839.5,
+     6989039.5
+    ],
+    "apexes": 65,
+    "isolated": 52,
+    "near": true,
+    "conifer": 60,
+    "leafless": 1
+   },
+   {
+    "bbox": [
+     679139.5,
+     6987939.5,
+     679239.5,
+     6988039.5
+    ],
+    "apexes": 30,
+    "isolated": 24,
+    "near": true,
+    "conifer": 30,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678639.5,
+     6988639.5,
+     678739.5,
+     6988739.5
+    ],
+    "apexes": 48,
+    "isolated": 38,
+    "near": true,
+    "conifer": 48,
+    "leafless": 0
+   }
+  ],
+  "group": [
+   {
+    "bbox": [
+     679039.5,
+     6988239.5,
+     679139.5,
+     6988339.5
+    ],
+    "apexes": 34,
+    "group": 28,
+    "near": true,
+    "conifer": 34,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678639.5,
+     6988439.5,
+     678739.5,
+     6988539.5
+    ],
+    "apexes": 40,
+    "group": 31,
+    "near": true,
+    "conifer": 40,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678839.5,
+     6988339.5,
+     678939.5,
+     6988439.5
+    ],
+    "apexes": 53,
+    "group": 41,
+    "near": true,
+    "conifer": 53,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     679139.5,
+     6988339.5,
+     679239.5,
+     6988439.5
+    ],
+    "apexes": 46,
+    "group": 35,
+    "near": true,
+    "conifer": 44,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678939.5,
+     6988639.5,
+     679039.5,
+     6988739.5
+    ],
+    "apexes": 71,
+    "group": 54,
+    "near": true,
+    "conifer": 71,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     679039.5,
+     6988039.5,
+     679139.5,
+     6988139.5
+    ],
+    "apexes": 12,
+    "group": 9,
+    "near": true,
+    "conifer": 12,
+    "leafless": 0
+   }
+  ],
+  "edge": [
+   {
+    "bbox": [
+     679339.5,
+     6988539.5,
+     679439.5,
+     6988639.5
+    ],
+    "apexes": 97,
+    "edge": 74,
+    "near": true,
+    "conifer": 74,
+    "leafless": 15
+   },
+   {
+    "bbox": [
+     678539.5,
+     6988139.5,
+     678639.5,
+     6988239.5
+    ],
+    "apexes": 253,
+    "edge": 148,
+    "near": true,
+    "conifer": 202,
+    "leafless": 47
+   },
+   {
+    "bbox": [
+     679139.5,
+     6988739.5,
+     679239.5,
+     6988839.5
+    ],
+    "apexes": 12,
+    "edge": 7,
+    "near": true,
+    "conifer": 11,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678439.5,
+     6988439.5,
+     678539.5,
+     6988539.5
+    ],
+    "apexes": 266,
+    "edge": 153,
+    "near": true,
+    "conifer": 264,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     679339.5,
+     6988739.5,
+     679439.5,
+     6988839.5
+    ],
+    "apexes": 47,
+    "edge": 27,
+    "near": true,
+    "conifer": 43,
+    "leafless": 1
+   },
+   {
+    "bbox": [
+     678439.5,
+     6988539.5,
+     678539.5,
+     6988639.5
+    ],
+    "apexes": 247,
+    "edge": 137,
+    "near": true,
+    "conifer": 240,
+    "leafless": 0
+   }
+  ],
+  "closed": [
+   {
+    "bbox": [
+     678839.5,
+     6989239.5,
+     678939.5,
+     6989339.5
+    ],
+    "apexes": 407,
+    "closed": 399,
+    "near": true,
+    "conifer": 407,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678739.5,
+     6989139.5,
+     678839.5,
+     6989239.5
+    ],
+    "apexes": 234,
+    "closed": 205,
+    "near": true,
+    "conifer": 221,
+    "leafless": 6
+   },
+   {
+    "bbox": [
+     678639.5,
+     6989139.5,
+     678739.5,
+     6989239.5
+    ],
+    "apexes": 320,
+    "closed": 280,
+    "near": true,
+    "conifer": 314,
+    "leafless": 1
+   },
+   {
+    "bbox": [
+     678939.5,
+     6989239.5,
+     679039.5,
+     6989339.5
+    ],
+    "apexes": 416,
+    "closed": 353,
+    "near": true,
+    "conifer": 414,
+    "leafless": 0
+   },
+   {
+    "bbox": [
+     678539.5,
+     6988239.5,
+     678639.5,
+     6988339.5
+    ],
+    "apexes": 203,
+    "closed": 150,
+    "near": true,
+    "conifer": 192,
+    "leafless": 6
+   },
+   {
+    "bbox": [
+     678439.5,
+     6988839.5,
+     678539.5,
+     6988939.5
+    ],
+    "apexes": 313,
+    "closed": 226,
+    "near": true,
+    "conifer": 309,
+    "leafless": 1
+   }
+  ]
+ },
+ "warnings": [
+  "closed canopy holds 42% of the apexes and the scan has 1.854 first returns/m2: touching crowns in closed stands will share maxima (Johannesberg: 1.8/m2 leaf-off, closed recall 17/23 and the 90% gate failed there). Put closed windows in the reference sample anyway, and record the stratified result.",
+  "the leaf-off photo is 1840 days from the laser: trees felled or grown between them will disagree; prefer the leaf-off campaign nearest the laser date",
+  "the laser is leaf-on: the conifer/broadleaf rule reads the leaf-off PHOTO, so it still applies, but broadleaf crowns will look denser in the CHM than at Johannesberg"
+ ],
+ "cells": [
+  {
+   "bbox": [
+    677939.5,
+    6989439.5,
+    678039.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 130,
+   "isolated": 8,
+   "group": 38,
+   "edge": 75,
+   "closed": 9,
+   "conifer-like": 112,
+   "leafless": 8
+  },
+  {
+   "bbox": [
+    678039.5,
+    6989439.5,
+    678139.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 85,
+   "isolated": 3,
+   "group": 24,
+   "edge": 57,
+   "closed": 1,
+   "conifer-like": 76,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678139.5,
+    6989439.5,
+    678239.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 114,
+   "isolated": 9,
+   "group": 31,
+   "edge": 66,
+   "closed": 8,
+   "conifer-like": 87,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678239.5,
+    6989439.5,
+    678339.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 141,
+   "isolated": 3,
+   "group": 47,
+   "edge": 88,
+   "closed": 3,
+   "conifer-like": 122,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    678339.5,
+    6989439.5,
+    678439.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 137,
+   "isolated": 0,
+   "group": 10,
+   "edge": 55,
+   "closed": 72,
+   "conifer-like": 126,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    678439.5,
+    6989439.5,
+    678539.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 9,
+   "isolated": 0,
+   "group": 7,
+   "edge": 2,
+   "closed": 0,
+   "conifer-like": 5,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6989439.5,
+    678839.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 3,
+   "isolated": 3,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 1,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678839.5,
+    6989439.5,
+    678939.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 49,
+   "isolated": 20,
+   "group": 17,
+   "edge": 12,
+   "closed": 0,
+   "conifer-like": 31,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678939.5,
+    6989439.5,
+    679039.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 40,
+   "isolated": 13,
+   "group": 19,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 26,
+   "leafless": 6
+  },
+  {
+   "bbox": [
+    679039.5,
+    6989439.5,
+    679139.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 1,
+   "isolated": 1,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    679239.5,
+    6989439.5,
+    679339.5,
+    6989539.5
+   ],
+   "near": 0,
+   "apexes": 1,
+   "isolated": 1,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6989339.5,
+    678039.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 158,
+   "isolated": 10,
+   "group": 49,
+   "edge": 78,
+   "closed": 21,
+   "conifer-like": 142,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678039.5,
+    6989339.5,
+    678139.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 209,
+   "isolated": 1,
+   "group": 37,
+   "edge": 126,
+   "closed": 45,
+   "conifer-like": 182,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678139.5,
+    6989339.5,
+    678239.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 145,
+   "isolated": 25,
+   "group": 59,
+   "edge": 53,
+   "closed": 8,
+   "conifer-like": 118,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678239.5,
+    6989339.5,
+    678339.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 248,
+   "isolated": 13,
+   "group": 84,
+   "edge": 134,
+   "closed": 17,
+   "conifer-like": 200,
+   "leafless": 15
+  },
+  {
+   "bbox": [
+    678339.5,
+    6989339.5,
+    678439.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 308,
+   "isolated": 2,
+   "group": 23,
+   "edge": 152,
+   "closed": 131,
+   "conifer-like": 298,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678439.5,
+    6989339.5,
+    678539.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 234,
+   "isolated": 4,
+   "group": 37,
+   "edge": 43,
+   "closed": 150,
+   "conifer-like": 219,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678539.5,
+    6989339.5,
+    678639.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 57,
+   "isolated": 13,
+   "group": 21,
+   "edge": 18,
+   "closed": 5,
+   "conifer-like": 37,
+   "leafless": 8
+  },
+  {
+   "bbox": [
+    678639.5,
+    6989339.5,
+    678739.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 5,
+   "isolated": 5,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678739.5,
+    6989339.5,
+    678839.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 52,
+   "isolated": 15,
+   "group": 19,
+   "edge": 13,
+   "closed": 5,
+   "conifer-like": 33,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678839.5,
+    6989339.5,
+    678939.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 201,
+   "isolated": 9,
+   "group": 32,
+   "edge": 90,
+   "closed": 70,
+   "conifer-like": 190,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678939.5,
+    6989339.5,
+    679039.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 309,
+   "isolated": 5,
+   "group": 65,
+   "edge": 139,
+   "closed": 100,
+   "conifer-like": 291,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    679039.5,
+    6989339.5,
+    679139.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 28,
+   "isolated": 17,
+   "group": 9,
+   "edge": 2,
+   "closed": 0,
+   "conifer-like": 12,
+   "leafless": 7
+  },
+  {
+   "bbox": [
+    679139.5,
+    6989339.5,
+    679239.5,
+    6989439.5
+   ],
+   "near": 0,
+   "apexes": 1,
+   "isolated": 1,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6989239.5,
+    678039.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 10,
+   "isolated": 8,
+   "group": 1,
+   "edge": 1,
+   "closed": 0,
+   "conifer-like": 10,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6989239.5,
+    678139.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 145,
+   "isolated": 6,
+   "group": 45,
+   "edge": 84,
+   "closed": 10,
+   "conifer-like": 134,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678139.5,
+    6989239.5,
+    678239.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 62,
+   "isolated": 16,
+   "group": 9,
+   "edge": 29,
+   "closed": 8,
+   "conifer-like": 59,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678239.5,
+    6989239.5,
+    678339.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 378,
+   "isolated": 0,
+   "group": 23,
+   "edge": 186,
+   "closed": 169,
+   "conifer-like": 363,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678339.5,
+    6989239.5,
+    678439.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 326,
+   "isolated": 2,
+   "group": 8,
+   "edge": 143,
+   "closed": 173,
+   "conifer-like": 325,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678439.5,
+    6989239.5,
+    678539.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 212,
+   "isolated": 13,
+   "group": 18,
+   "edge": 40,
+   "closed": 141,
+   "conifer-like": 212,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678539.5,
+    6989239.5,
+    678639.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 341,
+   "isolated": 0,
+   "group": 15,
+   "edge": 59,
+   "closed": 267,
+   "conifer-like": 337,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678639.5,
+    6989239.5,
+    678739.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 168,
+   "isolated": 3,
+   "group": 14,
+   "edge": 37,
+   "closed": 114,
+   "conifer-like": 152,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678739.5,
+    6989239.5,
+    678839.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 166,
+   "isolated": 3,
+   "group": 8,
+   "edge": 23,
+   "closed": 132,
+   "conifer-like": 155,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678839.5,
+    6989239.5,
+    678939.5,
+    6989339.5
+   ],
+   "near": 88,
+   "apexes": 407,
+   "isolated": 0,
+   "group": 0,
+   "edge": 8,
+   "closed": 399,
+   "conifer-like": 407,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6989239.5,
+    679039.5,
+    6989339.5
+   ],
+   "near": 104,
+   "apexes": 416,
+   "isolated": 0,
+   "group": 7,
+   "edge": 56,
+   "closed": 353,
+   "conifer-like": 414,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6989239.5,
+    679139.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 272,
+   "isolated": 37,
+   "group": 74,
+   "edge": 114,
+   "closed": 47,
+   "conifer-like": 221,
+   "leafless": 16
+  },
+  {
+   "bbox": [
+    679139.5,
+    6989239.5,
+    679239.5,
+    6989339.5
+   ],
+   "near": 0,
+   "apexes": 6,
+   "isolated": 6,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6989139.5,
+    678039.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 10,
+   "isolated": 7,
+   "group": 3,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 10,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6989139.5,
+    678139.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 22,
+   "isolated": 14,
+   "group": 8,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 22,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6989139.5,
+    678239.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 22,
+   "isolated": 11,
+   "group": 9,
+   "edge": 2,
+   "closed": 0,
+   "conifer-like": 15,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678239.5,
+    6989139.5,
+    678339.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 457,
+   "isolated": 1,
+   "group": 4,
+   "edge": 128,
+   "closed": 324,
+   "conifer-like": 445,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678339.5,
+    6989139.5,
+    678439.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 326,
+   "isolated": 2,
+   "group": 51,
+   "edge": 205,
+   "closed": 68,
+   "conifer-like": 282,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    678439.5,
+    6989139.5,
+    678539.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 159,
+   "isolated": 6,
+   "group": 40,
+   "edge": 103,
+   "closed": 10,
+   "conifer-like": 148,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678539.5,
+    6989139.5,
+    678639.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 267,
+   "isolated": 6,
+   "group": 40,
+   "edge": 57,
+   "closed": 164,
+   "conifer-like": 259,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678639.5,
+    6989139.5,
+    678739.5,
+    6989239.5
+   ],
+   "near": 77,
+   "apexes": 320,
+   "isolated": 0,
+   "group": 1,
+   "edge": 39,
+   "closed": 280,
+   "conifer-like": 314,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678739.5,
+    6989139.5,
+    678839.5,
+    6989239.5
+   ],
+   "near": 190,
+   "apexes": 234,
+   "isolated": 2,
+   "group": 6,
+   "edge": 21,
+   "closed": 205,
+   "conifer-like": 221,
+   "leafless": 6
+  },
+  {
+   "bbox": [
+    678839.5,
+    6989139.5,
+    678939.5,
+    6989239.5
+   ],
+   "near": 142,
+   "apexes": 163,
+   "isolated": 1,
+   "group": 15,
+   "edge": 42,
+   "closed": 105,
+   "conifer-like": 162,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6989139.5,
+    679039.5,
+    6989239.5
+   ],
+   "near": 99,
+   "apexes": 104,
+   "isolated": 23,
+   "group": 47,
+   "edge": 29,
+   "closed": 5,
+   "conifer-like": 94,
+   "leafless": 7
+  },
+  {
+   "bbox": [
+    679039.5,
+    6989139.5,
+    679139.5,
+    6989239.5
+   ],
+   "near": 9,
+   "apexes": 157,
+   "isolated": 29,
+   "group": 61,
+   "edge": 61,
+   "closed": 6,
+   "conifer-like": 111,
+   "leafless": 32
+  },
+  {
+   "bbox": [
+    679139.5,
+    6989139.5,
+    679239.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 94,
+   "isolated": 73,
+   "group": 21,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 61,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    679239.5,
+    6989139.5,
+    679339.5,
+    6989239.5
+   ],
+   "near": 0,
+   "apexes": 7,
+   "isolated": 7,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 1,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6989039.5,
+    678039.5,
+    6989139.5
+   ],
+   "near": 0,
+   "apexes": 77,
+   "isolated": 12,
+   "group": 26,
+   "edge": 32,
+   "closed": 7,
+   "conifer-like": 74,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678039.5,
+    6989039.5,
+    678139.5,
+    6989139.5
+   ],
+   "near": 0,
+   "apexes": 126,
+   "isolated": 44,
+   "group": 74,
+   "edge": 7,
+   "closed": 1,
+   "conifer-like": 124,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678139.5,
+    6989039.5,
+    678239.5,
+    6989139.5
+   ],
+   "near": 0,
+   "apexes": 27,
+   "isolated": 22,
+   "group": 5,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 23,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678239.5,
+    6989039.5,
+    678339.5,
+    6989139.5
+   ],
+   "near": 0,
+   "apexes": 177,
+   "isolated": 3,
+   "group": 4,
+   "edge": 50,
+   "closed": 120,
+   "conifer-like": 177,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6989039.5,
+    678439.5,
+    6989139.5
+   ],
+   "near": 0,
+   "apexes": 281,
+   "isolated": 2,
+   "group": 16,
+   "edge": 164,
+   "closed": 99,
+   "conifer-like": 273,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678439.5,
+    6989039.5,
+    678539.5,
+    6989139.5
+   ],
+   "near": 0,
+   "apexes": 361,
+   "isolated": 2,
+   "group": 61,
+   "edge": 148,
+   "closed": 150,
+   "conifer-like": 346,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678539.5,
+    6989039.5,
+    678639.5,
+    6989139.5
+   ],
+   "near": 29,
+   "apexes": 142,
+   "isolated": 11,
+   "group": 63,
+   "edge": 67,
+   "closed": 1,
+   "conifer-like": 132,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678639.5,
+    6989039.5,
+    678739.5,
+    6989139.5
+   ],
+   "near": 131,
+   "apexes": 135,
+   "isolated": 7,
+   "group": 24,
+   "edge": 56,
+   "closed": 48,
+   "conifer-like": 126,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678739.5,
+    6989039.5,
+    678839.5,
+    6989139.5
+   ],
+   "near": 6,
+   "apexes": 6,
+   "isolated": 1,
+   "group": 3,
+   "edge": 2,
+   "closed": 0,
+   "conifer-like": 6,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678839.5,
+    6989039.5,
+    678939.5,
+    6989139.5
+   ],
+   "near": 36,
+   "apexes": 36,
+   "isolated": 2,
+   "group": 24,
+   "edge": 10,
+   "closed": 0,
+   "conifer-like": 36,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6989039.5,
+    679039.5,
+    6989139.5
+   ],
+   "near": 49,
+   "apexes": 49,
+   "isolated": 23,
+   "group": 19,
+   "edge": 7,
+   "closed": 0,
+   "conifer-like": 49,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6989039.5,
+    679139.5,
+    6989139.5
+   ],
+   "near": 42,
+   "apexes": 73,
+   "isolated": 27,
+   "group": 33,
+   "edge": 13,
+   "closed": 0,
+   "conifer-like": 56,
+   "leafless": 14
+  },
+  {
+   "bbox": [
+    679139.5,
+    6989039.5,
+    679239.5,
+    6989139.5
+   ],
+   "near": 28,
+   "apexes": 214,
+   "isolated": 10,
+   "group": 76,
+   "edge": 107,
+   "closed": 21,
+   "conifer-like": 202,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    679239.5,
+    6989039.5,
+    679339.5,
+    6989139.5
+   ],
+   "near": 0,
+   "apexes": 103,
+   "isolated": 27,
+   "group": 32,
+   "edge": 36,
+   "closed": 8,
+   "conifer-like": 88,
+   "leafless": 6
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988939.5,
+    678039.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 247,
+   "isolated": 7,
+   "group": 79,
+   "edge": 126,
+   "closed": 35,
+   "conifer-like": 238,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988939.5,
+    678139.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 206,
+   "isolated": 35,
+   "group": 48,
+   "edge": 67,
+   "closed": 56,
+   "conifer-like": 200,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988939.5,
+    678239.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 144,
+   "isolated": 41,
+   "group": 100,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 143,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988939.5,
+    678339.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 192,
+   "isolated": 42,
+   "group": 96,
+   "edge": 54,
+   "closed": 0,
+   "conifer-like": 192,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988939.5,
+    678439.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 97,
+   "isolated": 18,
+   "group": 11,
+   "edge": 35,
+   "closed": 33,
+   "conifer-like": 97,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988939.5,
+    678539.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 344,
+   "isolated": 12,
+   "group": 57,
+   "edge": 115,
+   "closed": 160,
+   "conifer-like": 342,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988939.5,
+    678639.5,
+    6989039.5
+   ],
+   "near": 101,
+   "apexes": 224,
+   "isolated": 15,
+   "group": 38,
+   "edge": 110,
+   "closed": 61,
+   "conifer-like": 207,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988939.5,
+    678739.5,
+    6989039.5
+   ],
+   "near": 32,
+   "apexes": 32,
+   "isolated": 15,
+   "group": 14,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 32,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988939.5,
+    678839.5,
+    6989039.5
+   ],
+   "near": 65,
+   "apexes": 65,
+   "isolated": 52,
+   "group": 13,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 60,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988939.5,
+    678939.5,
+    6989039.5
+   ],
+   "near": 11,
+   "apexes": 11,
+   "isolated": 4,
+   "group": 7,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 10,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988939.5,
+    679039.5,
+    6989039.5
+   ],
+   "near": 103,
+   "apexes": 103,
+   "isolated": 27,
+   "group": 63,
+   "edge": 13,
+   "closed": 0,
+   "conifer-like": 103,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988939.5,
+    679139.5,
+    6989039.5
+   ],
+   "near": 104,
+   "apexes": 104,
+   "isolated": 28,
+   "group": 58,
+   "edge": 18,
+   "closed": 0,
+   "conifer-like": 104,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988939.5,
+    679239.5,
+    6989039.5
+   ],
+   "near": 120,
+   "apexes": 145,
+   "isolated": 8,
+   "group": 18,
+   "edge": 45,
+   "closed": 74,
+   "conifer-like": 142,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988939.5,
+    679339.5,
+    6989039.5
+   ],
+   "near": 21,
+   "apexes": 140,
+   "isolated": 22,
+   "group": 38,
+   "edge": 66,
+   "closed": 14,
+   "conifer-like": 116,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988939.5,
+    679439.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 40,
+   "isolated": 1,
+   "group": 11,
+   "edge": 21,
+   "closed": 7,
+   "conifer-like": 26,
+   "leafless": 8
+  },
+  {
+   "bbox": [
+    679439.5,
+    6988939.5,
+    679539.5,
+    6989039.5
+   ],
+   "near": 0,
+   "apexes": 1,
+   "isolated": 1,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988839.5,
+    678039.5,
+    6988939.5
+   ],
+   "near": 0,
+   "apexes": 462,
+   "isolated": 20,
+   "group": 121,
+   "edge": 199,
+   "closed": 122,
+   "conifer-like": 462,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988839.5,
+    678139.5,
+    6988939.5
+   ],
+   "near": 0,
+   "apexes": 313,
+   "isolated": 45,
+   "group": 126,
+   "edge": 78,
+   "closed": 64,
+   "conifer-like": 313,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988839.5,
+    678239.5,
+    6988939.5
+   ],
+   "near": 0,
+   "apexes": 377,
+   "isolated": 48,
+   "group": 204,
+   "edge": 110,
+   "closed": 15,
+   "conifer-like": 377,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988839.5,
+    678339.5,
+    6988939.5
+   ],
+   "near": 0,
+   "apexes": 480,
+   "isolated": 29,
+   "group": 134,
+   "edge": 112,
+   "closed": 205,
+   "conifer-like": 476,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988839.5,
+    678439.5,
+    6988939.5
+   ],
+   "near": 0,
+   "apexes": 116,
+   "isolated": 8,
+   "group": 8,
+   "edge": 35,
+   "closed": 65,
+   "conifer-like": 109,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988839.5,
+    678539.5,
+    6988939.5
+   ],
+   "near": 7,
+   "apexes": 313,
+   "isolated": 1,
+   "group": 2,
+   "edge": 84,
+   "closed": 226,
+   "conifer-like": 309,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988839.5,
+    678639.5,
+    6988939.5
+   ],
+   "near": 153,
+   "apexes": 168,
+   "isolated": 22,
+   "group": 8,
+   "edge": 47,
+   "closed": 91,
+   "conifer-like": 168,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988839.5,
+    678739.5,
+    6988939.5
+   ],
+   "near": 122,
+   "apexes": 122,
+   "isolated": 68,
+   "group": 54,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 122,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988839.5,
+    678839.5,
+    6988939.5
+   ],
+   "near": 115,
+   "apexes": 118,
+   "isolated": 74,
+   "group": 44,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 110,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988839.5,
+    678939.5,
+    6988939.5
+   ],
+   "near": 57,
+   "apexes": 57,
+   "isolated": 27,
+   "group": 30,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 57,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988839.5,
+    679039.5,
+    6988939.5
+   ],
+   "near": 16,
+   "apexes": 16,
+   "isolated": 7,
+   "group": 9,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 16,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988839.5,
+    679139.5,
+    6988939.5
+   ],
+   "near": 25,
+   "apexes": 43,
+   "isolated": 16,
+   "group": 13,
+   "edge": 12,
+   "closed": 2,
+   "conifer-like": 43,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988839.5,
+    679239.5,
+    6988939.5
+   ],
+   "near": 32,
+   "apexes": 32,
+   "isolated": 27,
+   "group": 2,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 28,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988839.5,
+    679339.5,
+    6988939.5
+   ],
+   "near": 106,
+   "apexes": 140,
+   "isolated": 12,
+   "group": 52,
+   "edge": 61,
+   "closed": 15,
+   "conifer-like": 123,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988839.5,
+    679439.5,
+    6988939.5
+   ],
+   "near": 0,
+   "apexes": 67,
+   "isolated": 18,
+   "group": 24,
+   "edge": 18,
+   "closed": 7,
+   "conifer-like": 42,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    679439.5,
+    6988839.5,
+    679539.5,
+    6988939.5
+   ],
+   "near": 0,
+   "apexes": 13,
+   "isolated": 0,
+   "group": 13,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 12
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988739.5,
+    678039.5,
+    6988839.5
+   ],
+   "near": 0,
+   "apexes": 296,
+   "isolated": 18,
+   "group": 41,
+   "edge": 115,
+   "closed": 122,
+   "conifer-like": 296,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988739.5,
+    678139.5,
+    6988839.5
+   ],
+   "near": 0,
+   "apexes": 402,
+   "isolated": 48,
+   "group": 84,
+   "edge": 88,
+   "closed": 182,
+   "conifer-like": 400,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988739.5,
+    678239.5,
+    6988839.5
+   ],
+   "near": 0,
+   "apexes": 364,
+   "isolated": 56,
+   "group": 100,
+   "edge": 104,
+   "closed": 104,
+   "conifer-like": 362,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988739.5,
+    678339.5,
+    6988839.5
+   ],
+   "near": 0,
+   "apexes": 437,
+   "isolated": 0,
+   "group": 54,
+   "edge": 171,
+   "closed": 212,
+   "conifer-like": 437,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988739.5,
+    678439.5,
+    6988839.5
+   ],
+   "near": 0,
+   "apexes": 33,
+   "isolated": 6,
+   "group": 9,
+   "edge": 17,
+   "closed": 1,
+   "conifer-like": 30,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988739.5,
+    678539.5,
+    6988839.5
+   ],
+   "near": 1,
+   "apexes": 149,
+   "isolated": 1,
+   "group": 12,
+   "edge": 54,
+   "closed": 82,
+   "conifer-like": 145,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988739.5,
+    678639.5,
+    6988839.5
+   ],
+   "near": 80,
+   "apexes": 153,
+   "isolated": 35,
+   "group": 20,
+   "edge": 39,
+   "closed": 59,
+   "conifer-like": 153,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988739.5,
+    678739.5,
+    6988839.5
+   ],
+   "near": 71,
+   "apexes": 71,
+   "isolated": 50,
+   "group": 21,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 71,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988739.5,
+    678839.5,
+    6988839.5
+   ],
+   "near": 80,
+   "apexes": 80,
+   "isolated": 41,
+   "group": 39,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 77,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988739.5,
+    678939.5,
+    6988839.5
+   ],
+   "near": 83,
+   "apexes": 83,
+   "isolated": 57,
+   "group": 26,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 81,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988739.5,
+    679039.5,
+    6988839.5
+   ],
+   "near": 68,
+   "apexes": 91,
+   "isolated": 51,
+   "group": 40,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 87,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988739.5,
+    679139.5,
+    6988839.5
+   ],
+   "near": 7,
+   "apexes": 8,
+   "isolated": 3,
+   "group": 5,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 8,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988739.5,
+    679239.5,
+    6988839.5
+   ],
+   "near": 3,
+   "apexes": 12,
+   "isolated": 3,
+   "group": 1,
+   "edge": 7,
+   "closed": 1,
+   "conifer-like": 11,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988739.5,
+    679339.5,
+    6988839.5
+   ],
+   "near": 127,
+   "apexes": 127,
+   "isolated": 14,
+   "group": 40,
+   "edge": 57,
+   "closed": 16,
+   "conifer-like": 106,
+   "leafless": 14
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988739.5,
+    679439.5,
+    6988839.5
+   ],
+   "near": 42,
+   "apexes": 47,
+   "isolated": 5,
+   "group": 9,
+   "edge": 27,
+   "closed": 6,
+   "conifer-like": 43,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988639.5,
+    678039.5,
+    6988739.5
+   ],
+   "near": 0,
+   "apexes": 443,
+   "isolated": 0,
+   "group": 0,
+   "edge": 27,
+   "closed": 416,
+   "conifer-like": 443,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988639.5,
+    678139.5,
+    6988739.5
+   ],
+   "near": 0,
+   "apexes": 452,
+   "isolated": 0,
+   "group": 4,
+   "edge": 63,
+   "closed": 385,
+   "conifer-like": 452,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988639.5,
+    678239.5,
+    6988739.5
+   ],
+   "near": 0,
+   "apexes": 399,
+   "isolated": 0,
+   "group": 0,
+   "edge": 38,
+   "closed": 361,
+   "conifer-like": 399,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988639.5,
+    678339.5,
+    6988739.5
+   ],
+   "near": 0,
+   "apexes": 392,
+   "isolated": 4,
+   "group": 19,
+   "edge": 92,
+   "closed": 277,
+   "conifer-like": 392,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988639.5,
+    678439.5,
+    6988739.5
+   ],
+   "near": 0,
+   "apexes": 86,
+   "isolated": 12,
+   "group": 28,
+   "edge": 41,
+   "closed": 5,
+   "conifer-like": 83,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988639.5,
+    678539.5,
+    6988739.5
+   ],
+   "near": 0,
+   "apexes": 254,
+   "isolated": 5,
+   "group": 41,
+   "edge": 139,
+   "closed": 69,
+   "conifer-like": 247,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988639.5,
+    678639.5,
+    6988739.5
+   ],
+   "near": 47,
+   "apexes": 126,
+   "isolated": 32,
+   "group": 20,
+   "edge": 46,
+   "closed": 28,
+   "conifer-like": 126,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988639.5,
+    678739.5,
+    6988739.5
+   ],
+   "near": 48,
+   "apexes": 48,
+   "isolated": 38,
+   "group": 10,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 48,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988639.5,
+    678839.5,
+    6988739.5
+   ],
+   "near": 52,
+   "apexes": 52,
+   "isolated": 31,
+   "group": 21,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 50,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988639.5,
+    678939.5,
+    6988739.5
+   ],
+   "near": 112,
+   "apexes": 112,
+   "isolated": 55,
+   "group": 57,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 109,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988639.5,
+    679039.5,
+    6988739.5
+   ],
+   "near": 71,
+   "apexes": 71,
+   "isolated": 16,
+   "group": 54,
+   "edge": 1,
+   "closed": 0,
+   "conifer-like": 71,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988639.5,
+    679139.5,
+    6988739.5
+   ],
+   "near": 33,
+   "apexes": 33,
+   "isolated": 9,
+   "group": 23,
+   "edge": 1,
+   "closed": 0,
+   "conifer-like": 33,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988639.5,
+    679339.5,
+    6988739.5
+   ],
+   "near": 61,
+   "apexes": 61,
+   "isolated": 10,
+   "group": 30,
+   "edge": 19,
+   "closed": 2,
+   "conifer-like": 57,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988639.5,
+    679439.5,
+    6988739.5
+   ],
+   "near": 53,
+   "apexes": 73,
+   "isolated": 3,
+   "group": 30,
+   "edge": 25,
+   "closed": 15,
+   "conifer-like": 54,
+   "leafless": 14
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988539.5,
+    678039.5,
+    6988639.5
+   ],
+   "near": 0,
+   "apexes": 446,
+   "isolated": 0,
+   "group": 0,
+   "edge": 66,
+   "closed": 380,
+   "conifer-like": 446,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988539.5,
+    678139.5,
+    6988639.5
+   ],
+   "near": 0,
+   "apexes": 402,
+   "isolated": 0,
+   "group": 0,
+   "edge": 56,
+   "closed": 346,
+   "conifer-like": 402,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988539.5,
+    678239.5,
+    6988639.5
+   ],
+   "near": 0,
+   "apexes": 390,
+   "isolated": 0,
+   "group": 0,
+   "edge": 21,
+   "closed": 369,
+   "conifer-like": 390,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988539.5,
+    678339.5,
+    6988639.5
+   ],
+   "near": 0,
+   "apexes": 330,
+   "isolated": 7,
+   "group": 35,
+   "edge": 146,
+   "closed": 142,
+   "conifer-like": 330,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988539.5,
+    678439.5,
+    6988639.5
+   ],
+   "near": 0,
+   "apexes": 136,
+   "isolated": 22,
+   "group": 26,
+   "edge": 68,
+   "closed": 20,
+   "conifer-like": 134,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988539.5,
+    678539.5,
+    6988639.5
+   ],
+   "near": 44,
+   "apexes": 247,
+   "isolated": 10,
+   "group": 58,
+   "edge": 137,
+   "closed": 42,
+   "conifer-like": 240,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988539.5,
+    678639.5,
+    6988639.5
+   ],
+   "near": 99,
+   "apexes": 100,
+   "isolated": 18,
+   "group": 43,
+   "edge": 39,
+   "closed": 0,
+   "conifer-like": 100,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988539.5,
+    678739.5,
+    6988639.5
+   ],
+   "near": 68,
+   "apexes": 68,
+   "isolated": 38,
+   "group": 30,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 68,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988539.5,
+    678839.5,
+    6988639.5
+   ],
+   "near": 51,
+   "apexes": 51,
+   "isolated": 25,
+   "group": 26,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 51,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988539.5,
+    678939.5,
+    6988639.5
+   ],
+   "near": 86,
+   "apexes": 86,
+   "isolated": 25,
+   "group": 61,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 86,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988539.5,
+    679039.5,
+    6988639.5
+   ],
+   "near": 108,
+   "apexes": 108,
+   "isolated": 22,
+   "group": 78,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 108,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988539.5,
+    679139.5,
+    6988639.5
+   ],
+   "near": 41,
+   "apexes": 41,
+   "isolated": 5,
+   "group": 28,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 41,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988539.5,
+    679239.5,
+    6988639.5
+   ],
+   "near": 3,
+   "apexes": 3,
+   "isolated": 3,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 3,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988539.5,
+    679339.5,
+    6988639.5
+   ],
+   "near": 57,
+   "apexes": 57,
+   "isolated": 21,
+   "group": 24,
+   "edge": 11,
+   "closed": 1,
+   "conifer-like": 54,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988539.5,
+    679439.5,
+    6988639.5
+   ],
+   "near": 84,
+   "apexes": 97,
+   "isolated": 7,
+   "group": 10,
+   "edge": 74,
+   "closed": 6,
+   "conifer-like": 74,
+   "leafless": 15
+  },
+  {
+   "bbox": [
+    679439.5,
+    6988539.5,
+    679539.5,
+    6988639.5
+   ],
+   "near": 0,
+   "apexes": 7,
+   "isolated": 7,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 3,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988439.5,
+    678039.5,
+    6988539.5
+   ],
+   "near": 0,
+   "apexes": 602,
+   "isolated": 0,
+   "group": 1,
+   "edge": 22,
+   "closed": 579,
+   "conifer-like": 602,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988439.5,
+    678139.5,
+    6988539.5
+   ],
+   "near": 0,
+   "apexes": 506,
+   "isolated": 0,
+   "group": 1,
+   "edge": 32,
+   "closed": 473,
+   "conifer-like": 506,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988439.5,
+    678239.5,
+    6988539.5
+   ],
+   "near": 0,
+   "apexes": 445,
+   "isolated": 0,
+   "group": 0,
+   "edge": 18,
+   "closed": 427,
+   "conifer-like": 445,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988439.5,
+    678339.5,
+    6988539.5
+   ],
+   "near": 0,
+   "apexes": 202,
+   "isolated": 10,
+   "group": 15,
+   "edge": 62,
+   "closed": 115,
+   "conifer-like": 202,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988439.5,
+    678439.5,
+    6988539.5
+   ],
+   "near": 0,
+   "apexes": 571,
+   "isolated": 1,
+   "group": 12,
+   "edge": 75,
+   "closed": 483,
+   "conifer-like": 571,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988439.5,
+    678539.5,
+    6988539.5
+   ],
+   "near": 83,
+   "apexes": 266,
+   "isolated": 1,
+   "group": 62,
+   "edge": 153,
+   "closed": 50,
+   "conifer-like": 264,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988439.5,
+    678639.5,
+    6988539.5
+   ],
+   "near": 122,
+   "apexes": 122,
+   "isolated": 11,
+   "group": 36,
+   "edge": 60,
+   "closed": 15,
+   "conifer-like": 120,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988439.5,
+    678739.5,
+    6988539.5
+   ],
+   "near": 40,
+   "apexes": 40,
+   "isolated": 9,
+   "group": 31,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 40,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988439.5,
+    678839.5,
+    6988539.5
+   ],
+   "near": 74,
+   "apexes": 74,
+   "isolated": 43,
+   "group": 31,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 72,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988439.5,
+    678939.5,
+    6988539.5
+   ],
+   "near": 65,
+   "apexes": 65,
+   "isolated": 19,
+   "group": 46,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 64,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988439.5,
+    679039.5,
+    6988539.5
+   ],
+   "near": 76,
+   "apexes": 76,
+   "isolated": 18,
+   "group": 55,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 76,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988439.5,
+    679139.5,
+    6988539.5
+   ],
+   "near": 69,
+   "apexes": 69,
+   "isolated": 12,
+   "group": 51,
+   "edge": 6,
+   "closed": 0,
+   "conifer-like": 69,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988439.5,
+    679239.5,
+    6988539.5
+   ],
+   "near": 31,
+   "apexes": 31,
+   "isolated": 16,
+   "group": 15,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 31,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988439.5,
+    679339.5,
+    6988539.5
+   ],
+   "near": 83,
+   "apexes": 83,
+   "isolated": 23,
+   "group": 41,
+   "edge": 19,
+   "closed": 0,
+   "conifer-like": 67,
+   "leafless": 9
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988439.5,
+    679439.5,
+    6988539.5
+   ],
+   "near": 58,
+   "apexes": 112,
+   "isolated": 17,
+   "group": 55,
+   "edge": 39,
+   "closed": 1,
+   "conifer-like": 58,
+   "leafless": 48
+  },
+  {
+   "bbox": [
+    679439.5,
+    6988439.5,
+    679539.5,
+    6988539.5
+   ],
+   "near": 0,
+   "apexes": 12,
+   "isolated": 6,
+   "group": 6,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 9,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988339.5,
+    678039.5,
+    6988439.5
+   ],
+   "near": 0,
+   "apexes": 821,
+   "isolated": 0,
+   "group": 1,
+   "edge": 7,
+   "closed": 813,
+   "conifer-like": 821,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988339.5,
+    678139.5,
+    6988439.5
+   ],
+   "near": 0,
+   "apexes": 490,
+   "isolated": 0,
+   "group": 25,
+   "edge": 149,
+   "closed": 316,
+   "conifer-like": 490,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988339.5,
+    678239.5,
+    6988439.5
+   ],
+   "near": 0,
+   "apexes": 408,
+   "isolated": 0,
+   "group": 15,
+   "edge": 131,
+   "closed": 262,
+   "conifer-like": 408,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988339.5,
+    678339.5,
+    6988439.5
+   ],
+   "near": 0,
+   "apexes": 82,
+   "isolated": 6,
+   "group": 12,
+   "edge": 36,
+   "closed": 28,
+   "conifer-like": 82,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988339.5,
+    678439.5,
+    6988439.5
+   ],
+   "near": 0,
+   "apexes": 218,
+   "isolated": 4,
+   "group": 18,
+   "edge": 103,
+   "closed": 93,
+   "conifer-like": 218,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988339.5,
+    678539.5,
+    6988439.5
+   ],
+   "near": 22,
+   "apexes": 365,
+   "isolated": 0,
+   "group": 7,
+   "edge": 141,
+   "closed": 217,
+   "conifer-like": 365,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988339.5,
+    678639.5,
+    6988439.5
+   ],
+   "near": 94,
+   "apexes": 94,
+   "isolated": 5,
+   "group": 41,
+   "edge": 42,
+   "closed": 6,
+   "conifer-like": 71,
+   "leafless": 18
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988339.5,
+    678739.5,
+    6988439.5
+   ],
+   "near": 42,
+   "apexes": 42,
+   "isolated": 34,
+   "group": 8,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 39,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988339.5,
+    678839.5,
+    6988439.5
+   ],
+   "near": 22,
+   "apexes": 22,
+   "isolated": 21,
+   "group": 1,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 20,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988339.5,
+    678939.5,
+    6988439.5
+   ],
+   "near": 53,
+   "apexes": 53,
+   "isolated": 12,
+   "group": 41,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 53,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988339.5,
+    679039.5,
+    6988439.5
+   ],
+   "near": 45,
+   "apexes": 45,
+   "isolated": 14,
+   "group": 28,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 45,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988339.5,
+    679139.5,
+    6988439.5
+   ],
+   "near": 51,
+   "apexes": 51,
+   "isolated": 8,
+   "group": 33,
+   "edge": 10,
+   "closed": 0,
+   "conifer-like": 51,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988339.5,
+    679239.5,
+    6988439.5
+   ],
+   "near": 46,
+   "apexes": 46,
+   "isolated": 11,
+   "group": 35,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 44,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988339.5,
+    679339.5,
+    6988439.5
+   ],
+   "near": 58,
+   "apexes": 58,
+   "isolated": 15,
+   "group": 43,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 57,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988339.5,
+    679439.5,
+    6988439.5
+   ],
+   "near": 107,
+   "apexes": 114,
+   "isolated": 23,
+   "group": 62,
+   "edge": 26,
+   "closed": 3,
+   "conifer-like": 82,
+   "leafless": 23
+  },
+  {
+   "bbox": [
+    679439.5,
+    6988339.5,
+    679539.5,
+    6988439.5
+   ],
+   "near": 0,
+   "apexes": 16,
+   "isolated": 8,
+   "group": 8,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 10,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988239.5,
+    678039.5,
+    6988339.5
+   ],
+   "near": 0,
+   "apexes": 849,
+   "isolated": 0,
+   "group": 0,
+   "edge": 0,
+   "closed": 849,
+   "conifer-like": 849,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988239.5,
+    678139.5,
+    6988339.5
+   ],
+   "near": 0,
+   "apexes": 674,
+   "isolated": 0,
+   "group": 0,
+   "edge": 63,
+   "closed": 611,
+   "conifer-like": 674,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988239.5,
+    678239.5,
+    6988339.5
+   ],
+   "near": 0,
+   "apexes": 444,
+   "isolated": 0,
+   "group": 3,
+   "edge": 149,
+   "closed": 292,
+   "conifer-like": 444,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988239.5,
+    678339.5,
+    6988339.5
+   ],
+   "near": 0,
+   "apexes": 377,
+   "isolated": 0,
+   "group": 4,
+   "edge": 151,
+   "closed": 222,
+   "conifer-like": 377,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988239.5,
+    678439.5,
+    6988339.5
+   ],
+   "near": 0,
+   "apexes": 348,
+   "isolated": 0,
+   "group": 9,
+   "edge": 172,
+   "closed": 167,
+   "conifer-like": 348,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988239.5,
+    678539.5,
+    6988339.5
+   ],
+   "near": 0,
+   "apexes": 253,
+   "isolated": 3,
+   "group": 57,
+   "edge": 100,
+   "closed": 93,
+   "conifer-like": 252,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988239.5,
+    678639.5,
+    6988339.5
+   ],
+   "near": 180,
+   "apexes": 203,
+   "isolated": 4,
+   "group": 13,
+   "edge": 36,
+   "closed": 150,
+   "conifer-like": 192,
+   "leafless": 6
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988239.5,
+    678739.5,
+    6988339.5
+   ],
+   "near": 43,
+   "apexes": 43,
+   "isolated": 11,
+   "group": 22,
+   "edge": 10,
+   "closed": 0,
+   "conifer-like": 43,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988239.5,
+    678839.5,
+    6988339.5
+   ],
+   "near": 69,
+   "apexes": 69,
+   "isolated": 18,
+   "group": 35,
+   "edge": 16,
+   "closed": 0,
+   "conifer-like": 69,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988239.5,
+    678939.5,
+    6988339.5
+   ],
+   "near": 26,
+   "apexes": 26,
+   "isolated": 13,
+   "group": 13,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 26,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988239.5,
+    679039.5,
+    6988339.5
+   ],
+   "near": 38,
+   "apexes": 38,
+   "isolated": 14,
+   "group": 21,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 38,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988239.5,
+    679139.5,
+    6988339.5
+   ],
+   "near": 34,
+   "apexes": 34,
+   "isolated": 6,
+   "group": 28,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 34,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988239.5,
+    679239.5,
+    6988339.5
+   ],
+   "near": 27,
+   "apexes": 32,
+   "isolated": 21,
+   "group": 11,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 32,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988239.5,
+    679339.5,
+    6988339.5
+   ],
+   "near": 25,
+   "apexes": 25,
+   "isolated": 19,
+   "group": 6,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 25,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988239.5,
+    679439.5,
+    6988339.5
+   ],
+   "near": 256,
+   "apexes": 339,
+   "isolated": 6,
+   "group": 54,
+   "edge": 60,
+   "closed": 219,
+   "conifer-like": 328,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679439.5,
+    6988239.5,
+    679539.5,
+    6988339.5
+   ],
+   "near": 0,
+   "apexes": 14,
+   "isolated": 6,
+   "group": 8,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 9,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988139.5,
+    678039.5,
+    6988239.5
+   ],
+   "near": 0,
+   "apexes": 476,
+   "isolated": 0,
+   "group": 20,
+   "edge": 63,
+   "closed": 393,
+   "conifer-like": 476,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988139.5,
+    678139.5,
+    6988239.5
+   ],
+   "near": 0,
+   "apexes": 479,
+   "isolated": 2,
+   "group": 8,
+   "edge": 41,
+   "closed": 428,
+   "conifer-like": 473,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988139.5,
+    678239.5,
+    6988239.5
+   ],
+   "near": 0,
+   "apexes": 276,
+   "isolated": 5,
+   "group": 39,
+   "edge": 74,
+   "closed": 158,
+   "conifer-like": 252,
+   "leafless": 20
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988139.5,
+    678339.5,
+    6988239.5
+   ],
+   "near": 0,
+   "apexes": 219,
+   "isolated": 4,
+   "group": 63,
+   "edge": 100,
+   "closed": 52,
+   "conifer-like": 190,
+   "leafless": 24
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988139.5,
+    678439.5,
+    6988239.5
+   ],
+   "near": 0,
+   "apexes": 225,
+   "isolated": 4,
+   "group": 128,
+   "edge": 91,
+   "closed": 2,
+   "conifer-like": 165,
+   "leafless": 55
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988139.5,
+    678539.5,
+    6988239.5
+   ],
+   "near": 0,
+   "apexes": 200,
+   "isolated": 7,
+   "group": 70,
+   "edge": 107,
+   "closed": 16,
+   "conifer-like": 123,
+   "leafless": 72
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988139.5,
+    678639.5,
+    6988239.5
+   ],
+   "near": 56,
+   "apexes": 253,
+   "isolated": 2,
+   "group": 29,
+   "edge": 148,
+   "closed": 74,
+   "conifer-like": 202,
+   "leafless": 47
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988139.5,
+    678739.5,
+    6988239.5
+   ],
+   "near": 65,
+   "apexes": 166,
+   "isolated": 13,
+   "group": 37,
+   "edge": 84,
+   "closed": 32,
+   "conifer-like": 145,
+   "leafless": 21
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988139.5,
+    678839.5,
+    6988239.5
+   ],
+   "near": 64,
+   "apexes": 106,
+   "isolated": 22,
+   "group": 64,
+   "edge": 20,
+   "closed": 0,
+   "conifer-like": 94,
+   "leafless": 10
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988139.5,
+    678939.5,
+    6988239.5
+   ],
+   "near": 44,
+   "apexes": 44,
+   "isolated": 31,
+   "group": 13,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 42,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988139.5,
+    679039.5,
+    6988239.5
+   ],
+   "near": 36,
+   "apexes": 36,
+   "isolated": 8,
+   "group": 20,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 36,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988139.5,
+    679139.5,
+    6988239.5
+   ],
+   "near": 16,
+   "apexes": 16,
+   "isolated": 7,
+   "group": 6,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 16,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988139.5,
+    679239.5,
+    6988239.5
+   ],
+   "near": 30,
+   "apexes": 49,
+   "isolated": 31,
+   "group": 18,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 49,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988139.5,
+    679339.5,
+    6988239.5
+   ],
+   "near": 20,
+   "apexes": 20,
+   "isolated": 13,
+   "group": 7,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 20,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988139.5,
+    679439.5,
+    6988239.5
+   ],
+   "near": 208,
+   "apexes": 331,
+   "isolated": 12,
+   "group": 43,
+   "edge": 96,
+   "closed": 180,
+   "conifer-like": 322,
+   "leafless": 7
+  },
+  {
+   "bbox": [
+    679439.5,
+    6988139.5,
+    679539.5,
+    6988239.5
+   ],
+   "near": 0,
+   "apexes": 1,
+   "isolated": 1,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6988039.5,
+    678039.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 37,
+   "isolated": 5,
+   "group": 15,
+   "edge": 16,
+   "closed": 1,
+   "conifer-like": 23,
+   "leafless": 7
+  },
+  {
+   "bbox": [
+    678039.5,
+    6988039.5,
+    678139.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 133,
+   "isolated": 14,
+   "group": 13,
+   "edge": 55,
+   "closed": 51,
+   "conifer-like": 120,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    678139.5,
+    6988039.5,
+    678239.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 93,
+   "isolated": 35,
+   "group": 34,
+   "edge": 24,
+   "closed": 0,
+   "conifer-like": 45,
+   "leafless": 39
+  },
+  {
+   "bbox": [
+    678239.5,
+    6988039.5,
+    678339.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 163,
+   "isolated": 18,
+   "group": 62,
+   "edge": 59,
+   "closed": 24,
+   "conifer-like": 100,
+   "leafless": 60
+  },
+  {
+   "bbox": [
+    678339.5,
+    6988039.5,
+    678439.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 232,
+   "isolated": 0,
+   "group": 37,
+   "edge": 67,
+   "closed": 128,
+   "conifer-like": 179,
+   "leafless": 45
+  },
+  {
+   "bbox": [
+    678439.5,
+    6988039.5,
+    678539.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 135,
+   "isolated": 16,
+   "group": 98,
+   "edge": 18,
+   "closed": 3,
+   "conifer-like": 57,
+   "leafless": 68
+  },
+  {
+   "bbox": [
+    678539.5,
+    6988039.5,
+    678639.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 207,
+   "isolated": 10,
+   "group": 57,
+   "edge": 78,
+   "closed": 62,
+   "conifer-like": 152,
+   "leafless": 48
+  },
+  {
+   "bbox": [
+    678639.5,
+    6988039.5,
+    678739.5,
+    6988139.5
+   ],
+   "near": 0,
+   "apexes": 244,
+   "isolated": 10,
+   "group": 38,
+   "edge": 133,
+   "closed": 63,
+   "conifer-like": 244,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6988039.5,
+    678839.5,
+    6988139.5
+   ],
+   "near": 10,
+   "apexes": 104,
+   "isolated": 23,
+   "group": 63,
+   "edge": 18,
+   "closed": 0,
+   "conifer-like": 56,
+   "leafless": 37
+  },
+  {
+   "bbox": [
+    678839.5,
+    6988039.5,
+    678939.5,
+    6988139.5
+   ],
+   "near": 60,
+   "apexes": 69,
+   "isolated": 39,
+   "group": 30,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 69,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6988039.5,
+    679039.5,
+    6988139.5
+   ],
+   "near": 30,
+   "apexes": 30,
+   "isolated": 9,
+   "group": 21,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 30,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6988039.5,
+    679139.5,
+    6988139.5
+   ],
+   "near": 12,
+   "apexes": 12,
+   "isolated": 1,
+   "group": 9,
+   "edge": 2,
+   "closed": 0,
+   "conifer-like": 12,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6988039.5,
+    679239.5,
+    6988139.5
+   ],
+   "near": 37,
+   "apexes": 43,
+   "isolated": 34,
+   "group": 9,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 43,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6988039.5,
+    679339.5,
+    6988139.5
+   ],
+   "near": 18,
+   "apexes": 18,
+   "isolated": 11,
+   "group": 7,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 18,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679339.5,
+    6988039.5,
+    679439.5,
+    6988139.5
+   ],
+   "near": 96,
+   "apexes": 135,
+   "isolated": 6,
+   "group": 56,
+   "edge": 41,
+   "closed": 32,
+   "conifer-like": 128,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    677939.5,
+    6987939.5,
+    678039.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 22,
+   "isolated": 12,
+   "group": 10,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 12,
+   "leafless": 8
+  },
+  {
+   "bbox": [
+    678039.5,
+    6987939.5,
+    678139.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 22,
+   "isolated": 5,
+   "group": 16,
+   "edge": 1,
+   "closed": 0,
+   "conifer-like": 7,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    678139.5,
+    6987939.5,
+    678239.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 65,
+   "isolated": 15,
+   "group": 42,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 19,
+   "leafless": 41
+  },
+  {
+   "bbox": [
+    678239.5,
+    6987939.5,
+    678339.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 83,
+   "isolated": 11,
+   "group": 33,
+   "edge": 37,
+   "closed": 2,
+   "conifer-like": 39,
+   "leafless": 43
+  },
+  {
+   "bbox": [
+    678339.5,
+    6987939.5,
+    678439.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 155,
+   "isolated": 19,
+   "group": 46,
+   "edge": 52,
+   "closed": 38,
+   "conifer-like": 127,
+   "leafless": 23
+  },
+  {
+   "bbox": [
+    678439.5,
+    6987939.5,
+    678539.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 139,
+   "isolated": 11,
+   "group": 48,
+   "edge": 60,
+   "closed": 20,
+   "conifer-like": 81,
+   "leafless": 54
+  },
+  {
+   "bbox": [
+    678539.5,
+    6987939.5,
+    678639.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 148,
+   "isolated": 1,
+   "group": 20,
+   "edge": 83,
+   "closed": 44,
+   "conifer-like": 117,
+   "leafless": 30
+  },
+  {
+   "bbox": [
+    678639.5,
+    6987939.5,
+    678739.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 250,
+   "isolated": 1,
+   "group": 25,
+   "edge": 106,
+   "closed": 118,
+   "conifer-like": 250,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678739.5,
+    6987939.5,
+    678839.5,
+    6988039.5
+   ],
+   "near": 0,
+   "apexes": 102,
+   "isolated": 15,
+   "group": 72,
+   "edge": 15,
+   "closed": 0,
+   "conifer-like": 91,
+   "leafless": 8
+  },
+  {
+   "bbox": [
+    678839.5,
+    6987939.5,
+    678939.5,
+    6988039.5
+   ],
+   "near": 54,
+   "apexes": 108,
+   "isolated": 34,
+   "group": 69,
+   "edge": 5,
+   "closed": 0,
+   "conifer-like": 100,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    678939.5,
+    6987939.5,
+    679039.5,
+    6988039.5
+   ],
+   "near": 36,
+   "apexes": 36,
+   "isolated": 14,
+   "group": 22,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 36,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6987939.5,
+    679139.5,
+    6988039.5
+   ],
+   "near": 26,
+   "apexes": 26,
+   "isolated": 9,
+   "group": 17,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 24,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    679139.5,
+    6987939.5,
+    679239.5,
+    6988039.5
+   ],
+   "near": 30,
+   "apexes": 30,
+   "isolated": 24,
+   "group": 6,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 30,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6987939.5,
+    679339.5,
+    6988039.5
+   ],
+   "near": 56,
+   "apexes": 56,
+   "isolated": 13,
+   "group": 15,
+   "edge": 13,
+   "closed": 15,
+   "conifer-like": 56,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679339.5,
+    6987939.5,
+    679439.5,
+    6988039.5
+   ],
+   "near": 63,
+   "apexes": 71,
+   "isolated": 11,
+   "group": 37,
+   "edge": 22,
+   "closed": 1,
+   "conifer-like": 58,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    677939.5,
+    6987839.5,
+    678039.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 19,
+   "isolated": 7,
+   "group": 4,
+   "edge": 5,
+   "closed": 3,
+   "conifer-like": 10,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    678039.5,
+    6987839.5,
+    678139.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 11,
+   "isolated": 1,
+   "group": 3,
+   "edge": 7,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    678139.5,
+    6987839.5,
+    678239.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 13,
+   "isolated": 1,
+   "group": 4,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 6,
+   "leafless": 6
+  },
+  {
+   "bbox": [
+    678239.5,
+    6987839.5,
+    678339.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 70,
+   "isolated": 15,
+   "group": 47,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 31,
+   "leafless": 29
+  },
+  {
+   "bbox": [
+    678339.5,
+    6987839.5,
+    678439.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 97,
+   "isolated": 20,
+   "group": 55,
+   "edge": 19,
+   "closed": 3,
+   "conifer-like": 52,
+   "leafless": 42
+  },
+  {
+   "bbox": [
+    678439.5,
+    6987839.5,
+    678539.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 104,
+   "isolated": 14,
+   "group": 49,
+   "edge": 33,
+   "closed": 8,
+   "conifer-like": 51,
+   "leafless": 50
+  },
+  {
+   "bbox": [
+    678539.5,
+    6987839.5,
+    678639.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 191,
+   "isolated": 3,
+   "group": 19,
+   "edge": 59,
+   "closed": 110,
+   "conifer-like": 166,
+   "leafless": 22
+  },
+  {
+   "bbox": [
+    678639.5,
+    6987839.5,
+    678739.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 198,
+   "isolated": 0,
+   "group": 18,
+   "edge": 104,
+   "closed": 76,
+   "conifer-like": 197,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678739.5,
+    6987839.5,
+    678839.5,
+    6987939.5
+   ],
+   "near": 0,
+   "apexes": 272,
+   "isolated": 12,
+   "group": 81,
+   "edge": 143,
+   "closed": 36,
+   "conifer-like": 261,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    678839.5,
+    6987839.5,
+    678939.5,
+    6987939.5
+   ],
+   "near": 15,
+   "apexes": 114,
+   "isolated": 15,
+   "group": 84,
+   "edge": 15,
+   "closed": 0,
+   "conifer-like": 109,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678939.5,
+    6987839.5,
+    679039.5,
+    6987939.5
+   ],
+   "near": 49,
+   "apexes": 80,
+   "isolated": 31,
+   "group": 40,
+   "edge": 9,
+   "closed": 0,
+   "conifer-like": 80,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6987839.5,
+    679139.5,
+    6987939.5
+   ],
+   "near": 90,
+   "apexes": 106,
+   "isolated": 4,
+   "group": 42,
+   "edge": 58,
+   "closed": 2,
+   "conifer-like": 105,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    679139.5,
+    6987839.5,
+    679239.5,
+    6987939.5
+   ],
+   "near": 181,
+   "apexes": 279,
+   "isolated": 3,
+   "group": 65,
+   "edge": 94,
+   "closed": 117,
+   "conifer-like": 274,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    679239.5,
+    6987839.5,
+    679339.5,
+    6987939.5
+   ],
+   "near": 93,
+   "apexes": 200,
+   "isolated": 4,
+   "group": 68,
+   "edge": 110,
+   "closed": 18,
+   "conifer-like": 200,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679339.5,
+    6987839.5,
+    679439.5,
+    6987939.5
+   ],
+   "near": 20,
+   "apexes": 108,
+   "isolated": 20,
+   "group": 19,
+   "edge": 51,
+   "closed": 18,
+   "conifer-like": 94,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    677939.5,
+    6987739.5,
+    678039.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 153,
+   "isolated": 16,
+   "group": 45,
+   "edge": 76,
+   "closed": 16,
+   "conifer-like": 111,
+   "leafless": 34
+  },
+  {
+   "bbox": [
+    678039.5,
+    6987739.5,
+    678139.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 11,
+   "isolated": 0,
+   "group": 3,
+   "edge": 8,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    678339.5,
+    6987739.5,
+    678439.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 45,
+   "isolated": 7,
+   "group": 35,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 32,
+   "leafless": 10
+  },
+  {
+   "bbox": [
+    678439.5,
+    6987739.5,
+    678539.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 61,
+   "isolated": 8,
+   "group": 32,
+   "edge": 19,
+   "closed": 2,
+   "conifer-like": 48,
+   "leafless": 8
+  },
+  {
+   "bbox": [
+    678539.5,
+    6987739.5,
+    678639.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 209,
+   "isolated": 0,
+   "group": 12,
+   "edge": 70,
+   "closed": 127,
+   "conifer-like": 203,
+   "leafless": 5
+  },
+  {
+   "bbox": [
+    678639.5,
+    6987739.5,
+    678739.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 188,
+   "isolated": 3,
+   "group": 47,
+   "edge": 91,
+   "closed": 47,
+   "conifer-like": 187,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    678739.5,
+    6987739.5,
+    678839.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 221,
+   "isolated": 25,
+   "group": 113,
+   "edge": 78,
+   "closed": 5,
+   "conifer-like": 173,
+   "leafless": 17
+  },
+  {
+   "bbox": [
+    678839.5,
+    6987739.5,
+    678939.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 167,
+   "isolated": 7,
+   "group": 76,
+   "edge": 81,
+   "closed": 3,
+   "conifer-like": 157,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678939.5,
+    6987739.5,
+    679039.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 168,
+   "isolated": 4,
+   "group": 75,
+   "edge": 78,
+   "closed": 11,
+   "conifer-like": 168,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6987739.5,
+    679139.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 236,
+   "isolated": 6,
+   "group": 67,
+   "edge": 107,
+   "closed": 56,
+   "conifer-like": 229,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6987739.5,
+    679239.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 392,
+   "isolated": 1,
+   "group": 38,
+   "edge": 123,
+   "closed": 230,
+   "conifer-like": 385,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679239.5,
+    6987739.5,
+    679339.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 90,
+   "isolated": 19,
+   "group": 43,
+   "edge": 28,
+   "closed": 0,
+   "conifer-like": 90,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679339.5,
+    6987739.5,
+    679439.5,
+    6987839.5
+   ],
+   "near": 0,
+   "apexes": 161,
+   "isolated": 13,
+   "group": 31,
+   "edge": 80,
+   "closed": 37,
+   "conifer-like": 156,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    677939.5,
+    6987639.5,
+    678039.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 132,
+   "isolated": 32,
+   "group": 50,
+   "edge": 35,
+   "closed": 15,
+   "conifer-like": 113,
+   "leafless": 16
+  },
+  {
+   "bbox": [
+    678039.5,
+    6987639.5,
+    678139.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 124,
+   "isolated": 12,
+   "group": 73,
+   "edge": 39,
+   "closed": 0,
+   "conifer-like": 44,
+   "leafless": 69
+  },
+  {
+   "bbox": [
+    678139.5,
+    6987639.5,
+    678239.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 4,
+   "isolated": 0,
+   "group": 1,
+   "edge": 3,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678339.5,
+    6987639.5,
+    678439.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 3,
+   "isolated": 3,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678439.5,
+    6987639.5,
+    678539.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 43,
+   "isolated": 5,
+   "group": 27,
+   "edge": 11,
+   "closed": 0,
+   "conifer-like": 13,
+   "leafless": 26
+  },
+  {
+   "bbox": [
+    678539.5,
+    6987639.5,
+    678639.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 81,
+   "isolated": 3,
+   "group": 24,
+   "edge": 47,
+   "closed": 7,
+   "conifer-like": 78,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678639.5,
+    6987639.5,
+    678739.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 150,
+   "isolated": 5,
+   "group": 42,
+   "edge": 100,
+   "closed": 3,
+   "conifer-like": 134,
+   "leafless": 14
+  },
+  {
+   "bbox": [
+    678739.5,
+    6987639.5,
+    678839.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 156,
+   "isolated": 7,
+   "group": 94,
+   "edge": 55,
+   "closed": 0,
+   "conifer-like": 150,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    678839.5,
+    6987639.5,
+    678939.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 204,
+   "isolated": 0,
+   "group": 76,
+   "edge": 106,
+   "closed": 22,
+   "conifer-like": 203,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6987639.5,
+    679039.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 226,
+   "isolated": 0,
+   "group": 24,
+   "edge": 140,
+   "closed": 62,
+   "conifer-like": 226,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6987639.5,
+    679139.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 148,
+   "isolated": 17,
+   "group": 34,
+   "edge": 64,
+   "closed": 33,
+   "conifer-like": 148,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6987639.5,
+    679239.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 286,
+   "isolated": 13,
+   "group": 15,
+   "edge": 79,
+   "closed": 179,
+   "conifer-like": 280,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    679239.5,
+    6987639.5,
+    679339.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 58,
+   "isolated": 3,
+   "group": 15,
+   "edge": 26,
+   "closed": 14,
+   "conifer-like": 55,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    679339.5,
+    6987639.5,
+    679439.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 250,
+   "isolated": 7,
+   "group": 39,
+   "edge": 92,
+   "closed": 112,
+   "conifer-like": 244,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    679439.5,
+    6987639.5,
+    679539.5,
+    6987739.5
+   ],
+   "near": 0,
+   "apexes": 1,
+   "isolated": 0,
+   "group": 1,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 1,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    677939.5,
+    6987539.5,
+    678039.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 76,
+   "isolated": 25,
+   "group": 40,
+   "edge": 11,
+   "closed": 0,
+   "conifer-like": 61,
+   "leafless": 15
+  },
+  {
+   "bbox": [
+    678039.5,
+    6987539.5,
+    678139.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 24,
+   "isolated": 20,
+   "group": 3,
+   "edge": 1,
+   "closed": 0,
+   "conifer-like": 20,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678139.5,
+    6987539.5,
+    678239.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 64,
+   "isolated": 25,
+   "group": 28,
+   "edge": 11,
+   "closed": 0,
+   "conifer-like": 43,
+   "leafless": 19
+  },
+  {
+   "bbox": [
+    678539.5,
+    6987539.5,
+    678639.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 51,
+   "isolated": 7,
+   "group": 5,
+   "edge": 32,
+   "closed": 7,
+   "conifer-like": 49,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678639.5,
+    6987539.5,
+    678739.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 121,
+   "isolated": 1,
+   "group": 19,
+   "edge": 59,
+   "closed": 42,
+   "conifer-like": 111,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678739.5,
+    6987539.5,
+    678839.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 135,
+   "isolated": 0,
+   "group": 50,
+   "edge": 83,
+   "closed": 2,
+   "conifer-like": 125,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    678839.5,
+    6987539.5,
+    678939.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 201,
+   "isolated": 5,
+   "group": 82,
+   "edge": 111,
+   "closed": 3,
+   "conifer-like": 201,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6987539.5,
+    679039.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 227,
+   "isolated": 0,
+   "group": 28,
+   "edge": 185,
+   "closed": 14,
+   "conifer-like": 227,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6987539.5,
+    679139.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 134,
+   "isolated": 12,
+   "group": 37,
+   "edge": 68,
+   "closed": 17,
+   "conifer-like": 132,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6987539.5,
+    679239.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 82,
+   "isolated": 11,
+   "group": 20,
+   "edge": 33,
+   "closed": 18,
+   "conifer-like": 71,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    679239.5,
+    6987539.5,
+    679339.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 319,
+   "isolated": 5,
+   "group": 12,
+   "edge": 93,
+   "closed": 209,
+   "conifer-like": 311,
+   "leafless": 4
+  },
+  {
+   "bbox": [
+    679339.5,
+    6987539.5,
+    679439.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 357,
+   "isolated": 1,
+   "group": 21,
+   "edge": 110,
+   "closed": 225,
+   "conifer-like": 355,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679439.5,
+    6987539.5,
+    679539.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 15,
+   "isolated": 1,
+   "group": 9,
+   "edge": 4,
+   "closed": 1,
+   "conifer-like": 11,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    679539.5,
+    6987539.5,
+    679639.5,
+    6987639.5
+   ],
+   "near": 0,
+   "apexes": 1,
+   "isolated": 1,
+   "group": 0,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 0,
+   "leafless": 1
+  },
+  {
+   "bbox": [
+    677939.5,
+    6987439.5,
+    678039.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 223,
+   "isolated": 35,
+   "group": 137,
+   "edge": 49,
+   "closed": 2,
+   "conifer-like": 203,
+   "leafless": 7
+  },
+  {
+   "bbox": [
+    678039.5,
+    6987439.5,
+    678139.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 125,
+   "isolated": 91,
+   "group": 34,
+   "edge": 0,
+   "closed": 0,
+   "conifer-like": 100,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678139.5,
+    6987439.5,
+    678239.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 150,
+   "isolated": 29,
+   "group": 53,
+   "edge": 56,
+   "closed": 12,
+   "conifer-like": 141,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    678439.5,
+    6987439.5,
+    678539.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 67,
+   "isolated": 0,
+   "group": 35,
+   "edge": 30,
+   "closed": 2,
+   "conifer-like": 6,
+   "leafless": 56
+  },
+  {
+   "bbox": [
+    678539.5,
+    6987439.5,
+    678639.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 44,
+   "isolated": 2,
+   "group": 15,
+   "edge": 25,
+   "closed": 2,
+   "conifer-like": 33,
+   "leafless": 11
+  },
+  {
+   "bbox": [
+    678639.5,
+    6987439.5,
+    678739.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 169,
+   "isolated": 9,
+   "group": 46,
+   "edge": 80,
+   "closed": 34,
+   "conifer-like": 146,
+   "leafless": 21
+  },
+  {
+   "bbox": [
+    678739.5,
+    6987439.5,
+    678839.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 195,
+   "isolated": 3,
+   "group": 21,
+   "edge": 132,
+   "closed": 39,
+   "conifer-like": 183,
+   "leafless": 6
+  },
+  {
+   "bbox": [
+    678839.5,
+    6987439.5,
+    678939.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 173,
+   "isolated": 1,
+   "group": 73,
+   "edge": 94,
+   "closed": 5,
+   "conifer-like": 173,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    678939.5,
+    6987439.5,
+    679039.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 275,
+   "isolated": 0,
+   "group": 26,
+   "edge": 234,
+   "closed": 15,
+   "conifer-like": 275,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679039.5,
+    6987439.5,
+    679139.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 138,
+   "isolated": 9,
+   "group": 23,
+   "edge": 99,
+   "closed": 7,
+   "conifer-like": 134,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679139.5,
+    6987439.5,
+    679239.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 135,
+   "isolated": 26,
+   "group": 26,
+   "edge": 50,
+   "closed": 33,
+   "conifer-like": 126,
+   "leafless": 2
+  },
+  {
+   "bbox": [
+    679239.5,
+    6987439.5,
+    679339.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 295,
+   "isolated": 2,
+   "group": 21,
+   "edge": 66,
+   "closed": 206,
+   "conifer-like": 289,
+   "leafless": 3
+  },
+  {
+   "bbox": [
+    679339.5,
+    6987439.5,
+    679439.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 392,
+   "isolated": 0,
+   "group": 0,
+   "edge": 25,
+   "closed": 367,
+   "conifer-like": 391,
+   "leafless": 0
+  },
+  {
+   "bbox": [
+    679439.5,
+    6987439.5,
+    679539.5,
+    6987539.5
+   ],
+   "near": 0,
+   "apexes": 72,
+   "isolated": 2,
+   "group": 19,
+   "edge": 22,
+   "closed": 29,
+   "conifer-like": 69,
+   "leafless": 1
+  }
+ ]
+}

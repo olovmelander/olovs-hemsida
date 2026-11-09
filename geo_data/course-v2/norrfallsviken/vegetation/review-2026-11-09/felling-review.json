@@ -1,0 +1,50 @@
+{
+ "schemaVersion": 1,
+ "kind": "felling-and-structure-review",
+ "reviewedAt": "2026-11-09T13:10:02.982Z",
+ "reviewer": "agent-led visual review (Claude, main session, 2026-11-09) of compact chips (June 2024 colour and May 2020 colour infrared at native 0.16 m); not a field check",
+ "screen": "outside closed stands: own shadow in the leaf-off photo (May 2020), none in the presence photo (June 2024), and a presence score below the reference floor",
+ "verdicts": {
+  "absent": "stood when the leaf-off photo was flown and is gone: remove the record / do not place",
+  "structure": "the CHM object is not a tree (roof, vehicle, heap): not placed",
+  "present": "kept",
+  "unclear": "held"
+ },
+ "counts": {
+  "structure": 4
+ },
+ "decisions": {
+  "677980.8_6987576.3": {
+   "index": 1,
+   "verdict": "structure",
+   "note": "a low roof among buildings (no crown in either photo)",
+   "easting": 677980.75,
+   "northing": 6987576.25,
+   "heightMetres": 2.69
+  },
+  "678444.8_6987734.3": {
+   "index": 2,
+   "verdict": "structure",
+   "note": "the dark roof of a house (an 8 m ridge)",
+   "easting": 678444.75,
+   "northing": 6987734.25,
+   "heightMetres": 7.99
+  },
+  "678466.8_6988003.8": {
+   "index": 3,
+   "verdict": "structure",
+   "note": "the roof of a small dark house",
+   "easting": 678466.75,
+   "northing": 6988003.75,
+   "heightMetres": 2.71
+  },
+  "678687.3_6988214.8": {
+   "index": 4,
+   "verdict": "structure",
+   "note": "the white roof of a building put up after May 2020 (a pine stood beside it in the May 2020 colour infrared)",
+   "easting": 678687.25,
+   "northing": 6988214.75,
+   "heightMetres": 5.45
+  }
+ }
+}

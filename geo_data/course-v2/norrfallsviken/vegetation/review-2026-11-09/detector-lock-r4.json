@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "kind": "detector-lock",
+  "round": "r4",
+  "detector": "fused",
+  "method": "fused detector with a width split: the r3 lock as frozen (the r2 refined lock, then the suppressed laser tops a learned photo crown confirms), then suppressed laser tops taken back inside crowns too wide for one tree of their height (photo-fusion.mjs, width split), every crown regrown from the full set of seeds; every seed is a laser maximum and the photo never places a tree",
+  "frozenAt": "2026-11-09T13:00:54.095Z",
+  "referenceLockSha256": "f921c266bdb2cfaa0913d467f00ab61728dcce1e4218b54d849c6251746b1809",
+  "chmSha256": "72c6a5f6b8f9067844fa91864831f9d339880f16344f6a6f38f03439673f5cae",
+  "reliefSha256": "515cd152158931240627f3cb2bc06c909abec1c407f2ba96fbb52d56f9f4d054",
+  "startLockSha256": "c147c3b8b5d65bdd423730bcc7f340b74104db7b4e20b0b0b762f07e68de5e3a",
+  "extendsLock": {
+    "round": "r3",
+    "sha256": "99c11bbcffaf503f770b8672de57a70c9fe7de15ebc3eb90553f47011aa5a23c"
+  },
+  "photoDetectSha256": "b91185856782b016d238689521d6b72f0eeb807ed0bb52beee3a27ce6be5e108",
+  "code": {
+    "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+    "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+    "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+    "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+    "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+    "tools/tree-pipeline/benchmark.mjs": "fe6eacbbb3747b0ee0ab166eff9ced11b9ca84cd0d47325e30d2371d9dab0f42",
+    "tools/tree-pipeline/photo-fusion.mjs": "7f7681260ea72d8a2171512a0db566f0df5303e5375f95d82674d5150edd85ae"
+  },
+  "tuning": {
+    "$comment": "main session, 2026-11-09: round 4 keeps the round-3 lock and searches only the width split, with excludeBuildings fixed on, on calibration, on the whole-window detections the score reads; the best calibration F1 among settings whose calibration precision is at least the round-3 lock's on the same windows (Johannesberg round 6's tuning).",
+    "extends": "r3",
+    "crowns": "all",
+    "precisionAtLeastStart": true,
+    "splitFixed": {
+      "excludeBuildings": true
+    }
+  },
+  "selection": "round tuning {\"extends\":\"r3\",\"crowns\":\"all\",\"precisionFloor\":0.966}; calibration windows only (C1-h1-isolated, C2-h18-groups, C3-h11-closed, C4-h8-shore, C5-h9-garden, C6-h2-groups, C7-h13-edge, C8-h10-edge, C9-h3-edge, C10-h7-closed, C11-h1-village); the r3 typed, refine, photo and confirm settings fixed; typical(h) fitted on the 181 scored calibration reference crowns; the joint SPLIT_TUNE_GRID, then a coordinate polish over SPLIT_SEARCH; the best calibration F1 (then mean crown IoU, then median centre offset) among settings whose calibration precision is at least r3's is locked",
+  "grid": {
+    "widthFactor": [
+      1.2,
+      1.4,
+      1.7,
+      2
+    ],
+    "minimumSeparationMetres": [
+      2,
+      2.5,
+      3
+    ],
+    "minimumDipMetres": [
+      0,
+      0.5,
+      1
+    ],
+    "heightShare": [
+      0.5,
+      0.7
+    ],
+    "photoScore": [
+      0,
+      0.1,
+      0.2
+    ],
+    "protect": [
+      false,
+      true
+    ],
+    "types": [
+      [
+        "conifer"
+      ],
+      [
+        "broadleaf"
+      ],
+      [
+        "conifer",
+        "broadleaf"
+      ]
+    ]
+  },
+  "search": {
+    "widthFactor": [
+      1.1,
+      1.2,
+      1.3,
+      1.4,
+      1.5,
+      1.6,
+      1.8,
+      2,
+      2.4
+    ],
+    "minimumSeparationMetres": [
+      1.5,
+      2,
+      2.5,
+      3,
+      3.5
+    ],
+    "minimumDipMetres": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1,
+      1.5
+    ],
+    "heightShare": [
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8
+    ],
+    "photoScore": [
+      0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.3
+    ],
+    "maximumPerCrown": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "protect": [
+      false,
+      true
+    ],
+    "types": [
+      [
+        "conifer"
+      ],
+      [
+        "broadleaf"
+      ],
+      [
+        "conifer",
+        "broadleaf"
+      ]
+    ]
+  },
+  "withoutSplit": {
+    "f1": 0.952,
+    "precision": 0.966,
+    "recall": 0.939,
+    "iou": 0.818,
+    "offset": 0,
+    "tp": 170,
+    "missed": 11,
+    "extra": 6
+  },
+  "evaluations": 1360,
+  "trajectory": [
+    {
+      "step": "best of SPLIT_TUNE_GRID",
+      "split": {
+        "widthFactor": 1.4,
+        "minimumSeparationMetres": 2,
+        "minimumDipMetres": 0.5,
+        "heightShare": 0.5,
+        "photoScore": 0,
+        "maximumPerCrown": 3,
+        "protect": false,
+        "types": [
+          "conifer",
+          "broadleaf"
+        ],
+        "excludeBuildings": true
+      },
+      "f1": 0.952,
+      "precision": 0.966,
+      "recall": 0.939,
+      "iou": 0.821,
+      "offset": 0,
+      "tp": 170,
+      "missed": 11,
+      "extra": 6
+    },
+    {
+      "step": "pass 1: widthFactor = 1.5",
+      "f1": 0.955,
+      "precision": 0.966,
+      "recall": 0.945,
+      "iou": 0.822,
+      "offset": 0,
+      "tp": 171,
+      "missed": 10,
+      "extra": 6
+    }
+  ],
+  "selected": {
+    "parameters": {
+      "type": {
+        "ndviThreshold": 0.12,
+        "coniferShare": 0.5,
+        "radiusBaseMetres": 1.5,
+        "radiusSlope": 0.05
+      },
+      "conifer": {
+        "smoothingSigmaMetres": 0.4,
+        "windowBaseMetres": 0.5,
+        "windowSlope": 0,
+        "windowMinimumMetres": 1,
+        "windowMaximumMetres": 3,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 0,
+        "prominenceFraction": 0,
+        "position": "apex"
+      },
+      "broadleaf": {
+        "smoothingSigmaMetres": 0.6,
+        "windowBaseMetres": 3,
+        "windowSlope": 0.08,
+        "windowMinimumMetres": 1.5,
+        "windowMaximumMetres": 4,
+        "minimumCandidateHeightMetres": 2,
+        "prominenceMetres": 1,
+        "prominenceFraction": 0.1,
+        "position": "apex"
+      },
+      "shared": {
+        "seedFraction": 0.45,
+        "crownFraction": 0.55,
+        "maximumCrownRadiusMetres": 10,
+        "extentFraction": 0.2,
+        "minimumCrownAreaSquareMetres": 4
+      },
+      "split": {
+        "areaFactor": 3,
+        "allometryBaseMetres": 1,
+        "allometrySlope": 0.1,
+        "fineSigmaMetres": 0.25,
+        "windowMetres": 1.5,
+        "minimumSeparationMetres": 2,
+        "seedFraction": 0.7
+      }
+    },
+    "refine": {
+      "types": [
+        "conifer"
+      ],
+      "minimumDipMetres": 0.5,
+      "minimumSeparationMetres": 1.5,
+      "apex": {
+        "minimumReturns": 0
+      },
+      "photo": {
+        "campaigns": [
+          "presence"
+        ],
+        "combine": "any",
+        "fraction": 0.9,
+        "minimumValley": 0.05
+      }
+    },
+    "photo": {
+      "source": "ft-p64",
+      "model": {
+        "id": "weecology/deepforest-tree",
+        "revision": "cc21436bc5d572dde8ff5f93c1e71a32f563cace",
+        "sha256": "d37a7af0b5ba2754282a80d41b4c7b66e8c7149234df5bf3f41bdaf57d329fc8",
+        "licence": "MIT"
+      },
+      "allCrownsSha256": "506a143d0a642dd1a1722f0b06c5135fed08fdab28bbf98545a86180872bd854",
+      "calibrationCrownsSha256": "5bcf1d2492cf3c7d989a0496a5355990d0ec4995eff7e705624853d3c72802d1",
+      "tunedOn": "calibration"
+    },
+    "fuse": {
+      "mode": "confirm",
+      "projectionFraction": 0.8,
+      "matchRadiusMetres": 3,
+      "minimumScore": 0.3,
+      "minimumSeparationMetres": 2.5,
+      "minimumDipMetres": 0,
+      "minimumApexReturns": 4,
+      "types": [
+        "conifer",
+        "broadleaf"
+      ]
+    },
+    "split": {
+      "widthFactor": 1.5,
+      "minimumSeparationMetres": 2,
+      "minimumDipMetres": 0.5,
+      "heightShare": 0.5,
+      "photoScore": 0,
+      "maximumPerCrown": 3,
+      "protect": false,
+      "types": [
+        "conifer",
+        "broadleaf"
+      ],
+      "excludeBuildings": true
+    },
+    "typical": {
+      "a": 1.29,
+      "b": 0.1267,
+      "crowns": 181
+    },
+    "calibration": {
+      "f1": 0.955,
+      "precision": 0.966,
+      "recall": 0.945,
+      "iou": 0.822,
+      "offset": 0,
+      "tp": 171,
+      "missed": 10,
+      "extra": 6
+    }
+  },
+  "windowRadiusIs": "radius (not diameter) of the circular local-maximum window, metres",
+  "photoDetector": "learned: weecology/deepforest-tree at cc21436bc5d5 (weights sha256 d37a7af0b5ba...), source ft-p64, on the GPU (photo-detect stage)"
+}

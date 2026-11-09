@@ -342,6 +342,29 @@ ignored cache is evidence by itself; its hashes are.
 - **A split changes the residual canopy.** The stand chunks are republished, so re-bake
   the map land as well as the prepared data.
 
+### Norrfällsviken (2026-11-09): the second ground, gate passed
+
+- **Check the laser pin first.** Lantmäteriet re-tiled its laser into 2.5 km items, and an
+  older ground's pinned items return 404. `record-laser-campaigns --window <halo> --out
+  <file>` writes a tree-window inventory without touching the ground's pin. Open sea
+  without items is a coverage gap, not a reason to stop.
+- **A leaf-on laser makes registration hard.** Its near-ground intensity is too smooth for
+  the raw correlation. Try `registration.highPassMetres` (6 m worked; check that 1.5-6 m
+  agree). Below 30 direct patches, ask the owner and record `ownerAccepted`.
+- **Late May is not leaf-off at 63°N.** The birches were coming into leaf. Set the broadleaf
+  threshold below every reference conifer, and require a crown in leaf in the presence photo
+  (`broadleafMinimumPresenceShare`). Then check every broadleaf call on chips.
+- **One sample for the whole stack.** On a new ground, freeze one sample, then tune
+  typed → refined → fused → split on calibration, and score all four locks once. Declare
+  the rule before scoring. The typed detector won here; do not assume the later steps help.
+- **In the hold review, look hard at wide crowns.** Unmapped holiday houses read as canopy
+  in the laser. The first pass missed six wide roofs among about 960 chips. Afterwards, redraw
+  every "present" hold with a radius of 4 m or more on the presence photo alone. The shaded
+  heath pines (no June vegetation) are real trees.
+- **A traced outline can lie metres inland** (the 14th's lake: about 10 m). Under leaf-on
+  crowns the laser hits too little ground to prove land, so the bank rule cannot free those
+  trees. Report the outline; a pack revision fixes it.
+
 ## Report
 
 End with: the ground and review id, the stage reached and its exit, the gate result

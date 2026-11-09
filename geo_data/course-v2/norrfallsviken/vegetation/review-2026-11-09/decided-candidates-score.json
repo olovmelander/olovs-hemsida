@@ -1,0 +1,79 @@
+{
+ "what": "decided candidates (placed records after holds, bank rule and hold review) on round r4's evaluation sample; secondary, decides nothing",
+ "total": {
+  "tp": 101,
+  "missed": 11,
+  "extra": 5,
+  "precision": 0.953,
+  "recall": 0.902,
+  "f1": 0.927
+ },
+ "windows": [
+  {
+   "window": "H1-h5-groups",
+   "tp": 12,
+   "missed": 1,
+   "extra": 0,
+   "r1-typed": {
+    "tp": 12,
+    "missed": 1,
+    "extra": 0
+   }
+  },
+  {
+   "window": "H2-h17-edge",
+   "tp": 12,
+   "missed": 0,
+   "extra": 0,
+   "r1-typed": {
+    "tp": 12,
+    "missed": 0,
+    "extra": 1
+   }
+  },
+  {
+   "window": "H3-h15-garden",
+   "tp": 23,
+   "missed": 5,
+   "extra": 1,
+   "r1-typed": {
+    "tp": 24,
+    "missed": 4,
+    "extra": 2
+   }
+  },
+  {
+   "window": "H4-h14-shore",
+   "tp": 15,
+   "missed": 2,
+   "extra": 1,
+   "r1-typed": {
+    "tp": 17,
+    "missed": 0,
+    "extra": 1
+   }
+  },
+  {
+   "window": "H5-h15-isolated",
+   "tp": 12,
+   "missed": 1,
+   "extra": 0,
+   "r1-typed": {
+    "tp": 12,
+    "missed": 1,
+    "extra": 0
+   }
+  },
+  {
+   "window": "H6-h6-coast",
+   "tp": 27,
+   "missed": 2,
+   "extra": 3,
+   "r1-typed": {
+    "tp": 28,
+    "missed": 1,
+    "extra": 3
+   }
+  }
+ ]
+}
