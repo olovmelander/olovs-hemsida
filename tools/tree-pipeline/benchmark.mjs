@@ -41,7 +41,7 @@ import { HELD_OUT_GATE, assertHeldOutUnseen, evaluateGate, ownerExceptionFor, pe
 import { loadMosaic, loadRaster, openCampaignPacks } from './panels.mjs';
 import { publishedPopulation } from './published-population.mjs';
 import { writeReceipt } from './receipts.mjs';
-import { CONFIRM_DEFAULTS, CONFIRM_SEARCH, CONFIRM_TUNE_GRID, CONFIRM_TUNE_GRID_PRECISION, centresNear, combinations, confirmedFromPrepared, loadPhotoCrowns, photoCentres } from './photo-fusion.mjs';
+import { CONFIRM_DEFAULTS, CONFIRM_SEARCH, CONFIRM_TUNE_GRID, CONFIRM_TUNE_GRID_PRECISION, SPLIT_DEFAULTS, SPLIT_SEARCH, SPLIT_TUNE_GRID, centresNear, combinations, confirmedFromPrepared, loadPhotoCrowns, photoCentres, splitFromPrepared, typicalCrownRadius } from './photo-fusion.mjs';
 import { crownsFile, photoRecordPath } from './photo-detect.mjs';
 
 const sha = file => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
@@ -333,7 +333,85 @@ function sourceCentres(ctx, record, source, part) {
   return photoCentres(loadPhotoCrowns(file).crowns);
 }
 
+/* Round 5: a fused round that extends an earlier fused lock (photoDetect.tuning.<round>.extends)
+   keeps its typed, refine, photo and confirm settings and searches only the width split
+   (photo-fusion.mjs SPLIT_TUNE_GRID, then a coordinate polish over SPLIT_SEARCH), on
+   calibration windows only. typical(h) is fitted on the calibration reference crowns. */
+function tuneSplit(ctx, reference, tuning) {
+  const baseRound = ctx.config.rounds.find(r => r.id === tuning.extends);
+  if (!baseRound || baseRound.detector !== 'fused') throw new Error(`photoDetect.tuning.${ctx.round.id}.extends must name an earlier fused round`);
+  const baseLockPath = lockPathOf(ctx, baseRound.id);
+  const base = JSON.parse(fs.readFileSync(baseLockPath, 'utf8'));
+  const { parameters: typedParameters, refine, fuse } = base.selected;
+  const chm = loadRaster(ctx, 'chm-pitfree-050');
+  const m21 = loadMosaic(ctx, ctx.leafOff.key);
+  const calibration = reference.windows.windows.filter(w => w.role === 'calibration');
+  const ids = calibration.map(w => w.id);
+  const entries = prepareWindows(calibration, chm, m21);
+  const inputs = refereeInputs(ctx, chm.grid);
+  const fractions = [...new Set([...REFINE_FRACTIONS, refine.photo?.fraction ?? REFINE_DEFAULTS.photo.fraction])];
+  const prepared = new Map(entries.map(e => [e.window.id, prepareRefined(e, typedParameters, inputs, fractions)]));
+  const { record, recordPath, field } = fusedInputs(ctx);
+  const source = base.selected.photo.source;
+  if (record.sources[source]?.all?.sha256 !== base.selected.photo.allCrownsSha256) throw new Error(`the photo crowns of ${baseRound.id}'s lock are not the ones photo-detect recorded for ${ctx.round.id}`);
+  const centres = sourceCentres(ctx, record, source, 'all');
+  const near = new Map(entries.map(e => [e.window.id, centresNear(centres, e.cropped.grid)]));
+  const calibrationCrowns = reference.crowns.filter(c => ids.includes(c.window) && c.scored);
+  const typical = typicalCrownRadius(calibrationCrowns);
+  const summary = s => ({ f1: s.f1, precision: s.precision, recall: s.recall, iou: s.crownIoUMean, offset: s.centreOffsetMedianMetres, tp: s.tp, missed: s.missed, extra: s.extra });
+  const startScore = summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, confirmedFromPrepared(e, typedParameters, prepared.get(e.window.id), refine, near.get(e.window.id), field, fuse)])), ids));
+  const floor = tuning.precisionAtLeastStart ? startScore.precision : -Infinity;
+  let evaluations = 0;
+  const evaluate = split => { evaluations++; return summary(scoreWindows(reference, new Map(entries.map(e => [e.window.id, splitFromPrepared(e, typedParameters, prepared.get(e.window.id), refine, near.get(e.window.id), field, fuse, split, typical)])), ids)); };
+  let current = null, score = null;
+  for (const split of combinations(SPLIT_TUNE_GRID, SPLIT_DEFAULTS)) {
+    const s = evaluate(split);
+    if (s.precision < floor) continue;
+    if (!score || better(s, score)) { current = split; score = s; }
+  }
+  if (!score) throw new Error(`no width split kept calibration precision at ${baseRound.id}'s ${startScore.precision}`);
+  const trajectory = [{ step: 'best of SPLIT_TUNE_GRID', split: current, ...score }];
+  for (let pass = 1; pass <= 3; pass++) {
+    let changed = false;
+    for (const [key, values] of SPLIT_SEARCH) for (const value of values) {
+      if (JSON.stringify(current[key]) === JSON.stringify(value)) continue;
+      const candidate = { ...current, [key]: value };
+      const s = evaluate(candidate);
+      if (s.precision >= floor && better(s, score)) { current = candidate; score = s; changed = true; trajectory.push({ step: `pass ${pass}: ${key} = ${JSON.stringify(value)}`, ...s }); }
+    }
+    if (!changed) break;
+  }
+  console.log(`width split: calibration P ${score.precision} R ${score.recall} F1 ${score.f1} (tp ${score.tp} miss ${score.missed} extra ${score.extra}) against ${baseRound.id}'s P ${startScore.precision} R ${startScore.recall} F1 ${startScore.f1}; ${evaluations} evaluations; ${JSON.stringify(current)}`);
+  return {
+    schemaVersion: 1,
+    kind: 'detector-lock',
+    round: ctx.round.id,
+    detector: 'fused',
+    method: `fused detector with a width split: the ${baseRound.id} lock as frozen (the ${ctx.round.startFrom} refined lock, then the suppressed laser tops a learned photo crown confirms), then suppressed laser tops taken back inside crowns too wide for one tree of their height (photo-fusion.mjs, width split), every crown regrown from the full set of seeds; every seed is a laser maximum and the photo never places a tree`,
+    frozenAt: new Date().toISOString(),
+    referenceLockSha256: reference.lockSha256,
+    chmSha256: chm.sidecar.sha256,
+    reliefSha256: inputs.reliefSha256,
+    startLockSha256: sha(lockPathOf(ctx, ctx.round.startFrom)),
+    extendsLock: { round: baseRound.id, sha256: sha(baseLockPath) },
+    photoDetectSha256: sha(recordPath),
+    code: codeHashes(ctx),
+    tuning,
+    selection: `round tuning ${JSON.stringify({ extends: tuning.extends, crowns: tuning.crowns, precisionFloor: tuning.precisionAtLeastStart ? startScore.precision : null })}; calibration windows only (${ids.join(', ')}); the ${baseRound.id} typed, refine, photo and confirm settings fixed; typical(h) fitted on the ${typical.crowns} scored calibration reference crowns; the joint SPLIT_TUNE_GRID, then a coordinate polish over SPLIT_SEARCH; the best calibration F1 (then mean crown IoU, then median centre offset) among settings whose calibration precision is at least ${baseRound.id}'s is locked`,
+    grid: SPLIT_TUNE_GRID,
+    search: Object.fromEntries(SPLIT_SEARCH),
+    withoutSplit: startScore,
+    evaluations,
+    trajectory,
+    selected: { parameters: typedParameters, refine, photo: base.selected.photo, fuse, split: current, typical, calibration: score },
+    windowRadiusIs: 'radius (not diameter) of the circular local-maximum window, metres',
+    photoDetector: base.photoDetector,
+  };
+}
+
 function tuneFused(ctx, reference) {
+  const extendsTuning = ctx.config.photoDetect?.tuning?.[ctx.round.id];
+  if (extendsTuning?.extends) return tuneSplit(ctx, reference, extendsTuning);
   const startRound = ctx.round.startFrom;
   const startLock = JSON.parse(fs.readFileSync(lockPathOf(ctx, startRound), 'utf8'));
   if (!startLock.selected?.refine) throw new Error('a fused round needs startFrom: a refined round whose lock it extends');
@@ -733,7 +811,10 @@ function predictorFor(ctx, roundConfig, lock, { chm, entries, referee }) {
     return w => {
       const entry = entries.get(w.id);
       const fractions = [...new Set([...REFINE_FRACTIONS, lock.selected.refine.photo?.fraction ?? REFINE_DEFAULTS.photo.fraction])];
-      return confirmedFromPrepared(entry, lock.selected.parameters, prepareRefined(entry, lock.selected.parameters, referee(), fractions), lock.selected.refine, centresNear(centres, entry.cropped.grid), field, lock.selected.fuse);
+      const prepared = prepareRefined(entry, lock.selected.parameters, referee(), fractions);
+      /* a round-5 lock adds the width split */
+      if (lock.selected.split) return splitFromPrepared(entry, lock.selected.parameters, prepared, lock.selected.refine, centresNear(centres, entry.cropped.grid), field, lock.selected.fuse, lock.selected.split, lock.selected.typical);
+      return confirmedFromPrepared(entry, lock.selected.parameters, prepared, lock.selected.refine, centresNear(centres, entry.cropped.grid), field, lock.selected.fuse);
     };
   }
   if (roundConfig.detector === 'refined') {

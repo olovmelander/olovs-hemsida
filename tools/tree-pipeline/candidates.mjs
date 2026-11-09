@@ -120,13 +120,13 @@ export function buildCandidates(ctx) {
     return { centres: photoCentres(loadPhotoCrowns(file).crowns), field: relief.campaigns[ctx.presence.key].field };
   };
   const detected = fused
-    ? (() => { const photo = fusedPhoto(); return detectTreesFused(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine), photo.centres, photo.field, lock.selected.fuse, { smoothChmFn: smoothChm, overSegmentedTops, suppressedTops, REFINE_DEFAULTS }); })()
+    ? (() => { const photo = fusedPhoto(); return detectTreesFused(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine), photo.centres, photo.field, lock.selected.fuse, { smoothChmFn: smoothChm, overSegmentedTops, suppressedTops, REFINE_DEFAULTS, split: lock.selected.split || null, typical: lock.selected.typical || null }); })()
     : refined
     ? detectTreesRefined(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine))
     : typed
       ? detectTreesTyped(grid, chm.values, typeMapEarly, lock.selected.parameters)
       : detectTreesV2(grid, chm.values, { parameters: lock.selected.parameters });
-  if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered${fused ? `, ${detected.confirmed} confirmed by a photo crown` : ''}`);
+  if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered${fused ? `, ${detected.confirmed} confirmed by a photo crown` : ''}${detected.split ? `, ${detected.split} split from crowns too wide for one tree` : ''}`);
   const position = c => (typed ? c.position : lock.selected.position === 'centroid' ? c.centroid : c.apex);
   const positionWord = typed ? 'per-type position (conifer and broadleaf: crown centroid)' : lock.selected.position;
   /* owned by the inner window as the table records it (2 decimals): a crown

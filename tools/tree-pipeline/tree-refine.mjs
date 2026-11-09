@@ -61,14 +61,17 @@ export function detectTreesTypedWithSeeds(grid, chm, typeMap, parameters, { surf
       const height = smooth[t][extra.index];
       if (!(height > 0)) continue;
       taken.add(extra.index);
-      maxima.push(Object.freeze({ column: extra.column, row: extra.row, index: extra.index, height, windowRadiusMetres: 0, type: t, recovered: true }));
+      /* a protected seed (round 5's width split) is never merged into a
+         taller neighbour as a shallow crown: the split already tested its
+         own cone. Earlier rounds pass no protected seeds. */
+      maxima.push(Object.freeze({ column: extra.column, row: extra.row, index: extra.index, height, windowRadiusMetres: 0, type: t, recovered: true, ...(extra.protect ? { protect: true } : {}) }));
     }
   }
   const surface = new Float32Array(chm.length);
   for (let i = 0; i < chm.length; i++) surface[i] = typeMap[i] === TYPE_BROADLEAF ? smooth[TYPE_BROADLEAF][i] : smooth[TYPE_CONIFER][i];
   const shared = parameters.shared;
   const labels = growCrownsSimultaneous(grid, surface, maxima, { seedFraction: shared.seedFraction, crownFraction: shared.crownFraction, maximumCrownRadiusMetres: shared.maximumCrownRadiusMetres, minimumHeightMetres: 2, excludeMask });
-  const threshold = lower => { const p = byType[lower.type]; return Math.max(p.prominenceMetres, p.prominenceFraction * lower.height); };
+  const threshold = lower => { if (lower.protect) return 0; const p = byType[lower.type]; return Math.max(p.prominenceMetres, p.prominenceFraction * lower.height); };
   const anyMerge = [parameters.conifer, parameters.broadleaf].some(p => p.prominenceMetres > 0 || p.prominenceFraction > 0);
   const merged = anyMerge ? mergeShallowCrowns(grid, surface, labels, maxima, threshold) : 0;
   const split = parameters.split && parameters.split.areaFactor > 0
