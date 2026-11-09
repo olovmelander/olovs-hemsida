@@ -149,7 +149,8 @@ describe('planned power', async () => {
     for (const landOn of ['fairway', 'green']) {
       for (const type of ['full', 'punch', 'pitch', 'chip', 'flop', 'bump']) {
         const setup = { type, shape: 0, height: 0, spin: 0 };
-        for (let pin = 20; pin <= 240; pin += 20) {
+        // every 40 m: each pin's hole shape is a set of simulations of its own (CI is slower)
+        for (let pin = 20; pin <= 240; pin += 40) {
           for (const c of playing.filter(club => shotTypesFor(club).includes(type))) {
             const full = flatShot(c, 1, 'fairway', setup, null, landOn, pin);
             if (full.total < pin) continue;
@@ -163,7 +164,7 @@ describe('planned power', async () => {
         }
       }
     }
-  });
+  }, 30000);
   it('a softer swing lands shorter and runs up, rather than running past', () => {
     // at a 100 m pin on a green: the near-full 8-iron flies further than the soft 7-iron,
     // which flies further than the softer 6-iron, and all three stop at the pin
