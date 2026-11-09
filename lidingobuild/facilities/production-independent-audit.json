@@ -34,11 +34,11 @@
   ],
   "details": {
     "asset": {
-      "path": "apps/golf/public/models/lidingo/facilities-2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a.glb",
-      "sha256": "2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a",
-      "bytes": 6192028,
+      "path": "apps/golf/public/models/lidingo/facilities-284ac1d116ec2a1c694f54c10364fe893fe009992cd8a4501d7bf5b5770c8018.glb",
+      "sha256": "284ac1d116ec2a1c694f54c10364fe893fe009992cd8a4501d7bf5b5770c8018",
+      "bytes": 6507488,
       "manifestPath": "apps/golf/public/models/lidingo/facilities-v1.json",
-      "manifestSha256": "1ca799fa7d04522a3a9765cf91e5c84f6c1d4b988624dbc96892ba4442d97148",
+      "manifestSha256": "2103cbc5f108a9c07a325bc436cbafa1e9b5b2cf9282571c6b4d42ced89315b0",
       "terrainChunkSha256": [
         "55e5f0cf32c85bf3e1d8fbabaa11a6765b7278fd5ce89beda71fc69b54b3f425",
         "44a3535888b55d784289880c865970272345de9fc9e775e28837baa927b7ca2f",
@@ -50,17 +50,17 @@
       "receipts": [
         {
           "path": "lidingobuild/architecture-fixture.mjs",
-          "sha256": "77a90875c8457c078e837fa68e740ec5aa1ebcdc2aa685d14e032a0d46d16cd4",
+          "sha256": "113d8d83e03a48b100dfd7d41ceae8feb3c43984331e15f33803125258ba89e3",
           "preserved": true
         },
         {
           "path": "apps/golf/src/engine/scenery/lidingo-architecture.js",
-          "sha256": "c06f5db203aee0d185ca2585bd6c6fe0966fdf2c22a9070b5ba322678bf48542",
+          "sha256": "5d571a5aefb2bdaa534ceaf81b7d9a2c5739151b862857781f2d0931b71014b9",
           "preserved": true
         },
         {
           "path": "apps/golf/public/courses/lidingo/pack.bin",
-          "sha256": "d25dfe74f48cb6584221c727735d0604d21729524b6d1d2b6e52796910f527c9",
+          "sha256": "a4b7d09c4cdf6f5f71e18b6693cd340581cc7b91d03c165740cda02bde5ec16f",
           "preserved": true
         },
         {
@@ -70,7 +70,7 @@
         },
         {
           "path": "lidingobuild/mapping/building-roof-meshes.json",
-          "sha256": "4f25c1495768b4defe359c0b068a0df76667363e6fa67128f8602b34b3402934",
+          "sha256": "b4fba5a233fc72f168ceb0fd337f5aa43ed860c736c46afe6763e8447c10bd9a",
           "preserved": true
         },
         {
@@ -94,16 +94,16 @@
           "preserved": true
         }
       ],
-      "referencePayloadSha256": "e5c13386bf057b72f83248e987980fcbd4b4f038ed197d8472de0934019f6ea5",
+      "referencePayloadSha256": "1fa8cac87956719b31ec5f3c34d23790cdc4b97c4661ae476f4c797facbc85b3",
       "sourceRoofBuildings": 5,
       "sourceRoofTriangles": 7069,
       "sourceGeometryModified": false
     },
     "GLB is static self-contained geometry without imagery or reference meshes": {
       "topLevelFacilities": 21,
-      "nodes": 212,
-      "materials": 111,
-      "meshPrimitives": 191,
+      "nodes": 218,
+      "materials": 114,
+      "meshPrimitives": 197,
       "primitiveBudget": 256,
       "images": 0,
       "drawcallNote": "Mesh/material primitives before renderer shadow passes and batching."
@@ -128,7 +128,7 @@
           "sourceBuildingIds": [
             "way/32262183"
           ],
-          "nodeName": "lidingo_clubhouse-restaurant.001_asset",
+          "nodeName": "lidingo_clubhouse-restaurant_asset",
           "meshes": 44,
           "triangles": 10255,
           "shift": 0,
@@ -154,7 +154,7 @@
           "sourceBuildingIds": [
             "way/32262176"
           ],
-          "nodeName": "lidingo_clubhouse-pavilion.001_asset",
+          "nodeName": "lidingo_clubhouse-pavilion_asset",
           "meshes": 21,
           "triangles": 13326,
           "shift": 0,
@@ -180,7 +180,7 @@
           "sourceBuildingIds": [
             "way/32262169"
           ],
-          "nodeName": "lidingo_clubhouse-annex.001_asset",
+          "nodeName": "lidingo_clubhouse-annex_asset",
           "meshes": 19,
           "triangles": 5924,
           "shift": 0,
@@ -204,7 +204,7 @@
         {
           "id": "courtyard",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_courtyard.001_asset",
+          "nodeName": "lidingo_courtyard_asset",
           "meshes": 17,
           "triangles": 6980,
           "shift": 0,
@@ -228,7 +228,7 @@
         {
           "id": "clubhouse-green-kerb-and-rope",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_clubhouse-green-kerb-and-rope.001_asset",
+          "nodeName": "lidingo_clubhouse-green-kerb-and-rope_asset",
           "meshes": 4,
           "triangles": 5732,
           "shift": 0,
@@ -252,7 +252,7 @@
         {
           "id": "clubhouse-courtyard-entrance",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_clubhouse-courtyard-entrance.001_asset",
+          "nodeName": "lidingo_clubhouse-courtyard-entrance_asset",
           "meshes": 6,
           "triangles": 1640,
           "shift": 0,
@@ -278,9 +278,9 @@
           "sourceBuildingIds": [
             "way/26408210"
           ],
-          "nodeName": "lidingo_range-west-barn.001_asset",
-          "meshes": 9,
-          "triangles": 3781,
+          "nodeName": "lidingo_range-west-barn_asset",
+          "meshes": 11,
+          "triangles": 5353,
           "shift": 0,
           "mode": "absolute-rh2000",
           "terrainHeight": 21.836778571557353,
@@ -288,14 +288,14 @@
           "groundResidualMetres": 0,
           "boundsBeforePlacement": {
             "min": [
-              -71.08304595947266,
+              -71.52232360839844,
               21.292762756347656,
-              115.85847473144531
+              115.50384521484375
             ],
             "max": [
               -51.636260986328125,
-              35.559139251708984,
-              157.39801025390625
+              35.57209777832031,
+              157.7522735595703
             ]
           }
         },
@@ -304,9 +304,9 @@
           "sourceBuildingIds": [
             "way/26408211"
           ],
-          "nodeName": "lidingo_range-east-barn.001_asset",
-          "meshes": 10,
-          "triangles": 3470,
+          "nodeName": "lidingo_range-east-barn_asset",
+          "meshes": 14,
+          "triangles": 6026,
           "shift": 0,
           "mode": "absolute-rh2000",
           "terrainHeight": 21.52012791038254,
@@ -314,14 +314,14 @@
           "groundResidualMetres": 0,
           "boundsBeforePlacement": {
             "min": [
-              -27.05375862121582,
+              -27.54163932800293,
               20.693500518798828,
-              100.23238372802734
+              99.81565856933594
             ],
             "max": [
-              -4.952463150024414,
-              33.3300666809082,
-              135.35714721679688
+              -4.470367908477783,
+              33.33436965942383,
+              135.7739715576172
             ]
           }
         },
@@ -330,7 +330,7 @@
           "sourceBuildingIds": [
             "way/221846983"
           ],
-          "nodeName": "lidingo_range-side-small-shed.001_asset",
+          "nodeName": "lidingo_range-side-small-shed_asset",
           "meshes": 4,
           "triangles": 742,
           "shift": 0,
@@ -356,7 +356,7 @@
           "sourceBuildingIds": [
             "way/40895787"
           ],
-          "nodeName": "lidingo_south-practice-small-building.001_asset",
+          "nodeName": "lidingo_south-practice-small-building_asset",
           "meshes": 4,
           "triangles": 1726,
           "shift": 0,
@@ -380,7 +380,7 @@
         {
           "id": "range-north-covered-bays",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-north-covered-bays.001_asset",
+          "nodeName": "lidingo_range-north-covered-bays_asset",
           "meshes": 7,
           "triangles": 770,
           "shift": 0,
@@ -404,7 +404,7 @@
         {
           "id": "range-south-covered-bays",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-south-covered-bays.001_asset",
+          "nodeName": "lidingo_range-south-covered-bays_asset",
           "meshes": 7,
           "triangles": 1706,
           "shift": 0,
@@ -428,7 +428,7 @@
         {
           "id": "range-north-ball-hut",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-north-ball-hut.001_asset",
+          "nodeName": "lidingo_range-north-ball-hut_asset",
           "meshes": 9,
           "triangles": 582,
           "shift": 0,
@@ -452,7 +452,7 @@
         {
           "id": "range-south-shelter-end-hut",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-south-shelter-end-hut.001_asset",
+          "nodeName": "lidingo_range-south-shelter-end-hut_asset",
           "meshes": 4,
           "triangles": 790,
           "shift": 0,
@@ -476,7 +476,7 @@
         {
           "id": "range-north-open-mats",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-north-open-mats.001_asset",
+          "nodeName": "lidingo_range-north-open-mats_asset",
           "meshes": 5,
           "triangles": 480,
           "shift": 0,
@@ -500,7 +500,7 @@
         {
           "id": "range-south-open-mats",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-south-open-mats.001_asset",
+          "nodeName": "lidingo_range-south-open-mats_asset",
           "meshes": 5,
           "triangles": 600,
           "shift": 0,
@@ -524,7 +524,7 @@
         {
           "id": "range-west-safety-net",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-west-safety-net.001_asset",
+          "nodeName": "lidingo_range-west-safety-net_asset",
           "meshes": 2,
           "triangles": 8820,
           "shift": 0,
@@ -548,7 +548,7 @@
         {
           "id": "range-road-safety-net",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_range-road-safety-net.001_asset",
+          "nodeName": "lidingo_range-road-safety-net_asset",
           "meshes": 3,
           "triangles": 9988,
           "shift": 0,
@@ -572,7 +572,7 @@
         {
           "id": "upper-parking-central-markings",
           "sourceBuildingIds": [],
-          "nodeName": "lidingo_upper-parking-central-markings.001_asset",
+          "nodeName": "lidingo_upper-parking-central-markings_asset",
           "meshes": 1,
           "triangles": 504,
           "shift": 0,
@@ -642,9 +642,9 @@
           }
         }
       ],
-      "meshes": 191,
-      "triangles": 78148,
-      "assetSha256": "2cfb8d8bb367df7a92efb51d06c3f99fe71e02661916bb752eb34c3d7cfcd39a",
+      "meshes": 197,
+      "triangles": 82276,
+      "assetSha256": "284ac1d116ec2a1c694f54c10364fe893fe009992cd8a4501d7bf5b5770c8018",
       "triangleBudget": 200000,
       "meshBudget": 256
     },
@@ -813,19 +813,24 @@
         "sourceRoofMinimumRH2000": 25.174,
         "sourceRoofMaximumRH2000": 35.87,
         "modelMinimumRH2000": 21.292762756347656,
-        "modelMaximumRH2000": 35.559139251708984,
-        "maximumHeightDifferenceMetres": -0.31086074829101307,
+        "modelMaximumRH2000": 35.57209777832031,
+        "maximumHeightDifferenceMetres": -0.29790222167968494,
         "note": "Broad 4m sanity tolerance permits authored chimneys/vents; this is not a survey fit metric.",
         "authoredParts": [
           "corrugated metal roof standing seams",
           "dark downpipe",
+          "dark fascia and barge boards",
+          "door dark reveal",
+          "door inset face",
           "low dark foundation band",
           "lower horizontal boarding joints",
+          "roof overhangs past the walls",
           "subtle vertical timber board joints",
           "way/26408210 closed-wall",
           "way/26408210 fascia",
           "way/26408210 roof-plane",
           "way/26408210 soffit",
+          "white door trim",
           "white window trim",
           "window dark reveal",
           "window inset face"
@@ -837,10 +842,11 @@
           "references": [
             "commons-Sticklinge-g-rds-lada-2020a-jpg",
             "gallery-2026-gfx28464",
-            "range-buildings-detail-lm-2025"
+            "range-buildings-detail-lm-2025",
+            "owner-photo-2026-11-09-hole1-dawn"
           ],
           "sourceDateRange": "2020 photos /2021 laser/2025 ortho/2026 gallery",
-          "estimated": "Facade openings, siding relief, roof seams and fixture dimensions are appearance estimates.",
+          "estimated": "Facade openings, siding relief, roof seams and fixture dimensions are appearance estimates. Eave and gable overhangs, door and hatch trim and the wall unit follow the owner photograph of 9 November 2026; their dimensions are estimates.",
           "use": "west range barn; current internal functions not reassigned from historical labels"
         }
       },
@@ -850,17 +856,22 @@
         "sourceRoofMinimumRH2000": 24.479,
         "sourceRoofMaximumRH2000": 33.32,
         "modelMinimumRH2000": 20.693500518798828,
-        "modelMaximumRH2000": 33.3300666809082,
-        "maximumHeightDifferenceMetres": 0.01006668090820284,
+        "modelMaximumRH2000": 33.33436965942383,
+        "maximumHeightDifferenceMetres": 0.01436965942382784,
         "note": "Broad 4m sanity tolerance permits authored chimneys/vents; this is not a survey fit metric.",
         "authoredParts": [
           "corrugated metal roof standing seams",
           "dark downpipe",
+          "dark fascia and barge boards",
           "door dark reveal",
           "door handle",
           "door inset face",
+          "hatch dark reveal",
+          "hatch inset face",
+          "heat pump fan grille",
           "low dark foundation band",
           "lower horizontal boarding joints",
+          "roof overhangs past the walls",
           "south gable pale welcome plaque",
           "south gable service door",
           "subtle vertical timber board joints",
@@ -868,6 +879,8 @@
           "way/26408211 fascia",
           "way/26408211 roof-plane",
           "way/26408211 soffit",
+          "white door trim",
+          "white heat pump outdoor unit",
           "white window trim",
           "window dark reveal",
           "window inset face"
@@ -879,17 +892,18 @@
           "references": [
             "commons-Sticklinge-g-rds-lada-2020a-jpg",
             "gallery-2026-gfx28464",
-            "range-buildings-detail-lm-2025"
+            "range-buildings-detail-lm-2025",
+            "owner-photo-2026-11-09-hole1-dawn"
           ],
           "sourceDateRange": "2020 photos /2021 laser/2025 ortho/2026 gallery",
-          "estimated": "Facade openings, siding relief, roof seams and fixture dimensions are appearance estimates.",
+          "estimated": "Facade openings, siding relief, roof seams and fixture dimensions are appearance estimates. Eave and gable overhangs, door and hatch trim and the wall unit follow the owner photograph of 9 November 2026; their dimensions are estimates.",
           "use": "east range-road barn; current internal functions not reassigned from historical labels"
         }
       }
     ],
     "Real parsed asset rejects duplicate facility children without replacing source geometry": {
       "fallback": true,
-      "reason": "Facility node is missing or duplicated: lidingo_clubhouse-restaurant.001_asset",
+      "reason": "Facility node is missing or duplicated: lidingo_cafe-9_asset",
       "sourceBuildingsReplaced": 0
     },
     "Source data and retained roof inspection remain intact after load and disposal": {

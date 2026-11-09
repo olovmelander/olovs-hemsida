@@ -135,6 +135,62 @@ def surface_box(ctx,parent,name,p,z,size,yaw,color):
     return ctx.box(parent,name,[p[0],p[1],z],size,color,yaw=yaw)
 
 
+def hexa(batch,corners,z_bottom,z_top):
+    """A six-sided slab over four corners (any order round the outline) with per-corner heights."""
+    area=sum(corners[i][0]*corners[(i+1)%4][1]-corners[(i+1)%4][0]*corners[i][1] for i in range(4))
+    order=[0,1,2,3] if area>0 else [3,2,1,0]
+    start=len(batch.vertices)
+    batch.vertices.extend([[*corners[i][:2],z_bottom[i]] for i in order]+[[*corners[i][:2],z_top[i]] for i in order])
+    batch.faces.extend([tuple(start+j for j in f) for f in [(3,2,1,0),(0,1,5,4),(1,2,6,5),(2,3,7,6),(3,0,4,7),(4,5,6,7)]])
+
+
+def overhangs(ctx,parent,roof,point,u,v,width,length,eave=.45,gable=.3,thick=.14):
+    """Eaves and gable overhangs continuing the retained roof planes past the walls, with a dark fascia
+    and barge boards. The retained envelope stops flush at the walls, which made the barns read as boxes;
+    the owner photograph of 9 November 2026 shows black roofs well over the walls on every side."""
+    slabs=Batch(); boards=Batch()
+    def z_at(s,t):
+        """The roof's height over (s, t): inside the walls as retained, past an eave down its own slope."""
+        t=min(max(t,.03),length-.03)
+        if 0<s<width: return roof(*point(s,t))
+        inner,deeper=(.03,.6) if s<=0 else (width-.03,width-.6)
+        z0,z1=roof(*point(inner,t)),roof(*point(deeper,t))
+        if z0 is None or z1 is None: return None
+        return z0-(z1-z0)/abs(deeper-inner)*abs(s-inner)
+    def P(s,t): return point(s,t)
+    # the long sides: from gable wall to gable wall (the gable slabs take the corners)
+    steps=max(2,math.ceil(length/1.0))
+    for side,(s_in,s_out) in (('west',(.03,-eave)),('east',(width-.03,width+eave))):
+        for k in range(steps):
+            t0,t1=.03+(length-.06)*k/steps,.03+(length-.06)*(k+1)/steps
+            zs=[z_at(s_in,t0),z_at(s_in,t1),z_at(s_out,t1),z_at(s_out,t0)]
+            if None in zs: continue
+            top=[z+.03 for z in zs]
+            hexa(slabs,[P(s_in,t0),P(s_in,t1),P(s_out,t1),P(s_out,t0)],[z-thick for z in top],top)
+            f_out=s_out+(-.04 if side=='west' else .04)
+            hexa(boards,[P(s_out,t0),P(s_out,t1),P(f_out,t1),P(f_out,t0)],[top[3]-.24,top[2]-.24,top[2]-.24,top[3]-.24],[top[3]+.03,top[2]+.03,top[2]+.03,top[3]+.03])
+    # the gables: across the whole width and both eaves, following the roof's profile
+    fine=[-eave+(width+2*eave)*i/240 for i in range(241)]
+    for end,(t_in,t_out) in (('north',(.03,-gable)),('south',(length-.03,length+gable))):
+        heights=[z_at(s,t_in) for s in fine]
+        valid=[(s,z) for s,z in zip(fine,heights) if z is not None]
+        if len(valid)<2: continue
+        ridge=max(valid,key=lambda q:q[1])[0]
+        # cuts closer than a centimetre are one cut: in the GLB's 32-bit floats they would collapse a slab
+        cuts=[]
+        for c in sorted([-eave,width+eave,ridge]+[-eave+(width+2*eave)*i/16 for i in range(17)]):
+            if not cuts or c-cuts[-1]>.01: cuts.append(c)
+        for s0,s1 in zip(cuts,cuts[1:]):
+            z0,z1=z_at(s0,t_in),z_at(s1,t_in)
+            if z0 is None or z1 is None: continue
+            top=[z0+.03,z1+.03,z1+.03,z0+.03]
+            hexa(slabs,[P(s0,t_in),P(s1,t_in),P(s1,t_out),P(s0,t_out)],[z-thick for z in top],top)
+            b_out=t_out+(-.04 if end=='north' else .04)
+            hexa(boards,[P(s0,t_out),P(s1,t_out),P(s1,b_out),P(s0,b_out)],[z0-.21,z1-.21,z1-.21,z0-.21],[z0+.06,z1+.06,z1+.06,z0+.06])
+    slabs.emit(ctx,parent,'roof overhangs past the walls',ROOF,.6,.25)
+    boards.emit(ctx,parent,'dark fascia and barge boards',0x2B3236,.7)
+
+
 def barn(ctx,record):
     identifier=record['id']; ring=source_ring(ctx,identifier)
     evidence=dict(status='photo-informed-display-model',footprint='exact retained '+identifier,
@@ -143,6 +199,12 @@ def barn(ctx,record):
         sourceDateRange='2020 photos /2021 laser/2025 ortho/2026 gallery',
         estimated='Facade openings, siding relief, roof seams and fixture dimensions are appearance estimates.',
         use=record['role']+'; current internal functions not reassigned from historical labels')
+    # Owner reference photograph of 9 November 2026 (hole 1 from the clubhouse at dawn): the east barn's
+    # north gable and road-side west wall in falu red under a black roof with overhanging eaves, its four
+    # big doors framed in white, a small hatch high in the gable and a white wall unit near the eave; the
+    # west barn beyond with a white-framed door in its north gable.
+    evidence['references']=evidence['references']+['owner-photo-2026-11-09-hole1-dawn']
+    evidence['estimated']=evidence['estimated']+' Eave and gable overhangs, door and hatch trim and the wall unit follow the owner photograph of 9 November 2026; their dimensions are estimates.'
     parent=ctx.facility('range-west-barn' if identifier.endswith('210') else 'range-east-barn',[identifier],ring,evidence)
     ctx.import_parts(parent,identifier,omit_parts=('facade-glazing',),recolor={'closed-wall':RED,'roof-plane':ROOF,'fascia':STEEL,'soffit':RED_DARK})
     roof=roof_sampler(ctx,identifier)
@@ -151,15 +213,18 @@ def barn(ctx,record):
     for a,b in zip(ring,ring[1:]+ring[:1]):
         length=dist(a,b); tangent=[(b[i]-a[i])/length for i in range(2)]
         normal=[-tangent[1],tangent[0]] if clockwise else [tangent[1],-tangent[0]]
-        for j in range(1,max(2,math.ceil(length/.32))):
-            t=j/max(2,math.ceil(length/.32)); p=lerp(a,b,t)
+        # Board and batten above the photographed lower horizontal boarding (2.45 m): battens every
+        # half metre, proud of the boards, so the wall reads as vertical red boarding and not as a grid.
+        n=max(2,math.ceil(length/.52))
+        for j in range(1,n):
+            t=j/n; p=lerp(a,b,t)
             top=roof(*p)
             if top is None: continue
-            bottom=ctx.ground(*p)+.08
+            bottom=ctx.ground(*p)+2.45
             if top-bottom<.4: continue
-            p1=[p[k]+normal[k]*.027-tangent[k]*.016 for k in range(2)]
-            p2=[p[k]+normal[k]*.027+tangent[k]*.016 for k in range(2)]
-            boards.quad([[*p1,bottom],[*p2,bottom],[*p2,top-.12],[*p1,top-.12]])
+            p1=[p[k]+normal[k]*.034-tangent[k]*.028 for k in range(2)]
+            p2=[p[k]+normal[k]*.034+tangent[k]*.028 for k in range(2)]
+            boards.quad([[*p1,bottom],[*p2,bottom],[*p2,top-.14],[*p1,top-.14]])
         for t in [.24,.48,.72,.96,1.20,1.44,1.68,1.92,2.16,2.4]:
             a2=[a[i]+normal[i]*.04 for i in range(2)]; b2=[b[i]+normal[i]*.04 for i in range(2)]
             # Photo-documented horizontal lower boarding; follow ground at edge ends for a restrained relief line.
@@ -184,6 +249,17 @@ def barn(ctx,record):
             ribbing.quad([[p0[0]-v[0]*.022,p0[1]-v[1]*.022,z0+.024],[p1[0]-v[0]*.022,p1[1]-v[1]*.022,z1+.024],
                          [p1[0]+v[0]*.022,p1[1]+v[1]*.022,z1+.024],[p0[0]+v[0]*.022,p0[1]+v[1]*.022,z0+.024]])
     ribbing.emit(ctx,parent,'corrugated metal roof standing seams',0x566166,.48,.45)
+    overhangs(ctx,parent,roof,point,u,v,width,length)
+
+    def framed(p,z0,w,h,along,thick=.1,proud=.06,normal=None):
+        """White trim round an opening: lintel, sill-less sides; `along` is the wall's run (u or v)."""
+        def at(dw,dn=0): return [p[i]+along[i]*dw+(normal[i]*dn if normal else 0) for i in range(2)]
+        across=[along[1],-along[0]]
+        yaw_along=math.atan2(along[1],along[0])
+        ctx.box(parent,'white door trim',[*at(0),z0+h+thick/2],[w+2*thick,proud,thick],WHITE,yaw=yaw_along)
+        for sign in (-1,1):
+            ctx.box(parent,'white door trim',[*at(sign*(w/2+thick/2)),z0+h/2],[thick,proud,h],WHITE,yaw=yaw_along)
+        return across
 
     def side_opening(side,t,w,h,kind='door',base=0):
         s=-.065 if side=='west' else width+.065
@@ -201,11 +277,27 @@ def barn(ctx,record):
         if kind=='door':
             handle=[p2[i]+v[i]*w*.32 for i in range(2)]
             surface_box(ctx,parent,'door handle',handle,ground+base+min(h*.45,1.1),[.085,.05,.18],yaw,GALV)
+            # the photographed white frames round the big doors, and a white mid-line on a pair of leaves
+            out=-.085 if side=='west' else .085
+            p3=[p[i]+u[i]*out for i in range(2)]
+            framed(p3,ground+base,w,h,v)
+            if w>1.8: surface_box(ctx,parent,'white door trim',p3,ground+base+h/2,[.06,.07,h],yaw,WHITE)
         else:
             for z in [ground+base,ground+base+h]: surface_box(ctx,parent,'white window trim',p2,z,[.075,w+.12,.07],yaw,WHITE)
             for sign in [-1,1]:
                 q=[p2[i]+v[i]*sign*w/2 for i in range(2)]
                 surface_box(ctx,parent,'white window trim',q,ground+base+h/2,[.075,.07,h],yaw,WHITE)
+    def gable_opening(end,s,w,h,z0,kind):
+        """A door or hatch in the north (t=0) or south (t=length) gable, framed in white."""
+        t,out=(-.07,-1) if end=='north' else (length+.07,1)
+        p=point(s,t)
+        color=RED_DARK if kind=='door' else GLASS
+        surface_box(ctx,parent,kind+' dark reveal',p,z0+h/2,[w+.14,.075,h+.12],yaw,STEEL)
+        q=[p[i]+v[i]*out*.045 for i in range(2)]
+        surface_box(ctx,parent,kind+' inset face',q,z0+h/2,[w,.035,h],yaw,color)
+        q2=[p[i]+v[i]*out*.085 for i in range(2)]
+        framed(q2,z0,w,h,u)
+        if kind!='door': surface_box(ctx,parent,'white window trim',q2,z0,[w+.2,.07,.09],yaw,WHITE)
     if identifier=='way/26408211':
         for t in [.16,.35,.56,.79]: side_opening('west',t,2.3,2.25)
         for t in [.27,.78]: side_opening('west',t,.8,1.35,'window',4.0)
@@ -215,9 +307,19 @@ def barn(ctx,record):
         surface_box(ctx,parent,'south gable pale welcome plaque',p,ground+5.15,[2.15,.09,1.32],yaw,WHITE)
         p=point(width*.86,length+.07)
         surface_box(ctx,parent,'south gable service door',p,ctx.ground(*p)+1.1,[.93,.09,2.2],yaw,RED_DARK)
+        # The small hatch high in the north gable (owner photograph of 9 November 2026).
+        mid=point(width*.5,.05); g=ctx.ground(*mid); top=roof(*mid)
+        if top is not None: gable_opening('north',width*.5,.9,.8,g+(top-g)*.62,'hatch')
+        # The white wall unit near the eave at the south end of the road-side west wall (same photograph).
+        p=point(-.26,length*.9); top=roof(*point(.05,length*.9))
+        if top is not None:
+            surface_box(ctx,parent,'white heat pump outdoor unit',p,top-1.05,[.36,.86,.62],yaw,0xE4E5DF)
+            surface_box(ctx,parent,'heat pump fan grille',[p[0]-u[0]*.19,p[1]-u[1]*.19],top-1.05,[.02,.5,.5],yaw,0x2E3436)
     else:
         for t in [.18,.48,.78]: side_opening('east',t,2.1,2.1)
         for t in [.27,.69]: side_opening('west',t,.72,1.0,'window',4.2)
+        # The white-framed door in the north gable (owner photograph of 9 November 2026).
+        p=point(width*.3,0); gable_opening('north',width*.3,1.0,2.1,ctx.ground(*p)+.05,'door')
     # Real rainwater details; positions are corner appearance estimates.
     for side in [0,width]:
         p=point(side,.35); z=roof(*p)
