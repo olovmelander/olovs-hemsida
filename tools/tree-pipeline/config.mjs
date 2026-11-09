@@ -188,11 +188,21 @@ export function validateGroundConfig(config, { groundId = null } = {}) {
     p.check(finite(t.unknownBelowConfidence) && t.unknownBelowConfidence >= 0.5 && t.unknownBelowConfidence < 1, 'typeRule.unknownBelowConfidence must be in [0.5, 1)');
   }
 
-  if (keys(p, config.holds, ['poleLike', 'note'], 'holds')) {
+  if (keys(p, config.holds, ['poleLike', 'bank', 'note'], 'holds')) {
     const pole = config.holds.poleLike;
     if (pole !== null && keys(p, pole, ['maximumRadiusMetres', 'minimumHeightMetres'], 'holds.poleLike')) {
       p.check(finite(pole.maximumRadiusMetres) && pole.maximumRadiusMetres > 0 && finite(pole.minimumHeightMetres) && pole.minimumHeightMetres > 0,
         'holds.poleLike needs maximumRadiusMetres and minimumHeightMetres (null switches the hold off, recorded as such)');
+    }
+    /* the bank rule (optional): a crown over mapped water, a path, a road or a played surface whose laser crown reaches land gets its stem on the bank */
+    const bank = config.holds.bank;
+    if (bank !== undefined && bank !== null && keys(p, bank, ['surfaces', 'insetMetres', 'reachMetres', 'groundReturnsForLand', 'minimumPresenceVegetatedShare', 'note'], 'holds.bank')) {
+      const allowed = ['water', 'path', 'road', 'railway', 'green', 'tee', 'bunker', 'fairway', 'practice'];
+      p.check(Array.isArray(bank.surfaces) && bank.surfaces.length > 0 && bank.surfaces.every(s => allowed.includes(s)), `holds.bank.surfaces must list some of ${allowed.join(', ')} (never building: roofs are canopy in the pit-free CHM; buildings are decided in hold-review.json)`);
+      p.check(finite(bank.insetMetres) && bank.insetMetres >= 0 && bank.insetMetres <= 2, 'holds.bank.insetMetres must be 0-2 m');
+      p.check(bank.reachMetres === undefined || (finite(bank.reachMetres) && bank.reachMetres >= 0 && bank.reachMetres <= 3), 'holds.bank.reachMetres must be 0-3 m');
+      p.check(bank.groundReturnsForLand === undefined || (Number.isInteger(bank.groundReturnsForLand) && bank.groundReturnsForLand >= 0), 'holds.bank.groundReturnsForLand must be a whole number of ground returns (0 or absent: off)');
+      p.check(finite(bank.minimumPresenceVegetatedShare) && bank.minimumPresenceVegetatedShare >= 0 && bank.minimumPresenceVegetatedShare < 1, 'holds.bank.minimumPresenceVegetatedShare must be a share in [0, 1)');
     }
   }
 

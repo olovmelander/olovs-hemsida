@@ -1,0 +1,80 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-pipeline-receipt",
+ "stage": "benchmark-score",
+ "groundId": "johannesberg",
+ "reviewId": "review-2026-11-08",
+ "round": "r5",
+ "ranAt": "2026-11-09T08:58:03.191Z",
+ "node": "v24.20.0",
+ "config": {
+  "path": "course-workflows/johannesberg/trees.json",
+  "bytes": 18011,
+  "sha256": "2049bcdd24536295e9ddb8ed05950a50a9a52f3f1e95eb3edd28a19a69d05c6d"
+ },
+ "options": {},
+ "code": {
+  "tools/tree-pipeline.mjs": "c419a6413f86669ed13333ca3ddc67255c3fae77d5d6da5f9616384fc3f58d3b",
+  "tools/tree-pipeline/config.mjs": "3611017508c4d67d577ec4090b87e597eb7a3ec52e47b1e69523a18ad38ac49c",
+  "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
+  "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
+  "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
+  "tools/tree-pipeline/receipts.mjs": "5a39a00b0abecb6be297d492ccbe3adec66c69cf0b8b4bc961606bebe138ecdf",
+  "tools/tree-pipeline/ortho-store.mjs": "cc7549657c67ad161a9b7fb331dd086be8c2b6bdcda04ea8c7f7288029746dec",
+  "tools/tree-pipeline/panels.mjs": "62ca86da7231a277aaf0a2014dd2392bb9ee802330e5d4281db3250484770a55",
+  "tools/tree-pipeline/crown-evidence.mjs": "b01687228bb0c91910a51f4201f39a52577ef6c9f7d2b8bd02e4859edb80afec",
+  "tools/tree-pipeline/published-population.mjs": "c8687b7ce8511b776acdb517a7db9ac7292c970bebf4af2028fb968397f76ff2",
+  "tools/tree-pipeline/geometry.mjs": "d439ca94bb2d7e93a6cf5609feb77bdb81ce5a84aa1bb68b7e59daaddb39c4b9",
+  "tools/tree-pipeline/acquire.mjs": "c37a324e6c87860bf9e27f3fc08314a8fef4a458de821d29966bdf9f0e82c140",
+  "tools/tree-pipeline/canopy.mjs": "c89e0a6df9e10d67452b02ae661c3bdd7a2ec20edb2009a97977f002cf849e8a",
+  "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
+  "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
+  "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
+  "tools/tree-pipeline/benchmark.mjs": "51d9ffcb76c86a02375357b58b99ed734d5b0047168a9a8269bf2e2969812d56",
+  "tools/tree-pipeline/candidates.mjs": "ae6263e1f406d9f01c74178ce14169a614be20c4a7fdab9e9008a1f3de9fafb7",
+  "tools/tree-pipeline/review.mjs": "866f1f19ed528033ec403ed1697953ddcbeb611d514e45e4a3b69b6cd9bca3dc",
+  "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
+  "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
+  "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
+  "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
+  "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
+  "packages/course-v2/vegetation/crown-detect.mjs": "11ccb9dbe344c6626e3dc9acbdf836c92128b34d14ad88f417ab589b324d8fac",
+  "packages/course-v2/vegetation/canopy-fields.mjs": "0cdfb031f0584b81d177695b6efca5105606ff25c2cc3df50952dce142f2dc6c",
+  "packages/course-geo/copc-reader/canopy-build.mjs": "3a28170b067f1d9a798ca6d28a5f2a8606e0ea36e06786d8ca427dfc612570cf"
+ },
+ "inputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/detector-lock-r5.json",
+   "bytes": 9008,
+   "sha256": "18cc9e04c58394a15561d42145373d5228672fa9606e66f16e9d8517760b39ae"
+  },
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/reference-lock-r5.json",
+   "bytes": 4830,
+   "sha256": "e6b2caa0dd88b21b6b3189ecd819a45e87268fc35c82496b83b98307aa6f38db"
+  },
+  {
+   "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/chm-pitfree-050.bin",
+   "bytes": 75203584,
+   "sha256": "db3d556302bd139e69e86ac764a28aad46837686adc85567dab7298d3c487746"
+  }
+ ],
+ "outputs": [
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/benchmark-r5.json",
+   "bytes": 795221,
+   "sha256": "6416800a6b9ea2fc44c29cbb8c50f7a952ebef468e9a0ecb19109e4029513855"
+  }
+ ],
+ "result": {
+  "evaluation": {
+   "tp": 97,
+   "missed": 23,
+   "extra": 12,
+   "precision": 0.89,
+   "recall": 0.808,
+   "f1": 0.847
+  }
+ }
+}

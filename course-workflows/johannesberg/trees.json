@@ -83,7 +83,7 @@
       "id": "r5", "sampleSuffix": "-r5", "detector": "fused", "startFrom": "r3",
       "methodName": "round5-detector",
       "roles": ["calibration", "used-holdout", "evaluation"], "evaluationRole": "evaluation",
-      "note": "round 5 (owner request of 2026-11-09, \"Do whats recommended to improve the tree placements, pipeline and agent\"): every crown missed on W1-W5 and X1-X5 stood within 7 m of a drawn crown (two trees drawn as one), so the round-4 lock is extended by a photo split: a photo crown no laser top claims may seed a tree inside laser canopy too wide for one tree of its height. The W and X windows, spent as held-out samples, become calibration; a third new unseen held-out sample (Y1-Y8, with shore and garden windows) is frozen before any round-5 code runs; round 4 (live) and round 5 are each scored once on it"
+      "note": "round 5 (owner request of 2026-11-09, \"Do whats recommended to improve the tree placements, pipeline and agent\"): every crown missed on W1-W5 and X1-X5 stood within 7 m of a drawn crown (two trees drawn as one), so the round-4 lock is extended by a photo split: a photo crown no laser top claims may seed a tree inside laser canopy too wide for one tree of its height. The W and X windows, spent as held-out samples, become calibration; a third new unseen held-out sample (Y1-Y8, with shore and garden windows) is frozen before any round-5 code runs; round 4 (live) and round 5 are each scored once on it. Scored 2026-11-09 on Y1-Y8 (120 crowns): round 5 P 0.890 R 0.808 F1 0.847 against round 4 P 0.948 R 0.758 F1 0.843. Round 5 beats round 4 on F1 and recall but its precision is below the declared 0.95, so it does not replace round 4: 9 of its 12 extras are splits of barn roofs in the farmyard window Y8 (the candidates stage holds crowns on mapped buildings, but the declared rule scores the detector). The trees stay at round 4's detector (activeRound r4b)"
     }
   ],
   "photoDetect": {
@@ -128,6 +128,14 @@
   },
   "holds": {
     "poleLike": { "maximumRadiusMetres": 1, "minimumHeightMetres": 5 },
+    "bank": {
+      "surfaces": ["water", "path", "road", "railway", "green", "tee", "bunker", "fairway", "practice"],
+      "insetMetres": 0.5,
+      "reachMetres": 1.5,
+      "groundReturnsForLand": 2,
+      "minimumPresenceVegetatedShare": 0.15,
+      "note": "On since 2026-11-09 (owner report: shore trees missing at the 18th; owner request \"Do whats recommended\"). A crown centroid over mapped water, a path, a road or a played surface is a tree leaning over it when its own laser crown reaches land: the stem moves to the nearest crown cell 0.5 m clear of every mapped surface (else to laser canopy of at least 2 m within 1.5 m of its crown); inside a traced water outline, a cell where the laser hit ground at least twice within 0.75 m is bank, since water returns almost no pulses and an outline can lie metres over its bank (about 4 m at the 18th), if the June 2025 crown disc is vegetated (the no-vegetation hold's 0.15). Buildings are decided on the chips (hold-review.json): roofs are canopy in the pit-free CHM."
+    },
     "note": "On since round 3 (owner request of 2026-11-08 relayed in the round-3 brief: poles and masts must not be drawn as trees). Round 2 was published without it (138 such placed crowns, 35 near play). Every held crown is decided on the photo chips in pole-review.json."
   },
   "review": {
