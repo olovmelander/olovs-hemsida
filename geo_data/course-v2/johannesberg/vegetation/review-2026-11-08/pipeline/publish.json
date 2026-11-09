@@ -5,17 +5,17 @@
  "groundId": "johannesberg",
  "reviewId": "review-2026-11-08",
  "round": null,
- "ranAt": "2026-11-08T23:09:07.306Z",
+ "ranAt": "2026-11-09T09:19:34.047Z",
  "node": "v24.20.0",
  "config": {
   "path": "course-workflows/johannesberg/trees.json",
-  "bytes": 16672,
-  "sha256": "8734b966330642fbb53085fc8de8477884ce5c1b824f094492f7bd594959fc2f"
+  "bytes": 19836,
+  "sha256": "0d4ddfe580a8b3fa6df47a9da0df1fd1961b47bdcce677efa99b0ee27ef68d8e"
  },
  "options": {},
  "code": {
   "tools/tree-pipeline.mjs": "c419a6413f86669ed13333ca3ddc67255c3fae77d5d6da5f9616384fc3f58d3b",
-  "tools/tree-pipeline/config.mjs": "3611017508c4d67d577ec4090b87e597eb7a3ec52e47b1e69523a18ad38ac49c",
+  "tools/tree-pipeline/config.mjs": "1be739f53ccd6609513605df7fbd5e89bcb6c4348dd13367e19d32d3a678a933",
   "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
   "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
   "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
@@ -30,12 +30,12 @@
   "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
   "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
   "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
-  "tools/tree-pipeline/benchmark.mjs": "39cc660d8b09390aa63cedc7e65b182f702dabc249ffb529165902aaaef579bc",
-  "tools/tree-pipeline/candidates.mjs": "6fabf29fee58a69980b9cdede5b74cfbef65e2706561d4a3d220ac363ccce9fc",
-  "tools/tree-pipeline/review.mjs": "866f1f19ed528033ec403ed1697953ddcbeb611d514e45e4a3b69b6cd9bca3dc",
+  "tools/tree-pipeline/benchmark.mjs": "51d9ffcb76c86a02375357b58b99ed734d5b0047168a9a8269bf2e2969812d56",
+  "tools/tree-pipeline/candidates.mjs": "790ecd9b7adcf2e682224a186c27d8b9e42fcbec496a71c4cef0a917d629115a",
+  "tools/tree-pipeline/review.mjs": "9ec7d0288c7e77198e5b77dd7d1f08e7ad1dce817a2a6df4c7b191a8b46e014d",
   "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
   "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
-  "tools/tree-pipeline/tree-refine.mjs": "abcfad3d065eedaed2838885a55b82ef8b7e71a6f75f7e479334464befe1652c",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
   "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
   "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
   "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
@@ -46,8 +46,8 @@
  "inputs": [
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
-   "bytes": 3824117,
-   "sha256": "2c856dfd5b6c1315a74ffc19cf39bd590b890c0ffb9c65ab95e61631a25b4bea"
+   "bytes": 3825041,
+   "sha256": "4e0faa7d8786a684daa9200e353472735dec2b36739918d36f9c54f1e8e503fc"
   },
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/residual-chm-050.bin",
@@ -61,15 +61,15 @@
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/review-checklist.json",
-   "bytes": 5289,
-   "sha256": "8ba1dc92bde458c4d9c2132f0b28b4e286a8645ee797551c6272a790c49f0445"
+   "bytes": 5853,
+   "sha256": "f9bc98c879299ffc64e18589c35e760de9c612d587b0833c906e91db55d1464e"
   }
  ],
  "outputs": [
   {
    "path": "output/course-workflow/johannesberg/reviewed-compile/staging-verification.json",
    "bytes": 1409,
-   "sha256": "2c41c827aa73e8673cf0e0fa574c3040a50bdc048ed186cb862a2a6035aa0675"
+   "sha256": "da2bad3f713471dc1ce1c62c51290ccdd988731d9668a153be599795d7d7c309"
   }
  ],
  "result": {
@@ -97,15 +97,15 @@
   },
   "integrity": true,
   "counts": {
-   "trees": 44409,
+   "trees": 44458,
    "typed": {
-    "conifer": 24943,
-    "broadleaf": 2918,
-    "null": 16548
+    "conifer": 24953,
+    "broadleaf": 2938,
+    "null": 16567
    },
    "play": {
-    "near": 6590,
-    "woodland": 25483,
+    "near": 6608,
+    "woodland": 25514,
     "none": 12336
    },
    "objectTiles": 233,

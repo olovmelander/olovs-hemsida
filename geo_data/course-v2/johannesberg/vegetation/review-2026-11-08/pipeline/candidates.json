@@ -5,17 +5,17 @@
  "groundId": "johannesberg",
  "reviewId": "review-2026-11-08",
  "round": null,
- "ranAt": "2026-11-08T23:07:56.221Z",
+ "ranAt": "2026-11-09T09:24:21.558Z",
  "node": "v24.20.0",
  "config": {
   "path": "course-workflows/johannesberg/trees.json",
-  "bytes": 16672,
-  "sha256": "8734b966330642fbb53085fc8de8477884ce5c1b824f094492f7bd594959fc2f"
+  "bytes": 19836,
+  "sha256": "0d4ddfe580a8b3fa6df47a9da0df1fd1961b47bdcce677efa99b0ee27ef68d8e"
  },
  "options": {},
  "code": {
   "tools/tree-pipeline.mjs": "c419a6413f86669ed13333ca3ddc67255c3fae77d5d6da5f9616384fc3f58d3b",
-  "tools/tree-pipeline/config.mjs": "3611017508c4d67d577ec4090b87e597eb7a3ec52e47b1e69523a18ad38ac49c",
+  "tools/tree-pipeline/config.mjs": "1be739f53ccd6609513605df7fbd5e89bcb6c4348dd13367e19d32d3a678a933",
   "tools/tree-pipeline/stages.mjs": "0a98b71ced8dafa54be0dc368354a0ed9519321c2ee34a4e94c07d3fed8cf106",
   "tools/tree-pipeline/gate.mjs": "165baac530a6afd3027d2b992ebb760e3386ae83e6c2614cae119b42fed8cdb9",
   "tools/tree-pipeline/source-policy.mjs": "67d87ee6a272deca043407a8a9bfac880695ffac0d20b3f1feea36012c2e7524",
@@ -30,12 +30,12 @@
   "tools/tree-pipeline/detect.mjs": "7d5bc6fb57648f2a74d632901c7931c2637c9aded068642261fba5d152953c88",
   "tools/tree-pipeline/verify.mjs": "bfa5d026a34bd2d151f2838e5b6b851dddfa888f0b438455ebad4f6bb81f6919",
   "tools/tree-pipeline/reference.mjs": "c48cb835f53d693f17d9b8233069d9f7758e413f6a19b5287b0e0b9b5b2f8839",
-  "tools/tree-pipeline/benchmark.mjs": "39cc660d8b09390aa63cedc7e65b182f702dabc249ffb529165902aaaef579bc",
-  "tools/tree-pipeline/candidates.mjs": "6fabf29fee58a69980b9cdede5b74cfbef65e2706561d4a3d220ac363ccce9fc",
-  "tools/tree-pipeline/review.mjs": "866f1f19ed528033ec403ed1697953ddcbeb611d514e45e4a3b69b6cd9bca3dc",
+  "tools/tree-pipeline/benchmark.mjs": "51d9ffcb76c86a02375357b58b99ed734d5b0047168a9a8269bf2e2969812d56",
+  "tools/tree-pipeline/candidates.mjs": "790ecd9b7adcf2e682224a186c27d8b9e42fcbec496a71c4cef0a917d629115a",
+  "tools/tree-pipeline/review.mjs": "9ec7d0288c7e77198e5b77dd7d1f08e7ad1dce817a2a6df4c7b191a8b46e014d",
   "tools/tree-pipeline/publish.mjs": "055505fa2332fd627465fd27e32b71883c90f590b9e018622c2e3fbf3f9b7835",
   "tools/tree-pipeline/relief.mjs": "9cc2b4ea3db9a4afb1c0f4ca09839d8b0eab4e7f102411d303a843cdcfb2b28e",
-  "tools/tree-pipeline/tree-refine.mjs": "abcfad3d065eedaed2838885a55b82ef8b7e71a6f75f7e479334464befe1652c",
+  "tools/tree-pipeline/tree-refine.mjs": "516c828f85c33586e2bd3ef2aa228d6b8deb5d8259b20ef1b90c2e6c69b619ef",
   "tools/tree-pipeline/subtype.mjs": "806afc8eeed48dc0d29adfd8ba0d9b70f09434a4560a7b295c5ad06e1469c845",
   "packages/course-v2/vegetation/pit-free-chm.mjs": "d43317bfd98714467edd8e717202d7a1cf028ba6edce9be2ddfd734d16cd33ea",
   "packages/course-v2/vegetation/tree-detect-v2.mjs": "c90eec72e45a7c849716b21c73032ccd7564d8d0cafdf84f6367952f59426b01",
@@ -61,13 +61,18 @@
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/felling-review.json",
-   "bytes": 21743,
-   "sha256": "ecf8e6c58124ad4192d974ae182ddc1a789bc69fd121559d57a60db93b52df9e"
+   "bytes": 21923,
+   "sha256": "eb8ae75f2428b6f8a83acd523f31f22d3fa95927251086ee0774f5a8f72c8cd1"
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/pole-review.json",
    "bytes": 184155,
    "sha256": "7906f05672b3ad9193f9d98c282260c5b2c338f9ea3db8b74ea36b008752c211"
+  },
+  {
+   "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/hold-review.json",
+   "bytes": 41992,
+   "sha256": "b73a85effb4988ec238646087c01f33f01df2fa9380395b04f79c9769c54406a"
   },
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/rasters/chm-pitfree-050.bin",
@@ -83,13 +88,13 @@
  "outputs": [
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates.csv",
-   "bytes": 3824117,
-   "sha256": "2c856dfd5b6c1315a74ffc19cf39bd590b890c0ffb9c65ab95e61631a25b4bea"
+   "bytes": 3825041,
+   "sha256": "4e0faa7d8786a684daa9200e353472735dec2b36739918d36f9c54f1e8e503fc"
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/candidates-summary.json",
-   "bytes": 7260,
-   "sha256": "6f7556f3c6223e8dd1c6c051fbd25dfbffe57f478fd69ea7455facdfdf18048f"
+   "bytes": 8987,
+   "sha256": "2769a678fb6bc2ba8b4e1130c61f68abe2dd3aac8687ca0bf42b8aeb8fdcd99b"
   },
   {
    "path": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/unresolved.json",
@@ -98,18 +103,18 @@
   },
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/candidates/candidates-full.json",
-   "bytes": 37750795,
-   "sha256": "948e9177ed2797d192dcafb1f6e5511bcd0503c0dc9c48f01d65eaa6c42c4a0d"
+   "bytes": 37753694,
+   "sha256": "2bb778671553c89d61729ec8de19a7703e78a99aee6eba2071cb167c7a0be8a5"
   },
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/candidates/candidates-outlines.geojson",
-   "bytes": 16164425,
-   "sha256": "39a6bbe950c63e83a858ef4e4b8740e1e78bb4d32432422644c81da4d65947c5"
+   "bytes": 16165312,
+   "sha256": "bf11ef3f6e04868ab39eb4912444e9029de09cc742ed363416cfed8fa4dbe635"
   },
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/candidates/felling-screen.json",
    "bytes": 10646,
-   "sha256": "07706061ffe19ceb68629d4adf8ae34fa1ff4ded1db51a9d5cbba931a67af181"
+   "sha256": "fc10290028fce816e35ca91990e60ab530efa6e27c13e0a3a0d97310b35bd8d4"
   },
   {
    "path": "johannesbergbuild/cache/trees-2026-11-08/candidates/pole-screen.json",
@@ -130,26 +135,26 @@
  "result": {
   "round": "r4b",
   "byDecision": {
-   "adjust": 5377,
+   "adjust": 5380,
    "retain": 21783,
-   "add": 4913,
-   "hold": 255,
-   "not-placed": 39,
+   "add": 4959,
+   "not-placed": 133,
    "remove": 3,
-   "merge": 64
+   "hold": 112,
+   "merge": 63
   },
   "placedByType": {
-   "conifer": 24943,
-   "unknown": 4212,
-   "broadleaf": 2918
+   "conifer": 24953,
+   "unknown": 4231,
+   "broadleaf": 2938
   },
   "fellingScreen": {
    "screened": 67,
    "byVerdict": {
     "absent": 16,
-    "unclear": 17,
+    "unclear": 16,
     "structure": 14,
-    "present": 20
+    "present": 21
    }
   },
   "poleScreen": {

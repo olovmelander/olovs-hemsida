@@ -1,0 +1,1591 @@
+{
+ "schemaVersion": 1,
+ "kind": "tree-hold-review",
+ "reviewedAt": "2026-11-09T09:12:05.263Z",
+ "reviewer": "agent-led visual review (Claude, main session) of compact chips (June 2025 colour and April 2021 colour infrared at native 0.16 m, centred between the laser base and the displaced top); not a field check",
+ "screen": "hold-screen.json of the round-4 candidates (bank rule on): crowns on a mapped building and crowns with no June 2025 vegetation in the crown disc",
+ "verdicts": {
+  "bank": "a tree beside the building: its stem moves to the nearest cell of its own crown (or laser canopy within holds.bank.reachMetres) clear of every mapped surface, and it is placed",
+  "present": "a crown stands in June 2025 (mostly conifers in shade, red in the April 2021 colour infrared): placed",
+  "absent": "stood in April 2021, gone in June 2025: not placed / removed (the owner confirms the list)",
+  "not-tree": "a roof, shed, vehicle or post the canopy model kept: not placed / removed",
+  "unclear": "held"
+ },
+ "counts": {
+  "building:not-tree": 82,
+  "no-vegetation:not-tree": 16,
+  "building:unclear": 3,
+  "no-vegetation:unclear": 45,
+  "no-vegetation:present": 14,
+  "building:bank": 10,
+  "no-vegetation:absent": 4
+ },
+ "decisions": {
+  "678409.2_6624980.7": {
+   "index": 1,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678409.18,
+   "northing": 6624980.68,
+   "heightMetres": 6
+  },
+  "678410.4_6624547.6": {
+   "index": 2,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678410.39,
+   "northing": 6624547.56,
+   "heightMetres": 8.18
+  },
+  "678413.1_6624554.2": {
+   "index": 3,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678413.13,
+   "northing": 6624554.22,
+   "heightMetres": 8.88
+  },
+  "678420.1_6624907.0": {
+   "index": 4,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678420.08,
+   "northing": 6624907.02,
+   "heightMetres": 8.72
+  },
+  "678424.5_6625011.1": {
+   "index": 5,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 678424.48,
+   "northing": 6625011.11,
+   "heightMetres": 3.05
+  },
+  "678427.6_6625007.0": {
+   "index": 6,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 678427.6,
+   "northing": 6625007,
+   "heightMetres": 4.36
+  },
+  "678427.8_6625013.3": {
+   "index": 7,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 678427.75,
+   "northing": 6625013.25,
+   "heightMetres": 4.44
+  },
+  "678429.3_6625009.8": {
+   "index": 8,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 678429.25,
+   "northing": 6625009.75,
+   "heightMetres": 4.31
+  },
+  "678432.9_6624309.6": {
+   "index": 9,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678432.89,
+   "northing": 6624309.59,
+   "heightMetres": 8.55
+  },
+  "678441.8_6624348.3": {
+   "index": 10,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678441.79,
+   "northing": 6624348.33,
+   "heightMetres": 4.77
+  },
+  "678443.1_6624973.9": {
+   "index": 11,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678443.09,
+   "northing": 6624973.88,
+   "heightMetres": 7.8
+  },
+  "678449.4_6624321.5": {
+   "index": 12,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678449.36,
+   "northing": 6624321.5,
+   "heightMetres": 9.11
+  },
+  "678463.0_6624304.9": {
+   "index": 13,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678463.04,
+   "northing": 6624304.94,
+   "heightMetres": 7.35
+  },
+  "678470.9_6624318.1": {
+   "index": 14,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678470.94,
+   "northing": 6624318.13,
+   "heightMetres": 9.6
+  },
+  "678475.7_6624368.8": {
+   "index": 15,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678475.72,
+   "northing": 6624368.81,
+   "heightMetres": 8.31
+  },
+  "678481.9_6624344.9": {
+   "index": 16,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678481.95,
+   "northing": 6624344.92,
+   "heightMetres": 7.55
+  },
+  "678481.9_6624365.1": {
+   "index": 17,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678481.93,
+   "northing": 6624365.1,
+   "heightMetres": 8.79
+  },
+  "678518.8_6624922.3": {
+   "index": 18,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678518.81,
+   "northing": 6624922.32,
+   "heightMetres": 9.19
+  },
+  "678527.8_6624969.3": {
+   "index": 19,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678527.75,
+   "northing": 6624969.32,
+   "heightMetres": 5.86
+  },
+  "678535.8_6624968.8": {
+   "index": 20,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678535.75,
+   "northing": 6624968.75,
+   "heightMetres": 5.65
+  },
+  "678538.8_6624967.6": {
+   "index": 21,
+   "kind": "building",
+   "verdict": "unclear",
+   "note": "leafless branches over a barn roof in April 2021 (a tree or its shadow); no crown over the roof in June 2025",
+   "easting": 678538.83,
+   "northing": 6624967.64,
+   "heightMetres": 6.06
+  },
+  "678539.9_6624975.4": {
+   "index": 22,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678539.95,
+   "northing": 6624975.41,
+   "heightMetres": 4.66
+  },
+  "678540.4_6624964.6": {
+   "index": 23,
+   "kind": "building",
+   "verdict": "unclear",
+   "note": "leafless branches by the barn in April 2021; grass in June 2025",
+   "easting": 678540.41,
+   "northing": 6624964.63,
+   "heightMetres": 8.1
+  },
+  "678572.7_6624798.0": {
+   "index": 24,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 678572.7,
+   "northing": 6624797.97,
+   "heightMetres": 3.74
+  },
+  "678576.5_6624318.5": {
+   "index": 25,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a small shrub on rock",
+   "easting": 678576.51,
+   "northing": 6624318.46,
+   "heightMetres": 3.96
+  },
+  "678612.0_6624923.2": {
+   "index": 26,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678611.98,
+   "northing": 6624923.22,
+   "heightMetres": 5.67
+  },
+  "678634.8_6624908.3": {
+   "index": 27,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678634.77,
+   "northing": 6624908.31,
+   "heightMetres": 5.27
+  },
+  "678663.9_6624577.9": {
+   "index": 28,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a red crown in April 2021; dry ground and a dark spot in June 2025",
+   "easting": 678663.91,
+   "northing": 6624577.92,
+   "heightMetres": 4.56
+  },
+  "678684.6_6624555.0": {
+   "index": 29,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a small conifer: red in the April 2021 colour infrared, a dark crown in June 2025",
+   "easting": 678684.63,
+   "northing": 6624554.97,
+   "heightMetres": 5.09
+  },
+  "678684.6_6625013.7": {
+   "index": 30,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678684.6,
+   "northing": 6625013.74,
+   "heightMetres": 5.39
+  },
+  "678714.4_6624953.8": {
+   "index": 31,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 678714.37,
+   "northing": 6624953.84,
+   "heightMetres": 3.77
+  },
+  "678715.6_6624984.8": {
+   "index": 32,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678715.58,
+   "northing": 6624984.81,
+   "heightMetres": 6.8
+  },
+  "678717.1_6624975.6": {
+   "index": 33,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678717.13,
+   "northing": 6624975.6,
+   "heightMetres": 6.59
+  },
+  "678719.9_6624944.8": {
+   "index": 34,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678719.95,
+   "northing": 6624944.75,
+   "heightMetres": 3.56
+  },
+  "678749.6_6624806.9": {
+   "index": 35,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a 15.5 m leafless broadleaf over the roof in April 2021 and a green crown at its edge in June 2025: a tree beside the house",
+   "easting": 678749.58,
+   "northing": 6624806.87,
+   "heightMetres": 15.47
+  },
+  "678756.6_6624771.1": {
+   "index": 36,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678756.58,
+   "northing": 6624771.09,
+   "heightMetres": 5.73
+  },
+  "678780.6_6624921.5": {
+   "index": 37,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678780.62,
+   "northing": 6624921.47,
+   "heightMetres": 7.12
+  },
+  "678785.7_6624764.2": {
+   "index": 38,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 678785.65,
+   "northing": 6624764.17,
+   "heightMetres": 3.22
+  },
+  "678793.3_6624765.3": {
+   "index": 39,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678793.25,
+   "northing": 6624765.25,
+   "heightMetres": 3.93
+  },
+  "678794.3_6624767.8": {
+   "index": 40,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678794.25,
+   "northing": 6624767.75,
+   "heightMetres": 3.93
+  },
+  "678799.0_6624769.8": {
+   "index": 41,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678799,
+   "northing": 6624769.75,
+   "heightMetres": 4.04
+  },
+  "678800.4_6624901.9": {
+   "index": 42,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678800.4,
+   "northing": 6624901.89,
+   "heightMetres": 4.02
+  },
+  "678802.8_6624765.3": {
+   "index": 43,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678802.75,
+   "northing": 6624765.25,
+   "heightMetres": 3.69
+  },
+  "678830.3_6624886.7": {
+   "index": 44,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678830.31,
+   "northing": 6624886.69,
+   "heightMetres": 6.98
+  },
+  "678843.1_6624863.5": {
+   "index": 45,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678843.06,
+   "northing": 6624863.54,
+   "heightMetres": 4.02
+  },
+  "678853.8_6624737.1": {
+   "index": 46,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678853.77,
+   "northing": 6624737.09,
+   "heightMetres": 4.25
+  },
+  "678868.5_6624724.8": {
+   "index": 47,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678868.52,
+   "northing": 6624724.85,
+   "heightMetres": 4.83
+  },
+  "678882.3_6624921.0": {
+   "index": 48,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678882.29,
+   "northing": 6624921.02,
+   "heightMetres": 3.8
+  },
+  "678891.5_6624845.0": {
+   "index": 49,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678891.5,
+   "northing": 6624845.01,
+   "heightMetres": 3.69
+  },
+  "678895.6_6624869.6": {
+   "index": 50,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678895.61,
+   "northing": 6624869.57,
+   "heightMetres": 6.43
+  },
+  "678916.6_6624912.1": {
+   "index": 51,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678916.61,
+   "northing": 6624912.06,
+   "heightMetres": 3.93
+  },
+  "678922.8_6624915.2": {
+   "index": 52,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678922.85,
+   "northing": 6624915.16,
+   "heightMetres": 4.07
+  },
+  "678949.5_6624835.6": {
+   "index": 53,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678949.54,
+   "northing": 6624835.64,
+   "heightMetres": 7.91
+  },
+  "678956.0_6626230.5": {
+   "index": 54,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "an 11.7 m crown of trees over a small mapped building; no roof shows through in either photo",
+   "easting": 678956.02,
+   "northing": 6626230.51,
+   "heightMetres": 11.72
+  },
+  "678961.3_6626217.5": {
+   "index": 55,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "green canopy in June 2025 beside a small structure; trees in April 2021",
+   "easting": 678961.29,
+   "northing": 6626217.5,
+   "heightMetres": 7.9
+  },
+  "678972.5_6624804.6": {
+   "index": 56,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678972.51,
+   "northing": 6624804.58,
+   "heightMetres": 5.45
+  },
+  "678980.9_6624683.8": {
+   "index": 57,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a conifer beside the shed (red in the April 2021 colour infrared, dark green in June 2025)",
+   "easting": 678980.94,
+   "northing": 6624683.8,
+   "heightMetres": 5.58
+  },
+  "678980.9_6624798.6": {
+   "index": 58,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 678980.9,
+   "northing": 6624798.62,
+   "heightMetres": 5.5
+  },
+  "678989.0_6624674.8": {
+   "index": 59,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a bush-like tree beside the building, vegetated in both photos",
+   "easting": 678989.01,
+   "northing": 6624674.85,
+   "heightMetres": 4.62
+  },
+  "678990.7_6624670.3": {
+   "index": 60,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a round tree beside the building, vegetated in both photos",
+   "easting": 678990.7,
+   "northing": 6624670.26,
+   "heightMetres": 5.62
+  },
+  "679002.8_6624771.3": {
+   "index": 61,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679002.8,
+   "northing": 6624771.3,
+   "heightMetres": 9.49
+  },
+  "679126.6_6624380.3": {
+   "index": 62,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679126.58,
+   "northing": 6624380.3,
+   "heightMetres": 4.13
+  },
+  "679132.5_6624354.3": {
+   "index": 63,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade under conifers; no crown of its own",
+   "easting": 679132.53,
+   "northing": 6624354.35,
+   "heightMetres": 4.16
+  },
+  "679138.9_6624356.2": {
+   "index": 64,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679138.91,
+   "northing": 6624356.15,
+   "heightMetres": 9.49
+  },
+  "679142.0_6624369.5": {
+   "index": 65,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade under conifers; no crown of its own",
+   "easting": 679142.03,
+   "northing": 6624369.45,
+   "heightMetres": 4.75
+  },
+  "679144.6_6624354.6": {
+   "index": 66,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a round dark crown in June 2025, red in April 2021",
+   "easting": 679144.64,
+   "northing": 6624354.62,
+   "heightMetres": 7.75
+  },
+  "679145.6_6625974.0": {
+   "index": 67,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "at a pond edge by a gravel heap",
+   "easting": 679145.59,
+   "northing": 6625973.98,
+   "heightMetres": 4.98
+  },
+  "679157.3_6625940.5": {
+   "index": 68,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a small object by the water: a post or a shrub",
+   "easting": 679157.31,
+   "northing": 6625940.48,
+   "heightMetres": 4.37
+  },
+  "679164.1_6624463.3": {
+   "index": 69,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath with small crowns",
+   "easting": 679164.11,
+   "northing": 6624463.31,
+   "heightMetres": 3.32
+  },
+  "679170.3_6624391.1": {
+   "index": 70,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath with small crowns",
+   "easting": 679170.3,
+   "northing": 6624391.06,
+   "heightMetres": 5.43
+  },
+  "679171.7_6624459.9": {
+   "index": 71,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer: red in April 2021, green-grey in June 2025",
+   "easting": 679171.65,
+   "northing": 6624459.87,
+   "heightMetres": 5.63
+  },
+  "679175.7_6624469.0": {
+   "index": 72,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679175.74,
+   "northing": 6624468.95,
+   "heightMetres": 8.36
+  },
+  "679178.8_6624461.1": {
+   "index": 73,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679178.79,
+   "northing": 6624461.12,
+   "heightMetres": 7.14
+  },
+  "679188.2_6626301.5": {
+   "index": 74,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679188.22,
+   "northing": 6626301.51,
+   "heightMetres": 3.76
+  },
+  "679192.3_6626164.6": {
+   "index": 75,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679192.32,
+   "northing": 6626164.63,
+   "heightMetres": 8.43
+  },
+  "679194.7_6624460.8": {
+   "index": 76,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679194.7,
+   "northing": 6624460.81,
+   "heightMetres": 9.69
+  },
+  "679196.6_6624453.1": {
+   "index": 77,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679196.63,
+   "northing": 6624453.13,
+   "heightMetres": 6.93
+  },
+  "679209.0_6626173.9": {
+   "index": 78,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679209.02,
+   "northing": 6626173.9,
+   "heightMetres": 11.97
+  },
+  "679211.5_6626152.7": {
+   "index": 79,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679211.51,
+   "northing": 6626152.74,
+   "heightMetres": 3.72
+  },
+  "679219.7_6626243.4": {
+   "index": 80,
+   "kind": "building",
+   "verdict": "unclear",
+   "note": "a 7 m object on a lawn by a shelter",
+   "easting": 679219.72,
+   "northing": 6626243.42,
+   "heightMetres": 7.16
+  },
+  "679253.3_6626242.3": {
+   "index": 81,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679253.25,
+   "northing": 6626242.25,
+   "heightMetres": 2.16
+  },
+  "679288.8_6625794.9": {
+   "index": 82,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade; no crown of its own",
+   "easting": 679288.75,
+   "northing": 6625794.94,
+   "heightMetres": 4.3
+  },
+  "679303.2_6626316.9": {
+   "index": 83,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679303.24,
+   "northing": 6626316.93,
+   "heightMetres": 9.77
+  },
+  "679311.9_6626304.8": {
+   "index": 84,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679311.94,
+   "northing": 6626304.75,
+   "heightMetres": 9.84
+  },
+  "679317.5_6626313.3": {
+   "index": 85,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679317.48,
+   "northing": 6626313.35,
+   "heightMetres": 4.57
+  },
+  "679317.7_6626164.1": {
+   "index": 86,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679317.74,
+   "northing": 6626164.12,
+   "heightMetres": 6.88
+  },
+  "679322.3_6626259.2": {
+   "index": 87,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679322.34,
+   "northing": 6626259.15,
+   "heightMetres": 17.81
+  },
+  "679328.1_6626272.7": {
+   "index": 88,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679328.1,
+   "northing": 6626272.71,
+   "heightMetres": 18.97
+  },
+  "679333.7_6624464.7": {
+   "index": 89,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a conifer beside the small building, vegetated in both photos",
+   "easting": 679333.67,
+   "northing": 6624464.67,
+   "heightMetres": 3.79
+  },
+  "679341.6_6626249.7": {
+   "index": 90,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679341.59,
+   "northing": 6626249.73,
+   "heightMetres": 10.66
+  },
+  "679342.1_6626204.3": {
+   "index": 91,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679342.12,
+   "northing": 6626204.28,
+   "heightMetres": 11.4
+  },
+  "679356.6_6626230.7": {
+   "index": 92,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679356.56,
+   "northing": 6626230.68,
+   "heightMetres": 11.51
+  },
+  "679370.0_6626245.3": {
+   "index": 93,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679369.98,
+   "northing": 6626245.3,
+   "heightMetres": 12.5
+  },
+  "679375.2_6626114.7": {
+   "index": 94,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679375.23,
+   "northing": 6626114.74,
+   "heightMetres": 7.67
+  },
+  "679385.9_6625910.2": {
+   "index": 95,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade; pink-red in April 2021",
+   "easting": 679385.89,
+   "northing": 6625910.16,
+   "heightMetres": 5.21
+  },
+  "679386.5_6625903.0": {
+   "index": 96,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade; pink-red in April 2021",
+   "easting": 679386.46,
+   "northing": 6625903.01,
+   "heightMetres": 5.12
+  },
+  "679388.8_6626303.5": {
+   "index": 97,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679388.83,
+   "northing": 6626303.55,
+   "heightMetres": 5.24
+  },
+  "679390.7_6625977.6": {
+   "index": 98,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a green crown in June 2025 beside the building, trees in April 2021",
+   "easting": 679390.67,
+   "northing": 6625977.64,
+   "heightMetres": 6.97
+  },
+  "679392.2_6626263.3": {
+   "index": 99,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679392.21,
+   "northing": 6626263.26,
+   "heightMetres": 12.53
+  },
+  "679395.7_6625978.2": {
+   "index": 100,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679395.7,
+   "northing": 6625978.23,
+   "heightMetres": 6.28
+  },
+  "679396.0_6626289.1": {
+   "index": 101,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679396.02,
+   "northing": 6626289.07,
+   "heightMetres": 6.97
+  },
+  "679401.6_6626182.1": {
+   "index": 102,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679401.59,
+   "northing": 6626182.12,
+   "heightMetres": 10.8
+  },
+  "679413.9_6626189.6": {
+   "index": 103,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679413.92,
+   "northing": 6626189.64,
+   "heightMetres": 10.87
+  },
+  "679439.1_6624591.7": {
+   "index": 104,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a 14 m conifer in deep shade among conifers: red crowns in April 2021, shade in June 2025",
+   "easting": 679439.06,
+   "northing": 6624591.71,
+   "heightMetres": 14.2
+  },
+  "679484.8_6626101.5": {
+   "index": 105,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679484.84,
+   "northing": 6626101.5,
+   "heightMetres": 8.66
+  },
+  "679490.8_6626098.8": {
+   "index": 106,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679490.75,
+   "northing": 6626098.75,
+   "heightMetres": 3.25
+  },
+  "679490.8_6626107.7": {
+   "index": 107,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679490.8,
+   "northing": 6626107.67,
+   "heightMetres": 13.29
+  },
+  "679508.5_6626135.4": {
+   "index": 108,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a dark heap or bush on grass",
+   "easting": 679508.46,
+   "northing": 6626135.39,
+   "heightMetres": 3.68
+  },
+  "679538.7_6626127.3": {
+   "index": 109,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679538.7,
+   "northing": 6626127.34,
+   "heightMetres": 3.55
+  },
+  "679541.0_6626122.0": {
+   "index": 110,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679540.96,
+   "northing": 6626121.95,
+   "heightMetres": 6.8
+  },
+  "679542.2_6626117.3": {
+   "index": 111,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679542.21,
+   "northing": 6626117.26,
+   "heightMetres": 4.42
+  },
+  "679545.3_6624659.8": {
+   "index": 112,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 2.6 m spot under conifers",
+   "easting": 679545.25,
+   "northing": 6624659.75,
+   "heightMetres": 2.57
+  },
+  "679565.9_6626065.4": {
+   "index": 113,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679565.92,
+   "northing": 6626065.42,
+   "heightMetres": 3.75
+  },
+  "679581.1_6626048.4": {
+   "index": 114,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679581.06,
+   "northing": 6626048.42,
+   "heightMetres": 5.93
+  },
+  "679600.8_6626138.8": {
+   "index": 115,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679600.75,
+   "northing": 6626138.75,
+   "heightMetres": 11.75
+  },
+  "679601.3_6626135.8": {
+   "index": 116,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679601.25,
+   "northing": 6626135.75,
+   "heightMetres": 9.54
+  },
+  "679601.4_6626150.7": {
+   "index": 117,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679601.44,
+   "northing": 6626150.73,
+   "heightMetres": 5.98
+  },
+  "679605.3_6626140.8": {
+   "index": 118,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679605.25,
+   "northing": 6626140.75,
+   "heightMetres": 11.78
+  },
+  "679610.8_6626142.3": {
+   "index": 119,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679610.75,
+   "northing": 6626142.25,
+   "heightMetres": 11.76
+  },
+  "679612.2_6626189.8": {
+   "index": 120,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679612.2,
+   "northing": 6626189.8,
+   "heightMetres": 13.03
+  },
+  "679612.8_6626149.1": {
+   "index": 121,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679612.77,
+   "northing": 6626149.14,
+   "heightMetres": 7.72
+  },
+  "679618.4_6624751.7": {
+   "index": 122,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 3.8 m top under conifers",
+   "easting": 679618.36,
+   "northing": 6624751.67,
+   "heightMetres": 3.78
+  },
+  "679633.6_6625466.7": {
+   "index": 123,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath",
+   "easting": 679633.64,
+   "northing": 6625466.69,
+   "heightMetres": 3.7
+  },
+  "679702.0_6625123.0": {
+   "index": 124,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 679701.98,
+   "northing": 6625123.04,
+   "heightMetres": 3.69
+  },
+  "679710.4_6624406.6": {
+   "index": 125,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679710.37,
+   "northing": 6624406.62,
+   "heightMetres": 7.57
+  },
+  "679716.0_6624403.8": {
+   "index": 126,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a conifer in shade: red in April 2021, a dark crown in June 2025",
+   "easting": 679715.97,
+   "northing": 6624403.83,
+   "heightMetres": 8.39
+  },
+  "679716.5_6624390.9": {
+   "index": 127,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a stem lying on the ground in both photos (fallen or felled?)",
+   "easting": 679716.46,
+   "northing": 6624390.92,
+   "heightMetres": 5.43
+  },
+  "679734.8_6626207.5": {
+   "index": 128,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679734.81,
+   "northing": 6626207.47,
+   "heightMetres": 6.42
+  },
+  "679737.8_6626171.2": {
+   "index": 129,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679737.75,
+   "northing": 6626171.23,
+   "heightMetres": 9.45
+  },
+  "679742.2_6626165.7": {
+   "index": 130,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679742.24,
+   "northing": 6626165.73,
+   "heightMetres": 11.05
+  },
+  "679746.9_6626225.9": {
+   "index": 131,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a 12.6 m broadleaf over the barn: leafless branches in April 2021, a green crown on the barn edge in June 2025",
+   "easting": 679746.88,
+   "northing": 6626225.9,
+   "heightMetres": 12.63
+  },
+  "679747.5_6626141.3": {
+   "index": 132,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679747.47,
+   "northing": 6626141.31,
+   "heightMetres": 9.74
+  },
+  "679751.8_6626135.5": {
+   "index": 133,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679751.85,
+   "northing": 6626135.55,
+   "heightMetres": 9.63
+  },
+  "679776.0_6626057.1": {
+   "index": 134,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679775.96,
+   "northing": 6626057.06,
+   "heightMetres": 8.55
+  },
+  "679783.6_6626056.7": {
+   "index": 135,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 679783.59,
+   "northing": 6626056.65,
+   "heightMetres": 10.3
+  },
+  "679784.4_6624463.9": {
+   "index": 136,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 3.3 m spot",
+   "easting": 679784.43,
+   "northing": 6624463.88,
+   "heightMetres": 3.29
+  },
+  "679785.6_6624458.5": {
+   "index": 137,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "rock and heath",
+   "easting": 679785.62,
+   "northing": 6624458.5,
+   "heightMetres": 3.37
+  },
+  "679787.7_6624449.2": {
+   "index": 138,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade",
+   "easting": 679787.68,
+   "northing": 6624449.16,
+   "heightMetres": 5.16
+  },
+  "679791.2_6624441.5": {
+   "index": 139,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade",
+   "easting": 679791.19,
+   "northing": 6624441.55,
+   "heightMetres": 4.94
+  },
+  "679793.3_6624463.8": {
+   "index": 140,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade",
+   "easting": 679793.28,
+   "northing": 6624463.75,
+   "heightMetres": 5.99
+  },
+  "679850.8_6624592.8": {
+   "index": 141,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 3.6 m spot",
+   "easting": 679850.75,
+   "northing": 6624592.75,
+   "heightMetres": 3.64
+  },
+  "679883.0_6624358.6": {
+   "index": 142,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a crown in shade: pink-red in April 2021, a dark crown in June 2025",
+   "easting": 679882.98,
+   "northing": 6624358.61,
+   "heightMetres": 8.59
+  },
+  "679900.8_6624341.3": {
+   "index": 143,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "pale ground with stems lying, a 10 m top in the laser",
+   "easting": 679900.85,
+   "northing": 6624341.35,
+   "heightMetres": 10.4
+  },
+  "679909.4_6624303.5": {
+   "index": 144,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "rock",
+   "easting": 679909.43,
+   "northing": 6624303.55,
+   "heightMetres": 6.76
+  },
+  "679921.2_6624314.5": {
+   "index": 145,
+   "kind": "no-vegetation",
+   "verdict": "absent",
+   "note": "thinned: a red conifer crown in April 2021, pale ground in June 2025",
+   "easting": 679921.21,
+   "northing": 6624314.53,
+   "heightMetres": 12.33
+  },
+  "679926.2_6624313.5": {
+   "index": 146,
+   "kind": "no-vegetation",
+   "verdict": "absent",
+   "note": "thinned: a red conifer crown in April 2021, pale ground in June 2025",
+   "easting": 679926.15,
+   "northing": 6624313.53,
+   "heightMetres": 15.25
+  },
+  "679934.5_6624312.3": {
+   "index": 147,
+   "kind": "no-vegetation",
+   "verdict": "absent",
+   "note": "thinned: a red conifer crown in April 2021, pale ground in June 2025",
+   "easting": 679934.5,
+   "northing": 6624312.26,
+   "heightMetres": 13.44
+  },
+  "679938.9_6624300.4": {
+   "index": 148,
+   "kind": "no-vegetation",
+   "verdict": "absent",
+   "note": "thinned: a red conifer crown in April 2021, pale ground in June 2025",
+   "easting": 679938.93,
+   "northing": 6624300.44,
+   "heightMetres": 15.36
+  },
+  "679960.5_6624291.0": {
+   "index": 149,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 3.1 m spot",
+   "easting": 679960.49,
+   "northing": 6624291,
+   "heightMetres": 3.14
+  },
+  "679985.6_6625068.4": {
+   "index": 150,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "red crowns beside it",
+   "easting": 679985.59,
+   "northing": 6625068.41,
+   "heightMetres": 4.46
+  },
+  "679986.2_6625062.8": {
+   "index": 151,
+   "kind": "no-vegetation",
+   "verdict": "present",
+   "note": "a green crown in June 2025, pink-red in April 2021",
+   "easting": 679986.15,
+   "northing": 6625062.79,
+   "heightMetres": 6.19
+  },
+  "679986.6_6625038.4": {
+   "index": 152,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "red crown beside it",
+   "easting": 679986.55,
+   "northing": 6625038.42,
+   "heightMetres": 5.84
+  },
+  "679989.8_6625067.8": {
+   "index": 153,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 3.3 m spot",
+   "easting": 679989.75,
+   "northing": 6625067.75,
+   "heightMetres": 3.29
+  },
+  "679997.5_6625062.6": {
+   "index": 154,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath",
+   "easting": 679997.52,
+   "northing": 6625062.58,
+   "heightMetres": 4.22
+  },
+  "680018.6_6624694.2": {
+   "index": 155,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "pale ground in both photos",
+   "easting": 680018.62,
+   "northing": 6624694.19,
+   "heightMetres": 5.9
+  },
+  "680053.0_6625111.5": {
+   "index": 156,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 4.2 m spot",
+   "easting": 680052.98,
+   "northing": 6625111.51,
+   "heightMetres": 4.2
+  },
+  "680056.2_6625109.0": {
+   "index": 157,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath",
+   "easting": 680056.23,
+   "northing": 6625108.96,
+   "heightMetres": 3.71
+  },
+  "680069.8_6624353.6": {
+   "index": 158,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "clear-cut debris",
+   "easting": 680069.77,
+   "northing": 6624353.63,
+   "heightMetres": 3.82
+  },
+  "680097.3_6624951.7": {
+   "index": 159,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath",
+   "easting": 680097.35,
+   "northing": 6624951.7,
+   "heightMetres": 3.21
+  },
+  "680114.6_6624960.0": {
+   "index": 160,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a red crown in April 2021, grey ground in June 2025",
+   "easting": 680114.56,
+   "northing": 6624959.97,
+   "heightMetres": 6.67
+  },
+  "680128.1_6624933.5": {
+   "index": 161,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath",
+   "easting": 680128.07,
+   "northing": 6624933.46,
+   "heightMetres": 3.61
+  },
+  "680132.8_6624934.9": {
+   "index": 162,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath",
+   "easting": 680132.82,
+   "northing": 6624934.93,
+   "heightMetres": 4.38
+  },
+  "680133.7_6624779.3": {
+   "index": 163,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade beside red crowns",
+   "easting": 680133.72,
+   "northing": 6624779.29,
+   "heightMetres": 6.62
+  },
+  "680134.6_6624951.6": {
+   "index": 164,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "pale ground",
+   "easting": 680134.56,
+   "northing": 6624951.62,
+   "heightMetres": 5.26
+  },
+  "680146.3_6624938.5": {
+   "index": 165,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "heath",
+   "easting": 680146.3,
+   "northing": 6624938.5,
+   "heightMetres": 4.3
+  },
+  "680155.9_6624934.0": {
+   "index": 166,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a pink crown in April 2021, pale and dark ground in June 2025",
+   "easting": 680155.93,
+   "northing": 6624934.02,
+   "heightMetres": 5.04
+  },
+  "680261.9_6624513.8": {
+   "index": 167,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "shade",
+   "easting": 680261.95,
+   "northing": 6624513.76,
+   "heightMetres": 3.1
+  },
+  "680294.8_6624907.3": {
+   "index": 168,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 2.3 m spot",
+   "easting": 680294.75,
+   "northing": 6624907.25,
+   "heightMetres": 2.33
+  },
+  "680298.3_6624907.3": {
+   "index": 169,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "a 2.2 m spot",
+   "easting": 680298.25,
+   "northing": 6624907.25,
+   "heightMetres": 2.19
+  },
+  "680370.9_6625218.6": {
+   "index": 170,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 680370.87,
+   "northing": 6625218.63,
+   "heightMetres": 6.53
+  },
+  "680379.7_6625214.8": {
+   "index": 171,
+   "kind": "building",
+   "verdict": "not-tree",
+   "note": "a roof (the pit-free CHM keeps roofs as canopy)",
+   "easting": 680379.74,
+   "northing": 6625214.84,
+   "heightMetres": 5.25
+  },
+  "680384.1_6625183.9": {
+   "index": 172,
+   "kind": "building",
+   "verdict": "bank",
+   "note": "a green crown in June 2025 beside a small building; a tree in April 2021",
+   "easting": 680384.12,
+   "northing": 6625183.94,
+   "heightMetres": 5.51
+  },
+  "680397.1_6626322.2": {
+   "index": 173,
+   "kind": "no-vegetation",
+   "verdict": "not-tree",
+   "note": "a roof, shed, vehicle or post: no crown in either photo",
+   "easting": 680397.14,
+   "northing": 6626322.18,
+   "heightMetres": 7.24
+  },
+  "680441.4_6624935.0": {
+   "index": 174,
+   "kind": "no-vegetation",
+   "verdict": "unclear",
+   "note": "rock and shrubs",
+   "easting": 680441.38,
+   "northing": 6624935.01,
+   "heightMetres": 4.54
+  }
+ }
+}

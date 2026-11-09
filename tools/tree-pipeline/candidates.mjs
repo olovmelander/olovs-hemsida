@@ -120,13 +120,13 @@ export function buildCandidates(ctx) {
     return { centres: photoCentres(loadPhotoCrowns(file).crowns), field: relief.campaigns[ctx.presence.key].field };
   };
   const detected = fused
-    ? (() => { const photo = fusedPhoto(); return detectTreesFused(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine), photo.centres, photo.field, lock.selected.fuse, { smoothChmFn: smoothChm, overSegmentedTops, suppressedTops, REFINE_DEFAULTS }); })()
+    ? (() => { const photo = fusedPhoto(); return detectTreesFused(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine), photo.centres, photo.field, lock.selected.fuse, { smoothChmFn: smoothChm, overSegmentedTops, suppressedTops, REFINE_DEFAULTS, split: lock.selected.split || null, typical: lock.selected.typical || null }); })()
     : refined
     ? detectTreesRefined(grid, chm.values, typeMapEarly, lock.selected.parameters, lock.selected.refine, refereeFor(refereeInputs(ctx, grid), lock.selected.refine))
     : typed
       ? detectTreesTyped(grid, chm.values, typeMapEarly, lock.selected.parameters)
       : detectTreesV2(grid, chm.values, { parameters: lock.selected.parameters });
-  if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered${fused ? `, ${detected.confirmed} confirmed by a photo crown` : ''}`);
+  if (refined) console.log(`refined: ${detected.suppressed} suppressed tops refereed, ${detected.recovered} recovered${fused ? `, ${detected.confirmed} confirmed by a photo crown` : ''}${detected.split ? `, ${detected.split} split from crowns too wide for one tree` : ''}`);
   const position = c => (typed ? c.position : lock.selected.position === 'centroid' ? c.centroid : c.apex);
   const positionWord = typed ? 'per-type position (conifer and broadleaf: crown centroid)' : lock.selected.position;
   /* owned by the inner window as the table records it (2 decimals): a crown
@@ -207,6 +207,7 @@ export function buildCandidates(ctx) {
   const poles = [];
   const keyOf = (e, n) => `${e.toFixed(1)}_${n.toFixed(1)}`;
   const screened = [];
+  const holds = [];
   const trees = crowns.map(crown => {
     const at = position(crown);
     const returns = returnMetrics.get(crown.id);
@@ -330,6 +331,80 @@ export function buildCandidates(ctx) {
     if (queue.length < 6) continue;
     photoOnly.push({ easting: round(g1.minEasting + se / queue.length + 0.5, 1), northing: round(g1.maxNorthing - sn / queue.length - 0.5, 1), areaSquareMetres: queue.length, reason: `tree-like canopy in the ${presenceLabel} photo with no laser return >= 2 m within 3 m: photo-only, never placed` });
   }
+  /* 3b. the bank rule (holds.bank; owner report of 2026-11-09: shore trees
+     missing at the 18th). A crown whose position (its centroid) lies on mapped
+     water, a path, a road or a played surface while its own laser crown
+     reaches ground no feature maps is a tree leaning over the feature: its
+     stem moves to the nearest cell of its own crown segment that stands
+     insetMetres clear of every mapped surface, when the presence photo shows
+     vegetation in its crown disc. Buildings are never banked by the rule: the
+     pit-free CHM keeps roofs (round 5's farmyard window), so a crown on a
+     building, like a crown with no presence vegetation, is decided on the
+     photo chips in hold-review.json (bank, present, absent, not-tree,
+     unclear). The photo never places a tree: every banked stem stands inside
+     its own laser crown. */
+  const bankRule = ctx.config.holds.bank || null;
+  const holdReviewPath = ctx.reviewFile('hold-review.json');
+  const holdReview = fs.existsSync(holdReviewPath) ? JSON.parse(fs.readFileSync(holdReviewPath, 'utf8')) : { decisions: {} };
+  /* a stem may stand where no hold would hold it: clear of buildings, water, roads, paths, railways and played surfaces (a stream's 6 m band, farmland or a power corridor do not hold a tree) */
+  const HOLDING = new Set(['building', 'water', 'road', 'path', 'railway', 'green', 'tee', 'bunker', 'fairway', 'practice']);
+  /* a traced water outline can lie metres over its bank (the 18th: about 4 m).
+     Water returns almost no laser pulses; where the scan hit ground inside a
+     mapped water outline (holds.bank.groundReturnsForLand within 0.75 m),
+     the bank is land for a stem */
+  const groundReturns = bankRule?.groundReturnsForLand ? loadRaster(ctx, 'returns-ground-050') : null;
+  const landByLaser = (e, n) => {
+    if (!groundReturns) return false;
+    const gg = groundReturns.grid, s = gg.sampleSpacingMetres;
+    let count = 0;
+    for (let y = n - 0.75 + s / 2; y < n + 0.75; y += s) for (let x = e - 0.75 + s / 2; x < e + 0.75; x += s) {
+      const c = Math.floor((x - gg.minEasting) / s), r = Math.floor((gg.maxNorthing - y) / s);
+      if (c >= 0 && r >= 0 && c < gg.width && r < gg.height) count += groundReturns.values[r * gg.width + c];
+    }
+    return count >= bankRule.groundReturnsForLand;
+  };
+  const clearAt = (e, n) => { const s = surfaceAt(e, n); return !HOLDING.has(s) || (s === 'water' && landByLaser(e, n)); };
+  const clearOfSurfaces = (e, n, inset) => [[0, 0], [inset, 0], [-inset, 0], [0, inset], [0, -inset]].every(([dx, dy]) => clearAt(e + dx, n + dy));
+  /* the nearest cell of the tree's own crown segment clear of every mapped
+     surface; failing that (a traced outline drawn over its bank), the nearest
+     laser canopy cell (at least 2 m) within reachMetres of the crown's edge */
+  const bankOf = (tree, inset, beyond) => {
+    if (tree.crownId === null || tree.crownId === undefined) return null;
+    const s = grid.sampleSpacingMetres, reach = tree.radiusMetres + Math.max(4, beyond);
+    const c0 = Math.max(0, Math.floor((tree.easting - reach - grid.minEasting) / s)), c1 = Math.min(grid.width - 1, Math.floor((tree.easting + reach - grid.minEasting) / s));
+    const r0 = Math.max(0, Math.floor((grid.maxNorthing - tree.northing - reach) / s)), r1 = Math.min(grid.height - 1, Math.floor((grid.maxNorthing - tree.northing + reach) / s));
+    let own = null, near = null;
+    for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) {
+      const i = r * grid.width + c;
+      const e = grid.minEasting + (c + 0.5) * s, n = grid.maxNorthing - (r + 0.5) * s;
+      const d = Math.hypot(e - tree.easting, n - tree.northing);
+      if (detected.labels[i] === tree.crownId) {
+        if ((!own || d < own.d) && clearOfSurfaces(e, n, inset)) own = { e, n, d, within: 'its own crown' };
+      } else if (beyond > 0 && d <= tree.radiusMetres + beyond && chm.values[i] >= 2 && (!near || d < near.d) && clearOfSurfaces(e, n, inset)) {
+        near = { e, n, d, within: `laser canopy within ${beyond} m of its crown` };
+      }
+    }
+    return own || near;
+  };
+  const banked = [];
+  for (const tree of trees) {
+    const surface = tree.evidence.surface;
+    if (!surface) continue;
+    const verdict = surface === 'building' ? heldVerdict(holdReview, tree) : null;
+    const byRule = Boolean(bankRule) && bankRule.surfaces.includes(surface) && !tree.evidence.structureSuspect && (tree.evidence[presenceKey]?.vegetatedShare ?? 0) >= bankRule.minimumPresenceVegetatedShare;
+    if (!byRule && verdict?.verdict !== 'bank') continue;
+    const to = bankOf(tree, bankRule?.insetMetres ?? 0.5, bankRule?.reachMetres ?? 0);
+    if (!to) continue;
+    const from = { easting: tree.easting, northing: tree.northing };
+    tree.easting = round(to.e, 2); tree.northing = round(to.n, 2);
+    const mapped = surfaceAt(tree.easting, tree.northing);
+    /* a stem on bank the laser proves (ground hits inside a traced water outline) is not on water */
+    const landByScan = mapped === 'water' && landByLaser(tree.easting, tree.northing);
+    tree.evidence.surface = landByScan ? null : mapped;
+    tree.evidence.bank = { surface, from, movedMetres: round(to.d, 2), stemOn: to.within, ...(landByScan ? { land: 'laser ground returns inside the traced water outline' } : {}), by: byRule ? 'holds.bank' : `hold-review: ${verdict.note || 'a tree beside the building'}` };
+    banked.push({ easting: tree.easting, northing: tree.northing, ...tree.evidence.bank });
+  }
+  if (banked.length) console.log(`bank rule: ${banked.length} crowns over ${[...new Set(banked.map(b => b.surface))].join(', ')} given a stem on the bank`);
   /* 4. identities */
   const population = publishedPopulation(ctx, { bbox: [W.minEasting, W.minNorthing, W.maxEasting, W.maxNorthing], groundManifestUrl: baselineManifest });
   const allRecords = publishedPopulation(ctx, { groundManifestUrl: baselineManifest }).records;
@@ -363,8 +438,16 @@ export function buildCandidates(ctx) {
     const holdReasons = [];
     if (tree.evidence.structureSuspect) holdReasons.push('structure suspect: no June vegetation, no ground return, every pulse stopped');
     const surface = tree.evidence.surface;
-    if (surface === 'building') holdReasons.push('position on a mapped building');
-    else if (['green', 'tee', 'bunker', 'fairway', 'practice'].includes(surface)) holdReasons.push(`position on a mapped ${surface}: crown over a played surface, base unproven`);
+    /* the hold review (hold-review.json) decides crowns on buildings and
+       crowns with no presence vegetation, by exact key (or within 0.5 m) */
+    const held = heldVerdict(holdReview, tree.evidence.bank?.from ?? tree);
+    let notTreeHeld = null;
+    if (surface === 'building') {
+      holds.push({ key: keyOf(tree.easting, tree.northing), kind: 'building', easting: tree.easting, northing: tree.northing, heightMetres: tree.heightMetres, radiusMetres: tree.radiusMetres, verdict: held?.verdict ?? 'unreviewed' });
+      if (held?.verdict === 'not-tree') notTreeHeld = `not a tree (hold review): ${held.note || ''}`;
+      else if (held?.verdict === 'absent') notTreeHeld = `felled after ${laserYear} (hold review): ${held.note || ''}`;
+      else holdReasons.push(held ? `position on a mapped building, reviewed ${held.verdict}: ${held.note || ''}` : 'position on a mapped building');
+    } else if (['green', 'tee', 'bunker', 'fairway', 'practice'].includes(surface)) holdReasons.push(`position on a mapped ${surface}: crown over a played surface, base unproven`);
     else if (['water', 'road', 'path', 'railway'].includes(surface)) holdReasons.push(`position on mapped ${surface}`);
     let felled = false;
     if (tree.evidence.fellingScreen) {
@@ -390,10 +473,14 @@ export function buildCandidates(ctx) {
     /* no vegetation at all in the presence photo's crown disc: every reference crown
        but one has a vegetated share above 0.7; roofs, vehicles, heaps and
        felled trees do not. Held until reviewed. */
-    if (!felled && !tree.evidence.fellingScreen && tree.source === 'detector' && (tree.evidence[presenceKey]?.vegetatedShare ?? 1) < 0.15) {
-      holdReasons.push(`no vegetation in the ${presenceLabel} crown disc (roof, vehicle, heap or felled?): unreviewed`);
+    if (!felled && !notTreeHeld && surface !== 'building' && !tree.evidence.fellingScreen && tree.source === 'detector' && (tree.evidence[presenceKey]?.vegetatedShare ?? 1) < 0.15) {
+      holds.push({ key: keyOf(tree.easting, tree.northing), kind: 'no-vegetation', easting: tree.easting, northing: tree.northing, heightMetres: tree.heightMetres, radiusMetres: tree.radiusMetres, verdict: held?.verdict ?? 'unreviewed' });
+      if (held?.verdict === 'not-tree') notTreeHeld = `not a tree (hold review): ${held.note || ''}`;
+      else if (held?.verdict === 'absent') notTreeHeld = `felled after ${laserYear} (hold review): ${held.note || ''}`;
+      else if (held?.verdict !== 'present') holdReasons.push(held ? `no vegetation in the ${presenceLabel} crown disc, reviewed ${held.verdict}: ${held.note || ''}` : `no vegetation in the ${presenceLabel} crown disc (roof, vehicle, heap or felled?): unreviewed`);
     }
-    const notTree = felled ? (felled === 'pole' ? notTreePole : felled === 'structure' ? `not a tree: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}` : `felled after ${laserYear}: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}`) : null;
+    if (!felled && notTreeHeld) felled = 'held';
+    const notTree = felled ? (felled === 'pole' ? notTreePole : felled === 'held' ? notTreeHeld : felled === 'structure' ? `not a tree: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}` : `felled after ${laserYear}: ${reviewedVerdict(fellingReview, tree.easting, tree.northing).note}`) : null;
     let decision, id, before = null;
     if (match) {
       id = match.record.id;
@@ -463,9 +550,11 @@ export function buildCandidates(ctx) {
     publishedGroundManifest: population.groundManifestUrl,
     today: { individualRecords: records.length, standTreesHighQuality: population.standTrees.length, total: records.length + population.standTrees.length },
     notPlacedOrRemovedByReview: count(out.filter(t => t.decision === 'not-placed' || (t.decision === 'remove' && /felled|not a tree/.test((t.reasons || [''])[0]))), t => `${t.decision}:${/felled/.test(t.reasons[0]) ? `felled after ${laserYear}` : 'not a tree'}`),
-    candidates: { total: out.length, byDecision: count(out, t => t.decision), placedTrees: placed.length, placedByType: count(placed, t => t.type), placedBySource: count(placed, t => t.source), holdByReason: count(out.filter(t => t.decision === 'hold'), t => { const r = (t.reasons || ['?'])[0]; return /pole-like/.test(r) ? 'pole-like crown' : /crown disc \(roof, vehicle/.test(r) ? `no ${presenceLabel} vegetation (unreviewed)` : /played surface/.test(r) ? 'crown over a played surface' : /building/.test(r) ? 'on a mapped building' : /structure/.test(r) ? 'structure suspect' : /felling/.test(r) ? 'felling screen' : /mapped (water|road|path|railway)/.test(r) ? 'on water, road or path' : /no placed crown/.test(r) ? 'record without crown' : 'other'; }) },
+    candidates: { total: out.length, byDecision: count(out, t => t.decision), placedTrees: placed.length, placedByType: count(placed, t => t.type), placedBySource: count(placed, t => t.source), holdByReason: count(out.filter(t => t.decision === 'hold'), t => { const r = (t.reasons || ['?'])[0]; return /pole-like/.test(r) ? 'pole-like crown' : /crown disc \(roof, vehicle/.test(r) ? `no ${presenceLabel} vegetation (unreviewed)` : /crown disc, reviewed/.test(r) ? `no ${presenceLabel} vegetation (reviewed unclear)` : /building, reviewed/.test(r) ? 'on a mapped building (reviewed unclear)' : /played surface/.test(r) ? 'crown over a played surface' : /building/.test(r) ? 'on a mapped building' : /structure/.test(r) ? 'structure suspect' : /felling/.test(r) ? 'felling screen' : /mapped (water|road|path|railway)/.test(r) ? 'on water, road or path' : /no placed crown/.test(r) ? 'record without crown' : 'other'; }) },
     fellingScreen: { screened: screened.length, byVerdict: count(screened, t => t.verdict) },
     ...(poleRule ? { poleScreen: { rule: poleRule, screened: poles.length, byVerdict: count(poles, t => t.verdict) } } : {}),
+    ...(bankRule ? { bank: { rule: bankRule, banked: banked.length, bySurface: count(banked, t => t.surface), byWho: count(banked, t => (t.by === 'holds.bank' ? 'rule' : 'hold review')), placed: out.filter(t => t.evidence?.bank && ['retain', 'adjust', 'add'].includes(t.decision)).length } } : {}),
+    holdScreen: { screened: holds.length, byKind: count(holds, t => t.kind), byVerdict: count(holds, t => `${t.kind}:${t.verdict}`) },
     playTypeDecision: (() => {
       const table = {};
       for (const t of out) { const key = `${t.play}|${t.type}`; table[key] = table[key] || {}; table[key][t.decision] = (table[key][t.decision] || 0) + 1; }
@@ -478,7 +567,7 @@ export function buildCandidates(ctx) {
     unresolved: { sparseLaserWithoutPhotoCrown: sparseUnresolved.length, photoOnlyCanopy: photoOnly.length },
     elapsedSeconds: round((performance.now() - started) / 1000, 1),
   };
-  const files = { summary: ctx.reviewFile('candidates-summary.json'), csv: ctx.reviewFile('candidates.csv'), unresolved: ctx.reviewFile('unresolved.json'), outlines: path.join(ctx.paths.candidates, 'candidates-outlines.geojson'), full: path.join(ctx.paths.candidates, 'candidates-full.json'), felling: path.join(ctx.paths.candidates, 'felling-screen.json'), poles: path.join(ctx.paths.candidates, 'pole-screen.json'), residualChm: path.join(ctx.paths.rasters, 'residual-chm-050.bin'), residualLabels: path.join(ctx.paths.rasters, 'residual-labels-050.bin') };
+  const files = { summary: ctx.reviewFile('candidates-summary.json'), csv: ctx.reviewFile('candidates.csv'), unresolved: ctx.reviewFile('unresolved.json'), outlines: path.join(ctx.paths.candidates, 'candidates-outlines.geojson'), full: path.join(ctx.paths.candidates, 'candidates-full.json'), felling: path.join(ctx.paths.candidates, 'felling-screen.json'), poles: path.join(ctx.paths.candidates, 'pole-screen.json'), holds: path.join(ctx.paths.candidates, 'hold-screen.json'), residualChm: path.join(ctx.paths.rasters, 'residual-chm-050.bin'), residualLabels: path.join(ctx.paths.rasters, 'residual-labels-050.bin') };
   fs.writeFileSync(files.summary, JSON.stringify(summary, null, 2) + '\n');
   /* committed: a compact CSV (a QGIS delimited-text layer in EPSG:3006);
      ignored cache: the full records with evidence and crown outlines, and
@@ -500,6 +589,7 @@ export function buildCandidates(ctx) {
   fs.writeFileSync(files.unresolved, JSON.stringify({ schemaVersion: 1, note: 'never placed; next evidence: field check, newer leaf-on laser, or club confirmation', sparseLaserWithoutPhotoCrown: sparseUnresolved, photoOnlyCanopy: photoOnly }, null, 1) + '\n');
   fs.writeFileSync(files.full, JSON.stringify(out));
   fs.writeFileSync(files.felling, JSON.stringify(screened, null, 1));
+  fs.writeFileSync(files.holds, JSON.stringify(holds, null, 1));
   if (poleRule) fs.writeFileSync(files.poles, JSON.stringify(poles, null, 1));
   /* the residual inputs of the reviewed import, cropped to the inner window:
      the pit-free CHM, and every cell a detected crown (placed or not) or a
@@ -532,7 +622,7 @@ export function buildCandidates(ctx) {
     fs.writeFileSync(path.join(dir, 'residual-labels-050.bin'), Buffer.from(labelOut.buffer));
     fs.writeFileSync(path.join(dir, 'residual-labels-050.json'), JSON.stringify({ ...sidecar, layer: 'crown claims: detected crown id, 1<<30 for a sparse-laser recovery disc, -1 none', dtype: 'int32', recoveredCells }, null, 2) + '\n');
   }
-  return { summary, out, screened, poles, files, inputs: [lockPath, typeRulePath, referencePath, fellingReviewPath, poleReviewPath, path.join(ctx.paths.rasters, 'chm-pitfree-050.bin'), path.join(ctx.paths.rasters, 'points.bin')] };
+  return { summary, out, screened, poles, holds, files, inputs: [lockPath, typeRulePath, referencePath, fellingReviewPath, poleReviewPath, holdReviewPath, path.join(ctx.paths.rasters, 'chm-pitfree-050.bin'), path.join(ctx.paths.rasters, 'points.bin')] };
   }
 }
 
@@ -583,6 +673,18 @@ export function fitLogistic(rows) {
 }
 
 /** The interpreter's verdict for a screened crown: exact key first, else the nearest reviewed position within 2 m. */
+/** A hold-review verdict for a crown: its exact key, else a reviewed position within 0.5 m (crowns stand closer than the 2 m the screens allow). */
+export function heldVerdict(review, { easting, northing }) {
+  const exact = review.decisions[`${easting.toFixed(1)}_${northing.toFixed(1)}`];
+  if (exact) return exact;
+  let best = null, distance = 0.5;
+  for (const verdict of Object.values(review.decisions)) {
+    const d = Math.hypot(verdict.easting - easting, verdict.northing - northing);
+    if (d <= distance) { distance = d; best = verdict; }
+  }
+  return best;
+}
+
 export function reviewedVerdict(review, easting, northing) {
   const exact = review.decisions[`${easting.toFixed(1)}_${northing.toFixed(1)}`];
   if (exact) return exact;

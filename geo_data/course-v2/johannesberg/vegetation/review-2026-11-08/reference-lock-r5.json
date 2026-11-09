@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "kind": "reference-lock",
+  "frozenAt": "2026-11-09T08:48:46.916Z",
+  "history": [],
+  "refreezeNote": "Y1-Y8 frozen before any round-5 code ran",
+  "interpreter": "agent-led interpretation (Claude, main session), 2026-11-09",
+  "evidence": "pit-free CHM 0.5 m (2021-04-17 laser), 2025-06-14 RGBI (CIR and natural colour), 2021-04-18 RGBI (leaf-off natural colour); numbered over-segmentation candidates only save typing positions",
+  "matchingRule": {
+    "kind": "one-to-one, closest pairs first",
+    "radiusMetres": 4,
+    "declaredBeforeScoring": true
+  },
+  "minimumScoredHeightMetres": 3,
+  "counts": {
+    "calibration": {
+      "scored": 387,
+      "window": 393,
+      "margin": 408,
+      "ambiguous": 0,
+      "smallUnder3m": 6
+    },
+    "used-holdout": {
+      "scored": 179,
+      "window": 185,
+      "margin": 218,
+      "ambiguous": 1,
+      "smallUnder3m": 6
+    },
+    "evaluation": {
+      "scored": 120,
+      "window": 121,
+      "margin": 97,
+      "ambiguous": 0,
+      "smallUnder3m": 1
+    }
+  },
+  "hashes": {
+    "windows": "9142c5b5a6dcc3f50b669cda4c704d015280cf5220777deeac625d2a4a34a318",
+    "annotations": "d6f398a073a5de64e648204f41b264e14b5e90a0996ff1cadc8ae428e1c4d9be",
+    "reference": "3764561737f5734fb3f35e789a9ee6246c26b7aef35101145cb5233802c50909",
+    "chm": "db3d556302bd139e69e86ac764a28aad46837686adc85567dab7298d3c487746",
+    "candidates": {
+      "C1-h10-south": "aff72ebdf3ac1c080cd7ac6a86c6a13a5698743125215ccc9bb4765cc8f7c286",
+      "C2-h11-edge": "fb60198ed0f517212e04421b0c3b20f92c697766b3cb7b19435b0bfd73cf5490",
+      "C3-h4-meadow": "3dc49fa03c88dae3be2afc3a6d1eafec2cea2528ee89fa4e7b35ac0e62a5ab73",
+      "C4-h16-spruce-edge": "71cddbee3d9daaa5ffe2dbec325ac3e64c859704d439861878ad05d9f0b8ea9d",
+      "C5-h17-18": "42eeea88cb10de828e312b561bf5c953c0f2b732ef7a866c2eb9f4873e4cf88c",
+      "C6-h3-isolated": "0671e11ecf94791522bd9f42cc8660a56d37546e7a2610f11e5ed8bdbb5fef0e",
+      "E2-h1-2": "46ddce1cd358f6f9935517bed7465b04cc38122aab73393df68f4a5f0658c09d",
+      "E3-h13": "e911f6c13506af39a43b625e5ba91046c36b12b116ac85ef291d0d7be67f8d23",
+      "E4-n9-5-6": "244de3270b100ada5adec7a36b1fa7877bd039408789fb8de3fd7d39bb4a600f",
+      "H1-n9": "572dfc646ff5652e5aa8c5681f9da43fefc6c006dbda66eadb05c6d19b0e4551",
+      "H3-h7-mixed": "78ad43e60a3724eebcee7dad9ac8fa63aa91a13cf611f0c62b83ec65791728d1",
+      "H4-h8-spruce": "21b96ad7ba085bd65ad5eaa6fae88e5e37814bf52343a446539f968b9a2bb6ae",
+      "H5-h9-edge": "a3d06020e3d3bf77486bc3a815f835ece4b82cbf9b889e3e6159b602e23efff6",
+      "K1-h10-spruce": "c0f6d783b05452d6017fd9a3acdb080e9bc2c490264f4cf4c0ecda8524581212",
+      "K2-h9-mixed": "cbf664adece4fdb2fe3eef0cba32243921ffdeb6c052ac2aa143c56fbdd0e5ac",
+      "Q1-h5-closed": "cea4baf4a6d303de5781a1f6f6b2aaf8fe19ff881cc7ac561a6c297e5f2abd13",
+      "Q2-h5-edge": "1b959d7d05827592f3795dd46655dcb8156cecc616ca62157fb28ccf0a2a9a79",
+      "Q3-h18-2-band": "cb0aa5a5ae2847b9cce8c60fffd12a26cd8435a9f357b9e02b7a01deaea79c77",
+      "Q4-h4-grove": "895d57e0354ff15b329a2f54adf51966124323efb2470c53b2f25853fa0cad30",
+      "Q5-h6-closed": "fe4e4d440634b700200e852b79dfaaf1264845252bc12d0af69c08c4234dc63f",
+      "W1-h8-closed": "fc72e12fb0775883e7463eaf53418f4f77abdc5187e9330cfbf06792ed350983",
+      "W2-h11-closed": "d92edd337440bf4965c7cc09d67a714f7921f805c4b4bcdd2f5d572138ae7eb4",
+      "W3-h7-edge": "3c34b39f91a2199ceff8f0d7a3be8d2f5aadee141d0ed9697fff2f730575ebe7",
+      "W4-h8-9-edge": "2093bc11b3cc4ac3c93ffb4e4df6b99265c0098e16f4da426a2da305c41d2281",
+      "W5-n9-1-4-groups": "00e2f9b367660c2127c1fd8363e7a192a43905f6dbebaf6894433c207ca16d21",
+      "X1-h8-closed": "30dc463a374fb400ee6fdf8eddfab680478aad5951907b75bbe09a1b0230a408",
+      "X2-h9-closed": "3b5b1e13ac5efcdef5bf7c02935eb7b10d11f8fa0ce8abda108a995869fad50f",
+      "X3-h12-edge": "eb1ee90d1c36999f5689ddec31b477ec5e72e437f00d661374b3d3e3eb180398",
+      "X4-h5-edge": "ca4fe276fcaf08b9dc94cef780ebef412261def7df4e86fc88b33cd58ff104f1",
+      "X5-n9-2-4-groups": "777ba6f3d5de6e395a8c9113143888267cc901e51adbcf834e29f232d4035b26",
+      "Y1-h10-closed": "9c96dc8544e5656cb8c9277597c0ba410302e6e6da05e70a8eb9ac17ad745382",
+      "Y2-h2-edge": "804b65f36c3949be06614a396dd764db1304ed3099fed5428c4be7518c91aacf",
+      "Y3-h17-edge": "b9c0ecc67d2bd0b0e94b08e8e27ee02cb7695daf080ddceb98b52d949916e8d3",
+      "Y4-h5-edge": "3930473e17839243a9e625e463763c48916a728d36029c490a9f008e9233be41",
+      "Y5-h13-groups": "d996ba7040cef6c7bdf76ebc8eac89f558993b73c8413913da9bac8f7ef312f6",
+      "Y6-n9-3-shore": "7f1c093120b199e02722da0e7dc3e896f48ae0adf463f9c27f6aa61259ec48ef",
+      "Y7-n9-8-shore": "b62defc596569081faee31c74277fb9b5872099b2e0545526321a0890f0b52ae",
+      "Y8-h1-garden": "80dfcb44a2b173b8b08fb7bdbacd4900133966962a540f7bd614a8a74f8879f1"
+    }
+  }
+}

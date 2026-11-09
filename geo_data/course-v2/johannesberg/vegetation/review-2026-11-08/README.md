@@ -6,6 +6,8 @@
 
 **Round 4 (branch `trees-round4`, published 2026-11-09 under the owner’s answer "The best round go!"):** On its own sample: a learned crown detector (DeepForest) on the June 2025 photo confirms suppressed laser tops. On a new unseen sample of 132 crowns it reaches P 0.935 / R 0.758 / F1 0.837, against round 3’s 0.966 / 0.644 / 0.773. It beats round 3 on F1 and recall but misses the owner’s precision floor of 0.95, so it was not published on that sample. Round 4b then drew a second unseen sample (X1-X5, 126 crowns) and declared its rule before scoring. There round 4 as locked reaches P 0.971 / R 0.810 / F1 0.883 against round 3’s 0.976 / 0.643 / 0.775 and round 4b’s 0.978 / 0.714 / 0.826, so round 4 is published (32,073 placed, +4,832), gate not met (recall), under the owner exception pinned to benchmark-r4b. See Round 4 and Round 4b.
 
+**2026-11-09 (branch `trees-round5`):** the same round-4 lock is re-published with the held trees decided. Crowns leaning over mapped water, paths, roads and played surfaces get a stem on the bank (24, including the eight standing shore trees the owner missed at the 18th). Crowns held on buildings or without June 2025 vegetation were decided on the photos (174: 10 trees beside buildings and 14 shaded conifers placed, 98 roofs and posts and 4 thinned trees not). 32,122 are placed (+49). Round 5, a width split for two trees drawn as one, was scored once on a third unseen sample, Y1-Y8. It reached P 0.890 / R 0.808 / F1 0.847 against round 4's 0.948 / 0.758 / 0.843 and is not published (precision below the declared 0.95). See Round 5 and the held trees.
+
 The sections from Evidence ledger to What Stage B needs record **Stage A (round 1)**
 as it stood before publication: there, nothing was published, and the round-1 held-out
 precision of 0.82 missed the 90% gate. Their candidate counts are round 1's; the published
@@ -1656,6 +1658,160 @@ node tools/tree-pipeline.mjs --ground johannesberg --stage review --only screens
 node tools/tree-pipeline/photo/record-screen-review-r4.mjs && node tools/tree-pipeline.mjs --ground johannesberg --stage candidates --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --stage review --raw $RAW
 node tools/tree-pipeline.mjs --ground johannesberg --stage publish --execute --pending-owner --raw $RAW
+```
+
+## Round 5 and the held trees (2026-11-09)
+
+The owner reported trees missing by the water at the 18th, asked whether lone trees
+can be placed this way, and then said: "Do whats recommended to improve the tree
+placements, pipeline and agent." Two kinds of gap were found, and each got its own
+fix.
+
+1. **Trees found but held.** The detector found every one of the 18th's shore trees.
+   They were held because the crown centroid lay over the mapped water. 255 crowns in
+   the inner frontier were held, for reasons like that or with no June 2025
+   vegetation in the crown disc.
+2. **Two trees drawn as one.** Every crown round 4 missed on W1-W5 and X1-X5 (56 of
+   258) stood within 7 m of a drawn crown (39 within 4 m). On calibration, 57 of 68
+   such misses had their own over-segmented laser top that the detector suppressed.
+
+### The held trees: the bank rule and the hold review (published)
+
+- **The bank rule** (`holds.bank`, candidates step 3b). A crown whose centroid lies
+  on mapped water, a path, a road or a played surface is a tree leaning over it when
+  its own laser crown reaches land. Its stem moves to the nearest cell of its own
+  crown 0.5 m clear of every surface that holds a tree, or to laser canopy (at least
+  2 m) within 1.5 m of the crown. The June 2025 crown disc must be vegetated (0.15,
+  the no-vegetation hold's share). Buildings are never banked by the rule.
+- **The water outline at the 18th lies about 4 m over the west bank.** Inside it, the
+  laser hit ground under the bank trees, while open water returned no pulses. So a
+  cell inside a traced water outline counts as bank where the scan hit ground at
+  least twice within 0.75 m (`groundReturnsForLand`).
+- **Result: 24 crowns banked by the rule.** By surface: water 9 (all near play),
+  paths 11, tees 2, a fairway 1 and a road 1. Eight of them are the 18th's standing
+  shore trees (main-session check on the June 2025 photo). The ninth, a shore tree
+  north of the 18th that the felling screen held as unclear, is present on the
+  colour infrared (`felling-review.json`, re-reviewed).
+- **The hold review** (`hold-review.json`,
+  [`record-hold-review-r5.mjs`](../../../../../tools/tree-pipeline/photo/record-hold-review-r5.mjs)).
+  The review stage draws compact chips of every crown held on a building or with no
+  June 2025 vegetation (`--stage review --only holds`), and each gets a verdict.
+  174 were decided:
+
+  | Verdict | On a building | No June 2025 vegetation |
+  |---|---|---|
+  | bank (a tree beside the building, placed) | 10 | |
+  | present (placed; conifers in shade, red in the April colour infrared) | | 14 |
+  | absent (thinned since 2021; the owner confirms) | | 4 |
+  | not-tree (roofs, sheds, vehicles, posts) | 82 | 16 |
+  | unclear (held) | 3 | 45 |
+
+- **The pit-free CHM keeps roofs as canopy.** The building hold is mostly roofs (82
+  of 95), which is why buildings are decided on chips and never by rule.
+
+| | Round 4 (live before) | Now |
+|---|---|---|
+| Placed records, inner frontier | 32,073 | 32,122 (+49) |
+| Near play | 6,590 | 6,608 |
+| Held | 255 | 112 |
+| Decided felled since the laser (the owner confirms) | 16 | 20 |
+| Not placed or removed as not a tree | 26 | 116 (the hold review adds 90 roofs, sheds, vehicles and posts) |
+
+The detector lock is unchanged (round 4), so the gate result and the owner exception
+pinned to benchmark-r4b stand. The publication statement in `trees.json` and the
+production `reviewNote` record the re-publication.
+
+### Round 5: the width split (scored, not published)
+
+- **Method** (`photo-fusion.mjs`, the width split). It keeps the round-4 lock. A crown
+  wider than `widthFactor` × typical(h) takes back its own suppressed laser tops.
+  typical(h) = 2.131 + 0.0429 h m is fitted on the 387 calibration reference crowns.
+  The tests are its cone, its separation and (when tuned on) a paired photo box.
+  Split seeds are protected from the shallow-crown merge. Every seed is a laser
+  maximum, and the photo never places a tree.
+- **Calibration.** C1-C6, K1 and K2, plus W1-W5 and X1-X5, which were spent as
+  held-out samples. Tuned on calibration only (1,395 evaluations), it locked
+  `widthFactor 1.4`, separation 3 m, dip 1 m, height share 0.4, no photo box needed,
+  protected, both types. Calibration score: P 0.926 / R 0.876 / F1 0.900, against
+  the round-4 lock's 0.925 / 0.824 / 0.872.
+- **A third held-out sample, Y1-Y8 (120 scored crowns).** It was frozen before any
+  round-5 code ran, and committed first. It holds a closed square, three edges, a
+  group window, two shore windows and a farmyard, the first shore and garden strata.
+  The windows came from the detector-neutral apex census
+  ([`window-scan-r5.mjs`](../../../../../tools/tree-pipeline/photo/window-scan-r5.mjs)),
+  outside the 18th's shore that the main session had looked at. The interpretation
+  was agent-led.
+  - The drafts were checked on 0.06 m panels. One pair was merged into one broadleaf.
+  - The farmyard window Y8 holds no scored tree: every draft crown inside it lay on
+    a barn roof or a machine in the April 2021 photo (16 drafts rejected).
+- **The rule, declared before scoring.** Round 5 replaces round 4 only if it beats
+  round 4 on Y on F1 and recall with precision at least 0.95.
+
+| Y1-Y8 (120 crowns) | TP | Missed | Extra | P | R | F1 |
+|---|---|---|---|---|---|---|
+| Round 4 (live detector) | 91 | 29 | 5 | 0.948 | 0.758 | 0.843 |
+| Round 5 | 97 | 23 | 12 | 0.890 | 0.808 | 0.847 |
+| Round 3 | 79 | 41 | 3 | 0.963 | 0.658 | 0.782 |
+
+**Round 5 does not qualify.** It beats round 4 on F1 and recall, but its precision is
+under 0.95. Nine of its 12 extras are splits of the farmyard's barn roofs (Y8). The
+candidates stage holds crowns on mapped buildings, but the declared rule scores the
+detector. The trees stay at round 4's detector.
+
+**Secondary numbers (declared before scoring; they decide nothing).** These are the
+decided candidates, what the app draws after the holds, scored on Y1-Y8
+([`score-candidates-r5.mjs`](../../../../../tools/tree-pipeline/photo/score-candidates-r5.mjs)):
+
+- Round 4 with the bank rule and the hold review (published): TP 90, missed 30,
+  extra 2, P 0.978 / R 0.750 / F1 0.849. The farmyard's roofs are not placed.
+- Round 5 through the same stage: P 0.969 / R 0.783 / F1 0.866, with 33,528 placed
+  (+1,406). It would leave 515 held crowns, many of them new pole-like tops from the
+  split, to review first. This is for the owner to weigh.
+
+### Open for the owner
+
+- The felled list (20, up from 16: four tall conifers thinned since 2021, `hold-review.json`
+  145-148), the species-mix flags, and screenshots and frame time on his GPU, as before.
+- Round 5 is not published. The owner chose the recommendation on 2026-11-09 ("Continue
+  with what you recommend, you have access to the gpu"): keep round 4 live, and build
+  a round whose split never touches a building, scored on a fresh sample.
+
+### Re-baked (2026-11-09, on the owner's GPU)
+
+The prepared data are keyed by the ground manifest's checksum, so
+`check-prepared-startup` failed until these were re-baked. Each ran on the owner's
+RTX 5080 (`BANVY_GPU=1`), `--only johannesberg,johannesberg-9`, against a served
+build, with the app rebuilt between steps:
+
+- **Water** (`bake-water`): new files.
+- **Ground tints** (`bake-ground-tints`): the same bytes, new identities.
+- **Far vista and scatter** (`bake-vista`): the same bytes, new identities.
+- **Map land** (`bake-map-land`): only Johannesberg's terrain pin moves. The pictures
+  are unchanged, since the stand field keeps its pins.
+
+**Checks.** `check-prepared-startup`, `check-startup-packs` and `check-app-build`
+pass. Vitest for `apps/golf` passes 1,933 of 1,933. The repository's node tests
+show 528 passed, 0 failed and 3 skipped. The pipeline tests pass 34 of 34.
+
+### Reproduce round 5 and the held trees
+
+```sh
+RAW=<the pilot cache with copc/ and ortho/>
+node tools/tree-pipeline/photo/window-scan-r5.mjs --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r5 --stage reference --prepare --native --only Y1-h10-closed,Y2-h2-edge,Y3-h17-edge,Y4-h5-edge,Y5-h13-groups,Y6-n9-3-shore,Y7-n9-8-shore,Y8-h1-garden --raw $RAW
+node tools/tree-pipeline/photo/reference-draft.mjs --raw $RAW --round r5 --only Y
+node tools/tree-pipeline/photo/reference-annotate-r5.mjs
+node tools/tree-pipeline.mjs --ground johannesberg --round r5 --stage reference --freeze --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r5 --stage photo-detect --only none --raw $RAW   # reuses round 4's detections, no GPU
+node tools/tree-pipeline/photo/diagnose-r5.mjs --raw $RAW                                                 # calibration only
+node tools/tree-pipeline.mjs --ground johannesberg --round r5 --stage benchmark --tune --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --round r5 --stage benchmark --score --gate --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage candidates --raw $RAW                          # round 4 lock, bank rule
+node tools/tree-pipeline.mjs --ground johannesberg --stage review --only holds --raw $RAW
+node tools/tree-pipeline/photo/record-hold-review-r5.mjs && node tools/tree-pipeline.mjs --ground johannesberg --stage candidates --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage review --only spots,mix --raw $RAW
+node tools/tree-pipeline.mjs --ground johannesberg --stage publish --execute --pending-owner --raw $RAW
+node tools/tree-pipeline/photo/score-candidates-r5.mjs
 ```
 
 ## Reproduce

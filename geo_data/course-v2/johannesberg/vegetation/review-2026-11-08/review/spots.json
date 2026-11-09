@@ -16,13 +16,13 @@
    "laserPanel": "review/hole10-south.png",
    "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole10-south-photo.png",
    "today": {
-    "records": 83,
+    "records": 86,
     "standTrees": 0
    },
    "candidates": {
-    "retain": 78,
-    "add": 3,
-    "adjust": 5
+    "retain": 77,
+    "adjust": 9,
+    "add": 3
    }
   },
   {
@@ -37,14 +37,16 @@
    "laserPanel": "review/holes17-18.png",
    "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/holes17-18-photo.png",
    "today": {
-    "records": 169,
+    "records": 173,
     "standTrees": 0
    },
    "candidates": {
-    "retain": 148,
-    "adjust": 20,
-    "add": 5,
-    "hold": 4
+    "retain": 137,
+    "add": 20,
+    "adjust": 29,
+    "hold": 2,
+    "remove": 1,
+    "merge": 4
    }
   },
   {
@@ -59,14 +61,13 @@
    "laserPanel": "review/hole16-spruce-edge.png",
    "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole16-spruce-edge-photo.png",
    "today": {
-    "records": 134,
+    "records": 142,
     "standTrees": 1
    },
    "candidates": {
-    "adjust": 14,
-    "retain": 118,
-    "add": 10,
-    "merge": 2
+    "retain": 113,
+    "adjust": 28,
+    "add": 19
    }
   },
   {
@@ -85,8 +86,10 @@
     "standTrees": 0
    },
    "candidates": {
-    "retain": 6,
-    "not-placed": 1
+    "retain": 5,
+    "adjust": 1,
+    "not-placed": 1,
+    "add": 1
    }
   },
   {
@@ -105,8 +108,9 @@
     "standTrees": 0
    },
    "candidates": {
-    "retain": 42,
-    "adjust": 2,
+    "adjust": 6,
+    "retain": 38,
+    "add": 4,
     "hold": 1
    }
   },
@@ -141,14 +145,16 @@
    "laserPanel": "review/hole1.png",
    "photoPanelCache": "johannesbergbuild/cache/trees-2026-11-08/review-panels/hole1-photo.png",
    "today": {
-    "records": 121,
+    "records": 124,
     "standTrees": 0
    },
    "candidates": {
-    "retain": 109,
-    "adjust": 12,
-    "hold": 4,
-    "add": 3
+    "adjust": 21,
+    "retain": 102,
+    "add": 10,
+    "not-placed": 1,
+    "hold": 3,
+    "merge": 1
    }
   }
  ]

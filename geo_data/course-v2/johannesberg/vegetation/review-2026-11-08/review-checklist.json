@@ -30,9 +30,9 @@
       "who": "auto",
       "question": "Every felling-screened crown has a verdict in felling-review.json.",
       "status": "done",
-      "on": "2026-11-08",
+      "on": "2026-11-09",
       "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/felling-review.json",
-      "note": "{\"absent\":16,\"unclear\":17,\"structure\":14,\"present\":20}"
+      "note": "{\"absent\":16,\"unclear\":16,\"structure\":14,\"present\":21}"
     },
     {
       "id": "felled-list-confirmed",
@@ -49,9 +49,18 @@
       "who": "auto",
       "question": "Every pole-like crown (holds.poleLike) has a verdict in pole-review.json, or the hold is switched off and recorded as such.",
       "status": "done",
-      "on": "2026-11-08",
+      "on": "2026-11-09",
       "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/pole-review.json",
       "note": "{\"not-tree\":12,\"tree\":587,\"unclear\":40}"
+    },
+    {
+      "id": "holds-reviewed",
+      "who": "auto",
+      "question": "Every crown held on a mapped building or with no presence vegetation has a verdict in hold-review.json (bank, present, absent, not-tree or unclear).",
+      "status": "done",
+      "on": "2026-11-09",
+      "evidence": "geo_data/course-v2/johannesberg/vegetation/review-2026-11-08/hold-review.json",
+      "note": "{\"building:not-tree\":82,\"no-vegetation:absent\":4,\"no-vegetation:present\":14,\"no-vegetation:not-tree\":16,\"no-vegetation:unclear\":45,\"building:unclear\":3}"
     },
     {
       "id": "species-spot-check-photos",
@@ -68,7 +77,7 @@
       "who": "auto",
       "question": "No hole is flagged for a high broadleaf share near play (species-mix.json), or the owner accepted each flag.",
       "status": "open",
-      "note": "flagged for the owner: johannesberg hole 4: 53 of 135 near-play records typed broadleaf (39%); johannesberg hole 5: 139 of 440 near-play records typed broadleaf (32%); johannesberg hole 6: 112 of 190 near-play records typed broadleaf (59%); johannesberg hole 15: 11 of 19 near-play records typed broadleaf (58%); johannesberg-9 hole 1: 90 of 135 near-play records typed broadleaf (67%); johannesberg-9 hole 2: 36 of 61 near-play records typed broadleaf (59%); johannesberg-9 hole 3: 16 of 27 near-play records typed broadleaf (59%); johannesberg-9 hole 4: 53 of 70 near-play records typed broadleaf (76%); johannesberg-9 hole 5: 28 of 53 near-play records typed broadleaf (53%); johannesberg-9 hole 6: 50 of 70 near-play records typed broadleaf (71%); johannesberg-9 hole 8: 28 of 50 near-play records typed broadleaf (56%); johannesberg-9 hole 9: 44 of 71 near-play records typed broadleaf (62%)"
+      "note": "flagged for the owner: johannesberg hole 4: 53 of 135 near-play records typed broadleaf (39%); johannesberg hole 5: 139 of 440 near-play records typed broadleaf (32%); johannesberg hole 6: 112 of 190 near-play records typed broadleaf (59%); johannesberg hole 15: 11 of 19 near-play records typed broadleaf (58%); johannesberg-9 hole 1: 92 of 138 near-play records typed broadleaf (67%); johannesberg-9 hole 2: 36 of 62 near-play records typed broadleaf (58%); johannesberg-9 hole 3: 16 of 28 near-play records typed broadleaf (57%); johannesberg-9 hole 4: 53 of 70 near-play records typed broadleaf (76%); johannesberg-9 hole 5: 28 of 53 near-play records typed broadleaf (53%); johannesberg-9 hole 6: 50 of 70 near-play records typed broadleaf (71%); johannesberg-9 hole 8: 30 of 54 near-play records typed broadleaf (56%); johannesberg-9 hole 9: 44 of 73 near-play records typed broadleaf (60%)"
     },
     {
       "id": "species-mix-screenshots",

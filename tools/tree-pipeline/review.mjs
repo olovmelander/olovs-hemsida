@@ -12,7 +12,8 @@
      colour infrared, and chips of a deterministic sample of its broadleaf
      calls on four photos. In leaf-off colour infrared a conifer crown is red
      and a broadleaf crown is grey-brown branches over the ground;
-   - screens: chips of every felling-screened and pole-like crown with its
+   - screens: chips of every felling-screened, pole-like and held crown
+     (on a building, or with no presence vegetation; --only holds for those alone) with its
      current verdict (cache), for felling-review.json and pole-review.json;
    - mix: species-mix.json, the type mix of placed records by play zone and
      per hole, with holes whose broadleaf share near play passes
@@ -239,12 +240,12 @@ function renderCompactChips(ctx, list, name, outDir) {
 }
 
 /** Chips of every felling-screened and pole-like crown (cache only). */
-function renderScreens(ctx) {
+function renderScreens(ctx, names = ['felling', 'poles', 'holds']) {
   const mosaics = { leafOff: loadMosaic(ctx, ctx.leafOff.key), presence: loadMosaic(ctx, ctx.presence.key) };
   const outDir = ctx.paths.reviewPanels;
   fs.mkdirSync(outDir, { recursive: true });
   const written = [];
-  for (const [name, file, colour] of [['felling', 'felling-screen.json', [255, 80, 80]], ['poles', 'pole-screen.json', [80, 200, 255]]]) {
+  for (const [name, file, colour] of [['felling', 'felling-screen.json', [255, 80, 80]], ['poles', 'pole-screen.json', [80, 200, 255]], ['holds', 'hold-screen.json', [255, 160, 0]]].filter(([n]) => names.includes(n))) {
     const source = path.join(ctx.paths.candidates, file);
     if (!fs.existsSync(source)) continue;
     const screened = JSON.parse(fs.readFileSync(source, 'utf8')).sort((a, b) => (a.verdict === 'unreviewed' ? 0 : 1) - (b.verdict === 'unreviewed' ? 0 : 1) || a.key.localeCompare(b.key));
@@ -254,7 +255,7 @@ function renderScreens(ctx) {
       written.push(...writeSheets(rows, path.join(outDir, `screens-${name}-${String(start / 12 + 1).padStart(2, '0')}.png`)));
     }
     /* the same crowns, numbered alike, as compact native chips with the displaced top */
-    written.push(...renderCompactChips(ctx, screened, name, outDir));
+    written.push(...renderCompactChips(ctx, screened.map(t => ({ ...t, verdict: t.kind ? `${t.kind === 'building' ? 'BLDG' : 'NOVEG'} ${t.verdict}` : t.verdict })), name, outDir));
     console.log(`${name}: ${screened.length} screened, ${screened.filter(t => t.verdict === 'unreviewed').length} unreviewed`);
   }
   return written;
@@ -286,6 +287,7 @@ const CHECK_ITEMS = Object.freeze([
   { id: 'felling-screen-reviewed', who: 'auto', question: 'Every felling-screened crown has a verdict in felling-review.json.' },
   { id: 'felled-list-confirmed', who: 'owner', question: 'The owner confirmed the trees decided felled or not a tree since the laser (removals and not placed).' },
   { id: 'pole-like-reviewed', who: 'auto', question: 'Every pole-like crown (holds.poleLike) has a verdict in pole-review.json, or the hold is switched off and recorded as such.' },
+  { id: 'holds-reviewed', who: 'auto', question: 'Every crown held on a mapped building or with no presence vegetation has a verdict in hold-review.json (bank, present, absent, not-tree or unclear).' },
   { id: 'species-spot-check-photos', who: 'person', question: 'The broadleaf calls near play were checked on the leaf-off and presence photos (type-panels chips); tally of verdicts recorded in the note.' },
   { id: 'species-mix-flags', who: 'auto', question: 'No hole is flagged for a high broadleaf share near play (species-mix.json), or the owner accepted each flag.' },
   { id: 'species-mix-screenshots', who: 'owner', question: 'The owner compared before/after screenshots of the app on the GPU (holes near play) and the species mix reads right.' },
@@ -316,6 +318,7 @@ export async function run(ctx, options) {
   if (only.includes('spots')) written.push(...renderSpots(ctx, candidates));
   if (only.includes('types')) written.push(...renderTypePanels(ctx, candidates));
   if (only.includes('screens')) written.push(...renderScreens(ctx));
+  else if (only.includes('holds')) written.push(...renderScreens(ctx, ['holds']));
   const { groundCourses } = playGeometry(ctx);
   const holes = groundCourses.flatMap(c => (c.geometry.holes || []).filter(h => Array.isArray(h.line) && h.line.length >= 2).map(h => ({ slug: c.slug, number: h.n ?? h.number ?? h.hole, line: h.line })));
   const mix = speciesMix(ctx, candidates, holes);
@@ -339,6 +342,7 @@ export async function run(ctx, options) {
     'felling-screen-reviewed': unreviewedFelling ? { status: 'open', note: `${unreviewedFelling} screened crowns unreviewed` } : { status: 'done', on: today, evidence: ctx.rel(ctx.reviewFile('felling-review.json')), note: JSON.stringify(summary.fellingScreen?.byVerdict ?? {}) },
     'pole-like-reviewed': !ctx.config.holds.poleLike ? { status: 'not-applicable', note: `holds.poleLike is switched off in trees.json: ${ctx.config.holds.note || 'no reason recorded'}` }
       : (pole?.byVerdict?.unreviewed ?? 0) ? { status: 'open', note: `${pole.byVerdict.unreviewed} pole-like crowns unreviewed` } : { status: 'done', on: today, evidence: ctx.rel(ctx.reviewFile('pole-review.json')), note: JSON.stringify(pole?.byVerdict ?? {}) },
+    'holds-reviewed': (summary.holdScreen?.byVerdict ? Object.entries(summary.holdScreen.byVerdict).filter(([k]) => k.endsWith(':unreviewed')).reduce((a, [, v]) => a + v, 0) : 0) ? { status: 'open', note: `${Object.entries(summary.holdScreen.byVerdict).filter(([k]) => k.endsWith(':unreviewed')).reduce((a, [, v]) => a + v, 0)} held crowns unreviewed: draw them with --only holds` } : { status: 'done', on: today, evidence: ctx.rel(ctx.reviewFile('hold-review.json')), note: JSON.stringify(summary.holdScreen?.byVerdict ?? {}) },
     'species-mix-flags': mix.flagged.length ? { status: 'open', note: `flagged for the owner: ${mix.flagged.join('; ')}` } : { status: 'done', on: today, evidence: ctx.rel(mixPath), note: `near play: ${mix.byZone.near.conifer} conifer, ${mix.byZone.near.broadleaf} broadleaf, ${mix.byZone.near.unknown} unknown` },
   };
   const checklistPath = ctx.reviewFile('review-checklist.json');

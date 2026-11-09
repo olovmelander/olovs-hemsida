@@ -116,39 +116,39 @@
     "total": 27274
   },
   "notPlacedOrRemovedByReview": {
-    "not-placed:felled after 2021": 13,
-    "remove:felled after 2021": 3,
-    "not-placed:not a tree": 26
+    "not-placed:not a tree": 116,
+    "not-placed:felled after 2021": 17,
+    "remove:felled after 2021": 3
   },
   "candidates": {
-    "total": 32434,
+    "total": 32433,
     "byDecision": {
-      "adjust": 5377,
+      "adjust": 5380,
       "retain": 21783,
-      "add": 4913,
-      "hold": 255,
-      "not-placed": 39,
+      "add": 4959,
+      "not-placed": 133,
       "remove": 3,
-      "merge": 64
+      "hold": 112,
+      "merge": 63
     },
-    "placedTrees": 32073,
+    "placedTrees": 32122,
     "placedByType": {
-      "conifer": 24943,
-      "unknown": 4212,
-      "broadleaf": 2918
+      "conifer": 24953,
+      "unknown": 4231,
+      "broadleaf": 2938
     },
     "placedBySource": {
-      "detector": 31966,
+      "detector": 32015,
       "sparse-laser-recovery": 107
     },
     "holdByReason": {
-      "on water, road or path": 23,
-      "on a mapped building": 79,
-      "no June 2025 vegetation (unreviewed)": 71,
-      "crown over a played surface": 4,
-      "structure suspect": 16,
-      "felling screen": 16,
+      "felling screen": 15,
+      "no June 2025 vegetation (reviewed unclear)": 40,
       "pole-like crown": 40,
+      "crown over a played surface": 1,
+      "structure suspect": 7,
+      "on water, road or path": 2,
+      "on a mapped building (reviewed unclear)": 1,
       "record without crown": 6
     }
   },
@@ -156,9 +156,9 @@
     "screened": 67,
     "byVerdict": {
       "absent": 16,
-      "unclear": 17,
+      "unclear": 16,
       "structure": 14,
-      "present": 20
+      "present": 21
     }
   },
   "poleScreen": {
@@ -173,52 +173,101 @@
       "unclear": 40
     }
   },
+  "bank": {
+    "rule": {
+      "surfaces": [
+        "water",
+        "path",
+        "road",
+        "railway",
+        "green",
+        "tee",
+        "bunker",
+        "fairway",
+        "practice"
+      ],
+      "insetMetres": 0.5,
+      "reachMetres": 1.5,
+      "groundReturnsForLand": 2,
+      "minimumPresenceVegetatedShare": 0.15,
+      "note": "On since 2026-11-09 (owner report: shore trees missing at the 18th; owner request \"Do whats recommended\"). A crown centroid over mapped water, a path, a road or a played surface is a tree leaning over it when its own laser crown reaches land: the stem moves to the nearest crown cell 0.5 m clear of every mapped surface (else to laser canopy of at least 2 m within 1.5 m of its crown); inside a traced water outline, a cell where the laser hit ground at least twice within 0.75 m is bank, since water returns almost no pulses and an outline can lie metres over its bank (about 4 m at the 18th), if the June 2025 crown disc is vegetated (the no-vegetation hold's 0.15). Buildings are decided on the chips (hold-review.json): roofs are canopy in the pit-free CHM."
+    },
+    "banked": 34,
+    "bySurface": {
+      "path": 11,
+      "building": 10,
+      "tee": 2,
+      "water": 9,
+      "road": 1,
+      "fairway": 1
+    },
+    "byWho": {
+      "rule": 24,
+      "hold review": 10
+    },
+    "placed": 34
+  },
+  "holdScreen": {
+    "screened": 164,
+    "byKind": {
+      "building": 85,
+      "no-vegetation": 79
+    },
+    "byVerdict": {
+      "building:not-tree": 82,
+      "no-vegetation:absent": 4,
+      "no-vegetation:present": 14,
+      "no-vegetation:not-tree": 16,
+      "no-vegetation:unclear": 45,
+      "building:unclear": 3
+    }
+  },
   "playTypeDecision": {
     "woodland|conifer": {
       "adjust": 3629,
       "retain": 12957,
-      "add": 3431,
-      "hold": 13,
-      "not-placed": 4
+      "add": 3437,
+      "not-placed": 5,
+      "hold": 6
     },
     "near|conifer": {
       "retain": 3244,
       "adjust": 956,
-      "add": 726,
+      "add": 730,
       "not-placed": 3,
-      "hold": 9
+      "hold": 5
     },
     "woodland|unknown": {
       "adjust": 433,
       "retain": 2455,
-      "hold": 46,
-      "add": 410,
-      "not-placed": 2,
-      "merge": 47
+      "add": 424,
+      "not-placed": 21,
+      "hold": 13,
+      "merge": 46
     },
     "near|unknown": {
       "retain": 732,
-      "adjust": 101,
-      "add": 81,
-      "not-placed": 3,
-      "hold": 12,
+      "adjust": 102,
+      "add": 85,
+      "not-placed": 5,
       "remove": 1,
+      "hold": 5,
       "merge": 17
     },
     "woodland|broadleaf": {
       "retain": 1769,
-      "adjust": 194,
-      "add": 205,
-      "hold": 137,
-      "not-placed": 24
+      "adjust": 195,
+      "add": 215,
+      "not-placed": 88,
+      "hold": 62
     },
     "near|broadleaf": {
       "retain": 626,
-      "adjust": 64,
-      "add": 60,
+      "adjust": 65,
+      "add": 68,
       "remove": 2,
-      "hold": 38,
-      "not-placed": 3
+      "not-placed": 11,
+      "hold": 21
     }
   },
   "typeModel": {
@@ -238,9 +287,9 @@
   },
   "identity": {
     "matchedWithin15m": 26007,
-    "matchedWithin3m": 1164,
-    "newIds": 5154,
-    "nextSequence": 45548,
+    "matchedWithin3m": 1165,
+    "newIds": 5059,
+    "nextSequence": 45547,
     "previousGenerationRecords": 2417,
     "previousGenerationLineageCarried": 589
   },
@@ -256,7 +305,7 @@
     "sparseLaserWithoutPhotoCrown": 61,
     "photoOnlyCanopy": 255
   },
-  "elapsedSeconds": 47.6,
+  "elapsedSeconds": 51,
   "typeCheck": {
     "method": "placed or held candidates matched (nearest within 4 m) to reference crowns typed conifer/broadleaf by the interpreter; calibration was used to fit the model, used-holdout and evaluation were not",
     "calibration": {
